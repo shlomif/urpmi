@@ -24,6 +24,7 @@ BEGIN {
 }
 
 use urpm;
+use urpm::msg qw(N);
 use Gtk2;
 use MDK::Common qw(partition);
 
@@ -40,12 +41,6 @@ USAGE
 sub fatal { print STDERR "$_[0]\n"; exit 1 }
 
 sub quit () { Gtk2->main_quit }
-
-sub N {
-    #- TODO i18n (and possibly UTF-8 conversion)
-    my $msg = shift;
-    sprintf $msg, @_;
-}
 
 sub but ($) { "    $_[0]    " }
 
