@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 16mdk
+Release: 17mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,10 @@ fi
 
 
 %changelog
+* Thu Sep 12 2002 François Pons <fpons@mandrakesoft.com> 4.0-17mdk
+- fixed possible no clean of distributed module.
+- added apache2-conf to skip.list by default.
+
 * Wed Sep 11 2002 François Pons <fpons@mandrakesoft.com> 4.0-16mdk
 - improved ka-run distributed module to copy all files with one
   invocation (newly supported in ka-run-2.0-15mdk).

@@ -104,8 +104,8 @@ sub parallel_install {
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
 	local (*F, $_);
-	$urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-	open F, "ssh $node urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
+	$urpm->{log}("parallel_ssh: ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
+	open F, "ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
 	while ($_ = <F>) {
 	    $bad_nodes{$node} .= $_;
 	    /Installation failed/ and $bad_nodes{$node} = '';

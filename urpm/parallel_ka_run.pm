@@ -98,8 +98,8 @@ sub parallel_install {
 
     local (*F, $_);
     my ($node, %bad_nodes);
-    $urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-    open F, "rshp -v $parallel->{options} -- urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
+    $urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
+    open F, "rshp -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
     while (defined ($_ = <F>)) {
 	chomp;
 	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
