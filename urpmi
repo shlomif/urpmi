@@ -236,8 +236,8 @@ You may prefer to just save it. What is your choice?", $files[0]),
 my $bug = $urpm::args::options{bug};
 if ($bug) {
     mkdir $bug or $urpm->{fatal}(8, (-d $bug
-	    ? N("Directory [%s] already exists, please use another directory for bug report or delete it")
-	    : N("Unable to create directory [%s] for bug report"), $bug));
+	    ? N("Directory [%s] already exists, please use another directory for bug report or delete it", $bug)
+	    : N("Unable to create directory [%s] for bug report", $bug)));
     #- copy all synthesis file used, along with configuration of urpmi
     system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, $bug)
 	and die N("Copying failed");
