@@ -2667,7 +2667,7 @@ sub find_packages_to_remove {
 		    $db->traverse_tag('name', [ $n ], sub {
 					  my ($p) = @_;
 					  $p->fullname eq $_ or return;
-					  $urpm->resolve_closure_ask_remove($db, $state, $p);
+					  $urpm->resolve_rejected($db, $state, $p, removed => 1);
 					  push @m, scalar $p->fullname;
 					  $found = 1;
 				      });
@@ -2679,7 +2679,7 @@ sub find_packages_to_remove {
 		    $db->traverse_tag('name', [ $n ], sub {
 					  my ($p) = @_;
 					  join('-', ($p->fullname)[0..2]) eq $_ or return;
-					  $urpm->resolve_closure_ask_remove($db, $state, $p);
+					  $urpm->resolve_rejected($db, $state, $p, removed => 1);
 					  push @m, scalar $p->fullname;
 					  $found = 1;
 				      });
@@ -2691,7 +2691,7 @@ sub find_packages_to_remove {
 		    $db->traverse_tag('name', [ $n ], sub {
 					  my ($p) = @_;
 					  join('-', ($p->fullname)[0..1]) eq $_ or return;
-					  $urpm->resolve_closure_ask_remove($db, $state, $p);
+					  $urpm->resolve_rejected($db, $state, $p, removed => 1);
 					  push @m, scalar $p->fullname;
 					  $found = 1;
 				      });
@@ -2702,7 +2702,7 @@ sub find_packages_to_remove {
 		$db->traverse_tag('name', [ $_ ], sub {
 				      my ($p) = @_;
 				      $p->name eq $_ or return;
-				      $urpm->resolve_closure_ask_remove($db, $state, $p);
+				      $urpm->resolve_rejected($db, $state, $p, removed => 1);
 				      push @m, scalar $p->fullname;
 				      $found = 1;
 				  });
@@ -2726,7 +2726,7 @@ sub find_packages_to_remove {
 	    $db->traverse(sub {
 			      my ($p) = @_;
 			      $p->fullname =~ /$match/ or return;
-			      $urpm->resolve_closure_ask_remove($db, $state, $p);
+			      $urpm->resolve_rejected($db, $state, $p, removed => 1);
 			      push @m, scalar $p->fullname;
 			  });
 
@@ -2742,7 +2742,7 @@ sub find_packages_to_remove {
 	}
 
 	#- check if something need to be removed.
-	if ($options{callback_base} && %{$state->{ask_remove} || {}}) {
+	if ($options{callback_base} && %{$state->{rejected} || {}}) {
 	    my @base = qw(basesystem);
 	    my (@base_to_remove, %basepackages, %base);
 
@@ -2763,7 +2763,7 @@ sub find_packages_to_remove {
 		}
 	    }
 
-	    foreach (keys %{$state->{ask_remove}}) {
+	    foreach (grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected}}) {
 		my $rn = $base{$_};
 		if ($rn) {
 		    $$rn == 1 and push @base_to_remove, $_;
@@ -2775,8 +2775,7 @@ sub find_packages_to_remove {
 	      || return ();
 	}
     }
-
-    keys %{$state->{ask_remove}};
+    grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected}};
 }
 
 #- remove packages from node as remembered according to resolving done.

@@ -384,9 +384,15 @@ $urpm->resolve_dependencies($state, \%requested,
 			    install_src => $install_src,
 			   );
 
-if (%{$state->{ask_unselect} || {}}) {
+my @ask_unselect = grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
+if (@ask_unselect) {
     unless ($auto) {
-	my $list = join "\n", map { scalar $urpm->{depslist}[$_]->fullname } keys %{$state->{ask_unselect}};
+	my $list = join "\n", map { my @froms = keys %{$state->{rejected}{$_}{backtrack}{closure} || {}};
+				    my @unsatisfied = @{$state->{rejected}{$_}{backtrack}{unsatisfied} || []};
+				    my $s = join ", ", ((map { N("due to missing %s", $_) } @froms),
+							(map { N("due to unsatisfied %s", $_) } @unsatisfied));
+				    $_ . ($s ? " ($s)" : '');
+				} sort { $a cmp $b } @ask_unselect;
 	my $msg = N("Some package requested cannot be installed:\n%s\ndo you agree ?", $list);
 	if ($X) {
 	    gmessage($msg);
@@ -397,13 +403,13 @@ if (%{$state->{ask_unselect} || {}}) {
 	    message_input($msg . N(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
 	}
     }
-    delete @{$state->{selected}}{keys %{$state->{ask_unselect}}};
 }
-if (%{$state->{ask_remove} || {}}) {
+my @ask_remove = grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected} || {}};
+if (@ask_remove) {
     unless ($auto) {
-	my $list = join "\n", map { my ($from) = keys %{$state->{ask_remove}{$_}{closure}};
-				    my ($whyk) = keys %{$state->{ask_remove}{$_}{closure}{$from}};
-				    my ($whyv) = $state->{ask_remove}{$_}{closure}{$from}{$whyk};
+	my $list = join "\n", map { my ($from) = keys %{$state->{rejected}{$_}{closure}};
+				    my ($whyk) = keys %{$state->{rejected}{$_}{closure}{$from}};
+				    my ($whyv) = $state->{rejected}{$_}{closure}{$from}{$whyk};
 				    my $frompkg = $urpm->{depslist}[$from];
 				    my $s;
 				    for ($whyk) {
@@ -426,7 +432,7 @@ if (%{$state->{ask_remove} || {}}) {
 				    }
 				    #- now insert the reason if available.
 				    $_ . ($s ? " ($s)" : '');
-				} sort { $a cmp $b } keys %{$state->{ask_remove}};
+				} sort { $a cmp $b } @ask_remove;
 	my $msg = N("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list);
 	if ($X) {
 	    gmessage($msg);
@@ -593,7 +599,7 @@ if (%sources_install || %sources) {
 	message(N("distributing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	#- no remove are handle here, automatically done by each distant node.
 	$urpm->{log}("starting distributed install");
-	$urpm->parallel_install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+	$urpm->parallel_install([ keys %{$state->{rejected} || {}} ], \%sources_install, \%sources,
 				test => $test,
 				excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
     } else {
@@ -616,7 +622,7 @@ if (%sources_install || %sources) {
                 gurpm::progress($amount/$total);
             }
         };
-        my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+        my @l = $urpm->install(\@ask_remove, \%sources_install, \%sources,
                                translate_message => 1,
                                oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
                                test => $test,
@@ -634,7 +640,7 @@ if (%sources_install || %sources) {
             message_input(N("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
               or exit 1;
             $urpm->{log}("starting installing packages without deps");
-            @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+            @l = $urpm->install(\@ask_remove, \%sources_install, \%sources,
                                 translate_message => 1, nodeps => 1,
                                 oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
                                 test => $test,
@@ -645,7 +651,7 @@ if (%sources_install || %sources) {
                 message_input(N("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
                   or exit 1;
                 $urpm->{log}("starting force installing packages without deps");
-                @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+                @l = $urpm->install(\@ask_remove, \%sources_install, \%sources,
                                     translate_message => 1, nodeps => 1, force => 1,
                                     oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
                                     test => $test,

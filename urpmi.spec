@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 11mdk
+Release: 12mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,10 @@ $urpm->update_media;
 
 
 %changelog
+* Mon May 26 2003 François Pons <fpons@mandrakesoft.com> 4.3-12mdk
+- updated for newer perl-URPM 0.90 series.
+- give reason of package requested not being installed.
+
 * Fri May 16 2003 François Pons <fpons@mandrakesoft.com> 4.3-11mdk
 - try to handle resume connection (do not always remove previous
   download, only works for hdlist or synthesis using rsync).

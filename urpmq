@@ -393,7 +393,8 @@ my $query_sub = sub {
 
 my %hack_only_one;
 if ($query->{complete}) {
-    foreach my $removal (keys %{$state->{ask_remove} || {}}) {
+    foreach my $removal (grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} }
+			 keys %{$state->{rejected} || {}}) {
 	print '@removing@' . $removal . "\n";
     }
 }

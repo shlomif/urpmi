@@ -102,7 +102,7 @@ if ($test && $auto) {
 } elsif (@toremove > @l && !$auto) {
     my $sum = 0;
     foreach (@toremove) {
-	$sum += $state->{ask_remove}{$_}{size};
+	$sum += $state->{rejected}{$_}{size};
     }
     my $msg = N("To satisfy dependencies, the following packages are going to be removed (%d MB)", toMb($sum));
     print STDOUT "$msg:\n" . join("\n", sort { $a cmp $b } @toremove) . "\n$askok" . N(" (Y/n) ");
