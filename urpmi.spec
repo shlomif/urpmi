@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.8
+%define version	4.6.9
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -37,6 +37,7 @@ BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
 Conflicts:	man-pages-fr < 1.58.0-8mdk
+Conflicts:	rpmdrake < 2.4-2mdk
 
 %description
 urpmi is Mandrakelinux's console-based software installation tool. You can
@@ -226,6 +227,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Dec 17 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.9-1mdk
+- Fix urpmi --skip
+- Tell number of packages that will be removed by urpme
+- Remove gurpm module, conflict with older rpmdrakes
+
 * Mon Dec 13 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.8-1mdk
 - Adding a media should not fail when there is no pubkey file available
   (bug #12646)
