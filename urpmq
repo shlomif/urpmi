@@ -329,7 +329,8 @@ if ($urpm::args::options{list_aliases}) {
 	    # get descriptions of update sources
 	    my $updates_descr = $urpm->urpm::get_updates_description;
 	    # if not root, use a temporary directory to store headers
-	    $< != 0 and my $tmp_header_dir = chomp_(`mktemp -d /tmp/urpmq.XXXXXX`);
+	    my $tmp_header_dir = "$urpm->{cachedir}/headers";
+	    $< != 0 and $tmp_header_dir = chomp_(`mktemp -d /tmp/urpmq.XXXXXX`);
 	    foreach (0..$#{$urpm->{media} || []}) {
 		if ($urpm->{media}[$_]{synthesis}) {
 		    $urpm->{log}->(N("skipping media %s: no hdlist\n", $urpm->{media}[$_]{name}));
@@ -347,7 +348,7 @@ if ($urpm::args::options{list_aliases}) {
 				: "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}",
 			    quiet => 1,
 			);
-			$packer->extract_archive($< == 0  ? "$urpm->{cachedir}/headers" : $tmp_header_dir, @headers);
+			$packer->extract_archive($tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
 			#- fallback to retrieve rpm package before, so that --headers will be ok.
 			%downloads = $urpm->download_source_packages({}, $list, force_local => 1);
@@ -410,7 +411,7 @@ if ($urpm::args::options{list_aliases}) {
 		    }
 		}
 	    }
-	    -d $tmp_header_dir and rmdir $tmp_header_dir;
+	    -d $tmp_header_dir && $< != 0 and rmdir $tmp_header_dir;
 	} elsif ($urpm::args::options{sources}) {
 	    print join "\n", values %$local_sources; values %$local_sources and print "\n";
 	    foreach (0..$#{$urpm->{media} || []}) {
