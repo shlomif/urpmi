@@ -553,30 +553,43 @@ sub update_media {
 
 	    #- if a provides exists, try to use it to speed up process
 	    #- but this is not mandatory here.
-	    -r $urpm->{provides} and $urpm->read_provides();
+	    if (-r $urpm->{provides}) {
+		local *F;
+		open F, $urpm->{provides} or $urpm->{error}("unable to read provides file [$urpm->{provides}]"), return;
+		$urpm->{params}->read_provides_files(\*F);
+		close F;
+		$urpm->{log}("read (only files) provides file [$urpm->{provides}]");
+	    }
 
 	    #- compute depslist after reading each hdlist of medium
 	    #- in the right order.
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
+		$urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
+		$urpm->{log}("computing dependancy");
 		$urpm->{params}->compute_depslist();
 	    }
 
 	    #- there has been a problem with provides not resolved on files, there
 	    #- must be at least 2 linked pass on the whole process.
 	    if ($urpm->{params}->get_unresolved_provides_files() > 0) {
+		$urpm->{log}("found unresolved provides on files, cleaning and recomputing dependancy");
 		#- cleaning.
 		$urpm->{params}->clean();
 
 		foreach my $medium (@{$urpm->{media}}) {
 		    $medium->{ignore} and next;
+		    $urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
 		    $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
 		}
+		$urpm->{log}("keeping only provides files");
 		$urpm->{params}->keep_only_cleaned_provides_files();
 		foreach my $medium (@{$urpm->{media}}) {
 		    $medium->{ignore} and next;
+		    $urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
 		    $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
+		    $urpm->{log}("computing dependancy");
 		    $urpm->{params}->compute_depslist();
 		}
 	    }
