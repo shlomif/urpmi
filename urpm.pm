@@ -771,7 +771,24 @@ sub search_packages {
 	} else {
 	    my $l = $found{$_} || $foundi{$_};
 	    if (@{$l || []} == 0) {
-		$urpm->{error}(sprintf("no package named %s\n", $_)); $result = 0;
+		my ($name, $version, $release) = /(.*)-([^-]*)-([^-]*)/;
+		$urpm->{params}{info}{$1} or ($name, $version, $release) = /(.*)-([^-]*)/;
+		$urpm->{params}{info}{$1} or ($name, $version, $release) = ();
+		if ($name) {
+		    my $ipkg;
+		    foreach (0..$#{$urpm->{params}{depslist}}) {
+			my $pkg = $urpm->{params}{depslist}[$_];
+			if ($pkg->{name} eq $name && $pkg->{version} eq $version && $pkg->{release} eq $release) {
+			    $packages->{$_} = undef;
+			    $ipkg = $_;
+			    last;
+			}
+		    }
+		    defined $ipkg or ($name, $version, $release) = ();
+		}
+		unless ($name) {
+		    $urpm->{error}(sprintf("no package named %s\n", $_)); $result = 0;
+		}
 	    } elsif (@$l > 1 && !$options{all}) {
 		$urpm->{error}(sprintf("The following packages contain %s: %s\n", $_, join(' ', map { $_->{name} } @$l))); $result = 0; 
 	    } else {
@@ -924,6 +941,10 @@ sub filter_packages_to_upgrade {
     $packages;
 }
 
+#- filter minimal list, upgrade packages only according to rpm requires
+#- satisfied, remove upgrade for package already installed or with a better
+#- version, try to upgrade to minimize upgrade errors.
+#- all additional package selected have a true value.
 sub filter_minimal_packages_to_upgrade {
     my ($urpm, $packages, $select_choices, %options) = @_;
 
@@ -977,13 +998,14 @@ sub filter_minimal_packages_to_upgrade {
 		my @selection = $select_choices ? ($select_choices->($urpm, @$id)) : ($id->[0]);
 		foreach (@selection) {
 		    unshift @packages, $_;
-		    $packages->{$_} = undef;
+		    exists $packages->{$_} or $packages->{$_} = 1;
 		}
 	    }
 	    my $pkg = $urpm->{params}{depslist}[$id];
 
 	    #- search for package that will be upgraded, and check the difference
 	    #- of provides to see if something will be altered and need to be upgraded.
+	    #- this is bogus as it only take care of == operator if any.
 	    my %diffprovides;
 	    rpmtools::db_traverse_tag($db,
 				      'name', [ $pkg->{name} ],
@@ -992,15 +1014,21 @@ sub filter_minimal_packages_to_upgrade {
 					  foreach (@{$p->{provides}}) {
 					      s/\[\*\]//;
 					      s/\[([^\]]*)\]/ $1/;
-					      $diffprovides{$_} = "$p->{name}-$p->{version}-$p->{release}";
+					      /^(\S*\s*\S*\s*)(\d+:)?([^\s-]*)(-?\S*)/;
+					      foreach ($_, "$1$3", "$1$2$3", "$1$3$4") {
+						  $diffprovides{$_} = "$p->{name}-$p->{version}-$p->{release}";
+					      }
 					  }
 				      });
 	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}", "provides", sub {
-			     delete $diffprovides{$_};
+			     /^(\S*\s*\S*\s*)(\d+:)?([^\s-]*)-?\S*/;
+			     foreach ($_, "$1$3", "$1$2$3", "$1$3$4") {
+				 delete $diffprovides{$_};
+			     }
 			 });
 	    foreach (keys %diffprovides) {
 		#- check for exact match on it.
-		if (/^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/) {
+		if (/^(\S*)\s*(\S*)\s*(\d+:)?([^\s-]*)-?(\S*)/) {
 		    rpmtools::db_traverse_tag($db,
 					      'whatrequires', [ $1 ],
 					      [ qw(name version release sense requires) ], sub{
@@ -1036,18 +1064,16 @@ sub filter_minimal_packages_to_upgrade {
 		$provides{$_} and next;
 		my (@choices, @upgradable_choices);
 		foreach (@{$urpm->{params}{provides}{$_}}) {
+		    #- prefer upgrade package that need to be upgraded, if they are present in the choice.
 		    my $pkg = $urpm->{params}{info}{$_};
-		    #if (! exists $packages->{$pkg->{id}}) {
-			#- prefer upgrade package that need to be upgraded, if they are present in the choice.
-			push @choices, $pkg;
-			rpmtools::db_traverse_tag($db,
-						  'name', [ $_ ],
-						  [ qw(name version release) ], sub {
-						      my ($p) = @_;
-						      my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
-						      $installed{$pkg->{id}} ||= !($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0)
-						  });
-		    #}
+		    push @choices, $pkg;
+		    rpmtools::db_traverse_tag($db,
+					      'name', [ $_ ],
+					      [ qw(name version release) ], sub {
+						  my ($p) = @_;
+						  my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
+						  $installed{$pkg->{id}} ||= !($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0)
+					      });
 		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
 		    if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
 			#- the package is already selected, or installed with a better version and release.
@@ -1059,7 +1085,7 @@ sub filter_minimal_packages_to_upgrade {
 		@upgradable_choices > 0 and @choices = @upgradable_choices;
 		if (@choices > 0) {
 		    if (@choices == 1) {
-			$packages->{$choices[0]{id}} = undef;
+			exists $packages->{$choices[0]{id}} or $packages->{$choices[0]{id}} = 1;
 			unshift @packages, $choices[0]{id};
 		    } else {
 			push @packages, [ sort { $a->{id} <=> $b->{id} } @choices ];
@@ -1082,7 +1108,6 @@ sub filter_minimal_packages_to_upgrade {
 	exec "parsehdlist", "--interactive", map { "$urpm->{statedir}/$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media}}
 	  or rpmtools::_exit(1);
     }
-
 }
 
 #- select source for package selected.

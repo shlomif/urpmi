@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -75,8 +75,8 @@ fi
 exit 0
 
 %post
+[ -z "$DURING_INSTALL" -a -f /var/lig/urpmi/depslist ] && %{_sbindir}/urpmi.update -a
 rm -f /var/lib/urpmi/depslist
-[ -z "$DURING_INSTALL" ] && %{_sbindir}/urpmi.update -a
 
 %preun -n autoirpm
 autoirpm.uninstall
@@ -113,6 +113,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Mon Feb 19 2001 François Pons <fpons@mandrakesoft.com> 1.5-5mdk
+- fixed -m mode for prompting user if needed.
+- fixed -m mode with depandancies resolving.
+- avoid update urpmi db except if old urpmi.
+
 * Fri Feb 16 2001 François Pons <fpons@mandrakesoft.com> 1.5-4mdk
 - fixed -m mode with failed depandancies.
 

@@ -200,7 +200,7 @@ foreach (keys %packages) {
 }
 if (!$auto) {
     if ($ask_user) {
-	my $msg = ( _("To satisfy dependencies, the following packages are going to be installed (%d MB)"), toMb($sum));
+	my $msg = sprintf(_("To satisfy dependencies, the following packages are going to be installed (%d MB)"), toMb($sum));
 	my $msg2 = _("Is it ok?");
 	if ($X) {
 	    my $p = join "\n", @to_install;
