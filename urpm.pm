@@ -1417,8 +1417,8 @@ sub update_media {
 	    if ($options{probe_with}) {
 		my ($suffix) = $dir =~ /RPMS([^\/]*)\/*$/;
 
-		foreach ($medium->{with_hdlist} || (), probe_with_try_list($suffix, $options{probe_with})) {
-		    $basename = /^.*\/([^\/]*)$/ && $1 || $_ or next;
+		foreach my $with_hdlist ($medium->{with_hdlist}, probe_with_try_list($suffix, $options{probe_with})) {
+		    $basename = $with_hdlist =~ /^.*\/([^\/]*)$/ && $1 || $with_hdlist or next;
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
@@ -1426,11 +1426,11 @@ sub update_media {
 					quiet => 0,
 					limit_rate => $options{limit_rate},
 					callback => $options{callback},
-					proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$_"));
+					proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$with_hdlist"));
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
-			$medium->{with_hdlist} = $_;
-			$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $basename));
+			$medium->{with_hdlist} = $with_hdlist;
+			$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
 			last; #- found a suitable with_hdlist in the list above.
 		    }
 		}
@@ -1803,7 +1803,7 @@ sub is_using_supermount {
 #- filtering according the next operation (mount or umount).
 sub find_mntpoints {
     my ($urpm, $dir, $infos) = @_;
-    my ($fdir, $pdir, $v, %fstab, @mntpoints) = $dir;
+    my ($pdir, $v, %fstab, @mntpoints);
     local (*F, $_);
 
     #- read /etc/fstab and check for existing mount point.
@@ -1814,7 +1814,8 @@ sub find_mntpoints {
 	$fstab{$mntpoint} =  0;
 	if (ref($infos)) {
 	    if ($fstype eq 'supermount') {
-		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 0, device => $1, fs => $fstype };
+		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 0, device => $1, fs => $fstype,
+										     supermount => 1, };
 	    } else {
 		$infos->{$mntpoint} = { mounted => 0, device => $device, fs => $fstype };
 	    }
@@ -1827,7 +1828,8 @@ sub find_mntpoints {
 	$fstab{$mntpoint} = 1;
 	if (ref($infos)) {
 	    if ($fstype eq 'supermount') {
-		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 1, device => $1, fs => $fstype };
+		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 1, device => $1, fs => $fstype,
+										     supermount => 1, };
 	    } else {
 		$infos->{$mntpoint} = { mounted => 1, device => $device, fs => $fstype };
 	    }
@@ -1835,22 +1837,10 @@ sub find_mntpoints {
     }
     close F;
 
-    #- try to follow symlink, too complex symlink graph may not
-    #- be seen.
-    while ($v = readlink $fdir) {
-	if ($fdir =~ /^\//) {
-	    $fdir = $v;
-	} else {
-	    while ($v =~ /^\.\.\/(.*)/) {
-		$v = $1;
-		$fdir =~ s/^(.*)\/[^\/]+\/*/$1/;
-	    }
-	    $fdir .= "/$v";
-	}
-    }
-
+    #- try to follow symlink, too complex symlink graph may not be seen.
     #- check the possible mount point.
-    foreach (split '/', $fdir) {
+    my @paths = split '/', $dir;
+    while (defined ($_ = shift @paths)) {
 	length($_) or next;
 	$pdir .= "/$_";
 	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
@@ -1858,6 +1848,28 @@ sub find_mntpoints {
 	    ref($infos) and push @mntpoints, $pdir;
 	    $infos eq 'mount' && ! $fstab{$pdir} and push @mntpoints, $pdir;
 	    $infos eq 'umount' && $fstab{$pdir} and unshift @mntpoints, $pdir;
+	    #- following symlinks may be dangerous for supermounted device and
+	    #- unusefull.
+	    #- this means it is assumed no symlink inside a removable device
+	    #- will go outside the device itself (or at least will go into
+	    #- regular already mounted device like /).
+	    #- for simplification we refuse also any other device and
+	    #- stop here.
+	    last;
+	} elsif (-l $pdir) {
+	    while ($v = readlink $pdir) {
+		if ($pdir =~ /^\//) {
+		    $pdir = $v;
+		} else {
+		    while ($v =~ /^\.\.\/(.*)/) {
+			$v = $1;
+			$pdir =~ s/^(.*)\/[^\/]+\/*/$1/;
+		    }
+		    $pdir .= "/$v";
+		}
+	    }
+	    unshift @paths, split '/', $pdir;
+	    $pdir = '';
 	}
     }
 

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -199,6 +199,12 @@ $urpm->update_media;
 
 
 %changelog
+* Thu Apr 17 2003 François Pons <fpons@mandrakesoft.com> 4.3-3mdk
+- fixed readlink that make supermount sloowwwwwiiiinnnngggg.
+- improved find_mntpoints to follow symlink more accurately
+  but limit to only one mount point.
+- fixed media which are loosing their with_hdlist ramdomly.
+
 * Wed Apr 16 2003 François Pons <fpons@mandrakesoft.com> 4.3-2mdk
 - added --sortmedia option to urpmi and urpmq.
 - improved MD5SUM file for hdlist or synthesis management, added
