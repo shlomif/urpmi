@@ -25,6 +25,7 @@ import urpm _;
 #- default options.
 my $update = 0;
 my $auto = 0;
+my $allow_medium_change = 0;
 my $auto_select = 0;
 my $force = 0;
 my $X = 0;
@@ -77,6 +78,7 @@ for (@ARGV) {
     /^--help$/ and do { usage; next };
     /^--update$/ and do { $update = 1; next };
     /^--auto$/ and do { $auto = 1; next };
+    /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; $minimal = 0; next };
     /^--force$/ and do { $force = 1; next };
     /^--X$/ and do { $X = 1; next };
@@ -268,7 +270,7 @@ foreach (@$local_to_removes) {
 }
 
 my @sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'), sub {
-						$auto and return; #- always refuse if automatic.
+						$auto && !$allow_medium_change and return; #- always refuse if automatic only.
 						my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						my $msg2 = _("Press enter when it's done...");
 						if ($X) {
