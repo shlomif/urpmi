@@ -322,6 +322,7 @@ unless ($bug) {
 }
 $verbose > 0 or $urpm->{log} = sub {};
 
+$urpm->shlock_urpmi_db;
 $urpm->configure(nocheck_access => $env || $uid > 0,
 		 media => $media,
 		 excludemedia => $excludemedia,
@@ -508,7 +509,6 @@ if ($X) {
 my %sources = %$local_sources;
 my %error_sources;
 
-$urpm->exlock_urpmi_db;
 $urpm->copy_packages_of_removable_media($list, \%sources,
 					verbose => $verbose > 0,
 					force_local => 1,
