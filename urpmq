@@ -144,9 +144,15 @@ if ($query->{headers} || $query->{sources}) {
 			   map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } values %{$list->[$_]});
 	    @headers > 0 or next;
 
-	    require packdrake;
-	    my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
-	    $packer->extract_archive(undef, @headers);
+	    if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
+		require packdrake;
+		my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
+		$packer->extract_archive(undef, @headers);
+	    } else {
+		#- fallback to retrieve rpm package before, so that --headers will be ok.
+		my %uploads = $urpm->upload_source_packages({}, $list, '', undef);
+		system "rpm2header", values %uploads;
+	    }
 	}
     } else {
 	print join "\n", values %$local_sources; values %$local_sources and print "\n";
