@@ -2,12 +2,12 @@
 
 Name: urpmi
 Version: 1.4
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: /usr/bin/suidperl, eject, wget
-PreReq: rpmtools >= 2.1-8mdk
+PreReq: rpmtools >= 2.1-9mdk
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
@@ -105,6 +105,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Jan 23 2001 François Pons <fpons@ackbar.mandrakesoft.com> 1.4-3mdk
+- need rpmtools-2.1-9mdk or above for hdlist building extension.
+- introduced cache directory for medium and rpms manipulation.
+
 * Wed Jan 17 2001 François Pons <fpons@mandrakesoft.com> 1.4-2mdk
 - removed PreReq on genbasefiles, now PreReq rpmtools-2.1-8mdk or above.
 - fixed glitches in urpm.pm module about old format of urpmi.cfg.
