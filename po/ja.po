@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-06 15:42+0100\n"
-"PO-Revision-Date: 2004-11-28 17:30+0900\n"
+"PO-Revision-Date: 2005-01-07 22:30+0900\n"
 "Last-Translator: BANDO Yukiko <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -77,34 +77,32 @@ msgid "%s: command not found\n"
 msgstr "%s: コマンドが見つかりません\n"
 
 #: ../gurpmi:99
-#, fuzzy, c-format
+#, c-format
 msgid "Please wait..."
-msgstr "少々お待ちを。"
+msgstr "お待ちください..."
 
 #: ../gurpmi:110
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option %s"
-msgstr ""
-"\n"
-"不明なオプション '%s'\n"
+msgstr "不明なオプション %s"
 
 #: ../gurpmi:114
-#, fuzzy, c-format
+#, c-format
 msgid "No packages specified"
-msgstr "コマンドを指定していません"
+msgstr "パッケージが指定されていません"
 
 #: ../gurpmi:118
-#, fuzzy, c-format
+#, c-format
 msgid "Must be root"
-msgstr "マウスのポート"
+msgstr "root権限が必要です"
 
 #: ../gurpmi:128
-#, fuzzy, c-format
+#, c-format
 msgid "RPM installation"
-msgstr "システムのインストール"
+msgstr "RPMのインストール"
 
 #: ../gurpmi:141
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have selected a source package:\n"
 "\n"
@@ -115,12 +113,13 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
-"次のソースパッケージが選択されました:\n"
+"ソースパッケージを選択されました:\n"
 "\n"
 "%s\n"
 "\n"
-"誤って選択されていませんか？(ソースパッケージをインストールするとソース\n"
-"コードを変更してコンパイルすることができます)\n"
+"本当にインストールしますか？(ソースパッケージをインストールするとソースコード"
+"を変更してコンパイルすることができます)\n"
+"\n"
 "どうしますか？"
 
 #: ../gurpmi:149
@@ -138,7 +137,7 @@ msgstr ""
 "インストールせずに保存することもできます。どうしますか？"
 
 #: ../gurpmi:154
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are about to install the following software packages on your computer:\n"
 "\n"
@@ -146,25 +145,25 @@ msgid ""
 "\n"
 "Proceed?"
 msgstr ""
-"これから次のパッケージをインストールします:\n"
+"これから次のパッケージをシステムにインストールします:\n"
 "%s\n"
 "\n"
-"インストールせずに保存することもできます。どうしますか？"
+"続行しますか？"
 
 #: ../gurpmi:164
-#, fuzzy, c-format
+#, c-format
 msgid "_Install"
-msgstr "インストール"
+msgstr "インストール(_I)"
 
 #: ../gurpmi:165
-#, fuzzy, c-format
+#, c-format
 msgid "_Save"
-msgstr "保存"
+msgstr "保存(_S)"
 
 #: ../gurpmi:166 ../gurpmi:229
 #, c-format
 msgid "_Cancel"
-msgstr "キャンセル"
+msgstr "キャンセル(_C)"
 
 #: ../gurpmi:170
 #, c-format
@@ -172,14 +171,14 @@ msgid "Choose location to save file"
 msgstr "ファイルを保存する場所を選んでください"
 
 #: ../gurpmi:220
-#, fuzzy, c-format
+#, c-format
 msgid " (to upgrade)"
-msgstr "更新"
+msgstr " (アップグレードするため)"
 
 #: ../gurpmi:221
-#, fuzzy, c-format
+#, c-format
 msgid " (to install)"
-msgstr "インストール終了"
+msgstr " (インストールするため)"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -189,40 +188,42 @@ msgstr "次のパッケージのいずれかが必要です:"
 #: ../gurpmi:230 ../gurpmi:246
 #, c-format
 msgid "_Ok"
-msgstr "OK"
+msgstr "OK(_O)"
 
 #: ../gurpmi:247
-#, fuzzy, c-format
+#, c-format
 msgid "_Abort"
-msgstr "中止"
+msgstr "中止(_A)"
 
 #: ../gurpmi:276
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
 "%s\n"
 "Continue?"
 msgstr ""
 "インストールできないパッケージがあります:\n"
-"%s"
+"%s続けますか？"
 
 #: ../gurpmi:287
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
 "Continue?"
 msgstr ""
 "更新するには以下のパッケージを削除しなければなりません:\n"
-"%s"
+"%s続けますか？"
 
 #: ../gurpmi:300
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be "
 "installed:\n"
 "%s\n"
-msgstr "依存を満たすために以下の %d のパッケージをインストールします(%d MB)"
+msgstr ""
+"依存を満たすために以下の %d のパッケージをインストールします:\n"
+"%s\n"
 
 #: ../gurpmi:307
 #, c-format
@@ -232,12 +233,12 @@ msgstr "パッケージをインストール.."
 #: ../gurpmi:309 ../urpmi:483 ../urpmq:302
 #, c-format
 msgid "unable to get source packages, aborting"
-msgstr "ソースパッケージを取得できませんでした。このまま終了します"
+msgstr "ソースパッケージを取得できませんでした。中止します。"
 
 #: ../gurpmi:323 ../urpmi:494
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "メディア %s を %s に挿入して下さい"
+msgstr "メディア %s を デバイス %s に挿入して下さい"
 
 #: ../gurpmi:350
 #, c-format
@@ -245,7 +246,7 @@ msgid "Downloading package `%s'..."
 msgstr "パッケージ %s をダウンロード.."
 
 #: ../gurpmi:365
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have bad signatures:\n"
 "%s\n"
@@ -253,7 +254,6 @@ msgid ""
 "Do you want to continue installation ?"
 msgstr ""
 "以下のパッケージの署名は間違っています:\n"
-"\n"
 "%s\n"
 "\n"
 "インストールを続けますか？"
@@ -290,14 +290,14 @@ msgid "Installation failed"
 msgstr "インストールに失敗"
 
 #: ../gurpmi:416
-#, fuzzy, c-format
+#, c-format
 msgid "_Done"
-msgstr "完了"
+msgstr "完了(_D)"
 
 #: ../gurpmi:424 ../urpmi:688
 #, c-format
 msgid "The package(s) are already installed"
-msgstr "すべて既にインストールされています"
+msgstr "パッケージは既にインストールされています"
 
 #: ../gurpmi:426
 #, c-format
@@ -1140,10 +1140,10 @@ msgid "Checking to remove the following packages"
 msgstr "以下のパッケージを削除するために調査しています"
 
 #: ../urpme:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages will be removed (%d MB)"
-msgstr "依存を満たすために以下のパッケージを削除します(%d MB)"
+msgstr "依存を満たすために以下の %d 個のパッケージを削除します(%d MB)"
 
 #: ../urpme:108 ../urpmi:429 ../urpmi:549
 #, c-format
@@ -1341,14 +1341,14 @@ msgid "  !              - unary NOT, true if expression is false.\n"
 msgstr "                    デフォルトは %s\n"
 
 #: ../urpmf:66
-#, fuzzy, c-format
+#, c-format
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr "  -a             - 指定した表現を含むすべてのパッケージを選択\n"
+msgstr "  (              - グループ表現を開始する左括弧\n"
 
 #: ../urpmf:67
-#, fuzzy, c-format
+#, c-format
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr "  -a             - 指定した表現を含むすべてのパッケージを選択\n"
+msgstr "  )              - グループ表現を閉じる右括弧\n"
 
 #: ../urpmf:119
 #, c-format
@@ -1660,6 +1660,8 @@ msgid ""
 "Error: %s appears to be mounted read-only.\n"
 "Use --allow-force to force operation."
 msgstr ""
+"エラー: %s は読み取り専用でマウントされているようです。\n"
+"操作を強制するには --allow-force を使ってください。"
 
 #: ../urpmi:353
 #, c-format
@@ -1759,9 +1761,9 @@ msgid "distributing %s"
 msgstr "%s を配信中"
 
 #: ../urpmi:592
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s from %s"
-msgstr "%s をインストール"
+msgstr "%s を %s からインストール"
 
 #: ../urpmi:594
 #, c-format
@@ -2035,14 +2037,14 @@ msgid "  --force-key    - force update of gpg key.\n"
 msgstr "  --force-key    - gpgキーの更新を強制する\n"
 
 #: ../urpmi.update:42
-#, fuzzy, c-format
+#, c-format
 msgid "  --ignore       - don't update, mark the media as ignored.\n"
-msgstr "  --norebuild    - 読み込み不可ならhdlistをリビルドしない\n"
+msgstr "  --ignore       - アップデートせずにメディアを無視する\n"
 
 #: ../urpmi.update:43
 #, c-format
 msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
-msgstr ""
+msgstr "  --no-ignore    - アップデートせずにメディアを有効とする\n"
 
 #: ../urpmi.update:44
 #, c-format
@@ -2069,17 +2071,17 @@ msgstr ""
 "(%s の中のいずれか)\n"
 
 #: ../urpmi.update:95
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring media %s"
-msgstr "メディア %s を編集:"
+msgstr "メディア %s を無視しています"
 
 #: ../urpmi.update:95
-#, fuzzy, c-format
+#, c-format
 msgid "enabling media %s"
-msgstr "メディア %s を削除"
+msgstr "メディア %s を有効にしています"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2005 Mandrakesoft.\n"
@@ -2089,10 +2091,10 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmf version %s\n"
-"Copyright (C) 2002-2004 Mandrakesoft.\n"
+"Copyright (C) 2002-2005 Mandrakesoft.\n"
 "これはフリーソフトウェアであり、GNU GPLの条件のもとで再配布できます。\n"
 "\n"
-"使いかた:\n"
+"使い方:\n"
 
 #: ../urpmq:54
 #, c-format
