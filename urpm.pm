@@ -354,14 +354,14 @@ sub probe_removable_device {
 		$urpm->{log}(N("too many mount points for removable medium \"%s\"", $medium->{name}));
 		$urpm->{log}(N("taking removable device as \"%s\"", join ',', map { $infos{$_}{device} } @mntpoints));
 	    }
-	    if (@mntpoints) {
+	    if (is_iso($medium->{removable})) {
+		$urpm->{log}(N("Medium \"%s\" is an ISO image, will be mounted on-the-fly", $medium->{name}));
+	    } elsif (@mntpoints) {
 		if ($medium->{removable} && $medium->{removable} ne $infos{$mntpoints[-1]}{device}) {
 		    $urpm->{log}(N("using different removable device [%s] for \"%s\"",
 				   $infos{$mntpoints[-1]}{device}, $medium->{name}));
 		}
 		$medium->{removable} = $infos{$mntpoints[-1]}{device};
-	    } elsif (is_iso($medium->{removable})) {
-		$urpm->{log}(N("Medium \"%s\" is an ISO image, will be mounted on-the-fly", $medium->{name}));
 	    } else {
 		$urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
 	    }
@@ -676,7 +676,7 @@ sub add_medium {
     } else {
 	$medium->{hdlist} = "hdlist.$name.cz";
 	$medium->{list} = "list.$name";
-	#- check to see if the medium is using file protocol or removable medium.
+	#- check if the medium is using a local or a removable medium.
 	$url =~ m!^(?:(removable[^:]*|file):/)?(/.*)! and $urpm->probe_removable_device($medium);
     }
 
