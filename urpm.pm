@@ -10,15 +10,17 @@ $VERSION = '4.4';
 use URPM;
 use URPM::Resolve;
 use POSIX;
-use Locale::gettext();
 
 #- I18N.
-setlocale(LC_ALL, "");
-Locale::gettext::textdomain("urpmi");
+eval {
+    require Locale::gettext;
+    setlocale(LC_ALL, "");
+    Locale::gettext::textdomain("urpmi");
+};
 
 sub N {
     my ($format, @params) = @_;
-    sprintf(Locale::gettext::gettext($format || ''), @params);
+    sprintf(eval { Locale::gettext::gettext($format || '') } || $format, @params);
 }
 
 #- tool functions.
