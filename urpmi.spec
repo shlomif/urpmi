@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 9mdk
+Release: 10mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Fri Jul 25 2003 François Pons <fpons@mandrakesoft.com> 4.4-10mdk
+- added urpme log and urpmi removing log.
+
 * Thu Jul 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-9mdk
 - fixed error code reporting after installation.
 - fixed if packages have not been found on some cases.
