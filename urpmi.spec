@@ -30,8 +30,8 @@ Source0:	%{name}.tar.bz2
 Summary:	Command-line software installation tools
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
-PreReq:		perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 1.08
-PreReq:		packdrake >= 5.0.2
+Requires(pre):	perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 1.08
+Requires(pre):	packdrake >= 5.0.2
 BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3
 BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-buildroot
