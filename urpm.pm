@@ -1032,7 +1032,7 @@ sub find_mntpoints {
 	$fstab{$mntpoint} =  0;
 	if ($mode eq 'device') {
 	    if ($fstype eq 'supermount') {
-		$options =~ /^.*dev=([^,]+),*$/ and $fstab{$mntpoint} = $1;
+		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $fstab{$mntpoint} = $1;
 	    } elsif ($device eq 'none') {
 		next;
 	    } else {
@@ -1047,7 +1047,7 @@ sub find_mntpoints {
 	$fstab{$mntpoint} = 1;
 	if ($mode eq 'device') {
 	    if ($fstype eq 'supermount') {
-		$options =~ /^.*dev=([^,]+),*$/ and $fstab{$mntpoint} = $1;
+		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $fstab{$mntpoint} = $1;
 	    } elsif ($device eq 'none') {
 		next;
 	    } else {
@@ -1435,6 +1435,20 @@ sub filter_packages_to_upgrade {
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
 
+    #- common routines that are called at different points.
+    my $check_installed = sub {
+	my ($pkg) = @_;
+	$options{keep_alldeps} || exists $installed{$pkg->{id}} and return 0;
+	rpmtools::db_traverse_tag($db, 'name', [ $pkg->{name} ],
+				  [ qw(name version release serial) ], sub {
+				      my ($p) = @_;
+				      my $vc = rpmtools::version_compare($pkg->{version}, $p->{version});
+				      $installed{$pkg->{id}} ||=
+					!($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} &&
+					  ($vc > 0 || $vc == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0));
+				  });
+    };
+
     #- at this level, compute global closure of what is requested, regardless of
     #- choices for which all package in the choices are taken and their dependencies.
     #- allow iteration over a modifying list.
@@ -1450,10 +1464,9 @@ sub filter_packages_to_upgrade {
 	    #- a provide with a lot of choices, we have to filter according to those who
 	    #- are installed).
 	    foreach (@$id) {
-		if (exists $packages->{$_} ||
-		    rpmtools::db_traverse_tag($db, "name",
-					      [ $urpm->{params}{depslist}[$_]{name} ], [], undef) > 0) {
-		    push @forced_selection, $_;
+		my $pkg = $urpm->{params}{depslist}[$_];
+		if (exists $packages->{$_} || $check_installed->($pkg) > 0) {
+		    $installed{$pkg->{id}} or push @forced_selection, $_;
 		} else {
 		    push @selection, $_;
 		}
@@ -1509,9 +1522,9 @@ sub filter_packages_to_upgrade {
 			if (my ($pn, $po, $pv, $pr) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 			    $pn eq $n && $pn eq $pkg->{name} or next;
 			    ++$needed;
-			    $pv and eval(rpmtools::version_compare($pkg->{version}, $pv) . $po . 0) || next;
-			    $pr && rpmtools::version_compare($pkg->{version}, $pv) == 0 and
-			      eval(rpmtools::version_compare($pkg->{release}, $pr) . $po . 0) || next;
+			    $pv && eval(rpmtools::version_compare($pkg->{version}, $pv) . $po . 0) ||
+			      $pr && rpmtools::version_compare($pkg->{version}, $pv) == 0 and
+				eval(rpmtools::version_compare($pkg->{release}, $pr) . $po . 0) || next;
 			    #- an existing provides (propably the one examined) is satisfying the underlying.
 			    ++$satisfied;
 			}
@@ -1535,9 +1548,9 @@ sub filter_packages_to_upgrade {
 		my $check_pkg = sub {
 		    $options{keep_alldeps} and return;
 		    $o and $n eq $_[0]{name} || return;
-		    $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
-		    $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
-		      eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
+		    $v && eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) ||
+		      $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
+			eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
 		    $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
 		};
 		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
@@ -1552,9 +1565,9 @@ sub filter_packages_to_upgrade {
 	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 		my $check_pkg = sub {
 		    $o and $n eq $_[0]{name} || return;
-		    $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
-		    $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
-		      eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
+		    $v && eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) ||
+		      $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
+			eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
 		    $conflicts{"$_[0]{name}-$_[0]{version}-$_[0]{release}"} = 1;
 		    $provides{$n} ||= undef;
 		};
@@ -1563,9 +1576,9 @@ sub filter_packages_to_upgrade {
 		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
 		    my $pkg = $urpm->{params}{info}{$fullname};
 		    $o and $n eq $pkg->{name} || next;
-		    $v and eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) || next;
-		    $r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
-		      eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
+		    $v && eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) ||
+		      $r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
+			eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
 		    $conflicts{"$pkg->{name}-$pkg->{version}-$pkg->{release}"} ||= 0;
 		}
 	    }
@@ -1591,16 +1604,16 @@ sub filter_packages_to_upgrade {
 			    if (my ($pn, $po, $pv, $pr) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 				$pn eq $n or next;
 				my $no = $po eq '==' ? $o : $po; #- CHECK TODO ?
-				$pv and eval(rpmtools::version_compare($pv, $v) . $no . 0) || next;
-				$pr && rpmtools::version_compare($pv, $v) == 0 and
-				  eval(rpmtools::version_compare($pr, $r) . $no . 0) || next;
+				$pv && eval(rpmtools::version_compare($pv, $v) . $no . 0) ||
+				  $pr && rpmtools::version_compare($pv, $v) == 0 and
+				    eval(rpmtools::version_compare($pr, $r) . $no . 0) || next;
 				push @{$pre_choices{$pkg->{name}}}, $pkg;
 			    }
 			}
 		    } else {
-			$v and eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) || next;
-			$r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
-			  eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
+			$v && eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) ||
+			  $r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
+			    eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
 			push @{$pre_choices{$pkg->{name}}}, $pkg;
 		    }
 		}
@@ -1626,19 +1639,7 @@ sub filter_packages_to_upgrade {
 	    foreach my $pkg (@pre_choices) {
 		push @choices, $pkg;
 
-		unless ($options{keep_alldeps} || exists $installed{$pkg->{id}}) {
-		    rpmtools::db_traverse_tag($db,
-					      'name', [ $pkg->{name} ],
-					      [ qw(name version release serial) ], sub {
-						  my ($p) = @_;
-						  my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
-						  $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} ||
-									       $pkg->{serial} == $p->{serial} &&
-									       ($cmp > 0 || $cmp == 0 &&
-										rpmtools::version_compare($pkg->{release},
-													  $p->{release}) > 0));
-					      });
-		}
+		$check_installed->($pkg);
 		$installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
 		exists $installed{$pkg->{id}} and push @upgradable_choices, $pkg;
 	    }
@@ -1999,8 +2000,9 @@ sub select_packages_to_upgrade {
 			     #- take care of flags and version and release if present
 			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/ &&
 				 rpmtools::db_traverse_tag($db, "name", [$1], [], undef) > 0) {
-				 $3 and eval(rpmtools::version_compare($pkg->{version}, $3) . $2 . 0) or next;
-				 $4 and eval(rpmtools::version_compare($pkg->{release}, $4) . $2 . 0) or next;
+				 $3 && eval(rpmtools::version_compare($pkg->{version}, $3) . $2 . 0) ||
+				   $4 && rpmtools::version_compare($pkg->{version}, $3) == 0 &&
+				     eval(rpmtools::version_compare($pkg->{release}, $4) . $2 . 0) or next;
 				 $urpm->{log}(_("selecting %s using obsoletes", "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 				 $obsoletedPackages{$1} = undef;
 				 $pkg->{selected} = 1;

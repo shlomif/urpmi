@@ -386,7 +386,7 @@ if (@rpms_install || @rpms_upgrade) {
 #- this help flushing correctly by closing this file before (piped on tee).
 #- but killing them is generally better.
 if ($pid_err && $pid_out) {
-    fork() or do { sleep 1; kill 15, $pid_err, $pid_out };
+    kill 15, $pid_err, $pid_out;
     close STDERR;
     close STDOUT;
 }

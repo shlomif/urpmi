@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.2
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,14 @@ fi
 
 
 %changelog
+* Thu Jan 31 2002 François Pons <fpons@mandrakesoft.com> 3.2-7mdk
+- fixed regexp in supermount fstab management.
+- simply kill urpmi logger which avoid losing 1 second.
+- early check of installed package.
+- fixed operator comparison when version are equal and operator
+  is strict and release is present for conflicts, provides and
+  requires tags elements.
+
 * Wed Jan 30 2002 François Pons <fpons@mandrakesoft.com> 3.2-6mdk
 - fixed some case where removable device are not ejected.
 
