@@ -47,8 +47,6 @@ my $log = '';
 my $uid;
 my @files;
 my @src_files;
-my @rpms_install;
-my @rpms_upgrade;
 my @names;
 my @src_names;
 
@@ -65,8 +63,8 @@ usage:
 ", $urpm::VERSION) . _("  --help         - print this help message.
 ") . _("  --update       - use only update media.
 ") . _("  --media        - use only the media listed by comma.
-") . _("  --auto         - automatically select a good package in choices.
-") . _("  --auto-select  - automatically select packages for upgrading the system.
+") . _("  --auto         - automatically select a package in choices.
+") . _("  --auto-select  - automatically select packages to upgrade the system.
 ") . _("  --fuzzy        - impose fuzzy search (same as -y).
 ") . _("  --src          - next package is a source package (same as -s).
 ") . _("  --noclean      - keep rpm not used in cache.
@@ -183,7 +181,11 @@ if ($env) {
 	@names || @files and $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
 
 	#- allow installation.
-	@rpms_install = @src_files;
+	if (@src_files) {
+	    system("rpm", "-i$rpm_opt", @src_files, ($root ? ("--root", $root) : ()));
+	    $? and message(_("Installation failed")), exit 1;
+	}
+	exit 0;
     } else {
 	#- allow log if not defined.
 	$log ||= "/var/log/urpmi.log";
@@ -417,7 +419,7 @@ unless ($noclean) {
 my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 'force_local'),
 					      (!$auto || $allow_medium_change) && sub {
 						  my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
-						  my $msg2 = _("Press Enter when it's done...");
+						  my $msg2 = _("Press Enter when ready...");
 						  if ($X) {
 						      my $ok = _("Ok");
 						      my $cancel = _("Cancel");
@@ -428,55 +430,39 @@ my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 
 						      defined message_input("$msg\n$msg2 ");
 						  }
 					      });
+my %sources_install = %{$urpm->extract_packages_to_install(\%sources) || {}};
 
-#- install package.
-if ($uid == 0) {
-    @rpms_install = grep { $_ !~ /\.src\.rpm$/ } values %{$urpm->extract_packages_to_install(\%sources) || {}};
-    @rpms_upgrade = grep { $_ !~ /\.src\.rpm$/ } values %sources;
-}
 
-if (@rpms_install || @rpms_upgrade) {
-    message(_("installing %s\n", join(' ', @rpms_install, @rpms_upgrade)));
-    log_it(scalar localtime, " ", join(' ', @rpms_install, @rpms_upgrade), "\n");
+if (%sources_install || %sources) {
+    message(_("installing %s\n", join(' ', values %sources_install, values %sources)));
+    log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
     #- check for local files.
-    foreach (@rpms_install, @rpms_upgrade) {
+    foreach (values %sources_install, values %sources) {
 	m|^/| && ! -e $_ or next;
 	message(_("Installation failed, some files are missing.\nYou may want to update your urpmi database"));
 	exit 2;
     }
     $urpm->{log}("starting installing packages");
-    if ($X && !$root) {
-	system("grpmi", $WID ? ("--WID=$WID") : (),
-	       (map { ("-noupgrade", $_) } @rpms_install), @rpms_upgrade);
-	if ($?) {
-	    #- grpmi handles --nodeps and --force by itself,
-	    #- and $WID is defined when integrated in rpminst.
-	    $WID or message(_("Installation failed"));
-	    exit(($? >> 8) + 32); #- forward grpmi error + 32
-	}
+    if ($uid > 0) {
+	system("rpm", "-i$rpm_opt", values %sources_install, values %sources, ($root ? ("--root", $root) : ()));
+	$? and message(_("Installation failed")), exit 1;
+	exit 0;
     } else {
-	if (@rpms_install) {
-	    system("rpm", "-i$rpm_opt", "--nodeps", @rpms_install, ($root ? ("--root", $root) : ()));
-	    if (@$_) {
-		message(_("Installation failed"));
-
-		m|^/| && !-e $_ and exit 2 foreach @rpms_install; #- missing local file
-		$auto and exit 1; #- if auto has been set, avoid asking user.
-
-		$noexpr = _("Nn");
-		$yesexpr = _("Yy");
-		message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		  or exit 1;
-		$urpm->{log}("starting force installing packages without deps");
-		system("rpm", "-i$rpm_opt", "--nodeps", "--force", @rpms_install, ($root ? ("--root", $root) : ()));
-	    }
-	}
-	if (@rpms_upgrade) {
-	    system("rpm", "-U$rpm_opt", @rpms_upgrade, ($root ? ("--root", $root) : ()));
+	if ($X && !$root) {
+	    system("grpmi", $WID ? ("--WID=$WID") : (),
+		   (map { ("-noupgrade", $_) } values %sources_install), values %sources);
 	    if ($?) {
+		#- grpmi handles --nodeps and --force by itself,
+		#- and $WID is defined when integrated in rpminst.
+		$WID or message(_("Installation failed"));
+		exit(($? >> 8) + 32); #- forward grpmi error + 32
+	    }
+	} else {
+	    my @l = $urpm->install($root, \%sources_install, \%sources);
+	    if (@l) {
 		message(_("Installation failed"));
 
-		m|^/| && !-e $_ and exit 2 foreach @rpms_upgrade; #- missing local file
+		m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
 		$auto and exit 1; #- if auto has been set, avoid asking user.
 
 		$noexpr = _("Nn");
@@ -484,14 +470,14 @@ if (@rpms_install || @rpms_upgrade) {
 		message_input(_("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
 		  or exit 1;
 		$urpm->{log}("starting installing packages without deps");
-		system("rpm", "-U$rpm_opt", "--nodeps", @rpms_upgrade, ($root ? ("--root", $root) : ()));
-
-		if ($?) {
+		@l = $urpm->install($root, \%sources_install, \%sources, nodeps => 1);
+		if (@l) {
 		    message(_("Installation failed"));
 		    message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
 		      or exit 1;
 		    $urpm->{log}("starting force installing packages without deps");
-		    system("rpm", "-U$rpm_opt", "--nodeps", "--force", @rpms_upgrade, ($root ? ("--root", $root) : ()));
+		    @l = $urpm->install($root, \%sources_install, \%sources, nodeps => 1, force => 1);
+		    @l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", @l));
 		}
 	    }
 	}

@@ -1,14 +1,14 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 3.6
-Release: 5mdk
+Version: 3.7
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.05-1mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.08-1mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Mon Jul  8 2002 François Pons <fpons@mandrakesoft.com> 3.7-1mdk
+- added new methods to handle directly installation of package (no
+  more rpm binary needed).
+- fixed some english typo (thanks to Mark Walker).
+
 * Tue Jul  2 2002 Pixel <pixel@mandrakesoft.com> 3.6-5mdk
 - use perl-Locale-gettext instead of perl-gettext
   (ie. Locale::gettext instead of Locale::GetText)

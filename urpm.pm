@@ -3,7 +3,7 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA);
 
-$VERSION = '3.6';
+$VERSION = '3.7';
 @ISA = qw(URPM);
 
 =head1 NAME
@@ -295,10 +295,10 @@ sub read_config {
     my (%hdlists, %lists);
     foreach (@{$urpm->{media}}) {
 	exists $hdlists{$_->{hdlist}} and
-	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" tries to use an already used hdlist, medium ignored", $_->{name}));
+	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name}));
 	$hdlists{$_->{hdlist}} = undef;
 	exists $lists{$_->{list}} and
-	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" tries to use an already used list, medium ignored", $_->{name}));
+	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" trying to use an already used list, medium ignored", $_->{name}));
 	$lists{$_->{list}} = undef;
     }
 
@@ -627,7 +627,7 @@ sub select_media {
 	    } elsif (@found == 0 && @foundi == 0) {
 		$urpm->{error}(_("trying to select inexistent medium \"%s\"", $_));
 	    } else { #- multiple element in found or foundi list.
-		$urpm->{error}(_("trying to select multiple medium: %s", join(", ", map { _("\"%s\"", $_->{name}) }
+		$urpm->{error}(_("trying to select multiple media: %s", join(", ", map { _("\"%s\"", $_->{name}) }
 									      (@found ? @found : @foundi))));
 	    }
 	}
@@ -1532,7 +1532,7 @@ sub get_source_packages {
 		} else {
 		    chomp;
 		    $error = 1;
-		    $urpm->{error}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{list}", $_));
+		    $urpm->{error}(_("unable to correctly parse [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{list}", $_));
 		    last;
 		}
 	    }
@@ -1714,6 +1714,66 @@ sub extract_packages_to_install {
     close F;
 
     \%inst;
+}
+
+#- install logger (ala rpm)
+sub install_logger {
+    my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
+    my $pkg = defined $id && $urpm->{depslist}[$id];
+    my $progress_size = 50;
+
+    open FF, ">>/tmp/rpm_install";
+    print FF join(':', ($pkg && $pkg->name), $type, $subtype, $amount, $total) . "\n";
+
+    if ($subtype eq 'start') {
+	$urpm->{logger_progress} = 0;
+	printf "%-28s", $type eq 'trans' ? _("Preparing...") : ($pkg && $pkg->name);
+    } elsif ($subtype eq 'stop') {
+	if ($urpm->{logger_progress} < $progress_size) {
+	    print '#' x ($progress_size - $urpm->{logger_progress});
+	    print "\n";
+	}
+    } elsif ($subtype eq 'progress') {
+	my $new_progress = $total > 0 ? int($progress_size * $amount / $total) : $progress_size;
+	if ($new_progress > $urpm->{logger_progress}) {
+	    print FF "logging " . ($new_progress - $urpm->{logger_progress}) . "#\n";
+	    print '#' x ($new_progress - $urpm->{logger_progress});
+	    $urpm->{logger_progress} = $new_progress;
+	    $urpm->{logger_progress} == $progress_size and print "\n";
+	}
+    }
+    close FF;
+}
+
+#- install packages according to each hashes (install or upgrade).
+sub install {
+    my ($urpm, $prefix, $install, $upgrade, %options) = @_;
+    my $db = URPM::DB::open($prefix, 1); #- open in read/write mode.
+    my $trans = $db->create_transaction($prefix);
+    my @l;
+    local *F;
+
+    foreach (keys %$install) {
+	my $pkg = $urpm->{depslist}[$_];
+	$pkg->update_header($install->{$_});
+	$trans->add($pkg, 0) or $urpm->{error}(_("unable to install package %s", $install->{$_}));
+    }
+    foreach (keys %$upgrade) {
+	my $pkg = $urpm->{depslist}[$_];
+	$pkg->update_header($upgrade->{$_});
+	$trans->add($pkg, 1) or $urpm->{error}(_("unable to install package %s", $upgrade->{$_}));
+    }
+    !$options{nodeps} and @l = $trans->check and return @l;
+    !$options{noorder} and @l = $trans->order and return @l;
+    @l = $trans->run($urpm, force => $options{force}, nosize => $options{nosize}, delta => 1000, callback_open => sub {
+			 my ($data, $type, $id) = @_;
+			 open F, $install->{$id} || $upgrade->{$id} or
+			   $urpm->{error}(_("unable to access rpm file [%s]", $install->{$id} || $upgrade->{$id}));
+			 return fileno F;
+		     }, callback_close => sub {
+			 my ($data, $type, $id) = @_;
+			 close F;
+		     }, callback_inst => \&install_logger, callback_trans => \&install_logger);
 }
 
 1;
