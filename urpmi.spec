@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media;
 
 
 %changelog
+* Thu Jun 26 2003 François Pons <fpons@mandrakesoft.com> 4.4-7mdk
+- fixed building of hdlist.
+
 * Fri Jun 20 2003 François Pons <fpons@mandrakesoft.com> 4.4-6mdk
 - fixed --virtual to work with synthesis source.
 

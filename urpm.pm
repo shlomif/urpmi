@@ -1361,54 +1361,65 @@ sub update_media {
 			next;
 		    }
 		}
+	    } else {
+		$options{force} < 2 and $options{force} = 2;
+	    }
 
+	    #- if copying hdlist has failed, try to build it directly.
+	    if ($error) {
+		$options{force} < 2 and $options{force} = 2;
+		#- clean error state now.
+		$error = undef;
+	    }
+
+	    if ($options{force} < 2) {
 		#- examine if a local list file is available (always probed according to with_hdlist
 		#- and check hdlist has not be named very strangely...
-		if (!$error && $medium->{hdlist} ne 'list') {
+		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    if (-s "$dir/$local_list") {
 			$urpm->{log}(N("copying source list of \"%s\"...", $medium->{name}));
 			system("cp", "--preserve=mode,timestamps", "-R", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
 			  $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
 		    }
-		} else {
-		    #- try to find rpm files, use recursive method, added additional
-		    #- / after dir to make sure it will be taken into account if this
-		    #- is a symlink to a directory.
-		    #- make sure rpm filename format is correct and is not a source rpm
-		    #- which are not well managed by urpmi.
-		    @files = split "\n", `find '$dir/' -name "*.rpm" -print`;
+		}
+	    } else {
+		#- try to find rpm files, use recursive method, added additional
+		#- / after dir to make sure it will be taken into account if this
+		#- is a symlink to a directory.
+		#- make sure rpm filename format is correct and is not a source rpm
+		#- which are not well managed by urpmi.
+		@files = split "\n", `find '$dir/' -name "*.rpm" -print`;
 
-		    #- check files contains something good!
-		    if (@files > 0) {
-			#- we need to rebuild from rpm files the hdlist.
-			eval {
-			    $urpm->{log}(N("reading rpm files from [%s]", $dir));
-			    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-			    $medium->{start} = @{$urpm->{depslist}};
-			    $medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
-										   rpms  => \@files,
-										   clean => $cleaned_cache,
-										  ) ];
-			    $medium->{end} = $#{$urpm->{depslist}};
-			    if ($medium->{start} > $medium->{end}) {
-				#- an error occured (provided there are files in input.
-				delete $medium->{start};
-				delete $medium->{end};
-				die "no rpms read\n";
-			    } else {
-				$cleaned_cache = 0; #- make sure the headers will not be removed for another media.
-				my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-				@unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
-			    }
-			};
-			$@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
-			$error and delete $medium->{headers}; #- do not propagate these.
-			$error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
-		    } else {
-			$error = 1;
-			$urpm->{error}(N("no rpm files found from [%s]", $dir));
-		    }
+		#- check files contains something good!
+		if (@files > 0) {
+		    #- we need to rebuild from rpm files the hdlist.
+		    eval {
+			$urpm->{log}(N("reading rpm files from [%s]", $dir));
+			my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+			$medium->{start} = @{$urpm->{depslist}};
+			$medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
+									       rpms  => \@files,
+									       clean => $cleaned_cache,
+									      ) ];
+			$medium->{end} = $#{$urpm->{depslist}};
+			if ($medium->{start} > $medium->{end}) {
+			    #- an error occured (provided there are files in input.
+			    delete $medium->{start};
+			    delete $medium->{end};
+			    die "no rpms read\n";
+			} else {
+			    $cleaned_cache = 0; #- make sure the headers will not be removed for another media.
+			    my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+			    @unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
+			}
+		    };
+		    $@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
+		    $error and delete $medium->{headers}; #- do not propagate these.
+		    $error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
+		} else {
+		    $error = 1;
+		    $urpm->{error}(N("no rpm files found from [%s]", $dir));
 		}
 	    }
 	} else {
