@@ -94,7 +94,7 @@ usage:
 
 #- parse arguments list.
 my @nextargv;
-for (@ARGV) {
+while (defined($_ = shift @ARGV)) {
     /^--help$/ and do { usage; next };
     /^--update$/ and do { $update = 1; next };
     /^--media$/ and do { push @nextargv, \$media; next };
@@ -112,13 +112,15 @@ for (@ARGV) {
 				      urpm::sync_webfetch($options, @_) }; next };
     /^--curl$/ and do { $sync = \&urpm::sync_webfetch; next };
     /^--proxy$/ and do {
-	($_ = shift @_) =~ m,^http://([^:]+)(:([\d]+)|[^:])$, or die $usage;
-	$_ .= ":1080" if /[^\d]/;
-	$urpm->{proxy}->{http_proxy} = $_;
+	my ($proxy, $port) = ($_ = shift @ARGV) =~ m,^(http://[^:]+(:\d+)?)/*$, or
+	    die _("bad proxy declaration on command line\n");
+	$proxy .= ":1080" unless $port;
+	$urpm->{proxy}{http_proxy} = $proxy;
 	next;
     };
     /^--proxy-user$/ and do {
-	($_ = shift @_) =~ /(.+):(.+)/, or die $usage;
+	($_ = shift @ARGV) =~ /(.+):(.+)/, or
+	    die _("bad proxy declaration on command line\n");
 	$urpm->{proxy}->{user} = $1;
 	$urpm->{proxy}->{pwd} = $2;
 	next;
@@ -368,7 +370,7 @@ if (%{$state->{ask_remove} || {}}) {
     my $list = join "\n", keys %{$state->{ask_remove}};
     $noexpr = _("Nn");
     $yesexpr = _("Yy");
-    message_input(_("Some package have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ or
+    message_input(_("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ or
       system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove}}, ($root ? ("--root", $root) : ()));
 }
 

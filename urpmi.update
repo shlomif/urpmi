@@ -30,7 +30,7 @@ sub main {
 
     $options{force} = 0;
     $options{noclean} = 1;
-    foreach (@_) {
+    while ($_ = shift @_) {
 	/^--?a/ and $options{all} = 1, next;
 	/^--?c/ and $options{noclean} = 0, next;
 	/^--?d/ and $options{depslist} = 1, next;
@@ -41,13 +41,15 @@ sub main {
 					    urpm::sync_webfetch($options, @_) }, next;
 	/^--curl/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
 	/^--proxy$/ and do {
-	    ($_ = shift @_) =~ m,^http://([^:]+)(:([\d]+)|[^:])$, or die $usage;
-	    $_ .= ":1080" if /[^\d]/;
-	    $urpm->{proxy}->{http_proxy} = $_;
+	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(http://[^:]+(:\d+)?)/*$, or
+		die _("bad proxy declaration on command line\n");
+	    $proxy .= ":1080" unless $port;
+	    $urpm->{proxy}{http_proxy} = $proxy;
 	    next;
 	};
 	/^--proxy-user$/ and do {
-	    ($_ = shift @_) =~ /(.+):(.+)/, or die $usage;
+	    ($_ = shift @_) =~ /(.+):(.+)/, or
+		die _("bad proxy declaration on command line\n");
 	    $urpm->{proxy}->{user} = $1;
 	    $urpm->{proxy}->{pwd} = $2;
 	    next;

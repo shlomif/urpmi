@@ -2,13 +2,13 @@
 
 Name: urpmi
 Version: 3.7
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.08-1mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.10-1mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Tue Jul 16 2002 François Pons <fpons@mandrakesoft.com> 3.7-5mdk
+- fixed no progression of download.
+- fixed bad proxy support on command line.
+
 * Fri Jul 12 2002 Pixel <pixel@mandrakesoft.com> 3.7-4mdk
 - fix problem with no proxy
 

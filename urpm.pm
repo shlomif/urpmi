@@ -132,11 +132,11 @@ sub new {
 sub get_proxy {
     my $proxy = {
 		 http_proxy => undef ,
+		 ftp_proxy => undef ,
 		 user => undef,
 		 pwd => undef
 		};
     local (*F, $_);
-    #	open F, "$ENV{HOME}/.wgetrc" or return;
     open F, "/etc/urpmi/proxy.cfg" or return undef;
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
@@ -621,7 +621,7 @@ sub add_distrib_media {
 	eval {
 	    $urpm->{log}(_("retrieving hdlists file..."));
 #	    $urpm->{sync}({proxy => $urpm->{proxy}}, "$urpm->{cachedir}/partial", reduce_pathname("$url/Mandrake/base/hdlists"));
-	    $urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}}, reduce_pathname("$url/Mandrake/base/hdlists"));
+	    $urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, reduce_pathname("$url/Mandrake/base/hdlists"));
 	    $urpm->{log}(_("...retrieving done"));
 	};
 	$@ and $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -966,8 +966,7 @@ sub update_media {
 		      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 		}
 		eval {
-#		    $urpm->{sync}({proxy => $urpm->{proxy}}, "$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
-		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}}, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
+		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
 		};
 		if ($@) {
 		    $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -1743,8 +1742,7 @@ sub download_source_packages {
 	foreach (map { m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| ? "$1xxxx$2" : $_ } @distant_sources) {
 	    $urpm->{log}("    $_") ;
 	}
-#	$urpm->{sync}({proxy => $urpm->{proxy}}, "$urpm->{cachedir}/rpms", @distant_sources);
-	$urpm->{sync}({dir => "$urpm->{cachedir}/rpms", quiet => 1, proxy => $urpm->{proxy}}, @distant_sources);
+	$urpm->{sync}({dir => "$urpm->{cachedir}/rpms", quiet => 0, proxy => $urpm->{proxy}}, @distant_sources);
 	$urpm->{log}(_("...retrieving done"));
     };
     $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
