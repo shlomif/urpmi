@@ -620,17 +620,16 @@ sub configure {
 	    if ($options{callback}) {
 		if (-s "$urpm->{statedir}/$_->{hdlist}" > 32) {
 		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-		    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", 0) };
+		    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
+									  packing => 1, callback => $options{callback}) };
+		} elsif (-s "$urpm->{statedir}/synthesis.$_->{hdlist}" > 32) {
+		    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
+		    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}",
+									     callback => $options{callback}) };
 		}
 		unless (defined $_->{start} && defined $_->{end}) {
 		    $urpm->{error}(_("problem reading hdlist file of medium \"%s\"", $_->{name}));
 		    $_->{ignore} = 1;
-		} else {
-		    #- medium has been read correclty, now call the callback for each packages.
-		    #- it is the responsability of callback to pack the header.
-		    foreach ($_->{start} .. $_->{end}) {
-			$options{callback}->($urpm, $_, %options);
-		    }
 		}
 	    } else {
 		if (-s "$urpm->{statedir}/synthesis.$_->{hdlist}" > 32) {

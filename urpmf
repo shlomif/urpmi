@@ -1,63 +1,119 @@
-#!/bin/sh
+#!/usr/bin/perl
 
-# NOTE TO MANTAINERS: when you add a string that is displayed to
-# the user use $ECHO not echo (that will use gettext if available)
+#- Copyright (C) 2002 MandrakeSoft (fpons@mandrakesoft.com)
+#-
+#- This program is free software; you can redistribute it and/or modify
+#- it under the terms of the GNU General Public License as published by
+#- the Free Software Foundation; either version 2, or (at your option)
+#- any later version.
+#-
+#- This program is distributed in the hope that it will be useful,
+#- but WITHOUT ANY WARRANTY; without even the implied warranty of
+#- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#- GNU General Public License for more details.
+#-
+#- You should have received a copy of the GNU General Public License
+#- along with this program; if not, write to the Free Software
+#- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-# i18n support
-ECHO=`which gettext 2> /dev/null`
-[ -z "$ECHO" ] && ECHO="echo" || ECHO="$ECHO -s"
-TEXTDOMAIN="urpmi"
-export TEXTDOMAIN
+#use strict qw(subs vars refs);
+use urpm;
 
-dir="/var/lib/urpmi"
-options=
+#- get I18N translation method.
+import urpm _;
 
-while true
-do
-    case $1 in
-	-h|--help)
-	    TMPDATA=`$ECHO "urpmf version %s"`
-	    printf "$TMPDATA" `rpm -q rpmtools --qf '%{VERSION}'` ; echo
-	    $ECHO "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft."
-	    $ECHO "This is free software and may be redistributed under the terms of the GNU GPL."
-	    echo
-	    $ECHO "usage: urpmf [options] <file>"
-	    $ECHO "  --help          - print this help message."
-	    $ECHO "  --quiet         - do not print tag name (default if no tag given on command"
-	    $ECHO "                    line, incompatible with interactive mode)."
-	    $ECHO "  --all           - print all tags."
-	    $ECHO "  --name          - print tag name: rpm filename (assumed if no tag given on"
-	    $ECHO "                    command line but without package name)."
-	    $ECHO "  --group         - print tag group: group."
-	    $ECHO "  --size          - print tag size: size."
-	    $ECHO "  --serial        - print tag serial: serial."
-	    $ECHO "  --summary       - print tag summary: summary."
-	    $ECHO "  --description   - print tag description: description."
-	    $ECHO "  --provides      - print tag provides: all provides (multiple lines)."
-	    $ECHO "  --requires      - print tag requires: all requires (multiple lines)."
-	    $ECHO "  --files         - print tag files: all files (multiple lines)."
-	    $ECHO "  --conflicts     - print tag conflicts: all conflicts (multiple lines)."
-	    $ECHO "  --obsoletes     - print tag obsoletes: all obsoletes (multiple lines)."
-	    $ECHO "  --prereqs       - print tag prereqs: all prereqs (multiple lines)."
-	    exit 1
-	    ;;
-	--*)
-	    options="$1 $options"
-	    shift
-	    ;;
-	*)
-	    if [ $# -gt 1 ]; then
-		$ECHO "usage: urpmf [options] <file>"
-		$ECHO "try urpmf --help for more options"
-		exit 1
-	    fi
-	    if /bin/ls $dir/hdlist.* >/dev/null 2>/dev/null; then
-		parsehdlist ${options:---files --quiet} $dir/hdlist.* | grep -E "$1"
-		exit $?
-	    else
-		$ECHO "no full media list was found"
-		exit 1
-	    fi
-	    ;;
-    esac
-done
+sub usage {
+    print STDERR _("urpmf version %s
+Copyright (C) 2002 MandrakeSoft.
+This is free software and may be redistributed under the terms of the GNU GPL.
+
+usage:
+", $urpm::VERSION) . _("  --help         - print this help message.
+") . _("  --update       - use only update media.
+") . _("  --media        - use only the media listed by comma.
+") . _("  --synthesis    - use the synthesis given instead of urpmi db.
+") . _("  --verbose      - verbose mode.
+") . _("  --quiet        - do not print tag name (default if no tag given on command
+                   line, incompatible with interactive mode).
+") . _("  --all          - print all tags.
+") . _("  --name         - print tag name: rpm filename (assumed if no tag given on
+                   command line but without package name).
+") . _("  --group        - print tag group: group.
+") . _("  --size         - print tag size: size.
+") . _("  --epoch        - print tag epoch: epoch.
+") . _("  --summary      - print tag summary: summary.
+") . _("  --description  - print tag description: description.
+") . _("  --provides     - print tag provides: all provides (multiple lines).
+") . _("  --requires     - print tag requires: all requires (multiple lines).
+") . _("  --files        - print tag files: all files (multiple lines).
+") . _("  --conflicts    - print tag conflicts: all conflicts (multiple lines).
+") . _("  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).
+") . _("  --prereqs      - print tag prereqs: all prereqs (multiple lines).
+") . _("  -e             - include perl code directly as perl -e.
+") . _("  -a             - binary AND operator, true if both expression are true.
+") . _("  -o             - binary OR operator, true if one expression is true.
+") . _("  !              - unary NOT, true if expression is false.
+") . _("  (              - left parenthesis to open group expression.
+") . _("  )              - right parenthesis to close group expression.
+");
+    exit(0);
+}
+
+#- default options.
+my $update = 0;
+my $media = '';
+my $synthesis = '';
+my $verbose = 0;
+my $quiet = undef;
+my %params;
+
+#- parse arguments list.
+my $expr;
+my @nextargv;
+while (defined($_ = shift @ARGV)) {
+    /^--help$/ and do { usage; next };
+    /^--no-locales$/ and do { undef *_; undef *urpm::_; *_ = *urpm::_ = sub { sprintf(shift @_, @_) }; next };
+    /^--update$/ and do { $update = 1; next };
+    /^--media$/ and do { push @nextargv, \$media; next };
+    /^--mediums$/ and do { push @nextargv, \$media; next };
+    /^--synthesis$/ and do { push @nextargv, \$synthesis; next };
+    /^--verbose$/ and do { $verbose = 1; next };
+    /^--quiet$/ and do { $quiet = 1; next };
+    /^--all$/ and do { $params{$_} = 1
+			 foreach qw(group size summary description provides requires files conflicts obsoletes prereqs); next };
+    /^--(group|size|epoch|summary|description|provides|requires|files|conflicts|obsoletes|prereqs)$/ and
+      do { $params{$_} = 1; next };
+    /^-e$/ and do { $expr .= '('.$_.')'; next };
+    /^-a$/ and do { $expr .= ' && '; next };
+    /^-o$/ and do { $expr .= ' || '; next };
+    /^[!\(\)]$/ and do { $expr .= $_; next };
+    #- assume a regex directly
+    $expr .= 'm{'.$_.'}';
+}
+
+my $urpm = new urpm;
+$verbose or $urpm->{log} = sub {};
+
+for (scalar(keys %params)) {
+    $_ eq 0 and do { defined $quiet or $quiet = 1; $params{files} = 1 };
+    $_ eq 1 and do { defined $quiet or $quiet = 1 };
+    $_ > 1 and do { defined $quiet or $quiet = 0 };
+}
+
+#- build callback according expression.
+my $callback = 'sub { my ($urpm, $pkg) = @_; '; #- it is a good start for a sub, no ;-)
+foreach (qw(group size epoch summary description provides requires files conflicts obsoletes prereqs)) {
+    $params{$_} and $callback .= 'foreach my $e ($pkg->'.$_.') { local $_ = $pkg->name."'.(!$quiet && ":$_").':$e"; '.$expr.' or next; print "$_\n" }';
+}
+$callback .= ' 1; }';
+$callback = eval $callback;
+$@ and die;
+
+$urpm->configure(nocheck_access => 1,
+		 media => $media,
+		 synthesis => $synthesis,
+		 update => $update,
+		 callback => $callback,
+		);
+
+#- that'all! all has been done by callback above.

@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.1
-Release: 8mdk
+Release: 9mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.71-1mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.80
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -204,6 +204,16 @@ fi
 
 
 %changelog
+* Fri Dec  6 2002 François Pons <fpons@mandrakesoft.com> 4.1-9mdk
+- improved urpmf from sh to perl, now a lot of options and
+  support of synthesis only media.
+- make medium name mandatory when adding a source with
+  --distrib-XXX using urpmi.addmedia.
+- fix parallel installation when one node is already up-to-date.
+- improved callback usage of urpm::configure to use newer
+  perl-URPM interface (much faster and smart with memory, but
+  unstable).
+
 * Tue Dec  3 2002 François Pons <fpons@mandrakesoft.com> 4.1-8mdk
 - added --excludepath option (fix bug 577).
 - fixed missing options given to parallel plugins.

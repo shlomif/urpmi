@@ -119,6 +119,7 @@ and [options] are from
 
     if (exists $options{distrib}) {
 	if (defined $options{distrib}) {
+	    $name or die $usage;
 	    #- extended distribution support, code is directly inlined here.
 	    #- -h always set, updates should allow setting update flag.
 	    $options{probe_with_hdlist} = 1;
