@@ -163,7 +163,7 @@ $urpm->relocate_depslist;
 my %packages;
 $urpm->search_packages(\%packages,
 		       [ ($minimal || !$urpm->{params}{info}{basesystem} ? () : ('basesystem')), @names],
-		       all => $all) or $force or exit 1;
+		       all => $all, use_provides => $use_provides) or $force or exit 1;
 
 #- filter to add in packages selected required packages.
 my $ask_choice = sub {

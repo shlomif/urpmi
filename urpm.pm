@@ -419,7 +419,7 @@ sub build_synthesis_hdlist {
 #- computational of base files.
 #- allow options :
 #-   all     -> all medium are rebuilded
-#-   force   -> try to force rebuilding from rpms files.
+#-   force   -> try to force rebuilding base files (1) or hdlist from rpms files (2).
 #-   noclean -> keep header directory cleaned.
 sub update_media {
     my ($urpm, %options) = @_; #- do not trust existing hdlist and try to recompute them.
@@ -453,7 +453,7 @@ sub update_media {
 	      system("cp", "-a", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
 
 	    #- if the source hdlist is present and we are not forcing using rpms file
-	    if (!$options{force} && $medium->{with_hdlist} && -e "$dir/$medium->{with_hdlist}") {
+	    if ($options{force} < 2 && $medium->{with_hdlist} && -e "$dir/$medium->{with_hdlist}") {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		system("cp", "-a", "$dir/$medium->{with_hdlist}", "$urpm->{cachedir}/partial/$medium->{hdlist}");
 		
@@ -506,7 +506,7 @@ sub update_media {
 
 	    #- try to sync (copy if needed) local copy after restored the previous one.
 	    unlink "$urpm->{cachedir}/partial/$basename";
-	    $options{force} || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
+	    $options{force} >= 2 || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
 	      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 	    system("wget", "-NP", "$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
 	    $? == 0 or $error = 1, $urpm->{error}(_("wget of [%s] failed (maybe wget is missing?)",
@@ -603,7 +603,7 @@ sub update_media {
 	    $urpm->{modified} = 0;
 	}
 
-	if (!$options{force} && @{$urpm->{media}} == 1 && $urpm->{media}[0]{with_hdlist}) {
+	if ($options{force} < 1 && @{$urpm->{media}} == 1 && $urpm->{media}[0]{with_hdlist}) {
 	    #- this is a special mode where is only one hdlist using a source hdlist, in such
 	    #- case we are searching for source depslist, provides and compss files.
 	    #- if they are not found or if force is used, an error message is printed and
@@ -840,58 +840,94 @@ sub register_local_packages {
 #- search packages registered by their name by storing their id into packages hash.
 sub search_packages {
     my ($urpm, $packages, $names, %options) = @_;
-    my (%exact, %found, %foundi);
+    my (%exact, %exact_a, %exact_ra, %found, %foundi);
 
     foreach my $v (@$names) {
 	#- it is a way of speedup, providing the name of a package directly help
 	#- to find the package.
 	#- this is necessary if providing a name list of package to upgrade.
 	if ($urpm->{params}{info}{$v}) {
-	    $exact{$v} = $urpm->{params}{info}{$v}; next;
+	    $exact{$v} = $urpm->{params}{info}{$v}{id};
+	    next;
 	}
 
 	my $qv = quotemeta $v;
-	foreach (keys %{$urpm->{params}{info}}) {
-	    my $info = $urpm->{params}{info}{$_};
-	    my $pack = $info->{name} .'-'. $info->{version} .'-'. $info->{release};
 
-	    $pack =~ /^$qv(?:-[^-]+)?$/ and $exact{$v} = $info, next;
-	    $pack =~ /$qv/ and push @{$found{$v}}, $info;
-	    $pack =~ /$qv/i and push @{$foundi{$v}}, $info; 
+	if ($options{use_provides}) {
+	    #- try to search through provides.
+	    if (my $provide_v = $urpm->{params}{provides}{$v}) {
+		if (@{$provide_v} == 1 && $urpm->{params}{info}{$provide_v->[0]}) {
+		    #- we assume that if the there is only one package providing the resource exactly,
+		    #- this should be the best one that is described.
+		    $exact{$v} = $urpm->{params}{info}{$provide_v->[0]}{id};
+		    next;
+		}
+	    }
+
+	    foreach (keys %{$urpm->{params}{provides}}) {
+		#- search through provides to find if a provide match this one.
+		/$qv/ and push @{$found{$v}}, map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
+		/$qv/i and push @{$found{$v}}, map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
+	    }
+	}
+
+	my $id = 0;
+	foreach my $info (@{$urpm->{params}{depslist}}) {
+	    my $pack_ra = "$info->{name}-$info->{version}";
+	    my $pack_a = "$pack_ra-$info->{release}";
+	    my $pack = "$pack_a.$info->{arch}";
+
+	    if ($pack eq $v) {
+		$exact{$v} = $id;
+		next;
+	    } elsif ($pack_a eq $v) {
+		push @{$exact_a{$v}}, $id;
+		next;
+	    } elsif ($pack_ra eq $v) {
+		push @{$exact_ra{$v}}, $id;
+		next;
+	    }
+
+	    $pack =~ /$qv/ and push @{$found{$v}}, $id;
+	    $pack =~ /$qv/i and push @{$foundi{$v}}, $id;
+
+	    ++$id;
 	}
     }
 
     my $result = 1;
     foreach (@$names) {
-	my $info = $exact{$_};
-	if ($info) {
-	    $packages->{$info->{id}} = undef;
+	if (defined $exact{$_}) {
+	    $packages->{$exact{$_}} = undef;
 	} else {
-	    my $l = $found{$_} || $foundi{$_};
-	    if (@{$l || []} == 0) {
-		my ($name, $version, $release) = /(.*)-([^-]*)-([^-]*)/;
-		$urpm->{params}{info}{$1} or ($name, $version, $release) = /(.*)-([^-]*)/;
-		$urpm->{params}{info}{$1} or ($name, $version, $release) = ();
-		if ($name) {
-		    my $ipkg;
-		    foreach (0..$#{$urpm->{params}{depslist}}) {
-			my $pkg = $urpm->{params}{depslist}[$_];
-			if ($pkg->{name} eq $name && $pkg->{version} eq $version && $pkg->{release} eq $release) {
-			    $packages->{$_} = undef;
-			    $ipkg = $_;
-			    last;
+	    #- at this level, we need to search the best package given for a given name,
+	    #- always prefer alread found package.
+	    my %l;
+	    foreach (@{$exact_a{$_} || $exact_ra{$_} || $found{$_} || $foundi{$_} || []}) {
+		my $info = $urpm->{params}{depslist}[$_];
+		push @{$l{$info->{name}}}, { id => $_, info => $info };
+	    }
+	    if (values(%l) == 0) {
+		$urpm->{error}(_("no package named %s", $_));
+		$result = 0;
+	    } elsif (values(%l) > 1 && !$options{all}) {
+		$urpm->{error}(_("The following packages contain %s: %s", $_, join(' ', keys %l)));
+		$result = 0;
+	    } else {
+		foreach (values %l) {
+		    my $best;
+		    foreach (@$_) {
+			if ($best) {
+			    my $cmp_version = rpmtools::version_compare($_->{info}{version}, $best->{info}{version});
+			    if ($cmp_version > 0 ||
+				$cmp_version == 0 && rpmtools::version_compare($_->{info}{release}, $best->{info}{release}) > 0) {
+				$best = $_;
+			    }
+			} else {
+			    $best = $_;
 			}
 		    }
-		    defined $ipkg or ($name, $version, $release) = ();
-		}
-		unless ($name) {
-		    $urpm->{error}(_("no package named %s", $_)); $result = 0;
-		}
-	    } elsif (@$l > 1 && !$options{all}) {
-		$urpm->{error}(_("The following packages contain %s: %s", $_, join(' ', map { $_->{name} } @$l))); $result = 0; 
-	    } else {
-		foreach (@$l) {
-		    $packages->{$_->{id}} = undef;
+		    $packages->{$best->{id}} = undef;
 		}
 	    }
 	}

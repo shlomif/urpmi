@@ -46,6 +46,7 @@ usage:
   -M             - extend query to package dependancies and remove already
                    installed package only if they are newer or the same.
   -c             - choose complete method for resolving requires closure.
+  -p             - allow search in provides to find package.
   -g             - print groups too with name.
   -r             - print version and release too with name.
 
@@ -76,6 +77,7 @@ for (@ARGV) {
 	/M/ and do { $query->{minimal} = 0; next };
 	/c/ and do { $query->{complete} = 1; next };
 	/g/ and do { $query->{group} = 1; next };
+	/p/ and do { $query->{use_provides} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };
 	/r/ and do { $query->{version} = $query->{release} = 1; next };
 	print STDERR _("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
@@ -93,24 +95,25 @@ $query->{verbose} or $urpm->{log} = sub {};
 
 $urpm->read_depslist;
 $query && $query->{group} and $urpm->read_compss;
+$query && $query->{use_provides} and $urpm->read_provides;
 
 if (@files) {
     #- read provides file which is needed only to compute incremental
     #- dependancies, of files provided.
-    $urpm->read_provides;
+    $query && $query->{use_provides} or $urpm->read_provides;
 
     #- build closure with local package and return list of names.
     push @names, $urpm->register_local_packages(@files);
 }
 
 #- reparse whole internal depslist to match against newer packages only.
-$urpm->{params}->relocate_depslist();
+$urpm->relocate_depslist();
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded, all its dependancy
 #- will be updated too.
 my %packages;
-$urpm->search_packages(\%packages, [ @names ]) or $query->{force} or exit 1;
+$urpm->search_packages(\%packages, [ @names ], use_provides => $query->{use_provides}) or $query->{force} or exit 1;
 
 #- auto select package for upgrading the distribution.
 if ($query->{auto_select}) {
