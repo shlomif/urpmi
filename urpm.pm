@@ -593,6 +593,7 @@ sub update_media {
 		$urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
 		eval {
+		    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 		    local *F;
 		    open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
 		    foreach my $p (values %{$urpm->{params}{info}}) {
