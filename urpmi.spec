@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.6.23
-%define release 3mdk
+%define release 4mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -236,6 +236,9 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Thu Mar 24 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.23-4mdk
+- Disable --gui option when $DISPLAY isn't set
+
 * Wed Mar 23 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.23-3mdk
 - Add a --summary option to urpmq (Michael Scherer)
 
