@@ -816,7 +816,7 @@ sub configure {
 			     });
     }
     unless ($options{noinstalling}) {
-	$urpm->compute_flags($urpm->get_packages_list($urpm->{instlist}, $options{skip}), disable_obsolete => 1, callback => sub {
+	$urpm->compute_flags($urpm->get_packages_list($urpm->{instlist}, $options{inst}), disable_obsolete => 1, callback => sub {
 				 my ($urpm, $pkg) = @_;
 				 $urpm->{log}(N("would install instead of upgrade package %s", scalar($pkg->fullname)));
 			     });
@@ -874,7 +874,7 @@ sub add_medium {
 
     #- creating the medium info.
     if ($options{virtual}) {
-	$url =~ m|^file:/*(/[^/].*)/| or $urpm->{fatal}(5, N("virtual medium need to be local"));
+	$url =~ m|^file:/*(/[^/].*)/| or $urpm->{fatal}(1, N("virtual medium need to be local"));
 
 	$medium = { name      => $name,
 		    url       => $url,
@@ -2094,7 +2094,7 @@ sub register_rpms {
 	$pkg or $urpm->{error}(N("unable to register rpm file")), next;
 	$urpm->{source}{$id} = $_;
     }
-    $error and $urpm->{fatal}(1, N("error registering local packages"));
+    $error and $urpm->{fatal}(2, N("error registering local packages"));
     defined $id && $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);
 
     #- distribute local packages to distant nodes directly in cache of each machine.
