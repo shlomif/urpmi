@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.7\n"
 "POT-Creation-Date: 2001-08-17 13:07+0200\n"
-"PO-Revision-Date: 2001-08-12 20:25-0500\n"
+"PO-Revision-Date: 2001-08-22 20:25-0500\n"
 "Last-Translator: D. Dale Gulledge <dsplat@rochester.rr.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -171,17 +171,17 @@ msgstr "ne povas skribi konfigurodosieron [%s]"
 #: po/placeholder.h:30 urpm.pm:167
 #, c-format
 msgid "unable to use name \"%s\" for unamed medium because it is already used"
-msgstr ""
+msgstr "ne povis uzi nomon \"%s\" por sennoma medio æar øi jam estas uzata"
 
 #: po/placeholder.h:31
-#, fuzzy, c-format
+#, c-format
 msgid "nothing to write in list file for \"%s\""
-msgstr "skribis nenion en listdosiero por \"%s\""
+msgstr "nenio por skribi en listdosiero por \"%s\""
 
 #: po/placeholder.h:32 urpm.pm:216
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
-msgstr ""
+msgstr "ne povis trovi listdosieron por \"%s\", ignoris medion"
 
 #: po/placeholder.h:33
 #, c-format
@@ -199,6 +199,8 @@ msgid ""
 "removing %s to upgrade ...\n"
 " to %s since it will not upgrade correctly!"
 msgstr ""
+"forigas %s por øisdatigi ...\n"
+" al %s æar øi ne øisdatigos øuste!"
 
 #: po/placeholder.h:39 urpm.pm:764
 #, c-format
@@ -243,12 +245,11 @@ msgstr "neniu \"hdlist\" dosiero trovita por medio \"%s\""
 #: po/placeholder.h:47 urpm.pm:174
 #, c-format
 msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
-msgstr ""
+msgstr "ne povis konsideri medion \"%s\" æar ne ekzistas listdosieron [%s]"
 
 #: po/placeholder.h:48
-#, fuzzy
 msgid "keeping only files referenced in provides"
-msgstr "konservu nur \"provides\"-ajn dosierojn"
+msgstr "konservas nur dosierojn al kiuj \"provides\"-a dosiero aludas"
 
 #: po/placeholder.h:49
 #, c-format
@@ -308,7 +309,7 @@ msgstr "ne povis legi \"compss\" dosieron [%s]"
 #: po/placeholder.h:60 urpm.pm:211
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
-msgstr ""
+msgstr "ne povis trovi \"hdlist\"-an dosieron por \"%s\", ignoris medion"
 
 #: po/placeholder.h:61
 #, c-format
@@ -391,13 +392,12 @@ msgid "unable to access hdlist file of \"%s\", medium ignored"
 msgstr "ne povas atingi \"hdlist\" dosieron de \"%s\", ignoris medion"
 
 #: po/placeholder.h:79 urpm.pm:916
-#, fuzzy
 msgid "unable to register rpm file"
-msgstr "ne povis atingi rpm-an dosieron [%s]"
+msgstr "ne povis registri rpm-an dosieron"
 
 #: po/placeholder.h:80 urpm.pm:1208
 msgid "unable to find all synthesis file, using parsehdlist server"
-msgstr ""
+msgstr "ne povis trovi æiujn sintezadodosierojn, per \"parsehdlist\"-a servilo"
 
 #: po/placeholder.h:81 urpm.pm:239
 #, c-format
@@ -500,7 +500,7 @@ msgstr "ne povis atingi listdosieron de \"%s\", ignoris medion"
 #: po/placeholder.h:101 urpm.pm:1817
 #, c-format
 msgid "avoid selecting %s as not enough files will be updated"
-msgstr ""
+msgstr "evitu elekti %s æar nesufiæe da dosieroj estos øisdatigataj"
 
 #: po/placeholder.h:102
 #, c-format
@@ -530,7 +530,7 @@ msgstr "translokigis %s enskriba¼ojn en \"depslist\""
 #: po/placeholder.h:107 urpm.pm:829 urpm.pm:1486 urpm.pm:1528
 #, c-format
 msgid "unable to parse correctly [%s] on value \"%s\""
-msgstr ""
+msgstr "ne povis øuste analizi [%s] je valoro \"%s\""
 
 #: po/placeholder.h:108
 #, c-format
@@ -546,6 +546,7 @@ msgstr "La sekvantaj paka¼oj enhavas %s: %s"
 #, c-format
 msgid "there are multiples packages with the same rpm filename \"%s\""
 msgstr ""
+"ekzistas plurajn paka¼ojn kiuj havas la saman rpm-an dosiernomon \"%s\""
 
 #: po/placeholder.h:111 urpm.pm:1716
 #, c-format
@@ -810,7 +811,7 @@ msgstr ""
 "subtenata.\n"
 
 #: po/placeholder.h:208
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000, 2001 MandrakeSoft.\n"
@@ -846,23 +847,27 @@ msgstr ""
 "  -h             - montru æi tiun helpmesaøon.\n"
 "  -v             - babilema reøimo.\n"
 "  -d             - etendu demandon al paka¼aj dependa¼oj.\n"
-"  -u             - remove package if a better version is already installed.\n"
-"  -m             - extend query to package dependencies, remove already\n"
-"                   installed package that provide what is necessary, add\n"
-"                   packages that may be block the upgrade.\n"
-"  -M             - extend query to package dependencies and remove already\n"
-"                   installed package only if they are newer or the same.\n"
-"  -c             - choose complete method for resolving requires closure.\n"
-"  -p             - allow search in provides to find package.\n"
-"  -g             - print groups too with name.\n"
-"  -r             - print version and release too with name.\n"
-"  --update       - use only update media.\n"
-"  --auto-select  - automatically select packages for upgrading the system.\n"
-"  --headers      - extract headers for package listed from urpmi db to\n"
-"                   stdout (root only).\n"
-"  --sources      - give all source packages before downloading (root only).\n"
-"  --force        - force invocation even if some package do not exist.\n"
-"  names or rpm files given on command line are queried"
+"  -u             - forigi paka¼on se pli nova versio estas jam instalata.\n"
+"  -m             - etendu demandon al paka¼aj dependa¼oj, forigu jam "
+"instalitan\n"
+"                   paka¼on kiu provizas la necesa¼ojn, aldonu paka¼ojn kiuj\n"
+"                   eble blokus la øisdatigadon.\n"
+"  -M             - etendu demandon al paka¼aj dependa¼oj kaj forigu jam\n"
+"                   instalitan paka¼on nur se ili estas pli novaj aý "
+"samaøaj.\n"
+"  -c             - elektu plenan metodon por decidi ferma¼on de bezonatoj.\n"
+"  -p             - permesu seræon en provizoj trovi paka¼on.\n"
+"  -g             - printu grupojn ankaý kun nomo.\n"
+"  -r             - printu version kaj eldonon ankaý kun nomo.\n"
+"  --update       - uzu nur øisdatigan medion.\n"
+"  --auto-select  - aýtomate elektu paka¼ojn por øisdatigi la sistemon.\n"
+"  --headers      - eltiru æapdosierojn por paka¼o listita en urpmi-a "
+"datumbazo\n"
+"                   al æefeligujo (nur kiel \"root\").\n"
+"  --sources      - donu æiujn fontajn paka¼ojn antaý ol elþuti (nur kiel\n"
+"                   \"root\").\n"
+"  --force        - devigu alvokadon eæ se iu paka¼o ne ekzistas.\n"
+"  nomoj aý rpm-aj dosieroj donataj sur komandlinio estas demandataj.\n"
 
 #: urpmi:48
 #, c-format
@@ -898,6 +903,3 @@ msgstr ", $_);"
 #, c-format
 msgid "urpmq version %s"
 msgstr "urpmq versio %s"
-
-#~ msgid "mismatch arch for registering rpm file"
-#~ msgstr "malkongrua \"arch\" por registri rpm-an dosieron"
