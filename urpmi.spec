@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 13mdk
+Release: 14mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,13 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Tue Jul 29 2003 François Pons <fpons@mandrakesoft.com> 4.4-14mdk
+- fixed urpme --auto disabling fuzzy report.
+- fixed urpme --parallel which was not handling log.
+- fixed urpme to always ask user in parallel mode.
+- make package compilable directly on Mandrake Clustering
+  which is a 9.0 based distribution.
+
 * Mon Jul 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-13mdk
 - fixed trying to promote ARRAY(...) message.
 - fixed output of urpmq to be sorted.
