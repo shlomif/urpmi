@@ -1174,7 +1174,8 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 
 		    -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 32 or
-		      $error = 1, $urpm->{error}(N("copy of [%s] failed (file is suspiciously small)", $with_hdlist_dir));
+		      $error = 1, $urpm->{error}(N("copy of [%s] failed (file is suspiciously small)",
+                                             "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 
 		    #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
 		    if (!$error && $retrieved_md5sum) {
