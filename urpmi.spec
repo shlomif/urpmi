@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.0
-Release: 10mdk
+Release: 11mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-6mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-7mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -22,7 +22,7 @@ You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
 Summary: User mode rpm GUI install
-Requires: urpmi grpmi gchooser gmessage consolehelper menu
+Requires: urpmi grpmi gchooser gmessage /usr/bin/consolehelper menu
 Group: %{group}
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
@@ -140,6 +140,12 @@ fi
 #%preun -n autoirpm
 #[ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
 
+%post -n gurpmi
+%{update_menus}
+
+%postun -n gurpmi
+%{clean_menus}
+
 %files -f %{name}.lang
 %defattr(-,root,root)
 %dir /etc/urpmi
@@ -196,6 +202,11 @@ fi
 
 
 %changelog
+* Fri Aug 30 2002 François Pons <fpons@mandrakesoft.com> 4.0-11mdk
+- fixed no post-clean when testing or if errors occured.
+- (fcrozat) fixed missing %%post and %%postun for gurpmi, fixed
+  bad consolehelper require.
+
 * Fri Aug 30 2002 François Pons <fpons@mandrakesoft.com> 4.0-10mdk
 - fixed cache management (there could exist some files left in cache
   which were never deleted).

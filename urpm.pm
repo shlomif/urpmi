@@ -2042,6 +2042,10 @@ sub install {
     }
     @l = $trans->run($urpm, %options);
 
+    #- in case of error or testing, do not try to check rpmdb
+    #- for packages being upgraded or not.
+    @l || $options{test} and return @l;
+
     #- examine the local repository to delete package which have been installed.
     if ($options{post_clean_cache}) {
 	foreach (keys %$install, keys %$upgrade) {
@@ -2054,7 +2058,7 @@ sub install {
 	}
     }
 
-    @l;
+    return @l;
 }
 
 #- install all files to node as remembered according to resolving done.
