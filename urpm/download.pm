@@ -179,7 +179,8 @@ sub sync_curl {
 	open my $curl, join(" ", map { "'$_'" } "/usr/bin/curl",
 	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
-	    "--stderr", "-", "-s", "-I", @ftp_files) . " |";
+	    "--stderr", "-", # redirect everything to stdout
+	    "-s", "-I", @ftp_files) . " |";
 	while (<$curl>) {
 	    if (/Content-Length:\s*(\d+)/) {
 		!$cur_ftp_file || exists($ftp_files_info{$cur_ftp_file}{size})
@@ -215,7 +216,12 @@ sub sync_curl {
 	    }
 	}
     }
-    #- http files (and other files) are correctly managed by curl to conditionnal download.
+    # Indicates whether this option is available in our curl
+    our $location_trusted;
+    if (!defined $location_trusted) {
+	$location_trusted = `/usr/bin/curl -h` =~ /location-trusted/ ? 1 : 0;
+    }
+    #- http files (and other files) are correctly managed by curl wrt conditional download.
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-z file -O <file>)*
     if (my @all_files = (
@@ -230,8 +236,10 @@ sub sync_curl {
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 	    ($options->{quiet} && !$options->{verbose} ? "-s" : @{[]}),
 	    "-k",
-	    `curl -h` =~ /location-trusted/ ? "--location-trusted" : @{[]},
-	    "-R", "-f", "--stderr", "-",
+	    $location_trusted ? "--location-trusted" : @{[]},
+	    "-R",
+	    "-f",
+	    "--stderr", "-", # redirect everything to stdout
 	    @all_files) . " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	while (<$curl>) {
@@ -293,8 +301,6 @@ sub sync_rsync {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = basename($_);
 	my ($file) =  m!^rsync://[^\/]*::! ? (m|^rsync://(.*)|) : ($_);
-    #my ($file) = m|^rsync://(.*)| or next;
-    #$file =~ /::/ or $file = $_;
 	propagate_sync_callback($options, 'start', $file);
 	do {
 	    local $_;
@@ -302,8 +308,8 @@ sub sync_rsync {
 	    open my $rsync, join(" ", "/usr/bin/rsync",
 		($limit_rate ? "--bwlimit=$limit_rate" : ()),
 		($options->{quiet} ? qw(-q) : qw(--progress -v)),
-		($options->{compress} and qw(-z)),
-        ($options->{ssh} and qw(-e ssh)),
+		($options->{compress} ? qw(-z) : ()),
+		($options->{ssh} ? qw(-e ssh) : ()),
 		qw(--partial --no-whole-file),
 		"'$file' '$options->{dir}' |");
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
