@@ -41,14 +41,14 @@ Returns 1 on success, 0 on failure.
 
 our $err;
 
-sub _syntax_error () { $err = N("syntax error in config file at line %s") }
+sub _syntax_error () { $err = N("syntax error in config file at line %s", $.) }
 
 sub load_config ($) {
     my ($file) = @_;
     my %config;
     my $medium = undef;
     $err = '';
-    open my $f, $file or do { $err = "Can't read $file: $!\n"; return };
+    open my $f, $file or do { $err = N("unable to read config file [%s]", $file); return };
     local $_;
     while (<$f>) {
 	chomp;
@@ -82,12 +82,13 @@ sub load_config ($) {
 	  |md5sum
 	  |limit-rate
 	  |excludepath
-	  |key[\-_]ids
 	  |split-(?:level|length)
 	  |priority-upgrade
 	  |downloader
 	 )\s*:\s*(.*)$/x
 	    and $config{$medium}{$1} = $2, next;
+	/^key[-_]ids\s*:\s*(.*)$/
+	    and $config{$medium}{'key-ids'} = $1, next;
 	#- positive flags
 	/^(update|ignore|synthesis|virtual)$/
 	    and $config{$medium}{$1} = 1, next;
@@ -125,7 +126,7 @@ sub dump_config ($$) {
 	return $a cmp $b;
     } keys %$config;
     open my $f, '>', $file or do {
-	$err = "Can't write to $file: $!\n";
+	$err = N("unable to write config file [%s]", $file);
 	return 0;
     };
     print $f "# generated ".(scalar localtime)."\n";

@@ -18,6 +18,7 @@ update\\ 1 http://foo/bar/ {
   compress: 1
   fuzzy: 1
   keep: yes
+  key-ids: 123
   update
   verify-rpm: yes
 }
@@ -25,6 +26,7 @@ update\\ 1 http://foo/bar/ {
 update_2 ftp://foo/bar/ {
   hdlist: hdlist.update2.cz
   ignore
+  key_ids: 456
   priority-upgrade: kernel
   synthesis
   with_hdlist: hdlist.update2.cz
@@ -40,6 +42,7 @@ ok( urpm::cfg::dump_config($file.2, $config), 'config written' );
 
 $cfgtext =~ s/\byes\b/1/g;
 $cfgtext =~ s/\bno\b/0/g;
+$cfgtext =~ s/\bkey_ids\b/key-ids/g;
 my $cfgtext2 = cat_($file.2);
 $cfgtext2 =~ s/# generated.*\n//;
 is( $cfgtext, $cfgtext2, 'config is the same' )
