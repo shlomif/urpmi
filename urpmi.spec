@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.9
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,13 @@ fi
 
 
 %changelog
+* Tue Aug  6 2002 François Pons <fpons@mandrakesoft.com> 3.9-6mdk
+- added --allow-nodeps and --allow-force option to urpmi.
+- globing multiple media name select them all instead of error.
+- answering no to remove package cause urpmi to exit immediately.
+- added support for X for asking user to unselect package or to
+  remove package.
+
 * Fri Jul 26 2002 François Pons <fpons@mandrakesoft.com> 3.9-5mdk
 - fixed man pages typo.
 - sorted package to remove list.

@@ -29,6 +29,9 @@ my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
 my $force = 0;
+my $allow_nodeps = 0;
+my $allow_force = 0;
+my $force = 0;
 my $sync = undef;
 my $X = 0;
 my $WID = 0;
@@ -69,6 +72,10 @@ usage:
 ") . _("  --src          - next package is a source package (same as -s).
 ") . _("  --noclean      - keep rpm not used in cache.
 ") . _("  --force        - force invocation even if some packages do not exist.
+") . _("  --allow-nodeps - allow asking user to install packages without
+                   dependencies checking.
+") . _("  --allow-force  - allow asking user to install packages without
+                   dependencies checking and integrity.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
 ") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
@@ -106,6 +113,8 @@ while (defined($_ = shift @ARGV)) {
     /^--src$/ and do { $src = 1; next };
     /^--noclean$/ and do { $noclean = 1; next };
     /^--force$/ and do { $force = 1; next };
+    /^--allow-nodeps$/ and do { $allow_nodeps = 1; next };
+    /^--allow-force$/ and do { $allow_force = 1; next };
     /^--wget$/ and do { $sync = sub { my $options = shift @_;
 				      if (ref $options) { $options->{prefer} = 'wget' }
 				      else { $options = { dir => $options, prefer => 'wget' } }
@@ -358,16 +367,32 @@ sub ask_choice {
 
 if (%{$state->{ask_unselect} || {}}) {
     my $list = join "\n", map { scalar $urpm->{depslist}[$_]->fullname } keys %{$state->{ask_unselect}};
-    $noexpr = _("Nn");
-    $yesexpr = _("Yy");
-    message_input(_("Some package requested cannot be installed:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
-    delete @{$state->{selected}}{keys %{$state->{ask_unselect}}};
+    my $msg = _("Some package requested cannot be installed:\n%s\ndo you agree ?", $list);
+    if ($X) {
+	my $ok = _("Ok");
+	my $cancel = _("Cancel");
+	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
+	$? and exit 0;
+    } else {
+	$noexpr = _("Nn");
+	$yesexpr = _("Yy");
+	message_input($msg . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+	delete @{$state->{selected}}{keys %{$state->{ask_unselect}}};
+    }
 }
 if (%{$state->{ask_remove} || {}}) {
     my $list = join "\n", sort { $a cmp $b } keys %{$state->{ask_remove}};
-    $noexpr = _("Nn");
-    $yesexpr = _("Yy");
-    message_input(_("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ and $state->{ask_remove} = {};
+    my $msg = _("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list);
+    if ($X) {
+	my $ok = _("Ok");
+	my $cancel = _("Cancel");
+	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
+	$? and exit 0;
+    } else {
+	$noexpr = _("Nn");
+	$yesexpr = _("Yy");
+	message_input($msg . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+    }
 }
 
 #- get out of package that should not be upgraded.
@@ -479,7 +504,7 @@ if (%sources_install || %sources) {
 		message(_("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
 		m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
-		$auto and exit 1; #- if auto has been set, avoid asking user.
+		$auto || !$allow_nodeps && !$allow_force and exit 1; #- if auto has been set, avoid asking user.
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
@@ -490,6 +515,7 @@ if (%sources_install || %sources) {
 				    translate_message => 1, nodeps => 1);
 		if (@l) {
 		    message(_("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+		    !$allow_force and exit 1;
 		    message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
 			or exit 1;
 		    $urpm->{log}("starting force installing packages without deps");
