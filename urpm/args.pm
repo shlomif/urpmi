@@ -292,6 +292,9 @@ sub parse_cmdline {
     # get default values (and read config file)
     # TODO
     # parse options
+    if ($tool eq 'urpmi') {
+	for (@ARGV) { $_ = '-X' if $_ eq '--X' }
+    }
     GetOptions(%{$options_spec{$tool}});
 }
 
