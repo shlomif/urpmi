@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-09 19:10+0100\n"
+"POT-Creation-Date: 2004-02-09 21:36+0100\n"
 "PO-Revision-Date: 2003-12-12 21:09+0100\n"
 "Last-Translator: Mitja Masten <mitja.masten@email.si>\n"
 "Language-Team: Sloven¹èina <lugos-slo@lugos.si>\n"
@@ -54,7 +54,7 @@ msgstr ""
 "Samodejno name¹èanje paketov\n"
 "Vi ste zahtevali namestitev paketa %s\n"
 
-#: ../_irpm:33 ../urpme:28 ../urpmi:535
+#: ../_irpm:33 ../urpme:28 ../urpmi:567
 #, c-format
 msgid "Is this OK?"
 msgstr "Je to v redu?"
@@ -69,7 +69,7 @@ msgstr "V redu"
 msgid "Cancel"
 msgstr "Preklièi"
 
-#: ../_irpm:44 ../urpmi:471 ../urpmi:543
+#: ../_irpm:44 ../urpmi:503 ../urpmi:575
 #, c-format
 msgid " (Y/n) "
 msgstr "(D/n)"
@@ -139,12 +139,12 @@ msgstr "rsyns je neuspel: konèal se je z %d ali signalom %d\n"
 msgid "ssh is missing\n"
 msgstr "ssh je pogra¹an (ni name¹èen na sistemu)\n"
 
-#: ../urpm.pm:448 ../urpmi:621
+#: ../urpm.pm:448 ../urpmi:653
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr "        %s%% od %s konèano ETA= %s, hitrost= %s"
 
-#: ../urpm.pm:450 ../urpmi:624
+#: ../urpm.pm:450 ../urpmi:656
 #, c-format
 msgid "        %s%% completed, speed = %s"
 msgstr "        %s%% konèano, hitrost = %s"
@@ -416,7 +416,7 @@ msgid "...retrieving done"
 msgstr "...pridobivanje je konèano"
 
 #: ../urpm.pm:1052 ../urpm.pm:1711 ../urpm.pm:1720 ../urpm.pm:2323
-#: ../urpm.pm:3004 ../urpmi:632 ../urpmi.addmedia:161
+#: ../urpm.pm:3004 ../urpmi:664 ../urpmi.addmedia:161
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...pridobivanje je spodletelo: %s"
@@ -601,7 +601,7 @@ msgstr "berem zglavja iz medija \"%s\""
 msgid "building hdlist [%s]"
 msgstr "gradim hdlist [%s]"
 
-#: ../urpm.pm:2010 ../urpm.pm:2039 ../urpmi:381
+#: ../urpm.pm:2010 ../urpm.pm:2039 ../urpmi:413
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
 msgstr "zgrajen je hdlist synthesis za medij \"%s\""
@@ -735,7 +735,7 @@ msgstr "spaèen vhod: [%s]"
 msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "pridobivanje rpm datotek iz medija \"%s\"..."
 
-#: ../urpm.pm:3070 ../urpmi:710
+#: ../urpm.pm:3070 ../urpmi:742
 #, c-format
 msgid "Preparing..."
 msgstr "Pripravljam..."
@@ -931,12 +931,12 @@ msgstr "Preverjam za odstranitev sledeèih paketov"
 msgid "To satisfy dependencies, the following packages will be removed (%d MB)"
 msgstr "Zaradi odvisnosti bodo odstranjeni sledeèi paketi (%d MB)"
 
-#: ../urpme:116 ../urpmi:497 ../urpmi:656
+#: ../urpme:116 ../urpmi:529 ../urpmi:688
 #, c-format
 msgid " (y/N) "
 msgstr " (d/N) "
 
-#: ../urpme:119 ../urpmi:699
+#: ../urpme:119 ../urpmi:731
 #, c-format
 msgid "removing %s"
 msgstr "odstranijevanje %s"
@@ -946,7 +946,7 @@ msgstr "odstranijevanje %s"
 msgid "Removing failed"
 msgstr "Odstranjevanje je spodletelo "
 
-#: ../urpme:152 ../urpmi:894
+#: ../urpme:152 ../urpmi:926
 #, c-format
 msgid "Sorry, bad choice, try again\n"
 msgstr "Oprostite, slaba izbira, poskusi znova\n"
@@ -1158,7 +1158,7 @@ msgstr ""
 "klic nazaj je :\n"
 "%s\n"
 
-#: ../urpmf:148 ../urpmi:278 ../urpmq:180
+#: ../urpmf:148 ../urpmi:310 ../urpmq:180
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "uporabljam specifièno okolje pri %s\n"
@@ -1398,75 +1398,113 @@ msgstr "  -q             - tihi naèin.\n"
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  imena ali rpm datoteke podane iz ukazne vrstice bodo name¹èene.\n"
 
-#: ../urpmi:189 ../urpmi:196 ../urpmi.addmedia:98 ../urpmi.addmedia:105
+#: ../urpmi:152
+#, c-format
+msgid "Choose location to save file"
+msgstr ""
+
+#: ../urpmi:199 ../urpmi:206 ../urpmi.addmedia:98 ../urpmi.addmedia:105
 #: ../urpmi.update:42 ../urpmi.update:49 ../urpmq:127 ../urpmq:134
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "napaèna napoved posrednika v ukazni vrstici\n"
 
-#: ../urpmi:228
+#: ../urpmi:238
 #, c-format
 msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
 msgstr "urpmi: neznana opcija \"-%s\", preveri uporabo z --help\n"
 
-#: ../urpmi:252
+#: ../urpmi:262
 #, c-format
 msgid "What can be done with binary rpm files when using --install-src"
 msgstr "Kaj je lahko narejeno z binarno rpm datoteko pri uporabi --install-src"
 
-#: ../urpmi:260
+#: ../urpmi:269
+#, c-format
+msgid ""
+"You have selected a source package:\n"
+"\n"
+"%s\n"
+"\n"
+"You probably didn't want to install it on your computer (installing it\n"
+"would allow you to make modifications to its sourcecode then compile it).\n"
+"\n"
+"What would you like to do?"
+msgstr ""
+
+#: ../urpmi:277
+#, c-format
+msgid "Do nothing"
+msgstr ""
+
+#: ../urpmi:278
+#, c-format
+msgid "Yes, really install it"
+msgstr ""
+
+#: ../urpmi:279 ../urpmi:296
+#, c-format
+msgid "Save file"
+msgstr ""
+
+#: ../urpmi:290
 #, c-format
 msgid ""
 "You are about to install the following software package on your computer:\n"
 "\n"
 "%s\n"
 "\n"
-"Is it ok to continue?"
+"You may prefer to just save it. What is your choice?"
 msgstr ""
 
-#: ../urpmi:270
+#: ../urpmi:295
+#, fuzzy, c-format
+msgid "Install it"
+msgstr "Neuspela namestitev"
+
+#: ../urpmi:302
 #, c-format
 msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
 
-#: ../urpmi:270
+#: ../urpmi:302
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "Nemogoèe je kreirati imenik [%s] za poroèilo o napaki"
 
-#: ../urpmi:289
+#: ../urpmi:321
 #, c-format
 msgid "Only superuser is allowed to install packages"
 msgstr "Samo superuporabniku je dovoljeno name¹èati pakete"
 
-#: ../urpmi:422
+#: ../urpmi:454
 #, c-format
 msgid "One of the following packages is needed to install %s:"
 msgstr "Za namestitev je potreben en od sledeèih paketov %s:"
 
-#: ../urpmi:423
+#: ../urpmi:455
 #, c-format
 msgid "One of the following packages is needed:"
 msgstr "Potreben je en od sledeèih paketov:"
 
-#: ../urpmi:430
+#: ../urpmi:462
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Kak¹na je tvoja izbira? (1-%d) "
 
-#: ../urpmi:440 ../urpmi:557
+#: ../urpmi:472 ../urpmi:589
 #, c-format
 msgid "Package installation..."
 msgstr "Namestitev paketa..."
 
-#: ../urpmi:440 ../urpmi:557
+#: ../urpmi:472 ../urpmi:589
 #, c-format
 msgid "Initializing..."
 msgstr "Pripravljanje..."
 
-#: ../urpmi:461
+#: ../urpmi:493
 #, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
@@ -1475,12 +1513,12 @@ msgstr ""
 "Nekateri zahtevani paketi ne morejo biti name¹èeni:\n"
 "%s"
 
-#: ../urpmi:466 ../urpmi:492
+#: ../urpmi:498 ../urpmi:524
 #, c-format
 msgid "do you agree ?"
 msgstr "ali se strinjate ?"
 
-#: ../urpmi:481
+#: ../urpmi:513
 #, c-format
 msgid ""
 "The installation cannot continue because the following packages\n"
@@ -1491,7 +1529,7 @@ msgstr ""
 "odstraniti, da bodo drugi posodobljeni:\n"
 "%s\n"
 
-#: ../urpmi:487
+#: ../urpmi:519
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1500,14 +1538,14 @@ msgstr ""
 "Sledeèi paketi morajo biti odstranjeni zaradi posodabljanj z novej¹imi :\n"
 "%s"
 
-#: ../urpmi:525 ../urpmi:534
+#: ../urpmi:557 ../urpmi:566
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
 "d MB)"
 msgstr "Za zadovolitev odvisnosti nameravam namestiti naslednje pakete (%d MB)"
 
-#: ../urpmi:531
+#: ../urpmi:563
 #, c-format
 msgid ""
 "You need to be root to install the following dependencies:\n"
@@ -1516,37 +1554,37 @@ msgstr ""
 "Mora¹ biti prijavljen kot root za namestitev sledeèih odvisti:\n"
 "%s\n"
 
-#: ../urpmi:552 ../urpmq:353
+#: ../urpmi:584 ../urpmq:353
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "nemogoèe je dobiti izvorne pakete, preklic"
 
-#: ../urpmi:567
+#: ../urpmi:599
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Prosim vstavi medij poimenovan \"%s\" v napravo [%s]"
 
-#: ../urpmi:568
+#: ../urpmi:600
 #, c-format
 msgid "Press Enter when ready..."
 msgstr "Pritisni Enter ko bo¹ pripravljen..."
 
-#: ../urpmi:609
+#: ../urpmi:641
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Pobiranje paketa`%s'..."
 
-#: ../urpmi:643
+#: ../urpmi:675
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Sledeèi paketi imajo slabe podpise"
 
-#: ../urpmi:644
+#: ../urpmi:676
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Ali ¾elite nadaljevati namestitev ?"
 
-#: ../urpmi:664 ../urpmi:786
+#: ../urpmi:696 ../urpmi:818
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
@@ -1557,52 +1595,52 @@ msgstr ""
 "%s\n"
 "Smete si a¾urirati svojo urpmi podatkovno bazo"
 
-#: ../urpmi:674 ../urpmi:727 ../urpmi:746 ../urpmi:764
+#: ../urpmi:706 ../urpmi:759 ../urpmi:778 ../urpmi:796
 #, c-format
 msgid "Installation failed"
 msgstr "Neuspela namestitev"
 
-#: ../urpmi:689
+#: ../urpmi:721
 #, c-format
 msgid "distributing %s"
 msgstr "dostavljanje %s"
 
-#: ../urpmi:697
+#: ../urpmi:729
 #, c-format
 msgid "installing %s"
 msgstr "name¹èam %s"
 
-#: ../urpmi:712
+#: ../urpmi:744
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Name¹èam paket `%s' (%s/%s)..."
 
-#: ../urpmi:734
+#: ../urpmi:766
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Poizkusi z namestitvijo brez preverjan odvisnosti? (d/N) "
 
-#: ../urpmi:751
+#: ../urpmi:783
 #, c-format
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Poizkusi s strogo namestitvijo (--force)? (d/N) "
 
-#: ../urpmi:791
+#: ../urpmi:823
 #, c-format
 msgid "%d installation transactions failed"
 msgstr "%d namestitvena transakcija je spodletela"
 
-#: ../urpmi:799
+#: ../urpmi:831
 #, c-format
 msgid "Installation is possible"
 msgstr "Namestitev je mogoèa"
 
-#: ../urpmi:802
+#: ../urpmi:834
 #, c-format
 msgid "Everything already installed"
 msgstr "Vse je ¾e name¹èeno"
 
-#: ../urpmi:816
+#: ../urpmi:848
 #, c-format
 msgid "restarting urpmi"
 msgstr "ponovno zaganjam urpmi"

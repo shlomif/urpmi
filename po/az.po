@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-az\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-09 19:10+0100\n"
+"POT-Creation-Date: 2004-02-09 21:36+0100\n"
 "PO-Revision-Date: 2004-01-09 16:20+0200\n"
 "Last-Translator: Mətin Əmirov <metin@karegen.com>\n"
 "Language-Team: Azerbaijani Turkish <gnome@azitt.com>\n"
@@ -52,7 +52,7 @@ msgstr ""
 "Paketlərin öz özünə qurulması...\n"
 "%s paketlərininin qurulmasını istədiniz\n"
 
-#: ../_irpm:33 ../urpme:28 ../urpmi:535
+#: ../_irpm:33 ../urpme:28 ../urpmi:567
 #, c-format
 msgid "Is this OK?"
 msgstr "Oldu mu?"
@@ -67,7 +67,7 @@ msgstr "Oldu"
 msgid "Cancel"
 msgstr "Ləğv et"
 
-#: ../_irpm:44 ../urpmi:471 ../urpmi:543
+#: ../_irpm:44 ../urpmi:503 ../urpmi:575
 #, c-format
 msgid " (Y/n) "
 msgstr " (B/x) "
@@ -137,12 +137,12 @@ msgstr "rsync bacarılmadı: %d ya da %d siqnalı ilə çıxdı\n"
 msgid "ssh is missing\n"
 msgstr "ssh mövcud deyil\n"
 
-#: ../urpm.pm:448 ../urpmi:621
+#: ../urpm.pm:448 ../urpmi:653
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr "        %s%% of %s bitdi, QV = %s, sür'ət = %s"
 
-#: ../urpm.pm:450 ../urpmi:624
+#: ../urpm.pm:450 ../urpmi:656
 #, c-format
 msgid "        %s%% completed, speed = %s"
 msgstr "        %s%% bitdi, sür'ət = %s"
@@ -413,7 +413,7 @@ msgid "...retrieving done"
 msgstr "...alınma bitdi"
 
 #: ../urpm.pm:1052 ../urpm.pm:1711 ../urpm.pm:1720 ../urpm.pm:2323
-#: ../urpm.pm:3004 ../urpmi:632 ../urpmi.addmedia:161
+#: ../urpm.pm:3004 ../urpmi:664 ../urpmi.addmedia:161
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...alış bacarılmadı: %s"
@@ -598,7 +598,7 @@ msgstr "\"%s\" medyasından üst mə'lumatlar oxunur"
 msgid "building hdlist [%s]"
 msgstr "[%s] hdlist faylı inşa edilir"
 
-#: ../urpm.pm:2010 ../urpm.pm:2039 ../urpmi:381
+#: ../urpm.pm:2010 ../urpm.pm:2039 ../urpmi:413
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
 msgstr "\"%s\" medyası hdlist sintezi inşa edilid"
@@ -732,7 +732,7 @@ msgstr "xətalı giriş: [%s]"
 msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "\"%s\" mediyumundan rpm faylları alınır..."
 
-#: ../urpm.pm:3070 ../urpmi:710
+#: ../urpm.pm:3070 ../urpmi:742
 #, c-format
 msgid "Preparing..."
 msgstr "Hazırlanır..."
@@ -927,12 +927,12 @@ msgid "To satisfy dependencies, the following packages will be removed (%d MB)"
 msgstr ""
 "Asılıqları ortadan qaldırmaq üçün, aşağıdakı paketlər silinəcəkdir (%d MB)"
 
-#: ../urpme:116 ../urpmi:497 ../urpmi:656
+#: ../urpme:116 ../urpmi:529 ../urpmi:688
 #, c-format
 msgid " (y/N) "
 msgstr " (b/X) "
 
-#: ../urpme:119 ../urpmi:699
+#: ../urpme:119 ../urpmi:731
 #, c-format
 msgid "removing %s"
 msgstr "%s silinir"
@@ -942,7 +942,7 @@ msgstr "%s silinir"
 msgid "Removing failed"
 msgstr "Çıxartma bacarılmadı"
 
-#: ../urpme:152 ../urpmi:894
+#: ../urpme:152 ../urpmi:926
 #, c-format
 msgid "Sorry, bad choice, try again\n"
 msgstr "Xətalı seçənək, təkrar sınayın\n"
@@ -1152,7 +1152,7 @@ msgstr ""
 "geri çağırış :\n"
 "%s\n"
 
-#: ../urpmf:148 ../urpmi:278 ../urpmq:180
+#: ../urpmf:148 ../urpmi:310 ../urpmq:180
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "%s üstündə xüsusi mühit istifadə edilir\n"
@@ -1394,76 +1394,114 @@ msgstr "  -q             - səssiz mod.\n"
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  əmr sətirində verilən adlar ya da rpm faylları qurulacaq.\n"
 
-#: ../urpmi:189 ../urpmi:196 ../urpmi.addmedia:98 ../urpmi.addmedia:105
+#: ../urpmi:152
+#, c-format
+msgid "Choose location to save file"
+msgstr ""
+
+#: ../urpmi:199 ../urpmi:206 ../urpmi.addmedia:98 ../urpmi.addmedia:105
 #: ../urpmi.update:42 ../urpmi.update:49 ../urpmq:127 ../urpmq:134
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "əmr sətirində hökmsüz vəkil tə'yini\n"
 
-#: ../urpmi:228
+#: ../urpmi:238
 #, c-format
 msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
 msgstr ""
 "urpmq: namə'lum seçənək \"-%s\", istifadə qaydasını --help ilə yoxlayın\n"
 
-#: ../urpmi:252
+#: ../urpmi:262
 #, c-format
 msgid "What can be done with binary rpm files when using --install-src"
 msgstr "--install-src istifadə edildiyində rpm faylları ilə nə edilə biləcəyi"
 
-#: ../urpmi:260
+#: ../urpmi:269
+#, c-format
+msgid ""
+"You have selected a source package:\n"
+"\n"
+"%s\n"
+"\n"
+"You probably didn't want to install it on your computer (installing it\n"
+"would allow you to make modifications to its sourcecode then compile it).\n"
+"\n"
+"What would you like to do?"
+msgstr ""
+
+#: ../urpmi:277
+#, c-format
+msgid "Do nothing"
+msgstr ""
+
+#: ../urpmi:278
+#, c-format
+msgid "Yes, really install it"
+msgstr ""
+
+#: ../urpmi:279 ../urpmi:296
+#, c-format
+msgid "Save file"
+msgstr ""
+
+#: ../urpmi:290
 #, c-format
 msgid ""
 "You are about to install the following software package on your computer:\n"
 "\n"
 "%s\n"
 "\n"
-"Is it ok to continue?"
+"You may prefer to just save it. What is your choice?"
 msgstr ""
 
-#: ../urpmi:270
+#: ../urpmi:295
+#, fuzzy, c-format
+msgid "Install it"
+msgstr "Qurulum iflas etdi"
+
+#: ../urpmi:302
 #, c-format
 msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
 
-#: ../urpmi:270
+#: ../urpmi:302
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "Xəta raportu üçün [%s] cərgəsi yaradıla bilmədi"
 
-#: ../urpmi:289
+#: ../urpmi:321
 #, c-format
 msgid "Only superuser is allowed to install packages"
 msgstr "Paketləri qurma icazəsi ancaq ali istifadəçi verilib"
 
-#: ../urpmi:422
+#: ../urpmi:454
 #, c-format
 msgid "One of the following packages is needed to install %s:"
 msgstr "Aşağıdakı paketlərin bir dənəsinə %s ehtiyac hiss edir:"
 
-#: ../urpmi:423
+#: ../urpmi:455
 #, c-format
 msgid "One of the following packages is needed:"
 msgstr "Aşağıdakı paketlərin bir dənəsinə ehtiyac var:"
 
-#: ../urpmi:430
+#: ../urpmi:462
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Seçiminiz? (1-%d)"
 
-#: ../urpmi:440 ../urpmi:557
+#: ../urpmi:472 ../urpmi:589
 #, c-format
 msgid "Package installation..."
 msgstr "Paket qurulumu..."
 
-#: ../urpmi:440 ../urpmi:557
+#: ../urpmi:472 ../urpmi:589
 #, c-format
 msgid "Initializing..."
 msgstr "Başladılır..."
 
-#: ../urpmi:461
+#: ../urpmi:493
 #, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
@@ -1472,12 +1510,12 @@ msgstr ""
 "Bəzi istənən paketlər qurula bilmir:\n"
 "%s"
 
-#: ../urpmi:466 ../urpmi:492
+#: ../urpmi:498 ../urpmi:524
 #, c-format
 msgid "do you agree ?"
 msgstr "razısınız ?"
 
-#: ../urpmi:481
+#: ../urpmi:513
 #, c-format
 msgid ""
 "The installation cannot continue because the following packages\n"
@@ -1488,7 +1526,7 @@ msgstr ""
 "aşağıdakı paketlərin çıxardılması lazımdır:\n"
 "%s\n"
 
-#: ../urpmi:487
+#: ../urpmi:519
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -1497,7 +1535,7 @@ msgstr ""
 "Paketlərin yenilənməsi üçün aşağıdakı paketlərin çıxardılması lazımdır:\n"
 "%s"
 
-#: ../urpmi:525 ../urpmi:534
+#: ../urpmi:557 ../urpmi:566
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
@@ -1505,7 +1543,7 @@ msgid ""
 msgstr ""
 "Asılıqları ortadan qaldırmaq üçün, aşağıdakı paketlər də qurulmalıdır (%d Mb)"
 
-#: ../urpmi:531
+#: ../urpmi:563
 #, c-format
 msgid ""
 "You need to be root to install the following dependencies:\n"
@@ -1514,37 +1552,37 @@ msgstr ""
 "Aşağıdakı asıllılıqları qurmaq üçün ali istifadəçi olmalısınız:\n"
 "%s\n"
 
-#: ../urpmi:552 ../urpmq:353
+#: ../urpmi:584 ../urpmq:353
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr "qaynaq paketi alına bilmir, çıxılır"
 
-#: ../urpmi:567
+#: ../urpmi:599
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Lütfən \"%s\" medyasını [%s] avadanlığına yerləşdirin"
 
-#: ../urpmi:568
+#: ../urpmi:600
 #, c-format
 msgid "Press Enter when ready..."
 msgstr "Hazır olanda Enter düyməsinə basın..."
 
-#: ../urpmi:609
+#: ../urpmi:641
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "`%s' paketi endirilir..."
 
-#: ../urpmi:643
+#: ../urpmi:675
 #, c-format
 msgid "The following packages have bad signatures"
 msgstr "Aşağıdakı paketlər hökmsüz imzaya sahibdir"
 
-#: ../urpmi:644
+#: ../urpmi:676
 #, c-format
 msgid "Do you want to continue installation ?"
 msgstr "Quruluma davam etmək istəyirsiniz ?"
 
-#: ../urpmi:664 ../urpmi:786
+#: ../urpmi:696 ../urpmi:818
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
@@ -1555,52 +1593,52 @@ msgstr ""
 "%s\n"
 "Sizə, urpmi databeyzinizi yeniləməyi məsləhət görürük."
 
-#: ../urpmi:674 ../urpmi:727 ../urpmi:746 ../urpmi:764
+#: ../urpmi:706 ../urpmi:759 ../urpmi:778 ../urpmi:796
 #, c-format
 msgid "Installation failed"
 msgstr "Qurulum iflas etdi"
 
-#: ../urpmi:689
+#: ../urpmi:721
 #, c-format
 msgid "distributing %s"
 msgstr "%s paylanır"
 
-#: ../urpmi:697
+#: ../urpmi:729
 #, c-format
 msgid "installing %s"
 msgstr "%s qurulur"
 
-#: ../urpmi:712
+#: ../urpmi:744
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "`%s' paketi qurulur (%s/%s)..."
 
-#: ../urpmi:734
+#: ../urpmi:766
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Paket asılılıqlarına fikir vermədən qurmağı sınayım? (b/X) "
 
-#: ../urpmi:751
+#: ../urpmi:783
 #, c-format
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Quruluşu zorlayaraq sınayım (--force)? (b/X)"
 
-#: ../urpmi:791
+#: ../urpmi:823
 #, c-format
 msgid "%d installation transactions failed"
 msgstr "%d qurulum daşınmaları bacarılmadı"
 
-#: ../urpmi:799
+#: ../urpmi:831
 #, c-format
 msgid "Installation is possible"
 msgstr "Qurulum mümkündür"
 
-#: ../urpmi:802
+#: ../urpmi:834
 #, c-format
 msgid "Everything already installed"
 msgstr "hər şey onsuzda quruludur"
 
-#: ../urpmi:816
+#: ../urpmi:848
 #, c-format
 msgid "restarting urpmi"
 msgstr "urpmi yenidən başladılır"
