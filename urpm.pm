@@ -1046,8 +1046,9 @@ sub filter_minimal_packages_to_upgrade {
 	    my $update_info = sub {
 		my $found;
 		#- check with provides that version and release are matching else ignore safely.
-		$info{name} or return;
-		foreach (@{$info{provides} || []}) {
+		#- simply ignore src rpm, which does not have any provides.
+		$info{name} && $info{provides} or return;
+		foreach (@{$info{provides}}) {
 		    if (/(\S*)\s*==\s*\d*:?([^-]*)-([^-]*)/ && $info{name} eq $1) {
 			$found = $urpm->{params}{info}{$info{name}};
 			if ($found->{version} eq $2 && $found->{release} eq $3) {
