@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.4.5
-%define release 3mdk
+%define release 4mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -236,16 +236,16 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
-
-- fix bug #7472: progressbar forced to be thicker than default (gc)
+* Mon Feb  9 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.5-4mdk
+- fix bug #7472: progressbar forced to be thicker than default
 - gurpmi: when cancel button is destroyed forever from within
   rpmdrake (after all downloads completed) ask gtk to recompute
-  size of toplevel window to not end up with an ugly void space (gc)
-- gurpmi: add application/x-urpmi mimetype (gc)
+  size of toplevel window to not end up with an ugly void space
+- gurpmi: say that we support application/x-urpmi mimetype as well
 - gurpmi: handle case where user clicked on a src.rpm, suggest
   user is misleaded, allow to do nothing, really install, or
-  save on disk (gc)
-- gurpmi: allow installing or saving binary rpm as well (gc)
+  save on disk
+- gurpmi: allow installing or saving binary rpm as well
 
 * Tue Feb  3 2004 François Pons <fpons@mandrakesoft.com> 4.4.5-3mdk
 - fixed bug of reference of ../ in hdlists file.
