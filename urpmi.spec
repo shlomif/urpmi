@@ -6,15 +6,14 @@ Release: 41mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
-Requires: /usr/bin/suidperl, eject, wget
+Requires: /usr/bin/perl, eject, wget
 PreReq: perl-gettext, rpmtools >= 2.3-25mdk
 BuildRequires: libbzip2-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
 %description
-urpmi enable non-superuser install of rpms. In fact, it only authorizes
-well-known rpms to be installed.
+urpmi takes care of dependencies between rpms, using a pool (or pools) of rpms.
 
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
@@ -24,10 +23,7 @@ Summary: User mode rpm GUI install
 Requires: urpmi grpmi gchooser gmessage
 Group: %{group}
 %description -n gurpmi
-gurpmi enable non-superuser install of rpms. In fact, it only authorizes
-well-known rpms to be installed.
-
-You can compare rpm vs. urpmi  with  insmod vs. modprobe
+gurpmi is a graphical front-end to urpmi
 
 %package -n autoirpm
 Version: 0.7
@@ -37,7 +33,6 @@ Group: %{group}
 
 %description -n autoirpm
 Auto install of rpm on demand
-
 
 %prep
 %setup -q -n %{name}
