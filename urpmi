@@ -50,6 +50,7 @@ my $noclean = 0;
 my $verbose = 0;
 my $skip = '';
 my $root = '';
+my $usedistrib = undef;
 my $bug = '';
 my $env = '';
 my $log = '';
@@ -204,6 +205,7 @@ while (defined($_ = shift @argv)) {
     /^--comment$/ and do { push @nextargv, undef; next };
     /^--skip$/ and do { push @nextargv, \$skip; next };
     /^--root$/ and do { push @nextargv, \$root; next };
+    /^--use-distrib$/ and do { push @nextargv, \$usedistrib; next };
     /^--exclude-?path$/ and do { $urpm->{options}{excludepath} = undef; push @nextargv, \$urpm->{options}{excludepath}; next };
     /^--exclude-?docs$/ and do { $urpm->{options}{excludedocs} = 1; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
@@ -334,6 +336,7 @@ $urpm->configure(nocheck_access => $env || $uid > 0,
 		 root => $root,
 		 bug => $bug,
 		 parallel => $parallel,
+         usedistrib => $usedistrib,
 		);
 #- get back activated default values of boolean options.
 foreach (qw(post-clean verify-rpm)) {

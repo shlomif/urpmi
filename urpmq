@@ -113,6 +113,7 @@ while (defined($_ = shift @ARGV)) {
     /^--force$/ and do { $query->{force} = 1; next };
     /^--skip$/ and do { push @nextargv, \$query->{skip}; next };
     /^--root$/ and do { push @nextargv, \$query->{root}; next };
+    /^--use-distrib$/ and do { push @nextargv, \$query->{usedistrib}; next };
     /^--parallel$/ and do { push @nextargv, \$query->{parallel}; next };
     /^--wget$/ and do { $urpm->{sync} = sub { my $options = shift @_;
 					      if (ref($options)) { $options->{prefer} = 'wget' }
@@ -192,6 +193,7 @@ $urpm->configure(nocheck_access => 1,
 		 skip => $query->{skip},
 		 root => $query->{root},
 		 parallel => $query->{parallel},
+		 usedistrib => $query->{usedistrib},
 		);
 
 my $state = {};

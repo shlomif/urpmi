@@ -25,7 +25,7 @@ use URPM;
 use URPM::Resolve;
 use urpm;
 
-my (@nextargv, $root, $test, $parallel, $auto, $matches, $verbose, $maymatch, @l);
+my (@nextargv, $root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, @l);
 my $askok = N("Is this OK?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
@@ -57,6 +57,7 @@ while (defined($_ = shift @ARGV)) {
     /^--(no-)?test$/ and do { $test = !$1; next };
     /^--force$/ and do { $force = 1; next };
     /^--root$/ and do { push @nextargv, \$root; next };
+    /^--use-distrib$/ and do { push @nextargv, \$usedistrib; next };
     /^--parallel$/ and do { push @nextargv, \$parallel; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
@@ -77,6 +78,7 @@ $verbose or $urpm->{log} = sub {};
 $parallel and $urpm->configure(synthesis => ($parallel and 'none'),
 			       root => $root,
 			       parallel => $parallel,
+			       usedistrib => $usedistrib,
 			      );
 
 #- examine packages...

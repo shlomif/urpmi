@@ -787,7 +787,12 @@ sub configure {
 	    $urpm->{options}{'split-length'} = 0;
 	}
     } else {
-	$urpm->read_config(%options);
+        if ($options{usedistrib}) {
+            $urpm->{media} = [];
+            $urpm->add_distrib_media("Virtual", $options{usedistrib}, %options, 'virtual' => 1);
+        } else {
+	        $urpm->read_config(%options);
+        }
 	if ($options{media}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	    $urpm->select_media(split ',', $options{media});
@@ -918,6 +923,7 @@ sub add_medium {
     my ($urpm, $name, $url, $with_hdlist, %options) = @_;
 
     #- make sure configuration has been read.
+    # (Olivier Thauvin) Yes but Why ??? Is this a workaround ?
     $urpm->{media} or $urpm->read_config();
 
     #- if a medium with that name has already been found
@@ -986,6 +992,7 @@ sub add_distrib_media {
     my ($hdlists_file);
 
     #- make sure configuration has been read.
+    # (Olivier Thauvin): Is this a workaround ?
     $urpm->{media} or $urpm->read_config();
 
     #- try to copy/retrive Mandrake/basehdlists file.
