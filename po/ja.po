@@ -155,7 +155,7 @@ msgstr ""
 "「<relative path of hdlist>」部分の指定がありません\n"
 
 #: placeholder.h:49
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "usage: urpmi.update [-a] <name> ...\n"
 "where <name> is a medium name to update.\n"
@@ -165,6 +165,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"使用方法: urpmi.update [-a] <name> ...\n"
+"ここで <name> はアップデート対象のメディアの名前です。\n"
+"  -a    すべてのメディアを選択します\n"
+"\n"
+"サポートされていないオプションです: %s\n"
 
 #: placeholder.h:58 urpmi.update:58
 #, c-format
@@ -184,6 +189,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"使用方法: urpmi.removemedia [-a] <name> ...\n"
+"ここで <name> は削除対象のメディアの名前です。\n"
+"  -a    すべてのメディアを選択します\n"
+"\n"
+"サポートされていないオプションです: %s\n"
 
 #: placeholder.h:69 urpmi.removemedia:53
 #, c-format
@@ -264,17 +274,16 @@ msgstr "使用方法: urpmi.addmedia <name> <url>"
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
-msgstr ""
+msgstr "「%s」を作成することができませんでした\n"
 
 #: urpmi.addmedia:64
 #, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr ""
+msgstr "アップデートを「%s」について行なうことができませんでした\n"
 
 #: urpmi.update:43
-#, fuzzy
 msgid "usage: urpmi.update [-a] <name> ..."
-msgstr "使用方法: urpmi.addmedia <name> <url>"
+msgstr "使用方法: urpmi.update [-a] <name> <url>"
 
 #: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
@@ -283,9 +292,8 @@ msgstr ""
 "メディアを追加する場合は urpmi.addmedia を使用して下さい。\n"
 
 #: urpmi.removemedia:39
-#, fuzzy
 msgid "usage: urpmi.removemedia [-a] <name> ..."
-msgstr "使用方法: urpmi.addmedia <name> <url>"
+msgstr "使用方法: urpmi.removemedia [-a] <name>"
 
 #: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
