@@ -446,6 +446,8 @@ msgstr "невъзможно възстановяване на пътя до с�
 msgid "unable to write config file [%s]"
 msgstr "невъзможно да се запише конфигурационен файл [%s]"
 
+# Another meaning of the word is in the sense "The iron is good medium for the eletricity"
+# in this case must be "проводник"
 #: ../urpm.pm:388
 #, c-format
 msgid "unable to write file [%s]"
@@ -1089,9 +1091,9 @@ msgid "  --help         - print this help message.\n"
 msgstr "  --help         - показва това помощно съобщение.\n"
 
 #: ../urpme:42 ../urpmi:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --auto         - automatically select a package in choices.\n"
-msgstr "  --auto  - автоматично избира пакет при избор\n"
+msgstr "  --auto         - автоматично избира пакет при опции за избор\n"
 
 #: ../urpme:43
 #, c-format
@@ -1121,6 +1123,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - автоматична конфигурация на urpmi от дървото, полезна\n"
+"                   за (де)инсталация на chroot при --root опция.\n"
 
 #: ../urpme:49 ../urpmi:135 ../urpmi.addmedia:79 ../urpmi.removemedia:50
 #: ../urpmi.update:48 ../urpmq:90
@@ -1129,19 +1133,19 @@ msgid "  -v             - verbose mode.\n"
 msgstr " -v             - показва всички съобщения\n"
 
 #: ../urpme:50
-#, fuzzy, c-format
+#, c-format
 msgid "  -a             - select all packages matching expression.\n"
-msgstr "  -a             - избиране на всички съвпадения на командния ред.\n"
+msgstr "  -a             - избиране на всички съвпадащи пакети.\n"
 
 #: ../urpme:66
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to remove packages"
-msgstr "Само superuser-а има правото да инсталира локални пакети"
+msgstr "Само superuser-а има право да премахва пакети"
 
 #: ../urpme:87
-#, fuzzy, c-format
+#, c-format
 msgid "unknown packages"
-msgstr "неизвестен пакет"
+msgstr "неизвестни пакети"
 
 #: ../urpme:87
 #, c-format
@@ -1161,9 +1165,9 @@ msgid "Nothing to remove"
 msgstr "Няма маркер за изтриване!"
 
 #: ../urpme:103
-#, fuzzy, c-format
+#, c-format
 msgid "Checking to remove the following packages"
-msgstr "Един от тези пакети е необходим:"
+msgstr "Проверка за премахване на следните пакети"
 
 #: ../urpme:110
 #, fuzzy, c-format
@@ -1897,11 +1901,13 @@ msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
 "                   only file:// protocol is allowed.\n"
 msgstr ""
+"  --virtual      - създава псевдо източник, който винаги е актуален,\n"
+"                   само file:// протокола е разрешен.\n"
 
 #: ../urpmi.addmedia:74 ../urpmi.update:39
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
-msgstr ""
+msgstr "  --no-md5sum    - изключва MD5SUM проверка на файловете.\n"
 
 #: ../urpmi.addmedia:76 ../urpmi.removemedia:47 ../urpmi.update:45
 #, c-format
@@ -1909,34 +1915,34 @@ msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - почистване на хедър кеш директорията.\n"
 
 #: ../urpmi.addmedia:77 ../urpmi.update:46
-#, fuzzy, c-format
+#, c-format
 msgid "  -f             - force generation of hdlist files.\n"
-msgstr " -v             - показва всички съобщения\n"
+msgstr " -v             - активира създаване на hdlist файлове.\n"
 
 #: ../urpmi.addmedia:116
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to add media"
-msgstr "Само superuser-а има правото да инсталира локални пакети"
+msgstr "Само superuser-а има правото да инсталира източници"
 
 #: ../urpmi.addmedia:119
-#, fuzzy, c-format
+#, c-format
 msgid "Will create config file [%s]"
-msgstr "невъзможно да се запише конфигурационен файл [%s]"
+msgstr "ще се създаде конфигурационен файл [%s]"
 
 #: ../urpmi.addmedia:120
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create config file [%s]"
-msgstr "невъзможно да се запише конфигурационен файл [%s]"
+msgstr "невъзможно да се създаде конфигурационен файл [%s]"
 
 #: ../urpmi.addmedia:149
 #, c-format
 msgid "found version %s and arch %s ..."
-msgstr ""
+msgstr "намерена версия %s и архитектура %s ..."
 
 #: ../urpmi.addmedia:153
 #, c-format
 msgid "cannot add updates of a cooker distribution\n"
-msgstr ""
+msgstr "не могат да се добавят обновявания при тестова версия\n"
 
 #: ../urpmi.addmedia:158
 #, c-format
@@ -1946,22 +1952,22 @@ msgstr "получаване на огледални източници %s"
 #: ../urpmi.addmedia:211
 #, c-format
 msgid "no need to give <relative path of hdlist> with --distrib"
-msgstr ""
+msgstr "не се въвежда <относителен път до hdlist> при --distrib"
 
 #: ../urpmi.addmedia:218 ../urpmi.addmedia:242
-#, fuzzy, c-format
+#, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr "Невъзможност за създаване на източник."
+msgstr "невъзможност за обновяване на източник \"%s\"\n"
 
 #: ../urpmi.addmedia:229
 #, fuzzy, c-format
 msgid "<relative path of hdlist> missing\n"
-msgstr "Релативен път до директория или hdlist:"
+msgstr "Липсва относителен път до hdlist\n"
 
 #: ../urpmi.addmedia:231
 #, c-format
 msgid "`with' missing for network media\n"
-msgstr ""
+msgstr "`with' липса на мрежов източник\n"
 
 #: ../urpmi.addmedia:240
 #, fuzzy, c-format
@@ -1978,31 +1984,33 @@ msgstr ""
 "където <име> е име на източник за премахване.\n"
 
 #: ../urpmi.removemedia:46
-#, fuzzy, c-format
+#, c-format
 msgid "  -a             - select all media.\n"
-msgstr "  -a             - избиране на всички съвпадения на командния ред.\n"
+msgstr "  -a             - избиране на всички източници.\n"
 
 #: ../urpmi.removemedia:48
 #, fuzzy, c-format
 msgid "  -y             - fuzzy match on media names.\n"
-msgstr "  -a             - избиране на всички съвпадения на командния ред.\n"
+msgstr "  -y             - избиране на всички съвпадения на командния ред.\n"
 
 #: ../urpmi.removemedia:51
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "unknown options '%s'\n"
-msgstr "%s: непозната опция `--%s'\n"
+msgstr ""
+"\n"
+"непознати опции '%s'\n"
 
 #: ../urpmi.removemedia:60
 #, fuzzy, c-format
 msgid "Only superuser is allowed to remove media"
-msgstr "Само superuser-а има правото да инсталира локални пакети"
+msgstr "Само superuser-а има правото да инсталира източници"
 
 #: ../urpmi.removemedia:70
 #, c-format
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr "нищо за премахване (ползвай urpmi.addmedia за добавяне на посредник)\n"
+msgstr "нищо за премахване (ползвай urpmi.addmedia за добавяне на източник)\n"
 
 #: ../urpmi.removemedia:72
 #, c-format
@@ -2010,50 +2018,52 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"липсва опция за активиране\n"
+"(едно от %s)\n"
 
 #: ../urpmi.update:28
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.update [options] <name> ...\n"
 "where <name> is a medium name to update.\n"
 msgstr ""
 "употреба: urpmi.removemedia [-a] <име> ...\n"
-"където <име> е име на източник за премахване.\n"
+"където <име> е име на източник за обновяване.\n"
 
 #: ../urpmi.update:38
 #, c-format
 msgid "  --update       - update only update media.\n"
-msgstr "  --update       - обновява само източници на обновяване.\n"
+msgstr "  --update       - обновява само източниците за обновяване.\n"
 
 #: ../urpmi.update:40
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
-msgstr ""
+msgstr "  --force-key    - активирай обновяване на gpg ключ.\n"
 
 #: ../urpmi.update:42
-#, fuzzy, c-format
+#, c-format
 msgid "  --ignore       - don't update, mark the media as ignored.\n"
-msgstr "  --update       - обновява само източници на обновяване.\n"
+msgstr "  --update      - не обновявай, маркирай източника като неактивен.\n"
 
 #: ../urpmi.update:43
 #, c-format
 msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
-msgstr ""
+msgstr "  --no-ignore    - не обновявай, маркирай източника като активен.\n"
 
 #: ../urpmi.update:44
 #, fuzzy, c-format
 msgid "  -a             - select all non-removable media.\n"
-msgstr "  -a             - избиране на всички съвпадения на командния ред.\n"
+msgstr "  -a             - избиране на всички твърди дискове.\n"
 
 #: ../urpmi.update:64
 #, fuzzy, c-format
 msgid "Only superuser is allowed to update media"
-msgstr "Само superuser-а има правото да инсталира локални пакети"
+msgstr "Само superuser-а има правото да обновява източниците"
 
 #: ../urpmi.update:72
 #, c-format
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr "нищо за ъпгрейд (ползвай urpmi.addmedia за добавяне на посредник)\n"
+msgstr "нищо за ъпгрейд (ползвай urpmi.addmedia за добавяне на източник)\n"
 
 #: ../urpmi.update:90
 #, c-format
@@ -2061,21 +2071,23 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"липсва опцията за обновяване\n"
+"(една от %s)\n"
 
 #: ../urpmi.update:95
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring media %s"
-msgstr "Редактиране на източник \"%s\":"
+msgstr "игнориране на източник %s"
 
 # Another meaning of the word is in the sense "The iron is good medium for the eletricity"
 # in this case must be "проводник"
 #: ../urpmi.update:95
-#, fuzzy, c-format
+#, c-format
 msgid "enabling media %s"
-msgstr "премахване на посредника \"%s\""
+msgstr "активиране на източник %s"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2005 Mandrakesoft.\n"
@@ -2085,42 +2097,45 @@ msgid ""
 "usage:\n"
 msgstr ""
 "mdkupdate версия %s\n"
-"Mandrakesoft %s, всички права запазени.\n"
-"Това е свободен софтуер и може да бъде разпространяван според условиятана "
+"Mandrakesoft (C) 2000-2005, всички права запазени.\n"
+"Това е свободен софтуер и може да бъде разпространяван според условията на "
 "GNU GPL.\n"
 "\n"
-"начин на ползване:\n"
+"ползване:\n"
 
 #: ../urpmq:54
 #, c-format
 msgid "  --list         - list available packages.\n"
-msgstr "  --list           - отпечатва всички налични пакети.\n"
+msgstr "  --list         - отпечатва наличните пакети.\n"
 
 #: ../urpmq:55
 #, c-format
 msgid "  --list-media   - list available media.\n"
-msgstr "  --list-media   - показва източниците.\n"
+msgstr "  --list-media   - показва наличните източници.\n"
 
 #: ../urpmq:56
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-url     - list available media and their url.\n"
-msgstr "  --list-media   - показва източниците.\n"
+msgstr "  --list-url     - показва наличните източници и техните url.\n"
 
 #: ../urpmq:57
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr "  --list-media   - показва източниците.\n"
+msgstr ""
+"  --list-nodes   - показва наличните възли когато се ползва --parallel.\n"
 
 #: ../urpmq:58
 #, fuzzy, c-format
 msgid "  --list-aliases - list available parallel aliases.\n"
-msgstr "  --list-media   - показва източниците.\n"
+msgstr "  --list-aliases   - показва наличните паралелни синоними.\n"
 
 #: ../urpmq:59
 #, c-format
 msgid ""
 "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr ""
+"  --dump-config  - съхранява конфигурацията под формата на urpmi.addmedia "
+"аргумент.\n"
 
 #: ../urpmq:61
 #, c-format
@@ -2128,6 +2143,8 @@ msgid ""
 "  --headers      - extract headers for package listed from urpmi db to\n"
 "                   stdout (root only).\n"
 msgstr ""
+"  --headers      - извежда заглавията за пакет описан в urpmi db към\n"
+"                   стандартния изход (само за root).\n"
 
 #: ../urpmq:63
 #, c-format
@@ -2142,31 +2159,33 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
 msgstr ""
+"  --use-distrib  - конфигурирай urpmi автоматично от дървото.\n"
+"                   Това позволява да се извършват запитвания.\n"
 
 #: ../urpmq:76
-#, fuzzy, c-format
+#, c-format
 msgid "  --changelog    - print changelog.\n"
-msgstr "  --all           - отпечатва всички тагове.\n"
+msgstr "  --changelog    - отпечатва списък с промените.\n"
 
 #: ../urpmq:78
 #, fuzzy, c-format
 msgid "  -c             - complete output with package to be removed.\n"
-msgstr "  -c             - почистване на хедър кеш директорията.\n"
+msgstr "  -c             - пълен отчет с пакета който ще бъде изтрит.\n"
 
 #: ../urpmq:79
 #, fuzzy, c-format
 msgid "  -d             - extend query to package dependencies.\n"
-msgstr "  -c             - почистване на хедър кеш директорията.\n"
+msgstr "  -d             - разшири запитването и към пакетните зависимости.\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  -g             - print groups with name also.\n"
-msgstr "  -r             - отпечатай версия и също така реализация с име.\n"
+msgstr "  -g             - отпечатай също групите с имена.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print useful information in human readable form.\n"
-msgstr "  -r             - отпечатай версия и също така реализация с име.\n"
+msgstr "  -i             - отпечатай полезна информация за четене от човек.\n"
 
 #: ../urpmq:83
 #, c-format
