@@ -209,6 +209,7 @@ sub sync_curl {
     -x "/usr/bin/curl" or die N("curl is missing\n");
     local *CURL;
     my $options = shift @_;
+    my $cwd = `pwd`; chomp $cwd;
     chdir(ref($options) ? $options->{dir} : $options);
     my (@ftp_files, @other_files);
     foreach (@_) {
@@ -292,7 +293,10 @@ sub sync_curl {
 		$buf = '';
 	    }
 	}
+	chdir $cwd;
 	close CURL or die N("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    } else {
+	chdir $cwd;
     }
 }
 sub sync_rsync {
