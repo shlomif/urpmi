@@ -532,7 +532,7 @@ sub configure {
     unless ($options{noskipping}) {
 	my %uniq;
 	$urpm->compute_flags(
-	    $urpm->get_packages_list($urpm->{skiplist}, $options{skip}),
+	    get_packages_list($urpm->{skiplist}, $options{skip}),
 	    skip => 1,
 	    callback => sub {
 		my ($urpm, $pkg) = @_;
@@ -545,7 +545,7 @@ sub configure {
     unless ($options{noinstalling}) {
 	my %uniq;
 	$urpm->compute_flags(
-	    $urpm->get_packages_list($urpm->{instlist}, $options{inst}),
+	    get_packages_list($urpm->{instlist}),
 	    disable_obsolete => 1,
 	    callback => sub {
 		my ($urpm, $pkg) = @_;
@@ -2157,7 +2157,7 @@ sub create_transaction {
 #-     3. version specification (a comparison operator and a version number)
 #-     4. the rest of the line is ignored
 sub get_packages_list {
-    my ($urpm, $file, $extra) = @_;
+    my ($file, $extra) = @_;
     my %val;
     local $_;
     open my $f, $file or return {};
@@ -2169,12 +2169,6 @@ sub get_packages_list {
     }
     close $f;
     \%val;
-}
-#- for compability...
-sub get_unwanted_packages {
-    my ($urpm, $skip) = @_;
-    print STDERR "calling obsoleted method urpm::get_unwanted_packages\n";
-    get_packages_list($urpm->{skiplist}, $skip);
 }
 
 #- select source for package selected.

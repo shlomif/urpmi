@@ -47,7 +47,6 @@ our $parallel = '';
 our $env = '';
 our $WID = 0;
 our $test = 0;
-our $skip = '';
 our $root = '';
 our $all = 0;
 our $rpm_opt = "vh";
@@ -124,6 +123,7 @@ usage:
 ") . N("  --test         - verify if the installation can be achieved correctly.
 ") . N("  --excludepath  - exclude path separated by comma.
 ") . N("  --excludedocs  - exclude docs files.
+") . N("  --skip         - packages which installation should be skipped
 ") . N("  -a             - select all matches on command line.
 ") . N("  -p             - allow search in provides to find package.
 ") . N("  -P             - do not search in provides to find package.
@@ -320,7 +320,7 @@ $urpm->configure(nocheck_access => $env || $uid > 0,
 		 sortmedia => $sortmedia,
 		 synthesis => $synthesis,
 		 update => $update,
-		 skip => $skip,
+		 skip => $urpm::options::{skip},
 		 root => $root,
 		 bug => $bug,
 		 parallel => $parallel,

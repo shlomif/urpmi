@@ -105,7 +105,7 @@ my %options_spec = (
 	},
 	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
 	'test!' => \$::test,
-	'skip=s' => \$::skip,
+	'skip=s' => \$options{skip},
 	'root=s' => \$::root,
 	'use-distrib=s' => \$::usedistrib,
 	'excludepath|exclude-path=s' => sub { $urpm->{options}{excludepath} = $_[1] },
