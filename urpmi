@@ -781,7 +781,7 @@ if ($nok) {
 } else {
     if ($test) {
 	message(N("Installation is possible"));
-    } elsif (@names || @src_names || @files || @src_files) {
+    } elsif (@names || @src_names || @files || @src_files || $auto_select) {
 	@{$state->{transaction} || []} == 0 && $verbose >= 0 and message(N("Everything already installed"), $auto);
     }
 }
