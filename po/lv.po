@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.7\n"
 "POT-Creation-Date: 2001-08-17 13:07+0200\n"
-"PO-Revision-Date: 2001-08-21 09:52+0200\n"
+"PO-Revision-Date: 2001-08-25 16:06+0200\n"
 "Last-Translator: Juris Kudiòð <cooker@inbox.lv>\n"
 "Language-Team: Latvian\n"
 "MIME-Version: 1.0\n"
@@ -625,13 +625,13 @@ msgid "Only superuser is allowed to install local packages"
 msgstr "Tikai root drîkst instalçt lokâlâs pakotnes"
 
 #: po/placeholder.h:149 urpmi:269
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Lûdzu ielieciet datu nesçju \"%s\" ierîcç [%s]"
 
 #: po/placeholder.h:150 po/placeholder.h:205 urpmi:259 urpmq:154
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "nevar dabût koda pakotnes, pârtraucu"
 
 #: po/placeholder.h:151 urpmi:315
 msgid "Try installation even more strongly (--force)? (y/N) "
@@ -643,6 +643,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`with' trûkst priekð ftp datu avota\n"
 
 #: po/placeholder.h:159
 msgid ""
@@ -655,16 +657,24 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"Lietojums: urpmi.addmedia [--update] <name> <url>\n"
+"where <url> is one of\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> with <relative filename of "
+"hdlist>\n"
+"       ftp://<host>/<path> with <relative filename of hdlist>\n"
+"       http://<host>/<path> with <relative filename of hdlist>\n"
+"       removable_<ierîcç>://<path>\n"
 
 #: po/placeholder.h:168 urpmi.addmedia:57
 #, c-format
 msgid "unable to create medium \"%s\"\n"
-msgstr ""
+msgstr "nevar izveidot datu nesçju \"%s\"\n"
 
 #: po/placeholder.h:169 urpmi.addmedia:58
 #, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr ""
+msgstr "nevar atjaunot datu nesçju \"%s\"\n"
 
 #: po/placeholder.h:170 urpmi.addmedia:42
 #, c-format
@@ -672,6 +682,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"nav ierîces `%s'\n"
 
 #: po/placeholder.h:174 urpmi.addmedia:44
 #, c-format
@@ -679,6 +691,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<relative path of hdlist> trûkst\n"
 
 #: po/placeholder.h:178
 #, c-format
@@ -691,10 +705,18 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"Lietojums: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"   -c    clean headers cache directory.\n"
+"   -f    force generation of base files, use another -f for hdlist files.\n"
+"\n"
+"unknown options '%s'\n"
 
 #: po/placeholder.h:187 urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
+"nav ko atjauninât (lietojiet urpmi.addmedia, lai pievienotu datu nesçju)\n"
 
 #: po/placeholder.h:188 urpmi.update:52
 #, c-format
@@ -702,10 +724,12 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"atjuninâjumâ trûkst kâda ieraksta\n"
+"(viens no %s)\n"
 
 #: po/placeholder.h:192 urpmi.removemedia:44
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nav ko noòemt (lietojiet urpmi.addmedia, lai pievienotu datu nesçju)\n"
 
 #: po/placeholder.h:193 urpmi.removemedia:46
 #, c-format
@@ -741,7 +765,7 @@ msgid ""
 msgstr ""
 
 #: po/placeholder.h:208
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000, 2001 MandrakeSoft.\n"
@@ -769,15 +793,39 @@ msgid ""
 "  --force        - force invocation even if some package do not exist.\n"
 "  names or rpm files given on command line are queried.\n"
 msgstr ""
+"urpmq versija %s\n"
+"Autortiesîbas (C) 2000, 2001 MandrakeSoft.\n"
+"Ðî ir brîvâ prgrammatûra, un var tikt izplatîta saskaòâ ar GNU GPL licenzi.\n"
+"Lietojums:\n"
+"  -h             - parâdît ðo païîdzîbu.\n"
+"  -v             - \"runîgais\" (papildus informâcijas) reþîms.\n"
+"  -d             - extend query to package dependencies.\n"
+"  -u             - remove package if a better version is already installed.\n"
+"  -m             - extend query to package dependencies, remove already\n"
+"                   installed package that provide what is necessary, add\n"
+"                   packages that may be block the upgrade.\n"
+"  -M             - extend query to package dependencies and remove already\n"
+"                   installed package only if they are newer or the same.\n"
+"  -c             - choose complete method for resolving requires closure.\n"
+"  -p             - allow search in provides to find package.\n"
+"  -g             - print groups too with name.\n"
+"  -r             - print version and release too with name.\n"
+"  --update       - use only update media.\n"
+"  --auto-select  - automatically select packages for upgrading the system.\n"
+"  --headers      - extract headers for package listed from urpmi db to\n"
+"                   stdout (root only).\n"
+"  --sources      - give all source packages before downloading (root only).\n"
+"  --force        - force invocation even if some package do not exist.\n"
+"  names or rpm files given on command line are queried.\n"
 
 #: urpmi:48
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi versija %s"
 
 #: urpmi.addmedia:30
 msgid "usage: urpmi.addmedia [--update] <name> <url>"
-msgstr ""
+msgstr "Lietojums: urpmi.addmedia [--update] <name> <url>"
 
 #. <path>
 #. <login>:<password>@<host>/<path> with <relative filename of hdlist>
@@ -790,11 +838,11 @@ msgstr ");"
 
 #: urpmi.update:37
 msgid "usage: urpmi.update [-a] <name> ..."
-msgstr ""
+msgstr "Lietojums: urpmi.update [-a] <name> ..."
 
 #: urpmi.removemedia:32
 msgid "usage: urpmi.removemedia [-a] <name> ..."
-msgstr ""
+msgstr "Lietojums: urpmi.removemedia [-a] <name> ..."
 
 #: urpmi.removemedia:35
 msgid ", $_);"
@@ -803,7 +851,7 @@ msgstr ", $_);"
 #: urpmq:34
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq versija %s"
 
 #~ msgid "));"
 #~ msgstr "));"
@@ -815,7 +863,7 @@ msgstr ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name "
 #~ "[package_names...]\n"
 #~ msgstr ""
-#~ "izmantoðana: urpmi [-h] [--auto] [--force] [-a] pakotnes_nos "
+#~ "Lietojums: urpmi [-h] [--auto] [--force] [-a] pakotnes_nos "
 #~ "[pakotnes_nos...]\n"
 
 #~ msgid "rpm database query failed\n"
