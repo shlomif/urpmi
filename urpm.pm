@@ -447,7 +447,7 @@ sub update_media {
 
 	    #- try to sync (copy if needed) local copy after restored the previous one.
 	    unlink "$urpm->{cachedir}/partial/$basename";
-	    $options{force} or
+	    $options{force} || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
 	      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 	    system("wget", "-NP", "$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
 	    $? == 0 or $error = 1, $urpm->{error}("wget of [<source_url>/$medium->{with_hdlist}] failed (maybe wget is missing?)");

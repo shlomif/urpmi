@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 23mdk
+Release: 24mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -114,6 +114,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Mon Mar 26 2001 François Pons <fpons@mandrakesoft.com> 1.5-24mdk
+- fixed annoying message when adding a medium (cp).
+
 * Fri Mar 23 2001 François Pons <fpons@mandrakesoft.com> 1.5-23mdk
 - added synthesis hdlist file support to speed up -m mode.
 
