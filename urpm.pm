@@ -532,41 +532,107 @@ sub configure {
     my ($urpm, %options) = @_;
 
     $urpm->clean;
-    $urpm->read_config(%options);
-    if ($options{media}) {
-	$urpm->select_media(split ',', $options{media});
-	foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
-	    #- this is only a local ignore that will not be saved.
-	    $_->{ignore} = 1;
-	}
-    }
-    foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
-	delete @{$_}{qw(start end)};
-	if ($options{callback}) {
-	    if (-s "$urpm->{statedir}/$_->{hdlist}" > 32) {
-		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-		eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", 0) };
-	    }
-	    unless (defined $_->{start} && defined $_->{end}) {
-		$urpm->{error}(_("problem reading hdlist file of medium \"%s\"", $_->{name}));
+    if ($options{synthesis}) {
+	#- synthesis take precedence over media, update options.
+	$options{media} || $options{update} || $options{parallel} and
+	  $urpm->{fatal}(1, _("--synthesis cannot be used with --media, --update or --parallel"));
+	$urpm->parse_synthesis($options{synthesis});
+    } else {
+	$urpm->read_config(%options);
+	if ($options{media}) {
+	    $urpm->select_media(split ',', $options{media});
+	    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
+		#- this is only a local ignore that will not be saved.
 		$_->{ignore} = 1;
+	    }
+	}
+	$options{parallel} and unlink "$urpm->{cachedir}/partial/parallel.cz";
+	foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
+	    delete @{$_}{qw(start end)};
+	    if ($options{callback}) {
+		if (-s "$urpm->{statedir}/$_->{hdlist}" > 32) {
+		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+		    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", 0) };
+		}
+		unless (defined $_->{start} && defined $_->{end}) {
+		    $urpm->{error}(_("problem reading hdlist file of medium \"%s\"", $_->{name}));
+		    $_->{ignore} = 1;
+		} else {
+		    #- medium has been read correclty, now call the callback for each packages.
+		    #- it is the responsability of callback to pack the header.
+		    foreach ($_->{start} .. $_->{end}) {
+			$options{callback}->($urpm, $_, %options);
+		    }
+		}
 	    } else {
-		#- medium has been read correclty, now call the callback for each packages.
-		#- it is the responsability of callback to pack the header.
-		foreach ($_->{start} .. $_->{end}) {
-		    $options{callback}->($urpm, $_, %options);
+		if (-s "$urpm->{statedir}/synthesis.$_->{hdlist}" > 32) {
+		    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
+		    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}") };
+		}
+		unless (defined $_->{start} && defined $_->{end}) {
+		    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $_->{name}));
+		    $_->{ignore} = 1;
+		} else {
+		    $options{parallel} and system "cat '$urpm->{statedir}/synthesis.$_->{hdlist}' >> $urpm->{cachedir}/partial/parallel.cz";
 		}
 	    }
-	} else {
-	    if (-s "$urpm->{statedir}/synthesis.$_->{hdlist}" > 32) {
-		$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
-		eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}") };
-	    }
-	    unless (defined $_->{start} && defined $_->{end}) {
-		$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $_->{name}));
-		$_->{ignore} = 1;
+	}
+    }
+    if ($options{bug}) {
+	#- and a dump of rpmdb itself as synthesis file.
+	my $db = URPM::DB::open($options{root});
+	my $sig_handler = sub { undef $db; exit 3 };
+	local $SIG{INT} = $sig_handler;
+	local $SIG{QUIT} = $sig_handler;
+	local *RPMDB;
+	open RPMDB, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$options{bug}/rpmdb.cz'";
+	$db->traverse(sub{
+			  my ($p) = @_;
+			  #- this is not right but may be enough.
+			  my $files = join '@', grep { exists $urpm->{provides}{$_} } $p->files;
+			  $p->pack_header;
+			  $p->build_info(fileno *RPMDB, $files);
+		      });
+	close RPMDB;
+    }
+    if ($options{parallel}) {
+	my ($parallel_options, $parallel_handler);
+	#- handle parallel configuration, examine all module available that
+	#- will handle the parallel mode (configuration is /etc/urpmi/parallel.cfg).
+	local ($_, *PARALLEL);
+	open PARALLEL, "/etc/urpmi/parallel.cfg";
+	while (<PARALLEL>) {
+	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	    /\s*([^:]*):(.*)/ or $urpm->{error}(_("unable to parse \"%s\" in file [%s]", $_, "/etc/urpmi/parallel.cfg")), next;
+	    $1 eq $options{parallel} and $parallel_options = ($parallel_options && "\n") . $2;
+	}
+	close PARALLEL;
+	#- if a configuration options has been found, use it else fatal error.
+	if ($parallel_options) {
+	    foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
+		local *DIR;
+		opendir DIR, $dir;
+		while ($_ = readdir DIR) {
+		    -f "$dir/$_" or next;
+		    $urpm->{log}->(_("examining parallel handler in file [%s]", "$dir/$_"));
+		    eval { require "$dir/$_"; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
+		    $parallel_handler and last;
+		}
+		closedir DIR;
+		$parallel_handler and last;
 	    }
 	}
+	if ($parallel_handler) {
+	    if ($parallel_handler->{nodes}) {
+		$urpm->{log}->(_("found parallel handler for nodes: %s", join(', ', keys %{$parallel_handler->{nodes}})));
+	    }
+	    $urpm->{parallel_handler} = $parallel_handler;
+	} else {
+	    $urpm->{fatal}(1, _("unable to use parallel option \"%s\"", $options{parallel}));
+	}
+    } else {
+	#- parallel is exclusive against root options.
+	$urpm->{root} = $options{root};
     }
 }
 
@@ -1432,7 +1498,7 @@ sub relocate_depslist_provides {
 #- register local packages for being installed, keep track of source.
 sub register_rpms {
     my ($urpm, @files) = @_;
-    my ($start, $id, $error);
+    my ($start, $id, $error, %requested);
 
     #- examine each rpm and build the depslist for them using current
     #- depslist and provides environment.
@@ -1447,8 +1513,9 @@ sub register_rpms {
 	$urpm->{source}{$id} = $1 ? $_ :  "./$_";
     }
     $error and $urpm->{fatal}(1, _("error registering local packages"));
+    $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);
 
-    $start <= $id ? ($start, $id) : ();
+    %requested;
 }
 
 #- search packages registered by their name by storing their id into packages hash.
@@ -1558,6 +1625,35 @@ sub search_packages {
     $result;
 }
 
+#- do the resolution of dependencies.
+sub resolve_dependencies {
+    my ($urpm, $state, $requested, %options) = @_;
+
+    if ($urpm->{parallel_handler}) {
+	#- let each node determine what is requested, according to handler given.
+	$urpm->{parallel_handler}->parallel_resolve_dependencies("$urpm->{cachedir}/partial/parallel.cz", @_);
+    } else {
+	my $db;
+
+	if ($options{rpmdb}) {
+	    $db = new URPM;
+	    $db->parse_synthesis($options{rpmdb});
+	} else {
+	    $db = URPM::DB::open($urpm->{root});
+	}
+
+	my $sig_handler = sub { undef $db; exit 3 };
+	local $SIG{INT} = $sig_handler;
+	local $SIG{QUIT} = $sig_handler;
+
+	require URPM::Resolve;
+	#- auto select package for upgrading the distribution.
+	$options{auto_select} and $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
+
+	$urpm->resolve_requested($db, $state, $requested, %options);
+    }
+}
+
 #- get out of package that should not be upgraded.
 sub deselect_unwanted_packages {
     my ($urpm, $packages, %options) = @_;
@@ -1598,11 +1694,8 @@ sub get_source_packages {
 
     #- examine each medium to search for packages.
     #- now get rpm file name in hdlist to match list file.
-    foreach my $medium (@{$urpm->{media} || []}) {
-	foreach ($medium->{start} .. $medium->{end}) {
-	    my $pkg = $urpm->{depslist}[$_];
-	    $file2fullnames{($pkg->filename =~ /(.*)\.rpm$/ && $1) || $pkg->fullname}{$pkg->fullname} = undef;
-	}
+    foreach my $pkg (@{$urpm->{depslist} || []}) {
+	$file2fullnames{($pkg->filename =~ /(.*)\.rpm$/ && $1) || $pkg->fullname}{$pkg->fullname} = undef;
     }
 
     #- examine the local repository, which is trusted.
@@ -1675,7 +1768,7 @@ sub download_source_packages {
     my (%sources, @distant_sources, %media, %removables);
 
     #- make sure everything is correct on input...
-    @{$urpm->{media}} == @$list or return;
+    @{$urpm->{media} || []} == @$list or return;
 
     #- examine if given medium is already inside a removable device.
     my $check_notfound = sub {
@@ -1863,9 +1956,9 @@ sub install_logger {
 
 #- install packages according to each hashes (install or upgrade).
 sub install {
-    my ($urpm, $prefix, $remove, $install, $upgrade, %options) = @_;
-    my $db = URPM::DB::open($prefix, 1); #- open in read/write mode.
-    my $trans = $db->create_transaction($prefix);
+    my ($urpm, $remove, $install, $upgrade, %options) = @_;
+    my $db = URPM::DB::open($urpm->{root}, 1); #- open in read/write mode.
+    my $trans = $db->create_transaction($urpm->{root});
     my @l;
     local *F;
 
@@ -1909,6 +2002,12 @@ sub install {
 	$options{callback_trans} ||= \&install_logger;
     }
     @l = $trans->run($urpm, %options);
+}
+
+#- install all files to node as remembered according to resolving done.
+sub parallel_install {
+    my ($urpm, $remove, $install, $upgrade, %options) = @_;
+    $urpm->{parallel_handler}->parallel_install(@_);
 }
 
 1;

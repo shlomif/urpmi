@@ -50,6 +50,7 @@ usage:
 ") . _("  -f             - print version, release and arch with name.
 ") . "\n" . _("  --update       - use only update media.
 ") . _("  --media        - use only the media listed by comma.
+") . _("  --synthesis    - use the synthesis given instead of urpmi db.
 ") . _("  --auto-select  - automatically select packages to upgrade the system.
 ") . _("  --fuzzy        - impose fuzzy search (same as -y).
 ") . _("  --list         - list available packages.
@@ -79,7 +80,8 @@ for (@ARGV) {
     /^--update$/ and do { $query->{update} = 1; next };
     /^--media$/ and do { push @nextargv, \$query->{media}; next };
     /^--mediums$/ and do { push @nextargv, \$query->{media}; next };
-    /^--auto-select$/ and do { $query->{auto_select} = 1; next };
+    /^--synthesis$/ and do { push @nextargv, \$query->{synthesis}; next };
+    /^--auto-select$/ and do { $query->{upgrade} = $query->{auto_select} = 1; next };
     /^--fuzzy$/ and do { $query->{fuzzy} = 1; next };
     /^--list$/ and do { $query->{list} = 1; next };
     /^--src$/ and do { $query->{src} = 1; next };
@@ -137,9 +139,9 @@ $query->{verbose} or $urpm->{log} = sub {};
 
 $urpm->configure(nocheck_access => 1,
 		 media => $query->{media},
+		 synthesis => $query->{synthesis},
 		 update => $query->{update},
 		);
-
 
 my $state = {};
 my %requested;
@@ -148,10 +150,7 @@ my %requested;
 if ($query->{list}) {
     @{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
 } else {
-    my ($start, $end) = $urpm->register_rpms(@files);
-
-    #- select individual files.
-    defined $start && defined $end and @requested{($start .. $end)} = ();
+    %requested = $urpm->register_rpms(@files);
 
     #- search the packages according the selection given by the user,
     #- basesystem is added to the list so if it need to be upgraded, all its dependency
@@ -176,28 +175,13 @@ if ($query->{list}) {
 	$state->{selected}{join '|', sort { $a <=> $b } map { $_ ? ($_->id) : () } @$choices} = 0;
     };
     #- open/close of database should be moved here, in order to allow testing
-    #- some bogus case and check for integrity.
+    #- some bogus case and check for integrity. (note auto_select implies upgrade).
     if ($query->{auto_select} || $query->{upgrade}) {
-	my $db = URPM::DB::open($query->{root});
-	my $sig_handler = sub { undef $db; exit 3 };
-	local $SIG{INT} = $sig_handler;
-	local $SIG{QUIT} = $sig_handler;
-
-	require URPM::Resolve;
-	#- auto select package for upgrading the distribution.
-	if ($query->{auto_select}) {
-	    my (%to_remove, %keep_files);
-
-	    $urpm->request_packages_to_upgrade($db, $state, \%requested, requested => 0);
-	}
-
-	#- filter to add in packages selected required packages.
-	if ($query->{upgrade}) {
-	    $urpm->resolve_requested($db, $state, \%requested, callback_choices => $stop_on_choices);
-	    #- dependancies are not asked, just clean selected part with added value (undef).
-	    $query->{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
-								    ! defined $state->{selected}{$_}} keys %{$state->{selected}}};
-	}
+	$urpm->resolve_dependencies($state, \%requested,
+				    auto_select => $query->{auto_select},
+				    callback_choices => $stop_on_choices);
+	$query->{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
+								  ! defined $state->{selected}{$_}} keys %{$state->{selected}}};
     } elsif ($query->{deps}) {
 	#- only deps required.
 	my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.

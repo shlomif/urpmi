@@ -1,14 +1,14 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 3.9
-Release: 8mdk
+Version: 4.0
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.50-5mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-1mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -33,6 +33,14 @@ gurpmi is a graphical front-end to urpmi
 #
 #%description -n autoirpm
 #Auto install of rpm on demand
+
+%package -n urpmi-parallel-ka-run
+Summary: Parallel extensions to urpmi using ka-run
+Requires: urpmi >= 4.0 ka-run >= 2.0-6mdk
+Group: %{group}
+%description -n urpmi-parallel-ka-run
+urpmi-parallel-ka-run is an extensions module to urpmi for handling
+distributed installation using ka-run tools.
 
 %prep
 %setup -q -n %{name}
@@ -63,6 +71,8 @@ EOF
 
 mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}
 install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm.pm
+mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}/urpm
+install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm/parallel_ka_run.pm
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man3
 pod2man urpm.pm >$RPM_BUILD_ROOT%{_mandir}/man3/urpm.3
 
@@ -142,8 +152,20 @@ fi
 #%{_bindir}/_irpm
 #%doc README-autoirpm-icons autoirpm.README
 
+%files -n urpmi-parallel-ka-run
+%defattr(-,root,root)
+%{perl_vendorlib}/urpm/parallel_ka_run.pm
+
 
 %changelog
+* Fri Aug 23 2002 François Pons <fpons@mandrakesoft.com> 4.0-1mdk
+- added --parallel options for distributed urpmi.
+- added urpmi module extensions support (only --parallel).
+- added --synthesis options for urpmq/urpmi to use a specific
+  environment.
+- use cache files even if no medium have been defined (for use
+  with --synthesis).
+
 * Tue Aug 13 2002 François Pons <fpons@mandrakesoft.com> 3.9-8mdk
 - fixed development log still done for progression status, now
   removed.

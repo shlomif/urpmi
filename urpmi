@@ -24,13 +24,15 @@ import urpm _;
 
 #- default options.
 my $update = 0;
-my $media = 0;
+my $media = '';
+my $synthesis = '';
 my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
 my $force = 0;
 my $allow_nodeps = 0;
 my $allow_force = 0;
+my $parallel = '';
 my $sync = undef;
 my $X = 0;
 my $WID = 0;
@@ -66,6 +68,7 @@ usage:
 ", $urpm::VERSION) . _("  --help         - print this help message.
 ") . _("  --update       - use only update media.
 ") . _("  --media        - use only the media listed by comma.
+") . _("  --synthesis    - use the synthesis given instead of urpmi db.
 ") . _("  --auto         - automatically select a package in choices.
 ") . _("  --auto-select  - automatically select packages to upgrade the system.
 ") . _("  --fuzzy        - impose fuzzy search (same as -y).
@@ -76,6 +79,7 @@ usage:
                    dependencies checking.
 ") . _("  --allow-force  - allow asking user to install packages without
                    dependencies checking and integrity.
+") . _("  --parallel     - distributed urpmi accross machines of alias.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
 ") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
@@ -107,6 +111,7 @@ while (defined($_ = shift @ARGV)) {
     /^--update$/ and do { $update = 1; next };
     /^--media$/ and do { push @nextargv, \$media; next };
     /^--mediums$/ and do { push @nextargv, \$media; next };
+    /^--synthesis$/ and do { push @nextargv, \$synthesis; next };
     /^--auto$/ and do { $auto = 1; next };
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
@@ -116,6 +121,7 @@ while (defined($_ = shift @ARGV)) {
     /^--force$/ and do { $force = 1; next };
     /^--allow-nodeps$/ and do { $allow_nodeps = 1; next };
     /^--allow-force$/ and do { $allow_force = 1; next };
+    /^--parallel$/ and do { push @nextargv, \$parallel; next };
     /^--wget$/ and do { $sync = sub { my $options = shift @_;
 				      if (ref $options) { $options->{prefer} = 'wget' }
 				      else { $options = { dir => $options, prefer => 'wget' } }
@@ -266,33 +272,15 @@ $verbose or $urpm->{log} = sub {};
 
 $urpm->configure(nocheck_access => $env || $uid > 0,
 		 media => $media,
+		 synthesis => $synthesis,
 		 update => $update,
+		 root => $root,
+		 bug => $bug,
+		 parallel => $parallel,
 		);
 
-my ($start, $end) = $urpm->register_rpms(@files, @src_files);
-
-if ($bug) {
-    #- and a dump of rpmdb itself as synthesis file.
-    my $db = URPM::DB::open($root);
-    my $sig_handler = sub { undef $db; exit 3 };
-    local $SIG{INT} = $sig_handler;
-    local $SIG{QUIT} = $sig_handler;
-    local *RPMDB;
-    open RPMDB, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$bug/rpmdb.cz'";
-    $db->traverse(sub{
-		      my ($p) = @_;
-		      #- this is not right but may be enough.
-		      my $files = join '@', grep { exists $urpm->{provides}{$_} } $p->files;
-		      $p->pack_header;
-		      $p->build_info(fileno *RPMDB, $files);
-		  });
-    close RPMDB;
-}
-
-#- select individual files.
 my $state = {};
-my %requested;
-defined $start && defined $end and @requested{($start .. $end)} = (1) x ($end-$start+1);
+my %requested = $urpm->register_rpms(@files, @src_files);
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded,
@@ -303,7 +291,7 @@ if (@names) {
 			   all => $all,
 			   use_provides => $use_provides,
 			   fuzzy => $fuzzy)
-	or $force or exit 1;
+      or $force or exit 1;
 }
 if (@src_names) {
     $urpm->search_packages(\%requested, [ @src_names ],
@@ -311,7 +299,7 @@ if (@src_names) {
 			   use_provides => $use_provides,
 			   fuzzy => $fuzzy,
 			   src => 1)
-	or $force or exit 1;
+      or $force or exit 1;
 }
 
 #- filter to add in packages selected required packages.
@@ -343,29 +331,13 @@ sub ask_choice {
     $choices->[$n - 1];
 };
 
-#- open/close of database should be moved here, in order to allow testing
-#- some bogus case and check for integrity.
-{
-    my $db;
-    
-    #- take care of specific environment.
-    if ($env) {
-	$db = new URPM;
-	$db->parse_synthesis("$env/rpmdb.cz");
-    } else {
-	$db = URPM::DB::open($root);
-    }
-
-    my $sig_handler = sub { undef $db; exit 3 };
-    local $SIG{INT} = $sig_handler;
-    local $SIG{QUIT} = $sig_handler;
-
-    require URPM::Resolve;
-    #- auto select package for upgrading the distribution.
-    $auto_select and $urpm->request_packages_to_upgrade($db, $state, \%requested, requested => undef);
-
-    $urpm->resolve_requested($db, $state, \%requested, callback_choices => \&ask_choice);
-}
+#- do the resolution of dependencies between requested package (and auto selection if any).
+#- handle parallel option if any.
+$urpm->resolve_dependencies($state, \%requested,
+			    rpmdb => $env && "$env/rpmdb.cz",
+			    auto_select => $auto_select,
+			    callback_choices => \&ask_choice,
+			   );
 
 if (%{$state->{ask_unselect} || {}}) {
     unless ($auto) {
@@ -414,7 +386,7 @@ my $sum = 0;
 my @root_only;
 
 foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
-    $ask_user ||= $pkg->flag_required || $auto_select;
+    $ask_user ||= $pkg->flag_required || $auto_select || $parallel;
 
     my $fullname = $pkg->fullname;
     if (!$env && $uid > 0 && $pkg->arch ne 'src') {
@@ -507,55 +479,63 @@ if (%sources_install || %sources) {
 	}
     }
 
-    message(_("installing %s\n", join(' ', values %sources_install, values %sources)));
-    log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
     #- check for local files.
     foreach (values %sources_install, values %sources) {
 	m|^/| && ! -e $_ or next;
 	message(_("Installation failed, some files are missing.\nYou may want to update your urpmi database"));
 	exit 2;
     }
-    $urpm->{log}("starting installing packages");
-    if ($uid > 0) {
-	system("rpm", "-i$rpm_opt", values %sources_install, values %sources, ($root ? ("--root", $root) : ()));
-	$? and message(_("Installation failed")), exit 1;
-	exit 0;
+
+    if ($parallel) {
+	message(_("distributing %s\n", join(' ', values %sources_install, values %sources)));
+	#- no remove are handle here, automatically done by each distant node.
+	$urpm->{log}("starting distributed install");
+	$urpm->parallel_install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources);
     } else {
-	if ($X && !$root) {
-	    system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove} || {}}, ($root ? ("--root", $root) : ()));
-	    system("grpmi", $WID ? ("--WID=$WID") : (),
-		   (map { ("-noupgrade", $_) } values %sources_install), values %sources);
-	    if ($?) {
-		#- grpmi handles --nodeps and --force by itself,
-		#- and $WID is defined when integrated in rpminst.
-		$WID or message(_("Installation failed"));
-		exit(($? >> 8) + 32); #- forward grpmi error + 32
-	    }
+	message(_("installing %s\n", join(' ', values %sources_install, values %sources)));
+	log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
+	$urpm->{log}("starting installing packages");
+	if ($uid > 0) {
+	    system("rpm", "-i$rpm_opt", values %sources_install, values %sources, ($root ? ("--root", $root) : ()));
+	    $? and message(_("Installation failed")), exit 1;
+	    exit 0;
 	} else {
-	    my @l = $urpm->install($root, [ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				   translate_message => 1);
-	    if (@l) {
-		message(_("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
-
-		m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
-		$auto || !$allow_nodeps && !$allow_force and exit 1; #- if auto has been set, avoid asking user.
-
-		$noexpr = _("Nn");
-		$yesexpr = _("Yy");
-		message_input(_("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		    or exit 1;
-		$urpm->{log}("starting installing packages without deps");
-		@l = $urpm->install($root, [ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				    translate_message => 1, nodeps => 1);
+	    if ($X && !$root) {
+		system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove} || {}}, ($root ? ("--root", $root) : ()));
+		system("grpmi", $WID ? ("--WID=$WID") : (),
+		       (map { ("-noupgrade", $_) } values %sources_install), values %sources);
+		if ($?) {
+		    #- grpmi handles --nodeps and --force by itself,
+		    #- and $WID is defined when integrated in rpminst.
+		    $WID or message(_("Installation failed"));
+		    exit(($? >> 8) + 32); #- forward grpmi error + 32
+		}
+	    } else {
+		my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+				       translate_message => 1);
 		if (@l) {
-		    message(_("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
-		    !$allow_force and exit 1;
-		    message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-			or exit 1;
-		    $urpm->{log}("starting force installing packages without deps");
-		    @l = $urpm->install($root, [ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-					translate_message => 1, nodeps => 1, force => 1);
-		    @l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+		    message(_("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
+
+		    m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
+		    $auto || !$allow_nodeps && !$allow_force and exit 1; #- if auto has been set, avoid asking user.
+
+		    $noexpr = _("Nn");
+		    $yesexpr = _("Yy");
+		    message_input(_("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+		      or exit 1;
+		    $urpm->{log}("starting installing packages without deps");
+		    @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+					translate_message => 1, nodeps => 1);
+		    if (@l) {
+			message(_("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+			!$allow_force and exit 1;
+			message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+			  or exit 1;
+			$urpm->{log}("starting force installing packages without deps");
+			@l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+					    translate_message => 1, nodeps => 1, force => 1);
+			@l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+		    }
 		}
 	    }
 	}
