@@ -129,7 +129,7 @@ install -m 644 %{name}.bash-completion %{buildroot}%{_sysconfdir}/bash_completio
 %if %{allow_gurpmi}
 mkdir -p %{buildroot}%{_menudir}
 cat << EOF > %{buildroot}%{_menudir}/gurpmi
-?package(gurpmi): command="/usr/bin/gurpmi" \
+?package(gurpmi): command="%{_bindir}/gurpmi" \
 needs="x11" \
 section=".hidden" \
 title="Software installer" \
