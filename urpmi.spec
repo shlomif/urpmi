@@ -132,12 +132,12 @@ cat << EOF > %{buildroot}%{_menudir}/gurpmi
 ?package(gurpmi): command="%{_bindir}/gurpmi" needs="gnome" section=".hidden" \
 section=".hidden" \
 title="Software installer" longtitle="Graphical front end to install RPM files" \
-mimetypes="application/x-rpm;application/x-urpm-rpmi" \
+mimetypes="application/x-rpm;application/x-urpmi" \
 multiple_files="true"
 ?package(gurpmi): command="%{_bindir}/gurpmi" needs="kde" section=".hidden" \
 section=".hidden" InitialPreference="9" \
 title="Software installer" longtitle="Graphical front end to install RPM files" \
-mimetypes="application/x-rpm;application/x-urpm-rpmi" \
+mimetypes="application/x-rpm;application/x-urpmi" \
 multiple_files="true"
 EOF
 %endif
@@ -240,7 +240,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - gurpmi: when cancel button is destroyed forever from within
   rpmdrake (after all downloads completed) ask gtk to recompute
   size of toplevel window to not end up with an ugly void space (gc)
-- gurpmi: add application/x-urpm-rpmi mimetype
+- gurpmi: add application/x-urpmi mimetype (gc)
 
 * Tue Feb  3 2004 François Pons <fpons@mandrakesoft.com> 4.4.5-3mdk
 - fixed bug of reference of ../ in hdlists file.
