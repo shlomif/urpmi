@@ -62,6 +62,10 @@ my $state = {};
 #- remove verbose if not asked.
 $verbose or $urpm->{log} = sub {};
 
+if ($< && !$test) {
+    $urpm->{fatal}(1, N("Only superuser is allowed to remove packages"));
+}
+
 #- just configure parallel mode if available.
 $urpm->configure(
     synthesis => ($parallel ? 'none' : ''),
