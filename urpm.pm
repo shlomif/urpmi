@@ -3,7 +3,7 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA);
 
-$VERSION = '1.5';
+$VERSION = '1.6';
 
 =head1 NAME
 
@@ -52,6 +52,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 use rpmtools;
 
+#- I18N.
+BEGIN {
+    use POSIX;
+    use Locale::GetText;
+
+    setlocale (LC_ALL, "");
+    Locale::GetText::textdomain ("urpmi");
+}
+sub _ {
+    my ($format, @params) = @_;
+    sprintf(Locale::GetText::I_($format), @params);
+}
+
 #- create a new urpm object.
 sub new {
     my ($class) = @_;
@@ -66,7 +79,7 @@ sub new {
 	   media      => undef,
 	   params     => new rpmtools,
 
-	   fatal      => sub { die(sprintf "%s\n", $_[0]) },
+	   fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	   error      => sub { printf STDERR "%s\n", $_[0] },
 	   log        => sub { printf STDERR "%s\n", $_[0] },
 	  }, $class;
@@ -107,7 +120,7 @@ sub read_config {
 		/^ignore\s*$/ and $medium->{ignore} = 1, next;
 		/^modified\s*$/ and $medium->{modified} = 1, next;
 		$_ eq '}' and last;
-		$_ and $urpm->{error}("syntax error at line $. in $urpm->{config}");
+		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
 	    }
 	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 	    next; };
@@ -119,7 +132,7 @@ sub read_config {
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 	    next; };
-	$_ and $urpm->{error}("syntax error at line $. in [$urpm->{config}]");
+	$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
     }
     close F;
 
@@ -128,10 +141,10 @@ sub read_config {
     my (%hdlists, %lists);
     foreach (@{$urpm->{media}}) {
 	exists $hdlists{$_->{hdlist}} and
-	  $_->{ignore} = 1, $urpm->{error}("medium \"$_->{name}\" try to use an already used hdlist, medium ignored");
+	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" try to use an already used hdlist, medium ignored", $_->{name}));
 	$hdlists{$_->{hdlist}} = undef;
 	exists $lists{$_->{list}} and
-	  $_->{ignore} = 1, $urpm->{error}("medium \"$_->{name}\" try to use an already used list, medium ignored");
+	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" try to use an already used list, medium ignored", $_->{name}));
 	$lists{$_->{list}} = undef;
     }
 
@@ -146,22 +159,24 @@ sub read_config {
 	    #- there is a list file.
 	    if (-s "$urpm->{statedir}/list.$2") {
 		if (exists $lists{"list.$2"}) {
-		    $urpm->{error}("unable to take medium \"$2\" into account as list file is already used by another medium");
+		    $urpm->{error}(_("unable to take care of medium \"%s\" as list file is already used by another medium", $2));
 		} else {
 		    my $medium;
 		    foreach (@{$urpm->{media}}) {
 			$_->{name} eq $2 and $medium = $_, last;
 		    }
-		    $medium and $urpm->{error}("unable to use name \"$2\" for unamed medium because it is already used"), next;
+		    $medium and $urpm->{error}(_("unable to use name \"%s\" for unamed medium because it is already used",
+						 $2)), next;
 
 		    $medium = { name => $2, hdlist => "hdlist.$1", list => "list.$2" };
 		    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 		}
 	    } else {
-		$urpm->{error}("unable to take medium \"$2\" into account as no list file [$urpm->{statedir}/list.$2] exists");
+		$urpm->{error}(_("unable to take medium \"%s\" into account as no list file [%s] exists",
+				 $2, "$urpm->{statedir}/list.$2"));
 	    }
 	} else {
-	    $urpm->{error}("unable to determine medium of this hdlist file [$_]");
+	    $urpm->{error}(_("unable to determine medium of this hdlist file [%s]", $_));
 	}
     }
 
@@ -172,9 +187,9 @@ sub read_config {
 	foreach (@{$urpm->{media}}) {
 	    $_->{ignore} and next;
 	    -r "$urpm->{statedir}/$_->{hdlist}" or
-	      $_->{ignore} = 1, $urpm->{error}("unable to access hdlist file of \"$_->{name}\", medium ignored");
+	      $_->{ignore} = 1, $urpm->{error}(_("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
 	    $_->{list} && -r "$urpm->{statedir}/$_->{list}" or
-	      $_->{ignore} = 1, $urpm->{error}("unable to access list file of \"$_->{name}\", medium ignored");
+	      $_->{ignore} = 1, $urpm->{error}(_("unable to access list file of \"%s\", medium ignored", $_->{name}));
 	}
     }
 }
@@ -188,18 +203,18 @@ sub probe_medium {
     foreach (@{$urpm->{media}}) {
 	$_->{name} eq $medium->{name} and $existing_medium = $_, last;
     }
-    $existing_medium and $urpm->{error}("trying to bypass existing medium \"$medium->{name}\", avoiding"), return;
+    $existing_medium and $urpm->{error}(_("trying to bypass existing medium \"%s\", avoiding", $medium->{name})), return;
     
     unless ($medium->{ignore} || $medium->{hdlist}) {
 	$medium->{hdlist} = "hdlist.$medium->{name}.cz";
 	-e "$urpm->{statedir}/$medium->{hdlist}" or $medium->{hdlist} = "hdlist.$medium->{name}.cz2";
 	-e "$urpm->{statedir}/$medium->{hdlist}" or
-	  $medium->{ignore} = 1, $urpm->{error}("unable to find hdlist file for \"$medium->{name}\", medium ignored");
+	  $medium->{ignore} = 1, $urpm->{error}(_("unable to find hdlist file for \"%s\", medium ignored", $medium->{name}));
     }
     unless ($medium->{ignore} || $medium->{list}) {
 	$medium->{list} = "list.$medium->{name}";
 	-e "$urpm->{statedir}/$medium->{list}" or
-	  $medium->{ignore} = 1, $urpm->{error}("unable to find list file for \"$medium->{name}\", medium ignored");
+	  $medium->{ignore} = 1, $urpm->{error}(_("unable to find list file for \"%s\", medium ignored", $medium->{name}));
     }
 
     #- there is a little more to do at this point as url is not known, inspect directly list file for it.
@@ -214,7 +229,7 @@ sub probe_medium {
 	foreach (sort { length($a) <=> length($b) } keys %probe) {
 	    if ($medium->{url}) {
 		$medium->{url} eq substr($_, 0, length($medium->{url})) or
-		  $medium->{ignore} || $urpm->{error}("incoherent list file for \"$medium->{name}\", medium ignored"),
+		  $medium->{ignore} || $urpm->{error}(_("incoherent list file for \"%s\", medium ignored", $medium->{name})),
 		    $medium->{ignore} = 1, last;
 	    } else {
 		$medium->{url} = $_;
@@ -222,7 +237,7 @@ sub probe_medium {
 	}
 	unless ($options{nocheck_access}) {
 	    $medium->{url} or
-	      $medium->{ignore} || $urpm->{error}("unable to inspect list file for \"$medium->{name}\", medium ignored"),
+	      $medium->{ignore} || $urpm->{error}(_("unable to inspect list file for \"%s\", medium ignored", $medium->{name})),
 		$medium->{ignore} = 1; #, last; keeping it cause perl to exit caller loop ...
 	}
     }
@@ -239,7 +254,7 @@ sub write_config {
     $urpm->{media} or return;
 
     local *F;
-    open F, ">$urpm->{config}" or $urpm->{fatal}("unable to write config file [$urpm->{config}]");
+    open F, ">$urpm->{config}" or $urpm->{fatal}(6, _("unable to write config file [%s]", $urpm->{config}));
     foreach my $medium (@{$urpm->{media}}) {
 	printf F "%s %s {\n", quotespace($medium->{name}), quotespace($medium->{clear_url});
 	foreach (qw(hdlist with_hdlist list removable)) {
@@ -251,7 +266,7 @@ sub write_config {
 	printf F "}\n\n";
     }
     close F;
-    $urpm->{log}("write config file [$urpm->{config}]");
+    $urpm->{log}(_("write config file [%s]", $urpm->{config}));
 }
 
 #- add a new medium, sync the config file accordingly.
@@ -267,7 +282,7 @@ sub add_medium {
     foreach (@{$urpm->{media}}) {
 	$_->{name} eq $2 and $medium = $_;
     }
-    $medium and $urpm->{fatal}("medium \"$medium\" already exists");
+    $medium and $urpm->{fatal}(5, _("medium \"%s\" already exists", $medium));
 
     #- creating the medium info.
     $medium = { name     => $name,
@@ -282,7 +297,7 @@ sub add_medium {
 	#- the directory given does not exist or may be accessible
 	#- by mounting some other. try to figure out these directory and
 	#- mount everything necessary.
-	$urpm->try_mounting($dir, 'mount') or $urpm->{log}("unable to access medium \"$name\""), return;
+	$urpm->try_mounting($dir, 'mount') or $urpm->{log}(_("unable to access medium \"%s\"", $name)), return;
 
 	#- check if directory is somewhat normalized so that we can get back hdlist,
 	#- check it that case if depslist, compss and provides file are also
@@ -334,7 +349,7 @@ sub remove_media {
 	    #- when a medium is removed, depslist and others need to be recomputed.
 	    $urpm->{modified} = 1;
 	} else {
-	    $urpm->{error}("trying to remove inexistant medium \"$_\"");
+	    $urpm->{error}(_("trying to remove inexistant medium \"%s\"", $_));
 	}
     }
 
@@ -367,7 +382,7 @@ sub select_media {
     #- check if some arguments does not correspond to medium name.
     foreach (keys %media) {
 	unless ($media{$_}) {
-	    $urpm->{error}("trying to select inexistant medium \"$_\"");
+	    $urpm->{error}(_("trying to select inexistant medium \"%s\"", $_));
 	}
     }
 }
@@ -377,7 +392,7 @@ sub build_synthesis_hdlist {
     my $params = new rpmtools;
 
     push @{$params->{flags}}, 'sense'; #- make sure to enable sense flags.
-    $urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
+    $urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
     $params->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or return;
     eval {
 	unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
@@ -393,10 +408,10 @@ sub build_synthesis_hdlist {
     };
     if ($@) {
 	unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-	$urpm->{error}("unable to build synthesis file for medium \"$medium->{name}\": $@");
+	$urpm->{error}(_("unable to build synthesis file for medium \"%s\"", $medium->{name}));
 	return;
     } else {
-	$urpm->{log}("built hdlist synthesis file for medium \"$medium->{name}\"");
+	$urpm->{log}(_("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
     }
     1;
 }
@@ -432,7 +447,7 @@ sub update_media {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
-	    $urpm->try_mounting($dir, 'mount') or $urpm->{log}("unable to access medium \"$medium->{name}\""), next;
+	    $urpm->try_mounting($dir, 'mount') or $urpm->{log}(_("unable to access medium \"%s\"", $medium->{name})), next;
 
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
@@ -445,7 +460,7 @@ sub update_media {
 		system("cp", "-a", "$dir/$medium->{with_hdlist}", "$urpm->{cachedir}/partial/$medium->{hdlist}");
 		
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}"
-		  or $error = 1, $urpm->{error}("copy of [$dir/$medium->{with_hdlist}] failed");
+		  or $error = 1, $urpm->{error}(_("copy of [%s] failed", "$dir/$medium->{with_hdlist}"));
 
 		#- check if the file are equals...
 		unless ($error) {
@@ -471,14 +486,14 @@ sub update_media {
 		if (@files > 0) {
 		    #- we need to rebuild from rpm files the hdlist.
 		    eval {
-			$urpm->{log}("building hdlist [$urpm->{cachedir}/partial/$medium->{hdlist}]");
+			$urpm->{log}(_("building hdlist [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 			$urpm->{params}->build_hdlist($options{noclean}, $options{ratio} || 4, "$urpm->{cachedir}/headers",
 						      "$urpm->{cachedir}/partial/$medium->{hdlist}", @files);
 		    };
-		    $@ and $error = 1, $urpm->{error}("unable to build hdlist: $@");
+		    $@ and $error = 1, $urpm->{error}(_("unable to build hdlist: %s", $@));
 		} else {
 		    $error = 1;
-		    $urpm->{error}("no rpm files found from [$dir/]");
+		    $urpm->{error}(_("no rpm files found from [%s]", $dir));
 		}
 	    }
 	} else {
@@ -496,9 +511,10 @@ sub update_media {
 	    $options{force} || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
 	      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 	    system("wget", "-NP", "$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
-	    $? == 0 or $error = 1, $urpm->{error}("wget of [<source_url>/$medium->{with_hdlist}] failed (maybe wget is missing?)");
+	    $? == 0 or $error = 1, $urpm->{error}(_("wget of [%s] failed (maybe wget is missing?)",
+						    "<source_url>/$medium->{with_hdlist}"));
 	    -s "$urpm->{cachedir}/partial/$basename" or
-	      $error = 1, $urpm->{error}("wget of [<source_url>/$medium->{with_hdlist}] failed");
+	      $error = 1, $urpm->{error}(_("wget of [%s] failed", "<source_url>/$medium->{with_hdlist}"));
 	    unless ($error) {
 		my @sstat = stat "$urpm->{cachedir}/partial/$basename";
 		my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
@@ -517,7 +533,7 @@ sub update_media {
 	#- build list file according to hdlist used.
 	unless (-s "$urpm->{cachedir}/partial/$medium->{hdlist}") {
 	    $error = 1;
-	    $urpm->{error}("no hdlist file found for medium \"$medium->{name}\"");
+	    $urpm->{error}(_("no hdlist file found for medium \"%s\"", $medium->{name}));
 	}
 
 	#- make sure group and other does not have any access to this file.
@@ -536,24 +552,24 @@ sub update_media {
 		    /^([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
 		    $list{"$medium->{url}/$_"} = ($urpm->{params}{info}{$1} || { id => 1000000000 })->{id};
 		}
-		close F or $error = 1, $urpm->{error}("unable to parse hdlist file of \"$medium->{name}\"");
+		close F or $error = 1, $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
 	    }
 
 	    #- check there is something found.
-	    %list or $error = 1, $urpm->{error}("nothing to write in list file for \"$medium->{name}\"");
+	    %list or $error = 1, $urpm->{error}(_("nothing to write in list file for \"%s\"", $medium->{name}));
 
 	    #- write list file.
 	    local *LIST;
 	    my $mask = umask 077;
 	    open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
-	      or $error = 1, $urpm->{error}("unable to write list file of \"$medium->{name}\"");
+	      or $error = 1, $urpm->{error}(_("unable to write list file of \"%s\"", $medium->{name}));
 	    umask $mask;
 	    print LIST sort { $list{$a} <=> $list{$b} } keys %list;
 	    close LIST;
 
 	    #- check if at least something has been written into list file.
 	    -s "$urpm->{cachedir}/partial/$medium->{list}"
-	      or $error = 1, $urpm->{error}("nothing written in list file for \"$medium->{name}\"");
+	      or $error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
 	}
 
 	if ($error) {
@@ -606,14 +622,16 @@ sub update_media {
 		    #- so there is no need of trying to mount it.
 		    if (-e "$dir/$basedir/$basename") {
 			system("cp", "-f", "$dir/$basedir/$basename", $target);
-			$? == 0 or $urpm->{error}("unable to copy source of [$target] from [$dir/$basedir/$basename]"), last;
+			$? == 0 or $urpm->{error}(_("unable to copy source of [%s] from [%s]",
+						    $target, "$dir/$basedir/$basename")), last;
 		    } else {
-			$urpm->{error}("source of [$target] not found as [$dir/$basedir/$basename]"), last;
+			$urpm->{error}(_("source of [%s] not found as [%s]", $target, "$dir/$basedir/$basename")), last;
 		    }
 		} else {
 		    #- we have to use wget here instead.
 		    system("wget", "-O", $target, "$medium->{url}/$basedir/$basename");
-		    $? == 0 or $urpm->{error}("wget of [$medium->{url}/$basedir/$basename] failed (maybe wget is missing?)"), last;
+		    $? == 0 or $urpm->{error}(_("wget of [%s] failed (maybe wget is missing?)",
+						"$medium->{url}/$basedir/$basename")), last;
 		}
 	    }
 	}
@@ -624,17 +642,17 @@ sub update_media {
 
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
-		$urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
+		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
 	    }
 
-	    $urpm->{log}("keeping only provides files");
+	    $urpm->{log}(_("keeping only provides files"));
 	    $urpm->{params}->keep_only_cleaned_provides_files();
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
-		$urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
+		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
-		$urpm->{log}("computing dependancy");
+		$urpm->{log}(_("computing dependancy"));
 		$urpm->{params}->compute_depslist();
 	    }
 
@@ -654,11 +672,11 @@ sub update_media {
 		/^([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)$/ and $arch{"$1-$2-$3"} = $4;
 	    }
 	    closedir D;
-	    $urpm->{log}("found " . scalar(keys %arch) . " headers in cache");
+	    $urpm->{log}(_("found %d headers in cache", scalar(keys %arch)));
 	    foreach (@{$urpm->{params}{depslist}}) {
 		delete $arch{"$_->{name}-$_->{version}-$_->{release}"};
 	    }
-	    $urpm->{log}("removing " . scalar(keys %arch) . " obsolete headers in cache");
+	    $urpm->{log}(_("removing %d obsolete headers in cache", scalar(keys %arch)));
 	    foreach (keys %arch) {
 		unlink "$urpm->{cachedir}/headers/$_.$arch{$_}";
 	    }
@@ -718,7 +736,7 @@ sub try_mounting {
 	$mode ne 'mount' and @possible_mount_point = reverse @possible_mount_point;
 	foreach (@possible_mount_point) {
 	    $fstab{$_} == ($mode ne 'mount') and $fstab{$_} = ($mode eq 'mount'),
-	      $urpm->{log}("${mode}ing $_"), `$mode '$_' 2>/dev/null`;
+	      $urpm->{log}($mode eq 'mount' ? _("mounting %s", $_) : _("unmounting %s", $_)), `$mode '$_' 2>/dev/null`;
 	}
     }
     $mode eq 'mount' ? -e $dir : !-e $dir;
@@ -729,10 +747,10 @@ sub read_depslist {
     my ($urpm) = @_;
 
     local *F;
-    open F, $urpm->{depslist} or $urpm->{error}("unable to read depslist file [$urpm->{depslist}]"), return;
+    open F, $urpm->{depslist} or $urpm->{error}(_("unable to read depslist file [%s]", $urpm->{depslist})), return;
     $urpm->{params}->read_depslist(\*F);
     close F;
-    $urpm->{log}("read depslist file [$urpm->{depslist}]");
+    $urpm->{log}(_("read depslist file [%s]", $urpm->{depslist}));
     1;
 }
 
@@ -741,10 +759,10 @@ sub read_provides {
     my ($urpm) = @_;
 
     local *F;
-    open F, $urpm->{provides} or $urpm->{error}("unable to read provides file [$urpm->{provides}]"), return;
+    open F, $urpm->{provides} or $urpm->{error}(_("unable to read provides file [%s]", $urpm->{provides})), return;
     $urpm->{params}->read_provides(\*F);
     close F;
-    $urpm->{log}("read provides file [$urpm->{provides}]");
+    $urpm->{log}(_("read provides file [%s]", $urpm->{provides}));
     1;
 }
 
@@ -753,10 +771,10 @@ sub read_compss {
     my ($urpm) = @_;
 
     local *F;
-    open F, $urpm->{compss} or $urpm->{error}("unable to read compss file [$urpm->{compss}]"), return;
+    open F, $urpm->{compss} or $urpm->{error}(_("unable to read compss file [%s]", $urpm->{compss})), return;
     $urpm->{params}->read_compss(\*F);
     close F;
-    $urpm->{log}("read compss file [$urpm->{compss}]");
+    $urpm->{log}(_("read compss file [%s]", $urpm->{compss}));
     1;
 }
 
@@ -765,20 +783,20 @@ sub write_base_files {
     my ($urpm) = @_;
     local *F;
 
-    open F, ">$urpm->{depslist}" or $urpm->{fatal}("unable to write depslist file [$urpm->{depslist}]");
+    open F, ">$urpm->{depslist}" or $urpm->{fatal}(6, _("unable to write depslist file [%s]", $urpm->{depslist}));
     $urpm->{params}->write_depslist(\*F);
     close F;
-    $urpm->{log}("write depslist file [$urpm->{depslist}]");
+    $urpm->{log}(_("write depslist file [%s]", $urpm->{depslist}));
 
-    open F, ">$urpm->{provides}" or $urpm->{fatal}("unable to write provides file [$urpm->{provides}]");
+    open F, ">$urpm->{provides}" or $urpm->{fatal}(6, _("unable to write provides file [%s]", $urpm->{provides}));
     $urpm->{params}->write_provides(\*F);
     close F;
-    $urpm->{log}("write provides file [$urpm->{provides}]");
+    $urpm->{log}(_("write provides file [%s]", $urpm->{provides}));
 
-    open F, ">$urpm->{compss}" or $urpm->{fatal}("unable to write compss file [$urpm->{compss}]");
+    open F, ">$urpm->{compss}" or $urpm->{fatal}(6, _("unable to write compss file [%s]", $urpm->{compss}));
     $urpm->{params}->write_compss(\*F);
     close F;
-    $urpm->{log}("write compss file [$urpm->{compss}]");
+    $urpm->{log}(_("write compss file [%s]", $urpm->{compss}));
 }
 
 #- relocate depslist array to use only the most recent packages,
@@ -797,18 +815,18 @@ sub register_local_packages {
     #- examine each rpm and build the depslist for them using current
     #- depslist and provides environment.
     foreach (@files) {
-	/(.*\/)?[^\/]*\.rpm$/ or $error = 1, $urpm->{error}("invalid rpm file name [$_]"), next;
-	-r $_ or $error = 1, $urpm->{error}("unable to access rpm file [$_]"), next;
+	/(.*\/)?[^\/]*\.rpm$/ or $error = 1, $urpm->{error}(_("invalid rpm file name [%s]", $_)), next;
+	-r $_ or $error = 1, $urpm->{error}(_("unable to access rpm file [%s]", $_)), next;
 
 	my ($name) = $urpm->{params}->read_rpms($_);
 	if ($name =~ /(.*)-([^-]*)-([^-]*)/) {
 	    my $pkg = $urpm->{params}{info}{$1};
-	    $pkg->{version} eq $2 or $urpm->{error}("mismatch version for registering rpm file"), next;
-	    $pkg->{release} eq $3 or $urpm->{error}("mismatch release for registering rpm file"), next;
+	    $pkg->{version} eq $2 or $urpm->{error}(_("mismatch version for registering rpm file")), next;
+	    $pkg->{release} eq $3 or $urpm->{error}(_("mismatch release for registering rpm file")), next;
 	    $pkg->{source} = $1 ? $_ :  "./$_";
 	    push @names, $name;
 	} else {
-	    $urpm->{error}("rpmtools::read_rpms is too old, upgrade rpmtools package");
+	    $urpm->{fatal}(7, _("rpmtools package is too old, please upgrade it"));
 	}
     }
     $error and die "error registering local packages";
@@ -868,10 +886,10 @@ sub search_packages {
 		    defined $ipkg or ($name, $version, $release) = ();
 		}
 		unless ($name) {
-		    $urpm->{error}(sprintf("no package named %s\n", $_)); $result = 0;
+		    $urpm->{error}(_("no package named %s", $_)); $result = 0;
 		}
 	    } elsif (@$l > 1 && !$options{all}) {
-		$urpm->{error}(sprintf("The following packages contain %s: %s\n", $_, join(' ', map { $_->{name} } @$l))); $result = 0; 
+		$urpm->{error}(_("The following packages contain %s: %s", $_, join(' ', map { $_->{name} } @$l))); $result = 0; 
 	    } else {
 		foreach (@$l) {
 		    $packages->{$_->{id}} = undef;
@@ -1036,7 +1054,7 @@ sub filter_minimal_packages_to_upgrade {
     #- or we have to use synthesis file.
     my @synthesis = map { "$urpm->{statedir}/synthesis.$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media}};
     if (grep { ! -r $_ || ! -s $_ } @synthesis) {
-	$urpm->{log}("unable to find all synthesis file, using parsehdlist server");
+	$urpm->{log}(_("unable to find all synthesis file, using parsehdlist server"));
 	pipe INPUT, OUTPUT_CHILD;
 	pipe INPUT_CHILD, OUTPUT;
 	$pid = fork();
@@ -1065,7 +1083,7 @@ sub filter_minimal_packages_to_upgrade {
 		$found and return 0;  #- we are sure having found a package but with wrong version or release.
 		#- at this level, nothing in params has been found, this could be an error so
 		#- at least print an error message.
-		$urpm->{error}("unknown data associated with $info{name}");
+		$urpm->{error}(_("unknown data associated with %s", $info{name}));
 		return;
 	    };
 	    while (<F>) {
@@ -1327,16 +1345,16 @@ sub get_source_packages {
 		    exists $select{$pkg->{id}} && ! defined $select{$pkg->{id}} and next; #- package has already been selected.
 		    $select{$pkg->{id}} = undef; #- try to select, clean error flag, else it will fail.
 		    exists $packages->{$pkg->{id}} or $select{$pkg->{id}} = ""; #- no special warning here, but need define.
-		    $pkg->{version} eq $3 or $select{$pkg->{id}} .= ", mismatch version $3";
-		    $pkg->{release} eq $4 or $select{$pkg->{id}} .= ", mismatch release $4";
-		    rpmtools::compat_arch($5) or $select{$pkg->{id}} .= ", incompatible arch $5";
+		    $pkg->{version} eq $3 or $select{$pkg->{id}} .= _(", mismatch version %s", $3);
+		    $pkg->{release} eq $4 or $select{$pkg->{id}} .= _(", mismatch release %s", $4);
+		    rpmtools::compat_arch($5) or $select{$pkg->{id}} .= _(", incompatible arch %s", $5);
 		    defined $select{$pkg->{id}} and next; #- an error occured, only the last one is available.
 
 		    #- we have found one source for id.
 		    push @sources, "$1/$2-$3-$4.$5.rpm";
 		} else {
 		    $error = 1;
-		    $urpm->{error}("unable to parse correctly $urpm->{statedir}/$medium->{list}");
+		    $urpm->{error}(_("unable to parse correctly %s", "$urpm->{statedir}/$medium->{list}"));
 		    last;
 		}
 	    }
@@ -1356,12 +1374,12 @@ sub get_source_packages {
 		push @local_sources, $pkg->{source};
 	    } else {
 		$error = 1;
-		$urpm->{error}("package $pkg->{name}-$pkg->{version}-$pkg->{release} is not found$select{$_}.");
-		$urpm->{error}("maybe the package has only been updated for another incompatible arch?");
+		$urpm->{error}(_("package %s is not found%s.", "$pkg->{name}-$pkg->{version}-$pkg->{release}", $select{$_}));
+		$urpm->{error}(_("maybe the package has only been updated for another incompatible arch?"));
 	    }
 	} else {
 	    $error = 1;
-	    $urpm->{error}("internal error for selecting unknown package for id=$_");
+	    $urpm->{error}(_("internal error for selecting unknown package for id=%s", $_));
 	}
     }
 
@@ -1394,14 +1412,15 @@ sub upload_source_packages {
 		#- mount everything necessary.
 		unless ($urpm->try_mounting($dir, 'mount')) {
 		    $urpm->try_mounting($dir, 'unmount'); system("eject", $device);
-		    $ask_for_medium->($medium->{name}, $medium->{removable}) or die "removable medium not selected";
+		    $ask_for_medium->($medium->{name}, $medium->{removable}) or
+		      $urpm->{fatal}(4, _("removable medium not selected"));
 		}
 	    }
 	    if (-e $dir) {
 		my @removable_sources;
 		foreach (@{$list->[$id]}) {
 		    /^(removable_[^:]*|file):\/(.*\/([^\/]*))/ or next;
-		    -r $2 or $urpm->{error}("unable to read rpm file [$2] from medium \"$medium->{name}\"");
+		    -r $2 or $urpm->{error}(_("unable to read rpm file [%s] from medium \"%s\"", $2, $medium->{name}));
 		    if ($copy) {
 			push @removable_sources, $2;
 			push @sources, "$urpm->{cachedir}/rpms/$3";
@@ -1413,11 +1432,11 @@ sub upload_source_packages {
 		    system("cp", "-a", @removable_sources, "$urpm->{cachedir}/rpms");
 		}
 	    } else {
-		$urpm->{error}("medium \"$medium->{name}\" is not selected");
+		$urpm->{error}(_("medium \"%s\" is not selected", $medium->{name}));
 	    }
 	} else {
 	    #- we have a removable device that is not removable, well...
-	    $urpm->{error}("incoherent medium \"$medium->{name}\" marked removable but not really");
+	    $urpm->{error}(_("incoherent medium \"%s\" marked removable but not really", $medium->{name}));
 	}
     };
     foreach (0..$#$list) {
@@ -1427,7 +1446,8 @@ sub upload_source_packages {
 	if ($medium->{removable}) {
 	    push @{$removables{$medium->{removable}} ||= []}, $_;
 	} elsif (my ($prefix, $dir) = $medium->{url} =~ /^(removable_[^:]*|file):\/(.*)/) {
-	    -e $dir || $urpm->try_mounting($dir, 'mount') or $urpm->{error}("unable to access medium \"$medium->{name}\""), next;
+	    -e $dir || $urpm->try_mounting($dir, 'mount') or
+	      $urpm->{error}(_("unable to access medium \"%s\"", $medium->{name})), next;
 	}
     }
     foreach my $device (keys %removables) {
@@ -1466,12 +1486,12 @@ sub upload_source_packages {
 		    push @sources, $_;
 		}
 	    } else {
-		$urpm->{error}("malformed input: [$_]");
+		$urpm->{error}(_("malformed input: [%s]", $_));
 	    }
 	}
     }
     foreach (@distant_sources) {
-	$urpm->{log}("retrieving [$_]");
+	$urpm->{log}(_("retrieving [%s]", $_));
 	system "wget", "-NP", "$urpm->{cachedir}/rpms", $_;
     }
 
@@ -1535,7 +1555,7 @@ sub select_packages_to_upgrade {
 				 rpmtools::db_traverse_tag($db, "name", [$1], [], undef) > 0) {
 				 $3 and eval(rpmtools::version_compare($pkg->{version}, $3) . $2 . 0) or next;
 				 $4 and eval(rpmtools::version_compare($pkg->{release}, $4) . $2 . 0) or next;
-				 $urpm->{log}("selecting $pkg->{name}-$pkg->{version}-$pkg->{release} using obsoletes");
+				 $urpm->{log}(_("selecting %s using obsoletes", "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 				 $obsoletedPackages{$1} = undef;
 				 $pkg->{selected} = 1;
 			     }
@@ -1557,7 +1577,8 @@ sub select_packages_to_upgrade {
 					  if ($otherPackage && $version_cmp <= 0) {
 					      $toRemove{$otherPackage} = 0;
 					      $pkg->{selected} = 1;
-					      $urpm->{log}("removing $otherPackage to upgrade ...\n  to $pkg->{name}-$pkg->{version}-$pkg->{release} since it will not be updated otherwise");
+					      $urpm->{log}(_("removing %s to upgrade ...", $otherPackage));
+					      $urpm->{log}(_(" to %s since it will not be updated otherwise", "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 					  } else {
 					      $pkg->{installed} = 1;
 					  }
@@ -1565,7 +1586,8 @@ sub select_packages_to_upgrade {
 					  my $otherPackage = "$p->{name}-$p->{version}-$p->{release}";
 					  $toRemove{$otherPackage} = 0;
 					  $pkg->{selected} = 1;
-					  $urpm->{log}("removing $otherPackage to upgrade ...\n  to $pkg->{name}-$pkg->{version}-$pkg->{release} since it will not upgrade correctly!");
+					  $urpm->{log}(_("removing %s to upgrade ...", $otherPackage));
+					  $urpm->{log}(_(" to %s since it will not upgrade correctly!", "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 				      }
 				  } else {
 				      if (! exists $obsoletedPackages{$p->{name}}) {
@@ -1635,17 +1657,18 @@ sub select_packages_to_upgrade {
 			     });
 		if ($toSelect) {
 		    if ($toSelect <= 1 && $pkg->{name} =~ /-devel/) {
-			$urpm->{log}("avoid selecting $pkg->{name}-$pkg->{version}-$pkg->{release} as not enough files will be updated");
+			$urpm->{log}(_("avoid selecting %s as not enough files will be updated", "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 		    } else {
 			#- default case is assumed to allow upgrade.
 			my @deps = map { /\|/ and next; #- do not inspect choice
 					 my $p = $urpm->{params}{depslist}[$_];
 					 $p && $p->{name} =~ /locales-/ ? ($p) : () } split ' ', $pkg->{deps};
 			if (@deps == 0 || @deps > 0 && (grep { !$_->{selected} && !$_->{installed} } @deps) == 0) {
-			    $urpm->{log}("selecting $pkg->{name} by selection on files");
+			    $urpm->{log}(_("selecting %s by selection on files", $pkg->{name}));
 			    $pkg->{selected} = 1;
 			} else {
-			    $urpm->{log}("avoid selecting $pkg->{name}-$pkg->{version}-$pkg->{release} as its locales language is not already selected");
+			    $urpm->{log}(_("avoid selecting %s as its locales language is not already selected",
+					   "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 			}
 		    }
 		}
