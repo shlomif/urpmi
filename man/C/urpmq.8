@@ -1,4 +1,4 @@
-.TH urpmq 8 "08 Jan 2002" "MandrakeSoft" "Mandrake Linux"
+.TH urpmq 8 "28 Aug 2002" "MandrakeSoft" "Mandrake Linux"
 .IX urpmq
 .SH NAME
 urpmq \- urpmi database query tool.
@@ -21,6 +21,10 @@ dependencies only in media marked as update.
 .IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
 Select specific media to use instead of all media available (or update media is
 \fB--update\fP is used).
+.IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
+Do not use the given media.
+.IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
+Sort the given media, substrings may be used to simplify grouping.
 .IP "\fB\--synthesis\fP \fIfile\fP"
 Use the given synthesis\fIfile\fP instead of urpmi db for searching packages and
 resolving dependencies.
@@ -31,6 +35,10 @@ installed packages and packages listed in various media registered.
 Disable fast search on exact package name, ie it will propose all
 package containing the name even if one has the given name (this is the same
 as \fB\-y\fP).
+.IP "\fB\--keep\fP"
+Change selection of package when some dependencies cannot be satisfied by trying
+to keep existing package instead of removing them. This behaviour generally
+rejects upgrade of packages given on command line (or when using --auto-select).
 .IP "\fB\--list\fP"
 List available packages.
 .IP "\fB\--list-media\fP"
@@ -66,6 +74,9 @@ available or wget instead.
 Use specified HTTP proxy.
 .IP "\fB\--proxy-user\fP \fIuser:password\fP"
 Use specified user and password to use for proxy authentication.
+.IP "\fB\--env\fP \fIdirectory\fP"
+Use a different environment directly from a bug report to replay a bug, the
+argument is the same argument given to \fB--bug\fP option.
 .IP "\fB\-v\fP"
 Activate verbose mode.
 .IP "\fB\-d\fP"
@@ -73,19 +84,24 @@ Select dependancies (maximal closure).
 .IP "\fB\-u\fP"
 Deselect packages if a better version is already installed, this option can be
 used with \fB-d\fP to simulate \fB-M\fP mode of \fBurpmi\fP.
+.IP "\fB\-a\fP"
+Select all matches on command line, usefull when using \fB-f\fP or \fB-r\fP with
+incomplete name given.
 .IP "\fB\-c\fP"
 If maximal closure is used, assume that a package listed mey have wrong or not
 up-to-date dependancies. This cause more package to be upgraded and may correct
 unresolved dependancies on the rpm database.
-.IP "\fB\-p\fP"
-Allow search in provides to find package.
 .IP "\fB\-P\fP"
 Do not search in provides to find package (this is the opposite of \fB-p\fP and
 is the default).
+.IP "\fB\-R\fP"
+Reverse search to what requires the package given.
 .IP "\fB\-y\fP"
 This is the same as \fB--fuzzy\fP.
 .IP "\fB\-s\fP"
 This is the same as \fB--src\fP.
+.IP "\fB\-i\fP"
+Print usefull information in human readable form as for \fIrpm -qi\fP.
 .IP "\fB\-g\fP"
 Print group of each packages listed.
 .IP "\fB\-r\fP"
