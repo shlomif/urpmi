@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-03 14:02+0100\n"
-"PO-Revision-Date: 2005-02-13 20:08+0200\n"
+"PO-Revision-Date: 2005-02-14 21:06+0200\n"
 "Last-Translator: dovix <dovix2003@yahoo.com>\n"
 "Language-Team: Hebrew <mdk-hebrew@iglu.org.il>\n"
 "MIME-Version: 1.0\n"
@@ -721,9 +721,9 @@ msgid "found probed hdlist (or synthesis) as %s"
 msgstr "נמצא hdlist (או מיזוג) בחון כ-%s"
 
 #: ../urpm.pm:1537
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr "חישוב md5sum של מקור hdlist (או synthesis) מועתקים"
+msgstr "מחשב חתימות md5sum של קובץ hdlist (או synthesis)"
 
 #: ../urpm.pm:1539
 #, c-format
@@ -795,12 +795,12 @@ msgstr "בונה hdlist [%s]"
 msgid ""
 "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
 "corrupted."
-msgstr ""
+msgstr "יצירת קובץ synthesis עבור המקור  \"%s\" נכשלה. קובץ hdlist עלול להיות פגום."
 
 #: ../urpm.pm:1852 ../urpm.pm:1887 ../urpmi:303
-#, fuzzy, c-format
+#, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
-msgstr "בעיה בקריאת hdlist או קובץ מיזוג של המאגר \"%s\""
+msgstr "קובץ hdlist synthesis עבור המקור \"%s\" נבנה"
 
 #: ../urpm.pm:1908
 #, c-format
@@ -922,9 +922,9 @@ msgid "malformed input: [%s]"
 msgstr "קלט לא תקין: [%s]"
 
 #: ../urpm.pm:2697
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "מאחזר קובץ RPM [%s]..."
+msgstr "מעתיק חבילות תוכנה מהמקור \"%s\"..."
 
 #: ../urpm.pm:2817
 #, c-format
@@ -1024,7 +1024,7 @@ msgstr "בודק את קובץ החתימות MD5SUM"
 #: ../urpm.pm:3238
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
-msgstr ""
+msgstr "אזהרה: חתימת md5sum עבור %s לא זמינה בקובץ MD5SUM"
 
 #: ../urpm/args.pm:91 ../urpm/args.pm:98
 #, c-format
@@ -1070,24 +1070,24 @@ msgid "  --auto         - automatically select a package in choices.\n"
 msgstr "  --auto         - בחירה אוטומטית של חבילה מהאפשרויות.\n"
 
 #: ../urpme:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
-msgstr "  --test         - וידוי שהתקנת החבילה יכולה להסתיים בהצלחה.\n"
+msgstr "  --test         - בדיקה האם הסרת החבילה יכולה להסתיים בהצלחה.\n"
 
 #: ../urpme:44 ../urpmi:97 ../urpmq:64
 #, c-format
 msgid "  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
+msgstr "  --force        - אלץ הפעלה גם אם חלק מהחבילות חסרות.\n"
 
 #: ../urpme:45 ../urpmi:102 ../urpmq:65
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
-msgstr ""
+msgstr "  --parallel     - הפעלה מבוזרת מול מספר מכונות שתוכנן זהה.\n"
 
 #: ../urpme:46
-#, fuzzy, c-format
+#, c-format
 msgid "  --root         - use another root for rpm removal.\n"
-msgstr "  --wget         - use wget to retrieve distant files.\n"
+msgstr "  --root         - שימוש בשורש אחר לצורך הסרת חבילות תוכנה.\n"
 
 #: ../urpme:47
 #, c-format
@@ -1095,6 +1095,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - הגדרת urpmi בזמן ריצה לפי עץ ההפצה, שימושי\n"
+"                  להוסיף/להסיר מערכת chroot עם האופציה --ption.\n"
 
 #: ../urpme:49 ../urpmi:135 ../urpmi.addmedia:79 ../urpmi.removemedia:50
 #: ../urpmi.update:48 ../urpmq:90
@@ -1108,9 +1110,9 @@ msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - בחירת כל החבילות עם ביטוי מתאים.\n"
 
 #: ../urpme:66
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to remove packages"
-msgstr "רק מנהל מערכת מורשה להסיר מקור תוכנה"
+msgstr "רק מנהל מערכת מורשה להסיר חבילות תוכנה"
 
 #: ../urpme:87
 #, c-format
@@ -1138,9 +1140,9 @@ msgid "Checking to remove the following packages"
 msgstr "בדיקה להסרה של החבילות הבאות"
 
 #: ../urpme:110
-#, fuzzy, c-format
+#, c-format
 msgid "To satisfy dependencies, the following %d packages will be removed (%d MB)"
-msgstr "בכדי לענות על התלויות, החבילות הבאות יימחקו (%d MB)"
+msgstr "בכדי לענות על התלויות, %d החבילות הבאות יימחקו (%d MB)"
 
 #: ../urpme:112 ../urpmi:423 ../urpmi:552
 #, c-format
@@ -1220,9 +1222,9 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all          - print all tags.\n"
 
 #: ../urpmf:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --name         - print only package names.\n"
-msgstr "  --all          - print all tags.\n"
+msgstr "  --name         - הצגת שמות חבילות בלבד.\n"
 
 #: ../urpmf:44
 #, c-format
@@ -1250,9 +1252,9 @@ msgid "  --description  - print tag description: description.\n"
 msgstr "  --description  - הדפסת תיאור התג: תיאור.\n"
 
 #: ../urpmf:49
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr "  --group        - הדפסת קבוצת התג: קבוצה.\n"
+msgstr "  --sourcerpm    - הדפסת תג חבילות קוד מקור: source rpm.\n"
 
 #: ../urpmf:50
 #, c-format
