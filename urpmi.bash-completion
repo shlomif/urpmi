@@ -5,7 +5,7 @@
 # utility functions
 _urpmi_get_medias()
 {
-	medias=( $( sed -ne 's/^\(.\+\) \+[^ ]\+ \+{/\1/p' /etc/urpmi/urpmi.cfg 2>/dev/null | sed -e 's/(/\\(/g' -e 's/)/\\)/g' -e 's/ /\\ /g' ) )
+	medias=( $( sed -ne 's/^\(.\+\) \+[^{]\+{$/\1/p' /etc/urpmi/urpmi.cfg 2>/dev/null | sed -e 's/(/\\(/g' -e 's/)/\\)/g' -e 's/ /\\ /g' ) )
 }
 
 _urpmi_medias()
