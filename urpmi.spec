@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 34mdk
+Release: 35mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -10,7 +10,7 @@ Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
 PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.81
-BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
+BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
 
@@ -199,6 +199,10 @@ $urpm->update_media;
 
 
 %changelog
+* Fri Mar 28 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.2-35mdk
+- add perl-MDK-Common-devel in the BuildRequires: because we need
+  perl_checker to build (silly, no?), thx Stefan
+
 * Thu Mar 27 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.2-34mdk
 - fix MandrakeClub downloads problem: take advantage of
   --location-trusted when available (available in curl >=
