@@ -386,7 +386,32 @@ if (%{$state->{ask_unselect} || {}}) {
 }
 if (%{$state->{ask_remove} || {}}) {
     unless ($auto) {
-	my $list = join "\n", sort { $a cmp $b } keys %{$state->{ask_remove}};
+	my $list = join "\n", map { my ($from) = keys %{$state->{ask_remove}{$_}{closure}};
+				    my ($whyk) = keys %{$state->{ask_remove}{$_}{closure}{$from}};
+				    my ($whyv) = $state->{ask_remove}{$_}{closure}{$from}{$whyk};
+				    my $frompkg = $urpm->{depslist}[$from];
+				    my $s;
+				    for ($whyk) {
+					/old_requested/ and
+					    $s .= _("in order to install %s", $frompkg ? $frompkg->fullname : $from);
+					/unsatisfied/ and do {
+					    foreach (@$whyv) {
+						$s and $s .= ', ';
+						if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/) {
+						    $s .= _("due to unsatisfied %s", "$1 $2");
+						} else {
+						    $s .= _("due to missing %s", $_);
+						}
+					    }
+					};
+					/conflicts/ and
+					    $s .= _("due to conflicts with %s", $whyv);
+					/unrequested/ and
+					    $s .= _("unrequested");
+				    }
+				    #- now insert the reason if available.
+				    $_ . ($s ? " ($s)" : '');
+				} sort { $a cmp $b } keys %{$state->{ask_remove}};
 	my $msg = _("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list);
 	if ($X) {
 	    my $ok = _("Ok");

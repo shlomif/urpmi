@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,9 @@ fi
 
 
 %changelog
+* Fri Jan 10 2003 François Pons <fpons@mandrakesoft.com> 4.2-5mdk
+- added a reason for each removed package.
+
 * Wed Jan  8 2003 François Pons <fpons@mandrakesoft.com> 4.2-4mdk
 - updated english man pages and french version of urpmi.
 
