@@ -3,6 +3,7 @@ package urpm::cfg;
 use strict;
 use warnings;
 use urpm::util;
+use urpm::msg 'N';
 
 =head1 NAME
 
@@ -70,8 +71,14 @@ sub load_config ($) {
 	    $medium = '';
 	    next;
 	}
-	if (/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/) { #-} medium definition
-	    $config{ $medium = unquotespace $1 }{url} = unquotespace $2;
+	if (/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/) { #- medium definition
+	    $medium = unquotespace $1;
+	    if ($config{$medium}) {
+		#- hmm, somebody fudged urpmi.cfg by hand.
+		$err = N("medium `%s' is defined twice, aborting", $medium);
+		return;
+	    }
+	    $config{$medium}{url} = unquotespace $2;
 	    next;
 	}
 	#- config values
