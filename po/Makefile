@@ -4,7 +4,8 @@ localedir = $(PREFIX)/usr/share/locale
 LANGS = $(shell ls *.po | xargs -i basename {} .po )
 PGOAL = urpmi
 GOALS = $(PGOAL).pot  $(foreach a, $(LANGS), $(a).mo)
-POTFILES=../_irpm ../urpm.pm ../urpmf ../urpmi ../urpmi.addmedia ../urpmi.update ../urpmi.removemedia ../urpmq
+POTFILES = $(shell sed -e "s+^+../+" "POTFILES.in" )
+
 
 all: $(GOALS)
 
