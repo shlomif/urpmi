@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 33mdk
+Release: 34mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -114,6 +114,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Apr 17 2001 François Pons <fpons@mandrakesoft.com> 1.5-34mdk
+- fixed sorting of list file.
+
 * Tue Apr 17 2001 François Pons <fpons@mandrakesoft.com> 1.5-33mdk
 - make sure building of synthesis files are done.
 - return error if file given are wrong.
