@@ -5,6 +5,7 @@ use warnings;
 no warnings 'once';
 use Getopt::Long;# 2.33;
 use urpm::download;
+use urpm::msg;
 
 # The program that invokes us
 (my $tool = $0) =~ s!.*/!!;
@@ -39,12 +40,14 @@ my %options_spec = (
 	    if (defined &::usage) { ::usage() } else { die "No help defined\n" }
 	},
 	"no-locales" => sub {
-	    require urpm::msg; # make sure it has been loaded
 	    undef *::N;
 	    undef *urpm::N;
 	    undef *urpm::msg::N;
 	    undef *urpm::args::N;
+	    undef *urpm::cfg::N;
+	    undef *urpm::download::N;
 	    *::N = *urpm::N = *urpm::msg::N = *urpm::args::N
+	        = *urpm::cfg::N = *urpm::download::N
 		= sub { my ($f, @p) = @_; sprintf($f, @p) };
 	},
 	update => \$::update,
