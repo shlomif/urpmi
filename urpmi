@@ -571,7 +571,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 							      $text = N("        %s%% completed, speed = %s",
 									$percent, $speed);
 							  }
-							  print SAVEERR " " x (79 - length($text)) . "\r";
+							  print SAVEERR $text, " " x (79 - length($text)), "\r";
 						      } elsif ($mode eq 'end') {
 							  print SAVEERR " " x 79, "\r";
 						      }

@@ -395,7 +395,7 @@ sub sync_logger {
 	} else {
 	    $text = N("        %s%% completed, speed = %s", $percent, $speed);
 	}
-	print STDERR " " x (79 - length($text)) . "\r";
+	print STDERR $text, " " x (79 - length($text)), "\r";
     } elsif ($mode eq 'end') {
 	print STDERR " " x 79, "\r";
     }
