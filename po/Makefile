@@ -39,7 +39,8 @@ merge: $(PGOAL).pot
 $(PGOAL).pot: $(PL_CFILES) $(CFILES)
 	xgettext --default-domain=$(PGOAL) -F -n \
 	--add-comments='-PO' --add-comments=' Translator:'\
-	--keyword=_ --keyword=__ --keyword=N_ --keyword=gettext \
+	--keyword=_ --keyword=__ --keyword=N_ --keyword=N \
+	--keyword=gettext \
 	--language=C $(PL_CFILES) $(CFILES)
 	mv -f $(PGOAL).po $(PGOAL).pot
 	@rm -rf $(PL_CFILES)
