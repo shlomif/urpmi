@@ -22,10 +22,10 @@ install: autoirpm.update-all
 	install _irpm rpm-find-leaves urpmf $(BINDIR)
 	install -m 644 autoirpm.deny $(URPMIDIR2)
 	install -m 644 *.8 $(MANDIR)/man8
-	install urpme urpmi.addmedia autoirpm.update autoirpm.uninstall $(SBINDIR)
+	install urpme urpmi.addmedia urpmi.update urpmi.removemedia autoirpm.update autoirpm.uninstall $(SBINDIR)
 	install -s autoirpm.update-all $(SBINDIR)
-	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia
-	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.update
+#	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia
+#	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.update
 	install gurpmi $(XBINDIR)
 
 autoirpm.update-all: %: %.cc 
