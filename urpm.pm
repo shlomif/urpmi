@@ -2315,11 +2315,11 @@ sub get_packages_list {
     $val;
 }
 
-#- select source for package selected.
-#- according to keys given in the packages hash.
-#- return a list of list containing the source description for each rpm,
-#- match exactly the number of medium registered, ignored medium always
-#- have a null list.
+#- select sources for selected packages,
+#- according to keys of the packages hash.
+#- returns a list of lists containing the source description for each rpm,
+#- matching the exact number of registered media; ignored media being
+#- associated to a null list.
 sub get_source_packages {
     my ($urpm, $packages, %options) = @_;
     my ($id, $error, @list_error, %protected_files, %local_sources, @list, %fullname2id, %file2fullnames, %examined);
