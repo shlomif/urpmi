@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 3.9
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
 PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.50-5mdk
-BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel >= 4.0.3
+BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
 
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Fri Jul 26 2002 François Pons <fpons@mandrakesoft.com> 3.9-5mdk
+- fixed man pages typo.
+- sorted package to remove list.
+- always copy rpm if using supermount on a cdrom (avoid being too slow).
+
 * Thu Jul 25 2002 François Pons <fpons@mandrakesoft.com> 3.9-4mdk
 - fixed urpmq -u.
 

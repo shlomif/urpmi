@@ -542,7 +542,7 @@ sub configure {
     }
     foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
 	delete @{$_}{qw(start end)};
-	if ($options{callback_pkg}) {
+	if ($options{callback}) {
 	    if (-s "$urpm->{statedir}/$_->{hdlist}" > 32) {
 		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
 		eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", 0) };
@@ -1271,6 +1271,24 @@ sub clean {
     }
 }
 
+#- check if supermount is used.
+sub is_using_supermount {
+    my ($urpm, $device_mntpoint) = @_;
+    local (*F, $_);
+
+    #- read /etc/fstab and check for existing mount point.
+    open F, "/etc/fstab";
+    while (<F>) {
+	my ($device, $mntpoint, $fstype, $options) = /^\s*(\S+)\s+(\/\S+)\s+(\S+)\s+(\S+)/ or next;
+	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
+	if ($fstype eq 'supermount') {
+	    $device_mntpoint eq $mntpoint and return 1;
+	    $options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ && $device_mntpoint eq $1 and return 1;
+	}
+    }
+    return 0;
+}
+
 #- find used mount point from a pathname, use a optional mode to allow
 #- filtering according the next operation (mount or umount).
 sub find_mntpoints {
@@ -1745,7 +1763,9 @@ sub download_source_packages {
 	}
 
 	#- mount the removable device, only one or the important one.
-	$examine_removable_medium->($removables{$device}[0], $device);
+	#- if supermount is used on the device, it is preferable to copy
+	#- the file instead (because it is so slooooow).
+	$examine_removable_medium->($removables{$device}[0], $device, $urpm->is_using_supermount($device) && 'copy');
     }
 
     #- get back all ftp and http accessible rpms file into the local cache

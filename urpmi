@@ -364,7 +364,7 @@ if (%{$state->{ask_unselect} || {}}) {
     delete @{$state->{selected}}{keys %{$state->{ask_unselect}}};
 }
 if (%{$state->{ask_remove} || {}}) {
-    my $list = join "\n", keys %{$state->{ask_remove}};
+    my $list = join "\n", sort { $a cmp $b } keys %{$state->{ask_remove}};
     $noexpr = _("Nn");
     $yesexpr = _("Yy");
     message_input(_("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ and $state->{ask_remove} = {};
