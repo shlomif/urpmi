@@ -897,7 +897,7 @@ sub relocate_depslist {
 
 #- register local packages for being installed, keep track of source.
 sub register_local_packages {
-    my ($urpm, @files) = @_;
+    my ($urpm, $minimal, @files) = @_;
     my ($error, @names);
 
     #- examine each rpm and build the depslist for them using current
@@ -920,8 +920,13 @@ sub register_local_packages {
     }
     $error and $urpm->{fatal}(1, _("error registering local packages"));
 
-    #- compute depslist associated.
-    $urpm->{params}->compute_depslist;
+    #- compute id or depslist associated.
+    #- minimal mode says dependencies will be resolved in a cleaner way.
+    if ($minimal) {
+	$urpm->{params}->compute_id;
+    } else {
+	$urpm->{params}->compute_depslist;
+    }
 
     #- return package names...
     @names;
@@ -1495,7 +1500,7 @@ sub get_source_packages {
 		$urpm->{error}(_("there are multiples packages with the same rpm filename \"%s\""), $1);
 		next;
 	    } elsif (keys(%{$file2fullnames{$1} || {}}) == 1) {
-		my ($fullname) = keys(%{$file2fullnames{$2} || {}});
+		my ($fullname) = keys(%{$file2fullnames{$1} || {}});
 		if (defined delete $fullname2id{$fullname}) {
 		    push @local_sources, "$urpm->{cachedir}/rpms/$1.rpm";
 		} else {

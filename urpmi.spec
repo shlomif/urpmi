@@ -2,12 +2,12 @@
 
 Name: urpmi
 Version: 1.6
-Release: 11mdk
+Release: 12mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: eject, wget
-PreReq: perl-gettext, rpmtools >= 3.0-7mdk
+PreReq: perl-gettext, rpmtools >= 3.0-8mdk
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -106,6 +106,12 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Thu Jul  5 2001 François Pons <fpons@mandrakesoft.com> 1.6-12mdk
+- fixed wrong dependencies resolution for local packages
+  in minimal mode.
+- improved urpmf.
+- updated man pages.
+
 * Thu Jul  5 2001 François Pons <fpons@mandrakesoft.com> 1.6-11mdk
 - take care of local packages.
 

@@ -7,19 +7,55 @@
 ECHO=`which gettext 2> /dev/null`
 [ -z "$ECHO" ] && ECHO="echo" || ECHO="$ECHO -s"
 TEXTDOMAIN="urpmi"
-
-if [ "$#" -gt 1 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    $ECHO "usage: rpmf [<file>]"
-    exit 1
-fi
+export TEXTDOMAIN
 
 dir="/var/lib/urpmi"
+options=
 
-
-if /bin/ls $dir/hdlist.* >/dev/null 2>/dev/null; then
-    parsehdlist --files --quiet $dir/hdlist.* | grep -E "$1"
-else
-    $ECHO "urpmi is not installed"
-    exit 1
-fi
-
+while true
+do
+    case $1 in
+	-h|--help)
+	    $ECHO "urpmf version" `rpm -q rpmtools --qf '%{VERSION}'`
+	    $ECHO "Copyright (C) 1999,2000,2001 MandrakeSoft."
+	    $ECHO "This is free software and may be redistributed under the terms of the GNU GPL."
+	    echo
+	    $ECHO "usage: urpmf [options] <file>"
+	    $ECHO "  --quiet         - do not print tag name (default if no tag given on command"
+	    $ECHO "                    line, incompatible with interactive mode)."
+	    $ECHO "  --all           - print all tags."
+	    $ECHO "  --name          - print tag name: rpm filename (assumed if no tag given on"
+	    $ECHO "                    command line but without package name)."
+	    $ECHO "  --group         - print tag group: group."
+	    $ECHO "  --size          - print tag size: size."
+	    $ECHO "  --serial        - print tag serial: serial."
+	    $ECHO "  --summary       - print tag summary: summary."
+	    $ECHO "  --description   - print tag description: description."
+	    $ECHO "  --provides      - print tag provides: all provides (mutliple lines)."
+	    $ECHO "  --requires      - print tag requires: all requires (multiple lines)."
+	    $ECHO "  --files         - print tag files: all files (multiple lines)."
+	    $ECHO "  --conflicts     - print tag conflicts: all conflicts (multiple lines)."
+	    $ECHO "  --obsoletes     - print tag obsoletes: all obsoletes (multiple lines)."
+	    $ECHO "  --prereqs       - print tag prereqs: all prereqs (multiple lines)."
+	    exit 1
+	    ;;
+	--*)
+	    options="$1 $options"
+	    shift
+	    ;;
+	*)
+	    if [ $# -gt 1 ]; then
+		$ECHO "usage: urpmf [options] <file>"
+		$ECHO "try urpmf --help for more options"
+		exit 1
+	    fi
+	    if /bin/ls $dir/hdlist.* >/dev/null 2>/dev/null; then
+		parsehdlist ${options:---files --quiet} $dir/hdlist.* | grep -E "$1"
+		exit $?
+	    else
+		$ECHO "urpmi is not installed"
+		exit 1
+	    fi
+	    ;;
+    esac
+done

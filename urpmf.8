@@ -1,18 +1,51 @@
-.TH urpmf 8 "10 Apr 2001" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmf 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmf
 .SH NAME
 urpmf \- RPMFind - Finds the RPM package providing the specified file
 .SH SYNOPSIS
-.B urpmf [<\fIFile\fP>]
+.B urpmf [\fIoptions\fP] <\fIfile\fP>
 .SH DESCRIPTION
 urpmf outputs a list of packages providing the file specified as an argument.
 .PP
-<\fIFile\fP> is the name of the file you wish to know the package providing
+<\fIfile\fP> is the name of the file you wish to know the package providing
 it. Note that you may type just a substring of the file you are looking for,
 \fBurpmf\fP will then print a list of matching files with their corresponding
 packages.
 .PP
 urpmf searches through installed and uninstalled packages.
+.SH OPTIONS
+.IP "\fB\--help\fP"
+print an help message and exit.
+.IP "\fB\--quiet\fP"
+do not print tag name (default if no tag given on command line, incompatible
+with interactive mode).
+.IP "\fB\--all\fP"
+print all tags.
+.IP "\fB\--name\fP"
+print tag name: rpm filename (assumed if no tag given on command line but
+without package name).
+.IP "\fB\--group\fP"
+print tag group: group.
+.IP "\fB\--size\fP"
+print tag size: size.
+.IP "\fB\--serial\fP"
+print tag serial: serial.
+.IP "\fB\--summary\fP"
+print tag summary: summary.
+.IP "\fB\--description\fP"
+print tag description: description.
+.IP "\fB\--provides\fP"
+print tag provides: all provides (mutliple lines).
+.IP "\fB\--requires\fP"
+print tag requires: all requires (multiple lines).
+.IP "\fB\--files\fP"
+print tag files: all files (multiple lines).
+.IP "\fB\--conflicts\fP"
+print tag conflicts: all conflicts (multiple lines).
+.IP "\fB\--obsoletes\fP"
+print tag obsoletes: all obsoletes (multiple lines).
+.IP "\fB\--prereqs\fP"
+print tag prereqs: all prereqs (multiple lines).
 .SH FILES
 /usr/bin/urpmf
 .br

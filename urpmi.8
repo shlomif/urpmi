@@ -1,9 +1,9 @@
-.TH urpmi 8 "10 Apr 2001" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmi 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
 .SH SYNOPSIS
-.B urpmi [options] [package_names|rpm_files...]
+.B urpmi [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
 urpmi enables non-superuser install of rpms. In fact, it only authorizes
 well-known rpms to be installed. If you want to install local rpm file, you
@@ -41,9 +41,12 @@ to launch, use autoirpm.
 .br
 To install all available menu entries of all known packages,
 use autoirpm-icons.
-.SH OPTION
+.SH OPTIONS
 .IP "\fB\--help\fP"
 print an help message and exit.
+.IP "\fB\--update\fP"
+use only update media. This means \fBurpmi\fP will search and resolve
+dependencies only in media marked as update.
 .IP "\fB\--auto\fP"
 installs all required dependencies without asking.
 .IP "\fB\--auto-select\fP"
@@ -69,6 +72,8 @@ upgrade all requires if they can be upgraded.
 if maximal closure is used, assume that a package listed mey have wrong or not
 up-to-date dependancies. This cause more package to be upgraded and may correct
 unresolved dependancies on the rpm database.
+.IP "\fB\-p\fP"
+allow search in provides to find package.
 .IP "\fB\-q\fP"
 proposes a quiet mode when calling rpm where no upgrade status are printed.
 .IP "\fB\-v\fP"

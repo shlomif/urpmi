@@ -151,7 +151,7 @@ if (@files) {
     $use_provides or $urpm->read_provides;
 
     #- build closure with local package and return list of names.
-    push @names, $urpm->register_local_packages(@files);
+    push @names, $urpm->register_local_packages($minimal, @files);
 }
 
 #- reparse whole internal depslist to match against newer packages only.

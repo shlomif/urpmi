@@ -1,9 +1,9 @@
-.TH urpmi.addmedia 8 "10 Apr 2001" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmi.addmedia 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.addmedia
 .SH NAME
 urpmi.addmedia \- adds a new rpms media for use with urpmi
 .SH SYNOPSIS
-.B urpmi.addmedia <\fIname\fP> <\fIurl\fP>
+.B urpmi.addmedia [\fIoptions\fP] <\fIname\fP> <\fIurl\fP>
 .SH DESCRIPTION
 urpmi.addmedia tells urpmi that he can find new rpms at the specified
 location. Currently supported medias are: local drives, removable drives
@@ -38,21 +38,24 @@ eg: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist
 .PP
 Local drive or NFS:
 .br
-.IP "\fB    urpmi.addmedia <\fIname\fP> file://<\fIpath\fP>\fP"
+.IP "\fB    urpmi.addmedia <\fIname\fP> file://<\fIpath\fP>\fP with <\fIrelative path of hdlist\fP>\fP"
 Where <\fIname\fP> is your reference for the media (e.g. Myrpms).
 .br
 <\fIpath\fP> is the location of the rpm directory on your machine.
 .PP
 Removable device:
 .br
-.IP "\fB    urpmi.addmedia removable_<\fIdevice\fP>://<\fIpath\fP>\fP"
+.IP "\fB    urpmi.addmedia removable_<\fIdevice\fP>://<\fIpath\fP>\fP with <\fIrelative path of hdlist\fP>\fP"
 <\fIdevice\fP> is the name of your media as specified in the /dev/ directory
 (e.g. cdrom, floppy, zip, ...).
 .br
 <\fIpath\fP> is the location of the rpm directory on your machine when media
 is mounted.
 .PP
-
+.SH OPTIONS
+.IP "\fB\--update\fP"
+add a medium which will be taken into account when updating only update media by
+\fBurpmi\fP.
 .SH FILES
 /usr/bin/urpmi
 .br
