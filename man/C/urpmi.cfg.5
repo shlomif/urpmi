@@ -1,0 +1,129 @@
+.TH urpmi.cfg 5 "28 Aug 2003" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi.cfg
+.SH NAME
+urpmi.cfg \- urpmi option and media configuration file format.
+.SH DESCRIPTION
+The urpmi.cfg file format is an enhancement of previous version of urpmi.cfg
+format.
+
+The file is divided in multiple section, a section to set global options and as
+many sections as needed for the description of media managed.
+
+.SS Global options
+
+Some global options can be activated by default. The following sample shows how
+to disable signature checking and avoid transaction splits :
+
+.B "{"
+.br
+.B "  no-verify-rpm"
+.br
+.B "  split-length: 0"
+.br
+.B "}"
+
+The following options can be written in this section :
+
+.TP
+.B verify-rpm
+Same as \fB--verify-rpm\fP for \fBurpmi\fP. Enable or disable signature
+checking should be used, enabled by default. Disabling it can be written
+in various ways (as for all the other boolean options) :
+\fBno-verify-rpm\fP or \fBverify-rpm: no\fP or \fBverify-rpm: off\fP or
+\fBverify-rpm: 0\fP.
+
+.TP
+.B fuzzy
+Same as \fB--fuzzy\fP for \fBurpmi\fP or \fBurpmq\fP. Enable or disable
+fuzzy search, disabled by default. Enabling it can be written in various ways :
+\fBfuzzy\fP or \fBfuzzy: yes\fP or \fBfuzzy: on\fP or \fBfuzzy: 1\fP.
+
+.TP
+.B allow-force
+Same as \fB--allow-force\fP for \fBurpmi\fP, disabled by default.
+
+.TP
+.B allow-nodeps
+Same as \fB--allow-nodeps\fP for \fBurpmi\fP, disabled by default.
+
+.TP
+.B pre-clean, post-clean, clean
+Control cache management for \fBurpmi\fP, default is only \fBpost-clean\fP
+activated.
+
+.TP
+.B excludedocs
+Same as \fB--excludedocs\fP for \fBurpmi\fP, default is disabled.
+
+.TP
+.B limit-rate
+Same as \fB--limit-rate\fP for all tools. This option allows to control download
+speed, there is no limitation by default. The number given is in Kilo-bytes per
+second unless a suffix \fBK\fP, \fBM\fP is given.
+
+.TP
+.B excludepath
+Same as \fB--excludepath\fP for \fBurpmi\fP. This option allow to give comma
+separated list of path to be excluded on installationn, there is no path
+exlusion by default.
+
+.TP
+.B key-ids
+This option is not available on command line. This option allows to use a comma
+separated list of \fBkey-ids\fP to be globaly accepted (keys still need to be
+authorized by \fBrpm\fP) for any medium unless a specific \fBkey-ids\fP option
+for this medium is given. There is no default (even MandrekeSoft key id 70771ff3
+is not by default).
+
+.TP
+.B split-level
+Same as \fB--split-level\fP for \fBurpmi\fP. This option allows to control if
+transaction should be split depending of the number of packages to upgrade. The
+default value is 20.
+
+.TP
+.B split-length
+Same as \fB--split-length\fP for \fBurpmi\fP. This option allows to control the
+minimal length of split transaction. The default value is 1 (smallest possible
+transaction). Setting this value to 0 disable the split of transaction.
+
+.SS Medium description
+
+A medium is described as follows :
+
+.B "name url {"
+.br
+.B "  hdlist: ..."
+.br
+.B "  ..."
+.br
+.B "}"
+
+where \fBname\fP is name of medium (space character are prefixed by anti-slash)
+and optional \fBurl\fP is url of the medium (if no \fBurl\fP is given, it will
+be guessed according to so mandatory list file).
+
+Most other options like \fBlist\fP, \fBwith_hdlist\fP, \fBsynthesis\fP,
+\fBremovable\fP, \fBvirtual\fP are for internal use and should be changed only
+for experienced users.
+
+But options like \fBupdate\fP, \fBignore\fP or \fBkey-ids\fP can be modified by
+users to mark medium as an update, to ignore medium or to give allowed GPG key
+ids for packages of the medium for verification (unless of course signature
+checking has been disabled globaly).
+
+Please note that \fBkey-ids\fP is automatically set by \fBurpmi.update\fP or
+\fBurpmi.addmedia\fP if a remote pubkey file is available on the mirror. This
+file contains all the GPG armor keys that may be used.
+
+.SH BUGS
+An \fB{\fP should finish a line, as well as a \fB}\fP should start it when used.
+
+This means the construction \fB{ no-verify-rpm }\fP on a single line is invalid.
+.SH AUTHOR
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (original author)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (current author)
+.SH SEE ALSO
+\fIurpmi\fP(8),
+\fIrpmdrake\fP(8)
