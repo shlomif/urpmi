@@ -1343,7 +1343,7 @@ sub upload_source_packages {
 		#- mount everything necessary.
 		unless ($urpm->try_mounting($dir, 'mount')) {
 		    $urpm->try_mounting($dir, 'unmount'); system("eject", $device);
-		    $ask_for_medium->($medium->{name}, $medium->{removable}) or last;
+		    $ask_for_medium->($medium->{name}, $medium->{removable}) or die "removable medium not selected";
 		}
 	    }
 	    if (-e $dir) {

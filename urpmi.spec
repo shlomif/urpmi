@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 31mdk
+Release: 32mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -114,6 +114,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Fri Apr 13 2001 François Pons <fpons@mandrakesoft.com> 1.5-32mdk
+- fixed typo on urpmf man pages.
+- fixed urpmi return exit code of grpmi on error.
+- fixed cancel on medium change dialog (gurpmi or --X).
+
 * Tue Apr 10 2001 François Pons <fpons@mandrakesoft.com> 1.5-31mdk
 - fixed error on .listing file in rpms cache directory.
 

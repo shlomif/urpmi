@@ -294,7 +294,7 @@ sub install {
     system($X ? ("grpmi", $WID ? ("--WID=$WID") : ()) : ("rpm", $rpm_opt), @_);
     if ($?) {
 	message(_("Installation failed"));
-	$X and exit 1; #- grpmi handles --nodeps and --force by itself
+	$X and exit ($? >> 8) || 1; #- grpmi handles --nodeps and --force by itself, forward grpmi error.
 
 	m|^/| && !-e $_ and exit 1 foreach @_; #- missing local file
 
