@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.2
-Release: 27mdk
+Release: 28mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.81
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.81
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -206,6 +206,10 @@ fi
 
 
 %changelog
+* Tue Mar  4 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.2-28mdk
+- fixed french translations.
+- fix bug 2680.
+
 * Mon Mar  3 2003 François Pons <fpons@mandrakesoft.com> 4.2-27mdk
 - avoid mounting or unmounting a supermounted device.
 - updated french translations (some from Thévenet Cédric).

@@ -116,6 +116,16 @@ usage:
     exit(0);
 }
 
+sub to_utf8 { Locale::gettext::iconv($_[0], undef, "UTF-8") }
+sub gmessage {
+    my ($msg, %params) = @_;
+    my $ok = to_utf8(_("Ok"));
+    my $cancel = to_utf8(_("Cancel"));
+    my $buttons = $params{ok_only} ? "$ok:0" : "$ok:0,$cancel:2";
+    $msg = to_utf8($msg);
+    `gmessage -default "$ok" -buttons "$buttons" "$msg"`;
+}
+
 #- parse arguments list.
 my @nextargv;
 my $command_line = join " ", @ARGV;
@@ -370,9 +380,7 @@ if (%{$state->{ask_unselect} || {}}) {
 	my $list = join "\n", map { scalar $urpm->{depslist}[$_]->fullname } keys %{$state->{ask_unselect}};
 	my $msg = _("Some package requested cannot be installed:\n%s\ndo you agree ?", $list);
 	if ($X) {
-	    my $ok = _("Ok");
-	    my $cancel = _("Cancel");
-	    `gmessage -default "$ok" -buttons "$ok:0,$cancel:2" "$msg"`;
+	    gmessage($msg);
 	    $? and exit 0;
 	} else {
 	    $noexpr = _("Nn");
@@ -412,9 +420,7 @@ if (%{$state->{ask_remove} || {}}) {
 				} sort { $a cmp $b } keys %{$state->{ask_remove}};
 	my $msg = _("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list);
 	if ($X) {
-	    my $ok = _("Ok");
-	    my $cancel = _("Cancel");
-	    `gmessage -default "$ok" -buttons "$ok:0,$cancel:2" "$msg"`;
+	    gmessage($msg);
 	    $? and exit 0;
 	} else {
 	    $noexpr = _("Nn");
@@ -461,9 +467,7 @@ if (@root_only) {
     my $msg2 = _("Is this OK?");
     my $p = join "\n", @to_install;
     if ($X) {
-	my $ok = _("Ok");
-	my $cancel = _("Cancel");
-	`gmessage -default "$ok" -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
+	gmessage("$msg:\n$p\n\n$msg2");
 	$? and exit 0;
     } else {
 	$noexpr = _("Nn");
@@ -503,10 +507,8 @@ my %sources = $urpm->download_source_packages($local_sources, $list,
 						  my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						  my $msg2 = _("Press Enter when ready...");
 						  if ($X) {
-						      my $ok = _("Ok");
-						      my $cancel = _("Cancel");
 						      $msg =~ s/"/\\"/g;
-						      `gmessage -default "$ok" -buttons "$ok:0,$cancel:2" "$msg"`;
+						      gmessage($msg);
 						      !$?;
 						  } else {
 						      defined message_input("$msg\n$msg2 ");
@@ -530,9 +532,7 @@ if ($urpm->{options}{'verify-rpm'}) {
 	    exit 1;
 	} else {
 	    if ($X) {
-		my $ok = _("Ok");
-		my $cancel = _("Cancel");
-		`gmessage -default "$cancel" -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
+		gmessage("$msg:\n$p\n\n$msg2");
 		$? and exit 1;
 	    } else {
 		$noexpr = _("Nn");
@@ -660,8 +660,7 @@ sub log_it {
 sub message {
     my ($msg, $noX) = @_;
     if ($X && !$noX && !$auto) {
-	my $ok = _("Ok");
-	`gmessage -default "$ok" -buttons "$ok" "$msg"`;
+	gmessage($msg, ok_only => 1);
 	$bug and log_it($msg);
     } else {
 	if ($bug) {
@@ -675,8 +674,7 @@ sub message_input {
     my ($msg, $default_input) = @_;
 
     if ($X && !default_input) { #- if a default input is given, the user doesn't have to choose (and being asked).
-	my $ok = _("Ok");
-	`gmessage -default "$ok" -buttons "$ok" "$msg"`;
+	gmessage($msg, ok_only => 1);
 	$bug and log_it($msg);
     } else {
 	if ($bug) {
