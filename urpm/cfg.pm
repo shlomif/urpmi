@@ -149,7 +149,7 @@ sub dump_config ($$) {
 	for (sort grep { $_ && $_ ne 'url' } keys %{$config->{$m}}) {
 	    if (/^(update|ignore|synthesis|virtual)$/) {
 		print $f "  $_\n";
-	    } else {
+	    } elsif ($_ ne 'priority') {
 		print $f "  $_: $config->{$m}{$_}\n";
 	    }
 	}
