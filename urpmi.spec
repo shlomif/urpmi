@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -94,7 +94,7 @@ rm -f /var/lib/urpmi/depslist
 %{_sbindir}/urpmi.*
 %{_mandir}/man?/urpm*
 # find_lang isn't able to find man pages yet...
-%lang(fr) %{_mandir}/fr/man?/urpm*
+%lang(fr) %{_mandir}/fr/man*/*
 %{perl_sitearch}/urpm.pm
 
 %files -n gurpmi
@@ -112,6 +112,11 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed Aug 29 2001 François Pons <fpons@mandrakesoft.com> 1.7-6mdk
+- fixed multiple asking of same choices.
+- possibly fixed array error in resolving choices.
+- fixed wrong reference to fr man pages.
+
 * Wed Aug 29 2001 François Pons <fpons@mandrakesoft.com> 1.7-5mdk
 - rebuild with latest rpm.
 

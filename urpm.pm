@@ -1069,16 +1069,24 @@ sub compute_closure {
 		    exists $packages->{$_} && ! ref $packages->{$_} and $follow_id = $_, last;
 		    $installed && exists $installed->{$_} and push @upgradable_choices, $_;
 		}
-		unless ($follow_id) {
+		unless (defined $follow_id) {
 		    #- if there are at least one upgradable choice, use it instead
 		    #- of asking the user to chose among a list.
 		    if (@upgradable_choices == 1) {
 			push @packages, $upgradable_choices[0];
 		    } else {
 			@upgradable_choices > 1 and @choices = @upgradable_choices;
-			$select_choices and push @packages, $select_choices->($urpm, @choices);
-			foreach (@choices) {
-			    push @{$packages->{$_} ||= []}, \@choices;
+			#- propose the choice to the user now, or select the best one (as it is supposed to be).
+			my @selection = $select_choices ? ($select_choices->($urpm, $id, @choices)) : ();
+			if (@selection) {
+			    foreach (@selection) {
+				unshift @packages, $_;
+				exists $packages->{$_} or $packages->{$_} = 1;
+			    }
+			} else {
+			    foreach (@choices) {
+				push @{$packages->{$_} ||= []}, \@choices;
+			    }
 			}
 		    }
 		}
@@ -1298,7 +1306,7 @@ sub filter_minimal_packages_to_upgrade {
 		defined $id or next;
 
 		#- propose the choice to the user now, or select the best one (as it is supposed to be).
-		my @selection = $select_choices ? ($select_choices->($urpm, @$id)) : ($id->[0]);
+		my @selection = $select_choices ? ($select_choices->($urpm, undef, @$id)) : ($id->[0]);
 		foreach (@selection) {
 		    unshift @packages, $_;
 		    exists $packages->{$_} or $packages->{$_} = 1;

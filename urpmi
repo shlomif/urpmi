@@ -93,7 +93,7 @@ for (@ARGV) {
 	/q/ and do { $rpm_opt = "-U"; next };
 	/p/ and do { $use_provides = 1; next };
 	/v/ and do { $verbose = 1; next };
-	die "urpmi: unknown option \"-$1\", check usage with --help\n"; } next };
+	die _("urpmi: unknown option \"-%s\", check usage with --help\n", $1); } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     /\.rpm$/ and do { push @files, untaint($_); next };
     push @names, $_;
@@ -174,12 +174,15 @@ $urpm->search_packages(\%packages,
 
 #- filter to add in packages selected required packages.
 my $ask_choice = sub {
-    my ($urpm, @choices_id) = @_;
+    my ($urpm, $from_id, @choices_id) = @_;
     my $n = 1; #- default value.
-    my @l = map { my $info = $urpm->{params}{depslist}[$_]; "$info->{name}-$info->{version}-$info->{release}" } @choices_id;
+    my ($from, @l) = map { my $info = $urpm->{params}{depslist}[$_];
+			   "$info->{name}-$info->{version}-$info->{release}" } ($from_id, @choices_id);
 
     if (@l > 1 && !$auto) {
-	my $msg = _("One of the following packages is needed:");
+	my $msg = (defined $from_id ?
+		   _("One of the following packages is needed to install %s:", $from) :
+		   _("One of the following packages is needed:"));
 	if ($X) {
 	    `gchooser "$msg" @l`;
 	    $n = $? >> 8 || die;
