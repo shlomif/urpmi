@@ -9,6 +9,9 @@ use Cwd;
 our $PROXY_CFG = '/etc/urpmi/proxy.cfg';
 my $proxy_config;
 
+#- Timeout for curl connection (in seconds)
+our $CONNECT_TIMEOUT = 30;
+
 sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
 
 sub import () {
@@ -247,6 +250,7 @@ sub sync_curl {
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 	    "--stderr", "-", # redirect everything to stdout
 	    "--disable-epsv",
+	    "--connect-timeout", $CONNECT_TIMEOUT,
 	    "-s", "-I", @ftp_files) . " |";
 	while (<$curl>) {
 	    if (/Content-Length:\s*(\d+)/) {
@@ -307,6 +311,7 @@ sub sync_curl {
 	    "-R",
 	    "-f",
 	    "--disable-epsv",
+	    "--connect-timeout", $CONNECT_TIMEOUT,
 	    "--stderr", "-", # redirect everything to stdout
 	    @all_files) . " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
