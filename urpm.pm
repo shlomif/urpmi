@@ -8,6 +8,7 @@ use urpm::msg;
 use urpm::download;
 use urpm::util;
 use urpm::sys;
+use urpm::cfg;
 
 our $VERSION = '4.5';
 our @ISA = qw(URPM);
@@ -96,146 +97,75 @@ sub sync_webfetch {
     %files and die N("unable to handle protocol: %s", join ', ', keys %files);
 }
 
-#- read /etc/urpmi/urpmi.cfg as config file, keep compability with older
-#- configuration file by examining if one entry is of the form
-#-   <name> <url> {
-#-      ...
-#-   }
-#- else only this form is used
-#-   <name> <url>
-#-   <name> <ftp_url> with <relative_path_hdlist>
+#- Loads /etc/urpmi/urpmi.cfg and performs basic checks.
+#- Does not handle old format: <name> <url> [with <path_hdlist>]
+#- options :
+#-    - nocheck_access : don't check presence of hdlist and other files
 sub read_config {
     my ($urpm, %options) = @_;
+    return if $urpm->{media}; #- media already loaded
+    $urpm->{media} = [];
+    my $config = urpm::cfg::load_config($urpm->{config})
+	or $urpm->{fatal}(6, $urpm::cfg::err);
 
-    #- keep in mind if it has been called before.
-    $urpm->{media} and return; $urpm->{media} ||= [];
-
-    #- check urpmi.cfg content, if the file is old keep track
-    #- of old format used.
-    local (*F, $_);
-    open F, $urpm->{config}; #- no filename can be allowed on some case
-    while (<F>) {
-	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	$_ eq '{' and do { #- urpmi.cfg global options extension
-	    while (<F>) {
-		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-		$_ eq '}' and last;
-		#- check for boolean variables first, and after that valued variables.
-		my ($no, $k, $v);
-		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean|excludedocs|compress|keep|auto|resume)(?:\s*:\s*(.*))?$/) {
-		    unless (exists($urpm->{options}{$k})) {
-			$urpm->{options}{$k} = $v eq '' || $v =~ /^(yes|on|1)$/i || 0;
-			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
-		    }
-		    next;
-		} elsif (($k, $v) = /^(limit-rate|excludepath|key[\-_]ids|split-(?:level|length)|priority-upgrade|downloader)\s*:\s*(.*)$/) {
-		    unless (exists($urpm->{options}{$k})) {
-			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
-			$urpm->{options}{$k} = $v;
-		    }
-		    next;
-		}
-		$_ and $urpm->{error}(N("syntax error in config file at line %s", $.));
+    #- global options
+    if ($config->{''}) {
+	for my $opt (qw(verify-rpm fuzzy allow-force allow-nodeps pre-clean post-clean excludedocs compress keep auto resume limit-rate excludepath key-_ids split-level split-length priority-upgrade downloader)) {
+	    if (defined $config->{''}{$opt} && !exists $urpm->{options}{$opt}) {
+		$urpm->{options}{$opt} = $config->{''}{$opt};
 	    }
-	    exists $urpm->{options}{key_ids} && ! exists $urpm->{options}{'key-ids'} and
-	      $urpm->{options}{'key-ids'} = delete $urpm->{options}{key_ids};
-	    next };
-	/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/ and do { #- urpmi.cfg format extention
-	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
-	    while (<F>) {
-		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-		$_ eq '}' and last;
-		/^(hdlist|list|with_hdlist|removable|md5sum|key[\-_]ids)\s*:\s*(.*)$/ and $medium->{$1} = $2, next;
-		/^(update|ignore|synthesis|virtual)\s*$/ and $medium->{$1} = 1, next;
-		/^modified\s*$/ and next;
-		$_ and $urpm->{error}(N("syntax error in config file at line %s", $.));
-	    }
-	    exists $medium->{key_ids} && ! exists $medium->{'key-ids'} and $medium->{'key-ids'} = delete $medium->{key_ids};
-	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
-	    next };
-	/^(.*?[^\\])\s+(.*?[^\\])\s+with\s+(.*)$/ and do { #- urpmi.cfg old format for ftp
-	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2), with_hdlist => unquotespace($3) };
-	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
-	    next };
-	/^(.*?[^\\])\s+(?:(.*?[^\\])\s*)?$/ and do { #- urpmi.cfg old format (assume hdlist.<name>.cz2?)
-	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
-	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
-	    next };
-	$_ and $urpm->{error}(N("syntax error in config file at line %s", $.));
+	}
     }
-    close F;
+    #- per-media options
+    for my $m (grep { $_ ne '' } keys %$config) {
+	my $medium = { name => $m, clear_url => $config->{$m}{url} };
+	for my $opt (qw(hdlist list with_hdlist removable md5sum key-ids update ignore synthesis virtual)) {
+	    defined $config->{$m}{$opt} and $medium->{$opt} = $config->{$m}{$opt};
+	}
+	$urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
+    }
 
-    #- keep in mind when an hdlist/list file is used, really usefull for
-    #- the next probe.
-    my (%hdlists, %lists);
+    #- keep in mind when an hdlist/list file is already used
+    my %filelists;
     foreach (@{$urpm->{media}}) {
-	if ($_->{hdlist}) {
-	    exists($hdlists{$_->{hdlist}}) and
-	      $_->{ignore} = 1,
-		$urpm->{error}(N("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name}));
-	    $hdlists{$_->{hdlist}} = undef;
-	}
-	if ($_->{list}) {
-	    exists($lists{$_->{list}}) and
-	      $_->{ignore} = 1,
-		$urpm->{error}(N("medium \"%s\" trying to use an already used list, medium ignored", $_->{name}));
-	    $lists{$_->{list}} = undef;
-	}
-    }
-
-    #- urpmi.cfg if old is not enough to known the various media, track
-    #- directly into /var/lib/urpmi,
-    foreach (glob("$urpm->{statedir}/hdlist.*")) {
-	if (m|/hdlist\.((.*)\.cz2?)$|) {
-	    #- check if it has already been detected above.
-	    exists($hdlists{"hdlist.$1"}) and next;
-
-	    #- if not this is a new media to take care if
-	    #- there is a list file.
-	    if (-e "$urpm->{statedir}/list.$2") {
-		if (exists($lists{"list.$2"})) {
-		    $urpm->{error}(N("unable to take care of medium \"%s\" as list file is already used by another medium", $2));
-		} else {
-		    my $medium;
-		    foreach (@{$urpm->{media}}) {
-			$_->{name} eq $2 and $medium = $_, last;
-		    }
-		    $medium and $urpm->{error}(N("unable to use name \"%s\" for unnamed medium because it is already used",
-						 $2)), next;
-
-		    $medium = { name => $2, hdlist => "hdlist.$1", list => "list.$2" };
-		    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
-		}
-	    } else {
-		$urpm->{error}(N("unable to take medium \"%s\" into account as no list file [%s] exists",
-				 $2, "$urpm->{statedir}/list.$2"));
+	for my $filetype (qw(hdlist list)) {
+	    if ($_->{$filetype}) {
+		exists($filelists{$filetype}{$_->{$filetype}})
+		    and $_->{ignore} = 1,
+		    $urpm->{error}(
+			N($filetype eq 'hdlist'
+			    ? "medium \"%s\" trying to use an already used hdlist, medium ignored"
+			    : "medium \"%s\" trying to use an already used list, medium ignored",
+			$_->{name})
+		    );
+		$filelists{$filetype}{$_->{$filetype}} = undef;
 	    }
-	} else {
-	    $urpm->{error}(N("unable to determine medium of this hdlist file [%s]", $_));
 	}
     }
 
-    #- check the presence of hdlist file and list file if necessary.
+    #- check the presence of hdlist and list files if necessary.
     unless ($options{nocheck_access}) {
 	foreach (@{$urpm->{media}}) {
 	    $_->{ignore} and next;
-	    -r "$urpm->{statedir}/$_->{hdlist}" || -r "$urpm->{statedir}/synthesis.$_->{hdlist}" && $_->{synthesis} or
-	      $_->{ignore} = 1, $urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
-	    $_->{list} && -r "$urpm->{statedir}/$_->{list}" || defined $_->{url} or
-	      $_->{ignore} = 1, $urpm->{error}(N("unable to access list file of \"%s\", medium ignored", $_->{name}));
+	    -r "$urpm->{statedir}/$_->{hdlist}" || -r "$urpm->{statedir}/synthesis.$_->{hdlist}" && $_->{synthesis}
+		or $_->{ignore} = 1,
+		$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
+	    $_->{list} && -r "$urpm->{statedir}/$_->{list}" || defined $_->{url}
+		or $_->{ignore} = 1,
+		$urpm->{error}(N("unable to access list file of \"%s\", medium ignored", $_->{name}));
 	}
     }
 
-    local *MD5SUM;
-    open MD5SUM, "$urpm->{statedir}/MD5SUM";
-    while (<MD5SUM>) {
+    #- read MD5 sums (usually not in urpmi.cfg but in a separate file)
+    open my $md5sum, "$urpm->{statedir}/MD5SUM";
+    while (<$md5sum>) {
 	my ($md5sum, $file) = /(\S*)\s+(.*)/;
 	foreach (@{$urpm->{media}}) {
 	    ($_->{synthesis} ? "synthesis." : "").$_->{hdlist} eq $file
 		and $_->{md5sum} = $md5sum, last;
 	}
     }
-    close MD5SUM;
+    close $md5sum;
 }
 
 #- probe medium to be used, take old medium into account too.
@@ -358,36 +288,37 @@ sub probe_removable_device {
     }
 }
 
-#- write back urpmi.cfg code to allow modification of medium listed.
+#- Writes the urpmi.cfg file.
 sub write_config {
     my ($urpm) = @_;
 
-    #- avoid trashing exiting configuration in this case.
+    #- avoid trashing exiting configuration if it wasn't loaded
     $urpm->{media} or return;
 
-    local (*F, *MD5SUM);
-    open F, ">$urpm->{config}" or $urpm->{fatal}(6, N("unable to write config file [%s]", $urpm->{config}));
-    open MD5SUM, ">$urpm->{statedir}/MD5SUM";
-    if (%{$urpm->{options} || {}}) {
-	printf F "{\n";
-	while (my ($k, $v) = each %{$urpm->{options}}) {
-	    printf F "  %s: %s\n", $k, $v;
-	}
-	printf F "}\n\n";
+    my $config = {};
+    #- TODO options set via the command-line shouldn't be taken into account
+    while (my ($k, $v) = each %{$urpm->{options} || {}}) {
+	$config->{''}{$k} = $v;
     }
     foreach my $medium (@{$urpm->{media}}) {
-	printf F "%s %s {\n", quotespace($medium->{name}), quotespace($medium->{clear_url});
-	foreach (qw(hdlist with_hdlist list removable key-ids priority-upgrade)) {
-	    $medium->{$_} and printf F "  %s: %s\n", $_, $medium->{$_};
+	my $medium_name = $medium->{name};
+	$config->{$medium_name}{url} = $medium->{clear_url};
+	foreach (qw(hdlist with_hdlist list removable key-ids priority-upgrade update ignore synthesis modified virtual)) {
+	    defined $medium->{$_} and $config->{$medium_name}{$_} = $medium->{$_};
 	}
-	$medium->{md5sum} and print MD5SUM "$medium->{md5sum}  ".($medium->{synthesis} && "synthesis.").$medium->{hdlist}."\n";
-	foreach (qw(update ignore synthesis modified virtual)) {
-	    $medium->{$_} and printf F "  %s\n", $_;
-	}
-	printf F "}\n\n";
     }
-    close MD5SUM;
-    close F;
+    urpm::cfg::dump_config($urpm->{config}, $config)
+	or $urpm->{fatal}(6, N("unable to write config file [%s]", $urpm->{config}));
+
+    #- write MD5SUM file
+    open my $md5sum, '>', "$urpm->{statedir}/MD5SUM"
+	or $urpm->{error}(N("unable to write file [%s]", "$urpm->{statedir}/MD5SUM")), return 0;
+    foreach my $medium (@{$urpm->{media}}) {
+	$medium->{md5sum}
+	    and print $md5sum "$medium->{md5sum}  ".($medium->{synthesis} && "synthesis.").$medium->{hdlist}."\n";
+    }
+    close $md5sum;
+
     $urpm->{log}(N("write config file [%s]", $urpm->{config}));
 
     #- everything should be synced now.
