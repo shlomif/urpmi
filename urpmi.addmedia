@@ -160,18 +160,19 @@ sub main {
 	    #- examine its contents and create all requested media, url is now a simple regex.
 	    my $heading = quotemeta($options{distrib});
 	    my $qarch = quotemeta($options{arch});
-	    local *F;
-	    open F, "$urpm->{cachedir}/partial/$basename";
-	    while (<F>) {
+	    open my $fh, "$urpm->{cachedir}/partial/$basename" or die $!;
+	    while (<$fh>) {
 		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 		my ($v, $a, $l, $burl, $relative_hdlist);
 		if (($v, $a, $l, $burl, $relative_hdlist) = /^$heading:([^:]*):([^:]*):([^:]*):(\S*)(?:\s+with\s+(.*))?$/) {
 		    $v eq '*' || $v eq $options{version} or next;
 		    $a eq '*' || $a eq $options{arch} or next;
 		} elsif (($a, $burl) = /^$heading([^:]*):(\S*)$/) {
+		    #- pre-10.1 architecture.
 		    $a eq $options{arch} or next;
 		    $options{distrib} eq 'updates' and $burl = "$burl/$options{version}/RPMS";
 		    $options{distrib} eq 'contrib' and $burl .= "2";
+		    #- TODO add for 10.1 updates
 		} elsif (($a, $burl) = /^cooker([^:]*):(\S*)$/) {
 		    #- specific case for old style mirrors file description (of Mandrake).
 		    $options{version} eq 'cooker' && $options{distrib} eq 'contrib' or next;
@@ -186,7 +187,7 @@ sub main {
 		$urpm->add_medium($name, $burl, $relative_hdlist,
 				  virtual => $options{virtual}, update => $options{update}, index_name => 0);
 	    }
-	    close F;
+	    close $fh;
 	} else {
 	    $with || $relative_hdlist
 		and usage N("no need to give <relative path of hdlist> with --distrib");
