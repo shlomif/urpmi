@@ -2,12 +2,12 @@
 
 Name: urpmi
 Version: 1.4
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
-Requires: /usr/bin/suidperl, rpmtools >= 2.1-7mdk, eject, wget
-PreReq: /usr/bin/genbasefiles
+Requires: /usr/bin/suidperl, eject, wget
+PreReq: rpmtools >= 2.1-8mdk
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
@@ -105,6 +105,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Wed Jan 17 2001 François Pons <fpons@mandrakesoft.com> 1.4-2mdk
+- removed PreReq on genbasefiles, now PreReq rpmtools-2.1-8mdk or above.
+- fixed glitches in urpm.pm module about old format of urpmi.cfg.
+
 * Tue Jan 16 2001 François Pons <fpons@mandrakesoft.com> 1.4-1mdk
 - extract urpmi/urpmq common code and newer code for medium
   management in perl module urpm.
