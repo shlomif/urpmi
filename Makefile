@@ -28,7 +28,8 @@ install:
 #	install -s autoirpm.update-all $(SBINDIR)
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.update
-	install gurpmi $(SBINDIR)
+	install gurpmi $(BINDIR)
+	install gurpmi2 $(SBINDIR)
 	ln -s -f ../../usr/bin/consolehelper $(BINDIR)/gurpmi2
 	for i in man/??* ; \
 		do install -d $(MANDIR)/`basename $$i`/man8 ; \
@@ -41,7 +42,7 @@ autoirpm.update-all: %: %.cc
 test: bigtest perltest
 
 perltest:
-	perl -I. -MTest::Harness -e 'runtests(<t/*.t>)'
+	prove t/*.t
 
 bigtest:
 	cd test; ./do_alltests
