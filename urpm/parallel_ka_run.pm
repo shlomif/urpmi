@@ -91,7 +91,7 @@ sub parallel_resolve_dependencies {
 
 #- parallel install.
 sub parallel_install {
-    my ($parallel, $urpm, $remove, $install, $upgrade) = @_;
+    my ($parallel, $urpm, $remove, $install, $upgrade, %options) = @_;
 
     $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- ".join(' ', values %$install, values %$upgrade)." $urpm->{cachedir}/rpms/");
     system "mput", split(' ', $parallel->{options}), '--', values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/";
@@ -116,9 +116,15 @@ sub parallel_install {
     }
     %bad_nodes and return;
 
-    #- continue installation.
-    $urpm->{log}("parallel_ka_run: rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-    system("rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}") == 0;
+    if ($options{test}) {
+	$urpm->{error}(_("Installation is possible"));
+	1;
+    } else {
+	my $line = $parallel->{line} . ($options{excludepath} && " --excludepath '$options{excludepath}'");
+	#- continue installation.
+	$urpm->{log}("parallel_ka_run: rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
+	system("rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line") == 0;
+    }
 }
 
 

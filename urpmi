@@ -52,6 +52,7 @@ my $env = '';
 my $log = '';
 my $verify_rpm = 1;
 my $test = 0;
+my $excludepath = 0;
 
 my $uid;
 my @files;
@@ -103,6 +104,7 @@ usage:
 ") . _("  --verify-rpm   - verify rpm signature before installation
                    (--no-verify-rpm disable it, default is enabled).
 ") . _("  --test         - verify if the installation can be achieved correctly.
+") . _("  --excludepath  - exclude path separated by comma.
 ") . _("  -a             - select all matches on command line.
 ") . _("  -p             - allow search in provides to find package.
 ") . _("  -P             - do not search in provides to find package.
@@ -168,6 +170,7 @@ while (defined($_ = shift @ARGV)) {
     /^--(no-)?test$/ and do { $test = !$1; next };
     /^--comment$/ and do { push @nextargv, undef; next };
     /^--root$/ and do { push @nextargv, \$root; next };
+    /^--excludepath$/ and do { push @nextargv, \$excludepath; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $all = 1; next };
@@ -492,18 +495,18 @@ if (%sources_install || %sources) {
     }
 
     #- check for local files.
-    foreach (values %sources_install, values %sources) {
-	m|^/| && ! -e $_ or next;
-	message(_("Installation failed, some files are missing.\nYou may want to update your urpmi database"));
+    if (my @missing = grep { m|^/| && ! -e $_ } values %sources_install, values %sources) {
+	message(_("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+		  join "\n", map { "    $_" } @missing));
 	exit 2;
     }
-
+    
     if ($parallel) {
 	message(_("distributing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	#- no remove are handle here, automatically done by each distant node.
 	$urpm->{log}("starting distributed install");
 	$urpm->parallel_install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				test => $test);
+				test => $test, excludepath => $excludepath);
     } else {
 	message(_("installing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
@@ -527,7 +530,8 @@ if (%sources_install || %sources) {
 	    } else {
 		my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 				       translate_message => 1,
-				       test => $test, oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache);
+				       oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
+				       test => $test, excludepath => $excludepath);
 		if (@l) {
 		    message(_("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
@@ -541,7 +545,8 @@ if (%sources_install || %sources) {
 		    $urpm->{log}("starting installing packages without deps");
 		    @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 					translate_message => 1, nodeps => 1,
-					test => $test, oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache);
+					oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
+					test => $test, excludepath => $excludepath);
 		    if (@l) {
 			message(_("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 			!$allow_force and exit 1;
@@ -550,7 +555,8 @@ if (%sources_install || %sources) {
 			$urpm->{log}("starting force installing packages without deps");
 			@l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 					    translate_message => 1, nodeps => 1, force => 1,
-					    test => $test, oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache);
+					    oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
+					    test => $test, excludepath => $excludepath);
 			@l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 		    }
 		} else {

@@ -21,8 +21,7 @@ sub parallel_resolve_dependencies {
 		my ($best_requested, $best);
 		foreach (@$_) {
 		    exists $state->{selected}{$_->id} and $best_requested = $_, last;
-		    exists $avoided{$_->name} and next;
-		    if ($best_requested || exists $requested{$_->id}) {
+		    if ($best_requested) {
 			if ($best_requested && $best_requested != $_) {
 			    $_->compare_pkg($best_requested) > 0 and $best_requested = $_;
 			} else {
@@ -93,7 +92,7 @@ sub parallel_resolve_dependencies {
 
 #- parallel install.
 sub parallel_install {
-    my ($parallel, $urpm, $remove, $install, $upgrade) = @_;
+    my ($parallel, $urpm, $remove, $install, $upgrade, %options) = @_;
 
     foreach (keys %{$parallel->{nodes}}) {
 	my $sources = join ' ', map { "'$_'" } values %$install, values %$upgrade;
@@ -119,12 +118,17 @@ sub parallel_install {
     }
     %bad_nodes and return;
 
-    #- continue installation on each nodes.
-    foreach my $node (keys %{$parallel->{nodes}}) {
-	$urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-	system "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}";
+    if ($options{test}) {
+	$urpm->{error}(_("Installation is possible"));
+	1;
+    } else {
+	my $line = $parallel->{line} . ($options{excludepath} && " --excludepath '$options{excludepath}'");
+	#- continue installation on each nodes.
+	foreach my $node (keys %{$parallel->{nodes}}) {
+	    $urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
+	    system "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line" == 0;
+	}
     }
-    1;
 }
 
 

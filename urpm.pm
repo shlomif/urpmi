@@ -1858,8 +1858,6 @@ sub get_source_packages {
 	my %sources;
 
 	unless ($medium->{ignore}) {
-	    print STDERR ">>$medium->{$_}\n" foreach qw(name list url start end);
-	    print STDERR "\n";
 	    #- always prefer a list file is available.
 	    if ($medium->{list} && -r "$urpm->{statedir}/$medium->{list}") {
 		open F, "$urpm->{statedir}/$medium->{list}";
@@ -2135,23 +2133,22 @@ sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
     my $trans = $db->create_transaction($urpm->{root});
-    my (@l, %file2pkg);
+    my ($update, @l, %file2pkg) = (0);
     local *F;
 
     foreach (@$remove) {
 	$trans->remove($_) or $urpm->{error}(_("unable to remove package %s", $_));
     }
-    foreach (keys %$install) {
-	my $pkg = $urpm->{depslist}[$_];
-	$file2pkg{$install->{$_}} = $pkg;
-	$pkg->update_header($install->{$_});
-	$trans->add($pkg, 0) or $urpm->{error}(_("unable to install package %s", $install->{$_}));
-    }
-    foreach (keys %$upgrade) {
-	my $pkg = $urpm->{depslist}[$_];
-	$file2pkg{$upgrade->{$_}} = $pkg;
-	$pkg->update_header($upgrade->{$_});
-	$trans->add($pkg, 1) or $urpm->{error}(_("unable to install package %s", $upgrade->{$_}));
+    foreach my $mode ($install, $upgrade) {
+	foreach (keys %$mode) {
+	    my $pkg = $urpm->{depslist}[$_];
+	    $file2pkg{$mode->{$_}} = $pkg;
+	    $pkg->update_header($mode->{$_});
+	    $trans->add($pkg,
+			update => $update, $options{excludepath} ? (excludepath => [ split ',', $options{excludepath} ]) : ())
+	      or $urpm->{error}(_("unable to install package %s", $install->{$_}));
+	}
+	++$update;
     }
     if (!$options{nodeps} and @l = $trans->check) {
 	if ($options{translate_message}) {
