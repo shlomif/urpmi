@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
 
       headerGetEntry(header, RPMTAG_NAME, &type, (void **) &name, &count);
       headerGetEntry(header, RPMTAG_FILEMODES, &type, (void **) &p, &count);
-      headerGetEntry(header, RPMTAG_FILENAMES, &type, (void **) &f, &count);
+      headerGetEntry(header, RPMTAG_OLDFILENAMES, &type, (void **) &f, &count);
       for (; count--; *p++, *f++)
 	if ((*p & 040111) == 0111 && 
 	    (s = strrchr(*f, '/')) && 

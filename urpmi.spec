@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.0
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -17,6 +17,9 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %changelog
+* Mon Feb 28 2000 Pixel <pixel@mandrakesoft.com> 1.0-2mdk
+- unset $BASH_ENV
+
 * Sat Feb 12 2000 Pixel <pixel@mandrakesoft.com> 1.0-1mdk
 - 1.0
 - small urpmi man page change
