@@ -106,8 +106,8 @@ sub parallel_install {
     while (defined ($_ = <F>)) {
 	chomp;
 	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
-	$bad_nodes{$node} .= $_;
 	/^\s*$/ and next;
+	$bad_nodes{$node} .= $_;
 	/Installation failed/ and $bad_nodes{$node} = '';
 	/Installation is possible/ and delete $bad_nodes{$node};
     }

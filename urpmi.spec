@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 14mdk
+Release: 15mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ fi
 
 
 %changelog
+* Fri Sep  6 2002 François Pons <fpons@mandrakesoft.com> 4.0-15mdk
+- fixed previous fix not correctly fixed.
+
 * Fri Sep  6 2002 François Pons <fpons@mandrakesoft.com> 4.0-14mdk
 - fixed ka-run distributed module.
 
