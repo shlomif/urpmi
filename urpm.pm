@@ -975,8 +975,9 @@ sub update_media {
 		#- and check hdlist has not be named very strangely...
 		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
+		    #- always delete a remaining list file in cache.
+		    unlink "$urpm->{cachedir}/partial/list";
 		    if (-s "$dir/$local_list") {
-			unlink "$urpm->{cachedir}/partial/list";
 			$urpm->{log}(_("copying source list of \"%s\"...", $medium->{name}));
 			system("cp", "-pR", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
 			  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
@@ -1238,8 +1239,11 @@ sub update_media {
 		close LIST;
 
 		#- check if at least something has been written into list file.
-		-s "$urpm->{cachedir}/partial/$medium->{list}" > 32 or
-		  $error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
+		if (-s "$urpm->{cachedir}/partial/$medium->{list}" > 32) {
+		    $urpm->{log}(_("writing list file for medium \"%s\"", $medium->{name}));
+		} else {
+		    $error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
+		}
 	    }
 	}
 
