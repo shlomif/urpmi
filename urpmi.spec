@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.3
-Release: 10mdk
+Release: 11mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -104,6 +104,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Thu Nov 16 2000 François Pons <fpons@mandrakesoft.com> 1.3-11mdk
+- fixed compilation problems.
+
 * Mon Sep 25 2000 François Pons <fpons@mandrakesoft.com> 1.3-10mdk
 - updated urpme to depslist.ordered.
 
