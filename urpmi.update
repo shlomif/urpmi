@@ -24,8 +24,10 @@ use urpm;
 sub main {
     my (@toupdates, %options);
 
+    $options{noclean} = 1;
     foreach (@_) {
 	/^--?a/ and $options{all} = 1, next;
+	/^--?c/ and $options{noclean} = 0, next;
 	/^--?f/ and $options{force} = 1, next;
 	/^--?noa/ and next; #- default, keeped for compability.
 	/^-/ and die "unknown options \"$_\"\n";
