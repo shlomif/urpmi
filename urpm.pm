@@ -1054,7 +1054,7 @@ sub update_media {
 			 "../synthesis.hdlist$suffix.cz", !$suffix ? ("../synthesis.hdlist1.cz") : (),
 			 "../base/hdlist$suffix.cz", !$suffix ? ("../base/hdlist1.cz") : (),
 			) {
-		    $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+		    $basename = (/^.*\/([^\/]*)$/ && $1) || $_ or next;
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {

@@ -131,7 +131,7 @@ while (defined($_ = shift @ARGV)) {
     /^--fuzzy$/ and do { $fuzzy = 1; next };
     /^--src$/ and do { $src = 1; next };
     /^--clean$/ and do { $clean = 1; $noclean = 0; next };
-    /^--noclean$/ and do { $clean = 0; $noclean = 1; next };
+    /^--noclean$/ and do { $clean = $pre_clean_cache = $post_clean_cache = 0; $noclean = 1; next };
     /^--(no-)?pre-clean$/ and do { $pre_clean_cache = !$1; next };
     /^--(no-)?post-clean$/ and do { $post_clean_cache = !$1; next };
     /^--force$/ and do { $force = 1; next };

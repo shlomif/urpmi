@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 24mdk
+Release: 25mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,11 @@ fi
 
 
 %changelog
+* Wed Nov 13 2002 François Pons <fpons@mandrakesoft.com> 4.0-25mdk
+- fixed --noclean not really completely noclean.
+- avoid possible lost of with_hdlist parameter on some case
+  when updating a medium.
+
 * Thu Nov  7 2002 François Pons <fpons@mandrakesoft.com> 4.0-24mdk
 - fixed still present debug output of urpmq -R.
 - fixed bad use of cached list file for file or nfs media.
