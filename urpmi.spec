@@ -206,6 +206,7 @@ $urpm->update_media(nolock => 1);
 - added urpme log and urpmi removing log (bug 3889).
 - fixed undefined subroutine ...N... when using parallel
   mode (bug 3982).
+- fixed moving of files inside the cache (bug 3833).
 
 * Thu Jul 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-9mdk
 - fixed error code reporting after installation.
