@@ -472,13 +472,14 @@ sub read_config {
 		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 		$_ eq '}' and last;
 		#- check for boolean variables first, and after that valued variables.
-		if (my ($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean)(?:\s*:\s*(.*))?$/) {
+		my ($no, $k, $v);
+		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean)(?:\s*:\s*(.*))?$/) {
 		    unless (exists $urpm->{options}{$k}) {
-			$urpm->{options}{$k} = $v eq '' || $v =~ /^(yes|on|1)$/i;
-			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k};
+			$urpm->{options}{$k} = $v eq '' || $v =~ /^(yes|on|1)$/i || 0;
+			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
 		    }
 		    next;
-		} elsif (my ($k, $v) = /^(limit-rate|excludepath)\s*:\s*(.*)$/) {
+		} elsif (($k, $v) = /^(limit-rate|excludepath)\s*:\s*(.*)$/) {
 		    unless (exists $urpm->{options}{$k}) {
 			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
 			$urpm->{options}{$k} = $v;
@@ -689,7 +690,7 @@ sub write_config {
 	while (my ($k,$v) = each %{$urpm->{options}}) {
 	    printf F "  %s: %s\n", $k, $v;
 	}
-	printf F "}\n";
+	printf F "}\n\n";
     }
     foreach my $medium (@{$urpm->{media}}) {
 	printf F "%s %s {\n", quotespace($medium->{name}), quotespace($medium->{clear_url});

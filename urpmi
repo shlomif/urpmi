@@ -202,11 +202,6 @@ while (defined($_ = shift @ARGV)) {
     }
     $src = 0; #- reset switch for next package.
 }
-#- get back activated default values of boolean options.
-foreach (qw(post-clean use-provides verify-rpm)) {
-    exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
-}
-
 #- use install_src to promote all names as src package.
 if ($install_src) {
     @files and $urpm->{fatal}(1, _("What can be done with binary rpm files when using --install-src"));
@@ -305,17 +300,10 @@ $urpm->configure(nocheck_access => $env || $uid > 0,
 		 bug => $bug,
 		 parallel => $parallel,
 		);
-#- handle options directly here according to values in configuration file.
-foreach (keys %{$urpm->{options} || {}}) {
-    my $v = $urpm->{options}{$_};
-    /^(no-)?verify-rpm$/ and do {
-	unless (defined $verify_rpm) {
-	    $verify_rpm = defined $v && $v =~ /^(yes|on)$/i; $1 and $verify_rpm = ! $verify_rpm;
-	} next };
-    $urpm->{error}(_("ignoring option \"%s\" not used", $_ ));
+#- get back activated default values of boolean options.
+foreach (qw(post-clean use-provides verify-rpm)) {
+    exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
 }
-#- get default, this should be reworked to be more useable internally TODO.
-defined $verify_rpm or $verify_rpm = 1;
 
 my $state = {};
 my %requested = $urpm->register_rpms(@files, @src_files);
@@ -527,7 +515,7 @@ my %sources = $urpm->download_source_packages($local_sources, $list,
 					      });
 my %sources_install = %{$urpm->extract_packages_to_install(\%sources) || {}};
 
-if ($verify_rpm) {
+if ($urpm->{options}{'verify-rpm'}) {
     my @invalid_sources;
 
     foreach (values %sources_install, values %sources) {

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 14mdk
+Release: 15mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,12 @@ fi
 
 
 %changelog
+* Tue Jan 28 2003 François Pons <fpons@mandrakesoft.com> 4.2-15mdk
+- fixed verify-rpm (both in urpmi.cfg or command line).
+- fixed default options activated.
+- fixed error message about unknown options use-provides and
+  post-clean.
+
 * Mon Jan 27 2003 François Pons <fpons@mandrakesoft.com> 4.2-14mdk
 - added more global options to urpmi.cfg: verify-rpm, fuzzy,
   allow-force, allow-nodeps, pre-clean, post-clean, limit-rate,
