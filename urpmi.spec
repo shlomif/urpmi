@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -94,7 +94,7 @@ rm -f /var/lib/urpmi/depslist
 %{_sbindir}/urpmi.*
 %{_mandir}/man?/urpm*
 # find_lang isn't able to find man pages yet...
-%lang(fr) %{_mandir}/fr/man*/*
+#%lang(fr) %{_mandir}/fr/man?/urpm* uncomment when available...
 %{perl_sitearch}/urpm.pm
 
 %files -n gurpmi
@@ -106,12 +106,18 @@ rm -f /var/lib/urpmi/depslist
 %dir /var/lib/urpmi/autoirpm.scripts
 %config(noreplace) /etc/urpmi/autoirpm.deny
 %{_sbindir}/autoirpm.*
-%{_mandir}/*/autoirpm*
+%{_mandir}/man?/autoirpm*
+# find_lang isn't able to find man pages yet...
+%lang(fr) %{_mandir}/fr/man?/autoirpm*
 %{_bindir}/_irpm
 %doc README-autoirpm-icons autoirpm.README
 
 
 %changelog
+* Fri Aug 31 2001 François Pons <fpons@mandrakesoft.com> 1.7-7mdk
+- added --allow-medium-change to urpmi.
+- moved autoirpm french man page to autoirpm package.
+
 * Wed Aug 29 2001 François Pons <fpons@mandrakesoft.com> 1.7-6mdk
 - fixed multiple asking of same choices.
 - possibly fixed array error in resolving choices.
