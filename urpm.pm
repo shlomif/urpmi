@@ -199,6 +199,7 @@ sub sync_wget {
     my ($buf, $total, $file) = ('', undef, undef);
     my $wget_pid = open WGET, join(" ", map { "'$_'" } "/usr/bin/wget",
 		    (ref($options) && $options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
+		    (ref($options) && $options->{resume} ? "--continue" : ()),
 		    (ref($options) && $options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : ()),
 		    (ref($options) && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
 		     ref($options) && $options->{quiet} ? "-q" : @{[]}),
@@ -300,6 +301,7 @@ sub sync_curl {
 	my ($buf, $file) = ('', undef);
 	my $curl_pid = open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
 			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
+			(ref($options) && $options->{resume} ? ("--continue-at", "-") : ()),
 			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 			(ref($options) && $options->{quiet} && !$options->{verbose} ? "-s" : @{[]}),
 			"-k", `curl -h` =~ /location-trusted/ ? "--location-trusted" : @{[]},
@@ -477,7 +479,7 @@ sub read_config {
 		$_ eq '}' and last;
 		#- check for boolean variables first, and after that valued variables.
 		my ($no, $k, $v);
-		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|keep|auto|allow-(?:force|nodeps)|(?:pre|post)-clean|excludedocs|compress)(?:\s*:\s*(.*))?$/) {
+		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean|excludedocs|compress|keep|auto|resume)(?:\s*:\s*(.*))?$/) {
 		    unless (exists($urpm->{options}{$k})) {
 			$urpm->{options}{$k} = $v eq '' || $v =~ /^(yes|on|1)$/i || 0;
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
@@ -2955,6 +2957,7 @@ sub download_packages_of_distant_media {
 				quiet => 0,
 				verbose => $options{verbose},
 				limit_rate => $options{limit_rate},
+				resume => $options{resume},
 				compress => $options{compress},
 				callback => $options{callback},
 				proxy => $urpm->{proxy} },

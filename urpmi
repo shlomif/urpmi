@@ -106,6 +106,8 @@ usage:
 ") . N("  --wget         - use wget to retrieve distant files.
 ") . N("  --curl         - use curl to retrieve distant files.
 ") . N("  --limit-rate   - limit the download speed.
+") . N("  --resume       - resume transfer of partially-downloaded files
+                   (--no-resume disables it, default is disabled).
 ") . N("  --proxy        - use specified HTTP proxy, the port number is assumed
                    to be 1080 by default (format is <proxyhost[:port]>).
 ") . N("  --proxy-user   - specify user and password to use for proxy
@@ -180,6 +182,7 @@ while (defined($_ = shift @argv)) {
     /^--wget$/ and do { $urpm->{options}{downloader} = 'wget'; next };
     /^--curl$/ and do { $urpm->{options}{downloader} = 'curl'; next };
     /^--limit-rate$/ and do { push @nextargv, \$urpm->{options}{'limit-rate'}; next };
+    /^--(no-)?resume$/ and do { $urpm->{options}{'resume'} = !$1; next };
     /^--proxy$/ and do {
 	my ($proxy, $port) = ($_ = shift @argv) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
 	    die N("bad proxy declaration on command line\n");
@@ -580,6 +583,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 					      verbose => $verbose > 0,
 					      limit_rate => $urpm->{options}{'limit-rate'},
 					      compress => $urpm->{options}{compress},
+					      resume => $urpm->{options}{'resume'},
 					      force_local => 1,
 					      callback => sub {
 						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;

@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.4.4
+%define version	4.4.5
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -236,6 +236,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Jan 30 2004 Olivier Blin <blino@mandrake.org> 4.4.5-1mdk
+- add --resume and --no-resume options in urpmi
+  (to resume transfer of partially-downloaded files)
+- add resume option in global config section
+
 * Wed Jan 28 2004 Olivier Blin <blino@mandrake.org> 4.4.4-1mdk
 - fix --wget and --curl in urpmi.update
 
