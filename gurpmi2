@@ -11,7 +11,6 @@ BEGIN { #- set up a safe path and environment
 }
 
 use gurpmi;
-use urpm::msg qw(N);
 use Gtk2;
 
 #- GUI globals
@@ -86,12 +85,12 @@ Gtk2->main;
 sub configure_urpm {
     my $urpm = new urpm;
     $urpm->{fatal} = sub {
-	Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'error', 'ok', $_[1])->run;
+	Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'error', 'ok', Locale::gettext::iconv($_[1], undef, 'UTF-8'))->run;
 	quit;
 	exit $_[0];
     };
     $urpm->{error} = sub {
-	my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', $_[0]);
+	my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', Locale::gettext::iconv($_[0], undef, 'UTF-8'));
 	$w->run;
 	$w->destroy;
     };

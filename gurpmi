@@ -10,10 +10,10 @@ BEGIN { #- set up a safe path and environment
     delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 }
 
-use gurpmi;
-use urpm::msg qw(N);
 use Gtk2;
 use MDK::Common::Func qw(partition);
+
+use gurpmi;
 
 #- globals
 my ($srpms, $rpms);

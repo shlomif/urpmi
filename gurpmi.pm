@@ -5,14 +5,12 @@ package gurpmi;
 #- changing only LC_COLLATE will have no effect.
 use POSIX qw(setlocale LC_ALL LC_COLLATE);
 use locale;
-BEGIN {
-    my $collation_locale = $ENV{LC_ALL};
-    if ($collation_locale) {
-	$collation_locale =~ /UTF-8/ or setlocale(LC_ALL, "$collation_locale.UTF-8");
-    } else {
-	$collation_locale = setlocale(LC_COLLATE);
-	$collation_locale =~ /UTF-8/ or setlocale(LC_COLLATE, "$collation_locale.UTF-8");
-    }
+my $collation_locale = $ENV{LC_ALL};
+if ($collation_locale) {
+    $collation_locale =~ /UTF-8/ or setlocale(LC_ALL, "$collation_locale.UTF-8");
+} else {
+    $collation_locale = setlocale(LC_COLLATE);
+    $collation_locale =~ /UTF-8/ or setlocale(LC_COLLATE, "$collation_locale.UTF-8");
 }
 
 use urpm;
@@ -20,7 +18,7 @@ use strict;
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(fatal but quit add_button_box new_label);
+our @EXPORT = qw(fatal but quit add_button_box new_label N);
 
 sub usage () {
     print STDERR <<USAGE;
@@ -34,7 +32,7 @@ USAGE
 }
 
 #- fatal gurpmi initialisation error (*not* fatal urpmi errors)
-sub fatal { print STDERR "$_[0]\n"; exit 1 }
+sub fatal { my $s = $_[0]; print STDERR "$s\n"; exit 1 }
 
 #- Parse command line
 #- puts options in %gurpmi::options
@@ -78,6 +76,15 @@ sub new_label {
     } else {
 	return $label;
     }
+}
+
+sub N {
+    my ($format, @params) = @_;
+    my $r = sprintf(
+	eval { Locale::gettext::gettext($format || '') } || $format,
+	@params,
+    );
+    Locale::gettext::iconv($r, undef, "UTF-8");
 }
 
 1;
