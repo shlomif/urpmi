@@ -876,9 +876,9 @@ sub update_media {
 	$medium->{modified} ||= $options{all} && $medium->{url} !~ m!^removable://!;
 
 	unless ($medium->{modified}) {
-	    #- the medium is not modified, but for computing dependencies,
+	    #- the medium is not modified, but to compute dependencies,
 	    #- we still need to read it and all synthesis will be written if
-	    #- a unresolved provides is found.
+	    #- an unresolved provides is found.
 	    #- to speed up the process, we only read the synthesis at the beginning.
 	    delete @$medium{qw(start end)};
 	    if ($medium->{virtual}) {
@@ -1039,42 +1039,42 @@ this could happen if you mounted manually the directory when creating the medium
 				$file eq $basename and $retrieved_md5sum = $md5sum;
 			    }
 			    close F;
-			    #- if an existing hdlist or synthesis file has the same md5sum, we assume the
-			    #- file are the same.
-			    #- if local md5sum is the same as distant md5sum, this means there is no need to
-			    #- download hdlist or synthesis file again.
+			    #- If an existing hdlist or synthesis file has the same md5sum, we assume
+			    #- the files are the same.
+			    #- If the local md5sum is the same as the distant md5sum, this means
+			    #- that there is no need to download the hdlist or synthesis file again.
 			    foreach (@{$urpm->{media}}) {
 				if ($_->{md5sum} && $_->{md5sum} eq $retrieved_md5sum) {
-				unlink "$urpm->{cachedir}/partial/$basename";
-				#- the medium is now considered not modified.
-				$medium->{modified} = 0;
-				#- hdlist or synthesis file must be linked with the other same one.
-				#- a link is better for reducing used size of /var/lib/urpmi.
-				if ($_ ne $medium) {
-				    $medium->{md5sum} = $_->{md5sum};
-				    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-				    unlink "$urpm->{statedir}/$medium->{hdlist}";
-				    symlink "synthesis.$_->{hdlist}", "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-				    symlink $_->{hdlist}, "$urpm->{statedir}/$medium->{hdlist}";
-				}
-				#- as previously done, just read synthesis file here, this is enough.
-				$urpm->{log}(N("examining synthesis file [%s]",
-					"$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-				($medium->{start}, $medium->{end}) =
-				    $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-				unless (defined $medium->{start} && defined $medium->{end}) {
-				    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-				    ($medium->{start}, $medium->{end}) =
-					$urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-				    unless (defined $medium->{start} && defined $medium->{end}) {
-					$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"",
-							 $medium->{name}));
-					$medium->{ignore} = 1;
+				    unlink "$urpm->{cachedir}/partial/$basename";
+				    #- the medium is now considered not modified.
+				    $medium->{modified} = 0;
+				    #- hdlist or synthesis file must be linked with the other same one.
+				    #- a link is better for reducing used size of /var/lib/urpmi.
+				    if ($_ ne $medium) {
+					$medium->{md5sum} = $_->{md5sum};
+					unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+					unlink "$urpm->{statedir}/$medium->{hdlist}";
+					symlink "synthesis.$_->{hdlist}", "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+					symlink $_->{hdlist}, "$urpm->{statedir}/$medium->{hdlist}";
 				    }
+				    #- as previously done, just read synthesis file here, this is enough.
+				    $urpm->{log}(N("examining synthesis file [%s]",
+					"$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+				    ($medium->{start}, $medium->{end}) =
+					$urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+				    unless (defined $medium->{start} && defined $medium->{end}) {
+					$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+					($medium->{start}, $medium->{end}) =
+					    $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+					unless (defined $medium->{start} && defined $medium->{end}) {
+					    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"",
+						$medium->{name}));
+					    $medium->{ignore} = 1;
+					}
+				    }
+				    #- no need to continue examining other md5sum.
+				    last;
 				}
-				#- no need to continue examining other md5sum.
-				last;
-			    }
 			    }
 			    $medium->{modified} or next;
 			}
@@ -1105,7 +1105,7 @@ this could happen if you mounted manually the directory when creating the medium
 			  $error = 1, $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", $with_hdlist_dir));
 		    }
 
-		    #- check if the file are equals... and no force copy...
+		    #- check if the files are equal... and no force copy...
 		    if (!$error && !$options{force} && -e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
 			my @sstat = stat "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
@@ -1511,7 +1511,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 	}
 
-	#- build list file according to hdlist used.
+	#- build list file according to hdlist.
 	unless ($medium->{headers} || -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 32) {
 	    $error = 1;
 	    $urpm->{error}(N("no hdlist file found for medium \"%s\"", $medium->{name}));
@@ -1693,9 +1693,9 @@ this could happen if you mounted manually the directory when creating the medium
 	$urpm->unresolved_provides_clean;
     }
 
-    #- second pass consist of reading again synthesis or hdlist.
+    #- second pass consists in reading again synthesis or hdlists.
     foreach my $medium (@{$urpm->{media}}) {
-	#- take care of modified medium only or all if all have to be recomputed.
+	#- take care of modified medium only, or all if all have to be recomputed.
 	$medium->{ignore} and next;
 
 	$options{callback} && $options{callback}('parse', $medium->{name});
@@ -1715,13 +1715,13 @@ this could happen if you mounted manually the directory when creating the medium
 				dir    => "$urpm->{cachedir}/headers",
 				hdlist => "$urpm->{statedir}/$medium->{hdlist}",
 			       );
-	    #- synthesis need to be created for sure, since the medium has been built from rpm files.
+	    #- synthesis needs to be created, since the medium has been built from rpm files.
 	    $urpm->build_synthesis(start     => $medium->{start},
 				   end       => $medium->{end},
 				   synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
 				  );
 	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
-	    #- keep in mind we have modified database, sure at this point.
+	    #- keep in mind we have a modified database, sure at this point.
 	    $urpm->{modified} = 1;
 	} elsif ($medium->{synthesis}) {
 	    if ($second_pass) {
@@ -1742,7 +1742,7 @@ this could happen if you mounted manually the directory when creating the medium
 		$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", 1);
 	    }
-	    #- check if synthesis file can be built.
+	    #- check if the synthesis file can be built.
 	    if (($second_pass || $medium->{modified_synthesis}) && !$medium->{modified}) {
 		unless ($medium->{virtual}) {
 		    $urpm->build_synthesis(start     => $medium->{start},
@@ -1759,7 +1759,7 @@ this could happen if you mounted manually the directory when creating the medium
     }
 
     #- clean headers cache directory to remove everything that is no more
-    #- usefull according to depslist used.
+    #- useful according to the depslist.
     if ($urpm->{modified}) {
 	if ($options{noclean}) {
 	    local (*D, $_);
