@@ -325,7 +325,7 @@ sub ask_choice {
     if ($auto_select) {
 	my (%to_remove, %keep_files);
 
-	$urpm->resolve_packages_to_upgrade($db, $state, requested => 0);
+	$urpm->resolve_packages_to_upgrade($db, $state, requested => undef);
 
 	if (%{$state->{ask_remove}} || %{$state->{ask_unselect}}) {
 	    $urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
