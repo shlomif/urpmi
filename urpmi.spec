@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 25mdk
+%define release 26mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -251,6 +251,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Sep 17 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-26mdk
+- urpmi.addmedia should create urpmi.cfg if it doesn't exist.
+
 * Tue Sep 14 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-25mdk
 - Don't print the urpmf results twice when using virtual media.
 - Translations updates.
