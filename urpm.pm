@@ -1091,16 +1091,7 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 			if ($medium->{md5sum}) {
 			    $urpm->{log}(N("examining MD5SUM file"));
-			    local $_;
-			    undef $retrieved_md5sum;
-			    open my $fh, reduce_pathname("$with_hdlist_dir/../MD5SUM");
-			    while (<$fh>) {
-				my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)| or next;
-				#- keep md5sum got here to check download was ok ! so even if md5sum is not defined, we need
-				#- to compute it, keep it in mind ;)
-				$file eq $basename and $retrieved_md5sum = $md5sum;
-			    }
-			    close $fh;
+			    parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
 			    #- If an existing hdlist or synthesis file has the same md5sum, we assume
 			    #- the files are the same.
 			    #- If the local md5sum is the same as the distant md5sum, this means
@@ -1376,16 +1367,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 		    if ($medium->{md5sum}) {
 			$urpm->{log}(N("examining MD5SUM file"));
-			local $_;
-			undef $retrieved_md5sum;
-			open my $fh, "$urpm->{cachedir}/partial/MD5SUM";
-			while (<$fh>) {
-			    my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)| or next;
-			    #- keep md5sum got here to check download was ok ! so even if md5sum is not defined, we need
-			    #- to compute it, keep it in mind ;)
-			    $file eq $basename and $retrieved_md5sum = $md5sum;
-			}
-			close $fh;
+			parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
 			#- if an existing hdlist or synthesis file has the same md5sum, we assume the
 			#- file are the same.
 			#- if local md5sum is the same as distant md5sum, this means there is no need to
@@ -3174,6 +3156,22 @@ sub get_updates_description {
 	$section eq 'description' and $cur->{description} .= $_;
     }
     \%update_descr;
+}
+
+#- parse an MD5SUM file from a mirror
+sub parse_md5sum {
+    my ($urpm, $path, $basename) = @_;
+    my $retrieved_md5sum;
+    open my $fh, $path or return undef;
+    local $_;
+    while (<$fh>) {
+	my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)| or next;
+	$file eq $basename and $retrieved_md5sum = $md5sum;
+    }
+    close $fh;
+    defined $retrieved_md5sum
+	or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
+    return $retrieved_md5sum;
 }
 
 1;
