@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.5
+%define version	4.6.6
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -59,14 +59,6 @@ Provides:	grpmi
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi.
 %endif
-
-#%package -n autoirpm
-#Summary: Auto install of rpm on demand
-#Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi perl
-#Group: %{group}
-#
-#%description -n autoirpm
-#Auto install of rpm on demand
 
 %package -n urpmi-parallel-ka-run
 Summary:	Parallel extensions to urpmi using ka-run
@@ -230,20 +222,6 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/gurpm.pm
 %endif
 
-#%files -n autoirpm
-#%defattr(-,root,root)
-#%dir /var/lib/urpmi/autoirpm.scripts
-#%config(noreplace) /etc/urpmi/autoirpm.deny
-#%{_sbindir}/autoirpm.*
-#%{_mandir}/man?/autoirpm*
-## find_lang isn't able to find man pages yet...
-#%lang(cs) %{_mandir}/cs/man?/autoirpm*
-#%lang(eu) %{_mandir}/eu/man?/autoirpm*
-#%lang(fr) %{_mandir}/fr/man?/autoirpm*
-#%lang(ru) %{_mandir}/ru/man?/autoirpm*
-#%{_bindir}/_irpm
-#%doc README-autoirpm-icons autoirpm.README
-
 %files -n urpmi-parallel-ka-run
 %defattr(-,root,root)
 %doc urpm/README.ka-run
@@ -257,6 +235,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue Dec 07 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.6-1mdk
+- gurpmi has been reimplemented as a standalone gtk2 program.
+- As a consequence, urpmi --X doesn't work any longer.
+
 * Fri Dec 03 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.5-1mdk
 - Add --ignore and -­no-ignore options to urpmi.update
 - Reduce urpmi redundant verbosity
