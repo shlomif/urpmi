@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.0
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -126,6 +126,11 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed Nov 21 2001 François Pons <fpons@mandrakesoft.com> 2.0-7mdk
+- fixed missing urpmi configuration file not read.
+- fixed bad output of rpm files to be installed or upgraded.
+- fixed bad check of missing rpm files.
+
 * Mon Nov 19 2001 François Pons <fpons@mandrakesoft.com> 2.0-6mdk
 - fixed --auto-select and rpm file upload.
 

@@ -124,6 +124,7 @@ $urpm->search_packages(\%packages, [ @names ], use_provides => $query->{use_prov
 if ($query->{auto_select}) {
     my (%to_remove, %keep_files);
 
+    $query->{update} or $urpm->read_config(nocheck_access => 1);
     $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
 
     if (keys(%to_remove) > 0) {
@@ -134,7 +135,7 @@ if ($query->{auto_select}) {
 #- filter to add in packages selected required packages.
 if ($query->{minimal}) {
     $query->{use_provides} || @files or $urpm->read_provides;
-    $query->{update} or $urpm->read_config(nocheck_access => 1);
+    $query->{update} || $query->{auto_select} or $urpm->read_config(nocheck_access => 1);
     $urpm->filter_minimal_packages_to_upgrade(\%packages, undef);
 } else {
     $query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);

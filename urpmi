@@ -210,6 +210,7 @@ my $ask_choice = sub {
 if ($auto_select) {
     my (%to_remove, %keep_files);
 
+    $update or $urpm->read_config;
     $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
 
     if (keys(%to_remove) > 0) {
@@ -219,7 +220,7 @@ if ($auto_select) {
 
 if ($minimal) {
     $use_provides || @files or $urpm->read_provides;
-    $update or $urpm->read_config;
+    $update || $auto_select or $urpm->read_config;
     $urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
 } else {
     $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, complete => $complete);
@@ -292,8 +293,14 @@ my %sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'f
 my @rpms_install = grep { $_ !~ /\.src.\.rpm/ } values %{$urpm->extract_packages_to_install(\%sources) || {}};
 my @rpms_upgrade = grep { $_ !~ /\.src.\.rpm/ } values %sources;
 if (@rpms_install || @rpms_upgrade) {
-    printf SAVEOUT _("installing %s\n", join(' ', @l));
+    printf SAVEOUT _("installing %s\n", join(' ', @rpms_install, @rpms_upgrade));
     log_it(scalar localtime, " @_\n");
+    #- check for local files.
+    foreach (@rpms_install, @rpms_upgrade) {
+	m|^/| && ! -e $_ or next;
+	message(_("Installation failed, some files are missing.\nYou may want to update your urpmi database"));
+	exit 2;
+    }
     $urpm->{log}("starting installing packages");
     if ($X) {
 	system("grpmi", $WID ? ("--WID=$WID") : (), map { ("-noupgrade", $_) } @rpms_install, @rpms_upgrade);
@@ -307,7 +314,7 @@ if (@rpms_install || @rpms_upgrade) {
 	    if (@$_) {
 		message(_("Installation failed"));
 
-		m|^/| && !-e $_ and exit 2 foreach @l; #- missing local file
+		m|^/| && !-e $_ and exit 2 foreach @rpms_install; #- missing local file
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
@@ -331,7 +338,7 @@ if (@rpms_install || @rpms_upgrade) {
 	    if ($?) {
 		message(_("Installation failed"));
 
-		m|^/| && !-e $_ and exit 2 foreach @l; #- missing local file
+		m|^/| && !-e $_ and exit 2 foreach @rpms_upgrade; #- missing local file
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
