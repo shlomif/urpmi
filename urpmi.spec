@@ -1,4 +1,4 @@
-%define group Utilities/System
+%define group System/Configuration/Packaging
 
 Name: urpmi
 Version: 1.1
@@ -165,7 +165,7 @@ autoirpm.uninstall
 /usr/sbin/urpmi.*
 /usr/share/locale/*/LC_MESSAGES/urpmi.po
 /usr/man/man*/urpmi*
-/usr/man/man*/rpmf
+/usr/man/man*/rpmf*
 
 %files -n gurpmi
 %defattr(-,root,root)
