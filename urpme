@@ -54,6 +54,7 @@ while (defined($_ = shift @ARGV)) {
     /^--no-locales$/ and do { undef *N; undef *urpm::N; *N = *urpm::N = sub { sprintf(shift @_, @_) }; next };
     /^--?auto$/ and do { $auto = 1; next };
     /^--(no-)?test$/ and do { $test = !$1; next };
+    /^--force$/ and do { $force = 1; next };
     /^--root$/ and do { push @nextargv, \$root; next };
     /^--parallel$/ and do { push @nextargv, \$parallel; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
@@ -79,7 +80,7 @@ $parallel and $urpm->configure(synthesis => 'none',
 
 #- examine packages...
 my @toremove = $urpm->find_packages_to_remove($state, \@l,
-					      test => $test, matches => $matches, auto => $auto,
+					      test => $test, matches => $matches, auto => $auto, force => $force,
 					      callback_notfound => sub {
 						  my $urpm = shift @_;
 						  $urpm->{fatal}(1, (@_ > 1 ? N("unknown packages") : N("unknown package")) .
@@ -111,8 +112,8 @@ if ($test && $auto) {
 
 print STDOUT "\n".N("removing %s", join(' ', @toremove))."\n";
 @l = $parallel ?
-  $urpm->parallel_remove(\@toremove, test => $test, translate_message => 1) :
-  $urpm->install(\@toremove, {}, {}, test => $test, translate_message => 1);
+  $urpm->parallel_remove(\@toremove, test => $test, force => $force, translate_message => 1) :
+  $urpm->install(\@toremove, {}, {}, test => $test, force => $force, translate_message => 1);
 @l and $urpm->{fatal}(2, N("Removing failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
 sub toMb {
