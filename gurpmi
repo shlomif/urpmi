@@ -282,7 +282,7 @@ sub do_install_3 {
     }
     @to_install > 1
 	? ask_continue(N(
-	    "To satisfy dependencies, the following %d packages are going to be installed:\n%s\n\nIs this OK?",
+	    "To satisfy dependencies, the following %d packages are going to be installed:\n%s\n",
 	    scalar(@to_install), join "\n", @to_install
 	), \&do_install_4)
 	: goto \&do_install_4;
