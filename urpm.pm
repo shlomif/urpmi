@@ -21,6 +21,9 @@ sub N {
     sprintf(Locale::gettext::gettext($format || ''), @params);
 }
 
+#- tool functions.
+sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
+
 #- create a new urpm object.
 sub new {
     my ($class) = @_;
@@ -320,7 +323,7 @@ sub sync_rsync {
     }
     foreach (@_) {
 	my $count = 10; #- retry count on error (if file exists).
-	my $basename = /^.*\/([^\/]*)$/ && $1 || $_;
+	my $basename = basename($_);
 	my ($file) = /^rsync:\/\/(.*)/ or next;	$file =~ /::/ or $file = $_;
 	propagate_sync_callback($options, 'start', $file);
 	do {
@@ -368,7 +371,7 @@ sub sync_ssh {
     }
     foreach my $file (@_) {
 	my $count = 10; #- retry count on error (if file exists).
-	my $basename = $file =~ /^.*\/([^\/]*)$/ && $1 || $file;
+	my $basename = basename($file);
 	propagate_sync_callback($options, 'start', $file);
 	do {
 	    local (*RSYNC, $_);
@@ -1286,7 +1289,7 @@ this could happen if you mounted manually the directory when creating the medium
 		#- we can assume at this point a basename is existing, but it needs
 		#- to be checked for being valid, nothing can be deduced if no MD5SUM
 		#- file are present.
-		my ($basename) = $with_hdlist_dir =~ /\/([^\/]+)$/;
+		my $basename = basename($with_hdlist_dir);
 
 		if (!$options{nomd5sum} && -s reduce_pathname("$with_hdlist_dir/../MD5SUM") > 32) {
 		    if ($options{force}) {
@@ -1330,8 +1333,8 @@ this could happen if you mounted manually the directory when creating the medium
 				    $medium->{md5sum} = $_->{md5sum};
 				    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 				    unlink "$urpm->{statedir}/$medium->{hdlist}";
-				    symlink "synthesis.$_->{hdlist}", "synthesis.$medium->{hdlist}";
-				    symlink $_->{hdlist}, $medium->{hdlist};
+				    symlink "synthesis.$_->{hdlist}", "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+				    symlink $_->{hdlist}, "$urpm->{statedir}/$medium->{hdlist}";
 				}
 				#- as previously done, just read synthesis file here, this is enough.
 				$urpm->{log}(N("examining synthesis file [%s]",
@@ -1505,7 +1508,7 @@ this could happen if you mounted manually the directory when creating the medium
 		#- we can assume at this point a basename is existing, but it needs
 		#- to be checked for being valid, nothing can be deduced if no MD5SUM
 		#- file are present.
-		$basename = $medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1 || $medium->{with_hdlist};
+		$basename = basename($medium->{with_hdlist});
 
 		unlink "$urpm->{cachedir}/partial/MD5SUM";
 		eval {
@@ -1560,8 +1563,8 @@ this could happen if you mounted manually the directory when creating the medium
 				    $medium->{md5sum} = $_->{md5sum};
 				    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 				    unlink "$urpm->{statedir}/$medium->{hdlist}";
-				    symlink "synthesis.$_->{hdlist}", "synthesis.$medium->{hdlist}";
-				    symlink $_->{hdlist}, $medium->{hdlist};
+				    symlink "synthesis.$_->{hdlist}", "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+				    symlink $_->{hdlist}, "$urpm->{statedir}/$medium->{hdlist}";
 				}
 				#- as previously done, just read synthesis file here, this is enough.
 				$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
@@ -1596,7 +1599,7 @@ this could happen if you mounted manually the directory when creating the medium
 		my ($suffix) = $dir =~ /RPMS([^\/]*)\/*$/;
 
 		foreach my $with_hdlist ($medium->{with_hdlist}, probe_with_try_list($suffix, $options{probe_with})) {
-		    $basename = $with_hdlist =~ /^.*\/([^\/]*)$/ && $1 || $with_hdlist or next;
+		    $basename = basename($with_hdlist) or next;
 
 		    $options{force} and unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
@@ -1614,7 +1617,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 		}
 	    } else {
-		$basename = $medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1 || $medium->{with_hdlist};
+		$basename = basename($medium->{with_hdlist});
 
 		#- try to sync (copy if needed) local copy after restored the previous one.
 		$options{force} and unlink "$urpm->{cachedir}/partial/$basename";
@@ -3213,7 +3216,7 @@ sub translate_why_removed {
 	      /unsatisfied/ and do {
 		  foreach (@$whyv) {
 		      $s and $s .= ', ';
-		      if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/) {
+		      if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/ && $2 ne '*') {
 			  $s .= N("due to unsatisfied %s", "$1 $2");
 		      } else {
 			  $s .= N("due to missing %s", $_);
@@ -3235,10 +3238,11 @@ sub check_sources_signatures {
     my ($medium, %invalid_sources);
 
     foreach my $id (sort { $a <=> $b } keys %$sources_install, keys %$sources) {
-	my $verif = URPM::verify_rpm($sources_install->{$id} || $sources->{$id});
+	my $filepath = $sources_install->{$id} || $sources->{$id};
+	my $verif = URPM::verify_rpm($filepath);
 
 	if ($verif =~ /NOT OK/) {
-	    $invalid_sources{$sources_install->{$id} || $sources->{$id}} = N("Invalid signature (%s)", $verif);
+	    $invalid_sources{$filepath} = N("Invalid signature (%s)", $verif);
 	} else {
 	    unless ($medium && $medium->{start} <= $id && $id <= $medium->{end}) {
 		$medium = undef;
@@ -3262,15 +3266,19 @@ sub check_sources_signatures {
 		}
 
 		if ($invalid_ids) {
-		    $invalid_sources{$sources_install->{$id} || $sources->{$id}} = N("Invalid Key ID (%s)", $verif);
+		    $invalid_sources{$filepath} = N("Invalid Key ID (%s)", $verif);
 		} elsif (!$valid_ids) {
-		    $invalid_sources{$sources_install->{$id} || $sources->{$id}} = N("Missing signature (%s)", $verif);
+		    $invalid_sources{$filepath} = N("Missing signature (%s)", $verif);
 		}
 	    }
+	    #- invoke check signature callback.
+	    $options{callback} and $options{callback}->($urpm, $filepath, %options,
+							id => $id, verif => $verif, why => $invalid_sources{$filepath});
 	}
     }
 
-    map { $_ . ($options{translate} ? ": $invalid_sources{$_}" : "") } sort keys %invalid_sources;
+    map { ($options{basename} ? basename($_) : $_) . ($options{translate} ? ": $invalid_sources{$_}" : "") }
+      sort keys %invalid_sources;
 }
 
 1;

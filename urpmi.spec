@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 31mdk
+Release: 32mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Fri Sep  5 2003 François Pons <fpons@mandrakesoft.com> 4.4-32mdk
+- fixed symlink in current working directory.
+- added fixes from gc (signature checking improvement and
+  basename usage).
+- fixed bad reason with standalone star in text.
+
 * Thu Sep  4 2003 François Pons <fpons@mandrakesoft.com> 4.4-31mdk
 - removed obsoleted and no more used -d of urpmi.update.
 - fixed --bug to handle local pakcages and virtual media.
