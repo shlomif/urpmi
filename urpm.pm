@@ -224,7 +224,7 @@ sub sync_curl {
 	#- prepare to get back size and time stamp of each file.
 	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
 			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
-			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()) .
+			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 			"--stderr", "-", "-s", "-I", @ftp_files) . " |";
 	while (<CURL>) {
 	    if (/Content-Length:\s*(\d+)/) {
@@ -304,7 +304,7 @@ sub sync_rsync {
     my $options = shift @_;
     my $limit_rate = ref($options) && $options->{limit_rate};
     for ($limit_rate) {
-	/^(\d+)$/     and $limit_rate = $1/1024;
+	/^(\d+)$/     and $limit_rate = int $1/1024;
 	/^(\d+)[kK]$/ and $limit_rate = $1;
 	/^(\d+)[mM]$/ and $limit_rate = 1024*$1;
 	/^(\d+)[gG]$/ and $limit_rate = 1024*1024*$1;
