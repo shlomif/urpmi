@@ -61,6 +61,7 @@ sub load_config ($) {
 		_syntax_error;
 		return;
 	    }
+	    $config{$medium}{priority} = $priority++; #- to preserve order
 	    undef $medium;
 	    next;
 	}
@@ -120,7 +121,6 @@ sub load_config ($) {
 	}
 	#- obsolete
 	/^modified$/ and next;
-	$config{$medium}{priority} = $priority++; #- to preserve order
     }
     close $f;
     return \%config;
