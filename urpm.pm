@@ -932,7 +932,7 @@ sub select_media {
 	    } elsif (@foundi == 1) {
 		$foundi[0]{modified} = 1;
 	    } elsif (@found == 0 && @foundi == 0) {
-		$urpm->{error}(N("trying to select inexistent medium \"%s\"", $_));
+		$urpm->{error}(N("trying to select nonexistent medium \"%s\"", $_));
 	    } else { #- multiple element in found or foundi list.
 		$urpm->{log}(N("selecting multiple media: %s", join(", ", map { N("\"%s\"", $_->{name}) } (@found ? @found : @foundi))));
 		#- changed behaviour to select all occurence by default.
