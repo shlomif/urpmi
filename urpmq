@@ -203,39 +203,3 @@ foreach my $id (keys %packages) {
     }
 }
 
-#sub _ {
-#    my $s = shift @_; my $t = translate($s);
-#    $t && ref $t or return sprintf $t, @_;
-#    my ($T, @p) = @$t;
-#    sprintf $T, @_[@p];
-#}
-#sub translate { $I18N{$_[0]} || $_[0]; }
-
-sub load_po {
-    my ($from, $to, $state, $fuzzy);
-
-    my $lang = $ENV{LANGUAGE} || $ENV{LC_ALL} || $ENV{LC_MESSAGES} || $ENV{LANG};
-    my $f; -e ($f = "/usr/share/locale/$_/LC_MESSAGES/urpmi.po") and last foreach split ':', $lang;
-
-    local *F; open F, $f or return;
-    foreach (<F>) {
-	/^msgstr/ and $state = 1;
-	/^msgid/  && !$fuzzy and $state = 2;
-
-	if (/^(#|$)/ && $state != 3) {
-	    $state = 3;
-            s/\\n/\n/g foreach $from, $to;
-
-	    if (my @l = $to =~ /%(\d+)\$/g) {
-		$to =~ s/%(\d+)\$/%/g;
-		$to = [ $to, map { $_ - 1 } @l ];
-	    }
-	    $I18N{$from} = $to if $from;
-	    $from = $to = '';
-	}
-	$to .= (/"(.*)"/)[0] if $state == 1;
-	$from .= (/"(.*)"/)[0] if $state == 2;
-
-	$fuzzy = /^#, fuzzy/;
-    }
-}
