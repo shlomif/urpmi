@@ -471,8 +471,19 @@ sub read_config {
 	    while (<F>) {
 		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 		$_ eq '}' and last;
-		/^(\S+)\s*:(.*)$/ and $urpm->{options}{$1} = $2, next;
-		/^(\S+)$/ and $urpm->{options}{$1} = undef, next;
+		#- check for boolean variables first, and after that valued variables.
+		if (my ($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean)(?:\s*:\s*(.*))?$/) {
+		    unless (exists $urpm->{options}{$k}) {
+			$urpm->{options}{$k} = $v eq '' || $v =~ /^(yes|on|1)$/i;
+			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k};
+		    }
+		    next;
+		} elsif (my ($k, $v) = /^(limit-rate|excludepath)\s*:\s*(.*)$/) {
+		    unless (exists $urpm->{options}{$k}) {
+			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
+			$urpm->{options}{$k} = $v;
+		    }
+		}
 		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
 	    }
 	next; };

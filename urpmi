@@ -22,6 +22,9 @@ use urpm;
 #- get I18N translation method.
 import urpm _;
 
+#- contains informations to parse installed system.
+my $urpm = new urpm;
+
 #- default options.
 my $update = 0;
 my $media = '';
@@ -30,31 +33,23 @@ my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
 my $force = 0;
-my $allow_nodeps = undef; #0;
-my $allow_force = undef; #0;
 my $parallel = '';
 my $sync = undef;
-my $limit_rate = undef; #0;
 my $X = 0;
 my $WID = 0;
 my $all = 0;
 my $rpm_opt = "vh";
 my $use_provides = 1;
-my $fuzzy = undef; #0;
 my $src = 0;
 my $install_src = 0;
 my $clean = 0;
 my $noclean = 0;
-my $pre_clean_cache = 0;
-my $post_clean_cache = 1;
 my $verbose = 0;
 my $root = '';
 my $bug = '';
 my $env = '';
 my $log = '';
-my $verify_rpm = undef; #1;
 my $test = 0;
-my $excludepath = undef; #0;
 
 my $uid;
 my @files;
@@ -121,9 +116,6 @@ usage:
     exit(0);
 }
 
-#- params contains informations to parse installed system.
-my $urpm = new urpm;
-
 #- parse arguments list.
 my @nextargv;
 my $command_line = join " ", @ARGV;
@@ -138,23 +130,23 @@ while (defined($_ = shift @ARGV)) {
     /^--auto$/ and do { $auto = 1; next };
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
-    /^--fuzzy$/ and do { $fuzzy = 1; next };
+    /^--(no-)?fuzzy$/ and do { $urpm->{options}{fuzzy} = !$1; next };
     /^--src$/ and do { $src = 1; next };
     /^--install-src$/ and do { $install_src = 1; next };
     /^--clean$/ and do { $clean = 1; $noclean = 0; next };
-    /^--noclean$/ and do { $clean = $pre_clean_cache = $post_clean_cache = 0; $noclean = 1; next };
-    /^--(no-)?pre-clean$/ and do { $pre_clean_cache = !$1; next };
-    /^--(no-)?post-clean$/ and do { $post_clean_cache = !$1; next };
+    /^--noclean$/ and do { $clean = $urpm->{options}{'pre-clean'} = $urpm->{options}{'post-clean'} = 0; $noclean = 1; next };
+    /^--(no-)?pre-clean$/ and do { $urpm->{options}{'pre-clean'} = !$1; next };
+    /^--(no-)?post-clean$/ and do { $urpm->{options}{'post-clean'} = !$1; next };
     /^--force$/ and do { $force = 1; next };
-    /^--allow-nodeps$/ and do { $allow_nodeps = 1; next };
-    /^--allow-force$/ and do { $allow_force = 1; next };
+    /^--allow-nodeps$/ and do { $urpm->{options}{'allow-nodeps'} = 1; next };
+    /^--allow-force$/ and do { $urpm->{options}{'allow-force'} = 1; next };
     /^--parallel$/ and do { push @nextargv, \$parallel; next };
     /^--wget$/ and do { $sync = sub { my $options = shift @_;
 				      if (ref $options) { $options->{prefer} = 'wget' }
 				      else { $options = { dir => $options, prefer => 'wget' } }
 				      urpm::sync_webfetch($options, @_) }; next };
     /^--curl$/ and do { $sync = \&urpm::sync_webfetch; next };
-    /^--limit-rate$/ and do { push @nextargv, \$limit_rate; next };
+    /^--limit-rate$/ and do { $urpm->{options}{'limit-rate'} = undef; push @nextargv, \$urpm->{options}{'limit-rate'}; next };
     /^--proxy$/ and do {
 	my ($proxy, $port) = ($_ = shift @ARGV) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
 	    die _("bad proxy declaration on command line\n");
@@ -176,11 +168,11 @@ while (defined($_ = shift @ARGV)) {
     /^--WID$/ and do { push @nextargv, \$WID; next };
     /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && -x "/usr/sbin/grpmi" && system('/usr/X11R6/bin/xtest', '') == 0;
 			       next };
-    /^--(no-)?verify-rpm$/ and do { $verify_rpm = !$1; next };
+    /^--(no-)?verify-rpm$/ and do { $urpm->{options}{'verify-rpm'} = !$1; next };
     /^--(no-)?test$/ and do { $test = !$1; next };
     /^--comment$/ and do { push @nextargv, undef; next };
     /^--root$/ and do { push @nextargv, \$root; next };
-    /^--excludepath$/ and do { push @nextargv, \$excludepath; next };
+    /^--excludepath$/ and do { $urpm->{options}{excludepath} = undef; push @nextargv, \$urpm->{options}{excludepath}; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $all = 1; next };
@@ -190,7 +182,7 @@ while (defined($_ = shift @ARGV)) {
 	/q/ and do { --$verbose; $rpm_opt = ""; next };
 	/p/ and do { $use_provides = 1; next };
 	/P/ and do { $use_provides = 0; next };
-	/y/ and do { $fuzzy = 1; next };
+	/y/ and do { $urpm->{options}{fuzzy} = 1; next };
 	/s/ and do { $src = 1; next };
 	/v/ and do { ++$verbose; $rpm_opt = "vh"; next };
 	die _("urpmi: unknown option \"-%s\", check usage with --help\n", $1); } next };
@@ -209,6 +201,10 @@ while (defined($_ = shift @ARGV)) {
 	push @names, $_;
     }
     $src = 0; #- reset switch for next package.
+}
+#- get back activated default values of boolean options.
+foreach (qw(post-clean use-provides verify-rpm)) {
+    exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
 }
 
 #- use install_src to promote all names as src package.
@@ -332,14 +328,14 @@ if (@names) {
     $urpm->search_packages(\%requested, [ @names ],
 			   all => $all,
 			   use_provides => $use_provides,
-			   fuzzy => $fuzzy)
+			   fuzzy => $urpm->{options}{fuzzy})
       or $force or exit 1;
 }
 if (@src_names) {
     $urpm->search_packages(\%requested, [ @src_names ],
 			   all => $all,
 			   use_provides => $use_provides,
-			   fuzzy => $fuzzy,
+			   fuzzy => $urpm->{options}{fuzzy},
 			   src => 1)
       or $force or exit 1;
 }
@@ -491,14 +487,14 @@ if (@root_only) {
 
 #- if not root, the list become invisible and no download will be possible.
 my ($local_sources, $list) = $urpm->get_source_packages($state->{selected},
-							clean_all => $clean, clean_other => !$noclean && $pre_clean_cache);
+							clean_all => $clean, clean_other => !$noclean && $urpm->{options}{'pre-clean'});
 unless ($local_sources || $list) {
     $urpm->{fatal}(3, _("unable to get source packages, aborting"));
 }
 
 my %sources = $urpm->download_source_packages($local_sources, $list,
 					      verbose => $verbose > 0,
-					      limit_rate => $limit_rate,
+					      limit_rate => $urpm->{options}{'limit-rate'},
 					      callback => sub {
 						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;
 						  if ($mode eq 'start') {
@@ -608,13 +604,13 @@ if (%sources_install || %sources) {
 	} else {
 	    my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 				   translate_message => 1,
-				   oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
+				   oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
 				   test => $test, excludepath => $excludepath);
 	    if (@l) {
 		message(_("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
 		m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
-		$auto || !$allow_nodeps && !$allow_force and exit 1; #- if auto has been set, avoid asking user.
+		$auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'} and exit 1;
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
@@ -623,17 +619,17 @@ if (%sources_install || %sources) {
 		$urpm->{log}("starting installing packages without deps");
 		@l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 				    translate_message => 1, nodeps => 1,
-				    oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
+				    oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
 				    test => $test, excludepath => $excludepath);
 		if (@l) {
 		    message(_("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
-		    !$allow_force and exit 1;
+		    !$urpm->{options}{'allow-force'} and exit 1;
 		    message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
 		      or exit 1;
 		    $urpm->{log}("starting force installing packages without deps");
 		    @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 					translate_message => 1, nodeps => 1, force => 1,
-					oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
+					oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
 					test => $test, excludepath => $excludepath);
 		    @l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 		}

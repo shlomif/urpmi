@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 13mdk
+Release: 14mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,11 @@ fi
 
 
 %changelog
+* Mon Jan 27 2003 François Pons <fpons@mandrakesoft.com> 4.2-14mdk
+- added more global options to urpmi.cfg: verify-rpm, fuzzy,
+  allow-force, allow-nodeps, pre-clean, post-clean, limit-rate,
+  excludepath.
+
 * Mon Jan 27 2003 François Pons <fpons@mandrakesoft.com> 4.2-13mdk
 - simplified portage to perl 5.6.1, because the following
   open F, "-|", "/usr/bin/wget", ... are 5.8.0 restrictive.
