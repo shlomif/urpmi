@@ -4,7 +4,7 @@ use strict;
 use vars qw($VERSION @ISA);
 use Fcntl ':flock';
 
-$VERSION = '3.2';
+$VERSION = '3.3';
 
 =head1 NAME
 
@@ -143,7 +143,7 @@ sub sync_curl {
 	    }
 	}
     }
-    #- http files (and other files) are correctly managed by curl to conditionnal upload.
+    #- http files (and other files) are correctly managed by curl to conditionnal download.
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-z file -O <file>)*
     if (my @all_files = ((map { ("-O", $_ ) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
@@ -704,7 +704,7 @@ sub update_media {
 		#- is a symlink to a directory.
 		#- make sure rpm filename format is correct and is not a source rpm
 		#- which are not well managed by urpmi.
-		@files = grep { $_ !~ /\.src\.rpm/ } split "\n", `find '$dir/' -name "*.rpm" -print`;
+		@files = split "\n", `find '$dir/' -name "*.rpm" -print`;
 
 		#- check files contains something good!
 		if (@files > 0) {
@@ -952,7 +952,7 @@ sub update_media {
 	foreach my $file (keys %{$urpm->{params}{provides}}) {
 	    $file =~ /^\// or next;
 	    foreach (keys %{$urpm->{params}{provides}{$file} || {}}) {
-		push @{$urpm->{params}{info}{$_}{provides}}, $file;
+		eval { push @{$urpm->{params}{info}{$_}{provides}}, $file };
 	    }
 	}
 
@@ -1162,7 +1162,7 @@ sub relocate_depslist_provides {
 	    } else {
 		$urpm->{params}{names}{$_->{name}} = $_;
 	    }
-	} else {
+	} elsif ($_->{arch} ne 'src') {
 	    #- the package is removed, make it invisible (remove id).
 	    delete $_->{id};
 
@@ -1227,9 +1227,12 @@ sub search_packages {
 	#- it is a way of speedup, providing the name of a package directly help
 	#- to find the package.
 	#- this is necessary if providing a name list of package to upgrade.
-	if (!$options{fuzzy} && $urpm->{params}{names}{$v} && defined $urpm->{params}{names}{$v}{id}) {
-	    $exact{$v} = $urpm->{params}{names}{$v}{id};
-	    next;
+	unless ($options{fuzzy}) {
+	    my $pkg = $urpm->{params}{names}{$v};
+	    if (defined $pkg->{id} && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src')) {
+		$exact{$v} = $pkg->{id};
+		next;
+	    }
 	}
 
 	my $qv = quotemeta $v;
@@ -1237,7 +1240,8 @@ sub search_packages {
 	if ($options{use_provides}) {
 	    unless ($options{fuzzy}) {
 		#- try to search through provides.
-		if (my @l = grep { defined $_ } map { $_ && $_->{id} } map { $urpm->{params}{info}{$_} }
+		if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->{arch} eq 'src' : $_->{arch} ne 'src') &&
+							$_->{id} || undef } map { $urpm->{params}{info}{$_} }
 		    keys %{$urpm->{params}{provides}{$v} || {}}) {
 		    #- we assume that if the there is at least one package providing the resource exactly,
 		    #- this should be the best ones that is described.
@@ -1251,16 +1255,20 @@ sub search_packages {
 		#- but manages choices correctly (as a provides may be virtual or
 		#- multiply defined.
 		/$qv/ and push @{$found{$v}}, join '|', grep { defined $_ }
-		  map { $urpm->{params}{info}{$_}{id} } keys %{$urpm->{params}{provides}{$_}};
+		  map { my $pkg = $urpm->{params}{info}{$_};
+			$pkg && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src') && $pkg->{id} || undef }
+		    keys %{$urpm->{params}{provides}{$_}};
 		/$qv/i and push @{$found{$v}}, join '|', grep { defined $_ }
-		  map { $urpm->{params}{info}{$_}{id} } keys %{$urpm->{params}{provides}{$_}};
+		  map { my $pkg = $urpm->{params}{info}{$_};
+			$pkg && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src') && $pkg->{id} || undef }
+		    keys %{$urpm->{params}{provides}{$_}};
 	    }
 	}
 
 	foreach my $id (0 .. $#{$urpm->{params}{depslist}}) {
 	    my $info = $urpm->{params}{depslist}[$id];
 
-	    rpmtools::compat_arch($info->{arch}) or next;
+	    ($options{src} ? $info->{arch} eq 'src' : rpmtools::compat_arch($info->{arch})) or next;
 
 	    my $pack_ra = "$info->{name}-$info->{version}";
 	    my $pack_a = "$pack_ra-$info->{release}";
@@ -1281,8 +1289,6 @@ sub search_packages {
 
 	    $pack =~ /$qv/ and push @{$found{$v}}, $id;
 	    $pack =~ /$qv/i and push @{$foundi{$v}}, $id;
-
-	    ++$id;
 	}
     }
 
@@ -1438,6 +1444,7 @@ sub filter_packages_to_upgrade {
     #- common routines that are called at different points.
     my $check_installed = sub {
 	my ($pkg) = @_;
+	$pkg->{src} eq 'src' and return;
 	$options{keep_alldeps} || exists $installed{$pkg->{id}} and return 0;
 	rpmtools::db_traverse_tag($db, 'name', [ $pkg->{name} ],
 				  [ qw(name version release serial) ], sub {
@@ -1495,50 +1502,54 @@ sub filter_packages_to_upgrade {
 	#- installed.
 	my (%diff_provides, %provides);
 
-	rpmtools::db_traverse_tag($db,
-				  'name', [ $pkg->{name}, @{$pkg->{obsoletes} || []} ],
-				  [ qw(name version release sense provides) ], sub {
-				      my ($p) = @_;
-				      foreach (@{$p->{provides}}) {
-					  s/\[\*\]//;
-					  s/\[([^\]]*)\]/ $1/;
-					  $diff_provides{$_} = "$p->{name}-$p->{version}-$p->{release}";
-				      }
-				  });
+	if ($pkg->{arch} ne 'src') {
+	    rpmtools::db_traverse_tag($db,
+				      'name', [ $pkg->{name}, @{$pkg->{obsoletes} || []} ],
+				      [ qw(name version release sense provides) ], sub {
+					  my ($p) = @_;
+					  foreach (@{$p->{provides}}) {
+					      s/\[\*\]//;
+					      s/\[([^\]]*)\]/ $1/;
+					      $diff_provides{$_} = "$p->{name}-$p->{version}-$p->{release}";
+					  }
+				      });
 
-	foreach (@{$pkg->{provides} || []}) {
-	    s/\[\*\]//;
-	    s/\[([^\]]*)\]/ $1/;
-	    delete $diff_provides{$_};
-	}
-
-	foreach (keys %diff_provides) {
-	    #- analyse the difference in provide and select other package.
-	    if (my ($n, $o, $e, $v, $r) = /^(\S*)\s*(\S*)\s*(\d+:)?([^\s-]*)-?(\S*)/) {
-		my $check = sub {
-		    my ($p) = @_;
-		    my ($needed, $satisfied) = (0, 0);
-		    foreach (@{$p->{requires}}) {
-			if (my ($pn, $po, $pv, $pr) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
-			    $pn eq $n && $pn eq $pkg->{name} or next;
-			    ++$needed;
-			    (!$pv || eval(rpmtools::version_compare($pkg->{version}, $pv) . $po . 0)) &&
-			      (!$pr || rpmtools::version_compare($pkg->{version}, $pv) != 0 ||
-			       eval(rpmtools::version_compare($pkg->{release}, $pr) . $po . 0)) or next;
-			    #- an existing provides (propably the one examined) is satisfying the underlying.
-			    ++$satisfied;
-			}
-		    }
-		    #- check if the package need to be updated because it
-		    #- losts some of its requires regarding the current diff_provides.
-		    $needed > $satisfied and $selected{$p->{name}} ||= undef;
-		};
-		rpmtools::db_traverse_tag($db, 'whatrequires', [ $n ], [ qw(name version release sense requires) ], $check);
+	    foreach (@{$pkg->{provides} || []}) {
+		s/\[\*\]//;
+		s/\[([^\]]*)\]/ $1/;
+		delete $diff_provides{$_};
 	    }
+
+	    foreach (keys %diff_provides) {
+		#- analyse the difference in provide and select other package.
+		if (my ($n, $o, $e, $v, $r) = /^(\S*)\s*(\S*)\s*(\d+:)?([^\s-]*)-?(\S*)/) {
+		    my $check = sub {
+			my ($p) = @_;
+			my ($needed, $satisfied) = (0, 0);
+			foreach (@{$p->{requires}}) {
+			    if (my ($pn, $po, $pv, $pr) =
+				/^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+				$pn eq $n && $pn eq $pkg->{name} or next;
+				++$needed;
+				(!$pv || eval(rpmtools::version_compare($pkg->{version}, $pv) . $po . 0)) &&
+				  (!$pr || rpmtools::version_compare($pkg->{version}, $pv) != 0 ||
+				   eval(rpmtools::version_compare($pkg->{release}, $pr) . $po . 0)) or next;
+				#- an existing provides (propably the one examined) is satisfying the underlying.
+				++$satisfied;
+			    }
+			}
+			#- check if the package need to be updated because it
+			#- losts some of its requires regarding the current diff_provides.
+			$needed > $satisfied and $selected{$p->{name}} ||= undef;
+		    };
+		    rpmtools::db_traverse_tag($db, 'whatrequires', [ $n ], [ qw(name version release sense requires) ], $check);
+		}
+	    }
+
+	    $provides{$pkg->{name}} = undef; #"$pkg->{name}-$pkg->{version}-$pkg->{release}";
 	}
 
 	#- iterate over requires of the packages, register them.
-	$provides{$pkg->{name}} = undef; #"$pkg->{name}-$pkg->{version}-$pkg->{release}";
 	foreach (@{$pkg->{requires} || []}) {
 	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 		exists $provides{$_} and next;
@@ -1575,6 +1586,7 @@ sub filter_packages_to_upgrade {
 					  [ qw (name version release) ], $check_pkg);
 		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
 		    my $pkg = $urpm->{params}{info}{$fullname};
+		    $pkg->{arch} eq 'src' and next;
 		    $o and $n eq $pkg->{name} || next;
 		    (!$v || eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0)) &&
 		      (!$r || rpmtools::version_compare($pkg->{version}, $v) != 0 ||
@@ -1586,7 +1598,7 @@ sub filter_packages_to_upgrade {
 
 	#- at this point, all unresolved provides (requires) should be fixed by
 	#- provides files, try to minimize choice at this level.
-	foreach (keys %provides, keys %selected) {
+	foreach (keys %provides, grep { !$selected{$_} } keys %selected) {
 	    my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
 	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 		$provides{$_} and next;
@@ -1594,6 +1606,7 @@ sub filter_packages_to_upgrade {
 		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
 		    exists $conflicts{$fullname} and next;
 		    my $pkg = $urpm->{params}{info}{$fullname};
+		    $pkg->{arch} eq 'src' and next;
 		    $selected{$n} || $selected{$pkg->{name}} and %pre_choices=(), last;
 		    #- check if a unsatisfied selection on a package is needed,
 		    #- which need a obsolete on a package with different name or
@@ -1682,6 +1695,7 @@ sub deselect_unwanted_packages {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	foreach (keys %{$urpm->{params}{provides}{$_} || {}}) {
 	    my $pkg = $urpm->{params}{info}{$_} or next;
+	    $pkg->{arch} eq 'src' and next; #- never ignore source package.
 	    $options{force} || (exists $packages->{$pkg->{id}} && defined $packages->{$pkg->{id}})
 	      and delete $packages->{$pkg->{id}};
 	}
@@ -1777,13 +1791,13 @@ sub get_source_packages {
     $error ? () : ( \%local_sources, \@list, \@local_to_removes );
 }
 
-#- upload package that may need to be uploaded.
+#- download package that may need to be downloaded.
 #- make sure header are available in the appropriate directory.
 #- change location to find the right package in the local
 #- filesystem for only one transaction.
 #- try to mount/eject removable media here.
 #- return a list of package ready for rpm.
-sub upload_source_packages {
+sub download_source_packages {
     my ($urpm, $local_sources, $list, $force_local, $ask_for_medium) = @_;
     my (%sources, @distant_sources, %media, %removables);
 
@@ -2001,6 +2015,7 @@ sub select_packages_to_upgrade {
 	#- select packages which obseletes other package, obselete package are not removed,
 	#- should we remove them ? this could be dangerous !
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
+	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
 	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "obsoletes", sub {
 			     #- take care of flags and version and release if present
 			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/ &&
@@ -2056,6 +2071,8 @@ sub select_packages_to_upgrade {
 
 	#- find new packages to upgrade.
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
+	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
+
 	    my $skipThis = 0;
 	    my $count = rpmtools::db_traverse_tag($db, "name", [ $pkg->{name} ], [ 'name' ], sub {
 						      $skipThis ||= $pkg->{installed};
@@ -2090,6 +2107,7 @@ sub select_packages_to_upgrade {
 	#- unmark all files for all packages marked for upgrade. it may not have been done above
 	#- since some packages may have been selected by depsList.
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
+	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
 	    if ($pkg->{selected}) {
 		$ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "files", sub {
 				 delete $installedFilesForUpgrade{$_[0]};
@@ -2104,6 +2122,7 @@ sub select_packages_to_upgrade {
 	#- made some files moving between the normal package and its devel couterpart.
 	#- if only one file is affected, no devel package is selected.
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
+	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
 	    unless ($pkg->{selected}) {
 		my $toSelect = 0;
 		$ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "files", sub {

@@ -37,6 +37,8 @@ my $all = 0;
 my $rpm_opt = "vh";
 my $use_provides = 1;
 my $fuzzy = 0;
+my $src = 0;
+my $noclean = 0;
 my $verbose = 0;
 
 my $uid;
@@ -45,6 +47,7 @@ my @src_files;
 my @rpms_install;
 my @rpms_upgrade;
 my @names;
+my @src_names;
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
@@ -61,6 +64,9 @@ usage:
 ") . _("  --media        - use only the media listed by comma.
 ") . _("  --auto         - automatically select a good package in choices.
 ") . _("  --auto-select  - automatically select packages for upgrading the system.
+") . _("  --fuzzy        - impose fuzzy search (same as -y).
+") . _("  --src          - next package is a source package (same as -s).
+") . _("  --noclean      - keep rpm not used in cache.
 ") . _("  --complete     - use parsehdlist server to complete selection.
 ") . _("  --force        - force invocation even if some packages do not exist.
 ") . _("  --wget         - use wget to retrieve distant files.
@@ -71,7 +77,8 @@ usage:
 ") . _("  -a             - select all matches on command line.
 ") . _("  -p             - allow search in provides to find package.
 ") . _("  -P             - do not search in provides to find package.
-") . _("  -y             - impose fuzzy search.
+") . _("  -y             - impose fuzzy search (same as --fuzzy).
+") . _("  -s             - next package is a source package (same as --src).
 ") . _("  -q             - quiet mode.
 ") . _("  -v             - verbose mode.
 ") . "\n" . _("  names or rpm files given on command line are installed.
@@ -89,6 +96,9 @@ for (@ARGV) {
     /^--auto$/ and do { $auto = 1; next };
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
+    /^--fuzzy$/ and do { $fuzzy = 1; next };
+    /^--src$/ and do { $src = 1; next };
+    /^--noclean$/ and do { $noclean = 1; next };
     /^--complete$/ and do { $complete = 1; next };
     /^--force$/ and do { $force = 1; next };
     /^--wget$/ and do { $sync = \&urpm::sync_wget; next };
@@ -109,6 +119,7 @@ for (@ARGV) {
 	/p/ and do { $use_provides = 1; next };
 	/P/ and do { $use_provides = 0; next };
 	/y/ and do { $fuzzy = 1; next };
+	/s/ and do { $src = 1; next };
 	/v/ and do { $verbose = 1; next };
 	die _("urpmi: unknown option \"-%s\", check usage with --help\n", $1); } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
@@ -119,7 +130,12 @@ for (@ARGV) {
 	push @files, untaint($_);
 	next;
     }
-    push @names, $_;
+    if ($src) {
+	push @src_names, $_;
+    } else {
+	push @names, $_;
+    }
+    $src = 0; #- reset switch for next package.
 }
 
 #- params contains informations to parse installed system.
@@ -128,7 +144,7 @@ my ($pid_out, $pid_err);
 
 if ($uid) {
     #- only src files are installable using urpmi.
-    @src_files or $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
+    @names || @files and $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
 
     #- allow installation.
     @rpms_install = @src_files;
@@ -162,155 +178,165 @@ if ($uid) {
     }
     select STDERR; $| = 1;     # make unbuffered
     select STDOUT; $| = 1;     # make unbuffered
+}
 
-    #- use specific sync routine.
-    $sync and $urpm->{sync} = $sync;
+#- use specific sync routine.
+$sync and $urpm->{sync} = $sync;
 
-    #- remove verbose if not asked.
-    $verbose or $urpm->{log} = sub {};
+#- remove verbose if not asked.
+$verbose or $urpm->{log} = sub {};
 
-    $urpm->read_config;
-    if ($media) {
-	$urpm->select_media(split ',', $media);
-	foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
-	    #- this is only a local ignore that will not be saved.
-	    $_->{ignore} = 1;
-	}
+$urpm->read_config(nocheck_access => $uid > 0);
+if ($media) {
+    $urpm->select_media(split ',', $media);
+    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
+	#- this is only a local ignore that will not be saved.
+	$_->{ignore} = 1;
     }
-    foreach (grep { !$_->{ignore} && (!$update || $_->{update}) } @{$urpm->{media} || []}) {
-	$urpm->parse_synthesis($_);
-    }
+}
+foreach (grep { !$_->{ignore} && (!$update || $_->{update}) } @{$urpm->{media} || []}) {
+    $urpm->parse_synthesis($_);
+}
 
-    if (@files) {
-	#- sanity check of pathname.
-	m|^/| or $_ = "./$_" foreach @files;
+if (@files) {
+    #- sanity check of pathname.
+    m|^/| or $_ = "./$_" foreach @files;
 
-	#- build closure with local package and return list of names.
-	push @names, $urpm->register_local_packages(@files);
-    }
+    #- build closure with local package and return list of names.
+    push @names, $urpm->register_local_packages(@files);
+}
 
-    #- relocate depslist.
-    $urpm->relocate_depslist_provides();
+#- relocate depslist.
+$urpm->relocate_depslist_provides();
 
 
-    #- search the packages according the selection given by the user,
-    #- basesystem is added to the list so if it need to be upgraded,
-    #- all its dependency will be updated too.
-    #- make sure basesystem exists before.
-    my %packages;
+#- search the packages according the selection given by the user,
+#- basesystem is added to the list so if it need to be upgraded,
+#- all its dependency will be updated too.
+#- make sure basesystem exists before.
+my %packages;
+if (@names) {
     $urpm->search_packages(\%packages, [ @names],
 			   all => $all,
 			   use_provides => $use_provides,
 			   fuzzy => $fuzzy)
 	or $force or exit 1;
+}
+if (@src_names) {
+    $urpm->search_packages(\%packages, [ @src_names],
+			   all => $all,
+			   use_provides => $use_provides,
+			   fuzzy => $fuzzy,
+			   src => 1)
+	or $force or exit 1;
+}
 
-    #- filter to add in packages selected required packages.
-    my $ask_choice = sub {
-	my ($urpm, $from_id, @choices_id) = @_;
-	my $n = 1; #- default value.
-	my ($from, @l) = map { my $info = $urpm->{params}{depslist}[$_];
-			       "$info->{name}-$info->{version}-$info->{release}" } ($from_id, @choices_id);
+#- filter to add in packages selected required packages.
+my $ask_choice = sub {
+    my ($urpm, $from_id, @choices_id) = @_;
+    my $n = 1; #- default value.
+    my ($from, @l) = map { my $info = $urpm->{params}{depslist}[$_];
+			   "$info->{name}-$info->{version}-$info->{release}.$info->{arch}" } ($from_id, @choices_id);
 
-	if (@l > 1 && !$auto) {
-	    my $msg = (defined $from_id ?
-		       _("One of the following packages is needed to install %s:", $from) :
-		       _("One of the following packages is needed:"));
-	    if ($X) {
-		`gchooser "$msg" @l`;
-		$n = $? >> 8 || die;
-	    } else {
-		print SAVEOUT "$msg\n";
-		my $i = 0; foreach (@l) { print SAVEOUT " ", ++$i, "- $_\n"; }
-		while (1) {
-		    printf SAVEOUT _("What is your choice? (1-%d) ", $i);
-		    $n = <STDIN>;
-		    1 <= $n && $n <= $i and last;
-		    print SAVEOUT _("Sorry, bad choice, try again\n");
-		}
-	    }
-	}
-
-	$choices_id[$n - 1];
-    };
-
-    #- auto select package for upgrading the distribution.
-    if ($auto_select) {
-	my (%to_remove, %keep_files);
-
-	$urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files, use_parsehdlist => $complete);
-
-	if (keys(%to_remove) > 0) {
-	    print STDERR "some packages have to be removed for being upgraded, this is not supported yet\n";
-	}
-    }
-
-    $urpm->filter_packages_to_upgrade(\%packages, $ask_choice);
-
-    #- get out of package that should not be upgraded.
-    $urpm->deselect_unwanted_packages(\%packages);
-
-    #- package to install as a array of strings.
-    my @to_install;
-
-    #- check if there is at least one package to install that
-    #- has not been given by the user.
-    my $ask_user = $auto_select && scalar(keys %packages);
-    my $sum = 0;
-    foreach (keys %packages) {
-	defined $packages{$_} and $ask_user = 1;
-	my $info  = $urpm->{params}{depslist}[$_];
-	$sum += $info->{size};
-	push @to_install, "$info->{name}-$info->{version}-$info->{release}";
-    }
-    if (!$auto) {
-	if ($ask_user) {
-	    my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
-	    my $msg2 = _("Is it OK?");
-	    if ($X) {
-		my $p = join "\n", @to_install;
-		my $ok = _("Ok");
-		my $cancel = _("Cancel");
-		`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
-		$? and exit 0;
-	    } else {
-		$noexpr = _("Nn");
-		$yesexpr = _("Yy");
-		print SAVEOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
-		<STDIN> =~ /[$noexpr]/ and exit 0;
+    if (@l > 1 && !$auto) {
+	my $msg = (defined $from_id ?
+		   _("One of the following packages is needed to install %s:", $from) :
+		   _("One of the following packages is needed:"));
+	if ($X) {
+	    `gchooser "$msg" @l`;
+	    $n = $? >> 8 || die;
+	} else {
+	    print SAVEOUT "$msg\n";
+	    my $i = 0; foreach (@l) { print SAVEOUT " ", ++$i, "- $_\n"; }
+	    while (1) {
+		printf SAVEOUT _("What is your choice? (1-%d) ", $i);
+		$n = <STDIN>;
+		1 <= $n && $n <= $i and last;
+		print SAVEOUT _("Sorry, bad choice, try again\n");
 	    }
 	}
     }
 
-    my ($local_sources, $list, $local_to_removes) = $urpm->get_source_packages(\%packages);
-    unless ($local_sources || $list) {
-	$urpm->{fatal}(3, _("unable to get source packages, aborting"));
+    $choices_id[$n - 1];
+};
+
+#- auto select package for upgrading the distribution.
+if ($auto_select) {
+    my (%to_remove, %keep_files);
+
+    $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files, use_parsehdlist => $complete);
+
+#-    if (keys(%to_remove) > 0) {
+#-	print STDERR "some packages have to be removed for being upgraded, this is not supported yet\n";
+#-    }
+}
+
+$urpm->filter_packages_to_upgrade(\%packages, $ask_choice);
+
+#- get out of package that should not be upgraded.
+$urpm->deselect_unwanted_packages(\%packages);
+
+#- package to install as a array of strings.
+my @to_install;
+
+#- check if there is at least one package to install that
+#- has not been given by the user.
+my $ask_user = $auto_select && scalar(keys %packages);
+my $sum = 0;
+foreach (keys %packages) {
+    defined $packages{$_} and $ask_user = 1;
+    my $info = $urpm->{params}{depslist}[$_];
+    $sum += $info->{size};
+    push @to_install, "$info->{name}-$info->{version}-$info->{release}.$info->{arch}";
+}
+if (!$auto && $ask_user) {
+    my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
+    my $msg2 = _("Is it OK?");
+    if ($X) {
+	my $p = join "\n", @to_install;
+	my $ok = _("Ok");
+	my $cancel = _("Cancel");
+	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
+	$? and exit 0;
+    } else {
+	$noexpr = _("Nn");
+	$yesexpr = _("Yy");
+	print SAVEOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
+	<STDIN> =~ /[$noexpr]/ and exit 0;
     }
-    #- clean cache with file that are not necessary with this transaction.
-    #- TODO check not another urpmi is doing the same...
+}
+
+#- if not root, the list become invisible and no download will be possible.
+my ($local_sources, $list, $local_to_removes) = $urpm->get_source_packages(\%packages);
+unless ($local_sources || $list) {
+    $urpm->{fatal}(3, _("unable to get source packages, aborting"));
+}
+#- clean cache with file that are not necessary with this transaction.
+unless ($noclean) {
     foreach (@$local_to_removes) {
 	unlink $_;
     }
-
-    my %sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'),
-						(!$auto || $allow_medium_change) && sub {
-						    my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
-						    my $msg2 = _("Press Enter when it's done...");
-						    if ($X) {
-							my $ok = _("Ok");
-							my $cancel = _("Cancel");
-							$msg =~ s/"/\\"/g;
-							`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
-							!$?;
-						    } else {
-							print SAVEOUT "$msg\n$msg2 ";
-							<STDIN>; 1;
-						    }
-						});
-
-    #- install package.
-    @rpms_install = grep { $_ !~ /\.src.\.rpm/ } values %{$urpm->extract_packages_to_install(\%sources) || {}};
-    @rpms_upgrade = grep { $_ !~ /\.src.\.rpm/ } values %sources;
 }
+
+my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 'force_local'),
+					      (!$auto || $allow_medium_change) && sub {
+						  my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
+						  my $msg2 = _("Press Enter when it's done...");
+						  if ($X) {
+						      my $ok = _("Ok");
+						      my $cancel = _("Cancel");
+						      $msg =~ s/"/\\"/g;
+						      `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
+						      !$?;
+						  } else {
+						      print SAVEOUT "$msg\n$msg2 ";
+						      <STDIN>; 1;
+						  }
+					      });
+
+#- install package.
+@rpms_install = grep { $_ !~ /\.src.\.rpm/ } values %{$urpm->extract_packages_to_install(\%sources) || {}};
+@rpms_upgrade = grep { $_ !~ /\.src.\.rpm/ } values %sources;
 
 if (@rpms_install || @rpms_upgrade) {
     printf SAVEOUT _("installing %s\n", join(' ', @rpms_install, @rpms_upgrade));

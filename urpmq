@@ -29,6 +29,7 @@ my $query = {};
 
 my @files;
 my @names;
+my @src_names;
 
 sub usage {
     print STDERR _("urpmq version %s
@@ -43,13 +44,16 @@ usage:
 ") . _("  -c             - choose complete method for resolving requires closure.
 ") . _("  -p             - allow search in provides to find package.
 ") . _("  -P             - do not search in provides to find package.
-") . _("  -y             - impose fuzzy search.
+") . _("  -y             - impose fuzzy search (same as --fuzzy).
+") . _("  -s             - next package is a source package (same as --src).
 ") . _("  -g             - print groups too with name.
 ") . _("  -r             - print version and release too with name.
 ") . _("  -f             - print version, release and arch with name.
 ") . "\n" . _("  --update       - use only update media.
 ") . _("  --media        - use only the media listed by comma.
 ") . _("  --auto-select  - automatically select packages for upgrading the system.
+") . _("  --fuzzy        - impose fuzzy search (same as -y).
+") . _("  --src          - next package is a source package (same as -s).
 ") . _("  --headers      - extract headers for package listed from urpmi db to
                    stdout (root only).
 ") . _("  --sources      - give all source packages before downloading (root only).
@@ -67,6 +71,8 @@ for (@ARGV) {
     /^--media$/ and do { push @nextargv, \$query->{media}; next };
     /^--mediums$/ and do { push @nextargv, \$query->{media}; next };
     /^--auto-select$/ and do { $query->{auto_select} = 1; next };
+    /^--fuzzy$/ and do { $query->{fuzzy} = 1; next };
+    /^--src$/ and do { $query->{src} = 1; next };
     /^--headers$/ and do { $query->{headers} = 1; next };
     /^--sources$/ and do { $query->{sources} = 1; next };
     /^--force$/ and do { $query->{force} = 1; next };
@@ -81,6 +87,7 @@ for (@ARGV) {
 	/p/ and do { $query->{use_provides} = 1; next };
 	/P/ and do { $query->{use_provides} = 0; next };
 	/y/ and do { $query->{fuzzy} = 1; next };
+	/s/ and do { $query->{src} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };
 	/r/ and do { $query->{version} = $query->{release} = 1; next };
 	/f/ and do { $query->{version} = $query->{release} = $query->{arch} = 1; next };
@@ -89,7 +96,12 @@ for (@ARGV) {
     /\.rpm$/ and do { if (-r $_) { push @files, $_; }
 		      else { print STDERR _("urpmq: cannot read rpm file \"%s\"\n", $_); }
 		      next };
-    push @names, $_;
+    if ($query->{src}) {
+	push @src_names, $_;
+    } else {
+	push @names, $_;
+    }
+    $query->{src} = 0; #- reset switch for next package.
 }
 
 #- params contains informations to parse installed system.
@@ -122,10 +134,19 @@ $urpm->relocate_depslist_provides();
 #- basesystem is added to the list so if it need to be upgraded, all its dependency
 #- will be updated too.
 my %packages;
-$urpm->search_packages(\%packages, [ @names ],
-		       use_provides => $query->{use_provides},
-		       fuzzy => $query->{fuzzy})
-  or $query->{force} or exit 1;
+if (@names) {
+    $urpm->search_packages(\%packages, [ @names ],
+			   use_provides => $query->{use_provides},
+			   fuzzy => $query->{fuzzy})
+	or $query->{force} or exit 1;
+}
+if (@src_names) {
+    $urpm->search_packages(\%packages, [ @src_names ],
+			   use_provides => $query->{use_provides},
+			   fuzzy => $query->{fuzzy},
+			   src => 1)
+	or $query->{force} or exit 1;
+}
 
 #- auto select package for upgrading the distribution.
 if ($query->{auto_select}) {

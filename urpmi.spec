@@ -1,8 +1,8 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 3.2
-Release: 8mdk
+Version: 3.3
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,13 @@ fi
 
 
 %changelog
+* Mon Feb 11 2002 François Pons <fpons@mandrakesoft.com> 3.3-1mdk
+- added --fuzzy as alias to -y (sorry Andrej to be late on this).
+- added --src (aliased to -s) to handle src rpm in medium.
+- added --noclean (only urpmi) to avoid cleaning the cache of rpm.
+- try handling src in medium (there is still weirdness for access
+  right, need to be root first and user after).
+
 * Thu Feb  7 2002 François Pons <fpons@mandrakesoft.com> 3.2-8mdk
 - fixed a requires resolution when a package C is upgraded which
   need a package A with a specific version and release, but a
