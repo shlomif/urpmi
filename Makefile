@@ -12,7 +12,7 @@ RPM=$(HOME)/rpm
 NAME = urpmi
 TAR = $(NAME).tar.bz2
 
-.PHONY: install clean rpm test bigtest perltest changelog
+.PHONY: install clean rpm test bigtest perltest changelog ChangeLog
 
 install:
 	$(MAKE) -C po $@
@@ -66,3 +66,5 @@ changelog:
 	rm -f *.bak
 
 log:	changelog
+
+ChangeLog: changelog
