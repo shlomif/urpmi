@@ -120,6 +120,7 @@ sub new {
 
 	   sync       => \&sync_webfetch, #- first argument is directory, others are url to fetch.
 	   proxy      => get_proxy(),
+	   options    => {},
 
 	   fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	   error      => sub { printf STDERR "%s\n", $_[0] },
@@ -466,10 +467,20 @@ sub read_config {
     open F, $urpm->{config}; #- no filename can be allowed on some case
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	$_ eq '{' and do { #- urpmi.cfg global options extension
+	    while (<F>) {
+		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+		$_ eq '}' and last;
+		/^(\S+)\s*:(.*)$/ and $urpm->{options}{$1} = $2, next;
+		/^(\S+)$/ and $urpm->{options}{$1} = undef, next;
+		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
+	    }
+	next; };
 	/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/ and do { #- urpmi.cfg format extention
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    while (<F>) {
 		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+		$_ eq '}' and last;
 		/^hdlist\s*:\s*(.*)$/ and $medium->{hdlist} = $1, next;
 		/^with_hdlist\s*:\s*(.*)$/ and $medium->{with_hdlist} = $1, next;
 		/^list\s*:\s*(.*)$/ and $medium->{list} = $1, next;
@@ -478,7 +489,6 @@ sub read_config {
 		/^ignore\s*$/ and $medium->{ignore} = 1, next;
 		/^synthesis\s*$/ and $medium->{synthesis} = 1, next;
 		/^modified\s*$/ and next; # IGNORED TO AVOID EXCESIVE REMOVE $medium->{modified} = 1, next;
-		$_ eq '}' and last;
 		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
 	    }
 	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
@@ -663,6 +673,13 @@ sub write_config {
 
     local *F;
     open F, ">$urpm->{config}" or $urpm->{fatal}(6, _("unable to write config file [%s]", $urpm->{config}));
+    if (%{$urpm->{options} || {}}) {
+	printf F "{\n";
+	while (my ($k,$v) = each %{$urpm->{options}}) {
+	    printf F "  %s: %s\n", $k, $v;
+	}
+	printf F "}\n";
+    }
     foreach my $medium (@{$urpm->{media}}) {
 	printf F "%s %s {\n", quotespace($medium->{name}), quotespace($medium->{clear_url});
 	foreach (qw(hdlist with_hdlist list removable)) {

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 10mdk
+Release: 11mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,17 @@ fi
 
 
 %changelog
+* Fri Jan 24 2003 François Pons <fpons@mandrakesoft.com> 4.2-11mdk
+- add --limit-rate option to urpmi, urpmi.addmedia and
+  urpmi.update.
+- add preliminary support for options in urpmi.cfg, only
+  verify-rpm is supported yet, format is as follow
+    {
+      verify-rpm : on|yes
+      verify-rpm
+      no-verify-rpm
+    }
+
 * Thu Jan 23 2003 François Pons <fpons@mandrakesoft.com> 4.2-10mdk
 - added download log support for rsync and ssh protocol.
 - make log not visible in log file instead url.

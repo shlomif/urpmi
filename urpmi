@@ -30,17 +30,17 @@ my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
 my $force = 0;
-my $allow_nodeps = 0;
-my $allow_force = 0;
+my $allow_nodeps = undef; #0;
+my $allow_force = undef; #0;
 my $parallel = '';
 my $sync = undef;
-my $limit_rate = undef;
+my $limit_rate = undef; #0;
 my $X = 0;
 my $WID = 0;
 my $all = 0;
 my $rpm_opt = "vh";
 my $use_provides = 1;
-my $fuzzy = 0;
+my $fuzzy = undef; #0;
 my $src = 0;
 my $install_src = 0;
 my $clean = 0;
@@ -52,9 +52,9 @@ my $root = '';
 my $bug = '';
 my $env = '';
 my $log = '';
-my $verify_rpm = 1;
+my $verify_rpm = undef; #1;
 my $test = 0;
-my $excludepath = 0;
+my $excludepath = undef; #0;
 
 my $uid;
 my @files;
@@ -120,6 +120,9 @@ usage:
 ");
     exit(0);
 }
+
+#- params contains informations to parse installed system.
+my $urpm = new urpm;
 
 #- parse arguments list.
 my @nextargv;
@@ -208,10 +211,6 @@ while (defined($_ = shift @ARGV)) {
     $src = 0; #- reset switch for next package.
 }
 
-#- params contains informations to parse installed system.
-my $urpm = new urpm;
-my ($pid_out, $pid_err);
-
 #- use install_src to promote all names as src package.
 if ($install_src) {
     @files and $urpm->{fatal}(1, _("What can be done with binary rpm files when using --install-src"));
@@ -253,6 +252,7 @@ if ($env) {
     }
 }
 
+my ($pid_out, $pid_err);
 if ($log) {
     #- log only at this point in case of query usage.
     log_it(scalar localtime, " urpmi called with $command_line\n");
@@ -309,6 +309,17 @@ $urpm->configure(nocheck_access => $env || $uid > 0,
 		 bug => $bug,
 		 parallel => $parallel,
 		);
+#- handle options directly here according to values in configuration file.
+foreach (keys %{$urpm->{options} || {}}) {
+    my $v = $urpm->{options}{$_};
+    /^(no-)?verify-rpm$/ and do {
+	unless (defined $verify_rpm) {
+	    $verify_rpm = defined $v && $v =~ /^(yes|on)$/i; $1 and $verify_rpm = ! $verify_rpm;
+	} next };
+    $urpm->{error}(_("ignoring option \"$_\" not used"));
+}
+#- get default, this should be reworked to be more useable internally TODO.
+defined $verify_rpm or $verify_rpm = 1;
 
 my $state = {};
 my %requested = $urpm->register_rpms(@files, @src_files);
