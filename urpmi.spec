@@ -2,12 +2,12 @@
 
 Name: urpmi
 Version: 1.5
-Release: 34mdk
+Release: 35mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: /usr/bin/suidperl, eject, wget
-PreReq: perl-gettext, rpmtools >= 2.3-7mdk
+PreReq: perl-gettext, rpmtools >= 2.3-22mdk
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
@@ -114,6 +114,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue May 22 2001 François Pons <fpons@mandrakesoft.com> 1.5-35mdk
+- added synthesis file filtering.
+- added arch chekc support.
+
 * Tue Apr 17 2001 François Pons <fpons@mandrakesoft.com> 1.5-34mdk
 - fixed sorting of list file.
 

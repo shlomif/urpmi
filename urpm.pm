@@ -1042,12 +1042,38 @@ sub filter_minimal_packages_to_upgrade {
 	    local *F;
 	    open F, "gzip -dc '$_' |";
 	    local $_;
+	    my %info;
+	    my $update_info = sub {
+		my $found;
+		#- check with provides that version and release are matching else ignore safely.
+		$info{name} or return;
+		foreach (@{$info{provides} || []}) {
+		    if (/(\S*)\s*==\s*\d*:?([^-]*)-([^-]*)/ && $info{name} eq $1) {
+			$found = $urpm->{params}{info}{$info{name}};
+			if ($found->{version} eq $2 && $found->{release} eq $3) {
+			    foreach (keys %info) {
+				$urpm->{params}{info}{$info{name}}{$_} ||= $info{$_};
+			    }
+			    return 1; #- we have found the right info.
+			}
+		    }
+		}
+		$found and return 0;  #- we are sure having found a package but with wrong version or release.
+		#- at this level, nothing in params has been found, this could be an error so
+		#- at least print an error message.
+		$urpm->{error}("unknown data associated with $info{name}");
+		return;
+	    };
 	    while (<F>) {
 		chomp;
 		my ($name, $tag, @data) = split '@';
-		$urpm->{params}{info}{$name} or die "unknown data associated with $name";
-		$urpm->{params}{info}{$name}{$tag} = \@data;
+		if ($name ne $info{name}) {
+		    $update_info->();
+		    %info = ( name => $name );
+		}
+		$info{$tag} = \@data;
 	    }
+	    $update_info->();
 	    close F;
 	}
     }
@@ -1248,8 +1274,11 @@ sub deselect_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages) = @_;
-    my ($error, @local_to_removes, @local_sources, @list, %select);
+    my ($arch, $error, @local_to_removes, @local_sources, @list, %select);
     local (*D, *F, $_);
+
+    #- check architecture of packages listed, ignore all package that are not allowed.
+    $arch = `uname -m`; chomp $arch;
 
     #- examine the local repository, which is trusted.
     opendir D, "$urpm->{cachedir}/rpms";
@@ -1257,16 +1286,18 @@ sub get_source_packages {
 	if (/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/) {
 	    my $pkg = $urpm->{params}{info}{$1};
 
-	    #- check version, release and id selected.
-	    #- TODO arch is not checked at this point.
-	    unless ($pkg->{version} eq $2 && $pkg->{release} eq $3 && exists $packages->{$pkg->{id}}) {
+	    #- check version, release, arch and id selected.
+	    exists $select{$pkg->{id}} && ! defined $select{$pkg->{id}} and next; #- package has already been selected.
+	    $select{$pkg->{id}} = undef; #- try to select, clean error flag, else it will fail.
+	    exists $packages->{$pkg->{id}} or $select{$pkg->{id}} = ""; #- no special warning here, but need define.
+	    $pkg->{version} eq $2 or $select{$pkg->{id}} .= ", mismatch version $2";
+	    $pkg->{release} eq $3 or $select{$pkg->{id}} .= ", mismatch release $3";
+	    rpmtools::compat_arch($4) or $select{$pkg->{id}} .= ", incompatible arch $4";
+	    if (defined $select{$pkg->{id}}) {
 		#- keep in mind these have to be deleted or space will be tight soon...
 		push @local_to_removes, "$urpm->{cachedir}/rpms/$1-$2-$3.$4.rpm";
 		next;
 	    }
-
-	    #- make sure only the first matching is taken...
-	    exists $select{$pkg->{id}} and next; $select{$pkg->{id}} = undef;
 
 	    #- we have found one source for id.
 	    push @local_sources, "$urpm->{cachedir}/rpms/$1-$2-$3.$4.rpm";
@@ -1287,13 +1318,15 @@ sub get_source_packages {
 		if (/(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/) {
 		    my $pkg = $urpm->{params}{info}{$2};
 
-		    #- check version, release and id selected.
+		    #- check version, release, arch and id selected.
 		    #- TODO arch is not checked at this point.
-		    $pkg->{version} eq $3 && $pkg->{release} eq $4 or next;
-		    exists $packages->{$pkg->{id}} or next;
-
-		    #- make sure only the first matching is taken...
-		    exists $select{$pkg->{id}} and next; $select{$pkg->{id}} = undef;
+		    exists $select{$pkg->{id}} && ! defined $select{$pkg->{id}} and next; #- package has already been selected.
+		    $select{$pkg->{id}} = undef; #- try to select, clean error flag, else it will fail.
+		    exists $packages->{$pkg->{id}} or $select{$pkg->{id}} = ""; #- no special warning here, but need define.
+		    $pkg->{version} eq $3 or $select{$pkg->{id}} .= ", mismatch version $3";
+		    $pkg->{release} eq $4 or $select{$pkg->{id}} .= ", mismatch release $4";
+		    rpmtools::compat_arch($5) or $select{$pkg->{id}} .= ", incompatible arch $5";
+		    defined $select{$pkg->{id}} and next; #- an error occured, only the last one is available.
 
 		    #- we have found one source for id.
 		    push @sources, "$1/$2-$3-$4.$5.rpm";
@@ -1310,7 +1343,7 @@ sub get_source_packages {
 
     #- examine package list to see if a package has not been found.
     foreach (keys %$packages) {
-	exists $select{$_} and next;
+	exists $select{$_} && ! defined $select{$_} and next;
 
 	#- try to find which one.
 	my $pkg = $urpm->{params}{depslist}[$_];
@@ -1319,7 +1352,8 @@ sub get_source_packages {
 		push @local_sources, $pkg->{source};
 	    } else {
 		$error = 1;
-		$urpm->{error}("package $pkg->{name}-$pkg->{version}-$pkg->{release} is not found, ids=($_,$pkg->{id})");
+		$urpm->{error}("package $pkg->{name}-$pkg->{version}-$pkg->{release} is not found$select{$_}.");
+		$urpm->{error}("maybe the package has only been updated for another incompatible arch?");
 	    }
 	} else {
 	    $error = 1;
