@@ -1,4 +1,4 @@
-#!/usr/bin/perl -U
+#!/usr/bin/perl -T
 
 load_po();
 
@@ -17,17 +17,21 @@ if (@ARGV and $ARGV[0] eq '--X') {
     shift @ARGV;
 }
 
+if (@ARGV and $ARGV[0] eq '-a') {
+    $all = 1;
+    shift @ARGV;
+}
+
 while (@ARGV and $ARGV[0] eq '--comment') {
     shift @ARGV;
     shift @ARGV;
 }
 
-@ARGV or die(_("usage: urpmi [--auto] package_name [package_names...]\n"));
+@ARGV or die(_("usage: urpmi [--auto] [-a] package_name [package_names...]\n"));
 
 $dir = "/var/lib/urpmi";
 $dir2 = "/etc/urpmi";
 $depsfile = "$dir/depslist";
-$rpmlistfiles = "$dir/list.*";
 
 open SAVEOUT, ">&STDOUT";
 open SAVEERR, ">&STDERR";
@@ -56,13 +60,18 @@ close F or die();
 my $ok = 1;
 foreach (@ARGV) {
     my $pack = $exact{$_};
-    unless ($pack) {
-	my $l = $found{$_}; $l or $l = $foundi{$_};
-	if (@$l == 0) { warn(_("no package named %s\n", $_)); $ok = 0; }
-	elsif (@$l > 1) { warn(_("The following packages contain %s: %s\n", $_, join(' ', @$l))); $ok = 0; }
-	$pack = $$l[0];
+    if ($pack) {
+	push @packages, $pack;
+    } else {
+	my $l = $found{$_} || $foundi{$_};
+	if (@$l == 0) { 
+	    warn(_("no package named %s\n", $_)); $ok = 0; 
+	} elsif (@$l > 1 && !$all) {
+	    warn(_("The following packages contain %s: %s\n", $_, join(' ', @$l))); $ok = 0; 
+	} else {
+	    push @packages, @$l;
+	}
     }
-    push @packages, $pack;
 }
 $ok or exit 1;
 
@@ -92,9 +101,9 @@ if (!$auto and difference2(\@to_install, \@packages)) {
 
 $to_install = join '|', map { quotemeta($_) } @to_install;
 
-foreach $file (glob($rpmlistfiles)) {
-    open F, $file or die("urpmi: error opening $file\n");
-    $file =~ s|.*/list\.(.*?)|$1|;
+foreach $list (rpmlistfiles($dir)) {
+    open F, "$dir/$list" or die("urpmi: error opening $list\n");
+    $list =~ s/list\.//;
     foreach (<F>) { chop; m|/($to_install)| and $long{$1} = $_, $name{$1} = $file; }
     close F;
 }
@@ -147,8 +156,22 @@ sub install {
     $something_was_installed = 1;
     print SAVEOUT _("installing %s\n", join(' ', @_));
     log_it(scalar localtime, " @_\n");
-    $X ? `grpmi @_` : `rpm -U @_`;
-    $? and message(_("Installation failed")), exit 1;
+    system($X ? "grpmi" : ("rpm", "-U"), @_);
+    if ($?) {
+	message(_("Installation failed"));
+	$X and exit 1; #- grpmi handles --nodeps and --force by itself
+
+	print SAVEOUT _("Try installation without cheking dependencies?"), " (Y/n) ";
+	<STDIN> =~ /n/i and exit 1;
+	system("rpm", "-U", "--nodeps", @_);	
+
+	if ($?) {
+	    message(_("Installation failed"));
+	    print SAVEOUT _("Try installation even more strongly (--force)?"), " (Y/n) ";
+	    <STDIN> =~ /n/i and exit 0;
+	    system("rpm", "-U", "--nodeps", "--force", @_);	
+	}
+    }
 }
 
 # uses @deps and @installed
@@ -272,4 +295,14 @@ sub load_po {
 
 	$fuzzy = /^#, fuzzy/;
     }
+}
+
+sub rpmlistfiles {
+    my ($d) = @_;
+    local *F;
+    opendir F, $d or die "all: can't open dir $d: $!\n";
+    my @l = grep { /^list\.*/ } readdir F;
+    closedir F;
+
+    @l;
 }
