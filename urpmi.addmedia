@@ -109,6 +109,7 @@ and [options] are from
 	/^--probe-synthesis/ and $options{probe_with} = 'synthesis', next;
 	/^--probe-hdlist/ and $options{probe_with} = 'hdlist', next;
 	/^--no-probe/ and $options{probe_with} = undef, next;
+	/^--no-md5sum/ and $options{nomd5sum} = 1, next;
 	/^--distrib$/ and $options{distrib} = undef, next;
 	/^--distrib-(.*)$/ and $options{distrib} = $1, next;
 	/^--from$/ and $options{mirrors_url} = shift @_, next;

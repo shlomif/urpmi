@@ -53,6 +53,7 @@ sub main {
 	    $urpm->{proxy}{pwd} = $2;
 	    next;
 	};
+	/^--no-md5sum/ and $options{nomd5sum} = 1, next;
 	/^--?noa/ and next; #- default, keeped for compability.
 	/^-/ and die N("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.

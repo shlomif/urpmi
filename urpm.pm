@@ -431,7 +431,7 @@ sub read_config {
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
 		    }
 		    next;
-		} elsif (($k, $v) = /^(limit-rate|excludepath|key_ids|split-(?:level|length))\s*:\s*(.*)$/) {
+		} elsif (($k, $v) = /^(limit-rate|excludepath|key[\-_]ids|split-(?:level|length))\s*:\s*(.*)$/) {
 		    unless (exists($urpm->{options}{$k})) {
 			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
 			$urpm->{options}{$k} = $v;
@@ -440,17 +440,20 @@ sub read_config {
 		}
 		$_ and $urpm->{error}(N("syntax error in config file at line %s", $.));
 	    }
-	next };
+	    exists $urpm->{options}{key_ids} && ! exists $urpm->{options}{'key-ids'} and
+	      $urpm->{options}{'key-ids'} = delete $urpm->{options}{key_ids};
+	    next };
 	/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/ and do { #- urpmi.cfg format extention
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    while (<F>) {
 		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 		$_ eq '}' and last;
-		/^(hdlist|list|with_hdlist|removable|md5sum|key_ids)\s*:\s*(.*)$/ and $medium->{$1} = $2, next;
+		/^(hdlist|list|with_hdlist|removable|md5sum|key[\-_]ids)\s*:\s*(.*)$/ and $medium->{$1} = $2, next;
 		/^(update|ignore|synthesis|virtual)\s*$/ and $medium->{$1} = 1, next;
 		/^modified\s*$/ and next;
 		$_ and $urpm->{error}(N("syntax error in config file at line %s", $.));
 	    }
+	    exists $medium->{key_ids} && ! exists $medium->{'key-ids'} and $medium->{'key-ids'} = delete $medium->{key_ids};
 	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 	    next };
 	/^(.*?[^\\])\s+(.*?[^\\])\s+with\s+(.*)$/ and do { #- urpmi.cfg old format for ftp
@@ -665,7 +668,7 @@ sub write_config {
     }
     foreach my $medium (@{$urpm->{media}}) {
 	printf F "%s %s {\n", quotespace($medium->{name}), quotespace($medium->{clear_url});
-	foreach (qw(hdlist with_hdlist list removable md5sum key_ids)) {
+	foreach (qw(hdlist with_hdlist list removable md5sum key-ids)) {
 	    $medium->{$_} and printf F "  %s: %s\n", $_, $medium->{$_};
 	}
 	foreach (qw(update ignore synthesis modified virtual)) {
@@ -1094,8 +1097,12 @@ sub update_media {
 
     #- now we need additional methods not defined by default in URPM.
     require URPM::Build;
+    require URPM::Signature;
 
     $options{nolock} or $urpm->exlock_urpmi_db;
+
+    #- get gpg-pubkey signature.
+    $urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
 
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1153,8 +1160,10 @@ sub update_media {
 	#- the source hdlist is not used (use force).
 	my ($prefix, $dir, $error, $retrieved_md5sum, @files);
 
-	#- always delete a remaining list file in cache.
-	unlink "$urpm->{cachedir}/partial/list";
+	#- always delete a remaining list file or pubkey file in cache.
+	foreach (qw(list pubkey)) {
+	    unlink "$urpm->{cachedir}/partial/$_";
+	}
 
 	#- check to see if the medium is using file protocol or removable medium.
 	if (($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
@@ -1245,7 +1254,7 @@ this could happen if you mounted manually the directory when creating the medium
 		#- file are present.
 		my ($basename) = $with_hdlist_dir =~ /\/([^\/]+)$/;
 
-		if (-s reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM") > 32) {
+		if (!$options{nomd5sum} && -s reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM") > 32) {
 		    if ($options{force}) {
 			#- force downloading the file again, else why a force option has been defined ?
 			delete $medium->{md5sum};
@@ -1378,13 +1387,12 @@ this could happen if you mounted manually the directory when creating the medium
 		#- examine if a local list file is available (always probed according to with_hdlist
 		#- and check hdlist has not be named very strangely...
 		if ($medium->{hdlist} ne 'list') {
-		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
-		    if (-s "$dir/$local_list") {
-			$urpm->{log}(N("copying source list of \"%s\"...", $medium->{name}));
-			system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
-			       "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
-			  $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
-		    }
+		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
+		    my $path_list = reduce_pathname("$dir/$with_hdlist_dir/../$local_list");
+		    -s $path_list or $path_list = reduce_pathname("$dir/$with_hdlist_dir/../list");
+		    -s $path_list or $path_list = "$dir/$local_list";
+		    -s $path_list and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
+					     $path_list, "$urpm->{cachedir}/partial/list");
 		}
 	    } else {
 		#- try to find rpm files, use recursive method, added additional
@@ -1425,6 +1433,16 @@ this could happen if you mounted manually the directory when creating the medium
 		    $urpm->{error}(N("no rpm files found from [%s]", $dir));
 		}
 	    }
+
+	    #- examine if a local pubkey file is available.
+	    if ($medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
+		my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
+		my $path_pubkey = reduce_pathname("$dir/$with_hdlist_dir/../$local_pubkey");
+		-s $path_pubkey or $path_pubkey = reduce_pathname("$dir/$with_hdlist_dir/../pubkey");
+		-s $path_pubkey or $path_pubkey = "$dir/$local_pubkey";
+		-s $path_pubkey and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
+					   $path_pubkey, "$urpm->{cachedir}/partial/pubkey");
+	    }
 	} else {
 	    my $basename;
 
@@ -1458,11 +1476,13 @@ this could happen if you mounted manually the directory when creating the medium
 
 		unlink "$urpm->{cachedir}/partial/MD5SUM";
 		eval {
-		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-				    quiet => 1,
-				    limit_rate => $options{limit_rate},
-				    proxy => $urpm->{proxy} },
-				  reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
+		    if (!$options{nomd5sum}) {
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+					quiet => 1,
+					limit_rate => $options{limit_rate},
+					proxy => $urpm->{proxy} },
+				      reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
+		    }
 		};
 		if (!$@ && -s "$urpm->{cachedir}/partial/MD5SUM" > 32) {
 		    if ($options{force} >= 2) {
@@ -1627,20 +1647,47 @@ this could happen if you mounted manually the directory when creating the medium
 		#- the file are different, update local copy.
 		rename("$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}");
 
-		#- retrieve of hdlist (or synthesis has been successfull, check if a list file is available.
+		#- retrieve of hdlist or synthesis has been successfull, check if a list file is available.
 		#- and check hdlist has not be named very strangely...
 		if ($medium->{hdlist} ne 'list') {
-		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
-		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-					quiet => 1,
-					limit_rate => $options{limit_rate},
-					proxy => $urpm->{proxy} },
-				      reduce_pathname("$medium->{url}/$local_list"));
-			$local_list ne 'list' and
-			  rename("$urpm->{cachedir}/partial/$local_list", "$urpm->{cachedir}/partial/list");
-		    };
-		    $@ and unlink "$urpm->{cachedir}/partial/list";
+		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
+		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_list"),
+			     reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../list"),
+			     reduce_pathname("$medium->{url}/$local_list"),
+			    ) {
+			eval {
+			    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+					    quiet => 1,
+					    limit_rate => $options{limit_rate},
+					    proxy => $urpm->{proxy} },
+					  $_);
+			    $local_list ne 'list' && -s "$urpm->{cachedir}/partial/$local_list" and
+			      rename("$urpm->{cachedir}/partial/$local_list", "$urpm->{cachedir}/partial/list");
+			};
+			$@ and unlink "$urpm->{cachedir}/partial/list";
+			-s "$urpm->{cachedir}/partial/list" and last;
+		    }
+		}
+
+		#- retrieve pubkey file.
+		if ($medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
+		    my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
+		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_pubkey"),
+			     reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../pubkey"),
+			     reduce_pathname("$medium->{url}/$local_pubkey"),
+			    ) {
+			eval {
+			    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+					    quiet => 1,
+					    limit_rate => $options{limit_rate},
+					    proxy => $urpm->{proxy} },
+					  $_);
+			    $local_pubkey ne 'pubkey' && -s "$urpm->{cachedir}/partial/$local_pubkey" and
+			      rename("$urpm->{cachedir}/partial/$local_pubkey", "$urpm->{cachedir}/partial/pubkey");
+			};
+			$@ and unlink "$urpm->{cachedir}/partial/pubkey";
+			-s "$urpm->{cachedir}/partial/pubkey" and last;
+		    }
 		}
 	    } else {
 		$error = 1;
@@ -1755,6 +1802,37 @@ this could happen if you mounted manually the directory when creating the medium
 		    delete $medium->{list};
 		    unlink "$urpm->{statedir}/$medium->{list}";
 		}
+	    }
+	}
+
+	unless ($error) {
+	    #- now... on pubkey
+	    if (-s "$medium->{cachedir}/partial/pubkey") {
+		$urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
+		my (%keys, %unknown_keys);
+		eval {
+		    foreach ($urpm->parse_armored_file("$medium->{cachedir}/partial/pubkey")) {
+			my $id;
+			foreach my $kv (values %{$urpm->{keys} || {}}) {
+			    $kv->{content} = $_->{content} and $keys{$id = $kv->{id}} = undef, last;
+			}
+			unless ($id) {
+			    #- the key has not been found, this is important to import it now,
+			    #- update keys hash (as we do not know how to get key id from its content).
+			    #- and parse again to found the key.
+			    $urpm->import_armored_file("$medium->{cachedir}/partial/pubkey", root => $urpm->{root});
+			    $urpm->parse_pubkeys(root => $urpm->{root});
+
+			    foreach my $kv (values %{$urpm->{keys} || {}}) {
+				$kv->{content} = $_->{content} and $keys{$id = $kv->{id}} = undef, last;
+			    }
+
+			    #- now id should be defined, or there is a problem to import the keys...
+			    $id or $urpm->{error}(N("unable to import pubkey file of \"%s\"", $medium->{name}));
+			}
+		    }
+		};
+		%keys and $medium->{'key-ids'} = join ',', keys %keys;
 	    }
 	}
 
@@ -2943,36 +3021,21 @@ sub find_packages_to_remove {
 
 	#- check if something need to be removed.
 	if ($options{callback_base} && %{$state->{rejected} || {}}) {
-	    my @base = qw(basesystem);
-	    my (@base_to_remove, %basepackages, %base);
+	    my %basepackages;
 
 	    #- check if a package to be removed is a part of basesystem requires.
-	    while (defined($_ = shift @base)) {
-		exists($basepackages{$_}) and next;
-		$db->traverse_tag(/^\// ? 'path' : 'whatprovides', [ $_ ], sub {
-				      my ($p) = @_;
-				      push @{$basepackages{$_} ||= []}, scalar $p->fullname;
-				      push @base, $p->requires_nosense;
-				  });
-	    }
-
-	    foreach (values %basepackages) {
-		my $n = @$_;
-		foreach (@$_) {
-		    $base{$_} = \$n;
-		}
-	    }
+	    $db->traverse_tag('whatprovides', [ 'basesystem' ], sub {
+				  my ($p) = @_;
+				  $basepackages{$p->fullname} = 0;
+			      });
 
 	    foreach (grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected}}) {
-		my $rn = $base{$_};
-		if ($rn) {
-		    $$rn == 1 and push @base_to_remove, $_;
-		    --$$rn;
-		}
+		exists $basepackages{$_} or next;
+		++$basepackages{$_};
 	    }
 
-	    @base_to_remove and $options{callback_base}->($urpm, @base_to_remove)
-	      || return ();
+	    grep { $_ } values %basepackages and
+	      $options{callback_base}->($urpm, grep { $basepackages{$_} } keys %basepackages) || return ();
 	}
     }
     grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected}};

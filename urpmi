@@ -595,7 +595,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    }
 		}
 
-		my $key_ids = $medium && $medium->{key_ids} || $urpm->{options}{key_ids};
+		my $key_ids = $medium && $medium->{'key-ids'} || $urpm->{options}{'key-ids'};
 		#- check the key ids of the medium are matching (all) the given key id of the package.
 		if ($key_ids) {
 		    my $valid_ids = 0;

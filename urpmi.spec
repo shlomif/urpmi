@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.4
-Release: 18mdk
+Release: 19mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.92
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.93
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,13 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Wed Aug  6 2003 François Pons <fpons@mandrakesoft.com> 4.4-19mdk
+- fixed local package not found when using curl and without an
+  absolute path.
+- added signature support on distant media (in pubkey file).
+- fixed bug 4519.
+- fixed bug 4513 (--no-md5sum added for test purpose, workaround).
+
 * Fri Aug  1 2003 François Pons <fpons@mandrakesoft.com> 4.4-18mdk
 - fixed shared locks management by simple user.
 
