@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
 "POT-Creation-Date: 2001-07-03 21:02+0200\n"
-"PO-Revision-Date: 2001-07-12 21:41+0200\n"
+"PO-Revision-Date: 2001-07-12 21:51+0200\n"
 "Last-Translator: David BAUDENS <baudens@mandrakesoft.com>\n"
 "Language-Team: French\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +73,7 @@ msgstr "fichier de liste incohérent pour \"%s\", média ignoré"
 #: po/placeholder.h:9 urpm.pm:894
 #, c-format
 msgid "relocated %s entries in depslist"
-msgstr ""
+msgstr "%s entrées déplacées dans la depslist"
 
 #: po/placeholder.h:10
 #, c-format
@@ -386,7 +386,7 @@ msgstr "montage de %s"
 #: po/placeholder.h:75 urpm.pm:167
 #, c-format
 msgid "unable to use name \"%s\" for unamed medium because it is already used"
-msgstr ""
+msgstr "impossible d'utiliser le nom \"%s\" pour le média non nommé car ce nom est déjà utilisé"
 
 #: po/placeholder.h:76 urpm.pm:1202
 msgid "unable to find all synthesis file, using parsehdlist server"
@@ -395,31 +395,31 @@ msgstr ""
 #: po/placeholder.h:77 urpm.pm:907
 #, c-format
 msgid "unable to access rpm file [%s]"
-msgstr ""
+msgstr "impossible d'accéder au fichier rpm [%s]"
 
 #: po/placeholder.h:78 urpm.pm:1810
 #, c-format
 msgid "avoid selecting %s as not enough files will be updated"
-msgstr ""
+msgstr "évite de sélectionner %s car il n'y pas assez de fichier à mettre à jour"
 
 #: po/placeholder.h:79
 #, c-format
 msgid "unable to parse hdlist file of \"%s\""
-msgstr ""
+msgstr "impossible d'analyser le fichier hdlist de \"%s\""
 
 #: po/placeholder.h:80 urpm.pm:1644
 #, c-format
 msgid "retrieving [%s]"
-msgstr ""
+msgstr "récupération [%s]"
 
 #: po/placeholder.h:81 urpm.pm:216
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
-msgstr ""
+msgstr "impossible de trouver le fichier list de \"%s\", média ignoré"
 
 #: po/placeholder.h:82 urpm.pm:913
 msgid "mismatch release for registering rpm file"
-msgstr ""
+msgstr "mauvaise release pour le fichier rpm à enregistrer"
 
 #: po/placeholder.h:83 urpm.pm:1740
 #, c-format
@@ -431,46 +431,46 @@ msgstr ""
 #: po/placeholder.h:87
 #, c-format
 msgid "reading hdlist file [%s]"
-msgstr ""
+msgstr "lecture du fichier hdlist [%s]"
 
 #: po/placeholder.h:88 urpm.pm:829 urpm.pm:1479 urpm.pm:1521
 #, c-format
 msgid "unable to parse correctly [%s] on value \"%s\""
-msgstr ""
+msgstr "impossible d'analyser correctement [%s] pour la valeur \"%s\""
 
 #: po/placeholder.h:89 urpm.pm:912
 msgid "mismatch version for registering rpm file"
-msgstr ""
+msgstr "erreur de version pour le fichier rpm à enregistrer"
 
 #: po/placeholder.h:90
 #, c-format
 msgid "nothing to write in list file for \"%s\""
-msgstr ""
+msgstr "rien à écrire dans le fichier liste pour \"%s\""
 
 #: po/placeholder.h:91 urpm.pm:211
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
-msgstr ""
+msgstr "impossible de trouver le fichier hdlist pour \"%s\", média ignoré"
 
 #: po/placeholder.h:92 urpm.pm:773
 #, c-format
 msgid "unable to read compss file [%s]"
-msgstr ""
+msgstr "impossible de lire le fichier compss [%s]"
 
 #: po/placeholder.h:93 urpm.pm:822 urpm.pm:1473
 #, c-format
 msgid "unable to parse correctly [%s]"
-msgstr ""
+msgstr "impossible d'analyser correctement [%s]"
 
 #: po/placeholder.h:94 urpm.pm:1490 urpm.pm:1512
 #, c-format
 msgid "there are multiples packages with the same rpm filename \"%s\""
-msgstr ""
+msgstr "il y a plusieurs paquetages avec le même nom de fichier \"%s\""
 
 #: po/placeholder.h:95 urpm.pm:284
 #, c-format
 msgid "medium \"%s\" already exists"
-msgstr ""
+msgstr "le média \"%s\" existe déjà"
 
 #: po/placeholder.h:96 urpmi:190
 #, c-format
@@ -500,7 +500,7 @@ msgstr ""
 
 #: po/placeholder.h:103 po/placeholder.h:215 urpmi:259 urpmq:154
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "impossible de récupérer les paquetages sources, abandon"
 
 #: po/placeholder.h:104 urpmi:307
 msgid "Try installation without checking dependencies? (y/N) "
@@ -566,11 +566,13 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`with' manquant pour le média ftp\n"
 
 #: po/placeholder.h:141 urpmi.addmedia:58
 #, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr ""
+msgstr "impossible de mettre à jour le média \"%s\"\n"
 
 #: po/placeholder.h:142 urpmi.addmedia:42
 #, c-format
@@ -597,6 +599,13 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"usage: urpmi.addmedia [--update] <nom> <url>\n"
+"où <url> est l'un de\n"
+"       file://< chemin>\n"
+"       ftp://<identifiant>:<mot_de_passe>@<host>/<chemin> avec <chemin relatif du fichier hdlist>\n"
+"       ftp://<host>/<chemin> avec <relative filename of hdlist>\n"
+"       http://<host>/<chemin> avec <relative filename of hdlist>\n"
+"       <média_amovible>://<chemin>\n"
 
 #: po/placeholder.h:156 urpmi.addmedia:44
 #, c-format
@@ -658,7 +667,7 @@ msgstr ""
 #: po/placeholder.h:186 urpmq:85
 #, c-format
 msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: option \"-%s\" inconnue, vérifiez l'usage avec --help\n"
 
 #: po/placeholder.h:187
 #, c-format
@@ -694,12 +703,12 @@ msgstr ""
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
-msgstr ""
+msgstr "certains paquetages doivent être désinstallés pour être mis à jour, ce qui n'est pas encore supporté\n"
 
 #: po/placeholder.h:214 urpmq:87
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
-msgstr ""
+msgstr "urpmq: impossible de lire le fichier rpm \"%s\"\n"
 
 #: urpmi:48
 #, c-format
@@ -708,7 +717,7 @@ msgstr "urpmi version %s"
 
 #: urpmi.addmedia:30
 msgid "usage: urpmi.addmedia [--update] <name> <url>"
-msgstr ""
+msgstr "usage: urpmi.addmedia [--update] <nome> <url>"
 
 #. <path>
 #. <login>:<password>@<host>/<path> with <relative filename of hdlist>
