@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 12mdk
+Release: 13mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,10 @@ fi
 
 
 %changelog
+* Thu Sep  5 2002 François Pons <fpons@mandrakesoft.com> 4.0-13mdk
+- simplified --proxy usage (http:// leading now optional).
+- fixed --proxy and --proxy-user or urpmq.
+
 * Thu Sep  5 2002 François Pons <fpons@mandrakesoft.com> 4.0-12mdk
 - fixed bad englist message.
 - updated translation.

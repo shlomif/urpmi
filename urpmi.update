@@ -41,7 +41,7 @@ sub main {
 					    urpm::sync_webfetch($options, @_) }, next;
 	/^--curl/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
 	/^--proxy$/ and do {
-	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(http://[^:]+(:\d+)?)/*$, or
+	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
 		die _("bad proxy declaration on command line\n");
 	    $proxy .= ":1080" unless $port;
 	    $urpm->{proxy}{http_proxy} = $proxy;
