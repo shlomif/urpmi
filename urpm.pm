@@ -1806,32 +1806,17 @@ this could happen if you mounted manually the directory when creating the medium
 	    if (-s "$urpm->{cachedir}/partial/pubkey") {
 		$urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
 		my %key_ids;
-		eval {
-		    foreach my $k ($urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey")) {
-			my $id;
-			foreach my $kv (values %{$urpm->{keys} || {}}) {
-			    URPM::compare_pubkeys($kv, $k) == 0 and $key_ids{$id = $kv->{id}} = undef, last;
-			}
-			unless ($id) {
-			    #- the key has not been found, this is important to import it now,
-			    #- update keys hash (as we do not know how to get key id from its content).
-			    #- and parse again to found the key.
-			    $urpm->import_armored_file("$urpm->{cachedir}/partial/pubkey", root => $urpm->{root});
-			    $urpm->parse_pubkeys(root => $urpm->{root});
-
-			    foreach my $kv (values %{$urpm->{keys} || {}}) {
-				URPM::compare_pubkeys($kv, $k) == 0 and $key_ids{$id = $kv->{id}} = undef, last;
-			    }
-
-			    #- now id should be defined, or there is a problem to import the keys...
-			    if ($id) {
-				$urpm->{log}(N("...imported key %s from pubkey file of \"%s\"", $id, $medium->{name}));
-			    } else {
-				$urpm->{error}(N("unable to import pubkey file of \"%s\"", $medium->{name}));
-			    }
-			}
-		    }
-		};
+		$urpm->import_needed_pubkeys([ $urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey") ],
+					     root => $urpm->{root}, callback => sub {
+						 my (undef, undef, $k, $id, $imported) = @_;
+						 if ($id) {
+						     $key_ids{$id} = undef;
+						     $imported and $urpm->{log}(N("...imported key %s from pubkey file of \"%s\"",
+										  $id, $medium->{name}));
+						 } else {
+						     $urpm->{error}(N("unable to import pubkey file of \"%s\"", $medium->{name}));
+						 }
+					     });
 		keys(%key_ids) and $medium->{'key-ids'} = join ',', keys %key_ids;
 	    }
 	}
