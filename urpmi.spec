@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 18mdk
+%define release 19mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -249,6 +249,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Jul 30 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-19mdk
+- Add --more-choices option to urpmi
+- Fix urpmi --excludedocs
+- Make urpmi.addmedia --distrib grok the new media structure
+- and other small fixes
+
 * Tue Jul 27 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-18mdk
 - Better error handling for copy failures (disk full, etc.)
 - Better handling of symlinks (Titi)
