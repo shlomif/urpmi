@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 27mdk
+%define release 28mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -256,6 +256,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Sep 29 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-28mdk
+- New urpmf option, -m, to get the media in which a package is found
+- Silence some noise in urpmq
+
 * Tue Sep 28 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-27mdk
 - Change description
 - Add a "--" option to urpmi.removemedia
