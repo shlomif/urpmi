@@ -109,7 +109,7 @@ if ($test && $auto) {
     }
     my $msg = N("To satisfy dependencies, the following packages will be removed (%d MB)", toMb($sum));
     print STDOUT "$msg:\n$list\n";
-    message_input("$askok" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
+    message_input("$askok" . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
 }
 
 print STDOUT "\n".N("removing %s", join(' ', sort @toremove))."\n";
