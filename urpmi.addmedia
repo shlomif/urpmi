@@ -117,5 +117,5 @@ while (<F>) {
 close F or die "parsehdlist failed";
 close LIST;
 
-system("urpmi.update") unless $noupdate;
+system("urpmi.update --noa") unless $noupdate;
 exit 0;
