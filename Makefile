@@ -12,7 +12,7 @@ RPM=$(HOME)/rpm
 NAME = urpmi
 TAR = $(NAME).tar.bz2
 
-.PHONY: install clean rpm test changelog
+.PHONY: install clean rpm test bigtest perltest changelog
 
 install:
 	$(MAKE) -C po $@
@@ -37,7 +37,12 @@ install:
 autoirpm.update-all: %: %.cc 
 	$(CXX) $(CFLAGS) $< $(LIBRPM) -o $@
 
-test:
+test: bigtest perltest
+
+perltest:
+	perl -I. -MTest::Harness -e 'runtests(<t/*.t>)'
+
+bigtest:
 	cd test; ./do_alltests
 
 tar: clean
