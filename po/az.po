@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-27 18:13+0200\n"
+"POT-Creation-Date: 2001-04-04 08:43+0200\n"
 "PO-Revision-Date: 2001-03-30 15:55+0200\n"
 "Last-Translator: Vasif Ismailoglu <azerb_linux@hotmail.com>\n"
 "Language-Team: Azerbaijani turksih <linuxaz@azerimail.net>\n"
@@ -153,7 +153,7 @@ msgstr ""
 "%s\n"
 "<hdlistin nisbi yolu> mövcud deyildir\n"
 
-#: placeholder.h:49 urpmi.update:52
+#: placeholder.h:49 urpmi.update:56
 #, c-format
 msgid ""
 "the entry to update is missing\n"
@@ -162,7 +162,27 @@ msgstr ""
 "güncǝllǝnǝcǝk giriş mövcud deyildir\n"
 "(%s dan (dǝn) biri)\n"
 
-#: placeholder.h:53 urpmi.removemedia:49
+#: placeholder.h:53
+#, c-format
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:60
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:67 urpmi.removemedia:53
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
@@ -236,20 +256,33 @@ msgstr "Quruluşu zorlayaraq sınayım (--force)? (b/X)"
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr "istifadə qaydası: urpmıaddmedia <ad> <url>"
+msgstr "istifadə qaydası: urpmi.addmedia <ad> <url>"
 
-#: urpmi.removemedia:38 urpmi.update:42
+#: urpmi.addmedia:63
 #, c-format
-msgid "unknown options \"%s\"\n"
-msgstr "namǝ'lum seçǝnǝklǝr \"%s\"\n"
+msgid "unable to create medium \"%s\"\n"
+msgstr ""
 
-#: urpmi.update:50
+#: urpmi.addmedia:64
+#, c-format
+msgid "unable to update medium \"%s\"\n"
+msgstr ""
+
+#: urpmi.update:43
+msgid "usage: urpmi.update [-a] <name> ..."
+msgstr "istifadə qaydası: urpmi.update [-a] <ad> ..."
+
+#: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
 "güncǝllǝnǝcǝk bir şey yoxdur (medya ǝlavǝ etmǝk üçün "
 "urpmi.addmedia işlǝdin)\n"
 
-#: urpmi.removemedia:47
+#: urpmi.removemedia:39
+msgid "usage: urpmi.removemedia [-a] <name> ..."
+msgstr "istifadə qaydası: urpmi.removemedia [-a] <ad> ..."
+
+#: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
 "çıxardılacaq bir şey yoxdur (medya ǝlavǝ etmǝk üçün urpmi.addmedia "
@@ -281,6 +314,9 @@ msgstr ""
 #: urpmq:153
 msgid "unable to get source packages, aborting"
 msgstr "qaynaq pakti alına bilmir, çıxılır"
+
+#~ msgid "unknown options \"%s\"\n"
+#~ msgstr "namǝ'lum seçǝnǝklǝr \"%s\"\n"
 
 #~ msgid "$usage  bad number (is `$num')\n"
 #~ msgstr "$usage xəsərli nömrə ('$num' dur)\n"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-08 06:17+0100\n"
+"POT-Creation-Date: 2001-04-04 08:43+0200\n"
 "PO-Revision-Date: 2001-03-04 00:00+0900\n"
 "Last-Translator: Budi Rachmanto <rac@techie.com>\n"
 "Language-Team: Indonesian <rac@techie.com>\n"
@@ -25,27 +25,27 @@ msgstr ""
 "Instalasi paket otomatis...\n"
 "Anda telah meminta instalasi paket $rpm\n"
 
-#: _irpm:31 urpmi:232
+#: _irpm:31 urpmi:235
 msgid "Is it ok?"
 msgstr "Semua beres?"
 
-#: _irpm:33 urpmi:235 urpmi:260
+#: _irpm:33 urpmi:238 urpmi:263
 msgid "Ok"
 msgstr "Ok"
 
-#: _irpm:34 urpmi:236 urpmi:261
+#: _irpm:34 urpmi:239 urpmi:264
 msgid "Cancel"
 msgstr "Batal"
 
-#: _irpm:40 urpmi:240 urpmi:292
+#: _irpm:40 urpmi:243 urpmi:296
 msgid "Nn"
 msgstr "TtNn"
 
-#: _irpm:41 urpmi:241 urpmi:293
+#: _irpm:41 urpmi:244 urpmi:297
 msgid "Yy"
 msgstr "Yy"
 
-#: _irpm:42 urpmi:242
+#: _irpm:42 urpmi:245
 msgid " (Y/n) "
 msgstr " (Y/t) "
 
@@ -151,7 +151,7 @@ msgstr ""
 "%s\n"
 "<relative path of hdlist> hilang\n"
 
-#: placeholder.h:49 urpmi.update:52
+#: placeholder.h:49 urpmi.update:56
 #, c-format
 msgid ""
 "the entry to update is missing\n"
@@ -160,7 +160,27 @@ msgstr ""
 "masukan update hilang\n"
 "(satu dari %s)\n"
 
-#: placeholder.h:53 urpmi.removemedia:49
+#: placeholder.h:53
+#, c-format
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:60
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:67 urpmi.removemedia:53
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
@@ -169,29 +189,29 @@ msgstr ""
 "masukan utk penghapusan hilang\n"
 "(satu dari %s)\n"
 
-#: urpmi:55
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
 msgstr "urpmi versi %s"
 
-#: urpmi:144
+#: urpmi:147
 msgid "Only superuser is allowed to install local packages"
 msgstr "Hanya superuser yang dapat meng-install paket lokal"
 
-#: urpmi:175
+#: urpmi:178
 msgid "One of the following packages is needed:"
 msgstr "Salah satu paket berikut dibutuhkan:"
 
-#: urpmi:183
+#: urpmi:186
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Pilihan Anda? (1-%d) "
 
-#: urpmi:186
+#: urpmi:189
 msgid "Sorry, bad choice, try again\n"
 msgstr "Salah pilih, coba lagi\n"
 
-#: urpmi:231
+#: urpmi:234
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -199,33 +219,33 @@ msgid ""
 msgstr ""
 "Paket berikut akan di-install agar syarat ketergantungan terpenuhi (%d MB)"
 
-#: urpmi:257
+#: urpmi:260
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Masukkan media \"%s\" ke perangkat [%s]"
 
-#: urpmi:258
+#: urpmi:261
 msgid "Press enter when it's done..."
 msgstr "Tekan [Enter] jika selesai.."
 
-#: urpmi:271
+#: urpmi:275
 msgid "everything already installed"
 msgstr "semua telah terinstal"
 
-#: urpmi:282
+#: urpmi:286
 #, c-format
 msgid "installing %s\n"
 msgstr "instalasi %s\n"
 
-#: urpmi:287 urpmi:300
+#: urpmi:291 urpmi:304
 msgid "Installation failed"
 msgstr "Instalasi gagal"
 
-#: urpmi:294
+#: urpmi:298
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Coba instalasi tanpa cek ketergantungan? (y/T) "
 
-#: urpmi:301
+#: urpmi:305
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Coba instalasi lebih keras (--force)? (y/T) "
 
@@ -233,16 +253,31 @@ msgstr "Coba instalasi lebih keras (--force)? (y/T) "
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "pemakaian: urpmi.addmedia <nama> <url>"
 
-#: urpmi.removemedia:38 urpmi.update:42
+#: urpmi.addmedia:63
 #, c-format
-msgid "unknown options \"%s\"\n"
-msgstr "opsi tak terpahami \"%s\"\n"
+msgid "unable to create medium \"%s\"\n"
+msgstr ""
 
-#: urpmi.update:50
+#: urpmi.addmedia:64
+#, c-format
+msgid "unable to update medium \"%s\"\n"
+msgstr ""
+
+#: urpmi.update:43
+#, fuzzy
+msgid "usage: urpmi.update [-a] <name> ..."
+msgstr "pemakaian: urpmi.addmedia <nama> <url>"
+
+#: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "tak ada update (pakailah urpmi.addmedia utk tambah media)\n"
 
-#: urpmi.removemedia:47
+#: urpmi.removemedia:39
+#, fuzzy
+msgid "usage: urpmi.removemedia [-a] <name> ..."
+msgstr "pemakaian: urpmi.addmedia <nama> <url>"
+
+#: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr "tak ada penghapusan (pakailah urpmi.addmedia utk tambah media)\n"
 
@@ -268,6 +303,9 @@ msgstr "bbrpp paket harus dihapus agr ter-upgrade, ini belum ter-support\n"
 #: urpmq:153
 msgid "unable to get source packages, aborting"
 msgstr "tak dapat mengambil paket asal, batal"
+
+#~ msgid "unknown options \"%s\"\n"
+#~ msgstr "opsi tak terpahami \"%s\"\n"
 
 #~ msgid "No"
 #~ msgstr "Tidak"

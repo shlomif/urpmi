@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-21 15:04+0100\n"
+"POT-Creation-Date: 2001-04-04 08:43+0200\n"
 "PO-Revision-Date: 2001-03-23 00:20+0200\n"
 "Last-Translator: Csaba Szigetvári <csaba.szigetvari@informedia.hu>\n"
 "Language-Team: Informedia.hu\n"
@@ -26,27 +26,27 @@ msgstr ""
 "A csomagok automatikus telepítése...\n"
 "A $rpm csomag telepítésére történt utasítás\n"
 
-#: _irpm:31 urpmi:232
+#: _irpm:31 urpmi:235
 msgid "Is it ok?"
 msgstr "Így rendben van?"
 
-#: _irpm:33 urpmi:235 urpmi:260
+#: _irpm:33 urpmi:238 urpmi:263
 msgid "Ok"
 msgstr "OK"
 
-#: _irpm:34 urpmi:236 urpmi:261
+#: _irpm:34 urpmi:239 urpmi:264
 msgid "Cancel"
 msgstr "Mégsem"
 
-#: _irpm:40 urpmi:240 urpmi:293
+#: _irpm:40 urpmi:243 urpmi:296
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:241 urpmi:294
+#: _irpm:41 urpmi:244 urpmi:297
 msgid "Yy"
 msgstr "IiYy"
 
-#: _irpm:42 urpmi:242
+#: _irpm:42 urpmi:245
 msgid " (Y/n) "
 msgstr " (I/n) "
 
@@ -156,7 +156,7 @@ msgstr ""
 "%s\n"
 "<relatív fájlneve a hdlistának> hiányzik\n"
 
-#: placeholder.h:49 urpmi.update:52
+#: placeholder.h:49 urpmi.update:56
 #, c-format
 msgid ""
 "the entry to update is missing\n"
@@ -165,7 +165,27 @@ msgstr ""
 "a frissítendö tétel hiányzik\n"
 "(egyik ezek közül: %s)\n"
 
-#: placeholder.h:53 urpmi.removemedia:49
+#: placeholder.h:53
+#, c-format
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:60
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:67 urpmi.removemedia:53
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
@@ -174,29 +194,29 @@ msgstr ""
 "a törlendö tétel hiányzik\n"
 "(egyik ezek közül: %s)\n"
 
-#: urpmi:55
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
 msgstr "urpmi verzió %s"
 
-#: urpmi:144
+#: urpmi:147
 msgid "Only superuser is allowed to install local packages"
 msgstr "Csak a superusernek engedélyezett a lokális csomagok telepítése"
 
-#: urpmi:175
+#: urpmi:178
 msgid "One of the following packages is needed:"
 msgstr "A következõ csomagok közül valamelyik szükséges:"
 
-#: urpmi:183
+#: urpmi:186
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Mire esett a választásod? (1-%d) "
 
-#: urpmi:186
+#: urpmi:189
 msgid "Sorry, bad choice, try again\n"
 msgstr "Sajnálom, rossz választás, próbáld újra\n"
 
-#: urpmi:231
+#: urpmi:234
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -204,34 +224,34 @@ msgid ""
 msgstr ""
 "A függõségek kielégítésére a következõ csomagok lesznek telepítve (%d MB)"
 
-#: urpmi:257
+#: urpmi:260
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr ""
 "Kérlek helyezd be a(z) adathordozót, melynek neve \"%s\" a(z) [%s] meghajtóba"
 
-#: urpmi:258
+#: urpmi:261
 msgid "Press enter when it's done..."
 msgstr "Nyomd le az Enter gombot ha kész van..."
 
-#: urpmi:272
+#: urpmi:275
 msgid "everything already installed"
 msgstr "már minden telepítve van"
 
-#: urpmi:283
+#: urpmi:286
 #, c-format
 msgid "installing %s\n"
 msgstr "telepítés: %s\n"
 
-#: urpmi:288 urpmi:301
+#: urpmi:291 urpmi:304
 msgid "Installation failed"
 msgstr "A telepítés sikertelen volt"
 
-#: urpmi:295
+#: urpmi:298
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Telepítés a függõségek ellenõrzése nélkül? (i/N) "
 
-#: urpmi:302
+#: urpmi:305
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Erõltetett telepítés kísérlete (--force)? (i/N) "
 
@@ -239,16 +259,31 @@ msgstr "Erõltetett telepítés kísérlete (--force)? (i/N) "
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "használat: urpmi.addmedia <név> <url>"
 
-#: urpmi.removemedia:38 urpmi.update:42
+#: urpmi.addmedia:63
 #, c-format
-msgid "unknown options \"%s\"\n"
-msgstr "ismeretlen opciók \"%s\"\n"
+msgid "unable to create medium \"%s\"\n"
+msgstr ""
 
-#: urpmi.update:50
+#: urpmi.addmedia:64
+#, c-format
+msgid "unable to update medium \"%s\"\n"
+msgstr ""
+
+#: urpmi.update:43
+#, fuzzy
+msgid "usage: urpmi.update [-a] <name> ..."
+msgstr "használat: urpmi.addmedia <név> <url>"
+
+#: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "nincs mit frissíteni (használd az urpmi.addmedia utasítást)\n"
 
-#: urpmi.removemedia:47
+#: urpmi.removemedia:39
+#, fuzzy
+msgid "usage: urpmi.removemedia [-a] <name> ..."
+msgstr "használat: urpmi.addmedia <név> <url>"
+
+#: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr "nincs mit eltávolítani (használd az urpmi.addmedia utasítást)\n"
 
@@ -276,6 +311,9 @@ msgstr ""
 #: urpmq:153
 msgid "unable to get source packages, aborting"
 msgstr "nem találhatók a forrás csomagok, müvelet megszakítva"
+
+#~ msgid "unknown options \"%s\"\n"
+#~ msgstr "ismeretlen opciók \"%s\"\n"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"

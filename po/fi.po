@@ -1,18 +1,19 @@
-# SOME DESCRIPTIVE TITLE.
+# urpmi Finnish Translation.
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Kim Enkovaara <kim.enkovaara@iki.fi>, 2000
+# Matias Griese <mahagr@utu.fi>, 2001
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-08 06:17+0100\n"
-"PO-Revision-Date: 2000-04-16 11:07GMT+0200\n"
-"Last-Translator: Kim Enkovaara <kim.enkovaara@iki.fi>\n"
-"Language-Team: Finnish <fi@li.org>\n"
+"POT-Creation-Date: 2001-04-04 08:43+0200\n"
+"PO-Revision-Date: 2001-04-03 21:05+0200\n"
+"Last-Translator: Matias Griese <mahagr@utu.fi>\n"
+"Language-Team: Finnish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.5(devel)\n"
+"X-Generator: KBabel 0.6\n"
 
 #: _irpm:21
 msgid "installing $rpm\n"
@@ -23,42 +24,44 @@ msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Pakettien automaattinen asennus...\n"
+"Lähetit pyynnön paketin $rpm asentamisesta\n"
 
-#: _irpm:31 urpmi:232
+#: _irpm:31 urpmi:235
 msgid "Is it ok?"
 msgstr "Sopiiko tämä?"
 
-#: _irpm:33 urpmi:235 urpmi:260
+#: _irpm:33 urpmi:238 urpmi:263
 msgid "Ok"
 msgstr "Ok"
 
-#: _irpm:34 urpmi:236 urpmi:261
+#: _irpm:34 urpmi:239 urpmi:264
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: _irpm:40 urpmi:240 urpmi:292
+#: _irpm:40 urpmi:243 urpmi:296
 msgid "Nn"
 msgstr "EeNn"
 
-#: _irpm:41 urpmi:241 urpmi:293
+#: _irpm:41 urpmi:244 urpmi:297
 msgid "Yy"
 msgstr "KkJjYy"
 
-#: _irpm:42 urpmi:242
+#: _irpm:42 urpmi:245
 msgid " (Y/n) "
 msgstr " (K/e) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: komentoa ei löytynyt\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "käyttö: rpmf [<tiedosto>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi ei asennettu"
 
 #: placeholder.h:8
 #, c-format
@@ -96,6 +99,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"käyttö: urpmi.addmedia <nimi> <url>\n"
+"missä <url> on yksi seuraavista\n"
+"       file://<polku>\n"
+"       ftp://<käyttäjätunnus>:<salasana>@<kone>/<polku> jossa on "
+"<hdlist-tiedoston relatiivinen nimi>\n"
+"       ftp://<kone>/<polku> jossa on <hdlist-tiedoston relatiivinen nimi>\n"
+"       http://<kone>/<polku> jossa on <hdlist-tiedoston relatiivinen nimi>\n"
+"       removable_<laite>://<polku>\n"
 
 #: placeholder.h:37 urpmi.addmedia:52
 #, c-format
@@ -110,6 +121,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"laite `%s' ei ole olemassa\n"
 
 #: placeholder.h:45 urpmi.addmedia:50
 #, c-format
@@ -117,133 +130,161 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<hdlist:in relatiivinen polku> puuttuu\n"
 
-#: placeholder.h:49 urpmi.update:52
+#: placeholder.h:49 urpmi.update:56
 #, c-format
 msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"Päivitettävä kohta puuttuu\n"
+"(yksi seuraavista: %s)\n"
 
-#: placeholder.h:53 urpmi.removemedia:49
+#: placeholder.h:53
+#, c-format
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:60
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:67 urpmi.removemedia:53
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"Poistettava kohta puuttuu\n"
+"(yksi seuraavista: %s)\n"
 
-#: urpmi:55
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi versio %s"
 
-#: urpmi:144
+#: urpmi:147
 msgid "Only superuser is allowed to install local packages"
-msgstr ""
+msgstr "Vain pääkäyttäjä saa asentaa paikallisia paketteja"
 
-#: urpmi:175
+#: urpmi:178
 msgid "One of the following packages is needed:"
 msgstr "Yksi seuraavista paketeista tarvitaan:"
 
-#: urpmi:183
+#: urpmi:186
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Mikä on valintasi? (1-%d)"
 
-#: urpmi:186
+#: urpmi:189
 msgid "Sorry, bad choice, try again\n"
 msgstr "Virheellinen valinta, yritä uudelleen\n"
 
-#: urpmi:231
+#: urpmi:234
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
 "(%d MB)"
-msgstr "Riippuvuuksien tyydyttämiseksi seuraavat paketit asennetaan (%d Mt)"
+msgstr "Riippuvuuksien täyttämiseksi seuraavat paketit asennetaan (%d Mt)"
 
-#: urpmi:257
-#, fuzzy, c-format
+#: urpmi:260
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Lisää %s nimeltään %s"
+msgstr "Aseta media nimeltään \"%s\" laitteeseen [%s]"
 
-#: urpmi:258
+#: urpmi:261
 msgid "Press enter when it's done..."
 msgstr "Paina enteriä tehtyäsi sen..."
 
-#: urpmi:271
+#: urpmi:275
 msgid "everything already installed"
 msgstr "kaikki on jo asennettu"
 
-#: urpmi:282
+#: urpmi:286
 #, c-format
 msgid "installing %s\n"
 msgstr "asennan %s\n"
 
-#: urpmi:287 urpmi:300
+#: urpmi:291 urpmi:304
 msgid "Installation failed"
 msgstr "Asennus epäonnistui"
 
-#: urpmi:294
+#: urpmi:298
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Yritä asentaa ilman riippuvuuksia? (k/E) "
 
-#: urpmi:301
+#: urpmi:305
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Yritä asentaa pakolla (--force)? (k/E) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "käyttö: urpmi.addmedia <nimi> <url>"
 
-#: urpmi.removemedia:38 urpmi.update:42
+#: urpmi.addmedia:63
 #, c-format
-msgid "unknown options \"%s\"\n"
+msgid "unable to create medium \"%s\"\n"
 msgstr ""
 
-#: urpmi.update:50
+#: urpmi.addmedia:64
+#, c-format
+msgid "unable to update medium \"%s\"\n"
+msgstr ""
+
+#: urpmi.update:43
+msgid "usage: urpmi.update [-a] <name> ..."
+msgstr "käyttö: urpmi.update [-a] <nimi> ..."
+
+#: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "ei mitään päivitettävää (käytä urpmi.addmedia lisääksesi median)\n"
 
-#: urpmi.removemedia:47
+#: urpmi.removemedia:39
+msgid "usage: urpmi.removemedia [-a] <name> ..."
+msgstr "käyttö: urpmi.removemedia [-a] <nimi> ..."
+
+#: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "ei mitään poistettavaa (käytä urpmi.addmedia lisääksesi median)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq versio %s"
 
 #: urpmq:90
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
 msgstr ""
+"urpmq: tuntematon parametri \"-$1\", tarkista ohjelman käyttö: --help\n"
 
 #: urpmq:92
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: ei voida lukea rpm-tiedostoa \"$_\"\n"
 
 #: urpmq:131
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"jotkin paketit pitää poistaa ohjelmiston päivittämiseksi, tätä toimintoa ei "
+"tueta vielä\n"
 
 #: urpmq:153
 msgid "unable to get source packages, aborting"
 msgstr ""
 
-#~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
-#~ msgstr ""
-#~ "käyttö: urpmi [-h] [--auto] [--force] [-a] pakettinimi [pakettinimet...]\n"
-
-#~ msgid "no package named %s\n"
-#~ msgstr "ei pakettia nimellä %s\n"
-
-#~ msgid "The following packages contain %s: %s\n"
-#~ msgstr "Seuraavat paketit sisältävät %s: %s\n"
-
-#~ msgid "rpm database query failed\n"
-#~ msgstr "rpm tietokantahaku epäonnistui\n"
-
-#~ msgid "Sorry can't find file %s, exiting"
-#~ msgstr "Tiedostoa %s ei löydy, lopetan"
+#~ msgid "unknown options \"%s\"\n"
+#~ msgstr "tuntemattomia parametriä \"%s\"\n"

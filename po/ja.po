@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-08 06:17+0100\n"
+"POT-Creation-Date: 2001-04-04 08:43+0200\n"
 "PO-Revision-Date: 1999-12-19 14:43+0100\n"
 "Last-Translator: Taisuke Yamada <tai@imasy.or.jp>\n"
 "Language-Team: Japanese\n"
@@ -24,28 +24,28 @@ msgid ""
 "You requested installation of package $rpm\n"
 msgstr "指定されたパッケージ（%s）をインストールしています…\n"
 
-#: _irpm:31 urpmi:232
+#: _irpm:31 urpmi:235
 msgid "Is it ok?"
 msgstr "よろしいでしょうか？"
 
-#: _irpm:33 urpmi:235 urpmi:260
+#: _irpm:33 urpmi:238 urpmi:263
 msgid "Ok"
 msgstr "はい（続行する）"
 
-#: _irpm:34 urpmi:236 urpmi:261
+#: _irpm:34 urpmi:239 urpmi:264
 msgid "Cancel"
 msgstr "いいえ（中止する）"
 
-#: _irpm:40 urpmi:240 urpmi:292
+#: _irpm:40 urpmi:243 urpmi:296
 msgid "Nn"
 msgstr "NnＮｎいイ"
 
-#: _irpm:41 urpmi:241 urpmi:293
+#: _irpm:41 urpmi:244 urpmi:297
 msgid "Yy"
 msgstr "YyＹｙはハ"
 
 # ｙ
-#: _irpm:42 urpmi:242
+#: _irpm:42 urpmi:245
 msgid " (Y/n) "
 msgstr " (はい(Y)/いいえ(n)) [はい] "
 
@@ -154,7 +154,7 @@ msgstr ""
 "%s\n"
 "「<relative path of hdlist>」部分の指定がありません\n"
 
-#: placeholder.h:49 urpmi.update:52
+#: placeholder.h:49 urpmi.update:56
 #, c-format
 msgid ""
 "the entry to update is missing\n"
@@ -163,7 +163,27 @@ msgstr ""
 "アップデート対象が見つかりません\n"
 "(%s の中のいずれか)\n"
 
-#: placeholder.h:53 urpmi.removemedia:49
+#: placeholder.h:53
+#, c-format
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:60
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:67 urpmi.removemedia:53
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
@@ -172,64 +192,64 @@ msgstr ""
 "削除対象が見つかりません\n"
 "(%s の中のいずれか)\n"
 
-#: urpmi:55
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
 msgstr "urpmi バージョン %s"
 
-#: urpmi:144
+#: urpmi:147
 msgid "Only superuser is allowed to install local packages"
 msgstr ""
 "ローカルパッケージのインストールはスーパーユーザーでなくてはできません。"
 
-#: urpmi:175
+#: urpmi:178
 msgid "One of the following packages is needed:"
 msgstr "次のパッケージのいずれかが必要です:"
 
-#: urpmi:183
+#: urpmi:186
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "どれを選びますか？(1-%d) "
 
-#: urpmi:186
+#: urpmi:189
 msgid "Sorry, bad choice, try again\n"
 msgstr "有効な選択ではありません。もう一度お願いします\n"
 
-#: urpmi:231
+#: urpmi:234
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
 "(%d MB)"
 msgstr "依存関係のため、次のパッケージもインストールします (%d MB)"
 
-#: urpmi:257
+#: urpmi:260
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "メディア（%s）を %s に挿入して下さい。"
 
-#: urpmi:258
+#: urpmi:261
 msgid "Press enter when it's done..."
 msgstr "終わった後はリターンキーを押して下さい。"
 
-#: urpmi:271
+#: urpmi:275
 msgid "everything already installed"
 msgstr "すべて既にインストールされています"
 
-#: urpmi:282
+#: urpmi:286
 #, c-format
 msgid "installing %s\n"
 msgstr "%s をインストール中…\n"
 
-#: urpmi:287 urpmi:300
+#: urpmi:291 urpmi:304
 msgid "Installation failed"
 msgstr "インストールに失敗しました"
 
-#: urpmi:294
+#: urpmi:298
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr ""
 "依存関係を確認せずにインストールを試みますか？ (はい(y)/いいえ(N)) [いいえ] "
 
-#: urpmi:301
+#: urpmi:305
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr ""
 "再度インストールを試みますか？（--force 相当です） (はい(y)/いいえ(N)) "
@@ -239,18 +259,33 @@ msgstr ""
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "使用方法: urpmi.addmedia <name> <url>"
 
-#: urpmi.removemedia:38 urpmi.update:42
+#: urpmi.addmedia:63
 #, c-format
-msgid "unknown options \"%s\"\n"
-msgstr "未知のオプション（%s）が指定されています\n"
+msgid "unable to create medium \"%s\"\n"
+msgstr ""
 
-#: urpmi.update:50
+#: urpmi.addmedia:64
+#, c-format
+msgid "unable to update medium \"%s\"\n"
+msgstr ""
+
+#: urpmi.update:43
+#, fuzzy
+msgid "usage: urpmi.update [-a] <name> ..."
+msgstr "使用方法: urpmi.addmedia <name> <url>"
+
+#: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
 "アップデートが必要なものはありません。\n"
 "メディアを追加する場合は urpmi.addmedia を使用して下さい。\n"
 
-#: urpmi.removemedia:47
+#: urpmi.removemedia:39
+#, fuzzy
+msgid "usage: urpmi.removemedia [-a] <name> ..."
+msgstr "使用方法: urpmi.addmedia <name> <url>"
+
+#: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
 "\"削除が必要なものはありません。\\n\"\n"
@@ -282,6 +317,9 @@ msgstr ""
 #: urpmq:153
 msgid "unable to get source packages, aborting"
 msgstr "ソースパッケージを取得できませんでした。このまま終了します"
+
+#~ msgid "unknown options \"%s\"\n"
+#~ msgstr "未知のオプション（%s）が指定されています\n"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-08 06:17+0100\n"
+"POT-Creation-Date: 2001-04-04 08:43+0200\n"
 "PO-Revision-Date: 2001-02-28 21:50-0500\n"
 "Last-Translator: D. Dale Gulledge <dsplat@rochester.rr.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -25,27 +25,27 @@ msgstr ""
 "Aýtomata instalado de paka¼oj...\n"
 "Vi petis instaladon de paka¼o $rpm\n"
 
-#: _irpm:31 urpmi:232
+#: _irpm:31 urpmi:235
 msgid "Is it ok?"
 msgstr "Æu tio estas bona?"
 
-#: _irpm:33 urpmi:235 urpmi:260
+#: _irpm:33 urpmi:238 urpmi:263
 msgid "Ok"
 msgstr "Jes"
 
-#: _irpm:34 urpmi:236 urpmi:261
+#: _irpm:34 urpmi:239 urpmi:264
 msgid "Cancel"
 msgstr "Nuligu"
 
-#: _irpm:40 urpmi:240 urpmi:292
+#: _irpm:40 urpmi:243 urpmi:296
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:241 urpmi:293
+#: _irpm:41 urpmi:244 urpmi:297
 msgid "Yy"
 msgstr "JjYy"
 
-#: _irpm:42 urpmi:242
+#: _irpm:42 urpmi:245
 msgid " (Y/n) "
 msgstr " (J/n) "
 
@@ -153,7 +153,7 @@ msgstr ""
 "%s\n"
 "<relativa dosieronomo de hd-listo> mankas\n"
 
-#: placeholder.h:49 urpmi.update:52
+#: placeholder.h:49 urpmi.update:56
 #, c-format
 msgid ""
 "the entry to update is missing\n"
@@ -162,7 +162,27 @@ msgstr ""
 "la enskriba¼o por øisgatigi mankas\n"
 "(unu el %s)\n"
 
-#: placeholder.h:53 urpmi.removemedia:49
+#: placeholder.h:53
+#, c-format
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:60
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:67 urpmi.removemedia:53
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
@@ -171,62 +191,62 @@ msgstr ""
 "la enskriba¼o por forpreni mankas\n"
 "(unu el %s)\n"
 
-#: urpmi:55
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
 msgstr "urpmi versio %s"
 
-#: urpmi:144
+#: urpmi:147
 msgid "Only superuser is allowed to install local packages"
 msgstr "Nur superuzulo rajtas instali lokajn paka¼ojn"
 
-#: urpmi:175
+#: urpmi:178
 msgid "One of the following packages is needed:"
 msgstr "Unu el la sekvantaj paka¼oj estas bezonata:"
 
-#: urpmi:183
+#: urpmi:186
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Kiu estas via elekto? (1-%d) "
 
-#: urpmi:186
+#: urpmi:189
 msgid "Sorry, bad choice, try again\n"
 msgstr "Bedaýrinde, nevalida elekto, reprovu\n"
 
-#: urpmi:231
+#: urpmi:234
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
 "(%d MB)"
 msgstr "Por plenumi dependa¼ojn, la sekvantaj paka¼oj estas instalonta (%d mb)"
 
-#: urpmi:257
+#: urpmi:260
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Bonvole enþovu la medion nomata \"%s\" en aparato [%s]"
 
-#: urpmi:258
+#: urpmi:261
 msgid "Press enter when it's done..."
 msgstr "Premu la enigklavon kiam øi estas finata..."
 
-#: urpmi:271
+#: urpmi:275
 msgid "everything already installed"
 msgstr "æio jam instalita"
 
-#: urpmi:282
+#: urpmi:286
 #, c-format
 msgid "installing %s\n"
 msgstr "instalas %s\n"
 
-#: urpmi:287 urpmi:300
+#: urpmi:291 urpmi:304
 msgid "Installation failed"
 msgstr "Instalado malsukcesis"
 
-#: urpmi:294
+#: urpmi:298
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Provu instaladon sen kontroli dependa¼ojn? (j/N) "
 
-#: urpmi:301
+#: urpmi:305
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Provu instaladon eæ pli forte (--force)? (j/N) "
 
@@ -234,16 +254,29 @@ msgstr "Provu instaladon eæ pli forte (--force)? (j/N) "
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "uzado: urpmi.addmedia <nomo> <url>"
 
-#: urpmi.removemedia:38 urpmi.update:42
+#: urpmi.addmedia:63
 #, c-format
-msgid "unknown options \"%s\"\n"
-msgstr "nekonataj opcioj \"%s\"\n"
+msgid "unable to create medium \"%s\"\n"
+msgstr ""
 
-#: urpmi.update:50
+#: urpmi.addmedia:64
+#, c-format
+msgid "unable to update medium \"%s\"\n"
+msgstr ""
+
+#: urpmi.update:43
+msgid "usage: urpmi.update [-a] <name> ..."
+msgstr "uzado: urpmi.update [-a] <nomo> ..."
+
+#: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "nenio por øisdatigi (uzu urpmi.addmedia por aldoni medion)\n"
 
-#: urpmi.removemedia:47
+#: urpmi.removemedia:39
+msgid "usage: urpmi.removemedia [-a] <name> ..."
+msgstr "uzado: urpmi.removemedia [-a] <name> ..."
+
+#: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr "nenio por forpreni (uzu urpmi.addmedia por aldoni medion)\n"
 
@@ -271,3 +304,6 @@ msgstr ""
 #: urpmq:153
 msgid "unable to get source packages, aborting"
 msgstr "Ne povas preni fontajn paka¼ojn.  Mi æesiøas."
+
+#~ msgid "unknown options \"%s\"\n"
+#~ msgstr "nekonataj opcioj \"%s\"\n"

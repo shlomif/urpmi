@@ -51,6 +51,20 @@ N_(""
 "(one of %s)\n"
 ""),
 N_(""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"\n"
+"unknown options '%s'\n"
+""),
+N_(""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+""),
+N_(""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 ""),

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-08 06:17+0100\n"
+"POT-Creation-Date: 2001-04-04 08:43+0200\n"
 "PO-Revision-Date: 2000-09-08 21:30+0200\n"
 "Last-Translator: Vitauts Stochka <vit@dpu.lv>\n"
 "Language-Team: Latvian\n"
@@ -24,27 +24,27 @@ msgid ""
 "You requested installation of package $rpm\n"
 msgstr ""
 
-#: _irpm:31 urpmi:232
+#: _irpm:31 urpmi:235
 msgid "Is it ok?"
 msgstr "Vai piekrîtat tam?"
 
-#: _irpm:33 urpmi:235 urpmi:260
+#: _irpm:33 urpmi:238 urpmi:263
 msgid "Ok"
 msgstr "Ok"
 
-#: _irpm:34 urpmi:236 urpmi:261
+#: _irpm:34 urpmi:239 urpmi:264
 msgid "Cancel"
 msgstr "Atsaukt"
 
-#: _irpm:40 urpmi:240 urpmi:292
+#: _irpm:40 urpmi:243 urpmi:296
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:241 urpmi:293
+#: _irpm:41 urpmi:244 urpmi:297
 msgid "Yy"
 msgstr "JjYy"
 
-#: _irpm:42 urpmi:242
+#: _irpm:42 urpmi:245
 msgid " (Y/n) "
 msgstr " (J/n) "
 
@@ -118,76 +118,96 @@ msgid ""
 "<relative path of hdlist> missing\n"
 msgstr ""
 
-#: placeholder.h:49 urpmi.update:52
+#: placeholder.h:49 urpmi.update:56
 #, c-format
 msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
 
-#: placeholder.h:53 urpmi.removemedia:49
+#: placeholder.h:53
+#, c-format
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:60
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:67 urpmi.removemedia:53
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
 
-#: urpmi:55
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
 msgstr ""
 
-#: urpmi:144
+#: urpmi:147
 msgid "Only superuser is allowed to install local packages"
 msgstr "Tikai root drîkst instalçt lokâlâs pakotnes"
 
-#: urpmi:175
+#: urpmi:178
 msgid "One of the following packages is needed:"
 msgstr "Ir nepiecieðama viena no sekojoðâm pakotnçm:"
 
-#: urpmi:183
+#: urpmi:186
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Kâda ir jûsu izvçle? (1-%d) "
 
-#: urpmi:186
+#: urpmi:189
 msgid "Sorry, bad choice, try again\n"
 msgstr "Atvainojiet, nepareiza izvçle. Mçìiniet vçlreiz\n"
 
-#: urpmi:231
+#: urpmi:234
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
 "(%d MB)"
 msgstr "Lai apmierinâtu atkarîbas, tiks instalçtas sekojoðas pakotnes (%d MB)"
 
-#: urpmi:257
+#: urpmi:260
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Lûdzu ielieciet %s ar nosaukumu %s"
 
-#: urpmi:258
+#: urpmi:261
 msgid "Press enter when it's done..."
 msgstr "Nospiediet ievada taustiòu, kad tas izdarîts..."
 
-#: urpmi:271
+#: urpmi:275
 msgid "everything already installed"
 msgstr "viss jau ir instalçts"
 
-#: urpmi:282
+#: urpmi:286
 #, c-format
 msgid "installing %s\n"
 msgstr "tiek instalçta %s\n"
 
-#: urpmi:287 urpmi:300
+#: urpmi:291 urpmi:304
 msgid "Installation failed"
 msgstr "Instalçðana neizdevâs"
 
-#: urpmi:294
+#: urpmi:298
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Vai mçìinât instalçt bez atkarîbu pârbaudes? (j/N) "
 
-#: urpmi:301
+#: urpmi:305
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Vai mçìinât instalçt vçl uzstâjîgâk (--force)? (j/N) "
 
@@ -195,16 +215,29 @@ msgstr "Vai mçìinât instalçt vçl uzstâjîgâk (--force)? (j/N) "
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr ""
 
-#: urpmi.removemedia:38 urpmi.update:42
+#: urpmi.addmedia:63
 #, c-format
-msgid "unknown options \"%s\"\n"
+msgid "unable to create medium \"%s\"\n"
 msgstr ""
 
-#: urpmi.update:50
+#: urpmi.addmedia:64
+#, c-format
+msgid "unable to update medium \"%s\"\n"
+msgstr ""
+
+#: urpmi.update:43
+msgid "usage: urpmi.update [-a] <name> ..."
+msgstr ""
+
+#: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
 
-#: urpmi.removemedia:47
+#: urpmi.removemedia:39
+msgid "usage: urpmi.removemedia [-a] <name> ..."
+msgstr ""
+
+#: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
 

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-08 06:17+0100\n"
+"POT-Creation-Date: 2001-04-04 08:43+0200\n"
 "PO-Revision-Date: 2001-03-01 11:29+0100\n"
 "Last-Translator: Pavol Cvengros <orpheus@hq.alert.sk>\n"
 "Language-Team: sk <i18n@hq.alert.sk>\n"
@@ -27,27 +27,27 @@ msgstr ""
 "Automatická in¹talácia balíèkov...\n"
 "®iadali ste in¹taláciu balíèka $rpm\n"
 
-#: _irpm:31 urpmi:232
+#: _irpm:31 urpmi:235
 msgid "Is it ok?"
 msgstr "Je to v poriadku?"
 
-#: _irpm:33 urpmi:235 urpmi:260
+#: _irpm:33 urpmi:238 urpmi:263
 msgid "Ok"
 msgstr "Ok"
 
-#: _irpm:34 urpmi:236 urpmi:261
+#: _irpm:34 urpmi:239 urpmi:264
 msgid "Cancel"
 msgstr "Zru¹"
 
-#: _irpm:40 urpmi:240 urpmi:292
+#: _irpm:40 urpmi:243 urpmi:296
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:241 urpmi:293
+#: _irpm:41 urpmi:244 urpmi:297
 msgid "Yy"
 msgstr "AaÁáYy"
 
-#: _irpm:42 urpmi:242
+#: _irpm:42 urpmi:245
 msgid " (Y/n) "
 msgstr " (Á/n) "
 
@@ -153,7 +153,7 @@ msgstr ""
 "%s\n"
 "chýba <relatívna cesta k hdlist>\n"
 
-#: placeholder.h:49 urpmi.update:52
+#: placeholder.h:49 urpmi.update:56
 #, c-format
 msgid ""
 "the entry to update is missing\n"
@@ -162,7 +162,27 @@ msgstr ""
 "chýba polo¾ka pre aktualizáciu\n"
 "(jeden z %s)\n"
 
-#: placeholder.h:53 urpmi.removemedia:49
+#: placeholder.h:53
+#, c-format
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:60
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+
+#: placeholder.h:67 urpmi.removemedia:53
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
@@ -171,29 +191,29 @@ msgstr ""
 "chýba polo¾ka pre odstránenie\n"
 "(jedna z %s)\n"
 
-#: urpmi:55
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
 msgstr "urpmi verzia %s"
 
-#: urpmi:144
+#: urpmi:147
 msgid "Only superuser is allowed to install local packages"
 msgstr "In¹talova» balíky má dovolené jedine root"
 
-#: urpmi:175
+#: urpmi:178
 msgid "One of the following packages is needed:"
 msgstr "Jeden z nasledujúcich balíkov je potrebný:"
 
-#: urpmi:183
+#: urpmi:186
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Vá¹ výber? (1-%d) "
 
-#: urpmi:186
+#: urpmi:189
 msgid "Sorry, bad choice, try again\n"
 msgstr "Prepáète, zlá voµba, skúste znova\n"
 
-#: urpmi:231
+#: urpmi:234
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -203,34 +223,34 @@ msgstr ""
 "(%d MB)"
 
 # **************fix me****************
-#: urpmi:257
+#: urpmi:260
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Prosím vlo¾te %s nazvaný %s"
 
 # ******************fix me***********
-#: urpmi:258
+#: urpmi:261
 msgid "Press enter when it's done..."
 msgstr "Po ukonèení stlaète enter..."
 
-#: urpmi:271
+#: urpmi:275
 msgid "everything already installed"
 msgstr "v¹etko je u¾ nain¹talované"
 
-#: urpmi:282
+#: urpmi:286
 #, c-format
 msgid "installing %s\n"
 msgstr "in¹talujem %s\n"
 
-#: urpmi:287 urpmi:300
+#: urpmi:291 urpmi:304
 msgid "Installation failed"
 msgstr "In¹talácia zlyhala"
 
-#: urpmi:294
+#: urpmi:298
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Skúsi» in¹taláciu bez kontroly závislostí? (á/N) "
 
-#: urpmi:301
+#: urpmi:305
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Skúsi» \"tvrd¹iu\" in¹taláciu (--force)? (á/N) "
 
@@ -238,16 +258,31 @@ msgstr "Skúsi» \"tvrd¹iu\" in¹taláciu (--force)? (á/N) "
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "pou¾itie: urpmi.addmedia <meno> <url>"
 
-#: urpmi.removemedia:38 urpmi.update:42
+#: urpmi.addmedia:63
 #, c-format
-msgid "unknown options \"%s\"\n"
-msgstr "neznáma voµba \"%s\"\n"
+msgid "unable to create medium \"%s\"\n"
+msgstr ""
 
-#: urpmi.update:50
+#: urpmi.addmedia:64
+#, c-format
+msgid "unable to update medium \"%s\"\n"
+msgstr ""
+
+#: urpmi.update:43
+#, fuzzy
+msgid "usage: urpmi.update [-a] <name> ..."
+msgstr "pou¾itie: urpmi.addmedia <meno> <url>"
+
+#: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "niet niè na aktualizáciu (pou¾i urpmi.addmedia na pridanie média)\n"
 
-#: urpmi.removemedia:47
+#: urpmi.removemedia:39
+#, fuzzy
+msgid "usage: urpmi.removemedia [-a] <name> ..."
+msgstr "pou¾itie: urpmi.addmedia <meno> <url>"
+
+#: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr "niet niè na odstránenie (pou¾i urpmi.addmedia na pridanie média)\n"
 
@@ -275,3 +310,6 @@ msgstr ""
 #: urpmq:153
 msgid "unable to get source packages, aborting"
 msgstr "nemô¾em získa» zdrojové balíèky, preru¹ujem"
+
+#~ msgid "unknown options \"%s\"\n"
+#~ msgstr "neznáma voµba \"%s\"\n"
