@@ -269,8 +269,8 @@ foreach (@$local_to_removes) {
     unlink $_;
 }
 
-my @sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'), sub {
-						$auto && !$allow_medium_change and return; #- always refuse if automatic only.
+my @sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'),
+					    (!$auto || $allow_medium_change) && sub {
 						my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						my $msg2 = _("Press enter when it's done...");
 						if ($X) {

@@ -1576,9 +1576,11 @@ sub upload_source_packages {
 		#- by mounting some other. try to figure out these directory and
 		#- mount everything necessary.
 		unless ($urpm->try_mounting($dir, 'mount')) {
+		    $ask_for_medium or 
+		      $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
 		    $urpm->try_mounting($dir, 'unmount'); system("eject", $device);
 		    $ask_for_medium->($medium->{name}, $medium->{removable}) or
-		      $urpm->{fatal}(4, _("removable medium not selected"));
+		      $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
 		}
 	    }
 	    if (-e $dir) {
@@ -1728,7 +1730,7 @@ sub select_packages_to_upgrade {
 			 });
 	}
 
-	#- mark all files which are not in /etc/rc.d/ for packages which are already installed but which
+	#- mark all files which are not in /dev or /etc/rc.d/ for packages which are already installed but which
 	#- are not in the packages list to upgrade.
 	#- the 'installed' property will make a package unable to be selected, look at select.
 	rpmtools::db_traverse($db, [ qw(name version release serial files) ], sub {
@@ -1756,7 +1758,8 @@ sub select_packages_to_upgrade {
 				      }
 				  } else {
 				      if (! exists $obsoletedPackages{$p->{name}}) {
-					  @installedFilesForUpgrade{grep { ($_ !~ m|^/etc/rc.d/| && $_ !~ m|\.la$| &&
+					  @installedFilesForUpgrade{grep { ($_ !~ m|^/dev/| && $_ !~ m|^/etc/rc.d/| &&
+									    $_ !~ m|\.la$| &&
 									    ! -d "$prefix/$_" && ! -l "$prefix/$_") }
 								      @{$p->{files}}} = ();
 				      }
@@ -1784,7 +1787,8 @@ sub select_packages_to_upgrade {
 		#- all file for package marked for upgrade.
 		rpmtools::db_traverse_tag($db, "name", [ $pkg->{name} ], [ qw(name files) ], sub {
 					      my ($p) = @_;
-					      @installedFilesForUpgrade{grep { ($_ !~ m|^/etc/rc.d/| && $_ !~ m|\.la$| &&
+					      @installedFilesForUpgrade{grep { ($_ !~ m|^/dev/| && $_ !~ m|^/etc/rc.d/| &&
+										$_ !~ m|\.la$| &&
 										! -d "$prefix/$_" && ! -l "$prefix/$_") }
 									  @{$p->{files}}} = ();
 					  });
@@ -1815,7 +1819,8 @@ sub select_packages_to_upgrade {
 	    unless ($pkg->{selected}) {
 		my $toSelect = 0;
 		$ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "files", sub {
-				 if ($_[0] !~  m|^/etc/rc.d/| &&  $_ !~ m|\.la$| && exists $installedFilesForUpgrade{$_[0]}) {
+				 if ($_[0] !~ m|^/dev/| && $_[0] !~ m|^/etc/rc.d/| &&
+				     $_ !~ m|\.la$| && exists $installedFilesForUpgrade{$_[0]}) {
 				     ++$toSelect if ! -d "$prefix/$_[0]" && ! -l "$prefix/$_[0]";
 				 }
 				 delete $installedFilesForUpgrade{$_[0]};

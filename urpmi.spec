@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -114,6 +114,11 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Sep  3 2001 François Pons <fpons@mandrakesoft.com> 1.7-8mdk
+- updated fr man pages (pablo).
+- avoid eject removable medium if --auto is given.
+- avoid stat in /dev directory.
+
 * Fri Aug 31 2001 François Pons <fpons@mandrakesoft.com> 1.7-7mdk
 - added --allow-medium-change to urpmi.
 - moved autoirpm french man page to autoirpm package.
