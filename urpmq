@@ -20,15 +20,9 @@
 
 #use strict qw(subs vars refs);
 use urpm;
-# for i18n
-use POSIX;
-use Locale::GetText;
 
-setlocale (LC_ALL, "");
-Locale::GetText::textdomain ("urpmi");
-
-import Locale::GetText I_;
-*_ = *I_;
+# get I18N translation method.
+import urpm _;
 
 #- default options.
 my $query;
@@ -36,12 +30,8 @@ my $query;
 my @files;
 my @names;
 
-#my %I18N;
-#load_po();
-
 sub usage {
-    #die(_("usage: urpmq [-h] [-d] [-u] [-c] [-g] [-v] [-r] package_name|rpm_file [package_names|rpm_files...]\n"));
-    die( sprintf(_("urpmq version %s
+    print STDERR _("urpmq version %s
 Copyright (C) 2000, 2001 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
@@ -66,7 +56,8 @@ usage:
   --force        - force invocation even if some package do not exist.
 
   names or rpm files given on command line are queried.
-", $urpm::VERSION)));
+", $urpm::VERSION);
+    exit(0);
 }
 
 #- parse arguments list.
@@ -87,9 +78,9 @@ for (@ARGV) {
 	/g/ and do { $query->{group} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };
 	/r/ and do { $query->{version} = $query->{release} = 1; next };
-	die( sprintf _("urpmq: unknown option \"-$1\", check usage with --help\n")); } next };
+	print STDERR _("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
-    /\.rpm$/ and do { -r $_ or print STDERR _("urpmq: cannot read rpm file \"$_\"\n"), next;
+    /\.rpm$/ and do { -r $_ or print STDERR _("urpmq: cannot read rpm file \"%s\"\n", $_), next;
 		      push @files, $_; next };
     push @names, $_;
 }
@@ -128,7 +119,7 @@ if ($query->{auto_select}) {
     $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
 
     if (keys(%to_remove) > 0) {
-	print STDERR _("some package have to be removed for being upgraded, this is not supported yet\n");
+	$urpm->{error}(_("some package have to be removed for being upgraded, this is not supported yet\n"));
     }
 }
 
@@ -150,8 +141,7 @@ if ($query->{headers} || $query->{sources}) {
 
     my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
     unless ($local_sources || $list) {
-	die( sprintf _("unable to get source packages, aborting"));
-	exit 1;
+	$urpm->{fatal}(1, _("unable to get source packages, aborting"));
     }
 
     if ($query->{headers}) {
