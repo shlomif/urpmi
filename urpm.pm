@@ -654,11 +654,11 @@ sub add_distrib_media {
     # (Olivier Thauvin): Is this a workaround ?
     $urpm->{media} or $urpm->read_config;
 
-    #- be compatible with pre-10.1 layout
-    -d "$dir/$distrib_root" or $distrib_root = "Mandrake/base";
-
     #- try to copy/retrieve the hdlists file.
     if (my ($dir) = $url =~ m!^(?:removable[^:]*|file):/(.*)!) {
+	#- be compatible with pre-10.1 layout
+	-d "$dir/$distrib_root" or $distrib_root = "Mandrake/base";
+
 	$hdlists_file = reduce_pathname("$dir/$distrib_root/hdlists");
 
 	$urpm->try_mounting($hdlists_file) or $urpm->{error}(N("unable to access first installation medium")), return;
