@@ -2441,10 +2441,10 @@ sub resolve_dependencies {
 		my %priority_state;
 
 		$urpm->resolve_requested($db, \%priority_state, \%priority_requested, %options);
-		if (grep { ! exists $priority_state{$_} } keys %priority_requested) {
+		if (grep { ! exists $priority_state{selected}{$_} } keys %priority_requested) {
 		    #- some packages which were selected previously have not been selected, strange!
 		    $need_restart = 0;
-		} elsif (grep {! exists $priority_state{$_} } keys %{$state->{selected}}) {
+		} elsif (grep { ! exists $priority_state{selected}{$_} } keys %{$state->{selected}}) {
 		    #- there are other packages to install after this priority transaction.
 		    %$state = %priority_state;
 		    $need_restart = 1;
