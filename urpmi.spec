@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 10mdk
+Release: 11mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -114,6 +114,10 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Tue Sep 11 2001 François Pons <fpons@mandrakesoft.com> 1.7-11mdk
+- fixed unable to add a ftp or http medium when with_hdlist
+  is set to a value without / inside.
+
 * Tue Sep 11 2001 François Pons <fpons@mandrakesoft.com> 1.7-10mdk
 - fixed error about urpmi saying package already installed.
 - fixed wrong propagation of indirect updates (-m mode only).
