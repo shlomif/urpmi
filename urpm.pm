@@ -2125,7 +2125,7 @@ sub get_source_packages {
     closedir D;
 
     foreach my $medium (@{$urpm->{media} || []}) {
-	my %sources;
+	my (%sources, %list_examined, $list_warning);
 
 	if (defined $medium->{start} && defined $medium->{end} && !$medium->{ignore}) {
 	    #- always prefer a list file is available.
@@ -2139,7 +2139,7 @@ sub get_source_packages {
 			} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 			    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
 			    defined($id = $fullname2id{$fullname}) and $sources{$id} = $_;
-			    $examined{$fullname} = undef;
+			    $list_examined{$fullname} = $examined{$fullname} = undef;
 			}
 		    } else {
 			chomp;
@@ -2150,7 +2150,8 @@ sub get_source_packages {
 		    }
 		}
 		close F;
-	    } elsif (defined $medium->{url}) {
+	    }
+	    if (defined $medium->{url}) {
 		foreach ($medium->{start} .. $medium->{end}) {
 		    my $pkg = $urpm->{depslist}[$_];
 		    my ($filename) = $pkg->filename =~ /([^\/]*)\.rpm$/;
@@ -2159,11 +2160,16 @@ sub get_source_packages {
 			next;
 		    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 			my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-			defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/".$pkg->filename;
-			$examined{$fullname} = undef;
+			unless (exists $list_examined{$fullname}) {
+			    ++$list_warning;
+			    defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/".$pkg->filename;
+			    $examined{$fullname} = undef;
+			}
 		    }
 		}
-	    } else {
+		$list_warning && $medium->{list} && -r "$urpm->{statedir}/$medium->{list}" and
+		    $urpm->{error}(_("medium \"%s\" use an invalid list file (mirror is problably not up-to-date, trying to use alternate method)", $medium->{name}));
+	    } elsif (!%list_examined) {
 		$error = 1;
 		$urpm->{error}(_("medium \"%s\" does not define any location for rpm files", $medium->{name}));
 	    }

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 25mdk
+Release: 26mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,10 @@ fi
 
 
 %changelog
+* Fri Feb 28 2003 Pons François <fpons@mandrakesoft.com> 4.2-26mdk
+- added sanity check of list file used (fix bug 2110 by providing
+  a reason why there could be download error).
+
 * Fri Feb 28 2003 François Pons <fpons@mandrakesoft.com> 4.2-25mdk
 - fixed callback behaviour for rpmdrake.
 
