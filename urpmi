@@ -109,6 +109,8 @@ open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
 open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
 unless ($pid_out = open STDOUT, "|-") {
     open F, ">>/var/log/urpmi.log"; select F; $| = 1;
+    select SAVEOUT; $| = 1;
+    $/ = \1;
     while (<STDIN>) {
 	print SAVEOUT $_;
 	print F $_;
@@ -118,6 +120,8 @@ unless ($pid_out = open STDOUT, "|-") {
 }
 unless ($pid_err = open STDERR, "|-") {
     open F, ">>/var/log/urpmi.log"; select F; $| = 1;
+    select SAVEERR; $| = 1;
+    $/ = \1;
     while (<STDIN>) {
 	print SAVEERR $_;
 	print F $_;
@@ -268,8 +272,9 @@ install(@sources);
 
 #- this help flushing correctly by closing this file before (piped on tee).
 #- but killing them is generally better.
-kill 15, $pid_err; close STDERR;
-kill 15, $pid_out; close STDOUT;
+fork() or do { sleep 1; kill 15, $pid_err, $pid_out };
+close STDERR;
+close STDOUT;
 
 sub install {
     @_ or return;

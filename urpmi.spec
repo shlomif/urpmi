@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 17mdk
+Release: 18mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Wed Mar  7 2001 François Pons <fpons@mandrakesoft.com> 1.5-18mdk
+- fixed last line not printed for rpm output.
+
 * Mon Mar  5 2001 François Pons <fpons@mandrakesoft.com> 1.5-17mdk
 - fixed ask choices for urpmi -m mode.
 - changed default behaviour to abort transaction on error.
