@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.2
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Wed Jan 30 2002 François Pons <fpons@mandrakesoft.com> 3.2-6mdk
+- fixed some case where removable device are not ejected.
+
 * Tue Jan 29 2002 François Pons <fpons@mandrakesoft.com> 3.2-5mdk
 - added -y options to urpmi/urpmq to impose fuzzy search.
 - cleaned dependancy resolver algorithm.

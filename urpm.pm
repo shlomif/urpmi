@@ -1791,29 +1791,27 @@ sub upload_source_packages {
 	my $medium = $urpm->{media}[$id];
 	$media{$id} = undef;
 	if (my ($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
-	    my $count_not_found = sub {
-		my $not_found;
+	    my $check_notfound = sub {
 		if (-e $dir) {
 		    foreach (values %{$list->[$id]}) {
 			/^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
-			-r $2 or ++$not_found;
+			-r $2 or return 1;
 		    }
 		} else {
-		    $not_found = values %{$list->[$id]};
+		    return 2;
 		}
-		return $not_found;
+		return 0;
 	    };
-	    while ($count_not_found->()) {
-		#- the directory given does not exist or may be accessible
-		#- by mounting some other. try to figure out these directory and
-		#- mount everything necessary.
-		unless ($urpm->try_mounting($dir)) {
-		    $ask_for_medium or 
-		      $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
-		    $urpm->try_umounting($dir); system("eject", $device);
-		    $ask_for_medium->($medium->{name}, $medium->{removable}) or
-		      $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
-		}
+	    #- the directory given does not exist or may be accessible
+	    #- by mounting some other. try to figure out these directory and
+	    #- mount everything necessary.
+	    $urpm->try_mounting($dir);
+	    while ($check_notfound->()) {
+		$ask_for_medium or $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
+		$urpm->try_umounting($dir); system("eject", $device);
+		$ask_for_medium->($medium->{name}, $medium->{removable}) or
+		  $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
+		$urpm->try_mounting($dir);
 	    }
 	    if (-e $dir) {
 		my @removable_sources;
