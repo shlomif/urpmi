@@ -20,6 +20,8 @@
 
 use strict;
 use urpm;
+use IO::File;
+use POSIX qw(tmpnam);
 
 #- default options.
 my $query = { use_provides => 1, };
@@ -354,7 +356,10 @@ if ($query->{list_aliases}) {
 
 		if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
 		    require packdrake;
-		    my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
+		    my $packer = new packdrake(
+				$urpm->{media}[$_]{virtual} ?
+				( "$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^file:/*(/.*)! )[0] :
+				"$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
 		    $packer->extract_archive(undef, @headers);
 		} else {
 		    #- fallback to retrieve rpm package before, so that --headers will be ok.
@@ -364,20 +369,23 @@ if ($query->{list_aliases}) {
 	    }
 	} elsif ($query->{info}) {
 	    my %downloads;
-	    unless ($>) {
-		foreach (0..$#{$urpm->{media} || []}) {
-		    if (my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_"; ! -s $file }
-				       map { my $pkg = $urpm->{depslist}[$_];
-					     $pkg && $pkg->header_filename } keys %{$list->[$_]})) {
-			#map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } values %{$list->[$_]})) {
-			if ($< == 0 && -s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
-			    require packdrake;
-			    my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
-			    $packer->extract_archive("$urpm->{cachedir}/headers", @headers);
-			} elsif (!%downloads) {
-			    #- fallback to retrieve rpm package before, so that --headers will be ok.
-			    %downloads = $urpm->download_source_packages({}, $list, force_local => 1);
-			}
+	    # if not root, use a temporary file to store headers
+	    my $tmp_header_dir = ($< != 0 and tmpnam());
+	    foreach (0..$#{$urpm->{media} || []}) {
+		if (my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_"; ! -s $file }
+				   map { my $pkg = $urpm->{depslist}[$_];
+					 $pkg && $pkg->header_filename } keys %{$list->[$_]})) {
+		    #map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } values %{$list->[$_]})) {
+		    if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
+			require packdrake;
+			my $packer = new packdrake(
+				$urpm->{media}[$_]{virtual} ?
+				( "$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^file:/*(/.*)! )[0] :
+				"$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
+			$packer->extract_archive($< == 0  ? "$urpm->{cachedir}/headers" : $tmp_header_dir, @headers);
+		    } elsif (!%downloads) {
+			#- fallback to retrieve rpm package before, so that --headers will be ok.
+			%downloads = $urpm->download_source_packages({}, $list, force_local => 1);
 		    }
 		}
 	    }
@@ -385,7 +393,12 @@ if ($query->{list_aliases}) {
 		foreach (split /\|/, $_) {
 		    my $pkg = $urpm->{depslist}[$_] or next;
 		    my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/".$pkg->header_filename;
-		    $pkg->update_header($file, keep_all_tags => 1);
+		    if (-s $file) {
+			$pkg->update_header($file, keep_all_tags => 1);
+		    } elsif ($< != 0) {
+			$pkg->update_header("$tmp_header_dir/".$pkg->header_filename, keep_all_tags => 1);
+			unlink "$tmp_header_dir/".$pkg->header_filename;
+		    }
 		    printf "%-12s: %s\n", "Name", $pkg->name;
 		    printf "%-12s: %s\n", "Version", $pkg->version;
 		    printf "%-12s: %s\n", "Release", $pkg->release;
@@ -406,6 +419,7 @@ if ($query->{list_aliases}) {
 		    $pkg->description and printf "%-12s:\n%s\n", "Description", $pkg->description;
 		}
 	    }
+	    -d $tmp_header_dir and rmdir $tmp_header_dir;
 	} elsif ($query->{sources}) {
 	    print join "\n", values %$local_sources; values %$local_sources and print "\n";
 	    foreach (0..$#{$urpm->{media} || []}) {

@@ -74,7 +74,7 @@ my $state = {};
 $verbose or $urpm->{log} = sub {};
 
 #- just configure parallel mode if available.
-$parallel and $urpm->configure(synthesis => 'none',
+$parallel and $urpm->configure(synthesis => ($parallel and 'none'),
 			       root => $root,
 			       parallel => $parallel,
 			      );

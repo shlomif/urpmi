@@ -1770,7 +1770,6 @@ this could happen if you mounted manually the directory when creating the medium
 	    $urpm->{error}(N("no hdlist file found for medium \"%s\"", $medium->{name}));
 	}
 
-	#- make sure group and other does not have any access to this file.
 	unless ($error || $medium->{virtual}) {
 	    #- sort list file contents according to id.
 	    my %list;
@@ -1852,6 +1851,7 @@ this could happen if you mounted manually the directory when creating the medium
 		if (%list) {
 		    #- write list file.
 		    local *LIST;
+		    #- make sure group and other do not have any access to this file, used to hide passwords.
 		    my $mask = umask 077;
 		    open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
 		      or $error = 1, $urpm->{error}(N("unable to write list file of \"%s\"", $medium->{name}));
@@ -2532,7 +2532,7 @@ sub get_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages, %options) = @_;
-    my ($id, $error, %protected_files, %local_sources, @list, %fullname2id, %file2fullnames, %examined);
+    my ($id, $error, @list_error, %protected_files, %local_sources, @list, %fullname2id, %file2fullnames, %examined);
     local (*D, *F, $_);
 
     #- build association hash to retrieve id and examine all list files.
@@ -2618,6 +2618,11 @@ sub get_source_packages {
 		    }
 		}
 		close F;
+	    } elsif (-e $file) {
+		# list file exists but isn't readable
+		# report error only if no result found, list files are only readable by root
+		push @list_error, N("unable to access list file of \"%s\", medium ignored", $medium->{name});
+		next;
 	    }
 	    if (defined $medium->{url}) {
 		foreach ($medium->{start} .. $medium->{end}) {
@@ -2647,6 +2652,9 @@ sub get_source_packages {
 
     #- examine package list to see if a package has not been found.
     foreach (grep { ! exists($examined{$_}) } keys %fullname2id) {
+	# print list errors only once if any
+	@list_error and map { $urpm->{error}($_) } @list_error;
+	@list_error = ();
 	$error = 1;
 	$urpm->{error}(N("package %s is not found.", $_));
     }
