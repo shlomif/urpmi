@@ -1254,7 +1254,7 @@ this could happen if you mounted manually the directory when creating the medium
 		#- file are present.
 		my ($basename) = $with_hdlist_dir =~ /\/([^\/]+)$/;
 
-		if (!$options{nomd5sum} && -s reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM") > 32) {
+		if (!$options{nomd5sum} && -s reduce_pathname("$with_hdlist_dir/../MD5SUM") > 32) {
 		    if ($options{force}) {
 			#- force downloading the file again, else why a force option has been defined ?
 			delete $medium->{md5sum};
@@ -1273,7 +1273,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    if ($medium->{md5sum}) {
 			$urpm->{log}(N("examining MD5SUM file"));
 			local (*F, $_);
-			open F, reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM");
+			open F, reduce_pathname("$with_hdlist_dir/../MD5SUM");
 			while (<F>) {
 			    my ($md5sum, $file) = /(\S+)\s+(?:\.\/)?(\S+)/ or next;
 			    #- keep md5sum got here to check download was ok ! so even if md5sum is not defined, we need
@@ -1388,8 +1388,8 @@ this could happen if you mounted manually the directory when creating the medium
 		#- and check hdlist has not be named very strangely...
 		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
-		    my $path_list = reduce_pathname("$dir/$with_hdlist_dir/../$local_list");
-		    -s $path_list or $path_list = reduce_pathname("$dir/$with_hdlist_dir/../list");
+		    my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
+		    -s $path_list or $path_list = reduce_pathname("$with_hdlist_dir/../list");
 		    -s $path_list or $path_list = "$dir/$local_list";
 		    -s $path_list and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
 					     $path_list, "$urpm->{cachedir}/partial/list");
@@ -1437,8 +1437,8 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- examine if a local pubkey file is available.
 	    if ($medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
 		my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
-		my $path_pubkey = reduce_pathname("$dir/$with_hdlist_dir/../$local_pubkey");
-		-s $path_pubkey or $path_pubkey = reduce_pathname("$dir/$with_hdlist_dir/../pubkey");
+		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../$local_pubkey");
+		-s $path_pubkey or $path_pubkey = reduce_pathname("$with_hdlist_dir/../pubkey");
 		-s $path_pubkey or $path_pubkey = "$dir/$local_pubkey";
 		-s $path_pubkey and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
 					   $path_pubkey, "$urpm->{cachedir}/partial/pubkey");
@@ -2080,6 +2080,7 @@ sub find_mntpoints {
 sub reduce_pathname {
     my ($url) = @_;
 
+    #- clean url to remove any macro (which cannot be solved now).
     #- take care if this is a true url and not a simple pathname.
     my ($host, $dir) = $url =~ /([^:\/]*:\/\/[^\/]*\/)?(.*)/;
 
