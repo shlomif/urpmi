@@ -126,8 +126,9 @@ for (@ARGV) {
     if (/\.rpm$/) {
 	if (/\.src\.rpm$/) {
 	    push @src_files, $_;
+	} else {
+	    push @files, untaint($_);
 	}
-	push @files, untaint($_);
 	next;
     }
     if ($src) {

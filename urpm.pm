@@ -2037,18 +2037,17 @@ sub select_packages_to_upgrade {
 	#- takes a code to call with the line read, this avoid allocating
 	#- memory for that.
 	my $ask_child = sub {
-	    my ($name, $tag, $code) = @_;
+	    my ($pkg, $tag, $code) = @_;
 	    $code or die "no callback code for parsehdlist output";
 	    #- check if what is requested is not already available locally (because
 	    #- the hdlist does not exists and the medium is marked as using a
 	    #- synthesis file).
-	    my $p = $urpm->{params}{info}{$name} || $urpm->{params}{names}{$name};
-	    if ($pid == 1 || $p && @{$p->{$tag} || []}) {
-		foreach (@{$p->{$tag} || []}) {
+	    if ($pid == 1 || $pkg && @{$pkg->{$tag} || []}) {
+		foreach (@{$pkg->{$tag} || []}) {
 		    $code->($_);
 		}
 	    } else {
-		print OUTPUT "$name:$tag\n";
+		print OUTPUT "$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}:$tag\n";
 
 		local $_;
 		while (<INPUT>) {
@@ -2063,16 +2062,25 @@ sub select_packages_to_upgrade {
 	#- should we remove them ? this could be dangerous !
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
 	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
-	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "obsoletes", sub {
+	    $ask_child->($pkg, "obsoletes", sub {
 			     #- take care of flags and version and release if present
-			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/ &&
-				 rpmtools::db_traverse_tag($db, "name", [$1], [], undef) > 0) {
-				 (!$3 || eval(rpmtools::version_compare($pkg->{version}, $3) . $2 . 0)) &&
-				   (!$4 || rpmtools::version_compare($pkg->{version}, $3) != 0 ||
-				    eval(rpmtools::version_compare($pkg->{release}, $4) . $2 . 0)) or return;
-				 $urpm->{log}(_("selecting %s using obsoletes", "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
-				 $obsoletedPackages{$1} = undef;
-				 $pkg->{selected} = 1;
+			     local ($_) = @_;
+			     if (my ($n,$o,$v,$r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+				 my $obsoleted = 0;
+				 my $check_obsoletes = sub {
+				     my ($p) = @_;
+				     (!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
+				       (!$4 || rpmtools::version_compare($p->{version}, $v) != 0 ||
+					eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
+				     ++$obsoleted;
+				 };
+				 rpmtools::db_traverse_tag($db, "name", [ $n ], [ qw(name version release) ], $check_obsoletes);
+				 if ($obsoleted > 0) {
+				     $urpm->{log}(_("selecting %s using obsoletes",
+						    "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
+				     $obsoletedPackages{$n} = undef;
+				     $pkg->{selected} = 1;
+				 }
 			     }
 			 });
 	}
@@ -2145,7 +2153,7 @@ sub select_packages_to_upgrade {
 									  @{$p->{files}}} = ();
 					  });
 
-		$ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "files", sub {
+		$ask_child->($pkg, "files", sub {
 				 delete $installedFilesForUpgrade{$_[0]};
 			     });
 	    }
@@ -2156,7 +2164,7 @@ sub select_packages_to_upgrade {
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
 	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
 	    if ($pkg->{selected}) {
-		$ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "files", sub {
+		$ask_child->($pkg, "files", sub {
 				 delete $installedFilesForUpgrade{$_[0]};
 			     });
 	    }
@@ -2172,7 +2180,7 @@ sub select_packages_to_upgrade {
 	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
 	    unless ($pkg->{selected}) {
 		my $toSelect = 0;
-		$ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "files", sub {
+		$ask_child->($pkg, "files", sub {
 				 if ($_[0] !~ m|^/dev/| && $_[0] !~ m|^/etc/rc.d/| &&
 				     $_ !~ m|\.la$| && exists $installedFilesForUpgrade{$_[0]}) {
 				     ++$toSelect if ! -d "$prefix/$_[0]" && ! -l "$prefix/$_[0]";

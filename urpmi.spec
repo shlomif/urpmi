@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Wed Feb 13 2002 François Pons <fpons@mandrakesoft.com> 3.3-5mdk
+- fixed source package given on command line in urpmi.
+- fixed management of obsoletes in --auto-select.
+
 * Tue Feb 12 2002 François Pons <fpons@mandrakesoft.com> 3.3-4mdk
 - fixed bad method reference in urpmq (used by rpmdrake).
 - fixed urpmq -d behaviour.
