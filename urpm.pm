@@ -542,14 +542,14 @@ sub update_media {
 	    if (@files) {
 		foreach (@files) {
 		    /\/([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
-		    $list{"$prefix:/$_\n"} = ($urpm->{params}{info}{$1} || { id => 1000000000 })->{id};
+		    $list{"$prefix:/$_\n"} = ($urpm->{params}{names}{$1} || { id => 1000000000 })->{id};
 		}
 	    } else {
 		local (*F, $_);
 		open F, "parsehdlist '$urpm->{cachedir}/partial/$medium->{hdlist}' |";
 		while (<F>) {
 		    /^([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
-		    $list{"$medium->{url}/$_"} = ($urpm->{params}{info}{$1} || { id => 1000000000 })->{id};
+		    $list{"$medium->{url}/$_"} = ($urpm->{params}{names}{$1} || { id => 1000000000 })->{id};
 		}
 		close F or $error = 1, $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
 	    }
@@ -913,9 +913,7 @@ sub register_local_packages {
 
 	my ($fullname) = $urpm->{params}->read_rpms($_);
 	my $pkg = $urpm->{params}{info}{$fullname};
-	$pkg->{version} eq $2 or $urpm->{error}(_("mismatch version for registering rpm file")), next;
-	$pkg->{release} eq $3 or $urpm->{error}(_("mismatch release for registering rpm file")), next;
-	$pkg->{arch} eq $4 or $urpm->{error}(_("mismatch arch for registering rpm file")), next;
+	$pkg or $urpm->{error}(_("unable to register rpm file")), next;
 	$pkg->{source} = $1 ? $_ :  "./$_";
 	push @names, $fullname;
     }
@@ -1153,7 +1151,7 @@ sub filter_packages_to_upgrade {
     #- packages.
     my $examine_installed_packages = sub {
 	my ($p) = @_;
-	my $pkg = $urpm->{params}{info}{$p->{name}};
+	my $pkg = $urpm->{params}{names}{$p->{name}};
 	if ($pkg && exists $closures{$pkg->{id}}) {
 	    my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
 	    $installed{$pkg->{id}} = !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} &&
@@ -1444,8 +1442,11 @@ sub deselect_unwanted_packages {
     open F, $urpm->{skiplist};
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	my $pkg = $urpm->{params}{info}{$_} or next;
-	$options{force} || (exists $packages->{$pkg->{id}} && defined $packages->{$pkg->{id}}) and delete $packages->{$pkg->{id}};
+	foreach (@{$urpm->{params}{provides}{$_} || []}) {
+	    my $pkg = $urpm->{params}{info}{$_} or next;
+	    $options{force} || (exists $packages->{$pkg->{id}} && defined $packages->{$pkg->{id}})
+	      and delete $packages->{$pkg->{id}};
+	}
     }
     close F;
 }
@@ -1706,7 +1707,7 @@ sub select_packages_to_upgrade {
 	#- select packages which obseletes other package, obselete package are not removed,
 	#- should we remove them ? this could be dangerous !
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
-	    $ask_child->($pkg->{name}, "obsoletes", sub {
+	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "obsoletes", sub {
 			     #- take care of flags and version and release if present
 			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/ &&
 				 rpmtools::db_traverse_tag($db, "name", [$1], [], undef) > 0) {
@@ -1780,7 +1781,7 @@ sub select_packages_to_upgrade {
 									  @{$p->{files}}} = ();
 					  });
 
-		$ask_child->($pkg->{name}, "files", sub {
+		$ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "files", sub {
 				 delete $installedFilesForUpgrade{$_[0]};
 			     });
 	    }
@@ -1790,7 +1791,7 @@ sub select_packages_to_upgrade {
 	#- since some packages may have been selected by depsList.
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
 	    if ($pkg->{selected}) {
-		$ask_child->($pkg->{name}, "files", sub {
+		$ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "files", sub {
 				 delete $installedFilesForUpgrade{$_[0]};
 			     });
 	    }
@@ -1805,7 +1806,7 @@ sub select_packages_to_upgrade {
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
 	    unless ($pkg->{selected}) {
 		my $toSelect = 0;
-		$ask_child->($pkg->{name}, "files", sub {
+		$ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "files", sub {
 				 if ($_[0] !~  m|^/etc/rc.d/| &&  $_ !~ m|\.la$| && exists $installedFilesForUpgrade{$_[0]}) {
 				     ++$toSelect if ! -d "$prefix/$_[0]" && ! -l "$prefix/$_[0]";
 				 }
