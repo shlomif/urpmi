@@ -347,7 +347,7 @@ if ($query->{list_aliases}) {
 		foreach (split /\|/, $_) {
 		    my $pkg = $urpm->{depslist}[$_] or next;
 		    my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/".$pkg->header_filename;
-		    $pkg->update_header($file, 0, 1);
+		    $pkg->update_header($file, keep_all_tags => 1);
 		    printf "%-12s: %s\n", "Name", $pkg->name;
 		    printf "%-12s: %s\n", "Version", $pkg->version;
 		    printf "%-12s: %s\n", "Release", $pkg->release;

@@ -9,7 +9,7 @@ Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.90-2mdk
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.90-4mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,11 @@ $urpm->update_media;
 
 
 %changelog
+- added patch from Michaël Scherer to add --no-uninstall
+  (or --no-remove) and assume no by default when asking to
+  remove packages.
+- updated urpmq with newer perl-URPM 0.90-4mdk and better.
+
 * Mon May 26 2003 François Pons <fpons@mandrakesoft.com> 4.3-12mdk
 - updated for newer perl-URPM 0.90 series.
 - give reason of package requested not being installed.

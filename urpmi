@@ -31,6 +31,7 @@ my $synthesis = '';
 my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
+my $no_remove = 0;
 my $force = 0;
 my $parallel = '';
 my $sync;
@@ -77,6 +78,7 @@ usage:
 ") . N("  --synthesis    - use the given synthesis instead of urpmi db.
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
+") . N("  --no-uninstall - never ask to uninstall a package, abort the installation.
 ") . N("  --fuzzy        - impose fuzzy search (same as -y).
 ") . N("  --src          - next package is a source package (same as -s).
 ") . N("  --install-src  - install only source package (no binaries).
@@ -144,6 +146,7 @@ while (defined($_ = shift @ARGV)) {
     /^--auto$/ and do { $auto = 1; next };
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
+    /^--no-(remove|uninstall)$/ and do { $no_remove = 1; next };
     /^--(no-)?fuzzy$/ and do { $urpm->{options}{fuzzy} = !$1; next };
     /^--src$/ and do { $src = 1; next };
     /^--install-src$/ and do { $install_src = 1; next };
@@ -382,6 +385,7 @@ $urpm->resolve_dependencies($state, \%requested,
 			    auto_select => $auto_select,
 			    callback_choices => \&ask_choice,
 			    install_src => $install_src,
+			    nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 			   );
 
 my @ask_unselect = grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
@@ -403,6 +407,11 @@ if (@ask_unselect) {
 	    message_input($msg . N(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
 	}
     }
+}
+
+foreach (sort { $a cmp $b } keys %{$state->{rejected} || {}}) {
+    my $v = $state->{rejected}{$_};
+    print STDERR "<<$_>> removed=$v->{removed}, obsoleted=$v->{obsoleted}, size=$v->{size};\n";
 }
 my @ask_remove = grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected} || {}};
 if (@ask_remove) {
@@ -433,6 +442,14 @@ if (@ask_remove) {
 				    #- now insert the reason if available.
 				    $_ . ($s ? " ($s)" : '');
 				} sort { $a cmp $b } @ask_remove;
+
+	if ($no_remove) {
+	    my $msg = N("The installation cannot continue because the following packages
+have to be removed for others to be upgraded:\n%s\n", $list);
+	    message($msg);
+	    exit 0;
+	}
+
 	my $msg = N("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list);
 	if ($X) {
 	    gmessage($msg);
@@ -440,7 +457,7 @@ if (@ask_remove) {
 	} else {
 	    $noexpr = N("Nn");
 	    $yesexpr = N("Yy");
-	    message_input($msg . N(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+	    message_input($msg . N(" (y/N) ")) =~ /[$yesexpr]/ or exit 0;
 	}
     }
 }
@@ -455,7 +472,9 @@ my $sum = 0;
 my @root_only;
 
 foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
-    $ask_user ||= $pkg->flag_required || $auto_select || $parallel;
+    #- reflect change in flag usage, now requested is set whatever a package is selected or not,
+    #- but required is always set (so a required but not requested is a pure dependencies).
+    $ask_user ||= !$pkg->flag_requested || $auto_select || $parallel;
 
     my $fullname = $pkg->fullname;
     if (!$env && $install_src && $pkg->arch ne 'src') {
