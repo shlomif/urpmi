@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.4
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Wed Jun  5 2002 François Pons <fpons@mandrakesoft.com> 3.4-5mdk
+- fixed fuzzy search on package (error in urpm.pm around line 1404-1409).
+
 * Wed Jun  5 2002 François Pons <fpons@mandrakesoft.com> 3.4-4mdk
 - fixed urpmq.
 - fixed incomplete requires on some cases.

@@ -1388,7 +1388,7 @@ sub search_packages {
 	    my %l;
 	    foreach (@{$exact_a{$_} || $exact_ra{$_} || $found{$_} || $foundi{$_} || []}) {
 		my $pkg = $urpm->{depslist}[$_];
-		push @{$l{$pkg->name}}, { id => $_, pkg => $pkg };
+		push @{$l{$pkg->name}}, $pkg;
 	    }
 	    if (values(%l) == 0) {
 		$urpm->{error}(_("no package named %s", $_));
@@ -1400,7 +1400,7 @@ sub search_packages {
 		foreach (values %l) {
 		    my $best;
 		    foreach (@$_) {
-			if ($best) {
+			if ($best && $best != $_) {
 			    $_->compare_pkg($best) > 0 and $best = $_;
 			} else {
 			    $best = $_;
