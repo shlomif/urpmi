@@ -732,7 +732,7 @@ if ($nok) {
     if ($test) {
 	message(N("Installation is possible"));
     } else {
-	@{$state->{transaction} || []} == 1 && $verbose >= 0 and message(N("Everything already installed"), $auto);
+	@{$state->{transaction} || []} == 0 && $verbose >= 0 and message(N("Everything already installed"), $auto);
     }
 }
 

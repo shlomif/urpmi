@@ -72,6 +72,8 @@ and [options] are from
                    installed mandrake-release package.
 ") . N("  --arch         - use specified architecture, the default is arch of
                    mandrake-release package installed.
+") . N("  --virtual      - create virtual media wich are always up-to-date,
+                   only file:// protocol is allowed.
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -f             - force generation of hdlist files.
 ");
@@ -113,6 +115,7 @@ and [options] are from
 	/^--version$/ and $options{version} = shift @_, next;
 	/^--arch$/ and $options{arch} = shift @_, next;
 	/^--update$/ and $options{update} = 1, next;
+	/^--virtual$/ and $options{virtual} = 1, next;
 	/^-/ and die $usage . N("\nunknown options '%s'\n", $_);
 	($name, $url, $with, $relative_hdlist) = ($_, @_);
 	last;
@@ -180,13 +183,14 @@ and [options] are from
 		}
 		#- sort according to url or location if possible.
 		!$url || $l && $l =~ /$url/i || $burl =~ /$url/i or next;
-		$urpm->add_medium($name, $burl, $relative_hdlist, update => $options{update}, index_name => 0);
+		$urpm->add_medium($name, $burl, $relative_hdlist,
+				  virtual => $options{virtual}, update => $options{update}, index_name => 0);
 	    }
 	    close F;
 	} else {
 	    $with || $relative_hdlist and die N("%s\nno need to give <relative path of hdlist> with --distrib", $usage);
 
-	    $urpm->add_distrib_media($name, $url, update => $options{update});
+	    $urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update});
 	}
 	$urpm->update_media(%options, callback => \&urpm::sync_logger);
 
@@ -207,7 +211,7 @@ and [options] are from
 	    $options{probe_with} || $with eq "with" or die N("%s\n`with' missing for network media\n", $usage);
 	}
 
-	$urpm->add_medium($name, $url, $relative_hdlist, update => $options{update});
+	$urpm->add_medium($name, $url, $relative_hdlist, virtual => $options{virtual}, update => $options{update});
 	$urpm->update_media(%options, callback => \&urpm::sync_logger);
 
 	#- check creation of media (during update has been successfull)

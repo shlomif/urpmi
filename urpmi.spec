@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.4
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.91-3mdk
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.91-6mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,11 @@ $urpm->update_media;
 
 
 %changelog
+* Thu Jun 19 2003 François Pons <fpons@mandrakesoft.com> 4.4-5mdk
+- fixed everything already installed annoying message.
+- added --virtual to urpmi.addmedia to handle virtual media.
+- added promotion message reason for backtrack.
+
 * Wed Jun 18 2003 François Pons <fpons@mandrakesoft.com> 4.4-4mdk
 - added --env to urpmq and urpmf (simplest to examine now).
 - fixed --allow-nodeps and --allow-force no more taken into
