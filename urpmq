@@ -209,6 +209,7 @@ if ($urpm::args::options{list_aliases}) {
     };
     #- open/close of database should be moved here, in order to allow testing
     #- some bogus case and check for integrity. (note auto_select implies upgrade).
+    #- XXX this is broken
     if ($urpm::args::options{what_requires}) {
 	#- search for packages that require one of the proposed packages.
 	my (@properties, %requires, %properties, $dep);
@@ -218,8 +219,6 @@ if ($urpm::args::options{list_aliases}) {
 	@properties = keys %requested;
 
 	if (@properties) {
-	    require URPM::Resolve;
-
 	    #- build a requires to packages id hash.
 	    foreach my $pkg (@{$urpm->{depslist}}) {
 		foreach ($pkg->requires_nosense) {
@@ -282,7 +281,6 @@ if ($urpm::args::options{list_aliases}) {
     } elsif ($urpm::args::options{deps}) {
 	#- only deps required.
 	my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
-	require URPM::Resolve;
 	$urpm->resolve_requested($empty_db, $state, \%requested, callback_choices => $stop_on_choices, nodeps => 1);
     } else {
 	$state->{selected} = \%requested;
