@@ -744,7 +744,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 	}
     }
 }
-if ($urpm::args::options{X}) { gurpm::end() }
 
 #- keep a track of error code.
 my $exit_code = 0;
@@ -780,6 +779,7 @@ unless ($env) {
 #- restart urpmi if needed, keep command line for that.
 if ($restart_itself && !$exit_code) {
     message(N("restarting urpmi"), 'noX');
+    if ($urpm::args::options{X}) { gurpm::end() }
     #- it seems to work correctly with exec instead of system, provided
     #- STDOUT or STDERR are not closed before (else no output at all).
     #- added --no-priority-upgrade to make sure no restart will be done after this one.
@@ -801,6 +801,7 @@ if ($pid_err && $pid_out) {
 
 if ($urpm::args::options{X}) {
     gtkset_mousecursor_normal(); #- to restore a normal cursor in any case
+    gurpm::end();
     flush();
 }
 use POSIX ();
