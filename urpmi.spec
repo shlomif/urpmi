@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 0.9
-Release: 34mdk
+Release: 35mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -17,6 +17,9 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %changelog
+* Thu Jan  6 2000 Pixel <pixel@mandrakesoft.com>
+- urpmi: tty question now defaults to yes (y/N -> N/y)
+
 * Tue Jan  4 2000 Chmouel Boudjnah <chmouel@mandrakesoft.com> 0.9-34mdk
 - rpmf: use egrep.
 
