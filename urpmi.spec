@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.4.5
-%define release 8mdk
+%define release 9mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -134,7 +134,7 @@ needs="kde" \
 section=".hidden" \
 title="Software installer" \
 longtitle="Graphical front end to install RPM files" \
-mimetypes="application/x-rpm;application/x-urpmi" \
+mimetypes="application/x-rpm,application/x-urpmi" \
 multiple_files="true" \
 kde_opt="InitialPreference=9"
 ?package(gurpmi): command="%{_bindir}/gurpmi" \
@@ -142,7 +142,7 @@ needs="gnome" \
 section=".hidden" \
 title="Software installer" \
 longtitle="Graphical front end to install RPM files" \
-mimetypes="application/x-rpm;application/x-urpmi" \
+mimetypes="application/x-rpm,application/x-urpmi" \
 multiple_files="true" 
 EOF
 %endif
@@ -243,6 +243,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue Mar 16 2004 Frederic Crozat <fcrozat@mandrakesoft.com> 4.4.5-9mdk
+- fix mimetype in menu file (correct separator is ,  not ;)
+
 * Sun Feb 22 2004 François Pons <fpons@garrigue.homelinux.org> 4.4.5-8mdk
 - fix bug 8110 (urpmq -y automatically uses -a).
 - gurpm.pm: allow to pass options to ugtk2 object (so that we can set
