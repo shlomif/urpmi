@@ -129,6 +129,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+
+- update translation (thierry)
+
 * Thu Nov 29 2001 François Pons <fpons@mandrakesoft.com> 2.1-7mdk
 - fixed -p flag with choices.
 - fixed -p kernel which may glob another kernel package.
