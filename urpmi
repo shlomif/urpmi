@@ -632,24 +632,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    gurpm::progress(1);
 		}
 	    } else {
-		if ($mode eq 'start') {
-		    print STDERR "    $file\n"; #- allow pass-protected url to be logged.
-		} elsif ($mode eq 'progress') {
-		    my $text;
-		    if (defined $total && defined $eta) {
-			$text = N("        %s%% of %s completed, ETA = %s, speed = %s",
-			    $percent, $total, $eta, $speed);
-		    } else {
-			$text = N("        %s%% completed, speed = %s",
-			    $percent, $speed);
-		    }
-		    print SAVEERR $text, " " x (79 - length($text)), "\r";
-		} elsif ($mode eq 'end') {
-		    print SAVEERR " " x 79, "\r";
-		} elsif ($mode eq 'error') {
-		    #- error is 3rd argument, saved in $percent
-		    print STDERR N("...retrieving failed: %s", $percent), "\n";
-		}
+		goto &urpm::download::sync_logger;
 	    }
 	},
     );
