@@ -52,11 +52,13 @@ sub parallel_find_remove {
 	      or delete $state->{rejected}, last;
 	} elsif (/removing package (.*) will break your system/) {
 	    $base_to_remove{$1} = undef;
+	} elsif (/removing \S/) {
+	    #- this is log for newer urpme, so do not try to remove removing...
 	} elsif (/Removing failed/) {
 	    $bad_nodes{$node} = [];
 	} else {
 	    if (exists $bad_nodes{$node}) {
-		/^\s+(.*)/ and push @{$bad_nodes{$node}}, $1;
+		/^\s+(.+)/ and push @{$bad_nodes{$node}}, $1;
 	    } else {
 		$state->{rejected}{$_}{removed} = 1;
 		$state->{rejected}{$_}{nodes}{$node} = undef;
