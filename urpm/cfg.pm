@@ -104,8 +104,9 @@ sub load_config ($) {
 	    |auto
 	    |resume)(?:\s*:\s*(.*))?$/x
 	) {
-	    my $yes = !$no;
-	    $config{$medium}{$k} = $v =~ /^(yes|on|1|)$/i ? $yes : !$yes;
+	    my $yes = $no ? 0 : 1;
+	    $no = $yes ? 0 : 1;
+	    $config{$medium}{$k} = $v =~ /^(yes|on|1|)$/i ? $yes : $no;
 	    next;
 	}
 	#- obsolete
@@ -129,8 +130,12 @@ sub dump_config ($$) {
     };
     print $f "# generated ".(scalar localtime)."\n";
     for my $m (@media) {
-	print $f quotespace($m), ' ', quotespace($config->{$m}{url}), " {\n";
-	for (grep { $_ ne 'url' } keys %{$config->{$m}}) {
+	if ($m) {
+	    print $f quotespace($m), ' ', quotespace($config->{$m}{url}), " {\n";
+	} else {
+	    print $f "{\n";
+	}
+	for (sort grep { $_ ne 'url' } keys %{$config->{$m}}) {
 	    if (/^(update|ignore|synthesis|virtual)$/) {
 		print $f "  $_\n";
 	    } else {
@@ -142,6 +147,8 @@ sub dump_config ($$) {
     close $f;
     return 1;
 }
+
+1;
 
 __END__
 
