@@ -676,7 +676,8 @@ sub add_medium {
     }
 
     #- check whether a password is visible, if not, set clear_url.
-    $url =~ m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| or $medium->{clear_url} = $url;
+    my $has_password = $url =~ m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|;
+    $medium->{clear_url} = $url unless $has_password;
 
     $with_hdlist and $medium->{with_hdlist} = $with_hdlist;
 
@@ -694,6 +695,11 @@ sub add_medium {
 	$urpm->read_config(nocheck_access => 1);
 	$_->{name} eq $name and $_->{modified} = 1 foreach @{$urpm->{media}};
 	$urpm->{modified} = 1;
+    }
+    if ($has_password) {
+	foreach (grep { $_->{name} eq $name } @{$urpm->{media}}) {
+	    $_->{url} = $url;
+	}
     }
 
     $name;
