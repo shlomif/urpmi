@@ -2150,25 +2150,17 @@ sub create_transaction {
 
 #- get the list of packages that should not be upgraded or installed,
 #- typically from the inst.list or skip.list files.
-#- This file contains lines with the following format :
-#-     0. everything after a '#' is ignored
-#-     1. name of package or regular expression between slashes
-#-     2. optional string "[*]", or optional "["
-#-     3. version specification (a comparison operator and a version number)
-#-     4. the rest of the line is ignored
 sub get_packages_list {
     my ($file, $extra) = @_;
-    my %val;
+    my $val = [];
     local $_;
     open my $f, $file or return {};
     for (<$f>, split /,/, $extra) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
- 	    $val{$n}{$s} = undef;
-	}
+	push @$val, $_;
     }
     close $f;
-    \%val;
+    $val;
 }
 
 #- select source for package selected.
