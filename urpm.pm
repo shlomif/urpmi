@@ -1171,10 +1171,10 @@ sub update_media {
 		$urpm->{log}(_("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 		$options{callback} && $options{callback}('copy', $medium->{name});
 		if (system("cp", "-pR", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
-		    $options{callback} && $options{callback}('done', $medium->{name});
+		    $options{callback} && $options{callback}('failed', $medium->{name});
 		    $urpm->{log}(_("...copying failed"))
 		} else {
-		    $options{callback} && $options{callback}('failed', $medium->{name});
+		    $options{callback} && $options{callback}('done', $medium->{name});
 		    $urpm->{log}(_("...copying done"));
 		}
 
