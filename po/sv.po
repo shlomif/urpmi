@@ -12,13 +12,14 @@
 # Fuad Sabanovic <manijak@telia.com>, 2000.
 # Mattias Dahlberg <voz@home.se>, 2001, 2002.
 # Mattias Newzella <newzella@linux.nu>, 2002,2003.
+# Lars Westergren <lars.westergren@home.se>, 2003
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: urpmi-sv-sv\n"
+"Project-Id-Version: urpmi-sv\n"
 "POT-Creation-Date: 2003-07-29 14:54+0200\n"
-"PO-Revision-Date: 2003-07-24 12:14+0200\n"
-"Last-Translator: Mattias Newzella <newzella@linux.nu>\n"
+"PO-Revision-Date: 2003-07-30 14:01+0200\n"
+"Last-Translator: Lars Westergren <lars.westergren@home.se>\n"
 "Language-Team: Svenska <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -68,7 +69,7 @@ msgid ""
 "  --quiet         - do not print tag name (default if no tag given on command"
 msgstr ""
 "  --quiet         - visa inte taggen \"name\" (antas om ingen tagg angivits "
-"på"
+"till kommadot)"
 
 #: placeholder.h:23
 msgid "                    line, incompatible with interactive mode)."
@@ -291,8 +292,8 @@ msgid ""
 "unable to access first installation medium (no Mandrake/base/hdlists file "
 "found)"
 msgstr ""
-"kan inte komma åt det första installationsmediumet (ingen Mandrake/base/"
-"hdlists-fil hittad)"
+"kan inte läsa det första installationsmediumet (hittade ingen Mandrake/base/"
+"hdlists-fil)"
 
 #: ../urpmi:1
 #, c-format
@@ -398,6 +399,9 @@ msgid ""
 "have to be removed for others to be upgraded:\n"
 "%s\n"
 msgstr ""
+"Installationen kan inte fortsätta eftersom följande paket måste\n"
+"tas bort så att andra kan uppgraderas:\n"
+"%s\n"
 
 #: ../urpme:1
 #, c-format
@@ -426,7 +430,7 @@ msgstr "hämtning av käll-hdlist (eller synthesis) misslyckades"
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
-msgstr ""
+msgstr "Kan ej behandla media \"%s\" eftersom ingen fillista [%s] existerar"
 
 #: ../urpmi:1
 #, c-format
@@ -462,24 +466,26 @@ msgstr "  --all           - visa alla taggar.\n"
 #, c-format
 msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr ""
+"Felkonfigurerat media \"%s\" är markerat som borttagningsbart men är inte det"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "virtual medium \"%s\" should not have defined hdlist or list file, medium "
 "ignored"
 msgstr ""
-"media \"%s\" försöker använda en hdlist som redan används, media ignorerat"
+"virutellt media \"%s\" bör inte ha en hdlist eller listfil definierad, media "
+"ignorerat"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
-msgstr "kopierar käll-hdlist (eller synthesis) för \"%s\"..."
+msgstr "Beräknar md5sum för kopierad käll-hdlist (eller synthesis)"
 
 #: ../urpmi:1
 #, c-format
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr "  --excludepath  - undantagssökväg separerad av komma.\n"
+msgstr "  --excludepath  - ignorera sökväg separerad av komma.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -502,6 +508,9 @@ msgid ""
 "                   are going to be installed or upgraded,\n"
 "                   default is %d.\n"
 msgstr ""
+"  --split-level  -dela upp i små transaktioner om fler än angivna paket\n"
+"                   kommer att installeras eller uppgraderas,\n"
+"                   förvalt alternativ är %d\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -536,6 +545,9 @@ msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+"  --keep         - behåll om möjligt existerande paket, ignorera "
+"efterfrågade \n"
+"                   paket som leder till avinstalleringar.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -697,9 +709,9 @@ msgstr ""
 "(en av %s)\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "trying to promote %s"
-msgstr "Ingenting att ta bort"
+msgstr "försöker befordra %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -815,12 +827,12 @@ msgstr "  -e             - inkludera perl-kod direkt som perl -e.\n"
 #: ../urpmi:1
 #, c-format
 msgid "do you agree ?"
-msgstr "håller du med?"
+msgstr "accepterar du?"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
-msgstr ""
+msgstr "Felaktiv listfil för \"%s\", ignorerar media"
 
 #: ../urpm.pm:1 ../urpmi.addmedia:1
 #, c-format
@@ -911,10 +923,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Prova att installera utan att kontrollera behov av andra filer? (j/N) "
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" is not local, medium ignored"
-msgstr ""
-"media \"%s\" försöker använda en lista som redan används, media ignorerat"
+msgstr "Virtuellt media \"%s\" är inte tillgängligt lokalt, ignorerar media"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -927,13 +938,13 @@ msgid "using different removable device [%s] for \"%s\""
 msgstr "använder annan flyttbar enhet [%s] för \"%s\""
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --no-probe     - do not try to find any synthesis or\n"
 "                   hdlist file.\n"
 msgstr ""
-"  -h             - försök att hitta och använda synthesis eller\n"
-"                 hdlist-fil.\n"
+"  --no-probe     - försök ej hitta någon syntheses eller\n"
+"                   hdlist fil.\n"
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
@@ -957,12 +968,13 @@ msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts     - visa taggen \"conflicts\": alla konflikter.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
 "ignored"
 msgstr ""
-"media \"%s\" försöker använda en hdlist som redan används, media ignorerat"
+"Virtuellt media \"%s\" bör ha giltig hdlist eller synthesis källa, media\n"
+"ignorerat"
 
 #: ../urpme:1
 #, c-format
@@ -1027,6 +1039,8 @@ msgid ""
 "medium \"%s\" uses an invalid list file:\n"
 "  mirror is probably not up-to-date, trying to use alternate method"
 msgstr ""
+"Media \"%s\" använder en ogiltig listfil:\n"
+"  spegeln är förmodligen inaktuell, försök använda en alternativ metod"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1051,7 +1065,7 @@ msgstr "  --limit-rate   - begränsa nedladdningshastigheten.\n"
 #: ../urpm.pm:1
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
-msgstr ""
+msgstr "hittat undersökt hdlist (eller synthesis) som %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1074,9 +1088,9 @@ msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
 msgstr "urpmq: okänd flagga \"-%s\", använd --help för hjälp\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of existing source hdlist (or synthesis)"
-msgstr "kopierar käll-hdlist (eller synthesis) för \"%s\"..."
+msgstr "Beräknar md5sum för existerande hdlist (eller synthesis) källa"
 
 #: ../urpmq:1
 #, c-format
@@ -1130,16 +1144,14 @@ msgid ""
 msgstr "  --force        - tvinga användning även om vissa paket inte finns.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "kunde ej skapa media \"%s\"\n"
+msgstr "Kunde ej hämta sökväg för borttagbart media \"%s\""
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-synthesis - try to find and use synthesis file.\n"
-msgstr ""
-"  -h             - försök att hitta och använda synthesis eller\n"
-"                 hdlist-fil.\n"
+msgstr "  --probe-synthesis - försök hitta och använda synthesis fil.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1189,7 +1201,7 @@ msgstr "kunde inte läsa RPM-fil [%s] från media \"%s\""
 #: ../urpm.pm:1
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
-msgstr ""
+msgstr "bygg dhlist synthesis fil för media \"%s\""
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1315,7 +1327,7 @@ msgstr "curl saknas\n"
 #: ../urpm.pm:1
 #, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr ""
+msgstr "hittade parallella hanterare för noder: %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1393,7 +1405,7 @@ msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
-"  --arch         - använd specificerad akritektur, förvalt är arkitekturen\n"
+"  --arch         - använd specificerad arkitektur, förvalt är arkitekturen\n"
 "                   i installerat mandrake-release-paket.\n"
 
 #: ../_irpm:1 ../urpme:1 ../urpmi:1
@@ -1418,7 +1430,7 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr ""
+msgstr "undersöker parallell hanterare i fil [%s]"
 
 #: ../urpme:1
 #, c-format
@@ -1550,6 +1562,8 @@ msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
 "                   only file:// protocol is allowed.\n"
 msgstr ""
+"  --virtual      - skapa virtuellt media som alltid är uppdaterat, endast\n"
+"                   fil:// protokoll är tillåtet.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1586,10 +1600,11 @@ msgid "ssh is missing\n"
 msgstr "SSH saknas\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr "  --media         - använd endast givet media, separerat med komma.\n"
+msgstr ""
+"  --sortmedia    - sorterar media enligt kommaseparerade substrängar.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1636,10 +1651,9 @@ msgid "copying hdlists file..."
 msgstr "kopierar hdlist-fil..."
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-msgstr ""
-"media \"%s\" försöker använda en lista som redan används, media ignorerat"
+msgstr "virtuellt media \"%s\" bör ha en tydlig URL, media ignorerat"
 
 #: ../urpmf:1
 #, c-format
@@ -1672,6 +1686,8 @@ msgid ""
 "unable to take care of medium \"%s\" as list file is already used by another "
 "medium"
 msgstr ""
+"kan ej använda media \"%s\" eftersom listfilen redan används av ett annat "
+"media"
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1689,9 +1705,9 @@ msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr "        %s%% av %s klart ETA=%s, hastighet=%s"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr "hämtning av käll-hdlist (eller synthesis) misslyckades"
+msgstr "beräknar md5sum för hämtade hdlist (eller syntheses) källor"
 
 #: ../urpmi:1
 #, c-format
@@ -1699,6 +1715,8 @@ msgid ""
 "  --no-uninstall - never ask to uninstall a package, abort the "
 "installation.\n"
 msgstr ""
+"  --no-uninstall - fråga aldrig om ett paket ska avinstalleras, avbryt "
+"installationen.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1750,6 +1768,7 @@ msgstr "kunde inte hitta hdlist-fil för \"%s\", media ignorerat"
 #, c-format
 msgid "  --split-length - small transaction length, default is %d.\n"
 msgstr ""
+"  --split-length - liten transaktionslängd, förvalt alternativ är %d.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -1775,6 +1794,8 @@ msgid ""
 "this could happen if you mounted manually the directory when creating the "
 "medium."
 msgstr ""
+"Kan ej läsa media \"%s\"\n"
+"detta kan hända om du manuellt mountade katalogen när du skapade detta media."
 
 #: ../urpmf:1
 #, c-format
@@ -1866,9 +1887,9 @@ msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "ogiltig hdlist-beskrivning \"%s\" i hdlist-fil"
 
 #: ../urpme:1 ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s"
-msgstr "tar bort paket %s"
+msgstr "tar bort %s"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1877,7 +1898,7 @@ msgid ""
 "                   distribution, XXX may be main, contrib, updates or\n"
 "                   anything else that has been configured ;-)\n"
 msgstr ""
-"  --distrib-XXX  - skapa automatiskt ett medium för XXX-delen av en\n"
+"  --distrib-XXX  - skapa automatiskt ett media för XXX-delen av en\n"
 "                   distribution, XXX kan vara huvuddelen, \"contrib\", "
 "uppdateringar eller\n"
 "                   någonting annat som har blivit inställt.\n"
@@ -1888,9 +1909,9 @@ msgid "  --size         - print tag size: size.\n"
 msgstr "  --size          - visa taggen \"size\": storlek.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "in order to keep %s"
-msgstr "för att installera %s"
+msgstr "för att behålla %s"
 
 #: ../urpm.pm:1
 #, c-format
