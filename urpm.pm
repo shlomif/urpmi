@@ -443,7 +443,7 @@ sub add_distrib_media {
 	    unlink "$urpm->{cachedir}/partial/hdlists";
 	    $urpm->{log}(_("copying hdlists file..."));
 	    system("cp", "-a", $hdlists_file, "$urpm->{cachedir}/partial/hdlists") ?
-	      $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
+	      $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
 	} else {
 	    $urpm->{error}(_("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
 	}
@@ -662,7 +662,7 @@ sub update_media {
 	    if (-e "$dir/../descriptions") {
 		$urpm->{log}(_("copying description file of \"%s\"...", $medium->{name}));
 		system("cp", "-a", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") ?
-		  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
+		  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
 	    }
 
 	    #- if the source hdlist is present and we are not forcing using rpms file
@@ -670,7 +670,7 @@ sub update_media {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		$urpm->{log}(_("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 		system("cp", "-a", "$with_hdlist_dir", "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
-		  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
+		  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
 
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
 		  $error = 1, $urpm->{error}(_("copy of [%s] failed", "$with_hdlist_dir"));
@@ -695,7 +695,7 @@ sub update_media {
 		    if (-s "$dir/$local_list") {
 			$urpm->{log}(_("copying source list of \"%s\"...", $medium->{name}));
 			system("cp", "-a", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
-			  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
+			  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
 		    }
 		}
 	    } else {

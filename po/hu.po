@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.7\n"
-"POT-Creation-Date: 2002-01-23 23:41+0100\n"
-"PO-Revision-Date: 2001-12-02 15:34GMT+1\n"
+"POT-Creation-Date: 2002-01-28 12:56+0100\n"
+"PO-Revision-Date: 2002-01-28 00:56GMT+1\n"
 "Last-Translator: Arpad Biro <biro_arpad@yahoo.com>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +155,7 @@ msgstr "további opciókért próbálja meg az \"urpmf --help\" parancsot"
 
 #: po/placeholder.h:28
 msgid "no full media list was found"
-msgstr ""
+msgstr "teljes adatforráslista nem található"
 
 #: po/placeholder.h:29
 #, c-format
@@ -164,7 +164,7 @@ msgstr "a beállítások mentése nem sikerült: \"%s\""
 
 #: po/placeholder.h:30 urpm.pm:1868
 msgid "retrieving rpms files..."
-msgstr ""
+msgstr "RPM fájlok behozatala..."
 
 #: po/placeholder.h:31
 msgid "examining whole urpmi database"
@@ -185,6 +185,8 @@ msgid ""
 "unable to access first installation medium (no Mandrake/base/hdlists file "
 "found)"
 msgstr ""
+"az elsõ telepítési adatforrás nem elérhetõ (Mandrake/base/hdlists fájl nem "
+"található)"
 
 #: po/placeholder.h:35 urpm.pm:280
 #, c-format
@@ -205,12 +207,11 @@ msgstr "semmi nem került a listafájlba: \"%s\""
 #: po/placeholder.h:38
 #, c-format
 msgid "retrieving description file of \"%s\"..."
-msgstr ""
+msgstr "\"%s\" leírásfájljának behozatala..."
 
 #: po/placeholder.h:39
-#, fuzzy
 msgid "unable to access first installation medium"
-msgstr "\"%s\" listafájlja nem elérhetõ; az adatforrás nem kerül feldolgozásra"
+msgstr "az elsõ telepítési adatforrás nem elérhetõ"
 
 #: po/placeholder.h:40 urpm.pm:1744
 #, c-format
@@ -241,7 +242,7 @@ msgstr ""
 
 #: po/placeholder.h:45 urpm.pm:1391
 msgid "<non printable chars>"
-msgstr ""
+msgstr "<nem nyomtatható karakterek>"
 
 #: po/placeholder.h:46
 #, fuzzy
@@ -254,9 +255,9 @@ msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr "\"%s\" név nem adható az adatforrásnak, mivel már van ilyen név"
 
 #: po/placeholder.h:48
-#, fuzzy, c-format
+#, c-format
 msgid "removing medium \"%s\""
-msgstr "nem létezõ adatforrás eltávolítása: \"%s\""
+msgstr "\"%s\" adatforrás eltávolítása"
 
 #: po/placeholder.h:49 urpm.pm:240
 #, c-format
@@ -281,9 +282,9 @@ msgid "found %d headers in cache"
 msgstr "%d fejléc található a gyorstárban"
 
 #: po/placeholder.h:53
-#, fuzzy, c-format
+#, c-format
 msgid "trying to select multiple medium: %s"
-msgstr "nem létezõ adatforrás kijelölése: \"%s\""
+msgstr "több adatforrás kijelölése: \"%s\""
 
 #: po/placeholder.h:54 urpm.pm:2101
 #, c-format
@@ -328,8 +329,7 @@ msgstr "kiterjesztett függõséglista készítése ehhez: \"%s\""
 #, fuzzy
 msgid "unable to build hdlist synthesis, using parsehdlist method"
 msgstr ""
-"nem található az összes kiterjesztett függõséglista; a parsehdlist program "
-"lesz felhasználva"
+"nem készíthetõ kiterjesztett függõséglista ehhez az adatforráshoz: \"%s\""
 
 #: po/placeholder.h:65 urpm.pm:275
 #, c-format
@@ -363,7 +363,7 @@ msgstr "kiterjesztett függõséglista olvasása: \"%s\""
 #: po/placeholder.h:70 urpm.pm:98
 #, c-format
 msgid "wget failed: exited with %d or signal %d\n"
-msgstr ""
+msgstr "a wget hibával lépett ki: \"%d\" hibakód vagy \"%d\" szignál\n"
 
 #: po/placeholder.h:71
 #, c-format
@@ -380,176 +380,180 @@ msgstr "hibás bevitel: \"%s\""
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "több csomag létezik azonos RPM fájlnévvel: \"%s\""
 
-#: po/placeholder.h:74 urpm.pm:212
+#: po/placeholder.h:74
+msgid "...copying failed"
+msgstr "...a másolás sikertelen"
+
+#: po/placeholder.h:75 urpm.pm:212
 #, c-format
 msgid "medium \"%s\" tries to use an already used list, medium ignored"
 msgstr ""
 "a(z) \"%s\" adatforrás egy használatban levõ listát próbált használni; az "
 "adatforrás nem kerül feldolgozásra"
 
-#: po/placeholder.h:75
-#, fuzzy
+#: po/placeholder.h:76
 msgid "retrieving hdlists file..."
-msgstr "fejléclista olvasása: \"%s\""
+msgstr "fejléclista behozatala..."
 
-#: po/placeholder.h:76 urpm.pm:253
+#: po/placeholder.h:77 urpm.pm:253
 #, c-format
 msgid "unable to access hdlist file of \"%s\", medium ignored"
 msgstr ""
 "\"%s\" fejléclistája nem elérhetõ; az adatforrás nem kerül feldolgozásra"
 
-#: po/placeholder.h:77 urpm.pm:1190
+#: po/placeholder.h:78 urpm.pm:1190
 msgid "unable to register rpm file"
 msgstr "a csomagfájl (RPM) nem regisztrálható"
 
-#: po/placeholder.h:78
+#: po/placeholder.h:79
 #, c-format
 msgid "\"%s\""
-msgstr ""
+msgstr "\"%s\""
 
-#: po/placeholder.h:79 urpm.pm:307
+#: po/placeholder.h:80 urpm.pm:307
 #, c-format
 msgid "unable to inspect list file for \"%s\", medium ignored"
 msgstr ""
 "\"%s\" listafájljának vizsgálata sikertelen; az adatforrás nem kerül "
 "feldolgozásra"
 
-#: po/placeholder.h:80
+#: po/placeholder.h:81
 #, c-format
 msgid "too many mount points for removable medium \"%s\""
 msgstr "túl sok csatlakoztatási pont ehhez a cserélhetõ adatforráshoz: \"%s\""
 
-#: po/placeholder.h:81
+#: po/placeholder.h:82
 #, c-format
 msgid "invalid hdlist description \"%s\" in hdlists file"
-msgstr ""
+msgstr "érvénytelen fejléclista-leírás a fejléclista-fájlban: \"%s\""
 
-#: po/placeholder.h:82 urpm.pm:299
+#: po/placeholder.h:83 urpm.pm:299
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
 msgstr ""
 "hibás listafájl a(z) \"%s\" adatforráshoz; az adatforrás nem kerül "
 "feldolgozásra"
 
-#: po/placeholder.h:83
+#: po/placeholder.h:84
 #, c-format
 msgid "copy of [%s] failed"
 msgstr "a(z) \"%s\" másolása nem sikerült"
 
-#: po/placeholder.h:84 urpm.pm:1398
+#: po/placeholder.h:85 urpm.pm:1398
 #, c-format
 msgid "unable to parse correctly [%s]"
 msgstr "\"%s\" nem elemezhetõ"
 
-#: po/placeholder.h:85 urpm.pm:1399
+#: po/placeholder.h:86 urpm.pm:1399
 #, c-format
 msgid "read synthesis file [%s]"
 msgstr "kiterjesztett függõséglista olvasása: \"%s\""
 
-#: po/placeholder.h:86 urpm.pm:1390 urpm.pm:1397
-#, fuzzy, c-format
+#: po/placeholder.h:87 urpm.pm:1390 urpm.pm:1397
+#, c-format
 msgid "unable to analyse synthesis data of %s"
-msgstr "fejléclista nem elemezhetõ: \"%s\""
+msgstr "\"%s\" kiterjesztett függõséglistájának elemzése sikertelen"
 
-#: po/placeholder.h:87 urpm.pm:93
+#: po/placeholder.h:88 urpm.pm:93
 msgid "no webfetch (curl or wget currently) found\n"
-msgstr ""
+msgstr "nem található webes letöltõprogram (curl vagy wget)\n"
 
-#: po/placeholder.h:88
+#: po/placeholder.h:89
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr ""
-
-#: po/placeholder.h:89
-msgid "...copying done"
-msgstr ""
+"\"%s\" forrás-fejléclistájának (illetve kiterjesztett függõséglistájának) "
+"behozatala..."
 
 #: po/placeholder.h:90
+msgid "...copying done"
+msgstr "...másolás megtörtént"
+
+#: po/placeholder.h:91
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr ""
+"\"%s\" forrás-fejléclistájának (illetve kiterjesztett függõséglistájának) "
+"másolása..."
 
-#: po/placeholder.h:91
-#, fuzzy
+#: po/placeholder.h:92
 msgid "copying hdlists file..."
-msgstr "fejléclista olvasása: \"%s\""
+msgstr "fejléclista másolása..."
 
-#: po/placeholder.h:92 urpm.pm:188 urpm.pm:200
+#: po/placeholder.h:93 urpm.pm:188 urpm.pm:200
 #, c-format
 msgid "syntax error in config file at line %s"
 msgstr "szintaktikai hiba a konfigurációs fájl következõ sorában: %s"
 
-#: po/placeholder.h:93
+#: po/placeholder.h:94
 #, c-format
 msgid "building hdlist [%s]"
 msgstr "fejléclista készítése: \"%s\""
 
-#: po/placeholder.h:94 urpm.pm:1798
+#: po/placeholder.h:95 urpm.pm:1798
 #, c-format
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "a(z) \"%s\" csomagfájl (RPM) nem olvasható a(z) \"%s\" adatforrásból"
 
-#: po/placeholder.h:95
+#: po/placeholder.h:96
 #, c-format
 msgid "added medium %s"
-msgstr ""
+msgstr "%s adatforrás felvéve"
 
-#: po/placeholder.h:96
+#: po/placeholder.h:97
 msgid "retrieve of source hdlist (or synthesis) failed"
 msgstr ""
+"a forrás-fejléclista (vagy a kiterjesztett függõséglista) beolvasása nem "
+"sikerült"
 
-#: po/placeholder.h:97 urpm.pm:1194
+#: po/placeholder.h:98 urpm.pm:1194
 msgid "error registering local packages"
 msgstr "hiba a helyi csomagok regisztrálásakor"
 
-#: po/placeholder.h:98
+#: po/placeholder.h:99
 #, c-format
 msgid "taking removable device as \"%s\""
 msgstr "a cserélhetõ eszköz a következõnek lesz véve: \"%s\""
 
-#: po/placeholder.h:99 urpm.pm:1875
+#: po/placeholder.h:100 urpm.pm:1875
 #, c-format
 msgid "...retrieving failed: %s"
-msgstr ""
+msgstr "...a behozatal sikertelen: %s"
 
-#: po/placeholder.h:100 urpm.pm:1814
+#: po/placeholder.h:101 urpm.pm:1814
 #, c-format
 msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr "a(z) \"%s\" hibás adatforrás cserélhetõnek van jelölve, pedig nem az"
 
-#: po/placeholder.h:101
-#, fuzzy, c-format
-msgid "copying description file of \"%s\"..."
-msgstr "semmi nem került a listafájlba: \"%s\""
-
 #: po/placeholder.h:102
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "\"%s\" leírásfájljának másolása..."
+
+#: po/placeholder.h:103
 #, c-format
 msgid "unable to build hdlist: %s"
 msgstr "fejléclista készítése nem sikerült: %s"
 
-#: po/placeholder.h:103 urpm.pm:1788 urpm.pm:1791 urpm.pm:1810
+#: po/placeholder.h:104 urpm.pm:1788 urpm.pm:1791 urpm.pm:1810
 #, c-format
 msgid "medium \"%s\" is not selected"
 msgstr "a(z) \"%s\" adatforrás nincs kijelölve"
 
-#: po/placeholder.h:104 urpm.pm:1185
+#: po/placeholder.h:105 urpm.pm:1185
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "érvénytelen csomagfájlnév: \"%s\""
 
-#: po/placeholder.h:105 urpm.pm:1376
+#: po/placeholder.h:106 urpm.pm:1376
 #, c-format
 msgid "unknown data associated with %s"
 msgstr "ismeretlen adat van ehhez rendelve: %s"
 
-#: po/placeholder.h:106 urpm.pm:269
+#: po/placeholder.h:107 urpm.pm:269
 #, c-format
 msgid "trying to bypass existing medium \"%s\", avoiding"
 msgstr "a(z) \"%s\" néven létezõ adatforrás elkerülése"
-
-#: po/placeholder.h:107
-msgid "...copying falied"
-msgstr ""
 
 #: po/placeholder.h:108 urpm.pm:255
 #, c-format
@@ -593,7 +597,7 @@ msgstr "\"%s\" elemzése sikertelen; a helytelen érték: \"%s\""
 #: po/placeholder.h:118
 #, c-format
 msgid "trying to select inexistent medium \"%s\""
-msgstr "nem létezõ adatforrás kijelölése: \"%s\""
+msgstr "nem létezõ adatforrás: \"%s\""
 
 #: po/placeholder.h:119 urpm.pm:1283
 #, c-format
@@ -611,13 +615,12 @@ msgid "examining hdlist file [%s]"
 msgstr "fejléclista olvasása: \"%s\""
 
 #: po/placeholder.h:122 urpm.pm:1173
-#, fuzzy
 msgid "no entries relocated in depslist"
-msgstr "bejegyzések áthelyezve a függõséglistában: %s"
+msgstr "egyetlen bejegyzés sem került áthelyezésre a függõséglistában"
 
 #: po/placeholder.h:123 urpm.pm:1873
 msgid "...retrieving done"
-msgstr ""
+msgstr "...behozatal megtörtént"
 
 #: po/placeholder.h:124 urpm.pm:1982
 #, c-format
@@ -627,7 +630,7 @@ msgstr "%s kijelölése törlésre (elavulttá vált)"
 #: po/placeholder.h:125 urpm.pm:151
 #, c-format
 msgid "curl failed: exited with %d or signal %d\n"
-msgstr ""
+msgstr "a curl hibával lépett ki: \"%d\" hibakód vagy \"%d\" szignál\n"
 
 #: po/placeholder.h:126 urpm.pm:2098
 #, c-format
@@ -641,7 +644,9 @@ msgstr "a curl nem található\n"
 #: po/placeholder.h:128
 #, fuzzy, c-format
 msgid "copying source list of \"%s\"..."
-msgstr "semmi nem került a listafájlba: \"%s\""
+msgstr ""
+"\"%s\" forrás-fejléclistájának (illetve kiterjesztett függõséglistájának) "
+"másolása..."
 
 #: po/placeholder.h:129 urpm.pm:96
 msgid "wget is missing\n"
@@ -743,6 +748,8 @@ msgstr "  -q             - néma üzemmód\n"
 #: po/placeholder.h:157
 msgid "  --complete     - use parsehdlist server to complete selection.\n"
 msgstr ""
+"  --complete     - parsehdlist szolgáltatás használata a kijelölés "
+"kiegészítéséhez\n"
 
 #: po/placeholder.h:158 urpmi:208
 #, c-format
@@ -829,16 +836,15 @@ msgid "One of the following packages is needed to install %s:"
 msgstr "A következõ csomagok valamelyikére szükség van a(z) %s telepítéséhez:"
 
 #: po/placeholder.h:182 urpmi.addmedia:72
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "no need to give <relative path of hdlist> with --distrib"
 msgstr ""
 "%s\n"
-"<a fejléclista relatív útvonala> hiányzik\n"
+"<a fejléclista relatív útvonala> --distrib esetén szükségtelen"
 
 #: po/placeholder.h:186
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
@@ -850,7 +856,7 @@ msgid ""
 "       removable://<path>\n"
 "and [options] are from\n"
 msgstr ""
-"Használat: urpmi.addmedia [--update] <név> <URL>\n"
+"Használat: urpmi.addmedia [opciók] <név> <URL> [with <relatív_útvonal>]\n"
 "ahol <URL> az alábbiak egyike lehet:\n"
 "       file://<elérési út>\n"
 "       ftp://<felhasználónév>:<jelszó>@<gépnév>/<elérési út> with <a "
@@ -858,6 +864,7 @@ msgstr ""
 "       ftp://<gépnév>/<elérési út> with <a fejléclista relatív fájlneve>\n"
 "       http://<gépnév>/<elérési út> with <a fejléclista relatív fájlneve>\n"
 "       removable://<elérési út>\n"
+"az [opciók] pedig a következõk lehetnek:\n"
 
 #: po/placeholder.h:196 urpmi.addmedia:94
 #, c-format
@@ -876,9 +883,10 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"\n"
+"ismeretlen opciók: \"%s\"\n"
 
 #: po/placeholder.h:203 po/placeholder.h:230 po/placeholder.h:245
-#, fuzzy
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - a fejlécgyorstár könyvtárának kiürítése\n"
 
@@ -892,14 +900,14 @@ msgstr ""
 "<a fejléclista relatív útvonala> hiányzik\n"
 
 #: po/placeholder.h:208 po/placeholder.h:231
-#, fuzzy
 msgid "  -f             - force generation of hdlist files.\n"
-msgstr "  -f             - alapfájlok létrehozásának kikényszerítése\n"
+msgstr "  -f             - fejléclista-fájlok létrehozásának kikényszerítése\n"
 
 #: po/placeholder.h:210
-#, fuzzy
 msgid "  -h             - try to find and use synthesis or hdlist file.\n"
-msgstr "  -f             - alapfájlok létrehozásának kikényszerítése\n"
+msgstr ""
+"  -h             - kiterj. függõséglista illetve fejléclista keresése/"
+"használata\n"
 
 #: po/placeholder.h:211 urpmi.addmedia:86
 #, c-format
@@ -911,27 +919,24 @@ msgstr ""
 "hiányzó \"with\" paraméter az FTP-s címnél\n"
 
 #: po/placeholder.h:215
-#, fuzzy
 msgid "  --update       - create an update medium.\n"
-msgstr "  --update       - csak frissítési adatforrás legyen használva\n"
+msgstr "  --update       - frissítési adatforrás létrehozása\n"
 
 #: po/placeholder.h:216
 msgid ""
 "  --distrib      - automatically create all media from an installation "
 "medium.\n"
 msgstr ""
+"  --distrib      - az összes adatforrás létrehozása telepítési "
+"adatforrásból\n"
 
 #: po/placeholder.h:217
-#, fuzzy
 msgid ""
 "usage: urpmi.update [options] <name> ...\n"
 "where <name> is a medium name to update.\n"
 msgstr ""
-"Használat: urpmi.removemedia [-a] <név> ...\n"
-"ahol <név> az eltávolítandó adatforrás neve.\n"
-"   -a    az összes adatforrás kijelölése\n"
-"\n"
-"ismeretlen paraméterek: \"%s\"\n"
+"Használat: urpmi.update [opciók] <név> ...\n"
+"ahol <név> a frissítendõ adatforrás neve.\n"
 
 #: po/placeholder.h:226 urpmi.update:59
 #, c-format
@@ -943,10 +948,9 @@ msgstr ""
 "(valamelyik ezek közül: %s)\n"
 
 #: po/placeholder.h:233
-#, fuzzy
 msgid ""
 "  -d             - force complete computation of depslist.ordered file.\n"
-msgstr "  -f             - alapfájlok létrehozásának kikényszerítése\n"
+msgstr "  -d             - teljes depslist.ordered fájl készítése\n"
 
 #: po/placeholder.h:234 urpmi.update:57
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
@@ -955,9 +959,8 @@ msgstr ""
 "felvételéhez)\n"
 
 #: po/placeholder.h:235
-#, fuzzy
 msgid "  -a             - select all non-removable media.\n"
-msgstr "  -a             - az összes nem cserélhetõ lemezeszköz kijelölése\n"
+msgstr "  -a             - az összes nem cserélhetõ adatforrás kijelölése\n"
 
 #: po/placeholder.h:236 urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
@@ -977,7 +980,7 @@ msgstr ""
 #: po/placeholder.h:246
 #, fuzzy
 msgid "  -a             - select all media.\n"
-msgstr "  -a             - az összes nem cserélhetõ lemezeszköz kijelölése\n"
+msgstr "  -a             - az összes nem cserélhetõ adatforrás kijelölése\n"
 
 #: po/placeholder.h:247
 #, fuzzy
@@ -985,11 +988,8 @@ msgid ""
 "usage: urpmi.removemedia [-a] <name> ...\n"
 "where <name> is a medium name to remove.\n"
 msgstr ""
-"Használat: urpmi.removemedia [-a] <név> ...\n"
-"ahol <név> az eltávolítandó adatforrás neve.\n"
-"   -a    az összes adatforrás kijelölése\n"
-"\n"
-"ismeretlen paraméterek: \"%s\"\n"
+"Használat: urpmi.update [opciók] <név> ...\n"
+"ahol <név> a frissítendõ adatforrás neve.\n"
 
 #: po/placeholder.h:253 urpmq:132
 msgid ""
@@ -1109,9 +1109,9 @@ msgid "urpmi version %s"
 msgstr "urpmi %s"
 
 #: urpmi.addmedia:29
-#, fuzzy
 msgid "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]"
-msgstr "Használat: urpmi.addmedia [--update] <név> <URL>"
+msgstr ""
+"Használat: urpmi.addmedia [opciók] <név> <URL> [with <relatív_útvonal>]"
 
 #: urpmi.addmedia:38 urpmi.addmedia:39 urpmi.addmedia:40 urpmi.addmedia:41
 #: urpmi.addmedia:42 urpmi.addmedia:43 urpmi.addmedia:44 urpmi.removemedia:36
@@ -1119,16 +1119,15 @@ msgstr "Használat: urpmi.addmedia [--update] <név> <URL>"
 #: urpmi.update:45 urpmi.update:46 urpmi.update:47 urpmi.update:48
 #: urpmi.update:49
 msgid ") . _("
-msgstr ""
+msgstr ") . _("
 
 #: urpmi.addmedia:45
 msgid ");"
 msgstr ");"
 
 #: urpmi.update:41
-#, fuzzy
 msgid "usage: urpmi.update [options] <name> ..."
-msgstr "Használat: urpmi.update [-a] <név> ..."
+msgstr "Használat: urpmi.update [opciók] <név> ..."
 
 #: urpmi.removemedia:38 urpmi.update:49
 msgid ", $_);"
@@ -1155,95 +1154,3 @@ msgstr "urpmq %s"
 #~ "   -a    az összes adatforrás kijelölése\n"
 #~ "\n"
 #~ "ismeretlen paraméterek: \"%s\"\n"
-
-#~ msgid "retrieve of [%s] failed"
-#~ msgstr "a(z) \"%s\" megszerzése nem sikerült"
-
-#, fuzzy
-#~ msgid "  --curl           - use curl to retrieve distant files.\n"
-#~ msgstr "  --curl         - a curl használata távoli fájlok letöltésére\n"
-
-#, fuzzy
-#~ msgid "  --wget           - use wget to retrieve distant files.\n"
-#~ msgstr "  --wget         - a wget használata távoli fájlok letöltésére\n"
-
-#~ msgid "urpmi is not installed"
-#~ msgstr "Az urpmi nincs telepítve"
-
-#~ msgid "read provides file [%s]"
-#~ msgstr "szolgáltatásjegyzék (provides) olvasása: \"%s\""
-
-#~ msgid "unable to write compss file [%s]"
-#~ msgstr "a csomaglistafájl (compss) nem írható: \"%s\""
-
-#~ msgid "unable to read provides file [%s]"
-#~ msgstr "a szolgáltatásjegyzék nem olvasható: \"%s\""
-
-#~ msgid "unable to read compss file [%s]"
-#~ msgstr "a csomaglistafájl (compss) nem olvasható: \"%s\""
-
-#~ msgid "computing dependencies"
-#~ msgstr "függõségek elemzése"
-
-#~ msgid "write provides file [%s]"
-#~ msgstr "szolgáltatásjegyzék írása: \"%s\""
-
-#~ msgid "write compss file [%s]"
-#~ msgstr "csomaglistafájl írása: \"%s\""
-
-#~ msgid "read depslist file [%s]"
-#~ msgstr "függõséglista olvasása: \"%s\""
-
-#~ msgid "unable to write provides file [%s]"
-#~ msgstr "a szolgáltatásjegyzék (provides) nem írható: \"%s\""
-
-#~ msgid "unable to read depslist file [%s]"
-#~ msgstr "a függõséglista nem olvasható: \"%s\""
-
-#~ msgid "read compss file [%s]"
-#~ msgstr "csomaglista (compss) olvasása: \"%s\""
-
-#~ msgid "write depslist file [%s]"
-#~ msgstr "függõséglista írása: \"%s\""
-
-#~ msgid "unable to write depslist file [%s]"
-#~ msgstr "a függõséglista nem írható: \"%s\""
-
-#~ msgid "curl failed\n"
-#~ msgstr "a curl hibát adott vissza\n"
-
-#~ msgid "wget failed\n"
-#~ msgstr "a wget hibát adott vissza\n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "device `%s' do not exist\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "\"%s\" eszköz nem létezik\n"
-
-#~ msgid ""
-#~ "usage: urpmi.update [-a] <name> ...\n"
-#~ "where <name> is a medium name to update.\n"
-#~ "   -a    select all non-removable media.\n"
-#~ "   -c    clean headers cache directory.\n"
-#~ "   -f    force generation of base files, use another -f for hdlist "
-#~ "files.\n"
-#~ "\n"
-#~ "unknown options '%s'\n"
-#~ msgstr ""
-#~ "Használat: urpmi.update [-a] <név> ...\n"
-#~ "ahol <név> a frissítendõ adatforrás neve.\n"
-#~ "   -a    az összes nem cserélhetõ lemezeszköz kijelölése\n"
-#~ "   -c    a fejlécgyorstár könyvtárának kiürítése\n"
-#~ "   -f    alapfájlok létrehozásának kikényszerítése; egy további -f: "
-#~ "fejléclista\n"
-#~ "\n"
-#~ "ismeretlen paraméterek: \"%s\"\n"
-
-#~ msgid ""
-#~ "  --force        - force invocation even if some packages do not\n"
-#~ "exist.\n"
-#~ msgstr ""
-#~ "  --force        - akkor is elindítja a mûveletet, ha néhány szükséges\n"
-#~ "                   csomag nem érhetõ el\n"
