@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 26mdk
+Release: 27mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,9 @@ fi
 
 
 %changelog
+* Mon Mar  3 2003 François Pons <fpons@mandrakesoft.com> 4.2-27mdk
+- avoid mounting or unmounting a supermounted device.
+
 * Fri Feb 28 2003 Pons François <fpons@mandrakesoft.com> 4.2-26mdk
 - added sanity check of list file used (fix bug 2110 by providing
   a reason why there could be download error).

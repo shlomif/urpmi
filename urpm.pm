@@ -1794,7 +1794,7 @@ sub try_mounting {
     my %infos;
 
     $dir = reduce_pathname($dir);
-    foreach (grep { ! $infos{$_}{mounted} } $urpm->find_mntpoints($dir, \%infos)) {
+    foreach (grep { ! $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount' } $urpm->find_mntpoints($dir, \%infos)) {
 	$urpm->{log}(_("mounting %s", $_));
 	`mount '$_' 2>/dev/null`;
 	$removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
@@ -1807,7 +1807,7 @@ sub try_umounting {
     my %infos;
 
     $dir = reduce_pathname($dir);
-    foreach ($urpm->find_mntpoints($dir, 'umount')) {
+    foreach (reverse grep { $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount' } $urpm->find_mntpoints($dir, \%infos)) {
 	$urpm->{log}(_("unmounting %s", $_));
 	`umount '$_' 2>/dev/null`;
 	delete $urpm->{removable_mounted}{$_};
