@@ -12,7 +12,7 @@ RPM=$(HOME)/rpm
 NAME = urpmi
 TAR = $(NAME).tar.bz2
 
-.PHONY: install clean rpm test
+.PHONY: install clean rpm test changelog
 
 install:
 	$(MAKE) -C po $@
@@ -55,3 +55,9 @@ po:
 clean:
 	$(MAKE) -C po $@
 	rm -f *~ autoirpm.update-all
+
+changelog:
+	cvs2cl -W 400 -I Changelog --accum -U ../../soft/common/username
+	rm -f *.bak
+
+log:	changelog
