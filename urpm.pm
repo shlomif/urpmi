@@ -454,6 +454,9 @@ sub configure {
 	$urpm->{root} = $options{root};
     }
 
+    $urpm->{root} && ! -c "$urpm->{root}/dev/null"
+	and $urpm->{error}(N("there doesn't seem to be devices in the chroot in \"%s\"", $urpm->{root}));
+
     if ($options{synthesis}) {
 	if ($options{synthesis} ne 'none') {
 	    #- synthesis take precedence over media, update options.
