@@ -1,52 +1,28 @@
 #!/usr/bin/perl
 
-my $DIR = "/var/lib/urpmi";
-my $DIR2 = "/etc/urpmi";
-my $CFG = "$DIR2/urpmi.cfg";
+#- Copyright (C) 2000 MandrakeSoft (fpons@mandrakesoft.com)
+#-
+#- This program is free software; you can redistribute it and/or modify
+#- it under the terms of the GNU General Public License as published by
+#- the Free Software Foundation; either version 2, or (at your option)
+#- any later version.
+#-
+#- This program is distributed in the hope that it will be useful,
+#- but WITHOUT ANY WARRANTY; without even the implied warranty of
+#- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#- GNU General Public License for more details.
+#-
+#- You should have received a copy of the GNU General Public License
+#- along with this program; if not, write to the Free Software
+#- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-$| = 1;
+#- this program is based upon old urpmi.addmedia
 
+#use strict qw(subs vars refs);
+use urpm;
 
-sub substInFile(&@) {
-    my $f = shift;
-    local @ARGV = @_ or return;
-    local ($^I, $_) = '';
-    while (<>) { &$f($_); print }
-}
-
-
-my @entries = map { /list.(.*)/ } glob("$DIR/list.*");
-
-if ($0 =~ /removemedia/) {
-    local ($_) = @ARGV or @entries ? 
-	die "missing the entry to remove\n(one of " . join(", ", @entries) . ")\n" :
-	die "nothing to remove (use urpmi.addmedia to add a media)\n";
-    foreach $e (/^--?a/ ? @entries : @ARGV) {
-	my $f;
-	$f = "$DIR/hdlist.$e"; unlink("$f.cz") || unlink("$f.cz2") or warn "failed to remove $f";
-	$f = "$DIR/list.$e";   unlink($f) or warn "failed to remove $f";
-	substInFile { s/^/\#/ if /^$e\s/ } $CFG;
-    }
-    system("urpmi.update");
-    exit 0;
-} elsif ($0 =~ /update/) {
-    my $regexp = !@ARGV || $ARGV[0] =~ /^--?a/ ? '[^#]\S*' : join('|', @ARGV);
-    system("urpmi.addmedia --noupdate $_") foreach grep { /^$regexp\s/ } `cat $CFG`;
-
-    my @hdlists = glob("$DIR/hdlist.*");
-    if (@hdlists) {
-	system("genbasefiles $DIR ". join (' ', @hdlists));
-	system("autoirpm.update");
-    }
-    exit 0;
-}
-
-my $noupdate = shift @ARGV if $ARGV[0] eq "--noupdate";
-my ($name, $url, $with, $ftp_hdlist) = @ARGV;
-my $suffix;
-
-# basic checking of arguments
-{
+sub main {
+    my ($name, $url, $with, $relative_hdlist) = @_;
     my $usage = 
 "usage: urpmi.addmedia <name> <url>
 where <url> is one of
@@ -58,64 +34,21 @@ where <url> is one of
 ";
     $name or die $usage;
     my ($type, $dev, $num) = $url =~ m,^(file|ftp|http|removable_(\w+)_(\d+))://, or die $usage;
-    $name =~ s/\s/_/g;
 
     if ($type eq "removable") {
 	$num =~ /^\d+$/ or die "$usage  bad number (is `$num')\n";
 	$dev && -e "/dev/$dev" or die "$usage  device `$dev' do not exist\n";
-    } elsif ($type eq "ftp") {
+    } elsif ($with eq "with") {
+	$relative_hdlist or die "$usage  <relative path of hdlist> missing\n";
+    } elsif ($with) {
 	$with eq "with" or die "$usage  `with' missing for ftp media\n";
-	$ftp_hdlist or die "$usage  <relative path of hdlist> missing\n";
     }
+
+    my $urpm = new urpm;
+
+    $urpm->read_config;
+    $urpm->add_medium($name, $url, $relative_hdlist);
+    $urpm->update_media;
 }
 
--e $CFG or `echo > $CFG`; # create it if not there
-$? == 0 or die "can't write to config file $CFG";
-substInFile {
-    s/^/\#/ if /^$name\s/;
-    $_ .= "$name $url $with $ftp_hdlist\n"  if eof;
-} $CFG;
-
-
-my $EXT = "cz";
-my $HDLIST = "$DIR/hdlist.$name.$EXT";
-my $RPMLIST = "$DIR/list.$name";
-
--e $DIR || mkdir $DIR, 0755 or die "can't create $DIR";
-!-e $HDLIST || unlink $HDLIST or die "can't remove $HDLIST";
-
-if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
-    if (!-e $dir && $dir =~ m|^(/mnt/[^/]*)|) {
-	$try2mount{$1} or $try2mount{$1} = 1, `mount $1 2>/dev/null`;
-    }
-    my $f;
-    if ($dir =~ /RPMS(.*)$/) {
-	$f = "$dir/Mandrake/base/hdlist$1.$EXT";
-	$f = "$dir/../base/hdlist$1.$EXT" unless -e $f;
-	$f = "$dir/../hdlist$1.$EXT" unless -e $f;
-    }
-    if (-e $f) {
-	system("cp -f $f $HDLIST");
-    } else {
-	glob("$dir/*.rpm") or die "No RPM-s found! Cowardly refusing to add $dir to urpmi DB.\n";
-	system("genhdlist_cz2 -o $HDLIST $dir");
-    }
-} else {
-    system("wget -O $HDLIST $url/$ftp_hdlist");
-    $? == 0 or die "wget of $url/$ftp_hdlist failed (maybe wget is missing?)";
-}
-
-my $mask = umask 077;
-open LIST, ">$RPMLIST" or die "can't output $RPMLIST";
-umask $mask;
-
-open F, "packdrake -c $HDLIST | parsehdlist - |";
-while (<F>) {
-    chomp;
-    print LIST "$url/$_\n";
-}
-close F or die "parsehdlist failed";
-close LIST;
-
-system("urpmi.update --noa") unless $noupdate;
-exit 0;
+main(@ARGV);
