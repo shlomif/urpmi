@@ -8,6 +8,7 @@ Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: /usr/bin/suidperl, eject, wget
 PreReq: perl-gettext, rpmtools >= 2.3-22mdk
+BuildRequires: libbzip2-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
