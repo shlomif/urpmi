@@ -184,6 +184,8 @@ sub read_config {
 	$urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
     }
 
+    eval { require urpm::ldap; urpm::ldap::load_ldap_media($urpm, %options) };
+
     #- load default values
     foreach (qw(post-clean verify-rpm)) {
 	exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
@@ -377,6 +379,7 @@ sub write_config {
 	'' => $urpm->{global_config},
     };
     foreach my $medium (@{$urpm->{media}}) {
+	next if $medium->{external}; 
 	my $medium_name = $medium->{name};
 	$config->{$medium_name}{url} = $medium->{clear_url};
 	foreach (qw(hdlist with_hdlist list removable key-ids priority priority-upgrade update ignore synthesis virtual)) {
