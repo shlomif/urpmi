@@ -147,7 +147,6 @@ sub sync_curl {
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-z file -O <file>)*
     if (my @all_files = ((map { ("-O", $_ ) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
-	print STDERR join " ", "/usr/bin/curl", "-R", "-f", @all_files;
 	system "/usr/bin/curl", "-R", "-f", @all_files;
 	$? == 0 or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
     }
@@ -1485,18 +1484,40 @@ sub filter_packages_to_upgrade {
 	delete $diffprovides{""};
 
 	foreach (keys %diffprovides) {
-	    #- check for exact match on it.
-	    if (/^(\S*)\s*(\S*)\s*(\d+:)?([^\s-]*)-?(\S*)/) {
-		rpmtools::db_traverse_tag($db,
-					  'whatrequires', [ $1 ],
-					  [ qw(name version release sense requires) ], sub{
-					      my ($p) = @_;
-					      foreach (@{$p->{requires}}) {
-						  s/\[\*\]//;
-						  s/\[([^\]]*)\]/ $1/;
-						  exists $diffprovides{$_} and $provides{$p->{name}} = undef;
-					      }
+	    #- analyse the difference in provide and select other package.
+	    if (my ($n, $o, $e, $v, $r) = /^(\S*)\s*(\S*)\s*(\d+:)?([^\s-]*)-?(\S*)/) {
+		rpmtools::db_traverse_tag($db, 'whatprovides', [ $n ], [ qw(name version release) ], sub{
+					      $_[0]{name} eq $pkg->{name} and return;
+					      $o and $n eq $_[0]{name} || return;
+					      $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
+					      $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
+						eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
+					      $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
 					  });
+		unless (exists $provides{$n}) {
+		    foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
+			exists $conflicts{$_}{$fullname} and next;
+			my $p = $urpm->{params}{info}{$fullname};
+			$o and $n eq $p->{name} || next;
+			$v and eval(rpmtools::version_compare($p->{version}, $v) . $o . 0) || next;
+			$r && rpmtools::version_compare($p->{version}, $v) == 0 and
+			  eval(rpmtools::version_compare($p->{release}, $r) . $o . 0) || next;
+			#- this is incomplete, exact provides is not kept.
+			$provides{$n} = undef;
+		    }
+		}
+		unless (exists $provides{$n}) {
+		    rpmtools::db_traverse_tag($db,
+					      'whatrequires', [ $1 ],
+					      [ qw(name version release sense requires) ], sub{
+						  my ($p) = @_;
+						  foreach (@{$p->{requires}}) {
+						      s/\[\*\]//;
+						      s/\[([^\]]*)\]/ $1/;
+						      exists $diffprovides{$_} and $provides{$p->{name}} = undef;
+						  }
+					      });
+		}
 	    }
 	}
 
@@ -1510,8 +1531,10 @@ sub filter_packages_to_upgrade {
 		$provides{$n} ||= undef;
 		my $check_pkg = sub {
 		    $options{keep_alldeps} and return;
+		    $o and $n eq $_[0]{name} || return;
 		    $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
-		    $r and eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
+		    $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
+		      eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
 		    $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
 		};
 		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
@@ -1527,7 +1550,8 @@ sub filter_packages_to_upgrade {
 		my $check_pkg = sub {
 		    $o and $n eq $_[0]{name} || return;
 		    $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
-		    $r and eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
+		    $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
+		      eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
 		    $conflicts{$n}{"$_[0]{name}-$_[0]{version}-$_[0]{release}"} = 1;
 		    $provides{$n} ||= undef;
 		};
@@ -1537,7 +1561,8 @@ sub filter_packages_to_upgrade {
 		    my $pkg = $urpm->{params}{info}{$fullname};
 		    $o and $n eq $_[0]{name} || next;
 		    $v and eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) || next;
-		    $r and eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
+		    $r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
+		      eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
 		    $conflicts{$n}{"$pkg->{name}-$pkg->{version}-$pkg->{release}"} ||= 0;
 		}
 	    }

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.1
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -142,6 +142,11 @@ fi
 
 
 %changelog
+* Wed Jan 16 2002 François Pons <fpons@mandrakesoft.com> 3.1-8mdk
+- improved dependencies resolution (typically XFree86 newer
+  packages).
+- removed log on uploading with curl.
+
 * Tue Jan 15 2002 François Pons <fpons@mandrakesoft.com> 3.1-7mdk
 - manage conflicts for dependencies resolution.
 - added conflicts tag and obsoletes tag in synthesis.
