@@ -244,6 +244,8 @@ my %options_spec = (
 	'limit-rate=s' => \$options{limit_rate},
 	'no-md5sum' => \$options{nomd5sum},
 	'noa|d' => \my $dummy, # default, keeped for compatibility
+	'q|quiet'   => sub { --$options{verbose} },
+	'v|verbose' => sub { ++$options{verbose} },
 	'<>' => sub { push @::toupdates, $_[0] },
     },
 

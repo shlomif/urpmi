@@ -41,6 +41,8 @@ where <name> is a medium name to update.
 ") . N("  -a             - select all non-removable media.
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -f             - force generation of hdlist files.
+") . N("  -q             - quiet mode.
+") . N("  -v             - verbose mode.
 ");
     exit 0;
 }
@@ -50,9 +52,11 @@ sub main {
     my $urpm = new urpm;
 
     $options{force} = 0;
-    $options{noclean} = 1;
+    $options{noclean} = $options{verbose} = 1;
 
     urpm::args::parse_cmdline(urpm => $urpm);
+
+    $options{verbose} > 0 or $urpm->{log} = sub {};
 
     if ($< != 0) {
 	$urpm->{fatal}(1, N("Only superuser is allowed to update media"));
