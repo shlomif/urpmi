@@ -34,18 +34,21 @@ appropriate error message.)
 
 =item dump_config($file, $config)
 
+Does the opposite: write the configuration file, from the same data structure.
+Returns 1 on success, 0 on failure.
+
 =cut
 
 our $err;
 
-sub _syntax_error () { $err = N("syntax error in config file at line %s" }
+sub _syntax_error () { $err = N("syntax error in config file at line %s") }
 
 sub load_config ($) {
     my ($file) = @_;
     my %config;
     my $medium = undef;
     $err = '';
-    open my $f, $file or do { $err = "Can't read $file: $!\n"; return }
+    open my $f, $file or do { $err = "Can't read $file: $!\n"; return };
     local $_;
     while (<$f>) {
 	chomp;
@@ -67,7 +70,7 @@ sub load_config ($) {
 	    $medium = '';
 	    next;
 	}
-	if (/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/ { #-} medium definition
+	if (/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/) { #-} medium definition
 	    $config{ $medium = unquotespace $1 }{url} = unquotespace $2;
 	    next;
 	}
@@ -114,6 +117,30 @@ sub load_config ($) {
 
 sub dump_config ($$) {
     my ($file, $config) = @_;
+    my @media = sort {
+	return  0 if $a eq $b;
+	return -1 if $a eq '';
+	return  1 if $b eq '';
+	return $a cmp $b;
+    } keys %$config;
+    open my $f, '>', $file or do {
+	$err = "Can't write to $file: $!\n";
+	return 0;
+    };
+    print $f "# generated ".(scalar localtime)."\n";
+    for my $m (@media) {
+	print $f quotespace($m), ' ', quotespace($config->{$m}{url}), " {\n";
+	for (grep { $_ ne 'url' } keys %{$config->{$m}}) {
+	    if (/^(update|ignore|synthesis|virtual)$/) {
+		print $f "  $_\n";
+	    } else {
+		print $f "  $_: $config->{$m}{$_}\n";
+	    }
+	}
+	print $f "}\n\n";
+    }
+    close $f;
+    return 1;
 }
 
 __END__
