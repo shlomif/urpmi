@@ -148,6 +148,7 @@ sub read_config {
 	    split-length
 	    split-level
 	    verify-rpm
+	    norebuild
 	)) {
 	    if (defined $config->{''}{$opt} && !exists $urpm->{options}{$opt}) {
 		$urpm->{options}{$opt} = $config->{''}{$opt};
@@ -1206,18 +1207,28 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 		} else {
-		    $options{force} < 2 and $options{force} = 2;
+		    if ($urpm->{options}{norebuild}) {
+			$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
+			$medium->{ignore} = 1;
+		    } else {
+			$options{force} < 2 and $options{force} = 2;
+		    }
 		}
 
 		#- if copying hdlist has failed, try to build it directly.
 		if ($error) {
-		    $options{force} < 2 and $options{force} = 2;
-		    #- clean error state now.
-		    $error = undef;
+		    if ($urpm->{options}{norebuild}) {
+			$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
+			$medium->{ignore} = 1;
+		    } else {
+			$options{force} < 2 and $options{force} = 2;
+			#- clean error state now.
+			$error = undef;
+		    }
 		}
 
 		if ($options{force} < 2) {
-		    #- examine if a local list file is available (always probed according to with_hdlist
+		    #- examine if a local list file is available (always probed according to with_hdlist)
 		    #- and check hdlist has not be named very strangely...
 		    if ($medium->{hdlist} ne 'list') {
 			my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
@@ -1815,13 +1826,14 @@ this could happen if you mounted manually the directory when creating the medium
 			       );
 	    #- synthesis needs to be created, since the medium has been built from rpm files.
 	    eval { $urpm->build_synthesis(
-		start     => $medium->{start},
-		end       => $medium->{end},
-		synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+	        start     => $medium->{start},
+	        end       => $medium->{end},
+	        synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
 	    ) };
 	    if ($@) {
 		$urpm->{error}(N("Unable to build hdlist and synthesis files for medium \"%s\".", $medium->{name}));
 		unlink "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+		$medium->{ignore} = 1;
 	    } else {
 		$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
 	    }

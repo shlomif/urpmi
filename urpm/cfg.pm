@@ -105,6 +105,7 @@ sub load_config ($) {
 	#- boolean options
 	if (($no, $k, $v) = /^(no-)?(
 	    verify-rpm
+	    |norebuild
 	    |fuzzy
 	    |allow-(?:force|nodeps)
 	    |(?:pre|post)-clean
@@ -116,6 +117,7 @@ sub load_config ($) {
 	) {
 	    my $yes = $no ? 0 : 1;
 	    $no = $yes ? 0 : 1;
+	    $v = '' unless defined $v;
 	    $config{$medium}{$k} = $v =~ /^(yes|on|1|)$/i ? $yes : $no;
 	    next;
 	}

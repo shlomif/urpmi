@@ -104,6 +104,7 @@ my %options_spec = (
 	    $options{X} ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0
 	},
 	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
+	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1] },
 	'test!' => \$::test,
 	'skip=s' => \$options{skip},
 	'root=s' => \$::root,
@@ -248,6 +249,7 @@ my %options_spec = (
 	'noa|d' => \my $dummy, # default, keeped for compatibility
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
+	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1]; $options{force} = 0 },
 	'<>' => sub { push @::toupdates, $_[0] },
     },
 
@@ -295,7 +297,7 @@ foreach my $k ("help|h", "version", "wget", "curl", "proxy=s", "proxy-user=s") {
 }
 
 foreach my $k ("help|h", "wget", "curl", "proxy=s", "proxy-user=s", "c", "f", "z",
-    "limit-rate=s", "no-md5sum", "update")
+    "limit-rate=s", "no-md5sum", "update", "norebuild!")
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
