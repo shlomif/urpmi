@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-11-26 11:39+0100\n"
-"PO-Revision-Date: 2004-08-27 20:16+0800\n"
+"PO-Revision-Date: 2004-12-05 01:16+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: Mandrake Simplified Chinese <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -277,7 +277,7 @@ msgstr "虚拟介质“%s”不是本地的，介质被忽略"
 #: ../urpm.pm:546
 #, c-format
 msgid "Search start: %s end: %s"
-msgstr ""
+msgstr "搜索开始：%s 结束：%s"
 
 #: ../urpm.pm:551 ../urpm.pm:981 ../urpm.pm:1065 ../urpm.pm:1134
 #: ../urpm.pm:1522
@@ -312,9 +312,9 @@ msgid "medium \"%s\" already exists"
 msgstr "介质“%s”已存在"
 
 #: ../urpm.pm:640
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium needs to be local"
-msgstr "虚拟介质“%s”不是本地的，介质被忽略"
+msgstr "虚拟介质必须是本地的"
 
 #: ../urpm.pm:666
 #, c-format
@@ -464,7 +464,7 @@ msgstr "正在从[%s]读取 rpm 文件"
 #: ../urpm.pm:1257
 #, c-format
 msgid "no rpms read"
-msgstr ""
+msgstr "没有读到 rpm"
 
 #: ../urpm.pm:1267
 #, c-format
@@ -562,6 +562,7 @@ msgid ""
 "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
 "corrupted."
 msgstr ""
+"无法创建介质“%s”的综合文件。您的 hdlist 文件可能已经损坏。"
 
 #: ../urpm.pm:1810 ../urpm.pm:1845 ../urpmi:360
 #, c-format
@@ -616,7 +617,7 @@ msgstr "注册本地软件包出错"
 #: ../urpm.pm:2005
 #, c-format
 msgid "Search"
-msgstr ""
+msgstr "搜索"
 
 #: ../urpm.pm:2096
 #, c-format
@@ -796,7 +797,7 @@ msgstr "正在检查 MD5SUM 文件"
 #: ../urpm.pm:3184
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
-msgstr ""
+msgstr "警告：%s 的 md5 校验和未在 MD5SUM 文件中找到"
 
 #: ../urpm/args.pm:89 ../urpm/args.pm:96
 #, c-format
@@ -1163,11 +1164,11 @@ msgstr ""
 "用法:\n"
 
 #: ../urpmi:78 ../urpmq:46
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested (or updated) "
 "packages.\n"
-msgstr "  --media        - 只使用列出的介质，介质之间用逗号分隔。\n"
+msgstr "  --searchmedia  - 只使用给定介质来搜索请求(或更新的)的软件包。\n"
 
 #: ../urpmi:81
 #, c-format
@@ -1360,14 +1361,14 @@ msgstr ""
 "  --more-choices - 如果找到了多个软件包，则提供多个选择而不是默认选择。\n"
 
 #: ../urpmi:129 ../urpmi.addmedia:75 ../urpmi.update:41
-#, fuzzy, c-format
+#, c-format
 msgid "  --norebuild    - don't try to rebuild hdlist if not readable.\n"
-msgstr "  --buildhost    - 打印标识符创建主机: 创建主机。\n"
+msgstr "  --norebuild    - 如果 hdlist 不可读的话，不尝试重新创建。\n"
 
 #: ../urpmi:130
 #, c-format
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
-msgstr ""
+msgstr "  --strict-arch  - 更新只限于相同体系的软件包。\n"
 
 #: ../urpmi:131 ../urpmq:77
 #, c-format
@@ -1520,6 +1521,7 @@ msgid ""
 "that are older than the installed ones:\n"
 "%s"
 msgstr ""
+"下列软件包无法安装，因为它们所依赖的软件包版本低于目前所安装的版本：\n%s"
 
 #: ../urpmi:453 ../urpmi:476 ../urpmi:507
 #, c-format
@@ -1794,14 +1796,14 @@ msgid "Only superuser is allowed to add media"
 msgstr "只允许超级用户添加介质"
 
 #: ../urpmi.addmedia:119
-#, fuzzy, c-format
+#, c-format
 msgid "Will create config file [%s]"
-msgstr "写入配置文件[%s]"
+msgstr "将创建配置文件[%s]"
 
 #: ../urpmi.addmedia:120
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create config file [%s]"
-msgstr "写入配置文件[%s]"
+msgstr "无法创建配置文件[%s]"
 
 #: ../urpmi.addmedia:149
 #, c-format
@@ -2091,14 +2093,3 @@ msgstr "没有找到文件列表\n"
 msgid "No changelog found\n"
 msgstr "没有找到更新日志\n"
 
-#~ msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-#~ msgstr "        已完成 %s%%，总共 %s，ETA = %s，速度 = %s"
-
-#~ msgid "        %s%% completed, speed = %s"
-#~ msgstr "        已完成 %s%%，速度 = %s"
-
-#~ msgid "relocated %s entries in depslist"
-#~ msgstr "depslist 中重新分配了 %s 项"
-
-#~ msgid "no entries relocated in depslist"
-#~ msgstr "depslist 中没有重新分配项"
