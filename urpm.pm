@@ -2217,11 +2217,12 @@ sub install_logger {
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
+
+    $db or $urpm->{fatal}(_"unable to open rpmdb");
+
     my $trans = $db->create_transaction($urpm->{root});
     my ($update, @l, %file2pkg) = (0);
     local *F;
-
-    $db or $urpm->{fatal}(_"unable to open rpmdb");
 
     foreach (@$remove) {
 	$trans->remove($_) or $urpm->{error}(_("unable to remove package %s", $_));
