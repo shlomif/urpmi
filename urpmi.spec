@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 34mdk
+Release: 35mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,13 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Wed Sep 10 2003 François Pons <fpons@mandrakesoft.com> 4.4-35mdk
+- get back skipping warning as log (so disabled by default for urpmi).
+- make sure one package is only displayed once for skipping and
+  installing log.
+- translation and cs man pages updates.
+- fixed urpmf man pages.
+
 * Mon Sep  8 2003 François Pons <fpons@mandrakesoft.com> 4.4-34mdk
 - make sure --force will answer yes for all question (except
   choosing a package and changing removable media, this means that
