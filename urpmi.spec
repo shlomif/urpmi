@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6
-%define release 2mdk
+%define version	4.6.1
+%define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -256,6 +256,13 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Nov 19 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.1-1mdk
+- reconfig.urpmi on mirrors must now begin with a magic line
+- don't create symlinks in /var/lib/urpmi, this used to mess up updates
+- warn when MD5SUM file is empty/malformed
+- use proxy to download mirror list
+- Cleanup text mode progress output
+
 * Fri Nov 12 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6-2mdk
 - New error message: "The following packages can't be installed because they
   depend on packages that are older than the installed ones"
