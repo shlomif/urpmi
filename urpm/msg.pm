@@ -3,7 +3,7 @@ package urpm::msg;
 use strict;
 use Exporter;
 our @ISA = 'Exporter';
-our @EXPORT = qw(N log_it to_utf8 message_input message toMb);
+our @EXPORT = qw(N log_it to_utf8 message_input message toMb from_utf8);
 
 #- I18N.
 eval {
@@ -12,6 +12,18 @@ eval {
     POSIX::setlocale(LC_ALL, "");
     Locale::gettext::textdomain("urpmi");
 };
+
+my $codeset; #- encoding of the current locale
+eval {
+    require I18N::Langinfo;
+    I18N::Langinfo->import(qw(langinfo CODESET));
+    $codeset = langinfo(CODESET()); # note the ()
+};
+
+sub from_utf8_full { Locale::gettext::iconv($_[0], "UTF-8", $codeset) }
+sub from_utf8_dummy { $_[0] }
+
+*from_utf8 = defined $codeset ? *from_utf8_full : *from_utf8_dummy;
 
 sub N {
     my ($format, @params) = @_;
