@@ -7,7 +7,9 @@ delete $ENV{ENV};
 delete $ENV{BASH_ENV};
 $< = $>;
 
-log_it(scalar localtime, " urpmi called with @ARGV\n");
+if (@ARGV and $ARGV[0] =~ /^-?-h/) {
+    shift @ARGV;
+}
 
 if (@ARGV and $ARGV[0] eq '--auto') {
     $auto = 1;
@@ -29,7 +31,9 @@ while (@ARGV and $ARGV[0] eq '--comment') {
     shift @ARGV;
 }
 
-@ARGV or die(_("usage: urpmi [--auto] [-a] package_name [package_names...]\n"));
+@ARGV or die(_("usage: urpmi [-h] [--auto] [-a] package_name [package_names...]\n"));
+
+log_it(scalar localtime, " urpmi called with @ARGV\n");
 
 $dir = "/var/lib/urpmi";
 $dir2 = "/etc/urpmi";
@@ -257,7 +261,7 @@ sub translate { $I18N{$_[0]} || $_[0]; }
 
 sub log_it {
     local *LOG;
-    open LOG, ">>/var/log/urpmi.log" or die;
+    open LOG, ">>/var/log/urpmi.log" or die "can't ouptput to log file\n";
     print LOG @_;
 }
 
