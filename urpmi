@@ -316,7 +316,7 @@ foreach (keys %{$urpm->{options} || {}}) {
 	unless (defined $verify_rpm) {
 	    $verify_rpm = defined $v && $v =~ /^(yes|on)$/i; $1 and $verify_rpm = ! $verify_rpm;
 	} next };
-    $urpm->{error}(_("ignoring option \"$_\" not used"));
+    $urpm->{error}(_("ignoring option \"%s\" not used", $_ ));
 }
 #- get default, this should be reworked to be more useable internally TODO.
 defined $verify_rpm or $verify_rpm = 1;
