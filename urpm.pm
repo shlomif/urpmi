@@ -319,7 +319,7 @@ sub add_medium {
 	      };
 
     #- check to see if the medium is using file protocol or removable medium.
-    if (my ($prefix, $dir) = $url =~ /^(removable_.*?|file):\/(.*)/) {
+    if (my ($prefix, $dir) = $url =~ /^(removable_?[^_:]*|file):\/(.*)/) {
 	#- the directory given does not exist or may be accessible
 	#- by mounting some other. try to figure out these directory and
 	#- mount everything necessary.
@@ -337,7 +337,7 @@ sub add_medium {
 
 	#- add some more flags for this type of medium.
 	$medium->{clear_url} = $url;
-	$medium->{removable} = $url =~ /^removable_([^_:]*)(?:_[^:]*)?:/ && "/dev/$1"; #"
+	$medium->{removable} = $url =~ /^removable_?([^_:]*)(?:_[^:]*)?:/ && "/dev/$1"; #"
     }
 
     #- all flags once everything has been computed.
@@ -469,7 +469,7 @@ sub update_media {
 	my ($prefix, $dir, $error, @files);
 
 	#- check to see if the medium is using file protocol or removable medium.
-	if (($prefix, $dir) = $medium->{url} =~ /^(removable_.*?|file):\/(.*)/) {
+	if (($prefix, $dir) = $medium->{url} =~ /^(removable_?[^_:]*|file):\/(.*)/) {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
@@ -642,7 +642,7 @@ sub update_media {
 		$target eq 'END' and $urpm->{modified} = 0, last; #- assume everything is ok.
 		my $basename = $target =~ /^.*\/([^\/]*)$/ && $1;
 
-		if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_.*?|file):\/(.*)/) {
+		if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_?[^_:]*|file):\/(.*)/) {
 		    #- the directory should be existing in any cases or this is an error
 		    #- so there is no need of trying to mount it.
 		    if (-e "$dir/$basedir/$basename") {
@@ -1291,6 +1291,7 @@ sub filter_minimal_packages_to_upgrade {
 			foreach (@{$urpm->{params}{provides}{$1}}) {
 			    if (/(.*?-[^-]*-[^-]*)\.([^\-\.]*)$/ && $pre_fullname eq $1 && ($found = $urpm->{params}{info}{$_})) {
 				foreach my $tag (keys %info) {
+				    #print STDERR "titi $tag $_, ", join(", ", keys(%$found), values(%$found), 'END'), "\n" if /xterm/;
 				    $found->{$tag} ||= $info{$tag};
 				}
 				return 1; #- we have found the right info.
@@ -1433,13 +1434,8 @@ sub filter_minimal_packages_to_upgrade {
 				     $r and eval(rpmtools::version_compare($_[0]{release}, $v) . $o . 0) || return;
 				     $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
 				 };
-				 if ($n =~ m|^/|) {
-				     rpmtools::db_traverse_tag($db, 'path', [ $n ],
-							       [ qw (name version release) ], $check_pkg);
-				 } else {
-				     rpmtools::db_traverse_tag($db, 'whatprovides', [ $n ],
-							       [ qw (name version release) ], $check_pkg);
-				 }
+				 rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
+							   [ qw (name version release) ], $check_pkg);
 			     }
 			 });
 
@@ -1656,12 +1652,12 @@ sub upload_source_packages {
 	my ($id, $device, $copy) = @_;
 	my $medium = $urpm->{media}[$id];
 	$media{$id} = undef;
-	if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_[^:]*|file):\/(.*)/) {
+	if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_?[^_:]*|file):\/(.*)/) {
 	    my $count_not_found = sub {
 		my $not_found;
 		if (-e $dir) {
 		    foreach (@{$list->[$id]}) {
-			/^(removable_[^:]*|file):\/(.*\/([^\/]*))/ or next;
+			/^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
 			-r $2 or ++$not_found;
 		    }
 		} else {
@@ -1684,7 +1680,7 @@ sub upload_source_packages {
 	    if (-e $dir) {
 		my @removable_sources;
 		foreach (@{$list->[$id]}) {
-		    /^(removable_[^:]*|file):\/(.*\/([^\/]*))/ or next;
+		    /^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
 		    -r $2 or $urpm->{error}(_("unable to read rpm file [%s] from medium \"%s\"", $2, $medium->{name}));
 		    if ($copy) {
 			push @removable_sources, $2;
@@ -1710,7 +1706,7 @@ sub upload_source_packages {
 	#- examine non removable device but that may be mounted.
 	if ($medium->{removable}) {
 	    push @{$removables{$medium->{removable}} ||= []}, $_;
-	} elsif (my ($prefix, $dir) = $medium->{url} =~ /^(removable_[^:]*|file):\/(.*)/) {
+	} elsif (my ($prefix, $dir) = $medium->{url} =~ /^(removable_?[^_:]*|file):\/(.*)/) {
 	    -e $dir || $urpm->try_mounting($dir) or
 	      $urpm->{error}(_("unable to access medium \"%s\"", $medium->{name})), next;
 	}
@@ -1741,7 +1737,7 @@ sub upload_source_packages {
 	exists $media{$_} and next;
 	@{$list->[$_]} or next;
 	foreach (@{$list->[$_]}) {
-	    if (/^(removable_[^:]*|file):\/(.*)/) {
+	    if (/^(removable_?[^_:]*|file):\/(.*)/) {
 		push @sources, $2;
 	    } elsif (/^([^:]*):\/(.*\/([^\/]*))/) {
 		if ($force_local) {

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.0
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -112,6 +112,11 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Fri Nov  9 2001 François Pons <fpons@mandrakesoft.com> 2.0-2mdk
+- added error message if not root.
+- fixed some removable device bad regexp (to support new format).
+- avoid installing source package (downloaded but ignored).
+
 * Tue Nov  6 2001 François Pons <fpons@mandrakesoft.com> 2.0-1mdk
 - no more need for removable device selection in URL (autoprobe but need removable://)
   but old description still accepted.
