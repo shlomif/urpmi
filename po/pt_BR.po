@@ -6,12 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
 "POT-Creation-Date: 2001-04-23 15:20+0200\n"
-"PO-Revision-Date: 2000-10-13 20:09-0300\n"
+"PO-Revision-Date: 2001-04-24 14:37GMT-0300\n"
 "Last-Translator: Andrei Bosco Bezerra Torres <andreibt@uol.com.br>\n"
-"Language-Team: Português Brasileiro\n"
+"Language-Team: Português Brasileiro <andreibt@uol.com.br>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 0.6\n"
 
 #: _irpm:21
 msgid "installing $rpm\n"
@@ -22,6 +23,8 @@ msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Instalação automática de pacotes...\n"
+"Você pediu a instalação do pacote $rpm\n"
 
 #: _irpm:31 urpmi:234
 msgid "Is it ok?"
@@ -49,15 +52,15 @@ msgstr " (S/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: comando não encontrado\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "utilização: rpmf [<arquivo>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi não está instalado"
 
 #: placeholder.h:8
 #, c-format
@@ -83,6 +86,27 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi versão %s\n"
+"Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
+"Esse é um software livre e pode ser distribuído de acordo com os termos do "
+"GNU GPL.\n"
+"utilização:\n"
+"  --help           - exibe esta mensagem de ajuda.\n"
+"  --auto           - automaticamente seleciona um bom pacote.\n"
+"  --auto-select    - automaticamente seleciona pacotes para atualizar o "
+"sistema.\n"
+"  --force          - força invocação mesmo que alguns pacotes não existam.\n"
+"  --X              - usa a interface X.\n"
+"  --best-output    - escolhe a melhor interface de acordo com o ambiente:\n"
+"                     X ou modo texto.\n"
+"  -a               - selectiona todas as igualdades na linha de comando.\n"
+"  -m               - escolhe o mínimo de fechamento de requerimentos "
+"(padrão).\n"
+"  -M               - escolhe o máximo de fechamento de requerimentos.\n"
+"  -c               - escolhe o método completo para decisão de fechamento de "
+"requerimento.\n"
+"  -q               - modo silencioso.\n"
+"  -v               - modo verboso.\n"
 
 #: placeholder.h:28
 msgid ""
@@ -95,6 +119,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"utilização: urpmi.addmedia <nome> <url>\n"
+"onde <url> é uma das opções seguintes\n"
+"       file://<caminho>\n"
+"       ftp://<login>:<senha>@<host>/<caminho> com <nome relativo do arquivo "
+"do hdlist>\n"
+"       ftp://<host>/<caminho> com <nome relativo do arquivo do hdlist>\n"
+"       http://<host>/<caminho> com <nome relativo do arquivo do hdlist>\n"
+"       <dispositivo>_removível://<caminho>\n"
 
 #: placeholder.h:37 urpmi.addmedia:52
 #, c-format
@@ -102,6 +134,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`with' faltando para mídia ftp\n"
 
 #: placeholder.h:41 urpmi.addmedia:48
 #, c-format
@@ -109,6 +143,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"dispositivo `%s' não existe\n"
 
 #: placeholder.h:45 urpmi.addmedia:50
 #, c-format
@@ -116,9 +152,11 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<caminho relativo do hdlist> faltando\n"
 
 #: placeholder.h:49
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "usage: urpmi.update [-a] <name> ...\n"
 "where <name> is a medium name to update.\n"
@@ -128,6 +166,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"utilização: urpmi.update [-a] <nome> ...\n"
+"onde <nome> é o nome da mídia a ser atualizada.\n"
+"   -a    seleciona todas as mídias não-removíveis.\n"
+"\n"
+"opções desconhecidas '%s'\n"
 
 #: placeholder.h:58 urpmi.update:58
 #, c-format
@@ -135,6 +178,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"a entrada a ser atualizada está faltando\n"
+"(uma de %s)\n"
 
 #: placeholder.h:62
 #, c-format
@@ -145,6 +190,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"utilização: urpmi.removemedia [-a] <nome> ...\n"
+"onde <nome> é o nome da mídia a ser removida.\n"
+"   -a    seleciona todas as mídias.\n"
+"\n"
+"opções desconhecidas '%s'\n"
 
 #: placeholder.h:69 urpmi.removemedia:53
 #, c-format
@@ -152,11 +202,13 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"a entrada para remover está faltando\n"
+"(um de %s)\n"
 
 #: urpmi:56
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi versão %s"
 
 #: urpmi:146
 msgid "Only superuser is allowed to install local packages"
@@ -185,9 +237,9 @@ msgstr ""
 "(%d MB)"
 
 #: urpmi:264
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Favor inserir o %s chamado %s"
+msgstr "Favor inserir a mídia chamada  \"%s\" no dispositivo [%s]"
 
 #: urpmi:265
 msgid "Press enter when it's done..."
@@ -216,74 +268,55 @@ msgstr "Tentar instalar com ainda mais força (--force)? (s/N) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "utilização: urpmi.addmedia <nome> <url>"
 
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
-msgstr ""
+msgstr "incapaz de criar mídia \"%s\"\n"
 
 #: urpmi.addmedia:64
 #, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr ""
+msgstr "incapaz de atualizar mídia \"%s\"\n"
 
 #: urpmi.update:43
 msgid "usage: urpmi.update [-a] <name> ..."
-msgstr ""
+msgstr "utilização: urpmi.update [-a] <nome> ..."
 
 #: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nada para atualizar (use urpmi.addmedia para adicionar uma mídia)\n"
 
 #: urpmi.removemedia:39
 msgid "usage: urpmi.removemedia [-a] <name> ..."
-msgstr ""
+msgstr "utilização: urpmi.removemedia [-a] <nome> ..."
 
 #: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nada para remover (use urpmi.addmedia para adicionar uma mídia)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq versão %s"
 
 #: urpmq:90
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: opção desconhecida \"-$1\", cheque a utilização com --help\n"
 
 #: urpmq:92
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: não posso ler arquim rpm \"$_\"\n"
 
 #: urpmq:131
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"alguns pacotes devem ser removidos para serem atualizados, isso ainda não é "
+"suportado\n"
 
 #: urpmq:153
 msgid "unable to get source packages, aborting"
-msgstr ""
-
-#~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
-#~ msgstr ""
-#~ "utilização: urpmi [-h] [--auto] [--force] [-a] nome_do_pacote "
-#~ "[nome_dos_pacotes...]\n"
-
-#~ msgid "no package named %s\n"
-#~ msgstr "nenhum pacote chamado %s\n"
-
-#~ msgid "The following packages contain %s: %s\n"
-#~ msgstr "Os seguintes pacotes contêm %s: %s\n"
-
-#~ msgid "rpm database query failed\n"
-#~ msgstr "pesquisa do banco de dados rpm falhou\n"
-
-#~ msgid "Sorry can't find file %s, exiting"
-#~ msgstr "Desculpe, não pude encontrar o arquivo %s, saindo"
-
-#~ msgid "Failed dependencies: %s requires %s"
-#~ msgstr "As dependências falharam: %s requer %s"
+msgstr "incapaz de obter a pacotes fonte, abortando"
