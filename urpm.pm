@@ -2066,7 +2066,7 @@ sub search_packages {
 		$urpm->{error}(N("no package named %s", $_));
 		$result = 0;
 	    } elsif (values(%l) > 1 && !$options{all}) {
-		$urpm->{error}(N("The following packages contain %s: %s", $_, join(' ', keys %l)));
+		$urpm->{error}(N("The following packages contain %s: %s", $_, "\n".join("\n", sort { $a cmp $b } keys %l)));
 		$result = 0;
 	    } else {
 		foreach (values %l) {

@@ -203,6 +203,7 @@ $urpm->update_media;
 - added --sortmedia option to urpmi and urpmq.
 - improved MD5SUM file for hdlist or synthesis management, added
   md5sum in /etc/urpmi/urpmi.cfg for each media when needed.
+- improved output when multiple package are found when searching.
 
 * Mon Apr 14 2003 François Pons <fpons@mandrakesoft.com> 4.3-1mdk
 - avoid scanning all urpmi cache for checking unused rpm files.
