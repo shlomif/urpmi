@@ -2,12 +2,12 @@
 
 Name: urpmi
 Version: 1.5
-Release: 40mdk
+Release: 41mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: /usr/bin/suidperl, eject, wget
-PreReq: perl-gettext, rpmtools >= 2.3-22mdk
+PreReq: perl-gettext, rpmtools >= 2.3-25mdk
 BuildRequires: libbzip2-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -111,6 +111,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Thu Jun 14 2001 François Pons <fpons@mandrakesoft.com> 1.5-41mdk
+- build release for new rpm.
+
 * Wed May 30 2001 François Pons <fpons@mandrakesoft.com> 1.5-40mdk
 - avoid including bad rpm filename or with src arch.
 - make sure not to reference basesystem if it does not exists.
