@@ -208,6 +208,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
   medium XXX.
 - fixed bug 5802 about exotic character recognized as default answer.
 - fixed bug 5833 about urpme having Y for removing packages by default.
+- fixed parallel urpme on some cases.
 
 * Wed Sep 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-37mdk
 - fixed virtual media examination of list file.
