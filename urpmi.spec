@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Fri Feb 16 2001 François Pons <fpons@mandrakesoft.com> 1.5-4mdk
+- fixed -m mode with failed depandancies.
+
 * Fri Feb 16 2001 François Pons <fpons@mandrakesoft.com> 1.5-3mdk
 - added -m flag to urpmi for minimal upgrade.
 - fixed urpmq olding approach of local rpm (added --force too

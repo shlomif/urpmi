@@ -86,7 +86,7 @@ sub read_config {
     my ($urpm) = @_;
 
     #- keep in mind if it has been called before.
-    $urpm->{media} ||= [];
+    $urpm->{media} and return; $urpm->{media} ||= [];
 
     #- check urpmi.cfg content, if the file is old keep track
     #- of old format used.
@@ -982,18 +982,51 @@ sub filter_minimal_packages_to_upgrade {
 	    }
 	    my $pkg = $urpm->{params}{depslist}[$id];
 
+	    #- search for package that will be upgraded, and check the difference
+	    #- of provides to see if something will be altered and need to be upgraded.
+	    my %diffprovides;
+	    rpmtools::db_traverse_tag($db,
+				      'name', [ $pkg->{name} ],
+				      [ qw(name version release sense provides) ], sub {
+					  my ($p) = @_;
+					  foreach (@{$p->{provides}}) {
+					      s/\[\*\]//;
+					      s/\[([^\]]*)\]/ $1/;
+					      $diffprovides{$_} = "$p->{name}-$p->{version}-$p->{release}";
+					  }
+				      });
+	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}", "provides", sub {
+			     delete $diffprovides{$_};
+			 });
+	    foreach (keys %diffprovides) {
+		#- check for exact match on it.
+		if (/^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/) {
+		    rpmtools::db_traverse_tag($db,
+					      'whatrequires', [ $1 ],
+					      [ qw(name version release sense requires) ], sub{
+						  my ($p) = @_;
+						  foreach (@{$p->{requires}}) {
+						      s/\[\*\]//;
+						      s/\[([^\]]*)\]/ $1/;
+						      exists $diffprovides{$_} and $provides{$p->{name}} = undef;
+						  }
+					      });
+		}
+	    }
+
 	    #- iterate over requires of the packages, register them.
+	    $provides{$pkg->{name}} = undef;
 	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}", "requires", sub {
 			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/) {
 				 exists $provides{$1} and return;
 				 rpmtools::db_traverse_tag($db,
 							   'whatprovides', [ $1 ],
 							   [ qw (name version release) ], sub {
+							       $provides{$1} ||= undef;
 							       $3 and eval(rpmtools::version_compare($_[0]{version}, $3) . $2 . 0) || return;
 							       $4 and eval(rpmtools::version_compare($_[0]{release}, $4) . $2 . 0) || return;
-							       print STDERR "providing [$1] as $_[0]{name}-$_[0]{version}-$_[0]{release}\n";
 							       $provides{$1} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
-							   }) or $provides{$1} = undef;
+							   });
 			     }
 			 });
 
@@ -1001,11 +1034,10 @@ sub filter_minimal_packages_to_upgrade {
 	    #- provides files, try to minimize choice at this level.
 	    foreach (keys %provides) {
 		$provides{$_} and next;
-		print STDERR "trying to resolve [$_]\n";
 		my (@choices, @upgradable_choices);
 		foreach (@{$urpm->{params}{provides}{$_}}) {
 		    my $pkg = $urpm->{params}{info}{$_};
-		    if (! exists $packages->{$pkg->{id}}) {
+		    #if (! exists $packages->{$pkg->{id}}) {
 			#- prefer upgrade package that need to be upgraded, if they are present in the choice.
 			push @choices, $pkg;
 			rpmtools::db_traverse_tag($db,
@@ -1015,7 +1047,7 @@ sub filter_minimal_packages_to_upgrade {
 						      my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
 						      $installed{$pkg->{id}} ||= !($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0)
 						  });
-		    }
+		    #}
 		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
 		    if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
 			#- the package is already selected, or installed with a better version and release.
