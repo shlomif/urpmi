@@ -199,6 +199,8 @@ $urpm->update_media;
 
 
 %changelog
+- fixed bad file in cache not cleaned.
+
 * Thu Apr 24 2003 François Pons <fpons@mandrakesoft.com> 4.3-7mdk
 - added -v to urpme and removed default log.
 - avoid curl output to be seen.

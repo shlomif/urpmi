@@ -2210,25 +2210,30 @@ sub get_source_packages {
 	if (my ($filename) = /^([^\/]*\.rpm)$/) {
 	    my $filepath = "$urpm->{cachedir}/rpms/$filename";
 	    if (!$options{clean_all} && -s $filepath) {
-		if (exists $usefull_files{$filename} && URPM::verify_rpm($filepath, nogpg => 1, nopgp => 1) =~ /md5 OK/) {
-		    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
-			next;
-		    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
-			my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-			if (defined($id = delete $fullname2id{$fullname})) {
-			    $local_sources{$id} = $filepath;
+		if (exists $usefull_files{$filename}) {
+		    if (URPM::verify_rpm($filepath, nogpg => 1, nopgp => 1) =~ /md5 OK/) {
+			if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
+			    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
+			    next;
+			} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
+			    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
+			    if (defined($id = delete $fullname2id{$fullname})) {
+				$local_sources{$id} = $filepath;
+			    } else {
+				$options{clean_other} and unlink $filepath;
+			    }
 			} else {
 			    $options{clean_other} and unlink $filepath;
 			}
 		    } else {
-			$options{clean_other} and unlink $filepath;
+			#- this is an invalid file in cache, remove it and ignore it.
+			#- or clean options has been given meaning ignore any file in cache
+			#- remove it too.
+			unlink $filepath;
 		    }
 		} #- do not examine rpm file in cache that will not be used.
 	    } else {
-		#- this is an invalid file in cache, remove it and ignore it.
-		#- or clean options has been given meaning ignore any file in cache
-		#- remove it too.
+		#- this file should be removed or is already empty.
 		unlink $filepath;
 	    }
 	} #- no error on unknown filename located in cache (because .listing)
