@@ -47,15 +47,17 @@ N_(""
 "<relative path of hdlist> missing\n"
 ""),
 N_(""
-"the entry to update is missing\n"
-"(one of %s)\n"
-""),
-N_(""
 "usage: urpmi.update [-a] <name> ...\n"
 "where <name> is a medium name to update.\n"
 "   -a    select all non-removable media.\n"
+"   -c    clean headers cache directory.\n"
+"   -f    force generation of hdlist or base files.\n"
 "\n"
 "unknown options '%s'\n"
+""),
+N_(""
+"the entry to update is missing\n"
+"(one of %s)\n"
 ""),
 N_(""
 "usage: urpmi.removemedia [-a] <name> ...\n"

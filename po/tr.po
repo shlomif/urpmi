@@ -1,13 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # Görkem Çetin <gorkem@gelecek.com.tr> , 2000
-# Ömer Fadýl USTA <omer_fad@hotmail.com> , 2001
+# Ömer Fadýl USTA <omer_fad@hotmail.com> , 2000
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-04-04 08:43+0200\n"
-"PO-Revision-Date: 2000-01-01 01:00+0200\n"
+"POT-Creation-Date: 2001-04-23 15:20+0200\n"
+"PO-Revision-Date: 2001-04-13 01:00+0200\n"
 "Last-Translator: Ömer Fadýl USTA <omer_fad@hotmail.com>\n"
 "Language-Team: Turksih <tr@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -26,27 +26,27 @@ msgstr ""
 "Ýstediðiniz $rpm paketlerin çalýþmasý için\n"
 "otomatikmen gerekli diðer paketler kuruluyor.\n"
 
-#: _irpm:31 urpmi:235
+#: _irpm:31 urpmi:234
 msgid "Is it ok?"
 msgstr "Tamam mý?"
 
-#: _irpm:33 urpmi:238 urpmi:263
+#: _irpm:33 urpmi:237 urpmi:267
 msgid "Ok"
 msgstr "Tamam"
 
-#: _irpm:34 urpmi:239 urpmi:264
+#: _irpm:34 urpmi:238 urpmi:268
 msgid "Cancel"
 msgstr "Ýptal"
 
-#: _irpm:40 urpmi:243 urpmi:296
+#: _irpm:40 urpmi:242 urpmi:300
 msgid "Nn"
 msgstr "HhNn"
 
-#: _irpm:41 urpmi:244 urpmi:297
+#: _irpm:41 urpmi:243 urpmi:301
 msgid "Yy"
 msgstr "EeYy"
 
-#: _irpm:42 urpmi:245
+#: _irpm:42 urpmi:244
 msgid " (Y/n) "
 msgstr " (E/e) "
 
@@ -63,7 +63,7 @@ msgid "urpmi is not installed"
 msgstr "urpmi yüklü deðil"
 
 #: placeholder.h:8
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
@@ -87,7 +87,7 @@ msgid ""
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
 "urpmi sürüm %s\n"
-"(C)1999, 2000, 2001 MandrakeSoft.\n"
+"Copyright(C)1999, 2000, 2001 MandrakeSoft.\n"
 "Bu yazýlým Tamamen GNU GPL lisanslýdýr. Ýstenildiði gibi kopyasý çýkarýlýp "
 "Daðýtýlabilir. Tamamen bedavadýr.\n"
 "Kullanýmý:\n"
@@ -100,6 +100,8 @@ msgstr ""
 "  -best-output     - Durumunuz için en iyi kurulum arabirimini seçer:\n"
 "                      X veya yazý tabanlý.\n"
 "  -a               - Komut satýrýndakilerin tamamýný seçer.\n"
+"  -m               - Minunum kapanma isteðini seç (öntanýmlý).\n"
+"  -M               - Maximun kapanma isteðini seç . \n"
 "  -c               - Ýstekleri karþýlayacak tüm yöntemleri kullanýr. \n"
 "  -q               - Sesiz kipi.\n"
 "  -v               - Ayrýntý kipi.\n"
@@ -151,7 +153,24 @@ msgstr ""
 "%s\n"
 "<relative path of hdlist> eksik\n"
 
-#: placeholder.h:49 urpmi.update:56
+#: placeholder.h:49
+#, fuzzy, c-format
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"   -c    clean headers cache directory.\n"
+"   -f    force generation of hdlist or base files.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+"Kullanýmý: urpmi.update [-a] <isim> ...\n"
+"<isim> : Güncellenecek Medyadýr.\n"
+"   -a Tüm kaldýrýlanayan medyalarý seç.\n"
+"\n"
+"Bilinmeyen Parametre '%s'\n"
+
+#: placeholder.h:58 urpmi.update:58
 #, c-format
 msgid ""
 "the entry to update is missing\n"
@@ -160,17 +179,7 @@ msgstr ""
 "Güncelleme için eksik giriþler var\n"
 "(bunlardan biri %s)\n"
 
-#: placeholder.h:53
-#, c-format
-msgid ""
-"usage: urpmi.update [-a] <name> ...\n"
-"where <name> is a medium name to update.\n"
-"   -a    select all non-removable media.\n"
-"\n"
-"unknown options '%s'\n"
-msgstr ""
-
-#: placeholder.h:60
+#: placeholder.h:62
 #, c-format
 msgid ""
 "usage: urpmi.removemedia [-a] <name> ...\n"
@@ -179,8 +188,13 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"Kullanýmý: urpmi.removemedia [-a] <isim> ...\n"
+"<isim> : Kaldýrýlacak medyadýr.\n"
+"   -a Tüm medyalarý seç.\n"
+"\n"
+"Bilinmeyen Parametre '%s'\n"
 
-#: placeholder.h:67 urpmi.removemedia:53
+#: placeholder.h:69 urpmi.removemedia:53
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
@@ -194,24 +208,24 @@ msgstr ""
 msgid "urpmi version %s"
 msgstr "urpmi sürüm %s"
 
-#: urpmi:147
+#: urpmi:146
 msgid "Only superuser is allowed to install local packages"
 msgstr "Yerel paketleri kurmak için sadece sistem yöneticisi yetkilidir"
 
-#: urpmi:178
+#: urpmi:177
 msgid "One of the following packages is needed:"
 msgstr "Aþaðýdaki paketlerin bir tanesine ihtiyaç var:"
 
-#: urpmi:186
+#: urpmi:185
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Seçiminiz? (1-%d)"
 
-#: urpmi:189
+#: urpmi:188
 msgid "Sorry, bad choice, try again\n"
 msgstr "Hatalý seçenek, tekrar deneyin\n"
 
-#: urpmi:234
+#: urpmi:233
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -220,33 +234,33 @@ msgstr ""
 "Baðýmlýlýk sorununu aþabilmek için, aþaðýdaki paketlerin de kurulmasý "
 "gerekiyor (%d Mb)"
 
-#: urpmi:260
+#: urpmi:264
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr " \"%s\"i yerine yerleþtirin [%s]"
 
-#: urpmi:261
+#: urpmi:265
 msgid "Press enter when it's done..."
 msgstr "Bittiði zaman enter tuþuna basýn..."
 
-#: urpmi:275
+#: urpmi:279
 msgid "everything already installed"
 msgstr "herþey zaten kurulu durumda"
 
-#: urpmi:286
+#: urpmi:290
 #, c-format
 msgid "installing %s\n"
 msgstr "%s kuruluyor\n"
 
-#: urpmi:291 urpmi:304
+#: urpmi:295 urpmi:308
 msgid "Installation failed"
 msgstr "Kurulum baþarýsýz oldu"
 
-#: urpmi:298
+#: urpmi:302
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Paket baðýmlýlýklarýný denetlemeksizin kurulum yapmayý deneyin (e/H) "
 
-#: urpmi:305
+#: urpmi:309
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Belki daha zorlayýcý bir seçenek gerekebilir (--force)? (e/H) "
 
@@ -257,27 +271,25 @@ msgstr "Kullanýmý: urpmi.addmedia <isim> <url>"
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
-msgstr ""
+msgstr "Oluþturulamýyor \"%s\"\n"
 
 #: urpmi.addmedia:64
 #, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr ""
+msgstr "Güncellenemiyor \"%s\"\n"
 
 #: urpmi.update:43
-#, fuzzy
 msgid "usage: urpmi.update [-a] <name> ..."
-msgstr "Kullanýmý: urpmi.addmedia <isim> <url>"
+msgstr "Kullanýmý: urpmi.update [-a] <isim> ..."
 
-#: urpmi.update:54
+#: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
 "Güncellemek Hiçbirþey yok(yeni medya eklemek için \"urpmi.addmedia\")\n"
 
 #: urpmi.removemedia:39
-#, fuzzy
 msgid "usage: urpmi.removemedia [-a] <name> ..."
-msgstr "Kullanýmý: urpmi.addmedia <isim> <url>"
+msgstr "Kullanýmý: urpmi.removemedia [-a] <isim> ..."
 
 #: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
