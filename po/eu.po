@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-02-11 22:21+0100\n"
-"PO-Revision-Date: 2004-01-01 17:50+0100\n"
+"PO-Revision-Date: 2004-03-02 01:33+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Euskara <linux-eu@chanae.alphanet.ch>\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr "%s-rentzako protokolo ezezaguna definitu da"
 #: ../urpm.pm:151
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
-msgstr ""
+msgstr "ez da webfetch aurkitu, onartutako webfetch dira: %s\n"
 
 #: ../urpm.pm:167
 #, c-format
@@ -289,7 +289,7 @@ msgstr "[%s] konfigurazio-fitxategian idatzi"
 #: ../urpm.pm:764
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
-msgstr ""
+msgstr "Ezin da modu paraleloa erabili use-distrib moduarekin"
 
 #: ../urpm.pm:774
 #, c-format
@@ -496,9 +496,9 @@ msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "\"%s\"(r)en iturburuko goiburuko-zerrenda (edo laburpena) kopiatzen..."
 
 #: ../urpm.pm:1449
-#, fuzzy, c-format
+#, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
-msgstr "[%s](r)en wget-ek huts egin du (baliteke wget ez egotea)"
+msgstr "[%s]-ren kopiaketak hutsegin du (fitxategia susmagarriki txikia da)"
 
 #: ../urpm.pm:1453
 #, c-format
@@ -506,9 +506,9 @@ msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "kopiatutako iturburuen hdlist-en (edo sintesiak) md5sum kalkulatzen"
 
 #: ../urpm.pm:1455
-#, fuzzy, c-format
+#, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
-msgstr "huts egin da [%s] kopiatzean"
+msgstr "[%s]-ren kopiaketak hutsegin du (md5sum parekatze akatsa)"
 
 #: ../urpm.pm:1476 ../urpm.pm:1648 ../urpm.pm:1946
 #, c-format
@@ -887,10 +887,9 @@ msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - urpmi banatua aliasa duten makinen artean.\n"
 
 #: ../urpme:45 ../urpmi:104
-#, fuzzy, c-format
+#, c-format
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr ""
-"  --curl         - curl erabiltzen du urruneko fitxategiak berreskuratzeko.\n"
+msgstr "  --root         - erabili beste erro bat rpm instalaziorako.\n"
 
 #: ../urpme:46
 #, c-format
@@ -898,6 +897,9 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - konfiguratu urpmi bat-batean banaketa zuhaitz batetik,\n"
+"                   erabilgarria chroot bat (des)instalatzeko --root "
+"aukerarekin.\n"
 
 #: ../urpme:48 ../urpmi:134 ../urpmq:73
 #, c-format
@@ -1304,6 +1306,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - konfiguratu urpmi bat-batean banaketa zuhaitz batetik,\n"
+"                   erabilgarria chroot bat instalatzeko --root aukerarekin.\n"
 
 #: ../urpmi:107 ../urpmi.addmedia:54 ../urpmi.update:60 ../urpmq:64
 #, c-format
@@ -1323,14 +1327,13 @@ msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - mugatu jaitsiera abiadura.\n"
 
 #: ../urpmi:110
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --resume       - resume transfer of partially-downloaded files\n"
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"  --verify-rpm   - rpm sinadura egiaztatzen du instalazio aurretik\n"
-"                   (--no-verify-rpm ezgaitu egiten du, jatorrian gaituta "
-"dago).\n"
+"  --resume       - jarraitu erdi-jaitsitako fitxategiak jaisten\n"
+"                   (--no-resume ezgaitu egiten du, ezgaituta lehenetsita).\n"
 
 #: ../urpmi:112 ../urpmi.addmedia:57 ../urpmi.update:63 ../urpmq:66
 #, c-format
@@ -1440,7 +1443,7 @@ msgstr ""
 #: ../urpmi:156
 #, c-format
 msgid "Choose location to save file"
-msgstr ""
+msgstr "Hautatu fitxategiak gordetzeko kokalekua"
 
 #: ../urpmi:203 ../urpmi:210 ../urpmi.addmedia:98 ../urpmi.addmedia:105
 #: ../urpmi.update:42 ../urpmi.update:49 ../urpmq:127 ../urpmq:134
@@ -1472,21 +1475,29 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
+"Iturburu pakete bat hautatu duzu:\n"
+"\n"
+"%s\n"
+"\n"
+"Seguruenik ez zenuen zure konputagailuan instalatu nahi (instalatzeak\n"
+"iturburu-kodean aldaketak egin eta konpilatzeko aukera emango lizuke).\n"
+"\n"
+"Zer egin nahi zenuke?"
 
 #: ../urpmi:281
 #, c-format
 msgid "Do nothing"
-msgstr ""
+msgstr "Ez egin ezer"
 
 #: ../urpmi:282
 #, c-format
 msgid "Yes, really install it"
-msgstr ""
+msgstr "Bai, instalatu"
 
 #: ../urpmi:283 ../urpmi:300
 #, c-format
 msgid "Save file"
-msgstr ""
+msgstr "Gorde fitxategia"
 
 #: ../urpmi:294
 #, c-format
@@ -1497,11 +1508,16 @@ msgid ""
 "\n"
 "You may prefer to just save it. What is your choice?"
 msgstr ""
+"Ondorengo software paketea zure konputagailuan instalatzera zoaz:\n"
+"\n"
+"%s\n"
+"\n"
+"Agian soilik gordetzea nahiago duzu. Zein da zure aukera?"
 
 #: ../urpmi:299
-#, fuzzy, c-format
+#, c-format
 msgid "Install it"
-msgstr "Instalazioak huts egin du"
+msgstr "Instalatu"
 
 #: ../urpmi:306
 #, c-format
@@ -1509,6 +1525,8 @@ msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
+"[%s] direktorioa dagoeneko existitzen da, mesedez erabili beste direktorio "
+"bat akats txostenentzako edo ezabatu"
 
 #: ../urpmi:306
 #, c-format
@@ -2016,11 +2034,13 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
 msgstr ""
+"  --use-distrib  - konfiguratu urpmi bat-batean banaketa zuhaitz batetik.\n"
+"                   Honek banaketa bat itauntzeko aukera ematen du.\n"
 
 #: ../urpmq:72
-#, fuzzy, c-format
+#, c-format
 msgid "  --changelog    - print changelog.\n"
-msgstr "  --all           - etiketa guztiak inprimatu.\n"
+msgstr "  --changelog    - inprimatu aldaketa-erregistroa.\n"
 
 #: ../urpmq:74
 #, c-format
@@ -2048,10 +2068,10 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - paketeak behar duen alderantzizko bilaketa.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print useful information in human readable form.\n"
 msgstr ""
-"  -i             - inprimatu informazio baliogarria gizakiak ulertzeko "
+"  -i             - inprimatu informazio erabilgarria gizakiak ulertzeko "
 "moduan.\n"
 
 #: ../urpmq:83
@@ -2066,9 +2086,9 @@ msgstr ""
 "  -r             - inprimatu bertsioa eta askapena izenarekin batera.\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  -l             - list files in package.\n"
-msgstr "  --list           - zerrendatu eskuragarri dauden paketeak.\n"
+msgstr "  -l             - zerrendatu paketeko fitxategiak.\n"
 
 #: ../urpmq:87
 #, c-format
