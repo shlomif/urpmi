@@ -1,7 +1,6 @@
 #!/usr/bin/perl -U
 
-my $lang = $ENV{LC_ALL} || $ENV{LANGUAGE} || $ENV{LC_MESSAGES} || $ENV{LANG};
-load_po(substr($lang, 0, 2));
+load_po();
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 $< = $>;
@@ -41,7 +40,8 @@ select STDOUT; $| = 1;     # make unbuffered
 
 open F, $depsfile or die();
 foreach (<F>) {
-    my ($pack, $deps) = /(\S+)\s+\S+\s+(.*)/ or die("urpmi: bad format file $depsfile\n");
+    my ($pack, $size, $deps) = /(\S+)\s+(\S+)\s+(.*)/ or die("urpmi: bad format file $depsfile\n");
+    $size{$pack} = $size;
     $deps{$pack} = [ split ' ', $deps ];
     
     foreach $v (@ARGV) { 
@@ -77,7 +77,8 @@ foreach (@installed) {
 my %to_install; closure_deps(\%to_install, @packages); @to_install = keys %to_install;
 
 if (!$auto and difference2(\@to_install, \@packages)) {
-    my $msg = _("To satisfy dependencies, the following packages are going to be installed");
+    my $sum = 0; map { $sum += $size{$_} } @to_install;
+    my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
     my $msg2 = _("Is it ok?");
     if ($X) {
 	my $p = join "\n", @to_install;
@@ -107,7 +108,11 @@ foreach $l (@to_install) {
 	$removables{$n}->{device} = $1;
 	push @{$removables{$n}->{list}}, $_;
     } else {
-	s|^file:/||;
+	if (s|^file:/||) {
+	    if (|^(/mnt/.*?)/|) {
+		-e $_ || $try2mount{$1} or $try2mount{$1} = 1, `mount $1 2>/dev/null`;
+	    }
+	}
 	push @to_install_long, $_;
     }
 }
@@ -207,7 +212,10 @@ sub le_version {
     return $cmp < 0 || $cmp == 0 && version_compare($_[0][1], $_[1][1]) < 0;
 }
 
-
+sub toMb {
+    my $nb = $_[0] / 1024 / 1024;
+    int $nb + 0.5;
+}
 
 sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : print SAVEOUT "$_[0]\n"; }
 sub member($@) { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
@@ -227,7 +235,11 @@ sub untaint {
 
 sub load_po {
     my ($from, $to, $state, $fuzzy);
-    local *F; open F, "/usr/share/locale/$_[0]/LC_MESSAGES/urpmi.po" or return;
+
+    my $lang = $ENV{LANGUAGE} || $ENV{LC_ALL} || $ENV{LC_MESSAGES} || $ENV{LANG};
+    my $f; -e ($f = "/usr/share/locale/$_/LC_MESSAGES/urpmi.po") and last foreach split ':', $lang;
+
+    local *F; open F, $f or return;
     foreach (<F>) {
 	/^msgstr/ and $state = 1;
 	/^msgid/  && !$fuzzy and $state = 2;

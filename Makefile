@@ -7,7 +7,7 @@ URPMIDIR = $(PREFIX)/etc/urpmi
 LOCALEDIR = $(PREFIX)/usr/share/locale
 
 
-.PHONY: install
+.PHONY: install clean
 
 install: autoirpm.update-all
 	$(MAKE) -C po $@
@@ -24,6 +24,9 @@ install: autoirpm.update-all
 
 autoirpm.update-all: %: %.cc
 	$(CXX) -I/usr/include/rpm -g $< -lrpm -ldb1 -lz -o $@
+
+tar: clean
+	cd .. ; tar cfy urpmi.tar.bz2 urpmi
 
 po:
 	$(MAKE) -C $@

@@ -21,7 +21,7 @@ if ($0 =~ /removemedia/) {
     local ($_) = @ARGV or die "missing the entry to remove\n(one of " . join(", ", @entries) . ")\n";
     foreach $e (/^--?a/ ? @entries : @ARGV) {
 	my $f;
-	$f = "$DIR/hdlist.$e"; unlink $f or die "failed to remove $f";
+	$f = "$DIR/hdlist.$e"; unlink $f || unlink "$f.gz" or die "failed to remove $f";
 	$f = "$DIR/list.$e";   unlink $f or die "failed to remove $f";
 	substInFile { s/^/\#/ if /^$e\s/ } $CFG;
     }
@@ -34,7 +34,8 @@ if ($0 =~ /removemedia/) {
     }
     if (glob("$DIR/hdlist.*")) {
 	print "generating dependencies list\n";
-	system("gendepslist -h $DEPSLIST $DIR/hdlist.*");
+	system("gzip $DIR/hdlist.* 2>/dev/null"); # gzip
+	system("gzip -dc $DIR/hdlist.* | gendepslist -h $DEPSLIST -");
 	system("autoirpm.update");
     } else {
 	unlink $DEPSLIST, "$DEPSLIST.html";
