@@ -751,7 +751,7 @@ sub add_distrib_media {
 		$name ? "$descr ($name$medium)" : $descr,
 		"$url/$rpmsdir",
 		offset_pathname($url, $rpmsdir) . "/$distrib_root/" . ($options{probe_with} eq 'synthesis' ? 'synthesis.' : '') . $hdlist,
-		index_name => 0,
+		index_name => $name ? undef : 0,
 		%options,
 	    );
 
