@@ -2764,6 +2764,7 @@ sub install {
 	    push @readmes, map { [ $_, $fullname ] } grep {
 		/\bREADME(\.$trtype)?\.urpmi$/
 	    } $pkg->files();
+	    close $fh;
 	};
 	if (keys %$install || keys %$upgrade) {
 	    $options{callback_inst}  ||= \&install_logger;
