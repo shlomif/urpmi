@@ -591,8 +591,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 		message(N("removing %s", join(' ', @{!$urpm->{options}{'allow-force'} && $set->{remove} || []})), 'noX');
 	    log_it(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
-	    my $progress_nb;
-	    my $total_nb = scalar grep { m|^/| } values %transaction_sources_install, values %transaction_sources;
 	    my @l = $urpm->install(
 		!$urpm->{options}{'allow-force'} && $set->{remove} || [],
 		\%transaction_sources_install, \%transaction_sources,
