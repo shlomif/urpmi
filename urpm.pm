@@ -593,7 +593,6 @@ sub add_medium {
     my ($urpm, $name, $url, $with_hdlist, %options) = @_;
 
     #- make sure configuration has been read.
-    # (Olivier Thauvin) Yes but Why ??? Is this a workaround ?
     $urpm->{media} or $urpm->read_config;
 
     #- if a medium with that name has already been found
@@ -617,7 +616,7 @@ sub add_medium {
     $medium and $urpm->{fatal}(5, N("medium \"%s\" already exists", $medium->{name}));
 
     #- clear URLs for trailing /es.
-    $url =~ s|(.*?)/*$|$1|;
+    $url =~ s{/*$}{};
 
     #- creating the medium info.
     if ($options{virtual}) {
@@ -642,10 +641,16 @@ sub add_medium {
 	$url =~ m!^(removable[^:]*|file):/(.*)! and $urpm->probe_removable_device($medium);
     }
 
-    #- check if a password is visible, if not set clear_url.
+    #- local media have priority, other are added at the end.
+    if ($url =~ m!^file:/!) {
+	$medium->{priority} = 0.5;
+    } else {
+	$medium->{priority} = 1 + @{$urpm->{media}};
+    }
+
+    #- check whether a password is visible, if not set clear_url.
     $url =~ m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| or $medium->{clear_url} = $url;
 
-    #- all flags once everything has been computed.
     $with_hdlist and $medium->{with_hdlist} = $with_hdlist;
 
     #- create an entry in media list.
