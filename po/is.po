@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-03 14:02+0100\n"
-"PO-Revision-Date: 2005-02-19 13:10+0000\n"
+"PO-Revision-Date: 2005-02-20 23:16+0000\n"
 "Last-Translator: Pjetur G. Hjaltason <pjetur@pjetur.net>\n"
 "Language-Team: Icelandic <isl@molar.is>\n"
 "MIME-Version: 1.0\n"
@@ -1296,7 +1296,7 @@ msgstr "  -i             - hunsa stafastærð í samanburði allra mynstra.\n"
 #: ../urpmf:61 ../urpmq:80
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr "  -f             - prenta útgáfu, undirnúmer og vélartegind með nafni.\n"
+msgstr "  -f             - prenta útgáfu, undirnúmer og vélartegund með nafni.\n"
 
 #: ../urpmf:62
 #, c-format
@@ -1350,7 +1350,7 @@ msgstr ""
 #: ../urpmf:157
 #, c-format
 msgid "You may want to use --name to search for package names.\n"
-msgstr ""
+msgstr "Þú vilt kannski nota --name til að leita að pakkanöfnum.\n"
 
 #: ../urpmi:71
 #, c-format
@@ -1398,6 +1398,8 @@ msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+"  --keep         - halda núverandi pökkum ef mögulegt er, hafna nýjum pökkum sem\n"
+"                   leiða til að núverandi pakkar séu fjarlægðir.\n"
 
 #: ../urpmi:88
 #, c-format
@@ -1406,26 +1408,29 @@ msgid ""
 "                   are going to be installed or upgraded,\n"
 "                   default is %d.\n"
 msgstr ""
+"  --split-level  - skifta upp í minni færslur ef fleiri en einn pakki mun\n"
+"                   verður settur inn eða uppfærður,\n"
+"                   sjálfgefið er %d.\n"
 
 #: ../urpmi:91
 #, c-format
 msgid "  --split-length - small transaction length, default is %d.\n"
-msgstr ""
+msgstr "  --split-length - litlar færslulengdir, sjálfgefið er %d.\n"
 
 #: ../urpmi:92 ../urpmq:51
 #, c-format
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
-msgstr ""
+msgstr "  --fuzzy        - framkvæma loðna leit (sama og -y).\n"
 
 #: ../urpmi:93 ../urpmq:60
 #, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
-msgstr ""
+msgstr "  --src          - næsti pakki er frumkóðapakki (sama og -s).\n"
 
 #: ../urpmi:94
 #, c-format
 msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr "  --install-src  - setja aðeins inn frumkóða-pakka (engin forrit).\n"
+msgstr "  --install-src  - setja aðeins inn frumkóða-pakka (engin forþýdd forrit).\n"
 
 #: ../urpmi:95
 #, c-format
@@ -1550,7 +1555,7 @@ msgstr ""
 #: ../urpmi:128
 #, c-format
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
-msgstr ""
+msgstr "  --strict-arch  - uppfæra aðeins pakka með sömu vélbúnaðartegund.\n"
 
 #: ../urpmi:129 ../urpmq:77
 #, c-format
@@ -1570,7 +1575,7 @@ msgstr "  -P             - ekki leita í 'skaffar (provides) til að finna pakka
 #: ../urpmi:132 ../urpmq:91
 #, c-format
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr ""
+msgstr "  -y             - framkvæma loðna leit (sama og --fuzzy).\n"
 
 #: ../urpmi:133 ../urpmq:88
 #, c-format
@@ -1824,6 +1829,8 @@ msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrakelinux-release package installed.\n"
 msgstr ""
+"  --arch         - nota tiltekinn vélbúnað, sjálfgefið er vélbúnaður\n"
+"                   mandrakelinux-útgáfu uppsetts pakka.\n"
 
 #: ../urpmi.addmedia:72
 #, c-format
@@ -1865,12 +1872,12 @@ msgstr "Get ekki búið til uppsetningaskrá [%s]"
 #: ../urpmi.addmedia:149
 #, c-format
 msgid "found version %s and arch %s ..."
-msgstr ""
+msgstr "fann útgáfu %s og arch %s ..."
 
 #: ../urpmi.addmedia:153
 #, c-format
 msgid "cannot add updates of a cooker distribution\n"
-msgstr ""
+msgstr "get ekki bætt við uppfærslum frá cooker dreifingu\n"
 
 #: ../urpmi.addmedia:158
 #, c-format
@@ -1880,7 +1887,7 @@ msgstr "sæki skráar-spegla á %s ..."
 #: ../urpmi.addmedia:211
 #, c-format
 msgid "no need to give <relative path of hdlist> with --distrib"
-msgstr ""
+msgstr "engin þörf á að gefa upp <slóð að hdlist> með --distrib"
 
 #: ../urpmi.addmedia:218 ../urpmi.addmedia:242
 #, c-format
@@ -1895,7 +1902,7 @@ msgstr "<slóð að hdlist> vantar\n"
 #: ../urpmi.addmedia:231
 #, c-format
 msgid "`with' missing for network media\n"
-msgstr ""
+msgstr "`with' vantar fyrir net-miðil\n"
 
 #: ../urpmi.addmedia:240
 #, c-format
@@ -1908,6 +1915,8 @@ msgid ""
 "usage: urpmi.removemedia [-a] <name> ...\n"
 "where <name> is a medium name to remove.\n"
 msgstr ""
+"notkun: urpmi.removemedia [-a] <nafn> ...\n"
+"þar sem  <nafn> er nafn á miðli sem á að fjarlægja.\n"
 
 #: ../urpmi.removemedia:46
 #, c-format
@@ -1917,7 +1926,7 @@ msgstr "  -a             - velja alla miðla.\n"
 #: ../urpmi.removemedia:48
 #, c-format
 msgid "  -y             - fuzzy match on media names.\n"
-msgstr ""
+msgstr "  -y             - loðið val á nöfnum miðla.\n"
 
 #: ../urpmi.removemedia:51
 #, c-format
@@ -1925,16 +1934,18 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"\n"
+"óþekktir valkostir '%s'\n"
 
 #: ../urpmi.removemedia:60
 #, c-format
 msgid "Only superuser is allowed to remove media"
-msgstr ""
+msgstr "Aðeins kerfisstjórar hafa leyfi til að fjarlægja miðil"
 
 #: ../urpmi.removemedia:70
 #, c-format
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "ekkert til að fjarlægja (notaðu urpmi.addmedia til að bæta við miðli)\n"
 
 #: ../urpmi.removemedia:72
 #, c-format
@@ -1949,6 +1960,8 @@ msgid ""
 "usage: urpmi.update [options] <name> ...\n"
 "where <name> is a medium name to update.\n"
 msgstr ""
+"notkun: urpmi.update [valkostir] <nafn> ...\n"
+"þar sem  <nafn> er nafn á miðli sem á að uppfæra.\n"
 
 #: ../urpmi.update:38
 #, c-format
@@ -1958,17 +1971,17 @@ msgstr "  --update       - uppfæra aðeins uppfærslumiðil.\n"
 #: ../urpmi.update:40
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
-msgstr ""
+msgstr "  --force-key    - þvinga uppfærslu á gpg lykli.\n"
 
 #: ../urpmi.update:42
 #, c-format
 msgid "  --ignore       - don't update, mark the media as ignored.\n"
-msgstr ""
+msgstr "  --ignore       - ekki uppfæra, merkja miðilinn sem hunsaðann.\n"
 
 #: ../urpmi.update:43
 #, c-format
 msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
-msgstr ""
+msgstr "  --no-ignore    - ekki uppfæra, merkja miðilinn sem virkan.\n"
 
 #: ../urpmi.update:44
 #, c-format
@@ -1978,12 +1991,12 @@ msgstr "  -a             - velja alla óútskiftanlega miðla.\n"
 #: ../urpmi.update:64
 #, c-format
 msgid "Only superuser is allowed to update media"
-msgstr ""
+msgstr "Aðeins kerfisstjórar mega bæta við miðli"
 
 #: ../urpmi.update:72
 #, c-format
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "ekkert til að uppfæra (notaðu urpmi.addmedia til að bæta við miðli)\n"
 
 #: ../urpmi.update:90
 #, c-format
@@ -2026,7 +2039,7 @@ msgstr "  --list         - lista tiltæka pakka.\n"
 #: ../urpmq:55
 #, c-format
 msgid "  --list-media   - list available media.\n"
-msgstr ""
+msgstr "  --list-media   - lista tiltæka miðla.\n"
 
 #: ../urpmq:56
 #, c-format
