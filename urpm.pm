@@ -275,7 +275,7 @@ sub add_medium {
 	#- the directory given does not exist or may be accessible
 	#- by mounting some other. try to figure out these directory and
 	#- mount everything necessary.
-	$urpm->try_mounting($dir, 'mount');
+	$urpm->try_mounting($dir, 'mount') or $urpm->{log}("unable to access medium \"$name\""), return;
 
 	#- check if directory is somewhat normalized so that we can get back hdlist,
 	#- check it that case if depslist, compss and provides file are also
@@ -394,7 +394,7 @@ sub update_media {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
-	    $urpm->try_mounting($dir, 'mount');
+	    $urpm->try_mounting($dir, 'mount') or $urpm->{log}("unable to access medium \"$medium->{name}\""), next;
 
 	    #- if the source hdlist is present and we are not forcing using rpms file
 	    if (!$options{force} && $medium->{with_hdlist} && -e "$dir/$medium->{with_hdlist}") {
@@ -596,7 +596,7 @@ sub update_media {
 sub try_mounting {
     my ($urpm, $dir, $mode) = @_;
 
-    if (!-e $dir) {
+    if ($mode eq 'mount' ? !-e $dir : -e $dir) {
 	my ($fdir, $pdir, $v, %fstab, @possible_mount_point) = $dir;
 
 	#- read /etc/fstab and check for existing mount point.
@@ -635,12 +635,13 @@ sub try_mounting {
 	}
 
 	#- try to mount or unmount according to mode.
-	$mode eq 'unmount' and @possible_mount_point = reverse @possible_mount_point;
+	$mode ne 'mount' and @possible_mount_point = reverse @possible_mount_point;
 	foreach (@possible_mount_point) {
-	    $fstab{$_} == ($mode ne 'mount') and $fstab{$_} = ($mode eq 'mount'), `$mode '$_' 2>/dev/null`;
+	    $fstab{$_} == ($mode ne 'mount') and $fstab{$_} = ($mode eq 'mount'),
+	      $urpm->{log}("${mode}ing $_"), `$mode '$_' 2>/dev/null`;
 	}
     }
-    -e $dir;
+    $mode eq 'mount' ? -e $dir : !-e $dir;
 }
 
 #- read depslist file using rpmtools, this file is not managed directly by urpm.
@@ -1062,8 +1063,14 @@ sub upload_source_packages {
 	}
     };
     foreach (0..$#$list) {
-	@{$list->[$_]} && $urpm->{media}[$_]{removable} or next;
-	push @{$removables{$urpm->{media}[$_]{removable}} ||= []}, $_;
+	@{$list->[$_]} or next;
+	my $medium = $urpm->{media}[$_];
+	#- examine non removable device but that may be mounted.
+	if ($medium->{removable}) {
+	    push @{$removables{$medium->{removable}} ||= []}, $_;
+	} elsif (my ($prefix, $dir) = $medium->{url} =~ /^(removable_[^:]*|file):\/(.*)/) {
+	    -e $dir || $urpm->try_mounting($dir, 'mount') or $urpm->{error}("unable to access medium \"$medium->{name}\""), next;
+	}
     }
     foreach my $device (keys %removables) {
 	#- here we have only removable device.

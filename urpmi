@@ -187,6 +187,9 @@ my $something_was_installed;
 install(@sources);
 $something_was_installed or message_auto(_("everything already installed"));
 
+#- this help flushing correctly by closing this file before (piped on tee).
+close STDERR;
+close STDOUT;
 
 sub install {
     @_ or return;

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.4
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Mon Feb  5 2001 François Pons <fpons@mandrakesoft.com> 1.4-6mdk
+- fixed missing mounting on non removable device like nfs.
+- flush STDERR and STDOUT before exiting.
+
 * Tue Jan 30 2001 François Pons <fpons@mandrakesoft.com> 1.4-5mdk
 - added medium change code.
 - fixed urpmi with local file.
