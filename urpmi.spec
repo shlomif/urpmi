@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 2mdk
+%define release 3mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -252,6 +252,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Apr 28 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-3mdk
+- Fix message output in urpme
+- Fix input of Y/N answers depending on current locale
+
 * Wed Apr 28 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-2mdk
 - Bug fixes : locale handling, command-line argument parsing
 - Add new French manpages from the man-pages-fr package
