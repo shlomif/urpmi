@@ -70,10 +70,12 @@ sub message_input {
 	    }
 	    $input = <STDIN>;
 	    defined $input or return undef;
+	    chomp $input;
 	    $urpm::args::options{bug} and log_it($input);
 	    if ($opts{boolean}) {
-		$input =~ /^[$noexpr$yesexpr]*$/ and last;
+		$input =~ /^[$noexpr$yesexpr]?$/ and last;
 	    } elsif ($opts{range}) {
+		$input eq "" and $input = 1; #- defaults to first choice
 		(defined $opts{range_min} ? $opts{range_min} : 1) <= $input && $input <= $opts{range} and last;
 	    } else {
 		last;
