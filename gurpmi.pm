@@ -27,6 +27,8 @@ sub usage () {
 gurpmi version $urpm::VERSION
 Usage :
     gurpmi <rpm> [ <rpm>... ]
+Options :
+    --no-verify-rpm
 USAGE
     exit 0;
 }
