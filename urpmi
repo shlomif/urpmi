@@ -147,7 +147,7 @@ if (@files) {
     m|^/| or $_ = "./$_" foreach @files;
 
     #- read provides file which is needed only to compute incremental
-    #- dependancies, of files provided.
+    #- dependencies, of files provided.
     $use_provides or $urpm->read_provides;
 
     #- build closure with local package and return list of names.
@@ -165,7 +165,7 @@ $urpm->relocate_depslist(use_active => $update);
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded,
-#- all its dependancy will be updated too.
+#- all its dependency will be updated too.
 #- make sure basesystem exists before.
 my %packages;
 $urpm->search_packages(\%packages,

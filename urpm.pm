@@ -651,7 +651,7 @@ sub update_media {
 		$medium->{ignore} and next;
 		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
-		$urpm->{log}(_("computing dependancy"));
+		$urpm->{log}(_("computing dependencies"));
 		$urpm->{params}->compute_depslist();
 	    }
 
@@ -1042,7 +1042,7 @@ sub compute_closure {
     my ($id, @packages) = (undef, keys %$packages);
 
     #- at this level, compute global closure of what is requested, regardless of
-    #- choices for which all package in the choices are taken and their dependancies.
+    #- choices for which all package in the choices are taken and their dependencies.
     #- allow iteration over a modifying list.
     while (defined($id = shift @packages)) {
 	#- get a relocated id if possible, by this way.
@@ -1112,7 +1112,7 @@ sub filter_packages_to_upgrade {
 	#- there are not too many packages selected here to allow
 	#- take care of package up-to-date at this point,
 	#- so check version and if the package does not need to
-	#- updated, ignore it and his dependancies.
+	#- updated, ignore it and his dependencies.
 	rpmtools::db_traverse_tag($db, "name", [ map { $urpm->{params}{depslist}[$_]{name} } keys %$packages ],
 				  [ qw(name version release serial) ], sub {
 				      my ($p) = @_;
@@ -1132,7 +1132,7 @@ sub filter_packages_to_upgrade {
     #- select first level of packages, as in packages list will only be
     #- examined deps of each.
     #- at this level, compute global closure of what is requested, regardless of
-    #- choices for which all package in the choices are taken and their dependancies.
+    #- choices for which all package in the choices are taken and their dependencies.
     #- allow iteration over a modifying list.
     @closures{keys %$packages} = ();
     $urpm->compute_closure(\%closures, undef, sub { my ($urpm, @l) = @_; @l });
@@ -1161,7 +1161,7 @@ sub filter_packages_to_upgrade {
     rpmtools::db_close($db);
 
     #- recompute closure but ask for which package to select on a choices.
-    #- this is necessary to have the result before the end else some dependancy may
+    #- this is necessary to have the result before the end else some dependency may
     #- be losed or added.
     #- accept no choice allow to browse list, and to compute it with more iteration.
     %closures = (); @closures{keys %$packages} = ();
@@ -1274,7 +1274,7 @@ sub filter_minimal_packages_to_upgrade {
 	my ($id, %installed);
 
 	#- at this level, compute global closure of what is requested, regardless of
-	#- choices for which all package in the choices are taken and their dependancies.
+	#- choices for which all package in the choices are taken and their dependencies.
 	#- allow iteration over a modifying list.
 	while (defined($id = shift @packages)) {
 	    if (ref $id) {

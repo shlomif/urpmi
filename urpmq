@@ -38,12 +38,12 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 usage:
   -h             - print this help message.
   -v             - verbose mode.
-  -d             - extend query to package dependancies.
+  -d             - extend query to package dependencies.
   -u             - remove package if a better version is already installed.
-  -m             - extend query to package dependancies, remove already
+  -m             - extend query to package dependencies, remove already
                    installed package that provide what is necessary, add
                    packages that may be block the upgrade.
-  -M             - extend query to package dependancies and remove already
+  -M             - extend query to package dependencies and remove already
                    installed package only if they are newer or the same.
   -c             - choose complete method for resolving requires closure.
   -p             - allow search in provides to find package.
@@ -101,7 +101,7 @@ $query->{use_provides} and $urpm->read_provides;
 
 if (@files) {
     #- read provides file which is needed only to compute incremental
-    #- dependancies, of files provided.
+    #- dependencies, of files provided.
     $query->{use_provides} or $urpm->read_provides;
 
     #- build closure with local package and return list of names.
@@ -116,7 +116,7 @@ if ($query->{update}) {
 $urpm->relocate_depslist(use_active => $query->{update});
 
 #- search the packages according the selection given by the user,
-#- basesystem is added to the list so if it need to be upgraded, all its dependancy
+#- basesystem is added to the list so if it need to be upgraded, all its dependency
 #- will be updated too.
 my %packages;
 $urpm->search_packages(\%packages, [ @names ], use_provides => $query->{use_provides}, use_active => $query->{update})
