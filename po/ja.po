@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-03 14:02+0100\n"
-"PO-Revision-Date: 2005-02-02 23:00+0900\n"
+"PO-Revision-Date: 2005-02-13 14:00+0900\n"
 "Last-Translator: BANDO Yukiko <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -216,7 +216,7 @@ msgid ""
 "installed:\n"
 "%s\n"
 msgstr ""
-"依存を満たすために以下の %d のパッケージをインストールします:\n"
+"依存を満たすために以下の %d 個のパッケージをインストールします:\n"
 "%s\n"
 
 #: ../gurpmi2:183
@@ -807,12 +807,12 @@ msgstr "メディア %s のhdlist synthesisファイルを作成しました"
 #: ../urpm.pm:1908
 #, c-format
 msgid "found %d headers in cache"
-msgstr "%d のヘッダをキャッシュから検出しました"
+msgstr "%d 個のヘッダをキャッシュから検出しました"
 
 #: ../urpm.pm:1912
 #, c-format
 msgid "removing %d obsolete headers in cache"
-msgstr "%d の古いヘッダをキャッシュから削除"
+msgstr "%d 個の古いヘッダをキャッシュから削除"
 
 #: ../urpm.pm:1966
 #, c-format
@@ -974,17 +974,17 @@ msgstr "パッケージ %s の詳細情報"
 #: ../urpm.pm:3090 ../urpm.pm:3123
 #, c-format
 msgid "due to missing %s"
-msgstr "%s がないため"
+msgstr "%s がないために"
 
 #: ../urpm.pm:3091 ../urpm.pm:3121
 #, c-format
 msgid "due to unsatisfied %s"
-msgstr "%s が依存を満たしていないため"
+msgstr "%s が依存を満たしていないために"
 
 #: ../urpm.pm:3092
-#, fuzzy, c-format
+#, c-format
 msgid "trying to promote %s"
-msgstr "削除するものはありません"
+msgstr "%s をアップグレードするために"
 
 #: ../urpm.pm:3093
 #, c-format
@@ -999,7 +999,7 @@ msgstr "%s をインストールするために"
 #: ../urpm.pm:3128
 #, c-format
 msgid "due to conflicts with %s"
-msgstr "%s と衝突するため"
+msgstr "%s と衝突するために"
 
 #: ../urpm.pm:3130
 #, c-format
@@ -1100,6 +1100,9 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - ディストリビューションのツリーからurpmiをオンザフライで\n"
+"                   設定。chrootを'--root'オプション付きで(アン)インストール\n"
+"                   する際に使用。\n"
 
 #: ../urpme:49 ../urpmi:135 ../urpmi.addmedia:79 ../urpmi.removemedia:50
 #: ../urpmi.update:48 ../urpmq:90
@@ -1330,18 +1333,19 @@ msgstr "  -e             - Perlコードをそのまま表示\n"
 #, c-format
 msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
-msgstr ""
+msgstr "  -a             - binary AND operator, 両方の表現がtrueの場合はtrue\n"
 
 #: ../urpmf:64
 #, c-format
 msgid ""
 "  -o             - binary OR operator, true if one expression is true.\n"
 msgstr ""
+"  -o             - binary OR operator, いずれかの表現がtrueの場合はtrue\n"
 
 #: ../urpmf:65
-#, fuzzy, c-format
+#, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr "                    デフォルトは %s\n"
+msgstr "  !              - unary NOT, 表現がfalseの場合はtrue\n"
 
 #: ../urpmf:66
 #, c-format
@@ -1503,6 +1507,9 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - ディストリビューションのツリーからurpmiをオンザフライで\n"
+"                   設定。chrootを'--root'オプション付きで(アン)インストール\n"
+"                   する際に使用。\n"
 
 #: ../urpmi:106 ../urpmi.addmedia:48 ../urpmi.update:31 ../urpmq:68
 #, c-format
@@ -1736,7 +1743,7 @@ msgstr ""
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be installed "
 "(%d MB)"
-msgstr "依存を満たすために以下の %d のパッケージをインストールします(%d MB)"
+msgstr "依存を満たすために以下の %d 個のパッケージをインストールします(%d MB)"
 
 #: ../urpmi:453 ../urpmi:464
 #, c-format
@@ -1797,7 +1804,7 @@ msgstr "[--force]でインストールを試みますか？(y/N)[デフォルト
 #: ../urpmi:680
 #, c-format
 msgid "%d installation transactions failed"
-msgstr "%d インストールトランザクションが失敗"
+msgstr "%d 件のインストールトランザクションが失敗しました"
 
 #: ../urpmi:688
 #, c-format
@@ -2164,6 +2171,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
 msgstr ""
+"  --use-distrib  - ディストリビューションのツリーからurpmiをオンザフライで\n"
+"                   設定。ディストリビューションの検索を可能にする。\n"
 
 #: ../urpmq:76
 #, c-format
@@ -2171,9 +2180,9 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - チェンジログを表示\n"
 
 #: ../urpmq:78
-#, fuzzy, c-format
+#, c-format
 msgid "  -c             - complete output with package to be removed.\n"
-msgstr "  -d             - 依存するパッケージも検索して表示\n"
+msgstr "  -c             - 削除されるパッケージを表示\n"
 
 #: ../urpmq:79
 #, c-format
