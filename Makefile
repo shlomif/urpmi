@@ -7,6 +7,7 @@ URPMIDIR2 = $(PREFIX)/etc/urpmi
 LOCALEDIR = $(PREFIX)/usr/share/locale
 CFLAGS = -Wall -g
 LIBRPM = -lrpm -lrpmio -lrpmdb -lz -lbz2 -I/usr/include/rpm -lpopt
+RPM=$(HOME)/rpm
 
 NAME = urpmi
 TAR = $(NAME).tar.bz2
