@@ -31,7 +31,9 @@ import Locale::GetText I_;
 *_ = *I_;
 
 #- default options.
-my $query = {};
+my $query = {
+	     minimal => 1,
+	    };
 
 my @files;
 my @names;
@@ -42,7 +44,7 @@ my @names;
 sub usage {
     #die(_("usage: urpmq [-h] [-d] [-u] [-c] [-g] [-v] [-r] package_name|rpm_file [package_names|rpm_files...]\n"));
     die( sprintf(_("urpmq version %s
-Copyright (C) 2000 MandrakeSoft.
+Copyright (C) 2000, 2001 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
@@ -53,6 +55,8 @@ usage:
   -m             - extend query to package dependancies, remove already
                    installed package that provide what is necessary, add
                    packages that may be block the upgrade.
+  -M             - extend query to package dependancies and remove already
+                   installed package only if they are newer or the same.
   -c             - choose complete method for resolving requires closure.
   -g             - print groups too with name.
   -r             - print version and release too with name.
@@ -80,6 +84,7 @@ for (@ARGV) {
 	/d/ and do { $query->{deps} = 1; next };
 	/u/ and do { $query->{upgrade} = 1; next };
 	/m/ and do { $query->{minimal} = 1; next };
+	/M/ and do { $query->{minimal} = 0; next };
 	/c/ and do { $query->{complete} = 1; next };
 	/g/ and do { $query->{group} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };

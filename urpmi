@@ -35,7 +35,7 @@ my $force = 0;
 my $X = 0;
 my $all = 0;
 my $complete = 0;
-my $minimal = 0;
+my $minimal = 1;
 my $rpm_opt = "-Uvh";
 my $verbose = 0;
 
@@ -53,7 +53,7 @@ delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 sub usage {
     #die(_("usage: urpmi [-h] [--auto] [--force] [-a] [-v] package_name|rpm_file [package_names|rpm_files...]\n"));
     die( sprintf (_("urpmi version %s
-Copyright (C) 1999, 2000 MandrakeSoft.
+Copyright (C) 1999, 2000, 2001 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
@@ -65,6 +65,8 @@ usage:
   --best-output    - choose best interface according to the environment:
                      X or text mode.
   -a               - select all matches on command line.
+  -m               - choose minimum closure of requires (default).
+  -M               - choose maximun closure of requires.
   -c               - choose complete method for resolving requires closure.
   -q               - quiet mode.
   -v               - verbose mode.
@@ -88,6 +90,7 @@ for (@ARGV) {
 	/a/ and do { $all = 1; next };
 	/c/ and do { $complete = 1; next };
 	/m/ and do { $minimal = 1; next };
+	/M/ and do { $minimal = 0; next };
 	/q/ and do { $rpm_opt = "-U"; next };
 	/v/ and do { $verbose = 1; next };
 	die "urpmi: unknown option \"-$1\", check usage with --help\n"; } next };

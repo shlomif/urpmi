@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 14mdk
+Release: 15mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Sat Mar  3 2001 François Pons <fpons@mandrakesoft.com> 1.5-15mdk
+- urpmi mode set to -m by default.
+
 * Thu Mar  1 2001 François Pons <fpons@mandrakesoft.com> 1.5-14mdk
 - update with newer rpmtools interface.
 
