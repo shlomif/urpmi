@@ -114,6 +114,10 @@ sub main {
     if ($< != 0) {
 	$urpm->{fatal}(1, N("Only superuser is allowed to add media"));
     }
+    if (!-e $urpm->{config}) {
+	$urpm->{error}(N("Will create config file [%s]", $urpm->{config}));
+	open my $f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
+    }
     $urpm->read_config;
     exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
 
