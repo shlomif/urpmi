@@ -5,9 +5,6 @@ use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT = qw(N log_it to_utf8 message_input gmessage message toMb);
 
-my $noexpr = N("Nn");
-my $yesexpr = N("Yy");
-
 #- I18N.
 eval {
     require Locale::gettext;
@@ -23,6 +20,9 @@ sub N {
 	@params,
     );
 }
+
+my $noexpr = N("Nn");
+my $yesexpr = N("Yy");
 
 sub log_it {
     #- if invoked as a simple user, nothing should be logged.
