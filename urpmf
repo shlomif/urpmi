@@ -2,7 +2,7 @@
 
 # $Id$
 
-#- Copyright (C) 2002 MandrakeSoft (fpons@mandrakesoft.com)
+#- Copyright (C) 2002, 2003, 2004 MandrakeSoft
 #-
 #- This program is free software; you can redistribute it and/or modify
 #- it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ use urpm::msg;
 
 sub usage {
     print STDERR N("urpmf version %s
-Copyright (C) 2002 MandrakeSoft.
+Copyright (C) 2002-2004 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
@@ -90,12 +90,13 @@ my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
 foreach (scalar(grep { defined $_ } values %params)) {
+    # default is to search on file names
     $_ == 0 and do { defined $quiet or $quiet = 1; $params{files} = 1 };
     $_ == 1 and do { defined $quiet or $quiet = 1 };
     $_ > 1  and do { defined $quiet or $quiet = 0 };
 }
 
-#- build callback according expression.
+#- build the callback matching the expression.
 my $callback = 'sub { my ($urpm, $pkg) = @_; '; #- it is a good start for a sub, no ;-)
 foreach (qw(filename group size epoch summary description sourcerpm packager buildhost url
             provides requires files conflicts obsoletes)) {
@@ -124,16 +125,30 @@ if ($env) {
 }
 
 $urpm->shlock_urpmi_db;
-$urpm->configure(nocheck_access => 1, noskipping => 1,
-		 media => $media,
-		 excludemedia => $excludemedia,
-		 sortmedia => $sortmedia,
-		 synthesis => $synthesis,
-		 update => $update,
-		 callback => $callback,
-		 hdlist => ($params{summary} || $params{description} || $params{sourcerpm} ||
-			    $params{packager} || $params{buildhost} || $params{url} || $params{files}),
-		);
+my $use_hdlist = ($params{summary} || $params{description} ||
+    $params{sourcerpm} || $params{packager} || $params{buildhost} ||
+    $params{url} || $params{files});
+$urpm->configure(
+    nocheck_access => 1,
+    noskipping => 1,
+    media => $media,
+    excludemedia => $excludemedia,
+    sortmedia => $sortmedia,
+    synthesis => $synthesis,
+    update => $update,
+    callback => $callback,
+    hdlist => $use_hdlist,
+);
 $urpm->unlock_urpmi_db;
+
+if ($use_hdlist) {
+    # @hdmedia is the list of all media searched that use hdlists
+    my @hdmedia = grep {
+	!$_->{synthesis} && !$_->{removable} && !$_->{ignore}
+    } @{ $urpm->{media} };
+    if (!@hdmedia) {
+	print N("Note: since no media searched uses hdlists, urpmf was unable to return any result\n");
+    }
+}
 
 #- that'all! all has been done by callback above.
