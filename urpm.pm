@@ -1304,7 +1304,6 @@ sub search_packages {
     my (%exact, %exact_a, %exact_ra, %found, %foundi);
 
     foreach my $v (@$names) {
-	print "search $v\n";
 	#- it is a way of speedup, providing the name of a package directly help
 	#- to find the package.
 	#- this is necessary if providing a name list of package to upgrade.

@@ -2,13 +2,13 @@
 
 Name: urpmi
 Version: 3.4
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-gettext rpmtools >= 4.2-4mdk perl-URPM >= 0.02
+PreReq: perl-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.03-2mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Fri Jun  7 2002 François Pons <fpons@mandrakesoft.com> 3.4-7mdk
+- fixed still present log on standard output.
+
 * Fri Jun  7 2002 François Pons <fpons@mandrakesoft.com> 3.4-6mdk
 - fixed skip.list to skip according provides (even not the best).
 - fixed package id 0 always selected (generally ldconfig or lsbdev).
