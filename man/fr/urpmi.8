@@ -1,18 +1,18 @@
-.TH urpmi 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi 8 "12 Feb 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NOM
 urpmi \- interface rpm pour simplifier les installations
 .SH SYNOPSIS
 .B urpmi [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
-urpmi permet aux utilisateurs d'installer eux-mêmes des rpms. En fait,
-il autorise uniquement les rpms bien connus à être installés. Si vous
-voulez installer un fichier rpm local, vous devez être super-utilisateur.
+urpmi autorise les rpms bien connus (ou les fichier .rpm) à être installés ainsi
+que leurs dépendances.
+Vous pouvez l'utiliser pour installer les dépendances d'un paquetage source en
+tant que super-utilisateur (root) ou le paquetage source lui même en tant que
+simple utilisateur.
+
 En fait, rpm est à urpmi ce que insmod est à modprobe, ou dpkg à apt-get.
 .PP
-Tous les utilisateurs appartenant au groupe urpmi peuvent installer des
-paquetages.
-.br
 Lancez urpmi suivi de ce que vous pensez être le nom du/des paquetages(s),
 et urpmi :
 .br
@@ -43,19 +43,39 @@ Pour installer toutes les entrées de menu de tous les paquetages connus, utilise
 autoirpm-icons.
 .SH OPTIONS
 .IP "\fB\--help\fP"
-affiche un message d'aide et quitte.
+affiche un message d'aide et quitte (identique à \fB-h\fP ou \fB-?\fP).
 .IP "\fB\--update\fP"
 utilise seulement des médias de mise à jour. Cela signifie que \fBurpmi\fP
 ne recherchera et ne résolvera les dépendances que sur les médias marqués comme
 mises à jour.
-.IP "\fB\--auto\fP"
+.IP "\fB\--media\fP"
+sélectionne les media donnée plutôt que tous les media disponibles.
+.IP "\fB\--auto\fP"
 installe toutes les dépendances nécessaires sans rien demander.
-.IP "\fB\--auto-select\fP"
+.IP "\fB\--auto-select\fP"
 sélectionne automatiquement tous les paquetages qui doivent être mis à jour
 selon les paquetages déjà installés et les paquetages listés dans les divers
 médias enregistrés.
+.IP "\fB\--fuzzy\fP"
+désactive la recherche rapide sur un nom de paquetage exact et propose tous les
+noms de paquetage correspondant au paramètre donnée (identique à \fB-y\fP).
+.IP "\fB\--src\fP"
+le prochain nom de paquetage est considéré comme étant un nom de paquetage
+source.
+.IP "\fB\--noclean\fP"
+ne suprime aucun paquetages du cache (/var/cache/urpmi/rpms).
+.IP "\fB\--complete\fP"
+utilise le serveur parsehdlist pour étendre la recherche de paquetages à mettre
+à jour au moyen de \fB--auto-select\fP (ne doit pas être nécessaire dans la
+majorité des cas).
 .IP "\fB\--force\fP"
 répond par l'affirmative à toutes les questions.
+.IP "\fB\--wget\fP"
+utilise wget pour télécharger les fichiers. Par défaut curl est utilisé s'il est
+disponible ou wget dans le cas contraire.
+.IP "\fB\--curl\fP"
+utilise curl pour télécharger les fichiers. Par défaut curl est utilisé s'il est
+disponible ou wget dans le cas contraire.
 .IP "\fB\--X\fP"
 utilise l'interface X.
 .IP "\fB\--best-output\fP"
@@ -63,27 +83,20 @@ essaye d'utiliser l'interface X, ou si elle n'est pas disponible, l'interface
 en mode texte (qui utilise rpm).
 .IP "\fB\-a\fP"
 si plusieurs paquetages coïncident avec la sous-chaîne donnée, les prendre tous.
-.IP "\fB\-m\fP"
-cherche un ensemble minimum de dépendances (option par défaut). C'est un
-algorithme plutôt lent qui essaye de limiter le nombre de paquetages à
-mettre à jour à ceux qui sont vraiment nécessaires.
-.IP "\fB\-M\fP"
-choisit un ensemble maximum de dépendances. C'est l'algorithme le plus rapide
-qui essaye de mettre à jour toutes les dépendances si elles peuvent être mises
-à jour.
-.IP "\fB\-c\fP"
-si l'ensemble maximum est utilisé, suppose qu'un paquetage listé peut avoir
-une mauvaise mise-à-jour, ou pas actualisée. Cela entraîne la mise-à-jour de
-davantage de paquetages et peut corriger les dépendances non résolues dans
-la base de données rpm.
 .IP "\fB\-p\fP"
-autorise la recherche dans "provides" pour trouver un paquetage.
+autorise la recherche dans "provides" pour trouver un paquetage (par défaut).
+.IP "\fB\-P\fP"
+désactive la recherche dans "provides" pour trouver un paquetage.
+.IP "\fB\-y\fP"
+identique à \fB--fuzzy\fP.
+.IP "\fB\-s\fP"
+identique à \fB--src\fP.
 .IP "\fB\-q\fP"
 active le mode silencieux pour la mise à jour utilisant rpm 
 .IP "\fB\-v\fP"
 active un mode verbeux avec de nombreux messages.
 .SH FICHIERS
-/usr/bin/urpmi
+/usr/sbin/urpmi
 .br
 L'exécutable \fBurpmi\fP (script perl)
 .PP
@@ -113,19 +126,9 @@ Contient la description du médium, l'ancien format urpmi est accepté.
 .br
 Contient les noms de paquetages à ne pas mettre à jour automatiquement.
 .PP
-/var/lib/urpmi/depslist.ordered
+/etc/urpmi/inst.list
 .br
-Un simple fichier texte contenant les dépendances de tous les paquetages connus.
-.PP
-/var/lib/urpmi/provides
-.br
-Un simple fichier texte contenant tous les « provides » et la liste des
-paquetages associés qui les contiennent.
-.PP
-/var/lib/urpmi/compss
-.br
-Un simple fichier texte contenant pour chaque groupe utilisé la liste des
-paquetages dans ce groupe.
+Contient les noms de paquetages à installer plutôt qu'à mettre à jour.
 .SH "VOIR AUSSI"
 urpmi.addmedia(8),
 urpmi.update(8),

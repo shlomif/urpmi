@@ -1,4 +1,4 @@
-.TH urpmi.removemedia 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.removemedia 8 "12 Feb 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.removemedia
 .SH NAME
 urpmi.removemedia \- remove a rpms media from the known medias of urpmi
@@ -13,10 +13,12 @@ the named media and to rpms from that media.
 .SH OPTIONS
 .IP "\fB\-a\fP"
 Select all media to remove them.
+.IP "\fB\-c\fP"
+Clean headers cache directory (/var/cache/urpmi/headers).
 .SH FILES
-/usr/bin/urpmi
+/usr/sbin/urpmi.removemedia
 .br
-The \fBurpmi\fP executable (perl script)
+The \fBurpmi.removemedia\fP executable (perl script)
 .PP
 /var/lib/urpmi/list.*
 .br
@@ -36,19 +38,9 @@ Contains media description, previous format from older urpmi is accepted.
 .br
 Contains package names that should be not automatically updated.
 .PP
-/var/lib/urpmi/depslist.ordered
+/etc/urpmi/inst.list
 .br
-A simple text file containing all dependencies of all known packages.
-.PP
-/var/lib/urpmi/provides
-.br
-A simple text file containning all provides and the list of associated
-packages that contains them.
-.PP
-/var/lib/urpmi/compss
-.br
-A simple text file containning for each Group used the list of package in
-this group.
+Contains package names that should be installed instead of updated.
 .SH "SEE ALSO"
 urpmi(8),
 urpmi.addmedia(8),

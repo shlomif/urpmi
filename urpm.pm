@@ -15,12 +15,57 @@ urpm - Mandrake perl tools to handle urpmi database
     require urpm;
 
     my $urpm = new urpm;
-
     $urpm->read_config();
+    $urpm->add_medium('medium_ftp',
+                      'ftp://ftp.mirror/pub/linux/distributions/mandrake-devel/cooker/i586/Mandrake/RPMS',
+                      'synthesis.hdlist.cz',
+                      update => 0);
+    $urpm->add_distrib_media('stable', 'removable://mnt/cdrom',
+                             update => 1);
+    $urpm->select_media('contrib', 'update');
+    $urpm->update_media(%options);
+    $urpm->write_config();
+
+    my $urpm = new urpm;
+    $urpm->read_config(nocheck_access => $uid > 0);
+    foreach (grep { !$_->{ignore} } @{$urpm->{media} || []}) {
+        $urpm->parse_synthesis($_);
+    }
+    if (@files) {
+        push @names, $urpm->register_local_packages(@files);
+    }
+    $urpm->relocate_depslist_provides();
+
+    my %packages;
+    @names and $urpm->search_packages(\%packages, [ @names],
+                                      use_provides => 1);
+    if ($auto_select) {
+        my (%to_remove, %keep_files);
+
+        $urpm->select_packages_to_upgrade('', \%packages,
+                                          \%to_remove, \%keep_files,
+                                          use_parsehdlist => $complete);
+    }
+    $urpm->filter_packages_to_upgrade(\%packages,
+                                      $ask_choice);
+    $urpm->deselect_unwanted_packages(\%packages);
+
+    my ($local_sources,
+        $list,
+        $local_to_removes) = $urpm->get_source_packages(\%packages);
+    my %sources = $urpm->download_source_packages($local_sources,
+                                                  $list,
+                                                  'force_local',
+                                                  $ask_medium_change);
+    my @rpms_install = grep { $_ !~ /\.src.\.rpm/ } values %{
+                         $urpm->extract_packages_to_install(\%sources)
+                       || {}};
+    my @rpms_upgrade = grep { $_ !~ /\.src.\.rpm/ } values %sources;
+
 
 =head1 DESCRIPTION
 
-C<urpm> is used by urpmi executable to manipulate packages and media
+C<urpm> is used by urpmi executables to manipulate packages and media
 on a Linux-Mandrake distribution.
 
 =head1 SEE ALSO
@@ -30,7 +75,7 @@ files.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000 MandrakeSoft <fpons@mandrakesoft.com>
+Copyright (C) 2000,2001,2002 MandrakeSoft <fpons@mandrakesoft.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -586,9 +631,11 @@ sub build_synthesis_hdlist {
 #- take care of modification and try some trick to bypass
 #- computational of base files.
 #- allow options :
-#-   all     -> all medium are rebuilded
-#-   force   -> try to force rebuilding base files (1) or hdlist from rpms files (2).
-#-   noclean -> keep header directory cleaned.
+#-   all               -> all medium are rebuilded.
+#-   force             -> try to force rebuilding base files (1) or hdlist from rpms files (2).
+#-   probe_with_hdlist -> probe synthesis or hdlist.
+#-   ratio             -> use compression ratio (with gzip, default is 4)
+#-   noclean           -> keep header directory cleaned.
 sub update_media {
     my ($urpm, %options) = @_; #- do not trust existing hdlist and try to recompute them.
 

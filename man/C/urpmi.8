@@ -1,18 +1,17 @@
-.TH urpmi 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi 8 "12 Feb 2002" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
 .SH SYNOPSIS
 .B urpmi [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
-urpmi enables non-superuser install of rpms. In fact, it only authorizes
-well-known rpms to be installed. If you want to install local rpm file, you
-will have to be root.
+urpmi authorizes well-known rpms (or rpm files) to be installed including
+all their dependencies.
+You can use it to install source package dependencies too as root, or source
+package itself as simple user.
 
 You can compare rpm vs. urpmi  with  insmod vs. modprobe or dpkg vs apt-get
 .PP
-All users belonging to group urpmi are allowed to install packages.
-.br
 Just launch urpmi followed by what you think is the name of the package(s),
 and urpmi will:
 .br
@@ -43,17 +42,39 @@ To install all available menu entries of all known packages,
 use autoirpm-icons.
 .SH OPTIONS
 .IP "\fB\--help\fP"
-print an help message and exit.
+print an help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
 .IP "\fB\--update\fP"
 use only update media. This means \fBurpmi\fP will search and resolve
 dependencies only in media marked as update.
+.IP "\fB\--media\fP"
+select specific media to use instead of all media available (or update media is
+\fB--updtae\fP is used).
 .IP "\fB\--auto\fP"
 installs all required dependencies without asking.
 .IP "\fB\--auto-select\fP"
 automatically select all packages that have to be upgraded according to already
 installed packages and packages listed in various media registered.
+.IP "\fB\--fuzzy\fP"
+disable fast search on exact package name, ie it will propose all
+package containing the name even if one has the given name (this is the same
+as \fB\-y\fP).
+.IP "\fB\--src\fP"
+next package name is a source package and it will select all dependencies if
+\fBurpmi\fP is run as root or only install source package as simple user (this
+is the same as \fB\-s\fP).
+.IP "\fB\--noclean\fP"
+do not remove any package from the cache (/var/cache/urpmi/rpms).
+.IP "\fB\--complete\fP"
+use parsehdlist server to complete \fB--auto-select\fP selection (should not be
+necessary in most cases).
 .IP "\fB\--force\fP"
 assumes yes on all questions.
+.IP "\fB\--wget\fP"
+use wget only for downloading distant files. By default curl is used if
+available or wget instead.
+.IP "\fB\--curl\fP"
+use curl only for downloading distant files. By default curl is used if
+available or wget instead.
 .IP "\fB\--X\fP"
 use X interface.
 .IP "\fB\--best-output\fP"
@@ -61,25 +82,20 @@ try to use X interface or if not available the standard text interface (using
 rpm).
 .IP "\fB\-a\fP"
 if multiple packages match the substring given, take them all
-.IP "\fB\-m\fP"
-choose minimun closure of requires (this is the default). This is a relatively
-slow algorithm that tries to minimize the number of package to upgrade
-to only what is really necessary.
-.IP "\fB\-M\fP"
-choose maximal closure of requires. This is the fastest algorithms that try to
-upgrade all requires if they can be upgraded.
-.IP "\fB\-c\fP"
-if maximal closure is used, assume that a package listed mey have wrong or not
-up-to-date dependancies. This cause more package to be upgraded and may correct
-unresolved dependancies on the rpm database.
 .IP "\fB\-p\fP"
-allow search in provides to find package.
+allow search in provides to find package (default).
+.IP "\fB\-P\fP"
+do not search in provides to find package (this is the opposite of \fB-p\fP).
+.IP "\fB\-y\fP"
+this is the same as \fB--fuzzy\fP.
+.IP "\fB\-s\fP"
+this is the same as \fB--src\fP.
 .IP "\fB\-q\fP"
 proposes a quiet mode when calling rpm where no upgrade status are printed.
 .IP "\fB\-v\fP"
 proposes a verbose mode with various messages.
 .SH FILES
-/usr/bin/urpmi
+/usr/sbin/urpmi
 .br
 The \fBurpmi\fP executable (perl script)
 .PP
@@ -90,14 +106,14 @@ There is one filelist per media(*).
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Contain information about all known packages, it's a summary of rpm headers.
+Contains information about all known packages, it's a summary of rpm headers.
 There is one hdlist per media(*).
 .PP
 /var/lib/urpmi/synthesis.hdlist.*
 .br
-Contain synthesis information about all known packages built from hdlist files
+Contains synthesis information about all known packages built from hdlist files
 that can be used by minimal closure algorithm. If these files are not present
-use \fBurpmi.update -a\fP to generate them. These files are not mandatory.
+use \fBurpmi.update -a\fP to generate them.
 .PP
 /etc/urpmi/urpmi.cfg
 .br
@@ -107,19 +123,9 @@ Contains media description, previous format from older urpmi is accepted.
 .br
 Contains package names that should be not automatically updated.
 .PP
-/var/lib/urpmi/depslist.ordered
+/etc/urpmi/inst.list
 .br
-A simple text file containning all dependencies of all known packages.
-.PP
-/var/lib/urpmi/provides
-.br
-A simple text file containning all provides and the list of associated
-packages that contains them.
-.PP
-/var/lib/urpmi/compss
-.br
-A simple text file containning for each Group used the list of package in
-this group.
+Contains package names that should be installed instead of updated.
 .SH "SEE ALSO"
 urpmi.addmedia(8),
 urpmi.update(8),

@@ -1,4 +1,4 @@
-.TH urpmq 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmq 8 "12 Feb 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmq
 .SH NAME
 urpmq \- urpmi database query tool.
@@ -11,16 +11,27 @@ packages or packages that will be installed if you start urpmi.
 .PP
 Output format of urpmq is the following according to command line options:
 .IP
-[group/]package_name[-version][-release]
+[group/]package_name[-version][-release][.arch]
 .SH OPTIONS
 .IP "\fB\--help\fP"
-print an help message and exit.
+print an help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
 .IP "\fB\--update\fP"
 use only update media. This means \fBurpmq\fP will search and resolve
 dependencies only in media marked as update.
+.IP "\fB\--media\fP"
+select specific media to use instead of all media available (or update media is
+\fB--updtae\fP is used).
 .IP "\fB\--auto-select\fP"
 automatically select all packages that have to be upgraded according to already
 installed packages and packages listed in various media registered.
+.IP "\fB\--fuzzy\fP"
+disable fast search on exact package name, ie it will propose all
+package containing the name even if one has the given name (this is the same
+as \fB\-y\fP).
+.IP "\fB\--src\fP"
+next package name is a source package and it will select all dependencies if
+\fBurpmi\fP is run as root or only install source package as simple user (this
+is the same as \fB\-s\fP).
 .IP "\fB\--headers\fP"
 extract headers for package selected to standard output.
 .IP "\fB\--sources\fP"
@@ -34,26 +45,24 @@ select dependancies (maximal closure).
 .IP "\fB\-u\fP"
 deselect packages if a better version is already installed, this option can be
 used with \fB-d\fP to simulate \fB-M\fP mode of \fBurpmi\fP.
-.IP "\fB\-m\fP"
-choose minimun closure of requires. This is a relatively
-slow algorithm that tries to minimize the number of package to upgrade
-to only what is really necessary.
-.IP "\fB\-M\fP"
-disable minimal closure algorithm so both \fB-d\fP and \fB-u\fP are similar to \fB-M\fP
-mode of \fBurpmi\fP.
 .IP "\fB\-c\fP"
 if maximal closure is used, assume that a package listed mey have wrong or not
 up-to-date dependancies. This cause more package to be upgraded and may correct
 unresolved dependancies on the rpm database.
 .IP "\fB\-p\fP"
-allow search in provides to find package.
+allow search in provides to find package (default).
+.IP "\fB\-P\fP"
+do not search in provides to find package (this is the opposite of \fB-p\fP).
+.IP "\fB\-y\fP"
+this is the same as \fB--fuzzy\fP.
+.IP "\fB\-s\fP"
+this is the same as \fB--src\fP.
 .IP "\fB\-g\fP"
 print group of each packages listed.
 .IP "\fB\-r\fP"
 print version and release of each packages listed.
-.IP "\fB\-d\fP"
-print closure of required packages needed by requested packages on command
-line.
+.IP "\fB\-f\fP"
+print version, release and arch of each packages listed.
 .SH FILES
 /usr/bin/urpmq
 .br
@@ -83,19 +92,9 @@ Contains media description, previous format from older urpmi is accepted.
 .br
 Contains package names that should be not automatically updated.
 .PP
-/var/lib/urpmi/depslist.ordered
+/etc/urpmi/inst.list
 .br
-A simple text file containning all dependencies of all known packages.
-.PP
-/var/lib/urpmi/provides
-.br
-A simple text file containning all provides and the list of associated
-packages that contains them.
-.PP
-/var/lib/urpmi/compss
-.br
-A simple text file containning for each Group used the list of package in
-this group.
+Contains package names that should be installed instead of updated.
 .SH "SEE ALSO"
 urpmi(8),
 urpmi.addmedia(8),
@@ -109,12 +108,3 @@ rpmdrake(8)
 Francois Pons, Mandrakesoft
 .br
 fpons@mandrakesoft.com
-
-
-
-
-
-
-
-
-

@@ -1,4 +1,4 @@
-.TH urpmi.update 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.update 8 "12 Feb 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.update
 .SH NAME
 urpmi.update \- Updates packages list for specified medias
@@ -11,17 +11,25 @@ Usefull for ftp location for example.
 <\fInames\fP> is a list of name you first told to urpmi.addmedia
 
 .SH OPTIONS
+.IP "\fB\--wget\fP"
+use wget only for downloading distant files. By default curl is used if
+available or wget instead.
+.IP "\fB\--curl\fP"
+use curl only for downloading distant files. By default curl is used if
+available or wget instead.
 .IP "\fB\-a\fP"
 Select all media that are not using a removable device to update them.
 .IP "\fB\-c\fP"
 Clean /var/cache/urpmi/headers directory on exit.
+.IP "\fB\-d\fP"
+Force complete computation of (not used anymore) /var/lib/urpmi/depslist.ordered file.
 .IP "\fB\-f\fP"
 Force rebuild of hdlist files or base files (/var/lib/urpmi/depslist.ordered,
 /var/lib/urpmi/provides and /var/lib/urpmi/compss).
 .SH FILES
-/usr/bin/urpmi
+/usr/sbin/urpmi.update
 .br
-The \fBurpmi\fP executable (perl script)
+The \fBurpmi.update\fP executable (perl script)
 .PP
 /var/lib/urpmi/list.*
 .br
@@ -47,19 +55,9 @@ Contains media description, previous format from older urpmi is accepted.
 .br
 Contains package names that should be not automatically updated.
 .PP
-/var/lib/urpmi/depslist.ordered
+/etc/urpmi/inst.list
 .br
-A simple text file containing all dependencies of all known packages.
-.PP
-/var/lib/urpmi/provides
-.br
-A simple text file containning all provides and the list of associated
-packages that contains them.
-.PP
-/var/lib/urpmi/compss
-.br
-A simple text file containning for each Group used the list of package in
-this group.
+Contains package names that should be installed instead of updated.
 .SH "SEE ALSO"
 urpmi(8),
 urpmi.addmedia(8),

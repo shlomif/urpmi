@@ -1,4 +1,4 @@
-.TH urpmi.addmedia 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.addmedia 8 "12 Feb 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.addmedia
 .SH NAME
 urpmi.addmedia \- adds a new rpms media for use with urpmi
@@ -9,28 +9,28 @@ urpmi.addmedia tells urpmi that he can find new rpms at the specified
 location. Currently supported medias are: local drives, removable drives
 (such as cd's), http and ftp.
 .PP
-All users belonging to group urpmi are allowed to add a new media.
-.PP
 One of the following modes must be choosen:
 .PP
 http:
 .br
-.IP "\fB    urpmi.addmedia <\fIname\fP> http://<\fIhost\fP>/<\fIpath\fP> with <\fIrelative path of hdlist\fP>\fP"
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> http://<\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 Where <\fIname\fP> is your reference for the media (e.g. MandrakeUpdate).
+<\fIname\fP> is optional if \fB--distrib\fP is given in \fIoptions\fP.
 .br
 <\fIhost\fP>/<\fIpath\fP> is the location of the rpm directory on the net.
 .br
 <\fIrelative path of hdlist\fP> is the pathname where to find the hdlist of
 the rpms. The location is given relative to <\fIpath\fP>.
 .br
-Note that \fBwget\fP is used to download files, you may add specific options to
-\fBwget\fP by editing \fB/etc/wgetrc\fP file. Please refer to \fBwget\fP
-documentation for more information.
-.IP "\fB    urpmi.addmedia <\fIname\fP> ftp://<\fIlogin\fP>:<\fIuser\fP>@<\fIhost\fP>/<\fIpath\fP> with <\fIrelative path of hdlist\fP>\fP"
+\fBcurl\fP is used by default to download files, \fBwget\fP may be used if
+\fBcurl\fP is not installed or \fB--curl\fP is given in \fIoptions\fP.
+.PP
+ftp:
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> ftp://<\fIlogin\fP>:<\fIuser\fP>@ <\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 The same as for http, just add your login and user if required (Note that
 you needn't to specify anonymous as login for anonymous access ftp servers).
 .br
-Note that \fBwget\fP is used to download files, so if a firewall is used you may
+Note that if \fBwget\fP is used to download files with a firewall you may
 have to add \fBpassive_ftp=on\fP option to \fB/etc/wgetrc\fP. 
 .nf
 eg: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist
@@ -38,28 +38,36 @@ eg: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist
 .PP
 Local drive or NFS:
 .br
-.IP "\fB    urpmi.addmedia <\fIname\fP> file://<\fIpath\fP>\fP with <\fIrelative path of hdlist\fP>\fP"
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> file://<\fIpath\fP>\fP [with <\fIrelative path of hdlist\fP>]\fP"
 Where <\fIname\fP> is your reference for the media (e.g. Myrpms).
 .br
 <\fIpath\fP> is the location of the rpm directory on your machine.
 .PP
 Removable device:
 .br
-.IP "\fB    urpmi.addmedia removable_<\fIdevice\fP>://<\fIpath\fP>\fP with <\fIrelative path of hdlist\fP>\fP"
-<\fIdevice\fP> is the name of your media as specified in the /dev/ directory
-(e.g. cdrom, floppy, zip, ...).
-.br
-<\fIpath\fP> is the location of the rpm directory on your machine when media
-is mounted.
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> removable://<\fIpath\fP>\fP [with <\fIrelative path of hdlist\fP>]\fP"
+<\fIpath\fP> is the location of the rpm directory on your machine when the
+removable device is mounted.
 .PP
 .SH OPTIONS
+.IP "\fB\--wget\fP"
+use wget only for downloading distant files. By default curl is used if
+available or wget instead.
+.IP "\fB\--curl\fP"
+use curl only for downloading distant files. By default curl is used if
+available or wget instead.
 .IP "\fB\--update\fP"
 add a medium which will be taken into account when updating only update media by
 \fBurpmi\fP.
+.IP "\fB\--distrib\fP"
+add all media from an installation medium. <\fIname\fP> if used is used with
+medium name found to create newer medium name in urpmi database. The \fBwith
+[...]\fP is not used as hdlist found on installation medium are used
+automatically.
 .SH FILES
-/usr/bin/urpmi
+/usr/sbin/urpmi.addmedia
 .br
-The \fBurpmi\fP executable (perl script)
+The \fBurpmi.addmedia\fP executable (perl script)
 .PP
 /var/lib/urpmi/list.*
 .br
@@ -85,19 +93,9 @@ Contains media description, previous format from older urpmi is accepted.
 .br
 Contains package names that should be not automatically updated.
 .PP
-/var/lib/urpmi/depslist.ordered
+/etc/urpmi/inst.list
 .br
-A simple text file containing all dependencies of all known packages.
-.PP
-/var/lib/urpmi/provides
-.br
-A simple text file containning all provides and the list of associated
-packages that contains them.
-.PP
-/var/lib/urpmi/compss
-.br
-A simple text file containning for each Group used the list of package in
-this group.
+Contains package names that should be installed instead of updated.
 .SH "SEE ALSO"
 urpmi(8),
 urpmi.update(8),
