@@ -117,6 +117,7 @@ autoirpm.uninstall
 * Mon Mar 26 2001 François Pons <fpons@mandrakesoft.com> 1.5-25mdk
 - sort list file so that rpm are sorted when installed.
 - increase speed for --auto-select: implies -M by default.
+- added support for retrieving descriptions file.
 
 * Mon Mar 26 2001 François Pons <fpons@mandrakesoft.com> 1.5-24mdk
 - fixed annoying message when adding a medium (cp).

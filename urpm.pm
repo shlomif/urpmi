@@ -403,6 +403,11 @@ sub update_media {
 	    #- mount everything necessary.
 	    $urpm->try_mounting($dir, 'mount') or $urpm->{log}("unable to access medium \"$medium->{name}\""), next;
 
+	    #- try to get the description if it has been found.
+	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
+	    -e "$dir/../descriptions" and
+	      system("cp", "-a", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
+
 	    #- if the source hdlist is present and we are not forcing using rpms file
 	    if (!$options{force} && $medium->{with_hdlist} && -e "$dir/$medium->{with_hdlist}") {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
@@ -444,6 +449,13 @@ sub update_media {
 	    }
 	} else {
 	    my $basename = $medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1;
+
+	    #- try to get the description if it has been found.
+	    unlink "$urpm->{cachedir}/partial/descriptions";
+	    rename "$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions";
+	    system("wget", "-NP", "$urpm->{cachedir}/partial", "$medium->{url}/../descriptions");
+	    -e "$urpm->{cachedir}/partial/descriptions" and
+	      rename "$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}";
 
 	    #- try to sync (copy if needed) local copy after restored the previous one.
 	    unlink "$urpm->{cachedir}/partial/$basename";
