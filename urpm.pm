@@ -2160,12 +2160,12 @@ sub search_packages {
 		my $pkg = $urpm->{depslist}[$_];
 		push @{$l{$pkg->name}}, $pkg;
 	    }
-	    if (values(%l) == 0) {
+	    if (values(%l) == 0 || values(%l) > 1 && !$options{all}) {
 		$urpm->{error}(N("no package named %s", $_));
-		$result = 0;
-	    } elsif (values(%l) > 1 && !$options{all}) {
-		$urpm->{error}(N("The following packages contain %s: %s",
-			$_, "\n" . join("\n", sort { $a cmp $b } keys %l)));
+		values(%l) != 0 and $urpm->{error}(
+		    N("The following packages contain %s: %s",
+			$_, "\n" . join("\n", sort { $a cmp $b } keys %l))
+		);
 		$result = 0;
 	    } else {
 		foreach (values %l) {
