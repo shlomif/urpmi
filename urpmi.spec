@@ -6,7 +6,7 @@ Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
-Requires: /usr/bin/suidperl, rpmtools >= 1.1, eject
+Requires: /usr/bin/suidperl, rpmtools >= 1.1, eject, wget
 BuildRoot: /tmp/%{name}
 
 Group: %{group}
