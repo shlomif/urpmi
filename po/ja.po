@@ -16,13 +16,13 @@ msgstr ""
 
 #: _irpm:21
 msgid "installing $rpm\n"
-msgstr "$rpm をインストール中…\n"
+msgstr "$rpm をインストールしています…\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
-msgstr ""
+msgstr "指定されたパッケージ（%s）をインストールしています…\n"
 
 #: _irpm:31 urpmi:225
 msgid "Is it ok?"
@@ -38,30 +38,29 @@ msgstr "いいえ（中止する）"
 
 #: _irpm:40 urpmi:233 urpmi:282
 msgid "Nn"
-msgstr "nNｎＮいイ"
+msgstr "Nn"
 
 #: _irpm:41 urpmi:234 urpmi:283
 msgid "Yy"
-msgstr "yYｙＹはハ"
+msgstr "Yy"
 
 #: _irpm:42 urpmi:235
 msgid " (Y/n) "
-msgstr " (はい/いいえ) [はい] "
+msgstr " (Y/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "コマンドが見つかりませんでした: %s\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "使用方法: rpmf [ファイル名]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi はインストールされていません"
 
 #: placeholder.h:8
-#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000 MandrakeSoft.\n"
@@ -82,6 +81,26 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi version %s\n"
+"Copyright (C) 1999, 2000 MandrakeSoft.\n"
+"本製品はフリーソフトウェアであり、GNU GPL の規約に従って\n"
+"再配布することが許可されています。\n"
+"オプション一覧:\n"
+"  --help           - このメッセージを表示します\n"
+"  --auto           - 最適なパッケージを自動選択します\n"
+"  --auto-select    - "
+"システムアップグレードに必要なパッケージを自動選択します\n"
+"  --force          - 存在しないパッケージがある場合でも続行します\n"
+"  --X              - 表示に X を利用します（GUI）\n"
+"  --best-output    - 表示に X かテキストのいずれかを自動判定して利用します\n"
+"  -a               - コマンドラインでの指定に合致するものを選択します\n"
+"  -c               - 依存関係の解析を厳格に行ないます\n"
+"  -q               - 表示メッセージを最小限にします\n"
+"  -v               - 詳細な表示メッセージを出します\n"
+"\n"
+"  コマンドラインで指定された名前で指定されるパッケージ、\n"
+"  もしくは直接 RPM ファイル名により指定されたパッケージを\n"
+"  インストールします（後者は管理者のみ）\n"
 
 #: placeholder.h:26
 msgid ""
@@ -94,6 +113,13 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"使用方法: urpmi.addmedia <name> <url>\n"
+"ここで、<url> は以下のうちのいずれかの形式です：\n"
+"  file://<path>\n"
+"  ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>\n"
+"  ftp://<host>/<path> with <relative filename of hdlist>\n"
+"  http://<host>/<path> with <relative filename of hdlist>\n"
+"  removable_<device>://<path>\n"
 
 #: placeholder.h:35 urpmi.addmedia:52
 #, c-format
@@ -101,6 +127,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"「with ...」以降の指定が ftp については必要です\n"
 
 #: placeholder.h:39 urpmi.addmedia:48
 #, c-format
@@ -108,6 +136,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"指定のデバイス（%s）が見つかりません\n"
 
 #: placeholder.h:43 urpmi.addmedia:50
 #, c-format
@@ -115,6 +145,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"「<relative path of hdlist>」部分の指定がありません\n"
 
 #: placeholder.h:47 urpmi.update:52
 #, c-format
@@ -122,6 +154,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"アップデート対象が見つかりません\n"
+"(%s の中のいずれか)\n"
 
 #: placeholder.h:51 urpmi.removemedia:49
 #, c-format
@@ -129,11 +163,13 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"削除対象が見つかりません\n"
+"(%s の中のいずれか)\n"
 
 #: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi バージョン %s"
 
 #: urpmi:137
 msgid "Only superuser is allowed to install local packages"
@@ -161,9 +197,9 @@ msgid ""
 msgstr "依存関係のため、次のパッケージもインストールします (%d MB)"
 
 #: urpmi:250
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "%2$s という名前の %1$s を挿入して下さい。"
+msgstr "メディア（%s）を %s に挿入して下さい。"
 
 #: urpmi:251
 msgid "Press enter when it's done..."
@@ -184,53 +220,60 @@ msgstr "インストールに失敗しました"
 
 #: urpmi:284
 msgid "Try installation without checking dependencies? (Y/n) "
-msgstr "依存関係を考慮せずにインストールをしてみますか？ (はい/いいえ) [はい] "
+msgstr "依存関係を考慮せずにインストールをしてみますか？ (はい/いいえ) "
 
 #: urpmi:290
 msgid "Try installation even more strongly (--force)? (Y/n) "
 msgstr ""
 "さらにインストールを試みますか？（--force オプション相当です） (はい/いいえ) "
-"[はい] "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "使用方法: urpmi.addmedia <name> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "未知のオプション（%s）が指定されています\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
+"アップデートが必要なものはありません。\n"
+"メディアを追加する場合は urpmi.addmedia を使用して下さい。\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
+"\"削除が必要なものはありません。\\n\"\n"
+"\"メディアを追加する場合は urpmi.addmedia を使用して下さい。\\n\"\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq version %s"
 
 #: urpmq:87
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
 msgstr ""
+"未知のオプション（\"-$1\"）です。\n"
+"使用方法を --help オプションで確認してください。\n"
 
 #: urpmq:89
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: RPMファイル（$_）を読むことが出来ませんでした\n"
 
 #: urpmq:128
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"アップグレードのためにはいくつかのパッケージを削除する\n"
+"必要があります（これは未実装です）\n"
 
 #: urpmq:150
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "ソースパッケージを取得できませんでした。このまま終了します"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"

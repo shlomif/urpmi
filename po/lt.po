@@ -1,32 +1,34 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2000 Free Software Foundation, Inc.
 # Kæstutis Kruþikas <DrKestas@takas.lt>, 2000.
+# Mykolas NorvaiÙas <Myka@centras.lt>, 1999-2001.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
 "POT-Creation-Date: 2001-02-28 02:57+0100\n"
 "PO-Revision-Date: 2000-09-30 09:40+0200\n"
-"Last-Translator: Kæstutis Kruþikas <DrKestas@takas.lt>\n"
-"Language-Team: Lithuanian\n"
+"Last-Translator: Mykolas NorvaiÙas <Myka@centras.lt>\n"
+"Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-13\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: _irpm:21
-#, fuzzy
 msgid "installing $rpm\n"
-msgstr "ádiegiamas %s\n"
+msgstr "ádiegiami $rpm\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Automatinis paketø ádiegimas...\n"
+"Jûsø uþklaustø paketø ádiegimas $rpm\n"
 
 #: _irpm:31 urpmi:225
 msgid "Is it ok?"
-msgstr "ar taip gerai?"
+msgstr "Ar taip gerai?"
 
 #: _irpm:33 urpmi:228 urpmi:253
 msgid "Ok"
@@ -50,15 +52,15 @@ msgstr " (T/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: komanda nerasta\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "naudojimas: rpmf [<byla>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi neádiegtas"
 
 #: placeholder.h:8
 #, c-format
@@ -82,6 +84,23 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi verija %s\n"
+"Copyright (C) 1999, 2000 MandrakeSoft.\n"
+"Tai yra nemokama programa ir gali bûti platinama pagal GNU GPL.\n"
+"naudojimas:\n"
+"  --help           - parodo ðá praneðimà.\n"
+"  --auto           - automatiðkai pasirinkti gerus paketus.\n"
+"  --auto-select    - automatiðkai pasirinkti paketus sistemos atnaujinimui  "
+"--force          - priversit diegti net jei keleto paketø nëra.\n"
+"  --X              - naudoti X.\n"
+"  --best-output    - pasirinkti atvaizdavimo reþimà pagal situalicijà:\n"
+"                     X arba tekstiná.\n"
+"  -a               - pasirinkti visus magal kaukæ.\n"
+"  -c               - choose complete method for resolving requires closure.\n"
+"  -q               - tylus reþimas.\n"
+"  -v               - þodinis reþimas.\n"
+"  vardai arba rpm bylos (tik root vartotojui) parodyti komandinëje eilutëje "
+"yra ádiegti.\n"
 
 #: placeholder.h:26
 msgid ""
@@ -94,6 +113,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"naudojimas: urpmi.addmedia <name> <url>\n"
+"kur <url> yra vienas ið\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> su reliatyviu bylos "
+"hdlistvardu>\n"
+"       ftp://<host>/<path> su <relatyviu hdlist bylos vardu>\n"
+"       http://<host>/<path> su <relatyviu hdlist bylos vardu>\n"
+"       removable_<device>://<path>\n"
 
 #: placeholder.h:35 urpmi.addmedia:52
 #, c-format
@@ -101,6 +128,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`su' tûkstama ftp laikmena\n"
 
 #: placeholder.h:39 urpmi.addmedia:48
 #, c-format
@@ -108,6 +137,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"árenginys `%s' neegzistuoja\n"
 
 #: placeholder.h:43 urpmi.addmedia:50
 #, c-format
@@ -115,6 +146,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<relatyviu keliu iki hdlist> trûksta\n"
 
 #: placeholder.h:47 urpmi.update:52
 #, c-format
@@ -122,6 +155,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"trûksta áraðo atnaujinimui\n"
+"(vienas ið %s)\n"
 
 #: placeholder.h:51 urpmi.removemedia:49
 #, c-format
@@ -129,11 +164,13 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"tûksta áraðo iðmetimui\n"
+"(vienas ið %s)\n"
 
 #: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi versija %s"
 
 #: urpmi:137
 msgid "Only superuser is allowed to install local packages"
@@ -191,43 +228,45 @@ msgstr "Pabandyti ádiegimà priverstinai (--force)? (T/n) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "naudojimas: urpmi.addmedia <vardas> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "neþinomi nustatymai \"%s\"\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nëra kà atnaujinti (pridëti laikmenai naudokite urpmi.addmedia)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nëra kà atnaujinti (pridëti laikmenai naudokite urpmi.addmedia)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq versija %s"
 
 #: urpmq:87
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
 msgstr ""
+"urpmq: neþinomas nustatymas \"-$1\", patikrinkite naudojimà su --help\n"
 
 #: urpmq:89
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: negai perskaityti rpm bylos \"$_\"\n"
 
 #: urpmq:128
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"kaikuriuos paketus reikia iðmesti prieð atnaujinant, tai dar nepalaikoma \n"
 
 #: urpmq:150
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "negaliu gauti pirminiø bylø, nutraukiu"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
