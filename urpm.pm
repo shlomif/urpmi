@@ -2897,12 +2897,9 @@ sub install {
 	exit 0;
     } else { #- parent process
 	if (@readmes) {
-	    if ($urpm::args::options{X}) {
-	    } else {
-		foreach (@readmes) {
-		    print "-" x 70, "\n", N("More information on package %s", $_->[1]), "\n";
-		    print cat_($_->[0]), "-" x 70, "\n";
-		}
+	    foreach (@readmes) {
+		print "-" x 70, "\n", N("More information on package %s", $_->[1]), "\n";
+		print cat_($_->[0]), "-" x 70, "\n";
 	    }
 	}
 	return @l;
