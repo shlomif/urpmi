@@ -73,7 +73,9 @@ sub invalidate_cancel {
 }
 
 sub invalidate_cancel_forever {
-    $hbox_cancel and $hbox_cancel->destroy;
+    $hbox_cancel or return;
+    $hbox_cancel->destroy;
+    $mainw->shrink_topwindow;
 }
 
 1;
