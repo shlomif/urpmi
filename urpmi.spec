@@ -211,6 +211,7 @@ $urpm->update_media(nolock => 1);
 - dropped complex time checking with curl ftp download as it
   should now be handled correctly by curl -z option since 7.10.5,
   Data::Manip perl module is now no more used.
+- fixed parallel installation of local files.
 
 * Thu Jul 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-9mdk
 - fixed error code reporting after installation.

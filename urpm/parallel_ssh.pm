@@ -14,7 +14,7 @@ sub parallel_register_rpms {
     #- keep trace of direct files.
     foreach (@files) {
 	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
-	$parallel->{line} .= "$urpm->{cachedir}/rpms/$basename";
+	$parallel->{line} .= "'$urpm->{cachedir}/rpms/$basename' ";
     }
 }
 
@@ -123,9 +123,13 @@ sub parallel_resolve_dependencies {
 	    }
 	    #- simplified choices resolution.
 	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ values %$packages ]);
-	    $choice and $line .= ' '.$choice->fullname;
+	    if ($choice) {
+		$urpm->{source}{$choice->id} and next; #- local packages have already been added.
+		$line .= ' '.$choice->fullname;
+	    }
 	} else {
 	    my $pkg = $urpm->{depslist}[$_] or next;
+	    $urpm->{source}{$pkg->id} and next; #- local packages have already been added.
 	    $line .= ' '.$pkg->fullname;
 	}
     }
@@ -175,7 +179,7 @@ sub parallel_resolve_dependencies {
     } while ($cont);
 
     #- keep trace of what has been chosen finally (if any).
-    $parallel->{line} .= "$line ".join(' ', keys %chosen);
+    $parallel->{line} = "$line ".join(' ', keys %chosen);
 }
 
 #- parallel install.
