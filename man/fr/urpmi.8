@@ -1,0 +1,141 @@
+.TH urpmi 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi
+.SH NOM
+urpmi \- interface rpm pour simplifier les installations
+.SH SYNOPSIS
+.B urpmi [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
+.SH DESCRIPTION
+urpmi permet aux utilisateurs d'installer eux-mêmes des rpms. En fait,
+il autorise uniquement les rpms bien connus à être installés. Si vous
+voulez installer un fichier rpm local, vous devez être super-utilisateur.
+En fait, rpm est à urpmi ce que insmod est à modprobe, ou dpkg à apt-get.
+.PP
+Tous les utilisateurs appartenant au groupe urpmi peuvent installer des
+paquetages.
+.br
+Lancez urpmi suivi de ce que vous pensez être le nom du/des paquetages(s),
+et urpmi :
+.br
+\- Proposera des noms de paquetages possibles s'ils existent, et quittera.
+.br
+\- Vérifiera si les dépendances sont déjà installées, dans le cas où un seul
+paquetage est trouvé.
+.br
+\- Proposera d'installer les dépendances si elles sont absentes, installera
+toutes les dépendances nécessaires après acceptation, puis le paquetage voulu.
+.PP
+Veuillez noter que urpmi gère les installations à partir de divers médias (ftp,
+http, volumes nfs et locaux, médias amovibles commes les cédéroms), et peut
+installer les dépendances à partir d'un média différent du médium du paquetage.
+Si nécessaire, urpmi vous demandera d'insérer le médium nécessaire.
+.PP
+Pour ajouter un nouveau médium contenant des rpms, lancez urpmi.addmedia.
+.br
+Pour retirer un médium, utilisez urpmi.removemedia.
+.br
+Pour mettre à jour la liste des paquetages, (par exemple quand l'archive ftp
+a changé) utilisez urpmi.update.
+.br
+Pour installer automatiquement un paquetage correspondant à un exécutable que
+vous avez tenté de lancer, utilisez autoirpm.
+.br
+Pour installer toutes les entrées de menu de tous les paquetages connus, utilisez
+autoirpm-icons.
+.SH OPTIONS
+.IP "\fB\--help\fP"
+affiche un message d'aide et quitte.
+.IP "\fB\--update\fP"
+utilise seulement des médias de mise à jour. Cela signifie que \fBurpmi\fP
+ne recherchera et ne résolvera les dépendances que sur les médias marqués comme
+mises à jour.
+.IP "\fB\--auto\fP"
+installe toutes les dépendances nécessaires sans rien demander.
+.IP "\fB\--auto-select\fP"
+sélectionne automatiquement tous les paquetages qui doivent être mis à jour
+selon les paquetages déjà installés et les paquetages listés dans les divers
+médias enregistrés.
+.IP "\fB\--force\fP"
+répond par l'affirmative à toutes les questions.
+.IP "\fB\--X\fP"
+utilise l'interface X.
+.IP "\fB\--best-output\fP"
+essaye d'utiliser l'interface X, ou si elle n'est pas disponible, l'interface
+en mode texte (qui utilise rpm).
+.IP "\fB\-a\fP"
+si plusieurs paquetages coïncident avec la sous-chaîne donnée, les prendre tous.
+.IP "\fB\-m\fP"
+cherche un ensemble minimum de dépendances (option par défaut). C'est un
+algorithme plutôt lent qui essaye de limiter le nombre de paquetages à
+mettre à jour à ceux qui sont vraiment nécessaires.
+.IP "\fB\-M\fP"
+choisit un ensemble maximum de dépendances. C'est l'algorithme le plus rapide
+qui essaye de mettre à jour toutes les dépendances si elles peuvent être mises
+à jour.
+.IP "\fB\-c\fP"
+si l'ensemble maximum est utilisé, suppose qu'un paquetage listé peut avoir
+une mauvaise mise-à-jour, ou pas actualisée. Cela entraîne la mise-à-jour de
+davantage de paquetages et peut corriger les dépendances non résolues dans
+la base de données rpm.
+.IP "\fB\-p\fP"
+autorise la recherche dans "provides" pour trouver un paquetage.
+.IP "\fB\-q\fP"
+active le mode silencieux pour la mise à jour utilisant rpm 
+.IP "\fB\-v\fP"
+active un mode verbeux avec de nombreux messages.
+.SH FICHIERS
+/usr/bin/urpmi
+.br
+L'exécutable \fBurpmi\fP (script perl)
+.PP
+/var/lib/urpmi/list.*
+.br
+Contient la liste de tous les paquetages connus par urpmi et leur emplacement.
+Il y a une liste de fichiers par médium(*).
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+Contient l'information sur tous les paquetages connus, c'est un résumé des
+entêtes de rpm.
+Il y a un fichier hdlist par médium(*).
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Contient une synthèse de tous les paquetages connus construits à partir des
+fichiers hdlist qui peut être utilisée pour l'algorithme de l'ensemble minimal.
+Si ces fichiers ne sont pas présents, utilisez \fBurpmi.update -a\fP pour les
+générer. Ces fichiers ne sont pas obligatoires.
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Contient la description du médium, l'ancien format urpmi est accepté.
+.PP
+/etc/urpmi/skip.list
+.br
+Contient les noms de paquetages à ne pas mettre à jour automatiquement.
+.PP
+/var/lib/urpmi/depslist.ordered
+.br
+Un simple fichier texte contenant les dépendances de tous les paquetages connus.
+.PP
+/var/lib/urpmi/provides
+.br
+Un simple fichier texte contenant tous les « provides » et la liste des
+paquetages associés qui les contiennent.
+.PP
+/var/lib/urpmi/compss
+.br
+Un simple fichier texte contenant pour chaque groupe utilisé la liste des
+paquetages dans ce groupe.
+.SH "VOIR AUSSI"
+urpmi.addmedia(8),
+urpmi.update(8),
+urpmi.removemedia(8),
+autoirpm(8),
+gurpmi(8),
+urpmf(8),
+urpmq(8),
+rpmdrake(8)
+.SH AUTEURS
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+.br
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>

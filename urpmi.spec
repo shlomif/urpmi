@@ -94,7 +94,7 @@ rm -f /var/lib/urpmi/depslist
 %{_sbindir}/urpmi.*
 %{_mandir}/man?/urpm*
 # find_lang isn't able to find man pages yet...
-#%lang(fr) %{_mandir}/fr/man?/urpm* uncomment when available...
+%lang(fr) %{_mandir}/fr/man?/urpm* 
 %{perl_sitearch}/urpm.pm
 
 %files -n gurpmi

@@ -1,50 +1,38 @@
 .TH autoirpm 8 "05 Sep 2000" "Mandrakesoft" "Linux-Mandrake"
 .IX autoirpm
-.SH NOM
-autoirpm \- installe automatiquement les RPM qui incluant un programme
+.SH NAME
+autoirpm \- installe automatiquement le RPM correspondant à votre commande
 .SH SYNOPSIS
 .B autoirpm
 .SH DESCRIPTION
-autoirpm detecte 
-.B magiquement
-le paquetage necessaire et l'installe. Par exemple supposons que vous
-tapiez
-.B gmix
-pour lancer le programme de configuration du mixage audio. S'il n'est
-pas disponible, on vous demandera alors si vous voulez installer
-le paquetage 
-.B gnome-media
-lequel contient le programme gmix...
+autoirpm devine *magiquement* le paquetage dont vous avez besoin et l'installe.
+Imaginez que vous tapiez gmix pour lancer votre table de mixage audio. S'il
+n'est pas disponible, on vous demandera si vous souhaitez installer le
+paquetage gnome-media qui contient le binaire gmix...
 .PP
-Pour utiliser ceci, lancez 
-.B autoirpm.update-all,
-qui va faire la liste de tous les executables contenus dans les paquetages
-connus de urpmi. Seront ensuite crées des liens dans les repertoires de
-binaires respectifs...
-Utilisez
-.B autoirpm.uninstall
-pour enlever tous les liens crées par autoirpm.update.
+Pour cela, lancez autoirpm.update-all, qui scanne tous les paquetages connus
+par urpmi à la recherche de tous les exécutables binaires. Il crée ensuite
+des liens dans les répertoires respectifs de ces exécutables...
+Utilisez autoirpm.uninstall pour retirer tous les liens créés par autoirpm.update.
 .PP
-utilisez \fBautoirpm.update <nom de paquetage>\fP pour mettre à jour les executables contenus dans le paquetage spécifié.
+utilisez \fBautoirpm.update <nom>\fP pour mettre à jour les exécutables contenus
+dans les paquetages du média <nom>mé.
 .PP
-utilisez \fBautoirpm.update-all\fP pour mettre à jour tous les executables contenus dans tous les paquetages connus de urpmi.
+utilisez \fBautoirpm.update-all\fP pour mettre à jour les exécutables contenus
+dans tous les médias connus par urpmi.
 .PP
-utilisez \fBautoirpm.uninstall\fP pour enlever tous les liens qui ont été
-installés par autoirpm.
+utilisez \fBautoirpm.uninstall\fP pour retirer tous les liens installés par autoirpm.
 .PP
-Cette fonctionalité peut être offerte aussi pour les icones des menus,
-en instalant le paquetage
-.B autoirpm-icons.
+This feature may be offered for menu icons installing autoirpm-icons package.
 .SH FICHIERS
 /etc/urpmi/autoirpm.deny
 .br
-Les programmes inclus dans des paquetages listés dans ce fichier ne
-provoqueront pas d'installation automatique du paquetage rpm.
+Tous les binaires contenus dans les paquetages listés dans ce fichier ne mèneront pas
+à une installation automatique du rpm.
 .PP
 /etc/urpmi/autoirpm.allow
 .br
-Si ce fichier existe, alors seuls les executables des paquetages y listés
-offriront la fonctionalité d'auto-instalation.
+Si présent, seuls les binaires des paquetages listés offriront la fonction auto-install. 
 
 .SH "VOIR AUSSI"
 urpmi(8)
