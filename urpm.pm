@@ -68,7 +68,10 @@ sub new {
 	fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	error      => sub { printf STDERR "%s\n", $_[0] },
 	log        => sub { printf STDERR "%s\n", $_[0] },
-	ui_msg     => sub { $self->{log}($_[0]); $self->{ui} and $self->{ui}{msg}->($_[1]) },
+	ui_msg     => sub {
+	    $self->{log}($_[0]);
+	    ref $self->{ui} && ref $self->{ui}{msg} and $self->{ui}{msg}->($_[1])s;
+	},
     }, $class;
     $self->set_nofatal(1);
     $self;
