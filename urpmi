@@ -168,6 +168,7 @@ while (defined($_ = shift @argv)) {
     /^--noclean$/ and do { $clean = $urpm->{options}{'pre-clean'} = $urpm->{options}{'post-clean'} = 0; $noclean = 1; next };
     /^--(no-)?pre-clean$/ and do { $urpm->{options}{'pre-clean'} = !$1; next };
     /^--(no-)?post-clean$/ and do { $urpm->{options}{'post-clean'} = !$1; next };
+    /^--no-priority-upgrade$/ and do { $urpm->{options}{'priority-upgrade'} = ''; next };
     /^--force$/ and do { $force = 1; next };
     /^--allow-nodeps$/ and do { $urpm->{options}{'allow-nodeps'} = 1; next };
     /^--allow-force$/ and do { $urpm->{options}{'allow-force'} = 1; next };
@@ -783,7 +784,8 @@ if ($restart_itself && !$exit_code) {
     message(N("restarting urpmi"), 'noX');
     #- it seems to work correctly with exec instead of system, provided
     #- STDOUT or STDERR are not closed before (else no output at all).
-    exec "/usr/sbin/urpmi", @ARGV;
+    #- added --no-priority-upgrade to make sure no restart will be done after this one.
+    exec "/usr/sbin/urpmi", '--no-priority-upgrade', @ARGV;
 }
 
 #- this help flushing correctly by closing this file before (piped on tee).
