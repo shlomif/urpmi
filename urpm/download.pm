@@ -47,12 +47,27 @@ sub load_proxy_config () {
 sub get_proxy (;$) {
     my ($o_media) = @_; $o_media ||= '';
     load_proxy_config();
-    return $proxy_config->{$o_media} || {
-	http_proxy => undef ,
-	ftp_proxy => undef ,
+    return $proxy_config->{cmd_line}
+	|| $proxy_config->{$o_media}
+	|| $proxy_config->{''}
+	|| {
+	    http_proxy => undef,
+	    ftp_proxy => undef,
+	    user => undef,
+	    pwd => undef,
+	};
+}
+
+#- overrides the config file proxy settings with values passed via command-line
+sub set_cmdline_proxy {
+    my (%h) = @_;
+    $proxy_config->{cmd_line} ||= {
+	http_proxy => undef,
+	ftp_proxy => undef,
 	user => undef,
-	pwd => undef
+	pwd => undef,
     };
+    $proxy_config->{cmd_line}{$_} = $h{$_} for keys %h;
 }
 
 #- set up the environment for proxy usage for the appropriate tool.

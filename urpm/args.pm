@@ -4,6 +4,7 @@ use strict;
 use warnings;
 no warnings 'once';
 use Getopt::Long;# 2.33;
+use urpm::download;
 
 # The program that invokes us
 (my $tool = $0) =~ s!.*/!!;
@@ -85,12 +86,14 @@ my %options_spec = (
 	    my ($proxy, $port) = $value =~ m,^(?:http://)?([^:]+(:\d+)?)/*$,
 		or die N("bad proxy declaration on command line\n");
 	    $proxy .= ":1080" unless $port;
-	    $urpm->{proxy}{http_proxy} = "http://$proxy";
+	    $urpm->{proxy}{http_proxy} = "http://$proxy"; #- obsolete, for compat
+	    urpm::download::set_cmdline_proxy(http_proxy => "http://$proxy");
 	},
 	'proxy-user=s' => sub {
 	    my (undef, $value) = @_;
 	    $value =~ /(.+):(.+)/ or die N("bad proxy declaration on command line\n");
-	    @{$urpm->{proxy}}{qw(user pwd)} = ($1, $2);
+	    @{$urpm->{proxy}}{qw(user pwd)} = ($1, $2); #- obsolete, for compat
+	    urpm::download::set_cmdline_proxy(user => $1, pwd => $2);
 	},
 	'bug=s' => \$options{bug},
 	'env=s' => \$::env,

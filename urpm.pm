@@ -678,7 +678,7 @@ sub add_distrib_media {
 		    quiet => 1,
 		    limit_rate => $options{limit_rate},
 		    compress => $options{compress},
-		    proxy => $urpm->{proxy},
+		    proxy => get_proxy(),
 		},
 		reduce_pathname("$url/Mandrake/base/hdlists"),
 	    );
@@ -1218,7 +1218,7 @@ this could happen if you mounted manually the directory when creating the medium
 			quiet => 1,
 			limit_rate => $options{limit_rate},
 			compress => $options{compress},
-			proxy => $urpm->{proxy},
+			proxy => get_proxy($medium->{name}),
 			media => $medium->{name},
 		    },
 		    reduce_pathname("$medium->{url}/../descriptions"),
@@ -1248,7 +1248,7 @@ this could happen if you mounted manually the directory when creating the medium
 				quiet => 1,
 				limit_rate => $options{limit_rate},
 				compress => $options{compress},
-				proxy => $urpm->{proxy},
+				proxy => get_proxy($medium->{name}),
 				media => $medium->{name},
 			    },
 			    reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"),
@@ -1348,7 +1348,7 @@ this could happen if you mounted manually the directory when creating the medium
 				limit_rate => $options{limit_rate},
 				compress => $options{compress},
 				callback => $options{callback},
-				proxy => $urpm->{proxy},
+				proxy => get_proxy($medium->{name}),
 				media => $medium->{name},
 			    },
 			    reduce_pathname("$medium->{url}/$with_hdlist"),
@@ -1388,7 +1388,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    limit_rate => $options{limit_rate},
 			    compress => $options{compress},
 			    callback => $options{callback},
-			    proxy => $urpm->{proxy},
+			    proxy => get_proxy($medium->{name}),
 			    media => $medium->{name},
 			},
 			reduce_pathname("$medium->{url}/$medium->{with_hdlist}"),
@@ -1455,7 +1455,7 @@ this could happen if you mounted manually the directory when creating the medium
 				    quiet => 1,
 				    limit_rate => $options{limit_rate},
 				    compress => $options{compress},
-				    proxy => $urpm->{proxy},
+				    proxy => get_proxy($medium->{name}),
 				    media => $medium->{name},
 				},
 				$_
@@ -1483,7 +1483,7 @@ this could happen if you mounted manually the directory when creating the medium
 				    quiet => 1,
 				    limit_rate => $options{limit_rate},
 				    compress => $options{compress},
-				    proxy => $urpm->{proxy},
+				    proxy => get_proxy($medium->{name}),
 				    media => $medium->{name},
 				},
 				$_,
@@ -1875,7 +1875,7 @@ sub register_rpms {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving rpm file [%s] ...", $_));
-		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} }, $_);
+		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => get_proxy() }, $_);
 		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    };
@@ -2575,7 +2575,7 @@ sub download_packages_of_distant_media {
 			resume => $options{resume},
 			compress => $options{compress},
 			callback => $options{callback},
-			proxy => $urpm->{proxy},
+			proxy => get_proxy($urpm->{media}[$_]{name}),
 			media => $urpm->{media}[$_]{name},
 		    },
 		    values %distant_sources,

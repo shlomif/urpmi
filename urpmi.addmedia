@@ -133,7 +133,14 @@ sub main {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving mirrors at %s ...", $options{from}));
-		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} }, $options{from});
+		$urpm->{sync}(
+		    {
+			dir => "$urpm->{cachedir}/partial",
+			quiet => 1,
+			proxy => get_proxy(),
+		    },
+		    $options{from},
+		);
 		$urpm->{log}(N("...retrieving done"));
 	    };
 	    $@ and $urpm->{log}(N("...retrieving failed: %s", $@));
