@@ -20,11 +20,11 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #We only make good software ;-)
-#use strict qw(subs vars refs);
 use strict;
 use urpm;
+use urpm::args;
 
-my (@nextargv, $root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, $bug, @l);
+our ($root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, $bug, @l);
 my $askok = N("Is this OK?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
@@ -52,23 +52,8 @@ usage:
 }
 
 @ARGV or usage;
-while (defined($_ = shift @ARGV)) {
-    /^--help$/ and do { usage; next };
-    /^--no-locales$/ and do { undef *N; undef *urpm::N; *N = *urpm::N = sub { sprintf(shift @_, @_) }; next };
-    /^--?auto$/ and do { $auto = 1; next };
-    /^--(no-)?test$/ and do { $test = !$1; next };
-    /^--force$/ and do { $force = 1; next };
-    /^--root$/ and do { push @nextargv, \$root; next };
-    /^--use-distrib$/ and do { push @nextargv, \$usedistrib; next };
-    /^--parallel$/ and do { push @nextargv, \$parallel; next };
-    /^-(.*)$/ and do { foreach (split //, $1) {
-	/[\?h]/ and do { usage; next };
-	/a/ and do { $matches = 1; next };
-	/v/ and do { $verbose = 1; next };
-	die N("urpme: unknown option \"-%s\", check usage with --help\n", $1) } next };
-    @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
-    push @l, $_;
-}
+urpm::args::parse_cmdline();
+@l = @ARGV;
 
 my $urpm = new urpm;
 my $state = {};
@@ -77,11 +62,12 @@ my $state = {};
 $verbose or $urpm->{log} = sub {};
 
 #- just configure parallel mode if available.
-$urpm->configure(synthesis => ($parallel and 'none'),
-		 root => $root,
-		 parallel => $parallel,
-		 usedistrib => $usedistrib,
-		 );
+$urpm->configure(
+    synthesis => ($parallel ? 'none' : ''),
+    root => $root,
+    parallel => $parallel,
+    usedistrib => $usedistrib,
+);
 
 #- examine packages...
 my @toremove = $urpm->find_packages_to_remove($state, \@l,

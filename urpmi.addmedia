@@ -20,23 +20,15 @@
 
 #- this program is based upon old urpmi.addmedia
 
-#use strict qw(subs vars refs);
 use strict;
 use urpm;
+use urpm::args;
 
-sub main {
-    my ($name, $url, $with, $relative_hdlist, %options);
-    #- parse /etc/urpmi/mirror.config if present, or use default mandrake mirror.
-    my $mirrors = 'http://www.linux-mandrake.com/mirrorsfull.list';
-    if (-e "/etc/urpmi/mirror.config") {
-	local (*F, $_);
-	open F, "/etc/urpmi/mirror.config";
-	while (<F>) {
-	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	    /^url\s*=\s*(.*)/ and $mirrors = $1;
-	}
-	close F;
-    }
+# Default mirror list
+our $mirrors = 'http://www.linux-mandrake.com/mirrorsfull.list';
+
+sub usage {
+    my $m = shift;
 # Translator: The URI types strings 'file:', 'ftp:', 'http:',
 # Translator: and 'removable:' must not be translated!
 # Translator: neither the ``with''.
@@ -81,57 +73,40 @@ and [options] are from
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -f             - force generation of hdlist files.
 ");
+    warn $m ? "$usage\n$m" : $usage;
+    exit 0;
+}
+
+sub main {
+    our %options;
+    #- parse /etc/urpmi/mirror.config if present, or use default mandrake mirror.
+    if (-e "/etc/urpmi/mirror.config") {
+	local (*F, $_);
+	open F, "/etc/urpmi/mirror.config";
+	while (<F>) {
+	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	    /^url\s*=\s*(.*)/ and $mirrors = $1;
+	}
+	close F;
+    }
+    #---
     $options{force} = 0;
     $options{noclean} = 1;
     $options{probe_with} = 'synthesis'; #- no the default is to probe synthesis file.
     my $urpm = new urpm;
-    while ($_ = shift @_) {
-	/^--?c$/ and $options{noclean} = 0, next;
-	/^--?h$/ and next;
-	/^--?f$/ and ++$options{force}, next;
-	/^--?z$/ and ++$options{compress}, next;
-	/^--wget$/ and $urpm->{options}{downloader} = 'wget', next;
-	/^--curl$/ and $urpm->{options}{downloader} = 'curl', next;
-	/^--limit-rate$/ and do { $options{limit_rate} = shift @_; next };
-	/^--proxy$/ and do {
-	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
-		die N("bad proxy declaration on command line\n");
-	    $proxy .= ":1080" unless $port;
-	    $urpm->{proxy}{http_proxy} = $proxy;
-	    next;
-	};
-	/^--proxy-user$/ and do {
-	    ($_ = shift @_) =~ /(.+):(.+)/, or
-		die N("bad proxy declaration on command line\n");
-	    $urpm->{proxy}{user} = $1;
-	    $urpm->{proxy}{pwd} = $2;
-	    next;
-	};
-	/^--probe-synthesis$/ and $options{probe_with} = 'synthesis', next;
-	/^--probe-hdlist$/ and $options{probe_with} = 'hdlist', next;
-	/^--no-probe$/ and $options{probe_with} = undef, next;
-	/^--no-md5sum$/ and $options{nomd5sum} = 1, next;
-	/^--distrib$/ and $options{distrib} = undef, next;
-	/^--distrib-(.*)$/ and $options{distrib} = $1, next;
-	/^--from$/ and $options{mirrors_url} = shift @_, next;
-	/^--version$/ and $options{version} = shift @_, next;
-	/^--arch$/ and $options{arch} = shift @_, next;
-	/^--update$/ and $options{update} = 1, next;
-	/^--virtual$/ and $options{virtual} = 1, next;
-	/^-/ and die $usage . N("\nunknown options '%s'\n", $_);
-	($name, $url, $with, $relative_hdlist) = ($_, @_);
-	last;
-    }
+    urpm::args::parse_cmdline(urpm => $urpm);
+    our ($name, $url, $with, $relative_hdlist) = @ARGV;
+
     #- allow not to give name immediately.
     $options{distrib} or $url or ($url, $name) = ($name, '');
-    my ($type) = $url =~ m,^([^:]*)://, or $options{distrib} or die $usage;
+    my ($type) = $url =~ m,^([^:]*)://, or $options{distrib} or usage;
 
     $urpm->read_config;
     exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
 
     if (exists $options{distrib}) {
 	if (defined $options{distrib}) {
-	    $name or die $usage;
+	    $name or usage;
 	    #- extended distribution support, code is directly inlined here.
 	    #- -h always set, updates should allow setting update flag.
 	    $options{distrib} eq 'updates' and $options{update} = 1;
@@ -190,7 +165,8 @@ and [options] are from
 	    }
 	    close F;
 	} else {
-	    $with || $relative_hdlist and die N("%s\nno need to give <relative path of hdlist> with --distrib", $usage);
+	    $with || $relative_hdlist
+		and usage N("no need to give <relative path of hdlist> with --distrib");
 
 	    $urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update});
 	}
@@ -205,12 +181,12 @@ and [options] are from
 	    $urpm->update_media(%options, callback => \&urpm::sync_logger);
 	}
     } else {
-	$name or die $usage;
+	$name or usage;
 
 	if ($with eq "with") {
-	    $relative_hdlist or die N("%s\n<relative path of hdlist> missing\n", $usage);
+	    $relative_hdlist or usage N("<relative path of hdlist> missing\n");
 	} elsif ($type =~ /ftp|http|rsync|ssh/) {
-	    $options{probe_with} || $with eq "with" or die N("%s\n`with' missing for network media\n", $usage);
+	    $options{probe_with} || $with eq "with" or usage N("`with' missing for network media\n");
 	}
 
 	$urpm->add_medium($name, $url, $relative_hdlist, virtual => $options{virtual}, update => $options{update});
@@ -232,4 +208,4 @@ and [options] are from
     $urpm->try_umounting_removables;
 }
 
-main(@ARGV);
+main();

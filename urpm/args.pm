@@ -187,6 +187,20 @@ my %options_spec = (
 	f => sub {
 	    $::query->{version} = $::query->{release} = $::query->{arch} = 1;
 	},
+	'<>' => sub {
+	    my $x = $_[0];
+	    if ($x =~ /\.rpm$/) {
+		if (-r $x) { push @::files, $x }
+		else { print STDERR N("urpmq: cannot read rpm file \"%s\"\n", $x) }
+	    } else {
+		if ($::query->{src}) {
+		    push @::src_names, $x;
+		} else {
+		    push @::names, $x;
+		}
+		$::query->{src} = 0; #- reset switch for next package.
+	    }
+	},
     },
 
     'urpmi.update' => {

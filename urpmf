@@ -18,9 +18,9 @@
 #- along with this program; if not, write to the Free Software
 #- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#use strict qw(subs vars refs);
 use strict;
 use urpm;
+use urpm::args;
 
 sub usage {
     print STDERR N("urpmf version %s
@@ -68,61 +68,30 @@ usage:
 }
 
 #- default options.
-my $update = 0;
-my $media = '';
-my $excludemedia = '';
-my $sortmedia = '';
-my $synthesis = '';
-my $verbose = 0;
-my $quiet;
-my $uniq = '';
-my $pattern = '';
-my $full = '';
-my $env;
-my (%params, %uniq);
+our $update = 0;
+our $media = '';
+our $excludemedia = '';
+our $sortmedia = '';
+our $synthesis = '';
+our $verbose = 0;
+our $quiet;
+our $uniq = '';
+our $pattern = '';
+our $full = '';
+our $env;
+our (%params, %uniq);
 
 #- parse arguments list.
-my $expr;
-while (defined($_ = shift @ARGV)) {
-    /^--help$/ and do { usage; next };
-    /^--no-locales$/ and do { undef *N; undef *urpm::N; *N = *urpm::N = sub { sprintf(shift @_, @_) }; next };
-    /^--update$/ and do { $update = 1; next };
-    /^--media$/ and do { $media = shift @ARGV; next };
-    /^--mediums$/ and do { $media = shift @ARGV; next };
-    /^--exclude-?media$/ and do { $excludemedia = shift @ARGV; next };
-    /^--sort-?media$/ and do { $sortmedia = shift @ARGV; next };
-    /^--synthesis$/ and do { $synthesis = shift @ARGV; next };
-    /^--verbose$/ and do { $verbose = 1; next };
-    /^--quiet$/ and do { $quiet = 1; next };
-    /^--uniq$/ and do { $uniq = 1; next };
-    /^--all$/ and do { $params{$_} = 1
-			 foreach qw(filename group size summary description sourcerpm packager buildhost url
-				    provides requires files conflicts obsoletes); next };
-    /^--name$/ and do { $params{filename} = 1; next };
-    /^--(group|size|epoch|summary|description|sourcerpm|packager|buildhost|url|provides|requires|files|conflicts|obsoletes)$/ and
-      do { $params{$1} = 1; next };
-    /^--env$/ and do { $env = shift @ARGV; next };
-    /^-v$/ and do { $verbose = 1; next };
-    /^-q$/ and do { $quiet = 1; next };
-    /^-u$/ and do { $uniq = 1; next };
-    /^-i$/ and do { $pattern = 'i'; next };
-    /^-f$/ and do { $full = 'full'; next };
-    /^-e$/ and do { $expr .= '('.(shift @ARGV).')'; next };
-    /^-a$/ and do { $expr .= ' && '; next };
-    /^-o$/ and do { $expr .= ' || '; next };
-    /^[!\(\)]$/ and do { $expr .= $_; next };
-    #- assume a regex directly unless a ++ is inside the string, someother to use ?
-    /\+\+/ and $_ = quotemeta $_;
-    $expr .= 'm{'.$_.'}'.$pattern;
-}
+our $expr;
+urpm::args::parse_cmdline();
 
 my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
 foreach (scalar(keys %params)) {
-    $_ eq 0 and do { defined $quiet or $quiet = 1; $params{files} = 1 };
-    $_ eq 1 and do { defined $quiet or $quiet = 1 };
-    $_ > 1 and do { defined $quiet or $quiet = 0 };
+    $_ == 0 and do { defined $quiet or $quiet = 1; $params{files} = 1 };
+    $_ == 1 and do { defined $quiet or $quiet = 1 };
+    $_ > 1  and do { defined $quiet or $quiet = 0 };
 }
 
 #- build callback according expression.

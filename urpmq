@@ -22,14 +22,15 @@
 
 use strict;
 use urpm;
+use urpm::args;
 use MDK::Common;
 
 #- default options.
 my $query = { use_provides => 1, };
 
-my @files;
-my @names;
-my @src_names;
+our @files;
+our @names;
+our @src_names;
 
 sub usage {
     print STDERR N("urpmq version %s
@@ -93,82 +94,8 @@ usage:
 my $urpm = new urpm;
 
 #- parse arguments list.
-my @nextargv;
 @ARGV or usage;
-while (defined($_ = shift @ARGV)) {
-    /^--help$/ and do { usage };
-    /^--update$/ and do { $query->{update} = 1; next };
-    /^--media$/ and do { push @nextargv, \$query->{media}; next };
-    /^--exclude-?media$/ and do { push @nextargv, \$query->{excludemedia}; next };
-    /^--sort-?media$/ and do { push @nextargv, \$query->{sortmedia}; next };
-    /^--mediums$/ and do { push @nextargv, \$query->{media}; next };
-    /^--synthesis$/ and do { push @nextargv, \$query->{synthesis}; next };
-    /^--auto-select$/ and do { $query->{deps} = $query->{upgrade} = $query->{auto_select} = 1; next };
-    /^--fuzzy$/ and do { $query->{fuzzy} = $query->{all} = 1; next };
-    /^--keep$/ and do { $query->{keep} = 1; next };
-    /^--list$/ and do { $query->{list} = 1; next };
-    /^--list-media$/ and do { $query->{list_media} = 1; next };
-    /^--list-url$/ and do { $query->{list_url} = 1; next };
-    /^--dump-config$/ and do { $query->{dump_config} = 1; next };
-    /^--list-nodes$/ and do { $query->{list_nodes} = 1; next };
-    /^--list-aliases$/ and do { $query->{list_aliases} = 1; next };
-    /^--src$/ and do { $query->{src} = 1; next };
-    /^--headers$/ and do { $query->{headers} = 1; next };
-    /^--sources$/ and do { $query->{sources} = 1; next };
-    /^--force$/ and do { $query->{force} = 1; next };
-    /^--skip$/ and do { push @nextargv, \$query->{skip}; next };
-    /^--root$/ and do { push @nextargv, \$query->{root}; next };
-    /^--use-distrib$/ and do { push @nextargv, \$query->{usedistrib}; next };
-    /^--parallel$/ and do { push @nextargv, \$query->{parallel}; next };
-    /^--wget$/ and do { $urpm->{options}{downloader} = 'wget'; next };
-    /^--curl$/ and do { $urpm->{options}{downloader} = 'curl'; next };
-    /^--proxy$/ and do {
-	my ($proxy, $port) = ($_ = shift @ARGV) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
-	    die N("bad proxy declaration on command line\n");
-	$proxy .= ":1080" unless $port;
-	$urpm->{proxy}{http_proxy} = "http://$proxy";
-	next;
-    };
-    /^--proxy-user$/ and do {
-	($_ = shift @ARGV) =~ /(.+):(.+)/, or
-	    die N("bad proxy declaration on command line\n");
-	$urpm->{proxy}{user} = $1;
-	$urpm->{proxy}{pwd} = $2;
-	next;
-    };
-    /^--env$/ and do { push @nextargv, \$query->{env}; next };
-    /^--changelog$/ and do { $query->{changelog} = 1; next };
-    /^-(.*)$/ and do { foreach (split //, $1) {
-	/[\?h]/ and do { usage; next };
-	/d/ and do { $query->{deps} = 1; next };
-	/u/ and do { $query->{upgrade} = 1; next };
-	/a/ and do { $query->{all} = 1; next };
-	/m/ and do { $query->{deps} = $query->{upgrade} = 1; next };
-	/M/ and do { $query->{deps} = $query->{upgrade} = 1; next };
-	/c/ and do { $query->{complete} = 1; next };
-	/g/ and do { $query->{group} = 1; next };
-	/p/ and do { $query->{use_provides} = 1; next };
-	/P/ and do { $query->{use_provides} = 0; next };
-	/R/ and do { $query->{what_requires} = 1; next };
-	/y/ and do { $query->{fuzzy} = $query->{all} = 1; next };
-	/s/ and do { $query->{src} = 1; next };
-	/v/ and do { $query->{verbose} = 1; next };
-	/i/ and do { $query->{info} = 1; next };
-	/r/ and do { $query->{version} = $query->{release} = 1; next };
-	/f/ and do { $query->{version} = $query->{release} = $query->{arch} = 1; next };
-	/l/ and do { $query->{list_files} = 1; next };
-	print STDERR N("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
-    @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
-    /\.rpm$/ and do { if (-r $_) { push @files, $_ }
-		      else { print STDERR N("urpmq: cannot read rpm file \"%s\"\n", $_) }
-		      next };
-    if ($query->{src}) {
-	push @src_names, $_;
-    } else {
-	push @names, $_;
-    }
-    $query->{src} = 0; #- reset switch for next package.
-}
+urpm::args::parse_cmdline(urpm => $urpm);
 
 #- remove verbose if not asked.
 $query->{verbose} or $urpm->{log} = sub {};

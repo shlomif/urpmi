@@ -18,43 +18,12 @@
 
 #- this program is based upon old urpmi.addmedia
 
-#use strict qw(subs vars refs);
+use strict;
 use urpm;
+use urpm::args;
 
-sub main {
-    my (@toupdates, %options);
-    my $urpm = new urpm;
-
-    $options{force} = 0;
-    $options{noclean} = 1;
-    while ($_ = shift @_) {
-	/^--?a$/ and $options{all} = 1, next;
-	/^--?c$/ and $options{noclean} = 0, next;
-	/^--?f$/ and ++$options{force}, next;
-	/^--?z$/ and ++$options{compress}, next;
-	/^--update$/ and $options{update} = 1, next;
-	/^--force-key$/ and $options{forcekey} = 1, next;
-	/^--wget$/ and $urpm->{options}{downloader} = 'wget', next;
-	/^--curl$/ and $urpm->{options}{downloader} = 'curl', next;
-	/^--limit-rate$/ and do { $options{limit_rate} = shift @_; next };
-	/^--proxy$/ and do {
-	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
-		die N("bad proxy declaration on command line\n");
-	    $proxy .= ":1080" unless $port;
-	    $urpm->{proxy}{http_proxy} = $proxy;
-	    next;
-	};
-	/^--proxy-user$/ and do {
-	    ($_ = shift @_) =~ /(.+):(.+)/, or
-		die N("bad proxy declaration on command line\n");
-	    $urpm->{proxy}{user} = $1;
-	    $urpm->{proxy}{pwd} = $2;
-	    next;
-	};
-	/^--no-md5sum$/ and $options{nomd5sum} = 1, next;
-	/^--?noa$/ and next; #- default, keeped for compability.
-	/^--?d$/ and next; #- default, keeped for compability.
-	/^-/ and die N("usage: urpmi.update [options] <name> ...
+sub usage {
+    warn N("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.
 ") . N("  --help         - print this help message.
 ") . N("  --wget         - use wget to retrieve distant files.
@@ -70,9 +39,18 @@ where <name> is a medium name to update.
 ") . N("  -a             - select all non-removable media.
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -f             - force generation of hdlist files.
-") . (/^--?h(?:elp)$/ ? '' : N("\nunknown options '%s'\n", $_));
-	push @toupdates, $_;
-    }
+");
+    exit 0;
+}
+
+sub main {
+    our (@toupdates, %options);
+    my $urpm = new urpm;
+
+    $options{force} = 0;
+    $options{noclean} = 1;
+
+    urpm::args::parse_cmdline(urpm => $urpm);
 
     $urpm->read_config;
     exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
@@ -101,4 +79,4 @@ where <name> is a medium name to update.
     $urpm->try_umounting_removables;
 }
 
-main(@ARGV);
+main();
