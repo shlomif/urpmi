@@ -1808,11 +1808,17 @@ this could happen if you mounted manually the directory when creating the medium
 				hdlist => "$urpm->{statedir}/$medium->{hdlist}",
 			       );
 	    #- synthesis needs to be created, since the medium has been built from rpm files.
-	    $urpm->build_synthesis(start     => $medium->{start},
-				   end       => $medium->{end},
-				   synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
-				  );
-	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+	    eval { $urpm->build_synthesis(
+		start     => $medium->{start},
+		end       => $medium->{end},
+		synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+	    ) };
+	    if ($@) {
+		$urpm->{error}(N("Unable to build hdlist and synthesis files for medium \"%s\"."), $medium->{name});
+		unlink "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+	    } else {
+		$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+	    }
 	    #- keep in mind we have a modified database, sure at this point.
 	    $urpm->{modified} = 1;
 	} elsif ($medium->{synthesis}) {
@@ -1843,8 +1849,7 @@ this could happen if you mounted manually the directory when creating the medium
 			synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
 		    ) };
 		    if ($@) {
-			#- TODO translate this
-			$urpm->{error}("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name});
+			$urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted."), $medium->{name});
 			unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 		    } else {
 			$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
