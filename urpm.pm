@@ -1539,19 +1539,20 @@ sub search_packages {
     foreach my $v (@$names) {
 	my $qv = quotemeta $v;
 
-	if ($options{use_provides}) {
-	    unless ($options{fuzzy}) {
-		#- try to search through provides.
-		if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat) ?
-							$_->id : undef } map { $urpm->{depslist}[$_] }
-		    keys %{$urpm->{provides}{$v} || {}}) {
-		    #- we assume that if the there is at least one package providing the resource exactly,
-		    #- this should be the best ones that is described.
-		    $exact{$v} = join '|',  @l;
-		    next;
-		}
+	unless ($options{fuzzy}) {
+	    #- try to search through provides.
+	    if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat) &&
+						    ($options{use_provides} || $_->name eq $v) ?
+						      $_->id : undef } map { $urpm->{depslist}[$_] }
+		keys %{$urpm->{provides}{$v} || {}}) {
+		#- we assume that if the there is at least one package providing the resource exactly,
+		#- this should be the best ones that is described.
+		$exact{$v} = join '|',  @l;
+		next;
 	    }
+	}
 
+	if ($options{use_provides}) {
 	    foreach (keys %{$urpm->{provides}}) {
 		#- search through provides to find if a provide match this one.
 		#- but manages choices correctly (as a provides may be virtual or
