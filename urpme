@@ -20,11 +20,8 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #We only make good software ;-)
-use strict;
-
 #use strict qw(subs vars refs);
-use URPM;
-use URPM::Resolve;
+use strict;
 use urpm;
 
 my (@nextargv, $root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, $bug, @l);
@@ -68,7 +65,7 @@ while (defined($_ = shift @ARGV)) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $matches = 1; next };
 	/v/ and do { $verbose = 1; next };
-	die N("urpme: unknown option \"-%s\", check usage with --help\n", $1); } next };
+	die N("urpme: unknown option \"-%s\", check usage with --help\n", $1) } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     push @l, $_;
 }
@@ -80,11 +77,11 @@ my $state = {};
 $verbose or $urpm->{log} = sub {};
 
 #- just configure parallel mode if available.
-$parallel and $urpm->configure(synthesis => ($parallel and 'none'),
-			       root => $root,
-			       parallel => $parallel,
-			       usedistrib => $usedistrib,
-			      );
+$urpm->configure(synthesis => ($parallel and 'none'),
+		 root => $root,
+		 parallel => $parallel,
+		 usedistrib => $usedistrib,
+		 );
 
 #- examine packages...
 my @toremove = $urpm->find_packages_to_remove($state, \@l,
@@ -116,7 +113,7 @@ if ($test && $auto) {
     }
     my $msg = N("To satisfy dependencies, the following packages will be removed (%d MB)", toMb($sum));
     print STDOUT "$msg:\n$list\n";
-    message_input("$askok" . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
+    message_input($askok . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
 }
 
 print STDOUT "\n".N("removing %s", join(' ', sort @toremove))."\n";
