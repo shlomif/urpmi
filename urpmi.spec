@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 14mdk
+Release: 15mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -114,6 +114,10 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Sat Oct 27 2001 Pixel <pixel@mandrakesoft.com> 1.7-15mdk
+- fix urpme with i18n (thanks to Andrej Borsenkow)
+- fix urpme with regexp-like arguments (mainly things with "++") (thanks to Alexander Skwar)
+
 * Mon Sep 24 2001 François Pons <fpons@mandrakesoft.com> 1.7-14mdk
 - fixed stale rpm file (filesize set to 0) in urpmi cache.
 
