@@ -1,64 +1,66 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # Görkem Çetin <gorkem@gelecek.com.tr> , 2000
+# Ömer Fadýl USTA <omer_fad@hotmail.com> , 2001
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-02-14 17:48+0100\n"
+"POT-Creation-Date: 2001-02-17 15:50+0100\n"
 "PO-Revision-Date: 2000-01-01 01:00+0200\n"
-"Last-Translator: Görkem Çetin <gorkem@gelecek.com.tr>\n"
+"Last-Translator: Ömer Fadýl USTA <omer_fad@hotmail.com>\n"
 "Language-Team: Turksih <tr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-9\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: _irpm:21
-#, fuzzy
 msgid "installing $rpm\n"
-msgstr "%s kuruluyor\n"
+msgstr "$rpm kuruluyor\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Ýstediðiniz $rpm paketlerin çalýþmasý için\n"
+"otomatikmen gerekli diðer paketler kuruluyor.\n"
 
-#: _irpm:31 urpmi:195
+#: _irpm:31 urpmi:204
 msgid "Is it ok?"
 msgstr "Tamam mý?"
 
-#: _irpm:33 urpmi:198 urpmi:223
+#: _irpm:33 urpmi:207 urpmi:232
 msgid "Ok"
 msgstr "Tamam"
 
-#: _irpm:34 urpmi:199 urpmi:224
+#: _irpm:34 urpmi:208 urpmi:233
 msgid "Cancel"
 msgstr "Ýptal"
 
-#: _irpm:40 urpmi:203 urpmi:252
+#: _irpm:40 urpmi:212 urpmi:261
 msgid "Nn"
-msgstr ""
+msgstr "Hh"
 
-#: _irpm:41 urpmi:204 urpmi:253
+#: _irpm:41 urpmi:213 urpmi:262
 msgid "Yy"
-msgstr ""
+msgstr "Ee"
 
-#: _irpm:42 urpmi:205
+#: _irpm:42 urpmi:214
 msgid " (Y/n) "
-msgstr ""
+msgstr " (E/e) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: Komut bulunamadý\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "Kullanýmý: rpmf [<dosya>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi yüklü deðil"
 
 #: placeholder.h:8
 #, c-format
@@ -87,36 +89,85 @@ msgstr ""
 msgid ""
 "usage: urpmi.addmedia <name> <url>\n"
 "where <url> is one of\n"
-"\tfile://<path>\n"
-"\tftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>\n"
-"\tftp://<host>/<path> with <relative filename of hdlist>\n"
-"\thttp://<host>/<path> with <relative filename of hdlist>\n"
-"        removable_<device>_<number>://<path>\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> with <relative filename of "
+"hdlist>\n"
+"       ftp://<host>/<path> with <relative filename of hdlist>\n"
+"       http://<host>/<path> with <relative filename of hdlist>\n"
+"       removable_<device>://<path>\n"
+msgstr ""
+"Kullanýmý: urpmi.addmedia <isim> <url>\n"
+"       file://<yol>\n"
+"       ftp://<kullanýcýadý>:<parola>@<sunucu>/<yol> with <hdlist te bulunan "
+"isim>\n"
+"       ftp://<sunucu>/<yol> with <hdlist te bulunan dosyaismi>\n"
+"       http://<sunucu>/<yol> with <hdlist te bulunan dosyaismi>\n"
+"       removable_<aygýtismi>://<yol>\n"
+
+#: placeholder.h:35 urpmi.addmedia:52
+#, c-format
+msgid ""
+"%s\n"
+"`with' missing for ftp media\n"
+msgstr ""
+"%s\n"
+"ftp yi kullanmak için `with' kelimesinide kullanýn\n"
+
+#: placeholder.h:39 urpmi.addmedia:48
+#, c-format
+msgid ""
+"%s\n"
+"device `%s' do not exist\n"
+msgstr ""
+"%s\n"
+"`%s' aygýtýna eriþilemedi\n"
+
+#: placeholder.h:43 urpmi.addmedia:50
+#, c-format
+msgid ""
+"%s\n"
+"<relative path of hdlist> missing\n"
+msgstr ""
+"%s\n"
+"<relative path of hdlist> eksik\n"
+
+#: placeholder.h:47 urpmi.update:52
+#, c-format
+msgid ""
+"missing the entry to update\n"
+"(one of %s)\n"
 msgstr ""
 
-#: urpmi:55
+#: placeholder.h:51 urpmi.removemedia:49
+#, c-format
+msgid ""
+"missing the entry to remove\n"
+"(one of %s)\n"
+msgstr ""
+
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi sürüm %s"
 
-#: urpmi:118
+#: urpmi:120
 msgid "Only superuser is allowed to install local packages"
 msgstr "Yerel paketleri kurmak için sadece sistem yöneticisi yetkilidir"
 
-#: urpmi:160
+#: urpmi:162
 msgid "One of the following packages is needed:"
 msgstr "Aþaðýdaki paketlerin bir tanesine ihtiyaç var:"
 
-#: urpmi:168
+#: urpmi:170
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Seçiminiz? (1-%d)"
 
-#: urpmi:171
+#: urpmi:173
 msgid "Sorry, bad choice, try again\n"
 msgstr "Hatalý seçenek, tekrar deneyin\n"
 
-#: urpmi:194
+#: urpmi:203
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -125,80 +176,84 @@ msgstr ""
 "Baðýmlýlýk sorununu aþabilmek için, aþaðýdaki paketlerin de kurulmasý "
 "gerekiyor (%d Mb)"
 
-#: urpmi:220
-#, fuzzy, c-format
+#: urpmi:229
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "%s'i yerine yerleþtirin (%s)"
+msgstr " \"%s\"i yerine yerleþtirin [%s]"
 
-#: urpmi:221
+#: urpmi:230
 msgid "Press enter when it's done..."
 msgstr "Bittiði zaman enter tuþuna basýn..."
 
-#: urpmi:234
+#: urpmi:243
 msgid "everything already installed"
 msgstr "herþey zaten kurulu durumda"
 
-#: urpmi:243
+#: urpmi:252
 #, c-format
 msgid "installing %s\n"
 msgstr "%s kuruluyor\n"
 
-#: urpmi:247 urpmi:259
+#: urpmi:256 urpmi:268
 msgid "Installation failed"
 msgstr "Kurulum baþarýsýz oldu"
 
-#: urpmi:254
-#, fuzzy
+#: urpmi:263
 msgid "Try installation without checking dependencies? (Y/n) "
-msgstr "Paket baðýmlýlýklarýný denetlemeksizin kurulum yapmayý deneyin"
+msgstr "Paket baðýmlýlýklarýný denetlemeksizin kurulum yapmayý deneyin (E/h) "
 
-#: urpmi:260
-#, fuzzy
+#: urpmi:269
 msgid "Try installation even more strongly (--force)? (Y/n) "
-msgstr "Belki daha zorlayýcý bir seçenek gerekebilir (--force)?"
+msgstr "Belki daha zorlayýcý bir seçenek gerekebilir (--force)? (E/h) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
+msgstr "Kullanýmý: urpmi.addmedia <isim> <url>"
+
+#: urpmi.removemedia:38 urpmi.update:42
+#, c-format
+msgid "unknown options \"%s\"\n"
 msgstr ""
 
-#: urpmi.addmedia:48
-msgid "$usage  bad number (is `$num')\n"
+#: urpmi.update:50
+msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
 
-#: urpmi.addmedia:49
-msgid "$usage  device `$dev' do not exist\n"
-msgstr ""
-
-#: urpmi.addmedia:51
-msgid "$usage  <relative path of hdlist> missing\n"
-msgstr ""
-
-#: urpmi.addmedia:53
-msgid "$usage  `with' missing for ftp media\n"
+#: urpmi.removemedia:47
+msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
-
-#: urpmq:79
-msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq sürüm %s"
 
 #: urpmq:81
-msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
+msgstr "urpmq: \"-$1\" anlaþýlamayan parametre, ayrýntýlý bilgi için --help\n"
 
-#: urpmq:122
+#: urpmq:83
+msgid "urpmq: cannot read rpm file \"$_\"\n"
+msgstr "urpmq: \"$_\" isimli rpm dosyasý okunamýyor.\n"
+
+#: urpmq:119
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"bazý paketler güncelleme için kaldýrýlmýþ olabilir , henüz bu "
+"desteklenmiyor\n"
 
-#: urpmq:135
+#: urpmq:132
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "Kaynak koduna eriþilemiyor, iþlem iptal edildi"
+
+#~ msgid ""
+#~ "%s\n"
+#~ "bad number (is `$num')\n"
+#~ msgstr ""
+#~ "%s\n"
+#~ "kötü numara (`$num')\n"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"

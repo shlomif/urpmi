@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-02-14 17:48+0100\n"
+"POT-Creation-Date: 2001-02-17 15:50+0100\n"
 "PO-Revision-Date: 2000-09-10 02:19+0200\n"
 "Last-Translator: David BAUDENS <baudens@mandrakesoft.com>\n"
 "Language-Team: French\n"
@@ -29,27 +29,27 @@ msgstr ""
 "Installation automatique des packages...\n"
 "Vous avez demandé l'installation du paquetage $rpm\n"
 
-#: _irpm:31 urpmi:195
+#: _irpm:31 urpmi:204
 msgid "Is it ok?"
 msgstr "Est-ce correct ?"
 
-#: _irpm:33 urpmi:198 urpmi:223
+#: _irpm:33 urpmi:207 urpmi:232
 msgid "Ok"
 msgstr "OK"
 
-#: _irpm:34 urpmi:199 urpmi:224
+#: _irpm:34 urpmi:208 urpmi:233
 msgid "Cancel"
 msgstr "Annuler"
 
-#: _irpm:40 urpmi:203 urpmi:252
+#: _irpm:40 urpmi:212 urpmi:261
 msgid "Nn"
 msgstr ""
 
-#: _irpm:41 urpmi:204 urpmi:253
+#: _irpm:41 urpmi:213 urpmi:262
 msgid "Yy"
 msgstr ""
 
-#: _irpm:42 urpmi:205
+#: _irpm:42 urpmi:214
 msgid " (Y/n) "
 msgstr ""
 
@@ -92,37 +92,73 @@ msgstr ""
 msgid ""
 "usage: urpmi.addmedia <name> <url>\n"
 "where <url> is one of\n"
-"\tfile://<path>\n"
-"\tftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>\n"
-"\tftp://<host>/<path> with <relative filename of hdlist>\n"
-"\thttp://<host>/<path> with <relative filename of hdlist>\n"
-"        removable_<device>_<number>://<path>\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> with <relative filename of "
+"hdlist>\n"
+"       ftp://<host>/<path> with <relative filename of hdlist>\n"
+"       http://<host>/<path> with <relative filename of hdlist>\n"
+"       removable_<device>://<path>\n"
 msgstr ""
 
-#: urpmi:55
+#: placeholder.h:35 urpmi.addmedia:52
+#, c-format
+msgid ""
+"%s\n"
+"`with' missing for ftp media\n"
+msgstr ""
+
+#: placeholder.h:39 urpmi.addmedia:48
+#, c-format
+msgid ""
+"%s\n"
+"device `%s' do not exist\n"
+msgstr ""
+
+#: placeholder.h:43 urpmi.addmedia:50
+#, c-format
+msgid ""
+"%s\n"
+"<relative path of hdlist> missing\n"
+msgstr ""
+
+#: placeholder.h:47 urpmi.update:52
+#, c-format
+msgid ""
+"missing the entry to update\n"
+"(one of %s)\n"
+msgstr ""
+
+#: placeholder.h:51 urpmi.removemedia:49
+#, c-format
+msgid ""
+"missing the entry to remove\n"
+"(one of %s)\n"
+msgstr ""
+
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
 msgstr ""
 
-#: urpmi:118
+#: urpmi:120
 msgid "Only superuser is allowed to install local packages"
 msgstr ""
 "Seul l'administrateur système (root) peut installer des paquetages locaux"
 
-#: urpmi:160
+#: urpmi:162
 msgid "One of the following packages is needed:"
 msgstr "Un des paquetages suivants est nécessaire :"
 
-#: urpmi:168
+#: urpmi:170
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Lequel choisissez-vous ? (1-%d)"
 
-#: urpmi:171
+#: urpmi:173
 msgid "Sorry, bad choice, try again\n"
 msgstr "Désolé, mauvais choix, veuillez réessayez\n"
 
-#: urpmi:194
+#: urpmi:203
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -131,34 +167,34 @@ msgstr ""
 "Pour satisfaire les dépendences, les paquetages suivants vont être installés "
 "(%d MB)"
 
-#: urpmi:220
+#: urpmi:229
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Veuillez insérer le %s nommé %s"
 
-#: urpmi:221
+#: urpmi:230
 msgid "Press enter when it's done..."
 msgstr "Appuyez ensuite sur la touche Entrée..."
 
-#: urpmi:234
+#: urpmi:243
 msgid "everything already installed"
 msgstr "tout est déja installé"
 
-#: urpmi:243
+#: urpmi:252
 #, c-format
 msgid "installing %s\n"
 msgstr "installation de %s\n"
 
-#: urpmi:247 urpmi:259
+#: urpmi:256 urpmi:268
 msgid "Installation failed"
 msgstr "L'installation a échouée"
 
-#: urpmi:254
+#: urpmi:263
 #, fuzzy
 msgid "Try installation without checking dependencies? (Y/n) "
 msgstr "Essayer d'installer sans vérifier les dépendences ?"
 
-#: urpmi:260
+#: urpmi:269
 #, fuzzy
 msgid "Try installation even more strongly (--force)? (Y/n) "
 msgstr "Essayer de forcer l'installation (--force) ?"
@@ -167,20 +203,17 @@ msgstr "Essayer de forcer l'installation (--force) ?"
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr ""
 
-#: urpmi.addmedia:48
-msgid "$usage  bad number (is `$num')\n"
+#: urpmi.removemedia:38 urpmi.update:42
+#, c-format
+msgid "unknown options \"%s\"\n"
 msgstr ""
 
-#: urpmi.addmedia:49
-msgid "$usage  device `$dev' do not exist\n"
+#: urpmi.update:50
+msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
 
-#: urpmi.addmedia:51
-msgid "$usage  <relative path of hdlist> missing\n"
-msgstr ""
-
-#: urpmi.addmedia:53
-msgid "$usage  `with' missing for ftp media\n"
+#: urpmi.removemedia:47
+msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
 
 #: urpmq:44
@@ -188,21 +221,21 @@ msgstr ""
 msgid "urpmq version %s"
 msgstr ""
 
-#: urpmq:79
+#: urpmq:81
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
 msgstr ""
 
-#: urpmq:81
+#: urpmq:83
 msgid "urpmq: cannot read rpm file \"$_\"\n"
 msgstr ""
 
-#: urpmq:122
+#: urpmq:119
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
 
-#: urpmq:135
+#: urpmq:132
 msgid "unable to get source packages, aborting"
 msgstr ""
 
