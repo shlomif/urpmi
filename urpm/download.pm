@@ -292,7 +292,7 @@ sub sync_rsync {
     foreach (@_) {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = basename($_);
-	my ($file) =  m/::/ ? (m|^rsync://(.*)|) : ($_);
+	my ($file) =  m!^rsync://[^\/]*::! ? (m|^rsync://(.*)|) : ($_);
     #my ($file) = m|^rsync://(.*)| or next;
     #$file =~ /::/ or $file = $_;
 	propagate_sync_callback($options, 'start', $file);
