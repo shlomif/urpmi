@@ -935,6 +935,22 @@ sub update_media {
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
 		  $error = 1, $urpm->{error}(_("copy of [%s] failed", "$with_hdlist_dir"));
 
+		#- examine if a local MD5SUM file is available.
+		if (!$options{force} && -s reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM")) {
+		    my ($basename) = $with_hdlist_dir =~ /^.*\/([^\/]+)$/;
+		    $urpm->{log}(_("examining MD5SUM file"));
+		    local (*F, $_);
+		    open F, reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM");
+		    while (<F>) {
+			my ($md5sum, $file) = /(\S+)\s+(\S+)/ or next;
+			if ($file eq $basename) {
+			    $options{force} ||= (split ' ', `md5sum '$urpm->{cachedir}/partial/$medium->{hdlist}'`)[0] ne $md5sum;
+			    last;
+			}
+		    }
+		    close F;
+		}
+
 		#- check if the file are equals... and no force copy...
 		unless ($error || $options{force} || ! -e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
 		    my @sstat = stat "$urpm->{cachedir}/partial/$medium->{hdlist}";
@@ -958,9 +974,9 @@ sub update_media {
 		#- examine if a local list file is available (always probed according to with_hdlist
 		#- and check hdlist has not be named very strangely...
 		if ($medium->{hdlist} ne 'list') {
-		    unlink "$urpm->{cachedir}/partial/list";
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    if (-s "$dir/$local_list") {
+			unlink "$urpm->{cachedir}/partial/list";
 			$urpm->{log}(_("copying source list of \"%s\"...", $medium->{name}));
 			system("cp", "-pR", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
 			  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
@@ -1041,7 +1057,8 @@ sub update_media {
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$_"));
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} },
+				      reduce_pathname("$medium->{url}/$_"));
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
 			$medium->{with_hdlist} = $_;
@@ -1073,21 +1090,43 @@ sub update_media {
 		$urpm->{log}(_("...retrieving done"));
 
 		unless ($options{force}) {
-		    my @sstat = stat "$urpm->{cachedir}/partial/$basename";
-		    my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
-		    if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
-			#- the two files are considered equal here, the medium is so not modified.
-			$medium->{modified} = 0;
-			unlink "$urpm->{cachedir}/partial/$basename";
-			#- as previously done, just read synthesis file here, this is enough.
-			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			eval { ($medium->{start}, $medium->{end}) =
-				 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
-			unless (defined $medium->{start} && defined $medium->{end}) {
-			    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-			    $medium->{ignore} = 1;
+		    #- examine if a distant MD5SUM file is available.
+		    unlink "$urpm->{cachedir}/partial/MD5SUM";
+		    eval {
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} },
+				      reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
+		    };
+		    if (!$@ && -s "$urpm->{cachedir}/partial/MD5SUM" > 32) {
+			$urpm->{log}(_("examining MD5SUM file"));
+			local (*F, $_);
+			open F, "$urpm->{cachedir}/partial/MD5SUM";
+			while (<F>) {
+			    my ($md5sum, $file) = /(\S+)\s+(\S+)/ or next;
+			    if ($file eq $basename) {
+				$options{force} ||= (split ' ', `md5sum '$urpm->{cachedir}/partial/$basename'`)[0] ne $md5sum;
+				last;
+			    }
 			}
-			next;
+			close F;
+		    }
+
+		    unless ($options{force}) {
+			my @sstat = stat "$urpm->{cachedir}/partial/$basename";
+			my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
+			if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
+			    #- the two files are considered equal here, the medium is so not modified.
+			    $medium->{modified} = 0;
+			    unlink "$urpm->{cachedir}/partial/$basename";
+			    #- as previously done, just read synthesis file here, this is enough.
+			    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+			    eval { ($medium->{start}, $medium->{end}) =
+				     $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+			    unless (defined $medium->{start} && defined $medium->{end}) {
+				$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+				$medium->{ignore} = 1;
+			    }
+			    next;
+			}
 		    }
 		}
 

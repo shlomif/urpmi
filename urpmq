@@ -64,6 +64,7 @@ usage:
 ") . _("  -u             - remove package if a more recent version is already installed.
 ") . _("  -c             - choose complete method for resolving requires closure.
 ") . _("  -P             - do not search in provides to find package.
+") . _("  -R             - reverse search to what requires package.
 ") . _("  -y             - impose fuzzy search (same as --fuzzy).
 ") . _("  -s             - next package is a source package (same as --src).
 ") . _("  -g             - print groups with name also.
@@ -126,6 +127,7 @@ for (@ARGV) {
 	/g/ and do { $query->{group} = 1; next };
 	/p/ and do { $query->{use_provides} = 1; next };
 	/P/ and do { $query->{use_provides} = 0; next };
+	/R/ and do { $query->{what_requires} = 1; next };
 	/y/ and do { $query->{fuzzy} = 1; next };
 	/s/ and do { $query->{src} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };
@@ -208,7 +210,70 @@ if ($query->{list_aliases}) {
     };
     #- open/close of database should be moved here, in order to allow testing
     #- some bogus case and check for integrity. (note auto_select implies upgrade).
-    if ($query->{auto_select} || $query->{upgrade}) {
+    if ($query->{what_requires}) {
+	#- search for packages that requires on of the package proposed.
+	my (@properties, %requires, %properties, $dep);
+
+	#- keep in mind the requested id (if given) in order to prefer these packages
+	#- on choices instead of anything other one.
+	@properties = keys %requested;
+
+	if (@properties) {
+	    require URPM::Resolve;
+
+	    #- build a requires to packages id hash.
+	    foreach my $pkg (@{$urpm->{depslist}}) {
+		foreach ($pkg->requires_nosense) {
+		    $requires{$_}{$pkg->id} = undef;
+		}
+	    }
+
+	    #- for each dep property evaluated, examine which package will be obsoleted on $db,
+	    #- then examine provides that will be removed (which need to be satisfied by another
+	    #- package present or by a new package to upgrade), then requires not satisfied and
+	    #- finally conflicts that will force a new upgrade or a remove.
+	    while (defined ($dep = shift @properties)) {
+		#- take the best package for each choices of same name.
+		my $packages = $urpm->find_candidate_packages($dep);
+		foreach (values %$packages) {
+		    my ($best_requested, $best);
+		    foreach (@$_) {
+			if ($best_requested || exists $requested{$_->id}) {
+			    if ($best_requested && $best_requested != $_) {
+				$_->compare_pkg($best_requested) > 0 and $best_requested = $_;
+			    } else {
+				$best_requested = $_;
+			    }
+			} elsif ($best && $best != $_) {
+			    $_->compare_pkg($best) > 0 and $best = $_;
+			} else {
+			    $best = $_;
+			}
+		    }
+
+		    #- examine all choice proposed.
+		    my $pkg = $best_requested || $best or next;
+		    exists $state->{selected}{$pkg->id} and next;
+		    $state->{selected}{$pkg->id} = undef;
+
+		    #- for all provides of package, look of what is requiring them.
+		    foreach ($pkg->provides) {
+			if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
+			    foreach (map { $urpm->{depslist}[$_] }
+				     grep { ! exists $state->{selected}{$_} && ! exists $properties{$_} }
+				     keys %{$requires{$n} || {}}) {
+				print "examining ".$_->fullname." from $n $s\n";
+				if (grep { URPM::ranges_overlap("$n $s", $_) } $_->requires) {
+				    push @properties, $_->id;
+				    $properties{$_->id} = undef;
+				}
+			    }
+			}
+		    }
+		}
+	    }
+	}
+    } elsif ($query->{auto_select} || $query->{upgrade}) {
 	$urpm->resolve_dependencies($state, \%requested,
 				    auto_select => $query->{auto_select},
 				    callback_choices => $stop_on_choices);

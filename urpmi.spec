@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 22mdk
+Release: 23mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,10 @@ fi
 
 
 %changelog
+* Tue Oct 29 2002 François Pons <fpons@mandrakesoft.com> 4.0-23mdk
+- added MD5SUM file support for downloading hdlist/synthesis.
+- added -R option to urpmq to search what may provide packages.
+
 * Thu Oct 24 2002 François Pons <fpons@mandrakesoft.com> 4.0-22mdk
 - fixed online help of tools to be more consistent.
 - added some times missing --help options.
