@@ -163,7 +163,7 @@ sub sync_curl {
     chdir($options->{dir});
     my (@ftp_files, @other_files);
     foreach (@_) {
-	m|^ftp://.*/([^/]*)$| && -s $1 > 8192 and do {
+	m|^ftp://.*/([^/]*)$| && -e $1 && -s _ > 8192 and do {
 	    push @ftp_files, $_; next;
 	}; #- manage time stamp for large file only.
 	push @other_files, $_;

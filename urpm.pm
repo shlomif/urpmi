@@ -7,6 +7,7 @@ use vars qw($VERSION @ISA @EXPORT);
 use MDK::Common;
 use urpm::msg;
 use urpm::download;
+use urpm::util;
 
 $VERSION = '4.4';
 @ISA = qw(URPM);
@@ -43,11 +44,6 @@ sub new {
 
 	  }, $class;
 }
-
-#- quoting/unquoting a string that may be containing space chars.
-sub quotespace { local $_ = $_[0] || ''; s/(\s)/\\$1/g; $_ }
-sub unquotespace { local $_ = $_[0] || ''; s/\\(\s)/$1/g; $_ }
-sub remove_internal_name { local $_ = $_[0] || ''; s/\(\S+\)$/$1/g; $_ }
 
 #- syncing algorithms, currently is implemented wget and curl methods,
 #- webfetch is trying to find the best (and one which will work :-)
@@ -196,7 +192,7 @@ sub read_config {
 
 	    #- if not this is a new media to take care if
 	    #- there is a list file.
-	    if (-s "$urpm->{statedir}/list.$2") {
+	    if (-e "$urpm->{statedir}/list.$2") {
 		if (exists($lists{"list.$2"})) {
 		    $urpm->{error}(N("unable to take care of medium \"%s\" as list file is already used by another medium", $2));
 		} else {
@@ -520,7 +516,7 @@ sub configure {
 			    $_->{ignore} = 1;
 			}
 		    } else {
-			if ($options{hdlist} && -s "$urpm->{statedir}/$_->{hdlist}" > 32) {
+			if ($options{hdlist} && -e "$urpm->{statedir}/$_->{hdlist}" && -s _ > 32) {
 			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
 			    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
 										  packing => 1,
@@ -797,28 +793,41 @@ sub remove_selected_media {
 }
 
 #- return list of synthesis or hdlist reference to probe.
-sub probe_with_try_list {
+sub _probe_with_try_list {
     my ($suffix, $probe_with) = @_;
-
-    my @probe = ("synthesis.hdlist$suffix.cz",
-		 "../base/synthesis.hdlist$suffix.cz", "../synthesis.hdlist$suffix.cz");
+    my @probe = (
+	"synthesis.hdlist$suffix.cz",
+	"../base/synthesis.hdlist$suffix.cz",
+	"../synthesis.hdlist$suffix.cz",
+    );
     length($suffix) and unshift @probe, "synthesis.hdlist.cz";
-    length($suffix) or push @probe, ("../base/synthesis.hdlist1.cz", "../base/synthesis.hdlist2.cz",
-				     "../synthesis.hdlist1.cz", "../synthesis.hdlist2.cz",
-				     "synthesis.hdlist1.cz", "synthesis.hdlist2.cz");
-
-    my @probe_hdlist = ("hdlist$suffix.cz", "../base/hdlist$suffix.cz", "../hdlist$suffix.cz");
+    length($suffix) or push @probe, (
+	"../base/synthesis.hdlist1.cz",
+	"../base/synthesis.hdlist2.cz",
+	"../synthesis.hdlist1.cz",
+	"../synthesis.hdlist2.cz",
+	"synthesis.hdlist1.cz",
+	"synthesis.hdlist2.cz",
+    );
+    my @probe_hdlist = (
+	"hdlist$suffix.cz",
+	"../base/hdlist$suffix.cz",
+	"../hdlist$suffix.cz",
+    );
     length($suffix) and push @probe_hdlist, "hdlist.cz";
-    length($suffix) or push @probe_hdlist, ("../base/hdlist1.cz", "../base/hdlist2.cz",
-					    "../hdlist1.cz", "../hdlist2.cz",
-					    "hdlist1.cz", "hdlist2.cz");
-
+    length($suffix) or push @probe_hdlist, (
+	"../base/hdlist1.cz",
+	"../base/hdlist2.cz",
+	"../hdlist1.cz",
+	"../hdlist2.cz",
+	"hdlist1.cz",
+	"hdlist2.cz",
+    );
     if ($probe_with =~ /synthesis/) {
 	push @probe, @probe_hdlist;
     } else {
 	unshift @probe, @probe_hdlist;
     }
-
     @probe;
 }
 
@@ -863,7 +872,8 @@ sub update_media {
 	$options{forcekey} and delete $medium->{'key-ids'};
 	
 	#- and create synthesis file associated if it does not already exists...
-	-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" > 32 or $medium->{modified_synthesis} = 1;
+	-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" && -s _ > 32
+	    or $medium->{modified_synthesis} = 1;
 
 	#- but do not take care of removable media for all.
 	$medium->{modified} ||= $options{all} && $medium->{url} !~ m!^removable://!;
@@ -934,8 +944,8 @@ this could happen if you mounted manually the directory when creating the medium
 	    if ($options{probe_with} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
 		my ($suffix) = $dir =~ m|RPMS([^/]*)/*$|;
 
-		foreach (probe_with_try_list($suffix, $options{probe_with})) {
-		    if (-s "$dir/$_" > 32) {
+		foreach (_probe_with_try_list($suffix, $options{probe_with})) {
+		    if (-e "$dir/$_" && -s _ > 32) {
 			$medium->{with_hdlist} = $_;
 			last;
 		    }
@@ -1087,7 +1097,7 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 
-		    -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
+		    -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 32 or
 		      $error = 1, $urpm->{error}(N("copy of [%s] failed (file is suspiciously small)", $with_hdlist_dir));
 
 		    #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
@@ -1139,8 +1149,8 @@ this could happen if you mounted manually the directory when creating the medium
 		    if ($medium->{hdlist} ne 'list') {
 			my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
 			my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
-			-s $path_list or $path_list = "$dir/list";
-			-s $path_list and system("cp", "-p", "-R", $path_list, "$urpm->{cachedir}/partial/list");
+			-e $path_list or $path_list = "$dir/list";
+			-e $path_list and system("cp", "-p", "-R", $path_list, "$urpm->{cachedir}/partial/list");
 		    }
 		} else {
 		    #- try to find rpm files, use recursive method, added additional
@@ -1155,21 +1165,27 @@ this could happen if you mounted manually the directory when creating the medium
 			#- we need to rebuild from rpm files the hdlist.
 			eval {
 			    $urpm->{log}(N("reading rpm files from [%s]", $dir));
-			    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+			    my @unresolved_before = grep {
+				! defined $urpm->{provides}{$_};
+			    } keys %{$urpm->{provides} || {}};
 			    $medium->{start} = @{$urpm->{depslist}};
-			    $medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
-										   rpms  => \@files,
-										   clean => $cleaned_cache,
-										  ) ];
+			    $medium->{headers} = [ $urpm->parse_rpms_build_headers(
+				dir   => "$urpm->{cachedir}/headers",
+				rpms  => \@files,
+				clean => $cleaned_cache,
+			    ) ];
 			    $medium->{end} = $#{$urpm->{depslist}};
 			    if ($medium->{start} > $medium->{end}) {
-				#- an error occured (provided there are files in input.
+				#- an error occured (provided there are files in input.)
 				delete $medium->{start};
 				delete $medium->{end};
 				die "no rpms read\n";
 			    } else {
-				$cleaned_cache = 0; #- make sure the headers will not be removed for another media.
-				my @unresolved = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+				#- make sure the headers will not be removed for another media.
+				$cleaned_cache = 0;
+				my @unresolved = grep {
+				    ! defined $urpm->{provides}{$_};
+				} keys %{$urpm->{provides} || {}};
 				@unresolved_before == @unresolved or $second_pass = 1;
 			    }
 			};
@@ -1187,8 +1203,8 @@ this could happen if you mounted manually the directory when creating the medium
 	    if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
 		my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
 		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../$local_pubkey");
-		-s $path_pubkey or $path_pubkey = "$dir/pubkey";
-		-s $path_pubkey and system("cp", "-p", "-R", $path_pubkey, "$urpm->{cachedir}/partial/pubkey");
+		-e $path_pubkey or $path_pubkey = "$dir/pubkey";
+		-e $path_pubkey and system("cp", "-p", "-R", $path_pubkey, "$urpm->{cachedir}/partial/pubkey");
 	    }
 	} else {
 	    my $basename;
@@ -1233,7 +1249,7 @@ this could happen if you mounted manually the directory when creating the medium
 				      reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
 		    }
 		};
-		if (!$@ && -s "$urpm->{cachedir}/partial/MD5SUM" > 32) {
+		if (!$@ && -e "$urpm->{cachedir}/partial/MD5SUM" && -s _ > 32) {
 		    if ($options{force} >= 2) {
 			#- force downloading the file again, else why a force option has been defined ?
 			delete $medium->{md5sum};
@@ -1310,7 +1326,10 @@ this could happen if you mounted manually the directory when creating the medium
 	    if ($options{probe_with}) {
 		my ($suffix) = $dir =~ m|RPMS([^/]*)/*$|;
 
-		foreach my $with_hdlist ($medium->{with_hdlist}, probe_with_try_list($suffix, $options{probe_with})) {
+		foreach my $with_hdlist (
+		    $medium->{with_hdlist},
+		    _probe_with_try_list($suffix, $options{probe_with})
+		) {
 		    $basename = basename($with_hdlist) or next;
 
 		    $options{force} and unlink "$urpm->{cachedir}/partial/$basename";
@@ -1322,7 +1341,7 @@ this could happen if you mounted manually the directory when creating the medium
 					callback => $options{callback},
 					proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$with_hdlist"));
 		    };
-		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
+		    if (!$@ && -e "$urpm->{cachedir}/partial/$basename" && -s _ > 32) {
 			$medium->{with_hdlist} = $with_hdlist;
 			$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
 			last; #- found a suitable with_hdlist in the list above.
@@ -1359,7 +1378,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 
 	    #- check downloaded file has right signature.
-	    if (-s "$urpm->{cachedir}/partial/$basename" > 32 && $retrieved_md5sum) {
+	    if (-e "$urpm->{cachedir}/partial/$basename" && -s _> 32 && $retrieved_md5sum) {
 		$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
 		unless ((split ' ', `md5sum '$urpm->{cachedir}/partial/$basename'`)[0] eq $retrieved_md5sum) {
 		    $urpm->{error}(N("...retrieving failed: %s", N("md5sum mismatch")));
@@ -1367,7 +1386,7 @@ this could happen if you mounted manually the directory when creating the medium
 		}
 	    }
 
-	    if (-s "$urpm->{cachedir}/partial/$basename" > 32) {
+	    if (-e "$urpm->{cachedir}/partial/$basename" && -s _ > 32) {
 		$options{callback} && $options{callback}('done', $medium->{name});
 		$urpm->{log}(N("...retrieving done"));
 
@@ -1412,8 +1431,10 @@ this could happen if you mounted manually the directory when creating the medium
 					    compress => $options{compress},
 					    proxy => $urpm->{proxy} },
 					  $_);
-			    $local_list ne 'list' && -s "$urpm->{cachedir}/partial/$local_list" and
-			      rename("$urpm->{cachedir}/partial/$local_list", "$urpm->{cachedir}/partial/list");
+			    $local_list ne 'list' && -e "$urpm->{cachedir}/partial/$local_list" && -s _
+				and rename(
+				    "$urpm->{cachedir}/partial/$local_list",
+				    "$urpm->{cachedir}/partial/list");
 			};
 			$@ and unlink "$urpm->{cachedir}/partial/list";
 			-s "$urpm->{cachedir}/partial/list" and last;
@@ -1433,8 +1454,10 @@ this could happen if you mounted manually the directory when creating the medium
 					    compress => $options{compress},
 					    proxy => $urpm->{proxy} },
 					  $_);
-			    $local_pubkey ne 'pubkey' && -s "$urpm->{cachedir}/partial/$local_pubkey" and
-			      rename("$urpm->{cachedir}/partial/$local_pubkey", "$urpm->{cachedir}/partial/pubkey");
+			    $local_pubkey ne 'pubkey' && -e "$urpm->{cachedir}/partial/$local_pubkey" && -s _
+				and rename(
+				    "$urpm->{cachedir}/partial/$local_pubkey",
+				    "$urpm->{cachedir}/partial/pubkey");
 			};
 			$@ and unlink "$urpm->{cachedir}/partial/pubkey";
 			-s "$urpm->{cachedir}/partial/pubkey" and last;
@@ -1448,7 +1471,7 @@ this could happen if you mounted manually the directory when creating the medium
 	}
 
 	#- build list file according to hdlist used.
-	unless ($medium->{headers} || -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32) {
+	unless ($medium->{headers} || -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 32) {
 	    $error = 1;
 	    $urpm->{error}(N("no hdlist file found for medium \"%s\"", $medium->{name}));
 	}
@@ -1470,7 +1493,9 @@ this could happen if you mounted manually the directory when creating the medium
 		#- anyway, if one tries fails, try another mode.
 		$options{callback} && $options{callback}('parse', $medium->{name});
 		my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-		if (!$medium->{synthesis} || -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 262144) {
+		if (!$medium->{synthesis}
+		    || -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 262144)
+		{
 		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 		    eval { ($medium->{start}, $medium->{end}) =
 			     $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1) };
@@ -1840,64 +1865,6 @@ sub find_mntpoints {
     @mntpoints;
 }
 
-#- reduce pathname by removing <something>/.. each time it appears (or . too).
-sub reduce_pathname {
-    my ($url) = @_;
-
-    #- clean url to remove any macro (which cannot be solved now).
-    #- take care if this is a true url and not a simple pathname.
-    my ($host, $dir) = $url =~ m|([^:/]*://[^/]*/)?(.*)|;
-
-    #- remove any multiple /s or trailing /.
-    #- then split all components of pathname.
-    $dir =~ s|/+|/|g; $dir =~ s|/$||;
-    my @paths = split '/', $dir;
-
-    #- reset $dir, recompose it, and clean trailing / added by algorithm.
-    $dir = '';
-    foreach (@paths) {
-	if ($_ eq '..') {
-	    if ($dir =~ s|([^/]+)/$||) {
-		if ($1 eq '..') {
-		    $dir .= "../../";
-		}
-	    } else {
-		$dir .= "../";
-	    }
-	} elsif ($_ ne '.') {
-	    $dir .= "$_/";
-	}
-    }
-    $dir =~ s|/$||;
-    $dir ||= '/';
-
-    $host . $dir;
-}
-
-#- offset pathname by returing the right things to add to a relative directory to make no change.
-#- url is needed to resolve going before to top base.
-sub offset_pathname {
-    my ($url, $offset) = map { reduce_pathname($_) } @_;
-
-    #- clean url to remove any macro (which cannot be solved now).
-    #- take care if this is a true url and not a simple pathname.
-    my ($host, $dir) = $url =~ m|([^:/]*://[^/]*/)?(.*)|;
-    my @paths = split '/', $dir;
-    my @offpaths = reverse split '/', $offset;
-    my @corrections;
-    my $result = '';
-
-    foreach (@offpaths) {
-	if ($_ eq '..') {
-	    push @corrections, pop @paths;
-	} else {
-	    $result .= '../';
-	}
-    }
-
-    $result . join('/', reverse @corrections);
-}
-
 #- check for necessity of mounting some directory to get access
 sub try_mounting {
     my ($urpm, $dir, $removable) = @_;
@@ -1994,10 +1961,16 @@ sub search_packages {
 
 	unless ($options{fuzzy}) {
 	    #- try to search through provides.
-	    if (my @l = map { $_ && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat) &&
-				($options{use_provides} || $_->name eq $v) && defined $_->id ?
-				  $_ : @{[]} } map { $urpm->{depslist}[$_] }
-		keys %{$urpm->{provides}{$v} || {}}) {
+	    if (my @l = map {
+		    $_
+		    && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat)
+		    && ($options{use_provides} || $_->name eq $v)
+		    && defined $_->id
+		    ? $_ : @{[]}
+		} map {
+		    $urpm->{depslist}[$_]
+		} keys %{$urpm->{provides}{$v} || {}})
+	    {
 		#- we assume that if the there is at least one package providing the resource exactly,
 		#- this should be the best ones that is described.
 		#- but we first check if one of the packages has the same name as searched.
@@ -2016,17 +1989,23 @@ sub search_packages {
 		#- but manages choices correctly (as a provides may be virtual or
 		#- multiply defined.
 		if (/$qv/) {
-		    my @list = grep { defined $_ }
-		      map { my $pkg = $urpm->{depslist}[$_];
-			    $pkg && ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src') ? $pkg->id : undef }
-			keys %{$urpm->{provides}{$_} || {}};
+		    my @list = grep { defined $_ } map {
+			my $pkg = $urpm->{depslist}[$_];
+			$pkg
+			&& ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
+			? $pkg->id : undef;
+		    }
+		    keys %{$urpm->{provides}{$_} || {}};
 		    @list > 0 and push @{$found{$v}}, join '|', @list;
 		}
 		if (/$qv/i) {
-		    my @list = grep { defined $_ }
-		      map { my $pkg = $urpm->{depslist}[$_];
-			    $pkg && ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src') ? $pkg->id : undef }
-			keys %{$urpm->{provides}{$_} || {}};
+		    my @list = grep { defined $_ } map {
+			my $pkg = $urpm->{depslist}[$_];
+			$pkg
+			&& ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
+			? $pkg->id : undef;
+		    }
+		    keys %{$urpm->{provides}{$_} || {}};
 		    @list > 0 and push @{$found{$v}}, join '|', @list;
 		}
 	    }
@@ -2063,7 +2042,7 @@ sub search_packages {
     foreach (@$names) {
 	if (defined $exact{$_}) {
 	    $packages->{$exact{$_}} = 1;
-	    foreach (split '\|', $exact{$_}) {
+	    foreach (split /\|/, $exact{$_}) {
 		my $pkg = $urpm->{depslist}[$_] or next;
 		$pkg->set_flag_skip(0); #- reset skip flag as manually selected.
 	    }
@@ -2079,7 +2058,8 @@ sub search_packages {
 		$urpm->{error}(N("no package named %s", $_));
 		$result = 0;
 	    } elsif (values(%l) > 1 && !$options{all}) {
-		$urpm->{error}(N("The following packages contain %s: %s", $_, "\n".join("\n", sort { $a cmp $b } keys %l)));
+		$urpm->{error}(N("The following packages contain %s: %s",
+			$_, "\n".join("\n", sort { $a cmp $b } keys %l)));
 		$result = 0;
 	    } else {
 		foreach (values %l) {
@@ -2212,20 +2192,22 @@ sub get_packages_list {
     my ($urpm, $file, $extra) = @_;
     my %val;
 
-    local ($_, *F);
-    open F, $file;
-    while (<F>) {
+    local $_;
+    open my $f, $file or return {};
+    while (<$f>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
  	    $val{$n}{$s} = undef;
 	}
     }
-    close F;
+    close $f;
 
     #- additional skipping from given parameter.
-    foreach (split ',', $extra) {
-	if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
- 	    $val{$n}{$s} = undef;
+    if ($extra) {
+	foreach (split ',', $extra) {
+	    if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
+		$val{$n}{$s} = undef;
+	    }
 	}
     }
 
@@ -2302,7 +2284,7 @@ sub get_source_packages {
 
 	if (defined $medium->{start} && defined $medium->{end} && !$medium->{ignore}) {
 	    #- always prefer a list file is available.
-	    my $file = $medium->{list} && "$urpm->{statedir}/$medium->{list}";
+	    my $file = $medium->{list} ? "$urpm->{statedir}/$medium->{list}" : '';
 	    if (!$file && $medium->{virtual}) {
 		my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*|file)?:/(.*)!;
 		my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
@@ -2310,7 +2292,7 @@ sub get_source_packages {
 		$file = reduce_pathname("$with_hdlist_dir/../$local_list");
 		-s $file or $file = "$dir/list";
 	    }
-	    if (-r $file) {
+	    if ($file && -r $file) {
 		open F, $file;
 		while (<F>) {
 		    if (my ($filename) = m|/([^/]*\.rpm)$|) {
@@ -2331,7 +2313,7 @@ sub get_source_packages {
 		    }
 		}
 		close F;
-	    } elsif (-e $file) {
+	    } elsif ($file && -e $file) {
 		# list file exists but isn't readable
 		# report error only if no result found, list files are only readable by root
 		push @list_error, N("unable to access list file of \"%s\", medium ignored", $medium->{name});
@@ -2990,58 +2972,61 @@ sub parallel_remove {
 #- misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
 sub unselected_packages {
     my ($urpm, $state) = @_;
-
     grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
 }
+
 sub translate_why_unselected {
     my ($urpm, $state, @l) = @_;
 
     map { my $rb = $state->{rejected}{$_}{backtrack};
-	  my @froms = keys %{$rb->{closure} || {}};
-	  my @unsatisfied = @{$rb->{unsatisfied} || []};
-	  my $s = join ", ", ((map { N("due to missing %s", $_) } @froms),
-			      (map { N("due to unsatisfied %s", $_) } @unsatisfied),
-			      $rb->{promote} && !$rb->{keep} ? N("trying to promote %s", join(", ", @{$rb->{promote}})) : @{[]},
-			      $rb->{keep} ? N("in order to keep %s", join(", ", @{$rb->{keep}})) : @{[]},
-			     );
-	  $_ . ($s ? " ($s)" : '');
-      } @l;
+	my @froms = keys %{$rb->{closure} || {}};
+	my @unsatisfied = @{$rb->{unsatisfied} || []};
+	my $s = join ", ", (
+	    (map { N("due to missing %s", $_) } @froms),
+	    (map { N("due to unsatisfied %s", $_) } @unsatisfied),
+	    $rb->{promote} && !$rb->{keep} ? N("trying to promote %s", join(", ", @{$rb->{promote}})) : @{[]},
+	    $rb->{keep} ? N("in order to keep %s", join(", ", @{$rb->{keep}})) : @{[]},
+	);
+	$_ . ($s ? " ($s)" : '');
+    } @l;
 }
 
 sub removed_packages {
     my ($urpm, $state) = @_;
-
-    grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected} || {}};
+    grep {
+	$state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted}
+    } keys %{$state->{rejected} || {}};
 }
+
 sub translate_why_removed {
     my ($urpm, $state, @l) = @_;
-
-    map { my ($from) = keys %{$state->{rejected}{$_}{closure}};
-	  my ($whyk) = keys %{$state->{rejected}{$_}{closure}{$from}};
-	  my ($whyv) = $state->{rejected}{$_}{closure}{$from}{$whyk};
-	  my $frompkg = $urpm->search($from, strict_fullname => 1);
-	  my $s;
-	  for ($whyk) {
-	      /old_requested/ and
-		$s .= N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
-	      /unsatisfied/ and do {
-		  foreach (@$whyv) {
-		      $s and $s .= ', ';
-		      if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/ && $2 ne '*') {
-			  $s .= N("due to unsatisfied %s", "$1 $2");
-		      } else {
-			  $s .= N("due to missing %s", $_);
-		      }
-		  }
-	      };
-	      /conflicts/ and
-		$s .= N("due to conflicts with %s", $whyv);
-	      /unrequested/ and
-		$s .= N("unrequested");
-	  }
-	  #- now insert the reason if available.
-	  $_ . ($s ? " ($s)" : '');
-      } @l;
+    map {
+	my ($from) = keys %{$state->{rejected}{$_}{closure}};
+	my ($whyk) = keys %{$state->{rejected}{$_}{closure}{$from}};
+	my ($whyv) = $state->{rejected}{$_}{closure}{$from}{$whyk};
+	my $frompkg = $urpm->search($from, strict_fullname => 1);
+	my $s;
+	for ($whyk) {
+	    /old_requested/ and
+	    $s .= N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
+	    /unsatisfied/ and do {
+		foreach (@$whyv) {
+		    $s and $s .= ', ';
+		    if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/ && $2 ne '*') {
+			$s .= N("due to unsatisfied %s", "$1 $2");
+		    } else {
+			$s .= N("due to missing %s", $_);
+		    }
+		}
+	    };
+	    /conflicts/ and
+	    $s .= N("due to conflicts with %s", $whyv);
+	    /unrequested/ and
+	    $s .= N("unrequested");
+	}
+	#- now insert the reason if available.
+	$_ . ($s ? " ($s)" : '');
+    } @l;
 }
 
 sub check_sources_signatures {
