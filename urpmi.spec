@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 3.3
-Release: 6mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject, webfetch, perl-DateManip >= 5.40
-PreReq: perl-gettext, rpmtools >= 4.2-2mdk
-BuildRequires: libbzip2-devel rpm-devel
+PreReq: perl-gettext, rpmtools >= 4.2-4mdk
+BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
@@ -144,6 +144,15 @@ fi
 
 
 %changelog
+* Mon Feb 18 2002 François Pons <fpons@mandrakesoft.com> 3.3-8mdk
+- added missing build requires on rpmtools.
+- fixed too verbose erroneous output that may hurt the user.
+- fixed reduce_pathname with real url which reduce a bit
+  too much.
+
+* Sat Feb 16 2002 Stefan van der Eijk <stefan@eijk.nu> 3.3-7mdk
+- BuildRequires
+
 * Thu Feb 14 2002 François Pons <fpons@mandrakesoft.com> 3.3-6mdk
 - use reduce_pathname even for downloading distant file.
 - fixed typo.

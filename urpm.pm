@@ -139,12 +139,15 @@ sub sync_webfetch {
 }
 sub sync_wget {
     -x "/usr/bin/wget" or die _("wget is missing\n");
-    system "/usr/bin/wget", "-NP", @_;
+    my $options = shift @_;
+    system "/usr/bin/wget", (ref $options && $options->{quiet} ? ("-q") : ()), "-NP",
+      (ref $options ? $options->{dir} : $options), @_;
     $? == 0 or die _("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 sub sync_curl {
     -x "/usr/bin/curl" or die _("curl is missing\n");
-    chdir shift @_;
+    my $options = shift @_;
+    chdir (ref $options ? $options->{dir} : $options);
     my (@ftp_files, @other_files);
     foreach (@_) {
 	/^ftp:\/\/.*\/([^\/]*)$/ && -s $1 > 8192 and do { push @ftp_files, $_; next }; #- manage time stamp for large file only.
@@ -192,7 +195,7 @@ sub sync_curl {
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-z file -O <file>)*
     if (my @all_files = ((map { ("-O", $_ ) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
-	system "/usr/bin/curl", "-R", "-f", @all_files;
+	system "/usr/bin/curl", (ref $options && $options->{quiet} ? ("-s") : ()), "-R", "-f", @all_files;
 	$? == 0 or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
     }
 }
@@ -779,7 +782,8 @@ sub update_media {
 	    }
 	    eval {
 		$urpm->{log}(_("retrieving description file of \"%s\"...", $medium->{name}));
-		$urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/../descriptions"));
+		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1 },
+			      reduce_pathname("$medium->{url}/../descriptions"));
 		$urpm->{log}(_("...retrieving done"));
 	    };
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
@@ -803,10 +807,11 @@ sub update_media {
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
-			$urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/$_"));
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1 }, reduce_pathname("$medium->{url}/$_"));
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
 			$medium->{with_hdlist} = $_;
+			$urpm->{log}(_("found probed hdlist (or synthesis) as %s", $basename));
 			last; #- found a suitable with_hdlist in the list above.
 		    }
 		}
@@ -853,7 +858,8 @@ sub update_media {
 		    unlink "$urpm->{cachedir}/partial/list";
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    eval {
-			$urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/$local_list"));
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1},
+				      reduce_pathname("$medium->{url}/$local_list"));
 			$local_list ne 'list' and
 			  rename("$urpm->{cachedir}/partial/$local_list", "$urpm->{cachedir}/partial/list");
 		    };
@@ -891,7 +897,7 @@ sub update_media {
 		    close F;
 		}
 		unless ($medium->{synthesis}) {
-		    open F, "parsehdlist --name '$urpm->{cachedir}/partial/$medium->{hdlist}' |";
+		    open F, "parsehdlist --silent --name '$urpm->{cachedir}/partial/$medium->{hdlist}' |";
 		    while (<F>) {
 			/^([^\/]*):name:([^\/\s:]*)(?::(.*)\.rpm)?$/ or next;
 			$list{$filename2pathname{$3 || $2} ||
@@ -956,7 +962,8 @@ sub update_media {
 	      system("mv", "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
 
 	    #- and create synthesis file associated.
-	    $medium->{synthesis} or $medium->{modified_synthesis} = 1;
+	    $medium->{modified_synthesis} = !$medium->{synthesis};
+	    #$medium->{synthesis} or $medium->{modified_synthesis} = 1;
 	}
     }
 
@@ -1135,7 +1142,10 @@ sub find_mntpoints {
 
 #- reduce pathname by removing <something>/.. each time it appears (or . too).
 sub reduce_pathname {
-    my ($dir) = @_;
+    my ($url) = @_;
+
+    #- take care if this is a true url and not a simple pathname.
+    my ($host, $dir) = $url =~ /([^:\/]*:\/\/[^\/]*\/)?(.*)/;
 
     #- remove any multiple /s or trailing /.
     #- then split all components of pathname.
@@ -1153,7 +1163,7 @@ sub reduce_pathname {
     }
     $dir =~ s/\/$//;
 
-    $dir;
+    $host . $dir;
 }
 
 #- check for necessity of mounting some directory to get access
