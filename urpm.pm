@@ -2560,7 +2560,7 @@ sub install {
 	    $pkg->update_header($mode->{$_});
 	    $trans->add($pkg,
 			update => $update, $options{excludepath} ? (excludepath => [ split ',', $options{excludepath} ]) : ())
-	      or $urpm->{error}(N("unable to install package %s", $install->{$_}));
+	      or $urpm->{error}(N("unable to install package %s", $mode->{$_}));
 	}
 	++$update;
     }
