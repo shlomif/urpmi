@@ -8,13 +8,14 @@
 # Peter Bosch <peter@dromas.student.utwente.nl>, 2002-2003
 # Niels Gras <niels.gras@wanadoo.nl>, 2000
 # Reinout van Schouwen <reinout@cs.vu.nl>, 2002-2003
+# Hendrik-Jan Heins <hjh@passys.nl>, 2003
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-nl\n"
 "POT-Creation-Date: 2003-07-25 17:59+0200\n"
-"PO-Revision-Date: 2003-06-26 02:29+0100\n"
-"Last-Translator: Peter Bosch <peter@dromas.student.utwente.nl>\n"
+"PO-Revision-Date: 2003-07-24 15:33+0200\n"
+"Last-Translator: Hendrik-Jan Heins <hjh@passys.nl>\n"
 "Language-Team: Nederlands <vertaling@nl.linux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -158,7 +159,7 @@ msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
 msgstr ""
-"  --distrib      - maakt automatisch alle media van een installatie medium\n"
+"  --distrib      - maakt automatisch alle media van een installatiemedium\n"
 "                    aan.\n"
 
 #: ../urpm.pm:1
@@ -170,7 +171,7 @@ msgstr "kon rpmdb niet openen"
 #: ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid "  --help         - print this help message.\n"
-msgstr "  --help         - geeft deze helptekst.\n"
+msgstr "  --help         - geeft deze hulptekst.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -210,7 +211,7 @@ msgstr "Wat is uw keuze? (1-%d)"
 #: ../urpm.pm:1
 #, c-format
 msgid "found %d headers in cache"
-msgstr "%d headers in cache gevonden"
+msgstr "%d headers in de buffer gevonden"
 
 #: ../urpm.pm:1
 #, c-format
@@ -223,9 +224,8 @@ msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
 msgstr ""
-"  --proxy-user   - specificeer gebruikersnaam en wachtwoord voor gebruik van "
-"proxy\n"
-"                   authenticatie (formaat is <gebruiker:wachtwoord>).\n"
+"  --proxy-user   - specificeer gebruikersnaam en wachtwoord voor proxy-\n"
+"                    aanmelding (formaat is <gebruiker:wachtwoord>).\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -262,7 +262,7 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "Package installation..."
-msgstr "Pakket installatie..."
+msgstr "Pakket-installatie..."
 
 #: ../urpm.pm:1
 #, c-format
@@ -276,7 +276,7 @@ msgid ""
 "no need to give <relative path of hdlist> with --distrib"
 msgstr ""
 "%s\n"
-"niet nodig om <bijbehorend pad van hdlist> te geven met --distrib"
+"niet nodig om <relatief pad van hdlist> te geven met --distrib"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -284,9 +284,9 @@ msgid "bad proxy declaration on command line\n"
 msgstr "ongeldige proxy-aanduiding op opdrachtregel\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "%d installation transactions failed"
-msgstr "Installatie mislukt"
+msgstr "%d installatie transacties mislukt"
 
 #: ../urpm.pm:1
 #, c-format
@@ -294,7 +294,7 @@ msgid ""
 "unable to access first installation medium (no Mandrake/base/hdlists file "
 "found)"
 msgstr ""
-"kon het eerste installatie medium niet vinden (geen Mandrake/base/hdlists "
+"kon het eerste installatiemedium niet vinden (geen Mandrake/base/hdlists "
 "bestanden gevonden)"
 
 #: ../urpmi:1
@@ -357,7 +357,7 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "trying to promote %s by selection of %s"
-msgstr ""
+msgstr "probeer %s op te waarderen door %s te kiezen"
 
 #: ../urpm.pm:1
 #, c-format
@@ -395,7 +395,7 @@ msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl is mislukt: afgesloten met %d of signaal %d\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The installation cannot continue because the following packages\n"
 "have to be removed for others to be upgraded:\n"
@@ -404,7 +404,6 @@ msgstr ""
 "De volgende pakketten moeten worden verwijderd om andere te kunnen "
 "opwaarderen:\n"
 "%s\n"
-"Is dit goed?"
 
 #: ../urpme:1
 #, c-format
@@ -417,15 +416,14 @@ msgid "Installation is possible"
 msgstr "Installatie is mogelijk"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s"
 msgstr ""
 "De volgende pakketten moeten worden verwijderd om andere te kunnen "
 "opwaarderen:\n"
-"%s\n"
-"Is dit goed?"
+"%s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -476,12 +474,12 @@ msgstr ""
 "onsamenhangend medium \"%s\" als verwisselbaar gemarkeerd, maar is dit niet"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "virtual medium \"%s\" should not have defined hdlist or list file, medium "
 "ignored"
 msgstr ""
-"medium \"%s\" probeert een hdlist te gebruiken die al wordt gebruikt, medium "
+"Virtueel medium \"%s\" zou geen gedefinieerde hdlist moeten hebben, medium "
 "genegeerd"
 
 #: ../urpm.pm:1
@@ -492,7 +490,7 @@ msgstr "berekenen md5sum van gekopieerde bron hdlist (of synthesis)"
 #: ../urpmi:1
 #, c-format
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr "  --excludepath  - sluit pad gescheiden door komma uit.\n"
+msgstr "  --excludepath  - pad (gescheiden door komma) uitsluiten.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -515,22 +513,25 @@ msgid ""
 "                   are going to be installed or upgraded,\n"
 "                   default is %d.\n"
 msgstr ""
+"  --split-level  - splitsen in kleinere transacties wanneer meer dan het\n"
+"                   aangegeven aantal pakketten worden geïnstalleerd of\n"
+"                   opgewaardeerd, standaard is %d.\n"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
-msgstr "rsync is niet geïnstalleerd\n"
+msgstr "rsync ontbreekt\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
-msgstr "probleem met lezen van synthesis bestand van medium \"%s\""
+msgstr "probleem met lezen van hdlist of synthesis bestand van medium \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr ""
-"  --wget         - gebruik wget om bestanden op afstand te ontvangen.\n"
+"  --wget         - wget gebruiken om bestanden op afstand te ontvangen.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -570,7 +571,7 @@ msgid ""
 "                   dependencies checking.\n"
 msgstr ""
 "  --allow-nodeps - sta toe de gebruiker te vragen om pakketten te\n"
-"                    installeren zonder afhankelijkheids controle.\n"
+"                    installeren zonder afhankelijkhedencontrole.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -580,7 +581,7 @@ msgstr "  -i             - geef nuttige informatie in leesbare vorm.\n"
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to handle protocol: %s"
-msgstr "kon volgend protocol niet verwerken: %s"
+msgstr "kon protocol niet verwerken: %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -634,12 +635,12 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "in order to install %s"
-msgstr "in volgorde om te installeren %s"
+msgstr "in volgorde om %s te installeren"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "relocated %s entries in depslist"
-msgstr "%s van plaats veranderde ingangen in depslist"
+msgstr "%s van plaats veranderde ingangen in lijst van afhankelijkheden"
 
 #: ../urpmf:1
 #, c-format
@@ -651,12 +652,12 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
-msgstr "kon directory [%s] niet aanmaken voor bugrapport"
+msgstr "kon directory [%s] niet aanmaken voor programmafoutrapport"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "would install instead of upgrade package %s"
-msgstr "kon pakket %s niet verwijderen"
+msgstr "Zou pakket %s installeren, niet opwaarderen"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -718,18 +719,18 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
-"de invoer om te verwijderen ontbreekt\n"
-"(een van %s)\n"
+"het te verwijderen item ontbreekt\n"
+"(één van %s)\n"
 
 #: ../urpmi.removemedia:1
 #, c-format
 msgid "  -a             - select all media.\n"
-msgstr "  -a             - selecteer alle media.\n"
+msgstr "  -a             - alle media selecteren.\n"
 
 #: ../urpmi:1
 #, c-format
 msgid "Missing signature (%s)"
-msgstr ""
+msgstr "Geen ondertekening aanwezig (%s)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -773,14 +774,13 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - beschikbare media opsommen.\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
 "%s"
 msgstr ""
 "Bepaalde gevraagde pakketen konden niet worden geïnstalleerd:\n"
-"%s\n"
-"Is dit goed?"
+"%s"
 
 #: ../urpmi:1
 #, c-format
@@ -792,8 +792,8 @@ msgstr "Bezig met installeren van pakket `%s' (%s/%s)..."
 msgid ""
 "  -d             - force complete computation of depslist.ordered file.\n"
 msgstr ""
-"  -d             - forceer complete berekening van depslist.ordered "
-"bestand.\n"
+"  -d             - complete berekening van depslist.ordered "
+"forcerenbestand.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -821,7 +821,7 @@ msgstr "  -e             - voeg perl code direct als perl -e toe.\n"
 #: ../urpmi:1
 #, c-format
 msgid "do you agree ?"
-msgstr ""
+msgstr "Bent u het ermee eens?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -853,7 +853,7 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "Invalid signature (%s)"
-msgstr ""
+msgstr "Ongeldige ondertekening (%s)"
 
 #: ../urpmi:1
 #, c-format
@@ -898,7 +898,7 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to parse hdlist file of \"%s\""
-msgstr "het hdlist-bestand van \"%s\" is ongeldig"
+msgstr "kan het hdlist-bestand van \"%s\" niet analyseren"
 
 #: ../urpm.pm:1
 #, c-format
@@ -922,10 +922,9 @@ msgstr ""
 "Proberen te installeren zonder de afhankelijkheden te controleren? (j/N) "
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" is not local, medium ignored"
-msgstr ""
-"medium \"%s\" probeert een al gebruikte lijst te gebruiken, medium genegeerd"
+msgstr "Virtueel medium \"%s\" is geen lokaal medium, genegeerd"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -949,7 +948,8 @@ msgstr ""
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - zoek niet in 'provides' om een pakket te vinden.\n"
+msgstr ""
+"  -P             - niet in 'provides' zoeken om een pakket te vinden.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -960,7 +960,7 @@ msgstr "  --clean      - rpm uit cache verwijderen vóór al het andere\n"
 #, c-format
 msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
-"kon naam \"%s\" niet gebruiken voor naamloos medium omdat deze al in gebruik "
+"kan naam \"%s\" niet gebruiken voor naamloos medium omdat deze al in gebruik "
 "is"
 
 #: ../urpmf:1
@@ -969,13 +969,13 @@ msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts     - geeft de tag conflicten: alle conflicten.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
 "ignored"
 msgstr ""
-"medium \"%s\" probeert een hdlist te gebruiken die al wordt gebruikt, medium "
-"genegeerd"
+"Virtueel medium \"%s\" moet een geldige bron hdlist of synthesis hebben, "
+"medium genegeerd"
 
 #: ../urpme:1
 #, c-format
@@ -1008,7 +1008,7 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"gebruik: urpmi.addmedia [opties] <naam> <url> [with <bijbehorend_pad>]\n"
+"gebruik: urpmi.addmedia [opties] <naam> <url> [with <relatief_pad>]\n"
 "waar <url> één van de volgende is:\n"
 "       file://<pad>\n"
 "       ftp://<gebruikersnaam>:<wachtwoord>@<host>/<pad> with <relatieve "
@@ -1035,7 +1035,7 @@ msgid "unable to use parallel option \"%s\""
 msgstr "niet in staat parallelle optie \"%s\" te gebruiken"
 
 #: ../urpm.pm:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "medium \"%s\" uses an invalid list file:\n"
 "  mirror is probably not up-to-date, trying to use alternate method"
@@ -1046,12 +1046,12 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to access first installation medium"
-msgstr "kon het eerste installatie medium niet vinden"
+msgstr "kon het eerste installatiemedium niet vinden"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "virtual medium need to be local"
-msgstr ""
+msgstr "Virtueel medium moet lokaal zijn"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1061,7 +1061,7 @@ msgstr "registreren van lokale pakketten is mislukt"
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
-msgstr "  --limit-rate   - limiteer de download snelheid.\n"
+msgstr "  --limit-rate   - de download snelheid begrenzen.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1138,13 +1138,15 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "Invalid Key ID (%s)"
-msgstr ""
+msgstr "Ongeldig sleutel-ID (%s)"
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - forceer zelfs als sommige pakketten niet bestaan.\n"
+msgstr ""
+"  --force        - aanroep forceren zelfs als sommige pakketten niet "
+"bestaan.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1155,8 +1157,8 @@ msgstr "kon de padnaam van verwisselbaar medium \"%s\" niet vinden"
 #, c-format
 msgid "  --probe-synthesis - try to find and use synthesis file.\n"
 msgstr ""
-"  --probe-synthesis - probeer een synthesis bestand te vinden en te "
-"gebruiken.\n"
+"  --probe-synthesis - een synthesis bestand proberen te vinden en\n"
+"                      te gebruiken.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1244,7 +1246,7 @@ msgstr "bezig met afkoppelen van %s"
 #, c-format
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
-"niets om op te waarderen (gebruik urpmi.addmedia om media toe te voegen)\n"
+"niets om te verversen (gebruik urpmi.addmedia om media toe te voegen)\n"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -1259,7 +1261,7 @@ msgstr "bezig met onderzoeken van het synthesis bestand [%s]"
 #: ../urpmi:1
 #, c-format
 msgid "Try installation even more strongly (--force)? (y/N) "
-msgstr "Installatie forceren (--force)? (j/N) "
+msgstr "Installatie trachten te forceren (--force)? (j/N) "
 
 #: ../urpm.pm:1
 #, c-format
@@ -1279,7 +1281,7 @@ msgstr "  -q             - stille modus.\n"
 #: ../urpmf:1
 #, c-format
 msgid "  --verbose      - verbose mode.\n"
-msgstr "  --verbose      - 'gebruik veel woorden' modus.\n"
+msgstr "  --verbose      - 'uitgebreid verslag'-modus.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1312,7 +1314,7 @@ msgstr "bezig meerdere media te selecteren: %s"
 #: ../urpmf:1 ../urpmq:1
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr "  -f             - geeft de versie, uitgave and arch met naam.\n"
+msgstr "  -f             - geeft de versie, uitgave en arch met naam.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1327,7 +1329,7 @@ msgstr "niets te verwijderen (gebruik urpmi.addmedia om media toe te voegen)\n"
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
-msgstr "kon het lijstbestand voor \"%s\" niet vinden, medium genegeerd"
+msgstr "kan het lijstbestand voor \"%s\" niet vinden, medium genegeerd"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1364,7 +1366,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmf versie %s\n"
-"Copyright (C) 2000, 2001, 2002 MandrakeSoft.\n"
+"Copyright (C) 2002 MandrakeSoft.\n"
 "Dit is vrije software en mag worden verspreid onder de voorwaarden van de "
 "GNU GPL.\n"
 "\n"
@@ -1453,8 +1455,8 @@ msgstr "Niets te verwijderen"
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
 msgstr ""
-"  -d             - breid de zoekopdracht uit om aan dependencies van "
-"pakketten te voldoen.\n"
+"  -d             - de zoekopdracht uitbreiden om aan afhankelijkheden van\n"
+"                    pakketten te voldoen.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1522,17 +1524,17 @@ msgid ""
 "`with' missing for network media\n"
 msgstr ""
 "%s\n"
-"`with' ontbreekt voor netwerk media\n"
+"`with' ontbreekt voor netwerkmedia\n"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
-msgstr "  -f             - forceer aanmaak van hdlist bestanden.\n"
+msgstr "  -f             - aanmaak van hdlist bestanden forceren.\n"
 
 #: ../urpmq:1
 #, c-format
 msgid "--list-nodes can only be used with --parallel"
-msgstr "--lijst-nodes kunnen alleen worden gebruikt met --parallel"
+msgstr "--list-nodes kan alleen worden gebruikt met --parallel"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1546,9 +1548,9 @@ msgstr ""
 "  -s             - volgend pakket is een bron pakket (zelfde als --src).\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s"
-msgstr "bezig met installeren van %s\n"
+msgstr "bezig met installeren van %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1576,6 +1578,8 @@ msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
 "                   only file:// protocol is allowed.\n"
 msgstr ""
+"  --virtual      - maakt virtueel medium aan dat altijd up-to-date is,\n"
+"                   alleen file:// protocol is toegestaan.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1596,7 +1600,7 @@ msgstr "Annuleren"
 #, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
-"  --src          - volgende pakket is een bron pakket (zelfde als-s).\n"
+"  --src          - volgende pakket is een bron pakket (zelfde als -s).\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1617,7 +1621,7 @@ msgstr "wget is niet geïnstalleerd\n"
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
-"  --sortmedia    - sorteer media afgaand van substrings gescheiden door "
+"  --sortmedia    - media sorteren afgaand van substrings gescheiden door "
 "komma's.\n"
 
 #: ../urpm.pm:1
@@ -1652,8 +1656,7 @@ msgstr "kon list bestand van \"%s\" niet benaderen, medium genegeerd"
 #: ../urpmf:1
 #, c-format
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr ""
-"  )              - rechter parenthesis om groep expressie te sluiten.\n"
+msgstr "  )              - rechter haakje om groepexpressie te sluiten.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1666,10 +1669,9 @@ msgid "copying hdlists file..."
 msgstr "bezig met kopiëren hdlist bestanden"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-msgstr ""
-"medium \"%s\" probeert een al gebruikte lijst te gebruiken, medium genegeerd"
+msgstr "Virtueel medium \"%s\" moet een leeg url hebben, medium genegeerd"
 
 #: ../urpmf:1
 #, c-format
@@ -1731,6 +1733,8 @@ msgid ""
 "  --no-uninstall - never ask to uninstall a package, abort the "
 "installation.\n"
 msgstr ""
+"  --no-uninstall - vraag nooit om de-installatie van een pakket, stop de "
+"installatie.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1782,17 +1786,17 @@ msgstr "kon hdlist bestand voor \"%s\" niet vinden, medium genegeerd"
 #: ../urpmi:1
 #, c-format
 msgid "  --split-length - small transaction length, default is %d.\n"
-msgstr ""
+msgstr " --split-length - korte transactielengte, standaard is %d.\n"
 
 #: ../urpmf:1
 #, c-format
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr "  (              - linker parenthesis om groep expressie te openen.\n"
+msgstr "  (              - linker haakje om groepexpressie te openen.\n"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "too many mount points for removable medium \"%s\""
-msgstr "teveel koppelpunten (mount) voor verwisselbaar medium \"%s\""
+msgstr "teveel koppelpunten voor verwisselbaar medium \"%s\""
 
 #: ../urpmf:1
 #, c-format
@@ -1849,9 +1853,9 @@ msgstr ""
 "verwijderd (%d MB)"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s"
-msgstr "bezig met distribueren van %s\n"
+msgstr "bezig met distribueren van %s"
 
 #: ../urpmi:1
 #, c-format
@@ -2009,7 +2013,7 @@ msgstr "bezig met proberen bestaand medium \"%s\" te omzeilen"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
-"  --test         - verifiëren of de installatie correct uitgevoerd kan "
+"  --test         - verifiëren dat de installatie correct uitgevoerd kan "
 "worden.\n"
 
 #~ msgid "mput failed, maybe a node is unreacheable"
