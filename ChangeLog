@@ -1,3 +1,148 @@
+2004-07-27 10:04  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: "noreconfigure" should work for both local and remote
+	  media
+
+2004-07-27 09:40  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm/cfg.pm: Don't write priority in urpmi.cfg
+
+2004-07-27 09:30  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpm/download.pm: Finish to implement file:// urls where
+	  the "file:/" is optional
+
+2004-07-27 08:38  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi.addmedia: Note that 10.1 updates are to be coded. Plus some
+	  cleanup.
+
+2004-07-27 08:06  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpmi.addmedia, urpmq: Make the leading "file://"
+	  optional in local media URLs.
+
+2004-07-27 07:24  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi.bash-completion: Update bash completion with new
+	  command-line options
+
+2004-07-27 04:32  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi.update, urpm/args.pm: Add options -q and -v (quiet and
+	  verbose) to urpmi.update
+
+2004-07-27 04:25  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi.addmedia, urpmi.removemedia, urpm/args.pm: Add options -q
+	  and -v (quiet and verbose) to urpmi.{add,remove}media
+
+2004-07-27 04:06  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Simplify regexp
+
+2004-07-27 03:14  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, po/af.po, po/ar.po, po/az.po, po/bg.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po, po/nn.po,
+	  po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po,
+	  po/sl.po, po/sq.po, po/sr.po, po/sr@Latn.po, po/sv.po, po/tg.po,
+	  po/th.po, po/tl.po, po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po,
+	  po/uz@Latn.po, po/vi.po, po/wa.po, po/zh_CN.po, po/zh_TW.po: Fix
+	  grammar error in error message
+
+2004-07-27 03:01  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Take into account priority when writing the
+	  configuration file
+
+2004-07-26 13:42  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* urpm.pm: (update_media) properly handle copy of soft links
+	  (preventing urpmi.update faiilure)
+
+2004-07-26 13:22  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* urpm.pm: show the name of the real file that is too small ...
+
+2004-07-26 13:16  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* po/: fr.po: update
+
+2004-07-26 11:54  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Modernize.
+
+2004-07-26 07:55  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpmq, urpm/args.pm: Add an option -Y to urpmq (fuzzy
+	  and case insensitive)
+
+2004-07-26 07:54  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translations
+
+2004-07-26 07:52  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm/cfg.pm: Fix ordering of media in config file
+
+2004-07-26 04:09  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm/cfg.pm: Disambiguate order by sorting by name new media with
+	  the same priority
+
+2004-07-26 04:05  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Add local media at the beginning, other ones at the end.
+
+2004-07-26 03:46  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm/cfg.pm: Preserve media order in urpmi.cfg
+
+2004-07-26 03:09  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpm/cfg.pm: Add a "noreconfigure" flag for media that
+	  don't want to be reconfigured.  (patch by Michael Scherer)
+
+2004-07-26 03:07  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Media reconfiguration: for local media, verify that the
+	  new url points to an existing directory.
+
+2004-07-23 11:15  fisher
+
+	* po/uk.po: Ukrainian translation update.
+
+2004-07-23 07:35  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Even better error handling for copy failures
+
+2004-07-23 07:12  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpm/download.pm: Better error handling for copy
+	  failures
+
+2004-07-23 06:09  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, br.po, bs.po, ca.po, cs.po,
+	  cy.po, da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fa.po,
+	  fi.po, fr.po, fur.po, ga.po, gl.po, he.po, hi.po, hr.po, hu.po,
+	  id.po, is.po, it.po, ja.po, ka.po, ko.po, ky.po, lt.po, lv.po,
+	  mn.po, ms.po, mt.po, nb.po, nl.po, nn.po, pl.po, pt.po, pt_BR.po,
+	  ro.po, ru.po, sk.po, sl.po, sq.po, sr.po, sr@Latn.po, sv.po,
+	  tg.po, th.po, tl.po, tr.po, uk.po, urpmi.pot, uz.po, uz@Latn.po,
+	  vi.po, wa.po, zh_CN.po, zh_TW.po: Reflect the media layout change
+	  in the po files.
+
+2004-07-23 04:16  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi.spec: 4.5-17mdk
+
 2004-07-23 04:09  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
 
 	* urpm.pm: Simplify search for reconfig.urpmi.

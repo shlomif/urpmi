@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 17mdk
+%define release 18mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -249,6 +249,19 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue Jul 27 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-18mdk
+- Better error handling for copy failures (disk full, etc.)
+- Better handling of symlinks (Titi)
+- New noreconfigure flag in urpmi.cfg: ignore media reconfiguration (Misc)
+- More robust reconfiguration
+- Preserve media order in urpmi.cfg, add local media at the top of the list
+- file:/// urls may no be replaced by bare absolute paths.
+- New urpmq option: -Y (fuzzy, case-insensitive)
+- New options for urpmi.addmedia, urpmi.removemedia and urpmi.update:
+  -q (quiet) and -v (verbose).
+- Updated bash completion.
+- Message and documentation updates.
+
 * Fri Jul 23 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-17mdk
 - Make --use-distrib support new media layout.
 - Update manpages.
