@@ -84,7 +84,8 @@ for (@ARGV) {
     /^--X$/ and do { $X = 1; next };
     /^--WID=(.*)$/ and do { $WID = $1; next };
     /^--WID$/ and do { push @nextargv, \$WID; next };
-    /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0; next };
+    /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && -x "/usr/X11R6/bin/grpmi" && system('/usr/X11R6/bin/xtest', '') == 0;
+			       next };
     /^--comment$/ and do { push @nextargv, undef; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 8mdk
+Release: 9mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -114,6 +114,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Sep 10 2001 François Pons <fpons@mandrakesoft.com> 1.7-9mdk
+- moved depslist computation out of loop of reading.
+
 * Mon Sep  3 2001 François Pons <fpons@mandrakesoft.com> 1.7-8mdk
 - updated fr man pages (pablo).
 - avoid eject removable medium if --auto is given.

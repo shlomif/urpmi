@@ -241,7 +241,7 @@ sub probe_medium {
 	}
     }
     $medium->{url} ||= $medium->{clear_url};
-    $medium->{removable} ||= $medium->{url} =~ /^removable_([^_:]*)(?:_[^:]*)?:/ && "/dev/$1";
+    $medium->{removable} ||= $medium->{url} =~ /^removable_([^_:]*)(?:_[^:]*)?:/ && "/dev/$1"; #"
     $medium;
 }
 
@@ -311,7 +311,7 @@ sub add_medium {
 
 	#- add some more flags for this type of medium.
 	$medium->{clear_url} = $url;
-	$medium->{removable} = $url =~ /^removable_([^_:]*)(?:_[^:]*)?:/ && "/dev/$1";
+	$medium->{removable} = $url =~ /^removable_([^_:]*)(?:_[^:]*)?:/ && "/dev/$1"; #"
     }
 
     #- all flags once everything has been computed.
@@ -651,9 +651,9 @@ sub update_media {
 		$medium->{ignore} and next;
 		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
-		$urpm->{log}(_("computing dependencies"));
-		$urpm->{params}->compute_depslist();
 	    }
+	    $urpm->{log}(_("computing dependencies"));
+	    $urpm->{params}->compute_depslist();
 
 	    #- once everything has been computed, write back the files to
 	    #- sync the urpmi database.
