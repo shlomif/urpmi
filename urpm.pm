@@ -886,11 +886,9 @@ sub update_media {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
-	    if ($options{force} < 2 && ($options{probe_with_hdlist} || $medium->{with_hdlist})) {
-		$urpm->try_mounting($with_hdlist_dir) or $urpm->{log}(_("unable to access medium \"%s\"", $medium->{name})), next;
-	    } else {
-		$urpm->try_mounting($dir) or $urpm->{log}(_("unable to access medium \"%s\"", $medium->{name})), next;
-	    }
+	    $urpm->try_mounting($options{force} < 2 && ($options{probe_with_hdlist} || $medium->{with_hdlist}) ?
+				$with_hdlist_dir : $dir) or
+				  $urpm->{error}(_("unable to access medium \"%s\"", $medium->{name})), next;
 
 	    #- try to probe for possible with_hdlist parameter, unless
 	    #- it is already defined (and valid).

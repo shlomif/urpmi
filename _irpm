@@ -30,7 +30,7 @@ $SIG{ALRM} = sub { $pid and kill 9, $pid; not_found(); };
 alarm $timeout;
 
 if (!$automatic) {
-    $interactive_mesg = _("Automatic installation of packages...\nYou requested installation of package %s\n",$rpm) . _("Is it OK?");
+    $interactive_mesg = _("Automatic installation of packages...\nYou requested installation of package %s\n",$rpm) . _("Is this OK?");
     if ($X) {
 	my $ok = _("Ok");
 	my $cancel = _("Cancel");
