@@ -2,12 +2,12 @@
 
 Name: urpmi
 Version: 3.1
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
-Requires: eject, webfetch
+Requires: eject, webfetch, perl-DateManip >= 5.40
 PreReq: perl-gettext, rpmtools >= 4.0
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
@@ -142,7 +142,12 @@ fi
 
 
 %changelog
-* Thu Dec 13 2001 François Pons <fpons@ackbar.mandrakesoft.com> 3.1-1mdk
+* Fri Dec 14 2001 François Pons <fpons@mandrakesoft.com> 3.1-2mdk
+- added time conditionnal download to curl interface for both http
+  and ftp protocol (so need Date::Manip because urpm library use it
+  for ftp as no support in curl).
+
+* Thu Dec 13 2001 François Pons <fpons@mandrakesoft.com> 3.1-1mdk
 - added --distrib flag to urpmi.addmedia to add all media from the
   installation medium.
 - fixed update on removable medium (the second to more).

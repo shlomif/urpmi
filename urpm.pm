@@ -89,7 +89,7 @@ sub unquotespace { local $_ = $_[0]; s/\\(\s)/$1/g; $_ }
 sub sync_webfetch {
     -x "/usr/bin/curl" and return &sync_curl;
     -x "/usr/bin/wget" and return &sync_wget;
-    die _("no webfetch (curl or wget for example) found\n");
+    die _("no webfetch (curl or wget currently) found\n");
 }
 sub sync_wget {
     -x "/usr/bin/wget" or die _("wget is missing\n");
@@ -99,8 +99,56 @@ sub sync_wget {
 sub sync_curl {
     -x "/usr/bin/curl" or die _("curl is missing\n");
     chdir shift @_;
-    system "/usr/bin/curl", "-R", map { ("-O", $_ ) } @_;
-    $? == 0 or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    my (@ftp_files, @other_files);
+    foreach (@_) {
+	/^ftp:\/\/.*\/([^\/]*)$/ && -s $1 > 8192 and do { push @ftp_files, $_; next }; #- manage time stamp for large file only.
+	push @other_files;
+    }
+    if (@ftp_files) {
+	my ($cur_ftp_file, %ftp_files_info);
+
+	require Date::Manip;
+
+	#- prepare to get back size and time stamp of each file.
+	local *CURL;
+	open CURL, "/usr/bin/curl -I " . join(" ", map { "'$_'" } @ftp_files) . " |";
+	while (<CURL>) {
+	    if (/Content-Length:\s*(\d+)/) {
+		!$cur_ftp_file || exists $ftp_files_info{$cur_ftp_file}{size} and $cur_ftp_file = shift @ftp_files;
+		$ftp_files_info{$cur_ftp_file}{size} = $1;
+	    }
+	    if (/Last-Modified:\s*(.*)/) {
+		!$cur_ftp_file || exists $ftp_files_info{$cur_ftp_file}{time} and $cur_ftp_file = shift @ftp_files;
+		$ftp_files_info{$cur_ftp_file}{time} = Date::Manip::ParseDate($1);
+		$ftp_files_info{$cur_ftp_file}{time} =~ s/(\d{6}).{4}(.*)/$1$2/; #- remove day and hour.
+	    }
+	}
+	close CURL;
+
+	#- now analyse size and time stamp according to what already exists here.
+	if (@ftp_files) {
+	    #- re-insert back shifted element of ftp_files, because curl output above
+	    #- have not been parsed correctly, in doubt download them all.
+	    push @ftp_files, keys %ftp_files_info;
+	} else {
+	    #- for that, it should be clear ftp_files is empty... else a above work is
+	    #- use less.
+	    foreach (keys %ftp_files_info) {
+		my ($lfile) = /\/([^\/]*)$/ or next; #- strange if we can't parse it correctly.
+		my $ltime = Date::Manip::ParseDate(scalar gmtime((stat $1)[9]));
+		$ltime =~ s/(\d{6}).{4}(.*)/$1$2/; #- remove day and hour.
+		-s $lfile == $ftp_files_info{$_}{size} && $ftp_files_info{$_}{time} eq $ltime or
+		  push @ftp_files, $_;
+	    }
+	}
+    }
+    #- http files (and other files) are correctly managed by curl to conditionnal upload.
+    #- options for ftp files, -R (-O <file>)*
+    #- options for http files, -R (-z file -O <file>)*
+    if (my @all_files = ((map { ("-O", $_ ) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
+	system "/usr/bin/curl", "-R", @all_files;
+	$? == 0 or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    }
 }
 
 #- read /etc/urpmi/urpmi.cfg as config file, keep compability with older
@@ -1255,7 +1303,9 @@ sub parse_synthesis {
 	chomp;
 	my ($name, $tag, @data) = split '@';
 	if ($name ne $last_name) {
-	    !%info || $update_info->() or $urpm->{log}(_("unable to analyse synthesis data of %s", $last_name));
+	    !%info || $update_info->() or
+	      $urpm->{log}(_("unable to analyse synthesis data of %s",
+			     $last_name =~ /^[[:print:]]*$/ ? $last_name : _("<non printable chars>")));
 	    $last_name = $name;
 	    %info = ();
 	}
