@@ -332,7 +332,10 @@ foreach (qw(post-clean verify-rpm)) {
 }
 exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
 exists $urpm->{options}{'split-length'} or $urpm->{options}{'split-length'} = $split_length;
-exists $urpm->{options}{'priority-ugrade'} or $urpm->{options}{'priority-upgrade'} = 'rpm,perl-URPM,urpmi';
+# comma-separated list of packages that should be installed first,
+# and that trigger an urpmi restart
+exists $urpm->{options}{'priority-upgrade'}
+    or $urpm->{options}{'priority-upgrade'} = 'rpm,perl-URPM,urpmi';
 
 my $state = {};
 my %requested = $urpm->register_rpms(@files, @src_files);
@@ -418,15 +421,17 @@ if ($parallel && $urpm::args::options{X}) {
 #- handle parallel option if any.
 #- return value is true if program should be restarted (in order to take care of important
 #- packages being upgraded (problably urpmi and perl-URPM, but maybe rpm too, and glibc also ?).
-my $restart_itself = $urpm->resolve_dependencies($state, \%requested,
-						 rpmdb => $env && "$env/rpmdb.cz",
-						 auto_select => $auto_select,
-						 callback_choices => \&ask_choice,
-						 install_src => $install_src,
-						 keep => $urpm->{options}{keep},
-						 nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
-						 priority_upgrade => !$test && !$env && $urpm->{options}{'priority-upgrade'},
-						);
+my $restart_itself = $urpm->resolve_dependencies(
+    $state,
+    \%requested,
+    rpmdb => $env && "$env/rpmdb.cz",
+    auto_select => $auto_select,
+    callback_choices => \&ask_choice,
+    install_src => $install_src,
+    keep => $urpm->{options}{keep},
+    nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
+    priority_upgrade => $test || $env ? '' : $urpm->{options}{'priority-upgrade'},
+);
 
 my @ask_unselect = $urpm->unselected_packages($state);
 if (@ask_unselect) {
