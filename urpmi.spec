@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 15mdk
+%define release 16mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -249,6 +249,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Thu Jul 22 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-16mdk
+- Automagically reconfigure NFS media as well. (duh.)
+
 * Tue Jul 20 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-15mdk
 - Support for automatic reconfiguration of media layout
 - Remove setuid support
