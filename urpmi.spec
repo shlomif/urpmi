@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 31mdk
+Release: 32mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -199,6 +199,9 @@ $urpm->update_media;
 
 
 %changelog
+* Wed Mar 12 2003 François Pons <fpons@mandrakesoft.com> 4.2-32mdk
+- added https:// protocol. (avoid curl limitation and fix bug 3226).
+
 * Mon Mar 10 2003 François Pons <fpons@mandrakesoft.com> 4.2-31mdk
 - try to be somewhat perl_checker compliant.
 - strict require on urpmi.

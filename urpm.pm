@@ -117,15 +117,15 @@ sub sync_webfetch {
 	sync_file($options, @{$files{removable} || []}, @{$files{file} || []});
 	delete @files{qw(removable file)};
     }
-    if ($files{ftp} || $files{http}) {
+    if ($files{ftp} || $files{http} || $files{https}) {
 	if (-x "/usr/bin/curl" && (! ref($options) || $options->{prefer} ne 'wget' || ! -x "/usr/bin/wget")) {
-	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []});
+	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} elsif (-x "/usr/bin/wget") {
-	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []});
+	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} else {
 	    die N("no webfetch (curl or wget currently) found\n");
 	}
-	delete @files{qw(ftp http)};
+	delete @files{qw(ftp http https)};
     }
     if ($files{rsync}) {
 	sync_rsync($options, @{$files{rsync} || []});
@@ -262,7 +262,7 @@ sub sync_curl {
 	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
 			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
-			(ref($options) && $options->{quiet} && !$options->{verbose} ? "-s" : @{[]}), "-R", "-f", "--stderr", "-",
+			(ref($options) && $options->{quiet} && !$options->{verbose} ? "-s" : @{[]}), "-R", "-f", "-k", "--stderr", "-",
 			@all_files) . " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	while (<CURL>) {
