@@ -143,7 +143,7 @@ for (@ARGV) {
 my $urpm = new urpm;
 my ($pid_out, $pid_err);
 
-if ($uid) {
+if ($uid > 0) {
     #- only src files are installable using urpmi.
     @names || @files and $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
 
@@ -284,13 +284,23 @@ my @to_install;
 #- has not been given by the user.
 my $ask_user = $auto_select && scalar(keys %packages);
 my $sum = 0;
+my @root_only;
+
 foreach (keys %packages) {
     defined $packages{$_} and $ask_user = 1;
     my $info = $urpm->{params}{depslist}[$_];
-    $sum += $info->{size};
-    push @to_install, "$info->{name}-$info->{version}-$info->{release}.$info->{arch}";
+    my $fullname = "$info->{name}-$info->{version}-$info->{release}.$info->{arch}";
+    if ($uid > 0 && $info->{arch} ne 'src') {
+	push @root_only, $fullname;
+    } elsif ($uid > 0 || $info->{arch} ne 'src') {
+	$sum += $info->{size};
+	push @to_install, $fullname;
+    }
 }
-if (!$auto && $ask_user) {
+if (@root_only) {
+    print STDERR _("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
+    exit 1;
+} elsif (!$auto && $ask_user) {
     my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
     my $msg2 = _("Is it OK?");
     if ($X) {
@@ -302,7 +312,11 @@ if (!$auto && $ask_user) {
     } else {
 	$noexpr = _("Nn");
 	$yesexpr = _("Yy");
-	print SAVEOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
+	if ($uid > 0) {
+	    print STDOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
+	} else {
+	    print SAVEOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
+	}
 	<STDIN> =~ /[$noexpr]/ and exit 0;
     }
 }
@@ -330,7 +344,11 @@ my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 
 						      `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
 						      !$?;
 						  } else {
-						      print SAVEOUT "$msg\n$msg2 ";
+						      if ($uid > 0) {
+							  print STDOUT "$msg\n$msg2 ";
+						      } else {
+							  print SAVEOUT "$msg\n$msg2 ";
+						      }
 						      <STDIN>; 1;
 						  }
 					      });
@@ -342,7 +360,11 @@ if ($uid == 0) {
 }
 
 if (@rpms_install || @rpms_upgrade) {
-    printf SAVEOUT _("installing %s\n", join(' ', @rpms_install, @rpms_upgrade));
+    if ($uid > 0) {
+	printf STDOUT _("installing %s\n", join(' ', @rpms_install, @rpms_upgrade));
+    } else {
+	printf SAVEOUT _("installing %s\n", join(' ', @rpms_install, @rpms_upgrade));
+    }
     log_it(scalar localtime, " @_\n");
     #- check for local files.
     foreach (@rpms_install, @rpms_upgrade) {
@@ -369,7 +391,11 @@ if (@rpms_install || @rpms_upgrade) {
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
-		print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
+		if ($uid > 0) {
+		    print STDOUT _("Try installation even more strongly (--force)? (y/N) ");
+		} else {
+		    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
+		}
 		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 		$urpm->{log}("starting force installing packages without deps");
 		system("rpm", "-i$rpm_opt", "--nodeps", "--force", @rpms_install);	
@@ -385,14 +411,22 @@ if (@rpms_install || @rpms_upgrade) {
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
-		print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
+		if ($uid > 0) {
+		    print STDOUT _("Try installation without checking dependencies? (y/N) ");
+		} else {
+		    print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
+		}
 		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 		$urpm->{log}("starting installing packages without deps");
 		system("rpm", "-U$rpm_opt", "--nodeps", @rpms_upgrade);
 
 		if ($?) {
 		    message(_("Installation failed"));
-		    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
+		    if ($uid > 0) {
+			print STDOUT _("Try installation even more strongly (--force)? (y/N) ");
+		    } else {
+			print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
+		    }
 		    $force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 		    $urpm->{log}("starting force installing packages without deps");
 		    system("rpm", "-U$rpm_opt", "--nodeps", "--force", @rpms_upgrade);	
@@ -417,9 +451,9 @@ sub toMb {
     int $nb + 0.5;
 }
 
-sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : print SAVEOUT "$_[0]\n"; }
+sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : $uid > 0 ? print STDOUT "$_[0]\n" : print SAVEOUT "$_[0]\n"; }
 
-sub message_auto { $auto ? print SAVEOUT "$_[0]\n" : message($_[0]); }
+sub message_auto { $auto ? ($uid > 0 ? print STDOUT "$_[0]\n" : print SAVEOUT "$_[0]\n") : message($_[0]); }
 
 sub log_it {
     #- if invoked as a simple user, nothing should be logged.

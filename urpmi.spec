@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 14mdk
+Release: 15mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -50,7 +50,6 @@ cat <<EOF >$RPM_BUILD_ROOT/etc/urpmi/inst.list
 # Here you can specify packages that need to be installed instead
 # of being upgraded (typically kernel packages).
 kernel
-kernel-source
 kernel-smp
 kernel-secure
 kernel-enterprise
@@ -145,7 +144,15 @@ fi
 
 
 %changelog
-* Thu Feb 21 2002 François Pons <fpons@ackbar.mandrakesoft.com> 3.3-14mdk
+* Mon Feb 25 2002 François Pons <fpons@mandrakesoft.com> 3.3-15mdk
+- fixed not to require Fcntl module (in perl package).
+- fixed bad behaviour on src package as user (no message).
+- fixed src package listed on package to be installed (which is
+  wrong).
+- removed kernel-source in inst.list which may breaks on some
+  case (workaround).
+
+* Thu Feb 21 2002 François Pons <fpons@mandrakesoft.com> 3.3-14mdk
 - build package as noarch as there is no more any binary inside.
 - fixed urpme to avoid removing base package.
 

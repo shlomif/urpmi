@@ -2,7 +2,6 @@ package urpm;
 
 use strict;
 use vars qw($VERSION @ISA);
-use Fcntl ':flock';
 
 $VERSION = '3.3';
 
@@ -642,13 +641,16 @@ sub build_synthesis_hdlist {
 sub update_media {
     my ($urpm, %options) = @_; #- do not trust existing hdlist and try to recompute them.
 
+    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
+    my ($LOCK_EX, $LOCK_NB, $LOCK_UN) = (2, 4, 8);
+
     #- avoid trashing existing configuration in this case.
     $urpm->{media} or return;
 
     #- lock urpmi database.
     local (*LOCK_FILE);
     open LOCK_FILE, $urpm->{statedir};
-    flock LOCK_FILE, LOCK_EX|LOCK_NB or $urpm->{fatal}(7, _("urpmi database locked"));
+    flock LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, _("urpmi database locked"));
 
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1051,7 +1053,7 @@ sub update_media {
     system("sync");
 
     #- release lock on database.
-    flock LOCK_FILE, LOCK_UN;
+    flock LOCK_FILE, $LOCK_UN;
     close LOCK_FILE;
 }
 
