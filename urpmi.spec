@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -199,7 +199,15 @@ $urpm->update_media;
 
 
 %changelog
-- fixed bad file in cache not cleaned.
+* Fri Apr 25 2003 François Pons <fpons@mandrakesoft.com> 4.3-8mdk
+- added -i in urpmq --help (fix bug 3829).
+- fixed many urpmf options: --media, --synthesis, -e.
+- added --excludemedia and --sortmedia to urpmf.
+- fixed --sortmedia not working properly.
+- slightly modified cache management for rpms, not always use
+  partial subdirectory before transfering to rpms directory.
+- improved --list-aliases, --list-nodes and --list-media to be
+  much faster than before.
 
 * Thu Apr 24 2003 François Pons <fpons@mandrakesoft.com> 4.3-7mdk
 - added -v to urpme and removed default log.

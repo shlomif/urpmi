@@ -28,6 +28,8 @@ usage:
 ", $urpm::VERSION) . N("  --help         - print this help message.
 ") . N("  --update       - use only update media.
 ") . N("  --media        - use only the given media, separated by comma.
+") . N("  --excludemedia - do not use the given media, separated by comma.
+") . N("  --sortmedia    - sort media according to substrings separated by comma.
 ") . N("  --synthesis    - use the synthesis given instead of urpmi db.
 ") . N("  --verbose      - verbose mode.
 ") . N("  --quiet        - do not print tag name (default if no tag given on command
@@ -65,6 +67,8 @@ usage:
 #- default options.
 my $update = 0;
 my $media = '';
+my $excludemedia = '';
+my $sortmedia = '';
 my $synthesis = '';
 my $verbose = 0;
 my $quiet;
@@ -75,14 +79,15 @@ my (%params, %uniq);
 
 #- parse arguments list.
 my $expr;
-my @nextargv;
 while (defined($_ = shift @ARGV)) {
     /^--help$/ and do { usage; next };
     /^--no-locales$/ and do { undef *N; undef *urpm::N; *N = *urpm::N = sub { sprintf(shift @_, @_) }; next };
     /^--update$/ and do { $update = 1; next };
-    /^--media$/ and do { push @nextargv, \$media; next };
-    /^--mediums$/ and do { push @nextargv, \$media; next };
-    /^--synthesis$/ and do { push @nextargv, \$synthesis; next };
+    /^--media$/ and do { $media = shift @ARGV; next };
+    /^--mediums$/ and do { $media = shift @ARGV; next };
+    /^--exclude-?media$/ and do { $excludemedia = shift @ARGV; next };
+    /^--sort-?media$/ and do { $sortmedia = shift @ARGV; next };
+    /^--synthesis$/ and do { $synthesis = shift @ARGV; next };
     /^--verbose$/ and do { $verbose = 1; next };
     /^--quiet$/ and do { $quiet = 1; next };
     /^--uniq$/ and do { $uniq = 1; next };
@@ -97,7 +102,7 @@ while (defined($_ = shift @ARGV)) {
     /^-u$/ and do { $uniq = 1; next };
     /^-i$/ and do { $pattern = 'i'; next };
     /^-f$/ and do { $full = 'full'; next };
-    /^-e$/ and do { $expr .= '('.$_.')'; next };
+    /^-e$/ and do { $expr .= '('.(shift @ARGV).')'; next };
     /^-a$/ and do { $expr .= ' && '; next };
     /^-o$/ and do { $expr .= ' || '; next };
     /^[!\(\)]$/ and do { $expr .= $_; next };
@@ -136,6 +141,8 @@ $@ and usage;
 
 $urpm->configure(nocheck_access => 1, noskipping => 1,
 		 media => $media,
+		 excludemedia => $excludemedia,
+		 sortmedia => $sortmedia,
 		 synthesis => $synthesis,
 		 update => $update,
 		 callback => $callback,

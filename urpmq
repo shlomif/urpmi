@@ -66,6 +66,7 @@ usage:
 ") . N("  -R             - reverse search to what requires package.
 ") . N("  -y             - impose fuzzy search (same as --fuzzy).
 ") . N("  -s             - next package is a source package (same as --src).
+") . N("  -i             - print usefull information in human readeable form.
 ") . N("  -g             - print groups with name also.
 ") . N("  -r             - print version and release with name also.
 ") . N("  -f             - print version, release and arch with name.
@@ -85,6 +86,7 @@ while (defined($_ = shift @ARGV)) {
     /^--update$/ and do { $query->{update} = 1; next };
     /^--media$/ and do { push @nextargv, \$query->{media}; next };
     /^--exclude-?media$/ and do { push @nextargv, \$query->{excludemedia}; next };
+    /^--sort-?media$/ and do { push @nextargv, \$query->{sortmedia}; next };
     /^--mediums$/ and do { push @nextargv, \$query->{media}; next };
     /^--synthesis$/ and do { push @nextargv, \$query->{synthesis}; next };
     /^--auto-select$/ and do { $query->{deps} = $query->{upgrade} = $query->{auto_select} = 1; next };
@@ -152,9 +154,13 @@ while (defined($_ = shift @ARGV)) {
 #- remove verbose if not asked.
 $query->{verbose} or $urpm->{log} = sub {};
 
-$urpm->configure(nocheck_access => 1,
+#- improve speed if using any list_... options.
+$query->{nodepslist} = $query->{list_aliases} || $query->{list_nodes} || $query->{list_media};
+
+$urpm->configure(nocheck_access => 1, noskipping => $query->{nodepslist}, nodepslist => $query->{nodepslist},
 		 media => $query->{media},
 		 excludemedia => $query->{excludemedia},
+		 sortmedia => $query->{sortmedia},
 		 synthesis => $query->{synthesis},
 		 update => $query->{update},
 		 skip => $query->{skip},

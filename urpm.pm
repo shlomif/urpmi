@@ -733,7 +733,7 @@ sub configure {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	    my @oldmedia = @{$urpm->{media} || []};
 	    my @newmedia;
-	    foreach (split ',', $options{excludemedia}) {
+	    foreach (split ',', $options{sortmedia}) {
 		$urpm->select_media($_);
 		push @newmedia, grep { $_->{modified} } @oldmedia;
 		@oldmedia = grep { !$_->{modified} } @oldmedia;
@@ -743,44 +743,46 @@ sub configure {
 	    #- clean remaining modified flag.
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	}
-	foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
-	    delete @{$_}{qw(start end)};
-	    if ($options{callback}) {
-		if ($options{hdlist} && -s "$urpm->{statedir}/$_->{hdlist}" > 32) {
-		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-		    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
-									  packing => 1, callback => $options{callback}) };
-		} else {
-		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
-		    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}",
-									     callback => $options{callback}) };
-		    unless (defined $_->{start} && defined $_->{end}) {
+	unless ($options{nodepslist}) {
+	    foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
+		delete @{$_}{qw(start end)};
+		if ($options{callback}) {
+		    if ($options{hdlist} && -s "$urpm->{statedir}/$_->{hdlist}" > 32) {
 			$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
 			eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
 									      packing => 1, callback => $options{callback}) };
+		    } else {
+			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
+			eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}",
+										 callback => $options{callback}) };
+			unless (defined $_->{start} && defined $_->{end}) {
+			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+			    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
+										  packing => 1, callback => $options{callback}) };
+			}
 		    }
-		}
-		unless (defined $_->{start} && defined $_->{end}) {
-		    $urpm->{error}(N("problem reading hdlist file of medium \"%s\"", $_->{name}));
-		    $_->{ignore} = 1;
-		}
-	    } else {
-		if (-s "$urpm->{statedir}/synthesis.$_->{hdlist}" > 32) {
-		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
-		    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}") };
-		}
-		unless (defined $_->{start} && defined $_->{end}) {
-		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-		    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
 		    unless (defined $_->{start} && defined $_->{end}) {
-			$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $_->{name}));
+			$urpm->{error}(N("problem reading hdlist file of medium \"%s\"", $_->{name}));
 			$_->{ignore} = 1;
+		    }
+		} else {
+		    if (-s "$urpm->{statedir}/synthesis.$_->{hdlist}" > 32) {
+			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
+			eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}") };
+		    }
+		    unless (defined $_->{start} && defined $_->{end}) {
+			$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+			eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
+			unless (defined $_->{start} && defined $_->{end}) {
+			    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $_->{name}));
+			    $_->{ignore} = 1;
+			}
 		    }
 		}
 	    }
 	}
     }
-    #- determine package to withdraw (from skip.list file).
+    #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
     unless ($options{noskipping}) {
 	$urpm->compute_skip_flags($urpm->get_unwanted_packages($options{skip}), callback => sub {
 				      my ($urpm, $pkg) = @_;
@@ -2183,7 +2185,7 @@ sub get_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages, %options) = @_;
-    my ($id, $error, %local_sources, @list, %fullname2id, %usefull_files, %file2fullnames, %examined);
+    my ($id, $error, %local_sources, @list, %fullname2id, %file2fullnames, %examined);
     local (*D, *F, $_);
 
     #- build association hash to retrieve id and examine all list files.
@@ -2194,8 +2196,6 @@ sub get_source_packages {
 	} else {
 	    $fullname2id{$p->fullname} = $_.'';
 	}
-	#- keep track of related files to avoid scanning all the cache (very long when cache is big).
-	$usefull_files{$p->filename} = undef;
     }
 
     #- examine each medium to search for packages.
@@ -2210,38 +2210,32 @@ sub get_source_packages {
 	if (my ($filename) = /^([^\/]*\.rpm)$/) {
 	    my $filepath = "$urpm->{cachedir}/rpms/$filename";
 	    if (!$options{clean_all} && -s $filepath) {
-		if (exists $usefull_files{$filename}) {
-		    if (URPM::verify_rpm($filepath, nogpg => 1, nopgp => 1) =~ /md5 OK/) {
-			if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-			    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
-			    next;
-			} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
-			    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-			    if (defined($id = delete $fullname2id{$fullname})) {
-				$local_sources{$id} = $filepath;
-			    } else {
-				$options{clean_other} and unlink $filepath;
-			    }
-			} else {
-			    $options{clean_other} and unlink $filepath;
-			}
+		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
+		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
+		    next;
+		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
+		    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
+		    if (defined($id = delete $fullname2id{$fullname})) {
+			$local_sources{$id} = $filepath;
 		    } else {
-			#- this is an invalid file in cache, remove it and ignore it.
-			#- or clean options has been given meaning ignore any file in cache
-			#- remove it too.
-			#- if a continue to download feature is used, the file should not be
-			#- removed and the transfer should continue, if it fails again, try
-			#- again from beginning ?
-			unlink $filepath;
+			$options{clean_other} and unlink $filepath;
 		    }
-		} #- do not examine rpm file in cache that will not be used.
+		} else {
+		    $options{clean_other} and unlink $filepath;
+		}
 	    } else {
 		#- this file should be removed or is already empty.
 		unlink $filepath;
 	    }
-	} #- no error on unknown filename located in cache (because .listing)
+	} #- no error on unknown filename located in cache (because .listing) inherited from old urpmi
     }
     closedir D;
+
+    #- clean download directory, do it here even if this is not the best moment.
+    if ($options{clean_all}) {
+	system("rm", "-rf", "$urpm->{cachedir}/partial");
+	mkdir "$urpm->{cachedir}/partial";
+    }
 
     foreach my $medium (@{$urpm->{media} || []}) {
 	my (%sources, %list_examined, $list_warning);
@@ -2286,7 +2280,8 @@ sub get_source_packages {
 		    }
 		}
 		$list_warning && $medium->{list} && -r "$urpm->{statedir}/$medium->{list}" and
-		    $urpm->{error}(N("medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, trying to use alternate method)", $medium->{name}));
+		  $urpm->{error}(N("medium \"%s\" uses an invalid list file:
+  mirror is problably not up-to-date, trying to use alternate method", $medium->{name}));
 	    } elsif (!%list_examined) {
 		$error = 1;
 		$urpm->{error}(N("medium \"%s\" does not define any location for rpm files", $medium->{name}));
@@ -2299,7 +2294,7 @@ sub get_source_packages {
     foreach (grep { ! exists($examined{$_}) } keys %fullname2id) {
 	$error = 1;
 	$urpm->{error}(N("package %s is not found.", $_));
-    }	
+    }
 
     $error ? @{[]} : (\%local_sources, \@list);
 }
@@ -2352,23 +2347,30 @@ sub download_source_packages {
 		  $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 	    }
 	    if (-e $dir) {
-		my @removable_sources;
 		while (my ($i, $url) = each %{$list->[$id]}) {
 		    chomp $url;
-		    $url =~ /^(removable[^:]*|file):\/(.*\/([^\/]*))/ or next;
-		    if (-r $2) {
+		    my ($filepath, $filename) = $url =~ /^(?:removable[^:]*|file):\/(.*\/([^\/]*))/ or next;
+		    if (-r $filepath) {
 			if ($copy) {
-			    push @removable_sources, $2;
-			    $sources{$i} = "$urpm->{cachedir}/rpms/$3";
+			    #- we should assume a possible buggy removable device...
+			    #- first copy in cache, and if the package is still good, transfert it
+			    #- to the great rpms cache.
+			    unlink "$urpm->{cachedir}/partial/$filename";
+			    if (system("cp", "--preserve=mode,timestamps", "-R", $filepath, "$urpm->{cachedir}/partial") &&
+				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nogpg => 1, nopgp => 1) =~ /md5 OK/) {
+				#- now we can consider the file to be fine.
+				unlink "$urpm->{cachedir}/rpms/$filename";
+				rename "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename";
+				-r "$urpm->{cachedir}/rpms/$filename" and $sources{$i} = "$urpm->{cachedir}/rpms/$filename";
+			    }
 			} else {
-			    $sources{$i} = $2;
+			    $sources{$i} = $filepath;
 			}
-		    } else {
-			$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $2, $medium->{name}));
 		    }
-		}
-		if (@removable_sources) {
-		    system("cp", "--preserve=mode,timestamps", "-R", @removable_sources, "$urpm->{cachedir}/rpms");
+		    unless ($sources{$i}) {
+			#- fallback to use other method for retrieving the file later.
+			$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $medium->{name}));
+		    }
 		}
 	    } else {
 		$urpm->{error}(N("medium \"%s\" is not selected", $medium->{name}));
@@ -2446,7 +2448,6 @@ sub download_source_packages {
 		}
 	    } elsif ($url =~ /^([^:]*):\/(.*\/([^\/]*\.rpm))$/) {
 		if ($options{force_local} || $1 ne 'ftp' && $1 ne 'http') { #- only ftp and http protocol supported by grpmi.
-		    $sources{$i} = "$urpm->{cachedir}/rpms/$3";
 		    $distant_sources{$i} = "$1:/$2";
 		} else {
 		    $sources{$i} = "$1:/$2";
@@ -2460,7 +2461,7 @@ sub download_source_packages {
 	if (%distant_sources) {
 	    eval {
 		$urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$_]{name}));
-		$urpm->{sync}({ dir => "$urpm->{cachedir}/rpms",
+		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 				quiet => 0,
 				verbose => $options{verbose},
 				limit_rate => $options{limit_rate},
@@ -2476,9 +2477,18 @@ sub download_source_packages {
 	    #- has been problem downloading them at least once, this is
 	    #- necessary to keep track of failing download in order to
 	    #- present the error to the user.
-	    foreach (keys %distant_sources) {
-		-s $sources{$_} && URPM::verify_rpm($sources{$_}, nogpg => 1, nopgp => 1) =~ /md5 OK/ or
-		  $error_sources{$_} = delete $sources{$_};
+	    foreach my $i (keys %distant_sources) {
+		my ($filename) = $distant_sources{$i} =~ /\/([^\/]*\.rpm)$/;
+		if ($filename && -s "$urpm->{cachedir}/partial/$filename" &&
+		    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nogpg => 1, nopgp => 1) =~ /md5 OK/) {
+		    #- it seems the the file has been downloaded correctly and has been checked to be valid.
+		    unlink "$urpm->{cachedir}/rpms/$filename";
+		    rename "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename";
+		    -r "$urpm->{cachedir}/rpms/$filename" and $sources{$i} = "$urpm->{cachedir}/rpms/$filename";
+		}
+		unless ($sources{$i}) {
+		    $error_sources{$i} = $distant_sources{$i};
+		}
 	    }
 	}
     }
