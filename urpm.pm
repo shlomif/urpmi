@@ -5,7 +5,7 @@ use vars qw($VERSION @ISA @EXPORT);
 
 $VERSION = '4.4';
 @ISA = qw(Exporter URPM);
-@EXPORT = qw(*N);
+@EXPORT = qw(N);
 
 use URPM;
 use URPM::Resolve;
