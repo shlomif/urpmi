@@ -488,10 +488,15 @@ my %sources = $urpm->download_source_packages($local_sources, $list,
 						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;
 						  if ($mode eq 'start') {
 						      $file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
-						      print SAVEERR "    $file\n";
+						      print STDERR "    $file\n"; #- allow pass-protected url to be logged.
 						  } elsif ($mode eq 'progress') {
-						      print SAVEERR _("        %s%% of %s, ETA = %s, speed = %s",
-								      $percent, $total, $eta, $speed) . "\r";
+						      if (defined $total && defined $eta) {
+							  print SAVEERR _("        %s%% of %s completed, ETA = %s, speed = %s",
+									  $percent, $total, $eta, $speed) . "\r";
+						      } else {
+							  print SAVEERR _("        %s%% completed, speed = %s",
+									  $percent, $speed) . "\r";
+						      }
 						  } elsif ($mode eq 'end') {
 						      print SAVEERR (" "x79)."\r";
 						  }

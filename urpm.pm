@@ -348,11 +348,30 @@ sub sync_rsync {
     foreach (@_) {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+	my ($file) = /^rsync:\/\/(.*)/ or next;
+	ref $options && $options->{callback} and $options->{callback}('start', $file);
 	do {
-	    /^rsync:\/\/(.*)/ or next;
-	    system "/usr/bin/rsync", (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-	      qw(--partial --no-whole-file), $1, (ref $options ? $options->{dir} : $options);
+	    local (*RSYNC, $_);
+	    my $buf = '';
+	    open RSYNC, "-|", "/usr/bin/rsync", (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
+	      qw(--partial --no-whole-file), $file, (ref $options ? $options->{dir} : $options);
+	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
+	    while (<RSYNC>) {
+		$buf .= $_;
+		if ($_ eq "\r" || $_ eq "\n") {
+		    if (ref $options && $options->{callback}) {
+			if (my ($percent, $speed) = $buf =~ /^\s*\d+\s+(\d+)%\s+(\S+)\s+/) {
+			    $options->{callback}('progress', $file, $percent, undef, undef, $speed);
+			}
+		    } else {
+			print STDERR $_;
+		    }
+		    $buf = '';
+		}
+	    }
+	    close RSYNC;
 	} while ($? != 0 && --$count > 0 && (-e (ref $options ? $options->{dir} : $options) . "/$basename"));
+	ref $options && $options->{callback} and $options->{callback}('end', $file);
     }
     $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
@@ -360,13 +379,32 @@ sub sync_ssh {
     -x "/usr/bin/rsync" or die _("rsync is missing\n");
     -x "/usr/bin/ssh" or die _("ssh is missing\n");
     my $options = shift @_;
-    foreach (@_) {
+    foreach my $file (@_) {
 	my $count = 10; #- retry count on error (if file exists).
-	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+	my $basename = ($file =~ /^.*\/([^\/]*)$/ && $1) || $file;
+	ref $options && $options->{callback} and $options->{callback}('start', $file);
 	do {
-	    system "/usr/bin/rsync", (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)), qw(--partial -e ssh),
-	      $_, (ref $options ? $options->{dir} : $options);
+	    local (*RSYNC, $_);
+	    my $buf = '';
+	    open RSYNC, "-|", "/usr/bin/rsync", (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
+	      qw(--partial -e ssh), $file, (ref $options ? $options->{dir} : $options);
+	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
+	    while (<RSYNC>) {
+		$buf .= $_;
+		if ($_ eq "\r" || $_ eq "\n") {
+		    if (ref $options && $options->{callback}) {
+			if (my ($percent, $speed) = $buf =~ /^\s*\d+\s+(\d+)%\s+(\S+)\s+/) {
+			    $options->{callback}('progress', $file, $percent, undef, undef, $speed);
+			}
+		    } else {
+			print STDERR $_;
+		    }
+		    $buf = '';
+		}
+	    }
+	    close RSYNC;
 	} while ($? != 0 && --$count > 0 && (-e (ref $options ? $options->{dir} : $options) . "/$basename"));
+	ref $options && $options->{callback} and $options->{callback}('end', $file);
     }
     $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
@@ -377,7 +415,11 @@ sub sync_logger {
 	$file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
 	print STDERR "    $file\n";
     } elsif ($mode eq 'progress') {
-	print STDERR _("        %s%% of %s, ETA = %s, speed = %s", $percent, $total, $eta, $speed) . "\r";
+	if (defined $total && defined $eta) {
+	    print STDERR _("        %s%% of %s completed, ETA = %s, speed = %s", $percent, $total, $eta, $speed) . "\r";
+	} else {
+	    print STDERR _("        %s%% completed, speed = %s", $percent, $speed) . "\r";
+	}
     } elsif ($mode eq 'end') {
 	print STDERR (" "x79)."\r";
     }
