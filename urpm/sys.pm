@@ -107,6 +107,26 @@ sub find_mntpoints {
     @mntpoints;
 }
 
+#- returns the first unused loop device, or an empty string if none is found.
+sub first_free_loopdev () {
+    open my $mounts, '/proc/mounts' or do { warn "Can't read /proc/mounts: $!\n"; return 1 };
+    my %loopdevs = map { $_ => 1 } grep { ! -d $_ } glob('/dev/loop*');
+    local *_;
+    while (<$mounts>) {
+	(our $dev) = split ' ';
+	delete $loopdevs{$dev} if $dev =~ m!^/dev/loop!;
+    }
+    close $mounts;
+    my @l = keys %loopdevs;
+    @l ? $l[0] : '';
+}
+
+sub trim_until_d {
+    my ($dir) = @_;
+    while ($dir && !-d $dir) { $dir =~ s,/[^/]*$,, }
+    $dir;
+}
+
 #- checks if the main filesystems are writeable for urpmi to install files in
 sub check_fs_writable () {
     open my $mounts, '/proc/mounts' or do { warn "Can't read /proc/mounts: $!\n"; return 1 };

@@ -3,7 +3,7 @@
 .SH NAME
 urpmi.addmedia \- adds a new rpm medium to be used by urpmi
 .SH SYNOPSIS
-.B urpmi.addmedia [\fIoptions\fP] <\fIname\fP> <\fIurl\fP>
+.B urpmi.addmedia [\fIoptions\fP] <\fIname\fP> <\fIurl\fP> [with <\fIhdlist\fP>]
 .SH DESCRIPTION
 urpmi.addmedia tells urpmi that it can find new rpms at the specified location.
 Currently supported media types are: local drives, removable drives (such as
@@ -16,7 +16,8 @@ http:
 Where <\fIname\fP> is your reference for the medium (e.g. "updates").
 <\fIname\fP> is optional if \fB--distrib\fP is given in \fIoptions\fP.
 .br
-<\fIhost\fP>/<\fIpath\fP> is the location of the rpm directory on the net.
+<\fIhost\fP>/<\fIpath\fP> is the location of the media directory on the net
+(e.g. media/main).
 .br
 <\fIrelative path of hdlist\fP> is the pathname where to find the hdlist of
 the rpms. The location is given relative to <\fIpath\fP>.
@@ -56,13 +57,17 @@ Local drive or NFS:
 .IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> file://<\fIpath\fP>\fP [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 Where <\fIname\fP> is your reference for the medium (e.g. Myrpms).
 .br
-<\fIpath\fP> is the location of the rpm directory on your machine.
+<\fIpath\fP> is the location of the media directory on your machine
+(e.g. media/main).
 .PP
 Removable device:
 .br
 .IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> removable://<\fIpath\fP>\fP [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
-<\fIpath\fP> is the location of the rpm directory on your machine when the
-removable device is mounted.
+<\fIpath\fP> is the location of the media directory on your machine when the
+removable device is mounted. This works for removable drives, but also for ISO
+images mounted on a loop device. urpmi will then be able to re-mount the ISO
+image to the specified path (but the ISO image must be mounted when you run
+\fBurpmi.addmedia\fP).
 .PP
 .SH OPTIONS
 .IP "\fB\--wget\fP"

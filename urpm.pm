@@ -318,10 +318,17 @@ sub probe_medium {
     $medium;
 }
 
+#- returns the removable device name if it corresponds to an iso image, '' otherwise
+sub is_iso {
+    my ($removable_dev) = @_;
+    $removable_dev && $removable_dev =~ /\.iso$/i ? $removable_dev : '';
+}
+
 #- probe device associated with a removable device.
 sub probe_removable_device {
     my ($urpm, $medium) = @_;
 
+    #- try to find device name in url scheme
     if ($medium->{url} && $medium->{url} =~ /^removable_?([^_:]*)(?:_[^:]*)?:/) {
 	$medium->{removable} ||= $1 && "/dev/$1";
     } else {
@@ -343,6 +350,8 @@ sub probe_removable_device {
 				   $infos{$mntpoints[-1]}{device}, $medium->{name}));
 		}
 		$medium->{removable} = $infos{$mntpoints[-1]}{device};
+	    } elsif (is_iso($medium->{removable})) {
+		$urpm->{log}(N("Medium \"%s\" is an ISO image, will be mounted on-the-fly", $medium->{name}));
 	    } else {
 		$urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
 	    }
@@ -1036,11 +1045,14 @@ sub update_media {
 	    my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 
 	    #- the directory given does not exist and may be accessible
-	    #- by mounting some other. try to figure out these directory and
-	    #- mount everything necessary.
-	    $urpm->try_mounting($options{force} < 2 && ($options{probe_with} || $medium->{with_hdlist}) ?
-				$with_hdlist_dir : $dir) or
-				  $urpm->{error}(N("unable to access medium \"%s\",
+	    #- by mounting some other directory. Try to figure it out and mount
+	    #- mount everything that might be necessary.
+	    $urpm->try_mounting(
+		$options{force} < 2 && ($options{probe_with} || $medium->{with_hdlist})
+		    ? $with_hdlist_dir : $dir,
+		#- in case of an iso image, pass its name
+		is_iso($medium->{removable}),
+	    ) or $urpm->{error}(N("unable to access medium \"%s\",
 this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), next;
 
 	    #- try to probe for possible with_hdlist parameter, unless
@@ -1937,18 +1949,28 @@ sub clean {
     }
 }
 
-#- check for necessity of mounting some directory to get access
 sub try_mounting {
     my ($urpm, $dir, $removable) = @_;
     my %infos;
 
-    $dir = reduce_pathname($dir);
+    my $is_iso = is_iso($removable);
+    my @mntpoints = $is_iso
+	#- note: for isos, we don't parse the fstab because it might not be declared in it.
+	#- so we try to remove suffixes from the dir name until the dir exists
+	? ($dir = urpm::sys::trim_until_d($dir))
+	: urpm::sys::find_mntpoints(($dir = reduce_pathname($dir)), \%infos);
     foreach (grep {
 	    ! $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount';
-	} urpm::sys::find_mntpoints($dir, \%infos))
+	} @mntpoints)
     {
 	$urpm->{log}(N("mounting %s", $_));
-	`mount '$_' 2>/dev/null`;
+	if ($is_iso) {
+	    #- to mount an iso image, grab the first loop device
+	    my $loopdev = urpm::sys::first_free_loopdev();
+	    $loopdev and `mount '$removable' $_ -t iso9660 -o loop=$loopdev`;
+	} else {
+	    `mount '$_' 2>/dev/null`;
+	}
 	$removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
     }
     -e $dir;
@@ -2550,14 +2572,14 @@ sub copy_packages_of_removable_media {
 	my ($id, $device, $copy) = @_;
 	my $medium = $urpm->{media}[$id];
 	if (my ($dir) = $medium->{url} =~ m!^(?:(?:removable[^:]*|file):/)?(/.*)!) {
-	    #- the directory given does not exist or may be accessible
-	    #- by mounting some other. Try to figure out these directories and
+	    #- the directory given does not exist and may be accessible
+	    #- by mounting some other directory. Try to figure it out and mount
 	    #- mount everything that might be necessary.
-	    while ($check_notfound->($id, $dir, 'removable')) {
+	    while ($check_notfound->($id, $dir, is_iso($medium->{removable}) || 'removable')) {
 		$options{ask_for_medium} or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir); system("eject", $device);
-		$options{ask_for_medium}(remove_internal_name($medium->{name}), $medium->{removable}) or
-		  $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
+		$options{ask_for_medium}(remove_internal_name($medium->{name}), $medium->{removable})
+		    or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 	    }
 	    if (-e $dir) {
 		while (my ($i, $url) = each %{$list->[$id]}) {
