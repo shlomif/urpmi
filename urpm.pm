@@ -1077,8 +1077,8 @@ sub find_mntpoints {
 	$pdir .= "/$_";
 	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
 	if (exists $fstab{$pdir}) {
-	    $mode eq 'mount' && ! $fstab{$_} and push @mntpoints, $pdir;
-	    $mode eq 'umount' && $fstab{$_} and unshift @mntpoints, $pdir;
+	    $mode eq 'mount' && ! $fstab{$pdir} and push @mntpoints, $pdir;
+	    $mode eq 'umount' && $fstab{$pdir} and unshift @mntpoints, $pdir;
 	    $mode eq 'device' and push @mntpoints, $pdir, $fstab{$pdir};
 	}
     }
