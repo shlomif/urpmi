@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -199,6 +199,9 @@ $urpm->update_media;
 
 
 %changelog
+* Fri Apr 18 2003 François Pons <fpons@mandrakesoft.com> 4.3-4mdk
+- added urpmq -i (the almost same as rpm -qi).
+
 * Thu Apr 17 2003 François Pons <fpons@mandrakesoft.com> 4.3-3mdk
 - fixed readlink that make supermount sloowwwwwiiiinnnngggg.
 - improved find_mntpoints to follow symlink more accurately

@@ -133,6 +133,7 @@ while (defined($_ = shift @ARGV)) {
 	/y/ and do { $query->{fuzzy} = 1; next };
 	/s/ and do { $query->{src} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };
+	/i/ and do { $query->{info} = 1; next };
 	/r/ and do { $query->{version} = $query->{release} = 1; next };
 	/f/ and do { $query->{version} = $query->{release} = $query->{arch} = 1; next };
 	print STDERR N("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
@@ -291,7 +292,7 @@ if ($query->{list_aliases}) {
 	$state->{selected} = \%requested;
     }
 
-    if ($query->{headers} || $query->{sources}) {
+    if ($query->{headers} || $query->{sources} || $query->{info}) {
 	my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
 	unless ($local_sources || $list) {
 	    $urpm->{fatal}(1, N("unable to get source packages, aborting"));
@@ -313,11 +314,43 @@ if ($query->{list_aliases}) {
 		    $packer->extract_archive(undef, @headers);
 		} else {
 		    #- fallback to retrieve rpm package before, so that --headers will be ok.
-		    my %downloads = $urpm->download_source_packages({}, $list, 'local', undef);
+		    my %downloads = $urpm->download_source_packages({}, $list, force_local => 1);
 		    system "rpm2header", values %downloads;
 		}
 	    }
-	} else {
+	} elsif ($query->{info}) {
+	    my %downloads;
+	    unless ($>) {
+		foreach (0..$#{$urpm->{media} || []}) {
+		    if (my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_"; ! -s $file }
+				       map { my $pkg = $urpm->{depslist}[$_];
+					     $pkg && $pkg->header_filename } keys %{$list->[$_]})) {
+			#map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } values %{$list->[$_]})) {
+			if ($< == 0 && -s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
+			    require packdrake;
+			    my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
+			    $packer->extract_archive("$urpm->{cachedir}/headers", @headers);
+			} elsif (!%downloads) {
+			    #- fallback to retrieve rpm package before, so that --headers will be ok.
+			    %downloads = $urpm->download_source_packages({}, $list, force_local => 1);
+			}
+		    }
+		}
+	    }
+	    foreach (keys %{$state->{selected}}) {
+		my $pkg = $urpm->{depslist}[$_] or next;
+		my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/".$pkg->header_filename;
+		$pkg->update_header($file, 0, 1);
+		printf "%-12s: %s\n", "Name", $pkg->name;
+		printf "%-12s: %s\n", "Version", $pkg->version;
+		printf "%-12s: %s\n", "Release", $pkg->release;
+		printf "%-12s: %s\n", "Group", $pkg->group;
+		$pkg->sourcerpm and printf "%-12s: %s\n", "Source RPM", $pkg->sourcerpm;
+		printf "%-12s: %-28s %12s: %s\n", "Size", $pkg->size, "Architecture", $pkg->arch;
+		$pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
+		$pkg->description and printf "%-12s:\n%s\n", "Description", $pkg->description;
+	    }
+	} elsif ($query->{sources}) {
 	    print join "\n", values %$local_sources; values %$local_sources and print "\n";
 	    foreach (0..$#{$urpm->{media} || []}) {
 		print join "\n", values %{$list->[$_]}; values %{$list->[$_]} and print "\n";
