@@ -1,25 +1,53 @@
 #!/usr/bin/perl
+use urpm;
 
-@ARGV and die "usage: rpm-find-leaves\n";
+sub main {
+	
+	my %options;
+	$options{restrict_group} = 0;
+	$options{group} = 'System/Libraries';
+	
+	my $usage = N("usage: %s [options]
+where [options] are from
+", $0) . N("   -h|--help      - print this help message.
+") . N("   -g [group]     - restrict results to given group.
+") . N("                    defaults is %s.
+", $options{group});
 
-use URPM;
-my @packages;
-{
-    my $db = URPM::DB::open or die;
-    $db->traverse(sub {
-	my ($p) = @_;
-	$p->pack_header;
-	push @packages, $p;
-    });
+	my $group;
+	
+	while ($_ = shift @_) {
+		/^-g$/ and do {
+			$options{restrict_group}=1;
+			$group=shift @_;
+			$group and $options{group}=$group;
+			next;
+		};
+		die $usage;
+	}
+
+	
+	my @packages;
+	{
+		my $db = URPM::DB::open or die;
+		$db->traverse(sub {
+			my ($p) = @_;
+			$p->pack_header;
+			push @packages, $p;
+		});
+	}
+
+	foreach my $pkg (@packages) {
+		next if $options{restrict_group} && $pkg->group !~ /$options{group}/i;
+		$l{$pkg->name} = 1;
+		push @{$provides{$_}}, $pkg->name foreach $pkg->provides_nosense;
+	}
+
+	foreach my $pkg (@packages) {
+		delete @l{grep { $_ ne $pkg->name } @{$provides{$_} || []}} foreach $pkg->requires_nosense;
+	}
+
+	print "$_\n" foreach sort keys %l;
 }
 
-foreach my $pkg (@packages) {
-    $l{$pkg->name} = 1;
-    push @{$provides{$_}}, $pkg->name foreach $pkg->provides_nosense;
-}
-
-foreach my $pkg (@packages) {
-    delete @l{grep { $_ ne $pkg->name } @{$provides{$_} || []}} foreach $pkg->requires_nosense;
-}
-
-print "$_\n" foreach sort keys %l;
+main(@ARGV);
