@@ -232,6 +232,7 @@ sub main {
 	}
 
 	$urpm->add_medium($name, $url, $relative_hdlist, virtual => $options{virtual}, update => $options{update});
+	urpm::download::copy_cmd_line_proxy($name);
 	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 
 	#- check creation of media (during update has been successfull)

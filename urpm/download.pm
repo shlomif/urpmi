@@ -88,6 +88,17 @@ sub get_proxy (;$) {
 	};
 }
 
+#- copies the settings for proxies from the command line to media named $media
+#- and writes the proxy.cfg file (used for new media)
+sub copy_cmd_line_proxy {
+    my ($media) = @_;
+    return unless $media;
+    if (defined $proxy_config->{cmd_line}) {
+	$proxy_config->{$media} = $proxy_config->{cmd_line};
+	dump_proxy_config();
+    }
+}
+
 #- overrides the config file proxy settings with values passed via command-line
 sub set_cmdline_proxy {
     my (%h) = @_;
