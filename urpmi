@@ -439,6 +439,30 @@ my $restart_itself = $urpm->resolve_dependencies(
     priority_upgrade => $test || $env ? '' : $urpm->{options}{'priority-upgrade'},
 );
 
+my @unselected_uninstalled = @{$state->{unselected_uninstalled} || []};
+if (@unselected_uninstalled) {
+    my $list = join "\n", map { $_->name . '-' . $_->version . '-' . $_->release  } @unselected_uninstalled;
+    my $msg = N("The following packages can't be installed because they depend on packages
+that are older than the installed ones:\n%s", $list);
+    if ($urpm->{options}{auto}) {
+	message($msg, 'noX');
+    } else {
+	if ($urpm::args::options{X}) {
+	    gmessage("$msg\n" . N("do you agree ?"));
+	    $? and exit 0;
+	} else {
+	    my $noexpr = N("Nn");
+	    my $yesexpr = N("Yy");
+	    message_input(
+		$msg . N("\nContinue?") . N(" (Y/n) "),
+		$force && $yesexpr,
+		boolean => 1,
+	    ) =~ /[$noexpr]/
+		and exit 0;
+	}
+    }
+}
+
 my @ask_unselect = $urpm->unselected_packages($state);
 if (@ask_unselect) {
     my $list = join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect);
