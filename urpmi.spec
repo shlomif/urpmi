@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 36mdk
+Release: 37mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Wed Sep 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-37mdk
+- fixed virtual media examination of list file.
+
 * Tue Sep 16 2003 François Pons <fpons@mandrakesoft.com> 4.4-36mdk
 - fixed virtual media examination of descriptions or pubkey files.
 - fixed adding medium on a directory directly under root, as in
