@@ -260,7 +260,7 @@ my %options_spec = (
 	'probe-synthesis' => sub { $options{probe_with} = 'synthesis' },
 	'probe-hdlist' => sub { $options{probe_with} = 'hdlist' },
 	'no-probe' => sub { $options{probe_with} = undef },
-	distrib => sub { $options{distrib} = undef },
+	distrib => sub { $options{distrib} = 1 },
 	'from=s' => \$options{mirrors_url},
 	'version=s' => \$options{version},
 	'arch=s' => \$options{arch},
@@ -268,12 +268,7 @@ my %options_spec = (
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
 	'<>' => sub {
-	    if ($_[0] =~ /^--distrib-(.*)$/) {
-		$options{distrib} = $1;
-	    }
-	    else {
-		push @::cmdline, $_[0];
-	    }
+	    push @::cmdline, $_[0];
 	},
     },
 

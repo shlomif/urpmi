@@ -59,9 +59,6 @@ and [options] are from
                    hdlist file.
 ") . N("  --distrib      - automatically create all media from an installation
                    medium.
-") . N("  --distrib-XXX  - automatically create a medium for XXX part of a
-                   distribution, XXX may be main, contrib, updates or
-                   anything else that has been configured ;-)
 ") . N("  --from         - use specified url for list of mirrors, the default is
                    %s
 ", $mirrors) . N("  --version      - use specified distribution version, the default is taken
@@ -103,14 +100,14 @@ sub main {
     my $urpm = new urpm;
     urpm::args::parse_cmdline(urpm => $urpm);
     #- the default is to probe a synthesis file, except for --distrib
-    $options{probe_with} = 'synthesis' unless exists($options{distrib}) || exists($options{probe_with});
+    $options{probe_with} = 'synthesis' unless $options{distrib} || exists($options{probe_with});
     our ($name, $url, $with, $relative_hdlist) = our @cmdline;
 
     #- remove verbose if not asked.
     $options{verbose} > 0 or $urpm->{log} = sub {};
 
-    $options{distrib} or $url or ($url, $name) = ($name, '');
-    my ($type) = $url =~ m,^(([^:]*):/)?/, or $options{distrib} or usage;
+    $url or ($url, $name) = ($name, '');
+    my ($type) = $url =~ m,^(([^:]*):/)?/, or usage;
 
     if ($< != 0) {
 	$urpm->{fatal}(1, N("Only superuser is allowed to add media"));
@@ -122,96 +119,11 @@ sub main {
     $urpm->read_config;
     exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
 
-    if (exists $options{distrib}) {
-	if (defined $options{distrib}) {
-	    $name or usage;
-	    #- extended distribution support, code is directly inlined here.
-	    #- -h always set, updates should allow setting update flag.
-	    $options{distrib} eq 'updates' and $options{update} = 1;
-	    #- official site by default.
-	    #- get default value unless already provided.
-	    unless ($options{version} && $options{arch}) {
-		my $db = URPM::DB::open;
-		$options{arch} or $db->traverse_tag(
-		    'name',
-		    [ qw(basesystem) ],
-		    sub { my ($pkg) = @_; $options{arch} = $pkg->arch },
-		);
-		$options{version} or $db->traverse_tag(
-		    'name',
-		    [ qw(mandrakelinux-release) ],
-		    sub {
-			my ($pkg) = @_;
-			$pkg->release =~ /^0\./ and $options{version} = 'cooker';
-			$options{version} ||= $pkg->version;
-		    },
-		);
-		$urpm->{log}(N("found version %s and arch %s ...", $options{version}, $options{arch}));
-	    }
-	    #- sanity checks...
-	    $options{distrib} eq 'updates' && $options{version} eq 'cooker' and
-	      die N("cannot add updates of a cooker distribution\n");
-	    #- get mirrors list file in urpmi cache.
-	    my ($basename) = $options{from} =~ m|^.*/([^/]+)/*$|;
-	    unlink "$urpm->{cachedir}/partial/$basename";
-	    eval {
-		$urpm->{log}(N("retrieving mirrors at %s ...", $options{from}));
-		$urpm->{sync}(
-		    {
-			dir => "$urpm->{cachedir}/partial",
-			quiet => 1,
-			proxy => urpm::download::get_proxy(),
-		    },
-		    $options{from},
-		);
-		$urpm->{log}(N("...retrieving done"));
-	    };
-	    $@ and $urpm->{log}(N("...retrieving failed: %s", $@));
-	    #- examine its contents and create all requested media, url is now a simple regex.
-	    my $heading = quotemeta($options{distrib});
-	    my $qarch = quotemeta($options{arch});
-	    my $old_mirror_structure = $options{version} =~ /^(?:[2-9]|10\.0$)/;
-	    open my $fh, "$urpm->{cachedir}/partial/$basename" or die $!;
-	    while (<$fh>) {
-		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-		my ($v, $a, $l, $burl, $relative_hdlist);
-		if (($v, $a, $l, $burl, $relative_hdlist) = /^$heading:([^:]*):([^:]*):([^:]*):(\S*)(?:\s+with\s+(.*))?$/) {
-		    $v eq '*' || $v eq $options{version} or next;
-		    $a eq '*' || $a eq $options{arch} or next;
-		} elsif (($a, $burl) = /^$heading([^:]*):(\S*)$/) {
-		    $a eq $options{arch} or next;
-		    if ($old_mirror_structure) {
-			#- pre-10.1 architecture.
-			$options{distrib} eq 'updates' and $burl = "$burl/$options{version}/RPMS";
-			$options{distrib} eq 'contrib' and $burl .= "2";
-		    } else {
-			$options{distrib} eq 'updates' and $burl = "$burl/$options{version}/media/updates";
-			$options{distrib} eq 'contrib' and $burl = "$burl/$options{version}/media/contrib";
-		    }
-		} elsif (($a, $burl) = /^cooker([^:]*):(\S*)$/) {
-		    $options{version} eq 'cooker' && $options{distrib} eq 'contrib' or next;
-		    $a eq $options{arch} or next;
-		    if ($old_mirror_structure) {
-			$burl .= "2";
-		    } else {
-			$burl =~ s/main$/contrib/;
-		    }
-		} else {
-		    # it could a blank line (from a commentary) or source description.
-		    next;
-		}
-		#- sort according to url or location if possible.
-		!$url || $l && $l =~ /$url/i || $burl =~ /$url/i or next;
-		$urpm->add_medium($name, $burl, $relative_hdlist,
-				  virtual => $options{virtual}, update => $options{update}, index_name => 0);
-	    }
-	    close $fh;
-	} else {
-	    $with || $relative_hdlist
-		and usage N("no need to give <relative path of hdlist> with --distrib");
+    if ($options{distrib}) {
+	$with || $relative_hdlist
+	    and usage N("no need to give <relative path of hdlist> with --distrib");
 
-	    $urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update}, probe_with => $options{probe_with});
-	}
+	$urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update}, probe_with => $options{probe_with});
 	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 
 	if (my @unsynced_media = grep { $_->{modified} } @{$urpm->{media}}) {
