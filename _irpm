@@ -1,0 +1,73 @@
+#!/usr/bin/perl
+
+$automatic = 0;
+$timeout = 15;
+
+$DIR = "/etc/urpmi";
+$BASE = "$DIR/autoirpm";
+$INSTALL_SCRIPT_REP = "$BASE.scripts";
+
+($lang) = ($ENV{LC_ALL} || $ENV{LANGUAGE} || $ENV{LC_MESSAGES} || $ENV{LANG}) =~ /(..)/;
+
+
+$rpm = shift @ARGV;
+print STDERR "autoirpm: ", i18n("installing"), " $rpm\n";
+
+`xtest`;
+$X = ($? == 0);
+
+my $pid;
+$SIG{ALRM} = sub { $pid and kill 9, $pid; not_found(); };
+alarm $timeout;
+
+if (!$automatic) {
+    $interactive_mesg = i18n("Automatic installation of packages...\nYou requested installation of package") .  " $rpm\n" . i18n("Is it ok?");
+    if ($X) {
+	my $ok = i18n("Ok");
+	my $cancel = i18n("Cancel");
+	($pid = fork) or exec "gmessage", "-default", $ok, "-buttons", "$ok:0,$cancel:2", $interactive_mesg;
+	wait();
+	$? and not_found();
+    } else {
+	use POSIX;
+	if (isatty(0)) {
+	    print $interactive_mesg, " (y/n) ";
+	    <STDIN> =~ /y/i or not_found();
+	} else {
+	    # Arghhh not in automatic and no way to contact the user... dying
+	    not_found();
+	}
+    }
+}
+alarm 0;
+
+$urpmi = !$automatic && $X ? "gurpmi" : "urpmi";
+fork or exec $urpmi, "--comment", $ARGV[0], $rpm; wait;
+
+# launch the initial prog
+(readlink $ARGV[0]) !~ /$INSTALL_SCRIPT_REP/ and exec @ARGV;
+
+not_found();
+
+sub not_found {
+    print STDERR "$rpm: command not found\n";
+    exit 127;
+}
+sub i18n { $I18N{$lang}->{$_[0]} || $_[0]; }
+
+
+BEGIN {
+
+%I18N = (
+
+'fr' => {
+"installing", "installation de",
+"Automatic installation of packages...\nYou requested installation of package" => "Installation automatique des packages...\nVous avez demandé l'installation du package",
+"Is it ok?" => "On continue ?",
+"Ok" => "Continuer",
+"Cancel" => "Annuler",
+},
+
+);
+
+}

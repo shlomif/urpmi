@@ -1,0 +1,86 @@
+.TH urpmi.addmedia 8 "18 Nov 1999" "Mandrakesoft" "Linux-Mandrake"
+.IX urpmi.addmedia
+.SH NAME
+urpmi.addmedia \- adds a new rpms media for use with urpmi
+.SH SYNOPSIS
+.B urpmi.addmedia <\fIname\fP> <\fIurl\fP> 
+.SH DESCRIPTION
+urpmi.addmedia tells urpmi that he can find new rpms at the specified location. Currently supported medias are: local drives, removable drives (such as cd's), http and ftp.
+.PP
+All users belonging to group urpmi are allowed to add a new media.
+.PP
+One of the following modes must be choosen:
+.PP
+http:
+.br
+.IP "\fB    urpmi.addmedia <\fIname\fP> http://<\fIhost\fP>/<\fIpath\fP> with <\fIrelative path of hdlist\fP>\fP"
+Where <\fIname\fP> is your reference for the media (e.g. MandrakeUpdate).
+.br
+<\fIhost\fP>/<\fIpath\fP> is the location of the rpm directory on the net.
+.br
+<\fIrelative path of hdlist\fP> is the pathname where to find the hdlist of the rpms. The location is given relative to <\fIpath\fP>.
+.PP
+ftp:
+.br
+.IP "\fB    urpmi.addmedia <\fIname\fP> ftp://<\fIlogin\fP>:<\fIuser\fP>@<\fIhost\fP>/<\fIpath\fP> with <\fIrelative path of hdlist\fP>\fP"
+The same as for http, just add your login and user if required (Note that you needn't to specify anonymous as login for anonymous access ftp servers).
+.PP
+Local drive or NFS:
+.br
+.IP "\fB    urpmi.addmedia <\fIname\fP> file://<\fIpath\fP>\fP"
+Where <\fIname\fP> is your reference for the media (e.g. Myrpms).
+.br
+<\fIpath\fP> is the location of the rpm directory on your machine.
+.PP
+Removable device:
+.br
+.IP "\fB    urpmi.addmedia removable_<\fIdevice\fP>_<\fInumber\fP>://<\fIpath\fP>\fP"
+<\fIdevice\fP> is the name of your media as specified in the /dev/ directory (e.g. cdrom, floppy, zip, ...).
+.br
+<\fInumber\fP> is used urpmi to choose in what order medias are inserted in case of multiple medias install with dependencies. '1' is reserved for the origin install medias.
+.PP
+
+.SH FILES
+/usr/bin/urpmi
+.br
+The \fBurpmi\fP executable (perl script)
+.PP
+/etc/urpmi/list.*
+.br
+Contains the list of all packages known by urpmi and their location. There is one filelist per media(*).
+.PP
+/etc/urpmi/hdlist.*
+.br
+Contain information about all known packages, it's a summary of rpm headers.  There is one filelist per media(*).
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Contains one line <\fIname\fP> <\fIurl\fP> per media.
+.PP
+/etc/urpmi/depslist
+.br
+A simple text file containing all dependencies of all known packages.
+.PP
+/etc/urpmi/depslist.html
+.br
+The same but in html format, user readable.
+.SH "SEE ALSO"
+urpmi(8),
+urpmi.removemedia(8),
+autoirpm(8),
+autoirpm-icons(8),
+gurpmi(8),
+rpmdrake(8)
+.SH AUTHOR
+Pascal Rigaux, Mandrakesoft
+.br
+pixel@mandrakesoft.com
+
+
+
+
+
+
+
+
+

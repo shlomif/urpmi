@@ -1,0 +1,246 @@
+#!/usr/bin/perl -U
+
+my $lang = $ENV{LC_ALL} || $ENV{LANGUAGE} || $ENV{LC_MESSAGES} || $ENV{LANG};
+load_po(substr($lang, 0, 2));
+
+$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
+$< = $>;
+
+
+open LOG, ">>/var/log/urpmi.log" or die;
+print LOG scalar localtime, " urpmi called with @ARGV\n";
+close LOG;
+
+if (@ARGV and $ARGV[0] eq '--auto') {
+    $auto = 1;
+    shift @ARGV;
+}
+
+if (@ARGV and $ARGV[0] eq '--X') {
+    $X = 1;
+    shift @ARGV;
+}
+
+while (@ARGV and $ARGV[0] eq '--comment') {
+    shift @ARGV;
+    shift @ARGV;
+}
+
+@ARGV or die "usage: urpmi [--auto] package_name [package_names...]\n";
+
+$dir = "/etc/urpmi";
+$depsfile = "$dir/depslist";
+$rpmlistfiles = "$dir/list.*";
+
+open SAVEOUT, ">&STDOUT";
+open SAVEERR, ">&STDERR";
+open STDOUT, "|tee -a /var/log/urpmi.installed" or die;
+open STDERR, "|tee -a /var/log/urpmi.log" or die;
+select STDERR; $| = 1;     # make unbuffered
+select STDOUT; $| = 1;     # make unbuffered
+
+open F, $depsfile or die();
+foreach (<F>) {
+    my ($pack, $deps) = /(\S+)\s+\S+\s+(.*)/ or die("urpmi: bad format file $depsfile\n");
+    $deps{$pack} = [ split ' ', $deps ];
+    
+    foreach $v (@ARGV) { 
+	$_ = quotemeta $v;
+	$pack =~ /^$_-[^-]+-[^-]+$/ and $exact{$v} = $pack;
+	$pack =~ /^$_-[^-]+$/ and $exact{$v} = $pack;
+	$pack =~ /^$_$/ and $exact{$v} = $pack;
+	$pack =~ /$_/ and push @{$found{$v}}, $pack;
+	$pack =~ /$_/i and push @{$foundi{$v}}, $pack; 
+    }
+}
+close F or die();
+
+my $ok = 1;
+foreach (@ARGV) {
+    my $pack = $exact{$_};
+    unless ($pack) {
+	my $l = $found{$_}; $l or $l = $foundi{$_};
+	if (@$l == 0) { warn(_("no package named %s\n", $_)); $ok = 0; }
+	elsif (@$l > 1) { warn(_("The following packages contain %s: %s\n", $_, join(', ', @$l))); $ok = 0; }
+	$pack = $$l[0];
+    }
+    push @packages, $pack;
+}
+$ok or exit 1;
+
+@installed = `/bin/rpm -qa`; $? and die(_("rpm database query failed\n"));
+foreach (@installed) {
+    my ($name, $v, $r) = /(.*)-([^-]+)-([^-.]+)/;
+    exists $installed{$name} && le_version([$v, $r], $installed{$name}) or $installed{$name} = [$v, $r];
+}
+@installed{map { chop; $_ } @installed} = ();
+my %to_install; closure_deps(\%to_install, @packages); @to_install = keys %to_install;
+
+if (!$auto and difference2(\@to_install, \@packages)) {
+    my $msg = _("To satisfy dependencies, the following packages are going to be installed");
+    my $msg2 = _("Is it ok?");
+    if ($X) {
+	my $p = join "\n", @to_install;
+	my $ok = _("Ok");
+	my $cancel = _("Cancel");
+	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
+	$? and exit 0;
+    } else {
+	print SAVEOUT "$msg:\n@to_install\n$msg2 (y/n) ";
+	<STDIN> =~ /y/i or exit 0;
+    }
+}
+
+$to_install = join '|', map { quotemeta($_) } @to_install;
+
+foreach $file (glob($rpmlistfiles)) {
+    open F, $file or die("urpmi: error opening $file\n");
+    $file =~ s|.*/list\.(.*?)|$1|;
+    foreach (<F>) { chop; m|/($to_install)| and $long{$1} = $_, $name{$1} = $file; }
+    close F;
+}
+foreach $l (@to_install) {
+    local $_ = $long{$l} or die("urpmi: package $l is not available\n");
+    if (s|removable_(\w+)_(\d*):/||) {
+	my $n = "$2-$name{$l}";
+	$removables{$n}->{name} = $name{$l};
+	$removables{$n}->{device} = $1;
+	push @{$removables{$n}->{list}}, $_;
+    } else {
+	s|^file:/||;
+	push @to_install_long, $_;
+    }
+}
+
+foreach (sort keys %removables) {
+    my $f = @{$removables{$_}->{list}}[0];
+    my $dev = $removables{$_}->{device};
+    `mount /dev/$dev 2>/dev/null`;
+    unless (-e $f) {
+	`umount /dev/$dev  2>/dev/null ; eject $dev  2>/dev/null`;
+	message(_("Please insert the %s named %s", $removables{$_}->{device}, $removables{$_}->{name}));
+	unless ($X) {
+	    print SAVEOUT _("Press enter when it's done...");
+	    <STDIN>;
+	}
+	`mount /dev/$dev  2>/dev/null`;
+	unless (-e $f) {
+	    message(_("Sorry can't find file %s, exiting", $f));
+	    exit 1;
+	}
+    }
+    install(@{$removables{$_}->{list}});
+}
+
+install(@to_install_long);
+$something_was_installed or message(_("everything already installed"));
+
+sub install {
+    @_ or return;
+	
+    $something_was_installed = 1;
+    print SAVEOUT _("installing %s\n", join(' ', @_));
+    print scalar localtime, " @_\n";
+    $X ? `grpmi @_` : `rpm -U @_`;
+    $? and message(_("Installation failed")), exit 1;
+}
+
+# uses @deps and @installed
+sub closure_deps {
+    my $to_install = shift;
+    foreach (@_) {
+	exists $to_install->{$_} and next;
+	my ($name, $v, $r) = /(.*)-([^-]+)-([^-.]+)/;
+	exists $installed{$name} && le_version([$v, $r], $installed{$name}) and next;
+
+	$to_install->{$_} = undef;
+	my @d = @{$deps{$_}} or return $_;
+      up: foreach (@d) {
+	  my %l; 
+	  foreach (split '\|') { 
+	      exists $to_install->{$_} and next up;
+	      my ($name, $v, $r) = /(.*)-([^-]+)-([^-.]+)/;
+	      if (exists $installed{$name}) {
+		  le_version([$v, $r], $installed{$name}) and next up;
+		  %l = ($name => [$v, $r]);
+		  last;
+	      }	      
+	      $l{$name} = [$v, $r] unless $l{$name} && le_version([$v, $r], $l{$name});
+	  }
+	  my ($l) = my @l = map { "$_-$l{$_}[0]-$l{$_}[1]" } keys %l;
+
+	  if (@l > 1 && !$auto) {
+	      $msg = _("One of the following packages is needed:");
+	      my $n;
+	      if ($X) {
+		  `gchooser "$msg" @l`;
+		  $n = $? >> 8 || die;
+	      } else {		  
+		  print SAVEOUT "$msg\n";
+		  my $i = 0; foreach (@l) { print SAVEOUT " ", ++$i, "- $_\n"; }
+		  while (1) {
+		      print SAVEOUT _("What is your choice? (1-%d) ", $i);
+		      $n = <STDIN>;
+		      1 <= $n && $n <= $i and last;
+		      print SAVEOUT _("Sorry, bad choice, try again\n");
+		  }
+	      }
+	      $l = $l[$n - 1];
+	  }
+	  closure_deps($to_install, $l);
+      }
+    }
+}
+
+#- compare a version string.
+sub version_compare {
+    my ($a, $b) = @_;
+    local $_;
+
+    while ($a && $b) {
+	my ($sb, $sa) =  map { $1 if $a =~ /^\W*\d/ ? s/^\W*0*(\d+)// : s/^\W*(\D+)// } ($b, $a);
+	$_ = length($sa) cmp length($sb) || $sa cmp $sb and return $_;
+    }
+}
+sub le_version {
+    my $cmp = version_compare($_[0][0], $_[1][0]);
+    return $cmp < 0 || $cmp == 0 && version_compare($_[0][1], $_[1][1]) < 0;
+}
+
+
+
+sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : print SAVEOUT "$_[0]\n"; }
+sub member($@) { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
+sub uniq { my %l; @l{@_} = (); keys %l }
+sub difference2(\@\@) { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
+sub _ { my $s = shift @_; sprintf translate($s), @_ }
+sub translate { $I18N{$_[0]} || $_[0]; }
+
+sub untaint {
+    my @r = ();
+    foreach (@_) {
+        /(.*)/;
+	push @r, $1;
+    }
+    @r == 1 ? $r[0] : @r
+}
+
+sub load_po {
+    my ($from, $to, $state, $fuzzy);
+    local *F; open F, "/usr/share/locale/$_[0]/LC_MESSAGES/urpmi.po" or return;
+    foreach (<F>) {
+	/^msgstr/ and $state = 1;
+	/^msgid/  && !$fuzzy and $state = 2;
+
+	if (/^(#|$)/ && $state != 3) {
+	    $state = 3;
+            s/\\n/\n/g foreach $from, $to;
+	    $I18N{$from} = $to if $from;
+	    $from = $to = '';
+	}
+	$to .= (/"(.*)"/)[0] if $state == 1;
+	$from .= (/"(.*)"/)[0] if $state == 2;
+
+	$fuzzy = /^#, fuzzy/;
+    }
+}

@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+$r = join '|', map { chop; $l{$_} = 1; quotemeta } `rpm -qa --queryformat "%{NAME}\n"`;
+$R = qr/ $r/;
+open F, "/etc/urpmi/depslist" or die "can't find depslist\n";
+$R && /(\S+)-[^-]+-[^-]+ / && delete $l{$1} foreach <F>;
+print "$_\n" foreach keys %l;

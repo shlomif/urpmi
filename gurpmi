@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+$ENV{XAUTHORITY} or $ENV{XAUTHORITY} = "$ENV{HOME}/.Xauthority";
+
+
+exec "urpmi", "--X", @ARGV;
+

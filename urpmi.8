@@ -1,0 +1,84 @@
+.TH urpmi 8 "18 Nov 1999" "Mandrakesoft" "Linux-Mandrake"
+.IX urpmi
+.SH NAME
+urpmi \- rpm wrapper making installs easier for the user
+.SH SYNOPSIS
+.B urpmi
+[--auto]
+package_name
+[package_names...]
+.SH DESCRIPTION
+urpmi enables non-superuser install of rpms. In fact, it only authorizes
+well-known rpms to be installed.
+
+You can compare rpm vs. urpmi  with  insmod vs. modprobe 
+.PP
+All users belonging to group urpmi are allowed to install packages.
+.br
+Just launch urpmi followed by what you think is the name of the package(s), and urpmi will:
+.br
+\- Propose different package names if availables and quit.
+.br
+\- If found only one Package corresponding, check wether dependencies are already installed or not.
+.br
+\- If not, propose to install the dependencies and then install all required dependencies and the package.
+.PP
+Note that urpmi handle installations from various medias (ftp, local and nfs volumes, removable medias such as CDROMs) and is able to install dependencies from a media different from the package's media. If necessary, urpmi asks you to insert the required media.
+.PP
+To add a new media containing rpms run urpmi.addmedia.
+.br
+To remove a media use urpmi.removemedia.
+.br
+To update the packages list (for example when the ftp archive changed) use urpmi.update.
+.br
+To automatically install a package corresponding to an executable you tried to launch, use autoirpm.
+.br
+To install all available menu entries of all known packages, use autoirpm-icons.
+.SH OPTION
+.IP "\fB\--auto\fP"
+installs all required dependencies without asking.  
+.SH FILES
+/usr/bin/urpmi
+.br
+The \fBurpmi\fP executable (perl script)
+.PP
+/etc/urpmi/list.*
+.br
+Contains the list of all packages known by urpmi and their location. There is one filelist per media(*).
+.PP
+/etc/urpmi/hdlist.*
+.br
+Contain information about all known packages, it's a summary of rpm headers.  There is one filelist per media(*).
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Contains one line <\fIname\fP> <\fIurl\fP> per media.
+.PP
+/etc/urpmi/depslist
+.br
+A simple text file containning all dependencies of all known packages.
+.PP
+/etc/urpmi/depslist
+.br
+The same but in html format, user readable.
+.SH "SEE ALSO"
+urpmi.addmedia(8),
+urpmi.removemedia(8),
+urpmi.update(8),
+autoirpm(8),
+autoirpm-icons(8),
+gurpmi(8),
+rpmdrake(8)
+.SH AUTHOR
+Pascal Rigaux, Mandrakesoft
+.br
+pixel@mandrakesoft.com
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+.TH autoirpm 8 "22 Nov 1999" "Mandrakesoft" "Linux-Mandrake"
+.IX autoirpm
+.SH NAME
+autoirpm \- auto installs the RPM matching your command
+.SH SYNOPSIS
+.B autoirpm
+.SH DESCRIPTION
+autoirpm *magically* guesses which package you need and installs it. Let's imagine that you typed gmix to launch your sound mixer. If it is not available, you are then asked if you wish to install the package gnome-media which contains the gmix binary...
+.PP
+To do so, launch autoirpm.update-all, which scans all packages known by urpmi for all binary executables. It then creates links in respective binary directories...
+Use autoirpm.uninstall to remove all links created by autoirpm.update.
+.PP
+use \fBautoirpm.update <name>\fP to update executables contained in packages of <name>d media.
+.PP
+use \fBautoirpm.update-all\fP to update executables contained in packages of all medias known by urpmi.
+.PP
+use \fBautoirpm.uninstall\fP to remove all links installed by autoirpm.
+.PP
+This feature may be offered for menu icons installing autoirpm-icons package.
+.SH FILES
+/etc/urpmi/autoirpm.deny
+.br
+All binaries contained in packages listed in this file won't lead to an auto install of rpm.
+.PP
+/etc/urpmi/autoirpm.allow
+.br
+If present, only binaries of listed packages will offer the feature of auto-install.
+
+.SH "SEE ALSO"
+urpmi(8)
+.SH AUTHOR
+Pascal Rigaux, Mandrakesoft
+.br
+pixel@mandrakesoft.com
+
+
+
+
+
+
+
+
+

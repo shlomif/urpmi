@@ -1,0 +1,127 @@
+#!/usr/bin/perl
+
+my $DIR = "/etc/urpmi";
+my $DEPSLIST = "$DIR/depslist";
+my $CFG = "$DIR/urpmi.cfg";
+
+$| = 1;
+
+
+sub substInFile(&@) {
+    my $f = shift;
+    local @ARGV = @_ or return;
+    local ($^I, $_) = '';
+    while (<>) { &$f($_); print }
+}
+
+
+my @entries = map { /list.(.*)/ } glob("$DIR/list.*");
+
+if ($0 =~ /removemedia/) {
+    local ($_) = @ARGV or die "missing the entry to remove\n(one of " . join(", ", @entries) . ")\n";
+    foreach $e (/^--?a/ ? @entries : @ARGV) {
+	my $f;
+	$f = "$DIR/hdlist.$e"; unlink $f or die "failed to remove $f";
+	$f = "$DIR/list.$e";   unlink $f or die "failed to remove $f";
+	substInFile { s/^/\#/ if /^$e\s/ } $CFG;
+    }
+    system("urpmi.update");
+    exit 0;
+} elsif ($0 =~ /update/) {
+    if (local ($_) = @ARGV) {
+	my $regexp = /^--?a/ ? '[^#]\S*' : join('|', @ARGV);
+	system("urpmi.addmedia --noupdate $_") foreach grep { /^$regexp\s/ } `cat $CFG`;
+    }
+    if (glob("$DIR/hdlist.*")) {
+	print "generating dependencies list\n";
+	system("gendepslist -h $DEPSLIST $DIR/hdlist.*");
+	system("autoirpm.update");
+    } else {
+	unlink $DEPSLIST, "$DEPSLIST.html";
+    }
+    exit 0;
+}
+
+my $noupdate = shift @ARGV if $ARGV[0] eq "--noupdate";
+my ($name, $url, $with, $ftp_hdlist) = @ARGV;
+my $suffix;
+
+# basic checking of arguments
+{
+    my $usage = 
+"usage: urpmi.addmedia <name> <url>
+where <url> is one of
+	file://<path>
+	ftp://<login>:<user>@<host>/<path> with <relative path of hdlist>
+	ftp://<host>/<path> with <relative path of hdlist>
+	http://<host>/<path> with <relative path of hdlist>
+        removable_<device>_<number>://<path>
+";
+    $name or die $usage;
+    my ($type, $dev, $num) = $url =~ m,^(file|ftp|http|removable_(\w+)_(\d+))://, or die $usage;
+    $name =~ s/\s/_/g;
+
+    if ($type eq "removable") {
+	$num =~ /^\d+$/ or die "$usage  bad number (is `$num')\n";
+	$dev && -e "/dev/$dev" or die "$usage  device `$dev' do not exist\n";
+    } elsif ($type eq "ftp") {
+	$with eq "with" or die "$usage  `with' missing for ftp media\n";
+	$ftp_hdlist or die "$usage  <relative path of hdlist> missing\n";
+    }
+}
+
+-e $CFG or `echo > $CFG`; # create it if not there
+$? == 0 or die "can't write to config file $CFG";
+substInFile {
+    s/^/\#/ if /^$name\s/;
+    $_ .= "$name $url $with $ftp_hdlist\n"  if eof;
+} $CFG;
+
+
+my $HDLIST = "$DIR/hdlist.$name";
+my $RPMLIST = "$DIR/list.$name";
+
+-e $DIR || mkdir $DIR, 0755 or die "can't create $DIR";
+!-e $HDLIST || unlink $HDLIST or die "can't remove $HDLIST";
+
+my $mask = umask 077;
+open LIST, ">$RPMLIST" or die "can't output $RPMLIST";
+umask $mask;
+
+if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
+    my $hdlist = '';
+    my $flush = sub {};
+    if (-e (my $f = "$dir/Mandrake/base/hdlist")) {
+	system("cp -f $f $HDLIST");
+    } else {
+	$flush = sub { system("rpm2header $hdlist >> $HDLIST") if $hdlist };
+    }
+    print "scanning $dir...";
+    open F, "find $dir -follow -name '*.rpm'|";
+    foreach (<F>) {
+	chomp;
+	if (length "$hdlist $_" > 1500) {
+	    &$flush();
+	    $hdlist = '';
+	}
+	$hdlist .= " $_";
+	print LIST "$prefix:/$_\n";
+    }
+    $hdlist or die "no rpms found in $dir";
+    &$flush();
+    close F or die "searching for rpms failed";
+    print "\n";
+} else {
+    system("wget -O $HDLIST $url/$ftp_hdlist");
+    $? == 0 or die "wget of $url/$ftp_hdlist failed (maybe wget is missing?)";
+    open F, "hdlist2files $HDLIST|";
+    foreach (<F>) {
+	chomp;
+	print LIST "$url/$_\n";
+    }
+    close F or die "hdlist2files failed";
+}
+close LIST;
+
+system("urpmi.update") unless $noupdate;
+exit 0;
