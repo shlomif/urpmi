@@ -310,9 +310,11 @@ if ($urpm::args::options{list_aliases}) {
 		if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
 		    require packdrake;
 		    my $packer = new packdrake(
-				$urpm->{media}[$_]{virtual} ?
-				("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0] :
-				"$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
+			$urpm->{media}[$_]{virtual}
+			    ? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
+			    : "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}",
+			quiet => 1,
+		    );
 		    $packer->extract_archive(undef, @headers);
 		} else {
 		    #- fallback to retrieve rpm package before, so that --headers will be ok.
@@ -338,9 +340,11 @@ if ($urpm::args::options{list_aliases}) {
 		    if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
 			require packdrake;
 			my $packer = new packdrake(
-				$urpm->{media}[$_]{virtual} ?
-				("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0] :
-				"$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
+			    $urpm->{media}[$_]{virtual}
+				? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
+				: "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}",
+			    quiet => 1,
+			);
 			$packer->extract_archive($< == 0  ? "$urpm->{cachedir}/headers" : $tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
 			#- fallback to retrieve rpm package before, so that --headers will be ok.
