@@ -242,7 +242,7 @@ sub probe_medium {
     $medium->{url} ||= $medium->{clear_url};
 
     if ($medium->{virtual}) {
-	#- a virtual medium need to have an url available without using a list file.
+	#- a virtual medium needs to have an url available without using a list file.
 	if ($medium->{hdlist} || $medium->{list}) {
 	    $medium->{ignore} = 1;
 	    $urpm->{error}(N("virtual medium \"%s\" should not have defined hdlist or list file, medium ignored",
@@ -1084,10 +1084,10 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- examine if a distant MD5SUM file is available.
 	    #- this will only be done if $with_hdlist is not empty in order to use
 	    #- an existing hdlist or synthesis file, and to check if download was good.
-	    #- if no MD5SUM are available, do it as before...
+	    #- if no MD5SUM is available, do it as before...
 	    #- we can assume at this point a basename is existing, but it needs
 	    #- to be checked for being valid, nothing can be deduced if no MD5SUM
-	    #- file are present.
+	    #- file is present.
 	    my $basename = basename($with_hdlist_dir);
 
 	    unless ($medium->{virtual}) {
@@ -1144,7 +1144,7 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 
-		    #- if the source hdlist is present and we are not forcing using rpms file
+		    #- if the source hdlist is present and we are not forcing using rpm files
 		    if ($options{force} < 2 && -e $with_hdlist_dir) {
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
@@ -1180,7 +1180,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    $medium->{modified} = 0;
 			    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			    #- as previously done, just read synthesis file here, this is enough, but only
-			    #- if synthesis exists, else it need to be recomputed.
+			    #- if synthesis exists, else it needs to be recomputed.
 			    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 			    ($medium->{start}, $medium->{end}) =
 				$urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
@@ -1337,11 +1337,11 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- examine if a distant MD5SUM file is available.
 	    #- this will only be done if $with_hdlist is not empty in order to use
 	    #- an existing hdlist or synthesis file, and to check if download was good.
-	    #- if no MD5SUM are available, do it as before...
+	    #- if no MD5SUM is available, do it as before...
 	    if ($medium->{with_hdlist}) {
 		#- we can assume at this point a basename is existing, but it needs
 		#- to be checked for being valid, nothing can be deduced if no MD5SUM
-		#- file are present.
+		#- file is present.
 		$basename = basename($medium->{with_hdlist});
 
 		unlink "$urpm->{cachedir}/partial/MD5SUM";
@@ -1379,7 +1379,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    if ($medium->{md5sum}) {
 			parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
 			#- if an existing hdlist or synthesis file has the same md5sum, we assume the
-			#- file are the same.
+			#- files are the same.
 			#- if local md5sum is the same as distant md5sum, this means there is no need to
 			#- download hdlist or synthesis file again.
 			foreach (@{$urpm->{media}}) {
@@ -1527,7 +1527,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 		}
 
-		#- the file are different, update local copy.
+		#- the files are different, update local copy.
 		rename("$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}");
 
 		#- retrieval of hdlist or synthesis has been successful,
@@ -2310,7 +2310,7 @@ sub get_source_packages {
 	my (%sources, %list_examined, $list_warning);
 
 	if (defined $medium->{start} && defined $medium->{end} && !$medium->{ignore}) {
-	    #- always prefer a list file is available.
+	    #- always prefer a list file if available.
 	    my $file = $medium->{list} ? "$urpm->{statedir}/$medium->{list}" : '';
 	    if (!$file && $medium->{virtual}) {
 		my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!;
@@ -2986,7 +2986,7 @@ sub find_packages_to_remove {
 	    }
 	}
 
-	#- check if something need to be removed.
+	#- check if something needs to be removed.
 	if ($options{callback_base} && %{$state->{rejected} || {}}) {
 	    my %basepackages;
 
