@@ -464,12 +464,16 @@ sub read_config {
     #- the next probe.
     my (%hdlists, %lists);
     foreach (@{$urpm->{media}}) {
-	exists($hdlists{$_->{hdlist}}) and
-	  $_->{ignore} = 1, $urpm->{error}(N("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name}));
-	$hdlists{$_->{hdlist}} = undef;
+	if ($_->{hdlist}) {
+	    exists($hdlists{$_->{hdlist}}) and
+	      $_->{ignore} = 1,
+		$urpm->{error}(N("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name}));
+	    $hdlists{$_->{hdlist}} = undef;
+	}
 	if ($_->{list}) {
 	    exists($lists{$_->{list}}) and
-	      $_->{ignore} = 1, $urpm->{error}(N("medium \"%s\" trying to use an already used list, medium ignored", $_->{name}));
+	      $_->{ignore} = 1,
+		$urpm->{error}(N("medium \"%s\" trying to use an already used list, medium ignored", $_->{name}));
 	    $lists{$_->{list}} = undef;
 	}
     }
@@ -870,12 +874,13 @@ sub add_medium {
 
     #- creating the medium info.
     if ($options{virtual}) {
-	$url =~ m|^file:/*(/[^/].*)/| or $urpm->{fatal}(5, N("virtual medium need to local"));
+	$url =~ m|^file:/*(/[^/].*)/| or $urpm->{fatal}(5, N("virtual medium need to be local"));
 
 	$medium = { name      => $name,
 		    url       => $url,
 		    update    => $options{update},
 		    virtual   => 1,
+		    modified  => 1,
 		  };
     } else {
 	$medium = { name     => $name,
@@ -1111,15 +1116,15 @@ sub update_media {
 	    #- to speed up the process, we only read the synthesis at the begining.
 	    delete @{$medium}{qw(start end)};
 	    if ($medium->{virtual}) {
-		my $path = $medium->{url} =~ /^file:\/*(\/[^\/].*[^\/])\/*$/ && $1;
+		my ($path) = $medium->{url} =~ /^file:\/*(\/[^\/].*[^\/])\/*$/;
+		my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		if ($path) {
 		    if ($medium->{synthesis}) {
-			$urpm->{log}(N("examining synthesis file [%s]", "$path/$medium->{with_hdlist}"));
-			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$path/$medium->{with_hdlist}") };
+			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
+			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file) };
 		    } else {
-			$urpm->{log}(N("examining hdlist file [%s]", "$path/$medium->{with_hdlist}"));
-			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$path/$medium->{with_hdlist}",
-											packing => 1) };
+			$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_file));
+			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_file, packing => 1) };
 		    }
 		} else {
 		    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
@@ -1136,7 +1141,7 @@ sub update_media {
 	    unless ($medium->{ignore}) {
 		unless (defined $medium->{start} && defined $medium->{end}) {
 		    #- this is almost a fatal error, ignore it by default?
-		    $urpm->{error}(N("Aproblem reading synthesis file of medium \"%s\"", $medium->{name}));
+		    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
 		    $medium->{ignore} = 1;
 		}
 	    }
@@ -1171,12 +1176,54 @@ sub update_media {
 		foreach (probe_with_try_list($suffix, $options{probe_with})) {
 		    if (-s "$dir/$_" > 32) {
 			$medium->{with_hdlist} = $_;
+			last;
 		    }
 		}
 		#- redo...
 		$with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 	    }
 
+	    if ($medium->{virtual}) {
+		#- syncing a virtual medium is very simple, just try to read the file in order to
+		#- determine its type, once a with_hdlist has been found (but is mandatory).
+		if ($medium->{with_hdlist} && -e $with_hdlist_dir) {
+		    delete @{$medium}{qw(start end)};
+		    if ($medium->{synthesis}) {
+			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
+			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
+			       delete $medium->{modified};
+			       $medium->{synthesis} = 1;
+			       $urpm->{modified} = 1 };
+			unless (defined $medium->{start} && defined $medium->{end}) {
+			    $urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
+			    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
+				   delete @{$medium}{qw(modified synthesis)};
+				   $urpm->{modified} = 1 };
+			}
+		    } else {
+			$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
+			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
+			       delete @{$medium}{qw(modified synthesis)};
+			       $urpm->{modified} = 1 };
+			unless (defined $medium->{start} && defined $medium->{end}) {
+			    $urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
+			    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
+				   delete $medium->{modified};
+				   $medium->{synthesis} = 1;
+				   $urpm->{modified} = 1 };
+			}
+		    }
+		    unless (defined $medium->{start} && defined $medium->{end}) {
+			$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
+			$medium->{ignore} = 1;
+		    }
+		} else {
+		    $urpm->{error}(N("virtual medium \"%s\" should have valid source hdlist or synthesis, medium ignored",
+				     $medium->{name}));
+		    $medium->{ignore} = 1;
+		}
+		next;
+	    }
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
 	    if (-e "$dir/../descriptions") {
@@ -1242,7 +1289,8 @@ sub update_media {
 				    symlink $_->{hdlist}, $medium->{hdlist};
 				}
 				#- as previously done, just read synthesis file here, this is enough.
-				$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+				$urpm->{log}(N("examining synthesis file [%s]",
+					       "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 				eval { ($medium->{start}, $medium->{end}) =
 					 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 				unless (defined $medium->{start} && defined $medium->{end}) {
@@ -1250,7 +1298,7 @@ sub update_media {
 				    eval { ($medium->{start}, $medium->{end}) =
 					     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 				    unless (defined $medium->{start} && defined $medium->{end}) {
-					$urpm->{error}(N("Bproblem reading synthesis file of medium \"%s\"", $medium->{name}));
+					$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
 					$medium->{ignore} = 1;
 				    }
 				}
@@ -1287,7 +1335,7 @@ sub update_media {
 		    (split ' ', `md5sum '$urpm->{cachedir}/partial/$medium->{hdlist}'`)[0] eq $retrieved_md5sum or
 		      $error = 1, $urpm->{error}(N("copy of [%s] failed", $with_hdlist_dir));
 		}
-		
+
 		#- check if the file are equals... and no force copy...
 		if (!$error && !$options{force} && -e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
 		    my @sstat = stat "$urpm->{cachedir}/partial/$medium->{hdlist}";
@@ -1306,7 +1354,7 @@ sub update_media {
 			    eval { ($medium->{start}, $medium->{end}) =
 				     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{error}(N("Cproblem reading synthesis file of medium \"%s\"", $medium->{name}));
+				$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 				$medium->{ignore} = 1;
 			    }
 			}
@@ -1323,44 +1371,44 @@ sub update_media {
 			system("cp", "--preserve=mode,timestamps", "-R", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
 			  $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
 		    }
-		}
-	    } else {
-		#- try to find rpm files, use recursive method, added additional
-		#- / after dir to make sure it will be taken into account if this
-		#- is a symlink to a directory.
-		#- make sure rpm filename format is correct and is not a source rpm
-		#- which are not well managed by urpmi.
-		@files = split "\n", `find '$dir/' -name "*.rpm" -print`;
-
-		#- check files contains something good!
-		if (@files > 0) {
-		    #- we need to rebuild from rpm files the hdlist.
-		    eval {
-			$urpm->{log}(N("reading rpm files from [%s]", $dir));
-			my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-			$medium->{start} = @{$urpm->{depslist}};
-			$medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
-									       rpms  => \@files,
-									       clean => $cleaned_cache,
-									      ) ];
-			$medium->{end} = $#{$urpm->{depslist}};
-			if ($medium->{start} > $medium->{end}) {
-			    #- an error occured (provided there are files in input.
-			    delete $medium->{start};
-			    delete $medium->{end};
-			    die "no rpms read\n";
-			} else {
-			    $cleaned_cache = 0; #- make sure the headers will not be removed for another media.
-			    my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-			    @unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
-			}
-		    };
-		    $@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
-		    $error and delete $medium->{headers}; #- do not propagate these.
-		    $error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
 		} else {
-		    $error = 1;
-		    $urpm->{error}(N("no rpm files found from [%s]", $dir));
+		    #- try to find rpm files, use recursive method, added additional
+		    #- / after dir to make sure it will be taken into account if this
+		    #- is a symlink to a directory.
+		    #- make sure rpm filename format is correct and is not a source rpm
+		    #- which are not well managed by urpmi.
+		    @files = split "\n", `find '$dir/' -name "*.rpm" -print`;
+
+		    #- check files contains something good!
+		    if (@files > 0) {
+			#- we need to rebuild from rpm files the hdlist.
+			eval {
+			    $urpm->{log}(N("reading rpm files from [%s]", $dir));
+			    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+			    $medium->{start} = @{$urpm->{depslist}};
+			    $medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
+										   rpms  => \@files,
+										   clean => $cleaned_cache,
+										  ) ];
+			    $medium->{end} = $#{$urpm->{depslist}};
+			    if ($medium->{start} > $medium->{end}) {
+				#- an error occured (provided there are files in input.
+				delete $medium->{start};
+				delete $medium->{end};
+				die "no rpms read\n";
+			    } else {
+				$cleaned_cache = 0; #- make sure the headers will not be removed for another media.
+				my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+				@unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
+			    }
+			};
+			$@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
+			$error and delete $medium->{headers}; #- do not propagate these.
+			$error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
+		    } else {
+			$error = 1;
+			$urpm->{error}(N("no rpm files found from [%s]", $dir));
+		    }
 		}
 	    }
 	} else {
@@ -1459,7 +1507,7 @@ sub update_media {
 				    eval { ($medium->{start}, $medium->{end}) =
 					     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 				    unless (defined $medium->{start} && defined $medium->{end}) {
-					$urpm->{error}(N("Cproblem reading synthesis file of medium \"%s\"", $medium->{name}));
+					$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 					$medium->{ignore} = 1;
 				    }
 				}
@@ -1557,7 +1605,7 @@ sub update_media {
 			    eval { ($medium->{start}, $medium->{end}) =
 				     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{error}(N("Dproblem reading synthesis file of medium \"%s\"", $medium->{name}));
+				$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
 				$medium->{ignore} = 1;
 			    }
 			}
@@ -1707,7 +1755,7 @@ sub update_media {
 	    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 	    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 	    unless (defined $medium->{start} && defined $medium->{end}) {
-		$urpm->{error}(N("Eproblem reading synthesis file of medium \"%s\"", $medium->{name}));
+		$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 		$medium->{ignore} = 1;
 	    }
 	} else {

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media;
 
 
 %changelog
+* Fri Jun 20 2003 François Pons <fpons@mandrakesoft.com> 4.4-6mdk
+- fixed --virtual to work with synthesis source.
+
 * Thu Jun 19 2003 François Pons <fpons@mandrakesoft.com> 4.4-5mdk
 - fixed everything already installed annoying message.
 - added --virtual to urpmi.addmedia to handle virtual media.
