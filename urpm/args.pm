@@ -306,8 +306,6 @@ sub parse_cmdline {
     my %args = @_;
     # set up global urpm object
     $urpm = $args{urpm};
-    # get default values (and read config file)
-    # TODO
     # parse options
     if ($tool eq 'urpmi') {
 	foreach (@ARGV) { $_ = '-X' if $_ eq '--X' }
