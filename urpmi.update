@@ -93,7 +93,7 @@ where <name> is a medium name to update.
 	$something_todo or die _("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
     }
 
-    $urpm->update_media(%options);
+    $urpm->update_media(%options, callback => \&urpm::sync_logger);
 }
 
 main(@ARGV);

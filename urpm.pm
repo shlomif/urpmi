@@ -224,7 +224,7 @@ sub sync_wget {
     -x "/usr/bin/wget" or die _("wget is missing\n");
     local *WGET;
     my $options = shift @_;
-    my ($buf, $file) = ('', undef);
+    my ($buf, $total, $file) = ('', undef, undef);
     open WGET, "-|", "/usr/bin/wget",
                (ref $options && $options->{proxy} ? set_proxy({type => "wget", proxy => $options->{proxy}}) : ()),
 	       (ref $options && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
@@ -236,14 +236,18 @@ sub sync_wget {
 	$buf .= $_;
 	if ($_ eq "\r" || $_ eq "\n") {
 	    if (ref $options && $options->{callback}) {
-		if ($buf =~ /^--\d\d:\d\d:\d\d--\s+(\S.*)\n/ms) {
+		if (! defined $file && $buf =~ /^--\d\d:\d\d:\d\d--\s+(\S.*)\n/ms) {
 		    $file = $1;
 		    $options->{callback}('start', $file);
-		} elsif (my ($percent, $eta, $speed) = $buf =~ /^\s*(\d+)%\s+.*\s+(\S+)\s+ETA\s+(\S+)[\r\n]$/ms) {
-		    $options->{callback}('progress', $file, $percent, undef, $eta, $speed);
+		} elsif (defined $file && ! defined $total && $buf =~ /==>\s+RETR/) {
+		    $total = '';
+		} elsif (defined $total && $total eq '' && $buf =~ /^[^:]*:\s+(\d\S*)/) {
+		    $total = $1;
+		} elsif (my ($percent, $speed, $eta) = $buf =~ /^\s*(\d+)%.*\s+(\S+)\s+ETA\s+(\S+)\s*[\r\n]$/ms) {
+		    $options->{callback}('progress', $file, $percent, $total, $eta, $speed);
 		    if ($_ eq "\n") {
 			$options->{callback}('end', $file);
-			$file = undef;
+			($total, $file) = (undef, undef);
 		    }
 		}
 	    } else {
@@ -365,6 +369,18 @@ sub sync_ssh {
 	} while ($? != 0 && --$count > 0 && (-e (ref $options ? $options->{dir} : $options) . "/$basename"));
     }
     $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+}
+#- default logger suitable for sync operation on STDERR only.
+sub sync_logger {
+    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+    if ($mode eq 'start') {
+	$file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
+	print STDERR "    $file\n";
+    } elsif ($mode eq 'progress') {
+	print STDERR _("        %s%% of %s, ETA = %s, speed = %s", $percent, $total, $eta, $speed) . "\r";
+    } elsif ($mode eq 'end') {
+	print STDERR (" "x79)."\r";
+    }
 }
 
 #- read /etc/urpmi/urpmi.cfg as config file, keep compability with older
@@ -808,7 +824,8 @@ sub add_distrib_media {
 	unlink "$urpm->{cachedir}/partial/hdlists";
 	eval {
 	    $urpm->{log}(_("retrieving hdlists file..."));
-	    $urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, reduce_pathname("$url/Mandrake/base/hdlists"));
+	    $urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}},
+			  reduce_pathname("$url/Mandrake/base/hdlists"));
 	    $urpm->{log}(_("...retrieving done"));
 	};
 	$@ and $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -1137,7 +1154,7 @@ sub update_media {
 	    }
 	    eval {
 		$urpm->{log}(_("retrieving description file of \"%s\"...", $medium->{name}));
-		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} },
+		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1,	proxy => $urpm->{proxy} },
 			      reduce_pathname("$medium->{url}/../descriptions"));
 		$urpm->{log}(_("...retrieving done"));
 	    };
@@ -1162,8 +1179,8 @@ sub update_media {
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} },
-				      reduce_pathname("$medium->{url}/$_"));
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 0, callback => $options{callback},
+					proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$_"));
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
 			$medium->{with_hdlist} = $_;
@@ -1184,7 +1201,8 @@ sub update_media {
 		      system("cp", "-pR", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 		}
 		eval {
-		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
+		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 0, callback => $options{callback},
+				    proxy => $urpm->{proxy}}, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
 		};
 		if ($@) {
 		    $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -1688,7 +1706,7 @@ sub register_rpms {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(_("retrieving rpm file [%s] ...", $_));
-		$urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, $_);
+		$urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}}, $_);
 		$urpm->{log}(_("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    };

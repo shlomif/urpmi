@@ -144,7 +144,7 @@ and [options] are from
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(_("retrieving mirrors at %s ...", $options{from}));
-		$urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, $options{from});
+		$urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}}, $options{from});
 		$urpm->{log}(_("...retrieving done"));
 	    };
 	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -182,7 +182,7 @@ and [options] are from
 
 	    $urpm->add_distrib_media($name, $url, update => $options{update});
 	}
-	$urpm->update_media(%options);
+	$urpm->update_media(%options, callback => \&urpm::sync_logger);
 
 	if (my @unsynced_media = grep { $_->{modified} } @{$urpm->{media}}) {
 	    print STDERR join("\n", map { _("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
@@ -190,7 +190,7 @@ and [options] are from
 	    #- remove quietly the failing media.
 	    $urpm->{log} = sub {};
 	    $urpm->remove_selected_media;
-	    $urpm->update_media(%options);
+	    $urpm->update_media(%options, callback => \&urpm::sync_logger);
 	}
     } else {
 	$name or die $usage;
@@ -202,7 +202,7 @@ and [options] are from
 	}
 
 	$urpm->add_medium($name, $url, $relative_hdlist, update => $options{update});
-	$urpm->update_media(%options);
+	$urpm->update_media(%options, callback => \&urpm::sync_logger);
 
 	#- check creation of media (during update has been successfull)
 	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
@@ -212,7 +212,7 @@ and [options] are from
 	    #- remove quietly the failing media.
 	    $urpm->{log} = sub {};
 	    $urpm->remove_selected_media;
-	    $urpm->update_media(%options);
+	    $urpm->update_media(%options, callback => \&urpm::sync_logger);
 	}
     }
 }
