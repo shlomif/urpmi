@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,9 @@ fi
 
 
 %changelog
+* Mon Dec  2 2002 François Pons <fpons@mandrakesoft.com> 4.1-7mdk
+- fixed rsync:// protocol, now it really works, tested.
+
 * Mon Dec  2 2002 François Pons <fpons@mandrakesoft.com> 4.1-6mdk
 - fixed mutliple second or more medium being ignored when not
   using a list file.
