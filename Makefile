@@ -16,11 +16,12 @@ LOG = $(NAME).logrotate
 
 install:
 	$(MAKE) -C po $@
-	install -d $(BINDIR) $(SBINDIR) $(URPMIDIR) $(URPMIDIR2) $(MANDIR)/man8
+	install -d $(BINDIR) $(SBINDIR) $(URPMIDIR) $(URPMIDIR2) $(MANDIR)/man5 $(MANDIR)/man8
 	install urpmq $(BINDIR)
 	install rpm-find-leaves urpmf $(BINDIR)
 #	install -m 644 autoirpm.deny $(URPMIDIR2)
 	install -m 644 skip.list $(URPMIDIR2)
+	install -m 644 man/C/urpm*.5 $(MANDIR)/man5
 	install -m 644 man/C/urpm*.8 $(MANDIR)/man8
 	install urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia $(SBINDIR)
 #	install -s autoirpm.update-all $(SBINDIR)
