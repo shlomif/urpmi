@@ -104,7 +104,7 @@ while (defined($_ = shift @ARGV)) {
     /^--mediums$/ and do { push @nextargv, \$query->{media}; next };
     /^--synthesis$/ and do { push @nextargv, \$query->{synthesis}; next };
     /^--auto-select$/ and do { $query->{deps} = $query->{upgrade} = $query->{auto_select} = 1; next };
-    /^--fuzzy$/ and do { $query->{fuzzy} = 1; next };
+    /^--fuzzy$/ and do { $query->{fuzzy} = $query->{all} = 1; next };
     /^--keep$/ and do { $query->{keep} = 1; next };
     /^--list$/ and do { $query->{list} = 1; next };
     /^--list-media$/ and do { $query->{list_media} = 1; next };
@@ -150,7 +150,7 @@ while (defined($_ = shift @ARGV)) {
 	/p/ and do { $query->{use_provides} = 1; next };
 	/P/ and do { $query->{use_provides} = 0; next };
 	/R/ and do { $query->{what_requires} = 1; next };
-	/y/ and do { $query->{fuzzy} = 1; next };
+	/y/ and do { $query->{fuzzy} = $query->{all} = 1; next };
 	/s/ and do { $query->{src} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };
 	/i/ and do { $query->{info} = 1; next };
