@@ -1781,6 +1781,7 @@ sub is_using_supermount {
     #- read /etc/fstab and check for existing mount point.
     open F, "/etc/fstab";
     while (<F>) {
+	next if /^\s*#/;
 	my ($device, $mntpoint, $fstype, $options) = m|^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)| or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	if ($fstype eq 'supermount') {
@@ -1801,6 +1802,7 @@ sub find_mntpoints {
     #- read /etc/fstab and check for existing mount point.
     open F, "/etc/fstab";
     while (<F>) {
+	next if /^\s*#/;
 	my ($device, $mntpoint, $fstype, $options) = m|^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)| or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	$fstab{$mntpoint} =  0;
