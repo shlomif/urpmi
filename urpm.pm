@@ -1315,14 +1315,20 @@ sub search_packages {
 		#- search through provides to find if a provide match this one.
 		#- but manages choices correctly (as a provides may be virtual or
 		#- multiply defined.
-		/$qv/ and push @{$found{$v}}, join '|', grep { defined $_ }
-		  map { my $pkg = $urpm->{params}{info}{$_};
-			$pkg && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src') && $pkg->{id} || undef }
-		    keys %{$urpm->{params}{provides}{$_}};
-		/$qv/i and push @{$found{$v}}, join '|', grep { defined $_ }
-		  map { my $pkg = $urpm->{params}{info}{$_};
-			$pkg && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src') && $pkg->{id} || undef }
-		    keys %{$urpm->{params}{provides}{$_}};
+		if (/$qv/) {
+		    my @list = grep { defined $_ }
+		      map { my $pkg = $urpm->{params}{info}{$_};
+			    $pkg && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src') && $pkg->{id} || undef }
+			keys %{$urpm->{params}{provides}{$_}};
+		    @list > 0 and push @{$found{$v}}, join '|', @list;
+		}
+		if (/$qv/i) {
+		    my @list = grep { defined $_ }
+		      map { my $pkg = $urpm->{params}{info}{$_};
+			    $pkg && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src') && $pkg->{id} || undef }
+			keys %{$urpm->{params}{provides}{$_}};
+		    @list > 0 and push @{$found{$v}}, join '|', @list;
+		}
 	    }
 	}
 

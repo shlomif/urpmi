@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 24mdk
+Release: 25mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Thu Apr 11 2002 François Pons <fpons@mandrakesoft.com> 3.3-25mdk
+- fixed a problem for searching package according to name when
+  nothing should be found but other package are proposed.
+
 * Wed Apr 10 2002 François Pons <fpons@mandrakesoft.com> 3.3-24mdk
 - fixed package that need to be upgraded but which is provided
   by another package (Mesa and XFree86-libs).
