@@ -1584,6 +1584,7 @@ sub update_media {
 	#- take care of modified medium only or all if all have to be recomputed.
 	$medium->{ignore} and next;
 
+	$options{callback} && $options{callback}('parse', $medium->{name});
 	#- a modified medium is an invalid medium, we have to read back the previous hdlist
 	#- or synthesis which has not been modified by first pass above.
 	if ($medium->{headers} && !$medium->{modified}) {
@@ -1629,6 +1630,7 @@ sub update_media {
 		$urpm->{modified} = 1;
 	    }
 	}
+	$options{callback} && $options{callback}('done', $medium->{name});
     }
 
     #- clean headers cache directory to remove everything that is no more
