@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.1
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -142,6 +142,10 @@ fi
 
 
 %changelog
+* Wed Jan  9 2002 François Pons <fpons@mandrakesoft.com> 3.1-5mdk
+- added lock urpmi database features.
+- added support for distant list file.
+
 * Thu Dec 20 2001 François Pons <fpons@mandrakesoft.com> 3.1-4mdk
 - make sure curl fail if http url does not exists.
 - added probe for http or ftp hdlist or synthesis when adding
