@@ -150,7 +150,8 @@ if ($query->{headers} || $query->{sources}) {
 		$packer->extract_archive(undef, @headers);
 	    } else {
 		#- fallback to retrieve rpm package before, so that --headers will be ok.
-		my %uploads = $urpm->upload_source_packages({}, $list, '', undef);
+		my %uploads = $urpm->upload_source_packages({}, $list, 'local', undef);
+		print STDERR join " ", "rpm2header", values %uploads;
 		system "rpm2header", values %uploads;
 	    }
 	}

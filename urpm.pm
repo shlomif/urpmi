@@ -146,7 +146,8 @@ sub sync_curl {
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-z file -O <file>)*
     if (my @all_files = ((map { ("-O", $_ ) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
-	system "/usr/bin/curl", "-R", @all_files;
+	print STDERR join " ", "/usr/bin/curl", "-R", "-f", @all_files;
+	system "/usr/bin/curl", "-R", "-f", @all_files;
 	$? == 0 or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
     }
 }
@@ -634,6 +635,8 @@ sub update_media {
 		    $medium->{with_hdlist} = "./synthesis.hdlist$suffix.cz";
 		} elsif (defined $suffix && !$suffix && -s "$dir/synthesis.hdlist1.cz" > 32) {
 		    $medium->{with_hdlist} = "./synthesis.hdlist1.cz";
+		} elsif (defined $suffix && !$suffix && -s "$dir/synthesis.hdlist2.cz" > 32) {
+		    $medium->{with_hdlist} = "./synthesis.hdlist2.cz";
 		} elsif (-s "$dir/../synthesis.hdlist$suffix.cz" > 32) {
 		    $medium->{with_hdlist} = "../synthesis.hdlist$suffix.cz";
 		} elsif (defined $suffix && !$suffix && -s "$dir/../synthesis.hdlist1.cz" > 32) {
@@ -700,7 +703,7 @@ sub update_media {
 		}
 	    }
 	} else {
-	    my $basename = ($medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1) || $medium->{with_hdlist};
+	    my $basename;
 
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{cachedir}/partial/descriptions";
@@ -718,24 +721,52 @@ sub update_media {
 		  system("mv", "$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
 	    }
 
-	    #- try to sync (copy if needed) local copy after restored the previous one.
-	    unlink "$urpm->{cachedir}/partial/$basename";
-	    if ($medium->{synthesis}) {
-		$options{force} || ! -e "$urpm->{statedir}/synthesis.$medium->{hdlist}" or
-		  system("cp", "-a", "$urpm->{statedir}/synthesis.$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+	    #- try to probe for possible with_hdlist parameter, unless
+	    #- it is already defined (and valid).
+	    $urpm->{log}(_("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
+	    if ($options{probe_with_hdlist}) {
+		my ($suffix) = $dir =~ /RPMS([^\/]*)\/*$/;
+
+		foreach ($medium->{with_hdlist} ? ($medium->{with_hdlist}) : (),
+			 "synthesis.hdlist.cz", "synthesis.hdlist$suffix.cz",
+			 !$suffix ? ("synthesis.hdlist1.cz", "synthesis.hdlist2.cz") : (),
+			 "../synthesis.hdlist$suffix.cz", !$suffix ? ("../synthesis.hdlist1.cz") : (),
+			 "../base/hdlist$suffix.cz", !$suffix ? ("../base/hdlist1.cz") : (),
+			) {
+		    $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+
+		    unlink "$urpm->{cachedir}/partial/$basename";
+		    eval {
+			$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$_");
+		    };
+		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
+			$medium->{with_hdlist} = $_;
+			last; #- found a suitable with_hdlist in the list above.
+		    }
+		}
 	    } else {
-		$options{force} || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
-		  system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+		$basename = ($medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1) || $medium->{with_hdlist};
+
+		#- try to sync (copy if needed) local copy after restored the previous one.
+		unlink "$urpm->{cachedir}/partial/$basename";
+		if ($medium->{synthesis}) {
+		    $options{force} || ! -e "$urpm->{statedir}/synthesis.$medium->{hdlist}" or
+		      system("cp", "-a", "$urpm->{statedir}/synthesis.$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+		} else {
+		    $options{force} || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
+		      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+		}
+		eval {
+		    $urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
+		};
+		if ($@) {
+		    $urpm->{log}(_("...retrieving failed: %s", $@));
+		    unlink "$urpm->{cachedir}/partial/$basename";
+		}
 	    }
-	    eval {
-		$urpm->{log}(_("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
-		$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
+	    if (-s "$urpm->{cachedir}/partial/$basename" > 32) {
 		$urpm->{log}(_("...retrieving done"));
-	    };
-	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
-	    -s "$urpm->{cachedir}/partial/$basename" > 32 or
-	      $error = 1, $urpm->{error}(_("retrieve of [%s] failed", "<source_url>/$medium->{with_hdlist}"));
-	    unless ($error) {
+
 		unless ($options{force}) {
 		    my @sstat = stat "$urpm->{cachedir}/partial/$basename";
 		    my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
@@ -748,8 +779,10 @@ sub update_media {
 		}
 
 		#- the file are different, update local copy.
-		rename("$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}") or
-		  system("mv", "$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}");
+		rename("$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}");
+	    } else {
+		$error = 1;
+		$urpm->{error}(_("retrieve of source hdlist (or synthesis) failed"));
 	    }
 	}
 
@@ -1326,6 +1359,9 @@ sub filter_packages_to_upgrade {
     my ($urpm, $packages, $select_choices, %options) = @_;
     my ($db, @packages) = (rpmtools::db_open(''), keys %$packages);
     my ($id, %installed, %selected);
+    my $sig_handler = sub { rpmtools::db_close($db) };
+    local $SIG{INT} = $sig_handler;
+    local $SIG{QUIT} = $sig_handler;
 
     #- at this level, compute global closure of what is requested, regardless of
     #- choices for which all package in the choices are taken and their dependencies.
@@ -1770,6 +1806,9 @@ sub extract_packages_to_install {
 sub select_packages_to_upgrade {
     my ($urpm, $prefix, $packages, $remove_packages, $keep_files, %options) = @_;
     my $db = rpmtools::db_open($prefix);
+    my $sig_handler = sub { rpmtools::db_close($db) };
+    local $SIG{INT} = $sig_handler;
+    local $SIG{QUIT} = $sig_handler;
 
     #- used for package that are not correctly updated.
     #- should only be used when nothing else can be done correctly.

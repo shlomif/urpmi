@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.1
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -142,6 +142,17 @@ fi
 
 
 %changelog
+* Thu Dec 20 2001 François Pons <fpons@mandrakesoft.com> 3.1-4mdk
+- make sure curl fail if http url does not exists.
+- added probe for http or ftp hdlist or synthesis when adding
+  a medium (-h).
+- added probe for synthesis.hdlist2.cz (contrib medium).
+- added signal handler when opening rpm database to make sure
+  it will be closed on SIGINT or SIGQUIT.
+- urpmi use -p by default.
+- allow urpmq to download rpm with http or ftp protocol when
+  invoked with --headers (fix rpminst behaviour).
+
 * Mon Dec 17 2001 François Pons <fpons@mandrakesoft.com> 3.1-3mdk
 - fixed choice listing.
 - somewhat fixed -p kernel.
