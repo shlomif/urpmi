@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2002-09-05 13:26+0200\n"
-"PO-Revision-Date: 2002-08-18 12:09-0200\n"
+"POT-Creation-Date: 2002-09-05 21:39+0200\n"
+"PO-Revision-Date: 2002-09-05 16:07-0200\n"
 "Last-Translator: Jeferson Lopes Zacco aka Wooky <wooky_linuxer@ig.com.br>\n"
 "Language-Team: Brazilian Portughese <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgstr "%s: comando não encontrado\n"
 #: ../urpm.pm_.c:177
 #, c-format
 msgid "Unknown webfetch `%s' !!!\n"
-msgstr ""
+msgstr "Webfetch desconhecido`%s' !!!\n"
 
 #: ../urpm.pm_.c:196
 #, c-format
@@ -222,9 +222,9 @@ msgid "write config file [%s]"
 msgstr "Escreve o arquivo config [%s]"
 
 #: ../urpm.pm_.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "Incapaz de acessar arquivo rpm [%s]"
+msgstr "incapaz de processar \"%s\" no arquivo [%s]"
 
 #: ../urpm.pm_.c:555
 #, fuzzy, c-format
@@ -239,16 +239,16 @@ msgstr "Encontrada hdlist sondada (ou síntese) as %s"
 #: ../urpm.pm_.c:569
 #, c-format
 msgid "using associated media for parallel mode : %s"
-msgstr ""
+msgstr "usando a mídia associada para o modo em paralelo : %s"
 
 #: ../urpm.pm_.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "incapaz de atualizar mídia \"%s\"\n"
+msgstr "incapaz de usar opção paralela \"%s\""
 
 #: ../urpm.pm_.c:583
 msgid "--synthesis cannot be used with --media, --update or --parallel"
-msgstr ""
+msgstr "--synthesis não pode ser usada com --media, --update ou --parallel"
 
 #: ../urpm.pm_.c:598 ../urpm.pm_.c:1138 ../urpm.pm_.c:1153 ../urpm.pm_.c:1283
 #, c-format
@@ -374,12 +374,12 @@ msgid "copying source list of \"%s\"..."
 msgstr "Copiando a lista fonte de \"%s\"..."
 
 #: ../urpm.pm_.c:979
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
 msgstr "lendo arquivos rpms de [%s]"
 
 #: ../urpm.pm_.c:998
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "não consegui ler arquivos rpm de: [%s]: %s"
 
@@ -544,7 +544,6 @@ msgid "malformed input: [%s]"
 msgstr "Entrada mal construída: [%s]"
 
 #: ../urpm.pm_.c:1924
-#, fuzzy
 msgid "retrieving rpm files..."
 msgstr "Adquirindo arquivos rpm"
 
@@ -574,17 +573,17 @@ msgstr "%s conflita com %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:79 ../urpm/parallel_ka_run.pm_.c:112
 msgid "rshp failed"
-msgstr ""
+msgstr "rshp falhou"
 
 #: ../urpm/parallel_ka_run.pm_.c:116 ../urpm/parallel_ssh.pm_.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "Instalação falhou"
+msgstr "Instalação falhou no nódulo %s"
 
 #: ../urpm/parallel_ssh.pm_.c:81
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "servidor %s não tem uma versão compatível do urpmi"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
@@ -599,9 +598,8 @@ msgid "unknown package "
 msgstr "Pacote desconhecido."
 
 #: ../urpme_.c:111
-#, fuzzy
 msgid "unknown packages "
-msgstr "Pacote desconhecido."
+msgstr "Pacotes desconhecidos."
 
 #: ../urpme_.c:134
 #, c-format
@@ -841,6 +839,7 @@ msgstr "  --mídia        - use somente a mídia listada em aspas.\n"
 #: ../urpmi_.c:75 ../urpmq_.c:53
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr ""
+"  --synthesis    - usa a síntese dada ao invés do banco de dados urpmi.\n"
 
 #: ../urpmi_.c:76
 msgid "  --auto         - automatically select a package in choices.\n"
@@ -863,9 +862,8 @@ msgstr ""
 "  --src          - o próximo pacote é um pacote fonte (o mesmo que -s).\n"
 
 #: ../urpmi_.c:80
-#, fuzzy
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --noclean      - mantém o rpm não usado no cache.\n"
+msgstr "  --clean      - remove o rpm do cache antes de iniciar.\n"
 
 #: ../urpmi_.c:81
 msgid "  --noclean      - keep rpm not used in cache.\n"
@@ -894,10 +892,9 @@ msgstr ""
 
 #: ../urpmi_.c:87 ../urpmq_.c:64
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
-msgstr ""
+msgstr "  --parallel     - urpmi distribuído .\n"
 
 #: ../urpmi_.c:94
-#, fuzzy
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
@@ -906,7 +903,6 @@ msgstr ""
 "próximo argumento.\n"
 
 #: ../urpmi_.c:96
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
@@ -927,16 +923,18 @@ msgstr ""
 "                   X ou modo texto.\n"
 
 #: ../urpmi_.c:101
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr "..--verify-rpm   - verifica a assinatura do rpm antes da instalação.\n"
+msgstr ""
+"..--verify-rpm   - verifica a assinatura do rpm antes da instalação.\n"
+"                   (--no-verify-rpm desabilita; por padrão é habilitado).\n"
 
 #: ../urpmi_.c:103
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+"  --test         - verifica se a instalação pode ser efetuada corretamente.\n"
 
 #: ../urpmi_.c:104
 msgid "  -a             - select all matches on command line.\n"
@@ -1049,7 +1047,7 @@ msgstr ""
 "Você precisa ser root para instalar as seguintes dependências :\n"
 "%s\n"
 
-#: ../urpmi_.c:442 ../urpmq_.c:218
+#: ../urpmi_.c:442 ../urpmq_.c:220
 msgid "unable to get source packages, aborting"
 msgstr "incapaz de obter a pacotes fonte, abortando"
 
@@ -1079,9 +1077,9 @@ msgstr ""
 "Você deve atualizar a sua base de dados urpmi"
 
 #: ../urpmi_.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s\n"
-msgstr "instalando %s\n"
+msgstr "distribuindo %s\n"
 
 #: ../urpmi_.c:542
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1092,9 +1090,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Tentar instalar com ainda mais força (--force)? (s/N) "
 
 #: ../urpmi_.c:560
-#, fuzzy
 msgid "Installation is possible"
-msgstr "Instalação falhou"
+msgstr "Instalação é possível"
 
 #: ../urpmi_.c:566
 msgid "everything already installed"
@@ -1158,14 +1155,13 @@ msgid "  --list         - list available packages.\n"
 msgstr "  --list           - lista os pacotes disponíveis.\n"
 
 #: ../urpmq_.c:57
-#, fuzzy
 msgid "  --list-media   - list available media.\n"
-msgstr "  --list           - lista os pacotes disponíveis.\n"
+msgstr "  --list-media   - lista as mídias disponíveis\n"
 
 #: ../urpmq_.c:58
-#, fuzzy
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr "  --list           - lista os pacotes disponíveis.\n"
+msgstr ""
+"  --list-nodes   - lista os nódulos disponíveis quando  --parallel é usada.\n"
 
 #: ../urpmq_.c:60
 msgid ""
@@ -1187,16 +1183,6 @@ msgstr ""
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "Nomes ou arquivos rpm dados na linha de comando são consultados \n"
 
-#: ../urpmq_.c:130
-#, c-format
-msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
-msgstr "urpmq: opção desconhecida \"-%s\", cheque a utilização com --help\n"
-
-#: ../urpmq_.c:133
-#, c-format
-msgid "urpmq: cannot read rpm file \"%s\"\n"
-msgstr "urpmq: não posso ler arquivo rpm\"%s\"\n"
-
 #: placeholder.h:18
 #, c-format
 msgid "urpmf version %s"
@@ -1215,7 +1201,6 @@ msgstr ""
 "Pública Geral (GPL), do GNU."
 
 #: placeholder.h:21 placeholder.h:38
-#, fuzzy
 msgid "usage: urpmf [options] <file>"
 msgstr "utilização: urpmf [opções] <arquivo>"
 
@@ -1309,276 +1294,11 @@ msgstr "Tente urpmf --help para mais opções"
 msgid "no full media list was found"
 msgstr "Nenhuma lista completa de mídia foi encontrada"
 
-#, fuzzy
-#~ msgid "mismatch version for registering rpm file"
-#~ msgstr "Não consegui registrar o arquivo rpm"
-
-#, fuzzy
-#~ msgid ""
-#~ "unable to use name \"%s\" for unamed medium because it is already used"
-#~ msgstr ""
-#~ "Não consegui usar nome \"%s\" para mídia não-nomeada, porque já está em "
-#~ "uso."
-
-#, fuzzy
-#~ msgid "read provides file [%s]"
-#~ msgstr "Ler arquivo síntese [%s]"
-
-#, fuzzy
-#~ msgid "trying to remove inexistant medium \"%s\""
-#~ msgstr "Tentando selecionar mídia inexistente \"%s\""
-
-#, fuzzy
-#~ msgid "unable to copy source of [%s] from [%s]"
-#~ msgstr "não consegui ler arquivos rpm de: [%s]: %s"
-
-#, fuzzy
-#~ msgid "unable to write compss file [%s]"
-#~ msgstr "Não consegui escrever arquivo config [%s]"
-
-#~ msgid "unable to build synthesis file for medium \"%s\""
-#~ msgstr "Não consegui construir arquivo síntese para a mídia \"%s\""
-
-#, fuzzy
-#~ msgid "unable to read provides file [%s]"
-#~ msgstr "Não consegui escrever arquivo config [%s]"
-
-#~ msgid "avoid selecting %s as its locales language is not already selected"
-#~ msgstr ""
-#~ "Evite selecionar %s enquanto suas línguas locais ainda não estejam "
-#~ "selecionadas."
-
-#, fuzzy
-#~ msgid ", mismatch version %s"
-#~ msgstr "urpmi versão %s"
-
-#, fuzzy
-#~ msgid "retrieving [%s]"
-#~ msgstr "Aquisição falhou: %s"
-
-#, fuzzy
-#~ msgid "wget of [%s] failed"
-#~ msgstr "cópia de [%s] falhou"
-
-#, fuzzy
-#~ msgid "unable to parse correctly %s"
-#~ msgstr "incapaz de atualizar mídia corretamente \"%s\""
-
-#, fuzzy
-#~ msgid "unable to read compss file [%s]"
-#~ msgstr "Não consegui escrever arquivo config [%s]"
-
-#, fuzzy
-#~ msgid "write provides file [%s]"
-#~ msgstr "Escreve o arquivo config [%s]"
-
-#, fuzzy
-#~ msgid "medium \"%s\" try to use an already used list, medium ignored"
-#~ msgstr "mídia \"%s\" tentou usar uma lista já usada, mídia ignorada."
-
-#, fuzzy
-#~ msgid "reading hdlist file [%s]"
-#~ msgstr "Examinando arquivo hdlist [%s]"
-
-#, fuzzy
-#~ msgid "write compss file [%s]"
-#~ msgstr "Escreve o arquivo config [%s]"
-
-#, fuzzy
-#~ msgid "read depslist file [%s]"
-#~ msgstr "Ler arquivo síntese [%s]"
-
-#, fuzzy
-#~ msgid "trying to select inexistant medium \"%s\""
-#~ msgstr "Tentando selecionar mídia inexistente \"%s\""
-
-#, fuzzy
-#~ msgid "medium \"%s\" try to use an already used hdlist, medium ignored"
-#~ msgstr "Mídia \"%s\" tentou usar uma hdlist já usada, mídia ignorada."
-
-#, fuzzy
-#~ msgid "unable to write provides file [%s]"
-#~ msgstr "Não consegui escrever arquivo config [%s]"
-
-#, fuzzy
-#~ msgid "keeping only provides files"
-#~ msgstr "Mantendo somente arquivos referidos em 'provides'"
-
-#, fuzzy
-#~ msgid "unable to find all synthesis file, using parsehdlist server"
-#~ msgstr ""
-#~ "Não consegui construir o arquivo hdlist, usando o método parsehdlist"
-
-#, fuzzy
-#~ msgid "unable to read depslist file [%s]"
-#~ msgstr "Incapaz de atualizar arquivo hdlist  de \"%s\""
-
-#, fuzzy
-#~ msgid "removable medium not selected"
-#~ msgstr "Mídia \"%s\" não está selecionada"
-
-#, fuzzy
-#~ msgid "read compss file [%s]"
-#~ msgstr "Ler arquivo síntese [%s]"
-
-#~ msgid "unable to build hdlist: %s"
-#~ msgstr "Incapaz de construir hdlist: %s"
-
-#, fuzzy
-#~ msgid "write depslist file [%s]"
-#~ msgstr "Escreve o arquivo config [%s]"
-
-#~ msgid "unknown data associated with %s"
-#~ msgstr "Dados desconhecidos associados com %s"
-
-#, fuzzy
-#~ msgid "package %s is not found%s."
-#~ msgstr "Pacote  %s não encontrado."
-
-#~ msgid "avoid selecting %s as not enough files will be updated"
-#~ msgstr "Evite selecionar %s porque nem todos os arquivos serão atualizados"
-
-#, fuzzy
-#~ msgid "unable to write depslist file [%s]"
-#~ msgstr "incapaz de criar mídia \"%s\""
-
-#, fuzzy
-#~ msgid "mismatch release for registering rpm file"
-#~ msgstr "Não consegui registrar o arquivo rpm"
-
-#~ msgid "selecting %s using obsoletes"
-#~ msgstr "selecionando %s usando obsoletos"
-
-#~ msgid "selecting %s by selection on files"
-#~ msgstr "Selecionando %s por seleção de arquivos"
-
-#, fuzzy
-#~ msgid "Press enter when it's done..."
-#~ msgstr "Aperte enter quando estiver pronto..."
-
-#, fuzzy
-#~ msgid "Only superuser is allowed to install local packages"
-#~ msgstr "Apenas um super-usuário tem permissão para instalar pacotes"
-
-#~ msgid "Is it ok?"
+#~ msgid "Is it OK?"
 #~ msgstr "Tudo bem?"
 
-#, fuzzy
-#~ msgid ""
-#~ "usage: urpmi.addmedia <name> <url>\n"
-#~ "where <url> is one of\n"
-#~ "       file://<path>\n"
-#~ "       ftp://<login>:<password>@<host>/<path> with <relative filename of "
-#~ "hdlist>\n"
-#~ "       ftp://<host>/<path> with <relative filename of hdlist>\n"
-#~ "       http://<host>/<path> with <relative filename of hdlist>\n"
-#~ "       removable_<device>://<path>\n"
-#~ msgstr ""
-#~ "uso: urpmi.addmedia [opções] <nome> <url> [with <caminho_relativo>]\n"
-#~ "onde <url> é uma de\n"
-#~ "       file://<caminho>\n"
-#~ "       ftp://<login>:<senha>@<host>/<caminho> with <nome relativo de "
-#~ "hdlist>\n"
-#~ "       ftp://<host>/<path> with <nome relativo de hdlist>\n"
-#~ "       http://<host>/<path> with <nome relativo de hdlist>\n"
-#~ "       removable://<caminho>\n"
-#~ "\n"
-#~ "e [opções] sõa de\n"
+#~ msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
+#~ msgstr "urpmq: opção desconhecida \"-%s\", cheque a utilização com --help\n"
 
-#, fuzzy
-#~ msgid ""
-#~ "usage: urpmi.removemedia [-a] <name> ...\n"
-#~ "where <name> is a medium name to remove.\n"
-#~ "   -a    select all media.\n"
-#~ "\n"
-#~ "unknown options '%s'\n"
-#~ msgstr ""
-#~ "uso: urpmi.removemedia [-a] <nome> ...\n"
-#~ "onde <nome> é um nome de mídia para remover.\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "some package have to be removed for being upgraded, this is not supported "
-#~ "yet\n"
-#~ msgstr ""
-#~ "alguns pacotes devem ser removidos para serem atualizados, isso ainda não "
-#~ "é suportado\n"
-
-#~ msgid "unknown package(s) "
-#~ msgstr "Pacotes desconhecidos."
-
-#~ msgid "examining whole urpmi database"
-#~ msgstr "Examinando a base de dados urpmi inteira."
-
-#~ msgid "  -y             - impose fuzzy search.\n"
-#~ msgstr "  -y             - impõe uma busca difusa.\n"
-
-#~ msgid ""
-#~ "  --auto-select  - automatically select packages for upgrading the "
-#~ "system.\n"
-#~ msgstr ""
-#~ "  --auto-seleção  - automaticamente seleciona pacotes para atualizar o "
-#~ "sistema.\n"
-
-#~ msgid "trying to select multiple media: %s"
-#~ msgstr "Tentando selecionar múltiplas mídias: %s"
-
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr "Mídia \"%s\" tentou usar uma hdlist já usada, mídia ignorada."
-
-#~ msgid "problem reading hdlist file, trying again"
-#~ msgstr "Problema lendo hdlist, tentando de novo."
-
-#~ msgid ""
-#~ "  -u             - remove package if a better version is already "
-#~ "installed.\n"
-#~ msgstr ""
-#~ "  -u             - remove um pacote se uma versão mais atual estiver "
-#~ "instalada.\n"
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr "mídia \"%s\" tentou usar uma lista já usada, mídia ignorada."
-
-#~ msgid "  -g             - print groups too with name.\n"
-#~ msgstr "  -g             - imprime grupos também, com nome.\n"
-
-#~ msgid "  -r             - print version and release too with name.\n"
-#~ msgstr "  -r             - imprime versão e release também, com nome.\n"
-
-#~ msgid "  --auto         - automatically select a good package in choices.\n"
-#~ msgstr ""
-#~ "  --auto         - automaticamente seleciona um bom pacote, em escolhas.\n"
-
-#~ msgid "unable to parse correctly [%s] on value \"%s\""
-#~ msgstr "Não consegui atualizar corretamente [%s] o valor \"%s\""
-
-#~ msgid "<non printable chars>"
-#~ msgstr "<caracteres não imprimíveis>"
-
-#~ msgid "trying to select multiple medium: %s"
-#~ msgstr "Tentando selecionar múltiplas mídias: %s"
-
-#~ msgid "  --complete     - use parsehdlist server to complete selection.\n"
-#~ msgstr ""
-#~ "  --complete     - use o servidor parsehdlist para completar a seleção.\n"
-
-#~ msgid "unable to analyse synthesis data of %s"
-#~ msgstr "Incapaz de analisar dados de síntese para %s"
-
-#~ msgid "Copyright (C) 1999,2000,2001 MandrakeSoft."
-#~ msgstr "Copyright (C) 1999,2000,2001 MandrakeSoft."
-
-#~ msgid "bad proxy declaration on command line\n"
-#~ msgstr "declaração errada de proxy na linha de comando\n"
-
-#~ msgid "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]"
-#~ msgstr "uso: urpmi.addmedia [opções] <nome> <url> [com <caminho_relativo>]"
-
-#~ msgid "usage: urpmi.removemedia [-a] <name> ..."
-#~ msgstr "utilização: urpmi.removemedia [-a] <nome> ..."
-
-#~ msgid "usage: urpmi.update [options] <name> ..."
-#~ msgstr "uso: urpmi.update [opções] <nome> ..."
-
-#~ msgid "urpmq version %s"
-#~ msgstr "urpmq versão %s"
+#~ msgid "urpmq: cannot read rpm file \"%s\"\n"
+#~ msgstr "urpmq: não posso ler arquivo rpm\"%s\"\n"
