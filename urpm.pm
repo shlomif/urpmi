@@ -2546,7 +2546,8 @@ sub copy_packages_of_removable_media {
 				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
 				#- now we can consider the file to be fine.
 				unlink "$urpm->{cachedir}/rpms/$filename";
-				rename "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename";
+				rename("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename") or
+				  system("mv", "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
 				-r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 			    }
 			} else {
@@ -2667,7 +2668,8 @@ sub download_packages_of_distant_media {
 		    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
 		    #- it seems the the file has been downloaded correctly and has been checked to be valid.
 		    unlink "$urpm->{cachedir}/rpms/$filename";
-		    rename "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename";
+		    rename("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename") or
+		      system("mv", "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
 		    -r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 		}
 		unless ($sources->{$i}) {
