@@ -62,6 +62,8 @@ my @src_names;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 ($<, $uid) = ($>, $<);
+$ENV{HOME} ||= "/root";
+$ENV{USER} ||= "root";
     
 sub usage {
     print STDERR _("urpmi version %s
@@ -420,7 +422,7 @@ if ($env) {
 if (@root_only) {
     print STDERR _("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
-} elsif (!$auto && $ask_user) {
+} elsif (!$auto && ($ask_user || $X) && @to_install) {
     my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
     my $msg2 = _("Is this OK?");
     my $p = join "\n", @to_install;
@@ -502,13 +504,13 @@ if (%sources_install || %sources) {
     }
 
     if ($parallel) {
-	message(_("distributing %s\n", join(' ', values %sources_install, values %sources)));
+	message(_("distributing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	#- no remove are handle here, automatically done by each distant node.
 	$urpm->{log}("starting distributed install");
 	$urpm->parallel_install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 				test => $test);
     } else {
-	message(_("installing %s\n", join(' ', values %sources_install, values %sources)));
+	message(_("installing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
 	$urpm->{log}("starting installing packages");
 	if ($uid > 0) {

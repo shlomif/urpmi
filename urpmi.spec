@@ -205,6 +205,7 @@ fi
 * Thu Sep 12 2002 François Pons <fpons@mandrakesoft.com> 4.0-17mdk
 - fixed possible no clean of distributed module.
 - added apache2-conf to skip.list by default.
+- fixed gurpmi usability.
 
 * Wed Sep 11 2002 François Pons <fpons@mandrakesoft.com> 4.0-16mdk
 - improved ka-run distributed module to copy all files with one
