@@ -1,6 +1,6 @@
-#!/usr/bin/perl -T
+#!/usr/bin/perl
 
-#- Copyright (C) 1999 MandrakeSoft (pixel@linux-mandrake.com)
+#- Copyright (C) 1999,2001 MandrakeSoft (pixel@linux-mandrake.com)
 #-
 #- This program is free software; you can redistribute it and/or modify
 #- it under the terms of the GNU General Public License as published by
@@ -18,15 +18,9 @@
 
 #use strict qw(subs vars refs);
 use urpm;
-# for i18n
-use POSIX;
-use Locale::GetText;
 
-setlocale (LC_ALL, "");
-Locale::GetText::textdomain ("urpmi");
-
-import Locale::GetText I_;
-*_ = *I_;
+#- get I18N translation method.
+import urpm _;
 
 #- default options.
 my $auto = 0;
@@ -44,16 +38,12 @@ my $uid;
 my @files;
 my @names;
 
-#my %I18N;
-#load_po();
-
-$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
-delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
-($<, $uid) = ($>, $<);
+#$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
+#delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
+#($<, $uid) = ($>, $<);
     
 sub usage {
-    #die(_("usage: urpmi [-h] [--auto] [--force] [-a] [-v] package_name|rpm_file [package_names|rpm_files...]\n"));
-    die( sprintf (_("urpmi version %s
+    print STDERR _("urpmi version %s
 Copyright (C) 1999, 2000, 2001 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
@@ -73,7 +63,8 @@ usage:
   -v               - verbose mode.
 
   names or rpm files (only for root) given on command line are installed.
-"), $urpm::VERSION));
+", $urpm::VERSION);
+    exit(0);
 }
 
 #- parse arguments list.
@@ -143,7 +134,7 @@ $verbose or $urpm->{log} = sub {};
 $urpm->read_depslist;
 
 if (@files) {
-    $uid == 0 or die _("Only superuser is allowed to install local packages");
+    $uid == 0 or $urpm->fatal(1, _("Only superuser is allowed to install local packages"));
 
     #- sanity check of pathname.
     m|^/| or $_ = "./$_" foreach @files;
@@ -185,7 +176,7 @@ my $ask_choice = sub {
 	    print SAVEOUT "$msg\n";
 	    my $i = 0; foreach (@l) { print SAVEOUT " ", ++$i, "- $_\n"; }
 	    while (1) {
-		printf SAVEOUT sprintf(_("What is your choice? (1-%d) "), $i);
+		printf SAVEOUT _("What is your choice? (1-%d) ", $i);
 		$n = <STDIN>;
 		1 <= $n && $n <= $i and last;
 		print SAVEOUT _("Sorry, bad choice, try again\n");
@@ -233,7 +224,7 @@ foreach (keys %packages) {
 }
 if (!$auto) {
     if ($ask_user) {
-	my $msg = sprintf(_("To satisfy dependencies, the following packages are going to be installed (%d MB)"), toMb($sum));
+	my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
 	my $msg2 = _("Is it ok?");
 	if ($X) {
 	    my $p = join "\n", @to_install;
@@ -254,8 +245,7 @@ $urpm->read_config;
 
 my ($local_sources, $list, $local_to_removes) = $urpm->get_source_packages(\%packages);
 unless ($local_sources || $list) {
-    die("unable to get source packages, aborting");
-    exit 1;
+    $urpm->{fatal}(3, _("unable to get source packages, aborting"));
 }
 #- clean cache with file that are not necessary with this transaction.
 #- TODO check not another urpmi is doing the same...
@@ -265,7 +255,7 @@ foreach (@$local_to_removes) {
 
 my @sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'), sub {
 						$auto and return; #- always refuse if automatic.
-						my $msg = sprintf(_("Please insert the medium named \"%s\" on device [%s]"), @_);
+						my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						my $msg2 = _("Press enter when it's done...");
 						if ($X) {
 						    my $ok = _("Ok");
@@ -291,15 +281,15 @@ close STDOUT;
 sub install {
     @_ or return;
 	
-    printf SAVEOUT sprintf(_("installing %s\n"), join(' ', @_));
+    printf SAVEOUT _("installing %s\n", join(' ', @_));
     log_it(scalar localtime, " @_\n");
     $urpm->{log}("starting installing packages");
     system($X ? ("grpmi", $WID ? ("--WID=$WID") : ()) : ("rpm", $rpm_opt), @_);
     if ($?) {
 	message(_("Installation failed"));
-	$X and exit(($? >> 8) || 1); #- grpmi handles --nodeps and --force by itself, forward grpmi error.
+	$X and exit(($? >> 8) + 32); #- grpmi handles --nodeps and --force by itself, forward grpmi error + 32
 
-	m|^/| && !-e $_ and exit 1 foreach @_; #- missing local file
+	m|^/| && !-e $_ and exit 2 foreach @_; #- missing local file
 
 	$noexpr = _("Nn");
 	$yesexpr = _("Yy");
@@ -328,14 +318,6 @@ sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : print SAVEOUT "$
 
 sub message_auto { $auto ? print SAVEOUT "$_[0]\n" : message($_[0]); }
 
-#sub _ {
-#    my $s = shift @_; my $t = translate($s);
-#    $t && ref $t or return sprintf $t, @_;
-#    my ($T, @p) = @$t;
-#    sprintf $T, @_[@p];
-#}
-#sub translate { $I18N{$_[0]} || $_[0]; }
-
 sub log_it {
     local *LOG;
     open LOG, ">>/var/log/urpmi.log" or die "can't ouptput to log file\n";
@@ -350,33 +332,3 @@ sub untaint {
     }
     @r == 1 ? $r[0] : @r
 }
-
-sub load_po {
-    my ($from, $to, $state, $fuzzy);
-
-    my $lang = $ENV{LANGUAGE} || $ENV{LC_ALL} || $ENV{LC_MESSAGES} || $ENV{LANG};
-    my $f; -e ($f = "/usr/share/locale/$_/LC_MESSAGES/urpmi.po") and last foreach split ':', $lang;
-
-    local *F; open F, $f or return;
-    foreach (<F>) {
-	/^msgstr/ and $state = 1;
-	/^msgid/  && !$fuzzy and $state = 2;
-
-	if (/^(#|$)/ && $state != 3) {
-	    $state = 3;
-            s/\\n/\n/g foreach $from, $to;
-
-	    if (my @l = $to =~ /%(\d+)\$/g) {
-		$to =~ s/%(\d+)\$/%/g;
-		$to = [ $to, map { $_ - 1 } @l ];
-	    }
-	    $I18N{$from} = $to if $from;
-	    $from = $to = '';
-	}
-	$to .= (/"(.*)"/)[0] if $state == 1;
-	$from .= (/"(.*)"/)[0] if $state == 2;
-
-	$fuzzy = /^#, fuzzy/;
-    }
-}
-
