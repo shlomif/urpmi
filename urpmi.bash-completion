@@ -77,6 +77,10 @@ _urpmi()
 			_urpmi_aliases
 			return 0
 			;;
+		--root)
+			_filedir -d
+			return 0
+			;;
 	esac
 
 	if [[ "$cur" == -* ]]; then
@@ -88,7 +92,7 @@ _urpmi()
 			--noclean --force --allow-nodeps --allow-force --parallel \
 			--wget --curl --limit-rate --proxy --proxy-user --bug \
 			--env --X --best-output --verify-rpm --no-verify-rpm \
-			--test --excludepath --excludedocs ' -- $cur ) )
+			--test --excludepath --excludedocs --root' -- $cur ) )
 	else
 		# return available packages (unless it is clearly a file) and rpm files
 		if [[ "$cur" != */* ]]; then

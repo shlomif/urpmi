@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.4.2
+%define version	4.4.3
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -236,6 +236,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Sat Jan 17 2004 Blin Olivier <olivier@blino.mds> 4.4.3-1mdk
+- fix --limit-rate in man pages (it's in bytes/sec)
+- support --root in bash_completion (Guillaume Rousse)
+
 * Thu Jan 15 2004 Olivier Blin <blino@mandrake.org> 4.4.2-1mdk
 - print updates description in urpmq -i when available
 - add auto and keep options in global config section
