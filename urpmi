@@ -388,7 +388,7 @@ $urpm->resolve_dependencies($state, \%requested,
 			    nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 			   );
 
-my @ask_unselect = $urpm->unselected_packages($state)
+my @ask_unselect = $urpm->unselected_packages($state);
 if (@ask_unselect) {
     unless ($auto) {
 	my $list = join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect);
