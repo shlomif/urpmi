@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 0.9
-Release: 38mdk
+Release: 39mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -17,6 +17,11 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %changelog
+* Wed Feb  9 2000 Pixel <pixel@mandrakesoft.com> 0.9-39mdk
+- now really handle multiple args
+- new option ``-a'' to install all the proposed packages
+- add ability to --nodeps and --force in case of install errors
+
 * Mon Jan 10 2000 Pixel <pixel@mandrakesoft.com>
 - bug fix from Brian J. Murrell
 
