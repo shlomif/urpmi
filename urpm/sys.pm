@@ -73,9 +73,10 @@ sub find_mntpoints {
     #- try to follow symlink, too complex symlink graph may not be seen.
     #- check the possible mount point.
     my @paths = split '/', $dir;
+    my $pdir = '';
     while (defined ($_ = shift @paths)) {
 	length($_) or next;
-	my $pdir .= "/$_";
+	$pdir .= "/$_";
 	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
 	if (exists($fstab{$pdir})) {
 	    ref($infos) and push @mntpoints, $pdir;
