@@ -486,15 +486,15 @@ if (%sources_install || %sources) {
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
 		message_input(_("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		  or exit 1;
+		    or exit 1;
 		$urpm->{log}("starting installing packages without deps");
-		@l = $urpm->install($root, \%sources_install, \%sources, nodeps => 1);
+		@l = $urpm->install($root, [ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources, nodeps => 1);
 		if (@l) {
 		    message(_("Installation failed") . ":\n" . join("\n", @l));
 		    message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		      or exit 1;
+			or exit 1;
 		    $urpm->{log}("starting force installing packages without deps");
-		    @l = $urpm->install($root, \%sources_install, \%sources, nodeps => 1, force => 1);
+		    @l = $urpm->install($root, [ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources, nodeps => 1, force => 1);
 		    @l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", @l));
 		}
 	    }

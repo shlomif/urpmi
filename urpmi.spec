@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.8
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Mon Jul 22 2002 François Pons <fpons@mandrakesoft.com> 3.8-2mdk
+- fixed no dependencies or forced install error.
+
 * Fri Jul 19 2002 François Pons <fpons@mandrakesoft.com> 3.8-1mdk
 - removing, installing and upgrading packages is done in only
   one transaction.
