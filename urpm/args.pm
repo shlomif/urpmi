@@ -37,9 +37,13 @@ my %options_spec = (
 	    if (defined &::usage) { ::usage() } else { die "No help defined\n" }
 	},
 	"no-locales" => sub {
-	    require urpm; # make sure it has been loaded
-	    undef *::N; undef *urpm::N;
-	    *::N = *urpm::N = sub { sprintf(@_) };
+	    require urpm::msg; # make sure it has been loaded
+	    undef *::N;
+	    undef *urpm::N;
+	    undef *urpm::msg::N;
+	    undef *urpm::args::N;
+	    *::N = *urpm::N = *urpm::msg::N = *urpm::args::N
+		= sub { my ($f, @p) = @_; sprintf($f, @p) };
 	},
 	update => \$::update,
 	'media|mediums=s' => \$::media,

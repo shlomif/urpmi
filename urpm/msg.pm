@@ -12,13 +12,16 @@ my $yesexpr = N("Yy");
 eval {
     require Locale::gettext;
     use POSIX qw(LC_ALL);
-    setlocale(LC_ALL, "");
+    POSIX::setlocale(LC_ALL, "");
     Locale::gettext::textdomain("urpmi");
 };
 
 sub N {
     my ($format, @params) = @_;
-    sprintf(eval { Locale::gettext::gettext($format || '') } || $format, @params);
+    sprintf(
+	eval { Locale::gettext::gettext($format || '') } || $format,
+	@params,
+    );
 }
 
 sub log_it {
