@@ -2,6 +2,7 @@ package urpm;
 
 use strict;
 use vars qw($VERSION @ISA);
+use Fcntl ':flock';
 
 $VERSION = '3.1';
 
@@ -593,6 +594,11 @@ sub update_media {
     #- avoid trashing existing configuration in this case.
     $urpm->{media} or return;
 
+    #- lock urpmi database.
+    local (*LOCK_FILE);
+    open LOCK_FILE, $urpm->{statedir};
+    flock LOCK_FILE, LOCK_EX|LOCK_NB or $urpm->{fatal}(7, _("urpmi database locked"));
+
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
     #- hdlist file else build it from rpms files.
@@ -664,7 +670,7 @@ sub update_media {
 		$urpm->{log}(_("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 		system("cp", "-a", "$with_hdlist_dir", "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
 		  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
-		
+
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
 		  $error = 1, $urpm->{error}(_("copy of [%s] failed", "$with_hdlist_dir"));
 
@@ -677,6 +683,18 @@ sub update_media {
 			$medium->{modified} = 0;
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			next;
+		    }
+		}
+
+		#- examine if a local list file is available (always probed according to with_hdlist
+		#- and check hdlist has not be named very strangely...
+		if ($medium->{hdlist} ne 'list') {
+		    unlink "$urpm->{cachedir}/partial/list";
+		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
+		    if (-s "$dir/$local_list") {
+			$urpm->{log}(_("copying source list of \"%s\"...", $medium->{name}));
+			system("cp", "-a", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
+			  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
 		    }
 		}
 	    } else {
@@ -780,6 +798,19 @@ sub update_media {
 
 		#- the file are different, update local copy.
 		rename("$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}");
+
+		#- retrieve of hdlist (or synthesis has been successfull, check if a list file is available.
+		#- and check hdlist has not be named very strangely...
+		if ($medium->{hdlist} ne 'list') {
+		    unlink "$urpm->{cachedir}/partial/list";
+		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
+		    eval {
+			$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$local_list");
+			$local_list ne 'list' and
+			  rename("$urpm->{cachedir}/partial/$local_list", "$urpm->{cachedir}/partial/list");
+		    };
+		    $@ and unlink "$urpm->{cachedir}/partial/list";
+		}
 	    } else {
 		$error = 1;
 		$urpm->{error}(_("retrieve of source hdlist (or synthesis) failed"));
@@ -801,6 +832,13 @@ sub update_media {
 		    /\/([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
 		    $list{"$prefix:/$_\n"} = ($urpm->{params}{names}{$1} || { id => 1000000000 })->{id};
 		}
+	    } elsif (-s "$urpm->{cachedir}/partial/list") {
+		local (*F, $_);
+		while (<F>) {
+		    /\/([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
+		    $list{"$medium->{url}/$_\n"} = ($urpm->{params}{names}{$1} || { id => 1000000000 })->{id};
+		}
+		close F;
 	    } else {
 		local (*F, $_);
 		unless ($medium->{synthesis}) {
@@ -949,6 +987,10 @@ sub update_media {
 
     #- now everything is finished.
     system("sync");
+
+    #- release lock on database.
+    flock LOCK_FILE, LOCK_UN;
+    close LOCK_FILE;
 }
 
 #- clean params and depslist computation zone.
