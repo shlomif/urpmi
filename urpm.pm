@@ -532,6 +532,51 @@ sub configure {
     my ($urpm, %options) = @_;
 
     $urpm->clean;
+
+    if ($options{parallel}) {
+	my ($parallel_options, $parallel_handler);
+	#- handle parallel configuration, examine all module available that
+	#- will handle the parallel mode (configuration is /etc/urpmi/parallel.cfg).
+	local ($_, *PARALLEL);
+	open PARALLEL, "/etc/urpmi/parallel.cfg";
+	while (<PARALLEL>) {
+	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	    /\s*([^:]*):(.*)/ or $urpm->{error}(_("unable to parse \"%s\" in file [%s]", $_, "/etc/urpmi/parallel.cfg")), next;
+	    $1 eq $options{parallel} and $parallel_options = ($parallel_options && "\n") . $2;
+	}
+	close PARALLEL;
+	#- if a configuration options has been found, use it else fatal error.
+	if ($parallel_options) {
+	    foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
+		local *DIR;
+		opendir DIR, $dir;
+		while ($_ = readdir DIR) {
+		    -f "$dir/$_" or next;
+		    $urpm->{log}->(_("examining parallel handler in file [%s]", "$dir/$_"));
+		    eval { require "$dir/$_"; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
+		    $parallel_handler and last;
+		}
+		closedir DIR;
+		$parallel_handler and last;
+	    }
+	}
+	if ($parallel_handler) {
+	    if ($parallel_handler->{nodes}) {
+		$urpm->{log}->(_("found parallel handler for nodes: %s", join(', ', keys %{$parallel_handler->{nodes}})));
+	    }
+	    if (!$options{media} && $parallel_handler->{media}) {
+		$options{media} = $parallel_handler->{media};
+		$urpm->{log}->(_("using associated media for parallel mode : %s", $options{media}));
+	    }
+	    $urpm->{parallel_handler} = $parallel_handler;
+	} else {
+	    $urpm->{fatal}(1, _("unable to use parallel option \"%s\"", $options{parallel}));
+	}
+    } else {
+	#- parallel is exclusive against root options.
+	$urpm->{root} = $options{root};
+    }
+
     if ($options{synthesis}) {
 	#- synthesis take precedence over media, update options.
 	$options{media} || $options{update} || $options{parallel} and
@@ -594,45 +639,6 @@ sub configure {
 			  $p->build_info(fileno *RPMDB, $files);
 		      });
 	close RPMDB;
-    }
-    if ($options{parallel}) {
-	my ($parallel_options, $parallel_handler);
-	#- handle parallel configuration, examine all module available that
-	#- will handle the parallel mode (configuration is /etc/urpmi/parallel.cfg).
-	local ($_, *PARALLEL);
-	open PARALLEL, "/etc/urpmi/parallel.cfg";
-	while (<PARALLEL>) {
-	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	    /\s*([^:]*):(.*)/ or $urpm->{error}(_("unable to parse \"%s\" in file [%s]", $_, "/etc/urpmi/parallel.cfg")), next;
-	    $1 eq $options{parallel} and $parallel_options = ($parallel_options && "\n") . $2;
-	}
-	close PARALLEL;
-	#- if a configuration options has been found, use it else fatal error.
-	if ($parallel_options) {
-	    foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
-		local *DIR;
-		opendir DIR, $dir;
-		while ($_ = readdir DIR) {
-		    -f "$dir/$_" or next;
-		    $urpm->{log}->(_("examining parallel handler in file [%s]", "$dir/$_"));
-		    eval { require "$dir/$_"; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
-		    $parallel_handler and last;
-		}
-		closedir DIR;
-		$parallel_handler and last;
-	    }
-	}
-	if ($parallel_handler) {
-	    if ($parallel_handler->{nodes}) {
-		$urpm->{log}->(_("found parallel handler for nodes: %s", join(', ', keys %{$parallel_handler->{nodes}})));
-	    }
-	    $urpm->{parallel_handler} = $parallel_handler;
-	} else {
-	    $urpm->{fatal}(1, _("unable to use parallel option \"%s\"", $options{parallel}));
-	}
-    } else {
-	#- parallel is exclusive against root options.
-	$urpm->{root} = $options{root};
     }
 }
 
@@ -1976,7 +1982,7 @@ sub install_logger {
 #- install packages according to each hashes (install or upgrade).
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
-    my $db = URPM::DB::open($urpm->{root}, 1); #- open in read/write mode.
+    my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
     my $trans = $db->create_transaction($urpm->{root});
     my @l;
     local *F;

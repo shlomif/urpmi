@@ -81,7 +81,7 @@ for (@ARGV) {
     /^--media$/ and do { push @nextargv, \$query->{media}; next };
     /^--mediums$/ and do { push @nextargv, \$query->{media}; next };
     /^--synthesis$/ and do { push @nextargv, \$query->{synthesis}; next };
-    /^--auto-select$/ and do { $query->{upgrade} = $query->{auto_select} = 1; next };
+    /^--auto-select$/ and do { $query->{deps} = $query->{upgrade} = $query->{auto_select} = 1; next };
     /^--fuzzy$/ and do { $query->{fuzzy} = 1; next };
     /^--list$/ and do { $query->{list} = 1; next };
     /^--src$/ and do { $query->{src} = 1; next };

@@ -77,29 +77,30 @@ sub parallel_install {
 	system "scp $sources $_:$urpm->{cachedir}/rpms";
     }
 
-    my (%good_nodes, $bad);
+    my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
 	local (*F, $_);
 	$urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
 	open F, "ssh $node urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
 	while ($_ = <F>) {
-	    chomp;
-	    /Installation is possible/ and $good_nodes{$node} = undef;
+	    $bad_nodes{$node} .= $_;
+	    /Installation failed/ and $bad_nodes{$node} = '';
+	    /Installation is possible/ and delete $bad_nodes{$node}, last;
 	}
 	close F;
     }
     foreach (keys %{$parallel->{nodes}}) {
-	exists $good_nodes{$_} and next;
-	$urpm->{error}(_("Installation failed on node %s", $_) . ":\n" . ""); #TODO
-	$bad = 1;
+	exists $bad_nodes{$_} or next;
+	$urpm->{error}(_("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
     }
-    unless ($bad) {
-	foreach my $node (keys %{$parallel->{nodes}}) {
-	    #- continue installation.
-	    $urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-	    system "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}";
-	}
+    %bad_nodes and return;
+
+    #- continue installation on each nodes.
+    foreach my $node (keys %{$parallel->{nodes}}) {
+	$urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
+	system "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}";
     }
+    1;
 }
 
 
@@ -109,10 +110,11 @@ sub handle_parallel_options {
     my ($urpm, $options) = @_;
     my ($id, @nodes) = split ':', $options;
 
-    if ($id eq 'ssh') {
+    if ($id =~ /^ssh(?:\(([^\)]*)\))?$/) {
 	my %nodes; @nodes{@nodes} = undef;
 
 	return bless {
+		      media   => $1,
 		      nodes   => \%nodes,
 		     }, "urpm::parallel_ssh";
     }

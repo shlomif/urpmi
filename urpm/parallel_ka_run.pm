@@ -75,26 +75,27 @@ sub parallel_install {
     }
 
     local (*F, $_);
-    my ($node, %good_nodes, $bad);
+    my ($node, %bad_nodes);
     $urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
     open F, "rshp -v $parallel->{options} -- urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
     while ($_ = <F>) {
 	chomp;
 	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
-	/Installation is possible/ and $good_nodes{$node} = undef;
+	$bad_nodes{$node} .= $_;
+	/Installation failed/ and $bad_nodes{$node} = '';
+	/Installation is possible/ and delete $bad_nodes{$node}, last;
     }
     close F or $urpm->{fatal}(1, _("rshp failed"));
 
     foreach (keys %{$parallel->{nodes}}) {
-	exists $good_nodes{$_} and next;
-	$urpm->{error}(_("Installation failed on node %s", $_) . ":\n" . ""); #TODO
-	$bad = 1;
+	exists $bad_nodes{$_} or next;
+	$urpm->{error}(_("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
     }
-    unless ($bad) {
-	#- continue installation.
-	$urpm->{log}("parallel_ka_run: rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-	system "rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}";
-    }
+    %bad_nodes and return;
+
+    #- continue installation.
+    $urpm->{log}("parallel_ka_run: rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
+    system "rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}" == 0;
 }
 
 
@@ -102,7 +103,7 @@ sub parallel_install {
 package urpm;
 sub handle_parallel_options {
     my ($urpm, $options) = @_;
-    my ($ka_run_options) = $options =~ /ka-run:(.*)/;
+    my ($media, $ka_run_options) = $options =~ /ka-run(?:\(([^\)]*)\))?:(.*)/;
 
     if ($ka_run_options) {
 	my ($flush_nodes, %nodes);
@@ -117,6 +118,7 @@ sub handle_parallel_options {
 	}
 
 	return bless {
+		      media   => $media,
 		      options => $ka_run_options,
 		      nodes   => \%nodes,
 		     }, "urpm::parallel_ka_run";
