@@ -630,6 +630,11 @@ sub configure {
 		    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
 		    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}",
 									     callback => $options{callback}) };
+		    unless (defined $_->{start} && defined $_->{end}) {
+			$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+			eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
+									      packing => 1, callback => $options{callback}) };
+		    }
 		}
 		unless (defined $_->{start} && defined $_->{end}) {
 		    $urpm->{error}(_("problem reading hdlist file of medium \"%s\"", $_->{name}));
@@ -641,8 +646,12 @@ sub configure {
 		    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}") };
 		}
 		unless (defined $_->{start} && defined $_->{end}) {
-		    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $_->{name}));
-		    $_->{ignore} = 1;
+		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+		    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
+		    unless (defined $_->{start} && defined $_->{end}) {
+			$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $_->{name}));
+			$_->{ignore} = 1;
+		    }
 		}
 	    }
 	}
@@ -900,11 +909,15 @@ sub update_media {
 	    #- a unresolved provides is found.
 	    #- to speed up the process, we only read the synthesis at the begining.
 	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-	    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 	    unless (defined $medium->{start} && defined $medium->{end}) {
-		#- this is almost a fatal error, ignore it by default?
-		$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-		$medium->{ignore} = 1;
+		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+		eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
+		unless (defined $medium->{start} && defined $medium->{end}) {
+		    #- this is almost a fatal error, ignore it by default?
+		    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+		    $medium->{ignore} = 1;
+		}
 	    }
 	    next;
 	}
@@ -999,10 +1012,16 @@ sub update_media {
 			#- as previously done, just read synthesis file here, this is enough, but only
 			#- if synthesis exists, else it need to be recomputed.
 			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+			eval { ($medium->{start}, $medium->{end}) =
+				 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 			unless (defined $medium->{start} && defined $medium->{end}) {
-			    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-			    $medium->{ignore} = 1;
+			    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+			    eval { ($_->{start}, $_->{end}) =
+				     $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
+			    unless (defined $medium->{start} && defined $medium->{end}) {
+				$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+				$medium->{ignore} = 1;
+			    }
 			}
 			next;
 		    }
@@ -1158,8 +1177,13 @@ sub update_media {
 			    eval { ($medium->{start}, $medium->{end}) =
 				     $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-				$medium->{ignore} = 1;
+				$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+				eval { ($_->{start}, $_->{end}) =
+					 $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
+				unless (defined $medium->{start} && defined $medium->{end}) {
+				    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+				    $medium->{ignore} = 1;
+				}
 			    }
 			    next;
 			}
@@ -1212,22 +1236,26 @@ sub update_media {
 		my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 		if (!$medium->{synthesis} || -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 262144) {
 		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-		    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
+		    eval { ($medium->{start}, $medium->{end}) =
+			     $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1) };
 		    if (defined $medium->{start} && defined $medium->{end}) {
 			delete $medium->{synthesis};
 		    } else {
 			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
+			eval { ($medium->{start}, $medium->{end}) =
+				 $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}") };
 			defined $medium->{start} && defined $medium->{end} and $medium->{synthesis} = 1;
 		    }
 		} else {
 		    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-		    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
+		    eval { ($medium->{start}, $medium->{end}) =
+			     $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}") };
 		    if (defined $medium->{start} && defined $medium->{end}) {
 			$medium->{synthesis} = 1;
 		    } else {
 			$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-			($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
+			eval { ($medium->{start}, $medium->{end}) =
+				 $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1) };
 			defined $medium->{start} && defined $medium->{end} and delete $medium->{synthesis};
 		    }
 		}
@@ -2093,7 +2121,11 @@ sub download_source_packages {
 		foreach (map { m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| ? "$1xxxx$2" : $_ } values %distant_sources) {
 		    $urpm->{log}("    $_") ;
 		}
-		$urpm->{sync}({dir => "$urpm->{cachedir}/rpms", quiet => 0, proxy => $urpm->{proxy}}, values %distant_sources);
+		$urpm->{sync}({ dir => "$urpm->{cachedir}/rpms",
+				quiet => 0,
+				verbose => $options{verbose},
+				proxy => $urpm->{proxy}},
+			      values %distant_sources);
 		$urpm->{log}(_("...retrieving done"));
 	    };
 	    if ($@) {
@@ -2385,38 +2417,11 @@ sub find_packages_to_remove {
     keys %{$state->{ask_remove}};
 }
 
-#- install packages according to each hashes (install or upgrade).
-sub remove {
-    my ($urpm, $remove, %options) = @_;
-    my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
-    my $trans = $db->create_transaction($urpm->{root});
-    my @l;
-    local *F;
-
-    foreach (@$remove) {
-	$trans->remove($_) or $urpm->{error}(_("unable to remove package %s", $_));
-    }
-    if (!$options{nodeps} and @l = $trans->check) {
-	if ($options{translate_message}) {
-	    foreach (@l) {
-		my ($type, $needs, $conflicts) = split '@', $_;
-		$_ = ($type eq 'requires' ?
-		      _("%s is needed by %s", $needs, $conflicts) :
-		      _("%s conflicts with %s", $needs, $conflicts));
-	    }
-	}
-	return @l;
-    }
-    !$options{noorder} and @l = $trans->order and return @l;
-
-    $trans->run($urpm, %options);
-}
-
 #- remove packages from node as remembered according to resolving done.
 sub parallel_remove {
     my ($urpm, $remove, %options) = @_;
     my $state = {};
-    my $callback = sub { $urpm->{fatal}(1, "internal distributed urpme fatal error") };
+    my $callback = sub { $urpm->{fatal}(1, "internal distributed remove fatal error") };
     $urpm->{parallel_handler}->parallel_find_remove($urpm, $state, $remove, %options,
 						    callback_notfound => $callback,
 						    callback_fuzzy => $callback,

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,10 @@ fi
 
 
 %changelog
+* Thu Dec 19 2002 François Pons <fpons@mandrakesoft.com> 4.2-2mdk
+- added log for package download if verbose.
+- fixed using hdlist if no synthesis available or invalid.
+
 * Wed Dec 18 2002 François Pons <fpons@mandrakesoft.com> 4.2-1mdk
 - fixed file:// protocol now checking file presence.
 - added distributed urpme (both ka-run and ssh module).

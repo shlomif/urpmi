@@ -457,6 +457,7 @@ unless ($local_sources || $list) {
 }
 
 my %sources = $urpm->download_source_packages($local_sources, $list,
+					      verbose => $verbose,
 					      force_local => !$X, ask_for_medium => (!$auto || $allow_medium_change) && sub {
 						  my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						  my $msg2 = _("Press Enter when ready...");

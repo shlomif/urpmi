@@ -109,7 +109,7 @@ if ($test && $auto) {
 
 @l = $parallel ?
   $urpm->parallel_remove(\@toremove, test => $test, translate_message => 1) :
-  $urpm->remove(\@toremove, test => $test, translate_message => 1);
+  $urpm->install(\@toremove, {}, {}, test => $test, translate_message => 1);
 @l and $urpm->{fatal}(1, _("Removing failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
 sub toMb {
