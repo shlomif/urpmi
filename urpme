@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Copyright (C) 1999 MandrakeSoft (pixel@linux-mandrake.com)
+# Copyright (C) 1999,2002 MandrakeSoft <pixel@linux-mandrake.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,9 +16,29 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#We only make good software ;-)
+use strict;
+
+#use strict qw(subs vars refs);
+use urpm;
+
+#- get I18N translation method.
+import urpm _;
+
+my ($auto, $matches, $maymatch, %provides, @l, @m, @toremove);
+my $askok = _("Is it OK?");
+my $askrm = _("Remove them all?");
+# Translator: Add here the keys which might be pressed in the "No"-case.
+my $noexpr = _("Nn");
+# Translator: Add here the keys which might be pressed in the "Yes"-case.
+my $yesexpr = _("Yy");
+
 local $_ = ' ' . join(' ', @ARGV) . ' ';
 
-/ --?h/ || @ARGV == 0 and die "usage: urpme [-a] [--auto] <packages...>\n";
+if ( / --?h/ || @ARGV == 0 ) {
+    print STDERR _("usage: urpme [-a] [--auto] <packages...>\n");
+    exit(0);
+}
 
 $matches = / -a /;
 $auto = / --?auto /;
@@ -29,7 +49,7 @@ my $DIR = "/var/lib/urpmi";
 if (!$matches) {
     @m = map { chop; $_ } `rpm -q @l 2>&1`;
     if ($?) {
-	$maymatch = "unknown package(s) " . join(", ", map { /package (\S+) is not installed/ ? $1 : () } @m) . "\n";
+	$maymatch = _("unknown package(s) ") . join(", ", map { /package (\S+) is not installed/ ? $1 : () } @m) . "\n";
 	$auto || @l > 1 and die $maymatch;
     }
 }
@@ -39,14 +59,19 @@ if ($matches || $maymatch) {
 
     if ($maymatch) {
 	@m or die $maymatch;
-	print "Using $match as a substring, I found:\n@m\nRemove them all? (y/N) ";
-	<STDIN> =~ /y/i or exit 1;
+        my $msg = _("Using \"%s\" as a substring, I found", $match);
+        print STDOUT "$msg:\n@m\n$askrm" . _(" (y/N) ");
+        <STDIN> =~ /[$yesexpr]/ or exit 1;
     }
 }
 
 load_provides();
-my %toremove; @toremove{$_, @{$provides{$_} || []}} = () foreach @m;
-my $changed = 1; while ($changed) { $changed = 0;
+my %toremove;
+@toremove{$_, @{$provides{$_} || []}} = () foreach @m;
+
+my $changed = 1;
+while ($changed) {
+    $changed = 0;
     local *F;
     open F, "LANGUAGE=C rpm -e --test " . join(" ", keys %toremove) . " 2>&1 |";
     foreach (<F>) {
@@ -58,13 +83,16 @@ my $changed = 1; while ($changed) { $changed = 0;
     	}
     }
 }
-my @toremove = keys %toremove or die "nothing to remove\n";
+if ( ! (@toremove = keys %toremove) ) {
+    print _("Nothing to remove.\n");
+    exit(0);
+}
 if (@toremove > @l && !$auto) {
-    my $sum = 0; map { $sum += $_ } `rpm -q --queryformat "%{SIZE}\n" @toremove`;
-    print "To satisfy dependencies, the following packages are going to be removed";
-    printf " (%d MB)", toMb($sum);
-    print ":\n@toremove\nIs it OK? (Y/n) ";
-    <STDIN> =~ /n/i and exit 0;
+    my $sum = 0;
+    map { $sum += $_ } `rpm -q --queryformat "%{SIZE}\n" @toremove`;
+    my $msg = _("To satisfy dependencies, the following packages are going to be removed (%d MB)", toMb($sum));
+    print STDOUT "$msg:\n@toremove\n$askok" . _(" (Y/n) ");
+    <STDIN> =~ /[$noexpr]/ and exit 0;
 }
 system("rpm", "-e", @toremove);
 
@@ -76,7 +104,7 @@ sub load_provides {
     my %provides_id;
     foreach (<F>) {
 	my ($p, $size, @l) = split;
-	$size{$p} = $size;
+        #$size{$p} = $size;
 	push @packages_id, $p;
 	push @{$provides_id{$_}}, $p foreach @l;
     }
