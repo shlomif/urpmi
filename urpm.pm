@@ -1792,7 +1792,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    } else {
 		$error = 1;
 		$options{callback} && $options{callback}('failed', $medium->{name});
-		$urpm->{error}(N("retrieve of source hdlist (or synthesis) failed"));
+		$urpm->{error}(N("retrieval of source hdlist (or synthesis) failed"));
 	    }
 	}
 
