@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.4
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,10 +113,15 @@ autoirpm.uninstall
 
 
 %changelog
+* Thu Jan 25 2001 François Pons <fpons@mandrakesoft.com> 1.4-4mdk
+- added code to search for source rpms file to install.
+- modified manipulation of ignore flag, keep media name unique.
+- added missing cache directory in spec file.
+- lot of fixes on urpm core library.
+
 * Thu Jan 25 2001 François Pons <fpons@mandrakesoft.com> 1.4-3mdk
 - need rpmtools-2.1-9mdk or above for hdlist building extension.
 - introduced cache directory for medium and rpms manipulation.
-- added code to search for source rpms file to install.
 
 * Wed Jan 17 2001 François Pons <fpons@mandrakesoft.com> 1.4-2mdk
 - removed PreReq on genbasefiles, now PreReq rpmtools-2.1-8mdk or above.
