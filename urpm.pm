@@ -17,6 +17,14 @@ use URPM;
 use URPM::Resolve;
 use POSIX;
 
+BEGIN {
+    # this won't work in 5.10 when encoding::warnings will be lexical
+    if ($ENV{DEBUG_URPMI}) {
+	require encoding::warnings;
+	encoding::warnings->import();
+    }
+}
+
 #- create a new urpm object.
 sub new {
     my ($class) = @_;
