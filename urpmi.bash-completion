@@ -92,7 +92,7 @@ _urpmi()
 			--noclean --force --allow-nodeps --allow-force --parallel \
 			--wget --curl --limit-rate --proxy --proxy-user --bug \
 			--env --X --best-output --verify-rpm --no-verify-rpm \
-			--test --excludepath --excludedocs --root' -- $cur ) )
+			--test --excludepath --excludedocs --root --norebuild' -- $cur ) )
 	else
 		# return available packages (unless it is clearly a file) and rpm files
 		if [[ "$cur" != */* ]]; then
@@ -181,7 +181,7 @@ _urpmf()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W '-i -f -e -a -o --help --update \
+		COMPREPLY=( $( compgen -W '-i -f -e -a -o -m --help --update \
 			--media --excludemedia --sortmedia --synthesis \
 			--verbose --quiet --uniq --all --name --group --size \
 			--epoch --summary --description --sourcerpm --packager\
@@ -207,7 +207,7 @@ _urpmi_update()
 		# return list of available options
 		COMPREPLY=( $( compgen -W '-a -c -f -q -v --help --wget \
 			--curl --limit-rate --proxy --proxy-user --update \
-			--no-md5sum --force-key' \
+			--no-md5sum --force-key --norebuild' \
 			-- $cur))
 	else
 		# return list of available media
@@ -230,7 +230,7 @@ _urpmi_addmedia()
 		COMPREPLY=( $( compgen -W '-c -f -h -v -q --help --wget --curl \
 			--limit-rate --proxy --proxy-user --update \
 			--probe-synthesis --probe-hdlist --no-probe --distrib \
-			--env --version --arch --virtual' -- $cur ) )
+			--env --version --arch --virtual --norebuild' -- $cur ) )
 	else
 		# count number of mandatory args given sofar
 		args=$COMP_CWORD
