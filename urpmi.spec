@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 23mdk
+Release: 24mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Wed Apr 10 2002 François Pons <fpons@mandrakesoft.com> 3.3-24mdk
+- fixed package that need to be upgraded but which is provided
+  by another package (Mesa and XFree86-libs).
+
 * Wed Apr 10 2002 François Pons <fpons@mandrakesoft.com> 3.3-23mdk
 - fixed diff_provides on unversioned property not taken into 
   account (libbinutils2 with binutils).

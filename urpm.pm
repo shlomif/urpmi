@@ -1692,7 +1692,6 @@ sub filter_packages_to_upgrade {
 	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 		$provides{$_} and next;
 
-		print "trying on $n ($o,$v,$r)\n" if /backend/;
 		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
 		    exists $conflicts{$fullname} and next;
 		    my $pkg = $urpm->{params}{info}{$fullname};
@@ -1703,17 +1702,19 @@ sub filter_packages_to_upgrade {
 		    #- a package with the given name.
 		    #- if an obsolete is given, it will be satisfied elsewhere. CHECK TODO
 		    if ($n ne $pkg->{name}) {
-			#- a virtual provides exists with a specific version and maybe release.
-			#- try to resolve.
-			foreach (@{$pkg->{provides}}) {
-			    if (my ($pn, $po, $pv, $pr) =
-				/^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
-				$pn eq $n or next;
-				my $no = $po eq '==' ? $o : $po; #- CHECK TODO ?
-				(!$pv || !$v || eval(rpmtools::version_compare($pv, $v) . $no . 0)) &&
-				  (!$pr || !$r || rpmtools::version_compare($pv, $v) != 0 ||
-				   eval(rpmtools::version_compare($pr, $r) . $no . 0)) or next;
-				push @{$pre_choices{$pkg->{name}}}, $pkg;
+			unless (exists $selected{$n}) {
+			    #- a virtual provides exists with a specific version and maybe release.
+			    #- try to resolve.
+			    foreach (@{$pkg->{provides}}) {
+				if (my ($pn, $po, $pv, $pr) =
+				    /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+				    $pn eq $n or next;
+				    my $no = $po eq '==' ? $o : $po; #- CHECK TODO ?
+				    (!$pv || !$v || eval(rpmtools::version_compare($pv, $v) . $no . 0)) &&
+				      (!$pr || !$r || rpmtools::version_compare($pv, $v) != 0 ||
+				       eval(rpmtools::version_compare($pr, $r) . $no . 0)) or next;
+				    push @{$pre_choices{$pkg->{name}}}, $pkg;
+				}
 			    }
 			}
 		    } else {
