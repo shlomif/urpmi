@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.6
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Fri Jun 28 2002 François Pons <fpons@mandrakesoft.com> 3.6-3mdk
+- fix deadlock on removing package.
+- fix rsync download for mulitples files.
+
 * Thu Jun 27 2002 François Pons <fpons@mandrakesoft.com> 3.6-2mdk
 - added rsync:// and ssh:// protocol to urpmi.
 

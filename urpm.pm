@@ -230,8 +230,14 @@ sub sync_rsync {
     -x "/usr/bin/rsync" or die _("rsync is missing\n");
     -x "/usr/bin/ssh" or die _("ssh is missing\n");
     my $options = shift @_;
-    system "/usr/bin/rsync", (ref $options && $options->{quiet} ? ("-q") : ("--progress", "-v")), "--partial", "-e", "ssh",
-      @_, (ref $options ? $options->{dir} : $options);
+    foreach (@_) {
+	my $count = 3; #- retry count on error (if file exists).
+	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+	do {
+	    system "/usr/bin/rsync", (ref $options && $options->{quiet} ? ("-q") : ("--progress", "-v")), "--partial", "-e", "ssh",
+	      $_, (ref $options ? $options->{dir} : $options);
+	} while ($? != 0 && --$count > 0 && (-e (ref $options ? $options->{dir} : $options) . "/$basename"));
+    }
     $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 
