@@ -1,8 +1,9 @@
 #!/usr/bin/perl
 
-my $DIR = "/etc/urpmi";
+my $DIR = "/var/lib/urpmi";
+my $DIR2 = "/etc/urpmi";
 my $DEPSLIST = "$DIR/depslist";
-my $CFG = "$DIR/urpmi.cfg";
+my $CFG = "$DIR2/urpmi.cfg";
 
 $| = 1;
 
@@ -18,11 +19,13 @@ sub substInFile(&@) {
 my @entries = map { /list.(.*)/ } glob("$DIR/list.*");
 
 if ($0 =~ /removemedia/) {
-    local ($_) = @ARGV or die "missing the entry to remove\n(one of " . join(", ", @entries) . ")\n";
+    local ($_) = @ARGV or @entries ? 
+	die "missing the entry to remove\n(one of " . join(", ", @entries) . ")\n" :
+	die "nothing to remove (use urpmi.addmedia to add a media)\n";
     foreach $e (/^--?a/ ? @entries : @ARGV) {
 	my $f;
-	$f = "$DIR/hdlist.$e"; unlink $f || unlink "$f.gz" or die "failed to remove $f";
-	$f = "$DIR/list.$e";   unlink $f or die "failed to remove $f";
+	$f = "$DIR/hdlist.$e"; unlink($f) || unlink("$f.gz") or warn "failed to remove $f";
+	$f = "$DIR/list.$e";   unlink($f)                    or warn "failed to remove $f";
 	substInFile { s/^/\#/ if /^$e\s/ } $CFG;
     }
     system("urpmi.update");
@@ -34,7 +37,7 @@ if ($0 =~ /removemedia/) {
     }
     if (glob("$DIR/hdlist.*")) {
 	print "generating dependencies list\n";
-	system("gzip $DIR/hdlist.* 2>/dev/null"); # gzip
+	system("gzip -f $DIR/hdlist.* 2>/dev/null"); # gzip
 	system("gzip -dc $DIR/hdlist.* | gendepslist -h $DEPSLIST -");
 	system("autoirpm.update");
     } else {
@@ -84,6 +87,7 @@ my $RPMLIST = "$DIR/list.$name";
 
 -e $DIR || mkdir $DIR, 0755 or die "can't create $DIR";
 !-e $HDLIST || unlink $HDLIST or die "can't remove $HDLIST";
+!-e "$HDLIST.gz" || unlink "$HDLIST.gz" or die "can't remove $HDLIST.gz";
 
 my $mask = umask 077;
 open LIST, ">$RPMLIST" or die "can't output $RPMLIST";
@@ -93,9 +97,9 @@ if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
     my $hdlist = '';
     my $flush = sub {};
     if (-e (my $f = "$dir/Mandrake/base/hdlist")) {
-	system("cp -f $f $HDLIST");
+	system("gzip -f $f > $HDLIST.gz");
     } else {
-	$flush = sub { system("rpm2header $hdlist >> $HDLIST") if $hdlist };
+	$flush = sub { system("rpm2header $hdlist | gzip >> $HDLIST.gz") if $hdlist };
     }
     print "scanning $dir...";
     open F, "find $dir -follow -name '*.rpm'|";

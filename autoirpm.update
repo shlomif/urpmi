@@ -1,11 +1,13 @@
 #!/usr/bin/perl
 
-$DIR = "/etc/urpmi";
+$DIR = "/var/lib/urpmi";
+$DIR2 = "/etc/urpmi";
 $BASE = "$DIR/autoirpm";
+$BASE2 = "$DIR2/autoirpm";
 $AUTO_INSTALL_BIN_LIST = "$BASE.binaries";
 $INSTALL_SCRIPT_REP = "$BASE.scripts";
 
-system("autoirpm.update-all $BASE.allow $BASE.deny $DIR/hdlist.* > $AUTO_INSTALL_BIN_LIST");
+system("gzip -dc $DIR/hdlist.*.gz | autoirpm.update-all $BASE2.allow $BASE2.deny - > $AUTO_INSTALL_BIN_LIST");
 $? == 0  or die "autoirpm.upgrade-all failed\n";
 
 open F, $AUTO_INSTALL_BIN_LIST or die;

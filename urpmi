@@ -5,10 +5,7 @@ load_po();
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 $< = $>;
 
-
-open LOG, ">>/var/log/urpmi.log" or die;
-print LOG scalar localtime, " urpmi called with @ARGV\n";
-close LOG;
+log_it(scalar localtime, " urpmi called with @ARGV\n");
 
 if (@ARGV and $ARGV[0] eq '--auto') {
     $auto = 1;
@@ -27,18 +24,19 @@ while (@ARGV and $ARGV[0] eq '--comment') {
 
 @ARGV or die "usage: urpmi [--auto] package_name [package_names...]\n";
 
-$dir = "/etc/urpmi";
+$dir = "/var/lib/urpmi";
+$dir2 = "/etc/urpmi";
 $depsfile = "$dir/depslist";
 $rpmlistfiles = "$dir/list.*";
 
 open SAVEOUT, ">&STDOUT";
 open SAVEERR, ">&STDERR";
-open STDOUT, "|tee -a /var/log/urpmi.installed" or die;
+open STDOUT, "|tee -a /var/log/urpmi.log" or die;
 open STDERR, "|tee -a /var/log/urpmi.log" or die;
 select STDERR; $| = 1;     # make unbuffered
 select STDOUT; $| = 1;     # make unbuffered
 
-open F, $depsfile or die();
+open F, $depsfile or die "missing dependencies file ($depsfile)";
 foreach (<F>) {
     my ($pack, $size, $deps) = /(\S+)\s+(\S+)\s+(.*)/ or die("urpmi: bad format file $depsfile\n");
     $size{$pack} = $size;
@@ -61,7 +59,7 @@ foreach (@ARGV) {
     unless ($pack) {
 	my $l = $found{$_}; $l or $l = $foundi{$_};
 	if (@$l == 0) { warn(_("no package named %s\n", $_)); $ok = 0; }
-	elsif (@$l > 1) { warn(_("The following packages contain %s: %s\n", $_, join(', ', @$l))); $ok = 0; }
+	elsif (@$l > 1) { warn(_("The following packages contain %s: %s\n", $_, join(' ', @$l))); $ok = 0; }
 	$pack = $$l[0];
     }
     push @packages, $pack;
@@ -109,13 +107,15 @@ foreach $l (@to_install) {
 	push @{$removables{$n}->{list}}, $_;
     } else {
 	if (s|^file:/||) {
-	    if (|^(/mnt/.*?)/|) {
+	    if (m|^(/mnt/.*?)/|) {
 		-e $_ || $try2mount{$1} or $try2mount{$1} = 1, `mount $1 2>/dev/null`;
 	    }
 	}
 	push @to_install_long, $_;
     }
 }
+
+install(@to_install_long) unless $removables{0} || $removables{1};
 
 foreach (sort keys %removables) {
     my $f = @{$removables{$_}->{list}}[0];
@@ -137,7 +137,8 @@ foreach (sort keys %removables) {
     install(@{$removables{$_}->{list}});
 }
 
-install(@to_install_long);
+install(@to_install_long) if $removables{0} || $removables{1};
+
 $something_was_installed or message(_("everything already installed"));
 
 sub install {
@@ -145,7 +146,7 @@ sub install {
 	
     $something_was_installed = 1;
     print SAVEOUT _("installing %s\n", join(' ', @_));
-    print scalar localtime, " @_\n";
+    log_it(scalar localtime, " @_\n");
     $X ? `grpmi @_` : `rpm -U @_`;
     $? and message(_("Installation failed")), exit 1;
 }
@@ -223,6 +224,12 @@ sub uniq { my %l; @l{@_} = (); keys %l }
 sub difference2(\@\@) { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
 sub _ { my $s = shift @_; sprintf translate($s), @_ }
 sub translate { $I18N{$_[0]} || $_[0]; }
+
+sub log_it {
+    local *LOG;
+    open LOG, ">>/var/log/urpmi.log" or die;
+    print LOG @_;
+}
 
 sub untaint {
     my @r = ();

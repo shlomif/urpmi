@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
 
   for (int i = 3; i < argc; i++) {
     Header header;
-    FD_t fd = fdOpen(argv[i], O_RDONLY, 0);
+    FD_t fd = strcmp(argv[i], "-") == 0 ? fdDup(STDIN_FILENO) : fdOpen(argv[i], O_RDONLY, 0);
     if (fdFileno(fd) < 0) {
       fprintf(stderr, "%s: cannot open file %s\n", argv[0], argv[i]);
       exit(1);

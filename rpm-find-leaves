@@ -1,7 +1,19 @@
 #!/usr/bin/perl
 
+local $_ = join '', @ARGV;
+
+/-h/ and die "usage: rpm-find-leaves [--show-unknown]\n";
+
+$show_unknown = /-show-unknown/;
+
 $r = join '|', map { chop; $l{$_} = 1; quotemeta } `rpm -qa --queryformat "%{NAME}\n"`;
-$R = qr/ $r/;
-open F, "/etc/urpmi/depslist" or die "can't find depslist\n";
-$R && /(\S+)-[^-]+-[^-]+ / && delete $l{$1} foreach <F>;
-print "$_\n" foreach keys %l;
+$R = qr/ ($r)-\d/;
+$R2 = qr/$r /;
+open F, "/var/lib/urpmi/depslist" or die "can't find depslist\n";
+F: foreach (<F>) {
+    my ($p) = /(\S+)-[^-]+-[^-]+ /;
+    $p =~ $R2 or next; # not installed
+    $L{$p} = 1;
+    delete $l{$1} while /$R/g;
+}
+$show_unknown || $L{$_} and print "$_\n" foreach keys %l;
