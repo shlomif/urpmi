@@ -1,4 +1,4 @@
-.TH urpmf 8 "07 Jan 2003" "MandrakeSoft" "Mandrake Linux"
+.TH urpmf 8 "28 Aug 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmf
 .SH NAME
 urpmf \- RPMFind - Finds the RPM package providing the specified file
@@ -22,6 +22,10 @@ dependencies only in media marked as update.
 .IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
 Select specific media to use instead of all media available (or update media is
 \fB--update\fP is used).
+.IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
+Do not use the given media.
+.IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
+Sort the given media, substrings may be used to simplify grouping.
 .IP "\fB\--synthesis\fP \fIfile\fP"
 Use the given synthesis\fIfile\fP instead of urpmi db for searching packages and
 resolving dependencies.
@@ -30,6 +34,8 @@ Proposes a verbose mode with various messages.
 .IP "\fB\--quiet\fP"
 Do not print tag name (default if no tag given on command line, incompatible
 with interactive mode).
+.IP "\fB\--uniq\fP"
+Do not print identical lines.
 .IP "\fB\--all\fP"
 Searches through all parameters listed below.
 .IP "\fB\--group\fP"
@@ -42,6 +48,14 @@ Searches through epoch.
 Searches through summary.
 .IP "\fB\--description\fP"
 Searches through description.
+.IP "\fB\--sourcerpm\fP"
+Searches through source rpm.
+.IP "\fB\--packager\fP"
+Searches through packager.
+.IP "\fB\--buildhost\fP"
+Searches through build host.
+.IP "\fB\--url\fP"
+Searches through url.
 .IP "\fB\--provides\fP"
 Searches through provides.
 .IP "\fB\--requires\fP"
@@ -52,6 +66,9 @@ Searches through files, this is the default.
 Searches through conflicts.
 .IP "\fB\--obsoletes\fP"
 Searches through obsoletes.
+.IP "\fB\--env\fP \fIdirectory\fP"
+Use a different environment directly from a bug report to replay a bug, the
+argument is the same argument given to \fB--bug\fP option.
 .IP "\fB-c\fP"
 Ignore case distinctions in any patterns.
 .IP "\fB-f\fP"
