@@ -2113,17 +2113,16 @@ sub search_packages {
 
 	unless ($options{fuzzy}) {
 	    #- try to search through provides.
-	    if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat) &&
-						    ($options{use_provides} || $_->name eq $v) ?
-						      $_->id : undef } map { $urpm->{depslist}[$_] }
+	    if (my @l = map { $_ && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat) &&
+				($options{use_provides} || $_->name eq $v) ? $_ : undef } map { $urpm->{depslist}[$_] }
 		keys %{$urpm->{provides}{$v} || {}}) {
 		#- we assume that if the there is at least one package providing the resource exactly,
 		#- this should be the best ones that is described.
 		#- but we first check if one of the packages has the same name as searched.
 		if (my @l2 = grep { $_->name eq $v} @l) {
-		    $exact{$v} = join '|', @l2;
+		    $exact{$v} = join '|', grep { defined $_ } map { $_->id } @l2;
 		} else {
-		    $exact{$v} = join '|',  @l;
+		    $exact{$v} = join '|',  grep { defined $_ } map { $_->id } @l;
 		}
 		next;
 	    }
