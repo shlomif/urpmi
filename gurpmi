@@ -2,6 +2,7 @@
 
 $ENV{XAUTHORITY} or $ENV{XAUTHORITY} = "$ENV{HOME}/.Xauthority";
 $ENV{PATH} = '/bin:/usr/bin:/usr/sbin:/usr/X11R6/bin';
+delete @ENV{qw(IFS CDPATH ENV BASH_ENV)};
 
 $urpmi = 'urpmi';
 if (-f $urpmi && $ENV{DEBUG_URPMI}) { $urpmi = './urpmi' }
