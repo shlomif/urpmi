@@ -6,7 +6,7 @@ our @ISA = 'Exporter';
 our @EXPORT = qw(quotespace unquotespace
     remove_internal_name
     reduce_pathname offset_pathname
-    md5sum
+    md5sum untaint
 );
 
 #- quoting/unquoting a string that may be containing space chars.
@@ -70,6 +70,12 @@ sub offset_pathname {
 	}
     }
     $result . join('/', reverse @corrections);
+}
+
+sub untaint {
+    my @r;
+    foreach (@_) { /(.*)/; push @r, $1 }
+    @r == 1 ? $r[0] : @r;
 }
 
 sub md5sum {

@@ -22,6 +22,7 @@ use strict;
 use urpm;
 use urpm::args;
 use urpm::msg;
+use urpm::util qw/untaint/;
 use MDK::Common;
 
 #- contains informations to parse installed system.
@@ -170,12 +171,6 @@ foreach my $a (@ARGV) {
 # Parse command line options
 urpm::args::parse_cmdline(urpm => $urpm);
 
-sub untaint {
-    my @r;
-    foreach (@_) { /(.*)/, push @r, $1 }
-    @r == 1 ? $r[0] : @r;
-}
-
 # Process the rest of the arguments
 while (defined($_ = shift @ARGV)) {
     if (/\.rpm$/) {
@@ -306,7 +301,7 @@ if ($log) {
     open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
 }
 
-#- remove verbose if not asked.
+#- log to SAVEERR instead of STDERR
 unless ($bug) {
     $urpm->{fatal} = sub { printf SAVEERR "%s\n", $_[1]; exit($_[0]) };
     $urpm->{error} = sub { printf SAVEERR "%s\n", $_[0] };
