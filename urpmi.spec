@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Fri Feb 23 2001 François Pons <fpons@mandrakesoft.com> 1.5-8mdk
+- fix --auto-select and skip list.
+
 * Fri Feb 23 2001 François Pons <fpons@mandrakesoft.com> 1.5-7mdk
 - added /etc/urpmi/skip.list for package that should not
   be upgraded.

@@ -112,6 +112,10 @@ $urpm->{params}->relocate_depslist();
 my %packages;
 $urpm->search_packages(\%packages, [ @names ]) or $query->{force} or exit 1;
 
+#- filter to add in packages selected required packages.
+$query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);
+$query->{upgrade} and $urpm->filter_packages_to_upgrade(\%packages, complete => $query->{complete});
+
 #- auto select package for upgrading the distribution.
 if ($query->{auto_select}) {
     my (%to_remove, %keep_files);
@@ -125,10 +129,6 @@ if ($query->{auto_select}) {
 
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);
-
-#- filter to add in packages selected required packages.
-$query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);
-$query->{upgrade} and $urpm->filter_packages_to_upgrade(\%packages, complete => $query->{complete});
 
 if ($query->{headers}) {
     $urpm->read_config();

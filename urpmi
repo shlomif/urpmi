@@ -1,4 +1,3 @@
-#!/usr/bin/perl
 #!/usr/bin/perl -T
 
 #- Copyright (C) 1999 MandrakeSoft (pixel@linux-mandrake.com)
@@ -141,17 +140,6 @@ $urpm->relocate_depslist;
 my %packages;
 $urpm->search_packages(\%packages, [ ($minimal ? () : ('basesystem')), @names], all => $all) or $force or exit 1;
 
-#- auto select package for upgrading the distribution.
-if ($auto_select) {
-    my (%to_remove, %keep_files);
-
-    $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
-
-    if (keys(%to_remove) > 0) {
-	print STDERR "some package have to be removed for being upgraded, this is not supported yet\n";
-    }
-}
-
 #- filter to add in packages selected required packages.
 my $ask_choice = sub {
     my ($urpm, @choices_id) = @_;
@@ -177,12 +165,24 @@ my $ask_choice = sub {
 
     $choices_id[$n - 1];
 };
+
 if ($minimal) {
     $urpm->read_provides;
     $urpm->read_config;
     $urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
 } else {
     $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, complete => $complete);
+}
+
+#- auto select package for upgrading the distribution.
+if ($auto_select) {
+    my (%to_remove, %keep_files);
+
+    $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
+
+    if (keys(%to_remove) > 0) {
+	print STDERR "some package have to be removed for being upgraded, this is not supported yet\n";
+    }
 }
 
 #- get out of package that should not be upgraded.
