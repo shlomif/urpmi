@@ -2156,7 +2156,7 @@ sub resolve_dependencies {
     if ($options{install_src}) {
 	#- only src will be installed, so only update $state->{selected} according
 	#- to src status of files.
-	foreach (%$requested) {
+	foreach (keys %$requested) {
 	    my $pkg = $urpm->{depslist}[$_] or next;
 	    $pkg->arch eq 'src' or next;
 	    $state->{selected}{$_} = undef;
