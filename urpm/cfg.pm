@@ -17,7 +17,7 @@ urpm::cfg - routines to handle the urpmi configuration files
 
 =item load_config($file)
 
-Reads an urpmi configuration file and return its contents in a hash ref :
+Reads an urpmi configuration file and returns its contents in a hash ref :
 
     {
 	'medium name 1' => {
@@ -47,6 +47,7 @@ sub _syntax_error () { $err = N("syntax error in config file at line %s", $.) }
 sub load_config ($) {
     my ($file) = @_;
     my %config;
+    my $priority = 0;
     my $medium = undef;
     $err = '';
     open my $f, $file or do { $err = N("unable to read config file [%s]", $file); return };
@@ -119,6 +120,7 @@ sub load_config ($) {
 	}
 	#- obsolete
 	/^modified$/ and next;
+	$config{$medium}{priority} = $priority++; #- to preserve order
     }
     close $f;
     return \%config;
@@ -128,9 +130,9 @@ sub dump_config ($$) {
     my ($file, $config) = @_;
     my @media = sort {
 	return  0 if $a eq $b;
-	return -1 if $a eq '';
+	return -1 if $a eq ''; #- global options come first
 	return  1 if $b eq '';
-	return $a cmp $b;
+	return $config->{$a}{priority} <=> $config->{$b}{priority};
     } keys %$config;
     open my $f, '>', $file or do {
 	$err = N("unable to write config file [%s]", $file);
