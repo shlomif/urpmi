@@ -207,6 +207,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - added fixes from gc (signature checking improvement and
   basename usage).
 - fixed bad reason with standalone star in text.
+- skipping log are now always displayed.
 
 * Thu Sep  4 2003 François Pons <fpons@mandrakesoft.com> 4.4-31mdk
 - removed obsoleted and no more used -d of urpmi.update.
