@@ -40,6 +40,7 @@ where <name> is a medium name to update.
 ") . N("  --force-key    - force update of gpg key.
 ") . N("  --norebuild    - don't try to rebuild hdlist if not readable.
 ") . N("  --ignore       - don't update, mark the media as ignored.
+") . N("  --no-ignore    - don't update, mark the media as enabled.
 ") . N("  -a             - select all non-removable media.
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -f             - force generation of hdlist files.
@@ -67,12 +68,11 @@ exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-ra
 
 my @entries = map { $_->{name} } @{$urpm->{media}};
 
-if ($options{all}) {
+if ($options{all} && !defined $options{ignore}) {
     @entries == 0 and die N("nothing to update (use urpmi.addmedia to add a media)\n");
 } else {
+    if ($options{all}) { @toupdates = '' } #- select all
     $urpm->select_media(@toupdates);
-
-    #- force ignored media to be returned alive.
     my $something_todo = 0;
     foreach (@{$urpm->{media}}) {
 	$options{update} && $_->{update} and $_->{modified} = 1;
@@ -80,6 +80,7 @@ if ($options{all}) {
 	    if ($options{ignore}) {
 		$_->{ignore} = 1;
 	    } else {
+		#- force ignored media to be returned alive.
 		delete $_->{ignore};
 	    }
 	    ++$something_todo;
@@ -89,8 +90,9 @@ if ($options{all}) {
     $something_todo or die N("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
 }
 
-if ($options{ignore}) {
-    $urpm->{log}(N("ignoring media %s",  join(", ", map { N("\"%s\"", $_->{name}) } grep { $_->{modified} } @{$urpm->{media}})));
+if (defined $options{ignore}) {
+    $urpm->{log}(N($options{ignore} ? "ignoring media %s" : "enabling media %s",
+	join(", ", map { N("\"%s\"", $_->{name}) } grep { $_->{modified} } @{$urpm->{media}})));
     $urpm->write_config;
 } else {
     $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
