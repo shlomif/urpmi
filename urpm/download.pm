@@ -348,8 +348,8 @@ sub sync_curl {
 			    return;
 			}
 			#- this regexp checks that download has actually started
-			#- (work around a bug in curl 7.12.2 output for auth sources)
-			if ($_ eq "\n" && $buf !~ /--:--:-- --:--:-- --:--:--/) {
+			#- (work around a bug in curl 7.12.2 output when 302 answers are involved)
+			if ($_ eq "\n" && $buf !~ /--:--:--/) {
 			    propagate_sync_callback($options, 'end', $file);
 			    $file = undef;
 			}
