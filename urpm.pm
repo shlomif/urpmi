@@ -1033,11 +1033,16 @@ sub filter_minimal_packages_to_upgrade {
 					  }
 				      });
 	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}", "provides", sub {
-			     /^(\S*\s*\S*\s*)(\d+:)?([^\s-]*)(-?\S*)/;
-			     foreach ($_, "$1$3", "$1$2$3", "$1$3$4") {
-				 delete $diffprovides{$_};
+			     $_[0] =~ /^(\S*\s*\S*\s*)(\d+:)?([^\s-]*)(-?\S*)/;
+			     foreach ($_[0], "$1$3", "$1$2$3", "$1$3$4") {
+				 delete $diffprovides{$_[0]};
 			     }
 			 });
+	    foreach ($pkg->{name}, "$pkg->{name} == $pkg->{version}", "$pkg->{name} == $pkg->{version}-$pkg->{release}") {
+		delete $diffprovides{$_};
+	    }
+	    delete $diffprovides{""};
+
 	    foreach (keys %diffprovides) {
 		#- check for exact match on it.
 		if (/^(\S*)\s*(\S*)\s*(\d+:)?([^\s-]*)-?(\S*)/) {
@@ -1062,13 +1067,15 @@ sub filter_minimal_packages_to_upgrade {
 				 #- if the provides is not found, it will be resolved at next step, else
 				 #- it will be resolved by searching the rpm database.
 				 $provides{$1} ||= undef;
-				 rpmtools::db_traverse_tag($db,
-							   'whatprovides', [ $1 ],
-							   [ qw (name version release) ], sub {
-							       $3 and eval(rpmtools::version_compare($_[0]{version}, $3) . $2 . 0) || return;
-							       $4 and eval(rpmtools::version_compare($_[0]{release}, $4) . $2 . 0) || return;
-							       $provides{$1} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
-							   });
+				 my $check_pkg = sub {
+				     $3 and eval(rpmtools::version_compare($_[0]{version}, $3) . $2 . 0) || return;
+				     $4 and eval(rpmtools::version_compare($_[0]{release}, $4) . $2 . 0) || return;
+				     $provides{$1} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
+				 };
+				 rpmtools::db_traverse_tag($db, 'whatprovides', [ $1 ],
+							   [ qw (name version release) ], $check_pkg);
+				 rpmtools::db_traverse_tag($db, 'path', [ $1 ],
+							   [ qw (name version release) ], $check_pkg);
 			     }
 			 });
 
