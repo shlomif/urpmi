@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,13 +204,20 @@ fi
 
 
 %changelog
+* Fri Nov 29 2002 François Pons <fpons@mandrakesoft.com> 4.1-4mdk
+- allow urpmi <url> to work with rpm filename with all supported
+  protocols (ftp, http, ssh, rsync).
+- fixed rsync:// protocol not to use rsync with -e along with
+  an rsync server.
+- fixed missing list creation update.
+
 * Thu Nov 28 2002 François Pons <fpons@mandrakesoft.com> 4.1-3mdk
 - added mirrors management for urpmi.addmedia, so added
   --distrib-XXX, --from, --version, --arch options. <url>
   is now just a regex for choosing a mirror, and <name>
   will have an numeric index appended to it.
   anyway for more info, look in the code or guess with
-  --help ;-)
+  --help ;-) too late here in Paris ...
 - urpmi.addmedia now delete failing media to create.
 - added --update option to urpmi.update, guess for what ?
 

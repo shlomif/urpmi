@@ -206,13 +206,17 @@ sub sync_webfetch {
 	}
 	delete @files{qw(ftp http)};
     }
-    if ($files{rsync} || $files{ssh}) {
-	my @rsync_files = @{$files{rsync} || []};
+    if ($files{rsync}) {
+	sync_rsync($options, @{$files{rsync} || []});
+	delete $files{rsync};
+    }
+    if ($files{ssh}) {
+	my @ssh_files;
 	foreach (@{$files{ssh} || []}) {
-	    /^ssh:\/\/([^\/]*)(.*)/ and push @rsync_files, "$1:$2";
+	    /^ssh:\/\/([^\/]*)(.*)/ and push @ssh_files, "$1:$2";
 	}
-	sync_rsync($options, @rsync_files);
-	delete @files{qw(rsync ssh)};
+	sync_ssh($options, @ssh_files);
+	delete $files{ssh};
     }
     %files and die _("unable to handle protocol: %s", join ', ', keys %files);
 }
@@ -287,6 +291,20 @@ sub sync_curl {
     }
 }
 sub sync_rsync {
+    -x "/usr/bin/rsync" or die _("rsync is missing\n");
+    -x "/usr/bin/ssh" or die _("ssh is missing\n");
+    my $options = shift @_;
+    foreach (@_) {
+	my $count = 10; #- retry count on error (if file exists).
+	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+	do {
+	    system "/usr/bin/rsync", (ref $options && $options->{quiet} ? ("-q") : ("--progress", "-v")), "--partial",
+	      $_, (ref $options ? $options->{dir} : $options);
+	} while ($? != 0 && --$count > 0 && (-e (ref $options ? $options->{dir} : $options) . "/$basename"));
+    }
+    $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+}
+sub sync_ssh {
     -x "/usr/bin/rsync" or die _("rsync is missing\n");
     -x "/usr/bin/ssh" or die _("ssh is missing\n");
     my $options = shift @_;
@@ -1220,7 +1238,7 @@ sub update_media {
 		    } else {
 			#- if url is clear and no relative list file has been downloaded,
 			#- there is no need for a list file.
-			if ($medium->{url} eq $medium->{clear_url}) {
+			if ($medium->{url} ne $medium->{clear_url}) {
 			    foreach ($medium->{start} .. $medium->{end}) {
 				my $filename = $urpm->{depslist}[$_]->filename;
 				$list{$filename} = "$medium->{url}/$filename\n";
@@ -1569,13 +1587,26 @@ sub register_rpms {
     #- depslist and provides environment.
     $start = @{$urpm->{depslist}};
     foreach (@files) {
-	/(.*\/)?[^\/]*\.rpm$/ or $error = 1, $urpm->{error}(_("invalid rpm file name [%s]", $_)), next;
-	-r $_ or $error = 1, $urpm->{error}(_("unable to access rpm file [%s]", $_)), next;
+	/\.rpm$/ or $error = 1, $urpm->{error}(_("invalid rpm file name [%s]", $_)), next;
+
+	#- allow url to be given.
+	if (my ($basename) = /^[^:]*:\/.*\/([^\/]*\.rpm)$/) {
+	    unlink "$urpm->{cachedir}/partial/$basename";
+	    eval {
+		$urpm->{log}(_("retrieving rpm file [%s] ...", $_));
+		$urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, $_);
+		$urpm->{log}(_("...retrieving done"));
+		$_ = "$urpm->{cachedir}/partial/$basename";
+	    };
+	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
+	} else {
+	    -r $_ or $error = 1, $urpm->{error}(_("unable to access rpm file [%s]", $_)), next;
+	}
 
 	($id, undef) = $urpm->parse_rpm($_);
-	my $pkg = $urpm->{depslist}[$id];
+	my $pkg = defined $id && $urpm->{depslist}[$id];
 	$pkg or $urpm->{error}(_("unable to register rpm file")), next;
-	$urpm->{source}{$id} = $1 ? $_ :  "./$_";
+	$urpm->{source}{$id} = $_;
     }
     $error and $urpm->{fatal}(1, _("error registering local packages"));
     $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);
