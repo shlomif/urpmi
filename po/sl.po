@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "POT-Creation-Date: 2003-02-21 19:42+0100\n"
-"PO-Revision-Date: 2003-02-26 17:24+0100\n"
+"PO-Revision-Date: 2003-02-27 10:46+0100\n"
 "Last-Translator: Tadej Panjtar <panjtar@email.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "MIME-Version: 1.0\n"
@@ -66,18 +66,18 @@ msgid "%s: command not found\n"
 msgstr "%s: ukaz ni najden\n"
 
 #: ../urpm.pm_.c:178
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown webfetch `%s' !!!\n"
-msgstr "Neznan"
+msgstr "Neznano spletno prena¹anje `%s' !!!\n"
 
 #: ../urpm.pm_.c:197
 #, c-format
 msgid "unknown protocol defined for %s"
-msgstr "neznano definiran protokol za %s"
+msgstr "neznan definiran protokol za %s"
 
 #: ../urpm.pm_.c:210
 msgid "no webfetch (curl or wget currently) found\n"
-msgstr "niè spletnih prenosov ni uzvedenih (z curl ali wget)\n"
+msgstr "niè spletnih prenosov ni izvedenih (z curl ali wget)\n"
 
 #: ../urpm.pm_.c:226
 #, c-format
@@ -87,7 +87,7 @@ msgstr "nemogoèe obravnavati protokol: %s"
 #: ../urpm.pm_.c:246
 #, fuzzy, c-format
 msgid "copy failed: %s"
-msgstr "scp spodletelo na gostitelju %s"
+msgstr "scp spodletel na gostitelju %s"
 
 #: ../urpm.pm_.c:251
 msgid "wget is missing\n"
@@ -161,14 +161,13 @@ msgstr "nemogoèe je dostopati do rpm datoteke [%s]"
 
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
 #: ../urpm/parallel_ka_run.pm_.c:178
-#, fuzzy
 msgid "mput failed, maybe a node is unreacheable"
-msgstr "a"
+msgstr "mput je neuspel, mogoèe je vozli¹èe nedosegljivo"
 
 #: ../urpm/parallel_ka_run.pm_.c:65 ../urpm/parallel_ka_run.pm_.c:163
 #: ../urpm/parallel_ka_run.pm_.c:192
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr "a "
+msgstr "rshp je neuspel, mogoèe je vozli¹èe nedosegljivo"
 
 #: ../urpm/parallel_ka_run.pm_.c:74 ../urpm/parallel_ssh.pm_.c:78
 #, c-format
@@ -189,12 +188,12 @@ msgstr "Namestitev je mogoèa"
 #: ../urpm/parallel_ssh.pm_.c:185
 #, c-format
 msgid "scp failed on host %s"
-msgstr "scp spodletelo na gostitelju %s"
+msgstr "scp spodletel na gostitelju %s"
 
 #: ../urpm/parallel_ssh.pm_.c:167
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr "gostitelj %s nima zadostne razlièice urpmi"
+msgstr "gostitelj %s nima dovolj nove razlièice urpmi"
 
 #: ../urpme_.c:39
 #, c-format
@@ -262,7 +261,7 @@ msgstr "odstranitev paketa %s bo zru¹ilo tvoj sistem"
 
 #: ../urpme_.c:95
 msgid "Nothing to remove"
-msgstr "Niè za odstranit"
+msgstr "Nièesr za odstraniti"
 
 #: ../urpme_.c:98
 msgid "Checking to remove the following packages"
@@ -277,7 +276,7 @@ msgstr "Zaradi zadovoljitve odvisnosti bodo odstranjeni sledeèi paketi (%d MB)"
 
 #: ../urpme_.c:113
 msgid "Removing failed"
-msgstr "Odstranjevanje je podletelo "
+msgstr "Odstranjevanje je spodletelo "
 
 #: ../urpmf_.c:26
 #, c-format
@@ -450,11 +449,11 @@ msgstr ""
 "uporaba: urpmi.addmedia [opcije] <ime> <url> [z <relativna_pot>]\n"
 "kjer je <url> ena izbira od\n"
 "       file://<pot>\n"
-"       ftp://<uporabni¹ko_ime>:<geslo>@<host>/<path> with <relative filename "
-"of hdlist>\n"
-"       ftp://<host>/<path> with <relative filename of hdlist>\n"
-"       http://<host>/<path> with <relative filename of hdlist>\n"
-"       removable://<path>\n"
+"       ftp://<uporabni¹ko_ime>:<geslo>@<gostitelj>/<pot> z <relativno potjo  "
+"od hdlist>\n"
+"       ftp://<gostitelj>/<pot> z<relativno_potjo_od_hdlist>\n"
+"       http://<gostitelj>/<pot> z<relativno_potjo_od_hdlist>\n"
+"       removable://<pot>\n"
 "\n"
 "in so [opcije] iz\n"
 
@@ -471,22 +470,20 @@ msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - omeji hitrost pobiranja.\n"
 
 #: ../urpmi.addmedia_.c:57 ../urpmi.update_.c:66 ../urpmi_.c:92 ../urpmq_.c:58
-#, fuzzy
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
 "                   to be 1080 by default (format is <proxyhost[:port]>).\n"
 msgstr ""
-"posrednik posrednik\n"
-" do privzeto format<proxyhost[:port]>"
+"  --proxy        - upodabi doloèen HTTP posrednik, vtiènik je domnevno\n"
+"                       privzeto 1080 (format je <posrednik[:vtiènik]>).\n"
 
 #: ../urpmi.addmedia_.c:59 ../urpmi.update_.c:68 ../urpmi_.c:94 ../urpmq_.c:60
-#, fuzzy
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
 msgstr ""
-"posrednik user user in geslo do za posrednik\n"
-" format<user:password>"
+"  --proxy-user   - doloèi uporabnika in geslo za uporabo avtentifikacije\n"
+"                   pri posredniku (formatje <uporabnik:geslo>).\n"
 
 #: ../urpmi.addmedia_.c:61
 msgid "  --update       - create an update medium.\n"
@@ -501,14 +498,15 @@ msgstr ""
 "                   medija.\n"
 
 #: ../urpmi.addmedia_.c:64
-#, fuzzy
 msgid ""
 "  --distrib-XXX  - automatically create a medium for XXX part of a\n"
 "                   distribution, XXX may be main, contrib, updates or\n"
 "                   anything else that has been configured ;-)\n"
 msgstr ""
-"a za a\n"
-" distribucija ali\n"
+"  --distrib-XXX  - avtomatsko kreiraj medij za XXX del\n"
+"                   distribucije, XXX so lahko glavni mediji, prispevki, "
+"posodobitve ali\n"
+"                   karkoli drugega, kar je bilo pripravljeno ;-)\n"
 
 #: ../urpmi.addmedia_.c:67
 #, c-format
@@ -527,41 +525,38 @@ msgid ""
 "                   from the version of the distribution told by the\n"
 "                   installed mandrake-release package.\n"
 msgstr ""
-"razlièica distribucija razlièica privzeto\n"
-" razlièica distribucija\n"
-" paket"
+"  --version      - uporabi podano razlièica distribucije, privzeto je vzeta\n"
+"                   iz razlièice distribucije dobljene pri\n"
+"                   demonta¾i paketa mandrake-release.\n"
 
 #: ../urpmi.addmedia_.c:72
-#, fuzzy
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
-"platforma privzeto\n"
-" paket"
+"  --arch         - uporabi doloèeno platformo, kot privzeta arhitekturo se "
+"vzame\n"
+"                   tista, ki jo ima name¹èen paket mandrake-release .\n"
 
 #: ../urpmi.addmedia_.c:74 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:72
-#, fuzzy
 msgid "  -c             - clean headers cache directory.\n"
-msgstr "c"
+msgstr "  -c             - poèisti imenik z medpomnilnikom zglavij.\n"
 
 #: ../urpmi.addmedia_.c:75
-#, fuzzy
 msgid ""
 "  -h             - try to find and use synthesis or hdlist\n"
 "                   file.\n"
 msgstr ""
-"do poi¹èi in ali\n"
-" datoteka"
+"  -h             - poskusi najti in uporabiti synthesis ali hdlist\n"
+"                   datoteki.\n"
 
 #: ../urpmi.addmedia_.c:77 ../urpmi.update_.c:74
 msgid "  -f             - force generation of hdlist files.\n"
-msgstr ""
+msgstr "  -f             - prisili tvorbo hdlist datotek.\n"
 
 #: ../urpmi.addmedia_.c:145
-#, fuzzy
 msgid "cannot add updates of a cooker distribution\n"
-msgstr "a distribucija"
+msgstr "ne morem dodati distribucije s posodobitvami ali cooker\n"
 
 #: ../urpmi.addmedia_.c:185
 #, c-format
@@ -601,18 +596,16 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "nemogoèe je kreirati medij \"%s\"\n"
 
 #: ../urpmi.removemedia_.c:34
-#, fuzzy
 msgid ""
 "usage: urpmi.removemedia [-a] <name> ...\n"
 "where <name> is a medium name to remove.\n"
 msgstr ""
-"a<name>\n"
-"<name> a ime do"
+"uporaba: urpmi.removemedia [-a] <ime> ...\n"
+"kjer je <ime> ime medija za odstranitev.\n"
 
 #: ../urpmi.removemedia_.c:37
-#, fuzzy
 msgid "  -a             - select all media.\n"
-msgstr "a vse mediji"
+msgstr "  -a             - izberi celoten medij.\n"
 
 #: ../urpmi.removemedia_.c:39 ../urpmi.update_.c:75
 #, c-format
@@ -624,9 +617,8 @@ msgstr ""
 "nepoznane opcije '%s'\n"
 
 #: ../urpmi.removemedia_.c:48
-#, fuzzy
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr "niè do do a mediji"
+msgstr "nièesar za odstraniti (uporabi urpmi.addmedia za dodajanje medija)\n"
 
 #: ../urpmi.removemedia_.c:50
 #, c-format
@@ -638,28 +630,27 @@ msgstr ""
 "(en od %s)\n"
 
 #: ../urpmi.update_.c:60
-#, fuzzy
 msgid ""
 "usage: urpmi.update [options] <name> ...\n"
 "where <name> is a medium name to update.\n"
 msgstr ""
-"<name>\n"
-"<name> a ime do"
+"uporaba: urpmi.update [opcije] <ime> ...\n"
+"kjer je <ime> ime medija za posodabljanje.\n"
 
 #: ../urpmi.update_.c:70
 msgid "  --update       - update only update media.\n"
 msgstr "  --update       - posodobi samo posodobitveni medij.\n"
 
 #: ../urpmi.update_.c:71
-#, fuzzy
 msgid "  -a             - select all non-removable media.\n"
-msgstr "a vse mediji"
+msgstr ""
+"  -a             - izberi vse ne-izmenljive medije (niso na CD-ROM-ih).\n"
 
 #: ../urpmi.update_.c:73
-#, fuzzy
 msgid ""
 "  -d             - force complete computation of depslist.ordered file.\n"
-msgstr "d datoteka"
+msgstr ""
+"  -d             - prisili dokonèanje izdelave depslist.ordered datoteke.\n"
 
 #: ../urpmi.update_.c:85
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
@@ -696,14 +687,13 @@ msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
 msgstr "  --synthesis    - uporabi tale dan synthesis namesti urpmi baze.\n"
 
 #: ../urpmi_.c:77 ../urpmq_.c:44
-#, fuzzy
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "do"
+msgstr "  --auto-select  - avtomatsko izberi pakete za posodobitev sistema.\n"
 
 #: ../urpmi_.c:78 ../urpmq_.c:45
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
-msgstr "  --fuzzy        - impose ohlapno iskanje (isto kot -y).\n"
+msgstr "  --fuzzy        - vsili ohlapno iskanje (isto kot -y).\n"
 
 #: ../urpmi_.c:79 ../urpmq_.c:50
 msgid "  --src          - next package is a source package (same as -s).\n"
@@ -799,9 +789,8 @@ msgid "  -P             - do not search in provides to find package.\n"
 msgstr "  -P             - ne i¹èi v polje provides da najde paket.\n"
 
 #: ../urpmi_.c:110 ../urpmq_.c:68
-#, fuzzy
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr "  -y             - impose ohlapno iskanje (isto kot --fuzzy).\n"
+msgstr "  -y             - vsili ohlapno iskanje (isto kot --fuzzy).\n"
 
 #: ../urpmi_.c:111 ../urpmq_.c:69
 msgid "  -s             - next package is a source package (same as --src).\n"
