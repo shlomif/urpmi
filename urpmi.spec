@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 5mdk
+%define release 6mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -108,7 +108,11 @@ EOF
 
 mkdir -p %{buildroot}%{compat_perl_vendorlib}
 install -m 644 urpm.pm %{buildroot}%{compat_perl_vendorlib}/urpm.pm
+%if %{allow_gurpmi}
 install -m 644 gurpm.pm %{buildroot}%{compat_perl_vendorlib}/gurpm.pm
+%else
+rm -rf %{buildroot}%{_sbindir}/gurpmi
+%endif
 mkdir -p %{buildroot}%{compat_perl_vendorlib}/urpm
 for p in args cfg download msg util parallel_ka_run parallel_ssh
 do
@@ -253,6 +257,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Thu May 27 2004 Stefan van der Eijk <stefan@eijk.nu> 4.5-6mdk
+- fixed Fedora build (gurmpi installed but unpackaged files)
+
 * Fri May 21 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-5mdk
 - locale and command-line fixes
 - urpmf now warns when no hdlist is used
