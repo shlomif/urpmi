@@ -379,6 +379,9 @@ sub remove_media {
 	if (exists $media{$_->{name}}) {
 	    $media{$_->{name}} = 1; #- keep it mind this one has been removed
 
+	    #- mark to re-write configuration.
+	    $urpm->{modified} = 1;
+
 	    #- remove file associated with this medium.
 	    foreach ($_->{hdlist}, $_->{list}, "synthesis.$_->{hdlist}", "descriptions.$_->{name}", "$_->{name}.cache") {
 		unlink "$urpm->{statedir}/$_";
@@ -629,7 +632,7 @@ sub update_media {
 		    close F or $medium->{synthesis} = 1; #- try hdlist as a synthesis (for probe)
 		}
 		if ($medium->{synthesis}) {
-		    if (my @founds = $urpm->parse_synthesis($medium)) {
+		    if (my @founds = $urpm->parse_synthesis($medium, filename => "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
 			#- it appears hdlist file is a synthesis one in fact.
 			#- parse_synthesis returns all full name of package read from it.
 			foreach (@founds) {
@@ -669,6 +672,7 @@ sub update_media {
 	} else {
 	    #- make sure to rebuild base files and clean medium modified state.
 	    $medium->{modified} = 0;
+	    $urpm->{modified} = 1;
 
 	    #- but use newly created file.
 	    unlink "$urpm->{statedir}/$medium->{hdlist}";
@@ -689,8 +693,8 @@ sub update_media {
 
     #- build synthesis files once requires/files have been matched by rpmtools::read_hdlists.
     if (@rebuild_synthesis_of_media) {
-	#- cleaning.
-	$urpm->{params}->clean();
+	#- cleaning whole data structures (params and per media).
+	$urpm->clean;
 
 	foreach my $medium (@{$urpm->{media} || []}) {
 	    $medium->{ignore} and next;
@@ -736,29 +740,41 @@ sub update_media {
 
     #- clean headers cache directory to remove everything that is no more
     #- usefull according to depslist used.
-    if ($options{noclean}) {
-	local (*D, $_);
-	my %arch;
-	opendir D, "$urpm->{cachedir}/headers";
-	while (defined($_ = readdir D)) {
-	    /^([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)$/ and $arch{"$1-$2-$3"} = $4;
+    if ($urpm->{modified}) {
+	if ($options{noclean}) {
+	    local (*D, $_);
+	    my %arch;
+	    opendir D, "$urpm->{cachedir}/headers";
+	    while (defined($_ = readdir D)) {
+		/^([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)$/ and $arch{"$1-$2-$3"} = $4;
+	    }
+	    closedir D;
+	    $urpm->{log}(_("found %d headers in cache", scalar(keys %arch)));
+	    foreach (@{$urpm->{params}{depslist}}) {
+		delete $arch{"$_->{name}-$_->{version}-$_->{release}"};
+	    }
+	    $urpm->{log}(_("removing %d obsolete headers in cache", scalar(keys %arch)));
+	    foreach (keys %arch) {
+		unlink "$urpm->{cachedir}/headers/$_.$arch{$_}";
+	    }
 	}
-	closedir D;
-	$urpm->{log}(_("found %d headers in cache", scalar(keys %arch)));
-	foreach (@{$urpm->{params}{depslist}}) {
-	    delete $arch{"$_->{name}-$_->{version}-$_->{release}"};
-	}
-	$urpm->{log}(_("removing %d obsolete headers in cache", scalar(keys %arch)));
-	foreach (keys %arch) {
-	    unlink "$urpm->{cachedir}/headers/$_.$arch{$_}";
-	}
-    }
 
-    #- this file is written in any cases.
-    $urpm->write_config();
+	#- this file is written in any cases.
+	$urpm->write_config();
+    }
 
     #- now everything is finished.
     system("sync");
+}
+
+#- clean params and depslist computation zone.
+sub clean {
+    my ($urpm) = @_;
+
+    $urpm->{params}->clean();
+    foreach (@{$urpm->{media} || []}) {
+	$_->{depslist} = [];
+    }
 }
 
 #- find used mount point from a pathname, use a optional mode to allow
@@ -1078,7 +1094,7 @@ sub parse_synthesis {
 		$urpm->{params}{provides}{$found->{name}}{$fullname} = undef;
 		foreach (@{$info{provides} || []}) {
 		    defined $serial or
-		      /([^\s\[]*)(?:\s+|\[)?==\s*(\d+:)?[^\-]*-/ && $found->{name} eq $1 && $2 > 0 and $serial = $2;
+		      /([^\s\[]*)(?:\s+|\[)?==\s*(?:(\d+):)?[^\-]*-/ && $found->{name} eq $1 && $2 > 0 and $serial = $2;
 		    /([^\s\[]*)/ and $urpm->{params}{provides}{$1}{$fullname} = undef;
 		}
 	    }
@@ -1103,7 +1119,10 @@ sub parse_synthesis {
 	$found;
     };
 
-    open F, "gzip -dc '" . "$urpm->{statedir}/synthesis.$medium->{hdlist}" . "' |";
+    #- keep track of filename used for the medium.
+    my $filename = $options{filename} || "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+
+    open F, "gzip -dc '$filename' |";
     while (<F>) {
 	chomp;
 	my ($name, $tag, @data) = split '@';
@@ -1115,8 +1134,8 @@ sub parse_synthesis {
 	$info{$tag} = \@data;
     }
     !%info || $update_info->() or $urpm->{log}(_("unable to analyse synthesis data of %s", $last_name));
-    close F or $urpm->{error}(_("unable to parse correctly [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}")), return;
-    $urpm->{log}(_("read synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+    close F or $urpm->{error}(_("unable to parse correctly [%s]", $filename)), return;
+    $urpm->{log}(_("read synthesis file [%s]", $filename));
 
     @founds;
 }

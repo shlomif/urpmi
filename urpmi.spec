@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.0
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -139,6 +139,11 @@ fi
 
 
 %changelog
+* Fri Dec  7 2001 François Pons <fpons@mandrakesoft.com> 3.0-3mdk
+- fixed back /etc/urpmi/urpmi.cfg update.
+- fixed back synthesis source management.
+- fixed extraction of epoch tag for old synthesis.
+
 * Fri Dec  7 2001 François Pons <fpons@mandrakesoft.com> 3.0-2mdk
 - fixed %%post with exit code.
 - removing sense data in provides (internally).
