@@ -826,7 +826,7 @@ sub filter_active_media {
 		    my $id = delete $fullname2id{$fullname};
 		    defined $id and $urpm->{params}{depslist}[$id]{active} = 1;
 		} else {
-		    $urpm->{error}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{hdlist}", $_));
+		    $urpm->{log}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{hdlist}", $_));
 		}
 	    }
 	}
@@ -1509,7 +1509,7 @@ sub get_source_packages {
 		if (my ($fullname, $file) = /^([^:\s]*-[^:\-\s]+-[^:\-\s]+\.[^:\.\-\s]*)(?::(\S+))?/) {
 		    $file2fullnames{$file || $fullname}{$fullname} = undef;
 		} else {
-		    $urpm->{error}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{hdlist}", $_));
+		    $urpm->{log}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{hdlist}", $_));
 		}
 	    }
 	}
@@ -1692,9 +1692,9 @@ sub select_packages_to_upgrade {
     #- used for package that are not correctly updated.
     #- should only be used when nothing else can be done correctly.
     my %upgradeNeedRemove = (
-			     'libstdc++' => 1,
-			     'compat-glibc' => 1,
-			     'compat-libs' => 1,
+			     #'libstdc++' => 1,
+			     #'compat-glibc' => 1,
+			     #'compat-libs' => 1,
 			    );
 
     #- help removing package which may have different release numbering
