@@ -26,10 +26,30 @@ N_(""
 N_(""
 "usage: urpmi.addmedia <name> <url>\n"
 "where <url> is one of\n"
-"	file://<path>\n"
-"	ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>\n"
-"	ftp://<host>/<path> with <relative filename of hdlist>\n"
-"	http://<host>/<path> with <relative filename of hdlist>\n"
-"        removable_<device>_<number>://<path>\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>\n"
+"       ftp://<host>/<path> with <relative filename of hdlist>\n"
+"       http://<host>/<path> with <relative filename of hdlist>\n"
+"       removable_<device>://<path>\n"
+""),
+N_(""
+"%s\n"
+"`with' missing for ftp media\n"
+""),
+N_(""
+"%s\n"
+"device `%s' do not exist\n"
+""),
+N_(""
+"%s\n"
+"<relative path of hdlist> missing\n"
+""),
+N_(""
+"missing the entry to update\n"
+"(one of %s)\n"
+""),
+N_(""
+"missing the entry to remove\n"
+"(one of %s)\n"
 ""),
 };
