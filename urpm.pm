@@ -1394,7 +1394,7 @@ sub filter_minimal_packages_to_upgrade {
 	    foreach (keys %provides) {
 		$provides{$_} || exists $selected{$_} and next;
 		$selected{$_} = undef;
-		print STDERR "going to $_\n";
+
 		my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
 		foreach my $fullname (@{$urpm->{params}{provides}{$_}}) {
 		    my $pkg = $urpm->{params}{info}{$fullname};
@@ -1428,9 +1428,7 @@ sub filter_minimal_packages_to_upgrade {
 						      my ($p) = @_;
 						      my $cmp = rpmtools::version_compare($pkg->{version},
 											  $p->{version});
-						      print STDERR "examining $pkg->{name}-$pkg->{version}-$pkg->{release}:$pkg->{serial} against $p->{name}-$p->{version}-$p->{release}:$p->{serial}";
 						      $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} && ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0));
-						      print STDERR " gives $installed{$pkg->{id}}\n";
 						  });
 		    }
 		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
