@@ -1462,7 +1462,11 @@ sub get_source_packages {
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
 	my $p = $urpm->{params}{depslist}[$_];
-	$fullname2id{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} = $_;
+	if ($p->{source}) {
+	    push @local_sources, $p->{source};
+	} else {
+	    $fullname2id{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} = $_;
+	}
     }
 
     #- examine each medium to search for packages.
