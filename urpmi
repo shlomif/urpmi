@@ -323,7 +323,8 @@ unless ($bug) {
 }
 $verbose > 0 or $urpm->{log} = sub {};
 
-$urpm->exlock_urpmi_db;
+$urpm->exlock_rpm_db;
+$urpm->shlock_urpmi_db;
 $urpm->configure(nocheck_access => $env || $uid > 0,
 		 media => $media,
 		 excludemedia => $excludemedia,
@@ -582,51 +583,12 @@ foreach my $set (@{$state->{transaction} || []}) {
     my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources) || {}};
     
     if ($urpm->{options}{'verify-rpm'}) {
-	my ($medium, %invalid_sources);
-
-	foreach my $id (sort { $a <=> $b } keys %transaction_sources_install, keys %transaction_sources) {
-	    my $verif = URPM::verify_rpm($transaction_sources_install{$id} || $transaction_sources{$id});
-
-	    if ($verif =~ /NOT OK/) {
-		$invalid_sources{$transaction_sources_install{$id} ||
-				 $transaction_sources{$id}} = N("Invalid signature (%s)", $verif);
-	    } else {
-		unless ($medium && $medium->{start} <= $id && $id <= $medium->{end}) {
-		    $medium = undef;
-		    foreach (@{$urpm->{media}}) {
-			$_->{start} <= $id && $id <= $_->{end} and $medium = $_, last;
-		    }
-		}
-
-		my $key_ids = $medium && $medium->{'key-ids'} || $urpm->{options}{'key-ids'};
-		#- check the key ids of the medium are matching (all) the given key id of the package.
-		if ($key_ids) {
-		    my $valid_ids = 0;
-		    my $invalid_ids = 0;
-
-		    foreach my $key_id ($verif =~ /#(\S+)/g) {
-			if (grep { hex($_) == hex($key_id) } split /[,\s]+/, $key_ids) {
-			    ++$valid_ids;
-			} else {
-			    ++$invalid_ids;
-			}
-		    }
-
-		    if ($invalid_ids) {
-			$invalid_sources{$transaction_sources_install{$id} ||
-					 $transaction_sources{$id}} = N("Invalid Key ID (%s)", $verif);
-		    } elsif (!$valid_ids) {
-			$invalid_sources{$transaction_sources_install{$id} ||
-					 $transaction_sources{$id}} = N("Missing signature (%s)", $verif);
-		    }
-		}
-	    }
-	}
-
-	if (%invalid_sources) {
+	my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources, translate => 1);
+	
+	if (@bad_signatures) {
 	    my $msg = N("The following packages have bad signatures");
 	    my $msg2 = N("Do you want to continue installation ?");
-	    my $p = join "\n", map { "$_: $invalid_sources{$_}"} sort { $a cmp $b} keys %invalid_sources;
+	    my $p = join "\n", @bad_signatures;
 	    if ($auto) {
 		message("$msg:\n$p\n", 'noX');
 		exit 1;
@@ -788,6 +750,7 @@ if ($nok) {
 }
 
 $urpm->unlock_urpmi_db;
+$urpm->unlock_rpm_db;
 
 #- try to umount removable device which may have been mounted.
 $urpm->try_umounting_removables;

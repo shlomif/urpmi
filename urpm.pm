@@ -1128,10 +1128,12 @@ sub update_media {
     require URPM::Build;
     require URPM::Signature;
 
-    $options{nolock} or $urpm->exlock_urpmi_db;
-
     #- get gpg-pubkey signature.
+    $options{nopubkey} or $urpm->exlock_rpm_db;
     $options{nopubkey} or $urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
+
+    #- lock database if allowed.
+    $options{nolock} or $urpm->exlock_urpmi_db;
 
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1979,6 +1981,7 @@ this could happen if you mounted manually the directory when creating the medium
     }
 
     $options{nolock} or $urpm->unlock_urpmi_db;
+    $options{nopubkey} or $urpm->unlock_rpm_db;
 }
 
 #- clean params and depslist computation zone.
@@ -2565,6 +2568,46 @@ sub download_source_packages {
     %sources, %error_sources;
 }
 
+#- safety rpm db locking mechanism
+sub exlock_rpm_db {
+    my ($urpm) = @_;
+
+    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
+    my ($LOCK_EX, $LOCK_NB) = (2, 4);
+
+    #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
+    open RPMLOCK_FILE, ">$urpm->{statedir}/.RPMLOCK";
+    flock RPMLOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
+}
+sub shlock_rpm_db {
+    my ($urpm) = @_;
+
+    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
+    my ($LOCK_SH, $LOCK_NB) = (1, 4);
+
+    #- create the .LOCK file if needed (and if possible)
+    unless (-e "$urpm->{statedir}/.RPMLOCK") {
+	open RPMLOCK_FILE, ">$urpm->{statedir}/.RPMLOCK";
+	close RPMLOCK_FILE;
+    }
+    #- lock urpmi database, if the LOCK file doesn't exists no share lock.
+    open RPMLOCK_FILE, "$urpm->{statedir}/.RPMLOCK" or return;
+    flock RPMLOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
+}
+sub unlock_rpm_db {
+    my ($urpm) = @_;
+
+    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
+    my $LOCK_UN = 8;
+
+    #- now everything is finished.
+    system("sync");
+
+    #- release lock on database.
+    flock RPMLOCK_FILE, $LOCK_UN;
+    close RPMLOCK_FILE;
+}
+
 sub exlock_urpmi_db {
     my ($urpm) = @_;
 
@@ -2647,6 +2690,7 @@ sub copy_packages_of_removable_media {
 	    }
 	    if (-e $dir) {
 		while (my ($i, $url) = each %{$list->[$id]}) {
+		    print STDERR "copying or looking for $i:$url";
 		    chomp $url;
 		    my ($filepath, $filename) = $url =~ /^(?:removable[^:]*|file):\/(.*\/([^\/]*))/ or next;
 		    if (-r $filepath) {
@@ -3165,6 +3209,49 @@ sub translate_why_removed {
 	  #- now insert the reason if available.
 	  $_ . ($s ? " ($s)" : '');
       } @l;
+}
+
+sub check_sources_signatures {
+    my ($urpm, $sources_install, $sources, %options) = @_;
+    my ($medium, %invalid_sources);
+
+    foreach my $id (sort { $a <=> $b } keys %$sources_install, keys %$sources) {
+	my $verif = URPM::verify_rpm($sources_install->{$id} || $sources->{$id});
+
+	if ($verif =~ /NOT OK/) {
+	    $invalid_sources{$sources_install->{$id} || $sources->{$id}} = N("Invalid signature (%s)", $verif);
+	} else {
+	    unless ($medium && $medium->{start} <= $id && $id <= $medium->{end}) {
+		$medium = undef;
+		foreach (@{$urpm->{media}}) {
+		    $_->{start} <= $id && $id <= $_->{end} and $medium = $_, last;
+		}
+	    }
+
+	    my $key_ids = $medium && $medium->{'key-ids'} || $urpm->{options}{'key-ids'};
+	    #- check the key ids of the medium are matching (all) the given key id of the package.
+	    if ($key_ids) {
+		my $valid_ids = 0;
+		my $invalid_ids = 0;
+
+		foreach my $key_id ($verif =~ /#(\S+)/g) {
+		    if (grep { hex($_) == hex($key_id) } split /[,\s]+/, $key_ids) {
+			++$valid_ids;
+		    } else {
+			++$invalid_ids;
+		    }
+		}
+
+		if ($invalid_ids) {
+		    $invalid_sources{$sources_install->{$id} || $sources->{$id}} = N("Invalid Key ID (%s)", $verif);
+		} elsif (!$valid_ids) {
+		    $invalid_sources{$sources_install->{$id} || $sources->{$id}} = N("Missing signature (%s)", $verif);
+		}
+	    }
+	}
+    }
+
+    map { $_ . ($options{translate} ? ": $invalid_sources{$_}" : "") } sort keys %invalid_sources;
 }
 
 1;

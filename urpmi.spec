@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 29mdk
+Release: 30mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,12 +202,15 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Tue Sep  2 2003 François Pons <fpons@mandrakesoft.com> 4.4-30mdk
+- improved checking to be safer and smarter.
+- added urpm::check_sources_signatures.
+
 * Mon Sep  1 2003 François Pons <fpons@mandrakesoft.com> 4.4-29mdk
 - fixed @EXPORT of *N to be N only (avoid clashes with rpmdrake
   or others, and fix #5090)
 - added urpmi.cfg man page in section 5.
 - fixed bug 5058.
-
 
 * Thu Aug 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-28mdk
 - fixed transaction number restarting at 1 in split mode.
