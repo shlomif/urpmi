@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-pt_BR\n"
-"POT-Creation-Date: 2003-05-19 16:44+0200\n"
+"POT-Creation-Date: 2003-06-17 22:08+0200\n"
 "PO-Revision-Date: 2003-05-20 16:05-0300\n"
 "Last-Translator: Tiago da Cruz Bezerra <tiago@grupoking.com.br>\n"
 "Language-Team: Poruguês do Brasil <linux_pt_BR@yahoogrupos.com.br>\n"
@@ -396,6 +396,17 @@ msgstr ""
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl falhou: saiu com %d ou sinal %d\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The installation cannot continue because the following packages\n"
+"have to be removed for others to be upgraded:\n"
+"%s\n"
+msgstr ""
+"Estes pacotes tem que ser removidos para outros serem atualizados:\n"
+"%s\n"
+"Concorda ?"
+
 #: ../urpme:1
 #, c-format
 msgid "unknown package"
@@ -584,7 +595,7 @@ msgstr ""
 "  --proxy        - usa o proxy HTTP especificado, o número da porta\n"
 "                   é 1080 por padrão (o formato é <proxyhost[:port]>).\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "in order to install %s"
 msgstr "para instalar %s"
@@ -603,6 +614,11 @@ msgstr "  -i             - ignora a distinção de caixa em tudo.\n"
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "Não foi possível criar o diretório [%s] para relatório de falhas"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "não foi possível remover o pacote %s"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -673,6 +689,11 @@ msgstr ""
 #, c-format
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - seleciona todas as mídias.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Missing signature (%s)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -784,6 +805,11 @@ msgstr "problema ao ler o arquivo hdlist da mídia \"%s\""
 
 #: ../urpmi:1
 #, c-format
+msgid "Invalid signature (%s)"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
@@ -824,6 +850,11 @@ msgstr "Mídia \"%s\" tentou usar uma hdlist já usada, mídia ignorada."
 msgid "unable to parse hdlist file of \"%s\""
 msgstr "Incapaz de atualizar arquivo hdlist  de \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "due to conflicts with %s"
+msgstr "devido a conflitos com %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -838,11 +869,6 @@ msgstr "Tentar instalar sem checar as dependências? (s/N) "
 #, c-format
 msgid "removing %d obsolete headers in cache"
 msgstr "Removendo %d cabeçalhos obsoletos no cache."
-
-#: ../urpmi:1
-#, c-format
-msgid "due to conflicts with %s"
-msgstr "devido a conflitos com %s"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -1049,6 +1075,11 @@ msgid "  -a             - select all packages matching expression.\n"
 msgstr ""
 "  -a             - seleciona todos os pacotes que combinam com a expressão.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr ""
+
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -1084,13 +1115,13 @@ msgstr "Verificando para remover os seguintes pacotes"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "Incapaz de acessar arquivo rpm [%s]"
-
-#: ../urpmi:1
-#, c-format
 msgid "unrequested"
 msgstr "não requisitado"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "Incapaz de acessar arquivo rpm [%s]"
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1149,15 +1180,15 @@ msgid "  !              - unary NOT, true if expression is false.\n"
 msgstr ""
 "  !              - operador unário NÃO, verdadeiro se a expressão é falsa.\n"
 
-#: ../urpmi.update:1
-#, c-format
-msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr "nada para atualizar (use urpmi.addmedia para adicionar uma mídia)\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "unmounting %s"
 msgstr "Desmontando %s"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "nothing to update (use urpmi.addmedia to add a media)\n"
+msgstr "nada para atualizar (use urpmi.addmedia para adicionar uma mídia)\n"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -1524,6 +1555,11 @@ msgstr ""
 msgid "ssh is missing\n"
 msgstr "ssh está faltando\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "  --split-level  - build small transaction of minimal given length.\n"
+msgstr ""
+
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
 msgid ""
@@ -1634,6 +1670,13 @@ msgstr "      %s%% de %s completo, ETA = %s, velocidade = %s"
 #, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
 msgstr "computando o md5sum de uma fonte hdlist recuperada (ou síntese)"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --no-uninstall - never ask to uninstall a package, abort the "
+"installation.\n"
+msgstr ""
 
 #: ../urpmq:1
 #, c-format
@@ -1820,7 +1863,7 @@ msgstr ""
 msgid "  --size         - print tag size: size.\n"
 msgstr "  --size          - imprime a tag tamanho: size.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "devido a não satisfazer %s"
@@ -1868,6 +1911,11 @@ msgstr ""
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "due to missing %s"
+msgstr "devido estar faltando %s"
+
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "  --update       - use only update media.\n"
@@ -1881,11 +1929,6 @@ msgid ""
 msgstr ""
 "uso: urpmi.update [opções] <nome> ...\n"
 "onde <nome> é um nome de mídia para atualizar.\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to missing %s"
-msgstr "devido estar faltando %s"
 
 #: ../urpm.pm:1
 #, c-format

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-he\n"
-"POT-Creation-Date: 2003-05-15 14:10+0200\n"
+"POT-Creation-Date: 2003-06-17 22:08+0200\n"
 "PO-Revision-Date: 2003-03-15 15:23+0000\n"
 "Last-Translator: dovix <dovix2003@yahoo.com>\n"
 "Language-Team: Hebrew <en@li.org>\n"
@@ -128,69 +128,30 @@ msgstr ""
 msgid "no full media list was found"
 msgstr "לא נמצאה רשימת מדיה מלאה"
 
-#: ../_irpm:1
-#, c-format
-msgid "%s: command not found\n"
-msgstr "%sפקודה לא נמצאה \n"
-
-#: ../_irpm:1 ../urpme:1 ../urpmi:1
-#, c-format
-msgid " (Y/n) "
-msgstr "אישור/ביטול (כ/ל) "
-
-#: ../_irpm:1 ../urpmi:1
-#, c-format
-msgid "Cancel"
-msgstr "ביטול"
-
-#: ../_irpm:1 ../urpmi:1
-#, c-format
-msgid "Ok"
-msgstr "אישור"
-
-#: ../_irpm:1 ../urpme:1 ../urpmi:1
-#, c-format
-msgid "Is this OK?"
-msgstr "האם זה בסדר?"
-
-#: ../_irpm:1
+#: ../urpmi.addmedia:1
 #, c-format
 msgid ""
-"Automatic installation of packages...\n"
-"You requested installation of package %s\n"
+"  --distrib      - automatically create all media from an installation\n"
+"                   medium.\n"
 msgstr ""
-"התקנה אוטומטית של החבילות ... \n"
-"ביקשת התקנה של החבילות %s\n"
-
-#: ../_irpm:1 ../urpmi:1
-#, c-format
-msgid "installing %s\n"
-msgstr "התקנת %s\n"
+"  --distrib      - צור אוטומטית את כל המדיות מההתקנה\n"
+"                   medium.\n"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to open rpmdb"
 msgstr "אין אפשרות לפתוח את בסיס הנתונים של החבילות"
 
-#: ../urpm.pm:1
+#: ../urpme:1 ../urpmf:1 ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.removemedia:1
+#: ../urpmi.update:1 ../urpmq:1
 #, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "הגישה לחבילה [%s] נכשלה"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to install package %s"
-msgstr "התקנת החבילה %s נכשלה"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgid "  --help         - print this help message.\n"
 msgstr ""
 
-#: ../urpm.pm:1
+#: ../urpmi:1
 #, c-format
-msgid "unable to remove package %s"
-msgstr "הסרת החבילה %s נכשלה"
+msgid "One of the following packages is needed to install %s:"
+msgstr "אחת החבילות הבאות נדרשת בשביל ההתקנה %s"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -198,147 +159,29 @@ msgid "removing package %s"
 msgstr "הסרת החבילה %s נכשלה"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to create transaction"
-msgstr "הוספת המאגר \"%s\" נכשל\n"
-
-#: ../urpm.pm:1
 #, c-format
-msgid ""
-"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgid "\"%s\""
 msgstr ""
 
-#: ../urpm.pm:1 ../urpmi:1
+#: ../urpmi:1
 #, c-format
-msgid "Preparing..."
-msgstr "הכנה..."
+msgid "Everything already installed"
+msgstr "הכל כבר מותקן"
 
-#: ../urpm.pm:1 ../urpmi.addmedia:1
+#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
-msgid "...retrieving failed: %s"
-msgstr "...האיחזור נכשל: %s"
-
-#: ../urpm.pm:1 ../urpmi.addmedia:1
-#, c-format
-msgid "...retrieving done"
-msgstr "...האיחזור הסתיים"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving rpm files from medium \"%s\"..."
+msgid "  -c             - clean headers cache directory.\n"
 msgstr ""
 
-#: ../urpm.pm:1
+#: ../urpmf:1
 #, c-format
-msgid "malformed input: [%s]"
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr ""
 
-#: ../urpm.pm:1
+#: ../urpmi:1
 #, c-format
-msgid "unable to access medium \"%s\""
-msgstr "הגישה למדיה \"%s\" נכשלה"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "urpmi database locked"
-msgstr "בסיס הנתונים של urpmi נעול"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "incoherent medium \"%s\" marked removable but not really"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "medium \"%s\" is not selected"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "אין אפשרות לקרוא את קובץ ה-RPM [%s] מ \"%s\""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "package %s is not found."
-msgstr "החבילה %s לא נמצאה."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "medium \"%s\" does not define any location for rpm files"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid ""
-"medium \"%s\" uses an invalid list file:\n"
-"  mirror is problably not up-to-date, trying to use alternate method"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "there are multiple packages with the same rpm filename \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to correctly parse [%s] on value \"%s\""
-msgstr "פיענוח [%s] נכשל בערך \"%s\""
-
-#: ../urpm.pm:1 ../urpme:1
-#, c-format
-msgid "The following packages contain %s: %s"
-msgstr "החבילות הבאות מכילות %s : %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "no package named %s"
-msgstr "לא נמצאה חבילה בשם %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "error registering local packages"
-msgstr "חלה שגיאה בעת רישום חבילות מקומיות"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to register rpm file"
-msgstr "אין אפשרות לבצע רישום של החבילה"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving rpm file [%s] ..."
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "invalid rpm file name [%s]"
-msgstr "שם החבילה [%s] אינו תקין"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "no entries relocated in depslist"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "relocated %s entries in depslist"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unmounting %s"
-msgstr "מנתק את %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "mounting %s"
-msgstr "מחבר את %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr ""
+msgid "What is your choice? (1-%d) "
+msgstr "מה היא בחירתך? (1-%d)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -347,28 +190,17 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
-msgid "built hdlist synthesis file for medium \"%s\""
+msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr ""
 
-#: ../urpm.pm:1
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
-msgid "examining hdlist file [%s]"
-msgstr "בודק את הקובץ hdlist [%s]"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "examining synthesis file [%s]"
-msgstr "בודק את קובץ הsynthesis [%s]"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "building hdlist [%s]"
+msgid ""
+"  --proxy-user   - specify user and password to use for proxy\n"
+"                   authentication (format is <user:password>).\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr ""
+"  --proxy-user   - הכנס שם וסיסמה לשימוש בPROX\n"
+"                   authentication (format is <user:password>).\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -377,512 +209,22 @@ msgstr "מבצע מעבר שני בכדי לחשב תלויות\n"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "problem reading synthesis file of medium \"%s\""
+msgid "retrieving rpm file [%s] ..."
 msgstr ""
 
-#: ../urpm.pm:1
+#: ../urpmq:1
 #, c-format
-msgid "nothing written in list file for \"%s\""
+msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr ""
 
-#: ../urpm.pm:1
+#: ../urpm.pm:1 ../urpmi.addmedia:1
 #, c-format
-msgid "writing list file for medium \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to write list file of \"%s\""
-msgstr "אין אפשרות לכתוב את קובץ הרשימה של \"%s\""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "file [%s] already used in the same medium \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to parse hdlist file of \"%s\""
-msgstr "אין אפשרות לפענח את קובץ ה-hdlist של \"%s\""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "no hdlist file found for medium \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieve of source hdlist (or synthesis) failed"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "md5sum mismatch"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "found probed hdlist (or synthesis) as %s"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "examining MD5SUM file"
-msgstr "בודק את קובץ החתימות MD5SUM"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "computing md5sum of existing source hdlist (or synthesis)"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "no rpm files found from [%s]"
-msgstr "לא נמצאו חבילות מ [%s]"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to read rpm files from [%s]: %s"
-msgstr "אין אפשרות לקרוא את קובץ ה-RPM מ [%s]: %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading rpm files from [%s]"
-msgstr "מייבא חבילות מ [%s]"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "...copying done"
-msgstr "...ההעתקה הסתיימה"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "...copying failed"
-msgstr "...ההעתקה נכשלה"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "copying source list of \"%s\"..."
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "copy of [%s] failed"
-msgstr "העתקת [%s] נכשלה"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "computing md5sum of copied source hdlist (or synthesis)"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "copying source hdlist (or synthesis) of \"%s\"..."
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "copying description file of \"%s\"..."
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "removing medium \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "selecting multiple media: %s"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "\"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "trying to select nonexistent medium \"%s\""
-msgstr "ניסיון לבחור במאגר שאינו קיים \"%s\""
-
-#: ../urpm.pm:1
-#, c-format
-msgid ""
-"unable to access first installation medium (no Mandrake/base/hdlists file "
-"found)"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "invalid hdlist description \"%s\" in hdlists file"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving hdlists file..."
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "copying hdlists file..."
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to access first installation medium"
-msgstr "אין אפשרות גישה למדיית ההתקנה הראשונה"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "added medium %s"
-msgstr "הוספת מדיום %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "medium \"%s\" already exists"
-msgstr "המאגר \"%s\" כבר קיים"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "skipping package %s"
-msgstr "לא נמצאה חבילה בשם %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid ""
-"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
-"update or --parallel"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to use parallel option \"%s\""
-msgstr "אין אפשרות להשתמש באפשרות המקבילה \"%s\""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "using associated media for parallel mode: %s"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "found parallel handler for nodes: %s"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "examining parallel handler in file [%s]"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to parse \"%s\" in file [%s]"
-msgstr "אין אפשרות לפענח את \"%s\" בקובץ [%s]"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "write config file [%s]"
-msgstr "כתיבת קובץ הגדרות [%s]"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to write config file [%s]"
-msgstr "כתיבת קובץ ההגדרות [%s] נכשלה"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "אין אפשרות לייבא את המסלול עבור המדיה הניתנת להסרה \"%s\""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr ""
+msgid "...retrieving failed: %s"
+msgstr "...האיחזור נכשל: %s"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to inspect list file for \"%s\", medium ignored"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "incoherent list file for \"%s\", medium ignored"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to find list file for \"%s\", medium ignored"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to find hdlist file for \"%s\", medium ignored"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "trying to bypass existing medium \"%s\", avoiding"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to access list file of \"%s\", medium ignored"
-msgstr "אין אפשרות גישה לקובץ הרשימה של \"%s\", מדיה זו לא תהיה בשימוש"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to access hdlist file of \"%s\", medium ignored"
-msgstr "אין אפשרות לגשת לקובץ hdlist של \"%s\", מדיה זו לא תהיה בשימוש"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to determine medium of this hdlist file [%s]"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to use name \"%s\" for unnamed medium because it is already used"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid ""
-"unable to take care of medium \"%s\" as list file is already used by another "
-"medium"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "medium \"%s\" trying to use an already used list, medium ignored"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "syntax error in config file at line %s"
-msgstr "התגלתה שגיאה בשורה %s בקובץ ההגדרות"
-
-#: ../urpm.pm:1 ../urpmi:1
-#, c-format
-msgid "        %s%% completed, speed = %s"
-msgstr "        %s%% הושלם, מהירות = %s"
-
-#: ../urpm.pm:1 ../urpmi:1
-#, c-format
-msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-msgstr "        %s%% of %s הושלם זמן הגעה= %s, מהירות= %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "rsync failed: exited with %d or signal %d\n"
-msgstr "rsync failed: exited with %d or signal %d\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "ssh is missing\n"
-msgstr "חסר ssh\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "rsync is missing\n"
-msgstr "חסר rsync\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "curl failed: exited with %d or signal %d\n"
-msgstr "הפעלת curl נכשלה עקב סיום עם %d או סיגנל %d\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "curl is missing\n"
-msgstr "חסר curl\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "wget failed: exited with %d or signal %d\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "wget is missing\n"
-msgstr "חסר wget\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "copy failed: %s"
-msgstr "העתקה נכשלה: %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to handle protocol: %s"
-msgstr "השימוש בפרוטוקול : %s נכשל"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "no webfetch (curl or wget currently) found\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unknown protocol defined for %s"
-msgstr "פרוטוקול לא מזוהה הוגדר עבור %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "Unknown webfetch `%s' !!!\n"
-msgstr "webfetch לא ידוע `%s' !!!\n"
-
-#: ../urpme:1
-#, c-format
-msgid "Removing failed"
-msgstr "ההסרה נכשלה"
-
-#: ../urpme:1
-#, c-format
-msgid ""
-"To satisfy dependencies, the following packages are going to be removed (%d "
-"MB)"
-msgstr "בכדי לענות על התלויות, החבילות הבאות צריכות להמחק (%d MB)"
-
-#: ../urpme:1
-#, c-format
-msgid "Checking to remove the following packages"
-msgstr "בדיקה להסרה של החבילות הבאות"
-
-#: ../urpme:1
-#, c-format
-msgid "Nothing to remove"
-msgstr "שום-דבר למחיקה"
-
-#: ../urpme:1
-#, c-format
-msgid "removing package %s will break your system"
-msgstr "הסרת החבילה %s תגרום נזק למערכת"
-
-#: ../urpme:1
-#, c-format
-msgid "unknown package"
-msgstr "חבילה לא מוכרת"
-
-#: ../urpme:1
-#, c-format
-msgid "unknown packages"
-msgstr "חבילות לא מוכרות"
-
-#: ../urpme:1
-#, c-format
-msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-msgstr ""
-
-#: ../urpme:1
-#, c-format
-msgid "  -a             - select all packages matching expression.\n"
-msgstr "  -a             - בחירת כל החבילות עם ביטוי מתאים.\n"
-
-#: ../urpme:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr ""
-
-#: ../urpme:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
-msgstr ""
-
-#: ../urpme:1 ../urpmi:1
-#, c-format
-msgid ""
-"  --test         - verify if the installation can be achieved correctly.\n"
-msgstr "  --test         - וידוי שההתקנת החבילה יכולה להסתיים בהצלחה.\n"
-
-#: ../urpme:1 ../urpmi:1
-#, c-format
-msgid "  --auto         - automatically select a package in choices.\n"
-msgstr "  --auto         - בחירה אוטומטית של חבילה מהאפשרויות.\n"
-
-#: ../urpme:1 ../urpmf:1 ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.removemedia:1
-#: ../urpmi.update:1 ../urpmq:1
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr ""
-
-#: ../urpme:1
-#, c-format
-msgid ""
-"urpme version %s\n"
-"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"גרסת urpme %s\n"
-"כל הזכויות שמורות (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
-"זוהי תוכנה חופשית וניתן להפיצה בהתאם לתנאי הרשיון GNU GPL.\n"
-"\n"
-"שימוש:\n"
-
-#: ../urpmf:1
-#, c-format
-msgid ""
-"callback is :\n"
-"%s\n"
-msgstr ""
-"הקריאה היא :\n"
-"%s\n"
-
-#: ../urpmf:1
-#, c-format
-msgid "  )              - right parenthesis to close group expression.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  (              - left parenthesis to open group expression.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  !              - unary NOT, true if expression is false.\n"
 msgstr ""
 
 #: ../urpmf:1
@@ -891,204 +233,111 @@ msgid ""
 "  -o             - binary OR operator, true if one expression is true.\n"
 msgstr ""
 
-#: ../urpmf:1
+#: ../urpmi:1
+#, c-format
+msgid "Package installation..."
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "invalid rpm file name [%s]"
+msgstr "שם החבילה [%s] אינו תקין"
+
+#: ../urpmi:1
+#, c-format
+msgid "distributing %s\n"
+msgstr "הפצה %s\n"
+
+#: ../urpmi.addmedia:1
 #, c-format
 msgid ""
-"  -a             - binary AND operator, true if both expression are true.\n"
+"%s\n"
+"no need to give <relative path of hdlist> with --distrib"
 msgstr ""
+"%s\n"
+"אין צורך לתת <relative path of hdlist> עם --distrib"
 
-#: ../urpmf:1
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
-msgid "  -e             - include perl code directly as perl -e.\n"
+msgid "bad proxy declaration on command line\n"
 msgstr ""
 
-#: ../urpmf:1 ../urpmq:1
+#: ../urpm.pm:1
 #, c-format
-msgid "  -f             - print version, release and arch with name.\n"
+msgid ""
+"unable to access first installation medium (no Mandrake/base/hdlists file "
+"found)"
 msgstr ""
 
-#: ../urpmf:1
+#: ../urpmi:1
 #, c-format
-msgid "  -i             - ignore case distinctions in every pattern.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --files        - print tag files: all files.\n"
-msgstr "  --all          - הדפסת כל התגים.\n"
-
-#: ../urpmf:1
-#, c-format
-msgid "  --requires     - print tag requires: all requires.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --provides     - print tag provides: all provides.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --url          - print tag url: url.\n"
-msgstr "  --all          - הדפסת כל התגים.\n"
-
-#: ../urpmf:1
-#, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --packager     - print tag packager: packager.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --description  - print tag description: description.\n"
-msgstr ""
+msgid "Sorry, bad choice, try again\n"
+msgstr "מצטער ,בחירה רעה, יש לנסות שנית\n"
 
 #: ../urpmf:1
 #, c-format
 msgid "  --summary      - print tag summary: summary.\n"
 msgstr ""
 
-#: ../urpmf:1
+#: ../urpm.pm:1 ../urpme:1
 #, c-format
-msgid "  --epoch        - print tag epoch: epoch.\n"
+msgid "The following packages contain %s: %s"
+msgstr "החבילות הבאות מכילות %s : %s"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --X            - use X interface.\n"
 msgstr ""
 
-#: ../urpmf:1
+#: ../urpm.pm:1
 #, c-format
-msgid "  --size         - print tag size: size.\n"
+msgid "copying source list of \"%s\"..."
 msgstr ""
 
-#: ../urpmf:1
+#: ../urpmi:1
 #, c-format
-msgid "  --group        - print tag group: group.\n"
-msgstr ""
+msgid "One of the following packages is needed:"
+msgstr "אחת החבילות הבאות נדרשת:"
 
-#: ../urpmf:1
+#: ../urpmi:1
 #, c-format
 msgid ""
-"  --name         - print tag name: rpm filename (assumed if no tag given on\n"
-"                   command line but without package name).\n"
+"  --best-output  - choose best interface according to the environment:\n"
+"                   X or text mode.\n"
 msgstr ""
 
-#: ../urpmf:1
-#, c-format
-msgid "  --all          - print all tags.\n"
-msgstr "  --all          - הדפסת כל התגים.\n"
-
-#: ../urpmf:1
+#: ../urpmi:1
 #, fuzzy, c-format
-msgid "  --uniq         - do not print identical lines.\n"
-msgstr "  --all          - הדפסת כל התגים.\n"
+msgid "Downloading package `%s'..."
+msgstr "הסרת החבילה %s נכשלה"
 
-#: ../urpmf:1
+#: ../urpmi:1
+#, c-format
+msgid "What can be done with binary rpm files when using --install-src"
+msgstr ""
+
+#: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
-"  --quiet        - do not print tag name (default if no tag given on "
-"command\n"
-"                   line, incompatible with interactive mode).\n"
+"  --auto-select  - automatically select packages to upgrade the system.\n"
 msgstr ""
 
-#: ../urpmf:1
+#: ../urpm.pm:1
 #, c-format
-msgid "  --verbose      - verbose mode.\n"
-msgstr "  --verbose      - verbose mode.\n"
+msgid "no package named %s"
+msgstr "לא נמצאה חבילה בשם %s"
 
-#: ../urpmf:1 ../urpmq:1
+#: ../urpmi:1
 #, c-format
-msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
+msgid "  -a             - select all matches on command line.\n"
 msgstr ""
 
-#: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr "  --media        - שימוש ברשימת המקורות המופרדים ע\"י פסיק בלבד\n"
-
-#: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
-msgid "  --excludemedia - do not use the given media, separated by comma.\n"
-msgstr "  --media        - שימוש ברשימת המקורות המופרדים ע\"י פסיק בלבד\n"
-
-#: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - שימוש ברשימת המקורות המופרדים ע\"י פסיק בלבד\n"
-
-#: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  --update       - use only update media.\n"
-msgstr "  --update       -שימוש במאגר העדכונים בלבד.\n"
-
-#: ../urpmf:1
+#: ../urpm.pm:1
 #, c-format
 msgid ""
-"urpmf version %s\n"
-"Copyright (C) 2002 MandrakeSoft.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
-"גרסת urpmf %s\n"
-"כל הזכויות שמורות (C) 2002 MandrakeSoft.\n"
-"זוהי תוכנה חופשית וניתן להפיצה בהתאם לתנאי הרשיון GNU GPL.\n"
-"\n"
-"\n"
-"שימוש:\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "Everything already installed"
-msgstr "הכל כבר מותקן"
-
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation is possible"
-msgstr "ההתקנה אפשרית"
-
-#: ../urpmi:1
-#, c-format
-msgid "Installation failed"
-msgstr "ההתקנה נכשלה"
-
-#: ../urpmi:1
-#, c-format
-msgid "Try installation even more strongly (--force)? (y/N) "
-msgstr "האם לנסות להתקין תוך אילוץ תלויות (--force)? (כן/לא) "
-
-#: ../urpmi:1
-#, c-format
-msgid "Try installation without checking dependencies? (y/N) "
-msgstr "האם לנסות להתקין ללא בדיקת תלויות? (כן/לא)"
-
-#: ../urpmi:1
-#, c-format
-msgid "Installing package `%s' (%s/%s)..."
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "הפצה %s\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1101,197 +350,89 @@ msgstr ""
 "%s\n"
 "יתכן ועליך לעדכן את מאגר הנתונים של urpmi"
 
+#: ../urpmi.removemedia:1
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+msgstr ""
+"שימוש: urpmi.removemedia [-a] <name> ...\n"
+"כאשר <name> הוא שם המאגר המיועד להסרה\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "curl failed: exited with %d or signal %d\n"
+msgstr "הפעלת curl נכשלה עקב סיום עם %d או סיגנל %d\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The installation cannot continue because the following packages\n"
+"have to be removed for others to be upgraded:\n"
+"%s\n"
+msgstr ""
+"החבילות הבאות עומדות להמחק בכדי שניתן יהיה לשדרג חבילות אחרות: \n"
+"%s\n"
+"האם להמשיך?"
+
+#: ../urpme:1
+#, c-format
+msgid "unknown package"
+msgstr "חבילה לא מוכרת"
+
+#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "Installation is possible"
+msgstr "ההתקנה אפשרית"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieve of source hdlist (or synthesis) failed"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
+msgstr ""
+
 #: ../urpmi:1
 #, c-format
 msgid " (y/N) "
 msgstr " (כן/לא) "
 
-#: ../urpmi:1
+#: ../urpmi.addmedia:1
 #, c-format
-msgid "Do you want to continue installation ?"
-msgstr "האם להמשיך בתהליך ההתקנה?"
+msgid "cannot add updates of a cooker distribution\n"
+msgstr "לא יכול להוסיף עדכונים של הפצת cooker\n"
 
-#: ../urpmi:1
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
-msgid "The following packages have bad signatures"
-msgstr "לחבילות הבאות יש בעיה בחתימות"
-
-#: ../urpmi:1
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "נא להקיש Enter"
-
-#: ../urpmi:1
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "נא להכניס את המדיה הנקראת \"%s\"  להתקן [%s]"
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "Downloading package `%s'..."
-msgstr "הסרת החבילה %s נכשלה"
+msgid "  -v             - verbose mode.\n"
+msgstr ""
 
 #: ../urpmi:1
 #, c-format
 msgid "Initializing..."
 msgstr ""
 
-#: ../urpmi:1
+#: ../urpmq:1
 #, c-format
-msgid "Package installation..."
+msgid "  --list         - list available packages.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
+#: ../urpmf:1
 #, c-format
-msgid "unable to get source packages, aborting"
-msgstr "אין אפשרות לקרוא חבילות מהמאגר, הפעולה מתבטלת"
+msgid "  --all          - print all tags.\n"
+msgstr "  --all          - הדפסת כל התגים.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"To satisfy dependencies, the following packages are going to be installed (%"
-"d MB)"
-msgstr "בכדי לספק את התלויות, החבילות הבאות יותקנו (%d MB)"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"You need to be root to install the following dependencies:\n"
-"%s\n"
-msgstr ""
-"יש צורך בהרשאות משתמש-על בכדי להתקין את התלויות הבאות: \n"
-"%s\n"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"החבילות הבאות עומדות להמחק בכדי שניתן יהיה לשדרג חבילות אחרות: \n"
-"%s\n"
-"האם להמשיך?"
-
-#: ../urpmi:1
-#, c-format
-msgid "unrequested"
-msgstr "לא התבקש"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to conflicts with %s"
-msgstr "עקב התנגשות עם %s"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to missing %s"
-msgstr "עקב %s חסר"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to unsatisfied %s"
-msgstr "עקב תלות %s שלא מולאה"
-
-#: ../urpmi:1
-#, c-format
-msgid "in order to install %s"
-msgstr "בכדי להתקין %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"אין אפשרות להתקין מספר חבילות מבוקשות: \n"
-"%s\n"
-"האם להמשיך?"
-
-#: ../urpmi:1
-#, c-format
-msgid "Sorry, bad choice, try again\n"
-msgstr "מצטער ,בחירה רעה, יש לנסות שנית\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "What is your choice? (1-%d) "
-msgstr "מה היא בחירתך? (1-%d)"
-
-#: ../urpmi:1
-#, c-format
-msgid "One of the following packages is needed:"
-msgstr "אחת החבילות הבאות נדרשת:"
-
-#: ../urpmi:1
-#, c-format
-msgid "One of the following packages is needed to install %s:"
-msgstr "אחת החבילות הבאות נדרשת בשביל ההתקנה %s"
-
-#: ../urpmi:1
-#, c-format
-msgid "Only superuser is allowed to install packages"
-msgstr "רק משתמש בעל הרשאות משתמש-על מורשה להתקין חבילות"
-
-#: ../urpmi:1
-#, c-format
-msgid "using specific environment on %s\n"
-msgstr "שימוש בסביבה מסוימת על  %s\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "Unable to create directory [%s] for bug report"
-msgstr "יצירת הספריה. [%s] בשביל דיווחי באגים נכשלה"
-
-#: ../urpmi:1
-#, c-format
-msgid "What can be done with binary rpm files when using --install-src"
+msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr ""
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
-msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
-#, c-format
-msgid "bad proxy declaration on command line\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  names or rpm files given on command line will be installed.\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  -q             - quiet mode.\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -s             - next package is a source package (same as --src).\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  -a             - select all matches on command line.\n"
+msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr ""
 
 #: ../urpmi:1
@@ -1301,63 +442,22 @@ msgstr ""
 
 #: ../urpmi:1
 #, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr ""
+msgid "Press Enter when ready..."
+msgstr "נא להקיש Enter"
 
-#: ../urpmi:1
+#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
 msgid ""
-"  --best-output  - choose best interface according to the environment:\n"
-"                   X or text mode.\n"
+"\n"
+"unknown options '%s'\n"
 msgstr ""
+"\n"
+"אפשרויות לא מוכרות '%s'\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
-msgid "  --X            - use X interface.\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"  --env          - use specific environment (typically a bug\n"
-"                   report).\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"  --bug          - output a bug report in directory indicated by\n"
-"                   next arg.\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
-#, c-format
-msgid ""
-"  --proxy-user   - specify user and password to use for proxy\n"
-"                   authentication (format is <user:password>).\n"
-msgstr ""
-"  --proxy-user   - הכנס שם וסיסמה לשימוש בPROX\n"
-"                   authentication (format is <user:password>).\n"
-
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
-#, c-format
-msgid ""
-"  --proxy        - use specified HTTP proxy, the port number is assumed\n"
-"                   to be 1080 by default (format is <proxyhost[:port]>).\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
-#, c-format
-msgid "  --limit-rate   - limit the download speed.\n"
-msgstr "  --limit-rate   - הגבלת מהירות ההורדה.\n"
-
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
-#, c-format
-msgid "  --curl         - use curl to retrieve distant files.\n"
-msgstr ""
-"  --curl         -  יש צורך להשתמש בcurl בכדי להחזיר את הקבצים המרוחקים.\n"
+msgid "rsync is missing\n"
+msgstr "חסר rsync\n"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -1367,10 +467,33 @@ msgstr ""
 
 #: ../urpmi:1
 #, c-format
-msgid ""
-"  --allow-force  - allow asking user to install packages without\n"
-"                   dependencies checking and integrity.\n"
+msgid "  -p             - allow search in provides to find package.\n"
 msgstr ""
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list-nodes   - list available nodes when using --parallel.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "building hdlist [%s]"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr "בודק את קובץ החתימות MD5SUM"
+
+#: ../_irpm:1
+#, c-format
+msgid "%s: command not found\n"
+msgstr "%sפקודה לא נמצאה \n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to register rpm file"
+msgstr "אין אפשרות לבצע רישום של החבילה"
 
 #: ../urpmi:1
 #, c-format
@@ -1379,20 +502,216 @@ msgid ""
 "                   dependencies checking.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
+#: ../urpmq:1
 #, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
+msgid "  -i             - print usefull information in human readeable form.\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to handle protocol: %s"
+msgstr "השימוש בפרוטוקול : %s נכשל"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving hdlists file..."
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "added medium %s"
+msgstr "הוספת מדיום %s"
 
 #: ../urpmi:1
 #, c-format
 msgid "  --noclean      - keep rpm not used in cache.\n"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "syntax error in config file at line %s"
+msgstr "התגלתה שגיאה בשורה %s בקובץ ההגדרות"
+
 #: ../urpmi:1
 #, c-format
-msgid "  --clean        - remove rpm from cache before anything else.\n"
+msgid "  names or rpm files given on command line will be installed.\n"
+msgstr ""
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --proxy        - use specified HTTP proxy, the port number is assumed\n"
+"                   to be 1080 by default (format is <proxyhost[:port]>).\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "in order to install %s"
+msgstr "בכדי להתקין %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "relocated %s entries in depslist"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  -i             - ignore case distinctions in every pattern.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "Unable to create directory [%s] for bug report"
+msgstr "יצירת הספריה. [%s] בשביל דיווחי באגים נכשלה"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "הסרת החבילה %s נכשלה"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "retrieving mirrors at %s ..."
+msgstr ""
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --all          - הדפסת כל התגים.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unknown protocol defined for %s"
+msgstr "פרוטוקול לא מזוהה הוגדר עבור %s"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -r             - print version and release with name also.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "המאגר \"%s\" כבר קיים"
+
+#: ../_irpm:1 ../urpmi:1
+#, c-format
+msgid "installing %s\n"
+msgstr "התקנת %s\n"
+
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"the entry to update is missing\n"
+"(one of %s)\n"
+msgstr ""
+"לא חסרה שום כניסה המיועדת לעדכון\n"
+"(אחד מ %s)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to remove package %s"
+msgstr "הסרת החבילה %s נכשלה"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr ""
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid ""
+"the entry to remove is missing\n"
+"(one of %s)\n"
+msgstr ""
+"שום כניסה המיועעת להסרה אינה חסרה\n"
+"(אחד מ %s)\n"
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid "  -a             - select all media.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "Missing signature (%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "אין אפשרות לקרוא את קובץ ה-RPM מ [%s]: %s"
+
+#: ../urpm/parallel_ka_run.pm:1
+#, c-format
+msgid "mput failed, maybe a node is unreacheable"
+msgstr ""
+
+#: ../urpmi.update:1
+#, c-format
+msgid "  --update       - update only update media.\n"
+msgstr ""
+
+#: ../_irpm:1 ../urpme:1 ../urpmi:1
+#, c-format
+msgid " (Y/n) "
+msgstr "אישור/ביטול (כ/ל) "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "malformed input: [%s]"
+msgstr ""
+
+#: ../urpme:1
+#, c-format
+msgid "removing package %s will break your system"
+msgstr "הסרת החבילה %s תגרום נזק למערכת"
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list-media   - list available media.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "Installing package `%s' (%s/%s)..."
+msgstr ""
+
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"  -d             - force complete computation of depslist.ordered file.\n"
+msgstr "  -d             - אילוץ חישוב מלא של הקובץ depslist.ordered.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no entries relocated in depslist"
 msgstr ""
 
 #: ../urpmi:1
@@ -1400,25 +719,50 @@ msgstr ""
 msgid "  --install-src  - install only source package (no binaries).\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
-msgid "  --src          - next package is a source package (same as -s).\n"
+msgid "  --curl         - use curl to retrieve distant files.\n"
+msgstr ""
+"  --curl         -  יש צורך להשתמש בcurl בכדי להחזיר את הקבצים המרוחקים.\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
+#: ../urpm.pm:1
 #, c-format
-msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
+msgid "incoherent list file for \"%s\", medium ignored"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
+#: ../urpm.pm:1 ../urpmi.addmedia:1
 #, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgid "...retrieving done"
+msgstr "...האיחזור הסתיים"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "לא נמצאה חבילה בשם %s"
+
+#: ../urpmq:1
+#, c-format
+msgid "  names or rpm files given on command line are queried.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "problem reading hdlist file of medium \"%s\""
 msgstr ""
 
 #: ../urpmi:1
 #, c-format
-msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
+msgid "Invalid signature (%s)"
 msgstr ""
 
 #: ../urpmi:1
@@ -1437,78 +781,307 @@ msgstr ""
 "\n"
 "שימוש:\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "פיענוח [%s] נכשל בערך \"%s\""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr "  --media        - שימוש ברשימת המקורות המופרדים ע\"י פסיק בלבד\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to determine medium of this hdlist file [%s]"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "אין אפשרות לפענח את קובץ ה-hdlist של \"%s\""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "due to conflicts with %s"
+msgstr "עקב התנגשות עם %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
 msgstr "עדכון המאגר \"%s\" נכשל\n"
 
-#: ../urpmi.addmedia:1
+#: ../urpmi:1
 #, c-format
-msgid "unable to create medium \"%s\"\n"
-msgstr "הוספת המאגר \"%s\" נכשל\n"
+msgid "Try installation without checking dependencies? (y/N) "
+msgstr "האם לנסות להתקין ללא בדיקת תלויות? (כן/לא)"
 
-#: ../urpmi.addmedia:1
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"%s\n"
-"`with' missing for network media\n"
+msgid "removing %d obsolete headers in cache"
+msgstr ""
+
+#: ../urpm.pm:1 ../urpmi:1
+#, c-format
+msgid "Preparing..."
+msgstr "הכנה..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "using different removable device [%s] for \"%s\""
 msgstr ""
 
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
-"%s\n"
-"<relative path of hdlist> missing\n"
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
 msgstr ""
-"%s\n"
-"חסר <relative path of hdlist>\n"
 
-#: ../urpmi.addmedia:1
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "  --clean        - remove rpm from cache before anything else.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to use name \"%s\" for unnamed medium because it is already used"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving description file of \"%s\"..."
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
+msgstr ""
+
+#: ../urpme:1
 #, c-format
 msgid ""
-"%s\n"
-"no need to give <relative path of hdlist> with --distrib"
-msgstr ""
-"%s\n"
-"אין צורך לתת <relative path of hdlist> עם --distrib"
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid "retrieving mirrors at %s ..."
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid "cannot add updates of a cooker distribution\n"
-msgstr "לא יכול להוסיף עדכונים של הפצת cooker\n"
-
-#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
-#, c-format
-msgid ""
+"urpme version %s\n"
+"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
 "\n"
-"unknown options '%s'\n"
+"usage:\n"
 msgstr ""
+"גרסת urpme %s\n"
+"כל הזכויות שמורות (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"זוהי תוכנה חופשית וניתן להפיצה בהתאם לתנאי הרשיון GNU GPL.\n"
 "\n"
-"אפשרויות לא מוכרות '%s'\n"
-
-#: ../urpmi.addmedia:1 ../urpmi.update:1
-#, c-format
-msgid "  -f             - force generation of hdlist files.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr ""
+"שימוש:\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
-"  --arch         - use specified architecture, the default is arch of\n"
-"                   mandrake-release package installed.\n"
+"usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
+"where <url> is one of\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> with <relative filename of "
+"hdlist>\n"
+"       ftp://<host>/<path> with <relative filename of hdlist>\n"
+"       http://<host>/<path> with <relative filename of hdlist>\n"
+"       removable://<path>\n"
+"\n"
+"and [options] are from\n"
 msgstr ""
-"  --arch         - השתמש בארכיטקטורה מסוימת, ברירת המחדל היא\n"
-"                   mandrake-release package installed.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copying source hdlist (or synthesis) of \"%s\"..."
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "...copying done"
+msgstr "...ההעתקה הסתיימה"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "אין אפשרות להשתמש באפשרות המקבילה \"%s\""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access first installation medium"
+msgstr "אין אפשרות גישה למדיית ההתקנה הראשונה"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "error registering local packages"
+msgstr "חלה שגיאה בעת רישום חבילות מקומיות"
+
+#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "on node %s"
+msgstr "על node %s"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
+#, c-format
+msgid "  --limit-rate   - limit the download speed.\n"
+msgstr "  --limit-rate   - הגבלת מהירות ההורדה.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "found probed hdlist (or synthesis) as %s"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s\n"
+"do you agree ?"
+msgstr ""
+"החבילות הבאות עומדות להמחק בכדי שניתן יהיה לשדרג חבילות אחרות: \n"
+"%s\n"
+"האם להמשיך?"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "לא נמצאו חבילות מ [%s]"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "nothing written in list file for \"%s\""
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "The following packages have bad signatures"
+msgstr "לחבילות הבאות יש בעיה בחתימות"
+
+#: ../urpmq:1
+#, c-format
+msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr ""
+
+#: ../urpmq:1
+#, c-format
+msgid "  -c             - complete output with package to be removed.\n"
+msgstr "  -a             - בחירת כל החבילות עם ביטוי מתאים.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to install package %s"
+msgstr "התקנת החבילה %s נכשלה"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --allow-force  - allow asking user to install packages without\n"
+"                   dependencies checking and integrity.\n"
+msgstr ""
+
+#: ../urpmq:1
+#, c-format
+msgid "urpmq: cannot read rpm file \"%s\"\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "כתיבת קובץ ההגדרות [%s] נכשלה"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no webfetch (curl or wget currently) found\n"
+msgstr ""
+
+#: ../urpme:1
+#, c-format
+msgid "  -a             - select all packages matching expression.\n"
+msgstr "  -a             - בחירת כל החבילות עם ביטוי מתאים.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr ""
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "אין אפשרות לייבא את המסלול עבור המדיה הניתנת להסרה \"%s\""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "wget is missing\n"
+msgstr "חסר wget\n"
+
+#: ../urpme:1
+#, c-format
+msgid "Checking to remove the following packages"
+msgstr "בדיקה להסרה של החבילות הבאות"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unrequested"
+msgstr "לא התבקש"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "הגישה לחבילה [%s] נכשלה"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --files        - print tag files: all files.\n"
+msgstr "  --all          - הדפסת כל התגים.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "אין אפשרות לפענח את \"%s\" בקובץ [%s]"
+
+#: ../urpmi:1
+#, c-format
+msgid "Do you want to continue installation ?"
+msgstr "האם להמשיך בתהליך ההתקנה?"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "אין אפשרות לקרוא את קובץ ה-RPM [%s] מ \"%s\""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr ""
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1527,183 +1100,60 @@ msgstr ""
 "  --from         - השתמש בכתובת מרשימת השרתים, ברירת המחדל הוא \n"
 "                   %s\n"
 
-#: ../urpmi.addmedia:1
+#: ../urpm/parallel_ssh.pm:1
 #, c-format
-msgid ""
-"  --distrib-XXX  - automatically create a medium for XXX part of a\n"
-"                   distribution, XXX may be main, contrib, updates or\n"
-"                   anything else that has been configured ;-)\n"
+msgid "host %s does not have a good version of urpmi"
+msgstr "למארח %s אין גרסה תקינה של urpmi"
+
+#: ../urpmf:1
+#, c-format
+msgid "  !              - unary NOT, true if expression is false.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:1
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"  --distrib      - automatically create all media from an installation\n"
-"                   medium.\n"
-msgstr ""
-"  --distrib      - צור אוטומטית את כל המדיות מההתקנה\n"
-"                   medium.\n"
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  --no-probe     - do not try to find any synthesis or\n"
-"                   hdlist file.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid "  --probe-hdlist - try to find and use hdlist file.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid "  --probe-synthesis - try to find and use synthesis file.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid "  --update       - create an update medium.\n"
-msgstr "  --update       - הגדרת מאגר עדכון.\n"
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
-"where <url> is one of\n"
-"       file://<path>\n"
-"       ftp://<login>:<password>@<host>/<path> with <relative filename of "
-"hdlist>\n"
-"       ftp://<host>/<path> with <relative filename of hdlist>\n"
-"       http://<host>/<path> with <relative filename of hdlist>\n"
-"       removable://<path>\n"
-"\n"
-"and [options] are from\n"
-msgstr ""
-
-#: ../urpmi.removemedia:1
-#, c-format
-msgid ""
-"the entry to remove is missing\n"
-"(one of %s)\n"
-msgstr ""
-"שום כניסה המיועעת להסרה אינה חסרה\n"
-"(אחד מ %s)\n"
-
-#: ../urpmi.removemedia:1
-#, c-format
-msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr "אין מה להסיר (יש להשתמש ב urpmi.addmedia לצורך הוספת מאגר)\n"
-
-#: ../urpmi.removemedia:1
-#, c-format
-msgid "  -a             - select all media.\n"
-msgstr ""
-
-#: ../urpmi.removemedia:1
-#, c-format
-msgid ""
-"usage: urpmi.removemedia [-a] <name> ...\n"
-"where <name> is a medium name to remove.\n"
-msgstr ""
-"שימוש: urpmi.removemedia [-a] <name> ...\n"
-"כאשר <name> הוא שם המאגר המיועד להסרה\n"
-
-#: ../urpmi.update:1
-#, c-format
-msgid ""
-"the entry to update is missing\n"
-"(one of %s)\n"
-msgstr ""
-"לא חסרה שום כניסה המיועדת לעדכון\n"
-"(אחד מ %s)\n"
+msgid "unmounting %s"
+msgstr "מנתק את %s"
 
 #: ../urpmi.update:1
 #, c-format
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "אין מה לעדכן (יש להשתמש ב urpmi.addmedia לצורך הוספת מאגר)\n"
 
-#: ../urpmi.update:1
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
-msgid ""
-"  -d             - force complete computation of depslist.ordered file.\n"
-msgstr "  -d             - אילוץ חישוב מלא של הקובץ depslist.ordered.\n"
+msgid "        %s%% completed, speed = %s"
+msgstr "        %s%% הושלם, מהירות = %s"
 
-#: ../urpmi.update:1
+#: ../urpm.pm:1
 #, c-format
-msgid "  -a             - select all non-removable media.\n"
-msgstr "  -a             - בחירת כל המדיות שאינן ניתנות להסרה.\n"
+msgid "examining synthesis file [%s]"
+msgstr "בודק את קובץ הsynthesis [%s]"
 
-#: ../urpmi.update:1
+#: ../urpmi:1
 #, c-format
-msgid "  --update       - update only update media.\n"
+msgid "Try installation even more strongly (--force)? (y/N) "
+msgstr "האם לנסות להתקין תוך אילוץ תלויות (--force)? (כן/לא) "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "...copying failed"
+msgstr "...ההעתקה נכשלה"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "אין אפשרות לגשת לקובץ hdlist של \"%s\", מדיה זו לא תהיה בשימוש"
+
+#: ../urpmi:1
+#, c-format
+msgid "  -q             - quiet mode.\n"
 msgstr ""
 
-#: ../urpmi.update:1
+#: ../urpmf:1
 #, c-format
-msgid ""
-"usage: urpmi.update [options] <name> ...\n"
-"where <name> is a medium name to update.\n"
-msgstr ""
-"שימוש: urpmi.update [options] <name> ...\n"
-"כאשר <name> הינו שם המדיה המיודעת לעדכון.\n"
-
-#: ../urpmq:1
-#, c-format
-msgid "--list-nodes can only be used with --parallel"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "urpmq: cannot read rpm file \"%s\"\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  names or rpm files given on command line are queried.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -r             - print version and release with name also.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -g             - print groups with name also.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -i             - print usefull information in human readeable form.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -R             - reverse search to what requires package.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -c             - complete output with package to be removed.\n"
-msgstr "  -a             - בחירת כל החבילות עם ביטוי מתאים.\n"
-
-#: ../urpmq:1
-#, c-format
-msgid ""
-"  -u             - remove package if a more recent version is already "
-"installed.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -d             - extend query to package dependencies.\n"
-msgstr ""
+msgid "  --verbose      - verbose mode.\n"
+msgstr "  --verbose      - verbose mode.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1718,24 +1168,413 @@ msgid ""
 "                   stdout (root only).\n"
 msgstr ""
 
+#: ../urpme:1
+#, c-format
+msgid "unknown packages"
+msgstr "חבילות לא מוכרות"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "selecting multiple media: %s"
+msgstr ""
+
+#: ../urpmf:1 ../urpmq:1
+#, c-format
+msgid "  -f             - print version, release and arch with name.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "file [%s] already used in the same medium \"%s\""
+msgstr ""
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
+msgstr "אין מה להסיר (יש להשתמש ב urpmi.addmedia לצורך הוספת מאגר)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr ""
+
+#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "Installation failed on node %s"
+msgstr "ההתקנה נכשלה על הnode %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "curl is missing\n"
+msgstr "חסר curl\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"callback is :\n"
+"%s\n"
+msgstr ""
+"הקריאה היא :\n"
+"%s\n"
+
 #: ../urpmq:1
 #, c-format
-msgid "  --list-aliases - list available parallel aliases.\n"
+msgid "  -R             - reverse search to what requires package.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"urpmf version %s\n"
+"Copyright (C) 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"גרסת urpmf %s\n"
+"כל הזכויות שמורות (C) 2002 MandrakeSoft.\n"
+"זוהי תוכנה חופשית וניתן להפיצה בהתאם לתנאי הרשיון GNU GPL.\n"
+"\n"
+"\n"
+"שימוש:\n"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  --name         - print tag name: rpm filename (assumed if no tag given on\n"
+"                   command line but without package name).\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "Unknown webfetch `%s' !!!\n"
+msgstr "webfetch לא ידוע `%s' !!!\n"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  --quiet        - do not print tag name (default if no tag given on "
+"command\n"
+"                   line, incompatible with interactive mode).\n"
+msgstr ""
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --all          - הדפסת כל התגים.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --arch         - use specified architecture, the default is arch of\n"
+"                   mandrake-release package installed.\n"
+msgstr ""
+"  --arch         - השתמש בארכיטקטורה מסוימת, ברירת המחדל היא\n"
+"                   mandrake-release package installed.\n"
+
+#: ../_irpm:1 ../urpme:1 ../urpmi:1
+#, c-format
+msgid "Is this OK?"
+msgstr "האם זה בסדר?"
+
+#: ../urpmf:1 ../urpmq:1
+#, c-format
+msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"To satisfy dependencies, the following packages are going to be installed (%"
+"d MB)"
+msgstr "בכדי לספק את התלויות, החבילות הבאות יותקנו (%d MB)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr ""
+
+#: ../urpme:1
+#, c-format
+msgid "Nothing to remove"
+msgstr "שום-דבר למחיקה"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -d             - extend query to package dependencies.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --bug          - output a bug report in directory indicated by\n"
+"                   next arg.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "wget failed: exited with %d or signal %d\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copy failed: %s"
+msgstr "העתקה נכשלה: %s"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to write list file of \"%s\""
+msgstr "אין אפשרות לכתוב את קובץ הרשימה של \"%s\""
+
+#: ../urpme:1
+#, c-format
+msgid "urpme: unknown option \"-%s\", check usage with --help\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
+msgstr "ניסיון לבחור במאגר שאינו קיים \"%s\""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --description  - print tag description: description.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"%s\n"
+"`with' missing for network media\n"
+msgstr ""
+
+#: ../urpm/parallel_ka_run.pm:1
+#, c-format
+msgid "rshp failed, maybe a node is unreacheable"
+msgstr ""
+
+#: ../urpmi.addmedia:1 ../urpmi.update:1
+#, c-format
+msgid "  -f             - force generation of hdlist files.\n"
 msgstr ""
 
 #: ../urpmq:1
 #, c-format
-msgid "  --list-nodes   - list available nodes when using --parallel.\n"
+msgid "--list-nodes can only be used with --parallel"
 msgstr ""
 
-#: ../urpmq:1
+#: ../urpm.pm:1
 #, c-format
-msgid "  --list-media   - list available media.\n"
+msgid "no hdlist file found for medium \"%s\""
 msgstr ""
 
-#: ../urpmq:1
+#: ../urpmi:1 ../urpmq:1
 #, c-format
-msgid "  --list         - list available packages.\n"
+msgid "  -s             - next package is a source package (same as --src).\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading rpm files from [%s]"
+msgstr "מייבא חבילות מ [%s]"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr ""
+
+#: ../urpme:1 ../urpmi:1
+#, c-format
+msgid "  --auto         - automatically select a package in choices.\n"
+msgstr "  --auto         - בחירה אוטומטית של חבילה מהאפשרויות.\n"
+
+#: ../urpme:1
+#, c-format
+msgid "Removing failed"
+msgstr "ההסרה נכשלה"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "package %s is not found."
+msgstr "החבילה %s לא נמצאה."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "removing medium \"%s\""
+msgstr ""
+
+#: ../_irpm:1 ../urpmi:1
+#, c-format
+msgid "Cancel"
+msgstr "ביטול"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --src          - next package is a source package (same as -s).\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --env          - use specific environment (typically a bug\n"
+"                   report).\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "ssh is missing\n"
+msgstr "חסר ssh\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-level  - build small transaction of minimal given length.\n"
+msgstr ""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --media        - שימוש ברשימת המקורות המופרדים ע\"י פסיק בלבד\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "הגישה למדיה \"%s\" נכשלה"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "unable to create medium \"%s\"\n"
+msgstr "הוספת המאגר \"%s\" נכשל\n"
+
+#: ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "scp failed on host %s"
+msgstr "scp נפל במארח %s"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"You need to be root to install the following dependencies:\n"
+"%s\n"
+msgstr ""
+"יש צורך בהרשאות משתמש-על בכדי להתקין את התלויות הבאות: \n"
+"%s\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "אין אפשרות גישה לקובץ הרשימה של \"%s\", מדיה זו לא תהיה בשימוש"
+
+#: ../urpmf:1
+#, c-format
+msgid "  )              - right parenthesis to close group expression.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr "בודק את הקובץ hdlist [%s]"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copying hdlists file..."
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr ""
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "mounting %s"
+msgstr "מחבר את %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to take care of medium \"%s\" as list file is already used by another "
+"medium"
+msgstr ""
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "unable to get source packages, aborting"
+msgstr "אין אפשרות לקרוא חבילות מהמאגר, הפעולה מתבטלת"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "rsync failed: exited with %d or signal %d\n"
+msgstr "rsync failed: exited with %d or signal %d\n"
+
+#: ../urpm.pm:1 ../urpmi:1
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr "        %s%% of %s הושלם זמן הגעה= %s, מהירות= %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --no-uninstall - never ask to uninstall a package, abort the "
+"installation.\n"
 msgstr ""
 
 #: ../urpmq:1
@@ -1754,35 +1593,239 @@ msgstr ""
 "\n"
 "שימוש:\n"
 
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpm.pm:1
 #, c-format
-msgid "Installation failed on node %s"
-msgstr "ההתקנה נכשלה על הnode %s"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:1
+#: ../urpmq:1
 #, c-format
-msgid "mput failed, maybe a node is unreacheable"
+msgid "  -g             - print groups with name also.\n"
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpm.pm:1
 #, c-format
-msgid "on node %s"
-msgstr "על node %s"
+msgid "medium \"%s\" is not selected"
+msgstr ""
 
-#: ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
-msgid "scp failed on host %s"
-msgstr "scp נפל במארח %s"
+msgid "Only superuser is allowed to install packages"
+msgstr "רק משתמש בעל הרשאות משתמש-על מורשה להתקין חבילות"
 
-#: ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "למארח %s אין גרסה תקינה של urpmi"
+msgid "using specific environment on %s\n"
+msgstr "שימוש בסביבה מסוימת על  %s\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to find hdlist file for \"%s\", medium ignored"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  (              - left parenthesis to open group expression.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  -a             - binary AND operator, true if both expression are true.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --group        - print tag group: group.\n"
+msgstr ""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - שימוש ברשימת המקורות המופרדים ע\"י פסיק בלבד\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "הוספת המאגר \"%s\" נכשל\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"%s\n"
+"<relative path of hdlist> missing\n"
+msgstr ""
+"%s\n"
+"חסר <relative path of hdlist>\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr ""
+
+#: ../urpme:1
+#, c-format
+msgid ""
+"To satisfy dependencies, the following packages are going to be removed (%d "
+"MB)"
+msgstr "בכדי לענות על התלויות, החבילות הבאות צריכות להמחק (%d MB)"
+
+#: ../urpmi:1
+#, c-format
+msgid "Installation failed"
+msgstr "ההתקנה נכשלה"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "write config file [%s]"
+msgstr "כתיבת קובץ הגדרות [%s]"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "  -a             - select all non-removable media.\n"
+msgstr "  -a             - בחירת כל המדיות שאינן ניתנות להסרה.\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --epoch        - print tag epoch: epoch.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disable it, default is enabled).\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "Please insert the medium named \"%s\" on device [%s]"
+msgstr "נא להכניס את המדיה הנקראת \"%s\"  להתקן [%s]"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s\n"
+"do you agree ?"
+msgstr ""
+"אין אפשרות להתקין מספר חבילות מבוקשות: \n"
+"%s\n"
+"האם להמשיך?"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --update       - create an update medium.\n"
+msgstr "  --update       - הגדרת מאגר עדכון.\n"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
+msgstr ""
+
+#: ../_irpm:1 ../urpmi:1
+#, c-format
+msgid "Ok"
+msgstr "אישור"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "invalid hdlist description \"%s\" in hdlists file"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --distrib-XXX  - automatically create a medium for XXX part of a\n"
+"                   distribution, XXX may be main, contrib, updates or\n"
+"                   anything else that has been configured ;-)\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --size         - print tag size: size.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "due to unsatisfied %s"
+msgstr "עקב תלות %s שלא מולאה"
+
+#: ../_irpm:1
+#, c-format
+msgid ""
+"Automatic installation of packages...\n"
+"You requested installation of package %s\n"
+msgstr ""
+"התקנה אוטומטית של החבילות ... \n"
+"ביקשת התקנה של החבילות %s\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "urpmi database locked"
+msgstr "בסיס הנתונים של urpmi נעול"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copy of [%s] failed"
+msgstr "העתקת [%s] נכשלה"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "taking removable device as \"%s\""
+msgstr ""
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
+msgstr ""
+
+#: ../urpmq:1
+#, c-format
+msgid ""
+"  -u             - remove package if a more recent version is already "
+"installed.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "due to missing %s"
+msgstr "עקב %s חסר"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --update       - use only update media.\n"
+msgstr "  --update       -שימוש במאגר העדכונים בלבד.\n"
+
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"usage: urpmi.update [options] <name> ...\n"
+"where <name> is a medium name to update.\n"
+msgstr ""
+"שימוש: urpmi.update [options] <name> ...\n"
+"כאשר <name> הינו שם המדיה המיודעת לעדכון.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "trying to bypass existing medium \"%s\", avoiding"
+msgstr ""
+
+#: ../urpme:1 ../urpmi:1
+#, c-format
+msgid ""
+"  --test         - verify if the installation can be achieved correctly.\n"
+msgstr "  --test         - וידוי שההתקנת החבילה יכולה להסתיים בהצלחה.\n"
 
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s מתנגש עם %s"

@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-uk2\n"
-"POT-Creation-Date: 2003-05-19 16:44+0200\n"
+"POT-Creation-Date: 2003-06-17 22:08+0200\n"
 "PO-Revision-Date: 2003-05-21 22:57+0300\n"
 "Last-Translator: Taras Boychuk <btr1@torba.com>\n"
 "Language-Team: ukrainian <uk@li.org>\n"
@@ -391,6 +391,17 @@ msgstr ""
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl дав зб╕й: завершено з %d або сигналом %d\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The installation cannot continue because the following packages\n"
+"have to be removed for others to be upgraded:\n"
+"%s\n"
+msgstr ""
+"Наступн╕ пакунки будути вилучен╕ для того, щоб поновити ╕нш╕:\n"
+"%s\n"
+"Ви погоджу╓теся ?"
+
 #: ../urpme:1
 #, c-format
 msgid "unknown package"
@@ -584,7 +595,7 @@ msgstr ""
 "  --proxy        - використовувати вказаний HTTP прокс╕, типово порт 1080 "
 "(формат - <proxyhost[:port]>).\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "in order to install %s"
 msgstr "для того, щоб встановити %s"
@@ -603,6 +614,11 @@ msgstr "  -i             - нехтувати рег╕страми в ус╕х шаблонах.\n"
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "Неможливо створити теку [%s] для зв╕ту про помилку"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "неможливо видалити пакунок %s"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -671,6 +687,11 @@ msgstr ""
 #, c-format
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - вибрати вс╕ нос╕╖.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Missing signature (%s)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -787,6 +808,11 @@ msgstr "проблема читання файлу hdlist з нос╕я \"%s\""
 
 #: ../urpmi:1
 #, c-format
+msgid "Invalid signature (%s)"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
@@ -829,6 +855,11 @@ msgstr ""
 msgid "unable to parse hdlist file of \"%s\""
 msgstr "неможливо проанал╕зувати файл hdlist для \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "due to conflicts with %s"
+msgstr "через конфл╕кти з %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -843,11 +874,6 @@ msgstr "Спробувати ╕нсталяц╕ю без перев╕рки залежностей? (y/N) (т/Н) "
 #, c-format
 msgid "removing %d obsolete headers in cache"
 msgstr "видаляються %d застар╕л╕ заголовки у кеш╕"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to conflicts with %s"
-msgstr "через конфл╕кти з %s"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -1050,6 +1076,11 @@ msgstr "не знайдено webfetch (curl або wget) \n"
 msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - вибрати вс╕ пакунки в╕дпов╕дно до розширення.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr ""
+
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -1088,13 +1119,13 @@ msgstr "Перев╕ря╓ться можлив╕сть вилучення наступних пакунк╕в"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "нема╓ доступу до rpm-файла [%s]"
-
-#: ../urpmi:1
-#, c-format
 msgid "unrequested"
 msgstr "не замовлено"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "нема╓ доступу до rpm-файла [%s]"
 
 #: ../urpmf:1
 #, c-format
@@ -1153,15 +1184,15 @@ msgstr ""
 "  !              - унарний NOT, повирта╓ ╕стина (true), якщо вираз "
 "неправдивий.\n"
 
-#: ../urpmi.update:1
-#, c-format
-msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr "н╕чого поновлювати (використовуйте urpmi.addmedia, щоб додати нос╕я)\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "unmounting %s"
 msgstr "розмонтову╓ться %s"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "nothing to update (use urpmi.addmedia to add a media)\n"
+msgstr "н╕чого поновлювати (використовуйте urpmi.addmedia, щоб додати нос╕я)\n"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -1526,6 +1557,11 @@ msgstr ""
 msgid "ssh is missing\n"
 msgstr "нема╓ ssh\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "  --split-level  - build small transaction of minimal given length.\n"
+msgstr ""
+
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -1637,6 +1673,13 @@ msgstr "        завершено %s%% з %s, ETA = %s, швидк╕сть = %s"
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
 msgstr ""
 "розрахову╓ться md5sum для hdlist (або synthesis) джерела, що поновлю╓ться"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --no-uninstall - never ask to uninstall a package, abort the "
+"installation.\n"
+msgstr ""
 
 #: ../urpmq:1
 #, c-format
@@ -1821,7 +1864,7 @@ msgstr ""
 msgid "  --size         - print tag size: size.\n"
 msgstr "  --size         - виводити параметр size: розм╕р.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "через незадоволен╕сть %s"
@@ -1868,6 +1911,11 @@ msgstr ""
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
 msgstr "  --probe-hdlist - намагатися знайти ╕ використати файл hdlist.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "due to missing %s"
+msgstr "через в╕дсутн╕сть %s"
+
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "  --update       - use only update media.\n"
@@ -1881,11 +1929,6 @@ msgid ""
 msgstr ""
 "використання: urpmi.update [параметри] <назва> ...\n"
 "де <незва> - це назва нос╕я з поновленнями.\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to missing %s"
-msgstr "через в╕дсутн╕сть %s"
 
 #: ../urpm.pm:1
 #, c-format

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-05-15 14:10+0200\n"
+"POT-Creation-Date: 2003-06-17 22:08+0200\n"
 "PO-Revision-Date: 2001-09-22 03:14+0900\n"
 "Last-Translator: Jaegeum Choe <baedaron@hananet.net>\n"
 "Language-Team: Korean <baedaron@hananet.net>\n"
@@ -127,69 +127,28 @@ msgstr "더 많은 옵션을 보려면 urpmf --help라고 치세요."
 msgid "no full media list was found"
 msgstr ""
 
-#: ../_irpm:1
-#, c-format
-msgid "%s: command not found\n"
-msgstr "%s: 명령어를 찾을 수 없습니다.\n"
-
-#: ../_irpm:1 ../urpme:1 ../urpmi:1
-#, c-format
-msgid " (Y/n) "
-msgstr " (Y/n) "
-
-#: ../_irpm:1 ../urpmi:1
-#, c-format
-msgid "Cancel"
-msgstr "취소"
-
-#: ../_irpm:1 ../urpmi:1
-#, c-format
-msgid "Ok"
-msgstr "확인"
-
-#: ../_irpm:1 ../urpme:1 ../urpmi:1
-#, c-format
-msgid "Is this OK?"
-msgstr "계속할까요?"
-
-#: ../_irpm:1
+#: ../urpmi.addmedia:1
 #, c-format
 msgid ""
-"Automatic installation of packages...\n"
-"You requested installation of package %s\n"
+"  --distrib      - automatically create all media from an installation\n"
+"                   medium.\n"
 msgstr ""
-"팩키지 자동 설치...\n"
-"님은 팩키지 %s의 설치를 요청했습니다.\n"
-
-#: ../_irpm:1 ../urpmi:1
-#, c-format
-msgid "installing %s\n"
-msgstr "%s 설치 중...\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "unable to open rpmdb"
 msgstr "RPM 파일을 등록할 수 없습니다."
 
-#: ../urpm.pm:1
+#: ../urpme:1 ../urpmf:1 ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.removemedia:1
+#: ../urpmi.update:1 ../urpmq:1
 #, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "RPM 파일「%s」에 접근할 수 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to install package %s"
-msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgid "  --help         - print this help message.\n"
 msgstr ""
 
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to remove package %s"
-msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
+#: ../urpmi:1
+#, c-format
+msgid "One of the following packages is needed to install %s:"
+msgstr "다음 팩키지들 중 하나가 %s를 설치하는데 필요합니다:"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -197,147 +156,29 @@ msgid "removing package %s"
 msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to create transaction"
-msgstr "「%s」매체를 생성할 수 없습니다.\n"
-
-#: ../urpm.pm:1
 #, c-format
-msgid ""
-"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgid "\"%s\""
 msgstr ""
 
-#: ../urpm.pm:1 ../urpmi:1
+#: ../urpmi:1
 #, c-format
-msgid "Preparing..."
+msgid "Everything already installed"
+msgstr "모든 것이 이미 설치되어 있습니다."
+
+#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
+#, c-format
+msgid "  -c             - clean headers cache directory.\n"
 msgstr ""
 
-#: ../urpm.pm:1 ../urpmi.addmedia:1
-#, fuzzy, c-format
-msgid "...retrieving failed: %s"
-msgstr "[%s] 추출 중"
-
-#: ../urpm.pm:1 ../urpmi.addmedia:1
-#, fuzzy, c-format
-msgid "...retrieving done"
-msgstr "[%s] 추출 중"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "[%s] 추출 중"
-
-#: ../urpm.pm:1
+#: ../urpmf:1
 #, c-format
-msgid "malformed input: [%s]"
-msgstr "잘못된 형식의 입력: [%s]"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "매체「%s」에 접근할 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "urpmi database locked"
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr ""
 
-#: ../urpm.pm:1
+#: ../urpmi:1
 #, c-format
-msgid "incoherent medium \"%s\" marked removable but not really"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "medium \"%s\" is not selected"
-msgstr "매체 [%s]는 선택되지 않았습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "package %s is not found."
-msgstr "팩키지 %s를 찾을 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "medium \"%s\" does not define any location for rpm files"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid ""
-"medium \"%s\" uses an invalid list file:\n"
-"  mirror is problably not up-to-date, trying to use alternate method"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "there are multiple packages with the same rpm filename \"%s\""
-msgstr "동일한 파일 이름 「%s」를 가진 여러 개의 팩키지가 존재합니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to correctly parse [%s] on value \"%s\""
-msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
-
-#: ../urpm.pm:1 ../urpme:1
-#, c-format
-msgid "The following packages contain %s: %s"
-msgstr "다음 팩키지들은 %s를 담고 있습니다: %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "no package named %s"
-msgstr "%s라는 팩키지는 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "error registering local packages"
-msgstr "지역 팩키지 등록 오류"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to register rpm file"
-msgstr "RPM 파일「%s」에 접근할 수 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "retrieving rpm file [%s] ..."
-msgstr "[%s] 추출 중"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "invalid rpm file name [%s]"
-msgstr "유효하지 않은 RPM 파일 이름 [%s]"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "no entries relocated in depslist"
-msgstr "의존목록에서 %s 항목 위치 재지정"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "relocated %s entries in depslist"
-msgstr "의존목록에서 %s 항목 위치 재지정"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unmounting %s"
-msgstr "%s 마운트 해제 중"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "mounting %s"
-msgstr "%s 마운트 중"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "캐쉬에서 %d 낡은 헤더 제거 중"
+msgid "What is your choice? (1-%d) "
+msgstr "어느 것을 선택하시겠습니까? (1-%d) "
 
 #: ../urpm.pm:1
 #, c-format
@@ -346,28 +187,15 @@ msgstr "캐쉬에서 %d 헤더를 찾았습니다."
 
 #: ../urpm.pm:1
 #, c-format
-msgid "built hdlist synthesis file for medium \"%s\""
-msgstr "매체「%s」에 대한 목록 합성 파일 생성 완료."
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "동일한 파일 이름 「%s」를 가진 여러 개의 팩키지가 존재합니다."
 
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "examining hdlist file [%s]"
-msgstr "목록 파일 [%s] 읽는 중"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "examining synthesis file [%s]"
-msgstr "의존목록 파일 [%s] 읽기"
-
-#: ../urpm.pm:1
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
-msgid "building hdlist [%s]"
-msgstr "목록 [%s] 생성 중"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "존재하지 않는 매체「%s」의 제거 시도"
+msgid ""
+"  --proxy-user   - specify user and password to use for proxy\n"
+"                   authentication (format is <user:password>).\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -376,148 +204,58 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "problem reading synthesis file of medium \"%s\""
-msgstr "매체「%s」에 대한 목록 합성 파일 생성 완료."
+msgid "retrieving rpm file [%s] ..."
+msgstr "[%s] 추출 중"
 
-#: ../urpm.pm:1
+#: ../urpmq:1
 #, c-format
-msgid "nothing written in list file for \"%s\""
-msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "writing list file for medium \"%s\""
-msgstr "매체「%s」에 대한 목록 파일을 찾을 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to write list file of \"%s\""
-msgstr "「%s」의 목록 파일을 기록할 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "file [%s] already used in the same medium \"%s\""
+msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr ""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to parse hdlist file of \"%s\""
-msgstr "「%s」의 목록파일을 분석할 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "no hdlist file found for medium \"%s\""
-msgstr "매체「%s」에 대한 목록 파일을 찾을 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieve of source hdlist (or synthesis) failed"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "md5sum mismatch"
-msgstr ""
-
-#: ../urpm.pm:1
+#: ../urpm.pm:1 ../urpmi.addmedia:1
 #, fuzzy, c-format
-msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "found probed hdlist (or synthesis) as %s"
-msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgid "...retrieving failed: %s"
 msgstr "[%s] 추출 중"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "examining MD5SUM file"
-msgstr "목록 파일 [%s] 읽는 중"
+msgid "unable to inspect list file for \"%s\", medium ignored"
+msgstr "「%s」에 대한 목록 파일을 찾을 수 없습니다. 매체 무시됨."
 
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "computing md5sum of existing source hdlist (or synthesis)"
-msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "[%s] 추출 중"
-
-#: ../urpm.pm:1
+#: ../urpmf:1
 #, c-format
-msgid "no rpm files found from [%s]"
-msgstr "[%s]에서 RPM 파일을 찾을 수 없습니다."
+msgid ""
+"  -o             - binary OR operator, true if one expression is true.\n"
+msgstr ""
 
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to read rpm files from [%s]: %s"
-msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "reading rpm files from [%s]"
-msgstr "[%s]에서 RPM 파일을 찾을 수 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "...copying done"
-msgstr "[%s] 추출 중"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "...copying failed"
-msgstr "[%s] 추출 중"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "copying source list of \"%s\"..."
-msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
-
-#: ../urpm.pm:1
+#: ../urpmi:1
 #, c-format
-msgid "copy of [%s] failed"
-msgstr "[%s] 복사 실패."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "computing md5sum of copied source hdlist (or synthesis)"
-msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "copying source hdlist (or synthesis) of \"%s\"..."
-msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "copying description file of \"%s\"..."
-msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "removing medium \"%s\""
-msgstr "존재하지 않는 매체「%s」의 제거 시도"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "selecting multiple media: %s"
-msgstr "존재하지 않는 매체「%s」 선택 시도"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "\"%s\""
+msgid "Package installation..."
 msgstr ""
 
 #: ../urpm.pm:1
+#, c-format
+msgid "invalid rpm file name [%s]"
+msgstr "유효하지 않은 RPM 파일 이름 [%s]"
+
+#: ../urpmi:1
 #, fuzzy, c-format
-msgid "trying to select nonexistent medium \"%s\""
-msgstr "존재하지 않는 매체「%s」 선택 시도"
+msgid "distributing %s\n"
+msgstr "%s 설치 중...\n"
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid ""
+"%s\n"
+"no need to give <relative path of hdlist> with --distrib"
+msgstr ""
+"%s\n"
+"<팩키지 목록 파일의 상대경로>가 빠져 있습니다.\n"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid "bad proxy declaration on command line\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -526,765 +264,35 @@ msgid ""
 "found)"
 msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
 
-#: ../urpm.pm:1
+#: ../urpmi:1
 #, c-format
-msgid "invalid hdlist description \"%s\" in hdlists file"
-msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "retrieving hdlists file..."
-msgstr "[%s] 추출 중"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "copying hdlists file..."
-msgstr "목록 파일 [%s] 읽는 중"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to access first installation medium"
-msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "added medium %s"
-msgstr "존재하지 않는 매체「%s」의 제거 시도"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "medium \"%s\" already exists"
-msgstr "매체「%s」는 이미 존재합니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "skipping package %s"
-msgstr "%s라는 팩키지는 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "매체「%s」에 대한 목록 합성 파일 생성 완료."
-
-#: ../urpm.pm:1
-#, c-format
-msgid ""
-"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
-"update or --parallel"
-msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to use parallel option \"%s\""
-msgstr "「%s」매체를 업데이트할 수 없습니다.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "using associated media for parallel mode: %s"
-msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "found parallel handler for nodes: %s"
-msgstr "목록 파일 [%s] 읽는 중"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "examining parallel handler in file [%s]"
-msgstr "목록 파일 [%s] 읽는 중"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to parse \"%s\" in file [%s]"
-msgstr "RPM 파일「%s」에 접근할 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "write config file [%s]"
-msgstr "설정 파일 [%s]에 기록"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to write config file [%s]"
-msgstr "설정 파일 [%s]에 기록할 수 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "「%s」매체를 생성할 수 없습니다.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "「%s」매체를 생성할 수 없습니다.\n"
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to inspect list file for \"%s\", medium ignored"
-msgstr "「%s」에 대한 목록 파일을 찾을 수 없습니다. 매체 무시됨."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "incoherent list file for \"%s\", medium ignored"
-msgstr "「%s」에 대한 목록 파일을 찾을 수 없습니다. 매체 무시됨."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to find list file for \"%s\", medium ignored"
-msgstr "「%s」에 대한 목록 파일을 찾을 수 없습니다. 매체 무시됨."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to find hdlist file for \"%s\", medium ignored"
-msgstr "「%s」에 대한 목록 파일을 찾을 수 없습니다. 매체 무시됨."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "trying to bypass existing medium \"%s\", avoiding"
-msgstr "존재하지 않는 매체「%s」 선택 시도"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to access list file of \"%s\", medium ignored"
-msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to access hdlist file of \"%s\", medium ignored"
-msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to determine medium of this hdlist file [%s]"
-msgstr "이 목록파일 [%s]의 매체를 결정할 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
-msgstr ""
-"목록 파일 [%2$s]가 존재하지 않기 때문에, 매체「%1$s」을 처리할 수 없습니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unable to use name \"%s\" for unnamed medium because it is already used"
-msgstr "매체 이름 「%s」을 사용할 수 없습니다. 벌써 사용 중입니다."
-
-#: ../urpm.pm:1
-#, c-format
-msgid ""
-"unable to take care of medium \"%s\" as list file is already used by another "
-"medium"
-msgstr ""
-"목록 파일이 다른 매체에 의해 이미 사용되고 있기 때문에, 매체 「%s」를 사용할 "
-"수 없습니다."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "medium \"%s\" trying to use an already used list, medium ignored"
-msgstr "매체 「%s」가 이미 사용되는 목록을 사용하려 합니다. 매체 무시됨."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-msgstr "매체 「%s」는 이미 사용 중인 목록파일을 사용하려 합니다. 매체 무시됨."
-
-#: ../urpm.pm:1
-#, c-format
-msgid "syntax error in config file at line %s"
-msgstr "설정 파일의 %s 줄에 문법 오류"
-
-#: ../urpm.pm:1 ../urpmi:1
-#, c-format
-msgid "        %s%% completed, speed = %s"
-msgstr ""
-
-#: ../urpm.pm:1 ../urpmi:1
-#, c-format
-msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "rsync failed: exited with %d or signal %d\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "ssh is missing\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "rsync is missing\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "curl failed: exited with %d or signal %d\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "curl is missing\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "wget failed: exited with %d or signal %d\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "wget is missing\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "copy failed: %s"
-msgstr "설치 실패."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "unable to handle protocol: %s"
-msgstr "목록 파일을 생성할 수 없습니다: %s"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "no webfetch (curl or wget currently) found\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "unknown protocol defined for %s"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "Unknown webfetch `%s' !!!\n"
-msgstr ""
-
-#: ../urpme:1
-#, fuzzy, c-format
-msgid "Removing failed"
-msgstr "[%s] 추출 중"
-
-#: ../urpme:1
-#, fuzzy, c-format
-msgid ""
-"To satisfy dependencies, the following packages are going to be removed (%d "
-"MB)"
-msgstr "의존성을 총족시키기 위해, 다음 팩키지들도 설치될 것입니다. (%d MB)"
-
-#: ../urpme:1
-#, fuzzy, c-format
-msgid "Checking to remove the following packages"
-msgstr "다음 팩키지들 중 하나가 필요합니다:"
-
-#: ../urpme:1
-#, c-format
-msgid "Nothing to remove"
-msgstr ""
-
-#: ../urpme:1
-#, c-format
-msgid "removing package %s will break your system"
-msgstr ""
-
-#: ../urpme:1
-#, fuzzy, c-format
-msgid "unknown package"
-msgstr "%s라는 팩키지는 없습니다."
-
-#: ../urpme:1
-#, fuzzy, c-format
-msgid "unknown packages"
-msgstr "%s라는 팩키지는 없습니다."
-
-#: ../urpme:1
-#, fuzzy, c-format
-msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-msgstr "urpmi: 알 수 없는 옵션 「-%s」, 「--help」옵션으로 사용법을 보세요.\n"
-
-#: ../urpme:1
-#, c-format
-msgid "  -a             - select all packages matching expression.\n"
-msgstr ""
-
-#: ../urpme:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr ""
-
-#: ../urpme:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
-msgstr ""
-
-#: ../urpme:1 ../urpmi:1
-#, c-format
-msgid ""
-"  --test         - verify if the installation can be achieved correctly.\n"
-msgstr ""
-
-#: ../urpme:1 ../urpmi:1
-#, c-format
-msgid "  --auto         - automatically select a package in choices.\n"
-msgstr ""
-
-#: ../urpme:1 ../urpmf:1 ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.removemedia:1
-#: ../urpmi.update:1 ../urpmq:1
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr ""
-
-#: ../urpme:1
-#, c-format
-msgid ""
-"urpme version %s\n"
-"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid ""
-"callback is :\n"
-"%s\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  )              - right parenthesis to close group expression.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  (              - left parenthesis to open group expression.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid ""
-"  -o             - binary OR operator, true if one expression is true.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid ""
-"  -a             - binary AND operator, true if both expression are true.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  -e             - include perl code directly as perl -e.\n"
-msgstr ""
-
-#: ../urpmf:1 ../urpmq:1
-#, c-format
-msgid "  -f             - print version, release and arch with name.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  -i             - ignore case distinctions in every pattern.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --files        - print tag files: all files.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --requires     - print tag requires: all requires.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --provides     - print tag provides: all provides.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --url          - print tag url: url.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --packager     - print tag packager: packager.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --description  - print tag description: description.\n"
-msgstr ""
+msgid "Sorry, bad choice, try again\n"
+msgstr "선택이 잘못되었습니다. 다시 시도하세요.\n"
 
 #: ../urpmf:1
 #, c-format
 msgid "  --summary      - print tag summary: summary.\n"
 msgstr ""
 
-#: ../urpmf:1
+#: ../urpm.pm:1 ../urpme:1
 #, c-format
-msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --size         - print tag size: size.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --group        - print tag group: group.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid ""
-"  --name         - print tag name: rpm filename (assumed if no tag given on\n"
-"                   command line but without package name).\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --all          - print all tags.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --uniq         - do not print identical lines.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid ""
-"  --quiet        - do not print tag name (default if no tag given on "
-"command\n"
-"                   line, incompatible with interactive mode).\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid "  --verbose      - verbose mode.\n"
-msgstr ""
-
-#: ../urpmf:1 ../urpmq:1
-#, c-format
-msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr ""
-
-#: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr ""
-
-#: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  --excludemedia - do not use the given media, separated by comma.\n"
-msgstr ""
-
-#: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-
-#: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  --update       - use only update media.\n"
-msgstr ""
-
-#: ../urpmf:1
-#, c-format
-msgid ""
-"urpmf version %s\n"
-"Copyright (C) 2002 MandrakeSoft.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "Everything already installed"
-msgstr "모든 것이 이미 설치되어 있습니다."
-
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, fuzzy, c-format
-msgid "Installation is possible"
-msgstr "설치 실패."
-
-#: ../urpmi:1
-#, c-format
-msgid "Installation failed"
-msgstr "설치 실패."
-
-#: ../urpmi:1
-#, c-format
-msgid "Try installation even more strongly (--force)? (y/N) "
-msgstr "설치를 강제 추진합니까? (y/N) "
-
-#: ../urpmi:1
-#, c-format
-msgid "Try installation without checking dependencies? (y/N) "
-msgstr "의존성 검사없이 설치합니까? (y/N) "
-
-#: ../urpmi:1
-#, c-format
-msgid "Installing package `%s' (%s/%s)..."
-msgstr ""
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "distributing %s\n"
-msgstr "%s 설치 중...\n"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
-msgstr ""
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid " (y/N) "
-msgstr " (Y/n) "
-
-#: ../urpmi:1
-#, c-format
-msgid "Do you want to continue installation ?"
-msgstr ""
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "The following packages have bad signatures"
+msgid "The following packages contain %s: %s"
 msgstr "다음 팩키지들은 %s를 담고 있습니다: %s"
 
 #: ../urpmi:1
+#, c-format
+msgid "  --X            - use X interface.\n"
+msgstr ""
+
+#: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "Press Enter when ready..."
-msgstr "다 되었으면 ENTER키를 누르세요..."
-
-#: ../urpmi:1
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "장치 [%2$s]에 「%1$s」미디어를 넣으세요."
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "Downloading package `%s'..."
-msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
-
-#: ../urpmi:1
-#, c-format
-msgid "Initializing..."
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "Package installation..."
-msgstr ""
-
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "unable to get source packages, aborting"
-msgstr "소스 팩키지를 구할 수 없습니다, 중단합니다."
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"To satisfy dependencies, the following packages are going to be installed (%"
-"d MB)"
-msgstr "의존성을 총족시키기 위해, 다음 팩키지들도 설치될 것입니다. (%d MB)"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"You need to be root to install the following dependencies:\n"
-"%s\n"
-msgstr ""
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"업그레이드하기 위해서는 일부 팩키지가 제거되어야 합니다. 이 기능은 아직 지원"
-"되지 않습니다.\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "unrequested"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "due to conflicts with %s"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "due to missing %s"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "due to unsatisfied %s"
-msgstr ""
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "in order to install %s"
-msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "Sorry, bad choice, try again\n"
-msgstr "선택이 잘못되었습니다. 다시 시도하세요.\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "What is your choice? (1-%d) "
-msgstr "어느 것을 선택하시겠습니까? (1-%d) "
+msgid "copying source list of \"%s\"..."
+msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
 
 #: ../urpmi:1
 #, c-format
 msgid "One of the following packages is needed:"
 msgstr "다음 팩키지들 중 하나가 필요합니다:"
-
-#: ../urpmi:1
-#, c-format
-msgid "One of the following packages is needed to install %s:"
-msgstr "다음 팩키지들 중 하나가 %s를 설치하는데 필요합니다:"
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "Only superuser is allowed to install packages"
-msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
-
-#: ../urpmi:1
-#, c-format
-msgid "using specific environment on %s\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "Unable to create directory [%s] for bug report"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "What can be done with binary rpm files when using --install-src"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
-msgstr "urpmi: 알 수 없는 옵션 「-%s」, 「--help」옵션으로 사용법을 보세요.\n"
-
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
-#, c-format
-msgid "bad proxy declaration on command line\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  names or rpm files given on command line will be installed.\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  -q             - quiet mode.\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -s             - next package is a source package (same as --src).\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  -a             - select all matches on command line.\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr ""
 
 #: ../urpmi:1
 #, c-format
@@ -1294,46 +302,154 @@ msgid ""
 msgstr ""
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "Downloading package `%s'..."
+msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
+
+#: ../urpmi:1
 #, c-format
-msgid "  --X            - use X interface.\n"
+msgid "What can be done with binary rpm files when using --install-src"
+msgstr ""
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no package named %s"
+msgstr "%s라는 팩키지는 없습니다."
+
+#: ../urpmi:1
+#, c-format
+msgid "  -a             - select all matches on command line.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
 
 #: ../urpmi:1
 #, c-format
 msgid ""
-"  --env          - use specific environment (typically a bug\n"
-"                   report).\n"
+"Installation failed, some files are missing:\n"
+"%s\n"
+"You may want to update your urpmi database"
+msgstr ""
+
+#: ../urpmi.removemedia:1
+#, fuzzy, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+msgstr ""
+"사용법: urpmi.removemedia [-a] <이름> ...\n"
+"<이름>은 제거할 매체명.\n"
+"   -a    모든 매체 선택.\n"
+"\n"
+"알 수 없는 옵션 「%s」\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "curl failed: exited with %d or signal %d\n"
+msgstr ""
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The installation cannot continue because the following packages\n"
+"have to be removed for others to be upgraded:\n"
+"%s\n"
+msgstr ""
+"업그레이드하기 위해서는 일부 팩키지가 제거되어야 합니다. 이 기능은 아직 지원"
+"되지 않습니다.\n"
+
+#: ../urpme:1
+#, fuzzy, c-format
+msgid "unknown package"
+msgstr "%s라는 팩키지는 없습니다."
+
+#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#, fuzzy, c-format
+msgid "Installation is possible"
+msgstr "설치 실패."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieve of source hdlist (or synthesis) failed"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
+msgstr ""
+"목록 파일 [%2$s]가 존재하지 않기 때문에, 매체「%1$s」을 처리할 수 없습니다."
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid " (y/N) "
+msgstr " (Y/n) "
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "cannot add updates of a cooker distribution\n"
+msgstr ""
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -v             - verbose mode.\n"
 msgstr ""
 
 #: ../urpmi:1
 #, c-format
-msgid ""
-"  --bug          - output a bug report in directory indicated by\n"
-"                   next arg.\n"
+msgid "Initializing..."
 msgstr ""
 
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#: ../urpmq:1
+#, c-format
+msgid "  --list         - list available packages.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --all          - print all tags.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "incoherent medium \"%s\" marked removable but not really"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
+
+#: ../urpmi:1
+#, c-format
+msgid "  --excludepath  - exclude path separated by comma.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "Press Enter when ready..."
+msgstr "다 되었으면 ENTER키를 누르세요..."
+
+#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
 msgid ""
-"  --proxy-user   - specify user and password to use for proxy\n"
-"                   authentication (format is <user:password>).\n"
+"\n"
+"unknown options '%s'\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"  --proxy        - use specified HTTP proxy, the port number is assumed\n"
-"                   to be 1080 by default (format is <proxyhost[:port]>).\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
-#, c-format
-msgid "  --limit-rate   - limit the download speed.\n"
-msgstr ""
-
-#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
-#, c-format
-msgid "  --curl         - use curl to retrieve distant files.\n"
+msgid "rsync is missing\n"
 msgstr ""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
@@ -1343,10 +459,33 @@ msgstr ""
 
 #: ../urpmi:1
 #, c-format
-msgid ""
-"  --allow-force  - allow asking user to install packages without\n"
-"                   dependencies checking and integrity.\n"
+msgid "  -p             - allow search in provides to find package.\n"
 msgstr ""
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list-nodes   - list available nodes when using --parallel.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "목록 [%s] 생성 중"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "examining MD5SUM file"
+msgstr "목록 파일 [%s] 읽는 중"
+
+#: ../_irpm:1
+#, c-format
+msgid "%s: command not found\n"
+msgstr "%s: 명령어를 찾을 수 없습니다.\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to register rpm file"
+msgstr "RPM 파일「%s」에 접근할 수 없습니다."
 
 #: ../urpmi:1
 #, c-format
@@ -1355,46 +494,266 @@ msgid ""
 "                   dependencies checking.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
+#: ../urpmq:1
 #, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
+msgid "  -i             - print usefull information in human readeable form.\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to handle protocol: %s"
+msgstr "목록 파일을 생성할 수 없습니다: %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "retrieving hdlists file..."
+msgstr "[%s] 추출 중"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "added medium %s"
+msgstr "존재하지 않는 매체「%s」의 제거 시도"
 
 #: ../urpmi:1
 #, c-format
 msgid "  --noclean      - keep rpm not used in cache.\n"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "syntax error in config file at line %s"
+msgstr "설정 파일의 %s 줄에 문법 오류"
+
 #: ../urpmi:1
 #, c-format
-msgid "  --clean        - remove rpm from cache before anything else.\n"
+msgid "  names or rpm files given on command line will be installed.\n"
 msgstr ""
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --proxy        - use specified HTTP proxy, the port number is assumed\n"
+"                   to be 1080 by default (format is <proxyhost[:port]>).\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "in order to install %s"
+msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "relocated %s entries in depslist"
+msgstr "의존목록에서 %s 항목 위치 재지정"
+
+#: ../urpmf:1
+#, c-format
+msgid "  -i             - ignore case distinctions in every pattern.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "Unable to create directory [%s] for bug report"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid "retrieving mirrors at %s ..."
+msgstr "[%s] 추출 중"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unknown protocol defined for %s"
+msgstr ""
+
+#: ../urpmq:1
+#, c-format
+msgid "  -r             - print version and release with name also.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "매체「%s」는 이미 존재합니다."
+
+#: ../_irpm:1 ../urpmi:1
+#, c-format
+msgid "installing %s\n"
+msgstr "%s 설치 중...\n"
+
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"the entry to update is missing\n"
+"(one of %s)\n"
+msgstr ""
+"업데이트하려는 항목이 빠져있습니다.\n"
+"(%s 중 하나)\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to remove package %s"
+msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "매체「%s」에 대한 목록 합성 파일 생성 완료."
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid ""
+"the entry to remove is missing\n"
+"(one of %s)\n"
+msgstr ""
+"제거하려는 항목이 빠져있습니다.\n"
+"(%s 중 하나)\n"
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid "  -a             - select all media.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "Missing signature (%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
+
+#: ../urpm/parallel_ka_run.pm:1
+#, c-format
+msgid "mput failed, maybe a node is unreacheable"
+msgstr ""
+
+#: ../urpmi.update:1
+#, c-format
+msgid "  --update       - update only update media.\n"
+msgstr ""
+
+#: ../_irpm:1 ../urpme:1 ../urpmi:1
+#, c-format
+msgid " (Y/n) "
+msgstr " (Y/n) "
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr "매체 「%s」가 이미 사용되는 목록을 사용하려 합니다. 매체 무시됨."
+
+#: ../urpmi:1
+#, c-format
+msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
+msgstr "urpmi: 알 수 없는 옵션 「-%s」, 「--help」옵션으로 사용법을 보세요.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "malformed input: [%s]"
+msgstr "잘못된 형식의 입력: [%s]"
+
+#: ../urpme:1
+#, c-format
+msgid "removing package %s will break your system"
+msgstr ""
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list-media   - list available media.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "Installing package `%s' (%s/%s)..."
+msgstr ""
+
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"  -d             - force complete computation of depslist.ordered file.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "no entries relocated in depslist"
+msgstr "의존목록에서 %s 항목 위치 재지정"
 
 #: ../urpmi:1
 #, c-format
 msgid "  --install-src  - install only source package (no binaries).\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
-msgid "  --src          - next package is a source package (same as -s).\n"
+msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
+#: ../urpmf:1
 #, c-format
-msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
+msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "incoherent list file for \"%s\", medium ignored"
+msgstr "「%s」에 대한 목록 파일을 찾을 수 없습니다. 매체 무시됨."
+
+#: ../urpm.pm:1 ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid "...retrieving done"
+msgstr "[%s] 추출 중"
+
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
 msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "%s라는 팩키지는 없습니다."
+
+#: ../urpmq:1
+#, c-format
+msgid "  names or rpm files given on command line are queried.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist file of medium \"%s\""
+msgstr "매체「%s」에 대한 목록 합성 파일 생성 완료."
 
 #: ../urpmi:1
 #, c-format
-msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
+msgid "Invalid signature (%s)"
 msgstr ""
 
 #: ../urpmi:1
@@ -1408,105 +767,59 @@ msgid ""
 "usage:\n"
 msgstr ""
 
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to determine medium of this hdlist file [%s]"
+msgstr "이 목록파일 [%s]의 매체를 결정할 수 없습니다."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
+msgstr "매체 「%s」는 이미 사용 중인 목록파일을 사용하려 합니다. 매체 무시됨."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "「%s」의 목록파일을 분석할 수 없습니다."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "due to conflicts with %s"
+msgstr ""
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
 msgstr "「%s」매체를 업데이트할 수 없습니다.\n"
 
-#: ../urpmi.addmedia:1
+#: ../urpmi:1
 #, c-format
-msgid "unable to create medium \"%s\"\n"
-msgstr "「%s」매체를 생성할 수 없습니다.\n"
+msgid "Try installation without checking dependencies? (y/N) "
+msgstr "의존성 검사없이 설치합니까? (y/N) "
 
-#: ../urpmi.addmedia:1
-#, fuzzy, c-format
-msgid ""
-"%s\n"
-"`with' missing for network media\n"
-msgstr ""
-"%s\n"
-"FTP 미디어에 대해 「with」가 빠져있습니다.\n"
-
-#: ../urpmi.addmedia:1
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"%s\n"
-"<relative path of hdlist> missing\n"
-msgstr ""
-"%s\n"
-"<팩키지 목록 파일의 상대경로>가 빠져 있습니다.\n"
+msgid "removing %d obsolete headers in cache"
+msgstr "캐쉬에서 %d 낡은 헤더 제거 중"
 
-#: ../urpmi.addmedia:1
-#, fuzzy, c-format
-msgid ""
-"%s\n"
-"no need to give <relative path of hdlist> with --distrib"
-msgstr ""
-"%s\n"
-"<팩키지 목록 파일의 상대경로>가 빠져 있습니다.\n"
-
-#: ../urpmi.addmedia:1
-#, fuzzy, c-format
-msgid "retrieving mirrors at %s ..."
-msgstr "[%s] 추출 중"
-
-#: ../urpmi.addmedia:1
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
-msgid "cannot add updates of a cooker distribution\n"
+msgid "Preparing..."
 msgstr ""
 
-#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"\n"
-"unknown options '%s'\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1 ../urpmi.update:1
-#, c-format
-msgid "  -f             - force generation of hdlist files.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  --arch         - use specified architecture, the default is arch of\n"
-"                   mandrake-release package installed.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  --version      - use specified distribution version, the default is taken\n"
-"                   from the version of the distribution told by the\n"
-"                   installed mandrake-release package.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  --from         - use specified url for list of mirrors, the default is\n"
-"                   %s\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  --distrib-XXX  - automatically create a medium for XXX part of a\n"
-"                   distribution, XXX may be main, contrib, updates or\n"
-"                   anything else that has been configured ;-)\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  --distrib      - automatically create all media from an installation\n"
-"                   medium.\n"
+msgid "using different removable device [%s] for \"%s\""
 msgstr ""
 
 #: ../urpmi.addmedia:1
@@ -1516,19 +829,40 @@ msgid ""
 "                   hdlist file.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:1
+#: ../urpmi:1 ../urpmq:1
 #, c-format
-msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgid "  -P             - do not search in provides to find package.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:1
+#: ../urpmi:1
 #, c-format
-msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgid "  --clean        - remove rpm from cache before anything else.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:1
+#: ../urpm.pm:1
 #, c-format
-msgid "  --update       - create an update medium.\n"
+msgid "unable to use name \"%s\" for unnamed medium because it is already used"
+msgstr "매체 이름 「%s」을 사용할 수 없습니다. 벌써 사용 중입니다."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "retrieving description file of \"%s\"..."
+msgstr "[%s] 추출 중"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
+msgstr ""
+
+#: ../urpme:1
+#, c-format
+msgid ""
+"urpme version %s\n"
+"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
 msgstr ""
 
 #: ../urpmi.addmedia:1
@@ -1554,46 +888,218 @@ msgstr ""
 "       http://<호스트>/<경로> with <팩키지 목록 파일의 상대경로>\n"
 "       removable_<장치>://<경로>\n"
 
-#: ../urpmi.removemedia:1
-#, c-format
-msgid ""
-"the entry to remove is missing\n"
-"(one of %s)\n"
-msgstr ""
-"제거하려는 항목이 빠져있습니다.\n"
-"(%s 중 하나)\n"
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "copying source hdlist (or synthesis) of \"%s\"..."
+msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
 
-#: ../urpmi.removemedia:1
-#, c-format
-msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
-"제거할 것이 없습니다. (미디어를 추가하려면 「urpmi.addmedia」를 사용하세요.\n"
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "...copying done"
+msgstr "[%s] 추출 중"
 
-#: ../urpmi.removemedia:1
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "「%s」매체를 업데이트할 수 없습니다.\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to access first installation medium"
+msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
+
+#: ../urpm.pm:1
 #, c-format
-msgid "  -a             - select all media.\n"
+msgid "error registering local packages"
+msgstr "지역 팩키지 등록 오류"
+
+#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "on node %s"
 msgstr ""
 
-#: ../urpmi.removemedia:1
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
+#, c-format
+msgid "  --limit-rate   - limit the download speed.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "found probed hdlist (or synthesis) as %s"
+msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
+
+#: ../urpmi:1
 #, fuzzy, c-format
 msgid ""
-"usage: urpmi.removemedia [-a] <name> ...\n"
-"where <name> is a medium name to remove.\n"
+"The following packages have to be removed for others to be upgraded:\n"
+"%s\n"
+"do you agree ?"
 msgstr ""
-"사용법: urpmi.removemedia [-a] <이름> ...\n"
-"<이름>은 제거할 매체명.\n"
-"   -a    모든 매체 선택.\n"
-"\n"
-"알 수 없는 옵션 「%s」\n"
+"업그레이드하기 위해서는 일부 팩키지가 제거되어야 합니다. 이 기능은 아직 지원"
+"되지 않습니다.\n"
 
-#: ../urpmi.update:1
+#: ../urpm.pm:1
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "[%s]에서 RPM 파일을 찾을 수 없습니다."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "nothing written in list file for \"%s\""
+msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "The following packages have bad signatures"
+msgstr "다음 팩키지들은 %s를 담고 있습니다: %s"
+
+#: ../urpmq:1
+#, c-format
+msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
+msgstr "urpmq: 알 수 없는 옵션 「-%s」, 「--help」옵션으로 사용법을 보세요.\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
+
+#: ../urpmq:1
+#, c-format
+msgid "  -c             - complete output with package to be removed.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to install package %s"
+msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
+
+#: ../urpmi:1
 #, c-format
 msgid ""
-"the entry to update is missing\n"
-"(one of %s)\n"
+"  --allow-force  - allow asking user to install packages without\n"
+"                   dependencies checking and integrity.\n"
 msgstr ""
-"업데이트하려는 항목이 빠져있습니다.\n"
-"(%s 중 하나)\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "urpmq: cannot read rpm file \"%s\"\n"
+msgstr "urpmq: RPM 파일 「%s」을 읽을 수 없습니다.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "설정 파일 [%s]에 기록할 수 없습니다."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no webfetch (curl or wget currently) found\n"
+msgstr ""
+
+#: ../urpme:1
+#, c-format
+msgid "  -a             - select all packages matching expression.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr ""
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "「%s」매체를 생성할 수 없습니다.\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "wget is missing\n"
+msgstr ""
+
+#: ../urpme:1
+#, fuzzy, c-format
+msgid "Checking to remove the following packages"
+msgstr "다음 팩키지들 중 하나가 필요합니다:"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unrequested"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "RPM 파일「%s」에 접근할 수 없습니다."
+
+#: ../urpmf:1
+#, c-format
+msgid "  --files        - print tag files: all files.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "RPM 파일「%s」에 접근할 수 없습니다."
+
+#: ../urpmi:1
+#, c-format
+msgid "Do you want to continue installation ?"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "매체「%s」에 대한 목록 합성 파일 생성 완료."
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --version      - use specified distribution version, the default is taken\n"
+"                   from the version of the distribution told by the\n"
+"                   installed mandrake-release package.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --from         - use specified url for list of mirrors, the default is\n"
+"                   %s\n"
+msgstr ""
+
+#: ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "host %s does not have a good version of urpmi"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  !              - unary NOT, true if expression is false.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unmounting %s"
+msgstr "%s 마운트 해제 중"
 
 #: ../urpmi.update:1
 #, c-format
@@ -1602,89 +1108,39 @@ msgstr ""
 "업데이트할 것이 없습니다. (미디어를 추가하려면 「urpmi.addmedia」를 사용하세"
 "요.\n"
 
-#: ../urpmi.update:1
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
-msgid ""
-"  -d             - force complete computation of depslist.ordered file.\n"
+msgid "        %s%% completed, speed = %s"
 msgstr ""
 
-#: ../urpmi.update:1
-#, c-format
-msgid "  -a             - select all non-removable media.\n"
-msgstr ""
-
-#: ../urpmi.update:1
-#, c-format
-msgid "  --update       - update only update media.\n"
-msgstr ""
-
-#: ../urpmi.update:1
+#: ../urpm.pm:1
 #, fuzzy, c-format
-msgid ""
-"usage: urpmi.update [options] <name> ...\n"
-"where <name> is a medium name to update.\n"
-msgstr ""
-"사용법: urpmi.removemedia [-a] <이름> ...\n"
-"<이름>은 제거할 매체명.\n"
-"   -a    모든 매체 선택.\n"
-"\n"
-"알 수 없는 옵션 「%s」\n"
+msgid "examining synthesis file [%s]"
+msgstr "의존목록 파일 [%s] 읽기"
 
-#: ../urpmq:1
+#: ../urpmi:1
 #, c-format
-msgid "--list-nodes can only be used with --parallel"
-msgstr ""
+msgid "Try installation even more strongly (--force)? (y/N) "
+msgstr "설치를 강제 추진합니까? (y/N) "
 
-#: ../urpmq:1
-#, c-format
-msgid "urpmq: cannot read rpm file \"%s\"\n"
-msgstr "urpmq: RPM 파일 「%s」을 읽을 수 없습니다.\n"
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "...copying failed"
+msgstr "[%s] 추출 중"
 
-#: ../urpmq:1
+#: ../urpm.pm:1
 #, c-format
-msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
-msgstr "urpmq: 알 수 없는 옵션 「-%s」, 「--help」옵션으로 사용법을 보세요.\n"
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
 
-#: ../urpmq:1
+#: ../urpmi:1
 #, c-format
-msgid "  names or rpm files given on command line are queried.\n"
+msgid "  -q             - quiet mode.\n"
 msgstr ""
 
-#: ../urpmq:1
+#: ../urpmf:1
 #, c-format
-msgid "  -r             - print version and release with name also.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -g             - print groups with name also.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -i             - print usefull information in human readeable form.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -R             - reverse search to what requires package.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -c             - complete output with package to be removed.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid ""
-"  -u             - remove package if a more recent version is already "
-"installed.\n"
-msgstr ""
-
-#: ../urpmq:1
-#, c-format
-msgid "  -d             - extend query to package dependencies.\n"
+msgid "  --verbose      - verbose mode.\n"
 msgstr ""
 
 #: ../urpmq:1
@@ -1700,24 +1156,406 @@ msgid ""
 "                   stdout (root only).\n"
 msgstr ""
 
-#: ../urpmq:1
+#: ../urpme:1
+#, fuzzy, c-format
+msgid "unknown packages"
+msgstr "%s라는 팩키지는 없습니다."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "selecting multiple media: %s"
+msgstr "존재하지 않는 매체「%s」 선택 시도"
+
+#: ../urpmf:1 ../urpmq:1
 #, c-format
-msgid "  --list-aliases - list available parallel aliases.\n"
+msgid "  -f             - print version, release and arch with name.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "file [%s] already used in the same medium \"%s\""
+msgstr ""
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
+msgstr ""
+"제거할 것이 없습니다. (미디어를 추가하려면 「urpmi.addmedia」를 사용하세요.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "「%s」에 대한 목록 파일을 찾을 수 없습니다. 매체 무시됨."
+
+#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#, fuzzy, c-format
+msgid "Installation failed on node %s"
+msgstr "설치 실패."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "curl is missing\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr "목록 파일 [%s] 읽는 중"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"callback is :\n"
+"%s\n"
 msgstr ""
 
 #: ../urpmq:1
 #, c-format
-msgid "  --list-nodes   - list available nodes when using --parallel.\n"
+msgid "  -R             - reverse search to what requires package.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"urpmf version %s\n"
+"Copyright (C) 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  --name         - print tag name: rpm filename (assumed if no tag given on\n"
+"                   command line but without package name).\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "Unknown webfetch `%s' !!!\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  --quiet        - do not print tag name (default if no tag given on "
+"command\n"
+"                   line, incompatible with interactive mode).\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --arch         - use specified architecture, the default is arch of\n"
+"                   mandrake-release package installed.\n"
+msgstr ""
+
+#: ../_irpm:1 ../urpme:1 ../urpmi:1
+#, c-format
+msgid "Is this OK?"
+msgstr "계속할까요?"
+
+#: ../urpmf:1 ../urpmq:1
+#, c-format
+msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"To satisfy dependencies, the following packages are going to be installed (%"
+"d MB)"
+msgstr "의존성을 총족시키기 위해, 다음 팩키지들도 설치될 것입니다. (%d MB)"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "목록 파일 [%s] 읽는 중"
+
+#: ../urpme:1
+#, c-format
+msgid "Nothing to remove"
 msgstr ""
 
 #: ../urpmq:1
 #, c-format
-msgid "  --list-media   - list available media.\n"
+msgid "  -d             - extend query to package dependencies.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --bug          - output a bug report in directory indicated by\n"
+"                   next arg.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "존재하지 않는 매체「%s」의 제거 시도"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "wget failed: exited with %d or signal %d\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "copy failed: %s"
+msgstr "설치 실패."
+
+#: ../urpmf:1
+#, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to write list file of \"%s\""
+msgstr "「%s」의 목록 파일을 기록할 수 없습니다."
+
+#: ../urpme:1
+#, fuzzy, c-format
+msgid "urpme: unknown option \"-%s\", check usage with --help\n"
+msgstr "urpmi: 알 수 없는 옵션 「-%s」, 「--help」옵션으로 사용법을 보세요.\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
+msgstr "존재하지 않는 매체「%s」 선택 시도"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --description  - print tag description: description.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid ""
+"%s\n"
+"`with' missing for network media\n"
+msgstr ""
+"%s\n"
+"FTP 미디어에 대해 「with」가 빠져있습니다.\n"
+
+#: ../urpm/parallel_ka_run.pm:1
+#, c-format
+msgid "rshp failed, maybe a node is unreacheable"
+msgstr ""
+
+#: ../urpmi.addmedia:1 ../urpmi.update:1
+#, c-format
+msgid "  -f             - force generation of hdlist files.\n"
 msgstr ""
 
 #: ../urpmq:1
 #, c-format
-msgid "  --list         - list available packages.\n"
+msgid "--list-nodes can only be used with --parallel"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "매체「%s」에 대한 목록 파일을 찾을 수 없습니다."
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -s             - next package is a source package (same as --src).\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "reading rpm files from [%s]"
+msgstr "[%s]에서 RPM 파일을 찾을 수 없습니다."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
+
+#: ../urpme:1 ../urpmi:1
+#, c-format
+msgid "  --auto         - automatically select a package in choices.\n"
+msgstr ""
+
+#: ../urpme:1
+#, fuzzy, c-format
+msgid "Removing failed"
+msgstr "[%s] 추출 중"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "package %s is not found."
+msgstr "팩키지 %s를 찾을 수 없습니다."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing medium \"%s\""
+msgstr "존재하지 않는 매체「%s」의 제거 시도"
+
+#: ../_irpm:1 ../urpmi:1
+#, c-format
+msgid "Cancel"
+msgstr "취소"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --src          - next package is a source package (same as -s).\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --env          - use specific environment (typically a bug\n"
+"                   report).\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "ssh is missing\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-level  - build small transaction of minimal given length.\n"
+msgstr ""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "매체「%s」에 접근할 수 없습니다."
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "unable to create medium \"%s\"\n"
+msgstr "「%s」매체를 생성할 수 없습니다.\n"
+
+#: ../urpm/parallel_ssh.pm:1
+#, fuzzy, c-format
+msgid "scp failed on host %s"
+msgstr "설치 실패."
+
+#: ../urpmf:1
+#, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"You need to be root to install the following dependencies:\n"
+"%s\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
+
+#: ../urpmf:1
+#, c-format
+msgid "  )              - right parenthesis to close group expression.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "examining hdlist file [%s]"
+msgstr "목록 파일 [%s] 읽는 중"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "copying hdlists file..."
+msgstr "목록 파일 [%s] 읽는 중"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "매체「%s」에 대한 목록 파일을 찾을 수 없습니다."
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "mounting %s"
+msgstr "%s 마운트 중"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to take care of medium \"%s\" as list file is already used by another "
+"medium"
+msgstr ""
+"목록 파일이 다른 매체에 의해 이미 사용되고 있기 때문에, 매체 「%s」를 사용할 "
+"수 없습니다."
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "unable to get source packages, aborting"
+msgstr "소스 팩키지를 구할 수 없습니다, 중단합니다."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "rsync failed: exited with %d or signal %d\n"
+msgstr ""
+
+#: ../urpm.pm:1 ../urpmi:1
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --no-uninstall - never ask to uninstall a package, abort the "
+"installation.\n"
 msgstr ""
 
 #: ../urpmq:1
@@ -1731,34 +1569,238 @@ msgid ""
 "usage:\n"
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "Installation failed on node %s"
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "[%s] 추출 중"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -g             - print groups with name also.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "매체 [%s]는 선택되지 않았습니다."
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "Only superuser is allowed to install packages"
+msgstr "루트 사용자만이 지역 팩키지를 설치할 수 있습니다."
+
+#: ../urpmi:1
+#, c-format
+msgid "using specific environment on %s\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to find hdlist file for \"%s\", medium ignored"
+msgstr "「%s」에 대한 목록 파일을 찾을 수 없습니다. 매체 무시됨."
+
+#: ../urpmf:1
+#, c-format
+msgid "  (              - left parenthesis to open group expression.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr "「%s」매체를 생성할 수 없습니다.\n"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  -a             - binary AND operator, true if both expression are true.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --group        - print tag group: group.\n"
+msgstr ""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "「%s」매체를 생성할 수 없습니다.\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"%s\n"
+"<relative path of hdlist> missing\n"
+msgstr ""
+"%s\n"
+"<팩키지 목록 파일의 상대경로>가 빠져 있습니다.\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "[%s] 추출 중"
+
+#: ../urpme:1
+#, fuzzy, c-format
+msgid ""
+"To satisfy dependencies, the following packages are going to be removed (%d "
+"MB)"
+msgstr "의존성을 총족시키기 위해, 다음 팩키지들도 설치될 것입니다. (%d MB)"
+
+#: ../urpmi:1
+#, c-format
+msgid "Installation failed"
 msgstr "설치 실패."
 
-#: ../urpm/parallel_ka_run.pm:1
+#: ../urpm.pm:1
 #, c-format
-msgid "rshp failed, maybe a node is unreacheable"
+msgid "write config file [%s]"
+msgstr "설정 파일 [%s]에 기록"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "  -a             - select all non-removable media.\n"
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:1
+#: ../urpmf:1
 #, c-format
-msgid "mput failed, maybe a node is unreacheable"
+msgid "  --epoch        - print tag epoch: epoch.\n"
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
-msgid "on node %s"
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disable it, default is enabled).\n"
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
+#, c-format
+msgid "Please insert the medium named \"%s\" on device [%s]"
+msgstr "장치 [%2$s]에 「%1$s」미디어를 넣으세요."
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s\n"
+"do you agree ?"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --update       - create an update medium.\n"
+msgstr ""
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
+msgstr ""
+
+#: ../_irpm:1 ../urpmi:1
+#, c-format
+msgid "Ok"
+msgstr "확인"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "invalid hdlist description \"%s\" in hdlists file"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --distrib-XXX  - automatically create a medium for XXX part of a\n"
+"                   distribution, XXX may be main, contrib, updates or\n"
+"                   anything else that has been configured ;-)\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --size         - print tag size: size.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "due to unsatisfied %s"
+msgstr ""
+
+#: ../_irpm:1
+#, c-format
+msgid ""
+"Automatic installation of packages...\n"
+"You requested installation of package %s\n"
+msgstr ""
+"팩키지 자동 설치...\n"
+"님은 팩키지 %s의 설치를 요청했습니다.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "urpmi database locked"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copy of [%s] failed"
+msgstr "[%s] 복사 실패."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "taking removable device as \"%s\""
+msgstr ""
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
+msgstr ""
+
+#: ../urpmq:1
+#, c-format
+msgid ""
+"  -u             - remove package if a more recent version is already "
+"installed.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "due to missing %s"
+msgstr ""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --update       - use only update media.\n"
+msgstr ""
+
+#: ../urpmi.update:1
 #, fuzzy, c-format
-msgid "scp failed on host %s"
-msgstr "설치 실패."
+msgid ""
+"usage: urpmi.update [options] <name> ...\n"
+"where <name> is a medium name to update.\n"
+msgstr ""
+"사용법: urpmi.removemedia [-a] <이름> ...\n"
+"<이름>은 제거할 매체명.\n"
+"   -a    모든 매체 선택.\n"
+"\n"
+"알 수 없는 옵션 「%s」\n"
 
-#: ../urpm/parallel_ssh.pm:1
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to bypass existing medium \"%s\", avoiding"
+msgstr "존재하지 않는 매체「%s」 선택 시도"
+
+#: ../urpme:1 ../urpmi:1
 #, c-format
-msgid "host %s does not have a good version of urpmi"
+msgid ""
+"  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 
 #~ msgid "nothing to write in list file for \"%s\""

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-05-19 16:44+0200\n"
+"POT-Creation-Date: 2003-06-17 22:08+0200\n"
 "PO-Revision-Date: 2003-05-17 21:45+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -377,6 +377,17 @@ msgstr ""
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl hỏng: đi ra với %d hay signal %d\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The installation cannot continue because the following packages\n"
+"have to be removed for others to be upgraded:\n"
+"%s\n"
+msgstr ""
+"Các gói sau đây phải được gỡ bỏ để nâng cấp các gói khác:\n"
+"%s\n"
+"Bạn có đồng ý không ?"
+
 #: ../urpme:1
 #, c-format
 msgid "unknown package"
@@ -567,7 +578,7 @@ msgstr ""
 "                    là 1080 theo mặc định (định dạng là <proxyhost[:port]"
 ">).\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "in order to install %s"
 msgstr "để cài đặt %s"
@@ -586,6 +597,11 @@ msgstr "  -i             - bỏ qua các dấu hiệu phân biệt trong mọi m
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "Không thể tạo thư mục [%s] cho báo cáo lỗi"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "không thể gỡ bỏ gói %s"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -654,6 +670,11 @@ msgstr ""
 #, c-format
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - chọn toàn bộ các phương tiện.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Missing signature (%s)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -765,6 +786,11 @@ msgstr "lỗi đọc tập tin hdlist của phương tiện \"%s\""
 
 #: ../urpmi:1
 #, c-format
+msgid "Invalid signature (%s)"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
@@ -810,6 +836,11 @@ msgstr ""
 msgid "unable to parse hdlist file of \"%s\""
 msgstr "không thể phân tích tập tin hdlist của \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "due to conflicts with %s"
+msgstr "vì xung đột với %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -824,11 +855,6 @@ msgstr "Thử cài đặt mà không cần kiểm tra các phụ thuộc? (Có/K
 #, c-format
 msgid "removing %d obsolete headers in cache"
 msgstr "đang gỡ bỏ các header cũ %d trong cache"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to conflicts with %s"
-msgstr "vì xung đột với %s"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -1033,6 +1059,11 @@ msgstr "không tìm thấy webfetch (hiện là curl hay wget)\n"
 msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - chọn toàn bộ các gói tin khớp với sự diễn đạt.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr ""
+
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -1068,13 +1099,13 @@ msgstr "Đang kiểm tra để gỡ bỏ các gói tin sau đây"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "không thể truy cập tập tin rpm [%s]"
-
-#: ../urpmi:1
-#, c-format
 msgid "unrequested"
 msgstr "thôi yêu cầu"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "không thể truy cập tập tin rpm [%s]"
 
 #: ../urpmf:1
 #, c-format
@@ -1131,15 +1162,15 @@ msgstr "host %s không có phiên bản tốt của urpmi"
 msgid "  !              - unary NOT, true if expression is false.\n"
 msgstr "  !              - unary NOT, đúng nếu expression là sai.\n"
 
-#: ../urpmi.update:1
-#, c-format
-msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr "Không có gì để cập nhật (dùng urpmi.addmedia để thêm phương tiện)\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "unmounting %s"
 msgstr "thôi gắn kết %s"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "nothing to update (use urpmi.addmedia to add a media)\n"
+msgstr "Không có gì để cập nhật (dùng urpmi.addmedia để thêm phương tiện)\n"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -1499,6 +1530,11 @@ msgstr ""
 msgid "ssh is missing\n"
 msgstr "đang thiếu ssh\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "  --split-level  - build small transaction of minimal given length.\n"
+msgstr ""
+
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -1609,6 +1645,13 @@ msgstr "        %s%% của %s đã hoàn thành, ETA = %s, tốc độ = %s"
 #, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
 msgstr "tính toán md5sum của hdlist nguồn thu thập được (hoặc tổng hợp)"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --no-uninstall - never ask to uninstall a package, abort the "
+"installation.\n"
+msgstr ""
 
 #: ../urpmq:1
 #, c-format
@@ -1794,7 +1837,7 @@ msgstr ""
 msgid "  --size         - print tag size: size.\n"
 msgstr "  --size          - in ra kích thước tag: kích thước.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "vì không thỏa mãn %s"
@@ -1842,6 +1885,11 @@ msgstr ""
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
 msgstr "  --probe-hdlist - thử tìm và sử dụng tập tin hdlist.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "due to missing %s"
+msgstr "do thiếu %s"
+
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "  --update       - use only update media.\n"
@@ -1855,11 +1903,6 @@ msgid ""
 msgstr ""
 "cách dùng: urpmi.update [tùy chọn] <tên> ...\n"
 "nơi mà <tên> là tên phương tiện để cập nhật.\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to missing %s"
-msgstr "do thiếu %s"
 
 #: ../urpm.pm:1
 #, c-format

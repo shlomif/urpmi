@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-05-19 16:44+0200\n"
+"POT-Creation-Date: 2003-06-17 22:08+0200\n"
 "PO-Revision-Date: 2003-06-01 21:37-0300\n"
 "Last-Translator: Mohammed Gamal <f2c2001@yahoo.com>\n"
 "Language-Team: Arabic\n"
@@ -373,6 +373,17 @@ msgstr ""
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "فشل curl: تم الخروج بـ %d أو الإشارة %d\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The installation cannot continue because the following packages\n"
+"have to be removed for others to be upgraded:\n"
+"%s\n"
+msgstr ""
+"الحزم التالية يجب أن تحذف لكي تتم ترقيت المتبقي:\n"
+"%s\n"
+"هل أنت موافق ؟"
+
 #: ../urpme:1
 #, c-format
 msgid "unknown package"
@@ -557,7 +568,7 @@ msgstr ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
 "                   to be 1080 by default (format is <proxyhost[:port]>).\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "in order to install %s"
 msgstr "كي يتم تثبيث %s"
@@ -576,6 +587,11 @@ msgstr "  -i             - ignore case distinctions in every pattern.\n"
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "تعذر انشاء الدليل [%s] لتقرير العيوب"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "تعذر حذف الحزمة %s"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -644,6 +660,11 @@ msgstr ""
 #, c-format
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - select all media.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Missing signature (%s)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -754,6 +775,11 @@ msgstr "مشكلة في قراءة  ملف hdlist للوسيط \"%s\""
 
 #: ../urpmi:1
 #, c-format
+msgid "Invalid signature (%s)"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
@@ -793,6 +819,11 @@ msgstr "الوسيط \"%s\" يحاول اسنخدام ملف hdlist مستخدم
 msgid "unable to parse hdlist file of \"%s\""
 msgstr "لم يمكن تحليل ملف hdlist لـ \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "due to conflicts with %s"
+msgstr "بسبب التعارض مع %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -807,11 +838,6 @@ msgstr "محاولة التثبيت دون التأكد من الاعتمادا�
 #, c-format
 msgid "removing %d obsolete headers in cache"
 msgstr "removing %d obsolete headers in cache"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to conflicts with %s"
-msgstr "بسبب التعارض مع %s"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -1016,6 +1042,11 @@ msgstr "لم يمكن ايجاد وسيلة لتنزيل الملفات (curl أ
 msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - اختر كل الحزم المتفقة مع المعامل.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr ""
+
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -1050,13 +1081,13 @@ msgstr "جاري التحقق لإزالة الحزم التالية"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "لم يمكن الوصول الى ملف rpm [%s]"
-
-#: ../urpmi:1
-#, c-format
 msgid "unrequested"
 msgstr "غير مطلوب"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "لم يمكن الوصول الى ملف rpm [%s]"
 
 #: ../urpmf:1
 #, c-format
@@ -1113,15 +1144,15 @@ msgstr "المستضيف %s لا يحتوي على اصدار جيد من urpmi"
 msgid "  !              - unary NOT, true if expression is false.\n"
 msgstr "  !              - unary NOT, true if expression is false.\n"
 
-#: ../urpmi.update:1
-#, c-format
-msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr "لا شئ للتحديث (استخدم urpmi.addmedia لإضافة وسيط)\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "unmounting %s"
 msgstr "جاري ازالة تجهيز %s"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "nothing to update (use urpmi.addmedia to add a media)\n"
+msgstr "لا شئ للتحديث (استخدم urpmi.addmedia لإضافة وسيط)\n"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -1476,6 +1507,11 @@ msgstr ""
 msgid "ssh is missing\n"
 msgstr "ssh غير موجود\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "  --split-level  - build small transaction of minimal given length.\n"
+msgstr ""
+
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -1586,6 +1622,13 @@ msgstr "        %s%% of %s completed, ETA = %s, speed = %s"
 #, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
 msgstr "computing md5sum of retrieved source hdlist (or synthesis)"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --no-uninstall - never ask to uninstall a package, abort the "
+"installation.\n"
+msgstr ""
 
 #: ../urpmq:1
 #, c-format
@@ -1768,7 +1811,7 @@ msgstr ""
 msgid "  --size         - print tag size: size.\n"
 msgstr "  --size          - print tag size: size.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "بسبب عدم ارضاء %s"
@@ -1816,6 +1859,11 @@ msgstr ""
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
 msgstr "  --probe-hdlist - try to find and use hdlist file.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "due to missing %s"
+msgstr "بسبب فقدان %s"
+
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "  --update       - use only update media.\n"
@@ -1829,11 +1877,6 @@ msgid ""
 msgstr ""
 "الاستخدام: urpmi.update [options] <name> ...\n"
 "حيث أن <name> هو اسم الوسيط المطلوب تحديثه.\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "due to missing %s"
-msgstr "بسبب فقدان %s"
 
 #: ../urpm.pm:1
 #, c-format
