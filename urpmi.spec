@@ -22,7 +22,7 @@ You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
 Summary: User mode rpm GUI install
-Requires: urpmi grpmi gchooser gmessage /usr/bin/consolehelper menu
+Requires: urpmi grpmi gchooser gmessage usermode menu
 Group: %{group}
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
