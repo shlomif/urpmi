@@ -1,13 +1,421 @@
-#!/usr/bin/perl -T
+#!/usr/bin/perl
 
-$ENV{XAUTHORITY} or $ENV{XAUTHORITY} = "$ENV{HOME}/.Xauthority";
-$ENV{PATH} = '/bin:/usr/bin:/usr/sbin:/usr/X11R6/bin';
-delete @ENV{qw(IFS CDPATH ENV BASH_ENV)};
+use strict;
+use warnings;
 
-$urpmi = 'urpmi';
-if (-f $urpmi && $ENV{DEBUG_URPMI}) { $urpmi = './urpmi' }
+BEGIN { #- set up a safe path and environment
+    $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
+    delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
+}
 
-@ARGV = map { /(.*)/ ; $1 } @ARGV;
+#- This is needed because text printed by Gtk2 will always be encoded
+#- in UTF-8; we first check if LC_ALL is defined, because if it is,
+#- changing only LC_COLLATE will have no effect.
+use POSIX qw(setlocale LC_ALL LC_COLLATE);
+use locale;
+BEGIN {
+    my $collation_locale = $ENV{LC_ALL};
+    if ($collation_locale) {
+	$collation_locale =~ /UTF-8/ or setlocale(LC_ALL, "$collation_locale.UTF-8");
+    } else {
+	$collation_locale = setlocale(LC_COLLATE);
+	$collation_locale =~ /UTF-8/ or setlocale(LC_COLLATE, "$collation_locale.UTF-8");
+    }
+}
 
-exec $urpmi, "-X", @ARGV
-    or die "Can't exec $urpmi: $!\n";
+use urpm;
+use Gtk2;
+use MDK::Common qw(partition);
+
+sub usage () {
+    print STDERR <<USAGE;
+gurpmi2 version $urpmi::VERSION
+Usage :
+    gurpmi2 <rpm> [ <rpm>... ]
+USAGE
+    exit 0;
+}
+
+#- fatal gurpmi initialisation error (*not* fatal urpmi errors)
+sub fatal { print STDERR "$_[0]\n"; exit 1 }
+
+sub quit () { Gtk2->main_quit }
+
+sub N {
+    #- TODO i18n (and possibly UTF-8 conversion)
+    my $msg = shift;
+    sprintf $msg, @_;
+}
+
+sub but ($) { "    $_[0]    " }
+
+#- globals
+my $urpm;
+my $state;
+my (@all_rpms, $srpms, $rpms);
+my ($mainw, $mainbox);
+my @ask_unselect;
+
+#- Gtk2 helper functions
+
+#- Replaces the contents of the main window with the specified box
+#- (avoids popup multiplication)
+sub change_mainw {
+    $mainw->remove($mainbox);
+    ($mainbox) = @_;
+    $mainw->add($mainbox);
+    $mainw->show_all;
+}
+
+sub add_button_box {
+    my ($vbox, @buttons) = @_;
+    my $hbox = Gtk2::HButtonBox->new;
+    $vbox->pack_start($hbox, 0, 0, 0);
+    $hbox->set_layout('edge');
+    $_->set_alignment(0.5, 0.5), $hbox->add($_) foreach @buttons;
+}
+
+#- sets the window to a please-wait message
+sub wait_label {
+    my $wait_vbox = Gtk2::VBox->new(0, 5);
+    my $wait_label = Gtk2::Label->new($_[0] || N("Please wait..."));
+    $wait_label->set_alignment(0.5, 0.5);
+    $wait_vbox->pack_start($wait_label, 1, 1, 0);
+    change_mainw($wait_vbox);
+}
+
+sub sync {
+    $mainw->show;
+    Gtk2->main_iteration while Gtk2->events_pending;
+}
+
+#- Parse command line
+foreach (@ARGV) {
+    if (/^-/) {
+	/^--?[hv?]/ and usage;
+	fatal N("Unknown option %s", $_);
+    }
+    push @all_rpms, $_;
+}
+@all_rpms or fatal N("No packages specified");
+
+#- TODO switch to root only if we want to install, not save
+#- Verify we are root -- normally set via consolehelper
+$> and fatal N("Must be root");
+
+#- Now, the graphical stuff.
+
+Gtk2->init;
+
+#- Create main window
+
+$mainw = Gtk2::Window->new('toplevel');
+$mainw->set_border_width(3);
+$mainw->set_title(N("RPM installation"));
+$mainw->signal_connect(destroy => \&quit);
+$mainw->set_position('center');
+$mainw->set_modal(0);
+$mainbox = Gtk2::VBox->new(0, 5);
+$mainw->add($mainbox);
+
+#- Ask question: save or install ?
+#- change depending on the number of rpms, and on the presence of srpms
+($srpms, $rpms) = partition { /\.src\.rpm$/ } @all_rpms;
+{
+    my $label = Gtk2::Label->new(
+	@$srpms > 0
+	? N("You have selected a source package:
+
+%s
+
+You probably didn't want to install it on your computer (installing it would allow you to make modifications to its sourcecode then compile it).
+
+What would you like to do?", $srpms->[0])
+	: @all_rpms == 1
+	? N("You are about to install the following software package on your computer:
+
+%s
+
+You may prefer to just save it. What is your choice?", $rpms->[0])
+	: N("You are about to install the following software packages on your computer:
+
+%s
+
+Proceed?", join ', ', @all_rpms)
+    );
+    $label->set_line_wrap(1);
+    $label->set_alignment(0.5, 0.5);
+    $mainbox->pack_start($label, 1, 1, 0);
+}
+
+{   #- buttons
+    my $inst_button = Gtk2::Button->new(but N("_Install"));
+    my $save_button = @all_rpms == 1 ? Gtk2::Button->new(but N("_Save")) : undef;
+    my $ccel_button = Gtk2::Button->new(but N("_Cancel"));
+
+    $inst_button->signal_connect(clicked => \&do_install);
+    $save_button and $save_button->signal_connect(clicked => sub {
+	my $file_dialog = Gtk2::FileSelection->new(N("Choose location to save file"));
+	$file_dialog->set_modal(1);
+	$file_dialog->set_position('center');
+	$file_dialog->set_filename($rpms->[0]);
+	$file_dialog->hide_fileop_buttons;
+	$file_dialog->ok_button->signal_connect(clicked => sub {
+		my $location = $file_dialog->get_filename;
+		quit;
+		$location and exec '/bin/mv', '-f', $rpms->[0], $location;
+	    });
+	$file_dialog->cancel_button->signal_connect(clicked => \&quit);
+	$file_dialog->show;
+    });
+    $ccel_button->signal_connect(clicked => \&quit);
+    add_button_box($mainbox, grep { defined $_ } $inst_button, $save_button, $ccel_button);
+}
+
+$mainw->show_all;
+Gtk2->main;
+
+#- Creates and configure an urpm object for this application to use.
+sub configure_urpm {
+    my $urpm = new urpm;
+    $urpm->{fatal} = sub {
+	Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'error', 'ok', $_[1])->run;
+	quit;
+	exit $_[0];
+    };
+    $urpm->{error} = sub {
+	my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', $_[0]);
+	$w->run;
+	$w->destroy;
+    };
+    $urpm->exlock_rpm_db;
+    $urpm->shlock_urpmi_db;
+    $urpm->configure;
+    #- default options values
+    exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1 foreach qw(post-clean verify-rpm split-length);
+    $urpm->{options}{'split-level'} = 20 unless exists $urpm->{options}{'split-level'};
+    $urpm;
+}
+
+#- Callback for choices
+sub ask_choice {
+    my (undef, undef, undef, $choices) = @_;
+    my $radio;
+    my @radios = map {
+	$radio = Gtk2::RadioButton->new_with_label(
+	    $radio ? $radio->get_group : undef,
+	    (scalar $_->fullname) . "\n" . $_->summary
+	    . ($_->flag_installed ? N(" (to upgrade)") : '')
+	    . ($_->flag_upgrade   ? N(" (to install)") : '')
+	);
+    } @$choices;
+    my $vbox = Gtk2::VBox->new(0, 5);
+    my $label = Gtk2::Label->new(N("One of the following packages is needed:"));
+    $label->set_alignment(0.5, 0.5);
+    $vbox->pack_start($label, 1, 1, 0);
+    $vbox->pack_start($_, 1, 1, 0) foreach @radios;
+    my $cancel_button = Gtk2::Button->new(but N("_Cancel"));
+    my $choice_button = Gtk2::Button->new(but N("_Ok"));
+    $cancel_button->signal_connect(clicked => \&quit);
+    $choice_button->signal_connect(clicked => sub {
+	my $n = 0;
+	foreach (@radios) { last if $_->get_active; ++$n }
+	$choices->[$n];
+    });
+    add_button_box($vbox, $cancel_button, $choice_button);
+    change_mainw($vbox);
+    $radios[0]->set_active(1);
+}
+
+sub ask_continue {
+    my ($msg, $nextclosure) = @_;
+    my $vbox = Gtk2::VBox->new(0, 5);
+    my $label = Gtk2::Label->new($_[0]);
+    $label->set_alignment(0.5, 0.5);
+    $vbox->pack_start($label, 1, 1, 0);
+    my $continue_button = Gtk2::Button->new(but N("_Ok"));
+    my $quit_button = Gtk2::Button->new(but N("_Abort"));
+    $quit_button->signal_connect(clicked => \&quit);
+    $continue_button->signal_connect(clicked => sub { goto &$nextclosure });
+    add_button_box($vbox, $quit_button, $continue_button);
+    change_mainw($vbox);
+}
+
+sub ask_continue_blocking {
+    my ($msg) = @_;
+    my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'question', 'yes-no', $msg);
+    my $answer = $w->run;
+    $w->destroy;
+    quit if $answer eq 'no';
+}
+
+#- Performs installation.
+sub do_install {
+    wait_label;
+    $urpm = configure_urpm;
+    $state = {};
+    my %requested = $urpm->register_rpms(@all_rpms);
+    $urpm->resolve_dependencies(
+	$state,
+	\%requested,
+	callback_choices => \&ask_choice,
+    );
+    @ask_unselect = $urpm->unselected_packages($state);
+    @ask_unselect
+	? ask_continue(N(
+	    "Some package requested cannot be installed:\n%s\nContinue?",
+	    join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect)
+	), \&do_install_2)
+	: goto &do_install_2;
+}
+
+sub do_install_2 {
+    wait_label;
+    my @ask_remove = $urpm->removed_packages($state);
+    @ask_remove
+	? ask_continue(N(
+	    "The following packages have to be removed for others to be upgraded:\n%s\nContinue?",
+	    join "\n", $urpm->translate_why_removed($state, sort @ask_remove)
+	), \&do_install_3)
+	: goto &do_install_3;
+}
+
+sub do_install_3 {
+    my @to_install;
+    foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
+	$pkg->arch ne 'src' and push @to_install, scalar $pkg->fullname;
+    }
+    @to_install
+	? ask_continue(N(
+	    "To satisfy dependencies, the following %d packages are going to be installed:\n%s\n\nIs this OK?",
+	    scalar(@to_install), join "\n", @to_install
+	), \&do_install_4)
+	: goto \&do_install_4;
+}
+
+sub do_install_4 {
+    wait_label(N("Package installation..."));
+    my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
+    $local_sources || $list or $urpm->{fatal}(3, N("unable to get source packages, aborting"));
+    my %sources = %$local_sources;
+    my %error_sources;
+    my $vbox = Gtk2::VBox->new(0, 5);
+    my $progress_label = Gtk2::Label->new('-');
+    $vbox->pack_start($progress_label, 1, 1, 0);
+    my $progressbar = Gtk2::ProgressBar->new;
+    $progressbar->set_size_request(300, -1);
+    $vbox->pack_start($progressbar, 0, 0, 0);
+    change_mainw($vbox);
+    $urpm->copy_packages_of_removable_media($list, \%sources,
+	force_local => 1,
+	ask_for_medium => sub {
+	    my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok',
+		N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1])
+	    );
+	    $w->run;
+	    $w->destroy;
+	}
+    );
+    $urpm->create_transaction(
+	$state,
+	split_level => $urpm->{options}{'split-level'},
+	split_length => $urpm->{options}{'split-length'},
+    );
+    my ($nok, @errors);
+    foreach my $set (@{$state->{transaction} || []}) {
+	my (@transaction_list, %transaction_sources);
+	$urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
+	$urpm->download_packages_of_distant_media(
+	    \@transaction_list,
+	    \%transaction_sources,
+	    \%error_sources,
+	    limit_rate => $urpm->{options}{'limit-rate'},
+	    compress => $urpm->{options}{compress},
+	    resume => $urpm->{options}{resume},
+	    force_local => 1,
+	    callback => sub {
+		my ($mode, $file, $percent) = @_;
+		if ($mode eq 'start') {
+		    $file =~ s|/*\s*$||; $file =~ s|.*/||;
+		    $progress_label->set_label(N("Downloading package `%s'...", $file));
+		    select(undef, undef, undef, 0.1);  #- hackish
+		} elsif ($mode eq 'progress') {
+		    $progressbar->set_fraction($percent / 100);
+		} elsif ($mode eq 'end') {
+		    $progressbar->set_fraction(1);
+		}
+		sync();
+	    },
+	);
+	my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources) || {}};
+	if (!$urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}}) {
+	    my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources, translate => 1);
+	    if (@bad_signatures) {
+		ask_continue_blocking(N(
+		    "The following packages have bad signatures:\n%s\n\nDo you want to continue installation ?",
+		    (join "\n", @bad_signatures)
+		));
+	    }
+	}
+	#- check for local files.
+	if (my @missing = grep { m|^/| && ! -e $_ } values %transaction_sources_install, values %transaction_sources) {
+	    $urpm->{error}(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+		    join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } @missing));
+	    ++$nok;
+	    next;
+	}
+	if (keys(%transaction_sources_install) || keys(%transaction_sources)) {
+	    @{$set->{remove} || []} and
+		$progress_label->set_label(N("removing %s", join(' ', @{$set->{remove} || []})));
+	    my $progress_nb;
+	    my $total_nb = scalar grep { m|^/| } values %transaction_sources_install, values %transaction_sources;
+	    my $callback_inst = sub {
+		my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
+		my $pkg = defined $id && $urpm->{depslist}[$id];
+		if ($subtype eq 'start') {
+		    if ($type eq 'trans') {
+			$progress_label->set_label(N("Preparing..."));
+		    } else {
+			$progress_label->set_label(N("Installing package `%s' (%s/%s)...", $pkg->name, ++$progress_nb, $total_nb));
+		    }
+		} elsif ($subtype eq 'progress') {
+		    $progressbar->set_fraction($amount / $total);
+		}
+		sync();
+	    };
+	    my @l = $urpm->install(
+		$set->{remove} || [],
+		\%transaction_sources_install,
+		\%transaction_sources,
+		'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
+		translate_message => 1,
+		oldpackage => $state->{oldpackage},
+		callback_inst => $callback_inst,
+		callback_trans => $callback_inst,
+	    );
+	    if (@l) {
+		$progress_label->set_label(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
+		++$nok;
+		push @errors, @l;
+	    }
+	}
+    }
+    $vbox = Gtk2::VBox->new(0, 5);
+    $progress_label = Gtk2::Label->new('-');
+    $vbox->pack_start($progress_label, 1, 1, 0);
+    my $quit_button = Gtk2::Button->new(but N("_Done"));
+    $quit_button->signal_connect(clicked => \&quit);
+    add_button_box($vbox, $quit_button);
+    change_mainw($vbox);
+    if (values %error_sources) {
+	$progress_label->set_label(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+		join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } values %error_sources));
+    } elsif (@{$state->{transaction} || []} == 0 && @ask_unselect == 0) {
+	$progress_label->set_label(N("The package(s) are already installed"));
+    } else {
+	$progress_label->set_label(N("Installation finished"));
+    }
+    $urpm->unlock_urpmi_db;
+    $urpm->unlock_rpm_db;
+    $urpm->try_umounting_removables;
+}
