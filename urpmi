@@ -3,6 +3,7 @@
 load_po();
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
+delete $ENV{ENV};
 $< = $>;
 
 log_it(scalar localtime, " urpmi called with @ARGV\n");
