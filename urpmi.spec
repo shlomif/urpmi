@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.4.5
-%define release 2mdk
+%define release 3mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -236,8 +236,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
-- fixed bug of reference of ../ in hdlists file. (fpons)
-- fixed bug 6834. (fpons)
+* Tue Feb  3 2004 François Pons <fpons@mandrakesoft.com> 4.4.5-3mdk
+- fixed bug of reference of ../ in hdlists file.
+- fixed bug 6834.
 
 * Tue Feb  3 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.5-2mdk
 - convert some gurpmi dialogs to UTF8 as they should (part of
