@@ -421,6 +421,14 @@ sub sync_ssh {
     sync_rsync($options, @_);
 }
 
+#- get the width of the terminal
+my $wchar = 79;
+eval {
+    require Term::ReadKey;
+    ($wchar) = Term::ReadKey::GetTerminalSize();
+    --$wchar;
+};
+
 #- default logger suitable for sync operation on STDERR only.
 sub sync_logger {
     my ($mode, $file, $percent, $total, $eta, $speed) = @_;
@@ -433,9 +441,9 @@ sub sync_logger {
 	} else {
 	    $text = N("        %s%% completed, speed = %s", $percent, $speed);
 	}
-	print STDERR $text, " " x (79 - length($text)), "\r";
+	print STDERR $text, " " x ($wchar - length($text)), "\r";
     } elsif ($mode eq 'end') {
-	print STDERR " " x 79, "\r";
+	print STDERR " " x $wchar, "\r";
     } elsif ($mode eq 'error') {
 	#- error is 3rd argument, saved in $percent
 	print STDERR N("...retrieving failed: %s", $percent), "\n";
