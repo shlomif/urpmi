@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "POT-Creation-Date: 2002-08-27 19:58+0200\n"
-"PO-Revision-Date: 2002-08-24 14:02+0000\n"
+"PO-Revision-Date: 2002-08-27 23:06+0000\n"
 "Last-Translator: Arpad Biro <biro_arpad@yahoo.com>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
@@ -252,7 +252,7 @@ msgstr "párhuzamosság van definiálva a következõ gépekre: %s"
 #: ../urpm.pm_.c:569
 #, c-format
 msgid "using associated media for parallel mode : %s"
-msgstr ""
+msgstr "a hozzárendelt adatforrás használata párhuzamos módhoz: %s "
 
 #: ../urpm.pm_.c:573
 #, c-format
@@ -390,12 +390,12 @@ msgid "copying source list of \"%s\"..."
 msgstr "\"%s\" forráslistájának másolása..."
 
 #: ../urpm.pm_.c:984
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
 msgstr "csomagfájlok (RPM) olvasása innen: \"%s\""
 
 #: ../urpm.pm_.c:1003
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "csomagfájlok (RPM) nem olvashatók innen: \"%s\" - %s"
 
@@ -564,7 +564,6 @@ msgid "malformed input: [%s]"
 msgstr "hibás bevitel: \"%s\""
 
 #: ../urpm.pm_.c:1916
-#, fuzzy
 msgid "retrieving rpm files..."
 msgstr "RPM fájlok behozatala..."
 
@@ -594,17 +593,17 @@ msgstr "%s ütközik ezzel: %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:55 ../urpm/parallel_ka_run.pm_.c:88
 msgid "rshp failed"
-msgstr ""
+msgstr "az rshp sikertelen volt"
 
 #: ../urpm/parallel_ka_run.pm_.c:92 ../urpm/parallel_ssh.pm_.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "A telepítés nem sikerült"
+msgstr "A telepítés nem sikerült ezen a gépen: %s"
 
 #: ../urpm/parallel_ssh.pm_.c:57
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "nem megfelelõ urpmi-verzió a következõ gépen: %s"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
@@ -923,7 +922,6 @@ msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - elosztott urpmi több számítógép közt\n"
 
 #: ../urpmi_.c:90
-#, fuzzy
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
@@ -932,13 +930,12 @@ msgstr ""
 "                   könyvtárba\n"
 
 #: ../urpmi_.c:92
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
 msgstr ""
-"  --env          - megadott környezet használata (általában hibajelentés "
-"esetében)\n"
+"  --env          - megadott környezet használata (általában hibajelentés\n"
+"                   esetében)\n"
 
 #: ../urpmi_.c:94
 msgid "  --X            - use X interface.\n"
@@ -953,16 +950,18 @@ msgstr ""
 "                   használja a program: grafikus (X) vagy karakteres\n"
 
 #: ../urpmi_.c:97
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr "  --verify-rpm   - RPM-aláírás ellenõrzése telepítés elõtt\n"
+msgstr ""
+"  --verify-rpm   - RPM-aláírás ellenõrzése telepítés elõtt (alapértelmezés:\n"
+"                   bekapcsolt állapot; kikapcsolás: --no-verify-rpm)\n"
 
 #: ../urpmi_.c:99
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+"  --test         - annak ellenõrzése, hogy a telepítés végrehajtható-e\n"
 
 #: ../urpmi_.c:100
 msgid "  -a             - select all matches on command line.\n"
@@ -1124,9 +1123,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Mindenképpen megkíséreljem a telepítést (--force)? (i/N) "
 
 #: ../urpmi_.c:549
-#, fuzzy
 msgid "Installation is possible"
-msgstr "A telepítés nem sikerült"
+msgstr "A telepítés elvégezhetõ"
 
 #: ../urpmi_.c:555
 msgid "everything already installed"
