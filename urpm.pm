@@ -1102,7 +1102,7 @@ sub filter_minimal_packages_to_upgrade {
 			exists $packages->{$choices[0]{id}} or $packages->{$choices[0]{id}} = 1;
 			unshift @packages, $choices[0]{id};
 		    } else {
-			push @packages, [ sort { $a->{id} <=> $b->{id} } @choices ];
+			push @packages, [ sort { $a <=> $b } map { $_->{id} } @choices ];
 		    }
 		}
 	    }

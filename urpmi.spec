@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 16mdk
+Release: 17mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Mon Mar  5 2001 François Pons <fpons@mandrakesoft.com> 1.5-17mdk
+- fixed ask choices for urpmi -m mode.
+- changed default behaviour to abort transaction on error.
+
 * Mon Mar  5 2001 François Pons <fpons@mandrakesoft.com> 1.5-16mdk
 - make sure to kill sub process that are doing log to
   avoid lock.

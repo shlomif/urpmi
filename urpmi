@@ -285,14 +285,14 @@ sub install {
 
 	$noexpr = _("Nn");
 	$yesexpr = _("Yy");
-	print SAVEOUT _("Try installation without checking dependencies? (Y/n) ");
-	$force or <STDIN> =~ /[$noexpr]/ and exit 1;
+	print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
+	$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 	system("rpm", $rpm_opt, "--nodeps", @_);	
 
 	if ($?) {
 	    message(_("Installation failed"));
-	    print SAVEOUT _("Try installation even more strongly (--force)? (Y/n) ");
-	    $force or <STDIN> =~ /[$noexpr]/ and exit 0;
+	    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
+	    $force or <STDIN> =~ /[$yesexpr]/ or exit 0;
 	    system("rpm", $rpm_opt, "--nodeps", "--force", @_);	
 	}
     }
