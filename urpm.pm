@@ -181,6 +181,11 @@ sub read_config {
 	$urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
     }
 
+    #- load default values
+    foreach (qw(post-clean verify-rpm)) {
+	exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
+    }
+
     $urpm->{media} = [ sort { $a->{priority} <=> $b->{priority} } @{$urpm->{media}} ];
 
     #- keep in mind when an hdlist/list file is already used

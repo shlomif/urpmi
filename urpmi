@@ -332,9 +332,6 @@ $urpm->configure(nocheck_access => $env || $< != 0,
 		 usedistrib => $usedistrib,
 		);
 #- get back activated default values of boolean options.
-foreach (qw(post-clean verify-rpm)) {
-    exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
-}
 exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
 exists $urpm->{options}{'split-length'} or $urpm->{options}{'split-length'} = $split_length;
 # comma-separated list of packages that should be installed first,
