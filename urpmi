@@ -399,7 +399,7 @@ if (@names) {
 			   all => $all,
 			   use_provides => $use_provides,
 			   fuzzy => $urpm->{options}{fuzzy})
-      or $force or exit 1;
+      || $force or exit 1;
 }
 if (@src_names) {
     $urpm->search_packages(\%requested, [ @src_names ],
@@ -407,7 +407,7 @@ if (@src_names) {
 			   use_provides => $use_provides,
 			   fuzzy => $urpm->{options}{fuzzy},
 			   src => 1)
-      or $force or exit 1;
+      || $force or exit 1;
 }
 
 #- filter to add in packages selected required packages.
