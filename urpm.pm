@@ -1073,9 +1073,11 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
-	    if (-e "$dir/../descriptions") {
+	    my $description_file = "$dir/media_info/descriptions"; #- new default location
+	    -e $description_file or $description_file = "$dir/../descriptions";
+	    if (-e $description_file) {
 		$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
-		urpm::util::copy("$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}")
+		urpm::util::copy($description_file, "$urpm->{statedir}/descriptions.$medium->{name}")
 		    ? $urpm->{log}(N("...copying done"))
 		    : do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1 };
 		chown 0, 0, "$urpm->{statedir}/descriptions.$medium->{name}";
@@ -1231,9 +1233,13 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 		} else {
-		    File::Find::find { wanted => sub {
-			    -f && /\.rpm$/ and push @files, "$File::Find::dir/$_"
-		    }, follow => 1 }, $dir;
+		    File::Find::find(
+			{
+			    wanted => sub { -f $_ && /\.rpm$/ and push @files, "$File::Find::dir/$_" },
+			    follow => 1,
+			},
+			$dir,
+		    );
 
 		    #- check files contains something good!
 		    if (@files > 0) {
@@ -1317,18 +1323,18 @@ this could happen if you mounted manually the directory when creating the medium
 	    if (-e "$urpm->{statedir}/descriptions.$medium->{name}") {
 		urpm::util::move("$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
 	    }
-	    eval {
-		$urpm->{sync}(
-		    {
-			dir => "$urpm->{cachedir}/partial",
-			quiet => 1,
-			limit_rate => $options{limit_rate},
-			compress => $options{compress},
-			proxy => get_proxy($medium->{name}),
-			media => $medium->{name},
-		    },
-		    reduce_pathname("$medium->{url}/../descriptions"),
-		);
+	    my $syncopts = {
+		dir => "$urpm->{cachedir}/partial",
+		quiet => 1,
+		limit_rate => $options{limit_rate},
+		compress => $options{compress},
+		proxy => get_proxy($medium->{name}),
+		media => $medium->{name},
+	    };
+	    eval { $urpm->{sync}($syncopts, reduce_pathname("$medium->{url}/media_info/descriptions")) };
+	    -e "$urpm->{cachedir}/partial/descriptions" or eval {
+		#- try older location
+		$urpm->{sync}($syncopts, reduce_pathname("$medium->{url}/../descriptions"));
 	    };
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
 		urpm::util::move("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
@@ -2263,7 +2269,7 @@ sub get_source_packages {
 	if ($urpm->{source}{$_}) {
 	    $protected_files{$local_sources{$_} = $urpm->{source}{$_}} = undef;
 	} else {
-	    $fullname2id{$p->fullname} = $_.'';
+	    $fullname2id{$p->fullname} = $_ . '';
 	}
     }
 
