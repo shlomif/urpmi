@@ -71,13 +71,15 @@ a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
 extension.
 .TP
 .FN /etc/urpmi/skip.list
-Contains package expressions that should not be automatically updated. The
-format is a list of provide of package (or regular expression if bounded by
-slashes \fB/\fP) with optional operator and version string, or regular
-expression to match the fullname of packages too.
+The list of packages the should not be automatically updated when using
+--auto-select. It contains one package expression per line; either a package
+name followed by an optional operator and version string, or a regular
+expression (if bounded by slashes \fB/\fP) to match the fullname of packages
+against.
 .TP
 .FN /etc/urpmi/inst.list
-Contains package names that should be installed instead of updated.
+The list of packages that should be installed instead of updated. It has
+the same format as the skip.list.
 .SH "SEE ALSO"
 \fIurpmi\fP(8),
 \fIurpmi.addmedia\fP(8),
