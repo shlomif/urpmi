@@ -21,13 +21,16 @@
 #- this program is based upon urpmi.
 
 use strict;
+
+#- default options.
+#- this needs to be set earlier than the loading of urpm::args.
+our $query;
+BEGIN { $query = { use_provides => 1, } }
+
 use urpm;
 use urpm::args;
 use urpm::msg;
 use MDK::Common;
-
-#- default options.
-my $query = { use_provides => 1, };
 
 our @files;
 our @names;
