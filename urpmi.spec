@@ -1,6 +1,6 @@
 %define name	urpmi
 %define version	4.4
-%define release	42mdk
+%define release 43mdk
 %define group	System/Configuration/Packaging
 
 Name:		%{name}
@@ -226,6 +226,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Nov  5 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4-43mdk
+- urpmi: fix exitcode always true when running in gurpmi mode, by
+  using _exit instead of exit, probably some atexit gtk stuff in the way
+
 * Wed Nov 05 2003 Guillaume Rousse <guillomovitch@linux-mandrake.com> 4.4-42mdk
 - added bash-completion
 - spec cleanup

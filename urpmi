@@ -794,7 +794,7 @@ if ($pid_err && $pid_out) {
     close STDOUT;
 }
 
-exit $exit_code;
+POSIX::_exit $exit_code;
 
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;
