@@ -394,8 +394,7 @@ sub configure {
 
     if ($options{parallel}) {
 	my ($parallel_options, $parallel_handler);
-	#- handle parallel configuration, examine all module available that
-	#- will handle the parallel mode (configuration is /etc/urpmi/parallel.cfg).
+	#- read parallel configuration
 	local $_;
 	open my $parallel, "/etc/urpmi/parallel.cfg";
 	while (<$parallel>) {
@@ -404,12 +403,12 @@ sub configure {
 	    $1 eq $options{parallel} and $parallel_options = ($parallel_options && "\n") . $2;
 	}
 	close $parallel;
-	#- if a configuration options has been found, use it else fatal error.
+	#- if a configuration option has been found, use it; else fatal error.
 	if ($parallel_options) {
 	    foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
 		opendir my $dh, $dir or die $!;
-		while (defined ($_ = readdir $dh)) {
-		    /\.pm$/ && -f "$dir/$_" or next;
+		while (defined ($_ = readdir $dh)) { #- load parallel modules
+		    /parallel.*\.pm$/ && -f "$dir/$_" or next;
 		    $urpm->{log}->(N("examining parallel handler in file [%s]", "$dir/$_"));
 		    eval { require "$dir/$_"; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
 		    $parallel_handler and last;
