@@ -242,7 +242,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 * Tue Feb  3 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.5-2mdk
 - convert some gurpmi dialogs to UTF8 as they should (part of
-  #7156, needs latest change in perl-Locale-gettext as well)
+  bug #7156, needs latest change in perl-Locale-gettext as well)
 
 * Fri Jan 30 2004 Olivier Blin <blino@mandrake.org> 4.4.5-1mdk
 - add --resume and --no-resume options in urpmi
