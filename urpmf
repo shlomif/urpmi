@@ -92,7 +92,8 @@ while (defined($_ = shift @ARGV)) {
     /^-a$/ and do { $expr .= ' && '; next };
     /^-o$/ and do { $expr .= ' || '; next };
     /^[!\(\)]$/ and do { $expr .= $_; next };
-    #- assume a regex directly
+    #- assume a regex directly unless a ++ is inside the string, someother to use ?
+    /\+\+/ and $_ = quotemeta $_;
     $expr .= 'm{'.$_.'}'.$pattern;
 }
 

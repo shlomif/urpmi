@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 16mdk
+Release: 17mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,10 @@ fi
 
 
 %changelog
+* Wed Feb 12 2003 François Pons <fpons@mandrakesoft.com> 4.2-17mdk
+- added some perl_checker suggestions (some from titi).
+- help urpmf probe if this is a regexp or not (only ++ checked).
+
 * Wed Jan 29 2003 François Pons <fpons@mandrakesoft.com> 4.2-16mdk
 - fixed limit-rate and excludepath causing error in urpmi.cfg.
 - take care of limit-rate in urpmi.update and urpmi.addmedia.

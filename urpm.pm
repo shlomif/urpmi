@@ -96,8 +96,8 @@ use POSIX;
 use Locale::gettext();
 
 #- I18N.
-setlocale (LC_ALL, "");
-Locale::gettext::textdomain ("urpmi");
+setlocale(LC_ALL, "");
+Locale::gettext::textdomain("urpmi");
 
 sub _ {
     my ($format, @params) = @_;
@@ -155,7 +155,7 @@ sub get_proxy {
 sub set_proxy {
     my $proxy = shift @_;
     my @res;
-    if (defined $proxy->{proxy}->{http_proxy} or defined $proxy->{proxy}->{ftp_proxy}) {
+    if (defined $proxy->{proxy}{http_proxy} or defined $proxy->{proxy}{ftp_proxy}) {
 	for ($proxy->{type}) {
 	    /wget/ && do {
 		for ($proxy->{proxy}) {
@@ -175,7 +175,7 @@ sub set_proxy {
 		}
 		last;
 	    };
-	    die _("Unknown webfetch `%s' !!!\n",$proxy->{type});
+	    die _("Unknown webfetch `%s' !!!\n", $proxy->{type});
 	}
     }
     return @res;
@@ -198,7 +198,7 @@ sub sync_webfetch {
 	push @{$files{$1}}, $_;
     }
     if ($files{ftp} || $files{http}) {
-	if (-x "/usr/bin/curl" && (! ref $options || $options->{prefer} ne 'wget' || ! -x "/usr/bin/wget")) {
+	if (-x "/usr/bin/curl" && (! ref($options) || $options->{prefer} ne 'wget' || ! -x "/usr/bin/wget")) {
 	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []});
 	} elsif (-x "/usr/bin/wget") {
 	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []});
@@ -227,10 +227,10 @@ sub sync_wget {
     my $options = shift @_;
     my ($buf, $total, $file) = ('', undef, undef);
     open WGET, join(" ", map { "'$_'" } "/usr/bin/wget",
-		    (ref $options && $options->{limit_rate} ? ("--limit-rate=$options->{limit_rate}") : ()),
-		    (ref $options && $options->{proxy} ? set_proxy({type => "wget", proxy => $options->{proxy}}) : ()),
+		    (ref $options && $options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
+		    (ref $options && $options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : ()),
 		    (ref $options && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
-		     ref $options && $options->{quiet} ? ("-q") : ()),
+		     ref $options && $options->{quiet} ? "-q" : ()),
 		    "--retr-symlinks", "-NP",
 		    (ref $options ? $options->{dir} : $options), @_) . " |";
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
@@ -264,7 +264,7 @@ sub sync_curl {
     -x "/usr/bin/curl" or die _("curl is missing\n");
     local *CURL;
     my $options = shift @_;
-    chdir (ref $options ? $options->{dir} : $options);
+    chdir(ref $options ? $options->{dir} : $options);
     my (@ftp_files, @other_files);
     foreach (@_) {
 	/^ftp:\/\/.*\/([^\/]*)$/ && -s $1 > 8192 and do { push @ftp_files, $_; next }; #- manage time stamp for large file only.
@@ -278,7 +278,7 @@ sub sync_curl {
 	#- prepare to get back size and time stamp of each file.
 	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
 			(ref $options && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
-			(ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()) .
+			(ref $options && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()) .
 			"-s", "-I", @ftp_files) . " |";
 	while (<CURL>) {
 	    if (/Content-Length:\s*(\d+)/) {
@@ -313,14 +313,14 @@ sub sync_curl {
     #- http files (and other files) are correctly managed by curl to conditionnal download.
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-z file -O <file>)*
-    if (my @all_files = ((map { ("-O", $_ ) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
+    if (my @all_files = ((map { ("-O", $_) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
 	my @l = (@ftp_files, @other_files);
 	my ($buf, $file) = ('', undef);
 	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
 			(ref $options && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
-			(ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()),
-			(ref $options && $options->{quiet} && !$options->{verbose} ? ("-s") : ()), "-R", "-f", "--stderr", "-",
-			@all_files). " |";
+			(ref $options && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
+			(ref $options && $options->{quiet} && !$options->{verbose} ? "-s" : ()), "-R", "-f", "--stderr", "-",
+			@all_files) . " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	while (<CURL>) {
 	    $buf .= $_;
@@ -358,14 +358,14 @@ sub sync_rsync {
     }
     foreach (@_) {
 	my $count = 10; #- retry count on error (if file exists).
-	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+	my $basename = /^.*\/([^\/]*)$/ && $1 || $_;
 	my ($file) = /^rsync:\/\/(.*)/ or next;
 	ref $options && $options->{callback} and $options->{callback}('start', $file);
 	do {
 	    local (*RSYNC, $_);
 	    my $buf = '';
 	    open RSYNC, join(" ", map { "'$_'" } "/usr/bin/rsync",
-			     ($limit_rate ? ("--bwlimit=$limit_rate") : ()),
+			     ($limit_rate ? "--bwlimit=$limit_rate" : ()),
 			     (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
 			     qw(--partial --no-whole-file), $file, (ref $options ? $options->{dir} : $options)) . " |";
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
@@ -383,7 +383,7 @@ sub sync_rsync {
 		}
 	    }
 	    close RSYNC;
-	} while ($? != 0 && --$count > 0 && (-e (ref $options ? $options->{dir} : $options) . "/$basename"));
+	} while ($? != 0 && --$count > 0 && -e (ref $options ? $options->{dir} : $options) . "/$basename");
 	ref $options && $options->{callback} and $options->{callback}('end', $file);
     }
     $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
@@ -401,15 +401,15 @@ sub sync_ssh {
     }
     foreach my $file (@_) {
 	my $count = 10; #- retry count on error (if file exists).
-	my $basename = ($file =~ /^.*\/([^\/]*)$/ && $1) || $file;
+	my $basename = $file =~ /^.*\/([^\/]*)$/ && $1 || $file;
 	ref $options && $options->{callback} and $options->{callback}('start', $file);
 	do {
 	    local (*RSYNC, $_);
 	    my $buf = '';
 	    open RSYNC, join(" ", map { "'$_'" } "/usr/bin/rsync",
-			     ($limit_rate ? ("--bwlimit=$limit_rate") : ()),
+			     ($limit_rate ? "--bwlimit=$limit_rate" : ()),
 			     (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-			     qw(--partial -e ssh), $file, (ref $options ? $options->{dir} : $options)). " |";
+			     qw(--partial -e ssh), $file, (ref $options ? $options->{dir} : $options)) . " |";
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
 		$buf .= $_;
@@ -425,7 +425,7 @@ sub sync_ssh {
 		}
 	    }
 	    close RSYNC;
-	} while ($? != 0 && --$count > 0 && (-e (ref $options ? $options->{dir} : $options) . "/$basename"));
+	} while ($? != 0 && --$count > 0 && -e (ref $options ? $options->{dir} : $options) . "/$basename");
 	ref $options && $options->{callback} and $options->{callback}('end', $file);
     }
     $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
@@ -443,7 +443,7 @@ sub sync_logger {
 	    print STDERR _("        %s%% completed, speed = %s", $percent, $speed) . "\r";
 	}
     } elsif ($mode eq 'end') {
-	print STDERR (" "x79)."\r";
+	print STDERR " " x 79, "\r";
     }
 }
 
@@ -488,7 +488,7 @@ sub read_config {
 		}
 		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
 	    }
-	next; };
+	next };
 	/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/ and do { #- urpmi.cfg format extention
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    while (<F>) {
@@ -505,15 +505,15 @@ sub read_config {
 		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
 	    }
 	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
-	    next; };
+	    next };
 	/^(.*?[^\\])\s+(.*?[^\\])\s+with\s+(.*)$/ and do { #- urpmi.cfg old format for ftp
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2), with_hdlist => unquotespace($3) };
 	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
-	    next; };
+	    next };
 	/^(.*?[^\\])\s+(?:(.*?[^\\])\s*)?$/ and do { #- urpmi.cfg old format (assume hdlist.<name>.cz2?)
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
-	    next; };
+	    next };
 	$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
     }
     close F;
@@ -688,7 +688,7 @@ sub write_config {
     open F, ">$urpm->{config}" or $urpm->{fatal}(6, _("unable to write config file [%s]", $urpm->{config}));
     if (%{$urpm->{options} || {}}) {
 	printf F "{\n";
-	while (my ($k,$v) = each %{$urpm->{options}}) {
+	while (my ($k, $v) = each %{$urpm->{options}}) {
 	    printf F "  %s: %s\n", $k, $v;
 	}
 	printf F "}\n\n";
@@ -821,9 +821,9 @@ sub configure {
 	local $SIG{QUIT} = $sig_handler;
 	local *RPMDB;
 
-	$db or $urpm->{fatal}(_"unable to open rpmdb");
+	$db or $urpm->{fatal}(_("unable to open rpmdb"));
 	open RPMDB, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$options{bug}/rpmdb.cz'";
-	$db->traverse(sub{
+	$db->traverse(sub {
 			  my ($p) = @_;
 			  #- this is not right but may be enough.
 			  my $files = join '@', grep { exists $urpm->{provides}{$_} } $p->files;
@@ -852,7 +852,7 @@ sub add_medium {
 	    foreach (@{$urpm->{media}}) {
 		$_->{name} eq $name.$i and $medium = $_;
 	    }
-	} while ($medium);
+	} while $medium;
 	$name .= $i;
     } else {
 	foreach (@{$urpm->{media}}) {
@@ -988,10 +988,9 @@ sub select_media {
 	    } elsif (@found == 0 && @foundi == 0) {
 		$urpm->{error}(_("trying to select inexistent medium \"%s\"", $_));
 	    } else { #- multiple element in found or foundi list.
-		$urpm->{log}(_("selecting multiple media: %s", join(", ", map { _("\"%s\"", $_->{name}) }
-								    (@found ? @found : @foundi))));
+		$urpm->{log}(_("selecting multiple media: %s", join(", ", map { _("\"%s\"", $_->{name}) } (@found || @foundi))));
 		#- changed behaviour to select all occurence by default.
-		foreach (@found ? @found : @foundi) {
+		foreach (@found || @foundi) {
 		    $_->{modified} = 1;
 		}
 	    }
@@ -1142,11 +1141,11 @@ sub update_media {
 	    if ($options{force} < 2 && $medium->{with_hdlist} && -e $with_hdlist_dir) {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		$urpm->{log}(_("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
-		system("cp", "-pR", "$with_hdlist_dir", "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
+		system("cp", "-pR", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
 		  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
 
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
-		  $error = 1, $urpm->{error}(_("copy of [%s] failed", "$with_hdlist_dir"));
+		  $error = 1, $urpm->{error}(_("copy of [%s] failed", $with_hdlist_dir));
 
 		#- examine if a local MD5SUM file is available.
 		if (!$options{force} && -s reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM")) {
@@ -1268,13 +1267,13 @@ sub update_media {
 	    if ($options{probe_with_hdlist}) {
 		my ($suffix) = $dir =~ /RPMS([^\/]*)\/*$/;
 
-		foreach ($medium->{with_hdlist} ? ($medium->{with_hdlist}) : (),
+		foreach ($medium->{with_hdlist} || (),
 			 "synthesis.hdlist.cz", "synthesis.hdlist$suffix.cz",
 			 !$suffix ? ("synthesis.hdlist1.cz", "synthesis.hdlist2.cz") : (),
-			 "../synthesis.hdlist$suffix.cz", !$suffix ? ("../synthesis.hdlist1.cz") : (),
-			 "../base/hdlist$suffix.cz", !$suffix ? ("../base/hdlist1.cz") : (),
+			 "../synthesis.hdlist$suffix.cz", !$suffix ? "../synthesis.hdlist1.cz" : (),
+			 "../base/hdlist$suffix.cz", !$suffix ? "../base/hdlist1.cz" : (),
 			) {
-		    $basename = (/^.*\/([^\/]*)$/ && $1) || $_ or next;
+		    $basename = /^.*\/([^\/]*)$/ && $1 || $_ or next;
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
@@ -1291,7 +1290,7 @@ sub update_media {
 		    }
 		}
 	    } else {
-		$basename = ($medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1) || $medium->{with_hdlist};
+		$basename = $medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1 || $medium->{with_hdlist};
 
 		#- try to sync (copy if needed) local copy after restored the previous one.
 		unlink "$urpm->{cachedir}/partial/$basename";
@@ -1811,7 +1810,7 @@ sub register_rpms {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(_("retrieving rpm file [%s] ...", $_));
-		$urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}}, $_);
+		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} }, $_);
 		$urpm->{log}(_("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    };
@@ -1975,7 +1974,7 @@ sub resolve_dependencies {
 	    $db->parse_synthesis($options{rpmdb});
 	} else {
 	    $db = URPM::DB::open($urpm->{root});
-	    $db or $urpm->{fatal}(_"unable to open rpmdb");
+	    $db or $urpm->{fatal}(_("unable to open rpmdb"));
 	}
 
 	my $sig_handler = sub { undef $db; exit 3 };
@@ -2051,7 +2050,7 @@ sub get_source_packages {
     #- examine each medium to search for packages.
     #- now get rpm file name in hdlist to match list file.
     foreach my $pkg (@{$urpm->{depslist} || []}) {
-	$file2fullnames{($pkg->filename =~ /(.*)\.rpm$/ && $1) || $pkg->fullname}{$pkg->fullname} = undef;
+	$file2fullnames{$pkg->filename =~ /(.*)\.rpm$/ && $1 || $pkg->fullname}{$pkg->fullname} = undef;
     }
 
     #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
@@ -2136,7 +2135,7 @@ sub get_source_packages {
 	$urpm->{error}(_("package %s is not found.", $_));
     }	
 
-    $error ? () : ( \%local_sources, \@list );
+    $error ? () : (\%local_sources, \@list);
 }
 
 #- download package that may need to be downloaded.
@@ -2300,7 +2299,7 @@ sub download_source_packages {
 				verbose => $options{verbose},
 				limit_rate => $options{limit_rate},
 				callback => $options{callback},
-				proxy => $urpm->{proxy}},
+				proxy => $urpm->{proxy} },
 			      values %distant_sources);
 		$urpm->{log}(_("...retrieving done"));
 	    };
@@ -2391,10 +2390,10 @@ sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
 
-    $db or $urpm->{fatal}(_"unable to open rpmdb");
+    $db or $urpm->{fatal}(_("unable to open rpmdb"));
 
     my $trans = $db->create_transaction($urpm->{root});
-    my ($update, @l, %file2pkg) = (0);
+    my ($update, @l, %file2pkg) = 0;
     local *F;
 
     foreach (@$remove) {
@@ -2475,7 +2474,7 @@ sub find_packages_to_remove {
 	my $db = URPM::DB::open($options{root});
 	my (@m, @notfound);
 
-	$db or $urpm->{fatal}(_"unable to open rpmdb");
+	$db or $urpm->{fatal}(_("unable to open rpmdb"));
 
 	if (!$options{matches}) {
 	    foreach (@$l) {

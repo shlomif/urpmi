@@ -34,7 +34,7 @@ my $allow_medium_change = 0;
 my $auto_select = 0;
 my $force = 0;
 my $parallel = '';
-my $sync = undef;
+my $sync;
 my $X = 0;
 my $WID = 0;
 my $all = 0;
@@ -157,8 +157,7 @@ while (defined($_ = shift @ARGV)) {
     /^--proxy-user$/ and do {
 	($_ = shift @ARGV) =~ /(.+):(.+)/, or
 	    die _("bad proxy declaration on command line\n");
-	$urpm->{proxy}->{user} = $1;
-	$urpm->{proxy}->{pwd} = $2;
+	@{$urpm->{proxy}}{qw(user proxy)} = ($1, $2);
 	next;
     };
     /^--bug$/ and do { push @nextargv, \$bug; next };
@@ -185,7 +184,7 @@ while (defined($_ = shift @ARGV)) {
 	/y/ and do { $urpm->{options}{fuzzy} = 1; next };
 	/s/ and do { $src = 1; next };
 	/v/ and do { ++$verbose; $rpm_opt = "vh"; next };
-	die _("urpmi: unknown option \"-%s\", check usage with --help\n", $1); } next };
+	die _("urpmi: unknown option \"-%s\", check usage with --help\n", $1) } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     if (/\.rpm$/) {
 	if (/\.src\.rpm$/) {
@@ -333,7 +332,7 @@ sub ask_choice {
     my ($urpm, $db, $state, $choices) = @_;
     my $n = 1; #- default value.
     my (@l) = map { scalar $_->fullname } @$choices;
-    my $from = undef; #TODO
+    my $from;
 
     if (@l > 1 && !$auto) {
 	my $msg = (defined $from ?
@@ -343,7 +342,7 @@ sub ask_choice {
 	    `gchooser "$msg" @l`;
 	    $n = $? >> 8 || die;
 	} else {
-	    message("$msg");
+	    message($msg);
 	    my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
 	    while (1) {
 		$n = message_input(_("What is your choice? (1-%d) ", $i));
@@ -497,7 +496,7 @@ my %sources = $urpm->download_source_packages($local_sources, $list,
 									  $percent, $speed) . "\r";
 						      }
 						  } elsif ($mode eq 'end') {
-						      print SAVEERR (" "x79)."\r";
+						      print SAVEERR " " x 79, "\r";
 						  }
 					      },
 					      force_local => !$X, ask_for_medium => (!$auto || $allow_medium_change) && sub {
