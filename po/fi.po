@@ -1,13 +1,13 @@
 # urpmi-fi.po - Finnish Translation
 #
-# Copyright (C) 2002,2003 Free Software Foundation, Inc.
+# Copyright (C) 2002,2003, 2004 Free Software Foundation, Inc.
 # Copyright (C) 2002 Mandrakesoft
 # Kim Enkovaara <kim.enkovaara@iki.fi>, 2000.
 # Matias Griese <mahagr@utu.fi>, 2001, 2002.
 # Thomas Backlund <thomas.backlund@inritel.com>, 2002.
 # Thomas Backlund <tmb@iki.fi>, 2003.
 # Taisto Kuikka <69319@batman.jypoly.fi>, 2003.
-# Thomas Backlund <tmb@mandrake.org>, 2003.
+# Thomas Backlund <tmb@mandrake.org>, 2003, 2004.
 #
 #
 msgid ""
@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: urpmi-fi - MDK Linux Release 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-01-22 14:55+0100\n"
-"PO-Revision-Date: 2003-12-07 21:45+0200\n"
+"PO-Revision-Date: 2004-01-22 19:15+0200\n"
 "Last-Translator: Thomas Backlund <tmb@mandrake.org>\n"
 "Language-Team: Finnish <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -277,7 +277,7 @@ msgstr "kirjoitetaan asetustiedosto [%s]"
 #: ../urpm.pm:744
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
-msgstr ""
+msgstr "parallel optiota ei voida käyttää use-distrib option kanssa"
 
 #: ../urpm.pm:754
 #, c-format
@@ -872,9 +872,9 @@ msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel      - urpmi jaettu yli koneita aliaksella.\n"
 
 #: ../urpme:45 ../urpmi:104
-#, fuzzy, c-format
+#, c-format
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --curl          - käytä curl:a etätiedostojen hakemiseen.\n"
+msgstr "  --root           - käytä toinen juuri rpm asennukselle.\n"
 
 #: ../urpme:46
 #, c-format
@@ -882,6 +882,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
+"--use-distrib   - aseta urpmi automaattisesti jakelun puusta, hyödyllinen\n"
+"                    asennettaessa chroot käyttäen --root optiota.\n"
 
 #: ../urpme:48 ../urpmi:132 ../urpmq:73
 #, c-format
@@ -1284,6 +1286,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to install a chroot with --root option.\n"
 msgstr ""
+"--use-distrib   - aseta urpmi automaattisesti jakelun puusta, hyödyllinen\n"
+"                    asennettaessa chroot käyttäen --root optiota.\n"
 
 #: ../urpmi:107 ../urpmi.addmedia:54 ../urpmi.update:63 ../urpmq:64
 #, c-format
@@ -1427,6 +1431,8 @@ msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
+"Hakemisto [%s] on jo olemassa. Ole hyvä ja valitse toinen hakemisto "
+"virheraportille tai poista sitä."
 
 #: ../urpmi:255
 #, c-format
@@ -1715,7 +1721,7 @@ msgstr ""
 #: ../urpmi.addmedia:80 ../urpmi.update:71
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
-msgstr ""
+msgstr "  --no-md5sum      - poista tiedostojen MD5SUM tarkistusta.\n"
 
 #: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:74
 #, c-format
@@ -1829,7 +1835,7 @@ msgstr "  --update        - käytä ainoastaan päivitysmediaa.\n"
 #: ../urpmi.update:72
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
-msgstr ""
+msgstr "  --force-key      - pakota gpg avaimen päivitys.\n"
 
 #: ../urpmi.update:73
 #, c-format
@@ -1878,15 +1884,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media    - listaa käytettävissä olevat mediat.\n"
 
 #: ../urpmq:52
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-url     - list available media and their url.\n"
-msgstr "  --list-media    - listaa käytettävissä olevat mediat.\n"
+msgstr ""
+"  --list-url       - listaa käytettävissä olevat mediat ja niiden polut.\n"
 
 #: ../urpmq:53
 #, c-format
 msgid ""
 "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
-msgstr ""
+msgstr "  --dump-config    - tulosta asetukset urpmi.addmedia muodossa.\n"
 
 #: ../urpmq:54
 #, c-format
@@ -1921,11 +1928,13 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
 msgstr ""
+"--use-distrib   - aseta urpmi automaattisesti jakelun puusta.\n"
+"                    Tämä sallii etsiminen jakelusta.\n"
 
 #: ../urpmq:72
-#, fuzzy, c-format
+#, c-format
 msgid "  --changelog    - print changelog.\n"
-msgstr "  --all           - tulosta kaikki merkinnät.\n"
+msgstr "  --changelog      - tulosta muutosloki.\n"
 
 #: ../urpmq:74
 #, c-format
@@ -1953,7 +1962,7 @@ msgstr ""
 "  -R              - käänteinen etsiminen 'vaatii' tiedoista paketeissa.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print useful information in human readable form.\n"
 msgstr ""
 "  -i              - tulosta hyödyllistä tietoa ihmisen luettavassa "
@@ -1970,9 +1979,9 @@ msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r              - tulosta versio ja julkaisu myös nimellä.\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  -l             - list files in package.\n"
-msgstr "  --list          - listaa käytettävissä olevat paketit.\n"
+msgstr "  --l             - listaa paketissa olevia tiedostoja.\n"
 
 #: ../urpmq:87
 #, c-format
