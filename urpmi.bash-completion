@@ -131,7 +131,8 @@ _urpmq()
 			--sortmedia --synthesis --auto-select --fuzzy --keep \
 			--list --list-url --list-media --list-nodes --list-aliases \
 			--src --headers --sources --force --parallel --wget --curl \
-			--changelog --proxy --proxy-user --env ' -- $cur))
+			--changelog --proxy --proxy-user --env --dump-config \
+			--use-distrib ' -- $cur))
 	else
 		# return available packages (unless it is clearly a file) and rpm files
 		if [[ "$cur" != */* ]]; then
