@@ -644,7 +644,6 @@ sub add_distrib_media {
 	unlink "$urpm->{cachedir}/partial/hdlists";
 	eval {
 	    $urpm->{log}(_("retrieving hdlists file..."));
-#	    $urpm->{sync}({proxy => $urpm->{proxy}}, "$urpm->{cachedir}/partial", reduce_pathname("$url/Mandrake/base/hdlists"));
 	    $urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, reduce_pathname("$url/Mandrake/base/hdlists"));
 	    $urpm->{log}(_("...retrieving done"));
 	};
@@ -1065,18 +1064,22 @@ sub update_media {
 		#- anyway, if one tries fails, try another mode.
 		my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 		if (!$medium->{synthesis} || -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 262144) {
+		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 		    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
 		    if (defined $medium->{start} && defined $medium->{end}) {
 			delete $medium->{synthesis};
 		    } else {
+			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
 			defined $medium->{start} && defined $medium->{end} and $medium->{synthesis} = 1;
 		    }
 		} else {
+		    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 		    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
 		    if (defined $medium->{start} && defined $medium->{end}) {
 			$medium->{synthesis} = 1;
 		    } else {
+			$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 			($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
 			defined $medium->{start} && defined $medium->{end} and delete $medium->{synthesis};
 		    }
@@ -1165,7 +1168,10 @@ sub update_media {
 
     #- some unresolved provides may force to rebuild all synthesis,
     #- a second pass will be necessary.
-    $urpm->{second_pass} and $urpm->unresolved_provides_clean;
+    if ($urpm->{second_pass}) {
+	$urpm->{log}(_("performing second pass to compute dependencies\n"));
+	$urpm->unresolved_provides_clean;
+    }
 
     #- second pass consist of reading again synthesis or hdlist.
     foreach my $medium (@{$urpm->{media}}) {
