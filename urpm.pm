@@ -3,7 +3,7 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA @EXPORT);
 
-$VERSION = '4.3';
+$VERSION = '4.4';
 @ISA = qw(Exporter URPM);
 @EXPORT = qw(*N);
 
@@ -784,10 +784,16 @@ sub configure {
     }
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
     unless ($options{noskipping}) {
-	$urpm->compute_skip_flags($urpm->get_unwanted_packages($options{skip}), callback => sub {
-				      my ($urpm, $pkg) = @_;
-				      $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
-				  });
+	$urpm->compute_flags($urpm->get_packages_list($urpm->{skiplist}, $options{skip}), skip => 1, callback => sub {
+				 my ($urpm, $pkg) = @_;
+				 $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
+			     });
+    }
+    unless ($options{noinstalling}) {
+	$urpm->compute_flags($urpm->get_packages_list($urpm->{instlist}, $options{skip}), disable_obsolete => 1, callback => sub {
+				 my ($urpm, $pkg) = @_;
+				 $urpm->{log}(N("would install instead of upgrade package %s", scalar($pkg->fullname)));
+			     });
     }
     if ($options{bug}) {
 	#- and a dump of rpmdb itself as synthesis file.
@@ -2150,32 +2156,41 @@ sub resolve_dependencies {
 	$options{auto_select} and $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
 
 	$urpm->resolve_requested($db, $state, $requested, %options);
+
+	#- build transaction set now...
+	$urpm->build_transaction_set($db, $state, %options);
     }
 }
 
 #- get list of package that should not be upgraded.
-sub get_unwanted_packages {
-    my ($urpm, $skip) = @_;
-    my %skip;
+sub get_packages_list {
+    my ($urpm, $file, $extra) = @_;
+    my %val;
 
     local ($_, *F);
-    open F, $urpm->{skiplist};
+    open F, $file;
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
- 	    $skip{$n}{$s} = undef;
+ 	    $val{$n}{$s} = undef;
 	}
     }
     close F;
 
     #- additional skipping from given parameter.
-    foreach (split ',', $skip) {
+    foreach (split ',', $extra) {
 	if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
- 	    $skip{$n}{$s} = undef;
+ 	    $val{$n}{$s} = undef;
 	}
     }
 
-    \%skip;
+    \%val;
+}
+#- for compability...
+sub get_unwanted_packages {
+    my ($urpm, $skip) = @_;
+    print STDERR "calling obsoleted method urpm::get_unwanted_packages\n";
+    get_packages_list($urpm->{skiplist}, $skip);
 }
 
 #- select source for package selected.
@@ -2307,7 +2322,48 @@ sub get_source_packages {
 #- return a list of package ready for rpm.
 sub download_source_packages {
     my ($urpm, $local_sources, $list, %options) = @_;
-    my (%sources, %error_sources, %removables);
+    my %sources = %$local_sources;
+    my %error_sources;
+
+    print STDERR "calling obsoleted method urpm::download_source_packages\n";
+
+    $urpm->exlock_urpmi_db;
+    $urpm->copy_packages_of_removable_media($list, \%sources, %options) or return;
+    $urpm->download_packages_of_distant_media($list, \%sources, \%error_sources, %options);
+    $urpm->unlock_urpmi_db;
+
+    %sources, %error_sources;
+}
+
+sub exlock_urpmi_db {
+    my ($urpm) = @_;
+
+    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
+    my $LOCK_EX = 2;
+
+    #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
+    open LOCK_FILE, $urpm->{statedir};
+    flock LOCK_FILE, $LOCK_EX or $urpm->{fatal}(7, N("urpmi database locked"));
+}
+
+sub unlock_urpmi_db {
+    my ($_urpm) = @_;
+
+    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
+    my $LOCK_UN = 8;
+
+    #- now everything is finished.
+    system("sync");
+
+    #- release lock on database.
+    flock LOCK_FILE, $LOCK_UN;
+    close LOCK_FILE;
+
+}
+
+sub copy_packages_of_removable_media {
+    my ($urpm, $list, $sources, %options) = @_;
+    my %removables;
 
     #- make sure everything is correct on input...
     @{$urpm->{media} || []} == @$list or return;
@@ -2361,13 +2417,13 @@ sub download_source_packages {
 				#- now we can consider the file to be fine.
 				unlink "$urpm->{cachedir}/rpms/$filename";
 				rename "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename";
-				-r "$urpm->{cachedir}/rpms/$filename" and $sources{$i} = "$urpm->{cachedir}/rpms/$filename";
+				-r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 			    }
 			} else {
-			    $sources{$i} = $filepath;
+			    $sources->{$i} = $filepath;
 			}
 		    }
-		    unless ($sources{$i}) {
+		    unless ($sources->{$i}) {
 			#- fallback to use other method for retrieving the file later.
 			$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $medium->{name}));
 		    }
@@ -2380,14 +2436,6 @@ sub download_source_packages {
 	    $urpm->{error}(N("incoherent medium \"%s\" marked removable but not really", $medium->{name}));
 	}
     };
-
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my ($LOCK_EX, $LOCK_UN) = (2, 8);
-
-    #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    local (*LOCK_FILE);
-    open LOCK_FILE, $urpm->{statedir};
-    flock LOCK_FILE, $LOCK_EX or $urpm->{fatal}(7, N("urpmi database locked"));
 
     foreach (0..$#$list) {
 	values %{$list->[$_]} or next;
@@ -2428,6 +2476,12 @@ sub download_source_packages {
 	$examine_removable_medium->($removables{$device}[0], $device, $urpm->is_using_supermount($device) && 'copy');
     }
 
+    1;
+}
+
+sub download_packages_of_distant_media {
+    my ($urpm, $list, $sources, $error_sources, %options) = @_;
+
     #- get back all ftp and http accessible rpms file into the local cache
     #- if necessary (as used by checksig or any other reasons).
     foreach (0..$#$list) {
@@ -2439,18 +2493,18 @@ sub download_source_packages {
 	#- examine all files to know what can be indexed on multiple media.
 	while (my ($i, $url) = each %{$list->[$_]}) {
 	    #- it is trusted that the url given is acceptable, so the file can safely be ignored.
-	    defined $sources{$i} and next;
+	    defined $sources->{$i} and next;
 	    if ($url =~ /^(removable[^:]*|file):\/(.*\.rpm)$/) {
 		if (-r $2) {
-		    $sources{$i} = $2;
+		    $sources->{$i} = $2;
 		} else {
-		    $error_sources{$i} = $2;
+		    $error_sources->{$i} = $2;
 		}
 	    } elsif ($url =~ /^([^:]*):\/(.*\/([^\/]*\.rpm))$/) {
 		if ($options{force_local} || $1 ne 'ftp' && $1 ne 'http') { #- only ftp and http protocol supported by grpmi.
 		    $distant_sources{$i} = "$1:/$2";
 		} else {
-		    $sources{$i} = "$1:/$2";
+		    $sources->{$i} = "$1:/$2";
 		}
 	    } else {
 		$urpm->{error}(N("malformed input: [%s]", $url));
@@ -2484,51 +2538,44 @@ sub download_source_packages {
 		    #- it seems the the file has been downloaded correctly and has been checked to be valid.
 		    unlink "$urpm->{cachedir}/rpms/$filename";
 		    rename "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename";
-		    -r "$urpm->{cachedir}/rpms/$filename" and $sources{$i} = "$urpm->{cachedir}/rpms/$filename";
+		    -r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 		}
-		unless ($sources{$i}) {
-		    $error_sources{$i} = $distant_sources{$i};
+		unless ($sources->{$i}) {
+		    $error_sources->{$i} = $distant_sources{$i};
 		}
 	    }
 	}
     }
 
     #- clean failed download which have succeeded.
-    delete @error_sources{keys %sources};
+    delete @{$error_sources}{keys %$sources};
 
-    #- now everything is finished.
-    system("sync");
+    1;
+}
 
-    #- release lock on database.
-    flock LOCK_FILE, $LOCK_UN;
-    close LOCK_FILE;
+#- prepare transaction.
+sub prepare_transaction {
+    my ($urpm, $set, $list, $sources, $transaction_list, $transaction_sources) = @_;
 
-    #- return the hash of rpm file that have to be installed, they are all local now.
-    %$local_sources, %sources, %error_sources;
+    foreach my $id (@{$set->{upgrade}}) {
+	my $pkg = $urpm->{depslist}[$id];
+	foreach (0..$#$list) {
+	    exists $list->[$_]{$id} and $transaction_list->[$_]{$id} = $list->[$_]{$id};
+	}
+	exists $sources->{$id} and $transaction_sources->{$id} = $sources->{$id};
+    }
 }
 
 #- extract package that should be installed instead of upgraded,
 #- sources is a hash of id -> source rpm filename.
 sub extract_packages_to_install {
     my ($urpm, $sources) = @_;
-
     my %inst;
-    local ($_, *F);
-    open F, $urpm->{instlist};
-    while (<F>) {
-	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	foreach (keys %{$urpm->{provides}{$_} || {}}) {
-	    my $pkg = $urpm->{depslist}[$_] or next;
 
-	    #- some package with specific naming convention to avoid upgrade problem
-	    #- should not be taken into account here.
-	    #- these package have version=1 and release=1mdk, and name contains version and release.
-	    $pkg->version eq '1' && $pkg->release eq '1mdk' && $pkg->name =~ /^.*-[^\-]*mdk$/ and next;
-
-	    exists($sources->{$pkg->id}) and $inst{$pkg->id} = delete $sources->{$pkg->id};
-	}
+    foreach (keys %$sources) {
+	my $pkg = $urpm->{depslist}[$_] or next;
+	$pkg->flag_disable_obsolete and $inst{$pkg->id} = delete $sources->{$pkg->id};
     }
-    close F;
 
     \%inst;
 }
@@ -2572,7 +2619,7 @@ sub install {
     my $trans = $db->create_transaction($urpm->{root});
     if ($trans) {
 	$urpm->{log}(N("created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/',
-		       scalar(@$remove), scalar(values %$install), scalar(values %$upgrade)));
+		       scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade)));
     } else {
 	return (N("unable to create transaction"));
     }
@@ -2792,7 +2839,7 @@ sub parallel_remove {
 
 #- misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
 sub unselected_packages {
-    my ($urpm, $state, %options) = @_;
+    my ($urpm, $state) = @_;
 
     grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
 }
@@ -2808,7 +2855,7 @@ sub translate_why_unselected {
 }
 
 sub removed_packages {
-    my ($urpm, $state, %options) = @_;
+    my ($urpm, $state) = @_;
 
     grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected} || {}};
 }

@@ -1,15 +1,15 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 4.3
-Release: 15mdk
+Version: 4.4
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.90-10mdk
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.91
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,10 @@ $urpm->update_media;
 
 
 %changelog
+* Mon Jun 16 2003 François Pons <fpons@mandrakesoft.com> 4.4-1mdk
+- added preliminary support for small transaction set.
+- internal library changes (compabilility should have been kept).
+
 * Fri Jun 13 2003 François Pons <fpons@mandrakesoft.com> 4.3-15mdk
 - fixed incorrect behaviour when no key_ids options are set.
 - created retrieve methods and translation methods for packages
