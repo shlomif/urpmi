@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.4.3
+%define version	4.4.4
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -236,6 +236,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Jan 28 2004 Olivier Blin <blino@mandrake.org> 4.4.4-1mdk
+- fix --wget and --curl in urpmi.update
+
 * Wed Jan 21 2004 Olivier Blin <blino@mandrake.org> 4.4.3-1mdk
 - add downloader option in global config section
 - better error reporting for curl
