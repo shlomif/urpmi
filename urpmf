@@ -16,7 +16,8 @@ while true
 do
     case $1 in
 	-h|--help)
-	    $ECHO "urpmf version" `rpm -q rpmtools --qf '%{VERSION}'`
+	    TMPDATA=`$ECHO "urpmf version %s"`
+	    printf "$TMPDATA" `rpm -q rpmtools --qf '%{VERSION}'` ; echo
 	    $ECHO "Copyright (C) 1999,2000,2001 MandrakeSoft."
 	    $ECHO "This is free software and may be redistributed under the terms of the GNU GPL."
 	    echo

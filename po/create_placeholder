@@ -6,7 +6,7 @@ echo -e "\
  * ./create_placeholder
  */
 char *foobar[] = { " > placeholder.h.$$
-cat $* | perl -ne 's/\$ECHO\s+(".*")/N_($1),/g and print' >> placeholder.h.$$
+cat ../urpmf | perl -ne 's/.*\$ECHO\s+(".*").*/N_($1),/g and print' >> placeholder.h.$$
 
 for i in $*
 do
