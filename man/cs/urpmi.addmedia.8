@@ -30,7 +30,7 @@ Stejnì jako v pøípadì re¾imu http, pouze pøidejte své u¾ivatelské jméno a heslo,
 .br
 Pokud je pro sta¾ení souborù pou¾it program \fBwget\fP a pou¾íváte firewall, mo¾ná budete muset pøidat do souboru \fB/etc/wgetrc\fP volbu \fBpassive_ftp=on\fP. 
 .nf
-napø.: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist
+napø.: urpmi.addmedia ftp ftp://a:a@leia//export/media/main with ../base/hdlist
 .fi
 .PP
 SSH:
@@ -38,7 +38,7 @@ SSH:
 .IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> ssh://<\fIu¾ivatel\fP>:<\fIheslo\fP>@<\fIpoèítaè\fP>/<\fIcesta\fP> [with <\fIrelativní cesta k souboru hdlist\fP>]\fP"
 Stejnì jako v pøípadì re¾imu http, pouze pøidejte své u¾ivatelské jméno a heslo, pokud je to potøeba. Velmi doporuèujeme exportovat klíè u¾ivatele root, abyste nemuseli zadávat poøád jeho heslo. Pro sta¾ení souborù se pou¾ijí pøíkazy \fBscp\fP a \fBrsync\fP.
 .nf
-napø: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/Mandrake/RPMS
+napø: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
 .fi
 .PP
 rsync:
@@ -46,7 +46,7 @@ rsync:
 .IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> rsync://<\fIu¾ivatel\fP>:<\fIheslo\fP>@<\fIpoèítaè\fP>:<\fIport\fP>/<\fIcesta\fP> [with <\fIrelativní cesta k souboru hdlist\fP>]\fP"
 Stejnì jako v pøípadì re¾imu http, mù¾ete pou¾ít poèítaè a cestu.
 .nf
-napø: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/Mandrake/base/hdlist2.cz
+napø: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/media/media_info/hdlist2.cz
 .fi
 .PP
 Lokální soubory nebo svazky NFS:

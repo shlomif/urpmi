@@ -36,7 +36,7 @@ ei tarvitse antaa tunnusta ja salasanaa jos k‰yt‰t anonyymipalvelinta).
 Huomaa ett‰ jos \fBwget\fP k‰ytet‰‰n tiedostojen lataamisessa palomuurin takana
 joudut ehk‰ lis‰t‰ \fBpassive_ftp=on\fP optiota \fB/etc/wgetrc\fP tiedostoon. 
 .br
-\fIesim.\fP: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist.cz
+\fIesim.\fP: urpmi.addmedia ftp ftp://a:a@leia//export/media/main with ../base/hdlist.cz
 .PP
 ssh:
 .IP "\fBurpmi.addmedia [\fIoptiot\fP] <\fInimi\fP> ssh://<\fItunnus\fP>:<\fIsalasana\fP>@<\fIpalvelin\fP>/<\fIpolku\fP> [with <\fIrelatiivinen polku synthesis|hdlist tiedostoon\fP>]\fP"
@@ -44,13 +44,13 @@ Vastaava kuin http, lis‰‰ tunnus ja salasanaa tarvittaessa. Suosittelemme
 ett‰ viet 'root' avaimen tiedostolle jotta et tarvitse syˆtt‰‰ salasanaa
 koko ajan. \fBscp\fP ja \fBrsync\fP k‰ytet‰‰n tiedostojen hakemisessa.
 .br
-\fIesim.\fP: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/Mandrake/RPMS
+\fIesim.\fP: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
 .PP
 rsync:
 .IP "\fBurpmi.addmedia [\fIoptiot\fP] <\fInimi\fP> rsync://<\fItunnus\fP>@<\fIpalvelin\fP>:<\fIportti\fP>/<\fIpolku\fP> [with <\fIrelatiivinen polku synthesis|hdlist tiedostoon\fP>]\fP"
 Vastaava kuin http, voit myˆs k‰ytt‰‰ <\fIpalvelin\fP>::<\fIpolku\fP>.
 .br
-\fIesim.\fP: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/Mandrake/base/hdlist2.cz
+\fIesim.\fP: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/media/media_info/hdlist2.cz
 .PP
 Paikallinen asema tai NFS:
 .br

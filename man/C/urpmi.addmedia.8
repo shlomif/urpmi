@@ -34,7 +34,7 @@ you needn't to specify anonymous as login for anonymous access ftp servers).
 Note that if \fBwget\fP is used to download files with a firewall you may
 have to add \fBpassive_ftp=on\fP option to \fB/etc/wgetrc\fP. 
 .br
-\fIeg\fP: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist.cz
+\fIeg\fP: urpmi.addmedia ftp ftp://a:a@leia//export/media/main with media_info/hdlist.cz
 .PP
 ssh:
 .IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> ssh://<\fIlogin\fP>@<\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
@@ -42,13 +42,13 @@ The same as for http, just add your login and password if required. It is
 strongly recommended to export root key in order not to have to type password
 all the time. \fBscp\fP and \fBrsync\fP will be used to get files.
 .br
-\fIeg\fP: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/Mandrake/RPMS
+\fIeg\fP: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
 .PP
 rsync:
 .IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> rsync://<\fIlogin\fP>@<\fIhost\fP>:<\fIport\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 The same as for http, you can use <\fIhost\fP>::<\fIpath\fP> too.
 .br
-\fIeg\fP: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/Mandrake/base/hdlist2.cz
+\fIeg\fP: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/media/media_info/hdlist2.cz
 .PP
 Local drive or NFS:
 .br
