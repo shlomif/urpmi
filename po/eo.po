@@ -1,12 +1,12 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) 2000, Mandrakesoft
+# MESAØOJ DE urpmi.
+# Copyright (C) 2000, 2001 Mandrakesoft
 # D. Dale Gulledge <dsplat@rochester.rr.com>, 2000.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-02-28 02:57+0100\n"
-"PO-Revision-Date: 2000-06-01 21:50-0500\n"
+"POT-Creation-Date: 2001-03-03 04:09+0100\n"
+"PO-Revision-Date: 2001-02-28 21:50-0500\n"
 "Last-Translator: D. Dale Gulledge <dsplat@rochester.rr.com>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -14,57 +14,58 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: _irpm:21
-#, fuzzy
 msgid "installing $rpm\n"
-msgstr "instalas %s\n"
+msgstr "instalas $rpm\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Aýtomata instalado de paka¼oj...\n"
+"Vi petis instaladon de paka¼o $rpm\n"
 
-#: _irpm:31 urpmi:225
+#: _irpm:31 urpmi:228
 msgid "Is it ok?"
 msgstr "Æu tio estas bona?"
 
-#: _irpm:33 urpmi:228 urpmi:253
+#: _irpm:33 urpmi:231 urpmi:256
 msgid "Ok"
 msgstr "Jes"
 
-#: _irpm:34 urpmi:229 urpmi:254
+#: _irpm:34 urpmi:232 urpmi:257
 msgid "Cancel"
 msgstr "Nuligu"
 
-#: _irpm:40 urpmi:233 urpmi:282
+#: _irpm:40 urpmi:236 urpmi:285
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:234 urpmi:283
+#: _irpm:41 urpmi:237 urpmi:286
 msgid "Yy"
 msgstr "JjYy"
 
-#: _irpm:42 urpmi:235
+#: _irpm:42 urpmi:238
 msgid " (Y/n) "
 msgstr " (J/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: ordono ne trovata\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "uzado: rpmf [<dosiero>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi ne estas instalata"
 
 #: placeholder.h:8
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "urpmi version %s\n"
-"Copyright (C) 1999, 2000 MandrakeSoft.\n"
+"Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
 "This is free software and may be redistributed under the terms of the GNU "
 "GPL.\n"
 "usage:\n"
@@ -77,13 +78,34 @@ msgid ""
 "  --best-output    - choose best interface according to the environment:\n"
 "                     X or text mode.\n"
 "  -a               - select all matches on command line.\n"
+"  -m               - choose minimum closure of requires (default).\n"
+"  -M               - choose maximun closure of requires.\n"
 "  -c               - choose complete method for resolving requires closure.\n"
 "  -q               - quiet mode.\n"
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi versio %s\n"
+"Kopirajtita (C) 1999, 2000, 2001 MandrakeSoft.\n"
+"Æi tiu estas libera programo kaj vi rajtas redistribui øi sub la kondiæoj\n"
+"de la GNU GPL.\n"
+"uzado:\n"
+"  --help           - printu æi tiun helpan mesaøon.\n"
+"  --auto           - aýtomate elektu bonan paka¼on el la elektoj.\n"
+"  --auto-select    - aýtomate elektu paka¼ojn por øisdatigi la sistemon.\n"
+"  --force          - devigu lanæon eæ se iu paka¼o ne ekzistas.\n"
+"  --X              - uzu X interfacon.\n"
+"  --best-output    - elektu la pli bonan interfaco laý la medio: X aý\n"
+"                     tekstan reøiman.\n"
+"  -a               - elektu æiujn egala¼ojn sur komanda linio.\n"
+"  -c               - elektu plenan metodon por decidi bezonas ferma¼on.\n"
+"  -q               - kvieta reøimo.\n"
+"  -v               - babilema reøimo.\n"
+"  nomoj aý rpm-aj dosieroj (nur por \"root\") donata sur la ordonolinio "
+"estos\n"
+"  instalataj.\n"
 
-#: placeholder.h:26
+#: placeholder.h:28
 msgid ""
 "usage: urpmi.addmedia <name> <url>\n"
 "where <url> is one of\n"
@@ -94,157 +116,158 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"uzado: urpmi.addmedia <nomo> <url>\n"
+"kie <url> estas unu el\n"
+"       file://<dosierindiko>\n"
+"       ftp://<salutnomo>:<pasvorto>@<servilo>/dosierindiko> kun <relativa "
+"dosieronomo de hd-listo>\n"
+"       ftp://<servilo>/dosierindiko> kun <relativa dosieronomo de hd-listo>\n"
+"       http://<servilo>/dosierindiko> kun <relativa dosieronomo de "
+"hd-listo>\n"
+"       removable_<aparato>://<dosierindiko>\n"
 
-#: placeholder.h:35 urpmi.addmedia:52
+#: placeholder.h:37 urpmi.addmedia:52
 #, c-format
 msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`kun' mankanta por ftp medio\n"
 
-#: placeholder.h:39 urpmi.addmedia:48
+#: placeholder.h:41 urpmi.addmedia:48
 #, c-format
 msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"aparato `%s' ne ekzistas\n"
 
-#: placeholder.h:43 urpmi.addmedia:50
+#: placeholder.h:45 urpmi.addmedia:50
 #, c-format
 msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<relativa dosieronomo de hd-listo> mankas\n"
 
-#: placeholder.h:47 urpmi.update:52
+#: placeholder.h:49 urpmi.update:52
 #, c-format
 msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"la enskriba¼o por øisgatigi mankas\n"
+"(unu el %s)\n"
 
-#: placeholder.h:51 urpmi.removemedia:49
+#: placeholder.h:53 urpmi.removemedia:49
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"la enskriba¼o por forpreni mankas\n"
+"(unu el %s)\n"
 
 #: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi versio %s"
 
-#: urpmi:137
+#: urpmi:140
 msgid "Only superuser is allowed to install local packages"
 msgstr "Nur superuzulo rajtas instali lokajn paka¼ojn"
 
-#: urpmi:168
+#: urpmi:171
 msgid "One of the following packages is needed:"
 msgstr "Unu el la sekvantaj paka¼oj estas bezonata:"
 
-#: urpmi:176
+#: urpmi:179
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Kiu estas via elekto? (1-%d) "
 
-#: urpmi:179
+#: urpmi:182
 msgid "Sorry, bad choice, try again\n"
 msgstr "Bedaýrinde, nevalida elekto, reprovu\n"
 
-#: urpmi:224
+#: urpmi:227
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
 "(%d MB)"
 msgstr "Por plenumi dependa¼ojn, la sekvantaj paka¼oj estas instalonta (%d mb)"
 
-#: urpmi:250
-#, fuzzy, c-format
+#: urpmi:253
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Bonvole enmetu la %s nomata %s"
+msgstr "Bonvole enþovu la medion nomata \"%s\" en aparato [%s]"
 
-#: urpmi:251
+#: urpmi:254
 msgid "Press enter when it's done..."
 msgstr "Premu la enigklavon kiam øi estas finata..."
 
-#: urpmi:264
+#: urpmi:267
 msgid "everything already installed"
 msgstr "æio jam instalita"
 
-#: urpmi:273
+#: urpmi:276
 #, c-format
 msgid "installing %s\n"
 msgstr "instalas %s\n"
 
-#: urpmi:277 urpmi:289
+#: urpmi:280 urpmi:292
 msgid "Installation failed"
 msgstr "Instalado malsukcesis"
 
-#: urpmi:284
+#: urpmi:287
 msgid "Try installation without checking dependencies? (Y/n) "
 msgstr "Provu instaladon sen kontroli dependa¼ojn? (J/n) "
 
-#: urpmi:290
+#: urpmi:293
 msgid "Try installation even more strongly (--force)? (Y/n) "
 msgstr "Provu instaladon eæ pli forte (--force)? (J/n) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "uzado: urpmi.addmedia <nomo> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "nekonataj opcioj \"%s\"\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nenio por øisdatigi (uzu urpmi.addmedia por aldoni medion)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nenio por forpreni (uzu urpmi.addmedia por aldoni medion)\n"
 
-#: urpmq:44
+#: urpmq:46
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq versio %s"
 
-#: urpmq:87
+#: urpmq:92
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: nekonata opcio \"-$1\", kontrolu uzadon kun \"--help\"\n"
 
-#: urpmq:89
+#: urpmq:94
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: ne povas legi rpm-an dosieron \"$_\"\n"
 
-#: urpmq:128
+#: urpmq:133
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"Por øisdatigi, iu paka¼o devas esti forprenata.  Æi tiu ne jam estas "
+"subtenata.\n"
 
-#: urpmq:150
+#: urpmq:155
 msgid "unable to get source packages, aborting"
-msgstr ""
-
-#~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
-#~ msgstr ""
-#~ "uzado: urpmi [-h] [--auto] [--force] [-a] paka¼onomo [paka¼onomoj...]\n"
-
-#~ msgid "no package named %s\n"
-#~ msgstr "paka¼o nomata %s ne ekzistas\n"
-
-#~ msgid "The following packages contain %s: %s\n"
-#~ msgstr "La sekvantaj paka¼oj enhavas %s: %s\n"
-
-#~ msgid "rpm database query failed\n"
-#~ msgstr "rpm datumbaza demando malsukcesis\n"
-
-#~ msgid "Sorry can't find file %s, exiting"
-#~ msgstr "Bedaýrinde ne povas trovi dosieron %s.  Eliras."
-
-#~ msgid "Failed dependencies: %s requires %s"
-#~ msgstr "Malsukcesitaj dependa¼oj: %s bezonas %s"
+msgstr "Ne povas preni fontajn paka¼ojn.  Mi æesiøas."
