@@ -2307,7 +2307,7 @@ sub get_packages_list {
     my $val = [];
     local $_;
     open my $f, $file or return {};
-    foreach (<$f>, split /,/, $extra) {
+    foreach (<$f>, split /,/, $extra || '') {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	push @$val, $_;
     }
