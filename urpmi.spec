@@ -34,6 +34,7 @@ PreReq:		perl-Locale-gettext >= 1.01-7 gettext rpmtools >= 4.5 perl-URPM >= 0.94
 BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3 
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
+Conflicts: man-pages-fr < -1.58.0-8mdk
 
 %description
 urpmi takes care of dependencies between rpms, using a pool (or pools) of rpms.
