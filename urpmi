@@ -161,19 +161,6 @@ if ($bug) {
 	/synthesis\./ and system "cp", "-af", "$urpm->{statedir}/$_", $bug;
     }
     closedir DIR;
-    #- and a dump of rpmdb itself as synthesis file.
-    my $db = URPM::DB::open($root);
-    my $sig_handler = sub { undef $db; exit 3 };
-    local $SIG{INT} = $sig_handler;
-    local $SIG{QUIT} = $sig_handler;
-    local *RPMDB;
-    open RPMDB, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$bug/rpmdb.cz'";
-    $db->traverse(sub{
-		      my ($p) = @_;
-		      $p->pack_header;
-		      $p->build_info(fileno *RPMDB);
-		  });
-    close RPMDB;
     #- allow log file.
     $log = "$bug/urpmi.log";
 }
@@ -249,6 +236,24 @@ $urpm->configure(nocheck_access => $env || $uid > 0,
 		);
 
 my ($start, $end) = $urpm->register_rpms(@files, @src_files);
+
+if ($bug) {
+    #- and a dump of rpmdb itself as synthesis file.
+    my $db = URPM::DB::open($root);
+    my $sig_handler = sub { undef $db; exit 3 };
+    local $SIG{INT} = $sig_handler;
+    local $SIG{QUIT} = $sig_handler;
+    local *RPMDB;
+    open RPMDB, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$bug/rpmdb.cz'";
+    $db->traverse(sub{
+		      my ($p) = @_;
+		      #- this is not right but may be enough.
+		      my $files = join '@', grep { exists $urpm->{provides}{$_} } $p->files;
+		      $p->pack_header;
+		      $p->build_info(fileno *RPMDB, $files);
+		  });
+    close RPMDB;
+}
 
 #- select individual files.
 my $state = { requested => {} };
