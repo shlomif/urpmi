@@ -1296,7 +1296,6 @@ sub filter_minimal_packages_to_upgrade {
 	#- choices for which all package in the choices are taken and their dependencies.
 	#- allow iteration over a modifying list.
 	while (defined($id = shift @packages)) {
-	    print STDERR "examining $id\n";
 	    if (ref $id) {
 		#- at this point we have almost only choices to resolves.
 		#- but we have to check if one package here is already selected
@@ -1314,9 +1313,7 @@ sub filter_minimal_packages_to_upgrade {
 		}
 	    }
 	    my $pkg = $urpm->{params}{depslist}[$id];
-	    print STDERR "examining $id as $pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch} and $pkg->{source}\n";
 	    defined $pkg->{id} or next; #- id has been removed for package that only exists on some arch.
-	    print STDERR "accepting $id\n";
 
 	    #- search for package that will be upgraded, and check the difference
 	    #- of provides to see if something will be altered and need to be upgraded.
@@ -1389,13 +1386,30 @@ sub filter_minimal_packages_to_upgrade {
 	    #- provides files, try to minimize choice at this level.
 	    foreach (keys %provides) {
 		$provides{$_} and next;
-		my (@choices, @upgradable_choices, %choices_id);
+		my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
 		foreach my $fullname (@{$urpm->{params}{provides}{$_}}) {
-		    #- prefer upgrade package that need to be upgraded, if they are present in the choice.
 		    my $pkg = $urpm->{params}{info}{$fullname};
-		    if (my @best = grep { exists $packages->{$_->{id}} } ($pkg, $urpm->{params}{names}{$pkg->{name}})) {
-			$pkg = $best[0]; #- keep already requested packages.
+		    push @{$pre_choices{$pkg->{name}}}, $pkg;
+		}
+		foreach (values %pre_choices) {
+		    #- there is at least one element in each list of values.
+		    if (@$_ == 1) {
+			push @pre_choices, $_->[0];
+		    } else {
+			#- take the best one, according to id used.
+			my $chosen_pkg;
+			foreach my $id (%$packages) {
+			    my $candidate_pkg = $urpm->{params}{depslist}[$id];
+			    $candidate_pkg->{name} eq $pkg->{name} or next;
+			    foreach my $pkg (@$_) {
+				$pkg == $candidate_pkg and $chosen_pkg = $pkg, last;
+			    }
+			}
+			$chosen_pkg ||= $urpm->{params}{names}{$_->[0]{name}}; #- at least take the best normally used.
+			push @pre_choices, $chosen_pkg;
 		    }
+		}
+		foreach my $pkg (@pre_choices) {
 		    push @choices, $pkg;
 
 		    rpmtools::db_traverse_tag($db,
@@ -1405,16 +1419,11 @@ sub filter_minimal_packages_to_upgrade {
 						  my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
 						  $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} && ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0));
 					      });
-		    if ($installed{$pkg->{id}}) {
-			@choices = @upgradable_choices = ();
-			delete $installed{$pkg->{id}};
-			next;
-		    }
-		    #$installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
-		    if (exists $packages->{$pkg->{id}}) {
+		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
+		    if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
 			#- the package is already selected, or installed with a better version and release.
 			@choices = @upgradable_choices = ();
-			next;
+			last;
 		    }
 		    exists $installed{$pkg->{id}} and push @upgradable_choices, $pkg;
 		}
