@@ -32,6 +32,7 @@ usage:
 ") . N("  --verbose      - verbose mode.
 ") . N("  --quiet        - do not print tag name (default if no tag given on command
                    line, incompatible with interactive mode).
+") . N("  --uniq         - do not print identical lines.
 ") . N("  --all          - print all tags.
 ") . N("  --name         - print tag name: rpm filename (assumed if no tag given on
                    command line but without package name).
@@ -40,11 +41,15 @@ usage:
 ") . N("  --epoch        - print tag epoch: epoch.
 ") . N("  --summary      - print tag summary: summary.
 ") . N("  --description  - print tag description: description.
-") . N("  --provides     - print tag provides: all provides (multiple lines).
-") . N("  --requires     - print tag requires: all requires (multiple lines).
-") . N("  --files        - print tag files: all files (multiple lines).
-") . N("  --conflicts    - print tag conflicts: all conflicts (multiple lines).
-") . N("  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).
+") . N("  --sourcerpm    - print tag sourcerpm: source rpm.
+") . N("  --packager     - print tag packager: packager.
+") . N("  --buildhost    - print tag buildhost: build host.
+") . N("  --url          - print tag url: url.
+") . N("  --provides     - print tag provides: all provides.
+") . N("  --requires     - print tag requires: all requires.
+") . N("  --files        - print tag files: all files.
+") . N("  --conflicts    - print tag conflicts: all conflicts.
+") . N("  --obsoletes    - print tag obsoletes: all obsoletes.
 ") . N("  -i             - ignore case distinctions in every pattern.
 ") . N("  -f             - print version, release and arch with name.
 ") . N("  -e             - include perl code directly as perl -e.
@@ -63,9 +68,10 @@ my $media = '';
 my $synthesis = '';
 my $verbose = 0;
 my $quiet;
+my $uniq = '';
 my $pattern = '';
 my $full = '';
-my %params;
+my (%params, %uniq);
 
 #- parse arguments list.
 my $expr;
@@ -79,10 +85,16 @@ while (defined($_ = shift @ARGV)) {
     /^--synthesis$/ and do { push @nextargv, \$synthesis; next };
     /^--verbose$/ and do { $verbose = 1; next };
     /^--quiet$/ and do { $quiet = 1; next };
+    /^--uniq$/ and do { $uniq = 1; next };
     /^--all$/ and do { $params{$_} = 1
-			 foreach qw(group size summary description provides requires files conflicts obsoletes); next };
-    /^--(group|size|epoch|summary|description|provides|requires|files|conflicts|obsoletes)$/ and
+			 foreach qw(filename group size summary description sourcerpm packager buildhost url
+                                    provides requires files conflicts obsoletes); next };
+    /^--name$/ and do { $params{filename} = 1; next };
+    /^--(group|size|epoch|summary|description|sourcerpm|packager|buildhost|url|provides|requires|files|conflicts|obsoletes)$/ and
       do { $params{$1} = 1; next };
+    /^-v$/ and do { $verbose = 1; next };
+    /^-q$/ and do { $quiet = 1; next };
+    /^-u$/ and do { $uniq = 1; next };
     /^-i$/ and do { $pattern = 'i'; next };
     /^-f$/ and do { $full = 'full'; next };
     /^-e$/ and do { $expr .= '('.$_.')'; next };
@@ -105,20 +117,30 @@ foreach (scalar(keys %params)) {
 
 #- build callback according expression.
 my $callback = 'sub { my ($urpm, $pkg) = @_; '; #- it is a good start for a sub, no ;-)
-foreach (qw(group size epoch summary description provides requires files conflicts obsoletes)) {
-    $params{$_} and $callback .= 'foreach my $e ($pkg->'.$_.') { local $_ = $pkg->'.$full.'name."'.(!$quiet && ":$_").':$e"; '.$expr.' or next; print "$_\n" }';
+foreach (qw(filename group size epoch summary description sourcerpm packager buildhost url
+            provides requires files conflicts obsoletes)) {
+    $params{$_} and $callback .= '
+      foreach my $e ($pkg->'.$_.') {
+        local $_ = $pkg->'.$full.'name."'.(!$quiet && ":$_").':$e";
+        '.$expr.' or next;
+        '.($uniq && 'exists $uniq{$_} and next; $uniq{$_} = undef;
+        ').'print "$_\n";
+      }';
 }
-$callback .= ' 1; }';
+$callback .= '
+      1;
+}';
 $urpm->{log}(N("callback is :\n%s\n", $callback));
 $callback = eval $callback;
 $@ and usage;
 
-$urpm->configure(nocheck_access => 1,
+$urpm->configure(nocheck_access => 1, noskipping => 1,
 		 media => $media,
 		 synthesis => $synthesis,
 		 update => $update,
 		 callback => $callback,
-		 hdlist => $params{summary} || $params{description} || $params{files},
+		 hdlist => ($params{summary} || $params{description} || $params{sourcerpm} ||
+			    $params{packager} || $params{buildhost} || $params{url} || $params{files}),
 		);
 
 #- that'all! all has been done by callback above.

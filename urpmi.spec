@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -199,6 +199,11 @@ $urpm->update_media;
 
 
 %changelog
+* Wed Apr 23 2003 François Pons <fpons@mandrakesoft.com> 4.3-6mdk
+- added more log when installing packages.
+- urpmf: added --sourcerpm, --packager, --buildhost, --url, --uniq
+  and -v, -q, -u (as alias to --verbose, --quiet, --uniq).
+
 * Tue Apr 22 2003 François Pons <fpons@mandrakesoft.com> 4.3-5mdk
 - improved output of urpmq -i (with packager, buildhost and url).
 - fixed output of download informations (without callback).

@@ -779,10 +779,12 @@ sub configure {
 	}
     }
     #- determine package to withdraw (from skip.list file).
-    $urpm->compute_skip_flags($urpm->get_unwanted_packages($options{skip}), callback => sub {
-				  my ($urpm, $pkg) = @_;
-				  $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
-			      });
+    unless ($options{noskipping}) {
+	$urpm->compute_skip_flags($urpm->get_unwanted_packages($options{skip}), callback => sub {
+				      my ($urpm, $pkg) = @_;
+				      $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
+				  });
+    }
     if ($options{bug}) {
 	#- and a dump of rpmdb itself as synthesis file.
 	my $db = URPM::DB::open($options{root});
@@ -2547,20 +2549,35 @@ sub install {
     $db or $urpm->{fatal}(9, N("unable to open rpmdb"));
 
     my $trans = $db->create_transaction($urpm->{root});
+    if ($trans) {
+	$urpm->{log}(N("created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/',
+		       scalar(@$remove), scalar(values %$install), scalar(values %$upgrade)));
+    } else {
+	return (N("unable to create transaction"));
+    }
+
     my ($update, @l, %file2pkg) = 0;
     local *F;
 
     foreach (@$remove) {
-	$trans->remove($_) or $urpm->{error}(N("unable to remove package %s", $_));
+	if ($trans->remove($_)) {
+	    $urpm->{log}(N("removing package %s", $_));
+	} else {
+	    $urpm->{error}(N("unable to remove package %s", $_));
+	}
     }
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
 	    my $pkg = $urpm->{depslist}[$_];
 	    $file2pkg{$mode->{$_}} = $pkg;
 	    $pkg->update_header($mode->{$_});
-	    $trans->add($pkg,
-			update => $update, $options{excludepath} ? (excludepath => [ split ',', $options{excludepath} ]) : ())
-	      or $urpm->{error}(N("unable to install package %s", $mode->{$_}));
+	    if ($trans->add($pkg, update => $update,
+			    $options{excludepath} ? (excludepath => [ split ',', $options{excludepath} ]) : ())) {
+		$urpm->{log}(N("adding package %s (id=%d, eid=%d, update=%d, file=%s)", scalar($pkg->fullname),
+			       $_, $pkg->id, $update, $mode->{$_}));
+	    } else {
+		$urpm->{error}(N("unable to install package %s", $mode->{$_}));
+	    }
 	}
 	++$update;
     }
