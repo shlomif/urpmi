@@ -18,7 +18,7 @@
 
 #- this program is based upon urpmi.
 
-#use strict qw(subs vars refs);
+use strict;
 use urpm;
 
 # get I18N translation method.
@@ -115,14 +115,22 @@ $query->{verbose} or $urpm->{log} = sub {};
 
 $urpm->configure(nocheck_access => 1,
 		 media => $query->{media},
-		 update => $query->{update}
-		 @files > 0 ? (files => [ @files ]) : (),
+		 update => $query->{update},
 		);
+
+
+my ($start, $end) = $urpm->register_rpms(@files);
+
+#- relocate depslist.
+$urpm->relocate_depslist_provides();
+
+#- select individual files.
+my %packages;
+@packages{($start .. $end)} = ();
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded, all its dependency
 #- will be updated too.
-my %packages;
 if (@names) {
     $urpm->search_packages(\%packages, [ @names ],
 			   use_provides => $query->{use_provides},
@@ -140,7 +148,7 @@ if (@src_names) {
 #- open/close of database should be moved here, in order to allow testing
 #- some bogus case and check for integrity.
 if ($query->{auto_select} || $query->{deps}) {
-    my $db = URPM::DB::open($root);
+    my $db = URPM::DB::open($query->{root});
     my $sig_handler = sub { undef $db; exit 3 };
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
@@ -202,13 +210,13 @@ if ($query->{headers} || $query->{sources}) {
 #- print sub for query.
 my $query_sub = sub {
 	my ($id) = @_;
-	my $info = $urpm->{params}{depslist}[$id];
+	my $pkg = $urpm->{depslist}[$id];
 	my $str = '';
-	$query->{group} and $str .= $info->{group} . '/';
-	$str .= $info->{name};
-	$query->{version} and $str .= '-' . $info->{version};
-	$query->{release} and $str .= '-' . $info->{release};
-	$query->{arch} and $str .= '.' . $info->{arch};
+	$query->{group} and $str .= $pkg->group . '/';
+	$str .= $pkg->name;
+	$query->{version} and $str .= '-' . $pkg->version;
+	$query->{release} and $str .= '-' . $pkg->release;
+	$query->{arch} and $str .= '.' . $pkg->arch;
 	$str;
 };
 

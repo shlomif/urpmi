@@ -189,15 +189,21 @@ $verbose or $urpm->{log} = sub {};
 $urpm->configure(nocheck_access => $uid > 0,
 		 media => $media,
 		 update => $update,
-		 (@files, @src_files) > 0 ? (files => [ @files, @src_files ]) : (),
 		);
-#TODO files and src_files are incorporated but no results from them.
+
+my ($start, $end) = $urpm->register_rpms(@files, @src_files);
+
+#- relocate depslist.
+$urpm->relocate_depslist_provides();
+
+#- select individual files.
+my %packages;
+@packages{($start .. $end)} = ();
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded,
 #- all its dependency will be updated too.
 #- make sure basesystem exists before.
-my %packages;
 if (@names) {
     $urpm->search_packages(\%packages, [ @names ],
 			   all => $all,

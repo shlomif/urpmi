@@ -445,14 +445,6 @@ sub configure {
 	$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
 	($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}");
     }
-
-    if ($options{files}) {
-	#- build closure with local package and return list of names.
-	$urpm->register_rpms(@{$options{files}});
-    }
-
-    #- relocate depslist.
-    $urpm->relocate_depslist_provides();
 }
 
 #- add a new medium, sync the config file accordingly.
@@ -1299,7 +1291,7 @@ sub register_rpms {
 	($id, undef) = $urpm->parse_rpm($_);
 	my $pkg = $urpm->{depslist}[$id];
 	$pkg or $urpm->{error}(_("unable to register rpm file")), next;
-	#TODO $pkg->{source} = $1 ? $_ :  "./$_";
+	$urpm->{source}{$id} = $1 ? $_ :  "./$_";
     }
     $error and $urpm->{fatal}(1, _("error registering local packages"));
 
@@ -1450,11 +1442,11 @@ sub filter_packages_to_upgrade {
 	    foreach (@$id) {
 		my $pkg = $urpm->{depslist}[$_];
 		$pkg->arch eq 'src' and return;
-		$options{keep_alldeps} || exists $installed{$pkg->id} and return 0;
-		my $count = $db->traverse_tag('name', [ $pkg->name ], sub {
-						  my ($p) = @_;
-						  $installed{$pkg->id} ||= $pkg->compare_pkg($p) <= 0;
-					      });
+		my $count = $options{keep_alldeps} || exists $installed{$pkg->id} ? 0 :
+		  $db->traverse_tag('name', [ $pkg->name ], sub {
+					my ($p) = @_;
+					$installed{$pkg->id} ||= $pkg->compare_pkg($p) <= 0;
+				    });
 		if (exists $packages->{$_} || $count > 0) {
 		    $installed{$pkg->id} or push @forced_selection, $_;
 		} else {
@@ -1604,8 +1596,8 @@ sub filter_packages_to_upgrade {
 		$provides{$_} and next;
 
 		foreach my $id (keys %{$urpm->{provides}{$n} || {}}) {
-#TODO		    exists $conflicts{$fullname} and next;
 		    my $pkg = $urpm->{depslist}[$id];
+		    exists $conflicts{$pkg->fullname} and next;
 		    $pkg->arch eq 'src' and next;
 		    $selected{$n} || $selected{$pkg->name} and %pre_choices=(), last;
 		    #- check if a unsatisfied selection on a package is needed,
@@ -1655,11 +1647,12 @@ sub filter_packages_to_upgrade {
 		push @choices, $pkg;
 
 		$pkg->arch eq 'src' and return;
-		$options{keep_alldeps} || exists $installed{$pkg->id} and return 0;
-		$db->traverse_tag('name', [ $pkg->name ], sub {
-				      my ($p) = @_;
-				      $installed{$pkg->id} ||= $pkg->compare_pkg($p) <= 0;
-				  });
+		unless ($options{keep_alldeps} || exists $installed{$pkg->id}) {
+		    $db->traverse_tag('name', [ $pkg->name ], sub {
+					  my ($p) = @_;
+					  $installed{$pkg->id} ||= $pkg->compare_pkg($p) <= 0;
+				      });
+		}
 		$installed{$pkg->id} and delete $packages->{$pkg->id};
 		exists $installed{$pkg->id} and push @upgradable_choices, $pkg;
 	    }
@@ -1730,11 +1723,11 @@ sub get_source_packages {
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
 	my $p = $urpm->{depslist}[$_];
-#TODO	if ($p->{source}) {
-#TODO	    $local_sources{$_} = $p->{source};
-#TODO	} else {
+	if ($urpm->{source}{$_}) {
+	    $local_sources{$_} = $urpm->{source}{$_};
+	} else {
 	    $fullname2id{$p->fullname} = $_;
-#TODO	}
+	}
     }
 
     #- examine each medium to search for packages.
@@ -1982,7 +1975,7 @@ sub select_packages_to_upgrade {
 			     #'compat-libs' => 1,
 			    );
 
-    #- TODO installed flag on id.
+    #- installed flag on id.
     my %installed;
 
     #- help removing package which may have different release numbering

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.4
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Wed Jun  5 2002 François Pons <fpons@mandrakesoft.com> 3.4-4mdk
+- fixed urpmq.
+- fixed incomplete requires on some cases.
+- fixed reading of rpm files.
+
 * Wed Jun  5 2002 François Pons <fpons@mandrakesoft.com> 3.4-3mdk
 - avoid sub of sub with different level of variable closure in perl,
   this cause the interpreter to lose its memory usage.
