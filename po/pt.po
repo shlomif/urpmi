@@ -8,22 +8,23 @@
 # Copyright (C) 1999,2002,2003 Free Software Foundation, Inc.
 # Copyright (C) 1999 MandrakeSoft
 # Fernando Ribeiro <fa.ribeiro(at)gmx.net>, 2003
-# Fernando Moreira <fmoreira@netc.pt>, 2000
-# Jorge Costa <Jorgercosta@netc.pt>, 2001
-# José JORGE <jose.jorge@oreka.com>, 2002,2003
-# Jose Jorge <jose.jorge@oreka.com>, 2003
+# Fernando Moreira <fmoreira@netc.pt>, 2000.
+# Jorge Costa <Jorgercosta@netc.pt>, 2001.
+# José JORGE <jose.jorge@oreka.com>, 2002,2003.
+# Jose Jorge <jose.jorge@oreka.com>, 2003.
+# Jose JORGE <jjorge@free.fr>, 2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-pt\n"
 "POT-Creation-Date: 2003-07-29 14:54+0200\n"
-"PO-Revision-Date: 2003-06-03 21:52+0200\n"
-"Last-Translator: Jose Jorge <jose.jorge@oreka.com>\n"
+"PO-Revision-Date: 2003-07-30 10:54+0200\n"
+"Last-Translator: Jose JORGE <jjorge@free.fr>\n"
 "Language-Team: português <pt@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.1\n"
+"X-Generator: KBabel 1.0.2\n"
 
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
@@ -50,7 +51,7 @@ msgstr "urpmf versão %s"
 
 #: placeholder.h:19
 msgid "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft."
-msgstr "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft."
+msgstr "Direitos (C) 1999, 2000, 2001, 2002 MandrakeSoft."
 
 #: placeholder.h:20
 msgid ""
@@ -287,9 +288,9 @@ msgid "bad proxy declaration on command line\n"
 msgstr "má declaração do proxy na linha de commando\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "%d installation transactions failed"
-msgstr "A instalação falhou"
+msgstr "%d transacções de instalação falharam"
 
 #: ../urpm.pm:1
 #, c-format
@@ -403,16 +404,15 @@ msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl falhou: saiu com %d ou o sinal %d\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The installation cannot continue because the following packages\n"
 "have to be removed for others to be upgraded:\n"
 "%s\n"
 msgstr ""
-"Os seguintes pacotes têm que ser removidos para que outros sejam "
-"actualizados:\n"
+"A instalação não pode continuar pois os seguintes pacotes têm\n"
+"de ser removidos para que outros sejam actualizados:\n"
 "%s\n"
-"Aceita?"
 
 #: ../urpme:1
 #, c-format
@@ -425,15 +425,14 @@ msgid "Installation is possible"
 msgstr "A instalação é possível"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s"
 msgstr ""
 "Os seguintes pacotes têm que ser removidos para que outros sejam "
 "actualizados:\n"
-"%s\n"
-"Aceita?"
+"%s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -483,13 +482,13 @@ msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr "média incoerente \"%s\" marcado como amovível mas não o é de facto"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "virtual medium \"%s\" should not have defined hdlist or list file, medium "
 "ignored"
 msgstr ""
-"o média \"%s\" tenta utilizar um hdlist que já foi utilizado, vou ignorar o "
-"média"
+"o média virtual \"%s\" não deve ter um hdlist ou uma lista de ficheiros "
+"definida, vou ignorar o média"
 
 #: ../urpm.pm:1
 #, c-format
@@ -504,7 +503,7 @@ msgstr "  --excludepath  - exclui os caminhos separados por virgulas.\n"
 #: ../urpmi:1
 #, c-format
 msgid "Press Enter when ready..."
-msgstr "Prima 'Enter' quando pronto..."
+msgstr "Prima 'Entrada' quando pronto..."
 
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
@@ -522,6 +521,9 @@ msgid ""
 "                   are going to be installed or upgraded,\n"
 "                   default is %d.\n"
 msgstr ""
+"  --split-level  - divide em pequenas transacções se vão ser instalados\n"
+"                   ou actualizados mais pacotes do que os indicados,\n"
+"                   por omissão é %d.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -529,9 +531,9 @@ msgid "rsync is missing\n"
 msgstr "falta o rsync\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
-msgstr "problema ao ler o ficheiro de síntese do média \"%s\""
+msgstr "problema ao ler o ficheiro hdlist ou síntese do média \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -556,6 +558,8 @@ msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+"  --keep         - guarda os pacotes instalados se possível, recusa os\n"
+"                   pacotes pedidos que impedem isso.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -616,7 +620,7 @@ msgstr "  --noclean      - mantém na cache os rpm não usados.\n"
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
-"criei a transação para instalar em %s (apaga=%d, instala=%d, actualiza=%d)"
+"criei a transacção para instalar em %s (apaga=%d, instala=%d, actualiza=%d)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -665,9 +669,9 @@ msgid "Unable to create directory [%s] for bug report"
 msgstr "Impossível criar a pasta [%s] para relatar o erro"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "would install instead of upgrade package %s"
-msgstr "impossível remover o pacote %s"
+msgstr "instalaria no lugar do actualizar o pacote %s"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -715,9 +719,9 @@ msgstr ""
 "(um de %s)\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "trying to promote %s"
-msgstr "a escolher %s por selecção nos ficheiros"
+msgstr "a tentar promover %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -746,7 +750,7 @@ msgstr "  -a             - selecciona todos os médias.\n"
 #: ../urpmi:1
 #, c-format
 msgid "Missing signature (%s)"
-msgstr ""
+msgstr "Falta a assinatura (%s)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -790,14 +794,13 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - lista os média disponíveis.\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
 "%s"
 msgstr ""
 "Alguns pacotes pedidos não podem ser instalados :\n"
-"%s\n"
-"Aceita?"
+"%s"
 
 #: ../urpmi:1
 #, c-format
@@ -835,7 +838,7 @@ msgstr "  -e            - inclui o código perl directamente como perl -e.\n"
 #: ../urpmi:1
 #, c-format
 msgid "do you agree ?"
-msgstr ""
+msgstr "aceita ?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -867,7 +870,7 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "Invalid signature (%s)"
-msgstr ""
+msgstr "Assinatura não válida (%s)"
 
 #: ../urpmi:1
 #, c-format
@@ -880,7 +883,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmi versão %s\n"
-"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"Direitos (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
 "Este programa é livre e pode ser redistribuído sob o termos da GPL GNU.\n"
 "\n"
 "utilização:\n"
@@ -932,9 +935,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Tentar a instalação sem verificar dependências? (s/N) "
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" is not local, medium ignored"
-msgstr "o média \"%s\" tenta utilizar uma lista já utilizada, vai ser ignorado"
+msgstr "o média virtual \"%s\" não é local, vai ser ignorado"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -980,13 +983,13 @@ msgstr ""
 "  --conflicts    - mostra a marca dos conflitos : todos os conflitos.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
 "ignored"
 msgstr ""
-"o média \"%s\" tenta utilizar um hdlist que já foi utilizado, vou ignorar o "
-"média"
+"o média virtual \"%s\" deve ter uma fonte correcta hdlist ou síntese, vou "
+"ignorar o média"
 
 #: ../urpme:1
 #, c-format
@@ -999,7 +1002,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpme versão %s\n"
-"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"Direitos (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
 "Este programa é livre e pode ser redistribuído sob o termos da GPL GNU.\n"
 "\n"
 "utilização:\n"
@@ -1061,7 +1064,7 @@ msgstr "impossível de aceder ao primeiro média de instalação"
 #: ../urpm.pm:1
 #, c-format
 msgid "virtual medium need to be local"
-msgstr ""
+msgstr "os médias virtuais devem ser locais"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1146,7 +1149,7 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "Invalid Key ID (%s)"
-msgstr ""
+msgstr "ID chave não válida (%s)"
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1169,7 +1172,7 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr "  --synthesis    - usa a síntese indicada no lugar da bd urpmi.\n"
+msgstr "  --synthesis    - usa a síntese indicada no lugar da bdd urpmi.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1372,7 +1375,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmf versão %s\n"
-"Copyright (C) 2000, 2001, 2002 MandrakeSoft.\n"
+"Direitos (C) 2000, 2001, 2002 MandrakeSoft.\n"
 "Este programa é livre e pode ser redistribuído sob o termos da GPL GNU.\n"
 "\n"
 "utilização:\n"
@@ -1435,7 +1438,7 @@ msgstr "Está bem assim?"
 #: ../urpmf:1 ../urpmq:1
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr "  --synthesis    - usa a síntese indicada no lugar da bd urpmi.\n"
+msgstr "  --synthesis    - usa a síntese indicada no lugar da bdd urpmi.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1552,9 +1555,9 @@ msgstr ""
 "  -s             - o próximo pacote é um pacote fonte (o mesmo que --src).\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s"
-msgstr "a instalar %s\n"
+msgstr "a instalar %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1583,6 +1586,8 @@ msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
 "                   only file:// protocol is allowed.\n"
 msgstr ""
+"  --virtual      - cria um média virtual que está ser actualizado,\n"
+"                   só é permitido o protocolo file://\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1674,9 +1679,9 @@ msgid "copying hdlists file..."
 msgstr "a copiar o ficheiro hdlist..."
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-msgstr "o média \"%s\" tenta utilizar uma lista já utilizada, vai ser ignorado"
+msgstr "o média virtual \"%s\" deve ter um url limpo, vai ser ignorado"
 
 #: ../urpmf:1
 #, c-format
@@ -1738,6 +1743,7 @@ msgid ""
 "  --no-uninstall - never ask to uninstall a package, abort the "
 "installation.\n"
 msgstr ""
+"  --no-uninstall - nunca propõe de apagar um pacote, pára a instalação.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1750,7 +1756,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq versão %s\n"
-"Copyright (C) 2000, 2001, 2002 MandrakeSoft.\n"
+"Direitos (C) 2000, 2001, 2002 MandrakeSoft.\n"
 "Este programa é livre e pode ser redistribuído sob o termos da GPL GNU.\n"
 "\n"
 "utilização:\n"
@@ -1773,7 +1779,7 @@ msgstr "o média \"%s\" não está selecionado"
 #: ../urpmi:1
 #, c-format
 msgid "Only superuser is allowed to install packages"
-msgstr "Apenas o SuperUtilizador pode instalar pacotes"
+msgstr "Apenas o superutilizador pode instalar pacotes"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1790,7 +1796,7 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "  --split-length - small transaction length, default is %d.\n"
-msgstr ""
+msgstr "  --split-length - tamanho das transacções pequenas, por omissão %d.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -1818,6 +1824,8 @@ msgid ""
 "this could happen if you mounted manually the directory when creating the "
 "medium."
 msgstr ""
+"impossível de aceder ao média \"%s\",\n"
+"isto pode acontecer se montou manualmente a directoria quando criou o média."
 
 #: ../urpmf:1
 #, c-format
@@ -1833,7 +1841,7 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to create transaction"
-msgstr "impossível de criar a transação"
+msgstr "impossível de criar a transacção"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1850,9 +1858,9 @@ msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "a descarregar os ficheiros rpm a partir do média \"%s\"..."
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s"
-msgstr "a distribuir %s\n"
+msgstr "a distribuir %s"
 
 #: ../urpmi:1
 #, c-format
@@ -1910,9 +1918,9 @@ msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "descrição hdlist \"%s\" inválida no ficheiro hdlists"
 
 #: ../urpme:1 ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s"
-msgstr "a remover o pacote %s"
+msgstr "a remover %s"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1931,9 +1939,9 @@ msgid "  --size         - print tag size: size.\n"
 msgstr "  --size         - mostra a marca do tamanho: size.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "in order to keep %s"
-msgstr "para instalar %s"
+msgstr "para guardar %s"
 
 #: ../urpm.pm:1
 #, c-format
