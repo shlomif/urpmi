@@ -1,0 +1,121 @@
+.TH urpmq 8 "2001eko uztailak 05" "MandrakeSoft" "Mandrake Linux"
+.IX urpmq
+.SH IZENA
+urpmq \- urpmi datu-basearen kontsulta-tresna.
+.SH LABURPENA
+.B urpmq [\fIaukerak\fP] [\fIpakete_izenak\fP | \fIrpm_fitxategiak...\fP]
+.SH AZALPENA
+urpmq-k urpmi datu-baseari kontsultak egin diezazkion ahalbidetzen du. Zuk aukeratu dezakezu urpmi-ren euskarrietan 
+erabilgarri dauden paketeak zerrendatzea, edo pakete-mendekotasunak zerrendatzea
+edo urpmi abiarazten duzunean instalatuko diren paketeak zerrendatzea nahi duzun.
+.PP
+urpmq-ren irteera-formatua komando-lerroko aukeren araberakoa da:
+.IP
+[taldea/]pakete_izena[-bertsioa][-edizioa]
+.SH AUKERAK
+.IP "\fB\--help\fP"
+laguntza-mezua inprimatu eta irten.
+.IP "\fB\--update\fP"
+euskarri eguneratua bakarrik erabili. Horrek esan nahi du \fBurpmq\fP-k eguneratu moduan
+markatuta dauden euskarrietan bakarrik bilatu eta ebatziko dituela mendekotasunak.
+.IP "\fB\--auto-select\fP"_
+dagoeneko instalatuta dauden paketeen eta erregistratutako hainbat euskarritan
+zerrendatutako paketeen arabera bertsioa berritzea behar duten pakete guztiak automatikoki hautatzen ditu.
+.IP "\fB\--headers\fP"
+hautatutako paketeen goiburukoak irteera estandarrera ateratzen ditu.
+.IP "\fB\--sources\fP"
+hautatutako pakete guztien url iturburua (edo fitxategia) inprimatzen du.
+.IP "\fB\--force\fP"
+eskatutako paketeak ez daudelako erroreari jaramonik ez.
+.IP "\fB\-v\fP"
+modu xehetua aktibatzen du.
+.IP "\fB\-d\fP"
+mendekotasunak hautatzen ditu (gehienezko hurbilketa).
+.IP "\fB\-u\fP"
+paketeak desautatzen ditu bertsio berriagoa instalatuta badago, aukera hau
+\fB-d\fP-rekin erabil daiteke \fBurpmi\fP-ren \fB-M\fP modua simulatzeko.
+.IP "\fB\-m\fP"
+eskakizunen gutxieneko hurbilketa aukeratzen du. Algoritmo motel samarra
+da, eta bertsio-berritu behar den pakete-kopurua behar-beharrezkoa denera
+txikiagotzen saiatzen da.
+.IP "\fB\-M\fP"
+gutxieneko hurbilketa-algoritmoa desgaitzen du, \fB-d\fP eta \fB-u\fP \fBurpmi\fP-ren
+\fB-M\fP modua bezalakoak izan daitezen.
+.IP "\fB\-c\fP"
+gehienezko hurbilketa erabiltzen bada, zerrendatutako pakete batek okerreko
+edo eguneratutako mendekotasunak izan ditzakeela suposatzen du. Horrek bertsio-berritzeko pakete gehiago sortzen ditu,
+eta rpm datu-basean konpondu gabeko mendekotasunak zuzen ditzake.
+.IP "\fB\-p\fP"
+hornigaietan paketean bilatzea baimentzen du.
+.IP "\fB\-g\fP"
+zerrendatutako pakete bakoitzaren taldea inprimatzen du.
+.IP "\fB\-r\fP"
+zerrendatutako pakete bakoitzaren bertsioa eta edizioa inprimatzen du.
+.IP "\fB\-d\fP"
+komando-lerroan eskatutako paketeek behar dituzten paketeen hurbilketa
+inprimatzen du.
+.SH FITXATEGIAK
+/usr/bin/urpmq
+.br
+\fBurpmq\fP exekutagarria (perl script-a)
+.PP
+/var/lib/urpmi/list.*
+.br
+urpmi-k ezagututako pakete guztien zerrenda eta haien kokalekua du.
+Fitxategi-zerrenda bat dago euskarri bakoitzeko(*).
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+Pakete ezagun guztiei buruzko informazioa du; rpm goiburukoen laburpena da.
+Fitxategi-zerrenda bat dago euskarri bakoitzeko(*).
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Gutxieneko hurbilketa-algoritmoek erabil ditzaketen goiburuko-zerrenden
+fitxategietatik sortutako pakete ezagun guztiei buruzko laburpen-informazioa du. Fitxategi horiek bertan ez badaude,
+erabili \fBurpmi.update -a\fP fitxategiok sortzeko. Fitxategiok ez dira derrigorrezkoak.
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+urpmi zaharragoaren formatua onartu aurretik, euskarriaren azalpena du.
+.PP
+/etc/urpmi/skip.list
+.br
+Automatikoki eguneratu behar ez diren paketeen izenak ditu.
+.PP
+/var/lib/urpmi/depslist.ordered
+.br
+Pakete ezagun guztien mendekotasun guztiak dituen testu-fitxategi soila.
+.PP
+/var/lib/urpmi/provides
+.br
+Hornigai guztiak eta hornigaiok dituzten paketeen zerrenda dituen
+testu-fitxategi soila.
+.PP
+/var/lib/urpmi/compss
+.br
+Erabilitako talde bakoitzeko, talde horretako pakete-zerrenda duen 
+testu-fitxategi soila.
+.SH "IKUSI BAITA ERE"
+urpmi(8),
+urpmi.addmedia(8),
+urpmi.update(8),
+urpmi.removemedia(8),
+autoirpm(8),
+gurpmi(8),
+urpmf(8),
+rpmdrake(8)
+.SH EGILEA
+Francois Pons, Mandrakesoft
+.br
+fpons@mandrakesoft.com
+
+
+
+
+
+
+
+
+
+
