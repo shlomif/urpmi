@@ -193,7 +193,11 @@ if (@toremove > @l && !$auto) {
     <STDIN> =~ /[$noexpr]/ and exit 0;
 }
 
-$urpm->install(\@toremove, {}, {});
+@l = $urpm->install(\@toremove, {}, {});
+if (@l) {
+    print STDERR _("Removing failed") . ":\n" . join("\n",  map { "\t$_" } @l);
+    exit 1;
+}
 
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;

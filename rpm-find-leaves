@@ -5,7 +5,7 @@
 use URPM;
 my @packages;
 {
-    my $db = URPM::DB::open;
+    my $db = URPM::DB::open or die;
     $db->traverse(sub {
 	my ($p) = @_;
 	$p->pack_header;
