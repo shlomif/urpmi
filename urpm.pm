@@ -286,7 +286,7 @@ sub probe_medium {
 	    foreach (sort { length($a) <=> length($b) } keys %probe) {
 		if ($medium->{url}) {
 		    $medium->{url} eq substr($_, 0, length($medium->{url})) or
-		      $medium->{ignore} || $urpm->{error}(N("incoherent list file for \"%s\", medium ignored", $medium->{name})),
+		      $medium->{ignore} || $urpm->{error}(N("inconsistent list file for \"%s\", medium ignored", $medium->{name})),
 			$medium->{ignore} = 1, last;
 		} else {
 		    $medium->{url} = $_;
@@ -2594,7 +2594,7 @@ sub copy_packages_of_removable_media {
 	    }
 	} else {
 	    #- we have a removable device that is not removable, well...
-	    $urpm->{error}(N("incoherent medium \"%s\" marked removable but not really", $medium->{name}));
+	    $urpm->{error}(N("inconsistent medium \"%s\" marked removable but not really", $medium->{name}));
 	}
     };
 
