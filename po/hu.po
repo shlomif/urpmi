@@ -3,10 +3,10 @@
 # Latest versions of po files are at http://www.mandrakelinux.com/l10n/hu.php3
 #
 # URPMI HUNGARIAN / URPMI MAGYARUL
-# Copyright (C) 2000,2003 Free Software Foundation, Inc.
+# Copyright (C) 2000,2003, 2004 Free Software Foundation, Inc.
 # Csaba Szigetvári <csaba.szigetvari@informedia.hu>, 2000.
-# Tamas Szanto <tszanto@mol.hu>, 2001-2002
-# Arpad Biro <biro_arpad@yahoo.com>, 2002,2003
+# Tamas Szanto <tszanto@mol.hu>, 2001-2002.
+# Arpad Biro <biro_arpad@yahoo.com>, 2002,2003, 2004.
 #
 #
 msgid ""
@@ -14,13 +14,13 @@ msgstr ""
 "Project-Id-Version: urpmi-hu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-17 12:34+0200\n"
-"PO-Revision-Date: 2003-09-13 23:08+0200\n"
+"PO-Revision-Date: 2004-08-01 19:25+0200\n"
 "Last-Translator: Arpad Biro <biro_arpad@yahoo.com>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.1\n"
+"X-Generator: KBabel 1.3\n"
 
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
@@ -85,6 +85,8 @@ msgid ""
 "usage: %s [options]\n"
 "where [options] are from\n"
 msgstr ""
+"használat: %s [opciók]\n"
+"ahol [opciók] a következők lehetnek:\n"
 
 #: ../rpm-find-leaves:13
 #, c-format
@@ -92,14 +94,14 @@ msgid "   -h|--help      - print this help message.\n"
 msgstr "   -h|--help      - jelen segítség megjelenítése\n"
 
 #: ../rpm-find-leaves:14
-#, fuzzy, c-format
+#, c-format
 msgid "   -g [group]     - restrict results to given group.\n"
-msgstr "  --group        - csoport megjelenítése\n"
+msgstr "   -g [csoport]   - eredmények korlátozása az adott csoportra\n"
 
 #: ../rpm-find-leaves:15
-#, fuzzy, c-format
+#, c-format
 msgid "                    defaults is %s.\n"
-msgstr "  --list         - az elérhető csomagok listázása\n"
+msgstr "                    alapértelmezés: %s\n"
 
 #: ../urpm.pm:59
 #, c-format
@@ -109,7 +111,7 @@ msgstr "ismeretlen protokoll van definiálva ehhez: \"%s\""
 #: ../urpm.pm:89
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
-msgstr ""
+msgstr "nem található webes letöltő; a támogatott letöltők: %s\n"
 
 #: ../urpm.pm:105
 #, c-format
@@ -133,8 +135,7 @@ msgstr ""
 #: ../urpm.pm:192
 #, c-format
 msgid "unable to access hdlist file of \"%s\", medium ignored"
-msgstr ""
-"\"%s\" fejléclistája nem elérhető; az adatforrás nem kerül feldolgozásra"
+msgstr "\"%s\" fejléclistája nem elérhető; az adatforrás nem kerül feldolgozásra"
 
 #: ../urpm.pm:195 ../urpm.pm:2262
 #, c-format
@@ -165,14 +166,12 @@ msgstr ""
 #: ../urpm.pm:245
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
-msgstr ""
-"\"%s\" fejléclistája nem található; az adatforrás nem kerül feldolgozásra"
+msgstr "\"%s\" fejléclistája nem található; az adatforrás nem kerül feldolgozásra"
 
 #: ../urpm.pm:252
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
-msgstr ""
-"\"%s\" listafájlja nem található; az adatforrás nem kerül feldolgozásra"
+msgstr "\"%s\" listafájlja nem található; az adatforrás nem kerül feldolgozásra"
 
 #: ../urpm.pm:275
 #, c-format
@@ -214,9 +213,9 @@ msgid "unable to write config file [%s]"
 msgstr "a beállítások mentése nem sikerült: \"%s\""
 
 #: ../urpm.pm:358
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write file [%s]"
-msgstr "a beállítások mentése nem sikerült: \"%s\""
+msgstr "nem sikerült írni a(z) \"%s\" fájlt"
 
 #: ../urpm.pm:365
 #, c-format
@@ -226,7 +225,7 @@ msgstr "beállítások mentése: \"%s\""
 #: ../urpm.pm:377
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
-msgstr ""
+msgstr "Párhuzamos mód nem használható a \"use-distrib\" üzemmóddal"
 
 #: ../urpm.pm:387
 #, c-format
@@ -435,7 +434,7 @@ msgstr ""
 #: ../urpm.pm:1032 ../urpm.pm:1282
 #, c-format
 msgid "examining MD5SUM file"
-msgstr "az MD5SUM fájl vizsgálata"
+msgstr "az MD5SUM-fájl vizsgálata"
 
 #: ../urpm.pm:1086
 #, c-format
@@ -447,7 +446,7 @@ msgstr ""
 #: ../urpm.pm:1099
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
-msgstr ""
+msgstr "\"%s\" másolása sikertelen (a fájl túl kicsi)"
 
 #: ../urpm.pm:1103
 #, c-format
@@ -457,15 +456,14 @@ msgstr ""
 "ellenőrzőösszegének kiszámítása"
 
 #: ../urpm.pm:1105
-#, fuzzy, c-format
+#, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
-msgstr "a(z) \"%s\" másolása nem sikerült"
+msgstr "\"%s\" másolása sikertelen (az MD5-ös összegek nem egyeznek)"
 
 #: ../urpm.pm:1126 ../urpm.pm:1319 ../urpm.pm:1656
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
-msgstr ""
-"probléma a(z) \"%s\" adatforrás kiterjesztett függőséglistájának olvasásakor"
+msgstr "probléma a(z) \"%s\" adatforrás kiterjesztett függőséglistájának olvasásakor"
 
 #: ../urpm.pm:1168
 #, c-format
@@ -492,8 +490,7 @@ msgstr ""
 #: ../urpm.pm:1366
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
-msgstr ""
-"a csomagkezelő fejléclistát (illetve kiterjesztett függőséglistát) talált: %s"
+msgstr "a csomagkezelő fejléclistát (illetve kiterjesztett függőséglistát) talált: %s"
 
 #: ../urpm.pm:1412
 #, c-format
@@ -716,8 +713,7 @@ msgstr "a tranzakció a következő folyamattal lesz végrehajtva: %d"
 
 #: ../urpm.pm:2709
 #, c-format
-msgid ""
-"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgid "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
 "a telepítési műveletek elkezdődtek ide: %s (eltávolítás=%d, telepítés=%d, "
 "frissítés=%d)"
@@ -748,9 +744,9 @@ msgid "unable to install package %s"
 msgstr "a(z) \"%s\" csomag telepítése sikertelen"
 
 #: ../urpm.pm:2796
-#, fuzzy, c-format
+#, c-format
 msgid "More information on package %s"
-msgstr "a(z) %s csomag eltávolítása folyik"
+msgstr "További információ a(z) %s csomagról"
 
 #: ../urpm.pm:2954 ../urpm.pm:2987
 #, c-format
@@ -841,7 +837,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpme %s\n"
-"Copyright Š Mandrakesoft, 1999, 2000, 2001, 2002.\n"
+"Copyright (C) Mandrakesoft, 1999, 2000, 2001, 2002.\n"
 "Ez a program szabad szoftver; a GNU GPL feltételei szerint terjeszthető.\n"
 "\n"
 "Használat:\n"
@@ -855,22 +851,17 @@ msgstr "  --help         - jelen segítség megjelenítése\n"
 #: ../urpme:42 ../urpmi:80
 #, c-format
 msgid "  --auto         - automatically select a package in choices.\n"
-msgstr ""
-"  --auto         - választási lehetőségnél automatikusan választ csomagot\n"
+msgstr "  --auto         - választási lehetőségnél automatikusan választ csomagot\n"
 
 #: ../urpme:43 ../urpmi:121
 #, c-format
-msgid ""
-"  --test         - verify if the installation can be achieved correctly.\n"
-msgstr ""
-"  --test         - annak ellenőrzése, hogy a telepítés végrehajtható-e\n"
+msgid "  --test         - verify if the installation can be achieved correctly.\n"
+msgstr "  --test         - annak ellenőrzése, hogy a telepítés végrehajtható-e\n"
 
 #: ../urpme:44 ../urpmi:94 ../urpmq:63
 #, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - végrehajtás akkor is, ha néhány csomag nem elérhető\n"
+msgid "  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - végrehajtás akkor is, ha néhány csomag nem elérhető\n"
 
 #: ../urpme:45 ../urpmi:99 ../urpmq:64
 #, c-format
@@ -878,9 +869,9 @@ msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - elosztott urpmi több számítógép közt\n"
 
 #: ../urpme:46 ../urpmi:100
-#, fuzzy, c-format
+#, c-format
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --curl         - a curl használata távoli fájlok letöltésére\n"
+msgstr "  --root         - másik gyökér használata az RPM-csomagtelepítéshez\n"
 
 #: ../urpme:47
 #, c-format
@@ -888,6 +879,9 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - az urpmi menet közben való beállítása egy disztribúciós\n"
+"                   fából - például chroot telepítéséhez/eltávolításához\n"
+"                   használható a --root opció esetén\n"
 
 #: ../urpme:49 ../urpmi:131 ../urpmq:76
 #, c-format
@@ -927,8 +921,7 @@ msgstr "Ellenőrzés a következő csomagok eltávolításához"
 #: ../urpme:106
 #, c-format
 msgid "To satisfy dependencies, the following packages will be removed (%d MB)"
-msgstr ""
-"A függőségek feloldásához a következő csomagok el lesznek távolítva (%d MB)"
+msgstr "A függőségek feloldásához a következő csomagok el lesznek távolítva (%d MB)"
 
 #: ../urpme:108 ../urpmi:474 ../urpmi:639
 #, c-format
@@ -946,7 +939,7 @@ msgid "Removing failed"
 msgstr "Az eltávolítás sikertelen"
 
 #: ../urpmf:27
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2004 Mandrakesoft.\n"
@@ -956,7 +949,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmf %s\n"
-"Copyright Š Mandrakesoft, 2002.\n"
+"Copyright (C) Mandrakesoft, 2002-2004.\n"
 "Ez a program szabad szoftver; a GNU GPL feltételei szerint terjeszthető.\n"
 "\n"
 "Használat:\n"
@@ -982,8 +975,7 @@ msgstr ""
 
 #: ../urpmf:36 ../urpmi:78 ../urpmq:47
 #, c-format
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgid "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
 "  --sortmedia    - az adatforrások sorbarendezése vesszővel elválasztott\n"
 "                   sztringek alapján\n"
@@ -1061,8 +1053,7 @@ msgstr "  --packager     - a csomagkészítő nevének megjelenítése\n"
 #: ../urpmf:50
 #, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr ""
-"  --buildhost    - a csomagkészítéshez használt gép nevének megjelenítése\n"
+msgstr "  --buildhost    - a csomagkészítéshez használt gép nevének megjelenítése\n"
 
 #: ../urpmf:51
 #, c-format
@@ -1122,16 +1113,14 @@ msgstr "  -e             - Perl kód közvetlen betevése (perl -e)\n"
 
 #: ../urpmf:62
 #, c-format
-msgid ""
-"  -a             - binary AND operator, true if both expression are true.\n"
+msgid "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr ""
 "  -a             - bináris ÉS művelet: akkor igaz, ha mindkét kifejezés "
 "igaz\n"
 
 #: ../urpmf:63
 #, c-format
-msgid ""
-"  -o             - binary OR operator, true if one expression is true.\n"
+msgid "  -o             - binary OR operator, true if one expression is true.\n"
 msgstr ""
 "  -o             - bináris VAGY művelet: akkor igaz, ha legalább\n"
 "                   az egyik kifejezés igaz\n"
@@ -1139,20 +1128,17 @@ msgstr ""
 #: ../urpmf:64
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr ""
-"  !              - unáris NEM művelet: akkor igaz, ha a kifejezés hamis\n"
+msgstr "  !              - unáris NEM művelet: akkor igaz, ha a kifejezés hamis\n"
 
 #: ../urpmf:65
 #, c-format
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr ""
-"  (              - zárójelpár nyitó része; kifejezések csoportosításához\n"
+msgstr "  (              - zárójelpár nyitó része; kifejezések csoportosításához\n"
 
 #: ../urpmf:66
 #, c-format
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr ""
-"  )              - zárójelpár záró része; kifejezések csoportosításához\n"
+msgstr "  )              - zárójelpár záró része; kifejezések csoportosításához\n"
 
 #: ../urpmf:114
 #, c-format
@@ -1174,6 +1160,8 @@ msgid ""
 "Note: since no media searched uses hdlists, urpmf was unable to return any "
 "result\n"
 msgstr ""
+"Megjegyzés: a feldolgozott adatforrások egyike sem használ fejléclistát, ezért "
+"az urpmf nem tudott eredményt adni\n"
 
 #: ../urpmi:69
 #, c-format
@@ -1186,7 +1174,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmi %s\n"
-"Copyright Š 1999, 2000, 2001, 2002 Mandrakesoft.\n"
+"Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
 "Ez a program szabad szoftver; a GNU GPL feltételei szerint terjeszthető.\n"
 "\n"
 "Használat:\n"
@@ -1200,10 +1188,8 @@ msgstr ""
 
 #: ../urpmi:81 ../urpmq:49
 #, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - automatikusan kiválasztja a frissíthető csomagokat\n"
+msgid "  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - automatikusan kiválasztja a frissíthető csomagokat\n"
 
 #: ../urpmi:82
 #, c-format
@@ -1251,26 +1237,22 @@ msgstr "  --fuzzy        - fuzzy keresés használata (-y opcióval azonos)\n"
 #: ../urpmi:90 ../urpmq:59
 #, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
-msgstr ""
-"  --src          - a következő csomag egy forráscsomag (-s opcióval azonos)\n"
+msgstr "  --src          - a következő csomag egy forráscsomag (-s opcióval azonos)\n"
 
 #: ../urpmi:91
 #, c-format
 msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr ""
-"  --install-src  - csak a forráscsomag telepítése (a programok mellőzése)\n"
+msgstr "  --install-src  - csak a forráscsomag telepítése (a programok mellőzése)\n"
 
 #: ../urpmi:92
 #, c-format
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr ""
-"  --clean        - RPM fájl eltávolítása a gyorstárból a műveletek előtt\n"
+msgstr "  --clean        - RPM fájl eltávolítása a gyorstárból a műveletek előtt\n"
 
 #: ../urpmi:93
 #, c-format
 msgid "  --noclean      - keep rpm not used in cache.\n"
-msgstr ""
-"  --noclean      - a nem használt RPM fájlok maradjanak a gyorstárban\n"
+msgstr "  --noclean      - a nem használt RPM fájlok maradjanak a gyorstárban\n"
 
 #: ../urpmi:95
 #, c-format
@@ -1300,6 +1282,9 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - az urpmi menet közben való beállítása egy disztribúciós\n"
+"                   fából - például chroot telepítéséhez használható a --root\n"
+"                   opció esetén\n"
 
 #: ../urpmi:103 ../urpmi.addmedia:48 ../urpmi.update:31 ../urpmq:67
 #, c-format
@@ -1317,13 +1302,13 @@ msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - a letöltési sebesség korlátozása\n"
 
 #: ../urpmi:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --resume       - resume transfer of partially-downloaded files\n"
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"  --verify-rpm   - RPM-aláírás ellenőrzése telepítés előtt (alapértelmezés:\n"
-"                   bekapcsolt állapot; kikapcsolás: --no-verify-rpm)\n"
+"  --resume       - részlegesen letöltött fájlok átvitelének folytatása\n"
+"                   (a --no-resume kikapcsolja; alapértelmezésben kikapcsolt)\n"
 
 #: ../urpmi:108 ../urpmi.addmedia:51 ../urpmi.update:34 ../urpmq:69
 #, c-format
@@ -1379,8 +1364,7 @@ msgstr ""
 #: ../urpmi:122
 #, c-format
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr ""
-"  --excludepath  - bizonyos útvonalak (elválasztás: vessző) kihagyása\n"
+msgstr "  --excludepath  - bizonyos útvonalak (elválasztás: vessző) kihagyása\n"
 
 #: ../urpmi:123
 #, c-format
@@ -1388,10 +1372,9 @@ msgid "  --excludedocs  - exclude docs files.\n"
 msgstr "  --excludedocs  - dokumentációs fájlok kihagyása\n"
 
 #: ../urpmi:124
-#, fuzzy, c-format
+#, c-format
 msgid "  --skip         - packages which installation should be skipped\n"
-msgstr ""
-"  --test         - annak ellenőrzése, hogy a telepítés végrehajtható-e\n"
+msgstr "  --skip         - a nem telepítendő csomagok\n"
 
 #: ../urpmi:125 ../urpmq:79
 #, c-format
@@ -1406,14 +1389,12 @@ msgstr "  -p             - csomag keresése a szolgáltatásjegyzékben\n"
 #: ../urpmi:127
 #, c-format
 msgid "  -P             - do not search in provides to find package.\n"
-msgstr ""
-"  -P             - a csomag ne legyen keresve a szolgáltatásjegyzékben\n"
+msgstr "  -P             - a csomag ne legyen keresve a szolgáltatásjegyzékben\n"
 
 #: ../urpmi:128 ../urpmq:84
 #, c-format
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr ""
-"  -y             - fuzzy keresés használata (--fuzzy opcióval azonos)\n"
+msgstr "  -y             - fuzzy keresés használata (--fuzzy opcióval azonos)\n"
 
 #: ../urpmi:129 ../urpmq:85
 #, c-format
@@ -1430,13 +1411,12 @@ msgstr "  -q             - néma üzemmód\n"
 #: ../urpmi:132
 #, c-format
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr ""
-"  a parancssorban megadott csomagok illetve RPM fájlok lesznek telepítve\n"
+msgstr "  a parancssorban megadott csomagok illetve RPM fájlok lesznek telepítve\n"
 
 #: ../urpmi:139
 #, c-format
 msgid "Choose location to save file"
-msgstr ""
+msgstr "Válasszon helyet a fájlnak"
 
 #: ../urpmi:195
 #, c-format
@@ -1455,6 +1435,14 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
+"Forráscsomagot jelölt ki:\n"
+"\n"
+"%s\n"
+"\n"
+"Lehetséges, hogy nem kívánta telepíteni (a csomag telepítése lehetővé\n"
+"tenné a forráskód módosítását és lefordítását).\n"
+"\n"
+"Mit szeretne tenni?"
 
 #: ../urpmi:210
 #, c-format
@@ -1464,12 +1452,12 @@ msgstr "Ne tegyen semmit"
 #: ../urpmi:211
 #, c-format
 msgid "Yes, really install it"
-msgstr ""
+msgstr "Telepítés"
 
 #: ../urpmi:212 ../urpmi:229
 #, c-format
 msgid "Save file"
-msgstr ""
+msgstr "Mentés"
 
 #: ../urpmi:223
 #, c-format
@@ -1480,11 +1468,16 @@ msgid ""
 "\n"
 "You may prefer to just save it. What is your choice?"
 msgstr ""
+"A következő csomagot készül telepíteni a számítógépre:\n"
+"\n"
+"%s\n"
+"\n"
+"Választhatja azt is, hogy csak elmenti a csomagot. Mit szeretne tenni?"
 
 #: ../urpmi:228
-#, fuzzy, c-format
+#, c-format
 msgid "Install it"
-msgstr "A telepítés nem sikerült"
+msgstr "Telepítés"
 
 #: ../urpmi:237
 #, c-format
@@ -1492,6 +1485,8 @@ msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
+"\"%s\" nevű könyvtár már létezik. Használjon más könyvtárt a hibajelentéshez, "
+"vagy pedig törölje."
 
 #: ../urpmi:238
 #, c-format
@@ -1550,6 +1545,8 @@ msgid ""
 "\n"
 "Continue?"
 msgstr ""
+"\n"
+"Folytatja?"
 
 #: ../urpmi:458
 #, c-format
@@ -1573,20 +1570,18 @@ msgstr ""
 "%s"
 
 #: ../urpmi:503 ../urpmi:514
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be installed "
 "(%d MB)"
-msgstr ""
-"A függőségek feloldásához a következő csomagok telepítésre kerülnek (%d MB)"
+msgstr "A függőségek feloldásához a következő %d csomag telepítésre kerül (%d MB)"
 
 #: ../urpmi:504 ../urpmi:515
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed (%d "
 "MB)"
-msgstr ""
-"A függőségek feloldásához a következő csomagok telepítésre kerülnek (%d MB)"
+msgstr "A függőségek feloldásához a következő csomag telepítésre kerül (%d MB)"
 
 #: ../urpmi:510
 #, c-format
@@ -1696,7 +1691,7 @@ msgstr "Már minden telepítve van"
 #: ../urpmi:804
 #, c-format
 msgid "restarting urpmi"
-msgstr ""
+msgstr "az urpmi újraindítása"
 
 #: ../urpmi.addmedia:38
 #, c-format
@@ -1731,8 +1726,7 @@ msgstr "  --update       - frissítési adatforrás létrehozása\n"
 #: ../urpmi.addmedia:56
 #, c-format
 msgid "  --probe-synthesis - try to find and use synthesis file.\n"
-msgstr ""
-"  --probe-synthesis - kiterjesztett függőséglista keresése és felhasználása\n"
+msgstr "  --probe-synthesis - kiterjesztett függőséglista keresése és felhasználása\n"
 
 #: ../urpmi.addmedia:57
 #, c-format
@@ -1812,7 +1806,7 @@ msgstr ""
 #: ../urpmi.addmedia:74 ../urpmi.update:39
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
-msgstr ""
+msgstr "  --no-md5sum    - az MD5-ös összeg ellenőrzésének kikapcsolása\n"
 
 #: ../urpmi.addmedia:75 ../urpmi.removemedia:40 ../urpmi.update:42
 #, c-format
@@ -1825,9 +1819,9 @@ msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - fejléclista-fájlok létrehozásának kikényszerítése\n"
 
 #: ../urpmi.addmedia:109
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to add media"
-msgstr "Csomagok telepítéséhez rendszergazdai jogosultság szükséges"
+msgstr "Adatforrás felvételéhez rendszergazdai jogosultság szükséges"
 
 #: ../urpmi.addmedia:137
 #, c-format
@@ -1879,9 +1873,9 @@ msgid "  -a             - select all media.\n"
 msgstr "  -a             - az összes adatforrás kijelölése\n"
 
 #: ../urpmi.removemedia:41
-#, fuzzy, c-format
+#, c-format
 msgid "  -y             - fuzzy match on media names.\n"
-msgstr "  -a             - kijelölés a parancssorban megadott minta szerint\n"
+msgstr "  -y             - fuzzy keresés az adatforrásnevekben\n"
 
 #: ../urpmi.removemedia:42
 #, c-format
@@ -1893,9 +1887,9 @@ msgstr ""
 "ismeretlen opciók: \"%s\"\n"
 
 #: ../urpmi.removemedia:48
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to remove media"
-msgstr "Csomagok telepítéséhez rendszergazdai jogosultság szükséges"
+msgstr "Adatforrás eltávolításához rendszergazdai jogosultság szükséges"
 
 #: ../urpmi.removemedia:55
 #, c-format
@@ -1930,7 +1924,7 @@ msgstr "  --update       - csak frissítési adatforrás legyen frissítve\n"
 #: ../urpmi.update:40
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
-msgstr ""
+msgstr "  --force-key    - a GPG-kulcs frissítésének kikényszerítése\n"
 
 #: ../urpmi.update:41
 #, c-format
@@ -1938,9 +1932,9 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - az összes nem cserélhető adatforrás kijelölése\n"
 
 #: ../urpmi.update:58
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to update media"
-msgstr "Csomagok telepítéséhez rendszergazdai jogosultság szükséges"
+msgstr "Adatforrás frissítéséhez rendszergazdai jogosultság szükséges"
 
 #: ../urpmi.update:66
 #, c-format
@@ -1959,7 +1953,7 @@ msgstr ""
 "(valamelyik ezek közül: %s)\n"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2004 Mandrakesoft.\n"
@@ -1968,8 +1962,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf %s\n"
-"Copyright Š Mandrakesoft, 2002.\n"
+"urpmq %s\n"
+"Copyright (C) Mandrakesoft, 2002-2004.\n"
 "Ez a program szabad szoftver; a GNU GPL feltételei szerint terjeszthető.\n"
 "\n"
 "Használat:\n"
@@ -1985,21 +1979,19 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - az elérhető adatforrások listázása\n"
 
 #: ../urpmq:55
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-url     - list available media and their url.\n"
-msgstr "  --list-media   - az elérhető adatforrások listázása\n"
+msgstr "  --list-url     - elérhető adatforrások és URL-jeik listázása\n"
 
 #: ../urpmq:56
 #, c-format
-msgid ""
-"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
-msgstr ""
+msgid "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+msgstr "  --dump-config  - beállítások kiírása urpmi.addmedia-argumentumok formájában\n"
 
 #: ../urpmq:57
 #, c-format
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr ""
-"  --list-nodes   - az elérhető gépek listázása --parallel használata esetén\n"
+msgstr "  --list-nodes   - az elérhető gépek listázása --parallel használata esetén\n"
 
 #: ../urpmq:58
 #, c-format
@@ -2018,8 +2010,7 @@ msgstr ""
 
 #: ../urpmq:62
 #, c-format
-msgid ""
-"  --sources      - give all source packages before downloading (root only).\n"
+msgid "  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
 "  --sources      - a csomagok elérési útjának listázása letöltés előtt\n"
 "                   (rendszergazdai jogosultság szükséges)\n"
@@ -2030,11 +2021,13 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
 msgstr ""
+"  --use-distrib  - az urpmi menet közben való beállítása egy disztribúciós\n"
+"                   fából; lehetővé teszi egy disztribúció lekérdezését\n"
 
 #: ../urpmq:75
-#, fuzzy, c-format
+#, c-format
 msgid "  --changelog    - print changelog.\n"
-msgstr "  --all          - az összes adat megjelenítése\n"
+msgstr "  --changelog    - változások listájának megjelenítése\n"
 
 #: ../urpmq:77
 #, c-format
@@ -2046,26 +2039,24 @@ msgstr "  -d             - a lekérdezés terjedjen ki a csomagfüggőségekre i
 msgid ""
 "  -u             - remove package if a more recent version is already "
 "installed.\n"
-msgstr ""
-"  -u             - csomag kihagyása, ha már van újabb verzió telepítve\n"
+msgstr "  -u             - csomag kihagyása, ha már van újabb verzió telepítve\n"
 
 #: ../urpmq:80
 #, c-format
 msgid "  -c             - complete output with package to be removed.\n"
-msgstr ""
-"  -c             - teljes információ, az eltávolítandó csomaggal együtt\n"
+msgstr "  -c             - teljes információ, az eltávolítandó csomaggal együtt\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  -p             - search in provides to find package.\n"
 msgstr "  -p             - csomag keresése a szolgáltatásjegyzékben\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
-msgid ""
-"  -P             - do not search in provides to find package (default).\n"
+#, c-format
+msgid "  -P             - do not search in provides to find package (default).\n"
 msgstr ""
 "  -P             - a csomag ne legyen keresve a szolgáltatásjegyzékben\n"
+"                   (alapértelmezés)\n"
 
 #: ../urpmq:83
 #, c-format
@@ -2073,10 +2064,9 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - fordított keresés: mi igényli a csomagot\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print useful information in human readable form.\n"
-msgstr ""
-"  -i             - egyéb információk kiírása könnyen olvasható formában\n"
+msgstr "  -i             - hasznos információk kiírása könnyen olvasható formában\n"
 
 #: ../urpmq:87
 #, c-format
@@ -2086,19 +2076,17 @@ msgstr "  -g             - a névvel együtt a csoportok is jelenjenek meg\n"
 #: ../urpmq:88
 #, c-format
 msgid "  -r             - print version and release with name also.\n"
-msgstr ""
-"  -r             - a névvel együtt a verzió és a kiadásszám is jelenjen meg\n"
+msgstr "  -r             - a névvel együtt a verzió és a kiadásszám is jelenjen meg\n"
 
 #: ../urpmq:90
-#, fuzzy, c-format
+#, c-format
 msgid "  -l             - list files in package.\n"
-msgstr "  --list         - az elérhető csomagok listázása\n"
+msgstr "  -l             - a csomagban levő fájlok listázása\n"
 
 #: ../urpmq:91
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
-msgstr ""
-"  a parancssorban megadott csomagok illetve RPM fájlok lesznek lekérdezve\n"
+msgstr "  a parancssorban megadott csomagok illetve RPM fájlok lesznek lekérdezve\n"
 
 #: ../urpmq:151
 #, c-format
@@ -2108,17 +2096,17 @@ msgstr "a --list-nodes csak a --parallel opcióval használható"
 #: ../urpmq:328
 #, c-format
 msgid "skipping media %s: no hdlist\n"
-msgstr ""
+msgstr "\"%s\" adatforrás kihagyása: nincs fejléclista\n"
 
 #: ../urpmq:389
-#, fuzzy, c-format
+#, c-format
 msgid "No filelist found\n"
-msgstr "teljes adatforráslista nem található"
+msgstr "Fájllista nem található\n"
 
 #: ../urpmq:399
 #, c-format
 msgid "No changelog found\n"
-msgstr ""
+msgstr "Változási lista nem található\n"
 
 #~ msgid "syntax error in config file at line %s"
 #~ msgstr "szintaktikai hiba a konfigurációs fájl következő sorában: %s"
@@ -2342,3 +2330,4 @@ msgstr ""
 
 #~ msgid "scp failed on host %s"
 #~ msgstr "az scp nem sikerült ezen a gépen: %s"
+
