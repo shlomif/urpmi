@@ -1,4 +1,68 @@
-2005-02-21 10:57  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+2005-02-25 14:39  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
+
+	* urpm/cfg.pm: Use generic release file
+
+2005-02-25 00:20  Keld Jørn Simonsen <keld at dkuug.dk>
+
+	* po/da.po: updates soft/control-center/po/da.po
+	  soft/mdkonline/po/da.po soft/urpmi/po/da.po
+	  gi/perl-install/share/po/da.po
+
+2005-02-24 19:58  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
+
+	* urpm/msg.pm: Fall back to using locale(1) if I18N::Langinfo is
+	  not available.
+
+2005-02-24 19:50  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
+
+	* urpmq: Fix bug 13946: output from urpmq not converted from utf-8
+	  when under a non-utf-8 locale.
+
+2005-02-24 19:40  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
+
+	* urpm/msg.pm: Locale::gettext is not optional in urpmi.
+
+2005-02-24 19:38  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
+
+	* urpm/msg.pm: Adds a function from_utf8() to convert strings from
+	  RPM headers (utf8) to the encoding of the current locale. With a
+	  placeholder if I18N::Langinfo is not available.
+
+2005-02-24 18:07  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
+
+	* urpm.pm: a syntax error slipped in.
+
+2005-02-23 22:56  Michael Scherer <mscherer at mandrake.org>
+
+	* urpmi.spec: - remove useless requires on drakxtools for gurpmi
+
+2005-02-23 13:43  José JORGE <jjorge at free.fr>
+
+	* po/pt.po: melo
+
+2005-02-22 21:26  José JORGE <jjorge at free.fr>
+
+	* po/pt.po: melo
+
+2005-02-22 16:35  Сергій Рибалченко (Sergey Ribalchenko) <fisher at obu.ck.ua>
+
+	* po/uk.po: tr-tion update
+
+2005-02-22 12:04  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
+
+	* man/C/urpmq.8: Document -Y option to urpmq
+
+2005-02-21 19:32  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
+
+	* urpm.pm: It seems that the msg callback is never defined in
+	  urpmi-parallel. Protect against run-time errors; will have to
+	  work out how progress reporting is supposed to work.
+
+2005-02-21 11:42  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.6.19-1mdk
+
+2005-02-21 10:57  Rafael Garcia-Suarez <rgarciasuarez at mandrakesoft.com>
 
 	* urpmi.addmedia, urpm/cfg.pm: Factorize out the code that handles
 	  /etc/urpmi/mirror.config

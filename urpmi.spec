@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.19
+%define version	4.6.20
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -234,6 +234,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Feb 25 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.20-1mdk
+- Output takes now into account the locale's charset
+- Don't require drakxtools anymore
+- Fix log error in urpmi-parallel
+- Docs, language updates
+
 * Mon Feb 21 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.19-1mdk
 - Document /etc/urpmi/mirror.config, and factorize code that parses it
 
