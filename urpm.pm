@@ -678,7 +678,7 @@ sub add_distrib_media {
 	    unlink "$urpm->{cachedir}/partial/hdlists";
 	    $urpm->{log}(N("copying hdlists file..."));
 	    system("cp", "-p", "-R", $hdlists_file, "$urpm->{cachedir}/partial/hdlists")
-		? $urpm->{error}(N("...copying failed"))
+		? do { $urpm->{error}(N("...copying failed")); return }
 		: $urpm->{log}(N("...copying done"));
 	} else {
 	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
@@ -1062,7 +1062,7 @@ this could happen if you mounted manually the directory when creating the medium
 		$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
 		system("cp", "-p", "-R", "$dir/../descriptions",
 			"$urpm->{statedir}/descriptions.$medium->{name}")
-		    ? $urpm->{error}(N("...copying failed"))
+		    ? do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1; }
 		    : $urpm->{log}(N("...copying done"));
 	    }
 
@@ -1215,7 +1215,7 @@ this could happen if you mounted manually the directory when creating the medium
 			-e $path_list or $path_list = "$dir/list";
 			if (-e $path_list) {
 			    system("cp", "-p", "-R", $path_list, "$urpm->{cachedir}/partial/list")
-				and $urpm->{error}(N("...copying failed"));
+				and do { $urpm->{error}(N("...copying failed")); $error = 1 };
 			}
 		    }
 		} else {
@@ -1272,7 +1272,7 @@ this could happen if you mounted manually the directory when creating the medium
 		-e $path_pubkey or $path_pubkey = "$dir/pubkey";
 		-e $path_pubkey
 		    and system("cp", "-p", "-R", $path_pubkey, "$urpm->{cachedir}/partial/pubkey")
-		    and $urpm->{error}(N("...copying failed"));
+		    and do { $urpm->{error}(N("...copying failed")); $error = 1 };
 	    }
 	} else {
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
@@ -1466,13 +1466,13 @@ this could happen if you mounted manually the directory when creating the medium
 			    and system("cp", "-p", "-R",
 				"$urpm->{statedir}/synthesis.$medium->{hdlist}",
 				"$urpm->{cachedir}/partial/$basename")
-			    and $urpm->{error}(N("...copying failed"));
+			    and $urpm->{error}(N("...copying failed")), $error = 1;
 		    } else {
 			-e "$urpm->{statedir}/$medium->{hdlist}"
 			    and system("cp", "-p", "-R",
 				"$urpm->{statedir}/$medium->{hdlist}",
 				"$urpm->{cachedir}/partial/$basename")
-			    and $urpm->{error}(N("...copying failed"));
+			    and $urpm->{error}(N("...copying failed")), $error = 1;
 		    }
 		}
 		eval {
