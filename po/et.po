@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-et\n"
-"POT-Creation-Date: 2004-01-19 17:18+0100\n"
-"PO-Revision-Date: 2003-12-27 10:39+0300\n"
+"POT-Creation-Date: 2004-01-21 11:16+0100\n"
+"PO-Revision-Date: 2004-01-20 09:14+0300\n"
 "Last-Translator: Marek Laane <bald@online.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Olgu"
 #: ../_irpm:36 ../urpmi:142
 #, c-format
 msgid "Cancel"
-msgstr "Katkesta"
+msgstr "Loobu"
 
 #: ../_irpm:44 ../urpmi:459 ../urpmi:531
 #, c-format
@@ -267,7 +267,7 @@ msgstr "seadistustefaili [%s] kirjutamine"
 
 #: ../urpm.pm:744
 #, c-format
-msgid "Can't use parallele mode with use-distrib mode"
+msgid "Can't use parallel mode with use-distrib mode"
 msgstr ""
 
 #: ../urpm.pm:754
@@ -344,7 +344,7 @@ msgstr "pakett %s jäetakse vahele"
 #: ../urpm.pm:907
 #, c-format
 msgid "would install instead of upgrade package %s"
-msgstr "paigaldatakse, mitte ei uuendata pakett %s"
+msgstr "paketti %s ei uuendata, seda saab ainult paigaldada"
 
 #: ../urpm.pm:918 ../urpm.pm:2441 ../urpm.pm:2502 ../urpm.pm:3075
 #: ../urpm.pm:3173
@@ -865,9 +865,9 @@ msgstr ""
 "masina.\n"
 
 #: ../urpme:48 ../urpmi:104
-#, fuzzy, c-format
+#, c-format
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --curl         - curl kasutamine kaugfailide tõmbamiseks.\n"
+msgstr "  --root         - muu baasi kasutamine rpm-ide paigaldamisel.\n"
 
 #: ../urpme:49
 #, c-format
@@ -875,6 +875,9 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - seadistab urpmi lennult distributsioonipuu põhjal,\n"
+"                   kasulik chroot paigaldamiseks/eemaldamiseks võtmega --"
+"root.\n"
 
 #: ../urpme:51 ../urpmi:132 ../urpmq:73
 #, c-format
@@ -1268,6 +1271,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - seadistab urpmi lennult distributsioonipuu põhjal,\n"
+"                   kasulik chroot paigaldamiseks võtmega --root.\n"
 
 #: ../urpmi:107 ../urpmi.addmedia:54 ../urpmi.update:63 ../urpmq:64
 #, c-format
@@ -1403,6 +1408,8 @@ msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
+"Kataloog [%s] on juba olemas, palun kasutage vearaportideks muud kataloogi "
+"või kustutage see"
 
 #: ../urpmi:255
 #, c-format
@@ -1492,7 +1499,7 @@ msgstr ""
 #: ../urpmi:540 ../urpmq:356
 #, c-format
 msgid "unable to get source packages, aborting"
-msgstr "ei leia pakette, katkestan"
+msgstr "pakette ei õnnestunud hankida, katkestatakse"
 
 #: ../urpmi:555
 #, c-format
@@ -1897,11 +1904,13 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
 msgstr ""
+"  --use-distrib  - seadistab urpmi lennult distributsioonipuu põhjal.\n"
+"                   Võimaldab esitada päringu distributsiooni kohta.\n"
 
 #: ../urpmq:72
-#, fuzzy, c-format
+#, c-format
 msgid "  --changelog    - print changelog.\n"
-msgstr "  --all          - näitab kõiki välju.\n"
+msgstr "  --changelog    - näitab muutuste logi.\n"
 
 #: ../urpmq:74
 #, c-format
@@ -1927,8 +1936,8 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - kohandab otsingu sellele, mida pakett nõuab.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
-msgid "  -i             - print useful information in human readeable form.\n"
+#, c-format
+msgid "  -i             - print useful information in human readable form.\n"
 msgstr ""
 "  -i             - näitab kasulikku infot ka inimesele arusaadaval kujul.\n"
 
@@ -1943,9 +1952,9 @@ msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - näitab koos nimega ka versiooni ja väljalaset.\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  -l             - list files in package.\n"
-msgstr "  --list         - näitab saadaolevaid pakette.\n"
+msgstr "  -l             - näitab faile paketis.\n"
 
 #: ../urpmq:87
 #, c-format
@@ -1966,6 +1975,9 @@ msgstr "urpmq: rpm faili \"%s\" lugemine ebaõnnestus\n"
 #, c-format
 msgid "--list-nodes can only be used with --parallel"
 msgstr "võtit --list-nodes saab kasutada ainult koos võtmega --parallel"
+
+#~ msgid "Can't use parallele mode with use-distrib mode"
+#~ msgstr "Paralleelresiimi ei saa kasutada koos võtmega use-distrib"
 
 #~ msgid ""
 #~ "  -d             - force complete computation of depslist.ordered file.\n"

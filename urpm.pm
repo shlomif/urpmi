@@ -741,7 +741,7 @@ sub configure {
 
     $urpm->clean;
     
-    $options{parallel} && $options{usedistrib} and die N("Can't use parallele mode with use-distrib mode");
+    $options{parallel} && $options{usedistrib} and die N("Can't use parallel mode with use-distrib mode");
     
     if ($options{parallel}) {
 	my ($parallel_options, $parallel_handler);
