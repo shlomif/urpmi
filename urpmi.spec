@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Mon Feb 11 2002 François Pons <fpons@mandrakesoft.com> 3.3-2mdk
+- fixed multiple mounts of removable device.
+
 * Mon Feb 11 2002 François Pons <fpons@mandrakesoft.com> 3.3-1mdk
 - added --fuzzy as alias to -y (sorry Andrej to be late on this).
 - added --src (aliased to -s) to handle src rpm in medium.
