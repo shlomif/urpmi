@@ -2848,7 +2848,7 @@ sub install {
 	    return unless defined $pkgid;
 	    my $pkg = $urpm->{depslist}[$pkgid];
 	    my $fullname = $pkg->fullname();
-	    my $trtype = (grep { /$fullname/ } values %$install) ? 'install' : 'upgrade';
+	    my $trtype = (grep { /$fullname/ } values %$install) ? 'install' : '(upgrade|update)';
 	    push @readmes, map { [ $_, $fullname ] } grep {
 		/\bREADME(\.$trtype)?\.urpmi$/
 	    } $pkg->files();
