@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.3
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -84,6 +84,7 @@ autoirpm.uninstall
 %attr(4750, root, urpmi) %{_bindir}/urpmi
 %{_bindir}/urpmi_rpm-find-leaves
 %{_bindir}/urpmf
+%{_bindir}/urpmq
 %{_sbindir}/urpme
 %{_sbindir}/urpmi.*
 %{_mandir}/*/urpm*
@@ -103,6 +104,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Sep 05 2000 François Pons <fpons@mandrakesoft.com> 1.3-6mdk
+- split query mode of urpmi into new tools urpmq.
+- fixed -v option of urpmi.
+- updated man pages of various tools.
+
 * Sun Sep 03 2000 François Pons <fpons@mandrakesoft.com> 1.3-5mdk
 - fixed incorporation of media with already defined packages, choose the
   relocated one by rpmtools library.

@@ -25,7 +25,6 @@ my $force = 0;
 my $X = 0;
 my $all = 0;
 my $rpm_opt = "-U";
-my $query = undef;
 my $datadir = "/var/lib/urpmi";
 my $confdir = "/etc/urpmi";
 
@@ -44,17 +43,8 @@ $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS)};
 ($<, $uid) = ($>, $<);
     
-log_it(scalar localtime, " urpmi called with @ARGV\n");
-
-open SAVEOUT, ">&STDOUT";
-open SAVEERR, ">&STDERR";
-open STDOUT, "|tee -a /var/log/urpmi.log" or die;
-open STDERR, "|tee >&2 -a /var/log/urpmi.log" or die;
-select STDERR; $| = 1;     # make unbuffered
-select STDOUT; $| = 1;     # make unbuffered
-
 sub usage {
-    die(_("usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"));
+    die(_("usage: urpmi [-h] [--auto] [--force] [-a] [-v] package_name|rpm_file [package_names|rpm_files...]\n"));
 }
 
 #- parse arguments list.
@@ -69,12 +59,6 @@ for (@ARGV) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $all = 1; next };
 	/v/ and do { $rpm_opt = "-Uvh"; next };
-	/q/ and do { $query = {}; next };
-	/d/ and do { $query or die "urpmi: query mode not set to require dependancies\n"; $query->{deps} = 1; next };
-	/u/ and do { $query or die "urpmi: query mode not set to filter dependancies\n"; $query->{upgrade} = 1; next };
-	/g/ and do { $query or die "urpmi: query mode not set to require group\n"; $query->{group} = 1; next };
-	/v/ and do { $query or die "urpmi: query mode not set to require version\n"; $query->{version} = 1; next };
-	/r/ and do { $query or die "urpmi: query mode not set to require release\n"; $query->{release} = 1; next };
 	die "urpmi: unknown option \"-$1\", check usage with --help\n"; } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     /\.rpm$/ and do { -r $_ or print STDERR "urpmi: cannot read rpm file \"$_\"\n", next;
@@ -82,18 +66,22 @@ for (@ARGV) {
     push @names, $_;
 }
 
+#- log only at this point in case of query usage.
+log_it(scalar localtime, " urpmi called with @ARGV\n");
+
+open SAVEOUT, ">&STDOUT";
+open SAVEERR, ">&STDERR";
+open STDOUT, "|tee -a /var/log/urpmi.log" or die;
+open STDERR, "|tee >&2 -a /var/log/urpmi.log" or die;
+select STDERR; $| = 1;     # make unbuffered
+select STDOUT; $| = 1;     # make unbuffered
+
 #- params contains informations to parse installed system.
 my $params = new rpmtools;
 
 open F, $depslist or die "$depslist file not found, run urpmi.addmedia first\n";
 $params->read_depslist(\*F);
 close F;
-
-if ($query && $query->{group}) {
-    open F, $compss or die "$compss file not found, run urpmi.addmedia first\n";
-    $params->read_compss(\*F);
-    close F;
-}
 
 if (@files) {
     $uid == 0 or die _("Only superuser is allowed to install local packages");
@@ -224,80 +212,40 @@ while (defined($id = shift @packages)) {
     }
 }
 
-if (!$query || $query->{upgrade}) {
-    #- now the packages_to_install contains as keys all packages that may be selected,
-    #- this is used to determine a restricted list of packages installed, as it can
-    #- improve performance on some cases.
-    my @packages_to_install = map { $params->{depslist}[$_]{name} } keys %packages_to_install;
-    my @packages_installed;
-    if (@packages_to_install > 100) {
-	rpmtools::get_all_packages_installed('', \@packages_installed);
-    } else {
-	rpmtools::get_packages_installed('', \@packages_installed, \@packages_to_install);
-    }
-
-    #- examine installed packages, determine if a package need upgrade or not.
-    #- this list may be bigger than packages than really need to be upgraded because they
-    #- are selected.
-    foreach (@packages_installed) {
-	my $pkg = $params->{info}{$_->{name}};
-	#- if package has not event been selected by upgrade, continue.
-	#- but if the package is part of a choice, if it need upgrade, the choice will
-	#- be dropped, if it does not need upgrade, the choice has to been dropped.
-	#- in any case, a choice has to be dropped.
-	exists $packages_to_install{$pkg->{id}} or next;
-	if ($packages_to_install{$pkg->{id}}) {
-	    drop_in_choices(\%packages_to_install, $pkg->{id});
-	}
-	#- at this point, $_ is the package installed and $pkg is the package candidate to install.
-	my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
-	if ($cmp < 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) <= 0) {
-	    #- the package $pkg is older or the same as the installed package,
-	    #- this means it has to be removed from the list, and considered to be
-	    #- already installed.
-	    delete $packages_to_install{$pkg->{id}};
-	} else {
-	    $packages_to_install{$pkg->{id}} = undef;
-	}
-    }
+#- now the packages_to_install contains as keys all packages that may be selected,
+#- this is used to determine a restricted list of packages installed, as it can
+#- improve performance on some cases.
+my @packages_to_install = map { $params->{depslist}[$_]{name} } keys %packages_to_install;
+my @packages_installed;
+if (@packages_to_install > 100) {
+    rpmtools::get_all_packages_installed('', \@packages_installed);
+} else {
+    rpmtools::get_packages_installed('', \@packages_installed, \@packages_to_install);
 }
 
-#- query informations is a way to suppress any information here!
-if ($query) {
-    #- query of dependancies will make use of packages_to_install, else just
-    #- need to use @names where all informations are given, with eventual
-    #- limitation on packages already installed.
-    my $l = $query->{deps} ? \%packages_to_install : \%packages;
-
-    #- print sub for query.
-    my $query_sub = sub {
-	my ($id) = @_;
-	my $info = $params->{depslist}[$id];
-	my $str = '';
-	$query->{group} and $str .= $info->{group} . '/';
-	$str .= $info->{name};
-	$query->{version} and $str .= '-' . $info->{version};
-	$query->{release} and $str .= '-' . $info->{release};
-	$str;
-    };
-
-    foreach my $id (keys %$l) {
-	my $class = $l->{$id};
-	if ($class) {
-	    my %hack_only_one;
-	    foreach my $choices_id (@{$class || []}) {
-		exists $hack_only_one{$choices_id} and next;
-		print SAVEOUT join('|', map { $query_sub->($_) } @$choices_id), "\n";
-		drop_in_choices($l, $choices_id->[0]);
-		$hack_only_one{$choices_id} = undef;
-	    }
-	} else {
-	    exists $l->{$id} and print SAVEOUT $query_sub->($id), "\n";
-	}
+#- examine installed packages, determine if a package need upgrade or not.
+#- this list may be bigger than packages than really need to be upgraded because they
+#- are selected.
+foreach (@packages_installed) {
+    my $pkg = $params->{info}{$_->{name}};
+    #- if package has not event been selected by upgrade, continue.
+    #- but if the package is part of a choice, if it need upgrade, the choice will
+    #- be dropped, if it does not need upgrade, the choice has to been dropped.
+    #- in any case, a choice has to be dropped.
+    exists $packages_to_install{$pkg->{id}} or next;
+    if ($packages_to_install{$pkg->{id}}) {
+	drop_in_choices(\%packages_to_install, $pkg->{id});
     }
-
-    #- on query mode, exit here.
-    exit 0;
+    #- at this point, $_ is the package installed and $pkg is the package candidate to install.
+    my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
+    if ($cmp < 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) <= 0) {
+	#- the package $pkg is older or the same as the installed package,
+	#- this means it has to be removed from the list, and considered to be
+	#- already installed.
+	delete $packages_to_install{$pkg->{id}};
+    } else {
+	$packages_to_install{$pkg->{id}} = undef;
+    }
 }
 
 #- resolution of choices by the user, or automatically by the first listed.
@@ -452,7 +400,7 @@ sub install {
     $something_was_installed = 1;
     print SAVEOUT _("installing %s\n", join(' ', @_));
     log_it(scalar localtime, " @_\n");
-    system($X ? "grpmi" : ("rpm", "-U"), @_);
+    system($X ? "grpmi" : ("rpm", $rpm_opt), @_);
     if ($?) {
 	message(_("Installation failed"));
 	$X and exit 1; #- grpmi handles --nodeps and --force by itself
@@ -461,13 +409,13 @@ sub install {
 
 	print SAVEOUT _("Try installation without checking dependencies?"), " (Y/n) ";
 	$force or <STDIN> =~ /n/i and exit 1;
-	system("rpm", "-U", "--nodeps", @_);	
+	system("rpm", $rpm_opt, "--nodeps", @_);	
 
 	if ($?) {
 	    message(_("Installation failed"));
 	    print SAVEOUT _("Try installation even more strongly (--force)?"), " (Y/n) ";
 	    $force or <STDIN> =~ /n/i and exit 0;
-	    system("rpm", "-U", "--nodeps", "--force", @_);	
+	    system("rpm", $rpm_opt, "--nodeps", "--force", @_);	
 	}
     }
 }

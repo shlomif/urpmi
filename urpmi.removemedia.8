@@ -1,11 +1,12 @@
-.TH urpmi.removemedia 8 "29 Feb 2000" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmi.removemedia 8 "05 Sep 2000" "Mandrakesoft" "Linux-Mandrake"
 .IX urpmi.removemedia
 .SH NAME
 urpmi.removemedia \- remove a rpms media from the known medias of urpmi
 .SH SYNOPSIS
 .B urpmi.removemedia <\fIname\fP>
 .SH DESCRIPTION
-urpmi.removemedia removes from all configuration files all references to the named media and to rpms from that media.
+urpmi.removemedia removes from all configuration files all references to
+the named media and to rpms from that media.
 .PP
 <\fIname\fP> is the name you first told to urpmi.addmedia
 
@@ -16,30 +17,39 @@ The \fBurpmi\fP executable (perl script)
 .PP
 /var/lib/urpmi/list.*
 .br
-Contains the list of all packages known by urpmi and their location. There is one filelist per media(*).
+Contains the list of all packages known by urpmi and their location.
+There is one filelist per media(*).
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Contain information about all known packages, it's a summary of rpm headers.  There is one filelist per media(*).
+Contain information about all known packages, it's a summary of rpm headers.
+There is one filelist per media(*).
 .PP
 /etc/urpmi/urpmi.cfg
 .br
 Contains one line <\fIname\fP> <\fIurl\fP> per media.
 .PP
-/var/lib/urpmi/depslist
+/var/lib/urpmi/depslist.ordered
 .br
 A simple text file containing all dependencies of all known packages.
 .PP
-/var/lib/urpmi/depslist.html
+/var/lib/urpmi/provides
 .br
-The same but in html format, user readable.
+A simple text file containning all provides and the list of associated
+packages that contains them.
+.PP
+/var/lib/urpmi/compss
+.br
+A simple text file containning for each Group used the list of package in
+this group.
 .SH "SEE ALSO"
 urpmi(8),
 urpmi.addmedia(8),
 autoirpm(8),
 autoirpm-icons(8),
 gurpmi(8),
-rpmf(8),
+urpmf(8),
+urpmq(8),
 rpmdrake(8)
 .SH AUTHOR
 Pascal Rigaux, Mandrakesoft

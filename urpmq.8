@@ -1,0 +1,85 @@
+.TH urpmq 8 "05 Sep 2000" "Mandrakesoft" "Linux-Mandrake"
+.IX urpmq
+.SH NAME
+urpmq \- urpmi database query tool.
+.SH SYNOPSIS
+.B urpmq
+[options]
+package_name | rpm_file
+[package_names | rpm_files...]
+.SH DESCRIPTION
+urpmq allows querying the urpmi database. It is for you if want to list
+available packages in the various media of urpmi, or list dependancies of
+packages or packages that will be installed if you start urpmi.
+.PP
+Output format of urpmq is the following according to command line options:
+.IP
+[group/]package_name[-version][-release]
+.SH OPTION
+.IP "\fB\-g\fP"
+print group of each packages listed.
+.IP "\fB\-v\fP"
+print version of each packages listed.
+.IP "\fB\-r\fP"
+print release of each packages listed.
+.IP "\fB\-d\fP"
+print closure of required packages needed by requested packages on command
+line.
+.IP "\fB\-u\fP"
+filter the closure of required packages according to packages that need to
+be upgraded on your system.
+.SH FILES
+/usr/bin/urpmq
+.br
+The \fBurpmq\fP executable (perl script)
+.PP
+/var/lib/urpmi/list.*
+.br
+Contains the list of all packages known by urpmi and their location.
+There is one filelist per media(*).
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+Contain information about all known packages, it's a summary of rpm headers.
+There is one filelist per media(*).
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Contains one line <\fIname\fP> <\fIurl\fP> per media.
+.PP
+/var/lib/urpmi/depslist.ordered
+.br
+A simple text file containning all dependencies of all known packages.
+.PP
+/var/lib/urpmi/provides
+.br
+A simple text file containning all provides and the list of associated
+packages that contains them.
+.PP
+/var/lib/urpmi/compss
+.br
+A simple text file containning for each Group used the list of package in
+this group.
+.SH "SEE ALSO"
+urpmi(8),
+urpmi.addmedia(8),
+urpmi.update(8),
+urpmi.removemedia(8),
+urpmi.update(8),
+autoirpm(8),
+gurpmi(8),
+urpmf(8),
+rpmdrake(8)
+.SH AUTHOR
+François Pons, Mandrakesoft
+.br
+fpons@mandrakesoft.com
+
+
+
+
+
+
+
+
+

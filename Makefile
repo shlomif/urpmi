@@ -18,6 +18,7 @@ install: autoirpm.update-all
 	$(MAKE) -C po $@
 	install -d $(BINDIR) $(SBINDIR) $(XBINDIR) $(URPMIDIR) $(URPMIDIR2) $(MANDIR)/man8
 	install -m 4755 urpmi $(BINDIR)
+	install -m 4755 urpmq $(BINDIR)
 	install _irpm rpm-find-leaves urpmf $(BINDIR)
 	install -m 644 autoirpm.deny $(URPMIDIR2)
 	install -m 644 *.8 $(MANDIR)/man8

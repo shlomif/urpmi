@@ -1,44 +1,58 @@
-.TH urpmi 8 "29 Feb 2000" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmi 8 "05 Sep 2000" "Mandrakesoft" "Linux-Mandrake"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
 .SH SYNOPSIS
 .B urpmi
 [options]
-package_name
-[package_names...]
+package_name|rpm_file
+[package_names|rpm_files...]
 .SH DESCRIPTION
 urpmi enables non-superuser install of rpms. In fact, it only authorizes
-well-known rpms to be installed.
+well-known rpms to be installed. If you want to install local rpm file, you
+will have to be root.
 
-You can compare rpm vs. urpmi  with  insmod vs. modprobe or dpkg vs apt-get 
+You can compare rpm vs. urpmi  with  insmod vs. modprobe or dpkg vs apt-get
 .PP
 All users belonging to group urpmi are allowed to install packages.
 .br
-Just launch urpmi followed by what you think is the name of the package(s), and urpmi will:
+Just launch urpmi followed by what you think is the name of the package(s),
+and urpmi will:
 .br
 \- Propose different package names if availables and quit.
 .br
-\- If found only one Package corresponding, check wether dependencies are already installed or not.
+\- If found only one Package corresponding, check wether dependencies are
+already installed or not.
 .br
-\- If not, propose to install the dependencies and then install all required dependencies and the package.
+\- If not, propose to install the dependencies and then install all required
+dependencies and the package.
 .PP
-Note that urpmi handle installations from various medias (ftp, local and nfs volumes, removable medias such as CDROMs) and is able to install dependencies from a media different from the package's media. If necessary, urpmi asks you to insert the required media.
+Note that urpmi handle installations from various medias (ftp, local and
+nfs volumes, removable medias such as CDROMs) and is able to install
+dependencies from a media different from the package's media.
+If necessary, urpmi asks you to insert the required media.
 .PP
 To add a new media containing rpms run urpmi.addmedia.
 .br
 To remove a media use urpmi.removemedia.
 .br
-To update the packages list (for example when the ftp archive changed) use urpmi.update.
+To update the packages list (for example when the ftp archive changed) use
+urpmi.update.
 .br
-To automatically install a package corresponding to an executable you tried to launch, use autoirpm.
+To automatically install a package corresponding to an executable you tried
+to launch, use autoirpm.
 .br
-To install all available menu entries of all known packages, use autoirpm-icons.
+To install all available menu entries of all known packages,
+use autoirpm-icons.
 .SH OPTION
 .IP "\fB\--auto\fP"
-installs all required dependencies without asking.  
+installs all required dependencies without asking.
+.IP "\fB\--force\fP"
+assumes yes on all questions.
 .IP "\fB\-a\fP"
-if multiple packages match the substring given, take them all 
+if multiple packages match the substring given, take them all
+.IP "\fB\-v\fP"
+proposes a verbose mode when calling rpm.
 .SH FILES
 /usr/bin/urpmi
 .br
@@ -46,23 +60,31 @@ The \fBurpmi\fP executable (perl script)
 .PP
 /var/lib/urpmi/list.*
 .br
-Contains the list of all packages known by urpmi and their location. There is one filelist per media(*).
+Contains the list of all packages known by urpmi and their location.
+There is one filelist per media(*).
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Contain information about all known packages, it's a summary of rpm headers.  There is one filelist per media(*).
+Contain information about all known packages, it's a summary of rpm headers.
+There is one filelist per media(*).
 .PP
 /etc/urpmi/urpmi.cfg
 .br
 Contains one line <\fIname\fP> <\fIurl\fP> per media.
 .PP
-/var/lib/urpmi/depslist
+/var/lib/urpmi/depslist.ordered
 .br
 A simple text file containning all dependencies of all known packages.
 .PP
-/var/lib/urpmi/depslist.html
+/var/lib/urpmi/provides
 .br
-The same but in html format, user readable.
+A simple text file containning all provides and the list of associated
+packages that contains them.
+.PP
+/var/lib/urpmi/compss
+.br
+A simple text file containning for each Group used the list of package in
+this group.
 .SH "SEE ALSO"
 urpmi.addmedia(8),
 urpmi.update(8),
@@ -70,7 +92,8 @@ urpmi.removemedia(8),
 urpmi.update(8),
 autoirpm(8),
 gurpmi(8),
-rpmf(8),
+urpmf(8),
+urpmq(8),
 rpmdrake(8)
 .SH AUTHOR
 Pascal Rigaux, Mandrakesoft
