@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "POT-Creation-Date: 2002-08-24 02:19+0200\n"
-"PO-Revision-Date: 2002-03-01 09:43+0100\n"
+"PO-Revision-Date: 2002-08-24 18:53+0200\n"
 "Last-Translator: Stefan Siegel <siegel@linux-mandrake.com>\n"
 "Language-Team: German <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -71,23 +71,23 @@ msgstr "%s: Befehl nicht gefunden\n"
 #: ../urpm.pm_.c:178
 #, c-format
 msgid "Unknown webfetch `%s' !!!\n"
-msgstr ""
+msgstr "Unbekanntes Programm „%s“ zum Herunterladen der Pakete!!!\n"
 
 #: ../urpm.pm_.c:197
 #, c-format
 msgid "unknown protocol defined for %s"
-msgstr ""
+msgstr "Unbekanntes Protokoll für %s"
 
 #: ../urpm.pm_.c:206
 msgid "no webfetch (curl or wget currently) found\n"
 msgstr ""
-"Es ist kein WebFetch-Paket (momentan unterstützt werden „curl“ und „wget“) "
-"installiert.\n"
+"Es ist kein Programm zum Herunterladen der Pakete (momentan "
+"unterstützt werden „curl“ und „wget“) installiert.\n"
 
 #: ../urpm.pm_.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "unable to handle protocol: %s"
-msgstr "Ich kann die HD-Liste „%s“ nicht erzeugen."
+msgstr "Ich kann mit dem Prtokoll „%s“ nicht umgehen."
 
 #: ../urpm.pm_.c:221
 msgid "wget is missing\n"
@@ -108,19 +108,17 @@ msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl-Fehler: Beendet mit Rückgabewert %d oder Signal %d\n"
 
 #: ../urpm.pm_.c:291
-#, fuzzy
 msgid "rsync is missing\n"
-msgstr "curl fehlt\n"
+msgstr "rsync fehlt\n"
 
 #: ../urpm.pm_.c:292
-#, fuzzy
 msgid "ssh is missing\n"
-msgstr "wget fehlt\n"
+msgstr "ssh fehlt\n"
 
 #: ../urpm.pm_.c:302
-#, fuzzy, c-format
+#, c-format
 msgid "rsync failed: exited with %d or signal %d\n"
-msgstr "curl-Fehler: Beendet mit Rückgabewert %d oder Signal %d\n"
+msgstr "rsync-Fehler: Beendet mit Rückgabewert %d oder Signal %d\n"
 
 #: ../urpm.pm_.c:338 ../urpm.pm_.c:350
 #, c-format
@@ -128,14 +126,14 @@ msgid "syntax error in config file at line %s"
 msgstr "Syntax-Fehler in Konfigurationsdatei auf Linie %s"
 
 #: ../urpm.pm_.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
 msgstr ""
 "Das Medium „%s“ versucht eine bereits verwendete HD-Liste ebenfalls zu "
 "verwenden, es wird daher ignoriert."
 
 #: ../urpm.pm_.c:362
-#, fuzzy, c-format
+#, c-format
 msgid "medium \"%s\" trying to use an already used list, medium ignored"
 msgstr ""
 "Das Medium „%s“ versucht eine bereits verwendete Liste ebenfalls zu "
@@ -241,7 +239,7 @@ msgstr "Schreiben der Konfigurationsdatei [%s]."
 
 #: ../urpm.pm_.c:539
 msgid "--synthesis cannot be used with --media, --update or --parallel"
-msgstr ""
+msgstr "„--synthesis“ kann nicht mit „--media“, „--update“ oder „--parallel“ verwendet werden."
 
 #: ../urpm.pm_.c:555 ../urpm.pm_.c:1138 ../urpm.pm_.c:1153 ../urpm.pm_.c:1283
 #, c-format
@@ -249,9 +247,9 @@ msgid "examining hdlist file [%s]"
 msgstr "Prüfen der HD-Liste [%s]"
 
 #: ../urpm.pm_.c:559
-#, fuzzy, c-format
+#, c-format
 msgid "problem reading hdlist file of medium \"%s\""
-msgstr "Erstellen der HD-Liste für das Medium „%s“"
+msgstr "Lesen der HD-Liste für das Medium „%s“ schlug fehl"
 
 #: ../urpm.pm_.c:570 ../urpm.pm_.c:864 ../urpm.pm_.c:946 ../urpm.pm_.c:1081
 #: ../urpm.pm_.c:1143 ../urpm.pm_.c:1148 ../urpm.pm_.c:1210 ../urpm.pm_.c:1278
@@ -261,29 +259,29 @@ msgstr "Lesen der Synthese-Datei [%s]"
 
 #: ../urpm.pm_.c:574 ../urpm.pm_.c:868 ../urpm.pm_.c:949 ../urpm.pm_.c:1085
 #: ../urpm.pm_.c:1213
-#, fuzzy, c-format
+#, c-format
 msgid "problem reading synthesis file of medium \"%s\""
-msgstr "Erstellen der HD-Liste für das Medium „%s“"
+msgstr "Probleme beim Lesen der Synthese-Datei des Mediums „%s“"
 
 #: ../urpm.pm_.c:607
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "Ich habe keinen Zugriff auf die RPM-Datei [%s]."
+msgstr "Ich kann „%s“ in Datei [%s] nicht parsen."
 
 #: ../urpm.pm_.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr "Prüfen der HD-Liste [%s]"
+msgstr "Prüfen der Parallel-Handler in Datei [%s]"
 
 #: ../urpm.pm_.c:628
-#, fuzzy, c-format
+#, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr "HD-Liste (oder synthesis-Datei) als „%s“ gefunden ..."
+msgstr "Parallel-Handler für folgende Knoten gefunden: %s"
 
 #: ../urpm.pm_.c:632
-#, fuzzy, c-format
+#, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "Ich kann das Medium „%s“ nicht aktualisieren.\n"
+msgstr "Ich kann die Parallel-Option „%s“ nicht nutzen."
 
 #: ../urpm.pm_.c:653
 #, c-format
@@ -348,9 +346,9 @@ msgid "\"%s\""
 msgstr "„%s“"
 
 #: ../urpm.pm_.c:781
-#, fuzzy, c-format
+#, c-format
 msgid "selecting multiple media: %s"
-msgstr "Versuch, das Mehrfachmedium „%s“ auszuwählen."
+msgstr "Auswahl des Mehrfachmediums: %s"
 
 #: ../urpm.pm_.c:798
 #, c-format
@@ -387,14 +385,14 @@ msgid "copying source list of \"%s\"..."
 msgstr "Kopiere Quellen-Liste von „%s“..."
 
 #: ../urpm.pm_.c:979
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpms files from [%s]"
-msgstr "Keine rpm-Dateien in [%s] gefunden"
+msgstr "Lesen der RPM-Dateien von [%s]"
 
 #: ../urpm.pm_.c:998
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpms files from [%s]: %s"
-msgstr "Ich kann das RPM-Paket „%s“ von Medium „%s“ nicht lesen."
+msgstr "Ich kann die RPM-Dateien von [%s] nicht lesen: %s"
 
 #: ../urpm.pm_.c:1003
 #, c-format
@@ -423,7 +421,7 @@ msgstr "Keine HD-Liste für das Medium „%s“ gefunden."
 #: ../urpm.pm_.c:1129 ../urpm.pm_.c:1173
 #, c-format
 msgid "file [%s] already used in the same medium \"%s\""
-msgstr ""
+msgstr "Datei [%s] wird bereits im selben Medium „%s“ verwendet."
 
 #: ../urpm.pm_.c:1160
 #, c-format
@@ -447,12 +445,12 @@ msgstr "Es wurde nichts in die Dateiliste von „%s“ geschrieben."
 
 #: ../urpm.pm_.c:1243
 msgid "performing second pass to compute dependencies\n"
-msgstr ""
+msgstr "Zweiter Durchlauf zum Berechnen der Paketabhängigkeiten\n"
 
 #: ../urpm.pm_.c:1256
-#, fuzzy, c-format
+#, c-format
 msgid "reading headers from medium \"%s\""
-msgstr "Entfernen des Mediums „%s“."
+msgstr "Lesen der Paketinformationen des Mediums „%s“."
 
 #: ../urpm.pm_.c:1261
 #, c-format
@@ -527,9 +525,9 @@ msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "Es existieren mehrere Pakete mit dem selben RPM-Dateinamen „%s“"
 
 #: ../urpm.pm_.c:1743
-#, fuzzy, c-format
+#, c-format
 msgid "unable to correctly parse [%s] on value \"%s\""
-msgstr "Konnte [%s] beim Wert „%s“ nicht korrekt analysieren"
+msgstr "Konnte [%s] beim Wert „%s“ nicht korrekt analysieren."
 
 #: ../urpm.pm_.c:1755
 #, c-format
@@ -562,31 +560,31 @@ msgstr "Holen der RPMs ..."
 
 #: ../urpm.pm_.c:1939
 msgid "Preparing..."
-msgstr ""
+msgstr "Vorbereiten ..."
 
 #: ../urpm.pm_.c:1967
-#, fuzzy, c-format
+#, c-format
 msgid "unable to remove package %s"
-msgstr "Nur der Systemadministrator darf Pakete installieren."
+msgstr "Ich kann das Paket „%s“ nicht entfernen."
 
 #: ../urpm.pm_.c:1972 ../urpm.pm_.c:1977
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install package %s"
-msgstr "Nur der Systemadministrator darf Pakete installieren."
+msgstr "Ich kann das Paket „%s“ nicht installeren."
 
 #: ../urpm.pm_.c:1984
 #, c-format
 msgid "%s is needed by %s"
-msgstr ""
+msgstr "%s wird von %s benötigt."
 
 #: ../urpm.pm_.c:1985
 #, c-format
 msgid "%s conflicts with %s"
-msgstr ""
+msgstr "%s steht im Konflikt mit %s."
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
-msgstr "Entferne sie alle?"
+msgstr "Alle entfernen?"
 
 #: ../urpme_.c:42
 msgid "usage: urpme [-a] [--auto] <packages...>\n"
@@ -606,9 +604,8 @@ msgid " (y/N) "
 msgstr " (j/N) "
 
 #: ../urpme_.c:85
-#, fuzzy
 msgid "unknown package "
-msgstr "unbekannte(s) Paket(e)"
+msgstr "unbekannte(s) Paket(e) "
 
 #: ../urpme_.c:90
 msgid "Nothing to remove.\n"
@@ -678,12 +675,17 @@ msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
 "                   to be 1080 by default (format is <proxyhost[:port]>).\n"
 msgstr ""
+"  --proxy        - Verwende einen HTTP Proxy, als Standard-Portnummer\n"
+"                   wird 1080 angenommen (Format: <ProxyRechner[:port]>).\n"
 
 #: ../urpmi.addmedia_.c:45 ../urpmi.update_.c:68 ../urpmi_.c:87 ../urpmq_.c:66
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
 msgstr ""
+"  --proxy-user   - Angabe von Benutzerkennzeichen und Passwort zur\n"
+"                   Authentifizierung gegenüber dem Proxy\n"
+"                   (Format: <Benutzerkennzeichen:Passwort>).\n"
 
 #: ../urpmi.addmedia_.c:47
 msgid "  --update       - create an update medium.\n"
@@ -833,22 +835,19 @@ msgstr "  --media        - Benutze nur durch Kommata getrennte Medienliste.\n"
 
 #: ../urpmi_.c:71 ../urpmq_.c:53
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr ""
+msgstr "  --synthesis    - Verwende die angegebene Synthese-Datei anstelle\n"
+"                   der urpmi-DB.\n"
 
 #: ../urpmi_.c:72
-#, fuzzy
 msgid "  --auto         - automatically select a package in choices.\n"
 msgstr ""
-"  --auto         - automatisch ein gutes Paket bei mehren Möglichkeiten "
-"wählen.\n"
+"  --auto         - Automatische Auswahl bei mehren Möglichkeiten.\n"
 
 #: ../urpmi_.c:73 ../urpmq_.c:54
-#, fuzzy
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
 msgstr ""
-"  --auto-select  - automatisch Pakete zur Aktualisierung des Systems "
-"auswählen.\n"
+"  --auto-select  - Automatische Paketauswahl zur Aktualisierung des Systems.\n"
 
 #: ../urpmi_.c:74 ../urpmq_.c:55
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
@@ -874,12 +873,16 @@ msgid ""
 "  --allow-nodeps - allow asking user to install packages without\n"
 "                   dependencies checking.\n"
 msgstr ""
+"  --allow-nodeps - Erlaube Anwenderbefragung zur Paketinstallation\n"
+"                   ohne Abhängigkeitskontrolle.\n"
 
 #: ../urpmi_.c:80
 msgid ""
 "  --allow-force  - allow asking user to install packages without\n"
 "                   dependencies checking and integrity.\n"
 msgstr ""
+"  --allow-force  - Erlaube Anwenderbefragung zur Paketinstallation\n"
+"                   ohne Abhängigkeits- und Integritätskontrolle.\n"
 
 #: ../urpmi_.c:82
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
@@ -889,10 +892,12 @@ msgstr ""
 msgid ""
 "  --bug          - output a bug report in directory indicated by next arg.\n"
 msgstr ""
+"  --bug          - Erstellen eines Fehlerberichts im angegebenen Ordner.\n"
 
 #: ../urpmi_.c:90
 msgid "  --env          - use specific environment (typically a bug report).\n"
-msgstr ""
+msgstr "  --env          - Verwende ein besondere Umgebung (Etwa zur\n"
+"                   Erstellung von Fehlerberichten).\n"
 
 #: ../urpmi_.c:91
 msgid "  --X            - use X interface.\n"
@@ -908,7 +913,7 @@ msgstr ""
 
 #: ../urpmi_.c:94
 msgid "  --verify-rpm   - verify rpm signature before installation.\n"
-msgstr ""
+msgstr "  --verify-rpm   - Überprüfung der RPM-Signatur vor der Installation.\n"
 
 #: ../urpmi_.c:95
 msgid "  -a             - select all matches on command line.\n"
@@ -954,9 +959,9 @@ msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
 msgstr "urpmi: unbekannte Option „-%s“. Bitte Hilfe mit --help nachschlagen\n"
 
 #: ../urpmi_.c:191
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create directory [%s] for bug report"
-msgstr "Konnte [%s] beim Wert „%s“ nicht korrekt analysieren"
+msgstr "Konnte das Verzeichnis [%s] für die Fehlerberichte nicht anlegen."
 
 #: ../urpmi_.c:216
 msgid "Only superuser is allowed to install packages"
@@ -992,16 +997,21 @@ msgid ""
 "%s\n"
 "do you agree ?"
 msgstr ""
+"Einige der gewünschten Pakete können nicht installiert werden:\n"
+"%s\n"
+"Sind Sie einverstanden?"
 
 #: ../urpmi_.c:362
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
 "do you agree ?"
 msgstr ""
-"Einige Pakete müssen entfernt werden, bevor die diese Aktualisierungen \n"
-"durchführen können. Diese Funktionalität wird noch nicht angeboten.\n"
+"Die folgenden Pakete müssen entfernt werden, um die Aktualisierungen \n"
+"durchführen zu können:\n"
+"%s\n"
+"Sind Sie damit einverstanden?"
 
 #: ../urpmi_.c:400 ../urpmi_.c:409
 #, c-format
@@ -1032,18 +1042,16 @@ msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Bitte legen Sie das Medium mit Namen „%s“ in Gerät „%s“."
 
 #: ../urpmi_.c:439
-#, fuzzy
 msgid "Press Enter when ready..."
-msgstr "Bestätigen Sie dies durch Drücken der Return-Taste ..."
+msgstr "Betätigen Sie die Return-Taste, sobald Sie soweit sind ..."
 
 #: ../urpmi_.c:461
-#, fuzzy
 msgid "The following packages have bad signatures"
-msgstr "Die folgenden Pakete enthalten „%s“: %s"
+msgstr "Folgenden Pakete haben inkorrekte Signaturen:"
 
 #: ../urpmi_.c:462
 msgid "Do you want to continue installation ?"
-msgstr ""
+msgstr "Wollen Sie die Installation fortsetzen?"
 
 #: ../urpmi_.c:485
 msgid ""
@@ -1054,11 +1062,9 @@ msgstr ""
 "Sie sollten Ihre urpmi-Datenbank aktualisieren"
 
 #: ../urpmi_.c:490
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s\n"
-msgstr ""
-" \n"
-"Installiere %s\n"
+msgstr "Verteile %s\n"
 
 #: ../urpmi_.c:524
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1096,12 +1102,11 @@ msgid "  -d             - extend query to package dependencies.\n"
 msgstr "  -d             - Erweitere Anfrage auf Paket-Abhängigkeiten.\n"
 
 #: ../urpmq_.c:43
-#, fuzzy
 msgid ""
 "  -u             - remove package if a more recent version is already "
 "installed.\n"
 msgstr ""
-"  -u             - Entferne Paket wenn eine bessere Version schon "
+"  -u             - Entferne Paket wenn bereits eine aktuellere Version "
 "installiert ist.\n"
 
 #: ../urpmq_.c:44
@@ -1112,12 +1117,10 @@ msgstr ""
 "der Abhängigkeiten.\n"
 
 #: ../urpmq_.c:48
-#, fuzzy
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - Ausgabe der Gruppe mit dem Namen.\n"
 
 #: ../urpmq_.c:49
-#, fuzzy
 msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - Ausgabe von Version und Release mit dem Namen.\n"
 
@@ -1128,9 +1131,8 @@ msgstr ""
 "Namen.\n"
 
 #: ../urpmq_.c:56
-#, fuzzy
 msgid "  --list         - list available packages.\n"
-msgstr "  --all           - Alle Parameter ausgeben."
+msgstr "  --list          - Alle verfügbaren Pakete auflisten.\n"
 
 #: ../urpmq_.c:58
 msgid ""
