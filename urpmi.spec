@@ -196,7 +196,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{_sbindir}/urpme
 %{_sbindir}/urpmi.*
 %{_mandir}/man?/urpm*
-%{_mandir}/man?/proxy.cfg.5
+%{_mandir}/man?/proxy*
 # find_lang isn't able to find man pages yet...
 %lang(cs) %{_mandir}/cs/man?/urpm* 
 %lang(et) %{_mandir}/et/man?/urpm* 
