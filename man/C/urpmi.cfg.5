@@ -1,13 +1,10 @@
-.TH urpmi.cfg 5 "28 Aug 2003" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.cfg 5 "28 Aug 2003" "Mandrakesoft" "Mandrakelinux"
 .IX urpmi.cfg
 .SH NAME
 urpmi.cfg \- urpmi option and media configuration file format.
 .SH DESCRIPTION
-The urpmi.cfg file format is an enhancement of previous version of urpmi.cfg
-format.
-
-The file is divided in multiple sections: one section to set global options, and as
-many sections as needed for the description of the media managed.
+The urpmi.cfg file is divided in multiple sections: one section to set global
+options, and one section per media.
 
 .SS Global options
 
@@ -27,7 +24,7 @@ The following options can be written in this section :
 .TP
 .B verify-rpm
 Same as \fB--verify-rpm\fP for \fBurpmi\fP. Enable or disable signature
-checking should be used, enabled by default. Disabling it can be written
+checking (it's enabled by default). Disabling it can be written
 in various ways (as for all the other boolean options) :
 \fBno-verify-rpm\fP or \fBverify-rpm: no\fP or \fBverify-rpm: off\fP or
 \fBverify-rpm: 0\fP.
@@ -58,13 +55,13 @@ Same as \fB--excludedocs\fP for \fBurpmi\fP, default is disabled.
 .TP
 .B limit-rate
 Same as \fB--limit-rate\fP for all tools. This option allows to control download
-speed, there is no limitation by default. The number given is in Kilo-bytes per
-second unless a suffix \fBK\fP, \fBM\fP is given.
+speed, there is no limitation by default. The number is given in kilo-bytes per
+second, unless a suffix \fBK\fP, \fBM\fP is added.
 
 .TP
 .B excludepath
-Same as \fB--excludepath\fP for \fBurpmi\fP. This option allow to give comma
-separated list of path to be excluded on installation, there is no path
+Same as \fB--excludepath\fP for \fBurpmi\fP. This options allows to give a comma
+separated list of paths to be excluded on installation. There is no path
 exclusion by default.
 
 .TP
@@ -72,7 +69,7 @@ exclusion by default.
 This option is not available on the command line. It allows to use a comma
 separated list of \fBkey-ids\fP to be globally accepted (keys still need to be
 authorized by \fBrpm\fP) for any medium unless a specific \fBkey-ids\fP option
-for this medium is given. There is no default (even MandrakeSoft key id 70771ff3
+for this medium is given. There is no default (even Mandrakesoft key id 70771ff3
 is not by default).
 
 .TP
@@ -87,6 +84,10 @@ Same as \fB--split-length\fP for \fBurpmi\fP. This option allows to control the
 minimal length of split transaction. The default value is 1 (smallest possible
 transaction). Setting this value to 0 disable the split of transaction.
 
+.TP
+.B downloader
+Specify which download program to use: \fBwget\fP or \fBcurl\fP.
+
 .SS Medium description
 
 A medium is described as follows :
@@ -99,18 +100,20 @@ A medium is described as follows :
 .br
 .B "}"
 
-where \fBname\fP is name of medium (space character are prefixed by anti-slash)
-and optional \fBurl\fP is url of the medium (if no \fBurl\fP is given, it will
-be guessed according to so mandatory list file).
+where \fBname\fP is the medium name (space characters are prefixed by a backslash)
+and where the optional \fBurl\fP is the medium URL (if no \fBurl\fP is given, it will
+be guessed according to the mandatory list file).
 
 Most other options like \fBlist\fP, \fBwith_hdlist\fP, \fBsynthesis\fP,
 \fBremovable\fP, \fBvirtual\fP are for internal use and should be changed only
-for experienced users.
+by experienced users.
 
-But options like \fBupdate\fP, \fBignore\fP or \fBkey-ids\fP can be modified by
-users to mark medium as an update, to ignore medium or to give allowed GPG key
-ids for packages of the medium for verification (unless of course signature
-checking has been disabled globally).
+Options like \fBupdate\fP, \fBignore\fP or \fBkey-ids\fP can be modified by
+users to respectively mark mediums as update sources, to have them being
+ignored, or to specify the allowed GPG key ids for packages from the medium for
+verification (unless of course signature checking has been disabled globally).
+It's also possible to override \fBverify-rpm\fP and \fBdownloader\fP in
+a medium description.
 
 Please note that \fBkey-ids\fP is automatically set by \fBurpmi.update\fP or
 \fBurpmi.addmedia\fP if a remote pubkey file is available on the mirror. This

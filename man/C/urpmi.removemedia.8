@@ -1,4 +1,4 @@
-.TH urpmi.removemedia 8 "07 Jan 2003" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.removemedia 8 "07 Jan 2003" "Mandrakesoft" "Mandrakelinux"
 .IX urpmi.removemedia
 .SH NAME
 urpmi.removemedia \- remove a rpm media from the known medias of urpmi
@@ -12,9 +12,9 @@ the named media and to rpms from that media.
 
 .SH OPTIONS
 .IP "\fB\-a\fP"
-Select all media to remove them.
+Selects and removes all medias.
 .IP "\fB\-c\fP"
-Clean headers cache directory (/var/cache/urpmi/headers).
+Clean header cache directory (/var/cache/urpmi/headers).
 .SH FILES
 .de FN
 \fI\|\\$1\|\fP
@@ -53,9 +53,8 @@ extension.
 .FN /etc/urpmi/skip.list
 The list of packages that should not be automatically updated when using
 --auto-select. It contains one package expression per line; either a package
-name followed by an optional operator and version string, or a regular
-expression (if bounded by slashes \fB/\fP) to match the fullname of packages
-against.
+name, or a regular expression (if enclosed in slashes \fB/\fP) to match the
+name of packages against.
 .TP
 .FN /etc/urpmi/inst.list
 The list of packages that should be installed instead of updated. It has
