@@ -722,6 +722,8 @@ sub add_distrib_media {
 
 sub select_media {
     my $urpm = shift;
+    my $options = {};
+    if (ref $_[0]) { $options = shift }
     my %media; @media{@_} = undef;
 
     foreach (@{$urpm->{media}}) {
@@ -740,9 +742,11 @@ sub select_media {
 	unless ($media{$_}) {
 	    my $q = quotemeta;
 	    my (@found, @foundi);
+	    my $regex  = $options->{strict_match} ? qr/\b$q\b/  : qr/$q/;
+	    my $regexi = $options->{strict_match} ? qr/\b$q\b/i : qr/$q/i;
 	    foreach my $medium (@{$urpm->{media}}) {
-		$medium->{name} =~ /$q/ and push @found, $medium;
-		$medium->{name} =~ /$q/i and push @foundi, $medium;
+		$medium->{name} =~ $regex  and push @found, $medium;
+		$medium->{name} =~ $regexi and push @foundi, $medium;
 	    }
 	    if (@found == 1) {
 		$found[0]{modified} = 1;
