@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2002-08-30 17:05+0200\n"
-"PO-Revision-Date: 2002-08-26 11:13+0100\n"
+"POT-Creation-Date: 2002-08-31 13:22+0200\n"
+"PO-Revision-Date: 2002-09-01 12:23+0100\n"
 "Last-Translator: Pavol Cvengros <orpheus@hq.alert.sk>\n"
 "Language-Team: sk <i18n@hq.alert.sk>\n"
 "MIME-Version: 1.0\n"
@@ -241,7 +241,7 @@ msgstr "nájdený paralelný ovládaè pre nody: %s"
 #: ../urpm.pm_.c:569
 #, c-format
 msgid "using associated media for parallel mode : %s"
-msgstr ""
+msgstr "pou¾itie vybraných médii pre paralélny mód : %s"
 
 #: ../urpm.pm_.c:573
 #, c-format
@@ -376,14 +376,14 @@ msgid "copying source list of \"%s\"..."
 msgstr "kopírovanie zdrojového zoznamu z \"%s\"..."
 
 #: ../urpm.pm_.c:981
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
 msgstr "èítanie rpm súborov z [%s]"
 
 #: ../urpm.pm_.c:1000
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
-msgstr "nemô¾em preèíta» rpm súbory z [%s]: %s"
+msgstr "nemô¾em èíta» rpm súbory z [%s]: %s"
 
 #: ../urpm.pm_.c:1005
 #, c-format
@@ -546,9 +546,8 @@ msgid "malformed input: [%s]"
 msgstr "zle zadaný vstup: [%s]"
 
 #: ../urpm.pm_.c:1926
-#, fuzzy
 msgid "retrieving rpm files..."
-msgstr "príjmanie rpm súborov..."
+msgstr "preberanie rpm súborov..."
 
 #: ../urpm.pm_.c:1975
 msgid "Preparing..."
@@ -576,17 +575,17 @@ msgstr "%s konfliktuje s %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:79 ../urpm/parallel_ka_run.pm_.c:112
 msgid "rshp failed"
-msgstr ""
+msgstr "rshp neúspe¹né"
 
 #: ../urpm/parallel_ka_run.pm_.c:116 ../urpm/parallel_ssh.pm_.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "In¹talácia zlyhala"
+msgstr "In¹talácia zlyhala na uzle %s"
 
 #: ../urpm/parallel_ssh.pm_.c:81
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "hostiteµ %s nemá správnu verziu urpmi"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
@@ -601,9 +600,8 @@ msgid "unknown package "
 msgstr "neznámy balíèek"
 
 #: ../urpme_.c:111
-#, fuzzy
 msgid "unknown packages "
-msgstr "neznámy balíèek"
+msgstr "neznáme balíèky"
 
 #: ../urpme_.c:134
 #, c-format
@@ -862,9 +860,8 @@ msgstr ""
 "s).\n"
 
 #: ../urpmi_.c:80
-#, fuzzy
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --noclean      - necha» nepou¾ité rpm súbory v doèasnej pamäti.\n"
+msgstr "  --clean      - odstráni» nepou¾ité rpm súbory v doèasnej pamäti.\n"
 
 #: ../urpmi_.c:81
 msgid "  --noclean      - keep rpm not used in cache.\n"
@@ -896,22 +893,20 @@ msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - distribuované urpmi na rôzne stroje.\n"
 
 #: ../urpmi_.c:94
-#, fuzzy
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-"  --bug          - vytvori» oznámenie o chybe do adresára uvedeného za "
-"argumentom.\n"
+"  --bug          - vytvori» oznámenie o chybe do adresára uvedeného\n"
+"                   za argumentom.\n"
 
 #: ../urpmi_.c:96
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
 msgstr ""
-"  --env          - pou¾i» ¹pecifické prostredie (typické pre oznámenie o "
-"chybe).\n"
+"  --env          - pou¾i» ¹pecifické prostredie (typické pre\n"
+"                   oznámenie o chybe).\n"
 
 #: ../urpmi_.c:98
 msgid "  --X            - use X interface.\n"
@@ -926,16 +921,18 @@ msgstr ""
 "                   X alebo textový mód.\n"
 
 #: ../urpmi_.c:101
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr "  --verify-rpm   - overi» rpm signatúru pred in¹taláciou.\n"
+msgstr ""
+"  --verify-rpm   - overi» rpm signatúru pred in¹taláciou.\n"
+"             (--no-verify-rpm to zaká¾e, ¹tandardne je to povolené).\n"
 
 #: ../urpmi_.c:103
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+"  --test         - overi» èi mô¾e by» in¹talácia prevedená bez problémov.\n"
 
 #: ../urpmi_.c:104
 msgid "  -a             - select all matches on command line.\n"
@@ -1094,9 +1091,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Skúsi» \"tvrd¹iu\" in¹taláciu (--force)? (á/N) "
 
 #: ../urpmi_.c:560
-#, fuzzy
 msgid "Installation is possible"
-msgstr "In¹talácia zlyhala"
+msgstr "In¹talácia je mo¾ná"
 
 #: ../urpmi_.c:566
 msgid "everything already installed"
@@ -1156,14 +1152,12 @@ msgid "  --list         - list available packages.\n"
 msgstr "  --list           - vypísa» v¹etky balíèky.\n"
 
 #: ../urpmq_.c:57
-#, fuzzy
 msgid "  --list-media   - list available media.\n"
-msgstr "  --list           - vypísa» v¹etky balíèky.\n"
+msgstr "  --list-media   - vypísa» dostupné média.\n"
 
 #: ../urpmq_.c:58
-#, fuzzy
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr "  --list           - vypísa» v¹etky balíèky.\n"
+msgstr "  --list-nodes   - vypísa» dostupné uzly pre --parallel.\n"
 
 #: ../urpmq_.c:60
 msgid ""
@@ -1295,6 +1289,3 @@ msgstr "skúste urpmf --help pre zobrazenie mo¾ností"
 #: placeholder.h:40
 msgid "no full media list was found"
 msgstr "nebol nájdený naplnený zoznam médií"
-
-#~ msgid "unknown package(s) "
-#~ msgstr "neznámy balíèek(èky)"

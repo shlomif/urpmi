@@ -11,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.7\n"
-"POT-Creation-Date: 2002-08-30 17:05+0200\n"
-"PO-Revision-Date: 2002-08-26 03:10+0800\n"
+"POT-Creation-Date: 2002-08-31 13:22+0200\n"
+"PO-Revision-Date: 2002-09-02 03:10+0800\n"
 "Last-Translator: Kenduest Lee <kenduest@i18n.linux.org.tw>\n"
 "Language-Team: Chinese Team <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
@@ -239,7 +239,7 @@ msgstr "在 %s 發現節點的處理項目"
 #: ../urpm.pm_.c:569
 #, c-format
 msgid "using associated media for parallel mode : %s"
-msgstr ""
+msgstr "使用並列模式的關聯媒介裝置：%s"
 
 #: ../urpm.pm_.c:573
 #, c-format
@@ -372,14 +372,14 @@ msgid "copying source list of \"%s\"..."
 msgstr "複製“%s”的來源清單..."
 
 #: ../urpm.pm_.c:981
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
 msgstr "由 [%s] 讀取 rpm 檔案項目"
 
 #: ../urpm.pm_.c:1000
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
-msgstr "無法由 [%s] 讀取 rpm 套件(來自 [%s])"
+msgstr "無法由 [%s] 讀取 rpm 套件：: %s"
 
 #: ../urpm.pm_.c:1005
 #, c-format
@@ -542,9 +542,8 @@ msgid "malformed input: [%s]"
 msgstr "不合格式的輸入：[%s]"
 
 #: ../urpm.pm_.c:1926
-#, fuzzy
 msgid "retrieving rpm files..."
-msgstr "擷取 rpms 檔案..."
+msgstr "正在下載 rpms 檔案..."
 
 #: ../urpm.pm_.c:1975
 msgid "Preparing..."
@@ -572,17 +571,17 @@ msgstr "%s 套件與 %s 相衝突"
 
 #: ../urpm/parallel_ka_run.pm_.c:79 ../urpm/parallel_ka_run.pm_.c:112
 msgid "rshp failed"
-msgstr ""
+msgstr "rshp 呼叫失敗"
 
 #: ../urpm/parallel_ka_run.pm_.c:116 ../urpm/parallel_ssh.pm_.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "安裝失敗"
+msgstr "安裝失敗 - %s"
 
 #: ../urpm/parallel_ssh.pm_.c:81
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "%s 主機的 urpmi 版本有問題，無法正常呼叫使用"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
@@ -597,7 +596,6 @@ msgid "unknown package "
 msgstr "不明的套件 "
 
 #: ../urpme_.c:111
-#, fuzzy
 msgid "unknown packages "
 msgstr "不明的套件 "
 
@@ -852,9 +850,8 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - 下個套件是原始碼套件 (如同 -s)。\n"
 
 #: ../urpmi_.c:80
-#, fuzzy
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --noclean      - 保留不刪除快取目錄內未使用的 rpm 檔案。\n"
+msgstr "  --clean        - 移除快取目錄內的 rpm 檔案。\n"
 
 #: ../urpmi_.c:81
 msgid "  --noclean      - keep rpm not used in cache.\n"
@@ -888,7 +885,6 @@ msgid ""
 msgstr ""
 
 #: ../urpmi_.c:96
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
@@ -907,16 +903,17 @@ msgstr ""
 "                   X 或文字模式。\n"
 
 #: ../urpmi_.c:101
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr "  --verify-rpm   - 安裝套件前確認簽名資訊是否正確。\n"
+msgstr ""
+"  --verify-rpm   - 安裝套件前確認簽名資訊是否正確。\n"
+"                   (--no-verify-rpm 參數可以關閉該機制，預設會確認).\n"
 
 #: ../urpmi_.c:103
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
-msgstr ""
+msgstr "  --test         - 確認安裝是否能夠正確進行.\n"
 
 #: ../urpmi_.c:104
 msgid "  -a             - select all matches on command line.\n"
@@ -1066,9 +1063,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "使用強制性的安裝方式 (--force)？(y/N)(是/否)"
 
 #: ../urpmi_.c:560
-#, fuzzy
 msgid "Installation is possible"
-msgstr "安裝失敗"
+msgstr "無法進行安裝"
 
 #: ../urpmi_.c:566
 msgid "everything already installed"
@@ -1126,14 +1122,12 @@ msgid "  --list         - list available packages.\n"
 msgstr "  --all          - 顯示可用的的套件項目。\n"
 
 #: ../urpmq_.c:57
-#, fuzzy
 msgid "  --list-media   - list available media.\n"
-msgstr "  --all          - 顯示可用的的套件項目。\n"
+msgstr "  --list-media   -- 顯示可用的媒介清單項目。\n"
 
 #: ../urpmq_.c:58
-#, fuzzy
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr "  --all          - 顯示可用的的套件項目。\n"
+msgstr "  --list-nodes   - 顯示可用的節點項目 (當使用 --parallel 時)。\n"
 
 #: ../urpmq_.c:60
 msgid ""
