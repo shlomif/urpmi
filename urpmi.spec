@@ -107,6 +107,7 @@ autoirpm.uninstall
 * Wed Sep 13 2000 François Pons <fpons@mandrakesoft.com> 1.3-7mdk
 - trusting root only readable file list.*, fixes gurpmi with
   mutlitple media examination.
+- removed setuid root on urpmq.
 
 * Tue Sep 05 2000 François Pons <fpons@mandrakesoft.com> 1.3-6mdk
 - split query mode of urpmi into new tools urpmq.
