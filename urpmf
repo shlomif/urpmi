@@ -40,6 +40,7 @@ usage:
                    line, incompatible with interactive mode).
 ") . N("  --uniq         - do not print identical lines.
 ") . N("  --all          - print all tags.
+") . N("  --name         - print only package names.
 ") . N("  --group        - print tag group: group.
 ") . N("  --size         - print tag size: size.
 ") . N("  --epoch        - print tag epoch: epoch.
@@ -148,6 +149,7 @@ if ($use_hdlist) {
     } @{ $urpm->{media} };
     if (!@hdmedia) {
 	print N("Note: since no media searched uses hdlists, urpmf was unable to return any result\n");
+	print N("You may want to use --name to search for package names.\n") if !$params{filename};
     }
 }
 
