@@ -1,14 +1,14 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 3.5
-Release: 8mdk
+Version: 3.6
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.04-2mdk
+PreReq: perl-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.04-6mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,12 @@ fi
 
 
 %changelog
+* Thu Jun 27 2002 François Pons <fpons@mandrakesoft.com> 3.6-1mdk
+- removed no more used methods in urpm module.
+- make sure absent synthesis force synthesis regeneration.
+- add initial support to remove package wich will breaks upgrade
+  for urpmi only (ignored in urpmq).
+
 * Thu Jun 20 2002 François Pons <fpons@mandrakesoft.com> 3.5-8mdk
 - added back version lost for some time (Guillaume Rousse).
 - added --list to urpmq to list package.

@@ -331,13 +331,24 @@ sub ask_choice {
 	my (%to_remove, %keep_files);
 
 	$urpm->resolve_packages_to_upgrade($db, $state, requested => undef);
-
-	if (%{$state->{ask_remove}} || %{$state->{ask_unselect}}) {
-	    $urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
-	}
     }
 
     $urpm->resolve_requested($db, $state, callback_choices => \&ask_choice);
+
+    if (%{$state->{ask_unselect} || {}}) {
+	my $list = join "\n", map { $urpm->{depslist}[$_]->fullname } keys %{$state->{ask_unselect}};
+	$noexpr = _("Nn");
+	$yesexpr = _("Yy");
+	message_input(_("Some package requested cannot be installed:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+	delete @{$state->{selected}}{keys %{$state->{ask_unselect}}};
+    }
+    if (%{$state->{ask_remove} || {}}) {
+	my $list = join "\n", keys %{$state->{ask_remove}};
+	$noexpr = _("Nn");
+	$yesexpr = _("Yy");
+	message_input(_("Some package have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+	system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove}}, ($root ? ("--root", $root) : ()));
+    }
 }
 
 #- get out of package that should not be upgraded.
