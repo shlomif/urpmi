@@ -2,13 +2,13 @@
 
 Name: urpmi
 Version: 3.9
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.50-4mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.50-5mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Thu Jul 25 2002 François Pons <fpons@mandrakesoft.com> 3.9-4mdk
+- fixed urpmq -u.
+
 * Wed Jul 24 2002 François Pons <fpons@mandrakesoft.com> 3.9-3mdk
 - added more log.
 - use perl-URPM-0.50-4mdk or better for correct generation of

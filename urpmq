@@ -193,7 +193,7 @@ if ($query->{list}) {
 
 	#- filter to add in packages selected required packages.
 	if ($query->{upgrade}) {
-	    $urpm->resolve_requested($db, $state, callback_choices => $stop_on_choices);
+	    $urpm->resolve_requested($db, $state, \%requested, callback_choices => $stop_on_choices);
 	    #- dependancies are not asked, just clean selected part with added value (undef).
 	    $query->{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
 								    ! defined $state->{selected}{$_}} keys %{$state->{selected}}};
