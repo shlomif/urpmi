@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.4
-Release: 22mdk
+Release: 23mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.93-2mdk
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.93-7mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Wed Aug 20 2003 François Pons <fpons@mandrakesoft.com> 4.4-23mdk
+- fixed bad key ids recognized from pubkey during update of media.
+- simplified list and pubkey location to be more compatible with
+  previous version and avoid probing too many files.
+- simplified log to be more explicit when a key is imported.
+
 * Tue Aug 19 2003 François Pons <fpons@mandrakesoft.com> 4.4-22mdk
 - fixed MD5SUM and pubkey management for local media.
 - fixed post deadlock with rpm < 4.2.
