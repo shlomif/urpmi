@@ -141,7 +141,7 @@ sub parallel_install {
 	$urpm->{error}(_("Installation is possible"));
 	1;
     } else {
-	my $line = $parallel->{line} . ($options{excludepath} && " --excludepath '$options{excludepath}'");
+	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation on each nodes.
 	foreach my $node (keys %{$parallel->{nodes}}) {
 	    $urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");

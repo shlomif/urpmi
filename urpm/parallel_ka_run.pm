@@ -136,7 +136,7 @@ sub parallel_install {
 	$urpm->{error}(_("Installation is possible"));
 	1;
     } else {
-	my $line = $parallel->{line} . ($options{excludepath} && " --excludepath '$options{excludepath}'");
+	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation.
 	$urpm->{log}("parallel_ka_run: rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
 	system("rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line") == 0;

@@ -1626,7 +1626,7 @@ sub register_rpms {
     $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);
 
     #- distribute local packages to distant nodes directly in cache of each machine.
-    $urpm->{parallel_handler} and $urpm->{parallel_handler}->parallel_register_rpms(@_);
+    @files && $urpm->{parallel_handler} and $urpm->{parallel_handler}->parallel_register_rpms(@_);
 
     %requested;
 }

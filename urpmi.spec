@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 15mdk
+Release: 16mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,10 @@ fi
 
 
 %changelog
+* Fri Dec 13 2002 François Pons <fpons@mandrakesoft.com> 4.1-16mdk
+- fixed warning message from distributed module for local rpms.
+- fixed bad test including a 0 for distributed install.
+
 * Wed Dec 11 2002 François Pons <fpons@mandrakesoft.com> 4.1-15mdk
 - improve speed of urpmf dramatically if no --files (default if
   no flags given) nor --description are given.
