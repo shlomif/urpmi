@@ -442,7 +442,12 @@ if (@ask_unselect) {
 	} else {
 	    my $noexpr = N("Nn");
 	    my $yesexpr = N("Yy");
-	    message_input($msg . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
+	    message_input(
+		$msg . N("\nContinue?") . N(" (Y/n) "),
+		$force && $yesexpr,
+		boolean => 1,
+	    ) =~ /[$noexpr]/
+		and exit 0;
 	}
     }
 }
