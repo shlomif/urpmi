@@ -259,7 +259,7 @@ select STDOUT; $| = 1;
 unless ($bug) {
     $urpm->{fatal} = sub { printf SAVEERR "%s\n", $_[1]; exit($_[0]) };
     $urpm->{error} = sub { printf SAVEERR "%s\n", $_[0] };
-    $urpm->{log} = sub { printf SAVEERR "%s\n", $_[0] };
+    $urpm->{log}   = sub { printf SAVEOUT "%s\n", $_[0] };
 }
 $verbose > 0 or $urpm->{log} = sub {};
 

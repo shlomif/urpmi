@@ -67,7 +67,7 @@ sub new {
 	sync       => sub { $self->sync_webfetch(@_) },
 	fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	error      => sub { printf STDERR "%s\n", $_[0] },
-	log        => sub { printf STDERR "%s\n", $_[0] },
+	log        => sub { printf "%s\n", $_[0] },
 	ui_msg     => sub {
 	    $self->{log}($_[0]);
 	    ref $self->{ui} && ref $self->{ui}{msg} and $self->{ui}{msg}->($_[1]);
