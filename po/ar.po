@@ -234,9 +234,9 @@ msgid "found parallel handler for nodes: %s"
 msgstr "تم ايجاد المتعامل المتوازي للعقد: %s"
 
 #: ../urpm.pm_.c:595
-#, fuzzy, c-format
+#, c-format
 msgid "using associated media for parallel mode: %s"
-msgstr "جاري استخدام الوسلئط المرتبطة للوضع المتوازي: %s"
+msgstr "جاري استخدام الوسائط المرتبطة للوضع المتوازي: %s"
 
 #: ../urpm.pm_.c:599
 #, c-format
@@ -367,9 +367,8 @@ msgid "copy of [%s] failed"
 msgstr "فشل نسخ [%s]"
 
 #: ../urpm.pm_.c:978 ../urpm.pm_.c:1136
-#, fuzzy
 msgid "examining MD5SUM file"
-msgstr "جاري اختبار ملف hdlist [%s]"
+msgstr "جاري اختبار ملف MD5SUM"
 
 #: ../urpm.pm_.c:1016
 #, c-format
@@ -426,9 +425,9 @@ msgid "unable to write list file of \"%s\""
 msgstr "غير قادر على كتابة ملف القوائم لـ \"%s\""
 
 #: ../urpm.pm_.c:1279
-#, fuzzy, c-format
+#, c-format
 msgid "writing list file for medium \"%s\""
-msgstr "لم يمكن ايجاد ملف hdlist للوسيط \"%s\""
+msgstr "جاري كتابة ملف القوائم للوسيط \"%s\""
 
 #: ../urpm.pm_.c:1281
 #, c-format
@@ -489,9 +488,9 @@ msgid "invalid rpm file name [%s]"
 msgstr "اسم ملف rpm yير موجود [%s]"
 
 #: ../urpm.pm_.c:1612
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm file [%s] ..."
-msgstr "جاري استرجاع ملفات rpm..."
+msgstr "جاري استرجاع ملف rpm [%s]..."
 
 #: ../urpm.pm_.c:1619 ../urpm.pm_.c:2221
 #, c-format
@@ -529,7 +528,7 @@ msgstr "تعذر تحليل [%s] بشكل صحيح على القيمة \"%s\""
 #: ../urpm.pm_.c:1925
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
-msgstr ""
+msgstr "الوسيط \"%s\" لا يعرف أي موقع لملفات rpm"
 
 #: ../urpm.pm_.c:1934
 #, c-format
@@ -557,9 +556,9 @@ msgid "malformed input: [%s]"
 msgstr "ادخال مشوه: [%s]"
 
 #: ../urpm.pm_.c:2092
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "جاري استرجاع ملفات rpm..."
+msgstr "جاري استرجاع ملفات rpm للوسيط \"%s\"..."
 
 #: ../urpm.pm_.c:2162
 msgid "Preparing..."
@@ -588,17 +587,17 @@ msgstr "%s يتعارض مع %s"
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
 #: ../urpm/parallel_ka_run.pm_.c:178
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "فشل mput, ربما تعذر الوصول الى العقدة"
 
 #: ../urpm/parallel_ka_run.pm_.c:65 ../urpm/parallel_ka_run.pm_.c:163
 #: ../urpm/parallel_ka_run.pm_.c:192
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "فشل rshp, ربما تعذر الوصول الى العقدة"
 
 #: ../urpm/parallel_ka_run.pm_.c:74 ../urpm/parallel_ssh.pm_.c:78
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "على العقدة %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:196 ../urpm/parallel_ssh.pm_.c:202
 #, c-format
@@ -612,9 +611,9 @@ msgstr "التثبيت ممكن"
 
 #: ../urpm/parallel_ssh.pm_.c:11 ../urpm/parallel_ssh.pm_.c:95
 #: ../urpm/parallel_ssh.pm_.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "scp failed on host %s"
-msgstr "فشل التثبيت في العقدة %s"
+msgstr "فشل scp في المستضيف %s"
 
 #: ../urpm/parallel_ssh.pm_.c:167
 #, c-format
@@ -622,7 +621,7 @@ msgid "host %s does not have a good version of urpmi"
 msgstr "المستضيف %s لا يحتوي على اصدار جيد من urpmi"
 
 #: ../urpme_.c:39
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpme version %s\n"
 "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
@@ -631,9 +630,9 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmi الإصدار %s\n"
-" جميع الحقوق محفوظة 1999, 2000, 2001, 2002 MandrakeSoft.\n"
-" هذا برنامج حر ومجاني و يمكن اعادة توزيعه تحت بنود ترخيص GNU GPL.\n"
+"urpme الإصدار %s\n"
+"جميع الحقوق محفوظة 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"هذا برنامج حر ومجاني و يمكن اعادة توزيعه تحت بنود ترخيص GNU GPL.\n"
 "\n"
 "الاستخدام:\n"
 
@@ -656,40 +655,36 @@ msgstr ""
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - distributed urpmi accross machines of alias.\n"
 
+#
 #: ../urpme_.c:48
-#, fuzzy
 msgid "  -a             - select all packages matching expression.\n"
-msgstr "  -a             - اختر كل التطابقات على سطر الأوامر.\n"
+msgstr "  -a             - اختر كل الحزم المتفقة مع المعامل.\n"
 
 #: ../urpme_.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-msgstr "urpmi: خيار غير معلوم \"-%s\", تحقَّق من طريقة الإستخدام بـ --help\n"
+msgstr "urpme: خيار غير معلوم \"-%s\", تحقَّق من طريقة الإستخدام بـ --help\n"
 
 #: ../urpme_.c:83
-#, fuzzy
 msgid "unknown package"
 msgstr "حزمة غير معروفة "
 
 #: ../urpme_.c:83
-#, fuzzy
 msgid "unknown packages"
 msgstr "حزم غير معروفة "
 
 #: ../urpme_.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "removing package %s will break your system"
-msgstr "ازالة الحزمة %s ستتسبب في كسر نظامك\n"
+msgstr "ازالة الحزمة %s ستتسبب في تعطيل نظامك"
 
 #: ../urpme_.c:95
-#, fuzzy
 msgid "Nothing to remove"
-msgstr "لا شئ للإزالة.\n"
+msgstr "لا شئ للإزالة"
 
 #: ../urpme_.c:98
-#, fuzzy
 msgid "Checking to remove the following packages"
-msgstr "أحد الحزم التالية يُحتاج اليه:"
+msgstr "جاري التحقق لإزالة الحزم التالية"
 
 #: ../urpme_.c:105
 #, c-format
@@ -699,9 +694,8 @@ msgid ""
 msgstr "لإرضاء الاعتمادات, ستتم ازالة الحزم التالية (%d ميغابايت)"
 
 #: ../urpme_.c:113
-#, fuzzy
 msgid "Removing failed"
-msgstr "...فشل النسخ"
+msgstr "فشلت عملية الإزالة"
 
 #. Translator: The URI types strings 'file:', 'ftp:', 'http:',
 #. Translator: and 'removable:' must not be translated!
@@ -760,13 +754,12 @@ msgid "  --update       - create an update medium.\n"
 msgstr "  --update       - اعمل وسيط تحديث.\n"
 
 #: ../urpmi.addmedia_.c:61
-#, fuzzy
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
 msgstr ""
-"  --distrib      - automatically create all media from an installation "
-"medium.\n"
+"  --distrib      - automatically create all media from an installation\n"
+"                   medium.\n"
 
 #: ../urpmi.addmedia_.c:63
 msgid ""
@@ -774,38 +767,46 @@ msgid ""
 "                   distribution, XXX may be main, contrib, updates or\n"
 "                   anything else that has been configured ;-)\n"
 msgstr ""
+"  --distrib-XXX  - automatically create a medium for XXX part of a\n"
+"                   distribution, XXX may be main, contrib, updates or\n"
+"                   anything else that has been configured ;-)\n"
 
 #: ../urpmi.addmedia_.c:66
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --from         - use specified url for list of mirrors, the default is\n"
 "                   %s\n"
 msgstr ""
-"  --env          - use specific environment (typically a bug\n"
-"                   report).\n"
+"  --from         - use specified url for list of mirrors, the default is\n"
+"                   %s\n"
 
 #: ../urpmi.addmedia_.c:68
 msgid ""
 "  --version      - use specified version, the default is version of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --version      - use specified version, the default is version of\n"
+"                   mandrake-release package installed.\n"
 
 #: ../urpmi.addmedia_.c:70
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --arch         - use specified architecture, the default is arch of\n"
+"                   mandrake-release package installed.\n"
 
 #: ../urpmi.addmedia_.c:72 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:70
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - clean headers cache directory.\n"
 
 #: ../urpmi.addmedia_.c:73
-#, fuzzy
 msgid ""
 "  -h             - try to find and use synthesis or hdlist\n"
 "                   file.\n"
-msgstr "  -h             - حاول ايجاد ملف التخليق أو hdlist.\n"
+msgstr ""
+"  -h             - try to find and use synthesis or hdlist\n"
+"                   file.\n"
 
 #: ../urpmi.addmedia_.c:75 ../urpmi.update_.c:72
 msgid "  -f             - force generation of hdlist files.\n"
@@ -813,7 +814,7 @@ msgstr "  -f             - قم بالإجبار على توليد ملفات hd
 
 #: ../urpmi.addmedia_.c:141
 msgid "cannot add updates of a cooker distribution\n"
-msgstr ""
+msgstr "تعذر اضافة التحديثات لتوزيعة ccoker\n"
 
 #: ../urpmi.addmedia_.c:181
 #, c-format
@@ -895,9 +896,8 @@ msgstr ""
 "حيث أن <name> هو اسم الوسيط المطلوب تحديثه.\n"
 
 #: ../urpmi.update_.c:68
-#, fuzzy
 msgid "  --update       - update only update media.\n"
-msgstr "  --update       - قم بتحديث الوسائط فقط.\n"
+msgstr "  --update       - update only update media.\n"
 
 #: ../urpmi.update_.c:69
 msgid "  -a             - select all non-removable media.\n"
@@ -1034,9 +1034,8 @@ msgstr ""
 "                   (--no-verify-rpm disable it, default is enabled).\n"
 
 #: ../urpmi_.c:109
-#, fuzzy
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr "  --media       - استخدم الوسائط المختارة بالفاصلة.\n"
+msgstr "  --excludepath  - exclude path separated by comma.\n"
 
 #: ../urpmi_.c:110
 msgid "  -a             - select all matches on command line.\n"
@@ -1052,7 +1051,7 @@ msgstr "  -P             - لا تبحث في المعطيات لإيجاد جز
 
 #: ../urpmi_.c:113 ../urpmq_.c:68
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr "  -v             - قم ببحث هلامي (مثل --fuzzy).\n"
+msgstr "  -y             - impose fuzzy search (same as --fuzzy).\n"
 
 #: ../urpmi_.c:114 ../urpmq_.c:69
 msgid "  -s             - next package is a source package (same as --src).\n"
@@ -1077,7 +1076,7 @@ msgstr "urpmi: خيار غير معلوم \"-%s\", تحقَّق من طريقة 
 
 #: ../urpmi_.c:214
 msgid "What can be done with binary rpm files when using --install-src"
-msgstr ""
+msgstr "ماذا يمكن فعله مع ملف rpm تنفيذي عند استخدام المعامل --install-src"
 
 #: ../urpmi_.c:222
 #, c-format
@@ -1087,7 +1086,7 @@ msgstr "تعذر انشاء الدليل [%s] لتقرير العيوب"
 #: ../urpmi_.c:236
 #, c-format
 msgid "using specific environment on %s\n"
-msgstr ""
+msgstr "جاري استخدام بيئة محددة على %s\n"
 
 #: ../urpmi_.c:247
 msgid "Only superuser is allowed to install packages"
@@ -1175,14 +1174,15 @@ msgid " (y/N) "
 msgstr " (نعم/لا)"
 
 #: ../urpmi_.c:506
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s\n"
 "You may want to update your urpmi database"
 msgstr ""
-"لقد فشل التثبيت, بعض الملفات غير موجودة.\n"
-"ربما تريد نحديث فاعدة بيانات urpmi الخاصة بك"
+"لقد فشل التثبيت, بعض الملفات غير موجودة:\n"
+"%s\n"
+"ربما تريد تحديث فاعدة بيانات urpmi الخاصة بك"
 
 #: ../urpmi_.c:515 ../urpmi_.c:546 ../urpmi_.c:555 ../urpmi_.c:570
 #: ../urpmi_.c:579
@@ -1235,9 +1235,8 @@ msgid "  --list-nodes   - list available nodes when using --parallel.\n"
 msgstr "  --list-nodes   - list available nodes when using --parallel.\n"
 
 #: ../urpmq_.c:49
-#, fuzzy
 msgid "  --list-aliases - list available parallel aliases.\n"
-msgstr "  --list-media   - list available media.\n"
+msgstr "  --list-aliases - list available parallel aliases.\n"
 
 #: ../urpmq_.c:51
 msgid ""
@@ -1263,14 +1262,12 @@ msgid ""
 msgstr "  -u             - ازالة الحزمة اذا كانت نسخة أحدث من المثبتة مسبقا.\n"
 
 #: ../urpmq_.c:65
-#, fuzzy
 msgid "  -c             - complete output with package to removes.\n"
-msgstr "                    command line but without package name)."
+msgstr "  -c             - complete output with package to removes.\n"
 
 #: ../urpmq_.c:67
-#, fuzzy
 msgid "  -R             - reverse search to what requires package.\n"
-msgstr "  -p             - السماح بالبحث في المعطيات ليجاد حزمة.\n"
+msgstr "  -R             - reverse search to what requires package.\n"
 
 #: ../urpmq_.c:70
 msgid "  -g             - print groups with name also.\n"
@@ -1289,9 +1286,8 @@ msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  الأسماء أو ملفات rpm المعطاة على سطر الأوامر يتم الاستعلام عنها.\n"
 
 #: ../urpmq_.c:174
-#, fuzzy
 msgid "--list-nodes can only be used with --parallel"
-msgstr "--synthesis cannot be used with --media, --update or --parallel"
+msgstr "--list-nodes can only be used with --parallel"
 
 #: placeholder.h:18
 #, c-format
