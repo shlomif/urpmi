@@ -134,6 +134,7 @@ sub dump_config ($$) {
 	if ($m) {
 	    print $f quotespace($m), ' ', quotespace($config->{$m}{url}), " {\n";
 	} else {
+	    next if !keys %{$config->{''}};
 	    print $f "{\n";
 	}
 	for (sort grep { $_ ne 'url' } keys %{$config->{$m}}) {
