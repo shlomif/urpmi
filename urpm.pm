@@ -1258,9 +1258,8 @@ sub get_source_packages {
 	    #- we have found one source for id.
 	    push @local_sources, "$urpm->{cachedir}/rpms/$1-$2-$3.$4.rpm";
 	} else {
-	    -d "$urpm->{cachedir}/rpms/$_" and next;
-	    $error = 1;
-	    $urpm->{error}("unable to determine rpms cache directory $urpm->{cachedir}/rpms");
+	    #- syncing on this directory cause newer .listing file to appears...
+	    next;
 	}
     }
     closedir D;

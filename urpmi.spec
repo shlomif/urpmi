@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 30mdk
+Release: 31mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -114,6 +114,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Apr 10 2001 François Pons <fpons@mandrakesoft.com> 1.5-31mdk
+- fixed error on .listing file in rpms cache directory.
+
 * Tue Apr 10 2001 François Pons <fpons@mandrakesoft.com> 1.5-30mdk
 - fixed header clean-up.
 - updated man pages.
