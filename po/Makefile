@@ -4,7 +4,7 @@ localedir = $(PREFIX)/usr/share/locale
 PGOAL = urpmi
 
 # perl files to search translatable strings in
-PL_FILES = ../_irpm ../urpm.pm ../urpme ../urpmi ../urpmi.addmedia \
+PL_FILES = ../_irpm ../urpm.pm ../urpme ../urpmf ../urpmi ../urpmi.addmedia \
 	../urpmi.removemedia ../urpmi.update ../urpmq \
 	../urpm/parallel_ka_run.pm  ../urpm/parallel_ssh.pm
 # C-like files to search translatable strings in

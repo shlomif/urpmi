@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-01-20 13:28+0100\n"
+"POT-Creation-Date: 2003-01-22 14:48+0100\n"
 "PO-Revision-Date: 2003-01-21 17:04+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Gnome-Vi <Gnomevi-list@lists.sourceforge.net>\n"
@@ -653,8 +653,9 @@ msgstr ""
 "\n"
 "cách dùng:\n"
 
-#: ../urpme_.c:44 ../urpmi.addmedia_.c:53 ../urpmi.removemedia_.c:36
-#: ../urpmi.update_.c:61 ../urpmi_.c:76 ../urpmq_.c:40
+#: ../urpme_.c:44 ../urpmf_.c:31 ../urpmi.addmedia_.c:53
+#: ../urpmi.removemedia_.c:36 ../urpmi.update_.c:61 ../urpmi_.c:76
+#: ../urpmq_.c:40
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - in thông tin trợ giúp này.\n"
 
@@ -711,6 +712,169 @@ msgstr "Để thỏa mãn các phụ thuộc, các gói sau đây sẽ được 
 #: ../urpme_.c:113
 msgid "Removing failed"
 msgstr "Gỡ bỏ không được"
+
+#: ../urpmf_.c:26
+#, fuzzy, c-format
+msgid ""
+"urpmf version %s\n"
+"Copyright (C) 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"Phiên bản urpmq %s\n"
+"Bản quyền (C) 2000, 2001,2002 MandrakeSoft.\n"
+"Đây là phần mềm miễn phí và có thể phân phối lại theo các điều khoản của GNU "
+"GPL.\n"
+"\n"
+"sử dụng:\n"
+
+#: ../urpmf_.c:32 ../urpmi_.c:77 ../urpmq_.c:41
+msgid "  --update       - use only update media.\n"
+msgstr "  --update       - chỉ dùng phương tiện cập nhật.\n"
+
+#: ../urpmf_.c:33 ../urpmi_.c:78 ../urpmq_.c:42
+msgid "  --media        - use only the media listed by comma.\n"
+msgstr "  --media         - chỉ dùng phương tiện được liệt kê bởi dấu phẩy.\n"
+
+#: ../urpmf_.c:34 ../urpmq_.c:43
+msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
+msgstr ""
+"  --synthesis    - dùng tổng hợp (synthesis) nhận được để thay cho urpmi "
+"db.\n"
+
+#: ../urpmf_.c:35
+#, fuzzy
+msgid "  --verbose      - verbose mode.\n"
+msgstr "  -v             - chế độ verbose.\n"
+
+#: ../urpmf_.c:36
+#, fuzzy
+msgid ""
+"  --quiet        - do not print tag name (default if no tag given on "
+"command\n"
+"                   line, incompatible with interactive mode).\n"
+msgstr ""
+"  --quiet         - không in ra tên của tag (mặc định nếu không đưa tag vào "
+"lệnh"
+
+#: ../urpmf_.c:38
+#, fuzzy
+msgid "  --all          - print all tags.\n"
+msgstr "  --all           - in ra toàn bộ tag."
+
+#: ../urpmf_.c:39
+#, fuzzy
+msgid ""
+"  --name         - print tag name: rpm filename (assumed if no tag given on\n"
+"                   command line but without package name).\n"
+msgstr ""
+"  --name          - in tên tag: tên tập tin rpm (giả sử không đưa tag vào"
+
+#: ../urpmf_.c:41
+#, fuzzy
+msgid "  --group        - print tag group: group.\n"
+msgstr "  --group         - in ra nhóm tag: nhóm."
+
+#: ../urpmf_.c:42
+#, fuzzy
+msgid "  --size         - print tag size: size.\n"
+msgstr "  --size          - in ra kích thước tag: kích thước."
+
+#: ../urpmf_.c:43
+#, fuzzy
+msgid "  --epoch        - print tag epoch: epoch.\n"
+msgstr "  --size          - in ra kích thước tag: kích thước."
+
+#: ../urpmf_.c:44
+#, fuzzy
+msgid "  --summary      - print tag summary: summary.\n"
+msgstr "  --summary       - in ra tóm tắt tag: tóm tắt."
+
+#: ../urpmf_.c:45
+#, fuzzy
+msgid "  --description  - print tag description: description.\n"
+msgstr "  --description   - in ra mô tả tag: mô tả."
+
+#: ../urpmf_.c:46
+#, fuzzy
+msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+msgstr ""
+"  --provides      - in ra các cung cấp tag: toàn bộ cung cấp (đa dòng)."
+
+#: ../urpmf_.c:47
+#, fuzzy
+msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+msgstr "  --requires      - in ra yêu cầu tag: toàn bộ yêu cầu (đa dòng)."
+
+#: ../urpmf_.c:48
+#, fuzzy
+msgid "  --files        - print tag files: all files (multiple lines).\n"
+msgstr ""
+"  --files         - in ra các tập tin tag: toàn bộ các tập tin (đa dòng)."
+
+#: ../urpmf_.c:49
+#, fuzzy
+msgid ""
+"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+msgstr ""
+"  --conflicts     - in ra các xung đột tag: toàn bộ các xung đột (đa dòng)."
+
+#: ../urpmf_.c:50
+#, fuzzy
+msgid ""
+"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+msgstr "  --obsoletes     - in ra tag hết hạn: toàn bộ obsolete (đa dòng)."
+
+#: ../urpmf_.c:51
+#, fuzzy
+msgid "  -i             - ignore case distinctions in any patterns.\n"
+msgstr "  -f             - cố tạo các tập tin hdlist.\n"
+
+#: ../urpmf_.c:52 ../urpmq_.c:72
+msgid "  -f             - print version, release and arch with name.\n"
+msgstr "  -f             - in phiên bản, phát hành và arch với tên.\n"
+
+#: ../urpmf_.c:53
+#, fuzzy
+msgid "  -e             - include perl code directly as perl -e.\n"
+msgstr "  -c             - xoá thư mục cache headers.\n"
+
+#: ../urpmf_.c:54
+#, fuzzy
+msgid ""
+"  -a             - binary AND operator, true if both expression are true.\n"
+msgstr ""
+"  -u             - bỏ gói tin nếu có phiên bản tốt hơn đã được cài đặt.\n"
+
+#: ../urpmf_.c:55
+msgid ""
+"  -o             - binary OR operator, true if one expression is true.\n"
+msgstr ""
+
+#: ../urpmf_.c:56
+#, fuzzy
+msgid "  !              - unary NOT, true if expression is false.\n"
+msgstr ""
+"  -u             - bỏ gói tin nếu có phiên bản tốt hơn đã được cài đặt.\n"
+
+#: ../urpmf_.c:57
+#, fuzzy
+msgid "  (              - left parenthesis to open group expression.\n"
+msgstr "  -a             - chọn toàn bộ các gói tin khớp với sự diễn đạt.\n"
+
+#: ../urpmf_.c:58
+#, fuzzy
+msgid "  )              - right parenthesis to close group expression.\n"
+msgstr "  -a             - chọn toàn bộ các gói tin khớp với sự diễn đạt.\n"
+
+#: ../urpmf_.c:114
+#, c-format
+msgid ""
+"callback is :\n"
+"%s\n"
+msgstr ""
 
 #. Translator: The URI types strings 'file:', 'ftp:', 'http:',
 #. Translator: and 'removable:' must not be translated!
@@ -955,14 +1119,6 @@ msgstr ""
 "GPL.\n"
 "\n"
 "sử dụng:\n"
-
-#: ../urpmi_.c:77 ../urpmq_.c:41
-msgid "  --update       - use only update media.\n"
-msgstr "  --update       - chỉ dùng phương tiện cập nhật.\n"
-
-#: ../urpmi_.c:78 ../urpmq_.c:42
-msgid "  --media        - use only the media listed by comma.\n"
-msgstr "  --media         - chỉ dùng phương tiện được liệt kê bởi dấu phẩy.\n"
 
 #: ../urpmi_.c:79
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
@@ -1266,12 +1422,6 @@ msgstr ""
 "\n"
 "sử dụng:\n"
 
-#: ../urpmq_.c:43
-msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr ""
-"  --synthesis    - dùng tổng hợp (synthesis) nhận được để thay cho urpmi "
-"db.\n"
-
 #: ../urpmq_.c:46
 msgid "  --list         - list available packages.\n"
 msgstr "  --list         - liệt kê các gói tin hiện có.\n"
@@ -1330,10 +1480,6 @@ msgstr "  -g             - in ra các nhóm với tên.\n"
 #: ../urpmq_.c:71
 msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - in ra phiên bản và phát hành với tên.\n"
-
-#: ../urpmq_.c:72
-msgid "  -f             - print version, release and arch with name.\n"
-msgstr "  -f             - in phiên bản, phát hành và arch với tên.\n"
 
 #: ../urpmq_.c:73
 msgid "  names or rpm files given on command line are queried.\n"
@@ -1601,12 +1747,6 @@ msgstr "Không tìm thấy danh sách phương tiện đầy đủ"
 
 #~ msgid "keeping only files referenced in provides"
 #~ msgstr "chỉ giữ các tập tin được tham chiếu trong các cung cấp"
-
-#~ msgid ""
-#~ "  -u             - remove package if a better version is already "
-#~ "installed.\n"
-#~ msgstr ""
-#~ "  -u             - bỏ gói tin nếu có phiên bản tốt hơn đã được cài đặt.\n"
 
 #~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
 #~ msgstr ""
