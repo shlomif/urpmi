@@ -219,33 +219,33 @@ msgid "write config file [%s]"
 msgstr "اكتب ملف التهيئة [%s]"
 
 #: ../urpm.pm_.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "لم يمكن الوصول الى ملف rpm [%s]"
+msgstr "تعذر تحليل \"%s\" في الملف [%s]"
 
 #: ../urpm.pm_.c:555
-#, fuzzy, c-format
+#, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr "جاري اختبار ملف hdlist [%s]"
+msgstr "جاري اختبار المتعامل المتوازي في الملف [%s]"
 
 #: ../urpm.pm_.c:565
-#, fuzzy, c-format
+#, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr "found probed hdlist (or synthesis) as %s"
+msgstr "تم ايجاد المتعامل المتوازي للعقد: %s"
 
 #: ../urpm.pm_.c:569
 #, c-format
 msgid "using associated media for parallel mode : %s"
-msgstr ""
+msgstr "جاري استخدام الوسلئط المرتبطة للوضع المتوازي: %s"
 
 #: ../urpm.pm_.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "لم يمكن تحديث الوسيط \"%s\"\n"
+msgstr "تعذر استخدام الخيار المتوازي \"%s\""
 
 #: ../urpm.pm_.c:583
 msgid "--synthesis cannot be used with --media, --update or --parallel"
-msgstr ""
+msgstr "--synthesis cannot be used with --media, --update or --parallel"
 
 #: ../urpm.pm_.c:599 ../urpm.pm_.c:1143 ../urpm.pm_.c:1158 ../urpm.pm_.c:1288
 #, c-format
@@ -370,14 +370,14 @@ msgid "copying source list of \"%s\"..."
 msgstr "جاري نسخ قائمة المصدر لـ\"%s\"..."
 
 #: ../urpm.pm_.c:984
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
 msgstr "جاري قراءة ملفات rpm من [%s]"
 
 #: ../urpm.pm_.c:1003
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
-msgstr "لم يمكن قراءة ملفات rpm من [%s]: %s "
+msgstr "تعذر قراءة ملفات rpm من [%s]: %s "
 
 #: ../urpm.pm_.c:1008
 #, c-format
@@ -540,7 +540,6 @@ msgid "malformed input: [%s]"
 msgstr "ادخال مشوه: [%s]"
 
 #: ../urpm.pm_.c:1916
-#, fuzzy
 msgid "retrieving rpm files..."
 msgstr "جاري استرجاع ملفات rpm..."
 
@@ -570,21 +569,21 @@ msgstr "%s يتعارض مع %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:55 ../urpm/parallel_ka_run.pm_.c:88
 msgid "rshp failed"
-msgstr ""
+msgstr "فشل rshp"
 
 #: ../urpm/parallel_ka_run.pm_.c:92 ../urpm/parallel_ssh.pm_.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "فشل التثبيت"
+msgstr "فشل التثبيت في العقدة %s"
 
 #: ../urpm/parallel_ssh.pm_.c:57
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "المستضيف %s لا يحتوي على اصدار جيد من urpmi"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
-msgstr "هل أزيلهم كلهم؟"
+msgstr "هل أحذفهم جميعا؟"
 
 #: ../urpme_.c:42
 msgid "usage: urpme [-a] [--auto] <packages...>\n"
@@ -828,7 +827,7 @@ msgstr "  --media       - استخدم الوسائط المختارة بالف�
 
 #: ../urpmi_.c:72 ../urpmq_.c:53
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr ""
+msgstr "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 
 #: ../urpmi_.c:73
 msgid "  --auto         - automatically select a package in choices.\n"
@@ -875,23 +874,23 @@ msgstr ""
 
 #: ../urpmi_.c:83
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
-msgstr ""
+msgstr "  --parallel     - distributed urpmi accross machines of alias.\n"
 
 #: ../urpmi_.c:90
-#, fuzzy
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-"  --bug          - output a bug report in directory indicated by next arg.\n"
+"  --bug          - output a bug report in directory indicated by\n"
+"                   next arg.\n"
 
 #: ../urpmi_.c:92
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
 msgstr ""
-"  --env          - use specific environment (typically a bug report).\n"
+"  --env          - use specific environment (typically a bug\n"
+"                   report).\n"
 
 #: ../urpmi_.c:94
 msgid "  --X            - use X interface.\n"
@@ -906,16 +905,18 @@ msgstr ""
 "                   واجهة رسومية أو نصية.\n"
 
 #: ../urpmi_.c:97
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr "  --verify-rpm   - verify rpm signature before installation.\n"
+msgstr ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disable it, default is enabled).\n"
 
 #: ../urpmi_.c:99
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+"  --test         - verify if the installation can be achieved correctly.\n"
 
 #: ../urpmi_.c:100
 msgid "  -a             - select all matches on command line.\n"
@@ -1054,9 +1055,9 @@ msgstr ""
 "ربما تريد نحديث فاعدة بيانات urpmi الخاصة بك"
 
 #: ../urpmi_.c:498
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s\n"
-msgstr "جاري تثبيت %s\n"
+msgstr "جاري توزيع %s\n"
 
 #: ../urpmi_.c:534
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1067,9 +1068,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "حاول التثبيت بشكل أقوى (--force)؟ (y[نعم]/N[لا])."
 
 #: ../urpmi_.c:552
-#, fuzzy
 msgid "Installation is possible"
-msgstr "فشل التثبيت"
+msgstr "التثبيت ممكن"
 
 #: ../urpmi_.c:558
 msgid "everything already installed"
