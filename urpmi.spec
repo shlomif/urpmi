@@ -1,14 +1,14 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 3.4
-Release: 9mdk
+Version: 3.5
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.03-2mdk
+PreReq: perl-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.04-1mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Thu Jun 13 2002 François Pons <fpons@mandrakesoft.com> 3.5-1mdk
+- use perl-URPM >= 0.04 for new require resolution algorithms.
+
 * Mon Jun 10 2002 François Pons <fpons@mandrakesoft.com> 3.4-9mdk
 - fixed no output if root.
 - use message function as most as possible. (why it wasn't used ?)

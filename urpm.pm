@@ -3,7 +3,7 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA);
 
-$VERSION = '3.4';
+$VERSION = '3.5';
 @ISA = qw(URPM);
 
 =head1 NAME
@@ -1132,7 +1132,6 @@ sub clean {
 
     $urpm->{depslist} = [];
     $urpm->{provides} = {};
-    $urpm->{names} = {};
 
     foreach (@{$urpm->{media} || []}) {
 	delete $_->{start};
@@ -1304,17 +1303,6 @@ sub search_packages {
     my (%exact, %exact_a, %exact_ra, %found, %foundi);
 
     foreach my $v (@$names) {
-	#- it is a way of speedup, providing the name of a package directly help
-	#- to find the package.
-	#- this is necessary if providing a name list of package to upgrade.
-	unless ($options{fuzzy}) {
-	    my $pkg = $urpm->{names}{$v};
-	    if ($pkg && defined $pkg->id && ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')) {
-		$exact{$v} = $pkg->id;
-		next;
-	    }
-	}
-
 	my $qv = quotemeta $v;
 
 	if ($options{use_provides}) {
@@ -1381,7 +1369,7 @@ sub search_packages {
     my $result = 1;
     foreach (@$names) {
 	if (defined $exact{$_}) {
-	    $packages->{$exact{$_}} = undef;
+	    $packages->{$exact{$_}} = 1;
 	} else {
 	    #- at this level, we need to search the best package given for a given name,
 	    #- always prefer already found package.
@@ -1406,7 +1394,7 @@ sub search_packages {
 			    $best = $_;
 			}
 		    }
-		    $packages->{$best->id} = undef;
+		    $packages->{$best->id} = 1;
 		}
 	    }
 	}
@@ -1703,7 +1691,7 @@ sub deselect_unwanted_packages {
 	foreach (keys %{$urpm->{provides}{$_} || {}}) {
 	    my $pkg = $urpm->{depslist}[$_] or next;
 	    $pkg->arch eq 'src' and next; #- never ignore source package.
-	    $options{force} || (exists $packages->{$_} && defined $packages->{$_})
+	    $options{force} || (exists $packages->{$_} && ! defined $packages->{$_})
 	      and delete $packages->{$_};
 	}
     }

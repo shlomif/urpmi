@@ -25,7 +25,7 @@ use urpm;
 import urpm _;
 
 #- default options.
-my $query = {};
+my $query = { use_provides => 1, };
 
 my @files;
 my @names;
@@ -42,7 +42,6 @@ usage:
 ") . _("  -d             - extend query to package dependencies.
 ") . _("  -u             - remove package if a better version is already installed.
 ") . _("  -c             - choose complete method for resolving requires closure.
-") . _("  -p             - allow search in provides to find package.
 ") . _("  -P             - do not search in provides to find package.
 ") . _("  -y             - impose fuzzy search (same as --fuzzy).
 ") . _("  -s             - next package is a source package (same as --src).
@@ -121,24 +120,21 @@ $urpm->configure(nocheck_access => 1,
 
 my ($start, $end) = $urpm->register_rpms(@files);
 
-#- relocate depslist.
-$urpm->relocate_depslist_provides();
-
 #- select individual files.
-my %packages;
-defined $start && defined $end and @packages{($start .. $end)} = ();
+my $state = { requested => {} };
+defined $start && defined $end and @{$state->{requested}}{($start .. $end)} = ();
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded, all its dependency
 #- will be updated too.
 if (@names) {
-    $urpm->search_packages(\%packages, [ @names ],
+    $urpm->search_packages($state->{requested}, [ @names ],
 			   use_provides => $query->{use_provides},
 			   fuzzy => $query->{fuzzy})
 	or $query->{force} or exit 1;
 }
 if (@src_names) {
-    $urpm->search_packages(\%packages, [ @src_names ],
+    $urpm->search_packages($state->{requested}, [ @src_names ],
 			   use_provides => $query->{use_provides},
 			   fuzzy => $query->{fuzzy},
 			   src => 1)
@@ -153,26 +149,31 @@ if ($query->{auto_select} || $query->{deps}) {
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
 
+    require URPM::Resolve;
     #- auto select package for upgrading the distribution.
     if ($query->{auto_select}) {
 	my (%to_remove, %keep_files);
 
-	$urpm->select_packages_to_upgrade($db, \%packages, \%to_remove, \%keep_files);
+	$urpm->resolve_packages_to_upgrade($db, $state, requested => 0);
 
-	if (keys(%to_remove) > 0) {
+	if (%{$state->{ask_remove}} || %{$state->{ask_unselect}}) {
 	    $urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
 	}
     }
 
     #- filter to add in packages selected required packages.
-    $query->{deps} and $urpm->filter_packages_to_upgrade($db, \%packages, undef, keep_alldeps => !$query->{upgrade});
+    if ($query->{upgrade}) {
+	$query->{deps} and $urpm->resolve_requested($db, $state);
+    } else { #TODO fallback tempory...
+	$urpm->filter_packages_to_upgrade($db, $state->{requested}, undef, keep_alldeps => 1);
+    }
 }
 
 #- get out of package that should not be upgraded.
-$urpm->deselect_unwanted_packages(\%packages);
+$urpm->deselect_unwanted_packages($state->{selected});
 
 if ($query->{headers} || $query->{sources}) {
-    my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
+    my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
     unless ($local_sources || $list) {
 	$urpm->{fatal}(1, _("unable to get source packages, aborting"));
     }
@@ -221,8 +222,8 @@ my $query_sub = sub {
 };
 
 my %hack_only_one;
-foreach my $id (keys %packages) {
-    my $class = $packages{$id};
+foreach my $id ($state->{selected} ? keys %{$state->{selected}} : keys %{$state->{requested}}) {
+    my $class = $state->{selected}{$id} || $state->{requested}{$id};
     if (ref $class) {
 	foreach my $choices (@{$class || []}) {
 	    exists $hack_only_one{$choices} and next;
@@ -230,7 +231,7 @@ foreach my $id (keys %packages) {
 	    $hack_only_one{$choices} = undef;
 	}
     } else {
-	exists $packages{$id} and print join('|', map { $query_sub->($_) } split '\|', $id), "\n";
+	print join('|', map { $query_sub->($_) } split '\|', $id), "\n";
     }
 }
 

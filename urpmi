@@ -236,26 +236,23 @@ $urpm->configure(nocheck_access => $uid > 0,
 
 my ($start, $end) = $urpm->register_rpms(@files, @src_files);
 
-#- relocate depslist.
-$urpm->relocate_depslist_provides();
-
 #- select individual files.
-my %packages;
-defined $start && defined $end and @packages{($start .. $end)} = ();
+my $state = { requested => {} };
+defined $start && defined $end and @{$state->{requested}}{($start .. $end)} = ();
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded,
 #- all its dependency will be updated too.
 #- make sure basesystem exists before.
 if (@names) {
-    $urpm->search_packages(\%packages, [ @names ],
+    $urpm->search_packages($state->{requested}, [ @names ],
 			   all => $all,
 			   use_provides => $use_provides,
 			   fuzzy => $fuzzy)
 	or $force or exit 1;
 }
 if (@src_names) {
-    $urpm->search_packages(\%packages, [ @src_names ],
+    $urpm->search_packages($state->{requested}, [ @src_names ],
 			   all => $all,
 			   use_provides => $use_provides,
 			   fuzzy => $fuzzy,
@@ -264,13 +261,14 @@ if (@src_names) {
 }
 
 #- filter to add in packages selected required packages.
-my $ask_choice = sub {
-    my ($urpm, $from_id, @choices_id) = @_;
+sub ask_choice {
+    my ($urpm, $db, $state, $choices) = @_;
     my $n = 1; #- default value.
-    my ($from, @l) = map { my $pkg = $urpm->{depslist}[$_]; scalar $pkg->fullname } ($from_id, @choices_id);
+    my (@l) = map { scalar $_->fullname } @$choices;
+    my $from = undef; #TODO
 
     if (@l > 1 && !$auto) {
-	my $msg = (defined $from_id ?
+	my $msg = (defined $from ?
 		   _("One of the following packages is needed to install %s:", $from) :
 		   _("One of the following packages is needed:"));
 	if ($X) {
@@ -288,7 +286,7 @@ my $ask_choice = sub {
 	}
     }
 
-    $choices_id[$n - 1];
+    $choices->[$n - 1];
 };
 
 #- open/close of database should be moved here, in order to allow testing
@@ -299,38 +297,36 @@ my $ask_choice = sub {
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
 
+    require URPM::Resolve;
     #- auto select package for upgrading the distribution.
     if ($auto_select) {
 	my (%to_remove, %keep_files);
 
-	$urpm->select_packages_to_upgrade($db, \%packages, \%to_remove, \%keep_files);
+	$urpm->resolve_packages_to_upgrade($db, $state, requested => 0);
 
-	if (keys(%to_remove) > 0) {
+	if (%{$state->{ask_remove}} || %{$state->{ask_unselect}}) {
 	    $urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
 	}
     }
 
-    $urpm->filter_packages_to_upgrade($db, \%packages, $ask_choice);
-    #- my $track = $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, track => 1);
-    #- require Data::Dumper;
-    #- print STDERR Data::Dumper->Dump([$track], ['$track']);
+    $urpm->resolve_requested($db, $state, callback_choices => \&ask_choice);
 }
 
 #- get out of package that should not be upgraded.
-$urpm->deselect_unwanted_packages(\%packages);
+$urpm->deselect_unwanted_packages($state->{selected});
 
 #- package to install as a array of strings.
 my @to_install;
 
 #- check if there is at least one package to install that
 #- has not been given by the user.
-my $ask_user = $auto_select && scalar(keys %packages);
+my $ask_user = $auto_select;
 my $sum = 0;
 my @root_only;
 
-foreach (keys %packages) {
-    defined $packages{$_} and $ask_user = 1;
-    my $pkg = $urpm->{depslist}[$_];
+foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
+    $ask_user ||= $pkg->flag_required;
+
     my $fullname = $pkg->fullname;
     if ($uid > 0 && $pkg->arch ne 'src') {
 	push @root_only, $fullname;
@@ -359,7 +355,7 @@ if (@root_only) {
 }
 
 #- if not root, the list become invisible and no download will be possible.
-my ($local_sources, $list, $local_to_removes) = $urpm->get_source_packages(\%packages);
+my ($local_sources, $list, $local_to_removes) = $urpm->get_source_packages($state->{selected});
 unless ($local_sources || $list) {
     $urpm->{fatal}(3, _("unable to get source packages, aborting"));
 }
@@ -495,9 +491,18 @@ sub message {
 sub message_input {
     my ($msg, $default_input) = @_;
 
-    message($msg, $default_value); #- if a default value is given, the user doesn't have to choose (and being asked).
+    if ($X && !default_input) { #- if a default input is given, the user doesn't have to choose (and being asked).
+	`gmessage -default Ok -buttons Ok "$msg"`;
+	$bug and log_it($msg);
+    } else {
+	if ($bug) {
+	    print STDOUT "$msg";
+	} else {
+	    print SAVEOUT "$msg";
+	}
+    }
 
-    my $input = $default_value || <STDIN>;
+    my $input = $default_input || <STDIN>;
     $bug and log_it($input);
     return $input;
 }
