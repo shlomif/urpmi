@@ -10,7 +10,7 @@ our $PROXY_CFG = '/etc/urpmi/proxy.cfg';
 my $proxy_config;
 
 #- Timeout for curl connection (in seconds)
-our $CONNECT_TIMEOUT = 30;
+our $CONNECT_TIMEOUT = 60;
 
 sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
 
@@ -183,6 +183,7 @@ sub sync_wget {
 	($options->{callback} ? ("--progress=bar:force", "-o", "-") :
 	    $options->{quiet} ? "-q" : @{[]}),
 	"--retr-symlinks",
+	"--connect-timeout=$CONNECT_TIMEOUT",
 	"-NP",
 	$options->{dir},
 	@_
