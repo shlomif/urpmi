@@ -27,12 +27,15 @@ import urpm _;
 sub main {
     my (@toremoves, %options);
 
+    $options{noclean} = 1;
     foreach (@_) {
 	/^--?a/ and $options{all} = 1, next;
+	/^--?c/ and $options{noclean} = 0, next;
 	/^-/ and die _("usage: urpmi.removemedia [-a] <name> ...
 where <name> is a medium name to remove.
-   -a    select all media.
-\nunknown options '%s'\n", $_);
+") . _("  -a             - select all media.
+") . _("  -c             - clean headers cache directory.
+") . _("\nunknown options '%s'\n", $_);
 	push @toremoves, $_;
     }
 
@@ -47,7 +50,11 @@ where <name> is a medium name to remove.
 
     $urpm->select_media(@toremoves);
     $urpm->remove_selected_media;
-    $urpm->update_media(noclean => !$options{all});
+
+    foreach (grep { !$_->{ignore} && !$_->{with_hdlist} } @{$urpm->{media} || []}) {
+	$urpm->parse_synthesis($_);
+    }
+    $urpm->update_media(noclean => $options{noclean});
 }
 
 main(@ARGV);
