@@ -491,13 +491,13 @@ sub configure {
 				    "$path/$_->{with_hdlist}", callback => $options{callback});
 			    } else {
 				$urpm->{log}(N("examining hdlist file [%s]", "$path/$_->{with_hdlist}"));
+				#- we'll need a second pass
+				defined $second_pass or $second_pass = 1;
 				($_->{start}, $_->{end}) = $urpm->parse_hdlist(
 				    "$path/$_->{with_hdlist}",
 				    packing => 1,
-				    callback => $options{callback},
+				    callback => $options{call_back_only_once} && $second_pass ? undef : $options{callback},
 				);
-				#- we need a second pass now.
-				defined $second_pass or $second_pass = 1;
 			    }
 			} else {
 			    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $_->{name}));
