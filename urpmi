@@ -5,7 +5,7 @@ load_po();
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete $ENV{ENV};
 delete $ENV{BASH_ENV};
-$< = $>;
+($<, $uid) = ($>, $<);
 
 if (@ARGV and $ARGV[0] =~ /^-?-h/) {
     shift @ARGV;
@@ -47,7 +47,15 @@ select STDERR; $| = 1;     # make unbuffered
 select STDOUT; $| = 1;     # make unbuffered
 
 open F, $depsfile or die "run urpmi.addmedia first\n";
-foreach (<F>) {
+
+if (@files = map { untaint($_) } grep { -e $_ } @ARGV) {
+    $uid == 0 or die _("Only superuser is allowed to install local packages");
+    open G, "gendepslist2 @files -- $dir/hdlist*.cz2 2>/dev/null |";
+    -e $_ and s|(.*/)?(.*)\.[^.]+\.rpm$|$2| foreach @ARGV;
+    m|^/| or $_ = "./$_" foreach @files;
+}
+
+foreach (<F>, <G>) {
     my ($pack, $size, $deps) = /(\S+)\s+(\S+)\s+(.*)/ or die("urpmi: bad format file $depsfile\n");
     $size{$pack} = $size;
     $deps{$pack} = [ split ' ', $deps ];
@@ -61,7 +69,8 @@ foreach (<F>) {
 	$pack =~ /$_/i and push @{$foundi{$v}}, $pack; 
     }
 }
-close F or die();
+close F;
+close G or die "gendepslist2 failed" if @files;
 
 my $ok = 1;
 foreach (@ARGV) {
@@ -110,9 +119,14 @@ $to_install = join '|', map { quotemeta($_) } @to_install;
 foreach $list (rpmlistfiles($dir)) {
     open F, "$dir/$list" or die("urpmi: error opening $list\n");
     $list =~ s/list\.//;
-    foreach (<F>) { chop; m|/($to_install)| and $long{$1} = $_, $name{$1} = $file; }
+    foreach (<F>) { chop; m|/($to_install)| and $long{$1} = $_, $name{$1} = $list }
     close F;
 }
+
+foreach (@files) { 
+    m|/($to_install)| and $long{$1} = $_
+}
+
 foreach $l (@to_install) {
     local $_ = $long{$l} or die("urpmi: package $l is not available\n");
     if (s|removable_(\w+)_(\d*):/||) {
@@ -167,6 +181,8 @@ sub install {
 	message(_("Installation failed"));
 	$X and exit 1; #- grpmi handles --nodeps and --force by itself
 
+	m|^/| && !-e $_ and exit 1 foreach @_; #- missing local file
+
 	print SAVEOUT _("Try installation without cheking dependencies?"), " (Y/n) ";
 	<STDIN> =~ /n/i and exit 1;
 	system("rpm", "-U", "--nodeps", @_);	
@@ -189,11 +205,14 @@ sub closure_deps {
 	exists $installed{$name} && le_version([$v, $r], $installed{$name}) and next;
 
 	$to_install->{$_} = undef;
+	my @notfound;
 	my @d = @{$deps{$_}} or return $_;
       up: foreach (@d) {
 	  my %l; 
 	  foreach (split '\|') { 
 	      exists $to_install->{$_} and next up;
+	      /^NOTFOUND_(.*)/ and push(@notfound, $1), next up;
+
 	      my ($name, $v, $r) = /(.*)-([^-]+)-([^-]+)/;
 	      if (exists $installed{$name}) {
 		  le_version([$v, $r], $installed{$name}) and next up;
@@ -223,6 +242,10 @@ sub closure_deps {
 	      $l = $l[$n - 1];
 	  }
 	  closure_deps($to_install, $l);
+      }
+      if (@notfound) {
+	  message(_("Failed dependencies: %s requires %s", $_, join(", ", @notfound)));
+	  exit 1;
       }
     }
 }

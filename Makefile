@@ -1,4 +1,4 @@
- PREFIX = 
+PREFIX = 
 BINDIR = $(PREFIX)/usr/bin
 MANDIR = $(PREFIX)/usr/man
 SBINDIR = $(PREFIX)/usr/sbin
@@ -6,6 +6,8 @@ XBINDIR = $(PREFIX)/usr/X11R6/bin
 URPMIDIR = $(PREFIX)/var/lib/urpmi
 URPMIDIR2 = $(PREFIX)/etc/urpmi
 LOCALEDIR = $(PREFIX)/usr/share/locale
+CFLAGS = -Wall -g
+LIBRPM = -lrpm -ldb1 -lz -lbz2 -I/usr/include/rpm -lpopt
 
 NAME = urpmi
 TAR = $(NAME).tar.bz2
@@ -19,14 +21,14 @@ install: autoirpm.update-all
 	install _irpm rpm-find-leaves rpmf $(BINDIR)
 	install -m 644 autoirpm.deny $(URPMIDIR2)
 	install -m 644 *.8 $(MANDIR)/man8
-	install urpmi.addmedia autoirpm.update autoirpm.uninstall $(SBINDIR)
+	install rpme urpmi.addmedia autoirpm.update autoirpm.uninstall $(SBINDIR)
 	install -s autoirpm.update-all $(SBINDIR)
 	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia
 	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.update
 	install gurpmi $(XBINDIR)
 
-autoirpm.update-all: %: %.cc
-	$(CXX) -I/usr/include/rpm -g $< -lrpm -ldb1 -lz -o $@
+autoirpm.update-all: %: %.cc 
+	$(CXX) $(CFLAGS) $< $(LIBRPM) -o $@
 
 tar: clean
 	cd .. ; tar cfy $(TAR) urpmi

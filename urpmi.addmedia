@@ -86,7 +86,13 @@ my $RPMLIST = "$DIR/list.$name";
 !-e $HDLIST || unlink $HDLIST or die "can't remove $HDLIST";
 
 if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
-    if (-e (my $f = "$dir/Mandrake/base/hdlist.cz2")) {
+    my $f;
+    if ($dir =~ /RPMS(.*)$/) {
+	$f = "$dir/Mandrake/base/hdlist$1.cz2";
+	$f = "$dir/../base/hdlist$1.cz2" unless -e $f;
+	$f = "$dir/../hdlist$1.cz2" unless -e $f;
+    }
+    if (-e $f) {
 	system("cp -f $f $HDLIST");
     } else {
 	system("genhdlist_cz2 -o $HDLIST $dir");

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.1
-Release: 1mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -16,7 +16,88 @@ well-known rpms to be installed.
 
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
+%package -n gurpmi
+Version: 0.5
+Summary: User mode rpm GUI install
+Requires: urpmi grpmi gchooser gmessage
+Group: %{group}
+%description -n gurpmi
+gurpmi enable non-superuser install of rpms. In fact, it only authorizes
+well-known rpms to be installed.
+
+You can compare rpm vs. urpmi  with  insmod vs. modprobe
+
+%package -n autoirpm
+Version: 0.3
+Summary: Auto install of rpm on demand
+Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
+Group: %{group}
+
+%description -n autoirpm
+Auto install of rpm on demand
+
+
+%prep
+%setup -n %{name}
+
+%install
+rm -rf $RPM_BUILD_ROOT
+make PREFIX=$RPM_BUILD_ROOT install
+install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
+install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
+
+cd $RPM_BUILD_ROOT/usr/bin ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
+
+%clean
+rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_DIR/$RPM_PACKAGE_NAME
+
+%pre
+groupadd -r -f urpmi
+
+%preun -n autoirpm
+autoirpm.uninstall
+
+%files
+%defattr(-,root,root)
+%attr(0755, root, urpmi) %dir /etc/urpmi
+%attr(0755, root, urpmi) %dir /var/lib/urpmi
+%attr(4750, root, urpmi) /usr/bin/urpmi
+/usr/bin/urpmi_rpm-find-leaves
+/usr/bin/rpmf
+/usr/sbin/rpme
+/usr/sbin/urpmi.*
+/usr/share/locale/*/LC_MESSAGES/urpmi.po
+/usr/man/man*/urpmi*
+/usr/man/man*/rpmf*
+
+%files -n gurpmi
+%defattr(-,root,root)
+/usr/X11R6/bin/gurpmi
+
+%files -n autoirpm
+%defattr(-,root,root)
+%dir /var/lib/urpmi/autoirpm.scripts
+/etc/urpmi/autoirpm.deny
+/usr/sbin/autoirpm.*
+/usr/man/man*/autoirpm*
+/usr/bin/_irpm
+%doc README-autoirpm-icons autoirpm.README
+
+
 %changelog
+* Sun Mar 26 2000 Pixel <pixel@mandrakesoft.com> 1.1-3mdk
+- urpmi can handle package files given on command line. It finds out the
+dependencies if possible.
+- added rpme (try it, you'll like it!)
+- don't try nodeps if file is missing
+- new group
+- adapted urpmi.addmedia to new hdlist's / multi-cd
+- adapted autoirpm.update-all to new rpmlib
+
+* Thu Mar 16 2000 Pixel <pixel@mandrakesoft.com> 1.1-2mdk
+- increase version number of gurpmi and autoirpm
+
 * Tue Mar  7 2000 Pixel <pixel@mandrakesoft.com> 1.1-1mdk
 - new version, compatible with new DrakX and new rpmtools
 - add man page for rpmf
@@ -112,70 +193,3 @@ You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 * Mon Nov 15 1999 Pixel <pixel@linux-mandrake.com>
 - changed the handling of urpmi, added urpmi.addmedia...
-
-%package -n gurpmi
-Version: 0.4
-Summary: User mode rpm GUI install
-Requires: urpmi grpmi gchooser gmessage
-Group: %{group}
-%description -n gurpmi
-gurpmi enable non-superuser install of rpms. In fact, it only authorizes
-well-known rpms to be installed.
-
-You can compare rpm vs. urpmi  with  insmod vs. modprobe
-
-%package -n autoirpm
-Version: 0.2
-Summary: Auto install of rpm on demand
-Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
-Group: %{group}
-
-%description -n autoirpm
-Auto install of rpm on demand
-
-
-%prep
-%setup -n %{name}
-
-%install
-rm -rf $RPM_BUILD_ROOT
-make PREFIX=$RPM_BUILD_ROOT install
-install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
-install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
-
-cd $RPM_BUILD_ROOT/usr/bin ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
-
-%clean
-rm -rf $RPM_BUILD_ROOT
-rm -rf $RPM_BUILD_DIR/$RPM_PACKAGE_NAME
-
-%pre
-groupadd -r -f urpmi
-
-%preun -n autoirpm
-autoirpm.uninstall
-
-%files
-%defattr(-,root,root)
-%attr(0755, root, urpmi) %dir /etc/urpmi
-%attr(0755, root, urpmi) %dir /var/lib/urpmi
-%attr(4750, root, urpmi) /usr/bin/urpmi
-/usr/bin/urpmi_rpm-find-leaves
-/usr/bin/rpmf
-/usr/sbin/urpmi.*
-/usr/share/locale/*/LC_MESSAGES/urpmi.po
-/usr/man/man*/urpmi*
-/usr/man/man*/rpmf*
-
-%files -n gurpmi
-%defattr(-,root,root)
-/usr/X11R6/bin/gurpmi
-
-%files -n autoirpm
-%defattr(-,root,root)
-%dir /var/lib/urpmi/autoirpm.scripts
-/etc/urpmi/autoirpm.deny
-/usr/sbin/autoirpm.*
-/usr/man/man*/autoirpm*
-/usr/bin/_irpm
-%doc README-autoirpm-icons autoirpm.README

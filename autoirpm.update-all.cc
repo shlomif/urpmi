@@ -44,26 +44,42 @@ int main(int argc, char **argv) {
     while ((header=headerRead(fd, HEADER_MAGIC_YES))) {
       int_32 type, count;
       unsigned short *p;
-      char **f, *name, *s;
+      char **f, *name;
       int printed = 0;
 
-      headerGetEntry(header, RPMTAG_NAME, &type, (void **) &name, &count);
+      headerGetEntry(header, RPMTAG_NAME, &type, (void **) &name, NULL);
       headerGetEntry(header, RPMTAG_FILEMODES, &type, (void **) &p, &count);
-      headerGetEntry(header, RPMTAG_OLDFILENAMES, &type, (void **) &f, &count);
-      for (; count--; *p++, *f++)
-	if ((*p & 040111) == 0111 && 
-	    (s = strrchr(*f, '/')) && 
-	    s - 3 >= *f && 
-	    strncmp(s - 3, "bin", 3) == 0 &&
-	    (!allow || allow->count(s + 1)) &&
-	    (!deny || !deny->count(s + 1))) {
+      headerGetEntry(header, RPMTAG_OLDFILENAMES, &type, (void **) &f, NULL);
 
-	  if (!printed) {
-	    printed = 1;
-	    cout << name;
+      char ** baseNames, ** dirNames;
+      int_32 * dirIndexes;
+      headerGetEntry(header, RPMTAG_BASENAMES, &type, (void **) &baseNames, NULL);
+      headerGetEntry(header, RPMTAG_DIRINDEXES, &type, (void **) &dirIndexes, NULL);
+      headerGetEntry(header, RPMTAG_DIRNAMES, &type, (void **) &dirNames, NULL);
+
+      for (int i = 0; i < count; i++) {
+	if ((p[i] & 040111) == 0111) {
+	  int ok;
+	  if (f) {
+	    char *s = strrchr(f[i], '/');
+	    ok = s && s - 3 >= f[i] && strncmp(s - 3, "bin", 3) == 0 &&
+	      (!allow || allow->count(s + 1)) &&
+	      (!deny || !deny->count(s + 1));
+	  } else {
+	    char *d = dirNames[dirIndexes[i]];
+	    ok = strlen(d) >= 4 && strncmp(d + strlen(d) - 4, "bin/", 4) == 0 &&
+	      (!allow || allow->count(baseNames[i])) &&
+	      (!deny || !deny->count(baseNames[i]));
 	  }
-	  cout << " " << *f;
+	  if (ok) {
+	    if (!printed) {
+	      printed = 1;
+	      cout << name;
+	    }
+	    if (f) cout << " " << f[i]; else cout << " " << dirNames[dirIndexes[i]] << baseNames[i];
+	  }
 	}
+      }
       if (printed) cout << "\n";
     }
     fdClose(fd);
