@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-cs\n"
-"POT-Creation-Date: 2003-02-21 19:42+0100\n"
-"PO-Revision-Date: 2003-02-02 15:28GMT\n"
+"POT-Creation-Date: 2003-03-03 22:51+0100\n"
+"PO-Revision-Date: 2003-03-03 20:54GMT\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0\n"
+"X-Generator: KBabel 1.0.1\n"
 
 #: ../_irpm_.c:23 ../urpmi_.c:578
 #, c-format
@@ -36,7 +36,7 @@ msgid "Is this OK?"
 msgstr "Je to správně?"
 
 #: ../_irpm_.c:35 ../urpmi_.c:373 ../urpmi_.c:415 ../urpmi_.c:464
-#: ../urpmi_.c:506 ../urpmi_.c:533
+#: ../urpmi_.c:506 ../urpmi_.c:533 ../urpmi_.c:663 ../urpmi_.c:678
 msgid "Ok"
 msgstr "OK"
 
@@ -87,9 +87,9 @@ msgid "unable to handle protocol: %s"
 msgstr "nelze zpracovat protokol: %s"
 
 #: ../urpm.pm_.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "copy failed: %s"
-msgstr "...kopírování selhalo"
+msgstr "kopírování selhalo: %s"
 
 #: ../urpm.pm_.c:251
 msgid "wget is missing\n"
@@ -132,32 +132,31 @@ msgstr "        %s%% z %s dokončeno, ETA = %s, rychlost = %s"
 msgid "        %s%% completed, speed = %s"
 msgstr "        %s%% dokončeno, rychlost = %s"
 
-#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
-#, fuzzy
+#: ../urpm.pm_.c:2441 ../urpm.pm_.c:2525
 msgid "unable to open rpmdb"
-msgstr "nelze zaregistrovat soubor RPM"
+msgstr "nelze otevřít databázi rpmdb"
 
-#: ../urpm.pm_.c:2440
+#: ../urpm.pm_.c:2448
 #, c-format
 msgid "unable to remove package %s"
 msgstr "nelze odstranit balíček %s"
 
-#: ../urpm.pm_.c:2449
+#: ../urpm.pm_.c:2457
 #, c-format
 msgid "unable to install package %s"
 msgstr "nelze nainstalovat balíček %s"
 
-#: ../urpm.pm_.c:2458
+#: ../urpm.pm_.c:2466
 #, c-format
 msgid "%s is needed by %s"
 msgstr "%s je vyžadováno %s"
 
-#: ../urpm.pm_.c:2459
+#: ../urpm.pm_.c:2467
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s je v konfliktu s %s"
 
-#: ../urpm.pm_.c:2471
+#: ../urpm.pm_.c:2479
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "nelze zpřístupnit soubor RPM [%s]"
@@ -304,9 +303,8 @@ msgid "  --update       - use only update media.\n"
 msgstr "  --update       - použít pouze aktualizaci zdroje.\n"
 
 #: ../urpmf_.c:33 ../urpmi_.c:74 ../urpmq_.c:42
-#, fuzzy
 msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media         - použít pouze zdroje oddělené čárkou.\n"
+msgstr "  --media         - použít pouze uvedené zdroje, oddělené čárkou.\n"
 
 #: ../urpmf_.c:34 ../urpmq_.c:43
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
@@ -521,23 +519,22 @@ msgstr ""
 "                   %s\n"
 
 #: ../urpmi.addmedia_.c:69
-#, fuzzy
 msgid ""
 "  --version      - use specified distribution version, the default is taken\n"
 "                   from the version of the distribution told by the\n"
 "                   installed mandrake-release package.\n"
 msgstr ""
-"  --version      - použije se zadaná verze, výchozí je verze instalovaného "
-"souboru\n"
-"                   mandrake-release package.\n"
+"  --version      - použije se zadaná verze distribuce, výchozí verze je "
+"převzata\n"
+"                   z verze instalovaného balíčku mandrake-release.\n"
 
 #: ../urpmi.addmedia_.c:72
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
-"  --arch         - použije se zadaná architektura, výchozí je arch. souboru\n"
-"                   mandrake-release package.\n"
+"  --arch         - použije se zadaná architektura, výchozí je arch.\n"
+"                   balíčku mandrake-release.\n"
 
 #: ../urpmi.addmedia_.c:74 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:72
 msgid "  -c             - clean headers cache directory.\n"
@@ -1036,7 +1033,6 @@ msgstr ""
 "  -u          - odebere balíček pokud je již instalována novější verze.\n"
 
 #: ../urpmq_.c:65
-#, fuzzy
 msgid "  -c             - complete output with package to be removed.\n"
 msgstr "  -c             - doplnit výstup balíčkem k odebrání.\n"
 
