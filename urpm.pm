@@ -1064,8 +1064,8 @@ sub compute_closure {
 	foreach ($id, split ' ', $urpm->{params}{depslist}[$id]{deps}) {
 	    if (/\|/) {
 		my ($follow_id, @upgradable_choices, %choices_id);
-	        @choices_id{map { $urpm->{params}{depslist}[$_]{id} } split /\|/, $_} = undef;
-		my @choices = keys(%choices_id);
+	        @choices_id{grep { defined $_ } map { $urpm->{params}{depslist}[$_]{id} } split /\|/, $_} = ();
+		my @choices = sort { $a <=> $b } keys(%choices_id);
 		foreach (@choices) {
 		    $installed && $installed->{$_} and $follow_id = -1, last;
 		    exists $packages->{$_} && ! ref $packages->{$_} and $follow_id = $_, last;
@@ -1725,7 +1725,7 @@ sub select_packages_to_upgrade {
 	rpmtools::db_traverse($db, [ qw(name version release serial files) ], sub {
 				  my ($p) = @_;
 				  my $otherPackage = $p->{release} !~ /mdk\w*$/ && "$p->{name}-$p->{version}-$p->{release}";
-				  my $pkg = $urpm->{params}{info}{$p->{name}};
+				  my $pkg = $urpm->{params}{names}{$p->{name}};
 
 				  if ($pkg) {
 				      my $version_cmp = rpmtools::version_compare($p->{version}, $pkg->{version});
