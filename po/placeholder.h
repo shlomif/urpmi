@@ -146,13 +146,13 @@ N_("Yy"),
 N_("  --X            - use X interface.\n"),
 N_("To satisfy dependencies, the following packages are going to be installed (%d MB)"),
 N_("Try installation without checking dependencies? (y/N) "),
+N_("  --media        - use only the media listed by comma.\n"),
 N_(""
 "  --best-output  - choose best interface according to the environment:\n"
 "                   X or text mode.\n"
 ""),
 N_("  -p             - allow search in provides to find package.\n"),
 N_("  -v             - verbose mode.\n"),
-N_("  --mediums      - use only the medium listed by comma.\n"),
 N_("  -q             - quiet mode.\n"),
 N_("  --complete     - use parsehdlist server to complete selection.\n"),
 N_("What is your choice? (1-%d) "),
@@ -250,7 +250,6 @@ N_(""
 ""),
 N_("  --force        - force invocation even if some packages do not exist.\n"),
 N_("  --auto-select  - automatically select packages for upgrading the system.\n"),
-N_("  --mediums      - use only the medium listed by comma.\n"),
 N_("some packages have to be removed for being upgraded, this is not supported yet\n"),
 N_("urpmq: unknown option \"-%s\", check usage with --help\n"),
 N_("  -h             - print this help message.\n"),
@@ -259,6 +258,7 @@ N_(""
 "                   stdout (root only).\n"
 ""),
 N_("  -g             - print groups too with name.\n"),
+N_("  --media        - use only the media listed by comma.\n"),
 N_("urpmq: cannot read rpm file \"%s\"\n"),
 N_("  names or rpm files given on command line are queried.\n"),
 N_("  --update       - use only update media.\n"),
