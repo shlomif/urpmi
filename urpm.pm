@@ -1102,7 +1102,7 @@ sub update_media {
     $options{nolock} or $urpm->exlock_urpmi_db;
 
     #- get gpg-pubkey signature.
-    $urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
+    $options{nopubkey} or $urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
 
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1435,7 +1435,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 
 	    #- examine if a local pubkey file is available.
-	    if ($medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
+	    if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
 		my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
 		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../$local_pubkey");
 		-s $path_pubkey or $path_pubkey = reduce_pathname("$with_hdlist_dir/../pubkey");
@@ -1670,7 +1670,7 @@ this could happen if you mounted manually the directory when creating the medium
 		}
 
 		#- retrieve pubkey file.
-		if ($medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
+		if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
 		    my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
 		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_pubkey"),
 			     reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../pubkey"),
