@@ -294,6 +294,7 @@ if ($urpm::args::options{list_aliases}) {
     if ($urpm::args::options{headers}
 	|| $urpm::args::options{sources}
 	|| $urpm::args::options{info}
+	|| $urpm::args::options{summary}
 	|| $urpm::args::options{list_files}
 	|| $urpm::args::options{changelog})
     {
@@ -327,7 +328,8 @@ if ($urpm::args::options{list_aliases}) {
 		    system "rpm2header", values %downloads;
 		}
 	    }
-	} elsif ($urpm::args::options{info} || $urpm::args::options{list_files} || $urpm::args::options{changelog}) {
+	} elsif ($urpm::args::options{info} || $urpm::args::options{list_files} || $urpm::args::options{changelog}
+		|| $urpm::args::options{summary}) {
 	    my %downloads;
 	    # get descriptions of update sources
 	    my $updates_descr = $urpm->urpm::get_updates_description;
@@ -399,6 +401,9 @@ if ($urpm::args::options{list_aliases}) {
 			    $updesc->{pre}
 				and print from_utf8(sprintf("%-20s:\n%s\n", "Reason for update", $updesc->{pre}));
 			}
+		    }
+		    if ($urpm::args::options{summary})  {
+			printf "%s : %s ( %s%s-%s )\n", $pkg->name, $pkg->summary, ($pkg->epoch ? $pkg->epoch . ':' : ''), $pkg->version, $pkg->release;
 		    }
 		    if ($urpm::args::options{list_files}) {
 			if ($pkg->files) {
