@@ -51,7 +51,7 @@ my %options_spec = (
 	'media|mediums=s' => \$::media,
 	'excludemedia|exclude-media=s' => \$::excludemedia,
 	'sortmedia|sort-media=s' => \$::sortmedia,
-    'searchmedia|search-media=s' => \$::searchmedia,
+	'searchmedia|search-media=s' => \$::searchmedia,
 	'synthesis=s' => \$::synthesis,
 	auto => sub {
 	    $urpm->{options}{auto} = $::auto = 1;
@@ -335,3 +335,5 @@ urpm::args - command-line argument parser for the urpm* tools
 Copyright (C) 2000-2004 Mandrakesoft
 
 =cut
+
+=for vim:ts=8:sts=4:sw=4
