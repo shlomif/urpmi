@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -110,6 +110,10 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed Jul 25 2001 François Pons <fpons@mandrakesoft.com> 1.7-2mdk
+- fixed crazy behaviour of --auto-select that try to select
+  the whole word (no filtering of installed packages).
+
 * Mon Jul 23 2001 François Pons <fpons@mandrakesoft.com> 1.7-1mdk
 - updated to use newer rpmtools 3.1.
 
