@@ -80,14 +80,14 @@ my %options_spec = (
 	curl => sub { $urpm->{options}{downloader} = 'curl' },
 	'limit-rate=s' => sub { $urpm->{options}{'limit-rate'} = $_[1] },
 	'resume!' => sub { $urpm->{options}{resume} = $_[1] },
-	proxy => sub {
+	'proxy=s' => sub {
 	    my (undef, $value) = @_;
 	    my ($proxy, $port) = $value =~ m,^(?:http://)?([^:]+(:\d+)?)/*$,
 		or die N("bad proxy declaration on command line\n");
 	    $proxy .= ":1080" unless $port;
 	    $urpm->{proxy}{http_proxy} = "http://$proxy";
 	},
-	'proxy-user' => sub {
+	'proxy-user=s' => sub {
 	    my (undef, $value) = @_;
 	    $value =~ /(.+):(.+)/ or die N("bad proxy declaration on command line\n");
 	    @{$urpm->{proxy}}{qw(user pwd)} = ($1, $2);
@@ -278,12 +278,12 @@ foreach my $k ("help|h", "no-locales", "update", "media|mediums=s",
     $options_spec{urpmf}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "wget", "curl", "proxy", "proxy-user") {
+foreach my $k ("help|h", "wget", "curl", "proxy=s", "proxy-user=s") {
     $options_spec{'urpmi.update'}{$k} =
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "wget", "curl", "proxy", "proxy-user", "c", "f", "z",
+foreach my $k ("help|h", "wget", "curl", "proxy=s", "proxy-user=s", "c", "f", "z",
     "limit-rate=s", "no-md5sum", "update")
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
