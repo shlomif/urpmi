@@ -51,7 +51,7 @@ and remote sources such as web or FTP sites.
 %package -n gurpmi
 Summary:	User mode rpm GUI install
 Group:		%{group}
-Requires:	urpmi >= %{version}-%{release} drakxtools > 10-0.4mdk gtkdialogs >= 2.1 menu zenity
+Requires:	urpmi >= %{version}-%{release} drakxtools > 10-0.4mdk menu
 Requires:	usermode usermode-consoleonly
 Obsoletes:	grpmi
 Provides:	grpmi
