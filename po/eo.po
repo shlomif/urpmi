@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 01:56+0100\n"
+"POT-Creation-Date: 2004-02-05 22:05+0100\n"
 "PO-Revision-Date: 2003-08-22 15:28+0000\n"
 "Last-Translator: Vilhelmo Lutermano <vlutermano@free.fr>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -477,15 +477,20 @@ msgstr "mi kontrolas dosieron MD5SUM"
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "mi kopias fontan hd-liston (aŭ sintezon) de \"%s\""
 
-#: ../urpm.pm:1446 ../urpm.pm:1452
-#, c-format
-msgid "copy of [%s] failed"
-msgstr "kopiado de [%s] malsukcesis"
+#: ../urpm.pm:1446
+#, fuzzy, c-format
+msgid "copy of [%s] failed (file is suspectingly small)"
+msgstr "wget de [%s] malsukcesis (eble wget mankas?)"
 
 #: ../urpm.pm:1450
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "mi kalkulas md5sum de kopiita font-hdlist (aŭ sintezo)"
+
+#: ../urpm.pm:1452
+#, fuzzy, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "kopiado de [%s] malsukcesis"
 
 #: ../urpm.pm:1473 ../urpm.pm:1645 ../urpm.pm:1943
 #, c-format
@@ -2160,9 +2165,6 @@ msgstr "--list-nodes uzeblas nur kun --parallel"
 
 #~ msgid "avoid selecting %s as not enough files will be updated"
 #~ msgstr "evitu elekti %s ĉar nesufiĉe da dosieroj estos ĝisdatigataj"
-
-#~ msgid "wget of [%s] failed (maybe wget is missing?)"
-#~ msgstr "wget de [%s] malsukcesis (eble wget mankas?)"
 
 #~ msgid "unable to write depslist file [%s]"
 #~ msgstr "ne povis skribi \"depslist\" dosieron [%s]"

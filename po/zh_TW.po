@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 01:56+0100\n"
+"POT-Creation-Date: 2004-02-05 22:05+0100\n"
 "PO-Revision-Date: 2004-02-04 08:17+0800\n"
 "Last-Translator: Hilbert <h@mandrake.org>\n"
 "Language-Team: Chinese Traditional <zh@li.org>\n"
@@ -475,15 +475,20 @@ msgstr "正在檢驗 MD5SUM 檔案"
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "正在複製 \"%s\" 的來源 hdlist (或綜合)..."
 
-#: ../urpm.pm:1446 ../urpm.pm:1452
-#, c-format
-msgid "copy of [%s] failed"
-msgstr "複製 [%s] 失敗"
+#: ../urpm.pm:1446
+#, fuzzy, c-format
+msgid "copy of [%s] failed (file is suspectingly small)"
+msgstr "下載 [%s] 失敗 (是否沒有安裝 wget 程式？)"
 
 #: ../urpm.pm:1450
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "正在計算被複製的來源 hdlist (或綜合) 的 md5sum"
+
+#: ../urpm.pm:1452
+#, fuzzy, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "複製 [%s] 失敗"
 
 #: ../urpm.pm:1473 ../urpm.pm:1645 ../urpm.pm:1943
 #, c-format
@@ -2109,9 +2114,6 @@ msgstr "--list-nodes 只能夠與 --parallel 一同使用"
 
 #~ msgid "avoid selecting %s as not enough files will be updated"
 #~ msgstr "沒有選取 %s 因沒有足夠檔案去進行更新"
-
-#~ msgid "wget of [%s] failed (maybe wget is missing?)"
-#~ msgstr "下載 [%s] 失敗 (是否沒有安裝 wget 程式？)"
 
 #~ msgid "unable to write depslist file [%s]"
 #~ msgstr "無法寫入相關清單 (depslist) [%s]"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 01:56+0100\n"
+"POT-Creation-Date: 2004-02-05 22:05+0100\n"
 "PO-Revision-Date: 2003-08-13 15:20+0900\n"
 "Last-Translator: Budi Rachmanto <rac@linux-mandrake.com>\n"
 "Language-Team: Indonesian <rac@linux-mandrake.com>\n"
@@ -472,15 +472,20 @@ msgstr "periksa file MD5SUM"
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "sedang menyalin sumber/sintesa hdlist \"%s\"..."
 
-#: ../urpm.pm:1446 ../urpm.pm:1452
-#, c-format
-msgid "copy of [%s] failed"
-msgstr "gagal salin [%s]"
+#: ../urpm.pm:1446
+#, fuzzy, c-format
+msgid "copy of [%s] failed (file is suspectingly small)"
+msgstr "wget [%s] gagal (mungkin wget hilang?)"
 
 #: ../urpm.pm:1450
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "sedang menghitung md5sum hdlist/sintesa source tersalin"
+
+#: ../urpm.pm:1452
+#, fuzzy, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "gagal salin [%s]"
 
 #: ../urpm.pm:1473 ../urpm.pm:1645 ../urpm.pm:1943
 #, c-format
@@ -2154,9 +2159,6 @@ msgstr "--list-nodes hanya dapat dipakai dg --parallel"
 
 #~ msgid "avoid selecting %s as not enough files will be updated"
 #~ msgstr "hindari pilih %s karena file yg diupdate tak cukup"
-
-#~ msgid "wget of [%s] failed (maybe wget is missing?)"
-#~ msgstr "wget [%s] gagal (mungkin wget hilang?)"
 
 #~ msgid "unable to write depslist file [%s]"
 #~ msgstr "gagal tulis file depslist [%s]"

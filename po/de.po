@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 01:56+0100\n"
+"POT-Creation-Date: 2004-02-05 22:05+0100\n"
 "PO-Revision-Date: 2003-07-28 23:40+0200\n"
 "Last-Translator: Stefan Siegel <siegel@linux-mandrake.com>\n"
 "Language-Team: German <cooker-i18n@linux-mandrake.com>\n"
@@ -493,15 +493,20 @@ msgstr "Prüfen der MD5-Summe"
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "Kopiere HD-Liste (oder synthesis-Datei) von „%s“ ..."
 
-#: ../urpm.pm:1446 ../urpm.pm:1452
-#, c-format
-msgid "copy of [%s] failed"
-msgstr "Kopieren von [%s] schlug fehl."
+#: ../urpm.pm:1446
+#, fuzzy, c-format
+msgid "copy of [%s] failed (file is suspectingly small)"
+msgstr "Wget von [%s] schlug fehl (ist wget installiert?)"
 
 #: ../urpm.pm:1450
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "Berechnen der md5-Summe der kopieren HD-Liste (oder synthesis-Datei)"
+
+#: ../urpm.pm:1452
+#, fuzzy, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "Kopieren von [%s] schlug fehl."
 
 #: ../urpm.pm:1473 ../urpm.pm:1645 ../urpm.pm:1943
 #, c-format
@@ -2233,9 +2238,6 @@ msgstr ""
 
 #~ msgid "avoid selecting %s as not enough files will be updated"
 #~ msgstr "Vermeide Auswahl von %s da nicht genug Dateien aktualisert werden"
-
-#~ msgid "wget of [%s] failed (maybe wget is missing?)"
-#~ msgstr "Wget von [%s] schlug fehl (ist wget installiert?)"
 
 #~ msgid "unable to write depslist file [%s]"
 #~ msgstr "Ich kann die Deplist-Datei [%s] nicht schreiben."

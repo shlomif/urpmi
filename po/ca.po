@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 01:56+0100\n"
-"PO-Revision-Date: 2004-01-22 22:17+0100\n"
+"POT-Creation-Date: 2004-02-05 22:05+0100\n"
+"PO-Revision-Date: 2004-01-31 22:00+0100\n"
 "Last-Translator: Albert Astals Cid <astals11@terra.es>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -353,7 +353,7 @@ msgstr "s'està saltant el paquet %s"
 #: ../urpm.pm:924
 #, c-format
 msgid "would install instead of upgrade package %s"
-msgstr ""
+msgstr "instal·laria en comptes d'actualitzar el paquet %s"
 
 #: ../urpm.pm:935 ../urpm.pm:2492 ../urpm.pm:2553 ../urpm.pm:3127
 #: ../urpm.pm:3225
@@ -484,15 +484,20 @@ msgstr "s'està examinant el fitxer MD5SUM"
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "s'està copiant l'hdlist (o la síntesi) font de \"%s\"..."
 
-#: ../urpm.pm:1446 ../urpm.pm:1452
+#: ../urpm.pm:1446
 #, c-format
-msgid "copy of [%s] failed"
-msgstr "la còpia de [%s] ha fallat"
+msgid "copy of [%s] failed (file is suspectingly small)"
+msgstr ""
 
 #: ../urpm.pm:1450
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "s'està computant el md5sum de la font hdlist (o síntesi)"
+
+#: ../urpm.pm:1452
+#, fuzzy, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "la còpia de [%s] ha fallat"
 
 #: ../urpm.pm:1473 ../urpm.pm:1645 ../urpm.pm:1943
 #, c-format
@@ -535,7 +540,7 @@ msgid "md5sum mismatch"
 msgstr "el md5sum no concorda"
 
 #: ../urpm.pm:1801
-#, c-format
+#, fuzzy, c-format
 msgid "retrieval of source hdlist (or synthesis) failed"
 msgstr "no s'ha pogut recuperar l'hdlist (o la síntesi) font"
 
@@ -572,17 +577,17 @@ msgstr "no s'ha escrit res al fitxer list per a \"%s\""
 #: ../urpm.pm:1917
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
-msgstr ""
+msgstr "s'està examinant el fitxer de clau pública de \"%s\"..."
 
 #: ../urpm.pm:1924
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
-msgstr ""
+msgstr "...s'ha importat la clau %s del fitxer de clau pública de \"%s\""
 
 #: ../urpm.pm:1927
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
-msgstr ""
+msgstr "no s'ha pogut importat el fitxer de clau pública de \"%s\""
 
 #: ../urpm.pm:1993
 #, c-format
@@ -1434,6 +1439,8 @@ msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
+"El directori [%s] ja existeix, si us plau usa un altre directori per "
+"l'informe d'error o esborra'l"
 
 #: ../urpmi:254
 #, c-format
@@ -1997,6 +2004,3 @@ msgstr "urpmq: no s'ha pogut llegir el fitxer rpm \"%s\"\n"
 #, c-format
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes només es pot usar amb --parallel"
-
-#~ msgid "no webfetch (curl or wget currently) found\n"
-#~ msgstr "no s'ha trobat cap webfetch (actualment curl o wget)\n"

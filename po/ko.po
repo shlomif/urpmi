@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 01:56+0100\n"
+"POT-Creation-Date: 2004-02-05 22:05+0100\n"
 "PO-Revision-Date: 2001-09-22 03:14+0900\n"
 "Last-Translator: Jaegeum Choe <baedaron@hananet.net>\n"
 "Language-Team: Korean <baedaron@hananet.net>\n"
@@ -465,15 +465,20 @@ msgstr "목록 파일 [%s] 읽는 중"
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
 
-#: ../urpm.pm:1446 ../urpm.pm:1452
-#, c-format
-msgid "copy of [%s] failed"
-msgstr "[%s] 복사 실패."
+#: ../urpm.pm:1446
+#, fuzzy, c-format
+msgid "copy of [%s] failed (file is suspectingly small)"
+msgstr "[%s]의 wget 실패 (wget이 설치되어 있습니까?)"
 
 #: ../urpm.pm:1450
 #, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
+
+#: ../urpm.pm:1452
+#, fuzzy, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "[%s] 복사 실패."
 
 #: ../urpm.pm:1473 ../urpm.pm:1645 ../urpm.pm:1943
 #, fuzzy, c-format
@@ -1945,9 +1950,6 @@ msgstr ""
 
 #~ msgid "source of [%s] not found as [%s]"
 #~ msgstr "[%s]의 소스는 [%s]로 인식되지 않습니다."
-
-#~ msgid "wget of [%s] failed (maybe wget is missing?)"
-#~ msgstr "[%s]의 wget 실패 (wget이 설치되어 있습니까?)"
 
 #~ msgid "unable to write depslist file [%s]"
 #~ msgstr "의존목록 파일「%s」에 기록할 수 없습니다."

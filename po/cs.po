@@ -13,14 +13,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 01:56+0100\n"
-"PO-Revision-Date: 2004-01-26 21:07GMT\n"
+"POT-Creation-Date: 2004-02-05 22:05+0100\n"
+"PO-Revision-Date: 2004-02-01 15:44+0100\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.2\n"
+"X-Generator: KBabel 1.3\n"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
@@ -92,7 +94,7 @@ msgstr "neznámý protokol definovaný pro %s"
 #: ../urpm.pm:151
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
-msgstr ""
+msgstr "nebyla nalezena aplikace pro stažení přes web, podporované jsou: %s\n"
 
 #: ../urpm.pm:167
 #, c-format
@@ -485,10 +487,10 @@ msgstr "testuji MD5SUM soubor"
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "kopíruji zdrojový hdlist (nebo soubor se syntézou) pro \"%s\"..."
 
-#: ../urpm.pm:1446 ../urpm.pm:1452
+#: ../urpm.pm:1446
 #, c-format
-msgid "copy of [%s] failed"
-msgstr "kopírování [%s] selhalo"
+msgid "copy of [%s] failed (file is suspectingly small)"
+msgstr ""
 
 #: ../urpm.pm:1450
 #, c-format
@@ -496,6 +498,11 @@ msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr ""
 "počítám sumu md5 zkopírovaného zdrojového souboru hdlist (nebo soubor se "
 "syntézou)"
+
+#: ../urpm.pm:1452
+#, fuzzy, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "kopírování [%s] selhalo"
 
 #: ../urpm.pm:1473 ../urpm.pm:1645 ../urpm.pm:1943
 #, c-format
@@ -540,7 +547,7 @@ msgid "md5sum mismatch"
 msgstr "nerovnají se součty md5"
 
 #: ../urpm.pm:1801
-#, c-format
+#, fuzzy, c-format
 msgid "retrieval of source hdlist (or synthesis) failed"
 msgstr "načítání zdrojového souboru hdlist (nebo souboru se syntézou) selhalo"
 
@@ -1997,168 +2004,3 @@ msgstr "urpmq: nemohu přečíst rpm soubor \"%s\"\n"
 #, c-format
 msgid "--list-nodes can only be used with --parallel"
 msgstr "volbu --list-nodes lze použít pouze s volbou --parallel"
-
-#~ msgid "no webfetch (curl or wget currently) found\n"
-#~ msgstr "nebyl nalezen program webfetch (nebo curl či wget)\n"
-
-#~ msgid ""
-#~ "  -d             - force complete computation of depslist.ordered file.\n"
-#~ msgstr ""
-#~ "  -d           - provede kompletní generování souboru depslists.ordered.\n"
-
-#~ msgid ""
-#~ "  --name         - print tag name: rpm filename (assumed if no tag given "
-#~ "on\n"
-#~ "                   command line but without package name).\n"
-#~ msgstr ""
-#~ "  --name          - vypíše název tagu: název rpm souboru (předpokládané, "
-#~ "pokud není\n"
-#~ "                   název tagu zadán na příkazové řádce, ale bez názvu "
-#~ "balíčku).\n"
-
-#~ msgid "urpmf version %s"
-#~ msgstr "urpmf verze %s"
-
-#~ msgid "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft."
-#~ msgstr "Copyright ©1999, 2000, 2001, 2002 MandrakeSoft."
-
-#~ msgid ""
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL."
-#~ msgstr ""
-#~ "Toto je svobodný software a je volně šiřitelný podle podmínek licence GNU "
-#~ "GPL."
-
-#~ msgid "usage: urpmf [options] <file>"
-#~ msgstr "použití: urpmf [volby] <soubor>"
-
-#~ msgid ""
-#~ "  --quiet         - do not print tag name (default if no tag given on "
-#~ "command"
-#~ msgstr ""
-#~ "  --quiet        - nevypíše jméno tagu (výchozí chování, pokud není jméno "
-#~ "tagu"
-
-#~ msgid "                    line, incompatible with interactive mode)."
-#~ msgstr ""
-#~ "                      zadáno na příkazové řádce, opak interaktivního "
-#~ "režimu)."
-
-#~ msgid "  --all           - print all tags."
-#~ msgstr "  --all           - vypíše všechny tagy."
-
-#~ msgid ""
-#~ "  --name          - print tag name: rpm filename (assumed if no tag given "
-#~ "on"
-#~ msgstr ""
-#~ "  --name          - vypíše tag: jméno rpm souboru (předpokládané, pokud "
-#~ "není"
-
-#~ msgid "                    command line but without package name)."
-#~ msgstr ""
-#~ "                    zadán na příkazové řádce ale bez jména balíčku)."
-
-#~ msgid "  --group         - print tag group: group."
-#~ msgstr "  --group         - vypíše tag skupina: group."
-
-#~ msgid "  --size          - print tag size: size."
-#~ msgstr "  --size          - vypíše tag velikost: size."
-
-#~ msgid "  --serial        - print tag serial: serial."
-#~ msgstr "  --serial        - vypíše tag sériové číslo: serial."
-
-#~ msgid "  --summary       - print tag summary: summary."
-#~ msgstr "  --summary       - vypíše tag souhrn: summary."
-
-#~ msgid "  --description   - print tag description: description."
-#~ msgstr "  --description   - vypíše tag popis: description."
-
-#~ msgid ""
-#~ "  --provides      - print tag provides: all provides (multiple lines)."
-#~ msgstr ""
-#~ "  --provides      - vypíše tag poskytuje: all provides (na více řádek)."
-
-#~ msgid ""
-#~ "  --requires      - print tag requires: all requires (multiple lines)."
-#~ msgstr ""
-#~ "  --requires      - vypíše tag vyžaduje: all requires (na více řádek)."
-
-#~ msgid "  --files         - print tag files: all files (multiple lines)."
-#~ msgstr "  --files         - vypíše tag soubory: all files (na více řádek)."
-
-#~ msgid ""
-#~ "  --conflicts     - print tag conflicts: all conflicts (multiple lines)."
-#~ msgstr ""
-#~ "  --conflicts     - vypíše tag konflikty: all conflicts (na více řádek)."
-
-#~ msgid ""
-#~ "  --obsoletes     - print tag obsoletes: all obsoletes (multiple lines)."
-#~ msgstr ""
-#~ "  --obsoletes     - vypíše tag nahrazuje: all obsoletes (na více řádek)."
-
-#~ msgid "  --prereqs       - print tag prereqs: all prereqs (multiple lines)."
-#~ msgstr ""
-#~ "  --prereqs       - vypíše tag prerekvizity: all prereqs (na více řádek)."
-
-#~ msgid "try urpmf --help for more options"
-#~ msgstr "zadejte urpmf --help pro získání více voleb"
-
-#~ msgid "no full media list was found"
-#~ msgstr "nebyl nalezen žádný popis zdroje"
-
-#~ msgid "copying source list of \"%s\"..."
-#~ msgstr "kopíruji zdrojový seznam pro \"%s\"..."
-
-#~ msgid "mput failed, maybe a node is unreacheable"
-#~ msgstr "mput selhalo, možná není uzel k dispozici"
-
-#~ msgid "on node %s"
-#~ msgstr "na uzlu %s"
-
-#~ msgid "host %s does not have a good version of urpmi"
-#~ msgstr "počítač %s nemá správnou verzi programu urpmi"
-
-#~ msgid "Installation failed on node %s"
-#~ msgstr "Instalace selhala na uzlu %s"
-
-#~ msgid "rshp failed, maybe a node is unreacheable"
-#~ msgstr "rshp selhalo, možná není uzel k dispozici"
-
-#~ msgid "scp failed on host %s"
-#~ msgstr "selhalo scp na počítači %s"
-
-#~ msgid "problem reading hdlist file of medium \"%s\""
-#~ msgstr "problém při čtení souboru hdlist zdroje \"%s\""
-
-#~ msgid "%s conflicts with %s"
-#~ msgstr "%s je v konfliktu s %s"
-
-#~ msgid "%s is needed by %s"
-#~ msgstr "%s je vyžadováno %s"
-
-#~ msgid "Remove them all?"
-#~ msgstr "Odebrat všechny?"
-
-#~ msgid "Using \"%s\" as a substring, I found"
-#~ msgstr "Při použití ¨\"%s\" jako podřetězce jsem našel"
-
-#~ msgid "rshp failed"
-#~ msgstr "rshp selhalo"
-
-#~ msgid ""
-#~ "  -c             - choose complete method for resolving requires "
-#~ "closure.\n"
-#~ msgstr ""
-#~ "  -c             - vybere kompletní metodu pro vyřešení závislostí.\n"
-
-#~ msgid "nothing to write in list file for \"%s\""
-#~ msgstr "není co zapisovat do seznamu souborů pro \"%s\""
-
-#~ msgid "usage: urpme [-a] [--auto] <packages...>\n"
-#~ msgstr "použití: urpme [-a] [--auto] <balíčky...>\n"
-
-#~ msgid "  -h             - print this help message.\n"
-#~ msgstr "  -h           - vypíše tuto nápovědu.\n"
-
-#~ msgid "Is it ok?"
-#~ msgstr "Je to správně?"

@@ -3,24 +3,25 @@
 # Latest versions of po files are at http://www.mandrakelinux.com/l10n/sr.php3
 #
 # Srpski cirilicni prevod urmpi.po fajla.
-# Copyright (C) 2000,2003 Free Software Foundation, Inc.
+# Copyright (C) 2000,2003, 2004 Free Software Foundation, Inc.
 # Copyright (C) 2000, 2001 MandrakeSoft
 # Copyright (C) 1997-2000 GeaArt, Inc.
 # Tomislav Jankovic <tomaja@net.yu>, 2000,2002.
-# Toma Jankovic <tomaja@net.yu>, 2003
+# Toma Jankovic <tomaja@net.yu>, 2003.
+# Toma Jankovic <webmaster@mandrake.co.yu>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 01:56+0100\n"
-"PO-Revision-Date: 2003-07-27 17:16+0200\n"
-"Last-Translator: Toma Jankovic <tomaja@net.yu>\n"
-"Language-Team: serbian <i18n@mandrake.co.yu>\n"
+"POT-Creation-Date: 2004-02-05 22:05+0100\n"
+"PO-Revision-Date: 2004-02-01 19:27+0100\n"
+"Last-Translator: Toma Jankovic <webmaster@mandrake.co.yu>\n"
+"Language-Team: serbian <mdk@linux.rs.sr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0.1\n"
+"X-Generator: KBabel 1.0.2\n"
 
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
@@ -92,7 +93,7 @@ msgstr "непознати протокол дефинисан за %s"
 #: ../urpm.pm:151
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
-msgstr ""
+msgstr "webfetch није пронађен, подржани webfetch-ови су: %s\n"
 
 #: ../urpm.pm:167
 #, c-format
@@ -275,7 +276,7 @@ msgstr "уписујем у конфигурациону датотеку [%s]"
 #: ../urpm.pm:761
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
-msgstr ""
+msgstr "Не могу да користим паралелни мод са use-distrib модом"
 
 #: ../urpm.pm:771
 #, c-format
@@ -452,6 +453,9 @@ msgid ""
 "this could happen if you mounted manually the directory when creating the "
 "medium."
 msgstr ""
+"не могу да приступим медију \"%s\",\n"
+"ово се може десити уколико сте ручно монтирали директоријум приликом "
+"креирања медија."
 
 #: ../urpm.pm:1337
 #, c-format
@@ -482,15 +486,20 @@ msgstr "испитујем MD5SUM фајл"
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "копирање изворне hdlist (или synthesis) за \"%s\"..."
 
-#: ../urpm.pm:1446 ../urpm.pm:1452
+#: ../urpm.pm:1446
 #, c-format
-msgid "copy of [%s] failed"
-msgstr "копирање [%s] неуспело"
+msgid "copy of [%s] failed (file is suspectingly small)"
+msgstr ""
 
 #: ../urpm.pm:1450
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "прорачунавам md5sum копиране  source hdlist (или  synthesis)"
+
+#: ../urpm.pm:1452
+#, fuzzy, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "копирање [%s] неуспело"
 
 #: ../urpm.pm:1473 ../urpm.pm:1645 ../urpm.pm:1943
 #, c-format
@@ -533,7 +542,7 @@ msgid "md5sum mismatch"
 msgstr "md5sum не одговара"
 
 #: ../urpm.pm:1801
-#, c-format
+#, fuzzy, c-format
 msgid "retrieval of source hdlist (or synthesis) failed"
 msgstr "повраћај изворне hdlist (или synthesis) неуспео"
 
@@ -568,19 +577,19 @@ msgid "nothing written in list file for \"%s\""
 msgstr "нема шта да се упише у датотеку листе за \"%s\""
 
 #: ../urpm.pm:1917
-#, fuzzy, c-format
+#, c-format
 msgid "examining pubkey file of \"%s\"..."
-msgstr "добављање описног фајла за \"%s\"..."
+msgstr "испитукем фајл са јавним кључем за \"%s\"..."
 
 #: ../urpm.pm:1924
-#, fuzzy, c-format
+#, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
-msgstr "не могу да упишем датотеку листе за \"%s\""
+msgstr "..импортовани кључ%s од јавног кључа за \"%s\""
 
 #: ../urpm.pm:1927
-#, fuzzy, c-format
+#, c-format
 msgid "unable to import pubkey file of \"%s\""
-msgstr "не могу да упишем датотеку листе за \"%s\""
+msgstr "не могу да импортујем јавни кључ за \"%s\""
 
 #: ../urpm.pm:1993
 #, c-format
@@ -735,7 +744,7 @@ msgstr "Припремам..."
 #: ../urpm.pm:3101
 #, c-format
 msgid "using process %d for executing transaction"
-msgstr ""
+msgstr "користим процес %d за извршење трансакције"
 
 #: ../urpm.pm:3131
 #, c-format
@@ -781,14 +790,14 @@ msgid "due to unsatisfied %s"
 msgstr "због не задовољеног %s"
 
 #: ../urpm.pm:3358
-#, fuzzy, c-format
+#, c-format
 msgid "trying to promote %s"
-msgstr "селектујем %s селектовањем датотека"
+msgstr "покушавам да прикажем %s"
 
 #: ../urpm.pm:3359
-#, fuzzy, c-format
+#, c-format
 msgid "in order to keep %s"
-msgstr "да би инсталирао %s"
+msgstr "да бих задржао %s"
 
 #: ../urpm.pm:3380
 #, c-format
@@ -869,9 +878,9 @@ msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - дистрибуирани urpmi преко машина са надимком.\n"
 
 #: ../urpme:45 ../urpmi:103
-#, fuzzy, c-format
+#, c-format
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --curl         - користи curl за добављање удаљених фајлова.\n"
+msgstr "  --curl         - користи још један root за rpm инсталацију.\n"
 
 #: ../urpme:46
 #, c-format
@@ -879,6 +888,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
+"                   to (un)install a chroot with --root option.\n"
 
 #: ../urpme:48 ../urpmi:133 ../urpmq:73
 #, c-format
@@ -931,9 +942,9 @@ msgid " (y/N) "
 msgstr " (д/Н) "
 
 #: ../urpme:119 ../urpmi:683
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s"
-msgstr "не могу да уклоним пакет %s"
+msgstr "уклањам %s"
 
 #: ../urpme:123
 #, c-format
@@ -1196,6 +1207,9 @@ msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+"  --keep         - задржава постојеће пакет уколико је могуће, одбацује "
+"захтевани пакет\n"
+"                   који води уклањању.\n"
 
 #: ../urpmi:88
 #, c-format
@@ -1264,6 +1278,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
+"                   to install a chroot with --root option.\n"
 
 #: ../urpmi:106 ../urpmi.addmedia:54 ../urpmi.update:60 ../urpmq:64
 #, c-format
@@ -1350,7 +1366,7 @@ msgstr "  --excludepath  - искључује путању раздвојену 
 #: ../urpmi:126
 #, c-format
 msgid "  --excludedocs  - exclude docs files.\n"
-msgstr ""
+msgstr "  --excludedocs  - искључује docs фајлове.\n"
 
 #: ../urpmi:127 ../urpmq:76
 #, c-format
@@ -1413,6 +1429,8 @@ msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
+"Директоријум  [%s] већ постоји, изаберите други директоријум за пријављивање "
+"багова или га избришите"
 
 #: ../urpmi:254
 #, c-format
@@ -1588,7 +1606,7 @@ msgstr "све је већ инсталирано"
 #: ../urpmi:800
 #, c-format
 msgid "restarting urpmi"
-msgstr ""
+msgstr "рестартујем urpmi"
 
 #: ../urpmi.addmedia:44
 #, c-format
@@ -1700,7 +1718,7 @@ msgstr ""
 #: ../urpmi.addmedia:80 ../urpmi.update:68
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
-msgstr ""
+msgstr "  --no-md5sum    - деактивира MD5SUM проверу фајла.\n"
 
 #: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:71
 #, c-format
@@ -1813,7 +1831,7 @@ msgstr "  --update       - ажурирај само медијум за ажу�
 #: ../urpmi.update:69
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
-msgstr ""
+msgstr "  --force-key    - приморава на ажурирање gpg кључа.\n"
 
 #: ../urpmi.update:70
 #, c-format
@@ -1861,15 +1879,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media         - приказује листу медија.\n"
 
 #: ../urpmq:52
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-url     - list available media and their url.\n"
-msgstr "  --list-media         - приказује листу медија.\n"
+msgstr "  --list-media         - приказује листу медија и љихов урл.\n"
 
 #: ../urpmq:53
 #, c-format
 msgid ""
 "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr ""
+"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 
 #: ../urpmq:54
 #, c-format
@@ -1905,11 +1924,13 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
 msgstr ""
+"  --use-distrib  - подешава urpmi у лету са distrib стабла.\n"
+"                   Ова опција дозвољава испитивање дистрибуције.\n"
 
 #: ../urpmq:72
-#, fuzzy, c-format
+#, c-format
 msgid "  --changelog    - print changelog.\n"
-msgstr "  --all           - приказује све тагове.\n"
+msgstr "  --changelog    - приказује лог са изменама.\n"
 
 #: ../urpmq:74
 #, c-format
@@ -1935,10 +1956,10 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - претрага уназад за оним што захтева пакет.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print useful information in human readable form.\n"
 msgstr ""
-"  -i             - приказје корисне информације у, за људе, читљивном "
+"  -i             - приказје корисне информације у, за људе читљивном "
 "облику.\n"
 
 #: ../urpmq:83
@@ -1952,9 +1973,9 @@ msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - приказује верзију укључујући и име.\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  -l             - list files in package.\n"
-msgstr "  --list         - приказује листу пакета.\n"
+msgstr "  -l             - приказује фајлове у пакету.\n"
 
 #: ../urpmq:87
 #, c-format
