@@ -1,0 +1,89 @@
+.TH urpme 8 "28 Aug 2003" "MandrakeSoft" "Mandrake Linux"
+.IX urpme
+.SH NAME
+urpme \- rpm wrapper making deinstalls easier for the user
+.SH SYNOPSIS
+.B urpme [\fIoptions\fP] [\fIpackage_names\fP]
+.SH DESCRIPTION
+urpme allow packages to be deinstalled including all their dependencies.
+.SH OPTIONS
+.IP "\fB\--help\fP"
+Print an help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
+.IP "\fB\--auto\fP"
+Remove package automatically.
+.IP "\fB\--test\fP"
+Test (same as \fBrpm --test\fP) deinstallation of packages but do not modify the
+system.
+.IP "\fB\--parallel\fP \fIalias\fP"
+Activate distributed execution of urpmi to other machines (it is mandatory that
+urpmi is installed but it is not necessary to have media defined on any
+machines). \fIalias\fP defines which extension module to use by urpmi (currently
+\fBurpmi-parallel-ka-run\fP or \fBurpmi-parallel-ssh\fP) and which machines
+should be updated, this alias is defined in the file /etc/urpmi/parallel.cfg as
+described below.
+.IP "\fB\-v\fP"
+Proposes a verbose mode with various messages.
+.IP "\fB\-a\fP"
+If multiple packages match the substring given, take them all
+.SH FILES
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/sbin/urpmi
+The \fBurpmi\fP executable (perl script)
+.TP
+.FN /var/lib/urpmi/list.*
+Contains the list of all packages known by urpmi and their location only
+if a password is used to access distant location (using network protocol) or
+various directory are used to store packages.
+.TP
+.FN /var/lib/urpmi/hdlist.*
+Contains information about all known packages, it's a summary of rpm headers.
+If an hdlist file is used for a medium \fBurpmf\fP can operate completely which
+is almost always the case (please refer to \fBurpmf\fP man page for more
+informations on this topic).
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
+Contains synthesis information about all known packages built from hdlist files
+that can be used by minimal closure algorithm. If these files are not present
+hdlist files will be used instead but this is much slower.
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Contains media description, previous format from older urpmi is still accepted.
+.TP
+.FN /etc/urpmi/parallel.cfg
+Contains parallel alias description, format is
+\fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
+a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
+\fB<media>\fP is a media list (as \fB--media\fP parameter),
+\fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
+-m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
+extension.
+.TP
+.FN /etc/urpmi/skip.list
+Contains package expressions that should not be automatically updated. The
+format is a list of provide of package (or regular expression if bounded by
+slashes \fB/\fP) with optional operator and version string, or regular
+expression to match the fullname of packages too.
+.TP
+.FN /etc/urpmi/inst.list
+Contains package names that should be installed instead of updated.
+.SH EXIT CODES
+.IP 1
+Command line inconsistency.
+.IP 2
+Removing of packages failed.
+.SH AUTHOR
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (original author)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (current author)
+.SH SEE ALSO
+\fIurpmi.addmedia\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIgurpmi\fP(8),
+\fIurpmf\fP(8),
+\fIurpmi\fP(8),
+\fIurpmq\fP(8),
+\fIrpmdrake\fP(8)
