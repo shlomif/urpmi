@@ -50,6 +50,11 @@ ne recherchera et ne résoudra les dépendances que sur les média marqués comme
 mis à jour.
 .IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
 Sélectionne les media donnés plutôt que tous les media disponibles.
+.IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
+Ne pas utiliser les media donnés.
+.IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
+Trier les media donnés, des sous-chaîne peuvent être utilisé pour simplifier le
+groupement des media.
 .IP "\fB\--synthesis\fP \fIfile\fP"
 Utilise le fichier de synthèse \fIfile\fP à la place de la database de urpmi
 pour rechercher les paquetages et résoudre les dépendances.
@@ -59,6 +64,22 @@ Installe toutes les dépendances nécessaires sans rien demander.
 Sélectionne automatiquement tous les paquetages qui doivent être mis à jour
 selon les paquetages déjà installés et les paquetages listés dans les divers
 médias enregistrés.
+.IP "\fB\--no-uninstall\fP"
+Ne demande jamais à l'utilisateur d'enlever un paquetage mais abandonne à la
+place. Ce mode peut être plus sûr en automatique.
+.IP "\fB\--keep\fP"
+Changer la sélection des paquetages lorsque certaines dépendances ne sont pas
+satisfaites en essayant de conserver les paquetages déja installés. Ce
+comportement empêche en général l'installation de paquetages donnée sur la ligne
+de commande en cas d'erreurs de dépendances.
+.IP "\fB\--split-level \fInumber\fP"
+Découpe en petite transaction l'installation lorsque le nombre de paquetages à
+mettre à jour est supérieur à \fInumber\fP. Cette option est active par défaut
+et la value de \fInumber\fP est de 20.
+.IP "\fB\--split-length \fIcount\fP"
+Découpe en petite transaction d'au moins \fIcount\fP paquetages, par défaut 1.
+Mette 0 dans ce paramètre permet de désactiver le découpage en petite
+transaction.
 .IP "\fB\--fuzzy\fP"
 Désactive la recherche rapide sur un nom de paquetage exact et propose tous les
 noms de paquetages correspondants au paramètre donné (identique à \fB-y\fP).
@@ -92,6 +113,9 @@ disponible ou wget dans le cas contraire.
 .IP "\fB\--curl\fP"
 Utilise curl pour télécharger les fichiers. Par défaut curl est utilisé s'il est
 disponible ou wget dans le cas contraire.
+.IP "\fB\--limit-rate \fIrate\fP"
+Essaye de limiter la vitesse de téléchargement, \fIrate\fP est donnée en Ko/sec.
+Cette option n'est pas active par défaut.
 .IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
 Utilise le proxy HTTP indiqué.
 .IP "\fB\--proxy-user\fP \fIuser:password\fP"
@@ -108,6 +132,16 @@ Utilise l'interface X.
 .IP "\fB\--best-output\fP"
 Essaye d'utiliser l'interface X, ou si elle n'est pas disponible, l'interface
 en mode texte (qui utilise rpm).
+.IP "\fB\--verify-rpm\fP" or "\fB\--no-verify-rpm\fP"
+Active (défaut) ou désactive la vérification des signatures des paquetages.
+.IP "\fB\--test\fP"
+Tester (de la même manière que \fBrpm --test\fP) l'installation de paquetages
+sans modifier le système installé.
+.IP "\fB\--excludepath\fP \fIstring\fP"
+N'installe pas de fichiers dont les noms commencent par la chaîne donnée (tél
+que le fait \fBrpm --excludepath\fP).
+.IP "\fB\--excludedocs\fP"
+N'installe pas les fichiers de documentations (tél que \fBrpm --excludedocs\fP).
 .IP "\fB\-a\fP"
 Si plusieurs paquetages coïncident avec la sous-chaîne donnée, les prendre tous.
 .IP "\fB\-p\fP"
