@@ -856,7 +856,7 @@ sub configure {
     unless ($options{noskipping}) {
 	$urpm->compute_flags($urpm->get_packages_list($urpm->{skiplist}, $options{skip}), skip => 1, callback => sub {
 				 my ($urpm, $pkg) = @_;
-				 $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
+				 $urpm->{error}(N("skipping package %s", scalar($pkg->fullname)));
 			     });
     }
     unless ($options{noinstalling}) {
