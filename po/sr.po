@@ -10,21 +10,22 @@ msgstr ""
 "POT-Creation-Date: 2001-02-28 02:57+0100\n"
 "PO-Revision-Date: 2000-04-20 19:20+0100\n"
 "Last-Translator: Tomislav Jankovic_<tomaja@net.yu>\n"
-"Language-Team: Serbian(latin) <come.to@Linux-YU>\n"
+"Language-Team: Serbian(latin) <@Linux-YU>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: _irpm:21
-#, fuzzy
 msgid "installing $rpm\n"
-msgstr "Instaliram %s\n"
+msgstr "Instaliram $rpm\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Automatska instalacija paketa...\n"
+"Zahtevali ste instalaciju paketa $rpm\n"
 
 #: _irpm:31 urpmi:225
 msgid "Is it ok?"
@@ -44,7 +45,7 @@ msgstr "Nn"
 
 #: _irpm:41 urpmi:234 urpmi:283
 msgid "Yy"
-msgstr "DdYy"
+msgstr "Dd"
 
 #: _irpm:42 urpmi:235
 msgid " (Y/n) "
@@ -52,15 +53,15 @@ msgstr " (D/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: komanda nije pronaðena\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "upotreba: rpmf [<datoteka>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi nije instaliran"
 
 #: placeholder.h:8
 #, c-format
@@ -84,6 +85,25 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi verzija %s\n"
+"Copyright (C) 1999, 2000 MandrakeSoft.\n"
+"Ovo je besplatan softver i mo¾e se distribuirati pod uslovima GNU iGPL "
+"licenci.\n"
+"upotreba:\n"
+"  --help           - priakazuje ovaj ekran za pomoæ.\n"
+"  --auto           - automatski selekcija pravog paketa u izboru.\n"
+"  --auto-select    - automatski selekcija pravog paketa za a¾uriranje "
+"sistema.\n"
+"  --force          - uzrokuje pozivanje èak i ako neki paketi i ne postoje.\n"
+"  --X              - koristi X interfejs.\n"
+"  --best-output    - bira najbolji interfejs u ëavisnosti od okru¾enja:\n"
+"                     X ili teksoalni mod.\n"
+"  -a               - selektuje sva poklapanja u komandnoj liniji.\n"
+"  -c               - bira kompletan metod za re¹avanje zahteva za zatvaranje.\n"
+"  -q               - tihi mod.\n"
+"  -v               - verbose mod.\n"
+"  imena ili rpm datoteke (samo za root privilegije)koje su instalirane dato "
+"na komandnoj liniji.\n"
 
 #: placeholder.h:26
 msgid ""
@@ -96,6 +116,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"upotreba: urpmi.addmedia <ime> <url>\n"
+"gde je <url> jedan od\n"
+"       datoteka://<putanja>\n"
+"       ftp://<login>:<lozinka>@<host>/<putanja> sa <relativno ime datoteke "
+"sahdlist>\n"
+"       ftp://<host>/<putanja> sa <relativno ime datoteke sa hdlist>\n"
+"       http://<host>/<putanja> sa <relativno ime datoteke sa hdlist>\n"
+"       prenosni_<ureðaj>://<putanja>\n"
 
 #: placeholder.h:35 urpmi.addmedia:52
 #, c-format
@@ -103,6 +131,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`sa' nedostaje za ftp medij\n"
 
 #: placeholder.h:39 urpmi.addmedia:48
 #, c-format
@@ -110,6 +140,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"ureðaj `%s' ne postoji\n"
 
 #: placeholder.h:43 urpmi.addmedia:50
 #, c-format
@@ -117,6 +149,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"nedostaje <relativna putanja hdlist>\n"
 
 #: placeholder.h:47 urpmi.update:52
 #, c-format
@@ -124,6 +158,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"nedostaje unos za a¾uriranje\n"
+"(jedan od %s)\n"
 
 #: placeholder.h:51 urpmi.removemedia:49
 #, c-format
@@ -131,11 +167,13 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"nedostaje unos za brisanje\n"
+"(jedan od %s)\n"
 
 #: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi verzija %s"
 
 #: urpmi:137
 msgid "Only superuser is allowed to install local packages"
@@ -162,9 +200,9 @@ msgid ""
 msgstr "Radi zadovoljenja zavisnosti, sledeæi paketi æe se instalirati (%d MB)"
 
 #: urpmi:250
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Ubacite %s sa imenom %s"
+msgstr "Ubacite medij sa imenom %s u ureðaj %s"
 
 #: urpmi:251
 msgid "Press enter when it's done..."
@@ -184,54 +222,53 @@ msgid "Installation failed"
 msgstr "InstalaciÙa neuspela"
 
 #: urpmi:284
-#, fuzzy
 msgid "Try installation without checking dependencies? (Y/n) "
-msgstr "Instaliacija bez provere zavisnosti ?"
+msgstr "Instaliacija bez provere zavisnosti (Da/Ne)? "
 
 #: urpmi:290
-#, fuzzy
 msgid "Try installation even more strongly (--force)? (Y/n) "
-msgstr "Prisilna instalacija ?"
+msgstr "Prisilna instalacija (--force)? (Da/Ne) ?"
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "upotreba: urpmi.addmedia <ime> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "nepoznate opcije \"%s\"\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nema nièega za a¾uriranje (koristi urpmi.addmedia za dodavanje medija)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nema nièega za brisanje (koristi urpmi.addmedia za dodavanje medija)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq verzija %s"
 
 #: urpmq:87
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: nepoznata opcija \"-$1\", proveri upotrebu sa --help\n"
 
 #: urpmq:89
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: ne mogu da proèitam rpm datoteku \"$_\"\n"
 
 #: urpmq:128
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"neki paketi moraju biti uklonjeni da bi bili a¾urirani, ¹to jo¹ nijepodr¾ano\n"
 
 #: urpmq:150
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "izvor paketa nije dostupan,izlazim..."
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
