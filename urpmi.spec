@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.4.5
-%define release 6mdk
+%define release 7mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -130,13 +130,20 @@ install -m 644 %{name}.bash-completion %{buildroot}%{_sysconfdir}/bash_completio
 mkdir -p %{buildroot}%{_menudir}
 cat << EOF > %{buildroot}%{_menudir}/gurpmi
 ?package(gurpmi): command="%{_bindir}/gurpmi" \
-needs="x11" \
+needs="kde" \
 section=".hidden" \
 title="Software installer" \
 longtitle="Graphical front end to install RPM files" \
 mimetypes="application/x-rpm;application/x-urpmi" \
 multiple_files="true" \
 kde_opt="InitialPreference=9"
+?package(gurpmi): command="%{_bindir}/gurpmi" \
+needs="gnome" \
+section=".hidden" \
+title="Software installer" \
+longtitle="Graphical front end to install RPM files" \
+mimetypes="application/x-rpm;application/x-urpmi" \
+multiple_files="true" 
 EOF
 %endif
 
@@ -234,6 +241,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Feb 20 2004 David Baudens <baudens@mandrakesoft.com> 4.4.5-7mdk
+- Revert menu entry from needs="x11" to needs="gnome" and needs="kde"
+
 * Thu Feb 19 2004 David Baudens <baudens@mandrakesoft.com> 4.4.5-6mdk
 - Fix menu entry
 
