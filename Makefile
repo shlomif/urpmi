@@ -13,7 +13,7 @@ NAME = urpmi
 TAR = $(NAME).tar.bz2
 LOG = $(NAME).logrotate
 
-.PHONY: install clean rpm
+.PHONY: install clean rpm test
 
 install:
 	$(MAKE) -C po $@
@@ -35,6 +35,9 @@ install:
 
 autoirpm.update-all: %: %.cc 
 	$(CXX) $(CFLAGS) $< $(LIBRPM) -o $@
+
+test:
+	cd test; ./do_alltests
 
 tar: clean
 	cd .. ; tar cf - urpmi | bzip2 -9 >$(TAR)

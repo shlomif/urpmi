@@ -52,6 +52,7 @@ usage:
 ") . _("  --media        - use only the media listed by comma.
 ") . _("  --auto-select  - automatically select packages for upgrading the system.
 ") . _("  --fuzzy        - impose fuzzy search (same as -y).
+") . _("  --list         - list package available.
 ") . _("  --src          - next package is a source package (same as -s).
 ") . _("  --headers      - extract headers for package listed from urpmi db to
                    stdout (root only).
@@ -74,6 +75,7 @@ for (@ARGV) {
     /^--mediums$/ and do { push @nextargv, \$query->{media}; next };
     /^--auto-select$/ and do { $query->{auto_select} = 1; next };
     /^--fuzzy$/ and do { $query->{fuzzy} = 1; next };
+    /^--list$/ and do { $query->{list} = 1; next };
     /^--src$/ and do { $query->{src} = 1; next };
     /^--headers$/ and do { $query->{headers} = 1; next };
     /^--sources$/ and do { $query->{sources} = 1; next };
@@ -118,108 +120,114 @@ $urpm->configure(nocheck_access => 1,
 		);
 
 
-my ($start, $end) = $urpm->register_rpms(@files);
-
-#- select individual files.
 my $state = { requested => {} };
-defined $start && defined $end and @{$state->{requested}}{($start .. $end)} = ();
 
-#- search the packages according the selection given by the user,
-#- basesystem is added to the list so if it need to be upgraded, all its dependency
-#- will be updated too.
-if (@names) {
-    $urpm->search_packages($state->{requested}, [ @names ],
-			   use_provides => $query->{use_provides},
-			   fuzzy => $query->{fuzzy})
-	or $query->{force} or exit 1;
-}
-if (@src_names) {
-    $urpm->search_packages($state->{requested}, [ @src_names ],
-			   use_provides => $query->{use_provides},
-			   fuzzy => $query->{fuzzy},
-			   src => 1)
-	or $query->{force} or exit 1;
-}
-
-#- keep track of choices, do no propagate but mark them in selected.
-my $stop_on_choices = sub {
-    my ($urpm, $db, $state, $choices) = @_;
-    $state->{selected}{join '|', sort { $a <=> $b } map { $_ ? ($_->id) : () } @$choices} = 0;
-};
-#- open/close of database should be moved here, in order to allow testing
-#- some bogus case and check for integrity.
-if ($query->{auto_select} || $query->{upgrade}) {
-    my $db = URPM::DB::open($query->{root});
-    my $sig_handler = sub { undef $db; exit 3 };
-    local $SIG{INT} = $sig_handler;
-    local $SIG{QUIT} = $sig_handler;
-
-    require URPM::Resolve;
-    #- auto select package for upgrading the distribution.
-    if ($query->{auto_select}) {
-	my (%to_remove, %keep_files);
-
-	$urpm->resolve_packages_to_upgrade($db, $state, requested => 0);
-
-	if (%{$state->{ask_remove} || {}} || %{$state->{ask_unselect} || {}}) {
-	    $urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
-	}
-    }
-
-    #- filter to add in packages selected required packages.
-    if ($query->{upgrade}) {
-	$urpm->resolve_requested($db, $state, callback_choices => $stop_on_choices);
-	#- dependancies are not asked, just clean selected part with added value (undef).
-	$query->{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
-								! defined $state->{selected}{$_}} keys %{$state->{selected}}};
-    }
-} elsif ($query->{deps}) {
-    #- only deps required.
-    my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
-    require URPM::Resolve;
-    $urpm->resolve_requested($empty_db, $state, callback_choices => $stop_on_choices);
-    #$urpm->filter_packages_to_upgrade($db, $state->{requested}, undef, keep_alldeps => 1);
+#- if list has been activated, select all...
+if ($query->{list}) {
+    @{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
 } else {
-    $state->{selected} = $state->{requested};
-}
+    my ($start, $end) = $urpm->register_rpms(@files);
 
-#- get out of package that should not be upgraded.
-$urpm->deselect_unwanted_packages($state->{selected});
+    #- select individual files.
+    defined $start && defined $end and @{$state->{requested}}{($start .. $end)} = ();
 
-if ($query->{headers} || $query->{sources}) {
-    my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
-    unless ($local_sources || $list) {
-	$urpm->{fatal}(1, _("unable to get source packages, aborting"));
+    #- search the packages according the selection given by the user,
+    #- basesystem is added to the list so if it need to be upgraded, all its dependency
+    #- will be updated too.
+    if (@names) {
+	$urpm->search_packages($state->{requested}, [ @names ],
+			       use_provides => $query->{use_provides},
+			       fuzzy => $query->{fuzzy})
+	  or $query->{force} or exit 1;
+    }
+    if (@src_names) {
+	$urpm->search_packages($state->{requested}, [ @src_names ],
+			       use_provides => $query->{use_provides},
+			       fuzzy => $query->{fuzzy},
+			       src => 1)
+	  or $query->{force} or exit 1;
     }
 
-    if ($query->{headers}) {
-	#- now examine source package to build headers list to extract.
-	values %$local_sources and system 'rpm2header', values %$local_sources;
-	foreach (0..$#{$urpm->{media} || []}) {
-	    my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
-				  -s $file and system 'cat', $file;
-				  ! -s $file }
-			   map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } values %{$list->[$_]});
-	    @headers > 0 or next;
+    #- keep track of choices, do no propagate but mark them in selected.
+    my $stop_on_choices = sub {
+	my ($urpm, $db, $state, $choices) = @_;
+	$state->{selected}{join '|', sort { $a <=> $b } map { $_ ? ($_->id) : () } @$choices} = 0;
+    };
+    #- open/close of database should be moved here, in order to allow testing
+    #- some bogus case and check for integrity.
+    if ($query->{auto_select} || $query->{upgrade}) {
+	my $db = URPM::DB::open($query->{root});
+	my $sig_handler = sub { undef $db; exit 3 };
+	local $SIG{INT} = $sig_handler;
+	local $SIG{QUIT} = $sig_handler;
 
-	    if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
-		require packdrake;
-		my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
-		$packer->extract_archive(undef, @headers);
-	    } else {
-		#- fallback to retrieve rpm package before, so that --headers will be ok.
-		my %downloads = $urpm->download_source_packages({}, $list, 'local', undef);
-		print STDERR join " ", "rpm2header", values %downloads;
-		system "rpm2header", values %downloads;
+	require URPM::Resolve;
+	#- auto select package for upgrading the distribution.
+	if ($query->{auto_select}) {
+	    my (%to_remove, %keep_files);
+
+	    $urpm->resolve_packages_to_upgrade($db, $state, requested => 0);
+
+	    if (%{$state->{ask_remove} || {}} || %{$state->{ask_unselect} || {}}) {
+		$urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
 	    }
 	}
-    } else {
-	print join "\n", values %$local_sources; values %$local_sources and print "\n";
-	foreach (0..$#{$urpm->{media} || []}) {
-	    print join "\n", values %{$list->[$_]}; values %{$list->[$_]} and print "\n";
+
+	#- filter to add in packages selected required packages.
+	if ($query->{upgrade}) {
+	    $urpm->resolve_requested($db, $state, callback_choices => $stop_on_choices);
+	    #- dependancies are not asked, just clean selected part with added value (undef).
+	    $query->{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
+								    ! defined $state->{selected}{$_}} keys %{$state->{selected}}};
 	}
+    } elsif ($query->{deps}) {
+	#- only deps required.
+	my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
+	require URPM::Resolve;
+	$urpm->resolve_requested($empty_db, $state, callback_choices => $stop_on_choices);
+	#$urpm->filter_packages_to_upgrade($db, $state->{requested}, undef, keep_alldeps => 1);
+    } else {
+	$state->{selected} = $state->{requested};
     }
-    exit 0;
+
+    #- get out of package that should not be upgraded.
+    $urpm->deselect_unwanted_packages($state->{selected});
+
+    if ($query->{headers} || $query->{sources}) {
+	my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
+	unless ($local_sources || $list) {
+	    $urpm->{fatal}(1, _("unable to get source packages, aborting"));
+	}
+
+	if ($query->{headers}) {
+	    #- now examine source package to build headers list to extract.
+	    values %$local_sources and system 'rpm2header', values %$local_sources;
+	    foreach (0..$#{$urpm->{media} || []}) {
+		my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
+				      -s $file and system 'cat', $file;
+				      ! -s $file }
+			       map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } values %{$list->[$_]});
+		@headers > 0 or next;
+
+		if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
+		    require packdrake;
+		    my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
+		    $packer->extract_archive(undef, @headers);
+		} else {
+		    #- fallback to retrieve rpm package before, so that --headers will be ok.
+		    my %downloads = $urpm->download_source_packages({}, $list, 'local', undef);
+		    print STDERR join " ", "rpm2header", values %downloads;
+		    system "rpm2header", values %downloads;
+		}
+	    }
+	} else {
+	    print join "\n", values %$local_sources; values %$local_sources and print "\n";
+	    foreach (0..$#{$urpm->{media} || []}) {
+		print join "\n", values %{$list->[$_]}; values %{$list->[$_]} and print "\n";
+	    }
+	}
+	exit 0;
+    }
 }
 
 #- print sub for query.

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.5
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Thu Jun 20 2002 François Pons <fpons@mandrakesoft.com> 3.5-8mdk
+- added back version lost for some time (Guillaume Rousse).
+- added --list to urpmq to list package.
+- added regression test (explicit make test for instance).
+
 * Wed Jun 19 2002 François Pons <fpons@mandrakesoft.com> 3.5-7mdk
 - fixed urpmq to no more use old resolution methods in urpm.pm.
 - fixed urpmq to take care of choices correctly (no default selection).

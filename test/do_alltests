@@ -1,0 +1,22 @@
+#!/bin/sh
+
+LANGUAGE=C
+LANG=C
+export LANGUAGE
+export LANG
+
+for t in *.tar.bz2; do
+    rm -rf tmp
+    mkdir tmp
+    cd tmp
+    tar xvfj ../$t
+    dir=$(dirname $(find . -name dotest))
+    cd $dir
+    ./dotest || exit 1
+    perl -pi -e 's/.*urpmi called with.*//' urpmi_env.log urpmi_env_correct.log
+    diff urpmi_env.log urpmi_env_correct.log || exit 2
+    cd -
+    cd ..
+done
+
+rm -rf tmp
