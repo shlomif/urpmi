@@ -1267,7 +1267,7 @@ this could happen if you mounted manually the directory when creating the medium
 				#- an error occured (provided there are files in input.)
 				delete $medium->{start};
 				delete $medium->{end};
-				die "no rpms read\n";
+				$urpm->{fatal}(9, N("no rpms read"));
 			    } else {
 				#- make sure the headers will not be removed for another media.
 				$clean_cache = 0;
@@ -1283,6 +1283,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    } else {
 			$error = 1;
 			$urpm->{error}(N("no rpm files found from [%s]", $dir));
+			$medium->{ignore} = 1;
 		    }
 		}
 	    }
