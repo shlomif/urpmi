@@ -1,13 +1,45 @@
 # Installation directories
 localedir = $(PREFIX)/usr/share/locale
 
-LANGS = $(shell ls *.po | xargs -i basename {} .po )
 PGOAL = urpmi
-GOALS = $(PGOAL).pot  $(foreach a, $(LANGS), $(a).mo)
-POTFILES = $(shell sed -e "s+^+../+" "POTFILES.in" )
+
+# perl files to search translatable strings in
+PL_FILES = ../_irpm ../urpm.pm ../urpme ../urpmi ../urpmi.addmedia \
+	../urpmi.removemedia ../urpmi.update ../urpmq
+# C-like files to search translatable strings in
+CFILES = ./placeholder.h
+
+PL_CFILES = $(PL_FILES:%=%_.c)
+POFILES = $(shell ls *.po)
+MOFILES = $(POFILES:%.po=%.mo)
+LANGS = $(POFILES:%.po=%)
+
+GOALS = $(PGOAL).pot  $(MOFILES)
 
 
 all: $(GOALS)
+
+%.mo: %.po
+	msgfmt -o $@ $<
+
+$(PL_CFILES): %_.c: %
+	./fake_c.pl $< > $@
+
+merge: $(PGOAL).pot
+	@for n in $(POFILES); do \
+		echo "Merging $$n"; \
+		msgmerge "$$n" $< > "$$n"t; \
+		mv -f "$$n"t "$$n"; \
+	done
+
+$(PGOAL).pot: $(PL_CFILES) $(CFILES)
+	./create_placeholder
+	xgettext --default-domain=$(PGOAL) -F -n \
+	--add-comments='-PO' --add-comments=' Translator:'\
+	--keyword=_ --keyword=__ --keyword=N_ --keyword=gettext \
+	--language=C $(PL_CFILES) $(CFILES)
+	mv -f $(PGOAL).po $(PGOAL).pot
+	@rm -rf $(PL_CFILES)
 
 install: all
 	for l in $(LANGS); do \
@@ -16,18 +48,6 @@ install: all
 	done
 
 clean:
-	rm -f *~ *.[oas] *.mo $(GOALS) TAGS
+	@rm -rf *~ *.mo $(GOALS) $(PL_CFILES) 
 
-%.h:
-	@touch $@
-
-%.mo: %.po
-	msgfmt -o $@ $<
-
-%.pot:	$(POTFILES)
-	./create_placeholder $(POTFILES)
-	xgettext --default-domain=`basename $@ .pot` --add-comments \
-	        --keyword=__ --keyword=_ --keyword=N_ --keyword=gettext \
-		placeholder.h && \
-	mv `basename $@ .pot`.po $@
 

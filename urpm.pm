@@ -174,7 +174,8 @@ sub set_proxy {
 		}
 		last;
 	    };
-	    die _("Unknown webfetch `$proxy->{type}' !!!\n");
+# Translator: the %s here is a program name
+	    die _("Unknown webfetch `%s' !!!\n",$proxy->{type});
 	}
     }
     return @res;

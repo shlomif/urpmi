@@ -20,18 +20,6 @@ char *foobar[] = {
 	N_(\"Nn\"), " > placeholder.h.$$
 cat ../urpmf | perl -ne 's/.*\$ECHO\s+(".*").*/N_($1),/g and print' >> placeholder.h.$$
 
-if [ "$*" = "" ]; then
-	for i in `sed -e "s+^+../+" "POTFILES.in"`
-	do
-		./pl_create_placeholder $i >> placeholder.h.$$
-	done
-else
-	for i in $* 
-	do
-		./pl_create_placeholder $i >> placeholder.h.$$
-	done
-fi
-
 echo "};" >> placeholder.h.$$
 
 # diff returns true if files are equal

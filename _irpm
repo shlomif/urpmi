@@ -7,6 +7,11 @@ use Locale::gettext;
 setlocale (LC_ALL, "");
 textdomain ("urpmi");
 
+sub _ {
+    my ($format, @params) = @_;
+    sprintf(Locale::gettext::gettext($format), @params);
+}
+
 $automatic = 0;
 $timeout = 15;
 
@@ -15,7 +20,7 @@ $BASE = "$DIR/autoirpm";
 $INSTALL_SCRIPT_REP = "$BASE.scripts";
 
 $rpm = shift @ARGV;
-print STDERR "autoirpm: ", gettext("installing $rpm\n");
+print STDERR "autoirpm: ", _("installing %s\n",$rpm);
 
 `xtest`;
 $X = ($? == 0);
@@ -25,18 +30,18 @@ $SIG{ALRM} = sub { $pid and kill 9, $pid; not_found(); };
 alarm $timeout;
 
 if (!$automatic) {
-    $interactive_mesg = gettext("Automatic installation of packages...\nYou requested installation of package $rpm\n") . gettext("Is it OK?");
+    $interactive_mesg = _("Automatic installation of packages...\nYou requested installation of package %s\n",$rpm) . _("Is it OK?");
     if ($X) {
-	my $ok = gettext("Ok");
-	my $cancel = gettext("Cancel");
+	my $ok = _("Ok");
+	my $cancel = _("Cancel");
 	($pid = fork) or exec "gmessage", "-default", $ok, "-buttons", "$ok:0,$cancel:2", $interactive_mesg;
 	wait();
 	$? and not_found();
     } else {
 	if (isatty(0)) {
-	    $noexpr = gettext("Nn");
-	    $yesexpr = gettext("Yy");
-	    print $interactive_mesg, gettext(" (Y/n) ");
+	    $noexpr = _("Nn");
+	    $yesexpr = _("Yy");
+	    print $interactive_mesg, _(" (Y/n) ");
 	    <STDIN> =~ /[$yesexpr]/ or not_found();
 	} else {
 	    # Arghhh not in automatic and no way to contact the user... dying
@@ -55,7 +60,7 @@ fork or exec $urpmi, "--comment", $ARGV[0], $rpm; wait;
 not_found();
 
 sub not_found {
-    print STDERR gettext("$rpm: command not found\n");
+    print STDERR _("%s: command not found\n",$rpm);
     exit 127;
 }
 
