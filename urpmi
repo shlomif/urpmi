@@ -184,6 +184,8 @@ while (defined($_ = shift @ARGV)) {
     $src = 0; #- reset switch for next package.
 }
 
+if ($urpm::args::options{X}) { require gurpm }
+
 #- use install_src to promote all names as src package.
 if ($install_src) {
     @files and $urpm->{fatal}(1, N("What can be done with binary rpm files when using --install-src"));
@@ -402,8 +404,6 @@ sub ask_choice {
 };
 
 if ($parallel && $urpm::args::options{X}) {
-    #- do it early, we'll have ui outputs while resolving deps
-    require gurpm;
     gurpm::init(to_utf8(N("Package installation...")), to_utf8(N("Initializing...")));
     $urpm->{ui} = { msg => sub { gurpm::label(to_utf8($_[0])) }, progress => sub { gurpm::progress($_[0]) } };
 }
@@ -520,7 +520,6 @@ unless ($local_sources || $list) {
 }
 
 if ($urpm::args::options{X} && !$parallel) {  #- for $parallel, already done
-    require gurpm;
     gurpm::init(to_utf8(N("Package installation...")), to_utf8(N("Initializing...")));
 }
 
@@ -745,7 +744,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	}
     }
 }
-$urpm::args::options{X} and gurpm::end();
+if ($urpm::args::options{X}) { gurpm::end() }
 
 #- keep a track of error code.
 my $exit_code = 0;
@@ -801,7 +800,7 @@ if ($pid_err && $pid_out) {
 }
 
 if ($urpm::args::options{X}) {
-    gtkset_mousecursor_normal(); #- for restoring a normal in any case
+    gtkset_mousecursor_normal(); #- to restore a normal cursor in any case
     flush();
 }
 use POSIX ();
