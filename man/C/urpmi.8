@@ -14,7 +14,7 @@ You can compare rpm vs. urpmi  with  insmod vs. modprobe or dpkg vs apt-get
 Just launch urpmi followed by what you think is the name of the package(s),
 and urpmi will:
 .br
-\- Propose different package names if availables and quit.
+\- Propose different package names if available and quit.
 .br
 \- If only one corresponding package is found, check whether dependencies are 
 already installed, or not.
@@ -70,21 +70,21 @@ rejects upgrade of packages given on command line (or when using --auto-select)
 in case of dependencies error.
 .IP "\fB\--split-level \fInumber\fP"
 Split in small transaction when total number of packages to upgrade is greater
-than \fInumber\fP given. This option is activated by default and the default
+than the given \fInumber\fP. This option is activated by default and the default
 value of \fInumber\fP is 20.
 .IP "\fB\--split-length \fIcount\fP"
 Split in small transaction of at least \fIcount\fP packages. The default is 1
 and setting this value to 0 just disable split in small transaction.
 .IP "\fB\--fuzzy\fP"
-Disable fast search on exact package name, ie it will propose all
-package containing the name even if one has the given name (this is the same
-as \fB\-y\fP).
+Disable fast search on exact package name; i.e. it will propose all
+packages containing the name, even if one has exactly the given name (this
+is the same as \fB\-y\fP).
 .IP "\fB\--src\fP \fIname\fP"
-Search a source package according to \fIname\fP and it will select all dependencies by
-default, unless \fB\--install-src\fP is used in order to install source package
+Search a source package according to \fIname\fP and select all dependencies by
+default, unless \fB\--install-src\fP is used in order to install the source package
 itself.
 .IP "\fB\--install-src\fP"
-Install only source package (no binary packages will be installed).
+Install only the source package (no binary packages will be installed).
 .IP "\fB\--clean\fP"
 Remove all packages from the cache in directory /var/cache/urpmi/rpms.
 .IP "\fB\--noclean\fP"
@@ -124,27 +124,27 @@ Use specified HTTP proxy.
 Use specified user and password to use for proxy authentication.
 .IP "\fB\--bug\fP \fIdirectory\fP"
 Create a bug report in \fIdirectory\fP, you have to send a compressed archive of
-the directory to \fBurpmi\fP maintainer for the bug being (problably) fixed.
+the directory to the \fBurpmi\fP maintainer for the bug being (probably) fixed.
 .IP "\fB\--env\fP \fIdirectory\fP"
 Use a different environment directly from a bug report to replay a bug, the
 argument is the same argument given to \fB--bug\fP option.
 .IP "\fB\--X\fP"
 Use X interface.
 .IP "\fB\--best-output\fP"
-Try to use X interface or if not available the standard text interface (using
-rpm like output).
+Try to use X interface, or, if not available, the standard text interface (using
+rpm-like output).
 .IP "\fB\--verify-rpm\fP" or "\fB\--no-verify-rpm\fP"
 Activate (default) or deactivate rpm signature checking.
 .IP "\fB\--test\fP"
 Test (same as \fBrpm --test\fP) installation of packages but do not modify the
 system.
 .IP "\fB\--excludepath\fP \fIstring\fP"
-Do not install files whose name begins with \fIstring\fP given (same as \fBrpm
+Do not install files whose name begins with the given \fIstring\fP (same as \fBrpm
 --excludepath\fP).
 .IP "\fB\--excludedocs\fP"
 Do not install documents files (same as \fBrpm --excludedocs\fP).
 .IP "\fB\-a\fP"
-If multiple packages match the substring given, take them all
+If multiple packages match the given substring, take them all
 .IP "\fB\-p\fP"
 Allow search in provides to find package (default).
 .IP "\fB\-P\fP"
@@ -171,10 +171,9 @@ if a password is used to access distant location (using network protocol) or
 various directory are used to store packages.
 .TP
 .FN /var/lib/urpmi/hdlist.*
-Contains information about all known packages, it's a summary of rpm headers.
-If an hdlist file is used for a medium \fBurpmf\fP can operate completely which
-is almost always the case (please refer to \fBurpmf\fP man page for more
-informations on this topic).
+Contains information about all known packages; it's a summary of rpm headers.
+If an hdlist file is used for a medium, \fBurpmf\fP can operate completely
+without accessing this medium (this is almost always the case).
 .TP
 .FN /var/lib/urpmi/synthesis.hdlist.*
 Contains synthesis information about all known packages built from hdlist files

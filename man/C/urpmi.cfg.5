@@ -6,8 +6,8 @@ urpmi.cfg \- urpmi option and media configuration file format.
 The urpmi.cfg file format is an enhancement of previous version of urpmi.cfg
 format.
 
-The file is divided in multiple section, a section to set global options and as
-many sections as needed for the description of media managed.
+The file is divided in multiple sections: one section to set global options, and as
+many sections as needed for the description of the media managed.
 
 .SS Global options
 
@@ -64,15 +64,15 @@ second unless a suffix \fBK\fP, \fBM\fP is given.
 .TP
 .B excludepath
 Same as \fB--excludepath\fP for \fBurpmi\fP. This option allow to give comma
-separated list of path to be excluded on installationn, there is no path
-exlusion by default.
+separated list of path to be excluded on installation, there is no path
+exclusion by default.
 
 .TP
 .B key-ids
-This option is not available on command line. This option allows to use a comma
-separated list of \fBkey-ids\fP to be globaly accepted (keys still need to be
+This option is not available on the command line. It allows to use a comma
+separated list of \fBkey-ids\fP to be globally accepted (keys still need to be
 authorized by \fBrpm\fP) for any medium unless a specific \fBkey-ids\fP option
-for this medium is given. There is no default (even MandrekeSoft key id 70771ff3
+for this medium is given. There is no default (even MandrakeSoft key id 70771ff3
 is not by default).
 
 .TP
@@ -110,7 +110,7 @@ for experienced users.
 But options like \fBupdate\fP, \fBignore\fP or \fBkey-ids\fP can be modified by
 users to mark medium as an update, to ignore medium or to give allowed GPG key
 ids for packages of the medium for verification (unless of course signature
-checking has been disabled globaly).
+checking has been disabled globally).
 
 Please note that \fBkey-ids\fP is automatically set by \fBurpmi.update\fP or
 \fBurpmi.addmedia\fP if a remote pubkey file is available on the mirror. This

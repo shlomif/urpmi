@@ -1,22 +1,22 @@
 .TH urpmi.update 8 "28 Aug 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.update
 .SH NAME
-urpmi.update \- Updates packages list for specified medias
+urpmi.update \- Updates package lists for specified medias
 .SH SYNOPSIS
 .B urpmi.update [options] [<\fInames\fP>]
 .SH DESCRIPTION
-urpmi.update scans all the <\fInames\fP> media to update their packages list.
+urpmi.update scans all the <\fInames\fP> media to update their package list.
 Useful for ftp location for example.
 .PP
-<\fInames\fP> is a list of name you first told to urpmi.addmedia
+<\fInames\fP> is a list of names you first told to urpmi.addmedia.
 
 .SH OPTIONS
 .IP "\fB\--wget\fP"
 Use wget only for downloading distant files. By default curl is used if
-available or wget instead.
+available, or wget instead.
 .IP "\fB\--curl\fP"
 Use curl only for downloading distant files. By default curl is used if
-available or wget instead.
+available, or wget instead.
 .IP "\fB\--limit-rate \fIrate\fP"
 Try to limit the download speed, \fIrate\fP is given in bytes/sec. This option is
 not active by default.
@@ -49,10 +49,9 @@ if a password is used to access distant location (using network protocol) or
 various directory are used to store packages.
 .TP
 .FN /var/lib/urpmi/hdlist.*
-Contains information about all known packages, it's a summary of rpm headers.
-If an hdlist file is used for a medium \fBurpmf\fP can operate completely which
-is almost always the case (please refer to \fBurpmf\fP man page for more
-informations on this topic).
+Contains information about all known packages; it's a summary of rpm headers.
+If an hdlist file is used for a medium, \fBurpmf\fP can operate completely
+without accessing this medium (this is almost always the case).
 .TP
 .FN /var/lib/urpmi/synthesis.hdlist.*
 Contains synthesis information about all known packages built from hdlist files

@@ -6,8 +6,8 @@ urpmq \- urpmi database query tool.
 .B urpmq [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
 urpmq allows querying the urpmi database. It is for you if want to list
-available packages in the various media of urpmi, or list dependancies of
-packages or packages that will be installed if you start urpmi.
+available packages in the various media of urpmi, or list dependencies of
+packages, or packages that will be installed if you start urpmi.
 .PP
 Output format of urpmq is the following according to command line options:
 .IP
@@ -30,7 +30,7 @@ Use the given synthesis\fIfile\fP instead of urpmi db for searching packages and
 resolving dependencies.
 .IP "\fB\--auto-select\fP"
 Automatically select all packages that have to be upgraded according to already
-installed packages and packages listed in various media registered.
+installed packages and packages listed in the various media registered.
 .IP "\fB\--fuzzy\fP"
 Disable fast search on exact package name, ie it will propose all
 package containing the name even if one has the given name (this is the same
@@ -56,7 +56,7 @@ Extract headers for package selected to standard output.
 .IP "\fB\--sources\fP"
 Print source url (or file) of all packages selected.
 .IP "\fB\--force\fP"
-Ignore error of inexistant packages requested.
+Ignore error of inexistent packages requested.
 .IP "\fB\--parallel\fP \fIalias\fP"
 Activate distributed execution of urpmi to other machines (it is mandatory that
 urpmi is installed but it is not necessary to have media defined on any
@@ -84,7 +84,7 @@ argument is the same argument given to \fB--bug\fP option.
 .IP "\fB\-v\fP"
 Activate verbose mode.
 .IP "\fB\-d\fP"
-Select dependancies (maximal closure).
+Select dependencies (maximal closure).
 .IP "\fB\-u\fP"
 Deselect packages if a better version is already installed, this option can be
 used with \fB-d\fP to simulate \fB-M\fP mode of \fBurpmi\fP.
@@ -93,8 +93,8 @@ Select all matches on command line, useful when using \fB-f\fP or \fB-r\fP with
 incomplete name given.
 .IP "\fB\-c\fP"
 If maximal closure is used, assume that a package listed may have wrong or not
-up-to-date dependancies. This cause more package to be upgraded and may correct
-unresolved dependancies on the rpm database.
+up-to-date dependencies. This cause more package to be upgraded and may correct
+unresolved dependencies on the rpm database.
 .IP "\fB\-P\fP"
 Do not search in provides to find package (this is the opposite of \fB-p\fP and
 is the default).
@@ -105,13 +105,13 @@ This is the same as \fB--fuzzy\fP.
 .IP "\fB\-s\fP"
 This is the same as \fB--src\fP.
 .IP "\fB\-i\fP"
-Print useful information in human readable form as for \fIrpm -qi\fP.
+Print useful information in human readable form, as for \fIrpm -qi\fP.
 .IP "\fB\-g\fP"
-Print group of each packages listed.
+Print group of each package listed.
 .IP "\fB\-r\fP"
-Print version and release of each packages listed.
+Print version and release of each package listed.
 .IP "\fB\-f\fP"
-Print version, release and arch of each packages listed.
+Print version, release and arch of each package listed.
 .SH FILES
 .de FN
 \fI\|\\$1\|\fP
@@ -126,10 +126,9 @@ if a password is used to access distant location (using network protocol) or
 various directory are used to store packages.
 .TP
 .FN /var/lib/urpmi/hdlist.*
-Contains information about all known packages, it's a summary of rpm headers.
-If an hdlist file is used for a medium \fBurpmf\fP can operate completely which
-is almost always the case (please refer to \fBurpmf\fP man page for more
-informations on this topic).
+Contains information about all known packages; it's a summary of rpm headers.
+If an hdlist file is used for a medium, \fBurpmf\fP can operate completely
+without accessing this medium (this is almost always the case).
 .TP
 .FN /var/lib/urpmi/synthesis.hdlist.*
 Contains synthesis information about all known packages built from hdlist files
