@@ -173,8 +173,8 @@ if (rpmtools::get_packages_installed('', \@packages_installed, [ 'basesystem' ])
     #- in order to take care of all basesystem packages.
     my $pkg = $params->{info}{basesystem};
     foreach (@packages_installed) {
-	my $cmp = version_compare($pkg->{version}, $_->{version});
-	if ($cmp > 0 || $cmp == 0 && version_compare($pkg->{release}, $_->{release}) > 0) {
+	my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
+	if ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0) {
 	    push @packages, $pkg->{id}; last;
 	}
     }
@@ -203,12 +203,13 @@ while (defined($id = shift @packages)) {
 	#- force selection as mandatory package.
 	$packages_to_install{$id} = undef;
 	#- rebuild requires_id array according to deps as requires_id is no more available (because of speed :-)
+	#- and because id have been relocated.
 	my @rebuild_requires_id;
 	foreach (split /\s+/, $params->{depslist}[$id]{deps}) {
 	    if (/\|/) {
-		push @rebuild_requires_id, [ split /\|/, $_ ];
+		push @rebuild_requires_id, [ map { $params->{depslist}[$_]{id} } split /\|/, $_ ];
 	    } else {
-		push @rebuild_requires_id, $_;
+		push @rebuild_requires_id, $params->{depslist}[$_]{id};
 	    }
 	}
 	#- get all dependancies to add them.
@@ -249,8 +250,8 @@ if (!$query || $query->{upgrade}) {
 	    drop_in_choices(\%packages_to_install, $pkg->{id});
 	}
 	#- at this point, $_ is the package installed and $pkg is the package candidate to install.
-	my $cmp = version_compare($pkg->{version}, $_->{version});
-	if ($cmp < 0 || $cmp == 0 && version_compare($pkg->{release}, $_->{release}) <= 0) {
+	my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
+	if ($cmp < 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) <= 0) {
 	    #- the package $pkg is older or the same as the installed package,
 	    #- this means it has to be removed from the list, and considered to be
 	    #- already installed.
@@ -468,17 +469,6 @@ sub install {
 	    $force or <STDIN> =~ /n/i and exit 0;
 	    system("rpm", "-U", "--nodeps", "--force", @_);	
 	}
-    }
-}
-
-#- compare a version string.
-sub version_compare {
-    my ($a, $b) = @_;
-    local $_;
-
-    while ($a || $b) {
-	my ($sb, $sa) =  map { $1 if $a =~ /^\W*\d/ ? s/^\W*0*(\d+)// : s/^\W*(\D+)// } ($b, $a);
-	$_ = length($sa) cmp length($sb) || $sa cmp $sb and return $_;
     }
 }
 
