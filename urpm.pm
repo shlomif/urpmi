@@ -165,6 +165,7 @@ sub read_config {
 	    list
 	    md5sum
 	    noreconfigure
+	    priority
 	    removable
 	    synthesis
 	    update
@@ -357,7 +358,7 @@ sub write_config {
     foreach my $medium (@{$urpm->{media}}) {
 	my $medium_name = $medium->{name};
 	$config->{$medium_name}{url} = $medium->{clear_url};
-	foreach (qw(hdlist with_hdlist list removable key-ids priority-upgrade update ignore synthesis virtual)) {
+	foreach (qw(hdlist with_hdlist list removable key-ids priority priority-upgrade update ignore synthesis virtual)) {
 	    defined $medium->{$_} and $config->{$medium_name}{$_} = $medium->{$_};
 	}
     }
