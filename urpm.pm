@@ -2165,6 +2165,7 @@ sub reduce_pathname {
 	}
     }
     $dir =~ s/\/$//;
+    $dir ||= '/';
 
     $host . $dir;
 }
