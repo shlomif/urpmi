@@ -8,7 +8,7 @@ Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject, webfetch, perl-DateManip >= 5.40
-PreReq: perl-gettext, rpmtools >= 4.0-5mdk
+PreReq: perl-gettext, rpmtools >= 4.2-2mdk
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
