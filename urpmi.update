@@ -57,17 +57,18 @@ sub main {
 	/^--?noa/ and next; #- default, keeped for compability.
 	/^-/ and die _("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.
-") . _("  -a             - select all non-removable media.
-") . _("  -c             - clean headers cache directory.
-") . _("  -d             - force complete computation of depslist.ordered file.
-") . _("  -f             - force generation of hdlist files.
+") . _("  --help         - print this help message.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
 ") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
                    to be 1080 by default (format is <proxyhost[:port]>).
 ") . _("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
-") . _("\nunknown options '%s'\n", $_);
+") . _("  -a             - select all non-removable media.
+") . _("  -c             - clean headers cache directory.
+") . _("  -d             - force complete computation of depslist.ordered file.
+") . _("  -f             - force generation of hdlist files.
+") . (/^--?h(?:elp)$/ ? _("\nunknown options '%s'\n", $_) : '');
 	push @toupdates, $_;
     }
 

@@ -33,9 +33,10 @@ sub main {
 	/^--?c/ and $options{noclean} = 0, next;
 	/^-/ and die _("usage: urpmi.removemedia [-a] <name> ...
 where <name> is a medium name to remove.
+") . _("  --help         - print this help message.
 ") . _("  -a             - select all media.
 ") . _("  -c             - clean headers cache directory.
-") . _("\nunknown options '%s'\n", $_);
+") . (/^--?h(?:elp)$/ ? _("\nunknown options '%s'\n", $_) : '');
 	push @toremoves, $_;
     }
 

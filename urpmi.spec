@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 21mdk
+Release: 22mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,13 @@ fi
 
 
 %changelog
+* Thu Oct 24 2002 François Pons <fpons@mandrakesoft.com> 4.0-22mdk
+- fixed online help of tools to be more consistent.
+- added some times missing --help options.
+- fixed bad version displayed by urpmq.
+- added --list-aliases to list parallel aliases.
+- fixed bad rpm in cache by checking only MD5 signature.
+
 * Wed Oct 16 2002 François Pons <fpons@mandrakesoft.com> 4.0-21mdk
 - fixed bad copy of files when a relative symlink is used.
 - added minimal README documentation files for distributed modules.

@@ -1731,7 +1731,7 @@ sub get_source_packages {
 	if ($urpm->{source}{$_}) {
 	    $local_sources{$_} = $urpm->{source}{$_};
 	} else {
-	    $fullname2id{$p->fullname} = $_;
+	    $fullname2id{$p->fullname} = $_.'';
 	}
     }
 
@@ -1741,30 +1741,30 @@ sub get_source_packages {
 	$file2fullnames{($pkg->filename =~ /(.*)\.rpm$/ && $1) || $pkg->fullname}{$pkg->fullname} = undef;
     }
 
-    #- examine the local repository, which is trusted.
+    #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
     opendir D, "$urpm->{cachedir}/rpms";
     while (defined($_ = readdir D)) {
-	if (/([^\/]*)\.rpm/) {
-	    if (!$options{clean} && -s "$urpm->{cachedir}/rpms/$1.rpm") {
-		#print STDERR "looking at $urpm->{cachedir}/rpms/$1.rpm\n";
-		if (keys(%{$file2fullnames{$1} || {}}) > 1) {
-		    $urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $1);
+	if (my ($filename) = /^([^\/]*)\.rpm$/) {
+	    my $filepath = "$urpm->{cachedir}/rpms/$filename.rpm";
+	    if (!$options{clean} && -s $filepath && URPM::verify_rpm($filepath, nogpg => 1, nopgp => 1) =~ /OK/) {
+		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
+		    $urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $filename);
 		    next;
-		} elsif (keys(%{$file2fullnames{$1} || {}}) == 1) {
-		    my ($fullname) = keys(%{$file2fullnames{$1} || {}});
+		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
+		    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
 		    if (defined($id = delete $fullname2id{$fullname})) {
-			$local_sources{$id} = "$urpm->{cachedir}/rpms/$1.rpm";
+			$local_sources{$id} = $filepath;
 		    } else {
-			push @local_to_removes, "$urpm->{cachedir}/rpms/$1.rpm";
+			push @local_to_removes, $filepath;
 		    }
 		} else {
-		    push @local_to_removes, "$urpm->{cachedir}/rpms/$1.rpm";
+		    push @local_to_removes, $filepath;
 		}
 	    } else {
 		#- this is an invalid file in cache, remove it and ignore it.
 		#- or clean options has been given meaning ignore any file in cache
 		#- remove it too.
-		unlink "$urpm->{cachedir}/rpms/$1.rpm";
+		unlink $filepath;
 	    }
 	} #- no error on unknown filename located in cache (because .listing)
     }

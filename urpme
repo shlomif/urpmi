@@ -39,7 +39,15 @@ my $yesexpr = _("Yy");
 local $_ = ' ' . join(' ', @ARGV) . ' ';
 
 if ( / --?h/ || @ARGV == 0 ) {
-    print STDERR _("usage: urpme [-a] [--auto] <packages...>\n");
+    print STDERR _("urpme version %s
+Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.
+This is free software and may be redistributed under the terms of the GNU GPL.
+
+usage:
+", $urpm::VERSION) . _("  --help         - print this help message.
+") . _("  --auto         - automatically select a package in choices.
+") . _("  -a             - select all packages matching expression.
+");
     exit(0);
 }
 
