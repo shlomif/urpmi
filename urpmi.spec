@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.4
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Mon Jun 10 2002 François Pons <fpons@mandrakesoft.com> 3.4-8mdk
+- added --bug option to report bug report.
+- fixed --auto-select and skip.list.
+
 * Fri Jun  7 2002 François Pons <fpons@mandrakesoft.com> 3.4-7mdk
 - fixed still present log on standard output.
 

@@ -2004,7 +2004,7 @@ sub select_packages_to_upgrade {
 		if ($obsoleted > 0) {
 		    $urpm->{log}(_("selecting %s using obsoletes", $pkg->fullname));
 		    $obsoletedPackages{$n} = undef;
-		    $packages->{$pkg->id} = undef;
+		    exists $packages->{$pkg->id} or $packages->{$pkg->id} = 1;
 		}
 	    }
 	}
@@ -2022,7 +2022,7 @@ sub select_packages_to_upgrade {
 			  if ($p->compare_pkg($pkg) >= 0) {
 			      if ($otherPackage && $p->compare($pkg->version) <= 0) {
 				  $toRemove{$otherPackage} = 0;
-				  $packages->{$pkg->id} = undef;
+				  exists $packages->{$pkg->id} or $packages->{$pkg->id} = 1;
 				  $urpm->{log}(_("removing %s to upgrade to %s ...
   since it will not be updated otherwise", $otherPackage, $pkg->name.'-'.$pkg->version.'-'.$pkg->release));
 			      } else {
@@ -2031,7 +2031,7 @@ sub select_packages_to_upgrade {
 			  } elsif ($upgradeNeedRemove{$pkg->name}) {
 			      my $otherPackage = $p->name.'-'.$p->version.'-'.$p->release;
 			      $toRemove{$otherPackage} = 0;
-			      $packages->{$pkg->id} = undef;
+			      exists $packages->{$pkg->id} or $packages->{$pkg->id} = 1;
 			      $urpm->{log}(_("removing %s to upgrade to %s ...
   since it will not upgrade correctly!", $otherPackage, $pkg->name.'-'.$pkg->version.'-'.$pkg->release));
 			  }
@@ -2058,7 +2058,7 @@ sub select_packages_to_upgrade {
 	unless ($skipThis) {
 	    my $cumulSize;
 
-	    $packages->{$pkg->id} = undef;
+	    exists $packages->{$pkg->id} or $packages->{$pkg->id} = 1;
 
 	    #- keep in mind installed files which are not being updated. doing this costs in
 	    #- execution time but use less memory, else hash all installed files and unhash
@@ -2107,7 +2107,7 @@ sub select_packages_to_upgrade {
 		    if (@deps == 0 || @deps > 0 && (grep { ! exists $packages->{$pkg->id} &&
 							     ! exists $installed{$_->{id}} } @deps) == 0) {
 			$urpm->{log}(_("selecting %s by selection on files", $pkg->name));
-			$packages->{$pkg->id} = undef;
+			$packages->{$pkg->id} = 1;
 		    } else {
 			$urpm->{log}(_("avoid selecting %s as its locales language is not already selected", $pkg->fullname));
 		    }

@@ -40,6 +40,8 @@ my $src = 0;
 my $noclean = 0;
 my $verbose = 0;
 my $root = '';
+my $bug = '';
+my $log = '';
 
 my $uid;
 my @files;
@@ -70,6 +72,7 @@ usage:
 ") . _("  --force        - force invocation even if some packages do not exist.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
+") . _("  --bug          - output a bug report in directory indicated by next arg.
 ") . _("  --X            - use X interface.
 ") . _("  --best-output  - choose best interface according to the environment:
                    X or text mode.
@@ -101,6 +104,7 @@ for (@ARGV) {
     /^--force$/ and do { $force = 1; next };
     /^--wget$/ and do { $sync = \&urpm::sync_wget; next };
     /^--curl$/ and do { $sync = \&urpm::sync_curl; next };
+    /^--bug$/ and do { push @nextargv, \$bug; next };
     /^--X$/ and do { $X = 1; next };
     /^--WID=(.*)$/ and do { $WID = $1; next };
     /^--WID$/ and do { push @nextargv, \$WID; next };
@@ -142,20 +146,52 @@ for (@ARGV) {
 my $urpm = new urpm;
 my ($pid_out, $pid_err);
 
+#- prepare bug report.
+if ($bug) {
+    system("rm", "-rf", $bug);
+    mkdir $bug or $urpm->{fatal}(8, _("Unable to create directory [%s] for bug report", $bug));
+    #- copy all synthesis file used, along with configuration of urpmi
+    system("cp", "-af", $urpm->{config}, $urpm->{skiplist}, $urpm->{instlist}, $bug);
+    local *DIR;
+    opendir DIR, $urpm->{statedir};
+    while (defined ($_ = readdir DIR)) {
+	/synthesis\./ and system "cp", "-af", "$urpm->{statedir}/$_", $bug;
+    }
+    closedir DIR;
+    #- and a dump of rpmdb itself as synthesis file.
+    my $db = URPM::DB::open($root);
+    my $sig_handler = sub { undef $db; exit 3 };
+    local $SIG{INT} = $sig_handler;
+    local $SIG{QUIT} = $sig_handler;
+    local *RPMDB;
+    open RPMDB, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$bug/rpmdb.cz'";
+    $db->traverse(sub{
+		      my ($p) = @_;
+		      $p->pack_header;
+		      $p->build_info(fileno *RPMDB);
+		  });
+    close RPMDB;
+    #- allow log file.
+    $log = "$bug/urpmi.log";
+}
 if ($uid > 0) {
     #- only src files are installable using urpmi.
     @names || @files and $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
 
     #- allow installation.
     @rpms_install = @src_files;
-} else {    
+
+    #- allow log.
+    $log = "/var/log/urpmi.log";
+}
+if ($log) {
     #- log only at this point in case of query usage.
     log_it(scalar localtime, " urpmi called with @ARGV\n");
 
     open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
     open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
     unless ($pid_out = open STDOUT, "|-") {
-	open F, ">>/var/log/urpmi.log"; select F; $| = 1;
+	open F, ">>$log"; select F; $| = 1;
 	select SAVEOUT; $| = 1;
 	$/ = \1;
 	while (<STDIN>) {
@@ -166,7 +202,7 @@ if ($uid > 0) {
 	exit 0;
     }
     unless ($pid_err = open STDERR, "|-") {
-	open F, ">>/var/log/urpmi.log"; select F; $| = 1;
+	open F, ">>$log"; select F; $| = 1;
 	select SAVEERR; $| = 1;
 	$/ = \1;
 	while (<STDIN>) {
@@ -312,7 +348,7 @@ if (@root_only) {
     } else {
 	$noexpr = _("Nn");
 	$yesexpr = _("Yy");
-	if ($uid > 0) {
+	if (!$log) {
 	    print STDOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
 	} else {
 	    print SAVEOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
@@ -344,7 +380,7 @@ my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 
 						      `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
 						      !$?;
 						  } else {
-						      if ($uid > 0) {
+						      if (!$log) {
 							  print STDOUT "$msg\n$msg2 ";
 						      } else {
 							  print SAVEOUT "$msg\n$msg2 ";
@@ -360,7 +396,7 @@ if ($uid == 0) {
 }
 
 if (@rpms_install || @rpms_upgrade) {
-    if ($uid > 0) {
+    if (!$log) {
 	printf STDOUT _("installing %s\n", join(' ', @rpms_install, @rpms_upgrade));
     } else {
 	printf SAVEOUT _("installing %s\n", join(' ', @rpms_install, @rpms_upgrade));
@@ -393,7 +429,7 @@ if (@rpms_install || @rpms_upgrade) {
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
-		if ($uid > 0) {
+		if (!$log) {
 		    print STDOUT _("Try installation even more strongly (--force)? (y/N) ");
 		} else {
 		    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
@@ -413,7 +449,7 @@ if (@rpms_install || @rpms_upgrade) {
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
-		if ($uid > 0) {
+		if (!$log) {
 		    print STDOUT _("Try installation without checking dependencies? (y/N) ");
 		} else {
 		    print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
@@ -424,7 +460,7 @@ if (@rpms_install || @rpms_upgrade) {
 
 		if ($?) {
 		    message(_("Installation failed"));
-		    if ($uid > 0) {
+		    if (!$log) {
 			print STDOUT _("Try installation even more strongly (--force)? (y/N) ");
 		    } else {
 			print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
@@ -453,15 +489,15 @@ sub toMb {
     int $nb + 0.5;
 }
 
-sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : $uid > 0 ? print STDOUT "$_[0]\n" : print SAVEOUT "$_[0]\n"; }
+sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : !$log ? print STDOUT "$_[0]\n" : print SAVEOUT "$_[0]\n"; }
 
-sub message_auto { $auto ? ($uid > 0 ? print STDOUT "$_[0]\n" : print SAVEOUT "$_[0]\n") : message($_[0]); }
+sub message_auto { $auto ? (!$log ? print STDOUT "$_[0]\n" : print SAVEOUT "$_[0]\n") : message($_[0]); }
 
 sub log_it {
     #- if invoked as a simple user, nothing should be logged.
-    if ($uid == 0) {
+    if ($log) {
 	local *LOG;
-	open LOG, ">>/var/log/urpmi.log" or die "can't output to log file\n";
+	open LOG, ">>$log" or die "can't output to log file\n";
 	print LOG @_;
     }
 }
