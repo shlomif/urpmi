@@ -38,15 +38,16 @@ msgstr "いいえ（中止する）"
 
 #: _irpm:40 urpmi:240 urpmi:292
 msgid "Nn"
-msgstr "NnｎＮいイ"
+msgstr "NnＮｎいイ"
 
 #: _irpm:41 urpmi:241 urpmi:293
 msgid "Yy"
-msgstr "YyｙＹはハ"
+msgstr "YyＹｙはハ"
 
+# ｙ
 #: _irpm:42 urpmi:242
 msgid " (Y/n) "
-msgstr " (はい/いいえ) [はい] "
+msgstr " (はい(Y)/いいえ(n)) [はい] "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
@@ -61,7 +62,7 @@ msgid "urpmi is not installed"
 msgstr "urpmi はインストールされていません"
 
 #: placeholder.h:8
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
@@ -97,13 +98,15 @@ msgstr ""
 "  --X              - 表示に X を利用します（GUI）\n"
 "  --best-output    - 表示に X かテキストのいずれかを自動判定して利用します\n"
 "  -a               - コマンドラインでの指定に合致するものを選択します\n"
+"  -m               - 最小限必要な分だけを選択します（デフォルト）\n"
+"  -M               - 可能な限りのすべてを選択します\n"
 "  -c               - 依存関係の解析を厳格に行ないます\n"
 "  -q               - 表示メッセージを最小限にします\n"
 "  -v               - 詳細な表示メッセージを出します\n"
 "\n"
-"  コマンドラインで指定された名前で指定されるパッケージ、\n"
-"  もしくは直接 RPM ファイル名により指定されたパッケージを\n"
-"  インストールします（後者は管理者のみ）\n"
+"  指定された名前で取得できるパッケージ、もしくは（管理者が実行している\n"
+"  場合のみ）直接 RPM ファイル名により指定されるパッケージをインストール\n"
+"  します。\n"
 
 #: placeholder.h:28
 msgid ""
@@ -224,12 +227,12 @@ msgstr "インストールに失敗しました"
 #: urpmi:294
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr ""
-"依存関係を考慮せずにインストールをしてみますか？ (はい/いいえ) [いいえ] "
+"依存関係を確認せずにインストールを試みますか？ (はい(y)/いいえ(N)) [いいえ] "
 
 #: urpmi:301
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr ""
-"さらにインストールを試みますか？（--force オプション相当です） (はい/いいえ) "
+"再度インストールを試みますか？（--force 相当です） (はい(y)/いいえ(N)) "
 "[いいえ] "
 
 #: urpmi.addmedia:36
