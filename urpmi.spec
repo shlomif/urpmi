@@ -1,6 +1,6 @@
 %define name	urpmi
 %define version	4.4
-%define release 45mdk
+%define release 46mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -228,6 +228,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Sun Dec 14 2003 François Pons <fpons@mandrakesoft.com> 4.4-46mdk
+- fixed improper restart and possible loop of restart.
+
 * Tue Dec  9 2003 François Pons <fpons@mandrakesoft.com> 4.4-45mdk
 - added compability with RH 7.3.
 
