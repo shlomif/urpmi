@@ -148,12 +148,13 @@ and [options] are from
 	    };
 	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
 	    #- examine its contents and create all requested media, url is now a simple regex.
-	    my $heading = quotemeta($options{version} eq 'cooker' ? 'cooker' : $options{distrib});
+	    my $heading = quotemeta($options{distrib});
 	    my $qarch = quotemeta($options{arch});
 	    my $i = 1;
 	    local *F;
 	    open F, "$urpm->{cachedir}/partial/$basename";
 	    while (<F>) {
+		print STDERR ">>>$_\n" if 
 		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 		my ($v, $a, $l, $burl, $relative_hdlist);
 		if (($v, $a, $l, $burl, $relative_hdlist) = /^$heading:([^:]*):([^:]*):([^:]*):(\S*)(?:\s+with\s+(.*))?$/) {
@@ -162,7 +163,12 @@ and [options] are from
 		} elsif (($a, $burl) = /^$heading([^:]*):(\S*)$/) {
 		    $a eq $options{arch} or next;
 		    $options{distrib} eq 'updates' and $burl = "$burl/$options{version}/RPMS";
-		    $options{distrib} eq 'contrib' and $burl = $burl."2";
+		    $options{distrib} eq 'contrib' and $burl .= "2";
+		} elsif (($a, $burl) = /^cooker([^:]*):(\S*)$/) {
+		    #- specific case for old style mirrors file description (of Mandrake).
+		    $options{version} eq 'cooker' && $options{distrib} eq 'contrib' or next;
+		    $a eq $options{arch} or next;
+		    $burl .= "2";
 		} else {
 		    # it could a blank line (from a commentary) or source description.
 		    next;

@@ -375,9 +375,11 @@ sub read_config {
 	exists $hdlists{$_->{hdlist}} and
 	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name}));
 	$hdlists{$_->{hdlist}} = undef;
-	exists $lists{$_->{list}} and
-	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" trying to use an already used list, medium ignored", $_->{name}));
-	$lists{$_->{list}} = undef;
+	if ($_->{list}) {
+	    exists $lists{$_->{list}} and
+	      $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" trying to use an already used list, medium ignored", $_->{name}));
+	    $lists{$_->{list}} = undef;
+	}
     }
 
     #- urpmi.cfg if old is not enough to known the various media, track
@@ -444,18 +446,16 @@ sub probe_medium {
 	  $medium->{ignore} = 1, $urpm->{error}(_("unable to find hdlist file for \"%s\", medium ignored", $medium->{name}));
     }
     unless ($medium->{ignore} || $medium->{list}) {
-	$medium->{list} = "list.$medium->{name}";
-	unless (-e "$urpm->{statedir}/$medium->{list}") {
-	    if (defined $medium->{clear_url}) {
-		delete $medium->{list};
-	    } else {
+	unless (defined $medium->{url}) {
+	    $medium->{list} = "list.$medium->{name}";
+	    unless (-e "$urpm->{statedir}/$medium->{list}") {
 		$medium->{ignore} = 1, $urpm->{error}(_("unable to find list file for \"%s\", medium ignored", $medium->{name}));
 	    }
 	}
     }
 
     #- there is a little more to do at this point as url is not known, inspect directly list file for it.
-    unless ($medium->{url} || $medium->{clear_url}) {
+    unless ($medium->{url}) {
 	my %probe;
 	local *L;
 	open L, "$urpm->{statedir}/$medium->{list}";
@@ -1268,6 +1268,7 @@ sub update_media {
 		} else {
 		    #- the flag is no more necessary.
 		    delete $medium->{list};
+		    unlink "$urpm->{statedir}/$medium->{list}";
 		}
 	    }
 	}
@@ -1291,7 +1292,7 @@ sub update_media {
 	    #- but use newly created file.
 	    unlink "$urpm->{statedir}/$medium->{hdlist}";
 	    $medium->{synthesis} and unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-	    unlink "$urpm->{statedir}/$medium->{list}";
+	    $medium->{list} and unlink "$urpm->{statedir}/$medium->{list}";
 	    unless ($medium->{headers}) {
 		rename("$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
 		       "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}") or
@@ -1857,6 +1858,8 @@ sub get_source_packages {
 	my %sources;
 
 	unless ($medium->{ignore}) {
+	    print STDERR ">>$medium->{$_}\n" foreach qw(name list url start end);
+	    print STDERR "\n";
 	    #- always prefer a list file is available.
 	    if ($medium->{list} && -r "$urpm->{statedir}/$medium->{list}") {
 		open F, "$urpm->{statedir}/$medium->{list}";

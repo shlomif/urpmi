@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,12 @@ fi
 
 
 %changelog
+* Mon Dec  2 2002 François Pons <fpons@mandrakesoft.com> 4.1-6mdk
+- fixed mutliple second or more medium being ignored when not
+  using a list file.
+- fixed problem of package not found when not using list file.
+- fixed urpmi --auto.
+
 * Fri Nov 29 2002 François Pons <fpons@mandrakesoft.com> 4.1-5mdk
 - changed urpmi.addmedia behaviour to use /etc/urpmi/mirror.config
   and allow it to parse urpmi.setup mirror configuration as

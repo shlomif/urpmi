@@ -445,8 +445,8 @@ unless ($local_sources || $list) {
     $urpm->{fatal}(3, _("unable to get source packages, aborting"));
 }
 
-my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 'force_local'),
-					      (!$auto || $allow_medium_change) && sub {
+my %sources = $urpm->download_source_packages($local_sources, $list,
+					      force_local => !$X, ask_for_medium => (!$auto || $allow_medium_change) && sub {
 						  my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						  my $msg2 = _("Press Enter when ready...");
 						  if ($X) {
