@@ -1,104 +1,127 @@
-.TH urpmf 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmf 8 "07 Jan 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmf
 .SH NAME
 urpmf \- RPMFind - Finds the RPM package providing the specified file
 .SH SYNOPSIS
-.B urpmf [\fIoptions\fP] <\fIfile\fP>
+.B urpmf [\fIoptions\fP] <\fIpattern\fP>
 .SH DESCRIPTION
 urpmf outputs a list of packages providing the file specified as an argument.
 .PP
-<\fIfile\fP> is the name of the file you wish to know the package providing
-it. Note that you may type just a substring of the file you are looking for,
-\fBurpmf\fP will then print a list of matching files with their corresponding
-packages.
+\fIpattern\fP is the name or part of the name of the file you wish to know which
+packages are providing it. \fBurpmf\fP will then print a list of matching files
+with their corresponding packages.
 .PP
-urpmf searches through installed and uninstalled packages.
+Using options you may search though other packages parameters.
+\fBurpmf\fP searches through installed and uninstalled packages.
 .SH OPTIONS
 .IP "\fB\--help\fP"
 print an help message and exit.
+.IP "\fB\--update\fP"
+Use only update media. This means \fBurpmi\fP will search and resolve
+dependencies only in media marked as update.
+.IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
+Select specific media to use instead of all media available (or update media is
+\fB--update\fP is used).
+.IP "\fB\--synthesis\fP \fIfile\fP"
+Use the given synthesis\fIfile\fP instead of urpmi db for searching packages and
+resolving dependencies.
+.IP "\fB\--verbose\fP"
+Proposes a verbose mode with various messages.
 .IP "\fB\--quiet\fP"
-do not print tag name (default if no tag given on command line, incompatible
+Do not print tag name (default if no tag given on command line, incompatible
 with interactive mode).
 .IP "\fB\--all\fP"
-print all tags.
-.IP "\fB\--name\fP"
-print tag name: rpm filename (assumed if no tag given on command line but
-without package name).
+Searches through all parameters listed below.
 .IP "\fB\--group\fP"
-print tag group: group.
+Searches through group.
 .IP "\fB\--size\fP"
-print tag size: size.
-.IP "\fB\--serial\fP"
-print tag serial: serial.
+Searches through size.
+.IP "\fB\--epoch\fP"
+Searches through epoch.
 .IP "\fB\--summary\fP"
-print tag summary: summary.
+Searches through summary.
 .IP "\fB\--description\fP"
-print tag description: description.
+Searches through description.
 .IP "\fB\--provides\fP"
-print tag provides: all provides (mutliple lines).
+Searches through provides.
 .IP "\fB\--requires\fP"
-print tag requires: all requires (multiple lines).
+Searches through requires.
 .IP "\fB\--files\fP"
-print tag files: all files (multiple lines).
+Searches through files, this is the default.
 .IP "\fB\--conflicts\fP"
-print tag conflicts: all conflicts (multiple lines).
+Searches through conflicts.
 .IP "\fB\--obsoletes\fP"
-print tag obsoletes: all obsoletes (multiple lines).
-.IP "\fB\--prereqs\fP"
-print tag prereqs: all prereqs (multiple lines).
+Searches through obsoletes.
+.IP "\fB-c\fP"
+Ignore case distinctions in any patterns.
+.IP "\fB-f\fP"
+Print version, release and arch along with name of package.
+.IP "\fB-e\fP"
+Include code directly in generated perl expression. Use it with \fB--verbose\fP
+to look at perl code generated. But in any cases, use it only if you know perl.
+.IP "\fB-a\fP"
+Binary AND operator, true if both expression are true.
+.IP "\fB-o\fP"
+Binary OR operator, true if one expression is true.
+.IP "\fB!\fP"
+Unary NOT, true if expression is false.
+.IP "\fB(\fP"
+Left parenthesis to open group expression.
+.IP "\fB)\fP"
+Right parenthesis to close group expression.
 .SH FILES
-/usr/bin/urpmf
-.br
-The \fBurpmf\fP executable (perl script)
-.PP
-/var/lib/urpmi/list.*
-.br
-Contains the list of all packages known by urpmi and their location.
-There is one filelist per media(*).
-.PP
-/var/lib/urpmi/hdlist.*
-.br
-Contain information about all known packages, it's a summary of rpm headers.
-There is one filelist per media(*).
-.PP
-/var/lib/urpmi/synthesis.hdlist.*
-.br
-Contain synthesis information about all known packages built from hdlist files
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/bin/urpmf
+The \fBurpmf\fP executable (perl script).
+.TP
+.FN /var/lib/urpmi/list.*
+Contains the list of all packages known by urpmi and their location only
+if a password is used to access distant location (using network protocol) or
+various directory are used to store packages.
+.TP
+.FN /var/lib/urpmi/hdlist.*
+Contains information about all known packages, it's a summary of rpm headers.
+If an hdlist file is used for a medium \fBurpmf\fP can operate completely which
+is almost always the case (please refer to \fBurpmf\fP man page for more
+informations on this topic).
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
+Contains synthesis information about all known packages built from hdlist files
 that can be used by minimal closure algorithm. If these files are not present
-use \fBurpmi.update -a\fP to generate them. These files are not mandatory.
-.PP
-/etc/urpmi/urpmi.cfg
-.br
-Contains media description, previous format from older urpmi is accepted.
-.PP
-/etc/urpmi/skip.list
-.br
-Contains package names that should be not automatically updated.
-.PP
-/var/lib/urpmi/depslist.ordered
-.br
-A simple text file containing all dependencies of all known packages.
-.PP
-/var/lib/urpmi/provides
-.br
-A simple text file containning all provides and the list of associated
-packages that contains them.
-.PP
-/var/lib/urpmi/compss
-.br
-A simple text file containning for each Group used the list of package in
-this group.
+hdlist files will be used instead but this is much slower.
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Contains media description, previous format from older urpmi is still accepted.
+.TP
+.FN /etc/urpmi/parallel.cfg
+Contains parallel alias description, format is
+\fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
+a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
+\fB<media>\fP is a media list (as \fB--media\fP parameter),
+\fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
+-m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
+extension.
+.TP
+.FN /etc/urpmi/skip.list
+Contains package expressions that should not be automatically updated. The
+format is a list of provide of package (or regular expression if bounded by
+slashes \fB/\fP) with optional operator and version string, or regular
+expression to match the fullname of packages too.
+.TP
+.FN /etc/urpmi/inst.list
+Contains package names that should be installed instead of updated.
 .SH "SEE ALSO"
-urpmi(8),
-urpmq(8),
-urpmi.addmedia(8),
-urpmi.update(8),
-urpmi.removemedia(8),
-autoirpm(8),
-autoirpm-icons(8),
-gurpmi(8),
-rpmdrake(8)
+\fIurpmi.addmedia\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIgurpmi\fP(8),
+\fIurpmi\fP(8),
+\fIurpmq\fP(8),
+\fIrpmdrake\fP(8)
 .SH AUTHOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
-.br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (original author)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (current author)
