@@ -914,6 +914,11 @@ sub _guess_hdlist_suffix {
     $suffix;
 }
 
+sub _guess_pubkey_name {
+    my ($medium) = @_;
+    return $medium->{with_hdlist} =~ /hdlist(.*?)(?:\.src)?\.cz2?$/ ? "pubkey$1" : 'pubkey';
+}
+
 #- Update the urpmi database w.r.t. the current configuration.
 #- Takes care of modifications, and tries some tricks to bypass
 #- the recomputation of base files.
@@ -1297,8 +1302,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 	    #- examine if a local pubkey file is available.
 	    if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
-		my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
-		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../$local_pubkey");
+		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../" . _guess_pubkey_name($medium));
 		-e $path_pubkey or $path_pubkey = "$dir/pubkey";
 		if ($path_pubkey) {
 		    urpm::util::copy($path_pubkey, "$urpm->{cachedir}/partial/pubkey")
@@ -1582,7 +1586,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 		#- retrieve pubkey file.
 		if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
-		    my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
+		    my $local_pubkey = _guess_pubkey_name($medium);
 		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_pubkey"),
 			     reduce_pathname("$medium->{url}/pubkey"),
 			    ) {
