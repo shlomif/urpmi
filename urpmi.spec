@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 22mdk
+%define release 23mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -250,6 +250,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Thu Sep 02 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-23mdk
+- Handle new keywords in hdlists file.
+- Translations updates.
+
 * Mon Aug 30 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-22mdk
 - Fix download with curl with usernames that contains '@' (for mandrakeclub)
 - Make the --probe-synthesis option compatible with --distrib in urpmi.addmedia.
