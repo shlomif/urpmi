@@ -45,7 +45,7 @@ Returns 1 on success, 0 on failure.
 my ($arch, $release);
 sub _init_arch_release () {
     if (!$arch && !$release) {
-	open my $f, '/etc/mandrakelinux-release' or return undef;
+	open my $f, '/etc/release' or return undef;
 	my $l = <$f>;
 	close $f;
 	($release, $arch) = $l =~ /release (\d+\.\d+).*for (\w+)/;
@@ -243,6 +243,6 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2004 Mandrakesoft
+Copyright (C) 2000-2005 Mandrakesoft
 
 =cut
