@@ -19,16 +19,10 @@
 #- this program is based upon urpmi.
 
 #use strict qw(subs vars refs);
-use rpmtools;
+use urpm;
 
 #- default options.
 my $query = {};
-my $datadir = "/var/lib/urpmi";
-my $confdir = "/etc/urpmi";
-
-my $depslist = "$datadir/depslist.ordered";
-my $provides = "$datadir/provides";
-my $compss   = "$datadir/compss";
 
 my @files;
 my @names;
@@ -59,28 +53,19 @@ for (@ARGV) {
 }
 
 #- params contains informations to parse installed system.
-my $params = new rpmtools;
+my $urpm = new urpm;
 
-open F, $depslist or die "$depslist file not found, run urpmi.addmedia first\n";
-$params->read_depslist(\*F);
-close F;
-
-if ($query && $query->{group}) {
-    open F, $compss or die "$compss file not found, run urpmi.addmedia first\n";
-    $params->read_compss(\*F);
-    close F;
-}
+$urpm->read_depslist;
+$query && $query->{group} and $urpm->read_compss;
 
 if (@files) {
     #- read provides file which is needed only to compute incremental
     #- dependancies, of files provided.
-    open F, $provides or die "$provides file not found, run urpmi.addmedia first\n";
-    $params->read_provides(\*F);
-    close F;
+    $urpm->read_provides;
 
     #- compute depslist of files provided on command line.
-    $params->read_rpms($_) foreach @files;
-    $params->compute_depslist;
+    $urpm->{params}->read_rpms($_) foreach @files;
+    $urpm->{params}->compute_depslist;
 
     #- gets full names of packages, sanity check of pathname.
     m|(.*/)?(.*)\.[^.]+\.rpm$| and push @names, $2 foreach @files;
@@ -88,161 +73,27 @@ if (@files) {
 }
 
 #- reparse whole internal depslist to match against newer packages only.
-$params->relocate_depslist();
+$urpm->{params}->relocate_depslist();
 
-my %exact;
-my %found;
-my %foundi;
-my @packages;
+#- search the packages according the selection given by the user,
+#- basesystem is added to the list so if it need to be upgraded, all its dependancy
+#- will be updated too.
+my %packages;
+$urpm->search_packages(\%packages, [ @names ], all => $all) or $force or exit 1;
 
-foreach my $v (@names) {
-    #- it is a way of speedup, providing the name of a package directly help
-    #- to find the package.
-    #- this is necessary if providing a name list of package to upgrade.
-    if ($params->{info}{$v}) {
-	$exact{$v} = $params->{info}{$v}; next;
-    }
-
-    my $qv = quotemeta $v;
-    foreach (keys %{$params->{info}}) {
-	my $info = $params->{info}{$_};
-	my $pack = $info->{name} .'-'. $info->{version} .'-'. $info->{release};
-
-	$pack =~ /^$qv-[^-]+-[^-]+$/ and $exact{$v} = $info;
-	$pack =~ /^$qv-[^-]+$/ and $exact{$v} = $info;
-	$pack =~ /$qv/ and push @{$found{$v}}, $info;
-	$pack =~ /$qv/i and push @{$foundi{$v}}, $info; 
-    }
-}
-
-foreach (@names) {
-    my $info = $exact{$_};
-    if ($info) {
-	push @packages, $info->{id};
-    } else {
-	my $l = $found{$_} || $foundi{$_};
-	if (@{$l || []} == 0) {
-	    warn(_("no package named %s\n", $_));
-	} elsif (@$l > 1 && !$all) {
-	    warn(_("The following packages contain %s: %s\n", $_, join(' ', map { $_->{name} } @$l)));
-	} else {
-	    push @packages, map { $_->{id} } @$l;
-	}
-    }
-}
-
-#- keep in mind the packages asked by the user, just for interactive activity.
-my %packages; @packages{@packages} = ();
-
-#- compute closure of package to install/upgrade before examining installed
-#- packages, this help speed up the process to retrieve installed packages in
-#- the given list.
-my %packages_to_install;
-my @packages_installed;
-if (rpmtools::get_packages_installed('', \@packages_installed, [ 'basesystem' ])) {
-    #- if basesystem is installed and need to be updated.
-    #- we have to add it in the list explicitely.
-    #- in order to take care of all basesystem packages.
-    my $pkg = $params->{info}{basesystem};
-    foreach (@packages_installed) {
-	my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
-	if ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0) {
-	    push @packages, $pkg->{id}; last;
-	}
-    }
-}
-
-my $id;
-while (defined($id = shift @packages)) {
-    if (ref $id) {
-	#- in such case, this is a dependancy on a choices, check
-	#- if one of the package is already selected, in such case, the choice
-	#- can safely be dropped. in other cases, the choices has to be registered.
-	foreach (@$id) {
-	    exists $packages_to_install{$_} && !$packages_to_install{$_} and $id = undef, last;
-	}
-	#- registering the choice is done by adding the class in any referenced id.
-	if ($id) {
-	    foreach (@$id) {
-		push @{$packages_to_install{$_} ||= []}, $id;
-	    }
-	}
-    } else {
-	if ($packages_to_install{$id}) {
-	    drop_in_choices(\%packages_to_install, $id);
-	}
-	exists $packages_to_install{$id} and next;
-	#- force selection as mandatory package.
-	$packages_to_install{$id} = undef;
-	#- rebuild requires_id array according to deps as requires_id is no more available (because of speed :-)
-	#- and because id have been relocated.
-	my @rebuild_requires_id;
-	foreach (split /\s+/, $params->{depslist}[$id]{deps}) {
-	    if (/\|/) {
-		push @rebuild_requires_id, [ map { $params->{depslist}[$_]{id} } split /\|/, $_ ];
-	    } else {
-		push @rebuild_requires_id, $params->{depslist}[$_]{id};
-	    }
-	}
-	#- get all dependancies to add them.
-	#- this is a partial closure, it assumes it has already be done before.
-	foreach (@rebuild_requires_id) {
-	    if (ref $_) {
-		push @packages, $_;
-	    } else {
-		$packages_to_install{$_} = undef;
-	    }
-	}
-    }
-}
-
-if ($query->{upgrade}) {
-    #- now the packages_to_install contains as keys all packages that may be selected,
-    #- this is used to determine a restricted list of packages installed, as it can
-    #- improve performance on some cases.
-    my @packages_to_install = map { $params->{depslist}[$_]{name} } keys %packages_to_install;
-    my @packages_installed;
-    if (@packages_to_install > 100) {
-	rpmtools::get_all_packages_installed('', \@packages_installed);
-    } else {
-	rpmtools::get_packages_installed('', \@packages_installed, \@packages_to_install);
-    }
-
-    #- examine installed packages, determine if a package need upgrade or not.
-    #- this list may be bigger than packages than really need to be upgraded because they
-    #- are selected.
-    foreach (@packages_installed) {
-	my $pkg = $params->{info}{$_->{name}};
-	#- if package has not event been selected by upgrade, continue.
-	#- but if the package is part of a choice, if it need upgrade, the choice will
-	#- be dropped, if it does not need upgrade, the choice has to been dropped.
-	#- in any case, a choice has to be dropped.
-	exists $packages_to_install{$pkg->{id}} or next;
-	if ($packages_to_install{$pkg->{id}}) {
-	    drop_in_choices(\%packages_to_install, $pkg->{id});
-	}
-	#- at this point, $_ is the package installed and $pkg is the package candidate to install.
-	my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
-	if ($cmp < 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) <= 0) {
-	    #- the package $pkg is older or the same as the installed package,
-	    #- this means it has to be removed from the list, and considered to be
-	    #- already installed.
-	    delete $packages_to_install{$pkg->{id}};
-	} else {
-	    $packages_to_install{$pkg->{id}} = undef;
-	}
-    }
-}
+#- filter to add in packages selected required packages.
+$query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);
+$query->{upgrade} and $urpm->filter_packages_to_upgrade(\%packages);
 
 #- query of dependancies will make use of packages_to_install, else just
 #- need to use @names where all informations are given, with eventual
 #- limitation on packages already installed.
-my $l = $query->{deps} ? \%packages_to_install : \%packages;
+my $l = $query->{deps} ? \%packages : \%packages;
 
 #- print sub for query.
 my $query_sub = sub {
 	my ($id) = @_;
-	my $info = $params->{depslist}[$id];
+	my $info = $urpm->{params}{depslist}[$id];
 	my $str = '';
 	$query->{group} and $str .= $info->{group} . '/';
 	$str .= $info->{name};
@@ -251,38 +102,17 @@ my $query_sub = sub {
 	$str;
 };
 
+my %hack_only_one;
 foreach my $id (keys %$l) {
     my $class = $l->{$id};
-    if ($class) {
-	my %hack_only_one;
-	foreach my $choices_id (@{$class || []}) {
-	    exists $hack_only_one{$choices_id} and next;
-	    print join('|', map { $query_sub->($_) } @$choices_id), "\n";
-	    drop_in_choices($l, $choices_id->[0]);
-	    $hack_only_one{$choices_id} = undef;
+    if (ref $class) {
+	foreach my $choices (@{$class || []}) {
+	    exists $hack_only_one{$choices} and next;
+	    print join('|', map { $query_sub->($_) } @$choices), "\n";
+	    $hack_only_one{$choices} = undef;
 	}
     } else {
 	exists $l->{$id} and print $query_sub->($id), "\n";
-    }
-}
-
-#- remove any reference to package in choices,
-#- it is NECESSARY the package to be in a choice, or it will die.
-sub drop_in_choices {
-    my ($packages_to_install, $id) = @_;
-
-    #- the package here is listed in a choices, drop any reference to the choices
-    #- as this package will have to be selected.
-    my %class_to_drop; @class_to_drop{@{$packages_to_install->{$id}}} = ();
-    foreach (keys %$packages_to_install) {
-	if ($packages_to_install->{$_}) {
-	    my @keeped_choices = grep { ! exists $class_to_drop{$_} } @{$packages_to_install->{$_}};
-	    if (@keeped_choices) {
-		$packages_to_install->{$_} = \@keeped_choices;
-	    } else {
-		delete $packages_to_install->{$_};
-	    }
-	}
     }
 }
 
