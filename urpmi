@@ -401,7 +401,7 @@ sub ask_choice {
 	my $msg = N("One of the following packages is needed:");
 	if ($urpm::args::options{X}) {
 	    if (-x '/usr/bin/zenity') {
-		my $choice = qx(zenity --list --column=RPM --text="$msg" @l);
+		my $choice = `zenity --list --column=RPM --text="$msg" @l`;
 		chomp $choice;
 		each_index { $_ eq $choice and $n = $::i } @l;
 	    } else {
@@ -448,7 +448,7 @@ if (@ask_unselect) {
 	message($msg, 'noX');
     } else {
 	if ($urpm::args::options{X}) {
-	    gmessage("$msg\n".N("do you agree ?"));
+	    gmessage("$msg\n" . N("do you agree ?"));
 	    $? and exit 0;
 	} else {
 	    my $noexpr = N("Nn");
@@ -479,7 +479,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 	message($msg, 'noX');
     } else {
 	if ($urpm::args::options{X}) {
-	    gmessage("$msg\n".N("do you agree ?"));
+	    gmessage("$msg\n" . N("do you agree ?"));
 	    $? and exit 0;
 	} else {
 	    my $noexpr = N("Nn");
@@ -557,7 +557,7 @@ $urpm->copy_packages_of_removable_media($list, \%sources,
 					verbose => $verbose > 0,
 					force_local => 1,
 					ask_for_medium => (!$urpm->{options}{auto} || $allow_medium_change) && sub {
-					    my $msg = N("Please insert the medium named \"%s\" on device [%s]", @_);
+					    my $msg = N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1]);
 					    my $msg2 = N("Press Enter when ready...");
 					    if ($urpm::args::options{X}) {
 						$msg =~ s/"/\\"/g;
@@ -632,7 +632,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     );
     my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources) || {}};
 
-    if (!$force && ($urpm->{options}{'verify-rpm'}) || grep { $_->{'verify-rpm'} } @{$urpm->{media}}) {
+    if (!$force && $urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}}) {
 	my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources, translate => 1);
 
 	if (@bad_signatures) {
