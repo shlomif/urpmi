@@ -16,12 +16,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-local $_ = join '', @ARGV;
+local $_ = ' ' . join(' ', @ARGV) . ' ';
 
-/-h/ || @ARGV == 0 and die "usage: urpme [-a] [--auto] <packages...>\n";
+/ --?h/ || @ARGV == 0 and die "usage: urpme [-a] [--auto] <packages...>\n";
 
-$matches = /-a/;
-$auto = /-auto/;
+$matches = / -a /;
+$auto = / --?auto /;
 
 my $DIR = "/var/lib/urpmi";
 
