@@ -1,4 +1,4 @@
-.TH urpmi.update 8 "12 Feb 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.update 8 "29 Aug 2002" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.update
 .SH NAME
 urpmi.update \- Updates packages list for specified medias
@@ -51,9 +51,22 @@ use \fBurpmi.update -a\fP to generate them. These files are not mandatory.
 .br
 Contains media description, previous format from older urpmi is accepted.
 .PP
+/etc/urpmi/parallel.cfg
+.br
+Contains parallel alias description, format is
+\fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
+a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
+\fB<media>\fP is a media list (as \fB--media\fP parameter),
+\fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
+-m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
+extension.
+.PP
 /etc/urpmi/skip.list
 .br
-Contains package names that should be not automatically updated.
+Contains package expressions that should not be automatically updated. The
+format is a list of provide of package (or regular expression if bounded by
+slashes (\fB/\fP)) with optional operator and version string, or regular
+expression to match the fullname of packages too.
 .PP
 /etc/urpmi/inst.list
 .br

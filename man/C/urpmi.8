@@ -1,4 +1,4 @@
-.TH urpmi 8 "12 Feb 2002" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi 8 "29 Aug 2002" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
@@ -49,37 +49,65 @@ dependencies only in media marked as update.
 .IP "\fB\--media\fP"
 select specific media to use instead of all media available (or update media is
 \fB--update\fP is used).
-.IP "\fB\--auto\fP"
+.IP "\fB\--auto\fP"
 installs all required dependencies without asking.
-.IP "\fB\--auto-select\fP"
+.IP "\fB\--auto-select\fP"
 automatically select all packages that have to be upgraded according to already
 installed packages and packages listed in various media registered.
-.IP "\fB\--fuzzy\fP"
+.IP "\fB\--fuzzy\fP"
 disable fast search on exact package name, ie it will propose all
 package containing the name even if one has the given name (this is the same
 as \fB\-y\fP).
-.IP "\fB\--src\fP"
+.IP "\fB\--src\fP"
 next package name is a source package and it will select all dependencies if
 \fBurpmi\fP is run as root or only install source package as simple user (this
 is the same as \fB\-s\fP).
-.IP "\fB\--noclean\fP"
-do not remove any package from the cache (/var/cache/urpmi/rpms).
-.IP "\fB\--complete\fP"
-use parsehdlist server to complete \fB--auto-select\fP selection (should not be
-necessary in most cases).
+.IP "\fB\--noclean\fP"
+do not remove any package from the cache in directory /var/cache/urpmi/rpms.
 .IP "\fB\--force\fP"
 assumes yes on all questions.
+.IP "\fB\--allow-nodeps\fP"
+allow urpmi to ask user to continue installation using no dependencies checking
+due to error. By default urpmi exit immediately in such case.
+.IP "\fB\--allow-force\fP"
+allow urpmi to ask user to continue installation using no dependencies checking
+or forced installation due to error. By default urpmi exit immediately in such
+case.
+.IP "\fB\--parallel\fP"
+activate distributed execution of urpmi to other machines (it is mandatory that
+urpmi is installed but it is not necessary to have media defined on any
+machines). The parameter given after \fB--parallel\fP is an alias name defining
+which extension module to use by urpmi (currently \fBurpmi-parallel-ka-run\fP or
+\fBurpmi-parallel-ssh\fP) and which machines should be updated, this alias is
+defined in the file /etc/urpmi/parallel.cfg as described below.
 .IP "\fB\--wget\fP"
 use wget only for downloading distant files. By default curl is used if
 available or wget instead.
 .IP "\fB\--curl\fP"
 use curl only for downloading distant files. By default curl is used if
 available or wget instead.
+.IP "\fB\--proxy\fP"
+use specified HTTP proxy where parameter given after options has format
+\fB<proxyhost[:port|1080]>\fP.
+.IP "\fB\--proxy-user\fP"
+use specified user and password to use for proxy authentication,
+format is \fB<user:password>\fP.
+.IP "\fB\--bug\fP"
+create a bug report in directory given by next argument, you have to send a
+compressed archive of the directory to \fBurpmi\fP maintainer for the bug being
+(problably) fixed.
+.IP "\fB\--env\fP"
+use a different environment directly from a bug report to replay a bug, the
+argument is the same argument given to \fB--bug\fP option.
 .IP "\fB\--X\fP"
 use X interface.
 .IP "\fB\--best-output\fP"
 try to use X interface or if not available the standard text interface (using
 rpm).
+.IP "\fB\--verify-rpm\fP" or "\fB\--no-verify-rpm\fP"
+activate (default) or deactivate rpm signature checking.
+.IP "\fB\--test\fP"
+test (as \fBrpm --test\fP) installation of packages but do not modify the system.
 .IP "\fB\-a\fP"
 if multiple packages match the substring given, take them all
 .IP "\fB\-p\fP"
@@ -119,9 +147,22 @@ use \fBurpmi.update -a\fP to generate them.
 .br
 Contains media description, previous format from older urpmi is accepted.
 .PP
+/etc/urpmi/parallel.cfg
+.br
+Contains parallel alias description, format is
+\fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
+a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
+\fB<media>\fP is a media list (as \fB--media\fP parameter),
+\fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
+-m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
+extension.
+.PP
 /etc/urpmi/skip.list
 .br
-Contains package names that should be not automatically updated.
+Contains package expressions that should not be automatically updated. The
+format is a list of provide of package (or regular expression if bounded by
+slashes (\fB/\fP)) with optional operator and version string, or regular
+expression to match the fullname of packages too.
 .PP
 /etc/urpmi/inst.list
 .br

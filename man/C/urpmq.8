@@ -1,4 +1,4 @@
-.TH urpmq 8 "12 Feb 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmq 8 "29 Aug 2002" "MandrakeSoft" "Mandrake Linux"
 .IX urpmq
 .SH NAME
 urpmq \- urpmi database query tool.
@@ -38,6 +38,20 @@ extract headers for package selected to standard output.
 print source url (or file) of all packages selected.
 .IP "\fB\--force\fP"
 ignore error of inexistant packages requested.
+.IP "\fB\--allow-nodeps\fP"
+allow urpmi to ask user to continue installation using no dependencies checking
+due to error. By default urpmi exit immediately in such case.
+.IP "\fB\--allow-force\fP"
+allow urpmi to ask user to continue installation using no dependencies checking
+or forced installation due to error. By default urpmi exit immediately in such
+case.
+.IP "\fB\--parallel\fP"
+activate distributed execution of urpmi to other machines (it is mandatory that
+urpmi is installed but it is not necessary to have media defined on any
+machines). The parameter given after \fB--parallel\fP is an alias name defining
+which extension module to use by urpmi (currently \fBurpmi-parallel-ka-run\fP or
+\fBurpmi-parallel-ssh\fP) and which machines should be updated, this alias is
+defined in the file /etc/urpmi/parallel.cfg as described below.
 .IP "\fB\-v\fP"
 activate verbose mode.
 .IP "\fB\-d\fP"
@@ -89,9 +103,22 @@ use \fBurpmi.update -a\fP to generate them. These files are not mandatory.
 .br
 Contains media description, previous format from older urpmi is accepted.
 .PP
+/etc/urpmi/parallel.cfg
+.br
+Contains parallel alias description, format is
+\fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
+a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
+\fB<media>\fP is a media list (as \fB--media\fP parameter),
+\fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
+-m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
+extension.
+.PP
 /etc/urpmi/skip.list
 .br
-Contains package names that should be not automatically updated.
+Contains package expressions that should not be automatically updated. The
+format is a list of provide of package (or regular expression if bounded by
+slashes (\fB/\fP)) with optional operator and version string, or regular
+expression to match the fullname of packages too.
 .PP
 /etc/urpmi/inst.list
 .br

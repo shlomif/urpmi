@@ -2,11 +2,12 @@
 
 Name: urpmi
 Version: 4.0
-Release: 8mdk
+Release: 9mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
+URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40
 PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-3mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
@@ -177,6 +178,12 @@ fi
 
 
 %changelog
+* Thu Aug 29 2002 François Pons <fpons@mandrakesoft.com> 4.0-9mdk
+- added --list-nodes to list nodes used when in parallel mode.
+- moved some initialisation for parallel mode to allow user
+  execution of --list-nodes.
+- updated man pages with newer options.
+
 * Thu Aug 29 2002 François Pons <fpons@mandrakesoft.com> 4.0-8mdk
 - added --parallel option to urpmq.
 - allowed test upgrade in parallel mode.

@@ -591,7 +591,6 @@ sub configure {
 		$_->{ignore} = 1;
 	    }
 	}
-	$options{parallel} and unlink "$urpm->{cachedir}/partial/parallel.cz";
 	foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
 	    delete @{$_}{qw(start end)};
 	    if ($options{callback}) {
@@ -617,8 +616,6 @@ sub configure {
 		unless (defined $_->{start} && defined $_->{end}) {
 		    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $_->{name}));
 		    $_->{ignore} = 1;
-		} else {
-		    $options{parallel} and system "cat '$urpm->{statedir}/synthesis.$_->{hdlist}' >> $urpm->{cachedir}/partial/parallel.cz";
 		}
 	    }
 	}
@@ -1638,8 +1635,15 @@ sub resolve_dependencies {
     require URPM::Resolve;
 
     if ($urpm->{parallel_handler}) {
+	#- build the global synthesis file first.
+	my $file = "$urpm->{cachedir}/partial/parallel.cz";
+	unlink $file;
+	foreach (@{$urpm->{media}}) {
+	    defined $_->{start} && defined $_->{end} or next;
+	    system "cat '$urpm->{statedir}/synthesis.$_->{hdlist}' >> $file";
+	}
 	#- let each node determine what is requested, according to handler given.
-	$urpm->{parallel_handler}->parallel_resolve_dependencies("$urpm->{cachedir}/partial/parallel.cz", @_);
+	$urpm->{parallel_handler}->parallel_resolve_dependencies($file, @_);
     } else {
 	my $db;
 
