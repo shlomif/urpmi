@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 35mdk
+Release: 36mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -114,6 +114,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue May 22 2001 François Pons <fpons@mandrakesoft.com> 1.5-36mdk
+- fixed warning if src rpm are in repository.
+
 * Tue May 22 2001 François Pons <fpons@mandrakesoft.com> 1.5-35mdk
 - added synthesis file filtering.
 - added arch chekc support.
