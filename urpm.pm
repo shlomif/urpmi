@@ -2064,7 +2064,8 @@ sub search_packages {
 
 	    ($options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
 
-	    my $pack_ra = $pkg->name . '-' . $pkg->version;
+	    my $pack_name = $pkg->name;
+	    my $pack_ra = $pack_name . '-' . $pkg->version;
 	    my $pack_a = "$pack_ra-" . $pkg->release;
 	    my $pack = "$pack_a." . $pkg->arch;
 
@@ -2075,7 +2076,7 @@ sub search_packages {
 		} elsif ($pack_a eq $v) {
 		    push @{$exact_a{$v}}, $id;
 		    next;
-		} elsif ($pack_ra eq $v) {
+		} elsif ($pack_ra eq $v || $options{src} && $pack_name eq $v) {
 		    push @{$exact_ra{$v}}, $id;
 		    next;
 		}
