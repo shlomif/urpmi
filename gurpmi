@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+#- Copyright (C) 2005 Mandrakesoft
+
 use strict;
 use warnings;
 
@@ -80,8 +82,8 @@ sub new_label {
     my $label = Gtk2::Label->new($msg);
     $label->set_line_wrap(1);
     $label->set_alignment(0.5, 0.5);
-    if (($msg =~ y/\n/\n/) > 5) {
-	my $sw = Gtk2::ScrolledWindow->new();
+    if (($msg =~ tr/\n/\n/) > 5) {
+	my $sw = Gtk2::ScrolledWindow->new;
 	$sw->set_policy('never', 'automatic');
 	$sw->add_with_viewport($label);
 	$sw->set_size_request(-1,200);
