@@ -26,9 +26,9 @@ N_("  --prereqs       - print tag prereqs: all prereqs (multiple lines)."),
 N_("usage: urpmf [options] <file>"),
 N_("try urpmf --help for more options"),
 N_("no full media list was found"),
-N_("reading synthesis file [%s]"),
 N_("unable to write config file [%s]"),
 N_("retrieving rpms files..."),
+N_("examining whole urpmi database"),
 N_("using different removable device [%s] for \"%s\""),
 N_("nothing to write in list file for \"%s\""),
 N_("unable to access first installation medium (no Mandrake/base/hdlists file found)"),
@@ -43,6 +43,7 @@ N_("removing %d obsolete headers in cache"),
 N_("no hdlist file found for medium \"%s\""),
 N_("medium \"%s\" tries to use an already used hdlist, medium ignored"),
 N_("<non printable chars>"),
+N_("problem reading hdlist file, trying again"),
 N_("unable to use name \"%s\" for unnamed medium because it is already used"),
 N_("removing medium \"%s\""),
 N_("unable to take medium \"%s\" into account as no list file [%s] exists"),
@@ -60,11 +61,12 @@ N_("unable to write list file of \"%s\""),
 N_("write config file [%s]"),
 N_("no package named %s"),
 N_("built hdlist synthesis file for medium \"%s\""),
+N_("unable to build hdlist synthesis, using parsehdlist method"),
 N_("unable to find hdlist file for \"%s\", medium ignored"),
 N_("urpmi database locked"),
 N_("mounting %s"),
 N_("unable to take care of medium \"%s\" as list file is already used by another medium"),
-N_("reading hdlist file [%s]"),
+N_("examining synthesis file [%s]"),
 N_("wget failed: exited with %d or signal %d\n"),
 N_("unable to retrieve pathname for removable medium \"%s\""),
 N_("malformed input: [%s]"),
@@ -116,6 +118,7 @@ N_("unable to parse correctly [%s] on value \"%s\""),
 N_("trying to select inexistent medium \"%s\""),
 N_("The following packages contain %s: %s"),
 N_("no rpm files found from [%s]"),
+N_("examining hdlist file [%s]"),
 N_("no entries relocated in depslist"),
 N_("...retrieving done"),
 N_("selecting %s using obsoletes"),
@@ -149,6 +152,7 @@ N_(""
 ""),
 N_("  -p             - allow search in provides to find package.\n"),
 N_("  -v             - verbose mode.\n"),
+N_("  --mediums      - use only the medium listed by comma.\n"),
 N_("  -q             - quiet mode.\n"),
 N_("  --complete     - use parsehdlist server to complete selection.\n"),
 N_("What is your choice? (1-%d) "),
@@ -231,18 +235,22 @@ N_("nothing to update (use urpmi.addmedia to add a media)\n"),
 N_("  -a             - select all non-removable media.\n"),
 N_("nothing to remove (use urpmi.addmedia to add a media)\n"),
 N_(""
-"the entry to remove is missing\n"
-"(one of %s)\n"
-""),
-N_(""
-"usage: urpmi.removemedia [-a] <name> ...\n"
-"where <name> is a medium name to remove.\n"
-"   -a    select all media.\n"
 "\n"
 "unknown options '%s'\n"
 ""),
+N_(""
+"the entry to remove is missing\n"
+"(one of %s)\n"
+""),
+N_("  -c             - clean headers cache directory.\n"),
+N_("  -a             - select all media.\n"),
+N_(""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+""),
 N_("  --force        - force invocation even if some packages do not exist.\n"),
 N_("  --auto-select  - automatically select packages for upgrading the system.\n"),
+N_("  --mediums      - use only the medium listed by comma.\n"),
 N_("some packages have to be removed for being upgraded, this is not supported yet\n"),
 N_("urpmq: unknown option \"-%s\", check usage with --help\n"),
 N_("  -h             - print this help message.\n"),
