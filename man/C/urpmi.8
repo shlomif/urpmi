@@ -1,4 +1,4 @@
-.TH urpmi 8 "7 Jan 2003" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi 8 "07 Jan 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
@@ -42,123 +42,122 @@ To install all available menu entries of all known packages,
 use autoirpm-icons.
 .SH OPTIONS
 .IP "\fB\--help\fP"
-print an help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
+Print an help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
 .IP "\fB\--update\fP"
-use only update media. This means \fBurpmi\fP will search and resolve
+Use only update media. This means \fBurpmi\fP will search and resolve
 dependencies only in media marked as update.
-.IP "\fB\--media\fP"
-select specific media to use instead of all media available (or update media is
+.IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
+Select specific media to use instead of all media available (or update media is
 \fB--update\fP is used).
-.IP "\fB\--synthesis\fP"
-use the given synthesis instead of urpmi db for searching packages and resolving
-dependencies.
+.IP "\fB\--synthesis\fP \fIfile\fP"
+Use the given synthesis\fIfile\fP instead of urpmi db for searching packages and
+resolving dependencies.
 .IP "\fB\--auto\fP"
-installs all required dependencies without asking.
+Installs all required dependencies without asking.
 .IP "\fB\--auto-select\fP"
-automatically select all packages that have to be upgraded according to already
+Automatically select all packages that have to be upgraded according to already
 installed packages and packages listed in various media registered.
 .IP "\fB\--fuzzy\fP"
-disable fast search on exact package name, ie it will propose all
+Disable fast search on exact package name, ie it will propose all
 package containing the name even if one has the given name (this is the same
 as \fB\-y\fP).
-.IP "\fB\--src\fP"
-next package name is a source package and it will select all dependencies by
+.IP "\fB\--src\fP \fIname\fP"
+Search a source package according to \fIname\fP and it will select all dependencies by
 default, unless \fB\--install-src\fP is used in order to install source package
 itself.
 .IP "\fB\--install-src\fP"
-install only source package (no binary packages will be installed).
+Install only source package (no binary packages will be installed).
 .IP "\fB\--clean\fP"
-remove all packages from the cache in directory /var/cache/urpmi/rpms.
+Remove all packages from the cache in directory /var/cache/urpmi/rpms.
 .IP "\fB\--noclean\fP"
-do not remove any packages from the cache in directory /var/cache/urpmi/rpms.
+Do not remove any packages from the cache in directory /var/cache/urpmi/rpms.
 .IP "\fB\--force\fP"
-assumes yes on all questions.
+Assumes yes on all questions.
 .IP "\fB\--allow-nodeps\fP"
-allow urpmi to ask user to continue installation using no dependencies checking
+Allow urpmi to ask user to continue installation using no dependencies checking
 due to error. By default urpmi exit immediately in such case.
 .IP "\fB\--allow-force\fP"
-allow urpmi to ask user to continue installation using no dependencies checking
+Allow urpmi to ask user to continue installation using no dependencies checking
 or forced installation due to error. By default urpmi exit immediately in such
 case.
-.IP "\fB\--parallel\fP"
-activate distributed execution of urpmi to other machines (it is mandatory that
+.IP "\fB\--parallel\fP \fIalias\fP"
+Activate distributed execution of urpmi to other machines (it is mandatory that
 urpmi is installed but it is not necessary to have media defined on any
-machines). The parameter given after \fB--parallel\fP is an alias name defining
-which extension module to use by urpmi (currently \fBurpmi-parallel-ka-run\fP or
-\fBurpmi-parallel-ssh\fP) and which machines should be updated, this alias is
-defined in the file /etc/urpmi/parallel.cfg as described below.
+machines). \fIalias\fP defines which extension module to use by urpmi (currently
+\fBurpmi-parallel-ka-run\fP or \fBurpmi-parallel-ssh\fP) and which machines
+should be updated, this alias is defined in the file /etc/urpmi/parallel.cfg as
+described below.
 .IP "\fB\--wget\fP"
-use wget only for downloading distant files. By default curl is used if
+Use wget only for downloading distant files. By default curl is used if
 available or wget instead.
 .IP "\fB\--curl\fP"
-use curl only for downloading distant files. By default curl is used if
+Use curl only for downloading distant files. By default curl is used if
 available or wget instead.
-.IP "\fB\--proxy\fP"
-use specified HTTP proxy where parameter given after options has format
-\fB<proxyhost[:port|1080]>\fP.
-.IP "\fB\--proxy-user\fP"
-use specified user and password to use for proxy authentication,
-format is \fB<user:password>\fP.
-.IP "\fB\--bug\fP"
-create a bug report in directory given by next argument, you have to send a
-compressed archive of the directory to \fBurpmi\fP maintainer for the bug being
-(problably) fixed.
-.IP "\fB\--env\fP"
-use a different environment directly from a bug report to replay a bug, the
+.IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
+Use specified HTTP proxy.
+.IP "\fB\--proxy-user\fP \fIuser:password\fP"
+Use specified user and password to use for proxy authentication.
+.IP "\fB\--bug\fP \fIdirectory\fP"
+Create a bug report in \fIdirectory\fP, you have to send a compressed archive of
+the directory to \fBurpmi\fP maintainer for the bug being (problably) fixed.
+.IP "\fB\--env\fP \fIdirectory\fP"
+Use a different environment directly from a bug report to replay a bug, the
 argument is the same argument given to \fB--bug\fP option.
 .IP "\fB\--X\fP"
-use X interface.
+Use X interface.
 .IP "\fB\--best-output\fP"
-try to use X interface or if not available the standard text interface (using
-rpm).
+Try to use X interface or if not available the standard text interface (using
+rpm like output).
 .IP "\fB\--verify-rpm\fP" or "\fB\--no-verify-rpm\fP"
-activate (default) or deactivate rpm signature checking.
+Activate (default) or deactivate rpm signature checking.
 .IP "\fB\--test\fP"
-test (as \fBrpm --test\fP) installation of packages but do not modify the system.
+Test (same as \fBrpm --test\fP) installation of packages but do not modify the
+system.
 .IP "\fB\--excludepath\fP"
-do not install files whose name begins with path given (same as \fBrpm
+Do not install files whose name begins with path given (same as \fBrpm
 --excludepath\fP).
 .IP "\fB\-a\fP"
-if multiple packages match the substring given, take them all
+If multiple packages match the substring given, take them all
 .IP "\fB\-p\fP"
-allow search in provides to find package (default).
+Allow search in provides to find package (default).
 .IP "\fB\-P\fP"
-do not search in provides to find package (this is the opposite of \fB-p\fP).
+Do not search in provides to find package (this is the opposite of \fB-p\fP).
 .IP "\fB\-y\fP"
-this is the same as \fB--fuzzy\fP.
+Yhis is the same as \fB--fuzzy\fP.
 .IP "\fB\-s\fP"
-this is the same as \fB--src\fP.
+This is the same as \fB--src\fP.
 .IP "\fB\-q\fP"
-proposes a quiet mode when calling rpm where no upgrade status are printed.
+Proposes a quiet mode when calling rpm where no upgrade status are printed.
 .IP "\fB\-v\fP"
-proposes a verbose mode with various messages.
+Proposes a verbose mode with various messages.
 .SH FILES
-/usr/sbin/urpmi
-.br
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/sbin/urpmi
 The \fBurpmi\fP executable (perl script)
-.PP
-/var/lib/urpmi/list.*
-.br
-Contains the list of all packages known by urpmi and their location.
-There is one filelist per media(*).
-.PP
-/var/lib/urpmi/hdlist.*
-.br
+.TP
+.FN /var/lib/urpmi/list.*
+Contains the list of all packages known by urpmi and their location only
+if a password is used to access distant location (using network protocol) or
+various directory are used to store packages.
+.TP
+.FN /var/lib/urpmi/hdlist.*
 Contains information about all known packages, it's a summary of rpm headers.
-There is one hdlist per media(*).
-.PP
-/var/lib/urpmi/synthesis.hdlist.*
-.br
+If an hdlist file is used for a medium \fBurpmf\fP can operate completely which
+is almost always the case (please refer to \fBurpmf\fP man page for more
+informations on this topic).
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
 Contains synthesis information about all known packages built from hdlist files
 that can be used by minimal closure algorithm. If these files are not present
-use \fBurpmi.update -a\fP to generate them.
-.PP
-/etc/urpmi/urpmi.cfg
-.br
-Contains media description, previous format from older urpmi is accepted.
-.PP
-/etc/urpmi/parallel.cfg
-.br
+hdlist files will be used instead but this is much slower.
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Contains media description, previous format from older urpmi is still accepted.
+.TP
+.FN /etc/urpmi/parallel.cfg
 Contains parallel alias description, format is
 \fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
 a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
@@ -166,27 +165,45 @@ a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
 \fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
 -m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
 extension.
-.PP
-/etc/urpmi/skip.list
-.br
+.TP
+.FN /etc/urpmi/skip.list
 Contains package expressions that should not be automatically updated. The
 format is a list of provide of package (or regular expression if bounded by
-slashes (\fB/\fP)) with optional operator and version string, or regular
+slashes \fB/\fP) with optional operator and version string, or regular
 expression to match the fullname of packages too.
-.PP
-/etc/urpmi/inst.list
-.br
+.TP
+.FN /etc/urpmi/inst.list
 Contains package names that should be installed instead of updated.
-.SH "SEE ALSO"
-urpmi.addmedia(8),
-urpmi.update(8),
-urpmi.removemedia(8),
-autoirpm(8),
-gurpmi(8),
-urpmf(8),
-urpmq(8),
-rpmdrake(8)
+.SH SEE ALSO
+\fIurpmi.addmedia\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIgurpmi\fP(8),
+\fIurpmf\fP(8),
+\fIurpmq\fP(8),
+\fIrpmdrake\fP(8)
 .SH AUTHOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
-.br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (original author)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (current author)
+
+.SH BUG REPORTS
+If you find a bug in \fBurpmi\fP please report it using
+.I urpmi --bug bug_name_as_directory ...
+command with the command line used, it will automatically create a directory
+called \fIbug_name_as_directory\fP containing necessary files to reproduce it if
+possible.
+.PP
+Please test the report using
+.I urpmi --env bug_name_as_directory ...
+to check bug is still here, currently only resolution bugs are reproduceable.
+.PP
+For sending the report, use
+.I tar cvfz bug_name_as_directory.tgz bug_name_as_directory
+and send me (fpons@mandrakesoft.com) it directly with a description of what is
+wrong according to you.
+
+.SH BUGS
+When a package is removed, it may not be replaced with an older version.
+.PP
+There is no good download indicator using \fBwget\fP.
