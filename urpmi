@@ -142,8 +142,12 @@ sub gmessage {
     my ($msg, %params) = @_;
     my $ok = to_utf8($params{ok} || N("Ok"));
     my $cancel = to_utf8($params{cancel} || N("Cancel"));
+    $ok =~ s/,/\\,/g; $cancel =~ s/,/\\,/g;
     my $buttons = $params{ok_only} ? "$ok:0" : "$ok:0,$cancel:2";
-    $params{add_buttons} and $buttons .= ",$params{add_buttons}";
+    foreach (@{$params{add_buttons}}) {
+        $_ =~ s/,/\\,/g;
+        $buttons .= ",$_";
+    }
     $msg = to_utf8($msg);
     `gmessage -default "$ok" -buttons "$buttons" "$msg"`;
 }
@@ -276,7 +280,7 @@ would allow you to make modifications to its sourcecode then compile it).
 What would you like to do?", $src_files[0]),
              ok => N("Do nothing"),
              cancel => N("Yes, really install it"),
-             add_buttons => N("Save file") . ':1');
+             add_buttons => [ N("Save file") . ':1' ]);
     my $rc = $? >> 8;
     if ($rc == 0) {
         exit(1);
