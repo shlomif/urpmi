@@ -83,10 +83,10 @@ and [options] are from
     $options{probe_with} = 'synthesis'; #- no the default is to probe synthesis file.
     my $urpm = new urpm;
     while ($_ = shift @_) {
-	/^--?c/ and $options{noclean} = 0, next;
-	/^--?h/ and next;
-	/^--?f/ and ++$options{force}, next;
-	/^-z$/ and ++$options{compress}, next;
+	/^--?c$/ and $options{noclean} = 0, next;
+	/^--?h$/ and next;
+	/^--?f$/ and ++$options{force}, next;
+	/^--?z$/ and ++$options{compress}, next;
 	/^--wget/ and $urpm->{sync} = sub { my $options = shift @_;
 					    if (ref $options) { $options->{prefer} = 'wget' }
 					    else { $options = { dir => $options, prefer => 'wget' } }

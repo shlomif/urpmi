@@ -28,10 +28,10 @@ sub main {
     $options{force} = 0;
     $options{noclean} = 1;
     while ($_ = shift @_) {
-	/^--?a/ and $options{all} = 1, next;
-	/^--?c/ and $options{noclean} = 0, next;
-	/^--?f/ and ++$options{force}, next;
-	/^-z$/ and ++$options{compress}, next;
+	/^--?a$/ and $options{all} = 1, next;
+	/^--?c$/ and $options{noclean} = 0, next;
+	/^--?f$/ and ++$options{force}, next;
+	/^--?z$/ and ++$options{compress}, next;
 	/^--update$/ and $options{update} = 1, next;
 	/^--wget$/ and $urpm->{sync} = sub { my $options = shift @_;
 					     if (ref $options) { $options->{prefer} = 'wget' }
@@ -53,9 +53,9 @@ sub main {
 	    $urpm->{proxy}{pwd} = $2;
 	    next;
 	};
-	/^--no-md5sum/ and $options{nomd5sum} = 1, next;
-	/^--?noa/ and next; #- default, keeped for compability.
-	/^--?d/ and next; #- default, keeped for compability.
+	/^--no-md5sum$/ and $options{nomd5sum} = 1, next;
+	/^--?noa$/ and next; #- default, keeped for compability.
+	/^--?d$/ and next; #- default, keeped for compability.
 	/^-/ and die N("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.
 ") . N("  --help         - print this help message.
