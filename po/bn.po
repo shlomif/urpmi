@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-27 13:37+0200\n"
-"PO-Revision-Date: 2004-08-26 16:19+0600\n"
+"POT-Creation-Date: 2004-08-30 17:26+0200\n"
+"PO-Revision-Date: 2004-09-06 23:58+0600\n"
 "Last-Translator: Jamil Ahmed <jamil@bengalinux.org>\n"
 "Language-Team: Bangla <mdk-translation@bengalinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,10 @@ msgstr ""
 #  can hit those keys in their keyboard to reply.
 #  please keep the 'Yy' for compatibility reasons
 #                      এখানে কথাটা ঠিক পরিষ্কার হচ্ছেনা। একবার বলছে "yes" এর বদলে আমার ভাষা দিয়ে লিখে দিতে, আবার শেষে বলেছে Yy-ই রেখে দিতে। কি করা যায়?
+#  This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
+#  you can put here the letters for 'yes' for your language, so people
+#  can hit those keys in their keyboard to reply.
+#  please keep the 'Yy' for compatibility reasons
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
 #. can hit those keys in their keyboard to reply.
@@ -27,13 +31,17 @@ msgstr ""
 #.
 #: placeholder.h:11
 msgid "Yy"
-msgstr "Yy"
+msgstr "Yyহ"
 
 #  This is a list of chars acceptable as a 'no' answer to a Yes/No question;
 #  you can put here the letters for 'no' for your language, so people
 #  can hit those keys in their keyboard to reply.
 #  please keep the 'Nn' for compatibility reasons
 #                                                   একই সমস্যা এখানে
+#  This is a list of chars acceptable as a 'no' answer to a Yes/No question;
+#  you can put here the letters for 'no' for your language, so people
+#  can hit those keys in their keyboard to reply.
+#  please keep the 'Nn' for compatibility reasons
 #. This is a list of chars acceptable as a 'no' answer to a Yes/No question;
 #. you can put here the letters for 'no' for your language, so people
 #. can hit those keys in their keyboard to reply.
@@ -41,7 +49,7 @@ msgstr "Yy"
 #.
 #: placeholder.h:17
 msgid "Nn"
-msgstr "Nn"
+msgstr "Nnন"
 
 #: ../_irpm:23
 #, c-format
@@ -97,9 +105,9 @@ msgid "   -h|--help      - print this help message.\n"
 msgstr "   -h|--help      - এই সাহায্য বার্তাটি প্রিন্ট করো।\n"
 
 #: ../rpm-find-leaves:15
-#, fuzzy, c-format
+#, c-format
 msgid "   --root <path>  - use the given root instead of /\n"
-msgstr "ব্যবহার টি প্রদত্ত পরিবর্তে -র"
+msgstr "   --root <path>  - / এর পরিবর্তে প্রদত্ত root টি ব্যবহার করো\n"
 
 #: ../rpm-find-leaves:16
 #, c-format
@@ -348,11 +356,10 @@ msgid "...copying done"
 msgstr "...কপি করা সম্পন্ন"
 
 #: ../urpm.pm:688 ../urpm.pm:711 ../urpm.pm:742
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access first installation medium (no hdlists file found)"
 msgstr ""
-"প্রথম ইনস্টলেশন মাধ্যম ব্যবহার করা যাচ্ছেনা (কোন মাধ্যম/মাধ্যমের_তথ্য/hdlists ফাইল "
-"পাওয়া যায়নি)"
+"প্রথম ইনস্টলেশন মাধ্যম ব্যবহার করা যাচ্ছে নাহ্ (কোন hdlists ফাইল পাওয়া যায়নি)"
 
 #: ../urpm.pm:694
 #, c-format
@@ -398,19 +405,19 @@ msgid "removing medium \"%s\""
 msgstr "\"%s\" মাধ্যম সরানো হচ্ছে"
 
 #: ../urpm.pm:848
-#, fuzzy, c-format
+#, c-format
 msgid "reconfiguring urpmi for media \"%s\""
-msgstr "rpm ফাইল আনা হচ্ছে \"%s\" মাধ্যম থেকে..."
+msgstr "\"%s\" মাধ্যমকে urpmi এর জন্য পুনরায় কনফিগার করা হচ্ছে"
 
 #: ../urpm.pm:874
-#, fuzzy, c-format
+#, c-format
 msgid "...reconfiguration failed"
-msgstr "...কপি করতে ব্যর্থ"
+msgstr "...পুনরায় কনফিগারেশন করতে ব্যর্থ"
 
 #: ../urpm.pm:881
 #, c-format
 msgid "reconfiguration done"
-msgstr ""
+msgstr "পুনরায় কনফিগারেশন সমপন্ন"
 
 #: ../urpm.pm:1008
 #, c-format
@@ -816,7 +823,7 @@ msgid "Sorry, bad choice, try again\n"
 msgstr "দুঃখিত, খারাপ পছন্দ, পৃনরায় চেষ্টা করুন\n"
 
 #: ../urpme:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpme version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -825,8 +832,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf সংস্করণ %s\n"
-"কপিরাইট (C) ২০০২-২০০৪ ম্যানড্রেকসফ্ট।\n"
+"urpme সংস্করণ %s\n"
+"কপিরাইট (C) ১৯৯৯-২০০৪ ম্যানড্রেকসফ্ট।\n"
 "এটি মুক্ত সফ্টওয়্যার এবং GNU GPL এর নিয়মানুযায়ী হয়তো এটা পুনঃবিতরণ করা যাবে।\n"
 "\n"
 "ব্যবহার:\n"
@@ -963,10 +970,10 @@ msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr "  --excludemedia - প্রদত্ত মাধ্যম ব্যবহার করবেনা, কমা দিয়ে ভাগ করা।\n"
 
 #: ../urpmf:36 ../urpmi:78 ../urpmq:47
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr "ক্রমান্বয়ে সাজাও মিডিয়া মতে প্রতি বিচ্ছিন্ন দ্বারা কমা"
+msgstr "  --sortmedia    - কমা দ্বারা বিচ্ছিন্ন মতে মাধ্যম ক্রমান্বয়ে সাজাও।\n"
 
 #: ../urpmf:37 ../urpmq:48
 #, c-format
@@ -999,21 +1006,19 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all          - সব ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --name         - print only package names.\n"
-msgstr "  --all          - সব ট্যাগ ছাপাও।\n"
+msgstr "  --name         - শুধুমাত্র প্যাকেজ নাম সমুহ ছাপাও।\n"
 
 #: ../urpmf:44
-#, fuzzy, c-format
+#, c-format
 msgid "  --group        - print tag group: group.\n"
-msgstr "সমষ্টি,দল,গ্রুপ মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ সমষ্টি,দল,গ্রুপ সমষ্টি,দল,গ্রুপ"
+msgstr "  --group        - group: group ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:45
-#, fuzzy, c-format
+#, c-format
 msgid "  --size         - print tag size: size.\n"
-msgstr ""
-"আকার/মাপ/আয়তন/আকৃতি মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ আকার/মাপ/আয়তন/আকৃতি আকার/মাপ/আয়তন/"
-"আকৃতি"
+msgstr "  --size         - size: size ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:46
 #, c-format
@@ -1031,49 +1036,49 @@ msgid "  --description  - print tag description: description.\n"
 msgstr "  --epoch        - description: description ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:49
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr "মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ উত্‍স/সোর্স আর-পি-এম"
+msgstr "  --sourcerpm    - source rpm: sourcerpm ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:50
-#, fuzzy, c-format
+#, c-format
 msgid "  --packager     - print tag packager: packager.\n"
-msgstr "প্যাকেজকারক মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ প্যাকেজকারক প্যাকেজকারক"
+msgstr "  --packager     - packager: packager ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:51
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ তৈরি করা হোস্ট"
+msgstr "  --buildhost    - build host: buildhost ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:52
 #, c-format
 msgid "  --url          - print tag url: url.\n"
-msgstr "  --url          - ট্যাগ ইউ-আর-এল প্রিন্ট করো: ইউ-আর-এল।\n"
+msgstr "  --url          - url: url ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:53
-#, fuzzy, c-format
+#, c-format
 msgid "  --provides     - print tag provides: all provides.\n"
-msgstr "দেয় মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ দেয় সব দেয়"
+msgstr "  --provides     - all provides: provides ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:54
-#, fuzzy, c-format
+#, c-format
 msgid "  --requires     - print tag requires: all requires.\n"
-msgstr "প্রয়োজন হয় মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ প্রয়োজন হয় সব প্রয়োজন হয়"
+msgstr "  --requires     - all requires: requires ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:55
-#, fuzzy, c-format
+#, c-format
 msgid "  --files        - print tag files: all files.\n"
-msgstr "মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ সব"
+msgstr "  --files        - all files: files ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:56
-#, fuzzy, c-format
+#, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr "সংঘাত মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ সংঘাত সব সংঘাত"
+msgstr "  --conflicts    - all conflicts: conflicts ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:57
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-msgstr "মুদ্রণ/প্রিন্ট/ছাপাও ট্যাগ সব"
+msgstr "  --obsoletes    - all obsoletes: obsoletes ট্যাগ ছাপাও।\n"
 
 #: ../urpmf:58 ../urpmi:114 ../urpmq:73
 #, c-format
@@ -1090,14 +1095,14 @@ msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "i অগ্রাহ্য করো কেস -এ প্রত্যেক প্যাটার্ন\n"
 
 #: ../urpmf:61 ../urpmq:90
-#, fuzzy, c-format
+#, c-format
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr "মুদ্রণ/প্রিন্ট/ছাপাও সংস্করণ প্রকাশ এবং সঙ্গে নাম"
+msgstr "  -f             - ভার্সন, প্রকাশ এবং আর্ক এর সঙ্গে নাম ছাপাও।\n"
 
 #: ../urpmf:62
-#, fuzzy, c-format
+#, c-format
 msgid "  -e             - include perl code directly as perl -e.\n"
-msgstr "অন্তর্ভুক্ত করো কোড সরাসরি  "
+msgstr "  -e             - perl কোড perl -e এর মতো সরাসরি অন্তর্ভুক্ত করো।\n"
 
 #: ../urpmf:63
 #, fuzzy, c-format
@@ -1141,20 +1146,21 @@ msgid "using specific environment on %s\n"
 msgstr "%s-এর ওপর সুনির্দিষ্ট পরিবেশ ব্যবহার করো\n"
 
 #: ../urpmf:151
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Note: since no media searched uses hdlists, urpmf was unable to return any "
 "result\n"
 msgstr ""
-"নোট হওয়া থেকে না মিডিয়া সন্ধান করা ব্যবহার ছিল অক্ষম প্রতি ফেরত যে কোনো ফলাফল"
+"নোট: যেহেতু কোনো মাধ্যম hdlists ব্যবহার করে সন্ধান করে নি, urpmf কোনো ফলাফল দিতে "
+"পারে নি\n"
 
 #: ../urpmf:152
 #, c-format
 msgid "You may want to use --name to search for package names.\n"
-msgstr ""
+msgstr "প্যাকেজ নাম সমুহ খোঁজার জন্য আপনি --name ব্যবহার করতে পারেন।\n"
 
 #: ../urpmi:69
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -1163,8 +1169,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf সংস্করণ %s\n"
-"কপিরাইট (C) ২০০২-২০০৪ ম্যানড্রেকসফ্ট।\n"
+"urpmi সংস্করণ %s\n"
+"কপিরাইট (C) ১৯৯৯-২০০৪ ম্যানড্রেকসফ্ট।\n"
 "এটি মুক্ত সফ্টওয়্যার এবং GNU GPL এর নিয়মানুযায়ী হয়তো এটা পুনঃবিতরণ করা যাবে।\n"
 "\n"
 "ব্যবহার:\n"
@@ -1233,9 +1239,9 @@ msgid "  --clean        - remove rpm from cache before anything else.\n"
 msgstr "  --clean        - কিছু করার পুর্বে ক্যাশ থেকে আর-পি-এম পরিষ্কার করো।\n"
 
 #: ../urpmi:93
-#, fuzzy, c-format
+#, c-format
 msgid "  --noclean      - keep rpm not used in cache.\n"
-msgstr "আর-পি-এম নয় ব্যবহৃত -এ ক্যাশ"
+msgstr "  --noclean      - ক্যাশ এ ব্যবহৃত নয় এমন আর-পি-এম রাখো।\n"
 
 #: ../urpmi:95
 #, fuzzy, c-format
@@ -1359,6 +1365,8 @@ msgid ""
 "  --more-choices - when several packages are found, propose more choices\n"
 "                   than the default.\n"
 msgstr ""
+"  --more-choices - যখন কয়েকটি প্যাকেজ পাওয়া যাবে, ডিফল্টের\n"
+"                   অধিক প্রস্তাব করবে\n"
 
 #: ../urpmi:127 ../urpmq:79
 #, c-format
@@ -1366,9 +1374,9 @@ msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - কমান্ড লাইনের সমস্ত মিল নির্বাচন করো।\n"
 
 #: ../urpmi:128
-#, fuzzy, c-format
+#, c-format
 msgid "  -p             - allow search in provides to find package.\n"
-msgstr "p অনুমতি দাও সন্ধান,খোঁজ -এ দেয় প্রতি অনুসন্ধান প্যাকেজ"
+msgstr "  -p             - প্যাকেজ খোঁজ করতে অনুমতি দাও।\n"
 
 #: ../urpmi:129
 #, c-format
@@ -1806,7 +1814,7 @@ msgstr "মাধ্যম যোগ করার অনুমতি শুধ�
 #: ../urpmi.addmedia:144
 #, c-format
 msgid "found version %s and arch %d ..."
-msgstr ""
+msgstr "ভার্সন %s এবং আর্ক %d পাওয়া গেছে ..."
 
 #: ../urpmi.addmedia:148
 #, c-format
@@ -2075,11 +2083,10 @@ msgstr "  -ল             - প্যাকেজে ফাইলের তা�
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  কমান্ডলাইনে প্রদত্ত নাম বা rmp ফাইলসমূহ নিরীক্ষণ করা হয়েছে।\n"
 
-# wired!
 #: ../urpmq:152
-#, fuzzy, c-format
+#, c-format
 msgid "--list-nodes can only be used with --parallel"
-msgstr "তালিকা নোড পারে শুধু ব্যবহৃত সঙ্গে সমান্তরাল"
+msgstr "--list-nodes শুধুমাত্র --parallel এর সাথে ব্যবহৃত হতে পারে"
 
 #: ../urpmq:331
 #, c-format
@@ -2095,34 +2102,3 @@ msgstr "filelist পাওয়া যায়নি\n"
 #, c-format
 msgid "No changelog found\n"
 msgstr "changelog পাওয়া যায়নি\n"
-
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "ভার্চুয়াল মাধ্যম স্থানীয় হতে হবে"
-
-#~ msgid ""
-#~ "urpme version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpme সংস্করণ %s\n"
-#~ "কপিরাইট © 1999, 2000, 2001, 2002 মেনড্রেকসফ্ট।\n"
-#~ "এটা একটি মুক্ত সফ্টওয়্যার এবং GNU GPL-এর শর্তানুযায়ী এটা বিতরণ করা যেতে পারে।\n"
-#~ "\n"
-#~ "usage:\n"
-
-#~ msgid ""
-#~ "urpmi version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmf সংস্করণ %s\n"
-#~ "কপিরাইট (C) ১৯৯৯, ২০০০, ২০০১, ২০০২ ম্যানড্রেকসফ্ট।\n"
-#~ "এটি মুক্ত সফ্টওয়্যার এবং GNU GPL এর নিয়মানুযায়ী হয়তো এটা পুনঃবিতরণ করা যাবে।\n"
-#~ "\n"
-#~ "ব্যবহার:\n"
