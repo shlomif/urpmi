@@ -93,7 +93,7 @@ for (@ARGV) {
 	/q/ and do { $rpm_opt = "-U"; next };
 	/p/ and do { $use_provides = 1; next };
 	/v/ and do { $verbose = 1; next };
-	die "urpmi: unknown option \"-%1\", check usage with --help\n"; } next };
+	die "urpmi: unknown option \"-$1\", check usage with --help\n"; } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     /\.rpm$/ and do { push @files, untaint($_); next };
     push @names, $_;
