@@ -87,11 +87,11 @@ and [options] are from
 	/^--?h$/ and next;
 	/^--?f$/ and ++$options{force}, next;
 	/^--?z$/ and ++$options{compress}, next;
-	/^--wget/ and $urpm->{sync} = sub { my $options = shift @_;
-					    if (ref $options) { $options->{prefer} = 'wget' }
-					    else { $options = { dir => $options, prefer => 'wget' } }
-					    urpm::sync_webfetch($options, @_) }, next;
-	/^--curl/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
+	/^--wget$/ and $urpm->{sync} = sub { my $options = shift @_;
+					     if (ref $options) { $options->{prefer} = 'wget' }
+					     else { $options = { dir => $options, prefer => 'wget' } }
+					     urpm::sync_webfetch($options, @_) }, next;
+	/^--curl$/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
 	/^--limit-rate$/ and do { $options{limit_rate} = shift @_; next };
 	/^--proxy$/ and do {
 	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
@@ -107,10 +107,10 @@ and [options] are from
 	    $urpm->{proxy}{pwd} = $2;
 	    next;
 	};
-	/^--probe-synthesis/ and $options{probe_with} = 'synthesis', next;
-	/^--probe-hdlist/ and $options{probe_with} = 'hdlist', next;
-	/^--no-probe/ and $options{probe_with} = undef, next;
-	/^--no-md5sum/ and $options{nomd5sum} = 1, next;
+	/^--probe-synthesis$/ and $options{probe_with} = 'synthesis', next;
+	/^--probe-hdlist$/ and $options{probe_with} = 'hdlist', next;
+	/^--no-probe$/ and $options{probe_with} = undef, next;
+	/^--no-md5sum$/ and $options{nomd5sum} = 1, next;
 	/^--distrib$/ and $options{distrib} = undef, next;
 	/^--distrib-(.*)$/ and $options{distrib} = $1, next;
 	/^--from$/ and $options{mirrors_url} = shift @_, next;
