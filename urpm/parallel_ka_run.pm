@@ -36,7 +36,7 @@ sub parallel_find_remove {
 
     #- now try an iteration of urpmq.
     $urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpme --no-locales --auto $test".(join ' ', map { "'$_'" } @$l));
-    open F, "rshp -v $parallel->{options} -- urpme --no-locales --auto $test".join(' ', map { "'$_'" } @$l)." |";
+    open F, "rshp -v $parallel->{options} -- urpme --no-locales --auto $test".join(' ', map { "'$_'" } @$l)." 2>&1 |";
     while (defined ($_ = <F>)) {
 	chomp;
 	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
