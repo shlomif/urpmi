@@ -110,6 +110,7 @@ my %options_spec = (
 	'use-distrib=s' => \$::usedistrib,
 	'excludepath|exclude-path=s' => sub { $urpm->{options}{excludepath} = $_[1] },
 	'excludedocs|exclude-docs' => sub { $urpm->{options}{excludedocs} = 1 },
+	'more-choices' => sub { $urpm->{options}{morechoices} = 1 },
 	a => \$::all,
 	q => sub { --$::verbose; $::rpm_opt = '' },
 	v => sub { ++$::verbose; $::rpm_opt = 'vh' },
