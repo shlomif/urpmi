@@ -249,6 +249,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
   transient_for option, fixes #8146) (gc)
 - From Olivier Thauvin <thauvin@aerov.jussieu.fr>
    - Own %{compat_perl_vendorlib}/urpm
+   - fix bug #6749 (man pages)
 
 * Fri Feb 20 2004 David Baudens <baudens@mandrakesoft.com> 4.4.5-7mdk
 - Revert menu entry from needs="x11" to needs="gnome" and needs="kde"
