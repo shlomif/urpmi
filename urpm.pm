@@ -1,5 +1,7 @@
 package urpm;
 
+# $Id$
+
 use strict;
 use vars qw($VERSION @ISA @EXPORT);
 use MDK::Common;

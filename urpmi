@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+# $Id$
+
 #- Copyright (C) 1999,2001 MandrakeSoft (pixel@linux-mandrake.com)
 #-
 #- This program is free software; you can redistribute it and/or modify
@@ -17,6 +19,7 @@
 #- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #use strict qw(subs vars refs);
+use strict;
 use urpm;
 
 #- contains informations to parse installed system.
@@ -451,8 +454,8 @@ if (@ask_unselect) {
 	    gmessage("$msg\n".N("do you agree ?"));
 	    $? and exit 0;
 	} else {
-	    $noexpr = N("Nn");
-	    $yesexpr = N("Yy");
+	    my $noexpr = N("Nn");
+	    my $yesexpr = N("Yy");
 	    message_input($msg . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
 	}
     }
@@ -477,8 +480,8 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 	    gmessage("$msg\n".N("do you agree ?"));
 	    $? and exit 0;
 	} else {
-	    $noexpr = N("Nn");
-	    $yesexpr = N("Yy");
+	    my $noexpr = N("Nn");
+	    my $yesexpr = N("Yy");
 	    message_input($msg . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
 	}
     }
@@ -523,8 +526,8 @@ if (@root_only) {
 	gmessage("$msg:\n$p\n\n$msg2");
 	$? and exit 0;
     } else {
-	$noexpr = N("Nn");
-	$yesexpr = N("Yy");
+	my $noexpr = N("Nn");
+	my $yesexpr = N("Yy");
 	message_input("$msg:\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
     }
 }
@@ -632,8 +635,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    gmessage("$msg:\n$p\n\n$msg2");
 		    $? and exit 1;
 		} else {
-		    $noexpr = N("Nn");
-		    $yesexpr = N("Yy");
+		    my $noexpr = N("Nn");
+		    my $yesexpr = N("Yy");
 		    message_input("$msg:\n$p\n$msg2" . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 1;
 		}
 	    }
@@ -710,8 +713,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    ++$nok;
 		    push @errors, @l;
 		} else {
-		    $noexpr = N("Nn");
-		    $yesexpr = N("Yy");
+		    my $noexpr = N("Nn");
+		    my $yesexpr = N("Yy");
 		    message_input(N("Try installation without checking dependencies? (y/N) "),
 				  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 		    $urpm->{log}("starting installing packages without deps");
@@ -798,7 +801,10 @@ if ($restart_itself && !$exit_code) {
     #- it seems to work correctly with exec instead of system, provided
     #- STDOUT or STDERR are not closed before (else no output at all).
     #- added --no-priority-upgrade to make sure no restart will be done after this one.
-    exec "/usr/sbin/urpmi", '--no-priority-upgrade', @ARGV;
+    #- renamed bug report dir as /restarted to avoid exit because it alllreday exists
+    #- This permit to have in same dir bug report before and after the restart
+    my @arg = ($ARGV[0], map { $ARGV[$_] . ($ARGV[$_ - 1] =~ /^--bug$/ ? "/restarted" : "") } (1 .. $#ARGV));
+    exec "$0", '--no-priority-upgrade', @arg;
 }
 
 #- this help flushing correctly by closing this file before (piped on tee).

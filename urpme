@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+# $Id$
+
 # Copyright (C) 1999,2002 MandrakeSoft <pixel@linux-mandrake.com>
 #                                      <fpons@mandrakesoft.com>
 #
@@ -18,14 +20,14 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #We only make good software ;-)
-#use strict;
+use strict;
 
 #use strict qw(subs vars refs);
 use URPM;
 use URPM::Resolve;
 use urpm;
 
-my (@nextargv, $root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, @l);
+my (@nextargv, $root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, $bug, @l);
 my $askok = N("Is this OK?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
