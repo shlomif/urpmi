@@ -2,6 +2,8 @@
 
 $ENV{XAUTHORITY} or $ENV{XAUTHORITY} = "$ENV{HOME}/.Xauthority";
 
+$urpmi = 'urpmi';
+if (-f $urpmi) { $urpmi = './urpmi' }
 
-exec "urpmi", "--X", @ARGV;
-
+exec $urpmi, "--X", @ARGV
+    or die "Can't exec urpmi: $!\n";
