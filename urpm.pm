@@ -1049,7 +1049,7 @@ sub filter_minimal_packages_to_upgrade {
 		#- simply ignore src rpm, which does not have any provides.
 		$info{name} && $info{provides} or return;
 		foreach (@{$info{provides}}) {
-		    if (/(\S*)\s*==\s*\d*:?([^-]*)-([^-]*)/ && $info{name} eq $1) {
+		    if (/(\S*)\s*==\s*(?:\d+:)?([^-]*)-([^-]*)/ && $info{name} eq $1) {
 			$found = $urpm->{params}{info}{$info{name}};
 			if ($found->{version} eq $2 && $found->{release} eq $3) {
 			    foreach (keys %info) {
