@@ -44,7 +44,7 @@ You can compare rpm vs. urpmi  with  insmod vs. modprobe
 %package -n gurpmi
 Summary:	User mode rpm GUI install
 Group:		%{group}
-Requires:	urpmi >= %{version}-%{release} drakxtools > 10-0.3mdk gchooser gmessage usermode menu
+Requires:	urpmi >= %{version}-%{release} drakxtools > 10-0.4mdk gchooser gmessage usermode menu
 Obsoletes:	grpmi
 
 %description -n gurpmi
