@@ -732,6 +732,8 @@ sub configure {
 	    $options{media} || $options{excludemedia} || $options{sortmedia} || $options{update} || $options{parallel} and
 	      $urpm->{fatal}(1, N("--synthesis cannot be used with --media, --excludemedia, --sortmedia, --update or --parallel"));
 	    $urpm->parse_synthesis($options{synthesis});
+	    #- synthesis disable the split of transaction (too risky and not usefull).
+	    $urpm->{options}{'split-length'} = 0;
 	}
     } else {
 	$urpm->read_config(%options);
