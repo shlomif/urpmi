@@ -52,10 +52,10 @@ my %options_spec = (
 	'allow-medium-change' => \$::allow_medium_change,
 	'auto-select' => \$::auto_select,
 	'no-remove|no-uninstall' => \$::no_remove,
-	keep => \$urpm->{options}{keep},
-	'split-level=s' => \$urpm->{options}{'split-level'},
-	'split-length=s' => \$urpm->{options}{'split-length'},
-	'fuzzy!' => \$urpm->{options}{fuzzy},
+	keep => sub { $urpm->{options}{keep} = 1 },
+	'split-level=s' => sub { $urpm->{options}{'split-level'} = $_[1] },
+	'split-length=s' => sub { $urpm->{options}{'split-length'} = $_[1] },
+	'fuzzy!' => sub { $urpm->{options}{fuzzy} = $_[1] },
 	'src|s' => \$::src,
 	'install-src' => \$::install_src,
 	clean => sub { $::clean = 1; $::noclean = 0 },
@@ -63,19 +63,19 @@ my %options_spec = (
 	    $::clean = $urpm->{options}{'pre-clean'} = $urpm->{options}{'post-clean'} = 0;
 	    $::noclean = 1;
 	},
-	'pre-clean!' => \$urpm->{options}{'pre-clean'},
-	'post-clean!' => \$urpm->{options}{'post-clean'},
+	'pre-clean!' => sub { $urpm->{options}{'pre-clean'} = $_[1] },
+	'post-clean!' => sub { $urpm->{options}{'post-clean'} = $_[1] },
 	'no-priority-upgrades' => sub {
 	    $urpm->{options}{'priority-upgrade'} = '';
 	},
 	force => \$::force,
-	'allow-nodeps' => \$urpm->{options}{'allow-nodeps'},
-	'allow-force' => \$urpm->{options}{'allow-force'},
+	'allow-nodeps' => sub { $urpm->{options}{'allow-nodeps'} = 1 },
+	'allow-force' => sub { $urpm->{options}{'allow-force'} = 1 },
 	'parallel=s' => \$::parallel,
 	wget => sub { $urpm->{options}{downloader} = 'wget' },
 	curl => sub { $urpm->{options}{downloader} = 'curl' },
-	'limit-rate=s' => \$urpm->{options}{'limit-rate'},
-	'resume!' => \$urpm->{options}{resume},
+	'limit-rate=s' => sub { $urpm->{options}{'limit-rate'} = $_[1] },
+	'resume!' => sub { $urpm->{options}{resume} = $_[1] },
 	proxy => sub {
 	    my (undef, $value) = @_;
 	    my ($proxy, $port) = $value =~ m,^(?:http://)?([^:]+(:\d+)?)/*$,
@@ -95,20 +95,20 @@ my %options_spec = (
 	'best-output' => sub {
 	    $options{X} ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0
 	},
-	'verify-rpm!' => \$urpm->{options}{'verify-rpm'},
+	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
 	'test!' => \$::test,
 	'skip=s' => \$::skip,
 	'root=s' => \$::root,
 	'use-distrib=s' => \$::usedistrib,
-	'excludepath|exclude-path=s' => \$urpm->{options}{excludepath},
-	'excludedocs|exclude-docs' => \$urpm->{options}{excludedocs},
+	'excludepath|exclude-path=s' => sub { $urpm->{options}{excludepath} = $_[1] },
+	'excludedocs|exclude-docs' => sub { $urpm->{options}{excludedocs} = $_[1] },
 	a => \$::all,
 	q => sub { --$::verbose; $::rpm_opt = '' },
 	v => sub { ++$::verbose; $::rpm_opt = 'vh' },
 	p => sub { $::use_provides = 1 },
 	P => sub { $::use_provides = 0 },
-	y => \$urpm->{options}{fuzzy},
-	z => \$urpm->{options}{compress},
+	y => sub { $urpm->{options}{fuzzy} = 1 },
+	z => sub { $urpm->{options}{compress} = 1 },
     },
 
     urpme => {
@@ -293,7 +293,7 @@ sub parse_cmdline {
     # TODO
     # parse options
     if ($tool eq 'urpmi') {
-	for (@ARGV) { $_ = '-X' if $_ eq '--X' }
+	foreach (@ARGV) { $_ = '-X' if $_ eq '--X' }
     }
     GetOptions(%{$options_spec{$tool}});
 }
