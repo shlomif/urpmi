@@ -127,7 +127,10 @@ sub sync_wget {
 	if ($_ eq "\r" || $_ eq "\n") {
 	    if ($options->{callback}) {
 		if ($buf =~ /^--\d\d:\d\d:\d\d--\s+(\S.*)\n/ms) {
-		    $file && $file ne $1 and propagate_sync_callback($options, 'end', $file);
+		    if ($file && $file ne $1) {
+			propagate_sync_callback($options, 'end', $file);
+			undef $file;
+		    }
 		    ! defined $file and propagate_sync_callback($options, 'start', $file = $1);
 		} elsif (defined $file && ! defined $total && $buf =~ /==>\s+RETR/) {
 		    $total = '';
