@@ -3,6 +3,7 @@ package urpm::parallel_ka_run;
 #- parallel resolve_dependencies
 sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
+    my (%avoided, %requested);
 
     #- first propagate the synthesis file to all machine.
     $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- '$synthesis' '$synthesis'");
@@ -53,7 +54,7 @@ sub parallel_resolve_dependencies {
 	#- now try an iteration of urpmq.
 	$urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpmq --synthesis $synthesis -f $line ".join(' ', keys %chosen));
 	open F, "rshp -v $parallel->{options} -- urpmq --synthesis $synthesis -fdu $line ".join(' ', keys %chosen)." |";
-	while ($_ = <F>) {
+	while (defined ($_ = <F>)) {
 	    chomp;
 	    s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
 	    if (/\|/) {
@@ -102,12 +103,13 @@ sub parallel_install {
     my ($node, %bad_nodes);
     $urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
     open F, "rshp -v $parallel->{options} -- urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
-    while ($_ = <F>) {
+    while (defined ($_ = <F>)) {
 	chomp;
 	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
 	$bad_nodes{$node} .= $_;
+	/^\s*$/ and next;
 	/Installation failed/ and $bad_nodes{$node} = '';
-	/Installation is possible/ and delete $bad_nodes{$node}, last;
+	/Installation is possible/ and delete $bad_nodes{$node};
     }
     close F or $urpm->{fatal}(1, _("rshp failed"));
 
@@ -119,7 +121,7 @@ sub parallel_install {
 
     #- continue installation.
     $urpm->{log}("parallel_ka_run: rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-    system "rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}" == 0;
+    system("rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}") == 0;
 }
 
 
