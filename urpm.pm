@@ -115,6 +115,7 @@ sub read_config {
 		/^with_hdlist\s*:\s*(.*)$/ and $medium->{with_hdlist} = $1, next;
 		/^list\s*:\s*(.*)$/ and $medium->{list} = $1, next;
 		/^removable\s*:\s*(.*)$/ and $medium->{removable} = $1, next;
+		/^update\s*$/ and $medium->{update} = 1, next;
 		/^ignore\s*$/ and $medium->{ignore} = 1, next;
 		/^modified\s*$/ and $medium->{modified} = 1, next;
 		$_ eq '}' and last;
@@ -258,7 +259,7 @@ sub write_config {
 	foreach (qw(hdlist with_hdlist list removable)) {
 	    $medium->{$_} and printf F "  %s: %s\n", $_, $medium->{$_};
 	}
-	foreach (qw(ignore modified)) {
+	foreach (qw(update ignore modified)) {
 	    $medium->{$_} and printf F "  %s\n", $_;
 	}
 	printf F "}\n\n";
@@ -269,7 +270,7 @@ sub write_config {
 
 #- add a new medium, sync the config file accordingly.
 sub add_medium {
-    my ($urpm, $name, $url, $with_hdlist) = @_;
+    my ($urpm, $name, $url, $with_hdlist, %options) = @_;
 
     #- make sure configuration has been read.
     $urpm->{media} or $urpm->read_config();
@@ -287,6 +288,7 @@ sub add_medium {
 		url      => $url,
 		hdlist   => "hdlist.$name.cz",
 		list     => "list.$name",
+		update   => $options{update},
 		modified => 1,
 	      };
 
@@ -796,12 +798,99 @@ sub write_base_files {
     $urpm->{log}(_("write compss file [%s]", $urpm->{compss}));
 }
 
-#- relocate depslist array to use only the most recent packages,
-#- reorder info hashes too in the same manner.
-sub relocate_depslist {
-    my ($urpm) = @_;
+#- try to determine which package are belonging to which medium.
+#- a flag active is used for that, transfered from medium to each
+#- package.
+#- relocation can use this flag after.
+sub filter_active_media {
+    my ($urpm, %options) = @_;
+    my (%fullname2id);
 
-    $urpm->{params}->relocate_depslist;
+    #- build association hash to retrieve id and examine all list files.
+    foreach (0 .. $#{$urpm->{params}{depslist}}) {
+	my $p = $urpm->{params}{depslist}[$_];
+	$fullname2id{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} = $_;
+    }
+
+    #- examine each medium to search for packages.
+    #- now get rpm file name in hdlist to match list file.
+    require packdrake;
+    foreach my $medium (@{$urpm->{media} || []}) {
+	if (-r "$urpm->{statedir}/$medium->{hdlist}" && ($medium->{active} ||
+							 $options{use_update} && $medium->{update}) && !$medium->{ignore}) {
+	    my $packer = eval { new packdrake("$urpm->{statedir}/$medium->{hdlist}"); };
+	    $packer or $urpm->{error}(_("unable to parse correctly [%s]", "$urpm->{statedir}/$medium->{hdlist}")), next;
+	    foreach (@{$packer->{files}}) {
+		$packer->{data}{$_}[0] eq 'f' or next;
+		if (my ($fullname) = /^([^:\s]*-[^:\-\s]+-[^:\-\s]+\.[^:\.\-\s]*)(?::\S+)?/) {
+		    my $id = delete $fullname2id{$fullname};
+		    defined $id and $urpm->{params}{depslist}[$id]{active} = 1;
+		} else {
+		    $urpm->{error}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{hdlist}", $_));
+		}
+	    }
+	}
+    }
+}
+
+#- relocate depslist array id to use only the most recent packages,
+#- reorder info hashes to give only access to best packages.
+sub relocate_depslist {
+    my ($urpm, %options) = @_;
+    my $relocated_entries = 0;
+
+    foreach (@{$urpm->{params}{depslist} || []}) {
+	#- disable non active package if active flag should be checked.
+	if ($options{use_active} && !$_->{active}) {
+	    $urpm->{params}{info}{$_->{name}} == $_ and delete $urpm->{params}{info}{$_->{name}};
+	    next;
+	}
+
+	if ($urpm->{params}{info}{$_->{name}} != $_) {
+	    #- at this point, it is sure there is a package that
+	    #- is multiply defined and this should be fixed.
+	    #- remove access to info if arch is incompatible and only
+	    #- take into account compatible arch to examine.
+	    #- correct info hash by prefering first better version,
+	    #- then better release, then better arch.
+	    my $p = $urpm->{params}{info}{$_->{name}};
+	    if ($p && (!rpmtools::compat_arch($p->{arch}) || $options{use_active} && !$p->{active})) {
+		delete $urpm->{params}{info}{$_->{name}};
+		$p = undef;
+	    }
+	    if (rpmtools::compat_arch($_->{arch})) {
+		if ($p) {
+		    my $cmp_version = $_->{serial} == $p->{serial} && rpmtools::version_compare($_->{version}, $p->{version});
+		    my $cmp_release = $cmp_version == 0 && rpmtools::version_compare($_->{release}, $p->{release});
+		    if ($_->{serial} > $p->{serial} || $cmp_version > 0 || $cmp_release > 0 ||
+			($_->{serial} == $p->{serial} && $cmp_version == 0 && $cmp_release == 0 &&
+			 rpmtools::better_arch($_->{arch}, $p->{arch}))) {
+			$urpm->{params}{info}{$_->{name}} = $_;
+			++$relocated_entries;
+		    }
+		} else {
+		    $urpm->{params}{info}{$_->{name}} = $_;
+		    ++$relocated_entries;
+		}
+	    }
+	}
+    }
+
+    #- relocate id used in depslist array, delete id if the package
+    #- should NOT be used.
+    if ($relocated_entries) {
+	foreach (@{$urpm->{params}{depslist}}) {
+	    $_->{source} and next; #- hack to avoid losing local package.
+	    if (defined $urpm->{params}{info}{$_->{name}}) {
+		$_->{id} = $urpm->{params}{info}{$_->{name}}{id};
+	    } else {
+		delete $_->{id};
+	    }
+	}
+    }
+
+    $urpm->{log}(_("relocated %s entries in depslist", $relocated_entries));
+    $relocated_entries;
 }
 
 #- register local packages for being installed, keep track of source.
@@ -876,7 +965,7 @@ sub search_packages {
 
 	my $id = 0;
 	foreach my $info (@{$urpm->{params}{depslist}}) {
-	    rpmtools::compat_arch($info->{arch}) or next; #- do not loose time on incompatible arch.
+	    rpmtools::compat_arch($info->{arch}) && (!$options{use_active} || $info->{active}) or next;
 
 	    my $pack_ra = "$info->{name}-$info->{version}";
 	    my $pack_a = "$pack_ra-$info->{release}";
@@ -1016,22 +1105,28 @@ sub compute_closure {
 sub filter_packages_to_upgrade {
     my ($urpm, $packages, $select_choices, %options) = @_;
     my ($id, %closures, %installed, @packages_installed);
+    my $db = rpmtools::db_open(''); #- keep it open for all operation that could be done.
 
     #- request the primary list to rpmlib if complete mode is not activated.
-    if (!$options{complete} &&
-	rpmtools::get_packages_installed('', \@packages_installed,
-					 [ map { $urpm->{params}{depslist}[$_]{name} } keys %$packages ])) {
+    if (!$options{complete}) {
 	#- there are not too many packages selected here to allow
 	#- take care of package up-to-date at this point,
 	#- so check version and if the package does not need to
 	#- updated, ignore it and his dependancies.
-	foreach (@packages_installed) {
-	    my $pkg = $urpm->{params}{info}{$_->{name}}; $pkg or next; #- TODO error
-	    my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
-	    $installed{$pkg->{id}} = !($pkg->{serial} > $_->{serial} || $pkg->{serial} == $_->{serial} &&
-				       ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0))
-	      and delete $packages->{$pkg->{id}};
-	}
+	rpmtools::db_traverse_tag($db, "name", [ map { $urpm->{params}{depslist}[$_]{name} } keys %$packages ],
+				  [ qw(name version release serial) ], sub {
+				      my ($p) = @_;
+				      my $pkg = $urpm->{params}{info}{$p->{name}};
+				      if ($pkg) {
+					  my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
+					  $installed{$pkg->{id}} = !($pkg->{serial} > $p->{serial} ||
+								     $pkg->{serial} == $p->{serial} &&
+								     ($cmp > 0 || $cmp == 0 &&
+								      rpmtools::version_compare($pkg->{release},
+												$p->{release}) > 0))
+					    and delete $packages->{$pkg->{id}};
+				      }
+				  });
     }
 
     #- select first level of packages, as in packages list will only be
@@ -1045,24 +1140,25 @@ sub filter_packages_to_upgrade {
     #- closures has been done so that its keys are the package that may be examined.
     #- according to number of keys, get all package installed or only the necessary
     #- packages.
+    my $examine_installed_packages = sub {
+	my ($p) = @_;
+	my $pkg = $urpm->{params}{info}{$p->{name}};
+	if ($pkg && exists $closures{$pkg->{id}}) {
+	    my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
+	    $installed{$pkg->{id}} = !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} &&
+				       ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0))
+	      and delete $packages->{$pkg->{id}};
+	}
+    };
     #- do not take care of already examined packages.
     delete @closures{keys %installed};
     if (scalar(keys %closures) < 100) {
-	rpmtools::get_packages_installed('', \@packages_installed,
-					 [ map { $urpm->{params}{depslist}[$_]{name} } keys %closures ]);
+	rpmtools::db_traverse_tag($db, "name", [ map { $urpm->{params}{depslist}[$_]{name} } keys %closures ],
+				  [ qw(name version release serial) ], $examine_installed_packages);
     } else {
-	rpmtools::get_all_packages_installed('', \@packages_installed);
+	rpmtools::db_traverse($db, [ qw(name version release serial) ], $examine_installed_packages);
     }
-
-    #- packages installed that may be upgraded have to be examined now.
-    foreach (@packages_installed) {
-	my $pkg = $urpm->{params}{info}{$_->{name}}; $pkg or next; #- TODO error
-	exists $closures{$pkg->{id}} or next;
-	my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
-	$installed{$pkg->{id}} = !($pkg->{serial} > $_->{serial} || $pkg->{serial} == $_->{serial} &&
-				   ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0))
-	  and delete $packages->{$pkg->{id}};
-    }
+    rpmtools::db_close($db);
 
     #- recompute closure but ask for which package to select on a choices.
     #- this is necessary to have the result before the end else some dependancy may
@@ -1364,15 +1460,13 @@ sub get_source_packages {
 		if (my ($fullname, $file) = /^([^:\s]*-[^:\-\s]+-[^:\-\s]+\.[^:\.\-\s]*)(?::(\S+))?/) {
 		    $file2fullnames{$file || $fullname}{$fullname} = undef;
 		} else {
-		    $urpm->{error}(_("unable to parse correctly [%s] on value \"%s\"",
-				     "$urpm->{statedir}/$medium->{hdlist}", $_));
+		    $urpm->{error}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{hdlist}", $_));
 		}
 	    }
 	}
     }
 
-    #- examine the local repository, which is trusted but only for Mandrake compliant
-    #- naming convention.
+    #- examine the local repository, which is trusted.
     opendir D, "$urpm->{cachedir}/rpms";
     while (defined($_ = readdir D)) {
 	if (/([^\/]*)\.rpm/) {
@@ -1533,6 +1627,7 @@ sub upload_source_packages {
     foreach (@distant_sources) {
 	$urpm->{log}(_("retrieving [%s]", $_));
 	system "wget", "-NP", "$urpm->{cachedir}/rpms", $_;
+	$? == 0 or $urpm->{error}(_("wget of [%s] failed", "<source_url>/$_"));
     }
 
     #- return the list of rpm file that have to be installed, they are all local now.

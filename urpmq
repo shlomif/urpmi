@@ -50,6 +50,7 @@ usage:
   -g             - print groups too with name.
   -r             - print version and release too with name.
 
+  --update       - use only update media.
   --auto-select  - automatically select packages for upgrading the system.
   --headers      - extract headers for package listed from urpmi db to
                    stdout (root only).
@@ -65,6 +66,7 @@ usage:
 my @nextargv;
 for (@ARGV) {
     /^--help$/ and do { usage; next };
+    /^--update$/ and do { $query->{update} = 1; next };
     /^--auto-select$/ and do { $query->{auto_select} = 1; next };
     /^--headers$/ and do { $query->{headers} = 1; next };
     /^--sources$/ and do { $query->{sources} = 1; next };
@@ -107,13 +109,18 @@ if (@files) {
 }
 
 #- reparse whole internal depslist to match against newer packages only.
-$urpm->relocate_depslist();
+if ($query->{update}) {
+    $urpm->read_config(nocheck_access => 1);
+    $urpm->filter_active_media(use_update => 1);
+}
+$urpm->relocate_depslist(use_active => $query->{update});
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded, all its dependancy
 #- will be updated too.
 my %packages;
-$urpm->search_packages(\%packages, [ @names ], use_provides => $query->{use_provides}) or $query->{force} or exit 1;
+$urpm->search_packages(\%packages, [ @names ], use_provides => $query->{use_provides}, use_active => $query->{update})
+  or $query->{force} or exit 1;
 
 #- auto select package for upgrading the distribution.
 if ($query->{auto_select}) {
@@ -129,7 +136,7 @@ if ($query->{auto_select}) {
 #- filter to add in packages selected required packages.
 if ($query->{minimal}) {
     $urpm->read_provides;
-    $urpm->read_config(nocheck_access => 1);
+    $query->{update} or $urpm->read_config(nocheck_access => 1);
     $urpm->filter_minimal_packages_to_upgrade(\%packages, undef);
 } else {
     $query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);

@@ -23,6 +23,7 @@ use urpm;
 import urpm _;
 
 #- default options.
+my $update = 0;
 my $auto = 0;
 my $auto_select = 0;
 my $force = 0;
@@ -50,6 +51,7 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
   --help           - print this help message.
+  --update         - use only update media.
   --auto           - automatically select a good package in choices.
   --auto-select    - automatically select packages for upgrading the system.
   --force          - force invocation even if some package do not exist.
@@ -73,6 +75,7 @@ usage:
 my @nextargv;
 for (@ARGV) {
     /^--help$/ and do { usage; next };
+    /^--update$/ and do { $update = 1; next };
     /^--auto$/ and do { $auto = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; $minimal = 0; next };
     /^--force$/ and do { $force = 1; next };
@@ -153,7 +156,11 @@ if (@files) {
 
 #- reparse whole internal depslist to match against newer packages only.
 #- ignored medium MUST HAVE BEEN taken into account for building hdlist before!
-$urpm->relocate_depslist;
+if ($update) {
+    $urpm->read_config();
+    $urpm->filter_active_media(use_update => 1);
+}
+$urpm->relocate_depslist(use_active => $update);
 
 
 #- search the packages according the selection given by the user,
@@ -163,7 +170,7 @@ $urpm->relocate_depslist;
 my %packages;
 $urpm->search_packages(\%packages,
 		       [ ($minimal || !$urpm->{params}{info}{basesystem} ? () : ('basesystem')), @names],
-		       all => $all, use_provides => $use_provides) or $force or exit 1;
+		       all => $all, use_provides => $use_provides, use_active => $update) or $force or exit 1;
 
 #- filter to add in packages selected required packages.
 my $ask_choice = sub {
@@ -204,7 +211,7 @@ if ($auto_select) {
 
 if ($minimal) {
     $urpm->read_provides;
-    $urpm->read_config;
+    $update or $urpm->read_config;
     $urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
 } else {
     $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, complete => $complete);
