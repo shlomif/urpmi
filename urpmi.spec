@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 23mdk
+%define release 24mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -203,6 +203,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %lang(eu) %{_mandir}/eu/man?/urpm* 
 %lang(fi) %{_mandir}/fi/man?/urpm* 
 %lang(fr) %{_mandir}/fr/man?/urpm* 
+%lang(nl) %{_mandir}/nl/man?/urpm* 
 %lang(ru) %{_mandir}/ru/man?/urpm* 
 %lang(uk) %{_mandir}/uk/man?/urpm* 
 %dir %{compat_perl_vendorlib}/urpm
@@ -250,6 +251,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Thu Sep 09 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-24mdk
+- Remove deprecation warning.
+- Translations updates.
+
 * Thu Sep 02 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-23mdk
 - Handle new keywords in hdlists file.
 - Translations updates.
