@@ -5,30 +5,30 @@ urpme \- rpm wrapper making deinstalls easier for the user
 .SH SYNOPSIS
 .B urpme [\fIoptions\fP] [\fIpackage_names\fP]
 .SH DESCRIPTION
-urpme allow packages to be deinstalled including all their dependencies.
+urpme allow packages to be deinstalled, including all their dependencies.
 .SH OPTIONS
 .IP "\fB\--help\fP"
 Print an help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
 .IP "\fB\--auto\fP"
-Remove package automatically.
+Remove packages automatically.
 .IP "\fB\--test\fP"
 Test (same as \fBrpm --test\fP) deinstallation of packages but do not modify the
 system.
 .IP "\fB\--parallel\fP \fIalias\fP"
 Activate distributed execution of urpmi to other machines (it is mandatory that
-urpmi is installed but it is not necessary to have media defined on any
-machines). \fIalias\fP defines which extension module to use by urpmi (currently
-\fBurpmi-parallel-ka-run\fP or \fBurpmi-parallel-ssh\fP) and which machines
-should be updated, this alias is defined in the file /etc/urpmi/parallel.cfg as
-described below.
+urpmi is installed, but it is not necessary to have media defined on any
+machines). \fIalias\fP defines which extension module is to be used by urpmi
+(currently, \fBurpmi-parallel-ka-run\fP or \fBurpmi-parallel-ssh\fP are
+available) and which machines should be updated. This alias is defined in the
+file /etc/urpmi/parallel.cfg as described below.
 .IP "\fB\--root\fP \fIdirectory\fP"
 Use the file system tree rooted for rpm install. All operations and scripts
-will run after chroot(2). The rpm database in the rooted tree will be used but
-urpmi configuration comes from normal system.
+will run after chroot(2). The rpm database that lies in the rooted tree will
+be used, but the urpmi configuration comes from the normal system.
 .IP "\fB\-v\fP"
 Proposes a verbose mode with various messages.
 .IP "\fB\-a\fP"
-If multiple packages match the substring given, take them all
+If multiple packages match the given substring, deinstall them all.
 .SH FILES
 .de FN
 \fI\|\\$1\|\fP
@@ -38,9 +38,9 @@ If multiple packages match the substring given, take them all
 The \fBurpmi\fP executable (perl script)
 .TP
 .FN /var/lib/urpmi/list.*
-Contains the list of all packages known by urpmi and their location only
-if a password is used to access distant location (using network protocol) or
-various directory are used to store packages.
+Contains the list of all packages known by urpmi and their location. This file
+is only used when a password is used to access a distant location (using a
+network protocol) or when various directories are used to store the packages.
 .TP
 .FN /var/lib/urpmi/hdlist.*
 Contains information about all known packages; it's a summary of rpm headers.

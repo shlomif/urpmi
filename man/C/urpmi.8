@@ -7,31 +7,33 @@ urpmi \- rpm wrapper making installs easier for the user
 .SH DESCRIPTION
 urpmi authorizes well-known rpms (or rpm files) to be installed including
 all their dependencies.
-You can use it to install source package dependencies or source package itself.
+You can use it to install the dependencies of a source package, or a source
+package itself.
 
-You can compare rpm vs. urpmi  with  insmod vs. modprobe or dpkg vs apt-get
+You can compare rpm vs. urpmi with insmod vs. modprobe or dpkg vs apt-get.
 .PP
 Just launch urpmi followed by what you think is the name of the package(s),
 and urpmi will:
 .br
-\- Propose different package names if available and quit.
+\- Propose different package names if the name was ambiguous, and quit.
 .br
-\- If only one corresponding package is found, check whether dependencies are 
-already installed, or not.
+\- If only one corresponding package is found, check whether its dependencies
+are already installed.
 .br
-\- If not, propose to install the dependencies and then install all required
-dependencies and the package.
+\- If not, propose to install the dependencies, and on a positive answer,
+proceed.
 .PP
-Note that urpmi handle installations from various medias (ftp, http, local and
-nfs volumes, removable medias such as CDROMs) and is able to install
-dependencies from a media different from the package's media.
-If necessary, urpmi asks you to insert the required media.
+Note that urpmi handles installations from various types of media (ftp, http,
+rsync, local and nfs volumes, removable media such as CDROMs) and is able to
+install dependencies from a medium different from the original package's
+medium. If necessary, for removable media, urpmi may ask you to insert the
+appropriate disk.
 .PP
-To add a new media containing rpms run urpmi.addmedia.
+To add a new medium containing rpms, run urpmi.addmedia.
 .br
-To remove a media use urpmi.removemedia.
+To remove a medium, use urpmi.removemedia.
 .br
-To update the packages list (for example when the ftp archive changed) use
+To update the package list (for example when the ftp archive changes) use
 urpmi.update.
 .br
 To automatically install a package corresponding to an executable you tried
@@ -43,46 +45,47 @@ use autoirpm-icons.
 .IP "\fB\--help\fP"
 Print an help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
 .IP "\fB\--update\fP"
-Use only update media. This means \fBurpmi\fP will search and resolve
-dependencies only in media marked as update.
+Use only update media. This means that \fBurpmi\fP will search packages and
+resolve dependencies only in media marked as containing updates.
 .IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
-Select specific media to use instead of all media available (or update media is
-\fB--update\fP is used).
+Select specific media to be used, instead of all available media (or update
+media if \fB--update\fP is used).
 .IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
-Do not use the given media.
+Do not use the specified media.
 .IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
-Sort the given media, substrings may be used to simplify grouping.
+Sort the specified media. Substrings may be used to simplify grouping.
 .IP "\fB\--synthesis\fP \fIfile\fP"
-Use the given synthesis\fIfile\fP instead of urpmi db for searching packages and
-resolving dependencies.
+Use the specified synthesis file instead of the urpmi database for
+searching packages and resolving dependencies.
 .IP "\fB\--auto\fP"
-Installs all required dependencies without asking.
+Install all required dependencies without asking.
 .IP "\fB\--auto-select\fP"
-Automatically select all packages that have to be upgraded according to already
-installed packages and packages listed in various media registered.
+Automatically select all packages that have to be upgraded, according to already
+installed packages and packages listed in various registered media.
 .IP "\fB\--no-uninstall\fP"
-Never ask to uninstall a package but prefer aborting instead, this can be safe
-in auto mode.
+Never ask to uninstall a package but prefer aborting instead. This can be
+safer in auto mode.
 .IP "\fB\--keep\fP"
-Change selection of package when some dependencies cannot be satisfied by trying
-to keep existing package instead of removing them. This behaviour generally
-rejects upgrade of packages given on command line (or when using --auto-select)
-in case of dependencies error.
+When some dependencies cannot be satisfied, change the selection of packages
+to trying to keep existing packages instead of removing them. This behaviour
+generally rejects the upgrade of packages given on command line (or when using
+--auto-select) when a dependency error occurs.
 .IP "\fB\--split-level \fInumber\fP"
-Split in small transaction when total number of packages to upgrade is greater
-than the given \fInumber\fP. This option is activated by default and the default
-value of \fInumber\fP is 20.
+Split urpmi's operation in small transactions when the total number of
+packages to upgrade is greater than the given \fInumber\fP. This option is
+activated by default, and the default value of \fInumber\fP is 20.
 .IP "\fB\--split-length \fIcount\fP"
-Split in small transaction of at least \fIcount\fP packages. The default is 1
-and setting this value to 0 just disable split in small transaction.
+Split urpmi's operation in small transactions of at least \fIcount\fP
+packages. The default is 1 and setting this value to 0 just disables splitting
+in small transactions.
 .IP "\fB\--fuzzy\fP"
 Disable fast search on exact package name; i.e. it will propose all
 packages containing the name, even if one has exactly the given name (this
 is the same as \fB\-y\fP).
 .IP "\fB\--src\fP \fIname\fP"
-Search a source package according to \fIname\fP and select all dependencies by
-default, unless \fB\--install-src\fP is used in order to install the source package
-itself.
+Search a source package matching \fIname\fP and select all its dependencies by
+default, unless \fB\--install-src\fP is used in order to install the source
+package itself.
 .IP "\fB\--install-src\fP"
 Install only the source package (no binary packages will be installed).
 .IP "\fB\--clean\fP"
@@ -90,31 +93,31 @@ Remove all packages from the cache in directory /var/cache/urpmi/rpms.
 .IP "\fB\--noclean\fP"
 Do not remove any packages from the cache in directory /var/cache/urpmi/rpms.
 .IP "\fB\--force\fP"
-Assumes yes on all questions.
+Assume yes on all questions.
 .IP "\fB\--allow-nodeps\fP"
-Allow urpmi to ask user to continue installation using no dependencies checking
-due to error. By default urpmi exit immediately in such case.
+With this option, urpmi will ask the user on error whether it should continue
+the installation without checking dependencies. By default, urpmi exits
+immediately in this case.
 .IP "\fB\--allow-force\fP"
-Allow urpmi to ask user to continue installation using no dependencies checking
-or forced installation due to error. By default urpmi exit immediately in such
-case.
+With this option, urpmi will ask the user on error whether it should proceed
+to a forced installation. By default, urpmi exits immediately in this case.
 .IP "\fB\--parallel\fP \fIalias\fP"
 Activate distributed execution of urpmi to other machines (it is mandatory that
-urpmi is installed but it is not necessary to have media defined on any
-machines). \fIalias\fP defines which extension module to use by urpmi (currently
-\fBurpmi-parallel-ka-run\fP or \fBurpmi-parallel-ssh\fP) and which machines
-should be updated, this alias is defined in the file /etc/urpmi/parallel.cfg as
-described below.
+urpmi is installed, but it is not necessary to have media defined on any
+machines). \fIalias\fP defines which extension module is to be used by urpmi
+(currently, \fBurpmi-parallel-ka-run\fP or \fBurpmi-parallel-ssh\fP are
+available) and which machines should be updated. This alias is defined in the
+file /etc/urpmi/parallel.cfg as described below.
 .IP "\fB\--root\fP \fIdirectory\fP"
 Use the file system tree rooted for rpm install. All operations and scripts
-will run after chroot(2). The rpm database in the rooted tree will be used but
-urpmi configuration comes from normal system.
+will run after chroot(2). The rpm database that lies in the rooted tree will
+be used, but the urpmi configuration comes from the normal system.
 .IP "\fB\--wget\fP"
-Use wget only for downloading distant files. By default curl is used if
-available or wget instead.
+Use wget for downloading distant files. By default curl is used if
+available, or wget instead.
 .IP "\fB\--curl\fP"
-Use curl only for downloading distant files. By default curl is used if
-available or wget instead.
+Use curl for downloading distant files. By default curl is used if
+available, or wget instead.
 .IP "\fB\--limit-rate \fIrate\fP"
 Try to limit the download speed, \fIrate\fP is given in bytes/sec. This option is
 not active by default.
@@ -134,7 +137,7 @@ Use X interface.
 Try to use X interface, or, if not available, the standard text interface (using
 rpm-like output).
 .IP "\fB\--verify-rpm\fP" or "\fB\--no-verify-rpm\fP"
-Activate (default) or deactivate rpm signature checking.
+Activate or deactivate rpm signature checking. It's activated by default.
 .IP "\fB\--test\fP"
 Test (same as \fBrpm --test\fP) installation of packages but do not modify the
 system.
@@ -144,7 +147,7 @@ Do not install files whose name begins with the given \fIstring\fP (same as \fBr
 .IP "\fB\--excludedocs\fP"
 Do not install documents files (same as \fBrpm --excludedocs\fP).
 .IP "\fB\-a\fP"
-If multiple packages match the given substring, take them all
+If multiple packages match the given substring, install them all.
 .IP "\fB\-p\fP"
 Allow search in provides to find package (default).
 .IP "\fB\-P\fP"
@@ -154,7 +157,7 @@ Yhis is the same as \fB--fuzzy\fP.
 .IP "\fB\-s\fP"
 This is the same as \fB--src\fP.
 .IP "\fB\-q\fP"
-Proposes a quiet mode when calling rpm where no upgrade status are printed.
+Quiet mode: when calling rpm no upgrade status is printed.
 .IP "\fB\-v\fP"
 Proposes a verbose mode with various messages.
 .SH FILES
@@ -166,9 +169,9 @@ Proposes a verbose mode with various messages.
 The \fBurpmi\fP executable (perl script)
 .TP
 .FN /var/lib/urpmi/list.*
-Contains the list of all packages known by urpmi and their location only
-if a password is used to access distant location (using network protocol) or
-various directory are used to store packages.
+Contains the list of all packages known by urpmi and their location. This file
+is only used when a password is used to access a distant location (using a
+network protocol) or when various directories are used to store the packages.
 .TP
 .FN /var/lib/urpmi/hdlist.*
 Contains information about all known packages; it's a summary of rpm headers.
