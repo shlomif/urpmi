@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.0
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -112,6 +112,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Thu Nov 15 2001 François Pons <fpons@mandrakesoft.com> 2.0-4mdk
+- first stable support for updating synthesis file.
+
 * Mon Nov 12 2001 François Pons <fpons@mandrakesoft.com> 2.0-3mdk
 - added minimal support for updating synthesis file (untested).
 - fixed requires resolution bug (thanks to Borsenkow Andrej).

@@ -69,7 +69,7 @@ sub new {
     bless {
 	   config     => "/etc/urpmi/urpmi.cfg",
 	   skiplist   => "/etc/urpmi/skip.list",
-		 instlist   => "/etc/urpmi/inst.list",
+	   instlist   => "/etc/urpmi/inst.list",
 	   depslist   => "/var/lib/urpmi/depslist.ordered",
 	   provides   => "/var/lib/urpmi/provides",
 	   compss     => "/var/lib/urpmi/compss",
@@ -118,6 +118,7 @@ sub read_config {
 		/^removable\s*:\s*(.*)$/ and $medium->{removable} = $1, next;
 		/^update\s*$/ and $medium->{update} = 1, next;
 		/^ignore\s*$/ and $medium->{ignore} = 1, next;
+		/^synthesis\s*$/ and $medium->{synthesis} = 1, next;
 		/^modified\s*$/ and $medium->{modified} = 1, next;
 		$_ eq '}' and last;
 		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
@@ -186,7 +187,7 @@ sub read_config {
     unless ($options{nocheck_access}) {
 	foreach (@{$urpm->{media}}) {
 	    $_->{ignore} and next;
-	    -r "$urpm->{statedir}/$_->{hdlist}" or
+	    -r "$urpm->{statedir}/$_->{hdlist}" || -r "$urpm->{statedir}/synthesis.$_->{hdlist}" && $_->{synthesis} or
 	      $_->{ignore} = 1, $urpm->{error}(_("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
 	    $_->{list} && -r "$urpm->{statedir}/$_->{list}" or
 	      $_->{ignore} = 1, $urpm->{error}(_("unable to access list file of \"%s\", medium ignored", $_->{name}));
@@ -285,7 +286,7 @@ sub write_config {
 	foreach (qw(hdlist with_hdlist list removable)) {
 	    $medium->{$_} and printf F "  %s: %s\n", $_, $medium->{$_};
 	}
-	foreach (qw(update ignore modified)) {
+	foreach (qw(update ignore synthesis modified)) {
 	    $medium->{$_} and printf F "  %s\n", $_;
 	}
 	printf F "}\n\n";
@@ -415,24 +416,10 @@ sub select_media {
 
 sub build_synthesis_hdlist {
     my ($urpm, $medium) = @_;
-    my $params = new rpmtools;
 
-    push @{$params->{flags}}, 'sense'; #- make sure to enable sense flags.
-    $urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-    $params->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or return;
-    eval {
-	unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-	local *F;
-	open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
-	foreach my $p (values %{$params->{info}}) {
-	    foreach (qw(provides requires)) {
-		@{$p->{$_} || []} > 0 and
-		  print F "$p->{name}\@$_\@" . join('@', map { s/\[\*\]//g; s/\[(.*)\]/ $1/g; $_ } @{$p->{$_}}) . "\n";
-	    }
-	}
-	close F or die "unable to use gzip for compressing hdlist synthesis";
-    };
-    if ($@) {
+    #- building synthesis file using parsehdlist output, need 3.1-5mdk or above.
+    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+    if (system "parsehdlist --compact --name --provides --requires '$urpm->{statedir}/$medium->{hdlist}' | gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'") {
 	unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 	$urpm->{error}(_("unable to build synthesis file for medium \"%s\"", $medium->{name}));
 	return;
@@ -516,6 +503,7 @@ sub update_media {
 						      "$urpm->{cachedir}/partial/$medium->{hdlist}", @files);
 		    };
 		    $@ and $error = 1, $urpm->{error}(_("unable to build hdlist: %s", $@));
+		    $error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
 		} else {
 		    $error = 1;
 		    $urpm->{error}(_("no rpm files found from [%s]", $dir));
@@ -533,8 +521,13 @@ sub update_media {
 
 	    #- try to sync (copy if needed) local copy after restored the previous one.
 	    unlink "$urpm->{cachedir}/partial/$basename";
-	    $options{force} >= 2 || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
-	      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+	    if ($medium->{synthesis}) {
+		$options{force} >= 2 || ! -e "$urpm->{statedir}/synthesis.$medium->{hdlist}" or
+		  system("cp", "-a", "$urpm->{statedir}/synthesis.$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+	    } else {
+		$options{force} >= 2 || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
+		  system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+	    }
 	    system("wget", "-NP", "$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
 	    $? == 0 or $error = 1, $urpm->{error}(_("wget of [%s] failed (maybe wget is missing?)",
 						    "<source_url>/$medium->{with_hdlist}"));
@@ -572,20 +565,25 @@ sub update_media {
 		}
 	    } else {
 		local (*F, $_);
-		open F, "parsehdlist '$urpm->{cachedir}/partial/$medium->{hdlist}' |";
-		while (<F>) {
-		    /^([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
-		    $list{"$medium->{url}/$_"} = ($urpm->{params}{names}{$1} || { id => 1000000000 })->{id};
+		unless ($medium->{synthesis}) {
+		    open F, "parsehdlist --name '$urpm->{cachedir}/partial/$medium->{hdlist}' |";
+		    while (<F>) {
+			/^([^\/]*):name:([^\/\s:]*)(?::(.*)\.rpm)?$/;
+			$list{"$medium->{url}/". ($3 || $2) .".rpm\n"} = ($urpm->{params}{names}{$1} || { id => 1000000000 }
+									 )->{id};
+		    }
+		    close F or $medium->{synthesis} = 1; #- try hdlist as a synthesis (for probe)
 		}
-		unless (close F) {
+		if ($medium->{synthesis}) {
 		    if (my @founds = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}")) {
 			#- it appears hdlist file is a synthesis one in fact.
 			#- parse_synthesis returns all full name of package read from it.
 			foreach (@founds) {
-			    /^([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*/;
-			    $list{"$medium->{url}/$_"} = ($urpm->{params}{names}{$1} || { id => 1000000000 })->{id};
+			    my $fullname = "$_->{name}-$_->{version}-$_->{release}.$_->{arch}";
+			    $list{"$medium->{url}/". ($_->{file} || $fullname) .".rpm\n"} = ($urpm->{params}{names}{$_->{name}} ||
+											     { id => 1000000000 }
+											    )->{id};
 			}
-			$medium->{synthesis} = 1; #- mark hdlist as synthesis in fact.
 		    } else {
 			$error = 1, $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
 			delete $medium->{synthesis}; #- make sure synthesis property is no more set.
@@ -621,12 +619,14 @@ sub update_media {
 
 	    #- but use newly created file.
 	    unlink "$urpm->{statedir}/$medium->{hdlist}";
+	    $medium->{synthesis} and unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 	    unlink "$urpm->{statedir}/$medium->{list}";
-	    rename "$urpm->{cachedir}/partial/$medium->{hdlist}", "$urpm->{statedir}/$medium->{hdlist}";
+	    rename "$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
+	      "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}";
 	    rename "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}";
 
 	    #- and create synthesis file associated.
-	    $urpm->build_synthesis_hdlist($medium);
+	    $medium->{synthesis} or $urpm->build_synthesis_hdlist($medium);
 	}
     }
 
@@ -658,18 +658,13 @@ sub update_media {
 		if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_?[^_:]*|file):\/(.*)/) {
 		    #- the directory should be existing in any cases or this is an error
 		    #- so there is no need of trying to mount it.
-		    if (-e "$dir/$basedir/$basename") {
-			system("cp", "-f", "$dir/$basedir/$basename", $target);
-			$? == 0 or $urpm->{error}(_("unable to copy source of [%s] from [%s]",
-						    $target, "$dir/$basedir/$basename")), last;
-		    } else {
-			$urpm->{error}(_("source of [%s] not found as [%s]", $target, "$dir/$basedir/$basename")), last;
-		    }
+		    -e "$dir/$basedir/$basename" or last;
+		    system("cp", "-f", "$dir/$basedir/$basename", $target);
+		    $? == 0 or last;
 		} else {
-		    #- we have to use wget here instead.
+		    #- we have to use wget here instead, no error printed.
 		    system("wget", "-O", $target, "$medium->{url}/$basedir/$basename");
-		    $? == 0 or $urpm->{error}(_("wget of [%s] failed (maybe wget is missing?)",
-						"$medium->{url}/$basedir/$basename")), last;
+		    $? == 0 or last;
 		}
 	    }
 	}
@@ -680,16 +675,26 @@ sub update_media {
 
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
-		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
+		if ($medium->{synthesis}) {
+		    $urpm->{log}(_("reading synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+		    $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+		} else {
+		    $urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+		    $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
+		}
 	    }
 
 	    $urpm->{log}(_("keeping only files referenced in provides"));
 	    $urpm->{params}->keep_only_cleaned_provides_files();
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
-		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
+		if ($medium->{synthesis}) {
+		    $urpm->{log}(_("reading synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+		    $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+		} else {
+		    $urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+		    $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
+		}
 	    }
 	    if ($options{depslist}) {
 		$urpm->{log}(_("computing dependencies"));
@@ -886,18 +891,32 @@ sub filter_active_media {
     #- now get rpm file name in hdlist to match list file.
     require packdrake;
     foreach my $medium (@{$urpm->{media} || []}) {
-	if (-r "$urpm->{statedir}/$medium->{hdlist}" && ($medium->{active} ||
-							 $options{use_update} && $medium->{update}) && !$medium->{ignore}) {
-	    my $packer = eval { new packdrake("$urpm->{statedir}/$medium->{hdlist}"); };
-	    $packer or $urpm->{error}(_("unable to parse correctly [%s]", "$urpm->{statedir}/$medium->{hdlist}")), next;
-	    foreach (@{$packer->{files}}) {
-		$packer->{data}{$_}[0] eq 'f' or next;
-		if (my ($fullname) = /^([^:\s]*-[^:\-\s]+-[^:\-\s]+\.[^:\.\-\s]*)(?::\S+)?/) {
-		    my $id = delete $fullname2id{$fullname};
+	if (($medium->{active} || $options{use_update} && $medium->{update}) && !$medium->{ignore}) {
+	    if ($medium->{synthesis} && -r "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
+		local (*F, $_);
+		open F, "gzip -dc '$urpm->{statedir}/synthesis.$medium->{hdlist}' |";
+		while (<F>) {
+		    chomp;
+		    my ($name, $tag, @data) = split '@';
+		    $tag eq 'name' or next;
+		    my $id = delete $fullname2id{$data[0]};
 		    defined $id and $urpm->{params}{depslist}[$id]{active} = 1;
-		} else {
-		    $urpm->{log}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{hdlist}", $_));
 		}
+	    } elsif (-r "$urpm->{statedir}/$medium->{hdlist}") {
+		my $packer = eval { new packdrake("$urpm->{statedir}/$medium->{hdlist}"); };
+		$packer or $urpm->{error}(_("unable to parse correctly [%s]", "$urpm->{statedir}/$medium->{hdlist}")), next;
+		foreach (@{$packer->{files}}) {
+		    $packer->{data}{$_}[0] eq 'f' or next;
+		    if (my ($fullname) = /^([^:\s]*-[^:\-\s]+-[^:\-\s]+\.[^:\.\-\s]*)(?::\S+)?/) {
+			my $id = delete $fullname2id{$fullname};
+			defined $id and $urpm->{params}{depslist}[$id]{active} = 1;
+		    } else {
+			$urpm->{log}(_("unable to parse correctly [%s] on value \"%s\"",
+				       "$urpm->{statedir}/$medium->{hdlist}", $_));
+		    }
+		}
+	    } else {
+		$urpm->{error}(_("no hdlist file found for medium \"%s\"", $medium->{name}));
 	    }
 	}
     }
@@ -1270,41 +1289,49 @@ sub parse_synthesis {
     my ($urpm, $synthesis) = @_;
 
     local (*F, $_);
-    my ($error, @founds, %info);
+    my ($error, $last_name, @founds, %info);
+
+    #- check with provides that version and release are matching else ignore safely.
+    #- simply ignore src rpm, which does not have any provides.
     my $update_info = sub {
 	my $found;
-	#- check with provides that version and release are matching else ignore safely.
-	#- simply ignore src rpm, which does not have any provides.
-	$info{name} && $info{provides} or return;
-	foreach (@{$info{provides}}) {
-	    if (/(\S*)\s*==\s*(?:\d+:)?([^-]*)-([^-]*)/ && $info{name} eq $1) {
-		my $pre_fullname = "$1-$2-$3";
-		foreach (@{$urpm->{params}{provides}{$1}}) {
-		    if (/(.*?-[^-]*-[^-]*)\.([^\-\.]*)$/ && $pre_fullname eq $1 && ($found = $urpm->{params}{info}{$_})) {
-			foreach my $tag (keys %info) {
-			    #print STDERR "titi $tag $_, ", join(", ", keys(%$found), values(%$found), 'END'), "\n" if /xterm/;
-			    $found->{$tag} ||= $info{$tag};
-			}
-			push @founds, $_;
-			return 1; #- we have found the right info.
-		    }
+	my ($fullname, $file) = @{$info{name} || []} or return;
+	unless ($found = $urpm->{params}{info}{$fullname}) {
+	    #- the entry does not exists *AND* should be created (in info, names and provides hashes)
+	    if ($fullname =~ /^(.*?)-([^-]*)-([^-]*)\.([^\-\.]*)$/) {
+		$found = $urpm->{params}{info}{$fullname} = $urpm->{params}{names}{$1} =
+		  { name => $1, version => $2, release => $3, arch => $4 };
+		#- get back epoch from provides list, if it is defined and create entry too.
+		foreach (@{$info{provides} || []}) {
+		    /(\S*)\s*==\s*(\d+:)?[^-]*-[^-]*/ && $found->{name} eq $1 && $2 > 0 and $found->{serial} = $2;
+		    /(\S*)/ and push @{$urpm->{params}{provides}{$1} ||= []}, $fullname;
 		}
 	    }
 	}
-	$found and return 0;  #- we are sure having found a package but with wrong version or release.
-	#- at this level, nothing in params has been found, this could be an error so
-	#- at least print an error message.
-	$urpm->{log}(_("unknown data associated with %s", $info{name}));
-	return;
+	if ($found) {
+	    #- an already existing entries has been found, so
+	    #- add additional information (except name)
+	    foreach my $tag (keys %info) {
+		$tag ne 'name' and $found->{$tag} ||= $info{$tag};
+	    }
+	    #- help remind rpm filename.
+	    $file and $found->{file} ||= $file;
+	    #- keep track of package found.
+	    push @founds, $found;
+	} else {
+	    #- fullname is incoherent or not found (and not created).
+	    $urpm->{log}(_("unknown data associated with %s", $fullname));
+	}
     };
 
     open F, "gzip -dc '$synthesis' |";
     while (<F>) {
 	chomp;
 	my ($name, $tag, @data) = split '@';
-	if ($name ne $info{name}) {
+	if ($name ne $last_name) {
 	    $update_info->();
-	    %info = ( name => $name );
+	    $last_name = $name;
+	    %info = ();
 	}
 	$info{$tag} = \@data;
     }
@@ -1583,16 +1610,29 @@ sub get_source_packages {
     #- now get rpm file name in hdlist to match list file.
     require packdrake;
     foreach my $medium (@{$urpm->{media} || []}) {
-	if (-r "$urpm->{statedir}/$medium->{hdlist}" && -r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
-	    my $packer = eval { new packdrake("$urpm->{statedir}/$medium->{hdlist}"); };
-	    $packer or $urpm->{error}(_("unable to parse correctly [%s]", "$urpm->{statedir}/$medium->{hdlist}")), next;
-	    foreach (@{$packer->{files}}) {
-		$packer->{data}{$_}[0] eq 'f' or next;
-		if (my ($fullname, $file) = /^([^:\s]*-[^:\-\s]+-[^:\-\s]+\.[^:\.\-\s]*)(?::(\S+))?/) {
-		    $file2fullnames{$file || $fullname}{$fullname} = undef;
-		} else {
-		    $urpm->{log}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{hdlist}", $_));
+	if (-r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
+	    if ($medium->{synthesis} && -r "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
+		#- rpm filename is stored in synthesis file now.
+		my @list = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+		@list > 0 or $urpm->{log}(_("unable to parse correctly [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+		foreach (@list) {
+		    my $fullname = "$_->{name}-$_->{version}-$_->{release}.$_->{arch}";
+		    $file2fullnames{($_->{file} =~ /(.*)\.rpm$/ && $1) || $fullname}{$fullname} = undef;
 		}
+	    } elsif (-r "$urpm->{statedir}/$medium->{hdlist}") {
+		my $packer = eval { new packdrake("$urpm->{statedir}/$medium->{hdlist}"); };
+		$packer or $urpm->{error}(_("unable to parse correctly [%s]", "$urpm->{statedir}/$medium->{hdlist}")), next;
+		foreach (@{$packer->{files}}) {
+		    $packer->{data}{$_}[0] eq 'f' or next;
+		    if (my ($fullname, $file) = /^([^:\s]*-[^:\-\s]+-[^:\-\s]+\.[^:\.\-\s]*)(?::(\S+))?/) {
+			$file2fullnames{$file || $fullname}{$fullname} = undef;
+		    } else {
+			$urpm->{log}(_("unable to parse correctly [%s] on value \"%s\"",
+				       "$urpm->{statedir}/$medium->{hdlist}", $_));
+		    }
+		}
+	    } else {
+		$urpm->{error}(_("no hdlist file found for medium \"%s\"", $medium->{name}));
 	    }
 	}
     }
@@ -1624,7 +1664,7 @@ sub get_source_packages {
     foreach my $medium (@{$urpm->{media} || []}) {
 	my @sources;
 
-	if (-r "$urpm->{statedir}/$medium->{hdlist}" && -r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
+	if (-r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
 	    open F, "$urpm->{statedir}/$medium->{list}";
 	    while (<F>) {
 		if (/(.*)\/([^\/]*)\.rpm$/) {
@@ -1815,6 +1855,14 @@ sub select_packages_to_upgrade {
 	close OUTPUT_CHILD;
 	select((select(OUTPUT), $| = 1)[0]);
 
+	#- for medium not having hdlist (because of only synthesis file used)
+	#- let parse synthesis file.
+	foreach (grep { -r $_ && -s $_ }
+		 map { "$urpm->{statedir}/synthesis.$_->{hdlist}" }
+		 grep { $_->{synthesis} && ! $_->{ignore} } @{$urpm->{media}}) {
+	    $urpm->parse_synthesis($_);
+	}
+
 	#- internal reading from interactive mode of parsehdlist.
 	#- takes a code to call with the line read, this avoid allocating
 	#- memory for that.
@@ -1984,7 +2032,8 @@ sub select_packages_to_upgrade {
 	close OUTPUT;
 	open STDIN, "<&INPUT_CHILD";
 	open STDOUT, ">&OUTPUT_CHILD";
-	exec "parsehdlist", "--interactive", map { "$urpm->{statedir}/$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media}}
+	exec "parsehdlist", "--interactive", (map { "$urpm->{statedir}/$_->{hdlist}" }
+					      grep { ! $_->{synthesis} && ! $_->{ignore} } @{$urpm->{media}})
 	  or rpmtools::_exit(1);
     }
 
