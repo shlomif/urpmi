@@ -26,7 +26,17 @@ import urpm _;
 
 sub main {
     my ($name, $url, $with, $relative_hdlist, %options);
-    my $mirrors = $ENV{URPMI_MIRRORS} || 'http://www.linux-mandrake.com/mirrorsfull.list';
+    #- parse /etc/urpmi/mirror.config if present, or use default mandrake mirror.
+    my $mirrors = 'http://www.linux-mandrake.com/mirrorsfull.list';
+    if (-e "/etc/urpmi/mirror.config") {
+	local (*F, $_);
+	open F, "/etc/urpmi/mirror.config";
+	while (<F>) {
+	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	    /^url\s*=\s*(.*)/ and $mirrors = $1;
+	}
+	close F;
+    }
 # Translator: The URI types strings 'file:', 'ftp:', 'http:',
 # Translator: and 'removable:' must not be translated!
 # Translator: neither the ``with''.
@@ -102,7 +112,7 @@ and [options] are from
 	last;
     }
     #- allow not to give name immediately.
-    $url or ($url, $name) = ($name, '');
+    $options{distrib} or $url or ($url, $name) = ($name, '');
     my ($type) = $url =~ m,^([^:]*)://, or $options{distrib} or die $usage;
 
     $urpm->read_config;
@@ -112,7 +122,7 @@ and [options] are from
 	    #- extended distribution support, code is directly inlined here.
 	    #- -h always set, updates should allow setting update flag.
 	    $options{probe_with_hdlist} = 1;
-	    $options{distrib} =~ /update/ and $options{update} = 1;
+	    $options{distrib} eq 'updates' and $options{update} = 1;
 	    #- official site by default.
 	    $options{from} ||= $mirrors;
 	    #- get default value unless already provided.
@@ -144,14 +154,22 @@ and [options] are from
 	    local *F;
 	    open F, "$urpm->{cachedir}/partial/$basename";
 	    while (<F>) {
-		chomp;
-		my ($burl, $relative_hdlist) = /^$heading$qarch:(.*?)(?:\s+with\+(.*))?$/ or next;
-		!$url || $burl =~ /$url/ or next;
-		$urpm->add_medium("$name$i",
-				  $options{distrib} eq 'updates' ? "$burl/$options{version}/RPMS" :
-				  $options{distrib} eq 'contrib' ? $burl."2" : $burl,
-				  ($options{distrib} ne 'contrib' || $options{version} ne 'cooker') && $relative_hdlist,
-				  update => $options{update});
+		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+		my ($v, $a, $l, $burl, $relative_hdlist);
+		if (($v, $a, $l, $burl, $relative_hdlist) = /^$heading:([^:]*):([^:]*):([^:]*):(\S*)(?:\s+with\s+(.*))?$/) {
+		    $v eq '*' || $v eq $options{version} or next;
+		    $a eq '*' || $a eq $options{arch} or next;
+		} elsif (($a, $burl) = /^$heading([^:]*):(\S*)$/) {
+		    $a eq $options{arch} or next;
+		    $options{distrib} eq 'updates' and $burl = "$burl/$options{version}/RPMS";
+		    $options{distrib} eq 'contrib' and $burl = $burl."2";
+		} else {
+		    # it could a blank line (from a commentary) or source description.
+		    next;
+		}
+		#- sort according to url or location if possible.
+		!$url || $l && $l =~ /$url/i || $burl =~ /$url/i or next;
+		$urpm->add_medium("$name$i", $burl, $relative_hdlist, update => $options{update});
 		++$i;
 	    }
 	    close F;

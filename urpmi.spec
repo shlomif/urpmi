@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,13 @@ fi
 
 
 %changelog
+* Fri Nov 29 2002 François Pons <fpons@mandrakesoft.com> 4.1-5mdk
+- changed urpmi.addmedia behaviour to use /etc/urpmi/mirror.config
+  and allow it to parse urpmi.setup mirror configuration as
+  well as Mandrake (old) mirror configuration.
+- allow blank url to be given to get all mirror for a given version
+  and architecture.
+
 * Fri Nov 29 2002 François Pons <fpons@mandrakesoft.com> 4.1-4mdk
 - allow urpmi <url> to work with rpm filename with all supported
   protocols (ftp, http, ssh, rsync).
