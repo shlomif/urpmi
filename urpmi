@@ -264,6 +264,7 @@ foreach (@$local_to_removes) {
 }
 
 my @sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'), sub {
+						$auto and return; #- always refuse if automatic.
 						my $msg = sprintf(_("Please insert the medium named \"%s\" on device [%s]"), @_);
 						my $msg2 = _("Press enter when it's done...");
 						if ($X) {
