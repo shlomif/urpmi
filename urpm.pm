@@ -2019,20 +2019,21 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 	}
 
-	foreach (@{$urpm->{media}}) {
-	    unlink "$urpm->{statedir}/names.$_->{name}";
-	    if (defined $_->{start} && defined $_->{end}) {
-		local *F;
-		open F, ">$urpm->{statedir}/names.$_->{name}";
-		foreach ($_->{start} .. $_->{end}) {
-		    print F $urpm->{depslist}[$_]->name."\n";
-		}
-		close F;
-	    }
-	}
-
 	#- this file is written in any cases.
 	$urpm->write_config();
+    }
+
+    #- make sure names files are regenerated.
+    foreach (@{$urpm->{media}}) {
+	unlink "$urpm->{statedir}/names.$_->{name}";
+	if (defined $_->{start} && defined $_->{end}) {
+	    local *F;
+	    open F, ">$urpm->{statedir}/names.$_->{name}";
+	    foreach ($_->{start} .. $_->{end}) {
+		print F $urpm->{depslist}[$_]->name."\n";
+	    }
+	    close F;
+	}
     }
 
     $options{nolock} or $urpm->unlock_urpmi_db;
