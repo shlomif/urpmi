@@ -41,6 +41,7 @@ my $rpm_opt = "vh";
 my $use_provides = 1;
 my $fuzzy = 0;
 my $src = 0;
+my $install_src = 0;
 my $clean = 0;
 my $noclean = 0;
 my $pre_clean_cache = 0;
@@ -80,6 +81,7 @@ usage:
 ") . _("  --auto-select  - automatically select packages to upgrade the system.
 ") . _("  --fuzzy        - impose fuzzy search (same as -y).
 ") . _("  --src          - next package is a source package (same as -s).
+") . _("  --install-src  - install only source package (no binaries).
 ") . _("  --clean        - remove rpm from cache before anything else.
 ") . _("  --noclean      - keep rpm not used in cache.
 ") . _("  --force        - force invocation even if some packages do not exist.
@@ -132,6 +134,7 @@ while (defined($_ = shift @ARGV)) {
     /^--auto-select$/ and do { $auto_select = 1; next };
     /^--fuzzy$/ and do { $fuzzy = 1; next };
     /^--src$/ and do { $src = 1; next };
+    /^--install-src$/ and do { $install_src = 1; next };
     /^--clean$/ and do { $clean = 1; $noclean = 0; next };
     /^--noclean$/ and do { $clean = $pre_clean_cache = $post_clean_cache = 0; $noclean = 1; next };
     /^--(no-)?pre-clean$/ and do { $pre_clean_cache = !$1; next };
@@ -205,6 +208,13 @@ while (defined($_ = shift @ARGV)) {
 my $urpm = new urpm;
 my ($pid_out, $pid_err);
 
+#- use install_src to promote all names as src package.
+if ($install_src) {
+    @files and $urpm->{fatal}(1, _("What can be done with binary rpm files when using --install-src"));
+    push @src_names, @names;
+    @names = ();
+}
+
 #- prepare bug report.
 if ($bug) {
     system("rm", "-rf", $bug);
@@ -222,7 +232,7 @@ if ($bug) {
 }
 
 if ($env) {
-    print STDERR "using specific environment on $env\n";
+    print STDERR _("using specific environment on %s\n", $env);
     $log = "$env/urpmi_env.log";
     unlink $log;
     #- setting new environment.
@@ -233,14 +243,7 @@ if ($env) {
 } else {
     if ($uid > 0) {
 	#- only src files are installable using urpmi.
-	@names || @files and $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
-
-	#- allow installation.
-	if (@src_files) {
-	    system("rpm", "-i$rpm_opt", @src_files, ($root ? ("--root", $root) : ()));
-	    $? and message(_("Installation failed")), exit 1;
-	}
-	exit 0;
+	$install_src || $root or @names || @files and $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
     } else {
 	#- allow log if not defined.
 	$log ||= "/var/log/urpmi.log";
@@ -277,6 +280,9 @@ if ($log) {
     }
     select STDERR; $| = 1;     # make unbuffered
     select STDOUT; $| = 1;     # make unbuffered
+} else {
+    open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
+    open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
 }
 
 #- use specific sync routine.
@@ -357,6 +363,7 @@ $urpm->resolve_dependencies($state, \%requested,
 			    rpmdb => $env && "$env/rpmdb.cz",
 			    auto_select => $auto_select,
 			    callback_choices => \&ask_choice,
+			    install_src => $install_src,
 			   );
 
 if (%{$state->{ask_unselect} || {}}) {
@@ -409,9 +416,9 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
     $ask_user ||= $pkg->flag_required || $auto_select || $parallel;
 
     my $fullname = $pkg->fullname;
-    if (!$env && $uid > 0 && $pkg->arch ne 'src') {
+    if (!$env && $install_src && $pkg->arch ne 'src') {
 	push @root_only, $fullname;
-    } elsif ($uid > 0 || $pkg->arch ne 'src') {
+    } elsif ($install_src || $pkg->arch ne 'src') {
 	$sum += $pkg->size;
 	push @to_install, $fullname;
     }
@@ -464,43 +471,60 @@ my %sources = $urpm->download_source_packages($local_sources, $list,
 					      });
 my %sources_install = %{$urpm->extract_packages_to_install(\%sources) || {}};
 
-if (%sources_install || %sources) {
-    if ($verify_rpm) {
-	my @invalid_sources;
+if ($verify_rpm) {
+    my @invalid_sources;
 
-	foreach (values %sources_install, values %sources) {
-	    URPM::verify_rpm($_) =~ /NOT OK/ and push @invalid_sources, $_;
-	}
+    foreach (values %sources_install, values %sources) {
+	URPM::verify_rpm($_) =~ /NOT OK/ and push @invalid_sources, $_;
+    }
 
-	if (@invalid_sources) {
-	    my $msg = _("The following packages have bad signatures");
-	    my $msg2 = _("Do you want to continue installation ?");
-	    my $p = join "\n", @invalid_sources;
-	    if ($auto) {
-		message("$msg:\n$p\n", 'noX');
-		exit 1;
+    if (@invalid_sources) {
+	my $msg = _("The following packages have bad signatures");
+	my $msg2 = _("Do you want to continue installation ?");
+	my $p = join "\n", @invalid_sources;
+	if ($auto) {
+	    message("$msg:\n$p\n", 'noX');
+	    exit 1;
+	} else {
+	    if ($X) {
+		my $ok = _("Ok");
+		my $cancel = _("Cancel");
+		`gmessage -default $cancel -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
+		$? and exit 1;
 	    } else {
-		if ($X) {
-		    my $ok = _("Ok");
-		    my $cancel = _("Cancel");
-		    `gmessage -default $cancel -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
-		    $? and exit 1;
-		} else {
-		    $noexpr = _("Nn");
-		    $yesexpr = _("Yy");
-		    message_input("$msg:\n$p\n$msg2" . _(" (y/N) ")) =~ /[$yesexpr]/ or exit 1;
-		}
+		$noexpr = _("Nn");
+		$yesexpr = _("Yy");
+		message_input("$msg:\n$p\n$msg2" . _(" (y/N) ")) =~ /[$yesexpr]/ or exit 1;
 	    }
 	}
     }
+}
 
-    #- check for local files.
-    if (my @missing = grep { m|^/| && ! -e $_ } values %sources_install, values %sources) {
-	message(_("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
-		  join "\n", map { "    $_" } @missing));
-	exit 2;
+#- check for local files.
+if (my @missing = grep { m|^/| && ! -e $_ } values %sources_install, values %sources) {
+    message(_("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+	      join "\n", map { "    $_" } @missing));
+    exit 2;
+}
+
+#- install source package only (whatever the user is root or not, but use rpm for that).
+if ($install_src) {
+    if (my @l = grep { /\.src\.rpm$/ } values %sources_install, values %sources) {
+	system("rpm", "-i$rpm_opt", @l, ($root ? ("--root", $root) : ()));
+	$? and message(_("Installation failed")), exit 1;
     }
-    
+    exit 0;
+}
+
+#- clean to remove any src package now.
+foreach (\%sources_install, \%sources) {
+    foreach my $id (keys %$_) {
+	my $pkg = $urpm->{depslist}[$id] or next;
+	$pkg->arch eq 'src' and delete $_->{$id};
+    }
+}
+
+if (%sources_install || %sources) {
     if ($parallel) {
 	message(_("distributing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	#- no remove are handle here, automatically done by each distant node.
@@ -511,63 +535,57 @@ if (%sources_install || %sources) {
 	message(_("installing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
 	$urpm->{log}("starting installing packages");
-	if ($uid > 0) {
-	    system("rpm", "-i$rpm_opt", values %sources_install, values %sources,
-		   ($root ? ("--root", $root) : ()), ($test ? ("--test", $test) : ()));
-	    $? and message(_("Installation failed")), exit 1;
-	    exit 0;
+	if ($X && !$root && !$test) {
+	    system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove} || {}});
+	    system("grpmi", $WID ? ("--WID=$WID") : (),
+		   (map { ("-noupgrade", $_) } values %sources_install), values %sources);
+	    if ($?) {
+		#- grpmi handles --nodeps and --force by itself,
+		#- and $WID is defined when integrated in rpminst.
+		$WID or message(_("Installation failed"));
+		exit(($? >> 8) + 32); #- forward grpmi error + 32
+	    }
 	} else {
-	    if ($X && !$root && !$test) {
-		system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove} || {}});
-		system("grpmi", $WID ? ("--WID=$WID") : (),
-		       (map { ("-noupgrade", $_) } values %sources_install), values %sources);
-		if ($?) {
-		    #- grpmi handles --nodeps and --force by itself,
-		    #- and $WID is defined when integrated in rpminst.
-		    $WID or message(_("Installation failed"));
-		    exit(($? >> 8) + 32); #- forward grpmi error + 32
-		}
-	    } else {
-		my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				       translate_message => 1,
-				       oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
-				       test => $test, excludepath => $excludepath);
+	    my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+				   translate_message => 1,
+				   oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
+				   test => $test, excludepath => $excludepath);
+	    if (@l) {
+		message(_("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
+
+		m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
+		$auto || !$allow_nodeps && !$allow_force and exit 1; #- if auto has been set, avoid asking user.
+
+		$noexpr = _("Nn");
+		$yesexpr = _("Yy");
+		message_input(_("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+		  or exit 1;
+		$urpm->{log}("starting installing packages without deps");
+		@l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+				    translate_message => 1, nodeps => 1,
+				    oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
+				    test => $test, excludepath => $excludepath);
 		if (@l) {
-		    message(_("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
-
-		    m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
-		    $auto || !$allow_nodeps && !$allow_force and exit 1; #- if auto has been set, avoid asking user.
-
-		    $noexpr = _("Nn");
-		    $yesexpr = _("Yy");
-		    message_input(_("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+		    message(_("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+		    !$allow_force and exit 1;
+		    message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
 		      or exit 1;
-		    $urpm->{log}("starting installing packages without deps");
+		    $urpm->{log}("starting force installing packages without deps");
 		    @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-					translate_message => 1, nodeps => 1,
+					translate_message => 1, nodeps => 1, force => 1,
 					oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
 					test => $test, excludepath => $excludepath);
-		    if (@l) {
-			message(_("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
-			!$allow_force and exit 1;
-			message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-			  or exit 1;
-			$urpm->{log}("starting force installing packages without deps");
-			@l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-					    translate_message => 1, nodeps => 1, force => 1,
-					    oldpackage => $state->{oldpackage}, post_clean_cache => $post_clean_cache,
-					    test => $test, excludepath => $excludepath);
-			@l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
-		    }
-		} else {
-		    $test and message(_("Installation is possible"));
+		    @l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 		}
+	    } else {
+		$test and message(_("Installation is possible"));
 	    }
 	}
     }
 } else {
     message(_("everything already installed"), $auto);
 }
+
 #- try to umount removable device which may have been mounted.
 $urpm->try_umounting_removables;
 

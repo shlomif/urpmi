@@ -62,7 +62,7 @@ usage:
 ") . _("  -v             - verbose mode.
 ") . _("  -d             - extend query to package dependencies.
 ") . _("  -u             - remove package if a more recent version is already installed.
-") . _("  -c             - choose complete method for resolving requires closure.
+") . _("  -c             - complete output with package to removes.
 ") . _("  -P             - do not search in provides to find package.
 ") . _("  -R             - reverse search to what requires package.
 ") . _("  -y             - impose fuzzy search (same as --fuzzy).
@@ -341,6 +341,11 @@ my $query_sub = sub {
 };
 
 my %hack_only_one;
+if ($query->{complete}) {
+    foreach my $removal (keys %{$state->{ask_remove} || {}}) {
+	print '@removing@' . $removal . "\n";
+    }
+}
 foreach my $id ($state->{selected} ? keys %{$state->{selected}} : keys %requested) {
     my $class = $state->{selected}{$id} || $requested{$id};
     if (ref $class eq 'ARRAY') {

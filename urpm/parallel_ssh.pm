@@ -1,5 +1,22 @@
 package urpm::parallel_ssh;
 
+#- parallel copy
+sub parallel_register_rpms {
+    my ($parallel, $urpm, @files) = @_;
+
+    foreach (keys %{$parallel->{nodes}}) {
+	my $sources = join ' ', map { "'$_'" } @files;
+	$urpm->{log}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms");
+	system "scp $sources $_:$urpm->{cachedir}/rpms";
+    }
+
+    #- keep trace of direct files.
+    foreach (@files) {
+	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+	$parallel->{line} .= "$urpm->{cachedir}/rpms/$basename";
+    }
+}
+
 #- parallel resolve_dependencies
 sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
@@ -12,7 +29,7 @@ sub parallel_resolve_dependencies {
     $parallel->{synthesis} = $synthesis;
 
     #- compute command line of urpm? tools.
-    my $line = $options{auto_select} ? ' --auto-select' : '';
+    my $line = $parallel->{line} . ($options{auto_select} ? ' --auto-select' : '');
     foreach (keys %$requested) {
 	if (/\|/) {
 	    #- taken from URPM::Resolve to filter out choices, not complete though.
@@ -53,11 +70,13 @@ sub parallel_resolve_dependencies {
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    $urpm->{log}("parallel_ssh: ssh $node urpmq --synthesis $synthesis -f $line ".join(' ', keys %chosen));
-	    open F, "ssh $node urpmq --synthesis $synthesis -fdu $line ".join(' ', keys %chosen)." |";
+	    $urpm->{log}("parallel_ssh: ssh $node urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen));
+	    open F, "ssh $node urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen)." |";
 	    while ($_ = <F>) {
 		chomp;
-		if (/\|/) {
+		if (/^\@removing\@(.*)/) {
+		    $state->{ask_remove}{$1}{$node};
+		} elsif (/\|/) {
 		    #- distant urpmq returned a choices, check if it has already been chosen
 		    #- or continue iteration to make sure no more choices are left.
 		    $cont ||= 1; #- invalid transitory state (still choices is strange here if next sentence is not executed).
@@ -84,7 +103,7 @@ sub parallel_resolve_dependencies {
     } while ($cont);
 
     #- keep trace of what has been chosen finally (if any).
-    $parallel->{line} = "$line ".join(' ', keys %chosen);
+    $parallel->{line} .= "$line ".join(' ', keys %chosen);
 
     #- update ask_remove, ask_unselect too along with provided value.
     #TODO

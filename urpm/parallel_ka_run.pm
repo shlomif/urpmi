@@ -1,5 +1,19 @@
 package urpm::parallel_ka_run;
 
+#- parallel copy
+sub parallel_register_rpms {
+    my ($parallel, $urpm, @files) = @_;
+
+    $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- ".join(' ', @files)." $urpm->{cachedir}/rpms/");
+    system "mput", split(' ', $parallel->{options}), '--', @files, "$urpm->{cachedir}/rpms/";
+
+    #- keep trace of direct files.
+    foreach (@files) {
+	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+	$parallel->{line} .= "$urpm->{cachedir}/rpms/$basename";
+    }
+}
+
 #- parallel resolve_dependencies
 sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
@@ -11,7 +25,7 @@ sub parallel_resolve_dependencies {
     $parallel->{synthesis} = $synthesis;
 
     #- compute command line of urpm? tools.
-    my $line = $options{auto_select} ? ' --auto-select' : '';
+    my $line = $parallel->{line} . ($options{auto_select} ? ' --auto-select' : '');
     foreach (keys %$requested) {
 	if (/\|/) {
 	    #- taken from URPM::Resolve to filter out choices, not complete though.
@@ -52,12 +66,14 @@ sub parallel_resolve_dependencies {
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
-	$urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpmq --synthesis $synthesis -f $line ".join(' ', keys %chosen));
-	open F, "rshp -v $parallel->{options} -- urpmq --synthesis $synthesis -fdu $line ".join(' ', keys %chosen)." |";
+	$urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen));
+	open F, "rshp -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen)." |";
 	while (defined ($_ = <F>)) {
 	    chomp;
 	    s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
-	    if (/\|/) {
+	    if (/^\@removing\@(.*)/) {
+		$state->{ask_remove}{$1}{$node};
+	    } elsif (/\|/) {
 		#- distant urpmq returned a choices, check if it has already been chosen
 		#- or continue iteration to make sure no more choices are left.
 		$cont ||= 1; #- invalid transitory state (still choices is strange here if next sentence is not executed).

@@ -28,7 +28,7 @@ use urpm;
 #- get I18N translation method.
 import urpm _;
 
-my ($auto, $matches, $maymatch, @l, @m, @toremove, %base);
+my ($auto, $matches, $maymatch, @l, @m, %base);
 my $askok = _("Is this OK?");
 my $askrm = _("Remove them all?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
@@ -59,7 +59,7 @@ $state = {};
 
 #- open database to examine packages...
 {
-    my $db = URPM::DB::open('/', 0); #- open in read/write mode directly (so open it only once).
+    my $db = URPM::DB::open;
 
     @l = grep { !/^-/ } @ARGV;
     if (!$matches) {

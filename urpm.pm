@@ -1623,6 +1623,9 @@ sub register_rpms {
     $error and $urpm->{fatal}(1, _("error registering local packages"));
     $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);
 
+    #- distribute local packages to distant nodes directly in cache of each machine.
+    $urpm->{parallel_handler} and $urpm->{parallel_handler}->parallel_register_rpms(@_);
+
     %requested;
 }
 
@@ -1738,8 +1741,15 @@ sub search_packages {
 sub resolve_dependencies {
     my ($urpm, $state, $requested, %options) = @_;
 
-    require URPM::Resolve;
-
+    if ($options{install_src}) {
+	#- only src will be installed, so only update $state->{selected} according
+	#- to src status of files.
+	foreach (%$requested) {
+	    my $pkg = $urpm->{depslist}[$_] or next;
+	    $pkg->arch eq 'src' or next;
+	    $state->{selected}{$_} = undef;
+	}
+    }
     if ($urpm->{parallel_handler}) {
 	#- build the global synthesis file first.
 	my $file = "$urpm->{cachedir}/partial/parallel.cz";
@@ -1752,6 +1762,8 @@ sub resolve_dependencies {
 	$urpm->{parallel_handler}->parallel_resolve_dependencies($file, @_);
     } else {
 	my $db;
+
+	require URPM::Resolve;
 
 	if ($options{rpmdb}) {
 	    $db = new URPM;
