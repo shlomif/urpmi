@@ -1,15 +1,15 @@
 # Korean translation of urpmi.
-# Update-Level: 1kr	(Jaegeum Choe, 2001-03-25)
+# Update-Level: 2kr	(Jaegeum Choe, 2001-04-06)
 # Copyright (C) 2001 Free Software Foundation, Inc.
 # Jaegeum Choe <baedaron@hananet.net>, 2001.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-04-04 08:43+0200\n"
-"PO-Revision-Date: 2001-03-25 16:00+0900\n"
+"POT-Creation-Date: 2001-04-07 04:15+0200\n"
+"PO-Revision-Date: 2001-04-06 18:05+0900\n"
 "Last-Translator: Jaegeum Choe <baedaron@hananet.net>\n"
-"Language-Team: Korean\n"
+"Language-Team: Korean <baedaron@hananet.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=euc-kr\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,19 +30,19 @@ msgstr ""
 msgid "Is it ok?"
 msgstr "계속할까요?"
 
-#: _irpm:33 urpmi:238 urpmi:263
+#: _irpm:33 urpmi:238 urpmi:268
 msgid "Ok"
 msgstr "확인"
 
-#: _irpm:34 urpmi:239 urpmi:264
+#: _irpm:34 urpmi:239 urpmi:269
 msgid "Cancel"
 msgstr "취소"
 
-#: _irpm:40 urpmi:243 urpmi:296
+#: _irpm:40 urpmi:243 urpmi:301
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:244 urpmi:297
+#: _irpm:41 urpmi:244 urpmi:302
 msgid "Yy"
 msgstr "Yy"
 
@@ -170,6 +170,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"사용법: urpmi.update [-a] <이름> ...\n"
+"<이름>은 업데이트할 매체명.\n"
+"   -a    모든 비탈착식 매체 선택.\n"
+"\n"
+"알 수 없는 옵션 「%s」\n"
 
 #: placeholder.h:60
 #, c-format
@@ -180,6 +185,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"사용법: urpmi.removemedia [-a] <이름> ...\n"
+"<이름>은 제거할 매체명.\n"
+"   -a    모든 매체 선택.\n"
+"\n"
+"알 수 없는 옵션 「%s」\n"
 
 #: placeholder.h:67 urpmi.removemedia:53
 #, c-format
@@ -219,33 +229,33 @@ msgid ""
 "(%d MB)"
 msgstr "의존성을 총족시키기 위해, 다음 팩키지들도 설치될 것입니다. (%d MB)"
 
-#: urpmi:260
+#: urpmi:265
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "장치 [%s]에 「%s」미디어를 넣으세요."
 
-#: urpmi:261
+#: urpmi:266
 msgid "Press enter when it's done..."
 msgstr "다 되었으면 ENTER키를 누르세요..."
 
-#: urpmi:275
+#: urpmi:280
 msgid "everything already installed"
 msgstr "모든 것이 이미 설치되어 있습니다."
 
-#: urpmi:286
+#: urpmi:291
 #, c-format
 msgid "installing %s\n"
 msgstr "%s 설치 중...\n"
 
-#: urpmi:291 urpmi:304
+#: urpmi:296 urpmi:309
 msgid "Installation failed"
 msgstr "설치 실패."
 
-#: urpmi:298
+#: urpmi:303
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "의존성 검사없이 설치합니까? (y/N) "
 
-#: urpmi:305
+#: urpmi:310
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "설치를 강제 추진합니까? (y/N) "
 
@@ -256,17 +266,16 @@ msgstr "사용법: urpmi.addmedia <이름> <URL>"
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
-msgstr ""
+msgstr "「%s」매체를 생성할 수 없습니다.\n"
 
 #: urpmi.addmedia:64
 #, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr ""
+msgstr "「%s」매체를 업데이트할 수 없습니다.\n"
 
 #: urpmi.update:43
-#, fuzzy
 msgid "usage: urpmi.update [-a] <name> ..."
-msgstr "사용법: urpmi.addmedia <이름> <URL>"
+msgstr "사용법: urpmi.update [-a] <이름> ..."
 
 #: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
@@ -275,9 +284,8 @@ msgstr ""
 "사용하세요.\n"
 
 #: urpmi.removemedia:39
-#, fuzzy
 msgid "usage: urpmi.removemedia [-a] <name> ..."
-msgstr "사용법: urpmi.addmedia <이름> <URL>"
+msgstr "사용법: urpmi.removemedia [-a] <이름> ..."
 
 #: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
@@ -308,6 +316,3 @@ msgstr ""
 #: urpmq:153
 msgid "unable to get source packages, aborting"
 msgstr "소스 팩키지를 구할 수 없습니다, 중단합니다."
-
-#~ msgid "unknown options \"%s\"\n"
-#~ msgstr "알 수 없는 옵션 「%s」\n"
