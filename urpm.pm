@@ -2283,14 +2283,14 @@ sub get_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages, %options) = @_;
-    my ($id, $error, %local_sources, @list, %fullname2id, %file2fullnames, %examined);
+    my ($id, $error, %protected_files, %local_sources, @list, %fullname2id, %file2fullnames, %examined);
     local (*D, *F, $_);
 
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
 	my $p = $urpm->{depslist}[$_];
 	if ($urpm->{source}{$_}) {
-	    $local_sources{$_} = $urpm->{source}{$_};
+	    $protected_files{$local_sources{$_} = $urpm->{source}{$_}} = undef;
 	} else {
 	    $fullname2id{$p->fullname} = $_.'';
 	}
@@ -2316,10 +2316,10 @@ sub get_source_packages {
 		    if (defined($id = delete $fullname2id{$fullname})) {
 			$local_sources{$id} = $filepath;
 		    } else {
-			$options{clean_other} and unlink $filepath;
+			$options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
 		    }
 		} else {
-		    $options{clean_other} and unlink $filepath;
+		    $options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
 		}
 	    } else {
 		#- this file should be removed or is already empty.
