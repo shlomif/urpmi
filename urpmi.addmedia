@@ -46,6 +46,7 @@ and [options] are from
 
     $options{force} = 0;
     $options{noclean} = 1;
+    my $urpm = new urpm;
     while ($_ = shift @_) {
 	/^--?c/ and $options{noclean} = 0, next;
 	/^--?h/ and $options{probe_with_hdlist} = 1, next;
@@ -61,8 +62,6 @@ and [options] are from
     #- allow not to give name immediately.
     $url or ($url, $name) = ($name, '');
     my ($type) = $url =~ m,^([^:]*)://, or die $usage;
-
-    my $urpm = new urpm;
 
     $urpm->read_config;
 
