@@ -5,6 +5,8 @@ use urpm::msg;
 use urpm::cfg;
 use Cwd;
 
+sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
+
 sub import () {
     my $c = caller;
     no strict 'refs';
@@ -290,18 +292,20 @@ sub sync_rsync {
     foreach (@_) {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = basename($_);
-	my ($file) = m|^rsync://(.*)| or next;
-	$file =~ /::/ or $file = $_;
+	my ($file) =  m/::/ ? (m|^rsync://(.*)|) : ($_);
+    #my ($file) = m|^rsync://(.*)| or next;
+    #$file =~ /::/ or $file = $_;
 	propagate_sync_callback($options, 'start', $file);
 	do {
 	    local $_;
 	    my $buf = '';
-	    open my $rsync, join(" ", map { "'$_'" } "/usr/bin/rsync",
+	    open my $rsync, join(" ", "/usr/bin/rsync",
 		($limit_rate ? "--bwlimit=$limit_rate" : ()),
 		($options->{quiet} ? qw(-q) : qw(--progress -v)),
-		if_($options->{compress}, qw(-z)),
+		($options->{compress} and qw(-z)),
+        ($options->{ssh} and qw(-e ssh)),
 		qw(--partial --no-whole-file),
-		$file, $options->{dir}) . " |";
+		"'$file' '$options->{dir}' |");
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<$rsync>) {
 		$buf .= $_;
@@ -325,46 +329,10 @@ sub sync_rsync {
 }
 
 sub sync_ssh {
-    -x "/usr/bin/rsync" or die N("rsync is missing\n");
     -x "/usr/bin/ssh" or die N("ssh is missing\n");
-    my $options = shift @_;
-    $options = { dir => $options } if !ref $options;
-    #- force download to be done in cachedir to avoid polluting cwd.
-    my $cwd = getcwd();
-    chdir($options->{dir});
-    my $limit_rate = _calc_limit_rate $options->{limit_rate};
-    foreach my $file (@_) {
-	my $count = 10; #- retry count on error (if file exists).
-	my $basename = basename($file);
-	propagate_sync_callback($options, 'start', $file);
-	do {
-	    local $_;
-	    my $buf = '';
-	    open my $rsync, join(" ", map { "'$_'" } "/usr/bin/rsync",
-		($limit_rate ? "--bwlimit=$limit_rate" : ()),
-		($options->{quiet} ? qw(-q) : qw(--progress -v)),
-		if_($options->{compress}, qw(-z)),
-		qw(--partial -e ssh), $file, $options->{dir}) . " |";
-	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
-	    while (<$rsync>) {
-		$buf .= $_;
-		if ($_ eq "\r" || $_ eq "\n") {
-		    if ($options->{callback}) {
-			if (my ($percent, $speed) = $buf =~ /^\s*\d+\s+(\d+)%\s+(\S+)\s+/) {
-			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
-			}
-		    } else {
-			$options->{quiet} or print STDERR $buf;
-		    }
-		    $buf = '';
-		}
-	    }
-	    close $rsync;
-	} while ($? != 0 && --$count > 0 && -e $options->{dir} . "/$basename");
-	propagate_sync_callback($options, 'end', $file);
-    }
-    chdir $cwd;
-    $? == 0 or die N("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    my $options =shift(@_);
+    $options->{ssh} = 1;
+    sync_rsync($options, @_);
 }
 
 #- default logger suitable for sync operation on STDERR only.
