@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Tue Feb 12 2002 François Pons <fpons@mandrakesoft.com> 3.3-3mdk
+- package installed (and not upgraded) are by default using --nodeps
+  (typically kernel-source).
+
 * Mon Feb 11 2002 François Pons <fpons@mandrakesoft.com> 3.3-2mdk
 - fixed multiple mounts of removable device.
 
