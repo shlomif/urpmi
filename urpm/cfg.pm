@@ -132,7 +132,7 @@ sub dump_config ($$) {
 	return  0 if $a eq $b;
 	return -1 if $a eq ''; #- global options come first
 	return  1 if $b eq '';
-	return $config->{$a}{priority} <=> $config->{$b}{priority};
+	return $config->{$a}{priority} <=> $config->{$b}{priority} || $a cmp $b;
     } keys %$config;
     open my $f, '>', $file or do {
 	$err = N("unable to write config file [%s]", $file);
