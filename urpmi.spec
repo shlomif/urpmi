@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -177,6 +177,9 @@ fi
 
 
 %changelog
+* Tue Aug 27 2002 François Pons <fpons@mandrakesoft.com> 4.0-6mdk
+- fixed skip.list new format.
+
 * Tue Aug 27 2002 François Pons <fpons@mandrakesoft.com> 4.0-5mdk
 - fixed urpmq --auto-select disabling its selection.
 - open read-only rpmdb when testing installation (--test).

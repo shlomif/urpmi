@@ -1669,27 +1669,29 @@ sub deselect_unwanted_packages {
     open F, $urpm->{skiplist};
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
-	    $skip{$n}{$s} = undef;
+	if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
+ 	    $skip{$n}{$s} = undef;
 	}
     }
     close F;
 
-    %skip and return;
+    %skip or return;
     foreach (grep { $options{force} || (exists $packages->{$_} && ! defined $packages->{$_}) } keys %$packages) {
 	my $pkg = $urpm->{depslist}[$_] or next;
 	my $remove_it;
 
-	#- find skiped entry that match the package fullname.
-	foreach (keys %skip) {
-	    exists $skip{$_}{''} && $pkg->fullname =~ /$_/ and delete $packages->{$pkg->id};
-	}
-
-	#- check if a provides match at least one package.
-	foreach ($pkg->provides) {
-	    if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
-		foreach (keys %{$skip{$n} || {}}) {
-		    range_overlap($_, $s) and delete $packages->{$pkg->id};
+	#- check if fullname is matching a regexp.
+	if (grep { exists $skip{$_}{''} && /^\/(.*)\/$/ && $pkg->fullname =~ /$1/ } keys %skip) {
+	    delete $packages->{$pkg->id};
+	} else {
+	    #- check if a provides match at least one package.
+	    foreach ($pkg->provides) {
+		if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
+		    foreach my $sn ($n, grep { /^\/(.*)\/$/ && $n =~ /$1/ } keys %skip) {
+			foreach (keys %{$skip{$sn} || {}}) {
+			    URPM::ranges_overlap($_, $s) and delete $packages->{$pkg->id};
+			}
+		    }
 		}
 	    }
 	}
