@@ -93,7 +93,7 @@ sub read_config {
     open F, $urpm->{config}; #- no filename can be allowed on some case
     while (<F>) {
 	chomp; s/#.*$//; s/\s*$//;
-	/^\s*(.*?[^\\])\s+(?:(.*?[^\\])\s+)?\{$/ and do { #- urpmi.cfg format extention
+	/^\s*(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/ and do { #- urpmi.cfg format extention
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    while (<F>) {
 		chomp; s/#.*$//; s/\s*$//;
@@ -114,7 +114,7 @@ sub read_config {
 	    $urpm->probe_medium($medium);
 	    push @{$urpm->{media}}, $medium;
 	    next; };
-	/^\s+(.*?[^\\])\s+(?:(.*?[^\\])\s*)$/ and do { #- urpmi.cfg old format (assume hdlist.<name>.cz2?)
+	/^\s*(.*?[^\\])\s+(?:(.*?[^\\])\s*)?$/ and do { #- urpmi.cfg old format (assume hdlist.<name>.cz2?)
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    $urpm->probe_medium($medium);
 	    push @{$urpm->{media}}, $medium;
