@@ -1,100 +1,2781 @@
-2001-07-16 Daouda Lo <daouda@mandrakesoft.com>
+2002-05-13 10:48  alus
 
-	* Makefile, urpmi.spec, urpmi.logrotate: Add logrotate file
+	* po/pl.po: polish finished translation
 
-2001-03-18 Chmouel Boudjnah <chmouel@mandrakesoft.com>
+2002-04-17 17:15  alus
 
-	* skip.list, urpmi.spec, Makefile: Add skip.file example file.
+	* po/pl.po: one fix
 
-2001-02-14  Pablo Saratxaga <pablo@mandrakesoft.com>
+2002-04-16 13:25  alus
 
-	* urpmi: modified to use perl-gettext
-	* urpmt: i18n'ed it (trough command line "gettext")
-	* placeholder.h: a placeholder for xgettext to find the translatable
-	  strings (as xgettext only undertands C-syntax)
-	* po/create_placeholder,po/pl_create_placeholder: scripts to create the
-	  placeholder.h file
+	* po/pl.po: change
 
-2000-09-28  Pixel  <pixel@mandrakesoft.com>
+2002-04-16 12:58  alus
 
-	* urpmi.addmedia: fix regexp for trying 2 mount mntpoint
+	* po/pl.po: Mostly finished polish translation
 
-2000-09-21  Pixel  <pixel@mandrakesoft.com>
+2002-04-16 06:07  alus
 
-	* urpmi.addmedia: try to mount the directory if file contains
-	/mnt, mainly for /mnt/nfs (it can't hurt)
+	* po/pl.po: partially translated polish .po file
 
-	* urpmi.addmedia (update): no args now means '-a'
+2002-04-15 18:48  alus
 
-2000-06-29  Pixel  <pixel@mandrakesoft.com>
+	* po/pl.po: Few polish entries...
 
-	* urpmi.addmedia, urpmf, autoirpm.update: nice fixes from diablero
+2002-04-13 08:18  pablo
 
-2000-06-03  Pixel  <pixel@mandrakesoft.com>
+	* po/: mt.po, pl.po, urpmi.pot: updated po file
 
-	* urpmi.addmedia (substInFile): die if no rpm were found
+2002-04-12 03:57  anoncvs
 
-2000-05-04  Pixel  <pixel@mandrakesoft.com>
+	* po/pl.po: few polish entries - Arkadiusz Lipiec
+	<alipiec@elka.pw.edu.pl>
 
-	* urpmi: unset IFS
+2002-04-11 04:28  fpons
 
-2000-04-07  Chmouel Boudjnah  <chmouel@mandrakesoft.com>
+	* urpm.pm, urpmi.spec: fixed searching package according to name.
 
-	* urpmf: unalias ls before using it (or we get wrong thing).
+2002-04-10 09:29  fpons
 
-2000-04-04  Pixel  <pixel@mandrakesoft.com>
+	* urpm.pm, urpmi.spec: another fixes on urpm library.
 
-	* urpmi: add option --force to ignore errors
+2002-04-10 05:48  fpons
 
-2000-04-03  Pixel  <pixel@mandrakesoft.com>
+	* urpm.pm, urpmi.spec: fixed 2 resolver bug.
 
-	* urpmi (version_compare): bug fix
+2002-03-16 18:28  pablo
 
-2000-03-26  Pixel  <pixel@mandrakesoft.com>
+	* po/nl.po: updated po file
 
-	* autoirpm.update: adapted to new hdlist format.
-	use perl version of dirname and mkdir -p (for speed)	
+2002-03-12 04:15  pablo
 
-        - urpmi can handle package files given on command line. It finds
-	out the dependencies if possible.
-	- don't try nodeps if file is missing
-	- new group
-	- adapted urpmi.addmedia to new hdlist's / multi-cd
-	- adapted autoirpm.update-all to new rpmlib
+	* po/: ms.po, ru.po: Added Malay file
 
-2000-02-28  Pixel  <pixel@mandrakesoft.com>
+2002-03-12 02:38  pablo
 
-	* autoirpm.update-all.cc: s/FILENAMES/OLDFILENAMES/
-	* urpmi: unset $BASH_ENV
+	* po/zh_TW.po: updated po file
 
-2000-02-10  Pixel  <pixel@mandrakesoft.com>
+2002-03-11 09:11  fpons
 
-	* urpmi: unset $ENV to please -U
-	* urpmi: now really handle multiple args
-	* urpmi: new option ``-a'' to install all the proposed packages
-	* urpmi: add ability to --nodeps and --force in case of install errors
+	* urpmi.spec, urpmq: 3.3-22mdk (added missing support for
+	--wget/--curl to urpmq)
 
-2000-01-20  Pixel  <pixel@mandrakesoft.com>
+2002-03-11 05:12  pablo
+
+	* po/: cy.po, ru.po, urpmi.pot: updated po files
+
+2002-03-08 12:35  pablo
+
+	* po/it.po: updated po file
+
+2002-03-08 11:55  pablo
+
+	* po/: hr.po, cs.po: updated po file
+
+2002-03-07 13:10  pablo
+
+	* po/nl.po: updated po file
+
+2002-03-07 10:16  fpons
+
+	* urpmi.addmedia, urpmi.spec: 3.3-21mdk
+
+2002-03-07 05:51  fpons
+
+	* urpmi, urpmi.spec: urpmi for RC 8.2 (3.3-20mdk)
+
+2002-03-06 15:11  pablo
+
+	* po/mt.po: Added Maltese file
+
+2002-03-06 08:36  pablo
+
+	* po/: fr.po, id.po, sk.po, urpmi.pot: updated po files
+
+2002-03-05 08:25  pablo
+
+	* po/: create_placeholder, ru.po, urpmi.pot: updated po file
+
+2002-03-05 05:30  fpons
+
+	* urpm.pm, urpmi.spec: 3.3-19mdk
+
+2002-03-04 09:38  pablo
+
+	* po/: sk.po, urpmi.pot: updated po file
+
+2002-03-04 08:03  fpons
+
+	* urpmi, urpmi.spec, man/C/urpmq.8: 3.3-18mdk
+
+2002-03-02 11:32  pablo
+
+	* po/da.po: updated po file
+
+2002-03-01 08:47  pablo
+
+	* po/vi.po: updated po file
+
+2002-03-01 06:35  siegel
+
+	* po/de.po: minor updates
+
+2002-02-28 15:02  pablo
+
+	* po/: nl.po, no.po: updated po files
+
+2002-02-28 12:14  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.3-17mdk
+
+2002-02-28 03:46  siegel
+
+	* po/de.po: updated missing strings
+
+2002-02-27 22:38  pablo
+
+	* po/: ar.po, urpmi.pot: updated po file
+
+2002-02-27 06:04  fpons
+
+	* urpm.pm, urpmi.spec: 3.3-16mdk
+
+2002-02-26 23:20  pablo
+
+	* po/ar.po: updated po file
+
+2002-02-26 17:03  pablo
+
+	* po/sv.po: updated po file
+
+2002-02-26 12:45  pablo
+
+	* po/: eu.po, sp.po, sr.po: Updated po files
+
+2002-02-26 11:01  pablo
+
+	* po/hu.po: updated po file
+
+2002-02-26 08:28  fabman
+
+	* po/es.po: updated spanish translation
+
+2002-02-26 06:11  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po,
+	sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2002-02-25 16:36  pablo
+
+	* po/tr.po: updated Turkish file
+
+2002-02-25 10:14  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: 3.3-15mdk
+
+2002-02-24 14:53  pablo
+
+	* po/: sp.po, sr.po: updated po files
+
+2002-02-24 14:45  pablo
+
+	* po/it.po: updated Italian file
+
+2002-02-24 09:24  pablo
+
+	* po/vi.po: updated Vietnamese file
+
+2002-02-23 14:48  pablo
+
+	* po/sv.po: updated Swedish file
+
+2002-02-22 15:25  pablo
+
+	* po/: ar.po, da.po: updated some po files
+
+2002-02-22 15:09  pablo
+
+	* man/eu/: autoirpm.8, urpmf.8, urpmi.8, urpmi.addmedia.8,
+	urpmi.removemedia.8, urpmi.update.8, urpmq.8: Added Basque man
+	pages
+
+2002-02-22 13:06  pablo
+
+	* po/eu.po: updated Basque file
+
+2002-02-22 04:25  pablo
+
+	* po/: es.po, hu.po: updated Hungarian file
+
+2002-02-21 19:44  fabman
+
+	* po/es.po: updated spanish translation
+
+2002-02-21 19:19  pablo
+
+	* po/pt_BR.po: updated some po files
+
+2002-02-21 14:23  pablo
+
+	* po/eu.po: updated po file
+
+2002-02-21 14:11  pablo
+
+	* po/az.po: updated po file
+
+2002-02-21 13:59  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po,
+	sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2002-02-21 12:25  fpons
+
+	* urpme, urpmf, urpmi, urpmi.spec, urpmq: 3.3-14mdk
+
+2002-02-21 12:10  fpons
+
+	* po/fr.po: fixed on line help indentation.
+
+2002-02-21 07:24  pablo
+
+	* po/: ar.po, no.po, pt_BR.po, urpmi.pot: updated some po files
+
+2002-02-21 05:54  fpons
+
+	* urpm.pm, urpmi.spec: 3.3-13mdk
+
+2002-02-21 05:04  fpons
+
+	* urpmi: fixed debug log still present :-)
+
+2002-02-20 12:20  pablo
+
+	* po/: ar.po, de.po, es.po, fr.po, urpmi.pot: updated and corrected
+	French file
+
+2002-02-20 10:44  tvignaud
+
+	* po/fr.po: update french translation (remove doubles)
+
+2002-02-20 09:53  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: 3.3-12mdk
+
+2002-02-20 09:27  siegel
+
+	* po/de.po: finally done :-)
+
+2002-02-20 09:22  siegel
+
+	* po/de.po: snapshot
+
+2002-02-20 09:21  siegel
+
+	* po/: de.po, es.po: updates
+
+2002-02-20 04:02  siegel
+
+	* po/es.po: new & shiny version by Fabito ;-)
+
+2002-02-19 23:04  pablo
+
+	* po/: es.po, fr.po, hu.po, urpmi.pot: updated some po files
+
+2002-02-19 10:10  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: 3.3-11mdk
+
+2002-02-19 04:40  tvignaud
+
+	* po/fr.po: update french translation
+
+2002-02-18 17:35  prigaux
+
+	* urpmi.spec: remove autoirpm until it's fixed (or used/advertised)
+
+2002-02-18 14:37  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po,
+	sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, vi.po, zh_CN.po, zh_TW.po: updated pot file
+
+2002-02-18 11:56  fpons
+
+	* urpm.pm, urpmi.spec: 3.3-9mdk
+
+2002-02-18 05:56  fpons
+
+	* urpmi.spec, urpm.pm: 3.3-8mdk
+
+2002-02-17 17:36  pablo
+
+	* po/: bg.po, id.po: updated Indonesian file
+
+2002-02-16 03:05  pablo
+
+	* po/: da.po, no.po: updated Norwegian and Danish files
+
+2002-02-15 19:23  pablo
+
+	* po/es.po: updated Spanish file
+
+2002-02-15 12:16  pablo
+
+	* po/: sv.po, urpmi.pot: updated Swedish file
+
+2002-02-15 01:55  pablo
+
+	* po/: hu.po, urpmi.pot: updated Hungarian file
+
+2002-02-14 11:49  fpons
+
+	* urpm.pm, urpmi.spec: 3.3-6mdk
+
+2002-02-14 10:02  pablo
+
+	* po/: pt_BR.po, vi.po: updated Vietnamese and Brazilian files
+
+2002-02-14 08:37  pablo
+
+	* po/it.po: updated Italian file
+
+2002-02-14 06:51  pablo
+
+	* po/cs.po: updated Czech file
+
+2002-02-14 05:56  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po,
+	sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2002-02-13 09:40  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: 3.3-5mdk
+
+2002-02-12 12:24  fpons
+
+	* urpm.pm, urpmi.spec, urpmq: 3.3-4mdk
+
+2002-02-12 08:16  pablo
+
+	* po/sk.po: updated Slovak file
+
+2002-02-12 07:21  fpons
+
+	* urpm.pm, man/C/urpmi.8, man/C/urpmi.addmedia.8,
+	man/C/urpmi.removemedia.8, man/C/urpmi.update.8, man/C/urpmq.8,
+	man/fr/urpmi.8: updated man pages.
+
+2002-02-12 07:21  fpons
+
+	* urpmi.spec: 3.3-3mdk (man pages update added).
+
+2002-02-12 05:19  fpons
+
+	* urpmi.spec: 3.3-3mdk
+
+2002-02-12 05:18  fpons
+
+	* urpmi: add --nodeps by default for package installed (else using
+	--auto will break).
+
+2002-02-11 11:52  fpons
+
+	* urpmi.spec: 3.3-2mdk
+
+2002-02-11 11:49  fpons
+
+	* urpm.pm: fixed find_mntpoints to avoid mounting multiple times or
+	never umounting.
+
+2002-02-11 08:36  fpons
+
+	* urpmi.spec: added explicit requires on 4.2-2mdk or above (for
+	handling src in medium).
+
+2002-02-11 08:31  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.3-1mdk
+
+2002-02-09 23:40  pablo
+
+	* po/pt_BR.po: updated Brazilian file
+
+2002-02-09 08:32  pablo
+
+	* po/fi.po: updated Finnish file
+
+2002-02-08 09:25  pablo
+
+	* po/: da.po, id.po, urpmi.pot, vi.po: updated Indonesian, Danish
+	and vietnamese files
+
+2002-02-07 08:47  pablo
+
+	* po/it.po: updated Italian file
+
+2002-02-07 06:00  fpons
+
+	* urpm.pm, urpmi.spec: 3.2-8mdk
+
+2002-02-07 04:42  pablo
+
+	* po/: hu.po, sv.po: updated Swedish and Hungarian files
+
+2002-02-06 15:07  pablo
+
+	* po/cs.po: updated Czech file
+
+2002-02-06 08:36  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po,
+	sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2002-02-06 07:34  siegel
+
+	* po/: .cvsignore, placeholder.h: added cvsinore
+
+2002-02-06 07:31  siegel
+
+	* po/Makefile: fix run when placeholder.h is missing
+
+2002-02-06 07:22  siegel
+
+	* urpme: i18n'ed
+
+2002-02-06 07:10  siegel
+
+	* po/Makefile: grab POTFILES from POTFILES.in
+
+2002-02-06 06:57  siegel
+
+	* po/: POTFILES.in, create_placeholder: added urpme
+
+2002-02-06 05:37  siegel
+
+	* po/POTFILES.in: added urpme
+
+2002-02-05 11:33  pablo
+
+	* po/: eu.po, id.po, tg.po: updated some po files
+
+2002-02-01 13:26  pablo
+
+	* po/sv.po: updated Swedish file
+
+2002-01-31 14:43  pablo
+
+	* po/: id.po, urpmi.pot: updated Indonesian file
+
+2002-01-31 07:51  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: 3.2-7mdk
+
+2002-01-31 06:16  pablo
+
+	* po/: es.po, hu.po: updated Spanish and Hungarian files
+
+2002-01-30 16:18  pablo
+
+	* po/: es.po, urpmi.pot: updated Spanish file
+
+2002-01-30 12:52  siegel
+
+	* po/de.po: added missing translations
+
+2002-01-30 09:59  fpons
+
+	* urpm.pm, urpmi.spec: 3.2-6mdk
+
+2002-01-30 08:17  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, placeholder.h, pt.po, pt_BR.po,
+	ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po,
+	uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated
+	Hungarian file
+
+2002-01-29 06:41  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.2-5mdk
+
+2002-01-28 07:07  fpons
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.spec, urpmi.update:
+	3.2-4mdk
+
+2002-01-28 07:01  pablo
+
+	* urpm.pm, po/af.po, po/ar.po, po/az.po, po/bg.po, po/bs.po,
+	po/ca.po, po/cs.po, po/da.po, po/de.po, po/el.po, po/eo.po,
+	po/es.po, po/et.po, po/eu.po, po/fi.po, po/fr.po, po/ga.po,
+	po/gl.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	po/ja.po, po/ka.po, po/ko.po, po/lt.po, po/lv.po, po/nl.po,
+	po/no.po, po/pl.po, po/placeholder.h, po/pt.po, po/pt_BR.po,
+	po/ro.po, po/ru.po, po/sk.po, po/sp.po, po/sr.po, po/sv.po,
+	po/tg.po, po/th.po, po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po,
+	po/vi.po, po/wa.po, po/zh_CN.GB2312.po, po/zh_CN.po,
+	po/zh_TW.Big5.po, po/zh_TW.po: fixed English typo; moved Chinese
+	file names
+
+2002-01-28 05:52  fpons
+
+	* po/fr.po: fixed -d options (typo using -f)
+
+2002-01-25 02:17  pablo
+
+	* po/vi.po: updated Vietnamese file
+
+2002-01-24 12:26  pablo
+
+	* po/sv.po: updated Swedish file
+
+2002-01-23 17:42  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, placeholder.h, pt.po, pt_BR.po,
+	ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po,
+	uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.GB2312.po,
+	zh_TW.Big5.po: updated Czech and Italian files
+
+2002-01-23 11:59  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.2-3mdk
+
+2002-01-23 07:02  pablo
+
+	* po/es.po: corrected a typo
+
+2002-01-23 06:53  pablo
+
+	* po/es.po: updated Spanish file
+
+2002-01-23 05:49  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, placeholder.h, pt.po, pt_BR.po,
+	ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po,
+	uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.GB2312.po,
+	zh_TW.Big5.po: updated pot file
+
+2002-01-17 08:46  fpons
+
+	* urpmi.spec: 3.2-2mdk
+
+2002-01-17 07:49  fpons
+
+	* urpmi.removemedia: updated help invocation.  added -c (clean)
+	flag.  avoid removing header almost all the time.
+
+2002-01-16 13:21  fpons
+
+	* rpm-find-leaves, urpm.pm, urpmi, urpmi.spec, urpmq: 3.2-1mdk
+
+2002-01-16 09:11  fpons
+
+	* urpm.pm, urpmi.spec: 3.1-8mdk
+
+2002-01-15 12:08  fpons
+
+	* urpm.pm, urpmi.spec: 3.1-7mdk
+
+2002-01-10 13:40  pablo
+
+	* po/: fr.po, hr.po, placeholder.h, urpmi.pot, vi.po: updated
+	Croatian and Vietnamese files
+
+2002-01-10 11:04  tvignaud
+
+	* po/fr.po: update french translation
+
+2002-01-10 08:31  fpons
+
+	* urpm.pm, urpmi.spec: fix distant list file support.
+
+2002-01-09 13:21  fpons
+
+	* urpmi.spec: 3.1-5mdk
+
+2002-01-09 13:21  fpons
+
+	* urpm.pm: added urpmi database locking mechanism.  added support
+	for external list file support (to build a more nicer list file).
+
+2002-01-09 11:43  pablo
+
+	* po/sv.po: updated Swedish file
+
+2002-01-08 07:46  pablo
+
+	* po/: cs.po, es.po: updated Czech and Spanish files
+
+2002-01-07 06:49  pablo
+
+	* po/fi.po: updated Finnish file
+
+2002-01-02 13:39  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, ja.po, ka.po, ko.po, lt.po,
+	lv.po, nl.po, no.po, pl.po, placeholder.h, pt.po, pt_BR.po, ro.po,
+	ru.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, vi.po, wa.po, zh_CN.GB2312.po, zh_TW.Big5.po: updated pot
+	file
+
+2001-12-20 09:08  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: pre-noel version.
+
+2001-12-17 10:27  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: small fixes.
+
+2001-12-14 04:08  fpons
+
+	* urpmi.spec: 3.1 for urpm library.
+
+2001-12-14 04:07  fpons
+
+	* urpm.pm: changed perl library to 3.1.
+
+2001-12-14 04:06  fpons
+
+	* urpm.pm, urpmi.spec: added curl time stamp support for both http
+	and ftp.
+
+2001-12-13 06:18  fpons
+
+	* urpm.pm, urpmi.addmedia, urpmi.removemedia, urpmi.spec: 3.1
+
+2001-12-12 10:09  fpons
+
+	* po/fr.po: french spelling mistake from cooker.
+
+2001-12-12 06:19  fpons
+
+	* urpm.pm, urpmi.addmedia, urpmi.spec: lot of small fixes.
+
+2001-12-10 10:28  pablo
+
+	* urpmf, urpmi.addmedia, urpmi.update, urpmq, po/af.po, po/ar.po,
+	po/az.po, po/bg.po, po/bs.po, po/ca.po, po/cs.po, po/da.po,
+	po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po,
+	po/fi.po, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po,
+	po/id.po, po/is.po, po/it.po, po/ja.po, po/ka.po, po/ko.po,
+	po/lt.po, po/lv.po, po/nl.po, po/no.po, po/pl.po, po/placeholder.h,
+	po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sp.po,
+	po/sr.po, po/sv.po, po/tg.po, po/th.po, po/tr.po, po/uk.po,
+	po/urpmi.pot, po/uz.po, po/vi.po, po/wa.po, po/zh_CN.GB2312.po,
+	po/zh_TW.Big5.po: corrected some English typos
+
+2001-12-10 09:43  fpons
+
+	* urpmi.spec: minor fixes.
+
+2001-12-07 13:27  fpons
+
+	* urpmi.spec, urpmq: --headers of urpmq with synthesis only.
+
+2001-12-07 10:33  fpons
+
+	* urpm.pm, urpmi.spec: fixes on synthesis management and urpmi.cfg
+	update.
+
+2001-12-07 06:51  fpons
+
+	* urpm.pm, urpmi.spec: speed improvement (relocation, depslist). 
+	make sure config is saved.  fix %%post.
+
+2001-12-06 12:43  fpons
+
+	* urpm.pm, urpmf, urpmi, urpmi.addmedia, urpmi.spec, urpmi.update,
+	urpmq: 3.0 of urpmi.
+
+2001-12-06 05:55  fpons
+
+	* urpm.pm, urpmi.spec: fixes -p ...
+
+2001-12-05 13:54  fpons
+
+	* urpm.pm, urpmi.addmedia, urpmi.spec, urpmi.update: 2.2 with
+	rpmtools 4.0.
+
+2001-12-03 14:36  pablo
+
+	* urpmi.addmedia, urpmi.update, po/af.po, po/ar.po, po/az.po,
+	po/bg.po, po/bs.po, po/ca.po, po/cs.po, po/da.po, po/de.po,
+	po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fi.po,
+	po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po,
+	po/is.po, po/it.po, po/ja.po, po/ka.po, po/ko.po, po/lt.po,
+	po/lv.po, po/nl.po, po/no.po, po/pl.po, po/placeholder.h, po/pt.po,
+	po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sp.po, po/sr.po,
+	po/sv.po, po/tg.po, po/th.po, po/tr.po, po/uk.po, po/urpmi.pot,
+	po/uz.po, po/vi.po, po/wa.po, po/zh_CN.GB2312.po, po/zh_TW.Big5.po:
+	updated pot file
+
+2001-12-02 20:50  tvignaud
+
+	* po/fr.po: update french translation
+
+2001-12-02 20:43  tvignaud
+
+	* urpmi.spec: add changelog
+
+2001-11-29 11:14  fpons
+
+	* urpm.pm, urpmi.spec: removed debug log and updated changelog.
+
+2001-11-29 11:12  fpons
+
+	* urpm.pm, urpmi.spec: fixes on -p flag.
+
+2001-11-28 11:33  fpons
+
+	* urpm.pm, urpmi.spec: introduced webfetch.
+
+2001-11-28 09:25  fpons
+
+	* urpm.pm, urpmi.spec: fixed URL with trailing slashes and added
+	download log.
+
+2001-11-28 05:16  fpons
+
+	* urpm.pm, urpmi.spec, urpmq: small fixes and typo fixes back.
+
+2001-11-27 13:59  pablo
+
+	* _irpm, urpm.pm, urpme, urpmi, urpmq, po/af.po, po/ar.po,
+	po/az.po, po/bg.po, po/bs.po, po/ca.po, po/create_placeholder,
+	po/cs.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po,
+	po/et.po, po/eu.po, po/fi.po, po/fr.po, po/ga.po, po/gl.po,
+	po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po, po/ja.po,
+	po/ka.po, po/ko.po, po/lt.po, po/lv.po, po/nl.po, po/no.po,
+	po/pl.po, po/placeholder.h, po/pt.po, po/pt_BR.po, po/ro.po,
+	po/ru.po, po/sk.po, po/sp.po, po/sr.po, po/sv.po, po/tg.po,
+	po/th.po, po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po, po/vi.po,
+	po/wa.po, po/zh_CN.GB2312.po, po/zh_TW.Big5.po: fixed some English
+	typos; updated Hungarian file
+
+2001-11-27 13:45  fpons
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.spec, urpmi.update: curl
+	support
+
+2001-11-27 08:37  fpons
+
+	* urpm.pm, urpmi.spec: fix optimization on getting
+	depslist.ordered.
+
+2001-11-26 10:40  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: first 2.1.
+
+2001-11-24 08:52  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po,
+	sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, vi.po, wa.po, zh_CN.GB2312.po, zh_TW.Big5.po: updated
+	Hungarian and Danish files
+
+2001-11-21 14:52  tvignaud
+
+	* po/fr.po: updte
+
+2001-11-21 10:33  fpons
+
+	* urpmi, urpmi.spec, urpmq: small fixes.
+
+2001-11-20 09:57  pablo
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po,
+	de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po,
+	sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, vi.po, wa.po, zh_CN.GB2312.po, zh_TW.Big5.po: updated Azeri
+	file
+
+2001-11-19 08:41  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: fixed --auto-select and upload.
+
+2001-11-16 09:04  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: added /etc/urpmi/inst.list
+	support.
+
+2001-11-15 11:40  fpons
+
+	* urpm.pm, urpmi.spec: first stable release using synthesis file
+	instead of hdlist.
+
+2001-11-12 13:19  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-11-09 11:44  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: small fixes.
+
+2001-11-06 11:17  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmi.update, urpmq: update to first
+	2.0 release.
+
+2001-11-06 10:39  fpons
+
+	* po/fr.po: fix typo.
+
+2001-11-05 14:39  anoncvs
+
+	* inst.list, urpm.pm, po/fr.po: 
+	+ correct typo in po/fr.po	*replace msgstr "usage: rpmf
+	[<fichier>]"		   by msgstr "usage: urpmf [options]
+	<fichier>"    *replace msgstr "usage: urpmi.addmedia [--update]
+	<nome> <url>"		      by msgstr "usage: urpmi.addmedia
+	[--update] <nom> <url>"
 	
-	* urpmi: fix regexp not allowing `.' in release
+	+ add inst.list that will contain list of package to install and
+	not to upgrade. Now I have to learn perl ;)
 
-2000-01-10  Pixel  <pixel@mandrakesoft.com>
+2001-10-31 14:28  pablo
 
-	* urpmi: bug fix from Brian J. Murrell
+	* po/ar.po: Added Arabic file
 
-2000-01-07  Pixel  <pixel@mandrakesoft.com>
+2001-10-27 14:30  prigaux
 
-	* urpmi: tty question now defaults to yes and acts that way!
+	* urpmi.spec: - fix urpme with i18n (thanks to Andrej Borsenkow) -
+	fix urpme with regexp-like arguments (mainly things with "++")
+	(thanks to Alexander Skwar)
 
-2000-01-06  Pixel  <pixel@mandrakesoft.com>
+2001-10-27 14:28  prigaux
 
-	* urpmi: tty question now defaults to yes (y/N -> N/y)
+	* urpme: - quotemeta arguments - ensure "rpm -e" is not localized
+	when looking for "package XXX is not installed" and "XXX is needed
+	by XXX"
 
-2000-01-04  Chmouel Boudjnah  <chmouel@mandrakesoft.com>
+2001-10-23 14:23  gc
 
-	* rpmf: use egrep.
+	* urpmi: typo
 
-2000-01-04  Pixel  <pixel@mandrakesoft.com>
+2001-10-12 12:40  pablo
 
-	* urpmi.addmedia: replaced hdlist2files by hdlist2names
-	* rpmf: created
+	* po/: id.po, urpmi.pot: updated Indonesian file
+
+2001-10-08 13:33  fpons
+
+	* urpm.pm: make strong check of rpm file on a removable device for
+	accepting a medium.
+
+2001-10-08 12:59  fpons
+
+	* urpm.pm: make sure to remove a stale rpm file in cache (if size
+	is 0), seems to have been avoid for final 8.1 ?
+
+2001-10-01 12:45  prigaux
+
+	* urpme: fix option parsing (to allow "urpme kernel-headers")
+
+2001-09-24 12:06  fpons
+
+	* urpmi.spec: problable final 8.1 ?
+
+2001-09-24 11:53  fpons
+
+	* urpm.pm: fixed stale rpm file in cache with 0 in size.
+
+2001-09-23 13:02  pablo
+
+	* po/no.po: updated Norwegian file
+
+2001-09-21 20:41  pablo
+
+	* po/ko.po: updated Korean file
+
+2001-09-21 03:40  pablo
+
+	* po/ko.po: updated Korean file
+
+2001-09-20 11:20  pablo
+
+	* po/it.po: updated Italian file
+
+2001-09-19 18:11  pablo
+
+	* po/: sp.po, sr.po: updated Serbian files
+
+2001-09-19 15:19  pablo
+
+	* po/: af.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po, de.po,
+	el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po, gl.po,
+	hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po, lt.po,
+	lv.po, nl.po, no.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po,
+	sp.po, sr.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po,
+	vi.po, wa.po, zh_CN.GB2312.po, zh_TW.Big5.po: updated Turkish and
+	Thai files
+
+2001-09-19 08:09  fpons
+
+	* urpm.pm, urpmi.spec: fixes for possible error trying to remove
+	and avoid error message which are more or less only warning
+	(typical after 7.2 update).
+
+2001-09-17 23:35  pablo
+
+	* po/zh_TW.Big5.po: updated Chinese file
+
+2001-09-17 06:03  fpons
+
+	* urpmi.spec: fixed urpmq flitches.
+
+2001-09-17 06:02  fpons
+
+	* urpmq: fixed bad use of urpm library.
+
+2001-09-16 19:01  pablo
+
+	* po/: cs.po, ko.po, vi.po: updated Czech, Korean and Vietnamese
+	files
+
+2001-09-16 10:37  pablo
+
+	* po/hr.po: updated Croatian file
+
+2001-09-15 09:31  pablo
+
+	* po/it.po: changed email
+
+2001-09-14 10:43  pablo
+
+	* po/: eo.po, hu.po: updated Esperanto and Hungarian files
+
+2001-09-14 09:44  pablo
+
+	* po/: de.po, lv.po, sv.po: updated Swedish and Latvian files
+
+2001-09-14 03:55  siegel
+
+	* po/de.po: some updates
+
+2001-09-13 16:34  pablo
+
+	* po/ga.po: update Irish file
+
+2001-09-13 12:34  pablo
+
+	* po/: af.po, az.po, bg.po, bs.po, ca.po, cs.po, da.po, de.po,
+	el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po, ga.po, gl.po,
+	hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po, lt.po,
+	lv.po, nl.po, no.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po,
+	sp.po, sr.po, sv.po, tg.po, th.po, uk.po, uz.po, vi.po, wa.po,
+	zh_CN.GB2312.po, zh_TW.Big5.po: updated pot file
+
+2001-09-13 04:58  pablo
+
+	* po/: tr.po, urpmi.pot: updated Turkish file
+
+2001-09-11 13:59  fpons
+
+	* urpmi.spec: new update.
+
+2001-09-11 13:55  fpons
+
+	* urpm.pm: fixed bug when trying to urpmi.addmedia name http://...
+	with hdlist.cz, a missing / in with_hdlist cause the bug...
+
+2001-09-11 13:29  fpons
+
+	* urpmi.spec: updated spec with real fixes.
+
+2001-09-11 13:27  fpons
+
+	* urpm.pm: fixed updates with extension to indirect package.
+
+2001-09-11 11:49  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: fixed error about urpmi saying
+	package already installed.
+
+2001-09-10 10:36  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: moved depslist computation out of
+	loop of hdlist reading.
+
+2001-09-07 12:57  pablo
+
+	* po/tr.po: updated Turkish file
+
+2001-09-07 05:39  pablo
+
+	* po/da.po: updated Danish file
+
+2001-09-06 07:40  pablo
+
+	* po/: da.po, urpmi.pot: updated Danish file
+
+2001-09-05 20:47  pablo
+
+	* po/ga.po: Updated Irish file
+
+2001-09-03 05:57  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: fix devfsd interaction (?) and --auto
+	glitches on removable devices.
+
+2001-09-02 21:23  pablo
+
+	* urpmi.spec, man/fr/autoirpm.8, man/fr/urpmi.8: Added/updated
+	French man pages
+
+2001-09-02 18:54  pablo
+
+	* po/: es.po, eu.po, urpmi.pot: updated Basque and Spanish files
+
+2001-08-31 12:58  fpons
+
+	* urpmi.spec: 1.7-7mdk
+
+2001-08-31 12:55  fpons
+
+	* urpmi: added option to manage install in auto mode but still
+	allowing to ask user to change CD: --allow-medium-change
+
+2001-08-31 07:52  gc
+
+	* po/fr.po: misc
+
+2001-08-30 06:11  pablo
+
+	* po/hu.po: updated Hungarian file
+
+2001-08-29 14:00  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: gloup.
+
+2001-08-29 13:20  pablo
+
+	* Makefile, autoirpm.8, urpmf.8, urpmi.8, urpmi.addmedia.8,
+	urpmi.removemedia.8, urpmi.spec, urpmi.update.8, urpmq.8,
+	man/C/autoirpm.8, man/C/urpmf.8, man/C/urpmi.8,
+	man/C/urpmi.addmedia.8, man/C/urpmi.removemedia.8,
+	man/C/urpmi.update.8, man/C/urpmq.8, man/fr/autoirpm.8: changed man
+	page structure to allow translations
+
+2001-08-29 11:30  fpons
+
+	* urpmi.spec: 1.7-5mdk (rebuild)
+
+2001-08-25 22:27  pablo
+
+	* po/: lv.po, sp.po, sr.po: updated Latvia and Serbian files
+
+2001-08-25 06:00  pablo
+
+	* po/: sk.po, sk.po: updated Slovak file
+
+2001-08-23 16:53  pablo
+
+	* po/: no.po, vi.po: updated Norwegian and Vietnamese files
+
+2001-08-23 12:10  pablo
+
+	* po/: da.po, eo.po, zh_TW.Big5.po: updated Danish, Esperanto and
+	Chinese files
+
+2001-08-22 16:56  pablo
+
+	* po/el.po: updated Greek file
+
+2001-08-22 08:57  pablo
+
+	* po/hr.po: updated Croatian file
+
+2001-08-22 06:10  kjx
+
+	* po/zh_CN.GB2312.po: review
+
+2001-08-21 17:14  pablo
+
+	* po/sv.po: updated Swedish file
+
+2001-08-21 12:35  pablo
+
+	* po/: bs.po, eu.po: added Basque and Bosnian files
+
+2001-08-21 08:03  pablo
+
+	* po/lv.po: updated Latvian file
+
+2001-08-20 13:02  pablo
+
+	* po/da.po: updated Danish file
+
+2001-08-20 05:28  pablo
+
+	* po/: de.po, es.po, hu.po, lv.po: updated Latvian and Hungarian
+	files
+
+2001-08-18 06:48  siegel
+
+	* po/de.po: new german version
+
+2001-08-17 23:44  fabman
+
+	* po/es.po: updated spanish .po files
+
+2001-08-17 07:40  pablo
+
+	* po/: af.po, az.po, bg.po, ca.po, create_placeholder, cs.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, fi.po, fr.po, ga.po,
+	gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, nl.po, no.po, pl.po, placeholder.h, pt.po, pt_BR.po,
+	ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po, tr.po,
+	uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.GB2312.po,
+	zh_TW.Big5.po: updated pot file
+
+2001-08-16 14:52  pablo
+
+	* po/hu.po: updated Hungarian file
+
+2001-08-15 13:47  pablo
+
+	* po/sv.po: updated Swedish file
+
+2001-08-13 09:16  pablo
+
+	* po/eo.po: updated Esperanto file
+
+2001-08-09 05:20  prigaux
+
+	* urpme: fix usage
+
+2001-08-08 02:58  pablo
+
+	* po/es.po: updated Spanish file
+
+2001-08-06 10:54  pablo
+
+	* po/de.po: updated German file
+
+2001-08-05 09:11  pablo
+
+	* po/sk.po: updated Slovak file
+
+2001-08-02 11:27  pablo
+
+	* po/no.po: updated Norwegian file
+
+2001-08-02 07:58  prigaux
+
+	* urpmi: (usage): fix usage
+
+2001-07-27 22:16  pablo
+
+	* po/: es.po, no.po, placeholder.h, urpmi.pot: updated Spanish and
+	Norwegian files
+
+2001-07-26 05:36  fpons
+
+	* urpm.pm, urpmi.spec: fix tentative to always install packages.
+
+2001-07-25 07:24  fpons
+
+	* urpmi.spec: really fix --auto-select and fix local packages
+	installation.
+
+2001-07-25 07:23  fpons
+
+	* urpm.pm: really fixed --auto-select mode, fixed local packages
+	install.
+
+2001-07-25 06:14  fpons
+
+	* urpm.pm: fixed typo leading to funny translation.
+
+2001-07-25 06:00  fpons
+
+	* urpmi.spec: 1.7-2mdk
+
+2001-07-25 05:59  fpons
+
+	* urpm.pm: fixed finding package to upgrades, and code cleanup in
+	compute_closure.
+
+2001-07-23 16:24  pablo
+
+	* po/: placeholder.h, sk.po, urpmi.pot: updated Slovak file
+
+2001-07-23 13:38  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: new major release 1.7 for new
+	major release of rpmtools.
+
+2001-07-22 16:23  pablo
+
+	* po/: eo.po, hr.po: updated Esperanto and Croatian files
+
+2001-07-19 11:07  pablo
+
+	* urpmf, po/af.po, po/az.po, po/bg.po, po/ca.po,
+	po/create_placeholder, po/cs.po, po/da.po, po/de.po, po/el.po,
+	po/eo.po, po/es.po, po/et.po, po/fi.po, po/fr.po, po/ga.po,
+	po/gl.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	po/ja.po, po/ka.po, po/ko.po, po/lt.po, po/lv.po, po/nl.po,
+	po/no.po, po/pl.po, po/placeholder.h, po/pt.po, po/pt_BR.po,
+	po/ro.po, po/ru.po, po/sk.po, po/sp.po, po/sr.po, po/sv.po,
+	po/th.po, po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po, po/vi.po,
+	po/wa.po, po/zh_CN.GB2312.po, po/zh_TW.Big5.po: updated Croatian
+	file
+
+2001-07-16 12:27  pablo
+
+	* po/el.po: updated Greek file
+
+2001-07-16 05:49  daouda
+
+	* ChangeLog: update after addition of logrotate file
+
+2001-07-16 05:37  daouda
+
+	* urpmi.spec: resync spec
+
+2001-07-16 05:36  daouda
+
+	* Makefile: add logrotate var file
+
+2001-07-16 05:26  daouda
+
+	* urpmi.logrotate: new file urpmi logrotate.
+
+2001-07-12 15:50  tvignaud
+
+	* po/fr.po: 90% translated
+
+2001-07-12 15:40  tvignaud
+
+	* po/fr.po: 71% translated
+
+2001-07-12 15:32  tvignaud
+
+	* po/fr.po: 51% translated
+
+2001-07-12 15:20  tvignaud
+
+	* po/fr.po: 40% translated
+
+2001-07-11 08:41  pablo
+
+	* po/el.po: updated Greek file
+
+2001-07-11 08:19  pablo
+
+	* po/: el.po, eo.po, placeholder.h, urpmi.pot: Added Greek file,
+	updated Esperanto file
+
+2001-07-11 03:33  siegel
+
+	* po/de.po: new german version
+
+2001-07-05 10:55  fpons
+
+	* urpm.pm, urpmf, urpmf.8, urpmi, urpmi.8, urpmi.addmedia.8,
+	urpmi.removemedia.8, urpmi.spec, urpmi.update.8, urpmq.8: fixed
+	wrong dependencies resolution on local rpm.  improved urpmf. 
+	updated man pages.
+
+2001-07-05 06:06  fpons
+
+	* urpmi.spec, urpm.pm: now should have fixed local rpm install.
+
+2001-07-04 04:50  fpons
+
+	* urpmi.spec: [no log message]
+
+2001-07-04 04:49  fpons
+
+	* urpm.pm: fixed bad packages to install (wrong id reported in when
+	searching packages).
+
+2001-07-03 15:12  pablo
+
+	* po/: af.po, az.po, bg.po, ca.po, cs.po, da.po, de.po, eo.po,
+	es.po, et.po, fi.po, fr.po, ga.po, gl.po, hr.po, hu.po, id.po,
+	is.po, it.po, ja.po, ka.po, ko.po, lt.po, lv.po, nl.po, no.po,
+	pl.po, placeholder.h, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sp.po,
+	sr.po, sv.po, th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po,
+	zh_CN.GB2312.po, zh_TW.Big5.po: Updated Danish file
+
+2001-07-02 13:08  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-07-02 08:40  fpons
+
+	* urpm.pm, urpmi.addmedia, urpmi.spec: 1.6-8mdk
+
+2001-06-30 08:36  prigaux
+
+	* urpmi.8: fix grammatical error
+
+2001-06-28 12:58  pablo
+
+	* urpm.pm, po/POTFILES.in, po/af.po, po/az.po, po/bg.po, po/ca.po,
+	po/cs.po, po/da.po, po/de.po, po/eo.po, po/es.po, po/et.po,
+	po/fi.po, po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po,
+	po/id.po, po/is.po, po/it.po, po/ja.po, po/ka.po, po/ko.po,
+	po/lt.po, po/lv.po, po/nl.po, po/no.po, po/pl.po, po/placeholder.h,
+	po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sp.po,
+	po/sr.po, po/sv.po, po/th.po, po/tr.po, po/uk.po, po/urpmi.pot,
+	po/uz.po, po/vi.po, po/wa.po, po/zh_CN.GB2312.po, po/zh_TW.Big5.po:
+	updated po files
+
+2001-06-28 12:40  fpons
+
+	* urpm.pm, urpmi, urpmq: dependencies is right.
+
+2001-06-28 11:44  fpons
+
+	* urpmq: removed old po manipulation.
+
+2001-06-28 11:43  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: update flag and -M fixes with
+	serial.
+
+2001-06-27 11:18  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-06-27 05:53  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-06-26 12:43  fpons
+
+	* urpm.pm, urpmi.spec, urpmq: birthday work on urpmi.
+
+2001-06-25 12:41  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmi.update, urpmq: new algorithm
+	for searching packages.
+
+2001-06-21 12:30  fpons
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.removemedia, urpmi.spec,
+	urpmi.update: [no log message]
+
+2001-06-20 11:15  fpons
+
+	* placeholder.h: removed it.
+
+2001-06-20 11:15  fpons
+
+	* po/pl_create_placeholder: fixed some strange bugs (does it has
+	ever been running correctly ?).
+
+2001-06-20 11:14  fpons
+
+	* po/create_placeholder: updated with newer po translation
+	approach.
+
+2001-06-20 11:13  fpons
+
+	* po/Makefile: clean up to make i18n work (again?) with all
+	messages.
+
+2001-06-20 11:13  fpons
+
+	* urpmq: i18n update with urpm library.
+
+2001-06-20 11:13  fpons
+
+	* urpmi.spec: 1.6 new revision.
+
+2001-06-20 11:12  fpons
+
+	* urpmi: change with i18n support, improved _ method.  removed dead
+	code.
+
+2001-06-20 11:11  fpons
+
+	* urpmf: improved it a bit, no more need of packdrake.
+
+2001-06-20 11:11  fpons
+
+	* urpm.pm: fixed i18n, error message l10n.  fixed error code to use
+	more deterministic value.
+
+2001-06-20 11:10  fpons
+
+	* Makefile: allow build on both 4.0 or 4.0.3+ rpm.
+
+2001-06-18 14:25  prigaux
+
+	* urpmi.spec: (BuildRequires): add rpm-devel
+
+2001-06-18 11:07  pablo
+
+	* po/zh_TW.Big5.po: Updated Chinese file
+
+2001-06-15 06:05  prigaux
+
+	* urpmi.spec: fix the %description
+
+2001-06-14 05:02  fpons
+
+	* Makefile: added -lrpmdb.
+
+2001-06-14 05:01  fpons
+
+	* urpmi.spec: [no log message]
+
+2001-06-12 14:31  pablo
+
+	* po/hu.po: updated Hungarian file
+
+2001-06-10 17:39  pablo
+
+	* po/: az.po, de.po: updated Azeri file
+
+2001-06-08 05:02  siegel
+
+	* po/de.po: switched to utf-8
+
+2001-06-06 15:27  pablo
+
+	* po/: ru.po, urpmi.pot: updated Russian file
+
+2001-05-30 07:39  fpons
+
+	* urpmi.spec: 1.5-40mdk
+
+2001-05-30 07:37  fpons
+
+	* urpm.pm: added filter to include only valid rpm filename without
+	src arch when building an hdlist.
+
+2001-05-30 07:36  fpons
+
+	* urpmi: make sure --auto disable medium change which are always
+	refused in such case.
+
+2001-05-30 07:33  fpons
+
+	* urpmi: make sure no error are propagated if basesystem does not
+	exists.  make sure --auto avoid asking anything to the user.
+
+2001-05-29 11:18  fpons
+
+	* urpmi.spec: [no log message]
+
+2001-05-29 11:17  fpons
+
+	* urpm.pm: fixed broken dependancies due to wrong reading of
+	synthesis file.
+
+2001-05-28 01:04  pablo
+
+	* po/eo.po: updated Esperanto file
+
+2001-05-27 15:46  prigaux
+
+	* urpmi.spec: (BuildRequires): add libbzip2-devel
+
+2001-05-23 06:56  prigaux
+
+	* Makefile, urpmi.spec: really remove all group urpmi
+
+2001-05-23 06:41  prigaux
+
+	* urpmi.spec: removed setuid bit, now stop yelling or go get f*
+
+2001-05-22 09:51  fpons
+
+	* urpmi.spec: [no log message]
+
+2001-05-22 09:51  fpons
+
+	* urpm.pm: fixed warning if src rpm are inserted in medium.
+
+2001-05-22 09:36  fpons
+
+	* urpm.pm, urpmi.spec: added arch support, added filtering when
+	reading synthesis file.
+
+2001-05-15 05:24  siegel
+
+	* po/de.po: fixed typos
+
+2001-05-14 07:39  pablo
+
+	* po/: af.po, az.po, bg.po, ca.po, cs.po, da.po, de.po, eo.po,
+	es.po, et.po, fi.po, fr.po, ga.po, gl.po, hr.po, hu.po, id.po,
+	is.po, it.po, ja.po, ka.po, ko.po, lt.po, lv.po, nl.po, no.po,
+	pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po,
+	zh_CN.GB2312.po, zh_TW.Big5.po: updated Hungarian, Japanese and
+	Braezilian files
+
+2001-05-08 09:50  pablo
+
+	* po/: bg.po, ca.po, sk.po, vi.po: updated Catalan, Slovak and
+	Vietnamese files
+
+2001-05-07 14:41  pablo
+
+	* po/: ko.po, sp.po, sr.po: updated Serbian and Korean files
+
+2001-05-07 07:26  pablo
+
+	* po/pt_BR.po: updated Brazilian file
+
+2001-05-02 06:54  pablo
+
+	* po/no.po: Updated Norwegian file
+
+2001-04-30 10:44  pablo
+
+	* po/: hr.po, tr.po: Updated Croatian and Turkish files
+
+2001-04-25 11:49  pablo
+
+	* po/: cs.po, id.po, ja.po: Updated Indonesian, Japanese and Czech
+	files
+
+2001-04-25 04:23  prigaux
+
+	* autoirpm.update: fix calling packdrake
+
+2001-04-24 08:01  fabman
+
+	* po/es.po: updated spanish .po files
+
+2001-04-23 09:31  pablo
+
+	* placeholder.h, po/af.po, po/az.po, po/bg.po, po/ca.po, po/cs.po,
+	po/da.po, po/de.po, po/eo.po, po/es.po, po/et.po, po/fi.po,
+	po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po,
+	po/is.po, po/it.po, po/ja.po, po/ka.po, po/ko.po, po/lt.po,
+	po/lv.po, po/nl.po, po/no.po, po/pl.po, po/pt.po, po/pt_BR.po,
+	po/ro.po, po/ru.po, po/sk.po, po/sp.po, po/sr.po, po/sv.po,
+	po/th.po, po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po, po/vi.po,
+	po/wa.po, po/zh_CN.GB2312.po, po/zh_TW.Big5.po: Updated Turkish
+	file
+
+2001-04-17 13:54  fpons
+
+	* urpmi.spec: [no log message]
+
+2001-04-17 13:53  fpons
+
+	* urpm.pm: fixed silly bug or sorting list file.
+
+2001-04-17 12:57  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: [no log message]
+
+2001-04-13 17:09  pablo
+
+	* po/no.po: Updated Norwegian file
+
+2001-04-13 11:56  fpons
+
+	* urpm.pm, urpmf.8, urpmi, urpmi.spec: [no log message]
+
+2001-04-12 01:27  pablo
+
+	* po/fi.po: Updated Finnish file
+
+2001-04-11 12:52  pablo
+
+	* po/az.po: Updated Azeri file
+
+2001-04-10 17:21  pablo
+
+	* po/: cs.po, hu.po, id.po, urpmi.pot, zh_CN.GB2312.po: Updated
+	Czech, Hungarian, and Indonesian files
+
+2001-04-10 13:44  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-04-10 11:12  fpons
+
+	* urpm.pm, urpmf.8, urpmi.8, urpmi.addmedia, urpmi.addmedia.8,
+	urpmi.removemedia, urpmi.removemedia.8, urpmi.spec, urpmi.update,
+	urpmi.update.8, urpmq.8: [no log message]
+
+2001-04-09 13:11  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-04-09 02:32  kjx
+
+	* po/zh_CN.GB2312.po: translate before 8.0 release
+
+2001-04-08 09:04  pablo
+
+	* po/: ca.po, et.po, sk.po, sp.po, sr.po, sv.po: Updated Catalan,
+	Estonian, Slovak, Serbian and Swedish files
+
+2001-04-07 10:39  pablo
+
+	* po/ko.po: Updated Korean file
+
+2001-04-06 22:20  pablo
+
+	* po/: hr.po, urpmi.pot: updated Croatian file
+
+2001-04-06 13:39  siegel
+
+	* po/de.po: Updates.
+
+2001-04-05 13:52  fpons
+
+	* urpm.pm, urpmi.spec, urpm.pm: [no log message]
+
+2001-04-05 13:41  fpons
+
+	* urpm.pm, urpmf.8, urpmi, urpmi.8, urpmi.addmedia.8,
+	urpmi.removemedia.8, urpmi.update.8, urpmq.8: [no log message]
+
+2001-04-04 07:40  fabman
+
+	* po/es.po: updated urpmi spanish .po file
+
+2001-04-04 02:56  pablo
+
+	* placeholder.h, urpmi.removemedia, urpmi.update, po/af.po,
+	po/az.po, po/bg.po, po/ca.po, po/cs.po, po/da.po, po/de.po,
+	po/eo.po, po/es.po, po/et.po, po/fi.po, po/fr.po, po/ga.po,
+	po/gl.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	po/ja.po, po/ka.po, po/ko.po, po/lt.po, po/lv.po, po/nl.po,
+	po/no.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po,
+	po/sk.po, po/sp.po, po/sr.po, po/sv.po, po/th.po, po/tr.po,
+	po/uk.po, po/urpmi.pot, po/uz.po, po/vi.po, po/wa.po,
+	po/zh_CN.GB2312.po, po/zh_TW.Big5.po: Updated Finnish file small
+	change in sources to make strings more friendly to pl_xgettext
+
+2001-04-03 08:50  fpons
+
+	* urpm.pm, urpmi.addmedia, urpmi.removemedia, urpmi.spec,
+	urpmi.update: [no log message]
+
+2001-03-30 10:05  pablo
+
+	* po/az.po: Updated Azeri file
+
+2001-03-28 18:31  pablo
+
+	* po/cs.po: Updated Czech file
+
+2001-03-27 23:57  pablo
+
+	* po/pt.po: Added proper credit
+
+2001-03-27 11:22  pablo
+
+	* po/: pt.po, urpmi.pot: Updated Portuguese file
+
+2001-03-27 07:25  fpons
+
+	* urpmi, urpmi.spec: [no log message]
+
+2001-03-26 09:19  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-03-26 08:39  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmi.update: [no log message]
+
+2001-03-26 06:54  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-03-25 08:03  pablo
+
+	* po/ko.po: Added Korean file
+
+2001-03-25 08:01  pablo
+
+	* po/: ca.po, hu.po: updated Catalan and Hungarian files
+
+2001-03-24 18:45  pablo
+
+	* po/: ca.po, es.po, vi.po: Added Vietnamese file
+
+2001-03-23 08:44  fpons
+
+	* Makefile: fixed typo for URPMIDIR2 usage.
+
+2001-03-23 08:39  fpons
+
+	* urpm.pm: added synthesis hdlist file support (created by
+	urpmi.update and used *only if present* with -m mode of
+	urpmq/urpmi).
+
+2001-03-23 08:38  fpons
+
+	* urpmi.spec: 1.5-23mdk.
+
+2001-03-22 06:06  fabman
+
+	* po/es.po: updated DrakX, menudrake and urpmi es.po files
+
+2001-03-21 09:08  pablo
+
+	* po/: it.po, pt.po, sv.po, urpmi.pot: Updated Swedish, portuguese
+	and Italian files
+
+2001-03-18 11:57  chmouel
+
+	* ChangeLog, Makefile, skip.list, urpmi.spec: Add skip.list example
+	file.
+
+2001-03-18 11:14  prigaux
+
+	* urpmi.spec: [no log message]
+
+2001-03-18 11:13  prigaux
+
+	* urpmi: escape ``"'' in message to gmessage
+
+2001-03-17 13:12  prigaux
+
+	* autoirpm.update: use "packdrake --cat", and search hdlists .cz
+	and not .cz2
+
+2001-03-17 08:05  pablo
+
+	* po/: ja.po, sp.po, sr.po, zh_CN.GB2312.po, zh_TW.Big5.po: Updated
+	Japanese and Serbian files
+
+2001-03-16 14:36  pablo
+
+	* po/pt.po: updated Portuguese file
+
+2001-03-15 07:09  prigaux
+
+	* urpmi.spec: [no log message]
+
+2001-03-15 07:07  prigaux
+
+	* rpm-find-leaves: adapt for depslist.ordered
+
+2001-03-14 16:15  pablo
+
+	* po/: af.po, az.po, bg.po, ca.po, cs.po, da.po, de.po, eo.po,
+	es.po, et.po, fi.po, fr.po, ga.po, gl.po, hr.po, hu.po, id.po,
+	is.po, it.po, ja.po, ka.po, lt.po, lv.po, nl.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, th.po, tr.po,
+	uk.po, uz.po, wa.po, zh_CN.GB2312.po, zh_TW.Big5.po: updated Azeri
+	file
+
+2001-03-13 10:06  siegel
+
+	* po/de.po: new german version
+
+2001-03-13 08:37  pablo
+
+	* po/no.po: updated Norwegian file
+
+2001-03-09 09:54  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-03-08 12:09  pablo
+
+	* po/no.po: updated Norwegian file
+
+2001-03-08 00:20  pablo
+
+	* po/: no.po, urpmi.pot: updated Norwegian file
+
+2001-03-07 11:02  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: [no log message]
+
+2001-03-07 09:58  fpons
+
+	* urpmi, urpmi.spec: [no log message]
+
+2001-03-06 10:19  pablo
+
+	* po/sv.po: updated Swedish file
+
+2001-03-05 21:53  pablo
+
+	* po/: af.po, az.po, bg.po, ca.po, cs.po, da.po, de.po, eo.po,
+	es.po, et.po, fi.po, fr.po, ga.po, gl.po, hr.po, hu.po, id.po,
+	is.po, it.po, ja.po, ka.po, lt.po, lv.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, wa.po, zh_CN.GB2312.po,
+	zh_TW.Big5.po: updated Slovak and Catalan files
+
+2001-03-05 12:07  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: [no log message]
+
+2001-03-05 08:40  fpons
+
+	* urpmi, urpmi.spec: [no log message]
+
+2001-03-04 18:57  pablo
+
+	* po/lt.po: udated Lithuanian file
+
+2001-03-04 13:26  pablo
+
+	* po/lt.po: updated Lithuanian file
+
+2001-03-04 12:58  pablo
+
+	* po/: et.po, hr.po, id.po: updated Estonian, Croatian and
+	Indonesian files
+
+2001-03-02 22:22  pablo
+
+	* placeholder.h, po/af.po, po/az.po, po/bg.po, po/ca.po, po/cs.po,
+	po/da.po, po/de.po, po/eo.po, po/es.po, po/et.po, po/fi.po,
+	po/fr.po, po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po,
+	po/is.po, po/it.po, po/ja.po, po/ka.po, po/lt.po, po/lv.po,
+	po/nl.po, po/no.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	po/ru.po, po/sk.po, po/sp.po, po/sr.po, po/sv.po, po/th.po,
+	po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po, po/wa.po,
+	po/zh_CN.GB2312.po, po/zh_TW.Big5.po: updated Esperanto file
+
+2001-03-02 18:25  fpons
+
+	* urpmi, urpmi.spec, urpmq: [no log message]
+
+2001-03-02 13:13  pablo
+
+	* po/: ja.po, lt.po: updated Japanese and Lithuanian files
+
+2001-03-01 20:36  pablo
+
+	* po/: sp.po, sr.po: updated Serbian files
+
+2001-03-01 20:06  pablo
+
+	* po/de.po: updated German file
+
+2001-03-01 12:44  siegel
+
+	* po/de.po: new german version.
+
+2001-03-01 12:06  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-02-28 06:05  pablo
+
+	* po/: ja.po, wa.po, zh_CN.GB2312.po, zh_TW.Big5.po: updated CJK
+	files
+
+2001-02-27 21:03  pablo
+
+	* placeholder.h, urpmi, urpmq, po/af.po, po/az.po, po/bg.po,
+	po/ca.po, po/cs.po, po/da.po, po/de.po, po/eo.po, po/es.po,
+	po/et.po, po/fi.po, po/fr.po, po/ga.po, po/gl.po, po/hr.po,
+	po/hu.po, po/id.po, po/is.po, po/it.po, po/ja.po, po/ka.po,
+	po/lt.po, po/lv.po, po/nl.po, po/no.po, po/pl.po, po/pt.po,
+	po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sp.po, po/sr.po,
+	po/sv.po, po/th.po, po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po,
+	po/wa.po, po/zh_CN.GB2312.po, po/zh_TW.Big5.po: fixed some English
+	typos
+
+2001-02-27 18:44  pablo
+
+	* po/uz.po: Added Uzbek file
+
+2001-02-27 11:25  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: [no log message]
+
+2001-02-27 10:31  pablo
+
+	* po/: bg.po, fi.po, id.po, no.po, sv.po: updated Bulgarian,
+	Finnish, Indoneisan and Norwegian files
+
+2001-02-27 09:27  fpons
+
+	* urpmi, urpmi.spec: [no log message]
+
+2001-02-27 07:48  fpons
+
+	* urpm.pm, urpmi.spec, urpmq: [no log message]
+
+2001-02-26 12:13  pablo
+
+	* placeholder.h, urpmi.removemedia, urpmi.update, po/af.po,
+	po/az.po, po/bg.po, po/ca.po, po/cs.po, po/da.po, po/de.po,
+	po/eo.po, po/es.po, po/et.po, po/fi.po, po/fr.po, po/ga.po,
+	po/gl.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	po/ja.po, po/ka.po, po/lt.po, po/lv.po, po/nl.po, po/no.po,
+	po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po,
+	po/sp.po, po/sr.po, po/sv.po, po/th.po, po/tr.po, po/uk.po,
+	po/urpmi.pot, po/wa.po, po/zh_CN.GB2312.po, po/zh_TW.Big5.po:
+	updated Danish file updated pot file
+
+2001-02-26 11:52  fpons
+
+	* urpmi, urpmi.spec, urpmq: [no log message]
+
+2001-02-26 10:06  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-02-23 13:44  fpons
+
+	* urpmi, urpmi.spec, urpmq: [no log message]
+
+2001-02-23 13:27  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: [no log message]
+
+2001-02-19 13:37  fpons
+
+	* urpm.pm: [no log message]
+
+2001-02-19 12:03  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmi.spec: [no log message]
+
+2001-02-19 09:57  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: [no log message]
+
+2001-02-18 13:32  pablo
+
+	* po/tr.po: updated Turkish file
+
+2001-02-17 18:18  pablo
+
+	* placeholder.h, po/et.po: updated Estonian file
+
+2001-02-17 10:10  pablo
+
+	* po/: af.po, az.po, bg.po, ca.po, cs.po, da.po, de.po, eo.po,
+	es.po, et.po, fi.po, fr.po, ga.po, gl.po, hr.po, hu.po, id.po,
+	is.po, it.po, ja.po, ka.po, lt.po, lv.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, th.po,
+	tr.po, uk.po, urpmi.pot, wa.po, zh_CN.GB2312.po, zh_TW.Big5.po:
+	updated Turkish file
+
+2001-02-16 11:53  fpons
+
+	* urpm.pm, urpmi.spec: [no log message]
+
+2001-02-16 08:01  fpons
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.removemedia, urpmi.spec,
+	urpmi.update, urpmq, po/Makefile, po/POTFILES.in: [no log message]
+
+2001-02-16 02:21  pablo
+
+	* po/: urpmi.pot, wa.po: updated wa.po
+
+2001-02-14 12:22  pablo
+
+	* ChangeLog, _irpm, placeholder.h, urpmf, urpmi, urpmi.addmedia,
+	urpmi.spec, urpmq, po/Makefile, po/POTFILES.in, po/af.po, po/az.po,
+	po/bg.po, po/ca.po, po/create_placeholder, po/cs.po, po/da.po,
+	po/de.po, po/eo.po, po/es.po, po/et.po, po/fi.po, po/fr.po,
+	po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/is.po,
+	po/it.po, po/ja.po, po/ka.po, po/lt.po, po/lv.po, po/nl.po,
+	po/no.po, po/pl.po, po/pl_create_placeholder, po/pt.po,
+	po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sp.po, po/sr.po,
+	po/sv.po, po/th.po, po/tr.po, po/uk.po, po/urpmi.pot, po/wa.po,
+	po/zh_CN.GB2312.po, po/zh_TW.Big5.po: i18n improvements
+
+2001-02-14 08:32  fpons
+
+	* urpm.pm, urpmi.addmedia, urpmi.spec: [no log message]
+
+2001-02-13 10:04  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: major changes, added
+	--auto-select flag and better online (small) help.
+
+2001-02-05 12:58  fpons
+
+	* urpmi.spec: [no log message]
+
+2001-02-05 12:17  fpons
+
+	* urpm.pm: fixed wrong autodetect of list file on update.
+
+2001-02-05 05:46  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: [no log message]
+
+2001-01-30 12:50  fpons
+
+	* urpm.pm, urpmi, urpmi.spec: [no log message]
+
+2001-01-25 11:16  fpons
+
+	* urpm.pm, urpmi, urpmi.spec, urpmi.spec: [no log message]
+
+2001-01-23 14:17  fpons
+
+	* Makefile: updated not to use moving flags of tar with bzip2
+	manipulation...
+
+2001-01-23 14:16  fpons
+
+	* urpmi.spec: 1.3-3mdk
+
+2001-01-23 14:16  fpons
+
+	* urpmi.update: added -c flag for cleaning, default is noclean.
+
+2001-01-23 14:15  fpons
+
+	* urpmq: added -c flag for cleaning (default is noclean).
+
+2001-01-23 14:14  fpons
+
+	* urpm.pm: added cache management, beginning removable media
+	management.  added sync on timestamp for hdlist.
+
+2001-01-17 10:56  fpons
+
+	* urpm.pm: fixed glitches when reading old urpmi.cfg file.
+
+2001-01-17 10:56  fpons
+
+	* urpmi.spec: 1.4-2mdk
+
+2001-01-16 12:38  fpons
+
+	* Makefile: take into account urpmi.update and urpmi.removemedia
+	standalone executable (perl)
+
+2001-01-16 12:37  fpons
+
+	* urpm.pm: urpmi library (perl module). contains code for managing
+	media and packages.
+
+2001-01-16 12:36  fpons
+
+	* urpmi.update: use urpm library for managing media. initial
+	revision.
+
+2001-01-16 12:35  fpons
+
+	* urpmi.removemedia: use urpm library for managing media. initial
+	release.
+
+2001-01-16 12:34  fpons
+
+	* urpmi.addmedia: use urpm library for managing media.
+
+2001-01-16 12:34  fpons
+
+	* urpmi, urpmq: use of urpm library, moved code.
+
+2001-01-16 12:33  fpons
+
+	* urpmi.spec: snapshot 1.4-1mdk
+
+2001-01-07 01:27  pablo
+
+	* po/id.po: updated Indonesian file
+
+2001-01-04 01:17  pablo
+
+	* po/id.po: Added Indonesian file
+
+2000-12-30 21:13  pablo
+
+	* po/ka.po: Converted Georgian file to utf-8
+
+2000-12-30 21:12  pablo
+
+	* po/: az.po, tr.po: converted az file to utf-8
+
+2000-12-07 09:09  pablo
+
+	* po/hr.po: updated Croatian file
+
+2000-12-05 12:26  pablo
+
+	* po/: sv.po, wa.po: updated Swedish file
+
+2000-11-27 11:13  fpons
+
+	* urpmi.addmedia, urpmi.spec: [no log message]
+
+2000-11-26 11:52  pablo
+
+	* po/ka.po: Added Georgian file
+
+2000-11-25 09:31  pablo
+
+	* po/wa.po: updated Walloon file
+
+2000-11-24 08:42  pablo
+
+	* po/sv.po: updated Swedish file
+
+2000-11-16 12:28  fpons
+
+	* Makefile, urpmi.spec: [no log message]
+
+2000-11-12 12:06  prigaux
+
+	* urpmi: unset CDPATH (i've checked it perl's source, there'll be
+	no more such surprise :)
+
+2000-10-28 06:50  pablo
+
+	* po/pt_BR.po: updated Brazilian file
+
+2000-10-15 19:37  pablo
+
+	* po/pt_BR.po: Added Brazilian file
+
+2000-09-30 08:06  pablo
+
+	* po/nl.po: Added Dutch file
+
+2000-09-28 09:29  prigaux
+
+	* ChangeLog, urpmi.addmedia: [no log message]
+
+2000-09-25 12:36  fpons
+
+	* urpme, urpmi.spec: [no log message]
+
+2000-09-25 10:05  pablo
+
+	* po/: sp.po, sr.po: updated Serbian files
+
+2000-09-21 07:46  pablo
+
+	* po/zh_CN.GB2312.po: updated Chinese file
+
+2000-09-21 06:37  prigaux
+
+	* ChangeLog, urpmi.addmedia:	* urpmi.addmedia: try to mount the
+	directory if file contains
+		/mnt, mainly for /mnt/nfs (it can't hurt)
+	
+		* urpmi.addmedia (update): no args now means '-a'
+
+2000-09-21 03:51  pablo
+
+	* po/it.po: updated Italian file
+
+2000-09-20 11:17  gc
+
+	* urpmi, urpmi.spec: in --auto under X, does not display anymore
+	the sucking interactive dialog "everything already installed"
+
+2000-09-20 06:44  pablo
+
+	* po/: af.po, bg.po, ca.po, cs.po, da.po, de.po, eo.po, es.po,
+	et.po, fi.po, fr.po, ga.po, gl.po, hr.po, hu.po, is.po, it.po,
+	ja.po, lt.po, no.po, pl.po, pt.po, ro.po, ru.po, sk.po, sp.po,
+	sr.po, sv.po, th.po, tr.po, uk.po, wa.po, zh_CN.GB2312.po,
+	zh_TW.Big5.po: updated Italian file
+
+2000-09-19 18:46  gc
+
+	* urpmi.spec: added option --best-output
+
+2000-09-19 13:17  prigaux
+
+	* urpmi: [no log message]
+
+2000-09-19 13:10  gc
+
+	* urpmi: added option `--best-output' which enables --X only if X
+	is available
+
+2000-09-18 18:02  pablo
+
+	* po/az.po: updated Azeri file
+
+2000-09-13 14:45  pablo
+
+	* po/az.po: updated Azeri fiel
+
+2000-09-13 13:56  fpons
+
+	* urpmi, urpmi.spec, Makefile, urpmi.spec: [no log message]
+
+2000-09-13 06:35  pablo
+
+	* po/: az.po, fr.po: Added Azeri file
+
+2000-09-10 20:16  baudens
+
+	* po/fr.po: Fix some typos in french translations
+
+2000-09-09 18:56  pablo
+
+	* po/ru.po: added Russian file
+
+2000-09-08 23:19  pablo
+
+	* po/lv.po: Added Latvian file
+
+2000-09-08 21:21  pablo
+
+	* po/pl.po: updated Polish file
+
+2000-09-05 16:57  pablo
+
+	* po/pl.po: updated Polish file
+
+2000-09-05 12:04  fpons
+
+	* Makefile, autoirpm.8, urpmf.8, urpmi, urpmi.8, urpmi.addmedia.8,
+	urpmi.removemedia.8, urpmi.spec, urpmi.update.8, urpmq, urpmq.8:
+	[no log message]
+
+2000-09-03 13:32  fpons
+
+	* urpmi.spec: [no log message]
+
+2000-09-03 13:11  fpons
+
+	* urpmi, urpmi: [no log message]
+
+2000-09-03 12:08  fpons
+
+	* urpmi, urpmi.addmedia, urpmi.spec: [no log message]
+
+2000-09-01 13:43  pablo
+
+	* po/th.po: added Thai file
+
+2000-08-31 12:23  fpons
+
+	* urpmf, urpmi, urpmi.spec, urpmi.spec, urpmi.spec: [no log
+	message]
+
+2000-08-31 12:07  fpons
+
+	* urpmi: [no log message]
+
+2000-08-28 06:07  fpons
+
+	* urpmf, urpmi, urpmi.addmedia, urpmi.spec, urpmi.spec: [no log
+	message]
+
+2000-08-22 07:51  prigaux
+
+	* urpmi.8: [no log message]
+
+2000-08-06 15:25  prigaux
+
+	* urpmi, urpmi.spec: no_comment
+
+2000-07-19 15:21  prigaux
+
+	* urpmi.spec: no_comment
+
+2000-07-19 11:26  prigaux
+
+	* ChangeLog, autoirpm.update, urpmf, urpmi.addmedia, urpmi.spec:
+	no_comment
+
+2000-06-27 12:52  pablo
+
+	* po/: ca.po, cs.po, da.po, de.po, eo.po, es.po, fi.po, hr.po,
+	is.po, lt.po, no.po, ro.po, sk.po, sp.po, sr.po, sv.po,
+	zh_CN.GB2312.po: fixed some headers
+
+2000-06-24 01:02  pablo
+
+	* po/it.po: updated Italian file
+
+2000-06-22 05:47  prigaux
+
+	* urpmf: [no log message]
+
+2000-06-19 06:46  pablo
+
+	* po/bg.po: updated Bulgarian file
+
+2000-06-19 06:41  pablo
+
+	* po/uk.po: updated Ukrainian file
+
+2000-06-16 09:16  pablo
+
+	* po/: hu.po, pt.po: Updated Portuguese file
+
+2000-06-15 13:00  siegel
+
+	* po/de.po: new german version
+
+2000-06-13 17:19  pablo
+
+	* po/: de.po, ja.po, ro.po: Updated Japanese and Romanian files
+
+2000-06-13 15:28  prigaux
+
+	* urpmi.spec: no_comment
+
+2000-06-13 15:03  prigaux
+
+	* ChangeLog, urpme, urpmi, urpmi.addmedia, urpmi.spec: no_comment
+
+2000-06-13 10:05  pablo
+
+	* po/bg.po: Updated Bulgaran file
+
+2000-06-13 08:53  pablo
+
+	* po/et.po: updated Estonian file
+
+2000-06-12 21:57  pablo
+
+	* po/ca.po: Updated Catalan file
+
+2000-06-04 18:39  pablo
+
+	* po/eo.po: Updated Esperanto file
+
+2000-06-02 20:59  pablo
+
+	* po/tr.po: updated Turkish file
+
+2000-05-28 13:46  pablo
+
+	* po/sp.po: Updated Serbian file
+
+2000-05-24 09:07  pablo
+
+	* po/: bg.po, cs.po: Updated Czech file
+
+2000-05-20 18:35  pablo
+
+	* po/af.po: Added Afrikaans file
+
+2000-05-18 19:12  pablo
+
+	* po/hu.po: Updated Hungarian file
+
+2000-05-16 10:08  pablo
+
+	* po/sk.po: Updated Slovakia nfile
+
+2000-05-13 04:48  pablo
+
+	* po/fr.po: Updated French file
+
+2000-05-10 07:25  pablo
+
+	* po/bg.po: Updated Bulgarian file
+
+2000-05-10 07:18  pablo
+
+	* po/: bg.po, ca.po, cs.po, eo.po, es.po, et.po, fi.po, ga.po,
+	gl.po, hr.po, hu.po, is.po, it.po, ja.po, pt.po, ro.po, sp.po,
+	sr.po, tr.po, uk.po, wa.po: Updated Galician file
+
+2000-05-09 15:31  pablo
+
+	* po/no.po: updated Norwegian file
+
+2000-05-09 11:16  pablo
+
+	* po/: fr.po, sk.po: Updated French & Slovakian files
+
+2000-05-08 03:12  pablo
+
+	* po/: da.po, lt.po: Updated Danish & Lithuanian files
+
+2000-05-07 11:06  pablo
+
+	* urpmi, po/bg.po, po/ca.po, po/cs.po, po/da.po, po/de.po,
+	po/eo.po, po/es.po, po/et.po, po/fi.po, po/fr.po, po/ga.po,
+	po/gl.po, po/hr.po, po/hu.po, po/is.po, po/it.po, po/ja.po,
+	po/lt.po, po/no.po, po/pl.po, po/pt.po, po/ro.po, po/sk.po,
+	po/sp.po, po/sr.po, po/sv.po, po/tr.po, po/uk.po, po/urpmi.pot,
+	po/wa.po, po/zh_CN.GB2312.po, po/zh_TW.Big5.po: corrected Englysh
+	typo (s/cheking/checking/) update-po
+
+2000-05-05 17:09  pablo
+
+	* po/: cs.po, fr.po: Added Czech file
+
+2000-05-05 10:09  pablo
+
+	* po/: sp.po, sr.po: update-po
+
+2000-05-04 13:03  prigaux
+
+	* ChangeLog, urpmi, urpmi.addmedia.8, urpmi.spec: no_comment
+
+2000-05-02 09:58  pablo
+
+	* po/ro.po: Added Romanian file
+
+2000-04-22 21:50  chmouel
+
+	* ChangeLog, urpmf: [no log message]
+
+2000-04-21 06:41  pablo
+
+	* po/eo.po: Added Esperanto file
+
+2000-04-20 14:57  pablo
+
+	* po/: sp.po, sr.po: Added Serbian files
+
+2000-04-20 10:59  pablo
+
+	* po/: is.po, it.po: Added Icelandic file Updated Italian file
+
+2000-04-19 09:19  pablo
+
+	* po/ga.po: Added Irish file
+
+2000-04-16 09:43  pablo
+
+	* po/hr.po: Updated Croatian files
+
+2000-04-16 09:14  pablo
+
+	* po/fi.po: Added Finnish file
+
+2000-04-12 12:13  pablo
+
+	* po/bg.po: Updated Bulgarian file
+
+2000-04-12 06:55  prigaux
+
+	* urpmi.8: no_comment
+
+2000-04-12 06:14  pablo
+
+	* po/da.po: Updated Danis hfile
+
+2000-04-10 16:12  pablo
+
+	* po/de.po: updated German file
+
+2000-04-10 09:39  pablo
+
+	* po/: bg.po, da.po, gl.po: Added Galician language file Updated
+	Danish file
+
+2000-04-09 04:10  pablo
+
+	* po/hu.po: updated hugarian file
+
+2000-04-04 05:44  prigaux
+
+	* ChangeLog, urpmi, urpmi.spec: no_comment
+
+2000-04-03 14:24  pablo
+
+	* po/: hu.po, zh_CN.GB2312.po: updated Hungarian and Chinese files
+
+2000-04-03 06:38  prigaux
+
+	* urpmi.spec: no_comment
+
+2000-03-31 19:37  pablo
+
+	* po/pt.po: updated Portuguese file
+
+2000-03-31 09:44  prigaux
+
+	* ChangeLog, Makefile, autoirpm.update, rpme, rpmf, rpmf.8, urpmi,
+	urpmi.spec: no_comment
+
+2000-03-31 09:00  pablo
+
+	* po/uk.po: updated Ukrainian file
+
+2000-03-30 13:11  pablo
+
+	* po/lt.po: Added Lithuanian file
+
+2000-03-28 20:17  pablo
+
+	* po/bg.po: updated bg.po
+
+2000-03-28 11:03  pablo
+
+	* po/et.po: Updated et.po
+
+2000-03-28 00:06  pablo
+
+	* po/: ca.po, ja.po, no.po, tr.po: updated language files
+
+2000-03-27 08:07  pablo
+
+	* po/: bg.po, ca.po, da.po, de.po, es.po, et.po, fr.po, hu.po,
+	it.po, ja.po, no.po, pl.po, pt.po, sk.po, sv.po, tr.po, uk.po,
+	wa.po, zh_CN.GB2312.po, zh_TW.Big5.po: Updated Spanish, Walloon and
+	Slovakian files
+
+2000-03-26 12:23  prigaux
+
+	* ChangeLog, Makefile, autoirpm.update-all.cc, urpmi,
+	urpmi.addmedia, urpmi.spec, po/bg.po, po/ca.po, po/da.po, po/de.po,
+	po/es.po, po/et.po, po/fr.po, po/hu.po, po/it.po, po/ja.po,
+	po/no.po, po/pl.po, po/pt.po, po/sk.po, po/sv.po, po/tr.po,
+	po/uk.po, po/urpmi.pot, po/wa.po, po/zh_CN.GB2312.po,
+	po/zh_TW.Big5.po, rpme, urpme: no_comment
+
+2000-03-17 11:06  pablo
+
+	* po/da.po: updated Danish file
+
+2000-03-07 18:25  prigaux
+
+	* Makefile, rpmf, urpmf, urpmi.addmedia, urpmi.spec, urpmi.spec:
+	no_comment
+
+2000-03-06 05:15  pablo
+
+	* po/zh_CN.GB2312.po: Added Chinese (GuoBiao) file
+
+2000-02-29 18:31  camille
+
+	* rpmf.8, urpmf.8, urpmi.update.8: Ooops forgot to add the new man
+	pages...
+
+2000-02-29 18:30  camille
+
+	* autoirpm.8, urpmi.8, urpmi.addmedia.8, urpmi.removemedia.8: Added
+	two man pages for rpmf and urpmi.update
+
+2000-02-29 06:04  prigaux
+
+	* urpmi: no_comment
+
+2000-02-28 11:54  prigaux
+
+	* ChangeLog, autoirpm.update-all.cc, urpmi, urpmi.spec: no_comment
+
+2000-02-19 13:40  pablo
+
+	* po/it.po: updated Italian file
+
+2000-02-15 09:04  pablo
+
+	* po/hu.po: Added Hungarian file
+
+2000-02-11 20:11  prigaux
+
+	* urpmi.8, urpmi.spec: no_comment
+
+2000-02-11 07:50  pablo
+
+	* po/pl.po: updated Polish file
+
+2000-02-09 18:26  prigaux
+
+	* ChangeLog, urpmi, urpmi.spec: no_comment
+
+2000-02-09 15:09  prigaux
+
+	* urpmi, urpmi.8, urpmi.spec: no_comment
+
+2000-02-09 07:47  pablo
+
+	* po/sk.po: added Slovak file
+
+2000-02-07 03:22  pablo
+
+	* po/uk.po: updated uk.po
+
+2000-02-05 11:09  pablo
+
+	* po/zh_TW.Big5.po: updated Chinese file
+
+2000-02-05 03:07  pablo
+
+	* po/: ja.po, no.po: updated Japanese & Norwegian files
+
+2000-02-04 19:24  pablo
+
+	* po/: bg.po, ca.po: added Bulmgarian file
+
+2000-02-03 18:11  pablo
+
+	* po/ca.po: updated ca.po
+
+2000-01-31 13:00  pablo
+
+	* po/de.po: updated de.po
+
+2000-01-26 12:45  pablo
+
+	* po/sv.po: added sv.po
+
+2000-01-20 08:18  prigaux
+
+	* urpmi, ChangeLog: no_comment
+
+2000-01-19 12:42  pablo
+
+	* po/ca.po: added ca.po file
+
+2000-01-19 12:34  pablo
+
+	* po/pt.po: added pt.po
+
+2000-01-10 08:18  prigaux
+
+	* ChangeLog, Makefile, urpmi, urpmi.spec: no_comment
+
+2000-01-06 17:32  prigaux
+
+	* urpmi, urpmi.addmedia, urpmi.addmedia.8, urpmi.spec: no_comment
+
+2000-01-05 17:44  prigaux
+
+	* ChangeLog, urpmi, urpmi.spec: no_comment
+
+2000-01-04 09:39  chmouel
+
+	* ChangeLog, rpmf, urpmf, urpmi.spec: "Seethechangelog"
+
+2000-01-04 03:32  pablo
+
+	* po/: it.po, tr.po: added tr.po
+
+2000-01-03 19:30  prigaux
+
+	* ChangeLog, urpmi.spec: no_comment
+
+2000-01-03 19:02  prigaux
+
+	* ChangeLog, Makefile, rpmf, urpmf, urpmi, urpmi.addmedia,
+	urpmi.spec: no_comment
+
+1999-12-30 04:03  pablo
+
+	* po/et.po: updated et.po
+
+1999-12-29 13:14  pablo
+
+	* po/: da.po, de.po, es.po, et.po, fr.po, it.po, ja.po, no.po,
+	pl.po, uk.po, urpmi.pot, wa.po, zh_TW.Big5.po: added Italian file
+
+1999-12-26 18:27  pablo
+
+	* po/da.po: updated da.po
+
+1999-12-24 07:28  prigaux
+
+	* po/fr.po: [no log message]
+
+1999-12-23 19:16  prigaux
+
+	* autoirpm.deny, urpmi: no_comment
+
+1999-12-23 12:50  pablo
+
+	* urpmi, po/da.po, po/es.po, po/et.po, po/fr.po, po/ja.po,
+	po/no.po, po/pl.po, po/uk.po, po/urpmi.pot, po/wa.po,
+	po/zh_TW.Big5.po: updated ja.po file added 'usage' string as
+	translatable
+
+1999-12-22 00:51  pablo
+
+	* po/uk.po: added uk.po
+
+1999-12-20 11:43  pablo
+
+	* po/da.po: updated da.po
+
+1999-12-20 10:55  pablo
+
+	* po/fr.po: updated fr.po
+
+1999-12-20 09:36  pablo
+
+	* po/: da.po, de.po, es.po, et.po, fr.po, ja.po, no.po, pl.po,
+	urpmi.pot, wa.po, zh_TW.Big5.po: update-po
+
+1999-12-19 15:49  prigaux
+
+	* Makefile, _irpm, autoirpm.README, autoirpm.uninstall,
+	autoirpm.update, autoirpm.update-all.cc, rpm-find-leaves, urpmi,
+	urpmi.8, urpmi.addmedia, urpmi.addmedia.8, urpmi.removemedia.8:
+	no_comment
+
+1999-12-19 09:48  pablo
+
+	* po/: da.po, de.po, es.po, et.po, fr.po, no.po, pl.po, wa.po,
+	zh_TW.Big5.po: update-po
+
+1999-12-19 08:55  pablo
+
+	* po/: da.po, de.po, es.po, et.po, fr.po, no.po, pl.po, urpmi.pot,
+	wa.po, zh_TW.Big5.po: update-po
+
+1999-12-18 11:14  prigaux
+
+	* Makefile, urpmi, urpmi.addmedia, po/fr.po: no_comment
+
+1999-12-18 08:24  pablo
+
+	* po/: da.po, es.po, et.po, fr.po, no.po, pl.po, urpmi.pot, wa.po,
+	zh_TW.Big5.po: update-po
+
+1999-12-17 15:13  pablo
+
+	* po/no.po: updated no.po
+
+1999-12-17 11:04  pablo
+
+	* po/pl.po: updated polish file
+
+1999-12-17 09:53  pablo
+
+	* po/: da.po, de.po, es.po, et.po, fr.po, no.po, pl.po, wa.po,
+	zh_TW.Big5.po: added several language files
+
+1999-12-16 19:21  prigaux
+
+	* Makefile, README-autoirpm-icons, _irpm, autoirpm.8,
+	autoirpm.README, autoirpm.deny, autoirpm.uninstall,
+	autoirpm.update, autoirpm.update-all.cc, gurpmi, rpm-find-leaves,
+	urpmi, urpmi.8, urpmi.addmedia, urpmi.addmedia.8,
+	urpmi.removemedia.8, po/Makefile, po/fr.po, po/urpmi.pot:
+	no_comment
+
