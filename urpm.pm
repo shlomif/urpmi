@@ -1389,8 +1389,7 @@ this could happen if you mounted manually the directory when creating the medium
 		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
 		    my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
-		    -s $path_list or $path_list = reduce_pathname("$with_hdlist_dir/../list");
-		    -s $path_list or $path_list = "$dir/$local_list";
+		    -s $path_list or $path_list = "$dir/list";
 		    -s $path_list and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
 					     $path_list, "$urpm->{cachedir}/partial/list");
 		}
@@ -1438,8 +1437,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
 		my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
 		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../$local_pubkey");
-		-s $path_pubkey or $path_pubkey = reduce_pathname("$with_hdlist_dir/../pubkey");
-		-s $path_pubkey or $path_pubkey = "$dir/$local_pubkey";
+		-s $path_pubkey or $path_pubkey = "$dir/pubkey";
 		-s $path_pubkey and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
 					   $path_pubkey, "$urpm->{cachedir}/partial/pubkey");
 	    }
@@ -1652,8 +1650,7 @@ this could happen if you mounted manually the directory when creating the medium
 		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
 		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_list"),
-			     reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../list"),
-			     reduce_pathname("$medium->{url}/$local_list"),
+			     reduce_pathname("$medium->{url}/list"),
 			    ) {
 			eval {
 			    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
@@ -1673,8 +1670,7 @@ this could happen if you mounted manually the directory when creating the medium
 		if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
 		    my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
 		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_pubkey"),
-			     reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../pubkey"),
-			     reduce_pathname("$medium->{url}/$local_pubkey"),
+			     reduce_pathname("$medium->{url}/pubkey"),
 			    ) {
 			eval {
 			    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
