@@ -267,8 +267,9 @@ install(@sources);
 @sources or message_auto(_("everything already installed"));
 
 #- this help flushing correctly by closing this file before (piped on tee).
-close STDERR;
-close STDOUT;
+#- but killing them is generally better.
+kill 15, $pid_err; close STDERR;
+kill 15, $pid_out; close STDOUT;
 
 sub install {
     @_ or return;
