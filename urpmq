@@ -31,7 +31,7 @@ my %I18N;
 load_po();
 
 sub usage {
-    die(_("usage: urpmq [-h] [-d] [-u] [-g] [-v] [-r] package_name|rpm_file [package_names|rpm_files...]\n"));
+    die(_("usage: urpmq [-h] [-d] [-u] [-c] [-g] [-v] [-r] package_name|rpm_file [package_names|rpm_files...]\n"));
 }
 
 #- parse arguments list.
@@ -42,6 +42,7 @@ for (@ARGV) {
 	/[\?h]/ and do { usage; next };
 	/d/ and do { $query->{deps} = 1; next };
 	/u/ and do { $query->{upgrade} = 1; next };
+	/c/ and do { $query->{complete} = 1; next };
 	/g/ and do { $query->{group} = 1; next };
 	/v/ and do { $query->{version} = 1; next };
 	/r/ and do { $query->{release} = 1; next };
@@ -83,12 +84,7 @@ $urpm->search_packages(\%packages, [ @names ], all => $all) or $force or exit 1;
 
 #- filter to add in packages selected required packages.
 $query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);
-$query->{upgrade} and $urpm->filter_packages_to_upgrade(\%packages);
-
-#- query of dependancies will make use of packages_to_install, else just
-#- need to use @names where all informations are given, with eventual
-#- limitation on packages already installed.
-my $l = $query->{deps} ? \%packages : \%packages;
+$query->{upgrade} and $urpm->filter_packages_to_upgrade(\%packages, complete => $query->{complete});
 
 #- print sub for query.
 my $query_sub = sub {
@@ -103,8 +99,8 @@ my $query_sub = sub {
 };
 
 my %hack_only_one;
-foreach my $id (keys %$l) {
-    my $class = $l->{$id};
+foreach my $id (keys %packages) {
+    my $class = $packages{$id};
     if (ref $class) {
 	foreach my $choices (@{$class || []}) {
 	    exists $hack_only_one{$choices} and next;
@@ -112,7 +108,7 @@ foreach my $id (keys %$l) {
 	    $hack_only_one{$choices} = undef;
 	}
     } else {
-	exists $l->{$id} and print $query_sub->($id), "\n";
+	exists $packages{$id} and print $query_sub->($id), "\n";
     }
 }
 
