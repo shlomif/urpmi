@@ -109,6 +109,9 @@ file /etc/urpmi/parallel.cfg as described below.
 Use the file system tree rooted for rpm install. All operations and scripts
 will run after chroot(2). The rpm database that lies in the rooted tree will
 be used, but the urpmi configuration comes from the normal system.
+.IP "\fB\--use-distrib\fP \fIdirectory\fP"
+Configure urpmi on the fly from a distrib tree, useful to install a chroot with
+the \fB--root\fP option.
 .IP "\fB\--wget\fP"
 Use wget for downloading distant files. By default curl is used if
 available, or wget instead.
@@ -118,6 +121,8 @@ available, or wget instead.
 .IP "\fB\--limit-rate \fIrate\fP"
 Try to limit the download speed, \fIrate\fP is given in bytes/sec. This option is
 not active by default.
+.IP "\fB\--resume\fP"
+Resume transfer of partially-downloaded files.
 .IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
 Use specified HTTP proxy.
 .IP "\fB\--proxy-user\fP \fIuser:password\fP"
@@ -133,18 +138,24 @@ Activate or deactivate rpm signature checking. It's activated by default.
 .IP "\fB\--test\fP"
 Test (same as \fBrpm --test\fP) installation of packages but do not modify the
 system.
-.IP "\fB\--strict-arch\fP"
-Upgrade only packages if the newer version has the same architecture as the
-one installed. Mostly useful on machines that support several architectures
-(32 and 64 bit).
-.IP "\fB\--norebuild\fP"
-Don't try to rebuild the hdlist files from the RPMs if the original hdlist wasn't
-readable or was corrupted.
 .IP "\fB\--excludepath\fP \fIstring\fP"
 Do not install files of which the names begin with the given \fIstring\fP (same
 as \fBrpm --excludepath\fP).
 .IP "\fB\--excludedocs\fP"
 Do not install documents files (same as \fBrpm --excludedocs\fP).
+.IP "\fB\--skip\fP \fIpattern,...\fP"
+You can specify a list of packages which installation should be skipped. You
+can also include patterns between //, just like in /etc/urpmi/skip.list (see
+\fIurpmi.files\fP(5)).
+.IP "\fB\--more-choices\fP"
+When several packages are found, propose more choices than the default.
+.IP "\fB\--norebuild\fP"
+Don't try to rebuild the hdlist files from the RPMs if the original hdlist wasn't
+readable or was corrupted.
+.IP "\fB\--strict-arch\fP"
+Upgrade only packages if the newer version has the same architecture as the
+one installed. Mostly useful on machines that support several architectures
+(32 and 64 bit).
 .IP "\fB\-a\fP"
 If multiple packages match the given substring, install them all.
 .IP "\fB\-p\fP"
