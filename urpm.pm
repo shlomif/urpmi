@@ -664,7 +664,7 @@ sub add_distrib_media {
     # (Olivier Thauvin): Is this a workaround ?
     $urpm->{media} or $urpm->read_config;
 
-    #- try to copy/retrive Mandrake/basehdlists file.
+    #- try to copy/retrieve Mandrake/basehdlists file.
     if (my ($dir) = $url =~ m!^(?:removable[^:]*|file):/(.*)!) {
 	$hdlists_file = reduce_pathname("$dir/Mandrake/base/hdlists");
 
@@ -1151,7 +1151,10 @@ this could happen if you mounted manually the directory when creating the medium
 			my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
 			my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
 			-e $path_list or $path_list = "$dir/list";
-			-e $path_list and system("cp", "-p", "-R", $path_list, "$urpm->{cachedir}/partial/list");
+			if (-e $path_list) {
+			    system("cp", "-p", "-R", $path_list, "$urpm->{cachedir}/partial/list")
+				and $urpm->{log}(N("...copying failed"));
+			}
 		    }
 		} else {
 		    #- try to find rpm files, use recursive method, added additional
@@ -1205,7 +1208,9 @@ this could happen if you mounted manually the directory when creating the medium
 		my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
 		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../$local_pubkey");
 		-e $path_pubkey or $path_pubkey = "$dir/pubkey";
-		-e $path_pubkey and system("cp", "-p", "-R", $path_pubkey, "$urpm->{cachedir}/partial/pubkey");
+		-e $path_pubkey
+		    and system("cp", "-p", "-R", $path_pubkey, "$urpm->{cachedir}/partial/pubkey")
+		    and $urpm->{log}(N("...copying failed"));
 	    }
 	} else {
 	    my $basename;
@@ -1326,11 +1331,12 @@ this could happen if you mounted manually the directory when creating the medium
 	    $options{callback} && $options{callback}('retrieve', $medium->{name});
 	    if ($options{probe_with}) {
 		my ($suffix) = $dir =~ m|RPMS([^/]*)/*$|;
-
-		foreach my $with_hdlist (
-		    $medium->{with_hdlist},
-		    _probe_with_try_list($suffix, $options{probe_with})
-		) {
+		my @probe_list = (
+		    $medium->{with_hdlist}
+		    ? $medium->{with_hdlist}
+		    : _probe_with_try_list($suffix, $options{probe_with})
+		);
+		foreach my $with_hdlist (@probe_list) {
 		    $basename = basename($with_hdlist) or next;
 
 		    $options{force} and unlink "$urpm->{cachedir}/partial/$basename";
@@ -1355,13 +1361,17 @@ this could happen if you mounted manually the directory when creating the medium
 		$options{force} and unlink "$urpm->{cachedir}/partial/$basename";
 		unless ($options{force}) {
 		    if ($medium->{synthesis}) {
-			-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
-			  system("cp", "-p", "-R",
-				 "$urpm->{statedir}/synthesis.$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+			-e "$urpm->{statedir}/synthesis.$medium->{hdlist}"
+			    and system("cp", "-p", "-R",
+				"$urpm->{statedir}/synthesis.$medium->{hdlist}",
+				"$urpm->{cachedir}/partial/$basename")
+			    and $urpm->{log}(N("...copying failed"));
 		    } else {
-			-e "$urpm->{statedir}/$medium->{hdlist}" and
-			  system("cp", "-p", "-R",
-				 "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+			-e "$urpm->{statedir}/$medium->{hdlist}"
+			    and system("cp", "-p", "-R",
+				"$urpm->{statedir}/$medium->{hdlist}",
+				"$urpm->{cachedir}/partial/$basename")
+			    and $urpm->{log}(N("...copying failed"));
 		    }
 		}
 		eval {
