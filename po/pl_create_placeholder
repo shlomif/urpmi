@@ -158,7 +158,7 @@ for($i = 0; $i <= $#ARGV; $i++)
                if($t =~ /\\$/)
                {
                   # the double quote was within the string still.
-                  $text .= unescapeDQString($t + '"');
+                  $text .= unescapeDQString($t . '"');
                }
                else
                {
@@ -185,7 +185,7 @@ for($i = 0; $i <= $#ARGV; $i++)
                if($t =~ s/\\$//)
                {
                   # the single quote was still in the string.
-                  $text .= unescapeDQString($t + "'");
+                  $text .= unescapeDQString($t . "'");
                }
                else
                {
@@ -220,7 +220,7 @@ for($i = 0; $i <= $#ARGV; $i++)
          elsif($state eq 'end_text')
          {
             # we allow only period to appear between strings.
-            if($line =~ s/^\s*([\.\)])//)
+            if($line =~ s/^\s*([\.\),])//)
             {
                # check what we've got.
                if($1 eq '.')
@@ -310,9 +310,9 @@ foreach $msgid (keys(%msgs))
    # check how many lines we have.
    if($#lines == 0)
    {
-# only multiline aren't found by xgettext
+      my $fuck_dblquote = $lines[0]; $fuck_dblquote =~ s/\"/\\\"/g;
       # one line format.
-      #print OUT "N_(\"$lines[0]\"),\n";
+      print OUT "N_(\"$fuck_dblquote\"),\n";
    }
    else
    {
@@ -320,7 +320,8 @@ foreach $msgid (keys(%msgs))
       print OUT "N_(\"\"\n";
       foreach $line (@lines)
       {
-         print OUT "\"$line\"\n"
+	 my $fuck_dblquote = $line; $fuck_dblquote =~ s/\"/\\\"/g;
+         print OUT "\"$fuck_dblquote\"\n";
       }
       print OUT "\"\"),\n";
    }
