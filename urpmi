@@ -379,7 +379,9 @@ if (@rpms_install || @rpms_upgrade) {
 	system("grpmi", $WID ? ("--WID=$WID") : (),
 	       (map { ("-noupgrade", $_) } @rpms_install), @rpms_upgrade);
 	if ($?) {
-	    message(_("Installation failed")); #- grpmi handles --nodeps and --force by itself,
+	    #- grpmi handles --nodeps and --force by itself,
+	    #- and $WID is defined when integrated in rpminst.
+	    $WID or message(_("Installation failed"));
 	    exit(($? >> 8) + 32); #- forward grpmi error + 32
 	}
     } else {
