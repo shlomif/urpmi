@@ -5,26 +5,14 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA @EXPORT);
 use MDK::Common;
+use urpm::msg;
 
 $VERSION = '4.4';
-@ISA = qw(Exporter URPM);
-@EXPORT = qw(N);
+@ISA = qw(URPM);
 
 use URPM;
 use URPM::Resolve;
 use POSIX;
-
-#- I18N.
-eval {
-    require Locale::gettext;
-    setlocale(LC_ALL, "");
-    Locale::gettext::textdomain("urpmi");
-};
-
-sub N {
-    my ($format, @params) = @_;
-    sprintf(eval { Locale::gettext::gettext($format || '') } || $format, @params);
-}
 
 #- tool functions.
 sub localtime2changelog { scalar(localtime($_[0])) =~ /(.*) \S+ (\d{4})$/ && "$1 $2" };

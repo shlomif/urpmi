@@ -21,6 +21,7 @@
 use strict;
 use urpm;
 use urpm::args;
+use urpm::msg;
 use MDK::Common;
 
 #- contains informations to parse installed system.
@@ -43,9 +44,7 @@ my $split_level = 20;
 my $split_length = 1;
 our $force = 0;
 our $parallel = '';
-our $bug = '';
 our $env = '';
-our $X = 0;
 our $WID = 0;
 our $test = 0;
 our $skip = '';
@@ -137,20 +136,6 @@ usage:
     exit(0);
 }
 
-sub to_utf8 { Locale::gettext::iconv($_[0], undef, "UTF-8") }
-sub gmessage {
-    my ($msg, %params) = @_;
-    my $ok = to_utf8($params{ok} || N("Ok"));
-    my $cancel = to_utf8($params{cancel} || N("Cancel"));
-    $ok =~ s/,/\\,/g; $cancel =~ s/,/\\,/g;
-    my $buttons = $params{ok_only} ? "$ok:0" : "$ok:0,$cancel:2";
-    foreach (@{$params{add_buttons}}) {
-        $_ =~ s/,/\\,/g;
-        $buttons .= ",$_";
-    }
-    $msg = to_utf8($msg);
-    `gmessage -default "$ok" -buttons "$buttons" "$msg"`;
-}
 sub save_file {
     my ($orig) = @_;
     my $msg = N("Choose location to save file");
@@ -206,7 +191,7 @@ if ($install_src) {
     @names = ();
 }
 
-if ($X && @src_files == 1 && @files == 0 && @names == 0 && @src_names == 0 && !$force) {
+if ($urpm::args::options{X} && @src_files == 1 && @files == 0 && @names == 0 && @src_names == 0 && !$force) {
     gmessage(
 N("You have selected a source package:
 
@@ -227,7 +212,7 @@ What would you like to do?", $src_files[0]),
     }
 }
 
-if ($X && @files == 1 && @names == 0 && $verbose >= 0) {
+if ($urpm::args::options{X} && @files == 1 && @names == 0 && $verbose >= 0) {
     gmessage(
 N("You are about to install the following software package on your computer:
 
@@ -240,8 +225,11 @@ You may prefer to just save it. What is your choice?", $files[0]),
 }
 
 #- prepare bug report.
+my $bug = $urpm::args::options{bug};
 if ($bug) {
-    mkdir $bug or $urpm->{fatal}(8, (-d $bug ? N("Directory [%s] already exists, please use another directory for bug report or delete it") : N("Unable to create directory [%s] for bug report"), $bug));
+    mkdir $bug or $urpm->{fatal}(8, (-d $bug
+	    ? N("Directory [%s] already exists, please use another directory for bug report or delete it")
+	    : N("Unable to create directory [%s] for bug report"), $bug));
     #- copy all synthesis file used, along with configuration of urpmi
     system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, $bug);
     #- allow log file.
@@ -395,7 +383,7 @@ sub ask_choice {
 	my $msg = (defined $from ?
 		   N("One of the following packages is needed to install %s:", $from) :
 		   N("One of the following packages is needed:"));
-	if ($X) {
+	if ($urpm::args::options{X}) {
 	    `gchooser "$msg" @l`;
 	    $n = $? >> 8 || die;
 	} else {
@@ -409,7 +397,8 @@ sub ask_choice {
     $choices->[$n - 1];
 };
 
-if ($parallel && $X) {  #- do it early, we'll have ui outputs while resolving deps
+if ($parallel && $urpm::args::options{X}) {
+    #- do it early, we'll have ui outputs while resolving deps
     require gurpm;
     gurpm::init(to_utf8(N("Package installation...")), to_utf8(N("Initializing...")));
     $urpm->{ui} = { msg => sub { gurpm::label(to_utf8($_[0])) }, progress => sub { gurpm::progress($_[0]) } };
@@ -436,7 +425,7 @@ if (@ask_unselect) {
     if ($urpm->{options}{auto}) {
 	message($msg, 'noX');
     } else {
-	if ($X) {
+	if ($urpm::args::options{X}) {
 	    gmessage("$msg\n".N("do you agree ?"));
 	    $? and exit 0;
 	} else {
@@ -462,7 +451,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
     if ($urpm->{options}{auto}) {
 	message($msg, 'noX');
     } else {
-	if ($X) {
+	if ($urpm::args::options{X}) {
 	    gmessage("$msg\n".N("do you agree ?"));
 	    $? and exit 0;
 	} else {
@@ -504,11 +493,11 @@ if ($env) {
 if (@root_only) {
     print STDERR N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
-} elsif (!$urpm->{options}{auto} && ($ask_user || $X) && @to_install) {
+} elsif (!$urpm->{options}{auto} && ($ask_user || $urpm::args::options{X}) && @to_install) {
     my $msg = N("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
     my $msg2 = N("Is this OK?");
     my $p = join "\n", @to_install;
-    if ($X) {
+    if ($urpm::args::options{X}) {
 	gmessage("$msg:\n$p\n\n$msg2");
 	$? and exit 0;
     } else {
@@ -526,7 +515,7 @@ unless ($local_sources || $list) {
     $urpm->{fatal}(3, N("unable to get source packages, aborting"));
 }
 
-if ($X && !$parallel) {  #- for $parallel, already done
+if ($urpm::args::options{X} && !$parallel) {  #- for $parallel, already done
     require gurpm;
     gurpm::init(to_utf8(N("Package installation...")), to_utf8(N("Initializing...")));
 }
@@ -540,7 +529,7 @@ $urpm->copy_packages_of_removable_media($list, \%sources,
 					ask_for_medium => (!$urpm->{options}{auto} || $allow_medium_change) && sub {
 					    my $msg = N("Please insert the medium named \"%s\" on device [%s]", @_);
 					    my $msg2 = N("Press Enter when ready...");
-					    if ($X) {
+					    if ($urpm::args::options{X}) {
 						$msg =~ s/"/\\"/g;
 						gmessage($msg);
 						!$?;
@@ -577,7 +566,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 					      force_local => 1,
 					      callback => sub {
 						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;
-						  if ($X) {
+						  if ($urpm::args::options{X}) {
 						      if ($mode eq 'start') {
 							  $file =~ s|/*\s*$||; $file =~ s|.*/||;
 							  gurpm::label(to_utf8(N("Downloading package `%s'...", $file)));
@@ -621,7 +610,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		message("$msg:\n$p\n", 'noX');
 		exit 1;
 	    } else {
-		if ($X) {
+		if ($urpm::args::options{X}) {
 		    gmessage("$msg:\n$p\n\n$msg2");
 		    $? and exit 1;
 		} else {
@@ -675,7 +664,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    $urpm->{log}("starting installing packages");
 	    my $progress_nb;
 	    my $total_nb = grep { m|^/| } values %transaction_sources_install, values %transaction_sources;
-	    my $callback_inst = $X && sub {
+	    my $callback_inst = $urpm::args::options{X} && sub {
 		my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
 		my $pkg = defined $id && $urpm->{depslist}[$id];
 
@@ -752,7 +741,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	}
     }
 }
-$X and gurpm::end();
+$urpm::args::options{X} and gurpm::end();
 
 #- keep a track of error code.
 my $exit_code = 0;
@@ -812,65 +801,6 @@ POSIX::_exit $exit_code;
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;
     int $nb + 0.5;
-}
-
-sub log_it {
-    #- if invoked as a simple user, nothing should be logged.
-    if ($log) {
-	local *LOG;
-	open LOG, ">>$log" or die "can't output to log file\n";
-	print LOG @_;
-    }
-}
-
-#- message functions.
-sub message {
-    my ($msg, $noX) = @_;
-    if ($X && !$noX && !$urpm->{options}{auto}) {
-	gmessage($msg, ok_only => 1);
-	$bug and log_it($msg);
-    } else {
-	if ($bug) {
-	    print STDOUT "$msg\n";
-	} else {
-	    print SAVEOUT "$msg\n";
-	}
-    }
-}
-sub message_input {
-    my ($msg, $default_input, %options) = @_;
-    my $input;
-
-    if ($X && !$default_input) { #- if a default input is given, the user doesn't have to choose (and being asked).
-	gmessage($msg, ok_only => 1);
-	$bug and log_it($msg);
-    } else {
-	my $noexpr = N("Nn");
-	my $yesexpr = N("Yy");
-	while (1) {
-	    if ($bug) {
-		print STDOUT $msg;
-	    } else {
-		print SAVEOUT $msg;
-	    }
-	    if ($default_input) {
-		$bug and log_it($input);
-		return $default_input;
-	    }
-	    $input = <STDIN>;
-	    defined $input or return undef;
-	    $bug and log_it($input);
-	    if ($options{boolean}) {
-		$input =~ /^[$noexpr$yesexpr]*$/ and last;
-	    } elsif ($options{range}) {
-		1 <= $input && $input <= $options{range} and last;
-	    } else {
-		last;
-	    }
-	    message(N("Sorry, bad choice, try again\n"));
-	}
-    }
-    return $input;
 }
 
 sub untaint {

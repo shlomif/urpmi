@@ -23,8 +23,9 @@
 use strict;
 use urpm;
 use urpm::args;
+use urpm::msg;
 
-our ($root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, $bug, @l);
+our ($root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, @l);
 my $askok = N("Is this OK?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
@@ -111,31 +112,4 @@ print STDOUT "\n".N("removing %s", join(' ', sort @toremove))."\n";
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;
     int $nb + 0.5;
-}
-
-sub message_input {
-    my ($msg, $default_input, %options) = @_;
-    my $input;
-    my $noexpr = N("Nn");
-    my $yesexpr = N("Yy");
-
-    while (1) {
-	print STDOUT $msg;
-	if ($default_input) {
-	    $bug and log_it($input);
-	    return $default_input;
-	}
-	$input = <STDIN>;
-	defined $input or return undef;
-	$bug and log_it($input);
-	if ($options{boolean}) {
-	    $input =~ /^[$noexpr$yesexpr]*$/ and last;
-	} elsif ($options{range}) {
-	    1 <= $input && $input <= $options{range} and last;
-	} else {
-	    last;
-	}
-	print STDOUT N("Sorry, bad choice, try again\n")."\n";
-    }
-    return $input;
 }

@@ -18,6 +18,9 @@ Getopt::Long::Configure(@configuration);
 # global urpm object to be passed by the main program
 my $urpm;
 
+# stores the values of the command-line options
+our %options;
+
 # options specifications for Getopt::Long
 my %options_spec = (
 
@@ -35,7 +38,9 @@ my %options_spec = (
 	'excludemedia|exclude-media=s' => \$::excludemedia,
 	'sortmedia|sort-media=s' => \$::sortmedia,
 	'synthesis=s' => \$::synthesis,
-	auto => \$urpm->{options}{auto},
+	auto => sub {
+	    $urpm->{options}{auto} = $::auto = 1;
+	},
 	'allow-medium-change' => \$::allow_medium_change,
 	'auto-select' => \$::auto_select,
 	'no-remove|no-uninstall' => \$::no_remove,
@@ -75,12 +80,12 @@ my %options_spec = (
 	    $value =~ /(.+):(.+)/ or die N("bad proxy declaration on command line\n");
 	    @{$urpm->{proxy}}{qw(user pwd)} = ($1, $2);
 	},
-	'bug=s' => \$::bug,
+	'bug=s' => \$options{bug},
 	'env=s' => \$::env,
-	X => \$::X,
+	X => \$options{X},
 	WID => \$::WID,
 	'best-output' => sub {
-	    $::X ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0
+	    $options{X} ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0
 	},
 	'verify-rpm!' => \$urpm->{options}{'verify-rpm'},
 	'test!' => \$::test,
@@ -238,7 +243,6 @@ my %options_spec = (
 );
 
 # common options setup
-# TODO <> for arguments
 
 foreach my $k ("help|h", "no-locales", "test!", "force", "root=s", "use-distrib=s",
     "parallel=s")
