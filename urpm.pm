@@ -1115,11 +1115,15 @@ sub search_packages {
 		    foreach (@$_) {
 			if ($best) {
 			    my $cmp_version = ($_->{info}{serial} == $best->{info}{serial} &&
-					       rpmtools::version_compare($_->{info}{version}, $best->{info}{version}));
-			    my $cmp_release = $cmp_version == 0 && rpmtools::version_compare($_->{info}{release},
-											     $best->{info}{release});
-			    if ($_->{info}{serial} > $best->{info}{serial} || $cmp_version > 0 || $cmp_release > 0 ||
-				($_->{info}{serial} == $best->{info}{serial} && $cmp_version == 0 && $cmp_release == 0 &&
+					       rpmtools::version_compare($_->{info}{version},
+									 $best->{info}{version}));
+			    my $cmp_release = ($cmp_version == 0 &&
+					       rpmtools::version_compare($_->{info}{release},
+									 $best->{info}{release}));
+			    if ($_->{info}{serial} > $best->{info}{serial} ||
+				$cmp_version > 0 || $cmp_release > 0 ||
+				($_->{info}{serial} == $best->{info}{serial} &&
+				 $cmp_version == 0 && $cmp_release == 0 &&
 				 rpmtools::better_arch($_->{info}{arch}, $best->{info}{arch}))) {
 				$best = $_;
 			    }
@@ -1669,7 +1673,7 @@ sub upload_source_packages {
 	    }
 	}
     }
-    eval { $urpm->{sync}("$urpm->{cachedir}/rpms", @distant_sources) };
+    @distant_sources and eval { $urpm->{sync}("$urpm->{cachedir}/rpms", @distant_sources) };
 
     #- return the hash of rpm file that have to be installed, they are all local now.
     %$local_sources, %sources;

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.1
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -46,6 +46,8 @@ do
 done
 install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 cat <<EOF >$RPM_BUILD_ROOT/etc/urpmi/inst.list
+# Here you can specify packages that need to be installed instead
+# of being upgraded (typically kernel packages).
 kernel
 kernel-smp
 kernel-secure
@@ -85,7 +87,8 @@ exit 0
 [ -z "$DURING_INSTALL" -a -f /var/lib/urpmi/depslist ] && %{_sbindir}/urpmi.update -a
 rm -f /var/lib/urpmi/depslist
 
-%preun -n autoirpm -p %{_sbindir}/autoirpm.uninstall
+%preun -n autoirpm
+[ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -126,6 +129,12 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed Nov 28 2001 François Pons <fpons@mandrakesoft.com> 2.1-4mdk
+- fixed incovation of sync method even when no files to sync.
+- fixed urpmq option management (-m|-M equ -du but necessary by default).
+- fixed %%preun of autoirpm to check previous installation.
+- added small doc in /etc/urpmi/inst.list file.
+
 * Tue Nov 27 2001 François Pons <fpons@mandrakesoft.com> 2.1-3mdk
 - added curl support (kept wget support).
 - updated help for urpmi, urpmi.update and urpmi.addmedia.
