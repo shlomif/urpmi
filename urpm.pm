@@ -21,7 +21,7 @@ BEGIN {
     # this won't work in 5.10 when encoding::warnings will be lexical
     if ($ENV{DEBUG_URPMI}) {
 	require encoding::warnings;
-	encoding::warnings->import();
+	encoding::warnings->import;
     }
 }
 
@@ -129,7 +129,7 @@ sub read_config {
 
     #- global options
     if ($config->{''}) {
-	for my $opt (qw(
+	foreach my $opt (qw(
 	    allow-force
 	    allow-nodeps
 	    auto
@@ -155,9 +155,9 @@ sub read_config {
 	}
     }
     #- per-media options
-    for my $m (grep { $_ ne '' } keys %$config) {
+    foreach my $m (grep { $_ ne '' } keys %$config) {
 	my $medium = { name => $m, clear_url => $config->{$m}{url} };
-	for my $opt (qw(
+	foreach my $opt (qw(
 	    downloader
 	    hdlist
 	    ignore
@@ -181,15 +181,14 @@ sub read_config {
     #- keep in mind when an hdlist/list file is already used
     my %filelists;
     foreach (@{$urpm->{media}}) {
-	for my $filetype (qw(hdlist list)) {
+	foreach my $filetype (qw(hdlist list)) {
 	    if ($_->{$filetype}) {
 		exists($filelists{$filetype}{$_->{$filetype}})
 		    and $_->{ignore} = 1,
 		    $urpm->{error}(
-			($filetype eq 'hdlist'
-			    ? N("medium \"%s\" trying to use an already used hdlist, medium ignored")
-			    : N("medium \"%s\" trying to use an already used list, medium ignored"),
-			$_->{name})
+			$filetype eq 'hdlist'
+			    ? N("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name})
+			    : N("medium \"%s\" trying to use an already used list, medium ignored",   $_->{name})
 		    );
 		$filelists{$filetype}{$_->{$filetype}} = undef;
 	    }
@@ -214,7 +213,7 @@ sub read_config {
     while (<$md5sum>) {
 	my ($md5sum, $file) = /(\S*)\s+(.*)/;
 	foreach (@{$urpm->{media}}) {
-	    ($_->{synthesis} ? "synthesis." : "").$_->{hdlist} eq $file
+	    ($_->{synthesis} ? "synthesis." : "") . $_->{hdlist} eq $file
 		and $_->{md5sum} = $md5sum, last;
 	}
     }
@@ -370,7 +369,7 @@ sub write_config {
 	or $urpm->{error}(N("unable to write file [%s]", "$urpm->{statedir}/MD5SUM")), return 0;
     foreach my $medium (@{$urpm->{media}}) {
 	$medium->{md5sum}
-	    and print $md5sum "$medium->{md5sum}  ".($medium->{synthesis} && "synthesis.").$medium->{hdlist}."\n";
+	    and print $md5sum "$medium->{md5sum}  " . ($medium->{synthesis} && "synthesis.") . $medium->{hdlist} . "\n";
     }
     close $md5sum;
 
@@ -484,7 +483,7 @@ sub configure {
 		    our $currentmedia = $_; #- hack for urpmf
 		    delete @$_{qw(start end)};
 		    if ($_->{virtual}) {
-			my $path = $_->{url} =~ m{^(?:file:/*)?(/[^/].*[^/])/*$} && $1;
+			my $path = $_->{url} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z! && $1;
 			if ($path) {
 			    if ($_->{synthesis}) {
 				$urpm->{log}(N("examining synthesis file [%s]", "$path/$_->{with_hdlist}"));
@@ -603,7 +602,7 @@ sub add_medium {
 	    ++$i;
 	    undef $medium;
 	    foreach (@{$urpm->{media}}) {
-		$_->{name} eq $name.$i and $medium = $_;
+		$_->{name} eq $name . $i and $medium = $_;
 	    }
 	} while $medium;
 	$name .= $i;
@@ -615,11 +614,11 @@ sub add_medium {
     $medium and $urpm->{fatal}(5, N("medium \"%s\" already exists", $medium->{name}));
 
     #- clear URLs for trailing /es.
-    $url =~ s{/*$}{};
+    $url =~ s,/*$,,;
 
     #- creating the medium info.
     if ($options{virtual}) {
-	$url =~ m{^(?:file:)?/} or $urpm->{fatal}(1, N("virtual medium needs to be local"));
+	$url =~ m!^(?:file:)?/! or $urpm->{fatal}(1, N("virtual medium needs to be local"));
 
 	$medium = { name      => $name,
 		    url       => $url,
@@ -641,7 +640,7 @@ sub add_medium {
     }
 
     #- local media have priority, other are added at the end.
-    if ($url =~ m{^(?:file:)?/}) {
+    if ($url =~ m!^(?:file:)?/!) {
 	$medium->{priority} = 0.5;
     } else {
 	$medium->{priority} = 1 + @{$urpm->{media}};
@@ -725,7 +724,7 @@ sub add_distrib_media {
 	    s/\s*#.*$//;
 	    /^\s*$/ and next;
 	    /^(?:suppl|askmedia)/ and next;
-	    m/^\s*(?:noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file"), $_);
+	    m/^\s*(?:noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file", $_));
 	    my ($hdlist, $rpmsdir, $descr) = ($1, $2, $3);
 
 	    $urpm->add_medium(
@@ -856,11 +855,11 @@ sub reconfig_urpmi {
 	push @replacements, [ quotemeta $p, $r, $f ];
     }
   MEDIA:
-    for my $medium (grep { $_->{name} eq $name } @{$urpm->{media}}) {
+    foreach my $medium (grep { $_->{name} eq $name } @{$urpm->{media}}) {
         my %orig = map { $_ => $medium->{$_} } @reconfigurable;
       URLS:
-	for my $k (@reconfigurable) {
-	    for my $r (@replacements) {
+	foreach my $k (@reconfigurable) {
+	    foreach my $r (@replacements) {
 		if ($medium->{$k} =~ s/$r->[0]/$r->[1]/) {
 		    $reconfigured = 1;
 		    #- Flags stolen from mod_rewrite: L(ast), N(ext)
@@ -869,8 +868,8 @@ sub reconfig_urpmi {
 		}
 	    }
 	    #- check that the new url exists before committing changes (local mirrors)
-	    if ($medium->{$k} =~ m#^(?:file:/*)?(/[^/].*[^/])/*$# && !-e $1) {
-		$medium->{$k} = $orig{$k} for @reconfigurable;
+	    if ($medium->{$k} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z! && !-e $1) {
+		$medium->{$k} = $orig{$k} foreach @reconfigurable;
 		$reconfigured = 0;
 		$urpm->{log}(N("...reconfiguration failed"));
 		last MEDIA;
@@ -887,7 +886,7 @@ sub reconfig_urpmi {
 
 sub _guess_hdlist_suffix {
     my ($dir) = @_;
-    my ($suffix) = $dir =~ m{\bmedia/(\w+)/*$};
+    my ($suffix) = $dir =~ m!\bmedia/(\w+)/*\Z!;
     $suffix;
 }
 
@@ -944,7 +943,7 @@ sub update_media {
 	    #- to speed up the process, we only read the synthesis at the beginning.
 	    delete @$medium{qw(start end)};
 	    if ($medium->{virtual}) {
-		my ($path) = $medium->{url} =~ m{^(?:file:)?/*(/[^/].*[^/])/*$};
+		my ($path) = $medium->{url} =~ m!^(?:file:)?/*(/[^/].*[^/])/*\Z!;
 		if ($path) {
 		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		    if ($medium->{synthesis}) {
@@ -1068,7 +1067,7 @@ this could happen if you mounted manually the directory when creating the medium
 		$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
 		system("cp", "-p", "-R", "$dir/../descriptions",
 			"$urpm->{statedir}/descriptions.$medium->{name}")
-		    ? do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1; }
+		    ? do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1 }
 		    : $urpm->{log}(N("...copying done"));
 	    }
 
@@ -1285,7 +1284,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
 	    if (!$media_redone{$medium->{name}} and !$medium->{noreconfigure}) {
 		my $reconfig_urpmi_url = "$medium->{url}/reconfig.urpmi";
-		unlink( my $reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi" );
+		unlink(my $reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi");
 		eval {
 		    $urpm->{sync}(
 			{
@@ -1814,7 +1813,7 @@ this could happen if you mounted manually the directory when creating the medium
 		synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
 	    ) };
 	    if ($@) {
-		$urpm->{error}(N("Unable to build hdlist and synthesis files for medium \"%s\"."), $medium->{name});
+		$urpm->{error}(N("Unable to build hdlist and synthesis files for medium \"%s\".", $medium->{name}));
 		unlink "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 	    } else {
 		$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
@@ -1824,7 +1823,7 @@ this could happen if you mounted manually the directory when creating the medium
 	} elsif ($medium->{synthesis}) {
 	    if ($second_pass) {
 		if ($medium->{virtual}) {
-		    my ($path) = $medium->{url} =~ m{^(?:file:/*)?(/[^/].*[^/])/*$};
+		    my ($path) = $medium->{url} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z!;
 		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		    if ($path) {
 			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
@@ -1849,7 +1848,7 @@ this could happen if you mounted manually the directory when creating the medium
 			synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
 		    ) };
 		    if ($@) {
-			$urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted."), $medium->{name});
+			$urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
 			unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 		    } else {
 			$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
@@ -1894,7 +1893,7 @@ this could happen if you mounted manually the directory when creating the medium
 	if (defined $_->{start} && defined $_->{end}) {
 	    open my $fh, ">$urpm->{statedir}/names.$_->{name}";
 	    foreach ($_->{start} .. $_->{end}) {
-		print $fh $urpm->{depslist}[$_]->name."\n";
+		print $fh $urpm->{depslist}[$_]->name . "\n";
 	    }
 	    close $fh;
 	}
@@ -2027,7 +2026,7 @@ sub search_packages {
 
     foreach my $v (@$names) {
 	my $qv = quotemeta $v;
-	$qv = '(?i)'.$qv if $options{caseinsensitive};
+	$qv = '(?i)' . $qv if $options{caseinsensitive};
 
 	unless ($options{fuzzy}) {
 	    #- try to search through provides.
@@ -2113,7 +2112,7 @@ sub search_packages {
 		$result = 0;
 	    } elsif (values(%l) > 1 && !$options{all}) {
 		$urpm->{error}(N("The following packages contain %s: %s",
-			$_, "\n".join("\n", sort { $a cmp $b } keys %l)));
+			$_, "\n" . join("\n", sort { $a cmp $b } keys %l)));
 		$result = 0;
 	    } else {
 		foreach (values %l) {
@@ -2254,7 +2253,7 @@ sub get_packages_list {
     my $val = [];
     local $_;
     open my $f, $file or return {};
-    for (<$f>, split /,/, $extra) {
+    foreach (<$f>, split /,/, $extra) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	push @$val, $_;
     }
@@ -2295,7 +2294,7 @@ sub get_source_packages {
 	    my $filepath = "$urpm->{cachedir}/rpms/$filename";
 	    if (!$options{clean_all} && -s $filepath) {
 		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
+		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
 		    next;
 		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 		    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
@@ -2339,7 +2338,7 @@ sub get_source_packages {
 		while (<$fh>) {
 		    if (my ($filename) = m|/([^/]*\.rpm)$|) {
 			if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-			    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
+			    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
 			    next;
 			} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 			    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
@@ -2365,13 +2364,13 @@ sub get_source_packages {
 		foreach ($medium->{start} .. $medium->{end}) {
 		    my $pkg = $urpm->{depslist}[$_];
 		    if (keys(%{$file2fullnames{$pkg->filename} || {}}) > 1) {
-			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $pkg->filename);
+			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $pkg->filename));
 			next;
 		    } elsif (keys(%{$file2fullnames{$pkg->filename} || {}}) == 1) {
 			my ($fullname) = keys(%{$file2fullnames{$pkg->filename} || {}});
 			unless (exists($list_examined{$fullname})) {
 			    ++$list_warning;
-			    defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/".$pkg->filename;
+			    defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/" . $pkg->filename;
 			    $examined{$fullname} = undef;
 			}
 		    }
@@ -2637,7 +2636,7 @@ sub download_packages_of_distant_media {
 	while (my ($i, $url) = each %{$list->[$_]}) {
 	    #- the given URL is trusted, so the file can safely be ignored.
 	    defined $sources->{$i} and next;
-	    if ($url =~ m{^(removable[^:]*:/|file:/)?(/.*\.rpm)$}) {
+	    if ($url =~ m!^(removable[^:]*:/|file:/)?(/.*\.rpm)\Z!) {
 		if (-r $2) {
 		    $sources->{$i} = $2;
 		} else {
@@ -2773,7 +2772,7 @@ sub install {
 	    # parent process
 	    close ERROR_OUTPUT;
 
-	    $urpm->{log}(N("using process %d for executing transaction"));
+	    $urpm->{log}(N("using process %d for executing transaction", $pid));
 	    #- now get all errors from the child and return them directly.
 	    my @l;
 	    while (<CHILD_RETURNS>) {
@@ -2849,11 +2848,11 @@ sub install {
 	    my ($urpm, undef, $pkgid) = @_;
 	    return unless defined $pkgid;
 	    my $pkg = $urpm->{depslist}[$pkgid];
-	    my $fullname = $pkg->fullname();
+	    my $fullname = $pkg->fullname;
 	    my $trtype = (grep { /$fullname/ } values %$install) ? 'install' : '(upgrade|update)';
 	    push @readmes, map { [ $_, $fullname ] } grep {
 		/\bREADME(\.$trtype)?\.urpmi$/
-	    } $pkg->files();
+	    } $pkg->files;
 	    close $fh;
 	};
 	if (keys %$install || keys %$upgrade) {
@@ -2872,7 +2871,7 @@ sub install {
 		    $db->traverse_tag('name', [ $pkg->name ], sub {
 					  my ($p) = @_;
 					  $p->fullname eq $pkg->fullname or return;
-					  unlink "$urpm->{cachedir}/rpms/".$pkg->filename;
+					  unlink "$urpm->{cachedir}/rpms/" . $pkg->filename;
 				      });
 		}
 	    }
