@@ -43,6 +43,7 @@ usage:
 ", $urpm::VERSION) . N("  --help         - print this help message.
 ") . N("  --update       - use only update media.
 ") . N("  --media        - use only the given media, separated by comma.
+") . N("  --searchmedia  - use only the given media to search requested (or updated) packages.
 ") . N("  --excludemedia - do not use the given media, separated by comma.
 ") . N("  --sortmedia    - sort media according to substrings separated by comma.
 ") . N("  --synthesis    - use the synthesis given instead of urpmi db.
@@ -126,6 +127,7 @@ $urpm->configure(
     noinstalling => $urpm::args::options{nodepslist},
     nodepslist => $urpm::args::options{nodepslist},
     media => $urpm::args::options{media},
+    searchmedia => $urpm::args::options{searchmedia},
     excludemedia => $urpm::args::options{excludemedia},
     sortmedia => $urpm::args::options{sortmedia},
     synthesis => $urpm::args::options{synthesis},

@@ -390,7 +390,7 @@ sub configure {
 
     $urpm->clean;
 
-    $options{parallel} && $options{usedistrib} and die N("Can't use parallel mode with use-distrib mode");
+    $options{parallel} && $options{usedistrib} and $urpm->{fatal}(1, N("Can't use parallel mode with use-distrib mode"));
 
     if ($options{parallel}) {
 	my ($parallel_options, $parallel_handler);
@@ -457,6 +457,15 @@ sub configure {
 		#- this is only a local ignore that will not be saved.
 		$_->{ignore} = 1;
 	    }
+	}
+	if ($options{searchmedia}) {
+	   $urpm->select_media($options{searchmedia}); # Ensure this media has been selected
+	   foreach (grep { !$_->{ignore} } @{$urpm->{media} || []}) {
+		$_->{name} eq $options{searchmedia} and do {
+			$_->{searchmedia} = 1;
+			last;
+		};
+	   }
 	}
 	if ($options{excludemedia}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
@@ -531,7 +540,14 @@ sub configure {
 			}
 		    }
 		    unless ($_->{ignore}) {
-			unless (defined $_->{start} && defined $_->{end}) {
+			if (defined $_->{start} && defined $_->{end}) {
+			    if ($_->{searchmedia}) {
+			        ($urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}) = ($_->{start}, $_->{end});
+				$urpm->{log}(N("Search start: %s end: %s",
+					$urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}));
+				delete $_->{searchmedia};
+			    }
+			} else {
 			    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $_->{name}));
 			    $_->{ignore} = 1;
 			}
@@ -1986,7 +2002,7 @@ sub _findindeps {
 sub search_packages {
     my ($urpm, $packages, $names, %options) = @_;
     my (%exact, %exact_a, %exact_ra, %found, %foundi);
-
+	$urpm->{log}(N("Search"));
     foreach my $v (@$names) {
 	my $qv = quotemeta $v;
 	$qv = '(?i)' . $qv if $options{caseinsensitive};
@@ -1998,6 +2014,9 @@ sub search_packages {
 		    && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat)
 		    && ($options{use_provides} || $_->name eq $v)
 		    && defined $_->id
+		    && (!defined $urpm->{searchmedia} || (
+			    $urpm->{searchmedia}{start} <= $_->id
+		    	    && $urpm->{searchmedia}{end} >= $_->id))
 		    ? $_ : @{[]}
 		} map {
 		    $urpm->{depslist}[$_]
@@ -2026,7 +2045,10 @@ sub search_packages {
 	    }
 	}
 
-	foreach my $id (0 .. $#{$urpm->{depslist}}) {
+	foreach my $id (defined $urpm->{searchmedia} ?
+		($urpm->{searchmedia}{start} .. $urpm->{searchmedia}{end}) :
+		(0 .. $#{$urpm->{depslist}})) {
+	    
 	    my $pkg = $urpm->{depslist}[$id];
 
 	    ($options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
@@ -2143,7 +2165,8 @@ sub resolve_dependencies {
 
 	#- auto select package for upgrading the distribution.
 	if ($options{auto_select}) {
-	    $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
+	    $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef,
+    		start => $urpm->{searchmedia}{start}, end => $urpm->{searchmedia}{end});
 	}
 
 	#- resolve dependencies which will be examined for packages that need to

@@ -51,6 +51,7 @@ my %options_spec = (
 	'media|mediums=s' => \$::media,
 	'excludemedia|exclude-media=s' => \$::excludemedia,
 	'sortmedia|sort-media=s' => \$::sortmedia,
+    'searchmedia|search-media=s' => \$::searchmedia,
 	'synthesis=s' => \$::synthesis,
 	auto => sub {
 	    $urpm->{options}{auto} = $::auto = 1;
@@ -178,6 +179,7 @@ my %options_spec = (
 	'media|mediums=s' => \$options{media},
 	'excludemedia|exclude-media=s' => \$options{excludemedia},
 	'sortmedia|sort-media=s' => \$options{sortmedia},
+    'searchmedia|search-media=s' => \$options{searchmedia},
 	'synthesis=s' => \$options{sortmedia},
 	'auto-select' => sub {
 	    $options{deps} = $options{upgrade} = $options{auto_select} = 1;
