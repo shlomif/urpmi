@@ -31,7 +31,7 @@ sub init {
     $mainw = ugtk2->new($title, %options);
     $label = Gtk2::Label->new($initializing);
     $progressbar = gtkset_size_request(Gtk2::ProgressBar->new, 300, -1);
-    gtkadd($mainw->{window}, gtkpack__($vbox = Gtk2::VBox->new(0, 5), $label, $progressbar));
+    gtkadd($mainw->{window}, gtkpack__($vbox = gtkset_border_width(Gtk2::VBox->new(0, 5),6), $label, $progressbar));
     $mainw->{rwindow}->set_position('center');
     $mainw->sync;
 }
