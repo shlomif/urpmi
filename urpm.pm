@@ -71,7 +71,7 @@ sub new {
 	   statedir   => "/var/lib/urpmi",
 	   cachedir   => "/var/cache/urpmi",
 	   media      => undef,
-	   params     => new rpmtools('sense'),
+	   params     => new rpmtools('sense', 'conflicts', 'obsoletes'),
 
 	   sync       => \&sync_webfetch, #- first argument is directory, others are url to fetch.
 
@@ -567,7 +567,7 @@ sub build_synthesis_hdlist {
 	local *F;
 	open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
 	foreach my $p (@{$medium->{depslist}}) {
-	    foreach (qw(provides requires)) {
+	    foreach (qw(provides requires conflicts obsoletes)) {
 		@{$p->{$_} || []} and print F join('@', $p->{name}, $_, @{$p->{$_} || []}) . "\n";
 	    }
 	    print F join('@',
@@ -1405,8 +1405,8 @@ sub parse_synthesis {
 #- all additional package selected have a true value.
 sub filter_packages_to_upgrade {
     my ($urpm, $packages, $select_choices, %options) = @_;
+    my ($id, %installed, %selected, %conflicts);
     my ($db, @packages) = (rpmtools::db_open(''), keys %$packages);
-    my ($id, %installed, %selected);
     my $sig_handler = sub { rpmtools::db_close($db) };
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
@@ -1519,6 +1519,30 @@ sub filter_packages_to_upgrade {
 	    }
 	}
 
+	#- examine conflicts and try to resolve them.
+	#- if there is a conflicts with a too old version, it need to be upgraded.
+	#- if there is a provides (by using a obsoletes on it too), examine obsolete (provides) too.
+	foreach (@{$pkg->{conflicts} || []}) {
+	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+		my $check_pkg = sub {
+		    $o and $n eq $_[0]{name} || return;
+		    $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
+		    $r and eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
+		    $conflicts{$n}{"$_[0]{name}-$_[0]{version}-$_[0]{release}"} = 1;
+		    $provides{$n} ||= undef;
+		};
+		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
+					  [ qw (name version release) ], $check_pkg);
+		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
+		    my $pkg = $urpm->{params}{info}{$fullname};
+		    $o and $n eq $_[0]{name} || next;
+		    $v and eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) || next;
+		    $r and eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
+		    $conflicts{$n}{"$pkg->{name}-$pkg->{version}-$pkg->{release}"} ||= 0;
+		}
+	    }
+	}
+
 	#- at this point, all unresolved provides (requires) should be fixed by
 	#- provides files, try to minimize choice at this level.
 	foreach (keys %provides) {
@@ -1527,6 +1551,7 @@ sub filter_packages_to_upgrade {
 
 	    my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
 	    foreach my $fullname (keys %{$urpm->{params}{provides}{$_} || {}}) {
+		exists $conflicts{$_}{$fullname} and next;
 		my $pkg = $urpm->{params}{info}{$fullname};
 		push @{$pre_choices{$pkg->{name}}}, $pkg;
 	    }

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.1
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -142,6 +142,10 @@ fi
 
 
 %changelog
+* Tue Jan 15 2002 François Pons <fpons@mandrakesoft.com> 3.1-7mdk
+- manage conflicts for dependencies resolution.
+- added conflicts tag and obsoletes tag in synthesis.
+
 * Thu Jan 10 2002 François Pons <fpons@mandrakesoft.com> 3.1-6mdk
 - fixed distant list file support.
 - allow shadow approach of list file, the same list file (global)
