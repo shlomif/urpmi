@@ -684,16 +684,18 @@ sub probe_removable_device {
     #- try to find device to open/close for removable medium.
     if (exists $medium->{removable}) {
 	if (my ($dir) = $medium->{url} =~ /(?:file|removable)[^:]*:\/(.*)/) {
-	    my @mntpoints2devices = $urpm->find_mntpoints($dir, 'device');
-	    if (@mntpoints2devices > 2) { #- return value is suitable for an hash.
+	    my %infos;
+	    my @mntpoints = $urpm->find_mntpoints($dir, \%infos);
+	    if (@mntpoints > 1) { #- return value is suitable for an hash.
 		$urpm->{log}(_("too many mount points for removable medium \"%s\"", $medium->{name}));
-		$urpm->{log}(_("taking removable device as \"%s\"", $mntpoints2devices[-1]));  #- take the last one.
+		$urpm->{log}(_("taking removable device as \"%s\"", join ',', map { $infos{$_}{device} } @mntpoints));
 	    }
-	    if (@mntpoints2devices) {
-		if ($medium->{removable} && $medium->{removable} ne $mntpoints2devices[-1]) {
-		    $urpm->{log}(_("using different removable device [%s] for \"%s\"", $mntpoints2devices[-1], $medium->{name}));
+	    if (@mntpoints) {
+		if ($medium->{removable} && $medium->{removable} ne $infos{$mntpoints[-1]}{device}) {
+		    $urpm->{log}(_("using different removable device [%s] for \"%s\"",
+				   $infos{$mntpoints[-1]}{device}, $medium->{name}));
 		}
-		$medium->{removable} = $mntpoints2devices[-1];
+		$medium->{removable} = $infos{$mntpoints[-1]}{device};
 	    } else {
 		$urpm->{error}(_("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
 	    }
@@ -1696,7 +1698,7 @@ sub is_using_supermount {
 #- find used mount point from a pathname, use a optional mode to allow
 #- filtering according the next operation (mount or umount).
 sub find_mntpoints {
-    my ($urpm, $dir, $mode) = @_;
+    my ($urpm, $dir, $infos) = @_;
     my ($fdir, $pdir, $v, %fstab, @mntpoints) = $dir;
     local (*F, $_);
 
@@ -1706,13 +1708,11 @@ sub find_mntpoints {
 	my ($device, $mntpoint, $fstype, $options) = /^\s*(\S+)\s+(\/\S+)\s+(\S+)\s+(\S+)/ or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	$fstab{$mntpoint} =  0;
-	if ($mode eq 'device') {
+	if (ref $infos) {
 	    if ($fstype eq 'supermount') {
-		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $fstab{$mntpoint} = $1;
-	    } elsif ($device eq 'none') {
-		next;
+		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 0, device => $1, fs => $fstype };
 	    } else {
-		$fstab{$mntpoint} = $device;
+		$infos->{$mntpoint} = { mounted => 0, device => $device, fs => $fstype };
 	    }
 	}
     }
@@ -1721,13 +1721,11 @@ sub find_mntpoints {
 	my ($device, $mntpoint, $fstype, $options) = /^\s*(\S+)\s+(\/\S+)\s+(\S+)\s+(\S+)/ or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	$fstab{$mntpoint} = 1;
-	if ($mode eq 'device') {
+	if (ref $infos) {
 	    if ($fstype eq 'supermount') {
-		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $fstab{$mntpoint} = $1;
-	    } elsif ($device eq 'none') {
-		next;
+		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 1, device => $1, fs => $fstype };
 	    } else {
-		$fstab{$mntpoint} = $device;
+		$infos->{$mntpoint} = { mounted => 1, device => $device, fs => $fstype };
 	    }
 	}
     }
@@ -1753,9 +1751,9 @@ sub find_mntpoints {
 	$pdir .= "/$_";
 	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
 	if (exists $fstab{$pdir}) {
-	    $mode eq 'mount' && ! $fstab{$pdir} and push @mntpoints, $pdir;
-	    $mode eq 'umount' && $fstab{$pdir} and unshift @mntpoints, $pdir;
-	    $mode eq 'device' and push @mntpoints, $pdir, $fstab{$pdir};
+	    ref $infos and push @mntpoints, $pdir;
+	    $infos eq 'mount' && ! $fstab{$pdir} and push @mntpoints, $pdir;
+	    $infos eq 'umount' && $fstab{$pdir} and unshift @mntpoints, $pdir;
 	}
     }
 
@@ -1791,18 +1789,20 @@ sub reduce_pathname {
 #- check for necessity of mounting some directory to get access
 sub try_mounting {
     my ($urpm, $dir, $removable) = @_;
+    my %infos;
 
     $dir = reduce_pathname($dir);
-    foreach ($urpm->find_mntpoints($dir, 'mount')) {
+    foreach (grep { ! $infos{$_}{mounted} } $urpm->find_mntpoints($dir, \%infos)) {
 	$urpm->{log}(_("mounting %s", $_));
 	`mount '$_' 2>/dev/null`;
-	$removable and $urpm->{removable_mounted}{$_} = undef;
+	$removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
     }
     -e $dir;
 }
 
 sub try_umounting {
     my ($urpm, $dir) = @_;
+    my %infos;
 
     $dir = reduce_pathname($dir);
     foreach ($urpm->find_mntpoints($dir, 'umount')) {

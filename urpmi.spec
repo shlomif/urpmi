@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 23mdk
+Release: 24mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,11 @@ fi
 
 
 %changelog
+* Thu Feb 27 2003 François Pons <fpons@mandrakesoft.com> 4.2-24mdk
+- fixed removable devices not needing to be umouting if
+  supermount is used.
+- umount removable devices after adding or updating a medium.
+
 * Mon Feb 24 2003 François Pons <fpons@mandrakesoft.com> 4.2-23mdk
 - fixed bug 2342 (reported exit code 9 for rpm db access failure)
 

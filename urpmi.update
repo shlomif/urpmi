@@ -98,6 +98,9 @@ where <name> is a medium name to update.
     }
 
     $urpm->update_media(%options, callback => \&urpm::sync_logger);
+
+    #- try to umount removable device which may have been mounted.
+    $urpm->try_umounting_removables;
 }
 
 main(@ARGV);
