@@ -1594,7 +1594,19 @@ sub upload_source_packages {
 	my $medium = $urpm->{media}[$id];
 	$media{$id} = undef;
 	if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_[^:]*|file):\/(.*)/) {
-	    until (-e $dir) {
+	    my $count_not_found = sub {
+		my $not_found;
+		if (-e $dir) {
+		    foreach (@{$list->[$id]}) {
+			/^(removable_[^:]*|file):\/(.*\/([^\/]*))/ or next;
+			-r $2 or ++$not_found;
+		    }
+		} else {
+		    $not_found = @{$list->[$id]};
+		}
+		return $not_found;
+	    };
+	    while ($count_not_found->()) {
 		#- the directory given does not exist or may be accessible
 		#- by mounting some other. try to figure out these directory and
 		#- mount everything necessary.
