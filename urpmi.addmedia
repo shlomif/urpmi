@@ -150,7 +150,7 @@ and [options] are from
 		$urpm->add_medium("$name$i",
 				  $options{distrib} eq 'updates' ? "$burl/$options{version}/RPMS" :
 				  $options{distrib} eq 'contrib' ? $burl."2" : $burl,
-				  $options{distrib} eq 'contrib' ? '../base/hdlist2.cz' : $relative_hdlist,
+				  $options{distrib} ne 'contrib' && $relative_hdlist,
 				  update => $options{update});
 		++$i;
 	    }
