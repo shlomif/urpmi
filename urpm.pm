@@ -3,14 +3,13 @@ package urpm;
 # $Id$
 
 use strict;
-use vars qw($VERSION @ISA @EXPORT);
 use MDK::Common;
 use urpm::msg;
 use urpm::download;
 use urpm::util;
 
-$VERSION = '4.5';
-@ISA = qw(URPM);
+our $VERSION = '4.5';
+our @ISA = qw(URPM);
 
 use URPM;
 use URPM::Resolve;
@@ -21,28 +20,28 @@ sub new {
     my ($class) = @_;
     my $self;
     $self = bless {
-	   config     => "/etc/urpmi/urpmi.cfg",
-	   skiplist   => "/etc/urpmi/skip.list",
-	   instlist   => "/etc/urpmi/inst.list",
-	   statedir   => "/var/lib/urpmi",
-	   cachedir   => "/var/cache/urpmi",
-	   media      => undef,
+	# from URPM
+	depslist   => [],
+	provides   => {},
 
-	   provides   => {},
-	   depslist   => [],
+	config     => "/etc/urpmi/urpmi.cfg",
+	skiplist   => "/etc/urpmi/skip.list",
+	instlist   => "/etc/urpmi/inst.list",
+	statedir   => "/var/lib/urpmi",
+	cachedir   => "/var/cache/urpmi",
+	media      => undef,
+	options    => {},
+	proxy      => get_proxy(),
 
-	   #- sync: first argument is directory, others are url to fetch.
-	   sync       => sub { 	$self->sync_webfetch(@_) },
-	   proxy      => get_proxy(),
-	   options    => {},
-
-	   fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
-	   error      => sub { printf STDERR "%s\n", $_[0] },
-	   log        => sub { printf STDERR "%s\n", $_[0] },
-
-           ui_msg     => sub { $self->{log}($_[0]); $self->{ui} and $self->{ui}{msg}->($_[1]) },
-
-	  }, $class;
+	#- sync: first argument is directory, others are url to fetch.
+	sync       => sub { $self->sync_webfetch(@_) },
+	fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
+	error      => sub { printf STDERR "%s\n", $_[0] },
+	log        => sub { printf STDERR "%s\n", $_[0] },
+	ui_msg     => sub { $self->{log}($_[0]); $self->{ui} and $self->{ui}{msg}->($_[1]) },
+    }, $class;
+    $self->set_nofatal(1);
+    $self;
 }
 
 #- syncing algorithms, currently is implemented wget and curl methods,
@@ -502,13 +501,15 @@ sub configure {
 			if ($path) {
 			    if ($_->{synthesis}) {
 				$urpm->{log}(N("examining synthesis file [%s]", "$path/$_->{with_hdlist}"));
-				eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$path/$_->{with_hdlist}",
-											 callback => $options{callback}) };
+				($_->{start}, $_->{end}) = $urpm->parse_synthesis(
+				    "$path/$_->{with_hdlist}", callback => $options{callback});
 			    } else {
 				$urpm->{log}(N("examining hdlist file [%s]", "$path/$_->{with_hdlist}"));
-				eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$path/$_->{with_hdlist}",
-										      packing => 1,
-										      callback => $options{callback}) };
+				($_->{start}, $_->{end}) = $urpm->parse_hdlist(
+				    "$path/$_->{with_hdlist}",
+				    packing => 1,
+				    callback => $options{callback},
+				);
 				#- we need a second pass now.
 				defined $second_pass or $second_pass = 1;
 			    }
@@ -519,18 +520,23 @@ sub configure {
 		    } else {
 			if ($options{hdlist} && -e "$urpm->{statedir}/$_->{hdlist}" && -s _ > 32) {
 			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-			    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
-										  packing => 1,
-										  callback => $options{callback}) };
+			    ($_->{start}, $_->{end}) = $urpm->parse_hdlist(
+				"$urpm->{statedir}/$_->{hdlist}",
+				packing => 1,
+				callback => $options{callback},
+			    );
 			} else {
 			    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
-			    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}",
-										     callback => $options{callback}) };
+			    ($_->{start}, $_->{end}) = $urpm->parse_synthesis(
+				"$urpm->{statedir}/synthesis.$_->{hdlist}",
+				callback => $options{callback},
+			    );
 			    unless (defined $_->{start} && defined $_->{end}) {
 				$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-				eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
-										      packing => 1,
-										      callback => $options{callback}) };
+				($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
+				    packing => 1,
+				    callback => $options{callback},
+				);
 			    }
 			}
 		    }
@@ -890,10 +896,10 @@ sub update_media {
 		if ($path) {
 		    if ($medium->{synthesis}) {
 			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
-			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file) };
+			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file);
 		    } else {
 			$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_file));
-			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_file, packing => 1) };
+			($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_file, packing => 1);
 		    }
 		} else {
 		    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
@@ -901,10 +907,10 @@ sub update_media {
 		}
 	    } else {
 		$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-		eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
 		unless (defined $medium->{start} && defined $medium->{end}) {
 		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-		    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
+		    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
 		}
 	    }
 	    unless ($medium->{ignore}) {
@@ -962,27 +968,27 @@ this could happen if you mounted manually the directory when creating the medium
 		    delete @$medium{qw(start end)};
 		    if ($medium->{synthesis}) {
 			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
-			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
-			       delete $medium->{modified};
-			       $medium->{synthesis} = 1;
-			       $urpm->{modified} = 1 };
+			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
+			delete $medium->{modified};
+			$medium->{synthesis} = 1;
+			$urpm->{modified} = 1;
 			unless (defined $medium->{start} && defined $medium->{end}) {
 			    $urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
-			    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
-				   delete @$medium{qw(modified synthesis)};
-				   $urpm->{modified} = 1 };
+			    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
+			    delete @$medium{qw(modified synthesis)};
+			    $urpm->{modified} = 1;
 			}
 		    } else {
 			$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
-			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
-			       delete @$medium{qw(modified synthesis)};
-			       $urpm->{modified} = 1 };
+			($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
+			delete @$medium{qw(modified synthesis)};
+			$urpm->{modified} = 1;
 			unless (defined $medium->{start} && defined $medium->{end}) {
 			    $urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
-			    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
-				   delete $medium->{modified};
-				   $medium->{synthesis} = 1;
-				   $urpm->{modified} = 1 };
+			    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
+			    delete $medium->{modified};
+			    $medium->{synthesis} = 1;
+			    $urpm->{modified} = 1;
 			}
 		    }
 		    unless (defined $medium->{start} && defined $medium->{end}) {
@@ -1062,13 +1068,13 @@ this could happen if you mounted manually the directory when creating the medium
 				}
 				#- as previously done, just read synthesis file here, this is enough.
 				$urpm->{log}(N("examining synthesis file [%s]",
-					       "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-				eval { ($medium->{start}, $medium->{end}) =
-					 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+					"$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+				($medium->{start}, $medium->{end}) =
+				    $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
 				unless (defined $medium->{start} && defined $medium->{end}) {
 				    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-				    eval { ($medium->{start}, $medium->{end}) =
-					     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
+				    ($medium->{start}, $medium->{end}) =
+					$urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
 				    unless (defined $medium->{start} && defined $medium->{end}) {
 					$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"",
 							 $medium->{name}));
@@ -1119,12 +1125,12 @@ this could happen if you mounted manually the directory when creating the medium
 			    #- as previously done, just read synthesis file here, this is enough, but only
 			    #- if synthesis exists, else it need to be recomputed.
 			    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			    eval { ($medium->{start}, $medium->{end}) =
-				     $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+			    ($medium->{start}, $medium->{end}) =
+				$urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
 			    unless (defined $medium->{start} && defined $medium->{end}) {
 				$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-				eval { ($medium->{start}, $medium->{end}) =
-					 $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
+				($medium->{start}, $medium->{end}) =
+				    $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
 				unless (defined $medium->{start} && defined $medium->{end}) {
 				    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 				    $medium->{ignore} = 1;
@@ -1302,12 +1308,12 @@ this could happen if you mounted manually the directory when creating the medium
 				}
 				#- as previously done, just read synthesis file here, this is enough.
 				$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-				eval { ($medium->{start}, $medium->{end}) =
-					 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+				($medium->{start}, $medium->{end}) =
+				    $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
 				unless (defined $medium->{start} && defined $medium->{end}) {
 				    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-				    eval { ($medium->{start}, $medium->{end}) =
-					     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
+				    ($medium->{start}, $medium->{end}) =
+					$urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
 				    unless (defined $medium->{start} && defined $medium->{end}) {
 					$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 					$medium->{ignore} = 1;
@@ -1410,12 +1416,12 @@ this could happen if you mounted manually the directory when creating the medium
 			unlink "$urpm->{cachedir}/partial/$basename";
 			#- as previously done, just read synthesis file here, this is enough.
 			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			eval { ($medium->{start}, $medium->{end}) =
-				 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+			($medium->{start}, $medium->{end}) =
+			    $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
 			unless (defined $medium->{start} && defined $medium->{end}) {
 			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-			    eval { ($medium->{start}, $medium->{end}) =
-				     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
+			    ($medium->{start}, $medium->{end}) =
+				$urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
 			    unless (defined $medium->{start} && defined $medium->{end}) {
 				$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
 				$medium->{ignore} = 1;
@@ -1508,26 +1514,26 @@ this could happen if you mounted manually the directory when creating the medium
 		    || -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 262144)
 		{
 		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-		    eval { ($medium->{start}, $medium->{end}) =
-			     $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1) };
+		    ($medium->{start}, $medium->{end}) =
+			     $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
 		    if (defined $medium->{start} && defined $medium->{end}) {
 			delete $medium->{synthesis};
 		    } else {
 			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-			eval { ($medium->{start}, $medium->{end}) =
-				 $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}") };
+			($medium->{start}, $medium->{end}) =
+				 $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
 			defined $medium->{start} && defined $medium->{end} and $medium->{synthesis} = 1;
 		    }
 		} else {
 		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-		    eval { ($medium->{start}, $medium->{end}) =
-			     $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}") };
+		    ($medium->{start}, $medium->{end}) =
+			     $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
 		    if (defined $medium->{start} && defined $medium->{end}) {
 			$medium->{synthesis} = 1;
 		    } else {
 			$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-			eval { ($medium->{start}, $medium->{end}) =
-				 $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1) };
+			($medium->{start}, $medium->{end}) =
+				 $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
 			defined $medium->{start} && defined $medium->{end} and delete $medium->{synthesis};
 		    }
 		}
@@ -1621,7 +1627,7 @@ this could happen if you mounted manually the directory when creating the medium
 		$medium->{list} and unlink "$urpm->{cachedir}/partial/$medium->{list}";
 		#- read default synthesis (we have to make sure nothing get out of depslist).
 		$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-		eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
 		unless (defined $medium->{start} && defined $medium->{end}) {
 		    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 		    $medium->{ignore} = 1;
@@ -1700,7 +1706,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		    if ($path) {
 			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
-			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file) };
+			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file);
 		    }
 		} else {
 		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
@@ -2986,12 +2992,12 @@ sub parallel_remove {
 
 #- misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
 sub unselected_packages {
-    my ($urpm, $state) = @_;
+    my (undef, $state) = @_;
     grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
 }
 
 sub translate_why_unselected {
-    my ($urpm, $state, @l) = @_;
+    my (undef, $state, @l) = @_;
 
     map { my $rb = $state->{rejected}{$_}{backtrack};
 	my @froms = keys %{$rb->{closure} || {}};
@@ -3007,7 +3013,7 @@ sub translate_why_unselected {
 }
 
 sub removed_packages {
-    my ($urpm, $state) = @_;
+    my (undef, $state) = @_;
     grep {
 	$state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted}
     } keys %{$state->{rejected} || {}};
