@@ -7,10 +7,12 @@ sub main {
 	my %options;
 	$options{restrict_group} = 0;
 	$options{group} = 'System/Libraries';
+	$options{root} = '';
 	
 	my $usage = N("usage: %s [options]
 where [options] are from
 ", $0) . N("   -h|--help      - print this help message.
+") . N("   --root <path>  - use the given root instead of /
 ") . N("   -g [group]     - restrict results to given group.
 ") . N("                    defaults is %s.
 ", $options{group});
@@ -18,6 +20,12 @@ where [options] are from
 	my $group;
 	
 	while ($_ = shift @_) {
+	        /^--root$/ and do {
+			$root=shift @_;
+			$root and $options{root}=$root;
+			next;
+
+		};
 		/^-g$/ and do {
 			$options{restrict_group}=1;
 			$group=shift @_;
@@ -30,7 +38,7 @@ where [options] are from
 	
 	my @packages;
 	{
-		my $db = URPM::DB::open or die;
+		my $db = URPM::DB::open($options{root}) or die;
 		$db->traverse(sub {
 			my ($p) = @_;
 			$p->pack_header;
