@@ -25,7 +25,7 @@ use URPM;
 use URPM::Resolve;
 use urpm;
 
-my (@nextargv, $root, $test, $parallel, $auto, $matches, $maymatch, @l);
+my (@nextargv, $root, $test, $parallel, $auto, $matches, $verbose, $maymatch, @l);
 my $askok = N("Is this OK?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
@@ -42,6 +42,7 @@ usage:
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --test         - verify if the installation can be achieved correctly.
 ") . N("  --parallel     - distributed urpmi accross machines of alias.
+") . N("  -v             - verbose mode.
 ") . N("  -a             - select all packages matching expression.
 ");
     exit(0);
@@ -58,6 +59,7 @@ while (defined($_ = shift @ARGV)) {
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $matches = 1; next };
+	/v/ and do { $verbose = 1; next };
 	die N("urpme: unknown option \"-%s\", check usage with --help\n", $1); } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     push @l, $_;
@@ -65,6 +67,9 @@ while (defined($_ = shift @ARGV)) {
 
 my $urpm = new urpm;
 my $state = {};
+
+#- remove verbose if not asked.
+$verbose or $urpm->{log} = sub {};
 
 #- just configure parallel mode if available.
 $parallel and $urpm->configure(synthesis => 'none',

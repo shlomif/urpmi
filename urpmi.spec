@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -199,7 +199,9 @@ $urpm->update_media;
 
 
 %changelog
-
+* Thu Apr 24 2003 François Pons <fpons@mandrakesoft.com> 4.3-7mdk
+- added -v to urpme and removed default log.
+- avoid curl output to be seen.
 - make require of Date::Manip optional (urpmi manage to continue
   evan if Date::Manip is not there of fail due to unknown TZ).
 

@@ -223,7 +223,7 @@ sub sync_curl {
 	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
 			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()) .
-			"-s", "-I", @ftp_files) . " |";
+			"--stderr", "-", "-s", "-I", @ftp_files) . " |";
 	while (<CURL>) {
 	    if (/Content-Length:\s*(\d+)/) {
 		!$cur_ftp_file || exists($ftp_files_info{$cur_ftp_file}{size}) and $cur_ftp_file = shift @ftp_files;
