@@ -2757,9 +2757,9 @@ sub install_logger {
 	    printf $total_pkg ? "%-33s" : "%-28s", N("Preparing...");
 	} else {
 	    if ($total_pkg) {
-		printf "%9s:%-23s", (++$urpm->{logger_id}) . "/" . $total_pkg, ($pkg && $pkg->name);
+		printf "%9s: %-22s", (++$urpm->{logger_id}) . "/" . $total_pkg, ($pkg && $pkg->name);
 	    } else {
-		printf "%4d:%-23s", ++$urpm->{logger_id}, ($pkg && $pkg->name);
+		printf "%4d: %-22s", ++$urpm->{logger_id}, ($pkg && $pkg->name);
 	    }
 	}
     } elsif ($subtype eq 'stop') {
