@@ -618,7 +618,7 @@ sub add_medium {
 
     #- creating the medium info.
     if ($options{virtual}) {
-	$url =~ m|^file:/*(/[^/].*)/| or $urpm->{fatal}(1, N("virtual medium needs to be local"));
+	$url =~ m{^file:/} or $urpm->{fatal}(1, N("virtual medium needs to be local"));
 
 	$medium = { name      => $name,
 		    url       => $url,
