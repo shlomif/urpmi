@@ -116,12 +116,13 @@ Proceed?", join "\n", @all_rpms)
 	my $file_dialog = Gtk2::FileSelection->new(N("Choose location to save file"));
 	$file_dialog->set_modal(1);
 	$file_dialog->set_position('center');
-	$file_dialog->set_filename($rpms->[0]); #- TODO must work for srpms too
+	my $filename = @$srpms > 0 ? $srpms->[0] : $rpms->[0];
+	$file_dialog->set_filename($filename);
 	$file_dialog->hide_fileop_buttons;
 	$file_dialog->ok_button->signal_connect(clicked => sub {
 	    my $location = $file_dialog->get_filename;
 	    quit();
-	    $location and exec '/bin/mv', '-f', $rpms->[0], $location;
+	    $location and exec '/bin/mv', '-f', $filename, $location;
 	});
 	$file_dialog->cancel_button->signal_connect(clicked => \&quit);
 	$file_dialog->show;
