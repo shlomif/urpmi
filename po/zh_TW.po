@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.7\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2002-09-02 03:10+0800\n"
 "Last-Translator: Kenduest Lee <kenduest@i18n.linux.org.tw>\n"
 "Language-Team: Chinese Team <zh-l10n@linux.org.tw>\n"
@@ -201,11 +201,6 @@ msgstr "在快取空間內找到 %d 個檔頭"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "在那裡有多個相同名稱的套件“%s”"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "正在進行第二部相依性的計算\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -214,6 +209,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - 指定代理服務主機存取的使用者帳號與密碼\n"
 "                   一般格式為 <user:passwd>)。\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "正在進行第二部相依性的計算\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -385,7 +385,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "不明的套件 "
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "無法進行安裝"
@@ -694,11 +694,6 @@ msgstr ""
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "無法由 [%s] 讀取 rpm 套件：: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
-
 #: ../urpmi.update:1
 #, fuzzy, c-format
 msgid "  --update       - update only update media.\n"
@@ -909,11 +904,6 @@ msgstr "  --clean        - 移除快取目錄內的 rpm 檔案。\n"
 msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr "無法使用這個名稱“%s”，因同一名稱的媒介已存在"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "接收“%s”的敘述檔案..."
-
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1003,11 +993,6 @@ msgstr ""
 #, c-format
 msgid "error registering local packages"
 msgstr "登記本機套件時發生錯誤"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr ""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1168,11 +1153,6 @@ msgid ""
 "                   %s\n"
 msgstr "  --env          - 使用特定環境 (一般用於臭蟲回報)。\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "%s 主機的 urpmi 版本有問題，無法正常呼叫使用"
-
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1267,11 +1247,6 @@ msgstr "無可移除 (使用 urpmi.addmedia 指令新增媒介)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "無法找到“%s”的清單檔案，忽略這個媒介"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "安裝失敗 - %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1378,11 +1353,6 @@ msgstr "檢驗 %s 檔案內的並列處理項目"
 msgid "Nothing to remove"
 msgstr "沒有東西可移除。\n"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "讀取媒介“%s”的檔頭資訊"
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1394,6 +1364,11 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "讀取媒介“%s”的檔頭資訊"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1448,11 +1423,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "ftp 媒介的 url 缺少了“with”這個關鍵字\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1553,11 +1523,6 @@ msgstr "無法存取媒介“%s”"
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "無法建立媒介“%s”\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, fuzzy, c-format
-msgid "scp failed on host %s"
-msgstr "安裝失敗 - %s"
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1724,6 +1689,14 @@ msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr "  -u             - 如果已安裝較好版本則移除套件。\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1819,6 +1792,11 @@ msgstr "確定"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "hdlists 檔案中有無效的 hdlist 敘述“%s”"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "無法移除 %s 套件"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -1907,6 +1885,19 @@ msgstr "嘗試忽略現存的媒介“%s”，忽略這個媒介"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - 確認安裝是否能夠正確進行.\n"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "接收“%s”的敘述檔案..."
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "%s 主機的 urpmi 版本有問題，無法正常呼叫使用"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "安裝失敗 - %s"
+
+#, fuzzy
+#~ msgid "scp failed on host %s"
+#~ msgstr "安裝失敗 - %s"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "建立為媒介“%s”的綜合檔頭清單時發生錯誤"

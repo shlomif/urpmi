@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sv-sv\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-07-24 12:14+0200\n"
 "Last-Translator: Mattias Newzella <newzella@linux.nu>\n"
 "Language-Team: Svenska <sv@li.org>\n"
@@ -216,11 +216,6 @@ msgstr "hittade %d huvuden i cachen"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "det finns flera paket med samma RPM-filnamn \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "utför andra passet för att räkna ut beroenden\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -229,6 +224,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - ange användare och lösenord för proxy-\n"
 "                   autentisering (formatet är <användare:lösenord>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "utför andra passet för att räkna ut beroenden\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -403,7 +403,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "okänt paket"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Installation är möjlig"
@@ -722,11 +722,6 @@ msgstr "Signatur saknas (%s)"
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "kan inte läsa RPM-filer från [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput misslyckades, kanske är en nod ej nåbar."
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -943,11 +938,6 @@ msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
 "kan inte använda namn \"%s\" för namnlöst media eftersom det redan används"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "hämtar beskrivningsfil för \"%s\"..."
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1039,11 +1029,6 @@ msgstr "virtuell media måste vara lokal"
 #, c-format
 msgid "error registering local packages"
 msgstr "fel vid registrering av lokala paket"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "på nod %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1214,11 +1199,6 @@ msgstr ""
 "standard är\n"
 "                   %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "datorn %s har en dålig version av urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1313,11 +1293,6 @@ msgstr "inget att ta bort (använd urpmi.addmedia för att lägga till media)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "kunde inte hitta listfil för \"%s\", media ignorerat"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Installationen misslyckades på nod %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1437,11 +1412,6 @@ msgstr ""
 msgid "Nothing to remove"
 msgstr "Ingenting att ta bort"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "läser huvuden från media \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1456,6 +1426,11 @@ msgid ""
 msgstr ""
 "  --bug          - mata ut en felrapport i katalogen som indikeras av\n"
 "                nästa arg.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "läser huvuden från media \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1510,11 +1485,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "\"with\" saknas för nätverksmedia\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp misslyckades, kanske är en nod ej nåbar."
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1617,11 +1587,6 @@ msgstr "kunde inte komma åt media \"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "kunde ej skapa media \"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp misslyckades på värddator %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1790,6 +1755,14 @@ msgid ""
 msgstr ""
 "  -a             - binär AND operator, sant om båda uttrycken är sanna.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1887,6 +1860,11 @@ msgstr "OK"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "ogiltig hdlist-beskrivning \"%s\" i hdlist-fil"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "tar bort paket %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -1980,3 +1958,24 @@ msgstr "försöker gå förbi befintligt media \"%s\", undviker"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - verifiera om installationen kan utföras korrekt.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput misslyckades, kanske är en nod ej nåbar."
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "hämtar beskrivningsfil för \"%s\"..."
+
+#~ msgid "on node %s"
+#~ msgstr "på nod %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "datorn %s har en dålig version av urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Installationen misslyckades på nod %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp misslyckades, kanske är en nod ej nåbar."
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp misslyckades på värddator %s"

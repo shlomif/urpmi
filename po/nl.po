@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-nl\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-06-26 02:29+0100\n"
 "Last-Translator: Peter Bosch <peter@dromas.student.utwente.nl>\n"
 "Language-Team: Nederlands <vertaling@nl.linux.org>\n"
@@ -217,11 +217,6 @@ msgstr "%d headers in cache gevonden"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "er zijn meerdere pakketten met dezelfde rpm bestandsnaam \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "uitvoeren tweede fase, controleren van afhankelijkheden\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -231,6 +226,11 @@ msgstr ""
 "  --proxy-user   - specificeer gebruikersnaam en wachtwoord voor gebruik van "
 "proxy\n"
 "                   authenticatie (formaat is <gebruiker:wachtwoord>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "uitvoeren tweede fase, controleren van afhankelijkheden\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -411,7 +411,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "onbekend pakket"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Installatie is mogelijk"
@@ -736,11 +736,6 @@ msgstr ""
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "kon rpm-bestanden niet lezen van [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput is mislukt, misschien is een knooppunt onbereikbaar"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -968,11 +963,6 @@ msgstr ""
 "kon naam \"%s\" niet gebruiken voor naamloos medium omdat deze al in gebruik "
 "is"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "bezig met ontvangen van een omschrijving van \"%s\"..."
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1067,11 +1057,6 @@ msgstr ""
 #, c-format
 msgid "error registering local packages"
 msgstr "registreren van lokale pakketten is mislukt"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "op knooppunt %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1245,11 +1230,6 @@ msgstr ""
 "standaard\n"
 "                   is %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "host %s heeft niet de goede versie van urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1348,11 +1328,6 @@ msgstr "niets te verwijderen (gebruik urpmi.addmedia om media toe te voegen)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "kon het lijstbestand voor \"%s\" niet vinden, medium genegeerd"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Installatie mislukt op knooppunt %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1474,11 +1449,6 @@ msgstr "bezig met onderzoeken parallelle handler in bestand [%s]"
 msgid "Nothing to remove"
 msgstr "Niets te verwijderen"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "bezig met lezen van headers van medium \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1494,6 +1464,11 @@ msgid ""
 msgstr ""
 "  --bug          - schrijf een foutrapport naar de map aangegeven\n"
 "                   door het volgende argument.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "bezig met lezen van headers van medium \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1548,11 +1523,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "`with' ontbreekt voor netwerk media\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp is mislukt, misschien is een knooppunt onbereikbaar"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1659,11 +1629,6 @@ msgstr "kon medium \"%s\" niet benaderen"
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "kon medium \"%s\" niet maken\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp faalde op host %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1837,6 +1802,14 @@ msgstr ""
 "  -a             - binaire AND operator, waar als beide expressies waar "
 "zijn.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1934,6 +1907,11 @@ msgstr "Ok"
 #, c-format
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "ongeldige hdlist omschrijving \"%s\" in hdlists bestand"
+
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "bezig met verwijderen van pakket %s"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -2033,6 +2011,27 @@ msgid ""
 msgstr ""
 "  --test         - verifiëren of de installatie correct uitgevoerd kan "
 "worden.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput is mislukt, misschien is een knooppunt onbereikbaar"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "bezig met ontvangen van een omschrijving van \"%s\"..."
+
+#~ msgid "on node %s"
+#~ msgstr "op knooppunt %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "host %s heeft niet de goede versie van urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Installatie mislukt op knooppunt %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp is mislukt, misschien is een knooppunt onbereikbaar"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp faalde op host %s"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "probleem met lezen van synthesis bestand (hdlist) van medium \"%s\""

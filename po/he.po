@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-he\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-03-15 15:23+0000\n"
 "Last-Translator: dovix <dovix2003@yahoo.com>\n"
 "Language-Team: Hebrew <en@li.org>\n"
@@ -196,11 +196,6 @@ msgstr ""
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr ""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "מבצע מעבר שני בכדי לחשב תלויות\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -209,6 +204,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - הכנס שם וסיסמה לשימוש בPROX\n"
 "                   authentication (format is <user:password>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "מבצע מעבר שני בכדי לחשב תלויות\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -381,7 +381,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "חבילה לא מוכרת"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "ההתקנה אפשרית"
@@ -689,11 +689,6 @@ msgstr ""
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "אין אפשרות לקרוא את קובץ ה-RPM מ [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -904,11 +899,6 @@ msgstr ""
 msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr ""
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -988,11 +978,6 @@ msgstr ""
 #, c-format
 msgid "error registering local packages"
 msgstr "חלה שגיאה בעת רישום חבילות מקומיות"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "על node %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1154,11 +1139,6 @@ msgstr ""
 "  --from         - השתמש בכתובת מרשימת השרתים, ברירת המחדל הוא \n"
 "                   %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "למארח %s אין גרסה תקינה של urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1251,11 +1231,6 @@ msgstr "אין מה להסיר (יש להשתמש ב urpmi.addmedia לצורך �
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr ""
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "ההתקנה נכשלה על הnode %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1366,11 +1341,6 @@ msgstr ""
 msgid "Nothing to remove"
 msgstr "שום-דבר למחיקה"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr ""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1381,6 +1351,11 @@ msgstr ""
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
 msgstr ""
 
 #: ../urpm.pm:1
@@ -1433,11 +1408,6 @@ msgstr ""
 msgid ""
 "%s\n"
 "`with' missing for network media\n"
-msgstr ""
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
 msgstr ""
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
@@ -1539,11 +1509,6 @@ msgstr "הגישה למדיה \"%s\" נכשלה"
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "הוספת המאגר \"%s\" נכשל\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp נפל במארח %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1710,6 +1675,14 @@ msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1803,6 +1776,11 @@ msgstr "אישור"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr ""
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "הסרת החבילה %s נכשלה"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -1891,6 +1869,18 @@ msgstr ""
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - וידוי שההתקנת החבילה יכולה להסתיים בהצלחה.\n"
+
+#~ msgid "on node %s"
+#~ msgstr "על node %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "למארח %s אין גרסה תקינה של urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "ההתקנה נכשלה על הnode %s"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp נפל במארח %s"
 
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s מתנגש עם %s"

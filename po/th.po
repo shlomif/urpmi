@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2002-11-25 13:52-0500\n"
 "Last-Translator: Wachara Chinsettawong <wachara@yahoo.com>\n"
 "Language-Team: Thai <th@li.org>\n"
@@ -194,11 +194,6 @@ msgstr "พบ %d header ใน cache"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "มีหลาย package ที่มีชื่อไฟล์เหมือนกับ \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "ทำการผ่านครั้งที่สองเพื่อทดสอบ ความเป็นอิสระ\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -207,6 +202,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - กำหนดชื่อผู้ใช้และรหัสผ่านเพื่อใช้พร็อกซี่\n"
 "                   ในการตรวจสอบ (รูปแบบเป็น <user:password>)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "ทำการผ่านครั้งที่สองเพื่อทดสอบ ความเป็นอิสระ\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -380,7 +380,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "แพ็คเกจไม่รู้จัก"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "การติดตั้งสามารถทำได้"
@@ -689,11 +689,6 @@ msgstr ""
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "ไม่สามารถอ่านไฟล์ rpm จาก [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
-
 #: ../urpmi.update:1
 #, fuzzy, c-format
 msgid "  --update       - update only update media.\n"
@@ -904,11 +899,6 @@ msgstr "  --clean        - remove rpm from cache before anything else.\n"
 msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr "ไม่สามารถใช้ชื่อ \"%s\" สำหรับอุปกรณ์ที่ไม่มีชื่อเพราะว่ามันได้ถูกใช้แล้ว"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "กำลังอ่านคำอธิบายไฟล์ของ \"%s\"..."
-
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -999,11 +989,6 @@ msgstr ""
 #, c-format
 msgid "error registering local packages"
 msgstr "ลงทะเบียน local package มีข้อผิดพลาด"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr ""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1167,11 +1152,6 @@ msgstr ""
 "  --env          - ใช้เอ็นไวลอนเม็นท์แบบเฉพาะ(โดยทั่วไปใช้กับการรายงาน\n"
 "                   บัก).\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "เครื่อง %s ไม่มี urpmi ที่ถูกต้อง"
-
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1267,11 +1247,6 @@ msgstr "ไม่มีอะไรที่จะเอาออก(ใช้ urpmi.addmedia เพื่อเพิ่มอุปกรณ์)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "ไม่สามารถหา list file สำหรับ\"%s\",medium ignored"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "การติดตั้งบน %s ไม่สำเร็จ"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1378,11 +1353,6 @@ msgstr "กำลังตรวจสอบ parallel handler ในไฟล์ [%s]"
 msgid "Nothing to remove"
 msgstr "ไม่มีอะไรที่ต้องลบทิ้ง\n"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "กำลังทำการอ่าน headers จากอุปกรณ์\"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1396,6 +1366,11 @@ msgid ""
 msgstr ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "กำลังทำการอ่าน headers จากอุปกรณ์\"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1450,11 +1425,6 @@ msgid ""
 msgstr ""
 "%s\n"
 " `with' ไม่พบสำหรับอุปกรณ์ ftp\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1557,11 +1527,6 @@ msgstr "ไม่สามารถใช้อุปกรณ์\"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "ไม่สามารถสร้างอุปกรณ์ \"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, fuzzy, c-format
-msgid "scp failed on host %s"
-msgstr "การติดตั้งบน %s ไม่สำเร็จ"
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1729,6 +1694,14 @@ msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr "  -u             - ลบแพ็คเกจถ้าแพ็คเกจที่ดีกว่ามีการติดตั้งอยู่แล้ว.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1824,6 +1797,11 @@ msgstr "ตกลง"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "คำอธิบาย hdlist ไม่ถูกต้อง \"%s\" ในไฟล์ hdlists"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "ไม่สามารถที่จะลบแพ็คเกจ %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -1913,6 +1891,19 @@ msgstr "กำลังเลี่ยงการทำงานของอุปกรณ์ \"%s\""
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - ตรวจสอบว่าการติดตั้งสามารถทำได้ถูกต้องหรือไม่.\n"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "กำลังอ่านคำอธิบายไฟล์ของ \"%s\"..."
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "เครื่อง %s ไม่มี urpmi ที่ถูกต้อง"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "การติดตั้งบน %s ไม่สำเร็จ"
+
+#, fuzzy
+#~ msgid "scp failed on host %s"
+#~ msgstr "การติดตั้งบน %s ไม่สำเร็จ"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "มีปัญหาในการสร้างไฟล์ hdlist สำหรับอุปกรณ์\"%s\""

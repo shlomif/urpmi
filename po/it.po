@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-it\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-03-06 15:31+0100\n"
 "Last-Translator: Roberto Rosselli Del Turco <rosselli@ling.unipi.it>\n"
 "Language-Team: italiano <tp@lists.linux.it>\n"
@@ -209,11 +209,6 @@ msgstr "%d intestazioni trovate in cache"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "ci sono diversi pacchetti rpm con lo stesso nome di file \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "passo alla fase successiva per valutare le dipendenze\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -222,6 +217,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - specifica utente e password da utilizzare per\n"
 "                   l'autenticazione col proxy (formato: <utente:password>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "passo alla fase successiva per valutare le dipendenze\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -404,7 +404,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "pacchetto sconosciuto"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "L'installazione è possibile"
@@ -724,11 +724,6 @@ msgstr ""
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "non riesco a leggere i file rpm da [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput fallito, probabilmente il nodo è irraggiungibile"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -947,11 +942,6 @@ msgstr ""
 msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr "non riesco ad usare il nome \"%s\" per il supporto perchè è già in uso"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "recupero il file descrittivo di \"%s\"..."
-
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1045,11 +1035,6 @@ msgstr ""
 #, c-format
 msgid "error registering local packages"
 msgstr "errore durante la registrazione dei pacchetti locali"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "sul nodo %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1224,11 +1209,6 @@ msgstr ""
 "quella\n"
 "                   predefinita è %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "l'host %s non dispone di una buona versione di urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1328,11 +1308,6 @@ msgstr "niente da rimuovere (usa urpmi.addmedia per aggiungere un supporto)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "non riesco a trovare il list file per \"%s\", ignoro il supporto"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Installazione fallita sul nodo %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1454,11 +1429,6 @@ msgstr "esamino l'handler parallelo nel file [%s]"
 msgid "Nothing to remove"
 msgstr "Niente da rimuovere"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "sto leggendo le intestazioni dal supporto \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1472,6 +1442,11 @@ msgid ""
 msgstr ""
 "  --bug          - produce un bug report nella directory indicata con\n"
 "                   l'argomento successivo.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "sto leggendo le intestazioni dal supporto \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1527,11 +1502,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "`with` assente per supporti ftp\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp fallito, probabilmente il nodo è irraggiungibile"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1640,11 +1610,6 @@ msgstr "non riesco ad accedere al supporto \"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "non riesco a creare il supporto \"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp fallito sul nodo %s"
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1818,6 +1783,14 @@ msgstr ""
 "  -a             - operatore binario AND, vero se entrambe le espressioni "
 "sono vere.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1917,6 +1890,11 @@ msgstr "Ok"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "descrizione hdlist non valida \"%s\" nei file di hdlist"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "impossibile rimuovere il pacchetto %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -2013,6 +1991,27 @@ msgid ""
 msgstr ""
 "  --test         - verifica che l'installazione possa essere effettuata "
 "correttamente.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput fallito, probabilmente il nodo è irraggiungibile"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "recupero il file descrittivo di \"%s\"..."
+
+#~ msgid "on node %s"
+#~ msgstr "sul nodo %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "l'host %s non dispone di una buona versione di urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Installazione fallita sul nodo %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp fallito, probabilmente il nodo è irraggiungibile"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp fallito sul nodo %s"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "problema nel leggere il file hdlist dell supporto \"%s\""

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-07-23 02:22+0100\n"
 "Last-Translator: Tibor Pittich <Tibor.Pittich@phuture.sk>\n"
 "Language-Team: Slovak <i18n@mandrake.sk>\n"
@@ -213,11 +213,6 @@ msgstr "nájdených %d hlavičiek v dočasnej pamäti"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "existuje viacero balíkov s rovnakým menom rpm súboru \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "druhý prechod pre výpočet závislostí\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -226,6 +221,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - špecifikovanie používateľa a hesla pri použití proxy\n"
 "                   autentifikácie (formát je <používateľ:heslo>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "druhý prechod pre výpočet závislostí\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -405,7 +405,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "neznámy balík"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Inštalácia je možná"
@@ -729,11 +729,6 @@ msgstr "Chýbajúci podpis (%s)"
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "nieje možné čítať rpm súbory z [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput zlyhal, možno nieje uzol dostupný"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -946,11 +941,6 @@ msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
 "nieje možné použiť meno \"%s\" pre nepomenované médium pretože je už použité"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "preberanie súboru s popismy pre \"%s\"..."
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1044,11 +1034,6 @@ msgstr "virtuálne médium by malo byť lokálne"
 #, c-format
 msgid "error registering local packages"
 msgstr "chyba pri registrácii lokálnych balíkov"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "na uzle %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1218,11 +1203,6 @@ msgstr ""
 "  --from         - použiť zadanú url pre zoznam mirrorov, štandardne je to\n"
 "                   %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "hostiteľ %s nemá správnu verziu urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1321,11 +1301,6 @@ msgstr "niet nič na odstránenie (použi urpmi.addmedia na pridanie média)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "nieje možné nájsť zoznamový súbor pre \"%s\", médium ignorované"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Inštalácia zlyhala na uzle %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1446,11 +1421,6 @@ msgstr "prehliadanie paralelného ovládača v súbore [%s]"
 msgid "Nothing to remove"
 msgstr "Niet nič na odstránenie"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "načitávanie hlavičiek pre médium \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1464,6 +1434,11 @@ msgid ""
 msgstr ""
 "  --bug          - vytvoriť oznámenie o chybe do adresára uvedeného\n"
 "                   za argumentom.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "načitávanie hlavičiek pre médium \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1518,11 +1493,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "chýbajúce `with' pre sieťový zdroj\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp zlyhalo, možno nieje uzol dostupný"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1631,11 +1601,6 @@ msgstr "nieje možné pristúpiť k médiu \"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "nemôžem vytvoriť médium \"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp zlyhalo na hostiteľovy %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1810,6 +1775,14 @@ msgstr ""
 "  -a             - binárny AND operátor, pravdivý ak oba výrazy sú "
 "pravdivé.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1911,6 +1884,11 @@ msgstr "Ok"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "nesprávny hdlist popis \"%s\" v hdlists súbore"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "odstraňovanie balíka %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -2003,3 +1981,24 @@ msgstr "pokus o vynechanie existujúceho média \"%s\", zrušené"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - overiť či bude inštalácia vykonaná bez problémov.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput zlyhal, možno nieje uzol dostupný"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "preberanie súboru s popismy pre \"%s\"..."
+
+#~ msgid "on node %s"
+#~ msgstr "na uzle %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "hostiteľ %s nemá správnu verziu urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Inštalácia zlyhala na uzle %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp zlyhalo, možno nieje uzol dostupný"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp zlyhalo na hostiteľovy %s"

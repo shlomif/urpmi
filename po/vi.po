@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-05-17 21:45+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -202,11 +202,6 @@ msgstr "tìm thấy các header %d trong cache"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "có nhiều gói với cùng tên tập tin rpm \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "thực hiện pass thứ hai để tính toán các phụ thuộc\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -215,6 +210,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - chỉ định người dùng và mật khẩu cho proxy\n"
 "                   xác thực (khuôn dạng là <user:password>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "thực hiện pass thứ hai để tính toán các phụ thuộc\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -392,7 +392,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "gói tin không xác định"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Có khả năng cài đặt"
@@ -711,11 +711,6 @@ msgstr ""
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "không thể đọc các tập tin rpm từ [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput lỗi, có lẽ có một node không thể truy cập được"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -938,11 +933,6 @@ msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
 "không thể dùng tên \"%s\" cho phương tiện chưa có tên vì nó đã được dùng rồi"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "đang thu thập tập tin mô tả của \"%s\"..."
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1037,11 +1027,6 @@ msgstr ""
 #, c-format
 msgid "error registering local packages"
 msgstr "lỗi đăng ký các gói tin cục bộ"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "trên node %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1210,11 +1195,6 @@ msgstr ""
 "  --from         - dùng url chỉ định cho danh sách các mirror, mặc định là\n"
 "                   %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "host %s không có phiên bản tốt của urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1313,11 +1293,6 @@ msgstr "Không có gì để gỡ bỏ (dùng urpmi.addmedia để thêm phươn
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "không thể tìm thấy tập tin danh sách cho \"%s\", phương tiện bị bỏ qua"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Cài đặt không được trên node %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1436,11 +1411,6 @@ msgstr "đang kiểm tra trình quản lý song song (parallel) trong tập tin 
 msgid "Nothing to remove"
 msgstr "Không có gì để gỡ bỏ"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "đang đọc các header từ phương tiện \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1454,6 +1424,11 @@ msgid ""
 msgstr ""
 "  --bug          - xuất ra báo cáo lỗi trong thư mục được chỉ định\n"
 "                    bởi đối số (arg) tiếp theo.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "đang đọc các header từ phương tiện \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1508,11 +1483,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "thiếu `with' cho phương tiện mạng\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp lỗi, có lẽ có một node không thể truy cập được"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1617,11 +1587,6 @@ msgstr "không thể truy cập phương tiện \"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "không thể tạo phương tiện \"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp lỗi trên host %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1796,6 +1761,14 @@ msgid ""
 msgstr ""
 "  -a             - binary AND operator, đúng nếu cả hai expression là đúng.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1892,6 +1865,11 @@ msgstr "OK"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "mô tả hdlist không hợp lệ \"%s\" trong tập tin hdlists"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "gỡ bỏ gói %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -1985,6 +1963,27 @@ msgstr "đang cố bỏ qua phương tiện đang tồn tại \"%s\", tránh"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - xác minh nếu việc cài đặt đạt kết quả tốt.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput lỗi, có lẽ có một node không thể truy cập được"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "đang thu thập tập tin mô tả của \"%s\"..."
+
+#~ msgid "on node %s"
+#~ msgstr "trên node %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "host %s không có phiên bản tốt của urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Cài đặt không được trên node %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp lỗi, có lẽ có một node không thể truy cập được"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp lỗi trên host %s"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "lỗi đọc tập tin hdlist của phương tiện \"%s\""

@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-pt_BR\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-05-20 16:05-0300\n"
 "Last-Translator: Tiago da Cruz Bezerra <tiago@grupoking.com.br>\n"
 "Language-Team: Poruguês do Brasil <linux_pt_BR@yahoogrupos.com.br>\n"
@@ -217,11 +217,6 @@ msgstr "Encontrado %d cabeçalhos no cache."
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "Existem múltiplos pacotes com o mesmo nome rpm \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "fazendo segundo passo para calcular dependências\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -230,6 +225,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - especifica usuário e senha para usar na autenticação\n"
 "                   do proxy (o formato é <usuário:senha>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "fazendo segundo passo para calcular dependências\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -410,7 +410,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "pacote desconhecido."
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Instalação é possível"
@@ -728,11 +728,6 @@ msgstr ""
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "não consegui ler arquivos rpm de: [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput falhou, talvez o destino esteja inalcançável"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -948,11 +943,6 @@ msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
 "Não consegui usar nome \"%s\" para mídia não-nomeada, porque já está em uso."
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "conseguindo descrição para o arquivo \"%s\"..."
-
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1048,11 +1038,6 @@ msgstr ""
 #, c-format
 msgid "error registering local packages"
 msgstr "Erro registrando pacotes locais"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr ""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1223,11 +1208,6 @@ msgstr ""
 "padrão é\n"
 "                   %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "servidor %s não tem uma versão compatível do urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1325,11 +1305,6 @@ msgstr "nada para remover (use urpmi.addmedia para adicionar uma mídia)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "Não consegui encontrar a lista para \"%s\", mídia ignorada."
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Instalação falhou no nódulo %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1450,11 +1425,6 @@ msgstr "Examinando download paralelo do arquivo [%s]"
 msgid "Nothing to remove"
 msgstr "Nada para remover"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "Lendo cabeçalhos da mídia \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1470,6 +1440,11 @@ msgstr ""
 "  --bug          - escreve um relatório de falhas no diretório indicado "
 "pelo\n"
 "                   próximo argumento.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "Lendo cabeçalhos da mídia \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1526,11 +1501,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "`with' faltando para mídia da rede\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp falhou, talvez o destino esteja inalcançável"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1636,11 +1606,6 @@ msgstr "Incapaz de acessar mídia \"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "incapaz de criar mídia \"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp falhou no host %s"
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1815,6 +1780,14 @@ msgstr ""
 "  -a             - operador binário E, verdadeiro se ambas expressões são "
 "verdadeiras.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1911,6 +1884,11 @@ msgstr "Ok"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "Descrição inválida \"%s\" no arquivo hdlists"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "removendo pacote %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -2006,6 +1984,24 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 "  --test         - verifica se a instalação pode ser efetuada corretamente.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput falhou, talvez o destino esteja inalcançável"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "conseguindo descrição para o arquivo \"%s\"..."
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "servidor %s não tem uma versão compatível do urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Instalação falhou no nódulo %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp falhou, talvez o destino esteja inalcançável"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp falhou no host %s"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "problema ao ler o arquivo hdlist da mídia \"%s\""

@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2001-03-04 15:40+0200\n"
 "Last-Translator: Mykolas Norvaiðas <Myka@centras.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -194,16 +194,16 @@ msgstr ""
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr ""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr ""
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -370,7 +370,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "nëra paketo su tokiu pavadinimu %s\n"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, fuzzy, c-format
 msgid "Installation is possible"
 msgstr "Ádiegimas nepavyko"
@@ -673,11 +673,6 @@ msgstr ""
 msgid "unable to read rpm files from [%s]: %s"
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -880,11 +875,6 @@ msgstr ""
 msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
 
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "Tik root vartotojas gali ádiegti vietinius paketus"
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -966,11 +956,6 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "error registering local packages"
-msgstr ""
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
 msgstr ""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
@@ -1132,11 +1117,6 @@ msgid ""
 "                   %s\n"
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr ""
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1229,11 +1209,6 @@ msgstr "nëra kà atnaujinti (pridëti laikmenai naudokite urpmi.addmedia)\n"
 #, fuzzy, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "Tik root vartotojas gali ádiegti vietinius paketus"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, fuzzy, c-format
-msgid "Installation failed on node %s"
-msgstr "Ádiegimas nepavyko"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1334,11 +1309,6 @@ msgstr ""
 msgid "Nothing to remove"
 msgstr ""
 
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "Tik root vartotojas gali ádiegti vietinius paketus"
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1350,6 +1320,11 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "Tik root vartotojas gali ádiegti vietinius paketus"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1405,11 +1380,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "`with' tûkstama ftp laikmena\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1510,11 +1480,6 @@ msgstr "Tik root vartotojas gali ádiegti vietinius paketus"
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr ""
-
-#: ../urpm/parallel_ssh.pm:1
-#, fuzzy, c-format
-msgid "scp failed on host %s"
-msgstr "Ádiegimas nepavyko"
 
 #: ../urpmf:1
 #, c-format
@@ -1674,6 +1639,14 @@ msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1767,6 +1740,11 @@ msgstr "Gerai"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr ""
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "Tik root vartotojas gali ádiegti vietinius paketus"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -1853,6 +1831,18 @@ msgstr ""
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+
+#, fuzzy
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "Tik root vartotojas gali ádiegti vietinius paketus"
+
+#, fuzzy
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Ádiegimas nepavyko"
+
+#, fuzzy
+#~ msgid "scp failed on host %s"
+#~ msgstr "Ádiegimas nepavyko"
 
 #, fuzzy
 #~ msgid "problem reading hdlist file of medium \"%s\""

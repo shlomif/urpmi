@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-et\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-06-22 16:23+0300\n"
 "Last-Translator: Marek Laane <bald@online.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -203,11 +203,6 @@ msgstr "puhvris leiti %d päis(t)"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "mitu paketti kannab üht ja sama rpm faili nime \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "teistkordne sõltuvuste arvutamine\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -216,6 +211,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - määrab kasutajanime ja parooli vahendaja\n"
 "                   autentimiseks (vorming: <kasutajanimi:parool>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "teistkordne sõltuvuste arvutamine\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -392,7 +392,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "tundmatu pakett"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Paigaldamine on võimalik"
@@ -713,11 +713,6 @@ msgstr "Puudub signatuur (%s)"
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "[%s] rpm failide lugemine ebaõnnestus: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput ebaõnnestus, võib-olla ei ole sõlm kättesaadav"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -936,11 +931,6 @@ msgstr ""
 "nime \"%s\" kasutamine nimetul andmekandjal pole võimalik, sest nimi on juba "
 "kasutusel"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "\"%s\" kirjelduste faili tõmbamine..."
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1035,11 +1025,6 @@ msgstr "virtuaalne andmekandja peab olema kohalik"
 #, c-format
 msgid "error registering local packages"
 msgstr "viga kohalike pakettide registreerimisel"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "sõlmel %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1207,11 +1192,6 @@ msgstr ""
 "  --from         - kasutab määratud URL-i peeglite loendi jaoks, vaikimisi\n"
 "                   on see %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "masinal %s ei ole korralikku urpmi versiooni"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1311,11 +1291,6 @@ msgstr "ei ole midagi eemaldada (andmekandja lisamiskäsk: urpmi.addmedia)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "ei leitud \"%s\" nimekirjafaili, andmekandjat eiratakse"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Paigaldamine ebaõnnestus sõlmel %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1434,11 +1409,6 @@ msgstr "paralleelkäitleja uurimine failis [%s]"
 msgid "Nothing to remove"
 msgstr "Pole midagi eemaldada"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "päiste lugemine andmekandjalt \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1452,6 +1422,11 @@ msgid ""
 msgstr ""
 "  --bug          - väljastab vearaporti kataloogi, mis on ära näidatud\n"
 "                   järgnevas argumendis.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "päiste lugemine andmekandjalt \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1506,11 +1481,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "`with' puudub võrguandmekandja jaoks\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp ebaõnnestus, võib-olla ei ole sõlm kättesaadav"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1620,11 +1590,6 @@ msgstr "ligipääs andmekandjale \"%s\" ebaõnnestus"
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "andmekandja \"%s\" loomine ebaõnnestus\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp ebaõnnestus masinal %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1800,6 +1765,14 @@ msgstr ""
 "  -a             - binaaroperaator AND: tõene, kui mõlemad avaldised on "
 "tõesed.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1897,6 +1870,11 @@ msgstr "Olgu"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "vigane hdlisti kirjeldus \"%s\" failis hdlists"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "paketi %s eemaldamine"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -1990,3 +1968,24 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 "  --test         - kontrollitakse, kas paigaldus on korrektselt võimalik.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput ebaõnnestus, võib-olla ei ole sõlm kättesaadav"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "\"%s\" kirjelduste faili tõmbamine..."
+
+#~ msgid "on node %s"
+#~ msgstr "sõlmel %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "masinal %s ei ole korralikku urpmi versiooni"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Paigaldamine ebaõnnestus sõlmel %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp ebaõnnestus, võib-olla ei ole sõlm kättesaadav"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp ebaõnnestus masinal %s"

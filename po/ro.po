@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ro\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-07-01 22:54+0200\n"
 "Last-Translator: Harald Ersch <harald@ersch.ro>\n"
 "Language-Team: Romanian\n"
@@ -217,11 +217,6 @@ msgstr "am găsit %d antete în cache"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "există pachete multiple cu acelaşi nume de fişier rpm \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "efectuez a doua parcurgere pentru a calcula dependenţele\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -231,6 +226,11 @@ msgstr ""
 "  --proxy-user   - specificare utilizator şi parolă pt. autentificarea "
 "proxy\n"
 "                   (formatul este <utilizator:parolă>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "efectuez a doua parcurgere pentru a calcula dependenţele\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -412,7 +412,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "pachet necunoscut "
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Instalarea este posibilă"
@@ -741,11 +741,6 @@ msgstr "Semnătură lipsă (%s)"
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "nu pot citi fişierele rpm din [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput a eşuat, probabil un nod nu este disponibil"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -968,11 +963,6 @@ msgstr ""
 "nu pot folosi numele \"%s\" pentru mediul fără nume pentru că este deja "
 "folosit"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "copiez fişierul cu descrieri pentru \"%s\"..."
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1067,11 +1057,6 @@ msgstr "mediul virtual trebuie să fie local"
 #, c-format
 msgid "error registering local packages"
 msgstr "eroare la înregistrarea pachetelor locale"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "în nodul %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1245,11 +1230,6 @@ msgstr ""
 "implicit este \n"
 "                       %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "gazda %s nu are o versiune compatibilă a urpmi "
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1347,11 +1327,6 @@ msgstr "nimic de şters (folosiţi urpmi.addmedia pentru a adăuga un mediu)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "nu pot să găsesc fişierul listă pentru \"%s\", mediul a fost ignorat"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Instalarea a eşuat în nodul %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1474,11 +1449,6 @@ msgstr "examinez descriptorul paralel din fişierul [%s]"
 msgid "Nothing to remove"
 msgstr "Nimic de şters"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "citest antetele de pe mediul \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1492,6 +1462,11 @@ msgid ""
 msgstr ""
 "  --bug          - produce un raport de erori în directorul indicat de \n"
 "argumentul următor.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "citest antetele de pe mediul \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1546,11 +1521,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "`with' lipseşte pentru mediul tip reţea\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp a eşuat, probabil un nod nu este disponibil"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1659,11 +1629,6 @@ msgstr "nu pot accesa mediul \"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "Nu pot creea mediul \"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp a eşuat la gazda %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1842,6 +1807,14 @@ msgstr ""
 "  -a             - operator binar ŞI, adevărat dacă ambele expresii sunt "
 "adevărate.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1939,6 +1912,11 @@ msgstr "OK"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "descriere hdlist invalidă \"%s\" în fişierul hdlists"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "şterg pachetul %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -2034,6 +2012,27 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 "  --test         - verifică dacă instalarea poate fi îndeplinită corect.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput a eşuat, probabil un nod nu este disponibil"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "copiez fişierul cu descrieri pentru \"%s\"..."
+
+#~ msgid "on node %s"
+#~ msgstr "în nodul %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "gazda %s nu are o versiune compatibilă a urpmi "
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Instalarea a eşuat în nodul %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp a eşuat, probabil un nod nu este disponibil"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp a eşuat la gazda %s"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "problemă la citirea fişierului hdlist pentru mediul \"%s\""

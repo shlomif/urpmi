@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-cs\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-07-24 00:49GMT\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -210,11 +210,6 @@ msgstr "nalezeno %d hlaviček"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "více balíčků má stejný název souboru RPM \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "počítám závislosti v druhém průchodu\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -223,6 +218,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - uživatel a heslo, které se má použít u ověření\n"
 "                   proxy (formát je <uživatel:heslo>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "počítám závislosti v druhém průchodu\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -401,7 +401,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "neznámý balíček"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Instalace je možná"
@@ -727,11 +727,6 @@ msgstr "Chybí podpis (%s)"
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "nelze číst soubory RPM z [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput selhalo, možná není uzel k dispozici"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -950,11 +945,6 @@ msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
 "nelze použít jméno \"%s\" pro nepojmenovaný zdroj protože to je již použito"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "načítám soubor s popisy pro \"%s\"..."
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1049,11 +1039,6 @@ msgstr "virtuální zdroj musí být lokální"
 #, c-format
 msgid "error registering local packages"
 msgstr "chyba při registraci lokálních balíčků"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "na uzlu %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1224,11 +1209,6 @@ msgstr ""
 "  --from         - pro seznam zrcadel se použije zadané URL, výchozí je\n"
 "                   %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "počítač %s nemá správnou verzi programu urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1327,11 +1307,6 @@ msgstr "nic k odebrání (použijte urpmi.addmedia pro přidání zdroje)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "nelze najít seznam souborů pro \"%s\", zdroj se ignoruje"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Instalace selhala na uzlu %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1453,11 +1428,6 @@ msgstr "zkoumám paralelní zpracování v souboru [%s]"
 msgid "Nothing to remove"
 msgstr "Není co odebrat"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "načítám hlavičky ze zdroje \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1471,6 +1441,11 @@ msgid ""
 msgstr ""
 "  --bug          - vygeneruje hlášení o chybě do adresáře \n"
 "                   zadaného následujícím parametrem.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "načítám hlavičky ze zdroje \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1525,11 +1500,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "chybí `with' pro síťový zdroj\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp selhalo, možná není uzel k dispozici"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1635,11 +1605,6 @@ msgstr "nelze přistoupit na zdroj \"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "nelze vytvořit zdroj \"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "selhalo scp na počítači %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1814,6 +1779,14 @@ msgid ""
 msgstr ""
 "  -a             - binární operátor AND, true pokud oba výrazy platí.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1910,6 +1883,11 @@ msgstr "OK"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "špatný popis hdlist \"%s\" v souboru hdlists"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "odstraňuje se balíček %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -2002,6 +1980,27 @@ msgstr "pokus o vynechání existujícího zdroje \"%s\""
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - zkontrolovat, zda lze dokončit instalaci správně.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput selhalo, možná není uzel k dispozici"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "načítám soubor s popisy pro \"%s\"..."
+
+#~ msgid "on node %s"
+#~ msgstr "na uzlu %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "počítač %s nemá správnou verzi programu urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Instalace selhala na uzlu %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp selhalo, možná není uzel k dispozici"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "selhalo scp na počítači %s"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "problém při čtení souboru hdlist zdroje \"%s\""

@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-02-21 21:41+0100\n"
 "Last-Translator: Toma Jankovic <tomaja@net.yu>\n"
 "Language-Team: Serbian <i18n@mandrake.co.yu>\n"
@@ -205,11 +205,6 @@ msgstr "пронађено %d хедера у кеш меморији"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "постоји више пакета са истим именом rpm датотеке \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "сада се проверавају међузависности пакета\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -218,6 +213,11 @@ msgid ""
 msgstr ""
 "  --proxy-user   - одређује корисника и лозинку који се користе за proxy\n"
 "                   аутентификацију (формат је <user:password>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "сада се проверавају међузависности пакета\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -398,7 +398,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "непознати пакет"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Инсталација је могућа"
@@ -717,11 +717,6 @@ msgstr ""
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "не могу да прочитам rpm фајлове са [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput није успео, можда је мод недоступан"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -942,11 +937,6 @@ msgstr ""
 "не могу да користим име \"%s\" као име за неименовани медијум зато што је то "
 "име већ у употреби"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "добављање описног фајла за \"%s\"..."
-
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1039,11 +1029,6 @@ msgstr ""
 #, c-format
 msgid "error registering local packages"
 msgstr "грешка при регистровању локалних пакета"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "на ноду %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1216,11 +1201,6 @@ msgstr ""
 "  --form        - користи дату url адресу за лист мирора, подразумевано је\n"
 "                    %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "хост %s нема исправну верзију urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1318,11 +1298,6 @@ msgstr "нема ничега зa брисaњe (користи urpmi.addmedia за додавaње медиja)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "немогу да пронађем датотеку листе за \"%s\", медијум је игнорисан"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Инсталација неуспела на ноду %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1438,11 +1413,6 @@ msgstr "испитујем паралелни држач у фајлу [%s]"
 msgid "Nothing to remove"
 msgstr "Нема ничега што би се могло уклонити"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "читам хедере са медија \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1456,6 +1426,11 @@ msgid ""
 msgstr ""
 "  --bug          - прави извештај о грешци у директоријуму прослеђеном "
 "као                      следећи аргумент.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "читам хедере са медија \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1511,11 +1486,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "`with' недостаje за ftp медиj\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp није успео, можда је нод недостпан"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1618,11 +1588,6 @@ msgstr "не могу да приступим медиjу \"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "не могу да креирам медиj \"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp није успео на хосту %s"
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1793,6 +1758,14 @@ msgstr ""
 "  -a             - инарни AND oоператор, истинит уколико су оба израза "
 "истинита.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1889,6 +1862,11 @@ msgstr "У реду"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "неправилан hdlist опис \"%s\" и hdlists фајлу"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "не могу да уклоним пакет %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -1983,6 +1961,27 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 "  --test         - проверава да ли се може извести исправна инсталација.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput није успео, можда је мод недоступан"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "добављање описног фајла за \"%s\"..."
+
+#~ msgid "on node %s"
+#~ msgstr "на ноду %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "хост %s нема исправну верзију urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Инсталација неуспела на ноду %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp није успео, можда је нод недостпан"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp није успео на хосту %s"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "проблем при читању hdlist фајла са медија \"%s\""

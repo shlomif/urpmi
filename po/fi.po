@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fi - MDK Release 9.2\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-06-30 00:25+0300\n"
 "Last-Translator: Thomas Backlund <tmb@iki.fi>\n"
 "Language-Team: Finnish <cooker-i18n@linux-mandrake.com>\n"
@@ -215,11 +215,6 @@ msgstr "välimuistista löytyi %d otsikkokenttää"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "löytyy monta paketteja joissa on sama rpm tiedostonimi \"%s\" "
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "suoritetaan toinen kierros riippuvuuksien määrittelemiseksi\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -228,6 +223,11 @@ msgid ""
 msgstr ""
 "  --proxy-user    - määrittele käyttäjä ja salasana välityspalvelimen\n"
 "                    todentamisessa (muodossa <käyttäjä:salasana>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "suoritetaan toinen kierros riippuvuuksien määrittelemiseksi\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -408,7 +408,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "tuntematon paketti"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Asennus on mahdollinen"
@@ -734,11 +734,6 @@ msgstr "Allekirjoitus puuttuu (%s)"
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "rpm-tiedostoa [%s] ei voitu lukea medialta \"%s\""
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput epäonnistui, ehkä joku noodi ei vastaa"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -961,11 +956,6 @@ msgstr ""
 "nimeä \"%s\" ei voida käyttää nimeämättömälle medialle, koska se on jo "
 "käytössä"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "haetaan \"%s\" tiedoston kuvaus"
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1062,11 +1052,6 @@ msgstr "virtuaalisen median on oltava paikallinen"
 #, c-format
 msgid "error registering local packages"
 msgstr "virhe rekisteröitäessä paikalliset paketit"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "noodissa %s "
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1238,11 +1223,6 @@ msgstr ""
 "oletus:\n"
 "                    %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "verkkoasemalla %s ei ole oikea urpmi versio "
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1338,11 +1318,6 @@ msgstr "ei mitään poistettavaa (käytä urpmi.addmedia lisätääksesi median)
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "kohteelle \"%s\" ei löytynyt listatiedostoa, media ohitettu"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Asennus epäonnistui noodissa %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1464,11 +1439,6 @@ msgstr "tutkitaan rinnakkaiskäsittelijän tiedostossa [%s]"
 msgid "Nothing to remove"
 msgstr "Ei mitään poistettavissa"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "luetaan otsikkotietoja mediasta  \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1483,6 +1453,11 @@ msgid ""
 msgstr ""
 "  --bug           - kirjoittaa virheraportin hakemistoon joka määritellään\n"
 "                    seuraavassa argumentissa.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "luetaan otsikkotietoja mediasta  \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1538,11 +1513,6 @@ msgid ""
 msgstr ""
 "%s \n"
 "verkkomedian kohta `with' puuttuu\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp epäonnistui, ehkä joku noodi ei vastaa"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1650,11 +1620,6 @@ msgstr "mediaa \"%s\" ei voitu käyttää"
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "mediaa \"%s\" ei voida luoda\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp epäonnistui verkkoasemalla %s "
 
 #: ../urpmf:1
 #, c-format
@@ -1828,6 +1793,14 @@ msgstr ""
 "lausekkeet\n"
 "                    ovat oikeat.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1925,6 +1898,11 @@ msgstr "Ok"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "virheellinen hdlist kuvaus \"%s\" hdlists tiedostossa"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "poistetaan paketti %s "
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -2017,6 +1995,27 @@ msgstr "yritän ohittaa olemassa olevaa mediaa \"%s\", vältetään"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test          - varmista että asennusta voidaan hoitaa oikein.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput epäonnistui, ehkä joku noodi ei vastaa"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "haetaan \"%s\" tiedoston kuvaus"
+
+#~ msgid "on node %s"
+#~ msgstr "noodissa %s "
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "verkkoasemalla %s ei ole oikea urpmi versio "
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Asennus epäonnistui noodissa %s"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp epäonnistui, ehkä joku noodi ei vastaa"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp epäonnistui verkkoasemalla %s "
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "ongelmia luettaessa hdlist tiedostoa medialle \"%s\""

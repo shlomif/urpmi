@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-uk\n"
-"POT-Creation-Date: 2003-07-18 13:14+0200\n"
+"POT-Creation-Date: 2003-07-25 17:59+0200\n"
 "PO-Revision-Date: 2003-06-29 13:52+0300\n"
 "Last-Translator: Taras Boychuk <btr1@torba.com>\n"
 "Language-Team: ukrainian <uk@li.org>\n"
@@ -210,11 +210,6 @@ msgstr "знайдено %d заголовк╕в у кеш╕"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "╕сну╓ дек╕лька пакунк╕в з однаковою назвою rpm-файла \"%s\""
 
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "зд╕йсню╓ться другий прох╕д обрахунку залежностей\n"
-
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -223,6 +218,11 @@ msgid ""
 msgstr ""
 "  --proxy-user    - задати користувача ╕ пароль, щоб використовувати\n"
 "для ╕дентиф╕кац╕╖ через прокс╕ (формат - <user:password>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "зд╕йсню╓ться другий прох╕д обрахунку залежностей\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -403,7 +403,7 @@ msgstr ""
 msgid "unknown package"
 msgstr "нев╕домий пакунок"
 
-#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#: ../urpmi:1
 #, c-format
 msgid "Installation is possible"
 msgstr "Встановлення можливе"
@@ -728,11 +728,6 @@ msgstr "В╕дсутн╕й п╕дпис (%s)"
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "неможливо прочитати rpm-файли для [%s]: %s"
 
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "mput failed, maybe a node is unreacheable"
-msgstr "mput завершився невдало, можливо, вузол недоступний"
-
 #: ../urpmi.update:1
 #, c-format
 msgid "  --update       - update only update media.\n"
@@ -955,11 +950,6 @@ msgstr ""
 "неможливо використати назву \"%s\" для неназваного нос╕я, бо вона вже "
 "використову╓ться"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "retrieving description file of \"%s\"..."
-msgstr "в╕дновлю╓ться файл опису для \"%s\"..."
-
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
@@ -1052,11 +1042,6 @@ msgstr "в╕ртуальний нос╕й повинен бути локальним"
 #, c-format
 msgid "error registering local packages"
 msgstr "помилка ре╓страц╕╖ пакунк╕в"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "on node %s"
-msgstr "на вузл╕ %s"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1228,11 +1213,6 @@ msgstr ""
 "  --from         - використовувати url для списку дзеркал, типове значення\n"
 "                   %s\n"
 
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "host %s does not have a good version of urpmi"
-msgstr "на хост╕ %s нема╓ хорошо╖ верс╕╖ urpmi"
-
 #: ../urpmf:1
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
@@ -1331,11 +1311,6 @@ msgstr "н╕чого вилучати (використовуйте urpmi.addmedia, щоб додати нос╕я)\n"
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
 msgstr "неможливо знайти файл списку для \"%s\", нос╕я про╕гноровано"
-
-#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "Installation failed on node %s"
-msgstr "Встановлення на вузол  %s невдале"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1457,11 +1432,6 @@ msgstr "перев╕ря╓ться паралельний обробник у файл╕ [%s]"
 msgid "Nothing to remove"
 msgstr "Н╕чого вилучати"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "читаються заголовки з нос╕я \"%s\""
-
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1475,6 +1445,11 @@ msgid ""
 msgstr ""
 "  --bug          - вивести зв╕т про помилку в теку, вказану наступним "
 "аргументом.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "читаються заголовки з нос╕я \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1529,11 +1504,6 @@ msgid ""
 msgstr ""
 "%s\n"
 "'with' в╕дсутн╕й для джерела з мереж╕\n"
-
-#: ../urpm/parallel_ka_run.pm:1
-#, c-format
-msgid "rshp failed, maybe a node is unreacheable"
-msgstr "rshp завершився невдало, можливо, вузол недоступний"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1644,11 +1614,6 @@ msgstr "нема╓ доступу до нос╕я \"%s\""
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "неможливо створити нос╕я\"%s\"\n"
-
-#: ../urpm/parallel_ssh.pm:1
-#, c-format
-msgid "scp failed on host %s"
-msgstr "scp завершився невдало на хост╕ %s"
 
 #: ../urpmf:1
 #, c-format
@@ -1824,6 +1789,14 @@ msgstr ""
 "  -a             - дв╕йковий оператор AND, поверта╓ ╕стина, якщо обидва "
 "вирази правдив╕.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
@@ -1921,6 +1894,11 @@ msgstr "Гаразд"
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "неправильний опис hdlist \"%s\" у файл╕ hdlists"
 
+#: ../urpme:1 ../urpmi:1
+#, fuzzy, c-format
+msgid "removing %s"
+msgstr "вилуча╓ться пакунок %s"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -2013,6 +1991,27 @@ msgstr "спроба об╕йти ╕снуючого нос╕я \"%s\", обх╕д"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - перев╕рити, чи дане встановлення можливе.\n"
+
+#~ msgid "mput failed, maybe a node is unreacheable"
+#~ msgstr "mput завершився невдало, можливо, вузол недоступний"
+
+#~ msgid "retrieving description file of \"%s\"..."
+#~ msgstr "в╕дновлю╓ться файл опису для \"%s\"..."
+
+#~ msgid "on node %s"
+#~ msgstr "на вузл╕ %s"
+
+#~ msgid "host %s does not have a good version of urpmi"
+#~ msgstr "на хост╕ %s нема╓ хорошо╖ верс╕╖ urpmi"
+
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Встановлення на вузол  %s невдале"
+
+#~ msgid "rshp failed, maybe a node is unreacheable"
+#~ msgstr "rshp завершився невдало, можливо, вузол недоступний"
+
+#~ msgid "scp failed on host %s"
+#~ msgstr "scp завершився невдало на хост╕ %s"
 
 #~ msgid "problem reading hdlist file of medium \"%s\""
 #~ msgstr "проблема читання файлу hdlist з нос╕я \"%s\""
