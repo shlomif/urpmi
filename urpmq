@@ -65,6 +65,7 @@ usage:
 ") . N("  -v             - verbose mode.
 ") . N("  -d             - extend query to package dependencies.
 ") . N("  -u             - remove package if a more recent version is already installed.
+") . N("  -a             - select all matches on command line.
 ") . N("  -c             - complete output with package to be removed.
 ") . N("  -P             - do not search in provides to find package.
 ") . N("  -R             - reverse search to what requires package.
@@ -131,6 +132,7 @@ while (defined($_ = shift @ARGV)) {
 	/[\?h]/ and do { usage; next };
 	/d/ and do { $query->{deps} = 1; next };
 	/u/ and do { $query->{upgrade} = 1; next };
+	/a/ and do { $query->{all} = 1; next };
 	/m/ and do { $query->{deps} = $query->{upgrade} = 1; next };
 	/M/ and do { $query->{deps} = $query->{upgrade} = 1; next };
 	/c/ and do { $query->{complete} = 1; next };
@@ -220,7 +222,8 @@ if ($query->{list_aliases}) {
     if (@names) {
 	$urpm->search_packages(\%requested, [ @names ],
 			       use_provides => $query->{use_provides},
-			       fuzzy => $query->{fuzzy})
+			       fuzzy => $query->{fuzzy},
+			       all => $query->{all})
 	  or $query->{force} or exit 1;
     }
     if (@src_names) {
