@@ -203,7 +203,9 @@ $urpm->update_media(nolock => 1);
 
 %changelog
 * Fri Jul 25 2003 François Pons <fpons@mandrakesoft.com> 4.4-10mdk
-- added urpme log and urpmi removing log.
+- added urpme log and urpmi removing log (bug 3889).
+- fixed undefined subroutine ...N... when using parallel
+  mode (bug 3982).
 
 * Thu Jul 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-9mdk
 - fixed error code reporting after installation.
