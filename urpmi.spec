@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 15mdk
+Release: 16mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,10 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Thu Jul 31 2003 François Pons <fpons@mandrakesoft.com> 4.4-16mdk
+- fixed transaction number when split is active.
+- fixed transaction which should not be splited in parallel mode.
+
 * Tue Jul 29 2003 François Pons <fpons@mandrakesoft.com> 4.4-15mdk
 - fixed urpme --parallel --auto still asking the user.
 - fixed --keep for parallel mode.
