@@ -320,7 +320,7 @@ sub sync_rsync {
 	    open RSYNC, join(" ", map { "'$_'" } "/usr/bin/rsync",
 			     ($limit_rate ? "--bwlimit=$limit_rate" : ()),
 			     (ref($options) && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-			     qw(--partial --no-whole-file), $file, (ref($options) ? $options->{dir} : $options)) . " |";
+			     qw(--partial -z --no-whole-file), $file, (ref($options) ? $options->{dir} : $options)) . " |";
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
 		$buf .= $_;
@@ -389,11 +389,13 @@ sub sync_logger {
     if ($mode eq 'start') {
 	print STDERR "    $file\n";
     } elsif ($mode eq 'progress') {
+	my $text;
 	if (defined $total && defined $eta) {
-	    print STDERR N("        %s%% of %s completed, ETA = %s, speed = %s", $percent, $total, $eta, $speed) . "\r";
+	    $text = N("        %s%% of %s completed, ETA = %s, speed = %s", $percent, $total, $eta, $speed);
 	} else {
-	    print STDERR N("        %s%% completed, speed = %s", $percent, $speed) . "\r";
+	    $text = N("        %s%% completed, speed = %s", $percent, $speed);
 	}
+	print STDERR " " x (79 - length($text)) . "\r";
     } elsif ($mode eq 'end') {
 	print STDERR " " x 79, "\r";
     }
