@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -110,6 +110,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed Aug 29 2001 François Pons <fpons@mandrakesoft.com> 1.7-5mdk
+- rebuild with latest rpm.
+
 * Thu Jul 26 2001 François Pons <fpons@mandrakesoft.com> 1.7-4mdk
 - fixed tentative to always install package with -m mode.
 
