@@ -2723,7 +2723,7 @@ sub install_logger {
     if ($subtype eq 'start') {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
-	    $urpm->{logger_id} = 0;
+	    $urpm->{logger_id} ||= 0;
 	    printf "%-28s", N("Preparing...");
 	} else {
 	    printf "%4d:%-23s", ++$urpm->{logger_id}, ($pkg && $pkg->name);
