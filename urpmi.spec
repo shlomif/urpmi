@@ -2,12 +2,12 @@
 
 Name: urpmi
 Version: 1.5
-Release: 13mdk
+Release: 14mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: /usr/bin/suidperl, eject, wget
-PreReq: perl-gettext, rpmtools >= 2.3-4mdk
+PreReq: perl-gettext, rpmtools >= 2.3-7mdk
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
@@ -113,6 +113,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Thu Mar  1 2001 François Pons <fpons@mandrakesoft.com> 1.5-14mdk
+- update with newer rpmtools interface.
+
 * Tue Feb 27 2001 François Pons <fpons@mandrakesoft.com> 1.5-13mdk
 - fixed removable cdrom old format extraction.
 - fixed bad i18n usage.

@@ -433,7 +433,7 @@ sub update_media {
 		    #- we need to rebuild from rpm files the hdlist.
 		    eval {
 			$urpm->{log}("building hdlist [$urpm->{cachedir}/partial/$medium->{hdlist}]");
-			$urpm->{params}->build_hdlist($options{noclean}, "$urpm->{cachedir}/headers",
+			$urpm->{params}->build_hdlist($options{noclean}, $options{ratio} || 4, "$urpm->{cachedir}/headers",
 						      "$urpm->{cachedir}/partial/$medium->{hdlist}", @files);
 		    };
 		    $@ and $error = 1, $urpm->{error}("unable to build hdlist: $@");
