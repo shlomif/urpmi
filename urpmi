@@ -369,10 +369,7 @@ if ($bug) {
     }
 }
 
-#- search the packages according the selection given by the user,
-#- basesystem is added to the list so if it need to be upgraded,
-#- all its dependency will be updated too.
-#- make sure basesystem exists before.
+#- search the packages according to the selection given by the user.
 if (@names) {
     $urpm->search_packages(\%requested, [ @names ],
 			   all => $all,
