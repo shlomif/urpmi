@@ -141,9 +141,14 @@ if (@src_names) {
 	or $query->{force} or exit 1;
 }
 
+#- keep track of choices, do no propagate but mark them in selected.
+my $stop_on_choices = sub {
+    my ($urpm, $db, $state, $choices) = @_;
+    $state->{selected}{join '|', sort { $a <=> $b } map { $_ ? ($_->id) : () } @$choices} = 0;
+};
 #- open/close of database should be moved here, in order to allow testing
 #- some bogus case and check for integrity.
-if ($query->{auto_select} || $query->{deps}) {
+if ($query->{auto_select} || $query->{upgrade}) {
     my $db = URPM::DB::open($query->{root});
     my $sig_handler = sub { undef $db; exit 3 };
     local $SIG{INT} = $sig_handler;
@@ -163,10 +168,17 @@ if ($query->{auto_select} || $query->{deps}) {
 
     #- filter to add in packages selected required packages.
     if ($query->{upgrade}) {
-	$query->{deps} and $urpm->resolve_requested($db, $state);
-    } else { #TODO fallback tempory...
-	$urpm->filter_packages_to_upgrade($db, $state->{requested}, undef, keep_alldeps => 1);
+	$urpm->resolve_requested($db, $state, callback_choices => $stop_on_choices);
+	#- dependancies are not asked, just clean selected part with added value (undef).
+	$query->{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
+								! defined $state->{selected}{$_}} keys %{$state->{selected}}};
     }
+} elsif ($query->{deps}) {
+    #- only deps required.
+    my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
+    require URPM::Resolve;
+    $urpm->resolve_requested($empty_db, $state, callback_choices => $stop_on_choices);
+    #$urpm->filter_packages_to_upgrade($db, $state->{requested}, undef, keep_alldeps => 1);
 } else {
     $state->{selected} = $state->{requested};
 }

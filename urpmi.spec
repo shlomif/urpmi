@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.5
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Wed Jun 19 2002 François Pons <fpons@mandrakesoft.com> 3.5-7mdk
+- fixed urpmq to no more use old resolution methods in urpm.pm.
+- fixed urpmq to take care of choices correctly (no default selection).
+
 * Tue Jun 18 2002 François Pons <fpons@mandrakesoft.com> 3.5-6mdk
 - fixed --bug on required file not provided for generating rpmdb.cz.
 
