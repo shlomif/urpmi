@@ -148,7 +148,7 @@ sub sync_webfetch {
 	} elsif ($prefered eq 'wget') {
 	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} else {
-	    die ("no webfetch (" . join(" or ", @webfetch) . " currently) found\n");
+	    die N("no webfetch found, supported webfetch are: %s\n", join(", ", @webfetch));
 	}
 	delete @files{qw(ftp http https)};
     }
