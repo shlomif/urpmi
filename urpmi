@@ -487,7 +487,16 @@ $urpm->copy_packages_of_removable_media(
     ask_for_medium => (!$urpm->{options}{auto} || $allow_medium_change) && sub {
 	my $msg = N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1]);
 	my $msg2 = N("Press Enter when ready...");
-	defined message_input("$msg\n$msg2 ");
+	if (our $gui) {
+	    #- probably run from a drak tool
+	    my $gmessage = find { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
+	    if ($gmessage) {
+		my $m = to_utf8("\n$msg\n\n$msg2");
+		system($gmessage, $m);
+		return 1;
+	    }
+	}
+	return defined message_input("$msg\n$msg2 ");
     },
 );
 
