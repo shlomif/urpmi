@@ -223,7 +223,7 @@ if ($query->{list_aliases}) {
     exit 0;
 } elsif ($query->{list_media} || $query->{list_url}) {
     foreach (@{$urpm->{media}}) {
-	print "$_->{name}" . ($query->{list_url} ? " $_->{url}" : "") . "\n";
+	print $_->{name} . ($query->{list_url} ? " $_->{url}" : "") . "\n";
     }
     exit 0;
 } elsif ($query->{dump_config}) {
@@ -360,14 +360,14 @@ if ($query->{list_aliases}) {
 		my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
 				      -s $file and system 'cat', $file;
 				      ! -s $file }
-			       map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } values %{$list->[$_]});
+			       map { m|(.*)/([^/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm| and "$2-$3-$4.$5" } values %{$list->[$_]});
 		@headers > 0 or next;
 
 		if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
 		    require packdrake;
 		    my $packer = new packdrake(
 				$urpm->{media}[$_]{virtual} ?
-				( "$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^file:/*(/.*)! )[0] :
+				("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^file:/*(/.*)!)[0] :
 				"$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
 		    $packer->extract_archive(undef, @headers);
 		} else {
@@ -379,9 +379,9 @@ if ($query->{list_aliases}) {
 	} elsif ($query->{info} || $query->{list_files} || $query->{changelog}) {
 	    my %downloads;
 	    # get descriptions of update sources
-	    my $updates_descr = $urpm->urpm::get_updates_description();
+	    my $updates_descr = $urpm->urpm::get_updates_description;
 	    # if not root, use a temporary directory to store headers
-	    my $tmp_header_dir = ($< != 0 and chomp_(`mktemp -d /tmp/urpmq.XXXXXX`));
+	    $< != 0 and my $tmp_header_dir = chomp_(`mktemp -d /tmp/urpmq.XXXXXX`);
 	    foreach (0..$#{$urpm->{media} || []}) {
 		if (my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_"; ! -s $file }
 				   map { my $pkg = $urpm->{depslist}[$_];
@@ -391,7 +391,7 @@ if ($query->{list_aliases}) {
 			require packdrake;
 			my $packer = new packdrake(
 				$urpm->{media}[$_]{virtual} ?
-				( "$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^file:/*(/.*)! )[0] :
+				("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^file:/*(/.*)!)[0] :
 				"$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
 			$packer->extract_archive($< == 0  ? "$urpm->{cachedir}/headers" : $tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
@@ -438,7 +438,7 @@ if ($query->{list_aliases}) {
 			}
 		    }
 		    if ($query->{list_files}) {
-			$pkg->files and print join("\n",$pkg->files)."\n";
+			$pkg->files and print join("\n", $pkg->files)."\n";
 		    }
 		    if ($query->{changelog} && $pkg->changelog_time && $pkg->changelog_name && $pkg->changelog_text) {
 			print join("\n", mapn { "* ".urpm::localtime2changelog($_[0])." $_[1]\n\n$_[2]\n" } [ $pkg->changelog_time ], [ $pkg->changelog_name ] , [ $pkg->changelog_text ]);
