@@ -726,7 +726,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 }
 $X and gurpm::end();
 if ($nok) {
-    $nok > 1 and message(N("%d installation transactions failed"));
+    $nok > 1 and message(N("%d installation transactions failed", $nok));
 } else {
     if ($test) {
 	message(N("Installation is possible"));
