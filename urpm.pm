@@ -676,6 +676,11 @@ sub add_medium {
 
 #- add distribution media, according to url given.
 #- returns the list of names of added media.
+#- options :
+#- - limit_rate, compress : for downloading files
+#- - initial_number : when adding several numbered media, start with this number
+#- - probe_with : if eq 'synthesis', use synthesis instead of hdlists
+#- other options are passed to add_medium()
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
     my ($hdlists_file);
@@ -738,7 +743,7 @@ sub add_distrib_media {
     #- at this point, we have found an hdlists file, so parse it
     #- and create all necessary media according to it.
     if (open my $hdlistsfh, $hdlists_file) {
-	my $medium = 1;
+	my $medium = $options{initial_number} || 1;
 	foreach (<$hdlistsfh>) {
 	    chomp;
 	    s/\s*#.*$//;
