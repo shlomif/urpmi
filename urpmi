@@ -469,7 +469,6 @@ if (@root_only) {
     message_input("$msg:\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
 }
 
-#- if not root, the list become invisible and no download will be possible.
 my ($local_sources, $list) = $urpm->get_source_packages($state->{selected},
 							clean_all => $clean,
 							clean_other => !$noclean && $urpm->{options}{'pre-clean'});
@@ -536,7 +535,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     );
     my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources) || {}};
 
-    if (!$force && $urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}}) {
+    if (!$force && ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}})) {
 	my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources, translate => 1);
 
 	if (@bad_signatures) {
