@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.1
+%define version	4.6.2
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -256,6 +256,13 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Thu Nov 25 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.2-1mdk
+- when passing --proxy to urpmi.addmedia, this proxy setting is now saved for the
+  new media
+- New option --search-media to urpmi and urpmq (Olivier Thauvin) 
+- work around a display bug in curl for authenticated http sources
+- when asking for choices, default to the first one
+
 * Fri Nov 19 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.1-1mdk
 - reconfig.urpmi on mirrors must now begin with a magic line
 - don't create symlinks in /var/lib/urpmi, this used to mess up updates
