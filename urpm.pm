@@ -3287,10 +3287,13 @@ sub check_sources_signatures {
 	if ($verif =~ /NOT OK/) {
 	    $invalid_sources{$filepath} = N("Invalid signature (%s)", $verif);
 	} else {
-	    unless ($medium && $medium->{start} <= $id && $id <= $medium->{end}) {
+	    #print "+++$medium->{name}:$medium->{start}:$medium->{end}:$id\n";
+	    unless ($medium &&
+		    defined $medium->{start} && $medium->{start} <= $id &&
+		    defined $medium->{end} && $id <= $medium->{end}) {
 		$medium = undef;
 		foreach (@{$urpm->{media}}) {
-		    $_->{start} <= $id && $id <= $_->{end} and $medium = $_, last;
+		    defined $_->{start} && $_->{start} <= $id && defined $_->{end} && $id <= $_->{end} and $medium = $_, last;
 		}
 	    }
 
