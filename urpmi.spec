@@ -245,6 +245,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - gurpmi: handle case where user clicked on a src.rpm, suggest
   user is misleaded, allow to do nothing, really install, or
   save on disk (gc)
+- gurpmi: allow installing or saving binary rpm as well (gc)
 
 * Tue Feb  3 2004 François Pons <fpons@mandrakesoft.com> 4.4.5-3mdk
 - fixed bug of reference of ../ in hdlists file.
