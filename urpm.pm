@@ -2965,7 +2965,7 @@ sub parallel_remove {
     my $state = {};
     my $callback = sub { $urpm->{fatal}(1, "internal distributed remove fatal error") };
     $urpm->{parallel_handler}->parallel_find_remove($urpm, $state, $remove, %options,
-						    callback_notfound => $callback,
+						    callback_notfound => undef,
 						    callback_fuzzy => $callback,
 						    callback_base => $callback,
 						   );
