@@ -96,10 +96,9 @@ for (@ARGV) {
 	/M/ and do { $minimal = 0; next };
 	/q/ and do { $rpm_opt = "-U"; next };
 	/v/ and do { $verbose = 1; next };
-	die "urpmi: unknown option \"-$1\", check usage with --help\n"; } next };
+	die "urpmi: unknown option \"-%1\", check usage with --help\n"; } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
-    /\.rpm$/ and do { -r $_ or print STDERR "urpmi: cannot read rpm file \"$_\"\n", next;
-		      push @files, untaint($_); next };
+    /\.rpm$/ and do { push @files, untaint($_); next };
     push @names, $_;
 }
 

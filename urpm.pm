@@ -372,6 +372,35 @@ sub select_media {
     }
 }
 
+sub build_synthesis_hdlist {
+    my ($urpm, $medium) = @_;
+    my $params = new rpmtools;
+
+    push @{$params->{flags}}, 'sense'; #- make sure to enable sense flags.
+    $urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
+    $params->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or return;
+    eval {
+	unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+	local *F;
+	open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
+	foreach my $p (values %{$params->{info}}) {
+	    foreach (qw(provides requires)) {
+		@{$p->{$_} || []} > 0 and
+		  print F "$p->{name}\@$_\@" . join('@', map { s/\[\*\]//g; s/\[(.*)\]/ $1/g; $_ } @{$p->{$_}}) . "\n";
+	    }
+	}
+	close F or die "unable to use gzip for compressing hdlist synthesis";
+    };
+    if ($@) {
+	unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+	$urpm->{error}("unable to build synthesis file for medium \"$medium->{name}\": $@");
+	return;
+    } else {
+	$urpm->{log}("built hdlist synthesis file for medium \"$medium->{name}\"");
+    }
+    1;
+}
+
 #- update urpmi database regarding the current configuration.
 #- take care of modification and try some trick to bypass
 #- computational of base files.
@@ -538,6 +567,9 @@ sub update_media {
 	    unlink "$urpm->{statedir}/$medium->{list}";
 	    rename "$urpm->{cachedir}/partial/$medium->{hdlist}", "$urpm->{statedir}/$medium->{hdlist}";
 	    rename "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}";
+
+	    #- and create synthesis file associated.
+	    $urpm->build_synthesis_hdlist($medium);
 	}
     }
 
@@ -587,32 +619,11 @@ sub update_media {
 	    #- cleaning.
 	    $urpm->{params}->clean();
 
-	    push @{$urpm->{params}{flags}}, 'sense'; #- make sure to enable sense flags.
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
 		$urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
-		eval {
-		    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-		    local *F;
-		    open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
-		    foreach my $p (values %{$urpm->{params}{info}}) {
-			foreach (qw(provides requires)) {
-			    @{$p->{$_} || []} > 0 and
-			      print F "$p->{name}\@$_\@" . join('@', map { s/\[\*\]//g; s/\[(.*)\]/ $1/g; $_ } @{$p->{$_}}) . "\n";
-			}
-		    }
-		    close F or die "unable to use gzip for compressing hdlist synthesis";
-		};
-		if ($@) {
-		    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-		    $urpm->{error}("unable to build synthesis file for medium \"$medium->{name}\": $@");
-		} else {
-		    $urpm->{log}("built hdlist synthesis file for medium \"$medium->{name}\"");
-		}
-		$urpm->{params}{info} = {}; #- avoid polluting next hdlist synthesis file!
 	    }
-	    pop @{$urpm->{params}{flags}}; #- remove added sense flags.
 
 	    $urpm->{log}("keeping only provides files");
 	    $urpm->{params}->keep_only_cleaned_provides_files();
@@ -778,12 +789,13 @@ sub relocate_depslist {
 #- register local packages for being installed, keep track of source.
 sub register_local_packages {
     my ($urpm, @files) = @_;
-    my @names;
+    my ($error, @names);
 
     #- examine each rpm and build the depslist for them using current
     #- depslist and provides environment.
     foreach (@files) {
-	/(.*\/)?[^\/]*\.rpm$/ or $urpm->{error}("invalid rpm file name [$_]"), next;
+	/(.*\/)?[^\/]*\.rpm$/ or $error = 1, $urpm->{error}("invalid rpm file name [$_]"), next;
+	-r $_ or $error = 1, $urpm->{error}("unable to access rpm file [$_]"), next;
 
 	my ($name) = $urpm->{params}->read_rpms($_);
 	if ($name =~ /(.*)-([^-]*)-([^-]*)/) {
@@ -796,6 +808,7 @@ sub register_local_packages {
 	    $urpm->{error}("rpmtools::read_rpms is too old, upgrade rpmtools package");
 	}
     }
+    $error and die "error registering local packages";
 
     #- compute depslist associated.
     $urpm->{params}->compute_depslist;
