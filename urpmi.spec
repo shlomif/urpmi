@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.4
-%define release 51mdk
+%define release 52mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -47,6 +47,7 @@ Summary:	User mode rpm GUI install
 Group:		%{group}
 Requires:	urpmi >= %{version}-%{release} drakxtools gchooser gmessage usermode menu
 Obsoletes:	grpmi
+Provides:	perl(gurpm)
 
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
@@ -237,6 +238,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Jan 09 2004 Warly <warly@mandrakesoft.com> 4.4-52mdk 
+- provides perl(gurpm) in gurpmi
+
 * Tue Jan  6 2004 Pixel <pixel@mandrakesoft.com> 4.4-51mdk
 - provide perl(urpm) (needed by rpmdrake)
 
