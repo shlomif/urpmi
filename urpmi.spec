@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.9
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Tue Aug 13 2002 François Pons <fpons@mandrakesoft.com> 3.9-8mdk
+- fixed development log still done for progression status, now
+  removed.
+
 * Mon Aug 12 2002 François Pons <fpons@mandrakesoft.com> 3.9-7mdk
 - fixed --auto not taken into account for removing or unselecting
   packages in urpmi.
