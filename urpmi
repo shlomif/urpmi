@@ -68,7 +68,7 @@ $ok or exit 1;
 
 @installed = `/bin/rpm -qa`; $? and die(_("rpm database query failed\n"));
 foreach (@installed) {
-    my ($name, $v, $r) = /(.*)-([^-]+)-([^-.]+)/;
+    my ($name, $v, $r) = /(.*)-([^-]+)-([^-.]+)\n/;
     exists $installed{$name} && le_version([$v, $r], $installed{$name}) or $installed{$name} = [$v, $r];
 }
 @installed{map { chop; $_ } @installed} = ();
@@ -86,7 +86,7 @@ if (!$auto and difference2(\@to_install, \@packages)) {
 	$? and exit 0;
     } else {
 	print SAVEOUT "$msg:\n@to_install\n$msg2 (Y/n) ";
-	<STDIN> =~ /n/i or exit 0;
+	<STDIN> =~ /n/i and exit 0;
     }
 }
 
@@ -210,7 +210,7 @@ sub version_compare {
 }
 sub le_version {
     my $cmp = version_compare($_[0][0], $_[1][0]);
-    return $cmp < 0 || $cmp == 0 && version_compare($_[0][1], $_[1][1]) < 0;
+    return $cmp < 0 || $cmp == 0 && version_compare($_[0][1], $_[1][1]) <= 0;
 }
 
 sub toMb {

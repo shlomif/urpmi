@@ -1,4 +1,4 @@
-PREFIX = 
+ PREFIX = 
 BINDIR = $(PREFIX)/usr/bin
 MANDIR = $(PREFIX)/usr/man
 SBINDIR = $(PREFIX)/usr/sbin
