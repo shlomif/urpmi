@@ -115,6 +115,7 @@ sub set_proxy {
 #- quoting/unquoting a string that may be containing space chars.
 sub quotespace { local $_ = $_[0] || ''; s/(\s)/\\$1/g; $_ }
 sub unquotespace { local $_ = $_[0] || ''; s/\\(\s)/$1/g; $_ }
+sub remove_internal_name { local $_ = $_[0] || ''; s/\(\S+\)$/$1/g; $_ }
 
 #- syncing algorithms, currently is implemented wget and curl methods,
 #- webfetch is trying to find the best (and one which will work :-)
@@ -2875,7 +2876,7 @@ sub copy_packages_of_removable_media {
 	    while ($check_notfound->($id, $dir, 'removable')) {
 		$options{ask_for_medium} or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir); system("eject", $device);
-		$options{ask_for_medium}($medium->{name}, $medium->{removable}) or
+		$options{ask_for_medium}(remove_internal_name($medium->{name}), $medium->{removable}) or
 		  $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 	    }
 	    if (-e $dir) {
