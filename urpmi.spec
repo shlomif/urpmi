@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 16mdk
+Release: 17mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Thu Feb 28 2002 François Pons <fpons@mandrakesoft.com> 3.3-17mdk
+- added (undocumented) --root option to urpmi/urpmq to install in a
+  given root.
+- rebuild with newer po.
+
 * Wed Feb 27 2002 François Pons <fpons@mandrakesoft.com> 3.3-16mdk
 - fixed possible problem on urpmi update db (perl die workarounded).
 

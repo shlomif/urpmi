@@ -40,6 +40,7 @@ my $fuzzy = 0;
 my $src = 0;
 my $noclean = 0;
 my $verbose = 0;
+my $root = '';
 
 my $uid;
 my @files;
@@ -109,6 +110,7 @@ for (@ARGV) {
     /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && -x "/usr/X11R6/bin/grpmi" && system('/usr/X11R6/bin/xtest', '') == 0;
 			       next };
     /^--comment$/ and do { push @nextargv, undef; next };
+    /^--root$/ and do { push @nextargv, \$root; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $all = 1; next };
@@ -262,14 +264,14 @@ my $ask_choice = sub {
 if ($auto_select) {
     my (%to_remove, %keep_files);
 
-    $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files, use_parsehdlist => $complete);
+    $urpm->select_packages_to_upgrade($root, \%packages, \%to_remove, \%keep_files, use_parsehdlist => $complete);
 
 #-    if (keys(%to_remove) > 0) {
 #-	print STDERR "some packages have to be removed for being upgraded, this is not supported yet\n";
 #-    }
 }
 
-$urpm->filter_packages_to_upgrade(\%packages, $ask_choice);
+$urpm->filter_packages_to_upgrade(\%packages, $ask_choice, root => $root);
 #- my $track = $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, track => 1);
 #- require Data::Dumper;
 #- print STDERR Data::Dumper->Dump([$track], ['$track']);
@@ -373,7 +375,7 @@ if (@rpms_install || @rpms_upgrade) {
 	exit 2;
     }
     $urpm->{log}("starting installing packages");
-    if ($X) {
+    if ($X && !$root) {
 	system("grpmi", $WID ? ("--WID=$WID") : (),
 	       (map { ("-noupgrade", $_) } @rpms_install), @rpms_upgrade);
 	if ($?) {
@@ -382,7 +384,7 @@ if (@rpms_install || @rpms_upgrade) {
 	}
     } else {
 	if (@rpms_install) {
-	    system("rpm", "-i$rpm_opt", "--nodeps", @rpms_install);
+	    system("rpm", "-i$rpm_opt", "--nodeps", @rpms_install, ($root ? ("--root", $root) : ()));
 	    if (@$_) {
 		message(_("Installation failed"));
 
@@ -398,11 +400,11 @@ if (@rpms_install || @rpms_upgrade) {
 		}
 		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 		$urpm->{log}("starting force installing packages without deps");
-		system("rpm", "-i$rpm_opt", "--nodeps", "--force", @rpms_install);	
+		system("rpm", "-i$rpm_opt", "--nodeps", "--force", @rpms_install, ($root ? ("--root", $root) : ()));
 	    }
 	}
 	if (@rpms_upgrade) {
-	    system("rpm", "-U$rpm_opt", @rpms_upgrade);
+	    system("rpm", "-U$rpm_opt", @rpms_upgrade, ($root ? ("--root", $root) : ()));
 	    if ($?) {
 		message(_("Installation failed"));
 
@@ -418,7 +420,7 @@ if (@rpms_install || @rpms_upgrade) {
 		}
 		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 		$urpm->{log}("starting installing packages without deps");
-		system("rpm", "-U$rpm_opt", "--nodeps", @rpms_upgrade);
+		system("rpm", "-U$rpm_opt", "--nodeps", @rpms_upgrade, ($root ? ("--root", $root) : ()));
 
 		if ($?) {
 		    message(_("Installation failed"));
@@ -429,7 +431,7 @@ if (@rpms_install || @rpms_upgrade) {
 		    }
 		    $force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 		    $urpm->{log}("starting force installing packages without deps");
-		    system("rpm", "-U$rpm_opt", "--nodeps", "--force", @rpms_upgrade);	
+		    system("rpm", "-U$rpm_opt", "--nodeps", "--force", @rpms_upgrade, ($root ? ("--root", $root) : ()));
 		}
 	    }
 	}

@@ -1497,7 +1497,7 @@ sub parse_synthesis {
 sub filter_packages_to_upgrade {
     my ($urpm, $packages, $select_choices, %options) = @_;
     my ($id, %track, %track_requires, %installed, %selected, %conflicts);
-    my ($db, @packages) = (rpmtools::db_open(''), keys %$packages);
+    my ($db, @packages) = (rpmtools::db_open($options{root}), keys %$packages);
     my $sig_handler = sub { rpmtools::db_close($db); exit 3 };
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
