@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.0
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -79,7 +79,10 @@ rm -rf $RPM_BUILD_DIR/$RPM_PACKAGE_NAME
 
 %preun
 if [ "$1" = "0" ]; then
-  rm -rf /var/lib/urpmi/*
+  cd /var/lib/urpmi
+  rm -f compss provides depslist* descriptions.* *.cache hdlist.* synthesis.hdlist.* list.*
+  cd /var/cache/urpmi
+  rm -rf partial/* headers/* rpms/*
 fi
 exit 0
 
@@ -90,7 +93,9 @@ misconfigured=0
 for hdlist in hdlist.*; do
   [ -s synthesis.$hdlist ] || misconfigured=1
 done
-[ -z "$DURING_INSTALL" -a "$misconfigured" -ge 1 ] && rm -f synthesis.hdlist.* && %{_sbindir}/urpmi.update -a
+if [ -z "$DURING_INSTALL" -a "$misconfigured" -ge 1 ]; then
+  rm -f synthesis.hdlist.* && %{_sbindir}/urpmi.update -a
+fi
 
 %preun -n autoirpm
 [ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
@@ -134,6 +139,13 @@ done
 
 
 %changelog
+* Fri Dec  7 2001 François Pons <fpons@mandrakesoft.com> 3.0-2mdk
+- fixed %%post with exit code.
+- removing sense data in provides (internally).
+- optimized depslist relocation for provides cleaning.
+- optimized synthesis parsing.
+- make sure /etc/urpmi/urpmi.cfg is written on modification.
+
 * Thu Dec  6 2001 François Pons <fpons@mandrakesoft.com> 3.0-1mdk
 - 3.0 so urpm library interface change and method removal.
 - depslist*, compss, provides are obsoleted, synthesis file

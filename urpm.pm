@@ -435,8 +435,7 @@ sub build_synthesis_hdlist {
 	#- building synthesis file using internal params.
 	local *F;
 	open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
-	foreach my $p (@{$urpm->{params}{depslist}}) {
-	    $p->{medium} eq $medium or next;
+	foreach my $p (@{$medium->{depslist}}) {
 	    foreach (qw(provides requires)) {
 		@{$p->{$_} || []} and print F join('@', $p->{name}, $_, @{$p->{$_} || []}) . "\n";
 	    }
@@ -698,7 +697,7 @@ sub update_media {
 	    if ($medium->{synthesis}) {
 		#- reading the synthesis allow to propagate requires to files, so that if an hdlist can have them...
 		$urpm->{log}(_("reading synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-		$urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+		$urpm->parse_synthesis($medium, examine_requires => 1);
 	    } else {
 		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
@@ -712,7 +711,8 @@ sub update_media {
 	    unless ($medium->{synthesis}) {
 		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		my @fullnames = $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
-		$urpm->{params}{info}{$_}{medium} = $medium foreach @fullnames;
+		$medium->{depslist} = [];
+		push @{$medium->{depslist}}, $urpm->{params}{info}{$_} foreach @fullnames;
 	    }
 	}
 
@@ -732,33 +732,33 @@ sub update_media {
 	foreach (@rebuild_synthesis_of_media) {
 	    $urpm->build_synthesis_hdlist($_);
 	}
-
-	#- clean headers cache directory to remove everything that is no more
-	#- usefull according to depslist used.
-	if ($options{noclean}) {
-	    local (*D, $_);
-	    my %arch;
-	    opendir D, "$urpm->{cachedir}/headers";
-	    while (defined($_ = readdir D)) {
-		/^([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)$/ and $arch{"$1-$2-$3"} = $4;
-	    }
-	    closedir D;
-	    $urpm->{log}(_("found %d headers in cache", scalar(keys %arch)));
-	    foreach (@{$urpm->{params}{depslist}}) {
-		delete $arch{"$_->{name}-$_->{version}-$_->{release}"};
-	    }
-	    $urpm->{log}(_("removing %d obsolete headers in cache", scalar(keys %arch)));
-	    foreach (keys %arch) {
-		unlink "$urpm->{cachedir}/headers/$_.$arch{$_}";
-	    }
-	}
-
-	#- this file is written in any cases.
-	$urpm->write_config();
-
-	#- now everything is finished.
-	system("sync");
     }
+
+    #- clean headers cache directory to remove everything that is no more
+    #- usefull according to depslist used.
+    if ($options{noclean}) {
+	local (*D, $_);
+	my %arch;
+	opendir D, "$urpm->{cachedir}/headers";
+	while (defined($_ = readdir D)) {
+	    /^([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)$/ and $arch{"$1-$2-$3"} = $4;
+	}
+	closedir D;
+	$urpm->{log}(_("found %d headers in cache", scalar(keys %arch)));
+	foreach (@{$urpm->{params}{depslist}}) {
+	    delete $arch{"$_->{name}-$_->{version}-$_->{release}"};
+	}
+	$urpm->{log}(_("removing %d obsolete headers in cache", scalar(keys %arch)));
+	foreach (keys %arch) {
+	    unlink "$urpm->{cachedir}/headers/$_.$arch{$_}";
+	}
+    }
+
+    #- this file is written in any cases.
+    $urpm->write_config();
+
+    #- now everything is finished.
+    system("sync");
 }
 
 #- find used mount point from a pathname, use a optional mode to allow
@@ -843,7 +843,7 @@ sub try_umounting {
 #- reorder info hashes to give only access to best packages.
 sub relocate_depslist_provides {
     my ($urpm, %options) = @_;
-    my $relocated_entries = undef;
+    my $relocated_entries = 0;
 
     #- reset names hash now, will be filled after.
     $urpm->{params}{names} = {};
@@ -855,7 +855,6 @@ sub relocate_depslist_provides {
 	#- take into account compatible arch to examine.
 	#- set names hash by prefering first better version,
 	#- then better release, then better arch.
-	$relocated_entries ||= 0;
 	if (rpmtools::compat_arch($_->{arch})) {
 	    my $p = $urpm->{params}{names}{$_->{name}};
 	    if ($p) {
@@ -869,37 +868,34 @@ sub relocate_depslist_provides {
 		}
 	    } else {
 		$urpm->{params}{names}{$_->{name}} = $_;
-		++$relocated_entries;
+	    }
+	} else {
+	    #- the package is removed, make it invisible (remove id).
+	    delete $_->{id};
+
+	    #- the architecture is not compatible, this means the package is dropped.
+	    #- we have to remove its reference in provides.
+	    foreach (@{$_->{provides} || []}) {
+		delete $urpm->{provides}{$_}{$fullname};
 	    }
 	}
     }
 
     #- relocate id used in depslist array, delete id if the package
     #- should NOT be used.
-    foreach (@{$urpm->{params}{depslist}}) {
-	unless ($_->{source}) { #- hack to avoid losing local package.
-	    my $p = $urpm->{params}{names}{$_->{name}};
-	    if ($p) {
+    #- if no entries have been relocated, we can safely avoid this computation.
+    if ($relocated_entries) {
+	foreach (@{$urpm->{params}{depslist}}) {
+	    unless ($_->{source}) { #- hack to avoid losing local package.
+		my $p = $urpm->{params}{names}{$_->{name}} or next;
 		$_->{id} = $p->{id};
-	    } else {
-		delete $_->{id};
 	    }
 	}
     }
 
-    #- examine provides to remove non allowed provides (no id).
-    foreach (values %{$urpm->{params}{provides}}) {
-	my %list;
-	foreach (keys %$_) {
-	    if ($urpm->{params}{info}{$_} && defined $urpm->{params}{info}{$_}{id}) {
-		$list{$_} = undef;
-	    }
-	}
-	$_ = {};
-	@{$_}{keys %list} = ();
-    }
-
-    $urpm->{log}(_("relocated %s entries in depslist", $relocated_entries));
+    $urpm->{log}($relocated_entries ?
+		 _("relocated %s entries in depslist", $relocated_entries) :
+		 _("no entries relocated in depslist"));
     $relocated_entries;
 }
 
@@ -1045,7 +1041,7 @@ sub search_packages {
 
 #- parse synthesis file to retrieve information stored inside.
 sub parse_synthesis {
-    my ($urpm, $medium) = @_;
+    my ($urpm, $medium, %options) = @_;
     local (*F, $_);
     my ($error, $last_name, @founds, %info);
 
@@ -1070,15 +1066,19 @@ sub parse_synthesis {
 		    id => scalar @{$urpm->{params}{depslist}},
 		  };
 
-		#- update global depslist and provides.
+		#- update global depslist, medium depslist and provides.
 		push @{$urpm->{params}{depslist}}, $found;
-		$urpm->{params}{provides}{$found->{name}}{$fullname} = undef;
+		push @{$medium->{depslist}}, $found;
 
-		foreach (@{$info{requires} || []}) {
-		    /([^\s\[]*)/ and $urpm->{params}{provides}{$_} ||= undef;  #- do not delete, but keep in mind.
+		if ($options{examine_requires}) {
+		    foreach (@{$info{requires} || []}) {
+			/([^\s\[]*)/ and $urpm->{params}{provides}{$1} ||= undef;  #- do not delete, but keep in mind.
+		    }
 		}
+		$urpm->{params}{provides}{$found->{name}}{$fullname} = undef;
 		foreach (@{$info{provides} || []}) {
-		    /([^\s\[]*)(?:\s+|\[)?==\s*(\d+:)?[^\-]*-/ && $found->{name} eq $1 && $2 > 0 and $serial = $2;
+		    defined $serial or
+		      /([^\s\[]*)(?:\s+|\[)?==\s*(\d+:)?[^\-]*-/ && $found->{name} eq $1 && $2 > 0 and $serial = $2;
 		    /([^\s\[]*)/ and $urpm->{params}{provides}{$1}{$fullname} = undef;
 		}
 	    }
@@ -1089,13 +1089,10 @@ sub parse_synthesis {
 	    foreach my $tag (keys %info) {
 		$tag ne 'name' && $tag ne 'info' and $found->{$tag} ||= $info{$tag};
 	    }
-	    $serial and $found->{serial} = $serial;
+	    $serial and $found->{serial} ||= $serial;
 	    $size and $found->{size} ||= $size;
 	    $group and $found->{group} ||= $group;
 	    $file and $found->{file} ||= $file;
-
-	    #- keep track of medium used.
-	    $found->{medium} ||= $medium;
 
 	    #- keep track of package found.
 	    push @founds, $found;
@@ -1350,32 +1347,10 @@ sub get_source_packages {
 
     #- examine each medium to search for packages.
     #- now get rpm file name in hdlist to match list file.
-    require packdrake;
     foreach my $medium (@{$urpm->{media} || []}) {
-	if (-r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
-	    if ($medium->{synthesis} && -r "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
-		#- rpm filename is stored in synthesis file now.
-		# TODO my @list = $urpm->parse_synthesis($medium);
-		@list > 0 or $urpm->{log}(_("unable to parse correctly [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-		foreach (@list) {
-		    my $fullname = "$_->{name}-$_->{version}-$_->{release}.$_->{arch}";
-		    $file2fullnames{($_->{file} =~ /(.*)\.rpm$/ && $1) || $fullname}{$fullname} = undef;
-		}
-	    } elsif (-r "$urpm->{statedir}/$medium->{hdlist}") {
-		my $packer = eval { new packdrake("$urpm->{statedir}/$medium->{hdlist}"); };
-		$packer or $urpm->{error}(_("unable to parse correctly [%s]", "$urpm->{statedir}/$medium->{hdlist}")), next;
-		foreach (@{$packer->{files}}) {
-		    $packer->{data}{$_}[0] eq 'f' or next;
-		    if (my ($fullname, $file) = /^([^:\s]*-[^:\-\s]+-[^:\-\s]+\.[^:\.\-\s]*)(?::(\S+))?/) {
-			$file2fullnames{$file || $fullname}{$fullname} = undef;
-		    } else {
-			$urpm->{log}(_("unable to parse correctly [%s] on value \"%s\"",
-				       "$urpm->{statedir}/$medium->{hdlist}", $_));
-		    }
-		}
-	    } else {
-		$urpm->{error}(_("no hdlist file found for medium \"%s\"", $medium->{name}));
-	    }
+	foreach (@{$medium->{depslist} || []}) {
+	    my $fullname = "$_->{name}-$_->{version}-$_->{release}.$_->{arch}";
+	    $file2fullnames{($_->{file} =~ /(.*)\.rpm$/ && $1) || $fullname}{$fullname} = undef;
 	}
     }
 
@@ -1619,15 +1594,6 @@ sub select_packages_to_upgrade {
 	close INPUT_CHILD;
 	close OUTPUT_CHILD;
 	select((select(OUTPUT), $| = 1)[0]);
-
-	#- for medium not having hdlist (because of only synthesis file used)
-	#- synthesis has already been parsed, any property in synthesis have already
-	#- been parsed too, only specific need like obsoletes or files may
-	#- need parsehdlist interactivity with hdlist.
-	foreach (grep { -r "$urpm->{statedir}/synthesis.$_->{hdlist}" && -s "$urpm->{statedir}/synthesis.$_->{hdlist}" }
-		 grep { $_->{synthesis} && ! $_->{ignore} } @{$urpm->{media} || []}) {
-	    $urpm->parse_synthesis($_);
-	}
 
 	#- internal reading from interactive mode of parsehdlist.
 	#- takes a code to call with the line read, this avoid allocating
