@@ -179,7 +179,7 @@ while (defined($_ = shift @ARGV)) {
     /^--X$/ and do { $X = 1; next };
     /^--WID=(.*)$/ and do { $WID = $1; next };
     /^--WID$/ and do { push @nextargv, \$WID; next };
-    /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && -x "/usr/sbin/grpmi" && system('/usr/X11R6/bin/xtest', '') == 0;
+    /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0;
 			       next };
     /^--(no-)?verify-rpm$/ and do { $urpm->{options}{'verify-rpm'} = !$1; next };
     /^--(no-)?test$/ and do { $test = !$1; next };
@@ -489,26 +489,41 @@ unless ($local_sources || $list) {
     $urpm->{fatal}(3, N("unable to get source packages, aborting"));
 }
 
+if ($X) {
+    require gurpm;
+    gurpm::init(N("Package installation..."), N("Initializing..."));
+}
 my %sources = $urpm->download_source_packages($local_sources, $list,
 					      verbose => $verbose > 0,
 					      limit_rate => $urpm->{options}{'limit-rate'},
 					      callback => sub {
 						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;
-						  if ($mode eq 'start') {
-						      print STDERR "    $file\n"; #- allow pass-protected url to be logged.
-						  } elsif ($mode eq 'progress') {
-						      if (defined $total && defined $eta) {
-							  print SAVEERR N("        %s%% of %s completed, ETA = %s, speed = %s",
-									  $percent, $total, $eta, $speed) . "\r";
-						      } else {
-							  print SAVEERR N("        %s%% completed, speed = %s",
-									  $percent, $speed) . "\r";
-						      }
-						  } elsif ($mode eq 'end') {
-						      print SAVEERR " " x 79, "\r";
-						  }
+                                                  if ($X) {
+                                                      if ($mode eq 'start') {
+                                                          $file =~ s|/*\s*$||; $file =~ s|.*/||;
+                                                          gurpm::label(N("Downloading package `%s'...", $file));
+                                                      } elsif ($mode eq 'progress') {
+                                                          gurpm::progress($percent/100);
+                                                      } elsif ($mode eq 'end') {
+                                                          gurpm::progress(1);
+                                                      }
+                                                  } else {
+                                                      if ($mode eq 'start') {
+                                                          print STDERR "    $file\n"; #- allow pass-protected url to be logged.
+                                                      } elsif ($mode eq 'progress') {
+                                                          if (defined $total && defined $eta) {
+                                                              print SAVEERR N("        %s%% of %s completed, ETA = %s, speed = %s",
+                                                                              $percent, $total, $eta, $speed) . "\r";
+                                                          } else {
+                                                              print SAVEERR N("        %s%% completed, speed = %s",
+                                                                              $percent, $speed) . "\r";
+                                                          }
+                                                      } elsif ($mode eq 'end') {
+                                                          print SAVEERR " " x 79, "\r";
+                                                      }
+                                                  }
 					      },
-					      force_local => !$X || $parallel,
+					      force_local => 1,
 					      ask_for_medium => (!$auto || $allow_medium_change) && sub {
 						  my $msg = N("Please insert the medium named \"%s\" on device [%s]", @_);
 						  my $msg2 = N("Press Enter when ready...");
@@ -585,56 +600,62 @@ if (%sources_install || %sources) {
 	message(N("installing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
 	$urpm->{log}("starting installing packages");
-	if ($X && !$root && !$test) {
-	    system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove} || {}});
-	    system("grpmi", $WID ? "--WID=$WID" : @{[]},
-		   (map { ("-noupgrade", $_) } values %sources_install), values %sources);
-	    if ($?) {
-		#- grpmi handles --nodeps and --force by itself,
-		#- and $WID is defined when integrated in rpminst.
-		$WID or message(N("Installation failed"));
-		exit(($? >> 8) + 32); #- forward grpmi error + 32
-	    }
-	} else {
-	    my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				   translate_message => 1,
-				   oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-				   test => $test,
-				   excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
-	    if (@l) {
-		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
+        my $progress_nb;
+        my $total_nb = grep { m|^/| } values %sources_install, values %sources;
+        my $callback_inst = $X && sub {
+            my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
+            my $pkg = defined $id && $urpm->{depslist}[$id];
 
-		m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
-		$auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'} and exit 1;
+            if ($subtype eq 'start') {
+                if ($type eq 'trans') {
+                    gurpm::label(N("Preparing..."));
+                } else {
+                    gurpm::label(N("Installing package `%s' (%s/%s)...", $pkg->name, ++$progress_nb, $total_nb));
+                }
+            } elsif ($subtype eq 'progress') {
+                gurpm::progress($amount/$total);
+            }
+        };
+        my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+                               translate_message => 1,
+                               oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
+                               test => $test,
+                               excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
+                               callback_inst => $callback_inst, callback_trans => $callback_inst);
+        $X and gurpm::end();
+        if (@l) {
+            message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
-		$noexpr = N("Nn");
-		$yesexpr = N("Yy");
-		message_input(N("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		  or exit 1;
-		$urpm->{log}("starting installing packages without deps");
-		@l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				    translate_message => 1, nodeps => 1,
-				    oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-				    test => $test,
-				    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
-		if (@l) {
-		    message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
-		    !$urpm->{options}{'allow-force'} and exit 1;
-		    message_input(N("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		      or exit 1;
-		    $urpm->{log}("starting force installing packages without deps");
-		    @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-					translate_message => 1, nodeps => 1, force => 1,
-					oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-					test => $test,
-					excludepath => $urpm->{options}{excludepath},
-					excludedocs => $urpm->{options}{excludedocs});
-		    @l and $urpm->fatal(2, N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
-		}
-	    } else {
-		$test and message(N("Installation is possible"));
-	    }
-	}
+            m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
+            $auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'} and exit 1;
+
+            $noexpr = N("Nn");
+            $yesexpr = N("Yy");
+            message_input(N("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+              or exit 1;
+            $urpm->{log}("starting installing packages without deps");
+            @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+                                translate_message => 1, nodeps => 1,
+                                oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
+                                test => $test,
+                                excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
+            if (@l) {
+                message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+                !$urpm->{options}{'allow-force'} and exit 1;
+                message_input(N("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+                  or exit 1;
+                $urpm->{log}("starting force installing packages without deps");
+                @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+                                    translate_message => 1, nodeps => 1, force => 1,
+                                    oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
+                                    test => $test,
+                                    excludepath => $urpm->{options}{excludepath},
+                                    excludedocs => $urpm->{options}{excludedocs});
+                @l and $urpm->fatal(2, N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+            }
+        } else {
+            $test and message(N("Installation is possible"));
+        }
     }
 } elsif ($test) {
     message(N("Installation is possible"));

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 8mdk
+Release: 9mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -22,8 +22,9 @@ You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
 Summary: User mode rpm GUI install
-Requires: urpmi >= %{version}-%{release} grpmi gchooser gmessage usermode menu
+Requires: urpmi >= %{version}-%{release} drakxtools gchooser gmessage usermode menu
 Group: %{group}
+Obsoletes: grpmi
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
 
@@ -80,6 +81,7 @@ EOF
 
 mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}
 install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm.pm
+install -m 644 gurpm.pm $RPM_BUILD_ROOT%{perl_vendorlib}/gurpm.pm
 mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}/urpm
 install -m 644 urpm/parallel_ka_run.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm/parallel_ka_run.pm
 install -m 644 urpm/parallel_ssh.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm/parallel_ssh.pm
@@ -172,7 +174,7 @@ $urpm->update_media;
 %{_sbindir}/gurpmi
 %{_bindir}/gurpmi
 %{_menudir}/gurpmi
-
+%{perl_vendorlib}/gurpm.pm
 
 #%files -n autoirpm
 #%defattr(-,root,root)
@@ -200,6 +202,11 @@ $urpm->update_media;
 
 
 %changelog
+* Fri May  2 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.3-9mdk
+- internalize grpmi in gurpm.pm so that we can share graphical
+  progression of download and installation between gurpmi and
+  rpmdrake
+
 * Fri Apr 25 2003 François Pons <fpons@mandrakesoft.com> 4.3-8mdk
 - added -i in urpmq --help (fix bug 3829).
 - fixed many urpmf options: --media, --synthesis, -e.
