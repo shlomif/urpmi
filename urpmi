@@ -22,11 +22,13 @@ use urpm;
 
 #- default options.
 my $auto = 0;
+my $auto_select = 0;
 my $force = 0;
 my $X = 0;
 my $all = 0;
+my $complete = 0;
 my $rpm_opt = "-Uvh";
-my $datadir = "/var/lib/urpmi";
+my $verbose = 0;
 
 my $uid;
 my @files;
@@ -40,7 +42,26 @@ delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 ($<, $uid) = ($>, $<);
     
 sub usage {
-    die(_("usage: urpmi [-h] [--auto] [--force] [-a] [-v] package_name|rpm_file [package_names|rpm_files...]\n"));
+    #die(_("usage: urpmi [-h] [--auto] [--force] [-a] [-v] package_name|rpm_file [package_names|rpm_files...]\n"));
+    die(_("urpmi version %s
+Copyright (C) 1999, 2000 MandrakeSoft.
+This is free software and may be redistributed under the terms of the GNU GPL.
+
+usage:
+  --help           - print this help message.
+  --auto           - automatically select a good package in choices.
+  --auto-select    - automatically select packages for upgrading the system.
+  --force          - force invocation even if some package does not exists.
+  --X              - use X interface.
+  --best-output    - chose best interface according to the environment:
+                     X or text mode.
+  -a               - select all matches on command line.
+  -c               - choose complete method for resolving requires closure.
+  -q               - quiet mode.
+  -v               - verbose mode.
+
+  names or rpm files (only for root) given on command line are installed.
+", $urpm::VERSION));
 }
 
 #- parse arguments list.
@@ -48,6 +69,7 @@ my @nextargv;
 for (@ARGV) {
     /^--help$/ and do { usage; next };
     /^--auto$/ and do { $auto = 1; next };
+    /^--auto-select$/ and do { $auto_select = 1; next };
     /^--force$/ and do { $force = 1; next };
     /^--X$/ and do { $X = 1; next };
     /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0; next };
@@ -55,8 +77,9 @@ for (@ARGV) {
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $all = 1; next };
-	/v/ and do { $rpm_opt = "-Uvh"; next };
+	/c/ and do { $complete = 1; next };
 	/q/ and do { $rpm_opt = "-U"; next };
+	/v/ and do { $verbose = 1; next };
 	die "urpmi: unknown option \"-$1\", check usage with --help\n"; } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     /\.rpm$/ and do { -r $_ or print STDERR "urpmi: cannot read rpm file \"$_\"\n", next;
@@ -76,6 +99,9 @@ select STDOUT; $| = 1;     # make unbuffered
 
 #- params contains informations to parse installed system.
 my $urpm = new urpm;
+
+#- remove verbose if not asked.
+$verbose or $urpm->{log} = sub {};
 
 $urpm->read_depslist;
 
@@ -104,6 +130,17 @@ $urpm->relocate_depslist;
 my %packages;
 $urpm->search_packages(\%packages, [ 'basesystem', @names], all => $all) or $force or exit 1;
 
+#- auto select package for upgrading the distribution.
+if ($auto_select) {
+    my (%to_remove, %keep_files);
+
+    $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
+
+    if (keys(%to_remove) > 0) {
+	print STDERR "some package have to be removed for being upgraded, this is not supported yet\n";
+    }
+}
+
 #- filter to add in packages selected required packages.
 $urpm->filter_packages_to_upgrade(\%packages, sub {
     my ($urpm, @choices_id) = @_;
@@ -128,7 +165,7 @@ $urpm->filter_packages_to_upgrade(\%packages, sub {
     }
 
     $choices_id[$n - 1];
-});
+}, complete => $complete);
 
 #- package to install as a array of strings.
 my @to_install;
@@ -182,10 +219,8 @@ my @sources = $urpm->upload_source_packages($local_sources, $list, 'force_local'
 						}
 					    });
 
-my $something_was_installed;
-
 install(@sources);
-$something_was_installed or message_auto(_("everything already installed"));
+@sources or message_auto(_("everything already installed"));
 
 #- this help flushing correctly by closing this file before (piped on tee).
 close STDERR;
@@ -194,7 +229,6 @@ close STDOUT;
 sub install {
     @_ or return;
 	
-    $something_was_installed = 1;
     print SAVEOUT _("installing %s\n", join(' ', @_));
     log_it(scalar localtime, " @_\n");
     system($X ? "grpmi" : ("rpm", $rpm_opt), @_);
@@ -278,12 +312,3 @@ sub load_po {
     }
 }
 
-sub rpmlistfiles {
-    my ($d) = @_;
-    local *F;
-    opendir F, $d or die "all: can't open dir $d: $!\n";
-    my @l = grep { /^list\.*/ } readdir F;
-    closedir F;
-
-    @l;
-}

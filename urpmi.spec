@@ -1,13 +1,13 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 1.4
-Release: 7mdk
+Version: 1.5
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: /usr/bin/suidperl, eject, wget
-PreReq: rpmtools >= 2.1-9mdk
+PreReq: rpmtools >= 2.2
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
@@ -18,7 +18,7 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
-Version: 0.8
+Version: 0.9
 Summary: User mode rpm GUI install
 Requires: urpmi grpmi gchooser gmessage
 Group: %{group}
@@ -29,7 +29,7 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n autoirpm
-Version: 0.6
+Version: 0.7
 Summary: Auto install of rpm on demand
 Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
 Group: %{group}
@@ -113,6 +113,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Wed Feb 14 2001 François Pons <fpons@ackbar.mandrakesoft.com> 1.5-1mdk
+- added --auto-select flag for urpmi and urpmq.
+- added --headers flag to urpmq.
+- changed help screen for both urpmi and urpmq.
+
 * Mon Feb 05 2001 François Pons <fpons@mandrakesoft.com> 1.4-7mdk
 - fixed wrong probing of medium list file.
 

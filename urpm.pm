@@ -3,7 +3,7 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA);
 
-$VERSION = '1.40';
+$VERSION = '1.5';
 
 =head1 NAME
 
@@ -1125,5 +1125,219 @@ sub upload_source_packages {
     @$local_sources, @sources;
 }
 
+sub select_packages_to_upgrade {
+    my ($urpm, $prefix, $packages, $remove_packages, $keep_files) = @_;
+    my $db = rpmtools::db_open($prefix);
+
+    #- used for package that are not correctly updated.
+    #- should only be used when nothing else can be done correctly.
+    my %upgradeNeedRemove = (
+			     'libstdc++' => 1,
+			     'compat-glibc' => 1,
+			     'compat-libs' => 1,
+			    );
+
+    #- help removing package which may have different release numbering
+    my %toRemove;
+
+    #- help searching package to upgrade in regard to already installed files.
+    my %installedFilesForUpgrade;
+
+    #- help keeping memory by this set of package that have been obsoleted.
+    my %obsoletedPackages;
+
+    #- make a subprocess here for reading filelist, this is important
+    #- not to waste a lot of memory for the main program which will fork
+    #- latter for each transaction.
+    local (*INPUT, *OUTPUT_CHILD); pipe INPUT, OUTPUT_CHILD;
+    local (*INPUT_CHILD, *OUTPUT); pipe INPUT_CHILD, OUTPUT;
+    if (my $pid = fork()) {
+	close INPUT_CHILD;
+	close OUTPUT_CHILD;
+	select((select(OUTPUT), $| = 1)[0]);
+
+	#- internal reading from interactive mode of parsehdlist.
+	#- takes a code to call with the line read, this avoid allocating
+	#- memory for that.
+	my $ask_child = sub {
+	    my ($name, $tag, $code) = @_;
+	    $code or die "no callback code for parsehdlist output";
+	    print OUTPUT "$name:$tag\n";
+
+	    local $_;
+	    while (<INPUT>) {
+		chomp;
+		/^\s*$/ and last;
+		$code->($_);
+	    }
+	};
+
+	#- select packages which obseletes other package, obselete package are not removed,
+	#- should we remove them ? this could be dangerous !
+	foreach my $pkg (values %{$urpm->{params}{info}}) {
+	    $ask_child->($pkg->{name}, "obsoletes", sub {
+			     #- take care of flags and version and release if present
+			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/ &&
+				 rpmtools::db_traverse_names($db, [], [$1], undef) > 0) {
+				 $3 and eval(rpmtools::version_compare($pkg->{version}, $3) . $2 . 0) or next;
+				 $4 and eval(rpmtools::version_compare($pkg->{release}, $4) . $2 . 0) or next;
+				 $urpm->{log}("selecting $pkg->{name}-$pkg->{version}-$pkg->{release} using obsoletes");
+				 $obsoletedPackages{$1} = undef;
+				 $pkg->{selected} = 1;
+			     }
+			 });
+	}
+
+	#- mark all files which are not in /etc/rc.d/ for packages which are already installed but which
+	#- are not in the packages list to upgrade.
+	#- the 'installed' property will make a package unable to be selected, look at select.
+	rpmtools::db_traverse($db, [ qw(name version release files) ], sub {
+				  my ($p) = @_;
+				  my $otherPackage = $p->{release} !~ /mdk\w*$/ && "$p->{name}-$p->{version}-$p->{release}";
+				  my $pkg = $urpm->{params}{info}{$p->{name}};
+
+				  if ($pkg) {
+				      my $version_cmp = rpmtools::version_compare($p->{version}, $pkg->{version});
+				      if ($version_cmp > 0 || $version_cmp == 0 &&
+					  rpmtools::version_compare($p->{release}, $pkg->{release}) >= 0) {
+					  if ($otherPackage && $version_cmp <= 0) {
+					      $toRemove{$otherPackage} = 0;
+					      $pkg->{selected} = 1;
+					      $urpm->{log}("removing $otherPackage to upgrade ...\n  to $pkg->{name}-$pkg->{version}-$pkg->{release} since it will not be updated otherwise");
+					  } else {
+					      $pkg->{installed} = 1;
+					  }
+				      } elsif ($upgradeNeedRemove{$pkg->{name}}) {
+					  my $otherPackage = "$p->{name}-$p->{version}-$p->{release}";
+					  $toRemove{$otherPackage} = 0;
+					  $pkg->{selected} = 1;
+					  $urpm->{log}("removing $otherPackage to upgrade ...\n  to $pkg->{name}-$pkg->{version}-$pkg->{release} since it will not upgrade correctly!");
+				      }
+				  } else {
+				      if (! exists $obsoletedPackages{$p->{name}}) {
+					  @installedFilesForUpgrade{grep { ($_ !~ m|^/etc/rc.d/| && $_ !~ m|\.la$| &&
+									    ! -d "$prefix/$_" && ! -l "$prefix/$_") }
+								      @{$p->{files}}} = ();
+				      }
+				  }
+			      });
+
+	#- find new packages to upgrade.
+	foreach my $pkg (values %{$urpm->{params}{info}}) {
+	    my $skipThis = 0;
+	    my $count = rpmtools::db_traverse_names($db, [ 'name' ], [ $pkg->{name} ], sub {
+							$skipThis ||= $pkg->{installed};
+						    });
+
+	    #- skip if not installed (package not found in current install).
+	    $skipThis ||= ($count == 0);
+
+	    #- select the package if it is already installed with a lower version or simply not installed.
+	    unless ($skipThis) {
+		my $cumulSize;
+
+		$pkg->{selected} = 1;
+
+		#- keep in mind installed files which are not being updated. doing this costs in
+		#- execution time but use less memory, else hash all installed files and unhash
+		#- all file for package marked for upgrade.
+		rpmtools::db_traverse_names($db, [ qw(name files) ], [ $pkg->{name} ], sub {
+						my ($p) = @_;
+						@installedFilesForUpgrade{grep { ($_ !~ m|^/etc/rc.d/| && $_ !~ m|\.la$| &&
+										  ! -d "$prefix/$_" && ! -l "$prefix/$_") }
+									    @{$p->{files}}} = ();
+					    });
+
+		$ask_child->($pkg->{name}, "files", sub {
+				 delete $installedFilesForUpgrade{$_[0]};
+			     });
+	    }
+	}
+
+	#- unmark all files for all packages marked for upgrade. it may not have been done above
+	#- since some packages may have been selected by depsList.
+	foreach my $pkg (values %{$urpm->{params}{info}}) {
+	    if ($pkg->{selected}) {
+		$ask_child->($pkg->{name}, "files", sub {
+				 delete $installedFilesForUpgrade{$_[0]};
+			     });
+	    }
+	}
+
+	#- select packages which contains marked files, then unmark on selection.
+	#- a special case can be made here, the selection is done only for packages
+	#- requiring locales if the locales are selected.
+	#- another special case are for devel packages where fixes over the time has
+	#- made some files moving between the normal package and its devel couterpart.
+	#- if only one file is affected, no devel package is selected.
+	foreach my $pkg (values %{$urpm->{params}{info}}) {
+	    unless ($pkg->{selected}) {
+		my $toSelect = 0;
+		$ask_child->($pkg->{name}, "files", sub {
+				 if ($_[0] !~  m|^/etc/rc.d/| &&  $_ !~ m|\.la$| && exists $installedFilesForUpgrade{$_[0]}) {
+				     ++$toSelect if ! -d "$prefix/$_[0]" && ! -l "$prefix/$_[0]";
+				 }
+				 delete $installedFilesForUpgrade{$_[0]};
+			     });
+		if ($toSelect) {
+		    if ($toSelect <= 1 && $pkg->{name} =~ /-devel/) {
+			$urpm->{log}("avoid selecting $pkg->{name}-$pkg->{version}-$pkg->{release} as not enough files will be updated");
+		    } else {
+			#- default case is assumed to allow upgrade.
+			my @deps = map { /\|/ and next; #- do not inspect choice
+					 my $p = $urpm->{params}{depslist}[$_];
+					 $p && $p->{name} =~ /locales-/ ? ($p) : () } split ' ', $pkg->{deps};
+			if (@deps == 0 || @deps > 0 && (grep { !$_->{selected} && !$_->{installed} } @deps) == 0) {
+			    $urpm->{log}("selecting $pkg->{name} by selection on files");
+			    $pkg->{selected} = 1;
+			} else {
+			    $urpm->{log}("avoid selecting $pkg->{name}-$pkg->{version}-$pkg->{release} as its locales language is not already selected");
+			}
+		    }
+		}
+	    }
+	}
+
+	#- clean memory...
+	%installedFilesForUpgrade = ();
+
+	#- no need to still use the child as this point, we can let him to terminate.
+	close OUTPUT;
+	close INPUT;
+	waitpid $pid, 0;
+    } else {
+	close INPUT;
+	close OUTPUT;
+	open STDIN, "<&INPUT_CHILD";
+	open STDOUT, ">&OUTPUT_CHILD";
+	exec "parsehdlist", "--interactive", map { "$urpm->{statedir}/$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media}}
+	  or rpmtools::_exit(1);
+    }
+
+    #- let the caller known about what we found here!
+    foreach my $pkg (values %{$urpm->{params}{info}}) {
+	$packages->{$pkg->{id}} = 0 if $pkg->{selected};
+    }
+
+    #- clean false value on toRemove.
+    delete $toRemove{''};
+
+    #- get filenames that should be saved for packages to remove.
+    #- typically config files, but it may broke for packages that
+    #- are very old when compabilty has been broken.
+    #- but new version may saved to .rpmnew so it not so hard !
+    if ($keep_files && keys %toRemove) {
+	rpmtools::db_traverse($db, [ qw(name version release conffiles) ], sub {
+				  my ($p) = @_;
+				  my $otherPackage = "$p->{name}-$p->{version}-$p->{release}";
+				  if (exists $toRemove{$otherPackage}) {
+				      @{$keep_files}{@{$p->{conffiles} || []}} = ();
+				  }
+			      });
+    }
+
+    #- close db, job finished !
+    rpmtools::db_close($db);
+}
 
 1;

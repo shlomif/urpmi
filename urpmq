@@ -31,13 +31,34 @@ my %I18N;
 load_po();
 
 sub usage {
-    die(_("usage: urpmq [-h] [-d] [-u] [-c] [-g] [-v] [-r] package_name|rpm_file [package_names|rpm_files...]\n"));
+    #die(_("usage: urpmq [-h] [-d] [-u] [-c] [-g] [-v] [-r] package_name|rpm_file [package_names|rpm_files...]\n"));
+    die(_("urpmq version %s
+Copyright (C) 2000 MandrakeSoft.
+This is free software and may be redistributed under the terms of the GNU GPL.
+
+usage:
+  -h             - print this help message.
+  -d             - extend query to package dependancies.
+  -u             - remove package if a better version is already installed.
+  -c             - choose complete method for resolving requires closure.
+  -g             - print groups too with name.
+  -v             - print version too with name.
+  -r             - print release too with name.
+
+  --auto-select  - automatically select packages for upgrading the system.
+  --headers      - extract headers for package listed from urpmi db to
+                   stdout (root only).
+
+  names or rpm files given on command line are queried.
+", $urpm::VERSION));
 }
 
 #- parse arguments list.
 my @nextargv;
 for (@ARGV) {
     /^--help$/ and do { usage; next };
+    /^--auto-select$/ and do { $query->{auto_select} = 1; next };
+    /^--headers$/ and do { $query->{headers} = 1; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/d/ and do { $query->{deps} = 1; next };
@@ -80,11 +101,49 @@ $urpm->{params}->relocate_depslist();
 #- basesystem is added to the list so if it need to be upgraded, all its dependancy
 #- will be updated too.
 my %packages;
-$urpm->search_packages(\%packages, [ @names ], all => $all) or $force or exit 1;
+$urpm->search_packages(\%packages, [ @names ]) or exit 1;
+
+#- auto select package for upgrading the distribution.
+if ($query->{auto_select}) {
+    my (%to_remove, %keep_files);
+
+    $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
+
+    if (keys(%to_remove) > 0) {
+	print STDERR "some package have to be removed for being upgraded, this is not supported yet\n";
+    }
+}
 
 #- filter to add in packages selected required packages.
 $query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);
 $query->{upgrade} and $urpm->filter_packages_to_upgrade(\%packages, complete => $query->{complete});
+
+if ($query->{headers}) {
+    $urpm->read_config();
+
+    my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
+    unless ($local_sources || $list) {
+	die("unable to get source packages, aborting");
+	exit 1;
+    }
+
+    #- now examine source package to build headers list to extract.
+    foreach (@$local_sources) {
+	system 'rpm2header', @$local_sources;
+    }
+    foreach (0..$#{$urpm->{media} || []}) {
+	my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
+			      -s $file and system 'cat', $file;
+			      ! -s $file }
+		       map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } @{$list->[$_]});
+	@headers > 0 or next;
+
+	require packdrake;
+	my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
+	$packer->extract_archive(undef, @headers);
+    }
+    exit 0;
+}
 
 #- print sub for query.
 my $query_sub = sub {
