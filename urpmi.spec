@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 21mdk
+%define release 22mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -250,6 +250,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Aug 30 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-22mdk
+- Fix download with curl with usernames that contains '@' (for mandrakeclub)
+- Make the --probe-synthesis option compatible with --distrib in urpmi.addmedia.
+- Re-allow transaction split with --allow-force or --allow-nodeps
+
 * Wed Aug 25 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-21mdk
 - new --root option to rpm-find-leaves.pl (Michael Scherer)
 - add timeouts for connection establishments
