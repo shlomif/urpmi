@@ -525,7 +525,7 @@ $urpm->create_transaction($state,
 			  split_level => $urpm->{options}{'split-level'},
 			  split_length => $urpm->{options}{'split-length'});
 
-my $nok = 0;
+my ($ok, $nok) = (0, 0);
 
 foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
@@ -722,15 +722,37 @@ foreach my $set (@{$state->{transaction} || []}) {
 					test => $test,
 					excludepath => $urpm->{options}{excludepath},
 					excludedocs => $urpm->{options}{excludedocs});
-		    @l and message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l)), ++$nok;
+		    if (@l) {
+			message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+			++$nok;
+		    } else {
+			++$ok;
+		    }
+		} else {
+		    ++$ok;
 		}
+	    } else {
+		++$ok;
 	    }
 	}
     }
 }
 $X and gurpm::end();
+
+#- keep a track of error code.
+my $exit_code = 0;
+if (values %error_sources) {
+    message(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+	      join "\n", map { "    $_" } values %error_sources));
+    $exit_code = 10;
+}
 if ($nok) {
     $nok > 1 and message(N("%d installation transactions failed", $nok));
+    if ($exit_code) {
+	$exit_code = $ok ? 13 : 14;
+    } else {
+	$exit_code = $ok ? 11 : 12;
+    }
 } else {
     if ($test) {
 	message(N("Installation is possible"));
@@ -751,6 +773,8 @@ if ($pid_err && $pid_out) {
     close STDERR;
     close STDOUT;
 }
+
+exit $exit_code;
 
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;
@@ -783,7 +807,7 @@ sub message {
 sub message_input {
     my ($msg, $default_input) = @_;
 
-    if ($X && !default_input) { #- if a default input is given, the user doesn't have to choose (and being asked).
+    if ($X && !$default_input) { #- if a default input is given, the user doesn't have to choose (and being asked).
 	gmessage($msg, ok_only => 1);
 	$bug and log_it($msg);
     } else {
