@@ -192,6 +192,7 @@ sub sync_wget {
 	($options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
 	($options->{resume} ? "--continue" : ()),
 	($options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : ()),
+	($options->{retry} ? ('-t', $options->{retry}) : ()),
 	($options->{callback} ? ("--progress=bar:force", "-o", "-") :
 	    $options->{quiet} ? "-q" : @{[]}),
 	"--retr-symlinks",
@@ -266,6 +267,7 @@ sub sync_curl {
 	open my $curl, join(" ", map { "'$_'" } "/usr/bin/curl",
 	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
+	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
 	    "--stderr", "-", # redirect everything to stdout
 	    "--disable-epsv",
 	    "--connect-timeout", $CONNECT_TIMEOUT,
@@ -323,6 +325,7 @@ sub sync_curl {
 	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 	    ($options->{resume} ? ("--continue-at", "-") : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
+	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
 	    ($options->{quiet} && !$options->{verbose} ? "-s" : @{[]}),
 	    "-k",
 	    $location_trusted ? "--location-trusted" : @{[]},

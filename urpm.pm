@@ -149,6 +149,7 @@ sub read_config {
 	    pre-clean
 	    priority-upgrade
 	    resume
+	    retry
 	    split-length
 	    split-level
 	    verify-rpm
@@ -757,6 +758,7 @@ sub add_distrib_media {
 		    quiet => 1,
 		    limit_rate => $options{limit_rate},
 		    compress => $options{compress},
+		    retry => $urpm->{options}{retry},
 		    proxy => get_proxy(),
 		},
 		reduce_pathname("$url/$distrib_root/hdlists"),
@@ -1373,6 +1375,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    compress => $options{compress},
 			    proxy => get_proxy($medium->{name}),
 			    media => $medium->{name},
+			    retry => $urpm->{options}{retry},
 			},
 			reduce_pathname("$medium->{url}/reconfig.urpmi"),
 		    );
@@ -1396,6 +1399,7 @@ this could happen if you mounted manually the directory when creating the medium
 		limit_rate => $options{limit_rate},
 		compress => $options{compress},
 		proxy => get_proxy($medium->{name}),
+		retry => $urpm->{options}{retry},
 		media => $medium->{name},
 	    };
 	    eval { $urpm->{sync}($syncopts, reduce_pathname("$medium->{url}/media_info/descriptions")) };
@@ -1428,6 +1432,7 @@ this could happen if you mounted manually the directory when creating the medium
 				compress => $options{compress},
 				proxy => get_proxy($medium->{name}),
 				media => $medium->{name},
+				retry => $urpm->{options}{retry},
 			    },
 			    reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"),
 			);
@@ -1510,6 +1515,7 @@ this could happen if you mounted manually the directory when creating the medium
 				callback => $options{callback},
 				proxy => get_proxy($medium->{name}),
 				media => $medium->{name},
+				retry => $urpm->{options}{retry},
 			    },
 			    reduce_pathname("$medium->{url}/$with_hdlist"),
 			);
@@ -1553,6 +1559,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    callback => $options{callback},
 			    proxy => get_proxy($medium->{name}),
 			    media => $medium->{name},
+			    retry => $urpm->{options}{retry},
 			},
 			reduce_pathname("$medium->{url}/$medium->{with_hdlist}"),
 		    );
@@ -1620,6 +1627,7 @@ this could happen if you mounted manually the directory when creating the medium
 				    compress => $options{compress},
 				    proxy => get_proxy($medium->{name}),
 				    media => $medium->{name},
+				    retry => $urpm->{options}{retry},
 				},
 				$_
 			    );
@@ -1648,6 +1656,7 @@ this could happen if you mounted manually the directory when creating the medium
 				    compress => $options{compress},
 				    proxy => get_proxy($medium->{name}),
 				    media => $medium->{name},
+				    retry => $urpm->{options}{retry},
 				},
 				$_,
 			    );
@@ -2054,7 +2063,14 @@ sub register_rpms {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving rpm file [%s] ...", $_));
-		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => get_proxy() }, $_);
+		$urpm->{sync}(
+		    {
+			dir => "$urpm->{cachedir}/partial",
+			quiet => 1,
+			proxy => get_proxy(),
+		    },
+		    $_,
+		);
 		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    };
@@ -2749,6 +2765,7 @@ sub download_packages_of_distant_media {
 			callback => $options{callback},
 			proxy => get_proxy($urpm->{media}[$_]{name}),
 			media => $urpm->{media}[$_]{name},
+			retry => $urpm->{options}{retry},
 		    },
 		    values %distant_sources,
 		);

@@ -148,6 +148,7 @@ sub load_config ($;$) {
 	  |split-(?:level|length)
 	  |priority-upgrade
 	  |downloader
+	  |retry
 	 )\s*:\s*['"]?(.*?)['"]?$/x
 	    and $config{$medium}{$1} = $2, next;
 	/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/

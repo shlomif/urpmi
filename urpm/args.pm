@@ -85,6 +85,7 @@ my %options_spec = (
 	curl => sub { $urpm->{options}{downloader} = 'curl' },
 	'limit-rate=s' => sub { $urpm->{options}{'limit-rate'} = $_[1] },
 	'resume!' => sub { $urpm->{options}{resume} = $_[1] },
+	'retry=s' => sub { $urpm->{options}{retry} = $_[1] },
 	'proxy=s' => sub {
 	    my (undef, $value) = @_;
 	    my ($proxy, $port) = $value =~ m,^(?:http://)?([^:/]+(:\d+)?)/*$,
