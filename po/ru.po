@@ -245,7 +245,7 @@ msgid "found parallel handler for nodes: %s"
 msgstr "найден параллельный обработчик для узлов: %s"
 
 #: ../urpm.pm_.c:595
-#, fuzzy, c-format
+#, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "используется связанный накопитель для параллельного режима : %s"
 
@@ -501,9 +501,9 @@ msgid "invalid rpm file name [%s]"
 msgstr "неверное имя файла rpm [%s]"
 
 #: ../urpm.pm_.c:1612
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm file [%s] ..."
-msgstr "принимаются файлы rpm..."
+msgstr "принимаются файлы rpm [%s] ..."
 
 #: ../urpm.pm_.c:1619 ../urpm.pm_.c:2221
 #, c-format
@@ -541,7 +541,7 @@ msgstr "невозможно корректно проанализировать [%s] по значению \"%s\""
 #: ../urpm.pm_.c:1925
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
-msgstr ""
+msgstr "накопитель \"%s\" не определяет местоположение файлов rpm"
 
 #: ../urpm.pm_.c:1934
 #, c-format
@@ -569,9 +569,9 @@ msgid "malformed input: [%s]"
 msgstr "некорректный ввод: [%s]"
 
 #: ../urpm.pm_.c:2092
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "принимаются файлы rpm..."
+msgstr "принимаются файлы rpm c накопителя \"%s\"..."
 
 #: ../urpm.pm_.c:2162
 msgid "Preparing..."
@@ -600,17 +600,17 @@ msgstr "%s конфликтует с %s"
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
 #: ../urpm/parallel_ka_run.pm_.c:178
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput завершился неудачей, возможно узел недоступен"
 
 #: ../urpm/parallel_ka_run.pm_.c:65 ../urpm/parallel_ka_run.pm_.c:163
 #: ../urpm/parallel_ka_run.pm_.c:192
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp завершился неудачей, возможно узел недоступен"
 
 #: ../urpm/parallel_ka_run.pm_.c:74 ../urpm/parallel_ssh.pm_.c:78
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "на узле %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:196 ../urpm/parallel_ssh.pm_.c:202
 #, c-format
@@ -624,9 +624,9 @@ msgstr "Установка возможна."
 
 #: ../urpm/parallel_ssh.pm_.c:11 ../urpm/parallel_ssh.pm_.c:95
 #: ../urpm/parallel_ssh.pm_.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "scp failed on host %s"
-msgstr "Установка на узел %s не завершилась."
+msgstr "scp завершился неудачей на хосте %s"
 
 #: ../urpm/parallel_ssh.pm_.c:167
 #, c-format
@@ -675,34 +675,30 @@ msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - выбрать все пакеты, соответствующие расширению.\n"
 
 #: ../urpme_.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-msgstr "urpmi: неизвестная опция \"-%s\", проверьте использование с --help\n"
+msgstr "urpme: неизвестная опция \"-%s\", проверьте использование с --help\n"
 
 #: ../urpme_.c:83
-#, fuzzy
 msgid "unknown package"
-msgstr "неизвестный пакет "
+msgstr "неизвестный пакет"
 
 #: ../urpme_.c:83
-#, fuzzy
 msgid "unknown packages"
-msgstr "неизвестные пакеты "
+msgstr "неизвестные пакет"
 
 #: ../urpme_.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "removing package %s will break your system"
-msgstr "удаление пакета %s нарушит работу вашей системы\n"
+msgstr "удаление пакета %s нарушит работу вашей системы"
 
 #: ../urpme_.c:95
-#, fuzzy
 msgid "Nothing to remove"
-msgstr "Нечего удалять.\n"
+msgstr "Нечего удалять"
 
 #: ../urpme_.c:98
-#, fuzzy
 msgid "Checking to remove the following packages"
-msgstr "Нужен один из следующих пакетов:"
+msgstr "Проверяется возможность удаления следующих пакетов"
 
 #: ../urpme_.c:105
 #, c-format
@@ -712,9 +708,8 @@ msgid ""
 msgstr "Для удовлетворения зависимостей следующие пакеты будут удалены (%d Мб)"
 
 #: ../urpme_.c:113
-#, fuzzy
 msgid "Removing failed"
-msgstr "...копирование прервано"
+msgstr "Удаление завершилось неудачей"
 
 #. Translator: The URI types strings 'file:', 'ftp:', 'http:',
 #. Translator: and 'removable:' must not be translated!
@@ -775,13 +770,12 @@ msgid "  --update       - create an update medium.\n"
 msgstr "  --update       - создать накопитель для обновления.\n"
 
 #: ../urpmi.addmedia_.c:61
-#, fuzzy
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
 msgstr ""
-"  --disrtib      - автоматически создать все накопители  с установочного "
-"накопителя.\n"
+"  --disrtib      - автоматически создать все накопители  с "
+"установочного                    накопителя.\n"
 
 #: ../urpmi.addmedia_.c:63
 msgid ""
@@ -789,40 +783,48 @@ msgid ""
 "                   distribution, XXX may be main, contrib, updates or\n"
 "                   anything else that has been configured ;-)\n"
 msgstr ""
+"  --distrib-XXX  - автоматически создать накопитель для части ХХХ\n"
+"                   дистрибутива, XXX может быть main, contrib, updates или\n"
+"                   что угодно, что уже было настроено ;-)\n"
 
 #: ../urpmi.addmedia_.c:66
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --from         - use specified url for list of mirrors, the default is\n"
 "                   %s\n"
 msgstr ""
-"  --env          - использовать особую оболочку (обычно отчет\n"
-"                   об ошибке).\n"
+"  --from         - использовать указанный url для списка зеркал, по\n"
+"                   умолчанию используется %s\n"
 
 #: ../urpmi.addmedia_.c:68
 msgid ""
 "  --version      - use specified version, the default is version of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --version      - использовать указанную версию, по умолчанию\n"
+"                   используется версия установленного пакета\n"
+"                   выпуска mandrake.\n"
 
 #: ../urpmi.addmedia_.c:70
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --arch         - использовать указанную архитектуру, по умолчанию\n"
+"                   используется архитектура установленного пакета\n"
+"                   выпуска mandrake.\n"
 
 #: ../urpmi.addmedia_.c:72 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:70
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - очистить директорию кэша заголовков.\n"
 
 #: ../urpmi.addmedia_.c:73
-#, fuzzy
 msgid ""
 "  -h             - try to find and use synthesis or hdlist\n"
 "                   file.\n"
 msgstr ""
-"  -h             - попытаться найти и использовать синтез-файл или файл "
-"hdlist.\n"
+"  -h             - попытаться найти и использовать синтез-файл\n"
+"                   или файл hdlist.\n"
 
 #: ../urpmi.addmedia_.c:75 ../urpmi.update_.c:72
 msgid "  -f             - force generation of hdlist files.\n"
@@ -830,7 +832,7 @@ msgstr "  -f             - принудительно создать файлы hdlist.\n"
 
 #: ../urpmi.addmedia_.c:141
 msgid "cannot add updates of a cooker distribution\n"
-msgstr ""
+msgstr "невозможно добавить обновления дистрибутива cooker\n"
 
 #: ../urpmi.addmedia_.c:181
 #, c-format
@@ -914,9 +916,8 @@ msgstr ""
 "где <имя> - имя обновляемого накопителя.\n"
 
 #: ../urpmi.update_.c:68
-#, fuzzy
 msgid "  --update       - update only update media.\n"
-msgstr "  --update       - использовать только накопитель для обновления.\n"
+msgstr "  --update       - обновить только накопитель для обновления.\n"
 
 #: ../urpmi.update_.c:69
 msgid "  -a             - select all non-removable media.\n"
@@ -993,6 +994,8 @@ msgstr ""
 #: ../urpmi_.c:84
 msgid "  --install-src  - install only source package (no binaries).\n"
 msgstr ""
+"  --install-src  - установить только пакеты с исходным кодом\n"
+"                          (не двоичные файлы).\n"
 
 #: ../urpmi_.c:85
 msgid "  --clean        - remove rpm from cache before anything else.\n"
@@ -1062,10 +1065,8 @@ msgstr ""
 "                   (--no-verify-rpm отключит ее, по умолчанию включена).\n"
 
 #: ../urpmi_.c:109
-#, fuzzy
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr ""
-"  --media        - использовать только накопители, разделенные запятыми.\n"
+msgstr "  --excludepath  - исключить пути, разделенные запятыми.\n"
 
 #: ../urpmi_.c:110
 msgid "  -a             - select all matches on command line.\n"
@@ -1111,7 +1112,7 @@ msgstr "urpmi: неизвестная опция \"-%s\", проверьте использование с --help\n"
 
 #: ../urpmi_.c:214
 msgid "What can be done with binary rpm files when using --install-src"
-msgstr ""
+msgstr "Что делать с двоичными файлами rpm при использовании --install-src"
 
 #: ../urpmi_.c:222
 #, c-format
@@ -1121,7 +1122,7 @@ msgstr "Невозможно создать директорию [%s] для отчета об ошибке"
 #: ../urpmi_.c:236
 #, c-format
 msgid "using specific environment on %s\n"
-msgstr ""
+msgstr "используется особая оболочка на %s\n"
 
 #: ../urpmi_.c:247
 msgid "Only superuser is allowed to install packages"
@@ -1210,13 +1211,14 @@ msgid " (y/N) "
 msgstr " (д/Н) "
 
 #: ../urpmi_.c:506
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s\n"
 "You may want to update your urpmi database"
 msgstr ""
-"Установка прервана, некоторые файлы отсутствуют.\n"
+"Установка прервана, некоторые файлы отсутствуют:\n"
+"%s\n"
 "Вам может потребоваться обновить свою базу данных urpmi"
 
 #: ../urpmi_.c:515 ../urpmi_.c:546 ../urpmi_.c:555 ../urpmi_.c:570
@@ -1303,9 +1305,8 @@ msgstr ""
 "  -u             - удалить пакет, если уже установлена более новая версия.\n"
 
 #: ../urpmq_.c:65
-#, fuzzy
 msgid "  -c             - complete output with package to removes.\n"
-msgstr "                    в командной строке, но без имени пакета."
+msgstr "  -c             - завершить выходные данные удаляемым пакетом.\n"
 
 #: ../urpmq_.c:67
 msgid "  -R             - reverse search to what requires package.\n"
