@@ -208,6 +208,7 @@ fi
 %changelog
 * Mon Mar  3 2003 François Pons <fpons@mandrakesoft.com> 4.2-27mdk
 - avoid mounting or unmounting a supermounted device.
+- updated french translations (some from Thévenet Cédric).
 
 * Fri Feb 28 2003 Pons François <fpons@mandrakesoft.com> 4.2-26mdk
 - added sanity check of list file used (fix bug 2110 by providing
