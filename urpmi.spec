@@ -248,14 +248,14 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - lock rpm db in chroot, and urpmi db in /
 - ask to be root to use auto-select in urpmi
 - ask to be root to install binary rpms in chroot
-- From Guillaume Cottenceau <gc@mandrakesoft.com>
+- From Guillaume Cottenceau <gc@mandrakesoft.com> :
     - more graphical feedback in urpmi --parallel --X (status, progress, etc)
 - From Pascal Terjan <pterjan@mandrake.org> :
     - $root =~ s!/*!! to avoid root detection issue
 - From Olivier Thauvin <thauvin@aerov.jussieu.fr> :
     - add --use-distrib
     - fix urpmq for virtual medium
-    - add --root in man/--help
+    - add --root in man/--help (thanks Zborg for english help)
     - fix issue using virtual medium and --bug
     - update error message if --bug dir exist
 
