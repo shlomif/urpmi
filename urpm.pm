@@ -165,7 +165,7 @@ sub sync_file {
     foreach (@_) {
 	my ($in) = /^(?:removable[^:]*|file):\/(.*)/;
 	propagate_sync_callback($options, 'start', $_);
-	system("cp", "--preserve=mode", "--preserve=timestamps", "-R", $in || $_, ref($options) ? $options->{dir} : $options) and
+	system("cp", "-p", "-R", $in || $_, ref($options) ? $options->{dir} : $options) and
 	  die N("copy failed: %s", $@);
 	propagate_sync_callback($options, 'end', $_);
     }
@@ -989,7 +989,7 @@ sub add_distrib_media {
 	if (-e $hdlists_file) {
 	    unlink "$urpm->{cachedir}/partial/hdlists";
 	    $urpm->{log}(N("copying hdlists file..."));
-	    system("cp", "--preserve=mode", "--preserve=timestamps", "-R", $hdlists_file, "$urpm->{cachedir}/partial/hdlists") ?
+	    system("cp", "-p", "-R", $hdlists_file, "$urpm->{cachedir}/partial/hdlists") ?
 	      $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
 	} else {
 	    $urpm->{error}(N("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
@@ -1295,7 +1295,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
 	    if (-e "$dir/../descriptions") {
 		$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
-		system("cp", "--preserve=mode", "--preserve=timestamps", "-R", "$dir/../descriptions",
+		system("cp", "-p", "-R", "$dir/../descriptions",
 		       "$urpm->{statedir}/descriptions.$medium->{name}") ?
 			 $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
 	    }
@@ -1384,8 +1384,7 @@ this could happen if you mounted manually the directory when creating the medium
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 			$options{callback} && $options{callback}('copy', $medium->{name});
-			if (system("cp", "--preserve=mode", "--preserve=timestamps", "-R", $with_hdlist_dir,
-				   "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
+			if (system("cp", "-p", "-R", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
 			    $options{callback} && $options{callback}('failed', $medium->{name});
 			    $urpm->{log}(N("...copying failed"));
 			    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}"; #- force error...
@@ -1448,8 +1447,7 @@ this could happen if you mounted manually the directory when creating the medium
 			my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
 			my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
 			-s $path_list or $path_list = "$dir/list";
-			-s $path_list and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
-						 $path_list, "$urpm->{cachedir}/partial/list");
+			-s $path_list and system("cp", "-p", "-R", $path_list, "$urpm->{cachedir}/partial/list");
 		    }
 		} else {
 		    #- try to find rpm files, use recursive method, added additional
@@ -1497,8 +1495,7 @@ this could happen if you mounted manually the directory when creating the medium
 		my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
 		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../$local_pubkey");
 		-s $path_pubkey or $path_pubkey = "$dir/pubkey";
-		-s $path_pubkey and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
-					   $path_pubkey, "$urpm->{cachedir}/partial/pubkey");
+		-s $path_pubkey and system("cp", "-p", "-R", $path_pubkey, "$urpm->{cachedir}/partial/pubkey");
 	    }
 	} else {
 	    my $basename;
@@ -1646,11 +1643,11 @@ this could happen if you mounted manually the directory when creating the medium
 		unless ($options{force}) {
 		    if ($medium->{synthesis}) {
 			-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
-			  system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
+			  system("cp", "-p", "-R",
 				 "$urpm->{statedir}/synthesis.$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 		    } else {
 			-e "$urpm->{statedir}/$medium->{hdlist}" and
-			  system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
+			  system("cp", "-p", "-R",
 				 "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 		    }
 		}
@@ -2790,8 +2787,7 @@ sub copy_packages_of_removable_media {
 			    #- first copy in cache, and if the package is still good, transfert it
 			    #- to the great rpms cache.
 			    unlink "$urpm->{cachedir}/partial/$filename";
-			    if (!system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
-					$filepath, "$urpm->{cachedir}/partial") &&
+			    if (!system("cp", "-p", "-R", $filepath, "$urpm->{cachedir}/partial") &&
 				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
 				#- now we can consider the file to be fine.
 				unlink "$urpm->{cachedir}/rpms/$filename";

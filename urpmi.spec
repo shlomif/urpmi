@@ -1,26 +1,29 @@
 %define name	urpmi
 %define version	4.4
-%define release 44mdk
-%define group	System/Configuration/Packaging
+%define release 45mdk
+
+%define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
+
+%{expand:%%define compat_perl_vendorlib %(perl -MConfig -e 'printf "%%s\n", "%{?perl_vendorlib:1}" ? "%%{perl_vendorlib}" : "$Config{installvendorlib}"')}
+%{expand:%%define use_locale %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? 1 : 0')}
+%{expand:%%define allow_gurpmi %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? 1 : 0')}
+%{expand:%%define req_webfetch %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "webfetch" : "curl wget"')}
+%{expand:%%define buildreq_locale %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "perl-MDK-Common-devel" : ""')}
+%{expand:%%define distribution %%(perl -e 'printf "%%s\\n", ("%_vendor" =~ /mandrake/i ? "Mandrake Linux" : "Red Hat Linux")')}
+%{expand:%%define real_release %%(perl -e 'printf "%%s\\n", ("%_vendor" !~ /mandrake/i && ("%release" =~ /(.*?)mdk/)[0] || "%release")')}
 
 Name:		%{name}
 Version:	%{version}
-Release:	%{release}
+Release:	%{real_release}
 Group:		%{group}
+Distribution:	%{distribution}
 License:	GPL
 Source0:	%{name}.tar.bz2
 Summary:	User mode rpm install
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
-Requires:	eject
-Requires:	webfetch
-Requires:	gnupg
-PreReq:		perl-Locale-gettext >= 1.01-7mdk
-PreReq:		rpmtools >= 4.3-6mdk
-PreReq:		perl-URPM >= 0.94
-BuildRequires:	bzip2-devel
-BuildRequires:	gettext
-BuildRequires:	rpm-devel >= 4.0.3
-BuildRequires:	perl-MDK-Common-devel
+Requires:	%{req_webfetch} eject gnupg
+PreReq:		perl-Locale-gettext >= 1.01-7 gettext rpmtools >= 4.5 perl-URPM >= 0.94
+BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3 
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
 
@@ -29,19 +32,16 @@ urpmi takes care of dependencies between rpms, using a pool (or pools) of rpms.
 
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
+%if %{allow_gurpmi}
 %package -n gurpmi
 Summary:	User mode rpm GUI install
-Requires:	urpmi >= %{version}-%{release}
-Requires:	drakxtools
-Requires:	gchooser
-Requires:	gmessage
-Requires:	usermode
-Requires:	menu
 Group:		%{group}
+Requires:	urpmi >= %{version}-%{release} drakxtools gchooser gmessage usermode menu
 Obsoletes:	grpmi
 
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
+%endif
 
 #%package -n autoirpm
 #Summary: Auto install of rpm on demand
@@ -53,8 +53,7 @@ gurpmi is a graphical front-end to urpmi
 
 %package -n urpmi-parallel-ka-run
 Summary:	Parallel extensions to urpmi using ka-run
-Requires:	urpmi >= %{version}-%{release}
-Requires:	ka-run >= 2.0-15mdk
+Requires:	urpmi >= %{version}-%{release} ka-run >= 2.0-15mdk
 Group:		%{group}
 
 %description -n urpmi-parallel-ka-run
@@ -63,8 +62,7 @@ distributed installation using ka-run tools.
 
 %package -n urpmi-parallel-ssh
 Summary:	Parallel extensions to urpmi using ssh and scp
-Requires:	urpmi >= %{version}-%{release}
-Requires:	openssh-clients
+Requires:	urpmi >= %{version}-%{release} openssh-clients
 Group:		%{group}
 
 %description -n urpmi-parallel-ssh
@@ -75,15 +73,15 @@ distributed installation using ssh and scp tools.
 %setup -q -n %{name}
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make PREFIX=$RPM_BUILD_ROOT MANDIR=$RPM_BUILD_ROOT%{_mandir} install
+%{__rm} -rf %{buildroot}
+%{__make} PREFIX=%{buildroot} MANDIR=%{buildroot}%{_mandir} install
 #install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
 for dir in partial headers rpms
 do
-  install -d $RPM_BUILD_ROOT/var/cache/urpmi/$dir
+  install -d %{buildroot}/var/cache/urpmi/$dir
 done
 #install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
-cat <<EOF >$RPM_BUILD_ROOT/etc/urpmi/inst.list
+cat <<EOF >%{buildroot}/etc/urpmi/inst.list
 # Here you can specify packages that need to be installed instead
 # of being upgraded (typically kernel packages).
 kernel
@@ -98,30 +96,31 @@ kernel22-smp
 hackkernel
 EOF
 
-mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}
-install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm.pm
-install -m 644 gurpm.pm $RPM_BUILD_ROOT%{perl_vendorlib}/gurpm.pm
-mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}/urpm
-install -m 644 urpm/parallel_ka_run.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm/parallel_ka_run.pm
-install -m 644 urpm/parallel_ssh.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm/parallel_ssh.pm
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/man3
-pod2man urpm.pm >$RPM_BUILD_ROOT%{_mandir}/man3/urpm.3
+mkdir -p %{buildroot}%{compat_perl_vendorlib}
+install -m 644 urpm.pm %{buildroot}%{compat_perl_vendorlib}/urpm.pm
+install -m 644 gurpm.pm %{buildroot}%{compat_perl_vendorlib}/gurpm.pm
+mkdir -p %{buildroot}%{compat_perl_vendorlib}/urpm
+install -m 644 urpm/parallel_ka_run.pm %{buildroot}%{compat_perl_vendorlib}/urpm/parallel_ka_run.pm
+install -m 644 urpm/parallel_ssh.pm %{buildroot}%{compat_perl_vendorlib}/urpm/parallel_ssh.pm
+mkdir -p %{buildroot}%{_mandir}/man3
+pod2man urpm.pm >%{buildroot}%{_mandir}/man3/urpm.3
 
-#find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.mo | \
+#find %{buildroot}%{_datadir}/locale -name %{name}.mo | \
 #    perl -pe 'm|locale/([^/_]*)(.*)|; $_ = "%%lang($1) %{_datadir}/locale/$1$2\n"' > %{name}.lang
 
-mv -f $RPM_BUILD_ROOT%{_bindir}/rpm-find-leaves $RPM_BUILD_ROOT%{_bindir}/urpmi_rpm-find-leaves
+mv -f %{buildroot}%{_bindir}/rpm-find-leaves %{buildroot}%{_bindir}/urpmi_rpm-find-leaves
 
 # logrotate
-install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
-install -m 644 %{name}.logrotate $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/%{name}
+install -d -m 755 %{buildroot}%{_sysconfdir}/logrotate.d
+install -m 644 %{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # bash completion
-install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d
-install -m 644 %{name}.bash-completion $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d/%{name}
+install -d -m 755 %{buildroot}%{_sysconfdir}/bash_completion.d
+install -m 644 %{name}.bash-completion %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
 
-mkdir -p $RPM_BUILD_ROOT%{_menudir}
-cat << EOF > $RPM_BUILD_ROOT%{_menudir}/gurpmi
+%if %{allow_gurpmi}
+mkdir -p %{buildroot}%{_menudir}
+cat << EOF > %{buildroot}%{_menudir}/gurpmi
 ?package(gurpmi): command="%{_bindir}/gurpmi" needs="gnome" section=".hidden" \
 section=".hidden" \
 title="Software installer" longtitle="Graphical front end to install RPM files" \
@@ -133,13 +132,12 @@ title="Software installer" longtitle="Graphical front end to install RPM files" 
 mimetypes="application/x-rpm" \
 multiple_files="true"
 EOF
-
+%endif
 
 %find_lang %{name}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
-rm -rf $RPM_BUILD_DIR/$RPM_PACKAGE_NAME
+rm -rf %{buildroot}
 
 %preun
 if [ "$1" = "0" ]; then
@@ -159,11 +157,13 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 #%preun -n autoirpm
 #[ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
 
+%if %{allow_gurpmi}
 %post -n gurpmi
 %{update_menus}
 
 %postun -n gurpmi
 %{clean_menus}
+%endif
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -192,14 +192,16 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %lang(fr) %{_mandir}/fr/man?/urpm* 
 %lang(ru) %{_mandir}/ru/man?/urpm* 
 %lang(uk) %{_mandir}/uk/man?/urpm* 
-%{perl_vendorlib}/urpm.pm
+%{compat_perl_vendorlib}/urpm.pm
 
+%if %{allow_gurpmi}
 %files -n gurpmi
 %defattr(-,root,root)
 %{_sbindir}/gurpmi
 %{_bindir}/gurpmi
 %{_menudir}/gurpmi
-%{perl_vendorlib}/gurpm.pm
+%{compat_perl_vendorlib}/gurpm.pm
+%endif
 
 #%files -n autoirpm
 #%defattr(-,root,root)
@@ -218,14 +220,17 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %files -n urpmi-parallel-ka-run
 %defattr(-,root,root)
 %doc urpm/README.ka-run
-%{perl_vendorlib}/urpm/parallel_ka_run.pm
+%{compat_perl_vendorlib}/urpm/parallel_ka_run.pm
 
 %files -n urpmi-parallel-ssh
 %defattr(-,root,root)
 %doc urpm/README.ssh
-%{perl_vendorlib}/urpm/parallel_ssh.pm
+%{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue Dec  9 2003 François Pons <fpons@mandrakesoft.com> 4.4-45mdk
+- added compability with RH 7.3.
+
 * Fri Dec  5 2003 François Pons <fpons@mandrakesoft.com> 4.4-44mdk
 - fixed bug 6013, 6386, 6459.
 - fixed restart of urpmi in test mode which should be avoided.
