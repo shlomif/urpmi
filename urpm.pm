@@ -327,6 +327,8 @@ sub sync_curl {
 			    $file = undef;
 			}
 		    } elsif ($buf =~ /^curl:/) { #- probably an error reported by curl
+			local $/ = "\n";
+			chomp $buf;
 			propagate_sync_callback($options, 'error', $file, $buf);
 		    }
 		} else {
