@@ -255,7 +255,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - New noreconfigure flag in urpmi.cfg: ignore media reconfiguration (Misc)
 - More robust reconfiguration
 - Preserve media order in urpmi.cfg, add local media at the top of the list
-- file:/// urls may no be replaced by bare absolute paths.
+- file:/// urls may now be replaced by bare absolute paths.
 - New urpmq option: -Y (fuzzy, case-insensitive)
 - New options for urpmi.addmedia, urpmi.removemedia and urpmi.update:
   -q (quiet) and -v (verbose).
