@@ -95,7 +95,7 @@ if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
     if (-e $f) {
 	system("cp -f $f $HDLIST");
     } else {
-	glob("$dir/*") or die "No RPM-s found! Cowardly refusing to add $dir to urpmi DB.\n";
+	glob("$dir/*.rpm") or die "No RPM-s found! Cowardly refusing to add $dir to urpmi DB.\n";
 	system("genhdlist_cz2 -o $HDLIST $dir");
     }
 } else {

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.3
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -103,6 +103,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Fri Sep 01 2000 François Pons <fpons@mandrakesoft.com> 1.3-4mdk
+- fixed --auto usage (thanks to Garbage Collector).
+- fixed urpmi.addmedia with glob on rpm files only.
+
 * Thu Aug 31 2000 François Pons <fpons@mandrakesoft.com> 1.3-3mdk
 - Oops, fixed typo in post.
 

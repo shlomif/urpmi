@@ -330,17 +330,17 @@ foreach my $id (keys %packages_to_install) {
 #- package to install as a array of strings.
 my @to_install;
 
+#- check if there is at least one package to install that
+#- has not been given by the user.
+my $ask_user;
+my $sum = 0;
+foreach (keys %packages_to_install) {
+    exists $packages{$_} or $ask_user = 1;
+    my $info  = $params->{depslist}[$_];
+    $sum += $info->{size};
+    push @to_install, "$info->{name}-$info->{version}-$info->{release}";
+}
 if (!$auto) {
-    #- check if there is at least one package to install that
-    #- has not been given by the user.
-    my $ask_user;
-    my $sum = 0;
-    foreach (keys %packages_to_install) {
-	exists $packages{$_} or $ask_user = 1;
-	my $info  = $params->{depslist}[$_];
-	$sum += $info->{size};
-	push @to_install, "$info->{name}-$info->{version}-$info->{release}";
-    }
     if ($ask_user) {
 	my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
 	my $msg2 = _("Is it ok?");
