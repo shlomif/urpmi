@@ -193,7 +193,7 @@ sub read_config {
 
     $urpm->{media} = [ sort { $a->{priority} <=> $b->{priority} } @{$urpm->{media}} ];
 
-    #- keep in mind when an hdlist/list file is already used
+    #- remember if an hdlist or list file is already used
     my %filelists;
     foreach (@{$urpm->{media}}) {
 	foreach my $filetype (qw(hdlist list)) {
@@ -854,7 +854,7 @@ sub remove_selected_media {
 	    #- mark to re-write configuration.
 	    $urpm->{modified} = 1;
 
-	    #- remove file associated with this medium.
+	    #- remove files associated with this medium.
 	    foreach ($_->{hdlist}, $_->{list}, "synthesis.$_->{hdlist}", "descriptions.$_->{name}", "names.$_->{name}",
 		     "$_->{name}.cache") {
 		$_ and unlink "$urpm->{statedir}/$_";
@@ -1277,7 +1277,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 		if ($options{force} < 2) {
 		    #- examine if a local list file is available (always probed according to with_hdlist)
-		    #- and check hdlist has not be named very strangely...
+		    #- and check hdlist wasn't named very strangely...
 		    if ($medium->{hdlist} ne 'list') {
 			my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
 			my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
@@ -1593,7 +1593,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 		#- retrieval of hdlist or synthesis has been successful,
 		#- check whether a list file is available.
-		#- and check hdlist has not be named very strangely...
+		#- and check hdlist wasn't named very strangely...
 		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
 		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_list"),
@@ -1719,14 +1719,15 @@ this could happen if you mounted manually the directory when creating the medium
 		    @unresolved_before == @unresolved_after or $second_pass = 1;
 
 		    if ($medium->{hdlist} ne 'list' && -s "$urpm->{cachedir}/partial/list") {
-			local $_;
-			open my $fh, "$urpm->{cachedir}/partial/list";
-			while (<$fh>) {
-			    m|/([^/]*\.rpm)$| or next;
-			    $list{$1} and $urpm->{error}(N("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
-			    $list{$1} = "$medium->{url}/$_";
+			if (open my $fh, "$urpm->{cachedir}/partial/list") {
+			    local $_;
+			    while (<$fh>) {
+				m|/([^/]*\.rpm)$| or next;
+				$list{$1} and $urpm->{error}(N("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
+				$list{$1} = "$medium->{url}/$_";
+			    }
+			    close $fh;
 			}
-			close $fh;
 		    } else {
 			#- if url is clear and no relative list file has been downloaded,
 			#- there is no need for a list file.
@@ -1741,18 +1742,20 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 
 	    unless ($error) {
-		if (%list) {
+		if (keys %list) {
 		    #- write list file.
 		    #- make sure group and other do not have any access to this file, used to hide passwords.
-		    my $mask = umask 077;
-		    open my $listfh, ">$urpm->{cachedir}/partial/$medium->{list}"
-		      or $error = 1, $urpm->{error}(N("unable to write list file of \"%s\"", $medium->{name}));
-		    umask $mask;
-		    print $listfh values %list;
-		    close $listfh;
+		    if ($medium->{list}) {
+			my $mask = umask 077;
+			open my $listfh, ">$urpm->{cachedir}/partial/$medium->{list}"
+			    or $error = 1, $urpm->{error}(N("unable to write list file of \"%s\"", $medium->{name}));
+			umask $mask;
+			print $listfh values %list;
+			close $listfh;
+		    }
 
 		    #- check if at least something has been written into list file.
-		    if (-s "$urpm->{cachedir}/partial/$medium->{list}") {
+		    if ($medium->{list} && -s "$urpm->{cachedir}/partial/$medium->{list}") {
 			$urpm->{log}(N("writing list file for medium \"%s\"", $medium->{name}));
 		    } else {
 			$error = 1, $urpm->{error}(N("nothing written in list file for \"%s\"", $medium->{name}));
@@ -2434,8 +2437,8 @@ sub get_source_packages {
 			}
 		    }
 		}
-		$list_warning && $medium->{list} && -r "$urpm->{statedir}/$medium->{list}" and
-		  $urpm->{error}(N("medium \"%s\" uses an invalid list file:
+		$list_warning && $medium->{list} && -r "$urpm->{statedir}/$medium->{list}" && -f _
+		    and $urpm->{error}(N("medium \"%s\" uses an invalid list file:
   mirror is probably not up-to-date, trying to use alternate method", $medium->{name}));
 	    } elsif (!%list_examined) {
 		$error = 1;
