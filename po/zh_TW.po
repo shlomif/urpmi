@@ -313,7 +313,7 @@ msgid ""
 "usage: %s [options]\n"
 "where [options] are from\n"
 msgstr ""
-"使用法： %s [選項]\n"
+"用法： %s [選項]\n"
 "其中 [選項] 是由\n"
 
 #: ../rpm-find-leaves:15
@@ -329,17 +329,17 @@ msgstr "   --root <path>  - 使用給定的根目錄而非 /\n"
 #: ../rpm-find-leaves:17
 #, c-format
 msgid "   -g [group]     - restrict results to given group.\n"
-msgstr "   -g [group]     - 限制結果到給定的群組。\n"
+msgstr "   -g [group]     - 限制為指定群組內的結果。\n"
 
 #: ../rpm-find-leaves:18
 #, c-format
 msgid "                    defaults is %s.\n"
-msgstr "                    預設為 %s.\n"
+msgstr "                    預設為 %s。\n"
 
 #: ../urpm.pm:68
 #, c-format
 msgid "unknown protocol defined for %s"
-msgstr "未知的通訊協定項目用於 %s"
+msgstr "%s 中定義了未知的通訊協定"
 
 #: ../urpm.pm:101
 #, c-format
@@ -401,7 +401,7 @@ msgstr "無法找到 \"%s\" 的列表檔案，忽略這個媒體"
 #: ../urpm.pm:296
 #, c-format
 msgid "inconsistent list file for \"%s\", medium ignored"
-msgstr "\"%s\" 的列表檔案不同步，忽略這個媒體"
+msgstr "\"%s\" 的列表檔案自相矛盾，忽略這個媒體"
 
 #: ../urpm.pm:304
 #, c-format
@@ -654,7 +654,7 @@ msgid ""
 "virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
 "ignored"
 msgstr ""
-"虛擬媒體 \"%s\" 應該有個有效的來源 hdlist 或 synthesis，忽略這個媒體"
+"虛擬媒體 \"%s\" 應該有個有效的來源 hdlist 或 synthesis 檔案，忽略這個媒體"
 
 #: ../urpm.pm:1116
 #, c-format
@@ -719,12 +719,12 @@ msgstr "正在擷取 \"%s\" 的來源 hdlist (或 synthesis)..."
 #: ../urpm.pm:1488
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
-msgstr "發現探查到的 hdlist (或綜合) 為 %s"
+msgstr "發現尋找到的 hdlist (或 synthesis) 為 %s"
 
 #: ../urpm.pm:1537
 #, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr "正在計算來源 hdlist (或綜合) 的 md5sum"
+msgstr "正在計算來源 hdlist (或 synthesis) 的 md5sum"
 
 #: ../urpm.pm:1539
 #, c-format
@@ -734,52 +734,52 @@ msgstr "md5sum 不合"
 #: ../urpm.pm:1635
 #, c-format
 msgid "retrieval of source hdlist (or synthesis) failed"
-msgstr "擷取來源 hdlist (或綜合) 失敗"
+msgstr "擷取來源 hdlist (或 synthesis) 失敗"
 
 #: ../urpm.pm:1642
 #, c-format
 msgid "no hdlist file found for medium \"%s\""
-msgstr "無媒體 \"%s\" 的 hdlist 檔案被找到"
+msgstr "沒有找到媒體 \"%s\" 的 hdlist 檔案"
 
 #: ../urpm.pm:1653 ../urpm.pm:1707
 #, c-format
 msgid "file [%s] already used in the same medium \"%s\""
-msgstr "檔案 [%s] 已經被相同的 \"%s\" 媒體所使用了"
+msgstr "檔案 [%s] 已經在相同的媒體 \"%s\" 中使用了"
 
 #: ../urpm.pm:1693
 #, c-format
 msgid "unable to parse hdlist file of \"%s\""
-msgstr "無法從語法上分析 \"%s\" 的 hdlist 檔案"
+msgstr "無法解析 \"%s\" 的 hdlist 檔案"
 
 #: ../urpm.pm:1730
 #, c-format
 msgid "unable to write list file of \"%s\""
-msgstr "無法寫入 \"%s\" 的清單檔案"
+msgstr "無法寫入 \"%s\" 的列表檔"
 
 #: ../urpm.pm:1737
 #, c-format
 msgid "writing list file for medium \"%s\""
-msgstr "正在寫入 \"%s\" 的清單檔案"
+msgstr "正在寫入媒體 \"%s\" 的列表檔"
 
 #: ../urpm.pm:1739
 #, c-format
 msgid "nothing written in list file for \"%s\""
-msgstr "沒有資料寫入 \"%s\" 的清單檔案"
+msgstr "沒有寫入資料到 \"%s\" 的列表檔"
 
 #: ../urpm.pm:1754
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
-msgstr "檢驗 \"%s\" 的 pubkey 檔案..."
+msgstr "檢驗 \"%s\" 的公鑰..."
 
 #: ../urpm.pm:1761
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
-msgstr "...由 \"%s\" 的 pubkey 檔案匯入 key %s"
+msgstr "...由 \"%2$s\" 的公鑰檔案匯入鑰匙 %1$s"
 
 #: ../urpm.pm:1764
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
-msgstr "無法匯入 \"%s\" 的 pubkey 檔案"
+msgstr "無法匯入 \"%s\" 的公鑰"
 
 #: ../urpm.pm:1829
 #, c-format
@@ -796,22 +796,23 @@ msgstr "正在建立 hdlist [%s]"
 msgid ""
 "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
 "corrupted."
-msgstr "無法為媒介“%s”建立綜合檔頭清單 (synthesis)"
+msgstr ""
+"無法為媒介 \"%s\" 建立 synthesis 檔。您的 hdlist 檔可能並不標準。"
 
 #: ../urpm.pm:1852 ../urpm.pm:1887 ../urpmi:303
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
-msgstr "為媒體 \"%s\" 建立綜合檔案"
+msgstr "為媒體 \"%s\" 建立 hdlist synthesis 檔"
 
 #: ../urpm.pm:1908
 #, c-format
 msgid "found %d headers in cache"
-msgstr "在 cache 找到 %d 個標頭"
+msgstr "在快取中找到 %d 個標頭"
 
 #: ../urpm.pm:1912
 #, c-format
 msgid "removing %d obsolete headers in cache"
-msgstr "正在移除 %d 個在 cache 內廢棄的標頭"
+msgstr "正在移除 %d 個在快取內被廢棄的標頭"
 
 #: ../urpm.pm:1966
 #, c-format
@@ -831,7 +832,7 @@ msgstr "無效的 rpm 檔案名稱 [%s]"
 #: ../urpm.pm:2018
 #, c-format
 msgid "retrieving rpm file [%s] ..."
-msgstr "正在擷取 rpms 檔案 [%s] ..."
+msgstr "正在擷取 rpm 檔案 [%s] ..."
 
 #: ../urpm.pm:2025 ../urpm.pm:2886
 #, c-format
@@ -851,7 +852,7 @@ msgstr "註冊本地端套件錯誤"
 #: ../urpm.pm:2057
 #, c-format
 msgid "Search"
-msgstr "尋找"
+msgstr "搜尋"
 
 #: ../urpm.pm:2148
 #, c-format
@@ -861,17 +862,17 @@ msgstr "沒有套件命名為 %s"
 #: ../urpm.pm:2151 ../urpme:92
 #, c-format
 msgid "The following packages contain %s: %s"
-msgstr "以下套件包含 %s: %s"
+msgstr "以下套件包含 %s：%s"
 
 #: ../urpm.pm:2335 ../urpm.pm:2379 ../urpm.pm:2405
 #, c-format
 msgid "there are multiple packages with the same rpm filename \"%s\""
-msgstr "有多個套件有相同 rpm 檔案名稱 \"%s\""
+msgstr "有多個套件具有相同的 rpm 檔名 \"%s\""
 
 #: ../urpm.pm:2390
 #, c-format
 msgid "unable to correctly parse [%s] on value \"%s\""
-msgstr "無法正確從語法上分析 [%s] 於數值 \"%s\""
+msgstr "在值 \"%2$s\" 上無法正確解析 [%1$s]"
 
 #: ../urpm.pm:2417
 #, c-format
@@ -879,38 +880,38 @@ msgid ""
 "medium \"%s\" uses an invalid list file:\n"
 "  mirror is probably not up-to-date, trying to use alternate method"
 msgstr ""
-"媒體 \"%s\" 使用一個無效的清單檔案:\n"
-"  鏡設站可能不是最新狀態, 正在嘗試使用替代方法"
+"媒體 \"%s\" 使用一個無效的列表檔案：\n"
+"  映射站可能不在最新狀態，正在嘗試使用替代的方案"
 
 #: ../urpm.pm:2421
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
-msgstr "媒體 \"%s\" 沒有定義任何 rpm 檔案位置"
+msgstr "媒體 \"%s\" 沒有定義任何 rpm 檔案的位置"
 
 #: ../urpm.pm:2433
 #, c-format
 msgid "package %s is not found."
-msgstr "找不到套件 %s."
+msgstr "沒有找到套件 %s。"
 
 #: ../urpm.pm:2473 ../urpm.pm:2488 ../urpm.pm:2512 ../urpm.pm:2527
 #, c-format
 msgid "urpmi database locked"
-msgstr "urpmi 資料庫鎖住了"
+msgstr "urpmi 資料庫被鎖住了"
 
 #: ../urpm.pm:2579 ../urpm.pm:2582 ../urpm.pm:2612
 #, c-format
 msgid "medium \"%s\" is not selected"
-msgstr "未選擇媒體 \"%s\" "
+msgstr "媒體 \"%s\" 沒有被選取"
 
 #: ../urpm.pm:2608
 #, c-format
 msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "無法由媒體 \"%s\" 讀取 [%s] rpm 檔案"
+msgstr "無法由媒體 \"%2$s\" 讀取 [%1$s] rpm 檔"
 
 #: ../urpm.pm:2616
 #, c-format
 msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "前後不一致的媒體 \"%s\" 標示為可移除但是事實上卻不是這麼一回事"
+msgstr "自相矛盾的媒體 \"%s\" 標示為可移除但是事實上卻不是這麼一回事"
 
 #: ../urpm.pm:2628
 #, c-format
@@ -920,7 +921,7 @@ msgstr "無法存取媒體 \"%s\" "
 #: ../urpm.pm:2690
 #, c-format
 msgid "malformed input: [%s]"
-msgstr "不合格式的輸入:[%s]"
+msgstr "輸入格式錯誤：[%s]"
 
 #: ../urpm.pm:2697
 #, c-format
@@ -930,18 +931,18 @@ msgstr "正在由媒體 \"%s\" 擷取 rpm 檔案..."
 #: ../urpm.pm:2817
 #, c-format
 msgid "using process %d for executing transaction"
-msgstr "正在使用 %d 程序以執行交易"
+msgstr "正在使用第 %d 號程序執行交辦的安裝事項"
 
 #: ../urpm.pm:2848
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
-msgstr "建立交易給 %s 上的安裝 (移除=%d, 安裝=%d, 升級=%d)"
+msgstr "已建立在 %s 上的安裝事項 (移除 = %d，安裝 = %d，升級 = %d)"
 
 #: ../urpm.pm:2851
 #, c-format
 msgid "unable to create transaction"
-msgstr "無法建立處理"
+msgstr "無法建立安裝事項"
 
 #: ../urpm.pm:2858
 #, c-format
@@ -956,7 +957,7 @@ msgstr "無法移除套件 %s"
 #: ../urpm.pm:2870
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-msgstr "正在新增套件 %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr "正在新增套件 %s (id = %d，eid = %d，更新 = %d，檔案 = %s)"
 
 #: ../urpm.pm:2873
 #, c-format
@@ -966,22 +967,22 @@ msgstr "無法安裝套件 %s"
 #: ../urpm.pm:2933
 #, fuzzy, c-format
 msgid "More information on package %s"
-msgstr "更多該套件資訊..."
+msgstr "更多此套件的資訊..."
 
 #: ../urpm.pm:3090 ../urpm.pm:3123
 #, c-format
 msgid "due to missing %s"
-msgstr "由於 %s 遺失"
+msgstr "由於遺失了 %s"
 
 #: ../urpm.pm:3091 ../urpm.pm:3121
 #, c-format
 msgid "due to unsatisfied %s"
-msgstr "由於 %s 未被滿足"
+msgstr "由於未滿足 %s"
 
 #: ../urpm.pm:3092
 #, c-format
 msgid "trying to promote %s"
-msgstr "正在嘗試促進 %s"
+msgstr "正在試著促進 %s"
 
 #: ../urpm.pm:3093
 #, c-format
@@ -996,7 +997,7 @@ msgstr "為了要安裝 %s"
 #: ../urpm.pm:3128
 #, c-format
 msgid "due to conflicts with %s"
-msgstr "由於與 %s 的衝突"
+msgstr "由於與 %s 發生衝突"
 
 #: ../urpm.pm:3130
 #, c-format
@@ -1011,7 +1012,7 @@ msgstr "無效的簽名 (%s)"
 #: ../urpm.pm:3178
 #, c-format
 msgid "Invalid Key ID (%s)"
-msgstr "無效的 Key ID (%s)"
+msgstr "無效的公鑰 ID (%s)"
 
 #: ../urpm.pm:3180
 #, c-format
@@ -1026,25 +1027,25 @@ msgstr "正在檢驗 MD5SUM 檔案"
 #: ../urpm.pm:3238
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
-msgstr ""
+msgstr "警告：在 MD5SUM 檔案中找不到 %s 的 md5sum"
 
 #: ../urpm/args.pm:91 ../urpm/args.pm:98
 #, c-format
 msgid "bad proxy declaration on command line\n"
-msgstr "於命令列上有壞的 proxy 宣告\n"
+msgstr "命令列傳入的代理伺服器宣告錯誤\n"
 
 #: ../urpm/args.pm:230
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
-msgstr "urpmq: 無法讀取 rpm 檔案 \"%s\"\n"
+msgstr "urpmq：無法讀取 rpm 檔案 \"%s\"\n"
 
 #: ../urpm/msg.pm:63
 #, c-format
 msgid "Sorry, bad choice, try again\n"
-msgstr "對不起, 錯誤選擇, 再試一次\n"
+msgstr "抱歉，選擇錯誤，請再試一次\n"
 
 #: ../urpme:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpme version %s\n"
 "Copyright (C) 1999-2005 Mandrakesoft.\n"
@@ -1053,46 +1054,46 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"mdkupdate 版本 %s\n"
-"Copyright (C) %s Mandrakesoft.\n"
-"這是自由軟體且可於 GNU 條款下被重新發散 GPL.\n"
+"urpme 版本 %s\n"
+"Copyright (C) 1999-2005 Mandrakesoft。\n"
+"這是自由軟體並可於 GNU GPL 條款下重新散佈。\n"
 "\n"
-"使用方式:\n"
+"使用方式：\n"
 
 #: ../urpme:41 ../urpmf:32 ../urpmi:76 ../urpmi.addmedia:47
 #: ../urpmi.removemedia:45 ../urpmi.update:30 ../urpmq:43
 #, c-format
 msgid "  --help         - print this help message.\n"
-msgstr "  --help         - 顯示此說明訊息.\n"
+msgstr "  --help         - 顯示此說明訊息。\n"
 
 #: ../urpme:42 ../urpmi:83
 #, c-format
 msgid "  --auto         - automatically select a package in choices.\n"
-msgstr "  --auto         - 自動選擇一個上等套件.\n"
+msgstr "  --auto         - 自動選擇套件。\n"
 
 #: ../urpme:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
-msgstr "  --test         - 確認安裝是否能夠正確達成.\n"
+msgstr "  --test         - 確認刪除是否能夠正確進行。\n"
 
 #: ../urpme:44 ../urpmi:97 ../urpmq:64
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - 強制實施即使某些套件不存在.\n"
+msgstr "  --force        - 即使某些套件不存在仍然強制執行。\n"
 
 #: ../urpme:45 ../urpmi:102 ../urpmq:65
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
-msgstr "  --parallel     - 穿過別名機器分散式的 urpmi\n"
+msgstr "  --parallel     - 在同步管理的機器上分散式的執行 urpmi。\n"
 
 #: ../urpme:46
-#, fuzzy, c-format
+#, c-format
 msgid "  --root         - use another root for rpm removal.\n"
-msgstr "  --root         - 使用另一個 rpm 安裝的根.\n"
+msgstr "  --root         - 使用另一個根目錄移除 rpm 套件。\n"
 
 #: ../urpme:47
-#, c-format
+#,fuzzy , c-format
 msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
@@ -1104,17 +1105,17 @@ msgstr ""
 #: ../urpmi.update:48 ../urpmq:90
 #, c-format
 msgid "  -v             - verbose mode.\n"
-msgstr "  -v             - 完整資訊模式.\n"
+msgstr "  -v             - 完整訊息模式。\n"
 
 #: ../urpme:50
 #, c-format
 msgid "  -a             - select all packages matching expression.\n"
-msgstr "  -a             - 選擇所有符合描述的套件.\n"
+msgstr "  -a             - 選擇所有符合描述的套件。\n"
 
 #: ../urpme:66
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to remove packages"
-msgstr "只有 superuser 才允許安裝套件"
+msgstr "只有擁有管理者權限的使用者才能移除套件"
 
 #: ../urpme:87
 #, c-format
@@ -1139,13 +1140,14 @@ msgstr "沒有東西可移除"
 #: ../urpme:103
 #, c-format
 msgid "Checking to remove the following packages"
-msgstr "正在檢查以移除以下套件:"
+msgstr "正在檢查以移除下列套件"
 
 #: ../urpme:110
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages will be removed (%d MB)"
-msgstr "為了滿足相依性, 下列套件將會被移除 (%d MB)"
+msgstr ""
+"為了滿足相依性，下列 %d 個套件將被移除 (%d MB)"
 
 #: ../urpme:112 ../urpmi:423 ../urpmi:552
 #, c-format
@@ -1155,10 +1157,10 @@ msgstr " (y/N) (是/否) "
 #: ../urpme:119
 #, c-format
 msgid "Removing failed"
-msgstr "正在移除失敗"
+msgstr "移除失敗"
 
 #: ../urpmf:27
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2004 Mandrakesoft.\n"
@@ -1167,42 +1169,42 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"mdkupdate 版本 %s\n"
-"Copyright (C) %s Mandrakesoft.\n"
-"這是自由軟體且可於 GNU 條款下被重新發散 GPL.\n"
+"urpmf 版本 %s\n"
+"Copyright (C) 2002-2004 Mandrakesoft。\n"
+"這是自由軟體並可於 GNU GPL 條款下重新散佈。\n"
 "\n"
-"使用方式:\n"
+"使用方式：\n"
 
 #: ../urpmf:33 ../urpmi:77 ../urpmq:44
 #, c-format
 msgid "  --update       - use only update media.\n"
-msgstr "  --update       - 只使用更新的媒體.\n"
+msgstr "  --update       - 只使用更新媒體。\n"
 
 #: ../urpmf:34 ../urpmi:78 ../urpmq:45
 #, c-format
 msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - 只使用給定的媒體, 以逗號分開.\n"
+msgstr "  --media        - 只使用給定的媒體，不同媒體間請以逗號分隔。\n"
 
 #: ../urpmf:35 ../urpmi:80 ../urpmq:47
 #, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
-msgstr "  --excludemedia - 不使用給定的媒體, 以逗號分開.\n"
+msgstr "  --excludemedia - 不使用給定的媒體，不同媒體間請以逗號分隔。\n"
 
 #: ../urpmf:36 ../urpmi:81 ../urpmq:48
 #, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr "  --sortmedia    - 依據子字串排序媒體, 以逗號分開.\n"
+msgstr "  --sortmedia    - 依據子字串排序媒體，以逗號分開。\n"
 
 #: ../urpmf:37 ../urpmq:49
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr "  --synthesis    - 使用給定的綜合檔案, 而不是 urpmi db.\n"
+msgstr "  --synthesis    - 使用給定的 synthesis 檔，而非 urpmi 資料庫。\n"
 
 #: ../urpmf:38
 #, c-format
 msgid "  --verbose      - verbose mode.\n"
-msgstr "  --verbose      - 完整資訊模式.\n"
+msgstr "  --verbose      - 完整訊息模式。\n"
 
 #: ../urpmf:39
 #, c-format
@@ -1211,142 +1213,143 @@ msgid ""
 "command\n"
 "                   line, incompatible with interactive mode).\n"
 msgstr ""
-"  --quiet        - 不顯示標籤名稱 (預設若無標籤給定於 命\n"
-"                   令列, 不相容於互動式模式).\n"
+"  --quiet        - 不顯示標籤名稱 (除非在命令列給定參數，否則此為預\n"
+"                   設值；此外本模式並不相容於互動模式)。\n"
 
 #: ../urpmf:41
 #, c-format
 msgid "  --uniq         - do not print identical lines.\n"
-msgstr "  --uniq          - 不顯示同一的行.\n"
+msgstr "  --uniq          - 不顯示相同的訊息。\n"
 
 #: ../urpmf:42
 #, c-format
 msgid "  --all          - print all tags.\n"
-msgstr "  --all          - 列印全部標籤.\n"
+msgstr "  --all          - 顯示全部的標籤。\n"
 
 #: ../urpmf:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --name         - print only package names.\n"
-msgstr "  --all          - 列印全部標籤.\n"
+msgstr "  --name          - 只顯示套件名稱。\n"
 
 #: ../urpmf:44
 #, c-format
 msgid "  --group        - print tag group: group.\n"
-msgstr "  --group        - 顯示標籤群組: 群組.\n"
+msgstr "  --group        - 顯示群組標籤：群組。\n"
 
 #: ../urpmf:45
 #, c-format
 msgid "  --size         - print tag size: size.\n"
-msgstr "  --size          - 顯示標籤大小: 大小.\n"
+msgstr "  --size          - 顯示大小標籤：大小。\n"
 
 #: ../urpmf:46
 #, c-format
 msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr "  --epoch          - 顯示標籤時代: 時代.\n"
+msgstr "  --epoch          - 顯示時期標籤：時期。\n"
 
 #: ../urpmf:47
 #, c-format
 msgid "  --summary      - print tag summary: summary.\n"
-msgstr "  --summary       - 列印標籤摘要: 摘要.\n"
+msgstr "  --summary       - 列印摘要標籤：摘要。\n"
 
 #: ../urpmf:48
 #, c-format
 msgid "  --description  - print tag description: description.\n"
-msgstr "  --description   - 顯示標籤描述: 描述.\n"
+msgstr "  --description   - 顯示描述標籤：描述。\n"
 
 #: ../urpmf:49
 #, c-format
 msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr "  --sourcerpm    - 顯示標籤 sourcerpm: source rpm.\n"
+msgstr "  --sourcerpm    - 顯示原始碼套件標籤：原始碼套件。\n"
 
 #: ../urpmf:50
 #, c-format
 msgid "  --packager     - print tag packager: packager.\n"
-msgstr "  --packager     - 顯示標籤包裝者: 裝者.\n"
+msgstr "  --packager     - 顯示打包者標籤：打包者。\n"
 
 #: ../urpmf:51
 #, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --buildhost    - 顯示標籤 buildhost: build host.\n"
+msgstr "  --buildhost    - 顯示建立主機標籤：建立主機。\n"
 
 #: ../urpmf:52
 #, c-format
 msgid "  --url          - print tag url: url.\n"
-msgstr "  --url          - 顯示標籤 url: url.\n"
+msgstr "  --url          - 顯示 URL 標籤：URL。\n"
 
 #: ../urpmf:53
 #, c-format
 msgid "  --provides     - print tag provides: all provides.\n"
-msgstr "  --provides     - 顯示標籤提供: 全部提供.\n"
+msgstr "  --provides     - 顯示提供標籤：提供。\n"
 
 #: ../urpmf:54
 #, c-format
 msgid "  --requires     - print tag requires: all requires.\n"
-msgstr "  --requires     - 顯示標籤需要: 全部需要.\n"
+msgstr "  --requires     - 顯示需要標籤：需要。\n"
 
 #: ../urpmf:55
 #, c-format
 msgid "  --files        - print tag files: all files.\n"
-msgstr "  --files        - 顯示標籤檔案: 全部檔案.\n"
+msgstr "  --files        - 顯示檔案標籤：檔案。\n"
 
 #: ../urpmf:56
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr "  --conflicts     - 顯示標籤衝突: 衝突.\n"
+msgstr "  --conflicts     - 顯示衝突標籤：衝突。\n"
 
 #: ../urpmf:57
 #, c-format
 msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-msgstr "  --obsoletes     - 顯示標籤過時: 全部過時.\n"
+msgstr "  --obsoletes     - 顯示廢棄標籤：廢棄。\n"
 
 #: ../urpmf:58 ../urpmi:117 ../urpmq:74
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
-msgstr "  --env          - 使用特定環境 (一般用於臭蟲回報).\n"
+msgstr ""
+"  --env          - 使用特定環境 (一般用於臭蟲回報)。\n"
 
 #: ../urpmf:60
 #, c-format
 msgid "  -i             - ignore case distinctions in every pattern.\n"
-msgstr "  -i             - 於每一個樣式中忽略大小寫分別.\n"
+msgstr "  -i             - 忽略每個樣版中的大小寫差異。\n"
 
 #: ../urpmf:61 ../urpmq:80
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr "  -f             - 顯示版本, 發行與 arch 名稱.\n"
+msgstr "  -f             - 顯示版本、發行編號與平台。\n"
 
 #: ../urpmf:62
 #, c-format
 msgid "  -e             - include perl code directly as perl -e.\n"
-msgstr "  -e             - 直接包含 perl 碼類似 perl -e.\n"
+msgstr "  -e             - 直接包含 perl 原始碼，類似 perl -e。\n"
 
 #: ../urpmf:63
 #, c-format
 msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
-msgstr "  -a             - 二元 AND 運算子, 真值若兩者皆真.\n"
+msgstr "  -a             - 二元 AND 運算子，若兩表示式皆真則其值為真。\n"
 
 #: ../urpmf:64
 #, c-format
 msgid ""
 "  -o             - binary OR operator, true if one expression is true.\n"
-msgstr "  -o             - 二元 OR 運算子, 真值若一者為真.\n"
+msgstr "  -o             - 二元 OR 運算子，若表示式之一為真則其值為真。\n"
 
 #: ../urpmf:65
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr "  !             - 一元 NOT, 真值若描述句為假.\n"
+msgstr "  !             - 一元 NOT 運算子，若表示式假則其值為真。\n"
 
 #: ../urpmf:66
 #, c-format
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr "  (              - 左括弧以開啟群組描述句.\n"
+msgstr "  (              - 左括弧用來表示一組表示式的開始。\n"
 
 #: ../urpmf:67
 #, c-format
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr "  )              - 右括弧以關閉群組描述句.\n"
+msgstr "  )              - 右括弧用來表示一組表示式的結束。\n"
 
 #: ../urpmf:119
 #, c-format
@@ -1354,13 +1357,13 @@ msgid ""
 "callback is :\n"
 "%s\n"
 msgstr ""
-"收回回饋是 :\n"
+"回傳值：\n"
 "%s\n"
 
 #: ../urpmf:124 ../urpmi:198 ../urpmq:114
 #, c-format
 msgid "using specific environment on %s\n"
-msgstr "正在使用特定的環境於 %s\n"
+msgstr "正在 %s 上使用特定的環境\n"
 
 #: ../urpmf:156
 #, c-format
@@ -1368,14 +1371,15 @@ msgid ""
 "Note: since no media searched uses hdlists, urpmf was unable to return any "
 "result\n"
 msgstr ""
+"注意：因為所有搜尋過的媒體都沒有使用 hdlists，所以 urpmf 無法回傳任何結果\n"
 
 #: ../urpmf:157
 #, c-format
 msgid "You may want to use --name to search for package names.\n"
-msgstr ""
+msgstr "您或許想要使用 --name 參數來搜尋套件名稱。\n"
 
 #: ../urpmi:71
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999-2005 Mandrakesoft.\n"
@@ -1384,18 +1388,19 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"mdkupdate 版本 %s\n"
-"Copyright (C) %s Mandrakesoft.\n"
-"這是自由軟體且可於 GNU 條款下被重新發散 GPL.\n"
+"urpmi 版本 %s\n"
+"Copyright (C) 1999-2005 Mandrakesoft。\n"
+"這是自由軟體並可於 GNU GPL 條款下重新散佈。\n"
 "\n"
-"使用方式:\n"
+"使用方式：\n"
 
 #: ../urpmi:79 ../urpmq:46
 #, fuzzy, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested (or updated) "
 "packages.\n"
-msgstr "  --media        - 只使用給定的媒體, 以逗號分開.\n"
+msgstr ""
+"  --searchmedia        - 只使用給定的媒體, 以逗號分開.\n"
 
 #: ../urpmi:82
 #, c-format
@@ -1663,7 +1668,7 @@ msgstr ""
 #: ../urpmi:348
 #, c-format
 msgid "What is your choice? (1-%d) "
-msgstr "何者是您的選擇? (1-%d) "
+msgstr "您要選擇何者？ (1-%d) "
 
 #: ../urpmi:373
 #, c-format
@@ -1672,13 +1677,17 @@ msgid ""
 "that are older than the installed ones:\n"
 "%s"
 msgstr ""
+"下列套件無法安裝，因為他們需要比下列安裝在您系統上的套件舊的版本：\n"
+"%s"
 
 #: ../urpmi:381 ../urpmi:399
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Continue?"
-msgstr "繼續"
+msgstr ""
+"\n"
+"要繼續嗎？"
 
 #: ../urpmi:392
 #, c-format
@@ -1686,7 +1695,7 @@ msgid ""
 "Some package requested cannot be installed:\n"
 "%s"
 msgstr ""
-"某些要求的套件不能被安裝:\n"
+"某些要求的套件無法安裝：\n"
 "%s"
 
 #: ../urpmi:412
@@ -2075,7 +2084,7 @@ msgid ""
 msgstr ""
 "mdkupdate 版本 %s\n"
 "Copyright (C) %s Mandrakesoft.\n"
-"這是自由軟體且可於 GNU 條款下被重新發散 GPL.\n"
+"這是自由軟體並可於 GNU GPL 條款下重新散佈。\n"
 "\n"
 "使用方式:\n"
 
