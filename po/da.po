@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-06 15:42+0100\n"
-"PO-Revision-Date: 2005-01-05 22:29+0100\n"
+"PO-Revision-Date: 2005-01-08 03:02+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <<dansk@klid.dk>>\n"
 "MIME-Version: 1.0\n"
@@ -82,34 +82,32 @@ msgid "%s: command not found\n"
 msgstr "%s: kommando ikke fundet\n"
 
 #: ../gurpmi:99
-#, fuzzy, c-format
+#, c-format
 msgid "Please wait..."
-msgstr "Vent venligst."
+msgstr "Vent venligst..."
 
 #: ../gurpmi:110
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option %s"
-msgstr ""
-"\n"
-"ukendte valg '%s'\n"
+msgstr "ukendt valg '%s"
 
 #: ../gurpmi:114
-#, fuzzy, c-format
+#, c-format
 msgid "No packages specified"
-msgstr "Ingen kommando angivet"
+msgstr "Ingen pakker angivet"
 
 #: ../gurpmi:118
-#, fuzzy, c-format
+#, c-format
 msgid "Must be root"
-msgstr "Muse-port"
+msgstr "Skal være root"
 
 #: ../gurpmi:128
-#, fuzzy, c-format
+#, c-format
 msgid "RPM installation"
-msgstr "System-installering"
+msgstr "RPM-installering"
 
 #: ../gurpmi:141
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have selected a source package:\n"
 "\n"
@@ -146,7 +144,7 @@ msgstr ""
 "Du vil måske foretrække blot at gemme den. Hvad er dit valg?"
 
 #: ../gurpmi:154
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are about to install the following software packages on your computer:\n"
 "\n"
@@ -154,21 +152,21 @@ msgid ""
 "\n"
 "Proceed?"
 msgstr ""
-"Du er ved at installere den følgende programmelpakke på din maskine:\n"
+"Du er ved at installere den følgende programpakke på din maskine:\n"
 "\n"
 "%s\n"
 "\n"
-"Du vil måske foretrække blot at gemme den. Hvad er dit valg?"
+"Fortsæt?"
 
 #: ../gurpmi:164
-#, fuzzy, c-format
+#, c-format
 msgid "_Install"
-msgstr "Installér"
+msgstr "_Installér"
 
 #: ../gurpmi:165
-#, fuzzy, c-format
+#, c-format
 msgid "_Save"
-msgstr "Gem"
+msgstr "_Gem"
 
 #: ../gurpmi:166 ../gurpmi:229
 #, c-format
@@ -181,14 +179,14 @@ msgid "Choose location to save file"
 msgstr "Vælg sted at gemme filen"
 
 #: ../gurpmi:220
-#, fuzzy, c-format
+#, c-format
 msgid " (to upgrade)"
-msgstr "Opgradér"
+msgstr " (skal opgraderes)"
 
 #: ../gurpmi:221
-#, fuzzy, c-format
+#, c-format
 msgid " (to install)"
-msgstr "Afslut installation"
+msgstr " (skal installeres)"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -201,39 +199,42 @@ msgid "_Ok"
 msgstr "_O.k."
 
 #: ../gurpmi:247
-#, fuzzy, c-format
+#, c-format
 msgid "_Abort"
-msgstr "Afbryd"
+msgstr "_Afbryd"
 
 #: ../gurpmi:276
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
 "%s\n"
 "Continue?"
 msgstr ""
 "Nogen forespurgte pakker kan ikke installeres:\n"
-"%s"
+"%s\n"
+"Fortsæt?"
 
 #: ../gurpmi:287
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
 "Continue?"
 msgstr ""
 "De følgende pakker skal fjernes for at andre kan opgraderes:\n"
-"%s"
+"%s\n"
+"Fortsæt?"
 
 #: ../gurpmi:300
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be "
 "installed:\n"
 "%s\n"
 msgstr ""
 "For at tilfredsstille afhængigheder vil de følgende %d pakker blive "
-"installeret (%d MB)"
+"installeret:\n"
+"%s\n"
 
 #: ../gurpmi:307
 #, c-format
@@ -256,15 +257,14 @@ msgid "Downloading package `%s'..."
 msgstr "Henter pakke %s..."
 
 #: ../gurpmi:365
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have bad signatures:\n"
 "%s\n"
 "\n"
 "Do you want to continue installation ?"
 msgstr ""
-"Følgende pakker har dårlige underskrifter:\n"
-"\n"
+"De følgende pakker har dårlige underskrifter:\n"
 "%s\n"
 "\n"
 "Ønsker du at fortsætte installeringen?"
@@ -301,9 +301,9 @@ msgid "Installation failed"
 msgstr "Installationen fejlede"
 
 #: ../gurpmi:416
-#, fuzzy, c-format
+#, c-format
 msgid "_Done"
-msgstr "Færdig"
+msgstr "_Færdig"
 
 #: ../gurpmi:424 ../urpmi:688
 #, c-format
@@ -944,8 +944,7 @@ msgstr "bruger proces %d for at udføre transaktion"
 
 #: ../urpm.pm:2820
 #, c-format
-msgid ""
-"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgid "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
 "oprettede transaktion for installering på %s (fjern=%d, installér=%d, "
 "opgradér=%d)"
@@ -1084,16 +1083,13 @@ msgstr "  --auto         - vælg automatisk en pakke ved valg.\n"
 
 #: ../urpme:43 ../urpmi:121
 #, c-format
-msgid ""
-"  --test         - verify if the installation can be achieved correctly.\n"
+msgid "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - afprøv om installationen kan udføres korrekt.\n"
 
 #: ../urpme:44 ../urpmi:97 ../urpmq:64
 #, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - gennemfør kald selv om nogen pakker ikke eksisterer.\n"
+msgid "  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - gennemfør kald selv om nogen pakker ikke eksisterer.\n"
 
 #: ../urpme:45 ../urpmi:102 ../urpmq:65
 #, c-format
@@ -1152,8 +1148,7 @@ msgstr "Tjekker for at fjerne de følgende pakker"
 
 #: ../urpme:106
 #, c-format
-msgid ""
-"To satisfy dependencies, the following %d packages will be removed (%d MB)"
+msgid "To satisfy dependencies, the following %d packages will be removed (%d MB)"
 msgstr ""
 "For at tilfredsstille afhængigheder vil de følgende %d pakker blive fjernet "
 "(%d MB)"
@@ -1201,10 +1196,8 @@ msgstr "  --excludemedia - brug ikke de opgivne medier, adskilt med komma.\n"
 
 #: ../urpmf:36 ../urpmi:81 ../urpmq:48
 #, c-format
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr ""
-"  --sortmedia    - sortér medier ifølge delstrenge, adskilt med komma.\n"
+msgid "  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --sortmedia    - sortér medier ifølge delstrenge, adskilt med komma.\n"
 
 #: ../urpmf:37 ../urpmq:49
 #, c-format
@@ -1338,17 +1331,13 @@ msgstr "  -e             - inkludér perl-kode direkte som perl -e.\n"
 
 #: ../urpmf:63
 #, c-format
-msgid ""
-"  -a             - binary AND operator, true if both expression are true.\n"
-msgstr ""
-"  -a             - binær OG-operator, sand hvis begge udtryk er sande.\n"
+msgid "  -a             - binary AND operator, true if both expression are true.\n"
+msgstr "  -a             - binær OG-operator, sand hvis begge udtryk er sande.\n"
 
 #: ../urpmf:64
 #, c-format
-msgid ""
-"  -o             - binary OR operator, true if one expression is true.\n"
-msgstr ""
-"  -o             - binær ELLER-operator, sand hvis et udtryk er sandt.\n"
+msgid "  -o             - binary OR operator, true if one expression is true.\n"
+msgstr "  -o             - binær ELLER-operator, sand hvis et udtryk er sandt.\n"
 
 #: ../urpmf:65
 #, c-format
@@ -1425,10 +1414,8 @@ msgstr "  --synthesis    - brug synthesis angivet i stedet for urpmi-db.\n"
 
 #: ../urpmi:84 ../urpmq:50
 #, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - vælg automatisk pakker for opgradering af systemet.\n"
+msgid "  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - vælg automatisk pakker for opgradering af systemet.\n"
 
 #: ../urpmi:85
 #, c-format
@@ -1605,8 +1592,7 @@ msgstr ""
 #: ../urpmi:127 ../urpmi.addmedia:75 ../urpmi.update:41
 #, c-format
 msgid "  --norebuild    - don't try to rebuild hdlist if not readable.\n"
-msgstr ""
-"  --norebuild    - prøv ikke at genbygge hdlist hvis den ikke er læsbar.\n"
+msgstr "  --norebuild    - prøv ikke at genbygge hdlist hvis den ikke er læsbar.\n"
 
 #: ../urpmi:128
 #, c-format
@@ -1647,8 +1633,7 @@ msgstr "  -q             - stille udgave.\n"
 #: ../urpmi:136
 #, c-format
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr ""
-"  navne eller rpm-filer givne på kommandolinjen vil blive installeret.\n"
+msgstr "  navne eller rpm-filer givne på kommandolinjen vil blive installeret.\n"
 
 #: ../urpmi:181
 #, c-format
@@ -1857,8 +1842,7 @@ msgstr "  --update       - opret et opdateringsmedium.\n"
 #: ../urpmi.addmedia:56
 #, c-format
 msgid "  --probe-synthesis - try to find and use synthesis file.\n"
-msgstr ""
-"  --probe-synthesis forsøg at finde og bruge syntese- eller hdlist-fil.\n"
+msgstr "  --probe-synthesis forsøg at finde og bruge syntese- eller hdlist-fil.\n"
 
 #: ../urpmi.addmedia:57
 #, c-format
@@ -1870,16 +1854,14 @@ msgstr "  --probe-hdlists - forsøg at finde og bruge hdlist-fil.\n"
 msgid ""
 "  --no-probe     - do not try to find any synthesis or\n"
 "                   hdlist file.\n"
-msgstr ""
-"  --no-probe     - forsøg ikke at finde og bruge syntese- eller hdlist-fil.\n"
+msgstr "  --no-probe     - forsøg ikke at finde og bruge syntese- eller hdlist-fil.\n"
 
 #: ../urpmi.addmedia:60
 #, c-format
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
-msgstr ""
-"  --distrib      - opret automatisk alle media fra et installationsmedium.\n"
+msgstr "  --distrib      - opret automatisk alle media fra et installationsmedium.\n"
 
 #: ../urpmi.addmedia:62
 #, c-format
@@ -2111,7 +2093,7 @@ msgid "enabling media %s"
 msgstr "aktiverer medie %s"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2005 Mandrakesoft.\n"
@@ -2120,8 +2102,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf version %s\n"
-"Ophavsret © 2002-2004 Mandrakesoft.\n"
+"urpmq version %s\n"
+"Ophavsret © 2000-2005 Mandrakesoft.\n"
 "Dette er frit programmel og kan redistribueres under vilkårene for GNU GPL.\n"
 "\n"
 "brug:\n"
@@ -2153,8 +2135,7 @@ msgstr "  --list-aliases - list tilgængelige parallelle aliaser.\n"
 
 #: ../urpmq:59
 #, c-format
-msgid ""
-"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+msgid "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr ""
 "  --dump-config  - udskriv konfigurationen i form af urpmi.addmedia "
 "argumenter.\n"
@@ -2170,8 +2151,7 @@ msgstr ""
 
 #: ../urpmq:63
 #, c-format
-msgid ""
-"  --sources      - give all source packages before downloading (root only).\n"
+msgid "  --sources      - give all source packages before downloading (root only).\n"
 msgstr "  --sources      - giv alle kildepakker før hentning (kun root).\n"
 
 #: ../urpmq:66
@@ -2215,10 +2195,8 @@ msgstr "  -l..          - udskriv filer i pakken.\n"
 
 #: ../urpmq:84
 #, c-format
-msgid ""
-"  -P             - do not search in provides to find package (default).\n"
-msgstr ""
-"  -P             - søg ikke i 'provides' for at finde pakke (standard).\n"
+msgid "  -P             - do not search in provides to find package (default).\n"
+msgstr "  -P             - søg ikke i 'provides' for at finde pakke (standard).\n"
 
 #: ../urpmq:85
 #, c-format
@@ -2275,3 +2253,4 @@ msgstr "Ingen filliste fundet\n"
 #, c-format
 msgid "No changelog found\n"
 msgstr "Ingen ændringslog fundet\n"
+
