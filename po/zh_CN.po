@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "POT-Creation-Date: 2002-11-29 14:16+0100\n"
-"PO-Revision-Date: 2002-11-28 23:29+0800\n"
+"PO-Revision-Date: 2002-11-30 00:26+0800\n"
 "Last-Translator: Mandrake Simplified Chinese <mandrake@en2china.com>\n"
 "Language-Team: Mandrake Simplified Chinese <mandrake@en2china.com>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +29,7 @@ msgid ""
 "You requested installation of package %s\n"
 msgstr ""
 "自动安装软件包...\n"
-"你要求安装软件包 %s\n"
+"您要求安装软件包 %s\n"
 
 #: ../_irpm_.c:33 ../urpme_.c:32 ../urpmi_.c:427
 msgid "Is this OK?"
@@ -235,7 +235,7 @@ msgid "found parallel handler for nodes: %s"
 msgstr "发现下列节点的并行处理: %s"
 
 #: ../urpm.pm_.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "将相关的介质用于并行处理: %s"
 
@@ -304,17 +304,17 @@ msgstr "无法访问最初的安装介质 (没有找到 Mandrake/base/hdlists) "
 
 #: ../urpm.pm_.c:736
 msgid "retrieving hdlists file..."
-msgstr "取出 hdlists 文件..."
+msgstr "正在获取 hdlists 文件..."
 
 #: ../urpm.pm_.c:738 ../urpm.pm_.c:1058 ../urpm.pm_.c:1111 ../urpm.pm_.c:1598
 #: ../urpm.pm_.c:2058
 msgid "...retrieving done"
-msgstr "...收取完成"
+msgstr "...获取完成"
 
 #: ../urpm.pm_.c:740 ../urpm.pm_.c:1106 ../urpm.pm_.c:1601 ../urpm.pm_.c:2061
 #, c-format
 msgid "...retrieving failed: %s"
-msgstr "...收取失败: %s"
+msgstr "...获取失败: %s"
 
 #: ../urpm.pm_.c:760
 #, c-format
@@ -358,7 +358,7 @@ msgstr "复制“%s”的描述文件"
 #: ../urpm.pm_.c:953
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
-msgstr "复制源“%s”的 hdlist 或 synthesis..."
+msgstr "复制源“%s”的 hdlist 或综合文件..."
 
 #: ../urpm.pm_.c:958
 #, c-format
@@ -487,9 +487,9 @@ msgid "invalid rpm file name [%s]"
 msgstr "非法rpm文件 [%s]"
 
 #: ../urpm.pm_.c:1596
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm file [%s] ..."
-msgstr "正在从介质“%s”收取 rpm 文件..."
+msgstr "正在获取 rpm 文件[%s]..."
 
 #: ../urpm.pm_.c:1603 ../urpm.pm_.c:2171
 #, c-format
@@ -557,7 +557,7 @@ msgstr "输入格式错误: [%s]"
 #: ../urpm.pm_.c:2053
 #, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "正在从介质“%s”收取 rpm 文件..."
+msgstr "正在从介质“%s”获取 rpm 文件..."
 
 #: ../urpm.pm_.c:2111
 msgid "Preparing..."
@@ -612,7 +612,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpme 版本 %s\n"
-"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"版权 (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
 "这是自由软件, 可以依照 GNU GPL 重新发布。\n"
 "\n"
 "用法:\n"
@@ -718,11 +718,10 @@ msgid "  --update       - create an update medium.\n"
 msgstr "  --update       - 创建一个更新介质。\n"
 
 #: ../urpmi.addmedia_.c:51
-#, fuzzy
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
-msgstr " --distrib      - 自动从安装介质创建全部介质。\n"
+msgstr "  --distrib      - 自动从安装介质创建全部介质。\n"
 
 #: ../urpmi.addmedia_.c:53
 msgid ""
@@ -730,36 +729,40 @@ msgid ""
 "                   distribution, XXX may be main, contrib, updates or\n"
 "                   anything else that has been configured ;-)\n"
 msgstr ""
+"  --distrib-XXX  - 自动为发行版的某一部分创建介质, 这些部分可能包括\n"
+"                   主要、贡献、更新或任何其它的配置。 ;-)\n"
 
 #: ../urpmi.addmedia_.c:56
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --from         - use specified url for list of mirrors, the default is\n"
 "                   %s\n"
-msgstr "  --env          - 使用指定的环境 (特别是进行故障报告时)。\n"
+msgstr "  --from         - 使用指定的 URL 列出镜像, 默认为 %s。\n"
 
 #: ../urpmi.addmedia_.c:58
 msgid ""
 "  --version      - use specified version, the default is version of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --version      - 使用指定版本, 默认版本是所安装的 mandrake 发行包。\n"
 
 #: ../urpmi.addmedia_.c:60
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --arch         - 使用指定的架构, 默认是所安装的 mandrake 发行包架\n"
+"                   构。\n"
 
 #: ../urpmi.addmedia_.c:62 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:70
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - 直接清除软件包头缓存。\n"
 
 #: ../urpmi.addmedia_.c:63
-#, fuzzy
 msgid ""
 "  -h             - try to find and use synthesis or hdlist\n"
 "                   file.\n"
-msgstr "  -h             - 使用综合文件或 hdlist 文件。\n"
+msgstr "  -h             - 试图查找并使用综合文件或 hdlist 文件。\n"
 
 #: ../urpmi.addmedia_.c:65 ../urpmi.update_.c:72
 msgid "  -f             - force generation of hdlist files.\n"
@@ -767,7 +770,7 @@ msgstr "  -f             - 强迫生成 hdlist 文件。\n"
 
 #: ../urpmi.addmedia_.c:130
 msgid "cannot add updates of a cooker distribution\n"
-msgstr ""
+msgstr "无法添加 cooker 发行版的更新\n"
 
 #: ../urpmi.addmedia_.c:159
 #, c-format
@@ -849,9 +852,8 @@ msgstr ""
 "其中 <名称> 是要删除的介质名.\n"
 
 #: ../urpmi.update_.c:68
-#, fuzzy
 msgid "  --update       - update only update media.\n"
-msgstr "  --update       - 只使用升级介质。\n"
+msgstr "  --update       - 只使用更新介质。\n"
 
 #: ../urpmi.update_.c:69
 msgid "  -a             - select all non-removable media.\n"
@@ -873,7 +875,7 @@ msgid ""
 "(one of %s)\n"
 msgstr ""
 "找不到要升级的项\n"
-"(%s中之一)\n"
+"(%s 中之一)\n"
 
 #: ../urpmi_.c:69
 #, c-format
@@ -886,7 +888,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmi 版本 %s\n"
-"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"版权 (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
 "这是自由软件, 可以依照 GNU GPL 重新发布。\n"
 "\n"
 "用法:\n"
@@ -955,7 +957,7 @@ msgid ""
 "                   next arg.\n"
 msgstr ""
 "  --bug          - 输出故障报告\n"
-"\t\t\t下一个参数指定输出目录。\n"
+"                   下一个参数指定输出目录。\n"
 
 #: ../urpmi_.c:98
 msgid ""
@@ -1127,7 +1129,7 @@ msgstr ""
 #: ../urpmi_.c:502
 #, c-format
 msgid "distributing %s\n"
-msgstr "正在分布安装 %s\n"
+msgstr "正在分发 %s\n"
 
 #: ../urpmi_.c:539
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1156,7 +1158,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq 版本 %s\n"
-"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"版权 (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
 "这是自由软件, 可以依照 GNU GPL 重新发布。\n"
 "\n"
 "用法:\n"
@@ -1236,7 +1238,7 @@ msgstr "urpmf 版本 %s"
 
 #: placeholder.h:19
 msgid "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft."
-msgstr "Copyright (C) 1999,2000,2001,2002 MandrakeSoft."
+msgstr "版权 (C) 1999, 2000, 2001, 2002 MandrakeSoft."
 
 #: placeholder.h:20
 msgid ""
@@ -1259,7 +1261,7 @@ msgstr "                    缺省设置就是不打印, 与交互模式不兼容)。"
 
 #: placeholder.h:24
 msgid "  --all           - print all tags."
-msgstr "  --all           -打印全部标签。"
+msgstr "  --all           - 打印全部标签。"
 
 #: placeholder.h:25
 msgid ""
@@ -1323,6 +1325,3 @@ msgstr "尝试 urpmf --help 了解更多选项"
 #: placeholder.h:40
 msgid "no full media list was found"
 msgstr "没有找到完整的介质清单"
-
-#~ msgid "nothing to write in list file for \"%s\""
-#~ msgstr "“%s”没有需要写入列表文件"
