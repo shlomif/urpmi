@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-11 23:08+0200\n"
-"PO-Revision-Date: 2004-04-27 12:08+0800\n"
+"PO-Revision-Date: 2004-08-15 05:39+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: Mandrake Simplified Chinese <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -200,9 +200,9 @@ msgid "unable to write config file [%s]"
 msgstr "无法写入配置文件[%s]"
 
 #: ../urpm.pm:370
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write file [%s]"
-msgstr "无法写入配置文件[%s]"
+msgstr "无法写入文件[%s]"
 
 #: ../urpm.pm:377
 #, c-format
@@ -375,19 +375,19 @@ msgid "removing medium \"%s\""
 msgstr "删除介质“%s”"
 
 #: ../urpm.pm:848
-#, fuzzy, c-format
+#, c-format
 msgid "reconfiguring urpmi for media \"%s\""
-msgstr "正在从介质“%s”上获取 rpm 文件..."
+msgstr "正在从介质“%s”重新配置 urpmi"
 
 #: ../urpm.pm:874
-#, fuzzy, c-format
+#, c-format
 msgid "...reconfiguration failed"
-msgstr "...复制失败"
+msgstr "...重新配置失败"
 
 #: ../urpm.pm:881
 #, c-format
 msgid "reconfiguration done"
-msgstr ""
+msgstr "重新配置完成"
 
 #: ../urpm.pm:1008
 #, c-format
@@ -717,9 +717,9 @@ msgid "unable to install package %s"
 msgstr "无法安装软件包 %s"
 
 #: ../urpm.pm:2880
-#, fuzzy, c-format
+#, c-format
 msgid "More information on package %s"
-msgstr "无法删除软件包 %s"
+msgstr "关于软件包 %s 的更多信息"
 
 #: ../urpm.pm:3038 ../urpm.pm:3071
 #, c-format
@@ -787,7 +787,7 @@ msgid "Sorry, bad choice, try again\n"
 msgstr "对不起，选择无效，请再试一次\n"
 
 #: ../urpme:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpme version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -797,7 +797,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmf 版本 %s\n"
-"版权 (C) 2002 Mandrakesoft.\n"
+"版权 (C) 1999-2004 Mandrakesoft。\n"
 "这是自由软件，可以依照 GNU GPL 重新发布。\n"
 "\n"
 "用法:\n"
@@ -901,7 +901,7 @@ msgid "Removing failed"
 msgstr "删除失败"
 
 #: ../urpmf:27
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2004 Mandrakesoft.\n"
@@ -911,7 +911,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmf 版本 %s\n"
-"版权 (C) 2002 Mandrakesoft.\n"
+"版权 (C) 2002-2004 Mandrakesoft。\n"
 "这是自由软件，可以依照 GNU GPL 重新发布。\n"
 "\n"
 "用法:\n"
@@ -969,9 +969,9 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - 打印全部标识符。\n"
 
 #: ../urpmf:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --name         - print only package names.\n"
-msgstr "  --all           - 打印全部标识符。\n"
+msgstr "  --name          - 只打印软件包名称。\n"
 
 #: ../urpmf:44
 #, c-format
@@ -1113,14 +1113,15 @@ msgid ""
 "Note: since no media searched uses hdlists, urpmf was unable to return any "
 "result\n"
 msgstr ""
+"注意：由于没有介质使用 hdlists 搜索，urpmf 无法返回任何结果\n"
 
 #: ../urpmf:152
 #, c-format
 msgid "You may want to use --name to search for package names.\n"
-msgstr ""
+msgstr "您可能想要使用 --name 来搜索软件包名称。\n"
 
 #: ../urpmi:69
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -1129,8 +1130,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf 版本 %s\n"
-"版权 (C) 2002 Mandrakesoft.\n"
+"urpmi 版本 %s\n"
+"版权 (C) 1999-2004 Mandrakesoft。\n"
 "这是自由软件，可以依照 GNU GPL 重新发布。\n"
 "\n"
 "用法:\n"
@@ -1313,9 +1314,9 @@ msgid "  --excludedocs  - exclude docs files.\n"
 msgstr "  --excludedocs  - 排除文档文件。\n"
 
 #: ../urpmi:124
-#, fuzzy, c-format
+#, c-format
 msgid "  --skip         - packages which installation should be skipped\n"
-msgstr "  --test         - 验证安装是否可以正确进行。\n"
+msgstr "  --skip         - 安装要跳过的软件包。\n"
 
 #: ../urpmi:125
 #, c-format
@@ -1323,6 +1324,7 @@ msgid ""
 "  --more-choices - when several packages are found, propose more choices\n"
 "                   than the default.\n"
 msgstr ""
+"  --more-choices - 如果找到了多个软件包，则提供多个选择而不是默认选择。\n"
 
 #: ../urpmi:127 ../urpmq:79
 #, c-format
@@ -1487,7 +1489,7 @@ msgstr "您同意吗?"
 msgid ""
 "\n"
 "Continue?"
-msgstr ""
+msgstr "\n继续吗?"
 
 #: ../urpmi:465
 #, c-format
@@ -1516,11 +1518,11 @@ msgid ""
 msgstr "为了满足依赖性要求，将另外安装以下%d个软件包(%d MB)"
 
 #: ../urpmi:511 ../urpmi:522
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed (%d "
 "MB)"
-msgstr "我将另外安装下列软件包(%d MB)，以满足相关性要求"
+msgstr "为了满足依赖性要求，将另外安装下列软件包(%d MB)"
 
 #: ../urpmi:517
 #, c-format
@@ -1744,14 +1746,14 @@ msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - 强迫生成 hdlist 文件。\n"
 
 #: ../urpmi.addmedia:115
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to add media"
-msgstr "只允许超级用户安装软件包"
+msgstr "只允许超级用户添加介质"
 
 #: ../urpmi.addmedia:144
 #, c-format
 msgid "found version %s and arch %d ..."
-msgstr ""
+msgstr "找到了版本 %s 架构 %d..."
 
 #: ../urpmi.addmedia:148
 #, c-format
@@ -1803,9 +1805,9 @@ msgid "  -a             - select all media.\n"
 msgstr "  -a             - 选择所有介质。\n"
 
 #: ../urpmi.removemedia:44
-#, fuzzy, c-format
+#, c-format
 msgid "  -y             - fuzzy match on media names.\n"
-msgstr "  -a             - 在命令行选择所有匹配。\n"
+msgstr "  -y             - 介质名称使用模糊匹配。\n"
 
 #: ../urpmi.removemedia:47
 #, c-format
@@ -1817,9 +1819,9 @@ msgstr ""
 "未知的选项“%s”\n"
 
 #: ../urpmi.removemedia:53
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to remove media"
-msgstr "只允许超级用户安装软件包"
+msgstr "只允许超级用户删除介质"
 
 #: ../urpmi.removemedia:63
 #, c-format
@@ -1860,9 +1862,9 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - 选择所有不可移动的介质。\n"
 
 #: ../urpmi.update:62
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to update media"
-msgstr "只允许超级用户安装软件包"
+msgstr "只允许超级用户更新介质"
 
 #: ../urpmi.update:70
 #, c-format
@@ -1879,7 +1881,7 @@ msgstr ""
 "(%s 中之一)\n"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2004 Mandrakesoft.\n"
@@ -1888,8 +1890,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf 版本 %s\n"
-"版权 (C) 2002 Mandrakesoft.\n"
+"urpmq 版本 %s\n"
+"版权 (C) 2000-2004 Mandrakesoft。\n"
 "这是自由软件，可以依照 GNU GPL 重新发布。\n"
 "\n"
 "用法:\n"
@@ -1971,15 +1973,15 @@ msgid "  -c             - complete output with package to be removed.\n"
 msgstr "  -c             - 要删除的软件包的完整输出。\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  -p             - search in provides to find package.\n"
 msgstr "  -p             - 允许在提供的项目中寻找软件包。\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -P             - do not search in provides to find package (default).\n"
-msgstr "  -P             - 不搜索提供标签中的软件包。\n"
+msgstr "  -P             - 不搜索提供中的软件包(默认)。\n"
 
 #: ../urpmq:83
 #, c-format
@@ -1987,9 +1989,9 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - 逆序搜索所需的软件包。\n"
 
 #: ../urpmq:85
-#, fuzzy, c-format
+#, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
-msgstr "  -a             - 在命令行选择所有匹配。\n"
+msgstr "  -Y             - 类似于 -y，但强制不区分大小写匹配。\n"
 
 #: ../urpmq:87
 #, c-format
@@ -2024,138 +2026,15 @@ msgstr "--list-nodes 仅能和 --parallel 一起使用"
 #: ../urpmq:331
 #, c-format
 msgid "skipping media %s: no hdlist\n"
-msgstr ""
+msgstr "跳过介质 %s：无 hdlist\n"
 
 #: ../urpmq:392
 #, c-format
 msgid "No filelist found\n"
-msgstr ""
+msgstr "没有找到文件列表\n"
 
 #: ../urpmq:402
 #, c-format
 msgid "No changelog found\n"
-msgstr ""
+msgstr "没有找到更新日志\n"
 
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "虚拟介质必须位于本地"
-
-#~ msgid ""
-#~ "urpme version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpme 版本 %s\n"
-#~ "版权 (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "这是自由软件, 可以依照 GNU GPL 重新发布。\n"
-#~ "\n"
-#~ "用法:\n"
-
-#~ msgid ""
-#~ "urpmi version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmi 版本 %s\n"
-#~ "版权 (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "这是自由软件, 可以依照 GNU GPL 重新发布。\n"
-#~ "\n"
-#~ "用法:\n"
-
-#~ msgid "syntax error in config file at line %s"
-#~ msgstr "配置文件的第 %s 行语法错误"
-
-#~ msgid ""
-#~ "unable to take care of medium \"%s\" as list file is already used by "
-#~ "another medium"
-#~ msgstr "无法照顾介质“%s”，因为列表文件已经被另外的介质所用"
-
-#~ msgid ""
-#~ "unable to use name \"%s\" for unnamed medium because it is already used"
-#~ msgstr "无法给未命名介质起名为“%s”，因为该名称已被使用"
-
-#~ msgid ""
-#~ "unable to take medium \"%s\" into account as no list file [%s] exists"
-#~ msgstr "无法考虑“%s”，因为不存在列表文件[%s]"
-
-#~ msgid "unable to determine medium of this hdlist file [%s]"
-#~ msgstr "无法决定此 hdlist 文件[%s]的介质"
-
-#~ msgid "One of the following packages is needed to install %s:"
-#~ msgstr "需要下列软件包之一才能安装 %s:"
-
-#~ msgid ""
-#~ "urpmq version %s\n"
-#~ "Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmq 版本 %s\n"
-#~ "版权 (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "这是自由软件，可以依照 GNU GPL 重新发布。\n"
-#~ "\n"
-#~ "用法:\n"
-
-#~ msgid "Unknown webfetch `%s' !!!\n"
-#~ msgstr "未知 webfetch“%s”!!!\n"
-
-#~ msgid "copy failed: %s"
-#~ msgstr "复制失败: %s"
-
-#~ msgid "wget is missing\n"
-#~ msgstr "没有 wget\n"
-
-#~ msgid "wget failed: exited with %d or signal %d\n"
-#~ msgstr "wget 失败: 退出代码 %d 或信号 %d\n"
-
-#~ msgid "curl is missing\n"
-#~ msgstr "没有 curl\n"
-
-#~ msgid "curl failed: exited with %d or signal %d\n"
-#~ msgstr "curl 失败: 退出代码 %d 或信号 %d\n"
-
-#~ msgid "rsync is missing\n"
-#~ msgstr "没有 rsync\n"
-
-#~ msgid "rsync failed: exited with %d or signal %d\n"
-#~ msgstr "rsync 失败: 退出代码 %d 或信号 %d\n"
-
-#~ msgid "ssh is missing\n"
-#~ msgstr "没有 ssh\n"
-
-#~ msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpme: 未知选项“-%s”，请用--help 检查用法\n"
-
-#~ msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpmi: 未知选项“-%s”，用--help 检查用法\n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "no need to give <relative path of hdlist> with --distrib"
-#~ msgstr ""
-#~ "%s\n"
-#~ "使用 --distrib 不需要提供 <hdlist的相对路径>"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "<relative path of hdlist> missing\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "<hdlist相对路径>找不到\n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "`with' missing for network media\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "“with”找不到网络介质\n"
-
-#~ msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpmq: 未知选项“-%s”，请用--help 检查用法\n"
