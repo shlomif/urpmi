@@ -4,11 +4,13 @@
 # Keld Simonsen <keld@dkuug.dk> 2000
 # Kenneth Christiansen, 2000
 #
+# Reviewed 2001-02-26 keld@dkuug.dk
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-02-17 15:50+0100\n"
-"PO-Revision-Date: 2000-05-08 00:22+0100\n"
+"POT-Creation-Date: 2001-02-26 16:35+0100\n"
+"PO-Revision-Date: 2001-02-25 00:22+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Linux Mandrake Danish Team\n"
 "MIME-Version: 1.0\n"
@@ -16,51 +18,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: _irpm:21
-#, fuzzy
 msgid "installing $rpm\n"
-msgstr "installerer %s\n"
+msgstr "installerer $rpm\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Automatisk installation af pakker...\n"
+"Du bestilte installation af pakke $rpm\n"
 
-#: _irpm:31 urpmi:204
+#: _irpm:31 urpmi:207
 msgid "Is it ok?"
-msgstr "Er det ok?"
+msgstr "Er det o.k.?"
 
-#: _irpm:33 urpmi:207 urpmi:232
+#: _irpm:33 urpmi:210 urpmi:235
 msgid "Ok"
-msgstr "Ok"
+msgstr "O.k."
 
-#: _irpm:34 urpmi:208 urpmi:233
+#: _irpm:34 urpmi:211 urpmi:236
 msgid "Cancel"
 msgstr "Annullér"
 
-#: _irpm:40 urpmi:212 urpmi:261
+#: _irpm:40 urpmi:215 urpmi:264
 msgid "Nn"
-msgstr ""
+msgstr "Nn"
 
-#: _irpm:41 urpmi:213 urpmi:262
+#: _irpm:41 urpmi:216 urpmi:265
 msgid "Yy"
-msgstr ""
+msgstr "YyJj"
 
-#: _irpm:42 urpmi:214
+#: _irpm:42 urpmi:217
 msgid " (Y/n) "
-msgstr ""
+msgstr " (J/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: kommando ikke fundet\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "brug: rpmf [<file>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi er ikke installeret"
 
 #: placeholder.h:8
 #, c-format
@@ -84,6 +87,26 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi version %s\n"
+"Ophavsret (C) 1999, 2000 MandrakeSoft.\n"
+"Dette er frit programmel, og det må videredistribueres under betingelserne i "
+"GNU GPL.\n"
+"brug:\n"
+"  --help           - udskriv denne hjælpebesked.\n"
+"  --auto           - vælg automatisk en god pakke iblandt udvalget.\n"
+"  --auto-select    - vælg automatisk pakker til opgradering af systemet.\n"
+"  --force          - gennemtving anvendelse selv om nogen pakker ikke "
+"eksisterer.\n"
+"  --X              - brug X-grænsesnit.\n"
+"  --best-output    - vælg bedste grænsesnit i henhold til miljøet:\n"
+"                     X- eller tekst-udgave.\n"
+"  -a               - udvælg alle træffere på kommandolinjen.\n"
+"  -c               - udvælgelse af komplet metode for bestemmelse kræver "
+"endelighed.\n"
+"  -q               - stille udgave.\n"
+"  -v               - snaksalig udgave.\n"
+"  navne eller rpm filer (kun for root) givet på kommandolinje bliver "
+"installeret.\n"
 
 #: placeholder.h:26
 msgid ""
@@ -96,6 +119,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"brug: urpmi.addmedia <navn> <url>\n"
+"hvor <url> er en af\n"
+"       file://<sti>\n"
+"       ftp://<login>:<adgangskode>@<vært>/<sti> med <relativt filnavn for "
+"hdlist>\n"
+"       ftp://<vært>/<sti> med <relativt filnavn for hdlist>\n"
+"       http://<vært>/<sti> med <relativt filnavn for hdlist>\n"
+"       removable_<enhed>://<sti>\n"
 
 #: placeholder.h:35 urpmi.addmedia:52
 #, c-format
@@ -103,6 +134,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"'with' mangler for ftp-medie\n"
 
 #: placeholder.h:39 urpmi.addmedia:48
 #, c-format
@@ -110,6 +143,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"enhed '%s' eksisterer ikke\n"
 
 #: placeholder.h:43 urpmi.addmedia:50
 #, c-format
@@ -117,140 +152,126 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<relativ sti for hdlist> mangler\n"
 
 #: placeholder.h:47 urpmi.update:52
 #, c-format
 msgid ""
-"missing the entry to update\n"
+"the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"mangler det element der skal opdateres\n"
+"(én af %s)\n"
 
 #: placeholder.h:51 urpmi.removemedia:49
 #, c-format
 msgid ""
-"missing the entry to remove\n"
+"the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"mangler det element der skal fjernes\n"
+"(én af %s)\n"
 
-#: urpmi:56
+#: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi version %s"
 
-#: urpmi:120
+#: urpmi:119
 msgid "Only superuser is allowed to install local packages"
-msgstr "Kun suprebrugeren har lov til at instalere lokale pakker"
+msgstr "Kun suprebrugeren har lov til at installere lokale pakker"
 
-#: urpmi:162
+#: urpmi:150
 msgid "One of the following packages is needed:"
 msgstr "Der er brug for en af de følgende pakker:"
 
-#: urpmi:170
+#: urpmi:158
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Hvad er dit valg? (1-%d) "
 
-#: urpmi:173
+#: urpmi:161
 msgid "Sorry, bad choice, try again\n"
 msgstr "Undskyld, dårligt valg, prøv igen\n"
 
-#: urpmi:203
+#: urpmi:206
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
 "(%d MB)"
 msgstr ""
-"For at tilfredsstille afhængigheder, vil de følgende pakker blive "
-"installeret (%d Mb)"
+"For at tilfredsstille afhængigheder vil de følgende pakker blive installeret "
+"(%d Mb)"
 
-#: urpmi:229
-#, fuzzy, c-format
+#: urpmi:232
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Vær venlig at indsætte %s med navnet %s"
+msgstr "Vær venlig at indsætte mediet med navnet %s i enhed [%s]"
 
-#: urpmi:230
+#: urpmi:233
 msgid "Press enter when it's done..."
 msgstr "Tryk på retur, når den er færdig..."
 
-#: urpmi:243
+#: urpmi:246
 msgid "everything already installed"
 msgstr "alting er allerede installeret"
 
-#: urpmi:252
+#: urpmi:255
 #, c-format
 msgid "installing %s\n"
 msgstr "installerer %s\n"
 
-#: urpmi:256 urpmi:268
+#: urpmi:259 urpmi:271
 msgid "Installation failed"
 msgstr "Installationen fejlede"
 
-#: urpmi:263
-#, fuzzy
+#: urpmi:266
 msgid "Try installation without checking dependencies? (Y/n) "
-msgstr "Prøv installation uden at tjekke afhængigheder?"
+msgstr "Prøv installation uden at tjekke afhængigheder? (J/n) "
 
-#: urpmi:269
-#, fuzzy
+#: urpmi:272
 msgid "Try installation even more strongly (--force)? (Y/n) "
-msgstr "Prøv installation med endnu større kraft (--force)?"
+msgstr "Prøv installation med endnu større kraft (--force)? (J/n) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "brug: urpmi.addmedia <name> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "ukendte parametre '%s'\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "ingenting at opdatere (brug urpmi.addmedia til at tilføje et medie)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "ingenting at fjerne (brug urpmi.addmedia til at tilføje et medie)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq version %s"
 
 #: urpmq:81
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: ukendt parameter \"-$1\", tjek brug med --help\n"
 
 #: urpmq:83
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: kan ikke læse rpm-fil \"$_\"\n"
 
-#: urpmq:119
+#: urpmq:126
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"en pakke skal fjernes før den kan opgraderes, dette er ikke understøttet "
+"endnu.\n"
 
-#: urpmq:132
+#: urpmq:138
 msgid "unable to get source packages, aborting"
-msgstr ""
-
-#~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
-#~ msgstr ""
-#~ "brug: urpmi [-h] [--auto] [--force] [-a] pakke_navn [pakke_navne...]\n"
-
-#~ msgid "no package named %s\n"
-#~ msgstr "ingen pakke med navnet %s\n"
-
-#~ msgid "The following packages contain %s: %s\n"
-#~ msgstr "De følgende pakker indeholder %s: %s\n"
-
-#~ msgid "rpm database query failed\n"
-#~ msgstr "rpm-databaseforespørgsel fejlede\n"
-
-#~ msgid "Sorry can't find file %s, exiting"
-#~ msgstr "Undskyld, kan ikke finde fil %s, stopper"
-
-#~ msgid "Failed dependencies: %s requires %s"
-#~ msgstr "Afhængigheder fejlede: %s kræver %s"
+msgstr "kan ikke hente kilde-pakker, afslutter med fejl"

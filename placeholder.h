@@ -45,11 +45,11 @@ N_(""
 "<relative path of hdlist> missing\n"
 ""),
 N_(""
-"missing the entry to update\n"
+"the entry to update is missing\n"
 "(one of %s)\n"
 ""),
 N_(""
-"missing the entry to remove\n"
+"the entry to remove is missing\n"
 "(one of %s)\n"
 ""),
 };

@@ -46,7 +46,7 @@ sub main {
 	@toremoves = @entries;
 	@toremoves == 0 and die _("nothing to remove (use urpmi.addmedia to add a media)\n");
     }
-    @toremoves == 0 and die sprintf(_("missing the entry to remove\n(one of %s)\n"), join(", ", @entries));
+    @toremoves == 0 and die sprintf(_("the entry to remove is missing\n(one of %s)\n"), join(", ", @entries));
 
     $urpm->remove_media(@toremoves);
     $urpm->update_media;

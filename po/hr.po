@@ -1,11 +1,11 @@
 # Croatian Translation file for urpmi
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# 1st translator: Vladimir Vuksan <vuksan@veus.hr>, 2000
-# Last translator: Vlatko Kosturjak <kost@iname.com>, 2000
+# Vladimir Vuksan <vuksan@veus.hr>, 2000
+# Vlatko Kosturjak <kost@iname.com>, 2000, 2001
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-02-17 15:50+0100\n"
+"POT-Creation-Date: 2001-02-26 16:35+0100\n"
 "PO-Revision-Date: 2000-12-07 11:40+CET\n"
 "Last-Translator: Vlatko Kosturjak <kost@iname.com>\n"
 "Language-Team: Croatian <lokalizacija@linux.hr>\n"
@@ -14,51 +14,52 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: _irpm:21
-#, fuzzy
 msgid "installing $rpm\n"
-msgstr "instaliram %s\n"
+msgstr "instaliram $rpm\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Automatska instalacija paketa...\n"
+"Zatra¾ili ste instalaciju paketa $rpm\n"
 
-#: _irpm:31 urpmi:204
+#: _irpm:31 urpmi:207
 msgid "Is it ok?"
 msgstr "Da li se sla¾ete s tim?"
 
-#: _irpm:33 urpmi:207 urpmi:232
+#: _irpm:33 urpmi:210 urpmi:235
 msgid "Ok"
 msgstr "U redu"
 
-#: _irpm:34 urpmi:208 urpmi:233
+#: _irpm:34 urpmi:211 urpmi:236
 msgid "Cancel"
 msgstr "Odustani"
 
-#: _irpm:40 urpmi:212 urpmi:261
+#: _irpm:40 urpmi:215 urpmi:264
 msgid "Nn"
-msgstr ""
+msgstr "Nn"
 
-#: _irpm:41 urpmi:213 urpmi:262
+#: _irpm:41 urpmi:216 urpmi:265
 msgid "Yy"
-msgstr ""
+msgstr "YyDd"
 
-#: _irpm:42 urpmi:214
+#: _irpm:42 urpmi:217
 msgid " (Y/n) "
-msgstr ""
+msgstr " (D/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: komanda nije pronaðena\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "uporaba: rpmf [<datoteka>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi nije instaliran"
 
 #: placeholder.h:8
 #, c-format
@@ -82,6 +83,23 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi verzija %s\n"
+"Autorska prava (C) 1999, 2000 MandrakeSoft.\n"
+"Ovo je slobodan program i mo¾e se distribuirati pod stavkama GNU licence.\n"
+"uporaba:\n"
+"   --help          - ispi¹i ovaj pomoæni tekst.\n"
+"   --auto          - automatski izaberi dobar paket u izborima.\n"
+"   --auto-select   - automatski odaberi pakete za nadogradnju sustava.\n"
+"   --force         - prisili pozivanje iako neki paketi ne postoje.\n"
+"   --X             - koristi X suèelje.\n"
+"   --best-output   - izaberi najbolje suèelje prema okru¾ju: Xi ili tekst "
+"mod.\n"
+"   -a              - izaberi sve pronaðene u komandnoj liniji.\n"
+"   -c              - izaberi kompletnu metodu za zatvaranje ovisnosti.\n"
+"   -q              - tihi mod.\n"
+"   -v              - op¹iran mod.\n"
+"   imena rpm datoteka (samo za administratora) dana na komandnoj liniji su "
+"instalirana.\n"
 
 #: placeholder.h:26
 msgid ""
@@ -94,6 +112,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"uporaba: urpmi.addmedia <ime> <url>\n"
+" gdje je <url> ne¹to od slijedeæeg\n"
+"       file://<putanja>\n"
+"       ftp://<login>:<lozinka>@<poslu¾itelj>/<putanja> with <relativna "
+"datoteka hdlist>\n"
+"       ftp://<poslu¾itelj>/<putanja> with <relativa datoteka hdlist>\n"
+"       http://<poslu¾itelj>/<putanja> with <relativna datoteka hdlist>\n"
+"       removeable_<ureðaj>://<putanja>\n"
 
 #: placeholder.h:35 urpmi.addmedia:52
 #, c-format
@@ -101,6 +127,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`with' nedostaje za ftp medij\n"
 
 #: placeholder.h:39 urpmi.addmedia:48
 #, c-format
@@ -108,6 +136,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"ureðaj `%s' ne postoji\n"
 
 #: placeholder.h:43 urpmi.addmedia:50
 #, c-format
@@ -115,44 +145,50 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<relativna putanja do hdlist> nedostaje\n"
 
 #: placeholder.h:47 urpmi.update:52
 #, c-format
 msgid ""
-"missing the entry to update\n"
+"the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"nedostaje unos za nadogradnju\n"
+"(jedan od %s)\n"
 
 #: placeholder.h:51 urpmi.removemedia:49
 #, c-format
 msgid ""
-"missing the entry to remove\n"
+"the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"nedostaje unos za uklanjanje\n"
+"(jedan od %s)\n"
 
-#: urpmi:56
+#: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi verzija %s"
 
-#: urpmi:120
+#: urpmi:119
 msgid "Only superuser is allowed to install local packages"
 msgstr "Samo administrator mo¾e instalirati lokalne pakete"
 
-#: urpmi:162
+#: urpmi:150
 msgid "One of the following packages is needed:"
 msgstr "Jedan od slijedeæih paketa je potreban:"
 
-#: urpmi:170
+#: urpmi:158
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Izaberite jedan? (1-%d) "
 
-#: urpmi:173
+#: urpmi:161
 msgid "Sorry, bad choice, try again\n"
 msgstr "®alim, lo¹ odabir, poku¹ajte ponovo\n"
 
-#: urpmi:203
+#: urpmi:206
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -161,77 +197,79 @@ msgstr ""
 "Kako bi zadovoljili sve ovisnosti paketa slijedeæi moram instalirati "
 "slijedeæe pakete (%d MB)"
 
-#: urpmi:229
-#, fuzzy, c-format
+#: urpmi:232
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Molim umetnite %s pod nazivom %s"
+msgstr "Molim umetnite medij pod nazivom \"%s\" u ureðaj [%s]"
 
-#: urpmi:230
+#: urpmi:233
 msgid "Press enter when it's done..."
 msgstr "Pritisnite Enter kada ste gotovi..."
 
-#: urpmi:243
+#: urpmi:246
 msgid "everything already installed"
 msgstr "sve je veæ instalirano"
 
-#: urpmi:252
+#: urpmi:255
 #, c-format
 msgid "installing %s\n"
 msgstr "instaliram %s\n"
 
-#: urpmi:256 urpmi:268
+#: urpmi:259 urpmi:271
 msgid "Installation failed"
 msgstr "Instalacija nije uspjela"
 
-#: urpmi:263
-#, fuzzy
+#: urpmi:266
 msgid "Try installation without checking dependencies? (Y/n) "
-msgstr "Poku¹ajte instalaciju bez provjere ovisnosti?"
+msgstr "Poku¹ati instalaciju bez provjere ovisnosti (D/n) "
 
-#: urpmi:269
-#, fuzzy
+#: urpmi:272
 msgid "Try installation even more strongly (--force)? (Y/n) "
-msgstr "Poku¹ajte instalaciju jo¹ sna¾nije (--force)?"
+msgstr "Poku¹ati instalaciju jo¹ sna¾nije (--force)? (D/n) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "uporaba: urpmi.addmedia <ime> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "nepoznate opcije \"%s\"\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
+"nema ni¹ta za nadogradnju (koristite urpmi.addmedia za dodavanje medija)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
+"nema ni¹ta za uklanjanje (koristite urpmi.addmedia za dodavanje medija)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq verzija %s"
 
 #: urpmq:81
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: nepoznate opcije \"-$1\", provjerite uporabu sa --help\n"
 
 #: urpmq:83
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: ne mogu proèitati rpm datoteku \"$_\"\n"
 
-#: urpmq:119
+#: urpmq:126
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"neki paketi moraju biti uklonjeni da bi mogli biti nadograðeni, ovo jo¹ "
+"uvijek nije podr¾ano\n"
 
-#: urpmq:132
+#: urpmq:138
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "ne mogu dohvatiti izvorne (source) pakete, prekidam"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
