@@ -173,9 +173,9 @@ sub read_config {
 		exists($filelists{$filetype}{$_->{$filetype}})
 		    and $_->{ignore} = 1,
 		    $urpm->{error}(
-			N($filetype eq 'hdlist'
-			    ? "medium \"%s\" trying to use an already used hdlist, medium ignored"
-			    : "medium \"%s\" trying to use an already used list, medium ignored",
+			($filetype eq 'hdlist'
+			    ? N("medium \"%s\" trying to use an already used hdlist, medium ignored")
+			    : N("medium \"%s\" trying to use an already used list, medium ignored"),
 			$_->{name})
 		    );
 		$filelists{$filetype}{$_->{$filetype}} = undef;
