@@ -73,7 +73,7 @@ sub message_input {
 	    if ($opts{boolean}) {
 		$input =~ /^[$noexpr$yesexpr]*$/ and last;
 	    } elsif ($opts{range}) {
-		1 <= $input && $input <= $opts{range} and last;
+		(defined $opts{range_min} ? $opts{range_min} : 1) <= $input && $input <= $opts{range} and last;
 	    } else {
 		last;
 	    }

@@ -400,7 +400,8 @@ sub ask_choice {
 	} else {
 	    message($msg);
 	    my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
-	    $n = message_input(N("What is your choice? (1-%d) ", $i), undef, range => $i);
+	    $n = message_input(N("What is your choice? (1-%d) ", $i), undef, range_min => 0, range => $i);
+	    chomp $n;
 	    defined($n) && $n ne "0" or exit 1; # abort.
 	}
     }
