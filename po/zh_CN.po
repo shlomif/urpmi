@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-03-11 12:40+0100\n"
+"POT-Creation-Date: 2003-05-08 08:55+0200\n"
 "PO-Revision-Date: 2003-03-08 12:13+0800\n"
 "Last-Translator: Funda Wang <mandrake@en2china.com>\n"
 "Language-Team: Mandrake Simplified Chinese <mandrake@en2china.com>\n"
@@ -197,8 +197,29 @@ msgstr "无法安装软件包 %s"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "unable to remove package %s"
 msgstr "无法删除软件包 %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing package %s"
+msgstr "无法删除软件包 %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "无法创建介质“%s”\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -261,10 +282,10 @@ msgid "medium \"%s\" does not define any location for rpm files"
 msgstr "介质“%s”没有定义任何 rpm 文件的位置"
 
 #: ../urpm.pm:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, "
-"trying to use alternate method)"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr "介质“%s”所用的列表文件无效(镜像可能需要更新，请使用其它方式)"
 
 #: ../urpm.pm:1
@@ -409,8 +430,13 @@ msgstr "获取源 hdlist(或综合文件) 失败"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "examining MD5SUM file"
-msgstr "正在检查 MD5SUM 文件"
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "获取源 hdlist(或综合文件) 失败"
 
 #: ../urpm.pm:1
 #, c-format
@@ -421,6 +447,16 @@ msgstr "发现探测的 hdlist(或综合文件) 为 %s"
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "正在获取“%s”的源 hdlist(或综合文件)..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr "正在检查 MD5SUM 文件"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr "正在复制“%s”的源 hdlist(或综合文件)..."
 
 #: ../urpm.pm:1
 #, c-format
@@ -463,6 +499,11 @@ msgid "copy of [%s] failed"
 msgstr "复制[%s]失败"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "正在复制“%s”的源 hdlist(或综合文件)..."
+
+#: ../urpm.pm:1
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "正在复制“%s”的源 hdlist(或综合文件)..."
@@ -488,8 +529,8 @@ msgid "\"%s\""
 msgstr "“%s”"
 
 #: ../urpm.pm:1
-#, c-format
-msgid "trying to select inexistent medium \"%s\""
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
 msgstr "试图选择不存在的介质“%s”"
 
 #: ../urpm.pm:1
@@ -530,13 +571,20 @@ msgid "medium \"%s\" already exists"
 msgstr "介质“%s”已存在"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "没有叫做 %s 的软件包"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "problem reading hdlist file of medium \"%s\""
 msgstr "读取介质“%s”的 hdlist 文件发生问题"
 
 #: ../urpm.pm:1
-#, c-format
-msgid "--synthesis cannot be used with --media, --update or --parallel"
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
 msgstr "--synthesis 仅能和 --media，--update 或 --parallel 一起使用"
 
 #: ../urpm.pm:1
@@ -785,6 +833,11 @@ msgstr "  -a             - 在命令行选择匹配表达式的所有包。\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr "  -v             -详细的提示。\n"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - 在多个机器上分布的运行 urpmi。\n"
 
@@ -874,31 +927,49 @@ msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -i             - 忽略各种情况下的冲突。\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr "  --obsoletes     - 打印废除标识符: 所有的废除(多行)。\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts     - 打印冲突标识符: 所有的冲突(多行)。\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --files        - print tag files: all files (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --files        - print tag files: all files.\n"
 msgstr "  --files         - 打印文件标识符: 所有的文件(多行)。\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
 msgstr "  --requires      - 打印需要标识符: 所有的需要(多行)。\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr "  --provides      - 打印提供标识符: 所有的提供(多行)。\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --serial        - 打印序列标识符: 序列。"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files         - 打印文件标识符: 所有的文件(多行)。\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr "  --group         - 打印标识符组: 分组。\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr "  --group         - 打印标识符组: 分组。\n"
 
 #: ../urpmf:1
 #, c-format
@@ -940,6 +1011,11 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - 打印全部标识符。\n"
 
 #: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --size          - 打印标识符大小: 大小。\n"
+
+#: ../urpmf:1
 #, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
@@ -959,6 +1035,17 @@ msgstr "  -v             -详细的提示。\n"
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr "  --synthesis    - 使用指定的综合文件而不是 urpmi db。\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --media        - 只使用列出的介质，介质之间用逗号分隔。\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr "  --media        - 只使用列出的介质，介质之间用逗号分隔。\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1175,11 +1262,6 @@ msgstr "命令的代理声明无效\n"
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  命令行给出的软件包名或 rpm 文件将会被安装。\n"
 
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr "  -v             -详细的提示。\n"
-
 #: ../urpmi:1
 #, c-format
 msgid "  -q             - quiet mode.\n"
@@ -1374,10 +1456,10 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "无法创建介质“%s”\n"
 
 #: ../urpmi.addmedia:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"`with' missing for ftp media\n"
+"`with' missing for network media\n"
 msgstr ""
 "%s\n"
 "“with”找不到 ftp 媒介\n"
@@ -1423,13 +1505,6 @@ msgstr ""
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - 强迫生成 hdlist 文件。\n"
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
-msgstr "  -h             - 试图查找并使用综合文件或 hdlist 文件。\n"
 
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
@@ -1477,6 +1552,23 @@ msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
 msgstr "  --distrib      - 自动从安装介质创建全部介质。\n"
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr "  -h             - 试图查找并使用综合文件或 hdlist 文件。\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgstr "  -h             - 试图查找并使用综合文件或 hdlist 文件。\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1602,6 +1694,11 @@ msgstr "  -r             - 和名称一起打印版本和发行号。\n"
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - 打印组名。\n"
+
+#: ../urpmq:1
+#, fuzzy, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
+msgstr "  -r             - 和名称一起打印版本和发行号。\n"
 
 #: ../urpmq:1
 #, c-format

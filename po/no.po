@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-03-06 18:04+0100\n"
+"POT-Creation-Date: 2003-05-08 08:55+0200\n"
 "PO-Revision-Date: 2003-03-05 22:30+0100\n"
 "Last-Translator: Per Øyvind Karlsen <peroyvind@sintrax.net>\n"
 "Language-Team: Norsk Bokmål <cooker-i18n@linux-mandrake.com>\n"
@@ -199,8 +199,29 @@ msgstr "kunne ikke installere pakke %s"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "unable to remove package %s"
 msgstr "kan ikke fjerne pakke %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing package %s"
+msgstr "kan ikke fjerne pakke %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "kunne ikke opprette medium \"%s\"\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -263,10 +284,10 @@ msgid "medium \"%s\" does not define any location for rpm files"
 msgstr "media \"%s\" definerer ikke noen lokasjon for rpm filer"
 
 #: ../urpm.pm:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, "
-"trying to use alternate method)"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
 "mediumet \"%s\" bruker en ugyldig liste-fil (mirroret er sannsynligvis ikke "
 "oppdatert, prøver å bruke en alternativ metode)"
@@ -413,8 +434,13 @@ msgstr "mottak av kilde hdlist (eller synthesis) mislykket"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "examining MD5SUM file"
-msgstr "eksaminerer MD5SUM fil"
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "mottak av kilde hdlist (eller synthesis) mislykket"
 
 #: ../urpm.pm:1
 #, c-format
@@ -425,6 +451,16 @@ msgstr "fant test hdlist (eller synthesis) som %s"
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "mottar kilde hdlist (eller synthesis) av \"%s\"..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr "eksaminerer MD5SUM fil"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr "kopierer kilde hdlist (eller synthesis) av \"%s\"..."
 
 #: ../urpm.pm:1
 #, c-format
@@ -467,6 +503,11 @@ msgid "copy of [%s] failed"
 msgstr "kopi av [%s] mislykket"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "kopierer kilde hdlist (eller synthesis) av \"%s\"..."
+
+#: ../urpm.pm:1
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "kopierer kilde hdlist (eller synthesis) av \"%s\"..."
@@ -492,8 +533,8 @@ msgid "\"%s\""
 msgstr "\"%s\""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "trying to select inexistent medium \"%s\""
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
 msgstr "prøver å velge ikke eksisterende media \"%s\""
 
 #: ../urpm.pm:1
@@ -536,13 +577,20 @@ msgid "medium \"%s\" already exists"
 msgstr "media \"%s\" eksisterer allerede"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "ingen pakke kalt %s"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "problem reading hdlist file of medium \"%s\""
 msgstr "problem med å lese hdlist filen av media \"%s\""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "--synthesis cannot be used with --media, --update or --parallel"
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
 msgstr "--synthesis kan ikke brukes med --media, --update eller --parallel"
 
 #: ../urpm.pm:1
@@ -796,6 +844,11 @@ msgstr "  -a             - select all packages matching expression.\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr "  -v             - verbose mode.\n"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - distributed urpmi accross machines of alias.\n"
 
@@ -887,35 +940,53 @@ msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -i             - ignore case distinctions in every pattern.\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr ""
 "  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --files        - print tag files: all files (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --files        - print tag files: all files.\n"
 msgstr "  --files        - print tag files: all files (multiple lines).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
 msgstr ""
 "  --requires     - print tag requires: all requires (multiple lines).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr ""
 "  --provides     - print tag provides: all provides (multiple lines).\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --serial        - print tag serial: serial."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files        - print tag files: all files (multiple lines).\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr "  --group        - print tag group: group.\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr "  --group        - print tag group: group.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -957,6 +1028,11 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - print all tags.\n"
 
 #: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --size         - print tag size: size.\n"
+
+#: ../urpmf:1
 #, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
@@ -975,6 +1051,17 @@ msgstr "  --verbose      - verbose mode.\n"
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr "  --synthesis    - use the synthesis given instead of urpmi db.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --media        - bruk bare gitt media, delt med komma.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr "  --media        - bruk bare gitt media, delt med komma.\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1192,11 +1279,6 @@ msgstr "dårlig proxy deklarasjon på kommandolinjen\n"
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  navn eller rpm filer gitt på kommandolinjen vil bli installert.\n"
 
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr "  -v             - verbose mode.\n"
-
 #: ../urpmi:1
 #, c-format
 msgid "  -q             - quiet mode.\n"
@@ -1393,10 +1475,10 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "kunne ikke opprette medium \"%s\"\n"
 
 #: ../urpmi.addmedia:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"`with' missing for ftp media\n"
+"`with' missing for network media\n"
 msgstr ""
 "%s\n"
 "`with' mangler for ftp media\n"
@@ -1442,15 +1524,6 @@ msgstr ""
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - tving generasjon av hdlist filer.\n"
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
-msgstr ""
-"  -h             - prøv å finn og bruk synthesis eller hdlist\n"
-"                   filen.\n"
 
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
@@ -1505,6 +1578,27 @@ msgid ""
 msgstr ""
 "  --distrib      - oppretter automatisk alle media fra et installasjons-\n"
 "                   medium.\n"
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr ""
+"  -h             - prøv å finn og bruk synthesis eller hdlist\n"
+"                   filen.\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgstr ""
+"  -h             - prøv å finn og bruk synthesis eller hdlist\n"
+"                   filen.\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1633,6 +1727,11 @@ msgstr "  -r             - skriv ut versjon og utgivelse også med navn.\n"
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - skriv ut grupper også med navn.\n"
+
+#: ../urpmq:1
+#, fuzzy, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
+msgstr "  -r             - skriv ut versjon og utgivelse også med navn.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1805,9 +1904,6 @@ msgstr "vert %s har ingen god versjon av urpmi"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - skriv ut grupper også med navn.\n"
-
-#~ msgid "  -r             - print version and release too with name.\n"
-#~ msgstr "  -r             - skriv ut versjon og utgivelse også med navn.\n"
 
 #~ msgid "  --auto         - automatically select a good package in choices.\n"
 #~ msgstr "  --auto         - velg automatisk en god pakke i valg.\n"

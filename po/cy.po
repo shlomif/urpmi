@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-03-05 21:19+0100\n"
+"POT-Creation-Date: 2003-05-08 08:55+0200\n"
 "PO-Revision-Date: 2003-03-02 17:16-0000\n"
 "Last-Translator: Rhoslyn Prys <rhoslyn.prys@meddal.org.uk>\n"
 "Language-Team: Cymraeg/Welsh <rhoslyn.prys@meddal.org.uk>\n"
@@ -210,9 +210,30 @@ msgid "unable to install package %s"
 msgstr "Rhaid eich bod yn wraidd i osod pecyn."
 
 #: ../urpm.pm:1
+#, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "unable to remove package %s"
 msgstr "Methu estyn pecynnau ffynhonnell."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing package %s"
+msgstr "Methu estyn pecynnau ffynhonnell."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "Methu creu cyfrwng."
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -277,8 +298,8 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, "
-"trying to use alternate method)"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -423,7 +444,12 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
-msgid "examining MD5SUM file"
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -434,6 +460,16 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -478,6 +514,11 @@ msgstr "methodd y gosodiad"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr ""
 
@@ -503,7 +544,7 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "trying to select inexistent medium \"%s\""
+msgid "trying to select nonexistent medium \"%s\""
 msgstr "Methu creu cyfrwng."
 
 #: ../urpm.pm:1
@@ -544,13 +585,20 @@ msgid "medium \"%s\" already exists"
 msgstr ""
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "pecyn anhysbys"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "problem reading hdlist file of medium \"%s\""
 msgstr ""
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "--synthesis cannot be used with --media, --update or --parallel"
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
 msgstr "Argraffu tudalennau prawf"
 
 #: ../urpm.pm:1
@@ -799,6 +847,11 @@ msgid "  -a             - select all packages matching expression.\n"
 msgstr "                    llinell orchymyn ond heb enw'r pecyn)."
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr "enw"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr ""
@@ -897,35 +950,53 @@ msgstr "chwilio"
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid ""
-"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr ""
 "  --obsoletes     - print tag obsoletes: all obsoletes (multiple lines)."
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid ""
-"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - print tag conflicts: all conflicts (multiple lines)."
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid "  --files        - print tag files: all files (multiple lines).\n"
+msgid "  --files        - print tag files: all files.\n"
 msgstr "  --files         - print tag files: all files (multiple lines)."
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+msgid "  --requires     - print tag requires: all requires.\n"
 msgstr ""
 "  --requires      - tag argraffu'n darparu: all requires (multiple lines)."
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr ""
 "  --provides      - tag argraffu'n darparu: pob darpariaeth (llinellau "
 "lluosog)."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "Argraffu tudalennau prawf"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files         - print tag files: all files (multiple lines)."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr "Argraffu tudalennau prawf"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr "Argraffu tudalennau prawf"
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -968,6 +1039,11 @@ msgstr "Argraffu tudalennau prawf"
 
 #: ../urpmf:1
 #, fuzzy, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "Argraffu tudalennau prawf"
+
+#: ../urpmf:1
+#, fuzzy, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
 "command\n"
@@ -985,6 +1061,17 @@ msgstr ""
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr "  --synthesis    - defnyddio'r synthesis yn lle urpmi db.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --update          - defnyddio cyfrwng diweddaru'n unig.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr "  --update          - defnyddio cyfrwng diweddaru'n unig.\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1194,11 +1281,6 @@ msgstr ""
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr "enw"
-
 #: ../urpmi:1
 #, fuzzy, c-format
 msgid "  -q             - quiet mode.\n"
@@ -1381,7 +1463,7 @@ msgstr "Methu creu cyfrwng."
 #, c-format
 msgid ""
 "%s\n"
-"`with' missing for ftp media\n"
+"`with' missing for network media\n"
 msgstr ""
 
 #: ../urpmi.addmedia:1
@@ -1419,13 +1501,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  --wget         - defnyddio wget i estyn ffeiliau pell.\n"
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
-msgstr ""
 
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, fuzzy, c-format
@@ -1467,6 +1542,23 @@ msgstr ""
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
 msgstr ""
 
 #: ../urpmi.addmedia:1
@@ -1576,6 +1668,11 @@ msgstr "enw"
 #: ../urpmq:1
 #, fuzzy, c-format
 msgid "  -g             - print groups with name also.\n"
+msgstr "enw"
+
+#: ../urpmq:1
+#, fuzzy, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
 msgstr "enw"
 
 #: ../urpmq:1

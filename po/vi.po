@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-03-06 18:04+0100\n"
+"POT-Creation-Date: 2003-05-08 08:55+0200\n"
 "PO-Revision-Date: 2003-03-15 11:16+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Gnome-Vi <Gnomevi-list@lists.sourceforge.net>\n"
@@ -200,8 +200,29 @@ msgstr "không thể cài đặt gói %s"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "unable to remove package %s"
 msgstr "không thể gỡ bỏ gói %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing package %s"
+msgstr "không thể gỡ bỏ gói %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "không thể tạo phương tiện \"%s\"\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -266,10 +287,10 @@ msgid "medium \"%s\" does not define any location for rpm files"
 msgstr "phương tiện \"%s\" không chỉ ra bất kỳ vị trí nào cho các tập tin rpm"
 
 #: ../urpm.pm:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, "
-"trying to use alternate method)"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
 "phương tiện \"%s\" dùng tập tin danh sách không hợp lệ (có thể mirror không "
 "được cập nhật. Đang thử dùng phương pháp thay thế khác)"
@@ -416,8 +437,13 @@ msgstr "không thu thập được hdlist nguồn (hoặc tổng hợp)"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "examining MD5SUM file"
-msgstr "đang kiểm tra tập tin MD5SUM"
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "không thu thập được hdlist nguồn (hoặc tổng hợp)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -428,6 +454,16 @@ msgstr "đã thấy hdlist được dò tìm (hoặc tổng hợp) là %s"
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "đang thu thập hdlist nguồn (hoặc tổng hợp) của \"%s\"..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr "đang kiểm tra tập tin MD5SUM"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr "đang sao chép hdlist nguồn (hoặc tổng hợp) của \"%s\"..."
 
 #: ../urpm.pm:1
 #, c-format
@@ -470,6 +506,11 @@ msgid "copy of [%s] failed"
 msgstr "bản sao của [%s] hỏng"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "đang sao chép hdlist nguồn (hoặc tổng hợp) của \"%s\"..."
+
+#: ../urpm.pm:1
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "đang sao chép hdlist nguồn (hoặc tổng hợp) của \"%s\"..."
@@ -495,8 +536,8 @@ msgid "\"%s\""
 msgstr "\"%s\""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "trying to select inexistent medium \"%s\""
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
 msgstr "đang cố chọn phương tiện không tồn tại \"%s\""
 
 #: ../urpm.pm:1
@@ -539,14 +580,21 @@ msgid "medium \"%s\" already exists"
 msgstr "phương tiện \"%s\" đã tồn tại rồi"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "không có gói tin với tên %s"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "problem reading hdlist file of medium \"%s\""
 msgstr ""
 "có vấn đề khi đọc tập tin danh sách đĩa cứng (hdlist) của phương tiện \"%s\""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "--synthesis cannot be used with --media, --update or --parallel"
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
 msgstr "--synthesis không thể dùng với --media, --update hoặc --parallel"
 
 #: ../urpm.pm:1
@@ -808,6 +856,11 @@ msgstr "  -a             - chọn toàn bộ các gói tin khớp với sự di�
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr "  -v             - chế độ verbose.\n"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - phân phối urpmi qua các máy của alias.\n"
 
@@ -899,34 +952,53 @@ msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -i             - bỏ qua các dấu hiệu phân biệt trong mọi mẫu.\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr "  --obsoletes     - in ra tag hết hạn: toàn bộ obsolete (đa dòng).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - in ra các xung đột tag: toàn bộ các xung đột (đa dòng).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --files        - print tag files: all files (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --files        - print tag files: all files.\n"
 msgstr ""
 "  --files         - in ra các tập tin tag: toàn bộ các tập tin (đa dòng).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
 msgstr "  --requires      - in ra yêu cầu tag: toàn bộ yêu cầu (đa dòng).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr ""
 "  --provides      - in ra các cung cấp tag: toàn bộ cung cấp (đa dòng).\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --serial        - in ra serial của tag: serial."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr ""
+"  --files         - in ra các tập tin tag: toàn bộ các tập tin (đa dòng).\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr "  --group         - in ra nhóm tag: nhóm.\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr "  --group         - in ra nhóm tag: nhóm.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -968,6 +1040,11 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - in ra toàn bộ tag.\n"
 
 #: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --size          - in ra kích thước tag: kích thước.\n"
+
+#: ../urpmf:1
 #, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
@@ -988,6 +1065,19 @@ msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr ""
 "  --synthesis    - dùng tổng hợp (synthesis) nhận được để thay cho urpmi "
 "db.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr ""
+"  --media         - chỉ dùng phương tiện được trao, ngăn cách bởi dấu phẩy.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr ""
+"  --media         - chỉ dùng phương tiện được trao, ngăn cách bởi dấu phẩy.\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1206,11 +1296,6 @@ msgstr "khai báo proxy sai trong dòng lệnh\n"
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  tên hay tập tin rpm có trong dòng lệnh sẽ được cài đặt.\n"
 
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr "  -v             - chế độ verbose.\n"
-
 #: ../urpmi:1
 #, c-format
 msgid "  -q             - quiet mode.\n"
@@ -1411,10 +1496,10 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "không thể tạo phương tiện \"%s\"\n"
 
 #: ../urpmi.addmedia:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"`with' missing for ftp media\n"
+"`with' missing for network media\n"
 msgstr ""
 "%s\n"
 "thiếu `with' cho phương tiện ftp\n"
@@ -1460,15 +1545,6 @@ msgstr ""
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - cố tạo các tập tin hdlist.\n"
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
-msgstr ""
-"  -h             - cố tìm và dùng tập tin hdlist hoặc\n"
-"                   synthesis.\n"
 
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
@@ -1523,6 +1599,27 @@ msgid ""
 msgstr ""
 "  --distrib      - tự động tạo mọi phương tiện từ một phương tiện cài\n"
 "                     đặt.\n"
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr ""
+"  -h             - cố tìm và dùng tập tin hdlist hoặc\n"
+"                   synthesis.\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgstr ""
+"  -h             - cố tìm và dùng tập tin hdlist hoặc\n"
+"                   synthesis.\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1652,6 +1749,11 @@ msgstr "  -r             - in ra phiên bản và phát hành với tên.\n"
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - in ra các nhóm với tên.\n"
+
+#: ../urpmq:1
+#, fuzzy, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
+msgstr "  -r             - cũng in phiên bản và phát hành với tên.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1921,9 +2023,6 @@ msgstr "host %s không có phiên bản tốt của urpmi"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - cũng in các nhóm với tên.\n"
-
-#~ msgid "  -r             - print version and release too with name.\n"
-#~ msgstr "  -r             - cũng in phiên bản và phát hành với tên.\n"
 
 #~ msgid "  --auto         - automatically select a good package in choices.\n"
 #~ msgstr "  --auto         - tự động chọn một gói tin tốt trong các gói.\n"

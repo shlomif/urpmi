@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-03-06 18:04+0100\n"
+"POT-Creation-Date: 2003-05-08 08:55+0200\n"
 "PO-Revision-Date: 2001-12-20 23:13GMT+3\n"
 "Last-Translator: Mohammed Gamal <f2c2001@yahoo.com>\n"
 "Language-Team: Arabic\n"
@@ -197,8 +197,29 @@ msgstr "تعذر تثبيث الحزمة %s"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "unable to remove package %s"
 msgstr "تعذر حذف الحزمة %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing package %s"
+msgstr "تعذر حذف الحزمة %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "لم يمكن عمل الوسيط \"%s\"\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -261,10 +282,10 @@ msgid "medium \"%s\" does not define any location for rpm files"
 msgstr "الوسيط \"%s\" لا يعرف أي موقع لملفات rpm"
 
 #: ../urpm.pm:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, "
-"trying to use alternate method)"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
 "الوسيط \"%s\" يستخدم ملف قوائم غير صالح (ربما تكون المرآة غير محدّثة, جاري "
 "محاولة استخدام طريقة بديلة)"
@@ -411,8 +432,13 @@ msgstr "فشل استرجاع hdlist (أو ملف تخليق) المصدر"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "examining MD5SUM file"
-msgstr "جاري اختبار ملف MD5SUM"
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "فشل استرجاع hdlist (أو ملف تخليق) المصدر"
 
 # y, c-format
 #: ../urpm.pm:1
@@ -424,6 +450,16 @@ msgstr "تم ايجاد hdlist (أو ملف تخليق) كـ %s..."
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "جاري استرجاع hdlist (أو ملف تخليق) \"%s\"..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr "جاري اختبار ملف MD5SUM"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr "جاري نسخ hdlist (أو ملف تخليق) المصدر لـ\"%s\"..."
 
 #: ../urpm.pm:1
 #, c-format
@@ -466,6 +502,11 @@ msgid "copy of [%s] failed"
 msgstr "فشل نسخ [%s]"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "جاري نسخ hdlist (أو ملف تخليق) المصدر لـ\"%s\"..."
+
+#: ../urpm.pm:1
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "جاري نسخ hdlist (أو ملف تخليق) المصدر لـ\"%s\"..."
@@ -491,8 +532,8 @@ msgid "\"%s\""
 msgstr "\"%s\""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "trying to select inexistent medium \"%s\""
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
 msgstr "جاري محاولة اختيار وسيط غير موجود \"%s\""
 
 #: ../urpm.pm:1
@@ -534,13 +575,20 @@ msgid "medium \"%s\" already exists"
 msgstr "الوسيط \"%s\" موجود مسبقا"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "لا توجد حزمة بالإسم %s"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "problem reading hdlist file of medium \"%s\""
 msgstr "مشكلة في قراءة  ملف hdlist للوسيط \"%s\""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "--synthesis cannot be used with --media, --update or --parallel"
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
 msgstr "--synthesis cannot be used with --media, --update or --parallel"
 
 #: ../urpm.pm:1
@@ -792,6 +840,11 @@ msgstr "  -a             - اختر كل الحزم المتفقة مع المع
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr "  -v             - وضع تفصيلي.\n"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - distributed urpmi accross machines of alias.\n"
 
@@ -885,35 +938,53 @@ msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -i             - ignore case distinctions in every pattern.\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr ""
 "  --obsoletes     - print tag obsoletes: all obsoletes (multiple lines).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - print tag conflicts: all conflicts (multiple lines).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --files        - print tag files: all files (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --files        - print tag files: all files.\n"
 msgstr "  --files         - print tag files: all files (multiple lines).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
 msgstr ""
 "  --requires      - print tag requires: all requires (multiple lines).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr ""
 "  --provides      - print tag provides: all provides (multiple lines).\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --serial        - print tag serial: serial."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files         - print tag files: all files (multiple lines).\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr "  --group         - print tag group: group.\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr "  --group         - print tag group: group.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -955,6 +1026,11 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - print all tags.\n"
 
 #: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --size          - print tag size: size.\n"
+
+#: ../urpmf:1
 #, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
@@ -974,6 +1050,17 @@ msgstr "  --verbose      - verbose mode.\n"
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr "  --synthesis    - use the synthesis given instead of urpmi db.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --media        - use only the given media, separated by comma.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr "  --media        - use only the given media, separated by comma.\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1190,11 +1277,6 @@ msgstr "bad proxy declaration on command line\n"
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  الأسماء أو ملفات rpm المعطاة على سطر الأوامر سيتم تثبيتها.\n"
 
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr "  -v             - وضع تفصيلي.\n"
-
 #: ../urpmi:1
 #, c-format
 msgid "  -q             - quiet mode.\n"
@@ -1392,10 +1474,10 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "لم يمكن عمل الوسيط \"%s\"\n"
 
 #: ../urpmi.addmedia:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"`with' missing for ftp media\n"
+"`with' missing for network media\n"
 msgstr ""
 "%s\n"
 "`with' غير موجود لوسائط ftp\n"
@@ -1441,15 +1523,6 @@ msgstr ""
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - force generation of hdlist files.\n"
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
-msgstr ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
 
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
@@ -1504,6 +1577,27 @@ msgid ""
 msgstr ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr ""
+"  -h             - try to find and use synthesis or hdlist\n"
+"                   file.\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgstr ""
+"  -h             - try to find and use synthesis or hdlist\n"
+"                   file.\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1633,6 +1727,11 @@ msgstr "  -r             - تطبع الإصدار و رقمه أيضا مع ا�
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - تطبع المجموعات أيضا مع الأسماء أيضاً.\n"
+
+#: ../urpmq:1
+#, fuzzy, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
+msgstr "  -r             - تطبع الإصدار و رقمه أيضا مع الإسم.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1837,9 +1936,6 @@ msgstr "المستضيف %s لا يحتوي على اصدار جيد من urpmi"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - تطبع المجموعات أيضا مع الأسماء.\n"
-
-#~ msgid "  -r             - print version and release too with name.\n"
-#~ msgstr "  -r             - تطبع الإصدار و رقمه أيضا مع الإسم.\n"
 
 #~ msgid "  --auto         - automatically select a good package in choices.\n"
 #~ msgstr "  --auto         - قم باختيار حزمة جيدة في الاختيارات.\n"

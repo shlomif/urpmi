@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-03-05 21:19+0100\n"
+"POT-Creation-Date: 2003-05-08 08:55+0200\n"
 "PO-Revision-Date: 2003-01-29 23:47+0400\n"
 "Last-Translator: Aiet Kolkhi <aiet@gmx.net>\n"
 "Language-Team: Georgian\n"
@@ -194,11 +194,34 @@ msgstr ""
 "ჩაწეროს პაკეტები."
 
 #: ../urpm.pm:1
+#, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "unable to remove package %s"
 msgstr ""
 "მხოლოდ სრულუფლებიან მომხმარებელს აქვს უფლება \n"
 "ჩაწეროს პაკეტები."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing package %s"
+msgstr ""
+"მხოლოდ სრულუფლებიან მომხმარებელს აქვს უფლება \n"
+"ჩაწეროს პაკეტები."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "ვერ ვწერ საკონფიგურაციო ფაილს [%s]"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -263,8 +286,8 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, "
-"trying to use alternate method)"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -408,9 +431,14 @@ msgid "retrieve of source hdlist (or synthesis) failed"
 msgstr "source hdlist-ის (ან synthesis-ის) კოპირება o"
 
 #: ../urpm.pm:1
+#, c-format
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "examining MD5SUM file"
-msgstr "ვამოწმებ hdlist ფაილს [%s]"
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "source hdlist-ის (ან synthesis-ის) კოპირება o"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -420,6 +448,16 @@ msgstr "source hdlist-ის (ან synthesis-ის) კოპირება 
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "source hdlist-ის (ან synthesis-ის) კოპირება o"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "examining MD5SUM file"
+msgstr "ვამოწმებ hdlist ფაილს [%s]"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
 msgstr "source hdlist-ის (ან synthesis-ის) კოპირება o"
 
 #: ../urpm.pm:1
@@ -464,6 +502,11 @@ msgstr "...კოპირება ჩაიშალა"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "source hdlist-ის (ან synthesis-ის) კოპირება o"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "source hdlist-ის (ან synthesis-ის) კოპირება o"
 
@@ -488,8 +531,8 @@ msgid "\"%s\""
 msgstr "\"%s\""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "trying to select inexistent medium \"%s\""
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
 msgstr "ვცდილობ არარსებული მედიუმის ამორჩევას \"%s\""
 
 #: ../urpm.pm:1
@@ -532,13 +575,20 @@ msgid "medium \"%s\" already exists"
 msgstr "მედიუმი \"%s\" უკვე არსებობს"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "არც ერთ პაკეტს არ ქვია %s\n"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "problem reading hdlist file of medium \"%s\""
 msgstr "პრობლემა hdlist ფაილის ან მედიუმის კითხვისას \"%s\""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "--synthesis cannot be used with --media, --update or --parallel"
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
 msgstr ""
 "--synthesis პარამეტრი ვერ გამოიყენება --media, --update ან --parallel "
 "პარამეტრებთან ერთად"
@@ -795,6 +845,11 @@ msgstr ""
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr ""
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr ""
 
@@ -877,29 +932,47 @@ msgstr ""
 
 #: ../urpmf:1
 #, c-format
-msgid ""
-"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr ""
 
 #: ../urpmf:1
 #, c-format
-msgid ""
-"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 
 #: ../urpmf:1
 #, c-format
-msgid "  --files        - print tag files: all files (multiple lines).\n"
+msgid "  --files        - print tag files: all files.\n"
 msgstr ""
 
 #: ../urpmf:1
 #, c-format
-msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+msgid "  --requires     - print tag requires: all requires.\n"
 msgstr ""
 
 #: ../urpmf:1
 #, c-format
-msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+msgid "  --provides     - print tag provides: all provides.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
 msgstr ""
 
 #: ../urpmf:1
@@ -941,6 +1014,11 @@ msgstr ""
 
 #: ../urpmf:1
 #, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
 "command\n"
@@ -955,6 +1033,17 @@ msgstr ""
 #: ../urpmf:1 ../urpmq:1
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
+msgstr ""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr ""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
@@ -1160,11 +1249,6 @@ msgstr ""
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr ""
-
 #: ../urpmi:1
 #, c-format
 msgid "  -q             - quiet mode.\n"
@@ -1343,7 +1427,7 @@ msgstr ""
 #, c-format
 msgid ""
 "%s\n"
-"`with' missing for ftp media\n"
+"`with' missing for network media\n"
 msgstr ""
 
 #: ../urpmi.addmedia:1
@@ -1380,13 +1464,6 @@ msgstr ""
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
 msgstr ""
 
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
@@ -1429,6 +1506,23 @@ msgstr ""
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
 msgstr ""
 
 #: ../urpmi.addmedia:1
@@ -1538,6 +1632,11 @@ msgstr ""
 #: ../urpmq:1
 #, c-format
 msgid "  -g             - print groups with name also.\n"
+msgstr ""
+
+#: ../urpmq:1
+#, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
 msgstr ""
 
 #: ../urpmq:1

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-03-05 21:19+0100\n"
+"POT-Creation-Date: 2003-05-08 08:55+0200\n"
 "PO-Revision-Date: 2002-09-27 17:43+0200\n"
 "Last-Translator: Raivo Saars <spaiks@inbox.lv>\n"
 "Language-Team: ll10nt <ll10nt@listes.murds.lv>\n"
@@ -198,8 +198,29 @@ msgstr "nevaru instalçt pakotni %s"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "unable to remove package %s"
 msgstr "nevaru noòemt pakotni %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing package %s"
+msgstr "nevaru noòemt pakotni %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "nevar izveidot datu nesçju \"%s\"\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -264,8 +285,8 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, "
-"trying to use alternate method)"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -409,9 +430,14 @@ msgid "retrieve of source hdlist (or synthesis) failed"
 msgstr ""
 
 #: ../urpm.pm:1
+#, c-format
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "examining MD5SUM file"
-msgstr "eksaminçju hdlist failu [%s]"
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "saraksta fails priekð \"%s\" ir tukðs"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -422,6 +448,16 @@ msgstr "saraksta fails priekð \"%s\" ir tukðs"
 #, fuzzy, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "atgûstu \"%s\" apraksta failu..."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "examining MD5SUM file"
+msgstr "eksaminçju hdlist failu [%s]"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr "saraksta fails priekð \"%s\" ir tukðs"
 
 #: ../urpm.pm:1
 #, c-format
@@ -465,6 +501,11 @@ msgstr "[%s] kopçðana neizdevâs"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "saraksta fails priekð \"%s\" ir tukðs"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "saraksta fails priekð \"%s\" ir tukðs"
 
@@ -490,7 +531,7 @@ msgstr "\"%s\""
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "trying to select inexistent medium \"%s\""
+msgid "trying to select nonexistent medium \"%s\""
 msgstr "mçìinâts izvçlçties neeksistçjoðu datu nesçju \"%s\""
 
 #: ../urpm.pm:1
@@ -531,13 +572,20 @@ msgid "medium \"%s\" already exists"
 msgstr "datu nesçjs \"%s\" jau eksistç"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "nav pakotnes ar nosaukumu %s"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "problem reading hdlist file of medium \"%s\""
 msgstr "problçma nolasot datu nesçja \"%s\" hdlist failu"
 
 #: ../urpm.pm:1
-#, c-format
-msgid "--synthesis cannot be used with --media, --update or --parallel"
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
 msgstr "--synthesis nevar tikt lietots ar --media, --update vai --parallel"
 
 #: ../urpm.pm:1
@@ -796,6 +844,11 @@ msgstr "  -c             - iztîrît iesâkumu keðatmiòas direktoriju.\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr "  -v             - runîgais reþîms.\n"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr ""
 
@@ -884,30 +937,48 @@ msgstr "  -f             - forsçt hdlist failu ìenerçðanu.\n"
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid ""
-"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr "  --obsoletes     - drukât iezîmi: novecojuðas (vairâkas rindiòas)."
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid ""
-"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts     - drukât iezîmi: konflikti (vairâkas rindiòas)."
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid "  --files        - print tag files: all files (multiple lines).\n"
+msgid "  --files        - print tag files: all files.\n"
 msgstr "  --files         - drukât iezîmi: faili (vairâkas rindiòas)."
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+msgid "  --requires     - print tag requires: all requires.\n"
 msgstr "  --requires      - drukât iezîmi: nepiecieðamas (vairâkas rindiòas)."
 
 #: ../urpmf:1
 #, fuzzy, c-format
-msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr "  --provides      - drukât iezîmi: nodroðina (vairâkas rindiòas)."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --serial        - drukât iezîmi: seriâlais numurs."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files         - drukât iezîmi: faili (vairâkas rindiòas)."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr "  --group         - drukât iezîmi: grupa."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr "  --group         - drukât iezîmi: grupa."
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -950,6 +1021,11 @@ msgstr "  --all           - drukât visas iezîmes."
 
 #: ../urpmf:1
 #, fuzzy, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --size          - drukât iezîmi: izmçrs."
+
+#: ../urpmf:1
+#, fuzzy, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
 "command\n"
@@ -966,6 +1042,17 @@ msgstr "  -v             - runîgais reþîms.\n"
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr ""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --update       - izveidot atjauninâðanas datu nesçju.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr "  --update       - izveidot atjauninâðanas datu nesçju.\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1180,11 +1267,6 @@ msgstr ""
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr "  -v             - runîgais reþîms.\n"
-
 #: ../urpmi:1
 #, c-format
 msgid "  -q             - quiet mode.\n"
@@ -1371,10 +1453,10 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "nevar izveidot datu nesçju \"%s\"\n"
 
 #: ../urpmi.addmedia:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"`with' missing for ftp media\n"
+"`with' missing for network media\n"
 msgstr ""
 "%s\n"
 "`with' trûkst priekð ftp datu avota\n"
@@ -1421,14 +1503,6 @@ msgstr ""
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - forsçt hdlist failu ìenerçðanu.\n"
 
-#: ../urpmi.addmedia:1
-#, fuzzy, c-format
-msgid ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
-msgstr ""
-"  -h             - mçìinât atrast un lietot synthesis vai hdlist failu.\n"
-
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, fuzzy, c-format
 msgid "  -c             - clean headers cache directory.\n"
@@ -1472,6 +1546,25 @@ msgid ""
 msgstr ""
 "  --distrib      - automâtiski veidot visas vides no instalâcijas datu "
 "nesçja.\n"
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr ""
+"  -h             - mçìinât atrast un lietot synthesis vai hdlist failu.\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgstr ""
+"  -h             - mçìinât atrast un lietot synthesis vai hdlist failu.\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1599,6 +1692,11 @@ msgstr ""
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr ""
+
+#: ../urpmq:1
+#, fuzzy, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
+msgstr "  -f             - forsçt hdlist failu ìenerçðanu.\n"
 
 #: ../urpmq:1
 #, fuzzy, c-format

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-03-06 18:04+0100\n"
+"POT-Creation-Date: 2003-05-08 08:55+0200\n"
 "PO-Revision-Date: 2003-03-11 19:14+0500\n"
 "Last-Translator: Dilshod Marupov <dma165@hotmail.com>\n"
 "Language-Team: Tajik\n"
@@ -202,8 +202,29 @@ msgstr "кор гузоштани қуттии %s номумкин"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "unable to remove package %s"
 msgstr "хориҷи қуттии %s номумкин"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing package %s"
+msgstr "хориҷи қуттии %s номумкин"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "офаридани муҳити \"%s\" номумкин\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -269,8 +290,8 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, "
-"trying to use alternate method)"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -415,8 +436,13 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
-msgid "examining MD5SUM file"
-msgstr "санҷидани файли MD5SUM"
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "нусхабардории сарчашмаи hdlist (ё synthesis)-и \"%s\"..."
 
 #: ../urpm.pm:1
 #, c-format
@@ -427,6 +453,16 @@ msgstr "hdlist (ё synthesis)-и таҳқиқшуда ёфт шуд ҳамчун
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "барқароркунии сарчашмаи hdlist (ё synthesis) \"%s\"..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr "санҷидани файли MD5SUM"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr "нусхабардории сарчашмаи hdlist (ё synthesis)-и \"%s\"..."
 
 #: ../urpm.pm:1
 #, c-format
@@ -469,6 +505,11 @@ msgid "copy of [%s] failed"
 msgstr "нусхаи [%s] нагузашт"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "нусхабардории сарчашмаи hdlist (ё synthesis)-и \"%s\"..."
+
+#: ../urpm.pm:1
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "нусхабардории сарчашмаи hdlist (ё synthesis)-и \"%s\"..."
@@ -494,8 +535,8 @@ msgid "\"%s\""
 msgstr ""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "trying to select inexistent medium \"%s\""
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
 msgstr "кӯшиши интихоби муҳити вуҷуд надоштаи \"%s\""
 
 #: ../urpm.pm:1
@@ -538,13 +579,20 @@ msgid "medium \"%s\" already exists"
 msgstr "муҳити \"%s\" аллакай вуҷуд дорад"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "қуттии бо номи %s нест"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "problem reading hdlist file of medium \"%s\""
 msgstr "муаммои хониши файли hdlist барои миёнаи \"%s\""
 
 #: ../urpm.pm:1
-#, c-format
-msgid "--synthesis cannot be used with --media, --update or --parallel"
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
 msgstr "--synthesis бо --media, --update ё --parallel истифода бурда намешавад"
 
 #: ../urpm.pm:1
@@ -805,6 +853,11 @@ msgstr "  -a             - интихоби ҳамаи қуттиҳои бо и�
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr ""
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr ""
 
@@ -892,35 +945,53 @@ msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -i             - инкоркунии фарқиятҳои вазъият дар ҳар восита.\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr ""
 "  --кӯҳнашудаҳо   - чопи кӯҳнашудаҳои тэг: ҳама кӯҳнашудаҳо (сатрҳои зиёд).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --зиддиятҳо     - чопи зиддиятҳои тэг: ҳама зиддиятҳо (сатрҳои зиёд).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --files        - print tag files: all files (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --files        - print tag files: all files.\n"
 msgstr " --файлҳо        - чопи файлҳои тэг: ҳама файлҳо (сатрҳои зиёд).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
 msgstr ""
 " --дархостҳо     - чопи дархостҳои тэг: ҳама дархостҳо (сатрҳои зиёд).\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr ""
 "  --таъминот      - чопи таъминоти тэг: ҳама таъминот (сатрҳои зиёд).\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --силсила       - чопи силсилаи тэг: силсила."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr " --файлҳо        - чопи файлҳои тэг: ҳама файлҳо (сатрҳои зиёд).\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr " --гурӯҳ          - чопи гурӯҳи тэг: гурӯҳ.\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr " --гурӯҳ          - чопи гурӯҳи тэг: гурӯҳ.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -962,6 +1033,11 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --ҳама          - чопи ҳама тэгҳо.\n"
 
 #: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --ҳаҷм          - чопи ҳаҷми тэг: ҳаҷм.\n"
+
+#: ../urpmf:1
 #, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
@@ -981,6 +1057,19 @@ msgstr ""
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr ""
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr ""
+"  --media        - истифодаи танҳо муҳити додашуда, бо вергул ҷудошуда.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr ""
+"  --media        - истифодаи танҳо муҳити додашуда, бо вергул ҷудошуда.\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1192,11 +1281,6 @@ msgstr ""
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr ""
 
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr ""
-
 #: ../urpmi:1
 #, c-format
 msgid "  -q             - quiet mode.\n"
@@ -1380,10 +1464,10 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "офаридани муҳити \"%s\" номумкин\n"
 
 #: ../urpmi.addmedia:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"`with' missing for ftp media\n"
+"`with' missing for network media\n"
 msgstr ""
 "%s\n"
 "`with' барои муҳити ftp ҳозир нест\n"
@@ -1428,13 +1512,6 @@ msgstr ""
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
-msgstr ""
-
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
 msgid "  -c             - clean headers cache directory.\n"
@@ -1475,6 +1552,23 @@ msgstr ""
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
 msgstr ""
 
 #: ../urpmi.addmedia:1
@@ -1605,6 +1699,11 @@ msgstr "  -r             - чопи нашр ва нусха ҳамчун бо �
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - чопи гурӯҳҳо ҳамчун бо ном.\n"
+
+#: ../urpmq:1
+#, fuzzy, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
+msgstr "  -r             - чопи нашр ва нусха ҳамчун бо ном.\n"
 
 #: ../urpmq:1
 #, c-format

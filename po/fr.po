@@ -12,7 +12,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fr\n"
-"POT-Creation-Date: 2003-03-06 18:04+0100\n"
+"POT-Creation-Date: 2003-05-08 08:55+0200\n"
 "PO-Revision-Date: 2003-03-01 15:43+0100\n"
 "Last-Translator: Combelles Christophe <ccomb@club-internet.fr>\n"
 "Language-Team: French <fr@li.org>\n"
@@ -222,8 +222,29 @@ msgstr "impossible d'installer le paquetage %s"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "unable to remove package %s"
 msgstr "impossible d'enlever le paquetage %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing package %s"
+msgstr "impossible d'enlever le paquetage %s"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "impossible de créer la source « %s »\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -287,10 +308,10 @@ msgid "medium \"%s\" does not define any location for rpm files"
 msgstr "Le médium « %s » ne définit aucun emplacement pour les fichiers rpm"
 
 #: ../urpm.pm:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, "
-"trying to use alternate method)"
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
 "Le medium « %s » utilise un fichier de liste invalide (le site mirroir n'est "
 "probablement pas à jour. Essai d'une méthode alternative en cours...)"
@@ -438,8 +459,13 @@ msgstr "la récupération du hdlist source (ou synthèse) a échoué"
 
 #: ../urpm.pm:1
 #, c-format
-msgid "examining MD5SUM file"
-msgstr "examen du fichier de contrôle MD5SUM"
+msgid "md5sum mismatch"
+msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "la récupération du hdlist source (ou synthèse) a échoué"
 
 #: ../urpm.pm:1
 #, c-format
@@ -450,6 +476,16 @@ msgstr "hdlist source (ou synthèse) potentiel trouvé en tant que %s"
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "récupération du hdlist source (ou synthèse) de « %s »..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr "examen du fichier de contrôle MD5SUM"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr "copie du hdlist source (ou synthèse) de « %s »..."
 
 #: ../urpm.pm:1
 #, c-format
@@ -492,6 +528,11 @@ msgid "copy of [%s] failed"
 msgstr "la copie de [%s] a échoué"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "copie du hdlist source (ou synthèse) de « %s »..."
+
+#: ../urpm.pm:1
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "copie du hdlist source (ou synthèse) de « %s »..."
@@ -517,8 +558,8 @@ msgid "\"%s\""
 msgstr "« %s »"
 
 #: ../urpm.pm:1
-#, c-format
-msgid "trying to select inexistent medium \"%s\""
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
 msgstr "essaye de sélectionner une source inexistante « %s »"
 
 #: ../urpm.pm:1
@@ -561,13 +602,20 @@ msgid "medium \"%s\" already exists"
 msgstr "la source « %s » existe déjà"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "skipping package %s"
+msgstr "pas de paquetage nommé %s"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "problem reading hdlist file of medium \"%s\""
 msgstr "problème de lecture du fichier hdlist sur la source « %s »"
 
 #: ../urpm.pm:1
-#, c-format
-msgid "--synthesis cannot be used with --media, --update or --parallel"
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
 msgstr ""
 "--synthesis ne peut pas être utilisée avec --media, --update ou --parallel"
 
@@ -829,6 +877,11 @@ msgstr ""
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr "  -v             - mode verbeux.\n"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - urpmi distribué sur plusieurs machines d'alias.\n"
 
@@ -927,37 +980,55 @@ msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -i             - ignorer la distinction de case.\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr ""
 "  --obsoletes     - afficher le champ « obsoletes » : toutes les "
 "obsolescences.\n"
 
 #: ../urpmf:1
-#, c-format
-msgid ""
-"  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - afficher le champ « conflicts » : tous les conflits.\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --files        - print tag files: all files (multiple lines).\n"
-msgstr ""
-"  --files         - afficher le champ « files » : tous les fichiers.\n"
+#, fuzzy, c-format
+msgid "  --files        - print tag files: all files.\n"
+msgstr "  --files         - afficher le champ « files » : tous les fichiers.\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
 msgstr ""
-"  --requires      - afficher le champ « requires » : toutes les dépendances.\n"
+"  --requires      - afficher le champ « requires » : toutes les "
+"dépendances.\n"
 
 #: ../urpmf:1
-#, c-format
-msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
+#, fuzzy, c-format
+msgid "  --provides     - print tag provides: all provides.\n"
 msgstr ""
 "  --provides      - afficher le champ « provides » : tous les apports/\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --serial        - afficher le champ « serial » : numéro de série."
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files         - afficher le champ « files » : tous les fichiers.\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr "  --group        - afficher le champ « group » : groupe.\n"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr "  --group        - afficher le champ « group » : groupe.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -999,6 +1070,11 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - afficher tous les champs.\n"
 
 #: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --size         - afficher le champ « size » : taille.\n"
+
+#: ../urpmf:1
 #, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
@@ -1018,6 +1094,21 @@ msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr ""
 "  --synthesis    - utilise le fichier de synthèse donné plutôt que la base\n"
 "                   de données urpmi.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr ""
+"  --media        - utilise seulement les sources listées (séparés par des\n"
+"                   virgules).\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr ""
+"  --media        - utilise seulement les sources listées (séparés par des\n"
+"                   virgules).\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1244,11 +1335,6 @@ msgstr ""
 "  les noms ou les fichiers rpm donnés en ligne de commande seront "
 "installés.\n"
 
-#: ../urpmi:1 ../urpmq:1
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr "  -v             - mode verbeux.\n"
-
 #: ../urpmi:1
 #, c-format
 msgid "  -q             - quiet mode.\n"
@@ -1470,10 +1556,10 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "impossible de créer la source « %s »\n"
 
 #: ../urpmi.addmedia:1
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "%s\n"
-"`with' missing for ftp media\n"
+"`with' missing for network media\n"
 msgstr ""
 "%s\n"
 "directive « with » manquante pour la source ftp\n"
@@ -1521,15 +1607,6 @@ msgstr ""
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - forcer la génération des fichiers hdlist.\n"
-
-#: ../urpmi.addmedia:1
-#, c-format
-msgid ""
-"  -h             - try to find and use synthesis or hdlist\n"
-"                   file.\n"
-msgstr ""
-"  -h             - essaye de trouver et d'utiliser le fichier \n"
-"                   hdlist ou de synthèse.\n"
 
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
@@ -1587,6 +1664,27 @@ msgid ""
 msgstr ""
 "  --distrib      - crée automatiquement toutes les media sources à partir\n"
 "                   d'une source d'installation.\n"
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr ""
+"  -h             - essaye de trouver et d'utiliser le fichier \n"
+"                   hdlist ou de synthèse.\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, fuzzy, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgstr ""
+"  -h             - essaye de trouver et d'utiliser le fichier \n"
+"                   hdlist ou de synthèse.\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1718,6 +1816,11 @@ msgstr "  -r             - affiche la version détaillée ainsi que le nom.\n"
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - afficher les groupes ainsi que les noms\n"
+
+#: ../urpmq:1
+#, fuzzy, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
+msgstr "  -r             - affiche la version détaillée ainsi que le nom.\n"
 
 #: ../urpmq:1
 #, c-format
