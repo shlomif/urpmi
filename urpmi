@@ -533,6 +533,7 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
 	push @to_install, $fullname;
     }
 }
+$urpm->{nb_install} = @to_install;
 if ($env) {
     my $msg = $#to_install
       ? N("To satisfy dependencies, the following %d packages are going to be installed (%d MB)", $#to_install+1, toMb($sum))

@@ -2728,7 +2728,7 @@ sub extract_packages_to_install {
 sub install_logger {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
     my $pkg = defined $id && $urpm->{depslist}[$id];
-    my $total_pkg = $urpm->{nb_install} + $urpm->{nb_upgrade};
+    my $total_pkg = $urpm->{nb_install};
     my $progress_size = $total_pkg ? 45 : 50;
 
     if ($subtype eq 'start') {
@@ -2856,8 +2856,6 @@ sub install {
 	    } $pkg->files;
 	    close $fh;
 	};
-	$urpm->{nb_install} += scalar keys %$install;
-	$urpm->{nb_upgrade} += scalar keys %$upgrade;
 	if (scalar keys %$install || scalar keys %$upgrade) {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
