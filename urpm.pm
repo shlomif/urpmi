@@ -2475,7 +2475,7 @@ sub exlock_urpmi_db {
     my ($LOCK_EX, $LOCK_NB) = (2, 4);
 
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    open LOCK_FILE, $urpm->{statedir};
+    open LOCK_FILE, ">$urpm->{statedir}/.LOCK";
     flock LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 
