@@ -41,16 +41,7 @@ sub wait_label {
     sync();
 }
 
-#- Parse command line
-my (@all_rpms);
-foreach (@ARGV) {
-    if (/^-/) {
-	/^--?[hv?]/ and usage();
-	fatal(N("Unknown option %s", $_));
-    }
-    push @all_rpms, $_;
-}
-@all_rpms or fatal(N("No packages specified"));
+my @all_rpms = gurpmi::parse_command_line();
 
 $> and fatal(N("Must be root"));
 
@@ -107,6 +98,7 @@ sub configure_urpm {
     $urpm->exlock_rpm_db;
     $urpm->shlock_urpmi_db;
     $urpm->configure;
+    $urpm->{options}{'verify-rpm'} = 0 if $gurpmi::options{'no-verify-rpm'};
     #- default options values
     exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1 foreach qw(post-clean verify-rpm split-length);
     $urpm->{options}{'split-level'} = 20 unless exists $urpm->{options}{'split-level'};

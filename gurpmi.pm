@@ -20,7 +20,7 @@ use strict;
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(usage fatal but quit add_button_box new_label);
+our @EXPORT = qw(fatal but quit add_button_box new_label);
 
 sub usage () {
     print STDERR <<USAGE;
@@ -33,6 +33,22 @@ USAGE
 
 #- fatal gurpmi initialisation error (*not* fatal urpmi errors)
 sub fatal { print STDERR "$_[0]\n"; exit 1 }
+
+#- Parse command line
+#- puts options in %gurpmi::options
+sub parse_command_line {
+    my @all_rpms;
+    our %options;
+    foreach (@ARGV) {
+	if (/^-/) {
+	    $_ eq '--no-verify-rpm' and $options{'no-verify-rpm'} = 1;
+	    /^--?[hv?]/ and usage();
+	    fatal(N("Unknown option %s", $_));
+	}
+	push @all_rpms, $_;
+    }
+    return @all_rpms or fatal(N("No packages specified"));
+}
 
 sub but ($) { "    $_[0]    " }
 

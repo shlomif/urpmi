@@ -16,20 +16,9 @@ use Gtk2;
 use MDK::Common::Func qw(partition);
 
 #- globals
-my (@all_rpms, $srpms, $rpms);
+my ($srpms, $rpms);
 my ($mainw, $mainbox);
-
-#- Gtk2 helper functions
-
-#- Parse command line
-foreach (@ARGV) {
-    if (/^-/) {
-	/^--?[hv?]/ and usage();
-	fatal(N("Unknown option %s", $_));
-    }
-    push @all_rpms, $_;
-}
-@all_rpms or fatal(N("No packages specified"));
+my @all_rpms = gurpmi::parse_command_line();
 
 #- Now, the graphical stuff.
 
