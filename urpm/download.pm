@@ -349,7 +349,7 @@ sub sync_curl {
 			}
 			#- this regexp checks that download has actually started
 			#- (work around a bug in curl 7.12.2 output when 302 answers are involved)
-			if ($_ eq "\n" && $buf !~ /--:--:--/) {
+			if ($_ eq "\n" && ($percent == 100 || $buf !~ /--:--:--/)) {
 			    propagate_sync_callback($options, 'end', $file);
 			    $file = undef;
 			}
