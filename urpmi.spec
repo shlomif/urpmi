@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 15mdk
+Release: 16mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Wed Feb 27 2002 François Pons <fpons@mandrakesoft.com> 3.3-16mdk
+- fixed possible problem on urpmi update db (perl die workarounded).
+
 * Mon Feb 25 2002 François Pons <fpons@mandrakesoft.com> 3.3-15mdk
 - fixed not to require Fcntl module (in perl package).
 - fixed bad behaviour on src package as user (no message).

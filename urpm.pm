@@ -1008,7 +1008,7 @@ sub update_media {
 	foreach my $file (keys %{$urpm->{params}{provides}}) {
 	    $file =~ /^\// or next;
 	    foreach (keys %{$urpm->{params}{provides}{$file} || {}}) {
-		eval { push @{$urpm->{params}{info}{$_}{provides}}, $file };
+		eval { push @{$urpm->{params}{info}{$_}{provides}}, $file }; #- HACK
 	    }
 	}
 
@@ -1451,7 +1451,7 @@ sub parse_synthesis {
 	    #- an already existing entries has been found, so
 	    #- add additional information (except name or info).
 	    foreach my $tag (keys %info) {
-		$tag ne 'name' && $tag ne 'info' and $found->{$tag} ||= $info{$tag};
+		eval { $tag ne 'name' && $tag ne 'info' and $found->{$tag} ||= $info{$tag}; }; #- HACK
 	    }
 	    $serial and $found->{serial} ||= $serial;
 	    $size and $found->{size} ||= $size;
