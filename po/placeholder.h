@@ -41,6 +41,7 @@ N_("wget of [%s] failed (maybe wget is missing?)"),
 N_("mismatch arch for registering rpm file"),
 N_("unable to write list file of \"%s\""),
 N_("removing %d obsolete headers in cache"),
+N_("error registering local packages"),
 N_("trying to bypass existing medium \"%s\", avoiding"),
 N_("unable to build synthesis file for medium \"%s\""),
 N_(""
@@ -102,20 +103,13 @@ N_("To satisfy dependencies, the following packages are going to be installed (%
 N_("unable to get source packages, aborting"),
 N_("Try installation without checking dependencies? (y/N) "),
 N_("Please insert the medium named \"%s\" on device [%s]"),
-N_("Sorry, bad choice, try again\n"),
-N_("Is it ok?"),
-N_("Yy"),
-N_("Try installation even more strongly (--force)? (y/N) "),
-N_("installing %s\n"),
-N_("Installation failed"),
-N_("Only superuser is allowed to install local packages"),
-N_("Ok"),
 N_(""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
 "This is free software and may be redistributed under the terms of the GNU GPL.\n"
 "usage:\n"
 "  --help           - print this help message.\n"
+"  --update         - use only update media.\n"
 "  --auto           - automatically select a good package in choices.\n"
 "  --auto-select    - automatically select packages for upgrading the system.\n"
 "  --force          - force invocation even if some package do not exist.\n"
@@ -131,16 +125,15 @@ N_(""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 ""),
+N_("Sorry, bad choice, try again\n"),
+N_("Is it ok?"),
+N_("Yy"),
+N_("Try installation even more strongly (--force)? (y/N) "),
+N_("installing %s\n"),
+N_("Installation failed"),
+N_("Only superuser is allowed to install local packages"),
+N_("Ok"),
 N_("Nn"),
-N_(""
-"usage: urpmi.addmedia <name> <url>\n"
-"where <url> is one of\n"
-"       file://<path>\n"
-"       ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>\n"
-"       ftp://<host>/<path> with <relative filename of hdlist>\n"
-"       http://<host>/<path> with <relative filename of hdlist>\n"
-"       removable_<device>://<path>\n"
-""),
 N_(""
 "%s\n"
 "`with' missing for ftp media\n"
@@ -151,6 +144,15 @@ N_(""
 "device `%s' do not exist\n"
 ""),
 N_("unable to create medium \"%s\"\n"),
+N_(""
+"usage: urpmi.addmedia [--update] <name> <url>\n"
+"where <url> is one of\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>\n"
+"       ftp://<host>/<path> with <relative filename of hdlist>\n"
+"       http://<host>/<path> with <relative filename of hdlist>\n"
+"       removable_<device>://<path>\n"
+""),
 N_(""
 "%s\n"
 "<relative path of hdlist> missing\n"
@@ -189,17 +191,18 @@ N_(""
 "usage:\n"
 "  -h             - print this help message.\n"
 "  -v             - verbose mode.\n"
-"  -d             - extend query to package dependancies.\n"
+"  -d             - extend query to package dependencies.\n"
 "  -u             - remove package if a better version is already installed.\n"
-"  -m             - extend query to package dependancies, remove already\n"
+"  -m             - extend query to package dependencies, remove already\n"
 "                   installed package that provide what is necessary, add\n"
 "                   packages that may be block the upgrade.\n"
-"  -M             - extend query to package dependancies and remove already\n"
+"  -M             - extend query to package dependencies and remove already\n"
 "                   installed package only if they are newer or the same.\n"
 "  -c             - choose complete method for resolving requires closure.\n"
 "  -p             - allow search in provides to find package.\n"
 "  -g             - print groups too with name.\n"
 "  -r             - print version and release too with name.\n"
+"  --update       - use only update media.\n"
 "  --auto-select  - automatically select packages for upgrading the system.\n"
 "  --headers      - extract headers for package listed from urpmi db to\n"
 "                   stdout (root only).\n"
