@@ -2084,7 +2084,7 @@ sub get_source_packages {
 		    }
 		}
 		$list_warning && $medium->{list} && -r "$urpm->{statedir}/$medium->{list}" and
-		    $urpm->{error}(N("medium \"%s\" use an invalid list file (mirror is problably not up-to-date, trying to use alternate method)", $medium->{name}));
+		    $urpm->{error}(N("medium \"%s\" uses an invalid list file (mirror is problably not up-to-date, trying to use alternate method)", $medium->{name}));
 	    } elsif (!%list_examined) {
 		$error = 1;
 		$urpm->{error}(N("medium \"%s\" does not define any location for rpm files", $medium->{name}));
