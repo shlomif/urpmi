@@ -1,6 +1,6 @@
 %define name	urpmi
 %define version	4.4
-%define release 47mdk
+%define release 48mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -228,6 +228,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Dec 24 2003 Olivier Thauvin <thauvin@aerov.jussieu.fr> 4.4-48mdk
+- urpmi.update: add --force-key 
+- urpmq: add --list-url and --dump-config
+
 * Mon Dec 22 2003 Warly <warly@mandrakesoft.com> 4.4-47mdk
 - rebuild for new perlreq
 

@@ -1169,6 +1169,8 @@ sub update_media {
 	#- take care of modified medium only or all if all have to be recomputed.
 	$medium->{ignore} and next;
 
+	$options{forcekey} and delete $medium->{'key-ids'};
+	
 	#- and create synthesis file associated if it does not already exists...
 	-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" > 32 or $medium->{modified_synthesis} = 1;
 

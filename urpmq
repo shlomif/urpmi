@@ -46,6 +46,8 @@ usage:
                    packages that leads to remove.
 ") . N("  --list         - list available packages.
 ") . N("  --list-media   - list available media.
+") . N("  --list-url     - list available media and their url.
+") . N("  --dump-config  - dump the config in form of urpmi.addmedia argument.
 ") . N("  --list-nodes   - list available nodes when using --parallel.
 ") . N("  --list-aliases - list available parallel aliases.
 ") . N("  --src          - next package is a source package (same as -s).
@@ -99,6 +101,8 @@ while (defined($_ = shift @ARGV)) {
     /^--keep$/ and do { $query->{keep} = 1; next };
     /^--list$/ and do { $query->{list} = 1; next };
     /^--list-media$/ and do { $query->{list_media} = 1; next };
+    /^--list-url$/ and do { $query->{list_url} = 1; next };
+    /^--dump-config$/ and do { $query->{dump_config} = 1; next };
     /^--list-nodes$/ and do { $query->{list_nodes} = 1; next };
     /^--list-aliases$/ and do { $query->{list_aliases} = 1; next };
     /^--src$/ and do { $query->{src} = 1; next };
@@ -163,7 +167,7 @@ while (defined($_ = shift @ARGV)) {
 $query->{verbose} or $urpm->{log} = sub {};
 
 #- improve speed if using any list_... options.
-$query->{nodepslist} = $query->{list_aliases} || $query->{list_nodes} || $query->{list_media};
+$query->{nodepslist} = $query->{list_aliases} || $query->{list_nodes} || $query->{list_media} || $query->{dump_config} || $query->{list_url};
 
 if ($query->{env}) {
     print STDERR N("using specific environment on %s\n", $query->{env});
@@ -206,11 +210,22 @@ if ($query->{list_aliases}) {
 	print "$_\n";
     }
     exit 0;
-} elsif ($query->{list_media}) {
+} elsif ($query->{list_media} || $query->{list_url}) {
     foreach (@{$urpm->{media}}) {
-	print "$_->{name}\n";
+	print "$_->{name}" . ($query->{list_url} ? " $_->{url}" : "") . "\n";
     }
     exit 0;
+} elsif ($query->{dump_config}) {
+   foreach (@{$urpm->{media}}) {
+	$_->{update} and print "--update ";
+	$_->{virtual} and print "--virtual ";
+	$_->{synthesis} and print "--synthesis ";
+	print "$_->{name} ";
+	print "$_->{url} ";
+	print $_->{with_hdlist} ? "with $_->{with_hdlist}" : "";
+	print "\n";
+   }
+   exit 0;
 } elsif ($query->{list}) {
     #- if list has been activated, select all...
     @{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
