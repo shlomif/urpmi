@@ -3,7 +3,7 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA);
 
-$VERSION = '3.9';
+$VERSION = '4.0';
 @ISA = qw(URPM);
 
 =head1 NAME
