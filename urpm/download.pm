@@ -17,11 +17,13 @@ sub import () {
     foreach my $symbol (qw(get_proxy
 	propagate_sync_callback
 	sync_file sync_wget sync_curl sync_rsync sync_ssh
+	set_proxy_config dump_proxy_config
     )) {
 	*{$c.'::'.$symbol} = *$symbol;
     }
 }
 
+#- parses proxy.cfg (private)
 sub load_proxy_config () {
     return if defined $proxy_config;
     open my $f, $PROXY_CFG or $proxy_config = {}, return;
@@ -32,13 +34,33 @@ sub load_proxy_config () {
 	    $proxy_config->{$1 || ''}{$2} = $3;
 	    next;
 	}
-	if (/^(?:(.*):\s*)?proxy_user\s*=\s*(.*)(?::(.*))?$/) {
+	if (/^(?:(.*):\s*)?proxy_user\s*=\s*([^:]*)(?::(.*))?$/) {
 	    $proxy_config->{$1 || ''}{user} = $2;
 	    $proxy_config->{$1 || ''}{pwd} = $3 if defined $3;
 	    next;
 	}
     }
     close $f;
+}
+
+#- writes proxy.cfg
+sub dump_proxy_config () {
+    return 0 unless defined $proxy_config; #- hasn't been read yet
+    open my $f, '>', $PROXY_CFG or return 0;
+    print $f "# generated ".(scalar localtime)."\n";
+    for ('', sort grep { !/^(|cmd_line)$/ } keys %$proxy_config) {
+	my $m = $_ eq '' ? '' : "$_:";
+	my $p = $proxy_config->{$_};
+	for (qw(http_proxy ftp_proxy)) {
+	    defined $p->{$_} && $p->{$_} ne ''
+		and print $f "$m$_=$p->{$_}\n";
+	}
+	defined $p->{user} && $p->{user} ne ''
+	    and print $f "${m}proxy_user=$p->{user}:$p->{pwd}\n";
+    }
+    close $f;
+    chmod 0600, $PROXY_CFG; #- may contain passwords
+    return 1;
 }
 
 #- reads and loads the proxy.cfg file ;
@@ -68,6 +90,12 @@ sub set_cmdline_proxy {
 	pwd => undef,
     };
     $proxy_config->{cmd_line}{$_} = $h{$_} for keys %h;
+}
+
+#- changes permanently the proxy settings
+sub set_proxy_config {
+    my ($key, $value, $o_media) = @_;
+    $proxy_config->{$o_media || ''}{$key} = $value;
 }
 
 #- set up the environment for proxy usage for the appropriate tool.

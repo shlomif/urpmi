@@ -1,11 +1,13 @@
 #!/usr/bin/perl
 
-use Test::More tests => 4;
+use Test::More 'no_plan';
 use MDK::Common;
 
 BEGIN { use_ok 'urpm::cfg' }
+BEGIN { use_ok 'urpm::download' }
 
 my $file = 'testurpmi.cfg';
+my $proxyfile = $urpm::download::PROXY_CFG = 'testproxy.cfg';
 open my $f, '>', $file or die $!;
 print $f (my $cfgtext = <<URPMICFG);
 {
@@ -52,4 +54,30 @@ $cfgtext2 =~ s/# generated.*\n//;
 is( $cfgtext, $cfgtext2, 'config is the same' )
     or system qw( diff -u ), $file, $file.2;
 
-END { unlink $file, $file.2 }
+open $f, '>', $proxyfile or die $!;
+print $f ($cfgtext = <<PROXYCFG);
+http_proxy=http://foo:8080/
+local:http_proxy=http://yoyodyne:8080/
+local:proxy_user=rafael:richard
+PROXYCFG
+close $f;
+
+my $p = get_proxy();
+is( $p->{http_proxy}, 'http://foo:8080/', 'read proxy' );
+ok( !defined $p->{user}, 'no user defined' );
+$p = get_proxy('local');
+is( $p->{http_proxy}, 'http://yoyodyne:8080/', 'read media proxy' );
+is( $p->{user}, 'rafael', 'proxy user' );
+is( $p->{pwd}, 'richard', 'proxy password' );
+ok( dump_proxy_config(), 'dump_proxy_config' );
+$cfgtext2 = cat_($proxyfile);
+$cfgtext2 =~ s/# generated.*\n//;
+is( $cfgtext, $cfgtext2, 'dumped correctly' );
+set_proxy_config(http_proxy => '');
+ok( dump_proxy_config(), 'dump_proxy_config erased' );
+$cfgtext2 = cat_($proxyfile);
+$cfgtext2 =~ s/# generated.*\n//;
+$cfgtext =~ s/^http_proxy.*\n//;
+is( $cfgtext, $cfgtext2, 'dumped correctly' );
+
+END { unlink $file, $file.2, $proxyfile }
