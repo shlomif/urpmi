@@ -155,7 +155,7 @@ sub propagate_sync_callback {
 sub sync_file {
     my $options = shift;
     foreach (@_) {
-	my ($in) = m!^(?:removable[^:]*|file):/(.*)!;
+	my ($in) = m!^(?:removable[^:]*:/|file:/)(/.*)!;
 	propagate_sync_callback($options, 'start', $_);
 	system("cp", "-p", "-R", $in || $_, ref($options) ? $options->{dir} : $options)
 	    and die N("copy failed");

@@ -321,7 +321,7 @@ sub probe_removable_device {
 
     #- try to find device to open/close for removable medium.
     if (exists($medium->{removable})) {
-	if (my ($dir) = $medium->{url} =~ m!(?:file|removable)[^:]*:/(.*)!) {
+	if (my ($dir) = $medium->{url} =~ m!^(?:(?:file|removable)[^:]*:/)?(/.*)!) {
 	    my %infos;
 	    my @mntpoints = urpm::sys::find_mntpoints($dir, \%infos);
 	    if (@mntpoints > 1) { #- return value is suitable for an hash.
@@ -636,7 +636,7 @@ sub add_medium {
 		  };
 
 	#- check to see if the medium is using file protocol or removable medium.
-	$url =~ m!^(removable[^:]*|file):/(.*)! and $urpm->probe_removable_device($medium);
+	$url =~ m!^(?:(removable[^:]*|file):/)?(/.*)! and $urpm->probe_removable_device($medium);
     }
 
     #- local media have priority, other are added at the end.
@@ -670,7 +670,7 @@ sub add_distrib_media {
     $urpm->{media} or $urpm->read_config;
 
     #- try to copy/retrieve the hdlists file.
-    if (my ($dir) = $url =~ m!^(?:removable[^:]*|file):/(.*)!) {
+    if (my ($dir) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
 	#- be compatible with pre-10.1 layout
 	-d "$dir/$distrib_root" or $distrib_root = "Mandrake/base";
 
@@ -993,7 +993,8 @@ sub update_media {
 	}
 
 	#- check to see if the medium is using file protocol or removable medium.
-	if (($prefix, $dir) = $medium->{url} =~ m!^(removable[^:]*|file):/(.*)!) {
+	if (($prefix, $dir) = $medium->{url} =~ m!^(?:(removable[^:]*|file):/)?(/.*)!) {
+	    $prefix ||= 'file';
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
 	    if (!$media_redone{$medium->{name}}) {
 		my $reconfig_urpmi = reduce_pathname("$dir/reconfig.urpmi");
@@ -1003,8 +1004,8 @@ sub update_media {
 		}
 	    }
 
-	    #- try to figure a possible hdlist_path (or parent directory of searched directory.
-	    #- this is used to probe possible hdlist file.
+	    #- try to figure a possible hdlist_path (or parent directory of searched directory).
+	    #- this is used to probe for a possible hdlist file.
 	    my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 
 	    #- the directory given does not exist and may be accessible
@@ -2325,7 +2326,7 @@ sub get_source_packages {
 	    #- always prefer a list file is available.
 	    my $file = $medium->{list} ? "$urpm->{statedir}/$medium->{list}" : '';
 	    if (!$file && $medium->{virtual}) {
-		my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*|file)?:/(.*)!;
+		my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!;
 		my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 		my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
 		$file = reduce_pathname("$with_hdlist_dir/../$local_list");
@@ -2514,7 +2515,7 @@ sub copy_packages_of_removable_media {
 	if (!$dir || -e $dir) {
 	    foreach (values %{$list->[$id]}) {
 		chomp;
-		m!^(removable_?[^_:]*|file):/(.*/([^/]*))! or next;
+		m!^(removable[^:]*:/|file:/)?(/.*/([^/]*)$)! or next;
 		unless ($dir) {
 		    $dir = $2;
 		    $urpm->try_mounting($dir, $removable);
@@ -2527,14 +2528,14 @@ sub copy_packages_of_removable_media {
 	return 0;
     };
     #- removable media have to be examined to keep mounted the one that has
-    #- more package than other (size is better ?).
+    #- more packages than others.
     my $examine_removable_medium = sub {
 	my ($id, $device, $copy) = @_;
 	my $medium = $urpm->{media}[$id];
-	if (my ($prefix, $dir) = $medium->{url} =~ m!^(removable[^:]*|file):/(.*)!) {
+	if (my ($dir) = $medium->{url} =~ m!^(?:(?:removable[^:]*|file):/)?(/.*)!) {
 	    #- the directory given does not exist or may be accessible
-	    #- by mounting some other. try to figure out these directory and
-	    #- mount everything necessary.
+	    #- by mounting some other. Try to figure out these directories and
+	    #- mount everything that might be necessary.
 	    while ($check_notfound->($id, $dir, 'removable')) {
 		$options{ask_for_medium} or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir); system("eject", $device);
@@ -2544,12 +2545,12 @@ sub copy_packages_of_removable_media {
 	    if (-e $dir) {
 		while (my ($i, $url) = each %{$list->[$id]}) {
 		    chomp $url;
-		    my ($filepath, $filename) = $url =~ m!^(?:removable[^:]*|file):/(.*/([^/]*))! or next;
+		    my ($filepath, $filename) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*/([^/]*))! or next;
 		    if (-r $filepath) {
 			if ($copy) {
-			    #- we should assume a possible buggy removable device...
-			    #- first copy in cache, and if the package is still good, transfert it
-			    #- to the great rpms cache.
+			    #- we should assume a possibly buggy removable device...
+			    #- First, copy in partial cache, and if the package is still good,
+			    #- transfer it to the rpms cache.
 			    unlink "$urpm->{cachedir}/partial/$filename";
 			    if (!system("cp", "-p", "-R", $filepath, "$urpm->{cachedir}/partial") &&
 				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
@@ -2583,8 +2584,7 @@ sub copy_packages_of_removable_media {
 	#- examine non removable device but that may be mounted.
 	if ($medium->{removable}) {
 	    push @{$removables{$medium->{removable}} ||= []}, $_;
-	} elsif (my ($prefix, $dir) = $medium->{url} =~ m!^(removable[^:]*|file):/(.*)!) {
-	    chomp $dir;
+	} elsif (my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
 	    -e $dir || $urpm->try_mounting($dir) or
 	      $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
 	}
@@ -2633,9 +2633,9 @@ sub download_packages_of_distant_media {
 
 	#- examine all files to know what can be indexed on multiple media.
 	while (my ($i, $url) = each %{$list->[$_]}) {
-	    #- it is trusted that the url given is acceptable, so the file can safely be ignored.
+	    #- the given URL is trusted, so the file can safely be ignored.
 	    defined $sources->{$i} and next;
-	    if ($url =~ /^(removable[^:]*|file):\/(.*\.rpm)$/) {
+	    if ($url =~ m{^(removable[^:]*:/|file:/)?(/.*\.rpm)$}) {
 		if (-r $2) {
 		    $sources->{$i} = $2;
 		} else {
