@@ -104,7 +104,7 @@ if ($test && $auto) {
     foreach (@toremove) {
 	$sum += $state->{rejected}{$_}{size};
     }
-    my $msg = N("To satisfy dependencies, the following packages are going to be removed (%d MB)", toMb($sum));
+    my $msg = N("To satisfy dependencies, the following packages will be removed (%d MB)", toMb($sum));
     print STDOUT "$msg:\n" . join("\n", sort { $a cmp $b } @toremove) . "\n$askok" . N(" (Y/n) ");
     <STDIN> =~ /[$noexpr]/ and exit 0;
 }
