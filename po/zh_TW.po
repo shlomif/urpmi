@@ -930,18 +930,18 @@ msgstr "正在由媒體 \"%s\" 擷取 rpm 檔案..."
 #: ../urpm.pm:2817
 #, c-format
 msgid "using process %d for executing transaction"
-msgstr "正在使用第 %d 號程序執行交辦的安裝事項"
+msgstr "正在使用第 %d 號程序執行交辦的安裝程序"
 
 #: ../urpm.pm:2848
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
-msgstr "已建立在 %s 上的安裝事項 (移除 = %d，安裝 = %d，升級 = %d)"
+msgstr "已建立在 %s 上的安裝程序 (移除 = %d，安裝 = %d，升級 = %d)"
 
 #: ../urpm.pm:2851
 #, c-format
 msgid "unable to create transaction"
-msgstr "無法建立安裝事項"
+msgstr "無法建立安裝程序"
 
 #: ../urpm.pm:2858
 #, c-format
@@ -1079,7 +1079,8 @@ msgstr "  --test         - 確認刪除是否能夠正確進行。\n"
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - 即使某些套件不存在仍然強制執行。\n"
+msgstr ""
+"  --force        - 即使某些套件不存在仍然強制執行。\n"
 
 #: ../urpme:45 ../urpmi:102 ../urpmq:65
 #, c-format
@@ -1192,7 +1193,8 @@ msgstr "  --excludemedia - 不使用給定的媒體，不同媒體間請以逗�
 #, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr "  --sortmedia    - 依據子字串排序媒體，以逗號分開。\n"
+msgstr ""
+"  --sortmedia    - 依據子字串排序媒體，以逗號分開。\n"
 
 #: ../urpmf:37 ../urpmq:49
 #, c-format
@@ -1217,7 +1219,7 @@ msgstr ""
 #: ../urpmf:41
 #, c-format
 msgid "  --uniq         - do not print identical lines.\n"
-msgstr "  --uniq          - 不顯示相同的訊息。\n"
+msgstr "  --uniq         - 不顯示相同的訊息。\n"
 
 #: ../urpmf:42
 #, c-format
@@ -1237,17 +1239,17 @@ msgstr "  --group        - 顯示群組標籤：群組。\n"
 #: ../urpmf:45
 #, c-format
 msgid "  --size         - print tag size: size.\n"
-msgstr "  --size          - 顯示大小標籤：大小。\n"
+msgstr "  --size         - 顯示大小標籤：大小。\n"
 
 #: ../urpmf:46
 #, c-format
 msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr "  --epoch          - 顯示時期標籤：時期。\n"
+msgstr "  --epoch        - 顯示時期標籤：時期。\n"
 
 #: ../urpmf:47
 #, c-format
 msgid "  --summary      - print tag summary: summary.\n"
-msgstr "  --summary       - 列印摘要標籤：摘要。\n"
+msgstr "  --summary      - 列印摘要標籤：摘要。\n"
 
 #: ../urpmf:48
 #, c-format
@@ -1292,19 +1294,20 @@ msgstr "  --files        - 顯示檔案標籤：檔案。\n"
 #: ../urpmf:56
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr "  --conflicts     - 顯示衝突標籤：衝突。\n"
+msgstr "  --conflicts    - 顯示衝突標籤：衝突。\n"
 
 #: ../urpmf:57
 #, c-format
 msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-msgstr "  --obsoletes     - 顯示廢棄標籤：廢棄。\n"
+msgstr "  --obsoletes    - 顯示廢棄標籤：廢棄。\n"
 
 #: ../urpmf:58 ../urpmi:117 ../urpmq:74
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
-msgstr "  --env          - 使用特定環境 (一般用於臭蟲回報)。\n"
+msgstr ""
+"  --env          - 使用特定環境 (一般用於臭蟲回報)。\n"
 
 #: ../urpmf:60
 #, c-format
@@ -1325,18 +1328,20 @@ msgstr "  -e             - 直接包含 perl 原始碼，類似 perl -e。\n"
 #, c-format
 msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
-msgstr "  -a             - 二元 AND 運算子，若兩表示式皆真則其值為真。\n"
+msgstr ""
+"  -a             - 二元 AND 運算子，若兩表示式皆真則其值為真。\n"
 
 #: ../urpmf:64
 #, c-format
 msgid ""
 "  -o             - binary OR operator, true if one expression is true.\n"
-msgstr "  -o             - 二元 OR 運算子，若表示式之一為真則其值為真。\n"
+msgstr ""
+"  -o             - 二元 OR 運算子，若表示式之一為真則其值為真。\n"
 
 #: ../urpmf:65
 #, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr "  !             - 一元 NOT 運算子，若表示式假則其值為真。\n"
+msgstr "  !              - 一元 NOT 運算子，若表示式假則其值為真。\n"
 
 #: ../urpmf:66
 #, c-format
@@ -1392,29 +1397,32 @@ msgstr ""
 "使用方式：\n"
 
 #: ../urpmi:79 ../urpmq:46
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested (or updated) "
 "packages.\n"
-msgstr "  --searchmedia        - 只使用給定的媒體, 以逗號分開.\n"
+msgstr ""
+"  --searchmedia  - 只使用指定的媒體來搜尋或升級套件。\n"
 
 #: ../urpmi:82
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr "  --synthesis    - 使用給定的綜合而不是 urpmi db.\n"
+msgstr "  --synthesis    - 使用指定的 synthesis 檔而非 urpmi 資料庫。\n"
 
 #: ../urpmi:84 ../urpmq:50
 #, c-format
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - 自動選擇升級系統的套件.\n"
+msgstr ""
+"  --auto-select  - 自動選擇要用來升級系統的套件。\n"
 
 #: ../urpmi:85
 #, c-format
 msgid ""
 "  --no-uninstall - never ask to uninstall a package, abort the "
 "installation.\n"
-msgstr "  --no-uninstall - 永不要求反安裝一個套件, 中斷安裝.\n"
+msgstr ""
+"  --no-uninstall - 絕不要求移除套件，直接中斷安裝。\n"
 
 #: ../urpmi:86 ../urpmq:52
 #, c-format
@@ -1422,8 +1430,8 @@ msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
-"  --keep         - 盡可能保留存在的套件, 拒絕                  會導致移除的被"
-"要求的套件.\n"
+"  --keep         - 盡可能的保留現存的套件，拒絕安裝會導致移除其他套件的\n"
+"                   套件。\n"
 
 #: ../urpmi:88
 #, c-format
@@ -1432,36 +1440,39 @@ msgid ""
 "                   are going to be installed or upgraded,\n"
 "                   default is %d.\n"
 msgstr ""
+"  --split-level  - 如果要安裝或升級的套件數大於指定的數量，將整個安裝程序\n"
+"                   分割為幾個小的安裝程序。\n"
+"                   預設值為 %d。\n"
 
 #: ../urpmi:91
 #, c-format
 msgid "  --split-length - small transaction length, default is %d.\n"
-msgstr ""
+msgstr "  --split-length - 小型安裝程序大小，預設值為 %d。\n"
 
 #: ../urpmi:92 ../urpmq:51
 #, c-format
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
-msgstr "  --fuzzy        - 加上模糊搜尋(如同 -y).\n"
+msgstr "  --fuzzy        - 加上模糊搜尋 (與 -y 相同)。\n"
 
 #: ../urpmi:93 ../urpmq:60
 #, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
-msgstr "  --src          - 下個套件是原始碼套件 (如同 -s).\n"
+msgstr "  --src          - 下個套件是原始碼套件 (與 -s 相同)。\n"
 
 #: ../urpmi:94
 #, c-format
 msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr ""
+msgstr "  --install-src  - 只安裝原始碼套件 (不安裝二進位檔)。\n"
 
 #: ../urpmi:95
 #, c-format
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --clean        - 在任何其他事前先由 cache 中移除 rpm.\n"
+msgstr "  --clean        - 在執行任何事前先由快取中移除 RPM 檔案。\n"
 
 #: ../urpmi:96
 #, c-format
 msgid "  --noclean      - keep rpm not used in cache.\n"
-msgstr "  --noclean      - 保留 cache 中未使用的 rpm.\n"
+msgstr "  --noclean      - 保留快取中未使用的 RPM 檔案。\n"
 
 #: ../urpmi:98
 #, c-format
@@ -1469,8 +1480,7 @@ msgid ""
 "  --allow-nodeps - allow asking user to install packages without\n"
 "                   dependencies checking.\n"
 msgstr ""
-"  --allow-nodeps - 允許要求使用者不檢查相依性\n"
-"                   安裝套件.\n"
+"  --allow-nodeps - 允許要求使用者不檢查相依性就安裝套件。\n"
 
 #: ../urpmi:100
 #, c-format
@@ -1478,13 +1488,13 @@ msgid ""
 "  --allow-force  - allow asking user to install packages without\n"
 "                   dependencies checking and integrity.\n"
 msgstr ""
-"  --allow-force  - 允許要求使用者安裝套件\n"
-"                   而不檢查相依性與完整性.\n"
+"  --allow-force  - 允許要求使用者安裝套件而不檢查相依性與完整\n"
+"                   性。\n"
 
 #: ../urpmi:103
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - 使用另一個 rpm 安裝的根.\n"
+msgstr "  --root         - 使用另一個跟目錄進行 RPM 套件的安裝。\n"
 
 #: ../urpmi:104
 #, fuzzy, c-format
@@ -1498,17 +1508,17 @@ msgstr ""
 #: ../urpmi:106 ../urpmi.addmedia:48 ../urpmi.update:31 ../urpmq:68
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
-msgstr "  --wget         - 使用 wget 擷取遠端檔案.\n"
+msgstr "  --wget         - 使用 wget 擷取遠端檔案。\n"
 
 #: ../urpmi:107 ../urpmi.addmedia:49 ../urpmi.update:32 ../urpmq:69
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
-msgstr "  --curl         - 使用 curl 擷取遠端檔案.\n"
+msgstr "  --curl         - 使用 curl 擷取遠端檔案。\n"
 
 #: ../urpmi:108 ../urpmi.addmedia:50 ../urpmi.update:33
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
-msgstr ""
+msgstr "  --limit-rate   - 限制下載的速度。\n"
 
 #: ../urpmi:109
 #, c-format
@@ -1516,8 +1526,8 @@ msgid ""
 "  --resume       - resume transfer of partially-downloaded files\n"
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"  --resume       - 重新開始部份下載檔案的傳送\n"
-"                   (--no-resume 禁用它, 預設為禁用).\n"
+"  --resume       - 接著傳送下載到一半的檔案\n"
+"                   (--no-resume 選項停用它，預設值為停用)。\n"
 
 #: ../urpmi:111 ../urpmi.addmedia:51 ../urpmi.update:34 ../urpmq:70
 #, c-format
@@ -1525,8 +1535,8 @@ msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
 "                   to be 1080 by default (format is <proxyhost[:port]>).\n"
 msgstr ""
-"  --proxy        - 使用指定的 HTTP proxy, port number 被假設\n"
-"                   為1080 為預設值 (格式為 <proxyhost[:port]>).\n"
+"  --proxy        - 使用指定的 HTTP 代理伺服器，通訊埠假設為預設值 1080 \n"
+"                   (格式為 <proxyhost[:port]>)。\n"
 
 #: ../urpmi:113 ../urpmi.addmedia:53 ../urpmi.update:36 ../urpmq:72
 #, c-format
@@ -1534,15 +1544,16 @@ msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
 msgstr ""
-"  --proxy-user   - 指定 proxy 認證的使用者與密碼\n"
-"                   (格式為 <user:password>).\n"
+"  --proxy-user   - 指定代理伺服器認證的使用者帳號與密碼\n"
+"                   (格式為 <user:password>)。\n"
 
 #: ../urpmi:115
 #, fuzzy, c-format
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
-msgstr "  --env          - 使用特定環境 (一般用於臭蟲回報).\n"
+msgstr ""
+"  --bug          - 使用特定環境 (一般用於臭蟲回報).\n"
 
 #: ../urpmi:119
 #, c-format
@@ -1550,29 +1561,30 @@ msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
 msgstr ""
-"  --verify-rpm   - 安裝前檢驗 rpm 簽名.\n"
-"                   (--no-verify-rpm 禁用它, 預設為啟用).\n"
+"  --verify-rpm   - 安裝前檢驗 RPM 檔案的簽名.\n"
+"                   (--no-verify-rpm 停用它，預設值為啟用)。\n"
 
 #: ../urpmi:121
 #, c-format
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
-msgstr "  --test         - 確認安裝是否能夠正確達成.\n"
+msgstr ""
+"  --test         - 確認安裝是否能夠正確完成。\n"
 
 #: ../urpmi:122
 #, c-format
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr "  --excludepath  - 排除以逗號分開的路徑.\n"
+msgstr "  --excludepath  - 排除以逗號分隔的路徑。\n"
 
 #: ../urpmi:123
 #, c-format
 msgid "  --excludedocs  - exclude docs files.\n"
-msgstr ""
+msgstr "  --excludedocs  - 排除說明文件檔案。"
 
 #: ../urpmi:124
-#, fuzzy, c-format
+#, c-format
 msgid "  --skip         - packages which installation should be skipped\n"
-msgstr "  --test         - 確認安裝是否能夠正確達成.\n"
+msgstr "  --skip         - 安裝時應該略過的套件。\n"
 
 #: ../urpmi:125
 #, c-format
@@ -1584,65 +1596,66 @@ msgstr ""
 #: ../urpmi:127 ../urpmi.addmedia:75 ../urpmi.update:41
 #, fuzzy, c-format
 msgid "  --norebuild    - don't try to rebuild hdlist if not readable.\n"
-msgstr "  --buildhost    - 顯示標籤 buildhost: build host.\n"
+msgstr "  --norebuild    - 如果 hdlist 檔案無法讀取，不要嘗試重新建立\n"
+"                   它。\n"
 
 #: ../urpmi:128
 #, c-format
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
-msgstr ""
+msgstr "  --strict-arch  - 只升級相同平台的套件。"
 
 #: ../urpmi:129 ../urpmq:77
 #, c-format
 msgid "  -a             - select all matches on command line.\n"
-msgstr "  -a             - 選擇命令列中所有符合項目.\n"
+msgstr "  -a             - 選擇命令列中所有符合的項目。\n"
 
 #: ../urpmi:130
 #, c-format
 msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - 允許於 provides 中搜尋以找到套件.\n"
+msgstr "  -p             - 允許於 provides 中搜尋套件。\n"
 
 #: ../urpmi:131
 #, c-format
 msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - 不於 provides 中搜尋以找到套件.\n"
+msgstr "  -P             - 不在 provides 中搜尋套件。\n"
 
 #: ../urpmi:132 ../urpmq:91
 #, c-format
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr "  -y             - 加上模糊搜尋( 如同 --fuzzy).\n"
+msgstr "  -y             - 加上模糊搜尋 (與 --fuzzy 相同)。\n"
 
 #: ../urpmi:133 ../urpmq:88
 #, c-format
 msgid "  -s             - next package is a source package (same as --src).\n"
-msgstr "  -s             - 下個套件是原始檔套件 (如同 --src).\n"
+msgstr "  -s             - 下個套件是原始碼套件 (與 --src 相同)。\n"
 
 #: ../urpmi:134 ../urpmi.addmedia:78 ../urpmi.removemedia:49
 #: ../urpmi.update:47
 #, c-format
 msgid "  -q             - quiet mode.\n"
-msgstr "  -q             - 安靜模式.\n"
+msgstr "  -q             - 安靜模式。\n"
 
 #: ../urpmi:136
 #, c-format
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr "  於命令列指定的名稱或 rpm 檔案將會被安裝.\n"
+msgstr "  將會安裝於命令列指定的名稱或 RPM 檔案。\n"
 
 #: ../urpmi:179
 #, c-format
 msgid "What can be done with binary rpm files when using --install-src"
-msgstr "當使用 --install-src 時隨著二元 rpm 檔案可做的事"
+msgstr "使用 --install-src 時二進位 RPM 檔案可做的事"
 
 #: ../urpmi:188
 #, c-format
 msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
-msgstr "目錄 [%s] 已經存在, 請使用另一個目錄給臭蟲報告或刪除它"
+msgstr "目錄 [%s] 已經存在，請指定另一個目錄給臭蟲回報或刪除它"
 
 #: ../urpmi:189
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
-msgstr "無法建立 [%s] 目錄給臭蟲回報"
+msgstr "無法建立 [%s] 目錄給臭蟲回報使用"
 
 #: ../urpmi:192 ../urpmi:313
 #, c-format
@@ -1652,7 +1665,7 @@ msgstr "複製失敗"
 #: ../urpmi:209
 #, c-format
 msgid "Only superuser is allowed to install packages"
-msgstr "只有 superuser 才允許安裝套件"
+msgstr "只有擁有管理者權限的使用者才能安裝套件"
 
 #: ../urpmi:218
 #, c-format
@@ -1660,6 +1673,8 @@ msgid ""
 "Error: %s appears to be mounted read-only.\n"
 "Use --allow-force to force operation."
 msgstr ""
+"錯誤： %s 似乎被掛載為唯讀模式。\n"
+"使用 --allow-force 標籤來強制執行。"
 
 #: ../urpmi:348
 #, c-format
@@ -1701,7 +1716,7 @@ msgid ""
 "have to be removed for others to be upgraded:\n"
 "%s\n"
 msgstr ""
-"安裝無法繼續因為下列套件必須移除給其他套件來升級:\n"
+"安裝無法繼續，因為下列套件必須移除給其他套件來升級：\n"
 "%s\n"
 
 #: ../urpmi:417
@@ -1710,24 +1725,24 @@ msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s"
 msgstr ""
-"下列套件必須移除給其他套件來升級:\n"
+"下列套件必須移除給其他套件來升級：\n"
 "%s"
 
 #: ../urpmi:452 ../urpmi:463
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be installed "
 "(%d MB)"
 msgstr ""
-"為了能夠滿足相依性的要求，下面的套件也必須一同安裝上:\n"
-"\n"
+"為了滿足相依性，下列的 %d 個套件 (%d MB) 將一併安裝"
 
 #: ../urpmi:453 ../urpmi:464
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed (%d "
 "MB)"
-msgstr "為了滿足相依性, 下列套件將會被移除 (%d MB)"
+msgstr ""
+"為了滿足相依性，下列的套件 (%d MB) 將一併安裝"
 
 #: ../urpmi:459
 #, c-format
@@ -1735,7 +1750,7 @@ msgid ""
 "You need to be root to install the following dependencies:\n"
 "%s\n"
 msgstr ""
-"您需要為 root 以安裝下列相依性項目:\n"
+"您必須具有管理者權限以安裝下列的相依性項目：\n"
 "%s\n"
 
 #: ../urpmi:489
@@ -1746,12 +1761,12 @@ msgstr "準備好時請按 Enter..."
 #: ../urpmi:543
 #, c-format
 msgid "The following packages have bad signatures"
-msgstr "下列套件有壞的簽名"
+msgstr "下列套件有不正確不正確的簽章"
 
 #: ../urpmi:544
 #, c-format
 msgid "Do you want to continue installation ?"
-msgstr "您要繼續進行安裝嗎?"
+msgstr "您要繼續安裝嗎？"
 
 #: ../urpmi:584
 #, c-format
@@ -1759,9 +1774,9 @@ msgid "distributing %s"
 msgstr "正在發佈 %s"
 
 #: ../urpmi:595
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s from %s"
-msgstr "正在安裝 %s"
+msgstr "正在由 %2$s 安裝 %1$s"
 
 #: ../urpmi:597
 #, c-format
@@ -1771,27 +1786,27 @@ msgstr "正在安裝 %s"
 #: ../urpmi:620
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
-msgstr "嘗試不檢查相依性安裝? (y/N)(是/否)"
+msgstr "嘗試不檢查相依性直接安裝？ (y/N)(是/否)"
 
 #: ../urpmi:639
 #, c-format
 msgid "Try installation even more strongly (--force)? (y/N) "
-msgstr "嘗試甚至更強制的安裝方式 (--force)? (y/N)(是/否)"
+msgstr "嘗試採用強制安裝的方式 (--force)？ (y/N)(是/否)"
 
 #: ../urpmi:680
 #, c-format
 msgid "%d installation transactions failed"
-msgstr "%d 安裝處理失敗"
+msgstr "%d 個安裝程序失敗"
 
 #: ../urpmi:688
 #, c-format
 msgid "Installation is possible"
-msgstr "安裝為可能的"
+msgstr "可以安裝"
 
 #: ../urpmi:707
 #, c-format
 msgid "restarting urpmi"
-msgstr "正在重新開始 urpmi"
+msgstr "正在重新啟動 urpmi"
 
 #: ../urpmi.addmedia:38
 #, c-format
@@ -1821,24 +1836,25 @@ msgstr ""
 #: ../urpmi.addmedia:55
 #, c-format
 msgid "  --update       - create an update medium.\n"
-msgstr "  --update       - 建立更新的媒體.\n"
+msgstr "  --update       - 建立更新的媒體。\n"
 
 #: ../urpmi.addmedia:56
 #, c-format
 msgid "  --probe-synthesis - try to find and use synthesis file.\n"
-msgstr "  --probe-synthesis - 嘗試尋找並使用綜合檔案.\n"
+msgstr "  --probe-synthesis - 嘗試尋找並使用 synthesis 檔案。\n"
 
 #: ../urpmi.addmedia:57
 #, c-format
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
-msgstr "  --probe-hdlist - 嘗試尋找並使用 hdlist 檔案.\n"
+msgstr "  --probe-hdlist - 嘗試尋找並使用 hdlist 檔案。\n"
 
 #: ../urpmi.addmedia:58
 #, c-format
 msgid ""
 "  --no-probe     - do not try to find any synthesis or\n"
 "                   hdlist file.\n"
-msgstr "  --no-probe     - 不嘗試尋找綜合檔案或 hdlist 檔案.\n"
+msgstr ""
+"  --no-probe     - 不尋找任何 synthesis 或 hdlist 檔案。\n"
 
 #: ../urpmi.addmedia:60
 #, c-format
