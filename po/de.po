@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-04-23 15:20+0200\n"
+"POT-Creation-Date: 2001-05-14 13:29+0200\n"
 "PO-Revision-Date: 2001-04-05 19:32+0200\n"
 "Last-Translator: Stefan Siegel <siegel@linux-mandrake.de>\n"
 "Language-Team: German <de@li.org>\n"
@@ -124,8 +124,8 @@ msgstr ""
 "Verwendung: urpmi.addmedia <Name> <URL>\n"
 "Mit <URL> aus folgender Menge:\n"
 "       file://<Pfad>\n"
-"       ftp://<Login>:<Passwort>@<Rechner>/<Pfad> with <relativer Pfad zur "
-"HD-Liste>\n"
+"       ftp://<Login>:<Passwort>@<Rechner>/<Pfad> with <relativer Pfad zur HD-"
+"Liste>\n"
 "       ftp://<Rechner>/<Pfad> with <relativer Pfad zur HD-Liste>\n"
 "       http://<Rechner>/<Pfad> with <relativer Pfad zur HD-Liste>\n"
 "       removable_<Gerät>://<Pfad>\n"
@@ -234,11 +234,11 @@ msgstr "Eine schlechte Wahl, versuchen Sie es erneut\n"
 #: urpmi:233
 #, c-format
 msgid ""
-"To satisfy dependencies, the following packages are going to be installed "
-"(%d MB)"
+"To satisfy dependencies, the following packages are going to be installed (%"
+"d MB)"
 msgstr ""
-"Um die Abhängigkeiten zu erfüllen, werden die folgenden Pakete installiert "
-"(%d MB)"
+"Um die Abhängigkeiten zu erfüllen, werden die folgenden Pakete installiert (%"
+"d MB)"
 
 #: urpmi:264
 #, c-format
@@ -274,6 +274,15 @@ msgstr "Soll ich eine Installation mit Gewalt (--force) versuchen? (j/N) "
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "Verwendung: urpmi.addmedia <Name> <URL>"
 
+#. <path>
+#. <login>:<password>@<host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <path>
+#: urpmi.addmedia:43
+msgid "));"
+msgstr "));"
+
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
@@ -287,6 +296,10 @@ msgstr "Ich kann das Medium »%s« nicht aktualisieren.\n"
 #: urpmi.update:43
 msgid "usage: urpmi.update [-a] <name> ..."
 msgstr "Verwendung: urpmi.update [-a] <Name> ..."
+
+#: urpmi.removemedia:42 urpmi.update:48
+msgid "), $_);"
+msgstr "), $_);"
 
 #: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
@@ -335,9 +348,11 @@ msgstr "Ich kann die Quellpakete nicht finden, Abbruch."
 #~ msgstr "Unbekannte Option »%s«\n"
 
 #~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
+#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name "
+#~ "[package_names...]\n"
 #~ msgstr ""
-#~ "Verwendung: urpmi [-h] [--auto] [--force] [-a] Paket_Name [Paket_Namen ...]\n"
+#~ "Verwendung: urpmi [-h] [--auto] [--force] [-a] Paket_Name "
+#~ "[Paket_Namen ...]\n"
 
 #~ msgid "no package named %s\n"
 #~ msgstr "Kein Paketname angegeben %s\n"

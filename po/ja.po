@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-04-23 15:20+0200\n"
+"POT-Creation-Date: 2001-05-14 13:29+0200\n"
 "PO-Revision-Date: 1999-12-19 14:43+0100\n"
 "Last-Translator: Taisuke Yamada <tai@imasy.or.jp>\n"
 "Language-Team: Japanese\n"
@@ -92,8 +92,8 @@ msgstr ""
 "オプション一覧:\n"
 "  --help           - このメッセージを表示します\n"
 "  --auto           - 最適なパッケージを自動選択します\n"
-"  --auto-select    - "
-"システムアップグレードに必要なパッケージを自動選択します\n"
+"  --auto-select    - システムアップグレードに必要なパッケージを自動選択しま"
+"す\n"
 "  --force          - 存在しないパッケージがある場合でも続行します\n"
 "  --X              - 表示に X を利用します（GUI）\n"
 "  --best-output    - 表示に X かテキストのいずれかを自動判定して利用します\n"
@@ -155,7 +155,7 @@ msgstr ""
 "「<relative path of hdlist>」部分の指定がありません\n"
 
 #: placeholder.h:49
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.update [-a] <name> ...\n"
 "where <name> is a medium name to update.\n"
@@ -168,6 +168,8 @@ msgstr ""
 "使用方法: urpmi.update [-a] <name> ...\n"
 "ここで <name> はアップデート対象のメディアの名前です。\n"
 "  -a    すべてのメディアを選択します\n"
+"  -c    ヘッダキャッシュをクリアします\n"
+"  -f    hdlist またはベースファイルを無条件に生成します\n"
 "\n"
 "サポートされていないオプションです: %s\n"
 
@@ -230,8 +232,8 @@ msgstr "有効な選択ではありません。もう一度お願いします\n"
 #: urpmi:233
 #, c-format
 msgid ""
-"To satisfy dependencies, the following packages are going to be installed "
-"(%d MB)"
+"To satisfy dependencies, the following packages are going to be installed (%"
+"d MB)"
 msgstr "依存関係のため、次のパッケージもインストールします (%d MB)"
 
 #: urpmi:264
@@ -264,12 +266,21 @@ msgstr ""
 #: urpmi:309
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr ""
-"再度インストールを試みますか？（--force 相当です） (はい(y)/いいえ(N)) "
-"[いいえ] "
+"再度インストールを試みますか？（--force 相当です） (はい(y)/いいえ(N)) [いい"
+"え] "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "使用方法: urpmi.addmedia <name> <url>"
+
+#. <path>
+#. <login>:<password>@<host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <path>
+#: urpmi.addmedia:43
+msgid "));"
+msgstr "));"
 
 #: urpmi.addmedia:63
 #, c-format
@@ -284,6 +295,10 @@ msgstr "アップデートを「%s」について行なうことができませんでした\n"
 #: urpmi.update:43
 msgid "usage: urpmi.update [-a] <name> ..."
 msgstr "使用方法: urpmi.update [-a] <name> <url>"
+
+#: urpmi.removemedia:42 urpmi.update:48
+msgid "), $_);"
+msgstr "), $_);"
 
 #: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
@@ -332,9 +347,11 @@ msgstr "ソースパッケージを取得できませんでした。このまま終了します"
 #~ msgstr "未知のオプション（%s）が指定されています\n"
 
 #~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
+#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name "
+#~ "[package_names...]\n"
 #~ msgstr ""
-#~ "使用方法：urpmi [-h] [--auto] [--force] [-a] パッケージ名 [パッケージ名…]\n"
+#~ "使用方法：urpmi [-h] [--auto] [--force] [-a] パッケージ名 [パッケージ"
+#~ "名…]\n"
 
 #~ msgid "no package named %s\n"
 #~ msgstr "%s というパッケージはありません\n"

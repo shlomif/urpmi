@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-04-23 15:20+0200\n"
-"PO-Revision-Date: 2001-04-24 14:37GMT-0300\n"
+"POT-Creation-Date: 2001-05-14 13:29+0200\n"
+"PO-Revision-Date: 2001-05-07 14:41-0300\n"
 "Last-Translator: Andrei Bosco Bezerra Torres <andreibt@uol.com.br>\n"
 "Language-Team: Português Brasileiro <andreibt@uol.com.br>\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +156,7 @@ msgstr ""
 "<caminho relativo do hdlist> faltando\n"
 
 #: placeholder.h:49
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.update [-a] <name> ...\n"
 "where <name> is a medium name to update.\n"
@@ -169,6 +169,8 @@ msgstr ""
 "utilização: urpmi.update [-a] <nome> ...\n"
 "onde <nome> é o nome da mídia a ser atualizada.\n"
 "   -a    seleciona todas as mídias não-removíveis.\n"
+"   -c    limpa as entradas do diretório cache.\n"
+"   -f    força a criação do hdlist ou arquivos de base.\n"
 "\n"
 "opções desconhecidas '%s'\n"
 
@@ -230,11 +232,11 @@ msgstr "Desculpe, má escolha, tente novamente\n"
 #: urpmi:233
 #, c-format
 msgid ""
-"To satisfy dependencies, the following packages are going to be installed "
-"(%d MB)"
+"To satisfy dependencies, the following packages are going to be installed (%"
+"d MB)"
 msgstr ""
-"Para satisfazer as dependências, os seguintes pacotes irão ser instalados "
-"(%d MB)"
+"Para satisfazer as dependências, os seguintes pacotes irão ser instalados (%"
+"d MB)"
 
 #: urpmi:264
 #, c-format
@@ -270,6 +272,15 @@ msgstr "Tentar instalar com ainda mais força (--force)? (s/N) "
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "utilização: urpmi.addmedia <nome> <url>"
 
+#. <path>
+#. <login>:<password>@<host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <path>
+#: urpmi.addmedia:43
+msgid "));"
+msgstr "));"
+
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
@@ -283,6 +294,10 @@ msgstr "incapaz de atualizar mídia \"%s\"\n"
 #: urpmi.update:43
 msgid "usage: urpmi.update [-a] <name> ..."
 msgstr "utilização: urpmi.update [-a] <nome> ..."
+
+#: urpmi.removemedia:42 urpmi.update:48
+msgid "), $_);"
+msgstr "), $_);"
 
 #: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"

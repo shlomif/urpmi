@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-04-23 15:20+0200\n"
+"POT-Creation-Date: 2001-05-14 13:29+0200\n"
 "PO-Revision-Date: 2001-05-07 18:05+0900\n"
 "Last-Translator: Jaegeum Choe <baedaron@hananet.net>\n"
 "Language-Team: Korean <baedaron@hananet.net>\n"
@@ -119,8 +119,8 @@ msgstr ""
 "사용법: urpmi.addmedia <이름> <URL>\n"
 "<URL>은 다음 중 하나입니다.\n"
 "       file://<경로>\n"
-"       ftp://<로그인명>:<암호>@<호스트>/<경로> with <팩키지 목록 파일의 "
-"상대경로>\n"
+"       ftp://<로그인명>:<암호>@<호스트>/<경로> with <팩키지 목록 파일의 상대"
+"경로>\n"
 "       ftp://<호스트>/<경로> with <팩키지 목록 파일의 상대경로>\n"
 "       http://<호스트>/<경로> with <팩키지 목록 파일의 상대경로>\n"
 "       removable_<장치>://<경로>\n"
@@ -229,8 +229,8 @@ msgstr "선택이 잘못되었습니다. 다시 시도하세요.\n"
 #: urpmi:233
 #, c-format
 msgid ""
-"To satisfy dependencies, the following packages are going to be installed "
-"(%d MB)"
+"To satisfy dependencies, the following packages are going to be installed (%"
+"d MB)"
 msgstr "의존성을 총족시키기 위해, 다음 팩키지들도 설치될 것입니다. (%d MB)"
 
 #: urpmi:264
@@ -267,6 +267,15 @@ msgstr "설치를 강제 추진합니까? (y/N) "
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "사용법: urpmi.addmedia <이름> <URL>"
 
+#. <path>
+#. <login>:<password>@<host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <path>
+#: urpmi.addmedia:43
+msgid "));"
+msgstr "));"
+
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
@@ -281,11 +290,15 @@ msgstr "「%s」매체를 업데이트할 수 없습니다.\n"
 msgid "usage: urpmi.update [-a] <name> ..."
 msgstr "사용법: urpmi.update [-a] <이름> ..."
 
+#: urpmi.removemedia:42 urpmi.update:48
+msgid "), $_);"
+msgstr "), $_);"
+
 #: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
-"업데이트할 것이 없습니다. (미디어를 추가하려면 「urpmi.addmedia」를 "
-"사용하세요.\n"
+"업데이트할 것이 없습니다. (미디어를 추가하려면 「urpmi.addmedia」를 사용하세"
+"요.\n"
 
 #: urpmi.removemedia:39
 msgid "usage: urpmi.removemedia [-a] <name> ..."
@@ -314,8 +327,8 @@ msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
-"업그레이드하기 위해서는 일부 팩키지가 제거되어야 합니다. 이 기능은 아직 "
-"지원되지 않습니다.\n"
+"업그레이드하기 위해서는 일부 팩키지가 제거되어야 합니다. 이 기능은 아직 지원"
+"되지 않습니다.\n"
 
 #: urpmq:153
 msgid "unable to get source packages, aborting"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-04-23 15:20+0200\n"
+"POT-Creation-Date: 2001-05-14 13:29+0200\n"
 "PO-Revision-Date: 1999-12-29 11:10+0100\n"
 "Last-Translator: Paolo Lorenzin <pasusu@tin.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -222,8 +222,8 @@ msgstr "Spiacente, scelta errata, prova di nuovo\n"
 #: urpmi:233
 #, c-format
 msgid ""
-"To satisfy dependencies, the following packages are going to be installed "
-"(%d MB)"
+"To satisfy dependencies, the following packages are going to be installed (%"
+"d MB)"
 msgstr ""
 "Per soddisfare le dipendenze, saranno installati i seguenti pacchetti(%d MB)"
 
@@ -264,6 +264,15 @@ msgstr "Provo l'installazione ancora più forzata (--force)? (S/n) "
 msgid "usage: urpmi.addmedia <name> <url>"
 msgstr "uso: urpmi.addmedia <nome> <url>"
 
+#. <path>
+#. <login>:<password>@<host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <host>/<path> with <relative filename of hdlist>
+#. <path>
+#: urpmi.addmedia:43
+msgid "));"
+msgstr "));"
+
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
@@ -275,18 +284,20 @@ msgid "unable to update medium \"%s\"\n"
 msgstr ""
 
 #: urpmi.update:43
-#, fuzzy
 msgid "usage: urpmi.update [-a] <name> ..."
-msgstr "uso: urpmi.addmedia <nome> <url>"
+msgstr "uso: urpmi.update [-a] <nome> ..."
+
+#: urpmi.removemedia:42 urpmi.update:48
+msgid "), $_);"
+msgstr "), $_);"
 
 #: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "niente da aggiornare (usa urpmi.addmedia per aggiungere un media)\n"
 
 #: urpmi.removemedia:39
-#, fuzzy
 msgid "usage: urpmi.removemedia [-a] <name> ..."
-msgstr "uso: urpmi.addmedia <nome> <url>"
+msgstr "uso: urpmi.removemedia [-a] <nome> ..."
 
 #: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
@@ -321,9 +332,11 @@ msgstr "impossibile recuperare pacchetto sorgente, interruzione"
 #~ msgstr "opzione sconosciuta \"%s\"\n"
 
 #~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
+#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name "
+#~ "[package_names...]\n"
 #~ msgstr ""
-#~ "uso: urpmi [-h] [--auto] [--force] [-a] nome_pacchetto [nome_pacchetti...]\n"
+#~ "uso: urpmi [-h] [--auto] [--force] [-a] nome_pacchetto "
+#~ "[nome_pacchetti...]\n"
 
 #~ msgid "no package named %s\n"
 #~ msgstr "nessun pacchettto denominato %s\n"
