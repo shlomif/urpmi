@@ -169,6 +169,7 @@ fi
 %lang(eu) %{_mandir}/eu/man?/urpm* 
 %lang(fr) %{_mandir}/fr/man?/urpm* 
 %lang(ru) %{_mandir}/ru/man?/urpm* 
+%lang(et) %{_mandir}/et/man?/urpm* 
 %{perl_vendorlib}/urpm.pm
 
 %files -n gurpmi
@@ -210,6 +211,7 @@ fi
 - added -i to urpmf.
 - check rpmdb open status (should never fails unless...) in order
   to give a better error message.
+- added et man pages.
 
 * Thu Dec 19 2002 François Pons <fpons@mandrakesoft.com> 4.2-2mdk
 - added log for package download if verbose.
