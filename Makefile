@@ -52,7 +52,7 @@ tar: clean
 rpm: tar 
 	cp -f ../$(TAR) $(RPM)/SOURCES
 	cp -f $(NAME).spec $(RPM)/SPECS/
-	-rpm -ba $(NAME).spec
+	-rpm -ba --clean $(NAME).spec
 	rm -f ../$(TAR)
 
 po:
