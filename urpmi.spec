@@ -203,7 +203,8 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 %changelog
 * Mon Sep  1 2003 François Pons <fpons@mandrakesoft.com> 4.4-29mdk
-- fixed @EXPORT of *N to be N only (avoid clashes with rpmdrake).
+- fixed @EXPORT of *N to be N only (avoid clashes with rpmdrake
+  or others, and fix #5090)
 - added urpmi.cfg man page in section 5.
 - fixed bug 5058.
 
