@@ -35,7 +35,7 @@ sub new {
 	options    => {},
 	proxy      => get_proxy(),
 
-	#- sync: first argument is directory, others are url to fetch.
+	#- sync: first argument is options hashref, others are urls to fetch.
 	sync       => sub { $self->sync_webfetch(@_) },
 	fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	error      => sub { printf STDERR "%s\n", $_[0] },
@@ -46,15 +46,15 @@ sub new {
     $self;
 }
 
-#- syncing algorithms, currently is implemented wget and curl methods,
-#- webfetch is trying to find the best (and one which will work :-)
+#- syncing algorithms.
+#- currently wget and curl methods are implemented; trying to find the best
+#- (and one which will work :-)
 sub sync_webfetch {
     my $urpm = shift @_;
     my $options = shift @_;
     my %files;
-    #- extract files according to protocol supported.
-    #- currently ftp and http protocol are managed by curl or wget,
-    #- ssh and rsync protocol are managed by rsync *AND* ssh.
+    #- currently ftp and http protocols are managed by curl or wget,
+    #- ssh and rsync protocols are managed by rsync *AND* ssh.
     foreach (@_) {
 	/^([^:_]*)[^:]*:/ or die N("unknown protocol defined for %s", $_);
 	push @{$files{$1}}, $_;
@@ -68,11 +68,20 @@ sub sync_webfetch {
 	my @available_webfetch = grep { -x "/usr/bin/$_" } @webfetch;
 	my $preferred;
 	#- use user default downloader if provided and available
-	if ($urpm->{options}{downloader}) {
-	    $preferred = find { $_ eq $urpm->{options}{downloader} } @available_webfetch;
+	my $option_downloader = $urpm->{options}{downloader}; #- cmd-line switch
+	if (!$option_downloader && $options->{media}) { #- per-media config
+	    (my $m) = grep { $_->{name} eq $options->{media} } @{$urpm->{media}};
+	    ref $m && $m->{downloader} and $option_downloader = $m->{downloader};
+	}
+	#- global config
+	!$option_downloader && exists $urpm->{global_config}{''}{downloader}
+	    and $option_downloader = $urpm->{global_config}{''}{downloader};
+	if ($option_downloader) {
+	    $preferred = find { $_ eq $option_downloader } @available_webfetch;
 	}
 	#- else first downloader of @webfetch is the default one
 	$preferred ||= $available_webfetch[0];
+	warn "Preferred : $preferred\n";
 	if ($preferred eq 'curl') {
 	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} elsif ($preferred eq 'wget') {
@@ -110,7 +119,26 @@ sub read_config {
 
     #- global options
     if ($config->{''}) {
-	for my $opt (qw(verify-rpm fuzzy allow-force allow-nodeps pre-clean post-clean excludedocs compress keep auto resume limit-rate excludepath key-_ids split-level split-length priority-upgrade downloader)) {
+	for my $opt (qw(
+	    allow-force
+	    allow-nodeps
+	    auto
+	    compress
+	    downloader
+	    excludedocs
+	    excludepath
+	    fuzzy
+	    keep
+	    key-_ids
+	    limit-rate
+	    post-clean
+	    pre-clean
+	    priority-upgrade
+	    resume
+	    split-length
+	    split-level
+	    verify-rpm
+	)) {
 	    if (defined $config->{''}{$opt} && !exists $urpm->{options}{$opt}) {
 		$urpm->{options}{$opt} = $config->{''}{$opt};
 	    }
@@ -119,7 +147,20 @@ sub read_config {
     #- per-media options
     for my $m (grep { $_ ne '' } keys %$config) {
 	my $medium = { name => $m, clear_url => $config->{$m}{url} };
-	for my $opt (qw(hdlist list with_hdlist removable md5sum key-ids update ignore synthesis virtual verify-rpm)) {
+	for my $opt (qw(
+	    downloader
+	    hdlist
+	    ignore
+	    key-ids
+	    list
+	    md5sum
+	    removable
+	    synthesis
+	    update
+	    verify-rpm
+	    virtual
+	    with_hdlist
+	)) {
 	    defined $config->{$m}{$opt} and $medium->{$opt} = $config->{$m}{$opt};
 	}
 	$urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
@@ -632,12 +673,16 @@ sub add_distrib_media {
 	unlink "$urpm->{cachedir}/partial/hdlists";
 	eval {
 	    $urpm->{log}(N("retrieving hdlists file..."));
-	    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-			    quiet => 1,
-			    limit_rate => $options{limit_rate},
-			    compress => $options{compress},
-			    proxy => $urpm->{proxy} },
-			  reduce_pathname("$url/Mandrake/base/hdlists"));
+	    $urpm->{sync}(
+		{
+		    dir => "$urpm->{cachedir}/partial",
+		    quiet => 1,
+		    limit_rate => $options{limit_rate},
+		    compress => $options{compress},
+		    proxy => $urpm->{proxy},
+		},
+		reduce_pathname("$url/Mandrake/base/hdlists"),
+	    );
 	    $urpm->{log}(N("...retrieving done"));
 	};
 	$@ and $urpm->{error}(N("...retrieving failed: %s", $@));
@@ -652,7 +697,7 @@ sub add_distrib_media {
     $name =~ /\s/ and $name .= ' ';
 
     #- at this point, we have found an hdlists file, so parse it
-    #- and create all necessary medium according to it.
+    #- and create all necessary media according to it.
     local *HDLISTS;
     if (open HDLISTS, $hdlists_file) {
 	my $medium = 1;
@@ -1168,12 +1213,17 @@ this could happen if you mounted manually the directory when creating the medium
 		  system("mv", "$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
 	    }
 	    eval {
-		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-				quiet => 1,
-				limit_rate => $options{limit_rate},
-				compress => $options{compress},
-				proxy => $urpm->{proxy} },
-			      reduce_pathname("$medium->{url}/../descriptions"));
+		$urpm->{sync}(
+		    {
+			dir => "$urpm->{cachedir}/partial",
+			quiet => 1,
+			limit_rate => $options{limit_rate},
+			compress => $options{compress},
+			proxy => $urpm->{proxy},
+			media => $medium->{name},
+		    },
+		    reduce_pathname("$medium->{url}/../descriptions"),
+		);
 	    };
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
 		rename("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") or
@@ -1193,12 +1243,17 @@ this could happen if you mounted manually the directory when creating the medium
 		unlink "$urpm->{cachedir}/partial/MD5SUM";
 		eval {
 		    if (!$options{nomd5sum}) {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-					quiet => 1,
-					limit_rate => $options{limit_rate},
-					compress => $options{compress},
-					proxy => $urpm->{proxy} },
-				      reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
+			$urpm->{sync}(
+			    {
+				dir => "$urpm->{cachedir}/partial",
+				quiet => 1,
+				limit_rate => $options{limit_rate},
+				compress => $options{compress},
+				proxy => $urpm->{proxy},
+				media => $medium->{name},
+			    },
+			    reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"),
+			);
 		    }
 		};
 		if (!$@ && -e "$urpm->{cachedir}/partial/MD5SUM" && -s _ > 32) {
@@ -1287,12 +1342,18 @@ this could happen if you mounted manually the directory when creating the medium
 
 		    $options{force} and unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-					quiet => 0,
-					limit_rate => $options{limit_rate},
-					compress => $options{compress},
-					callback => $options{callback},
-					proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$with_hdlist"));
+			$urpm->{sync}(
+			    {
+				dir => "$urpm->{cachedir}/partial",
+				quiet => 0,
+				limit_rate => $options{limit_rate},
+				compress => $options{compress},
+				callback => $options{callback},
+				proxy => $urpm->{proxy},
+				media => $medium->{name},
+			    },
+			    reduce_pathname("$medium->{url}/$with_hdlist"),
+			);
 		    };
 		    if (!$@ && -e "$urpm->{cachedir}/partial/$basename" && -s _ > 32) {
 			$medium->{with_hdlist} = $with_hdlist;
@@ -1321,12 +1382,18 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 		}
 		eval {
-		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-				    quiet => 0,
-				    limit_rate => $options{limit_rate},
-				    compress => $options{compress},
-				    callback => $options{callback},
-				    proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
+		    $urpm->{sync}(
+			{
+			    dir => "$urpm->{cachedir}/partial",
+			    quiet => 0,
+			    limit_rate => $options{limit_rate},
+			    compress => $options{compress},
+			    callback => $options{callback},
+			    proxy => $urpm->{proxy},
+			    media => $medium->{name},
+			},
+			reduce_pathname("$medium->{url}/$medium->{with_hdlist}"),
+		    );
 		};
 		if ($@) {
 		    $urpm->{error}(N("...retrieving failed: %s", $@));
@@ -1374,7 +1441,8 @@ this could happen if you mounted manually the directory when creating the medium
 		#- the file are different, update local copy.
 		rename("$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}");
 
-		#- retrieve of hdlist or synthesis has been successfull, check if a list file is available.
+		#- retrieval of hdlist or synthesis has been successful,
+		#- check whether a list file is available.
 		#- and check hdlist has not be named very strangely...
 		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
@@ -1382,12 +1450,17 @@ this could happen if you mounted manually the directory when creating the medium
 			     reduce_pathname("$medium->{url}/list"),
 			    ) {
 			eval {
-			    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-					    quiet => 1,
-					    limit_rate => $options{limit_rate},
-					    compress => $options{compress},
-					    proxy => $urpm->{proxy} },
-					  $_);
+			    $urpm->{sync}(
+				{
+				    dir => "$urpm->{cachedir}/partial",
+				    quiet => 1,
+				    limit_rate => $options{limit_rate},
+				    compress => $options{compress},
+				    proxy => $urpm->{proxy},
+				    media => $medium->{name},
+				},
+				$_
+			    );
 			    $local_list ne 'list' && -e "$urpm->{cachedir}/partial/$local_list" && -s _
 				and rename(
 				    "$urpm->{cachedir}/partial/$local_list",
@@ -1405,12 +1478,17 @@ this could happen if you mounted manually the directory when creating the medium
 			     reduce_pathname("$medium->{url}/pubkey"),
 			    ) {
 			eval {
-			    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-					    quiet => 1,
-					    limit_rate => $options{limit_rate},
-					    compress => $options{compress},
-					    proxy => $urpm->{proxy} },
-					  $_);
+			    $urpm->{sync}(
+				{
+				    dir => "$urpm->{cachedir}/partial",
+				    quiet => 1,
+				    limit_rate => $options{limit_rate},
+				    compress => $options{compress},
+				    proxy => $urpm->{proxy},
+				    media => $medium->{name},
+				},
+				$_,
+			    );
 			    $local_pubkey ne 'pubkey' && -e "$urpm->{cachedir}/partial/$local_pubkey" && -s _
 				and rename(
 				    "$urpm->{cachedir}/partial/$local_pubkey",
@@ -2456,7 +2534,7 @@ sub copy_packages_of_removable_media {
 sub download_packages_of_distant_media {
     my ($urpm, $list, $sources, $error_sources, %options) = @_;
 
-    #- get back all ftp and http accessible rpms file into the local cache
+    #- get back all ftp and http accessible rpm files into the local cache
     #- if necessary (as used by checksig or any other reasons).
     foreach (0..$#$list) {
 	my %distant_sources;
@@ -2468,7 +2546,7 @@ sub download_packages_of_distant_media {
 	while (my ($i, $url) = each %{$list->[$_]}) {
 	    #- it is trusted that the url given is acceptable, so the file can safely be ignored.
 	    defined $sources->{$i} and next;
-	    if ($url =~ m!^(removable[^:]*|file):/(.*\.rpm)$!) {
+	    if ($url =~ /^(removable[^:]*|file):\/(.*\.rpm)$/) {
 		if (-r $2) {
 		    $sources->{$i} = $2;
 		} else {
@@ -2489,15 +2567,20 @@ sub download_packages_of_distant_media {
 	if (%distant_sources) {
 	    eval {
 		$urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$_]{name}));
-		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-				quiet => 0,
-				verbose => $options{verbose},
-				limit_rate => $options{limit_rate},
-				resume => $options{resume},
-				compress => $options{compress},
-				callback => $options{callback},
-				proxy => $urpm->{proxy} },
-			      values %distant_sources);
+		$urpm->{sync}(
+		    {
+			dir => "$urpm->{cachedir}/partial",
+			quiet => 0,
+			verbose => $options{verbose},
+			limit_rate => $options{limit_rate},
+			resume => $options{resume},
+			compress => $options{compress},
+			callback => $options{callback},
+			proxy => $urpm->{proxy},
+			media => $urpm->{media}[$_]{name},
+		    },
+		    values %distant_sources,
+		);
 		$urpm->{log}(N("...retrieving done"));
 	    };
 	    $@ and $urpm->{error}(N("...retrieving failed: %s", $@));
