@@ -108,7 +108,7 @@ sub parallel_resolve_dependencies {
     $parallel->{synthesis} = $synthesis;
 
     #- compute command line of urpm? tools.
-    my $line = $parallel->{line} . ($options{auto_select} ? ' --auto-select' : '');
+    my $line = $parallel->{line} . ($options{auto_select} ? ' --auto-select' : '') . ($options{keep} ? ' --keep' : '');
     foreach (keys %$requested) {
 	if (/\|/) {
 	    #- taken from URPM::Resolve to filter out choices, not complete though.
