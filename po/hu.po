@@ -1,24 +1,25 @@
+# translation of urpmi-hu.po to Hungarian
 #
 # Latest versions of po files are at http://www.mandrakelinux.com/l10n/hu.php3
 #
 # URPMI HUNGARIAN / URPMI MAGYARUL
-# Copyright (C) 2000 Free Software Foundation, Inc.
+# Copyright (C) 2000,2003 Free Software Foundation, Inc.
 # Csaba Szigetvári <csaba.szigetvari@informedia.hu>, 2000.
 # Tamas Szanto <tszanto@mol.hu>, 2001-2002
-# Arpad Biro <biro_arpad@yahoo.com>, 2002
+# Arpad Biro <biro_arpad@yahoo.com>, 2002,2003
 #
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: urpmi 3.3\n"
+"Project-Id-Version: urpmi-hu\n"
 "POT-Creation-Date: 2003-07-28 18:02+0200\n"
-"PO-Revision-Date: 2003-07-25 23:36+0100\n"
-"Last-Translator: Tamas Szanto <tszanto@mol.hu>\n"
+"PO-Revision-Date: 2003-07-29 00:38+0200\n"
+"Last-Translator: Arpad Biro <biro_arpad@yahoo.com>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.6\n"
+"X-Generator: KBabel 1.0.1\n"
 
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
@@ -127,7 +128,7 @@ msgstr "  --conflicts     - ütközések megjelenítése (több sor)"
 #: placeholder.h:36
 msgid ""
 "  --obsoletes     - print tag obsoletes: all obsoletes (multiple lines)."
-msgstr "  --obsoletes     - túlhaladott csomagok megjelenítése (több sor)"
+msgstr "  --obsoletes     - elavult csomagok megjelenítése (több sor)"
 
 #: placeholder.h:37
 msgid "  --prereqs       - print tag prereqs: all prereqs (multiple lines)."
@@ -189,7 +190,7 @@ msgstr "  -c             - a fejlécgyorstár könyvtárának kiürítése\n"
 #: ../urpmf:1
 #, c-format
 msgid "  --provides     - print tag provides: all provides.\n"
-msgstr "  --provides     - szolgáltatásjegyzék megjelenítése (minden)\n"
+msgstr "  --provides     - szolgáltatásjegyzék megjelenítése (mindet)\n"
 
 #: ../urpmi:1
 #, c-format
@@ -465,15 +466,15 @@ msgid ""
 "virtual medium \"%s\" should not have defined hdlist or list file, medium "
 "ignored"
 msgstr ""
-"a virtuális \"%s\" adatforráshoz nem tartozhat definiált hdlist vagy list "
-"fájl, ezért az adatforrás nem lesz feldolgozva"
+"a virtuális \"%s\" adatforráshoz nem tartozhat definiált fejléclista vagy "
+"listafájl, ezért az adatforrás nem lesz feldolgozva"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr ""
-"a lemásolt fejlécfájl (vagy kiterjesztett függõségfájl) MD5-ös ellenõrzõ "
-"összegének kiszámítása"
+"a lemásolt forrás-fejléclista (vagy kiterjesztett függõséglista) MD5-ös "
+"ellenõrzõösszegének kiszámítása"
 
 #: ../urpmi:1
 #, c-format
@@ -516,8 +517,8 @@ msgstr "az rsync nem található\n"
 #, c-format
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
 msgstr ""
-"hiba történt a(z) \"%s\" adatforrás fejlécfájljának vagy kiterjesztett "
-"függõségfájljának beolvasásakor"
+"hiba történt a(z) \"%s\" adatforrás fejléclistájának vagy kiterjesztett "
+"függõséglistájának olvasásakor"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -541,6 +542,8 @@ msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+"  --keep         - a már telepített csomagok megtartása, ha lehetséges - a\n"
+"                   törlést igénylõ csomagok nem kerülnek telepítésre\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -591,7 +594,7 @@ msgstr "fejléclista behozatala..."
 #: ../urpm.pm:1
 #, c-format
 msgid "added medium %s"
-msgstr "%s adatforrás felvéve"
+msgstr "\"%s\" adatforrás felvéve"
 
 #: ../urpmi:1
 #, c-format
@@ -610,7 +613,7 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "md5sum mismatch"
-msgstr "hibás MD5-ös ellenõrzõ összeg"
+msgstr "hibás MD5-ös ellenõrzõösszeg"
 
 #: ../urpm.pm:1
 #, c-format
@@ -668,7 +671,7 @@ msgstr "tükörkiszolgálók behozatala: %s..."
 #: ../urpmf:1
 #, c-format
 msgid "  --url          - print tag url: url.\n"
-msgstr "  --url          - tag-URL kiírása\n"
+msgstr "  --url          - URL megjelenítése\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -706,9 +709,9 @@ msgstr ""
 "(valamelyik ezek közül: %s)\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "trying to promote %s"
-msgstr "kísérlet %s kijelölésére %s kiválasztásával"
+msgstr "kísérlet %s kijelölésére"
 
 #: ../urpm.pm:1
 #, c-format
@@ -850,7 +853,7 @@ msgstr "csomag hozzáadása - %s (azonosító=%d, eid=%d, frissítés=%d, fájl=%s)"
 #: ../urpm.pm:1
 #, c-format
 msgid "skipping package %s"
-msgstr "a(z) %s kihagyása"
+msgstr "a(z) %s csomag kihagyása"
 
 #: ../urpmq:1
 #, c-format
@@ -888,8 +891,8 @@ msgstr "\"%s\" elemzése sikertelen; a helytelen érték: \"%s\""
 #, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr ""
-"  --excludemedia - a felsorolt (elválasztás: vesszõ) adatforrásokat nem kell "
-"feldolgozni\n"
+"  --excludemedia - a felsorolt (elválasztás: vesszõ) adatforrások\n"
+"                   feldolgozásának mellõzése\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -949,8 +952,8 @@ msgid ""
 "  --no-probe     - do not try to find any synthesis or\n"
 "                   hdlist file.\n"
 msgstr ""
-"  --no-probe     - nem kell keresni fejléc- ill. kiterjesztett\n"
-"                   függõségfájlt\n"
+"  --no-probe     - fejléclista illetve kiterjesztett függõséglista\n"
+"                   keresésének mellõzése\n"
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
@@ -980,8 +983,8 @@ msgid ""
 "virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
 "ignored"
 msgstr ""
-"a(z) \"%s\" virtuális adatforrás fejléc- vagy kiterjesztett függõségfájlja "
-"nem érvényes, ezért az adatforrás nem kerül feldolgozásra"
+"a(z) \"%s\" virtuális adatforrás fejléclistája vagy kiterjesztett "
+"függõséglistája nem érvényes, ezért az adatforrás nem kerül feldolgozásra"
 
 #: ../urpme:1
 #, c-format
@@ -1042,13 +1045,13 @@ msgid "unable to use parallel option \"%s\""
 msgstr "\"%s\" párhuzamossági opció nem használható"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "medium \"%s\" uses an invalid list file:\n"
 "  mirror is probably not up-to-date, trying to use alternate method"
 msgstr ""
 "a(z) \"%s\" adatforrás érvénytelen listafájlt használ:\n"
-" valószínûleg nem naprakész a tükörkiszolgáló tartalma, ezért más mód lesz "
+"  valószínûleg nem naprakész a tükörkiszolgáló tartalma, ezért más mód lesz "
 "kipróbálva"
 
 #: ../urpm.pm:1
@@ -1163,7 +1166,7 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "a következõ cserélhetõ adatforrás útvonala nem érhetõ el: \"%s\""
+msgstr "a következõ cserélhetõ adatforrás útvonala nem elérhetõ: \"%s\""
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1175,8 +1178,8 @@ msgstr ""
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
 msgstr ""
-"  --synthesis    - a megadott kiterjesztett függõséglista használata az "
-"urpmi-adatbázis helyett\n"
+"  --synthesis    - a megadott kiterjesztett függõséglista használata az\n"
+"                   urpmi-adatbázis helyett\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1603,7 +1606,7 @@ msgid ""
 "                   only file:// protocol is allowed.\n"
 msgstr ""
 "  --virtual      - virtuális, mindig naprakész adatforrás létrehozása,\n"
-"                   melynél csak a file:// protokoll használható\n"
+"                   amelynél csak a file:// protokoll használható\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1645,13 +1648,13 @@ msgstr "az ssh nem található\n"
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
-"  --sortmedia    - az adatforrások sorbarendezése vesszõvel elválasztott "
-"sztringek alapján\n"
+"  --sortmedia    - az adatforrások sorbarendezése vesszõvel elválasztott\n"
+"                   sztringek alapján\n"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to access medium \"%s\""
-msgstr "a(z) \"%s\" adatforrás nem érhetõ el"
+msgstr "a(z) \"%s\" adatforrás nem elérhetõ"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1724,7 +1727,7 @@ msgstr "a hozzárendelt adatforrás használata párhuzamos módhoz: %s"
 #: ../urpm.pm:1
 #, c-format
 msgid "mounting %s"
-msgstr "%s csatlakoztatása"
+msgstr "%s csatolása"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1763,7 +1766,7 @@ msgid ""
 "  --no-uninstall - never ask to uninstall a package, abort the "
 "installation.\n"
 msgstr ""
-"  --no-uninstall - soha ne ajánlja fel a program csomag eltávolítását, "
+"  --no-uninstall - a program soha ne ajánlja fel csomag eltávolítását, "
 "inkább szakadjon félbe a telepítés\n"
 
 #: ../urpmq:1
@@ -1831,7 +1834,7 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "too many mount points for removable medium \"%s\""
-msgstr "túl sok csatlakoztatási pont ehhez a cserélhetõ adatforráshoz: \"%s\""
+msgstr "túl sok csatolási pont ehhez a cserélhetõ adatforráshoz: \"%s\""
 
 #: ../urpmf:1
 #, c-format
@@ -1848,6 +1851,9 @@ msgid ""
 "this could happen if you mounted manually the directory when creating the "
 "medium."
 msgstr ""
+"A(z) \"%s\" adatforrás nem elérhetõ.\n"
+"Lehetséges, hogy az adatforrás létrehozásakor kézzel lett csatolva a "
+"megfelelõ könyvtár."
 
 #: ../urpmf:1
 #, c-format
@@ -1949,9 +1955,9 @@ msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "érvénytelen fejléclista-leírás a fejléclista-fájlban: \"%s\""
 
 #: ../urpme:1 ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s"
-msgstr "a(z) %s csomag eltávolítása folyik"
+msgstr "\"%s\" eltávolítása"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1970,9 +1976,9 @@ msgid "  --size         - print tag size: size.\n"
 msgstr "  --size         - méret megjelenítése\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "in order to keep %s"
-msgstr "\"%s\" telepítése érdekében"
+msgstr "\"%s\" megtartása érdekében"
 
 #: ../urpm.pm:1
 #, c-format
