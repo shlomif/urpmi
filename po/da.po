@@ -1,7 +1,7 @@
 # Translation file of urpmi
 # Copyright (C) 2000 Mandrakesoft
 # Troels Liebe Bentsen <tlb@iname.com>, 2000
-# Keld Simonsen <keld@dkuug.dk> 2000-2002
+# Keld Simonsen <keld@dkuug.dk> 2000-2003
 # Kenneth Christiansen, 2000
 #
 # Reviewed 2001-07-02 keld@dkuug.dk
@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "POT-Creation-Date: 2003-01-30 03:08+0100\n"
-"PO-Revision-Date: 2002-11-17 00:45+0100\n"
+"PO-Revision-Date: 2003-01-31 00:45+0100\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: dansk <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -120,12 +120,12 @@ msgstr "'ssh' mangler\n"
 #: ../urpm.pm_.c:441 ../urpmi_.c:493
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-msgstr ""
+msgstr "        %s%% af %s færdige, resterer = %s, hastighed = %s"
 
 #: ../urpm.pm_.c:443 ../urpmi_.c:496
 #, c-format
 msgid "        %s%% completed, speed = %s"
-msgstr ""
+msgstr "        %s%% færdig, hastighed = %s"
 
 #: ../urpm.pm_.c:2401
 #, c-format
@@ -155,17 +155,17 @@ msgstr "kunne ikke nå rpm fil [%s]"
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
 #: ../urpm/parallel_ka_run.pm_.c:178
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput mislykkedes, måske er en knude utilgængelig"
 
 #: ../urpm/parallel_ka_run.pm_.c:65 ../urpm/parallel_ka_run.pm_.c:163
 #: ../urpm/parallel_ka_run.pm_.c:192
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rsch mislykkedes, måske er en knude utilgængelig"
 
 #: ../urpm/parallel_ka_run.pm_.c:74 ../urpm/parallel_ssh.pm_.c:78
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "på knude %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:196 ../urpm/parallel_ssh.pm_.c:202
 #, c-format
@@ -179,9 +179,9 @@ msgstr "Installation er mulig"
 
 #: ../urpm/parallel_ssh.pm_.c:11 ../urpm/parallel_ssh.pm_.c:95
 #: ../urpm/parallel_ssh.pm_.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "scp failed on host %s"
-msgstr "Installationen fejlede på knude %s"
+msgstr "scp mislykkedes på vært %s"
 
 #: ../urpm/parallel_ssh.pm_.c:167
 #, c-format
@@ -228,19 +228,17 @@ msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - vælg alle pakker matchende udtryk.\n"
 
 #: ../urpme_.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-msgstr "urpmi: ukendt parameter \"-%s\", tjek brug med --help\n"
+msgstr "urpme: ukendt parameter \"-%s\", tjek brug med --help\n"
 
 #: ../urpme_.c:83
-#, fuzzy
 msgid "unknown package"
-msgstr "ukendt pakke "
+msgstr "ukendt pakke"
 
 #: ../urpme_.c:83
-#, fuzzy
 msgid "unknown packages"
-msgstr "ukendte pakker "
+msgstr "ukendte pakker"
 
 #: ../urpme_.c:88
 #, c-format
@@ -248,19 +246,17 @@ msgid "The following packages contain %s: %s"
 msgstr "Følgende pakker indeholder %s: %s"
 
 #: ../urpme_.c:93
-#, fuzzy, c-format
+#, c-format
 msgid "removing package %s will break your system"
-msgstr "Fjernelse af pakke %s vil skade dit system\n"
+msgstr "fjernelse af pakke %s vil skade dit system"
 
 #: ../urpme_.c:95
-#, fuzzy
 msgid "Nothing to remove"
-msgstr "Ingenting at fjerne.\n"
+msgstr "Ingenting at fjerne"
 
 #: ../urpme_.c:98
-#, fuzzy
 msgid "Checking to remove the following packages"
-msgstr "Der er brug for en af de følgende pakker:"
+msgstr "Tjekker for at fjerne de følgende pakker"
 
 #: ../urpme_.c:105
 #, c-format
@@ -272,12 +268,11 @@ msgstr ""
 "Mb)"
 
 #: ../urpme_.c:113
-#, fuzzy
 msgid "Removing failed"
-msgstr "...kopiering mislykkedes"
+msgstr "Fjernelse mislykkedes"
 
 #: ../urpmf_.c:26
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002 MandrakeSoft.\n"
@@ -286,8 +281,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmq version %s\n"
-"Ophavsret (C) 2000, 2001, 2002 MandrakeSoft.\n"
+"urpmf version %s\n"
+"Ophavsret (C) 2002 MandrakeSoft.\n"
 "Dette er frit programmel og kan redistribueres under vilkårene til GNU GPL.\n"
 "\n"
 "brug:\n"
@@ -305,130 +300,113 @@ msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr "  --synthesis    - brug synthesis angivet i stedet for urpmi-db.\n"
 
 #: ../urpmf_.c:35
-#, fuzzy
 msgid "  --verbose      - verbose mode.\n"
 msgstr "  -v             - udførlig tilstand.\n"
 
 #: ../urpmf_.c:36
-#, fuzzy
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
 "command\n"
 "                   line, incompatible with interactive mode).\n"
 msgstr ""
 "  --quiet         - skriv ikke mærkenavn (standard hvis intet mærke angivet "
-"på kommando"
+"på\n"
+"                    kommandolinjen, inkompatibel med interaktiv tilstand).\n"
 
 #: ../urpmf_.c:38
-#, fuzzy
 msgid "  --all          - print all tags.\n"
-msgstr "  --all           - skriv alle mærker."
+msgstr "  --all           - skriv alle mærker.\n"
 
 #: ../urpmf_.c:39
-#, fuzzy
 msgid ""
 "  --name         - print tag name: rpm filename (assumed if no tag given on\n"
 "                   command line but without package name).\n"
 msgstr ""
 "  --name          - skriv mærkenavn: rpm filnavn (antaget hvis intet mærke "
-"givet på"
+"givet på\n"
+"                    kommandolinjen, inkompatibel med interaktiv tilstand).\n"
 
 #: ../urpmf_.c:41
-#, fuzzy
 msgid "  --group        - print tag group: group.\n"
-msgstr "  --group         - skriv mærkegruppe: gruppe."
+msgstr "  --group         - skriv mærkegruppe: gruppe.\n"
 
 #: ../urpmf_.c:42
-#, fuzzy
 msgid "  --size         - print tag size: size.\n"
-msgstr "  --size          - skriv mærke-størrelse: størrelse."
+msgstr "  --size          - skriv mærke-størrelse: størrelse.\n"
 
 #: ../urpmf_.c:43
-#, fuzzy
 msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr "  --size          - skriv mærke-størrelse: størrelse."
+msgstr "  --size          - skriv mærke-størrelse: størrelse.\n"
 
 #: ../urpmf_.c:44
-#, fuzzy
 msgid "  --summary      - print tag summary: summary.\n"
-msgstr "  --summary       - skriv mærke-resumé: resumé."
+msgstr "  --summary       - skriv mærke-resumé: resumé.\n"
 
 #: ../urpmf_.c:45
-#, fuzzy
 msgid "  --description  - print tag description: description.\n"
-msgstr "  --description   - skriv mærke-beskrivelse: beskrivelse."
+msgstr "  --description   - skriv mærke-beskrivelse: beskrivelse.\n"
 
 #: ../urpmf_.c:46
-#, fuzzy
 msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
-msgstr "  --provides      - skriv mærke-tilbud: alle tilbud (flere linjer)."
+msgstr "  --provides      - skriv mærke-tilbud: alle tilbud (flere linjer).\n"
 
 #: ../urpmf_.c:47
-#, fuzzy
 msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
-msgstr "  --requires      - skriv mærke-krav: alle krav (flere linjer)."
+msgstr "  --requires      - skriv mærke-krav: alle krav (flere linjer).\n"
 
 #: ../urpmf_.c:48
-#, fuzzy
 msgid "  --files        - print tag files: all files (multiple lines).\n"
-msgstr "  --files         - skriv mærke-filer: alle filer (flere linjer)."
+msgstr "  --files         - skriv mærke-filer: alle filer (flere linjer).\n"
 
 #: ../urpmf_.c:49
-#, fuzzy
 msgid ""
 "  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
 msgstr ""
-"  --conflicts     - skriv mærke-konflikter: alle konflikter (flere linjer)."
+"  --conflicts     - skriv mærke-konflikter: alle konflikter (flere linjer).\n"
 
 #: ../urpmf_.c:50
-#, fuzzy
 msgid ""
 "  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
 msgstr ""
-"  --obsoletes     - skriv mærke-forældede: alle forældede (flere linjer)."
+"  --obsoletes     - skriv mærke-forældede: alle forældede (flere linjer).\n"
 
 #: ../urpmf_.c:51
-#, fuzzy
 msgid "  -i             - ignore case distinctions in any patterns.\n"
-msgstr "  -f             - gennemfør generering af hdlist-filer.\n"
+msgstr ""
+"  -i             - ignorér forskel på store og små bogstaver i alle "
+"mønstre.\n"
 
 #: ../urpmf_.c:52 ../urpmq_.c:72
 msgid "  -f             - print version, release and arch with name.\n"
 msgstr "  -f             - udskriv version, udgave og arkitektur med navn.\n"
 
 #: ../urpmf_.c:53
-#, fuzzy
 msgid "  -e             - include perl code directly as perl -e.\n"
-msgstr "  -c             - rydder katalog med cache for headere.\n"
+msgstr "  -e             - inkludér perl-kode direkte som perl -e.\n"
 
 #: ../urpmf_.c:54
-#, fuzzy
 msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr ""
-"  -u             - fjern pakke hvis en bedre version allerede er "
-"installeret.\n"
+"  -a             - binær OG-operator, sand hvis begge udtryk er sande.\n"
 
 #: ../urpmf_.c:55
 msgid ""
 "  -o             - binary OR operator, true if one expression is true.\n"
 msgstr ""
+"  -o             - binær ELLER-operator, sand hvis et udtryk er sandt.\n"
 
 #: ../urpmf_.c:56
-#, fuzzy
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr ""
-"  -h             - forsøg at finde og bruge syntese- eller hdlist-fil.\n"
+msgstr "  !              - negation, sand hvis udtryk er falsk.\n"
 
 #: ../urpmf_.c:57
-#, fuzzy
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr "  -a             - vælg alle pakker matchende udtryk.\n"
+msgstr "  (              - venstreparantes for at åbne gruppeudtryk.\n"
 
 #: ../urpmf_.c:58
-#, fuzzy
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr "  -a             - vælg alle pakker matchende udtryk.\n"
+msgstr "  (              - højreparantes for at lukke gruppeudtryk.\n"
 
 #: ../urpmf_.c:114
 #, c-format
@@ -436,6 +414,8 @@ msgid ""
 "callback is :\n"
 "%s\n"
 msgstr ""
+"tilbagekald er :\n"
+"%s\n"
 
 #. Translator: The URI types strings 'file:', 'ftp:', 'http:',
 #. Translator: and 'removable:' must not be translated!
@@ -475,7 +455,7 @@ msgstr "  --curl         - brug 'curl' til at hente retrieve eksterne filer.\n"
 
 #: ../urpmi.addmedia_.c:56 ../urpmi.update_.c:65 ../urpmi_.c:91
 msgid "  --limit-rate   - limit the download speed.\n"
-msgstr ""
+msgstr "  --limit-rate   - begræns hastighed på hentning.\n"
 
 #: ../urpmi.addmedia_.c:57 ../urpmi.update_.c:66 ../urpmi_.c:92 ../urpmq_.c:58
 msgid ""
@@ -498,7 +478,6 @@ msgid "  --update       - create an update medium.\n"
 msgstr "  --update       - opret et opdateringsmedium.\n"
 
 #: ../urpmi.addmedia_.c:62
-#, fuzzy
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
@@ -511,32 +490,40 @@ msgid ""
 "                   distribution, XXX may be main, contrib, updates or\n"
 "                   anything else that has been configured ;-)\n"
 msgstr ""
+"  --distrib-XXX  - opret automatisk et medium for XXX-delen af en\n"
+"                   distribution, XXX kan være main, contrib, updates eller\n"
+"                   alt andet der er blevet konfigureret;-)\n"
 
 #: ../urpmi.addmedia_.c:67
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --from         - use specified url for list of mirrors, the default is\n"
 "                   %s\n"
-msgstr "  --env          - brug specifikt miljø (typisk ved en fejlrapport).\n"
+msgstr ""
+"  --from         - brug angivet adresse for liste over spejl, standard er\n"
+"                   %s\n"
 
 #: ../urpmi.addmedia_.c:69
 msgid ""
 "  --version      - use specified version, the default is version of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --version      - brug angivet version, standard er versionen af\n"
+"                   mandrake-release pakken installeret.\n"
 
 #: ../urpmi.addmedia_.c:71
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --arch         - brug angivet arkitektur, standard er arkitekturen af\n"
+"                   mandrake-release pakken installeret.\n"
 
 #: ../urpmi.addmedia_.c:73 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:72
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - rydder katalog med cache for headere.\n"
 
 #: ../urpmi.addmedia_.c:74
-#, fuzzy
 msgid ""
 "  -h             - try to find and use synthesis or hdlist\n"
 "                   file.\n"
@@ -549,7 +536,7 @@ msgstr "  -f             - gennemfør generering af hdlist-filer.\n"
 
 #: ../urpmi.addmedia_.c:144
 msgid "cannot add updates of a cooker distribution\n"
-msgstr ""
+msgstr "kan ikke tilføje opdateringer af en cooker-distribution\n"
 
 #: ../urpmi.addmedia_.c:184
 #, c-format
@@ -631,9 +618,8 @@ msgstr ""
 "hvor <navn> er et medie-navn der skal opdateres.\n"
 
 #: ../urpmi.update_.c:70
-#, fuzzy
 msgid "  --update       - update only update media.\n"
-msgstr "  --update       - brug kun opdateringsmedia.\n"
+msgstr "  --update       - opdatér kun opdateringsmedia.\n"
 
 #: ../urpmi.update_.c:71
 msgid "  -a             - select all non-removable media.\n"
@@ -675,7 +661,6 @@ msgstr ""
 "brug:\n"
 
 #: ../urpmi_.c:75
-#, fuzzy
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
 msgstr "  --synthesis    - brug synthesis angivet i stedet for urpmi-db.\n"
 
@@ -695,7 +680,7 @@ msgstr "  --src          - næste pakke er en kildepakke (samme som -s).\n"
 
 #: ../urpmi_.c:80
 msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr ""
+msgstr "  --install-src  - installér kun kildepakker (ingen binære).\n"
 
 #: ../urpmi_.c:81
 msgid "  --clean        - remove rpm from cache before anything else.\n"
@@ -764,9 +749,8 @@ msgstr ""
 "aktiveret).\n"
 
 #: ../urpmi_.c:106
-#, fuzzy
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr "  --media        - brug kun media listet med komma.\n"
+msgstr "  --excludepath  - udelukkelsessti adskilt med komma.\n"
 
 #: ../urpmi_.c:107
 msgid "  -a             - select all matches on command line.\n"
@@ -797,9 +781,9 @@ msgid "  -v             - verbose mode.\n"
 msgstr "  -v             - udførlig tilstand.\n"
 
 #: ../urpmi_.c:114
-#, fuzzy
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr "  navne eller rpm-filer givne på kommandolinjen er installeret.\n"
+msgstr ""
+"  navne eller rpm-filer givne på kommandolinjen vil blive installeret.\n"
 
 #: ../urpmi_.c:188
 #, c-format
@@ -808,7 +792,7 @@ msgstr "urpmi: ukendt parameter \"-%s\", tjek brug med --help\n"
 
 #: ../urpmi_.c:207
 msgid "What can be done with binary rpm files when using --install-src"
-msgstr ""
+msgstr "Hvad der kan gøres med binære rpm-filer ved brug af --install-src"
 
 #: ../urpmi_.c:214
 #, c-format
@@ -818,7 +802,7 @@ msgstr "kunne ikke oprette katalog [%s] til fejlrapport"
 #: ../urpmi_.c:228
 #, c-format
 msgid "using specific environment on %s\n"
-msgstr ""
+msgstr "bruger særligt miljø på %s\n"
 
 #: ../urpmi_.c:239
 msgid "Only superuser is allowed to install packages"
@@ -850,31 +834,32 @@ msgid ""
 "do you agree ?"
 msgstr ""
 "Nogen forespurgte pakker kan ikke installeres:\n"
-"%ser dette i orden?"
+"%s\n"
+"er dette i orden?"
 
 #: ../urpmi_.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "in order to install %s"
-msgstr "kunne ikke installere pakke %s"
+msgstr "for at kunne installere %s"
 
 #: ../urpmi_.c:400
 #, c-format
 msgid "due to unsatisfied %s"
-msgstr ""
+msgstr "grundet uopfyldt %s"
 
 #: ../urpmi_.c:402
-#, fuzzy, c-format
+#, c-format
 msgid "due to missing %s"
-msgstr "'wget' mangler\n"
+msgstr "grundet manglende %s"
 
 #: ../urpmi_.c:407
-#, fuzzy, c-format
+#, c-format
 msgid "due to conflicts with %s"
-msgstr "%s er i modstrid med %s"
+msgstr "grundet modstrid med %s"
 
 #: ../urpmi_.c:409
 msgid "unrequested"
-msgstr ""
+msgstr "ikke ønsket"
 
 #: ../urpmi_.c:414
 #, c-format
@@ -931,13 +916,14 @@ msgid " (y/N) "
 msgstr " (j/N) "
 
 #: ../urpmi_.c:549
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s\n"
 "You may want to update your urpmi database"
 msgstr ""
-"Installationen mislykkedes, nogle filer mangler.\n"
+"Installationen mislykkedes, nogle filer mangler:\n"
+"%s\n"
 "Du ønsker måske at opdatere din urpmi-database"
 
 #: ../urpmi_.c:558 ../urpmi_.c:589 ../urpmi_.c:598 ../urpmi_.c:613
@@ -1020,9 +1006,8 @@ msgstr ""
 "installeret.\n"
 
 #: ../urpmq_.c:65
-#, fuzzy
 msgid "  -c             - complete output with package to removes.\n"
-msgstr "                    kommandolinje, men uden pakkenavn)."
+msgstr "  -c             - færdiggør uddata med pakke der skal fjernes.\n"
 
 #: ../urpmq_.c:67
 msgid "  -R             - reverse search to what requires package.\n"
@@ -1051,7 +1036,7 @@ msgstr "urpmf version %s"
 
 #: placeholder.h:19
 msgid "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft."
-msgstr "Copyright (C) 1999,2000,2001,2002 MandrakeSoft."
+msgstr "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft."
 
 #: placeholder.h:20
 msgid ""
