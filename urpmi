@@ -19,9 +19,6 @@
 #use strict qw(subs vars refs);
 use urpm;
 
-#- get I18N translation method.
-import urpm N;
-
 #- contains informations to parse installed system.
 my $urpm = new urpm;
 
@@ -132,7 +129,7 @@ my $command_line = join " ", @ARGV;
 @ARGV or usage;
 while (defined($_ = shift @ARGV)) {
     /^--help$/ and do { usage; next };
-    /^--no-locales$/ and do { undef *_; undef *urpm::_; *_ = *urpm::_ = sub { sprintf(shift @_, @_) }; next };
+    /^--no-locales$/ and do { undef *N; undef *urpm::N; *N = *urpm::N = sub { sprintf(shift @_, @_) }; next };
     /^--update$/ and do { $update = 1; next };
     /^--media$/ and do { push @nextargv, \$media; next };
     /^--mediums$/ and do { push @nextargv, \$media; next };

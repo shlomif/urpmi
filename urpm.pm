@@ -1,95 +1,11 @@
 package urpm;
 
 use strict;
-use vars qw($VERSION);
-use base 'URPM';
+use vars qw($VERSION @ISA @EXPORT);
 
 $VERSION = '4.2';
-
-=head1 NAME
-
-urpm - Mandrake perl tools to handle urpmi database
-
-=head1 SYNOPSYS
-
-    require urpm;
-
-    my $urpm = new urpm;
-    $urpm->read_config();
-    $urpm->add_medium('medium_ftp',
-                      'ftp://ftp.mirror/pub/linux/distributions/mandrake-devel/cooker/i586/Mandrake/RPMS',
-                      'synthesis.hdlist.cz',
-                      update => 0);
-    $urpm->add_distrib_media('stable', 'removable://mnt/cdrom',
-                             update => 1);
-    $urpm->select_media('contrib', 'update');
-    $urpm->update_media(%options);
-    $urpm->write_config();
-
-    my $urpm = new urpm;
-    $urpm->read_config(nocheck_access => $uid > 0);
-    foreach (grep { !$_->{ignore} } @{$urpm->{media} || []}) {
-        $urpm->parse_synthesis($_);
-    }
-    if (@files) {
-        push @names, $urpm->register_rpms(@files);
-    }
-    $urpm->relocate_depslist_provides();
-
-    my %packages;
-    @names and $urpm->search_packages(\%packages, [ @names],
-                                      use_provides => 1);
-    if ($auto_select) {
-        my (%to_remove, %keep_files);
-
-        $urpm->select_packages_to_upgrade('', \%packages,
-                                          \%to_remove, \%keep_files,
-                                          use_parsehdlist => $complete);
-    }
-    $urpm->filter_packages_to_upgrade(\%packages,
-                                      $ask_choice);
-    $urpm->deselect_unwanted_packages(\%packages);
-
-    my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
-    my %sources = $urpm->download_source_packages($local_sources,
-                                                  $list,
-                                                  'force_local',
-                                                  $ask_medium_change);
-    my @rpms_install = grep { $_ !~ /\.src.\.rpm/ } values %{
-                         $urpm->extract_packages_to_install(\%sources)
-                       || {}};
-    my @rpms_upgrade = grep { $_ !~ /\.src.\.rpm/ } values %sources;
-
-
-=head1 DESCRIPTION
-
-C<urpm> is used by urpmi executables to manipulate packages and media
-on a Linux-Mandrake distribution.
-
-=head1 SEE ALSO
-
-perl-URPM (obsolete rpmtools) package is used to manipulate at a lower
-level hdlist and rpm files.
-
-=head1 COPYRIGHT
-
-Copyright (C) 2000,2001,2002 MandrakeSoft <fpons@mandrakesoft.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2, or (at your option)
-any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
-=cut
+@ISA = qw(Exporter URPM);
+@EXPORT = qw(*N);
 
 use URPM;
 use POSIX;
@@ -2658,3 +2574,90 @@ sub parallel_remove {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+urpm - Mandrake perl tools to handle urpmi database
+
+=head1 SYNOPSYS
+
+    require urpm;
+
+    my $urpm = new urpm;
+    $urpm->read_config();
+    $urpm->add_medium('medium_ftp',
+                      'ftp://ftp.mirror/pub/linux/distributions/mandrake-devel/cooker/i586/Mandrake/RPMS',
+                      'synthesis.hdlist.cz',
+                      update => 0);
+    $urpm->add_distrib_media('stable', 'removable://mnt/cdrom',
+                             update => 1);
+    $urpm->select_media('contrib', 'update');
+    $urpm->update_media(%options);
+    $urpm->write_config();
+
+    my $urpm = new urpm;
+    $urpm->read_config(nocheck_access => $uid > 0);
+    foreach (grep { !$_->{ignore} } @{$urpm->{media} || []}) {
+        $urpm->parse_synthesis($_);
+    }
+    if (@files) {
+        push @names, $urpm->register_rpms(@files);
+    }
+    $urpm->relocate_depslist_provides();
+
+    my %packages;
+    @names and $urpm->search_packages(\%packages, [ @names],
+                                      use_provides => 1);
+    if ($auto_select) {
+        my (%to_remove, %keep_files);
+
+        $urpm->select_packages_to_upgrade('', \%packages,
+                                          \%to_remove, \%keep_files,
+                                          use_parsehdlist => $complete);
+    }
+    $urpm->filter_packages_to_upgrade(\%packages,
+                                      $ask_choice);
+    $urpm->deselect_unwanted_packages(\%packages);
+
+    my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
+    my %sources = $urpm->download_source_packages($local_sources,
+                                                  $list,
+                                                  'force_local',
+                                                  $ask_medium_change);
+    my @rpms_install = grep { $_ !~ /\.src.\.rpm/ } values %{
+                         $urpm->extract_packages_to_install(\%sources)
+                       || {}};
+    my @rpms_upgrade = grep { $_ !~ /\.src.\.rpm/ } values %sources;
+
+
+=head1 DESCRIPTION
+
+C<urpm> is used by urpmi executables to manipulate packages and media
+on a Linux-Mandrake distribution.
+
+=head1 SEE ALSO
+
+perl-URPM (obsolete rpmtools) package is used to manipulate at a lower
+level hdlist and rpm files.
+
+=head1 COPYRIGHT
+
+Copyright (C) 2000,2001,2002 MandrakeSoft <fpons@mandrakesoft.com>
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+
+=cut

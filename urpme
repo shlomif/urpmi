@@ -25,9 +25,6 @@ use URPM;
 use URPM::Resolve;
 use urpm;
 
-#- get I18N translation method.
-import urpm N;
-
 my (@nextargv, $root, $test, $parallel, $auto, $matches, $maymatch, @l);
 my $askok = N("Is this OK?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
@@ -53,7 +50,7 @@ usage:
 @ARGV or usage;
 while (defined($_ = shift @ARGV)) {
     /^--help$/ and do { usage; next };
-    /^--no-locales$/ and do { undef *_; undef *urpm::_; *_ = *urpm::_ = sub { sprintf(shift @_, @_) }; next };
+    /^--no-locales$/ and do { undef *N; undef *urpm::N; *N = *urpm::N = sub { sprintf(shift @_, @_) }; next };
     /^--?auto$/ and do { $auto = 1; next };
     /^--(no-)?test$/ and do { $test = !$1; next };
     /^--root$/ and do { push @nextargv, \$root; next };
