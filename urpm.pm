@@ -2690,6 +2690,10 @@ sub download_source_packages {
     %sources, %error_sources;
 }
 
+#- lock policy concerning chroot :
+#  - lock rpm db in chroot
+#  - lock urpmi db in /
+
 #- safety rpm db locking mechanism
 sub exlock_rpm_db {
     my ($urpm) = @_;
@@ -2698,7 +2702,7 @@ sub exlock_rpm_db {
     my ($LOCK_EX, $LOCK_NB) = (2, 4);
 
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    open RPMLOCK_FILE, ">$urpm->{statedir}/.RPMLOCK";
+    open RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
     flock RPMLOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 sub shlock_rpm_db {
@@ -2708,12 +2712,12 @@ sub shlock_rpm_db {
     my ($LOCK_SH, $LOCK_NB) = (1, 4);
 
     #- create the .LOCK file if needed (and if possible)
-    unless (-e "$urpm->{statedir}/.RPMLOCK") {
-	open RPMLOCK_FILE, ">$urpm->{statedir}/.RPMLOCK";
+    unless (-e "$urpm->{root}/$urpm->{statedir}/.RPMLOCK") {
+	open RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
 	close RPMLOCK_FILE;
     }
     #- lock urpmi database, if the LOCK file doesn't exists no share lock.
-    open RPMLOCK_FILE, "$urpm->{statedir}/.RPMLOCK" or return;
+    open RPMLOCK_FILE, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK" or return;
     flock RPMLOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 sub unlock_rpm_db {

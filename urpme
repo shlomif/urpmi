@@ -68,9 +68,6 @@ while (defined($_ = shift @ARGV)) {
     push @l, $_;
 }
 
-# We assume --root / is stupid (P. Terjan idea)
-$root =~ s!^/*$!!;
-
 my $urpm = new urpm;
 my $state = {};
 

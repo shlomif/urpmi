@@ -166,9 +166,6 @@ while (defined($_ = shift @ARGV)) {
     $query->{src} = 0; #- reset switch for next package.
 }
 
-# We assume --root / is stupid (P. Terjan idea)
-$root =~ s!^/*$!!;
-
 #- remove verbose if not asked.
 $query->{verbose} or $urpm->{log} = sub {};
 
