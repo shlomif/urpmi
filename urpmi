@@ -171,7 +171,7 @@ if (rpmtools::get_packages_installed('', \@packages_installed, [ 'basesystem' ])
     foreach (@packages_installed) {
 	my $cmp = version_compare($pkg->{version}, $_->{version});
 	if ($cmp > 0 || $cmp == 0 && version_compare($pkg->{release}, $_->{release}) > 0) {
-	    push @packages, 'basesystem'; last;
+	    push @packages, $pkg->{id}; last;
 	}
     }
 }
