@@ -5,7 +5,8 @@ PGOAL = urpmi
 
 # perl files to search translatable strings in
 PL_FILES = ../_irpm ../urpm.pm ../urpme ../urpmi ../urpmi.addmedia \
-	../urpmi.removemedia ../urpmi.update ../urpmq
+	../urpmi.removemedia ../urpmi.update ../urpmq \
+	../urpm/parallel_ka_run.pm  ../urpm/parallel_ssh.pm
 # C-like files to search translatable strings in
 CFILES = ./placeholder.h
 
