@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 18mdk
+Release: 19mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,10 @@ fi
 
 
 %changelog
+* Mon Feb 17 2003 François Pons <fpons@mandrakesoft.com> 4.2-19mdk
+- fixed bug 1719 (ssh distributed mode not working).
+- fixed english typo.
+
 * Fri Feb 14 2003 François Pons <fpons@mandrakesoft.com> 4.2-18mdk
 - fixed bug 1473 and 1329.
 - fixed bug 1608 (titi sucks).
