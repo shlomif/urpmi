@@ -1943,7 +1943,7 @@ sub get_source_packages {
 #- return a list of package ready for rpm.
 sub download_source_packages {
     my ($urpm, $local_sources, $list, %options) = @_;
-    my (%sources, %removables);
+    my (%sources, %error_sources, %removables);
 
     #- make sure everything is correct on input...
     @{$urpm->{media} || []} == @$list or return;
@@ -2085,17 +2085,23 @@ sub download_source_packages {
 	    };
 	    if ($@) {
 		$urpm->{log}(_("...retrieving failed: %s", $@));
-		delete @sources{keys %distant_sources};
+		#delete @sources{keys %distant_sources};
 	    }
-	    #- clean files that have not been downloaded.
+	    #- clean files that have not been downloaded, but keep mind there
+	    #- has been problem downloading them at least once, this is
+	    #- necessary to keep track of failing download in order to
+	    #- present the error to the user.
 	    foreach (keys %distant_sources) {
-		-s $sources{$_} or delete $sources{$_};
+		-s $sources{$_} or $error_sources{$_} = delete $sources{$_};
 	    }
 	}
     }
 
+    #- clean failed download which have succeeded.
+    delete @error_sources{keys %sources};
+
     #- return the hash of rpm file that have to be installed, they are all local now.
-    %$local_sources, %sources;
+    %$local_sources, %sources, %error_sources;
 }
 
 #- extract package that should be installed instead of upgraded,

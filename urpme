@@ -189,7 +189,7 @@ if (@toremove > @l && !$auto) {
 	$sum += $state->{ask_remove}{$_}{size};
     }
     my $msg = _("To satisfy dependencies, the following packages are going to be removed (%d MB)", toMb($sum));
-    print STDOUT "$msg:\n@toremove\n$askok" . _(" (Y/n) ");
+    print STDOUT "$msg:\n" . join("\n", sort { $a cmp $b } @toremove) . "\n$askok" . _(" (Y/n) ");
     <STDIN> =~ /[$noexpr]/ and exit 0;
 }
 
