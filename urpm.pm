@@ -69,6 +69,7 @@ sub new {
     bless {
 	   config     => "/etc/urpmi/urpmi.cfg",
 	   skiplist   => "/etc/urpmi/skip.list",
+		 instlist   => "/etc/urpmi/inst.list",
 	   depslist   => "/var/lib/urpmi/depslist.ordered",
 	   provides   => "/var/lib/urpmi/provides",
 	   compss     => "/var/lib/urpmi/compss",
