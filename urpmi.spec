@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 37mdk
+Release: 38mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -65,9 +65,6 @@ cd $RPM_BUILD_ROOT%{_bindir} ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
 rm -rf $RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_DIR/$RPM_PACKAGE_NAME
 
-%pre
-groupadd -r -f urpmi
-
 %preun
 if [ "$1" = "0" ]; then
   rm -rf /var/lib/urpmi/*
@@ -78,22 +75,21 @@ exit 0
 [ -z "$DURING_INSTALL" -a -f /var/lig/urpmi/depslist ] && %{_sbindir}/urpmi.update -a
 rm -f /var/lib/urpmi/depslist
 
-%preun -n autoirpm
-autoirpm.uninstall
+%preun -n autoirpm -p %{_sbindir}/autoirpm.uninstall
 
 %files -f %{name}.lang
 %defattr(-,root,root)
-%attr(0755, root, urpmi) %dir /etc/urpmi
-%attr(0755, root, urpmi) %dir /var/lib/urpmi
-%attr(0755, root, urpmi) %dir /var/cache/urpmi
-%attr(0755, root, urpmi) %dir /var/cache/urpmi/partial
-%attr(0755, root, urpmi) %dir /var/cache/urpmi/headers
-%attr(0755, root, urpmi) %dir /var/cache/urpmi/rpms
-%attr(4750, root, urpmi) %{_bindir}/urpmi
+%dir /etc/urpmi
+%dir /var/lib/urpmi
+%dir /var/cache/urpmi
+%dir /var/cache/urpmi/partial
+%dir /var/cache/urpmi/headers
+%dir /var/cache/urpmi/rpms
 %config(noreplace) /etc/urpmi/skip.list
 %{_bindir}/urpmi_rpm-find-leaves
 %{_bindir}/urpmf
 %{_bindir}/urpmq
+%{_sbindir}/urpmi
 %{_sbindir}/urpme
 %{_sbindir}/urpmi.*
 %{_mandir}/*/urpm*
@@ -114,6 +110,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Wed May 23 2001 Pixel <pixel@mandrakesoft.com> 1.5-38mdk
+- really remove all group urpmi
+
 * Wed May 23 2001 Pixel <pixel@mandrakesoft.com> 1.5-37mdk
 - removed setuid bit, now stop yelling or go get f*
 
