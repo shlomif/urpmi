@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-08 06:17+0100\n"
+"POT-Creation-Date: 2001-03-21 15:04+0100\n"
 "PO-Revision-Date: 1999-12-29 11:10+0100\n"
 "Last-Translator: Paolo Lorenzin <pasusu@tin.it>\n"
 "Language-Team: Italian <it@li.org>\n"
@@ -23,6 +23,8 @@ msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Installazione automatica dei pacchetti...\n"
+"Hai richiesto l'installazione del pacchetto $rpm\n"
 
 #: _irpm:31 urpmi:232
 msgid "Is it ok?"
@@ -36,11 +38,11 @@ msgstr "Ok"
 msgid "Cancel"
 msgstr "Cancella"
 
-#: _irpm:40 urpmi:240 urpmi:292
+#: _irpm:40 urpmi:240 urpmi:293
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:241 urpmi:293
+#: _irpm:41 urpmi:241 urpmi:294
 msgid "Yy"
 msgstr "SsYy"
 
@@ -50,18 +52,18 @@ msgstr " (S/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: comando non trovato\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "uso: rpmf [<file>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi non è installato"
 
 #: placeholder.h:8
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
@@ -84,6 +86,29 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi versione %s\n"
+"Copyright (C) 1999, 2000 MandrakeSoft.\n"
+"Questo è software libero e può essere ridistribuito sotto i termini della "
+"GNU GPL.\n"
+"uso:\n"
+"  --help           - stampa questo messaggio d'aiuto.\n"
+"  --auto           - seleziona automaticamente un buon pacchetto nelle "
+"scelte.\n"
+"  --auto-select    - seleziona automaticamente i pacchetti per aggiornare il "
+"sistema.\n"
+"  --force          - forza invocazione anche se qualche pacchetto non "
+"esiste.\n"
+"  --X              - usa interfaccia X.\n"
+"  --best-output    - scegli la migliore interfaccia in base all'ambiente:\n"
+"                     X o modo testo.\n"
+"  -a               - seleziona tutto ciò che assomiglia alla linea di "
+"comando.\n"
+"  -c               - scegli metodo completo per risoluzione chiusura "
+"richieste.\n"
+"  -q               - modo silenzioso.\n"
+"  -v               - modo prolisso.\n"
+"  nomi o files rpm (solo per root) messi in linea di comando sono "
+"installati.\n"
 
 #: placeholder.h:28
 msgid ""
@@ -96,6 +121,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"uso: urpmi.addmedia <nome> <url>\n"
+"dove <url> è uno fra\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> con <relativo nome file di "
+"hdlist>\n"
+"       ftp://<host>/<path> con <relativo nome file di hdlist>\n"
+"       http://<host>/<path> con <relativo nome file di hdlist>\n"
+"       rimovibile_<device>://<path>\n"
 
 #: placeholder.h:37 urpmi.addmedia:52
 #, c-format
@@ -103,6 +136,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"'con' mancante per media ftp\n"
 
 #: placeholder.h:41 urpmi.addmedia:48
 #, c-format
@@ -110,6 +145,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"dispositivo '%s' non esiste\n"
 
 #: placeholder.h:45 urpmi.addmedia:50
 #, c-format
@@ -117,6 +154,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"manca <relativo percorso di hdlist>\n"
 
 #: placeholder.h:49 urpmi.update:52
 #, c-format
@@ -124,6 +163,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"la voce da aggiornare è mancante\n"
+"(una di %s)\n"
 
 #: placeholder.h:53 urpmi.removemedia:49
 #, c-format
@@ -131,11 +172,13 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"la voce da rimuovere è mancante\n"
+"(una di %s)\n"
 
 #: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi versione %s"
 
 #: urpmi:144
 msgid "Only superuser is allowed to install local packages"
@@ -163,74 +206,79 @@ msgstr ""
 "Per soddisfare le dipendenze, saranno installati i seguenti pacchetti(%d MB)"
 
 #: urpmi:257
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Per favore inserisci il %s denominato %s"
+msgstr ""
+"Per favore inserisci il supporto denominato \"%s\" nel dispositivo [%s]"
 
 #: urpmi:258
 msgid "Press enter when it's done..."
 msgstr "Premi enter appena terminato..."
 
-#: urpmi:271
+#: urpmi:272
 msgid "everything already installed"
 msgstr "tutto già installato"
 
-#: urpmi:282
+#: urpmi:283
 #, c-format
 msgid "installing %s\n"
 msgstr "sto installando %s\n"
 
-#: urpmi:287 urpmi:300
+#: urpmi:288 urpmi:301
 msgid "Installation failed"
 msgstr "Installazione fallita"
 
-#: urpmi:294
+#: urpmi:295
+#, fuzzy
 msgid "Try installation without checking dependencies? (y/N) "
-msgstr "Provo l'installazione senza controllare le dipendenze? (s/N) "
+msgstr "Provo l'installazione senza controllare le dipendenze? (S/n) "
 
-#: urpmi:301
+#: urpmi:302
+#, fuzzy
 msgid "Try installation even more strongly (--force)? (y/N) "
-msgstr "Provo l'installazione ancora più forzata (--force)? (s/N) "
+msgstr "Provo l'installazione ancora più forzata (--force)? (S/n) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "uso: urpmi.addmedia <nome> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "opzione sconosciuta \"%s\"\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "niente da aggiornare (usa urpmi.addmedia per aggiungere un media)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "niente da rimuovere (usa urpmi.addmedia per aggiungere un media)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq versione %s"
 
 #: urpmq:90
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: opzione sconosciuta \"-$1\", controlla l'uso con --help\n"
 
 #: urpmq:92
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: non posso leggere file rpm \"$_\"\n"
 
 #: urpmq:131
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"alcuni pacchetti devono essere rimossi per venire aggiornati, questo non è\n"
+"ancora supportato\n"
 
 #: urpmq:153
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "impossibile recuperare pacchetto sorgente, interruzione"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
