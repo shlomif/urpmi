@@ -520,10 +520,11 @@ $urpm->copy_packages_of_removable_media($list, \%sources,
 					});
 
 #- now create transaction just before installation, this will save user impression of slowness.
+#- split of transaction should be disabled if --test is used.
 $urpm->create_transaction($state,
 			  nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 			  split_level => $urpm->{options}{'split-level'},
-			  split_length => $urpm->{options}{'split-length'});
+			  split_length => !$test && $urpm->{options}{'split-length'});
 
 my ($ok, $nok) = (0, 0);
 my @errors;
