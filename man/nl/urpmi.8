@@ -1,0 +1,309 @@
+.TH urpmi 8 "28 Aug 2003" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi
+.SH NAAM
+urpmi \- rpm-wrapper die de installatie voor gebruikers vereenvoudigt
+.SH SYNOPSIS
+.B urpmi [\fIopties\fP] [\fIpakketnamen\fP | \fIrpm_bestanden...\fP]
+.SH BESCHRIJVING
+Met urpmi kunnen bekende rpm's inclusief hun afhankelijkheden eenvoudig
+geïnstalleerd worden.
+urpmi kan zowel worden gebruikt voor de installatie van de afhankelijkheden
+van bronpakketten als de bronpakketten zelf.
+
+Ter verduidelijking: rpm en urpmi verhouden zich tot elkaar als insmod en
+modprobe, of dpkg en apt-get.
+.PP
+Start gewoon urpmi gevolgd door wat u denkt dat de de naam is van het
+gewenste pakket (of pakketten), waarna urpmi het volgende doet:
+.br
+\- Namen van beschikbare, min of meer overeenkomstige pakketten tonen.
+.br
+\- Wanneer slechts één overeenkomstig pakket is gevonden: controleren of
+aan de bijbehorende afhankelijkheden is voldaan.
+.br
+\- Zo niet, een voorstel doen om eerst de benodigde pakketten te
+installeren om aan de afhankelijkheden te voldoen, en vervolgens het
+gewenste pakket te installeren.
+.PP
+urpmi kan pakketten kan installeren via verschillende mediatypen
+(ftp, http, lokale volumes en nfs-volumes en verwijderbare media zoals
+cd-roms), en kan tevens afhankelijkheden oplossen door pakketten te installeren via andere media dan die van het gewenste pakket.
+Indien nodig, bij verwisselbare media, vraagt urpmi u het benodigde medium aan te bieden.
+.PP
+U kunt een nieuw medium met rpm's toevoegen met de opdracht urpmi.addmedia.
+.br
+U verwijdert een medium met de opdracht urpmi.removemedia.
+.br
+U kunt de lijst met pakketten actualiseren (bijvoorbeeld bij wijzigingen in
+het ftp-archief) met de opdracht urpmi.update.
+.br
+U gebruikt de opdracht autoirpm voor het automatisch installeren van een 
+pakket dat correspondeert met een executable die u probeerde te starten.
+.br
+Voor het installeren van alle beschikbare menu-items van alle bekende
+pakketten gebruikt u de opdracht autoirpm-icons.
+.SH OPTIES
+.IP "\fB\--help\fP"
+Toont beknopte helpinformatie (dit is hetzelfde als \fB-h\fP of \fB-?\fP).
+.IP "\fB\--update\fP"
+Gebruik alleen update-media. Dit betekent dat \fBurpmi\fP alleen de
+afhankelijkheden zal oplossen en bijwerken voor media die voor het 
+bijwerken van pakketten zijn aangewezen.
+.IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
+Selecteer specifieke media om te gebruiken in plaats van alle beschikbare
+media (tenzij update-media zijn geselecteerd met de optie \fB--update\fP).
+.IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
+Maak geen gebruik van de genoemde media.
+.IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
+Sorteer de opgegeven media; hierbij kunnen substrings worden gebruikt om
+het groeperen te vereenvoudigen.
+.IP "\fB\--synthesis\fP \fIbestand\fP"
+Gebruik het opgegeven synthese-\fIbestand\fP in plaats van de urpmi-database bij het zoeken naar pakketten en het oplossen van
+afhankelijkheden.
+.IP "\fB\--auto\fP"
+Installeert zonder vragen alle vereiste afhankelijkheden.
+.IP "\fB\--auto-select\fP"
+Selecteert automatisch alle pakketten die bijgewerkt moeten worden, op basis
+van al geïnstalleerde pakketten en de pakketten die in de verschillende 
+geregistreerde media zijn opgenomen.
+.IP "\fB\--no-uninstall\fP"
+Vraag nooit of een pakket verwijderd moet worden, maar breek de 
+opdracht in plaats hiervan af. Dit is veiliger in de auto-modus.
+.IP "\fB\--keep\fP"
+Wijzig de selectie van pakketten wanneer aan bepaalde afhankelijkheden 
+niet kan worden voldaan door pogingen bestaande pakketten te behouden
+in plaats van ze te verwijderen. Hiermee wordt doorgaans het bijwerken
+geblokkeerd van pakketten die via de opdrachtregel (of middels de optie
+--auto-select) zijn geselecteerd wanneer een afhankelijkheidsconflict
+optreedt.
+.IP "\fB\--split-level \fIgetal\fP"
+Splits de omvattende opdracht op in kleinere transacties wanneer het totale
+aantal bij te werken pakketten groter is dan \fIgetal\fP. Deze optie is
+standaard geactivateerd, waarbij \fIgetal\fP een standaardwaarde van 20
+heeft.
+.IP "\fB\--split-length \fIaantal\fP"
+Splits de omvattende opdracht op in kleinere transacties van tenminste
+\fIaantal\fP pakketten. De standaardwaarde is 1; geef hier de waarde
+0 op om het opsplitsen in kleinere transacties te voorkomen.
+.IP "\fB\--fuzzy\fP"
+Schakel snel zoeken op de exacte pakketnaam uit, en zoek naar alle 
+pakketten die de (deel)naam bevatten, ook als er één pakket is met een 
+exact overeenkomende naam (dit is hetzelfde als \fB\-y\fP).
+.IP "\fB\--src\fP \fInaam\fP"
+Zoek naar een bronpakket aan de hand van \fInaam\fP, waarna standaard
+alle afhankelijkheden worden geselecteerd, tenzij de optie
+\fB\--install-src\fP is gebruikt om het eigenlijke bronpakket te 
+installeren.
+.IP "\fB\--install-src\fP"
+Installeer alleen het bronpakket (er worden geen binaire pakketen
+geïnstalleerd).
+.IP "\fB\--clean\fP"
+Verwijder alle pakketten uit de cache in de directory /var/cache/urpmi/rpms.
+.IP "\fB\--noclean\fP"
+Verwijder geen pakketten uit de cache in de directory /var/cache/urpmi/rpms.
+.IP "\fB\--force\fP"
+Ga uit van het antwoord 'ja' op alle vragen.
+.IP "\fB\--allow-nodeps\fP"
+.hw der-ge-lij-ke
+Sta urpmi toe om de gebruiker aan te bieden de installatie voort te zetten
+zonder verdere controle van afhankelijkheden na een conflict. Normaal
+gesproken zal urpmi de installatie in dergelijke gevallen onmiddellijk
+afbreken.
+.IP "\fB\--allow-force\fP"
+Sta urpmi toe om de gebruiker aan te bieden de installatie voort te zetten
+zonder verdere controle van afhankelijkheden of middels een geforceerde 
+installatie na een conflict. Normaal gesproken zal urpmi de installatie in
+dergelijke gevallen onmiddellijk afbreken.
+.IP "\fB\--parallel\fP \fIalias\fP"
+Activeer een gedistribueerde uitvoering van urpmi op andere machines (urpmi
+moet verplicht zijn geïnstalleerd op alle machines, maar het is niet nodig
+media gedefineerd te hebben op deze machines). \fIalias\fP definieert welke
+extensiemodule door urpmi wordt gebruikt (momenteel
+\fBurpmi-parallel-ka-run\fP of \fBurpmi-parallel-ssh\fP) en welke machines
+bijgewerkt moeten worden; deze alias is gedefinieerd in het bestand
+/etc/urpmi/parallel.cfg, zoals verderop beschreven.
+.IP "\fB\--root\fP \fIdirectory\fP"
+Stel de opgegeven directory in als de bestandssysteem-root voor de
+rpm-installatie. Alle opdrachten en scripts worden uitgevoerd na chroot(2).
+De gebruikte rpm-database is afkomstig uit de chrooted-tree, maar de
+configuratiebestanden voor urpmi worden betrokken uit het gewone 
+bestandssysteem.
+.IP "\fB\--wget\fP"
+Gebruik alleen wget voor het downloaden van niet-lokale bestanden. Standaard
+wordt curl gebruikt (indien beschikbaar), anders wget.
+.IP "\fB\--curl\fP"
+Gebruik alleen curl voor het downloaden van niet-lokale bestanden. Standaard
+wordt curl gebruikt (indien beschikbaar), anders wget.
+.IP "\fB\--limit-rate \fIsnelheid\fP"
+Tracht de downloadsnelheid te beperken. \fIrate\fP wordt gedefinieerd in
+bytes per seconde. Deze option is standaard uitgeschakeld.
+.IP "\fB\--proxy\fP \fIproxyhost[:poort|1080]\fP"
+Gebruik de opgegeven HTTP-proxy.
+.IP "\fB\--proxy-user\fP \fIgebruiker:wachtwoord\fP"
+Geef de opgegeven cobinatie van gebruiker en wachtwoord op voor de
+proxy-authenticatie.
+.IP "\fB\--bug\fP \fIdirectory\fP"
+Maak een foutrapportage aan in \fIdirectory\fP; stuur een gecomprimeerd
+archief van deze directory naar degene die \fBurpmi\fP onderhoudt, zodat
+de fout (waarschijnlijk) verholpen wordt.
+.IP "\fB\--env\fP \fIdirectory\fP"
+Gebruik een andere omgeving, direct afkomstig uit een foutrapportage, om
+zodoende een fout te reproduceren; de opgegeven parameter is dezelfde die
+bij de optie \fB--bug\fP wordt meegegeven.
+.IP "\fB\--X\fP"
+Gebruik de X-interface.
+.IP "\fB\--best-output\fP"
+Probeer de X-interface te gebruiken; indien deze niet aanwezig is, gebruik
+dan de standaard-tekstinterface (met uitvoer in rpm-stijl).
+.IP "\fB\--verify-rpm\fP" of "\fB\--no-verify-rpm\fP"
+Schakel de controle van rpm-handtekeningen in (standaard) respectievelijk
+uit.
+.IP "\fB\--test\fP"
+Test (hetzelfde als \fBrpm --test\fP) de installatie van pakketten, maar 
+breng geen wijzigingen in het systeem aan.
+.IP "\fB\--excludepath\fP \fIstring\fP"
+Installeer geen bestanden waarvan de naam begint met \fIstring\fP
+(hetzelfde als \fBrpm --excludepath\fP).
+.IP "\fB\--excludedocs\fP"
+Installeer geen documentatie (hetzelfde als \fBrpm --excludedocs\fP).
+.IP "\fB\-a\fP"
+Als meerdere pakketten overeenkomen met de opgegeven substring, selecteer
+deze dan allemaal.
+.IP "\fB\-p\fP"
+Maak het zoeken in aangeboden bestanden ('provides') mogelijk om een pakket 
+te vinden.
+.IP "\fB\-P\fP"
+Zoek niet in de aangeboden bestanden om een pakket te vinden (dit is het
+tegenovergestelde van \fB-p\fP).
+.IP "\fB\-y\fP"
+Dit is hetzelfde als \fB--fuzzy\fP.
+.IP "\fB\-s\fP"
+Dit is hetzelfde als \fB--src\fP.
+.IP "\fB\-q\fP"
+Toont (vrijwel) geen scherminformatie wanneer rpm's worden geïnstalleerd.
+.IP "\fB\-v\fP"
+Toont maximale informatie bij de installatie van rpm's.
+.SH BESTANDEN
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/bin/urpmf
+De executable \fBurpmi\fP (perl-script).
+.TP
+.FN /var/lib/urpmi/list.*
+Bevat een lijst met alle bij urpmi bekende pakketten en hun locaties,
+indien een wachtwoord is gebruikt voor toegang tot een remote locatie
+(met behulp van een netwerkprotocol), of wanneer verschillende directory's
+zijn gebruikt voor het opslaan van pakketten.
+.TP
+.FN /var/lib/urpmi/hdlist.*
+Bevat informatie over alle bekende pakketten in de vorm van rpm-headers.
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
+Bevat synthese-informatie over alle bekende pakketten, samengesteld op
+basis van hdlist-bestanden, die gebruikt kan worden voor het 'minimal
+closure'-algoritme. Wanneer deze bestanden niet aanwezig zijn, zullen
+hdlist-bestanden worden gebruikt, maar dit laatste werkt veel; langzamer.
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Bevat mediabeschrijvingen; eerdere formaten van oudere urpmi-versies worden herkend.
+.TP
+.FN /etc/urpmi/parallel.cfg
+Bevat een parallelle aliasbeschrijving, in het formaat
+\fB<alias>:<interface[(media)]>:<interface_parameter>\fP, waarbij
+\fB<alias>\fP een symbolische naam is, \fB<interface>\fP een van beide
+waarden \fBka-run\fP of \fBssh\fP kan hebben, \fB<media>\fP een medialijst
+is (zoals de parameter \fB--media\fP), \fB<interface_parameter>\fP een
+specifieke interface-parameterlijst is, in de vorm "-c ssh -m node1 -m
+node2" voor de extensie \fBka-run\fP of "node1:node2" voor de extensie
+\fBssh\fP.
+.TP
+.FN /etc/urpmi/skip.list
+Bevat expressies die pakketten aanduiden die niet automatisch bijgewerkt
+mogen worden. Het formaat is een lijst met onderdelen die door pakketten 
+worden aangeboden (of een reguliere expressie indien geplaatst tussen
+slashes \fB/\fP), met een optionele operator en versiestring, of een 
+reguliere expressie die overeenkomt met de volledige naam van de 
+bedoelde pakketten.
+.TP
+.FN /etc/urpmi/inst.list
+Bevat de namen van pakketten die geïnstalleerd moeten worden in plaats 
+van bijgewerkt.
+.SH EXIT-CODES
+.IP 1
+Inconsistentie op de opdrachtregel.
+.IP 2
+Probleem met de registratie van lokale pakketten.
+.IP 3
+Bronpakketten kunnen niet opgehaald worden.
+.IP 4
+Het medium is niet geselecteerd.
+.IP 5
+Het medium bestaat al.
+.IP 6
+Kan de configuratie niet opslaan.
+.IP 7
+De urpmi-database is vergrendeld.
+.IP 8
+Kan geen foutrapportage aanmaken.
+.IP 9
+Kan rpmdb niet openen.
+.IP 10
+Bepaalde voor de installatie benodigde bestanden ontbreken.
+.IP 11
+Sommige transacties zijn mislukt, maar niet allemaal.
+.IP 12
+Alle transacties zijn mislukt.
+.IP 13
+Sommige bestanden ontbreken en sommige transacties zijn mislukt, maar niet
+allemaal.
+.IP 14
+Sommige bestanden ontbreken en alle transacties zijn mislukt.
+.SH "FOUTRAPPORTAGE"
+Wanneer u een fout ontdekt in \fBurpmi\fP, geef deze dan a.u.b. door met 
+behulp van de opdracht
+.I urpmi --bug foutnaam_als_directory ...
+via de opdrachtregel; hierbij jwordt automatisch een directory aangemaakt
+met de naam \fIfoutnaam_als_directory\fP, met daarin de benodigde
+bestanden om de fout hopelijk te kunnen reproduceren.
+.PP
+Probeer eerst zelf de fout te reproduceren alvorens deze daadwerkelijk te
+rapporteren. Dit doet u met de volgende opdracht:
+.I urpmi --env foutnaam_als_directory ...
+Momenteel zijn alleen fouten met de herleiding van netwerkadressen
+reproduceerbaar.
+.PP
+Maak een archiefbestand aan met de opdracht
+.I tar cvfz foutnaam_als_directory.tgz foutnaam_als_directory
+en stuur dit direct naar de auteur (fpons@mandrakesoft.com), vergezeld
+van een beschrijving in het Engels van wat er volgens u niet goed gaat.
+.SH BEKENDE FOUTEN
+Wanneer een pakket is verwijderd, mag het niet meer worden vervangen door
+een oudere versie.
+.SH AUTEURS
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (oorspronkelijke auteur)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (huidige auteur)
+.SH BIJDRAGEN
+Stuur a.u.b. een e-mailbericht aan de auteurs wanneer u een bijdrage hebt
+geleverd aan urpmi, maar uw naam is niet aanwezig in de volgende
+(alfabetisch geordende) lijst.
+.PP
+Andrej Borsenkow,
+Guillaume Cottenceau,
+Philippe Libat,
+Bryan Paxton,
+Guillaume Rousse,
+Michael Scherer,
+Alexander Skwar,
+Olivier Thauvin,
+Erwan Velu,
+Florent Villard.
+.SH "ZIE OOK"
+\fIurpmi.addmedia\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIurpmf\fP(8),
+\fIurpmq\fP(8),
+\fIurpmi.cfg\fP(5)

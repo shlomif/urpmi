@@ -1,0 +1,183 @@
+.TH urpmi.addmedia 8 "28 Aug 2003" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi.addmedia
+.SH NAAM
+urpmi.addmedia \- voegt een nieuw rpm-medium toe voor gebruik met urpmi
+.SH SYNOPSIS
+.B urpmi.addmedia [\fIopties\fP] <\fInaam\fP> <\fIurl\fP>
+.SH BESCHRIJVING
+urpmi.addmedia vertelt urpmi dat nieuwe rpm's beschikbaar zijn op opgegeven
+locatie. Momenteel worden de volgende media ondersteund: lokale stations,
+verwijderbare media (zoals cd-roms), netwerkmedia zoals http, ftp, ssh en
+rsync.
+.PP
+Een van de volgende modi moet gekozen worden:
+.PP
+http:
+.IP "\fB urpmi.addmedia [\fIopties\fP] <\fInaam\fP> http://<\fIhost\fP>/<\fIpad\fP> [with <\fIrelatief pad naar
+synthese|hdlist\fP>]\fP"
+Hierbij is <\fIname\fP> de referentie naar het medium (bijvoorbeeld
+MandrakeUpdate).
+<\fIname\fP> is optioneel wanneer bij \fIopties\fP \fB--distrib\fP is 
+opgegeven.
+.br
+<\fIhost\fP>/<\fIpad\fP> is de locatie van de rpm-directory op internet.
+.br
+<\fIrelatief pad naar hdlist\fP> is de padnaam waar de hdlist met de rpm's
+gevonden kan worden; deze locatie wordt relatief ten opzichte van
+<\fIpath\fP> opgegeven.
+.br
+Standaard wordt \fBcurl\fP gebruikt voor het downloaden van bestanden, maar
+\fBwget\fP kan worden gebruikt wanneer \fBcurl\fP niet geïnstalleerd is, of de optie \fB--wget\fP is opgegeven.
+.br
+\fIEen voorbeeld\fP: urpmi.addmedia http http://jpackage.sf.net/rpm/free with hdlist.cz
+.PP
+ftp:
+.IP "\fB urpmi.addmedia [\fIopties\fP] <\fInaam\fP> ftp://<\fIlog-innaam\fP>:<\fIwachtwoord\fP>@<\fIhost\fP>/<\fIpad\fP> [with <\fIrelatief pad naar synthese|hdlist\fP>]\fP"
+Hetzelfde als bij http, warbij een log-innaam en een wachtwoord doorgaans 
+verplicht zijn. (Overigens hoeft u niet de log-innaam 'anonymous' op te
+geven voor anonymous-toegang tot ftp-servers).
+.br
+Let op dat wanneer \fBwget\fP wordt gebruikt voor het downloaden van
+bestanden en u een firewall gebruikt, het nodig kan zijn om de optie
+\fBpassive_ftp=on\fP toe te voegen aan \fB/etc/wgetrc\fP.
+.nf
+Een voorbeeld: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist
+.PP
+rsync:
+.IP "\fB urpmi.addmedia [\fIopties\fP] <\fInaam\fP> rsync://<\fIlog-innaam\fP>@<\fIhost\fP>:<\fIpoort\fP>/<\fIpad\fP> [with <\fIrelatief pad naar synthese|hdlist\fP>]\fP"
+Vrijwel hetzelfde als bij http; u kunt ook <\fIhost\fP>::<\fIpad\fP>
+gebruiken.
+.br
+\fIEen voorbeeld\fP: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/Mandrake/base/hdlist2.cz
+.PP
+Lokaal station of NFS:
+.br
+.IP "\fB urpmi.addmedia [\fIopties\fP] <\fInaam\fP> file://<\fIpad\fP>\fP [with <\fIrelatief pad naar synthese|hdlist\fP>]\fP"
+Hierbij is <\fInaam\fP> de referentie naar het medium (bijvoorbeeld Myrpms).
+.br
+<\fIpad\fP> is de locatie van de rpm-directory op uw machine.
+.PP
+Verwijderbare media:
+.br
+.IP "\fB urpmi.addmedia [\fIopties\fP] <\fInaam\fP> removable://<\fIpad\fP>\fP [with <\fIrelatief pad naar synthese|hdlist\fP>]\fP"
+<\fIpad\fP> is de locatie van de rpm-directory op uw machine wanneer het
+medium gemount is.
+.PP
+.SH OPTIES
+.IP "\fB\--wget\fP"
+Gebruik alleen wget voor het downloaden van niet-lokale bestanden. Standaard
+wordt curl gebruikt (indien beschikbaar), anders wget.
+.IP "\fB\--curl\fP"
+Gebruik alleen curl voor het downloaden van niet-lokale bestanden. Standaard
+wordt curl gebruikt (indien beschikbaar), anders wget.
+.IP "\fB\--limit-rate \fIsnelheid\fP"
+Tracht de downloadsnelheid te beperken. \fIrate\fP wordt gedefinieerd in
+bytes per seconde. Deze option is standaard uitgeschakeld.
+.IP "\fB\--proxy\fP \fIproxyhost[:poort|1080]\fP"
+Gebruik de opgegeven HTTP-proxy.
+.IP "\fB\--proxy-user\fP \fIgebruiker:wachtwoord\fP"
+Geef de opgegeven cobinatie van gebruiker en wachtwoord op voor de
+proxy-authenticatie.
+.IP "\fB\--update\fP"
+Voegt een medium toe dat door \fBurpmi\fP alleen gebruikt zal worden als
+medium voor het bijwerken van pakketten.
+.IP "\fB\--probe-synthesis\fP"
+Probeer zelf het synthesebestand te vinden wanneer \fBwith ...\fP niet is
+opgegeven.
+.IP "\fB\--probe-hdlist\fP"
+Probeer zelf het hdlist-bestand te vinden wanneer \fBwith ...\fP niet is
+opgegeven.
+.IP "\fB\--no-probe\fP"
+Zoek niet naar een synthese- of hdlist-bestand.
+.IP "\fB\--distrib\fP"
+Voeg alle media van een installatiemedium toe. <\fInaam\fP> wordt gebruikt
+met de gevonden mediumnaam om een nieuwere mediumnaam in de urpmi-database
+aan te maken. Het gedeelte \fBwith [...]\fP wordt niet gebruikt omdat
+automatisch gebruik wordt gemaakt van de op het installatiemedium
+aangetroffen hdlist-bestanden.
+.IP "\fB\--distrib-XXX\fP"
+Maak automatisch een medium aan voor het XXX-deel van een distributie,
+waarbij XXX waarden kan hebben zoals main, contrib, updates of iets anders
+dat maar geconfigureerd is.
+.IP "\fB\--from\fP \fIurl\fP"
+Gebruik de opgegeven \fIurl\fP voor een lijst met mirror-sites; de
+standaard door MandrakeSoft ingestelde URL is
+\fIhttp://www.linux-mandrake.com/mirrorsfull.list\fP, tenzij \fBurpmi.setup\fP zo is geïnstalleerd dat \fBurpmi.addmedia\fP gebruikmaakt
+van zijn eigen configuratiebestand met mirror-sites.
+.IP "\fB\--version\fP \fIversie\fP"
+Gebruik de opgegeven version bij de optie \fB--distrib-XXX\fP; de
+standaardwaarde is de versie van het geïnstalleerde 
+\fBmandrake-release\fP-pakket.
+.IP "\fB\--arch\fP \fIarch\fP"
+Gebruik de opgegeven architectuur bij de optie \fB--distrib-XXX\fP; standaard is dit de architectuur van het geïnstalleerde \fBmandrake-release\fP-pakket.
+.IP "\fB\--virtual\fP"
+Maak een virtueel medium aan. Dit werkt alleen voor de protocollen file://
+en removable://, en er worden dan ook geen bestanden aangemaakt in
+/var/lib/urpmi. Dit virtuele medium is altijd actueel en hoeft dan ook
+niet te worden bijgewerkt met \fBurpmi.update\fP.
+.IP "\fB\-c\fP"
+Verwijder de headers uit de cache-directory /var/cache/urpmi/headers.
+.IP "\fB\-h\fP"
+Zoek zelf naar een synthese- of hdlist-bestand.
+.IP "\fB\-f\fP"
+Forceer het aanmaken van hdlist-bestanden.
+.SH BESTANDEN
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/bin/urpmf
+De executable \fBurpmi.addmedia\fP (perl-script).
+.TP
+.FN /var/lib/urpmi/list.*
+Bevat een lijst met alle bij urpmi bekende pakketten en hun locaties,
+indien een wachtwoord is gebruikt voor toegang tot een remote locatie
+(met behulp van een netwerkprotocol), of wanneer verschillende directory's
+zijn gebruikt voor het opslaan van pakketten.
+.TP
+.FN /var/lib/urpmi/hdlist.*
+Bevat informatie over alle bekende pakketten in de vorm van rpm-headers.
+Wanneer een hdlist-bestand gebruikt wordt voor een medium, kan \fBurpmf\fP
+optimaal werken, wat bijna altijd het geval is (zie de man-pagina van
+\fBurpmf\fP voor meer informatie over dit onderwerp).
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
+Bevat synthese-informatie over alle bekende pakketten, samengesteld op
+basis van hdlist-bestanden, die gebruikt kan worden voor het 'minimal
+closure'-algoritme. Wanneer deze bestanden niet aanwezig zijn, zullen
+hdlist-bestanden worden gebruikt, maar dit laatste werkt veel; langzamer.
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Bevat mediabeschrijvingen; eerdere formaten van oudere urpmi-versies worden herkend.
+.TP
+.FN /etc/urpmi/parallel.cfg
+Bevat een parallelle aliasbeschrijving, in het formaat
+\fB<alias>:<interface[(media)]>:<interface_parameter>\fP, waarbij
+\fB<alias>\fP een symbolische naam is, \fB<interface>\fP een van beide
+waarden \fBka-run\fP of \fBssh\fP kan hebben, \fB<media>\fP een medialijst
+is (zoals de parameter \fB--media\fP), \fB<interface_parameter>\fP een
+specifieke interface-parameterlijst is, in de vorm "-c ssh -m node1 -m
+node2" voor de extensie \fBka-run\fP of "node1:node2" voor de extensie
+\fBssh\fP.
+.TP
+.FN /etc/urpmi/skip.list
+Bevat expressies die pakketten aanduiden die niet automatisch bijgewerkt
+mogen worden. Het formaat is een lijst met onderdelen die door pakketten 
+worden aangeboden (of een reguliere expressie indien geplaatst tussen
+slashes \fB/\fP), met een optionele operator en versiestring, of een 
+reguliere expressie die overeenkomt met de volledige naam van de 
+bedoelde pakketten.
+.TP
+.FN /etc/urpmi/inst.list
+Bevat de namen van pakketten die geïnstalleerd moeten worden in plaats 
+van bijgewerkt.
+.SH "ZIE OOK"
+\fIurpmi\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIurpmf\fP(8),
+\fIurpmq\fP(8)
+.SH AUTEURS
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (oorspronkelijke auteur)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (huidige auteur)
