@@ -217,7 +217,7 @@ sub sync_curl {
     if (@ftp_files) {
 	my ($cur_ftp_file, %ftp_files_info);
 
-	require Date::Manip;
+	eval { require Date::Manip };
 
 	#- prepare to get back size and time stamp of each file.
 	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
@@ -231,8 +231,10 @@ sub sync_curl {
 	    }
 	    if (/Last-Modified:\s*(.*)/) {
 		!$cur_ftp_file || exists($ftp_files_info{$cur_ftp_file}{time}) and $cur_ftp_file = shift @ftp_files;
-		$ftp_files_info{$cur_ftp_file}{time} = Date::Manip::ParseDate($1);
-		$ftp_files_info{$cur_ftp_file}{time} =~ s/(\d{6}).{4}(.*)/$1$2/; #- remove day and hour.
+		eval {
+		    $ftp_files_info{$cur_ftp_file}{time} = Date::Manip::ParseDate($1);
+		    $ftp_files_info{$cur_ftp_file}{time} =~ s/(\d{6}).{4}(.*)/$1$2/; #- remove day and hour.
+		};
 	    }
 	}
 	close CURL;
@@ -247,7 +249,7 @@ sub sync_curl {
 	    #- use less.
 	    foreach (keys %ftp_files_info) {
 		my ($lfile) = /\/([^\/]*)$/ or next; #- strange if we can't parse it correctly.
-		my $ltime = Date::Manip::ParseDate(scalar gmtime((stat $1)[9]));
+		my $ltime = eval { Date::Manip::ParseDate(scalar gmtime((stat $1)[9])) };
 		$ltime =~ s/(\d{6}).{4}(.*)/$1$2/; #- remove day and hour.
 		-s $lfile == $ftp_files_info{$_}{size} && $ftp_files_info{$_}{time} eq $ltime or
 		  push @ftp_files, $_;

@@ -199,6 +199,10 @@ $urpm->update_media;
 
 
 %changelog
+
+- make require of Date::Manip optional (urpmi manage to continue
+  evan if Date::Manip is not there of fail due to unknown TZ).
+
 * Wed Apr 23 2003 François Pons <fpons@mandrakesoft.com> 4.3-6mdk
 - added more log when installing packages.
 - urpmf: added --sourcerpm, --packager, --buildhost, --url, --uniq
