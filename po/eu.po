@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "POT-Creation-Date: 2003-08-12 17:42+0200\n"
-"PO-Revision-Date: 2002-09-09 19:28+0200\n"
+"PO-Revision-Date: 2003-08-19 20:06+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Euskara <linux-eu@chanae.alphanet.ch>\n"
 "MIME-Version: 1.0\n"
@@ -45,9 +45,9 @@ msgstr ""
 "sortzen ditu.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open rpmdb"
-msgstr "ezin da rpm fitxategia erregistratu"
+msgstr "ezin da rpmdb ireki"
 
 #: ../urpme:1 ../urpmf:1 ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.removemedia:1
 #: ../urpmi.update:1 ../urpmq:1
@@ -61,9 +61,9 @@ msgid "One of the following packages is needed to install %s:"
 msgstr "%s instalatzeko, ondoko paketeetako bat behar da:"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "removing package %s"
-msgstr "ezin da %s paketea ezabatu"
+msgstr "%s paketea ezabatzen"
 
 #: ../urpm.pm:1
 #, c-format
@@ -83,9 +83,7 @@ msgstr "  -c             - goiburukoen cache-direktorioa garbitzen du.\n"
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --provides     - print tag provides: all provides.\n"
-msgstr ""
-"    --provides      - etiketa-hornitzaileak inprimatzen ditu: hornitzaile "
-"guztiak (lerro anitz)."
+msgstr "  --provides     - inprimatu provides etiketa: hornitzaile guztiak.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -119,9 +117,9 @@ msgid "performing second pass to compute dependencies\n"
 msgstr "Bigarren pasada burutzen menpekotasunak konputatzeko\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm file [%s] ..."
-msgstr "rpm fitxategiak eskuratzen..."
+msgstr "rpm fitxategiak eskuratzen [%s]..."
 
 #: ../urpmq:1
 #, fuzzy, c-format
@@ -144,11 +142,12 @@ msgstr ""
 msgid ""
 "  -o             - binary OR operator, true if one expression is true.\n"
 msgstr ""
+"  -o             - OR eragile bitarra, egia adierazpen bat egia bada.\n"
 
 #: ../urpmi:1
 #, c-format
 msgid "Package installation..."
-msgstr ""
+msgstr "Paketeen instalazioa..."
 
 #: ../urpm.pm:1
 #, c-format
@@ -171,9 +170,9 @@ msgid "bad proxy declaration on command line\n"
 msgstr "proxy deklarazio okerra komando-lerroan\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "%d installation transactions failed"
-msgstr "Instalazioak huts egin du"
+msgstr "%d instalazio transakziok hutsegin dute"
 
 #: ../urpm.pm:1
 #, c-format
@@ -190,9 +189,9 @@ msgid "Sorry, bad choice, try again\n"
 msgstr "Lastima, aukera okerra, saiatu berriro\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --summary      - print tag summary: summary.\n"
-msgstr "  --summary       - etiketaren laburpena inprimatzen du: laburpena."
+msgstr "  --summary       - inprimatu summary etiketa: laburpena.\n"
 
 #: ../urpm.pm:1 ../urpme:1
 #, c-format
@@ -226,14 +225,15 @@ msgstr ""
 "                   X edo testu-modua.\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "Downloading package `%s'..."
-msgstr "ezin da %s paketea ezabatu"
+msgstr "`%s' paketea jaisten..."
 
 #: ../urpmi:1
 #, c-format
 msgid "What can be done with binary rpm files when using --install-src"
 msgstr ""
+"Zer egin daitekeen rpm fitxategi bitarrekin  --install-src  erabiltzean"
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
@@ -255,14 +255,15 @@ msgstr ""
 "  -a             - komando-lerroko bat-etortze guztiak hautatzen ditu.\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s\n"
 "You may want to update your urpmi database"
 msgstr ""
-"Huts egin du instalatzean, fitxategi batzuk falta dira.\n"
-"Zure urpmi datu-basea eguneratzea nahiko duzu "
+"Instalazioak hutsegin du, fitxategi batzuk falta dira:\n"
+"%s\n"
+"Zure urpmi datu-basea eguneratu nahiko duzu "
 
 #: ../urpmi.removemedia:1
 #, c-format
@@ -279,15 +280,15 @@ msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl-ek huts egin du: %d(r)ekin edo %d seinalearekin irten du\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The installation cannot continue because the following packages\n"
 "have to be removed for others to be upgraded:\n"
 "%s\n"
 msgstr ""
-"Ondoko paketeak kendu behar dira beste batzuk eguneratuak izan daitezen:\n"
+"Ezin da instalazioarekin jarraitu ondoko paketeak kendu behar direlako\n"
+"beste batzuk eguneratuak izan daitezen:\n"
 "%s\n"
-"ados zaude?"
 
 #: ../urpme:1
 #, c-format
@@ -300,14 +301,13 @@ msgid "Installation is possible"
 msgstr "Instalazioak egin daiteke"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s"
 msgstr ""
 "Ondoko paketeak kendu behar dira beste batzuk eguneratuak izan daitezen:\n"
-"%s\n"
-"ados zaude?"
+"%s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -330,7 +330,7 @@ msgstr "(b/E) "
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "cannot add updates of a cooker distribution\n"
-msgstr ""
+msgstr "ezin dira cooker banaketa bateko eguneratzeak erantsi\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -340,7 +340,7 @@ msgstr "  -v             - modu xehetua.\n"
 #: ../urpmi:1
 #, c-format
 msgid "Initializing..."
-msgstr ""
+msgstr "Hasieratzen..."
 
 #: ../urpmq:1
 #, c-format
@@ -348,9 +348,9 @@ msgid "  --list         - list available packages.\n"
 msgstr "  --list           - zerrendatu eskuragarri dauden paketeak.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --all          - print all tags.\n"
-msgstr "  --all           - etiketa guztiak inprimatzen ditu."
+msgstr "  --all           - etiketa guztiak inprimatu.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -358,24 +358,23 @@ msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr "\"%s\" euskarri inkoherentea aldagarri gisa markatuta, baina ez da"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "virtual medium \"%s\" should not have defined hdlist or list file, medium "
 "ignored"
 msgstr ""
-"\"%s\" euskarriak erabilitako goiburuko-zerrenda bat erabili nahi du; "
-"jaramonik ez euskarriari"
+"\"%s\" alegiazko euskarriak ez luke hdlist edo zerrenda fitxategirik "
+"definituta, jaramonik ez sorburuari"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
-msgstr "\"%s\"(r)en iturburuko goiburuko-zerrenda (edo laburpena) kopiatzen..."
+msgstr "kopiatutako iturburuen hdlist-en (edo sintesiak) md5sum kalkulatzen"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr ""
-"  --media       - komaz bereizitako euskarriak bakarrik erabiltzen ditu.\n"
+msgstr "  --excludepath  - ez erabili komaz bereizitako bidea.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -405,9 +404,9 @@ msgid "rsync is missing\n"
 msgstr "rsync falta da\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
-msgstr "\"%s\" euskarriaren sintesi fitxategia irakurtzeko arazoa"
+msgstr "arazoa \"%s\" sorburuaren hdlist edo sintesi fitxategia irakurtzean"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -442,9 +441,9 @@ msgid ""
 msgstr ""
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "examining MD5SUM file"
-msgstr "[%s] goiburuko-zerrendaren fitxategia aztertzean"
+msgstr "MD5SUM fitxategia aztertzen"
 
 #: ../_irpm:1
 #, c-format
@@ -452,9 +451,9 @@ msgid "%s: command not found\n"
 msgstr "%s: ez du komandoa aurkitu\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "unable to register rpm file"
-msgstr "ezin da [%s] rpm fitxategia atzitu"
+msgstr "ezin da rpm fitxategia erregistratu"
 
 #: ../urpmi:1
 #, c-format
@@ -466,11 +465,11 @@ msgstr ""
 "                    gabe instalatzeko aukera ematen dio.\n"
 
 #: ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print usefull information in human readeable form.\n"
 msgstr ""
-"  -r             - bertsioa eta argitalpena ere izenarekin inprimatzen "
-"ditu.\n"
+"  -i             - inprimatu informazio baliogarria gizakiak ulertzeko "
+"moduan.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -509,9 +508,11 @@ msgid "syntax error in config file at line %s"
 msgstr "sintaxi-errorea konfigurazio-fitxategiaren %s lerroan"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr "  komando-lerroko izenak edo rpm-fitxategiak instalatuta daude.\n"
+msgstr ""
+"  komando lerroaren bitartez emandako izen edo rpm fitxategiak instalatuko "
+"dira.\n"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -523,9 +524,9 @@ msgstr ""
 "                   erabiltzen da (formatua <proxyostalaria[:portua]> da).\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "in order to install %s"
-msgstr "ezin da %s paketea instalatu"
+msgstr "%s instalatzeko"
 
 #: ../urpm.pm:1
 #, c-format
@@ -536,7 +537,8 @@ msgstr "%s sarrera depslist-en birkokatuta"
 #, fuzzy, c-format
 msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr ""
-"  -f             - goiburuko-zerrendaren fitxategiak sortzera behartzen du.\n"
+"  -i             - ezikusi hizki arrunt/larrien desberdintasuna txantiloi "
+"guztietan.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -554,9 +556,9 @@ msgid "retrieving mirrors at %s ..."
 msgstr "rpm fitxategiak eskuratzen..."
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --url          - print tag url: url.\n"
-msgstr "  --serial        - etiketaren seriea inprimatzen du: seriea."
+msgstr "  --url          - inprimatu url etiketa: url.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -570,11 +572,9 @@ msgstr ""
 "  -r             - inprimatu bertsioa eta askapena izenarekin batera.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-msgstr ""
-"  --obsoletes     - etiketa zaharkituak inprimatzen ditu: zaharkitu guztiak "
-"(lerro anitz)."
+msgstr "  obsoletes    - inprimatu obsoletes etiketa: zaharkitu guztiak.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -635,9 +635,9 @@ msgid "unable to read rpm files from [%s]: %s"
 msgstr "ezin dira rpm fitxategiak [%s]-tik irakurri: %s"
 
 #: ../urpmi.update:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --update       - update only update media.\n"
-msgstr "  --update       - euskarri eguneratua bakarrik erabiltzen du.\n"
+msgstr "  --update       - eguneratu soilik eguneraketa sorburua.\n"
 
 #: ../_irpm:1 ../urpme:1 ../urpmi:1
 #, c-format
@@ -663,9 +663,9 @@ msgid "malformed input: [%s]"
 msgstr "gaizki eratutako sarrera: [%s]"
 
 #: ../urpme:1
-#, fuzzy, c-format
+#, c-format
 msgid "removing package %s will break your system"
-msgstr "%s paketea kentzen baduzu, sistemak porrot egingo du\n"
+msgstr "%s paketea kentzeak zure sistema hondatuko du"
 
 #: ../urpmq:1
 #, c-format
@@ -673,14 +673,13 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - zerrendatu euskarri eskuragarriak.\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
 "%s"
 msgstr ""
 "Eskatutako pakete batzuk ezin dira instalatu:\n"
-"%s\n"
-"ados zaude?"
+"%s"
 
 #: ../urpmi:1
 #, c-format
@@ -712,9 +711,9 @@ msgstr ""
 "  --curl         - curl erabiltzen du urruneko fitxategiak berreskuratzeko.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -e             - include perl code directly as perl -e.\n"
-msgstr "  -c             - goiburukoen cache-direktorioa garbitzen du.\n"
+msgstr "  -e             - perl kodea zuzenean perl bezala erantsi -e.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -738,9 +737,9 @@ msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
 msgstr ""
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "skipping package %s"
-msgstr "ez dago %s izeneko paketerik"
+msgstr "%s paketea ezikusten"
 
 #: ../urpmq:1
 #, c-format
@@ -750,7 +749,7 @@ msgstr "  komando-lerroko izenak edo rpm-fitxategiak kontsultatu dira.\n"
 #: ../urpmi:1
 #, c-format
 msgid "Invalid signature (%s)"
-msgstr ""
+msgstr "Sinadura baliogabea (%s)"
 
 #: ../urpmi:1
 #, c-format
@@ -775,10 +774,9 @@ msgid "unable to correctly parse [%s] on value \"%s\""
 msgstr "ezin da [%s] \"%s\" balioan ondo analizatu (parse)"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
-msgstr ""
-"  --media       - komaz bereizitako euskarriak bakarrik erabiltzen ditu.\n"
+msgstr "  --excludemedia - ez erabili komaz bereizitako sorburuak.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -798,9 +796,9 @@ msgid "unable to parse hdlist file of \"%s\""
 msgstr "ezin da \"%s\" (r)en goiburuko-zerrendaren fitxategia analizatu"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "due to conflicts with %s"
-msgstr "%s-k %s-rekin gatazka sortzen du"
+msgstr "%s-rekin dituen gatazkengatik"
 
 #: ../urpm.pm:1
 #, c-format
@@ -818,11 +816,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Mendekotasunak egiaztatu gabe instalatzen saiatu nahi duzu? (B/e) "
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" is not local, medium ignored"
-msgstr ""
-"\"%s\" euskarriak erabilitako zerrenda bat erabili nahi du; jaramonik ez "
-"euskarriari "
+msgstr "\"%s\" alegiazko sorburua ez da bertakoa, sorburu ezikusita"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -835,13 +831,13 @@ msgid "using different removable device [%s] for \"%s\""
 msgstr "\"%2$s\"(r)entzat gailu aldagarriak [%1$s] erabiltzen"
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --no-probe     - do not try to find any synthesis or\n"
 "                   hdlist file.\n"
 msgstr ""
-"  -h             - laburpen-fitxategiak edo goiburuko-zerrendaren "
-"fitxategiak bilatzen edo erabiltzen saiatzen da.\n"
+"  --no-probe     - ez saiatu sintesi edo hdlist fitxategirik\n"
+"                   aurkitzen.\n"
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
@@ -861,20 +857,18 @@ msgstr ""
 "dagoelako"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr ""
-"  --conflicts     - etiketa-gatazkak inprimatzen ditu: gatazka guztiak "
-"(lerro anitz)."
+msgstr "  --conflicts    - inprimatu conflicts etiketa: gatazka guztiak.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
 "ignored"
 msgstr ""
-"\"%s\" euskarriak erabilitako goiburuko-zerrenda bat erabili nahi du; "
-"jaramonik ez euskarriari"
+"\"%s\" alegiazko sorburuak hdlist edo sintesi iturburu baliagarriak izan "
+"beharko lituzke"
 
 #: ../urpme:1
 #, c-format
@@ -942,6 +936,8 @@ msgid ""
 "medium \"%s\" uses an invalid list file:\n"
 "  mirror is probably not up-to-date, trying to use alternate method"
 msgstr ""
+"\"%s\" sorburuak zerrenda fitxategi baliogabea erabiltzen du:\n"
+"  ziurrenik ispilua ez dago gaurkotuta, beste metodo batekin saiatzen"
 
 #: ../urpm.pm:1
 #, c-format
@@ -951,7 +947,7 @@ msgstr "ezin da lehen instalazio-euskarria atzitu"
 #: ../urpm.pm:1
 #, c-format
 msgid "virtual medium need to be local"
-msgstr ""
+msgstr "alegiazko sorburua bertakoa izan behar da"
 
 #: ../urpm.pm:1
 #, c-format
@@ -961,7 +957,7 @@ msgstr "errorea pakete lokalak erregistratzean"
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
-msgstr ""
+msgstr "  --limit-rate   - mugatu jaitsiera abiadura.\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -994,9 +990,9 @@ msgid "computing md5sum of existing source hdlist (or synthesis)"
 msgstr "\"%s\"(r)en iturburuko goiburuko-zerrenda (edo laburpena) kopiatzen..."
 
 #: ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -c             - complete output with package to be removed.\n"
-msgstr "                    etiketarik ez badago, baina pakete-izenik gabe)."
+msgstr "  -c             - osatu emaitza ezabatu beharreko paketeekin.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1028,15 +1024,15 @@ msgid "no webfetch (curl or wget currently) found\n"
 msgstr "ez da webfetch (une honetan curl edo wget) aurkitu\n"
 
 #: ../urpme:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -a             - select all packages matching expression.\n"
 msgstr ""
-"  -a             - komando-lerroko bat-etortze guztiak hautatzen ditu.\n"
+"  -a             - hautatu adierazpenarekin bat datozen pakete guztiak.\n"
 
 #: ../urpmi:1
 #, c-format
 msgid "Invalid Key ID (%s)"
-msgstr ""
+msgstr "Gako ID baliogabea (%s)"
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1058,10 +1054,9 @@ msgstr ""
 "fitxategiak bilatzen edo erabiltzen saiatzen da.\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr ""
-" - synthesis   - erabili adierazitako sintesia urpmi db erabili beharren.\n"
+msgstr "  --synthesis    - erabili adierazitako sintesia urpmi db beharren.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1069,14 +1064,14 @@ msgid "wget is missing\n"
 msgstr "wget ez dago\n"
 
 #: ../urpme:1
-#, fuzzy, c-format
+#, c-format
 msgid "Checking to remove the following packages"
-msgstr "Ondoko paketeetako bat behar da:"
+msgstr "Ondorengo paketeak ezabatzeko aztertzen "
 
 #: ../urpm.pm:1
 #, c-format
 msgid "unrequested"
-msgstr ""
+msgstr "Eskatu gabea"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1084,11 +1079,9 @@ msgid "unable to access rpm file [%s]"
 msgstr "ezin da [%s] rpm fitxategia atzitu"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --files        - print tag files: all files.\n"
-msgstr ""
-"    --files         - etiketa-fitxategiak inprimatzen ditu: fitxategi "
-"guztiak (lerro anitz)."
+msgstr "  --files        - inprimatu files etiketa: fitxategi guztiak.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1119,19 +1112,19 @@ msgid ""
 msgstr ""
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --from         - use specified url for list of mirrors, the default is\n"
 "                   %s\n"
 msgstr ""
-"  --env          - erabili ingurune zehatza (normalean akats\n"
-"                   txostena).\n"
+"  --from         - erabili zehaztutako url ispilu zerrendentzako, "
+"lehenetsia\n"
+"                   %s da\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr ""
-"  -u             - paketea kentzen du bertsio hobea instalatuta badago.\n"
+msgstr "  !              - NOT unarioa, egia adierazpena gezurra denean.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1147,7 +1140,7 @@ msgstr ""
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
 msgid "        %s%% completed, speed = %s"
-msgstr ""
+msgstr "        %s%% osatuta, abiadura = %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1160,9 +1153,9 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Areago instalatzen saiatu (--force)? (b/E) "
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "...copying failed"
-msgstr "...kopiatzea amaitu da"
+msgstr "...kopiaketak hutsegin du"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1177,9 +1170,9 @@ msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - quiet modua.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --verbose      - verbose mode.\n"
-msgstr "  -v             - modu xehetua.\n"
+msgstr "  --verbose      - modu berritsua.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1249,14 +1242,12 @@ msgid ""
 msgstr ""
 
 #: ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -R             - reverse search to what requires package.\n"
-msgstr ""
-"  -p             - hornitzaileetan paketeak aurkitzeko bilaketa baimentzen "
-"du.\n"
+msgstr "  -R             - paketeak behar duen alderantzizko bilaketa.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002 MandrakeSoft.\n"
@@ -1265,20 +1256,24 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmq-ren %s bertsioa\n"
-"Copyright (C) 2000, 2001, 2002 MandrakeSoft.\n"
+"urpmf %s bertsioa\n"
+"Copyright (C) 2002 MandrakeSoft.\n"
 "Software librea da eta birbana daiteke GNU GPLen ezarritako baldintzak betez "
 "gero.\n"
 "\n"
-"erabili:\n"
+"erabilera:\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --name         - print tag name: rpm filename (assumed if no tag given on\n"
 "                   command line but without package name).\n"
 msgstr ""
-" --name          - etiketaren izena inprimatzen du: rpm fitxategi-izena "
+" --name          - inprimatu name etiketa: rpm fitxategi-izena (horrela "
+"hartuko\n"
+"                   da ez bada etiketarik ematen komando lerroan baino "
+"pakete\n"
+"                   izenik gabe).\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1286,26 +1281,30 @@ msgid "Unknown webfetch `%s' !!!\n"
 msgstr "webfetch `%s' ezezaguna!!!\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
 "command\n"
 "                   line, incompatible with interactive mode).\n"
 msgstr ""
-" --quiet         - ez du etiketaren izena inprimatzen (lehenetsia da komando-"
-"lerroan etiketarik ez badago;"
+" --quiet         - ez du etiketaren izena inprimatzen (lehenetsia komando-"
+"lerroan\n"
+"                   modu interaktiboarekin etiketa bateraezina eman ezean).\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --uniq         - do not print identical lines.\n"
-msgstr "  --size          - etiketaren tamaina inprimatzen du: tamaina."
+msgstr "  --uniq          - ez ditu lerro berdinak inprimatzen.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
 "update or --parallel"
-msgstr "--synthesis ezin da hauekin erabili --media, --update edo --parallel"
+msgstr ""
+"--synthesis ezin da hauekin erabili --media, --update edo --parallel--"
+"synthesis ezin da erabili --media, --excludemedia, --sortmedia, --update "
+"edo  --parallel aukerekin"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1313,6 +1312,9 @@ msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --arch         - erabili zehaztutako arkitektura, lehenetsia "
+"instalatutako\n"
+"                   mandrake-release paketearena da.\n"
 
 #: ../_irpm:1 ../urpme:1 ../urpmi:1
 #, c-format
@@ -1368,7 +1370,7 @@ msgstr "\"%s\" euskarritik goiburuak irakurtzen"
 #: ../urpm.pm:1
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
-msgstr ""
+msgstr "\"%s\" sorburuak ez du rpm fitxategientzako kokapenik definitzen"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1376,21 +1378,19 @@ msgid "wget failed: exited with %d or signal %d\n"
 msgstr "wget-ek huts egin du: %d(r)ekin edo %d seinalearekin irten da\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "copy failed: %s"
-msgstr "...huts egin du kopiatzean"
+msgstr "kopiak hutsegin du: %s"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr "  --group         - etiketaren taldea inprimatzen du: taldea."
+msgstr "  --sourcerpm    - inprimatu sourcerpm: rpm iturburua.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --requires     - print tag requires: all requires.\n"
-msgstr ""
-"    --requires      - etiketaren eskakizunak inprimatzen ditu: eskakizun "
-"guztiak (lerro anitz)."
+msgstr "  --requires     - inprimatu requires etiketa: behar duen guztia.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1404,23 +1404,23 @@ msgstr ""
 "urpme: \"-%s\" aukera ezezaguna, egiaztatu erabilera --help erabilita\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "trying to select nonexistent medium \"%s\""
-msgstr "existitzen ez den \"%s\" euskarria hautatzen saiatzen"
+msgstr "existitzen ez den \"%s\" sorburua hautatzen saiatzen"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --description  - print tag description: description.\n"
-msgstr "  --description   - etiketaren azalpena inprimatzen du: azalpena."
+msgstr "  --description   - inprimatu description etiketa: deskribapena.\n"
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "`with' missing for network media\n"
 msgstr ""
 "%s\n"
-"ftp euskarriaren `(r)ekin' falta da\n"
+"`with' falta zaio sareko euskarriari\n"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1429,9 +1429,9 @@ msgstr ""
 "  -f             - goiburuko-zerrendaren fitxategiak sortzera behartzen du.\n"
 
 #: ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "--list-nodes can only be used with --parallel"
-msgstr "--synthesis ezin da hauekin erabili --media, --update edo --parallel"
+msgstr "--list-nodes --parallel aukerarekin soilik erabili daiteke"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1444,10 +1444,11 @@ msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 "  -s             - hurrengo paketea iturburu-pakete bat da (--src bezala).\n"
 
+# zy, c-format
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s"
-msgstr "%s instalatzen\n"
+msgstr "%s instalatzen"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1465,9 +1466,9 @@ msgid "  --auto         - automatically select a package in choices.\n"
 msgstr "  --auto         - aukeren arteako pakete bat hautatu automatikoki.\n"
 
 #: ../urpme:1
-#, fuzzy, c-format
+#, c-format
 msgid "Removing failed"
-msgstr "...huts egin du kopiatzean"
+msgstr "Ezabaketak hutsegin du"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1475,6 +1476,8 @@ msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
 "                   only file:// protocol is allowed.\n"
 msgstr ""
+"  --virtual      - sortu beti gaurkotuta dagoen alegiazko euskarria,\n"
+"                   soilik file:// protokoloa erabilgarri.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1512,11 +1515,12 @@ msgid "ssh is missing\n"
 msgstr "ssh falta da\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
-"  --media       - komaz bereizitako euskarriak bakarrik erabiltzen ditu.\n"
+"  --sortmedia    - euskarriak ordenatu komaz bereizitako azpikateak "
+"erabiliz.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1529,9 +1533,9 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "ezin da \"%s\" euskarria sortu\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --packager     - print tag packager: packager.\n"
-msgstr "  --group         - etiketaren taldea inprimatzen du: taldea."
+msgstr "  --packager     - inprimatu packager etiketa: pakete egilea.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1549,10 +1553,9 @@ msgstr ""
 "ezin da \"%s\"(r)en zerrenda-fitxategia atzitu; jaramonik ez euskarriari"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr ""
-"  -a             - komando-lerroko bat-etortze guztiak hautatzen ditu.\n"
+msgstr "  )              - eskuin parentesia adierazpen taldea isteko.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1565,23 +1568,22 @@ msgid "copying hdlists file..."
 msgstr "goiburuko-zerrendaren fitxategia kopiatzen..."
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
 msgstr ""
-"\"%s\" euskarriak erabilitako zerrenda bat erabili nahi du; jaramonik ez "
-"euskarriari "
+"\"%s\" alegiazko sorburuak url garbia izan beharko luke, jaramonik ez "
+"sorburuari"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
 msgstr ""
-"    --files         - etiketa-fitxategiak inprimatzen ditu: fitxategi "
-"guztiak (lerro anitz)."
+"  --buildhost    - inprimatu buildhost etiketa: eraiki duen ostalaria.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "writing list file for medium \"%s\""
-msgstr "ez da \"%s\" euskarrirako goiburuko-zerrendaren fitxategirik aurkitu"
+msgstr "\"%s\" sorburuarentzeko zerrenda fitxategia idazten"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1589,7 +1591,7 @@ msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - urpmi banatua aliasa duten makinen artean.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "modu paraleloarentzako elkartutako euskarria erabiltzen : %s"
 
@@ -1620,18 +1622,17 @@ msgstr "rsync-ek hutsegin du: %d(r)ekin edo %d seinalearekin amaitu da\n"
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-msgstr ""
+msgstr "        %2s-ren %1s%% osatuta, ETA = %3s, abiadura = %4s"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr ""
-"huts egin du iturburuko goiburuko-zerrenda (edo laburpena) berreskuratzean "
+msgstr "berreskuratutako iturburu hdlist-en (edo sintesia) md5sum konputatzen"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "unable to import pubkey file of \"%s\""
-msgstr "ezin da \"%s\"(r)en zerrenda-fitxategian idatzi"
+msgstr "ezin da \"%s\"-ren gako publikoa inportatu"
 
 #: ../urpmi:1
 #, c-format
@@ -1639,6 +1640,8 @@ msgid ""
 "  --no-uninstall - never ask to uninstall a package, abort the "
 "installation.\n"
 msgstr ""
+"  --no-uninstall - ez galdetu sekula pakete bat ezabatzeko, instalazioa "
+"galerazi.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1686,7 +1689,7 @@ msgstr "Supererabiltzaileak bakarrik du pakete lokalak instalatzeko baimena"
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
-msgstr ""
+msgstr "ingurune espezifikoa erabiltzen %s-n\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1698,13 +1701,12 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "  --split-length - small transaction length, default is %d.\n"
-msgstr ""
+msgstr "  --split-length - transakzio txikiaren neurria, lehenetsia %d da.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr ""
-"  -a             - komando-lerroko bat-etortze guztiak hautatzen ditu.\n"
+msgstr "  (              - ezker parentesia adierazpen taldea irekitzeko.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1712,11 +1714,11 @@ msgid "too many mount points for removable medium \"%s\""
 msgstr "muntatze-puntu gehiegi \"%s\" euskarri aldagarriarentzat"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr ""
-"  -u             - paketea kentzen du bertsio hobea instalatuta badago.\n"
+"  -a             - AND eragile bitarra, egia bi adierazpenak egia badira.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1725,22 +1727,24 @@ msgid ""
 "this could happen if you mounted manually the directory when creating the "
 "medium."
 msgstr ""
+"ezin da \"%s\" sorburura sartu,\n"
+"hau gertatu zitekeen sorburua sortzean direktorioa eskuz muntatu bazenuen."
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --group        - print tag group: group.\n"
-msgstr "  --group         - etiketaren taldea inprimatzen du: taldea."
+msgstr "  --group         - inprimatu group etiketa: taldea.\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
-"  --media       - komaz bereizitako euskarriak bakarrik erabiltzen ditu.\n"
+"  --media        - erabili emaniko euskarriak soilik, komaz banatuak.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create transaction"
-msgstr "ezin da \"%s\" euskarria sortu\n"
+msgstr "ezin da transakzioa sortu"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1752,14 +1756,14 @@ msgstr ""
 "<goiburuko-zerrendaren bide-izen erlatiboa> falta da\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "rpm fitxategiak eskuratzen..."
+msgstr "\"%s\" sorburutik rpm fitxategiak eskuratzen..."
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s"
-msgstr "%s banatzen\n"
+msgstr "%s banatzen"
 
 #: ../urpmi:1
 #, c-format
@@ -1777,9 +1781,9 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - euskarri ez-aldagarri guztiak hautatzen ditu.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr "  --size          - etiketaren tamaina inprimatzen du: tamaina."
+msgstr "  --epoch        - inprimatu epoch etiketa: garaia.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1820,9 +1824,9 @@ msgstr ""
 "fitxategian "
 
 #: ../urpme:1 ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s"
-msgstr "ezin da %s paketea ezabatu"
+msgstr "%s ezabatzen"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1831,21 +1835,24 @@ msgid ""
 "                   distribution, XXX may be main, contrib, updates or\n"
 "                   anything else that has been configured ;-)\n"
 msgstr ""
+"  --distrib-XXX  - banaketa baten XXX zatiarentzako automatikoki\n"
+"                   sorburu bat sortu, XXX izan daiteke main, contrib,\n"
+"                   updates edo konfiguratu den beste edozein;-)\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --size         - print tag size: size.\n"
-msgstr "  --size          - etiketaren tamaina inprimatzen du: tamaina."
+msgstr "  --size          - inprimatu size etiketa: neurria.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "in order to keep %s"
-msgstr "ezin da %s paketea instalatu"
+msgstr "%s mantentzeko asmoz"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "due to unsatisfied %s"
-msgstr ""
+msgstr "asetu gabeko %s-rengatik"
 
 #: ../_irpm:1
 #, c-format
@@ -1872,15 +1879,14 @@ msgid "taking removable device as \"%s\""
 msgstr "gailu aldagarria \"%s\" gisa hartu da"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "examining pubkey file of \"%s\"..."
-msgstr "\"%s\"(r)en deskribapen-fitxategia berreskuratzen..."
+msgstr "\"%s\"-ren gako publikoa aztertzen..."
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
-msgstr ""
-"  --fuzzy        - hurbilketazko bilaketa behartzen du (-y bezalakoa da).\n"
+msgstr "  --fuzzy        - behartu bilaketa nahastua (-y-ren berdina).\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1894,12 +1900,12 @@ msgstr ""
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
-msgstr ""
+msgstr "  --probe-hdlist - hdlist fitxategia bilatu eta erabiltzen saiatu.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "due to missing %s"
-msgstr "wget ez dago\n"
+msgstr "%s falta dela eta"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
