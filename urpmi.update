@@ -20,7 +20,7 @@
 
 use strict;
 use urpm;
-use urpm::args;
+use urpm::args 'options';
 use urpm::msg;
 
 sub usage {
@@ -45,7 +45,7 @@ where <name> is a medium name to update.
 }
 
 sub main {
-    our (@toupdates, %options);
+    our @toupdates;
     my $urpm = new urpm;
 
     $options{force} = 0;

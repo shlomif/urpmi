@@ -21,6 +21,14 @@ my $urpm;
 # stores the values of the command-line options
 our %options;
 
+sub import {
+    if ($_[1] eq 'options') {
+	# export the %options hash
+	no strict 'refs';
+	*{caller().'::options'} = \%options;
+    }
+}
+
 # options specifications for Getopt::Long
 my %options_spec = (
 
@@ -218,30 +226,30 @@ my %options_spec = (
     },
 
     'urpmi.update' => {
-	a => \$::options{all},
-	c => sub { $::options{noclean} = 0 },
-	f => sub { ++$::options{force} },
-	z => sub { ++$::options{compress} },
-	update => \$::options{update},
-	'force-key' => \$::options{forcekey},
-	'limit-rate=s' => \$::options{limit_rate},
-	'no-md5sum' => \$::options{nomd5sum},
+	a => \$options{all},
+	c => sub { $options{noclean} = 0 },
+	f => sub { ++$options{force} },
+	z => sub { ++$options{compress} },
+	update => \$options{update},
+	'force-key' => \$options{forcekey},
+	'limit-rate=s' => \$options{limit_rate},
+	'no-md5sum' => \$options{nomd5sum},
 	'noa|d' => \my $dummy, # default, keeped for compatibility
 	'<>' => sub { push @::toupdates, $_[0] },
     },
 
     'urpmi.addmedia' => {
-	'probe-synthesis' => sub { $::options{probe_with} = 'synthesis' },
-	'probe-hdlist' => sub { $::options{probe_with} = 'hdlist' },
-	'no-probe' => sub { $::options{probe_with} = undef },
-	distrib => sub { $::options{distrib} = undef },
-	'from=s' => \$::options{mirrors_url},
-	'version=s' => \$::options{version},
-	'arch=s' => \$::options{arch},
-	virtual => \$::options{virtual},
+	'probe-synthesis' => sub { $options{probe_with} = 'synthesis' },
+	'probe-hdlist' => sub { $options{probe_with} = 'hdlist' },
+	'no-probe' => sub { $options{probe_with} = undef },
+	distrib => sub { $options{distrib} = undef },
+	'from=s' => \$options{mirrors_url},
+	'version=s' => \$options{version},
+	'arch=s' => \$options{arch},
+	virtual => \$options{virtual},
 	'<>' => sub {
 	    if ($_[0] =~ /^--distrib-(.*)$/) {
-		$::options{distrib} = $1;
+		$options{distrib} = $1;
 	    }
 	    else {
 		push @::cmdline, $_[0];
@@ -296,6 +304,8 @@ __END__
 urpm::args - command-line argument parser for the urpm* tools
 
 =head1 SYNOPSIS
+
+    urpm::args::parse_cmdline();
 
 =head1 DESCRIPTION
 

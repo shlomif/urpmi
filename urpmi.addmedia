@@ -22,7 +22,7 @@
 
 use strict;
 use urpm;
-use urpm::args;
+use urpm::args 'options';
 use urpm::msg;
 
 # Default mirror list
@@ -79,16 +79,19 @@ and [options] are from
 }
 
 sub main {
-    our %options;
     #- parse /etc/urpmi/mirror.config if present, or use default mandrake mirror.
-    if (-e "/etc/urpmi/mirror.config") {
-	local (*F, $_);
-	open F, "/etc/urpmi/mirror.config";
-	while (<F>) {
+    #  the --from option overrides this setting.
+    if ($options{mirrors_url}) {
+	$mirrors = $options{$mirrors_url};
+    }
+    elsif (-e "/etc/urpmi/mirror.config") {
+	local $_;
+	open my $fh, "/etc/urpmi/mirror.config";
+	while (<$fh>) {
 	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	    /^url\s*=\s*(.*)/ and $mirrors = $1;
 	}
-	close F;
+	close $fh;
     }
     $options{force} = 0;
     $options{noclean} = 1;
@@ -111,7 +114,6 @@ sub main {
 	    #- -h always set, updates should allow setting update flag.
 	    $options{distrib} eq 'updates' and $options{update} = 1;
 	    #- official site by default.
-	    $options{from} ||= $mirrors;
 	    #- get default value unless already provided.
 	    unless ($options{version} && $options{arch}) {
 		my $db = URPM::DB::open;
