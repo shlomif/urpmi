@@ -222,33 +222,33 @@ msgid "write config file [%s]"
 msgstr "skriv config fil [%s]"
 
 #: ../urpm.pm_.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "kunne ikke nå rpm fil [%s]"
+msgstr "kunne ikke spalte \"%s\" i fil [%s]"
 
 #: ../urpm.pm_.c:555
-#, fuzzy, c-format
+#, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr "eksaminerer hdlist fil [%s]"
+msgstr "eksaminerer parallel håndterer i fil [%s]"
 
 #: ../urpm.pm_.c:565
-#, fuzzy, c-format
+#, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr "fant hdlist (eller synthesis) av \"%s\"..."
+msgstr "fant parallel håndterer for noder: %s"
 
 #: ../urpm.pm_.c:569
 #, c-format
 msgid "using associated media for parallel mode : %s"
-msgstr ""
+msgstr "bruker assosiert media for parallel modus : %s"
 
 #: ../urpm.pm_.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "kunne ikke oppdatere medium \"%s\"\n"
+msgstr "kunne ikke bruke parallel valg \"%s\""
 
 #: ../urpm.pm_.c:583
 msgid "--synthesis cannot be used with --media, --update or --parallel"
-msgstr ""
+msgstr "--synthesis kan ikke brukes med --media, --update eller --parallel"
 
 #: ../urpm.pm_.c:598 ../urpm.pm_.c:1138 ../urpm.pm_.c:1153 ../urpm.pm_.c:1283
 #, c-format
@@ -374,12 +374,12 @@ msgid "copying source list of \"%s\"..."
 msgstr "kopierer kildefil av \"%s\"..."
 
 #: ../urpm.pm_.c:979
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
 msgstr "leser rpm filer fra [%s]"
 
 #: ../urpm.pm_.c:998
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "kunne ikke lese rpm filer fra [%s]: %s"
 
@@ -545,9 +545,8 @@ msgid "malformed input: [%s]"
 msgstr "malformed input: [%s]"
 
 #: ../urpm.pm_.c:1924
-#, fuzzy
 msgid "retrieving rpm files..."
-msgstr "mottar rpms filer..."
+msgstr "mottar rpm filer..."
 
 #: ../urpm.pm_.c:1973
 msgid "Preparing..."
@@ -574,19 +573,18 @@ msgid "%s conflicts with %s"
 msgstr "%s er i konflikt med %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:79 ../urpm/parallel_ka_run.pm_.c:112
-#, fuzzy
 msgid "rshp failed"
-msgstr "wget av [%s] mislykket"
+msgstr "rshp mislykket"
 
 #: ../urpm/parallel_ka_run.pm_.c:116 ../urpm/parallel_ssh.pm_.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "Installasjon mislykket"
+msgstr "Installasjon mislykket på node %s"
 
 #: ../urpm/parallel_ssh.pm_.c:81
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "vert %s har ingen god versjon av urpmi"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
@@ -601,9 +599,8 @@ msgid "unknown package "
 msgstr "ukjent pakke "
 
 #: ../urpme_.c:111
-#, fuzzy
 msgid "unknown packages "
-msgstr "ukjent pakke "
+msgstr "ukjente pakker "
 
 #: ../urpme_.c:134
 #, c-format
@@ -636,7 +633,6 @@ msgstr ""
 #. Translator: neither the ``with''.
 #. Translator: only what is between <brakets> can be translated.
 #: ../urpmi.addmedia_.c:33
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
@@ -649,14 +645,16 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"bruk: urpmi.addmedia [valg] <name> <url> [med <relative_path>]\n"
+"bruk: urpmi.addmedia [valg] <navn> <url> [with <relative_path>]\n"
 "hvor <url> er en av\n"
-"       fil://<path>\n"
-"       ftp://<login>:<password>@<host>/<path> med <relative filename of "
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> with <relative filename of "
 "hdlist>\n"
-"       ftp://<host>/<path> med <relative filename of hdlist>\n"
-"       http://<host>/<path> med <relative filename of hdlist>\n"
-"       fjernbar://<path>\n"
+"       ftp://<host>/<path> with <relative filename of hdlist>\n"
+"       http://<host>/<path> with <relative filename of hdlist>\n"
+"       removable://<path>\n"
+"\n"
+"and [options] are from\n"
 
 #: ../urpmi.addmedia_.c:42 ../urpmi.removemedia_.c:37 ../urpmi.update_.c:61
 msgid "  -c             - clean headers cache directory.\n"
@@ -810,7 +808,7 @@ msgstr ""
 "(en av %s)\n"
 
 #: ../urpmi_.c:67
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
@@ -822,6 +820,8 @@ msgstr ""
 "urpmi versjon %s\n"
 "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
 "Dette er fri programvare og kan redistribueres under vilkårene til GNU GPL.\n"
+"\n"
+"bruk:\n"
 
 #: ../urpmi_.c:72
 msgid "  --help         - print this help message.\n"
@@ -837,7 +837,7 @@ msgstr "  --media        - bruk bare mediet listet med komma.\n"
 
 #: ../urpmi_.c:75 ../urpmq_.c:53
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr ""
+msgstr "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 
 #: ../urpmi_.c:76
 msgid "  --auto         - automatically select a package in choices.\n"
@@ -858,9 +858,8 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - neste pakke er en kildepakke (samme som -s).\n"
 
 #: ../urpmi_.c:80
-#, fuzzy
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --noclean      - keep rpm not used in cache.\n"
+msgstr "  --clean      - fjern rpm fra cache før noe annet.\n"
 
 #: ../urpmi_.c:81
 msgid "  --noclean      - keep rpm not used in cache.\n"
@@ -890,18 +889,17 @@ msgstr ""
 
 #: ../urpmi_.c:87 ../urpmq_.c:64
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
-msgstr ""
+msgstr "  --parallel     - distributed urpmi accross machines of alias.\n"
 
 #: ../urpmi_.c:94
-#, fuzzy
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-"  --bug          - output a bug report in directory indicated by next arg.\n"
+"  --bug          - output a bug report in directory indicated by\n"
+"                   next arg.\n"
 
 #: ../urpmi_.c:96
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
@@ -920,16 +918,18 @@ msgstr ""
 "                   X eller tekstmodus.\n"
 
 #: ../urpmi_.c:101
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr "  --verify-rpm   - verifiser rpm signatur før installasjon.\n"
+msgstr ""
+"  --verify-rpm   - verifiser rpm signatur før installasjon.\n"
+"                   (--no-verify-rpm slår det av, standard er påslått).\n"
 
 #: ../urpmi_.c:103
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+"  --test         - verify if the installation can be achieved correctly.\n"
 
 #: ../urpmi_.c:104
 msgid "  -a             - select all matches on command line.\n"
@@ -1069,9 +1069,9 @@ msgstr ""
 "Du ønsker antageligvis å oppdatere urpmi databasen din"
 
 #: ../urpmi_.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s\n"
-msgstr "installerer %s\n"
+msgstr "distribuerer %s\n"
 
 #: ../urpmi_.c:542
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1082,9 +1082,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Prøve å installere enda hardere (--force)? (j/N) "
 
 #: ../urpmi_.c:560
-#, fuzzy
 msgid "Installation is possible"
-msgstr "Installasjon mislykket"
+msgstr "Installasjon er mulig"
 
 #: ../urpmi_.c:566
 msgid "everything already installed"
@@ -1145,14 +1144,12 @@ msgid "  --list         - list available packages.\n"
 msgstr "  --list         - lister tilgjengelige pakker.\n"
 
 #: ../urpmq_.c:57
-#, fuzzy
 msgid "  --list-media   - list available media.\n"
-msgstr "  --list         - lister tilgjengelige pakker.\n"
+msgstr "  --list-media   - lister tilgjengelige medier.\n"
 
 #: ../urpmq_.c:58
-#, fuzzy
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr "  --list         - lister tilgjengelige pakker.\n"
+msgstr "  --list-nodes   - lister tilgjengelige når --parallel brukes.\n"
 
 #: ../urpmq_.c:60
 msgid ""
@@ -1187,7 +1184,6 @@ msgid ""
 msgstr "Dette er fri programvare og kan redistribueres uder vilkårene til GNU "
 
 #: placeholder.h:21 placeholder.h:38
-#, fuzzy
 msgid "usage: urpmf [options] <file>"
 msgstr "bruk: urpmf [valg] <fil>"
 
