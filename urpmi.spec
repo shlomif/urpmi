@@ -202,11 +202,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
-* Fri Sep 19 2003 François Pons <fpons@mandrakesoft.com> 4.4-38mdk
+* Mon Sep 22 2003 François Pons <fpons@mandrakesoft.com> 4.4-38mdk
 - fixed md5sum or copy of hdlist of virtual media uneeded.
 - fixed bug 5807 for names.XXX files still present after removing
   medium XXX.
 - fixed bug 5802 about exotic character recognized as default answer.
+- fixed bug 5833 about urpme having Y for removing packages by default.
 
 * Wed Sep 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-37mdk
 - fixed virtual media examination of list file.
