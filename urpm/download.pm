@@ -330,7 +330,7 @@ sub sync_curl {
 			$file = shift @l;
 			propagate_sync_callback($options, 'start', $file);
 		    }
-		    if (my ($percent, $total, $eta, $speed) = $buf =~ /^\s*(\d+)\s+(\S+)[^\r\n]*\s+(\S+)\s+(\S+)[\r\n]$/ms) {
+		    if (my ($percent, $total, $eta, $speed) = $buf =~ /^\s*(\d+)\s+(\S+)[^\r\n]*\s+(\S+)\s+-?(\S+)\s*[\r\n]$/ms) {
 			if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
 			    kill 15, $curl_pid;
 			    close $curl;
