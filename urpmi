@@ -41,6 +41,7 @@ my $noclean = 0;
 my $verbose = 0;
 my $root = '';
 my $bug = '';
+my $env = '';
 my $log = '';
 
 my $uid;
@@ -73,6 +74,7 @@ usage:
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
 ") . _("  --bug          - output a bug report in directory indicated by next arg.
+") . _("  --env          - use specific environment (typically a bug report).
 ") . _("  --X            - use X interface.
 ") . _("  --best-output  - choose best interface according to the environment:
                    X or text mode.
@@ -105,6 +107,7 @@ for (@ARGV) {
     /^--wget$/ and do { $sync = \&urpm::sync_wget; next };
     /^--curl$/ and do { $sync = \&urpm::sync_curl; next };
     /^--bug$/ and do { push @nextargv, \$bug; next };
+    /^--env$/ and do { push @nextargv, \$env; next };
     /^--X$/ and do { $X = 1; next };
     /^--WID=(.*)$/ and do { $WID = $1; next };
     /^--WID$/ and do { push @nextargv, \$WID; next };
@@ -175,15 +178,26 @@ if ($bug) {
     $log = "$bug/urpmi.log";
 }
 
-if ($uid > 0) {
-    #- only src files are installable using urpmi.
-    @names || @files and $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
-
-    #- allow installation.
-    @rpms_install = @src_files;
+if ($env) {
+    print STDERR "using specific environment on $env\n";
+    $log = "$env/urpmi_env.log";
+    unlink $log;
+    #- setting new environment.
+    $urpm->{config} = "$env/urpmi.cfg";
+    $urpm->{skiplist} = "$env/skip.list";
+    $urpm->{instlist} = "$env/inst.list";
+    $urpm->{statedir} = $env;
 } else {
-    #- allow log if not defined.
-    $log ||= "/var/log/urpmi.log";
+    if ($uid > 0) {
+	#- only src files are installable using urpmi.
+	@names || @files and $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
+
+	#- allow installation.
+	@rpms_install = @src_files;
+    } else {
+	#- allow log if not defined.
+	$log ||= "/var/log/urpmi.log";
+    }
 }
 
 if ($log) {
@@ -229,7 +243,7 @@ unless ($bug) {
 }
 $verbose or $urpm->{log} = sub {};
 
-$urpm->configure(nocheck_access => $uid > 0,
+$urpm->configure(nocheck_access => $env || $uid > 0,
 		 media => $media,
 		 update => $update,
 		);
@@ -292,7 +306,16 @@ sub ask_choice {
 #- open/close of database should be moved here, in order to allow testing
 #- some bogus case and check for integrity.
 {
-    my $db = URPM::DB::open($root);
+    my $db;
+    
+    #- take care of specific environment.
+    if ($env) {
+	$db = new URPM;
+	$db->parse_synthesis("$env/rpmdb.cz");
+    } else {
+	$db = URPM::DB::open($root);
+    }
+
     my $sig_handler = sub { undef $db; exit 3 };
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
@@ -320,7 +343,7 @@ my @to_install;
 
 #- check if there is at least one package to install that
 #- has not been given by the user.
-my $ask_user = $auto_select;
+my $ask_user = $env || $auto_select;
 my $sum = 0;
 my @root_only;
 
@@ -328,12 +351,18 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
     $ask_user ||= $pkg->flag_required;
 
     my $fullname = $pkg->fullname;
-    if ($uid > 0 && $pkg->arch ne 'src') {
+    if (!$env && $uid > 0 && $pkg->arch ne 'src') {
 	push @root_only, $fullname;
     } elsif ($uid > 0 || $pkg->arch ne 'src') {
 	$sum += $pkg->size;
 	push @to_install, $fullname;
     }
+}
+if ($env) {
+    my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
+    my $p = join "\n", @to_install;
+    print STDERR "$msg:\n$p\n";
+    exit 0; #- exit now for specific environment.
 }
 if (@root_only) {
     print STDERR _("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);

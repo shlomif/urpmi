@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.5
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Thu Jun 13 2002 François Pons <fpons@mandrakesoft.com> 3.5-2mdk
+- added --env option to urpmi to replay bug report.
+
 * Thu Jun 13 2002 François Pons <fpons@mandrakesoft.com> 3.5-1mdk
 - use perl-URPM >= 0.04-2mdk for new require resolution algorithms.
 
