@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.6
-Release: 8mdk
+Release: 9mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -106,6 +106,10 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Jul  2 2001 François Pons <fpons@mandrakesoft.com> 1.6-9mdk
+- fixed missing rpmtools reference in urpm library.
+- changed die in fatal error.
+
 * Mon Jul  2 2001 François Pons <fpons@mandrakesoft.com> 1.6-8mdk
 - fixed typo by pixel.
 - fixed bad reference in urpm reported by Michael Reinsch.

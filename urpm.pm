@@ -918,7 +918,7 @@ sub register_local_packages {
 	    $urpm->{fatal}(7, _("rpmtools package is too old, please upgrade it"));
 	}
     }
-    $error and die "error registering local packages";
+    $error and $urpm->{fatal}(1, _("error registering local packages"));
 
     #- compute depslist associated.
     $urpm->{params}->compute_depslist;
@@ -1020,7 +1020,7 @@ sub search_packages {
 											     $best->{info}{release});
 			    if ($_->{info}{serial} > $best->{info}{serial} || $cmp_version > 0 || $cmp_release > 0 ||
 				($_->{info}{serial} == $best->{info}{serial} && $cmp_version == 0 && $cmp_release == 0 &&
-				 better_arch($_->{info}{arch}, $best->{info}{arch}))) {
+				 rpmtools::better_arch($_->{info}{arch}, $best->{info}{arch}))) {
 				$best = $_;
 			    }
 			} else {
