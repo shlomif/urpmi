@@ -47,12 +47,12 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
   -h             - print this help message.
+  -v             - verbose mode.
   -d             - extend query to package dependancies.
   -u             - remove package if a better version is already installed.
   -c             - choose complete method for resolving requires closure.
   -g             - print groups too with name.
-  -v             - print version too with name.
-  -r             - print release too with name.
+  -r             - print version and release too with name.
 
   --auto-select  - automatically select packages for upgrading the system.
   --headers      - extract headers for package listed from urpmi db to
@@ -76,8 +76,8 @@ for (@ARGV) {
 	/u/ and do { $query->{upgrade} = 1; next };
 	/c/ and do { $query->{complete} = 1; next };
 	/g/ and do { $query->{group} = 1; next };
-	/v/ and do { $query->{version} = 1; next };
-	/r/ and do { $query->{release} = 1; next };
+	/v/ and do { $query->{verbose} = 1; next };
+	/r/ and do { $query->{version} = $query->{release} = 1; next };
 	die( sprintf _("urpmq: unknown option \"-$1\", check usage with --help\n")); } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     /\.rpm$/ and do { -r $_ or print STDERR _("urpmq: cannot read rpm file \"$_\"\n"), next;
@@ -87,6 +87,9 @@ for (@ARGV) {
 
 #- params contains informations to parse installed system.
 my $urpm = new urpm;
+
+#- remove verbose if not asked.
+$query->{verbose} or $urpm->{log} = sub {};
 
 $urpm->read_depslist;
 $query && $query->{group} and $urpm->read_compss;
@@ -119,6 +122,9 @@ if ($query->{auto_select}) {
 	print STDERR _("some package have to be removed for being upgraded, this is not supported yet\n");
     }
 }
+
+#- get out of package that should not be upgraded.
+$urpm->deselect_unwanted_packages(\%packages);
 
 #- filter to add in packages selected required packages.
 $query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);

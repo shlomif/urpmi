@@ -57,6 +57,7 @@ sub new {
     my ($class) = @_;
     bless {
 	   config     => "/etc/urpmi/urpmi.cfg",
+	   skiplist   => "/etc/urpmi/skip.list",
 	   depslist   => "/var/lib/urpmi/depslist.ordered",
 	   provides   => "/var/lib/urpmi/provides",
 	   compss     => "/var/lib/urpmi/compss",
@@ -1111,6 +1112,21 @@ sub filter_minimal_packages_to_upgrade {
 	exec "parsehdlist", "--interactive", map { "$urpm->{statedir}/$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media}}
 	  or rpmtools::_exit(1);
     }
+}
+
+#- get out of package that should not be upgraded.
+sub deselect_unwanted_packages {
+    my ($urpm, $packages) = @_;
+
+    my %skip;
+    local ($_, *F);
+    open F, $urpm->{skiplist};
+    while (<F>) {
+	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	my $pkg = $urpm->{params}{info}{$_} or next;
+	exists $packages->{$pkg->{id}} && defined $packages->{$pkg->{id}} and delete $packages->{$pkg->{id}};
+    }
+    close F;
 }
 
 #- select source for package selected.

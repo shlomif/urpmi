@@ -185,6 +185,9 @@ if ($minimal) {
     $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, complete => $complete);
 }
 
+#- get out of package that should not be upgraded.
+$urpm->deselect_unwanted_packages(\%packages);
+
 #- package to install as a array of strings.
 my @to_install;
 

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Fri Feb 23 2001 François Pons <fpons@mandrakesoft.com> 1.5-7mdk
+- added /etc/urpmi/skip.list for package that should not
+  be upgraded.
+- remove -v option of urpmq to match -v as verbose.
+
 * Mon Feb 19 2001 François Pons <fpons@mandrakesoft.com> 1.5-6mdk
 - fixed urpmq --headers with exotic rpm filename.
 - fixed closing using tee (need testing).
