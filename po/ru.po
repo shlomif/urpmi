@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-24 00:36+0200\n"
+"POT-Creation-Date: 2004-05-05 14:19+0200\n"
 "PO-Revision-Date: 2004-04-27 09:16+0300\n"
 "Last-Translator: Pavel Maryanov <acid_jack@ukr.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -39,337 +39,145 @@ msgstr "YyДд"
 msgid "Nn"
 msgstr "NnНн"
 
-#: ../_irpm:23
-#, c-format
-msgid "installing %s\n"
-msgstr "устанавливается %s\n"
-
-#: ../_irpm:33
+#: ../urpmi.addmedia:1
 #, c-format
 msgid ""
-"Automatic installation of packages...\n"
-"You requested installation of package %s\n"
+"  --distrib      - automatically create all media from an installation\n"
+"                   medium.\n"
 msgstr ""
-"Автоматическая установка пакетов...\n"
-"Вы запросили установку пакета %s\n"
+"  --disrtib      - автоматически создать все источники из инсталляционного\n"
+"                   источника.\n"
 
-#: ../_irpm:33 ../urpme:29 ../urpmi:498
+#: ../urpm.pm:1
 #, c-format
-msgid "Is this OK?"
-msgstr "Это правильно?"
+msgid "unable to open rpmdb"
+msgstr "невозможно открыть rpmdb"
 
-#: ../_irpm:35 ../urpm/msg.pm:37
+#: ../urpme:1 ../urpmf:1 ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.removemedia:1
+#: ../urpmi.update:1 ../urpmq:1
 #, c-format
-msgid "Ok"
-msgstr "OК"
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - вывести эту подсказку.\n"
 
-#: ../_irpm:36 ../urpm/msg.pm:38
+#: ../urpmi:1
 #, c-format
-msgid "Cancel"
-msgstr "Отмена"
+msgid "One of the following packages is needed to install %s:"
+msgstr "Необходимо установить один из следующих пакетов %s:"
 
-#: ../_irpm:44 ../urpmi:434 ../urpmi:506
+#: ../urpm.pm:1
 #, c-format
-msgid " (Y/n) "
-msgstr " (Y/n) "
+msgid "removing package %s"
+msgstr "удаляется пакет %s"
 
-#: ../_irpm:63
+#: ../urpm.pm:1
 #, c-format
-msgid "%s: command not found\n"
-msgstr "%s: команда не найдена\n"
+msgid "\"%s\""
+msgstr "\"%s\""
 
-#: ../rpm-find-leaves:11
-#, c-format
-msgid ""
-"usage: %s [options]\n"
-"where [options] are from\n"
-msgstr ""
-"использование: %s [параметры]\n"
-"где [параметры] такие\n"
-
-#: ../rpm-find-leaves:13
-#, c-format
-msgid "   -h|--help      - print this help message.\n"
-msgstr "   -h|--help         - вывести эту подсказку.\n"
-
-#: ../rpm-find-leaves:14
-#, c-format
-msgid "   -g [group]     - restrict results to given group.\n"
-msgstr "   -g [group]        - ограничить результаты данной группой.\n"
-
-#: ../rpm-find-leaves:15
-#, c-format
-msgid "                    defaults is %s.\n"
-msgstr "                    по умолчанию %s.\n"
-
-#: ../urpm.pm:58
-#, c-format
-msgid "unknown protocol defined for %s"
-msgstr "для %s определен неизвестный протокол"
-
-#: ../urpm.pm:80
-#, c-format
-msgid "no webfetch found, supported webfetch are: %s\n"
-msgstr "не найден webfetch, поддерживается webfetch: %s\n"
-
-#: ../urpm.pm:96
-#, c-format
-msgid "unable to handle protocol: %s"
-msgstr "невозможно обработать протокол: %s"
-
-#: ../urpm.pm:138 ../urpm.pm:151 ../urpm.pm:164
-#, c-format
-msgid "syntax error in config file at line %s"
-msgstr "синтаксическая ошибка в config файле в строке %s"
-
-#: ../urpm.pm:175
-#, c-format
-msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-msgstr ""
-"источник \"%s\" пытается использовать уже задействованный hdlist, источник "
-"игнорируется"
-
-#: ../urpm.pm:181
-#, c-format
-msgid "medium \"%s\" trying to use an already used list, medium ignored"
-msgstr ""
-"источник \"%s\" пытается использовать уже использующийся список, источник "
-"игнорируется"
-
-#: ../urpm.pm:197
-#, c-format
-msgid ""
-"unable to take care of medium \"%s\" as list file is already used by another "
-"medium"
-msgstr ""
-"невозможно сберечь источник \"%s\" так как файл списка уже используется "
-"другим источником"
-
-#: ../urpm.pm:203
-#, c-format
-msgid "unable to use name \"%s\" for unnamed medium because it is already used"
-msgstr ""
-"невозможно использовать название \"%s\" для неименованного носителя. Имя уже "
-"занято"
-
-#: ../urpm.pm:210
-#, c-format
-msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
-msgstr ""
-"невозможно принять во внимание источник \"%s\" так как не существует файла "
-"списка [%s]"
-
-#: ../urpm.pm:214
-#, c-format
-msgid "unable to determine medium of this hdlist file [%s]"
-msgstr "невозможно определить источник данного файла hdlist [%s]"
-
-#: ../urpm.pm:223
-#, c-format
-msgid "unable to access hdlist file of \"%s\", medium ignored"
-msgstr "нет доступа к файлу hdlist для \"%s\", источник игнорируется"
-
-#: ../urpm.pm:225 ../urpm.pm:2319
-#, c-format
-msgid "unable to access list file of \"%s\", medium ignored"
-msgstr "нет доступа к файлу списка источника \"%s\", источник игнорируется"
-
-#: ../urpm.pm:249
-#, c-format
-msgid "trying to bypass existing medium \"%s\", avoiding"
-msgstr "попытка обойти существующий источник \"%s\", отменяется"
-
-#: ../urpm.pm:257
-#, c-format
-msgid ""
-"virtual medium \"%s\" should not have defined hdlist or list file, medium "
-"ignored"
-msgstr ""
-"виртуальный источник \"%s\"не должен иметь определенный файл hdlist или файл "
-"списка, источник игнорируется"
-
-#: ../urpm.pm:262
-#, c-format
-msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-msgstr ""
-"виртуальный источник \"%s\" должен содержать пустой url, источник "
-"игнорируется"
-
-#: ../urpm.pm:271
-#, c-format
-msgid "unable to find hdlist file for \"%s\", medium ignored"
-msgstr "не получается найти hdlist файл для \"%s\", источник игнорируется"
-
-#: ../urpm.pm:278
-#, c-format
-msgid "unable to find list file for \"%s\", medium ignored"
-msgstr "не получается найти файл списка для \"%s\", источник игнорируется"
-
-#: ../urpm.pm:301
-#, c-format
-msgid "incoherent list file for \"%s\", medium ignored"
-msgstr "несвязанный файл списка для \"%s\", источник игнорируется"
-
-#: ../urpm.pm:309
-#, c-format
-msgid "unable to inspect list file for \"%s\", medium ignored"
-msgstr "не получается проверить файл списка для \"%s\", источник игнорируется"
-
-#: ../urpm.pm:342
-#, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "слишком много точек монтирования для съемного источника \"%s\""
-
-#: ../urpm.pm:343
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "принимается съемное устройство как \"%s\""
-
-#: ../urpm.pm:347
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "используется другое съемное устройство [%s] для \"%s\""
-
-#: ../urpm.pm:352 ../urpm.pm:355
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "невозможно получить путь к съемному источнику \"%s\""
-
-#: ../urpm.pm:368
-#, c-format
-msgid "unable to write config file [%s]"
-msgstr "не получается записать config файл [%s]"
-
-#: ../urpm.pm:390
-#, c-format
-msgid "write config file [%s]"
-msgstr "записать config файл [%s]"
-
-#: ../urpm.pm:402
+#: ../urpm.pm:1
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
 msgstr ""
 "Не могу использовать параллельный режим совместно с use-distrib режимом"
 
-#: ../urpm.pm:412
+#: ../urpmi:1
 #, c-format
-msgid "unable to parse \"%s\" in file [%s]"
-msgstr "невозможно разобрать \"%s\" в файле [%s]"
+msgid "Everything already installed"
+msgstr "Все уже установлено"
 
-#: ../urpm.pm:423
+#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
 #, c-format
-msgid "examining parallel handler in file [%s]"
-msgstr "проверяется параллельный обработчик в файле [%s]"
+msgid "  -c             - clean headers cache directory.\n"
+msgstr "  -c             - очистить каталог кэша заголовков.\n"
 
-#: ../urpm.pm:433
+#: ../urpm.pm:1
 #, c-format
-msgid "found parallel handler for nodes: %s"
-msgstr "найден параллельный обработчик для узлов: %s"
+msgid "using process %d for executing transaction"
+msgstr "процесс %d используется для выполнения транзакции"
 
-#: ../urpm.pm:437
+#: ../urpmf:1
 #, c-format
-msgid "using associated media for parallel mode: %s"
-msgstr "используется связанный носитель для параллельного режима: %s"
+msgid "  --provides     - print tag provides: all provides.\n"
+msgstr "  --provides     - выводить тэг provides: все поставляемые файлы.\n"
 
-#: ../urpm.pm:441
+#: ../urpmi:1
 #, c-format
-msgid "unable to use parallel option \"%s\""
-msgstr "невозможно использовать параллельную опцию \"%s\""
+msgid "What is your choice? (1-%d) "
+msgstr "Ваш выбор? (1-%d) "
 
-#: ../urpm.pm:452
+#: ../urpm.pm:1
+#, c-format
+msgid "found %d headers in cache"
+msgstr "найдено %d заголовков в кэше"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "существует несколько пакетов с одинаковым именем rpm файла \"%s\""
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
-"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
-"update or --parallel"
+"  --proxy-user   - specify user and password to use for proxy\n"
+"                   authentication (format is <user:password>).\n"
 msgstr ""
-"--synthesis не может быть использован с --media, --excludemedia, --"
-"sortmedia, --update или --parallel"
+"  --proxy-user   - указать пользователя и пароль для авторизации на proxy\n"
+"                   (формат <пользователь:пароль>).\n"
 
-#: ../urpm.pm:503 ../urpm.pm:525 ../urpm.pm:891 ../urpm.pm:902 ../urpm.pm:963
-#: ../urpm.pm:980 ../urpm.pm:1063 ../urpm.pm:1120 ../urpm.pm:1298
-#: ../urpm.pm:1401 ../urpm.pm:1505 ../urpm.pm:1511 ../urpm.pm:1610
-#: ../urpm.pm:1689 ../urpm.pm:1693
-#, c-format
-msgid "examining synthesis file [%s]"
-msgstr "проверяется файл synthesis [%s]"
-
-#: ../urpm.pm:507 ../urpm.pm:520 ../urpm.pm:529 ../urpm.pm:894 ../urpm.pm:905
-#: ../urpm.pm:969 ../urpm.pm:975 ../urpm.pm:1068 ../urpm.pm:1124
-#: ../urpm.pm:1302 ../urpm.pm:1405 ../urpm.pm:1499 ../urpm.pm:1517
-#: ../urpm.pm:1699
-#, c-format
-msgid "examining hdlist file [%s]"
-msgstr "проверяется файл hdlist [%s]"
-
-#: ../urpm.pm:515 ../urpm.pm:898
-#, c-format
-msgid "virtual medium \"%s\" is not local, medium ignored"
-msgstr ""
-"виртуальный источник \"%s\" не является локальным, источник игнорируется"
-
-#: ../urpm.pm:538 ../urpm.pm:912 ../urpm.pm:988 ../urpm.pm:1072
-#: ../urpm.pm:1409
-#, c-format
-msgid "problem reading hdlist or synthesis file of medium \"%s\""
-msgstr "проблема чтения файла hdlist или synthesis источника \"%s\""
-
-#: ../urpm.pm:544 ../urpm.pm:1649
+#: ../urpm.pm:1
 #, c-format
 msgid "performing second pass to compute dependencies\n"
 msgstr "производится второй проход вычисления зависимостей\n"
 
-#: ../urpm.pm:556
+#: ../urpm.pm:1
 #, c-format
-msgid "skipping package %s"
-msgstr "пропускается пакет %s"
+msgid "retrieving rpm file [%s] ..."
+msgstr "извлекается rpm файл [%s] ..."
 
-#: ../urpm.pm:565
+#: ../urpmq:1
 #, c-format
-msgid "would install instead of upgrade package %s"
-msgstr "будет произведена установка вместо обновления пакета %s"
+msgid "  --list-aliases - list available parallel aliases.\n"
+msgstr "  --list-aliases - вывести список доступных параллельных алиасов.\n"
 
-#: ../urpm.pm:576 ../urpm.pm:2117 ../urpm.pm:2178 ../urpm.pm:2755
-#: ../urpm.pm:2853
+#: ../urpm.pm:1 ../urpmi:1 ../urpmi.addmedia:1
 #, c-format
-msgid "unable to open rpmdb"
-msgstr "невозможно открыть rpmdb"
+msgid "...retrieving failed: %s"
+msgstr "...получить не удалось: %s"
 
-#: ../urpm.pm:615
+#: ../urpm.pm:1
 #, c-format
-msgid "medium \"%s\" already exists"
-msgstr "источник \"%s\" уже существует"
+msgid "unable to inspect list file for \"%s\", medium ignored"
+msgstr "не получается проверить файл списка для \"%s\", источник игнорируется"
 
-#: ../urpm.pm:622
+#: ../urpmf:1
 #, c-format
-msgid "virtual medium need to be local"
-msgstr "виртуальный источник должен быть локальным"
+msgid ""
+"  -o             - binary OR operator, true if one expression is true.\n"
+msgstr ""
+"  -o             - бинарный оператор OR, возвращает true, если одно\n"
+"                   из выражений true.\n"
 
-#: ../urpm.pm:654
+#: ../urpmi:1
 #, c-format
-msgid "added medium %s"
-msgstr "добавлен источник %s"
+msgid "Package installation..."
+msgstr "Устанавливается пакет..."
 
-#: ../urpm.pm:670
+#: ../urpm.pm:1
 #, c-format
-msgid "unable to access first installation medium"
-msgstr "нет доступа к первому источнику инсталляции"
+msgid "invalid rpm file name [%s]"
+msgstr "неверное имя rpm файла [%s]"
 
-#: ../urpm.pm:674
+#: ../urpm/args.pm:1
 #, c-format
-msgid "copying hdlists file..."
-msgstr "копируется файл hdlists..."
+msgid "bad proxy declaration on command line\n"
+msgstr "неверно указан proxy в командной строке\n"
 
-#: ../urpm.pm:676 ../urpm.pm:1003 ../urpm.pm:1092
+#: ../urpmi:1
 #, c-format
-msgid "...copying failed"
-msgstr "...копирование не удалось"
+msgid "%d installation transactions failed"
+msgstr "%d транзакций установки завершились неудачей"
 
-#: ../urpm.pm:676 ../urpm.pm:1003 ../urpm.pm:1096
-#, c-format
-msgid "...copying done"
-msgstr "...копирование выполнено"
-
-#: ../urpm.pm:678 ../urpm.pm:697 ../urpm.pm:725
+#: ../urpm.pm:1
 #, c-format
 msgid ""
 "unable to access first installation medium (no Mandrake/base/hdlists file "
@@ -378,775 +186,583 @@ msgstr ""
 "нет доступа к первому источнику инсталляции (не найден файл Mandrake/base/"
 "hdlists)"
 
-#: ../urpm.pm:684
+#: ../urpm/msg.pm:1
 #, c-format
-msgid "retrieving hdlists file..."
-msgstr "извлекается файл hdlists..."
+msgid "Sorry, bad choice, try again\n"
+msgstr "Извините, плохой выбор, попробуйте снова\n"
 
-#: ../urpm.pm:691 ../urpm.pm:1391 ../urpm.pm:1932 ../urpm.pm:2628
-#: ../urpmi.addmedia:137
+#: ../urpmi:1
 #, c-format
-msgid "...retrieving done"
-msgstr "...получение выполнено"
+msgid "Choose location to save file"
+msgstr "Укажите куда сохранять файл"
 
-#: ../urpm.pm:693 ../urpm.pm:1375 ../urpm.pm:1384 ../urpm.pm:1935
-#: ../urpm.pm:2630 ../urpmi:595 ../urpmi.addmedia:139
+#: ../urpmf:1
 #, c-format
-msgid "...retrieving failed: %s"
-msgstr "...получить не удалось: %s"
+msgid "  --summary      - print tag summary: summary.\n"
+msgstr "  --summary      - выводить тэг summary: общие сведения.\n"
 
-#: ../urpm.pm:713
-#, c-format
-msgid "invalid hdlist description \"%s\" in hdlists file"
-msgstr "неверное описание hdlist \"%s\" в файле hdlists "
-
-#: ../urpm.pm:758
-#, c-format
-msgid "trying to select nonexistent medium \"%s\""
-msgstr "попытка выбрать несуществующий источник \"%s\""
-
-#: ../urpm.pm:760
-#, c-format
-msgid "selecting multiple media: %s"
-msgstr "выбирается составной источник: %s"
-
-#: ../urpm.pm:760
-#, c-format
-msgid "\"%s\""
-msgstr "\"%s\""
-
-#: ../urpm.pm:776
-#, c-format
-msgid "removing medium \"%s\""
-msgstr "удаляется источник \"%s\""
-
-#: ../urpm.pm:939
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"нет доступа к источнику \"%s\",\n"
-"так бывает если вы вручную монтировали каталог когда создавали источник."
-
-#: ../urpm.pm:992
-#, c-format
-msgid ""
-"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
-"ignored"
-msgstr ""
-"виртуальный источник \"%s\" должен иметь правильный исходный hdlist или "
-"synthesis, источник игнорируется"
-
-#: ../urpm.pm:1000
-#, c-format
-msgid "copying description file of \"%s\"..."
-msgstr "копируется файл описания для \"%s\"..."
-
-#: ../urpm.pm:1023 ../urpm.pm:1258
-#, c-format
-msgid "computing md5sum of existing source hdlist (or synthesis)"
-msgstr "вычисляется md5sum существующего исходного hdlist (или synthesis)"
-
-#: ../urpm.pm:1034 ../urpm.pm:1269
-#, c-format
-msgid "examining MD5SUM file"
-msgstr "проверяется файл MD5SUM"
-
-#: ../urpm.pm:1088
-#, c-format
-msgid "copying source hdlist (or synthesis) of \"%s\"..."
-msgstr "копируется исходный hdlist (или synthesis) \"%s\"..."
-
-#: ../urpm.pm:1101
-#, c-format
-msgid "copy of [%s] failed (file is suspiciously small)"
-msgstr "копирование [%s] не удалось (файл подозрительно короткий)"
-
-#: ../urpm.pm:1105
-#, c-format
-msgid "computing md5sum of copied source hdlist (or synthesis)"
-msgstr "вычисляется md5sum скопированного исходного hdlist (или synthesis)"
-
-#: ../urpm.pm:1107
-#, c-format
-msgid "copy of [%s] failed (md5sum mismatch)"
-msgstr "копия [%s] не получилась (не совпадает md5sum)"
-
-#: ../urpm.pm:1128 ../urpm.pm:1306 ../urpm.pm:1613
-#, c-format
-msgid "problem reading synthesis file of medium \"%s\""
-msgstr "проблема чтения файла synthesis источника \"%s\""
-
-#: ../urpm.pm:1167
-#, c-format
-msgid "reading rpm files from [%s]"
-msgstr "читаются rpm файлы из [%s]"
-
-#: ../urpm.pm:1192
-#, c-format
-msgid "unable to read rpm files from [%s]: %s"
-msgstr "невозможно прочитать rpm файлы из [%s]: %s"
-
-#: ../urpm.pm:1197
-#, c-format
-msgid "no rpm files found from [%s]"
-msgstr "не найдены rpm файлы в [%s]"
-
-#: ../urpm.pm:1324
-#, c-format
-msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-msgstr "получение исходного hdlist (или synthesis) из \"%s\"..."
-
-#: ../urpm.pm:1346
-#, c-format
-msgid "found probed hdlist (or synthesis) as %s"
-msgstr "найден искомый hdlist (или synthesis): %s"
-
-#: ../urpm.pm:1382
-#, c-format
-msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr "вычисляется md5sum полученного исходного hdlist (или synthesis)"
-
-#: ../urpm.pm:1384
-#, c-format
-msgid "md5sum mismatch"
-msgstr "несоответствие md5sum"
-
-#: ../urpm.pm:1469
-#, c-format
-msgid "retrieval of source hdlist (or synthesis) failed"
-msgstr "извлечение исходного hdlist (или synthesis) не удалось"
-
-#: ../urpm.pm:1476
-#, c-format
-msgid "no hdlist file found for medium \"%s\""
-msgstr "не найден файл hdlist для источника \"%s\""
-
-#: ../urpm.pm:1487 ../urpm.pm:1541
-#, c-format
-msgid "file [%s] already used in the same medium \"%s\""
-msgstr "файл [%s] уже используется в похожем источнике \"%s\""
-
-#: ../urpm.pm:1527
-#, c-format
-msgid "unable to parse hdlist file of \"%s\""
-msgstr "невозможно разобрать файл hdlist источника \"%s\""
-
-#: ../urpm.pm:1565
-#, c-format
-msgid "unable to write list file of \"%s\""
-msgstr "не удается записать файл списка для \"%s\""
-
-#: ../urpm.pm:1572
-#, c-format
-msgid "writing list file for medium \"%s\""
-msgstr "записывается файл списка для источника \"%s\""
-
-#: ../urpm.pm:1574
-#, c-format
-msgid "nothing written in list file for \"%s\""
-msgstr "в файл списка для \"%s\" ничего не записано"
-
-#: ../urpm.pm:1587
-#, c-format
-msgid "examining pubkey file of \"%s\"..."
-msgstr "проверяется файл открытого ключа для \"%s\"..."
-
-#: ../urpm.pm:1594
-#, c-format
-msgid "...imported key %s from pubkey file of \"%s\""
-msgstr "...импортирован ключ %s из файла открытого ключа \"%s\""
-
-#: ../urpm.pm:1597
-#, c-format
-msgid "unable to import pubkey file of \"%s\""
-msgstr "невозможно импортировать файл открытого ключа \"%s\""
-
-#: ../urpm.pm:1663
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "читаются заголовки из источника \"%s\""
-
-#: ../urpm.pm:1668
-#, c-format
-msgid "building hdlist [%s]"
-msgstr "построение hdlist [%s]"
-
-#: ../urpm.pm:1680 ../urpm.pm:1709 ../urpmi:343
-#, c-format
-msgid "built hdlist synthesis file for medium \"%s\""
-msgstr "создан файл hdlist synthesis для источника \"%s\""
-
-#: ../urpm.pm:1729
-#, c-format
-msgid "found %d headers in cache"
-msgstr "найдено %d заголовков в кэше"
-
-#: ../urpm.pm:1733
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "удаляются %d устаревших заголовков в кэше"
-
-#: ../urpm.pm:1875
-#, c-format
-msgid "mounting %s"
-msgstr "монтируется %s"
-
-#: ../urpm.pm:1888
-#, c-format
-msgid "unmounting %s"
-msgstr "отмонтируется %s"
-
-#: ../urpm.pm:1910
-#, c-format
-msgid "relocated %s entries in depslist"
-msgstr "перенесено %s записей в depslist"
-
-#: ../urpm.pm:1911
-#, c-format
-msgid "no entries relocated in depslist"
-msgstr "ни одной записи не перенесено в depslist"
-
-#: ../urpm.pm:1924
-#, c-format
-msgid "invalid rpm file name [%s]"
-msgstr "неверное имя rpm файла [%s]"
-
-#: ../urpm.pm:1930
-#, c-format
-msgid "retrieving rpm file [%s] ..."
-msgstr "извлекается rpm файл [%s] ..."
-
-#: ../urpm.pm:1937 ../urpm.pm:2797
-#, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "нет доступа к rpm файлу [%s]"
-
-#: ../urpm.pm:1942
-#, c-format
-msgid "unable to register rpm file"
-msgstr "не удается зарегистрировать rpm файл"
-
-#: ../urpm.pm:1945
-#, c-format
-msgid "error registering local packages"
-msgstr "ошибка регистрации локальных пакетов"
-
-#: ../urpm.pm:2058
-#, c-format
-msgid "no package named %s"
-msgstr "нет пакета с именем %s"
-
-#: ../urpm.pm:2061 ../urpme:88
+#: ../urpm.pm:1 ../urpme:1
 #, c-format
 msgid "The following packages contain %s: %s"
 msgstr "Следующие пакеты содержат %s: %s"
 
-#: ../urpm.pm:2256 ../urpm.pm:2300 ../urpm.pm:2326
+#: ../urpmi:1
 #, c-format
-msgid "there are multiple packages with the same rpm filename \"%s\""
-msgstr "существует несколько пакетов с одинаковым именем rpm файла \"%s\""
+msgid "Install it"
+msgstr "Установить его"
 
-#: ../urpm.pm:2311
+#: ../urpmi:1
 #, c-format
-msgid "unable to correctly parse [%s] on value \"%s\""
-msgstr "невозможно правильно разобрать [%s] в \"%s\""
+msgid "  --X            - use X interface.\n"
+msgstr "  --X            - использовать Х-интерфейс.\n"
 
-#: ../urpm.pm:2338
+#: ../urpmi:1
+#, c-format
+msgid "One of the following packages is needed:"
+msgstr "Нужен один из следующих пакетов:"
+
+#: ../urpme:1
+#, c-format
+msgid "To satisfy dependencies, the following packages will be removed (%d MB)"
+msgstr "Для удовлетворения зависимостей следующие пакеты будут удалены (%d Мб)"
+
+#: ../urpmi:1
 #, c-format
 msgid ""
-"medium \"%s\" uses an invalid list file:\n"
-"  mirror is probably not up-to-date, trying to use alternate method"
+"  --best-output  - choose best interface according to the environment:\n"
+"                   X or text mode.\n"
 msgstr ""
-"источник \"%s\" использует неверный файл списка:\n"
-"  возможно зеркало устарело, попытка использовать альтернативный метод"
+"  --best-output  - выбрать наилучший интерфейс согласно окружению:\n"
+"                   Х или текстовый режим.\n"
 
-#: ../urpm.pm:2342
+#: ../urpmi:1
 #, c-format
-msgid "medium \"%s\" does not define any location for rpm files"
-msgstr "источник \"%s\" не определяет местонахождение файлов rpm"
+msgid "Downloading package `%s'..."
+msgstr "Загружается пакет `%s'..."
 
-#: ../urpm.pm:2354
+#: ../urpmi:1
 #, c-format
-msgid "package %s is not found."
-msgstr "пакет %s не найден."
+msgid "What can be done with binary rpm files when using --install-src"
+msgstr "Что делать с бинарными rpm файлами при использовании --install-src"
 
-#: ../urpm.pm:2394 ../urpm.pm:2409 ../urpm.pm:2433 ../urpm.pm:2448
+#: ../urpmi:1 ../urpmq:1
 #, c-format
-msgid "urpmi database locked"
-msgstr "база данных urpmi заблокирована"
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - автоматически выбрать пакеты для обновления системы.\n"
 
-#: ../urpm.pm:2500 ../urpm.pm:2503 ../urpm.pm:2533
+#: ../urpm.pm:1
 #, c-format
-msgid "medium \"%s\" is not selected"
-msgstr "источник \"%s\" не выбран"
+msgid "no package named %s"
+msgstr "нет пакета с именем %s"
 
-#: ../urpm.pm:2529
+#: ../urpmi:1 ../urpmq:1
 #, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "невозможно прочитать rpm файл [%s] из источника \"%s\""
+msgid "  -a             - select all matches on command line.\n"
+msgstr "  -a             - выбрать все соответствия из командной строки.\n"
 
-#: ../urpm.pm:2537
+#: ../urpmi:1
+#, c-format
+msgid ""
+"Installation failed, some files are missing:\n"
+"%s\n"
+"You may want to update your urpmi database"
+msgstr ""
+"Установка не удалась, некоторые файлы отсутствуют:\n"
+"%s\n"
+"Возможно вам необходимо обновить базу данных urpmi"
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+msgstr ""
+"использование: urpmi.removemedia [-a] <имя> ...\n"
+"где <имя> - имя удаляемого источника.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"The installation cannot continue because the following packages\n"
+"have to be removed for others to be upgraded:\n"
+"%s\n"
+msgstr ""
+"Установка не может быть продолжена так как следующие пакеты должны быть \n"
+"удалены для обновления остальных:\n"
+"%s\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "`with' missing for network media\n"
+msgstr "`with' отсутствует для сетевого источника\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -l             - list files in package.\n"
+msgstr "  -l             - выводить список файлов пакета.\n"
+
+#: ../urpme:1
+#, c-format
+msgid "unknown package"
+msgstr "неизвестный пакет"
+
+#: ../urpmi:1
+#, c-format
+msgid "Installation is possible"
+msgstr "Установка возможна."
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Следующие пакеты будут удалены для обновления остальных:\n"
+"%s"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"To satisfy dependencies, the following %d packages are going to be installed "
+"(%d MB)"
+msgstr ""
+"Для удовлетворения зависимостей будет установлено %d следующих пакетов (%d "
+"МБ)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
+msgstr ""
+"невозможно принять во внимание источник \"%s\" так как не существует файла "
+"списка [%s]"
+
+#: ../urpme:1 ../urpmi:1
+#, c-format
+msgid " (y/N) "
+msgstr " (y/N) "
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "cannot add updates of a cooker distribution\n"
+msgstr "невозможно добавить обновления дистрибутива cooker\n"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr "  -v             - подробный режим.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Initializing..."
+msgstr "Инициализация..."
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list         - list available packages.\n"
+msgstr "  --list           - вывести список доступных пакетов.\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --all          - print all tags.\n"
+msgstr "  --all           - выводить все тэги.\n"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr "непонятный источник \"%s\" отмечен как съемный, но это не так"
 
-#: ../urpm.pm:2550
+#: ../urpm.pm:1
 #, c-format
-msgid "unable to access medium \"%s\""
-msgstr "нет доступа к источнику \"%s\""
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"виртуальный источник \"%s\"не должен иметь определенный файл hdlist или файл "
+"списка, источник игнорируется"
 
-#: ../urpm.pm:2611
+#: ../urpm.pm:1
 #, c-format
-msgid "malformed input: [%s]"
-msgstr "неверно сформированный ввод: [%s]"
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "вычисляется md5sum скопированного исходного hdlist (или synthesis)"
 
-#: ../urpm.pm:2618
+#: ../urpmi:1
 #, c-format
-msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "идет получение файлов rpm из источника \"%s\"..."
+msgid "  --excludepath  - exclude path separated by comma.\n"
+msgstr "  --excludepath  - исключить пути, разделенные запятыми.\n"
 
-#: ../urpm.pm:2695 ../urpmi:673
+#: ../urpmi:1
 #, c-format
-msgid "Preparing..."
-msgstr "Подготовка..."
+msgid "Press Enter when ready..."
+msgstr "Нажмите Enter когда будете готовы..."
 
-#: ../urpm.pm:2728
+#: ../urpmi.removemedia:1
 #, c-format
-msgid "using process %d for executing transaction"
-msgstr "процесс %d используется для выполнения транзакции"
+msgid ""
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+"\n"
+"неизвестные опции '%s'\n"
 
-#: ../urpm.pm:2759
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+"  --split-level  - разбить на маленькие транзакции, если будут\n"
+"                   устанавливаться или обновляться дополнительные\n"
+"                   пакеты кроме указанных,\n"
+"                   по умолчанию %d.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "проблема чтения файла hdlist или synthesis источника \"%s\""
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid "  --wget         - use wget to retrieve distant files.\n"
+msgstr ""
+"  --wget          - использовать wget для получения удаленных файлов.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - разрешить поиск в provides, чтобы найти пакеты.\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list-nodes   - list available nodes when using --parallel.\n"
+msgstr ""
+"  --list-nodes   - вывести список доступных узлов при использовании--"
+"parallel.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "построение hdlist [%s]"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --keep         - keep existing packages if possible, reject requested\n"
+"                   packages that leads to remove.\n"
+msgstr ""
+"  --keep         - сохранить по возможности существующие пакеты, отклонить\n"
+"                   запрошенные пакеты, которые ведут к удалению.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr "проверяется файл MD5SUM"
+
+#: ../_irpm:1
+#, c-format
+msgid "%s: command not found\n"
+msgstr "%s: команда не найдена\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to register rpm file"
+msgstr "не удается зарегистрировать rpm файл"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --allow-nodeps - allow asking user to install packages without\n"
+"                   dependencies checking.\n"
+msgstr ""
+"  --allow-nodeps - позволяет спрашивать пользователя устанавливать\n"
+"                   пакеты без проверки зависимостей.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to handle protocol: %s"
+msgstr "невозможно обработать протокол: %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving hdlists file..."
+msgstr "извлекается файл hdlists..."
+
+#: ../urpmi:1
+#, c-format
+msgid "Yes, really install it"
+msgstr "Да, действительно установить его"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "added medium %s"
+msgstr "добавлен источник %s"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --noclean      - keep rpm not used in cache.\n"
+msgstr "  --noclean      - сохранить в кэше неиспользованный rpm.\n"
+
+#: ../urpm.pm:1
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
 "создана транзакция для установки на %s (remove=%d, install=%d, upgrade=%d)"
 
-#: ../urpm.pm:2762
+#: ../urpm.pm:1
 #, c-format
-msgid "unable to create transaction"
-msgstr "невозможно создать транзакцию"
+msgid "md5sum mismatch"
+msgstr "несоответствие md5sum"
 
-#: ../urpm.pm:2770
+#: ../urpm.pm:1
 #, c-format
-msgid "removing package %s"
-msgstr "удаляется пакет %s"
+msgid "syntax error in config file at line %s"
+msgstr "синтаксическая ошибка в config файле в строке %s"
 
-#: ../urpm.pm:2772
+#: ../urpmi:1
 #, c-format
-msgid "unable to remove package %s"
-msgstr "невозможно удалить пакет %s"
+msgid "  names or rpm files given on command line will be installed.\n"
+msgstr ""
+"  имена или rpm файлы, указанные в командной строке, будут установлены.\n"
 
-#: ../urpm.pm:2782
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
-msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-msgstr "добавляется пакет %s (id=%d, eid=%d, update=%d, file=%s)"
+msgid ""
+"  --proxy        - use specified HTTP proxy, the port number is assumed\n"
+"                   to be 1080 by default (format is <proxyhost[:port]>).\n"
+msgstr ""
+"  --proxy        - использовать определенный HTTP-прокси, по умолчанию\n"
+"                   используется порт 1080 (формат <proxyhost[:port]>).\n"
 
-#: ../urpm.pm:2785
-#, c-format
-msgid "unable to install package %s"
-msgstr "невозможно установить пакет %s"
-
-#: ../urpm.pm:2985 ../urpm.pm:3018
-#, c-format
-msgid "due to missing %s"
-msgstr "из-за отсутствия %s"
-
-#: ../urpm.pm:2986 ../urpm.pm:3016
-#, c-format
-msgid "due to unsatisfied %s"
-msgstr "из-за неудовлетворенности %s"
-
-#: ../urpm.pm:2987
-#, c-format
-msgid "trying to promote %s"
-msgstr "попытка активизировать %s"
-
-#: ../urpm.pm:2988
-#, c-format
-msgid "in order to keep %s"
-msgstr "чтобы сохранить %s"
-
-#: ../urpm.pm:3011
+#: ../urpm.pm:1
 #, c-format
 msgid "in order to install %s"
 msgstr "чтобы установить %s"
 
-#: ../urpm.pm:3023
+#: ../urpm.pm:1
 #, c-format
-msgid "due to conflicts with %s"
-msgstr "из-за конфликтов с %s"
+msgid "relocated %s entries in depslist"
+msgstr "перенесено %s записей в depslist"
 
-#: ../urpm.pm:3025
-#, c-format
-msgid "unrequested"
-msgstr "незапрошенный"
-
-#: ../urpm.pm:3041
-#, c-format
-msgid "Invalid signature (%s)"
-msgstr "Неверная подпись (%s)"
-
-#: ../urpm.pm:3068
-#, c-format
-msgid "Invalid Key ID (%s)"
-msgstr "Неверный Key ID (%s)"
-
-#: ../urpm.pm:3070
-#, c-format
-msgid "Missing signature (%s)"
-msgstr "Отсутствует подпись (%s)"
-
-#: ../urpm/args.pm:82 ../urpm/args.pm:88
-#, c-format
-msgid "bad proxy declaration on command line\n"
-msgstr "неверно указан proxy в командной строке\n"
-
-#: ../urpm/args.pm:216
-#, c-format
-msgid "urpmq: cannot read rpm file \"%s\"\n"
-msgstr "urpmq: не могу прочитать rpm файл \"%s\"\n"
-
-#: ../urpm/msg.pm:77
-#, c-format
-msgid "Sorry, bad choice, try again\n"
-msgstr "Извините, плохой выбор, попробуйте снова\n"
-
-#: ../urpme:36
-#, c-format
-msgid ""
-"urpme version %s\n"
-"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpme версия %s\n"
-"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
-"Это свободное программное обеспечение и может распространяться при "
-"соблюдении условий GNU GPL.\n"
-"\n"
-"использование:\n"
-
-#: ../urpme:41 ../urpmf:32 ../urpmi:77 ../urpmi.addmedia:47
-#: ../urpmi.removemedia:36 ../urpmi.update:30 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - вывести эту подсказку.\n"
-
-#: ../urpme:42 ../urpmi:83
-#, c-format
-msgid "  --auto         - automatically select a package in choices.\n"
-msgstr "  --auto         - автоматически выбрать пакет из предложенных.\n"
-
-#: ../urpme:43 ../urpmi:124
-#, c-format
-msgid ""
-"  --test         - verify if the installation can be achieved correctly.\n"
-msgstr "  --test         - проверять на возможность корректной установки.\n"
-
-#: ../urpme:44 ../urpmi:97 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - принудительно выполнить, даже если некоторые пакеты не \n"
-"                   существуют.\n"
-
-#: ../urpme:45 ../urpmi:102 ../urpmq:66
-#, c-format
-msgid "  --parallel     - distributed urpmi across machines of alias.\n"
-msgstr "  --parallel     - urpmi, распределенный по алиасам машин.\n"
-
-#: ../urpme:46 ../urpmi:103
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - использовать другой корень для установки rpm.\n"
-
-#: ../urpme:47
-#, c-format
-msgid ""
-"  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
-"                   to (un)install a chroot with --root option.\n"
-msgstr ""
-"  --use-distrib  - настраивать urpmi на лету из дерева distrib, полезно\n"
-"                   для (де)установки в chroot вместе с параметром  --root.\n"
-
-#: ../urpme:49 ../urpmi:133 ../urpmq:78
-#, c-format
-msgid "  -v             - verbose mode.\n"
-msgstr "  -v             - подробный режим.\n"
-
-#: ../urpme:50
-#, c-format
-msgid "  -a             - select all packages matching expression.\n"
-msgstr "  -a             - выбрать все пакеты, соответствующие выражению.\n"
-
-#: ../urpme:83
-#, c-format
-msgid "unknown packages"
-msgstr "неизвестные пакеты"
-
-#: ../urpme:83
-#, c-format
-msgid "unknown package"
-msgstr "неизвестный пакет"
-
-#: ../urpme:93
-#, c-format
-msgid "removing package %s will break your system"
-msgstr "удаление пакета %s нарушит работу вашей системы"
-
-#: ../urpme:95
-#, c-format
-msgid "Nothing to remove"
-msgstr "Нечего удалять"
-
-#: ../urpme:99
-#, c-format
-msgid "Checking to remove the following packages"
-msgstr "Проверяется возможность удаления следующих пакетов"
-
-#: ../urpme:106
-#, c-format
-msgid "To satisfy dependencies, the following packages will be removed (%d MB)"
-msgstr "Для удовлетворения зависимостей следующие пакеты будут удалены (%d Мб)"
-
-#: ../urpme:108 ../urpmi:460 ../urpmi:619
-#, c-format
-msgid " (y/N) "
-msgstr " (y/N) "
-
-#: ../urpme:111 ../urpmi:662
-#, c-format
-msgid "removing %s"
-msgstr "удаляется %s"
-
-#: ../urpme:115
-#, c-format
-msgid "Removing failed"
-msgstr "Удаление завершилось неудачей"
-
-#: ../urpmf:27
-#, c-format
-msgid ""
-"urpmf version %s\n"
-"Copyright (C) 2002 MandrakeSoft.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmf версия %s\n"
-"Copyright (C) 2002 MandrakeSoft.\n"
-"Это открытое программное обеспечение и оно может распространяться при "
-"соблюдении условий GNU GPL.\n"
-"\n"
-"использование:\n"
-
-#: ../urpmf:33 ../urpmi:78 ../urpmq:46
-#, c-format
-msgid "  --update       - use only update media.\n"
-msgstr "  --update       - использовать только источник обновления.\n"
-
-#: ../urpmf:34 ../urpmi:79 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - использовать только указанные источники, разделенные "
-"запятыми.\n"
-
-#: ../urpmf:35 ../urpmi:80 ../urpmq:48
-#, c-format
-msgid "  --excludemedia - do not use the given media, separated by comma.\n"
-msgstr ""
-"  --excludemedia - не использовать указанные источники, разделенные "
-"запятой.\n"
-
-#: ../urpmf:36 ../urpmi:81 ../urpmq:49
-#, c-format
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr ""
-"  --sortmedia    - сортировать источники по подстрокам, разделенным\n"
-"                   запятой.\n"
-
-#: ../urpmf:37 ../urpmq:50
-#, c-format
-msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr "  --synthesis    - использовать synthesis вместо urpmi db.\n"
-
-#: ../urpmf:38
-#, c-format
-msgid "  --verbose      - verbose mode.\n"
-msgstr "  --verbose      - подробный режим.\n"
-
-#: ../urpmf:39
-#, c-format
-msgid ""
-"  --quiet        - do not print tag name (default if no tag given on "
-"command\n"
-"                   line, incompatible with interactive mode).\n"
-msgstr ""
-"  --quiet        - не выводить тэг name (по умолчанию включен, если тэг не\n"
-"                   задан в командной строке, несовместим с интерактивным \n"
-"                   режимом).\n"
-
-#: ../urpmf:41
-#, c-format
-msgid "  --uniq         - do not print identical lines.\n"
-msgstr "  --uniq         - не выводить идентичные строки.\n"
-
-#: ../urpmf:42
-#, c-format
-msgid "  --all          - print all tags.\n"
-msgstr "  --all           - выводить все тэги.\n"
-
-#: ../urpmf:43
-#, c-format
-msgid "  --group        - print tag group: group.\n"
-msgstr "  --group        - выводить тэг group: группа.\n"
-
-#: ../urpmf:44
-#, c-format
-msgid "  --size         - print tag size: size.\n"
-msgstr "  --size         - выводить тэг size: размер.\n"
-
-#: ../urpmf:45
-#, c-format
-msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr "  --epoch        - выводить тег epoch: epoch.\n"
-
-#: ../urpmf:46
-#, c-format
-msgid "  --summary      - print tag summary: summary.\n"
-msgstr "  --summary      - выводить тэг summary: общие сведения.\n"
-
-#: ../urpmf:47
-#, c-format
-msgid "  --description  - print tag description: description.\n"
-msgstr "  --description  - выводить тэг description: описание.\n"
-
-#: ../urpmf:48
-#, c-format
-msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr "  --sourcerpm    - выводить тэг sourcerpm: исходный rpm.\n"
-
-#: ../urpmf:49
-#, c-format
-msgid "  --packager     - print tag packager: packager.\n"
-msgstr "  --packager     - вывести тэг packager: создатель пакета.\n"
-
-#: ../urpmf:50
-#, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --buildhost    - вывести тэг buildhost: хост, на котором создан.\n"
-
-#: ../urpmf:51
-#, c-format
-msgid "  --url          - print tag url: url.\n"
-msgstr "  --url          - выводить тэг url: url.\n"
-
-#: ../urpmf:52
-#, c-format
-msgid "  --provides     - print tag provides: all provides.\n"
-msgstr "  --provides     - выводить тэг provides: все поставляемые файлы.\n"
-
-#: ../urpmf:53
-#, c-format
-msgid "  --requires     - print tag requires: all requires.\n"
-msgstr "  --requires     - выводить тэг requires: все зависимости.\n"
-
-#: ../urpmf:54
-#, c-format
-msgid "  --files        - print tag files: all files.\n"
-msgstr "  --files        - выводить тэг files: все файлы.\n"
-
-#: ../urpmf:55
-#, c-format
-msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr "  --conflicts    - выводить тэг conflicts: все конфликты.\n"
-
-#: ../urpmf:56
-#, c-format
-msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-msgstr "  --obsoletes    - выводить тэг obsoletes: все устаревшие файлы.\n"
-
-#: ../urpmf:57 ../urpmi:117 ../urpmq:75
-#, c-format
-msgid ""
-"  --env          - use specific environment (typically a bug\n"
-"                   report).\n"
-msgstr ""
-"  --env          - использовать специфическое окружение (обычно отчет\n"
-"                   об ошибке).\n"
-
-#: ../urpmf:59
+#: ../urpmf:1
 #, c-format
 msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -i             - игнорировать различия регистров во всех шаблонах.\n"
 
-#: ../urpmf:60 ../urpmq:90
+#: ../urpmi:1
 #, c-format
-msgid "  -f             - print version, release and arch with name.\n"
-msgstr "  -f             - выводить версию, релиз и архитектуру с названием.\n"
+msgid "Unable to create directory [%s] for bug report"
+msgstr "Невозможно создать каталог [%s] для вывода отчета об ошибке"
 
-#: ../urpmf:61
+#: ../urpm.pm:1
+#, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "будет произведена установка вместо обновления пакета %s"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "retrieving mirrors at %s ..."
+msgstr "извлекаются зеркала из %s ..."
+
+#: ../urpmf:1
+#, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --url          - выводить тэг url: url.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unknown protocol defined for %s"
+msgstr "для %s определен неизвестный протокол"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -r             - print version and release with name also.\n"
+msgstr "  -r             - вывести версию и номер релиза вместе с названием.\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
+msgstr "  --obsoletes    - выводить тэг obsoletes: все устаревшие файлы.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "источник \"%s\" уже существует"
+
+#: ../_irpm:1
+#, c-format
+msgid "installing %s\n"
+msgstr "устанавливается %s\n"
+
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"the entry to update is missing\n"
+"(one of %s)\n"
+msgstr ""
+"запись для обновления отсутствует\n"
+"(одна из %s)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "trying to promote %s"
+msgstr "попытка активизировать %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to remove package %s"
+msgstr "невозможно удалить пакет %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "проблема чтения файла synthesis источника \"%s\""
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid ""
+"the entry to remove is missing\n"
+"(one of %s)\n"
+msgstr ""
+"удаляемая запись отсутствует\n"
+"(одна из %s)\n"
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid "  -a             - select all media.\n"
+msgstr "  -a             - выбрать все источники.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "Missing signature (%s)"
+msgstr "Отсутствует подпись (%s)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "невозможно прочитать rpm файлы из [%s]: %s"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --parallel     - distributed urpmi across machines of alias.\n"
+msgstr "  --parallel     - urpmi, распределенный по алиасам машин.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copy of [%s] failed (file is suspiciously small)"
+msgstr "копирование [%s] не удалось (файл подозрительно короткий)"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "  --update       - update only update media.\n"
+msgstr "  --update       - обновить только источник обновления.\n"
+
+#: ../_irpm:1 ../urpmi:1
+#, c-format
+msgid " (Y/n) "
+msgstr " (Y/n) "
+
+#: ../rpm-find-leaves:1
+#, c-format
+msgid "   -g [group]     - restrict results to given group.\n"
+msgstr "   -g [group]        - ограничить результаты данной группой.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr ""
+"источник \"%s\" пытается использовать уже использующийся список, источник "
+"игнорируется"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "malformed input: [%s]"
+msgstr "неверно сформированный ввод: [%s]"
+
+#: ../urpme:1
+#, c-format
+msgid "removing package %s will break your system"
+msgstr "удаление пакета %s нарушит работу вашей системы"
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list-media   - list available media.\n"
+msgstr "  --list-media   - вывести список доступных источников.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Некоторые запрошенные пакеты не могут быть установлены:\n"
+"%s"
+
+#: ../urpmi:1
+#, c-format
+msgid "Installing package `%s' (%s/%s)..."
+msgstr "Устанавливается пакет `%s' (%s/%s)..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no entries relocated in depslist"
+msgstr "ни одной записи не перенесено в depslist"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --install-src  - install only source package (no binaries).\n"
+msgstr ""
+"  --install-src  - устанавливать только пакеты с исходным кодом\n"
+"                   (бинарники пропустить).\n"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid "  --curl         - use curl to retrieve distant files.\n"
+msgstr "  --curl         - использовать curl для получения удаленных файлов.\n"
+
+#: ../urpmf:1
 #, c-format
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - включать код perl непосредственно как perl -e.\n"
 
-#: ../urpmf:62
+#: ../urpmi:1
 #, c-format
-msgid ""
-"  -a             - binary AND operator, true if both expression are true.\n"
-msgstr ""
-"  -a             - двоичный оператор AND, возвращает true, если оба\n"
-"                   выражения истинны.\n"
+msgid "do you agree ?"
+msgstr "вы согласны?"
 
-#: ../urpmf:63
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"  -o             - binary OR operator, true if one expression is true.\n"
-msgstr ""
-"  -o             - бинарный оператор OR, возвращает true, если одно\n"
-"                   из выражений true.\n"
+msgid "incoherent list file for \"%s\", medium ignored"
+msgstr "несвязанный файл списка для \"%s\", источник игнорируется"
 
-#: ../urpmf:64
+#: ../urpm.pm:1 ../urpmi.addmedia:1
 #, c-format
-msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr ""
-"  !              - унарный NOT, возвращает true, если выражение false.\n"
+msgid "...retrieving done"
+msgstr "...получение выполнено"
 
-#: ../urpmf:65
+#: ../urpm.pm:1
 #, c-format
-msgid "  (              - left parenthesis to open group expression.\n"
-msgstr "  (              - левая скобка, открывающая группу выражений.\n"
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr "добавляется пакет %s (id=%d, eid=%d, update=%d, file=%s)"
 
-#: ../urpmf:66
+#: ../urpm.pm:1
 #, c-format
-msgid "  )              - right parenthesis to close group expression.\n"
-msgstr "  )              - правая скобка, закрывающая группу выражений.\n"
+msgid "skipping package %s"
+msgstr "пропускается пакет %s"
 
-#: ../urpmf:113
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"callback is :\n"
-"%s\n"
-msgstr ""
-"обратный вызов :\n"
-"%s\n"
+msgid "Invalid signature (%s)"
+msgstr "Неверная подпись (%s)"
 
-#: ../urpmf:118 ../urpmi:240 ../urpmq:111
+#: ../urpmq:1
 #, c-format
-msgid "using specific environment on %s\n"
-msgstr "используется специфическое окружение для %s\n"
+msgid "  names or rpm files given on command line are queried.\n"
+msgstr "  запрошены указанные в командной строке имена или rpm файлы.\n"
 
-#: ../urpmi:72
+#: ../urpmi:1
 #, c-format
 msgid ""
 "urpmi version %s\n"
@@ -1163,500 +779,155 @@ msgstr ""
 "\n"
 "использование:\n"
 
-#: ../urpmi:82
+#: ../urpm.pm:1
 #, c-format
-msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr "  --synthesis    - использовать указанный synthesis вместо urpmi db.\n"
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "невозможно правильно разобрать [%s] в \"%s\""
 
-#: ../urpmi:84 ../urpmq:51
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr ""
-"  --auto-select  - автоматически выбрать пакеты для обновления системы.\n"
+"  --excludemedia - не использовать указанные источники, разделенные "
+"запятой.\n"
 
-#: ../urpmi:85
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"  --no-uninstall - never ask to uninstall a package, abort the "
-"installation.\n"
+msgid "unable to determine medium of this hdlist file [%s]"
+msgstr "невозможно определить источник данного файла hdlist [%s]"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "невозможно разобрать файл hdlist источника \"%s\""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
 msgstr ""
-"  --no-uninstall - никогда не предлагать удалять пакет, прервать установку.\n"
+"источник \"%s\" пытается использовать уже задействованный hdlist, источник "
+"игнорируется"
 
-#: ../urpmi:86 ../urpmq:53
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"  --keep         - keep existing packages if possible, reject requested\n"
-"                   packages that leads to remove.\n"
-msgstr ""
-"  --keep         - сохранить по возможности существующие пакеты, отклонить\n"
-"                   запрошенные пакеты, которые ведут к удалению.\n"
+msgid "due to conflicts with %s"
+msgstr "из-за конфликтов с %s"
 
-#: ../urpmi:88
+#: ../urpm.pm:1
 #, c-format
-msgid ""
-"  --split-level  - split in small transaction if more than given packages\n"
-"                   are going to be installed or upgraded,\n"
-"                   default is %d.\n"
-msgstr ""
-"  --split-level  - разбить на маленькие транзакции, если будут\n"
-"                   устанавливаться или обновляться дополнительные\n"
-"                   пакеты кроме указанных,\n"
-"                   по умолчанию %d.\n"
+msgid "removing %d obsolete headers in cache"
+msgstr "удаляются %d устаревших заголовков в кэше"
 
-#: ../urpmi:91
+#: ../urpmi.addmedia:1
 #, c-format
-msgid "  --split-length - small transaction length, default is %d.\n"
-msgstr "  --split-length - длина маленькой транзакции, по умолчанию %d.\n"
+msgid "unable to update medium \"%s\"\n"
+msgstr "невозможно обновить источник \"%s\"\n"
 
-#: ../urpmi:92 ../urpmq:52
-#, c-format
-msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
-msgstr ""
-"  --fuzzy        - задать поиск на основе нечеткой логики (аналогично -y).\n"
-
-#: ../urpmi:93 ../urpmq:61
-#, c-format
-msgid "  --src          - next package is a source package (same as -s).\n"
-msgstr ""
-"  --src          - следующий пакет является исходным пакетом (аналогично -"
-"s).\n"
-
-#: ../urpmi:94
-#, c-format
-msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr ""
-"  --install-src  - устанавливать только пакеты с исходным кодом\n"
-"                   (бинарники пропустить).\n"
-
-#: ../urpmi:95
-#, c-format
-msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --clean        - перед началом операции удалить rpm из кэша.\n"
-
-#: ../urpmi:96
-#, c-format
-msgid "  --noclean      - keep rpm not used in cache.\n"
-msgstr "  --noclean      - сохранить в кэше неиспользованный rpm.\n"
-
-#: ../urpmi:98
-#, c-format
-msgid ""
-"  --allow-nodeps - allow asking user to install packages without\n"
-"                   dependencies checking.\n"
-msgstr ""
-"  --allow-nodeps - позволяет спрашивать пользователя устанавливать\n"
-"                   пакеты без проверки зависимостей.\n"
-
-#: ../urpmi:100
-#, c-format
-msgid ""
-"  --allow-force  - allow asking user to install packages without\n"
-"                   dependencies checking and integrity.\n"
-msgstr ""
-"  --allow-force  - разрешить спрашивать у пользователя об установке\n"
-"                   пакетов без проверки зависимостей и целостности.\n"
-
-#: ../urpmi:104
-#, c-format
-msgid ""
-"  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
-"                   to install a chroot with --root option.\n"
-msgstr ""
-"  --use-distrib  - настраивать urpmi на лету из дерева distrib, полезно\n"
-"                   для (де)установки в chroot вместе с параметром --root.\n"
-
-#: ../urpmi:106 ../urpmi.addmedia:48 ../urpmi.update:31 ../urpmq:69
-#, c-format
-msgid "  --wget         - use wget to retrieve distant files.\n"
-msgstr ""
-"  --wget          - использовать wget для получения удаленных файлов.\n"
-
-#: ../urpmi:107 ../urpmi.addmedia:49 ../urpmi.update:32 ../urpmq:70
-#, c-format
-msgid "  --curl         - use curl to retrieve distant files.\n"
-msgstr "  --curl         - использовать curl для получения удаленных файлов.\n"
-
-#: ../urpmi:108 ../urpmi.addmedia:50 ../urpmi.update:33
-#, c-format
-msgid "  --limit-rate   - limit the download speed.\n"
-msgstr "  --limit-rate   - ограничить скорость скачивания.\n"
-
-#: ../urpmi:109
-#, c-format
-msgid ""
-"  --resume       - resume transfer of partially-downloaded files\n"
-"                   (--no-resume disables it, default is disabled).\n"
-msgstr ""
-"  --resume       - продолжить трансфер частично закачанных файлов\n"
-"                   (--no-resume отключает это, по умолчанию отключено).\n"
-
-#: ../urpmi:111 ../urpmi.addmedia:51 ../urpmi.update:34 ../urpmq:71
-#, c-format
-msgid ""
-"  --proxy        - use specified HTTP proxy, the port number is assumed\n"
-"                   to be 1080 by default (format is <proxyhost[:port]>).\n"
-msgstr ""
-"  --proxy        - использовать определенный HTTP-прокси, по умолчанию\n"
-"                   используется порт 1080 (формат <proxyhost[:port]>).\n"
-
-#: ../urpmi:113 ../urpmi.addmedia:53 ../urpmi.update:36 ../urpmq:73
-#, c-format
-msgid ""
-"  --proxy-user   - specify user and password to use for proxy\n"
-"                   authentication (format is <user:password>).\n"
-msgstr ""
-"  --proxy-user   - указать пользователя и пароль для авторизации на proxy\n"
-"                   (формат <пользователь:пароль>).\n"
-
-#: ../urpmi:115
-#, c-format
-msgid ""
-"  --bug          - output a bug report in directory indicated by\n"
-"                   next arg.\n"
-msgstr ""
-"  --bug          - выводить отчет об ошибках в каталог, определенный\n"
-"                   следующим аргументом.\n"
-
-#: ../urpmi:119
-#, c-format
-msgid "  --X            - use X interface.\n"
-msgstr "  --X            - использовать Х-интерфейс.\n"
-
-#: ../urpmi:120
-#, c-format
-msgid ""
-"  --best-output  - choose best interface according to the environment:\n"
-"                   X or text mode.\n"
-msgstr ""
-"  --best-output  - выбрать наилучший интерфейс согласно окружению:\n"
-"                   Х или текстовый режим.\n"
-
-#: ../urpmi:122
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - проверять подпись rpm перед установкой\n"
-"                   (--no-verify-rpm отключит ее, по умолчанию включена).\n"
-
-#: ../urpmi:125
-#, c-format
-msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr "  --excludepath  - исключить пути, разделенные запятыми.\n"
-
-#: ../urpmi:126
-#, c-format
-msgid "  --excludedocs  - exclude docs files.\n"
-msgstr "  --excludedocs  - исключить файлы документации (docs).\n"
-
-#: ../urpmi:127 ../urpmq:81
-#, c-format
-msgid "  -a             - select all matches on command line.\n"
-msgstr "  -a             - выбрать все соответствия из командной строки.\n"
-
-#: ../urpmi:128
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - разрешить поиск в provides, чтобы найти пакеты.\n"
-
-#: ../urpmi:129 ../urpmq:83
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - не использовать provides при поиске пакета.\n"
-
-#: ../urpmi:130 ../urpmq:85
-#, c-format
-msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr ""
-"  -y             - задать поиск на основе нечеткой логики(аналогично --"
-"fuzzy).\n"
-
-#: ../urpmi:131 ../urpmq:86
-#, c-format
-msgid "  -s             - next package is a source package (same as --src).\n"
-msgstr ""
-"  -s             - следующий пакет это исходный пакет (аналогично --src).\n"
-
-#: ../urpmi:132
-#, c-format
-msgid "  -q             - quiet mode.\n"
-msgstr "  -q             - тихий режим (quiet).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid "  names or rpm files given on command line will be installed.\n"
-msgstr ""
-"  имена или rpm файлы, указанные в командной строке, будут установлены.\n"
-
-#: ../urpmi:141
-#, c-format
-msgid "Choose location to save file"
-msgstr "Укажите куда сохранять файл"
-
-#: ../urpmi:189
-#, c-format
-msgid "What can be done with binary rpm files when using --install-src"
-msgstr "Что делать с бинарными rpm файлами при использовании --install-src"
-
-#: ../urpmi:196
-#, c-format
-msgid ""
-"You have selected a source package:\n"
-"\n"
-"%s\n"
-"\n"
-"You probably didn't want to install it on your computer (installing it\n"
-"would allow you to make modifications to its sourcecode then compile it).\n"
-"\n"
-"What would you like to do?"
-msgstr ""
-"Вы выбрали пакет с исходными кодами:\n"
-"\n"
-"%s\n"
-"\n"
-"Возможно вам нет необходимости устанавливать его на свою машину (если вы "
-"его\n"
-"все же установите, тогда вы сможете вносить изменения в исходный код и "
-"затем\n"
-"компилировать его).\n"
-"\n"
-"Что будем делать?"
-
-#: ../urpmi:204
-#, c-format
-msgid "Do nothing"
-msgstr "Ничего не делать"
-
-#: ../urpmi:205
-#, c-format
-msgid "Yes, really install it"
-msgstr "Да, действительно установить его"
-
-#: ../urpmi:206 ../urpmi:223
-#, c-format
-msgid "Save file"
-msgstr "Сохранить файл"
-
-#: ../urpmi:217
-#, c-format
-msgid ""
-"You are about to install the following software package on your computer:\n"
-"\n"
-"%s\n"
-"\n"
-"You may prefer to just save it. What is your choice?"
-msgstr ""
-"Вы собираетесь установить следующий пакет на свою машину:\n"
-"\n"
-"%s\n"
-"\n"
-"Вы можете его просто сохранить. Каков ваш выбор?"
-
-#: ../urpmi:222
-#, c-format
-msgid "Install it"
-msgstr "Установить его"
-
-#: ../urpmi:231
-#, c-format
-msgid ""
-"Directory [%s] already exists, please use another directory for bug report "
-"or delete it"
-msgstr ""
-"Каталог [%s] уже существует, используйте другой каталог для сообщения о баге "
-"или удалите его"
-
-#: ../urpmi:232
-#, c-format
-msgid "Unable to create directory [%s] for bug report"
-msgstr "Невозможно создать каталог [%s] для вывода отчета об ошибке"
-
-#: ../urpmi:251
-#, c-format
-msgid "Only superuser is allowed to install packages"
-msgstr "Только суперпользователю разрешается устанавливать пакеты"
-
-#: ../urpmi:384
-#, c-format
-msgid "One of the following packages is needed to install %s:"
-msgstr "Необходимо установить один из следующих пакетов %s:"
-
-#: ../urpmi:385
-#, c-format
-msgid "One of the following packages is needed:"
-msgstr "Нужен один из следующих пакетов:"
-
-#: ../urpmi:392
-#, c-format
-msgid "What is your choice? (1-%d) "
-msgstr "Ваш выбор? (1-%d) "
-
-#: ../urpmi:403 ../urpmi:520
-#, c-format
-msgid "Package installation..."
-msgstr "Устанавливается пакет..."
-
-#: ../urpmi:403 ../urpmi:520
-#, c-format
-msgid "Initializing..."
-msgstr "Инициализация..."
-
-#: ../urpmi:424
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s"
-msgstr ""
-"Некоторые запрошенные пакеты не могут быть установлены:\n"
-"%s"
-
-#: ../urpmi:429 ../urpmi:455
-#, c-format
-msgid "do you agree ?"
-msgstr "вы согласны?"
-
-#: ../urpmi:444
-#, c-format
-msgid ""
-"The installation cannot continue because the following packages\n"
-"have to be removed for others to be upgraded:\n"
-"%s\n"
-msgstr ""
-"Установка не может быть продолжена так как следующие пакеты должны быть \n"
-"удалены для обновления остальных:\n"
-"%s\n"
-
-#: ../urpmi:450
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s"
-msgstr ""
-"Следующие пакеты будут удалены для обновления остальных:\n"
-"%s"
-
-#: ../urpmi:488 ../urpmi:497
-#, c-format
-msgid ""
-"To satisfy dependencies, the following %d packages are going to be installed "
-"(%d MB)"
-msgstr ""
-"Для удовлетворения зависимостей будет установлено %d следующих пакетов (%d "
-"МБ)"
-
-#: ../urpmi:494
-#, c-format
-msgid ""
-"You need to be root to install the following dependencies:\n"
-"%s\n"
-msgstr ""
-"Вам необходимо иметь права root'а для установки следующих зависимостей:\n"
-"%s\n"
-
-#: ../urpmi:515 ../urpmq:284
-#, c-format
-msgid "unable to get source packages, aborting"
-msgstr "невозможно получить исходные пакеты, аварийное завершение"
-
-#: ../urpmi:530
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Пожалуйста, вставьте источник под названием \"%s\" в устройство [%s]"
-
-#: ../urpmi:531
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Нажмите Enter когда будете готовы..."
-
-#: ../urpmi:572
-#, c-format
-msgid "Downloading package `%s'..."
-msgstr "Загружается пакет `%s'..."
-
-#: ../urpmi:584
-#, c-format
-msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-msgstr "        выполнено %s%% из %s, ETA = %s, скорость = %s"
-
-#: ../urpmi:587
-#, c-format
-msgid "        %s%% completed, speed = %s"
-msgstr "        выполнено %s%%, скорость = %s"
-
-#: ../urpmi:606
-#, c-format
-msgid "The following packages have bad signatures"
-msgstr "Следующие пакеты имеют неверные подписи"
-
-#: ../urpmi:607
-#, c-format
-msgid "Do you want to continue installation ?"
-msgstr "Желаете продолжить установку?"
-
-#: ../urpmi:627 ../urpmi:749
-#, c-format
-msgid ""
-"Installation failed, some files are missing:\n"
-"%s\n"
-"You may want to update your urpmi database"
-msgstr ""
-"Установка не удалась, некоторые файлы отсутствуют:\n"
-"%s\n"
-"Возможно вам необходимо обновить базу данных urpmi"
-
-#: ../urpmi:637 ../urpmi:690 ../urpmi:709 ../urpmi:727
-#, c-format
-msgid "Installation failed"
-msgstr "Установка завершилась неудачей"
-
-#: ../urpmi:652
-#, c-format
-msgid "distributing %s"
-msgstr "разбрасывается %s"
-
-#: ../urpmi:660
-#, c-format
-msgid "installing %s"
-msgstr "устанавливается %s"
-
-#: ../urpmi:675
-#, c-format
-msgid "Installing package `%s' (%s/%s)..."
-msgstr "Устанавливается пакет `%s' (%s/%s)..."
-
-#: ../urpmi:697
+#: ../urpmi:1
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Попробовать установку без проверки зависимостей? (y/N) "
 
-#: ../urpmi:714
+#: ../urpm.pm:1
 #, c-format
-msgid "Try installation even more strongly (--force)? (y/N) "
-msgstr "Попытаться установить насильно (--force)? (y/N)."
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"виртуальный источник \"%s\" не является локальным, источник игнорируется"
 
-#: ../urpmi:754
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
-msgid "%d installation transactions failed"
-msgstr "%d транзакций установки завершились неудачей"
+msgid "Preparing..."
+msgstr "Подготовка..."
 
-#: ../urpmi:762
+#: ../rpm-find-leaves:1
 #, c-format
-msgid "Installation is possible"
-msgstr "Установка возможна."
+msgid "                    defaults is %s.\n"
+msgstr "                    по умолчанию %s.\n"
 
-#: ../urpmi:765
+#: ../urpm.pm:1
 #, c-format
-msgid "Everything already installed"
-msgstr "Все уже установлено"
+msgid "using different removable device [%s] for \"%s\""
+msgstr "используется другое съемное устройство [%s] для \"%s\""
 
-#: ../urpmi:779
+#: ../urpmi.addmedia:1
 #, c-format
-msgid "restarting urpmi"
-msgstr "urpmi перезапускается"
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr "  --no-probe     - не пытаться найти файл synthesis или hdlist.\n"
 
-#: ../urpmi.addmedia:38
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - не использовать provides при поиске пакета.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "копия [%s] не получилась (не совпадает md5sum)"
+
+#: ../urpmq:1
+#, c-format
+msgid ""
+"  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
+"                   This permit to querying a distro.\n"
+msgstr ""
+"  --use-distrib  - настраивать urpmi на лету из дерева distrib.\n"
+"                   Опция разрешает опрос дистрибутива.\n"
+
+#: ../rpm-find-leaves:1
+#, c-format
+msgid ""
+"usage: %s [options]\n"
+"where [options] are from\n"
+msgstr ""
+"использование: %s [параметры]\n"
+"где [параметры] такие\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --clean        - remove rpm from cache before anything else.\n"
+msgstr "  --clean        - перед началом операции удалить rpm из кэша.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to use name \"%s\" for unnamed medium because it is already used"
+msgstr ""
+"невозможно использовать название \"%s\" для неименованного носителя. Имя уже "
+"занято"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
+msgstr "  --conflicts    - выводить тэг conflicts: все конфликты.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"виртуальный источник \"%s\" должен иметь правильный исходный hdlist или "
+"synthesis, источник игнорируется"
+
+#: ../urpme:1
+#, c-format
+msgid ""
+"urpme version %s\n"
+"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpme версия %s\n"
+"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"Это свободное программное обеспечение и может распространяться при "
+"соблюдении условий GNU GPL.\n"
+"\n"
+"использование:\n"
+
+#: ../urpmi.addmedia:1
 #, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
@@ -1682,59 +953,214 @@ msgstr ""
 "\n"
 "и [опции] являются одними из\n"
 
-#: ../urpmi.addmedia:55
+#: ../urpm.pm:1
 #, c-format
-msgid "  --update       - create an update medium.\n"
-msgstr "  --update       - создать источник для обновления.\n"
+msgid "copying source hdlist (or synthesis) of \"%s\"..."
+msgstr "копируется исходный hdlist (или synthesis) \"%s\"..."
 
-#: ../urpmi.addmedia:56
+#: ../urpm.pm:1
+#, c-format
+msgid "...copying done"
+msgstr "...копирование выполнено"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "невозможно использовать параллельную опцию \"%s\""
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is probably not up-to-date, trying to use alternate method"
+msgstr ""
+"источник \"%s\" использует неверный файл списка:\n"
+"  возможно зеркало устарело, попытка использовать альтернативный метод"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access first installation medium"
+msgstr "нет доступа к первому источнику инсталляции"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "virtual medium need to be local"
+msgstr "виртуальный источник должен быть локальным"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "error registering local packages"
+msgstr "ошибка регистрации локальных пакетов"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
+#, c-format
+msgid "  --limit-rate   - limit the download speed.\n"
+msgstr "  --limit-rate   - ограничить скорость скачивания.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "found probed hdlist (or synthesis) as %s"
+msgstr "найден искомый hdlist (или synthesis): %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieval of source hdlist (or synthesis) failed"
+msgstr "извлечение исходного hdlist (или synthesis) не удалось"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "не найдены rpm файлы в [%s]"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "nothing written in list file for \"%s\""
+msgstr "в файл списка для \"%s\" ничего не записано"
+
+#: ../urpmi:1
+#, c-format
+msgid "The following packages have bad signatures"
+msgstr "Следующие пакеты имеют неверные подписи"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr "вычисляется md5sum существующего исходного hdlist (или synthesis)"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -c             - complete output with package to be removed.\n"
+msgstr "  -c             - выводить все данные о пакете при удалении.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to install package %s"
+msgstr "невозможно установить пакет %s"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --allow-force  - allow asking user to install packages without\n"
+"                   dependencies checking and integrity.\n"
+msgstr ""
+"  --allow-force  - разрешить спрашивать у пользователя об установке\n"
+"                   пакетов без проверки зависимостей и целостности.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Save file"
+msgstr "Сохранить файл"
+
+#: ../urpm/args.pm:1
+#, c-format
+msgid "urpmq: cannot read rpm file \"%s\"\n"
+msgstr "urpmq: не могу прочитать rpm файл \"%s\"\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "не получается записать config файл [%s]"
+
+#: ../urpme:1
+#, c-format
+msgid "  -a             - select all packages matching expression.\n"
+msgstr "  -a             - выбрать все пакеты, соответствующие выражению.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr "Неверный Key ID (%s)"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - принудительно выполнить, даже если некоторые пакеты не \n"
+"                   существуют.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "невозможно получить путь к съемному источнику \"%s\""
+
+#: ../urpmi.addmedia:1
 #, c-format
 msgid "  --probe-synthesis - try to find and use synthesis file.\n"
 msgstr ""
 "  --probe-synthesis - попытаться найти и использовать файл synthesis.\n"
 
-#: ../urpmi.addmedia:57
+#: ../urpmi:1
 #, c-format
-msgid "  --probe-hdlist - try to find and use hdlist file.\n"
-msgstr "  --probe-hdlist - попытаться найти и использовать файл hdlist.\n"
+msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
+msgstr "  --synthesis    - использовать указанный synthesis вместо urpmi db.\n"
 
-#: ../urpmi.addmedia:58
+#: ../urpmi.update:1
+#, c-format
+msgid "  --force-key    - force update of gpg key.\n"
+msgstr "  --force-key    - принудительно обновлять gpg-ключ.\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "<relative path of hdlist> missing\n"
+msgstr "<относительный путь к hdlist> отсутствует\n"
+
+#: ../urpme:1
+#, c-format
+msgid "Checking to remove the following packages"
+msgstr "Проверяется возможность удаления следующих пакетов"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unrequested"
+msgstr "незапрошенный"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "нет доступа к rpm файлу [%s]"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --files        - print tag files: all files.\n"
+msgstr "  --files        - выводить тэг files: все файлы.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "невозможно разобрать \"%s\" в файле [%s]"
+
+#: ../urpmi:1
+#, c-format
+msgid "Do you want to continue installation ?"
+msgstr "Желаете продолжить установку?"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "невозможно прочитать rpm файл [%s] из источника \"%s\""
+
+#: ../urpmi:1
 #, c-format
 msgid ""
-"  --no-probe     - do not try to find any synthesis or\n"
-"                   hdlist file.\n"
-msgstr "  --no-probe     - не пытаться найти файл synthesis или hdlist.\n"
-
-#: ../urpmi.addmedia:60
-#, c-format
-msgid ""
-"  --distrib      - automatically create all media from an installation\n"
-"                   medium.\n"
+"  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
+"                   to install a chroot with --root option.\n"
 msgstr ""
-"  --disrtib      - автоматически создать все источники из инсталляционного\n"
-"                   источника.\n"
+"  --use-distrib  - настраивать urpmi на лету из дерева distrib, полезно\n"
+"                   для (де)установки в chroot вместе с параметром --root.\n"
 
-#: ../urpmi.addmedia:62
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
-msgid ""
-"  --distrib-XXX  - automatically create a medium for XXX part of a\n"
-"                   distribution, XXX may be main, contrib, updates or\n"
-"                   anything else that has been configured ;-)\n"
-msgstr ""
-"  --distrib-XXX  - автоматически создать источник для части ХХХ\n"
-"                   дистрибутива, XXX может быть main, contrib, updates или\n"
-"                   что угодно, что уже было настроено ;-)\n"
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "создан файл hdlist synthesis для источника \"%s\""
 
-#: ../urpmi.addmedia:65
+#: ../urpmq:1
 #, c-format
-msgid ""
-"  --from         - use specified url for list of mirrors, the default is\n"
-"                   %s\n"
+msgid "  -i             - print useful information in human readable form.\n"
 msgstr ""
-"  --from         - использовать указанный url для списка зеркал, по\n"
-"                   умолчанию используется %s\n"
+"  -i             - вывод полезной информации в удобной для чтения форме.\n"
 
-#: ../urpmi.addmedia:67
+#: ../urpmi.addmedia:1
 #, c-format
 msgid ""
 "  --version      - use specified distribution version, the default is taken\n"
@@ -1745,7 +1171,204 @@ msgstr ""
 "                   используется версия дистрибутива, сообщенная\n"
 "                   установленным пакетом mandrake-release.\n"
 
-#: ../urpmi.addmedia:70
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --from         - use specified url for list of mirrors, the default is\n"
+"                   %s\n"
+msgstr ""
+"  --from         - использовать указанный url для списка зеркал, по\n"
+"                   умолчанию используется %s\n"
+
+#: ../urpme:1
+#, c-format
+msgid ""
+"  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
+"                   to (un)install a chroot with --root option.\n"
+msgstr ""
+"  --use-distrib  - настраивать urpmi на лету из дерева distrib, полезно\n"
+"                   для (де)установки в chroot вместе с параметром  --root.\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  !              - unary NOT, true if expression is false.\n"
+msgstr ""
+"  !              - унарный NOT, возвращает true, если выражение false.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"Directory [%s] already exists, please use another directory for bug report "
+"or delete it"
+msgstr ""
+"Каталог [%s] уже существует, используйте другой каталог для сообщения о баге "
+"или удалите его"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unmounting %s"
+msgstr "отмонтируется %s"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "nothing to update (use urpmi.addmedia to add a media)\n"
+msgstr ""
+"нечего обновлять (используйте urpmi.addmedia чтобы добавить источник)\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr "        выполнено %s%%, скорость = %s"
+
+#: ../urpmi:1
+#, c-format
+msgid "restarting urpmi"
+msgstr "urpmi перезапускается"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining synthesis file [%s]"
+msgstr "проверяется файл synthesis [%s]"
+
+#: ../urpmi:1
+#, c-format
+msgid "Try installation even more strongly (--force)? (y/N) "
+msgstr "Попытаться установить насильно (--force)? (y/N)."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "...copying failed"
+msgstr "...копирование не удалось"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "нет доступа к файлу hdlist для \"%s\", источник игнорируется"
+
+#: ../urpmi:1
+#, c-format
+msgid "  -q             - quiet mode.\n"
+msgstr "  -q             - тихий режим (quiet).\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --verbose      - verbose mode.\n"
+msgstr "  --verbose      - подробный режим.\n"
+
+#: ../urpmq:1
+#, c-format
+msgid ""
+"  --sources      - give all source packages before downloading (root only).\n"
+msgstr ""
+"  --sources      - вывести все исходные пакеты перед скачиванием\n"
+"                   (только для root).\n"
+
+#: ../urpmq:1
+#, c-format
+msgid ""
+"  --headers      - extract headers for package listed from urpmi db to\n"
+"                   stdout (root only).\n"
+msgstr ""
+"  --headers      - извлечь заголовки пакетов, перечисленных в urpmi db\n"
+"                   в stdout (только для root).\n"
+
+#: ../urpme:1
+#, c-format
+msgid "unknown packages"
+msgstr "неизвестные пакеты"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "selecting multiple media: %s"
+msgstr "выбирается составной источник: %s"
+
+#: ../urpmf:1 ../urpmq:1
+#, c-format
+msgid "  -f             - print version, release and arch with name.\n"
+msgstr "  -f             - выводить версию, релиз и архитектуру с названием.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "file [%s] already used in the same medium \"%s\""
+msgstr "файл [%s] уже используется в похожем источнике \"%s\""
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
+msgstr "нечего удалять (используйте urpmi.addmedia чтобы добавить источник)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "не получается найти файл списка для \"%s\", источник игнорируется"
+
+#: ../rpm-find-leaves:1
+#, c-format
+msgid "   -h|--help      - print this help message.\n"
+msgstr "   -h|--help         - вывести эту подсказку.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr "найден параллельный обработчик для узлов: %s"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"callback is :\n"
+"%s\n"
+msgstr ""
+"обратный вызов :\n"
+"%s\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -R             - reverse search to what requires package.\n"
+msgstr "  -R             - искать требуемые пакеты в обратном порядке.\n"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"urpmf version %s\n"
+"Copyright (C) 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmf версия %s\n"
+"Copyright (C) 2002 MandrakeSoft.\n"
+"Это открытое программное обеспечение и оно может распространяться при "
+"соблюдении условий GNU GPL.\n"
+"\n"
+"использование:\n"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  --quiet        - do not print tag name (default if no tag given on "
+"command\n"
+"                   line, incompatible with interactive mode).\n"
+msgstr ""
+"  --quiet        - не выводить тэг name (по умолчанию включен, если тэг не\n"
+"                   задан в командной строке, несовместим с интерактивным \n"
+"                   режимом).\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --uniq         - не выводить идентичные строки.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
+msgstr ""
+"--synthesis не может быть использован с --media, --excludemedia, --"
+"sortmedia, --update или --parallel"
+
+#: ../urpmi.addmedia:1
 #, c-format
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
@@ -1755,7 +1378,137 @@ msgstr ""
 "                   используется архитектура установленного пакета\n"
 "                   mandrake-release.\n"
 
-#: ../urpmi.addmedia:72
+#: ../_irpm:1 ../urpme:1 ../urpmi:1
+#, c-format
+msgid "Is this OK?"
+msgstr "Это правильно?"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --excludedocs  - exclude docs files.\n"
+msgstr "  --excludedocs  - исключить файлы документации (docs).\n"
+
+#: ../urpmf:1 ../urpmq:1
+#, c-format
+msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
+msgstr "  --synthesis    - использовать synthesis вместо urpmi db.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "проверяется параллельный обработчик в файле [%s]"
+
+#: ../urpme:1
+#, c-format
+msgid "Nothing to remove"
+msgstr "Нечего удалять"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "...imported key %s from pubkey file of \"%s\""
+msgstr "...импортирован ключ %s из файла открытого ключа \"%s\""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "читаются заголовки из источника \"%s\""
+
+#: ../urpmq:1
+#, c-format
+msgid "  -d             - extend query to package dependencies.\n"
+msgstr "  -d             - расширенный запрос к зависимостям пакета.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --bug          - output a bug report in directory indicated by\n"
+"                   next arg.\n"
+msgstr ""
+"  --bug          - выводить отчет об ошибках в каталог, определенный\n"
+"                   следующим аргументом.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr "источник \"%s\" не определяет местонахождение файлов rpm"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr "  --sourcerpm    - выводить тэг sourcerpm: исходный rpm.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to write list file of \"%s\""
+msgstr "не удается записать файл списка для \"%s\""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
+msgstr "  --requires     - выводить тэг requires: все зависимости.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "trying to select nonexistent medium \"%s\""
+msgstr "попытка выбрать несуществующий источник \"%s\""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --description  - print tag description: description.\n"
+msgstr "  --description  - выводить тэг description: описание.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Copying failed"
+msgstr "Копирование не удалось"
+
+#: ../urpmi.addmedia:1 ../urpmi.update:1
+#, c-format
+msgid "  -f             - force generation of hdlist files.\n"
+msgstr "  -f             - принудительно создать файлы hdlist.\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "--list-nodes can only be used with --parallel"
+msgstr "--list-nodes может использоваться только с --parallel"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "не найден файл hdlist для источника \"%s\""
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -s             - next package is a source package (same as --src).\n"
+msgstr ""
+"  -s             - следующий пакет это исходный пакет (аналогично --src).\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "installing %s"
+msgstr "устанавливается %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading rpm files from [%s]"
+msgstr "читаются rpm файлы из [%s]"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "копируется файл описания для \"%s\"..."
+
+#: ../urpme:1 ../urpmi:1
+#, c-format
+msgid "  --auto         - automatically select a package in choices.\n"
+msgstr "  --auto         - автоматически выбрать пакет из предложенных.\n"
+
+#: ../urpme:1
+#, c-format
+msgid "Removing failed"
+msgstr "Удаление завершилось неудачей"
+
+#: ../urpmi.addmedia:1
 #, c-format
 msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
@@ -1764,134 +1517,186 @@ msgstr ""
 "  --virtual      - создать виртуальный источник, который всегда up-to-date,\n"
 "                   допускается только протокол file://.\n"
 
-#: ../urpmi.addmedia:74 ../urpmi.update:39
+#: ../urpm.pm:1
 #, c-format
-msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
-msgstr "  --no-md5sum    - не проверять MD5SUM файла.\n"
+msgid "package %s is not found."
+msgstr "пакет %s не найден."
 
-#: ../urpmi.addmedia:75 ../urpmi.removemedia:38 ../urpmi.update:42
+#: ../urpm.pm:1
 #, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - очистить каталог кэша заголовков.\n"
+msgid "removing medium \"%s\""
+msgstr "удаляется источник \"%s\""
 
-#: ../urpmi.addmedia:76 ../urpmi.update:43
-#, c-format
-msgid "  -f             - force generation of hdlist files.\n"
-msgstr "  -f             - принудительно создать файлы hdlist.\n"
-
-#: ../urpmi.addmedia:130
-#, c-format
-msgid "cannot add updates of a cooker distribution\n"
-msgstr "невозможно добавить обновления дистрибутива cooker\n"
-
-#: ../urpmi.addmedia:135
-#, c-format
-msgid "retrieving mirrors at %s ..."
-msgstr "извлекаются зеркала из %s ..."
-
-#: ../urpmi.addmedia:172
+#: ../urpmi.addmedia:1
 #, c-format
 msgid "no need to give <relative path of hdlist> with --distrib"
 msgstr "не нужно указывать <относительный путь к hdlist> с --distrib"
 
-#: ../urpmi.addmedia:179 ../urpmi.addmedia:202
+#: ../_irpm:1 ../urpm/msg.pm:1
 #, c-format
-msgid "unable to update medium \"%s\"\n"
-msgstr "невозможно обновить источник \"%s\"\n"
+msgid "Cancel"
+msgstr "Отмена"
 
-#: ../urpmi.addmedia:190
+#: ../urpmi:1 ../urpmq:1
 #, c-format
-msgid "<relative path of hdlist> missing\n"
-msgstr "<относительный путь к hdlist> отсутствует\n"
+msgid "  --src          - next package is a source package (same as -s).\n"
+msgstr ""
+"  --src          - следующий пакет является исходным пакетом (аналогично -"
+"s).\n"
 
-#: ../urpmi.addmedia:192
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
-msgid "`with' missing for network media\n"
-msgstr "`with' отсутствует для сетевого источника\n"
+msgid ""
+"  --env          - use specific environment (typically a bug\n"
+"                   report).\n"
+msgstr ""
+"  --env          - использовать специфическое окружение (обычно отчет\n"
+"                   об ошибке).\n"
 
-#: ../urpmi.addmedia:200
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr ""
+"  --sortmedia    - сортировать источники по подстрокам, разделенным\n"
+"                   запятой.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "нет доступа к источнику \"%s\""
+
+#: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "невозможно создать источник \"%s\"\n"
 
-#: ../urpmi.removemedia:34
+#: ../urpmf:1
+#, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr "  --packager     - вывести тэг packager: создатель пакета.\n"
+
+#: ../urpmq:1
 #, c-format
 msgid ""
-"usage: urpmi.removemedia [-a] <name> ...\n"
-"where <name> is a medium name to remove.\n"
+"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr ""
-"использование: urpmi.removemedia [-a] <имя> ...\n"
-"где <имя> - имя удаляемого источника.\n"
+"  --dump-config  - сбросить config в виде аргумента для urpmi.addmedia.\n"
 
-#: ../urpmi.removemedia:37
-#, c-format
-msgid "  -a             - select all media.\n"
-msgstr "  -a             - выбрать все источники.\n"
-
-#: ../urpmi.removemedia:39
+#: ../urpmi:1
 #, c-format
 msgid ""
-"\n"
-"unknown options '%s'\n"
+"You need to be root to install the following dependencies:\n"
+"%s\n"
 msgstr ""
-"\n"
-"неизвестные опции '%s'\n"
+"Вам необходимо иметь права root'а для установки следующих зависимостей:\n"
+"%s\n"
 
-#: ../urpmi.removemedia:48
+#: ../urpmq:1
 #, c-format
-msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr "нечего удалять (используйте urpmi.addmedia чтобы добавить источник)\n"
+msgid "  --changelog    - print changelog.\n"
+msgstr "  --changelog    - выводить changelog.\n"
 
-#: ../urpmi.removemedia:50
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "нет доступа к файлу списка источника \"%s\", источник игнорируется"
+
+#: ../urpmf:1
+#, c-format
+msgid "  )              - right parenthesis to close group expression.\n"
+msgstr "  )              - правая скобка, закрывающая группу выражений.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no webfetch found, supported webfetch are: %s\n"
+msgstr "не найден webfetch, поддерживается webfetch: %s\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr "проверяется файл hdlist [%s]"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copying hdlists file..."
+msgstr "копируется файл hdlists..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "записывается файл списка для источника \"%s\""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"виртуальный источник \"%s\" должен содержать пустой url, источник "
+"игнорируется"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --buildhost    - вывести тэг buildhost: хост, на котором создан.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Do nothing"
+msgstr "Ничего не делать"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr "используется связанный носитель для параллельного режима: %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "mounting %s"
+msgstr "монтируется %s"
+
+#: ../urpm.pm:1
 #, c-format
 msgid ""
-"the entry to remove is missing\n"
-"(one of %s)\n"
+"unable to take care of medium \"%s\" as list file is already used by another "
+"medium"
 msgstr ""
-"удаляемая запись отсутствует\n"
-"(одна из %s)\n"
+"невозможно сберечь источник \"%s\" так как файл списка уже используется "
+"другим источником"
 
-#
-#: ../urpmi.update:28
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "unable to get source packages, aborting"
+msgstr "невозможно получить исходные пакеты, аварийное завершение"
+
+#: ../urpme:1 ../urpmi:1
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - использовать другой корень для установки rpm.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr "        выполнено %s%% из %s, ETA = %s, скорость = %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "вычисляется md5sum полученного исходного hdlist (или synthesis)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to import pubkey file of \"%s\""
+msgstr "невозможно импортировать файл открытого ключа \"%s\""
+
+#: ../urpmi:1
 #, c-format
 msgid ""
-"usage: urpmi.update [options] <name> ...\n"
-"where <name> is a medium name to update.\n"
+"  --no-uninstall - never ask to uninstall a package, abort the "
+"installation.\n"
 msgstr ""
-"использование: urpmi.update [опции] <имя> ...\n"
-"где <имя> - имя обновляемого источника.\n"
+"  --no-uninstall - никогда не предлагать удалять пакет, прервать установку.\n"
 
-#: ../urpmi.update:38
-#, c-format
-msgid "  --update       - update only update media.\n"
-msgstr "  --update       - обновить только источник обновления.\n"
-
-#: ../urpmi.update:40
-#, c-format
-msgid "  --force-key    - force update of gpg key.\n"
-msgstr "  --force-key    - принудительно обновлять gpg-ключ.\n"
-
-#: ../urpmi.update:41
-#, c-format
-msgid "  -a             - select all non-removable media.\n"
-msgstr "  -a             - выбрать все не-съемные источники данных.\n"
-
-#: ../urpmi.update:63
-#, c-format
-msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
-"нечего обновлять (используйте urpmi.addmedia чтобы добавить источник)\n"
-
-#: ../urpmi.update:75
-#, c-format
-msgid ""
-"the entry to update is missing\n"
-"(one of %s)\n"
-msgstr ""
-"запись для обновления отсутствует\n"
-"(одна из %s)\n"
-
-#: ../urpmq:40
+#: ../urpmq:1
 #, c-format
 msgid ""
 "urpmq version %s\n"
@@ -1908,77 +1713,272 @@ msgstr ""
 "\n"
 "использование:\n"
 
-#: ../urpmq:55
+#: ../urpm.pm:1
 #, c-format
-msgid "  --list         - list available packages.\n"
-msgstr "  --list           - вывести список доступных пакетов.\n"
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "получение исходного hdlist (или synthesis) из \"%s\"..."
 
-#: ../urpmq:56
+#: ../urpmq:1
 #, c-format
-msgid "  --list-media   - list available media.\n"
-msgstr "  --list-media   - вывести список доступных источников.\n"
+msgid "  -g             - print groups with name also.\n"
+msgstr "  -g             - вывести группы вместе с названиями.\n"
 
-#: ../urpmq:57
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "источник \"%s\" не выбран"
+
+#: ../urpmi:1
+#, c-format
+msgid "Only superuser is allowed to install packages"
+msgstr "Только суперпользователю разрешается устанавливать пакеты"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "using specific environment on %s\n"
+msgstr "используется специфическое окружение для %s\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to find hdlist file for \"%s\", medium ignored"
+msgstr "не получается найти hdlist файл для \"%s\", источник игнорируется"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr "  --split-length - длина маленькой транзакции, по умолчанию %d.\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  (              - left parenthesis to open group expression.\n"
+msgstr "  (              - левая скобка, открывающая группу выражений.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr "слишком много точек монтирования для съемного источника \"%s\""
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  -a             - binary AND operator, true if both expression are true.\n"
+msgstr ""
+"  -a             - двоичный оператор AND, возвращает true, если оба\n"
+"                   выражения истинны.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+"нет доступа к источнику \"%s\",\n"
+"так бывает если вы вручную монтировали каталог когда создавали источник."
+
+#: ../urpmf:1
+#, c-format
+msgid "  --group        - print tag group: group.\n"
+msgstr "  --group        - выводить тэг group: группа.\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - использовать только указанные источники, разделенные "
+"запятыми.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to create transaction"
+msgstr "невозможно создать транзакцию"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "идет получение файлов rpm из источника \"%s\"..."
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"You have selected a source package:\n"
+"\n"
+"%s\n"
+"\n"
+"You probably didn't want to install it on your computer (installing it\n"
+"would allow you to make modifications to its sourcecode then compile it).\n"
+"\n"
+"What would you like to do?"
+msgstr ""
+"Вы выбрали пакет с исходными кодами:\n"
+"\n"
+"%s\n"
+"\n"
+"Возможно вам нет необходимости устанавливать его на свою машину (если вы "
+"его\n"
+"все же установите, тогда вы сможете вносить изменения в исходный код и "
+"затем\n"
+"компилировать его).\n"
+"\n"
+"Что будем делать?"
+
+#: ../urpmi:1
+#, c-format
+msgid "distributing %s"
+msgstr "разбрасывается %s"
+
+#: ../urpmi:1
+#, c-format
+msgid "Installation failed"
+msgstr "Установка завершилась неудачей"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "write config file [%s]"
+msgstr "записать config файл [%s]"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "  -a             - select all non-removable media.\n"
+msgstr "  -a             - выбрать все не-съемные источники данных.\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --epoch        - print tag epoch: epoch.\n"
+msgstr "  --epoch        - выводить тег epoch: epoch.\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disable it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - проверять подпись rpm перед установкой\n"
+"                   (--no-verify-rpm отключит ее, по умолчанию включена).\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Please insert the medium named \"%s\" on device [%s]"
+msgstr "Пожалуйста, вставьте источник под названием \"%s\" в устройство [%s]"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --update       - create an update medium.\n"
+msgstr "  --update       - создать источник для обновления.\n"
+
+#: ../urpmq:1
 #, c-format
 msgid "  --list-url     - list available media and their url.\n"
 msgstr "  --list-url     - вывести список доступных источников и их url.\n"
 
-#: ../urpmq:58
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
+msgstr ""
+"  -y             - задать поиск на основе нечеткой логики(аналогично --"
+"fuzzy).\n"
+
+#: ../_irpm:1 ../urpm/msg.pm:1
+#, c-format
+msgid "Ok"
+msgstr "OК"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "invalid hdlist description \"%s\" in hdlists file"
+msgstr "неверное описание hdlist \"%s\" в файле hdlists "
+
+#: ../urpme:1 ../urpmi:1
+#, c-format
+msgid "removing %s"
+msgstr "удаляется %s"
+
+#: ../urpmi.addmedia:1
 #, c-format
 msgid ""
-"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+"  --distrib-XXX  - automatically create a medium for XXX part of a\n"
+"                   distribution, XXX may be main, contrib, updates or\n"
+"                   anything else that has been configured ;-)\n"
 msgstr ""
-"  --dump-config  - сбросить config в виде аргумента для urpmi.addmedia.\n"
+"  --distrib-XXX  - автоматически создать источник для части ХХХ\n"
+"                   дистрибутива, XXX может быть main, contrib, updates или\n"
+"                   что угодно, что уже было настроено ;-)\n"
 
-#: ../urpmq:59
+#: ../urpmf:1
 #, c-format
-msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr ""
-"  --list-nodes   - вывести список доступных узлов при использовании--"
-"parallel.\n"
+msgid "  --size         - print tag size: size.\n"
+msgstr "  --size         - выводить тэг size: размер.\n"
 
-#: ../urpmq:60
+#: ../urpm.pm:1
 #, c-format
-msgid "  --list-aliases - list available parallel aliases.\n"
-msgstr "  --list-aliases - вывести список доступных параллельных алиасов.\n"
+msgid "in order to keep %s"
+msgstr "чтобы сохранить %s"
 
-#: ../urpmq:62
+#: ../urpm.pm:1
+#, c-format
+msgid "due to unsatisfied %s"
+msgstr "из-за неудовлетворенности %s"
+
+#: ../_irpm:1
 #, c-format
 msgid ""
-"  --headers      - extract headers for package listed from urpmi db to\n"
-"                   stdout (root only).\n"
+"Automatic installation of packages...\n"
+"You requested installation of package %s\n"
 msgstr ""
-"  --headers      - извлечь заголовки пакетов, перечисленных в urpmi db\n"
-"                   в stdout (только для root).\n"
+"Автоматическая установка пакетов...\n"
+"Вы запросили установку пакета %s\n"
 
-#: ../urpmq:64
+#: ../urpm.pm:1
+#, c-format
+msgid "urpmi database locked"
+msgstr "база данных urpmi заблокирована"
+
+#: ../urpmi:1
 #, c-format
 msgid ""
-"  --sources      - give all source packages before downloading (root only).\n"
+"  --resume       - resume transfer of partially-downloaded files\n"
+"                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"  --sources      - вывести все исходные пакеты перед скачиванием\n"
-"                   (только для root).\n"
+"  --resume       - продолжить трансфер частично закачанных файлов\n"
+"                   (--no-resume отключает это, по умолчанию отключено).\n"
 
-#: ../urpmq:67
+#: ../urpm.pm:1
+#, c-format
+msgid "examining pubkey file of \"%s\"..."
+msgstr "проверяется файл открытого ключа для \"%s\"..."
+
+#: ../urpmi.addmedia:1 ../urpmi.update:1
+#, c-format
+msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
+msgstr "  --no-md5sum    - не проверять MD5SUM файла.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "taking removable device as \"%s\""
+msgstr "принимается съемное устройство как \"%s\""
+
+#: ../urpmi:1
 #, c-format
 msgid ""
-"  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
-"                   This permit to querying a distro.\n"
+"You are about to install the following software package on your computer:\n"
+"\n"
+"%s\n"
+"\n"
+"You may prefer to just save it. What is your choice?"
 msgstr ""
-"  --use-distrib  - настраивать urpmi на лету из дерева distrib.\n"
-"                   Опция разрешает опрос дистрибутива.\n"
+"Вы собираетесь установить следующий пакет на свою машину:\n"
+"\n"
+"%s\n"
+"\n"
+"Вы можете его просто сохранить. Каков ваш выбор?"
 
-#: ../urpmq:77
+#: ../urpmi:1 ../urpmq:1
 #, c-format
-msgid "  --changelog    - print changelog.\n"
-msgstr "  --changelog    - выводить changelog.\n"
+msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
+msgstr ""
+"  --fuzzy        - задать поиск на основе нечеткой логики (аналогично -y).\n"
 
-#: ../urpmq:79
-#, c-format
-msgid "  -d             - extend query to package dependencies.\n"
-msgstr "  -d             - расширенный запрос к зависимостям пакета.\n"
-
-#: ../urpmq:80
+#: ../urpmq:1
 #, c-format
 msgid ""
 "  -u             - remove package if a more recent version is already "
@@ -1986,46 +1986,41 @@ msgid ""
 msgstr ""
 "  -u             - удалить пакет если уже установлена более новая версия.\n"
 
-#: ../urpmq:82
+#: ../urpmi.addmedia:1
 #, c-format
-msgid "  -c             - complete output with package to be removed.\n"
-msgstr "  -c             - выводить все данные о пакете при удалении.\n"
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr "  --probe-hdlist - попытаться найти и использовать файл hdlist.\n"
 
-#: ../urpmq:84
+#: ../urpm.pm:1
 #, c-format
-msgid "  -R             - reverse search to what requires package.\n"
-msgstr "  -R             - искать требуемые пакеты в обратном порядке.\n"
+msgid "due to missing %s"
+msgstr "из-за отсутствия %s"
 
-#: ../urpmq:87
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
-msgid "  -i             - print useful information in human readable form.\n"
+msgid "  --update       - use only update media.\n"
+msgstr "  --update       - использовать только источник обновления.\n"
+
+#
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"usage: urpmi.update [options] <name> ...\n"
+"where <name> is a medium name to update.\n"
 msgstr ""
-"  -i             - вывод полезной информации в удобной для чтения форме.\n"
+"использование: urpmi.update [опции] <имя> ...\n"
+"где <имя> - имя обновляемого источника.\n"
 
-#: ../urpmq:88
+#: ../urpm.pm:1
 #, c-format
-msgid "  -g             - print groups with name also.\n"
-msgstr "  -g             - вывести группы вместе с названиями.\n"
+msgid "trying to bypass existing medium \"%s\", avoiding"
+msgstr "попытка обойти существующий источник \"%s\", отменяется"
 
-#: ../urpmq:89
+#: ../urpme:1 ../urpmi:1
 #, c-format
-msgid "  -r             - print version and release with name also.\n"
-msgstr "  -r             - вывести версию и номер релиза вместе с названием.\n"
-
-#: ../urpmq:91
-#, c-format
-msgid "  -l             - list files in package.\n"
-msgstr "  -l             - выводить список файлов пакета.\n"
-
-#: ../urpmq:92
-#, c-format
-msgid "  names or rpm files given on command line are queried.\n"
-msgstr "  запрошены указанные в командной строке имена или rpm файлы.\n"
-
-#: ../urpmq:147
-#, c-format
-msgid "--list-nodes can only be used with --parallel"
-msgstr "--list-nodes может использоваться только с --parallel"
+msgid ""
+"  --test         - verify if the installation can be achieved correctly.\n"
+msgstr "  --test         - проверять на возможность корректной установки.\n"
 
 #~ msgid "Unknown webfetch `%s' !!!\n"
 #~ msgstr "Неизвестный webfetch `%s' !!!\n"
