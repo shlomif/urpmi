@@ -477,8 +477,7 @@ sub update_media {
 		#- is a symlink to a directory.
 		#- make sure rpm filename format is correct and is not a source rpm
 		#- which are not well managed by urpmi.
-		@files = grep { /.*\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ && $4 ne "src" }
-		  split "\n", `find '$dir/' -name "*.rpm" -print`;
+		@files = grep { $_ !~ /\.src\.rpm/ } split "\n", `find '$dir/' -name "*.rpm" -print`;
 
 		#- check files contains something good!
 		if (@files > 0) {
@@ -926,8 +925,7 @@ sub search_packages {
 			if ($best) {
 			    my $cmp_version = rpmtools::version_compare($_->{info}{version}, $best->{info}{version});
 			    my $cmp_release = $cmp_version == 0 && version_compare($_->{info}{release}, $best->{info}{release});
-			    if ($cmp_version > 0 ||
-				$cmp_release > 0 ||
+			    if ($_->{info}{serial} > $best->{info}{serial} || $cmp_version > 0 || $cmp_release > 0 ||
 				$cmp_version == 0 && $cmp_release == 0 && better_arch($_->{info}{arch}, $best->{info}{arch})) {
 				$best = $_;
 			    }
@@ -1028,7 +1026,8 @@ sub filter_packages_to_upgrade {
 	foreach (@packages_installed) {
 	    my $pkg = $urpm->{params}{info}{$_->{name}}; $pkg or next; #- TODO error
 	    my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
-	    $installed{$pkg->{id}} = !($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0)
+	    $installed{$pkg->{id}} = !($pkg->{serial} > $_->{serial} ||
+				       $cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0)
 	      and delete $packages->{$pkg->{id}};
 	}
     }
@@ -1058,7 +1057,8 @@ sub filter_packages_to_upgrade {
 	my $pkg = $urpm->{params}{info}{$_->{name}}; $pkg or next; #- TODO error
 	exists $closures{$pkg->{id}} or next;
 	my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
-	$installed{$pkg->{id}} = !($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0)
+	$installed{$pkg->{id}} = !($pkg->{serial} > $_->{serial} ||
+				   $cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0)
 	  and delete $packages->{$pkg->{id}};
     }
 
@@ -1248,7 +1248,7 @@ sub filter_minimal_packages_to_upgrade {
 	    #- iterate over requires of the packages, register them.
 	    $provides{$pkg->{name}} = undef;
 	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}", "requires", sub {
-			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/) {
+			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s\-]*)-?(\S*)/) {
 				 exists $provides{$1} and return;
 				 #- if the provides is not found, it will be resolved at next step, else
 				 #- it will be resolved by searching the rpm database.
@@ -1276,10 +1276,11 @@ sub filter_minimal_packages_to_upgrade {
 		    push @choices, $pkg;
 		    rpmtools::db_traverse_tag($db,
 					      'name', [ $_ ],
-					      [ qw(name version release) ], sub {
+					      [ qw(name version release serial) ], sub {
 						  my ($p) = @_;
 						  my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
-						  $installed{$pkg->{id}} ||= !($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0)
+						  $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} ||
+									       $cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0)
 					      });
 		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
 		    if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
@@ -1603,15 +1604,16 @@ sub select_packages_to_upgrade {
 	#- mark all files which are not in /etc/rc.d/ for packages which are already installed but which
 	#- are not in the packages list to upgrade.
 	#- the 'installed' property will make a package unable to be selected, look at select.
-	rpmtools::db_traverse($db, [ qw(name version release files) ], sub {
+	rpmtools::db_traverse($db, [ qw(name version release serial files) ], sub {
 				  my ($p) = @_;
 				  my $otherPackage = $p->{release} !~ /mdk\w*$/ && "$p->{name}-$p->{version}-$p->{release}";
 				  my $pkg = $urpm->{params}{info}{$p->{name}};
 
 				  if ($pkg) {
 				      my $version_cmp = rpmtools::version_compare($p->{version}, $pkg->{version});
-				      if ($version_cmp > 0 || $version_cmp == 0 &&
-					  rpmtools::version_compare($p->{release}, $pkg->{release}) >= 0) {
+				      if ($p->{serial} > $pkg->{serial} ||
+					  $version_cmp > 0 ||
+					  $version_cmp == 0 && rpmtools::version_compare($p->{release}, $pkg->{release}) >= 0) {
 					  if ($otherPackage && $version_cmp <= 0) {
 					      $toRemove{$otherPackage} = 0;
 					      $pkg->{selected} = 1;
