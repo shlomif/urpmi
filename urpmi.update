@@ -32,6 +32,7 @@ sub main {
     foreach (@_) {
 	/^--?a/ and $options{all} = 1, next;
 	/^--?c/ and $options{noclean} = 0, next;
+	/^--?c/ and $options{depslist} = 1, next;
 	/^--?f/ and ++$options{force}, next;
 	/^--?noa/ and next; #- default, keeped for compability.
 	/^-/ and die _("usage: urpmi.update [-a] <name> ...

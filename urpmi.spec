@@ -1,8 +1,8 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 1.7
-Release: 15mdk
+Version: 2.0
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -19,7 +19,6 @@ urpmi takes care of dependencies between rpms, using a pool (or pools) of rpms.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
-Version: 1.1
 Summary: User mode rpm GUI install
 Requires: urpmi grpmi gchooser gmessage
 Group: %{group}
@@ -27,7 +26,6 @@ Group: %{group}
 gurpmi is a graphical front-end to urpmi
 
 %package -n autoirpm
-Version: 0.9
 Summary: Auto install of rpm on demand
 Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
 Group: %{group}
@@ -114,6 +112,15 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Tue Nov  6 2001 François Pons <fpons@mandrakesoft.com> 2.0-1mdk
+- no more need for removable device selection in URL (autoprobe but need removable://)
+  but old description still accepted.
+- fix some mount/umount problem.
+- improve -m mode speed.
+- obsolete -M mode (-M is still recognized on command line but same as -m).
+- depslist is no more calculated with dependencies (now optional).
+- everything now as 2.0 version.
+
 * Sat Oct 27 2001 Pixel <pixel@mandrakesoft.com> 1.7-15mdk
 - fix urpme with i18n (thanks to Andrej Borsenkow)
 - fix urpme with regexp-like arguments (mainly things with "++") (thanks to Alexander Skwar)

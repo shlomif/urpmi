@@ -242,7 +242,32 @@ sub probe_medium {
 	}
     }
     $medium->{url} ||= $medium->{clear_url};
-    $medium->{removable} ||= $medium->{url} =~ /^removable_([^_:]*)(?:_[^:]*)?:/ && "/dev/$1"; #"
+    if ($medium->{url} =~ /^removable_?([^_:]*)(?:_[^:]*)?:/) {
+	$medium->{removable} ||= $1 && "/dev/$1";
+    } else {
+	delete $medium->{removable};
+    }
+
+    #- try to find device to open/close for removable medium.
+    if (exists $medium->{removable}) {
+	if (my ($dir) = $medium->{url} =~ /(?:file|removable)[^:]*:\/(.*)/) {
+	    my @mntpoints2devices = $urpm->find_mntpoints($dir, 'device');
+	    if (@mntpoints2devices > 2) { #- return value is suitable for an hash.
+		$urpm->{log}(_("too many mount points for removable medium \"%s\"", $medium->{name}));
+		$urpm->{log}(_("taking removable device as \"%s\"", $mntpoints2devices[-1]));  #- take the last one.
+	    }
+	    if (@mntpoints2devices) {
+		if ($medium->{removable} && $medium->{removable} ne $mntpoints2devices[-1]) {
+		    $urpm->{log}(_("using different removable device [%s] for \"%s\"", $mntpoints2devices[-1], $medium->{name}));
+		}
+		$medium->{removable} = $mntpoints2devices[-1];
+	    } else {
+		$urpm->{error}(_("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
+	    }
+	} else {
+	    $urpm->{error}(_("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
+	}
+    }
     $medium;
 }
 
@@ -298,7 +323,7 @@ sub add_medium {
 	#- the directory given does not exist or may be accessible
 	#- by mounting some other. try to figure out these directory and
 	#- mount everything necessary.
-	$urpm->try_mounting($dir, 'mount') or $urpm->{log}(_("unable to access medium \"%s\"", $name)), return;
+	$urpm->try_mounting($dir) or $urpm->{log}(_("unable to access medium \"%s\"", $name)), return;
 
 	#- check if directory is somewhat normalized so that we can get back hdlist,
 	#- check it that case if depslist, compss and provides file are also
@@ -448,7 +473,7 @@ sub update_media {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
-	    $urpm->try_mounting($dir, 'mount') or $urpm->{log}(_("unable to access medium \"%s\"", $medium->{name})), next;
+	    $urpm->try_mounting($dir) or $urpm->{log}(_("unable to access medium \"%s\"", $medium->{name})), next;
 
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
@@ -653,8 +678,13 @@ sub update_media {
 		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
 	    }
-	    $urpm->{log}(_("computing dependencies"));
-	    $urpm->{params}->compute_depslist();
+	    if ($options{depslist}) {
+		$urpm->{log}(_("computing dependencies"));
+		$urpm->{params}->compute_depslist;
+	    } else {
+		#- this is necessary to give id at least.
+		$urpm->{params}->compute_id;
+	    }
 
 	    #- once everything has been computed, write back the files to
 	    #- sync the urpmi database.
@@ -690,56 +720,82 @@ sub update_media {
     }
 }
 
-#- check for necessity of mounting some directory to get access
-sub try_mounting {
+#- find used mount point from a pathname, use a optional mode to allow
+#- filtering according the next operation (mount or umount).
+sub find_mntpoints {
     my ($urpm, $dir, $mode) = @_;
 
-    if ($mode eq 'mount' ? !-e $dir : -e $dir) {
-	my ($fdir, $pdir, $v, %fstab, @possible_mount_point) = $dir;
+    #- fast mode to check according to next operation.
+    $mode eq 'mount' && -e $dir and return;
+    $mode eq 'umount' && ! -e $dir and return;
 
-	#- read /etc/fstab and check for existing mount point.
-	local (*F, $_);
-	open F, "/etc/fstab";
-	while (<F>) {
-	    /^\s*\S+\s+(\/\S+)/ and $fstab{$1} = 0;
-	}
-	open F, "/etc/mtab";
-	while (<F>) {
-	    /^\s*\S+\s+(\/\S+)/ and $fstab{$1} = 1;
-	}
-	close F;
+    #- really check and find mount points here.
+    my ($fdir, $pdir, $v, %fstab, @mntpoints) = $dir;
+    local (*F, $_);
 
-	#- try to follow symlink, too complex symlink graph may not
-	#- be seen.
-	while ($v = readlink $fdir) {
-	    if ($fdir =~ /^\//) {
-		$fdir = $v;
-	    } else {
-		while ($v =~ /^\.\.\/(.*)/) {
-		    $v = $1;
-		    $fdir =~ s/^(.*)\/[^\/]+\/*/$1/;
-		}
-		$fdir .= "/$v";
+    #- read /etc/fstab and check for existing mount point.
+    open F, "/etc/fstab";
+    while (<F>) {
+	my ($device, $mntpoint) = /^\s*(\S+)\s+(\/\S+)/ or next;
+	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
+	$fstab{$mntpoint} = $mode eq 'device' ? ($device eq $mntpoint ? m|dev=(/[^,\s]*)| && $1 : $device) : 0;
+    }
+    open F, "/etc/mtab";
+    while (<F>) {
+	my ($device, $mntpoint) = /^\s*(\S+)\s+(\/\S+)/ or next;
+	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
+	$fstab{$mntpoint} = $mode eq 'device' ? $device : 1;
+    }
+    close F;
+
+    #- try to follow symlink, too complex symlink graph may not
+    #- be seen.
+    while ($v = readlink $fdir) {
+	if ($fdir =~ /^\//) {
+	    $fdir = $v;
+	} else {
+	    while ($v =~ /^\.\.\/(.*)/) {
+		$v = $1;
+		$fdir =~ s/^(.*)\/[^\/]+\/*/$1/;
 	    }
-	}
-
-	#- check the possible mount point.
-	foreach (split '/', $fdir) {
-	    length($_) or next;
-	    $pdir .= "/$_";
-	    foreach ($pdir, "$pdir/") {
-		exists $fstab{$_} and push @possible_mount_point, $_;
-	    }
-	}
-
-	#- try to mount or unmount according to mode.
-	$mode ne 'mount' and @possible_mount_point = reverse @possible_mount_point;
-	foreach (@possible_mount_point) {
-	    $fstab{$_} == ($mode ne 'mount') and $fstab{$_} = ($mode eq 'mount'),
-	      $urpm->{log}($mode eq 'mount' ? _("mounting %s", $_) : _("unmounting %s", $_)), `$mode '$_' 2>/dev/null`;
+	    $fdir .= "/$v";
 	}
     }
-    $mode eq 'mount' ? -e $dir : !-e $dir;
+
+    #- check the possible mount point.
+    foreach (split '/', $fdir) {
+	length($_) or next;
+	$pdir .= "/$_";
+	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
+	if (exists $fstab{$pdir}) {
+	    $mode eq 'mount' && ! $fstab{$_} and push @mntpoints, $pdir;
+	    $mode eq 'umount' && $fstab{$_} and unshift @mntpoints, $pdir;
+	    $mode eq 'device' and push @mntpoints, $pdir, $fstab{$pdir};
+	}
+    }
+
+    @mntpoints;
+}
+
+#- check for necessity of mounting some directory to get access
+sub try_mounting {
+    my ($urpm, $dir) = @_;
+
+    foreach ($urpm->find_mntpoints($dir, 'mount')) {
+	$urpm->{log}(_("mounting %s", $_));
+	`mount '$_' 2>/dev/null`;
+    }
+    -e $dir;
+}
+
+sub try_umounting {
+    my ($urpm, $dir) = @_;
+
+    foreach ($urpm->find_mntpoints($dir, 'umount')) {
+	$urpm->{log}(_("unmounting %s", $_));
+	`umount '$_' 2>/dev/null`;
+    }
+    ! -e $dir;
 }
 
 #- read depslist file using rpmtools, this file is not managed directly by urpm.
@@ -1291,7 +1347,7 @@ sub filter_minimal_packages_to_upgrade {
 	};
 
 	my ($db, @packages) = (rpmtools::db_open(''), keys %$packages);
-	my ($id, %installed);
+	my ($id, %installed, %selected);
 
 	#- at this level, compute global closure of what is requested, regardless of
 	#- choices for which all package in the choices are taken and their dependencies.
@@ -1323,6 +1379,7 @@ sub filter_minimal_packages_to_upgrade {
 	    #- where a provides is A and after A == version-release, when A is already
 	    #- installed.
 	    my (%diffprovides, %provides);
+
 	    rpmtools::db_traverse_tag($db,
 				      'name', [ $pkg->{name} ],
 				      [ qw(name version release sense provides) ], sub {
@@ -1339,7 +1396,7 @@ sub filter_minimal_packages_to_upgrade {
 	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "provides", sub {
 			     $_[0] =~ /^(\S*\s*\S*\s*)(\d+:)?([^\s-]*)(-?\S*)/;
 			     foreach ($_[0], "$1$3", "$1$2$3", "$1$3$4") {
-				 delete $diffprovides{$_[0]};
+				 delete $diffprovides{$_};
 			     }
 			 });
 	    foreach ($pkg->{name}, "$pkg->{name} == $pkg->{version}", "$pkg->{name} == $pkg->{version}-$pkg->{release}") {
@@ -1366,27 +1423,32 @@ sub filter_minimal_packages_to_upgrade {
 	    #- iterate over requires of the packages, register them.
 	    $provides{$pkg->{name}} = undef; #"$pkg->{name}-$pkg->{version}-$pkg->{release}";
 	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}", "requires", sub {
-			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s\-]*)-?(\S*)/) {
-				 exists $provides{$1} and return;
+			     if (my ($n, $o, $v, $r) = $_[0] =~ /^(\S*)\s*(\S*)\s*([^\s\-]*)-?(\S*)/) {
+				 exists $provides{$n} || exists $selected{$n} and return;
 				 #- if the provides is not found, it will be resolved at next step, else
 				 #- it will be resolved by searching the rpm database.
-				 $provides{$1} ||= undef;
+				 $provides{$n} ||= undef;
 				 my $check_pkg = sub {
-				     $3 and eval(rpmtools::version_compare($_[0]{version}, $3) . $2 . 0) || return;
-				     $4 and eval(rpmtools::version_compare($_[0]{release}, $4) . $2 . 0) || return;
-				     $provides{$1} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
+				     $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
+				     $r and eval(rpmtools::version_compare($_[0]{release}, $v) . $o . 0) || return;
+				     $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
 				 };
-				 rpmtools::db_traverse_tag($db, 'whatprovides', [ $1 ],
-							   [ qw (name version release) ], $check_pkg);
-				 rpmtools::db_traverse_tag($db, 'path', [ $1 ],
-							   [ qw (name version release) ], $check_pkg);
+				 if ($n =~ m|^/|) {
+				     rpmtools::db_traverse_tag($db, 'path', [ $n ],
+							       [ qw (name version release) ], $check_pkg);
+				 } else {
+				     rpmtools::db_traverse_tag($db, 'whatprovides', [ $n ],
+							       [ qw (name version release) ], $check_pkg);
+				 }
 			     }
 			 });
 
 	    #- at this point, all unresolved provides (requires) should be fixed by
 	    #- provides files, try to minimize choice at this level.
 	    foreach (keys %provides) {
-		$provides{$_} and next;
+		$provides{$_} || exists $selected{$_} and next;
+		$selected{$_} = undef;
+
 		my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
 		foreach my $fullname (@{$urpm->{params}{provides}{$_}}) {
 		    my $pkg = $urpm->{params}{info}{$fullname};
@@ -1611,10 +1673,10 @@ sub upload_source_packages {
 		#- the directory given does not exist or may be accessible
 		#- by mounting some other. try to figure out these directory and
 		#- mount everything necessary.
-		unless ($urpm->try_mounting($dir, 'mount')) {
+		unless ($urpm->try_mounting($dir)) {
 		    $ask_for_medium or 
 		      $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
-		    $urpm->try_mounting($dir, 'unmount'); system("eject", $device);
+		    $urpm->try_umounting($dir); system("eject", $device);
 		    $ask_for_medium->($medium->{name}, $medium->{removable}) or
 		      $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
 		}
@@ -1649,7 +1711,7 @@ sub upload_source_packages {
 	if ($medium->{removable}) {
 	    push @{$removables{$medium->{removable}} ||= []}, $_;
 	} elsif (my ($prefix, $dir) = $medium->{url} =~ /^(removable_[^:]*|file):\/(.*)/) {
-	    -e $dir || $urpm->try_mounting($dir, 'mount') or
+	    -e $dir || $urpm->try_mounting($dir) or
 	      $urpm->{error}(_("unable to access medium \"%s\"", $medium->{name})), next;
 	}
     }

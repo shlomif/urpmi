@@ -51,23 +51,22 @@ Copyright (C) 1999, 2000, 2001 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-  --help           - print this help message.
-  --update         - use only update media.
-  --auto           - automatically select a good package in choices.
-  --auto-select    - automatically select packages for upgrading the system.
-  --force          - force invocation even if some package do not exist.
-  --X              - use X interface.
-  --best-output    - choose best interface according to the environment:
+") . _("  --help           - print this help message.
+") . _("  --update         - use only update media.
+") . _("  --auto           - automatically select a good package in choices.
+") . _("  --auto-select    - automatically select packages for upgrading the system.
+") . _("  --force          - force invocation even if some package do not exist.
+") . _("  --X              - use X interface.
+") . _("  --best-output    - choose best interface according to the environment:
                      X or text mode.
-  -a               - select all matches on command line.
-  -m               - choose minimum closure of requires (default).
-  -M               - choose maximun closure of requires.
-  -c               - choose complete method for resolving requires closure.
-  -p               - allow search in provides to find package.
-  -q               - quiet mode.
-  -v               - verbose mode.
-
-  names or rpm files (only for root) given on command line are installed.
+") . _("  -a               - select all matches on command line.
+") . _("  -m               - choose minimum closure of requires (default).
+") . _("  -M               - ignored, kept for compability.
+") . _("  -c               - choose complete method for resolving requires closure.
+") . _("  -p               - allow search in provides to find package.
+") . _("  -q               - quiet mode.
+") . _("  -v               - verbose mode.
+") . "\n" . _("  names or rpm files (only for root) given on command line are installed.
 ", $urpm::VERSION);
     exit(0);
 }
@@ -79,7 +78,7 @@ for (@ARGV) {
     /^--update$/ and do { $update = 1; next };
     /^--auto$/ and do { $auto = 1; next };
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
-    /^--auto-select$/ and do { $auto_select = 1; $minimal = 0; next };
+    /^--auto-select$/ and do { $auto_select = 1; next };
     /^--force$/ and do { $force = 1; next };
     /^--X$/ and do { $X = 1; next };
     /^--WID=(.*)$/ and do { $WID = $1; next };
@@ -92,7 +91,7 @@ for (@ARGV) {
 	/a/ and do { $all = 1; next };
 	/c/ and do { $complete = 1; next };
 	/m/ and do { $minimal = 1; next };
-	/M/ and do { $minimal = 0; next };
+	/M/ and do { next }; #- nop
 	/q/ and do { $rpm_opt = "-U"; next };
 	/p/ and do { $use_provides = 1; next };
 	/v/ and do { $verbose = 1; next };

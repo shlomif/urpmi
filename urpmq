@@ -36,28 +36,25 @@ Copyright (C) 2000, 2001 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-  -h             - print this help message.
-  -v             - verbose mode.
-  -d             - extend query to package dependencies.
-  -u             - remove package if a better version is already installed.
-  -m             - extend query to package dependencies, remove already
+") . _("  -h             - print this help message.
+") . _("  -v             - verbose mode.
+") . _("  -d             - extend query to package dependencies.
+") . _("  -u             - remove package if a better version is already installed.
+") . _("  -m             - extend query to package dependencies, remove already
                    installed package that provide what is necessary, add
                    packages that may be block the upgrade.
-  -M             - extend query to package dependencies and remove already
-                   installed package only if they are newer or the same.
-  -c             - choose complete method for resolving requires closure.
-  -p             - allow search in provides to find package.
-  -g             - print groups too with name.
-  -r             - print version and release too with name.
-
-  --update       - use only update media.
-  --auto-select  - automatically select packages for upgrading the system.
-  --headers      - extract headers for package listed from urpmi db to
+") . _("  -M             - same as -m mode, see above.
+") . _("  -c             - choose complete method for resolving requires closure.
+") . _("  -p             - allow search in provides to find package.
+") . _("  -g             - print groups too with name.
+") . _("  -r             - print version and release too with name.
+") . "\n" . _("  --update       - use only update media.
+") . _("  --auto-select  - automatically select packages for upgrading the system.
+") . _("  --headers      - extract headers for package listed from urpmi db to
                    stdout (root only).
-  --sources      - give all source packages before downloading (root only).
-  --force        - force invocation even if some package do not exist.
-
-  names or rpm files given on command line are queried.
+") . _("  --sources      - give all source packages before downloading (root only).
+") . _("  --force        - force invocation even if some package do not exist.
+") . "\n" . _("  names or rpm files given on command line are queried.
 ", $urpm::VERSION);
     exit(0);
 }
@@ -76,7 +73,7 @@ for (@ARGV) {
 	/d/ and do { $query->{deps} = 1; next };
 	/u/ and do { $query->{upgrade} = 1; next };
 	/m/ and do { $query->{minimal} = 1; next };
-	/M/ and do { $query->{minimal} = 0; next };
+	/M/ and do { $query->{minimal} = 1; next }; #- nop same as -m
 	/c/ and do { $query->{complete} = 1; next };
 	/g/ and do { $query->{group} = 1; next };
 	/p/ and do { $query->{use_provides} = 1; next };
