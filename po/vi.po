@@ -7,13 +7,17 @@ msgstr ""
 "Project-Id-Version: urpmi-vi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-11 23:08+0200\n"
-"PO-Revision-Date: 2004-01-28 21:57+0700\n"
+"PO-Revision-Date: 2004-08-21 11:15+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#  This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
+#  you can put here the letters for 'yes' for your language, so people
+#  can hit those keys in their keyboard to reply.
+#  please keep the 'Yy' for compatibility reasons
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
 #. can hit those keys in their keyboard to reply.
@@ -77,6 +81,8 @@ msgid ""
 "usage: %s [options]\n"
 "where [options] are from\n"
 msgstr ""
+"cách dùng: %s [options]\n"
+"nơi có [options]\n"
 
 #: ../rpm-find-leaves:13
 #, c-format
@@ -84,14 +90,14 @@ msgid "   -h|--help      - print this help message.\n"
 msgstr "   -h|--help      - in thông tin trợ giúp này.\n"
 
 #: ../rpm-find-leaves:14
-#, fuzzy, c-format
+#, c-format
 msgid "   -g [group]     - restrict results to given group.\n"
-msgstr "  --group         - in ra nhóm tag: nhóm.\n"
+msgstr "   -g [group]     - hạn chế kết quả cho nhóm.\n"
 
 #: ../rpm-find-leaves:15
-#, fuzzy, c-format
+#, c-format
 msgid "                    defaults is %s.\n"
-msgstr "  -l             - liệt kê các tập tin trong gói tin.\n"
+msgstr "                    mặc định là %s.\n"
 
 #: ../urpm.pm:67
 #, c-format
@@ -101,7 +107,7 @@ msgstr "chỉ định giao thức không xác định cho %s"
 #: ../urpm.pm:100
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
-msgstr ""
+msgstr "không thấy webfetch nào, webfetch được hỗ trợ là: %s\n"
 
 #: ../urpm.pm:116
 #, c-format
@@ -200,9 +206,9 @@ msgid "unable to write config file [%s]"
 msgstr "Không thể ghi tập tin cấu hình [%s]"
 
 #: ../urpm.pm:370
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write file [%s]"
-msgstr "Không thể ghi tập tin cấu hình [%s]"
+msgstr "không thể ghi tập tin [%s]"
 
 #: ../urpm.pm:377
 #, c-format
@@ -377,19 +383,19 @@ msgid "removing medium \"%s\""
 msgstr "gỡ bỏ phương tiện \"%s\""
 
 #: ../urpm.pm:848
-#, fuzzy, c-format
+#, c-format
 msgid "reconfiguring urpmi for media \"%s\""
-msgstr "đang thu thập các tập tin rpm từ phương tiện \"%s\"..."
+msgstr "đang cấu hình lại urpmi cho phương tiện \"%s\""
 
 #: ../urpm.pm:874
-#, fuzzy, c-format
+#, c-format
 msgid "...reconfiguration failed"
-msgstr "...sao chép không được"
+msgstr "...không cấu hình lại được"
 
 #: ../urpm.pm:881
 #, c-format
 msgid "reconfiguration done"
-msgstr ""
+msgstr "hoàn thành việc cấu hình lại"
 
 #: ../urpm.pm:1008
 #, c-format
@@ -433,7 +439,7 @@ msgstr "đang sao chép hdlist nguồn (hoặc tổng hợp) của \"%s\"..."
 #: ../urpm.pm:1169
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
-msgstr ""
+msgstr "lỗi sao chép [%s] (có lẽ tập tin nhỏ)"
 
 #: ../urpm.pm:1174
 #, c-format
@@ -441,9 +447,9 @@ msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "tính toán md5sum của hdlist nguồn được sao chép (hoặc tổng hợp)"
 
 #: ../urpm.pm:1176
-#, fuzzy, c-format
+#, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
-msgstr "bản sao của [%s] hỏng"
+msgstr "Lỗi bản sao của [%s] (md5sum không so khớp)"
 
 #: ../urpm.pm:1197 ../urpm.pm:1413 ../urpm.pm:1747
 #, c-format
@@ -725,9 +731,9 @@ msgid "unable to install package %s"
 msgstr "không thể cài đặt gói %s"
 
 #: ../urpm.pm:2880
-#, fuzzy, c-format
+#, c-format
 msgid "More information on package %s"
-msgstr "gỡ bỏ gói %s"
+msgstr "Thêm thông tin cho gói %s"
 
 #: ../urpm.pm:3038 ../urpm.pm:3071
 #, c-format
@@ -795,7 +801,7 @@ msgid "Sorry, bad choice, try again\n"
 msgstr "Xin lỗi, lựa chọn sai, hãy thử lại\n"
 
 #: ../urpme:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpme version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -804,8 +810,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"Phiên bản urpmf %s\n"
-"Bản quyền (C) 2002 Mandrakesoft.\n"
+"Phiên bản urpme %s\n"
+"Bản quyền (C) 1999-2004 Mandrakesoft.\n"
 "Đây là phần mềm miễn phí và có thể phân phối lại theo các điều khoản của GNU "
 "GPL.\n"
 "\n"
@@ -912,7 +918,7 @@ msgid "Removing failed"
 msgstr "Gỡ bỏ không được"
 
 #: ../urpmf:27
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2004 Mandrakesoft.\n"
@@ -922,7 +928,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "Phiên bản urpmf %s\n"
-"Bản quyền (C) 2002 Mandrakesoft.\n"
+"Bản quyền (C) 2002-2004 Mandrakesoft.\n"
 "Đây là phần mềm miễn phí và có thể phân phối lại theo các điều khoản của GNU "
 "GPL.\n"
 "\n"
@@ -987,9 +993,9 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - in ra toàn bộ tag.\n"
 
 #: ../urpmf:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --name         - print only package names.\n"
-msgstr "  --all           - in ra toàn bộ tag.\n"
+msgstr "  --name         - chỉ in ra tên gói.\n"
 
 #: ../urpmf:44
 #, c-format
@@ -1134,14 +1140,16 @@ msgid ""
 "Note: since no media searched uses hdlists, urpmf was unable to return any "
 "result\n"
 msgstr ""
+"Lưu ý: vì không có phương tiện được tìm kiếm dùng hdlists, urpmf không thể "
+"trả lại kết quả\n"
 
 #: ../urpmf:152
 #, c-format
 msgid "You may want to use --name to search for package names.\n"
-msgstr ""
+msgstr "Bạn có thể muốn dùng --name để tìm tên gói tin.\n"
 
 #: ../urpmi:69
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -1150,8 +1158,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"Phiên bản urpmf %s\n"
-"Bản quyền (C) 2002 Mandrakesoft.\n"
+"Phiên bản urpmi %s\n"
+"Bản quyền (C) 1999-2004 Mandrakesoft.\n"
 "Đây là phần mềm miễn phí và có thể phân phối lại theo các điều khoản của GNU "
 "GPL.\n"
 "\n"
@@ -1271,13 +1279,13 @@ msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - giới hạn tốc độ tải xuống.\n"
 
 #: ../urpmi:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --resume       - resume transfer of partially-downloaded files\n"
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"  --verify-rpm   - xác minh chữ ký rpm trước khi cài đặt.\n"
-"                   (--no-verify-rpm để tắt nó, mặc định là bật).\n"
+"  --resume       - tiếp tục truyền tải lại các tập tin đang tải về dở dang\n"
+"                   (--no-resume lài không tiếp tục lại, mặc định là không).\n"
 
 #: ../urpmi:108 ../urpmi.addmedia:51 ../urpmi.update:34 ../urpmq:69
 #, c-format
@@ -1341,9 +1349,9 @@ msgid "  --excludedocs  - exclude docs files.\n"
 msgstr "  --excludedocs  - trừ các tập tin tài liệu.\n"
 
 #: ../urpmi:124
-#, fuzzy, c-format
+#, c-format
 msgid "  --skip         - packages which installation should be skipped\n"
-msgstr "  --test         - xác minh nếu việc cài đặt đạt kết quả tốt.\n"
+msgstr "  --skip         - các gói tin cài đặt nên được bỏ qua\n"
 
 #: ../urpmi:125
 #, c-format
@@ -1351,6 +1359,8 @@ msgid ""
 "  --more-choices - when several packages are found, propose more choices\n"
 "                   than the default.\n"
 msgstr ""
+"  --more-choices - khi tìm thấy vài gói tin, đề xuất thêm lựa chọn so với\n"
+"                   mặc định.\n"
 
 #: ../urpmi:127 ../urpmq:79
 #, c-format
@@ -1391,7 +1401,7 @@ msgstr "  tên hay tập tin rpm có trong dòng lệnh sẽ được cài đặ
 #: ../urpmi:141
 #, c-format
 msgid "Choose location to save file"
-msgstr ""
+msgstr "Chọn nơi lưu tập tin"
 
 #: ../urpmi:197
 #, c-format
@@ -1410,21 +1420,29 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
+"Bạn đã chọn gói nguồn:\n"
+"\n"
+"%s\n"
+"\n"
+"Có thể bạn đã không muốn cài đặt nó lên hệ thống (cài đặt nó\n"
+"sẽ cho phép bạn thay đổi mã nguồn rồi biên dịch lại).\n"
+"\n"
+"Bạn muốn làm gì?"
 
 #: ../urpmi:212
 #, c-format
 msgid "Do nothing"
-msgstr ""
+msgstr "Không làm gì cả"
 
 #: ../urpmi:213
 #, c-format
 msgid "Yes, really install it"
-msgstr ""
+msgstr "Có muốn cài đặt"
 
 #: ../urpmi:214 ../urpmi:231
 #, c-format
 msgid "Save file"
-msgstr ""
+msgstr "Lưu tập tin"
 
 #: ../urpmi:225
 #, c-format
@@ -1435,11 +1453,16 @@ msgid ""
 "\n"
 "You may prefer to just save it. What is your choice?"
 msgstr ""
+"Bạn sắp cài đặt các gói phần mềm sau đây vào hệ thống:\n"
+"\n"
+"%s\n"
+"\n"
+"Bạn có thể chỉ muốn lưu nó. Bạn chọn làm việc gì?"
 
 #: ../urpmi:230
-#, fuzzy, c-format
+#, c-format
 msgid "Install it"
-msgstr "Cài đặt không được"
+msgstr "Cài đặt gói tin"
 
 #: ../urpmi:239
 #, c-format
@@ -1505,6 +1528,8 @@ msgid ""
 "\n"
 "Continue?"
 msgstr ""
+"\n"
+"Tiếp tục?"
 
 #: ../urpmi:465
 #, c-format
@@ -1527,18 +1552,18 @@ msgstr ""
 "%s"
 
 #: ../urpmi:510 ../urpmi:521
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be installed "
 "(%d MB)"
-msgstr "Để thỏa mãn các phụ thuộc, những gói sau đây sẽ được cài đặt (%d MB)"
+msgstr "Để thỏa mãn các phụ thuộc, %d gói sau đây sẽ được cài đặt (%d MB)"
 
 #: ../urpmi:511 ../urpmi:522
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed (%d "
 "MB)"
-msgstr "Để thỏa mãn các phụ thuộc, những gói sau đây sẽ được cài đặt (%d MB)"
+msgstr "Để thỏa mãn phụ thuộc, gói tin sau đây sẽ được cài đặt (%d MB)"
 
 #: ../urpmi:517
 #, c-format
@@ -1774,14 +1799,14 @@ msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - cố tạo các tập tin hdlist.\n"
 
 #: ../urpmi.addmedia:115
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to add media"
-msgstr "Chỉ cho phép người dùng cao cấp được cài đặt các gói"
+msgstr "Chỉ có người dùng cao cấp được phép thêm phương tiện"
 
 #: ../urpmi.addmedia:144
 #, c-format
 msgid "found version %s and arch %d ..."
-msgstr ""
+msgstr "tìm thấy phiên bản %s và arch %d ..."
 
 #: ../urpmi.addmedia:148
 #, c-format
@@ -1833,9 +1858,9 @@ msgid "  -a             - select all media.\n"
 msgstr "  -a             - chọn toàn bộ các phương tiện.\n"
 
 #: ../urpmi.removemedia:44
-#, fuzzy, c-format
+#, c-format
 msgid "  -y             - fuzzy match on media names.\n"
-msgstr "  -a             - chọn toàn bộ các tương hợp trong dòng lệnh.\n"
+msgstr "  -y             - so khớp mơ hồ ở tên phương tiện.\n"
 
 #: ../urpmi.removemedia:47
 #, c-format
@@ -1847,9 +1872,9 @@ msgstr ""
 "tùy chọn không xác định '%s'\n"
 
 #: ../urpmi.removemedia:53
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to remove media"
-msgstr "Chỉ cho phép người dùng cao cấp được cài đặt các gói"
+msgstr "Chỉ có người dùng cao cấp được phép gỡ bỏ phương tiện"
 
 #: ../urpmi.removemedia:63
 #, c-format
@@ -1890,9 +1915,9 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - chọn toàn bộ các phương tiện lắp trong.\n"
 
 #: ../urpmi.update:62
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to update media"
-msgstr "Chỉ cho phép người dùng cao cấp được cài đặt các gói"
+msgstr "Chỉ có người dùng cao cấp được phép cập nhật phương tiện"
 
 #: ../urpmi.update:70
 #, c-format
@@ -1909,7 +1934,7 @@ msgstr ""
 "(một mục của %s)\n"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2004 Mandrakesoft.\n"
@@ -1918,8 +1943,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"Phiên bản urpmf %s\n"
-"Bản quyền (C) 2002 Mandrakesoft.\n"
+"Phiên bản urpmq %s\n"
+"Bản quyền (C) 2000-2004 Mandrakesoft.\n"
 "Đây là phần mềm miễn phí và có thể phân phối lại theo các điều khoản của GNU "
 "GPL.\n"
 "\n"
@@ -2008,15 +2033,15 @@ msgid "  -c             - complete output with package to be removed.\n"
 msgstr "  -c             - hoàn thành output với gói sẽ được gỡ bỏ.\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  -p             - search in provides to find package.\n"
-msgstr "  -p             - cho phép tìm gói tin trong số các nhà cung cấp.\n"
+msgstr "  -p             - tìm gói tin từ các nhà cung cấp.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -P             - do not search in provides to find package (default).\n"
-msgstr "  -P             - không tìm các nhà cung cấp để kiếm gói tin.\n"
+msgstr "  -P             - không tìm gói tin từ các nhà cung cấp (mặc định).\n"
 
 #: ../urpmq:83
 #, c-format
@@ -2024,9 +2049,9 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - đảo ngược tìm kiếm cho cái yêu cầu gói.\n"
 
 #: ../urpmq:85
-#, fuzzy, c-format
+#, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
-msgstr "  -a             - chọn toàn bộ các tương hợp trong dòng lệnh.\n"
+msgstr "  -Y             - giống -y, nhưng ép buộc phải khớp chứ hoa thường.\n"
 
 #: ../urpmq:87
 #, c-format
@@ -2061,157 +2086,14 @@ msgstr "--list-nodes chỉ được dùng với --parallel"
 #: ../urpmq:331
 #, c-format
 msgid "skipping media %s: no hdlist\n"
-msgstr ""
+msgstr "bỏ qua phương tiện %s: không có hdlist\n"
 
 #: ../urpmq:392
 #, c-format
 msgid "No filelist found\n"
-msgstr ""
+msgstr "Không thấy filelist\n"
 
 #: ../urpmq:402
 #, c-format
 msgid "No changelog found\n"
-msgstr ""
-
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "phương tiện ảo phải là cục bộ "
-
-#~ msgid ""
-#~ "urpme version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "Phiên bản urpmi %s\n"
-#~ "Bản quyền (C) 1999 - 2002 Mandrakesoft.\n"
-#~ "Đây là phần mềm tự do và có thể phân phối lại theo các điều khoản của GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "cách dùng:\n"
-
-#~ msgid ""
-#~ "urpmi version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "Phiên bản urpmi %s\n"
-#~ "Bản quyền (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "Đây là phần mềm miễn phí và có thể phân phối lại theo các điều khoản của "
-#~ "GNU GPL.\n"
-#~ "\n"
-#~ "sử dụng:\n"
-
-#~ msgid "syntax error in config file at line %s"
-#~ msgstr "lỗi cú pháp trong tập cấu hình tại dòng %s"
-
-#~ msgid ""
-#~ "unable to take care of medium \"%s\" as list file is already used by "
-#~ "another medium"
-#~ msgstr ""
-#~ "không thể quản lý phương tiện \"%s\" vì tập tin danh sách đã được phương "
-#~ "tiện khác dùng rồi"
-
-#~ msgid ""
-#~ "unable to use name \"%s\" for unnamed medium because it is already used"
-#~ msgstr ""
-#~ "không thể dùng tên \"%s\" cho phương tiện chưa có tên vì nó đã được dùng "
-#~ "rồi"
-
-#~ msgid ""
-#~ "unable to take medium \"%s\" into account as no list file [%s] exists"
-#~ msgstr ""
-#~ "không nhận được phương tiện \"%s\" vào tài khoản do không tồn tại tập tin "
-#~ "danh sách [%s]"
-
-#~ msgid "unable to determine medium of this hdlist file [%s]"
-#~ msgstr ""
-#~ "không thể xác định phương tiện của tập tin danh sách đĩa cứng (hdlist) [%"
-#~ "s]"
-
-#~ msgid "One of the following packages is needed to install %s:"
-#~ msgstr "Cần một gói trong các gói %s sau đây để cài đặt:"
-
-#~ msgid ""
-#~ "urpmq version %s\n"
-#~ "Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "Phiên bản urpmq %s\n"
-#~ "Bản quyền (C) 2000, 2001,2002 Mandrakesoft.\n"
-#~ "Đây là phần mềm miễn phí và có thể phân phối lại theo các điều khoản của "
-#~ "GNU GPL.\n"
-#~ "\n"
-#~ "sử dụng:\n"
-
-#~ msgid "Unknown webfetch `%s' !!!\n"
-#~ msgstr "Webfetch không xác định `%s' !!!\n"
-
-#~ msgid "copy failed: %s"
-#~ msgstr "không sao chép được: %s"
-
-#~ msgid "wget is missing\n"
-#~ msgstr "thiếu wget\n"
-
-#~ msgid "wget failed: exited with %d or signal %d\n"
-#~ msgstr "wget hỏng: đi ra với %d hoặc signal %d\n"
-
-#~ msgid "curl is missing\n"
-#~ msgstr "thiếu curl\n"
-
-#~ msgid "curl failed: exited with %d or signal %d\n"
-#~ msgstr "curl hỏng: đi ra với %d hay signal %d\n"
-
-#~ msgid "rsync is missing\n"
-#~ msgstr "đang thiếu rsync\n"
-
-#~ msgid "rsync failed: exited with %d or signal %d\n"
-#~ msgstr "Không rsync được: đi ra với %d hay signal %d\n"
-
-#~ msgid "ssh is missing\n"
-#~ msgstr "đang thiếu ssh\n"
-
-#~ msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpme: tùy chọn không xác định \"-%s\", xem cách dùng bằng --help\n"
-
-#~ msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpmi: tùy chọn không xác định \"-%s\", xem cách dùng bằng --help\n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "no need to give <relative path of hdlist> with --distrib"
-#~ msgstr ""
-#~ "%s\n"
-#~ "không cần cho --distrib vào với <đường dẫn liên quan của hdlist>"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "<relative path of hdlist> missing\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "thiếu <đường dẫn liên quan của hdlist> \n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "`with' missing for network media\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "thiếu `with' cho phương tiện mạng\n"
-
-#~ msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpmq: tùy chọn không xác định \"-%s\", xem cách dùng bằng --help\n"
-
-#~ msgid "no webfetch (curl or wget currently) found\n"
-#~ msgstr "không tìm thấy webfetch (hiện là curl hay wget)\n"
-
-#~ msgid ""
-#~ "  -d             - force complete computation of depslist.ordered file.\n"
-#~ msgstr ""
-#~ "  -d             - cố hoàn thành tính toán của tập tin depslist.ordered.\n"
+msgstr "Không thấy changelog\n"
