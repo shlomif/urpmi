@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.9
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,13 @@ fi
 
 
 %changelog
+* Mon Aug 12 2002 François Pons <fpons@mandrakesoft.com> 3.9-7mdk
+- fixed --auto not taken into account for removing or unselecting
+  packages in urpmi.
+- fixed modified flag ignored in urpmi.cfg (may cause side effects
+  as remove media not asked next time urpmi.removemedia is called).
+- added --verify-rpm to urpmi in order to check rpm signature.
+
 * Tue Aug  6 2002 François Pons <fpons@mandrakesoft.com> 3.9-6mdk
 - added --allow-nodeps and --allow-force option to urpmi.
 - globing multiple media name select them all instead of error.

@@ -31,7 +31,6 @@ my $auto_select = 0;
 my $force = 0;
 my $allow_nodeps = 0;
 my $allow_force = 0;
-my $force = 0;
 my $sync = undef;
 my $X = 0;
 my $WID = 0;
@@ -46,6 +45,7 @@ my $root = '';
 my $bug = '';
 my $env = '';
 my $log = '';
+my $verify_rpm = '';
 
 my $uid;
 my @files;
@@ -87,6 +87,7 @@ usage:
 ") . _("  --X            - use X interface.
 ") . _("  --best-output  - choose best interface according to the environment:
                    X or text mode.
+") . _("  --verify-rpm   - verify rpm signature before installation.
 ") . _("  -a             - select all matches on command line.
 ") . _("  -p             - allow search in provides to find package.
 ") . _("  -P             - do not search in provides to find package.
@@ -141,6 +142,7 @@ while (defined($_ = shift @ARGV)) {
     /^--WID$/ and do { push @nextargv, \$WID; next };
     /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && -x "/usr/sbin/grpmi" && system('/usr/X11R6/bin/xtest', '') == 0;
 			       next };
+    /^--verify-rpm$/ and do { $verify_rpm = 1; next };
     /^--comment$/ and do { push @nextargv, undef; next };
     /^--root$/ and do { push @nextargv, \$root; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
@@ -366,32 +368,36 @@ sub ask_choice {
 }
 
 if (%{$state->{ask_unselect} || {}}) {
-    my $list = join "\n", map { scalar $urpm->{depslist}[$_]->fullname } keys %{$state->{ask_unselect}};
-    my $msg = _("Some package requested cannot be installed:\n%s\ndo you agree ?", $list);
-    if ($X) {
-	my $ok = _("Ok");
-	my $cancel = _("Cancel");
-	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
-	$? and exit 0;
-    } else {
-	$noexpr = _("Nn");
-	$yesexpr = _("Yy");
-	message_input($msg . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
-	delete @{$state->{selected}}{keys %{$state->{ask_unselect}}};
+    unless ($auto) {
+	my $list = join "\n", map { scalar $urpm->{depslist}[$_]->fullname } keys %{$state->{ask_unselect}};
+	my $msg = _("Some package requested cannot be installed:\n%s\ndo you agree ?", $list);
+	if ($X) {
+	    my $ok = _("Ok");
+	    my $cancel = _("Cancel");
+	    `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
+	    $? and exit 0;
+	} else {
+	    $noexpr = _("Nn");
+	    $yesexpr = _("Yy");
+	    message_input($msg . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+	}
     }
+    delete @{$state->{selected}}{keys %{$state->{ask_unselect}}};
 }
 if (%{$state->{ask_remove} || {}}) {
-    my $list = join "\n", sort { $a cmp $b } keys %{$state->{ask_remove}};
-    my $msg = _("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list);
-    if ($X) {
-	my $ok = _("Ok");
-	my $cancel = _("Cancel");
-	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
-	$? and exit 0;
-    } else {
-	$noexpr = _("Nn");
-	$yesexpr = _("Yy");
-	message_input($msg . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+    unless ($auto) {
+	my $list = join "\n", sort { $a cmp $b } keys %{$state->{ask_remove}};
+	my $msg = _("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list);
+	if ($X) {
+	    my $ok = _("Ok");
+	    my $cancel = _("Cancel");
+	    `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
+	    $? and exit 0;
+	} else {
+	    $noexpr = _("Nn");
+	    $yesexpr = _("Yy");
+	    message_input($msg . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+	}
     }
 }
 
@@ -471,8 +477,36 @@ my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 
 					      });
 my %sources_install = %{$urpm->extract_packages_to_install(\%sources) || {}};
 
-
 if (%sources_install || %sources) {
+    if ($verify_rpm) {
+	my @invalid_sources;
+
+	foreach (values %sources_install, values %sources) {
+	    URPM::verify_rpm($_) =~ /NOT OK/ and push @invalid_sources, $_;
+	}
+
+	if (@invalid_sources) {
+	    my $msg = _("The following packages have bad signatures");
+	    my $msg2 = _("Do you want to continue installation ?");
+	    my $p = join "\n", @invalid_sources;
+	    if ($auto) {
+		message("$msg:\n$p\n", 'noX');
+		exit 1;
+	    } else {
+		if ($X) {
+		    my $ok = _("Ok");
+		    my $cancel = _("Cancel");
+		    `gmessage -default $cancel -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
+		    $? and exit 1;
+		} else {
+		    $noexpr = _("Nn");
+		    $yesexpr = _("Yy");
+		    message_input("$msg:\n$p\n$msg2" . _(" (y/N) ")) =~ /[$yesexpr]/ or exit 1;
+		}
+	    }
+	}
+    }
+
     message(_("installing %s\n", join(' ', values %sources_install, values %sources)));
     log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
     #- check for local files.

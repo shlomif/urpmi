@@ -332,7 +332,7 @@ sub read_config {
 		/^update\s*$/ and $medium->{update} = 1, next;
 		/^ignore\s*$/ and $medium->{ignore} = 1, next;
 		/^synthesis\s*$/ and $medium->{synthesis} = 1, next;
-		/^modified\s*$/ and $medium->{modified} = 1, next;
+		/^modified\s*$/ and next; # IGNORED TO AVOID EXCESIVE REMOVE $medium->{modified} = 1, next;
 		$_ eq '}' and last;
 		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
 	    }
