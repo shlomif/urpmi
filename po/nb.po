@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-nb\n"
 "POT-Creation-Date: 2003-08-12 17:42+0200\n"
-"PO-Revision-Date: 2003-08-11 16:45+0200\n"
+"PO-Revision-Date: 2003-08-11 21:59+0200\n"
 "Last-Translator: Per Øyvind Karlsen <peroyvind@sintrax.net>\n"
 "Language-Team: Norwegian Bokmål <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -80,15 +80,14 @@ msgid "Everything already installed"
 msgstr "Alt er allerede installert"
 
 #: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - clean headers cache directory.\n"
+msgstr "  -c             - rengjør hodecache-katalog.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --provides     - print tag provides: all provides.\n"
-msgstr ""
-"  --provides     - print tag provides: all provides (multiple lines).\n"
+msgstr "  --provides     - vis etikett provides: alle tilbud (flere linjer).\n"
 
 #: ../urpmi:1
 #, c-format
@@ -140,11 +139,12 @@ msgid "unable to inspect list file for \"%s\", medium ignored"
 msgstr "kunne ikke inspisere liste-fil for \"%s\", medium ignorert"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -o             - binary OR operator, true if one expression is true.\n"
 msgstr ""
-"  -o             - binary OR operator, true if one expression is true.\n"
+"  -o             - binær ELLER operatør, sann hvis en av uttrykkene er "
+"sanne.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -345,7 +345,7 @@ msgstr "  --list         - lister opp tilgjengelige pakker.\n"
 #: ../urpmf:1
 #, c-format
 msgid "  --all          - print all tags.\n"
-msgstr "  --all           - vis alle etiketter.\n"
+msgstr "  --all          - vis alle etiketter.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -392,6 +392,10 @@ msgid ""
 "                   are going to be installed or upgraded,\n"
 "                   default is %d.\n"
 msgstr ""
+"  --split-level  - splitt opp i små transaksjoner hvis flere enn gitte "
+"pakker\n"
+"                   skal bli installert eller oppgradert,\n"
+"                   standard er %d.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -429,6 +433,9 @@ msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+"  --keep         - behold eksisterende pakker hvis mulig, avvis forespurte "
+"pakker\n"
+"                   som fører til fjerning.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -455,10 +462,10 @@ msgstr ""
 "                   sjekking av avhengigheter.\n"
 
 #: ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print usefull information in human readeable form.\n"
 msgstr ""
-"  -r             - vis verdigfull informasjon i menneskelig lesbart format.\n"
+"  -i             - vis verdigfull informasjon i menneskelig lesbart format.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -481,7 +488,7 @@ msgid "  --noclean      - keep rpm not used in cache.\n"
 msgstr "  --noclean      - behold rpm som ikke er brukt i cache.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
@@ -496,7 +503,7 @@ msgstr "md5sum stemmer ikke overens"
 #: ../urpm.pm:1
 #, c-format
 msgid "syntax error in config file at line %s"
-msgstr "syntaks feil i konfigurasjonsfil ved linje %s"
+msgstr "syntaksfeil i konfigurasjonsfil ved linje %s"
 
 #: ../urpmi:1
 #, c-format
@@ -523,9 +530,11 @@ msgid "relocated %s entries in depslist"
 msgstr "fant igjen %s oppføringer i depsliste"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - ignore case distinctions in every pattern.\n"
-msgstr "  -i             - ignore case distinctions in every pattern.\n"
+msgstr ""
+"  -i             - ignorer forskjell mellom små og store bokstaver i hver "
+"søkestreng.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -543,9 +552,9 @@ msgid "retrieving mirrors at %s ..."
 msgstr "mottar speil fra %s ..."
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --url          - print tag url: url.\n"
-msgstr "  --serial        - vis etikett url: url.\n"
+msgstr "  --serial        - vis etikett serial: serienummer.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -558,10 +567,10 @@ msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - skriv ut versjon og utgivelse også med navn.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgstr ""
-"  --obsoletes    - vis etikett obsoletes: alle obsoletes (flere linjer).\n"
+"  --obsoletes    - vis etikett obsoletes: alle erstatninger (flere linjer).\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -671,11 +680,11 @@ msgid "Installing package `%s' (%s/%s)..."
 msgstr "Installerer pakke `%s' (%s/%s)..."
 
 #: ../urpmi.update:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -d             - force complete computation of depslist.ordered file.\n"
 msgstr ""
-"  -d             - force complete computation of depslist.ordered file.\n"
+"  -d             - tving fullstendig utregning av depslist.ordered-fil.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -809,13 +818,13 @@ msgid "using different removable device [%s] for \"%s\""
 msgstr "bruker forskjellige fjernbare enheter [%s] for \"%s\""
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --no-probe     - do not try to find any synthesis or\n"
 "                   hdlist file.\n"
 msgstr ""
-"  -h             - prøv å finn og bruk synthesis eller hdlist\n"
-"                   filen.\n"
+"  --no-probe     - ikke prøv å finn noe synthesis- eller\n"
+"                   hdlist-fil.\n"
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1027,7 +1036,7 @@ msgstr "  --probe-synthesis - prøv å finn og bruk synthesis-filen.\n"
 #: ../urpmi:1
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr "  --synthesis    - bruke det gitte synthesis i stedet for urpmi db.\n"
+msgstr "  --synthesis    - bruk det gitte synthesis i stedet for urpmi db.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1312,13 +1321,13 @@ msgid "  -d             - extend query to package dependencies.\n"
 msgstr "  -d             - utvid forespørsel til pakkeavhengigheter.\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-"  --bug          - output a bug report in directory indicated by\n"
-"                   next arg.\n"
+"  --bug          - skriv ut en feilrapport i katalog indikert av\n"
+"                   neste argument.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1341,15 +1350,14 @@ msgid "copy failed: %s"
 msgstr "kopiering mislykket: %s"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr "  --group        - print tag group: group.\n"
+msgstr "  --sourcerpm    - vis etikett sourcerpm: kilderpm.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --requires     - print tag requires: all requires.\n"
-msgstr ""
-"  --requires     - print tag requires: all requires (multiple lines).\n"
+msgstr "  --requires     - vis etikett requires: alle avhengigheter.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1367,9 +1375,9 @@ msgid "trying to select nonexistent medium \"%s\""
 msgstr "prøver å velge ikke-eksisterende medium \"%s\""
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --description  - print tag description: description.\n"
-msgstr "  --description  - print tag description: description.\n"
+msgstr "  --description  - vis etikett description: beskrivelse.\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1431,6 +1439,8 @@ msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
 "                   only file:// protocol is allowed.\n"
 msgstr ""
+"  --virtual      - lag virtuelt media som alltid er oppdatert,\n"
+"                   bare file:// protokoll er tillatt.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1482,9 +1492,9 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "kunne ikke opprette medium \"%s\"\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --packager     - print tag packager: packager.\n"
-msgstr "  --packager    - vis tagg packager: pakker.\n"
+msgstr "  --packager    - vis etikett packager: pakker.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1498,12 +1508,12 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
-msgstr "kan ikke få tilgang til filen til \"%s\", medium ignorert"
+msgstr "kan ikke få tilgang til liste-fil av \"%s\", medium ignorert"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr "  )              - right parenthesis to close group expression.\n"
+msgstr "  )              - høyre parantes for å lukke gruppeuttrykk.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1521,7 +1531,7 @@ msgid "virtual medium \"%s\" should have a clear url, medium ignored"
 msgstr "virtuelt medium \"%s\" burde ha en klar url, medium ignorert"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
 msgstr "  --buildhost    - vis etikett buildhost: byggevert.\n"
 
@@ -1615,9 +1625,9 @@ msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - skriv ut grupper også med navn.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "...importing pubkey file of \"%s\""
-msgstr "kunne ikke importere pubkey fil av \"%s\""
+msgstr "...importerer pubkey fil av \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1642,12 +1652,12 @@ msgstr "kunne ikke finne hdlist-fil for \"%s\", media ignorert"
 #: ../urpmi:1
 #, c-format
 msgid "  --split-length - small transaction length, default is %d.\n"
-msgstr ""
+msgstr "  --split-length - liten transaksjonslengde, standard er %d.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr "  (              - left parenthesis to open group expression.\n"
+msgstr "  (              - venstre parantes for å åpne gruppeuttrykk.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1655,11 +1665,11 @@ msgid "too many mount points for removable medium \"%s\""
 msgstr "for mange monteringspunkter for fjernbart medium \"%s\""
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr ""
-"  -a             - binary AND operator, true if both expression are true.\n"
+"  -a             - binær ELLER operatør, sann hvis begge uttrykk er sanne.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1668,6 +1678,9 @@ msgid ""
 "this could happen if you mounted manually the directory when creating the "
 "medium."
 msgstr ""
+"klarte ikke å få tilgang til\"%s\",\n"
+"dette kan ha skjedd hvis du monterte katalogen manuelt når mediumet ble "
+"opprettet."
 
 #: ../urpmf:1
 #, c-format
@@ -1685,13 +1698,13 @@ msgid "unable to create transaction"
 msgstr "kunne ikke opprette transaksjon"
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
 "%s\n"
-"<relative path of hdlist> mangler\n"
+"<relative sti til hdlist> mangler\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1719,9 +1732,9 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - velg alle ikke-fjernbare media.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr "  --epoch        - print tag epoch: epoch.\n"
+msgstr "  --epoch        - vis etikett epoch: epoke.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1743,9 +1756,9 @@ msgid "  --update       - create an update medium.\n"
 msgstr "  --update       - opprett et oppdateringsmedium.\n"
 
 #: ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr "  -y             - impose fuzzy search (same as --fuzzy).\n"
+msgstr "  -y             - pålegg uklart søk (samme som --fuzzy).\n"
 
 #: ../_irpm:1 ../urpmi:1
 #, c-format
@@ -1774,9 +1787,9 @@ msgstr ""
 "                   eller alt annet som har blitt konfigurert ;-)\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --size         - print tag size: size.\n"
-msgstr "  --size         - print tag size: size.\n"
+msgstr "  --size         - vis etikett size: størrelse.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1784,9 +1797,9 @@ msgid "in order to keep %s"
 msgstr "for å kunne beholde %s"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "due to unsatisfied %s"
-msgstr "due to unsatisfied %s"
+msgstr "pga. utilfredsstilt %s"
 
 #: ../_irpm:1
 #, c-format
@@ -1813,14 +1826,14 @@ msgid "taking removable device as \"%s\""
 msgstr "tar fjernbar enhet som \"%s\""
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "examining pubkey file of \"%s\"..."
-msgstr "mottar fil med beskrivelse av \"%s\"..."
+msgstr "mottar pubkey-fil med beskrivelse av \"%s\"..."
 
 #: ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
-msgstr "  --fuzzy        - pålegge fuzzy søk (samme som -y).\n"
+msgstr "  --fuzzy        - pålegge uklart søk (samme som -y).\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1834,12 +1847,12 @@ msgstr ""
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
-msgstr ""
+msgstr "  --probe-hdlist - prøv å finne og bruke hdlist-fil.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "due to missing %s"
-msgstr "due to missing %s"
+msgstr "pga. manglende %s"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1847,13 +1860,13 @@ msgid "  --update       - use only update media.\n"
 msgstr "  --update       - bruk bare oppdateringsmedia.\n"
 
 #: ../urpmi.update:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.update [options] <name> ...\n"
 "where <name> is a medium name to update.\n"
 msgstr ""
-"bruk: urpmi.removemedia [-a] <name> ...\n"
-"hvor <name> er et medium navn å oppdatere.\n"
+"bruk: urpmi.update [valg] <navn> ...\n"
+"hvor <navn> er et mediumnavn som skal oppdateres.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1861,11 +1874,11 @@ msgid "trying to bypass existing medium \"%s\", avoiding"
 msgstr "prøver å gå forbi eksisterende medium \"%s\", unngår"
 
 #: ../urpme:1 ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
-"  --test         - verify if the installation can be achieved correctly.\n"
+"  --test         - kontroller at installasjonen kan bli riktig gjennomført.\n"
 
 #~ msgid "urpmf version %s"
 #~ msgstr "urpmf versjon %s"
@@ -1920,12 +1933,10 @@ msgstr ""
 #~ msgid "  --description   - print tag description: description."
 #~ msgstr "  --description   - vis etikett description: beskrivelse."
 
-#, fuzzy
 #~ msgid ""
 #~ "  --provides      - print tag provides: all provides (multiple lines)."
 #~ msgstr ""
-#~ "  --provides      - vis etikett provides: all print tag provides: all "
-#~ "provides (multiple lines)."
+#~ "  --provides      - vis etikett provides: alle tilbud (flere linjer)."
 
 #~ msgid ""
 #~ "  --requires      - print tag requires: all requires (multiple lines)."
@@ -1941,17 +1952,16 @@ msgstr ""
 #~ msgstr ""
 #~ "  --conflicts     - vis etikett conflicts: alle konflikter (flere linjer)."
 
-#, fuzzy
 #~ msgid ""
 #~ "  --obsoletes     - print tag obsoletes: all obsoletes (multiple lines)."
 #~ msgstr ""
-#~ "  --obsoletes     - vis etikett obsoletes: alle obsoletes (multiple "
+#~ "  --obsoletes     - vis etikett obsoletes: alle erstatninger (multiple "
 #~ "lines)."
 
-#, fuzzy
 #~ msgid "  --prereqs       - print tag prereqs: all prereqs (multiple lines)."
 #~ msgstr ""
-#~ "  --prereqs       - print tag prereqs: all prereqs (multiple lines)."
+#~ "  --prereqs       - vis etikett prereqs: alle forhåndsavhengigheter "
+#~ "(flere linjer)."
 
 #~ msgid "try urpmf --help for more options"
 #~ msgstr "prøv urpmf --help for flere valg"
