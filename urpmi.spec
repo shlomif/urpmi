@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 39mdk
+Release: 40mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Tue Oct 21 2003 François Pons <fpons@mandrakesoft.com> 4.4-40mdk
+- fixed invalid signature checking when using --media on first
+  package listed.
+
 * Tue Oct  7 2003 François Pons <fpons@mandrakesoft.com> 4.4-39mdk
 - fixed names.XXX file not always regenerated.
 
