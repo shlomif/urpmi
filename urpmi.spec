@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 17mdk
+Release: 18mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Fri Aug  1 2003 François Pons <fpons@mandrakesoft.com> 4.4-18mdk
+- fixed shared locks management by simple user.
+
 * Fri Aug  1 2003 François Pons <fpons@mandrakesoft.com> 4.4-17mdk
 - fixed shared locks management (were always exclusive).
 
