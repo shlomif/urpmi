@@ -169,6 +169,9 @@ sub sync_wget {
     -x "/usr/bin/wget" or die N("wget is missing\n");
     local *WGET;
     my $options = shift @_;
+    #- force download to be done in cachedir to avoid polluting cwd.
+    my $cwd = `pwd`; chomp $cwd;
+    chdir(ref($options) ? $options->{dir} : $options);
     my ($buf, $total, $file) = ('', undef, undef);
     open WGET, join(" ", map { "'$_'" } "/usr/bin/wget",
 		    (ref($options) && $options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
@@ -203,12 +206,15 @@ sub sync_wget {
 	}
     }
     $file and propagate_sync_callback($options, 'end', $file);
+    chdir $cwd;
     close WGET or die N("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 sub sync_curl {
     -x "/usr/bin/curl" or die N("curl is missing\n");
     local *CURL;
     my $options = shift @_;
+    #- force download to be done in cachedir to avoid polluting cwd,
+    #- howerver for curl, this is mandatory.
     my $cwd = `pwd`; chomp $cwd;
     chdir(ref($options) ? $options->{dir} : $options);
     my (@ftp_files, @other_files);
@@ -302,6 +308,9 @@ sub sync_curl {
 sub sync_rsync {
     -x "/usr/bin/rsync" or die N("rsync is missing\n");
     my $options = shift @_;
+    #- force download to be done in cachedir to avoid polluting cwd.
+    my $cwd = `pwd`; chomp $cwd;
+    chdir(ref($options) ? $options->{dir} : $options);
     my $limit_rate = ref($options) && $options->{limit_rate};
     for ($limit_rate) {
 	/^(\d+)$/     and $limit_rate = int $1/1024;
@@ -339,12 +348,16 @@ sub sync_rsync {
 	} while ($? != 0 && --$count > 0 && -e (ref($options) ? $options->{dir} : $options) . "/$basename");
 	propagate_sync_callback($options, 'end', $file);
     }
+    chdir $cwd;
     $? == 0 or die N("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 sub sync_ssh {
     -x "/usr/bin/rsync" or die N("rsync is missing\n");
     -x "/usr/bin/ssh" or die N("ssh is missing\n");
     my $options = shift @_;
+    #- force download to be done in cachedir to avoid polluting cwd.
+    my $cwd = `pwd`; chomp $cwd;
+    chdir(ref($options) ? $options->{dir} : $options);
     my $limit_rate = ref($options) && $options->{limit_rate};
     for ($limit_rate) {
 	/^(\d+)$/     and $limit_rate = int $1/1024;
@@ -381,6 +394,7 @@ sub sync_ssh {
 	} while ($? != 0 && --$count > 0 && -e (ref($options) ? $options->{dir} : $options) . "/$basename");
 	propagate_sync_callback($options, 'end', $file);
     }
+    chdir $cwd;
     $? == 0 or die N("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 #- default logger suitable for sync operation on STDERR only.
@@ -530,6 +544,16 @@ sub read_config {
 	      $_->{ignore} = 1, $urpm->{error}(N("unable to access list file of \"%s\", medium ignored", $_->{name}));
 	}
     }
+
+    local *MD5SUM;
+    open MD5SUM, "$urpm->{statedir}/MD5SUM";
+    while (<MD5SUM>) {
+	my ($md5sum, $file) = /(\S*)\s+(.*)/;
+	foreach (@{$urpm->{media}}) {
+	    ($_->{synthesis} && "synthesis.").$_->{hdlist} eq $file and $_->{md5sum} = $md5sum, last;
+	}
+    }
+    close MD5SUM;
 }
 
 #- probe medium to be used, take old medium into account too.
@@ -659,8 +683,9 @@ sub write_config {
     #- avoid trashing exiting configuration in this case.
     $urpm->{media} or return;
 
-    local *F;
+    local (*F, *MD5SUM);
     open F, ">$urpm->{config}" or $urpm->{fatal}(6, N("unable to write config file [%s]", $urpm->{config}));
+    open MD5SUM, ">$urpm->{statedir}/MD5SUM";
     if (%{$urpm->{options} || {}}) {
 	printf F "{\n";
 	while (my ($k, $v) = each %{$urpm->{options}}) {
@@ -670,14 +695,16 @@ sub write_config {
     }
     foreach my $medium (@{$urpm->{media}}) {
 	printf F "%s %s {\n", quotespace($medium->{name}), quotespace($medium->{clear_url});
-	foreach (qw(hdlist with_hdlist list removable md5sum key-ids)) {
+	foreach (qw(hdlist with_hdlist list removable key-ids)) {
 	    $medium->{$_} and printf F "  %s: %s\n", $_, $medium->{$_};
 	}
+	$medium->{md5sum} and print MD5SUM "$medium->{md5sum}  ".($medium->{synthesis} && "synthesis.").$medium->{hdlist}."\n";
 	foreach (qw(update ignore synthesis modified virtual)) {
 	    $medium->{$_} and printf F "  %s\n", $_;
 	}
 	printf F "}\n\n";
     }
+    close MD5SUM;
     close F;
     $urpm->{log}(N("write config file [%s]", $urpm->{config}));
 

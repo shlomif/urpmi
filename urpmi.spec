@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 26mdk
+Release: 27mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Thu Aug 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-27mdk
+- update /var/lib/urpmi/MD5SUM for managing md5sum of files.
+- make sure cwd is changed when downloading to cache directory.
+
 * Tue Aug 26 2003 François Pons <fpons@mandrakesoft.com> 4.4-26mdk
 - added -z for rsync:// protocol by default.
 - fixed some cosmetic log glitches when progressing download.
