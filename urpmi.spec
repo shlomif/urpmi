@@ -205,6 +205,7 @@ $urpm->update_media(nolock => 1);
 * Mon Aug 11 2003 François Pons <fpons@mandrakesoft.com> 4.4-20mdk
 - fixed bug 4637 and add reason for removing package in urpme.
 - fixed handling of pubkey file.
+- fixed proxy typo when using curl (Guillaume).
 
 * Wed Aug  6 2003 François Pons <fpons@mandrakesoft.com> 4.4-19mdk
 - fixed local package not found when using curl and without an
