@@ -1,0 +1,1997 @@
+# translation of urpmi.po to Hindi, India
+# This file is distributed under the same license as the PACKAGE package.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# Dhananjaya Sharma <dysxhi@yahoo.co.in>, 2003
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: urpmi\n"
+"POT-Creation-Date: 2003-06-28 23:02+0200\n"
+"PO-Revision-Date: 2003-06-29 14:28+0530\n"
+"Last-Translator: धनंजय शर्मा (Dhananjaya Sharma) <dysxhi@yahoo.co.in>\n"
+"Language-Team: हिन्दी, भारत (Hindi, India) <dysxhi@yahoo.co.in>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.0.1\n"
+
+#. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
+#. you can put here the letters for 'yes' for your language, so people
+#. can hit those keys in their keyboard to reply.
+#. please keep the 'Yy' for compatibility reasons
+#.
+#: placeholder.h:11
+msgid "Yy"
+msgstr "Yy"
+
+#. This is a list of chars acceptable as a 'no' answer to a Yes/No question;
+#. you can put here the letters for 'no' for your language, so people
+#. can hit those keys in their keyboard to reply.
+#. please keep the 'Nn' for compatibility reasons
+#.
+#: placeholder.h:17
+msgid "Nn"
+msgstr "Nn"
+
+#: placeholder.h:18
+#, c-format
+msgid "urpmf version %s"
+msgstr "यू०आर०पी०एम०एफ़० संस्मरण %s"
+
+#: placeholder.h:19
+msgid "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft."
+msgstr "॥ सर्वाधिकार © १९९९, २०००, २००१, २००२ मैनड्रैकसॉफ़्ट ॥"
+
+#: placeholder.h:20
+msgid ""
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL."
+msgstr ""
+"यह एक मुक्त सॉफ़्टवेयर है और जी०एन०यू० सामान्य जन अधिकार-पत्र के अन्तर्गत पुनः वितरित "
+"किया जा सकता है।"
+
+#: placeholder.h:21 placeholder.h:38
+msgid "usage: urpmf [options] <file>"
+msgstr "उपयोग विधि: urpmf [विकल्प] <संचिका>"
+
+#: placeholder.h:22
+msgid ""
+"  --quiet         - do not print tag name (default if no tag given on command"
+msgstr ""
+"  --quiet         - टैग का नाम मुद्रित ना करें (सामान्यता, यदि कोई टैग निर्देश वाक्य के "
+"साथ ना दिया हो,"
+
+#: placeholder.h:23
+msgid "                    line, incompatible with interactive mode)."
+msgstr "                   परस्पर संपर्क (इन्टर-ऐक्टिव) मोड के साथ अयोग्य)"
+
+#: placeholder.h:24
+msgid "  --all           - print all tags."
+msgstr "--all           - सभी टैगों को मुद्रित करें"
+
+#: placeholder.h:25
+msgid ""
+"  --name          - print tag name: rpm filename (assumed if no tag given on"
+msgstr ""
+"  --name         - टैग का नाम मुद्रित करें: आर०पी०एम० संचिका नाम (मानो यदि कोई टैग "
+"निर्देश वाक्य पर ना दिया हो"
+
+#: placeholder.h:26
+msgid "                    command line but without package name)."
+msgstr "                    परन्तु बिना पैकेज नाम के)"
+
+#: placeholder.h:27
+msgid "  --group         - print tag group: group."
+msgstr "  --group         - टैग समूह को मुद्रित करें: समूह"
+
+#: placeholder.h:28
+msgid "  --size          - print tag size: size."
+msgstr " --size          - टैग आकार को मुद्रित करें: आकार"
+
+#: placeholder.h:29
+msgid "  --serial        - print tag serial: serial."
+msgstr "--serial        - टैग की क्रम संख्या मुद्रित करें: क्रमांक"
+
+#: placeholder.h:30
+msgid "  --summary       - print tag summary: summary."
+msgstr " --summary      - टैग सारांश को मुद्रित करें: सारांश"
+
+#: placeholder.h:31
+msgid "  --description   - print tag description: description."
+msgstr " --description   - टैग का विवरण मुद्रित करें: विवरण"
+
+#: placeholder.h:32
+msgid "  --provides      - print tag provides: all provides (multiple lines)."
+msgstr " --provides      - टैग की उपलब्धियां मुद्रित करें: सभी उपलब्धियां (बहु-वाक्य)"
+
+#: placeholder.h:33
+msgid "  --requires      - print tag requires: all requires (multiple lines)."
+msgstr " --requires      - टैग की आवश्यकताऐं मुद्रित करें: सभी आवश्यकताऐं (बहु-वाक्य)"
+
+#: placeholder.h:34
+msgid "  --files         - print tag files: all files (multiple lines)."
+msgstr "--files         - टैग की संचिकाऐं मुद्रित करें: सभी संचिकाऐं (बहु-वाक्य)"
+
+#: placeholder.h:35
+msgid ""
+"  --conflicts     - print tag conflicts: all conflicts (multiple lines)."
+msgstr ""
+"  --conflicts     - टैग के विरोधाभासों को मुद्रित करें: सभी विरोधाभास (बहु-वाक्य)"
+
+#: placeholder.h:36
+msgid ""
+"  --obsoletes     - print tag obsoletes: all obsoletes (multiple lines)."
+msgstr "  --obsoletes     - टैग के अप्रचलितों को मुद्रित करें: सभी लुप्तप्रयोग (बहु-वाक्य)"
+
+#: placeholder.h:37
+msgid "  --prereqs       - print tag prereqs: all prereqs (multiple lines)."
+msgstr ""
+"  --prereqs       - टैग की पूर्वाकांक्षाओं को मुद्रित करें: सभी पूर्वाकांक्षायें (बहु-वाक्य)"
+
+#: placeholder.h:39
+msgid "try urpmf --help for more options"
+msgstr "यू०आर०पी०एम०एफ़० को परखें --help और अधिक विकल्पों के लिए"
+
+#: placeholder.h:40
+msgid "no full media list was found"
+msgstr "सम्पूर्ण मीडीया सूची नहीं मिली"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --distrib      - automatically create all media from an installation\n"
+"                   medium.\n"
+msgstr ""
+"  --distrib      - एक संसाधन माध्यम से सभी मीडीया का स्वतः \n"
+"                   निर्माण करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to open rpmdb"
+msgstr "आर०पी०एम०डी०बी० को खोलने में असमर्थ"
+
+#: ../urpme:1 ../urpmf:1 ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.removemedia:1
+#: ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - यह सहायता संदेश मुद्रित करें\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "One of the following packages is needed to install %s:"
+msgstr "%s को संसाधित करने के लिए, निम्नलिखित पैकेजों में से एक की आवश्यकता है: "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "removing package %s"
+msgstr "%s पैकेज को हटाया जा रहा है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "\"%s\""
+msgstr "\"%s\""
+
+#: ../urpmi:1
+#, c-format
+msgid "Everything already installed"
+msgstr "सभी कुछ पहिले से ही संसाधित है"
+
+#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
+#, c-format
+msgid "  -c             - clean headers cache directory.\n"
+msgstr "  -c             - शीर्ष कैच निर्देशिका को स्वच्छ करें\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --provides     - print tag provides: all provides.\n"
+msgstr "  --provides     -  टैग की उपलब्धियां मुद्रित करें: सभी उपलब्धियां\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "What is your choice? (1-%d) "
+msgstr "आपकी क्या इच्छा है?  (1-%d) "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "found %d headers in cache"
+msgstr "कैच में %d शीर्षक मिलें"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "यहाँ बहुत सारे पैकेज \"%s\" संचिका के समान नाम वाले है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "आधीनताओं की गणना का द्वितीय चरण पूरा किया जा रहा है\n"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --proxy-user   - specify user and password to use for proxy\n"
+"                   authentication (format is <user:password>).\n"
+msgstr ""
+"  --proxy-user   - प्रोक्सी प्रमाणीकरण के लिए उपयोगकर्ता और कूटशब्द बतायें\n"
+"                    (निर्देश देने का तरीका <उपयोगकर्ता:कूटशब्द>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving rpm file [%s] ..."
+msgstr "आर०पी०एम० संचिका [%s] को पुनः प्राप्त किया जा रहा है..."
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list-aliases - list available parallel aliases.\n"
+msgstr "  --list-aliases - उपलब्ध समान्तर नामों को दिखायें\n"
+
+#: ../urpm.pm:1 ../urpmi.addmedia:1
+#, c-format
+msgid "...retrieving failed: %s"
+msgstr "...पुनः प्राप्त करने में असफ़लता: %s "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to inspect list file for \"%s\", medium ignored"
+msgstr "\"%s\" के लिए संचिका-सूची का निरीक्षण करने में असमर्थ,  माध्यम स्वीकार नहीं है"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  -o             - binary OR operator, true if one expression is true.\n"
+msgstr ""
+"  -o             - द्विआधारी \"या\" प्रवर्तक (ऑपरेटर), सत्य यदि एक अभिव्यक्ति सत्य "
+"है\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Package installation..."
+msgstr "पैकेज संसाधित हो रहा है..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "invalid rpm file name [%s]"
+msgstr "अवैध आर०पी०एम० संचिका नाम [%s]"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"%s\n"
+"no need to give <relative path of hdlist> with --distrib"
+msgstr ""
+"%s\n"
+"<हार्डडिस्क सूची का सापेक्ष पथ>  --distrib के साथ देने की कोई आवश्यकता नहीं है"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid "bad proxy declaration on command line\n"
+msgstr "निर्देश वाक्य पर निकृष्ट प्रोक्सी की घोषणा\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "%d installation transactions failed"
+msgstr "%d संसाधन क्रिया-कलाप असफ़ल"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to access first installation medium (no Mandrake/base/hdlists file "
+"found)"
+msgstr "प्रथम संसाधन माध्यम को पाने में असमर्थ(कोई मैनड्रैक/मूल/हार्डडिस्क संचिका नहीं मिली)"
+
+#: ../urpmi:1
+#, c-format
+msgid "Sorry, bad choice, try again\n"
+msgstr "क्षमा करें, खराब पसन्द, पुनः प्रयास करें\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --summary      - print tag summary: summary.\n"
+msgstr "  --summary      - टैग सारांश को मुद्रित करें: सारांश\n"
+
+#: ../urpm.pm:1 ../urpme:1
+#, c-format
+msgid "The following packages contain %s: %s"
+msgstr "निम्नलिखित पैकेज %s को समाहित करते है:  %s"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --X            - use X interface.\n"
+msgstr "  --X            - एक्स (X) इन्टरफ़ेस का उपयोग करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copying source list of \"%s\"..."
+msgstr "\"%s\" की मूल सूची की प्रतिलिपि बनाई जा रही है..."
+
+#: ../urpmi:1
+#, c-format
+msgid "One of the following packages is needed:"
+msgstr "निम्नलिखित पैकेजों में से एक की आवश्यकता है:"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --best-output  - choose best interface according to the environment:\n"
+"                   X or text mode.\n"
+msgstr ""
+"  --best-output  - वातावरण के अनुसार, श्रेष्ठ इन्टरफ़ेस का चयन करें:\n"
+"                   एक्स (X) या गद्य (text) विधि\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Downloading package `%s'..."
+msgstr "`%s' पैकेज को डॉउनलोड किया जा रहा है..."
+
+#: ../urpmi:1
+#, c-format
+msgid "What can be done with binary rpm files when using --install-src"
+msgstr ""
+"द्विआधारी आर०पी०एम० संचिकाओं के साथ क्या किया जा सकता है, जब  --install-src निर्देश "
+"का उपयोग किया जा रहा हो"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - प्रणाली को उन्नयन बनाने के लिए, स्वतः पैकेजों का चयन करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr "%s के चयन के द्वारा, %s को प्रोत्साहित करने का प्रयास किया जा रहा है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no package named %s"
+msgstr "%s नाम का कोई पैकेज नहीं है"
+
+#: ../urpmi:1
+#, c-format
+msgid "  -a             - select all matches on command line.\n"
+msgstr "  -a             - निर्देश वाक्य पर सभी मिलानों को चयन करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is problably not up-to-date, trying to use alternate method"
+msgstr ""
+"\"%s\" माध्यम एक अवैध संचिका सूची का उपयोग कर रहा है\n"
+"दर्पण-स्थल (समरूप प्रणाली) लगता है कि अप-टु-डेट नहीं है। अन्य तरीके को उपयोग करने की "
+"चेष्टा करें"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"Installation failed, some files are missing:\n"
+"%s\n"
+"You may want to update your urpmi database"
+msgstr ""
+"संसाधन असफ़ल, कुछ संचिकाऐं नहीं मिली है:\n"
+"%s\n"
+"आपको अपना यू०आर०पी०एम०आई० डाटाबेस को अपडेट करना चाहिए"
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+msgstr ""
+"उपयोग विधि: urpmi.removemedia [-a] <नाम> ...\n"
+"जहाँ <नाम> एक माध्यम का नाम है जिसे हटाना है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "curl failed: exited with %d or signal %d\n"
+msgstr "कर्ल असफ़ल:  %d के साथ या %d संकेत के साथ निर्गम\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"The installation cannot continue because the following packages\n"
+"have to be removed for others to be upgraded:\n"
+"%s\n"
+msgstr ""
+"संसाधन जारी नहीं रक्खा जा सकता है क्योंकि अन्य पैकेजों को उन्न्त बनाने के लिए\n"
+"निम्नलिखित पैकेजों को हटाना पड़ेगा:\n"
+"%s\n"
+
+#: ../urpme:1
+#, c-format
+msgid "unknown package"
+msgstr "अज्ञात पैकेज"
+
+#: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "Installation is possible"
+msgstr "संसाधन संभव है"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"अन्य पैकजों को उन्नयन करने के लिए, निम्नलिखित पैकेजों हटाना होगा:\n"
+"%s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieve of source hdlist (or synthesis) failed"
+msgstr "स्रोत्र हार्डडिस्क सूची (या कृत्रिम रचना) का पुनः प्राप्त करना असफ़ल"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
+msgstr ""
+"\"%s\" माध्यम को गिनती में लेने में असमर्थ क्योंकि कोई संचिका-सूची [%s] नहीं विद्यमान है"
+
+#: ../urpmi:1
+#, c-format
+msgid " (y/N) "
+msgstr "(हाँ/ना:y/N)"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "cannot add updates of a cooker distribution\n"
+msgstr "एक कुकर वितरण के उन्नयनों (अपडेट्स) को जोड़ा नहीं जा सकता है\n"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -v             - verbose mode.\n"
+msgstr "  -v             - शब्दों का वॄथा प्रयोगिक विधि\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Initializing..."
+msgstr "प्रारंभिकीकरण..."
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list         - list available packages.\n"
+msgstr "  --list         - उपलब्ध पैकेजों को दिखायें\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --all          - print all tags.\n"
+msgstr "  --all          - सभी टैगों को मुद्रित करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "incoherent medium \"%s\" marked removable but not really"
+msgstr "बेमेल माध्यम \"%s\" को हटानेयोग्य चिह्नित किया गया है परन्तु वास्तव में ऐसा नहीं है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"काल्पनिक माध्यम \"%s\" को हार्डडिस्क सूची या सूची संचिका को परिभाषित नहीं करना चाहिए,"
+"माध्यम स्वीकार नहीं है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr ""
+"स्रोत्र हार्डडिस्क सूची (या कृत्रिम रचनाओं) की प्रतिलिपियों की एम०डी०५सम (md5sum) की "
+"गणना की जा रही है"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --excludepath  - exclude path separated by comma.\n"
+msgstr "  --excludepath  - पथ को अलग करें, छोटे विराम चिह्न के द्वारा अलग किये हुए\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Press Enter when ready..."
+msgstr "तैयार होने पर इन्टर (Enter) कुंजी को दबायें..."
+
+#: ../urpmi.addmedia:1 ../urpmi.removemedia:1 ../urpmi.update:1
+#, c-format
+msgid ""
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+"\n"
+"अज्ञात विकल्प '%s'\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+"  --split-level  - छोटे क्रिया-कलापों में विभाजित करें यदि दिए गए पैकेजों से ज्यादा \n"
+"को संसाधित या उन्नयत किया जाना है,\n"
+"                   सामान्य संख्या %d है।\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "rsync is missing\n"
+msgstr "पुनः एकसारीकरण लुप्त है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "\"%s\" माध्यम की हार्डडिस्क सूची संचिका या कृत्रिम संचिका को पढ़ने में सामस्या"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid "  --wget         - use wget to retrieve distant files.\n"
+msgstr ""
+"  --wget         - डबलू०गेट का उपयोग दूर स्थित संचिकाओं को प्राप्त करने के लिए करें\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr ""
+"  -p             - पूर्वनिर्दिष्टों में पैकेज को पाने के लिए खोज की अनुमति प्रदान करें\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list-nodes   - list available nodes when using --parallel.\n"
+msgstr ""
+"  --list-nodes   - उपलब्ध नोडस को दिखायें, जब --parallel विकल्प का उपयोग किया जा "
+"रहा हो\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "हार्डडिस्क-सूची [%s] का निर्माण किया जा रहा है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining MD5SUM file"
+msgstr "एम०डी०५सम (md5sum) संचिका का निरीक्षण किया जा रहा है"
+
+#: ../_irpm:1
+#, c-format
+msgid "%s: command not found\n"
+msgstr "%s: निर्देश नहीं मिला\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to register rpm file"
+msgstr "आर०पी०एम० संचिका का पंजीकरण में असमर्थ"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --allow-nodeps - allow asking user to install packages without\n"
+"                   dependencies checking.\n"
+msgstr ""
+"  --allow-nodeps - उपयोगकर्ता को, पैकेजों को बिना अधिनताओं की जाँच करें,\n"
+"                   संसाधित करने के लिए प्रश्न पूछने की अनुमति प्रदान करें\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -i             - print usefull information in human readeable form.\n"
+msgstr "  -i             - उपयोगी सूचनाओं को मनुष्यों के पढ़ने योग्य फ़ॉर्म में मूद्रित करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to handle protocol: %s"
+msgstr "प्रोटोकॉल: %s को काबू करने में असमर्थ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving hdlists file..."
+msgstr "हार्डडिस्क सूची संचिका को पुनःप्राप्त किया जा रहा है..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "added medium %s"
+msgstr "%s माध्यम को जोड़ा गया"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --noclean      - keep rpm not used in cache.\n"
+msgstr "  --noclean      - ना उपयोग में आने वाले आर०पी०एम० को कैच में रक्खें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
+"%s पर संसाधन करने के लिए कार्य-संपादन का निर्माण किया गया (हटाना=%d, संसाधन=%d, "
+"उन्नयन=%d)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "md5sum mismatch"
+msgstr "एम०डी०५सम (md5sum) बेमेल"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "syntax error in config file at line %s"
+msgstr "संरचना संचिका के वाक्य संख्या %s पर वाक्य-रचना त्रुटि"
+
+#: ../urpmi:1
+#, c-format
+msgid "  names or rpm files given on command line will be installed.\n"
+msgstr "निर्देश वाक्य पर दिये हुए नाम या आर०पी०एम० संचिकाऐं संसाधित की जायेगी\n"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --proxy        - use specified HTTP proxy, the port number is assumed\n"
+"                   to be 1080 by default (format is <proxyhost[:port]>).\n"
+msgstr ""
+"  --proxy        - बतायी गयी एच०टी०टी०पी० प्रोक्सी का उपयोग करें, पोर्ट संख्या की "
+"डिफ़ॉल्ट कल्पना १०८० के रूप में\n"
+"                   कर ली गई है (निर्देश देने का तरीका <प्रोक्सी होस्ट[:पोर्ट]>).\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "in order to install %s"
+msgstr "%s को संसाधित के लिए"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "relocated %s entries in depslist"
+msgstr "डेप्स-सूची में %s प्रविष्टियां पुनः स्थापित  की गई"
+
+#: ../urpmf:1
+#, c-format
+msgid "  -i             - ignore case distinctions in every pattern.\n"
+msgstr "  -i             - सभी प्रतिरूपों में छोटे-बड़े शब्दों का ध्यान ना रखें\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Unable to create directory [%s] for bug report"
+msgstr "दोष रिपोर्ट के लिए, [%s] निर्देशिका का निर्माण करने में असमर्थ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "%s को उन्नयन करने की बजाय संसाधित किया जायेगा"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "retrieving mirrors at %s ..."
+msgstr "समरूप प्रणालियों को %s पर पुनः प्राप्त किया जा रहा है ..."
+
+#: ../urpmf:1
+#, c-format
+msgid "  --url          - print tag url: url.\n"
+msgstr "  --url          - टैग यू०आर०एल० को मुद्रित करें:यू०आर०एल०\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unknown protocol defined for %s"
+msgstr "अज्ञात प्रोटोकॉल %s के लिए परिभाषित"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -r             - print version and release with name also.\n"
+msgstr "  -r             - संस्मरण और विमोचन संख्या को नाम के साथ मुद्रित करें\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
+msgstr "  --obsoletes    - टैग के अप्रचलितों को मुद्रित करें: सभी लुप्तप्रयोग\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "\"%s\" माध्यम पहिले से विद्यमान है"
+
+#: ../_irpm:1
+#, c-format
+msgid "installing %s\n"
+msgstr "%s का संसाधन किया जा रहा है\n"
+
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"the entry to update is missing\n"
+"(one of %s)\n"
+msgstr ""
+"अपडेट की जाने वाली प्रविष्टि लुप्त है\n"
+"(%s में से एक)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to remove package %s"
+msgstr "%s पैकेज को ह्टाने में असमर्थ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "\"%s\" माध्यम की कृत्रिम संचिका को पढ़ने में समस्या"
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid ""
+"the entry to remove is missing\n"
+"(one of %s)\n"
+msgstr ""
+"हटायी जाने वाली प्रविष्टि लुप्त है\n"
+"(%s में से एक)\n"
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid "  -a             - select all media.\n"
+msgstr "  -a             - सभी माध्यमों का चयन करें\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Missing signature (%s)"
+msgstr "विलुप्त हस्ताक्षर (%s)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "आर०पी०एम० संचिकाओं को [%s] से पढ़ने में असमर्थ: %s"
+
+#: ../urpm/parallel_ka_run.pm:1
+#, c-format
+msgid "mput failed, maybe a node is unreacheable"
+msgstr "एमपुट असफ़ल, हो सकता है कि एक नोड पहुंच से दूर हो"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "  --update       - update only update media.\n"
+msgstr "  --update       - सिर्फ़ अपडेट माध्यम को अपडेट करें\n"
+
+#: ../_irpm:1 ../urpme:1 ../urpmi:1
+#, c-format
+msgid " (Y/n) "
+msgstr "(हाँ/ना:Y/n)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr ""
+"\"%s\" माध्यम, एक पहिले से उपयोग की जा रही सूची को उपयोग करने की चेष्टा कर रहा है, "
+"माध्यम स्वीकार नहीं है"
+
+#: ../urpmi:1
+#, c-format
+msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
+msgstr ""
+"यू०आर०पी०एम०आई०: अज्ञात विकल्प \"-%s\", --help के साथ निर्देश देकर उपयोगविधि की जाँच "
+"करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "malformed input: [%s]"
+msgstr "भ्रष्ट इन्पुट:  [%s]"
+
+#: ../urpme:1
+#, c-format
+msgid "removing package %s will break your system"
+msgstr "%s पैकेज को हटाने से आपकी प्रणाली नष्ट हो जायेगी"
+
+#: ../urpmq:1
+#, c-format
+msgid "  --list-media   - list available media.\n"
+msgstr "  --list-media   - उपलब्ध माध्यमों को दिखायें\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr "निवेदन किये हुए कुछ पैकेज संसाधित नहीं किये जा सके:\n"
+"%s"
+
+#: ../urpmi:1
+#, c-format
+msgid "Installing package `%s' (%s/%s)..."
+msgstr "`%s' (%s/%s) पैकेज को संसाधित किया जा रहा है..."
+
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"  -d             - force complete computation of depslist.ordered file.\n"
+msgstr "  -d             - depslist.ordered संचिका की सम्पूर्ण गणना को बलपूर्वक करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no entries relocated in depslist"
+msgstr "डेप्स-सूची में कोई प्रविष्टियां पुनः स्थापित नहीं है"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --install-src  - install only source package (no binaries).\n"
+msgstr "  --install-src  - सिर्फ़ स्रोत्र पैकेज को संसाधित करें (कोई बॉयनरी नहीं)\n"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
+#, c-format
+msgid "  --curl         - use curl to retrieve distant files.\n"
+msgstr "  --curl         - कर्ल का उपयोग दूर स्थित संचिकाओं को प्राप्त करने के लिए करें\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  -e             - include perl code directly as perl -e.\n"
+msgstr "  -e             - पर्ल कोड को perl -e जैसे सीधे सम्मलित\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr "क्या आप सहमत है ?"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "incoherent list file for \"%s\", medium ignored"
+msgstr "\"%s\" के लिए बेमेल संचिका-सूची, माध्यम स्वीकार नहीं है"
+
+#: ../urpm.pm:1 ../urpmi.addmedia:1
+#, c-format
+msgid "...retrieving done"
+msgstr "...पुनः प्राप्त करने की क्रिया संपन्न"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr "%s पैकेज को जोड़ा जा रहा है (आई०डी०=%d, ई०आई०डी०=%d, उन्नयन=%d, संचिका=%s)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "skipping package %s"
+msgstr "%s पैकेज को त्यागा जा रहा है"
+
+#: ../urpmq:1
+#, c-format
+msgid "  names or rpm files given on command line are queried.\n"
+msgstr "  निर्देश वाक्य पर दिये हुए नामों या आर०पी०एम० संचिकाओं की जाँच की गई है\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr "अवैध हस्ताक्षर (%s)"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"यू०आर०पी०एम०आई० संस्मरण %s॥ सर्वाधिकार © १९९९, २०००, २००१, २००२ मैनड्रैकसॉफ़्ट ॥यह "
+"एक मुक्त सॉफ़्टवेयर है और जी०एन०यू० सामान्य जन अधिकारपत्र के अन्तर्गत पुनः वितरित किया जा "
+"सकता है।\n"
+"\n"
+"उपयोग विधि:\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "भली-भांति से [%s] का पदभंजन \"%s\" मान पर करने में असमर्थ"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr ""
+"  --excludemedia - दिये हुए मीडीया का उपयोग ना करें, छोटे विराम चिह्न के द्वारा अलग "
+"किये हुए\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to determine medium of this hdlist file [%s]"
+msgstr "इस हार्डडिस्क संचिका-सूची [%s] के माध्यम का निर्धारण करने असमर्थ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
+msgstr ""
+"\"%s\" माध्यम, एक पहिले से उपयोग की जा रही हार्डडिस्क सूची को उपयोग करने की चेष्टा कर "
+"रहा है, माध्यम स्वीकार नहीं है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "\"%s\" की हार्डडिस्क संचिका का पदभंजन करने में असमर्थ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "due to conflicts with %s"
+msgstr "%s के साथ विरोधाभास के कारण"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "कैच में स्थित %d अप्रचलित शीर्षकों को हटाया जा रहा है"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "unable to update medium \"%s\"\n"
+msgstr "\"%s\" माध्यम को अपडेट करने में असमर्थ\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Try installation without checking dependencies? (y/N) "
+msgstr "संसाधन का प्रयास बिना आधिनताओं की जाँच किये हुए किया जाये?  (हाँ/ना)(y/N) "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr "काल्पनिक माध्यम \"%s\" स्थानीय नहीं है, माध्यम स्वीकार नहीं है"
+
+#: ../urpm.pm:1 ../urpmi:1
+#, c-format
+msgid "Preparing..."
+msgstr "तैयारी की जा रही है..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "using different removable device [%s] for \"%s\""
+msgstr "विभिन्न हटाने-योग्य साधनों [%s] का उपयोग \"%s\" के लिए हो रहा है"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --no-probe     - do not try to find any synthesis or\n"
+"                   hdlist file.\n"
+msgstr ""
+"  --no-probe     - किसी कृत्रिम या हार्डडिस्क सूची संचिका को खोजने का \n"
+"                   प्रयास ना करें\n"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - पूर्वनिर्दिष्टों में पैकेज को पाने के लिए ना खोजे\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --clean        - remove rpm from cache before anything else.\n"
+msgstr "  --clean        - कुछ भी करने कि पहिले आर०पी०एम० को कैच से हटायें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to use name \"%s\" for unnamed medium because it is already used"
+msgstr ""
+"बेनाम माध्यम के लिए \"%s\" नाम उपयोग करने में असमर्थ क्योंकि यह पहिले से उपयोग किया जा "
+"रहा है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving description file of \"%s\"..."
+msgstr "\"%s\" की विवरण संचिका को पुनः प्राप्त किया जा रहा है..."
+
+#: ../urpmf:1
+#, c-format
+msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
+msgstr "  --conflicts    - टैग के विरोधाभासों को मुद्रित करें: सभी विरोधाभास\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"काल्पनिक माध्यम \"%s\" के पास हार्डडिस्क सूची या कृत्रिमता का वैध स्रोत्र होना "
+"चाहिए।माध्यम स्वीकार नहीं है"
+
+#: ../urpme:1
+#, c-format
+msgid ""
+"urpme version %s\n"
+"Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"यू०आर०पी०एम०ई० संस्मरण %s\n"
+"सर्वाधिकार © १९९९, २०००, २००१, २००२ मैनड्रैकसॉफ़्ट\n"
+"यह मुक्त सॉफ़्टवेयर है और जी०एन०यू० सामान्य जन अधिकार-पत्र के अन्तर्गत पुनः वितरित किया "
+"जा सकता है\n"
+"\n"
+"उपयोग विधि:\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
+"where <url> is one of\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> with <relative filename of "
+"hdlist>\n"
+"       ftp://<host>/<path> with <relative filename of hdlist>\n"
+"       http://<host>/<path> with <relative filename of hdlist>\n"
+"       removable://<path>\n"
+"\n"
+"and [options] are from\n"
+msgstr ""
+"उपयोग विधि: urpmi.addmedia [विकल्प] <नाम> <यू०आर०एल०> [<सापेक्ष_पथ> के साथ]\n"
+"जहां <यू०आर०एल०l> निम्न में से एक है\n"
+"       file://<पथ>\n"
+"       ftp://<संत्रआरम्भ>:<कूटशब्द>@<होस्ट>/<पथ> <हार्डडिस्क सूची की सापेक्ष संचिका नाम> "
+"के साथ\n"
+"       ftp://<होस्ट>/<पथ> <हार्डडिस्क सूची की सापेक्ष संचिका नाम> के साथ\n"
+"       http://<होस्ट>/<पथ> <हार्डडिस्क सूची की सापेक्ष संचिका नाम> के साथ\n"
+"       removable://<पथ>\n"
+"\n"
+"और [विकल्प] से है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copying source hdlist (or synthesis) of \"%s\"..."
+msgstr "\"%s\" की मूल (या कॄत्रिम) हार्डडिस्क सूची की प्रतिलिपि बनाई जा रही है..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "...copying done"
+msgstr "...प्रतिलिपि बनना सम्पन्न हुआ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "समान्तर विकल्प \"%s\" का उपयोग करने में असमर्थ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access first installation medium"
+msgstr "प्रथम संसाधन माध्यम को पाने में असमर्थ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "virtual medium need to be local"
+msgstr "काल्पनिक माध्यम को स्थानीय होना चाहिए"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "error registering local packages"
+msgstr "स्थानीय पैकेजों का पंजीकरण करने में त्रुटि"
+
+#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "on node %s"
+msgstr "%s नोड पर"
+
+#: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1
+#, c-format
+msgid "  --limit-rate   - limit the download speed.\n"
+msgstr "  --limit-rate   - डॉउनलोड के वेग को सीमित करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "found probed hdlist (or synthesis) as %s"
+msgstr "खोजी हुई हार्डडिस्क सूची (या कृत्रिम रचना)%s के रूप में मिली"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "[%s] कि लिए कोई आर०पी०एम० संचिकाऐं नहीं मिली"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "nothing written in list file for \"%s\""
+msgstr "\"%s\" के लिए संचिका-सूची में कुछ भी नहीं लिखा है"
+
+#: ../urpmi:1
+#, c-format
+msgid "The following packages have bad signatures"
+msgstr "निम्नलिखित पैकेजों पर खराब हस्ताक्षार है"
+
+#: ../urpmq:1
+#, c-format
+msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
+msgstr "urpmq: अज्ञात विकल्प \"-%s\", उपयोग विधि  --help के साथ जाँच करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis)"
+msgstr ""
+"विद्यमान हार्डडिस्क सूची (या कृत्रिम रचनाओं) की प्रतिलिपियों के एम०डी०५सम (md5sum) की "
+"गणना की जा रही है"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -c             - complete output with package to be removed.\n"
+msgstr "  -c             - सम्पूर्ण आउटपुट को पैकेज के साथ हटायें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to install package %s"
+msgstr "%s पैकेज को संसाधन करने में असमर्थ"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --allow-force  - allow asking user to install packages without\n"
+"                   dependencies checking and integrity.\n"
+msgstr ""
+"  --allow-force  - उपयोगकर्ता को, पैकेजों को बिना अधिनताओं और अखंडता की जाँच करें,\n"
+"                   संसाधित करने के लिए प्रश्न पूछने की अनुमति प्रदान करें\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "urpmq: cannot read rpm file \"%s\"\n"
+msgstr "urpmq: आर०पी०एम० संचिका \"%s\" को नहीं पढ़ सकता है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "संरचना-संचिका [%s] को लिखने में असमर्थ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no webfetch (curl or wget currently) found\n"
+msgstr "कोई वेबफ़ेच्च नहीं मिला (कर्ल या डबलू०गेट हाल ही में)\n"
+
+#: ../urpme:1
+#, c-format
+msgid "  -a             - select all packages matching expression.\n"
+msgstr "  -a             - मिलती हुई अभिव्यक्तियों वाले सभी पैकेजों का चयन करें\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr "अवैध कुंजी आई०डी० (%s)"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - यद्यपि कुछ पैकेज ना विद्यमान हो, तो भी इनवोकेशन को बल-पूर्वक लागू "
+"करें \n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "हटाने-योग्य माध्यम \"%s\" के लिए पथ-नाम को पुनः प्राप्त करने में असमर्थ"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-synthesis - try to find and use synthesis file.\n"
+msgstr "  --probe-synthesis - कृत्रिम संचिका को खोजने और उपयोग करने के प्रयास\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
+msgstr ""
+"  --synthesis    - यू०आर०पी०एन०आई० डी०बी० के बजाय, दी हुई कृत्रिमता का उपयोग करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "wget is missing\n"
+msgstr "डबलू०गेट लुप्त है\n"
+
+#: ../urpme:1
+#, c-format
+msgid "Checking to remove the following packages"
+msgstr "निम्नलिखित पैकेजों को हटाने जाने के लिए जाँच हो रही है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unrequested"
+msgstr "बिना निवेदन किया हुआ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "आर०पी०एम० संचिका [%s] को पाने में असमर्थ"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --files        - print tag files: all files.\n"
+msgstr "  --files        - टैग की संचिकाऐं मुद्रित करें: सभी संचिकाऐं \n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "\"%s\" का पदभंजन [%s] संचिका में करने में असमर्थ"
+
+#: ../urpmi:1
+#, c-format
+msgid "Do you want to continue installation ?"
+msgstr "क्या आप संसाधन जारी रखना चाहते है ?"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "\"%s\" माध्यम से आर०पी०एम० संचिका [%s] को पढ़ने में असमर्थ"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "\"%s\" माध्यम के लिए हार्डडिस्क-सूची की कृत्रिम संचिका बनायें"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --version      - use specified distribution version, the default is taken\n"
+"                   from the version of the distribution told by the\n"
+"                   installed mandrake-release package.\n"
+msgstr ""
+"  --version      - निर्दिष्ट किया हुए वितरण का संस्मरण का उपयोग करें, डिफ़ॉल्ट को, \n"
+"                   मैनड्रैक विमोचित पैकेज के द्वारा बताये गये वितरण के संस्मरण\n"
+"                   जैसा ले लिया गया है\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --from         - use specified url for list of mirrors, the default is\n"
+"                   %s\n"
+msgstr ""
+"  --from         - समकक्ष प्रणालियों की सूची के लिए,  निर्दिष्ट यू०आर०एल० का उपयोग "
+"करें, डिफ़ॉल्ट\n"
+"                   %s है\n"
+
+#: ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "host %s does not have a good version of urpmi"
+msgstr "%s होस्ट के पास यू०आर०पी०एम०आई० का एक अच्छा संस्मरण नहीं है"
+
+#: ../urpmf:1
+#, c-format
+msgid "  !              - unary NOT, true if expression is false.\n"
+msgstr "  !              - एकल \"नहीं\", सत्य यदि अभिव्यक्ति असत्य है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unmounting %s"
+msgstr "%s को अवरोह (अनमाउन्ट) किया जा रहा है"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "nothing to update (use urpmi.addmedia to add a media)\n"
+msgstr ""
+"अपडेट करने को कुछ भी नहीं (urpmi.addmedia निर्देश का उपयोग एक माध्यम को जोड़ने के लिए "
+"करें)\n"
+
+#: ../urpm.pm:1 ../urpmi:1
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr "        %s%% समाप्त, वेग = %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining synthesis file [%s]"
+msgstr "कृत्रिम संचिका [%s] का निरीक्षण किया जा रहा है"
+
+#: ../urpmi:1
+#, c-format
+msgid "Try installation even more strongly (--force)? (y/N) "
+msgstr "संसाधन का प्रयास और जोर से (बलपूर्वक) किया जाये (--force)?  (हाँ/ना)(y/N) "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "...copying failed"
+msgstr "...प्रतिलिपि बनना असफ़ल"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "\"%s\" की हार्डडिस्क संचिका-सूची को पाने में असमर्थ, माध्यम स्वीकार नहीं है"
+
+#: ../urpmi:1
+#, c-format
+msgid "  -q             - quiet mode.\n"
+msgstr "  -q             - शांत विधि\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --verbose      - verbose mode.\n"
+msgstr "  --verbose      - शब्दों का वॄथा प्रयोगिक विधि\n"
+
+#: ../urpmq:1
+#, c-format
+msgid ""
+"  --sources      - give all source packages before downloading (root only).\n"
+msgstr ""
+"  --sources      - सभी स्रोत्र पैकेजों को डॉउनलोड के पहिले दें (सिर्फ़ महाउपयोगकर्ता)\n"
+
+#: ../urpmq:1
+#, c-format
+msgid ""
+"  --headers      - extract headers for package listed from urpmi db to\n"
+"                   stdout (root only).\n"
+msgstr ""
+"  --headers      - शीर्षकों को, यू०आर०पी०एम०आई० डी०बी० में सूचीबद्व पैकेज के लिए "
+"एसटीडीआउट पर निकालें\n"
+"                    (सिर्फ़ महाउपयोगकर्ता)\n"
+
+#: ../urpme:1
+#, c-format
+msgid "unknown packages"
+msgstr "पैकेजों का प्रकार अज्ञात"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "selecting multiple media: %s"
+msgstr "बहुत सारे माध्यमों का चयन हो रहा है: %s"
+
+#: ../urpmf:1 ../urpmq:1
+#, c-format
+msgid "  -f             - print version, release and arch with name.\n"
+msgstr "  -f             - \tमुद्रित संस्मरण, विमोचन और आर्च नाम के साथ\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "file [%s] already used in the same medium \"%s\""
+msgstr "[%s] संचिका \"%s\" समान माध्यम में पहिले से उपयोग में है"
+
+#: ../urpmi.removemedia:1
+#, c-format
+msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
+msgstr ""
+"हटाने को कुछ भी नहीं (urpmi.addmedia निर्देश का उपयोग एक माध्यम को जोड़ने के लिए करें)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "\"%s\" के लिए संचिका-सूची को खोजने में असमर्थ, माध्यम स्वीकार नहीं है"
+
+#: ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "Installation failed on node %s"
+msgstr "%s नोड पर संसाधन असफ़ल"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "curl is missing\n"
+msgstr "कर्ल लुप्त है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr "नोडों: %s के लिए समान्तर प्रबंधकर्ता मिला है"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"callback is :\n"
+"%s\n"
+msgstr ""
+"यथास्थिति करने का निर्देश (कॉलबैक) %s\n"
+"है\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -R             - reverse search to what requires package.\n"
+msgstr "  -R             - पैकेजों की जो आवश्यक है उससे विपरीत खोज करें\n"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"urpmf version %s\n"
+"Copyright (C) 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"यू०आर०पी०एम०एफ़० संस्मरण %s॥ सर्वाधिकार © २००२ मैनड्रैकसॉफ़्ट ॥यह एक मुक्त सॉफ़्टवेयर है "
+"और जी०एन०यू० सामान्य जन अधिकार-पत्र के अन्तर्गत पुनः वितरित किया जा सकता है।\n"
+"\n"
+"उपयोग विधि:\n"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  --name         - print tag name: rpm filename (assumed if no tag given on\n"
+"                   command line but without package name).\n"
+msgstr ""
+"  --name          - टैग का नाम मुद्रित करें: आर०पी०एम० संचिका नाम (मानो यदि कोई टैग "
+"निर्देश वाक्य पर ना दिया हो, परन्तु बिना पैकेज नाम के)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "Unknown webfetch `%s' !!!\n"
+msgstr "अज्ञात वेबफ़ेच्च `%s' !!!\n"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  --quiet        - do not print tag name (default if no tag given on "
+"command\n"
+"                   line, incompatible with interactive mode).\n"
+msgstr ""
+"  --quiet        - टैग का नाम मुद्रित ना करें (सामान्यता, यदि कोई टैग निर्देश वाक्य के "
+"साथ  ना दिया हो,\n"
+"                   परस्पर संपर्क (इन्टर-ऐक्टिव) मोड के साथ अयोग्य)\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --uniq         - do not print identical lines.\n"
+msgstr "  --uniq         - एक जैसे वाक्यों को मुद्रित ना करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update or --parallel"
+msgstr "--कृत्रिमता का उपयोग --माध्यम, --अपडेट या --समान्तर के साथ नहीं हो सकता है"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --arch         - use specified architecture, the default is arch of\n"
+"                   mandrake-release package installed.\n"
+msgstr ""
+"  --arch         - निर्दिष्ट किया हुए शिल्प का उपयोग करें, डिफ़ॉल्ट मैनड्रैक विमोचित "
+"पैकेजों को \n"
+"                   संसाधित कर दिया गया है\n"
+
+#: ../_irpm:1 ../urpme:1 ../urpmi:1
+#, c-format
+msgid "Is this OK?"
+msgstr "क्या यह ठीक है?"
+
+#: ../urpmf:1 ../urpmq:1
+#, c-format
+msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
+msgstr "  --synthesis    - कृत्रिमता का उपयोग यू०आर०पी०एम०आई०-डी०बी० के बजाय\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"To satisfy dependencies, the following packages are going to be installed (%"
+"d MB)"
+msgstr "आधीनताओं को सन्तुष्ट करने के लिए, निम्नलिखित पैकेज हटाने जाने वाले है (%d एम०बी०)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "समान्तर प्रबंधकर्ता का निरीक्षण [%s] संचिका में हो रहा है"
+
+#: ../urpme:1
+#, c-format
+msgid "Nothing to remove"
+msgstr "हटाने को कुछ भी नहीं"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "\"%s\" माध्यम से शीर्षक पढ़े जा रहे है"
+
+#: ../urpmq:1
+#, c-format
+msgid "  -d             - extend query to package dependencies.\n"
+msgstr "  -d             - जाँच को पैकेज की अधिनताओं तक ले जायें\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --bug          - output a bug report in directory indicated by\n"
+"                   next arg.\n"
+msgstr ""
+"  --bug          - एक दोष रिपोर्ट को अगले मान के द्वारा बताई गयी निर्देशिका में\n"
+"                   निर्गम करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr "\"%s\" माध्यम, आर०पी०एम० संचिकाओं के लिए किसी स्थान को परिभाषित नहीं करता है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "wget failed: exited with %d or signal %d\n"
+msgstr "डबलू०गेट असफ़ल:  %d के साथ या %d संकेत के साथ निर्गम\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copy failed: %s"
+msgstr "प्रतिलिपि असफ़ल: %s"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
+msgstr "  --sourcerpm    - टैग स्रोत्र आर०पी०एम० को मुद्रित करें: स्रोत्र आर०पी०एम०\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --requires     - print tag requires: all requires.\n"
+msgstr "  --requires     - टैग की आवश्यकताऐं मुद्रित करें: सभी आवश्यकताऐं (बहु-वाक्य)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to write list file of \"%s\""
+msgstr "\"%s\" की सूची संचिका को लिखने में असमर्थ"
+
+#: ../urpme:1
+#, c-format
+msgid "urpme: unknown option \"-%s\", check usage with --help\n"
+msgstr "urpme: अज्ञात विकल्प \"-%s\", उपयोग विधि के बारे में --help से जानें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "trying to select nonexistent medium \"%s\""
+msgstr "अविद्यमान माध्यम \"%s\" को चयन का प्रयास किया जा रहा है"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --description  - print tag description: description.\n"
+msgstr "  --description  - टैग विवरण मुद्रित करें: विवरण\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"%s\n"
+"`with' missing for network media\n"
+msgstr ""
+"%s\n"
+"नेटवर्क माध्यम `के साथ' विलुप्त\n"
+
+#: ../urpm/parallel_ka_run.pm:1
+#, c-format
+msgid "rshp failed, maybe a node is unreacheable"
+msgstr "आर०एस०एच०पी० असफ़ल, हो सकता है एक नोड पहुँच से बाहर हो"
+
+#: ../urpmi.addmedia:1 ../urpmi.update:1
+#, c-format
+msgid "  -f             - force generation of hdlist files.\n"
+msgstr "  -f             - हार्डडिस्क सूची संचिकाओं का बल-पूर्वक निर्माण\n"
+
+#: ../urpmq:1
+#, c-format
+msgid "--list-nodes can only be used with --parallel"
+msgstr "--list-nodes को सिर्फ़ --parallel के साथ उपयोग किया जा सकता है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "\"%s\" माध्यम के लिए कोई हार्डडिस्क सूची संचिका नहीं मिली"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -s             - next package is a source package (same as --src).\n"
+msgstr "  -s             - अगला पैकेज एक स्रोत्र पैकेज है (--src जैसा)\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "%s का संसाधन किया जा रहा है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "reading rpm files from [%s]"
+msgstr "[%s] से आर०पी०एम० संचिकाओं को पढ़ा जा रहा है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "\"%s\" संचिका के विवरण की प्रतिलिपि बनायी जा रहीं है..."
+
+#: ../urpme:1 ../urpmi:1
+#, c-format
+msgid "  --auto         - automatically select a package in choices.\n"
+msgstr "  --auto         - इच्छित पैकेजों में से एक पैकेज स्वतः चयन\n"
+
+#: ../urpme:1
+#, c-format
+msgid "Removing failed"
+msgstr "हटाना असफ़ल"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
+"  --virtual      - काल्पनिक माध्यम का निर्माण करना जो हमेशा अप-टु-डेट रहें,\n"
+"                   सिर्फ़  file:// प्रोटोकॉल की अनूमति है।\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "package %s is not found."
+msgstr "%s पैकेज नहीं मिला"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "removing medium \"%s\""
+msgstr "\"%s\" माध्यम को हटाया जा रहा है"
+
+#: ../_irpm:1 ../urpmi:1
+#, c-format
+msgid "Cancel"
+msgstr "निरस्त"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --src          - next package is a source package (same as -s).\n"
+msgstr "  --src          - अगला पैकेज एक स्रोत्र पैकेज है (-s जैसा)\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid ""
+"  --env          - use specific environment (typically a bug\n"
+"                   report).\n"
+msgstr ""
+"  --env          - विशिष्ट वातावरण का उपयोग (आदर्श रूप में एक दोष\n"
+"                   रिपोर्ट)\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "ssh is missing\n"
+msgstr "एस०एस०एच० विलुप्त है\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, fuzzy, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr ""
+"  --sortmedia    - मीडीया को छोटे विराम चिह्न के द्वारा अलग की हुई कड़ियों के अनुसार "
+"क्रम में लगाना\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "\"%s\" माध्यम को पाने में असमर्थ"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "unable to create medium \"%s\"\n"
+msgstr "\"%s\" माध्यम का निर्माण करने में असमर्थ\n"
+
+#: ../urpm/parallel_ssh.pm:1
+#, c-format
+msgid "scp failed on host %s"
+msgstr "एस०सी०पी०, %s होस्ट पर असफ़ल"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --packager     - print tag packager: packager.\n"
+msgstr "  --packager     - टैग पैकेजर को मुद्रित करना: पैकेजर\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"You need to be root to install the following dependencies:\n"
+"%s\n"
+msgstr ""
+"निम्नलिखित आधिनताओं को संसाधित करने लिए, आपको महाउपयोगकर्ता होना चाहिए:\n"
+"%s\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "\"%s\" की संचिका-सूची को पाने में असमर्थ, माध्यम स्वीकार नहीं है"
+
+#: ../urpmf:1
+#, c-format
+msgid "  )              - right parenthesis to close group expression.\n"
+msgstr "  )              - दाहिना कोष्टक का चिह्न समूह अभिव्यक्ति का बंद करने के लिए\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr "हार्डडिस्क-सूची संचिका [%s] का निरीक्षण किया जा रहा है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copying hdlists file..."
+msgstr "हार्डडिस्क सूची संचिका की प्रतिलिपि बनाई जा रही है..."
+
+#: ../urpm.pm:1
+#, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"काल्पनिक माध्यम \"%s\" के पास एक स्पष्ट यू०आर०एल० होना चाहिए, माध्यम स्वीकार नहीं है"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --buildhost    - टैग होस्ट निर्माणकर्ता को मुद्रित करना: होस्ट निर्माणकर्ता\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "\"%s\" माध्यम के लिए संचिका-सूची लिखी जा रही है"
+
+#: ../urpme:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
+msgstr ""
+"  --parallel     - वितरित यू०आर०पी०एम०आई०, उपनाम वाली प्रणालीयों के बीच में\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr "समान्तर मोड: %s के लिए संयुक्त माध्यम का उपयोग हो रहा है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "mounting %s"
+msgstr "%s को आरोह (माउन्ट) किया जा रहा है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"unable to take care of medium \"%s\" as list file is already used by another "
+"medium"
+msgstr ""
+"\"%s\" माध्यम को सँभालने में असमर्थ क्योंकि संचिका-सूची पहिले से अन्य माध्यम के द्वारा उपयोग "
+"कीजा रही है "
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "unable to get source packages, aborting"
+msgstr "स्रोत्र पैकेजों को पाने में असमर्थ, कार्यक्रम विफ़ल किया जा रहा है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "rsync failed: exited with %d or signal %d\n"
+msgstr "पुनः एकसारीकरण असफ़ल: %d के साथ या %d संकेत के साथ निर्गम\n"
+
+#: ../urpm.pm:1 ../urpmi:1
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr "        %s का %s%% समाप्त, अनुमानित समाप्ति का समय = %s, वेग = %s"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr ""
+"पुनः प्राप्त की हुई स्रोत्र हार्डडिस्क सूची (या कृत्रिम रचना) के एम०डी०५सम (md5sum) की "
+"गणना की जा रही है"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --no-uninstall - never ask to uninstall a package, abort the "
+"installation.\n"
+msgstr ""
+"  --no-uninstall - एक पैकेज को असंसाधित करने के लिए कभी ना पूछेना,संसाधन को रोकना\n"
+
+#: ../urpmq:1
+#, c-format
+msgid ""
+"urpmq version %s\n"
+"Copyright (C) 2000, 2001, 2002 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"यू०आर०पी०एम०क्यू० संस्मरण %s॥ सर्वाधिकार © २०००, २००१, २००२ मैनड्रैकसॉफ़्ट ॥यह एक "
+"मुक्त सॉफ़्टवेयर है और जी०एन०यू० सामान्य जन अधिकारपत्र के अन्तर्गत पुनः वितरित किया जा "
+"सकता है।\n"
+"\n"
+"उपयोग विधि:\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "\"%s\" की मूल (या कृत्रिम) हार्डडिस्क सूची पुनः प्राप्त की जा रही है..."
+
+#: ../urpmq:1
+#, c-format
+msgid "  -g             - print groups with name also.\n"
+msgstr "  -g             - समूहों को नाम के साथ मुद्रित करें\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "माध्यम \"%s\" का चयन नहीं किया गया है"
+
+#: ../urpmi:1
+#, c-format
+msgid "Only superuser is allowed to install packages"
+msgstr "सिर्फ़ महाउपयोगकर्ता को ही पैकेजों को संसाधित करने की अनुमति है"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "using specific environment on %s\n"
+msgstr "%s पर विशिष्ट वातावरण का उपयोग करते हुए\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to find hdlist file for \"%s\", medium ignored"
+msgstr "\"%s\" के लिए हार्डडिस्क संचिका-सूची को खोजने में असमर्थ, माध्यम स्वीकार नहीं है"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr "  --split-length - लघु क्रिया-कलाप लंबाई, सामान्य संख्या %d है।\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  (              - left parenthesis to open group expression.\n"
+msgstr "  (              - बाँया कोष्टक का चिह्न समूह अभिव्यक्ति का खोलने के लिए\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr "हटाने-योग्य माध्यम \"%s\" के लिए बहुत सारे आरोह बिंदु"
+
+#: ../urpmf:1
+#, c-format
+msgid ""
+"  -a             - binary AND operator, true if both expression are true.\n"
+msgstr ""
+"  -a             - द्विआधारी \"और\" प्रवर्तक (ऑपरेटर), सत्य यदि दोनों अभिव्यक्तियां "
+"सत्य है\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --group        - print tag group: group.\n"
+msgstr "  --group        - टैग समूह को मुद्रित करें: समूह\n"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - सिर्फ़ दिए गए माध्यम का उपयोग करें, छोटे विराम चिह्न के द्वारा अलग "
+"किये हुए\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "unable to create transaction"
+msgstr "कार्य संपादन का निर्माण करने में असमर्थ"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"%s\n"
+"<relative path of hdlist> missing\n"
+msgstr ""
+"%s\n"
+"<हार्डडिस्क सूची का सापेक्ष पथ> लुप्त है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "\"%s\" माध्यम से आर०पी०एम० संचिकाऐं पुनः प्राप्त की जा रही है..."
+
+#: ../urpme:1
+#, c-format
+msgid ""
+"To satisfy dependencies, the following packages are going to be removed (%d "
+"MB)"
+msgstr ""
+"अधिनताओं को सन्तुष्ट करने के लिए, निम्नलिखित पैकेजों को संसाधित किया जाने वाला है (%d "
+"एम०बी०)"
+
+#: ../urpmi:1
+#, c-format
+msgid "distributing %s"
+msgstr "%s वितिरण किया जा रहा है"
+
+#: ../urpmi:1
+#, c-format
+msgid "Installation failed"
+msgstr "संसाधन असफ़ल"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "write config file [%s]"
+msgstr "संरचना-संचिका [%s] लिखें"
+
+#: ../urpmi.update:1
+#, c-format
+msgid "  -a             - select all non-removable media.\n"
+msgstr "  -a             - सभी स्थिर माध्यमों का चयन करें\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --epoch        - print tag epoch: epoch.\n"
+msgstr "  --epoch        - टैग इपॉच्च को मुद्रित करें: इपॉच्च\n"
+
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disable it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - संसाधन के पहिले, आर०पी०एम० हस्ताक्षर की जाँच करें\n"
+"                   (--no-verify-rpm इसे अयोग्य करता है, डिफ़ॉल्ट जाँच के साथ है).\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "Please insert the medium named \"%s\" on device [%s]"
+msgstr "कृपया \"%s\" नामक माध्यम को [%s] साधन पर प्रवेश करें"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --update       - create an update medium.\n"
+msgstr "  --update       - एक अपडेट माध्यम का निर्माण करें\n"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
+msgstr "  -y             - अस्पष्ट खोज को लागू करें (--fuzzy जैसा)\n"
+
+#: ../_irpm:1 ../urpmi:1
+#, c-format
+msgid "Ok"
+msgstr "ओ०के०"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "invalid hdlist description \"%s\" in hdlists file"
+msgstr "हार्डडिस्क सूची संचिका में अवैध हार्डडिस्क सूची विवरण \"%s\""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --distrib-XXX  - automatically create a medium for XXX part of a\n"
+"                   distribution, XXX may be main, contrib, updates or\n"
+"                   anything else that has been configured ;-)\n"
+msgstr ""
+"  --distrib-XXX  - एक वितरण के एक्स एक्स एक्स भाग के लिए एक माध्यम का स्वतः निर्माण "
+"करें\n"
+"                    एक्स एक्स एक्स, मुख्य, अंशदान, अपडेट या\n"
+"                   कुछ भी और जिसे संरचित किया जा चुका है, होना चाहिए ;-)\n"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --size         - print tag size: size.\n"
+msgstr "  --size         - टैग आकार को मुद्रित करें: आकार\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "due to unsatisfied %s"
+msgstr "असन्तुष्ट %s के कारण"
+
+#: ../_irpm:1
+#, c-format
+msgid ""
+"Automatic installation of packages...\n"
+"You requested installation of package %s\n"
+msgstr ""
+"पैकेजों का स्वचालित संसाधन...\n"
+"आपने %s पैकेजों के संसाधन का आग्रह किया है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "urpmi database locked"
+msgstr "यू०आर०पी०एम०आई० डाटाबेस बंद है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "copy of [%s] failed"
+msgstr "[%s] की प्रतिलिपि अयोग्य है"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "taking removable device as \"%s\""
+msgstr "हटाने-योग्य साधनों को \"%s\" भांति लिया जा रहा है"
+
+#: ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
+msgstr "  --fuzzy        - अस्पष्ट खोज को लागू करें (-y जैसा)\n"
+
+#: ../urpmq:1
+#, c-format
+msgid ""
+"  -u             - remove package if a more recent version is already "
+"installed.\n"
+msgstr "-u             - पैकेज को हटायें यदि एक अत्यधिक नवीन संस्मरण पहिले सेसंसाधित है\n"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid "  --probe-hdlist - try to find and use hdlist file.\n"
+msgstr "  --probe-hdlist - हार्डडिस्क सूची संचिका को खोजना और उपयोग करना\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "due to missing %s"
+msgstr "%s के ना मिलने के कारण"
+
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
+#, c-format
+msgid "  --update       - use only update media.\n"
+msgstr "  --update       - सिर्फ़ अपडेट माध्यम का ही उपयोग करें\n"
+
+#: ../urpmi.update:1
+#, c-format
+msgid ""
+"usage: urpmi.update [options] <name> ...\n"
+"where <name> is a medium name to update.\n"
+msgstr ""
+"उपयोग विधि: urpmi.update [विकल्प] <नाम> ...\n"
+"जहाँ <नाम> एक माध्यम का नाम है जिसे अपडेट करना है\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "trying to bypass existing medium \"%s\", avoiding"
+msgstr "विद्यमान माध्यम \"%s\" से अलग हट कर निकलने की चेष्टा, बच निकला जा रहा है"
+
+#: ../urpme:1 ../urpmi:1
+#, c-format
+msgid ""
+"  --test         - verify if the installation can be achieved correctly.\n"
+msgstr "  --test         - जाँच करें कि संसाधन सफ़लता-पूर्वक किया जा सकता है\n"
