@@ -559,16 +559,48 @@ my %sources = $urpm->download_source_packages($local_sources, $list,
 my %sources_install = %{$urpm->extract_packages_to_install(\%sources) || {}};
 
 if ($urpm->{options}{'verify-rpm'}) {
-    my @invalid_sources;
+    my ($medium, %invalid_sources);
 
-    foreach (values %sources_install, values %sources) {
-	URPM::verify_rpm($_) =~ /NOT OK/ and push @invalid_sources, $_;
+    foreach my $id (sort { $a <=> $b } keys %sources_install, keys %sources) {
+	my $verif = URPM::verify_rpm($sources_install{$id} || $sources{$id});
+
+	if ($verif =~ /NOT OK/) {
+	    $invalid_sources{$sources_install{$id} || $sources{$id}} = N("Invalid signature (%s)", $verif);
+	} else {
+	    unless ($medium && $medium->{start} <= $id && $id <= $medium->{end}) {
+		$medium = undef;
+		foreach (@{$urpm->{media}}) {
+		    $_->{start} <= $id && $id <= $_->{end} and $medium = $_, last;
+		}
+	    }
+
+	    my $key_ids = $medium && $medium->{key_ids} || $urpm->{options}{key_ids};
+	    my $valid_ids = 0;
+	    my $invalid_ids = 0;
+
+	    #- check the key ids of the medium are matching (all) the given key id of the package.
+	    if ($key_ids) {
+		foreach my $key_id ($verif =~ /#(\S+)/g) {
+		    if (grep { hex($_) == hex($key_id) } split /[,\s]+/, $key_ids) {
+			++$valid_ids;
+		    } else {
+			++$invalid_ids;
+		    }
+		}
+	    }
+
+	    if ($invalid_ids) {
+		$invalid_sources{$sources_install{$id} || $sources{$id}} = N("Invalid Key ID (%s)", $verif);
+	    } elsif (!$valid_ids) {
+		$invalid_sources{$sources_install{$id} || $sources{$id}} = N("Missing signature (%s)", $verif);
+	    }
+	}
     }
 
-    if (@invalid_sources) {
+    if (%invalid_sources) {
 	my $msg = N("The following packages have bad signatures");
 	my $msg2 = N("Do you want to continue installation ?");
-	my $p = join "\n", @invalid_sources;
+	my $p = join "\n", map { "$_: $invalid_sources{$_}"} sort { $a cmp $b} keys %invalid_sources;
 	if ($auto) {
 	    message("$msg:\n$p\n", 'noX');
 	    exit 1;
