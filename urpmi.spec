@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.0
-Release: 11mdk
+Release: 12mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-7mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-8mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,10 @@ fi
 
 
 %changelog
+* Thu Sep  5 2002 François Pons <fpons@mandrakesoft.com> 4.0-12mdk
+- fixed bad englist message.
+- updated translation.
+
 * Fri Aug 30 2002 François Pons <fpons@mandrakesoft.com> 4.0-11mdk
 - fixed no post-clean when testing or if errors occured.
 - (fcrozat) fixed missing %%post and %%postun for gurpmi, fixed
