@@ -97,7 +97,7 @@ sub load_config ($) {
 	/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/
 	    and $config{$medium}{'key-ids'} = $1, next;
 	#- positive flags
-	/^(update|ignore|synthesis|virtual)$/
+	/^(update|ignore|synthesis|virtual|noreconfigure)$/
 	    and $config{$medium}{$1} = 1, next;
 	my ($no, $k, $v);
 	#- boolean options

@@ -164,6 +164,7 @@ sub read_config {
 	    key-ids
 	    list
 	    md5sum
+	    noreconfigure
 	    removable
 	    synthesis
 	    update
@@ -1287,7 +1288,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 	} else {
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
-	    if (!$media_redone{$medium->{name}}) {
+	    if (!$media_redone{$medium->{name}} and !$medium->{noreconfigure}) {
 		my $reconfig_urpmi_url = "$medium->{url}/reconfig.urpmi";
 		unlink( my $reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi" );
 		eval {
