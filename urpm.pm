@@ -2396,7 +2396,7 @@ sub download_source_packages {
     my %sources = %$local_sources;
     my %error_sources;
 
-    print STDERR "calling obsoleted method urpm::download_source_packages\n";
+    #print STDERR "calling obsoleted method urpm::download_source_packages\n";
 
     $urpm->exlock_urpmi_db;
     $urpm->copy_packages_of_removable_media($list, \%sources, %options) or return;
