@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 10mdk
+Release: 11mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,11 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Mon Jul 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-11mdk
+- fixed bug 4331.
+- printing error again at the end of installation when multiple
+  transaction failed.
+
 * Fri Jul 25 2003 François Pons <fpons@mandrakesoft.com> 4.4-10mdk
 - added urpme log and urpmi removing log (bug 3889).
 - fixed undefined subroutine ...N... when using parallel
