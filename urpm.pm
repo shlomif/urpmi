@@ -1211,7 +1211,7 @@ sub deselect_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages) = @_;
-    my ($error, @local_sources, @list, %select);
+    my ($error, @local_to_removes, @local_sources, @list, %select);
     local (*D, *F, $_);
 
     #- examine the local repository, which is trusted.
@@ -1222,8 +1222,11 @@ sub get_source_packages {
 
 	    #- check version, release and id selected.
 	    #- TODO arch is not checked at this point.
-	    $pkg->{version} eq $2 && $pkg->{release} eq $3 or next;
-	    exists $packages->{$pkg->{id}} or next;
+	    unless ($pkg->{version} eq $2 && $pkg->{release} eq $3 && exists $packages->{$pkg->{id}}) {
+		#- keep in mind these have to be deleted or space will be tight soon...
+		push @local_to_removes, "$urpm->{cachedir}/rpms/$_";
+		next;
+	    }
 
 	    #- make sure only the first matching is taken...
 	    exists $select{$pkg->{id}} and next; $select{$pkg->{id}} = undef;
@@ -1288,7 +1291,7 @@ sub get_source_packages {
 	}
     }
 
-    $error ? () : ( \@local_sources, \@list );
+    $error ? () : ( \@local_sources, \@list, \@local_to_removes );
 }
 
 #- upload package that may need to be uploaded.

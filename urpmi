@@ -250,10 +250,15 @@ if (!$auto) {
 
 $urpm->read_config;
 
-my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
+my ($local_sources, $list, $local_to_removes) = $urpm->get_source_packages(\%packages);
 unless ($local_sources || $list) {
     die("unable to get source packages, aborting");
     exit 1;
+}
+#- clean cache with file that are not necessary with this transaction.
+#- TODO check not another urpmi is doing the same...
+foreach (@$local_to_removes) {
+    unlink $_;
 }
 
 my @sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'), sub {

@@ -1,15 +1,18 @@
-.TH urpmi.removemedia 8 "05 Sep 2000" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmi.removemedia 8 "05 Apr 2001" "Mandrakesoft" "Linux-Mandrake"
 .IX urpmi.removemedia
 .SH NAME
 urpmi.removemedia \- remove a rpms media from the known medias of urpmi
 .SH SYNOPSIS
-.B urpmi.removemedia <\fIname\fP>
+.B urpmi.removemedia [options] <\fInames\fP>
 .SH DESCRIPTION
 urpmi.removemedia removes from all configuration files all references to
 the named media and to rpms from that media.
 .PP
-<\fIname\fP> is the name you first told to urpmi.addmedia
+<\fInames\fP> is a list of names you first told to urpmi.addmedia
 
+.SH OPTION
+.IP "\fB\-a\fP"
+Select all media to remove them.
 .SH FILES
 /usr/bin/urpmi
 .br
@@ -52,15 +55,6 @@ urpmf(8),
 urpmq(8),
 rpmdrake(8)
 .SH AUTHOR
-Pascal Rigaux, Mandrakesoft
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
 .br
-pixel@mandrakesoft.com
-
-
-
-
-
-
-
-
-
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>

@@ -1,12 +1,9 @@
-.TH urpmi 8 "05 Sep 2000" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmi 8 "05 Apr 2001" "Mandrakesoft" "Linux-Mandrake"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
 .SH SYNOPSIS
-.B urpmi
-[options]
-package_name|rpm_file
-[package_names|rpm_files...]
+.B urpmi [options] [package_names|rpm_files...]
 .SH DESCRIPTION
 urpmi enables non-superuser install of rpms. In fact, it only authorizes
 well-known rpms to be installed. If you want to install local rpm file, you
@@ -21,13 +18,13 @@ and urpmi will:
 .br
 \- Propose different package names if availables and quit.
 .br
-\- If found only one Package corresponding, check wether dependencies are
+\- If found only one package corresponding, check wether dependencies are
 already installed or not.
 .br
 \- If not, propose to install the dependencies and then install all required
 dependencies and the package.
 .PP
-Note that urpmi handle installations from various medias (ftp, local and
+Note that urpmi handle installations from various medias (ftp, http, local and
 nfs volumes, removable medias such as CDROMs) and is able to install
 dependencies from a media different from the package's media.
 If necessary, urpmi asks you to insert the required media.
@@ -45,14 +42,37 @@ to launch, use autoirpm.
 To install all available menu entries of all known packages,
 use autoirpm-icons.
 .SH OPTION
-.IP "\fB\--auto\fP"
+.IP "\fB\--help\fP"
+print an help message and exit.
+.IP "\fB\--auto\fP"
 installs all required dependencies without asking.
+.IP "\fB\--auto-select\fP"
+automatically select all packages that have to be upgraded according to already
+installed packages and packages listed in various media registered.
 .IP "\fB\--force\fP"
 assumes yes on all questions.
+.IP "\fB\--X\fP"
+use X interface.
+.IP "\fB\--best-output\fP"
+try to use X interface or if not available the standard text interface (using
+rpm).
 .IP "\fB\-a\fP"
 if multiple packages match the substring given, take them all
+.IP "\fB\-m\fP"
+choose minimun closure of requires (this is the default). This is a relatively
+slow algorithm that tries to minimize the number of package to upgrade
+to only what is really necessary.
+.IP "\fB\-M\fP"
+choose maximal closure of requires. This is the fastest algorithms that try to
+upgrade all requires if they can be upgraded.
+.IP "\fB\-c\fP"
+if maximal closure is used, assume that a package listed mey have wrong or not
+up-to-date dependancies. This cause more package to be upgraded and may correct
+unresolved dependancies on the rpm database.
+.IP "\fB\-q\fP"
+proposes a quiet mode when calling rpm where no upgrade status are printed.
 .IP "\fB\-v\fP"
-proposes a verbose mode when calling rpm.
+proposes a verbose mode with various messages.
 .SH FILES
 /usr/bin/urpmi
 .br
@@ -66,11 +86,17 @@ There is one filelist per media(*).
 /var/lib/urpmi/hdlist.*
 .br
 Contain information about all known packages, it's a summary of rpm headers.
-There is one filelist per media(*).
+There is one hdlist per media(*).
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Contain synthesis information about all known packages built from hdlist files
+that can be used by minimal closure algorithm. If these files are not present
+use \fBurpmi.update -a\fP to generate them. These files are not mandatory.
 .PP
 /etc/urpmi/urpmi.cfg
 .br
-Contains one line <\fIname\fP> <\fIurl\fP> per media.
+Contains media description, previous format from older urpmi is accepted.
 .PP
 /var/lib/urpmi/depslist.ordered
 .br
@@ -89,22 +115,12 @@ this group.
 urpmi.addmedia(8),
 urpmi.update(8),
 urpmi.removemedia(8),
-urpmi.update(8),
 autoirpm(8),
 gurpmi(8),
 urpmf(8),
 urpmq(8),
 rpmdrake(8)
 .SH AUTHOR
-Pascal Rigaux, Mandrakesoft
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
 .br
-pixel@mandrakesoft.com
-
-
-
-
-
-
-
-
-
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>

@@ -1,12 +1,9 @@
-.TH urpmq 8 "05 Sep 2000" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmq 8 "05 Apr 2001" "Mandrakesoft" "Linux-Mandrake"
 .IX urpmq
 .SH NAME
 urpmq \- urpmi database query tool.
 .SH SYNOPSIS
-.B urpmq
-[options]
-package_name | rpm_file
-[package_names | rpm_files...]
+.B urpmq [options] [package_names | rpm_files...]
 .SH DESCRIPTION
 urpmq allows querying the urpmi database. It is for you if want to list
 available packages in the various media of urpmi, or list dependancies of
@@ -16,18 +13,42 @@ Output format of urpmq is the following according to command line options:
 .IP
 [group/]package_name[-version][-release]
 .SH OPTION
+.IP "\fB\--help\fP"
+print an help message and exit.
+.IP "\fB\--auto-select\fP"
+automatically select all packages that have to be upgraded according to already
+installed packages and packages listed in various media registered.
+.IP "\fB\--headers\fP"
+extract headers for package selected to standard output.
+.IP "\fB\--sources\fP"
+print source url (or file) of all packages selected.
+.IP "\fB\--force\fP"
+ignore error of inexistant packages requested.
+.IP "\fB\-v\fP"
+activate verbose mode.
+.IP "\fB\-d\fP"
+select dependancies (maximal closure).
+.IP "\fB\-u\fP"
+deselect packages if a better version is already installed, this option can be
+used with \fB-d\fP to simulate \fB-M\fP mode of \fBurpmi\fP.
+.IP "\fB\-m\fP"
+choose minimun closure of requires. This is a relatively
+slow algorithm that tries to minimize the number of package to upgrade
+to only what is really necessary.
+.IP "\fB\-M\fP"
+disable minimal closure algorithm so both \fB-d\fP and \fB-u\fP are similar to \fB-M\fP
+mode of \fBurpmi\fP.
+.IP "\fB\-c\fP"
+if maximal closure is used, assume that a package listed mey have wrong or not
+up-to-date dependancies. This cause more package to be upgraded and may correct
+unresolved dependancies on the rpm database.
 .IP "\fB\-g\fP"
 print group of each packages listed.
-.IP "\fB\-v\fP"
-print version of each packages listed.
 .IP "\fB\-r\fP"
-print release of each packages listed.
+print version and release of each packages listed.
 .IP "\fB\-d\fP"
 print closure of required packages needed by requested packages on command
 line.
-.IP "\fB\-u\fP"
-filter the closure of required packages according to packages that need to
-be upgraded on your system.
 .SH FILES
 /usr/bin/urpmq
 .br
@@ -43,9 +64,15 @@ There is one filelist per media(*).
 Contain information about all known packages, it's a summary of rpm headers.
 There is one filelist per media(*).
 .PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Contain synthesis information about all known packages built from hdlist files
+that can be used by minimal closure algorithm. If these files are not present
+use \fBurpmi.update -a\fP to generate them. These files are not mandatory.
+.PP
 /etc/urpmi/urpmi.cfg
 .br
-Contains one line <\fIname\fP> <\fIurl\fP> per media.
+Contains media description, previous format from older urpmi is accepted.
 .PP
 /var/lib/urpmi/depslist.ordered
 .br
@@ -65,13 +92,12 @@ urpmi(8),
 urpmi.addmedia(8),
 urpmi.update(8),
 urpmi.removemedia(8),
-urpmi.update(8),
 autoirpm(8),
 gurpmi(8),
 urpmf(8),
 rpmdrake(8)
 .SH AUTHOR
-François Pons, Mandrakesoft
+Francois Pons, Mandrakesoft
 .br
 fpons@mandrakesoft.com
 

@@ -1,4 +1,4 @@
-.TH urpmi.addmedia 8 "05 Sep 2000" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmi.addmedia 8 "05 Apr 2001" "Mandrakesoft" "Linux-Mandrake"
 .IX urpmi.addmedia
 .SH NAME
 urpmi.addmedia \- adds a new rpms media for use with urpmi
@@ -39,13 +39,9 @@ Where <\fIname\fP> is your reference for the media (e.g. Myrpms).
 .PP
 Removable device:
 .br
-.IP "\fB    urpmi.addmedia removable_<\fIdevice\fP>_<\fInumber\fP>://<\fIpath\fP>\fP"
+.IP "\fB    urpmi.addmedia removable_<\fIdevice\fP>://<\fIpath\fP>\fP"
 <\fIdevice\fP> is the name of your media as specified in the /dev/ directory
 (e.g. cdrom, floppy, zip, ...).
-.br
-<\fInumber\fP> is used urpmi to choose in what order medias are inserted in
-case of multiple medias install with dependencies. '1' is reserved for the
-origin install medias.
 .br
 <\fIpath\fP> is the location of the rpm directory on your machine when media
 is mounted.
@@ -66,9 +62,15 @@ is one filelist per media(*).
 Contain information about all known packages, it's a summary of rpm headers.
 There is one filelist per media(*).
 .PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Contain synthesis information about all known packages built from hdlist files
+that can be used by minimal closure algorithm. If these files are not present
+use \fBurpmi.update -a\fP to generate them. These files are not mandatory.
+.PP
 /etc/urpmi/urpmi.cfg
 .br
-Contains one line <\fIname\fP> <\fIurl\fP> per media.
+Contains media description, previous format from older urpmi is accepted.
 .PP
 /var/lib/urpmi/depslist.ordered
 .br
@@ -94,15 +96,6 @@ urpmf(8),
 urpmq(8),
 rpmdrake(8)
 .SH AUTHOR
-Pascal Rigaux, Mandrakesoft
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
 .br
-pixel@mandrakesoft.com
-
-
-
-
-
-
-
-
-
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
