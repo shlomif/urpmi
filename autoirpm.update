@@ -7,7 +7,7 @@ $BASE2 = "$DIR2/autoirpm";
 $AUTO_INSTALL_BIN_LIST = "$BASE.binaries";
 $INSTALL_SCRIPT_REP = "$BASE.scripts";
 
-system("packdrake -cat $DIR/hdlist*.cz | autoirpm.update-all $BASE2.allow $BASE2.deny - > $AUTO_INSTALL_BIN_LIST");
+system("packdrake --cat $DIR/hdlist*.cz | autoirpm.update-all $BASE2.allow $BASE2.deny - > $AUTO_INSTALL_BIN_LIST");
 $? == 0  or die "autoirpm.upgrade-all failed\n";
 
 open F, $AUTO_INSTALL_BIN_LIST or die;
