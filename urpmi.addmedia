@@ -154,7 +154,7 @@ and [options] are from
 	    $options{distrib} eq 'updates' && $options{version} eq 'cooker' and
 	      die N("cannot add updates of a cooker distribution\n");
 	    #- get mirrors list file in urpmi cache.
-	    my ($basename) = $options{from} =~ /^.*\/([^\/]+)\/*$/;
+	    my ($basename) = $options{from} =~ m|^.*/([^/]+)/*$|;
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving mirrors at %s ...", $options{from}));
