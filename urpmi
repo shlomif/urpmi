@@ -216,7 +216,7 @@ if ($auto_select) {
 }
 
 if ($minimal) {
-    $urpm->read_provides;
+    $use_provides || @files or $urpm->read_provides;
     $update or $urpm->read_config;
     $urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
 } else {

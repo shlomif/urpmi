@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 9mdk
+Release: 10mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -114,6 +114,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Tue Sep 11 2001 François Pons <fpons@mandrakesoft.com> 1.7-10mdk
+- fixed error about urpmi saying package already installed.
+
 * Mon Sep 10 2001 François Pons <fpons@mandrakesoft.com> 1.7-9mdk
 - moved depslist computation out of loop of reading.
 

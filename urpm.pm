@@ -1296,6 +1296,7 @@ sub filter_minimal_packages_to_upgrade {
 	#- choices for which all package in the choices are taken and their dependencies.
 	#- allow iteration over a modifying list.
 	while (defined($id = shift @packages)) {
+	    print STDERR "examining $id\n";
 	    if (ref $id) {
 		#- at this point we have almost only choices to resolves.
 		#- but we have to check if one package here is already selected
@@ -1313,7 +1314,9 @@ sub filter_minimal_packages_to_upgrade {
 		}
 	    }
 	    my $pkg = $urpm->{params}{depslist}[$id];
+	    print STDERR "examining $id as $pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch} and $pkg->{source}\n";
 	    defined $pkg->{id} or next; #- id has been removed for package that only exists on some arch.
+	    print STDERR "accepting $id\n";
 
 	    #- search for package that will be upgraded, and check the difference
 	    #- of provides to see if something will be altered and need to be upgraded.
@@ -1394,18 +1397,24 @@ sub filter_minimal_packages_to_upgrade {
 			$pkg = $best[0]; #- keep already requested packages.
 		    }
 		    push @choices, $pkg;
+
 		    rpmtools::db_traverse_tag($db,
 					      'name', [ $_ ],
 					      [ qw(name version release serial) ], sub {
 						  my ($p) = @_;
 						  my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
-						  $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} && ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0))
+						  $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} && ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0));
 					      });
-		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
-		    if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
+		    if ($installed{$pkg->{id}}) {
+			@choices = @upgradable_choices = ();
+			delete $installed{$pkg->{id}};
+			next;
+		    }
+		    #$installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
+		    if (exists $packages->{$pkg->{id}}) {
 			#- the package is already selected, or installed with a better version and release.
 			@choices = @upgradable_choices = ();
-			last;
+			next;
 		    }
 		    exists $installed{$pkg->{id}} and push @upgradable_choices, $pkg;
 		}
