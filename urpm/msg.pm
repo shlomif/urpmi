@@ -17,6 +17,10 @@ eval {
     I18N::Langinfo->import(qw(langinfo CODESET));
     $codeset = langinfo(CODESET()); # note the ()
 };
+defined $codeset or eval {
+    (undef, $codeset) = `/usr/bin/locale -c charmap`;
+    chomp $codeset;
+};
 
 sub from_utf8_full { Locale::gettext::iconv($_[0], "UTF-8", $codeset) }
 sub from_utf8_dummy { $_[0] }
@@ -89,7 +93,7 @@ sub toMb {
     int $nb + 0.5;
 }
 
-sub localtime2changelog { scalar(localtime($_[0])) =~ /(.*) \S+ (\d{4})$/ && "$1 $2" };
+sub localtime2changelog { scalar(localtime($_[0])) =~ /(.*) \S+ (\d{4})$/ && "$1 $2" }
 
 1;
 
