@@ -166,6 +166,12 @@ foreach my $a (@ARGV) {
 # Parse command line options
 urpm::args::parse_cmdline(urpm => $urpm);
 
+sub untaint {
+    my @r;
+    foreach (@_) { /(.*)/, push @r, $1 }
+    @r == 1 ? $r[0] : @r
+}
+
 # Process the rest of the arguments
 while (defined($_ = shift @ARGV)) {
     if (/\.rpm$/) {
@@ -268,24 +274,24 @@ if ($log) {
     unless ($pid_out = open STDOUT, "|-") {
 	my $buf_r;
 	while (<STDIN>) {
-	    open F, ">>$log"; select F; $| = 1;
+	    open my $fh, ">>$log"; select $fh; $| = 1;
 	    select SAVEOUT; $| = 1;
 	    $/ = \1;
 	    print SAVEOUT $_;
-	    print F $_;
-	    close F;
+	    print $fh $_;
+	    close $fh;
 	}
 	exit 0;
     }
     unless ($pid_err = open STDERR, "|-") {
 	my $buf_r;
 	while (<STDIN>) {
-	    open F, ">>$log"; select F; $| = 1;
+	    open my $fh, ">>$log"; select $fh; $| = 1;
 	    select SAVEERR; $| = 1;
 	    $/ = \1;
 	    print SAVEERR $_;
-	    print F $_;
-	    close F;
+	    print $fh $_;
+	    close $fh;
 	}
 	exit 0;
     }
@@ -390,7 +396,7 @@ sub ask_choice {
 		   N("One of the following packages is needed to install %s:", $from) :
 		   N("One of the following packages is needed:"));
 	if ($urpm::args::options{X}) {
-	    `gchooser "$msg" @l`;
+	    system(qq(gchooser "$msg" @l));
 	    $n = $? >> 8 || die;
 	} else {
 	    message($msg);
@@ -561,45 +567,48 @@ foreach my $set (@{$state->{transaction} || []}) {
     $urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
 
     #- first, filter out what is really needed to download for this small transaction.
-    $urpm->download_packages_of_distant_media(\@transaction_list, \%transaction_sources, \%error_sources,
-					      verbose => $verbose > 0,
-					      limit_rate => $urpm->{options}{'limit-rate'},
-					      compress => $urpm->{options}{compress},
-					      resume => $urpm->{options}{'resume'},
-					      force_local => 1,
-					      callback => sub {
-						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;
-						  if ($urpm::args::options{X}) {
-						      if ($mode eq 'start') {
-							  $file =~ s|/*\s*$||; $file =~ s|.*/||;
-							  gurpm::label(to_utf8(N("Downloading package `%s'...", $file)));
-						      } elsif ($mode eq 'progress') {
-							  gurpm::progress($percent/100);
-						      } elsif ($mode eq 'end') {
-							  gurpm::progress(1);
-						      }
-						  } else {
-						      if ($mode eq 'start') {
-							  print STDERR "    $file\n"; #- allow pass-protected url to be logged.
-						      } elsif ($mode eq 'progress') {
-							  my $text;
-							  if (defined $total && defined $eta) {
-							      $text = N("        %s%% of %s completed, ETA = %s, speed = %s",
-									$percent, $total, $eta, $speed);
-							  } else {
-							      $text = N("        %s%% completed, speed = %s",
-									$percent, $speed);
-							  }
-							  print SAVEERR $text, " " x (79 - length($text)), "\r";
-						      } elsif ($mode eq 'end') {
-							  print SAVEERR " " x 79, "\r";
-						      } elsif ($mode eq 'error') {
-							  #- error is 3rd argument, saved in $percent
-							  print STDERR N("...retrieving failed: %s", $percent), "\n";
-						      }
-						  }
-					      },
-					     );
+    $urpm->download_packages_of_distant_media(
+	\@transaction_list,
+	\%transaction_sources,
+	\%error_sources,
+	verbose => $verbose > 0,
+	limit_rate => $urpm->{options}{'limit-rate'},
+	compress => $urpm->{options}{compress},
+	resume => $urpm->{options}{resume},
+	force_local => 1,
+	callback => sub {
+	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+	    if ($urpm::args::options{X}) {
+		if ($mode eq 'start') {
+		    $file =~ s|/*\s*$||; $file =~ s|.*/||;
+		    gurpm::label(to_utf8(N("Downloading package `%s'...", $file)));
+		} elsif ($mode eq 'progress') {
+		    gurpm::progress($percent/100);
+		} elsif ($mode eq 'end') {
+		    gurpm::progress(1);
+		}
+	    } else {
+		if ($mode eq 'start') {
+		    print STDERR "    $file\n"; #- allow pass-protected url to be logged.
+		} elsif ($mode eq 'progress') {
+		    my $text;
+		    if (defined $total && defined $eta) {
+			$text = N("        %s%% of %s completed, ETA = %s, speed = %s",
+			    $percent, $total, $eta, $speed);
+		    } else {
+			$text = N("        %s%% completed, speed = %s",
+			    $percent, $speed);
+		    }
+		    print SAVEERR $text, " " x (79 - length($text)), "\r";
+		} elsif ($mode eq 'end') {
+		    print SAVEERR " " x 79, "\r";
+		} elsif ($mode eq 'error') {
+		    #- error is 3rd argument, saved in $percent
+		    print STDERR N("...retrieving failed: %s", $percent), "\n";
+		}
+	    }
+	},
+    );
     my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources) || {}};
 
     if ($urpm->{options}{'verify-rpm'} && !$force) {
@@ -681,14 +690,16 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    gurpm::progress($amount/$total);
 		}
 	    };
-	    my @l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
-				   \%transaction_sources_install, \%transaction_sources,
-				   fork => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
-				   translate_message => 1,
-				   oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-				   test => $test,
-				   excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
-				   callback_inst => $callback_inst, callback_trans => $callback_inst);
+	    my @l = $urpm->install(
+		!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+		\%transaction_sources_install, \%transaction_sources,
+		'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
+		translate_message => 1,
+		oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
+		test => $test,
+		excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
+		callback_inst => $callback_inst, callback_trans => $callback_inst,
+	    );
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 		if ($urpm->{options}{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
@@ -700,14 +711,16 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    message_input(N("Try installation without checking dependencies? (y/N) "),
 				  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 		    $urpm->{log}("starting installing packages without deps");
-		    @l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
-					\%transaction_sources_install, \%transaction_sources,
-					fork => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
-					translate_message => 1, nodeps => 1,
-					oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-					test => $test,
-					excludepath => $urpm->{options}{excludepath},
-					excludedocs => $urpm->{options}{excludedocs});
+		    @l = $urpm->install(
+			!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+			\%transaction_sources_install, \%transaction_sources,
+			'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
+			translate_message => 1, nodeps => 1,
+			oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
+			test => $test,
+			excludepath => $urpm->{options}{excludepath},
+			excludedocs => $urpm->{options}{excludedocs},
+		    );
 		    if (@l) {
 			message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 			if (!$urpm->{options}{'allow-force'}) {
@@ -717,15 +730,17 @@ foreach my $set (@{$state->{transaction} || []}) {
 			    message_input(N("Try installation even more strongly (--force)? (y/N) "),
 					  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 			    $urpm->{log}("starting force installing packages without deps");
-			    @l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
-						\%transaction_sources_install, \%transaction_sources,
-						fork => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
-						translate_message => 1, nodeps => 1, force => 1,
-						oldpackage => $state->{oldpackage},
-						post_clean_cache => $urpm->{options}{'post-clean'},
-						test => $test,
-						excludepath => $urpm->{options}{excludepath},
-						excludedocs => $urpm->{options}{excludedocs});
+			    @l = $urpm->install(
+				!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+				\%transaction_sources_install, \%transaction_sources,
+				'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
+				translate_message => 1, nodeps => 1, force => 1,
+				oldpackage => $state->{oldpackage},
+				post_clean_cache => $urpm->{options}{'post-clean'},
+				test => $test,
+				excludepath => $urpm->{options}{excludepath},
+				excludedocs => $urpm->{options}{excludedocs},
+			    );
 			    if (@l) {
 				message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 				++$nok;
@@ -805,13 +820,4 @@ if ($urpm::args::options{X}) {
     flush();
 }
 use POSIX ();
-POSIX::_exit $exit_code;
-
-sub untaint {
-    my @r;
-    foreach (@_) {
-        /(.*)/;
-	push @r, $1;
-    }
-    @r == 1 ? $r[0] : @r
-}
+POSIX::_exit($exit_code);
