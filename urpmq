@@ -57,6 +57,7 @@ usage:
   --auto-select  - automatically select packages for upgrading the system.
   --headers      - extract headers for package listed from urpmi db to
                    stdout (root only).
+  --force          - force invocation even if some package does not exists.
 
   names or rpm files given on command line are queried.
 ", $urpm::VERSION)));
@@ -68,6 +69,7 @@ for (@ARGV) {
     /^--help$/ and do { usage; next };
     /^--auto-select$/ and do { $query->{auto_select} = 1; next };
     /^--headers$/ and do { $query->{headers} = 1; next };
+    /^--force$/ and do { $query->{force} = 1; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/d/ and do { $query->{deps} = 1; next };
@@ -94,13 +96,8 @@ if (@files) {
     #- dependancies, of files provided.
     $urpm->read_provides;
 
-    #- compute depslist of files provided on command line.
-    $urpm->{params}->read_rpms($_) foreach @files;
-    $urpm->{params}->compute_depslist;
-
-    #- gets full names of packages, sanity check of pathname.
-    m|(.*/)?(.*)\.[^.]+\.rpm$| and push @names, $2 foreach @files;
-    m|^/| or $_ = "./$_" foreach @files;
+    #- build closure with local package and return list of names.
+    push @names, $urpm->register_local_packages(@files);
 }
 
 #- reparse whole internal depslist to match against newer packages only.
@@ -110,7 +107,7 @@ $urpm->{params}->relocate_depslist();
 #- basesystem is added to the list so if it need to be upgraded, all its dependancy
 #- will be updated too.
 my %packages;
-$urpm->search_packages(\%packages, [ @names ]) or exit 1;
+$urpm->search_packages(\%packages, [ @names ]) or $query->{force} or exit 1;
 
 #- auto select package for upgrading the distribution.
 if ($query->{auto_select}) {

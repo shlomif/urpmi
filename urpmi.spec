@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,12 @@ autoirpm.uninstall
 
 
 %changelog
+* Fri Feb 16 2001 François Pons <fpons@mandrakesoft.com> 1.5-3mdk
+- added -m flag to urpmi for minimal upgrade.
+- fixed urpmq olding approach of local rpm (added --force too
+  as in urpmi).
+- fixed some i18n usage.
+
 * Wed Feb 14 2001 François Pons <fpons@mandrakesoft.com> 1.5-2mdk
 - removable medium are not automatically updated now.
 - remove need of number removable device when adding a new medium.

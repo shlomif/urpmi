@@ -20,13 +20,22 @@
 
 #use strict qw(subs vars refs);
 use urpm;
+# for i18n
+use POSIX;
+use Locale::GetText;
+
+setlocale (LC_ALL, "");
+Locale::GetText::textdomain ("urpmi");
+
+import Locale::GetText I_;
+*_ = *I_;
 
 sub main {
     my (@toremoves, %options);
 
     foreach (@_) {
 	/^--?a/ and $options{all} = 1, next;
-	/^-/ and die "unknown options \"$_\"\n";
+	/^-/ and die sprintf(_("unknown options \"%s\"\n"), $_);
 	push @toremoves, $_;
     }
 
@@ -35,9 +44,9 @@ sub main {
 
     if ($options{all}) {
 	@toremoves = @entries;
-	@toremoves == 0 and die "nothing to remove (use urpmi.addmedia to add a media)\n";
+	@toremoves == 0 and die _("nothing to remove (use urpmi.addmedia to add a media)\n");
     }
-    @toremoves == 0 and die "missing the entry to remove\n(one of " . join(", ", @entries) . ")\n";
+    @toremoves == 0 and die sprintf(_("missing the entry to remove\n(one of %s)\n"), join(", ", @entries));
 
     $urpm->remove_media(@toremoves);
     $urpm->update_media;

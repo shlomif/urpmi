@@ -36,6 +36,7 @@ my $force = 0;
 my $X = 0;
 my $all = 0;
 my $complete = 0;
+my $minimal = 0;
 my $rpm_opt = "-Uvh";
 my $verbose = 0;
 
@@ -87,6 +88,7 @@ for (@ARGV) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $all = 1; next };
 	/c/ and do { $complete = 1; next };
+	/m/ and do { $minimal = 1; next };
 	/q/ and do { $rpm_opt = "-U"; next };
 	/v/ and do { $verbose = 1; next };
 	die "urpmi: unknown option \"-$1\", check usage with --help\n"; } next };
@@ -137,7 +139,7 @@ $urpm->relocate_depslist;
 #- basesystem is added to the list so if it need to be upgraded, all its dependancy
 #- will be updated too.
 my %packages;
-$urpm->search_packages(\%packages, [ 'basesystem', @names], all => $all) or $force or exit 1;
+$urpm->search_packages(\%packages, [ ($minimal ? () : ('basesystem')), @names], all => $all) or $force or exit 1;
 
 #- auto select package for upgrading the distribution.
 if ($auto_select) {
@@ -151,7 +153,7 @@ if ($auto_select) {
 }
 
 #- filter to add in packages selected required packages.
-$urpm->filter_packages_to_upgrade(\%packages, sub {
+my $ask_choice = sub {
     my ($urpm, @choices_id) = @_;
     my $n = 1; #- default value.
     my @l = map { my $info = $urpm->{params}{depslist}[$_]; "$info->{name}-$info->{version}-$info->{release}" } @choices_id;
@@ -174,7 +176,14 @@ $urpm->filter_packages_to_upgrade(\%packages, sub {
     }
 
     $choices_id[$n - 1];
-}, complete => $complete);
+};
+if ($minimal) {
+    $urpm->read_provides;
+    $urpm->read_config;
+    $urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
+} else {
+    $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, complete => $complete);
+}
 
 #- package to install as a array of strings.
 my @to_install;
@@ -208,7 +217,7 @@ if (!$auto) {
     }
 }
 
-$urpm->read_config();
+$urpm->read_config;
 
 my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
 unless ($local_sources || $list) {

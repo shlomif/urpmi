@@ -20,6 +20,15 @@
 
 #use strict qw(subs vars refs);
 use urpm;
+# for i18n
+use POSIX;
+use Locale::GetText;
+
+setlocale (LC_ALL, "");
+Locale::GetText::textdomain ("urpmi");
+
+import Locale::GetText I_;
+*_ = *I_;
 
 sub main {
     my (@toupdates, %options);
@@ -30,7 +39,7 @@ sub main {
 	/^--?c/ and $options{noclean} = 0, next;
 	/^--?f/ and $options{force} = 1, next;
 	/^--?noa/ and next; #- default, keeped for compability.
-	/^-/ and die "unknown options \"$_\"\n";
+	/^-/ and die sprintf(_("unknown options \"%s\"\n"), $_);
 	push @toupdates, $_;
     }
 
@@ -38,9 +47,9 @@ sub main {
     my @entries = map { $_->{name} } @{$urpm->{media}};
 
     if ($options{all}) {
-	@entries == 0 and die "nothing to update (use urpmi.addmedia to add a media)\n";
+	@entries == 0 and die _("nothing to update (use urpmi.addmedia to add a media)\n");
     } else {
-	@toupdates == 0 and die "missing the entry to update\n(one of " . join(", ", @entries) . ")\n";
+	@toupdates == 0 and die sprintf(_("missing the entry to update\n(one of %s)\n"), join(", ", @entries));
 	$urpm->select_media(@toupdates);
 
 	#- force ignored media to be returned alive.

@@ -924,6 +924,135 @@ sub filter_packages_to_upgrade {
     $packages;
 }
 
+sub filter_minimal_packages_to_upgrade {
+    my ($urpm, $packages, $select_choices, %options) = @_;
+
+    #- make a subprocess here for reading filelist, this is important
+    #- not to waste a lot of memory for the main program which will fork
+    #- latter for each transaction.
+    local (*INPUT, *OUTPUT_CHILD); pipe INPUT, OUTPUT_CHILD;
+    local (*INPUT_CHILD, *OUTPUT); pipe INPUT_CHILD, OUTPUT;
+    if (my $pid = fork()) {
+	close INPUT_CHILD;
+	close OUTPUT_CHILD;
+	select((select(OUTPUT), $| = 1)[0]);
+
+	#- internal reading from interactive mode of parsehdlist.
+	#- takes a code to call with the line read, this avoid allocating
+	#- memory for that.
+	my $ask_child = sub {
+	    my ($name, $tag, $code) = @_;
+	    $code or die "no callback code for parsehdlist output";
+	    print OUTPUT "$name:$tag\n";
+
+	    local $_;
+	    while (<INPUT>) {
+		chomp;
+		/^\s*$/ and last;
+		$code->($_);
+	    }
+	};
+
+	my ($db, @packages) = (rpmtools::db_open(''), keys %$packages);
+	my ($id, %provides, %installed);
+
+	#- select first level of packages, as in packages list will only be
+	#- examined deps of each.
+	@{$packages}{@packages} = ();
+
+	#- at this level, compute global closure of what is requested, regardless of
+	#- choices for which all package in the choices are taken and their dependancies.
+	#- allow iteration over a modifying list.
+	while (defined($id = shift @packages)) {
+	    if (ref $id) {
+		#- at this point we have almost only choices to resolves.
+		#- but we have to check if one package here is already selected
+		#- previously, if this is the case, use it instead.
+		foreach (@$id) {
+		    exists $packages->{$_} and $id = undef, last;
+		}
+		defined $id or next;
+
+		#- propose the choice to the user now, or select the best one (as it is supposed to be).
+		my @selection = $select_choices ? ($select_choices->($urpm, @$id)) : ($id->[0]);
+		foreach (@selection) {
+		    unshift @packages, $_;
+		    $packages->{$_} = undef;
+		}
+	    }
+	    my $pkg = $urpm->{params}{depslist}[$id];
+
+	    #- iterate over requires of the packages, register them.
+	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}", "requires", sub {
+			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/) {
+				 exists $provides{$1} and return;
+				 rpmtools::db_traverse_tag($db,
+							   'whatprovides', [ $1 ],
+							   [ qw (name version release) ], sub {
+							       $3 and eval(rpmtools::version_compare($_[0]{version}, $3) . $2 . 0) || return;
+							       $4 and eval(rpmtools::version_compare($_[0]{release}, $4) . $2 . 0) || return;
+							       print STDERR "providing [$1] as $_[0]{name}-$_[0]{version}-$_[0]{release}\n";
+							       $provides{$1} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
+							   }) or $provides{$1} = undef;
+			     }
+			 });
+
+	    #- at this point, all unresolved provides (requires) should be fixed by
+	    #- provides files, try to minimize choice at this level.
+	    foreach (keys %provides) {
+		$provides{$_} and next;
+		print STDERR "trying to resolve [$_]\n";
+		my (@choices, @upgradable_choices);
+		foreach (@{$urpm->{params}{provides}{$_}}) {
+		    my $pkg = $urpm->{params}{info}{$_};
+		    if (! exists $packages->{$pkg->{id}}) {
+			#- prefer upgrade package that need to be upgraded, if they are present in the choice.
+			push @choices, $pkg;
+			rpmtools::db_traverse_tag($db,
+						  'name', [ $_ ],
+						  [ qw(name version release) ], sub {
+						      my ($p) = @_;
+						      my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
+						      $installed{$pkg->{id}} ||= !($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0)
+						  });
+		    }
+		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
+		    if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
+			#- the package is already selected, or installed with a better version and release.
+			@choices = @upgradable_choices = ();
+			last;
+		    }
+		    exists $installed{$pkg->{id}} and push @upgradable_choices, $pkg;
+		}
+		@upgradable_choices > 0 and @choices = @upgradable_choices;
+		if (@choices > 0) {
+		    if (@choices == 1) {
+			$packages->{$choices[0]{id}} = undef;
+			unshift @packages, $choices[0]{id};
+		    } else {
+			push @packages, [ sort { $a->{id} <=> $b->{id} } @choices ];
+		    }
+		}
+	    }
+	}
+
+	rpmtools::db_close($db);
+
+	#- no need to still use the child as this point, we can let him to terminate.
+	close OUTPUT;
+	close INPUT;
+	waitpid $pid, 0;
+    } else {
+	close INPUT;
+	close OUTPUT;
+	open STDIN, "<&INPUT_CHILD";
+	open STDOUT, ">&OUTPUT_CHILD";
+	exec "parsehdlist", "--interactive", map { "$urpm->{statedir}/$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media}}
+	  or rpmtools::_exit(1);
+    }
+
+}
+
 #- select source for package selected.
 #- according to keys given in the packages hash.
 #- return a list of list containing the source description for each rpm,

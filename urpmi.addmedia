@@ -35,21 +35,21 @@ sub main {
     my $usage = sprintf(
 _("usage: urpmi.addmedia <name> <url>
 where <url> is one of
-	file://<path>
-	ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>
-	ftp://<host>/<path> with <relative filename of hdlist>
-	http://<host>/<path> with <relative filename of hdlist>
-        removable_<device>_<number>://<path>
+       file://<path>
+       ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>
+       ftp://<host>/<path> with <relative filename of hdlist>
+       http://<host>/<path> with <relative filename of hdlist>
+       removable_<device>://<path>
 "));
     $name or die $usage;
     my ($type, $dev) = $url =~ m,^(file|ftp|http|removable_(\w+)(?:_\d+)?)://, or die $usage;
 
     if ($type eq "removable") {
-	$dev && -e "/dev/$dev" or die( sprintf _( "$usage  device `$dev' do not exist\n"));
+	$dev && -e "/dev/$dev" or die(sprintf _("%s\ndevice `%s' do not exist\n"), $usage, $dev);
     } elsif ($with eq "with") {
-	$relative_hdlist or die( sprintf _( "$usage  <relative path of hdlist> missing\n"));
+	$relative_hdlist or die(sprintf _("%s\n<relative path of hdlist> missing\n"), $usage);
     } elsif ($with) {
-	$with eq "with" or die( sprintf _( "$usage  `with' missing for ftp media\n"));
+	$with eq "with" or die(sprintf _("%s\n`with' missing for ftp media\n"), $usage);
     }
 
     my $urpm = new urpm;
