@@ -1599,13 +1599,19 @@ sub filter_packages_to_upgrade {
 			foreach (@{$p->{requires}}) {
 			    if (my ($pn, $po, $pv, $pr) =
 				/^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
-				$pn eq $n && $pn eq $pkg->{name} or next;
-				++$needed;
-				(!$pv || eval(rpmtools::version_compare($pkg->{version}, $pv) . $po . 0)) &&
-				  (!$pr || rpmtools::version_compare($pkg->{version}, $pv) != 0 ||
-				   eval(rpmtools::version_compare($pkg->{release}, $pr) . $po . 0)) or next;
-				#- an existing provides (propably the one examined) is satisfying the underlying.
-				++$satisfied;
+				if ($po || $o) {
+				    $pn eq $n && $pn eq $pkg->{name} or next;
+				    ++$needed;
+				    (!$pv || eval(rpmtools::version_compare($pkg->{version}, $pv) . $po . 0)) &&
+				      (!$pr || rpmtools::version_compare($pkg->{version}, $pv) != 0 ||
+				       eval(rpmtools::version_compare($pkg->{release}, $pr) . $po . 0)) or next;
+				    #- an existing provides (propably the one examined) is satisfying the underlying.
+				    ++$satisfied;
+				} else {
+				    $pn eq $n or next;
+				    #- a property has been removed since in diff_provides.
+				    ++$needed;
+				}
 			    }
 			}
 			#- check if the package need to be updated because it
@@ -1686,6 +1692,7 @@ sub filter_packages_to_upgrade {
 	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 		$provides{$_} and next;
 
+		print "trying on $n ($o,$v,$r)\n" if /backend/;
 		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
 		    exists $conflicts{$fullname} and next;
 		    my $pkg = $urpm->{params}{info}{$fullname};
@@ -1703,8 +1710,8 @@ sub filter_packages_to_upgrade {
 				/^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 				$pn eq $n or next;
 				my $no = $po eq '==' ? $o : $po; #- CHECK TODO ?
-				(!$pv || eval(rpmtools::version_compare($pv, $v) . $no . 0)) &&
-				  (!$pr || rpmtools::version_compare($pv, $v) != 0 ||
+				(!$pv || !$v || eval(rpmtools::version_compare($pv, $v) . $no . 0)) &&
+				  (!$pr || !$r || rpmtools::version_compare($pv, $v) != 0 ||
 				   eval(rpmtools::version_compare($pr, $r) . $no . 0)) or next;
 				push @{$pre_choices{$pkg->{name}}}, $pkg;
 			    }

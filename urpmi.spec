@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 22mdk
+Release: 23mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,13 @@ fi
 
 
 %changelog
+* Wed Apr 10 2002 François Pons <fpons@mandrakesoft.com> 3.3-23mdk
+- fixed diff_provides on unversioned property not taken into 
+  account (libbinutils2 with binutils).
+- fixed virtual version only requires against virtual version and
+  release provides when resolver try to check release
+  (libgtk+-x11-2.0_0-devel with gtk+2.0-backend-devel).
+
 * Mon Mar 11 2002 François Pons <fpons@mandrakesoft.com> 3.3-22mdk
 - added --wget/--curl support to urpmq (needed by rpmdrake).
 
