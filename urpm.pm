@@ -481,6 +481,7 @@ sub configure {
 	    my $second_pass;
 	    do {
 		foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
+		    our $currentmedia = $_; #- hack for urpmf
 		    delete @$_{qw(start end)};
 		    if ($_->{virtual}) {
 			my $path = $_->{url} =~ m{^(?:file:/*)?(/[^/].*[^/])/*$} && $1;

@@ -150,6 +150,7 @@ my %options_spec = (
 	files => \$::params{files},
 	conflicts => \$::params{conflicts},
 	obsoletes => \$::params{obsoletes},
+	m => \$::params{media},
 	i => sub { $::pattern = 'i' },
 	f => sub { $::full = 'full' },
 	'e=s' => sub { $::expr .= "($_[1])" },

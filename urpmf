@@ -66,6 +66,7 @@ usage:
 ") . N("  (              - left parenthesis to open group expression.
 ") . N("  )              - right parenthesis to close group expression.
 ");
+#") . N("  -m             - print the media in which the package was found.
     exit(0);
 }
 
@@ -100,14 +101,17 @@ foreach (scalar(grep { defined $_ } values %params)) {
 #- build the callback matching the expression.
 my $callback = 'sub { my ($urpm, $pkg) = @_; '; #- it is a good start for a sub, no ;-)
 foreach (qw(filename group size epoch summary description sourcerpm packager buildhost url
-            provides requires files conflicts obsoletes)) {
-    $params{$_} and $callback .= '
-      foreach my $e ($pkg->'.$_.') {
+            provides requires files conflicts obsoletes media)) {
+    if ($params{$_}) {
+	my $fi = $_ eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->'.$_;
+	$callback .= '
+      foreach my $e ('.$fi.') {
         local $_ = $pkg->'.$full.'name."'.(!$quiet && ":$_").':$e";
         '.$expr.' or next;
         '.($uniq && 'exists $uniq{$_} and next; $uniq{$_} = undef;
         ').'print "$_\n";
       }';
+    }
 }
 $callback .= '
       1;
