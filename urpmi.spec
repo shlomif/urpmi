@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.20
+%define version	4.6.21
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -234,6 +234,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Mar 07 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.21-1mdk
+- Output log messages to stdout, not stderr.
+- Fix spurious tags appearing in urpmi.cfg
+- Documentation nits and translations
+- Menu fix for gurpmi (Frederic Crozat)
+
 * Fri Feb 25 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.20-1mdk
 - Output takes now into account the locale's charset
 - Don't require drakxtools anymore

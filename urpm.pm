@@ -11,7 +11,7 @@ use urpm::util;
 use urpm::sys;
 use urpm::cfg;
 
-our $VERSION = '4.6.20';
+our $VERSION = '4.6.21';
 our @ISA = qw(URPM);
 
 use URPM;
