@@ -211,7 +211,6 @@ if ($urpm::args::options{list_aliases}) {
     };
     #- open/close of database should be moved here, in order to allow testing
     #- some bogus case and check for integrity. (note auto_select implies upgrade).
-    #- XXX this is broken
     if ($urpm::args::options{what_requires}) {
 	#- search for packages that require one of the proposed packages.
 	my (@properties, %requires, %properties, $dep);
@@ -259,6 +258,9 @@ if ($urpm::args::options{list_aliases}) {
 		    #- for all provides of package, look up what is requiring them.
 		    foreach ($pkg->provides) {
 			if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
+			    #- NOTE. if the "provides" has no version specification, we happily
+			    #- assume that it can be skipped, because it most probably refers
+			    #- to a virtual package.
 			    next if $s eq '';
 			    foreach (map { $urpm->{depslist}[$_] }
 				     grep { ! exists $state->{selected}{$_} && ! exists $properties{$_} }
