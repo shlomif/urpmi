@@ -2856,14 +2856,13 @@ sub install {
 	    } $pkg->files;
 	    close $fh;
 	};
-	$urpm->{nb_install} = scalar keys %$install;
-	$urpm->{nb_upgrade} = scalar keys %$upgrade;
-	if ($urpm->{nb_install} || $urpm->{nb_upgrade}) {
+	$urpm->{nb_install} += scalar keys %$install;
+	$urpm->{nb_upgrade} += scalar keys %$upgrade;
+	if (scalar keys %$install || scalar keys %$upgrade) {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
 	}
 	@l = $trans->run($urpm, %options);
-	delete $urpm->{$_} for qw(nb_install nb_upgrade);
 
 	#- in case of error or testing, do not try to check rpmdb
 	#- for packages being upgraded or not.
