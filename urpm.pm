@@ -2677,6 +2677,7 @@ sub install_logger {
 #- install packages according to each hashes (install or upgrade).
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
+    my @readmes;
 
     #- allow process to be forked now.
     my $pid;
@@ -2760,7 +2761,16 @@ sub install {
 	      $urpm->{error}(N("unable to access rpm file [%s]", $install->{$id} || $upgrade->{$id}));
 	    return fileno $fh;
 	};
-	$options{callback_close} ||= sub { close $fh };
+	$options{callback_close} ||= sub {
+	    my ($urpm, undef, $pkgid) = @_;
+	    return unless defined $pkgid;
+	    my $pkg = $urpm->{depslist}[$pkgid];
+	    my $fullname = $pkg->fullname();
+	    my $trtype = (grep { /$fullname/ } values %$install) ? 'install' : 'upgrade';
+	    push @readmes, map { [ $_, $fullname ] } grep {
+		/\bREADME(\.$trtype)?\.urpmi$/
+	    } $pkg->files();
+	};
 	if (keys %$install || keys %$upgrade) {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
@@ -2791,7 +2801,16 @@ sub install {
 	close ERROR_OUTPUT;
 	#- keep safe exit now (with destructor call).
 	exit 0;
-    } else {
+    } else { #- parent process
+	if (@readmes) {
+	    if ($urpm::args::options{X}) {
+	    } else {
+		foreach (@readmes) {
+		    print "-" x 70, "\n", N("More information on package %s", $_->[1]), "\n";
+		    print cat_($_->[0]), "-" x 70, "\n";
+		}
+	    }
+	}
 	return @l;
     }
 }
