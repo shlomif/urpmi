@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 21mdk
+Release: 22mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,13 @@ fi
 
 
 %changelog
+* Fri Feb 21 2003 François Pons <fpons@mandrakesoft.com> 4.2-22mdk
+- fixed callback not sent with wget if a file is not downloaded.
+- fixed rsync:// protocol to support :port inside url.
+- simplified propagation of download callback, always protect
+  filename for password.
+- added newer callback mode for rpmdrake.
+
 * Thu Feb 20 2003 François Pons <fpons@mandrakesoft.com> 4.2-21mdk
 - modified --test output to be consistent about the same
   message displayed if installation is possible whatever

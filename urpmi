@@ -485,7 +485,6 @@ my %sources = $urpm->download_source_packages($local_sources, $list,
 					      callback => sub {
 						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;
 						  if ($mode eq 'start') {
-						      $file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
 						      print STDERR "    $file\n"; #- allow pass-protected url to be logged.
 						  } elsif ($mode eq 'progress') {
 						      if (defined $total && defined $eta) {

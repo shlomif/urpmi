@@ -194,8 +194,12 @@ sub sync_webfetch {
     #- currently ftp and http protocol are managed by curl or wget,
     #- ssh and rsync protocol are managed by rsync *AND* ssh.
     foreach (@_) {
-	/^([^:]*):/ or die _("unknown protocol defined for %s", $_);
+	/^([^:_]*)[^:]*:/ or die _("unknown protocol defined for %s", $_);
 	push @{$files{$1}}, $_;
+    }
+    if ($files{removable} || $files{file}) {
+	sync_file($options, @{$files{removable} || []}, @{$files{file} || []});
+	delete @files{qw(removable file)};
     }
     if ($files{ftp} || $files{http}) {
 	if (-x "/usr/bin/curl" && (! ref($options) || $options->{prefer} ne 'wget' || ! -x "/usr/bin/wget")) {
@@ -221,6 +225,28 @@ sub sync_webfetch {
     }
     %files and die _("unable to handle protocol: %s", join ', ', keys %files);
 }
+sub propagate_sync_callback {
+    my $options = shift @_;
+    if (ref $options && $options->{callback}) {
+	my $mode = shift @_;
+	if ($mode =~ /^(start|progress|end)$/) {
+	    my $file = shift @_;
+	    $file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
+	    $options->{callback}($mode, $file, @_);
+	} else {
+	    $options->{callback}($mode, @_);
+	}
+    }
+}
+sub sync_file {
+    my $options = shift @_;
+    foreach (@_) {
+	my ($in) = /^(?:removable[^:]*|file):\/(.*)/;
+	propagate_sync_callback($options, 'start', $_);
+	system("cp", "-pR", $in || $_, ref $options ? $options->{dir} : $options) or die _("copy failed: %s", $@);
+	propagate_sync_callback($options, 'end', $_);
+    }
+}
 sub sync_wget {
     -x "/usr/bin/wget" or die _("wget is missing\n");
     local *WGET;
@@ -238,17 +264,17 @@ sub sync_wget {
 	$buf .= $_;
 	if ($_ eq "\r" || $_ eq "\n") {
 	    if (ref $options && $options->{callback}) {
-		if (! defined $file && $buf =~ /^--\d\d:\d\d:\d\d--\s+(\S.*)\n/ms) {
-		    $file = $1;
-		    $options->{callback}('start', $file);
+		if ($buf =~ /^--\d\d:\d\d:\d\d--\s+(\S.*)\n/ms) {
+		    $file && $file ne $1 and propagate_sync_callback($options, 'end', $file);
+		    ! defined $file and propagate_sync_callback($options, 'start', $file = $1);
 		} elsif (defined $file && ! defined $total && $buf =~ /==>\s+RETR/) {
 		    $total = '';
 		} elsif (defined $total && $total eq '' && $buf =~ /^[^:]*:\s+(\d\S*)/) {
 		    $total = $1;
 		} elsif (my ($percent, $speed, $eta) = $buf =~ /^\s*(\d+)%.*\s+(\S+)\s+ETA\s+(\S+)\s*[\r\n]$/ms) {
-		    $options->{callback}('progress', $file, $percent, $total, $eta, $speed);
+		    propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed);
 		    if ($_ eq "\n") {
-			$options->{callback}('end', $file);
+			propagate_sync_callback($options, 'end', $file);
 			($total, $file) = (undef, undef);
 		    }
 		}
@@ -258,6 +284,7 @@ sub sync_wget {
 	    $buf = '';
 	}
     }
+    $file and propagate_sync_callback($options, 'end', $file);
     close WGET or die _("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 sub sync_curl {
@@ -328,12 +355,12 @@ sub sync_curl {
 		if (ref $options && $options->{callback}) {
 		    unless (defined $file) {
 			$file = shift @l;
-			$options->{callback}('start', $file);
+			propagate_sync_callback($options, 'start', $file);
 		    }
 		    if (my ($percent, $total, $eta, $speed) = $buf =~ /^\s*(\d+)\s+(\S+)[^\r\n]*\s+(\S+)\s+(\S+)[\r\n]$/ms) {
-			$options->{callback}('progress', $file, $percent, $total, $eta, $speed);
+			propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed);
 			if ($_ eq "\n") {
-			    $options->{callback}('end', $file);
+			    propagate_sync_callback($options, 'end', $file);
 			    $file = undef;
 			}
 		    }
@@ -359,8 +386,8 @@ sub sync_rsync {
     foreach (@_) {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = /^.*\/([^\/]*)$/ && $1 || $_;
-	my ($file) = /^rsync:\/\/(.*)/ or next;
-	ref $options && $options->{callback} and $options->{callback}('start', $file);
+	my ($file) = /^rsync:\/\/(.*)/ or next;	$file =~ /::/ or $file = $_;
+	propagate_sync_callback($options, 'start', $file);
 	do {
 	    local (*RSYNC, $_);
 	    my $buf = '';
@@ -374,7 +401,7 @@ sub sync_rsync {
 		if ($_ eq "\r" || $_ eq "\n") {
 		    if (ref $options && $options->{callback}) {
 			if (my ($percent, $speed) = $buf =~ /^\s*\d+\s+(\d+)%\s+(\S+)\s+/) {
-			    $options->{callback}('progress', $file, $percent, undef, undef, $speed);
+			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
 			}
 		    } else {
 			print STDERR $_;
@@ -384,7 +411,7 @@ sub sync_rsync {
 	    }
 	    close RSYNC;
 	} while ($? != 0 && --$count > 0 && -e (ref $options ? $options->{dir} : $options) . "/$basename");
-	ref $options && $options->{callback} and $options->{callback}('end', $file);
+	propagate_sync_callback($options, 'end', $file);
     }
     $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
@@ -402,7 +429,7 @@ sub sync_ssh {
     foreach my $file (@_) {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = $file =~ /^.*\/([^\/]*)$/ && $1 || $file;
-	ref $options && $options->{callback} and $options->{callback}('start', $file);
+	propagate_sync_callback($options, 'start', $file);
 	do {
 	    local (*RSYNC, $_);
 	    my $buf = '';
@@ -416,7 +443,7 @@ sub sync_ssh {
 		if ($_ eq "\r" || $_ eq "\n") {
 		    if (ref $options && $options->{callback}) {
 			if (my ($percent, $speed) = $buf =~ /^\s*\d+\s+(\d+)%\s+(\S+)\s+/) {
-			    $options->{callback}('progress', $file, $percent, undef, undef, $speed);
+			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
 			}
 		    } else {
 			print STDERR $_;
@@ -426,7 +453,7 @@ sub sync_ssh {
 	    }
 	    close RSYNC;
 	} while ($? != 0 && --$count > 0 && -e (ref $options ? $options->{dir} : $options) . "/$basename");
-	ref $options && $options->{callback} and $options->{callback}('end', $file);
+	propagate_sync_callback($options, 'end', $file);
     }
     $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
@@ -434,7 +461,6 @@ sub sync_ssh {
 sub sync_logger {
     my ($mode, $file, $percent, $total, $eta, $speed) = @_;
     if ($mode eq 'start') {
-	$file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
 	print STDERR "    $file\n";
     } elsif ($mode eq 'progress') {
 	if (defined $total && defined $eta) {
@@ -1141,8 +1167,14 @@ sub update_media {
 	    if ($options{force} < 2 && $medium->{with_hdlist} && -e $with_hdlist_dir) {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		$urpm->{log}(_("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
-		system("cp", "-pR", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
-		  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
+		$options{callback} && $options{callback}('copy', $medium->{name});
+		if (system("cp", "-pR", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
+		    $options{callback} && $options{callback}('done', $medium->{name});
+		    $urpm->{log}(_("...copying failed"))
+		} else {
+		    $options{callback} && $options{callback}('failed', $medium->{name});
+		    $urpm->{log}(_("...copying done"));
+		}
 
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
 		  $error = 1, $urpm->{error}(_("copy of [%s] failed", $with_hdlist_dir));
@@ -1264,6 +1296,7 @@ sub update_media {
 	    #- try to probe for possible with_hdlist parameter, unless
 	    #- it is already defined (and valid).
 	    $urpm->{log}(_("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
+	    $options{callback} && $options{callback}('retrieve', $medium->{name});
 	    if ($options{probe_with_hdlist}) {
 		my ($suffix) = $dir =~ /RPMS([^\/]*)\/*$/;
 
@@ -1314,6 +1347,7 @@ sub update_media {
 		}
 	    }
 	    if (-s "$urpm->{cachedir}/partial/$basename" > 32) {
+		$options{callback} && $options{callback}('done', $medium->{name});
 		$urpm->{log}(_("...retrieving done"));
 
 		unless ($options{force}) {
@@ -1385,6 +1419,7 @@ sub update_media {
 		}
 	    } else {
 		$error = 1;
+		$options{callback} && $options{callback}('failed', $medium->{name});
 		$urpm->{error}(_("retrieve of source hdlist (or synthesis) failed"));
 	    }
 	}
@@ -1411,6 +1446,7 @@ sub update_media {
 		#- read first pass hdlist or synthesis, try to open as synthesis, if file
 		#- is larger than 1MB, this is problably an hdlist else a synthesis.
 		#- anyway, if one tries fails, try another mode.
+		$options{callback} && $options{callback}('parse', $medium->{name});
 		my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 		if (!$medium->{synthesis} || -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 262144) {
 		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
@@ -1440,7 +1476,10 @@ sub update_media {
 		unless (defined $medium->{start} && defined $medium->{end}) {
 		    $error = 1;
 		    $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
+		    $options{callback} && $options{callback}('failed', $medium->{name});
 		    #- we will have to read back the current synthesis file unmodified.
+		} else {
+		    $options{callback} && $options{callback}('done', $medium->{name});
 		}
 
 		unless ($error) {
