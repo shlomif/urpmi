@@ -45,7 +45,8 @@ sub new {
 	   provides   => {},
 	   depslist   => [],
 
-	   sync       => \&sync_webfetch, #- first argument is directory, others are url to fetch.
+	   #- sync: first argument is directory, others are url to fetch.
+	   sync       => sub { 	$self->sync_webfetch(@_) },
 	   proxy      => get_proxy(),
 	   options    => {},
 
@@ -118,6 +119,7 @@ sub unquotespace { local $_ = $_[0] || ''; s/\\(\s)/$1/g; $_ }
 #- syncing algorithms, currently is implemented wget and curl methods,
 #- webfetch is trying to find the best (and one which will work :-)
 sub sync_webfetch {
+    my $urpm = shift @_;
     my $options = shift @_;
     my %files;
     #- extract files according to protocol supported.
@@ -132,12 +134,21 @@ sub sync_webfetch {
 	delete @files{qw(removable file)};
     }
     if ($files{ftp} || $files{http} || $files{https}) {
-	if (-x "/usr/bin/curl" && (! ref($options) || $options->{prefer} ne 'wget' || ! -x "/usr/bin/wget")) {
+	my @webfetch = qw(curl wget);
+	my @available_webfetch = grep { -x "/usr/bin/$_" } @webfetch;
+	my $prefered;
+	#- use user default downloader if provided and available
+	if ($urpm->{options}{downloader}) {
+	    $prefered = find { $_ eq $urpm->{options}{downloader} } @available_webfetch;
+	}
+	#- else first downloader of @webfetch is the default one
+	$prefered ||= $available_webfetch[0];
+	if ($prefered eq 'curl') {
 	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
-	} elsif (-x "/usr/bin/wget") {
+	} elsif ($prefered eq 'wget') {
 	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} else {
-	    die N("no webfetch (curl or wget currently) found\n");
+	    die N("no webfetch (" . join(" or ", @webfetch) . " currently) found\n");
 	}
 	delete @files{qw(ftp http https)};
     }
@@ -472,7 +483,7 @@ sub read_config {
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
 		    }
 		    next;
-		} elsif (($k, $v) = /^(limit-rate|excludepath|key[\-_]ids|split-(?:level|length)|priority-upgrade)\s*:\s*(.*)$/) {
+		} elsif (($k, $v) = /^(limit-rate|excludepath|key[\-_]ids|split-(?:level|length)|priority-upgrade|downloader)\s*:\s*(.*)$/) {
 		    unless (exists($urpm->{options}{$k})) {
 			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
 			$urpm->{options}{$k} = $v;

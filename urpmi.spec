@@ -237,6 +237,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 %changelog
 * Wed Jan 21 2004 Olivier Blin <blino@mandrake.org> 4.4.3-1mdk
+- add downloader option in global config section
 - better error reporting for curl
 - fix urpmq -i on media with synthesis hdlist
 - fix --limit-rate in man pages (it's in bytes/sec)
