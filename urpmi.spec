@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 16mdk
+%define release 17mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -249,6 +249,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Jul 23 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-17mdk
+- Make --use-distrib support new media layout.
+- Update manpages.
+
 * Thu Jul 22 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-16mdk
 - Automagically reconfigure NFS media as well. (duh.)
 
