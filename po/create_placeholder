@@ -8,7 +8,7 @@ echo -e "\
 char *foobar[] = { " > placeholder.h.$$
 cat ../urpmf | perl -ne 's/.*\$ECHO\s+(".*").*/N_($1),/g and print' >> placeholder.h.$$
 
-for i in $*
+for i in $* 
 do
 	./pl_create_placeholder $i >> placeholder.h.$$
 done
