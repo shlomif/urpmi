@@ -46,13 +46,12 @@ and [options] are from
 
     $options{force} = 0;
     $options{noclean} = 1;
-    $options{sync} = undef;
     while ($_ = shift @_) {
 	/^--?c/ and $options{noclean} = 0, next;
 	/^--?h/ and $options{probe_with_hdlist} = 1, next;
 	/^--?f/ and ++$options{force}, next;
-	/^--wget/ and $options{sync} = \&urpm::sync_wget, next;
-	/^--curl/ and $options{sync} = \&urpm::sync_curl, next;
+	/^--wget/ and $urpm->{sync} = \&urpm::sync_wget, next;
+	/^--curl/ and $urpm->{sync} = \&urpm::sync_curl, next;
 	/^--distrib$/ and $options{distrib} = 1, next;
 	/^--update$/ and $options{update} = 1, next;
 	/^-/ and die $usage . _("\nunknown options '%s'\n", $_);
@@ -64,7 +63,6 @@ and [options] are from
     my ($type) = $url =~ m,^([^:]*)://, or die $usage;
 
     my $urpm = new urpm;
-    $options{sync} and $urpm->{sync} = $options{sync};
 
     $urpm->read_config;
 

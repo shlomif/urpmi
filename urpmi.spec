@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.2
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,15 @@ fi
 
 
 %changelog
+* Mon Jan 28 2002 François Pons <fpons@mandrakesoft.com> 3.2-4mdk
+- integrated patch for supermount from Andrej Borsenkow.
+- fixed --wget (or --curl) not used in urpmi.update.
+- try to manage .src.rpm file in a usable way.
+- fixed requires resolution on multiple requires with
+  sense and without sense informations on the same
+  package (menu bug).
+- fixed typo in po/fr.po (multiple -f for help page).
+
 * Wed Jan 23 2002 François Pons <fpons@mandrakesoft.com> 3.2-3mdk
 - fixed possible conflicts management error.
 - fixed --mediums for upload of same package in different media.

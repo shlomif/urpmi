@@ -26,17 +26,17 @@ import urpm _;
 
 sub main {
     my (@toupdates, %options);
+    my $urpm = new urpm;
 
     $options{force} = 0;
     $options{noclean} = 1;
-    $options{sync} = undef;
     foreach (@_) {
 	/^--?a/ and $options{all} = 1, next;
 	/^--?c/ and $options{noclean} = 0, next;
 	/^--?d/ and $options{depslist} = 1, next;
 	/^--?f/ and ++$options{force}, next;
-	/^--wget/ and $options{sync} = \&urpm::sync_wget, next;
-	/^--curl/ and $options{sync} = \&urpm::sync_curl, next;
+	/^--wget/ and $urpm->{sync} = \&urpm::sync_wget, next;
+	/^--curl/ and $urpm->{sync} = \&urpm::sync_curl, next;
 	/^--?noa/ and next; #- default, keeped for compability.
 	/^-/ and die _("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.
@@ -50,7 +50,7 @@ where <name> is a medium name to update.
 	push @toupdates, $_;
     }
 
-    my $urpm = new urpm; $urpm->read_config;
+    $urpm->read_config;
     my @entries = map { $_->{name} } @{$urpm->{media}};
 
     if ($options{all}) {

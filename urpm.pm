@@ -1027,15 +1027,33 @@ sub find_mntpoints {
     #- read /etc/fstab and check for existing mount point.
     open F, "/etc/fstab";
     while (<F>) {
-	my ($device, $mntpoint) = /^\s*(\S+)\s+(\/\S+)/ or next;
+	my ($device, $mntpoint, $fstype, $options) = /^\s*(\S+)\s+(\/\S+)\s+(\S+)\s+(\S+)/ or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
-	$fstab{$mntpoint} = $mode eq 'device' ? ($device eq $mntpoint ? m|dev=(/[^,\s]*)| && $1 : $device) : 0;
+	$fstab{$mntpoint} =  0;
+	if ($mode eq 'device') {
+	    if ($fstype eq 'supermount') {
+		$options =~ /^.*dev=([^,]+),*$/ and $fstab{$mntpoint} = $1;
+	    } elsif ($device eq 'none') {
+		next;
+	    } else {
+		$fstab{$mntpoint} = $device;
+	    }
+	}
     }
     open F, "/etc/mtab";
     while (<F>) {
-	my ($device, $mntpoint) = /^\s*(\S+)\s+(\/\S+)/ or next;
+	my ($device, $mntpoint, $fstype, $options) = /^\s*(\S+)\s+(\/\S+)\s+(\S+)\s+(\S+)/ or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
-	$fstab{$mntpoint} = $mode eq 'device' ? $device : 1;
+	$fstab{$mntpoint} = 1;
+	if ($mode eq 'device') {
+	    if ($fstype eq 'supermount') {
+		$options =~ /^.*dev=([^,]+),*$/ and $fstab{$mntpoint} = $1;
+	    } elsif ($device eq 'none') {
+		next;
+	    } else {
+		$fstab{$mntpoint} = $device;
+	    }
+	}
     }
     close F;
 
@@ -1495,9 +1513,9 @@ sub filter_packages_to_upgrade {
 					      $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
 					      $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
 						eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
-					      $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
+					      $provides{$_} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
 					  });
-		unless (exists $provides{$n}) {
+		unless (exists $provides{$_}) {
 		    foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
 			exists $conflicts{$fullname} and next;
 			my $p = $urpm->{params}{info}{$fullname};
@@ -1506,10 +1524,10 @@ sub filter_packages_to_upgrade {
 			$r && rpmtools::version_compare($p->{version}, $v) == 0 and
 			  eval(rpmtools::version_compare($p->{release}, $r) . $o . 0) || next;
 			#- this is incomplete, exact provides is not kept.
-			$provides{$n} = undef;
+			$provides{$_} = undef;
 		    }
 		}
-		unless (exists $provides{$n}) {
+		unless (exists $provides{$_}) {
 		    rpmtools::db_traverse_tag($db,
 					      'whatrequires', [ $1 ],
 					      [ qw(name version release sense requires) ], sub{
@@ -1528,17 +1546,17 @@ sub filter_packages_to_upgrade {
 	$provides{$pkg->{name}} = undef; #"$pkg->{name}-$pkg->{version}-$pkg->{release}";
 	foreach (@{$pkg->{requires} || []}) {
 	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
-		exists $provides{$n} || exists $selected{$n} and next;
+		exists $provides{$_} || exists $selected{$_} and next;
 		#- if the provides is not found, it will be resolved at next step, else
 		#- it will be resolved by searching the rpm database.
-		$provides{$n} ||= undef;
+		$provides{$_} ||= undef;
 		my $check_pkg = sub {
 		    $options{keep_alldeps} and return;
 		    $o and $n eq $_[0]{name} || return;
 		    $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
 		    $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
 		      eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
-		    $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
+		    $provides{$_} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
 		};
 		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
 					  [ qw (name version release) ], $check_pkg);
@@ -1562,7 +1580,7 @@ sub filter_packages_to_upgrade {
 					  [ qw (name version release) ], $check_pkg);
 		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
 		    my $pkg = $urpm->{params}{info}{$fullname};
-		    $o and $n eq $_[0]{name} || next;
+		    $o and $n eq $pkg->{name} || next;
 		    $v and eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) || next;
 		    $r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
 		      eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
@@ -1578,10 +1596,16 @@ sub filter_packages_to_upgrade {
 	    $selected{$_} = undef;
 
 	    my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
-	    foreach my $fullname (keys %{$urpm->{params}{provides}{$_} || {}}) {
-		exists $conflicts{$fullname} and next;
-		my $pkg = $urpm->{params}{info}{$fullname};
-		push @{$pre_choices{$pkg->{name}}}, $pkg;
+	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
+		    exists $conflicts{$fullname} and next;
+		    my $pkg = $urpm->{params}{info}{$fullname};
+		    $o and $n eq $pkg->{name} || next;
+		    $v and eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) || next;
+		    $r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
+		      eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
+		    push @{$pre_choices{$pkg->{name}}}, $pkg;
+		}
 	    }
 	    foreach (values %pre_choices) {
 		#- there is at least one element in each list of values.
