@@ -1085,7 +1085,7 @@ sub update_media {
 
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
-	    #- mount everything that might be necessary.
+	    #- everything that might be necessary.
 	    -d $dir or $urpm->try_mounting(
 		$options{force} < 2 && ($options{probe_with} || $medium->{with_hdlist})
 		    ? $with_hdlist_dir : $dir,
@@ -2639,7 +2639,7 @@ sub copy_packages_of_removable_media {
 	if (my ($dir) = $medium->{url} =~ m!^(?:(?:removable[^:]*|file):/)?(/.*)!) {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
-	    #- mount everything that might be necessary.
+	    #- everything that might be necessary.
 	    while ($check_notfound->($id, $dir, is_iso($medium->{removable}) || 'removable')) {
 		$options{ask_for_medium} or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir);
