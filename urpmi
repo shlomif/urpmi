@@ -113,6 +113,9 @@ if (@files) {
     m|^/| or $_ = "./$_" foreach @files;
 }
 
+#- reparse whole internal depslist to match against newer packages only.
+$params->relocate_depslist();
+
 my %exact;
 my %found;
 my %foundi;
