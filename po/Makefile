@@ -5,7 +5,7 @@ PGOAL = urpmi
 
 # perl files to search translatable strings in
 PL_FILES = ../_irpm ../rpm-find-leaves ../urpm.pm ../urpme ../urpmf \
-	../urpmi ../urpmi.addmedia \
+	../urpmi ../urpmi.addmedia ../gurpmi \
 	../urpmi.removemedia ../urpmi.update ../urpmq \
 	../urpm/parallel_ka_run.pm  ../urpm/parallel_ssh.pm \
 	../urpm/msg.pm ../urpm/args.pm
