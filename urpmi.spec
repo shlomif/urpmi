@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.15
+%define version	4.6.16
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -30,7 +30,7 @@ Source0:	%{name}.tar.bz2
 Summary:	Command-line software installation tools
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
-PreReq:		perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 1.04
+PreReq:		perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 1.08
 PreReq:		packdrake >= 5.0.2
 BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3
 BuildRequires:	gettext
@@ -233,6 +233,13 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Feb 14 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.16-1mdk
+- Patch by Michael Scherer to allow to use variables in media URLs
+- Fix retrieval of source packages (e.g. urpmq --sources) with alternative
+  dependencies foo|bar (Pascal Terjan)
+- Fix --root option in urpme
+- Require latest perl-URPM
+
 * Fri Feb 04 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.15-1mdk
 - Add ChangeLog in docs
 - Message updates
