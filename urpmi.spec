@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 16mdk
+Release: 17mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Fri Aug  1 2003 François Pons <fpons@mandrakesoft.com> 4.4-17mdk
+- fixed shared locks management (were always exclusive).
+
 * Thu Jul 31 2003 François Pons <fpons@mandrakesoft.com> 4.4-16mdk
 - fixed transaction number when split is active.
 - fixed transaction which should not be splited in parallel mode.
