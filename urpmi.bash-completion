@@ -5,34 +5,39 @@
 # utility functions
 _urpmi_get_medias()
 {
-	medias=$( awk '/{/ {print $0}' /etc/urpmi/urpmi.cfg 2>/dev/null | sed -e 's/ [^ ]\+ {$//' )
+	medias=( $( sed -ne 's/^\(.\+\) \+[^ ]\+ \+{/\1/p' /etc/urpmi/urpmi.cfg 2>/dev/null ) )
 }
 
 _urpmi_medias()
 {
 	# return list of available media
-	local medias
-	# get medias list
-	_urpmi_get_medias
+	local medias IFS=$'\t\n'
+        # get medias list
+        _urpmi_get_medias
 	# return matching ones
-	COMPREPLY=( $( compgen -W "$medias" -- ${cur//\\\\/\\\\} ) )
+        COMPREPLY=( $( compgen -W '${medias[@]}' -- $cur ) )
 }
 
 _urpmi_packages()
 {
 	# return list of available packages
-	local medias
+	local medias i j IFS=$'\t\n,'
+
+        # get medias list
+	_urpmi_get_medias
+
 	# find media selection options
 	for (( i=1; i < COMP_CWORD; i++ )); do
 		if [[ "${COMP_WORDS[i]}" == --excludemedia ]]; then
-			_urpmi_get_medias
-			for media in ${COMP_WORDS[i+1]//,/ }; do 
-				medias=${medias//$media/}
+			for media in ${COMP_WORDS[i+1]}; do 
+				for (( j=0; j < ${#medias[@]}; j++ )); do
+					[ "${medias[j]}" == "$media" ] && medias[j]=''
+				done
 			done
 			i=$(($i+1))
 		fi
 		if [[ "${COMP_WORDS[i]}" == --media ]]; then
-			medias=${COMP_WORDS[i+1]//,/ }
+			medias=( ${COMP_WORDS[i+1]} )
 			i=$(($i+1))
 		fi
 		if [[ "${COMP_WORDS[i]}" == --update ]]; then
@@ -41,19 +46,16 @@ _urpmi_packages()
 		fi
 	done
 
-	# get medias list if still empty
-	[ -z "$medias" ] && _urpmi_get_medias
-
 	# get matching packages
-	for media in $medias; do
-		COMPREPLY=( ${COMPREPLY[@]:-} $( cat /var/lib/urpmi/names.$media 2>/dev/null | grep "^$cur" ) )
+	for media in ${medias[@]}; do
+		COMPREPLY=( ${COMPREPLY[@]:-} $( grep "^$cur" /var/lib/urpmi/names.${media//\\\\/} 2>/dev/null ) )
 	done
 }
 
 _urpmi_aliases()
 {
 	# return list of available aliases
-	COMPREPLY=( $( awk -F: '{print $1}' /etc/urpmi/parallel.cfg 2>/dev/null | grep "^${cur//\\\\/\\\\}" ) )
+	COMPREPLY=( $( awk -F: '{print $1}' /etc/urpmi/parallel.cfg 2>/dev/null | grep "^${cur//\\\\/}" ) )
 }
 
 # urpmi completion
