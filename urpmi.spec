@@ -1,14 +1,14 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 1.6
-Release: 14mdk
+Version: 1.7
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject, wget
-PreReq: perl-gettext, rpmtools >= 3.0-8mdk
+PreReq: perl-gettext, rpmtools >= 3.1
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -19,7 +19,7 @@ urpmi takes care of dependencies between rpms, using a pool (or pools) of rpms.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
-Version: 1.0
+Version: 1.1
 Summary: User mode rpm GUI install
 Requires: urpmi grpmi gchooser gmessage
 Group: %{group}
@@ -27,7 +27,7 @@ Group: %{group}
 gurpmi is a graphical front-end to urpmi
 
 %package -n autoirpm
-Version: 0.8
+Version: 0.9
 Summary: Auto install of rpm on demand
 Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
 Group: %{group}
@@ -110,6 +110,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Jul 23 2001 François Pons <fpons@mandrakesoft.com> 1.7-1mdk
+- updated to use newer rpmtools 3.1.
+
 * Mon Jul 16 2001 Daouda Lo <daouda@mandrakesoft.com> 1.6-14mdk
 - resync with cvs.
 

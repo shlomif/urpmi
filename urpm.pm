@@ -835,39 +835,37 @@ sub filter_active_media {
 
 #- relocate depslist array id to use only the most recent packages,
 #- reorder info hashes to give only access to best packages.
-sub relocate_depslist {
+sub relocate_depslist_provides {
     my ($urpm, %options) = @_;
     my $relocated_entries = undef;
 
+    #- reset names hash now, will be filled after.
+    $urpm->{params}{names} = {};
+
     foreach (@{$urpm->{params}{depslist} || []}) {
+	my $fullname = "$_->{name}-$_->{version}-$_->{release}.$_->{arch}";
 	if ($options{use_active} && !$_->{active}) {
 	    #- disable non active package if active flag should be checked.
-	    $urpm->{params}{info}{$_->{name}} == $_ and delete $urpm->{params}{info}{$_->{name}};
-	} elsif ($urpm->{params}{info}{$_->{name}} != $_) {
-	    #- at this point, it is sure there is a package that
-	    #- is multiply defined and this should be fixed.
+	    delete $urpm->{params}{info}{$fullname};
+	} else {
 	    #- remove access to info if arch is incompatible and only
 	    #- take into account compatible arch to examine.
-	    #- correct info hash by prefering first better version,
+	    #- set names hash by prefering first better version,
 	    #- then better release, then better arch.
 	    $relocated_entries ||= 0;
-	    my $p = $urpm->{params}{info}{$_->{name}};
-	    if ($p && (!rpmtools::compat_arch($p->{arch}) || $options{use_active} && !$p->{active})) {
-		delete $urpm->{params}{info}{$_->{name}};
-		$p = undef;
-	    }
 	    if (rpmtools::compat_arch($_->{arch})) {
+		my $p = $urpm->{params}{names}{$_->{name}};
 		if ($p) {
 		    my $cmp_version = $_->{serial} == $p->{serial} && rpmtools::version_compare($_->{version}, $p->{version});
 		    my $cmp_release = $cmp_version == 0 && rpmtools::version_compare($_->{release}, $p->{release});
 		    if ($_->{serial} > $p->{serial} || $cmp_version > 0 || $cmp_release > 0 ||
 			($_->{serial} == $p->{serial} && $cmp_version == 0 && $cmp_release == 0 &&
 			 rpmtools::better_arch($_->{arch}, $p->{arch}))) {
-			$urpm->{params}{info}{$_->{name}} = $_;
+			$urpm->{params}{names}{$_->{name}} = $_;
 			++$relocated_entries;
 		    }
 		} else {
-		    $urpm->{params}{info}{$_->{name}} = $_;
+		    $urpm->{params}{names}{$_->{name}} = $_;
 		    ++$relocated_entries;
 		}
 	    }
@@ -876,19 +874,26 @@ sub relocate_depslist {
 
     #- relocate id used in depslist array, delete id if the package
     #- should NOT be used.
-    if (defined $relocated_entries) {
-	foreach (@{$urpm->{params}{depslist}}) {
-	    unless ($_->{source}) { #- hack to avoid losing local package.
-		my $p = $urpm->{params}{info}{$_->{name}};
-		if (defined $p) {
-		    if ($_->{id} != $p->{id}) {
-			$p->{relocated} .= " $_->{id}";
-		    }
-		} else {
-		    delete $_->{id};
-		}
+    foreach (@{$urpm->{params}{depslist}}) {
+	unless ($_->{source}) { #- hack to avoid losing local package.
+	    my $p = $urpm->{params}{names}{$_->{name}};
+	    if ($p) {
+		$_->{id} = $p->{id};
+	    } else {
+		delete $_->{id};
 	    }
 	}
+    }
+
+    #- examine provides to remove non allowed provides (no id).
+    foreach (values %{$urpm->{params}{provides}}) {
+	my %list;
+	foreach (@$_) {
+	    if ($urpm->{params}{info}{$_} && defined $urpm->{params}{info}{$_}{id}) {
+		$list{$_} = undef;
+	    }
+	}
+	$_ = [ keys %list ];
     }
 
     $urpm->{log}(_("relocated %s entries in depslist", $relocated_entries));
@@ -906,17 +911,13 @@ sub register_local_packages {
 	/(.*\/)?[^\/]*\.rpm$/ or $error = 1, $urpm->{error}(_("invalid rpm file name [%s]", $_)), next;
 	-r $_ or $error = 1, $urpm->{error}(_("unable to access rpm file [%s]", $_)), next;
 
-	my ($name) = $urpm->{params}->read_rpms($_);
-	if ($name =~ /(.*)-([^-]*)-([^-]*)\.([^-\.]*)/) {
-	    my $pkg = $urpm->{params}{info}{$1};
-	    $pkg->{version} eq $2 or $urpm->{error}(_("mismatch version for registering rpm file")), next;
-	    $pkg->{release} eq $3 or $urpm->{error}(_("mismatch release for registering rpm file")), next;
-	    $pkg->{arch} eq $4 or $urpm->{error}(_("mismatch arch for registering rpm file")), next;
-	    $pkg->{source} = $1 ? $_ :  "./$_";
-	    push @names, $name;
-	} else {
-	    $urpm->{fatal}(7, _("rpmtools package is too old, please upgrade it"));
-	}
+	my ($fullname) = $urpm->{params}->read_rpms($_);
+	my $pkg = $urpm->{params}{info}{$fullname};
+	$pkg->{version} eq $2 or $urpm->{error}(_("mismatch version for registering rpm file")), next;
+	$pkg->{release} eq $3 or $urpm->{error}(_("mismatch release for registering rpm file")), next;
+	$pkg->{arch} eq $4 or $urpm->{error}(_("mismatch arch for registering rpm file")), next;
+	$pkg->{source} = $1 ? $_ :  "./$_";
+	push @names, $fullname;
     }
     $error and $urpm->{fatal}(1, _("error registering local packages"));
 
@@ -941,8 +942,8 @@ sub search_packages {
 	#- it is a way of speedup, providing the name of a package directly help
 	#- to find the package.
 	#- this is necessary if providing a name list of package to upgrade.
-	if ($urpm->{params}{info}{$v} && defined $urpm->{params}{info}{$v}{id}) {
-	    $exact{$v} = $urpm->{params}{info}{$v}{id};
+	if ($urpm->{params}{names}{$v} && defined $urpm->{params}{names}{$v}{id}) {
+	    $exact{$v} = $urpm->{params}{names}{$v}{id};
 	    next;
 	}
 
@@ -1062,8 +1063,9 @@ sub compute_closure {
 	#- selected directly by another way.
 	foreach ($id, split ' ', $urpm->{params}{depslist}[$id]{deps}) {
 	    if (/\|/) {
-		my ($follow_id, @upgradable_choices);
-		my @choices = map { $urpm->{params}{depslist}[$_]{id} } split /\|/, $_;
+		my ($follow_id, @upgradable_choices, %choices_id);
+	        @choices_id{map { $urpm->{params}{depslist}[$_]{id} } split /\|/, $_} = undef;
+		my @choices = keys(%choices_id);
 		foreach (@choices) {
 		    $installed && $installed->{$_} and $follow_id = -1, last;
 		    exists $packages->{$_} && ! ref $packages->{$_} and $follow_id = $_, last;
@@ -1222,11 +1224,11 @@ sub filter_minimal_packages_to_upgrade {
 		$info{name} && $info{provides} or return;
 		foreach (@{$info{provides}}) {
 		    if (/(\S*)\s*==\s*(?:\d+:)?([^-]*)-([^-]*)/ && $info{name} eq $1) {
-			$found = $urpm->{params}{info}{$info{name}};
-			foreach ($found, map { $urpm->{params}{depslist}[$_] } split ' ', $found->{relocated}) {
-			    if ($_->{version} eq $2 && $_->{release} eq $3) {
+			my $pre_fullname = "$1-$2-$3";
+			foreach (@{$urpm->{params}{provides}{$1}}) {
+			    if (/(.*?-[^-]*-[^-]*)\.([^\-\.]*)$/ && $pre_fullname eq $1 && ($found = $urpm->{params}{info}{$_})) {
 				foreach my $tag (keys %info) {
-				    $_->{$tag} ||= $info{$tag};
+				    $found->{$tag} ||= $info{$tag};
 				}
 				return 1; #- we have found the right info.
 			    }
@@ -1236,7 +1238,7 @@ sub filter_minimal_packages_to_upgrade {
 		$found and return 0;  #- we are sure having found a package but with wrong version or release.
 		#- at this level, nothing in params has been found, this could be an error so
 		#- at least print an error message.
-		$urpm->{error}(_("unknown data associated with %s", $info{name}));
+		$urpm->{log}(_("unknown data associated with %s", $info{name}));
 		return;
 	    };
 	    while (<F>) {
@@ -1265,14 +1267,7 @@ sub filter_minimal_packages_to_upgrade {
 	    my ($name, $tag, $code) = @_;
 	    $code or die "no callback code for parsehdlist output";
 	    if ($pid == 1) {
-		my $p = $urpm->{params}{info}{$name};
-		if (!$p && $name =~ /(.*)-([^\-]*)-([^\-]*)\.([^\-\.]*)$/) {
-		    foreach ($urpm->{params}{info}{$1}{id}, split ' ', $urpm->{params}{info}{$1}{relocated}) {
-			$p = $urpm->{params}{depslist}[$_];
-			$p->{version} eq $2 && $p->{release} eq $3 && $p->{arch} eq $4 and last;
-			$p = undef;
-		    }
-		}
+		my $p = $urpm->{params}{info}{$name} || $urpm->{params}{names}{$name};
 		foreach (@{$p->{$tag} || []}) {
 		    $code->($_);
 		}
@@ -1385,12 +1380,11 @@ sub filter_minimal_packages_to_upgrade {
 	    #- provides files, try to minimize choice at this level.
 	    foreach (keys %provides) {
 		$provides{$_} and next;
-		my (@choices, @upgradable_choices);
+		my (@choices, @upgradable_choices, %choices_id);
 		foreach (@{$urpm->{params}{provides}{$_}}) {
 		    #- prefer upgrade package that need to be upgraded, if they are present in the choice.
 		    my $pkg = $urpm->{params}{info}{$_};
-		    if (my @best = grep { exists $packages->{$_->{id}} }
-			($pkg, map { $urpm->{params}{depslist}[$_] } split ' ', $pkg->{relocated})) {
+		    if (my @best = grep { exists $packages->{$_->{id}} } ($pkg, $urpm->{params}{names}{$pkg->{name}})) {
 			$pkg = $best[0]; #- keep already requested packages.
 		    }
 		    push @choices, $pkg;
@@ -1410,12 +1404,14 @@ sub filter_minimal_packages_to_upgrade {
 		    exists $installed{$pkg->{id}} and push @upgradable_choices, $pkg;
 		}
 		@upgradable_choices > 0 and @choices = @upgradable_choices;
-		if (@choices > 0) {
-		    if (@choices == 1) {
-			exists $packages->{$choices[0]{id}} or $packages->{$choices[0]{id}} = 1;
-			unshift @packages, $choices[0]{id};
+		@choices_id{map { $_->{id} } @choices} = ();
+		if (keys(%choices_id) > 0) {
+		    if (keys(%choices_id) == 1) {
+			my ($id) = keys(%choices_id);
+			exists $packages->{$id} or $packages->{$id} = 1;
+			unshift @packages, $id;
 		    } else {
-			push @packages, [ sort { $a <=> $b } map { $_->{id} } @choices ];
+			push @packages, [ sort { $a <=> $b } keys %choices_id ];
 		    }
 		}
 	    }

@@ -113,7 +113,7 @@ if ($query->{update}) {
     $urpm->read_config(nocheck_access => 1);
     $urpm->filter_active_media(use_update => 1);
 }
-$urpm->relocate_depslist(use_active => $query->{update});
+$urpm->relocate_depslist_provides(use_active => $query->{update});
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded, all its dependency

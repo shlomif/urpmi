@@ -160,7 +160,7 @@ if ($update) {
     $urpm->read_config();
     $urpm->filter_active_media(use_update => 1);
 }
-$urpm->relocate_depslist(use_active => $update);
+$urpm->relocate_depslist_provides(use_active => $update);
 
 
 #- search the packages according the selection given by the user,
