@@ -1816,7 +1816,6 @@ this could happen if you mounted manually the directory when creating the medium
 			    #- the key has not been found, this is important to import it now,
 			    #- update keys hash (as we do not know how to get key id from its content).
 			    #- and parse again to found the key.
-			    $urpm->{log}(N("...importing pubkey file of \"%s\"", $medium->{name}));
 			    $urpm->import_armored_file("$urpm->{cachedir}/partial/pubkey", root => $urpm->{root});
 			    $urpm->parse_pubkeys(root => $urpm->{root});
 
@@ -1825,7 +1824,11 @@ this could happen if you mounted manually the directory when creating the medium
 			    }
 
 			    #- now id should be defined, or there is a problem to import the keys...
-			    $id or $urpm->{error}(N("unable to import pubkey file of \"%s\"", $medium->{name}));
+			    if ($id) {
+				$urpm->{log}(N("...imported key %s from pubkey file of \"%s\"", $id, $medium->{name}));
+			    } else {
+				$urpm->{error}(N("unable to import pubkey file of \"%s\"", $medium->{name}));
+			    }
 			}
 		    }
 		};
