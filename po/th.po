@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-18 18:42+0100\n"
+"POT-Creation-Date: 2003-02-21 19:42+0100\n"
 "PO-Revision-Date: 2002-11-25 13:52-0500\n"
 "Last-Translator: Wachara Chinsettawong <wachara@yahoo.com>\n"
 "Language-Team: Thai <th@li.org>\n"
@@ -74,82 +74,87 @@ msgstr "webfetch %s ไม่รู้จัก !!!\n"
 msgid "unknown protocol defined for %s"
 msgstr "ไม่รู้จักโปรโตคอลที่ระบุไว้%s"
 
-#: ../urpm.pm_.c:206
+#: ../urpm.pm_.c:210
 msgid "no webfetch (curl or wget currently) found\n"
 msgstr "ไม่พบ webfetch (curl หรือ wget ในขณะนี้)\n"
 
-#: ../urpm.pm_.c:222
+#: ../urpm.pm_.c:226
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "ไม่สามารถใช้งานโปรโตคอล: %s"
 
-#: ../urpm.pm_.c:225
+#: ../urpm.pm_.c:246
+#, fuzzy, c-format
+msgid "copy failed: %s"
+msgstr "...การคัดลอกล้มเหลว"
+
+#: ../urpm.pm_.c:251
 msgid "wget is missing\n"
 msgstr "wget หายไป\n"
 
-#: ../urpm.pm_.c:261
+#: ../urpm.pm_.c:288
 #, c-format
 msgid "wget failed: exited with %d or signal %d\n"
 msgstr "wget ล้มเหลว: ออกจากระบบด้วย %d หรือด้วยสัญญาณ %d\n"
 
-#: ../urpm.pm_.c:264
+#: ../urpm.pm_.c:291
 msgid "curl is missing\n"
 msgstr "curl หายไป\n"
 
-#: ../urpm.pm_.c:346
+#: ../urpm.pm_.c:373
 #, c-format
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl ล้มเหลวออกด้วย %d หรือด้วยสัญญาณ %d\n"
 
-#: ../urpm.pm_.c:350 ../urpm.pm_.c:392
+#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
 msgid "rsync is missing\n"
 msgstr "rsync หายไป\n"
 
-#: ../urpm.pm_.c:389 ../urpm.pm_.c:431
+#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
 #, c-format
 msgid "rsync failed: exited with %d or signal %d\n"
 msgstr "rsync ล้มเหลวออกจากระบบด้วย %d หรือด้วยสัญญาณ %d\n"
 
-#: ../urpm.pm_.c:393
+#: ../urpm.pm_.c:420
 msgid "ssh is missing\n"
 msgstr "ssh ไม่มีอยู่\n"
 
-#: ../urpm.pm_.c:441 ../urpmi_.c:492
+#: ../urpm.pm_.c:467 ../urpmi_.c:491
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr ""
 
-#: ../urpm.pm_.c:443 ../urpmi_.c:495
+#: ../urpm.pm_.c:469 ../urpmi_.c:494
 #, c-format
 msgid "        %s%% completed, speed = %s"
 msgstr ""
 
-#: ../urpm.pm_.c:2393 ../urpm.pm_.c:2477
+#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
 #, fuzzy
 msgid "unable to open rpmdb"
 msgstr "ไม่สามารถลงทะเบียน rpm file"
 
-#: ../urpm.pm_.c:2400
+#: ../urpm.pm_.c:2440
 #, c-format
 msgid "unable to remove package %s"
 msgstr "ไม่สามารถที่จะลบแพ็คเกจ %s"
 
-#: ../urpm.pm_.c:2409
+#: ../urpm.pm_.c:2449
 #, c-format
 msgid "unable to install package %s"
 msgstr "ไม่สามารถติดตั้งแพ็คเกจ %s"
 
-#: ../urpm.pm_.c:2418
+#: ../urpm.pm_.c:2458
 #, c-format
 msgid "%s is needed by %s"
 msgstr "%s จำเป็นสำหรับ %s"
 
-#: ../urpm.pm_.c:2419
+#: ../urpm.pm_.c:2459
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s ขัดแย้งกับ %s"
 
-#: ../urpm.pm_.c:2431
+#: ../urpm.pm_.c:2471
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "ไม่สามารถใช้งาน rpm file [%s]"
@@ -175,7 +180,7 @@ msgid "Installation failed on node %s"
 msgstr "การติดตั้งบน %s ไม่สำเร็จ"
 
 #: ../urpm/parallel_ka_run.pm_.c:201 ../urpm/parallel_ssh.pm_.c:207
-#: ../urpmi_.c:624
+#: ../urpmi_.c:624 ../urpmi_.c:629
 msgid "Installation is possible"
 msgstr "การติดตั้งสามารถทำได้"
 
@@ -948,7 +953,7 @@ msgstr "ต้องการทดลองติดตั้งโดยที่ไม่ต้องตรอจสอบความเข้ากันได้? (y/N)"
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "ต้องการทดลองบังคับติดตั้ง (--force)? (y/N)"
 
-#: ../urpmi_.c:629
+#: ../urpmi_.c:631
 msgid "Everything already installed"
 msgstr "ทุกอย่างได้ถูกติดตั้งเรียบร้อยแล้ว"
 
@@ -1240,9 +1245,6 @@ msgstr "ไม่พบรายการสำหรับมีเดีย"
 
 #~ msgid "...copying done"
 #~ msgstr "การคัดลอกสมบูรณ์"
-
-#~ msgid "...copying failed"
-#~ msgstr "...การคัดลอกล้มเหลว"
 
 #~ msgid ""
 #~ "unable to access first installation medium (no Mandrake/base/hdlists file "

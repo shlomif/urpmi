@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-18 18:42+0100\n"
+"POT-Creation-Date: 2003-02-21 19:42+0100\n"
 "PO-Revision-Date: 2003-02-19 08:22-0300\n"
 "Last-Translator: Fabian Mandelbaum <fabman@mandrakesoft.com>\n"
 "Language-Team: Spanish <cooker-i18n@linux-mandrake.com>\n"
@@ -77,81 +77,86 @@ msgstr "¡¡¡programa para bajar de la red «%s» desconocido!!!\n"
 msgid "unknown protocol defined for %s"
 msgstr "protocolo desconocido definido para %s"
 
-#: ../urpm.pm_.c:206
+#: ../urpm.pm_.c:210
 msgid "no webfetch (curl or wget currently) found\n"
 msgstr "no se encontró webfetch (curl o wget, por ejemplo)\n"
 
-#: ../urpm.pm_.c:222
+#: ../urpm.pm_.c:226
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "no se puede manejar el protocolo: %s"
 
-#: ../urpm.pm_.c:225
+#: ../urpm.pm_.c:246
+#, fuzzy, c-format
+msgid "copy failed: %s"
+msgstr "...falló la copia"
+
+#: ../urpm.pm_.c:251
 msgid "wget is missing\n"
 msgstr "no se encuentra wget\n"
 
-#: ../urpm.pm_.c:261
+#: ../urpm.pm_.c:288
 #, c-format
 msgid "wget failed: exited with %d or signal %d\n"
 msgstr "wget falló: salió con %d o señal %d\n"
 
-#: ../urpm.pm_.c:264
+#: ../urpm.pm_.c:291
 msgid "curl is missing\n"
 msgstr "falta curl\n"
 
-#: ../urpm.pm_.c:346
+#: ../urpm.pm_.c:373
 #, c-format
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl falló: salió con %d o señal %d\n"
 
-#: ../urpm.pm_.c:350 ../urpm.pm_.c:392
+#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
 msgid "rsync is missing\n"
 msgstr "falta rsync\n"
 
-#: ../urpm.pm_.c:389 ../urpm.pm_.c:431
+#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
 #, c-format
 msgid "rsync failed: exited with %d or signal %d\n"
 msgstr "rsync falló: terminó con %d o señal %d\n"
 
-#: ../urpm.pm_.c:393
+#: ../urpm.pm_.c:420
 msgid "ssh is missing\n"
 msgstr "falta ssh\n"
 
-#: ../urpm.pm_.c:441 ../urpmi_.c:492
+#: ../urpm.pm_.c:467 ../urpmi_.c:491
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr "        %s%% de %s completado, ETA = %s, velocidad = %s"
 
-#: ../urpm.pm_.c:443 ../urpmi_.c:495
+#: ../urpm.pm_.c:469 ../urpmi_.c:494
 #, c-format
 msgid "        %s%% completed, speed = %s"
 msgstr "        %s%% completado, velocidad = %s"
 
-#: ../urpm.pm_.c:2393 ../urpm.pm_.c:2477
+#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
 msgid "unable to open rpmdb"
 msgstr "no se puede abrir rpmdb"
 
-#: ../urpm.pm_.c:2400
+#: ../urpm.pm_.c:2440
 #, c-format
 msgid "unable to remove package %s"
 msgstr "no se puede quitar el paquete %s"
 
-#: ../urpm.pm_.c:2409
+#: ../urpm.pm_.c:2449
 #, c-format
 msgid "unable to install package %s"
 msgstr "no se puede instalar el paquete %s"
 
-#: ../urpm.pm_.c:2418
+#: ../urpm.pm_.c:2458
 #, c-format
 msgid "%s is needed by %s"
 msgstr "%s es necesario para %s"
 
-#: ../urpm.pm_.c:2419
+#: ../urpm.pm_.c:2459
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s está en conflicto con %s"
 
-#: ../urpm.pm_.c:2431
+#: ../urpm.pm_.c:2471
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "no se puede acceder al archivo rpm [%s]"
@@ -177,7 +182,7 @@ msgid "Installation failed on node %s"
 msgstr "Falló la instalación en el nodo %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:201 ../urpm/parallel_ssh.pm_.c:207
-#: ../urpmi_.c:624
+#: ../urpmi_.c:624 ../urpmi_.c:629
 msgid "Installation is possible"
 msgstr "Es posible la instalación"
 
@@ -978,7 +983,7 @@ msgstr "¿Intentar de instalar sin verificar las dependencias? (s/N) "
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "¿Intentar con más fuerza la instalación (--force)? (s/N) "
 
-#: ../urpmi_.c:629
+#: ../urpmi_.c:631
 msgid "Everything already installed"
 msgstr "ya está todo instalado"
 
@@ -1292,9 +1297,6 @@ msgstr "no se encontró la lista completa de soportes"
 
 #~ msgid "...copying done"
 #~ msgstr "...copia hecha"
-
-#~ msgid "...copying failed"
-#~ msgstr "...falló la copia"
 
 #~ msgid ""
 #~ "unable to access first installation medium (no Mandrake/base/hdlists file "

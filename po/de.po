@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-18 18:42+0100\n"
+"POT-Creation-Date: 2003-02-21 19:42+0100\n"
 "PO-Revision-Date: 2002-08-31 14:40+0200\n"
 "Last-Translator: Stefan Siegel <siegel@linux-mandrake.com>\n"
 "Language-Team: German <cooker-i18n@linux-mandrake.com>\n"
@@ -77,84 +77,89 @@ msgstr "Unbekanntes Programm „%s“ zum Herunterladen der Pakete!!!\n"
 msgid "unknown protocol defined for %s"
 msgstr "Unbekanntes Protokoll für %s"
 
-#: ../urpm.pm_.c:206
+#: ../urpm.pm_.c:210
 msgid "no webfetch (curl or wget currently) found\n"
 msgstr ""
 "Es ist kein Programm zum Herunterladen der Pakete (momentan unterstützt "
 "werden „curl“ und „wget“) installiert.\n"
 
-#: ../urpm.pm_.c:222
+#: ../urpm.pm_.c:226
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "Ich kann mit dem Prtokoll „%s“ nicht umgehen."
 
-#: ../urpm.pm_.c:225
+#: ../urpm.pm_.c:246
+#, fuzzy, c-format
+msgid "copy failed: %s"
+msgstr "... das Kopieren schlug fehl!"
+
+#: ../urpm.pm_.c:251
 msgid "wget is missing\n"
 msgstr "wget fehlt\n"
 
-#: ../urpm.pm_.c:261
+#: ../urpm.pm_.c:288
 #, c-format
 msgid "wget failed: exited with %d or signal %d\n"
 msgstr "wget-Fehler: Beendet mit Rückgabewert '%d' oder Signal '%d'\n"
 
-#: ../urpm.pm_.c:264
+#: ../urpm.pm_.c:291
 msgid "curl is missing\n"
 msgstr "curl fehlt\n"
 
-#: ../urpm.pm_.c:346
+#: ../urpm.pm_.c:373
 #, c-format
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl-Fehler: Beendet mit Rückgabewert %d oder Signal %d\n"
 
-#: ../urpm.pm_.c:350 ../urpm.pm_.c:392
+#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
 msgid "rsync is missing\n"
 msgstr "rsync fehlt\n"
 
-#: ../urpm.pm_.c:389 ../urpm.pm_.c:431
+#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
 #, c-format
 msgid "rsync failed: exited with %d or signal %d\n"
 msgstr "rsync-Fehler: Beendet mit Rückgabewert %d oder Signal %d\n"
 
-#: ../urpm.pm_.c:393
+#: ../urpm.pm_.c:420
 msgid "ssh is missing\n"
 msgstr "ssh fehlt\n"
 
-#: ../urpm.pm_.c:441 ../urpmi_.c:492
+#: ../urpm.pm_.c:467 ../urpmi_.c:491
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr ""
 
-#: ../urpm.pm_.c:443 ../urpmi_.c:495
+#: ../urpm.pm_.c:469 ../urpmi_.c:494
 #, c-format
 msgid "        %s%% completed, speed = %s"
 msgstr ""
 
-#: ../urpm.pm_.c:2393 ../urpm.pm_.c:2477
+#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
 #, fuzzy
 msgid "unable to open rpmdb"
 msgstr "Die RPM-Datei kann nicht registriert werden."
 
-#: ../urpm.pm_.c:2400
+#: ../urpm.pm_.c:2440
 #, c-format
 msgid "unable to remove package %s"
 msgstr "Ich kann das Paket „%s“ nicht entfernen."
 
-#: ../urpm.pm_.c:2409
+#: ../urpm.pm_.c:2449
 #, c-format
 msgid "unable to install package %s"
 msgstr "Ich kann das Paket „%s“ nicht installeren."
 
-#: ../urpm.pm_.c:2418
+#: ../urpm.pm_.c:2458
 #, c-format
 msgid "%s is needed by %s"
 msgstr "%s wird von %s benötigt."
 
-#: ../urpm.pm_.c:2419
+#: ../urpm.pm_.c:2459
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s steht im Konflikt mit %s."
 
-#: ../urpm.pm_.c:2431
+#: ../urpm.pm_.c:2471
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "Ich habe keinen Zugriff auf die RPM-Datei [%s]."
@@ -180,7 +185,7 @@ msgid "Installation failed on node %s"
 msgstr "Die Installation auf Knoten „%s“ schlug Fehl"
 
 #: ../urpm/parallel_ka_run.pm_.c:201 ../urpm/parallel_ssh.pm_.c:207
-#: ../urpmi_.c:624
+#: ../urpmi_.c:624 ../urpmi_.c:629
 msgid "Installation is possible"
 msgstr "Die Installation ist möglich"
 
@@ -1009,7 +1014,7 @@ msgstr "Soll ich eine Installation ohne Abhängigkeitstest versuchen? (j/N) "
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Soll ich eine Installation mit Gewalt (--force) versuchen? (j/N) "
 
-#: ../urpmi_.c:629
+#: ../urpmi_.c:631
 msgid "Everything already installed"
 msgstr "Alles bereits installiert"
 
@@ -1349,9 +1354,6 @@ msgstr "Es wurde keine komplette Medienliste gefunden"
 
 #~ msgid "...copying done"
 #~ msgstr "... das Kopieren ist beendet!"
-
-#~ msgid "...copying failed"
-#~ msgstr "... das Kopieren schlug fehl!"
 
 #~ msgid ""
 #~ "unable to access first installation medium (no Mandrake/base/hdlists file "

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-18 18:42+0100\n"
+"POT-Creation-Date: 2003-02-21 19:42+0100\n"
 "PO-Revision-Date: 2001-12-20 23:13GMT+3\n"
 "Last-Translator: Mohammed Gamal <f2c2001@yahoo.com>\n"
 "Language-Team: Arabic\n"
@@ -74,81 +74,86 @@ msgstr "أداة تنزيل غير معروفة `%s' !!!\n"
 msgid "unknown protocol defined for %s"
 msgstr "بروتكول غير معرف لـ%s"
 
-#: ../urpm.pm_.c:206
+#: ../urpm.pm_.c:210
 msgid "no webfetch (curl or wget currently) found\n"
 msgstr "لم يمكن ايجاد وسيلة لتنزيل الملفات (curl أو wget حاليا)\n"
 
-#: ../urpm.pm_.c:222
+#: ../urpm.pm_.c:226
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "تعذر التعامل مع البروتوكول: %s"
 
-#: ../urpm.pm_.c:225
+#: ../urpm.pm_.c:246
+#, fuzzy, c-format
+msgid "copy failed: %s"
+msgstr "...فشل النسخ"
+
+#: ../urpm.pm_.c:251
 msgid "wget is missing\n"
 msgstr "wget غير موجود\n"
 
-#: ../urpm.pm_.c:261
+#: ../urpm.pm_.c:288
 #, c-format
 msgid "wget failed: exited with %d or signal %d\n"
 msgstr "wget فشل: تم الخروج بـ%d أو الإشارة %d\n"
 
-#: ../urpm.pm_.c:264
+#: ../urpm.pm_.c:291
 msgid "curl is missing\n"
 msgstr "curl غير موجود\n"
 
-#: ../urpm.pm_.c:346
+#: ../urpm.pm_.c:373
 #, c-format
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "فشل curl: تم الخروج بـ %d أو الإشارة %d\n"
 
-#: ../urpm.pm_.c:350 ../urpm.pm_.c:392
+#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
 msgid "rsync is missing\n"
 msgstr "rsync غير موجود\n"
 
-#: ../urpm.pm_.c:389 ../urpm.pm_.c:431
+#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
 #, c-format
 msgid "rsync failed: exited with %d or signal %d\n"
 msgstr "فشل rsync: تم الخروج بـ %d أو الإشارة %d\n"
 
-#: ../urpm.pm_.c:393
+#: ../urpm.pm_.c:420
 msgid "ssh is missing\n"
 msgstr "ssh غير موجود\n"
 
-#: ../urpm.pm_.c:441 ../urpmi_.c:492
+#: ../urpm.pm_.c:467 ../urpmi_.c:491
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr "        %s%% of %s completed, ETA = %s, speed = %s"
 
-#: ../urpm.pm_.c:443 ../urpmi_.c:495
+#: ../urpm.pm_.c:469 ../urpmi_.c:494
 #, c-format
 msgid "        %s%% completed, speed = %s"
 msgstr "        %s%% completed, speed = %s"
 
-#: ../urpm.pm_.c:2393 ../urpm.pm_.c:2477
+#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
 msgid "unable to open rpmdb"
 msgstr "تعذر فتح rpmdb"
 
-#: ../urpm.pm_.c:2400
+#: ../urpm.pm_.c:2440
 #, c-format
 msgid "unable to remove package %s"
 msgstr "تعذر حذف الحزمة %s"
 
-#: ../urpm.pm_.c:2409
+#: ../urpm.pm_.c:2449
 #, c-format
 msgid "unable to install package %s"
 msgstr "تعذر تثبيث الحزمة %s"
 
-#: ../urpm.pm_.c:2418
+#: ../urpm.pm_.c:2458
 #, c-format
 msgid "%s is needed by %s"
 msgstr "%s يُحتاج اليه من قبل %s"
 
-#: ../urpm.pm_.c:2419
+#: ../urpm.pm_.c:2459
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s يتعارض مع %s"
 
-#: ../urpm.pm_.c:2431
+#: ../urpm.pm_.c:2471
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "لم يمكن الوصول الى ملف rpm [%s]"
@@ -174,7 +179,7 @@ msgid "Installation failed on node %s"
 msgstr "فشل التثبيت في العقدة %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:201 ../urpm/parallel_ssh.pm_.c:207
-#: ../urpmi_.c:624
+#: ../urpmi_.c:624 ../urpmi_.c:629
 msgid "Installation is possible"
 msgstr "التثبيت ممكن"
 
@@ -947,7 +952,7 @@ msgstr "محاولة التثبيت دون التأكد من الاعتمادا�
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "حاول التثبيت بشكل أقوى (--force)؟ (y[نعم]/N[لا])."
 
-#: ../urpmi_.c:629
+#: ../urpmi_.c:631
 msgid "Everything already installed"
 msgstr "كل شئ مثبت مسبقا"
 
@@ -1244,9 +1249,6 @@ msgstr "لم يتم ايجاد قائمة وسائط كاملة"
 
 #~ msgid "...copying done"
 #~ msgstr "...تم النسخ"
-
-#~ msgid "...copying failed"
-#~ msgstr "...فشل النسخ"
 
 #~ msgid ""
 #~ "unable to access first installation medium (no Mandrake/base/hdlists file "

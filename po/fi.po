@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fi - MDK Release 9.1\n"
-"POT-Creation-Date: 2003-02-18 18:42+0100\n"
+"POT-Creation-Date: 2003-02-21 19:42+0100\n"
 "PO-Revision-Date: 2003-02-15 23:45+0200\n"
 "Last-Translator: Thomas Backlund <tmb@iki.fi>\n"
 "Language-Team: Finnish <cooker-i18n@linux-mandrake.com>\n"
@@ -80,81 +80,86 @@ msgstr "Tuntematon webfetch '%s' !!!\n"
 msgid "unknown protocol defined for %s"
 msgstr "tuntematon protokolla määrätty kohteelle %s"
 
-#: ../urpm.pm_.c:206
+#: ../urpm.pm_.c:210
 msgid "no webfetch (curl or wget currently) found\n"
 msgstr "yhtäkään webfetch (curl tai wget nykyhetkellä) löydetty\n"
 
-#: ../urpm.pm_.c:222
+#: ../urpm.pm_.c:226
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "en osaa käsitellä protokolla: '%s'"
 
-#: ../urpm.pm_.c:225
+#: ../urpm.pm_.c:246
+#, fuzzy, c-format
+msgid "copy failed: %s"
+msgstr "...kopiointi epäonnistui"
+
+#: ../urpm.pm_.c:251
 msgid "wget is missing\n"
 msgstr "wget puuttuu\n"
 
-#: ../urpm.pm_.c:261
+#: ../urpm.pm_.c:288
 #, c-format
 msgid "wget failed: exited with %d or signal %d\n"
 msgstr "wget epäonnistui: lopetti arvolla %d tai signaalilla %d\n"
 
-#: ../urpm.pm_.c:264
+#: ../urpm.pm_.c:291
 msgid "curl is missing\n"
 msgstr "curl puuttuu\n"
 
-#: ../urpm.pm_.c:346
+#: ../urpm.pm_.c:373
 #, c-format
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl epäonnistui: lopetti arvolla %d tai signaalilla %d\n"
 
-#: ../urpm.pm_.c:350 ../urpm.pm_.c:392
+#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
 msgid "rsync is missing\n"
 msgstr "rsync puuttuu\n"
 
-#: ../urpm.pm_.c:389 ../urpm.pm_.c:431
+#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
 #, c-format
 msgid "rsync failed: exited with %d or signal %d\n"
 msgstr "rsync epäonnistui: lopetti arvolla %d tai signaalilla %d\n"
 
-#: ../urpm.pm_.c:393
+#: ../urpm.pm_.c:420
 msgid "ssh is missing\n"
 msgstr "ssh puuttuu\n"
 
-#: ../urpm.pm_.c:441 ../urpmi_.c:492
+#: ../urpm.pm_.c:467 ../urpmi_.c:491
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr "        %s%% / %s, aika-arvio = %s, nopeus = %s"
 
-#: ../urpm.pm_.c:443 ../urpmi_.c:495
+#: ../urpm.pm_.c:469 ../urpmi_.c:494
 #, c-format
 msgid "        %s%% completed, speed = %s"
 msgstr "        %s%% valmis, nopeus = %s"
 
-#: ../urpm.pm_.c:2393 ../urpm.pm_.c:2477
+#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
 msgid "unable to open rpmdb"
 msgstr "rpm tietokantaa ei voitu avata"
 
-#: ../urpm.pm_.c:2400
+#: ../urpm.pm_.c:2440
 #, c-format
 msgid "unable to remove package %s"
 msgstr "en voi poistaa paketti %s"
 
-#: ../urpm.pm_.c:2409
+#: ../urpm.pm_.c:2449
 #, c-format
 msgid "unable to install package %s"
 msgstr "en voi asentaa paketti %s"
 
-#: ../urpm.pm_.c:2418
+#: ../urpm.pm_.c:2458
 #, c-format
 msgid "%s is needed by %s"
 msgstr "%2$s  vaatii  %1$s"
 
-#: ../urpm.pm_.c:2419
+#: ../urpm.pm_.c:2459
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s on ristiriidassa %s kanssa"
 
-#: ../urpm.pm_.c:2431
+#: ../urpm.pm_.c:2471
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "ei oikeuksia rpm-tiedostoon [%s]"
@@ -180,7 +185,7 @@ msgid "Installation failed on node %s"
 msgstr "Asennus epäonnistui noodissa %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:201 ../urpm/parallel_ssh.pm_.c:207
-#: ../urpmi_.c:624
+#: ../urpmi_.c:624 ../urpmi_.c:629
 msgid "Installation is possible"
 msgstr "Asennus  on mahdollinen"
 
@@ -988,7 +993,7 @@ msgstr "Yritä asentaa ilman riippuvuuksia? (k/E) "
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Yritä asentaa pakolla (--force)? (k/E) "
 
-#: ../urpmi_.c:629
+#: ../urpmi_.c:631
 msgid "Everything already installed"
 msgstr "kaikki on jo asennettu"
 
@@ -1306,9 +1311,6 @@ msgstr "täysinäistä medialuetteloa ei löytynyt"
 
 #~ msgid "...copying done"
 #~ msgstr "... kopiointi valmis"
-
-#~ msgid "...copying failed"
-#~ msgstr "...kopiointi epäonnistui"
 
 #~ msgid ""
 #~ "unable to access first installation medium (no Mandrake/base/hdlists file "

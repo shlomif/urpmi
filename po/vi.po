@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-18 18:42+0100\n"
+"POT-Creation-Date: 2003-02-21 19:42+0100\n"
 "PO-Revision-Date: 2003-02-15 08:14+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Gnome-Vi <Gnomevi-list@lists.sourceforge.net>\n"
@@ -73,81 +73,86 @@ msgstr "Webfetch không xác định `%s' !!!\n"
 msgid "unknown protocol defined for %s"
 msgstr "chỉ định giao thức không xác định cho %s"
 
-#: ../urpm.pm_.c:206
+#: ../urpm.pm_.c:210
 msgid "no webfetch (curl or wget currently) found\n"
 msgstr "không tìm thấy webfetch (hiện là curl hay wget)\n"
 
-#: ../urpm.pm_.c:222
+#: ../urpm.pm_.c:226
 #, c-format
 msgid "unable to handle protocol: %s"
 msgstr "không thể quản lý giao thức: %s"
 
-#: ../urpm.pm_.c:225
+#: ../urpm.pm_.c:246
+#, fuzzy, c-format
+msgid "copy failed: %s"
+msgstr "...sao chép không được"
+
+#: ../urpm.pm_.c:251
 msgid "wget is missing\n"
 msgstr "thiếu wget\n"
 
-#: ../urpm.pm_.c:261
+#: ../urpm.pm_.c:288
 #, c-format
 msgid "wget failed: exited with %d or signal %d\n"
 msgstr "wget hỏng: đi ra với %d hoặc signal %d\n"
 
-#: ../urpm.pm_.c:264
+#: ../urpm.pm_.c:291
 msgid "curl is missing\n"
 msgstr "thiếu curl\n"
 
-#: ../urpm.pm_.c:346
+#: ../urpm.pm_.c:373
 #, c-format
 msgid "curl failed: exited with %d or signal %d\n"
 msgstr "curl hỏng: đi ra với %d hay signal %d\n"
 
-#: ../urpm.pm_.c:350 ../urpm.pm_.c:392
+#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
 msgid "rsync is missing\n"
 msgstr "đang thiếu rsync\n"
 
-#: ../urpm.pm_.c:389 ../urpm.pm_.c:431
+#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
 #, c-format
 msgid "rsync failed: exited with %d or signal %d\n"
 msgstr "Không rsync được: đi ra với %d hay signal %d\n"
 
-#: ../urpm.pm_.c:393
+#: ../urpm.pm_.c:420
 msgid "ssh is missing\n"
 msgstr "đang thiếu ssh\n"
 
-#: ../urpm.pm_.c:441 ../urpmi_.c:492
+#: ../urpm.pm_.c:467 ../urpmi_.c:491
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr "        %s%% của %s đã hoàn thành, ETA = %s, tốc độ = %s"
 
-#: ../urpm.pm_.c:443 ../urpmi_.c:495
+#: ../urpm.pm_.c:469 ../urpmi_.c:494
 #, c-format
 msgid "        %s%% completed, speed = %s"
 msgstr "        %s%% đã hoàn thành, tốc độ = %s"
 
-#: ../urpm.pm_.c:2393 ../urpm.pm_.c:2477
+#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
 msgid "unable to open rpmdb"
 msgstr "không thể mở rpmdb"
 
-#: ../urpm.pm_.c:2400
+#: ../urpm.pm_.c:2440
 #, c-format
 msgid "unable to remove package %s"
 msgstr "không thể gỡ bỏ gói %s"
 
-#: ../urpm.pm_.c:2409
+#: ../urpm.pm_.c:2449
 #, c-format
 msgid "unable to install package %s"
 msgstr "không thể cài đặt gói %s"
 
-#: ../urpm.pm_.c:2418
+#: ../urpm.pm_.c:2458
 #, c-format
 msgid "%s is needed by %s"
 msgstr "%s được %s cần đến"
 
-#: ../urpm.pm_.c:2419
+#: ../urpm.pm_.c:2459
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s xung đột với %s"
 
-#: ../urpm.pm_.c:2431
+#: ../urpm.pm_.c:2471
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "không thể truy cập tập tin rpm [%s]"
@@ -173,7 +178,7 @@ msgid "Installation failed on node %s"
 msgstr "Cài đặt không được trên node %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:201 ../urpm/parallel_ssh.pm_.c:207
-#: ../urpmi_.c:624
+#: ../urpmi_.c:624 ../urpmi_.c:629
 msgid "Installation is possible"
 msgstr "Có khả năng cài đặt"
 
@@ -949,7 +954,7 @@ msgstr "Thử cài đặt mà không cần kiểm tra các phụ thuộc? (Có/K
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Thử cố gắng cài đặt (--force)? (Có/[Không])"
 
-#: ../urpmi_.c:629
+#: ../urpmi_.c:631
 msgid "Everything already installed"
 msgstr "Mọi thứ đã được cài đặt rồi"
 
@@ -1270,9 +1275,6 @@ msgstr "Không tìm thấy danh sách phương tiện đầy đủ"
 
 #~ msgid "...copying done"
 #~ msgstr "...sao chép hoàn thành"
-
-#~ msgid "...copying failed"
-#~ msgstr "...sao chép không được"
 
 #~ msgid ""
 #~ "unable to access first installation medium (no Mandrake/base/hdlists file "
