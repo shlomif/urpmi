@@ -5,15 +5,19 @@ if [ "$#" -gt 1 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     exit 1
 fi
 
-hdlist="/var/lib/urpmi/hdlist.*.gz"
+dir="/var/lib/urpmi"
 
-if ! ls $hdlist >/dev/null 2>/dev/null; then
+
+if ls $dir/hdlist.*.gz >/dev/null 2>/dev/null; then
+    found=1
+    gzip -dc $dir/hdlist.*.gz | hdlist2files - | grep -E "$1"
+fi
+if ls $dir/hdlist.*.cz2 >/dev/null 2>/dev/null; then
+    found=1
+    bzip2 -dc $dir/hdlist.*.cz2 2>/dev/null | hdlist2files - | grep -E "$1"
+fi
+if [ "$found" != "1" ]; then
     echo "urpmi is not installed"
     exit 1
 fi
 
-if [ -z "$1" ]; then
-	gzip -dc $hdlist | hdlist2files -
-else
-	gzip -dc $hdlist | hdlist2files - | grep -E $1
-fi

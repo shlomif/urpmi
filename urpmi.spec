@@ -1,12 +1,12 @@
 %define group Utilities/System
 
 Name: urpmi
-Version: 1.0
-Release: 2mdk
+Version: 1.1
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
-Requires: /usr/bin/suidperl /usr/bin/rpm2header /usr/bin/hdlist2files /usr/bin/hdlist2names /usr/bin/gendepslist eject
+Requires: /usr/bin/suidperl, rpmtools >= 1.1, eject
 BuildRoot: /tmp/%{name}
 
 Group: %{group}
@@ -17,6 +17,10 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %changelog
+* Tue Mar  7 2000 Pixel <pixel@mandrakesoft.com> 1.1-1mdk
+- new version, compatible with new DrakX and new rpmtools
+- add man page for rpmf
+
 * Mon Feb 28 2000 Pixel <pixel@mandrakesoft.com> 1.0-2mdk
 - unset $BASH_ENV
 
@@ -160,7 +164,8 @@ autoirpm.uninstall
 /usr/bin/rpmf
 /usr/sbin/urpmi.*
 /usr/share/locale/*/LC_MESSAGES/urpmi.po
-%doc /usr/man/man*/urpmi*
+/usr/man/man*/urpmi*
+/usr/man/man*/rpmf
 
 %files -n gurpmi
 %defattr(-,root,root)
@@ -171,5 +176,6 @@ autoirpm.uninstall
 %dir /var/lib/urpmi/autoirpm.scripts
 /etc/urpmi/autoirpm.deny
 /usr/sbin/autoirpm.*
+/usr/man/man*/autoirpm*
 /usr/bin/_irpm
 %doc README-autoirpm-icons autoirpm.README

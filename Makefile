@@ -18,7 +18,7 @@ install: autoirpm.update-all
 	install -m 4755 urpmi $(BINDIR)
 	install _irpm rpm-find-leaves rpmf $(BINDIR)
 	install -m 644 autoirpm.deny $(URPMIDIR2)
-	for i in *.8; do bzip2 -c $$i > $(MANDIR)/man8/$$i.bz2 ; done
+	install -m 644 *.8 $(MANDIR)/man8
 	install urpmi.addmedia autoirpm.update autoirpm.uninstall $(SBINDIR)
 	install -s autoirpm.update-all $(SBINDIR)
 	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia

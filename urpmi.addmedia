@@ -24,8 +24,8 @@ if ($0 =~ /removemedia/) {
 	die "nothing to remove (use urpmi.addmedia to add a media)\n";
     foreach $e (/^--?a/ ? @entries : @ARGV) {
 	my $f;
-	$f = "$DIR/hdlist.$e"; unlink($f) || unlink("$f.gz") or warn "failed to remove $f";
-	$f = "$DIR/list.$e";   unlink($f)                    or warn "failed to remove $f";
+	$f = "$DIR/hdlist.$e"; unlink("$f.cz2") or warn "failed to remove $f";
+	$f = "$DIR/list.$e";   unlink($f) or warn "failed to remove $f";
 	substInFile { s/^/\#/ if /^$e\s/ } $CFG;
     }
     system("urpmi.update");
@@ -37,11 +37,8 @@ if ($0 =~ /removemedia/) {
     }
     if (glob("$DIR/hdlist.*")) {
 	print "generating dependencies list\n";
-	system("gzip -f $DIR/hdlist.* 2>/dev/null"); # gzip
-	system("gzip -dc $DIR/hdlist.* | gendepslist -h $DEPSLIST -");
+	system("gendepslist2 $DIR/hdlist.* > $DEPSLIST");
 	system("autoirpm.update");
-    } else {
-	unlink $DEPSLIST, "$DEPSLIST.html";
     }
     exit 0;
 }
@@ -82,53 +79,33 @@ substInFile {
 } $CFG;
 
 
-my $HDLIST = "$DIR/hdlist.$name";
+my $HDLIST = "$DIR/hdlist.$name.cz2";
 my $RPMLIST = "$DIR/list.$name";
 
 -e $DIR || mkdir $DIR, 0755 or die "can't create $DIR";
 !-e $HDLIST || unlink $HDLIST or die "can't remove $HDLIST";
-!-e "$HDLIST.gz" || unlink "$HDLIST.gz" or die "can't remove $HDLIST.gz";
+
+if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
+    if (-e (my $f = "$dir/Mandrake/base/hdlist.cz2")) {
+	system("cp -f $f $HDLIST");
+    } else {
+	system("genhdlist_cz2 -o $HDLIST $dir");
+    }
+} else {
+    system("wget -O $HDLIST $url/$ftp_hdlist");
+    $? == 0 or die "wget of $url/$ftp_hdlist failed (maybe wget is missing?)";
+}
 
 my $mask = umask 077;
 open LIST, ">$RPMLIST" or die "can't output $RPMLIST";
 umask $mask;
 
-if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
-    my $hdlist = '';
-    my $flush = sub {};
-    if (-e (my $f = "$dir/Mandrake/base/hdlist.gz")) {
-	system("cp -f $f $HDLIST.gz");
-    } elsif (-e (my $f = "$dir/Mandrake/base/hdlist")) {
-	system("gzip -cf $f > $HDLIST.gz");
-    } else {
-	$flush = sub { system("rpm2header $hdlist | gzip >> $HDLIST.gz") if $hdlist };
-    }
-    print "scanning $dir...";
-    my $realdir = readlink($dir) || $dir;
-    open F, "find '$realdir' -name '*.rpm'|";
-    foreach (<F>) {
-	chomp;
-	if (length "$hdlist $_" > 1500) {
-	    &$flush();
-	    $hdlist = '';
-	}
-	$hdlist .= " $_";
-	print LIST "$prefix:/$_\n";
-    }
-    $hdlist or die "no rpms found in $dir";
-    &$flush();
-    close F or die "searching for rpms failed";
-    print "\n";
-} else {
-    system("wget -O $HDLIST $url/$ftp_hdlist");
-    $? == 0 or die "wget of $url/$ftp_hdlist failed (maybe wget is missing?)";
-    open F, "hdlist2names $HDLIST|";
-    foreach (<F>) {
-	chomp;
-	print LIST "$url/$_\n";
-    }
-    close F or die "hdlist2names failed";
+open F, "bzip2 -dc $HDLIST 2>/dev/null | hdlist2names - |";
+foreach (<F>) {
+    chomp;
+    print LIST "$url/$_\n";
 }
+close F or die "hdlist2names failed";
 close LIST;
 
 system("urpmi.update") unless $noupdate;
