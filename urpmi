@@ -142,7 +142,7 @@ sub gmessage {
     my ($msg, %params) = @_;
     my $ok = to_utf8(N("Ok"));
     my $cancel = to_utf8(N("Cancel"));
-    my $buttons = $params{ok_only} ? "$ok:0" : "$ok:0,$cancel:2";
+    my $buttons = ($params{ok_only} ? "$ok:0" : "$ok:0,$cancel:2") . $params{add_buttons};
     $msg = to_utf8($msg);
     `gmessage -default "$ok" -buttons "$buttons" "$msg"`;
 }
