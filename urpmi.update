@@ -35,8 +35,11 @@ sub main {
 	/^--?c/ and $options{noclean} = 0, next;
 	/^--?d/ and $options{depslist} = 1, next;
 	/^--?f/ and ++$options{force}, next;
-	/^--wget/ and $urpm->{sync} = \&urpm::sync_wget, next;
-	/^--curl/ and $urpm->{sync} = \&urpm::sync_curl, next;
+	/^--wget/ and $urpm->{sync} = sub { my $options = shift @_;
+					    if (ref $options) { $options->{prefer} = 'wget' }
+					    else { $options = { dir => $options, prefer => 'wget' } }
+					    urpm::sync_webfetch($options, @_) }, next;
+	/^--curl/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
 	/^--?noa/ and next; #- default, keeped for compability.
 	/^-/ and die _("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.

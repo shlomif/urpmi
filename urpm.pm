@@ -145,7 +145,7 @@ sub sync_webfetch {
 	push @{$files{$1}}, $_;
     }
     if ($files{ftp} || $files{http}) {
-	if (-x "/usr/bin/curl") {
+	if (-x "/usr/bin/curl" && (! ref $options || $options->{prefer} ne 'wget' || ! -x "/usr/bin/wget")) {
 	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []});
 	} elsif (-x "/usr/bin/wget") {
 	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []});
@@ -231,7 +231,7 @@ sub sync_rsync {
     -x "/usr/bin/ssh" or die _("ssh is missing\n");
     my $options = shift @_;
     foreach (@_) {
-	my $count = 3; #- retry count on error (if file exists).
+	my $count = 10; #- retry count on error (if file exists).
 	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
 	do {
 	    system "/usr/bin/rsync", (ref $options && $options->{quiet} ? ("-q") : ("--progress", "-v")), "--partial", "-e", "ssh",
@@ -1665,7 +1665,7 @@ sub download_source_packages {
 	    if ($url =~ /^(removable[^:]*|file):\/(.*)/) {
 		$sources{$i} = $2;
 	    } elsif ($url =~ /^([^:]*):\/(.*\/([^\/]*))/) {
-		if ($force_local) {
+		if ($force_local || $1 ne 'ftp' && $1 ne 'http') { #- only ftp and http protocol supported.
 		    push @distant_sources, $url;
 		    $sources{$i} = "$urpm->{cachedir}/rpms/$3";
 		} else {

@@ -104,8 +104,11 @@ for (@ARGV) {
     /^--src$/ and do { $src = 1; next };
     /^--noclean$/ and do { $noclean = 1; next };
     /^--force$/ and do { $force = 1; next };
-    /^--wget$/ and do { $sync = \&urpm::sync_wget; next };
-    /^--curl$/ and do { $sync = \&urpm::sync_curl; next };
+    /^--wget$/ and do { $sync = sub { my $options = shift @_;
+				      if (ref $options) { $options->{prefer} = 'wget' }
+				      else { $options = { dir => $options, prefer => 'wget' } }
+				      urpm::sync_webfetch($options, @_) }; next };
+    /^--curl$/ and do { $sync = \&urpm::sync_webfetch; next };
     /^--bug$/ and do { push @nextargv, \$bug; next };
     /^--env$/ and do { push @nextargv, \$env; next };
     /^--X$/ and do { $X = 1; next };
@@ -347,8 +350,8 @@ if (%{$state->{ask_remove} || {}}) {
     my $list = join "\n", keys %{$state->{ask_remove}};
     $noexpr = _("Nn");
     $yesexpr = _("Yy");
-    message_input(_("Some package have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
-    system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove}}, ($root ? ("--root", $root) : ()));
+    message_input(_("Some package have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ or
+      system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove}}, ($root ? ("--root", $root) : ()));
 }
 
 #- get out of package that should not be upgraded.

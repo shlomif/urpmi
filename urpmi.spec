@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.6
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,13 @@ fi
 
 
 %changelog
+* Fri Jun 28 2002 François Pons <fpons@mandrakesoft.com> 3.6-4mdk
+- increase retry count to 10 instead of 3 for rsync and ssh protocol.
+- support prefered tools to download files (grpmi only handles ftp
+  and http protocol currently).
+- change behaviour of no answered to remove package to simply ignore
+  remove instead of exiting.
+
 * Fri Jun 28 2002 François Pons <fpons@mandrakesoft.com> 3.6-3mdk
 - fix deadlock on removing package.
 - fix rsync download for mulitples files.

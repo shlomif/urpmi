@@ -81,8 +81,11 @@ for (@ARGV) {
     /^--sources$/ and do { $query->{sources} = 1; next };
     /^--force$/ and do { $query->{force} = 1; next };
     /^--root$/ and do { push @nextargv, \$query->{root}; next };
-    /^--wget$/ and do { $urpm->{sync} = \&urpm::sync_wget; next };
-    /^--curl$/ and do { $urpm->{sync} = \&urpm::sync_curl; next };
+    /^--wget$/ and do { $urpm->{sync} = sub { my $options = shift @_;
+					      if (ref $options) { $options->{prefer} = 'wget' }
+					      else { $options = { dir => $options, prefer => 'wget' } }
+					      urpm::sync_webfetch($options, @_) }; next };
+    /^--curl$/ and do { $urpm->{sync} = \&urpm::sync_webfetch; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/d/ and do { $query->{deps} = 1; next };
