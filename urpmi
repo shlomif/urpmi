@@ -161,68 +161,21 @@ if (!$auto) {
     }
 }
 
-my $to_install = join '|', map { quotemeta($_) } @to_install;
-my %long;
-my %name;
-my %removables;
+$urpm->read_config();
 
-foreach my $list (rpmlistfiles($datadir)) {
-    open F, "$datadir/$list" or die("urpmi: error opening $list\n");
-    $list =~ s/list\.//;
-    foreach (<F>) { chop; m|/($to_install)| and $long{$1} = untaint($_), $name{$1} = untaint($list) }
-    close F;
+my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
+unless ($local_sources || $list) {
+    die("unable to get source packages, aborting");
+    exit 1;
 }
 
-foreach (@files) { 
-    m|/($to_install)| and $long{$1} = $_
-}
-
-my %try2mount;
-my @to_install_long;
-
-foreach my $l (@to_install) {
-    local $_ = $long{$l} or die("urpmi: package $l is not available\n");
-    if (s|removable_(\w+)_(\d*):/||) {
-	my $n = "$2-$name{$l}";
-	$removables{$n}->{name} = $name{$l};
-	$removables{$n}->{device} = $1;
-	push @{$removables{$n}->{list}}, $_;
-    } else {
-	if (s|^file:/||) {
-	    if (m|^(/mnt/.*?)/|) {
-		-e $_ || $try2mount{$1} or $try2mount{$1} = 1, `mount $1 2>/dev/null`;
-	    }
-	}
-	push @to_install_long, $_;
-    }
-}
+my @sources = $urpm->upload_source_packages($local_sources, $list, sub {
+						 die "not implemented yet... change medium";
+					     });
 
 my $something_was_installed;
 
-install(@to_install_long) unless $removables{0} || $removables{1};
-
-foreach (sort keys %removables) {
-    my $f = @{$removables{$_}->{list}}[0];
-    my $dev = $removables{$_}->{device};
-    `mount /dev/$dev 2>/dev/null`;
-    unless (-e $f) {
-	`umount /dev/$dev  2>/dev/null ; eject $dev  2>/dev/null`;
-	message(_("Please insert the %s named %s", $removables{$_}->{device}, $removables{$_}->{name}));
-	unless ($X) {
-	    print SAVEOUT _("Press enter when it's done...");
-	    <STDIN>;
-	}
-	`mount /dev/$dev  2>/dev/null`;
-	unless (-e $f) {
-	    message(_("Sorry can't find file %s, exiting", $f));
-	    exit 1;
-	}
-    }
-    install(@{$removables{$_}->{list}});
-}
-
-install(@to_install_long) if $removables{0} || $removables{1};
-
+install(@sources);
 $something_was_installed or message_auto(_("everything already installed"));
 
 

@@ -45,6 +45,10 @@ Auto install of rpm on demand
 rm -rf $RPM_BUILD_ROOT
 make PREFIX=$RPM_BUILD_ROOT MANDIR=$RPM_BUILD_ROOT%{_mandir} install
 install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
+for dir in partial headers rpms
+do
+  install -d $RPM_BUILD_ROOT/var/cache/urpmi/$dir
+done
 install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 mkdir -p $RPM_BUILD_ROOT%{perl_sitearch}
 install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_sitearch}
@@ -81,6 +85,10 @@ autoirpm.uninstall
 %defattr(-,root,root)
 %attr(0755, root, urpmi) %dir /etc/urpmi
 %attr(0755, root, urpmi) %dir /var/lib/urpmi
+%attr(0755, root, urpmi) %dir /var/cache/urpmi
+%attr(0755, root, urpmi) %dir /var/cache/urpmi/partial
+%attr(0755, root, urpmi) %dir /var/cache/urpmi/headers
+%attr(0755, root, urpmi) %dir /var/cache/urpmi/rpms
 %attr(4750, root, urpmi) %{_bindir}/urpmi
 %{_bindir}/urpmi_rpm-find-leaves
 %{_bindir}/urpmf
@@ -105,9 +113,10 @@ autoirpm.uninstall
 
 
 %changelog
-* Tue Jan 23 2001 François Pons <fpons@ackbar.mandrakesoft.com> 1.4-3mdk
+* Thu Jan 25 2001 François Pons <fpons@mandrakesoft.com> 1.4-3mdk
 - need rpmtools-2.1-9mdk or above for hdlist building extension.
 - introduced cache directory for medium and rpms manipulation.
+- added code to search for source rpms file to install.
 
 * Wed Jan 17 2001 François Pons <fpons@mandrakesoft.com> 1.4-2mdk
 - removed PreReq on genbasefiles, now PreReq rpmtools-2.1-8mdk or above.

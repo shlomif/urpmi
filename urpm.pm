@@ -107,18 +107,15 @@ sub read_config {
 		/^\s*}$/ and last;
 		/^\s*$/ or $urpm->{error}("syntax error at line $. in $urpm->{config}");
 	    }
-	    $urpm->probe_medium($medium);
-	    push @{$urpm->{media}}, $medium;
+	    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
 	    next; };
 	/^\s*(.*?[^\\])\s+(.*?[^\\])\s+with\s+(.*)$/ and do { #- urpmi.cfg old format for ftp
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2), with_hdlist => unquotespace($3) };
-	    $urpm->probe_medium($medium);
-	    push @{$urpm->{media}}, $medium;
+	    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
 	    next; };
 	/^\s*(.*?[^\\])\s+(?:(.*?[^\\])\s*)?$/ and do { #- urpmi.cfg old format (assume hdlist.<name>.cz2?)
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
-	    $urpm->probe_medium($medium);
-	    push @{$urpm->{media}}, $medium;
+	    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
 	    next; };
 	/^\s*$/ or $urpm->{error}("syntax error at line $. in [$urpm->{config}]");
     }
@@ -130,10 +127,10 @@ sub read_config {
     foreach (@{$urpm->{media}}) {
 	exists $hdlists{$_->{hdlist}} and
 	  $_->{ignore} = 1, $urpm->{error}("medium \"$_->{name}\" try to use an already used hdlist, medium ignored");
-	$_->{ignore} or $hdlists{$_->{hdlist}} = undef;
+	$hdlists{$_->{hdlist}} = undef;
 	exists $lists{$_->{list}} and
 	  $_->{ignore} = 1, $urpm->{error}("medium \"$_->{name}\" try to use an already used list, medium ignored");
-	$_->{ignore} or $lists{$_->{list}} = undef;
+	$lists{$_->{list}} = undef;
     }
 
     #- urpmi.cfg if old is not enough to known the various media, track
@@ -151,14 +148,12 @@ sub read_config {
 		} else {
 		    my $medium;
 		    foreach (@{$urpm->{media}}) {
-			$_->{ignore} and next;
 			$_->{name} eq $2 and $medium = $_, last;
 		    }
 		    $medium and $urpm->{error}("unable to use name \"$2\" for unamed medium because it is already used"), next;
 
 		    $medium = { name => $2, hdlist => "hdlist.$1", list => "list.$2" };
-		    $urpm->probe_medium($medium);
-		    push @{$urpm->{media}}, $medium;
+		    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
 		}
 	    } else {
 		$urpm->{error}("unable to take medium \"$2\" into account as no list file [$urpm->{statedir}/list.$2] exists");
@@ -184,6 +179,12 @@ sub read_config {
 sub probe_medium {
     my ($urpm, $medium) = @_;
 
+    my $existing_medium;
+    foreach (@{$urpm->{media}}) {
+	$_->{name} eq $medium->{name} and $existing_medium = $_, last;
+    }
+    $existing_medium and $urpm->{error}("trying to bypass existing medium \"$medium->{name}\", avoiding"), return;
+    
     unless ($medium->{ignore} || $medium->{hdlist}) {
 	$medium->{hdlist} = "hdlist.$medium->{name}.cz";
 	-e "$urpm->{statedir}/$medium->{hdlist}" or $medium->{hdlist} = "hdlist.$medium->{name}.cz2";
@@ -197,7 +198,7 @@ sub probe_medium {
     }
 
     #- there is a little more to do at this point as url is not known, inspect directly list file for it.
-    unless ($medium->{ignore} || $medium->{url} || $medium->{clear_url}) {
+    unless ($medium->{url} || $medium->{clear_url}) {
 	my %probe;
 	local (*F, $_);
 	open F, "$urpm->{statedir}/$medium->{list}";
@@ -208,15 +209,18 @@ sub probe_medium {
 	foreach (sort { length($a) <=> length($b) } keys %probe) {
 	    if ($medium->{url}) {
 		$medium->{url} eq substr($_, 0, length($medium->{url})) or
-		  $medium->{ignore} = 1, $urpm->{error}("incoherent list file for \"$medium->{name}\", medium ignored"), last;
+		  $medium->{ignore} || $urpm->{error}("incoherent list file for \"$medium->{name}\", medium ignored"),
+		    $medium->{ignore} = 1, last;
 	    } else {
 		$medium->{url} = $_;
 	    }
 	}
 	$medium->{url} or
-	  $medium->{ignore} = 1, $urpm->{error}("unable to inspect list file for \"$medium->{name}\", medium ignored");
+	  $medium->{ignore} || $urpm->{error}("unable to inspect list file for \"$medium->{name}\", medium ignored"),
+	    $medium->{ignore} = 1, last;
     }
     $medium->{url} ||= $medium->{clear_url};
+    $medium;
 }
 
 #- write back urpmi.cfg code to allow modification of medium listed.
@@ -253,7 +257,6 @@ sub add_medium {
     #- we have to exit now
     my ($medium);
     foreach (@{$urpm->{media}}) {
-	$_->{ignore} and next;
 	$_->{name} eq $2 and $medium = $_;
     }
     $medium and $urpm->{error}("medium \"$medium\" already exists"), return;
@@ -630,6 +633,7 @@ sub try_mounting {
 	    }
 	}
     }
+    -e $dir;
 }
 
 #- read depslist file using rpmtools, this file is not managed directly by urpm.
@@ -722,9 +726,9 @@ sub search_packages {
 	} else {
 	    my $l = $found{$_} || $foundi{$_};
 	    if (@{$l || []} == 0) {
-		$urpm->{error}(_("no package named %s\n", $_)); $result = 0;
+		$urpm->{error}(sprintf("no package named %s\n", $_)); $result = 0;
 	    } elsif (@$l > 1 && !$options{all}) {
-		$urpm->{error}(_("The following packages contain %s: %s\n", $_, join(' ', map { $_->{name} } @$l))); $result = 0; 
+		$urpm->{error}(sprintf("The following packages contain %s: %s\n", $_, join(' ', map { $_->{name} } @$l))); $result = 0; 
 	    } else {
 		foreach (@$l) {
 		    $packages->{$_->{id}} = undef;
@@ -893,7 +897,7 @@ sub get_source_packages {
 
 	    #- check version, release and id selected.
 	    #- TODO arch is not checked at this point.
-	    $pkg->{version} cmp $2 && $pkg->{release} cmp $3 or next;
+	    $pkg->{version} eq $2 && $pkg->{release} eq $3 or next;
 	    exists $packages->{$pkg->{id}} or next;
 
 	    #- make sure only the first matching is taken...
@@ -902,6 +906,7 @@ sub get_source_packages {
 	    #- we have found one source for id.
 	    push @local_sources, "$urpm->{cachedir}/rpms/$1-$2-$3.$4.rpm";
 	} else {
+	    -d "$urpm->{cachedir}/rpms/$_" and next;
 	    $error = 1;
 	    $urpm->{error}("unable to determine rpms cache directory $urpm->{cachedir}/rpms");
 	}
@@ -920,7 +925,7 @@ sub get_source_packages {
 
 		    #- check version, release and id selected.
 		    #- TODO arch is not checked at this point.
-		    $pkg->{version} cmp $3 && $pkg->{release} cmp $4 or next;
+		    $pkg->{version} eq $3 && $pkg->{release} eq $4 or next;
 		    exists $packages->{$pkg->{id}} or next;
 
 		    #- make sure only the first matching is taken...
@@ -949,9 +954,9 @@ sub get_source_packages {
 	#- try to find which one.
 	my $pkg = $urpm->{params}{depslist}[$_];
 	if ($pkg) {
-	    $urpm->{error}("internal error for selecting unknown package for id=$_");
-	} else {
 	    $urpm->{error}("package $pkg->{name}-$pkg->{version}-$pkg->{release} is not found");
+	} else {
+	    $urpm->{error}("internal error for selecting unknown package for id=$_");
 	}
     }
 
@@ -963,60 +968,110 @@ sub get_source_packages {
 #- change location to find the right package in the local
 #- filesystem for only one transaction.
 #- try to mount/eject removable media here.
-#- return a hash saying if a package has been uploaded or is local.
-sub upload_packages_for_install {
-    my ($urpm, $local_sources, $list) = @_;
+#- return a list of package ready for rpm.
+sub upload_source_packages {
+    my ($urpm, $local_sources, $list, $force_local, $ask_for_medium) = @_;
+    my (@sources, @distant_sources, %media, %removables);
 
     #- make sure everything is correct on input...
     @{$urpm->{media}} == @$list or return;
 
     #- removable media have to be examined to keep mounted the one that has
     #- more package than other (size is better ?).
-    my %removables;
+    my $examine_removable_medium = sub {
+	my ($id, $device, $copy) = @_;
+	my $medium = $urpm->{media}[$id];
+	$media{$id} = undef;
+	if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_[^:]*|file):\/(.*)/) {
+	    until (-e $dir) {
+		#- the directory given does not exist or may be accessible
+		#- by mounting some other. try to figure out these directory and
+		#- mount everything necessary.
+		unless ($urpm->try_mounting($dir)) {
+		    system("eject", $device); #- umount too... TODO
+		    $ask_for_medium->($medium->{name}) or last;
+		}
+	    }
+	    if (-e $dir) {
+		my @removable_sources;
+		foreach (@{$list->[$id]}) {
+		    /^(removable_[^:]*|file):\/(.*\/([^\/]*))/ or next;
+		    -r $2 or $urpm->{error}("unable to read rpm file [$2] from medium \"$medium->{name}\"");
+		    if ($copy) {
+			push @removable_sources, $2;
+			push @sources, "$urpm->{cachedir}/rpms/$3";
+		    } else {
+			push @sources, $2;
+		    }
+		}
+		if (@removable_sources) {
+		    system("cp", "-a", @removable_sources, "$urpm->{cachedir}/rpms");
+		}
+	    } else {
+		$urpm->{error}("medium \"$medium->{name}\" is not selected");
+	    }
+	} else {
+	    #- we have a removable device that is not removable, well...
+	    $urpm->{error}("incoherent medium \"$medium->{name}\" marked removable but not really");
+	}
+    };
     foreach (0..$#$list) {
-	@{$list->[$_]} || $urpm->{media}[$_]{removable} or next;
+	@{$list->[$_]} && $urpm->{media}[$_]{removable} or next;
 	push @{$removables{$urpm->{media}[$_]{removable}} ||= []}, $_;
     }
-    foreach (keys %removables) {
+    foreach my $device (keys %removables) {
 	#- here we have only removable device.
 	#- if more than one media use this device, we have to sort
 	#- needed package to copy first the needed rpms files.
-	if (@{$removables{$_}} > 1) {
-	    my @sorted_media = sort { @{$list->[$a]} <=> @{$list->[$b]} } @{$removables{$_}};
+	if (@{$removables{$device}} > 1) {
+	    my @sorted_media = sort { @{$list->[$a]} <=> @{$list->[$b]} } @{$removables{$device}};
 
 	    #- mount all except the biggest one.
 	    foreach (@sorted_media[0 .. $#sorted_media-1]) {
-		my $medium = $urpm->{media}[$_];
-		if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_.*?|file):\/(.*)/) {
-		    #- the directory given does not exist or may be accessible
-		    #- by mounting some other. try to figure out these directory and
-		    #- mount everything necessary.
-		    $urpm->try_mounting($dir);
-
-		    #- TODO to cut... and ask if correct to the user
-		    system("cp", "-a", map { /^(removable_.*?|file):\/(.*)/ && $1 } @{$list->[$_]}, "$urpm->{cachedir}/rpms");
-		} else {
-		    #- we have a removable device that is not removable, well...
-		    $urpm->{error}("incoherent medium \"$medium->{name}\" marked removable but not really");
-		}
+		$examine_removable_medium->($_, $device, 'copy');
 	    }
 	    #- now mount the last one...
-	    $removables{$_} = [ $sorted_media[-1] ];
+	    $removables{$device} = [ $sorted_media[-1] ];
 	}
 
 	#- mount the removable device, only one or the important one.
-	my $i = $removables{$_}[0];
-	if (my ($prefix, $dir) = $urpm->{media}[$i]{url} =~ /^(removable_.*?|file):\/(.*)/) {
-	    $urpm->try_mounting($dir);
-	    system("cp", "-a", map { /^(removable_.*?|file):\/(.*)/ && $1 } @{$list->[$i]}, "$urpm->{cachedir}/rpms");
-	} else {
-	    #- we have a removable device that is not removable, well...
-	    $urpm->{error}("incoherent medium \"$urpm->{media}[$i]{name}\" marked removable but not really");
-	}
+	$examine_removable_medium->($removables{$device}[0], $device);
     }
 
-    #- get back all ftp and http accessible rpms file into the local cache.
-    #- TODO
+    #- get back all ftp and http accessible rpms file into the local cache
+    #- if necessary (as used by checksig or any other reasons).
+    #- we are using wget for that with an input from its stdin.
+    foreach (0..$#$list) {
+	exists $media{$_} and next;
+	@{$list->[$_]} or next;
+	foreach (@{$list->[$_]}) {
+	    if (/^(removable_[^:]*|file):\/(.*)/) {
+		push @sources, $2;
+	    } elsif (/^([^:]*):\/(.*\/([^\/]*))/) {
+		if ($force_local) {
+		    push @distant_sources, $_;
+		    push @sources, "$urpm->{cachedir}/rpms/$3";
+		} else {
+		    push @sources, $_;
+		}
+	    } else {
+		$urpm->{error}("malformed input: [$_]");
+	    }
+	}
+    }
+    if (@distant_sources) {
+	local *F;
+	open F, "| wget -NP $urpm->{cachedir}/rpms -i -";
+	foreach (@distant_sources) {
+	    print F "$_\n";
+	}
+	close F or $urpm->{error}("cannot get distant rpms files (maybe wget is missing?)");
+    }
+
+    #- need verification of available files... TODO
+
+    #- return the list of rpm file that have to be installed, they are all local now.
+    @sources;
 }
 
 
