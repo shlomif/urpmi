@@ -246,6 +246,7 @@ sub sync_curl {
 	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 	    "--stderr", "-", # redirect everything to stdout
+	    "--disable-epsv",
 	    "-s", "-I", @ftp_files) . " |";
 	while (<$curl>) {
 	    if (/Content-Length:\s*(\d+)/) {
@@ -305,6 +306,7 @@ sub sync_curl {
 	    $location_trusted ? "--location-trusted" : @{[]},
 	    "-R",
 	    "-f",
+	    "--disable-epsv",
 	    "--stderr", "-", # redirect everything to stdout
 	    @all_files) . " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
