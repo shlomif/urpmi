@@ -19,9 +19,11 @@
 #- this program is based upon urpmi.
 
 use strict;
+
+use lib qw(/usr/lib/libDrakX);
+use common;
+
 use urpm;
-use IO::File;
-use POSIX qw(tmpnam);
 
 #- default options.
 my $query = { use_provides => 1, };
@@ -66,6 +68,7 @@ usage:
                    authentication (format is <user:password>).
 ") . N("  --env          - use specific environment (typically a bug
                    report).
+") . N("  --changelog    - print changelog.
 ") . N("  -v             - verbose mode.
 ") . N("  -d             - extend query to package dependencies.
 ") . N("  -u             - remove package if a more recent version is already installed.
@@ -75,10 +78,11 @@ usage:
 ") . N("  -R             - reverse search to what requires package.
 ") . N("  -y             - impose fuzzy search (same as --fuzzy).
 ") . N("  -s             - next package is a source package (same as --src).
-") . N("  -i             - print usefull information in human readeable form.
+") . N("  -i             - print useful information in human readeable form.
 ") . N("  -g             - print groups with name also.
 ") . N("  -r             - print version and release with name also.
 ") . N("  -f             - print version, release and arch with name.
+") . N("  -l             - list files in package.
 ") . "\n" . N("  names or rpm files given on command line are queried.
 ");
     exit(0);
@@ -135,6 +139,7 @@ while (defined($_ = shift @ARGV)) {
 	next;
     };
     /^--env$/ and do { push @nextargv, \$query->{env}; next };
+    /^--changelog$/ and do { $query->{changelog} = 1; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/d/ and do { $query->{deps} = 1; next };
@@ -153,6 +158,7 @@ while (defined($_ = shift @ARGV)) {
 	/i/ and do { $query->{info} = 1; next };
 	/r/ and do { $query->{version} = $query->{release} = 1; next };
 	/f/ and do { $query->{version} = $query->{release} = $query->{arch} = 1; next };
+	/l/ and do { $query->{list_files} = 1; next };
 	print STDERR N("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     /\.rpm$/ and do { if (-r $_) { push @files, $_ }
@@ -181,7 +187,7 @@ if ($query->{env}) {
     $urpm->{statedir} = $query->{env};
 }
 
-$query->{upgrade} && !$query->{env} && !$query->{root} and $urpm->shlock_rpm_db;
+$query->{upgrade} && !$query->{env} and $urpm->shlock_rpm_db;
 $urpm->shlock_urpmi_db;
 $urpm->configure(nocheck_access => 1,
 		 noskipping => $query->{nodepslist}, noinstalling => $query->{nodepslist}, nodepslist => $query->{nodepslist},
@@ -340,7 +346,7 @@ if ($query->{list_aliases}) {
 	$state->{selected} = \%requested;
     }
 
-    if ($query->{headers} || $query->{sources} || $query->{info}) {
+    if ($query->{headers} || $query->{sources} || $query->{info} || $query->{list_files} || $query->{changelog}) {
 	my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
 	unless ($local_sources || $list) {
 	    $urpm->{fatal}(1, N("unable to get source packages, aborting"));
@@ -369,10 +375,10 @@ if ($query->{list_aliases}) {
 		    system "rpm2header", values %downloads;
 		}
 	    }
-	} elsif ($query->{info}) {
+	} elsif ($query->{info} || $query->{list_files} || $query->{changelog}) {
 	    my %downloads;
-	    # if not root, use a temporary file to store headers
-	    my $tmp_header_dir = ($< != 0 and tmpnam());
+	    # if not root, use a temporary directory to store headers
+	    my $tmp_header_dir = ($< != 0 and chomp_(`mktemp -d /tmp/urpmq.XXXXXX`));
 	    foreach (0..$#{$urpm->{media} || []}) {
 		if (my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_"; ! -s $file }
 				   map { my $pkg = $urpm->{depslist}[$_];
@@ -401,24 +407,32 @@ if ($query->{list_aliases}) {
 			$pkg->update_header("$tmp_header_dir/".$pkg->header_filename, keep_all_tags => 1);
 			unlink "$tmp_header_dir/".$pkg->header_filename;
 		    }
-		    printf "%-12s: %s\n", "Name", $pkg->name;
-		    printf "%-12s: %s\n", "Version", $pkg->version;
-		    printf "%-12s: %s\n", "Release", $pkg->release;
-		    printf "%-12s: %s\n", "Group", $pkg->group;
-		    printf "%-12s: %-28s %12s: %s\n", "Size", $pkg->size, "Architecture", $pkg->arch;
-		    if ($pkg->sourcerpm || $pkg->buildhost) {
-			if ($pkg->sourcerpm && $pkg->buildhost) {
-			    printf "%-12s: %-28s %12s: %s\n", "Source RPM", $pkg->sourcerpm, "Build Host", $pkg->buildhost;
-			} elsif ($pkg->sourcerpm) {
-			    $pkg->sourcerpm and printf "%-12s: %s\n", "Source RPM", $pkg->sourcerpm;
-			} else {
-			    $pkg->sourcerpm and printf "%-12s: %s\n", "Build Host", $pkg->buildhost;
+		    if ($query->{info})  {
+			printf "%-12s: %s\n", "Name", $pkg->name;
+			printf "%-12s: %s\n", "Version", $pkg->version;
+			printf "%-12s: %s\n", "Release", $pkg->release;
+			printf "%-12s: %s\n", "Group", $pkg->group;
+			printf "%-12s: %-28s %12s: %s\n", "Size", $pkg->size, "Architecture", $pkg->arch;
+			if ($pkg->sourcerpm || $pkg->buildhost) {
+			    if ($pkg->sourcerpm && $pkg->buildhost) {
+				printf "%-12s: %-28s %12s: %s\n", "Source RPM", $pkg->sourcerpm, "Build Host", $pkg->buildhost;
+			    } elsif ($pkg->sourcerpm) {
+				$pkg->sourcerpm and printf "%-12s: %s\n", "Source RPM", $pkg->sourcerpm;
+			    } else {
+				$pkg->sourcerpm and printf "%-12s: %s\n", "Build Host", $pkg->buildhost;
+			    }
 			}
+			$pkg->packager and printf "%-12s: %s\n", "Packager", $pkg->packager;
+			$pkg->url and printf "%-12s: %s\n", "URL", $pkg->url;
+			$pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
+			$pkg->description and printf "%-12s:\n%s\n", "Description", $pkg->description;
 		    }
-		    $pkg->packager and printf "%-12s: %s\n", "Packager", $pkg->packager;
-		    $pkg->url and printf "%-12s: %s\n", "URL", $pkg->url;
-		    $pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
-		    $pkg->description and printf "%-12s:\n%s\n", "Description", $pkg->description;
+		    if ($query->{list_files}) {
+			$pkg->files and print join("\n",$pkg->files)."\n";
+		    }
+		    if ($query->{changelog} && $pkg->changelog_time && $pkg->changelog_name && $pkg->changelog_text) {
+			print join("\n", mapn { "* ".urpm::localtime2changelog($_[0])." $_[1]\n\n$_[2]\n" } [ $pkg->changelog_time ], [ $pkg->changelog_name ] , [ $pkg->changelog_text ]);
+		    }
 		}
 	    }
 	    -d $tmp_header_dir and rmdir $tmp_header_dir;
@@ -432,7 +446,7 @@ if ($query->{list_aliases}) {
     }
 }
 $urpm->unlock_urpmi_db;
-$query->{upgrade} && !$query->{env} && !$query->{root} and $urpm->unlock_rpm_db;
+$query->{upgrade} && !$query->{env} and $urpm->unlock_rpm_db;
 
 #- print sub for query.
 my $query_sub = sub {

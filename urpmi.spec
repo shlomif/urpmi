@@ -236,15 +236,17 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
-* Thu Jan 15 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.2-1mdk
-- more graphical feedback in urpmi --parallel --X (status, progress, etc)
-- Olivier Blin <blino@mandrake.org>:
-  - enhance urpmq -i for non root user
-  - fix urpmq --sources for non root user (do not give a wrong url)
-  - fix urpme --root
-  - urpmi, urpme, urpmq: / can be used as root, it's not a particular case
-  - urpm.pm: lock rpm db in chroot, and urpmi db in /
-  - urpmi: ask to be root to install binary rpms in chroot
+* Thu Jan 15 2004 Olivier Blin <blino@mandrake.org> 4.4.2-1mdk
+- urpmq -l (list files), urpmq --changelog
+- lock rpm db even in chroot for urpmq
+- enhance urpmq -i for non root user (fetch Description field)
+- fix urpmq --sources for non root user (do not give a wrong url)
+- fix urpme --root
+- / can be used as root, it's not a particular case
+- lock rpm db in chroot, and urpmi db in /
+- ask to be root too to install binary rpms in chroot
+- From Guillaume Cottenceau <gc@mandrakesoft.com>
+    - more graphical feedback in urpmi --parallel --X (status, progress, etc)
 - From Pascal Terjan <pterjan@mandrake.org> :
     - $root =~ s!/*!! to avoid root detection issue
 - From Olivier Thauvin <thauvin@aerov.jussieu.fr> :
