@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 22mdk
+Release: 23mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,9 @@ fi
 
 
 %changelog
+* Mon Feb 24 2003 François Pons <fpons@mandrakesoft.com> 4.2-23mdk
+- fixed bug 2342 (reported exit code 9 for rpm db access failure)
+
 * Fri Feb 21 2003 François Pons <fpons@mandrakesoft.com> 4.2-22mdk
 - fixed callback not sent with wget if a file is not downloaded.
 - fixed rsync:// protocol to support :port inside url.
