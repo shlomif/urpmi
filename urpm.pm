@@ -1807,24 +1807,25 @@ this could happen if you mounted manually the directory when creating the medium
 
 	unless ($error) {
 	    #- now... on pubkey
-	    if (-s "$medium->{cachedir}/partial/pubkey") {
+	    if (-s "$urpm->{cachedir}/partial/pubkey") {
 		$urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
-		my (%keys, %unknown_keys);
+		my %key_ids;
 		eval {
-		    foreach ($urpm->parse_armored_file("$medium->{cachedir}/partial/pubkey")) {
+		    foreach ($urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey")) {
 			my $id;
 			foreach my $kv (values %{$urpm->{keys} || {}}) {
-			    $kv->{content} = $_->{content} and $keys{$id = $kv->{id}} = undef, last;
+			    $kv->{content} = $_->{content} and $key_ids{$id = $kv->{id}} = undef, last;
 			}
 			unless ($id) {
 			    #- the key has not been found, this is important to import it now,
 			    #- update keys hash (as we do not know how to get key id from its content).
 			    #- and parse again to found the key.
-			    $urpm->import_armored_file("$medium->{cachedir}/partial/pubkey", root => $urpm->{root});
+			    $urpm->{log}(N("...importing pubkey file of \"%s\"", $medium->{name}));
+			    $urpm->import_armored_file("$urpm->{cachedir}/partial/pubkey", root => $urpm->{root});
 			    $urpm->parse_pubkeys(root => $urpm->{root});
 
 			    foreach my $kv (values %{$urpm->{keys} || {}}) {
-				$kv->{content} = $_->{content} and $keys{$id = $kv->{id}} = undef, last;
+				$kv->{content} = $_->{content} and $key_ids{$id = $kv->{id}} = undef, last;
 			    }
 
 			    #- now id should be defined, or there is a problem to import the keys...
@@ -1832,7 +1833,7 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 		};
-		%keys and $medium->{'key-ids'} = join ',', keys %keys;
+		keys(%key_ids) and $medium->{'key-ids'} = join ',', keys %key_ids;
 	    }
 	}
 

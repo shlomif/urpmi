@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.4
-Release: 19mdk
+Release: 20mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.93
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.93-2mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,10 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Mon Aug 11 2003 François Pons <fpons@mandrakesoft.com> 4.4-20mdk
+- fixed bug 4637 and add reason for removing package in urpme.
+- fixed handling of pubkey file.
+
 * Wed Aug  6 2003 François Pons <fpons@mandrakesoft.com> 4.4-19mdk
 - fixed local package not found when using curl and without an
   absolute path.
