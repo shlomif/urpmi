@@ -6,12 +6,10 @@ our @ISA = 'Exporter';
 our @EXPORT = qw(N log_it to_utf8 message_input message toMb from_utf8);
 
 #- I18N.
-eval {
-    require Locale::gettext;
-    use POSIX qw(LC_ALL);
-    POSIX::setlocale(LC_ALL, "");
-    Locale::gettext::textdomain("urpmi");
-};
+use Locale::gettext;
+use POSIX qw(LC_ALL);
+POSIX::setlocale(LC_ALL, "");
+Locale::gettext::textdomain("urpmi");
 
 my $codeset; #- encoding of the current locale
 eval {
