@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sl\n"
 "POT-Creation-Date: 2003-08-23 12:37+0200\n"
-"PO-Revision-Date: 2003-08-07 01:21+0000\n"
+"PO-Revision-Date: 2003-08-12 12:29+0000\n"
 "Last-Translator: Tadej Panjtar <panjtar@email.si>\n"
 "Language-Team: slovenian <sl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -212,9 +212,9 @@ msgid "One of the following packages is needed:"
 msgstr "Potreben je en od sledeèih paketov:"
 
 #: ../urpme:1
-#, fuzzy, c-format
+#, c-format
 msgid "To satisfy dependencies, the following packages will be removed (%d MB)"
-msgstr "Zaradi zadovoljitve odvisnosti bodo odstranjeni sledeèi paketi (%d MB)"
+msgstr "Zaradi odvisnosti bodo odstranjeni sledeèi paketi (%d MB)"
 
 #: ../urpmi:1
 #, c-format
@@ -432,6 +432,8 @@ msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+"  --keep         - èe je mogoèe ohrani obstoje pakete, zavrni zahtevane\n"
+"                   pakete ki vodijo v odstranjevanje.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -488,11 +490,12 @@ msgstr "  --noclean      - hrani neuporabljane rpm pakete v medpomniliku.\n"
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
+"narejena transakcija za name¹èanje %s (odstrani=%d, namesti=%d, posodobi=%d)"
 
 #: ../urpm.pm:1
 #, c-format
 msgid "md5sum mismatch"
-msgstr ""
+msgstr "md5sum se ne ujema"
 
 #: ../urpm.pm:1
 #, c-format
@@ -584,9 +587,9 @@ msgstr ""
 "(eden od %s)\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "trying to promote %s"
-msgstr "Nièesr za odstraniti"
+msgstr "posku¹am posodobiti %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -702,7 +705,7 @@ msgstr "  -e             - vkljuèi perl kodo direktno kot perl -e.\n"
 #: ../urpmi:1
 #, c-format
 msgid "do you agree ?"
-msgstr ""
+msgstr "ali se strinjate ?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -717,7 +720,7 @@ msgstr "...pridobivanje je konèano"
 #: ../urpm.pm:1
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-msgstr ""
+msgstr "dodajanje paketa %s (id=%d, eid=%d, posodobi=%d, datoteka=%s)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -757,9 +760,9 @@ msgid "unable to correctly parse [%s] on value \"%s\""
 msgstr "nemogoèe je pravilno razèleniti [%s] pri vrednosti \"%s\""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
-msgstr "  --media        - uporabi samo podane medije, loèene z vejico.\n"
+msgstr "  --excludemedia - ne uporabi podane medije, loèene z vejico.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -799,10 +802,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Poizkusi z namestitvijo brez preverjan odvisnosti? (d/N) "
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" is not local, medium ignored"
-msgstr ""
-"medij \"%s\" posku¹a uporabiti ¾e uporabljen seznam, medij je zato prezrt"
+msgstr "nevidezni medij \"%s\" ni lokalen, medij je zato prezrt"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -815,12 +817,12 @@ msgid "using different removable device [%s] for \"%s\""
 msgstr "uporabljam drugaèno izmenljivo napravo [%s] za \"%s\""
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --no-probe     - do not try to find any synthesis or\n"
 "                   hdlist file.\n"
 msgstr ""
-"  -h             - poskusi najti in uporabiti synthesis ali hdlist\n"
+"  --no-probe             - ne poskusi najti synthesis ali hdlist\n"
 "                   datoteki.\n"
 
 #: ../urpmi:1 ../urpmq:1
@@ -843,19 +845,18 @@ msgstr ""
 "uporabljeno"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr ""
-"  --conflicts    - izpi¹e oznako konfliktov: vse conflicts (veè vrstic).\n"
+msgstr "  --conflicts    - izpi¹e oznako konfliktov: vse konflikte.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
 "ignored"
 msgstr ""
-"medij \"%s\" posku¹a uporabiti ¾e uporabljen seznam hdlist, medij je zato "
-"prezrt"
+"navidezni medij \"%s\" mora imeti veljaven izvor hdlist aèo symtjesos, medij "
+"je zato prezrt"
 
 #: ../urpme:1
 #, c-format
@@ -915,13 +916,13 @@ msgid "unable to use parallel option \"%s\""
 msgstr "nemogoèe je uporabiti vzporedno izbiro \"%s\""
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "medium \"%s\" uses an invalid list file:\n"
 "  mirror is probably not up-to-date, trying to use alternate method"
 msgstr ""
 "medij \"%s\" uporablja neveljaven seznam datotek \n"
-"(mirror verjetno ni najbolj sodoben, posku¹am uporabiti druge naèine)"
+"  zrcalno mesto verjetno ni najbolj sodobno, posku¹am uporabiti druge naèine"
 
 #: ../urpm.pm:1
 #, c-format
@@ -969,9 +970,9 @@ msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
 msgstr "urpme: nepoznana izbira \"-%s\", preveri uporabo z --help\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of existing source hdlist (or synthesis)"
-msgstr "kopiranje izvora (datoteke hdlist ali synthesis) od \"%s\"..."
+msgstr "raèunanje md5sum obstojeèega izvora hdlist (ali synthesis)"
 
 #: ../urpmq:1
 #, c-format
@@ -1031,11 +1032,9 @@ msgid "unable to retrieve pathname for removable medium \"%s\""
 msgstr "nemogoèe je razre¹iti pot za izmenljivi medij \"%s\""
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-synthesis - try to find and use synthesis file.\n"
-msgstr ""
-"  -h             - poskusi najti in uporabiti synthesis ali hdlist\n"
-"                   datoteki.\n"
+msgstr "  --probe-synthesis - poskusi najti in uporabiti synthesis datoteko.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1063,10 +1062,9 @@ msgid "unable to access rpm file [%s]"
 msgstr "nemogoèe je dostopati do rpm datoteke [%s]"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --files        - print tag files: all files.\n"
-msgstr ""
-"  --files        - izpi¹e oznako datoteke: vse datoteke (veè vrstic).\n"
+msgstr "  --files        - izpi¹e oznako datoteke: vse datoteke.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1274,16 +1272,18 @@ msgstr ""
 "                   vrstici, nezdru¾ljivo z interaktivnim naèinom).\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --uniq         - do not print identical lines.\n"
-msgstr "  --size         - izpi¹e oznako velikosti: velikost.\n"
+msgstr "  --uniq         - ne izpi¹i identiènih vrstic.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
 "update or --parallel"
-msgstr "--synthesis ne more biti uporabljen z --media, --update or --parallel"
+msgstr ""
+"--synthesis ne more biti uporabljen z --media, --excludemedia, --sortmedia, "
+"--update or --parallel"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1325,7 +1325,7 @@ msgstr "Nièesr za odstraniti"
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
-msgstr "nemogoèe je zapisati seznam od \"%s\""
+msgstr "nemogoèe je uvoziti javni kljuè od \"%s\""
 
 #: ../urpmq:1
 #, c-format
@@ -1362,15 +1362,14 @@ msgid "copy failed: %s"
 msgstr "spodletelo kopiranje %s"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr "  --group        - izpi¹e osnako skupine: skupina.\n"
+msgstr "  --sourcerpm    - izpi¹e oznako sourcerpm: izvorni rpe.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --requires     - print tag requires: all requires.\n"
-msgstr ""
-"  --requires     - izpi¹e oznako requires: all requires (veè vrstic).\n"
+msgstr "  --requires     - izpi¹e oznako requires: vse requires.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1383,7 +1382,7 @@ msgid "urpme: unknown option \"-%s\", check usage with --help\n"
 msgstr "urpme: nepoznana opcija \"-%s\", preveri uporabo z --help\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "posku¹al sem izbrati neobstajajoèi medij \"%s\""
 
@@ -1393,13 +1392,13 @@ msgid "  --description  - print tag description: description.\n"
 msgstr "  --description  - izpi¹e oznako opisa: opis.\n"
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "`with' missing for network media\n"
 msgstr ""
 "%s\n"
-"`with' manjka za ftp medij\n"
+"`with' manjka za mre¾ni medij\n"
 
 #: ../urpmi.addmedia:1 ../urpmi.update:1
 #, c-format
@@ -1423,9 +1422,9 @@ msgstr ""
 "  -s             - naslednji paket je izvorni paket (isto kot --src).\n"
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s"
-msgstr "name¹èam %s\n"
+msgstr "name¹èam %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1453,6 +1452,8 @@ msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
 "                   only file:// protocol is allowed.\n"
 msgstr ""
+"  --virtual      - kreiraj navidezni medij, ki je vedno posodabljan,\n"
+"                   samo file:// protokol je dovoljeno.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1489,10 +1490,11 @@ msgid "ssh is missing\n"
 msgstr "ssh je pogra¹an (ni name¹èen na sistemu)\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr "  --media        - uporabi samo podane medije, loèene z vejico.\n"
+msgstr ""
+"  --sortmedia    - medije razvrsti glede na podnize, loèene z vejico.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1505,9 +1507,9 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "nemogoèe je kreirati medij \"%s\"\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --packager     - print tag packager: packager.\n"
-msgstr "  --group        - izpi¹e osnako skupine: skupina.\n"
+msgstr "  --packager     - izpi¹e oznako packager: kdo je naredil paket.\n"
 
 #: ../urpmi:1
 #, c-format
@@ -1539,16 +1541,16 @@ msgid "copying hdlists file..."
 msgstr "kopiranje hdlists datoteke..."
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-msgstr ""
-"medij \"%s\" posku¹a uporabiti ¾e uporabljen seznam, medij je zato prezrt"
+msgstr "navidezni medij \"%s\" mora imeti èisti url, medij je zato prezrt"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
 msgstr ""
-"  --files        - izpi¹e oznako datoteke: vse datoteke (veè vrstic).\n"
+"  --buildhost    - izpi¹e oznako buildhost: stre¾nik, kjer je bil paket "
+"zgrajen.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1595,14 +1597,14 @@ msgid "        %s%% of %s completed, ETA = %s, speed = %s"
 msgstr "        %s%% od %s konèano ETA= %s, hitrost= %s"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr "prina¹anje izvora je spodletelo (datoteke hdlist ali synthesis)"
+msgstr "raèunanje md5sum izvorne datoteke hdlist ( ali synthesis)"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "unable to import pubkey file of \"%s\""
-msgstr "nemogoèe je zapisati seznam od \"%s\""
+msgstr "nemogoèe je uvoziti javni kljuè od \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -1610,6 +1612,8 @@ msgid ""
 "  --no-uninstall - never ask to uninstall a package, abort the "
 "installation.\n"
 msgstr ""
+"  --no-uninstall - nikoli ne vpra¹aj za odstranitev paketa,  prekini takrat "
+"namestitev.\n"
 
 #: ../urpmq:1
 #, c-format
@@ -1661,7 +1665,7 @@ msgstr "nemogoèe je najti hdlist datoteke \"%s\", medij je zato prezrt"
 #: ../urpmi:1
 #, c-format
 msgid "  --split-length - small transaction length, default is %d.\n"
-msgstr ""
+msgstr "  --split-length - majhna velikost transakcij, privzeto je %d.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -1688,11 +1692,14 @@ msgid ""
 "this could happen if you mounted manually the directory when creating the "
 "medium."
 msgstr ""
+"nezmo¾en dostopa do medija \"%s\",\n"
+"to se lahko zgodi, èe je tvoj medij roèno priklopljen v imenik ko se medij "
+"kreira."
 
 #: ../urpmf:1
 #, c-format
 msgid "  --group        - print tag group: group.\n"
-msgstr "  --group        - izpi¹e osnako skupine: skupina.\n"
+msgstr "  --group        - izpi¹e oznako skupine: skupina.\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1700,9 +1707,9 @@ msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - uporabi samo podane medije, loèene z vejico.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create transaction"
-msgstr "nemogoèe je kreirati medij \"%s\"\n"
+msgstr "nemogoèe je narediti transakcijo"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1719,9 +1726,9 @@ msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "pridobivanje rpm datotek iz medija \"%s\"..."
 
 #: ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s"
-msgstr "distributiram %s\n"
+msgstr "dostavljanje %s"
 
 #: ../urpmi:1
 #, c-format
@@ -1779,9 +1786,9 @@ msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "napaèen opis hdlist \"%s\" v datoteki hdlists"
 
 #: ../urpme:1 ../urpmi:1
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s"
-msgstr "odstranijevanje paketa %s"
+msgstr "odstranijevanje %s"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1801,9 +1808,9 @@ msgid "  --size         - print tag size: size.\n"
 msgstr "  --size         - izpi¹e oznako velikosti: velikost.\n"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "in order to keep %s"
-msgstr "glede na namestitev %s"
+msgstr "glede na ohranitev %s"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1835,9 +1842,9 @@ msgid "taking removable device as \"%s\""
 msgstr "izmenljivo napravo vzamem kot \"%s\""
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "examining pubkey file of \"%s\"..."
-msgstr "prina¹anje datoteke z opisi \"%s\"..."
+msgstr "preverjanje datoteko z javnimi kljuèi od \"%s\"..."
 
 #: ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1854,7 +1861,7 @@ msgstr "  -u             - odstrani paket, èe je novej¹i ¾ename¹èen.\n"
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
-msgstr ""
+msgstr "  --probe-hdlist - poizkusi najti in uporabiti hdlist datoteko.\n"
 
 #: ../urpm.pm:1
 #, c-format
