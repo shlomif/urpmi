@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.3
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -70,7 +70,7 @@ exit 0
 %post
 if [ -r /var/lib/urpmi/depslist ]; then
   rm -f /var/lib/urpmi/depslist
-  [ -z "$DURING_INSTALL" ] && %{_sbindir}/urpmi.updatemedia
+  [ -z "$DURING_INSTALL" ] && %{_sbindir}/urpmi.update
 fi
 
 %preun -n autoirpm
@@ -102,6 +102,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Thu Aug 31 2000 François Pons <fpons@mandrakesoft.com> 1.3-3mdk
+- Oops, fixed typo in post.
+
 * Tue Aug 31 2000 François Pons <fpons@mandrakesoft.com> 1.3-2mdk
 - added code to proper upgrade of urpmi 1.2.
 - added small correction in urpmi for basesystem selection.
