@@ -193,7 +193,7 @@ sub parallel_install {
 	while ($_ = <F>) {
 	    $bad_nodes{$node} .= $_;
 	    /Installation failed/ and $bad_nodes{$node} = '';
-	    /Installation is possible|everything already installed/ and delete $bad_nodes{$node}, last;
+	    /Installation is possible/ and delete $bad_nodes{$node}, last;
 	}
 	close F;
     }

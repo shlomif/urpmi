@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 20mdk
+Release: 21mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,11 @@ fi
 
 
 %changelog
+* Thu Feb 20 2003 François Pons <fpons@mandrakesoft.com> 4.2-21mdk
+- modified --test output to be consistent about the same
+  message displayed if installation is possible whatever
+  verbosity (fixed bug 1955).
+
 * Thu Feb 20 2003 François Pons <fpons@mandrakesoft.com> 4.2-20mdk
 - fixed bug 1737 and 1816.
 

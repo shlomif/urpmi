@@ -626,6 +626,8 @@ if (%sources_install || %sources) {
 	    }
 	}
     }
+} elsif ($test) {
+    message(_("Installation is possible"));
 } else {
     $verbose >= 0 and message(_("Everything already installed"), $auto);
 }

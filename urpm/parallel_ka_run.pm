@@ -187,7 +187,7 @@ sub parallel_install {
 	/^\s*$/ and next;
 	$bad_nodes{$node} .= $_;
 	/Installation failed/ and $bad_nodes{$node} = '';
-	/Installation is possible|everything already installed/ and delete $bad_nodes{$node};
+	/Installation is possible/ and delete $bad_nodes{$node};
     }
     close F or $urpm->{fatal}(1, _("rshp failed, maybe a node is unreacheable"));
 
