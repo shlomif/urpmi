@@ -596,11 +596,11 @@ msgstr "Pakiet %s koliduje z pakietem %s"
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:26
 #: ../urpm/parallel_ka_run.pm_.c:116
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "b³ad mput, byæ mo¿e wêze³ jest nieosi±galny"
 
 #: ../urpm/parallel_ka_run.pm_.c:98 ../urpm/parallel_ka_run.pm_.c:130
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "b³±d rshp, byæ mo¿e wêze³ jest nieosi±galny"
 
 #: ../urpm/parallel_ka_run.pm_.c:134 ../urpm/parallel_ssh.pm_.c:139
 #, c-format
@@ -614,9 +614,9 @@ msgstr "Instalacja jest mo¿liwa"
 
 #: ../urpm/parallel_ssh.pm_.c:11 ../urpm/parallel_ssh.pm_.c:29
 #: ../urpm/parallel_ssh.pm_.c:122
-#, fuzzy, c-format
+#, c-format
 msgid "scp failed on host %s"
-msgstr "Dla wêz³a %s instalacja nie powiod³a siê"
+msgstr "po³±czenie scp z komputerem %s zakoñczone niepowodzeniem"
 
 #: ../urpm/parallel_ssh.pm_.c:101
 #, c-format
@@ -692,9 +692,8 @@ msgstr ""
 "W celu spe³nienia zale¿no¶ci zostan± usuniête nastêpuj±ce pakiety (%d MB)"
 
 #: ../urpme_.c:198
-#, fuzzy
 msgid "Removing failed"
-msgstr "...kopiowanie nie powiod³o siê"
+msgstr "Usuwanie zakoñczone niepowodzeniem"
 
 #. Translator: The URI types strings 'file:', 'ftp:', 'http:',
 #. Translator: and 'removable:' must not be translated!
@@ -713,20 +712,20 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"usage: urpmi.addmedia [opcje] <nazwa> <url> [with <¶cie¿ka wzglêdna>]\n"
+"u¿ycie: urpmi.addmedia [opcje] <nazwa> <url> [with <¶cie¿ka wzglêdna>]\n"
 "gdzie <url> mo¿e przyjmowaæ postaæ\n"
-"       file://<path>\n"
+"       file://<¶cie¿ka>\n"
 "       ftp://<login>:<has³o>@<komputer>/<¶cie¿ka> with <wzglêdna nazwa pliku "
 "hdlist>\n"
 "       ftp://<komputer>/<¶cie¿ka> with <wzlglêdna nazwa pliku hdlist>\n"
 "       http://<komputer>/<¶cie¿ka> with <wzglêdna nazwa pliku hdlist>\n"
 "       removable://<¶cie¿ka>\n"
 "\n"
-"oraz [opcje] mog± byæ z\n"
+"za¶ [opcje] mog± przyjmowaæ warto¶ci\n"
 
 #: ../urpmi.addmedia_.c:54 ../urpmi.update_.c:62 ../urpmi_.c:93 ../urpmq_.c:56
 msgid "  --wget         - use wget to retrieve distant files.\n"
-msgstr "  --wget         - u¿ywa wgeta aby pobraæ zdalne pliki.\n"
+msgstr "  --wget         - u¿ywa wgeta do pobierania zdalnych plików.\n"
 
 #: ../urpmi.addmedia_.c:55 ../urpmi.update_.c:63 ../urpmi_.c:94 ../urpmq_.c:57
 msgid "  --curl         - use curl to retrieve distant files.\n"
@@ -757,7 +756,7 @@ msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
 msgstr ""
-"  --distrib      - automatycznie tworzy wszyskie no¶niki z no¶nika \n"
+"  --distrib      - automatycznie tworzy wszystkie no¶niki z no¶nika\n"
 "                   instalacyjnego.\n"
 
 #: ../urpmi.addmedia_.c:63
@@ -794,7 +793,7 @@ msgstr ""
 
 #: ../urpmi.addmedia_.c:72 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:70
 msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - czy¶ci katalogu nag³ówków pamiêci podrêcznej.\n"
+msgstr "  -c             - czy¶ci katalog nag³ówków pamiêci podrêcznej.\n"
 
 #: ../urpmi.addmedia_.c:73
 msgid ""
@@ -965,7 +964,7 @@ msgstr ""
 
 #: ../urpmi_.c:84
 msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr ""
+msgstr "  --install-src  - instaluje tylko pakiet ¼ród³owy (bez binariów).\n"
 
 #: ../urpmi_.c:85
 msgid "  --clean        - remove rpm from cache before anything else.\n"
@@ -1018,8 +1017,7 @@ msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
 msgstr ""
-"  --env          - u¿ywa okre¶lonego ¶rodowiska (typowo\n"
-"                   raport b³êdów).\n"
+"  --env          - u¿ywa okre¶lonego ¶rodowiska (typowo raport b³êdów).\n"
 
 #: ../urpmi_.c:103
 msgid "  --X            - use X interface.\n"
@@ -1246,7 +1244,7 @@ msgstr "  --list         - wypisuje dostêpne pakiety.\n"
 
 #: ../urpmq_.c:47
 msgid "  --list-media   - list available media.\n"
-msgstr "  --list-media    - wypisuje dostêpne media.\n"
+msgstr "  --list-media   - wypisuje dostêpne no¶niki.\n"
 
 #: ../urpmq_.c:48
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
@@ -1286,7 +1284,7 @@ msgstr ""
 
 #: ../urpmq_.c:65
 msgid "  -c             - complete output with package to removes.\n"
-msgstr ""
+msgstr "  -c             - zape³nia wyj¶cie pakietami do usuniêcia.\n"
 
 #: ../urpmq_.c:67
 msgid "  -R             - reverse search to what requires package.\n"
