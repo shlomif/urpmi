@@ -387,17 +387,13 @@ if (@src_names) {
       || $force or exit 1;
 }
 
-#- filter to add in packages selected required packages.
 sub ask_choice {
     my ($urpm, $db, $state, $choices) = @_;
     my $n = 1; #- default value.
     my (@l) = map { scalar $_->fullname } @$choices;
-    my $from;
 
     if (@l > 1 && !$urpm->{options}{auto}) {
-	my $msg = (defined $from ?
-		   N("One of the following packages is needed to install %s:", $from) :
-		   N("One of the following packages is needed:"));
+	my $msg = N("One of the following packages is needed:");
 	if ($urpm::args::options{X}) {
 	    system(qq(gchooser "$msg" @l));
 	    $n = $? >> 8 || die;
@@ -405,12 +401,11 @@ sub ask_choice {
 	    message($msg);
 	    my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
 	    $n = message_input(N("What is your choice? (1-%d) ", $i), undef, range => $i);
-	    defined $n or exit 1;
+	    defined($n) && $n ne "0" or exit 1; # abort.
 	}
     }
-
     $choices->[$n - 1];
-};
+}
 
 if ($parallel && $urpm::args::options{X}) {
     gurpm::init(to_utf8(N("Package installation...")), to_utf8(N("Initializing...")));
