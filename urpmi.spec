@@ -1,12 +1,12 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 1.5
-Release: 41mdk
+Version: 1.6
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
-Requires: /usr/bin/perl, eject, wget
+Requires: eject, wget
 PreReq: perl-gettext, rpmtools >= 2.3-25mdk
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
@@ -18,7 +18,7 @@ urpmi takes care of dependencies between rpms, using a pool (or pools) of rpms.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
-Version: 0.9
+Version: 1.0
 Summary: User mode rpm GUI install
 Requires: urpmi grpmi gchooser gmessage
 Group: %{group}
@@ -26,7 +26,7 @@ Group: %{group}
 gurpmi is a graphical front-end to urpmi
 
 %package -n autoirpm
-Version: 0.7
+Version: 0.8
 Summary: Auto install of rpm on demand
 Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
 Group: %{group}
@@ -49,7 +49,7 @@ install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 mkdir -p $RPM_BUILD_ROOT%{perl_sitearch}
 install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_sitearch}
 
-find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.po | \
+find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.mo | \
     perl -pe 'm|locale/([^/_]*)(.*)|; $_ = "%%lang($1) %{_datadir}/locale/$1$2\n"' > %{name}.lang
 
 cd $RPM_BUILD_ROOT%{_bindir} ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
@@ -68,7 +68,7 @@ fi
 exit 0
 
 %post
-[ -z "$DURING_INSTALL" -a -f /var/lig/urpmi/depslist ] && %{_sbindir}/urpmi.update -a
+[ -z "$DURING_INSTALL" -a -f /var/lib/urpmi/depslist ] && %{_sbindir}/urpmi.update -a
 rm -f /var/lib/urpmi/depslist
 
 %preun -n autoirpm -p %{_sbindir}/autoirpm.uninstall
@@ -106,6 +106,13 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed Jun 20 2001 François Pons <fpons@mandrakesoft.com> 1.6-1mdk
+- simplified urpmf.
+- fixed typo in %%post.
+- fix i18n support and allow l10n of all error message.
+- simplified error code of urpmi/urpmq.
+- new version.
+
 * Thu Jun 14 2001 François Pons <fpons@mandrakesoft.com> 1.5-41mdk
 - build release for new rpm.
 
