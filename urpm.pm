@@ -837,6 +837,9 @@ sub reconfig_urpmi {
     my $reconfigured = 0;
     open my $fh, $rfile or return undef;
     $urpm->{log}(N("reconfiguring urpmi for media \"%s\"", $name));
+    #- the first line of reconfig.urpmi must be magic, to be sure it's not an error file
+    my $magic = <$fh>;
+    $magic =~ /^# this is an urpmi reconfiguration file/ or return undef;
     while (<$fh>) {
 	chomp;
 	s/^\s*//; s/#.*$//; s/\s*$//;
