@@ -567,6 +567,8 @@ if (%sources_install || %sources) {
 } else {
     message(_("everything already installed"), $auto);
 }
+#- try to umount removable device which may have been mounted.
+$urpm->try_umounting_removables;
 
 #- this help flushing correctly by closing this file before (piped on tee).
 #- but killing them is generally better.

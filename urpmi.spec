@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 18mdk
+Release: 19mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,10 @@ fi
 
 
 %changelog
+* Mon Sep 16 2002 François Pons <fpons@mandrakesoft.com> 4.0-19mdk
+- fixed possible problem with http proxy for wget.
+- umount removable device automatically mounted.
+
 * Fri Sep 13 2002 François Pons <fpons@mandrakesoft.com> 4.0-18mdk
 - removed apache2-conf from skip.list as it doesn't work
   when trying to install apache2.

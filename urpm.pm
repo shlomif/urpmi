@@ -160,7 +160,9 @@ sub set_proxy {
 	for ($proxy->{type}) {
 	    /wget/ && do {
 		for ($proxy->{proxy}) {
-		    $ENV{http_proxy} = $_->{http_proxy} if defined $_->{http_proxy};
+		    if (defined $_->{http_proxy}) {
+			$ENV{http_proxy} = $_->{http_proxy} =~ /^http:\/\// ? $_->{http_proxy} : "http://$_->{http_proxy}";
+		    }
 		    $ENV{ftp_proxy} = $_->{ftp_proxy} if defined $_->{ftp_proxy};
 		    @res = ("--proxy-user=$_->{user}", "--proxy-passwd=$_->{pwd}") if defined $_->{user} && defined $_->{pwd};
 		}
@@ -1463,12 +1465,13 @@ sub reduce_pathname {
 
 #- check for necessity of mounting some directory to get access
 sub try_mounting {
-    my ($urpm, $dir) = @_;
+    my ($urpm, $dir, $removable) = @_;
 
     $dir = reduce_pathname($dir);
     foreach ($urpm->find_mntpoints($dir, 'mount')) {
 	$urpm->{log}(_("mounting %s", $_));
 	`mount '$_' 2>/dev/null`;
+	$removable and $urpm->{removable_mounted}{$_} = undef;
     }
     -e $dir;
 }
@@ -1480,8 +1483,17 @@ sub try_umounting {
     foreach ($urpm->find_mntpoints($dir, 'umount')) {
 	$urpm->{log}(_("unmounting %s", $_));
 	`umount '$_' 2>/dev/null`;
+	delete $urpm->{removable_mounted}{$_};
     }
     ! -e $dir;
+}
+
+sub try_umounting_removables {
+    my ($urpm) = @_;
+    foreach (keys %{$urpm->{removable_mounted}}) {
+	$urpm->try_umounting($_);
+    }
+    delete $urpm->{removable_mounted};
 }
 
 #- relocate depslist array id to use only the most recent packages,
@@ -1807,14 +1819,14 @@ sub download_source_packages {
 
     #- examine if given medium is already inside a removable device.
     my $check_notfound = sub {
-	my ($id, $dir) = @_;
-	$dir and $urpm->try_mounting($dir);
+	my ($id, $dir, $removable) = @_;
+	$dir and $urpm->try_mounting($dir, $removable);
 	if (!$dir || -e $dir) {
 	    foreach (values %{$list->[$id]}) {
 		/^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
 		unless ($dir) {
 		    $dir = $2;
-		    $urpm->try_mounting($dir);
+		    $urpm->try_mounting($dir, $removable);
 		}
 		-r $2 or return 1;
 	    }
@@ -1833,7 +1845,7 @@ sub download_source_packages {
 	    #- the directory given does not exist or may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
-	    while ($check_notfound->($id, $dir)) {
+	    while ($check_notfound->($id, $dir, 'removable')) {
 		$ask_for_medium or $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir); system("eject", $device);
 		$ask_for_medium->($medium->{name}, $medium->{removable}) or
