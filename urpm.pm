@@ -26,6 +26,25 @@ BEGIN {
     }
 }
 
+#- list of options defined for each media
+our @PER_MEDIA_OPT = qw(
+    downloader 
+    hdlist
+    ignore
+    key-ids
+    list
+    md5sum    
+    noreconfigure
+    priority
+    priority-upgrade
+    removable
+    synthesis
+    update
+    verify-rpm 
+    virtual
+    with_hdlist
+);
+
 #- create a new urpm object.
 sub new {
     my ($class) = @_;
@@ -160,24 +179,7 @@ sub read_config {
     #- per-media options
     foreach my $m (grep { $_ ne '' } keys %$config) {
 	my $medium = { name => $m, clear_url => $config->{$m}{url} };
-	foreach my $opt (qw(
-	    downloader
-	    hdlist
-	    ignore
-	    key-ids
-	    list
-	    md5sum
-	    noreconfigure
-	    priority
-	    removable
-	    synthesis
-	    update
-	    verify-rpm
-	    virtual
-	    with_hdlist
-	)) {
-	    defined $config->{$m}{$opt} and $medium->{$opt} = $config->{$m}{$opt};
-	}
+	defined $config->{$m}{$_} and $medium->{$_} = $config->{$m}{$_} foreach @PER_MEDIA_OPT;
 	$urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
     }
 
@@ -376,9 +378,7 @@ sub write_config {
     foreach my $medium (@{$urpm->{media}}) {
 	my $medium_name = $medium->{name};
 	$config->{$medium_name}{url} = $medium->{clear_url};
-	foreach (qw(hdlist with_hdlist list removable key-ids priority priority-upgrade update ignore synthesis virtual)) {
-	    defined $medium->{$_} and $config->{$medium_name}{$_} = $medium->{$_};
-	}
+	defined $medium->{$_} and $config->{$medium_name}{$_} = $medium->{$_} foreach @PER_MEDIA_OPT;
     }
     urpm::cfg::dump_config($urpm->{config}, $config)
 	or $urpm->{fatal}(6, N("unable to write config file [%s]", $urpm->{config}));
