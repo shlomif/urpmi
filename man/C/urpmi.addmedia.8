@@ -1,4 +1,4 @@
-.TH urpmi.addmedia 8 "29 Aug 2002" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.addmedia 8 "07 Jan 2002" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.addmedia
 .SH NAME
 urpmi.addmedia \- adds a new rpms media for use with urpmi
@@ -7,13 +7,12 @@ urpmi.addmedia \- adds a new rpms media for use with urpmi
 .SH DESCRIPTION
 urpmi.addmedia tells urpmi that he can find new rpms at the specified
 location. Currently supported medias are: local drives, removable drives
-(such as cd's), http and ftp.
+(such as cd's), networked like http, ftp, ssh and rsync.
 .PP
 One of the following modes must be choosen:
 .PP
 http:
-.br
-.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> http://<\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> http://<\fIlogin\fP>:<\fIpass\fP>@<\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 Where <\fIname\fP> is your reference for the media (e.g. MandrakeUpdate).
 <\fIname\fP> is optional if \fB--distrib\fP is given in \fIoptions\fP.
 .br
@@ -24,73 +23,112 @@ the rpms. The location is given relative to <\fIpath\fP>.
 .br
 \fBcurl\fP is used by default to download files, \fBwget\fP may be used if
 \fBcurl\fP is not installed or \fB--curl\fP is given in \fIoptions\fP.
+.br
+\fIeg\fP: urpmi.addmedia http http://jpackage.sf.net/rpm/free with hdlist.cz
 .PP
 ftp:
-.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> ftp://<\fIlogin\fP>:<\fIuser\fP>@ <\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> ftp://<\fIlogin\fP>:<\fIpass\fP>@<\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 The same as for http, just add your login and user if required (Note that
 you needn't to specify anonymous as login for anonymous access ftp servers).
 .br
 Note that if \fBwget\fP is used to download files with a firewall you may
 have to add \fBpassive_ftp=on\fP option to \fB/etc/wgetrc\fP. 
-.nf
-eg: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist
-.fi
+.br
+\fIeg\fP: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist.cz
+.PP
+ssh:
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> ssh://<\fIlogin\fP>@<\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
+The same as for http, just add your login and password if required. It is
+strongly recommended to export root key in order not to have to type password
+all the time. \fBscp\fP and \fBrsync\fP will be used to get files.
+.br
+\fIeg\fP: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/Mandrake/RPMS
+.PP
+rsync:
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> rsync://<\fIlogin\fP>@<\fIhost\fP>:<\fIport\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
+The same as for http, you can use <\fIhost\fP>::<\fIpath\fP> too.
+.br
+\fIeg\fP: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/Mandrake/base/hdlist2.cz
 .PP
 Local drive or NFS:
 .br
-.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> file://<\fIpath\fP>\fP [with <\fIrelative path of hdlist\fP>]\fP"
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> file://<\fIpath\fP>\fP [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 Where <\fIname\fP> is your reference for the media (e.g. Myrpms).
 .br
 <\fIpath\fP> is the location of the rpm directory on your machine.
 .PP
 Removable device:
 .br
-.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> removable://<\fIpath\fP>\fP [with <\fIrelative path of hdlist\fP>]\fP"
+.IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> removable://<\fIpath\fP>\fP [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 <\fIpath\fP> is the location of the rpm directory on your machine when the
 removable device is mounted.
 .PP
 .SH OPTIONS
 .IP "\fB\--wget\fP"
-use wget only for downloading distant files. By default curl is used if
+Use wget only for downloading distant files. By default curl is used if
 available or wget instead.
 .IP "\fB\--curl\fP"
-use curl only for downloading distant files. By default curl is used if
+Use curl only for downloading distant files. By default curl is used if
 available or wget instead.
+.IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
+Use specified HTTP proxy.
+.IP "\fB\--proxy-user\fP \fIuser:password\fP"
+Use specified user and password to use for proxy authentication.
 .IP "\fB\--update\fP"
-add a medium which will be taken into account when updating only update media by
+Add a medium which will be taken into account when updating only update media by
 \fBurpmi\fP.
 .IP "\fB\--distrib\fP"
-add all media from an installation medium. <\fIname\fP> if used is used with
+Add all media from an installation medium. <\fIname\fP> is used with
 medium name found to create newer medium name in urpmi database. The \fBwith
 [...]\fP is not used as hdlist found on installation medium are used
 automatically.
+.IP "\fB\--distrib-XXX\fP"
+Automatically create a medium for XXX part of a distribution, XXX may be main,
+contrib, updates or anything else that has been configured.
+.IP "\fB\--from\fP \fIurl\fP"
+Use specified \fIurl\fP for list of mirrors, the default from MandrakeSoft is
+\fIhttp://www.linux-mandrake.com/mirrorsfull.list\fP unless \fBurpmi.setup\fP is
+installed which make \fBurpmi.addmedia\fP look at its mirror configuration file.
+.IP "\fB\--version\fP \fIversion\fP"
+Use specified version when using \fB--distrib-XXX\fP, the default is version of
+\fBmandrake-release\fP package installed.
+.IP "\fB\--arch\fP \fIarch\fP"
+Use specified architecture when using \fB--distrib-XXX\fP, the default is
+architecture of \fBmandrake-release\fP package installed.
+.IP "\fB\-c\fP"
+Clean headers cache directory in /var/cache/urpmi/headers.
+.IP "\fB\-h\fP"
+Try to find and use synthesis or hdlist file.
+.IP "\fB\-f\fP"
+Force generation of hdlist files.
 .SH FILES
-/usr/sbin/urpmi.addmedia
-.br
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/sbin/urpmi.addmedia
 The \fBurpmi.addmedia\fP executable (perl script)
-.PP
-/var/lib/urpmi/list.*
-.br
-Contains the list of all packages known by urpmi and their location. There
-is one filelist per media(*).
-.PP
-/var/lib/urpmi/hdlist.*
-.br
-Contain information about all known packages, it's a summary of rpm headers.
-There is one filelist per media(*).
-.PP
-/var/lib/urpmi/synthesis.hdlist.*
-.br
-Contain synthesis information about all known packages built from hdlist files
+.TP
+.FN /var/lib/urpmi/list.*
+Contains the list of all packages known by urpmi and their location only
+if a password is used to access distant location (using network protocol) or
+various directory are used to store packages.
+.TP
+.FN /var/lib/urpmi/hdlist.*
+Contains information about all known packages, it's a summary of rpm headers.
+If an hdlist file is used for a medium \fBurpmf\fP can operate completely which
+is almost always the case (please refer to \fBurpmf\fP man page for more
+informations on this topic).
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
+Contains synthesis information about all known packages built from hdlist files
 that can be used by minimal closure algorithm. If these files are not present
-use \fBurpmi.update -a\fP to generate them. These files are not mandatory.
-.PP
-/etc/urpmi/urpmi.cfg
-.br
-Contains media description, previous format from older urpmi is accepted.
-.PP
-/etc/urpmi/parallel.cfg
-.br
+hdlist files will be used instead but this is much slower.
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Contains media description, previous format from older urpmi is still accepted.
+.TP
+.FN /etc/urpmi/parallel.cfg
 Contains parallel alias description, format is
 \fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
 a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
@@ -98,28 +136,24 @@ a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
 \fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
 -m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
 extension.
-.PP
-/etc/urpmi/skip.list
-.br
+.TP
+.FN /etc/urpmi/skip.list
 Contains package expressions that should not be automatically updated. The
 format is a list of provide of package (or regular expression if bounded by
-slashes (\fB/\fP)) with optional operator and version string, or regular
+slashes \fB/\fP) with optional operator and version string, or regular
 expression to match the fullname of packages too.
-.PP
-/etc/urpmi/inst.list
-.br
+.TP
+.FN /etc/urpmi/inst.list
 Contains package names that should be installed instead of updated.
 .SH "SEE ALSO"
-urpmi(8),
-urpmi.update(8),
-urpmi.removemedia(8),
-autoirpm(8),
-autoirpm-icons(8),
-gurpmi(8),
-urpmf(8),
-urpmq(8),
-rpmdrake(8)
+\fIurpmi\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIgurpmi\fP(8),
+\fIurpmf\fP(8),
+\fIurpmq\fP(8),
+\fIrpmdrake\fP(8)
 .SH AUTHOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
-.br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (original author)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (current author)
