@@ -326,7 +326,7 @@ sub sync_curl {
 			    propagate_sync_callback($options, 'end', $file);
 			    $file = undef;
 			}
-		    } elsif ($buf =~ /^curl:/) { #- probably an error reported by curl
+		    } elsif ($buf =~ /^curl:/) { #- likely to be an error reported by curl
 			local $/ = "\n";
 			chomp $buf;
 			propagate_sync_callback($options, 'error', $file, $buf);
@@ -452,6 +452,9 @@ sub sync_logger {
 	print STDERR $text, " " x (79 - length($text)), "\r";
     } elsif ($mode eq 'end') {
 	print STDERR " " x 79, "\r";
+    } elsif ($mode eq 'error') {
+	#- error is 3rd argument, saved in $percent
+	print STDERR N("...retrieving failed: %s", $percent), "\n";
     }
 }
 
@@ -1049,7 +1052,7 @@ sub add_distrib_media {
 			  reduce_pathname("$url/Mandrake/base/hdlists"));
 	    $urpm->{log}(N("...retrieving done"));
 	};
-	$@ and $urpm->{log}(N("...retrieving failed: %s", $@));
+	$@ and $urpm->{error}(N("...retrieving failed: %s", $@));
 	if (-e "$urpm->{cachedir}/partial/hdlists") {
 	    $hdlists_file = "$urpm->{cachedir}/partial/hdlists";
 	} else {
@@ -1708,7 +1711,7 @@ this could happen if you mounted manually the directory when creating the medium
 				    proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
 		};
 		if ($@) {
-		    $urpm->{log}(N("...retrieving failed: %s", $@));
+		    $urpm->{error}(N("...retrieving failed: %s", $@));
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		}
 	    }
@@ -1717,7 +1720,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    if (-s "$urpm->{cachedir}/partial/$basename" > 32 && $retrieved_md5sum) {
 		$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
 		unless ((split ' ', `md5sum '$urpm->{cachedir}/partial/$basename'`)[0] eq $retrieved_md5sum) {
-		    $urpm->{log}(N("...retrieving failed: %s", N("md5sum mismatch")));
+		    $urpm->{error}(N("...retrieving failed: %s", N("md5sum mismatch")));
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		}
 	    }
@@ -2320,7 +2323,7 @@ sub register_rpms {
 		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    };
-	    $@ and $urpm->{log}(N("...retrieving failed: %s", $@));
+	    $@ and $urpm->{error}(N("...retrieving failed: %s", $@));
 	} else {
 	    -r $_ or $error = 1, $urpm->{error}(N("unable to access rpm file [%s]", $_)), next;
 	}
@@ -3000,9 +3003,7 @@ sub download_packages_of_distant_media {
 			      values %distant_sources);
 		$urpm->{log}(N("...retrieving done"));
 	    };
-	    if ($@) {
-		$urpm->{log}(N("...retrieving failed: %s", $@));
-	    }
+	    $@ and $urpm->{error}(N("...retrieving failed: %s", $@));
 	    #- clean files that have not been downloaded, but keep mind there
 	    #- has been problem downloading them at least once, this is
 	    #- necessary to keep track of failing download in order to
