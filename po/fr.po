@@ -17,21 +17,21 @@
 # Christophe Combelles <ccomb@free.fr>, 2003.
 # Didier Hérisson <didier.herisson@angstrom.uu.se>, 2004.
 # Lecureuil Nicolas <n1c0l4s.l3@wanadoo.fr>, 2004.
-# clut, 2004.
+# clut, 2004, 2005.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-06 15:42+0100\n"
-"PO-Revision-Date: 2004-12-16 12:24+0100\n"
+"PO-Revision-Date: 2005-01-08 00:47+0100\n"
 "Last-Translator: clut\n"
-"Language-Team: francais <fr@li.org>\n"
+"Language-Team:  <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
-"Plural-Forms:  nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
@@ -96,16 +96,14 @@ msgid "Please wait..."
 msgstr "Veuillez patienter..."
 
 #: ../gurpmi:110
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option %s"
-msgstr ""
-"\n"
-"option inconnue '%s'\n"
+msgstr "option inconnue %s"
 
 #: ../gurpmi:114
-#, fuzzy, c-format
+#, c-format
 msgid "No packages specified"
-msgstr "Aucune commande specifiée"
+msgstr "Aucun paquetage specifié"
 
 #: ../gurpmi:118
 #, c-format
@@ -113,9 +111,9 @@ msgid "Must be root"
 msgstr "Vous devez être administrateur"
 
 #: ../gurpmi:128
-#, fuzzy, c-format
+#, c-format
 msgid "RPM installation"
-msgstr "Installation du système"
+msgstr "Installation de RPM"
 
 #: ../gurpmi:141
 #, c-format
@@ -155,7 +153,7 @@ msgstr ""
 "Peut-être préférez-vous simplement les enregistrer. Quel est votre choix ?"
 
 #: ../gurpmi:154
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are about to install the following software packages on your computer:\n"
 "\n"
@@ -168,12 +166,12 @@ msgstr ""
 "\n"
 "%s\n"
 "\n"
-"Peut-être préférez-vous simplement les enregistrer. Quel est votre choix ?"
+"Continuer ? "
 
 #: ../gurpmi:164
-#, fuzzy, c-format
+#, c-format
 msgid "_Install"
-msgstr "Installer"
+msgstr "_Installer"
 
 #: ../gurpmi:165
 #, c-format
@@ -196,9 +194,9 @@ msgid " (to upgrade)"
 msgstr " (mise à jour)"
 
 #: ../gurpmi:221
-#, fuzzy, c-format
+#, c-format
 msgid " (to install)"
-msgstr "Fin de l'installation"
+msgstr " (à installer)"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -216,17 +214,18 @@ msgid "_Abort"
 msgstr "_Abandonner"
 
 #: ../gurpmi:276
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
 "%s\n"
 "Continue?"
 msgstr ""
 "Certains paquetages demandés ne peuvent pas être installés :\n"
-"%s"
+"%s\n"
+"Continuer ? "
 
 #: ../gurpmi:287
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
@@ -234,17 +233,19 @@ msgid ""
 msgstr ""
 "Afin de poursuivre la mise à jour, les paquetages suivants doivent être "
 "désinstallés :\n"
-"%s"
+"%s\n"
+"Continuer ? "
 
 #: ../gurpmi:300
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be "
 "installed:\n"
 "%s\n"
 msgstr ""
 "Pour satisfaire les dépendances, les %d paquetages suivants vont être "
-"installés (%d Mo)"
+"installés :\n"
+"%s\n"
 
 #: ../gurpmi:307
 #, c-format
@@ -267,7 +268,7 @@ msgid "Downloading package `%s'..."
 msgstr "Téléchargement du paquetage %s"
 
 #: ../gurpmi:365
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have bad signatures:\n"
 "%s\n"
@@ -275,10 +276,9 @@ msgid ""
 "Do you want to continue installation ?"
 msgstr ""
 "Les paquetages suivants ont une signature erronée :\n"
-"\n"
 "%s\n"
 "\n"
-"Voulez-vous continuer l'installation ?"
+"Voulez-vous continuer l'installation ?"
 
 #: ../gurpmi:372 ../gurpmi:421 ../urpmi:556 ../urpmi:672
 #, c-format
@@ -533,7 +533,7 @@ msgstr "le média virtuel « %s » n'est pas local, média ignoré"
 #: ../urpm.pm:551
 #, c-format
 msgid "Search start: %s end: %s"
-msgstr "Recherche début : %s fin : %s"
+msgstr "Recherche début : %s fin : %s"
 
 #: ../urpm.pm:556 ../urpm.pm:1000 ../urpm.pm:1084 ../urpm.pm:1155
 #: ../urpm.pm:1546
@@ -1188,11 +1188,11 @@ msgid "Checking to remove the following packages"
 msgstr "Vérification pour la désinstallation des paquetages suivants"
 
 #: ../urpme:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages will be removed (%d MB)"
 msgstr ""
-"Pour satisfaire les dépendances, les paquetages suivants vont être "
+"Pour satisfaire les dépendances, les %d paquetages suivants vont être "
 "désinstallés (%d Mo)"
 
 #: ../urpme:108 ../urpmi:429 ../urpmi:549
@@ -1771,6 +1771,8 @@ msgid ""
 "Error: %s appears to be mounted read-only.\n"
 "Use --allow-force to force operation."
 msgstr ""
+"Erreur : %s semble être monté en lecture seule.\n"
+"Utilisez --allow-force afin de forcer l'opération."
 
 #: ../urpmi:353
 #, c-format
@@ -1875,9 +1877,9 @@ msgid "distributing %s"
 msgstr "distribution de %s"
 
 #: ../urpmi:592
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s from %s"
-msgstr "installation de %s"
+msgstr "installation de %s depuis %s"
 
 #: ../urpmi:594
 #, c-format
@@ -2122,7 +2124,7 @@ msgid ""
 "unknown options '%s'\n"
 msgstr ""
 "\n"
-"option inconnue '%s'\n"
+"option inconnue « %s »\n"
 
 #: ../urpmi.removemedia:57
 #, c-format
@@ -2163,16 +2165,17 @@ msgid "  --force-key    - force update of gpg key.\n"
 msgstr "  --force-key    - force la mise à jour de la clef gpg.\n"
 
 #: ../urpmi.update:42
-#, fuzzy, c-format
+#, c-format
 msgid "  --ignore       - don't update, mark the media as ignored.\n"
 msgstr ""
-"  --norebuild    - ne pas essayer de recréer le hdlist s'il n'est pas "
-"lisible.\n"
+"  --ignore       - ne pas mettre à jour, marquer le média en tant "
+"qu'ignoré.\n"
 
 #: ../urpmi.update:43
 #, c-format
 msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
 msgstr ""
+"  --no-ignore    - ne pas mettre à jour, marquer le média en tant qu'actif.\n"
 
 #: ../urpmi.update:44
 #, c-format
@@ -2199,17 +2202,17 @@ msgstr ""
 "(un parmi de %s)\n"
 
 #: ../urpmi.update:95
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring media %s"
-msgstr "Édition du média «%s» :"
+msgstr "Ignorage du média %s"
 
 #: ../urpmi.update:95
-#, fuzzy, c-format
+#, c-format
 msgid "enabling media %s"
-msgstr "enlever le média « %s »"
+msgstr "activation du média %s"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2005 Mandrakesoft.\n"
@@ -2218,8 +2221,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf version %s\n"
-"Copyright © 2000-2004 Mandrakesoft.\n"
+"urpmq version %s\n"
+"Copyright © 2000-2005 Mandrakesoft.\n"
 "Ceci est un logiciel libre pouvant être redistribué selon les termes de la "
 "licence GNU GPL.\n"
 "\n"
