@@ -93,11 +93,8 @@ sub parallel_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, $remove, $install, $upgrade) = @_;
 
-    foreach (values %$install, values %$upgrade) {
-	my ($basename) = /([^\/]*)$/;
-	$urpm->{log}("parallel_ka_run: mput $parallel->{options} -- '$_' $urpm->{cachedir}/rpms/$basename");
-	system "mput $parallel->{options} -- '$_' $urpm->{cachedir}/rpms/$basename";
-    }
+    $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- ".join(' ', values %$install, values %$upgrade)." $urpm->{cachedir}/rpms/");
+    system "mput", split(' ', $parallel->{options}), '--', values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/";
 
     local (*F, $_);
     my ($node, %bad_nodes);
