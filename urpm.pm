@@ -645,7 +645,7 @@ sub update_media {
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
 	    }
 
-	    $urpm->{log}(_("keeping only provides files"));
+	    $urpm->{log}(_("keeping only files referenced in provides"));
 	    $urpm->{params}->keep_only_cleaned_provides_files();
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
