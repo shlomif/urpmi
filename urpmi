@@ -249,6 +249,17 @@ if ($install_src) {
     @names = ();
 }
 
+#- question to describe what user who clicked on a rpm in file explorer is really doing
+if ($X && @files == 1 && @names == 0 && $verbose >= 0) {
+    gmessage(
+N("You are about to install the following software package on your computer:
+
+%s
+
+Is it ok to continue?", $files[0]));
+    $? and exit(1);
+}
+
 #- prepare bug report.
 if ($bug) {
     mkdir $bug or $urpm->{fatal}(8, (-d $bug ? N("Directory [%s] already exists, please use another directory for bug report or delete it") : N("Unable to create directory [%s] for bug report"), $bug));
