@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "POT-Creation-Date: 2002-08-24 02:19+0200\n"
-"PO-Revision-Date: 2002-08-13 20:52+0000\n"
+"PO-Revision-Date: 2002-08-24 14:02+0000\n"
 "Last-Translator: Arpad Biro <biro_arpad@yahoo.com>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: ../_irpm_.c:23 ../urpmi_.c:495
 #, c-format
 msgid "installing %s\n"
-msgstr "%s telepítése folyik\n"
+msgstr "%s telepítése folyamatban\n"
 
 #: ../_irpm_.c:33
 #, c-format
@@ -237,7 +237,7 @@ msgstr "beállítások mentése: \"%s\""
 
 #: ../urpm.pm_.c:539
 msgid "--synthesis cannot be used with --media, --update or --parallel"
-msgstr ""
+msgstr "a --synthesis nem használható ezekkel: --media, --update, --parallel"
 
 #: ../urpm.pm_.c:555 ../urpm.pm_.c:1138 ../urpm.pm_.c:1153 ../urpm.pm_.c:1283
 #, c-format
@@ -263,24 +263,24 @@ msgstr ""
 "probléma a(z) \"%s\" adatforrás kiterjesztett függõséglistájának olvasásakor"
 
 #: ../urpm.pm_.c:607
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "a csomagfájl nem érhetõ el: \"%s\""
+msgstr "\"%s\" elemzése sikertelen a következõ fájlban: \"%s\""
 
 #: ../urpm.pm_.c:618
-#, fuzzy, c-format
+#, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr "fejléclista vizsgálata: \"%s\""
+msgstr "párhuzamosság vizsgálata a következõ fájlban: \"%s\""
 
 #: ../urpm.pm_.c:628
-#, fuzzy, c-format
+#, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr "fejléclista (illetve kiterjesztett függõséglista): \"%s\""
+msgstr "párhuzamosság van definiálva a következõ gépekre: %s"
 
 #: ../urpm.pm_.c:632
-#, fuzzy, c-format
+#, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "a(z) \"%s\" adatforrás frissítése nem sikerült\n"
+msgstr "\"%s\" párhuzamossági opció nem használható"
 
 #: ../urpm.pm_.c:653
 #, c-format
@@ -842,6 +842,8 @@ msgstr ""
 #: ../urpmi_.c:71 ../urpmq_.c:53
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr ""
+"  --synthesis    - a megadott kiterjesztett függõséglista használata az\n"
+"                   urpmi-adatbázis helyett\n"
 
 #: ../urpmi_.c:72
 msgid "  --auto         - automatically select a package in choices.\n"
@@ -896,7 +898,7 @@ msgstr ""
 
 #: ../urpmi_.c:82
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
-msgstr ""
+msgstr "  --parallel     - elosztott urpmi több számítógép közt\n"
 
 #: ../urpmi_.c:89
 msgid ""
@@ -1074,9 +1076,9 @@ msgstr ""
 "Érdemes lehet frissíteni az urpmi adatbázist."
 
 #: ../urpmi_.c:490
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s\n"
-msgstr "%s telepítése folyik\n"
+msgstr "%s elosztása\n"
 
 #: ../urpmi_.c:524
 msgid "Try installation without checking dependencies? (y/N) "
