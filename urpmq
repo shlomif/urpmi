@@ -169,7 +169,8 @@ if ($query->{env}) {
     $urpm->{statedir} = $query->{env};
 }
 
-$urpm->configure(nocheck_access => 1, noskipping => $query->{nodepslist}, nodepslist => $query->{nodepslist},
+$urpm->configure(nocheck_access => 1,
+		 noskipping => $query->{nodepslist}, noinstalling => $query->{nodepslist}, nodepslist => $query->{nodepslist},
 		 media => $query->{media},
 		 excludemedia => $query->{excludemedia},
 		 sortmedia => $query->{sortmedia},
