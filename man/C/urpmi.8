@@ -1,4 +1,4 @@
-.TH urpmi 8 "28 Jul 2003" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi 8 "28 Aug 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
@@ -48,6 +48,10 @@ dependencies only in media marked as update.
 .IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
 Select specific media to use instead of all media available (or update media is
 \fB--update\fP is used).
+.IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
+Do not use the given media.
+.IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
+Sort the given media, substrings may be used to simplify grouping.
 .IP "\fB\--synthesis\fP \fIfile\fP"
 Use the given synthesis\fIfile\fP instead of urpmi db for searching packages and
 resolving dependencies.
@@ -56,6 +60,20 @@ Installs all required dependencies without asking.
 .IP "\fB\--auto-select\fP"
 Automatically select all packages that have to be upgraded according to already
 installed packages and packages listed in various media registered.
+.IP "\fB\--no-uninstall\fP"
+Never ask to uninstall a package but prefer aborting instead, this can be safe
+in auto mode.
+.IP "\fB\--keep\fP"
+Change selection of package when some dependencies cannot be satisfied by trying
+to keep existing package instead of removing them. This behaviour generally
+rejects upgrade of packages given on command line (or when using --auto-select).
+.IP "\fB\--split-level \fInumber\fP"
+Split in small transaction when total number of packages to upgrade is greater
+than \fInumber\fP given. This option is activated by default and the default
+value of \fInumber\fP is 20.
+.IP "\fB\--split-length \fIcount\fP"
+Split in small transaction of at least \fIcount\fP packages. The default is 1
+and setting this value to 0 just disable split in small transaction.
 .IP "\fB\--fuzzy\fP"
 Disable fast search on exact package name, ie it will propose all
 package containing the name even if one has the given name (this is the same
@@ -92,6 +110,9 @@ available or wget instead.
 .IP "\fB\--curl\fP"
 Use curl only for downloading distant files. By default curl is used if
 available or wget instead.
+.IP "\fB\--limit-rate \fIrate\fP"
+Try to limit the download speed, \fIrate\fP is given in Kb/sec. This option is
+not active by default.
 .IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
 Use specified HTTP proxy.
 .IP "\fB\--proxy-user\fP \fIuser:password\fP"
