@@ -189,26 +189,12 @@ $sync and $urpm->{sync} = $sync;
 #- remove verbose if not asked.
 $verbose or $urpm->{log} = sub {};
 
-$urpm->read_config(nocheck_access => $uid > 0);
-if ($media) {
-    $urpm->select_media(split ',', $media);
-    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
-	#- this is only a local ignore that will not be saved.
-	$_->{ignore} = 1;
-    }
-}
-foreach (grep { !$_->{ignore} && (!$update || $_->{update}) } @{$urpm->{media} || []}) {
-    $urpm->parse_synthesis($_);
-}
-
-if (@files || @src_files) {
-    #- build closure with local package and return list of names.
-    push @names, $urpm->register_local_packages(@files, @src_files);
-}
-
-#- relocate depslist.
-$urpm->relocate_depslist_provides();
-
+$urpm->configure(nocheck_access => $uid > 0,
+		 media => $media,
+		 update => $update,
+		 (@files, @src_files) > 0 ? (files => [ @files, @src_files ]) : (),
+		);
+#TODO files and src_files are incorporated but no results from them.
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded,
@@ -235,8 +221,7 @@ if (@src_names) {
 my $ask_choice = sub {
     my ($urpm, $from_id, @choices_id) = @_;
     my $n = 1; #- default value.
-    my ($from, @l) = map { my $info = $urpm->{params}{depslist}[$_];
-			   "$info->{name}-$info->{version}-$info->{release}.$info->{arch}" } ($from_id, @choices_id);
+    my ($from, @l) = map { my $pkg = $urpm->{depslist}[$_]; scalar $pkg->fullname } ($from_id, @choices_id);
 
     if (@l > 1 && !$auto) {
 	my $msg = (defined $from_id ?
@@ -291,12 +276,12 @@ my @root_only;
 
 foreach (keys %packages) {
     defined $packages{$_} and $ask_user = 1;
-    my $info = $urpm->{params}{depslist}[$_];
-    my $fullname = "$info->{name}-$info->{version}-$info->{release}.$info->{arch}";
-    if ($uid > 0 && $info->{arch} ne 'src') {
+    my $pkg = $urpm->{depslist}[$_];
+    my $fullname = $pkg->fullname;
+    if ($uid > 0 && $pkg->arch ne 'src') {
 	push @root_only, $fullname;
-    } elsif ($uid > 0 || $info->{arch} ne 'src') {
-	$sum += $info->{size};
+    } elsif ($uid > 0 || $pkg->arch ne 'src') {
+	$sum += $pkg->size;
 	push @to_install, $fullname;
     }
 }

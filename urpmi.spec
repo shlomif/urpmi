@@ -1,14 +1,14 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 3.3
-Release: 25mdk
+Version: 3.4
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
-Requires: eject, webfetch, perl-DateManip >= 5.40
-PreReq: perl-gettext, rpmtools >= 4.2-4mdk
+Requires: eject webfetch perl-DateManip >= 5.40
+PreReq: perl-gettext rpmtools >= 4.2-4mdk perl-URPM >= 0.02
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Tue Jun  4 2002 François Pons <fpons@mandrakesoft.com> 3.4-1mdk
+- use URPM perl module instead of rpmtools.
+
 * Thu Apr 11 2002 François Pons <fpons@mandrakesoft.com> 3.3-25mdk
 - fixed a problem for searching package according to name when
   nothing should be found but other package are proposed.

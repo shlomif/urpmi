@@ -51,9 +51,6 @@ where <name> is a medium name to remove.
     $urpm->select_media(@toremoves);
     $urpm->remove_selected_media;
 
-    foreach (grep { !$_->{ignore} && !$_->{with_hdlist} } @{$urpm->{media} || []}) {
-	$urpm->parse_synthesis($_);
-    }
     $urpm->update_media(noclean => $options{noclean});
 }
 

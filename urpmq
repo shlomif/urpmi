@@ -113,25 +113,11 @@ for (@ARGV) {
 #- remove verbose if not asked.
 $query->{verbose} or $urpm->{log} = sub {};
 
-$urpm->read_config(nocheck_access => 1);
-if ($query->{media}) {
-    $urpm->select_media(split ',', $query->{media});
-    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
-	#- this is only a local ignore that will not be saved.
-	$_->{ignore} = 1;
-    }
-}
-foreach (grep { !$_->{ignore} && (!$query->{update} || $_->{update}) } @{$urpm->{media} || []}) {
-    $urpm->parse_synthesis($_);
-}
-
-if (@files) {
-    #- build closure with local package and return list of names.
-    push @names, $urpm->register_local_packages(@files);
-}
-
-#- relocate depslist.
-$urpm->relocate_depslist_provides();
+$urpm->configure(nocheck_access => 1,
+		 media => $query->{media},
+		 update => $query->{update}
+		 @files > 0 ? (files => [ @files ]) : (),
+		);
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded, all its dependency

@@ -3,7 +3,8 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA);
 
-$VERSION = '3.3';
+$VERSION = '3.4';
+@ISA = qw(URPM);
 
 =head1 NAME
 
@@ -31,7 +32,7 @@ urpm - Mandrake perl tools to handle urpmi database
         $urpm->parse_synthesis($_);
     }
     if (@files) {
-        push @names, $urpm->register_local_packages(@files);
+        push @names, $urpm->register_rpms(@files);
     }
     $urpm->relocate_depslist_provides();
 
@@ -69,8 +70,8 @@ on a Linux-Mandrake distribution.
 
 =head1 SEE ALSO
 
-rpmtools package is used to manipulate at a lower level hdlist and rpm
-files.
+perl-URPM (obsolete rpmtools) package is used to manipulate at a lower
+level hdlist and rpm files.
 
 =head1 COPYRIGHT
 
@@ -92,7 +93,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 =cut
 
-use rpmtools;
+use URPM;
 use POSIX;
 use Locale::GetText;
 
@@ -115,7 +116,9 @@ sub new {
 	   statedir   => "/var/lib/urpmi",
 	   cachedir   => "/var/cache/urpmi",
 	   media      => undef,
-	   params     => new rpmtools('sense', 'conflicts', 'obsoletes'),
+
+	   provides   => {},
+	   depslist   => [],
 
 	   sync       => \&sync_webfetch, #- first argument is directory, others are url to fetch.
 
@@ -425,6 +428,33 @@ sub write_config {
     delete $urpm->{modified};
 }
 
+#- read urpmi.cfg file as well as synthesis file needed.
+sub configure {
+    my ($urpm, %options) = @_;
+
+    $urpm->clean;
+    $urpm->read_config(%options);
+    if ($options{media}) {
+	$urpm->select_media(split ',', $options{media});
+	foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
+	    #- this is only a local ignore that will not be saved.
+	    $_->{ignore} = 1;
+	}
+    }
+    foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
+	$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
+	($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}");
+    }
+
+    if ($options{files}) {
+	#- build closure with local package and return list of names.
+	$urpm->register_rpms(@{$options{files}});
+    }
+
+    #- relocate depslist.
+    $urpm->relocate_depslist_provides();
+}
+
 #- add a new medium, sync the config file accordingly.
 sub add_medium {
     my ($urpm, $name, $url, $with_hdlist, %options) = @_;
@@ -597,38 +627,6 @@ sub remove_selected_media {
     $urpm->{media} = \@result;
 }
 
-sub build_synthesis_hdlist {
-    my ($urpm, $medium, $use_parsehdlist) = @_;
-
-    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-    unless ($use_parsehdlist) {
-	#- building synthesis file using internal params.
-	local *F;
-	open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
-	foreach my $p (@{$medium->{depslist}}) {
-	    foreach (qw(provides requires conflicts obsoletes)) {
-		@{$p->{$_} || []} and print F join('@', $p->{name}, $_, @{$p->{$_} || []}) . "\n";
-	    }
-	    print F join('@',
-			 $p->{name}, 'info', "$p->{name}-$p->{version}-$p->{release}.$p->{arch}",
-			 $p->{serial} || 0, $p->{size} || 0, $p->{group}, $p->{file} ? ($p->{file}) : ()). "\n";
-	}
-	close F or unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-    }
-    if (-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" <= 32) {
-	#- building synthesis file using parsehdlist output, need 4.0-1mdk or above.
-	$use_parsehdlist or $urpm->{error}(_("unable to build hdlist synthesis, using parsehdlist method"));
-	if (system "parsehdlist --synthesis '$urpm->{statedir}/$medium->{hdlist}' | gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'") {
-	    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-	    $urpm->{error}(_("unable to build synthesis file for medium \"%s\"", $medium->{name}));
-	    return;
-	}
-    }
-    $urpm->{log}(_("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
-    delete $medium->{modified_synthesis};
-    1;
-}
-
 #- update urpmi database regarding the current configuration.
 #- take care of modification and try some trick to bypass
 #- computational of base files.
@@ -640,12 +638,19 @@ sub build_synthesis_hdlist {
 #-   noclean           -> keep header directory cleaned.
 sub update_media {
     my ($urpm, %options) = @_; #- do not trust existing hdlist and try to recompute them.
+    my ($cleaned_cache);
 
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my ($LOCK_EX, $LOCK_NB, $LOCK_UN) = (2, 4, 8);
+    #- take care of some options.
+    $cleaned_cache = !$options{noclean};
 
     #- avoid trashing existing configuration in this case.
     $urpm->{media} or return;
+
+    #- now we need additional methods not defined by default in URPM.
+    require URPM::Build;
+
+    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
+    my ($LOCK_EX, $LOCK_NB, $LOCK_UN) = (2, 4, 8);
 
     #- lock urpmi database.
     local (*LOCK_FILE);
@@ -655,6 +660,7 @@ sub update_media {
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
     #- hdlist file else build it from rpms files.
+    $urpm->clean;
     foreach my $medium (@{$urpm->{media}}) {
 	#- take care of modified medium only or all if all have to be recomputed.
 	$medium->{ignore} and next;
@@ -663,7 +669,21 @@ sub update_media {
 	-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" > 32 or $medium->{modified_synthesis} = 1;
 
 	#- but do not take care of removable media for all.
-	$medium->{modified} ||= $options{all} && $medium->{url} !~ /removable/ or next;
+	$medium->{modified} ||= $options{all} && $medium->{url} !~ /removable/;
+	unless ($medium->{modified}) {
+	    #- the medium is not modified, but for computing dependencies,
+	    #- we still need to read it and all synthesis will be written if
+	    #- a unresolved provides is found.
+	    #- to speed up the process, we only read the synthesis at the begining.
+	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+	    my ($test_id, undef) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    unless (defined $test_id) {
+		#- this is almost a fatal error, ignore it by default?
+		$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+		$medium->{ignore} = 1;
+	    }
+	    next;
+	}
 
 	#- list of rpm files for this medium, only available for local medium where
 	#- the source hdlist is not used (use force).
@@ -735,6 +755,13 @@ sub update_media {
 			#- the two files are considered equal here, the medium is so not modified.
 			$medium->{modified} = 0;
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+			#- as previously done, just read synthesis file here, this is enough.
+			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+			my ($test_id, undef) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+			unless (defined $test_id) {
+			    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+			    $medium->{ignore} = 1;
+			}
 			next;
 		    }
 		}
@@ -762,11 +789,15 @@ sub update_media {
 		if (@files > 0) {
 		    #- we need to rebuild from rpm files the hdlist.
 		    eval {
-			$urpm->{log}(_("building hdlist [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-			$urpm->{params}->build_hdlist($options{noclean}, $options{ratio} || 4, "$urpm->{cachedir}/headers",
-						      "$urpm->{cachedir}/partial/$medium->{hdlist}", @files);
+			$urpm->{log}(_("reading rpms files from [%s]", $dir));
+			$medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
+									       rpms  => \@files,
+									       clean => $cleaned_cache,
+									      ) ];
+			$cleaned_cache = 0; #- make sure the headers will not be removed for another media.
 		    };
-		    $@ and $error = 1, $urpm->{error}(_("unable to build hdlist: %s", $@));
+		    $@ and $error = 1, $urpm->{error}(_("unable to read rpms files from [%s]: %s", $dir, $@));
+		    $error and delete $medium->{headers}; #- do not propagate these.
 		    $error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
 		} else {
 		    $error = 1;
@@ -847,6 +878,13 @@ sub update_media {
 			#- the two files are considered equal here, the medium is so not modified.
 			$medium->{modified} = 0;
 			unlink "$urpm->{cachedir}/partial/$basename";
+			#- as previously done, just read synthesis file here, this is enough.
+			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+			my ($test_id, undef) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+			unless (defined $test_id) {
+			    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+			    $medium->{ignore} = 1;
+			}
 			next;
 		    }
 		}
@@ -874,7 +912,7 @@ sub update_media {
 	}
 
 	#- build list file according to hdlist used.
-	unless (-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32) {
+	unless ($medium->{headers} || -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32) {
 	    $error = 1;
 	    $urpm->{error}(_("no hdlist file found for medium \"%s\"", $medium->{name}));
 	}
@@ -883,44 +921,54 @@ sub update_media {
 	unless ($error) {
 	    #- sort list file contents according to id.
 	    my %list;
-	    if (@files) {
+	    if ($medium->{headers}) {
+		#- rpm files have already been read (first pass), there is just a need to
+		#- build list hash.
 		foreach (@files) {
-		    /\/([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
-		    $list{"$prefix:/$_\n"} = ($urpm->{params}{names}{$1} || { id => 1000000000 })->{id};
+		    /\/([^\/]*\.rpm)$/ or next;
+		    $list{$1} and $urpm->{error}(_("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
+		    $list{$1} = "$prefix:/$_\n";
 		}
 	    } else {
-		local (*F, $_);
-		my %filename2pathname;
-		if ($medium->{hdlist} ne 'list' && -s "$urpm->{cachedir}/partial/list") {
-		    open F, "$urpm->{cachedir}/partial/list";
-		    while (<F>) {
-			/\/([^\/]*)\.rpm$/ and $filename2pathname{$1} = "$medium->{url}/$_";
-		    }
-		    close F;
-		}
-		unless ($medium->{synthesis}) {
-		    open F, "parsehdlist --silent --name '$urpm->{cachedir}/partial/$medium->{hdlist}' |";
-		    while (<F>) {
-			/^([^\/]*):name:([^\/\s:]*)(?::(.*)\.rpm)?$/ or next;
-			$list{$filename2pathname{$3 || $2} ||
-			      "$medium->{url}/". ($3 || $2) .".rpm\n"} = ($urpm->{params}{names}{$1} ||
-									  { id => 1000000000 })->{id};
-		    }
-		    close F or $medium->{synthesis} = 1; #- try hdlist as a synthesis (for probe)
-		}
-		if ($medium->{synthesis}) {
-		    if (my @founds = $urpm->parse_synthesis($medium, filename => "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
-			#- it appears hdlist file is a synthesis one in fact.
-			#- parse_synthesis returns all full name of package read from it.
-			foreach (@founds) {
-			    my $fullname = "$_->{name}-$_->{version}-$_->{release}.$_->{arch}";
-			    $list{$filename2pathname{$_->{file} || $fullname} ||
-				  "$medium->{url}/". ($_->{file} || $fullname) .".rpm\n"} = ($urpm->{params}{names}{$_->{name}} ||
-											     { id => 1000000000 })->{id};
-			}
+		#- read first pass hdlist or synthesis, try to open as synthesis, if file
+		#- is larger than 1MB, this is problably an hdlist else a synthesis.
+		#- anyway, if one tries fails, try another mode.
+		my ($start, $end);
+		if (-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 1048576) {
+		    ($start, $end) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
+		    if (defined $start && defined $end) {
+			delete $medium->{synthesis};
 		    } else {
-			$error = 1, $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
-			delete $medium->{synthesis}; #- make sure synthesis property is no more set.
+			($start, $end) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
+			defined $start && defined $end and $medium->{synthesis} = 1;
+		    }
+		} else {
+		    ($start, $end) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
+		    if (defined $start && defined $end) {
+			$medium->{synthesis} = 1;
+		    } else {
+			($start, $end) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
+			defined $start && defined $end and delete $medium->{synthesis};
+		    }
+		}
+		defined $start && defined $end or
+		  $error = 1, $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
+
+		unless ($error) {
+		    if ($medium->{hdlist} ne 'list' && -s "$urpm->{cachedir}/partial/list") {
+			local (*F, $_);
+			open F, "$urpm->{cachedir}/partial/list";
+			while (<F>) {
+			    /\/([^\/]*\.rpm)$/ or next;
+			    $list{$1} and $urpm->{error}(_("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
+			    $list{$1} = "$medium->{url}/$_";
+			}
+			close F;
+		    } else {
+			foreach ($start .. $end) {
+			    my $filename = $urpm->{depslist}[$_]->filename;
+			    $list{$filename} = "$medium->{url}/$_";
+			}
 		    }
 		}
 	    }
@@ -928,18 +976,20 @@ sub update_media {
 	    #- check there is something found.
 	    %list or $error = 1, $urpm->{error}(_("nothing to write in list file for \"%s\"", $medium->{name}));
 
-	    #- write list file.
-	    local *LIST;
-	    my $mask = umask 077;
-	    open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
-	      or $error = 1, $urpm->{error}(_("unable to write list file of \"%s\"", $medium->{name}));
-	    umask $mask;
-	    print LIST sort { $list{$a} <=> $list{$b} } keys %list;
-	    close LIST;
+	    unless ($error) {
+		#- write list file.
+		local *LIST;
+		my $mask = umask 077;
+		open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
+		  or $error = 1, $urpm->{error}(_("unable to write list file of \"%s\"", $medium->{name}));
+		umask $mask;
+		print LIST values %list;
+		close LIST;
 
-	    #- check if at least something has been written into list file.
-	    -s "$urpm->{cachedir}/partial/$medium->{list}" > 32 or
-	      $error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
+		#- check if at least something has been written into list file.
+		-s "$urpm->{cachedir}/partial/$medium->{list}" > 32 or
+		  $error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
+	    }
 	}
 
 	if ($error) {
@@ -955,73 +1005,69 @@ sub update_media {
 	    unlink "$urpm->{statedir}/$medium->{hdlist}";
 	    $medium->{synthesis} and unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 	    unlink "$urpm->{statedir}/$medium->{list}";
-	    rename("$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
-		   "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}") or
-		     system("mv", "$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
-			    "$urpm->{statedir}/synthesis.$medium->{hdlist}" :
-			    "$urpm->{statedir}/$medium->{hdlist}");
+	    unless ($medium->{headers}) {
+		rename("$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
+		       "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}") or
+			 system("mv", "$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
+				"$urpm->{statedir}/synthesis.$medium->{hdlist}" :
+				"$urpm->{statedir}/$medium->{hdlist}");
+	    }
 	    rename("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}") or
 	      system("mv", "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
 
 	    #- and create synthesis file associated.
 	    $medium->{modified_synthesis} = !$medium->{synthesis};
-	    #$medium->{synthesis} or $medium->{modified_synthesis} = 1;
 	}
     }
 
-    #- build synthesis files once requires/files have been matched by rpmtools::read_hdlists.
-    if (my @rebuild_synthesis = grep { $_->{modified_synthesis} && !$_->{modified} } @{$urpm->{media}}) {
-	#- cleaning whole data structures (params and per media).
-	$urpm->{log}(_("examining whole urpmi database"));
-	$urpm->clean;
+    #- check if some unresolved provides may force to rebuild all synthesis,
+    #- in any cases, two pass will be done.
+    my $force_rebuild_all_synthesis = $urpm->unresolved_provides_clean > 0;
 
-	foreach my $medium (@{$urpm->{media} || []}) {
-	    $medium->{ignore} || $medium->{modified} and next;
-	    if ($medium->{synthesis}) {
-		#- reading the synthesis allow to propagate requires to files, so that if an hdlist can have them...
-		$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-		$urpm->parse_synthesis($medium, examine_requires => 1);
-	    } else {
-		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
+    #- second pass consist of reading again synthesis or hdlist.
+    foreach my $medium (@{$urpm->{media}}) {
+	#- take care of modified medium only or all if all have to be recomputed.
+	$medium->{ignore} and next;
+
+	#- a modified medium is an invalid medium, we have to read back the previous hdlist
+	#- or synthesis which has not been modified by first pass above.
+	if ($medium->{headers} && !$medium->{modified}) {
+	    $urpm->{log}(_("reading headers from medium \"%s\"", $medium->{name}));
+	    ($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
+								      headers => $medium->{headers},
+								     );
+	    $urpm->{log}(_("building hdlist [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+	    #- finish building operation of hdlist.
+	    $urpm->build_hdlist(start  => $medium->{start},
+				end    => $medium->{end},
+				dir    => "$urpm->{cachedir}/headers",
+				hdlist => "$urpm->{statedir}/$medium->{hdlist}",
+			       );
+	    #- synthesis need to be created for sure, since the medium has been built from rpm files.
+	    $urpm->build_synthesis(start     => $medium->{start},
+				   end       => $medium->{end},
+				   synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+				  );
+	    $urpm->{log}(_("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+	    #- keep in mind we have modified database, sure at this point.
+	    $urpm->{modified} = 1;
+	} elsif ($medium->{synthesis}) {
+	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+	    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	} else {
+	    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+	    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", 1);
+	    #- check if synthesis file can be built.
+	    if (($force_rebuild_all_synthesis || $medium->{modified_synthesis}) && !$medium->{modified}) {
+		$urpm->build_synthesis(start     => $medium->{start},
+				       end       => $medium->{end},
+				       synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+				      );
+		$urpm->{log}(_("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+		#- keep in mind we have modified database, sure at this point.
+		$urpm->{modified} = 1;
 	    }
 	}
-
-	$urpm->{log}(_("keeping only files referenced in provides"));
-	$urpm->{params}->keep_only_cleaned_provides_files();
-	foreach my $medium (@{$urpm->{media} || []}) {
-	    $medium->{ignore} || $medium->{modified} and next;
-	    unless ($medium->{synthesis}) {
-		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-		my @fullnames = $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
-		while (!@fullnames) {
-		    $urpm->{error}(_("problem reading hdlist file, trying again"));
-		    @fullnames = $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
-		}
-		$medium->{depslist} = [];
-		push @{$medium->{depslist}}, $urpm->{params}{info}{$_} foreach @fullnames;
-	    }
-	}
-
-	#- restore provided file in each packages.
-	#- this is the only operation not done by reading hdlist.
-	foreach my $file (keys %{$urpm->{params}{provides}}) {
-	    $file =~ /^\// or next;
-	    foreach (keys %{$urpm->{params}{provides}{$file} || {}}) {
-		eval { push @{$urpm->{params}{info}{$_}{provides}}, $file }; #- HACK
-	    }
-	}
-
-	#- this is necessary to give id at least.
-	$urpm->{params}->compute_id;
-
-	#- rebuild all synthesis hdlist which need to be updated.
-	foreach (@rebuild_synthesis) {
-	    $urpm->build_synthesis_hdlist($_);
-	}
-
-	#- keep in mind we have modified database, sure at this point.
-	$urpm->{modified} = 1;
     }
 
     #- clean headers cache directory to remove everything that is no more
@@ -1029,19 +1075,19 @@ sub update_media {
     if ($urpm->{modified}) {
 	if ($options{noclean}) {
 	    local (*D, $_);
-	    my %arch;
+	    my %headers;
 	    opendir D, "$urpm->{cachedir}/headers";
 	    while (defined($_ = readdir D)) {
-		/^([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)$/ and $arch{"$1-$2-$3"} = $4;
+		/^([^\/]*-[^-]*-[^-]*\.[^\.]*)(?::\S*)?$/ and $headers{$1} = $_;
 	    }
 	    closedir D;
-	    $urpm->{log}(_("found %d headers in cache", scalar(keys %arch)));
-	    foreach (@{$urpm->{params}{depslist}}) {
-		delete $arch{"$_->{name}-$_->{version}-$_->{release}"};
+	    $urpm->{log}(_("found %d headers in cache", scalar(keys %headers)));
+	    foreach (@{$urpm->{depslist}}) {
+		delete $headers{$_->fullname};
 	    }
-	    $urpm->{log}(_("removing %d obsolete headers in cache", scalar(keys %arch)));
-	    foreach (keys %arch) {
-		unlink "$urpm->{cachedir}/headers/$_.$arch{$_}";
+	    $urpm->{log}(_("removing %d obsolete headers in cache", scalar(keys %headers)));
+	    foreach (values %headers) {
+		unlink "$urpm->{cachedir}/headers/$_";
 	    }
 	}
 
@@ -1061,9 +1107,13 @@ sub update_media {
 sub clean {
     my ($urpm) = @_;
 
-    $urpm->{params}->clean();
+    $urpm->{depslist} = [];
+    $urpm->{provides} = {};
+    $urpm->{names} = {};
+
     foreach (@{$urpm->{media} || []}) {
-	$_->{depslist} = [];
+	delete $_->{start};
+	delete $_->{end};
     }
 }
 
@@ -1195,55 +1245,7 @@ sub try_umounting {
 #- reorder info hashes to give only access to best packages.
 sub relocate_depslist_provides {
     my ($urpm, %options) = @_;
-    my $relocated_entries = 0;
-
-    #- reset names hash now, will be filled after.
-    $urpm->{params}{names} = {};
-
-    foreach (@{$urpm->{params}{depslist} || []}) {
-	my $fullname = "$_->{name}-$_->{version}-$_->{release}.$_->{arch}";
-
-	#- remove access to info if arch is incompatible and only
-	#- take into account compatible arch to examine.
-	#- set names hash by prefering first better version,
-	#- then better release, then better arch.
-	if (rpmtools::compat_arch($_->{arch})) {
-	    my $p = $urpm->{params}{names}{$_->{name}};
-	    if ($p) {
-		my $cmp_version = $_->{serial} == $p->{serial} && rpmtools::version_compare($_->{version}, $p->{version});
-		my $cmp_release = $cmp_version == 0 && rpmtools::version_compare($_->{release}, $p->{release});
-		if ($_->{serial} > $p->{serial} || $cmp_version > 0 || $cmp_release > 0 ||
-		    ($_->{serial} == $p->{serial} && $cmp_version == 0 && $cmp_release == 0 &&
-		     rpmtools::better_arch($_->{arch}, $p->{arch}))) {
-		    $urpm->{params}{names}{$_->{name}} = $_;
-		    ++$relocated_entries;
-		}
-	    } else {
-		$urpm->{params}{names}{$_->{name}} = $_;
-	    }
-	} elsif ($_->{arch} ne 'src') {
-	    #- the package is removed, make it invisible (remove id).
-	    delete $_->{id};
-
-	    #- the architecture is not compatible, this means the package is dropped.
-	    #- we have to remove its reference in provides.
-	    foreach (@{$_->{provides} || []}) {
-		delete $urpm->{provides}{$_}{$fullname};
-	    }
-	}
-    }
-
-    #- relocate id used in depslist array, delete id if the package
-    #- should NOT be used.
-    #- if no entries have been relocated, we can safely avoid this computation.
-    if ($relocated_entries) {
-	foreach (@{$urpm->{params}{depslist}}) {
-	    unless ($_->{source}) { #- hack to avoid losing local package.
-		my $p = $urpm->{params}{names}{$_->{name}} or next;
-		$_->{id} = $p->{id};
-	    }
-	}
-    }
+    my $relocated_entries = $urpm->relocate_depslist;
 
     $urpm->{log}($relocated_entries ?
 		 _("relocated %s entries in depslist", $relocated_entries) :
@@ -1252,29 +1254,25 @@ sub relocate_depslist_provides {
 }
 
 #- register local packages for being installed, keep track of source.
-sub register_local_packages {
+sub register_rpms {
     my ($urpm, @files) = @_;
-    my ($error, @names);
+    my ($start, $id, $error);
 
     #- examine each rpm and build the depslist for them using current
     #- depslist and provides environment.
+    $start = @{$urpm->{depslist}};
     foreach (@files) {
 	/(.*\/)?[^\/]*\.rpm$/ or $error = 1, $urpm->{error}(_("invalid rpm file name [%s]", $_)), next;
 	-r $_ or $error = 1, $urpm->{error}(_("unable to access rpm file [%s]", $_)), next;
 
-	my ($fullname) = $urpm->{params}->read_rpms($_);
-	my $pkg = $urpm->{params}{info}{$fullname};
+	($id, undef) = $urpm->parse_rpm($_);
+	my $pkg = $urpm->{depslist}[$id];
 	$pkg or $urpm->{error}(_("unable to register rpm file")), next;
-	$pkg->{source} = $1 ? $_ :  "./$_";
-	push @names, $fullname;
+	#TODO $pkg->{source} = $1 ? $_ :  "./$_";
     }
     $error and $urpm->{fatal}(1, _("error registering local packages"));
 
-    #- allocate id to each package read.
-    $urpm->{params}->compute_id;
-
-    #- return package names...
-    @names;
+    $start <= $id ? ($start, $id) : ();
 }
 
 #- search packages registered by their name by storing their id into packages hash.
@@ -1286,12 +1284,10 @@ sub search_packages {
 	#- it is a way of speedup, providing the name of a package directly help
 	#- to find the package.
 	#- this is necessary if providing a name list of package to upgrade.
-	my $pkg = $urpm->{params}{info}{$v};
-	defined $pkg->{id} and $exact{$v} = $pkg->{id}, next;
 	unless ($options{fuzzy}) {
-	    my $pkg = $urpm->{params}{names}{$v};
-	    if (defined $pkg->{id} && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src')) {
-		$exact{$v} = $pkg->{id};
+	    my $pkg = $urpm->{names}{$v};
+	    if ($pkg && defined $pkg->id && ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')) {
+		$exact{$v} = $pkg->id;
 		next;
 	    }
 	}
@@ -1301,9 +1297,9 @@ sub search_packages {
 	if ($options{use_provides}) {
 	    unless ($options{fuzzy}) {
 		#- try to search through provides.
-		if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->{arch} eq 'src' : $_->{arch} ne 'src') &&
-							$_->{id} || undef } map { $urpm->{params}{info}{$_} }
-		    keys %{$urpm->{params}{provides}{$v} || {}}) {
+		if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->arch eq 'src' : $_->arch ne 'src') &&
+							$_->id || undef } map { $urpm->{depslist}[$_] }
+		    keys %{$urpm->{provides}{$v} || {}}) {
 		    #- we assume that if the there is at least one package providing the resource exactly,
 		    #- this should be the best ones that is described.
 		    $exact{$v} = join '|',  @l;
@@ -1311,35 +1307,35 @@ sub search_packages {
 		}
 	    }
 
-	    foreach (keys %{$urpm->{params}{provides}}) {
+	    foreach (keys %{$urpm->{provides}}) {
 		#- search through provides to find if a provide match this one.
 		#- but manages choices correctly (as a provides may be virtual or
 		#- multiply defined.
 		if (/$qv/) {
 		    my @list = grep { defined $_ }
-		      map { my $pkg = $urpm->{params}{info}{$_};
-			    $pkg && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src') && $pkg->{id} || undef }
-			keys %{$urpm->{params}{provides}{$_}};
+		      map { my $pkg = $urpm->{depslist}[$_];
+			    $pkg && ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src') ? $pkg->id : undef }
+			keys %{$urpm->{provides}{$_} || {}};
 		    @list > 0 and push @{$found{$v}}, join '|', @list;
 		}
 		if (/$qv/i) {
 		    my @list = grep { defined $_ }
-		      map { my $pkg = $urpm->{params}{info}{$_};
-			    $pkg && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src') && $pkg->{id} || undef }
-			keys %{$urpm->{params}{provides}{$_}};
+		      map { my $pkg = $urpm->{depslist}[$_];
+			    $pkg && ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src') ? $pkg->id : undef }
+			keys %{$urpm->{provides}{$_} || {}};
 		    @list > 0 and push @{$found{$v}}, join '|', @list;
 		}
 	    }
 	}
 
-	foreach my $id (0 .. $#{$urpm->{params}{depslist}}) {
-	    my $info = $urpm->{params}{depslist}[$id];
+	foreach my $id (0 .. $#{$urpm->{depslist}}) {
+	    my $pkg = $urpm->{depslist}[$id];
 
-	    ($options{src} ? $info->{arch} eq 'src' : rpmtools::compat_arch($info->{arch})) or next;
+	    ($options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
 
-	    my $pack_ra = "$info->{name}-$info->{version}";
-	    my $pack_a = "$pack_ra-$info->{release}";
-	    my $pack = "$pack_a.$info->{arch}";
+	    my $pack_ra = $pkg->name . '-' . $pkg->version;
+	    my $pack_a = "$pack_ra-" . $pkg->release;
+	    my $pack = "$pack_a." . $pkg->arch;
 
 	    unless ($options{fuzzy}) {
 		if ($pack eq $v) {
@@ -1368,8 +1364,8 @@ sub search_packages {
 	    #- always prefer already found package.
 	    my %l;
 	    foreach (@{$exact_a{$_} || $exact_ra{$_} || $found{$_} || $foundi{$_} || []}) {
-		my $info = $urpm->{params}{depslist}[$_];
-		push @{$l{$info->{name}}}, { id => $_, info => $info };
+		my $pkg = $urpm->{depslist}[$_];
+		push @{$l{$pkg->name}}, { id => $_, pkg => $pkg };
 	    }
 	    if (values(%l) == 0) {
 		$urpm->{error}(_("no package named %s", $_));
@@ -1382,24 +1378,12 @@ sub search_packages {
 		    my $best;
 		    foreach (@$_) {
 			if ($best) {
-			    my $cmp_version = ($_->{info}{serial} == $best->{info}{serial} &&
-					       rpmtools::version_compare($_->{info}{version},
-									 $best->{info}{version}));
-			    my $cmp_release = ($cmp_version == 0 &&
-					       rpmtools::version_compare($_->{info}{release},
-									 $best->{info}{release}));
-			    if ($_->{info}{serial} > $best->{info}{serial} ||
-				$cmp_version > 0 || $cmp_release > 0 ||
-				($_->{info}{serial} == $best->{info}{serial} &&
-				 $cmp_version == 0 && $cmp_release == 0 &&
-				 rpmtools::better_arch($_->{info}{arch}, $best->{info}{arch}))) {
-				$best = $_;
-			    }
+			    $_->compare_pkg($best) > 0 and $best = $_;
 			} else {
 			    $best = $_;
 			}
 		    }
-		    $packages->{$best->{id}} = undef;
+		    $packages->{$best->id} = undef;
 		}
 	    }
 	}
@@ -1409,90 +1393,6 @@ sub search_packages {
     $result;
 }
 
-#- parse synthesis file to retrieve information stored inside.
-sub parse_synthesis {
-    my ($urpm, $medium, %options) = @_;
-    local (*F, $_);
-    my ($error, @founds, %info);
-
-    #- check with provides that version and release are matching else ignore safely.
-    #- simply ignore src rpm, which does not have any provides.
-    my $update_info = sub {
-	my ($found, $fullname, $serial, $size, $group, $file);
-
-	#- search important information.
-	$info{info} and ($fullname, $serial, $size, $group, $file) = @{$info{info}};
-	$fullname or $info{name} and ($fullname, $file) = @{$info{name}};
-
-	#- no fullname means no information have been found, this is really problematic here!
-	$fullname or return;
-
-	#- search an existing entry or create it.
-	unless ($found = $urpm->{params}{info}{$fullname}) {
-	    #- the entry does not exists *AND* should be created (in info, names and provides hashes)
-	    if ($fullname =~ /^(.*?)-([^-]*)-([^-]*)\.([^\-\.]*)$/) {
-		$found = $urpm->{params}{info}{$fullname} = $urpm->{params}{names}{$1} =
-		  { name => $1, version => $2, release => $3, arch => $4,
-		    id => scalar @{$urpm->{params}{depslist}},
-		  };
-
-		#- update global depslist, medium depslist and provides.
-		push @{$urpm->{params}{depslist}}, $found;
-		push @{$medium->{depslist}}, $found;
-
-		if ($options{examine_requires}) {
-		    foreach (@{$info{requires} || []}) {
-			/([^\s\[]*)/ and $urpm->{params}{provides}{$1} ||= undef;  #- do not delete, but keep in mind.
-		    }
-		}
-		$urpm->{params}{provides}{$found->{name}}{$fullname} = undef;
-		foreach (@{$info{provides} || []}) {
-		    defined $serial or
-		      /([^\s\[]*)(?:\s+|\[)?==\s*(?:(\d+):)?[^\-]*-/ && $found->{name} eq $1 && $2 > 0 and $serial = $2;
-		    /([^\s\[]*)/ and $urpm->{params}{provides}{$1}{$fullname} = undef;
-		}
-	    }
-	}
-	if ($found) {
-	    #- an already existing entries has been found, so
-	    #- add additional information (except name or info).
-	    foreach my $tag (keys %info) {
-		eval { $tag ne 'name' && $tag ne 'info' and $found->{$tag} ||= $info{$tag}; }; #- HACK
-	    }
-	    $serial and $found->{serial} ||= $serial;
-	    $size and $found->{size} ||= $size;
-	    $group and $found->{group} ||= $group;
-	    $file and $found->{file} ||= $file;
-
-	    #- keep track of package found.
-	    push @founds, $found;
-	} else {
-	    #- fullname is incoherent or not found (and not created).
-	    $urpm->{log}(_("unknown data associated with %s", $fullname));
-	}
-	$found;
-    };
-
-    #- keep track of filename used for the medium.
-    my $filename = $options{filename} || "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-
-    open F, "gzip -dc '$filename' |";
-    while (<F>) {
-	chomp;
-	my ($name, $tag, @data) = split '@';
-
-	$info{$tag} = \@data;
-	if ($tag eq 'info' || $tag eq 'name') {
-	    $update_info->() or $urpm->{log}(_("unable to analyse synthesis data of %s",
-					       $name =~ /^[[:print:]]*$/ ? $name : _("<non printable chars>")));
-	    %info = ();
-	}
-    }
-    $urpm->{log}(_("read synthesis file [%s]", $filename));
-
-    @founds;
-}
-
 #- filter minimal list, upgrade packages only according to rpm requires
 #- satisfied, remove upgrade for package already installed or with a better
 #- version, try to upgrade to minimize upgrade errors.
@@ -1500,24 +1400,20 @@ sub parse_synthesis {
 sub filter_packages_to_upgrade {
     my ($urpm, $packages, $select_choices, %options) = @_;
     my ($id, %track, %track_requires, %installed, %selected, %conflicts);
-    my ($db, @packages) = (rpmtools::db_open($options{root}), keys %$packages);
-    my $sig_handler = sub { rpmtools::db_close($db); exit 3 };
+    my ($db, @packages) = (URPM::DB::open($options{root}), keys %$packages);
+    my $sig_handler = sub { undef $db; exit 3 };
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
 
     #- common routines that are called at different points.
     my $check_installed = sub {
 	my ($pkg) = @_;
-	$pkg->{src} eq 'src' and return;
-	$options{keep_alldeps} || exists $installed{$pkg->{id}} and return 0;
-	rpmtools::db_traverse_tag($db, 'name', [ $pkg->{name} ],
-				  [ qw(name version release serial) ], sub {
-				      my ($p) = @_;
-				      my $vc = rpmtools::version_compare($pkg->{version}, $p->{version});
-				      $installed{$pkg->{id}} ||=
-					!($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} &&
-					  ($vc > 0 || $vc == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0));
-				  });
+	$pkg->arch eq 'src' and return;
+	$options{keep_alldeps} || exists $installed{$pkg->id} and return 0;
+	$db->traverse_tag('name', [ $pkg->name ], sub {
+			      my ($p) = @_;
+			      $installed{$pkg->id} ||= $pkg->compare_pkg($p) <= 0;
+			  });
     };
 
     #- at this level, compute global closure of what is requested, regardless of
@@ -1535,9 +1431,9 @@ sub filter_packages_to_upgrade {
 	    #- a provide with a lot of choices, we have to filter according to those who
 	    #- are installed).
 	    foreach (@$id) {
-		my $pkg = $urpm->{params}{depslist}[$_];
+		my $pkg = $urpm->{depslist}[$_];
 		if (exists $packages->{$_} || $check_installed->($pkg) > 0) {
-		    $installed{$pkg->{id}} or push @forced_selection, $_;
+		    $installed{$pkg->id} or push @forced_selection, $_;
 		} else {
 		    push @selection, $_;
 		}
@@ -1555,8 +1451,8 @@ sub filter_packages_to_upgrade {
 	    }
 	    next;
 	}
-	my $pkg = $urpm->{params}{depslist}[$id];
-	defined $pkg->{id} or next; #- id has been removed for package that only exists on some arch.
+	my $pkg = $urpm->{depslist}[$id];
+	defined $pkg->id or next; #- id has been removed for package that only exists on some arch.
 
 	#- search for package that will be upgraded, and check the difference
 	#- of provides to see if something will be altered and need to be upgraded.
@@ -1566,51 +1462,43 @@ sub filter_packages_to_upgrade {
 	#- installed.
 	my (%diff_provides, %provides);
 
-	if ($pkg->{arch} ne 'src') {
+	if ($pkg->arch ne 'src') {
 	    my @upgraded;
 
-	    foreach ($pkg->{name}, @{$pkg->{obsoletes} || []}) {
-		if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
-		    rpmtools::db_traverse_tag($db, 'name', [ $n ],
-					      [ qw(name version release sense provides),
-						$options{track} ? qw(arch requires serial) : () ],
-					      sub {
-						  my ($p) = @_;
-						  (!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
-						    (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
-						     eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
-						  $options{track} and push @upgraded, $p;
-						  foreach (@{$p->{provides}}) {
-						      s/\[\*\]//;
-						      s/\[([^\]]*)\]/ $1/;
-						      $diff_provides{$_} = "$p->{name}-$p->{version}-$p->{release}";
-						  }
-					      });
+	    foreach ($pkg->name, $pkg->obsoletes) {
+		if (my ($n, $o, $v) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\]]*)/) {
+		    $db->traverse_tag('name', [ $n ], sub {
+					  my ($p) = @_;
+					  eval($p->compare($v) . $o . 0) or return;
+					  $options{track} and $p->pack_header, push @upgraded, $p;
+					  foreach ($p->provides) {
+					      s/\[\*\]//;
+					      s/\[([^\]]*)\]/ $1/;
+					      $diff_provides{$_} = $p->fullname;
+					  }
+				      });
 		}
 	    }
-	    $options{track} and $track{$pkg->{id}}{upgraded} = \@upgraded;
+	    $options{track} and $track{$pkg->id}{upgraded} = \@upgraded;
 
-	    foreach (@{$pkg->{provides} || []}) {
+	    foreach ($pkg->provides) {
 		s/\[\*\]//;
 		s/\[([^\]]*)\]/ $1/;
 		delete $diff_provides{$_};
 	    }
 
 	    foreach (keys %diff_provides) {
-		#- analyse the difference in provide and select other package.
-		if (my ($n, $o, $e, $v, $r) = /^(\S*)\s*(\S*)\s*(\d+:)?([^\s-]*)-?(\S*)/) {
+		#- analyse the difference in provides and select other package.
+		if (my ($n, $o, $v) = /^(\S*)\s*(\S*)\s*(\S*)/) {
 		    my $check = sub {
 			my ($p) = @_;
 			my ($needed, $satisfied) = (0, 0);
-			foreach (@{$p->{requires}}) {
-			    if (my ($pn, $po, $pv, $pr) =
-				/^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+			foreach ($p->requires) {
+			    if (my ($pn, $po, $pv) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\]]*)/) {
 				if ($po || $o) {
-				    $pn eq $n && $pn eq $pkg->{name} or next;
+				    $pn eq $n && $pn eq $pkg->name or next;
 				    ++$needed;
-				    (!$pv || eval(rpmtools::version_compare($pkg->{version}, $pv) . $po . 0)) &&
-				      (!$pr || rpmtools::version_compare($pkg->{version}, $pv) != 0 ||
-				       eval(rpmtools::version_compare($pkg->{release}, $pr) . $po . 0)) or next;
+				    eval($pkg->compare($pv) . $po . 0) or next;
 				    #- an existing provides (propably the one examined) is satisfying the underlying.
 				    ++$satisfied;
 				} else {
@@ -1623,22 +1511,23 @@ sub filter_packages_to_upgrade {
 			#- check if the package need to be updated because it
 			#- losts some of its requires regarding the current diff_provides.
 			if ($needed > $satisfied) {
-			    $selected{$p->{name}} ||= undef;
-			    $options{track} and push @{$track{$pkg->{id}}{diff_provides} ||= []}, $p;
+			    $selected{$p->name} ||= undef;
+			    if ($options{track}) {
+				$p->pack_header;
+				push @{$track{$pkg->id}{diff_provides} ||= []}, $p;
+			    }
 			}
 		    };
-		    rpmtools::db_traverse_tag($db, 'whatrequires', [ $n ],
-					      [ qw(name version release sense requires),
-						$options{track} ? qw(arch provides serial) : () ], $check);
+		    $db->traverse_tag('whatrequires', [ $n ], $check);
 		}
 	    }
 
-	    $selected{$pkg->{name}} ||= undef;
+	    $selected{$pkg->name} ||= undef;
 	}
 
 	#- iterate over requires of the packages, register them.
-	foreach (@{$pkg->{requires} || []}) {
-	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+	foreach ($pkg->requires) {
+	    if (my ($n, $o, $v) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\]]*)/) {
 		exists $provides{$_} and next;
 		#- if the provides is not found, it will be resolved at next step, else
 		#- it will be resolved by searching the rpm database.
@@ -1646,47 +1535,40 @@ sub filter_packages_to_upgrade {
 		unless ($options{keep_alldeps}) {
 		    my $check_pkg = sub {
 			my ($p) = @_;
-			exists $selected{$p->{name}} and return;
-			$o and $n eq $p->{name} || return;
-			(!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
-			  (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
-			   eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
-			$provides{$_} = "$p->{name}-$p->{version}-$p->{release}";
+			exists $selected{$p->name} and return;
+			$o and $n eq $p->name || return;
+			eval($p->compare($v) . $o . 0) or return;
+			$provides{$_} = $p->fullname;
 		    };
-		    rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
-					      [ qw (name version release),
-						$options{track} ? qw(arch sense requires provides serial) : () ], $check_pkg);
+		    $db->traverse_tag($n =~ m|^/| ? 'path' : 'whatprovides', [ $n ], $check_pkg);
 		}
-		$options{track} and $track_requires{$_}{$pkg->{id}} = $_;
+		$options{track} and $track_requires{$_}{$pkg->id} = $_;
 	    }
 	}
 
 	#- examine conflicts and try to resolve them.
 	#- if there is a conflicts with a too old version, it need to be upgraded.
 	#- if there is a provides (by using a obsoletes on it too), examine obsolete (provides) too.
-	foreach (@{$pkg->{conflicts} || []}) {
-	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+	foreach ($pkg->conflicts) {
+	    if (my ($n, $o, $v) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\]]*)/) {
 		my $check_pkg = sub {
 		    my ($p) = @_;
-		    $o and $n eq $p->{name} || return;
-		    (!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
-		      (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
-		       eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
-		    $conflicts{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} = 1;
-		    $selected{$p->{name}} ||= undef;
-		    $options{track} and push @{$track{$pkg->{id}}{conflicts} ||= []}, $p;
+		    $o and $n eq $p->name || return;
+		    eval($p->compare($v) . $o . 0) or return;
+		    $conflicts{$p->fullname} = 1;
+		    $selected{$p->name} ||= undef;
+		    if ($options{track}) {
+			$p->pack_header;
+			push @{$track{$pkg->id}{conflicts} ||= []}, $p;
+		    }
 		};
-		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
-					  [ qw (name version release arch),
-					    $options{track} ? qw(sense requires provides serial) : () ], $check_pkg);
-		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
-		    my $p = $urpm->{params}{info}{$fullname};
-		    $p->{arch} eq 'src' and next;
-		    $o and $n eq $p->{name} || next;
-		    (!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
-		      (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
-		       eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or next;
-		    $conflicts{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} ||= 0;
+		$db->traverse_tag($n =~ m|^/| ? 'path' : 'whatprovides', [ $n ], $check_pkg);
+		foreach my $id (keys %{$urpm->{provides}{$n} || {}}) {
+		    my $p = $urpm->{depslist}[$id];
+		    $p->arch eq 'src' and next;
+		    $o and $n eq $p->name || next;
+		    eval($p->compare($v) . $o . 0) or next;
+		    $conflicts{$p->fullname} ||= 0;
 		}
 	    }
 	}
@@ -1695,39 +1577,36 @@ sub filter_packages_to_upgrade {
 	#- provides files, try to minimize choice at this level.
 	foreach (keys %provides, grep { !$selected{$_} } keys %selected) {
 	    my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
-	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+	    if (my ($n, $o, $v) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\]]*)/) {
 		$provides{$_} and next;
 
-		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
-		    exists $conflicts{$fullname} and next;
-		    my $pkg = $urpm->{params}{info}{$fullname};
-		    $pkg->{arch} eq 'src' and next;
-		    $selected{$n} || $selected{$pkg->{name}} and %pre_choices=(), last;
+		foreach my $id (keys %{$urpm->{provides}{$n} || {}}) {
+#TODO		    exists $conflicts{$fullname} and next;
+		    my $pkg = $urpm->{depslist}[$id];
+		    $pkg->arch eq 'src' and next;
+		    $selected{$n} || $selected{$pkg->name} and %pre_choices=(), last;
 		    #- check if a unsatisfied selection on a package is needed,
 		    #- which need a obsolete on a package with different name or
 		    #- a package with the given name.
 		    #- if an obsolete is given, it will be satisfied elsewhere. CHECK TODO
-		    if ($n ne $pkg->{name}) {
+		    if ($n ne $pkg->name) {
 			unless (exists $selected{$n}) {
 			    #- a virtual provides exists with a specific version and maybe release.
 			    #- try to resolve.
-			    foreach (@{$pkg->{provides}}) {
-				if (my ($pn, $po, $pv, $pr) =
-				    /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+			    foreach ($pkg->provides) {
+				if (my ($pn, $po, $pv) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\]]*)/) {
 				    $pn eq $n or next;
 				    my $no = $po eq '==' ? $o : $po; #- CHECK TODO ?
-				    (!$pv || !$v || eval(rpmtools::version_compare($pv, $v) . $no . 0)) &&
-				      (!$pr || !$r || rpmtools::version_compare($pv, $v) != 0 ||
-				       eval(rpmtools::version_compare($pr, $r) . $no . 0)) or next;
-				    push @{$pre_choices{$pkg->{name}}}, $pkg;
+#TODO				    (!$pv || !$v || eval(rpmtools::version_compare($pv, $v) . $no . 0)) &&
+#TODO				      (!$pr || !$r || rpmtools::version_compare($pv, $v) != 0 ||
+#TODO				       eval(rpmtools::version_compare($pr, $r) . $no . 0)) or next;
+				    push @{$pre_choices{$pkg->name}}, $pkg;
 				}
 			    }
 			}
 		    } else {
-			(!$v || eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0)) &&
-			  (!$r || rpmtools::version_compare($pkg->{version}, $v) != 0 ||
-			   eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0)) or next;
-			push @{$pre_choices{$pkg->{name}}}, $pkg;
+			eval($pkg->compare($v) . $o . 0) or next;
+			push @{$pre_choices{$pkg->name}}, $pkg;
 		    }
 		}
 	    }
@@ -1739,13 +1618,13 @@ sub filter_packages_to_upgrade {
 		    #- take the best one, according to id used.
 		    my $chosen_pkg;
 		    foreach my $id (%$packages) {
-			my $candidate_pkg = $urpm->{params}{depslist}[$id];
-			$candidate_pkg->{name} eq $pkg->{name} or next;
+			my $candidate_pkg = $urpm->{depslist}[$id];
+			$candidate_pkg->name eq $pkg->name or next;
 			foreach my $pkg (@$_) {
 			    $pkg == $candidate_pkg and $chosen_pkg = $pkg, last;
 			}
 		    }
-		    $chosen_pkg ||= $urpm->{params}{names}{$_->[0]{name}}; #- at least take the best normally used.
+		    $chosen_pkg ||= $urpm->{names}{$_->[0]->name}; #- at least take the best normally used.
 		    push @pre_choices, $chosen_pkg;
 		}
 	    }
@@ -1753,21 +1632,21 @@ sub filter_packages_to_upgrade {
 		push @choices, $pkg;
 
 		$check_installed->($pkg);
-		$installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
-		exists $installed{$pkg->{id}} and push @upgradable_choices, $pkg;
+		$installed{$pkg->id} and delete $packages->{$pkg->id};
+		exists $installed{$pkg->id} and push @upgradable_choices, $pkg;
 	    }
 	    foreach my $pkg (@pre_choices) {
-		if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
+		if (exists $packages->{$pkg->id} || $installed{$pkg->id}) {
 		    #- the package is already selected, or installed with a better version and release.
 		    @choices = @upgradable_choices = ();
 		    last;
 		}
 	    }
 	    @upgradable_choices > 0 and @choices = @upgradable_choices;
-	    $choices_id{$_->{id}} = $_ foreach @choices;
+	    $choices_id{$_->id} = $_ foreach @choices;
 	    if (keys(%choices_id) == 1) {
 		my ($id) = keys(%choices_id);
-		$selected{$choices_id{$id}{name}} = 1;
+		$selected{$choices_id{$id}->name} = 1;
 		unless ($packages->{$id}) {
 		    $packages->{$id} = 1;
 		    if ($options{track} && $track_requires{$_}) {
@@ -1788,8 +1667,7 @@ sub filter_packages_to_upgrade {
 	}
     }
 
-    rpmtools::db_close($db);
-
+    #- rpm db will be closed automatically on destruction of $db.
     \%track;
 }
 
@@ -1801,11 +1679,11 @@ sub deselect_unwanted_packages {
     open F, $urpm->{skiplist};
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	foreach (keys %{$urpm->{params}{provides}{$_} || {}}) {
-	    my $pkg = $urpm->{params}{info}{$_} or next;
-	    $pkg->{arch} eq 'src' and next; #- never ignore source package.
-	    $options{force} || (exists $packages->{$pkg->{id}} && defined $packages->{$pkg->{id}})
-	      and delete $packages->{$pkg->{id}};
+	foreach (keys %{$urpm->{provides}{$_} || {}}) {
+	    my $pkg = $urpm->{depslist}[$_] or next;
+	    $pkg->arch eq 'src' and next; #- never ignore source package.
+	    $options{force} || (exists $packages->{$pkg->id} && defined $packages->{$pkg->id})
+	      and delete $packages->{$pkg->id};
 	}
     }
     close F;
@@ -1823,20 +1701,20 @@ sub get_source_packages {
 
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
-	my $p = $urpm->{params}{depslist}[$_];
-	if ($p->{source}) {
-	    $local_sources{$_} = $p->{source};
-	} else {
-	    $fullname2id{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} = $_;
-	}
+	my $p = $urpm->{depslist}[$_];
+#TODO	if ($p->{source}) {
+#TODO	    $local_sources{$_} = $p->{source};
+#TODO	} else {
+	    $fullname2id{$p->fullname} = $_;
+#TODO	}
     }
 
     #- examine each medium to search for packages.
     #- now get rpm file name in hdlist to match list file.
     foreach my $medium (@{$urpm->{media} || []}) {
-	foreach (@{$medium->{depslist} || []}) {
-	    my $fullname = "$_->{name}-$_->{version}-$_->{release}.$_->{arch}";
-	    $file2fullnames{($_->{file} =~ /(.*)\.rpm$/ && $1) || $fullname}{$fullname} = undef;
+	foreach ($medium->{start} .. $medium->{end}) {
+	    my $pkg = $urpm->{depslist}[$_];
+	    $file2fullnames{($pkg->filename =~ /(.*)\.rpm$/ && $1) || $pkg->fullname}{$pkg->fullname} = undef;
 	}
     }
 
@@ -2049,15 +1927,15 @@ sub extract_packages_to_install {
     open F, $urpm->{instlist};
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	foreach (keys %{$urpm->{params}{provides}{$_} || {}}) {
-	    my $pkg = $urpm->{params}{info}{$_} or next;
+	foreach (keys %{$urpm->{provides}{$_} || {}}) {
+	    my $pkg = $urpm->{depslist}[$_] or next;
 
 	    #- some package with specific naming convention to avoid upgrade problem
 	    #- should not be taken into account here.
 	    #- these package have version=1 and release=1mdk, and name contains version and release.
-	    $pkg->{version} eq '1' && $pkg->{release} eq '1mdk' && $pkg->{name} =~ /^.*-[^\-]*mdk$/ and next;
+	    $pkg->version eq '1' && $pkg->release eq '1mdk' && $pkg->name =~ /^.*-[^\-]*mdk$/ and next;
 
-	    exists $sources->{$pkg->{id}} and $inst{$pkg->{id}} = delete $sources->{$pkg->{id}};
+	    exists $sources->{$pkg->id} and $inst{$pkg->id} = delete $sources->{$pkg->id};
 	}
     }
     close F;
@@ -2067,8 +1945,8 @@ sub extract_packages_to_install {
 
 sub select_packages_to_upgrade {
     my ($urpm, $prefix, $packages, $remove_packages, $keep_files, %options) = @_;
-    my $db = rpmtools::db_open($prefix);
-    my $sig_handler = sub { rpmtools::db_close($db); exit 3 };
+    my $db = URPM::DB::open($prefix);
+    my $sig_handler = sub { undef $db; exit 3 };
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
 
@@ -2080,6 +1958,9 @@ sub select_packages_to_upgrade {
 			     #'compat-libs' => 1,
 			    );
 
+    #- TODO installed flag on id.
+    my %installed;
+
     #- help removing package which may have different release numbering
     my %toRemove;
 
@@ -2089,222 +1970,137 @@ sub select_packages_to_upgrade {
     #- help keeping memory by this set of package that have been obsoleted.
     my %obsoletedPackages;
 
-    #- make a subprocess here for reading filelist, this is important
-    #- not to waste a lot of memory for the main program which will fork
-    #- latter for each transaction.
-    local (*INPUT, *OUTPUT_CHILD); pipe INPUT, OUTPUT_CHILD;
-    local (*INPUT_CHILD, *OUTPUT); pipe INPUT_CHILD, OUTPUT;
-    if (my $pid = $options{use_parsehdlist} ? fork() : 1) {
-	close INPUT_CHILD;
-	close OUTPUT_CHILD;
-	#- check if there is a parsehdlist running in the background.
-	if ($pid == 1) {
-	    close INPUT;
-	    close OUTPUT;
-	} else {
-	    select((select(OUTPUT), $| = 1)[0]);
-	}
-
-	#- internal reading from interactive mode of parsehdlist.
-	#- takes a code to call with the line read, this avoid allocating
-	#- memory for that.
-	my $ask_child = sub {
-	    my ($pkg, $tag, $code) = @_;
-	    $code or die "no callback code for parsehdlist output";
-	    #- check if what is requested is not already available locally (because
-	    #- the hdlist does not exists and the medium is marked as using a
-	    #- synthesis file).
-	    if ($pid == 1 || $pkg && @{$pkg->{$tag} || []}) {
-		foreach (@{$pkg->{$tag} || []}) {
-		    $code->($_);
-		}
-	    } else {
-		print OUTPUT "$pkg->{name}-$pkg->{version}-$pkg->{release}.$pkg->{arch}:$tag\n";
-
-		local $_;
-		while (<INPUT>) {
-		    chomp;
-		    /^\s*$/ and last;
-		    $code->($_);
+    #- select packages which obseletes other package, obselete package are not removed,
+    #- should we remove them ? this could be dangerous !
+    foreach my $pkg (@{$urpm->{depslist}}) {
+	defined $pkg->id && $pkg->arch ne 'src' or next;
+	foreach ($pkg->obsoletes) {
+	    #- take care of flags and version and release if present
+	    if (my ($n,$o,$v) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\]]*)/) {
+		my $obsoleted = 0;
+		my $check_obsoletes = sub {
+		    my ($p) = @_;
+		    eval($p->compare($v) . $o . 0) or return;
+		    ++$obsoleted;
+		};
+		$db->traverse_tag("name", [ $n ], $check_obsoletes);
+		if ($obsoleted > 0) {
+		    $urpm->{log}(_("selecting %s using obsoletes", $pkg->fullname));
+		    $obsoletedPackages{$n} = undef;
+		    $packages->{$pkg->id} = undef;
 		}
 	    }
-	};
-
-	#- select packages which obseletes other package, obselete package are not removed,
-	#- should we remove them ? this could be dangerous !
-	foreach my $pkg (values %{$urpm->{params}{info}}) {
-	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
-	    $ask_child->($pkg, "obsoletes", sub {
-			     #- take care of flags and version and release if present
-			     local ($_) = @_;
-			     if (my ($n,$o,$v,$r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
-				 my $obsoleted = 0;
-				 my $check_obsoletes = sub {
-				     my ($p) = @_;
-				     (!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
-				       (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
-					eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
-				     ++$obsoleted;
-				 };
-				 rpmtools::db_traverse_tag($db, "name", [ $n ], [ qw(name version release) ], $check_obsoletes);
-				 if ($obsoleted > 0) {
-				     $urpm->{log}(_("selecting %s using obsoletes",
-						    "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
-				     $obsoletedPackages{$n} = undef;
-				     $pkg->{selected} = 1;
-				 }
-			     }
-			 });
 	}
+    }
 
-	#- mark all files which are not in /dev or /etc/rc.d/ for packages which are already installed
-	#- but which are not in the packages list to upgrade.
-	#- the 'installed' property will make a package unable to be selected, look at select.
-	rpmtools::db_traverse($db, [ qw(name version release serial files) ], sub {
+    #- mark all files which are not in /dev or /etc/rc.d/ for packages which are already installed
+    #- but which are not in the packages list to upgrade.
+    #- the 'installed' property will make a package unable to be selected, look at select.
+    $db->traverse(sub {
+		      my ($p) = @_;
+		      my $otherPackage = $p->release !~ /mdk\w*$/ && ($p->name.'-'.$p->version.'-'.$p->release);
+		      my $pkg = $urpm->{names}{$p->name};
+			  
+		      if ($pkg) {
+			  if ($p->compare_pkg($pkg) >= 0) {
+			      if ($otherPackage && $p->compare($pkg->version) <= 0) {
+				  $toRemove{$otherPackage} = 0;
+				  $packages->{$pkg->id} = undef;
+				  $urpm->{log}(_("removing %s to upgrade to %s ...
+  since it will not be updated otherwise", $otherPackage, $pkg->name.'-'.$pkg->version.'-'.$pkg->release));
+			      } else {
+				  $installed{$pkg->id} = undef;
+			      }
+			  } elsif ($upgradeNeedRemove{$pkg->name}) {
+			      my $otherPackage = $p->name.'-'.$p->version.'-'.$p->release;
+			      $toRemove{$otherPackage} = 0;
+			      $packages->{$pkg->id} = undef;
+			      $urpm->{log}(_("removing %s to upgrade to %s ...
+  since it will not upgrade correctly!", $otherPackage, $pkg->name.'-'.$pkg->version.'-'.$pkg->release));
+			  }
+		      } else {
+			  if (exists $obsoletedPackages{$p->name}) {
+			      @installedFilesForUpgrade{$p->upgrade_files} = ();
+			  }
+		      }
+		  });
+
+    #- find new packages to upgrade.
+    foreach my $pkg (@{$urpm->{depslist}}) {
+	defined $pkg->id && $pkg->arch ne 'src' or next;
+
+	my $skipThis = 0;
+	my $count = $db->traverse_tag("name", [ $pkg->name ], sub {
+					  $skipThis ||= exists $installed{$pkg->id};
+				      });
+
+	#- skip if not installed (package not found in current install).
+	$skipThis ||= ($count == 0);
+
+	#- select the package if it is already installed with a lower version or simply not installed.
+	unless ($skipThis) {
+	    my $cumulSize;
+
+	    $packages->{$pkg->id} = undef;
+
+	    #- keep in mind installed files which are not being updated. doing this costs in
+	    #- execution time but use less memory, else hash all installed files and unhash
+	    #- all file for package marked for upgrade.
+	    $db->traverse_tag("name", [ $pkg->name ], sub {
 				  my ($p) = @_;
-				  my $otherPackage = $p->{release} !~ /mdk\w*$/ && "$p->{name}-$p->{version}-$p->{release}";
-				  my $pkg = $urpm->{params}{names}{$p->{name}};
-
-				  if ($pkg) {
-				      my $version_cmp = rpmtools::version_compare($p->{version}, $pkg->{version});
-				      if ($p->{serial} > $pkg->{serial} || $p->{serial} == $pkg->{serial} &&
-					  ($version_cmp > 0 ||
-					   $version_cmp == 0 &&
-					   rpmtools::version_compare($p->{release}, $pkg->{release}) >= 0)) {
-					  if ($otherPackage && $version_cmp <= 0) {
-					      $toRemove{$otherPackage} = 0;
-					      $pkg->{selected} = 1;
-					      $urpm->{log}(_("removing %s to upgrade to %s ...
-  since it will not be updated otherwise", $otherPackage, "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
-					  } else {
-					      $pkg->{installed} = 1;
-					  }
-				      } elsif ($upgradeNeedRemove{$pkg->{name}}) {
-					  my $otherPackage = "$p->{name}-$p->{version}-$p->{release}";
-					  $toRemove{$otherPackage} = 0;
-					  $pkg->{selected} = 1;
-					  $urpm->{log}(_("removing %s to upgrade to %s ...
-  since it will not upgrade correctly!", $otherPackage, "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
-				      }
-				  } else {
-				      if (exists $obsoletedPackages{$p->{name}}) {
-					  @installedFilesForUpgrade{grep { ($_ !~ m|^/dev/| && $_ !~ m|^/etc/rc.d/| &&
-									    $_ !~ m|\.la$| &&
-									    ! -d "$prefix/$_" && ! -l "$prefix/$_") }
-								      @{$p->{files}}} = ();
-				      }
-				  }
+				  @installedFilesForUpgrade{$p->upgrade_files} = ();
 			      });
 
-	#- find new packages to upgrade.
-	foreach my $pkg (values %{$urpm->{params}{info}}) {
-	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
-
-	    my $skipThis = 0;
-	    my $count = rpmtools::db_traverse_tag($db, "name", [ $pkg->{name} ], [ 'name' ], sub {
-						      $skipThis ||= $pkg->{installed};
-						  });
-
-	    #- skip if not installed (package not found in current install).
-	    $skipThis ||= ($count == 0);
-
-	    #- select the package if it is already installed with a lower version or simply not installed.
-	    unless ($skipThis) {
-		my $cumulSize;
-
-		$pkg->{selected} = 1;
-
-		#- keep in mind installed files which are not being updated. doing this costs in
-		#- execution time but use less memory, else hash all installed files and unhash
-		#- all file for package marked for upgrade.
-		rpmtools::db_traverse_tag($db, "name", [ $pkg->{name} ], [ qw(name files) ], sub {
-					      my ($p) = @_;
-					      @installedFilesForUpgrade{grep { ($_ !~ m|^/dev/| && $_ !~ m|^/etc/rc.d/| &&
-										$_ !~ m|\.la$| &&
-										! -d "$prefix/$_" && ! -l "$prefix/$_") }
-									  @{$p->{files}}} = ();
-					  });
-
-		$ask_child->($pkg, "files", sub {
-				 delete $installedFilesForUpgrade{$_[0]};
-			     });
+	    foreach ($pkg->files) {
+		delete $installedFilesForUpgrade{$_};
 	    }
 	}
+    }
 
-	#- unmark all files for all packages marked for upgrade. it may not have been done above
-	#- since some packages may have been selected by depsList.
-	foreach my $pkg (values %{$urpm->{params}{info}}) {
-	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
-	    if ($pkg->{selected}) {
-		$ask_child->($pkg, "files", sub {
-				 delete $installedFilesForUpgrade{$_[0]};
-			     });
+    #- unmark all files for all packages marked for upgrade. it may not have been done above
+    #- since some packages may have been selected by depsList.
+    foreach my $pkg (@{$urpm->{depslist}}) {
+	defined $pkg->id && $pkg->arch ne 'src' or next;
+	if (exists $packages->{$pkg->id}) {
+	    foreach ($pkg->files) {
+		delete $installedFilesForUpgrade{$_};
 	    }
 	}
+    }
 
-	#- select packages which contains marked files, then unmark on selection.
-	#- a special case can be made here, the selection is done only for packages
-	#- requiring locales if the locales are selected.
-	#- another special case are for devel packages where fixes over the time has
-	#- made some files moving between the normal package and its devel couterpart.
-	#- if only one file is affected, no devel package is selected.
-	foreach my $pkg (values %{$urpm->{params}{info}}) {
-	    defined $pkg->{id} && $pkg->{arch} ne 'src' or next;
-	    unless ($pkg->{selected}) {
-		my $toSelect = 0;
-		$ask_child->($pkg, "files", sub {
-				 if ($_[0] !~ m|^/dev/| && $_[0] !~ m|^/etc/rc.d/| &&
-				     $_ !~ m|\.la$| && exists $installedFilesForUpgrade{$_[0]}) {
-				     ++$toSelect if ! -d "$prefix/$_[0]" && ! -l "$prefix/$_[0]";
-				 }
-				 delete $installedFilesForUpgrade{$_[0]};
-			     });
-		if ($toSelect) {
-		    if ($toSelect <= 1 && $pkg->{name} =~ /-devel/) {
-			$urpm->{log}(_("avoid selecting %s as not enough files will be updated",
-				       "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
+    #- select packages which contains marked files, then unmark on selection.
+    #- a special case can be made here, the selection is done only for packages
+    #- requiring locales if the locales are selected.
+    #- another special case are for devel packages where fixes over the time has
+    #- made some files moving between the normal package and its devel couterpart.
+    #- if only one file is affected, no devel package is selected.
+    foreach my $pkg (@{$urpm->{depslist}}) {
+	defined $pkg->id && $pkg->arch ne 'src' or next;
+	unless (exists $packages->{$pkg->id}) {
+	    my $toSelect = 0;
+	    foreach ($pkg->upgrade_files) {
+		delete $installedFilesForUpgrade{$_} and ++$toSelect;
+	    }
+	    if ($toSelect) {
+		if ($toSelect <= 1 && $pkg->name =~ /-devel/) {
+		    $urpm->{log}(_("avoid selecting %s as not enough files will be updated", $pkg->fullname));
+		} else {
+		    #- default case is assumed to allow upgrade.
+		    my @deps = grep { $_ } map { $urpm->{names}{$_} } grep { /locales-/ } $pkg->requires_nosense;
+		    if (@deps == 0 || @deps > 0 && (grep { ! exists $packages->{$pkg->id} &&
+							     ! exists $installed{$_->{id}} } @deps) == 0) {
+			$urpm->{log}(_("selecting %s by selection on files", $pkg->name));
+			$packages->{$pkg->id} = undef;
 		    } else {
-			#- default case is assumed to allow upgrade.
-			my @deps = map { /\|/ and next; #- do not inspect choice
-					 my $p = $urpm->{params}{depslist}[$_];
-					 $p && $p->{name} =~ /locales-/ ? ($p) : () } split ' ', $pkg->{deps};
-			if (@deps == 0 ||
-			    @deps > 0 && (grep { !$_->{selected} && !$_->{installed} } @deps) == 0) {
-			    $urpm->{log}(_("selecting %s by selection on files", $pkg->{name}));
-			    $pkg->{selected} = 1;
-			} else {
-			    $urpm->{log}(_("avoid selecting %s as its locales language is not already selected",
-					   "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
-			}
+			$urpm->{log}(_("avoid selecting %s as its locales language is not already selected", $pkg->fullname));
 		    }
 		}
 	    }
 	}
-
-	#- clean memory...
-	%installedFilesForUpgrade = ();
-
-	#- no need to still use the child as this point, we can let him to terminate.
-	#- but only if a child has really been used.
-	if ($pid != 1) {
-	    close OUTPUT;
-	    close INPUT;
-	    waitpid $pid, 0;
-	}
-    } else {
-	close INPUT;
-	close OUTPUT;
-	open STDIN, "<&INPUT_CHILD";
-	open STDOUT, ">&OUTPUT_CHILD";
-	exec "parsehdlist", "--interactive", (map { "$urpm->{statedir}/$_->{hdlist}" }
-					      grep { ! $_->{synthesis} && ! $_->{ignore} } @{$urpm->{media} || []})
-	  or rpmtools::_exit(1);
     }
 
-    #- let the caller known about what we found here!
-    foreach my $pkg (values %{$urpm->{params}{info}}) {
-	$packages->{$pkg->{id}} = 0 if $pkg->{selected};
-    }
+    #- clean memory...
+    %installedFilesForUpgrade = ();
 
     #- clean false value on toRemove.
     delete $toRemove{''};
@@ -2314,17 +2110,14 @@ sub select_packages_to_upgrade {
     #- are very old when compabilty has been broken.
     #- but new version may saved to .rpmnew so it not so hard !
     if ($keep_files && keys %toRemove) {
-	rpmtools::db_traverse($db, [ qw(name version release conffiles) ], sub {
-				  my ($p) = @_;
-				  my $otherPackage = "$p->{name}-$p->{version}-$p->{release}";
-				  if (exists $toRemove{$otherPackage}) {
-				      @{$keep_files}{@{$p->{conffiles} || []}} = ();
-				  }
-			      });
+	$db->traverse(sub {
+			  my ($p) = @_;
+			  my $otherPackage = $p->name.'-'.$p->version.'-'.$p->release;
+			  if (exists $toRemove{$otherPackage}) {
+			      @{$keep_files}{$p->conf_files} = ();
+			  }
+		      });
     }
-
-    #- close db, job finished !
-    rpmtools::db_close($db);
 }
 
 1;
