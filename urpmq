@@ -331,6 +331,7 @@ if ($urpm::args::options{list_aliases}) {
 	    # if not root, use a temporary directory to store headers
 	    my $tmp_header_dir = "$urpm->{cachedir}/headers";
 	    $< != 0 and $tmp_header_dir = chomp_(`mktemp -d /tmp/urpmq.XXXXXX`);
+	    my @selected = map { split /\|/ } keys %{$state->{selected}};
 	    foreach (0..$#{$urpm->{media} || []}) {
 		if ($urpm->{media}[$_]{synthesis}) {
 		    $urpm->{log}->(N("skipping media %s: no hdlist\n", $urpm->{media}[$_]{name}));
@@ -338,7 +339,7 @@ if ($urpm::args::options{list_aliases}) {
 		}
 		if (my @headers = (grep { ! -s "$urpm->{cachedir}/headers/$_" }
 			map { my $pkg = $urpm->{depslist}[$_];
-			    $pkg && $pkg->header_filename } keys %{$list->[$_]}))
+			    $pkg && $pkg->header_filename } @selected))
 		{
 		    if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
 			require packdrake;
@@ -358,6 +359,7 @@ if ($urpm::args::options{list_aliases}) {
 	    foreach (keys %{$state->{selected}}) {
 		foreach (split /\|/, $_) {
 		    my $pkg = $urpm->{depslist}[$_] or next;
+		    #- even if non-root, search for a header in the global cachedir
 		    my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/".$pkg->header_filename;
 		    if (-s $file) {
 			$pkg->update_header($file, keep_all_tags => 1);
