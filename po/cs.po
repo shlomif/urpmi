@@ -6,9 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-08 06:17+0100\n"
-"PO-Revision-Date: 2000-05-23 18:00+0200\n"
-"Last-Translator: Vladimír Marek <vlmarek@volny.cz>\n"
+"POT-Creation-Date: 2001-03-27 18:13+0200\n"
+"PO-Revision-Date: 2001-03-26 11:00+0200\n"
+"Last-Translator: Radek Vybíral <Radek.Vybiral@vsb.cz>\n"
 "Language-Team: czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
@@ -23,42 +23,44 @@ msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Automatická instalace balíèkù....\n"
+"Zadal jste instalaci balíèku $rpm\n"
 
-#: _irpm:31 urpmi:232
+#: _irpm:31 urpmi:235
 msgid "Is it ok?"
 msgstr "Je to správnì?"
 
-#: _irpm:33 urpmi:235 urpmi:260
+#: _irpm:33 urpmi:238 urpmi:263
 msgid "Ok"
 msgstr "Ok"
 
-#: _irpm:34 urpmi:236 urpmi:261
+#: _irpm:34 urpmi:239 urpmi:264
 msgid "Cancel"
 msgstr "Zru¹it"
 
-#: _irpm:40 urpmi:240 urpmi:292
+#: _irpm:40 urpmi:243 urpmi:296
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:241 urpmi:293
+#: _irpm:41 urpmi:244 urpmi:297
 msgid "Yy"
 msgstr "AaYy"
 
-#: _irpm:42 urpmi:242
+#: _irpm:42 urpmi:245
 msgid " (Y/n) "
 msgstr " (A/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: pøíkaz nenalezen\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "pou¾ití: rpmf [<soubor>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi není nainstalován"
 
 #: placeholder.h:8
 #, c-format
@@ -84,6 +86,26 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi verze %s\n"
+"Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
+"Tento software lze volnì ¹íøit podle licence GNU GPL.\n"
+"pou¾ití:\n"
+"  --help           - zobrazí tuto nápovìdu.\n"
+"  --auto           - automaticky vybere z voleb správný balíèek.\n"
+"  --auto-select    - automaticky vybere balíèky pro aktualizaci systému.\n"
+"  --force          - provede spu¹tìní i tehdy, pokud nìkterý balíèek chybí.\n"
+"  --X              - pou¾ití v X.\n"
+"  --best-output    - vybere nejlep¹í rozhraní podle prostøedí:\n"
+"X nebo textový re¾im.\n"
+"  -a               - vybere v¹echny vyhovující z pøíkazové øádky.\n"
+"  -m               - vybere minimální mno¾inu z potøebných (výchozí).\n"
+"  -M               - vybere maximální mno¾inu z potøebných.\n"
+"  -c               - vybere kompletní metodu pro rozhodování o potøebných\n"
+"                     mno¾inách.\n"
+"  -q               - tichý re¾im.\n"
+"  -v               - re¾im s výpisy.\n"
+"  jméno nebo rpm soubory (pouze pro roota) zadané z pøíkazové øádky jsou\n"
+"  instalovány.\n"
 
 #: placeholder.h:28
 msgid ""
@@ -96,6 +118,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"pou¾ití: urpmi.addmedia <jméno> <url>\n"
+"kde <url> je jedno z následujích\n"
+"      file://<cesta>\n"
+"      ftp://<login>:<heslo>@<host>/<cesta> s <relativním jménem souboru "
+"hdlistu>\n"
+"      ftp://<host>/<cesta> s <relativním jménem souboru hdlist>\n"
+"      http://<host>/<cesta> s <relativním jménem souboru hdlist>\n"
+"      výmìnné_<zaøízení>://<cesta>\n"
 
 #: placeholder.h:37 urpmi.addmedia:52
 #, c-format
@@ -103,6 +133,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"chybí na ftp zdroji\n"
 
 #: placeholder.h:41 urpmi.addmedia:48
 #, c-format
@@ -110,6 +142,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"zaøízení '%s' neexistuje\n"
 
 #: placeholder.h:45 urpmi.addmedia:50
 #, c-format
@@ -117,6 +151,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<relativní cestak hdlistu> chybí\n"
 
 #: placeholder.h:49 urpmi.update:52
 #, c-format
@@ -124,6 +160,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"záznam pro update chybí\n"
+"(jeden z %s)\n"
 
 #: placeholder.h:53 urpmi.removemedia:49
 #, c-format
@@ -131,30 +169,32 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"záznam pro odebrání chybí\n"
+"(jeden z %s)\n"
 
-#: urpmi:55
+#: urpmi:56
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi verze %s"
 
-#: urpmi:144
+#: urpmi:147
 msgid "Only superuser is allowed to install local packages"
 msgstr "Instalovat balíky mù¾e pouze root"
 
-#: urpmi:175
+#: urpmi:178
 msgid "One of the following packages is needed:"
 msgstr "Je zapotøebí jeden z následujících balíèkù:"
 
-#: urpmi:183
+#: urpmi:186
 #, c-format
 msgid "What is your choice? (1-%d) "
-msgstr "Jaká je Va¹e volba? (1-%d) "
+msgstr "Jaká je va¹e volba? (1-%d) "
 
-#: urpmi:186
+#: urpmi:189
 msgid "Sorry, bad choice, try again\n"
 msgstr "Je mi líto, to je ¹patná volba. Zkuste to znovu\n"
 
-#: urpmi:231
+#: urpmi:234
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -162,93 +202,73 @@ msgid ""
 msgstr ""
 "Aby byly splnìny závislosti, budou nainstalovány následující balíèky (%d MB)"
 
-#: urpmi:257
-#, fuzzy, c-format
+#: urpmi:260
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Prosím vlo¾te %s nazvané %s"
+msgstr "Prosím vlo¾te médium nazvané \"%s\" do zaøízení [%s]"
 
-#: urpmi:258
+#: urpmi:261
 msgid "Press enter when it's done..."
 msgstr "A potom stisknìte Enter..."
 
-#: urpmi:271
+#: urpmi:275
 msgid "everything already installed"
 msgstr "v¹e je ji¾ nainstalováno"
 
-#: urpmi:282
+#: urpmi:286
 #, c-format
 msgid "installing %s\n"
 msgstr "instaluji %s\n"
 
-#: urpmi:287 urpmi:300
+#: urpmi:291 urpmi:304
 msgid "Installation failed"
 msgstr "Chyba pøi instalaci"
 
-#: urpmi:294
+#: urpmi:298
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Mám zkusit instalaci bez kontroly závislostí? (a/N) "
 
-#: urpmi:301
+#: urpmi:305
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Mám zkusit instalaci je¹tì razantnìji (--force)? (a/N) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "pou¾ití: urpmi.addmedia <jméno> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "neznámá volba \"%s\"\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nic k aktualizaci (pou¾ijte urpmi.addmedia pro pøidání zdroje)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nic k odebrání (pou¾ijte urpmi.addmedia pro pøidání zdroje)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq verze %s"
 
 #: urpmq:90
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: neznámá volba \"-$1\", zpùsob pou¾ití vyvoláte s --help\n"
 
 #: urpmq:92
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: nemohu pøeèíst rpm soubor \"$_\"\n"
 
 #: urpmq:131
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"nìkteré balíèky pro upgrade se musí odebrat, toto je zatím nepodporováno\n"
 
 #: urpmq:153
 msgid "unable to get source packages, aborting"
-msgstr ""
-
-#~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
-#~ msgstr ""
-#~ "pou¾ití: urpmi [-h] [--auto] [--force] [-a] jméno_balíèku "
-#~ "[jména_balíèkù...]\n"
-
-#~ msgid "no package named %s\n"
-#~ msgstr "¾ádný balíèek se jménem %s\n"
-
-#~ msgid "The following packages contain %s: %s\n"
-#~ msgstr "Následující balíèky obsahují %s: %s\n"
-
-#~ msgid "rpm database query failed\n"
-#~ msgstr "chyba pøi hledání v rpm databázi\n"
-
-#~ msgid "Sorry can't find file %s, exiting"
-#~ msgstr "Je mi líto, nemù¾u najít soubor %s, konèím"
-
-#~ msgid "Failed dependencies: %s requires %s"
-#~ msgstr "©patné závislosti: %s vy¾aduje %s"
+msgstr "nelze získat zdrojový balíèek, konèím"
