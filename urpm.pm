@@ -166,6 +166,9 @@ sub read_config {
 	}
     }
     close $md5sum;
+
+    #- remember global options for write_config
+    $urpm->{global_config} = $config->{''};
 }
 
 #- probe medium to be used, take old medium into account too.
@@ -295,15 +298,15 @@ sub write_config {
     #- avoid trashing exiting configuration if it wasn't loaded
     $urpm->{media} or return;
 
-    my $config = {};
-    #- TODO options set via the command-line shouldn't be taken into account
-    while (my ($k, $v) = each %{$urpm->{options} || {}}) {
-	$config->{''}{$k} = $v;
-    }
+    my $config = {
+	#- global config options found in the config file, without the ones
+	#- set from the command-line
+	'' => $urpm->{global_config},
+    };
     foreach my $medium (@{$urpm->{media}}) {
 	my $medium_name = $medium->{name};
 	$config->{$medium_name}{url} = $medium->{clear_url};
-	foreach (qw(hdlist with_hdlist list removable key-ids priority-upgrade update ignore synthesis modified virtual)) {
+	foreach (qw(hdlist with_hdlist list removable key-ids priority-upgrade update ignore synthesis virtual)) {
 	    defined $medium->{$_} and $config->{$medium_name}{$_} = $medium->{$_};
 	}
     }
@@ -383,7 +386,7 @@ sub configure {
 	    $options{media} || $options{excludemedia} || $options{sortmedia} || $options{update} || $options{parallel} and
 	      $urpm->{fatal}(1, N("--synthesis cannot be used with --media, --excludemedia, --sortmedia, --update or --parallel"));
 	    $urpm->parse_synthesis($options{synthesis});
-	    #- synthesis disable the split of transaction (too risky and not usefull).
+	    #- synthesis disables the split of transaction (too risky and not useful).
 	    $urpm->{options}{'split-length'} = 0;
 	}
     } else {
