@@ -409,7 +409,7 @@ sub configure {
 	    foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
 		opendir my $dh, $dir or die $!;
 		while (defined ($_ = readdir $dh)) {
-		    -f "$dir/$_" or next;
+		    /\.pm$/ && -f "$dir/$_" or next;
 		    $urpm->{log}->(N("examining parallel handler in file [%s]", "$dir/$_"));
 		    eval { require "$dir/$_"; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
 		    $parallel_handler and last;
