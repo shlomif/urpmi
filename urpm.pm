@@ -1096,16 +1096,17 @@ this could happen if you mounted manually the directory when creating the medium
 				$urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
 				if ($medium->{synthesis}) {
 				    -e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
-				      $medium->{md5sum} = (split ' ', `md5sum '$urpm->{statedir}/synthesis.$medium->{hdlist}'`)[0];
+				      $medium->{md5sum} = md5sum("$urpm->{statedir}/synthesis.$medium->{hdlist}");
 				} else {
 				    -e "$urpm->{statedir}/$medium->{hdlist}" and
-				      $medium->{md5sum} = (split ' ', `md5sum '$urpm->{statedir}/$medium->{hdlist}'`)[0];
+				      $medium->{md5sum} = md5sum("$urpm->{statedir}/$medium->{hdlist}");
 				}
 			    }
 			}
 			if ($medium->{md5sum}) {
 			    $urpm->{log}(N("examining MD5SUM file"));
 			    local $_;
+			    undef $retrieved_md5sum;
 			    open my $fh, reduce_pathname("$with_hdlist_dir/../MD5SUM");
 			    while (<$fh>) {
 				my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)| or next;
@@ -1178,7 +1179,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
 		    if (!$error && $retrieved_md5sum) {
 			$urpm->{log}(N("computing md5sum of copied source hdlist (or synthesis)"));
-			(split ' ', `md5sum '$urpm->{cachedir}/partial/$medium->{hdlist}'`)[0] eq $retrieved_md5sum or
+			md5sum("$urpm->{cachedir}/partial/$medium->{hdlist}") eq $retrieved_md5sum or
 			  $error = 1, $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", $with_hdlist_dir));
 		    }
 
@@ -1381,16 +1382,17 @@ this could happen if you mounted manually the directory when creating the medium
 			    $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
 			    if ($medium->{synthesis}) {
 				-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
-				  $medium->{md5sum} = (split ' ', `md5sum '$urpm->{statedir}/synthesis.$medium->{hdlist}'`)[0];
+				  $medium->{md5sum} = md5sum("$urpm->{statedir}/synthesis.$medium->{hdlist}");
 			    } else {
 				-e "$urpm->{statedir}/$medium->{hdlist}" and
-				  $medium->{md5sum} = (split ' ', `md5sum '$urpm->{statedir}/$medium->{hdlist}'`)[0];
+				  $medium->{md5sum} = md5sum("$urpm->{statedir}/$medium->{hdlist}");
 			    }
 			}
 		    }
 		    if ($medium->{md5sum}) {
 			$urpm->{log}(N("examining MD5SUM file"));
 			local $_;
+			undef $retrieved_md5sum;
 			open my $fh, "$urpm->{cachedir}/partial/MD5SUM";
 			while (<$fh>) {
 			    my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)| or next;
@@ -1519,7 +1521,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- check downloaded file has right signature.
 	    if (-e "$urpm->{cachedir}/partial/$basename" && -s _ > 32 && $retrieved_md5sum) {
 		$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
-		unless ((split ' ', `md5sum '$urpm->{cachedir}/partial/$basename'`)[0] eq $retrieved_md5sum) {
+		unless (md5sum("$urpm->{cachedir}/partial/$basename") eq $retrieved_md5sum) {
 		    $urpm->{error}(N("...retrieving failed: %s", N("md5sum mismatch")));
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		}

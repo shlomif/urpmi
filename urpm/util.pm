@@ -5,7 +5,9 @@ use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT = qw(quotespace unquotespace
     remove_internal_name
-    reduce_pathname offset_pathname);
+    reduce_pathname offset_pathname
+    md5sum
+);
 
 #- quoting/unquoting a string that may be containing space chars.
 sub quotespace		 { my $x = $_[0] || ''; $x =~ s/(\s)/\\$1/g; $x }
@@ -68,6 +70,12 @@ sub offset_pathname {
 	}
     }
     $result . join('/', reverse @corrections);
+}
+
+sub md5sum {
+    #- Use an external command to avoid depending on perl
+    my ($file) = @_;
+    return( (split ' ', `md5sum '$file'`)[0] );
 }
 
 1;
