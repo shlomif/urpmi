@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.1
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -126,6 +126,10 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Tue Nov 27 2001 François Pons <fpons@mandrakesoft.com> 2.1-2mdk
+- removed old optimization to get existing depslist instead
+  of rebuilding it.
+
 * Mon Nov 26 2001 François Pons <fpons@mandrakesoft.com> 2.1-1mdk
 - removed obsoleted code in urpm module.
 - ignore -m, -M and -c flag of urpmi/urpmq.

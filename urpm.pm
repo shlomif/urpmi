@@ -643,32 +643,6 @@ sub update_media {
 	    $urpm->{modified} = 0;
 	}
 
-	if ($options{force} < 1 && @{$urpm->{media}} == 1 && $urpm->{media}[0]{with_hdlist}) {
-	    #- this is a special mode where is only one hdlist using a source hdlist, in such
-	    #- case we are searching for source depslist, provides and compss files.
-	    #- if they are not found or if force is used, an error message is printed and
-	    #- we continue using computed results.
-	    my $medium = $urpm->{media}[0];
-	    my $basedir = $medium->{with_hdlist} =~ /^(.*)\/[^\/]*$/ && $1;
-
-	    foreach my $target ($urpm->{depslist}, $urpm->{provides}, $urpm->{compss}, 'END') {
-		$target eq 'END' and $urpm->{modified} = 0, last; #- assume everything is ok.
-		my $basename = $target =~ /^.*\/([^\/]*)$/ && $1;
-
-		if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_?[^_:]*|file):\/(.*)/) {
-		    #- the directory should be existing in any cases or this is an error
-		    #- so there is no need of trying to mount it.
-		    -e "$dir/$basedir/$basename" or last;
-		    system("cp", "-f", "$dir/$basedir/$basename", $target);
-		    $? == 0 or last;
-		} else {
-		    #- we have to use wget here instead, no error printed.
-		    system("wget", "-O", $target, "$medium->{url}/$basedir/$basename");
-		    $? == 0 or last;
-		}
-	    }
-	}
-
 	if ($urpm->{modified}) {
 	    #- cleaning.
 	    $urpm->{params}->clean();
