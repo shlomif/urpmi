@@ -1807,10 +1807,10 @@ this could happen if you mounted manually the directory when creating the medium
 		$urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
 		my %key_ids;
 		eval {
-		    foreach ($urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey")) {
+		    foreach my $k ($urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey")) {
 			my $id;
 			foreach my $kv (values %{$urpm->{keys} || {}}) {
-			    $kv->{content} eq $_->{content} and $key_ids{$id = $kv->{id}} = undef, last;
+			    $kv->{content} eq $k->{content} and $key_ids{$id = $kv->{id}} = undef, last;
 			}
 			unless ($id) {
 			    #- the key has not been found, this is important to import it now,
@@ -1820,7 +1820,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    $urpm->parse_pubkeys(root => $urpm->{root});
 
 			    foreach my $kv (values %{$urpm->{keys} || {}}) {
-				$kv->{content} eq $_->{content} and $key_ids{$id = $kv->{id}} = undef, last;
+				$kv->{content} eq $k->{content} and $key_ids{$id = $kv->{id}} = undef, last;
 			    }
 
 			    #- now id should be defined, or there is a problem to import the keys...
