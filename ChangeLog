@@ -1,4 +1,3836 @@
-2002-05-13 10:48  alus
+2003-11-05 12:12  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* urpmi.bash-completion, urpmi.spec: add urpmi bash completion
+	(Guillaume Rousse)
+
+2003-11-05 12:11  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* Makefile, urpmi.spec: logrotate conf file is already in main
+	source, so there's no need for extra copy around as another
+	external source
+
+2003-11-05 12:11  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* po/fr.po: typo fix
+
+2003-11-05 12:08  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* Makefile: let RPM default to ~/rpm (fix build if env variable is
+	not set)
+
+2003-11-05 11:52  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* urpmi.spec: sync spec with guillaume rousse changes from cvs
+
+2003-10-30 18:07  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, man/C/urpmi.8, man/fr/urpmi.8:
+	4.4-41mdk (erwan feature)
+
+2003-10-28 18:01  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Typo fix
+
+2003-10-21 13:59  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed signature checking on first package when using
+	--media and selecting other media having different signature that
+	the first one.
+
+2003-10-21 13:58  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-40mdk
+
+2003-10-07 15:35  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: intermediate fixes, 39mdk for cooker.
+
+2003-10-06 12:41  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: make sure names.XXX are correctly generated all the
+	time.
+
+2003-09-26 01:35  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ca.po: updated po file
+
+2003-09-23 18:54  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: updated date of changelog.
+
+2003-09-23 17:43  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed adding new sources for finding rpms.
+
+2003-09-23 17:43  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: final 4.4-38mdk with parallel urpme fixes and fixes
+	for adding new sources without an hdlist.
+
+2003-09-23 17:36  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm/: parallel_ssh.pm, parallel_ka_run.pm: clean reason of
+	removing package.
+
+2003-09-23 11:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: pt_BR.po, urpmi.pot: updated po file
+
+2003-09-22 11:43  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: final 4.4-38mdk
+
+2003-09-22 11:41  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpme: make remove with N by default.
+
+2003-09-19 22:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sv.po, urpmi.pot: updated po file
+
+2003-09-19 16:15  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi, urpmi.spec: on-going 4.4-38mdk
+
+2003-09-17 14:37  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: fixed typo about package being "sauted"
+
+2003-09-17 14:33  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed virtual media not examining list file.
+
+2003-09-17 14:33  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-37
+
+2003-09-17 10:15  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/he.po: updated po file
+
+2003-09-16 15:42  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.4-36mdk
+
+2003-09-16 15:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed reduce_pathname returning emptry string for
+	directory instead of / for base.
+
+2003-09-16 12:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/it.po: updated po file
+
+2003-09-15 20:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: hi.po, is.po: updated po files
+
+2003-09-15 08:23  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: mt.po, pt_BR.po: updated po files
+
+2003-09-14 11:25  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: hu.po, it.po: updated po files
+
+2003-09-12 15:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt_BR.po: updated po file
+
+2003-09-10 17:17  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed to display only once skipping or installing log.
+
+2003-09-10 17:16  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-35mdk
+
+2003-09-10 14:17  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmf.8: fixed Searches -> Search and Promotes -> Promote
+	(gc, Olivier Blin).
+
+2003-09-09 19:52  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fr.po: updated po file
+
+2003-09-09 11:04  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt_BR.po: updated po file
+
+2003-09-09 10:22  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* po/fr.po: - fix french translation for skipping packages - update
+	french translation
+
+2003-09-08 21:51  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/eu.po: updated po file
+
+2003-09-08 16:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/az.po: updated po file
+
+2003-09-08 15:41  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.4-34mdk
+
+2003-09-08 14:57  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* man/cs/urpmf.8, man/cs/urpmi.8, man/cs/urpmi.addmedia.8,
+	man/cs/urpmi.removemedia.8, man/cs/urpmi.update.8, man/cs/urpmq.8,
+	po/uz.po, po/uz@Cyrl.po: updated po files; updated Czech man pages
+
+2003-09-07 13:17  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/eu.po: updated po file
+
+2003-09-07 01:27  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: cy.po, he.po, ro.po: updated po files
+
+2003-09-06 17:59  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpm.pm: 4.4-33mdk
+
+2003-09-05 17:12  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: always display package skipped ;-)
+
+2003-09-05 17:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: final 4.4-32mdk
+
+2003-09-05 16:20  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.4-32mdk
+
+2003-09-04 20:25  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fa.po, fi.po,
+	fr.po, ga.po, gl.po, he.po, hi.po, hr.po, hu.po, id.po, is.po,
+	it.po, ja.po, ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nb.po,
+	nl.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, uz.po, uz@Cyrl.po,
+	vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2003-09-04 20:23  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sq.po, urpmi.pot: updated po file
+
+2003-09-04 15:44  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/vi.po: updated po file
+
+2003-09-04 14:50  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.spec, urpmi.update:
+	4.4-31mdk
+
+2003-09-03 02:00  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fa.po: updated po file
+
+2003-09-03 00:21  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: es.po, fi.po, urpmi.pot: updated po files
+
+2003-09-02 19:16  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translations
+
+2003-09-02 19:09  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 4.4-30mdk
+
+2003-09-02 16:46  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: uz.po, uz@Cyrl.po: updated po files
+
+2003-09-02 00:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: bs.po, nb.po: updated po file
+
+2003-09-01 23:08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/tg.po: updated po file
+
+2003-09-01 17:25  Guillaume Cottenceau <gc@mandrakesoft.com>
+
+	* urpmi.spec: #5090
+
+2003-09-01 17:04  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: fixed bad printing of Everything al...
+
+2003-09-01 17:02  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-29mdk
+
+2003-09-01 17:01  Fançois Pons <fpons@mandrakesoft.com>
+
+	* Makefile: added man5 section.
+
+2003-09-01 17:00  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.cfg.5: initial revision.
+
+2003-09-01 16:29  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/nl.po: updated po file
+
+2003-09-01 15:38  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed @EXPORT for N() by using qw(N) instead of qw(*N)
+	which breaks rpmdrake.
+
+2003-09-01 15:02  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: cs.po, pt.po, sl.po: updated po files
+
+2003-09-01 14:26  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: fixed uyrpmi --auto-select saying nothing if nothing has
+	to be updated.
+
+2003-09-01 14:08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: az.po, da.po, et.po, hu.po, ru.po, sk.po, uk.po, zh_CN.po:
+	updated po files
+
+2003-09-01 13:20  keld
+
+	* po/da.po: Update soft/urpmi/po/da.po
+	gi/perl-install/share/po/da.po
+
+2003-08-31 23:03  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Updated
+
+2003-08-31 17:19  tpittich
+
+	* po/sk.po: updated slovak translation
+
+2003-08-31 15:00  alafox
+
+	* po/ru.po: update
+
+2003-08-30 21:52  tpittich
+
+	* po/sk.po: updated slovak translation, some formating fixes
+
+2003-08-30 13:21  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fa.po, fi.po,
+	fr.po, ga.po, gl.po, he.po, hi.po, hr.po, hu.po, id.po, is.po,
+	it.po, ja.po, ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nb.po,
+	nl.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po,
+	sr.po, sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, uz@Cyrl.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot
+	file
+
+2003-08-29 14:25  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fr.po: updated po file
+
+2003-08-29 09:26  keld
+
+	* po/da.po: Updates soft/menu-messages/da.po
+	soft/GtkMdkWidgets/po/da.po soft/urpmi/po/da.po
+	soft/wizard_perl/po/da.po gi/perl-install/share/po/da.po
+
+2003-08-28 17:31  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/fr/urpmi.8: updated man page last modification time.
+
+2003-08-28 17:28  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-28mdk
+
+2003-08-28 17:26  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/fr/urpmi.8: updated with latest urpmi.
+
+2003-08-28 17:26  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.8: added missing --excludedocs.
+
+2003-08-28 17:24  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: added --excludedocs parameter which has been forgotten.
+
+2003-08-28 17:23  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.8: fixed --excludepath documentation.
+
+2003-08-28 17:19  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.8: added additional information about --keep.
+
+2003-08-28 17:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpme.8: added urpme man page.
+
+2003-08-28 17:04  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.update.8: updated with latest urpmi.update
+
+2003-08-28 17:01  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.addmedia.8: updated with latest urpmi.addmedia.
+
+2003-08-28 16:56  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmf.8: updated with lastest urpmf.
+
+2003-08-28 16:53  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmf: removed --name documentation.
+
+2003-08-28 16:50  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmq.8: update with latest urpmq.
+
+2003-08-28 16:45  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.8: updated with current version of urpmi.
+
+2003-08-28 16:27  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: allow transaction number to be restored.
+
+2003-08-28 15:26  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/az.po: updated po file
+
+2003-08-28 12:30  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.4-27mdk
+
+2003-08-28 06:09  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt_BR.po: updated po file
+
+2003-08-28 00:01  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/cs.po: updated po file
+
+2003-08-27 20:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/nb.po: updated po file
+
+2003-08-27 16:51  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: nb.po, sl.po: updated po files
+
+2003-08-27 15:43  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/uk.po: updated po file
+
+2003-08-26 22:14  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt.po: updated po file
+
+2003-08-26 21:44  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: fi.po, nb.po: updated po files
+
+2003-08-26 16:39  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi: fixed stupid typo.
+
+2003-08-26 16:32  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: fixed to use exclusive lock (avoid any other command to
+	perform).
+
+2003-08-26 16:31  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.2-26mdk
+
+2003-08-26 16:30  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed bad use of system return value which fix multiple
+	cd management.
+
+2003-08-26 16:22  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: print "Everything already installed" only if some packages
+	were given on command line, this is simple though ? why it hasn't
+	been added before ? Who knows ?
+
+2003-08-26 16:07  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: fixed download progressive glitches loging.
+
+2003-08-26 16:07  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: added -z option for rsync:// protocol fixed download
+	progressive glitches loging.
+
+2003-08-26 15:50  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ca.po, et.po, ru.po: updated po files
+
+2003-08-25 21:52  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: UpdateD
+
+2003-08-25 20:14  alafox
+
+	* po/ru.po: updated
+
+2003-08-25 19:31  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sl.po: updated po file
+
+2003-08-25 17:23  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ar.po, es.po, nb.po, nl.po, ro.po, sq.po, uz.po, uz@Cyrl.po:
+	updated po files
+
+2003-08-25 15:16  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translations
+
+2003-08-24 13:39  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: eo.po, fa.po, zh_CN.po: updated po files
+
+2003-08-23 15:48  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hu.po: updated po file
+
+2003-08-23 12:27  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fa.po, fi.po,
+	fr.po, ga.po, gl.po, he.po, hi.po, hr.po, hu.po, id.po, is.po,
+	it.po, ja.po, ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nb.po,
+	nl.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po,
+	sr.po, sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, uz@Cyrl.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot
+	file
+
+2003-08-22 17:18  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-25mdk
+
+2003-08-22 17:13  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: implemented forked transaction when more than one
+	transaction are used.
+
+2003-08-22 17:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: implementing forked transaction.
+
+2003-08-21 22:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: fa.po, nb.po: updated po files
+
+2003-08-21 20:43  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: cs.po, es.po, eu.po: updated po files
+
+2003-08-21 19:46  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translations
+
+2003-08-21 15:09  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-24mdk
+
+2003-08-21 15:08  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: updated with perl-URPM 0.94 and above (simplified code)
+
+2003-08-21 13:32  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, hu.po, ru.po, sv.po: updated po files
+
+2003-08-21 10:58  keld
+
+	* po/da.po: updates soft/GtkMdkWidgets/po/da.po
+	soft/mdkkdm/po/da.po soft/urpmi/po/da.po soft/userdrake2/po/da.po
+	gi/perl-install/share/po/da.po
+
+2003-08-20 23:19  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fa.po, fi.po,
+	fr.po, ga.po, gl.po, he.po, hi.po, hr.po, hu.po, id.po, is.po,
+	it.po, ja.po, ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nb.po,
+	nl.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po,
+	sr.po, sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, uz@Cyrl.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot
+	file
+
+2003-08-20 18:23  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.4-23mdk
+
+2003-08-20 14:37  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: disable use of $_ which could be bad.
+
+2003-08-20 14:26  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: modified log to be more clear.
+
+2003-08-20 14:23  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: changed list and pubkey default behaviour for finding
+	files.
+
+2003-08-20 14:20  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed strange typo preventing key to be correctly
+	imported.
+
+2003-08-19 22:37  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: eu.po, fa.po: updated po files
+
+2003-08-19 16:32  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: show stopper 4.4-22mdk
+
+2003-08-19 16:30  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: added nopubkey option to disable pubkey management
+	during update_media (will not work for rpm < 4.2 in %post of urpmi)
+
+2003-08-19 15:26  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fi.po: updated po file
+
+2003-08-19 13:42  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-22mdk preliminary.
+
+2003-08-19 13:41  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed parse_pubkeys usage.
+
+2003-08-18 21:34  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt_BR.po: updated po file
+
+2003-08-18 16:43  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/bg.po: updated po file
+
+2003-08-18 01:06  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sv.po: updated po file
+
+2003-08-17 22:25  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hu.po: updated po file
+
+2003-08-17 19:05  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: fa.po, tg.po: updated po file
+
+2003-08-17 12:47  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/he.po: updated po files
+
+2003-08-16 20:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ar.po, nl.po: updated po files
+
+2003-08-15 10:26  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: bg.po, da.po, nb.po: updated po files
+
+2003-08-14 16:48  keld
+
+	* po/da.po: updates soft/drakcronat/po/da.po soft/rpmdrake/po/da.po
+	soft/urpmi/po/da.po gi/perl-install/share/po/da.po
+
+2003-08-14 01:42  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/id.po: updated po files
+
+2003-08-14 00:08  alafox
+
+	* po/ru.po: checked and updated
+
+2003-08-13 21:35  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Fuzzy removed
+
+2003-08-13 20:19  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: hi.po, tr.po: updated po files
+
+2003-08-13 15:42  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: es.po, zh_CN.po: updated po file
+
+2003-08-13 12:49  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translations
+
+2003-08-13 06:24  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hi.po: updated po file
+
+2003-08-12 17:40  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po,
+	create_placeholder, cs.po, cy.po, da.po, de.po, el.po, eo.po,
+	es.po, et.po, eu.po, fa.po, fi.po, fr.po, ga.po, gl.po, he.po,
+	hi.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po,
+	lt.po, lv.po, ms.po, mt.po, nb.po, nl.po, pl.po, pt.po, pt_BR.po,
+	ro.po, ru.po, sk.po, sl.po, sq.po, sr.po, sr@Latn.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, uz@Cyrl.po, vi.po, wa.po,
+	zh_CN.po, zh_TW.po: updated pot file
+
+2003-08-12 15:37  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/uz.po: fixed y/N => h/Y instead of H/y
+
+2003-08-12 09:20  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/he.po: updated po file
+
+2003-08-12 01:03  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: hu.po, urpmi.pot: updated po file
+
+2003-08-11 20:14  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po file
+
+2003-08-11 18:58  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: fixed changelog packager line.
+
+2003-08-11 18:57  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: finally out for 4.4-21mdk
+
+2003-08-11 18:55  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: removed perl-DateManip requires.
+
+2003-08-11 18:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmq: added -a flag.
+
+2003-08-11 18:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: progress with additional fixes.
+
+2003-08-11 18:51  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed limit_rate with rsync and ssh protocol.
+
+2003-08-11 18:45  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed limit_rate without suffixes for rsync (division
+	not as an integer)
+
+2003-08-11 18:44  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: in progress change for 4.4-21mdk
+
+2003-08-11 16:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fa.po, fi.po,
+	fr.po, ga.po, gl.po, he.po, hi.po, hr.po, hu.po, id.po, is.po,
+	it.po, ja.po, ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nb.po,
+	nl.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po,
+	sr.po, sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot,
+	uz.po, uz@Cyrl.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot
+	file
+
+2003-08-11 16:07  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added gc fixes too.
+
+2003-08-11 16:05  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.4-20mdk
+
+2003-08-11 16:03  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hu.po: updated po file
+
+2003-08-11 13:59  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpme: fixed stupid typo from me (bug 4637).
+
+2003-08-11 11:45  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt_BR.po: updated po file
+
+2003-08-11 01:38  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/cs.po: updated po file
+
+2003-08-10 13:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sv.po: updated po file
+
+2003-08-09 17:02  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, fa.po: Added Farsi file
+
+2003-08-08 23:46  keld
+
+	* po/da.po: Updates soft/control-center/po/da.po soft/ftw/po/da.po
+	soft/mdkhtmlbrowser/po/da.po soft/rpmdrake/po/da.po
+	soft/urpmi/po/da.po soft/userdrake2/po/da.po
+	gi/perl-install/share/po/da.po
+
+2003-08-08 17:18  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/az.po: updated po file
+
+2003-08-08 10:09  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: id.po, nl.po, sq.po: updated po files
+
+2003-08-07 23:13  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Update
+
+2003-08-07 18:35  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/nb.po: updated po file
+
+2003-08-07 17:18  Guillaume Cottenceau <gc@mandrakesoft.com>
+
+	* po/fr.po: typo fix thx fabien illide
+
+2003-08-07 15:29  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translations
+
+2003-08-07 13:59  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po file
+
+2003-08-07 10:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/uk.po: updated po file
+
+2003-08-07 03:14  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hi.po, hr.po, hu.po, id.po, is.po, it.po,
+	ja.po, ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nb.po, nl.po,
+	pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po,
+	uz@Cyrl.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2003-08-06 22:51  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Update
+
+2003-08-06 19:48  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi, urpmi.addmedia, urpmi.spec, urpmi.update:
+	4.4-19mdk
+
+2003-08-06 19:15  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/nb.po: updated po file
+
+2003-08-05 13:48  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed in sync_curl to go back to cwd from urpmi partial
+	cache.
+
+2003-08-04 16:12  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translations
+
+2003-08-04 13:57  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/uk.po: updated po file
+
+2003-08-04 11:27  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fi.po: updated po file
+
+2003-08-03 13:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: nl.po, wa.po: updated po file
+
+2003-08-01 15:51  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-18mdk
+
+2003-08-01 15:51  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed lock as simple user, no more remove of .LOCK file.
+
+2003-08-01 12:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-17mdk
+
+2003-08-01 12:10  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed stupid typo.
+
+2003-08-01 12:09  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: create shared file if needed, remove the lock file when
+	unlock the database.
+
+2003-08-01 12:05  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: shared lock are available with open in read mode.
+
+2003-07-31 18:35  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: final 4.4-16mdk
+
+2003-07-31 18:34  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed shlock_urpmi_db to be shared and not waiting.
+
+2003-07-31 18:34  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmf: added shared lock (same as urpmi or urpmq).
+
+2003-07-31 18:34  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmq: added shared lock (same as urpmi or urpmf).
+
+2003-07-31 18:33  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: added shared lock (same as urpmq or urpmf).
+
+2003-07-31 18:29  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: added urpm::shlock_urpmi_db to shared lock on urpmi db
+	(used by urpmi, urpmq and urpmf).
+
+2003-07-31 18:19  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-16mdk continued (lock on regular file opened in
+	write mode).
+
+2003-07-31 18:18  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: use a file opened in write mode instead of opening a
+	directory.
+
+2003-07-31 17:53  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-16mdk
+
+2003-07-31 17:51  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: disable split of transaction when used with --synthesis.
+
+2003-07-31 17:48  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed logger_id to be set to 0 for the begin of the
+	first transaction and not the begin of all transaction...
+
+2003-07-31 15:20  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: az.po, bg.po: updated po files
+
+2003-07-30 14:39  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sv.po: updated po files
+
+2003-07-30 12:09  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: pt.po, sq.po: updated po files
+
+2003-07-30 10:43  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: he.po, hu.po: updated po file
+
+2003-07-29 17:01  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-15mdk
+
+2003-07-29 16:59  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpme: fixed --auto not working with parallel mode (still asking
+	the user).
+
+2003-07-29 16:38  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added handling of --keep in parallel mode.
+
+2003-07-29 16:37  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm/: parallel_ssh.pm, parallel_ka_run.pm: added support for
+	--keep.
+
+2003-07-29 16:25  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: final 4.4-14mdk.
+
+2003-07-29 16:24  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpme: added option --force in order not to fail with missing
+	package in rpmdb.
+
+2003-07-29 16:23  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: handle option force with parallel remove.
+
+2003-07-29 16:22  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm/: parallel_ka_run.pm, parallel_ssh.pm: added invocation of
+	urpme with --force in parallel remove.
+
+2003-07-29 16:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: handle nodes not updated for parallel remove.
+
+2003-07-29 16:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm/: parallel_ka_run.pm, parallel_ssh.pm: fix to handle
+	parallel removing with nodes not having the packages.
+
+2003-07-29 15:42  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm/parallel_ka_run.pm: make sure stdout is read from distant
+	nodes for parallel remove.
+
+2003-07-29 15:31  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: fixes for cp added (workable).
+
+2003-07-29 15:29  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: make sure urpmi call a cp without specific (fixes) of
+	current cp of 9.2 (work with 9.0).
+
+2003-07-29 15:15  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/Makefile: fixed stupid previous fixe.
+
+2003-07-29 15:12  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-14mdk (in progress).
+
+2003-07-29 15:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/Makefile: try to make Makefile compliant (in some point of
+	view) with older perl_checker...
+
+2003-07-29 14:56  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm/: parallel_ka_run.pm, parallel_ssh.pm: fix for urpme log
+	recently added.
+
+2003-07-29 14:56  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: --auto should not disable urpme to print approximate
+	name (reported by both FredC and Erwan).
+
+2003-07-29 14:55  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpme: always ask user about packages which will be removed when
+	using --parallel option.
+
+2003-07-29 14:48  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hi.po, hr.po, hu.po, id.po, is.po, it.po,
+	ja.po, ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nb.po, nl.po,
+	pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po,
+	uz@Cyrl.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2003-07-29 11:31  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpme: fixed typo.
+
+2003-07-29 08:16  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/nb.po: updated po file
+
+2003-07-29 01:26  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, hu.po: updated po file
+
+2003-07-28 23:57  keld
+
+	* po/da.po: update soft/urpmi/po/da.po soft/userdrake2/po/da.po
+
+2003-07-28 20:41  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, sk.po: updated po files
+
+2003-07-28 19:18  tpittich
+
+	* po/sk.po: updated slovak translation
+
+2003-07-28 18:06  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hi.po, hr.po, hu.po, id.po, is.po, it.po,
+	ja.po, ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nb.po, nl.po,
+	pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po,
+	uz@Cyrl.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2003-07-28 17:15  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 4.4-13mdk
+
+2003-07-28 14:25  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fr.po: updated po file
+
+2003-07-28 14:24  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.8: updated sligtly need reading with newer options.
+
+2003-07-28 14:24  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/fr/urpmi.8: updated with C urpmi.8 version, added section
+	EXIT CODES and BUGS REPORT translated.
+
+2003-07-28 14:03  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: split of transaction is disabled if --test is used, else
+	the test will problably fails.
+
+2003-07-28 14:02  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-12mdk
+
+2003-07-28 11:41  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-11mdk.
+
+2003-07-28 11:41  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: display errors again when multiple transaction have
+	failed.
+
+2003-07-28 10:56  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed absurd typo from me.
+
+2003-07-26 21:51  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: uk.po, zh_CN.po: updated po files
+
+2003-07-26 13:52  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: uz.po, uz@Cyrl.po: updated po files
+
+2003-07-26 10:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, hu.po: updated po files
+
+2003-07-26 01:12  keld
+
+	* po/da.po: updates soft/menu-messages/da.po
+	soft/menudrake/po/da.po soft/urpmi/po/da.po
+
+2003-07-25 22:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po file
+
+2003-07-25 20:13  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Update
+
+2003-07-25 17:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/nl.po: updated po file
+
+2003-07-25 17:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hi.po, hr.po, hu.po, id.po, is.po, it.po,
+	ja.po, ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nb.po, nl.po,
+	pl.po, pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po,
+	uz@Cyrl.po, vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2003-07-25 17:49  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: added back urpmi support for ftp time stamp check when
+	using curl (curl still doesn't handle it correctly).
+
+2003-07-25 17:49  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: removed -z support for ftp download using curl as it
+	doesn't work correctly.
+
+2003-07-25 17:43  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: make sure no log are printed if using quiet download,
+	removed log about description file being downloaded.
+
+2003-07-25 17:24  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: avoid cleaning cache if rpm on command line are inside
+	it (parallel mode).
+
+2003-07-25 17:22  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpm/parallel_ssh.pm, urpm/parallel_ka_run.pm: final
+	4.4-10mdk
+
+2003-07-25 16:37  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added changelog for added curl -z with ftp file
+	(still 4.4-10mdk).
+
+2003-07-25 16:35  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: dropped sync_curl support for ftp conditional download.
+
+2003-07-25 16:07  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added 2326 to the list of fixes.
+
+2003-07-25 16:06  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed bug 3436 (bad error message).
+
+2003-07-25 15:57  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added fixes of bug 3833.
+
+2003-07-25 15:57  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed bug 3833 (moving downloaded files from partial to
+	rpms).
+
+2003-07-25 15:43  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: added removing log, make installtion log conditional.
+
+2003-07-25 15:43  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added 3982 fixes.
+
+2003-07-25 15:39  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm/: parallel_ka_run.pm, parallel_ssh.pm: fixed bug 3982.
+
+2003-07-25 15:08  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added urpme log and urpmi removing log (4.4-10mdk in
+	progress).
+
+2003-07-25 15:07  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpme: added removing log.
+
+2003-07-25 15:07  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed incorrect name lookup causing bad reference. 
+	added removing visible log.
+
+2003-07-25 05:04  keld
+
+	* po/da.po: Updates soft/GtkMdkWidgets/po/da.po
+	soft/mdkhtmlbrowser/po/da.po soft/rpmdrake/po/da.po
+	soft/urpmi/po/da.po
+
+2003-07-24 14:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sv.po: updated po file
+
+2003-07-24 01:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/cs.po: updated po file
+
+2003-07-24 01:17  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: de.po, sk.po, sv.po: updated po files
+
+2003-07-24 00:08  Stefan Siegel <siegel@linux-mandrake.com>
+
+	* po/de.po: some updates
+
+2003-07-23 02:51  tpittich
+
+	* po/sk.po: updated slovak translation
+
+2003-07-21 13:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: avoid proposing all provides if a package has the same
+	name as the property searched when calling URPM::search_packages.
+
+2003-07-20 00:33  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Update
+
+2003-07-18 15:46  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpm.pm, po/af.po, po/ar.po, po/az.po, po/bg.po, po/bs.po,
+	po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po, po/el.po,
+	po/eo.po, po/es.po, po/et.po, po/eu.po, po/fi.po, po/fr.po,
+	po/ga.po, po/gl.po, po/he.po, po/hi.po, po/hr.po, po/hu.po,
+	po/id.po, po/is.po, po/it.po, po/ja.po, po/ka.po, po/ko.po,
+	po/lt.po, po/lv.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po,
+	po/sl.po, po/sq.po, po/sr.po, po/sr@Latn.po, po/sv.po, po/tg.po,
+	po/th.po, po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po, po/vi.po,
+	po/wa.po, po/zh_CN.po, po/zh_TW.po: Corrected English typo
+
+2003-07-17 14:05  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.4-9mdk
+
+2003-07-17 13:53  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: added exit code acccording to installation.
+
+2003-07-17 13:53  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed some error code.
+
+2003-07-17 13:53  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.8: added exit code section, modified man page
+	organisation.
+
+2003-07-13 23:13  tpittich
+
+	* po/sk.po: massive update of sk.po - change all "balíèek" to
+	"balík" - fix all bad translations of "free software" - update to
+	latest po file
+
+2003-07-09 14:09  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ru.po: updated po file
+
+2003-07-02 00:12  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ro.po: updated po file
+
+2003-06-30 00:51  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: fi.po, uk.po: updated po files
+
+2003-06-29 17:43  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hi.po: Added Hindi file
+
+2003-06-28 22:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sq.po, urpmi.pot: updated po file
+
+2003-06-28 17:18  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: nb.po, no.po, tg.po, tr.po, vi.po: moved Bokmaal file to
+	nb.po
+
+2003-06-27 17:38  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmq: skipping inst.list parsing for urpmq.
+
+2003-06-26 17:26  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq, urpm/parallel_ka_run.pm,
+	urpm/parallel_ssh.pm: 4.4-8mdk
+
+2003-06-26 14:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, uz.po, vi.po, wa.po,
+	zh_CN.po, zh_TW.po: updated po files
+
+2003-06-26 12:10  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.4-7mdk
+
+2003-06-25 13:01  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ar.po: updated po file
+
+2003-06-23 20:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, es.po, et.po, pl.po, uk.po: updated po files
+
+2003-06-23 15:53  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translation
+
+2003-06-22 22:56  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Updated
+
+2003-06-22 16:43  keld
+
+	* po/da.po: Updates - not comleted soft/GtkMdkWidgets/po/da.po
+	soft/rpmdrake/po/da.po soft/urpmi/po/da.po
+	gi/perl-install/share/po/da.po
+
+2003-06-21 15:40  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po,
+	vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2003-06-20 16:44  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.4-6mdk
+
+2003-06-20 00:05  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Updated
+
+2003-06-19 16:25  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.spec: 4.4-5mdk
+
+2003-06-19 00:50  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translation
+
+2003-06-18 18:58  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi, urpmi.spec, urpmq: 4.4-4mdk
+
+2003-06-18 15:02  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: removed two blank line, back to a single one (enough)
+
+2003-06-18 14:36  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: added missing number of transaction which failed.
+
+2003-06-18 13:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.4-3mdk
+
+2003-06-17 22:23  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po,
+	vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2003-06-17 13:17  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: fixed bad changelog.
+
+2003-06-17 13:13  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpm/parallel_ka_run.pm,
+	urpm/parallel_ssh.pm: 4.4-2mdk
+
+2003-06-16 20:05  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.4-1mdk
+
+2003-06-13 17:33  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: fixed typo
+
+2003-06-13 17:13  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.3-15mdk
+
+2003-06-13 16:37  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: fixed stupid error where no key_ids option is set,
+	everything finish as missing keys errors.
+
+2003-06-13 11:39  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added require on right perl-URPM.
+
+2003-06-13 11:38  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: added key_ids options, improved signature handling.
+
+2003-06-13 11:38  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: added key_ids options.
+
+2003-06-13 11:37  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.3-14mdk (improved signature handling)
+
+2003-06-05 15:58  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.3-13mdk
+
+2003-06-05 10:48  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec, urpmq: committed on going work to handle
+	quietly sncf work stop.
+
+2003-06-04 19:55  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt.po: updated po file
+
+2003-06-03 14:43  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ar.po: updated po file
+
+2003-05-26 17:28  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added missing requires of right perl-URPM release.
+
+2003-05-26 17:27  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi, urpmi.spec, urpmq, po/fr.po: 4.3-12mdk
+
+2003-05-24 11:35  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/uk.po: updated po file
+
+2003-05-21 01:21  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt_BR.po: updated po file
+
+2003-05-19 16:36  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: fi.po, urpmi.pot, vi.po: updated po files
+
+2003-05-19 15:52  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: updated Spanish translations
+
+2003-05-16 22:33  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: de.po, vi.po: updated po files
+
+2003-05-16 17:14  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.3-11mdk
+
+2003-05-15 16:04  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sr.po, sr@Latn.po,
+	sv.po, tg.po, th.po, tr.po, uk.po, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated pot file
+
+2003-05-15 15:26  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sq.po, urpmi.pot: updated po file
+
+2003-05-15 05:36  keld
+
+	* po/da.po: updates soft/urpmi/po/da.po
+
+2003-05-13 23:05  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.3-10mdk
+
+2003-05-13 22:37  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po files
+
+2003-05-13 13:33  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Updated
+
+2003-05-13 12:18  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po,
+	vi.po, wa.po, zh_CN.po, zh_TW.po: updated pot file
+
+2003-05-12 17:25  Guillaume Cottenceau <gc@mandrakesoft.com>
+
+	* urpmi.spec: upload it today
+
+2003-05-12 17:17  Guillaume Cottenceau <gc@mandrakesoft.com>
+
+	* gurpm.pm, urpmi, urpmi.spec: internalize grpmi in gurpm.pm so
+	that we can share graphical progression of download and
+	installation between gurpmi and rpmdrake
+
+2003-05-11 01:16  keld
+
+	* po/da.po: updates soft/control-center/po/da.po
+	soft/GtkMdkWidgets/po/da.po soft/rpmdrake/po/da.po
+	soft/urpmi/po/da.po
+
+2003-05-09 09:07  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: Updated
+
+2003-05-08 20:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po file
+
+2003-05-08 12:00  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpmi.spec, man/fi/autoirpm.8, man/fi/urpmf.8, man/fi/urpmi.8,
+	man/fi/urpmi.addmedia.8, man/fi/urpmi.removemedia.8,
+	man/fi/urpmi.update.8, man/fi/urpmq.8, man/uk/autoirpm.8,
+	man/uk/urpmf.8, man/uk/urpmi.8, man/uk/urpmi.removemedia.8,
+	man/uk/urpmi.update.8, man/uk/urpmq.8: Added Finnish and Ukrainian
+	man pages
+
+2003-05-08 09:08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sq.po, sr.po,
+	sr@Latn.po, sv.po, tg.po, th.po, tr.po, uz.po, vi.po, wa.po,
+	zh_CN.po, zh_TW.po: updated pot file
+
+2003-05-08 08:39  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sp.po, sr@Latn.po, uk.po, urpmi.pot: updated po files
+
+2003-04-25 18:36  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi.spec, urpmq: 4.3-8mdk
+
+2003-04-25 00:12  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: cache management.
+
+2003-04-24 23:26  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: fixed keep of bad package in cache!
+
+2003-04-24 12:06  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi.spec: 4.3-7mdk
+
+2003-04-23 17:44  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: fix for bug 3814.
+
+2003-04-23 14:46  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi.spec: 4.3-6mdk
+
+2003-04-23 11:54  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed small typo preventing correct error message (never
+	seen anyway).
+
+2003-04-22 17:03  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.removemedia, urpmi.spec, urpmi.update, urpmq:
+	4.3-5mdk
+
+2003-04-22 12:40  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: fixed too long line and incorrect translation.
+
+2003-04-18 18:26  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmq, urpmi: fixed english typo.
+
+2003-04-18 00:12  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpmq: 4.3-4mdk
+
+2003-04-17 16:08  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.3-3mdk
+
+2003-04-16 15:25  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: improved output of search_packages for
+	multiple found.
+
+2003-04-16 14:58  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: improved MD5SUM file support, check md5sum
+	of downloaded file too.
+
+2003-04-16 12:09  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 4.3-2mdk
+
+2003-04-14 15:07  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.spec, urpmq: 4.3-1mdk
+
+2003-04-07 13:14  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: use nonexistent instead.
+
+2003-04-07 10:21  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/nl.po: updated Dutch file
+
+2003-04-01 23:51  keld
+
+	* po/da.po: updates soft/urpmi/po/da.po
+
+2003-04-01 23:41  keld
+
+	* po/da.po: updates
+
+2003-04-01 11:15  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec: fixed --excludepath options.
+
+2003-03-28 17:31  Guillaume Cottenceau <gc@mandrakesoft.com>
+
+	* urpmi.spec: - add perl-MDK-Common-devel in the BuildRequires:
+	because we need   perl_checker to build (silly, no?), thx Stefan
+
+2003-03-27 16:23  Guillaume Cottenceau <gc@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: fix MandrakeClub downloads problem: take
+	advantage of --location-trusted when available (available in curl
+	>= 7.10.3-2mdk)
+
+2003-03-23 14:14  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/tr.po: updated po file
+
+2003-03-22 12:55  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/id.po: updated po file
+
+2003-03-17 03:16  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ro.po: updated po file
+
+2003-03-15 16:21  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/he.po: updated po file
+
+2003-03-15 11:47  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/vi.po: updated po file
+
+2003-03-14 23:11  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/el.po: updated po file
+
+2003-03-14 13:15  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: pt.po, tr.po: updated po files
+
+2003-03-14 00:20  tpittich
+
+	* po/sk.po: updated slovak translation (orpheus)
+
+2003-03-13 12:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/tg.po: updated po file
+
+2003-03-13 10:21  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.1-33mdk
+
+2003-03-13 00:35  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/he.po: updated po file
+
+2003-03-12 19:30  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.2-32mdk
+
+2003-03-12 18:42  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: fr.po: updated po file
+
+2003-03-12 00:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: nl.po, sk.po: updated po file
+
+2003-03-11 19:34  tpittich
+
+	* po/sk.po: update slovak translation (orpheus) change charset to
+	utf8
+
+2003-03-11 17:10  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/no.po: updated po file
+
+2003-03-11 12:21  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: el.po, zh_CN.po: updated Chinese and Greek files
+
+2003-03-10 18:13  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi, urpmi.addmedia, urpmi.spec, urpmi.update,
+	urpmq: 4.2-31mdk
+
+2003-03-10 18:13  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sl.po: updated po file
+
+2003-03-10 18:13  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sl.po: updated po file
+
+2003-03-09 12:33  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, sq.po, sv.po, zh_CN.po: updated po files
+
+2003-03-07 15:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/it.po: updated po file
+
+2003-03-07 13:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po file
+
+2003-03-07 09:22  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: fix
+
+2003-03-06 22:48  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: fix %%post (30mdk)
+
+2003-03-06 17:47  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpm.pm, po/af.po, po/ar.po, po/az.po, po/bg.po, po/bs.po,
+	po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po, po/el.po,
+	po/eo.po, po/es.po, po/et.po, po/eu.po, po/fi.po, po/fr.po,
+	po/ga.po, po/gl.po, po/he.po, po/hr.po, po/hu.po, po/id.po,
+	po/is.po, po/it.po, po/ja.po, po/ka.po, po/ko.po, po/lt.po,
+	po/lv.po, po/ms.po, po/mt.po, po/nl.po, po/no.po, po/pl.po,
+	po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sl.po,
+	po/sp.po, po/sq.po, po/sr.po, po/sv.po, po/tg.po, po/th.po,
+	po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po, po/vi.po, po/wa.po,
+	po/zh_CN.po, po/zh_TW.po: Small English fix and updated po files
+
+2003-03-06 14:53  alafox
+
+	* po/ru.po: checked and updated
+
+2003-03-06 14:10  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmf, urpmi, urpmi.addmedia, urpmi.removemedia,
+	urpmi.spec, urpmi.update, urpmq: fixed newer export methodology.
+
+2003-03-06 14:05  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: fixed online help of all urpmi tools not correctly
+	formatted.
+
+2003-03-06 14:00  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: fix urpmq online help of -c
+
+2003-03-06 13:57  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translation
+
+2003-03-06 11:41  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: rework po generation.
+
+2003-03-06 11:39  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: removed fuzzy
+
+2003-03-06 06:33  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, hu.po, pl.po: updated po files
+
+2003-03-06 01:00  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2003-03-05 22:29  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/no.po: updated po file
+
+2003-03-05 21:06  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* _irpm, urpm.pm, urpme, urpmf, urpmi, urpmi.addmedia,
+	urpmi.removemedia, urpmi.update, urpmq, po/Makefile, po/af.po,
+	po/ar.po, po/az.po, po/bg.po, po/bs.po, po/ca.po, po/cs.po,
+	po/cy.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po,
+	po/et.po, po/eu.po, po/fake_c.pl, po/fi.po, po/fr.po, po/ga.po,
+	po/gl.po, po/he.po, po/hr.po, po/hu.po, po/id.po, po/is.po,
+	po/it.po, po/ja.po, po/ka.po, po/ko.po, po/lt.po, po/lv.po,
+	po/ms.po, po/mt.po, po/nl.po, po/no.po, po/pl.po, po/pt.po,
+	po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sl.po, po/sp.po,
+	po/sq.po, po/sr.po, po/sv.po, po/tg.po, po/th.po, po/tr.po,
+	po/uk.po, po/urpmi.pot, po/uz.po, po/vi.po, po/wa.po, po/zh_CN.po,
+	po/zh_TW.po, urpm/parallel_ka_run.pm, urpm/parallel_ssh.pm: changed
+	name of _() function to N() use of perl_checker to create pot file
+
+2003-03-05 19:51  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/uz.po: updated Uzbek file
+
+2003-03-05 19:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sl.po, sp.po, sq.po, sr.po,
+	sv.po, tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po,
+	zh_CN.po, zh_TW.po: updated pot file
+
+2003-03-05 18:43  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fake_c.pl: fixed translation to C as almost 2000 lines of
+	urpm.pm are not examined !
+
+2003-03-04 19:03  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec: yoyotte experimentation.
+
+2003-03-04 14:49  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: small explanation about rpmdb changed
+
+2003-03-03 22:33  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: cs.po, es.po, fr.po, urpmi.pot: updated po files
+
+2003-03-03 14:57  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: fixed typo
+
+2003-03-03 14:55  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: updated with translations.
+
+2003-03-03 14:54  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: updated french translation (some from Thévenet Cédric)
+
+2003-03-03 14:34  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.2-27mdk
+
+2003-03-03 11:33  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: cy.po, hu.po, it.po, sk.po, urpmi.pot: updated po files
+
+2003-03-02 19:21  tpittich
+
+	* po/sk.po: updated slovak translation
+
+2003-03-01 00:33  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fix owner ship preserved when copying
+
+2003-02-28 22:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.2-26mdk
+
+2003-02-28 16:34  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.2-25mdk
+
+2003-02-28 15:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: added missing callback for second parsing.
+
+2003-02-28 15:34  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed typo.
+
+2003-02-28 14:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/it.po: updated po file
+
+2003-02-28 12:38  tpittich
+
+	* po/sk.po: updated slovak translation, change email to sk team
+	(orpheus) small cosmetic changes in formating and translation
+	(future)
+
+2003-02-28 10:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/uz.po: updated po file
+
+2003-02-27 19:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ar.po, urpmi.pot, vi.po: updated po files
+
+2003-02-27 15:48  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fr.po: fixed typos
+
+2003-02-27 15:31  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.addmedia, urpmi.spec, urpmi.update: 4.2-24mdk
+
+2003-02-27 12:37  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, sl.po: updated po files
+
+2003-02-26 20:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sl.po: Added Slovenian file
+
+2003-02-26 18:11  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/no.po: updated po file
+
+2003-02-26 07:27  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fi.po: updated po file
+
+2003-02-25 14:32  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fi.po: updated po file
+
+2003-02-24 21:02  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt.po: updated po file
+
+2003-02-24 16:36  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi.spec: 4.2-23mdk
+
+2003-02-24 07:19  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: cy.po, ro.po, sq.po: updated po files
+
+2003-02-23 13:02  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sv.po, zh_CN.po: updated po files
+
+2003-02-22 12:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ru.po: updated po file
+
+2003-02-22 11:18  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2003-02-21 22:11  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sp.po, sr.po: updated po files
+
+2003-02-21 22:08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpmi: Put quotes around values passed to gmessage on the command
+	line
+
+2003-02-21 20:29  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: Updated Spanish translations
+
+2003-02-21 19:48  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po file
+
+2003-02-21 19:46  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po,
+	tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po,
+	zh_CN.po, zh_TW.po: updated pot file
+
+2003-02-21 19:13  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.2-22mdk
+
+2003-02-21 04:16  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ro.po: updated po file
+
+2003-02-20 18:36  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/tr.po: updated po file
+
+2003-02-20 17:57  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec, urpm/parallel_ka_run.pm, urpm/parallel_ssh.pm:
+	4.2-21mdk
+
+2003-02-20 16:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.2-20mdk
+
+2003-02-20 13:18  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ru.po: updated po file
+
+2003-02-20 11:01  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt.po: updated po file
+
+2003-02-19 21:55  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po file
+
+2003-02-19 19:37  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/it.po: updated po file
+
+2003-02-19 12:15  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: updated Spanish translation
+
+2003-02-18 21:53  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2003-02-18 18:39  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, he.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po,
+	tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po,
+	zh_CN.po, zh_TW.po: updated pot file
+
+2003-02-17 15:34  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.2-19mdk
+
+2003-02-17 15:09  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm/parallel_ssh.pm: fixed strange error on ssh not invoked on
+	distant node.
+
+2003-02-17 11:39  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.addmedia: fixed bad interpretation of --version.
+
+2003-02-17 11:35  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmq: fixed typo.
+
+2003-02-17 01:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, fi.po, he.po, ro.po, sq.po, sv.po: Added Hebrew file
+
+2003-02-15 10:47  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ar.po, sp.po, sr.po, vi.po: updated po files
+
+2003-02-15 02:48  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/no.po: updated po file
+
+2003-02-14 23:41  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2003-02-14 19:13  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/no.po: updated po file
+
+2003-02-14 16:55  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, ru.po: updated po files
+
+2003-02-14 15:59  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: updated Spanish translation
+
+2003-02-14 15:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpmf, urpmi, urpmi.addmedia, urpmq, po/af.po, po/ar.po,
+	po/az.po, po/bg.po, po/bs.po, po/ca.po, po/cs.po, po/cy.po,
+	po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po,
+	po/eu.po, po/fi.po, po/fr.po, po/ga.po, po/gl.po, po/hr.po,
+	po/hu.po, po/id.po, po/is.po, po/it.po, po/ja.po, po/ka.po,
+	po/ko.po, po/lt.po, po/lv.po, po/ms.po, po/mt.po, po/nl.po,
+	po/no.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po,
+	po/sk.po, po/sp.po, po/sq.po, po/sr.po, po/sv.po, po/tg.po,
+	po/th.po, po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po, po/vi.po,
+	po/wa.po, po/zh_CN.po, po/zh_TW.po: Some changes to English strings
+
+2003-02-14 12:47  Fabian Mandelbaum <fabman@mandrakesoft.com>
+
+	* po/es.po: updated Spanish translation
+
+2003-02-14 12:43  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, pt.po, urpmi.pot: updated po files
+
+2003-02-14 11:35  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.2-18mdk
+
+2003-02-14 03:24  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated po files
+
+2003-02-12 16:09  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi, urpmi.spec: 4.2-17mdk
+
+2003-02-10 21:32  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt.po: updated po file
+
+2003-02-10 15:29  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/zh_CN.po: updated po file
+
+2003-02-05 18:08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated pot file
+
+2003-02-05 15:49  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmq: fixed english typo.
+
+2003-02-03 01:21  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sp.po, sr.po: updated po file
+
+2003-02-02 21:09  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: cs.po, sk.po: updated po files
+
+2003-02-02 12:18  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sp.po, sr.po, sv.po, vi.po: updated po files
+
+2003-01-31 22:26  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/da.po: updated po file
+
+2003-01-31 13:25  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpmi.spec, man/uk/urpmi.addmedia.8: Added Ukrainian man page
+
+2003-01-30 03:29  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ka.po: updated po file
+
+2003-01-30 02:59  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ar.po, da.po, pt.po, urpmi.pot: updated po files
+
+2003-01-29 12:09  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.addmedia, urpmi.spec, urpmi.update: 4.2-16mdk
+
+2003-01-28 12:50  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated pot file
+
+2003-01-28 10:46  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.2-15mdk
+
+2003-01-27 18:36  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.2-14mdk
+
+2003-01-27 15:30  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.2-13mdk
+
+2003-01-27 11:59  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, vi.po: updated po files
+
+2003-01-27 10:58  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.2-12mdk
+
+2003-01-26 22:32  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sq.po: updated po file
+
+2003-01-25 14:13  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2003-01-24 23:11  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpmi, po/af.po, po/ar.po, po/az.po, po/bg.po, po/bs.po,
+	po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po, po/el.po,
+	po/eo.po, po/es.po, po/et.po, po/eu.po, po/fi.po, po/fr.po,
+	po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/is.po,
+	po/it.po, po/ja.po, po/ka.po, po/ko.po, po/lt.po, po/lv.po,
+	po/ms.po, po/mt.po, po/nl.po, po/no.po, po/pl.po, po/pt.po,
+	po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sp.po, po/sq.po,
+	po/sr.po, po/sv.po, po/tg.po, po/th.po, po/tr.po, po/uk.po,
+	po/urpmi.pot, po/uz.po, po/vi.po, po/wa.po, po/zh_CN.po,
+	po/zh_TW.po: updated pot file
+
+2003-01-24 17:42  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.2-11mdk
+
+2003-01-24 14:40  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated po files
+
+2003-01-24 12:32  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.update: add --limit-rate
+	support to urpmi, urpmi.addmedia and urpmi.update
+
+2003-01-24 11:46  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: nothing special
+
+2003-01-24 11:45  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: pl.po
+
+2003-01-24 09:37  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated pot file
+
+2003-01-23 22:31  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po file
+
+2003-01-23 15:30  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.2-10mdk
+
+2003-01-23 12:13  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.addmedia, urpmi.spec, urpmi.update: 4.2-9mdk
+
+2003-01-23 10:30  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed proxy management according to idea from bug 994.
+
+2003-01-23 10:27  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated pot file
+
+2003-01-22 22:29  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.2-8mdk
+
+2003-01-22 15:32  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: done
+
+2003-01-22 14:16  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: Makefile, af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po,
+	cy.po, da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po,
+	fr.po, ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po,
+	ka.po, ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po,
+	pt.po, pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po,
+	tg.po, th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po,
+	zh_CN.po, zh_TW.po: urpmf file wasn't scanned for translatable
+	strings; fixed
+
+2003-01-22 13:11  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, urpmi.pot: updated pot file
+
+2003-01-21 17:09  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ar.po: updated po file
+
+2003-01-21 13:02  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/vi.po: updated po file
+
+2003-01-20 16:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ar.po: updated po file
+
+2003-01-20 12:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: fi.po, tr.po, urpmi.pot: updated po files
+
+2003-01-20 11:08  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.2-7mdk
+
+2003-01-20 11:00  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi: avoid removing directory for bug report, this way, it
+	becomes more secure.
+
+2003-01-19 15:48  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, sq.po: updated po files
+
+2003-01-17 12:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: es.po, sk.po: updated po files
+
+2003-01-16 16:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/zh_CN.po: updated po file
+
+2003-01-16 16:01  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: upodated po file
+
+2003-01-16 10:34  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.2-6mdk
+
+2003-01-14 12:47  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2003-01-13 23:06  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated pot file
+
+2003-01-13 10:50  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed bad use of hdlist file (bug 778).
+
+2003-01-10 17:35  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec: 4.2-5mdk
+
+2003-01-08 11:14  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: doc updated.
+
+2003-01-08 11:13  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/fr/urpmi.8: updated french man page of urpmi according to
+	english updated version.
+
+2003-01-08 10:46  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.8: fixed change from --install-src.
+
+2003-01-08 10:44  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmq.8: updated according to urpmq and man page look.
+
+2003-01-07 18:03  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/: urpmi.addmedia.8, urpmf.8: fix man page year.
+
+2003-01-07 18:02  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.update.8: updated man page year to correct value.
+
+2003-01-07 18:02  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.removemedia.8: updated with man look.
+
+2003-01-07 18:00  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.update.8: updated according to urpmi.update and man
+	look.
+
+2003-01-07 17:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmf: fixed typo.
+
+2003-01-07 17:50  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.addmedia.8: updated with urpmi.addmedia and new man
+	page look.
+
+2003-01-07 17:00  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmf.8: updated with latest appareance and new urpmf.
+
+2003-01-07 16:59  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.8: update man page apparence to be more user friendly
+	and more accurate.
+
+2003-01-07 14:27  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/C/urpmi.8: added extension added since 9.0.
+
+2003-01-06 15:14  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added gnupg as dependencies of urpmi
+
+2003-01-06 15:09  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added et man pages (and allow urpmi to be
+	compilable).
+
+2003-01-06 15:06  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: tiny fix.
+
+2003-01-06 15:04  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi, urpmi.spec: 4.2-3mdk
+
+2003-01-05 19:28  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ar.po: updated po file
+
+2002-12-26 15:33  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ru.po: updated po file
+
+2002-12-24 20:16  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fr.po: updated po file
+
+2002-12-23 05:21  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* man/et/autoirpm.8, man/et/urpmf.8, man/et/urpmi.8,
+	man/et/urpmi.addmedia.8, man/et/urpmi.removemedia.8,
+	man/et/urpmi.update.8, man/et/urpmq.8, po/et.po, po/fi.po,
+	po/vi.po: Added Estonian man pages; updated po files
+
+2002-12-21 21:17  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: fully updated translation
+
+2002-12-20 12:45  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/zh_CN.po: updated po files
+
+2002-12-20 06:03  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fi.po: updated po file
+
+2002-12-20 01:44  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt.po: updated po file
+
+2002-12-19 17:46  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi, urpmi.spec: 4.2-2mdk
+
+2002-12-19 12:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: Iupdated pot file
+
+2002-12-18 16:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi.spec, urpm/parallel_ka_run.pm,
+	urpm/parallel_ssh.pm: 4.2-1mdk
+
+2002-12-18 10:03  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, pt.po, sq.po, zh_CN.po: updated po files
+
+2002-12-17 14:21  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2002-12-16 15:15  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt.po: updated po file
+
+2002-12-16 12:51  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2002-12-16 09:11  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sq.po: updated po file
+
+2002-12-15 16:57  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated pot file
+
+2002-12-13 14:27  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi, urpmi.spec, urpmq: 4.1-18mdk
+
+2002-12-13 14:12  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: fixed some typo (too long text)
+
+2002-12-13 12:18  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmf, urpmi.spec, urpm/parallel_ka_run.pm, urpm/parallel_ssh.pm:
+	4.1-17mdk
+
+2002-12-13 11:35  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec, urpm/parallel_ka_run.pm,
+	urpm/parallel_ssh.pm: 4.1-16mdk
+
+2002-12-13 10:31  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, zh_CN.po: updated po files
+
+2002-12-12 17:19  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/vi.po: updated po file
+
+2002-12-12 12:26  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated po files
+
+2002-12-11 21:40  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2002-12-11 16:57  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi.spec: 4.1-15mdk
+
+2002-12-11 16:32  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, vi.po: updated po files
+
+2002-12-11 16:32  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi.spec: 4.1-14mdk
+
+2002-12-11 15:27  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi.spec: 4.1-13mdk
+
+2002-12-11 13:01  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated pot file
+
+2002-12-11 12:27  Fançois Pons <fpons@mandrakesoft.com>
+
+	* rpm-find-leaves, urpm.pm, urpme, urpmi.spec: 4.1-12mdk
+
+2002-12-10 17:30  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi, urpmi.spec, urpmq,
+	urpm/parallel_ka_run.pm, urpm/parallel_ssh.pm: 4.1-11mdk
+
+2002-12-06 21:02  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/vi.po: updated po file
+
+2002-12-06 18:50  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.addmedia, urpmi.spec: 4.1-10mdk
+
+2002-12-06 16:15  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmf, urpmi.addmedia, urpmi.spec,
+	urpm/parallel_ka_run.pm, urpm/parallel_ssh.pm: 4.1-9mdk
+
+2002-12-05 19:25  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/zh_CN.po: updated po file
+
+2002-12-05 13:07  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: pt.po, sq.po: updated po files
+
+2002-12-05 00:05  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/et.po: updated po file
+
+2002-12-04 21:58  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: mostly updated
+
+2002-12-03 23:04  uid551
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated pot file
+
+2002-12-03 15:43  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpm/parallel_ka_run.pm,
+	urpm/parallel_ssh.pm: 4.1-8mdk
+
+2002-12-02 19:48  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.1-7mdk
+
+2002-12-02 16:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sq.po: updated po file
+
+2002-12-02 16:45  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.spec: 4.1-6mdk
+
+2002-12-02 15:55  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sk.po: updated po file
+
+2002-12-02 05:41  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, fi.po, vi.po: updated po files
+
+2002-11-30 00:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: et.po, zh_CN.po: updated po files
+
+2002-11-29 17:38  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.addmedia, urpmi.spec: 4.1-5mdk
+
+2002-11-29 17:00  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: mostly updated
+
+2002-11-29 14:00  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpm.pm, po/af.po, po/ar.po, po/az.po, po/bg.po, po/bs.po,
+	po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po, po/el.po,
+	po/eo.po, po/es.po, po/et.po, po/eu.po, po/fi.po, po/fr.po,
+	po/ga.po, po/gl.po, po/hr.po, po/hu.po, po/id.po, po/is.po,
+	po/it.po, po/ja.po, po/ka.po, po/ko.po, po/lt.po, po/lv.po,
+	po/ms.po, po/mt.po, po/nl.po, po/no.po, po/pl.po, po/pt.po,
+	po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sp.po, po/sq.po,
+	po/sr.po, po/sv.po, po/tg.po, po/th.po, po/tr.po, po/uk.po,
+	po/urpmi.pot, po/uz.po, po/vi.po, po/wa.po, po/zh_CN.po,
+	po/zh_TW.po: There is no space before a colon (:) in English,
+	updated pot and po files
+
+2002-11-29 13:31  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.addmedia, urpmi.spec: 4.1-4mdk
+
+2002-11-28 22:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.addmedia: refer to guess for contrib type media when adding
+	using --distrib-contrib.
+
+2002-11-28 22:48  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.addmedia, urpmi.spec, urpmi.update: 4.1-3mdk
+
+2002-11-28 20:15  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated po files
+
+2002-11-28 13:47  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sq.po, sr.po, sv.po, tg.po,
+	th.po, tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po,
+	zh_TW.po: updated po files
+
+2002-11-28 13:42  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.1-2mdk
+
+2002-11-27 20:03  Fançois Pons <fpons@mandrakesoft.com>
+
+	* Makefile, urpm.pm, urpmi, urpmi.spec: 4.1
+
+2002-11-25 15:48  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ca.po: iupdated Catalan file
+
+2002-11-19 14:34  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fi.po: updated po file
+
+2002-11-16 12:47  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/zh_CN.po: updated po file
+
+2002-11-14 12:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: pt.po, ro.po, sq.po, urpmi.pot: updated po files
+
+2002-11-13 17:05  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.0-25mdk
+
+2002-11-13 12:08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ru.po, sq.po, vi.po: Added Albanian file
+
+2002-11-12 00:24  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated
+
+2002-11-11 16:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/Makefile: Added "N" as a tag for translatable strings
+
+2002-11-11 14:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-11-07 16:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec, urpmq: 4.0-24mdk
+
+2002-11-05 01:08  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: fixes
+
+2002-10-29 18:31  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec, urpmq: 4.0-23mdk
+
+2002-10-26 16:08  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* man/fr/urpmi.8: reviewed by gerard delafond (non breaking space,
+	plural forms, typo fixes)
+
+2002-10-25 09:58  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmf, urpmi.addmedia, urpmi.removemedia,
+	urpmi.spec, urpmi.update, urpmq: 4.0-22mdk
+
+2002-10-24 08:52  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* man/fr/urpmi.8: update date
+
+2002-10-23 14:27  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: small fixes for french translation or line split.
+
+2002-10-16 15:57  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added back usermode required by gurpmi.
+
+2002-10-16 15:52  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: updated spec file for publishing 21mdk.
+
+2002-10-16 15:50  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed use_provides option given to search_packages not
+	always taken into account.
+
+2002-10-10 01:07  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: a fix
+
+2002-09-30 10:14  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/da.po: updated po file
+
+2002-09-29 01:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/lv.po: updated Latvian file
+
+2002-09-28 07:44  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/da.po: corrected encoding
+
+2002-09-23 12:12  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec, urpm/README.ka-run, urpm/README.ssh:
+	4.0-21mdk
+
+2002-09-22 20:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fi.po: updated po file
+
+2002-09-20 10:05  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, fi.po: updated po files
+
+2002-09-17 18:01  Fançois Pons <fpons@mandrakesoft.com>
+
+	* inst.list, urpm.pm, urpmi.spec: 4.0-20mdk
+
+2002-09-16 14:31  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 4.0-19mdk
+
+2002-09-13 14:35  Fançois Pons <fpons@mandrakesoft.com>
+
+	* skip.list, urpmi.spec: 4.0-18mdk
+
+2002-09-12 17:17  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec: fixed gurpmi in same 16mdk.
+
+2002-09-12 16:03  Fançois Pons <fpons@mandrakesoft.com>
+
+	* skip.list, urpmi.spec, urpm/parallel_ka_run.pm,
+	urpm/parallel_ssh.pm: 4.0-17mdk
+
+2002-09-12 14:25  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ca.po: updated po file
+
+2002-09-12 00:35  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/mt.po: updated po file
+
+2002-09-11 16:46  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/fr.po: updated po file
+
+2002-09-11 16:23  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: fixed daouda typo and revert to unpublished 16mdk.
+
+2002-09-11 16:15  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpm/parallel_ka_run.pm: 4.0-17mdk
+
+2002-09-10 02:44  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/eu.po: updated po file
+
+2002-09-09 18:39  Daouda Lo <daouda@mandrakesoft.com>
+
+	* urpmi.spec: -  InitialPreference for gurpmi (clicking on a rpm
+	under konqueror    should launch gurpmi instead of kpackage).
+
+2002-09-09 17:07  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/tr.po: updated po file
+
+2002-09-06 15:06  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpm/parallel_ka_run.pm: 4.0-15mdk
+
+2002-09-06 14:00  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpm/parallel_ka_run.pm: 4.0-14mdk
+
+2002-09-06 09:07  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/no.po: updated po file
+
+2002-09-06 01:39  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/tr.po: updated po file
+
+2002-09-05 21:41  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated po files
+
+2002-09-05 17:01  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.addmedia, urpmi.spec, urpmi.update, urpmq: 4.0-13mdk
+
+2002-09-05 13:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-09-05 11:48  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.0-12mdk
+
+2002-09-05 11:38  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: updated to remove untranslated message.
+
+2002-09-05 11:12  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated all po with for removing fuzzy on "Is this OK?" as
+	previously "Is it OK?"
+
+2002-09-05 11:02  Fançois Pons <fpons@mandrakesoft.com>
+
+	* _irpm, urpm.pm, urpme, urpmi: Is it okay => Is this okay.
+
+2002-09-05 09:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ar.po: updated po file
+
+2002-09-04 22:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/it.po: updated po file
+
+2002-09-04 20:27  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/mt.po: updated po file
+
+2002-09-04 15:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/id.po: updated po file
+
+2002-09-04 13:38  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, zh_CN.po: updated po files
+
+2002-09-02 21:08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: cs.po, pl.po, ru.po: updated po files
+
+2002-09-02 13:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/es.po: updated po file
+
+2002-09-02 13:09  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt.po: updated po file
+
+2002-09-02 12:12  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: de.po, pl.po, sk.po, th.po, tr.po, urpmi.pot, zh_TW.po:
+	updated po files
+
+2002-09-01 18:25  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated translation
+
+2002-09-01 01:40  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hu.po: updated po file
+
+2002-08-31 23:40  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ro.po: updated po file
+
+2002-08-31 17:29  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sv.po: updated po file
+
+2002-08-31 14:27  Stefan Siegel <siegel@linux-mandrake.com>
+
+	* po/de.po: new german version
+
+2002-08-31 13:00  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: nl.po, urpmi.pot, vi.po: updated Dutch and Vietnamese files
+
+2002-08-30 18:32  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.0-11mdk
+
+2002-08-30 16:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-08-30 16:16  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi, urpmi.spec: 4.0-10mdk
+
+2002-08-30 11:16  Frederic Crozat <fcrozat@mandrakesoft.com>
+
+	* Makefile, urpmi.spec, po/Makefile: Add support for
+	application/x-rpm mimetype for gurpmi
+
+2002-08-30 09:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hu.po: updated po file
+
+2002-08-30 09:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: eu.po, nl.po: updated po files
+
+2002-08-29 20:37  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/es.po: updated po file
+
+2002-08-29 17:46  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ru.po: updated po file
+
+2002-08-29 15:49  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-08-29 15:08  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec, urpmq, man/C/urpmi.8,
+	man/C/urpmi.addmedia.8, man/C/urpmi.removemedia.8,
+	man/C/urpmi.update.8, man/C/urpmq.8: 4.0-9mdk
+
+2002-08-29 11:40  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq, urpm/parallel_ka_run.pm,
+	urpm/parallel_ssh.pm: 4.0-8mdk
+
+2002-08-29 11:03  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/eu.po: updated po file
+
+2002-08-29 02:18  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hu.po: updated po file
+
+2002-08-28 23:19  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpmi.addmedia, po/tr.po, po/urpmi.pot: updated po file; improved
+	message for translators
+
+2002-08-28 19:53  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/es.po: updated po file
+
+2002-08-28 18:41  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ar.po: updated po file
+
+2002-08-28 17:42  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-08-28 16:38  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec, urpmq: 4.0-7mdk
+
+2002-08-28 14:22  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/vi.po: updated po file
+
+2002-08-28 11:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ro.po, ru.po: updated po files
+
+2002-08-28 10:40  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: hu.po, ro.po: updated po files
+
+2002-08-27 19:48  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-08-27 16:20  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 4.0-6mdk
+
+2002-08-27 15:57  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* po/fr.po: fix bogus \\\n
+
+2002-08-27 13:53  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec, urpmq, urpm/parallel_ka_run.pm,
+	urpm/parallel_ssh.pm: 4.0-5mdk
+
+2002-08-27 13:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, az.po, bs.po, ca.po, el.po, eo.po, et.po, eu.po,
+	ga.po, gl.po, is.po, ja.po, ka.po, ko.po, lt.po, lv.po, sr.po,
+	uk.po, urpmi.pot, uz.po: updated po files
+
+2002-08-27 00:19  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: Makefile, wa.po, zh_TW.po: updated po files
+
+2002-08-26 23:24  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpm/parallel_ka_run.pm,
+	urpm/parallel_ssh.pm: 4.0-4mdk
+
+2002-08-26 20:41  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: fixed typo.
+
+2002-08-26 17:23  Fançois Pons <fpons@mandrakesoft.com>
+
+	* po/fr.po: fixes indentation.
+
+2002-08-26 17:07  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* urpmi.spec: Added man pages
+
+2002-08-26 17:00  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* man/cs/: autoirpm.8, urpmf.8, urpmi.8, urpmi.addmedia.8,
+	urpmi.removemedia.8, urpmi.update.8, urpmq.8: Added Czech man pages
+
+2002-08-26 16:50  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ro.po, sk.po: updated po files
+
+2002-08-26 11:30  Warly <warly@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi.spec: remove ´/´ in install call in urpme
+
+2002-08-26 10:36  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/wa.po: updated po file
+
+2002-08-26 10:34  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: de.po, es.po, hu.po, nl.po, pl.po, ro.po: updated po files
+
+2002-08-24 20:53  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated translation
+
+2002-08-24 18:42  Stefan Siegel <siegel@linux-mandrake.com>
+
+	* po/de.po: updates
+
+2002-08-24 18:06  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sv.po, vi.po: updated po files
+
+2002-08-24 03:22  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* _irpm, urpm.pm, urpmi.addmedia, urpmi.spec, man/ru/autoirpm.8,
+	man/ru/urpmf.8, man/ru/urpmi.8, man/ru/urpmi.addmedia.8,
+	man/ru/urpmi.removemedia.8, man/ru/urpmi.update.8, man/ru/urpmq.8,
+	po/Makefile, po/POTFILES.in, po/af.po, po/ar.po, po/az.po,
+	po/bg.po, po/bs.po, po/ca.po, po/create_placeholder, po/cs.po,
+	po/cy.po, po/da.po, po/de.po, po/el.po, po/eo.po, po/es.po,
+	po/et.po, po/eu.po, po/fake_c.pl, po/fi.po, po/fr.po, po/ga.po,
+	po/gl.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	po/ja.po, po/ka.po, po/ko.po, po/lt.po, po/lv.po, po/ms.po,
+	po/mt.po, po/nl.po, po/no.po, po/pl.po, po/pl_create_placeholder,
+	po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po, po/sk.po, po/sp.po,
+	po/sr.po, po/sv.po, po/tg.po, po/th.po, po/tr.po, po/uk.po,
+	po/urpmi.pot, po/uz.po, po/vi.po, po/wa.po, po/zh_CN.po,
+	po/zh_TW.po: Changed remaining gettext("foo $bar") into _("foo %s",
+	$bar) Added russian man pages redo the way the *.pot file is
+	created rebuild *.po files
+
+2002-08-23 16:23  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm/: parallel_ka_run.pm, parallel_ssh.pm: 4.0-2mdk (was not
+	added in CVS for 1mdk).
+
+2002-08-23 16:21  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 4.0-2mdk
+
+2002-08-23 15:09  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: fixed VERSION.
+
+2002-08-23 15:06  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 4.0-1mdk
+
+2002-08-21 19:35  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/es.po: updated po file
+
+2002-08-21 03:03  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/no.po: updated po file
+
+2002-08-20 11:54  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/mt.po: updated po file
+
+2002-08-19 17:36  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/it.po: updated po file
+
+2002-08-19 14:23  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/nl.po: updated po file
+
+2002-08-18 20:17  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/pt_BR.po: updated po file
+
+2002-08-18 17:27  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/cs.po: updated po file
+
+2002-08-18 13:31  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ar.po, az.po, el.po, ms.po, mt.po, no.po, ru.po, sp.po,
+	sr.po, tg.po: updated po files
+
+2002-08-17 21:08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/id.po: updated po file
+
+2002-08-17 18:52  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ar.po: updated po file
+
+2002-08-17 11:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: fr.po, zh_TW.po: updated po files
+
+2002-08-16 11:56  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/da.po: updated po file
+
+2002-08-15 13:04  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/zh_CN.po: updated po file
+
+2002-08-14 12:46  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, sk.po, sv.po, vi.po: updated po files
+
+2002-08-14 09:10  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: pt.po, ro.po: updated po files
+
+2002-08-14 08:27  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hu.po: updated po file
+
+2002-08-13 16:32  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: sk.po, urpmi.pot: updated po file
+
+2002-08-13 14:58  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ru.po: updated po file
+
+2002-08-13 12:25  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated translation
+
+2002-08-13 12:14  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 3.9-8mdk (forget noauto: flags now ignored in hdlists
+	file).
+
+2002-08-13 12:14  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: ignore noauto medium from Mandrake distribution
+	(--distrib).
+
+2002-08-13 12:12  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: 3.9-8mdk
+
+2002-08-13 12:11  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: removed abuse log in /tmp :-(
+
+2002-08-13 12:03  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-08-12 16:10  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 3.9-7mdk
+
+2002-08-12 01:48  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/tr.po: updated po file
+
+2002-08-09 17:50  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: cs.po, pt.po, sv.po: updated po files
+
+2002-08-08 20:49  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: little fix
+
+2002-08-08 11:33  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ro.po: updated po file
+
+2002-08-08 11:01  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hu.po: updated po file
+
+2002-08-07 20:23  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/vi.po: updated po file
+
+2002-08-07 17:37  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ru.po: updated po file
+
+2002-08-07 16:13  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ro.po, sk.po: updated po files
+
+2002-08-07 09:05  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated translation
+
+2002-08-07 07:29  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/es.po: updated po file
+
+2002-08-06 16:13  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-08-06 15:24  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpm.pm, urpmi: 3.9-6mdk
+
+2002-08-06 14:52  Guillaume Cottenceau <gc@mandrakesoft.com>
+
+	* urpmi: grpmi is in /usr/sbin now
+
+2002-08-06 01:26  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: a fix
+
+2002-08-05 13:37  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ru.po, sv.po: updated po files
+
+2002-08-01 18:29  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/hu.po: updated po file
+
+2002-07-31 14:47  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/it.po: updated po file
+
+2002-07-31 14:06  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: ru.po, urpmi.pot: updated russian file
+
+2002-07-29 13:46  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/cs.po: updated po files
+
+2002-07-29 10:39  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: da.po, mt.po, sk.po, tr.po: updated po files
+
+2002-07-26 15:07  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, man/C/urpmi.8, man/C/urpmq.8:
+	3.9-5mdk
+
+2002-07-26 14:02  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: id.po, urpmi.pot: updated po file
+
+2002-07-25 19:08  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/vi.po: updated Vietnamese file
+
+2002-07-25 13:32  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: hu.po, pt.po: updated po files
+
+2002-07-25 12:57  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: 2 new entries
+
+2002-07-25 09:50  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpmq: 3.9-4mdk
+
+2002-07-24 20:20  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-07-24 14:42  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 3.9-3mdk
+
+2002-07-24 10:28  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: fuzzy removed
+
+2002-07-23 20:25  Fançois Pons <fpons@mandrakesoft.com>
+
+	* Makefile, rpm-find-leaves, urpm.pm, urpme, urpmi.spec: 3.9-2mdk
+
+2002-07-23 19:29  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated po files
+
+2002-07-23 18:06  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: update
+
+2002-07-23 16:23  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm: added callback for configure method used by new
+	rpmdrake.
+
+2002-07-23 15:41  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.9-1mdk
+
+2002-07-22 12:38  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-07-22 10:40  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 3.8-3mdk
+
+2002-07-22 09:30  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: eu.po, urpmi.pot: updated Basque file
+
+2002-07-22 09:21  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec: 3.8-2mdk
+
+2002-07-20 15:12  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updates
+
+2002-07-19 22:03  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/eu.po: updated Basque file
+
+2002-07-19 13:17  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-07-19 11:22  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 3.8-1mdk
+
+2002-07-17 11:06  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 3.7-6mdk
+
+2002-07-16 16:08  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.spec, urpmi.update:
+	3.7-5mdk
+
+2002-07-15 23:25  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: polish updated
+
+2002-07-15 12:51  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-07-12 12:18  Pixel <pixel@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: fix problem with no proxy (the "return" in
+	get_proxy was returning an empty list which shifted the key/values
+	of $urpm)
+
+2002-07-11 16:01  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.spec, urpmi.update, urpmq:
+	3.7-3mdk
+
+2002-07-10 14:43  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: updated translation
+
+2002-07-09 13:04  Pixel <pixel@mandrakesoft.com>
+
+	* urpmi.spec: adapt to perl 5.8.0
+
+2002-07-09 12:32  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bs.po, ca.po, cs.po, cy.po,
+	da.po, de.po, el.po, eo.po, es.po, et.po, eu.po, fi.po, fr.po,
+	ga.po, gl.po, hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po,
+	ko.po, lt.po, lv.po, ms.po, mt.po, nl.po, no.po, pl.po, pt.po,
+	pt_BR.po, ro.po, ru.po, sk.po, sp.po, sr.po, sv.po, tg.po, th.po,
+	tr.po, uk.po, urpmi.pot, uz.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	updated pot file
+
+2002-07-08 12:21  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.7-1mdk
+
+2002-07-02 12:27  Pixel <pixel@mandrakesoft.com>
+
+	* _irpm, urpm.pm, urpmi.spec, po/Makefile: use perl-Locale-gettext
+	instead of perl-gettext (ie. Locale::gettext instead of
+	Locale::GetText)
+
+2002-06-28 14:35  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.addmedia, urpmi.spec, urpmi.update, urpmq:
+	3.6-4mdk
+
+2002-06-28 10:45  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: added require on perl-URPM >= 0.05-1mdk
+
+2002-06-28 10:42  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 3.6-3mdk
+
+2002-06-27 16:42  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 3.6-2mdk
+
+2002-06-27 11:48  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.6-1mdk with remove support.
+
+2002-06-25 22:06  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: yet another little fix
+
+2002-06-20 22:35  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: corrected place of comma :)
+
+2002-06-20 11:05  Fançois Pons <fpons@mandrakesoft.com>
+
+	* Makefile, urpmi, urpmi.spec, urpmq, test/bugkernel22.tar.bz2,
+	test/do_alltests: 3.5-8mdk
+
+2002-06-19 15:14  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpmq: 3.5-7mdk
+
+2002-06-18 17:21  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec: 3.5-6mdk
+
+2002-06-17 17:44  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec, urpmq: 3.5-5mdk
+
+2002-06-17 15:05  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec, urpmq: fixed urpmq --headers (for rpmdrake old
+	version)
+
+2002-06-16 03:15  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
+
+	* po/pl.po: fix
+
+2002-06-13 21:53  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec: 3.5-3mdk
+
+2002-06-13 18:20  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec: 3.5-2mdk
+
+2002-06-13 12:49  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi.spec: fixed PreReqs on right version of perl-URPM to use.
+
+2002-06-13 12:44  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.5-1mdk
+
+2002-06-10 15:55  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpmi, urpmi.spec: 3.4-9mdk
+
+2002-06-10 12:04  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec: 3.4-8mdk
+
+2002-06-07 11:51  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 3.4-7mdk
+
+2002-06-07 09:27  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.4-6mdk
+
+2002-06-05 18:03  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 3.4-5mdk
+
+2002-06-05 14:21  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.4-4mdk final.
+
+2002-06-05 12:03  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.spec, urpmq: 3.4-3mdk
+
+2002-06-05 10:26  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi.spec: 3.4-2mdk
+
+2002-06-04 19:33  Fançois Pons <fpons@mandrakesoft.com>
+
+	* Makefile: fix c++ no more compiling :-(
+
+2002-06-04 19:28  Fançois Pons <fpons@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpmi.removemedia, urpmi.spec, urpmq, po/ru.po:
+	big move to perl-URPM, a lot of problem still exists enhanced
+	algorithms must be done too.
+
+2002-06-04 13:40  Fançois Pons <fpons@mandrakesoft.com>
+
+	* man/fr/urpmi.8: fix anglissisme.
+
+2002-06-03 08:26  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/: pl.po, tr.po: updated po file
+
+2002-05-22 22:37  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* ChangeLog: [no log message]
+
+2002-05-13 16:48  Arkadiusz Lipiec <alipiec@elka.pw.edu.pl>
 
 	* po/pl.po: polish finished translation
 
