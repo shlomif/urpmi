@@ -173,19 +173,35 @@ expression to match the fullname of packages too.
 .TP
 .FN /etc/urpmi/inst.list
 Contains package names that should be installed instead of updated.
-.SH SEE ALSO
-\fIurpmi.addmedia\fP(8),
-\fIurpmi.update\fP(8),
-\fIurpmi.removemedia\fP(8),
-\fIgurpmi\fP(8),
-\fIurpmf\fP(8),
-\fIurpmq\fP(8),
-\fIrpmdrake\fP(8)
-.SH AUTHOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (original author)
-.PP
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (current author)
-
+.SH EXIT CODES
+.IP 1
+Command line inconsistency.
+.IP 2
+Problem registering local packages.
+.IP 3
+Source packages not retrievable.
+.IP 4
+Medium is not selected.
+.IP 5
+Medium already exists.
+.IP 6
+Unable to save configuration.
+.IP 7
+Urpmi database locked.
+.IP 8
+Unable to create bug report.
+.IP 9
+Unable to open rpmdb.
+.IP 10
+Some files are missing for installation.
+.IP 11
+Some transactions failed but not all.
+.IP 12
+All transactions failed.
+.IP 13
+Some files are missing and some transactions failed but not all.
+.IP 14
+Some files are missing and all transactions failed.
 .SH BUG REPORTS
 If you find a bug in \fBurpmi\fP please report it using
 .I urpmi --bug bug_name_as_directory ...
@@ -201,8 +217,19 @@ For sending the report, use
 .I tar cvfz bug_name_as_directory.tgz bug_name_as_directory
 and send me (fpons@mandrakesoft.com) it directly with a description of what is
 wrong according to you.
-
 .SH BUGS
 When a package is removed, it may not be replaced with an older version.
 .PP
 There is no good download indicator using \fBwget\fP.
+.SH AUTHOR
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (original author)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (current author)
+.SH SEE ALSO
+\fIurpmi.addmedia\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIgurpmi\fP(8),
+\fIurpmf\fP(8),
+\fIurpmq\fP(8),
+\fIrpmdrake\fP(8)
