@@ -577,7 +577,20 @@ sub update_media {
 		    /^([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
 		    $list{"$medium->{url}/$_"} = ($urpm->{params}{names}{$1} || { id => 1000000000 })->{id};
 		}
-		close F or $error = 1, $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
+		unless (close F) {
+		    if (my @founds = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}")) {
+			#- it appears hdlist file is a synthesis one in fact.
+			#- parse_synthesis returns all full name of package read from it.
+			foreach (@founds) {
+			    /^([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*/;
+			    $list{"$medium->{url}/$_"} = ($urpm->{params}{names}{$1} || { id => 1000000000 })->{id};
+			}
+			$medium->{synthesis} = 1; #- mark hdlist as synthesis in fact.
+		    } else {
+			$error = 1, $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
+			delete $medium->{synthesis}; #- make sure synthesis property is no more set.
+		    }
+		}
 	    }
 
 	    #- check there is something found.
@@ -1252,6 +1265,55 @@ sub filter_packages_to_upgrade {
     $packages;
 }
 
+#- parse synthesis file to retrieve information stored inside.
+sub parse_synthesis {
+    my ($urpm, $synthesis) = @_;
+
+    local (*F, $_);
+    my ($error, @founds, %info);
+    my $update_info = sub {
+	my $found;
+	#- check with provides that version and release are matching else ignore safely.
+	#- simply ignore src rpm, which does not have any provides.
+	$info{name} && $info{provides} or return;
+	foreach (@{$info{provides}}) {
+	    if (/(\S*)\s*==\s*(?:\d+:)?([^-]*)-([^-]*)/ && $info{name} eq $1) {
+		my $pre_fullname = "$1-$2-$3";
+		foreach (@{$urpm->{params}{provides}{$1}}) {
+		    if (/(.*?-[^-]*-[^-]*)\.([^\-\.]*)$/ && $pre_fullname eq $1 && ($found = $urpm->{params}{info}{$_})) {
+			foreach my $tag (keys %info) {
+			    #print STDERR "titi $tag $_, ", join(", ", keys(%$found), values(%$found), 'END'), "\n" if /xterm/;
+			    $found->{$tag} ||= $info{$tag};
+			}
+			push @founds, $_;
+			return 1; #- we have found the right info.
+		    }
+		}
+	    }
+	}
+	$found and return 0;  #- we are sure having found a package but with wrong version or release.
+	#- at this level, nothing in params has been found, this could be an error so
+	#- at least print an error message.
+	$urpm->{log}(_("unknown data associated with %s", $info{name}));
+	return;
+    };
+
+    open F, "gzip -dc '$synthesis' |";
+    while (<F>) {
+	chomp;
+	my ($name, $tag, @data) = split '@';
+	if ($name ne $info{name}) {
+	    $update_info->();
+	    %info = ( name => $name );
+	}
+	$info{$tag} = \@data;
+    }
+    $update_info->();
+    close F or $urpm->{error}(_("unable to parse correctly [%s]", $synthesis)), return;
+
+    @founds;
+}
+
 #- filter minimal list, upgrade packages only according to rpm requires
 #- satisfied, remove upgrade for package already installed or with a better
 #- version, try to upgrade to minimize upgrade errors.
@@ -1276,46 +1338,7 @@ sub filter_minimal_packages_to_upgrade {
 	$pid = fork();
     } else {
 	foreach (@synthesis) {
-	    local *F;
-	    open F, "gzip -dc '$_' |";
-	    local $_;
-	    my %info;
-	    my $update_info = sub {
-		my $found;
-		#- check with provides that version and release are matching else ignore safely.
-		#- simply ignore src rpm, which does not have any provides.
-		$info{name} && $info{provides} or return;
-		foreach (@{$info{provides}}) {
-		    if (/(\S*)\s*==\s*(?:\d+:)?([^-]*)-([^-]*)/ && $info{name} eq $1) {
-			my $pre_fullname = "$1-$2-$3";
-			foreach (@{$urpm->{params}{provides}{$1}}) {
-			    if (/(.*?-[^-]*-[^-]*)\.([^\-\.]*)$/ && $pre_fullname eq $1 && ($found = $urpm->{params}{info}{$_})) {
-				foreach my $tag (keys %info) {
-				    #print STDERR "titi $tag $_, ", join(", ", keys(%$found), values(%$found), 'END'), "\n" if /xterm/;
-				    $found->{$tag} ||= $info{$tag};
-				}
-				return 1; #- we have found the right info.
-			    }
-			}
-		    }
-		}
-		$found and return 0;  #- we are sure having found a package but with wrong version or release.
-		#- at this level, nothing in params has been found, this could be an error so
-		#- at least print an error message.
-		$urpm->{log}(_("unknown data associated with %s", $info{name}));
-		return;
-	    };
-	    while (<F>) {
-		chomp;
-		my ($name, $tag, @data) = split '@';
-		if ($name ne $info{name}) {
-		    $update_info->();
-		    %info = ( name => $name );
-		}
-		$info{$tag} = \@data;
-	    }
-	    $update_info->();
-	    close F;
+	    $urpm->parse_synthesis($_);
 	}
     }
 
@@ -1431,7 +1454,7 @@ sub filter_minimal_packages_to_upgrade {
 				 $provides{$n} ||= undef;
 				 my $check_pkg = sub {
 				     $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
-				     $r and eval(rpmtools::version_compare($_[0]{release}, $v) . $o . 0) || return;
+				     $r and eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
 				     $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
 				 };
 				 rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
@@ -1798,13 +1821,23 @@ sub select_packages_to_upgrade {
 	my $ask_child = sub {
 	    my ($name, $tag, $code) = @_;
 	    $code or die "no callback code for parsehdlist output";
-	    print OUTPUT "$name:$tag\n";
+	    #- check if what is requested is not already available locally (because
+	    #- the hdlist does not exists and the medium is marked as using a
+	    #- synthesis file).
+	    my $p = $urpm->{params}{info}{$name} || $urpm->{params}{names}{$name};
+	    if ($p && $p->{$tag}) {
+		foreach (@{$p->{$tag} || []}) {
+		    $code->($_);
+		}
+	    } else {
+		print OUTPUT "$name:$tag\n";
 
-	    local $_;
-	    while (<INPUT>) {
-		chomp;
-		/^\s*$/ and last;
-		$code->($_);
+		local $_;
+		while (<INPUT>) {
+		    chomp;
+		    /^\s*$/ and last;
+		    $code->($_);
+		}
 	    }
 	};
 

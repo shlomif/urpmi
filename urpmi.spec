@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.0
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -112,6 +112,10 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Nov 12 2001 François Pons <fpons@mandrakesoft.com> 2.0-3mdk
+- added minimal support for updating synthesis file (untested).
+- fixed requires resolution bug (thanks to Borsenkow Andrej).
+
 * Fri Nov  9 2001 François Pons <fpons@mandrakesoft.com> 2.0-2mdk
 - added error message if not root.
 - fixed some removable device bad regexp (to support new format).
