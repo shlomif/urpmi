@@ -14,14 +14,14 @@ msgstr ""
 "Project-Id-Version: urpmi-cs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-27 13:37+0200\n"
-"PO-Revision-Date: 2004-08-19 22:35+0200\n"
+"PO-Revision-Date: 2004-09-07 23:02+0200\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.3.1\n"
-"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
@@ -97,10 +97,9 @@ msgid "   -h|--help      - print this help message.\n"
 msgstr "   -h|--help      - vypíše tuto nápovědu.\n"
 
 #: ../rpm-find-leaves:15
-#, fuzzy, c-format
+#, c-format
 msgid "   --root <path>  - use the given root instead of /\n"
-msgstr ""
-"  --synthesis    - použít daný soubor se syntézou místo databáze urpmi.\n"
+msgstr "   --root <cesta> - použije místo / zadanou cestu\n"
 
 #: ../rpm-find-leaves:16
 #, c-format
@@ -130,8 +129,7 @@ msgstr "nelze zpracovat protokol: %s"
 #: ../urpm.pm:190
 #, c-format
 msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-msgstr ""
-"zdroj \"%s\" bude ignorován, pokouší se použít již použitý soubor hdlist"
+msgstr "zdroj \"%s\" bude ignorován, pokouší se použít již použitý soubor hdlist"
 
 #: ../urpm.pm:191
 #, c-format
@@ -141,8 +139,7 @@ msgstr "zdroj \"%s\" bude ignorován, pokouší se použít již použitý sezna
 #: ../urpm.pm:205
 #, c-format
 msgid "unable to access hdlist file of \"%s\", medium ignored"
-msgstr ""
-"zdroj \"%s\" bude ignorován, protože nelze načíst soubor hdlist pro zdroj"
+msgstr "zdroj \"%s\" bude ignorován, protože nelze načíst soubor hdlist pro zdroj"
 
 #: ../urpm.pm:208 ../urpm.pm:2347
 #, c-format
@@ -709,8 +706,7 @@ msgstr "pro spuštění transakce se použije proces %d"
 
 #: ../urpm.pm:2793
 #, c-format
-msgid ""
-"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgid "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
 "vytvořena transakce pro instalaci na %s (odstranění=%d, instalace=%d, "
 "aktualizace=%d)"
@@ -840,28 +836,23 @@ msgstr "  --auto       - automaticky vybere balíček z výběru.\n"
 
 #: ../urpme:43 ../urpmi:121
 #, c-format
-msgid ""
-"  --test         - verify if the installation can be achieved correctly.\n"
+msgid "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - zkontrolovat, zda lze dokončit instalaci správně.\n"
 
 #: ../urpme:44 ../urpmi:94 ../urpmq:63
 #, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force       - spustí program i v případě, že některé balíčky chybí.\n"
+msgid "  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force       - spustí program i v případě, že některé balíčky chybí.\n"
 
 #: ../urpme:45 ../urpmi:99 ../urpmq:64
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
-msgstr ""
-"  --parallel     - distribuovaný program urpmi na počítačích s přezdívkou.\n"
+msgstr "  --parallel     - distribuovaný program urpmi na počítačích s přezdívkou.\n"
 
 #: ../urpme:46 ../urpmi:100
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr ""
-"  --root         - použít pro instalaci balíčků jiný kořenový adresář.\n"
+msgstr "  --root         - použít pro instalaci balíčků jiný kořenový adresář.\n"
 
 #: ../urpme:47
 #, c-format
@@ -911,8 +902,7 @@ msgstr "Kontrola odebrání následujících balíčků"
 #: ../urpme:106
 #, c-format
 msgid "To satisfy dependencies, the following packages will be removed (%d MB)"
-msgstr ""
-"Aby byly splněny závislosti, budou odebrány následující balíčky (%d MB)"
+msgstr "Aby byly splněny závislosti, budou odebrány následující balíčky (%d MB)"
 
 #: ../urpme:108 ../urpmi:487 ../urpmi:652
 #, c-format
@@ -963,16 +953,13 @@ msgstr "  --excludemedia - nepoužít zadané zdroje, oddělené čárkami.\n"
 
 #: ../urpmf:36 ../urpmi:78 ../urpmq:47
 #, c-format
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr ""
-"  --sortmedia    - třídit zdroje podle podřetězců oddělených čárkami.\n"
+msgid "  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --sortmedia    - třídit zdroje podle podřetězců oddělených čárkami.\n"
 
 #: ../urpmf:37 ../urpmq:48
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr ""
-"  --synthesis    - použít daný soubor se syntézou místo databáze urpmi.\n"
+msgstr "  --synthesis    - použít daný soubor se syntézou místo databáze urpmi.\n"
 
 #: ../urpmf:38
 #, c-format
@@ -1092,8 +1079,7 @@ msgstr "  -i         - ignorují se velká a malá písmena ve všech vzorech.\n
 #: ../urpmf:61 ../urpmq:90
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr ""
-"  -f        - společně se jménem vypíše verzi, vydání a architekturu.\n"
+msgstr "  -f        - společně se jménem vypíše verzi, vydání a architekturu.\n"
 
 #: ../urpmf:62
 #, c-format
@@ -1102,17 +1088,13 @@ msgstr "  -e           - vloží kód Perl přímo jako perl -e.\n"
 
 #: ../urpmf:63
 #, c-format
-msgid ""
-"  -a             - binary AND operator, true if both expression are true.\n"
-msgstr ""
-"  -a             - binární operátor AND, true pokud oba výrazy platí.\n"
+msgid "  -a             - binary AND operator, true if both expression are true.\n"
+msgstr "  -a             - binární operátor AND, true pokud oba výrazy platí.\n"
 
 #: ../urpmf:64
 #, c-format
-msgid ""
-"  -o             - binary OR operator, true if one expression is true.\n"
-msgstr ""
-"  -o             - binární operátor OR, true pokud jeden z výrazů platí.\n"
+msgid "  -o             - binary OR operator, true if one expression is true.\n"
+msgstr "  -o             - binární operátor OR, true pokud jeden z výrazů platí.\n"
 
 #: ../urpmf:65
 #, c-format
@@ -1177,15 +1159,12 @@ msgstr ""
 #: ../urpmi:79
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr ""
-"  --synthesis    - použít daný soubor se syntézou místo databáze urpmi.\n"
+msgstr "  --synthesis    - použít daný soubor se syntézou místo databáze urpmi.\n"
 
 #: ../urpmi:81 ../urpmq:49
 #, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - automaticky vybere balíčky pro aktualizaci systému.\n"
+msgid "  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - automaticky vybere balíčky pro aktualizaci systému.\n"
 
 #: ../urpmi:82
 #, c-format
@@ -1243,8 +1222,7 @@ msgstr ""
 #: ../urpmi:92
 #, c-format
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr ""
-"  --clean        - nejprve odstraní balíčky RPM z vyrovnávací paměti.\n"
+msgstr "  --clean        - nejprve odstraní balíčky RPM z vyrovnávací paměti.\n"
 
 #: ../urpmi:93
 #, c-format
@@ -1411,8 +1389,7 @@ msgstr "  -q           - režim bez výpisů.\n"
 #: ../urpmi:134
 #, c-format
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr ""
-"  názvy nebo soubory RPM zadané na příkazové řádce budou instalovány.\n"
+msgstr "  názvy nebo soubory RPM zadané na příkazové řádce budou instalovány.\n"
 
 #: ../urpmi:141
 #, c-format
@@ -1582,8 +1559,7 @@ msgstr ""
 msgid ""
 "To satisfy dependencies, the following package is going to be installed (%d "
 "MB)"
-msgstr ""
-"Aby byly splněny závislosti, bude nainstalován následující balíček (%d MB)"
+msgstr "Aby byly splněny závislosti, bude nainstalován následující balíček (%d MB)"
 
 #: ../urpmi:523
 #, c-format
@@ -1986,10 +1962,8 @@ msgstr "  --list-url     - vypíše seznam dostupných zdrojů a jejich url.\n"
 
 #: ../urpmq:56
 #, c-format
-msgid ""
-"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
-msgstr ""
-"  --dump-config  - vypíše nastavení ve formě parametru pro urpmi.addmedia.\n"
+msgid "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+msgstr "  --dump-config  - vypíše nastavení ve formě parametru pro urpmi.addmedia.\n"
 
 #: ../urpmq:57
 #, c-format
@@ -2014,8 +1988,7 @@ msgstr ""
 
 #: ../urpmq:62
 #, c-format
-msgid ""
-"  --sources      - give all source packages before downloading (root only).\n"
+msgid "  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
 "  --source     - všechny zdrojové balíčky před stažením (pouze uživatel "
 "root).\n"
@@ -2044,8 +2017,7 @@ msgstr "  -d               - rozšířený dotaz na závislosti balíčku.\n"
 msgid ""
 "  -u             - remove package if a more recent version is already "
 "installed.\n"
-msgstr ""
-"  -u          - odebere balíček pokud je již instalována novější verze.\n"
+msgstr "  -u          - odebere balíček pokud je již instalována novější verze.\n"
 
 #: ../urpmq:80
 #, c-format
@@ -2059,8 +2031,7 @@ msgstr "  -p           - bude hledat balíček v položkách provides.\n"
 
 #: ../urpmq:82
 #, c-format
-msgid ""
-"  -P             - do not search in provides to find package (default).\n"
+msgid "  -P             - do not search in provides to find package (default).\n"
 msgstr "  -P             - nehledá balíček v položkách provides (výchozí).\n"
 
 #: ../urpmq:83
@@ -2076,8 +2047,7 @@ msgstr "  -Y             - jako -y, ale ignoruje velká a malá písmena.\n"
 #: ../urpmq:87
 #, c-format
 msgid "  -i             - print useful information in human readable form.\n"
-msgstr ""
-"  -i             - tisk užitečných informací v člověkem čitelné podobě.\n"
+msgstr "  -i             - tisk užitečných informací v člověkem čitelné podobě.\n"
 
 #: ../urpmq:88
 #, c-format
@@ -2097,8 +2067,7 @@ msgstr "  -l             - vypíše soubory v balíčku.\n"
 #: ../urpmq:92
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
-msgstr ""
-"  jméno nebo rpm soubory zadané na příkazové řádce, které jsou dotazovány.\n"
+msgstr "  jméno nebo rpm soubory zadané na příkazové řádce, které jsou dotazovány.\n"
 
 #: ../urpmq:152
 #, c-format
@@ -2119,3 +2088,4 @@ msgstr "Nebyl nalezen seznam souborů\n"
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nebyl nalezen záznam změn\n"
+
