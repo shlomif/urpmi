@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "POT-Creation-Date: 2002-08-30 17:05+0200\n"
-"PO-Revision-Date: 2002-08-24 18:53+0200\n"
+"PO-Revision-Date: 2002-08-31 14:40+0200\n"
 "Last-Translator: Stefan Siegel <siegel@linux-mandrake.com>\n"
 "Language-Team: German <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -254,7 +254,7 @@ msgstr "Parallel-Handler für folgende Knoten gefunden: %s"
 #: ../urpm.pm_.c:569
 #, c-format
 msgid "using associated media for parallel mode : %s"
-msgstr ""
+msgstr "Verwende assoziiertes Medium für den parallelen Modeus: %s"
 
 #: ../urpm.pm_.c:573
 #, c-format
@@ -391,12 +391,12 @@ msgid "copying source list of \"%s\"..."
 msgstr "Kopiere Quellen-Liste von „%s“..."
 
 #: ../urpm.pm_.c:981
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
 msgstr "Lesen der RPM-Dateien von [%s]"
 
 #: ../urpm.pm_.c:1000
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "Ich kann die RPM-Dateien von [%s] nicht lesen: %s"
 
@@ -561,7 +561,6 @@ msgid "malformed input: [%s]"
 msgstr "Inkorrekte Eingabe: [%s]"
 
 #: ../urpm.pm_.c:1926
-#, fuzzy
 msgid "retrieving rpm files..."
 msgstr "Holen der RPMs ..."
 
@@ -590,19 +589,18 @@ msgid "%s conflicts with %s"
 msgstr "%s steht im Konflikt mit %s."
 
 #: ../urpm/parallel_ka_run.pm_.c:79 ../urpm/parallel_ka_run.pm_.c:112
-#, fuzzy
 msgid "rshp failed"
-msgstr "Wget schlug fehl.\n"
+msgstr "rshp schlug fehl."
 
 #: ../urpm/parallel_ka_run.pm_.c:116 ../urpm/parallel_ssh.pm_.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "Die Installation schlug Fehl"
+msgstr "Die Installation auf Knoten „%s“ schlug Fehl"
 
 #: ../urpm/parallel_ssh.pm_.c:81
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "Auf dem Knoten „%s“ ist nicht die richtige Version von urpmi installiert!"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
@@ -614,12 +612,11 @@ msgstr "Verwendung: urpme [-a] [--auto] <Name> ...\n"
 
 #: ../urpme_.c:111
 msgid "unknown package "
-msgstr "unbekannte(s) Paket(e) "
+msgstr "unbekanntes Paket "
 
 #: ../urpme_.c:111
-#, fuzzy
 msgid "unknown packages "
-msgstr "unbekannte(s) Paket(e) "
+msgstr "unbekannte Pakete "
 
 #: ../urpme_.c:134
 #, c-format
@@ -886,9 +883,8 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - es folgt ein Quellpaket (identisch zu „-s“).\n"
 
 #: ../urpmi_.c:80
-#, fuzzy
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --noclean      - belasse unverwendete RPMs im Cache.\n"
+msgstr "  --clean        - leert zu Begeinn den RPM-Cache.\n"
 
 #: ../urpmi_.c:81
 msgid "  --noclean      - keep rpm not used in cache.\n"
@@ -919,18 +915,18 @@ msgstr ""
 
 #: ../urpmi_.c:87 ../urpmq_.c:64
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
-msgstr ""
+msgstr " --parallel     - verteilter urpmi Aufru auf allen teilnehmenden\n"
+"                  Maschinen.\n"
 
 #: ../urpmi_.c:94
-#, fuzzy
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-"  --bug          - Erstellen eines Fehlerberichts im angegebenen Ordner.\n"
+"  --bug          - Erstellen eines Fehlerberichts im durch das nächste\n"
+"                   Argument angegebenen Ordner.\n"
 
 #: ../urpmi_.c:96
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
@@ -951,17 +947,19 @@ msgstr ""
 "                   X or Text-Modus.\n"
 
 #: ../urpmi_.c:101
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
 msgstr ""
 "  --verify-rpm   - Überprüfung der RPM-Signatur vor der Installation.\n"
+"                   (--no-verify-rpm deaktiviert das Verhalten,\n"
+"                   Voreingestellt: Kontrolle der Signaturen).\n"
 
 #: ../urpmi_.c:103
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+"  --test         - Versuch, ob die Installation korrekt verlaufen wird.\n"
 
 #: ../urpmi_.c:104
 msgid "  -a             - select all matches on command line.\n"
@@ -1123,9 +1121,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Soll ich eine Installation mit Gewalt (--force) versuchen? (j/N) "
 
 #: ../urpmi_.c:560
-#, fuzzy
 msgid "Installation is possible"
-msgstr "Die Installation schlug Fehl"
+msgstr "Die Installation ist möglich"
 
 #: ../urpmi_.c:566
 msgid "everything already installed"
@@ -1188,14 +1185,13 @@ msgid "  --list         - list available packages.\n"
 msgstr "  --list          - Alle verfügbaren Pakete auflisten.\n"
 
 #: ../urpmq_.c:57
-#, fuzzy
 msgid "  --list-media   - list available media.\n"
-msgstr "  --list          - Alle verfügbaren Pakete auflisten.\n"
+msgstr "  --list-media    - Alle verfügbaren Medien auflisten.\n"
 
 #: ../urpmq_.c:58
-#, fuzzy
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr "  --list          - Alle verfügbaren Pakete auflisten.\n"
+msgstr "  --list-nodes    - Alle  für „--parallel“ verfügbaren Knoten\n"
+"                    auflisten.\n"
 
 #: ../urpmq_.c:60
 msgid ""
