@@ -52,26 +52,12 @@ my ($mainw, $mainbox);
 
 #- Gtk2 helper functions
 
-#- Replaces the contents of the main window with the specified box
-#- (avoids popup multiplication)
-sub change_mainw {
-    $mainw->remove($mainbox);
-    ($mainbox) = @_;
-    $mainw->add($mainbox);
-    $mainw->show_all;
-}
-
 sub add_button_box {
     my ($vbox, @buttons) = @_;
     my $hbox = Gtk2::HButtonBox->new;
     $vbox->pack_start($hbox, 0, 0, 0);
     $hbox->set_layout('edge');
     $_->set_alignment(0.5, 0.5), $hbox->add($_) foreach @buttons;
-}
-
-sub sync {
-    $mainw->show;
-    Gtk2->main_iteration while Gtk2->events_pending;
 }
 
 sub new_label {
