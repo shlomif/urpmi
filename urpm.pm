@@ -2592,7 +2592,8 @@ sub copy_packages_of_removable_media {
 	    #- mount everything that might be necessary.
 	    while ($check_notfound->($id, $dir, is_iso($medium->{removable}) || 'removable')) {
 		$options{ask_for_medium} or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
-		$urpm->try_umounting($dir); system("eject", $device);
+		$urpm->try_umounting($dir);
+		system("/usr/bin/eject '$device' 2>/dev/null");
 		$options{ask_for_medium}(remove_internal_name($medium->{name}), $medium->{removable})
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 	    }
@@ -2644,9 +2645,10 @@ sub copy_packages_of_removable_media {
 	}
     }
     foreach my $device (keys %removables) {
-	#- here we have only removable device.
-	#- if more than one media use this device, we have to sort
-	#- needed package to copy first the needed rpm files.
+	next if $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
+	#- Here we have only removable devices.
+	#- If more than one media uses this device, we have to sort
+	#- needed packages to copy the needed rpm files.
 	if (@{$removables{$device}} > 1) {
 	    my @sorted_media = sort { values %{$list->[$a]} <=> values %{$list->[$b]} } @{$removables{$device}};
 
