@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -177,6 +177,11 @@ fi
 
 
 %changelog
+* Thu Aug 29 2002 François Pons <fpons@mandrakesoft.com> 4.0-8mdk
+- added --parallel option to urpmq.
+- allowed test upgrade in parallel mode.
+- improved first choices in parallel mode a little.
+
 * Wed Aug 28 2002 François Pons <fpons@mandrakesoft.com> 4.0-7mdk
 - added --list-media to urpmq.
 - fixed old package not upgraded.

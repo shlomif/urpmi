@@ -13,10 +13,29 @@ sub parallel_resolve_dependencies {
     my $line = $options{auto_select} ? ' --auto-select' : '';
     foreach (keys %$requested) {
 	if (/\|/) {
+	    #- taken from URPM::Resolve to filter out choices, not complete though.
+	    my $packages = $urpm->find_candidate_packages($_);
+	    foreach (values %$packages) {
+		my ($best_requested, $best);
+		foreach (@$_) {
+		    exists $state->{selected}{$_->id} and $best_requested = $_, last;
+		    exists $avoided{$_->name} and next;
+		    if ($best_requested || exists $requested{$_->id}) {
+			if ($best_requested && $best_requested != $_) {
+			    $_->compare_pkg($best_requested) > 0 and $best_requested = $_;
+			} else {
+			    $best_requested = $_;
+			}
+		    } elsif ($best && $best != $_) {
+			$_->compare_pkg($best) > 0 and $best = $_;
+		    } else {
+			$best = $_;
+		    }
+		}
+		$_ = $best_requested || $best;
+	    }
 	    #- simplified choices resolution.
-	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { /^\d+$/ ?
-										      $urpm->{depslist}[$_] :
-											$urpm->search($_) } split '\|', $_ ]);
+	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ values %$packages ]);
 	    $line .= ' '.$choice->fullname;
 	} else {
 	    my $pkg = $urpm->{depslist}[$_] or next;
@@ -42,10 +61,15 @@ sub parallel_resolve_dependencies {
 		#- or continue iteration to make sure no more choices are left.
 		$cont ||= 1; #- invalid transitory state (still choices is strange here if next sentence is not executed).
 		unless (grep { exists $chosen{$_} } split '\|', $_) {
-		    #- it has not yet been chosen so need to ask user.
-		    $cont = 2;
 		    my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { $urpm->search($_) } split '\|', $_ ]);
-		    $chosen{scalar $choice->fullname} = $choice;
+		    if ($choice) {
+			$chosen{scalar $choice->fullname} = $choice;
+			#- it has not yet been chosen so need to ask user.
+			$cont = 2;
+		    } else {
+			#- no choices resolved, so forget it (no choices means no choices at all).
+			$cont = 0;
+		    }
 		}
 	    } else {
 		my $pkg = $urpm->search($_) or next; #TODO

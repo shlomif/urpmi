@@ -1,10 +1,10 @@
 package urpm;
 
 use strict;
-use vars qw($VERSION @ISA);
+use vars qw($VERSION);
+use base 'URPM';
 
 $VERSION = '4.0';
-@ISA = qw(URPM);
 
 =head1 NAME
 
@@ -1635,6 +1635,8 @@ sub search_packages {
 sub resolve_dependencies {
     my ($urpm, $state, $requested, %options) = @_;
 
+    require URPM::Resolve;
+
     if ($urpm->{parallel_handler}) {
 	#- let each node determine what is requested, according to handler given.
 	$urpm->{parallel_handler}->parallel_resolve_dependencies("$urpm->{cachedir}/partial/parallel.cz", @_);
@@ -1652,7 +1654,6 @@ sub resolve_dependencies {
 	local $SIG{INT} = $sig_handler;
 	local $SIG{QUIT} = $sig_handler;
 
-	require URPM::Resolve;
 	#- auto select package for upgrading the distribution.
 	$options{auto_select} and $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
 

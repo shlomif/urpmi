@@ -60,6 +60,7 @@ usage:
                    stdout (root only).
 ") . _("  --sources      - give all source packages before downloading (root only).
 ") . _("  --force        - force invocation even if some packages do not exist.
+") . _("  --parallel     - distributed urpmi accross machines of alias.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
 ") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
@@ -91,6 +92,7 @@ for (@ARGV) {
     /^--sources$/ and do { $query->{sources} = 1; next };
     /^--force$/ and do { $query->{force} = 1; next };
     /^--root$/ and do { push @nextargv, \$query->{root}; next };
+    /^--parallel$/ and do { push @nextargv, \$query->{parallel}; next };
     /^--wget$/ and do { $urpm->{sync} = sub { my $options = shift @_;
 					      if (ref $options) { $options->{prefer} = 'wget' }
 					      else { $options = { dir => $options, prefer => 'wget' } }
@@ -143,6 +145,8 @@ $urpm->configure(nocheck_access => 1,
 		 media => $query->{media},
 		 synthesis => $query->{synthesis},
 		 update => $query->{update},
+		 root => $query->{root},
+		 parallel => $query->{parallel},
 		);
 
 my $state = {};
@@ -252,7 +256,7 @@ my $query_sub = sub {
 my %hack_only_one;
 foreach my $id ($state->{selected} ? keys %{$state->{selected}} : keys %requested) {
     my $class = $state->{selected}{$id} || $requested{$id};
-    if (ref $class) {
+    if (ref $class eq 'ARRAY') {
 	foreach my $choices (@{$class || []}) {
 	    exists $hack_only_one{$choices} and next;
 	    print join('|', map { $query_sub->($_) } @$choices), "\n";

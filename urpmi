@@ -498,7 +498,8 @@ if (%sources_install || %sources) {
 	message(_("distributing %s\n", join(' ', values %sources_install, values %sources)));
 	#- no remove are handle here, automatically done by each distant node.
 	$urpm->{log}("starting distributed install");
-	$urpm->parallel_install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources);
+	$urpm->parallel_install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
+				test => $test);
     } else {
 	message(_("installing %s\n", join(' ', values %sources_install, values %sources)));
 	log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
