@@ -147,6 +147,7 @@ fi
 * Tue Aug 13 2002 François Pons <fpons@mandrakesoft.com> 3.9-8mdk
 - fixed development log still done for progression status, now
   removed.
+- ignore noauto: hdlists flags.
 
 * Mon Aug 12 2002 François Pons <fpons@mandrakesoft.com> 3.9-7mdk
 - fixed --auto not taken into account for removing or unselecting
