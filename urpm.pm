@@ -1443,13 +1443,13 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 
 		    -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
-		      $error = 1, $urpm->{error}(N("copy of [%s] failed", $with_hdlist_dir));
+		      $error = 1, $urpm->{error}(N("copy of [%s] failed (file is suspectingly small)", $with_hdlist_dir));
 
 		    #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
 		    if (!$error && $retrieved_md5sum) {
 			$urpm->{log}(N("computing md5sum of copied source hdlist (or synthesis)"));
 			(split ' ', `md5sum '$urpm->{cachedir}/partial/$medium->{hdlist}'`)[0] eq $retrieved_md5sum or
-			  $error = 1, $urpm->{error}(N("copy of [%s] failed", $with_hdlist_dir));
+			  $error = 1, $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", $with_hdlist_dir));
 		    }
 
 		    #- check if the file are equals... and no force copy...
