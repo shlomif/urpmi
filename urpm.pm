@@ -556,47 +556,40 @@ sub update_media {
 	    #- cleaning.
 	    $urpm->{params}->clean();
 
-	    #- if a provides exists, try to use it to speed up process
-	    #- but this is not mandatory here.
-	    if (-r $urpm->{provides}) {
-		local *F;
-		open F, $urpm->{provides} or $urpm->{error}("unable to read provides file [$urpm->{provides}]"), return;
-		$urpm->{params}->read_provides_files(\*F);
-		close F;
-		$urpm->{log}("read (only files) provides file [$urpm->{provides}]");
+	    push @{$urpm->{params}{flags}}, 'sense'; #- make sure to enable sense flags.
+	    foreach my $medium (@{$urpm->{media}}) {
+		$medium->{ignore} and next;
+		$urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
+		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
+		eval {
+		    local *F;
+		    open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
+		    foreach my $p (values %{$urpm->{params}{info}}) {
+			foreach (qw(provides requires)) {
+			    @{$p->{$_} || []} > 0 and
+			      print F "$p->{name}\@$_\@" . join('@', map { s/\[\*\]//g; s/\[(.*)\]/ $1/g; $_ } @{$p->{$_}}) . "\n";
+			}
+		    }
+		    close F or die "unable to use gzip for compressing hdlist synthesis";
+		};
+		if ($@) {
+		    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+		    $urpm->{error}("unable to build synthesis file for medium \"$medium->{name}\": $@");
+		} else {
+		    $urpm->{log}("built hdlist synthesis file for medium \"$medium->{name}\"");
+		}
+		$urpm->{params}{info} = {}; #- avoid polluting next hdlist synthesis file!
 	    }
+	    pop @{$urpm->{params}{flags}}; #- remove added sense flags.
 
-	    #- compute depslist after reading each hdlist of medium
-	    #- in the right order.
+	    $urpm->{log}("keeping only provides files");
+	    $urpm->{params}->keep_only_cleaned_provides_files();
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
 		$urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
 		$urpm->{log}("computing dependancy");
 		$urpm->{params}->compute_depslist();
-	    }
-
-	    #- there has been a problem with provides not resolved on files, there
-	    #- must be at least 2 linked pass on the whole process.
-	    if ($urpm->{params}->get_unresolved_provides_files() > 0) {
-		$urpm->{log}("found unresolved provides on files, cleaning and recomputing dependancy");
-		#- cleaning.
-		$urpm->{params}->clean();
-
-		foreach my $medium (@{$urpm->{media}}) {
-		    $medium->{ignore} and next;
-		    $urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
-		    $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
-		}
-		$urpm->{log}("keeping only provides files");
-		$urpm->{params}->keep_only_cleaned_provides_files();
-		foreach my $medium (@{$urpm->{media}}) {
-		    $medium->{ignore} and next;
-		    $urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
-		    $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
-		    $urpm->{log}("computing dependancy");
-		    $urpm->{params}->compute_depslist();
-		}
 	    }
 
 	    #- once everything has been computed, write back the files to
@@ -967,9 +960,34 @@ sub filter_minimal_packages_to_upgrade {
     #- make a subprocess here for reading filelist, this is important
     #- not to waste a lot of memory for the main program which will fork
     #- latter for each transaction.
-    local (*INPUT, *OUTPUT_CHILD); pipe INPUT, OUTPUT_CHILD;
-    local (*INPUT_CHILD, *OUTPUT); pipe INPUT_CHILD, OUTPUT;
-    if (my $pid = fork()) {
+    local (*INPUT, *OUTPUT_CHILD);
+    local (*INPUT_CHILD, *OUTPUT);
+    my $pid = 1;
+
+    #- try to figure out if parsehdlist need to be called,
+    #- or we have to use synthesis file.
+    my @synthesis = map { "$urpm->{statedir}/synthesis.$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media}};
+    if (grep { ! -r $_ || ! -s $_ } @synthesis) {
+	$urpm->{log}("unable to find all synthesis file, using parsehdlist server");
+	pipe INPUT, OUTPUT_CHILD;
+	pipe INPUT_CHILD, OUTPUT;
+	$pid = fork();
+    } else {
+	foreach (@synthesis) {
+	    local *F;
+	    open F, "gzip -dc '$_' |";
+	    local $_;
+	    while (<F>) {
+		chomp;
+		my ($name, $tag, @data) = split '@';
+		$urpm->{params}{info}{$name} or die "unknown data associated with $name";
+		$urpm->{params}{info}{$name}{$tag} = \@data;
+	    }
+	    close F;
+	}
+    }
+
+    if ($pid) {
 	close INPUT_CHILD;
 	close OUTPUT_CHILD;
 	select((select(OUTPUT), $| = 1)[0]);
@@ -980,13 +998,20 @@ sub filter_minimal_packages_to_upgrade {
 	my $ask_child = sub {
 	    my ($name, $tag, $code) = @_;
 	    $code or die "no callback code for parsehdlist output";
-	    print OUTPUT "$name:$tag\n";
+	    if ($pid == 1) {
+		$urpm->{params}{info}{$name} or $name =~ s/(.*)-[^-]+-[^-]+$/$1/;
+		foreach (@{$urpm->{params}{info}{$name}{$tag} || []}) {
+		    $code->($_);
+		}
+	    } else {
+		print OUTPUT "$name:$tag\n";
 
-	    local $_;
-	    while (<INPUT>) {
-		chomp;
-		/^\s*$/ and last;
-		$code->($_);
+		local $_;
+		while (<INPUT>) {
+		    chomp;
+		    /^\s*$/ and last;
+		    $code->($_);
+		}
 	    }
 	};
 
@@ -1118,9 +1143,11 @@ sub filter_minimal_packages_to_upgrade {
 	rpmtools::db_close($db);
 
 	#- no need to still use the child as this point, we can let him to terminate.
-	close OUTPUT;
-	close INPUT;
-	waitpid $pid, 0;
+	if ($pid > 1) {
+	    close OUTPUT;
+	    close INPUT;
+	    waitpid $pid, 0;
+	}
     } else {
 	close INPUT;
 	close OUTPUT;
