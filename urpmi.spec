@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 13mdk
+Release: 14mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,13 @@ $urpm->update_media;
 
 
 %changelog
+* Fri Jun 13 2003 François Pons <fpons@mandrakesoft.com> 4.3-14mdk
+- added key_ids global and per media option to list authorized
+  key ids.
+- improved signature checking by sorting packages list and give
+  reason as well as signature results (may be hard to read but
+  very fine for instance).
+
 * Thu Jun  5 2003 François Pons <fpons@mandrakesoft.com> 4.3-13mdk
 - added patch from Michaël Scherer to add --no-uninstall
   (or --no-remove) and assume no by default when asking to
