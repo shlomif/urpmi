@@ -130,7 +130,7 @@ exit 0
 use urpm;
 $urpm = new urpm;
 $urpm->read_config;
-$urpm->update_media(nolock => 1);
+$urpm->update_media(nolock => 1, nopubkey => 1);
 
 #%preun -n autoirpm
 #[ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
@@ -204,6 +204,7 @@ $urpm->update_media(nolock => 1);
 %changelog
 * Tue Aug 19 2003 François Pons <fpons@mandrakesoft.com> 4.4-22mdk
 - fixed MD5SUM and pubkey management for local media.
+- fixed post deadlock with rpm < 4.2.
 
 * Mon Aug 11 2003 François Pons <fpons@mandrakesoft.com> 4.4-21mdk
 - added -a flag for urpmq (so that urpmq -a -y -r will do what
