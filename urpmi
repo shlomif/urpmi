@@ -390,13 +390,17 @@ if (@src_names) {
 sub ask_choice {
     my ($urpm, $db, $state, $choices) = @_;
     my $n = 1; #- default value.
-    my (@l) = map { scalar $_->fullname } @$choices;
+    my (@l) = map {
+	(scalar $_->fullname)
+	. ($_->flag_installed ? ' (to upgrade)' : '')
+	. ($_->flag_upgrade   ? ' (to install)' : '')
+    } @$choices;
 
     if (@l > 1 && !$urpm->{options}{auto}) {
 	my $msg = N("One of the following packages is needed:");
 	if ($urpm::args::options{X}) {
 	    system(qq(gchooser "$msg" @l));
-	    $n = $? >> 8 || die;
+	    $n = $? >> 8 or die "\n";
 	} else {
 	    message($msg);
 	    my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
