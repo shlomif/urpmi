@@ -9,7 +9,7 @@ Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-3mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-6mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -196,7 +196,14 @@ fi
 
 
 %changelog
-* Fri Aug 30 2002 Frederic Crozat <fcrozat@mandrakesoft.com> 4.0-10mdk
+* Fri Aug 30 2002 François Pons <fpons@mandrakesoft.com> 4.0-10mdk
+- fixed cache management (there could exist some files left in cache
+  which were never deleted).
+- added default cache management to post-clean (remove files of
+  package correctly installed), it is still possible to keep old
+  behaviour with "--pre-clean --no-post-clean".
+- added --clean options to urpmi to clean cache completely.
+- improved urpme to no more use rpm executable.
 - (fcrozat) Move gurpmi to /usr/sbin and add consolehelper support for it 
   and register it to handle application/x-rpm mimetype.
 

@@ -1710,7 +1710,7 @@ sub deselect_unwanted_packages {
 #- match exactly the number of medium registered, ignored medium always
 #- have a null list.
 sub get_source_packages {
-    my ($urpm, $packages) = @_;
+    my ($urpm, $packages, %options) = @_;
     my ($id, $error, %local_sources, @list, @local_to_removes, %fullname2id, %file2fullnames);
     local (*D, *F, $_);
 
@@ -1734,7 +1734,8 @@ sub get_source_packages {
     opendir D, "$urpm->{cachedir}/rpms";
     while (defined($_ = readdir D)) {
 	if (/([^\/]*)\.rpm/) {
-	    if (-s "$urpm->{cachedir}/rpms/$1.rpm") {
+	    if (!$options{clean} && -s "$urpm->{cachedir}/rpms/$1.rpm") {
+		#print STDERR "looking at $urpm->{cachedir}/rpms/$1.rpm\n";
 		if (keys(%{$file2fullnames{$1} || {}}) > 1) {
 		    $urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $1);
 		    next;
@@ -1745,9 +1746,13 @@ sub get_source_packages {
 		    } else {
 			push @local_to_removes, "$urpm->{cachedir}/rpms/$1.rpm";
 		    }
+		} else {
+		    push @local_to_removes, "$urpm->{cachedir}/rpms/$1.rpm";
 		}
 	    } else {
 		#- this is an invalid file in cache, remove it and ignore it.
+		#- or clean options has been given meaning ignore any file in cache
+		#- remove it too.
 		unlink "$urpm->{cachedir}/rpms/$1.rpm";
 	    }
 	} #- no error on unknown filename located in cache (because .listing)
@@ -1991,7 +1996,7 @@ sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
     my $trans = $db->create_transaction($urpm->{root});
-    my @l;
+    my (@l, %file2pkg);
     local *F;
 
     foreach (@$remove) {
@@ -1999,11 +2004,13 @@ sub install {
     }
     foreach (keys %$install) {
 	my $pkg = $urpm->{depslist}[$_];
+	$file2pkg{$install->{$_}} = $pkg;
 	$pkg->update_header($install->{$_});
 	$trans->add($pkg, 0) or $urpm->{error}(_("unable to install package %s", $install->{$_}));
     }
     foreach (keys %$upgrade) {
 	my $pkg = $urpm->{depslist}[$_];
+	$file2pkg{$upgrade->{$_}} = $pkg;
 	$pkg->update_header($upgrade->{$_});
 	$trans->add($pkg, 1) or $urpm->{error}(_("unable to install package %s", $upgrade->{$_}));
     }
@@ -2034,6 +2041,20 @@ sub install {
 	$options{callback_trans} ||= \&install_logger;
     }
     @l = $trans->run($urpm, %options);
+
+    #- examine the local repository to delete package which have been installed.
+    if ($options{post_clean_cache}) {
+	foreach (keys %$install, keys %$upgrade) {
+	    my $pkg = $urpm->{depslist}[$_];
+	    $db->traverse_tag('name', [ $pkg->name ], sub {
+				  my ($p) = @_;
+				  $p->fullname eq $pkg->fullname or return;
+				  unlink "$urpm->{cachedir}/rpms/".$pkg->filename;
+			      });
+	}
+    }
+
+    @l;
 }
 
 #- install all files to node as remembered according to resolving done.
