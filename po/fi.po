@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fi - MDK Release 9.1\n"
 "POT-Creation-Date: 2002-12-19 13:14+0100\n"
-"PO-Revision-Date: 2002-12-01 03:03+0200\n"
+"PO-Revision-Date: 2002-12-20 04:28+0200\n"
 "Last-Translator: Thomas Backlund <thomas.backlund@inritel.com>\n"
 "Language-Team: Finnish <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -595,12 +595,12 @@ msgstr "%s on ristiriidassa %s kanssa"
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
 #: ../urpm/parallel_ka_run.pm_.c:178
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput epäonnistui, ehkä joku noodi ei vastaa"
 
 #: ../urpm/parallel_ka_run.pm_.c:65 ../urpm/parallel_ka_run.pm_.c:163
 #: ../urpm/parallel_ka_run.pm_.c:192
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp epäonnistui, ehkä joku noodi ei vastaa"
 
 #: ../urpm/parallel_ka_run.pm_.c:74 ../urpm/parallel_ssh.pm_.c:78
 #, c-format
@@ -619,14 +619,14 @@ msgstr "Asennus  on mahdollinen"
 
 #: ../urpm/parallel_ssh.pm_.c:11 ../urpm/parallel_ssh.pm_.c:95
 #: ../urpm/parallel_ssh.pm_.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "scp failed on host %s"
-msgstr "Asennus epäonnistui noodissa %s"
+msgstr "scp epäonnistui verkkoasemalla %s"
 
 #: ../urpm/parallel_ssh.pm_.c:167
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr "verkkoasemalla %s ei ole hyvä urpmi versio "
+msgstr "verkkoasemalla %s ei ole oikea urpmi versio "
 
 #: ../urpme_.c:39
 #, c-format
@@ -706,9 +706,8 @@ msgid ""
 msgstr "Riippuvuuksien täyttämiseksi seuraavat paketit poistetaan (%d Mt)"
 
 #: ../urpme_.c:113
-#, fuzzy
 msgid "Removing failed"
-msgstr "...kopiointi epäonnistui"
+msgstr "Poistaminen epäonnistui"
 
 #. Translator: The URI types strings 'file:', 'ftp:', 'http:',
 #. Translator: and 'removable:' must not be translated!
@@ -988,6 +987,7 @@ msgstr ""
 #: ../urpmi_.c:84
 msgid "  --install-src  - install only source package (no binaries).\n"
 msgstr ""
+"  --install-src   - asenna ainoastaan lähdekoodipaketit (ei binäärejä).\n"
 
 #: ../urpmi_.c:85
 msgid "  --clean        - remove rpm from cache before anything else.\n"
@@ -1058,11 +1058,10 @@ msgstr ""
 "                    (--no-verify-rpm poistaa käytöstä, vakiona käytössä).\n"
 
 #: ../urpmi_.c:109
-#, fuzzy
 msgid "  --excludepath  - exclude path separated by comma.\n"
 msgstr ""
-"  --media         - käytä ainoastaan seuraava(t) media(t) pilkulla "
-"erotettuina.\n"
+"  --excludepath   - jätä asentamatta suraaviin hakemistoihin\n"
+"                    (hakemistot pikulla erotettuna)\n"
 
 #: ../urpmi_.c:110
 msgid "  -a             - select all matches on command line.\n"
@@ -1110,7 +1109,7 @@ msgstr ""
 
 #: ../urpmi_.c:214
 msgid "What can be done with binary rpm files when using --install-src"
-msgstr ""
+msgstr "Mitä voidaan tehdä binääri rpm-tiedostolla kun käytetään --install-src"
 
 #: ../urpmi_.c:222
 #, c-format
@@ -1120,7 +1119,7 @@ msgstr "Hakemiston [%s] luominen virheraportille ei onnistu"
 #: ../urpmi_.c:236
 #, c-format
 msgid "using specific environment on %s\n"
-msgstr ""
+msgstr "käytetään määrätty ympäristö kohteessa %s\n"
 
 #: ../urpmi_.c:247
 msgid "Only superuser is allowed to install packages"
@@ -1208,13 +1207,14 @@ msgid " (y/N) "
 msgstr " (k/E) "
 
 #: ../urpmi_.c:506
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
 "%s\n"
 "You may want to update your urpmi database"
 msgstr ""
-"Asennus epäonnistui, joitakin paketteja puuttuu.\n"
+"Asennus epäonnistui, joitakin paketteja puuttuvat:\n"
+"%s\n"
 "Sinun kannattaisi päivittää urpmi tietokantaa"
 
 #: ../urpmi_.c:515 ../urpmi_.c:546 ../urpmi_.c:555 ../urpmi_.c:570
@@ -1301,10 +1301,8 @@ msgstr ""
 "  -u             - poista paketti jos uudempi versio on jo asennettu.\n"
 
 #: ../urpmq_.c:65
-#, fuzzy
 msgid "  -c             - complete output with package to removes.\n"
-msgstr ""
-"                    merkintää annettu komentorivillä ilman pakettinimiä)."
+msgstr "  -c              - täydellinen tuloste poistettavasta paketista.\n"
 
 #: ../urpmq_.c:67
 msgid "  -R             - reverse search to what requires package.\n"
