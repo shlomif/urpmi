@@ -2888,7 +2888,7 @@ sub find_packages_to_remove {
 
 		push @notfound, $_;
 	    }
-	    if (@notfound && ($options{auto} || @$l > 1)) {
+	    if (@notfound && @$l > 1) {
 		$options{callback_notfound} and $options{callback_notfound}->($urpm, @notfound)
 		  or return ();
 	    }
