@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 39mdk
+Release: 40mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -111,6 +111,11 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed May 30 2001 François Pons <fpons@mandrakesoft.com> 1.5-40mdk
+- avoid including bad rpm filename or with src arch.
+- make sure not to reference basesystem if it does not exists.
+- fixed --auto to avoid user intervention.
+
 * Tue May 29 2001 François Pons <fpons@mandrakesoft.com> 1.5-39mdk
 - fixed broken dependancies.
 
