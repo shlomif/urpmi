@@ -1,30 +1,47 @@
-%define group System/Configuration/Packaging
+%define name	urpmi
+%define version	4.4
+%define release	42mdk
+%define group	System/Configuration/Packaging
 
-Name: urpmi
-Version: 4.4
-Release: 41mdk
-License: GPL
-Source0: %{name}.tar.bz2
-Source1: %{name}.logrotate
-Summary: User mode rpm install
-URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
-Requires: eject webfetch gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.94
-BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
-BuildRoot: %{_tmppath}/%{name}-buildroot
-BuildArch: noarch
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
+Group:		%{group}
+License:	GPL
+Source0:	%{name}.tar.bz2
+Source1:	%{name}.logrotate.bz2
+Source2:	%{name}.bash-completion.bz2
+Summary:	User mode rpm install
+URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
+Requires:	eject
+Requires:	webfetch
+Requires:	gnupg
+PreReq:		perl-Locale-gettext >= 1.01-7mdk
+PreReq:		rpmtools >= 4.3-6mdk
+PreReq:		perl-URPM >= 0.94
+BuildRequires:	bzip2-devel
+BuildRequires:	gettext
+BuildRequires:	rpm-devel >= 4.0.3
+BuildRequires:	perl-MDK-Common-devel
+BuildRoot:	%{_tmppath}/%{name}-buildroot
+BuildArch:	noarch
 
-Group: %{group}
 %description
 urpmi takes care of dependencies between rpms, using a pool (or pools) of rpms.
 
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
-Summary: User mode rpm GUI install
-Requires: urpmi >= %{version}-%{release} drakxtools gchooser gmessage usermode menu
-Group: %{group}
-Obsoletes: grpmi
+Summary:	User mode rpm GUI install
+Requires:	urpmi >= %{version}-%{release}
+Requires:	drakxtools
+Requires:	gchooser
+Requires:	gmessage
+Requires:	usermode
+Requires:	menu
+Group:		%{group}
+Obsoletes:	grpmi
+
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
 
@@ -37,23 +54,29 @@ gurpmi is a graphical front-end to urpmi
 #Auto install of rpm on demand
 
 %package -n urpmi-parallel-ka-run
-Summary: Parallel extensions to urpmi using ka-run
-Requires: urpmi >= %{version}-%{release} ka-run >= 2.0-15mdk
-Group: %{group}
+Summary:	Parallel extensions to urpmi using ka-run
+Requires:	urpmi >= %{version}-%{release}
+Requires:	ka-run >= 2.0-15mdk
+Group:		%{group}
+
 %description -n urpmi-parallel-ka-run
 urpmi-parallel-ka-run is an extensions module to urpmi for handling
 distributed installation using ka-run tools.
 
 %package -n urpmi-parallel-ssh
-Summary: Parallel extensions to urpmi using ssh and scp
-Requires: urpmi >= %{version}-%{release} openssh-clients
-Group: %{group}
+Summary:	Parallel extensions to urpmi using ssh and scp
+Requires:	urpmi >= %{version}-%{release}
+Requires:	openssh-clients
+Group:		%{group}
+
 %description -n urpmi-parallel-ssh
 urpmi-parallel-ssh is an extensions module to urpmi for handling
 distributed installation using ssh and scp tools.
 
 %prep
 %setup -q -n %{name}
+bzcat %{SOURCE1} > %{name}.logrotate
+bzcat %{SOURCE2} > %{name}.bash-completion
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -93,8 +116,13 @@ pod2man urpm.pm >$RPM_BUILD_ROOT%{_mandir}/man3/urpm.3
 
 mv -f $RPM_BUILD_ROOT%{_bindir}/rpm-find-leaves $RPM_BUILD_ROOT%{_bindir}/urpmi_rpm-find-leaves
 
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/urpmi
+# logrotate
+install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
+install -m 644 %{name}.logrotate $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/%{name}
+
+# bash completion
+install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d
+install -m 644 %{name}.bash-completion $RPM_BUILD_ROOT%{_sysconfdir}/bash_completion.d/%{name}
 
 mkdir -p $RPM_BUILD_ROOT%{_menudir}
 cat << EOF > $RPM_BUILD_ROOT%{_menudir}/gurpmi
@@ -152,6 +180,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %config(noreplace) /etc/urpmi/skip.list
 %config(noreplace) /etc/urpmi/inst.list
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%config(noreplace) %{_sysconfdir}/bash_completion.d/%{name}
 %{_bindir}/urpmi_rpm-find-leaves
 %{_bindir}/urpmf
 %{_bindir}/urpmq
@@ -200,8 +229,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %doc urpm/README.ssh
 %{perl_vendorlib}/urpm/parallel_ssh.pm
 
-
 %changelog
+* Wed Nov 05 2003 Guillaume Rousse <guillomovitch@linux-mandrake.com> 4.4-42mdk
+- added bash-completion
+- spec cleanup
+- bziped additional sources
+
 * Thu Oct 30 2003 François Pons <fpons@mandrakesoft.com> 4.4-41mdk
 - added the Erwan feature (update rpm, perl-URPM or urpmi first and
   restart urpmi in such case).
