@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.1
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -129,6 +129,10 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed Nov 28 2001 François Pons <fpons@mandrakesoft.com> 2.1-5mdk
+- fixed URL with trailing slashes.
+- added download log.
+
 * Wed Nov 28 2001 François Pons <fpons@mandrakesoft.com> 2.1-4mdk
 - fixed incovation of sync method even when no files to sync.
 - fixed urpmq option management (-m|-M equ -du but necessary by default).

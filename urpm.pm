@@ -284,6 +284,11 @@ sub probe_medium {
 	    $urpm->{error}(_("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
 	}
     }
+
+    #- clear URLs for trailing /es.
+    $medium->{url} =~ s|(.*?)/*$|$1|;
+    $medium->{clear_url} =~ s|(.*?)/*$|$1|;
+
     $medium;
 }
 
@@ -325,6 +330,9 @@ sub add_medium {
     }
     $medium and $urpm->{fatal}(5, _("medium \"%s\" already exists", $medium->{name}));
 
+    #- clear URLs for trailing /es.
+    $url =~ s|(.*?)/*$|$1|;
+
     #- creating the medium info.
     $medium = { name     => $name,
 		url      => $url,
@@ -335,7 +343,7 @@ sub add_medium {
 	      };
 
     #- check to see if the medium is using file protocol or removable medium.
-    if (my ($prefix, $dir) = $url =~ /^(removable_?[^_:]*|file):\/(.*)/) {
+    if (my ($prefix, $dir) = $url =~ /^(removable_?[^:]*|file):\/(.*)/) {
 	#- the directory given does not exist or may be accessible
 	#- by mounting some other. try to figure out these directory and
 	#- mount everything necessary.
@@ -536,7 +544,12 @@ sub update_media {
 				"$urpm->{statedir}/descriptions.$medium->{name}",
 				"$urpm->{cachedir}/partial/descriptions");
 	    }
-	    eval { $urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/../descriptions") };
+	    eval {
+		$urpm->{log}(_("retrieving description file..."));
+		$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/../descriptions");
+		$urpm->{log}(_("...retrieving done"));
+	    };
+	    $@ and $urpm->{log}(_("...retrieving failed"));
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
 		rename("$urpm->{cachedir}/partial/descriptions",
 		       "$urpm->{statedir}/descriptions.$medium->{name}") or
@@ -554,7 +567,12 @@ sub update_media {
 		$options{force} >= 2 || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
 		  system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 	    }
-	    eval { $urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}") };
+	    eval {
+		$urpm->{log}(_("retrieving source hdlist (or synthesis)..."));
+		$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
+		$urpm->{log}(_("...retrieving done"));
+	    };
+	    $@ and $urpm->{log}(_("...retrieving failed"));
 	    -s "$urpm->{cachedir}/partial/$basename" or
 	      $error = 1, $urpm->{error}(_("retrieve of [%s] failed", "<source_url>/$medium->{with_hdlist}"));
 	    unless ($error) {
@@ -1673,7 +1691,15 @@ sub upload_source_packages {
 	    }
 	}
     }
-    @distant_sources and eval { $urpm->{sync}("$urpm->{cachedir}/rpms", @distant_sources) };
+    @distant_sources and eval {
+	$urpm->{log}(_("retrieving rpms files..."));
+	foreach (map { m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| ? "$1xxxx$2" : $_ } @distant_sources) {
+	    $urpm->{log}("    $_") ;
+	}
+	$urpm->{sync}("$urpm->{cachedir}/rpms", @distant_sources);
+	$urpm->{log}(_("...retrieving done"));
+    };
+    $@ and $urpm->{log}(_("...retrieving failed"));
 
     #- return the hash of rpm file that have to be installed, they are all local now.
     %$local_sources, %sources;
