@@ -5,13 +5,17 @@ urpmq \- urpmi database query tool.
 .SH SYNOPSIS
 .B urpmq [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
-urpmq allows querying the urpmi database. It is for you if want to list
-available packages in the various media of urpmi, or list dependencies of
-packages, or packages that will be installed if you start urpmi.
+urpmq is a tool to the urpmi database. It can be used to list available
+packages in the various urpmi media, or to list the full dependencies of a
+package, or to list the packages that will be installed if you start urpmi.
 .PP
-Output format of urpmq is the following according to command line options:
+The output of urpmq has the following format, adjusted according to the
+command-line options that were used:
 .IP
 [group/]package_name[-version][-release][.arch]
+.PP
+Note that, while \fBurpmq\fP can be run by any user, some informations will
+be available only when it's used by root.
 .SH OPTIONS
 .IP "\fB\--help\fP"
 Print a help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
@@ -21,7 +25,6 @@ dependencies only in media marked as containing updates.
 .IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
 Select specific media to be used, instead of all available media (or update
 media if \fB--update\fP is used).
-\fB--update\fP is used).
 .IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
 Do not use the specified media.
 .IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
@@ -38,7 +41,7 @@ packages matching partially the name, even if one of them matches exactly the
 specified name (this is the same as \fB\-y\fP).
 .IP "\fB\--keep\fP"
 When some dependencies cannot be satisfied, change the selection of packages
-to trying to keep existing packages instead of removing them. This behaviour
+to try to keep existing packages instead of removing them. This behaviour
 generally rejects the upgrade of packages given on command line (or when using
 --auto-select) when a dependency error occurs.
 .IP "\fB\--list\fP"
