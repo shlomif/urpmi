@@ -20,36 +20,29 @@
 
 #use strict qw(subs vars refs);
 use urpm;
-# for i18n
-use POSIX;
-use Locale::GetText;
 
-setlocale (LC_ALL, "");
-Locale::GetText::textdomain ("urpmi");
-
-import Locale::GetText I_;
-*_ = *I_;
+#- get I18N translation method.
+import urpm _;
 
 sub main {
     my ($name, $url, $with, $relative_hdlist) = @_;
-    my $usage = sprintf(
-_("usage: urpmi.addmedia <name> <url>
+    my $usage = _("usage: urpmi.addmedia <name> <url>
 where <url> is one of
        file://<path>
        ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>
        ftp://<host>/<path> with <relative filename of hdlist>
        http://<host>/<path> with <relative filename of hdlist>
        removable_<device>://<path>
-"));
+");
     $name or die $usage;
     my ($type, $dev) = $url =~ m,^(file|ftp|http|removable_(\w+)(?:_\d+)?)://, or die $usage;
 
     if ($type eq "removable") {
-	$dev && -e "/dev/$dev" or die(sprintf _("%s\ndevice `%s' do not exist\n"), $usage, $dev);
+	$dev && -e "/dev/$dev" or die _("%s\ndevice `%s' do not exist\n", $usage, $dev);
     } elsif ($with eq "with") {
-	$relative_hdlist or die(sprintf _("%s\n<relative path of hdlist> missing\n"), $usage);
+	$relative_hdlist or die _("%s\n<relative path of hdlist> missing\n", $usage);
     } elsif ($ftp) {
-	$with eq "with" or die(sprintf _("%s\n`with' missing for ftp media\n"), $usage);
+	$with eq "with" or die _("%s\n`with' missing for ftp media\n", $usage);
     }
 
     my $urpm = new urpm;
@@ -60,8 +53,8 @@ where <url> is one of
 
     #- check creation of media (during update has been successfull)
     my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
-    $medium or die(sprintf _("unable to create medium \"%s\"\n"), $name);
-    $medium->{modified} and die(sprintf _("unable to update medium \"%s\"\n"), $name);
+    $medium or die _("unable to create medium \"%s\"\n", $name);
+    $medium->{modified} and die _("unable to update medium \"%s\"\n", $name);
 }
 
 main(@ARGV);

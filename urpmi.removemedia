@@ -20,26 +20,19 @@
 
 #use strict qw(subs vars refs);
 use urpm;
-# for i18n
-use POSIX;
-use Locale::GetText;
 
-setlocale (LC_ALL, "");
-Locale::GetText::textdomain ("urpmi");
-
-import Locale::GetText I_;
-*_ = *I_;
+#- get I18N translation method.
+import urpm _;
 
 sub main {
     my (@toremoves, %options);
 
     foreach (@_) {
 	/^--?a/ and $options{all} = 1, next;
-	/^-/ and die sprintf(
-_("usage: urpmi.removemedia [-a] <name> ...
+	/^-/ and die _("usage: urpmi.removemedia [-a] <name> ...
 where <name> is a medium name to remove.
    -a    select all media.
-\nunknown options '%s'\n"), $_);
+\nunknown options '%s'\n", $_);
 	push @toremoves, $_;
     }
 
@@ -50,7 +43,7 @@ where <name> is a medium name to remove.
 	@toremoves = @entries;
 	@toremoves == 0 and die _("nothing to remove (use urpmi.addmedia to add a media)\n");
     }
-    @toremoves == 0 and die sprintf(_("the entry to remove is missing\n(one of %s)\n"), join(", ", @entries));
+    @toremoves == 0 and die _("the entry to remove is missing\n(one of %s)\n", join(", ", @entries));
 
     $urpm->remove_media(@toremoves);
     $urpm->update_media(noclean => !$options{all});

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.6
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -106,6 +106,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Thu Jun 21 2001 François Pons <fpons@mandrakesoft.com> 1.6-2mdk
+- finished i18n support for urpmi.*media.
+
 * Wed Jun 20 2001 François Pons <fpons@mandrakesoft.com> 1.6-1mdk
 - simplified urpmf.
 - fixed typo in %%post.

@@ -51,15 +51,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 =cut
 
 use rpmtools;
+use POSIX;
+use Locale::GetText;
 
 #- I18N.
-BEGIN {
-    use POSIX;
-    use Locale::GetText;
+setlocale (LC_ALL, "");
+Locale::GetText::textdomain ("urpmi");
 
-    setlocale (LC_ALL, "");
-    Locale::GetText::textdomain ("urpmi");
-}
 sub _ {
     my ($format, @params) = @_;
     sprintf(Locale::GetText::I_($format), @params);
@@ -819,10 +817,11 @@ sub register_local_packages {
 	-r $_ or $error = 1, $urpm->{error}(_("unable to access rpm file [%s]", $_)), next;
 
 	my ($name) = $urpm->{params}->read_rpms($_);
-	if ($name =~ /(.*)-([^-]*)-([^-]*)/) {
+	if ($name =~ /(.*)-([^-]*)-([^-]*)\.([^-\.]*)/) {
 	    my $pkg = $urpm->{params}{info}{$1};
 	    $pkg->{version} eq $2 or $urpm->{error}(_("mismatch version for registering rpm file")), next;
 	    $pkg->{release} eq $3 or $urpm->{error}(_("mismatch release for registering rpm file")), next;
+	    $pkg->{arch} eq $4 or $urpm->{error}(_("mismatch arch for registering rpm file")), next;
 	    $pkg->{source} = $1 ? $_ :  "./$_";
 	    push @names, $name;
 	} else {

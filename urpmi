@@ -32,6 +32,7 @@ my $all = 0;
 my $complete = 0;
 my $minimal = 1;
 my $rpm_opt = "-Uvh";
+my $use_provides = 0;
 my $verbose = 0;
 
 my $uid;
@@ -59,6 +60,7 @@ usage:
   -m               - choose minimum closure of requires (default).
   -M               - choose maximun closure of requires.
   -c               - choose complete method for resolving requires closure.
+  -p               - allow search in provides to find package.
   -q               - quiet mode.
   -v               - verbose mode.
 
@@ -86,6 +88,7 @@ for (@ARGV) {
 	/m/ and do { $minimal = 1; next };
 	/M/ and do { $minimal = 0; next };
 	/q/ and do { $rpm_opt = "-U"; next };
+	/p/ and do { $use_provides = 1; next };
 	/v/ and do { $verbose = 1; next };
 	die "urpmi: unknown option \"-%1\", check usage with --help\n"; } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
@@ -132,6 +135,7 @@ my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
 $urpm->read_depslist;
+$use_provides and $urpm->read_provides;
 
 if (@files) {
     $uid == 0 or $urpm->fatal(1, _("Only superuser is allowed to install local packages"));
@@ -141,7 +145,7 @@ if (@files) {
 
     #- read provides file which is needed only to compute incremental
     #- dependancies, of files provided.
-    $urpm->read_provides;
+    $use_provides or $urpm->read_provides;
 
     #- build closure with local package and return list of names.
     push @names, $urpm->register_local_packages(@files);

@@ -20,15 +20,9 @@
 
 #use strict qw(subs vars refs);
 use urpm;
-# for i18n
-use POSIX;
-use Locale::GetText;
 
-setlocale (LC_ALL, "");
-Locale::GetText::textdomain ("urpmi");
-
-import Locale::GetText I_;
-*_ = *I_;
+#- get I18N translation method.
+import urpm _;
 
 sub main {
     my (@toupdates, %options);
@@ -39,13 +33,12 @@ sub main {
 	/^--?c/ and $options{noclean} = 0, next;
 	/^--?f/ and $options{force} = 1, next;
 	/^--?noa/ and next; #- default, keeped for compability.
-	/^-/ and die sprintf(
-_("usage: urpmi.update [-a] <name> ...
+	/^-/ and die _("usage: urpmi.update [-a] <name> ...
 where <name> is a medium name to update.
    -a    select all non-removable media.
    -c    clean headers cache directory.
    -f    force generation of hdlist or base files.
-\nunknown options '%s'\n"), $_);
+\nunknown options '%s'\n", $_);
 	push @toupdates, $_;
     }
 
@@ -55,7 +48,7 @@ where <name> is a medium name to update.
     if ($options{all}) {
 	@entries == 0 and die _("nothing to update (use urpmi.addmedia to add a media)\n");
     } else {
-	@toupdates == 0 and die sprintf(_("the entry to update is missing\n(one of %s)\n"), join(", ", @entries));
+	@toupdates == 0 and die _("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
 	$urpm->select_media(@toupdates);
 
 	#- force ignored media to be returned alive.
