@@ -4,7 +4,7 @@ use strict;
 use vars qw($VERSION @ISA);
 use Fcntl ':flock';
 
-$VERSION = '3.1';
+$VERSION = '3.2';
 
 =head1 NAME
 
@@ -554,14 +554,7 @@ sub build_synthesis_hdlist {
     my ($urpm, $medium, $use_parsehdlist) = @_;
 
     unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-    if ($use_parsehdlist) {
-	#- building synthesis file using parsehdlist output, need 4.0-1mdk or above.
-	if (system "parsehdlist --compact --info --provides --requires '$urpm->{statedir}/$medium->{hdlist}' | gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'") {
-	    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-	    $urpm->{error}(_("unable to build synthesis file for medium \"%s\"", $medium->{name}));
-	    return;
-	}
-    } else {
+    unless ($use_parsehdlist) {
 	#- building synthesis file using internal params.
 	local *F;
 	open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
@@ -573,7 +566,12 @@ sub build_synthesis_hdlist {
 			 $p->{name}, 'info', "$p->{name}-$p->{version}-$p->{release}.$p->{arch}",
 			 $p->{serial} || 0, $p->{size} || 0, $p->{group}, $p->{file} ? ($p->{file}) : ()). "\n";
 	}
-	unless (close F) {
+	close F or unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+    }
+    if (-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" <= 32) {
+	#- building synthesis file using parsehdlist output, need 4.0-1mdk or above.
+	$use_parsehdlist or $urpm->{error}(_("unable to build hdlist synthesis, using parsehdlist method"));
+	if (system "parsehdlist --synthesis '$urpm->{statedir}/$medium->{hdlist}' | gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'") {
 	    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 	    $urpm->{error}(_("unable to build synthesis file for medium \"%s\"", $medium->{name}));
 	    return;
@@ -918,16 +916,17 @@ sub update_media {
     #- build synthesis files once requires/files have been matched by rpmtools::read_hdlists.
     if (my @rebuild_synthesis = grep { $_->{modified_synthesis} && !$_->{modified} } @{$urpm->{media}}) {
 	#- cleaning whole data structures (params and per media).
+	$urpm->{log}(_("examining whole urpmi database"));
 	$urpm->clean;
 
 	foreach my $medium (@{$urpm->{media} || []}) {
 	    $medium->{ignore} || $medium->{modified} and next;
 	    if ($medium->{synthesis}) {
 		#- reading the synthesis allow to propagate requires to files, so that if an hdlist can have them...
-		$urpm->{log}(_("reading synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+		$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 		$urpm->parse_synthesis($medium, examine_requires => 1);
 	    } else {
-		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
 	    }
 	}
@@ -937,8 +936,12 @@ sub update_media {
 	foreach my $medium (@{$urpm->{media} || []}) {
 	    $medium->{ignore} || $medium->{modified} and next;
 	    unless ($medium->{synthesis}) {
-		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		my @fullnames = $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
+		while (!@fullnames) {
+		    $urpm->{error}(_("problem reading hdlist file, trying again"));
+		    @fullnames = $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
+		}
 		$medium->{depslist} = [];
 		push @{$medium->{depslist}}, $urpm->{params}{info}{$_} foreach @fullnames;
 	    }
@@ -1237,7 +1240,7 @@ sub search_packages {
 	foreach my $id (0 .. $#{$urpm->{params}{depslist}}) {
 	    my $info = $urpm->{params}{depslist}[$id];
 
-	    rpmtools::compat_arch($info->{arch}) && (!$options{use_active} || $info->{active}) or next;
+	    rpmtools::compat_arch($info->{arch}) or next;
 
 	    my $pack_ra = "$info->{name}-$info->{version}";
 	    my $pack_a = "$pack_ra-$info->{release}";

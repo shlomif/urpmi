@@ -1,32 +1,22 @@
 #!/usr/bin/perl
 
-use lib "../rpmtools";
-
-local $_ = join '', @ARGV;
-
-/-h/ and die "usage: rpm-find-leaves [--show-unknown]\n";
-
-$show_unknown = /-show-unknown/;
+@ARGV and die "usage: rpm-find-leaves\n";
 
 use rpmtools;
 
-$f = "/var/lib/urpmi/depslist.ordered";
-open F, $f or die "read_depslist: can't open file $f\n";
-$o = new rpmtools;
-$o->read_depslist(\*F);
+$db = rpmtools::db_open('');
+rpmtools::db_traverse($db, [ qw(name version release provides requires) ], sub {
+    push @packages, $_[0];
+});
+rpmtools::db_close($db);
 
-chop, $l{$_} = 1 foreach `rpm -qa --queryformat "%{name}\n"`;
-
-%m = %l;
-
-foreach (@{$o->{depslist}}) {    
-    delete $m{$_->{name}} or next;
-    delete $l{$o->{depslist}[$_]{name}} foreach split ' ', $_->{deps};
+foreach my $pkg (@packages) {
+    $l{$pkg->{name}} = 1;
+    push @{$provides{$_}}, $pkg->{name} foreach @{$pkg->{provides} || []};
 }
 
-!$m{$_} and print "$_\n" foreach sort keys %l;
-
-if ($show_unknown) {
-    print "\n";
-    print "$_\n" foreach sort keys %m;
+foreach my $pkg (@packages) {
+    delete @l{grep { $_ ne $pkg->{name} } @{$provides{$_} || []}} foreach @{$pkg->{requires} || []};
 }
+
+print "$_\n" foreach sort keys %l;

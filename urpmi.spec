@@ -1,14 +1,14 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 3.1
-Release: 8mdk
+Version: 3.2
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject, webfetch, perl-DateManip >= 5.40
-PreReq: perl-gettext, rpmtools >= 4.0
+PreReq: perl-gettext, rpmtools >= 4.0-5mdk
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -142,6 +142,14 @@ fi
 
 
 %changelog
+* Wed Jan 16 2002 François Pons <fpons@mandrakesoft.com> 3.2-1mdk
+- fixed bad use of update flag.
+- fixed urpmi_rpm-find-leaves to use rpm db directly.
+- added --mediums to urpmi/urpmq to select medium explicitely.
+- added workaround to make sure synthesis file are built,
+  using specific rpmtools-4.0-4mdk and above parsehdlist.
+- release 3.2 (urpmi_rpm-find-leaves changes, --mediums flag).
+
 * Wed Jan 16 2002 François Pons <fpons@mandrakesoft.com> 3.1-8mdk
 - improved dependencies resolution (typically XFree86 newer
   packages).
