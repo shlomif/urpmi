@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.11
+%define version	4.6.12
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -98,6 +98,7 @@ EOF
 mkdir -p %{buildroot}%{compat_perl_vendorlib}
 install -m 644 urpm.pm %{buildroot}%{compat_perl_vendorlib}/urpm.pm
 %if %{allow_gurpmi}
+install -m 644 gurpmi.pm %{buildroot}%{compat_perl_vendorlib}/gurpmi.pm
 %else
 rm -rf %{buildroot}%{_sbindir}/gurpmi
 %endif
@@ -215,6 +216,7 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{_bindir}/gurpmi2
 %{_sbindir}/gurpmi2
 %{_menudir}/gurpmi
+%{compat_perl_vendorlib}/gurpmi.pm
 %endif
 
 %files -n urpmi-parallel-ka-run
@@ -230,6 +232,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Jan 19 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.12-1mdk
+- perl-base is now a priority upgrade by default
+- gurpmi has been split in two programs, so users can save rpms without being root
+
 * Mon Jan 10 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.11-1mdk
 - Add an option to urpmi, --expect-install, that tells urpmi to return with an
   exit status of 15 if it installed nothing.
