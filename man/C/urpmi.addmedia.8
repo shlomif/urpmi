@@ -66,10 +66,10 @@ removable device is mounted.
 .SH OPTIONS
 .IP "\fB\--wget\fP"
 Use wget only for downloading distant files. By default curl is used if
-available or wget instead.
+available, or wget instead.
 .IP "\fB\--curl\fP"
 Use curl only for downloading distant files. By default curl is used if
-available or wget instead.
+available, or wget instead.
 .IP "\fB\--limit-rate \fIrate\fP"
 Try to limit the download speed, \fIrate\fP is given in bytes/sec. This option is
 not active by default.
@@ -78,8 +78,8 @@ Use specified HTTP proxy.
 .IP "\fB\--proxy-user\fP \fIuser:password\fP"
 Use specified user and password to use for proxy authentication.
 .IP "\fB\--update\fP"
-Add a medium which will be taken into account when updating only update media by
-\fBurpmi\fP.
+Add a medium which will be taken into account by \fBMandrakeupdate\fP or
+by \fBurpmi --update\fP when looking for updates.
 .IP "\fB\--probe-synthesis\fP"
 Try to find and use synthesis file if \fBwith ...\fP is not given.
 .IP "\fB\--probe-hdlist\fP"
@@ -87,23 +87,27 @@ Try to find and use hdlist file if \fBwith ...\fP is not given.
 .IP "\fB\--no-probe\fP"
 Do not try to find any synthesis or hdlist file.
 .IP "\fB\--distrib\fP"
-Add all media from an installation medium. <\fIname\fP> is used with
-medium name found to create newer medium name in urpmi database. The \fBwith
-[...]\fP is not used as hdlist found on installation medium are used
-automatically.
+Retrieve a set of media from a distribution. Typically, the URL provided to
+\fBurpmi.addmedia\fP will represent the parent directory of a directory
+\fBmedia\fP, which in turn will contain various subdirectories for each media
+of the distribution. <\fIname\fP> is combined with medium names found to create
+newer medium names in the urpmi database. The \fBwith ...\fP option, if
+provided, is ignored, as hdlists found on the installation medium are used
+instead automatically.
 .IP "\fB\--distrib-XXX\fP"
-Automatically create a medium for XXX part of a distribution, XXX may be main,
-contrib, updates or anything else that has been configured.
+Automatically create a medium for part "XXX" of a distribution. "XXX" may be
+typically "main", "contrib", "main_updates" or anything else that has been
+configured in that distribution.
 .IP "\fB\--from\fP \fIurl\fP"
-Use specified \fIurl\fP for list of mirrors, the default from Mandrakesoft is
-\fIhttp://www.linux-mandrake.com/mirrorsfull.list\fP unless \fBurpmi.setup\fP is
-installed which make \fBurpmi.addmedia\fP look at its mirror configuration file.
+Use specified URL for list of mirrors. The default from Mandrakesoft is
+\fIhttp://www.linux-mandrake.com/mirrorsfull.list\fP.
 .IP "\fB\--version\fP \fIversion\fP"
-Use specified version when using \fB--distrib-XXX\fP, the default is version of
-\fBmandrakelinux-release\fP package installed.
+Use specified version when using \fB--distrib-XXX\fP, the default is to use the
+version of the package \fBmandrakelinux-release\fP currently installed.
 .IP "\fB\--arch\fP \fIarch\fP"
-Use specified architecture when using \fB--distrib-XXX\fP, the default is
-architecture of \fBmandrakelinux-release\fP package installed.
+Use specified architecture when using \fB--distrib-XXX\fP, the default is to
+use the architecture of the package \fBmandrakelinux-release\fP currently
+installed.
 .IP "\fB\--virtual\fP"
 Create a virtual medium, this only works for file:// and removable:// protocol
 and no files will be created in /var/lib/urpmi. The medium is always up-to-date
@@ -115,55 +119,14 @@ Try to find and use synthesis or hdlist file.
 .IP "\fB\-f\fP"
 Force generation of hdlist files.
 .SH FILES
-.de FN
-\fI\|\\$1\|\fP
-..
-.TP
-.FN /usr/sbin/urpmi.addmedia
-The \fBurpmi.addmedia\fP executable (perl script)
-.TP
-.FN /var/lib/urpmi/list.*
-Contains the list of all packages known by urpmi and their location only
-if a password is used to access distant location (using network protocol) or
-various directory are used to store packages.
-.TP
-.FN /var/lib/urpmi/hdlist.*
-Contains information about all known packages; it's a summary of rpm headers.
-If an hdlist file is used for a medium, \fBurpmf\fP can operate completely
-without accessing this medium (this is almost always the case).
-.TP
-.FN /var/lib/urpmi/synthesis.hdlist.*
-Contains synthesis information about all known packages built from hdlist files
-that can be used by minimal closure algorithm. If these files are not present
-hdlist files will be used instead but this is much slower.
-.TP
-.FN /etc/urpmi/urpmi.cfg
-Contains media description, previous format from older urpmi is still accepted.
-.TP
-.FN /etc/urpmi/parallel.cfg
-Contains parallel alias description, format is
-\fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
-a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
-\fB<media>\fP is a media list (as \fB--media\fP parameter),
-\fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
--m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
-extension.
-.TP
-.FN /etc/urpmi/skip.list
-The list of packages that should not be automatically updated when using
---auto-select. It contains one package expression per line; either a package
-name, or a regular expression (if enclosed in slashes \fB/\fP) to match the
-name of packages against.
-.TP
-.FN /etc/urpmi/inst.list
-The list of packages that should be installed instead of updated. It has
-the same format as the skip.list.
+See \fIurpmi.files\fP(5).
 .SH "SEE ALSO"
 \fIurpmi\fP(8),
 \fIurpmi.update\fP(8),
 \fIurpmi.removemedia\fP(8),
 \fIurpmf\fP(8),
 \fIurpmq\fP(8),
+\fIurpmi.files\fP(5).
 .SH AUTHOR
 Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (original author)
 .PP

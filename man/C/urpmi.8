@@ -163,49 +163,7 @@ You can use a public key or enter your password.
 Fetch all the updates from media containing foo- in their name.
 
 .SH FILES
-.de FN
-\fI\|\\$1\|\fP
-..
-.TP
-.FN /usr/sbin/urpmi
-The \fBurpmi\fP executable (perl script)
-.TP
-.FN /var/lib/urpmi/list.*
-Contains the list of all packages known by urpmi and their location. This file
-is only used when a password is used to access a distant location (using a
-network protocol) or when various directories are used to store the packages.
-.TP
-.FN /var/lib/urpmi/hdlist.*
-Contains information about all known packages; it's a summary of rpm headers.
-If an hdlist file is used for a medium, \fBurpmf\fP can operate completely
-without accessing this medium (this is almost always the case).
-.TP
-.FN /var/lib/urpmi/synthesis.hdlist.*
-Contains synthesis information about all known packages built from hdlist files
-that can be used by minimal closure algorithm. If these files are not present
-hdlist files will be used instead but this is much slower.
-.TP
-.FN /etc/urpmi/urpmi.cfg
-Contains media description, previous format from older urpmi is still accepted.
-.TP
-.FN /etc/urpmi/parallel.cfg
-Contains parallel alias description, format is
-\fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
-a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
-\fB<media>\fP is a media list (as \fB--media\fP parameter),
-\fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
--m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
-extension.
-.TP
-.FN /etc/urpmi/skip.list
-The list of packages that should not be automatically updated when using
---auto-select. It contains one package expression per line; either a package
-name, or a regular expression (if enclosed in slashes \fB/\fP) to match the
-name of packages against.
-.TP
-.FN /etc/urpmi/inst.list
-The list of packages that should be installed instead of updated. It has
-the same format as the skip.list.
+See \fIurpmi.files\fP(5).
 .SH EXIT CODES
 .IP 1
 Command line inconsistency.
@@ -279,4 +237,5 @@ Florent Villard.
 \fIurpmi.removemedia\fP(8),
 \fIurpmf\fP(8),
 \fIurpmq\fP(8),
-\fIurpmi.cfg\fP(5)
+\fIurpmi.cfg\fP(5),
+\fIurpmi.files\fP(5).
