@@ -70,7 +70,7 @@ sub new {
 	log        => sub { printf STDERR "%s\n", $_[0] },
 	ui_msg     => sub {
 	    $self->{log}($_[0]);
-	    ref $self->{ui} && ref $self->{ui}{msg} and $self->{ui}{msg}->($_[1])s;
+	    ref $self->{ui} && ref $self->{ui}{msg} and $self->{ui}{msg}->($_[1]);
 	},
     }, $class;
     $self->set_nofatal(1);
