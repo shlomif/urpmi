@@ -343,9 +343,6 @@ if ($bug) {
     foreach (@{$urpm->{media}}) {
 	#- take care of virtual medium this way.
 	$_->{hdlist} ||= "hdlist.$_->{name}.cz";
-	
-	# Why to delete this flag ? This break rpm find process if list is need
-	# delete $_->{virtual};
 	#- now build directly synthesis file, this is by far the simplest method.
 	if (defined $_->{start} && defined $_->{end}) {
 	    $urpm->build_synthesis(start => $_->{start}, end => $_->{end}, synthesis => "$bug/synthesis.$_->{hdlist}");
