@@ -82,6 +82,7 @@ usage:
 ") . N("  -P             - do not search in provides to find package (default).
 ") . N("  -R             - reverse search to what requires package.
 ") . N("  -y             - impose fuzzy search (same as --fuzzy).
+") . N("  -Y             - like -y, but forces to match case-insensitively.
 ") . N("  -s             - next package is a source package (same as --src).
 ") . N("  -i             - print useful information in human readable form.
 ") . N("  -g             - print groups with name also.
@@ -182,6 +183,7 @@ if ($urpm::args::options{list_aliases}) {
 	    [ @names ],
 	    use_provides => $urpm::args::options{use_provides},
 	    fuzzy => $urpm::args::options{fuzzy},
+	    caseinsensitive => $urpm::args::options{caseinsensitive},
 	    all => $urpm::args::options{all},
 	) or $urpm::args::options{force}
 	    or exit 1;
@@ -192,6 +194,7 @@ if ($urpm::args::options{list_aliases}) {
 	    [ @src_names ],
 	    use_provides => $urpm::args::options{use_provides},
 	    fuzzy => $urpm::args::options{fuzzy},
+	    caseinsensitive => $urpm::args::options{caseinsensitive},
 	    src => 1,
 	) or $urpm::args::options{force}
 	    or exit 1;

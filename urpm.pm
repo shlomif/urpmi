@@ -2011,13 +2011,25 @@ sub register_rpms {
     %requested;
 }
 
-#- search packages registered by their name by storing their id into packages hash.
+sub _findindeps {
+    my ($urpm, $found, $v, %options) = @_;
+    my @list = grep { defined $_ } map {
+	my $pkg = $urpm->{depslist}[$_];
+	$pkg
+	&& ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
+	? $pkg->id : undef;
+    } keys %{$urpm->{provides}{$_} || {}};
+    @list > 0 and push @{$found->{$v}}, join '|', @list;
+}
+
+#- search packages registered by their names by storing their ids into the $packages hash.
 sub search_packages {
     my ($urpm, $packages, $names, %options) = @_;
     my (%exact, %exact_a, %exact_ra, %found, %foundi);
 
     foreach my $v (@$names) {
 	my $qv = quotemeta $v;
+	$qv = '(?i)'.$qv if $options{caseinsensitive};
 
 	unless ($options{fuzzy}) {
 	    #- try to search through provides.
@@ -2031,10 +2043,10 @@ sub search_packages {
 		    $urpm->{depslist}[$_]
 		} keys %{$urpm->{provides}{$v} || {}})
 	    {
-		#- we assume that if the there is at least one package providing the resource exactly,
-		#- this should be the best ones that is described.
-		#- but we first check if one of the packages has the same name as searched.
-		if (my @l2 = grep { $_->name eq $v } @l) {
+		#- we assume that if there is at least one package providing
+		#- the resource exactly, this should be the best one; but we
+		#- first check if one of the packages has the same name as searched.
+		if ((my @l2) = grep { $_->name eq $v } @l) {
 		    $exact{$v} = join '|', map { $_->id } @l2;
 		} else {
 		    $exact{$v} = join '|', map { $_->id } @l;
@@ -2045,28 +2057,11 @@ sub search_packages {
 
 	if ($options{use_provides} && $options{fuzzy}) {
 	    foreach (keys %{$urpm->{provides}}) {
-		#- search through provides to find if a provide match this one.
-		#- but manages choices correctly (as a provides may be virtual or
-		#- multiply defined.
-		if (/$qv/) {
-		    my @list = grep { defined $_ } map {
-			my $pkg = $urpm->{depslist}[$_];
-			$pkg
-			&& ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
-			? $pkg->id : undef;
-		    }
-		    keys %{$urpm->{provides}{$_} || {}};
-		    @list > 0 and push @{$found{$v}}, join '|', @list;
-		}
-		if (/$qv/i) {
-		    my @list = grep { defined $_ } map {
-			my $pkg = $urpm->{depslist}[$_];
-			$pkg
-			&& ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
-			? $pkg->id : undef;
-		    }
-		    keys %{$urpm->{provides}{$_} || {}};
-		    @list > 0 and push @{$found{$v}}, join '|', @list;
+		#- search through provides to find if a provide matches this one;
+		#- but manage choices correctly (as a provides may be virtual or
+		#- defined several times).
+		if (/$qv/ || (!$options{caseinsensitive} && /$qv/i)) {
+		    $urpm->_findindeps(\%found, $v, %options);
 		}
 	    }
 	}
@@ -2094,7 +2089,7 @@ sub search_packages {
 	    }
 
 	    $pack =~ /$qv/ and push @{$found{$v}}, $id;
-	    $pack =~ /$qv/i and push @{$foundi{$v}}, $id;
+	    $pack =~ /$qv/i and push @{$foundi{$v}}, $id unless $options{caseinsensitive};
 	}
     }
 
@@ -2138,7 +2133,7 @@ sub search_packages {
 	}
     }
 
-    #- return true if no error have been encoutered, else false.
+    #- return true if no error has been encoutered, else false.
     $result;
 }
 

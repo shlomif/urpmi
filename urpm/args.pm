@@ -208,6 +208,7 @@ my %options_spec = (
 	P => sub { $options{use_provides} = 0 },
 	R => \$options{what_requires},
 	y => sub { $options{fuzzy} = $options{all} = 1 },
+	Y => sub { $options{fuzzy} = $options{all} = $options{caseinsensitive} = 1 },
 	v => \$options{verbose},
 	i => \$options{info},
 	l => \$options{list_files},
