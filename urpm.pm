@@ -556,21 +556,29 @@ sub configure {
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
     unless ($options{noskipping}) {
 	my %uniq;
-	$urpm->compute_flags($urpm->get_packages_list($urpm->{skiplist}, $options{skip}), skip => 1, callback => sub {
-				 my ($urpm, $pkg) = @_;
-				 $pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
-				 $uniq{$pkg->fullname} = undef;
-				 $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
-			     });
+	$urpm->compute_flags(
+	    $urpm->get_packages_list($urpm->{skiplist}, $options{skip}),
+	    skip => 1,
+	    callback => sub {
+		my ($urpm, $pkg) = @_;
+		$pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
+		$uniq{$pkg->fullname} = undef;
+		$urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
+	    },
+	);
     }
     unless ($options{noinstalling}) {
 	my %uniq;
-	$urpm->compute_flags($urpm->get_packages_list($urpm->{instlist}, $options{inst}), disable_obsolete => 1, callback => sub {
-				 my ($urpm, $pkg) = @_;
-				 $pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
-				 $uniq{$pkg->fullname} = undef;
-				 $urpm->{log}(N("would install instead of upgrade package %s", scalar($pkg->fullname)));
-			     });
+	$urpm->compute_flags(
+	    $urpm->get_packages_list($urpm->{instlist}, $options{inst}),
+	    disable_obsolete => 1,
+	    callback => sub {
+		my ($urpm, $pkg) = @_;
+		$pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
+		$uniq{$pkg->fullname} = undef;
+		$urpm->{log}(N("would install instead of upgrade package %s", scalar($pkg->fullname)));
+	    },
+	);
     }
     if ($options{bug}) {
 	#- and a dump of rpmdb itself as synthesis file.
@@ -2211,30 +2219,26 @@ sub create_transaction {
     }
 }
 
-#- get list of package that should not be upgraded.
+#- get the list of packages that should not be upgraded or installed,
+#- typically from the inst.list or skip.list files.
+#- This file contains lines with the following format :
+#-     0. everything after a '#' is ignored
+#-     1. name of package or regular expression between slashes
+#-     2. optional string "[*]", or optional "["
+#-     3. version specification (a comparison operator and a version number)
+#-     4. the rest of the line is ignored
 sub get_packages_list {
     my ($urpm, $file, $extra) = @_;
     my %val;
-
     local $_;
     open my $f, $file or return {};
-    while (<$f>) {
+    for (<$f>, split /,/, $extra) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
  	    $val{$n}{$s} = undef;
 	}
     }
     close $f;
-
-    #- additional skipping from given parameter.
-    if ($extra) {
-	foreach (split ',', $extra) {
-	    if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
-		$val{$n}{$s} = undef;
-	    }
-	}
-    }
-
     \%val;
 }
 #- for compability...
