@@ -663,6 +663,8 @@ sub configure {
 	local $SIG{INT} = $sig_handler;
 	local $SIG{QUIT} = $sig_handler;
 	local *RPMDB;
+
+	$db or $urpm->{fatal}(_"unable to open rpmdb");
 	open RPMDB, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$options{bug}/rpmdb.cz'";
 	$db->traverse(sub{
 			  my ($p) = @_;
@@ -1802,6 +1804,7 @@ sub resolve_dependencies {
 	    $db->parse_synthesis($options{rpmdb});
 	} else {
 	    $db = URPM::DB::open($urpm->{root});
+	    $db or $urpm->{fatal}(_"unable to open rpmdb");
 	}
 
 	my $sig_handler = sub { undef $db; exit 3 };
@@ -2218,6 +2221,8 @@ sub install {
     my ($update, @l, %file2pkg) = (0);
     local *F;
 
+    $db or $urpm->{fatal}(_"unable to open rpmdb");
+
     foreach (@$remove) {
 	$trans->remove($_) or $urpm->{error}(_("unable to remove package %s", $_));
     }
@@ -2295,6 +2300,8 @@ sub find_packages_to_remove {
     } else {
 	my $db = URPM::DB::open($options{root});
 	my (@m, @notfound);
+
+	$db or $urpm->{fatal}(_"unable to open rpmdb");
 
 	if (!$options{matches}) {
 	    foreach (@$l) {

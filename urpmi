@@ -114,7 +114,7 @@ usage:
 ") . _("  -s             - next package is a source package (same as --src).
 ") . _("  -q             - quiet mode.
 ") . _("  -v             - verbose mode.
-") . "\n" . _("  names or rpm files given on command line are installed.
+") . "\n" . _("  names or rpm files given on command line will be installed.
 ");
     exit(0);
 }
@@ -181,12 +181,12 @@ while (defined($_ = shift @ARGV)) {
 	/c/ and do { next };
 	/m/ and do { next };
 	/M/ and do { next }; #- nop
-	/q/ and do { $rpm_opt = ""; next };
+	/q/ and do { --$verbose; $rpm_opt = ""; next };
 	/p/ and do { $use_provides = 1; next };
 	/P/ and do { $use_provides = 0; next };
 	/y/ and do { $fuzzy = 1; next };
 	/s/ and do { $src = 1; next };
-	/v/ and do { $verbose = 1; next };
+	/v/ and do { ++$verbose; $rpm_opt = "vh"; next };
 	die _("urpmi: unknown option \"-%s\", check usage with --help\n", $1); } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     if (/\.rpm$/) {
@@ -295,7 +295,7 @@ unless ($bug) {
     $urpm->{error} = sub { printf SAVEERR "%s\n", $_[0] };
     $urpm->{log} = sub { printf SAVEERR "%s\n", $_[0] };
 }
-$verbose or $urpm->{log} = sub {};
+$verbose > 0 or $urpm->{log} = sub {};
 
 $urpm->configure(nocheck_access => $env || $uid > 0,
 		 media => $media,
@@ -457,7 +457,7 @@ unless ($local_sources || $list) {
 }
 
 my %sources = $urpm->download_source_packages($local_sources, $list,
-					      verbose => $verbose,
+					      verbose => $verbose > 0,
 					      force_local => !$X, ask_for_medium => (!$auto || $allow_medium_change) && sub {
 						  my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						  my $msg2 = _("Press Enter when ready...");
@@ -585,7 +585,7 @@ if (%sources_install || %sources) {
 	}
     }
 } else {
-    message(_("everything already installed"), $auto);
+    $verbose >= 0 and message(_("everything already installed"), $auto);
 }
 
 #- try to umount removable device which may have been mounted.

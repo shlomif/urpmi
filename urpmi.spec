@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,13 @@ fi
 
 
 %changelog
+* Mon Jan  6 2003 François Pons <fpons@mandrakesoft.com> 4.2-3mdk
+- fixed -q to avoid a message.
+- made -q and -v opposite.
+- added -i to urpmf.
+- check rpmdb open status (should never fails unless...) in order
+  to give a better error message.
+
 * Thu Dec 19 2002 François Pons <fpons@mandrakesoft.com> 4.2-2mdk
 - added log for package download if verbose.
 - fixed using hdlist if no synthesis available or invalid.

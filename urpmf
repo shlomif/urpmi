@@ -48,6 +48,7 @@ usage:
 ") . _("  --files        - print tag files: all files (multiple lines).
 ") . _("  --conflicts    - print tag conflicts: all conflicts (multiple lines).
 ") . _("  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).
+") . _("  -i             - ignore case distinctions in any pattern.
 ") . _("  -f             - print version, release and arch with name.
 ") . _("  -e             - include perl code directly as perl -e.
 ") . _("  -a             - binary AND operator, true if both expression are true.
@@ -65,7 +66,8 @@ my $media = '';
 my $synthesis = '';
 my $verbose = 0;
 my $quiet = undef;
-my $fullname = '';
+my $pattern = '';
+my $full = '';
 my %params;
 
 #- parse arguments list.
@@ -84,13 +86,14 @@ while (defined($_ = shift @ARGV)) {
 			 foreach qw(group size summary description provides requires files conflicts obsoletes); next };
     /^--(group|size|epoch|summary|description|provides|requires|files|conflicts|obsoletes)$/ and
       do { $params{$1} = 1; next };
+    /^-i$/ and do { $pattern = 'i'; next };
     /^-f$/ and do { $full = 'full'; next };
     /^-e$/ and do { $expr .= '('.$_.')'; next };
     /^-a$/ and do { $expr .= ' && '; next };
     /^-o$/ and do { $expr .= ' || '; next };
     /^[!\(\)]$/ and do { $expr .= $_; next };
     #- assume a regex directly
-    $expr .= 'm{'.$_.'}';
+    $expr .= 'm{'.$_.'}'.$pattern;
 }
 
 my $urpm = new urpm;
