@@ -16,7 +16,7 @@ if ls $dir/hdlist.*.gz >/dev/null 2>/dev/null; then
 fi
 if ls $dir/hdlist.*.cz2 >/dev/null 2>/dev/null; then
     found=1
-    bzip2 -dc $dir/hdlist.*.cz2 2>/dev/null | hdlist2files - | grep -E "$1"
+    bzip2 -dcq $dir/hdlist.*.cz2 | hdlist2files - | grep -E "$1"
 fi
 if [ "$found" != "1" ]; then
     echo "urpmi is not installed"

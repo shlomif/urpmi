@@ -1,13 +1,13 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 1.1
-Release: 7mdk
+Version: 1.2
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: /usr/bin/suidperl, rpmtools >= 1.1, eject, wget
-BuildRoot: /tmp/%{name}
+BuildRoot: %{_tmppath}/%{name}
 
 Group: %{group}
 %description
@@ -42,14 +42,14 @@ Auto install of rpm on demand
 
 %install
 rm -rf $RPM_BUILD_ROOT
-make PREFIX=$RPM_BUILD_ROOT install
+make PREFIX=$RPM_BUILD_ROOT MANDIR=$RPM_BUILD_ROOT%{_mandir} install
 install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
 install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 
-echo "echo 'Use urpmf instead'" > $RPM_BUILD_ROOT/usr/bin/rpmf
-chmod a+x $RPM_BUILD_ROOT/usr/bin/rpmf
+echo "echo 'Use urpmf instead'" > $RPM_BUILD_ROOT%{_bindir}/rpmf
+chmod a+x $RPM_BUILD_ROOT%{_bindir}/rpmf
 
-cd $RPM_BUILD_ROOT/usr/bin ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
+cd $RPM_BUILD_ROOT%{_bindir} ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -65,14 +65,14 @@ autoirpm.uninstall
 %defattr(-,root,root)
 %attr(0755, root, urpmi) %dir /etc/urpmi
 %attr(0755, root, urpmi) %dir /var/lib/urpmi
-%attr(4750, root, urpmi) /usr/bin/urpmi
-/usr/bin/urpmi_rpm-find-leaves
-/usr/bin/rpmf
-/usr/bin/urpmf
-/usr/sbin/urpme
-/usr/sbin/urpmi.*
+%attr(4750, root, urpmi) %{_bindir}/urpmi
+%{_bindir}/urpmi_rpm-find-leaves
+%{_bindir}/rpmf
+%{_bindir}/urpmf
+%{_sbindir}/urpme
+%{_sbindir}/urpmi.*
+%{_mandir}/*/urpm*
 /usr/share/locale/*/LC_MESSAGES/urpmi.po
-/usr/man/man*/urpm*
 
 %files -n gurpmi
 %defattr(-,root,root)
@@ -81,14 +81,20 @@ autoirpm.uninstall
 %files -n autoirpm
 %defattr(-,root,root)
 %dir /var/lib/urpmi/autoirpm.scripts
-/etc/urpmi/autoirpm.deny
-/usr/sbin/autoirpm.*
-/usr/man/man*/autoirpm*
-/usr/bin/_irpm
+%config(noreplace) /etc/urpmi/autoirpm.deny
+%{_sbindir}/autoirpm.*
+%{_mandir}/*/autoirpm*
+%{_bindir}/_irpm
 %doc README-autoirpm-icons autoirpm.README
 
 
 %changelog
+* Wed Jul 19 2000 Pixel <pixel@mandrakesoft.com> 1.2-2mdk
+- macroization, BM
+
+* Thu Jun 29 2000 Pixel <pixel@mandrakesoft.com> 1.2-1mdk
+- nice fixes from diablero (mainly better generation of list.*)
+
 * Tue Jun 13 2000 Pixel <pixel@mandrakesoft.com> 1.1-7mdk
 - add require wget (needed for ftp hdlist's)
 

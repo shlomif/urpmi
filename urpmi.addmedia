@@ -107,8 +107,8 @@ my $mask = umask 077;
 open LIST, ">$RPMLIST" or die "can't output $RPMLIST";
 umask $mask;
 
-open F, "bzip2 -dc $HDLIST 2>/dev/null | hdlist2names - |";
-foreach (<F>) {
+open F, "bzip2 -dcq $HDLIST | hdlist2names - |";
+while (<F>) {
     chomp;
     print LIST "$url/$_\n";
 }
