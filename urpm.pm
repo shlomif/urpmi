@@ -2602,17 +2602,7 @@ sub install {
 	}
 	++$update;
     }
-    if (!$options{nodeps} and @l = $trans->check) {
-	if ($options{translate_message}) {
-	    foreach (@l) {
-		my ($type, $needs, $conflicts) = split '@', $_;
-		$_ = ($type eq 'requires' ?
-		      N("%s is needed by %s", $needs, $conflicts) :
-		      N("%s conflicts with %s", $needs, $conflicts));
-	    }
-	}
-	return @l;
-    }
+    !$options{nodeps} and @l = $trans->check(%options) and return @l;
     !$options{noorder} and @l = $trans->order and return @l;
 
     #- assume default value for some parameter.
