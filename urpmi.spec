@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 18mdk
+Release: 19mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Wed Mar  7 2001 François Pons <fpons@mandrakesoft.com> 1.5-19mdk
+- fixed default -m mode for urpmq.
+- added log for getting packages (wget) and installing them.
+- avoid asking user if everything is already installed.
+
 * Wed Mar  7 2001 François Pons <fpons@mandrakesoft.com> 1.5-18mdk
 - fixed last line not printed for rpm output.
 

@@ -218,7 +218,7 @@ my @to_install;
 
 #- check if there is at least one package to install that
 #- has not been given by the user.
-my $ask_user = $auto_select;
+my $ask_user = $auto_select && scalar(keys %packages);
 my $sum = 0;
 foreach (keys %packages) {
     defined $packages{$_} and $ask_user = 1;
@@ -281,6 +281,7 @@ sub install {
 	
     printf SAVEOUT sprintf(_("installing %s\n"), join(' ', @_));
     log_it(scalar localtime, " @_\n");
+    $urpm->{log}("starting installing packages");
     system($X ? "grpmi" : ("rpm", $rpm_opt), @_);
     if ($?) {
 	message(_("Installation failed"));
@@ -292,12 +293,14 @@ sub install {
 	$yesexpr = _("Yy");
 	print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
 	$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
+	$urpm->{log}("starting installing packages without deps");
 	system("rpm", $rpm_opt, "--nodeps", @_);	
 
 	if ($?) {
 	    message(_("Installation failed"));
 	    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
 	    $force or <STDIN> =~ /[$yesexpr]/ or exit 0;
+	    $urpm->{log}("starting force installing packages without deps");
 	    system("rpm", $rpm_opt, "--nodeps", "--force", @_);	
 	}
     }

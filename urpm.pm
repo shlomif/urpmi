@@ -1328,13 +1328,9 @@ sub upload_source_packages {
 	    }
 	}
     }
-    if (@distant_sources) {
-	local *F;
-	open F, "| wget -NP $urpm->{cachedir}/rpms -i -";
-	foreach (@distant_sources) {
-	    print F "$_\n";
-	}
-	close F or $urpm->{error}("cannot get distant rpms files (maybe wget is missing?)");
+    foreach (@distant_sources) {
+	$urpm->{log}("retrieving [$_]");
+	system "wget", "-NP", "$urpm->{cachedir}/rpms", $_;
     }
 
     #- return the list of rpm file that have to be installed, they are all local now.
