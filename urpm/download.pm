@@ -5,12 +5,16 @@ use urpm::msg;
 use urpm::cfg;
 use Cwd;
 
+#- proxy config file.
+our $PROXY_CFG = '/etc/urpmi/proxy.cfg';
+my $proxy_config;
+
 sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
 
 sub import () {
     my $c = caller;
     no strict 'refs';
-    foreach my $symbol (qw(get_proxy set_proxy
+    foreach my $symbol (qw(get_proxy
 	propagate_sync_callback
 	sync_file sync_wget sync_curl sync_rsync sync_ssh
     )) {
@@ -18,30 +22,41 @@ sub import () {
     }
 }
 
-sub get_proxy () {
-    my $proxy = {
+sub load_proxy_config () {
+    return if defined $proxy_config;
+    open my $f, $PROXY_CFG or $proxy_config = {}, return;
+    local $_;
+    while (<$f>) {
+	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	if (/^(?:(.*):\s*)(ftp|http_)proxy\s*=\s*(.*)$/) {
+	    $proxy_config->{$1 || ''}{$2} = $3;
+	    next;
+	}
+	if (/^(?:(.*):\s*)proxy_user\s*=\s*(.*)(?::(.*))?$/) {
+	    $proxy_config->{$1 || ''}{user} = $2;
+	    $proxy_config->{$1 || ''}{pwd} = $3 if defined $3;
+	    next;
+	}
+    }
+    close $f;
+}
+
+#- reads and loads the proxy.cfg file ;
+#- returns the global proxy settings (without arguments) or the
+#- proxy settings for the specified media (with a media name as argument)
+sub get_proxy (;$) {
+    my ($o_media) = @_; $o_media ||= '';
+    load_proxy_config();
+    return $proxy_config->{$o_media} || {
 	http_proxy => undef ,
 	ftp_proxy => undef ,
 	user => undef,
 	pwd => undef
     };
-    local $_;
-    open my $f, $urpm::cfg::PROXY_CFG or return undef;
-    while (<$f>) {
-	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	/^http_proxy\s*=\s*(.*)$/ and $proxy->{http_proxy} = $1, next;
-	/^ftp_proxy\s*=\s*(.*)$/ and $proxy->{ftp_proxy} = $1, next;
-	/^proxy_user\s*=\s*(.*):(.*)$/ and do {
-	    $proxy->{user} = $1;
-	    $proxy->{pwd} = $2;
-	    next;
-	};
-	next;
-    }
-    close $f;
-    bless $proxy;
 }
 
+#- set up the environment for proxy usage for the appropriate tool.
+#- returns an array of command-line arguments.
 sub set_proxy {
     my ($proxy) = @_;
     my @res;
