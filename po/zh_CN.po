@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2002-08-30 17:05+0200\n"
-"PO-Revision-Date: 2002-8-15 15:00+0800\n"
+"POT-Creation-Date: 2002-09-02 12:32+0200\n"
+"PO-Revision-Date: 2002-09-04 12:15+0800\n"
 "Last-Translator: Danny Zeng <danny@zeng.com.cn>\n"
 "Language-Team: Chinese (GB) <future-cjk@mandrakesoft.com>\n"
 "MIME-Version: 1.0\n"
@@ -220,33 +220,33 @@ msgid "write config file [%s]"
 msgstr "写入 [%s]"
 
 #: ../urpm.pm_.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "无法访问rpm 文件[%s]"
+msgstr "无法解读文件[%2$s]中的\"%1$s\""
 
 #: ../urpm.pm_.c:555
-#, fuzzy, c-format
+#, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr "检查 hdlist 文件 [%s]"
+msgstr "检查文件 [%s] 中的并行处理"
 
 #: ../urpm.pm_.c:565
-#, fuzzy, c-format
+#, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr "列表文件 %s"
+msgstr "发现下列节点的并行处理: %s"
 
 #: ../urpm.pm_.c:569
 #, c-format
 msgid "using associated media for parallel mode : %s"
-msgstr ""
+msgstr "将相关的介质用于并行处理: %s"
 
 #: ../urpm.pm_.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "无法更新介质\"%s\"\n"
+msgstr "无法使用并行处理选项 \"%s\""
 
 #: ../urpm.pm_.c:583
 msgid "--synthesis cannot be used with --media, --update or --parallel"
-msgstr ""
+msgstr "--synthesis 不能和 --media, --update 或 --parallel 一起使用"
 
 #: ../urpm.pm_.c:598 ../urpm.pm_.c:1140 ../urpm.pm_.c:1155 ../urpm.pm_.c:1285
 #, c-format
@@ -342,7 +342,7 @@ msgstr "删除介质\"%s\""
 
 #: ../urpm.pm_.c:846
 msgid "urpmi database locked"
-msgstr "urpmi 数据库已经锁定"
+msgstr "urpmi 数据库被锁定"
 
 #: ../urpm.pm_.c:890 ../urpm.pm_.c:892 ../urpm.pm_.c:1875
 #, c-format
@@ -370,14 +370,14 @@ msgid "copying source list of \"%s\"..."
 msgstr "复制 \"%s\" 的源文件列表"
 
 #: ../urpm.pm_.c:981
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
 msgstr "从 [%s]读取 rpm 文件"
 
 #: ../urpm.pm_.c:1000
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
-msgstr "无法从介质 [%s] 读取 rpm 文件: %s"
+msgstr "无法从 [%s] 读取 rpm 文件: %s"
 
 #: ../urpm.pm_.c:1005
 #, c-format
@@ -540,7 +540,6 @@ msgid "malformed input: [%s]"
 msgstr "输入格式错误: [%s]"
 
 #: ../urpm.pm_.c:1926
-#, fuzzy
 msgid "retrieving rpm files..."
 msgstr "收取 rpms 文件..."
 
@@ -570,17 +569,17 @@ msgstr "%s 与 %s 冲突"
 
 #: ../urpm/parallel_ka_run.pm_.c:79 ../urpm/parallel_ka_run.pm_.c:112
 msgid "rshp failed"
-msgstr ""
+msgstr "rshp 失败"
 
 #: ../urpm/parallel_ka_run.pm_.c:116 ../urpm/parallel_ssh.pm_.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "安装失败"
+msgstr "在节点 %s 安装失败"
 
 #: ../urpm/parallel_ssh.pm_.c:81
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "主机 %s 没有合适版本的 urpmi"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
@@ -595,7 +594,6 @@ msgid "unknown package "
 msgstr "未知的软件包"
 
 #: ../urpme_.c:111
-#, fuzzy
 msgid "unknown packages "
 msgstr "未知的软件包"
 
@@ -827,7 +825,7 @@ msgstr "  --media        - 只使用列出的介质.\n"
 
 #: ../urpmi_.c:75 ../urpmq_.c:53
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr ""
+msgstr "  --synthesis    - 使用指定的 synthesis 而不是 urpmi db.\n"
 
 #: ../urpmi_.c:76
 msgid "  --auto         - automatically select a package in choices.\n"
@@ -847,9 +845,8 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - 下一个软件包是源程序包, (和 -s 一样).\n"
 
 #: ../urpmi_.c:80
-#, fuzzy
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --noclean      - 保留缓存中没有使用的rpm.\n"
+msgstr "   --clean        -  首先删除缓存中的rpm.\n"
 
 #: ../urpmi_.c:81
 msgid "  --noclean      - keep rpm not used in cache.\n"
@@ -878,17 +875,17 @@ msgstr ""
 
 #: ../urpmi_.c:87 ../urpmq_.c:64
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
-msgstr ""
+msgstr "  --parallel     - 在多个机器上分布的运行 urpmi .\n"
 
 #: ../urpmi_.c:94
-#, fuzzy
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
-msgstr "  --bug          - 在指定的目录中输出故障报告.\n"
+msgstr ""
+"  --bug          - 输出故障报告\n"
+"\t\t\t下一个参数指定输出目录.\n"
 
 #: ../urpmi_.c:96
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
@@ -907,16 +904,17 @@ msgstr ""
 "                   X 或文本模式.\n"
 
 #: ../urpmi_.c:101
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr "  --verify-rpm   - 安装之前验证 rpm 签署.\n"
+msgstr ""
+"  --verify-rpm   - 安装之前验证 rpm 签署.\n"
+"\t\t(--no-verify-rpm 禁止它, 缺省是激活的).\n"
 
 #: ../urpmi_.c:103
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
-msgstr ""
+msgstr "  --test         - 验证安装是否可以正确进行.\n"
 
 #: ../urpmi_.c:104
 msgid "  -a             - select all matches on command line.\n"
@@ -1055,9 +1053,9 @@ msgstr ""
 "最好更新您的 urpmi 数据库"
 
 #: ../urpmi_.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s\n"
-msgstr "正在安装 %s\n"
+msgstr "正在分布安装 %s\n"
 
 #: ../urpmi_.c:542
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1068,9 +1066,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "尝试更激烈的安装方式吗? (使用 --force) (是(y)/不(N)) [不] "
 
 #: ../urpmi_.c:560
-#, fuzzy
 msgid "Installation is possible"
-msgstr "安装失败"
+msgstr "可以安装"
 
 #: ../urpmi_.c:566
 msgid "everything already installed"
@@ -1128,14 +1125,12 @@ msgid "  --list         - list available packages.\n"
 msgstr "  --list         - 列出可用的软件包.\n"
 
 #: ../urpmq_.c:57
-#, fuzzy
 msgid "  --list-media   - list available media.\n"
-msgstr "  --list         - 列出可用的软件包.\n"
+msgstr "  --list-media   - 列出可用的介质.\n"
 
 #: ../urpmq_.c:58
-#, fuzzy
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr "  --list         - 列出可用的软件包.\n"
+msgstr "  --list-nodes   - 如果使用了 --parallel, 列出所有可用的节点.\n"
 
 #: ../urpmq_.c:60
 msgid ""
