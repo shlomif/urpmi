@@ -119,7 +119,7 @@ sub read_config {
     #- per-media options
     for my $m (grep { $_ ne '' } keys %$config) {
 	my $medium = { name => $m, clear_url => $config->{$m}{url} };
-	for my $opt (qw(hdlist list with_hdlist removable md5sum key-ids update ignore synthesis virtual)) {
+	for my $opt (qw(hdlist list with_hdlist removable md5sum key-ids update ignore synthesis virtual verify-rpm)) {
 	    defined $config->{$m}{$opt} and $medium->{$opt} = $config->{$m}{$opt};
 	}
 	$urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
@@ -2913,18 +2913,23 @@ sub check_sources_signatures {
 	if ($verif =~ /NOT OK/) {
 	    $invalid_sources{$filepath} = N("Invalid signature (%s)", $verif);
 	} else {
-	    #print "+++$medium->{name}:$medium->{start}:$medium->{end}:$id\n";
 	    unless ($medium &&
-		    defined $medium->{start} && $medium->{start} <= $id &&
-		    defined $medium->{end} && $id <= $medium->{end}) {
+		defined $medium->{start} && $medium->{start} <= $id &&
+		defined $medium->{end} && $id <= $medium->{end})
+	    {
 		$medium = undef;
 		foreach (@{$urpm->{media}}) {
-		    defined $_->{start} && $_->{start} <= $id && defined $_->{end} && $id <= $_->{end} and $medium = $_, last;
+		    defined $_->{start} && $_->{start} <= $id
+			&& defined $_->{end} && $id <= $_->{end}
+			and $medium = $_, last;
 		}
 	    }
+	    #- check whether verify-rpm is specifically disabled for this medium
+	    $medium && defined $medium->{'verify-rpm'} && !$medium->{'verify-rpm'}
+		and next;
 
 	    my $key_ids = $medium && $medium->{'key-ids'} || $urpm->{options}{'key-ids'};
-	    #- check the key ids of the medium are matching (all) the given key id of the package.
+	    #- check that the key ids of the medium match the key ids of the package.
 	    if ($key_ids) {
 		my $valid_ids = 0;
 		my $invalid_ids = 0;
@@ -2944,8 +2949,12 @@ sub check_sources_signatures {
 		}
 	    }
 	    #- invoke check signature callback.
-	    $options{callback} and $options{callback}->($urpm, $filepath, %options,
-							id => $id, verif => $verif, why => $invalid_sources{$filepath});
+	    $options{callback} and $options{callback}->(
+		$urpm, $filepath, %options,
+		id => $id,
+		verif => $verif,
+		why => $invalid_sources{$filepath},
+	    );
 	}
     }
 
