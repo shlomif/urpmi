@@ -209,58 +209,10 @@ sub sync_curl {
     local *CURL;
     my $options = shift @_;
     chdir(ref($options) ? $options->{dir} : $options);
-    my (@ftp_files, @other_files);
-    foreach (@_) {
-	/^ftp:\/\/.*\/([^\/]*)$/ && -s $1 > 8192 and do { push @ftp_files, $_; next }; #- manage time stamp for large file only.
-	push @other_files, $_;
-    }
-    if (@ftp_files) {
-	my ($cur_ftp_file, %ftp_files_info);
-
-	eval { require Date::Manip };
-
-	#- prepare to get back size and time stamp of each file.
-	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
-			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
-			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()) .
-			"--stderr", "-", "-s", "-I", @ftp_files) . " |";
-	while (<CURL>) {
-	    if (/Content-Length:\s*(\d+)/) {
-		!$cur_ftp_file || exists($ftp_files_info{$cur_ftp_file}{size}) and $cur_ftp_file = shift @ftp_files;
-		$ftp_files_info{$cur_ftp_file}{size} = $1;
-	    }
-	    if (/Last-Modified:\s*(.*)/) {
-		!$cur_ftp_file || exists($ftp_files_info{$cur_ftp_file}{time}) and $cur_ftp_file = shift @ftp_files;
-		eval {
-		    $ftp_files_info{$cur_ftp_file}{time} = Date::Manip::ParseDate($1);
-		    $ftp_files_info{$cur_ftp_file}{time} =~ s/(\d{6}).{4}(.*)/$1$2/; #- remove day and hour.
-		};
-	    }
-	}
-	close CURL;
-
-	#- now analyse size and time stamp according to what already exists here.
-	if (@ftp_files) {
-	    #- re-insert back shifted element of ftp_files, because curl output above
-	    #- have not been parsed correctly, in doubt download them all.
-	    push @ftp_files, keys %ftp_files_info;
-	} else {
-	    #- for that, it should be clear ftp_files is empty... else a above work is
-	    #- use less.
-	    foreach (keys %ftp_files_info) {
-		my ($lfile) = /\/([^\/]*)$/ or next; #- strange if we can't parse it correctly.
-		my $ltime = eval { Date::Manip::ParseDate(scalar gmtime((stat $1)[9])) };
-		$ltime =~ s/(\d{6}).{4}(.*)/$1$2/; #- remove day and hour.
-		-s $lfile == $ftp_files_info{$_}{size} && $ftp_files_info{$_}{time} eq $ltime or
-		  push @ftp_files, $_;
-	    }
-	}
-    }
     #- http files (and other files) are correctly managed by curl to conditionnal download.
-    #- options for ftp files, -R (-O <file>)*
-    #- options for http files, -R (-z file -O <file>)*
-    if (my @all_files = ((map { ("-O", $_) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : @{[]} } @other_files))) {
-	my @l = (@ftp_files, @other_files);
+    #- since 7.10.5, ftp donwload are supported by curl using -z too.
+    if (my @all_files = map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : @{[]} } @_) {
+	my @l = @_;
 	my ($buf, $file) = ('', undef);
 	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
 			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
