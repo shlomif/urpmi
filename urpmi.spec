@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.16
-%define release 2mdk
+%define version	4.6.17
+%define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -38,6 +38,7 @@ BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
 Conflicts:	man-pages-fr < 1.58.0-8mdk
 Conflicts:	rpmdrake < 2.4-2mdk
+Conflicts:	curl < 7.13.0
 
 %description
 urpmi is Mandrakelinux's console-based software installation tool. You can
@@ -233,6 +234,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Feb 16 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.17-1mdk
+- Remove curl 7.2.12 bug workaround, and require at least curl 7.13.0
+- Fix parsing of hdlists file when adding media with --distrib
+
 * Mon Feb 14 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.16-2mdk
 - Don't call rpm during restart to avoid locking
 
