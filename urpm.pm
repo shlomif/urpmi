@@ -849,9 +849,11 @@ sub _probe_with_try_list {
 }
 
 #- read a reconfiguration file for urpmi, and reconfigure media accordingly
+#- $rfile is the reconfiguration file (local), $name is the media name
 sub reconfig_urpmi {
     my ($urpm, $rfile, $name) = @_;
     my @replacements;
+    my @reconfigurable = qw(url with_hdlist clear_url);
     my $reconfigured = 0;
     open my $fh, $rfile or return undef;
     $urpm->{log}(N("reconfiguring urpmi for media \"%s\"", $name));
@@ -863,9 +865,11 @@ sub reconfig_urpmi {
 	$f ||= 1;
 	push @replacements, [ quotemeta $p, $r, $f ];
     }
+  MEDIA:
     for my $medium (grep { $_->{name} eq $name } @{$urpm->{media}}) {
+        my %orig = map { $_ => $medium->{$_} } @reconfigurable;
       URLS:
-	for my $k (qw(url with_hdlist clear_url)) {
+	for my $k (@reconfigurable) {
 	    for my $r (@replacements) {
 		if ($medium->{$k} =~ s/$r->[0]/$r->[1]/) {
 		    $reconfigured = 1;
@@ -873,6 +877,13 @@ sub reconfig_urpmi {
 		    last if $r->[2] =~ /L/;
 		    redo URLS if $r->[2] =~ /N/;
 		}
+	    }
+	    #- check that the new url exists before committing changes (local mirrors)
+	    if ($medium->{$k} =~ m#^file:/*(/[^/].*[^/])/*$# && !-e $1) {
+		$medium->{$k} = $orig{$k} for @reconfigurable;
+		$reconfigured = 0;
+		$urpm->{log}(N("...reconfiguration failed"));
+		last MEDIA;
 	    }
 	}
     }
