@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 25mdk
+Release: 26mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -114,6 +114,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Mar 27 2001 François Pons <fpons@mandrakesoft.com> 1.5-26mdk
+- added --WID=id
+- let grpmi make the upload of packages.
+
 * Mon Mar 26 2001 François Pons <fpons@mandrakesoft.com> 1.5-25mdk
 - sort list file so that rpm are sorted when installed.
 - increase speed for --auto-select: implies -M by default.
