@@ -30,10 +30,9 @@ if ($0 =~ /removemedia/) {
     system("urpmi.update");
     exit 0;
 } elsif ($0 =~ /update/) {
-    if (local ($_) = @ARGV) {
-	my $regexp = /^--?a/ ? '[^#]\S*' : join('|', @ARGV);
-	system("urpmi.addmedia --noupdate $_") foreach grep { /^$regexp\s/ } `cat $CFG`;
-    }
+    my $regexp = !@ARGV || $ARGV[0] =~ /^--?a/ ? '[^#]\S*' : join('|', @ARGV);
+    system("urpmi.addmedia --noupdate $_") foreach grep { /^$regexp\s/ } `cat $CFG`;
+
     my @hdlists = glob("$DIR/hdlist.*");
     if (@hdlists) {
 	system("genbasefiles $DIR ". join (' ', @hdlists));
@@ -86,6 +85,9 @@ my $RPMLIST = "$DIR/list.$name";
 !-e $HDLIST || unlink $HDLIST or die "can't remove $HDLIST";
 
 if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
+    if (!-e $dir && $dir =~ m|^(/mnt/.*?)|) {
+	$try2mount{$1} or $try2mount{$1} = 1, `mount $1 2>/dev/null`;
+    }
     my $f;
     if ($dir =~ /RPMS(.*)$/) {
 	$f = "$dir/Mandrake/base/hdlist$1.$EXT";
