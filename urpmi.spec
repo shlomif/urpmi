@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 11mdk
+Release: 12mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Wed Feb 20 2002 François Pons <fpons@mandrakesoft.com> 3.3-12mdk
+- fixed installing dependancies of given src.rpm filename.
+- fixed to keep removable device already mounted before asking
+  user to change.
+
 * Tue Feb 19 2002 François Pons <fpons@mandrakesoft.com> 3.3-11mdk
 - fixed obsoletes on direct requires when a sense is given.
 - added a tracking method in urpm library for allowing upgrade.

@@ -1284,6 +1284,8 @@ sub search_packages {
 	#- it is a way of speedup, providing the name of a package directly help
 	#- to find the package.
 	#- this is necessary if providing a name list of package to upgrade.
+	my $pkg = $urpm->{params}{info}{$v};
+	defined $pkg->{id} and $exact{$v} = $pkg->{id}, next;
 	unless ($options{fuzzy}) {
 	    my $pkg = $urpm->{params}{names}{$v};
 	    if (defined $pkg->{id} && ($options{src} ? $pkg->{arch} eq 'src' : $pkg->{arch} ne 'src')) {
@@ -1897,6 +1899,19 @@ sub download_source_packages {
     #- make sure everything is correct on input...
     @{$urpm->{media}} == @$list or return;
 
+    #- examine if given medium is already inside a removable device.
+    my $check_notfound = sub {
+	my ($id, $dir) = @_;
+	if (!$dir || -e $dir) {
+	    foreach (values %{$list->[$id]}) {
+		/^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
+		-r $2 or return 1;
+	    }
+	} else {
+	    return 2;
+	}
+	return 0;
+    };
     #- removable media have to be examined to keep mounted the one that has
     #- more package than other (size is better ?).
     my $examine_removable_medium = sub {
@@ -1904,22 +1919,11 @@ sub download_source_packages {
 	my $medium = $urpm->{media}[$id];
 	$media{$id} = undef;
 	if (my ($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
-	    my $check_notfound = sub {
-		if (-e $dir) {
-		    foreach (values %{$list->[$id]}) {
-			/^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
-			-r $2 or return 1;
-		    }
-		} else {
-		    return 2;
-		}
-		return 0;
-	    };
 	    #- the directory given does not exist or may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
 	    $urpm->try_mounting($dir);
-	    while ($check_notfound->()) {
+	    while ($check_notfound->($id, $dir)) {
 		$ask_for_medium or $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir); system("eject", $device);
 		$ask_for_medium->($medium->{name}, $medium->{removable}) or
@@ -1966,6 +1970,12 @@ sub download_source_packages {
 	#- needed package to copy first the needed rpms files.
 	if (@{$removables{$device}} > 1) {
 	    my @sorted_media = sort { values %{$list->[$a]} <=> values %{$list->[$b]} } @{$removables{$device}};
+
+	    #- check if a removable device is already mounted (and files present).
+	    if (my ($already_mounted_medium) = grep { !$check_notfound->($_) } @sorted_media) {
+		@sorted_media = grep { $_ ne $already_mounted_medium } @sorted_media;
+		unshift @sorted_media, $already_mounted_medium;
+	    }
 
 	    #- mount all except the biggest one.
 	    foreach (@sorted_media[0 .. $#sorted_media-1]) {
