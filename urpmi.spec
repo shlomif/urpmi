@@ -206,6 +206,7 @@ $urpm->update_media(nolock => 1);
 - fixed urpme --auto disabling fuzzy report.
 - fixed urpme --parallel which was not handling log.
 - fixed urpme to always ask user in parallel mode.
+- fixed urpme --parallel when one node has not a package.
 - make package compilable and workable directly on
   Mandrake Clustering which is a 9.0 based distribution.
 
