@@ -109,6 +109,7 @@ if ($test && $auto) {
     <STDIN> =~ /[$noexpr]/ and exit 0;
 }
 
+print STDOUT "\n".N("removing %s", join(' ', @toremove))."\n";
 @l = $parallel ?
   $urpm->parallel_remove(\@toremove, test => $test, translate_message => 1) :
   $urpm->install(\@toremove, {}, {}, test => $test, translate_message => 1);
