@@ -196,7 +196,7 @@ sub sync_wget {
 		    }
 		}
 	    } else {
-		print STDERR $buf;
+		ref($options) && $options->{quiet} or print STDERR $buf;
 	    }
 	    $buf = '';
 	}
@@ -238,7 +238,7 @@ sub sync_curl {
 			}
 		    }
 		} else {
-		    print STDERR $buf;
+		    ref($options) && $options->{quiet} or print STDERR $buf;
 		}
 		$buf = '';
 	    }
@@ -277,7 +277,7 @@ sub sync_rsync {
 			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
 			}
 		    } else {
-			print STDERR $buf;
+			ref($options) && $options->{quiet} or print STDERR $buf;
 		    }
 		    $buf = '';
 		}
@@ -319,7 +319,7 @@ sub sync_ssh {
 			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
 			}
 		    } else {
-			print STDERR $buf;
+			ref($options) && $options->{quiet} or print STDERR $buf;
 		    }
 		    $buf = '';
 		}
@@ -1379,15 +1379,12 @@ this could happen if you mounted manually the directory when creating the medium
 		  system("mv", "$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
 	    }
 	    eval {
-		$urpm->{log}(N("retrieving description file of \"%s\"...", $medium->{name}));
 		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 				quiet => 1,
 				limit_rate => $options{limit_rate},
 				proxy => $urpm->{proxy} },
 			      reduce_pathname("$medium->{url}/../descriptions"));
-		$urpm->{log}(N("...retrieving done"));
 	    };
-	    $@ and $urpm->{log}(N("...retrieving failed: %s", $@));
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
 		rename("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") or
 		  system("mv", "$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
