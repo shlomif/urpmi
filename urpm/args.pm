@@ -229,6 +229,9 @@ my %options_spec = (
 	    if ($_[0] =~ /^--distrib-(.*)$/) {
 		$::options{distrib} = $1;
 	    }
+	    else {
+		push @::cmdline, $_[0];
+	    }
 	},
     },
 

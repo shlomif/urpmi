@@ -89,13 +89,12 @@ sub main {
 	}
 	close F;
     }
-    #---
     $options{force} = 0;
     $options{noclean} = 1;
     $options{probe_with} = 'synthesis'; #- no the default is to probe synthesis file.
     my $urpm = new urpm;
     urpm::args::parse_cmdline(urpm => $urpm);
-    our ($name, $url, $with, $relative_hdlist) = @ARGV;
+    our ($name, $url, $with, $relative_hdlist) = our @cmdline;
 
     #- allow not to give name immediately.
     $options{distrib} or $url or ($url, $name) = ($name, '');
