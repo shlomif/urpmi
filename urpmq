@@ -80,8 +80,9 @@ my $urpm = new urpm;
 
 #- parse arguments list.
 my @nextargv;
-for (@ARGV) {
-    /^--help$/ and do { usage; next };
+@ARGV or usage;
+while (defined($_ = shift @ARGV)) {
+    /^--help$/ and do { usage };
     /^--update$/ and do { $query->{update} = 1; next };
     /^--media$/ and do { push @nextargv, \$query->{media}; next };
     /^--mediums$/ and do { push @nextargv, \$query->{media}; next };

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 17mdk
+Release: 18mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,11 @@ fi
 
 
 %changelog
+* Fri Dec 13 2002 François Pons <fpons@mandrakesoft.com> 4.1-18mdk
+- fixed urpmf so that if callback is not compilable display help.
+- fixed urpmq and urpmi call without parameter to display help.
+- added donwload lock to avoid clashes from urpmi.update.
+
 * Fri Dec 13 2002 François Pons <fpons@mandrakesoft.com> 4.1-17mdk
 - added mput or scp exit code checking.
 - temporaly using hdlist file for --summary of urpmf.

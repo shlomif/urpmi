@@ -108,8 +108,9 @@ foreach (qw(group size epoch summary description provides requires files conflic
     $params{$_} and $callback .= 'foreach my $e ($pkg->'.$_.') { local $_ = $pkg->'.$full.'name."'.(!$quiet && ":$_").':$e"; '.$expr.' or next; print "$_\n" }';
 }
 $callback .= ' 1; }';
+$urpm->{log}(_("callback is :\n%s\n", $callback));
 $callback = eval $callback;
-$@ and die;
+$@ and usage;
 
 $urpm->configure(nocheck_access => 1,
 		 media => $media,

@@ -2007,6 +2007,15 @@ sub download_source_packages {
 	    $urpm->{error}(_("incoherent medium \"%s\" marked removable but not really", $medium->{name}));
 	}
     };
+
+    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
+    my ($LOCK_EX, $LOCK_UN) = (2, 8);
+
+    #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
+    local (*LOCK_FILE);
+    open LOCK_FILE, $urpm->{statedir};
+    flock LOCK_FILE, $LOCK_EX or $urpm->{fatal}(7, _("urpmi database locked"));
+
     foreach (0..$#$list) {
 	values %{$list->[$_]} or next;
 	my $medium = $urpm->{media}[$_];
@@ -2085,7 +2094,6 @@ sub download_source_packages {
 	    };
 	    if ($@) {
 		$urpm->{log}(_("...retrieving failed: %s", $@));
-		#delete @sources{keys %distant_sources};
 	    }
 	    #- clean files that have not been downloaded, but keep mind there
 	    #- has been problem downloading them at least once, this is
@@ -2099,6 +2107,13 @@ sub download_source_packages {
 
     #- clean failed download which have succeeded.
     delete @error_sources{keys %sources};
+
+    #- now everything is finished.
+    system("sync");
+
+    #- release lock on database.
+    flock LOCK_FILE, $LOCK_UN;
+    close LOCK_FILE;
 
     #- return the hash of rpm file that have to be installed, they are all local now.
     %$local_sources, %sources, %error_sources;

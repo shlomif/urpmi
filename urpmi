@@ -122,6 +122,7 @@ usage:
 #- parse arguments list.
 my @nextargv;
 my $command_line = join " ", @ARGV;
+@ARGV or usage;
 while (defined($_ = shift @ARGV)) {
     /^--help$/ and do { usage; next };
     /^--no-locales$/ and do { undef *_; undef *urpm::_; *_ = *urpm::_ = sub { sprintf(shift @_, @_) }; next };
