@@ -243,6 +243,8 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %changelog
 * Sun Feb 22 2004 François Pons <fpons@garrigue.homelinux.org> 4.4.5-8mdk
 - fix bug 8110.
+- gurpm.pm: allow to pass options to ugtk2 object (so that we can set
+  transient_for option, fixes #8146) (gc)
 
 * Fri Feb 20 2004 David Baudens <baudens@mandrakesoft.com> 4.4.5-7mdk
 - Revert menu entry from needs="x11" to needs="gnome" and needs="kde"

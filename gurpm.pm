@@ -27,8 +27,8 @@ $::isStandalone = 1;
 our ($mainw, $label, $progressbar, $vbox, $cancel, $hbox_cancel);
 
 sub init {
-    my ($title, $initializing, $cancel_msg, $cancel_cb) = @_;
-    $mainw = ugtk2->new($title);
+    my ($title, $initializing, %options) = @_;
+    $mainw = ugtk2->new($title, %options);
     $label = Gtk2::Label->new($initializing);
     $progressbar = gtkset_size_request(Gtk2::ProgressBar->new, 300, -1);
     gtkadd($mainw->{window}, gtkpack__($vbox = Gtk2::VBox->new(0, 5), $label, $progressbar));
