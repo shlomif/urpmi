@@ -204,9 +204,11 @@ fi
 
 
 %changelog
-* Mon Sep 23 2002 François Pons <fpons@mandrakesoft.com> 4.0-21mdk
+* Wed Oct 16 2002 François Pons <fpons@mandrakesoft.com> 4.0-21mdk
 - fixed bad copy of files when a relative symlink is used.
 - added minimal README documentation files for distributed modules.
+- fixed urpmi -P with package name already used by provides of
+  other package.
 
 * Tue Sep 17 2002 François Pons <fpons@mandrakesoft.com> 4.0-20mdk
 - gc: fixed curl proxy management.
