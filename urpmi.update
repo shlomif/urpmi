@@ -91,8 +91,8 @@ if ($options{all} && !defined $options{ignore}) {
 }
 
 if (defined $options{ignore}) {
-    $urpm->{log}(N($options{ignore} ? "ignoring media %s" : "enabling media %s",
-	join(", ", map { N("\"%s\"", $_->{name}) } grep { $_->{modified} } @{$urpm->{media}})));
+    my $str = join(", ", map { N("\"%s\"", $_->{name}) } grep { $_->{modified} } @{$urpm->{media}});
+    $urpm->{log}($options{ignore} ? N("ignoring media %s", $str) : N("enabling media %s", $str));
     $urpm->write_config;
 } else {
     $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
