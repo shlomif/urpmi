@@ -676,8 +676,8 @@ sub update_media {
 	    #- a unresolved provides is found.
 	    #- to speed up the process, we only read the synthesis at the begining.
 	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-	    my ($test_id, undef) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-	    unless (defined $test_id) {
+	    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    unless (defined $medium->{start} && defined $medium->{end}) {
 		#- this is almost a fatal error, ignore it by default?
 		$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 		$medium->{ignore} = 1;
@@ -757,8 +757,8 @@ sub update_media {
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			#- as previously done, just read synthesis file here, this is enough.
 			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			my ($test_id, undef) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-			unless (defined $test_id) {
+			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+			unless (defined $medium->{start} && defined $medium->{end}) {
 			    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 			    $medium->{ignore} = 1;
 			}
@@ -790,11 +790,23 @@ sub update_media {
 		    #- we need to rebuild from rpm files the hdlist.
 		    eval {
 			$urpm->{log}(_("reading rpms files from [%s]", $dir));
+			my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+			$medium->{start} = @{$urpm->{depslist}};
 			$medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
 									       rpms  => \@files,
 									       clean => $cleaned_cache,
 									      ) ];
-			$cleaned_cache = 0; #- make sure the headers will not be removed for another media.
+			$medium->{end} = $#{$urpm->{depslist}};
+			if ($medium->{start} > $medium->{end}) {
+			    #- an error occured (provided there are files in input.
+			    delete $medium->{start};
+			    delete $medium->{end};
+			    die "no rpms read\n";
+			} else {
+			    $cleaned_cache = 0; #- make sure the headers will not be removed for another media.
+			    my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+			    @unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
+			}
 		    };
 		    $@ and $error = 1, $urpm->{error}(_("unable to read rpms files from [%s]: %s", $dir, $@));
 		    $error and delete $medium->{headers}; #- do not propagate these.
@@ -880,8 +892,8 @@ sub update_media {
 			unlink "$urpm->{cachedir}/partial/$basename";
 			#- as previously done, just read synthesis file here, this is enough.
 			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			my ($test_id, undef) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-			unless (defined $test_id) {
+			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+			unless (defined $medium->{start} && defined $medium->{end}) {
 			    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 			    $medium->{ignore} = 1;
 			}
@@ -933,28 +945,34 @@ sub update_media {
 		#- read first pass hdlist or synthesis, try to open as synthesis, if file
 		#- is larger than 1MB, this is problably an hdlist else a synthesis.
 		#- anyway, if one tries fails, try another mode.
-		my ($start, $end);
-		if (-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 1048576) {
-		    ($start, $end) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
-		    if (defined $start && defined $end) {
+		my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+		if (!$medium->{synthesis} || -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 262144) {
+		    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
+		    if (defined $medium->{start} && defined $medium->{end}) {
 			delete $medium->{synthesis};
 		    } else {
-			($start, $end) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
-			defined $start && defined $end and $medium->{synthesis} = 1;
+			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
+			defined $medium->{start} && defined $medium->{end} and $medium->{synthesis} = 1;
 		    }
 		} else {
-		    ($start, $end) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
-		    if (defined $start && defined $end) {
+		    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
+		    if (defined $medium->{start} && defined $medium->{end}) {
 			$medium->{synthesis} = 1;
 		    } else {
-			($start, $end) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
-			defined $start && defined $end and delete $medium->{synthesis};
+			($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
+			defined $medium->{start} && defined $medium->{end} and delete $medium->{synthesis};
 		    }
 		}
-		defined $start && defined $end or
-		  $error = 1, $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
+		unless (defined $medium->{start} && defined $medium->{end}) {
+		    $error = 1;
+		    $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
+		    #- we will have to read back the current synthesis file unmodified.
+		}
 
 		unless ($error) {
+		    my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+		    @unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
+
 		    if ($medium->{hdlist} ne 'list' && -s "$urpm->{cachedir}/partial/list") {
 			local (*F, $_);
 			open F, "$urpm->{cachedir}/partial/list";
@@ -965,9 +983,9 @@ sub update_media {
 			}
 			close F;
 		    } else {
-			foreach ($start .. $end) {
+			foreach ($medium->{start} .. $medium->{end}) {
 			    my $filename = $urpm->{depslist}[$_]->filename;
-			    $list{$filename} = "$medium->{url}/$_";
+			    $list{$filename} = "$medium->{url}/$filename\n";
 			}
 		    }
 		}
@@ -996,6 +1014,13 @@ sub update_media {
 	    #- an error has occured for updating the medium, we have to remove tempory files.
 	    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 	    unlink "$urpm->{cachedir}/partial/$medium->{list}";
+	    #- read default synthesis (we have to make sure nothing get out of depslist).
+	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+	    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    unless (defined $medium->{start} && defined $medium->{end}) {
+		$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+		$medium->{ignore} = 1;
+	    }
 	} else {
 	    #- make sure to rebuild base files and clean medium modified state.
 	    $medium->{modified} = 0;
@@ -1020,9 +1045,9 @@ sub update_media {
 	}
     }
 
-    #- check if some unresolved provides may force to rebuild all synthesis,
-    #- in any cases, two pass will be done.
-    my $force_rebuild_all_synthesis = $urpm->unresolved_provides_clean > 0;
+    #- some unresolved provides may force to rebuild all synthesis,
+    #- a second pass will be necessary.
+    $urpm->{second_pass} and $urpm->unresolved_provides_clean;
 
     #- second pass consist of reading again synthesis or hdlist.
     foreach my $medium (@{$urpm->{media}}) {
@@ -1032,10 +1057,12 @@ sub update_media {
 	#- a modified medium is an invalid medium, we have to read back the previous hdlist
 	#- or synthesis which has not been modified by first pass above.
 	if ($medium->{headers} && !$medium->{modified}) {
-	    $urpm->{log}(_("reading headers from medium \"%s\"", $medium->{name}));
-	    ($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
-								      headers => $medium->{headers},
-								     );
+	    if ($urpm->{second_pass}) {
+		$urpm->{log}(_("reading headers from medium \"%s\"", $medium->{name}));
+		($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
+									  headers => $medium->{headers},
+									 );
+	    }
 	    $urpm->{log}(_("building hdlist [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 	    #- finish building operation of hdlist.
 	    $urpm->build_hdlist(start  => $medium->{start},
@@ -1052,13 +1079,17 @@ sub update_media {
 	    #- keep in mind we have modified database, sure at this point.
 	    $urpm->{modified} = 1;
 	} elsif ($medium->{synthesis}) {
-	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-	    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    if ($urpm->{second_pass}) {
+		$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    }
 	} else {
-	    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-	    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", 1);
+	    if ($urpm->{second_pass}) {
+		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+		($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", 1);
+	    }
 	    #- check if synthesis file can be built.
-	    if (($force_rebuild_all_synthesis || $medium->{modified_synthesis}) && !$medium->{modified}) {
+	    if (($urpm->{second_pass} || $medium->{modified_synthesis}) && !$medium->{modified}) {
 		$urpm->build_synthesis(start     => $medium->{start},
 				       end       => $medium->{end},
 				       synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
@@ -1667,6 +1698,8 @@ sub filter_packages_to_upgrade {
 	}
     }
 
+    undef $db;
+
     #- rpm db will be closed automatically on destruction of $db.
     \%track;
 }
@@ -2118,6 +2151,7 @@ sub select_packages_to_upgrade {
 			  }
 		      });
     }
+    undef $db;
 }
 
 1;

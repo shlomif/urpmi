@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.4
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Wed Jun  5 2002 François Pons <fpons@mandrakesoft.com> 3.4-2mdk
+- fix rpmdb non closed when traversing it.
+- fix ftp and http medium with bad list generation.
+- improved urpmi.update to avoid two pass all the time.
+
 * Tue Jun  4 2002 François Pons <fpons@mandrakesoft.com> 3.4-1mdk
 - use URPM perl module instead of rpmtools.
 
