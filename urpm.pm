@@ -469,23 +469,30 @@ sub update_media {
 	#- build list file according to hdlist used.
 	#- make sure group and other does not have any access to this file.
 	unless ($error) {
-	    local *LIST;
-	    my $mask = umask 077;
-	    open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
-	      or $error = 1, $urpm->{error}("unable to write list file of \"$medium->{name}\"");
-	    umask $mask;
+	    #- sort list file contents according to depslist.ordered file.
+	    my %list;
 	    if (@files) {
 		foreach (@files) {
-		    print LIST "$prefix:/$_\n";
+		    /\/([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
+		    $list{"$prefix:/$_\n"} = ($urpm->{params}{info}{$1} || { id => 1000000000 })->{id};
 		}
 	    } else {
 		local (*F, $_);
 		open F, "parsehdlist '$urpm->{cachedir}/partial/$medium->{hdlist}' |";
 		while (<F>) {
-		    print LIST "$medium->{url}/$_";
+		    /\/([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
+		    $list{"$medium->{url}/$_"} = ($urpm->{params}{info}{$1} || { id => 1000000000 })->{id};
 		}
 		close F;
 	    }
+
+	    #- write list file.
+	    local *LIST;
+	    my $mask = umask 077;
+	    open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
+	      or $error = 1, $urpm->{error}("unable to write list file of \"$medium->{name}\"");
+	    umask $mask;
+	    print LIST sort { $list{$a} <=> $list{$b} } keys %list;
 	    close LIST;
 
 	    #- check if at least something has been written into list file.

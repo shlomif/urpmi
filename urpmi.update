@@ -57,7 +57,8 @@ sub main {
 	    $_->{modified} and delete $_->{ignore};
 	}
     }
-	
+
+    $urpm->read_depslist;
     $urpm->update_media(%options);
 }
 

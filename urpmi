@@ -80,7 +80,7 @@ my @nextargv;
 for (@ARGV) {
     /^--help$/ and do { usage; next };
     /^--auto$/ and do { $auto = 1; next };
-    /^--auto-select$/ and do { $auto_select = 1; next };
+    /^--auto-select$/ and do { $auto_select = 1; $minimal = 0; next };
     /^--force$/ and do { $force = 1; next };
     /^--X$/ and do { $X = 1; next };
     /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0; next };
