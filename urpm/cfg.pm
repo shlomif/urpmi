@@ -40,12 +40,57 @@ Returns 1 on success, 0 on failure.
 
 =cut
 
+#- implementations of the substitutions. arch and release are mdk-specific
+
+sub get_arch () { `/bin/rpm -q --qf '%{arch}' mandrakelinux-release` }
+
+sub get_release () {
+    my ($v, $r) = split / /, `/bin/rpm -q --qf '%{version} %{release}' mandrakelinux-release`;
+    $v = 'cooker' if $r =~ /^0\./;
+    $v;
+}
+
+sub get_host () {
+    my $h;
+    if (open my $f, '/proc/sys/kernel/hostname') {
+	$h = <$f>;
+	close $f;
+    } else {
+	$h = $ENV{HOSTNAME} || `/bin/hostname`;
+    }
+    chomp $h;
+    $h;
+}
+
 our $err;
 
 sub _syntax_error () { $err = N("syntax error in config file at line %s", $.) }
 
-sub load_config ($) {
-    my ($file) = @_;
+sub substitute_back {
+    my ($new, $old) = @_;
+    return $new if !defined($old);
+    return $old if expand_line($old) eq $new;
+    return $new;
+}
+
+my %substitutions;
+sub expand_line {
+    my ($line) = @_;
+    unless (scalar keys %substitutions) {
+	%substitutions = (
+	    HOST => get_host(),
+	    ARCH => get_arch(),
+	    RELEASE => get_release(),
+	);
+    }
+    foreach my $sub (keys %substitutions) {
+	$line =~ s/\$$sub\b/$substitutions{$sub}/g;
+    }
+    return $line;
+}
+
+sub load_config ($;$) {
+    my ($file, $norewrite) = @_;
     my %config;
     my $priority = 0;
     my $medium;
@@ -56,9 +101,10 @@ sub load_config ($) {
 	chomp;
 	next if /^\s*#/; #- comments
 	s/^\s+//; s/\s+$//;
+	$_ = expand_line($_) unless $norewrite;
 	if ($_ eq '}') { #-{
 	    if (!defined $medium) {
-		_syntax_error;
+		_syntax_error();
 		return;
 	    }
 	    $config{$medium}{priority} = $priority++; #- to preserve order
@@ -66,7 +112,7 @@ sub load_config ($) {
 	    next;
 	}
 	if (defined $medium && /{$/) { #-}
-	    _syntax_error;
+	    _syntax_error();
 	    return;
 	}
 	if ($_ eq '{') { #-} Entering a global block
@@ -131,6 +177,7 @@ sub load_config ($) {
 
 sub dump_config ($$) {
     my ($file, $config) = @_;
+    my $config_old = load_config($file, 1);
     my @media = sort {
 	return  0 if $a eq $b;
 	return -1 if $a eq ''; #- global options come first
@@ -141,10 +188,10 @@ sub dump_config ($$) {
 	$err = N("unable to write config file [%s]", $file);
 	return 0;
     };
-    print $f "# generated " . (scalar localtime) . "\n";
+    print $f "# generated " . (scalar localtime()) . "\n";
     foreach my $m (@media) {
 	if ($m) {
-	    print $f quotespace($m), ' ', quotespace($config->{$m}{url}), " {\n";
+	    print $f quotespace($m), ' ', quotespace(substitute_back($config->{$m}{url}, $config_old->{$m}{url})), " {\n";
 	} else {
 	    next if !keys %{$config->{''}};
 	    print $f "{\n";
@@ -153,7 +200,7 @@ sub dump_config ($$) {
 	    if (/^(update|ignore|synthesis|virtual)$/) {
 		print $f "  $_\n";
 	    } elsif ($_ ne 'priority') {
-		print $f "  $_: $config->{$m}{$_}\n";
+		print $f "  $_: " . substitute_back($config->{$m}{$_}, $config_old->{$m}{$_}) . "\n";
 	    }
 	}
 	print $f "}\n\n";

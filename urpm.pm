@@ -680,6 +680,16 @@ sub add_medium {
     #- keep in mind the database has been modified and base files need to be updated.
     #- this will be done automatically by transfering modified flag from medium to global.
     $urpm->{log}(N("added medium %s", $name));
+
+    #- we need to reload the config, since some string substitutions may have occured
+    $urpm->write_config;
+    delete $urpm->{media};
+    $urpm->read_config(nocheck_access => 1);
+    foreach (@{$urpm->{media}}) {
+	$_->{name} eq $name and $_->{modified} = 1;
+    }
+    $urpm->{modified} = 1;
+
     $name;
 }
 
