@@ -208,10 +208,9 @@ sub sync_curl {
     local *CURL;
     my $options = shift @_;
     chdir(ref($options) ? $options->{dir} : $options);
-    my (@ftp_files, @other_files, $use_https);
+    my (@ftp_files, @other_files);
     foreach (@_) {
 	/^ftp:\/\/.*\/([^\/]*)$/ && -s $1 > 8192 and do { push @ftp_files, $_; next }; #- manage time stamp for large file only.
-	$use_https ||= /^https:/;
 	push @other_files, $_;
     }
     if (@ftp_files) {
@@ -264,7 +263,8 @@ sub sync_curl {
 			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 			(ref($options) && $options->{quiet} && !$options->{verbose} ? "-s" : @{[]}),
-			($use_https ? "-k" : @{[]}), "-R", "-f", "--stderr", "-",
+			"-k", `curl -h` =~ /location-trusted/ ? "--location-trusted" : @{[]},
+                        "-R", "-f", "--stderr", "-",
 			@all_files) . " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	while (<CURL>) {
