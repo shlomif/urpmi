@@ -102,11 +102,7 @@ my %options_spec = (
 	},
 	'bug=s' => \$options{bug},
 	'env=s' => \$::env,
-	X => \$options{X},
 	WID => \$::WID,
-	'best-output' => sub {
-	    $options{X} ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0
-	},
 	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
 	'strict-arch!' => sub { $urpm->{options}{'strict-arch'} = $_[1] },
 	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1] },
@@ -311,12 +307,7 @@ foreach my $k ("help|h", "wget", "curl", "proxy=s", "proxy-user=s", "c", "f", "z
 
 sub parse_cmdline {
     my %args = @_;
-    # set up global urpm object
     $urpm = $args{urpm};
-    # parse options
-    if ($tool eq 'urpmi') {
-	foreach (@ARGV) { $_ = '-X' if $_ eq '--X' }
-    }
     GetOptions(%{$options_spec{$tool}});
 }
 

@@ -116,9 +116,6 @@ usage:
                    next arg.
 ") . N("  --env          - use specific environment (typically a bug
                    report).
-") . N("  --X            - use X interface.
-") . N("  --best-output  - choose best interface according to the environment:
-                   X or text mode.
 ") . N("  --verify-rpm   - verify rpm signature before installation
                    (--no-verify-rpm disable it, default is enabled).
 ") . N("  --test         - verify if the installation can be achieved correctly.
@@ -189,46 +186,11 @@ while (defined($_ = shift @ARGV)) {
     $src = 0; #- reset switch for next package.
 }
 
-if ($urpm::args::options{X}) { require gurpm }
-
 #- use install_src to promote all names as src package.
 if ($install_src) {
     @files and $urpm->{fatal}(1, N("What can be done with binary rpm files when using --install-src"));
     push @src_names, @names;
     @names = ();
-}
-
-if ($urpm::args::options{X} && @src_files == 1 && @files == 0 && @names == 0 && @src_names == 0 && !$force) {
-    gmessage(
-N("You have selected a source package:
-
-%s
-
-You probably didn't want to install it on your computer (installing it
-would allow you to make modifications to its sourcecode then compile it).
-
-What would you like to do?", $src_files[0]),
-             ok => N("Do nothing"),
-             cancel => N("Yes, really install it"),
-             add_buttons => [ N("Save file") . ':1' ]);
-    my $rc = $? >> 8;
-    if ($rc == 0) {
-        exit(1);
-    } elsif ($rc == 1) {
-        save_file($src_files[0]);
-    }
-}
-
-if ($urpm::args::options{X} && @files == 1 && @names == 0 && $verbose >= 0) {
-    gmessage(
-N("You are about to install the following software package on your computer:
-
-%s
-
-You may prefer to just save it. What is your choice?", $files[0]),
-             ok => N("Install it"),
-             cancel => N("Save file"));
-    $? and save_file($files[0]);
 }
 
 #- prepare bug report.
@@ -390,28 +352,12 @@ sub ask_choice {
 
     if (@l > 1 && !$urpm->{options}{auto}) {
 	my $msg = N("One of the following packages is needed:");
-	if ($urpm::args::options{X}) {
-	    if (-x '/usr/bin/zenity') {
-		my $choice = `zenity --list --column=RPM --text="$msg" @l`;
-		chomp $choice;
-		each_index { $_ eq $choice and $n = $::i } @l;
-	    } else {
-		system(qq(gchooser "$msg" @l));
-		$n = $? >> 8 or die "\n";
-	    }
-	} else {
-	    message($msg);
-	    my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
-	    $n = message_input(N("What is your choice? (1-%d) ", $i), undef, range_min => 0, range => $i);
-	    defined($n) && $n ne "0" or exit 1; # abort.
-	}
+	message($msg);
+	my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
+	$n = message_input(N("What is your choice? (1-%d) ", $i), undef, range_min => 0, range => $i);
+	defined($n) && $n ne "0" or exit 1; # abort.
     }
     $choices->[$n - 1];
-}
-
-if ($parallel && $urpm::args::options{X}) {
-    gurpm::init(to_utf8(N("Package installation...")), to_utf8(N("Initializing...")));
-    $urpm->{ui} = { msg => sub { gurpm::label(to_utf8($_[0])) }, progress => sub { gurpm::progress($_[0]) } };
 }
 
 #- do the resolution of dependencies between requested package (and auto selection if any).
@@ -438,19 +384,14 @@ that are older than the installed ones:\n%s", $list);
     if ($urpm->{options}{auto}) {
 	message($msg, 'noX');
     } else {
-	if ($urpm::args::options{X}) {
-	    gmessage("$msg\n" . N("do you agree ?"));
-	    $? and exit 0;
-	} else {
-	    my $noexpr = N("Nn");
-	    my $yesexpr = N("Yy");
-	    message_input(
-		$msg . N("\nContinue?") . N(" (Y/n) "),
-		$force && $yesexpr,
-		boolean => 1,
-	    ) =~ /[$noexpr]/
-		and exit 0;
-	}
+	my $noexpr = N("Nn");
+	my $yesexpr = N("Yy");
+	message_input(
+	    $msg . N("\nContinue?") . N(" (Y/n) "),
+	    $force && $yesexpr,
+	    boolean => 1,
+	) =~ /[$noexpr]/
+	    and exit 0;
     }
 }
 
@@ -461,19 +402,14 @@ if (@ask_unselect) {
     if ($urpm->{options}{auto}) {
 	message($msg, 'noX');
     } else {
-	if ($urpm::args::options{X}) {
-	    gmessage("$msg\n" . N("do you agree ?"));
-	    $? and exit 0;
-	} else {
-	    my $noexpr = N("Nn");
-	    my $yesexpr = N("Yy");
-	    message_input(
-		$msg . N("\nContinue?") . N(" (Y/n) "),
-		$force && $yesexpr,
-		boolean => 1,
-	    ) =~ /[$noexpr]/
-		and exit 0;
-	}
+	my $noexpr = N("Nn");
+	my $yesexpr = N("Yy");
+	message_input(
+	    $msg . N("\nContinue?") . N(" (Y/n) "),
+	    $force && $yesexpr,
+	    boolean => 1,
+	) =~ /[$noexpr]/
+	    and exit 0;
     }
 }
 
@@ -492,14 +428,9 @@ have to be removed for others to be upgraded:\n%s\n", $list);
     if ($urpm->{options}{auto}) {
 	message($msg, 'noX');
     } else {
-	if ($urpm::args::options{X}) {
-	    gmessage("$msg\n" . N("do you agree ?"));
-	    $? and exit 0;
-	} else {
-	    my $noexpr = N("Nn");
-	    my $yesexpr = N("Yy");
-	    message_input($msg . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
-	}
+	my $noexpr = N("Nn");
+	my $yesexpr = N("Yy");
+	message_input($msg . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
     }
 }
 
@@ -537,20 +468,15 @@ if ($env) {
 if (@root_only) {
     print STDERR N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
-} elsif (!$urpm->{options}{auto} && ($ask_user || $urpm::args::options{X}) && @to_install) {
+} elsif (!$urpm->{options}{auto} && $ask_user && @to_install) {
     my $msg = $#to_install
       ? N("To satisfy dependencies, the following %d packages are going to be installed (%d MB)", $#to_install+1, toMb($sum))
       : N("To satisfy dependencies, the following package is going to be installed (%d MB)", toMb($sum));
     my $msg2 = N("Is this OK?");
     my $p = join "\n", @to_install;
-    if ($urpm::args::options{X}) {
-	gmessage("$msg:\n$p\n\n$msg2");
-	$? and exit 0;
-    } else {
-	my $noexpr = N("Nn");
-	my $yesexpr = N("Yy");
-	message_input("$msg:\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
-    }
+    my $noexpr = N("Nn");
+    my $yesexpr = N("Yy");
+    message_input("$msg:\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
 }
 
 #- if not root, the list become invisible and no download will be possible.
@@ -561,27 +487,19 @@ unless ($local_sources || $list) {
     $urpm->{fatal}(3, N("unable to get source packages, aborting"));
 }
 
-if ($urpm::args::options{X} && !$parallel) {  #- for $parallel, already done
-    gurpm::init(to_utf8(N("Package installation...")), to_utf8(N("Initializing...")));
-}
-
 my %sources = %$local_sources;
 my %error_sources;
 
-$urpm->copy_packages_of_removable_media($list, \%sources,
-					verbose => $verbose > 0,
-					force_local => 1,
-					ask_for_medium => (!$urpm->{options}{auto} || $allow_medium_change) && sub {
-					    my $msg = N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1]);
-					    my $msg2 = N("Press Enter when ready...");
-					    if ($urpm::args::options{X}) {
-						$msg =~ s/"/\\"/g;
-						gmessage($msg);
-						!$?;
-					    } else {
-						defined message_input("$msg\n$msg2 ");
-					    }
-					});
+$urpm->copy_packages_of_removable_media(
+    $list, \%sources,
+    verbose => $verbose > 0,
+    force_local => 1,
+    ask_for_medium => (!$urpm->{options}{auto} || $allow_medium_change) && sub {
+	my $msg = N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1]);
+	my $msg2 = N("Press Enter when ready...");
+	defined message_input("$msg\n$msg2 ");
+    },
+);
 
 #- now create transaction just before installation, this will save user impression of slowness.
 #- split of transaction should be disabled if --test is used.
@@ -614,18 +532,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	force_local => 1,
 	callback => sub {
 	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
-	    if ($urpm::args::options{X}) {
-		if ($mode eq 'start') {
-		    $file =~ s|/*\s*$||; $file =~ s|.*/||;
-		    gurpm::label(to_utf8(N("Downloading package `%s'...", $file)));
-		} elsif ($mode eq 'progress') {
-		    gurpm::progress($percent/100);
-		} elsif ($mode eq 'end') {
-		    gurpm::progress(1);
-		}
-	    } else {
-		goto &urpm::download::sync_logger;
-	    }
+	    goto &urpm::download::sync_logger;
 	},
     );
     my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources) || {}};
@@ -641,14 +548,9 @@ foreach my $set (@{$state->{transaction} || []}) {
 		message("$msg:\n$p\n", 'noX');
 		exit 1;
 	    } else {
-		if ($urpm::args::options{X}) {
-		    gmessage("$msg:\n$p\n\n$msg2");
-		    $? and exit 1;
-		} else {
-		    my $noexpr = N("Nn");
-		    my $yesexpr = N("Yy");
-		    message_input("$msg:\n$p\n$msg2" . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 1;
-		}
+		my $noexpr = N("Nn");
+		my $yesexpr = N("Yy");
+		message_input("$msg:\n$p\n$msg2" . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 1;
 	    }
 	}
     }
@@ -701,20 +603,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    $urpm->{log}("starting installing packages");
 	    my $progress_nb;
 	    my $total_nb = scalar grep { m|^/| } values %transaction_sources_install, values %transaction_sources;
-	    my $callback_inst = $urpm::args::options{X} && sub {
-		my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
-		my $pkg = defined $id && $urpm->{depslist}[$id];
-
-		if ($subtype eq 'start') {
-		    if ($type eq 'trans') {
-			gurpm::label(to_utf8(N("Preparing...")));
-		    } else {
-			gurpm::label(to_utf8(N("Installing package `%s' (%s/%s)...", $pkg->name, ++$progress_nb, $total_nb)));
-		    }
-		} elsif ($subtype eq 'progress') {
-		    gurpm::progress($amount/$total);
-		}
-	    };
 	    my @l = $urpm->install(
 		!$urpm->{options}{'allow-force'} && $set->{remove} || [],
 		\%transaction_sources_install, \%transaction_sources,
@@ -723,7 +611,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 		oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
 		test => $test,
 		excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
-		callback_inst => $callback_inst, callback_trans => $callback_inst,
 	    );
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
@@ -819,7 +706,6 @@ unless ($env) {
 #- restart urpmi if needed, keep command line for that.
 if ($restart_itself && !$exit_code) {
     message(N("restarting urpmi"), 'noX');
-    if ($urpm::args::options{X}) { gurpm::end() }
     #- it seems to work correctly with exec instead of system, provided
     #- STDOUT or STDERR are not closed before (else no output at all).
     #- added --no-priority-upgrade to make sure no restart will be done after this one.
@@ -839,10 +725,5 @@ if ($pid_err && $pid_out) {
     close STDOUT;
 }
 
-if ($urpm::args::options{X}) {
-    gtkset_mousecursor_normal(); #- to restore a normal cursor in any case
-    gurpm::end();
-    flush();
-}
 use POSIX ();
 POSIX::_exit($exit_code);
