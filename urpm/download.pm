@@ -441,6 +441,7 @@ sub sync_logger {
 	} else {
 	    $text = N("        %s%% completed, speed = %s", $percent, $speed);
 	}
+	if (length($text) > $wchar) { $text = substr($text, 0, $wchar) }
 	print STDERR $text, " " x ($wchar - length($text)), "\r";
     } elsif ($mode eq 'end') {
 	print STDERR " " x $wchar, "\r";
