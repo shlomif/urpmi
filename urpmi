@@ -71,6 +71,10 @@ usage:
 ") . _("  --force        - force invocation even if some packages do not exist.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
+") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
+                   to be 1080 by default (format is <proxyhost[:port]>).
+") . _("  --proxy-user   - specify user and password to use for proxy
+                   authentication (format is <user:password>).
 ") . _("  --bug          - output a bug report in directory indicated by next arg.
 ") . _("  --env          - use specific environment (typically a bug report).
 ") . _("  --X            - use X interface.
@@ -107,6 +111,18 @@ for (@ARGV) {
 				      else { $options = { dir => $options, prefer => 'wget' } }
 				      urpm::sync_webfetch($options, @_) }; next };
     /^--curl$/ and do { $sync = \&urpm::sync_webfetch; next };
+    /^--proxy$/ and do {
+	($_ = shift @_) =~ m,^http://([^:]+)(:([\d]+)|[^:])$, or die $usage;
+	$_ .= ":1080" if /[^\d]/;
+	$urpm->{proxy}->{http_proxy} = $_;
+	next;
+    };
+    /^--proxy-user$/ and do {
+	($_ = shift @_) =~ /(.+):(.+)/, or die $usage;
+	$urpm->{proxy}->{user} = $1;
+	$urpm->{proxy}->{pwd} = $2;
+	next;
+    };
     /^--bug$/ and do { push @nextargv, \$bug; next };
     /^--env$/ and do { push @nextargv, \$env; next };
     /^--X$/ and do { $X = 1; next };
@@ -460,7 +476,7 @@ if (%sources_install || %sources) {
 	} else {
 	    my @l = $urpm->install($root, \%sources_install, \%sources);
 	    if (@l) {
-		message(_("Installation failed"));
+		message(_("Installation failed") . ":\n" . join("\n", @l));
 
 		m|^/| && !-e $_ and exit 2 foreach values %sources_install, values %sources; #- missing local file
 		$auto and exit 1; #- if auto has been set, avoid asking user.
@@ -472,7 +488,7 @@ if (%sources_install || %sources) {
 		$urpm->{log}("starting installing packages without deps");
 		@l = $urpm->install($root, \%sources_install, \%sources, nodeps => 1);
 		if (@l) {
-		    message(_("Installation failed"));
+		    message(_("Installation failed") . ":\n" . join("\n", @l));
 		    message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
 		      or exit 1;
 		    $urpm->{log}("starting force installing packages without deps");

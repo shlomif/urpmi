@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.7
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Thu Jul 11 2002 François Pons <fpons@mandrakesoft.com> 3.7-3mdk
+- incorporated proxy patch of Andre Duclos <shirka@wanadoo.fr>.
+- added tempory error message (before message and translation are
+  done).
+
 * Tue Jul  9 2002 Pixel <pixel@mandrakesoft.com> 3.7-2mdk
 - rebuild for perl 5.8.0
 

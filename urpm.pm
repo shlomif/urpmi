@@ -121,11 +121,63 @@ sub new {
 	   depslist   => [],
 
 	   sync       => \&sync_webfetch, #- first argument is directory, others are url to fetch.
+	   proxy      => get_proxy(),
 
 	   fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	   error      => sub { printf STDERR "%s\n", $_[0] },
 	   log        => sub { printf STDERR "%s\n", $_[0] },
 	  }, $class;
+}
+
+sub get_proxy {
+    my $proxy = {
+		 http_proxy => undef ,
+		 user => undef,
+		 pwd => undef
+		};
+    local (*F, $_);
+    #	open F, "$ENV{HOME}/.wgetrc" or return;
+    open F, "/etc/urpmi/proxy.cfg" or return;
+    while (<F>) {
+	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	/^http_proxy\s*=\s*(.*)$/ and $proxy->{http_proxy} = $1, next;
+	/^ftp_proxy\s*=\s*(.*)$/ and $proxy->{ftp_proxy} = $1, next;
+	/^proxy_user\s*=\s*(.*):(.*)$/ and do {
+	    $proxy->{user} = $1;
+	    $proxy->{pwd} = $2;
+	    next;
+	};
+	next;
+    }
+    close F;
+    $proxy;
+}
+
+sub set_proxy {
+    my $proxy = shift @_;
+    my @res;
+    if (defined $proxy->{proxy}->{http_proxy} or defined $proxy->{proxy}->{ftp_proxy}) {
+	for ($proxy->{type}) {
+	    /wget/ && do {
+		for ($proxy->{proxy}) {
+		    $ENV{http_proxy} = $_->{http_proxy} if defined $_->{http_proxy};
+		    $ENV{ftp_proxy} = $_->{ftp_proxy} if defined $_->{ftp_proxy};
+		    @res = ("--proxy-user=$_->{user}", "--proxy-passwd=$_->{pwd}") if defined $_->{user} && defined $_->{pwd};
+		}
+		last;
+	    };
+	    /curl/ && do {
+		for ($proxy->{proxy}) {
+		    push @res, "-x $_->{http_proxy}" if defined $_->{http_proxy};
+		    push @res, "-x $_->{ftp_proxy}" if defined $_->{ftp_proxy};
+		    push @res, "-U $_->{user}:$_->{pwd}" if defined $_->{user} && defined $_->{pwd};
+		}
+		last;
+	    };
+	    die _("Unknown webfetch `$proxy->{type}' !!!\n");
+	}
+    }
+    return @res;
 }
 
 #- quoting/unquoting a string that may be containing space chars.
@@ -167,8 +219,10 @@ sub sync_webfetch {
 sub sync_wget {
     -x "/usr/bin/wget" or die _("wget is missing\n");
     my $options = shift @_;
-    system "/usr/bin/wget", (ref $options && $options->{quiet} ? ("-q") : ()), "-NP",
-      (ref $options ? $options->{dir} : $options), @_;
+    system "/usr/bin/wget",
+    	(ref $options && set_proxy({type => "wget", proxy => $options->{proxy}})),
+    	(ref $options && $options->{quiet} ? ("-q") : ()), "-NP",
+    	(ref $options ? $options->{dir} : $options), @_;
     $? == 0 or die _("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 sub sync_curl {
@@ -187,7 +241,10 @@ sub sync_curl {
 
 	#- prepare to get back size and time stamp of each file.
 	local *CURL;
-	open CURL, "/usr/bin/curl -I " . join(" ", map { "'$_'" } @ftp_files) . " |";
+	open CURL, "/usr/bin/curl" .
+		" " . (ref $options && set_proxy({type => "curl", proxy => $options->{proxy}})) .
+		" " . (ref $options && $options->{quiet} ? ("-s") : ()) .
+		" -I " . join(" ", map { "'$_'" } @ftp_files) . " |";
 	while (<CURL>) {
 	    if (/Content-Length:\s*(\d+)/) {
 		!$cur_ftp_file || exists $ftp_files_info{$cur_ftp_file}{size} and $cur_ftp_file = shift @ftp_files;
@@ -222,7 +279,10 @@ sub sync_curl {
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-z file -O <file>)*
     if (my @all_files = ((map { ("-O", $_ ) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
-	system "/usr/bin/curl", (ref $options && $options->{quiet} ? ("-s") : ()), "-R", "-f", @all_files;
+	system "/usr/bin/curl",
+		(ref $options && set_proxy({type => "curl", proxy => $options->{proxy}})),
+		(ref $options && $options->{quiet} ? ("-s") : ()), "-R", "-f",
+		@all_files;
 	$? == 0 or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
     }
 }
@@ -560,7 +620,8 @@ sub add_distrib_media {
 	unlink "$urpm->{cachedir}/partial/hdlists";
 	eval {
 	    $urpm->{log}(_("retrieving hdlists file..."));
-	    $urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$url/Mandrake/base/hdlists"));
+#	    $urpm->{sync}({proxy => $urpm->{proxy}}, "$urpm->{cachedir}/partial", reduce_pathname("$url/Mandrake/base/hdlists"));
+	    $urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}}, reduce_pathname("$url/Mandrake/base/hdlists"));
 	    $urpm->{log}(_("...retrieving done"));
 	};
 	$@ and $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -859,7 +920,7 @@ sub update_media {
 	    }
 	    eval {
 		$urpm->{log}(_("retrieving description file of \"%s\"...", $medium->{name}));
-		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1 },
+		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} },
 			      reduce_pathname("$medium->{url}/../descriptions"));
 		$urpm->{log}(_("...retrieving done"));
 	    };
@@ -884,7 +945,7 @@ sub update_media {
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1 }, reduce_pathname("$medium->{url}/$_"));
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$_"));
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
 			$medium->{with_hdlist} = $_;
@@ -905,7 +966,8 @@ sub update_media {
 		      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 		}
 		eval {
-		    $urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
+#		    $urpm->{sync}({proxy => $urpm->{proxy}}, "$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
+		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}}, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
 		};
 		if ($@) {
 		    $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -942,7 +1004,7 @@ sub update_media {
 		    unlink "$urpm->{cachedir}/partial/list";
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1},
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}},
 				      reduce_pathname("$medium->{url}/$local_list"));
 			$local_list ne 'list' and
 			  rename("$urpm->{cachedir}/partial/$local_list", "$urpm->{cachedir}/partial/list");
@@ -1681,7 +1743,8 @@ sub download_source_packages {
 	foreach (map { m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| ? "$1xxxx$2" : $_ } @distant_sources) {
 	    $urpm->{log}("    $_") ;
 	}
-	$urpm->{sync}("$urpm->{cachedir}/rpms", @distant_sources);
+#	$urpm->{sync}({proxy => $urpm->{proxy}}, "$urpm->{cachedir}/rpms", @distant_sources);
+	$urpm->{sync}({dir => "$urpm->{cachedir}/rpms", quiet => 1, proxy => $urpm->{proxy}}, @distant_sources);
 	$urpm->{log}(_("...retrieving done"));
     };
     $@ and $urpm->{log}(_("...retrieving failed: %s", $@));

@@ -40,6 +40,18 @@ sub main {
 					    else { $options = { dir => $options, prefer => 'wget' } }
 					    urpm::sync_webfetch($options, @_) }, next;
 	/^--curl/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
+	/^--proxy$/ and do {
+	    ($_ = shift @_) =~ m,^http://([^:]+)(:([\d]+)|[^:])$, or die $usage;
+	    $_ .= ":1080" if /[^\d]/;
+	    $urpm->{proxy}->{http_proxy} = $_;
+	    next;
+	};
+	/^--proxy-user$/ and do {
+	    ($_ = shift @_) =~ /(.+):(.+)/, or die $usage;
+	    $urpm->{proxy}->{user} = $1;
+	    $urpm->{proxy}->{pwd} = $2;
+	    next;
+	};
 	/^--?noa/ and next; #- default, keeped for compability.
 	/^-/ and die _("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.
@@ -49,6 +61,10 @@ where <name> is a medium name to update.
 ") . _("  -f             - force generation of hdlist files.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
+") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
+                   to be 1080 by default (format is <proxyhost[:port]>).
+") . _("  --proxy-user   - specify user and password to use for proxy
+                   authentication (format is <user:password>).
 ") . _("\nunknown options '%s'\n", $_);
 	push @toupdates, $_;
     }
