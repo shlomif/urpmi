@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.0
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -49,6 +49,7 @@ cat <<EOF >$RPM_BUILD_ROOT/etc/urpmi/inst.list
 # Here you can specify packages that need to be installed instead
 # of being upgraded (typically kernel packages).
 kernel
+kernel-source
 kernel-smp
 kernel-secure
 kernel-enterprise
@@ -91,7 +92,9 @@ cd /var/lib/urpmi
 rm -f compss provides depslist*
 misconfigured=0
 for hdlist in hdlist.*; do
-  [ -s synthesis.$hdlist ] || misconfigured=1
+  if [ -s "$hdlist" -a ! -s "synthesis.$hdlist" ]; then
+     misconfigured=1
+  fi
 done
 if [ -z "$DURING_INSTALL" -a "$misconfigured" -ge 1 ]; then
   rm -f synthesis.hdlist.* && %{_sbindir}/urpmi.update -a
@@ -139,6 +142,10 @@ fi
 
 
 %changelog
+* Mon Dec 10 2001 François Pons <fpons@mandrakesoft.com> 3.0-5mdk
+- fixed %%post again.
+- added kernel-source in /etc/urpmi/inst.list.
+
 * Fri Dec  7 2001 François Pons <fpons@mandrakesoft.com> 3.0-4mdk
 - fixed in urpmq to handle --headers (needed by rpminst) when
   no hdlist are present.
