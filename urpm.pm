@@ -2781,7 +2781,7 @@ sub install {
     }
 
     #- now exit or return according to current status.
-    if (defined $pid) {
+    if (defined $pid && !$pid) { #- child process
 	print ERROR_OUTPUT "::logger_id:$urpm->{logger_id}\n"; #- allow main urpmi to know transaction numbering...
 	print ERROR_OUTPUT "$_\n" foreach @l;
 	close ERROR_OUTPUT;
