@@ -1408,7 +1408,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 
 	    #- check downloaded file has right signature.
-	    if (-e "$urpm->{cachedir}/partial/$basename" && -s _> 32 && $retrieved_md5sum) {
+	    if (-e "$urpm->{cachedir}/partial/$basename" && -s _ > 32 && $retrieved_md5sum) {
 		$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
 		unless ((split ' ', `md5sum '$urpm->{cachedir}/partial/$basename'`)[0] eq $retrieved_md5sum) {
 		    $urpm->{error}(N("...retrieving failed: %s", N("md5sum mismatch")));
