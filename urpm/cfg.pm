@@ -217,6 +217,24 @@ sub dump_config ($$) {
     return 1;
 }
 
+#- routines to handle mirror list location
+
+#- Default mirror list
+our $mirrors = 'http://www.mandrakelinux.com/mirrorsfull.list';
+
+sub mirrors_cfg () {
+    if (-e "/etc/urpmi/mirror.config") {
+	local $_;
+	open my $fh, "/etc/urpmi/mirror.config" or return undef;
+	while (<$fh>) {
+	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	    /^url\s*=\s*(.*)/ and $mirrors = $1;
+	}
+	close $fh;
+    }
+    return 1;
+}
+
 1;
 
 __END__

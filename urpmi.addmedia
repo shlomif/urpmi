@@ -25,9 +25,7 @@ use urpm;
 use urpm::args 'options';
 use urpm::msg;
 use urpm::download ();
-
-# Default mirror list
-our $mirrors = 'http://www.mandrakelinux.com/mirrorsfull.list';
+use urpm::cfg;
 
 sub usage {
     my $m = shift;
@@ -61,7 +59,7 @@ and [options] are from
                    medium.
 ") . N("  --from         - use specified url for list of mirrors, the default is
                    %s
-", $mirrors) . N("  --version      - use specified distribution version, the default is taken
+", $urpm::cfg::mirrors) . N("  --version      - use specified distribution version, the default is taken
                    from the version of the distribution told by the
                    installed mandrakelinux-release package.
 ") . N("  --arch         - use specified architecture, the default is arch of
@@ -80,19 +78,12 @@ and [options] are from
 }
 
 sub main {
-    #- parse /etc/urpmi/mirror.config if present, or use default mandrake mirror.
-    #  the --from option overrides this setting.
+    #- parse /etc/urpmi/mirror.config if present, or use default mdk mirror.
+    #- the --from option overrides this setting.
     if ($options{mirrors_url}) {
-	$mirrors = $options{mirrors_url};
-    }
-    elsif (-e "/etc/urpmi/mirror.config") {
-	local $_;
-	open my $fh, "/etc/urpmi/mirror.config";
-	while (<$fh>) {
-	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	    /^url\s*=\s*(.*)/ and $mirrors = $1;
-	}
-	close $fh;
+	$urpm::cfg::mirrors = $options{mirrors_url};
+    } else {
+	urpm::cfg::mirrors_cfg();
     }
     $options{force} = 0;
     $options{noclean} = 1;
