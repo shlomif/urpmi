@@ -313,6 +313,8 @@ sub sync_curl {
 			    propagate_sync_callback($options, 'end', $file);
 			    $file = undef;
 			}
+		    } elsif ($buf =~ /^curl:/) { #- probably an error reported by curl
+			propagate_sync_callback($options, 'error', $file, $buf);
 		    }
 		} else {
 		    ref($options) && $options->{quiet} or print STDERR $buf;

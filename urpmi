@@ -614,6 +614,9 @@ foreach my $set (@{$state->{transaction} || []}) {
 							  print SAVEERR $text, " " x (79 - length($text)), "\r";
 						      } elsif ($mode eq 'end') {
 							  print SAVEERR " " x 79, "\r";
+						      } elsif ($mode eq 'error') {
+							  #- error is 3rd argument, saved in $percent
+							  print STDERR N("...retrieving failed: %s"), $percent, "\n";
 						      }
 						  }
 					      },
