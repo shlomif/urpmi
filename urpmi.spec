@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,9 @@ fi
 
 
 %changelog
+* Wed Jan  8 2003 François Pons <fpons@mandrakesoft.com> 4.2-4mdk
+- updated english man pages and french version of urpmi.
+
 * Mon Jan  6 2003 François Pons <fpons@mandrakesoft.com> 4.2-3mdk
 - fixed -q to avoid a message.
 - made -q and -v opposite.
