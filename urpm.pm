@@ -382,8 +382,9 @@ sub update_media {
     #- hdlist file else build it from rpms files.
     foreach my $medium (@{$urpm->{media}}) {
 	#- take care of modified medium only or all if all have to be recomputed.
+	#- but do not take care of removable media for all.
 	$medium->{ignore} and next;
-	$medium->{modified} ||= $options{all} or next;
+	$medium->{modified} ||= $options{all} && $medium->{url} !~ /removable/ or next;
 
 	#- list of rpm files for this medium, only available for local medium where
 	#- the source hdlist is not used (use force).
@@ -1178,7 +1179,7 @@ sub select_packages_to_upgrade {
 	    $ask_child->($pkg->{name}, "obsoletes", sub {
 			     #- take care of flags and version and release if present
 			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/ &&
-				 rpmtools::db_traverse_names($db, [], [$1], undef) > 0) {
+				 rpmtools::db_traverse_tag($db, "name", [$1], [], undef) > 0) {
 				 $3 and eval(rpmtools::version_compare($pkg->{version}, $3) . $2 . 0) or next;
 				 $4 and eval(rpmtools::version_compare($pkg->{release}, $4) . $2 . 0) or next;
 				 $urpm->{log}("selecting $pkg->{name}-$pkg->{version}-$pkg->{release} using obsoletes");
@@ -1225,9 +1226,9 @@ sub select_packages_to_upgrade {
 	#- find new packages to upgrade.
 	foreach my $pkg (values %{$urpm->{params}{info}}) {
 	    my $skipThis = 0;
-	    my $count = rpmtools::db_traverse_names($db, [ 'name' ], [ $pkg->{name} ], sub {
-							$skipThis ||= $pkg->{installed};
-						    });
+	    my $count = rpmtools::db_traverse_tag($db, "name", [ $pkg->{name} ], [ 'name' ], sub {
+						      $skipThis ||= $pkg->{installed};
+						  });
 
 	    #- skip if not installed (package not found in current install).
 	    $skipThis ||= ($count == 0);
@@ -1241,12 +1242,12 @@ sub select_packages_to_upgrade {
 		#- keep in mind installed files which are not being updated. doing this costs in
 		#- execution time but use less memory, else hash all installed files and unhash
 		#- all file for package marked for upgrade.
-		rpmtools::db_traverse_names($db, [ qw(name files) ], [ $pkg->{name} ], sub {
-						my ($p) = @_;
-						@installedFilesForUpgrade{grep { ($_ !~ m|^/etc/rc.d/| && $_ !~ m|\.la$| &&
-										  ! -d "$prefix/$_" && ! -l "$prefix/$_") }
-									    @{$p->{files}}} = ();
-					    });
+		rpmtools::db_traverse_tag($db, "name", [ $pkg->{name} ], [ qw(name files) ], sub {
+					      my ($p) = @_;
+					      @installedFilesForUpgrade{grep { ($_ !~ m|^/etc/rc.d/| && $_ !~ m|\.la$| &&
+										! -d "$prefix/$_" && ! -l "$prefix/$_") }
+									  @{$p->{files}}} = ();
+					  });
 
 		$ask_child->($pkg->{name}, "files", sub {
 				 delete $installedFilesForUpgrade{$_[0]};

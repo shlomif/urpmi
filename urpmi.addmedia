@@ -30,13 +30,12 @@ where <url> is one of
 	ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>
 	ftp://<host>/<path> with <relative filename of hdlist>
 	http://<host>/<path> with <relative filename of hdlist>
-        removable_<device>_<number>://<path>
+        removable_<device>://<path>
 ";
     $name or die $usage;
-    my ($type, $dev, $num) = $url =~ m,^(file|ftp|http|removable_(\w+)_(\d+))://, or die $usage;
+    my ($type, $dev) = $url =~ m,^(file|ftp|http|removable_(\w+)(?:_\d+)?)://, or die $usage;
 
     if ($type eq "removable") {
-	$num =~ /^\d+$/ or die "$usage  bad number (is `$num')\n";
 	$dev && -e "/dev/$dev" or die "$usage  device `$dev' do not exist\n";
     } elsif ($with eq "with") {
 	$relative_hdlist or die "$usage  <relative path of hdlist> missing\n";

@@ -2,12 +2,12 @@
 
 Name: urpmi
 Version: 1.5
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: /usr/bin/suidperl, eject, wget
-PreReq: rpmtools >= 2.2
+PreReq: rpmtools >= 2.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
@@ -113,7 +113,11 @@ autoirpm.uninstall
 
 
 %changelog
-* Wed Feb 14 2001 François Pons <fpons@ackbar.mandrakesoft.com> 1.5-1mdk
+* Wed Feb 14 2001 François Pons <fpons@mandrakesoft.com> 1.5-2mdk
+- removable medium are not automatically updated now.
+- remove need of number removable device when adding a new medium.
+
+* Wed Feb 14 2001 François Pons <fpons@mandrakesoft.com> 1.5-1mdk
 - added --auto-select flag for urpmi and urpmq.
 - added --headers flag to urpmq.
 - changed help screen for both urpmi and urpmq.
