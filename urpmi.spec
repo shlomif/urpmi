@@ -236,7 +236,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
-* Fri Jan 30 2004 Olivier Blin <blino@mandrake.org> 4.4.5-5mdk
+* Wed Feb 11 2004 Olivier Blin <blino@mandrake.org> 4.4.5-5mdk
 - send download errors to error output instead of log output
   (in order to display them in non-verbose mode too)
 - From Guillaume Cottenceau <gc@mandrakesoft.com> :
