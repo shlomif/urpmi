@@ -226,6 +226,7 @@ sub sync_wget {
     my $options = shift @_;
     my ($buf, $total, $file) = ('', undef, undef);
     open WGET, "-|", "/usr/bin/wget",
+               (ref $options && $options->{limit_rate} ? ("--limit-rate=$options->{limit_rate}") : ()),
                (ref $options && $options->{proxy} ? set_proxy({type => "wget", proxy => $options->{proxy}}) : ()),
 	       (ref $options && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
 		ref $options && $options->{quiet} ? ("-q") : ("")),
@@ -274,8 +275,9 @@ sub sync_curl {
 	require Date::Manip;
 
 	#- prepare to get back size and time stamp of each file.
-	open CURL, "/usr/bin/curl" .
-		" " . (ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()) .
+	open CURL, "/usr/bin/curl " .
+	        (ref $options && $options->{limit_rate} ? "--limit-rate $options->{limit_rate} " : " "),
+		(ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()) .
 		" -s -I " . join(" ", map { "'$_'" } @ftp_files) . " |";
 	while (<CURL>) {
 	    if (/Content-Length:\s*(\d+)/) {
@@ -314,7 +316,8 @@ sub sync_curl {
 	my @l = (@ftp_files, @other_files);
 	my ($buf, $file) = ('', undef);
 	open CURL, "-|", "/usr/bin/curl",
-	           (ref $options && set_proxy({type => "curl", proxy => $options->{proxy}})),
+	           (ref $options && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
+	           (ref $options && $options->{proxy} && set_proxy({type => "curl", proxy => $options->{proxy}})),
 		   (ref $options && $options->{quiet} && !$options->{verbose} ? ("-s") : ()), "-R", "-f", "--stderr", "-",
 		   @all_files;
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
@@ -345,6 +348,13 @@ sub sync_curl {
 sub sync_rsync {
     -x "/usr/bin/rsync" or die _("rsync is missing\n");
     my $options = shift @_;
+    my $limit_rate = ref $options && $options->{limit_rate};
+    for ($limit_rate) {
+	/^(\d+)$/     and $limit_rate = $1/1024;
+	/^(\d+)[kK]$/ and $limit_rate = $1;
+	/^(\d+)[mM]$/ and $limit_rate = 1024*$1;
+	/^(\d+)[gG]$/ and $limit_rate = 1024*1024*$1;
+    }
     foreach (@_) {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
@@ -353,8 +363,10 @@ sub sync_rsync {
 	do {
 	    local (*RSYNC, $_);
 	    my $buf = '';
-	    open RSYNC, "-|", "/usr/bin/rsync", (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-	      qw(--partial --no-whole-file), $file, (ref $options ? $options->{dir} : $options);
+	    open RSYNC, "-|", "/usr/bin/rsync",
+	                ($limit_rate ? ("--bwlimit=$limit_rate") : ()),
+	                (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
+			qw(--partial --no-whole-file), $file, (ref $options ? $options->{dir} : $options);
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
 		$buf .= $_;
@@ -379,6 +391,13 @@ sub sync_ssh {
     -x "/usr/bin/rsync" or die _("rsync is missing\n");
     -x "/usr/bin/ssh" or die _("ssh is missing\n");
     my $options = shift @_;
+    my $limit_rate = ref $options && $options->{limit_rate};
+    for ($limit_rate) {
+	/^(\d+)$/     and $limit_rate = $1/1024;
+	/^(\d+)[kK]$/ and $limit_rate = $1;
+	/^(\d+)[mM]$/ and $limit_rate = 1024*$1;
+	/^(\d+)[gG]$/ and $limit_rate = 1024*1024*$1;
+    }
     foreach my $file (@_) {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = ($file =~ /^.*\/([^\/]*)$/ && $1) || $file;
@@ -386,8 +405,10 @@ sub sync_ssh {
 	do {
 	    local (*RSYNC, $_);
 	    my $buf = '';
-	    open RSYNC, "-|", "/usr/bin/rsync", (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-	      qw(--partial -e ssh), $file, (ref $options ? $options->{dir} : $options);
+	    open RSYNC, "-|", "/usr/bin/rsync",
+	                ($limit_rate ? ("--bwlimit=$limit_rate") : ()),
+	                (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
+			qw(--partial -e ssh), $file, (ref $options ? $options->{dir} : $options);
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
 		$buf .= $_;
@@ -866,7 +887,10 @@ sub add_distrib_media {
 	unlink "$urpm->{cachedir}/partial/hdlists";
 	eval {
 	    $urpm->{log}(_("retrieving hdlists file..."));
-	    $urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}},
+	    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+			    quiet => 1,
+			    limit_rate => $options{limit_rate},
+			    proxy => $urpm->{proxy} },
 			  reduce_pathname("$url/Mandrake/base/hdlists"));
 	    $urpm->{log}(_("...retrieving done"));
 	};
@@ -1196,7 +1220,10 @@ sub update_media {
 	    }
 	    eval {
 		$urpm->{log}(_("retrieving description file of \"%s\"...", $medium->{name}));
-		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1,	proxy => $urpm->{proxy} },
+		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+				quiet => 1,
+				limit_rate => $options{limit_rate},
+				proxy => $urpm->{proxy} },
 			      reduce_pathname("$medium->{url}/../descriptions"));
 		$urpm->{log}(_("...retrieving done"));
 	    };
@@ -1221,7 +1248,10 @@ sub update_media {
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 0, callback => $options{callback},
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+					quiet => 0,
+					limit_rate => $options{limit_rate},
+					callback => $options{callback},
 					proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$_"));
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
@@ -1243,8 +1273,11 @@ sub update_media {
 		      system("cp", "-pR", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 		}
 		eval {
-		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 0, callback => $options{callback},
-				    proxy => $urpm->{proxy}}, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
+		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+				    quiet => 0,
+				    limit_rate => $options{limit_rate},
+				    callback => $options{callback},
+				    proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
 		};
 		if ($@) {
 		    $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -1258,7 +1291,10 @@ sub update_media {
 		    #- examine if a distant MD5SUM file is available.
 		    unlink "$urpm->{cachedir}/partial/MD5SUM";
 		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} },
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+					quiet => 1,
+					limit_rate => $options{limit_rate},
+					proxy => $urpm->{proxy} },
 				      reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/MD5SUM" > 32) {
@@ -1308,7 +1344,10 @@ sub update_media {
 		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}},
+			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+					quiet => 1,
+					limit_rate => $options{limit_rate},
+					proxy => $urpm->{proxy} },
 				      reduce_pathname("$medium->{url}/$local_list"));
 			$local_list ne 'list' and
 			  rename("$urpm->{cachedir}/partial/$local_list", "$urpm->{cachedir}/partial/list");
@@ -2232,6 +2271,7 @@ sub download_source_packages {
 		$urpm->{sync}({ dir => "$urpm->{cachedir}/rpms",
 				quiet => 0,
 				verbose => $options{verbose},
+				limit_rate => $options{limit_rate},
 				callback => $options{callback},
 				proxy => $urpm->{proxy}},
 			      values %distant_sources);

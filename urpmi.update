@@ -41,6 +41,7 @@ sub main {
 					     else { $options = { dir => $options, prefer => 'wget' } }
 					     urpm::sync_webfetch($options, @_) }, next;
 	/^--curl$/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
+	/^--limit-rate$/ and do {$options{limit_rate} = shift @_; next };
 	/^--proxy$/ and do {
 	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
 		die _("bad proxy declaration on command line\n");
@@ -61,6 +62,7 @@ where <name> is a medium name to update.
 ") . _("  --help         - print this help message.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
+") . _("  --limit-rate   - limit the download speed.
 ") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
                    to be 1080 by default (format is <proxyhost[:port]>).
 ") . _("  --proxy-user   - specify user and password to use for proxy

@@ -34,6 +34,7 @@ my $allow_nodeps = 0;
 my $allow_force = 0;
 my $parallel = '';
 my $sync = undef;
+my $limit_rate = undef;
 my $X = 0;
 my $WID = 0;
 my $all = 0;
@@ -92,6 +93,7 @@ usage:
 ") . _("  --parallel     - distributed urpmi accross machines of alias.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
+") . _("  --limit-rate   - limit the download speed.
 ") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
                    to be 1080 by default (format is <proxyhost[:port]>).
 ") . _("  --proxy-user   - specify user and password to use for proxy
@@ -149,6 +151,7 @@ while (defined($_ = shift @ARGV)) {
 				      else { $options = { dir => $options, prefer => 'wget' } }
 				      urpm::sync_webfetch($options, @_) }; next };
     /^--curl$/ and do { $sync = \&urpm::sync_webfetch; next };
+    /^--limit-rate$/ and do { push @nextargv, \$limit_rate; next };
     /^--proxy$/ and do {
 	my ($proxy, $port) = ($_ = shift @ARGV) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
 	    die _("bad proxy declaration on command line\n");
@@ -484,6 +487,7 @@ unless ($local_sources || $list) {
 
 my %sources = $urpm->download_source_packages($local_sources, $list,
 					      verbose => $verbose > 0,
+					      limit_rate => $limit_rate,
 					      callback => sub {
 						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;
 						  if ($mode eq 'start') {
