@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.6
-%define release 2mdk
+%define version	4.6.7
+%define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -27,15 +27,15 @@ Group:		%{group}
 Distribution:	%{distribution}
 License:	GPL
 Source0:	%{name}.tar.bz2
-Summary:	User mode rpm install
+Summary:	Command-line software installation tools
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
 PreReq:		perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 1.04
-BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3 
+BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3
 BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
-Conflicts: man-pages-fr < 1.58.0-8mdk
+Conflicts:	man-pages-fr < 1.58.0-8mdk
 
 %description
 urpmi is Mandrakelinux's console-based software installation tool. You can
@@ -84,12 +84,10 @@ distributed installation using ssh and scp tools.
 %install
 %{__rm} -rf %{buildroot}
 %{__make} PREFIX=%{buildroot} MANDIR=%{buildroot}%{_mandir} install
-#install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
 for dir in partial headers rpms
 do
   install -d %{buildroot}/var/cache/urpmi/$dir
 done
-#install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 cat <<EOF >%{buildroot}/etc/urpmi/inst.list
 # Here you can specify packages that need to be installed instead
 # of being upgraded.
@@ -109,9 +107,6 @@ do
 done
 mkdir -p %{buildroot}%{_mandir}/man3
 pod2man urpm.pm >%{buildroot}%{_mandir}/man3/urpm.3
-
-#find %{buildroot}%{_datadir}/locale -name %{name}.mo | \
-#    perl -pe 'm|locale/([^/_]*)(.*)|; $_ = "%%lang($1) %{_datadir}/locale/$1$2\n"' > %{name}.lang
 
 mv -f %{buildroot}%{_bindir}/rpm-find-leaves %{buildroot}%{_bindir}/urpmi_rpm-find-leaves
 
@@ -140,7 +135,7 @@ section=".hidden" \
 title="Software installer" \
 longtitle="Graphical front end to install RPM files" \
 mimetypes="application/x-rpm,application/x-urpmi" \
-multiple_files="true" 
+multiple_files="true"
 EOF
 %endif
 
@@ -163,9 +158,6 @@ use urpm;
 $urpm = new urpm;
 $urpm->read_config;
 $urpm->update_media(nolock => 1, nopubkey => 1);
-
-#%preun -n autoirpm
-#[ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
 
 %if %{allow_gurpmi}
 %post -n gurpmi
@@ -196,14 +188,14 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{_mandir}/man?/urpm*
 %{_mandir}/man?/proxy*
 # find_lang isn't able to find man pages yet...
-%lang(cs) %{_mandir}/cs/man?/urpm* 
-%lang(et) %{_mandir}/et/man?/urpm* 
-%lang(eu) %{_mandir}/eu/man?/urpm* 
-%lang(fi) %{_mandir}/fi/man?/urpm* 
-%lang(fr) %{_mandir}/fr/man?/urpm* 
-%lang(nl) %{_mandir}/nl/man?/urpm* 
-%lang(ru) %{_mandir}/ru/man?/urpm* 
-%lang(uk) %{_mandir}/uk/man?/urpm* 
+%lang(cs) %{_mandir}/cs/man?/urpm*
+%lang(et) %{_mandir}/et/man?/urpm*
+%lang(eu) %{_mandir}/eu/man?/urpm*
+%lang(fi) %{_mandir}/fi/man?/urpm*
+%lang(fr) %{_mandir}/fr/man?/urpm*
+%lang(nl) %{_mandir}/nl/man?/urpm*
+%lang(ru) %{_mandir}/ru/man?/urpm*
+%lang(uk) %{_mandir}/uk/man?/urpm*
 %dir %{compat_perl_vendorlib}/urpm
 %{compat_perl_vendorlib}/urpm.pm
 %{compat_perl_vendorlib}/urpm/args.pm
@@ -235,6 +227,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Dec 10 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.7-1mdk
+- Fix a problem in finding pubkeys for SRPM media.
+- Fix a problem in detecting download ends with curl [Bug 12634]
+
 * Wed Dec 08 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.6-2mdk
 - Improvements to gurpmi: scrollbar to avoid windows too large, interface
   refreshed more often, less questions when unnecessary, fix --help.
@@ -270,7 +266,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 * Thu Nov 25 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.2-1mdk
 - when passing --proxy to urpmi.addmedia, this proxy setting is now saved for the
   new media
-- New option --search-media to urpmi and urpmq (Olivier Thauvin) 
+- New option --search-media to urpmi and urpmq (Olivier Thauvin)
 - work around a display bug in curl for authenticated http sources
 - when asking for choices, default to the first one
 
@@ -431,7 +427,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - Refactorization, split code in new modules, minor bugfixes
 
 * Wed Mar 17 2004 Warly <warly@mandrakesoft.com> 4.4.5-10mdk
-- do not display the urpmi internal name when asking for a media insertion 
+- do not display the urpmi internal name when asking for a media insertion
 (confusing people with extra cdrom1, cdrom2 which does not refer to cdrom but hdlists)
 
 * Tue Mar 16 2004 Frederic Crozat <fcrozat@mandrakesoft.com> 4.4.5-9mdk
@@ -521,7 +517,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
   (subsubversion increase)
 - don't explicitely provide perl(urpm) and perl(gurpm), it's unneeded
 
-* Fri Jan 09 2004 Warly <warly@mandrakesoft.com> 4.4-52mdk 
+* Fri Jan 09 2004 Warly <warly@mandrakesoft.com> 4.4-52mdk
 - provides perl(gurpm) in gurpmi
 
 * Tue Jan  6 2004 Pixel <pixel@mandrakesoft.com> 4.4-51mdk
@@ -536,7 +532,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - Requires bash-completion (Guillaume Rousse)
 
 * Wed Dec 24 2003 Olivier Thauvin <thauvin@aerov.jussieu.fr> 4.4-48mdk
-- urpmi.update: add --force-key 
+- urpmi.update: add --force-key
 - urpmq: add --list-url and --dump-config
 
 * Mon Dec 22 2003 Warly <warly@mandrakesoft.com> 4.4-47mdk
@@ -1210,7 +1206,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
   behaviour with "--pre-clean --no-post-clean".
 - added --clean options to urpmi to clean cache completely.
 - improved urpme to no more use rpm executable.
-- (fcrozat) Move gurpmi to /usr/sbin and add consolehelper support for it 
+- (fcrozat) Move gurpmi to /usr/sbin and add consolehelper support for it
   and register it to handle application/x-rpm mimetype.
 
 * Thu Aug 29 2002 François Pons <fpons@mandrakesoft.com> 4.0-9mdk
@@ -1438,7 +1434,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
   by another package (Mesa and XFree86-libs).
 
 * Wed Apr 10 2002 François Pons <fpons@mandrakesoft.com> 3.3-23mdk
-- fixed diff_provides on unversioned property not taken into 
+- fixed diff_provides on unversioned property not taken into
   account (libbinutils2 with binutils).
 - fixed virtual version only requires against virtual version and
   release provides when resolver try to check release
@@ -1819,7 +1815,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - resync with cvs.
 
 * Sat Jul 14 2001  Daouda Lo <daouda@mandrakesoft.com> 1.6-13mdk
-- added urpmi logrotate file 
+- added urpmi logrotate file
 - more macroz
 
 * Thu Jul  5 2001 François Pons <fpons@mandrakesoft.com> 1.6-12mdk
@@ -2180,7 +2176,7 @@ dependencies if possible.
 
 * Tue Jan  4 2000 Pixel <pixel@mandrakesoft.com>
 - urpmi.addmedia: replaced hdlist2files by hdlist2names
-- rpmf: created 
+- rpmf: created
 
 * Mon Dec 27 1999 Pixel <pixel@mandrakesoft.com>
 - fixed a bug in urpmi.addmedia
