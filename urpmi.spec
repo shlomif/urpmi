@@ -143,6 +143,7 @@ fi
 %{_sbindir}/urpmi.*
 %{_mandir}/man?/urpm*
 # find_lang isn't able to find man pages yet...
+%lang(cs) %{_mandir}/cs/man?/urpm* 
 %lang(eu) %{_mandir}/eu/man?/urpm* 
 %lang(fr) %{_mandir}/fr/man?/urpm* 
 %lang(ru) %{_mandir}/ru/man?/urpm* 
@@ -159,6 +160,7 @@ fi
 #%{_sbindir}/autoirpm.*
 #%{_mandir}/man?/autoirpm*
 ## find_lang isn't able to find man pages yet...
+#%lang(cs) %{_mandir}/cs/man?/autoirpm*
 #%lang(eu) %{_mandir}/eu/man?/autoirpm*
 #%lang(fr) %{_mandir}/fr/man?/autoirpm*
 #%lang(ru) %{_mandir}/ru/man?/autoirpm*
