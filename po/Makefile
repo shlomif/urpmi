@@ -18,6 +18,9 @@ install: all
 clean:
 	rm -f *~ *.[oas] *.mo $(GOALS) TAGS
 
+%.h:
+	@touch $@
+
 %.mo: %.po
 	msgfmt -o $@ $<
 
