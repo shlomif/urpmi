@@ -1902,9 +1902,14 @@ sub download_source_packages {
     #- examine if given medium is already inside a removable device.
     my $check_notfound = sub {
 	my ($id, $dir) = @_;
+	$dir and $urpm->try_mounting($dir);
 	if (!$dir || -e $dir) {
 	    foreach (values %{$list->[$id]}) {
 		/^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
+		unless ($dir) {
+		    $dir = $2;
+		    $urpm->try_mounting($dir);
+		}
 		-r $2 or return 1;
 	    }
 	} else {
@@ -1922,13 +1927,11 @@ sub download_source_packages {
 	    #- the directory given does not exist or may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
-	    $urpm->try_mounting($dir);
 	    while ($check_notfound->($id, $dir)) {
 		$ask_for_medium or $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir); system("eject", $device);
 		$ask_for_medium->($medium->{name}, $medium->{removable}) or
 		  $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
-		$urpm->try_mounting($dir);
 	    }
 	    if (-e $dir) {
 		my @removable_sources;

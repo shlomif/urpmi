@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 12mdk
+Release: 13mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Thu Feb 21 2002 François Pons <fpons@mandrakesoft.com> 3.3-13mdk
+- removed staling debug log.
+- try to mount a removable device before examining if an available
+  device is present.
+
 * Wed Feb 20 2002 François Pons <fpons@mandrakesoft.com> 3.3-12mdk
 - fixed installing dependancies of given src.rpm filename.
 - fixed to keep removable device already mounted before asking
