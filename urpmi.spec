@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Thu Feb 14 2002 François Pons <fpons@mandrakesoft.com> 3.3-6mdk
+- use reduce_pathname even for downloading distant file.
+- fixed typo.
+
 * Wed Feb 13 2002 François Pons <fpons@mandrakesoft.com> 3.3-5mdk
 - fixed source package given on command line in urpmi.
 - fixed management of obsoletes in --auto-select.

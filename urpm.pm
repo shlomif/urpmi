@@ -480,7 +480,7 @@ sub add_distrib_media {
 
     #- try to copy/retrive Mandrake/basehdlists file.
     if (my ($dir) = $url =~ /^(?:removable[^:]*|file):\/(.*)/) {
-	$hdlists_file = $urpm->reduce_pathname("$dir/Mandrake/base/hdlists");
+	$hdlists_file = reduce_pathname("$dir/Mandrake/base/hdlists");
 
 	$urpm->try_mounting($hdlists_file) or $urpm->{error}(_("unable to access first installation medium")), return;
 
@@ -497,7 +497,7 @@ sub add_distrib_media {
 	unlink "$urpm->{cachedir}/partial/hdlists";
 	eval {
 	    $urpm->{log}(_("retrieving hdlists file..."));
-	    $urpm->{sync}("$urpm->{cachedir}/partial", "$url/Mandrake/base/hdlists");
+	    $urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$url/Mandrake/base/hdlists"));
 	    $urpm->{log}(_("...retrieving done"));
 	};
 	$@ and $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -668,7 +668,7 @@ sub update_media {
 	if (($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
 	    #- try to figure a possible hdlist_path (or parent directory of searched directory.
 	    #- this is used to probe possible hdlist file.
-	    my $with_hdlist_dir = $urpm->reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
+	    my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 	    
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
@@ -701,7 +701,7 @@ sub update_media {
 		    $medium->{with_hdlist} = "../base/hdlist1.cz";
 		}
 		#- redo...
-		$with_hdlist_dir = $urpm->reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
+		$with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 	    }
 
 	    #- try to get the description if it has been found.
@@ -779,7 +779,7 @@ sub update_media {
 	    }
 	    eval {
 		$urpm->{log}(_("retrieving description file of \"%s\"...", $medium->{name}));
-		$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/../descriptions");
+		$urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/../descriptions"));
 		$urpm->{log}(_("...retrieving done"));
 	    };
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
@@ -803,7 +803,7 @@ sub update_media {
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
-			$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$_");
+			$urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/$_"));
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
 			$medium->{with_hdlist} = $_;
@@ -823,7 +823,7 @@ sub update_media {
 		      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 		}
 		eval {
-		    $urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
+		    $urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
 		};
 		if ($@) {
 		    $urpm->{log}(_("...retrieving failed: %s", $@));
@@ -853,7 +853,7 @@ sub update_media {
 		    unlink "$urpm->{cachedir}/partial/list";
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    eval {
-			$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$local_list");
+			$urpm->{sync}("$urpm->{cachedir}/partial", reduce_pathname("$medium->{url}/$local_list"));
 			$local_list ne 'list' and
 			  rename("$urpm->{cachedir}/partial/$local_list", "$urpm->{cachedir}/partial/list");
 		    };
@@ -1135,7 +1135,7 @@ sub find_mntpoints {
 
 #- reduce pathname by removing <something>/.. each time it appears (or . too).
 sub reduce_pathname {
-    my ($urpm, $dir) = @_;
+    my ($dir) = @_;
 
     #- remove any multiple /s or trailing /.
     #- then split all components of pathname.
@@ -1160,7 +1160,7 @@ sub reduce_pathname {
 sub try_mounting {
     my ($urpm, $dir) = @_;
 
-    $dir = $urpm->reduce_pathname($dir);
+    $dir = reduce_pathname($dir);
     foreach ($urpm->find_mntpoints($dir, 'mount')) {
 	$urpm->{log}(_("mounting %s", $_));
 	`mount '$_' 2>/dev/null`;
@@ -1171,7 +1171,7 @@ sub try_mounting {
 sub try_umounting {
     my ($urpm, $dir) = @_;
 
-    $dir = $urpm->reduce_pathname($dir);
+    $dir = reduce_pathname($dir);
     foreach ($urpm->find_mntpoints($dir, 'umount')) {
 	$urpm->{log}(_("unmounting %s", $_));
 	`umount '$_' 2>/dev/null`;
@@ -2070,7 +2070,7 @@ sub select_packages_to_upgrade {
 				 my $check_obsoletes = sub {
 				     my ($p) = @_;
 				     (!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
-				       (!$4 || rpmtools::version_compare($p->{version}, $v) != 0 ||
+				       (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
 					eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
 				     ++$obsoleted;
 				 };
