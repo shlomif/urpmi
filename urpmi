@@ -521,6 +521,7 @@ $urpm->copy_packages_of_removable_media($list, \%sources,
 
 #- now create transaction just before installation, this will save user impression of slowness.
 $urpm->create_transaction($state,
+			  nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 			  split_level => $urpm->{options}{'split-level'},
 			  split_length => $urpm->{options}{'split-length'});
 

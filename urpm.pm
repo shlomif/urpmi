@@ -2162,7 +2162,8 @@ sub resolve_dependencies {
 sub create_transaction {
     my ($urpm, $state, %options) = @_;
 
-    if ($urpm->{parallel_handler} || !$options{split_length} || keys %{$state->{selected}} < $options{split_level}) {
+    if ($urpm->{parallel_handler} || !$options{split_length} || $options{nodeps} ||
+	keys %{$state->{selected}} < $options{split_level}) {
 	#- build simplest transaction (no split).
 	$urpm->build_transaction_set(undef, $state, split_length => 0);
     } else {

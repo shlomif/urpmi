@@ -52,6 +52,8 @@ usage:
 ") . N("  --files        - print tag files: all files.
 ") . N("  --conflicts    - print tag conflicts: all conflicts.
 ") . N("  --obsoletes    - print tag obsoletes: all obsoletes.
+") . N("  --env          - use specific environment (typically a bug
+                   report).
 ") . N("  -i             - ignore case distinctions in every pattern.
 ") . N("  -f             - print version, release and arch with name.
 ") . N("  -e             - include perl code directly as perl -e.
@@ -75,6 +77,7 @@ my $quiet;
 my $uniq = '';
 my $pattern = '';
 my $full = '';
+my $env;
 my (%params, %uniq);
 
 #- parse arguments list.
@@ -93,10 +96,11 @@ while (defined($_ = shift @ARGV)) {
     /^--uniq$/ and do { $uniq = 1; next };
     /^--all$/ and do { $params{$_} = 1
 			 foreach qw(filename group size summary description sourcerpm packager buildhost url
-                                    provides requires files conflicts obsoletes); next };
+				    provides requires files conflicts obsoletes); next };
     /^--name$/ and do { $params{filename} = 1; next };
     /^--(group|size|epoch|summary|description|sourcerpm|packager|buildhost|url|provides|requires|files|conflicts|obsoletes)$/ and
       do { $params{$1} = 1; next };
+    /^--env$/ and do { $env = shift @ARGV; next };
     /^-v$/ and do { $verbose = 1; next };
     /^-q$/ and do { $quiet = 1; next };
     /^-u$/ and do { $uniq = 1; next };
@@ -138,6 +142,15 @@ $callback .= '
 $urpm->{log}(N("callback is :\n%s\n", $callback));
 $callback = eval $callback;
 $@ and usage;
+
+if ($env) {
+    print STDERR N("using specific environment on %s\n", $env);
+    #- setting new environment.
+    $urpm->{config} = "$env/urpmi.cfg";
+    $urpm->{skiplist} = "$env/skip.list";
+    $urpm->{instlist} = "$env/inst.list";
+    $urpm->{statedir} = $env;
+}
 
 $urpm->configure(nocheck_access => 1, noskipping => 1,
 		 media => $media,

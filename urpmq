@@ -58,6 +58,8 @@ usage:
                    to be 1080 by default (format is <proxyhost[:port]>).
 ") . N("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
+") . N("  --env          - use specific environment (typically a bug
+                   report).
 ") . N("  -v             - verbose mode.
 ") . N("  -d             - extend query to package dependencies.
 ") . N("  -u             - remove package if a more recent version is already installed.
@@ -121,6 +123,7 @@ while (defined($_ = shift @ARGV)) {
 	$urpm->{proxy}{pwd} = $2;
 	next;
     };
+    /^--env$/ and do { push @nextargv, \$query->{env}; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/d/ and do { $query->{deps} = 1; next };
@@ -156,6 +159,15 @@ $query->{verbose} or $urpm->{log} = sub {};
 
 #- improve speed if using any list_... options.
 $query->{nodepslist} = $query->{list_aliases} || $query->{list_nodes} || $query->{list_media};
+
+if ($query->{env}) {
+    print STDERR N("using specific environment on %s\n", $query->{env});
+    #- setting new environment.
+    $urpm->{config} = "$query->{env}/urpmi.cfg";
+    $urpm->{skiplist} = "$query->{env}/skip.list";
+    $urpm->{instlist} = "$query->{env}/inst.list";
+    $urpm->{statedir} = $query->{env};
+}
 
 $urpm->configure(nocheck_access => 1, noskipping => $query->{nodepslist}, nodepslist => $query->{nodepslist},
 		 media => $query->{media},
@@ -285,6 +297,7 @@ if ($query->{list_aliases}) {
 	}
     } elsif ($query->{auto_select} || $query->{upgrade}) {
 	$urpm->resolve_dependencies($state, \%requested,
+				    rpmdb => $query->{env} && "$query->{env}/rpmdb.cz",
 				    auto_select => $query->{auto_select},
 				    callback_choices => $stop_on_choices);
 	$query->{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&

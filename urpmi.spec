@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,11 @@ $urpm->update_media;
 
 
 %changelog
+* Wed Jun 18 2003 François Pons <fpons@mandrakesoft.com> 4.4-4mdk
+- added --env to urpmq and urpmf (simplest to examine now).
+- fixed --allow-nodeps and --allow-force no more taken into
+  account (bug 4077).
+
 * Wed Jun 18 2003 François Pons <fpons@mandrakesoft.com> 4.4-3mdk
 - changed --split-level behaviour to be a trigger (default 20).
 - added --split-length to give minimal transaction length (default 1).
