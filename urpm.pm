@@ -1445,6 +1445,7 @@ sub reduce_pathname {
     #- remove any multiple /s or trailing /.
     #- then split all components of pathname.
     $dir =~ s/\/+/\//g; $dir =~ s/\/$//;
+    $dir =~ s/([^:]+:\/)?\/+/$1\//g; $dir =~ s/\/$//;
     my @paths = split '/', $dir;
 
     #- reset $dir, recompose it, and clean trailing / added by algorithm.

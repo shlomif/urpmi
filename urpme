@@ -127,7 +127,7 @@ if (@toremove > @l && !$auto) {
     <STDIN> =~ /[$noexpr]/ and exit 0;
 }
 
-$urpm->install('/', \@toremove, {}, {});
+$urpm->install(\@toremove, {}, {});
 
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;

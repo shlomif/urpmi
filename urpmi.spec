@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -175,6 +175,9 @@ fi
 
 
 %changelog
+* Fri Aug 23 2002 Warly <warly@mandrakesoft.com> 4.0-3mdk
+- fix urpme '/' pb
+
 * Fri Aug 23 2002 François Pons <fpons@mandrakesoft.com> 4.0-2mdk
 - added ssh parallel module extension.
 - fixed check of capabilities of distant urpmi.
