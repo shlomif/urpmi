@@ -127,16 +127,21 @@ sub main {
 	    #- get default value unless already provided.
 	    unless ($options{version} && $options{arch}) {
 		my $db = URPM::DB::open;
-		$db->traverse_tag(
+		$options{arch} or $db->traverse_tag(
 		    'name',
-		    [ qw(mandrakelinux-release basesystem) ],
+		    [ qw(basesystem) ],
+		    sub { my ($pkg) = @_; $options{arch} = $pkg->arch },
+		);
+		$options{version} or $db->traverse_tag(
+		    'name',
+		    [ qw(mandrakelinux-release) ],
 		    sub {
 			my ($pkg) = @_;
-			$pkg->release =~ /0\./ and $options{version} ||= 'cooker';
+			$pkg->release =~ /^0\./ and $options{version} = 'cooker';
 			$options{version} ||= $pkg->version;
-			$pkg->arch ne 'noarch' and $options{arch} ||= $pkg->arch;
 		    },
 		);
+		$urpm->{log}(N("found version %s and arch %d ...", $options{version}, $options{arch}));
 	    }
 	    #- sanity checks...
 	    $options{distrib} eq 'updates' && $options{version} eq 'cooker' and
@@ -160,6 +165,7 @@ sub main {
 	    #- examine its contents and create all requested media, url is now a simple regex.
 	    my $heading = quotemeta($options{distrib});
 	    my $qarch = quotemeta($options{arch});
+	    my $old_mirror_structure = $options{version} =~ /^(?:[2-9]|10\.0$)/;
 	    open my $fh, "$urpm->{cachedir}/partial/$basename" or die $!;
 	    while (<$fh>) {
 		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
@@ -168,16 +174,23 @@ sub main {
 		    $v eq '*' || $v eq $options{version} or next;
 		    $a eq '*' || $a eq $options{arch} or next;
 		} elsif (($a, $burl) = /^$heading([^:]*):(\S*)$/) {
-		    #- pre-10.1 architecture.
 		    $a eq $options{arch} or next;
-		    $options{distrib} eq 'updates' and $burl = "$burl/$options{version}/RPMS";
-		    $options{distrib} eq 'contrib' and $burl .= "2";
-		    #- TODO add for 10.1 updates
+		    if ($old_mirror_structure) {
+			#- pre-10.1 architecture.
+			$options{distrib} eq 'updates' and $burl = "$burl/$options{version}/RPMS";
+			$options{distrib} eq 'contrib' and $burl .= "2";
+		    } else {
+			$options{distrib} eq 'updates' and $burl = "$burl/$options{version}/media/updates";
+			$options{distrib} eq 'contrib' and $burl = "$burl/$options{version}/media/contrib";
+		    }
 		} elsif (($a, $burl) = /^cooker([^:]*):(\S*)$/) {
-		    #- specific case for old style mirrors file description (of Mandrake).
 		    $options{version} eq 'cooker' && $options{distrib} eq 'contrib' or next;
 		    $a eq $options{arch} or next;
-		    $burl .= "2";
+		    if ($old_mirror_structure) {
+			$burl .= "2";
+		    } else {
+			$burl =~ s/main$/contrib/;
+		    }
 		} else {
 		    # it could a blank line (from a commentary) or source description.
 		    next;
