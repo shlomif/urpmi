@@ -2829,6 +2829,35 @@ sub install_logger {
 #- install packages according to each hashes (install or upgrade).
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
+
+    #- allow process to be forked now.
+    my $pid;
+    local (*CHILD_RETURNS, *ERROR_OUTPUT, $_);
+    if ($options{fork}) {
+	pipe(CHILD_RETURNS, ERROR_OUTPUT);
+	if ($pid = fork) {
+	    close ERROR_OUTPUT;
+
+	    $urpm->{log}(N("using process %d for executing transaction"));
+	    #- now get all errors from the child and return them directly.
+	    my @l;
+	    while (<CHILD_RETURNS>) {
+		chomp;
+		push @l, $_;
+	    }
+
+	    close CHILD_RETURNS;
+	    waitpid($pid, 0);
+	    #- take care of return code from transaction, an error should be returned directly.
+	    $? >> 8 and exit $? >> 8;
+
+	    return @l;
+	} else {
+	    close CHILD_RETURNS;
+	}
+    }
+    #- beware this can be a child process or the main process now...
+
     my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
 
     $db or $urpm->{fatal}(9, N("unable to open rpmdb"));
@@ -2866,41 +2895,49 @@ sub install {
 	}
 	++$update;
     }
-    !$options{nodeps} and @l = $trans->check(%options) and return @l;
-    !$options{noorder} and @l = $trans->order and return @l;
+    unless (!$options{nodeps} && (@l = $trans->check(%options)) ||
+	    !$options{noorder} && (@l = $trans->order)) {
+	#- assume default value for some parameter.
+	$options{delta} ||= 1000;
+	$options{callback_open} ||= sub {
+	    my ($data, $type, $id) = @_;
+	    open F, $install->{$id} || $upgrade->{$id} or
+	      $urpm->{error}(N("unable to access rpm file [%s]", $install->{$id} || $upgrade->{$id}));
+	    return fileno F;
+	};
+	$options{callback_close} ||= sub { close F };
+	if (keys %$install || keys %$upgrade) {
+	    $options{callback_inst}  ||= \&install_logger;
+	    $options{callback_trans} ||= \&install_logger;
+	}
+	@l = $trans->run($urpm, %options);
 
-    #- assume default value for some parameter.
-    $options{delta} ||= 1000;
-    $options{callback_open} ||= sub {
-	my ($data, $type, $id) = @_;
-	open F, $install->{$id} || $upgrade->{$id} or
-	  $urpm->{error}(N("unable to access rpm file [%s]", $install->{$id} || $upgrade->{$id}));
-	return fileno F;
-    };
-    $options{callback_close} ||= sub { close F };
-    if (keys %$install || keys %$upgrade) {
-	$options{callback_inst}  ||= \&install_logger;
-	$options{callback_trans} ||= \&install_logger;
-    }
-    @l = $trans->run($urpm, %options);
-
-    #- in case of error or testing, do not try to check rpmdb
-    #- for packages being upgraded or not.
-    @l || $options{test} and return @l;
-
-    #- examine the local repository to delete package which have been installed.
-    if ($options{post_clean_cache}) {
-	foreach (keys %$install, keys %$upgrade) {
-	    my $pkg = $urpm->{depslist}[$_];
-	    $db->traverse_tag('name', [ $pkg->name ], sub {
-				  my ($p) = @_;
-				  $p->fullname eq $pkg->fullname or return;
-				  unlink "$urpm->{cachedir}/rpms/".$pkg->filename;
-			      });
+	#- in case of error or testing, do not try to check rpmdb
+	#- for packages being upgraded or not.
+	unless (@l || $options{test}) {
+	    #- examine the local repository to delete package which have been installed.
+	    if ($options{post_clean_cache}) {
+		foreach (keys %$install, keys %$upgrade) {
+		    my $pkg = $urpm->{depslist}[$_];
+		    $db->traverse_tag('name', [ $pkg->name ], sub {
+					  my ($p) = @_;
+					  $p->fullname eq $pkg->fullname or return;
+					  unlink "$urpm->{cachedir}/rpms/".$pkg->filename;
+				      });
+		}
+	    }
 	}
     }
 
-    return @l;
+    #- now exit or return according to current status.
+    if (defined $pid) {
+	print ERROR_OUTPUT "$_\n" foreach @l;
+	close ERROR_OUTPUT;
+	#- keep safe exit now (with destructor call).
+	exit 0;
+    } else {
+	return @l;
+    }
 }
 
 #- install all files to node as remembered according to resolving done.
