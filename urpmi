@@ -55,7 +55,6 @@ our $verbose = 0;
 our $usedistrib = 0;
 our $log = '';
 
-my $uid;
 my @files;
 my @src_files;
 my @names;
@@ -63,7 +62,6 @@ my @src_names;
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
-($<, $uid) = ($>, $<);
 $ENV{HOME} ||= "/root";
 $ENV{USER} ||= "root";
 
@@ -255,7 +253,7 @@ if ($env) {
     $urpm->{instlist} = "$env/inst.list";
     $urpm->{statedir} = $env;
 } else {
-    if ($uid > 0) {
+    if ($< != 0) {
 	#- need to be root if binary rpms are to be installed
 	$auto_select || @names || @files and $urpm->{fatal}(1, N("Only superuser is allowed to install packages"));
     } else {
@@ -314,7 +312,7 @@ unless ($env) {
     $urpm->exlock_rpm_db;
     $urpm->shlock_urpmi_db;
 }
-$urpm->configure(nocheck_access => $env || $uid > 0,
+$urpm->configure(nocheck_access => $env || $< != 0,
 		 media => $media,
 		 excludemedia => $excludemedia,
 		 sortmedia => $sortmedia,
