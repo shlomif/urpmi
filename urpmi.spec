@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 22mdk
+Release: 23mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -114,6 +114,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Fri Mar 23 2001 François Pons <fpons@mandrakesoft.com> 1.5-23mdk
+- added synthesis hdlist file support to speed up -m mode.
+
 * Sun Mar 18 2001 Pixel <pixel@mandrakesoft.com> 1.5-22mdk
 - fix for gmessage and quotes
 - adapt autoirpm.update to new hdlists
