@@ -372,7 +372,7 @@ if ($urpm::args::options{list_aliases}) {
 			printf "%-12s: %s\n", "Name", $pkg->name;
 			printf "%-12s: %s\n", "Version", $pkg->version;
 			printf "%-12s: %s\n", "Release", $pkg->release;
-			printf "%-12s: %s\n", "Group", $pkg->group;
+			print from_utf8(sprintf("%-12s: %s\n", "Group", $pkg->group));
 			printf "%-12s: %-28s %12s: %s\n", "Size", $pkg->size, "Architecture", $pkg->arch;
 			if ($pkg->sourcerpm || $pkg->buildhost) {
 			    if ($pkg->sourcerpm && $pkg->buildhost) {
@@ -383,16 +383,21 @@ if ($urpm::args::options{list_aliases}) {
 				$pkg->sourcerpm and printf "%-12s: %s\n", "Build Host", $pkg->buildhost;
 			    }
 			}
-			$pkg->packager and printf "%-12s: %s\n", "Packager", $pkg->packager;
+			$pkg->packager and print from_utf8(sprintf("%-12s: %s\n", "Packager", $pkg->packager));
 			$pkg->url and printf "%-12s: %s\n", "URL", $pkg->url;
-			$pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
+			$pkg->summary and print from_utf8(sprintf("%-12s: %s\n", "Summary", $pkg->summary));
 			my $updesc = $updates_descr->{$pkg->name};
-			$pkg->description && !$updesc->{description} and printf "%-12s:\n%s\n", "Description", $pkg->description;
+			$pkg->description && !$updesc->{description}
+			    and print from_utf8(sprintf("%-12s:\n%s\n", "Description", $pkg->description));
 			if ($updesc) {
-			    $updesc->{description} and printf "%-12s:\n%s\n", "Description", $updesc->{description};
-			    $updesc->{updated} and printf "%-20s: %s\n", "Last updated", $updesc->{updated};
-			    $updesc->{importance} and printf "%-20s: %s\n", "Update importance", $updesc->{importance};
-			    $updesc->{pre} and printf "%-20s:\n%s\n", "Reason for update", $updesc->{pre};
+			    $updesc->{description}
+				and print from_utf8(sprintf("%-12s:\n%s\n", "Description", $updesc->{description}));
+			    $updesc->{updated}
+				and print from_utf8(sprintf("%-20s: %s\n", "Last updated", $updesc->{updated}));
+			    $updesc->{importance}
+				and print from_utf8(sprintf("%-20s: %s\n", "Update importance", $updesc->{importance}));
+			    $updesc->{pre}
+				and print from_utf8(sprintf("%-20s:\n%s\n", "Reason for update", $updesc->{pre}));
 			}
 		    }
 		    if ($urpm::args::options{list_files}) {
@@ -405,7 +410,7 @@ if ($urpm::args::options{list_aliases}) {
 		    if ($urpm::args::options{changelog}) {
 			if ($pkg->changelog_time && $pkg->changelog_name && $pkg->changelog_text) {
 			    print join("\n", mapn {
-				    "* ".urpm::msg::localtime2changelog($_[0])." $_[1]\n\n$_[2]\n"
+				    from_utf8("* ".urpm::msg::localtime2changelog($_[0])." $_[1]\n\n$_[2]\n")
 				} [ $pkg->changelog_time ], [ $pkg->changelog_name ], [ $pkg->changelog_text ]
 			    );
 			} else {
