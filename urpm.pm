@@ -923,10 +923,12 @@ sub search_packages {
 		    my $best;
 		    foreach (@$_) {
 			if ($best) {
-			    my $cmp_version = rpmtools::version_compare($_->{info}{version}, $best->{info}{version});
+			    my $cmp_version = ($_->{info}{serial} == $best->{info}{serial} &&
+					       rpmtools::version_compare($_->{info}{version}, $best->{info}{version}));
 			    my $cmp_release = $cmp_version == 0 && version_compare($_->{info}{release}, $best->{info}{release});
 			    if ($_->{info}{serial} > $best->{info}{serial} || $cmp_version > 0 || $cmp_release > 0 ||
-				$cmp_version == 0 && $cmp_release == 0 && better_arch($_->{info}{arch}, $best->{info}{arch})) {
+				($_->{info}{serial} == $best->{info}{serial} && $cmp_version == 0 && $cmp_release == 0 &&
+				 better_arch($_->{info}{arch}, $best->{info}{arch}))) {
 				$best = $_;
 			    }
 			} else {
@@ -1026,8 +1028,8 @@ sub filter_packages_to_upgrade {
 	foreach (@packages_installed) {
 	    my $pkg = $urpm->{params}{info}{$_->{name}}; $pkg or next; #- TODO error
 	    my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
-	    $installed{$pkg->{id}} = !($pkg->{serial} > $_->{serial} ||
-				       $cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0)
+	    $installed{$pkg->{id}} = !($pkg->{serial} > $_->{serial} || $pkg->{serial} == $_->{serial} &&
+				       ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0))
 	      and delete $packages->{$pkg->{id}};
 	}
     }
@@ -1057,8 +1059,8 @@ sub filter_packages_to_upgrade {
 	my $pkg = $urpm->{params}{info}{$_->{name}}; $pkg or next; #- TODO error
 	exists $closures{$pkg->{id}} or next;
 	my $cmp = rpmtools::version_compare($pkg->{version}, $_->{version});
-	$installed{$pkg->{id}} = !($pkg->{serial} > $_->{serial} ||
-				   $cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0)
+	$installed{$pkg->{id}} = !($pkg->{serial} > $_->{serial} || $pkg->{serial} == $_->{serial} &&
+				   ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $_->{release}) > 0))
 	  and delete $packages->{$pkg->{id}};
     }
 
@@ -1279,8 +1281,7 @@ sub filter_minimal_packages_to_upgrade {
 					      [ qw(name version release serial) ], sub {
 						  my ($p) = @_;
 						  my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
-						  $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} ||
-									       $cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0)
+						  $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} && ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0))
 					      });
 		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
 		    if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
@@ -1611,9 +1612,9 @@ sub select_packages_to_upgrade {
 
 				  if ($pkg) {
 				      my $version_cmp = rpmtools::version_compare($p->{version}, $pkg->{version});
-				      if ($p->{serial} > $pkg->{serial} ||
-					  $version_cmp > 0 ||
-					  $version_cmp == 0 && rpmtools::version_compare($p->{release}, $pkg->{release}) >= 0) {
+				      if ($p->{serial} > $pkg->{serial} || $p->{serial} == $pkg->{serial} &&
+					  ($version_cmp > 0 ||
+					   $version_cmp == 0 && rpmtools::version_compare($p->{release}, $pkg->{release}) >= 0)) {
 					  if ($otherPackage && $version_cmp <= 0) {
 					      $toRemove{$otherPackage} = 0;
 					      $pkg->{selected} = 1;

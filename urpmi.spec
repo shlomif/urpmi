@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.6
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -106,6 +106,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed Jun 27 2001 François Pons <fpons@mandrakesoft.com> 1.6-6mdk
+- fix problem interpreting serial.
+
 * Wed Jun 27 2001 François Pons <fpons@mandrakesoft.com> 1.6-5mdk
 - take care of epoch (serial) for version comparison.
 
