@@ -160,7 +160,7 @@ sub sync_file {
     foreach (@_) {
 	my ($in) = /^(?:removable[^:]*|file):\/(.*)/;
 	propagate_sync_callback($options, 'start', $_);
-	system("cp", "--preserve=mode", "--preserve=timestamps", "-R", $in || $_, ref($options) ? $options->{dir} : $options) or
+	system("cp", "--preserve=mode", "--preserve=timestamps", "-R", $in || $_, ref($options) ? $options->{dir} : $options) and
 	  die N("copy failed: %s", $@);
 	propagate_sync_callback($options, 'end', $_);
     }
@@ -2628,8 +2628,8 @@ sub copy_packages_of_removable_media {
 			    #- first copy in cache, and if the package is still good, transfert it
 			    #- to the great rpms cache.
 			    unlink "$urpm->{cachedir}/partial/$filename";
-			    if (system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
-				       $filepath, "$urpm->{cachedir}/partial") &&
+			    if (!system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
+					$filepath, "$urpm->{cachedir}/partial") &&
 				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
 				#- now we can consider the file to be fine.
 				unlink "$urpm->{cachedir}/rpms/$filename";
