@@ -1067,7 +1067,7 @@ sub update_media {
 	    unlink "$urpm->{cachedir}/partial/$_";
 	}
 
-	#- check to see if the medium is using file protocol or removable medium.
+	#- check if the medium is using a local or a removable medium.
 	if (($prefix, $dir) = $medium->{url} =~ m!^(?:(removable[^:]*|file):/)?(/.*)!) {
 	    $prefix ||= 'file';
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
@@ -1086,7 +1086,7 @@ sub update_media {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- mount everything that might be necessary.
-	    $urpm->try_mounting(
+	    -d $dir or $urpm->try_mounting(
 		$options{force} < 2 && ($options{probe_with} || $medium->{with_hdlist})
 		    ? $with_hdlist_dir : $dir,
 		#- in case of an iso image, pass its name
