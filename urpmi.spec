@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 14mdk
+Release: 15mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,8 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Tue Jul 29 2003 François Pons <fpons@mandrakesoft.com> 4.4-15mdk
+- fixed urpme --parallel --auto still asking the user.
 - fixed --keep for parallel mode.
 
 * Tue Jul 29 2003 François Pons <fpons@mandrakesoft.com> 4.4-14mdk
