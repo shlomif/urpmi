@@ -27,7 +27,9 @@ N_("usage: urpmf [options] <file>"),
 N_("try urpmf --help for more options"),
 N_("urpmi is not installed"),
 N_("reading synthesis file [%s]"),
+N_("retrieving source hdlist (or synthesis)..."),
 N_("unable to write config file [%s]"),
+N_("retrieving rpms files..."),
 N_("using different removable device [%s] for \"%s\""),
 N_("nothing to write in list file for \"%s\""),
 N_("unable to find list file for \"%s\", medium ignored"),
@@ -64,9 +66,9 @@ N_("write provides file [%s]"),
 N_("mounting %s"),
 N_("unable to take care of medium \"%s\" as list file is already used by another medium"),
 N_("reading hdlist file [%s]"),
+N_("wget failed: exited with %d or signal %d\n"),
 N_("write compss file [%s]"),
 N_("read depslist file [%s]"),
-N_("curl failed\n"),
 N_("unable to retrieve pathname for removable medium \"%s\""),
 N_("malformed input: [%s]"),
 N_("there are multiple packages with the same rpm filename \"%s\""),
@@ -80,15 +82,18 @@ N_("too many mount points for removable medium \"%s\""),
 N_("incoherent list file for \"%s\", medium ignored"),
 N_("copy of [%s] failed"),
 N_("trying to remove inexistent medium \"%s\""),
+N_("retrieving description file..."),
 N_("unable to parse correctly [%s]"),
 N_("read synthesis file [%s]"),
 N_("unable to read depslist file [%s]"),
 N_("read compss file [%s]"),
+N_("no webfetch (curl or wget for example) found\n"),
 N_("syntax error in config file at line %s"),
 N_("building hdlist [%s]"),
 N_("unable to read rpm file [%s] from medium \"%s\""),
 N_("error registering local packages"),
 N_("taking removable device as \"%s\""),
+N_("...retrieving failed: %s"),
 N_("incoherent medium \"%s\" marked removable but not really"),
 N_("unable to build hdlist: %s"),
 N_("medium \"%s\" is not selected"),
@@ -104,14 +109,15 @@ N_(""
 "removing %s to upgrade to %s ...\n"
 "  since it will not upgrade correctly!"
 ""),
-N_("unable to access medium \"%s\""),
 N_("relocated %s entries in depslist"),
-N_("trying to select inexistent medium \"%s\""),
-N_("wget failed\n"),
+N_("unable to access medium \"%s\""),
 N_("unable to parse correctly [%s] on value \"%s\""),
+N_("trying to select inexistent medium \"%s\""),
 N_("The following packages contain %s: %s"),
 N_("no rpm files found from [%s]"),
+N_("...retrieving done"),
 N_("selecting %s using obsoletes"),
+N_("curl failed: exited with %d or signal %d\n"),
 N_("selecting %s by selection on files"),
 N_("curl is missing\n"),
 N_("wget is missing\n"),
@@ -166,42 +172,51 @@ N_("Only superuser is allowed to install packages"),
 N_("One of the following packages is needed to install %s:"),
 N_("Press Enter when it's done..."),
 N_(""
-"%s\n"
-"`with' missing for ftp media\n"
-""),
-N_(""
-"usage: urpmi.addmedia [--update] <name> <url>\n"
+"usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
 "       file://<path>\n"
 "       ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>\n"
 "       ftp://<host>/<path> with <relative filename of hdlist>\n"
 "       http://<host>/<path> with <relative filename of hdlist>\n"
-"       removable_<device>://<path>\n"
+"       removable://<path>\n"
+"and [options] are from\n"
 ""),
 N_("unable to create medium \"%s\"\n"),
 N_("unable to update medium \"%s\"\n"),
 N_(""
-"%s\n"
-"device `%s' do not exist\n"
+"\n"
+"unknown options '%s'\n"
 ""),
+N_("  --curl         - use curl to retrieve distant files.\n"),
+N_("  -c             - clean headers cache directory.\n"),
 N_(""
 "%s\n"
 "<relative path of hdlist> missing\n"
 ""),
+N_("  -f             - force generation of hdlist files.\n"),
+N_("  --wget         - use wget to retrieve distant files.\n"),
 N_(""
-"usage: urpmi.update [-a] <name> ...\n"
+"%s\n"
+"`with' missing for ftp media\n"
+""),
+N_(""
+"usage: urpmi.update [options] <name> ...\n"
 "where <name> is a medium name to update.\n"
-"   -a    select all non-removable media.\n"
-"   -c    clean headers cache directory.\n"
-"   -f    force generation of base files, use another -f for hdlist files.\n"
+""),
+N_(""
 "\n"
 "unknown options '%s'\n"
 ""),
-N_("nothing to update (use urpmi.addmedia to add a media)\n"),
+N_("  --curl         - use curl to retrieve distant files.\n"),
 N_(""
 "the entry to update is missing\n"
 "(one of %s)\n"
 ""),
+N_("  -c             - clean headers cache directory.\n"),
+N_("  -f             - force generation of hdlist files.\n"),
+N_("  --wget         - use wget to retrieve distant files.\n"),
+N_("nothing to update (use urpmi.addmedia to add a media)\n"),
+N_("  -a             - select all non-removable media.\n"),
 N_("nothing to remove (use urpmi.addmedia to add a media)\n"),
 N_(""
 "the entry to remove is missing\n"
@@ -232,6 +247,7 @@ N_("  -d             - extend query to package dependencies.\n"),
 N_("  --sources      - give all source packages before downloading (root only).\n"),
 N_("  -c             - choose complete method for resolving requires closure.\n"),
 N_("  --auto-select  - automatically select packages for upgrading the system.\n"),
+N_("  --force        - force invocation even if some packages do not exist.\n"),
 N_("urpmq: unknown option \"-%s\", check usage with --help\n"),
 N_(""
 "  --headers      - extract headers for package listed from urpmi db to\n"
@@ -241,8 +257,4 @@ N_("  -p             - allow search in provides to find package.\n"),
 N_("  -v             - verbose mode.\n"),
 N_("unable to get source packages, aborting"),
 N_("  -u             - remove package if a better version is already installed.\n"),
-N_(""
-"  --force        - force invocation even if some packages do not\n"
-"exist.\n"
-""),
 };
