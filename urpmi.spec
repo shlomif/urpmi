@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 18mdk
+Release: 19mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Tue Mar  5 2002 François Pons <fpons@mandrakesoft.com> 3.3-19mdk
+- fixed parse_synthesis when a the src package is following its
+  binary counterpart (overidding its description).
+
 * Mon Mar  4 2002 François Pons <fpons@mandrakesoft.com> 3.3-18mdk
 - added patch from Andrej Borksenkow modified.
 

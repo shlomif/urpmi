@@ -1407,7 +1407,7 @@ sub search_packages {
 sub parse_synthesis {
     my ($urpm, $medium, %options) = @_;
     local (*F, $_);
-    my ($error, $last_name, @founds, %info);
+    my ($error, @founds, %info);
 
     #- check with provides that version and release are matching else ignore safely.
     #- simply ignore src rpm, which does not have any provides.
@@ -1474,17 +1474,14 @@ sub parse_synthesis {
     while (<F>) {
 	chomp;
 	my ($name, $tag, @data) = split '@';
-	if ($name ne $last_name) {
-	    !%info || $update_info->() or
-	      $urpm->{log}(_("unable to analyse synthesis data of %s",
-			     $last_name =~ /^[[:print:]]*$/ ? $last_name : _("<non printable chars>")));
-	    $last_name = $name;
+
+	$info{$tag} = \@data;
+	if ($tag eq 'info' || $tag eq 'name') {
+	    $update_info->() or $urpm->{log}(_("unable to analyse synthesis data of %s",
+					       $name =~ /^[[:print:]]*$/ ? $name : _("<non printable chars>")));
 	    %info = ();
 	}
-	$info{$tag} = \@data;
     }
-    !%info || $update_info->() or $urpm->{log}(_("unable to analyse synthesis data of %s", $last_name));
-    close F or $urpm->{error}(_("unable to parse correctly [%s]", $filename)), return;
     $urpm->{log}(_("read synthesis file [%s]", $filename));
 
     @founds;
