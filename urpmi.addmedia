@@ -26,6 +26,7 @@ import urpm _;
 
 sub main {
     my ($name, $url, $with, $relative_hdlist, %options);
+    my $mirrors = $ENV{URPMI_MIRRORS} || 'http://www.linux-mandrake.com/mirrorsfull.list';
 # Translator: The URI types strings 'file:', 'ftp:', 'http:',
 # Translator: and 'removable:' must not be translated!
 # Translator: neither the ``with''.
@@ -47,9 +48,20 @@ and [options] are from
 ") . _("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
 ") . _("  --update       - create an update medium.
-") . _("  --distrib      - automatically create all media from an installation medium.
+") . _("  --distrib      - automatically create all media from an installation
+                   medium.
+") . _("  --distrib-XXX  - automatically create a medium for XXX part of a
+                   distribution, XXX may be main, contrib, updates or
+                   anything else that has been configured ;-)
+") . _("  --from         - use specified url for list of mirrors, the default is
+                   %s
+", $mirrors) . _("  --version      - use specified version, the default is version of
+                   mandrake-release package installed.
+") . _("  --arch         - use specified architecture, the default is arch of
+                   mandrake-release package installed.
 ") . _("  -c             - clean headers cache directory.
-") . _("  -h             - try to find and use synthesis or hdlist file.
+") . _("  -h             - try to find and use synthesis or hdlist
+                   file.
 ") . _("  -f             - force generation of hdlist files.
 ");
 
@@ -79,7 +91,11 @@ and [options] are from
 	    $urpm->{proxy}->{pwd} = $2;
 	    next;
 	};
-	/^--distrib$/ and $options{distrib} = 1, next;
+	/^--distrib$/ and $options{distrib} = undef, next;
+	/^--distrib-(.*)$/ and $options{distrib} = $1, next;
+	/^--from$/ and $options{mirrors_url} = shift @_, next;
+	/^--version$/ and $options{version} = shift @_, next;
+	/^--arch$/ and $options{arch} = shift @_, next;
 	/^--update$/ and $options{update} = 1, next;
 	/^-/ and die $usage . _("\nunknown options '%s'\n", $_);
 	($name, $url, $with, $relative_hdlist) = ($_, @_);
@@ -87,18 +103,72 @@ and [options] are from
     }
     #- allow not to give name immediately.
     $url or ($url, $name) = ($name, '');
-    my ($type) = $url =~ m,^([^:]*)://, or die $usage;
+    my ($type) = $url =~ m,^([^:]*)://, or $options{distrib} or die $usage;
 
     $urpm->read_config;
 
-    if ($options{distrib}) {
-	$with || $relative_hdlist and die _("%s\nno need to give <relative path of hdlist> with --distrib", $usage);
+    if (exists $options{distrib}) {
+	if (defined $options{distrib}) {
+	    #- extended distribution support, code is directly inlined here.
+	    #- -h always set, updates should allow setting update flag.
+	    $options{probe_with_hdlist} = 1;
+	    $options{distrib} =~ /update/ and $options{update} = 1;
+	    #- official site by default.
+	    $options{from} ||= $mirrors;
+	    #- get default value unless already provided.
+	    unless ($options{version} && $options{arch}) {
+		my $db = URPM::DB::open;
+		$db->traverse_tag('name', [ qw(mandrake-release basesystem) ], sub {
+				      my ($pkg) = @_;
+				      $pkg->release =~ /0\./ and $options{version} ||= 'cooker';
+				      $options{version} ||= $pkg->version;
+				      $pkg->arch ne 'noarch' and $options{arch} ||= $pkg->arch;
+				  });
+	    }
+	    #- sanity checks...
+	    $options{distrib} eq 'updates' && $options{version} eq 'cooker' and
+	      die _("cannot add updates of a cooker distribution\n");
+	    #- get mirrors list file in urpmi cache.
+	    my ($basename) = $options{from} =~ /^.*\/([^\/]+)\/*$/;
+	    unlink "$urpm->{cachedir}/partial/$basename";
+	    eval {
+		$urpm->{log}(_("retrieving mirrors at %s ...", $options{from}));
+		$urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, $options{from});
+		$urpm->{log}(_("...retrieving done"));
+	    };
+	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
+	    #- examine its contents and create all requested media, url is now a simple regex.
+	    my $heading = quotemeta($options{version} eq 'cooker' ? 'cooker' : $options{distrib});
+	    my $qarch = quotemeta($options{arch});
+	    my $i = 1;
+	    local *F;
+	    open F, "$urpm->{cachedir}/partial/$basename";
+	    while (<F>) {
+		chomp;
+		my ($burl, $relative_hdlist) = /^$heading$qarch:(.*?)(?:\s+with\+(.*))?$/ or next;
+		!$url || $burl =~ /$url/ or next;
+		$urpm->add_medium("$name$i",
+				  $options{distrib} eq 'updates' ? "$burl/$options{version}/RPMS" :
+				  $options{distrib} eq 'contrib' ? $burl."2" : $burl,
+				  $options{distrib} eq 'contrib' ? '../base/hdlist2.cz' : $relative_hdlist,
+				  update => $options{update});
+		++$i;
+	    }
+	    close F;
+	} else {
+	    $with || $relative_hdlist and die _("%s\nno need to give <relative path of hdlist> with --distrib", $usage);
 
-	$urpm->add_distrib_media($name, $url, update => $options{update});
+	    $urpm->add_distrib_media($name, $url, update => $options{update});
+	}
 	$urpm->update_media(%options);
 
 	if (my @unsynced_media = grep { $_->{modified} } @{$urpm->{media}}) {
-	    die join("\n", map { _("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
+	    print STDERR join("\n", map { _("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
+
+	    #- remove quietly the failing media.
+	    $urpm->{log} = sub {};
+	    $urpm->remove_selected_media;
+	    $urpm->update_media(%options);
 	}
     } else {
 	$name or die $usage;
@@ -115,7 +185,13 @@ and [options] are from
 	#- check creation of media (during update has been successfull)
 	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
 	$medium or die _("unable to create medium \"%s\"\n", $name);
-	$medium->{modified} and die _("unable to update medium \"%s\"\n", $name);
+	if ($medium->{modified}) {
+	    print STDERR _("unable to update medium \"%s\"\n", $name);
+	    #- remove quietly the failing media.
+	    $urpm->{log} = sub {};
+	    $urpm->remove_selected_media;
+	    $urpm->update_media(%options);
+	}
     }
 }
 

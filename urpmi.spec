@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,16 @@ fi
 
 
 %changelog
+* Thu Nov 28 2002 François Pons <fpons@mandrakesoft.com> 4.1-3mdk
+- added mirrors management for urpmi.addmedia, so added
+  --distrib-XXX, --from, --version, --arch options. <url>
+  is now just a regex for choosing a mirror, and <name>
+  will have an numeric index appended to it.
+  anyway for more info, look in the code or guess with
+  --help ;-)
+- urpmi.addmedia now delete failing media to create.
+- added --update option to urpmi.update, guess for what ?
+
 * Thu Nov 28 2002 François Pons <fpons@mandrakesoft.com> 4.1-2mdk
 - allow creating medium without list file.
 - better handling of url without password to be displayed

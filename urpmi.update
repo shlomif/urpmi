@@ -35,11 +35,12 @@ sub main {
 	/^--?c/ and $options{noclean} = 0, next;
 	/^--?d/ and $options{depslist} = 1, next;
 	/^--?f/ and ++$options{force}, next;
-	/^--wget/ and $urpm->{sync} = sub { my $options = shift @_;
-					    if (ref $options) { $options->{prefer} = 'wget' }
-					    else { $options = { dir => $options, prefer => 'wget' } }
-					    urpm::sync_webfetch($options, @_) }, next;
-	/^--curl/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
+	/^--update$/ and $options{update} = 1, next;
+	/^--wget$/ and $urpm->{sync} = sub { my $options = shift @_;
+					     if (ref $options) { $options->{prefer} = 'wget' }
+					     else { $options = { dir => $options, prefer => 'wget' } }
+					     urpm::sync_webfetch($options, @_) }, next;
+	/^--curl$/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
 	/^--proxy$/ and do {
 	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
 		die _("bad proxy declaration on command line\n");
@@ -64,6 +65,7 @@ where <name> is a medium name to update.
                    to be 1080 by default (format is <proxyhost[:port]>).
 ") . _("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
+") . _("  --update       - update only update media.
 ") . _("  -a             - select all non-removable media.
 ") . _("  -c             - clean headers cache directory.
 ") . _("  -d             - force complete computation of depslist.ordered file.
@@ -78,13 +80,17 @@ where <name> is a medium name to update.
     if ($options{all}) {
 	@entries == 0 and die _("nothing to update (use urpmi.addmedia to add a media)\n");
     } else {
-	@toupdates == 0 and die _("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
 	$urpm->select_media(@toupdates);
 
 	#- force ignored media to be returned alive.
+	my $something_todo = 0;
 	foreach (@{$urpm->{media}}) {
+	    $options{update} && $_->{update} and $_->{modified} = 1;
 	    $_->{modified} and delete $_->{ignore};
+	    $_->{modified} and ++$something_todo;
 	}
+
+	$something_todo or die _("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
     }
 
     $urpm->update_media(%options);
