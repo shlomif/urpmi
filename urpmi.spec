@@ -1,8 +1,8 @@
-%define group System/Configuration/Packaging
+define group System/Configuration/Packaging
 
 Name: urpmi
 Version: 4.0
-Release: 15mdk
+Release: 16mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -102,7 +102,7 @@ title="Software installer" longtitle="Graphical front end to install RPM files" 
 mimetypes="application/x-rpm" \
 multiple_files="true"
 ?package(gurpmi): command="%{_bindir}/gurpmi" needs="kde" section=".hidden" \
-section=".hidden" \
+section=".hidden" InitialPreference="9" \
 title="Software installer" longtitle="Graphical front end to install RPM files" \
 mimetypes="application/x-rpm" \
 multiple_files="true"
@@ -202,6 +202,10 @@ fi
 
 
 %changelog
+* Mon Sep  9 2002 Daouda LO <daouda@mandrakesoft.com> 4.0-16mdk
+- InitialPreference for gurpmi (clicking on a rpm under konqueror 
+   should launch gurpmi instead of kpackage).
+
 * Fri Sep  6 2002 François Pons <fpons@mandrakesoft.com> 4.0-15mdk
 - fixed previous fix not correctly fixed.
 
