@@ -597,8 +597,7 @@ sub add_medium {
     #- make sure configuration has been read.
     $urpm->{media} or $urpm->read_config;
 
-    #- if a medium with that name has already been found
-    #- we have to exit now
+    #- if a medium with that name has already been found, we have to exit now
     my ($medium);
     if (defined $options{index_name}) {
 	my $i = $options{index_name};
@@ -617,28 +616,16 @@ sub add_medium {
     }
     $medium and $urpm->{fatal}(5, N("medium \"%s\" already exists", $medium->{name}));
 
-    #- clear URLs for trailing /es.
-    $url =~ s,/*$,,;
+    $url =~ s,/*$,,; #- clear URLs for trailing /es.
 
     #- creating the medium info.
+    $medium = { name => $name, url => $url, update => $options{update}, modified => 1 };
     if ($options{virtual}) {
 	$url =~ m!^(?:file:)?/! or $urpm->{fatal}(1, N("virtual medium needs to be local"));
-
-	$medium = { name      => $name,
-		    url       => $url,
-		    update    => $options{update},
-		    virtual   => 1,
-		    modified  => 1,
-		  };
+	$medium->{virtual} = 1;
     } else {
-	$medium = { name     => $name,
-		    url      => $url,
-		    hdlist   => "hdlist.$name.cz",
-		    list     => "list.$name",
-		    update   => $options{update},
-		    modified => 1,
-		  };
-
+	$medium->{hdlist} = "hdlist.$name.cz";
+	$medium->{list} = "list.$name";
 	#- check to see if the medium is using file protocol or removable medium.
 	$url =~ m!^(?:(removable[^:]*|file):/)?(/.*)! and $urpm->probe_removable_device($medium);
     }
@@ -650,7 +637,7 @@ sub add_medium {
 	$medium->{priority} = 1 + @{$urpm->{media}};
     }
 
-    #- check whether a password is visible, if not set clear_url.
+    #- check whether a password is visible, if not, set clear_url.
     $url =~ m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| or $medium->{clear_url} = $url;
 
     $with_hdlist and $medium->{with_hdlist} = $with_hdlist;
@@ -693,7 +680,7 @@ sub add_distrib_media {
 	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
 	}
     } else {
-	#- try to get the description if it has been found.
+	#- try to get the description of the hdlists if it has been found.
 	unlink "$urpm->{cachedir}/partial/hdlists";
 	eval {
 	    $urpm->{log}(N("retrieving hdlists file..."));
