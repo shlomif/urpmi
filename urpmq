@@ -19,9 +19,8 @@
 #- this program is based upon urpmi.
 
 use strict;
-use lib qw(/usr/lib/libDrakX);
-use common;
 use urpm;
+use MDK::Common;
 
 #- default options.
 my $query = { use_provides => 1, };
@@ -348,12 +347,12 @@ if ($query->{list_aliases}) {
 
     if ($query->{headers} || $query->{sources} || $query->{info} || $query->{list_files} || $query->{changelog}) {
 	my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
-	unless ($local_sources || $list) {
-	    $urpm->{fatal}(1, N("unable to get source packages, aborting"));
-	}
 
 	if ($query->{headers}) {
 	    #- now examine source package to build headers list to extract.
+	    unless ($local_sources || $list) {
+		$urpm->{fatal}(1, N("unable to get source packages, aborting"));
+	    }
 	    values %$local_sources and system 'rpm2header', values %$local_sources;
 	    foreach (0..$#{$urpm->{media} || []}) {
 		my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
@@ -377,6 +376,8 @@ if ($query->{list_aliases}) {
 	    }
 	} elsif ($query->{info} || $query->{list_files} || $query->{changelog}) {
 	    my %downloads;
+	    # get descriptions of update sources
+	    my $updates_descr = $urpm->urpm::get_updates_description();
 	    # if not root, use a temporary directory to store headers
 	    my $tmp_header_dir = ($< != 0 and chomp_(`mktemp -d /tmp/urpmq.XXXXXX`));
 	    foreach (0..$#{$urpm->{media} || []}) {
@@ -425,7 +426,14 @@ if ($query->{list_aliases}) {
 			$pkg->packager and printf "%-12s: %s\n", "Packager", $pkg->packager;
 			$pkg->url and printf "%-12s: %s\n", "URL", $pkg->url;
 			$pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
-			$pkg->description and printf "%-12s:\n%s\n", "Description", $pkg->description;
+			my $updesc = $updates_descr->{$pkg->name};
+			$pkg->description && !$updesc->{description} and printf "%-12s:\n%s\n", "Description", $pkg->description;
+			if ($updesc) {
+			    $updesc->{description} and printf "%-12s:\n%s\n", "Description", $updesc->{description};
+			    $updesc->{updated} and printf "%-20s: %s\n", "Last updated", $updesc->{updated};
+			    $updesc->{importance} and printf "%-20s: %s\n", "Update importance", $updesc->{importance};
+			    $updesc->{pre} and printf "%-20s:\n%s\n", "Reason for update", $updesc->{pre};
+			}
 		    }
 		    if ($query->{list_files}) {
 			$pkg->files and print join("\n",$pkg->files)."\n";

@@ -2,6 +2,7 @@ package urpm;
 
 use strict;
 use vars qw($VERSION @ISA @EXPORT);
+use MDK::Common;
 
 $VERSION = '4.4';
 @ISA = qw(Exporter URPM);
@@ -3392,6 +3393,34 @@ sub check_sources_signatures {
 
     map { ($options{basename} ? basename($_) : $_) . ($options{translate} ? ": $invalid_sources{$_}" : "") }
       sort keys %invalid_sources;
+}
+
+#- get reason of update for packages to be updated
+#- use all update medias if none given
+sub get_updates_description {
+    my ($urpm, @update_medias) = @_;
+    my %update_descr;
+    my ($cur, $section);
+
+    @update_medias or @update_medias = grep { !$_->{ignore} && $_->{update} } @{$urpm->{media}};
+
+    foreach (map { cat_("$urpm->{statedir}/descriptions.$_->{name}"), '%package dummy' } @update_medias) {
+	/^%package (.+)/ and do {
+	    exists $cur->{importance} && !member($cur->{importance}, qw(security bugfix)) and $cur->{importance} = 'normal';
+	    $update_descr{$_} = $cur foreach @{$cur->{pkgs}};
+	    $cur = {};
+	    $cur->{pkgs} = [ split /\s/, $1 ];
+	    $section = 'pkg';
+	    next;
+	};
+	/^Updated: (.+)/ && $section eq 'pkg' and $cur->{updated} = $1;
+	/^Importance: (.+)/ && $section eq 'pkg' and $cur->{importance} = $1;
+	/^%pre/ and do { $section = 'pre'; next };
+	/^%description/ and do { $section = 'description'; next };
+	$section eq 'pre' and $cur->{pre} .= $_;
+	$section eq 'description' and $cur->{description} .= $_;
+    }
+    \%update_descr;
 }
 
 1;

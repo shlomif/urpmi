@@ -237,6 +237,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 %changelog
 * Thu Jan 15 2004 Olivier Blin <blino@mandrake.org> 4.4.2-1mdk
+- print updates description in urpmq -i when available
 - add auto and keep options in global config section
 - urpmq -l (list files), urpmq --changelog
 - lock rpm db even in chroot for urpmq
