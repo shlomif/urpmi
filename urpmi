@@ -526,6 +526,7 @@ $urpm->create_transaction($state,
 			  split_length => $urpm->{options}{'split-length'});
 
 my ($ok, $nok) = (0, 0);
+my @errors;
 
 foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
@@ -698,41 +699,50 @@ foreach my $set (@{$state->{transaction} || []}) {
 				   callback_inst => $callback_inst, callback_trans => $callback_inst);
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
-
-		$auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'} and ++$nok, next;
-
-		$noexpr = N("Nn");
-		$yesexpr = N("Yy");
-		message_input(N("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		  or ++$nok, next;
-		$urpm->{log}("starting installing packages without deps");
-		@l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
-				    \%transaction_sources_install, \%transaction_sources,
-				    translate_message => 1, nodeps => 1,
-				    oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-				    test => $test,
-				    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
-		if (@l) {
-		    message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
-		    !$urpm->{options}{'allow-force'} and ++$nok, next;
-		    message_input(N("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+		if ($auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
+		    ++$nok;
+		    push @errors, @l;
+		} else {
+		    $noexpr = N("Nn");
+		    $yesexpr = N("Yy");
+		    message_input(N("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
 		      or ++$nok, next;
-		    $urpm->{log}("starting force installing packages without deps");
+		    $urpm->{log}("starting installing packages without deps");
 		    @l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
 					\%transaction_sources_install, \%transaction_sources,
-					translate_message => 1, nodeps => 1, force => 1,
+					translate_message => 1, nodeps => 1,
 					oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
 					test => $test,
 					excludepath => $urpm->{options}{excludepath},
 					excludedocs => $urpm->{options}{excludedocs});
 		    if (@l) {
 			message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
-			++$nok;
+			if (!$urpm->{options}{'allow-force'}) {
+			    ++$nok;
+			    push @errors, @l;
+			} else {
+			    message_input(N("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+			      or ++$nok, next;
+			    $urpm->{log}("starting force installing packages without deps");
+			    @l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+						\%transaction_sources_install, \%transaction_sources,
+						translate_message => 1, nodeps => 1, force => 1,
+						oldpackage => $state->{oldpackage},
+						post_clean_cache => $urpm->{options}{'post-clean'},
+						test => $test,
+						excludepath => $urpm->{options}{excludepath},
+						excludedocs => $urpm->{options}{excludedocs});
+			    if (@l) {
+				message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+				++$nok;
+				push @errors, @l;
+			    } else {
+				++$ok;
+			    }
+			}
 		    } else {
 			++$ok;
 		    }
-		} else {
-		    ++$ok;
 		}
 	    } else {
 		++$ok;
@@ -750,7 +760,7 @@ if (values %error_sources) {
     $exit_code = 10;
 }
 if ($nok) {
-    $nok > 1 and message(N("%d installation transactions failed", $nok));
+    $nok > 1 and message(N("%d installation transactions failed", $nok) . (@errors && ":\n" . join("\n", map { "\t$_" } @errors)));
     if ($exit_code) {
 	$exit_code = $ok ? 13 : 14;
     } else {
