@@ -184,12 +184,16 @@ msgstr "impossible d'écrire le fichier de configuration [%s]"
 
 #: po/placeholder.h:30 po/placeholder.h:221
 msgid "examining whole urpmi database"
-msgstr ""
+msgstr "examine la base de donnée urpmi toute entière"
 
 #: po/placeholder.h:31
-#, fuzzy
 msgid "  -y             - impose fuzzy search.\n"
-msgstr "  -v             - mode verbeux.\n"
+msgstr "  -y             - force la recherche fuzzy.\n"
+
+#: po/placeholder.h:32 po/placeholder.h:220 urpm.pm:325
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "impossible de trouver le fichier list de \"%s\", média ignoré"
 
 #: po/placeholder.h:32 po/placeholder.h:223
 #, c-format
@@ -216,6 +220,11 @@ msgid ""
 "  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
 
+#: po/placeholder.h:38 po/placeholder.h:340 po/placeholder.h:470
+msgid ""
+"  --auto-select  - automatically select packages for upgrading the system.\n"
+msgstr ""
+
 #: po/placeholder.h:38 po/placeholder.h:228
 #, c-format
 msgid "retrieving description file of \"%s\"..."
@@ -236,10 +245,8 @@ msgstr "paquetage %s non trouvé"
 msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
 msgstr "le média \"%s\" essaye d'utiliser un hdlist déja utilisé, média ignoré"
 
-#: po/placeholder.h:43 po/placeholder.h:236
-#, fuzzy
-msgid "problem reading hdlist file, trying again"
-msgstr "lecture du fichier hdlist [%s]"
+msgid "unknown package(s) "
+msgstr "package(s) inconnu(s) "
 
 #: po/placeholder.h:44 po/placeholder.h:237 urpm.pm:281
 #, c-format
@@ -248,9 +255,10 @@ msgstr ""
 "impossible d'utiliser le nom \"%s\" pour le média non nommé car ce nom est "
 "déjà utilisé"
 
-#: po/placeholder.h:45 po/placeholder.h:323 urpme:52
-msgid "unknown package(s) "
-msgstr ""
+
+#: po/placeholder.h:45 po/placeholder.h:231
+msgid "problem reading hdlist file, trying again"
+msgstr "problème lors de la lecture du fichier hdlist, nouvel essai"
 
 #: po/placeholder.h:46 po/placeholder.h:239 urpm.pm:288
 #, c-format
@@ -324,14 +332,12 @@ msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "impossible de trouver le fichier hdlist pour \"%s\", média ignoré"
 
 #: po/placeholder.h:61 po/placeholder.h:256
-#, fuzzy
 msgid "urpmi database locked"
-msgstr "la requête sur la base de données rpm a échoué\n"
+msgstr "la base de donnée urpmi est verrouillée"
 
 #: po/placeholder.h:62 po/placeholder.h:325 urpme:63
-#, fuzzy
 msgid " (y/N) "
-msgstr " (O/n) "
+msgstr " (o/N) "
 
 #: po/placeholder.h:63 po/placeholder.h:379
 msgid "  -a             - select all matches on command line.\n"
@@ -406,9 +412,8 @@ msgid "  -h             - print this help message.\n"
 msgstr "  -h             - afficher ce message d'aide\n"
 
 #: po/placeholder.h:78 po/placeholder.h:434
-#, fuzzy
 msgid "  -a             - select all media.\n"
-msgstr "  -a             - sélectionne tous les médias non amovibles\n"
+msgstr "  -a             - sélectionne tous les médias\n"
 
 #: po/placeholder.h:79 po/placeholder.h:460
 msgid "  -g             - print groups too with name.\n"
@@ -417,7 +422,7 @@ msgstr "  -g             - afficher les groupes avec le nom\n"
 #: po/placeholder.h:80 po/placeholder.h:272
 #, c-format
 msgid "invalid hdlist description \"%s\" in hdlists file"
-msgstr ""
+msgstr "description de hdlist invalide \"%s\" dans le fichier hdlists"
 
 #: po/placeholder.h:81 po/placeholder.h:417
 msgid "  -h             - try to find and use synthesis or hdlist file.\n"
@@ -579,6 +584,11 @@ msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr ""
 "  --curl         - utilise curl pour récupérer les fichiers distants.\n"
 
+#: po/placeholder.h:114 po/placeholder.h:303
+#, c-format
+msgid "trying to select inexistent medium \"%s\""
+msgstr "essaye de sélectionner un média inexistant \"%s\""
+
 #: po/placeholder.h:117 po/placeholder.h:308 urpm.pm:1834
 #, c-format
 msgid "unable to parse correctly [%s] on value \"%s\""
@@ -639,7 +649,7 @@ msgstr "urpmq: impossible de lire le fichier rpm \"%s\"\n"
 
 #: po/placeholder.h:132 po/placeholder.h:329 urpme:87
 msgid "Nothing to remove.\n"
-msgstr ""
+msgstr "Rien à enlever.\n"
 
 #: po/placeholder.h:134 po/placeholder.h:345 urpmi:356 urpmi:363 urpmi:379
 #: urpmi:392
@@ -653,9 +663,7 @@ msgstr "impossible d'accéder premier média d'installation"
 #: po/placeholder.h:136 po/placeholder.h:350 po/placeholder.h:480
 #, fuzzy
 msgid "  -P             - do not search in provides to find package.\n"
-msgstr ""
-"  -p              - autorise les recherches dans les provides pour trouver "
-"le package.\n"
+msgstr "  -P              - ne recherche pas dans les provides pour trouver le package.\n"
 
 #: po/placeholder.h:138 po/placeholder.h:231 urpm.pm:1186
 #, c-format
@@ -695,9 +703,6 @@ msgstr "impossible de créer le fichier de synthese pour le media \"%s\""
 msgid "trying to select multiple medium: %s"
 msgstr "essaye de sélectionner plusieurs médias %s"
 
-#: po/placeholder.h:147 po/placeholder.h:457
-msgid "  -a             - select all non-removable media.\n"
-msgstr "  -a             - sélectionne tous les médias non amovibles\n"
 
 #: po/placeholder.h:148 po/placeholder.h:360
 #, fuzzy
@@ -723,11 +728,8 @@ msgid "write config file [%s]"
 msgstr "écriture du fichier de configuration [%s]"
 
 #: po/placeholder.h:153 po/placeholder.h:254
-#, fuzzy
 msgid "unable to build hdlist synthesis, using parsehdlist method"
-msgstr ""
-"impossible de trouver tous les fichiers de synthèse, utilisation du serveur "
-"parsehdlist"
+msgstr "impossible de créer les  synthèse de hdlists, utilisation de la méthode parsehdlist"
 
 #: po/placeholder.h:154 po/placeholder.h:423
 msgid ""
@@ -750,9 +752,9 @@ msgid ""
 msgstr ""
 
 #: po/placeholder.h:160 po/placeholder.h:259
-#, fuzzy, c-format
+#, c-format
 msgid "examining synthesis file [%s]"
-msgstr "lit le fichier de synthese [%s]"
+msgstr "examine le fichier de synthese [%s]"
 
 #: po/placeholder.h:162 po/placeholder.h:261
 #, c-format
@@ -765,13 +767,11 @@ msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "il y a plusieurs paquetages avec le même nom de fichier \"%s\""
 
 #: po/placeholder.h:166 po/placeholder.h:322 urpme:93
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be removed (%d "
 "MB)"
-msgstr ""
-"Pour satisfaire les dépendances, les paquetages suivants vont être installés "
-"(%d Mo)"
+msgstr "Pour satisfaire les dépendances, les paquetages suivants vont être enlevés (%d Mo)"
 
 #: po/placeholder.h:167 po/placeholder.h:266
 msgid "retrieving hdlists file..."
@@ -855,6 +855,10 @@ msgstr ""
 "Pour satisfaire les dépendances, les paquetages suivants vont être installés "
 "(%d Mo)"
 
+#: po/placeholder.h:180 po/placeholder.h:277
+msgid "copying hdlists file..."
+msgstr "copie du fichier hdlists..."
+
 #: po/placeholder.h:185 po/placeholder.h:284 urpm.pm:236 urpm.pm:248
 #, c-format
 msgid "syntax error in config file at line %s"
@@ -917,33 +921,34 @@ msgstr ""
 #: po/placeholder.h:200 po/placeholder.h:326 urpme:62
 #, c-format
 msgid "Using \"%s\" as a substring, I found"
-msgstr ""
+msgstr "En utilisant \\\"%s\\\" comme sous-chaine, je trouve"
 
-#: po/placeholder.h:202 po/placeholder.h:331 urpme:30
-msgid "Remove them all?"
-msgstr ""
 
 #: po/placeholder.h:203 po/placeholder.h:381 urpmi:343
 #, c-format
 msgid "installing %s\n"
 msgstr "installation de %s\n"
 
+#: po/placeholder.h:198 po/placeholder.h:325 urpme:30
+msgid "Remove them all?"
+msgstr "Les enlever tous?"
+
 #: po/placeholder.h:204 po/placeholder.h:382 urpmi:324
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Veuillez insérer le support nommé « %s » dans le périphérique [%s]"
 
-#: po/placeholder.h:205 po/placeholder.h:312
-#, fuzzy, c-format
-msgid "examining hdlist file [%s]"
-msgstr "lecture du fichier hdlist [%s]"
-
-#: po/placeholder.h:206 po/placeholder.h:310 urpm.pm:1368
+#: po/placeholder.h:200 po/placeholder.h:304 urpm.pm:1358
 #, c-format
 msgid "The following packages contain %s: %s"
 msgstr "Les paquetages suivants contiennent %s : %s"
 
-#: po/placeholder.h:207 po/placeholder.h:313 urpm.pm:1248
+#: po/placeholder.h:201 po/placeholder.h:306
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr "examine le fichier hdlist [%s]"
+
+#: po/placeholder.h:202 po/placeholder.h:307 urpm.pm:1238
 msgid "no entries relocated in depslist"
 msgstr "pas d'entrées déplacées dans la depslist"
 
@@ -959,6 +964,16 @@ msgstr "...récupération effectuée"
 #: urpmq:172
 msgid "unable to get source packages, aborting"
 msgstr "impossible de récupérer les paquetages sources, abandon"
+
+#: po/placeholder.h:207 po/placeholder.h:308 urpm.pm:1962
+msgid "...retrieving done"
+msgstr "...récupération effectuée"
+
+
+#: po/placeholder.h:208 po/placeholder.h:309 urpm.pm:2079
+#, c-format
+msgid "selecting %s using obsoletes"
+msgstr "sélection de %s en utilisant obsoletes"
 
 #: po/placeholder.h:212 po/placeholder.h:455
 msgid ""
@@ -984,7 +999,11 @@ msgstr "sélection de %s par sélection de fichiers"
 #: po/placeholder.h:216 po/placeholder.h:319
 #, fuzzy, c-format
 msgid "copying source list of \"%s\"..."
-msgstr "copie du hdlist source (ou synthèse) de \"%s\"..."
+msgstr "copie la liste source de \"%s\"..."
+
+#: po/placeholder.h:212 po/placeholder.h:381 urpmi:148
+msgid "Only superuser is allowed to install packages"
+msgstr "Seul l'administrateur système (root) peut installer des paquetages"
 
 #: po/placeholder.h:217 po/placeholder.h:320 urpm.pm:141
 msgid "wget is missing\n"
@@ -1022,12 +1041,27 @@ msgid ""
 "Installation failed, some files are missing.\n"
 "You may want to update your urpmi database"
 msgstr ""
+"L'installation a échoué, certains fichiers manquent.\n"
+"Vous devriez mettre à jour votre base de donnée urpmi"
 
-#: po/placeholder.h:354
+
+#: po/placeholder.h:347 po/placeholder.h:480
+msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
+msgstr "  --fuzzy        - force la recherche fuzzy (comme -y).\n"
+
+#: po/placeholder.h:348
 msgid ""
 "  --best-output  - choose best interface according to the environment:\n"
 "                   X or text mode.\n"
 msgstr ""
+
+#: po/placeholder.h:355 po/placeholder.h:452
+msgid "  --src          - next package is a source package (same as -s).\n"
+msgstr ""
+
+#: po/placeholder.h:357
+msgid "  --noclean      - keep rpm not used in cache.\n"
+msgstr "  --noclean     - laisse les rpm non utilisés dans le cache\n"
 
 #: po/placeholder.h:367
 #, c-format
@@ -1044,6 +1078,16 @@ msgstr ""
 "licence GNU GPL\n"
 "usage:\n"
 
+
+#: po/placeholder.h:372 po/placeholder.h:471
+#, fuzzy
+msgid "  -s             - next package is a source package (same as --src).\n"
+msgstr "                    sur la ligne de commande mais sans nom de package)"
+
+#: po/placeholder.h:379 po/placeholder.h:484
+msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
+msgstr "  -y             - force la recherche fuzzy (comme --fuzzy).\n"
+
 #: po/placeholder.h:389 urpmi.addmedia:70
 #, c-format
 msgid ""
@@ -1054,7 +1098,6 @@ msgstr ""
 "inutile de donner  le <chemin relatif de hdlist> avec --distrib"
 
 #: po/placeholder.h:393
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
@@ -1066,14 +1109,14 @@ msgid ""
 "       removable://<path>\n"
 "and [options] are from\n"
 msgstr ""
-"usage: urpmi.addmedia [--update] <nom> <url>\n"
+"usage: urpmi.addmedia [options] <nom> <url> [with <chemin_relatif>]\n"
 "où <url> est l'un de\n"
 "       file://<chemin>\n"
-"       ftp://<identifiant>:<mot_de_passe>@<host>/<chemin> with <chemin "
-"relatif du fichier hdlist>\n"
-"       ftp://<host>/<chemin> with <relative filename of hdlist>\n"
-"       http://<host>/<chemin> with <relative filename of hdlist>\n"
-"       removable_<périphérique>://<chemin>\n"
+"       ftp://<identifiant>:<mot_de_passe>@<host>/<chemin> with <chemin relatif du fichier hdlist>\n"
+"       ftp://<host>/<chemin> with <chemin relatif du hdlist>\n"
+"       http://<host>/<chemin> with <chemin relatif du hdlist>\n"
+"       removable://<chemin>\n"
+"et [options] sont prises parmi\n"
 
 #: po/placeholder.h:405 po/placeholder.h:425 po/placeholder.h:443
 #: urpmi.addmedia:57
@@ -1113,13 +1156,12 @@ msgstr ""
 " (l'une parmi %s)\n"
 
 #: po/placeholder.h:435
-#, fuzzy
 msgid ""
 "usage: urpmi.removemedia [-a] <name> ...\n"
 "where <name> is a medium name to remove.\n"
 msgstr ""
-"usage: urpmi.update [options] <nom> ...\n"
-"où <nom> est un nom de média à mettre à jour.\n"
+"usage: urpmi.removemedia [-a] <nom> ...\n"
+"où <nom> est un nom de média à enlever\n"
 
 #: po/placeholder.h:439
 msgid ""
