@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 4mdk
+%define release 5mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -47,6 +47,7 @@ Summary:	User mode rpm GUI install
 Group:		%{group}
 Requires:	urpmi >= %{version}-%{release} drakxtools > 10-0.4mdk gtkdialogs >= 2.1 usermode menu
 Obsoletes:	grpmi
+Provides:	grpmi
 
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
@@ -252,6 +253,13 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri May 21 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-5mdk
+- locale and command-line fixes
+- urpmf now warns when no hdlist is used
+- improve docs, manpages, error messages
+- urpmi.addmedia doesn't search for hdlists anymore when a 'with' argument
+  is provided
+
 * Tue May 04 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-4mdk
 - urpmi.addmedia no longer probes for synthesis/hdlist files when a
   "with" argument is provided
