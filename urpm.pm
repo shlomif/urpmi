@@ -1492,7 +1492,7 @@ sub parse_synthesis {
 #- all additional package selected have a true value.
 sub filter_packages_to_upgrade {
     my ($urpm, $packages, $select_choices, %options) = @_;
-    my ($id, %installed, %selected, %conflicts);
+    my ($id, %track, %track_requires, %installed, %selected, %conflicts);
     my ($db, @packages) = (rpmtools::db_open(''), keys %$packages);
     my $sig_handler = sub { rpmtools::db_close($db); exit 3 };
     local $SIG{INT} = $sig_handler;
@@ -1560,16 +1560,28 @@ sub filter_packages_to_upgrade {
 	my (%diff_provides, %provides);
 
 	if ($pkg->{arch} ne 'src') {
-	    rpmtools::db_traverse_tag($db,
-				      'name', [ $pkg->{name}, @{$pkg->{obsoletes} || []} ],
-				      [ qw(name version release sense provides) ], sub {
-					  my ($p) = @_;
-					  foreach (@{$p->{provides}}) {
-					      s/\[\*\]//;
-					      s/\[([^\]]*)\]/ $1/;
-					      $diff_provides{$_} = "$p->{name}-$p->{version}-$p->{release}";
-					  }
-				      });
+	    my @upgraded;
+
+	    foreach ($pkg->{name}, @{$pkg->{obsoletes} || []}) {
+		if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+		    rpmtools::db_traverse_tag($db, 'name', [ $n ],
+					      [ qw(name version release sense provides),
+						$options{track} ? qw(arch requires serial) : () ],
+					      sub {
+						  my ($p) = @_;
+						  (!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
+						    (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
+						     eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
+						  $options{track} and push @upgraded, $p;
+						  foreach (@{$p->{provides}}) {
+						      s/\[\*\]//;
+						      s/\[([^\]]*)\]/ $1/;
+						      $diff_provides{$_} = "$p->{name}-$p->{version}-$p->{release}";
+						  }
+					      });
+		}
+	    }
+	    $options{track} and $track{$pkg->{id}}{upgraded} = \@upgraded;
 
 	    foreach (@{$pkg->{provides} || []}) {
 		s/\[\*\]//;
@@ -1597,13 +1609,18 @@ sub filter_packages_to_upgrade {
 			}
 			#- check if the package need to be updated because it
 			#- losts some of its requires regarding the current diff_provides.
-			$needed > $satisfied and $selected{$p->{name}} ||= undef;
+			if ($needed > $satisfied) {
+			    $selected{$p->{name}} ||= undef;
+			    $options{track} and push @{$track{$pkg->{id}}{diff_provides} ||= []}, $p;
+			}
 		    };
-		    rpmtools::db_traverse_tag($db, 'whatrequires', [ $n ], [ qw(name version release sense requires) ], $check);
+		    rpmtools::db_traverse_tag($db, 'whatrequires', [ $n ],
+					      [ qw(name version release sense requires),
+						$options{track} ? qw(arch provides serial) : () ], $check);
 		}
 	    }
 
-	    $selected{$pkg->{name}} = undef;
+	    $selected{$pkg->{name}} ||= undef;
 	}
 
 	#- iterate over requires of the packages, register them.
@@ -1624,8 +1641,10 @@ sub filter_packages_to_upgrade {
 			$provides{$_} = "$p->{name}-$p->{version}-$p->{release}";
 		    };
 		    rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
-					      [ qw (name version release) ], $check_pkg);
+					      [ qw (name version release),
+						$options{track} ? qw(arch sense requires provides serial) : () ], $check_pkg);
 		}
+		$options{track} and $track_requires{$_}{$pkg->{id}} = $_;
 	    }
 	}
 
@@ -1641,10 +1660,12 @@ sub filter_packages_to_upgrade {
 		      (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
 		       eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
 		    $conflicts{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} = 1;
-		    $selected{$_[0]{name}} ||= undef;
+		    $selected{$p->{name}} ||= undef;
+		    $options{track} and push @{$track{$pkg->{id}}{conflicts} ||= []}, $p;
 		};
 		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
-					  [ qw (name version release arch) ], $check_pkg);
+					  [ qw (name version release arch),
+					    $options{track} ? qw(sense requires provides serial) : () ], $check_pkg);
 		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
 		    my $p = $urpm->{params}{info}{$fullname};
 		    $p->{arch} eq 'src' and next;
@@ -1732,15 +1753,29 @@ sub filter_packages_to_upgrade {
 	    if (keys(%choices_id) == 1) {
 		my ($id) = keys(%choices_id);
 		$selected{$choices_id{$id}{name}} = 1;
-		exists $packages->{$id} or $packages->{$id} = 1;
+		unless ($packages->{$id}) {
+		    $packages->{$id} = 1;
+		    if ($options{track} && $track_requires{$_}) {
+			foreach my $deps (keys %{$track_requires{$_}}) {
+			    $track{$deps}{requires}{$id} = $_;
+			}
+		    }
+		}
 		unshift @packages, $id;
 	    } elsif (keys(%choices_id) > 1) {
 		push @packages, [ sort { $a <=> $b } keys %choices_id ];
+		if ($options{track} && $track_requires{$_}) {
+		    foreach my $deps (keys %{$track_requires{$_}}) {
+			$track{$deps}{requires}{join '|', sort { $a <=> $b } keys %choices_id} = $_;
+		    }
+		}
 	    }
 	}
     }
 
     rpmtools::db_close($db);
+
+    \%track;
 }
 
 #- get out of package that should not be upgraded.

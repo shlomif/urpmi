@@ -273,6 +273,9 @@ if ($auto_select) {
 }
 
 $urpm->filter_packages_to_upgrade(\%packages, $ask_choice);
+#- my $track = $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, track => 1);
+#- require Data::Dumper;
+#- print STDERR Data::Dumper->Dump([$track], ['$track']);
 
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);

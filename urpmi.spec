@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 10mdk
+Release: 11mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Tue Feb 19 2002 François Pons <fpons@mandrakesoft.com> 3.3-11mdk
+- fixed obsoletes on direct requires when a sense is given.
+- added a tracking method in urpm library for allowing upgrade.
+
 * Mon Feb 18 2002 Pixel <pixel@mandrakesoft.com> 3.3-10mdk
 - remove autoirpm until it's fixed (or used/advertised)
 
