@@ -34,7 +34,7 @@ sub parallel_find_remove {
 	@{$urpm->{error_remove} || []} and return @{$urpm->{error_remove}};
 	#- no need to restart what has been started before.
 	$options{test} and return keys %{$state->{rejected}};
-	$test = '';
+	$test = '--force ';
     }
 
     #- now try an iteration of urpme.
