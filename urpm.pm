@@ -723,13 +723,17 @@ sub add_distrib_media {
 	    chomp;
 	    s/\s*#.*$//;
 	    /^\s*$/ and next;
+	    /^suppl/ and next;
 	    m/^\s*(?:noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file"), $_);
 	    my ($hdlist, $rpmsdir, $descr) = ($1, $2, $3);
 
-	    $urpm->add_medium($name ? "$descr ($name$medium)" : $descr,
-			      "$url/$rpmsdir",
-			      offset_pathname($url, $rpmsdir) . "/$distrib_root/$hdlist",
-			      %options);
+	    $urpm->add_medium(
+		$name ? "$descr ($name$medium)" : $descr,
+		"$url/$rpmsdir",
+		offset_pathname($url, $rpmsdir) . "/$distrib_root/$hdlist",
+		index_name => 0,
+		%options,
+	    );
 
 	    ++$medium;
 	}
