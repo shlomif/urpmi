@@ -71,7 +71,7 @@ msgstr "%s: commande non trouvée\n"
 #: ../urpm.pm_.c:177
 #, c-format
 msgid "Unknown webfetch `%s' !!!\n"
-msgstr "Programe inconnu de rappatriemment de pages web « %s » !!!\n"
+msgstr "Programme inconnu de rapatriement de pages web « %s » !!!\n"
 
 #: ../urpm.pm_.c:196
 #, c-format
@@ -80,7 +80,7 @@ msgstr "protocole inconnu défini pour %s"
 
 #: ../urpm.pm_.c:205
 msgid "no webfetch (curl or wget currently) found\n"
-msgstr "aucun webfetch (curl ou wget) trouvé\n"
+msgstr "aucun programme de rapatriement de pages web (curl ou wget) trouvé\n"
 
 #: ../urpm.pm_.c:217
 #, c-format
@@ -127,7 +127,7 @@ msgstr "erreur de syntaxe dans le fichier de configuration à la ligne %s"
 #, c-format
 msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
 msgstr ""
-"la source « %s » essaye d'utiliser une liste hdlist déja utilisée, source "
+"la source « %s » essaye d'utiliser un hdlist déja utilisé, source "
 "ignorée"
 
 #: ../urpm.pm_.c:361
@@ -230,19 +230,19 @@ msgid "write config file [%s]"
 msgstr "écriture du fichier de configuration [%s]"
 
 #: ../urpm.pm_.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "impossible d'accéder au fichier rpm [%s]"
+msgstr "impossible d'analyser « %s » dans le fichier [%s]"
 
 #: ../urpm.pm_.c:555
-#, fuzzy, c-format
+#, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr "examen du fichier hdlist [%s]"
+msgstr "examen du support distribué dans le fichier [%s]"
 
 #: ../urpm.pm_.c:565
 #, fuzzy, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr "hdlist (ou synthèse) adéquate trouvée: « %s »..."
+msgstr "support distribué trouvé pour les noeuds: %s"
 
 #: ../urpm.pm_.c:569
 #, c-format
@@ -252,11 +252,11 @@ msgstr ""
 #: ../urpm.pm_.c:573
 #, fuzzy, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "impossible de mettre à jour la source « %s »\n"
+msgstr "impossible d'utiliser l'option distribuée « %s »"
 
 #: ../urpm.pm_.c:583
 msgid "--synthesis cannot be used with --media, --update or --parallel"
-msgstr ""
+msgstr "--synthesis ne peut pas être utilisée avec --media, --update ou --parallel"
 
 #: ../urpm.pm_.c:598 ../urpm.pm_.c:1138 ../urpm.pm_.c:1153 ../urpm.pm_.c:1283
 #, c-format
@@ -382,12 +382,12 @@ msgid "copying source list of \"%s\"..."
 msgstr "copie de la liste source de « %s »..."
 
 #: ../urpm.pm_.c:979
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
 msgstr "lecture des fichiers rpm à partir de [%s]"
 
 #: ../urpm.pm_.c:998
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "impossible de lire les fichiers rpm à partir de [%s]: %s"
 
@@ -553,7 +553,6 @@ msgid "malformed input: [%s]"
 msgstr "entrée mal formée : [%s]"
 
 #: ../urpm.pm_.c:1924
-#, fuzzy
 msgid "retrieving rpm files..."
 msgstr "récupération des fichiers rpm..."
 
@@ -583,17 +582,17 @@ msgstr "%s est en conflit avec %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:79 ../urpm/parallel_ka_run.pm_.c:112
 msgid "rshp failed"
-msgstr ""
+msgstr "rshp a échoué"
 
 #: ../urpm/parallel_ka_run.pm_.c:116 ../urpm/parallel_ssh.pm_.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "L'installation a échoué"
+msgstr "L'installation a échoué sur le noeud %s"
 
 #: ../urpm/parallel_ssh.pm_.c:81
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "la machine %s n'a pas une bonne version de urpmi"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
@@ -608,9 +607,8 @@ msgid "unknown package "
 msgstr "paquetage inconnu"
 
 #: ../urpme_.c:111
-#, fuzzy
 msgid "unknown packages "
-msgstr "paquetage inconnu"
+msgstr "paquetages inconnus"
 
 #: ../urpme_.c:134
 #, c-format
@@ -882,9 +880,8 @@ msgstr ""
 "                   (identique à -s).\n"
 
 #: ../urpmi_.c:80
-#, fuzzy
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --noclean      - garder rpm non utilisé dans le cache.\n"
+msgstr "  --clean        - enlever tous les rpm du cache.\n"
 
 #: ../urpmi_.c:81
 msgid "  --noclean      - keep rpm not used in cache.\n"
@@ -916,25 +913,23 @@ msgstr ""
 
 #: ../urpmi_.c:87 ../urpmq_.c:64
 msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
-msgstr ""
+msgstr "  --parallel     - urpmi distribué sur plusieurs machines.\n"
 
 #: ../urpmi_.c:94
-#, fuzzy
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-"  --bug          - délivre un rapport de bogue dans le répertoire indiqué en "
-"second argument.\n"
+"  --bug          - délivre un rapport de bogue dans le répertoire\n"
+"                   indiqué en second argument.\n"
 
 #: ../urpmi_.c:96
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
 msgstr ""
-"  --env          - utilise un environment spécifique (en général un rapport "
-"de bogue).\n"
+"  --env          - utilise un environment spécifique (en général\n"
+"                   un rapport de bogue).\n"
 
 #: ../urpmi_.c:98
 msgid "  --X            - use X interface.\n"
@@ -949,16 +944,17 @@ msgstr ""
 "                   l'environnement: mode graphique ou textuel.\n"
 
 #: ../urpmi_.c:101
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
 msgstr "  --verify-rpm   - verifie la signature du rpm avant l'installation.\n"
+"                   (--no-verify-rpm désactive la vérification).\n"
 
 #: ../urpmi_.c:103
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+"  --test         - verifier si l'installation fonctionne correctement.\n"
 
 #: ../urpmi_.c:104
 msgid "  -a             - select all matches on command line.\n"
@@ -1110,9 +1106,9 @@ msgstr ""
 "Vous devriez mettre à jour votre base de données urpmi"
 
 #: ../urpmi_.c:505
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s\n"
-msgstr "installation de %s\n"
+msgstr "distribution de %s\n"
 
 #: ../urpmi_.c:542 placeholder.h:101
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1123,9 +1119,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Essayer de forcer l'installation (--force) ? (o/N) "
 
 #: ../urpmi_.c:560
-#, fuzzy
 msgid "Installation is possible"
-msgstr "L'installation a échoué"
+msgstr "L'installation est possible"
 
 #: ../urpmi_.c:566 placeholder.h:97
 msgid "everything already installed"
@@ -1190,14 +1185,13 @@ msgid "  --list         - list available packages.\n"
 msgstr "  --all           - montrer tous les paquetages disponibles.\n"
 
 #: ../urpmq_.c:57
-#, fuzzy
 msgid "  --list-media   - list available media.\n"
-msgstr "  --all           - montrer tous les paquetages disponibles.\n"
+msgstr "  --list-media   - montrer toutes les sources disponibles.\n"
 
 #: ../urpmq_.c:58
-#, fuzzy
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr "  --all           - montrer tous les paquetages disponibles.\n"
+msgstr "  --list-nodes   - montrer tous les noeuds disponibles en.\n"
+"                   utilisant --parallel.\n"
 
 #: ../urpmq_.c:60
 msgid ""
@@ -1232,18 +1226,16 @@ msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: impossible de lire le fichier rpm « %s »\n"
 
 #: placeholder.h:6
-#, fuzzy
 msgid "usage: rpmf [<file>]"
-msgstr "utilisation: urpmf [options] <fichier>"
+msgstr "utilisation: rpmf [<fichier>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi n'est pas installé"
 
 #: placeholder.h:8
-#, fuzzy
 msgid "mismatch version for registering rpm file"
-msgstr "impossible d'enregistrer le fichier"
+msgstr "incohérence de version lors de l'enregistrement du fichier rpm"
 
 #: placeholder.h:9
 msgid "maybe the package has only been updated for another incompatible arch?"
