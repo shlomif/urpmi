@@ -14,15 +14,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: _irpm:21
-#, fuzzy
 msgid "installing $rpm\n"
-msgstr "installerer %s\n"
+msgstr "installerer $rpm\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Automatisk installasjon av pakker...\n"
+"Du ba om installasjon av pakke $rpm\n"
 
 #: _irpm:31 urpmi:207
 msgid "Is it ok?"
@@ -42,7 +43,7 @@ msgstr "Nn"
 
 #: _irpm:41 urpmi:216 urpmi:265
 msgid "Yy"
-msgstr "JjNn"
+msgstr "Jj"
 
 #: _irpm:42 urpmi:217
 msgid " (Y/n) "
@@ -50,15 +51,15 @@ msgstr " (J/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: kommando ikke funnet\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "bruk: rpmf [<file>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi er ikke installert"
 
 #: placeholder.h:8
 #, c-format
@@ -82,6 +83,24 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi versjon %s\n"
+"Copyright (C) 1999, 2000 MandrakeSoft.\n"
+"Dette er fri programvare og kan videredistribueres under betingelsene til "
+"GNU GPL.\n"
+"bruk:\n"
+"  --help           - vis denne hjelp meldingen.\n"
+"  --auto           - velg automatisk en god pakke i valg.\n"
+"  --auto-select    - velg automatisk pakker for oppgradering av systemet.\n"
+"  --force          - tving påkallelse selv om noen pakker ikke eksisterer.\n"
+"  --X              - bruk X grensesnitt.\n"
+"  --best-output    - velg beste grensesnitt som passer til miljøet:\n"
+"                     X eller tekstmodus.\n"
+"  -a               - velg alle som stemmer på kommandolinjen.\n"
+"  -c               - velg komplett metode som bestemt trenger lukking.\n"
+"  -q               - stille modus.\n"
+"  -v               - ordrikt modus.\n"
+"  navn eller rpm filer (bare for root) gitt på kommandolinjen er "
+"installert.\n"
 
 #: placeholder.h:26
 msgid ""
@@ -94,6 +113,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"bruk: urpmi.addmedia <name> <url>\n"
+"hvor <url> er en av\n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> med <relative filename of "
+"hdlist>\n"
+"       ftp://<host>/<path> med <relative filename of hdlist>\n"
+"       http://<host>/<path> med <relative filename of hdlist>\n"
+"       removable_<device>://<path>\n"
 
 #: placeholder.h:35 urpmi.addmedia:52
 #, c-format
@@ -101,6 +128,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`with' mangler for ftp media\n"
 
 #: placeholder.h:39 urpmi.addmedia:48
 #, c-format
@@ -108,6 +137,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"enhet `%s' finnes ikke\n"
 
 #: placeholder.h:43 urpmi.addmedia:50
 #, c-format
@@ -115,6 +146,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<relative path of hdlist> mangler\n"
 
 #: placeholder.h:47 urpmi.update:52
 #, c-format
@@ -122,6 +155,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"inngangen til oppdatering mangler\n"
+"(en av %s)\n"
 
 #: placeholder.h:51 urpmi.removemedia:49
 #, c-format
@@ -129,11 +164,13 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"inngangen til fjern mangler\n"
+"(en av %s)\n"
 
 #: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi versjon %s"
 
 #: urpmi:119
 msgid "Only superuser is allowed to install local packages"
@@ -161,9 +198,9 @@ msgstr ""
 "Følgende pakker vil bli installert for å tilfredstille avhengigheter (%d MB)"
 
 #: urpmi:232
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Vennligst sett inn %s kalt %s"
+msgstr "Vennligst sett inn mediumet kalt \"%s\" på enhet [%s]"
 
 #: urpmi:233
 msgid "Press enter when it's done..."
@@ -192,43 +229,44 @@ msgstr "Prøve å installere enda hardere (--force)? (J/n) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "bruk: urpmi.addmedia <name> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "ukjente valg \"%s\"\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "ingenting å oppdatere (bruk urpmi.addmedia for å legge til et media)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "ingenting å fjerne (bruk urpmi.addmedia for å legge til et media)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq versjon %s"
 
 #: urpmq:81
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: ukjent valg \"-$1\", sjekk bruk med --help\n"
 
 #: urpmq:83
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: kan ikke lese rpm fil \"$_\"\n"
 
 #: urpmq:126
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"Noen pakker må fjernes for å bli oppgradert, dette er ikke støttet ennå\n"
 
 #: urpmq:138
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "kunne ikke få tak i kildepakker, avslutter"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"

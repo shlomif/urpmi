@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
 "POT-Creation-Date: 2001-02-26 16:35+0100\n"
-"PO-Revision-Date: 2001-01-03 00:00+0900\n"
+"PO-Revision-Date: 2001-02-27 00:00+0900\n"
 "Last-Translator: Budi Rachmanto <rac@techie.com>\n"
 "Language-Team: Indonesian <rac@techie.com>\n"
 "MIME-Version: 1.0\n"
@@ -14,15 +14,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: _irpm:21
-#, fuzzy
 msgid "installing $rpm\n"
-msgstr "instalasi %s\n"
+msgstr "instalasi %rpm\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Instalasi paket otomatis...\n"
+"Anda telah meminta instalasi paket $rpm\n"
 
 #: _irpm:31 urpmi:207
 msgid "Is it ok?"
@@ -50,15 +51,15 @@ msgstr " (Y/t) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: perintah tak tercari\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "pemakaian: rpmf [<file>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi tak terinstal"
 
 #: placeholder.h:8
 #, c-format
@@ -82,6 +83,23 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi versi %s\n"
+"Hak cipta (C) 1999, 2000 MandrakeSoft.\n"
+"Ini piranti lunak gratis & boleh disebar sesuai syarat Lisensi Publik Umum "
+"GNU.\n"
+"pemakaian:\n"
+"  --help           - tampilan pesan ini.\n"
+"  --auto           - seleksi otomatis paket pilihan yg baik.\n"
+"  --auto-select    - seleksi otomatis paket untuk upgrade sistem.\n"
+"  --force          - paksa panggil meski beberapa paket tak ada.\n"
+"  --X              - pakai X interface.\n"
+"  --best-output    - pilih interface terbaik bagi sistem:\n"
+"                     X atau mode teks.\n"
+"  -a               - pilih semua yang cocok di kalimat perintah.\n"
+"  -c               - pilih metode komplit utk resolving requires closure.\n"
+"  -q               - mode bisu.\n"
+"  -v               - mode verbos.\n"
+"  nama / file rpm (hanya utk root) dari kalimat perintah telah terinstal.\n"
 
 #: placeholder.h:26
 msgid ""
@@ -94,6 +112,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"pemakaian: urpmi.addmedia <nama> <url>\n"
+"keterangan: <url> adalah \n"
+"       file://<path>\n"
+"       ftp://<login>:<password>@<host>/<path> dengan <nama file relatif "
+"hdlist>\n"
+"       ftp://<host>/<path> dengan <nama file relatif hdlist>\n"
+"       http://<host>/<path> dengan <nama file relatif hdlist>\n"
+"       removable_<device>://<path>\n"
 
 #: placeholder.h:35 urpmi.addmedia:52
 #, c-format
@@ -101,6 +127,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`with' tak tercantum utk media ftp\n"
 
 #: placeholder.h:39 urpmi.addmedia:48
 #, c-format
@@ -108,6 +136,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"device `%s' tak ada\n"
 
 #: placeholder.h:43 urpmi.addmedia:50
 #, c-format
@@ -115,6 +145,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<relative path of hdlist> hilang\n"
 
 #: placeholder.h:47 urpmi.update:52
 #, c-format
@@ -122,6 +154,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"masukan update hilang\n"
+"(satu dari %s)\n"
 
 #: placeholder.h:51 urpmi.removemedia:49
 #, c-format
@@ -129,11 +163,13 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"masukan utk penghapusan hilang\n"
+"(satu dari %s)\n"
 
 #: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi versi %s"
 
 #: urpmi:119
 msgid "Only superuser is allowed to install local packages"
@@ -161,9 +197,9 @@ msgstr ""
 "Paket berikut akan di-install agar syarat ketergantungan terpenuhi (%d MB)"
 
 #: urpmi:232
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Masukkan %s bernama %s"
+msgstr "Masukkan media \"%s\" ke perangkat [%s]"
 
 #: urpmi:233
 msgid "Press enter when it's done..."
@@ -192,43 +228,43 @@ msgstr "Coba instalasi lebih keras (--force)? (Y/t) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "pemakaian: urpmi.addmedia <nama> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "opsi tak terpahami \"%s\"\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "tak ada update (pakailah urpmi.addmedia utk tambah media)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "tak ada penghapusan (pakailah urpmi.addmedia utk tambah media)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq versi %s"
 
 #: urpmq:81
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: opsi tak ada \"-$1\", cek pemakaian dg --help\n"
 
 #: urpmq:83
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: tak dapat membaca file rpm \"$_\"\n"
 
 #: urpmq:126
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
-msgstr ""
+msgstr "bbrpp paket harus dihapus agr ter-upgrade, ini belum ter-support\n"
 
 #: urpmq:138
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "tak dapat mengambil paket asal, batal"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
