@@ -70,6 +70,11 @@ sub add_button_box {
     $_->set_alignment(0.5, 0.5), $hbox->add($_) foreach @buttons;
 }
 
+sub sync {
+    $mainw->show;
+    Gtk2->main_iteration while Gtk2->events_pending;
+}
+
 #- sets the window to a please-wait message
 sub wait_label {
     my $wait_vbox = Gtk2::VBox->new(0, 5);
@@ -77,11 +82,7 @@ sub wait_label {
     $wait_label->set_alignment(0.5, 0.5);
     $wait_vbox->pack_start($wait_label, 1, 1, 0);
     change_mainw($wait_vbox);
-}
-
-sub sync {
-    $mainw->show;
-    Gtk2->main_iteration while Gtk2->events_pending;
+    sync();
 }
 
 #- Parse command line
