@@ -1976,18 +1976,6 @@ sub try_umounting_removables {
     delete $urpm->{removable_mounted};
 }
 
-#- relocate depslist array id to use only the most recent packages,
-#- reorder info hashes to give only access to best packages.
-sub relocate_depslist_provides {
-    my ($urpm, %options) = @_;
-    my $relocated_entries = $urpm->relocate_depslist;
-
-    $urpm->{log}($relocated_entries ?
-		 N("relocated %s entries in depslist", $relocated_entries) :
-		 N("no entries relocated in depslist"));
-    $relocated_entries;
-}
-
 #- register local packages for being installed, keep track of source.
 sub register_rpms {
     my ($urpm, @files) = @_;
@@ -3233,7 +3221,6 @@ urpm - Mandrakesoft perl tools to handle the urpmi database
     if (@files) {
         push @names, $urpm->register_rpms(@files);
     }
-    $urpm->relocate_depslist_provides();
 
     my %packages;
     @names and $urpm->search_packages(\%packages, [ @names],
