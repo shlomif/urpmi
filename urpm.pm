@@ -1160,7 +1160,8 @@ sub update_media {
 	    #- mount everything necessary.
 	    $urpm->try_mounting($options{force} < 2 && ($options{probe_with} || $medium->{with_hdlist}) ?
 				$with_hdlist_dir : $dir) or
-				  $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
+				  $urpm->{error}(N("unable to access medium \"%s\",
+this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), next;
 
 	    #- try to probe for possible with_hdlist parameter, unless
 	    #- it is already defined (and valid).
