@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 12mdk
+%define release 13mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -259,6 +259,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Jul 09 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-13mdk
+- Support for README.*.urpmi
+- add a --version command-line argument to everything
+- Deleting media now deletes corresponding proxy configuration
+- Code cleanups
+
 * Mon Jul 05 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-12mdk
 - Disallow two medias with the same name
 - urpmi.removemedia no longer performs a fuzzy match on media names
