@@ -42,13 +42,21 @@ Returns 1 on success, 0 on failure.
 
 #- implementations of the substitutions. arch and release are mdk-specific
 
-sub get_arch () { `/bin/rpm -q --qf '%{arch}' mandrakelinux-release` }
-
-sub get_release () {
-    my ($v, $r) = split / /, `/bin/rpm -q --qf '%{version} %{release}' mandrakelinux-release`;
-    $v = 'cooker' if $r =~ /^0\./;
-    $v;
+my ($arch, $release);
+sub _init_arch_release () {
+    if (!$arch && !$release) {
+	open my $f, '/etc/mandrakelinux-release' or return undef;
+	my $l = <$f>;
+	close $f;
+	($release, $arch) = $l =~ /release (\d+\.\d+).*for (\w+)/;
+	$release = 'cooker' if $l =~ /cooker/i;
+    }
+    1;
 }
+
+sub get_arch () { _init_arch_release(); $arch }
+
+sub get_release () { _init_arch_release(); $release }
 
 sub get_host () {
     my $h;
