@@ -496,7 +496,7 @@ sub update_media {
 		}
 	    }
 	} else {
-	    my $basename = $medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1;
+	    my $basename = ($medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1) || $medium->{with_hdlist};
 
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{cachedir}/partial/descriptions";
