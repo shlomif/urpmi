@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 26mdk
+%define release 27mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -256,6 +256,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue Sep 28 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-27mdk
+- Change description
+- Add a "--" option to urpmi.removemedia
+- Better error message in urpmi.update when hdlists are corrupted
+
 * Fri Sep 17 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-26mdk
 - urpmi.addmedia should create urpmi.cfg if it doesn't exist.
 
