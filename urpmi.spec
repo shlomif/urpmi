@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.0
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -142,6 +142,15 @@ fi
 
 
 %changelog
+* Wed Dec 12 2001 François Pons <fpons@mandrakesoft.com> 3.0-6mdk
+- fixed removable device probe for addition of medium.
+- fixed synthesis size checking.
+- added log when copying file (nfs).
+- removed error when description file is not retrieved successfully.
+- added -h option to urpmi.addmedia to probe for synthesis or hdlist.
+- modified --force of urpmi.update to behave smootly (given once to
+  force copy of file, given twice to force regeneration of hdlist).
+
 * Mon Dec 10 2001 François Pons <fpons@mandrakesoft.com> 3.0-5mdk
 - fixed %%post again.
 - added kernel-source in /etc/urpmi/inst.list.

@@ -256,6 +256,21 @@ sub probe_medium {
 	}
     }
     $medium->{url} ||= $medium->{clear_url};
+
+    #- probe removable device.
+    $urpm->probe_removable_device($medium);
+
+    #- clear URLs for trailing /es.
+    $medium->{url} =~ s|(.*?)/*$|$1|;
+    $medium->{clear_url} =~ s|(.*?)/*$|$1|;
+
+    $medium;
+}
+
+#- probe device associated with a removable device.
+sub probe_removable_device {
+    my ($urpm, $medium) = @_;
+
     if ($medium->{url} =~ /^removable_?([^_:]*)(?:_[^:]*)?:/) {
 	$medium->{removable} ||= $1 && "/dev/$1";
     } else {
@@ -282,12 +297,6 @@ sub probe_medium {
 	    $urpm->{error}(_("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
 	}
     }
-
-    #- clear URLs for trailing /es.
-    $medium->{url} =~ s|(.*?)/*$|$1|;
-    $medium->{clear_url} =~ s|(.*?)/*$|$1|;
-
-    $medium;
 }
 
 #- write back urpmi.cfg code to allow modification of medium listed.
@@ -341,7 +350,7 @@ sub add_medium {
 	      };
 
     #- check to see if the medium is using file protocol or removable medium.
-    if (my ($prefix, $dir) = $url =~ /^(removable_?[^:]*|file):\/(.*)/) {
+    if (my ($prefix, $dir) = $url =~ /^(removable[^:]*|file):\/(.*)/) {
 	#- the directory given does not exist or may be accessible
 	#- by mounting some other. try to figure out these directory and
 	#- mount everything necessary.
@@ -357,7 +366,9 @@ sub add_medium {
 
 	#- add some more flags for this type of medium.
 	$medium->{clear_url} = $url;
-	$medium->{removable} = $url =~ /^removable_?([^_:]*)(?:_[^:]*)?:/ && "/dev/$1"; #"
+
+	#- try to find device associated.
+	$urpm->probe_removable_device($medium);
     }
 
     #- all flags once everything has been computed.
@@ -416,9 +427,26 @@ sub select_media {
     }
 
     #- check if some arguments does not correspond to medium name.
+    #- in such case, try to find the unique medium (or list candidate
+    #- media found).
     foreach (keys %media) {
 	unless ($media{$_}) {
-	    $urpm->{error}(_("trying to select inexistent medium \"%s\"", $_));
+	    my $q = quotemeta;
+	    my (@found, @foundi);
+	    foreach my $medium (@{$urpm->{media}}) {
+		$medium->{name} =~ /$q/ and push @found, $medium;
+		$medium->{name} =~ /$q/i and push @foundi, $medium;
+	    }
+	    if (@found == 1) {
+		$found[0]{modified} = 1;
+	    } elsif (@foundi == 1) {
+		$foundi[0]{modified} = 1;
+	    } elsif (@found == 0 && @foundi == 0) {
+		$urpm->{error}(_("trying to select inexistent medium \"%s\"", $_));
+	    } else { #- multiple element in found or foundi list.
+		$urpm->{error}(_("trying to select multiple medium: %s", join(", ", map { _("\"%s\"", $_->{name}) }
+									      (@found ? @found : @foundi))));
+	    }
 	}
     }
 }
@@ -480,7 +508,7 @@ sub update_media {
 	$medium->{ignore} and next;
 
 	#- and create synthesis file associated if it does not already exists...
-	-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" or push @rebuild_synthesis_of_media, $medium;
+	-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" > 32 or push @rebuild_synthesis_of_media, $medium;
 
 	#- but do not take care of removable media for all.
 	$medium->{modified} ||= $options{all} && $medium->{url} !~ /removable/ or next;
@@ -490,7 +518,7 @@ sub update_media {
 	my ($prefix, $dir, $error, @files);
 
 	#- check to see if the medium is using file protocol or removable medium.
-	if (($prefix, $dir) = $medium->{url} =~ /^(removable_?[^_:]*|file):\/(.*)/) {
+	if (($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
@@ -498,19 +526,45 @@ sub update_media {
 
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
-	    -e "$dir/../descriptions" and
-	      system("cp", "-a", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
+	    if (-e "$dir/../descriptions") {
+		$urpm->{log}(_("copying description file of \"%s\"...", $medium->{name}));
+		system("cp", "-a", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") ?
+		  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
+	    }
+
+	    #- try to probe for possible with_hdlist parameter, unless
+	    #- it is already defined (and valid).
+	    if ($options{probe_with_hdlist} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
+		my ($suffix) = $dir =~ /RPMS([^\/]*)\/*$/;
+		if (-s "$dir/synthesis.hdlist.cz" > 32) {
+		    $medium->{with_hdlist} = "./synthesis.hdlist.cz";
+		} elsif (-s "$dir/synthesis.hdlist$suffix.cz" > 32) {
+		    $medium->{with_hdlist} = "./synthesis.hdlist$suffix.cz";
+		} elsif (defined $suffix && !$suffix && -s "$dir/synthesis.hdlist1.cz" > 32) {
+		    $medium->{with_hdlist} = "./synthesis.hdlist1.cz";
+		} elsif (-s "$dir/../synthesis.hdlist$suffix.cz" > 32) {
+		    $medium->{with_hdlist} = "../synthesis.hdlist$suffix.cz";
+		} elsif (defined $suffix && !$suffix && -s "$dir/../synthesis.hdlist1.cz" > 32) {
+		    $medium->{with_hdlist} = "../synthesis.hdlist1.cz";
+		} elsif (-s "$dir/../base/hdlist$suffix.cz" > 32) {
+		    $medium->{with_hdlist} = "../base/hdlist$suffix.cz";
+		} elsif (defined $suffix && !$suffix && -s "$dir/../base/hdlist1.cz" > 32) {
+		    $medium->{with_hdlist} = "../base/hdlist1.cz";
+		}
+	    }
 
 	    #- if the source hdlist is present and we are not forcing using rpms file
-	    if (!$options{force} && $medium->{with_hdlist} && -e "$dir/$medium->{with_hdlist}") {
+	    if ($options{force} < 2 && $medium->{with_hdlist} && -e "$dir/$medium->{with_hdlist}") {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
-		system("cp", "-a", "$dir/$medium->{with_hdlist}", "$urpm->{cachedir}/partial/$medium->{hdlist}");
+		$urpm->{log}(_("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
+		system("cp", "-a", "$dir/$medium->{with_hdlist}", "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
+		  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
 		
-		-s "$urpm->{cachedir}/partial/$medium->{hdlist}"
-		  or $error = 1, $urpm->{error}(_("copy of [%s] failed", "$dir/$medium->{with_hdlist}"));
+		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
+		  $error = 1, $urpm->{error}(_("copy of [%s] failed", "$dir/$medium->{with_hdlist}"));
 
-		#- check if the file are equals...
-		unless ($error) {
+		#- check if the file are equals... and no force copy...
+		unless ($error || $options{force}) {
 		    my @sstat = stat "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		    my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
 		    if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
@@ -549,24 +603,17 @@ sub update_media {
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{cachedir}/partial/descriptions";
 	    if (-e "$urpm->{statedir}/descriptions.$medium->{name}") {
-		rename("$urpm->{statedir}/descriptions.$medium->{name}",
-		       "$urpm->{cachedir}/partial/descriptions") or 
-			 system("mv",
-				"$urpm->{statedir}/descriptions.$medium->{name}",
-				"$urpm->{cachedir}/partial/descriptions");
+		rename("$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions") or 
+		  system("mv", "$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
 	    }
 	    eval {
-		$urpm->{log}(_("retrieving description file..."));
+		$urpm->{log}(_("retrieving description file of \"%s\"...", $medium->{name}));
 		$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/../descriptions");
 		$urpm->{log}(_("...retrieving done"));
 	    };
-	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
-		rename("$urpm->{cachedir}/partial/descriptions",
-		       "$urpm->{statedir}/descriptions.$medium->{name}") or
-			 system("mv",
-				"$urpm->{cachedir}/partial/descriptions",
-				"$urpm->{statedir}/descriptions.$medium->{name}");
+		rename("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") or
+		  system("mv", "$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
 	    }
 
 	    #- try to sync (copy if needed) local copy after restored the previous one.
@@ -579,34 +626,33 @@ sub update_media {
 		  system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 	    }
 	    eval {
-		$urpm->{log}(_("retrieving source hdlist (or synthesis)..."));
+		$urpm->{log}(_("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 		$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
 		$urpm->{log}(_("...retrieving done"));
 	    };
 	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
-	    -s "$urpm->{cachedir}/partial/$basename" or
+	    -s "$urpm->{cachedir}/partial/$basename" > 32 or
 	      $error = 1, $urpm->{error}(_("retrieve of [%s] failed", "<source_url>/$medium->{with_hdlist}"));
 	    unless ($error) {
-		my @sstat = stat "$urpm->{cachedir}/partial/$basename";
-		my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
-		if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
-		    #- the two files are considered equal here, the medium is so not modified.
-		    $medium->{modified} = 0;
-		    unlink "$urpm->{cachedir}/partial/$basename";
-		    next;
+		unless ($options{force}) {
+		    my @sstat = stat "$urpm->{cachedir}/partial/$basename";
+		    my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
+		    if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
+			#- the two files are considered equal here, the medium is so not modified.
+			$medium->{modified} = 0;
+			unlink "$urpm->{cachedir}/partial/$basename";
+			next;
+		    }
 		}
 
 		#- the file are different, update local copy.
-		rename("$urpm->{cachedir}/partial/$basename",
-		       "$urpm->{cachedir}/partial/$medium->{hdlist}") or
-			 system("mv",
-				"$urpm->{cachedir}/partial/$basename",
-				"$urpm->{cachedir}/partial/$medium->{hdlist}");
+		rename("$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}") or
+		  system("mv", "$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}");
 	    }
 	}
 
 	#- build list file according to hdlist used.
-	unless (-s "$urpm->{cachedir}/partial/$medium->{hdlist}") {
+	unless (-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32) {
 	    $error = 1;
 	    $urpm->{error}(_("no hdlist file found for medium \"%s\"", $medium->{name}));
 	}
@@ -661,8 +707,8 @@ sub update_media {
 	    close LIST;
 
 	    #- check if at least something has been written into list file.
-	    -s "$urpm->{cachedir}/partial/$medium->{list}"
-	      or $error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
+	    -s "$urpm->{cachedir}/partial/$medium->{list}" > 32 or
+	      $error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
 	}
 
 	if ($error) {
@@ -1451,7 +1497,7 @@ sub upload_source_packages {
 	my ($id, $device, $copy) = @_;
 	my $medium = $urpm->{media}[$id];
 	$media{$id} = undef;
-	if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_?[^_:]*|file):\/(.*)/) {
+	if (my ($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
 	    my $count_not_found = sub {
 		my $not_found;
 		if (-e $dir) {
@@ -1479,7 +1525,7 @@ sub upload_source_packages {
 	    if (-e $dir) {
 		my @removable_sources;
 		while (my ($i, $url) = each %{$list->[$id]}) {
-		    $url =~ /^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
+		    $url =~ /^(removable[^:]*|file):\/(.*\/([^\/]*))/ or next;
 		    -r $2 or $urpm->{error}(_("unable to read rpm file [%s] from medium \"%s\"", $2, $medium->{name}));
 		    if ($copy) {
 			push @removable_sources, $2;
@@ -1505,7 +1551,7 @@ sub upload_source_packages {
 	#- examine non removable device but that may be mounted.
 	if ($medium->{removable}) {
 	    push @{$removables{$medium->{removable}} ||= []}, $_;
-	} elsif (my ($prefix, $dir) = $medium->{url} =~ /^(removable_?[^_:]*|file):\/(.*)/) {
+	} elsif (my ($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
 	    -e $dir || $urpm->try_mounting($dir) or
 	      $urpm->{error}(_("unable to access medium \"%s\"", $medium->{name})), next;
 	}
@@ -1535,7 +1581,7 @@ sub upload_source_packages {
 	exists $media{$_} and next;
 	values %{$list->[$_]} or next;
 	while (my ($i, $url) = each %{$list->[$_]}) {
-	    if ($url =~ /^(removable_?[^_:]*|file):\/(.*)/) {
+	    if ($url =~ /^(removable[^:]*|file):\/(.*)/) {
 		$sources{$i} = $2;
 	    } elsif ($url =~ /^([^:]*):\/(.*\/([^\/]*))/) {
 		if ($force_local) {
