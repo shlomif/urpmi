@@ -718,17 +718,18 @@ sub register_local_packages {
     #- examine each rpm and build the depslist for them using current
     #- depslist and provides environment.
     foreach (@files) {
-	/(.*\/)?(.*)-([^-]*)-([^-]*)\.[^.]+\.rpm$/ or $urpm->{error}("invalid rpm file name [$_]"), next;
-	$urpm->{params}->read_rpms($_);
+	/(.*\/)?[^\/]*\.rpm$/ or $urpm->{error}("invalid rpm file name [$_]"), next;
 
-	#- update info according to version and release, for source tracking.
-	$urpm->{params}{info}{$2} or $urpm->{error}("rpm file is not accessible with rpm file [$_]"), next;
-	$urpm->{params}{info}{$2}{version} eq $3 or $urpm->{error}("rpm file [$_] has not right version"), next;
-	$urpm->{params}{info}{$2}{release} eq $4 or $urpm->{error}("rpm file [$_] has not right release"), next;
-	$urpm->{params}{info}{$2}{source} = $1 ? $_ : "./$_";
-
-	#- keep in mind this package has to be installed.
-	push @names, "$2-$3-$4";
+	my ($name) = $urpm->{params}->read_rpms($_);
+	if ($name =~ /(.*)-([^-]*)-([^-]*)/) {
+	    my $pkg = $urpm->{params}{info}{$1};
+	    $pkg->{version} eq $2 or $urpm->{error}("mismatch version for registering rpm file"), next;
+	    $pkg->{release} eq $3 or $urpm->{error}("mismatch release for registering rpm file"), next;
+	    $pkg->{source} = $1 ? $_ :  "./$_";
+	    push @names, $name;
+	} else {
+	    $urpm->{error}("rpmtools::read_rpms is too old, upgrade rpmtools package");
+	}
     }
 
     #- compute depslist associated.
@@ -1021,7 +1022,7 @@ sub filter_minimal_packages_to_upgrade {
 					  }
 				      });
 	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}", "provides", sub {
-			     /^(\S*\s*\S*\s*)(\d+:)?([^\s-]*)-?\S*/;
+			     /^(\S*\s*\S*\s*)(\d+:)?([^\s-]*)(-?\S*)/;
 			     foreach ($_, "$1$3", "$1$2$3", "$1$3$4") {
 				 delete $diffprovides{$_};
 			     }
@@ -1047,10 +1048,12 @@ sub filter_minimal_packages_to_upgrade {
 	    $ask_child->("$pkg->{name}-$pkg->{version}-$pkg->{release}", "requires", sub {
 			     if ($_[0] =~ /^(\S*)\s*(\S*)\s*([^\s-]*)-?(\S*)/) {
 				 exists $provides{$1} and return;
+				 #- if the provides is not found, it will be resolved at next step, else
+				 #- it will be resolved by searching the rpm database.
+				 $provides{$1} ||= undef;
 				 rpmtools::db_traverse_tag($db,
 							   'whatprovides', [ $1 ],
 							   [ qw (name version release) ], sub {
-							       $provides{$1} ||= undef;
 							       $3 and eval(rpmtools::version_compare($_[0]{version}, $3) . $2 . 0) || return;
 							       $4 and eval(rpmtools::version_compare($_[0]{release}, $4) . $2 . 0) || return;
 							       $provides{$1} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
@@ -1062,6 +1065,7 @@ sub filter_minimal_packages_to_upgrade {
 	    #- provides files, try to minimize choice at this level.
 	    foreach (keys %provides) {
 		$provides{$_} and next;
+		print STDERR "provides to resolve is $_\n";
 		my (@choices, @upgradable_choices);
 		foreach (@{$urpm->{params}{provides}{$_}}) {
 		    #- prefer upgrade package that need to be upgraded, if they are present in the choice.

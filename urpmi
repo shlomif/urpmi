@@ -103,8 +103,8 @@ log_it(scalar localtime, " urpmi called with @ARGV\n");
 
 open SAVEOUT, ">&STDOUT";
 open SAVEERR, ">&STDERR";
-open STDOUT, "|tee -a /var/log/urpmi.log" or die;
-open STDERR, "|tee >&2 -a /var/log/urpmi.log" or die;
+open STDOUT, "|-", "tee >&SAVEOUT -a /var/log/urpmi.log" or die;
+open STDERR, "|-", "tee >&SAVEERR -a /var/log/urpmi.log" or die;
 select STDERR; $| = 1;     # make unbuffered
 select STDOUT; $| = 1;     # make unbuffered
 

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Mon Feb 19 2001 François Pons <fpons@mandrakesoft.com> 1.5-6mdk
+- fixed urpmq --headers with exotic rpm filename.
+- fixed closing using tee (need testing).
+- fixed missing dependancies resolution using -m mode.
+
 * Mon Feb 19 2001 François Pons <fpons@mandrakesoft.com> 1.5-5mdk
 - fixed -m mode for prompting user if needed.
 - fixed -m mode with depandancies resolving.
