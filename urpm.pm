@@ -150,6 +150,7 @@ sub read_config {
 	    split-level
 	    verify-rpm
 	    norebuild
+	    strict-arch
 	)) {
 	    if (defined $config->{''}{$opt} && !exists $urpm->{options}{$opt}) {
 		$urpm->{options}{$opt} = $config->{''}{$opt};

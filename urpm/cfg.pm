@@ -113,6 +113,7 @@ sub load_config ($) {
 	    |compress
 	    |keep
 	    |auto
+	    |strict-arch
 	    |resume)(?:\s*:\s*(.*))?$/x
 	) {
 	    my $yes = $no ? 0 : 1;

@@ -104,6 +104,7 @@ my %options_spec = (
 	    $options{X} ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0
 	},
 	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
+	'strict-arch!' => sub { $urpm->{options}{'strict-arch'} = $_[1] },
 	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1] },
 	'test!' => \$::test,
 	'skip=s' => \$options{skip},
