@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 9mdk
+Release: 10mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -22,7 +22,7 @@ You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
 Summary: User mode rpm GUI install
-Requires: urpmi grpmi gchooser gmessage
+Requires: urpmi grpmi gchooser gmessage consolehelper menu
 Group: %{group}
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
@@ -94,6 +94,21 @@ cd $RPM_BUILD_ROOT%{_bindir} ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/urpmi
 
+mkdir -p $RPM_BUILD_ROOT%{_menudir}
+cat << EOF > $RPM_BUILD_ROOT%{_menudir}/gurpmi
+?package(gurpmi): command="%{_bindir}/gurpmi" needs="gnome" section=".hidden" \
+section=".hidden" \
+title="Software installer" longtitle="Graphical front end to install RPM files" \
+mimetypes="application/x-rpm" \
+multiple_files="true"
+?package(gurpmi): command="%{_bindir}/gurpmi" needs="kde" section=".hidden" \
+section=".hidden" \
+title="Software installer" longtitle="Graphical front end to install RPM files" \
+mimetypes="application/x-rpm" \
+multiple_files="true"
+EOF
+
+
 %find_lang %{name}
 
 %clean
@@ -152,7 +167,10 @@ fi
 
 %files -n gurpmi
 %defattr(-,root,root)
-/usr/X11R6/bin/gurpmi
+%{_sbindir}/gurpmi
+%{_bindir}/gurpmi
+%{_menudir}/gurpmi
+
 
 #%files -n autoirpm
 #%defattr(-,root,root)
@@ -178,6 +196,10 @@ fi
 
 
 %changelog
+* Fri Aug 30 2002 Frederic Crozat <fcrozat@mandrakesoft.com> 4.0-10mdk
+- (fcrozat) Move gurpmi to /usr/sbin and add consolehelper support for it 
+  and register it to handle application/x-rpm mimetype.
+
 * Thu Aug 29 2002 François Pons <fpons@mandrakesoft.com> 4.0-9mdk
 - added --list-nodes to list nodes used when in parallel mode.
 - moved some initialisation for parallel mode to allow user

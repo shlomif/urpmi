@@ -23,6 +23,9 @@ all: $(GOALS)
 %.mo: %.po
 	msgfmt -o $@ $<
 
+placeholder.h:
+	./create_placeholder
+
 $(PL_CFILES): %_.c: %
 	./fake_c.pl $< > $@
 
@@ -34,7 +37,6 @@ merge: $(PGOAL).pot
 	done
 
 $(PGOAL).pot: $(PL_CFILES) $(CFILES)
-	./create_placeholder
 	xgettext --default-domain=$(PGOAL) -F -n \
 	--add-comments='-PO' --add-comments=' Translator:'\
 	--keyword=_ --keyword=__ --keyword=N_ --keyword=gettext \

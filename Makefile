@@ -2,7 +2,6 @@ PREFIX =
 BINDIR = $(PREFIX)/usr/bin
 MANDIR = $(PREFIX)/usr/man
 SBINDIR = $(PREFIX)/usr/sbin
-XBINDIR = $(PREFIX)/usr/X11R6/bin
 URPMIDIR = $(PREFIX)/var/lib/urpmi
 URPMIDIR2 = $(PREFIX)/etc/urpmi
 LOCALEDIR = $(PREFIX)/usr/share/locale
@@ -17,7 +16,7 @@ LOG = $(NAME).logrotate
 
 install:
 	$(MAKE) -C po $@
-	install -d $(BINDIR) $(SBINDIR) $(XBINDIR) $(URPMIDIR) $(URPMIDIR2) $(MANDIR)/man8
+	install -d $(BINDIR) $(SBINDIR) $(URPMIDIR) $(URPMIDIR2) $(MANDIR)/man8
 	install urpmq $(BINDIR)
 	install _irpm rpm-find-leaves urpmf $(BINDIR)
 	install -m 644 autoirpm.deny $(URPMIDIR2)
@@ -27,7 +26,8 @@ install:
 #	install -s autoirpm.update-all $(SBINDIR)
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.update
-	install gurpmi $(XBINDIR)
+	install gurpmi $(SBINDIR)
+	ln -s -f ../../usr/bin/consolehelper $(BINDIR)/gurpmi
 	for i in man/??* ; \
 		do install -d $(MANDIR)/`basename $$i`/man8 ; \
 		install -m 644 $$i/*.8 $(MANDIR)/`basename $$i`/man8 ; \
