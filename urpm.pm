@@ -426,7 +426,7 @@ sub read_config {
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
 		    }
 		    next;
-		} elsif (($k, $v) = /^(limit-rate|excludepath)\s*:\s*(.*)$/) {
+		} elsif (($k, $v) = /^(limit-rate|excludepath|key_ids)\s*:\s*(.*)$/) {
 		    unless (exists($urpm->{options}{$k})) {
 			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
 			$urpm->{options}{$k} = $v;
@@ -441,7 +441,7 @@ sub read_config {
 	    while (<F>) {
 		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 		$_ eq '}' and last;
-		/^(hdlist|with_hdlist|list|removable|md5sum)\s*:\s*(.*)$/ and $medium->{$1} = $2, next;
+		/^(hdlist|with_hdlist|list|removable|md5sum|key_ids)\s*:\s*(.*)$/ and $medium->{$1} = $2, next;
 		/^(update|ignore|synthesis)\s*$/ and $medium->{$1} = 1, next;
 		/^modified\s*$/ and next;
 		$_ and $urpm->{error}(N("syntax error in config file at line %s", $.));
@@ -639,7 +639,7 @@ sub write_config {
     }
     foreach my $medium (@{$urpm->{media}}) {
 	printf F "%s %s {\n", quotespace($medium->{name}), quotespace($medium->{clear_url});
-	foreach (qw(hdlist with_hdlist list removable md5sum)) {
+	foreach (qw(hdlist with_hdlist list removable md5sum key_ids)) {
 	    $medium->{$_} and printf F "  %s: %s\n", $_, $medium->{$_};
 	}
 	foreach (qw(update ignore synthesis modified)) {
@@ -2357,7 +2357,7 @@ sub download_source_packages {
 			    #- to the great rpms cache.
 			    unlink "$urpm->{cachedir}/partial/$filename";
 			    if (system("cp", "--preserve=mode,timestamps", "-R", $filepath, "$urpm->{cachedir}/partial") &&
-				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nogpg => 1, nopgp => 1) =~ /md5 OK/) {
+				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
 				#- now we can consider the file to be fine.
 				unlink "$urpm->{cachedir}/rpms/$filename";
 				rename "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename";
@@ -2480,7 +2480,7 @@ sub download_source_packages {
 	    foreach my $i (keys %distant_sources) {
 		my ($filename) = $distant_sources{$i} =~ /\/([^\/]*\.rpm)$/;
 		if ($filename && -s "$urpm->{cachedir}/partial/$filename" &&
-		    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nogpg => 1, nopgp => 1) =~ /md5 OK/) {
+		    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
 		    #- it seems the the file has been downloaded correctly and has been checked to be valid.
 		    unlink "$urpm->{cachedir}/rpms/$filename";
 		    rename "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename";
