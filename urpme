@@ -34,7 +34,7 @@ if (!$matches) {
     }
 }
 if ($matches || $maymatch) {
-    my $match = join "|", @l;
+    my $match = join "|", map { quotemeta } @l;
     @m = grep { /$match/ } map { chop; $_ } `rpm -qa`;
 
     if ($maymatch) {
@@ -48,7 +48,7 @@ load_provides();
 my %toremove; @toremove{$_, @{$provides{$_} || []}} = () foreach @m;
 my $changed = 1; while ($changed) { $changed = 0;
     local *F;
-    open F, "rpm -e --test " . join(" ", keys %toremove) . " 2>&1 |";
+    open F, "LANGUAGE=C rpm -e --test " . join(" ", keys %toremove) . " 2>&1 |";
     foreach (<F>) {
     	if (/package (\S+) is not installed/) {
     	    delete $toremove{$1};
