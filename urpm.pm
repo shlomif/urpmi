@@ -2229,6 +2229,9 @@ sub get_source_packages {
 			#- this is an invalid file in cache, remove it and ignore it.
 			#- or clean options has been given meaning ignore any file in cache
 			#- remove it too.
+			#- if a continue to download feature is used, the file should not be
+			#- removed and the transfer should continue, if it fails again, try
+			#- again from beginning ?
 			unlink $filepath;
 		    }
 		} #- do not examine rpm file in cache that will not be used.
@@ -2474,7 +2477,8 @@ sub download_source_packages {
 	    #- necessary to keep track of failing download in order to
 	    #- present the error to the user.
 	    foreach (keys %distant_sources) {
-		-s $sources{$_} or $error_sources{$_} = delete $sources{$_};
+		-s $sources{$_} && URPM::verify_rpm($sources{$_}, nogpg => 1, nopgp => 1) =~ /md5 OK/ or
+		  $error_sources{$_} = delete $sources{$_};
 	    }
 	}
     }
