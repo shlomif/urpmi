@@ -127,6 +127,17 @@ Clean headers cache directory in /var/cache/urpmi/headers.
 Try to find and use synthesis or hdlist file.
 .IP "\fB\-f\fP"
 Force rebuild of base files, or of hdlist files when specified twice.
+.SH VARIABLES
+Beginning with urpmi 4.6.16, you can use variables in media URLs
+(for example \fB/mnt/mirror/$RELEASE/$ARCH/media/main\fP). The variables
+supported so far are:
+.IP "\fB$ARCH\fP"
+The architecture (as given in /etc/mandrakelinux-release)
+.IP "\fB$RELEASE\fP"
+The OS release (as given in /etc/mandrakelinux-release; its value is
+\fBcooker\fP on a cooker system.)
+.IP "\fB$HOST\fP"
+The canonical hostname of the machine urpmi runs on.
 .SH FILES
 See \fIurpmi.files\fP(5).
 .SH "SEE ALSO"
