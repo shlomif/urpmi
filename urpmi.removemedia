@@ -30,13 +30,16 @@ sub main {
     $options{noclean} = 1;
     $options{strict_match} = 1;
     $options{verbose} = 1;
+    my $options_end = 0;
     foreach (@_) {
-	/^--?a$/ and $options{all} = 1, next;
-	/^--?c$/ and $options{noclean} = 0, next;
-	/^--?y$/ and $options{strict_match} = 0, next;
-	/^--?v$/ and $options{verbose} = 1, next;
-	/^--?q$/ and $options{verbose} = 0, next;
-	/^-/ and die N("usage: urpmi.removemedia [-a] <name> ...
+	$_ eq '--' and $options_end = 1, next;
+	unless ($options_end) {
+	    /^--?a$/ and $options{all} = 1, next;
+	    /^--?c$/ and $options{noclean} = 0, next;
+	    /^--?y$/ and $options{strict_match} = 0, next;
+	    /^--?v$/ and $options{verbose} = 1, next;
+	    /^--?q$/ and $options{verbose} = 0, next;
+	    /^-/ and die N("usage: urpmi.removemedia [-a] <name> ...
 where <name> is a medium name to remove.
 ") . N("  --help         - print this help message.
 ") . N("  -a             - select all media.
@@ -45,6 +48,7 @@ where <name> is a medium name to remove.
 ") . N("  -q             - quiet mode.
 ") . N("  -v             - verbose mode.
 ") . (/^--?h(?:elp)$/ ? '' : N("\nunknown options '%s'\n", $_));
+	}
 	push @toremoves, $_;
     }
 
