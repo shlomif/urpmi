@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.7
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Wed Jul 17 2002 François Pons <fpons@mandrakesoft.com> 3.7-6mdk
+- fixed uncatched die, now produce error message.
+
 * Tue Jul 16 2002 François Pons <fpons@mandrakesoft.com> 3.7-5mdk
 - fixed no progression of download.
 - fixed bad proxy support on command line.

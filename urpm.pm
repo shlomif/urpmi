@@ -541,8 +541,15 @@ sub configure {
 	}
     }
     foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
-	$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
-	($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}");
+	delete @{$_}{qw(start end)};
+	if (-s "$urpm->{statedir}/synthesis.$_->{hdlist}" > 32) {
+	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
+	    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}") };
+	}
+	unless (defined $_->{start} && defined $_->{end}) {
+	    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $_->{name}));
+	    $_->{ignore} = 1;
+	}
     }
 }
 
@@ -985,7 +992,8 @@ sub update_media {
 			unlink "$urpm->{cachedir}/partial/$basename";
 			#- as previously done, just read synthesis file here, this is enough.
 			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+			eval { ($medium->{start}, $medium->{end}) =
+				 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 			unless (defined $medium->{start} && defined $medium->{end}) {
 			    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 			    $medium->{ignore} = 1;
@@ -1109,7 +1117,7 @@ sub update_media {
 	    unlink "$urpm->{cachedir}/partial/$medium->{list}";
 	    #- read default synthesis (we have to make sure nothing get out of depslist).
 	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-	    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 	    unless (defined $medium->{start} && defined $medium->{end}) {
 		$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 		$medium->{ignore} = 1;
