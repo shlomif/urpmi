@@ -1,0 +1,146 @@
+.TH urpmi.cfg 5 "28 augustus 2003" "Mandrakesoft" "Mandrakelinux"
+.IX urpmi.cfg
+.SH NAAM
+urpmi.cfg \- formaat van het urpmi-configuratiebestand.
+.SH BESCHRIJVING
+Het bestand urpmi.cfg is onderverdeeld in meerdere segmenten: één segment met
+globale opties, en voorts één segment per medium.
+
+.SS Globale opties
+
+Sommige globale opties zijn standaard ingeschakeld. Het volgende voorbeeld toont
+hoe de standaard ingeschakelde opties voor de controle van pakketondertekeningen 
+en het voorkomen van gesplitste transacties kan worden uitgeschakeld :
+
+.B "{"
+.br
+.B "  no-verify-rpm"
+.br
+.B "  split-length: 0"
+.br
+.B "}"
+
+Dit segment kan de volgende opties bevatten:
+
+.TP
+.B verify-rpm
+Hetzelfde als de optie \fB--verify-rpm\fP van \fBurpmi\fP. Hiermee wordt de
+controle van pakketondertekeningen in- of uitgeschakeld (dit is standaard altijd
+ingeschakeld). Net zoals alle andere booleaanse opties, kent het uitschakelen
+meerdere syntactische varianten :
+\fBno-verify-rpm\fP of \fBverify-rpm: no\fP of \fBverify-rpm: off\fP of
+\fBverify-rpm: 0\fP.
+
+.TP
+.B fuzzy
+Hetzelfde als de optie \fB--fuzzy\fP van \fBurpmi\fP of \fBurpmq\fP. Hiermee wordt
+het zoeken naar alle namen die de opgegeven tekst bevatten (in plaats van alleen
+exact overeenkomende namen) in- of uitgeschakeld. Deze optie is standaard
+uitgeschakeld. Ook deze optie kan op meerdere manieren worden opgegeven:
+\fBfuzzy\fP of \fBfuzzy: yes\fP of \fBfuzzy: on\fP of \fBfuzzy: 1\fP.
+
+.TP
+.B allow-force
+Hetzelfde als de optie \fB--allow-force\fP van \fBurpmi\fP; dit is standaard 
+uitgeschakeld.
+
+.TP
+.B allow-nodeps
+Hetzelfde als de optie \fB--allow-nodeps\fP van \fBurpmi\fP; dit is standaard
+uitgeschakeld.
+
+.TP
+.B pre-clean, post-clean, clean
+Control-cache-beheer van \fBurpmi\fP; standaard is alleen \fBpost-clean\fP
+ingeschakeld.
+
+.TP
+.B excludedocs
+Hetzelfde als de optie \fB--excludedocs\fP van \fBurpmi\fP; dit is standaard 
+uitgeschakeld.
+
+.TP
+.B limit-rate
+Hetzelfde als de optie \fB--limit-rate\fP voor alle urpmi-gereedschappen. Met deze
+optie kan de downloadsnelheid worden beperkt; standaard geldt geen beperking.
+Achter de optie wordt de maximumsnelheid opgegeven in kilobytes per seconde,
+tenzij tevens een achtervoegsel \fBK\fP of \fBM\fP wordt opgegeven.
+
+.TP
+.B excludepath
+Hetzelfde als de optie \fB--excludepath\fP van \fBurpmi\fP. Met deze optie kan
+een door komma's gescheiden lijst worden opgegeven met paden die uitgesloten 
+zijn van installatie. Standaard zijn geen paden uitgesloten van installatie.
+
+.TP
+.B key-ids
+Deze optie is niet op de opdrachtregel beschikbaar. Hiermee kan een door komma's 
+gescheiden lijst met \fBsleutel-ID's\fP voor een willekeurig medium globaal 
+geaccepteerd worden (de sleutels moeten nog steeds door geautoriseerd zijn door 
+\fBrpm\fP), tenzij een specifieke optie \fBkey-ids\fP voor het desbetreffende 
+medium is opgegeven. Er geldt geen standaardwaarde (zelfs de sleutel-ID 70771ff3 van 
+Mandrakesoft wordt niet standaard geaccepteerd).
+
+.TP
+.B split-level
+Hetzelfde als de optie \fB--split-level\fP van \fBurpmi\fP. Met deze optie wordt 
+bepaald wanneer een transactie gesplitst mag worden, afhankelijk van het  aantal 
+pakketten dat betrokken is bij een upgrade. De standaardwaarde is 20.
+
+.TP
+.B split-length
+Hetzelfde als de optie \fB--split-length\fP van \fBurpmi\fP. Hiermee wordt de minimale 
+lengte opgegeven van een gesplitste transactie. De standaardwaarde is 1 (de kleinst 
+mogelijke transactie). Wanneer voor deze optie de waarde 0 wordt opgegeven, wordt het
+splitsen van transacties voorkomen.
+
+.TP
+.B downloader
+Geeft aan welk downloadprogramma gebruikt moet worden: \fBwget\fP of \fBcurl\fP.
+
+.SS Mediumbeschrijving
+
+Een medium wordt als volgt beschreven :
+
+.B "naam url {"
+.br
+.B "  hdlist: ..."
+.br
+.B "  ..."
+.br
+.B "}"
+
+Hierbij is \fBnaam\fP de naam van het medium (waarbij spaties voorafgegaan moeten 
+worden door een backslash), en de optionele aanduiding \fBurl\fP de URL van het
+medium is (als geen \fBurl\fP is opgegeven, wordt dit zo mogelijk bepaald aan de
+hand van het verplichte lijstbestand).
+
+De meeste andere opties zoals \fBlist\fP, \fBwith_hdlist\fP, \fBsynthesis\fP,
+\fBremovable\fP en \fBvirtual\fP zijn voor intern gebruik. Het veranderen van deze
+opties is alleen aan te raden voor ervaren gebruikers.
+
+Opties zoals \fBupdate\fP, \fBignore\fP en \fBkey-ids\fP kunnen worden ingesteld om
+respectievelijk media aan te duiden als update-bronnen, media te laten negeren, of
+toegestane GPG-sleutel-ID's op te geven voor het controleren van pakketten van het medium 
+(tenzij uiteraard het controleren van pakketondertekeningen globaal is uitgeschakeld).
+Tevens kunnen in een mediumbeschrijving de opties \fBverify-rpm\fP en \fBdownloader\fP
+worden overschreven met een voorkeurswaarde.
+
+Let op dat \fBkey-ids\fP automatisch door \fBurpmi.update\fP of \fBurpmi.addmedia\fP
+wordt ingesteld wanneer een bestand met publieke sleutels beschikbaar is op de mirror-site.
+Dit bestand bevat alle GPG-sleutels die gebruikt kunnen worden.
+
+.SH FOUTEN
+Een \fB{\fP moet altijd aan het einde van een regel staan, net zoals \fB}\fP aan het begin 
+moet staan.
+
+Dit betekent dat de constructie \fB{ no-verify-rpm }\fP op één regel niet is toegestaan.
+.SH AUTEURS
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (oorspronkelijke auteur)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+.PP
+Rafael Garcia-Suarez, Mandrakesoft <rgarciasuarez@mandrakesoft.com>
+(current maintainer)
+.SH ZIE OOK
+\fIurpmi\fP(8)
