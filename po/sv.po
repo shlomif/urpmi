@@ -4,14 +4,15 @@
 # Cecilia Johnsson <datb@thegym.net>, 2000
 # Henrik Borg <datb@thegym.net>, 2000
 # Fuad Sabanovic <manijak@telia.com>, 2000
+# Mattias Dahlberg <voz@home.se>, 2001
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-04-04 08:43+0200\n"
-"PO-Revision-Date: 2000-10-31 20:45+01:00\n"
-"Last-Translator: Fuad Sabanovic <manijak@telia.com>\n"
-"Language-Team: Swedish\n"
+"POT-Creation-Date: 2001-04-07 04:15+0200\n"
+"PO-Revision-Date: 2001-04-07 16:55+0100\n"
+"Last-Translator: Mattias Dahlberg <voz@home.se>\n"
+"Language-Team: Swedish <>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,19 +33,19 @@ msgstr ""
 msgid "Is it ok?"
 msgstr "Är det ok?"
 
-#: _irpm:33 urpmi:238 urpmi:263
+#: _irpm:33 urpmi:238 urpmi:268
 msgid "Ok"
 msgstr "Ok"
 
-#: _irpm:34 urpmi:239 urpmi:264
+#: _irpm:34 urpmi:239 urpmi:269
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: _irpm:40 urpmi:243 urpmi:296
+#: _irpm:40 urpmi:243 urpmi:301
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:244 urpmi:297
+#: _irpm:41 urpmi:244 urpmi:302
 msgid "Yy"
 msgstr "JjYy"
 
@@ -174,6 +175,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"använd: urpmi.update [-a] <namn> ...\n"
+"där <namn> är mediat som ska uppdateras.\n"
+"   -a    välj all ofrånkopplingsbar media.\n"
+"\n"
+"ogiltiga alternativ '%s'\n"
 
 #: placeholder.h:60
 #, c-format
@@ -184,6 +190,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"använd: urpmi.removemedia [-a] <namn> ...\n"
+"där <namn> är mediat som ska bort.\n"
+"   -a    välj all media.\n"
+"\n"
+"ogiltiga alternativ '%s'\n"
 
 #: placeholder.h:67 urpmi.removemedia:53
 #, c-format
@@ -226,63 +237,61 @@ msgstr ""
 "\n"
 "(%d MB)"
 
-#: urpmi:260
+#: urpmi:265
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Var god sätt in media med namnet \"%s\" i enhet [%s]"
 
-#: urpmi:261
+#: urpmi:266
 msgid "Press enter when it's done..."
 msgstr "Tryck enter när du är klar..."
 
-#: urpmi:275
+#: urpmi:280
 msgid "everything already installed"
 msgstr "allting redan installerat"
 
-#: urpmi:286
+#: urpmi:291
 #, c-format
 msgid "installing %s\n"
 msgstr "installerar %s\n"
 
-#: urpmi:291 urpmi:304
+#: urpmi:296 urpmi:309
 msgid "Installation failed"
 msgstr "Installering misslyckad"
 
-#: urpmi:298
+#: urpmi:303
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Prova att installera utan att kolla behov av andra filer? (j/N) "
 
-#: urpmi:305
+#: urpmi:310
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Prova en ännu starkare installation (t ex --force)? (j/N) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr "använd: urpmi.addmedia <name> <url>"
+msgstr "använd: urpmi.addmedia <namn> <url>"
 
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
-msgstr ""
+msgstr "kunde ej skapa media \"%s\"\n"
 
 #: urpmi.addmedia:64
 #, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr ""
+msgstr "kunde ej uppdatera media \"%s\"\n"
 
 #: urpmi.update:43
-#, fuzzy
 msgid "usage: urpmi.update [-a] <name> ..."
-msgstr "använd: urpmi.addmedia <name> <url>"
+msgstr "använd: urpmi.update [-a] <namn> ..."
 
 #: urpmi.update:54
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "inget att uppdatera (använd urpmi.addmedia för att lägga till media)\n"
 
 #: urpmi.removemedia:39
-#, fuzzy
 msgid "usage: urpmi.removemedia [-a] <name> ..."
-msgstr "använd: urpmi.addmedia <name> <url>"
+msgstr "använd: urpmi.removemedia [-a] <namn> ..."
 
 #: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
@@ -312,26 +321,3 @@ msgstr ""
 #: urpmq:153
 msgid "unable to get source packages, aborting"
 msgstr "kunde inte läsa källan, avbryter"
-
-#~ msgid "unknown options \"%s\"\n"
-#~ msgstr "okänd option \"%s\"\n"
-
-#~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
-#~ msgstr ""
-#~ "använd: urpmi [-h] [--auto] [--force] [-a] paketnamn [paketnamn...]\n"
-
-#~ msgid "no package named %s\n"
-#~ msgstr "inget paket med namn %s\n"
-
-#~ msgid "The following packages contain %s: %s\n"
-#~ msgstr "Följande paket innehåller %s: %s\n"
-
-#~ msgid "rpm database query failed\n"
-#~ msgstr "rpm databasfråga misslyckades\n"
-
-#~ msgid "Sorry can't find file %s, exiting"
-#~ msgstr "Tyvärr kan inte finna fil %s, avbryter"
-
-#~ msgid "Failed dependencies: %s requires %s"
-#~ msgstr "Behov av fler filer: paket/fil %s behöver %s"
