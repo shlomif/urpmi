@@ -78,7 +78,7 @@ sub new {
 	   media      => undef,
 	   params     => new rpmtools,
 
-	   sync       => \&sync_curl, #- first argument is directory, others are url to fetch.
+	   sync       => \&sync_webfetch, #- first argument is directory, others are url to fetch.
 
 	   fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	   error      => sub { printf STDERR "%s\n", $_[0] },
@@ -90,17 +90,23 @@ sub new {
 sub quotespace { local $_ = $_[0]; s/(\s)/\\$1/g; $_ }
 sub unquotespace { local $_ = $_[0]; s/\\(\s)/$1/g; $_ }
 
-#- syncing algorithms, currently is implemented wget and curl methods.
+#- syncing algorithms, currently is implemented wget and curl methods,
+#- webfetch is trying to find the best (and one which will work :-)
+sub sync_webfetch {
+    -x "/usr/bin/curl" and return &sync_curl;
+    -x "/usr/bin/wget" and return &sync_wget;
+    die _("no webfetch (curl or wget for example) found\n");
+}
 sub sync_wget {
     -x "/usr/bin/wget" or die _("wget is missing\n");
     system "/usr/bin/wget", "-NP", @_;
-    $? == 0 or die _("wget failed\n");
+    $? == 0 or die _("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 sub sync_curl {
     -x "/usr/bin/curl" or die _("curl is missing\n");
     chdir shift @_;
     system "/usr/bin/curl", "-R", map { ("-O", $_ ) } @_;
-    $? == 0 or die _("curl failed\n");
+    $? == 0 or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 
 #- read /etc/urpmi/urpmi.cfg as config file, keep compability with older
@@ -549,7 +555,7 @@ sub update_media {
 		$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/../descriptions");
 		$urpm->{log}(_("...retrieving done"));
 	    };
-	    $@ and $urpm->{log}(_("...retrieving failed"));
+	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
 		rename("$urpm->{cachedir}/partial/descriptions",
 		       "$urpm->{statedir}/descriptions.$medium->{name}") or
@@ -572,7 +578,7 @@ sub update_media {
 		$urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
 		$urpm->{log}(_("...retrieving done"));
 	    };
-	    $@ and $urpm->{log}(_("...retrieving failed"));
+	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
 	    -s "$urpm->{cachedir}/partial/$basename" or
 	      $error = 1, $urpm->{error}(_("retrieve of [%s] failed", "<source_url>/$medium->{with_hdlist}"));
 	    unless ($error) {
@@ -1699,7 +1705,7 @@ sub upload_source_packages {
 	$urpm->{sync}("$urpm->{cachedir}/rpms", @distant_sources);
 	$urpm->{log}(_("...retrieving done"));
     };
-    $@ and $urpm->{log}(_("...retrieving failed"));
+    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
 
     #- return the hash of rpm file that have to be installed, they are all local now.
     %$local_sources, %sources;

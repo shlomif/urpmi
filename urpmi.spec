@@ -2,13 +2,13 @@
 
 Name: urpmi
 Version: 2.1
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
-Requires: eject, wget
-PreReq: perl-gettext, rpmtools >= 3.1-5mdk
+Requires: eject, webfetch
+PreReq: perl-gettext, rpmtools >= 3.1-9mdk
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -129,6 +129,10 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Wed Nov 28 2001 François Pons <fpons@mandrakesoft.com> 2.1-6mdk
+- updated requires to webfetch.
+- updated requires to last rpmtools needed.
+
 * Wed Nov 28 2001 François Pons <fpons@mandrakesoft.com> 2.1-5mdk
 - fixed URL with trailing slashes.
 - added download log.
