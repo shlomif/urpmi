@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 28mdk
+Release: 29mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,10 @@ fi
 
 
 %changelog
+* Thu Mar  6 2003 François Pons <fpons@mandrakesoft.com> 4.2-29mdk
+- reworked po generation completely due to missing
+  translations now using perl_checker. (pablo)
+
 * Tue Mar  4 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.2-28mdk
 - fixed french translations.
 - fix bug 2680.
