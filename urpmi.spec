@@ -2,13 +2,13 @@
 
 Name: urpmi
 Version: 4.0
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-1mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.70-3mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -177,6 +177,10 @@ fi
 
 
 %changelog
+* Wed Aug 28 2002 François Pons <fpons@mandrakesoft.com> 4.0-7mdk
+- added --list-media to urpmq.
+- fixed old package not upgraded.
+
 * Tue Aug 27 2002 François Pons <fpons@mandrakesoft.com> 4.0-6mdk
 - fixed skip.list new format.
 

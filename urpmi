@@ -521,7 +521,8 @@ if (%sources_install || %sources) {
 		}
 	    } else {
 		my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				       translate_message => 1, test => $test);
+				       translate_message => 1,
+				       test => $test, oldpackage => $state->{oldpackage});
 		if (@l) {
 		    message(_("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
@@ -534,7 +535,8 @@ if (%sources_install || %sources) {
 		      or exit 1;
 		    $urpm->{log}("starting installing packages without deps");
 		    @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-					translate_message => 1, nodeps => 1);
+					translate_message => 1, nodeps => 1,
+					test => $test, oldpackage => $state->{oldpackage});
 		    if (@l) {
 			message(_("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 			!$allow_force and exit 1;
@@ -542,7 +544,8 @@ if (%sources_install || %sources) {
 			  or exit 1;
 			$urpm->{log}("starting force installing packages without deps");
 			@l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-					    translate_message => 1, nodeps => 1, force => 1);
+					    translate_message => 1, nodeps => 1, force => 1,
+					    test => $test, oldpackage => $state->{oldpackage});
 			@l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 		    }
 		} else {
