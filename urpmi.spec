@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -177,6 +177,16 @@ fi
 
 
 %changelog
+* Mon Aug 26 2002 François Pons <fpons@mandrakesoft.com> 4.0-4mdk
+- english typo fixed.
+- improved skip.list contents to provides using sense and regexp
+  on package fullname.
+- added --test options to urpmi to test installation.
+- made --verify-rpm the default (use --no-verify-rpm to avoid).
+- fixed command line not seen in log.
+- improved parallel module to check installation on all nodes before
+  doing it effectively.
+
 * Fri Aug 23 2002 Warly <warly@mandrakesoft.com> 4.0-3mdk
 - fix urpme '/' pb
 

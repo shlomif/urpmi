@@ -52,7 +52,7 @@ sub parallel_resolve_dependencies {
 		$state->{selected}{$pkg->id}{$node} = $_;
 	    }
 	}
-	close F or $urpm->{fatal}(1, _("host %s does not have a good version of urpmi", $node));
+	close F or $urpm->{fatal}(1, _("rshp failed"));
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
     } while ($cont);
@@ -74,8 +74,27 @@ sub parallel_install {
 	system "mput $parallel->{options} -- '$_' $urpm->{cachedir}/rpms/$basename";
     }
 
-    $urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpmi --synthesis $parallel->{synthesis} $parallel->{line}");
-    system "rshp -v $parallel->{options} -- urpmi --auto --synthesis $parallel->{synthesis} $parallel->{line}";
+    local (*F, $_);
+    my ($node, %good_nodes, $bad);
+    $urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
+    open F, "rshp -v $parallel->{options} -- urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
+    while ($_ = <F>) {
+	chomp;
+	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
+	/Installation is possible/ and $good_nodes{$node} = undef;
+    }
+    close F or $urpm->{fatal}(1, _("rshp failed"));
+
+    foreach (keys %{$parallel->{nodes}}) {
+	exists $good_nodes{$_} and next;
+	$urpm->{error}(_("Installation failed on node %s", $_) . ":\n" . ""); #TODO
+	$bad = 1;
+    }
+    unless ($bad) {
+	#- continue installation.
+	$urpm->{log}("parallel_ka_run: rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
+	system "rshp $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}";
+    }
 }
 
 

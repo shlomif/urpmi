@@ -174,7 +174,6 @@ sub set_proxy {
 		}
 		last;
 	    };
-# Translator: the %s here is a program name
 	    die _("Unknown webfetch `%s' !!!\n",$proxy->{type});
 	}
     }
@@ -818,7 +817,7 @@ sub remove_selected_media {
 #- computational of base files.
 #- allow options :
 #-   all               -> all medium are rebuilded.
-#-   force             -> try to force rebuilding base files (1) or hdlist from rpms files (2).
+#-   force             -> try to force rebuilding base files (1) or hdlist from rpm files (2).
 #-   probe_with_hdlist -> probe synthesis or hdlist.
 #-   ratio             -> use compression ratio (with gzip, default is 4)
 #-   noclean           -> keep header directory cleaned.
@@ -845,7 +844,7 @@ sub update_media {
 
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
-    #- hdlist file else build it from rpms files.
+    #- hdlist file else build it from rpm files.
     $urpm->clean;
     foreach my $medium (@{$urpm->{media}}) {
 	#- take care of modified medium only or all if all have to be recomputed.
@@ -976,7 +975,7 @@ sub update_media {
 		if (@files > 0) {
 		    #- we need to rebuild from rpm files the hdlist.
 		    eval {
-			$urpm->{log}(_("reading rpms files from [%s]", $dir));
+			$urpm->{log}(_("reading rpm files from [%s]", $dir));
 			my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 			$medium->{start} = @{$urpm->{depslist}};
 			$medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
@@ -995,7 +994,7 @@ sub update_media {
 			    @unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
 			}
 		    };
-		    $@ and $error = 1, $urpm->{error}(_("unable to read rpms files from [%s]: %s", $dir, $@));
+		    $@ and $error = 1, $urpm->{error}(_("unable to read rpm files from [%s]: %s", $dir, $@));
 		    $error and delete $medium->{headers}; #- do not propagate these.
 		    $error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
 		} else {
@@ -1445,7 +1444,6 @@ sub reduce_pathname {
     #- remove any multiple /s or trailing /.
     #- then split all components of pathname.
     $dir =~ s/\/+/\//g; $dir =~ s/\/$//;
-    $dir =~ s/([^:]+:\/)?\/+/$1\//g; $dir =~ s/\/$//;
     my @paths = split '/', $dir;
 
     #- reset $dir, recompose it, and clean trailing / added by algorithm.
@@ -1659,19 +1657,38 @@ sub resolve_dependencies {
 #- get out of package that should not be upgraded.
 sub deselect_unwanted_packages {
     my ($urpm, $packages, %options) = @_;
+    my (%skip, %remove);
 
     local ($_, *F);
     open F, $urpm->{skiplist};
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	foreach (keys %{$urpm->{provides}{$_} || {}}) {
-	    my $pkg = $urpm->{depslist}[$_] or next;
-	    $pkg->arch eq 'src' and next; #- never ignore source package.
-	    $options{force} || (exists $packages->{$_} && ! defined $packages->{$_})
-	      and delete $packages->{$_};
+	if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
+	    $skip{$n}{$s} = undef;
 	}
     }
     close F;
+
+    %skip and return;
+    foreach (grep { $options{force} || (exists $packages->{$_} && ! defined $packages->{$_}) } keys %$packages) {
+	my $pkg = $urpm->{depslist}[$_] or next;
+	my $remove_it;
+
+	#- find skiped entry that match the package fullname.
+	foreach (keys %skip) {
+	    exists $skip{$_}{''} && $pkg->fullname =~ /$_/ and delete $packages->{$pkg->id};
+	}
+
+	#- check if a provides match at least one package.
+	foreach ($pkg->provides) {
+	    if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
+		foreach (keys %{$skip{$n} || {}}) {
+		    range_overlap($_, $s) and delete $packages->{$pkg->id};
+		}
+	    }
+	}
+    }
+    1;
 }
 
 #- select source for package selected.
@@ -1843,7 +1860,7 @@ sub download_source_packages {
     foreach my $device (keys %removables) {
 	#- here we have only removable device.
 	#- if more than one media use this device, we have to sort
-	#- needed package to copy first the needed rpms files.
+	#- needed package to copy first the needed rpm files.
 	if (@{$removables{$device}} > 1) {
 	    my @sorted_media = sort { values %{$list->[$a]} <=> values %{$list->[$b]} } @{$removables{$device}};
 
@@ -1888,7 +1905,7 @@ sub download_source_packages {
 	}
     }
     @distant_sources and eval {
-	$urpm->{log}(_("retrieving rpms files..."));
+	$urpm->{log}(_("retrieving rpm files..."));
 	foreach (map { m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| ? "$1xxxx$2" : $_ } @distant_sources) {
 	    $urpm->{log}("    $_") ;
 	}

@@ -77,9 +77,28 @@ sub parallel_install {
 	system "scp $sources $_:$urpm->{cachedir}/rpms";
     }
 
+    my (%good_nodes, $bad);
+    foreach my $node (keys %{$parallel->{nodes}}) {
+	local (*F, $_);
+	$urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
+	open F, "ssh $node urpmi --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
+	while ($_ = <F>) {
+	    chomp;
+	    /Installation is possible/ and $good_nodes{$node} = undef;
+	}
+	close F;
+    }
     foreach (keys %{$parallel->{nodes}}) {
-	$urpm->{log}("parallel_ssh: ssh $_ urpmi --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-	system "ssh $_ urpmi --auto --synthesis $parallel->{synthesis} $parallel->{line}";
+	exists $good_nodes{$_} and next;
+	$urpm->{error}(_("Installation failed on node %s", $_) . ":\n" . ""); #TODO
+	$bad = 1;
+    }
+    unless ($bad) {
+	foreach my $node (keys %{$parallel->{nodes}}) {
+	    #- continue installation.
+	    $urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
+	    system "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}";
+	}
     }
 }
 

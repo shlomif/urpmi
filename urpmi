@@ -47,7 +47,8 @@ my $root = '';
 my $bug = '';
 my $env = '';
 my $log = '';
-my $verify_rpm = '';
+my $verify_rpm = 1;
+my $test = 0;
 
 my $uid;
 my @files;
@@ -86,12 +87,16 @@ usage:
                    to be 1080 by default (format is <proxyhost[:port]>).
 ") . _("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
-") . _("  --bug          - output a bug report in directory indicated by next arg.
-") . _("  --env          - use specific environment (typically a bug report).
+") . _("  --bug          - output a bug report in directory indicated by
+                   next arg.
+") . _("  --env          - use specific environment (typically a bug
+                   report).
 ") . _("  --X            - use X interface.
 ") . _("  --best-output  - choose best interface according to the environment:
                    X or text mode.
-") . _("  --verify-rpm   - verify rpm signature before installation.
+") . _("  --verify-rpm   - verify rpm signature before installation
+                   (--no-verify-rpm disable it, default is enabled).
+") . _("  --test         - verify if the installation can be achieved correctly.
 ") . _("  -a             - select all matches on command line.
 ") . _("  -p             - allow search in provides to find package.
 ") . _("  -P             - do not search in provides to find package.
@@ -106,8 +111,10 @@ usage:
 
 #- parse arguments list.
 my @nextargv;
+my $command_line = join " ", @ARGV;
 while (defined($_ = shift @ARGV)) {
     /^--help$/ and do { usage; next };
+    /^--no-locales$/ and do { undef *_; undef *urpm::_; *_ = *urpm::_ = sub { sprintf(shift @_, @_) }; next };
     /^--update$/ and do { $update = 1; next };
     /^--media$/ and do { push @nextargv, \$media; next };
     /^--mediums$/ and do { push @nextargv, \$media; next };
@@ -148,7 +155,8 @@ while (defined($_ = shift @ARGV)) {
     /^--WID$/ and do { push @nextargv, \$WID; next };
     /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && -x "/usr/sbin/grpmi" && system('/usr/X11R6/bin/xtest', '') == 0;
 			       next };
-    /^--verify-rpm$/ and do { $verify_rpm = 1; next };
+    /^--(no-)?verify-rpm$/ and do { $verify_rpm = !$1; next };
+    /^--(no-)?test$/ and do { $test = !$1; next };
     /^--comment$/ and do { push @nextargv, undef; next };
     /^--root$/ and do { push @nextargv, \$root; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
@@ -229,7 +237,7 @@ if ($env) {
 
 if ($log) {
     #- log only at this point in case of query usage.
-    log_it(scalar localtime, " urpmi called with @ARGV\n");
+    log_it(scalar localtime, " urpmi called with $command_line\n");
 
     open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
     open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
@@ -496,12 +504,13 @@ if (%sources_install || %sources) {
 	log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
 	$urpm->{log}("starting installing packages");
 	if ($uid > 0) {
-	    system("rpm", "-i$rpm_opt", values %sources_install, values %sources, ($root ? ("--root", $root) : ()));
+	    system("rpm", "-i$rpm_opt", values %sources_install, values %sources,
+		   ($root ? ("--root", $root) : ()), ($test ? ("--test", $test) : ()));
 	    $? and message(_("Installation failed")), exit 1;
 	    exit 0;
 	} else {
-	    if ($X && !$root) {
-		system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove} || {}}, ($root ? ("--root", $root) : ()));
+	    if ($X && !$root && !$test) {
+		system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove} || {}});
 		system("grpmi", $WID ? ("--WID=$WID") : (),
 		       (map { ("-noupgrade", $_) } values %sources_install), values %sources);
 		if ($?) {
@@ -512,7 +521,7 @@ if (%sources_install || %sources) {
 		}
 	    } else {
 		my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				       translate_message => 1);
+				       translate_message => 1, test => $test);
 		if (@l) {
 		    message(_("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
@@ -536,6 +545,8 @@ if (%sources_install || %sources) {
 					    translate_message => 1, nodeps => 1, force => 1);
 			@l and $urpm->fatal(2, _("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 		    }
+		} else {
+		    $test and message(_("Installation is possible"));
 		}
 	    }
 	}
@@ -569,7 +580,7 @@ sub log_it {
 #- message functions.
 sub message {
     my ($msg, $noX) = @_;
-    if ($X && !$noX) {
+    if ($X && !$noX && !$auto) {
 	`gmessage -default Ok -buttons Ok "$msg"`;
 	$bug and log_it($msg);
     } else {
