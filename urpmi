@@ -222,7 +222,12 @@ sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : print SAVEOUT "$
 sub member($@) { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
 sub uniq { my %l; @l{@_} = (); keys %l }
 sub difference2(\@\@) { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
-sub _ { my $s = shift @_; sprintf translate($s), @_ }
+sub _ {
+    my $s = shift @_; my $t = translate($s);
+    $t && ref $t or return sprintf $t, @_;
+    my ($T, @p) = @$t;
+    sprintf $T, @_[@p];
+}
 sub translate { $I18N{$_[0]} || $_[0]; }
 
 sub log_it {
@@ -254,6 +259,11 @@ sub load_po {
 	if (/^(#|$)/ && $state != 3) {
 	    $state = 3;
             s/\\n/\n/g foreach $from, $to;
+
+	    if (my @l = $to =~ /%(\d+)\$/g) {
+		$to =~ s/%(\d+)\$/%/g;
+		$to = [ $to, map { $_ - 1 } @l ];
+	    }
 	    $I18N{$from} = $to if $from;
 	    $from = $to = '';
 	}
