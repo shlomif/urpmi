@@ -3,11 +3,12 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA @EXPORT);
 
-$VERSION = '4.2';
+$VERSION = '4.3';
 @ISA = qw(Exporter URPM);
 @EXPORT = qw(*N);
 
 use URPM;
+use URPM::Resolve;
 use POSIX;
 use Locale::gettext();
 
@@ -417,7 +418,7 @@ sub read_config {
 		$_ eq '}' and last;
 		#- check for boolean variables first, and after that valued variables.
 		my ($no, $k, $v);
-		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean)(?:\s*:\s*(.*))?$/) {
+		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean|excludedocs)(?:\s*:\s*(.*))?$/) {
 		    unless (exists($urpm->{options}{$k})) {
 			$urpm->{options}{$k} = $v eq '' || $v =~ /^(yes|on|1)$/i || 0;
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
@@ -709,8 +710,8 @@ sub configure {
     if ($options{synthesis}) {
 	if ($options{synthesis} ne 'none') {
 	    #- synthesis take precedence over media, update options.
-	    $options{media} || $options{update} || $options{parallel} and
-	      $urpm->{fatal}(1, N("--synthesis cannot be used with --media, --update or --parallel"));
+	    $options{media} || $options{excludemedia} || $options{update} || $options{parallel} and
+	      $urpm->{fatal}(1, N("--synthesis cannot be used with --media, --excludemedia, --update or --parallel"));
 	    $urpm->parse_synthesis($options{synthesis});
 	}
     } else {
@@ -718,6 +719,13 @@ sub configure {
 	if ($options{media}) {
 	    $urpm->select_media(split ',', $options{media});
 	    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
+		#- this is only a local ignore that will not be saved.
+		$_->{ignore} = 1;
+	    }
+	}
+	if ($options{excludemedia}) {
+	    $urpm->select_media(split ',', $options{excludemedia});
+	    foreach (grep { $_->{modified} } @{$urpm->{media} || []}) {
 		#- this is only a local ignore that will not be saved.
 		$_->{ignore} = 1;
 	    }
@@ -759,6 +767,11 @@ sub configure {
 	    }
 	}
     }
+    #- determine package to withdraw (from skip.list file).
+    $urpm->compute_skip_flags($urpm->get_unwanted_packages($options{skip}), callback => sub {
+				  my ($urpm, $pkg) = @_;
+				  $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
+			      });
     if ($options{bug}) {
 	#- and a dump of rpmdb itself as synthesis file.
 	my $db = URPM::DB::open($options{root});
@@ -968,15 +981,40 @@ sub remove_selected_media {
     $urpm->{media} = \@result;
 }
 
+#- return list of synthesis or hdlist reference to probe.
+sub probe_with_try_list {
+    my ($suffix, $probe_with) = @_;
+
+    my @probe = ("synthesis.hdlist.cz", "synthesis.hdlist$suffix.cz",
+		 "../synthesis.hdlist$suffix.cz", "../base/synthesis.hdlist$suffix.cz");
+
+    defined $suffix && !$suffix and push @probe, ("synthesis.hdlist1.cz", "synthesis.hdlist2.cz",
+						  "../synthesis.hdlist1.cz", "../synthesis.hdlist2.cz",
+						  "../base/synthesis.hdlist1.cz", "../base/synthesis.hdlist2.cz");
+
+    my @probe_hdlist = ("hdlist.cz", "hdlist$suffix.cz", "../hdlist$suffix.cz", "../base/hdlist$suffix.cz");
+    defined $suffix && !$suffix and push @probe_hdlist, ("hdlist1.cz", "hdlist2.cz",
+							 "../hdlist1.cz", "../hdlist2.cz",
+							 "../base/hdlist1.cz", "../base/hdlist2.cz");
+
+    if ($probe_with =~ /synthesis/) {
+	push @probe, @probe_hdlist;
+    } else {
+	unshift @probe, @probe_hdlist;
+    }
+
+    @probe;
+}
+
 #- update urpmi database regarding the current configuration.
 #- take care of modification and try some trick to bypass
 #- computational of base files.
 #- allow options :
-#-   all               -> all medium are rebuilded.
-#-   force             -> try to force rebuilding base files (1) or hdlist from rpm files (2).
-#-   probe_with_hdlist -> probe synthesis or hdlist.
-#-   ratio             -> use compression ratio (with gzip, default is 4)
-#-   noclean           -> keep header directory cleaned.
+#-   all         -> all medium are rebuilded.
+#-   force       -> try to force rebuilding base files (1) or hdlist from rpm files (2).
+#-   probe_with  -> probe synthesis or hdlist.
+#-   ratio       -> use compression ratio (with gzip, default is 4)
+#-   noclean     -> keep header directory cleaned.
 sub update_media {
     my ($urpm, %options) = @_; #- do not trust existing hdlist and try to recompute them.
     my ($cleaned_cache);
@@ -1046,30 +1084,19 @@ sub update_media {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
-	    $urpm->try_mounting($options{force} < 2 && ($options{probe_with_hdlist} || $medium->{with_hdlist}) ?
+	    $urpm->try_mounting($options{force} < 2 && ($options{probe_with} || $medium->{with_hdlist}) ?
 				$with_hdlist_dir : $dir) or
 				  $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
 
 	    #- try to probe for possible with_hdlist parameter, unless
 	    #- it is already defined (and valid).
-	    if ($options{probe_with_hdlist} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
+	    if ($options{probe_with} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
 		my ($suffix) = $dir =~ /RPMS([^\/]*)\/*$/;
-		if (-s "$dir/synthesis.hdlist.cz" > 32) {
-		    $medium->{with_hdlist} = "./synthesis.hdlist.cz";
-		} elsif (-s "$dir/synthesis.hdlist$suffix.cz" > 32) {
-		    $medium->{with_hdlist} = "./synthesis.hdlist$suffix.cz";
-		} elsif (defined $suffix && !$suffix && -s "$dir/synthesis.hdlist1.cz" > 32) {
-		    $medium->{with_hdlist} = "./synthesis.hdlist1.cz";
-		} elsif (defined $suffix && !$suffix && -s "$dir/synthesis.hdlist2.cz" > 32) {
-		    $medium->{with_hdlist} = "./synthesis.hdlist2.cz";
-		} elsif (-s "$dir/../synthesis.hdlist$suffix.cz" > 32) {
-		    $medium->{with_hdlist} = "../synthesis.hdlist$suffix.cz";
-		} elsif (defined $suffix && !$suffix && -s "$dir/../synthesis.hdlist1.cz" > 32) {
-		    $medium->{with_hdlist} = "../synthesis.hdlist1.cz";
-		} elsif (-s "$dir/../base/hdlist$suffix.cz" > 32) {
-		    $medium->{with_hdlist} = "../base/hdlist$suffix.cz";
-		} elsif (defined $suffix && !$suffix && -s "$dir/../base/hdlist1.cz" > 32) {
-		    $medium->{with_hdlist} = "../base/hdlist1.cz";
+
+		foreach (probe_with_try_list($suffix, $options{probe_with})) {
+		    if (-s "$dir/$_" > 32) {
+			$medium->{with_hdlist} = $_;
+		    }
 		}
 		#- redo...
 		$with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
@@ -1217,15 +1244,10 @@ sub update_media {
 	    #- it is already defined (and valid).
 	    $urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 	    $options{callback} && $options{callback}('retrieve', $medium->{name});
-	    if ($options{probe_with_hdlist}) {
+	    if ($options{probe_with}) {
 		my ($suffix) = $dir =~ /RPMS([^\/]*)\/*$/;
 
-		foreach ($medium->{with_hdlist} || (),
-			 "synthesis.hdlist.cz", "synthesis.hdlist$suffix.cz",
-			 !$suffix ? ("synthesis.hdlist1.cz", "synthesis.hdlist2.cz") : @{[]},
-			 "../synthesis.hdlist$suffix.cz", !$suffix ? "../synthesis.hdlist1.cz" : @{[]},
-			 "../base/hdlist$suffix.cz", !$suffix ? "../base/hdlist1.cz" : @{[]},
-			) {
+		foreach ($medium->{with_hdlist} || (), probe_with_try_list($suffix, $options{probe_with})) {
 		    $basename = /^.*\/([^\/]*)$/ && $1 || $_ or next;
 
 		    unlink "$urpm->{cachedir}/partial/$basename";
@@ -1866,6 +1888,10 @@ sub search_packages {
     foreach (@$names) {
 	if (defined $exact{$_}) {
 	    $packages->{$exact{$_}} = 1;
+	    foreach (split '\|', $exact{$_}) {
+		my $pkg = $urpm->{depslist}[$_] or next;
+		$pkg->set_flag_skip(0); #- reset skip flag as manually selected.
+	    }
 	} else {
 	    #- at this level, we need to search the best package given for a given name,
 	    #- always prefer already found package.
@@ -1891,6 +1917,7 @@ sub search_packages {
 			}
 		    }
 		    $packages->{$best->id} = 1;
+		    $best->set_flag_skip(0); #- reset skip flag as manually selected.
 		}
 	    }
 	}
@@ -1903,9 +1930,6 @@ sub search_packages {
 #- do the resolution of dependencies.
 sub resolve_dependencies {
     my ($urpm, $state, $requested, %options) = @_;
-
-    #- needed for both parallel mode or simple mode.
-    require URPM::Resolve;
 
     if ($options{install_src}) {
 	#- only src will be installed, so only update $state->{selected} according
@@ -1948,10 +1972,10 @@ sub resolve_dependencies {
     }
 }
 
-#- get out of package that should not be upgraded.
-sub deselect_unwanted_packages {
-    my ($urpm, $packages, %options) = @_;
-    my (%skip, %remove);
+#- get list of package that should not be upgraded.
+sub get_unwanted_packages {
+    my ($urpm, $skip) = @_;
+    my %skip;
 
     local ($_, *F);
     open F, $urpm->{skiplist};
@@ -1963,28 +1987,14 @@ sub deselect_unwanted_packages {
     }
     close F;
 
-    %skip or return;
-    foreach (grep { $options{force} || exists($packages->{$_}) && ! defined $packages->{$_} } keys %$packages) {
-	my $pkg = $urpm->{depslist}[$_] or next;
-	my $remove_it;
-
-	#- check if fullname is matching a regexp.
-	if (grep { exists($skip{$_}{''}) && /^\/(.*)\/$/ && $pkg->fullname =~ /$1/ } keys %skip) {
-	    delete $packages->{$pkg->id};
-	} else {
-	    #- check if a provides match at least one package.
-	    foreach ($pkg->provides) {
-		if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
-		    foreach my $sn ($n, grep { /^\/(.*)\/$/ && $n =~ /$1/ } keys %skip) {
-			foreach (keys %{$skip{$sn} || {}}) {
-			    URPM::ranges_overlap($_, $s) and delete $packages->{$pkg->id};
-			}
-		    }
-		}
-	    }
+    #- additional skipping from given parameter.
+    foreach (split ',', $skip) {
+	if (my ($n, $s) = /^([^\s\[]+)(?:\[\*\])?\[?\s*([^\s\]]*\s*[^\s\]]*)/) {
+ 	    $skip{$n}{$s} = undef;
 	}
     }
-    1;
+
+    \%skip;
 }
 
 #- select source for package selected.
@@ -1994,7 +2004,7 @@ sub deselect_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages, %options) = @_;
-    my ($id, $error, %local_sources, @list, %fullname2id, %file2fullnames, %examined);
+    my ($id, $error, %local_sources, @list, %fullname2id, %usefull_files, %file2fullnames, %examined);
     local (*D, *F, $_);
 
     #- build association hash to retrieve id and examine all list files.
@@ -2005,33 +2015,37 @@ sub get_source_packages {
 	} else {
 	    $fullname2id{$p->fullname} = $_.'';
 	}
+	#- keep track of related files to avoid scanning all the cache (very long when cache is big).
+	$usefull_files{$p->filename} = undef;
     }
 
     #- examine each medium to search for packages.
     #- now get rpm file name in hdlist to match list file.
     foreach my $pkg (@{$urpm->{depslist} || []}) {
-	$file2fullnames{$pkg->filename =~ /(.*)\.rpm$/ && $1 || $pkg->fullname}{$pkg->fullname} = undef;
+	$file2fullnames{$pkg->filename}{$pkg->fullname} = undef;
     }
 
     #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
     opendir D, "$urpm->{cachedir}/rpms";
     while (defined($_ = readdir D)) {
-	if (my ($filename) = /^([^\/]*)\.rpm$/) {
-	    my $filepath = "$urpm->{cachedir}/rpms/$filename.rpm";
-	    if (!$options{clean_all} && -s $filepath && URPM::verify_rpm($filepath, nogpg => 1, nopgp => 1) =~ /md5 OK/) {
-		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
-		    next;
-		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
-		    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-		    if (defined($id = delete $fullname2id{$fullname})) {
-			$local_sources{$id} = $filepath;
+	if (my ($filename) = /^([^\/]*\.rpm)$/) {
+	    my $filepath = "$urpm->{cachedir}/rpms/$filename";
+	    if (!$options{clean_all} && -s $filepath) {
+		if (exists $usefull_files{$filename} && URPM::verify_rpm($filepath, nogpg => 1, nopgp => 1) =~ /md5 OK/) {
+		    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
+			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
+			next;
+		    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
+			my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
+			if (defined($id = delete $fullname2id{$fullname})) {
+			    $local_sources{$id} = $filepath;
+			} else {
+			    $options{clean_other} and unlink $filepath;
+			}
 		    } else {
 			$options{clean_other} and unlink $filepath;
 		    }
-		} else {
-		    $options{clean_other} and unlink $filepath;
-		}
+		} #- do not examine rpm file in cache that will not be used.
 	    } else {
 		#- this is an invalid file in cache, remove it and ignore it.
 		#- or clean options has been given meaning ignore any file in cache
@@ -2050,7 +2064,7 @@ sub get_source_packages {
 	    if ($medium->{list} && -r "$urpm->{statedir}/$medium->{list}") {
 		open F, "$urpm->{statedir}/$medium->{list}";
 		while (<F>) {
-		    if (my ($filename) = /\/([^\/]*)\.rpm$/) {
+		    if (my ($filename) = /\/([^\/]*\.rpm)$/) {
 			if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
 			    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
 			    next;
@@ -2072,12 +2086,11 @@ sub get_source_packages {
 	    if (defined $medium->{url}) {
 		foreach ($medium->{start} .. $medium->{end}) {
 		    my $pkg = $urpm->{depslist}[$_];
-		    my ($filename) = $pkg->filename =~ /([^\/]*)\.rpm$/;
-		    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
+		    if (keys(%{$file2fullnames{$pkg->filename} || {}}) > 1) {
+			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $pkg->filename);
 			next;
-		    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
-			my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
+		    } elsif (keys(%{$file2fullnames{$pkg->filename} || {}}) == 1) {
+			my ($fullname) = keys(%{$file2fullnames{$pkg->filename} || {}});
 			unless (exists($list_examined{$fullname})) {
 			    ++$list_warning;
 			    defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/".$pkg->filename;

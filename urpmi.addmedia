@@ -56,6 +56,10 @@ and [options] are from
 ") . N("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
 ") . N("  --update       - create an update medium.
+") . N("  --probe-synthesis - try to find and use synthesis file.
+") . N("  --probe-hdlist - try to find and use hdlist file.
+") . N("  --no-probe     - do not try to find any synthesis or
+                   hdlist file.
 ") . N("  --distrib      - automatically create all media from an installation
                    medium.
 ") . N("  --distrib-XXX  - automatically create a medium for XXX part of a
@@ -69,17 +73,16 @@ and [options] are from
 ") . N("  --arch         - use specified architecture, the default is arch of
                    mandrake-release package installed.
 ") . N("  -c             - clean headers cache directory.
-") . N("  -h             - try to find and use synthesis or hdlist
-                   file.
 ") . N("  -f             - force generation of hdlist files.
 ");
 
     $options{force} = 0;
     $options{noclean} = 1;
+    $options{probe_with} = 'synthesis'; #- no the default is to probe synthesis file.
     my $urpm = new urpm;
     while ($_ = shift @_) {
 	/^--?c/ and $options{noclean} = 0, next;
-	/^--?h/ and $options{probe_with_hdlist} = 1, next;
+	/^--?h/ and next;
 	/^--?f/ and ++$options{force}, next;
 	/^--wget/ and $urpm->{sync} = sub { my $options = shift @_;
 					    if (ref $options) { $options->{prefer} = 'wget' }
@@ -101,6 +104,9 @@ and [options] are from
 	    $urpm->{proxy}{pwd} = $2;
 	    next;
 	};
+	/^--probe-synthesis/ and $options{probe_with} = 'synthesis', next;
+	/^--probe-hdlist/ and $options{probe_with} = 'hdlist', next;
+	/^--no-probe/ and $options{probe_with} = undef, next;
 	/^--distrib$/ and $options{distrib} = undef, next;
 	/^--distrib-(.*)$/ and $options{distrib} = $1, next;
 	/^--from$/ and $options{mirrors_url} = shift @_, next;
@@ -123,7 +129,6 @@ and [options] are from
 	    $name or die $usage;
 	    #- extended distribution support, code is directly inlined here.
 	    #- -h always set, updates should allow setting update flag.
-	    $options{probe_with_hdlist} = 1;
 	    $options{distrib} eq 'updates' and $options{update} = 1;
 	    #- official site by default.
 	    $options{from} ||= $mirrors;
@@ -198,8 +203,8 @@ and [options] are from
 
 	if ($with eq "with") {
 	    $relative_hdlist or die N("%s\n<relative path of hdlist> missing\n", $usage);
-	} elsif ($type =~ /ftp|http/) {
-	    $options{probe_with_hdlist} || $with eq "with" or die N("%s\n`with' missing for ftp media\n", $usage);
+	} elsif ($type =~ /ftp|http|rsync|ssh/) {
+	    $options{probe_with} || $with eq "with" or die N("%s\n`with' missing for network media\n", $usage);
 	}
 
 	$urpm->add_medium($name, $url, $relative_hdlist, update => $options{update});

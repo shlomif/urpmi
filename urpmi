@@ -25,6 +25,7 @@ my $urpm = new urpm;
 #- default options.
 my $update = 0;
 my $media = '';
+my $excludemedia = '';
 my $synthesis = '';
 my $auto = 0;
 my $allow_medium_change = 0;
@@ -42,6 +43,7 @@ my $install_src = 0;
 my $clean = 0;
 my $noclean = 0;
 my $verbose = 0;
+my $skip = '';
 my $root = '';
 my $bug = '';
 my $env = '';
@@ -69,6 +71,7 @@ usage:
 ", $urpm::VERSION) . N("  --help         - print this help message.
 ") . N("  --update       - use only update media.
 ") . N("  --media        - use only the given media, separated by comma.
+") . N("  --excludemedia - do not use only the given media, separated by comma.
 ") . N("  --synthesis    - use the given synthesis instead of urpmi db.
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
@@ -132,6 +135,7 @@ while (defined($_ = shift @ARGV)) {
     /^--no-locales$/ and do { undef *N; undef *urpm::N; *N = *urpm::N = sub { sprintf(shift @_, @_) }; next };
     /^--update$/ and do { $update = 1; next };
     /^--media$/ and do { push @nextargv, \$media; next };
+    /^--exclude-?media$/ and do { push @nextargv, \$excludemedia; next };
     /^--mediums$/ and do { push @nextargv, \$media; next };
     /^--synthesis$/ and do { push @nextargv, \$synthesis; next };
     /^--auto$/ and do { $auto = 1; next };
@@ -177,8 +181,10 @@ while (defined($_ = shift @ARGV)) {
     /^--(no-)?verify-rpm$/ and do { $urpm->{options}{'verify-rpm'} = !$1; next };
     /^--(no-)?test$/ and do { $test = !$1; next };
     /^--comment$/ and do { push @nextargv, undef; next };
+    /^--skip$/ and do { push @nextargv, \$skip; next };
     /^--root$/ and do { push @nextargv, \$root; next };
-    /^--excludepath$/ and do { $urpm->{options}{excludepath} = undef; push @nextargv, \$urpm->{options}{excludepath}; next };
+    /^--exclude-?path$/ and do { $urpm->{options}{excludepath} = undef; push @nextargv, \$urpm->{options}{excludepath}; next };
+    /^--exclude-?docs$/ and do { $urpm->{options}{excludedocs} = 1; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $all = 1; next };
@@ -300,8 +306,10 @@ $verbose > 0 or $urpm->{log} = sub {};
 
 $urpm->configure(nocheck_access => $env || $uid > 0,
 		 media => $media,
+		 excludemedia => $excludemedia,
 		 synthesis => $synthesis,
 		 update => $update,
+		 skip => $skip,
 		 root => $root,
 		 bug => $bug,
 		 parallel => $parallel,
@@ -426,9 +434,6 @@ if (%{$state->{ask_remove} || {}}) {
 	}
     }
 }
-
-#- get out of package that should not be upgraded.
-$urpm->deselect_unwanted_packages($state->{selected});
 
 #- package to install as a array of strings.
 my @to_install;
@@ -570,7 +575,8 @@ if (%sources_install || %sources) {
 	#- no remove are handle here, automatically done by each distant node.
 	$urpm->{log}("starting distributed install");
 	$urpm->parallel_install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				test => $test, excludepath => $urpm->{options}{excludepath});
+				test => $test,
+				excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
     } else {
 	message(N("installing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
@@ -589,7 +595,8 @@ if (%sources_install || %sources) {
 	    my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 				   translate_message => 1,
 				   oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-				   test => $test, excludepath => $urpm->{options}{excludepath});
+				   test => $test,
+				   excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
@@ -604,7 +611,8 @@ if (%sources_install || %sources) {
 		@l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 				    translate_message => 1, nodeps => 1,
 				    oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-				    test => $test, excludepath => $urpm->{options}{excludepath});
+				    test => $test,
+				    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
 		if (@l) {
 		    message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 		    !$urpm->{options}{'allow-force'} and exit 1;
@@ -614,7 +622,9 @@ if (%sources_install || %sources) {
 		    @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 					translate_message => 1, nodeps => 1, force => 1,
 					oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-					test => $test, excludepath => $urpm->{options}{excludepath});
+					test => $test,
+					excludepath => $urpm->{options}{excludepath},
+					excludedocs => $urpm->{options}{excludedocs});
 		    @l and $urpm->fatal(2, N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 		}
 	    } else {
