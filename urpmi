@@ -499,7 +499,8 @@ my %sources = $urpm->download_source_packages($local_sources, $list,
 						      print SAVEERR " " x 79, "\r";
 						  }
 					      },
-					      force_local => !$X, ask_for_medium => (!$auto || $allow_medium_change) && sub {
+					      force_local => !$X || $parallel,
+					      ask_for_medium => (!$auto || $allow_medium_change) && sub {
 						  my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						  my $msg2 = _("Press Enter when ready...");
 						  if ($X) {

@@ -1945,6 +1945,9 @@ sub search_packages {
 sub resolve_dependencies {
     my ($urpm, $state, $requested, %options) = @_;
 
+    #- needed for both parallel mode or simple mode.
+    require URPM::Resolve;
+
     if ($options{install_src}) {
 	#- only src will be installed, so only update $state->{selected} according
 	#- to src status of files.
@@ -1966,8 +1969,6 @@ sub resolve_dependencies {
 	$urpm->{parallel_handler}->parallel_resolve_dependencies($file, @_);
     } else {
 	my $db;
-
-	require URPM::Resolve;
 
 	if ($options{rpmdb}) {
 	    $db = new URPM;
