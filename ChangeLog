@@ -1,3 +1,60 @@
+2004-06-28 09:48  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Let the "downloader" option be settable per-media
+
+2004-06-25 11:42  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpmi: Make the verify-rpm being settable per-media in
+	  urpmi.cfg
+
+2004-06-25 08:52  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Don't write in urpmi.cfg the options set via the
+	  command-line of urpmi.
+
+2004-06-24 11:39  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm/cfg.pm: Don't write a section for the global options if we
+	  don't need to
+
+2004-06-24 10:14  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Refactorise the code to read and write urpmi.cfg (phase
+	  1)
+
+2004-06-24 08:58  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* Makefile: New test targets
+
+2004-06-24 05:13  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* t/cfg.t, urpm/cfg.pm: Handle quoted option values
+
+2004-06-24 04:44  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* t/cfg.t, urpm/cfg.pm: I18N of error messages in urpm::cfg
+	  Normalize key_ids to key-ids
+
+2004-06-24 03:41  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* t/cfg.t, urpm/cfg.pm: Tests and fixes for the urpmi.cfg parser
+
+2004-06-23 16:16  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm/cfg.pm: New code to write urpmi.cfg.
+
+2004-06-23 12:03  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm/cfg.pm: New code to read urpmi.cfg.
+
+2004-06-23 09:52  Alice Lafox <alice@lafox.com.ua>
+
+	* po/ru.po: updated
+
+2004-06-23 08:12  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi.spec: 4.5-8mdk
+
 2004-06-23 08:05  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
 
 	* urpm/sys.pm: Refactorisation error: urpmi.update was looping.
@@ -1505,7 +1562,7 @@
 
 	* urpm.pm, urpme, urpmf, urpmi, urpmi.addmedia, urpmi.removemedia,
 	  urpmq: - re use strict, because nobody is better than perl - use
-	  sub folder bug report when restart is need - add cvs $Id: ChangeLog,v 1.31 2004/05/21 08:14:22 rgarciasuarez Exp $ in
+	  sub folder bug report when restart is need - add cvs $Id: ChangeLog,v 1.32 2004/06/23 06:12:25 rgarciasuarez Exp $ in
 	  script
 
 2004-01-16 01:09  Olivier Thauvin <thauvin@aerov.jussieu.fr>

@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 8mdk
+%define release 9mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -258,6 +258,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Jun 28 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-9mdk
+- Rewrite the urpmi.cfg parser
+- Make the verify-rpm and downloader options be settable per media in urpmi.cfg
+
 * Wed Jun 23 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-8mdk
 - Emergency fix on urpmi.update
 
