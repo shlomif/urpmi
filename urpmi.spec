@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.4.5
-%define release 8mdk
+%define release 9mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -233,14 +233,19 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %files -n urpmi-parallel-ka-run
 %defattr(-,root,root)
 %doc urpm/README.ka-run
+%dir %{compat_perl_vendorlib}/urpm
 %{compat_perl_vendorlib}/urpm/parallel_ka_run.pm
 
 %files -n urpmi-parallel-ssh
 %defattr(-,root,root)
 %doc urpm/README.ssh
+%dir %{compat_perl_vendorlib}/urpm
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Feb 25 2004 Olivier Thauvin <thauvin@aerov.jussieu.fr> 4.4.5-9mdk
+- Own %{compat_perl_vendorlib}/urpm
+
 * Sun Feb 22 2004 François Pons <fpons@garrigue.homelinux.org> 4.4.5-8mdk
 - fix bug 8110.
 - gurpm.pm: allow to pass options to ugtk2 object (so that we can set
