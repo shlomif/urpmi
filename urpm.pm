@@ -1306,7 +1306,7 @@ this could happen if you mounted manually the directory when creating the medium
 		-e $path_pubkey or $path_pubkey = "$dir/pubkey";
 		if ($path_pubkey) {
 		    urpm::util::copy($path_pubkey, "$urpm->{cachedir}/partial/pubkey")
-			or do { $urpm->{error}(N("...copying failed")); $error = 1 };
+			or do { $urpm->{error}(N("...copying failed")) };
 		}
 		chown 0, 0, "$urpm->{cachedir}/partial/pubkey";
 	    }
@@ -1752,7 +1752,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 	unless ($medium->{virtual}) {
 	    if ($error) {
-		#- an error has occured for updating the medium, we have to remove tempory files.
+		#- an error has occured for updating the medium, we have to remove temporary files.
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		$medium->{list} and unlink "$urpm->{cachedir}/partial/$medium->{list}";
 		#- read default synthesis (we have to make sure nothing get out of depslist).
@@ -1783,7 +1783,7 @@ this could happen if you mounted manually the directory when creating the medium
 		if ($medium->{list}) {
 		    urpm::util::move("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
 		}
-		$medium->{md5sum} = $retrieved_md5sum; #- anyway, keep it, the previous one is no more usefull.
+		$medium->{md5sum} = $retrieved_md5sum; #- anyway, keep it, the previous one is no more useful.
 
 		#- and create synthesis file associated.
 		$medium->{modified_synthesis} = !$medium->{synthesis};
