@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 38mdk
+Release: 39mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -111,6 +111,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Tue May 29 2001 François Pons <fpons@mandrakesoft.com> 1.5-39mdk
+- fixed broken dependancies.
+
 * Wed May 23 2001 Pixel <pixel@mandrakesoft.com> 1.5-38mdk
 - really remove all group urpmi
 
