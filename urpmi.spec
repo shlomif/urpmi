@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 13mdk
+Release: 14mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,12 @@ fi
 
 
 %changelog
+* Wed Dec 11 2002 François Pons <fpons@mandrakesoft.com> 4.1-14mdk
+- changed fuzzy search on provides to be deactived by default,
+  use --fuzzy for that now (previous behaviour of --fuzzy is kept).
+- fixed urpmf --provides, --requires, ...
+- added -f to urpmf (as used by urpmq).
+
 * Wed Dec 11 2002 François Pons <fpons@mandrakesoft.com> 4.1-13mdk
 - fixed error management about missing files after download.
 - fixed urpme dependencies output to be user friendly.

@@ -49,6 +49,7 @@ usage:
 ") . _("  --conflicts    - print tag conflicts: all conflicts (multiple lines).
 ") . _("  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).
 ") . _("  --prereqs      - print tag prereqs: all prereqs (multiple lines).
+") . _("  -f             - print version, release and arch with name.
 ") . _("  -e             - include perl code directly as perl -e.
 ") . _("  -a             - binary AND operator, true if both expression are true.
 ") . _("  -o             - binary OR operator, true if one expression is true.
@@ -65,6 +66,7 @@ my $media = '';
 my $synthesis = '';
 my $verbose = 0;
 my $quiet = undef;
+my $fullname = '';
 my %params;
 
 #- parse arguments list.
@@ -82,7 +84,8 @@ while (defined($_ = shift @ARGV)) {
     /^--all$/ and do { $params{$_} = 1
 			 foreach qw(group size summary description provides requires files conflicts obsoletes prereqs); next };
     /^--(group|size|epoch|summary|description|provides|requires|files|conflicts|obsoletes|prereqs)$/ and
-      do { $params{$_} = 1; next };
+      do { $params{$1} = 1; next };
+    /^-f$/ and do { $full = 'full'; next };
     /^-e$/ and do { $expr .= '('.$_.')'; next };
     /^-a$/ and do { $expr .= ' && '; next };
     /^-o$/ and do { $expr .= ' || '; next };
@@ -103,7 +106,7 @@ for (scalar(keys %params)) {
 #- build callback according expression.
 my $callback = 'sub { my ($urpm, $pkg) = @_; '; #- it is a good start for a sub, no ;-)
 foreach (qw(group size epoch summary description provides requires files conflicts obsoletes prereqs)) {
-    $params{$_} and $callback .= 'foreach my $e ($pkg->'.$_.') { local $_ = $pkg->name."'.(!$quiet && ":$_").':$e"; '.$expr.' or next; print "$_\n" }';
+    $params{$_} and $callback .= 'foreach my $e ($pkg->'.$_.') { local $_ = $pkg->'.$full.'name."'.(!$quiet && ":$_").':$e"; '.$expr.' or next; print "$_\n" }';
 }
 $callback .= ' 1; }';
 $callback = eval $callback;

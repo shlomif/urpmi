@@ -1652,7 +1652,7 @@ sub search_packages {
 	    }
 	}
 
-	if ($options{use_provides}) {
+	if ($options{use_provides} && $options{fuzzy}) {
 	    foreach (keys %{$urpm->{provides}}) {
 		#- search through provides to find if a provide match this one.
 		#- but manages choices correctly (as a provides may be virtual or
