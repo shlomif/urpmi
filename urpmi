@@ -252,7 +252,7 @@ if ($install_src) {
 
 #- prepare bug report.
 if ($bug) {
-    mkdir $bug or $urpm->{fatal}(8, N((-d $bug ? "Directory [%s] allready exist, please use another directory for bug report or delete it" : "Unable to create directory [%s] for bug report"), $bug));
+    mkdir $bug or $urpm->{fatal}(8, (-d $bug ? N("Directory [%s] allready exist, please use another directory for bug report or delete it") : N("Unable to create directory [%s] for bug report"), $bug));
     #- copy all synthesis file used, along with configuration of urpmi
     system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, $bug);
     #- allow log file.
