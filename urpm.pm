@@ -1663,7 +1663,7 @@ sub update_media {
 		}
 	    } else {
 		#- read first pass hdlist or synthesis, try to open as synthesis, if file
-		#- is larger than 1MB, this is problably an hdlist else a synthesis.
+		#- is larger than 1MB, this is probably an hdlist else a synthesis.
 		#- anyway, if one tries fails, try another mode.
 		$options{callback} && $options{callback}('parse', $medium->{name});
 		my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
@@ -2422,7 +2422,7 @@ sub get_source_packages {
 		}
 		$list_warning && $medium->{list} && -r "$urpm->{statedir}/$medium->{list}" and
 		  $urpm->{error}(N("medium \"%s\" uses an invalid list file:
-  mirror is problably not up-to-date, trying to use alternate method", $medium->{name}));
+  mirror is probably not up-to-date, trying to use alternate method", $medium->{name}));
 	    } elsif (!%list_examined) {
 		$error = 1;
 		$urpm->{error}(N("medium \"%s\" does not define any location for rpm files", $medium->{name}));
