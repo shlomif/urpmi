@@ -2,11 +2,11 @@
 
 Name: urpmi
 Version: 1.3
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
-Requires: /usr/bin/suidperl, rpmtools >= 1.2, eject, wget
+Requires: /usr/bin/suidperl, rpmtools >= 1.2-9mdk, eject, wget
 PreReq: /usr/bin/genbasefiles
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -103,6 +103,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Sun Sep 03 2000 François Pons <fpons@mandrakesoft.com> 1.3-5mdk
+- fixed incorporation of media with already defined packages, choose the
+  relocated one by rpmtools library.
+
 * Fri Sep 01 2000 François Pons <fpons@mandrakesoft.com> 1.3-4mdk
 - fixed --auto usage (thanks to Garbage Collector).
 - fixed urpmi.addmedia with glob on rpm files only.
