@@ -81,7 +81,6 @@ sub sync_webfetch {
 	}
 	#- else first downloader of @webfetch is the default one
 	$preferred ||= $available_webfetch[0];
-	warn "Preferred : $preferred\n";
 	if ($preferred eq 'curl') {
 	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} elsif ($preferred eq 'wget') {
