@@ -30,8 +30,8 @@ sub init {
     my ($title, $initializing, $cancel_msg, $cancel_cb) = @_;
     $mainw = ugtk2->new($title);
     $label = Gtk2::Label->new($initializing);
-    $progressbar = gtkset_size_request(Gtk2::ProgressBar->new, 400, 0);
-    gtkadd($mainw->{window}, gtkpack($vbox = gtkadd(create_vbox(), $label, $progressbar)));
+    $progressbar = gtkset_size_request(Gtk2::ProgressBar->new, 300, -1);
+    gtkadd($mainw->{window}, gtkpack__($vbox = Gtk2::VBox->new(0, 5), $label, $progressbar));
     $mainw->{rwindow}->set_position('center');
     $mainw->sync;
 }
