@@ -57,7 +57,7 @@ clean:
 	rm -f *~ autoirpm.update-all
 
 changelog:
-	cvs2cl -W 400 -I Changelog --accum -U ../../soft/common/username
+	cvs2cl -W 400 -I ChangeLog --accum -U ../../soft/common/username
 	rm -f *.bak
 
 log:	changelog
