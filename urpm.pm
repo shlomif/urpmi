@@ -865,16 +865,20 @@ sub configure {
     }
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
     unless ($options{noskipping}) {
+	my %uniq;
 	$urpm->compute_flags($urpm->get_packages_list($urpm->{skiplist}, $options{skip}), skip => 1, callback => sub {
 				 my ($urpm, $pkg) = @_;
-				 $pkg->is_arch_compat or return;
-				 $urpm->{error}(N("skipping package %s", scalar($pkg->fullname)));
+				 $pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
+				 $uniq{$pkg->fullname} = undef;
+				 $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
 			     });
     }
     unless ($options{noinstalling}) {
+	my %uniq;
 	$urpm->compute_flags($urpm->get_packages_list($urpm->{instlist}, $options{inst}), disable_obsolete => 1, callback => sub {
 				 my ($urpm, $pkg) = @_;
-				 $pkg->is_arch_compat or return;
+				 $pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
+				 $uniq{$pkg->fullname} = undef;
 				 $urpm->{log}(N("would install instead of upgrade package %s", scalar($pkg->fullname)));
 			     });
     }
