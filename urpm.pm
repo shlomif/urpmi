@@ -136,16 +136,16 @@ sub sync_webfetch {
     if ($files{ftp} || $files{http} || $files{https}) {
 	my @webfetch = qw(curl wget);
 	my @available_webfetch = grep { -x "/usr/bin/$_" } @webfetch;
-	my $prefered;
+	my $preferred;
 	#- use user default downloader if provided and available
 	if ($urpm->{options}{downloader}) {
-	    $prefered = find { $_ eq $urpm->{options}{downloader} } @available_webfetch;
+	    $preferred = find { $_ eq $urpm->{options}{downloader} } @available_webfetch;
 	}
 	#- else first downloader of @webfetch is the default one
-	$prefered ||= $available_webfetch[0];
-	if ($prefered eq 'curl') {
+	$preferred ||= $available_webfetch[0];
+	if ($preferred eq 'curl') {
 	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
-	} elsif ($prefered eq 'wget') {
+	} elsif ($preferred eq 'wget') {
 	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} else {
 	    die N("no webfetch found, supported webfetch are: %s\n", join(", ", @webfetch));
