@@ -41,6 +41,7 @@ usage:
 ", $urpm::VERSION) . N("  --help         - print this help message.
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --test         - verify if the installation can be achieved correctly.
+") . N("  --force        - force invocation even if some packages do not exist.
 ") . N("  --parallel     - distributed urpmi accross machines of alias.
 ") . N("  -v             - verbose mode.
 ") . N("  -a             - select all packages matching expression.
@@ -107,8 +108,8 @@ if ($test && $auto) {
 	$sum += $state->{rejected}{$_}{size};
     }
     my $msg = N("To satisfy dependencies, the following packages will be removed (%d MB)", toMb($sum));
-    print STDOUT "$msg:\n$list\n$askok" . N(" (Y/n) ");
-    <STDIN> =~ /[$noexpr]/ and exit 0;
+    print STDOUT "$msg:\n$list\n";
+    message_input("$askok" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
 }
 
 print STDOUT "\n".N("removing %s", join(' ', sort @toremove))."\n";
@@ -120,4 +121,31 @@ print STDOUT "\n".N("removing %s", join(' ', sort @toremove))."\n";
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;
     int $nb + 0.5;
+}
+
+sub message_input {
+    my ($msg, $default_input, %options) = @_;
+    my $input;
+    my $noexpr = N("Nn");
+    my $yesexpr = N("Yy");
+
+    while (1) {
+	print STDOUT $msg;
+	if ($default_input) {
+	    $bug and log_it($input);
+	    return $default_input;
+	}
+	$input = <STDIN>;
+	defined $input or return undef;
+	$bug and log_it($input);
+	if ($options{boolean}) {
+	    $input =~ /^[$noexpr$yesexpr]*$/ and last;
+	} elsif ($options{range}) {
+	    1 <= $input && $input <= $options{range} and last;
+	} else {
+	    last;
+	}
+	print STDOUT N("Sorry, bad choice, try again\n")."\n";
+    }
+    return $input;
 }

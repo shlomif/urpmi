@@ -402,12 +402,8 @@ sub ask_choice {
 	} else {
 	    message($msg);
 	    my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
-	    while (1) {
-		$n = message_input(N("What is your choice? (1-%d) ", $i));
-		defined $n or exit 1;
-		1 <= $n && $n <= $i and last;
-		message(N("Sorry, bad choice, try again\n"));
-	    }
+	    $n = message_input(N("What is your choice? (1-%d) ", $i), undef, range => $i);
+	    defined $n or exit 1;
 	}
     }
 
@@ -438,7 +434,7 @@ if (@ask_unselect) {
 	} else {
 	    $noexpr = N("Nn");
 	    $yesexpr = N("Yy");
-	    message_input($msg . N(" (Y/n) "), $force && $yesexpr) =~ /[$noexpr]/ and exit 0;
+	    message_input($msg . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
 	}
     }
 }
@@ -464,7 +460,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 	} else {
 	    $noexpr = N("Nn");
 	    $yesexpr = N("Yy");
-	    message_input($msg . N(" (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/ or exit 0;
+	    message_input($msg . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
 	}
     }
 }
@@ -510,7 +506,7 @@ if (@root_only) {
     } else {
 	$noexpr = N("Nn");
 	$yesexpr = N("Yy");
-	message_input("$msg:\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr) =~ /[$noexpr]/ and exit 0;
+	message_input("$msg:\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
     }
 }
 
@@ -619,7 +615,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		} else {
 		    $noexpr = N("Nn");
 		    $yesexpr = N("Yy");
-		    message_input("$msg:\n$p\n$msg2" . N(" (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/ or exit 1;
+		    message_input("$msg:\n$p\n$msg2" . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 1;
 		}
 	    }
 	}
@@ -697,8 +693,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 		} else {
 		    $noexpr = N("Nn");
 		    $yesexpr = N("Yy");
-		    message_input(N("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		      or ++$nok, next;
+		    message_input(N("Try installation without checking dependencies? (y/N) "),
+				  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 		    $urpm->{log}("starting installing packages without deps");
 		    @l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
 					\%transaction_sources_install, \%transaction_sources,
@@ -714,8 +710,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 			    ++$nok;
 			    push @errors, @l;
 			} else {
-			    message_input(N("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-			      or ++$nok, next;
+			    message_input(N("Try installation even more strongly (--force)? (y/N) "),
+					  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 			    $urpm->{log}("starting force installing packages without deps");
 			    @l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
 						\%transaction_sources_install, \%transaction_sources,
@@ -816,21 +812,38 @@ sub message {
     }
 }
 sub message_input {
-    my ($msg, $default_input) = @_;
+    my ($msg, $default_input, %options) = @_;
+    my $input;
 
     if ($X && !$default_input) { #- if a default input is given, the user doesn't have to choose (and being asked).
 	gmessage($msg, ok_only => 1);
 	$bug and log_it($msg);
     } else {
-	if ($bug) {
-	    print STDOUT $msg;
-	} else {
-	    print SAVEOUT $msg;
+	my $noexpr = N("Nn");
+	my $yesexpr = N("Yy");
+	while (1) {
+	    if ($bug) {
+		print STDOUT $msg;
+	    } else {
+		print SAVEOUT $msg;
+	    }
+	    if ($default_input) {
+		$bug and log_it($input);
+		return $default_input;
+	    }
+	    $input = <STDIN>;
+	    defined $input or return undef;
+	    $bug and log_it($input);
+	    if ($options{boolean}) {
+		$input =~ /^[$noexpr$yesexpr]*$/ and last;
+	    } elsif ($options{range}) {
+		1 <= $input && $input <= $options{range} and last;
+	    } else {
+		last;
+	    }
+	    message(N("Sorry, bad choice, try again\n"));
 	}
     }
-
-    my $input = $default_input || <STDIN>;
-    $bug and log_it($input);
     return $input;
 }
 
