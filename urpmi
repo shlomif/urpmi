@@ -570,7 +570,7 @@ if (%sources_install || %sources) {
 	#- no remove are handle here, automatically done by each distant node.
 	$urpm->{log}("starting distributed install");
 	$urpm->parallel_install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
-				test => $test, excludepath => $excludepath);
+				test => $test, excludepath => $urpm->{options}{excludepath});
     } else {
 	message(N("installing %s\n", join(' ', values %sources_install, values %sources)), 'noX');
 	log_it(scalar localtime, " ", join(' ', values %sources_install, values %sources), "\n");
@@ -589,7 +589,7 @@ if (%sources_install || %sources) {
 	    my @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 				   translate_message => 1,
 				   oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-				   test => $test, excludepath => $excludepath);
+				   test => $test, excludepath => $urpm->{options}{excludepath});
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
@@ -604,7 +604,7 @@ if (%sources_install || %sources) {
 		@l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 				    translate_message => 1, nodeps => 1,
 				    oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-				    test => $test, excludepath => $excludepath);
+				    test => $test, excludepath => $urpm->{options}{excludepath});
 		if (@l) {
 		    message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 		    !$urpm->{options}{'allow-force'} and exit 1;
@@ -614,7 +614,7 @@ if (%sources_install || %sources) {
 		    @l = $urpm->install([ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources,
 					translate_message => 1, nodeps => 1, force => 1,
 					oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-					test => $test, excludepath => $excludepath);
+					test => $test, excludepath => $urpm->{options}{excludepath});
 		    @l and $urpm->fatal(2, N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 		}
 	    } else {

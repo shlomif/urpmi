@@ -199,6 +199,9 @@ $urpm->update_media;
 
 
 %changelog
+
+- fixed --excludepath option.
+
 * Fri Mar 28 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.2-35mdk
 - add perl-MDK-Common-devel in the BuildRequires: because we need
   perl_checker to build (silly, no?), thx Stefan
