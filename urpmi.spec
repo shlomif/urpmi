@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 13mdk
+%define release 14mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -30,7 +30,7 @@ Source0:	%{name}.tar.bz2
 Summary:	User mode rpm install
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
-PreReq:		perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 0.95
+PreReq:		perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 0.96
 BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3 
 BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -94,17 +94,7 @@ done
 #install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 cat <<EOF >%{buildroot}/etc/urpmi/inst.list
 # Here you can specify packages that need to be installed instead
-# of being upgraded (typically kernel packages).
-kernel
-kernel-smp
-kernel-secure
-kernel-enterprise
-kernel-linus2.2
-kernel-linus2.4
-kernel22
-kernel22-secure
-kernel22-smp
-hackkernel
+# of being upgraded.
 EOF
 
 mkdir -p %{buildroot}%{compat_perl_vendorlib}
@@ -259,6 +249,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Jul 12 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-14mdk
+- Simplified and documented skip.list and inst.list
+- Add an option -y (fuzzy) to urpmi.removemedia
+
 * Fri Jul 09 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-13mdk
 - Support for README.*.urpmi
 - add a --version command-line argument to everything
