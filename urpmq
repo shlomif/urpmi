@@ -156,7 +156,7 @@ if ($query->{auto_select} || $query->{deps}) {
 
 	$urpm->resolve_packages_to_upgrade($db, $state, requested => 0);
 
-	if (%{$state->{ask_remove}} || %{$state->{ask_unselect}}) {
+	if (%{$state->{ask_remove} || {}} || %{$state->{ask_unselect} || {}}) {
 	    $urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
 	}
     }

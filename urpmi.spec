@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.5
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Mon Jun 17 2002 François Pons <fpons@mandrakesoft.com> 3.5-5mdk
+- fixed urpmi --auto-select with no update and question asked.
+- fixed urpmq --auto-select with error on HASH...
+
 * Mon Jun 17 2002 François Pons <fpons@mandrakesoft.com> 3.5-4mdk
 - fixed urpmq --headers on some cases.
 

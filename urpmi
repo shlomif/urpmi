@@ -343,12 +343,12 @@ my @to_install;
 
 #- check if there is at least one package to install that
 #- has not been given by the user.
-my $ask_user = $env || $auto_select;
+my $ask_user = $env;
 my $sum = 0;
 my @root_only;
 
 foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
-    $ask_user ||= $pkg->flag_required;
+    $ask_user ||= $pkg->flag_required || $auto_select;
 
     my $fullname = $pkg->fullname;
     if (!$env && $uid > 0 && $pkg->arch ne 'src') {
