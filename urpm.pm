@@ -178,6 +178,8 @@ sub read_config {
 	$urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
     }
 
+    $urpm->{media} = [ sort { $a->{priority} <=> $b->{priority} } @{$urpm->{media}} ];
+
     #- keep in mind when an hdlist/list file is already used
     my %filelists;
     foreach (@{$urpm->{media}}) {
@@ -466,14 +468,14 @@ sub configure {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	    my @oldmedia = @{$urpm->{media} || []};
 	    my @newmedia;
-	    foreach (split ',', $options{sortmedia}) {
+	    foreach (split /,/, $options{sortmedia}) {
 		$urpm->select_media($_);
 		push @newmedia, grep { $_->{modified} } @oldmedia;
 		@oldmedia = grep { !$_->{modified} } @oldmedia;
 	    }
-	    #- anything not selected should be added as is after the selected one.
+	    #- anything not selected should be added here, as it's after the selected ones.
 	    $urpm->{media} = [ @newmedia, @oldmedia ];
-	    #- clean remaining modified flag.
+	    #- clean remaining modified flags.
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	}
 	unless ($options{nodepslist}) {
@@ -747,13 +749,12 @@ sub select_media {
     my $urpm = shift;
     my $options = {};
     if (ref $_[0]) { $options = shift }
-    my %media; @media{@_} = undef;
+    my %media; @media{@_} = ();
 
     foreach (@{$urpm->{media}}) {
 	if (exists($media{$_->{name}})) {
-	    $media{$_->{name}} = 1; #- keep it mind this one has been selected.
-
-	    #- select medium by setting modified flags, do not check ignore.
+	    $media{$_->{name}} = 1; #- keep in mind this one has been selected.
+	    #- select medium by setting the modified flag, do not check ignore.
 	    $_->{modified} = 1;
 	}
     }
