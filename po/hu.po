@@ -81,9 +81,9 @@ msgid "%s: command not found\n"
 msgstr "%s: a parancs nem található\n"
 
 #: ../gurpmi:99
-#, c-format
+#, fuzzy, c-format
 msgid "Please wait..."
-msgstr ""
+msgstr "Kis türelmet..."
 
 #: ../gurpmi:110
 #, fuzzy, c-format
@@ -95,17 +95,17 @@ msgstr ""
 #: ../gurpmi:114
 #, fuzzy, c-format
 msgid "No packages specified"
-msgstr "nincs ilyen nevű csomag: %s"
+msgstr "Nincs megadva parancs"
 
 #: ../gurpmi:118
-#, c-format
+#, fuzzy, c-format
 msgid "Must be root"
-msgstr ""
+msgstr "Egér port"
 
 #: ../gurpmi:128
 #, fuzzy, c-format
 msgid "RPM installation"
-msgstr "Csomagtelepítés..."
+msgstr "Rendszertelepítés"
 
 #: ../gurpmi:141
 #, fuzzy, c-format
@@ -164,14 +164,14 @@ msgid "_Install"
 msgstr "Telepítés"
 
 #: ../gurpmi:165
-#, c-format
+#, fuzzy, c-format
 msgid "_Save"
-msgstr ""
+msgstr "Mentés"
 
 #: ../gurpmi:166 ../gurpmi:229
-#, fuzzy, c-format
+#, c-format
 msgid "_Cancel"
-msgstr "Mégsem"
+msgstr "_Mégsem"
 
 #: ../gurpmi:170
 #, c-format
@@ -179,14 +179,14 @@ msgid "Choose location to save file"
 msgstr "Válasszon helyet a fájlnak"
 
 #: ../gurpmi:220
-#, c-format
+#, fuzzy, c-format
 msgid " (to upgrade)"
-msgstr ""
+msgstr "Frissítés"
 
 #: ../gurpmi:221
 #, fuzzy, c-format
 msgid " (to install)"
-msgstr "\"%s\" telepítése érdekében"
+msgstr "Kilépés a telepítőből"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -194,14 +194,14 @@ msgid "One of the following packages is needed:"
 msgstr "A következő csomagok valamelyikére szükség van:"
 
 #: ../gurpmi:230 ../gurpmi:246
-#, fuzzy, c-format
+#, c-format
 msgid "_Ok"
-msgstr "OK"
+msgstr "_OK"
 
 #: ../gurpmi:247
-#, c-format
+#, fuzzy, c-format
 msgid "_Abort"
-msgstr ""
+msgstr "Megszakítás"
 
 #: ../gurpmi:276
 #, fuzzy, c-format
@@ -260,7 +260,12 @@ msgid ""
 "%s\n"
 "\n"
 "Do you want to continue installation ?"
-msgstr "A következő csomagok helytelen aláírást tartalmaznak:"
+msgstr ""
+"A következő csomagok aláírása helytelen:\n"
+"\n"
+"%s\n"
+"\n"
+"Kívánja folytatni a telepítést?"
 
 #: ../gurpmi:372 ../gurpmi:421 ../urpmi:556 ../urpmi:672
 #, c-format
@@ -294,9 +299,9 @@ msgid "Installation failed"
 msgstr "A telepítés nem sikerült"
 
 #: ../gurpmi:416
-#, c-format
+#, fuzzy, c-format
 msgid "_Done"
-msgstr ""
+msgstr "Kész"
 
 #: ../gurpmi:424 ../urpmi:688
 #, c-format
@@ -304,9 +309,9 @@ msgid "The package(s) are already installed"
 msgstr "A csomag(ok) már telepítve van(nak)"
 
 #: ../gurpmi:426
-#, fuzzy, c-format
+#, c-format
 msgid "Installation finished"
-msgstr "A telepítés nem sikerült"
+msgstr "A telepítés befejeződött"
 
 #: ../rpm-find-leaves:12
 #, c-format
@@ -544,7 +549,6 @@ msgstr "függőségek meghatározása - második lépés\n"
 msgid "skipping package %s"
 msgstr "a(z) %s csomag kihagyása"
 
-# %s egy csomag teljes neve
 #: ../urpm.pm:590
 #, c-format
 msgid "would install instead of upgrade package %s"
@@ -1016,19 +1020,6 @@ msgstr "\"%s\" hiánya miatt"
 msgid "due to unsatisfied %s"
 msgstr "\"%s\" igényei miatt"
 
-# Francois Pons:
-# This is a message saying that a package is removed (or unselected) because the
-# dependency resolution algorithm needed to remove (or unselect) it when it tried
-# to promote a provide (a package name or property) with a better version, but it
-# failed.
-# "promote": It is a term used to say promotion of a provides (promoting perl for
-# example, is trying to find the best package providing perl and select it).
-# "%s" stands for the property being promoted, generally a simple name.
-# This is not really a failure message but an informative message. It has nothing
-# to do with failure in the sense of the application unable to continue. Urpmi
-# continues by not selecting a package which was selected by a promotion (not
-# asked by the user directly but caused by a package which has been upgraded thus
-# breaking existing packages, the promotion concerns this).
 #: ../urpm.pm:3064
 #, c-format
 msgid "trying to promote %s"
@@ -1264,8 +1255,6 @@ msgstr ""
 msgid "  --verbose      - verbose mode.\n"
 msgstr "  --verbose      - részletes információ\n"
 
-# maximális sorhossz: 80 karakter (karakteres terminál sorhossza)
-# "." ne legyen a sztringek végén
 #: ../urpmf:39
 #, c-format
 msgid ""
@@ -2191,7 +2180,7 @@ msgstr ""
 #: ../urpmi.update:95
 #, fuzzy, c-format
 msgid "ignoring media %s"
-msgstr "\"%s\" adatforrás eltávolítása"
+msgstr "\"%s\" adatforrás szerkesztése:"
 
 #: ../urpmi.update:95
 #, fuzzy, c-format
@@ -2370,291 +2359,3 @@ msgstr "Fájllista nem található\n"
 #, c-format
 msgid "No changelog found\n"
 msgstr "Változási lista nem található\n"
-
-#~ msgid "  --X            - use X interface.\n"
-#~ msgstr "  --X            - futtatás az X grafikus felületen\n"
-
-#~ msgid ""
-#~ "  --best-output  - choose best interface according to the environment:\n"
-#~ "                   X or text mode.\n"
-#~ msgstr ""
-#~ "  --best-output  - a lehetőségek közül a legmegfelelőbb felületet\n"
-#~ "                   használja a program: grafikus (X) vagy karakteres\n"
-
-#~ msgid "Do nothing"
-#~ msgstr "Ne tegyen semmit"
-
-#~ msgid "Yes, really install it"
-#~ msgstr "Telepítés"
-
-#~ msgid "Save file"
-#~ msgstr "Mentés"
-
-#~ msgid "Initializing..."
-#~ msgstr "Inicializálás..."
-
-#~ msgid "do you agree ?"
-#~ msgstr "Rendben van így?"
-
-#~ msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-#~ msgstr "        %s %% ebből: %s; hátralevő: %s; sebesség: %s"
-
-#~ msgid "        %s%% completed, speed = %s"
-#~ msgstr "        %s %%; sebesség: %s"
-
-#~ msgid "relocated %s entries in depslist"
-#~ msgstr "bejegyzések áthelyezve a függőséglistában: %s"
-
-#~ msgid "no entries relocated in depslist"
-#~ msgstr "egyetlen bejegyzés sem került áthelyezésre a függőséglistában"
-
-#~ msgid ""
-#~ "urpme version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpme %s\n"
-#~ "Copyright (C) Mandrakesoft, 1999, 2000, 2001, 2002.\n"
-#~ "Ez a program szabad szoftver; a GNU GPL feltételei szerint terjeszthető.\n"
-#~ "\n"
-#~ "Használat:\n"
-
-#~ msgid ""
-#~ "urpmi version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmi %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "Ez a program szabad szoftver; a GNU GPL feltételei szerint terjeszthető.\n"
-#~ "\n"
-#~ "Használat:\n"
-
-#~ msgid "syntax error in config file at line %s"
-#~ msgstr "szintaktikai hiba a konfigurációs fájl következő sorában: %s"
-
-#~ msgid ""
-#~ "unable to take care of medium \"%s\" as list file is already used by "
-#~ "another medium"
-#~ msgstr ""
-#~ "a(z) \"%s\" adatforrás nem kezelhető, mivel a listafájlt már használja "
-#~ "egy másik adatforrás"
-
-#~ msgid ""
-#~ "unable to use name \"%s\" for unnamed medium because it is already used"
-#~ msgstr "\"%s\" név nem adható az adatforrásnak, mivel már van ilyen név"
-
-#~ msgid ""
-#~ "unable to take medium \"%s\" into account as no list file [%s] exists"
-#~ msgstr ""
-#~ "a(z) \"%s\" adatforrás nem vehető figyelembe, mivel \"%s\" listafájl nem "
-#~ "létezik"
-
-#~ msgid "unable to determine medium of this hdlist file [%s]"
-#~ msgstr "a fejléclistához tartozó adatforrás nem határozható meg: \"%s\""
-
-#~ msgid "One of the following packages is needed to install %s:"
-#~ msgstr ""
-#~ "A következő csomagok valamelyikére szükség van a(z) %s telepítéséhez:"
-
-#~ msgid ""
-#~ "urpmq version %s\n"
-#~ "Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmq %s\n"
-#~ "Copyright Š 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "Ez a program szabad szoftver; a GNU GPL feltételei szerint terjeszthető.\n"
-#~ "\n"
-#~ "Használat:\n"
-
-#~ msgid "Unknown webfetch `%s' !!!\n"
-#~ msgstr "Ismeretlen letöltőprogram: \"%s\".\n"
-
-#~ msgid "copy failed: %s"
-#~ msgstr "a másolás sikertelen: %s"
-
-#~ msgid "wget is missing\n"
-#~ msgstr "a wget nem található\n"
-
-#~ msgid "wget failed: exited with %d or signal %d\n"
-#~ msgstr "a wget hibával lépett ki: \"%d\" hibakód vagy \"%d\" szignál\n"
-
-#~ msgid "curl is missing\n"
-#~ msgstr "a curl nem található\n"
-
-#~ msgid "curl failed: exited with %d or signal %d\n"
-#~ msgstr "a curl hibával lépett ki: \"%d\" hibakód vagy \"%d\" szignál\n"
-
-#~ msgid "rsync is missing\n"
-#~ msgstr "az rsync nem található\n"
-
-#~ msgid "rsync failed: exited with %d or signal %d\n"
-#~ msgstr "az rsync hibával lépett ki: \"%d\" hibakód vagy \"%d\" szignál\n"
-
-#~ msgid "ssh is missing\n"
-#~ msgstr "az ssh nem található\n"
-
-#~ msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr ""
-#~ "urpme: ismeretlen paraméter: \"-%s\". A lehetséges paramétereket\n"
-#~ "a --help paraméter megadásával lehet kilistázni.\n"
-
-#~ msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr ""
-#~ "urpmi: ismeretlen paraméter: \"-%s\". A lehetséges paramétereket\n"
-#~ "a --help paraméter megadásával lehet kilistázni.\n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "no need to give <relative path of hdlist> with --distrib"
-#~ msgstr ""
-#~ "%s\n"
-#~ "<a fejléclista relatív útvonala> --distrib esetén szükségtelen"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "<relative path of hdlist> missing\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "<a fejléclista relatív útvonala> hiányzik\n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "`with' missing for network media\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "hiányzó 'with' paraméter a hálózati adatforrásnál\n"
-
-#~ msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr ""
-#~ "urpmq: ismeretlen paraméter: \"-%s\". A lehetséges paramétereket a --help "
-#~ "paraméter megadásával lehet kilistázni.\n"
-
-#~ msgid "no webfetch (curl or wget currently) found\n"
-#~ msgstr "nem található webes letöltőprogram (curl vagy wget)\n"
-
-#~ msgid ""
-#~ "  -d             - force complete computation of depslist.ordered file.\n"
-#~ msgstr "  -d             - teljes depslist.ordered fájl készítése\n"
-
-#~ msgid ""
-#~ "  --name         - print tag name: rpm filename (assumed if no tag given "
-#~ "on\n"
-#~ "                   command line but without package name).\n"
-#~ msgstr ""
-#~ "  --name         - név megjelenítése (ha nincs megadva címke a "
-#~ "parancssorban,\n"
-#~ "                   akkor automatikusan életbe lép)\n"
-
-#~ msgid "urpmf version %s"
-#~ msgstr "urpmf %s"
-
-#~ msgid "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft."
-#~ msgstr "Copyright Š Mandrakesoft, 1999, 2000, 2001, 2002"
-
-#~ msgid ""
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL."
-#~ msgstr ""
-#~ "Ez a program szabad szoftver; a GNU GPL feltételei szerint terjeszthető."
-
-#~ msgid "usage: urpmf [options] <file>"
-#~ msgstr "Használat: urpmf [opciók] <fájl>"
-
-# maximális sorhossz: 80 karakter (karakteres terminál sorhossza)
-# "." ne legyen a sztringek végén
-#~ msgid ""
-#~ "  --quiet         - do not print tag name (default if no tag given on "
-#~ "command"
-#~ msgstr ""
-#~ "  --quiet         - címke kiírásának elhagyása (ha nincs címke a "
-#~ "parancssorban,"
-
-#~ msgid "                    line, incompatible with interactive mode)."
-#~ msgstr ""
-#~ "                    akkor ez lép életbe; interaktív módban nem "
-#~ "használható)"
-
-#~ msgid "  --all           - print all tags."
-#~ msgstr "  --all           - az összes adat megjelenítése"
-
-#~ msgid ""
-#~ "  --name          - print tag name: rpm filename (assumed if no tag given "
-#~ "on"
-#~ msgstr ""
-#~ "  --name          - név megjelenítése (ha nincs megadva címke a "
-#~ "parancssorban,"
-
-#~ msgid "                    command line but without package name)."
-#~ msgstr "                    akkor automatikusan életbe lép)"
-
-#~ msgid "  --group         - print tag group: group."
-#~ msgstr "  --group         - csoport megjelenítése"
-
-#~ msgid "  --size          - print tag size: size."
-#~ msgstr "  --size          - méret megjelenítése"
-
-#~ msgid "  --serial        - print tag serial: serial."
-#~ msgstr "  --serial        - sorozatszám megjelenítése"
-
-#~ msgid "  --summary       - print tag summary: summary."
-#~ msgstr "  --summary       - összefoglaló megjelenítése"
-
-#~ msgid "  --description   - print tag description: description."
-#~ msgstr "  --description   - leírás megjelenítése"
-
-#~ msgid ""
-#~ "  --provides      - print tag provides: all provides (multiple lines)."
-#~ msgstr "  --provides      - szolgáltatásjegyzék megjelenítése (több sor)"
-
-#~ msgid ""
-#~ "  --requires      - print tag requires: all requires (multiple lines)."
-#~ msgstr "  --requires      - követelmények megjelenítése (több sor)"
-
-#~ msgid "  --files         - print tag files: all files (multiple lines)."
-#~ msgstr "  --files         - fájlnevek megjelenítése (több sor)"
-
-#~ msgid ""
-#~ "  --conflicts     - print tag conflicts: all conflicts (multiple lines)."
-#~ msgstr "  --conflicts     - ütközések megjelenítése (több sor)"
-
-#~ msgid ""
-#~ "  --obsoletes     - print tag obsoletes: all obsoletes (multiple lines)."
-#~ msgstr "  --obsoletes     - elavult csomagok megjelenítése (több sor)"
-
-#~ msgid "  --prereqs       - print tag prereqs: all prereqs (multiple lines)."
-#~ msgstr "  --prereqs       - előfeltételek megjelenítése (több sor)"
-
-#~ msgid "try urpmf --help for more options"
-#~ msgstr "további opciókért próbálja meg az \"urpmf --help\" parancsot"
-
-#~ msgid "copying source list of \"%s\"..."
-#~ msgstr "\"%s\" forráslistájának másolása..."
-
-#~ msgid "mput failed, maybe a node is unreacheable"
-#~ msgstr "az mput nem sikerült - lehetséges, hogy egy gép nem elérhető"
-
-#~ msgid "on node %s"
-#~ msgstr "ezen a gépen: %s"
-
-#~ msgid "host %s does not have a good version of urpmi"
-#~ msgstr "nem megfelelő urpmi-verzió a következő gépen: %s"
-
-#~ msgid "Installation failed on node %s"
-#~ msgstr "A telepítés nem sikerült ezen a gépen: %s"
-
-#~ msgid "rshp failed, maybe a node is unreacheable"
-#~ msgstr "az rshp nem sikerült - lehetséges, hogy egy gép nem elérhető"
-
-#~ msgid "scp failed on host %s"
-#~ msgstr "az scp nem sikerült ezen a gépen: %s"

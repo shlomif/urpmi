@@ -77,9 +77,9 @@ msgid "%s: command not found\n"
 msgstr "%s: команда не найдена\n"
 
 #: ../gurpmi:99
-#, c-format
+#, fuzzy, c-format
 msgid "Please wait..."
-msgstr ""
+msgstr "Подождите, пожалуйста."
 
 #: ../gurpmi:110
 #, fuzzy, c-format
@@ -91,17 +91,17 @@ msgstr ""
 #: ../gurpmi:114
 #, fuzzy, c-format
 msgid "No packages specified"
-msgstr "нет пакета с именем %s"
+msgstr "Команда не указана"
 
 #: ../gurpmi:118
-#, c-format
+#, fuzzy, c-format
 msgid "Must be root"
-msgstr ""
+msgstr "Порт мыши"
 
 #: ../gurpmi:128
 #, fuzzy, c-format
 msgid "RPM installation"
-msgstr "Устанавливается пакет..."
+msgstr "Установка системы"
 
 #: ../gurpmi:141
 #, fuzzy, c-format
@@ -157,17 +157,17 @@ msgstr ""
 #: ../gurpmi:164
 #, fuzzy, c-format
 msgid "_Install"
-msgstr "Установить его"
+msgstr "Установить"
 
 #: ../gurpmi:165
-#, c-format
+#, fuzzy, c-format
 msgid "_Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: ../gurpmi:166 ../gurpmi:229
-#, fuzzy, c-format
+#, c-format
 msgid "_Cancel"
-msgstr "Отмена"
+msgstr "_Отмена"
 
 #: ../gurpmi:170
 #, c-format
@@ -175,14 +175,14 @@ msgid "Choose location to save file"
 msgstr "Укажите местоположение, где сохранить файл"
 
 #: ../gurpmi:220
-#, c-format
+#, fuzzy, c-format
 msgid " (to upgrade)"
-msgstr ""
+msgstr "Обновление"
 
 #: ../gurpmi:221
 #, fuzzy, c-format
 msgid " (to install)"
-msgstr "чтобы установить %s"
+msgstr "Завершение установки"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -190,14 +190,14 @@ msgid "One of the following packages is needed:"
 msgstr "Нужен один из следующих пакетов:"
 
 #: ../gurpmi:230 ../gurpmi:246
-#, fuzzy, c-format
+#, c-format
 msgid "_Ok"
-msgstr "ОК"
+msgstr "_Ok"
 
 #: ../gurpmi:247
-#, c-format
+#, fuzzy, c-format
 msgid "_Abort"
-msgstr ""
+msgstr "Прервать"
 
 #: ../gurpmi:276
 #, fuzzy, c-format
@@ -256,7 +256,12 @@ msgid ""
 "%s\n"
 "\n"
 "Do you want to continue installation ?"
-msgstr "Следующие пакеты имеют неверные подписи"
+msgstr ""
+"Следующие пакеты имеют плохие подписи:\n"
+"\n"
+"%s\n"
+"\n"
+"Хотите продолжить установку?"
 
 #: ../gurpmi:372 ../gurpmi:421 ../urpmi:556 ../urpmi:672
 #, c-format
@@ -290,9 +295,9 @@ msgid "Installation failed"
 msgstr "Установка не удалась"
 
 #: ../gurpmi:416
-#, c-format
+#, fuzzy, c-format
 msgid "_Done"
-msgstr ""
+msgstr "Готово"
 
 #: ../gurpmi:424 ../urpmi:688
 #, c-format
@@ -300,9 +305,9 @@ msgid "The package(s) are already installed"
 msgstr "Все уже установлено"
 
 #: ../gurpmi:426
-#, fuzzy, c-format
+#, c-format
 msgid "Installation finished"
-msgstr "Установка не удалась"
+msgstr "Установка завершена"
 
 #: ../rpm-find-leaves:12
 #, c-format
@@ -510,9 +515,9 @@ msgstr ""
 "виртуальный источник \"%s\" не является локальным, источник проигнорирован"
 
 #: ../urpm.pm:551
-#, c-format
+#, fuzzy, c-format
 msgid "Search start: %s end: %s"
-msgstr ""
+msgstr "Поиск установленных шрифтов"
 
 #: ../urpm.pm:556 ../urpm.pm:1000 ../urpm.pm:1084 ../urpm.pm:1155
 #: ../urpm.pm:1546
@@ -855,7 +860,7 @@ msgstr "ошибка регистрации локальных пакетов"
 #: ../urpm.pm:2029
 #, c-format
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: ../urpm.pm:2120
 #, c-format
@@ -2056,7 +2061,6 @@ msgstr ""
 "отсутствует удаляемый пункт\n"
 "(один из %s)\n"
 
-#
 #: ../urpmi.update:28
 #, c-format
 msgid ""
@@ -2079,7 +2083,7 @@ msgstr "  --force-key    - принудительное обновление gpg
 #: ../urpmi.update:42
 #, fuzzy, c-format
 msgid "  --ignore       - don't update, mark the media as ignored.\n"
-msgstr "  --buildhost    - вывод тега buildhost: хост, на котором собран.\n"
+msgstr "  --update       - обновление только источника обновления.\n"
 
 #: ../urpmi.update:43
 #, c-format
@@ -2114,7 +2118,7 @@ msgstr ""
 #: ../urpmi.update:95
 #, fuzzy, c-format
 msgid "ignoring media %s"
-msgstr "удаляется источник \"%s\""
+msgstr "Редактирование источника \"%s\":"
 
 #: ../urpmi.update:95
 #, fuzzy, c-format
@@ -2287,40 +2291,3 @@ msgstr "Не найден filelist\n"
 #, c-format
 msgid "No changelog found\n"
 msgstr "Не найден changelog\n"
-
-#~ msgid "  --X            - use X interface.\n"
-#~ msgstr "  --X            - использование Х-интерфейса.\n"
-
-#~ msgid ""
-#~ "  --best-output  - choose best interface according to the environment:\n"
-#~ "                   X or text mode.\n"
-#~ msgstr ""
-#~ "  --best-output  - выбор наилучшего интерфейса согласно окружению:\n"
-#~ "                   Х или текстовый режим.\n"
-
-#~ msgid "Do nothing"
-#~ msgstr "Ничего не делать"
-
-#~ msgid "Yes, really install it"
-#~ msgstr "Да, действительно установить его"
-
-#~ msgid "Save file"
-#~ msgstr "Сохранить файл"
-
-#~ msgid "Initializing..."
-#~ msgstr "Инициализация..."
-
-#~ msgid "do you agree ?"
-#~ msgstr "вы согласны?"
-
-#~ msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-#~ msgstr "        выполнено %s%% из %s, ETA = %s, скорость = %s"
-
-#~ msgid "        %s%% completed, speed = %s"
-#~ msgstr "        выполнено %s%%, скорость = %s"
-
-#~ msgid "relocated %s entries in depslist"
-#~ msgstr "в depslist перенесено %s записей"
-
-#~ msgid "no entries relocated in depslist"
-#~ msgstr "в depslist не перенесено ни одной записи"

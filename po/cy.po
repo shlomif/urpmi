@@ -4,12 +4,16 @@
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # Rhoslyn Prys <rhoslyn.prys@meddal.org.uk>, 2002, 2004.
 #
+#  This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
+#  you can put here the letters for 'yes' for your language, so people
+#  can hit those keys in their keyboard to reply.
+#  please keep the 'Yy' for compatibility reasons
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-06 15:42+0100\n"
-"PO-Revision-Date: 2005-01-03 19:18-0000\n"
+"PO-Revision-Date: 2005-01-05 19:05-0000\n"
 "Last-Translator: Rhoslyn Prys <post@meddal.com>\n"
 "Language-Team: Cymraeg/Welsh <post@meddal.com>\n"
 "MIME-Version: 1.0\n"
@@ -18,10 +22,6 @@ msgstr ""
 "X-Poedit-Language: Welsh\n"
 "X-Poedit-Country: UK\n"
 
-#  This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
-#  you can put here the letters for 'yes' for your language, so people
-#  can hit those keys in their keyboard to reply.
-#  please keep the 'Yy' for compatibility reasons
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
 #. can hit those keys in their keyboard to reply.
@@ -80,9 +80,9 @@ msgid "%s: command not found\n"
 msgstr "%s: heb ganfod gorchymyn\n"
 
 #: ../gurpmi:99
-#, c-format
+#, fuzzy, c-format
 msgid "Please wait..."
-msgstr ""
+msgstr "Arhoswch,"
 
 #: ../gurpmi:110
 #, fuzzy, c-format
@@ -94,20 +94,20 @@ msgstr ""
 #: ../gurpmi:114
 #, fuzzy, c-format
 msgid "No packages specified"
-msgstr "heb enwi pecyn %s"
+msgstr "Heb bennu gorchymyn"
 
 #: ../gurpmi:118
-#, c-format
+#, fuzzy, c-format
 msgid "Must be root"
-msgstr ""
+msgstr "Porth Llygoden"
 
 #: ../gurpmi:128
 #, fuzzy, c-format
 msgid "RPM installation"
-msgstr "Methodd y gosod"
+msgstr "Gosod y system"
 
 #: ../gurpmi:141
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "You have selected a source package:\n"
 "\n"
@@ -118,6 +118,14 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
+"Rydych wedi dewis pecyn ffynhonnell:\n"
+"\n"
+"%s\n"
+"\n"
+"Mwy na thebyg doeddech ddim am ei osod ar eich cyfrifiadur(bydd\n"
+"ei osod yn caniatáu i chi wneud newidiadau i'w cod ffynhonell a'i grynhoi).\n"
+"\n"
+"Beth hoffech chi ei wneud?"
 
 #: ../gurpmi:149
 #, c-format
@@ -128,6 +136,11 @@ msgid ""
 "\n"
 "You may prefer to just save it. What is your choice?"
 msgstr ""
+"Rydych ar fin gosod y pecynnau meddalwedd canlynol ar eich cyfrifiadur:\n"
+"\n"
+"%s\n"
+"\n"
+"Efallai byddai'n well gennych eu cadw. Beth yw eich dewis?"
 
 #: ../gurpmi:154
 #, fuzzy, c-format
@@ -138,38 +151,41 @@ msgid ""
 "\n"
 "Proceed?"
 msgstr ""
-"Rhaid eich bod yn wraidd i osod y dibyniaethau canlynol:\n"
+"Rydych ar fin gosod y pecynnau meddalwedd canlynol ar eich cyfrifiadur:\n"
+"\n"
 "%s\n"
+"\n"
+"Efallai byddai'n well gennych eu cadw. Beth yw eich dewis?"
 
 #: ../gurpmi:164
-#, c-format
+#, fuzzy, c-format
 msgid "_Install"
-msgstr ""
+msgstr "Gosod"
 
 #: ../gurpmi:165
-#, c-format
+#, fuzzy, c-format
 msgid "_Save"
-msgstr ""
+msgstr "Cadw"
 
 #: ../gurpmi:166 ../gurpmi:229
-#, fuzzy, c-format
+#, c-format
 msgid "_Cancel"
-msgstr "Dileu"
+msgstr "_Dileu"
 
 #: ../gurpmi:170
 #, c-format
 msgid "Choose location to save file"
-msgstr ""
+msgstr "Dewis lleoliad i gadw'r ffeil"
 
 #: ../gurpmi:220
-#, c-format
+#, fuzzy, c-format
 msgid " (to upgrade)"
-msgstr ""
+msgstr "Uwchraddio"
 
 #: ../gurpmi:221
 #, fuzzy, c-format
 msgid " (to install)"
-msgstr "er mwyn gosod %s"
+msgstr "Gorffen"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -177,14 +193,14 @@ msgid "One of the following packages is needed:"
 msgstr "Mae angen un o'r pecynnau canlynol:"
 
 #: ../gurpmi:230 ../gurpmi:246
-#, fuzzy, c-format
+#, c-format
 msgid "_Ok"
-msgstr "Iawn"
+msgstr "_Iawn"
 
 #: ../gurpmi:247
-#, c-format
+#, fuzzy, c-format
 msgid "_Abort"
-msgstr ""
+msgstr "Peidio"
 
 #: ../gurpmi:276
 #, fuzzy, c-format
@@ -218,7 +234,7 @@ msgstr ""
 #: ../gurpmi:307
 #, c-format
 msgid "Package installation..."
-msgstr ""
+msgstr "Gosod pecynnau..."
 
 #: ../gurpmi:309 ../urpmi:483 ../urpmq:302
 #, c-format
@@ -231,9 +247,9 @@ msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Rhowch gyfrwng \"%s\" ar ddyfais [%s]"
 
 #: ../gurpmi:350
-#, fuzzy, c-format
+#, c-format
 msgid "Downloading package `%s'..."
-msgstr "tynnu pecyn %s."
+msgstr "Llwytho pecyn '%s'..."
 
 #: ../gurpmi:365
 #, fuzzy, c-format
@@ -242,7 +258,12 @@ msgid ""
 "%s\n"
 "\n"
 "Do you want to continue installation ?"
-msgstr "Mae gan y pecynnau canlynol lofnod gwallus"
+msgstr ""
+"Mae gan y pecynnau canlynol lofnod gwallus:\n"
+"\n"
+"%s\n"
+"\n"
+"Ydi hi'n iawn parhau gyda'r gosod?"
 
 #: ../gurpmi:372 ../gurpmi:421 ../urpmi:556 ../urpmi:672
 #, c-format
@@ -268,7 +289,7 @@ msgstr "Paratoi..."
 #: ../gurpmi:389
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
-msgstr ""
+msgstr "Gosod pecyn `%s' (%s/%s)..."
 
 #: ../gurpmi:407 ../urpmi:566 ../urpmi:610 ../urpmi:631 ../urpmi:651
 #, c-format
@@ -276,9 +297,9 @@ msgid "Installation failed"
 msgstr "Methodd y gosod"
 
 #: ../gurpmi:416
-#, c-format
+#, fuzzy, c-format
 msgid "_Done"
-msgstr ""
+msgstr "Gorffen"
 
 #: ../gurpmi:424 ../urpmi:688
 #, c-format
@@ -286,9 +307,9 @@ msgid "The package(s) are already installed"
 msgstr "Popeth wedi eu gosod eisoes"
 
 #: ../gurpmi:426
-#, fuzzy, c-format
+#, c-format
 msgid "Installation finished"
-msgstr "Methodd y gosod"
+msgstr "Gorffennodd y gosodiad"
 
 #: ../rpm-find-leaves:12
 #, c-format
@@ -1128,11 +1149,11 @@ msgid "Checking to remove the following packages"
 msgstr "Ticio i ddileu'r pecynnau canlynol"
 
 #: ../urpme:106
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages will be removed (%d MB)"
 msgstr ""
-"I fodloni dibyniaethau, bydd y pecynnau canlynol yn cael eu tynnu (%d MB)"
+"I fodloni dibyniaethau, bydd y %d pecyn canlynol yn cael eu tynnu (%d MB)"
 
 #: ../urpme:108 ../urpmi:429 ../urpmi:549
 #, c-format
@@ -2067,6 +2088,7 @@ msgstr ""
 #, c-format
 msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
 msgstr ""
+"  --no-ignore    - peidio diweddaru, marcio'r cyfrwng wedi ei alluogi.\n"
 
 #: ../urpmi.update:44
 #, c-format

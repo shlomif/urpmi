@@ -8,6 +8,7 @@
 # UTUMI Hirosi <utuhiro@mx12.freecom.ne.jp>, 2003
 # BANDO Yukiko <ybando@k6.dion.ne.jp>, 2004.
 #
+# ｙ
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
@@ -65,7 +66,6 @@ msgstr "OK"
 msgid "Cancel"
 msgstr "キャンセル"
 
-# ｙ
 #: ../_irpm:44 ../urpmi:386 ../urpmi:404 ../urpmi:475
 #, c-format
 msgid " (Y/n) "
@@ -77,9 +77,9 @@ msgid "%s: command not found\n"
 msgstr "%s: コマンドが見つかりません\n"
 
 #: ../gurpmi:99
-#, c-format
+#, fuzzy, c-format
 msgid "Please wait..."
-msgstr ""
+msgstr "少々お待ちを。"
 
 #: ../gurpmi:110
 #, fuzzy, c-format
@@ -91,17 +91,17 @@ msgstr ""
 #: ../gurpmi:114
 #, fuzzy, c-format
 msgid "No packages specified"
-msgstr "%s というパッケージはありません"
+msgstr "コマンドを指定していません"
 
 #: ../gurpmi:118
-#, c-format
+#, fuzzy, c-format
 msgid "Must be root"
-msgstr ""
+msgstr "マウスのポート"
 
 #: ../gurpmi:128
 #, fuzzy, c-format
 msgid "RPM installation"
-msgstr "パッケージをインストール.."
+msgstr "システムのインストール"
 
 #: ../gurpmi:141
 #, fuzzy, c-format
@@ -154,15 +154,15 @@ msgstr ""
 #: ../gurpmi:164
 #, fuzzy, c-format
 msgid "_Install"
-msgstr "インストールする"
+msgstr "インストール"
 
 #: ../gurpmi:165
-#, c-format
+#, fuzzy, c-format
 msgid "_Save"
-msgstr ""
+msgstr "保存"
 
 #: ../gurpmi:166 ../gurpmi:229
-#, fuzzy, c-format
+#, c-format
 msgid "_Cancel"
 msgstr "キャンセル"
 
@@ -172,14 +172,14 @@ msgid "Choose location to save file"
 msgstr "ファイルを保存する場所を選んでください"
 
 #: ../gurpmi:220
-#, c-format
+#, fuzzy, c-format
 msgid " (to upgrade)"
-msgstr ""
+msgstr "更新"
 
 #: ../gurpmi:221
 #, fuzzy, c-format
 msgid " (to install)"
-msgstr "%s をインストールするために"
+msgstr "インストール終了"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -187,14 +187,14 @@ msgid "One of the following packages is needed:"
 msgstr "次のパッケージのいずれかが必要です:"
 
 #: ../gurpmi:230 ../gurpmi:246
-#, fuzzy, c-format
+#, c-format
 msgid "_Ok"
 msgstr "OK"
 
 #: ../gurpmi:247
-#, c-format
+#, fuzzy, c-format
 msgid "_Abort"
-msgstr ""
+msgstr "中止"
 
 #: ../gurpmi:276
 #, fuzzy, c-format
@@ -251,7 +251,12 @@ msgid ""
 "%s\n"
 "\n"
 "Do you want to continue installation ?"
-msgstr "以下のパッケージは署名が間違っています"
+msgstr ""
+"以下のパッケージの署名は間違っています:\n"
+"\n"
+"%s\n"
+"\n"
+"インストールを続けますか？"
 
 #: ../gurpmi:372 ../gurpmi:421 ../urpmi:556 ../urpmi:672
 #, c-format
@@ -285,9 +290,9 @@ msgid "Installation failed"
 msgstr "インストールに失敗"
 
 #: ../gurpmi:416
-#, c-format
+#, fuzzy, c-format
 msgid "_Done"
-msgstr ""
+msgstr "完了"
 
 #: ../gurpmi:424 ../urpmi:688
 #, c-format
@@ -295,9 +300,9 @@ msgid "The package(s) are already installed"
 msgstr "すべて既にインストールされています"
 
 #: ../gurpmi:426
-#, fuzzy, c-format
+#, c-format
 msgid "Installation finished"
-msgstr "インストールに失敗"
+msgstr "インストールが完了しました"
 
 #: ../rpm-find-leaves:12
 #, c-format
@@ -978,9 +983,9 @@ msgid "due to unsatisfied %s"
 msgstr "%s が依存を満たしていないため"
 
 #: ../urpm.pm:3064
-#, c-format
+#, fuzzy, c-format
 msgid "trying to promote %s"
-msgstr ""
+msgstr "削除するものはありません"
 
 #: ../urpm.pm:3065
 #, c-format
@@ -1140,7 +1145,6 @@ msgid ""
 "To satisfy dependencies, the following %d packages will be removed (%d MB)"
 msgstr "依存を満たすために以下のパッケージを削除します(%d MB)"
 
-# ｙ
 #: ../urpme:108 ../urpmi:429 ../urpmi:549
 #, c-format
 msgid " (y/N) "
@@ -1332,19 +1336,19 @@ msgid ""
 msgstr ""
 
 #: ../urpmf:65
-#, c-format
+#, fuzzy, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr ""
+msgstr "                    デフォルトは %s\n"
 
 #: ../urpmf:66
-#, c-format
+#, fuzzy, c-format
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr ""
+msgstr "  -a             - 指定した表現を含むすべてのパッケージを選択\n"
 
 #: ../urpmf:67
-#, c-format
+#, fuzzy, c-format
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr ""
+msgstr "  -a             - 指定した表現を含むすべてのパッケージを選択\n"
 
 #: ../urpmf:119
 #, c-format
@@ -2067,7 +2071,7 @@ msgstr ""
 #: ../urpmi.update:95
 #, fuzzy, c-format
 msgid "ignoring media %s"
-msgstr "メディア %s を削除"
+msgstr "メディア %s を編集:"
 
 #: ../urpmi.update:95
 #, fuzzy, c-format
@@ -2151,9 +2155,9 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - チェンジログを表示\n"
 
 #: ../urpmq:78
-#, c-format
+#, fuzzy, c-format
 msgid "  -c             - complete output with package to be removed.\n"
-msgstr ""
+msgstr "  -d             - 依存するパッケージも検索して表示\n"
 
 #: ../urpmq:79
 #, c-format
@@ -2233,239 +2237,3 @@ msgstr "ファイルリストがありません\n"
 #, c-format
 msgid "No changelog found\n"
 msgstr "チェンジログはありません\n"
-
-#~ msgid "  --X            - use X interface.\n"
-#~ msgstr "  --X            - Xインタフェースを使う\n"
-
-#~ msgid ""
-#~ "  --best-output  - choose best interface according to the environment:\n"
-#~ "                   X or text mode.\n"
-#~ msgstr ""
-#~ "  --best-output  - 環境に応じて最適なインタフェースを使う:\n"
-#~ "                   X またはテキストモード\n"
-
-#~ msgid "Do nothing"
-#~ msgstr "なにもしない"
-
-#~ msgid "Yes, really install it"
-#~ msgstr "インストールする"
-
-#~ msgid "Save file"
-#~ msgstr "ファイルを保存する"
-
-#~ msgid "Initializing..."
-#~ msgstr "初期化.."
-
-#~ msgid "do you agree ?"
-#~ msgstr "よろしいですか？"
-
-#~ msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-#~ msgstr "        %s%% of %s completed, ETA = %s, speed = %s"
-
-#~ msgid "        %s%% completed, speed = %s"
-#~ msgstr "        %s%% completed, speed = %s"
-
-#~ msgid "relocated %s entries in depslist"
-#~ msgstr "depslistの %s のエントリーを移動しました"
-
-#~ msgid "no entries relocated in depslist"
-#~ msgstr "depslistでエントリーの移動はありません"
-
-#~ msgid ""
-#~ "urpme version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpme version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "これはフリーソフトウェアであり、GNU GPLの条件のもとで再配布できます。\n"
-#~ "\n"
-#~ "使いかた:\n"
-
-#~ msgid ""
-#~ "urpmi version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmi version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "これはフリーソフトウェアであり、GNU GPLの条件のもとで再配布できます。\n"
-#~ "\n"
-#~ "使いかた:\n"
-
-#~ msgid "syntax error in config file at line %s"
-#~ msgstr "設定ファイルの%s行でsyntax error"
-
-#, fuzzy
-#~ msgid ""
-#~ "unable to take medium \"%s\" into account as no list file [%s] exists"
-#~ msgstr "「%s」を作成することができませんでした\n"
-
-#, fuzzy
-#~ msgid "unable to determine medium of this hdlist file [%s]"
-#~ msgstr "アップデートを「%s」について行なうことができませんでした\n"
-
-#~ msgid "One of the following packages is needed to install %s:"
-#~ msgstr "%s をインストールするには次のパッケージのいずれかが必要です:"
-
-#~ msgid ""
-#~ "urpmq version %s\n"
-#~ "Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmq version %s\n"
-#~ "Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "これはフリーソフトウェアであり、GNU GPLの条件のもとで再配布できます。\n"
-#~ "\n"
-#~ "使いかた:\n"
-
-#~ msgid "Unknown webfetch `%s' !!!\n"
-#~ msgstr "不明なwebfetch %s\n"
-
-#~ msgid "copy failed: %s"
-#~ msgstr "コピー失敗: %s"
-
-#~ msgid "wget is missing\n"
-#~ msgstr "wgetがありません\n"
-
-#~ msgid "wget failed: exited with %d or signal %d\n"
-#~ msgstr "wgetに失敗: exited with %d or signal %d\n"
-
-#~ msgid "curl is missing\n"
-#~ msgstr "curlがありません\n"
-
-#~ msgid "curl failed: exited with %d or signal %d\n"
-#~ msgstr "curlに失敗: exited with %d or signal %d\n"
-
-#~ msgid "rsync is missing\n"
-#~ msgstr "rsyncがありません\n"
-
-#~ msgid "rsync failed: exited with %d or signal %d\n"
-#~ msgstr "rsyncに失敗: exited with %d or signal %d\n"
-
-#~ msgid "ssh is missing\n"
-#~ msgstr "sshがありません\n"
-
-#, fuzzy
-#~ msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr ""
-#~ "未知のオプション(\"-$1\")です。\n"
-#~ "使いかたを --help オプションで確認してください。\n"
-
-#~ msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpmi: 不明なオプション \"-%s\"。--help を確認してください\n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "no need to give <relative path of hdlist> with --distrib"
-#~ msgstr ""
-#~ "%s\n"
-#~ "--distrib に <relative path of hdlist> は必要ありません"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "<relative path of hdlist> missing\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "「<relative path of hdlist>」部分の指定がありません\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "%s\n"
-#~ "`with' missing for network media\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "「with ...」以降の指定が ftp については必要です\n"
-
-#, fuzzy
-#~ msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr ""
-#~ "未知のオプション(\"-$1\")です。\n"
-#~ "使いかたを --help オプションで確認してください。\n"
-
-#~ msgid "urpmf version %s"
-#~ msgstr "urpmf バージョン %s"
-
-#~ msgid "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft."
-#~ msgstr "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft."
-
-#~ msgid ""
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL."
-#~ msgstr ""
-#~ "これはフリーソフトウェアであり、GNU GPLの条件のもとで再配布できます。"
-
-#~ msgid "usage: urpmf [options] <file>"
-#~ msgstr "使いかた: urpmf [options] <file>"
-
-#~ msgid "try urpmf --help for more options"
-#~ msgstr "オプションの詳細は「urpmf --help」でご確認ください"
-
-#~ msgid "copying source list of \"%s\"..."
-#~ msgstr "%s のデータベースをコピー中.."
-
-#, fuzzy
-#~ msgid "Installation failed on node %s"
-#~ msgstr "インストールに失敗しました"
-
-#, fuzzy
-#~ msgid "scp failed on host %s"
-#~ msgstr "インストールに失敗しました"
-
-#, fuzzy
-#~ msgid "problem reading hdlist file of medium \"%s\""
-#~ msgstr "アップデートを「%s」について行なうことができませんでした\n"
-
-#~ msgid "%s conflicts with %s"
-#~ msgstr "%s は %s と競合しています"
-
-#~ msgid "%s is needed by %s"
-#~ msgstr "%s は %s に必要です"
-
-#~ msgid "urpmi is not installed"
-#~ msgstr "urpmi はインストールされていません"
-
-#~ msgid "Only superuser is allowed to install local packages"
-#~ msgstr ""
-#~ "ローカルパッケージのインストールはスーパーユーザーでなくてはできません。"
-
-#~ msgid "Is it ok?"
-#~ msgstr "よろしいでしょうか？"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "device `%s' do not exist\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "指定のデバイス（%s）が見つかりません\n"
-
-#~ msgid ""
-#~ "usage: urpmi.removemedia [-a] <name> ...\n"
-#~ "where <name> is a medium name to remove.\n"
-#~ "   -a    select all media.\n"
-#~ "\n"
-#~ "unknown options '%s'\n"
-#~ msgstr ""
-#~ "使用方法: urpmi.removemedia [-a] <name> ...\n"
-#~ "ここで <name> は削除対象のメディアの名前です。\n"
-#~ "  -a    すべてのメディアを選択します\n"
-#~ "\n"
-#~ "サポートされていないオプションです: %s\n"
-
-#~ msgid "usage: urpmi.removemedia [-a] <name> ..."
-#~ msgstr "使用方法: urpmi.removemedia [-a] <name>"
-
-#~ msgid "Sorry can't find file %s, exiting"
-#~ msgstr "%s というファイルが見つかりませんでした。このまま終了します"
-
-#~ msgid "Failed dependencies: %s requires %s"
-#~ msgstr "依存対象がありませんでした: %s は %s に依存しています"

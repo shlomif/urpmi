@@ -3,6 +3,24 @@
 # Omi Azad <omi@ekushey.org>, 2004.
 # Jamil Ahmed <jamil@bengalinux.org>, 2004.
 #
+#  This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
+#  you can put here the letters for 'yes' for your language, so people
+#  can hit those keys in their keyboard to reply.
+#  please keep the 'Yy' for compatibility reasons
+#                      এখানে কথাটা ঠিক পরিষ্কার হচ্ছেনা। একবার বলছে "yes" এর বদলে আমার ভাষা দিয়ে লিখে দিতে, আবার শেষে বলেছে Yy-ই রেখে দিতে। কি করা যায়?
+#  This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
+#  you can put here the letters for 'yes' for your language, so people
+#  can hit those keys in their keyboard to reply.
+#  please keep the 'Yy' for compatibility reasons
+#  This is a list of chars acceptable as a 'no' answer to a Yes/No question;
+#  you can put here the letters for 'no' for your language, so people
+#  can hit those keys in their keyboard to reply.
+#  please keep the 'Nn' for compatibility reasons
+#                                                   একই সমস্যা এখানে
+#  This is a list of chars acceptable as a 'no' answer to a Yes/No question;
+#  you can put here the letters for 'no' for your language, so people
+#  can hit those keys in their keyboard to reply.
+#  please keep the 'Nn' for compatibility reasons
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
@@ -15,15 +33,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#  This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
-#  you can put here the letters for 'yes' for your language, so people
-#  can hit those keys in their keyboard to reply.
-#  please keep the 'Yy' for compatibility reasons
-#                      এখানে কথাটা ঠিক পরিষ্কার হচ্ছেনা। একবার বলছে "yes" এর বদলে আমার ভাষা দিয়ে লিখে দিতে, আবার শেষে বলেছে Yy-ই রেখে দিতে। কি করা যায়?
-#  This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
-#  you can put here the letters for 'yes' for your language, so people
-#  can hit those keys in their keyboard to reply.
-#  please keep the 'Yy' for compatibility reasons
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
 #. you can put here the letters for 'yes' for your language, so people
 #. can hit those keys in their keyboard to reply.
@@ -33,15 +42,6 @@ msgstr ""
 msgid "Yy"
 msgstr "Yyহ"
 
-#  This is a list of chars acceptable as a 'no' answer to a Yes/No question;
-#  you can put here the letters for 'no' for your language, so people
-#  can hit those keys in their keyboard to reply.
-#  please keep the 'Nn' for compatibility reasons
-#                                                   একই সমস্যা এখানে
-#  This is a list of chars acceptable as a 'no' answer to a Yes/No question;
-#  you can put here the letters for 'no' for your language, so people
-#  can hit those keys in their keyboard to reply.
-#  please keep the 'Nn' for compatibility reasons
 #. This is a list of chars acceptable as a 'no' answer to a Yes/No question;
 #. you can put here the letters for 'no' for your language, so people
 #. can hit those keys in their keyboard to reply.
@@ -91,9 +91,9 @@ msgid "%s: command not found\n"
 msgstr "%s কমান্ড পাওয়া যায়নি\n"
 
 #: ../gurpmi:99
-#, c-format
+#, fuzzy, c-format
 msgid "Please wait..."
-msgstr ""
+msgstr "অনুগ্রহ করে অপেক্ষা করুন।"
 
 #: ../gurpmi:110
 #, fuzzy, c-format
@@ -105,17 +105,17 @@ msgstr ""
 #: ../gurpmi:114
 #, fuzzy, c-format
 msgid "No packages specified"
-msgstr "%s নামের কোন প্যাকেজ নেই"
+msgstr "কোন নির্দেশ পাওয়া যায় নি"
 
 #: ../gurpmi:118
-#, c-format
+#, fuzzy, c-format
 msgid "Must be root"
-msgstr ""
+msgstr "মাউস পোর্ট"
 
 #: ../gurpmi:128
 #, fuzzy, c-format
 msgid "RPM installation"
-msgstr "প্যাকেজ ইনস্টলেশন..."
+msgstr "সিস্টেম ইনস্টলেশন"
 
 #: ../gurpmi:141
 #, fuzzy, c-format
@@ -171,33 +171,32 @@ msgstr ""
 #: ../gurpmi:164
 #, fuzzy, c-format
 msgid "_Install"
-msgstr "এটি ইনস্টল করো"
+msgstr "ইনষ্টল করা"
 
 #: ../gurpmi:165
-#, c-format
+#, fuzzy, c-format
 msgid "_Save"
-msgstr ""
+msgstr "সংরক্ষণ করো"
 
 #: ../gurpmi:166 ../gurpmi:229
-#, fuzzy, c-format
+#, c-format
 msgid "_Cancel"
-msgstr "বাতিল"
+msgstr "বাতিল (_ত)"
 
-# ফাইল সংরক্ষণ করবার স্থান বেছে নিন
 #: ../gurpmi:170
 #, c-format
 msgid "Choose location to save file"
 msgstr "ফাইল সংরক্ষণ করার অবস্থান বেছে নিন"
 
 #: ../gurpmi:220
-#, c-format
+#, fuzzy, c-format
 msgid " (to upgrade)"
-msgstr ""
+msgstr "আপগ্রেড"
 
 #: ../gurpmi:221
 #, fuzzy, c-format
 msgid " (to install)"
-msgstr "%s ইনস্টলের জন্য"
+msgstr "ইনস্টল থেকে বাহির"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -205,14 +204,14 @@ msgid "One of the following packages is needed:"
 msgstr "নিম্নলিখিত প্যাকেজসমুহের মধ্যে একটির প্রয়োজন আছে:"
 
 #: ../gurpmi:230 ../gurpmi:246
-#, fuzzy, c-format
+#, c-format
 msgid "_Ok"
-msgstr "ঠিক আছে"
+msgstr "ঠিক আছে (_ঠ)"
 
 #: ../gurpmi:247
-#, c-format
+#, fuzzy, c-format
 msgid "_Abort"
-msgstr ""
+msgstr "বাতিল"
 
 #: ../gurpmi:276
 #, fuzzy, c-format
@@ -270,7 +269,12 @@ msgid ""
 "%s\n"
 "\n"
 "Do you want to continue installation ?"
-msgstr "নিম্নের প্যাকেজগুলিতে বাজে স্বাক্ষর রয়েছে"
+msgstr ""
+"নিম্নোক্ত প্যাকেজগুলোতে ত্রুটিপূর্ণ স্বাক্ষর করা হয়েছে:\n"
+"\n"
+"%s\n"
+"\n"
+"আপনি কি ইনষ্টলেশন প্রক্রিয়া চালিয়ে যেতে ইচ্ছুক?"
 
 #: ../gurpmi:372 ../gurpmi:421 ../urpmi:556 ../urpmi:672
 #, c-format
@@ -304,9 +308,9 @@ msgid "Installation failed"
 msgstr "ইনস্টলেশন ব্যর্থ"
 
 #: ../gurpmi:416
-#, c-format
+#, fuzzy, c-format
 msgid "_Done"
-msgstr ""
+msgstr "হয়েছে"
 
 #: ../gurpmi:424 ../urpmi:688
 #, c-format
@@ -314,9 +318,9 @@ msgid "The package(s) are already installed"
 msgstr "সবকিছু আগে থেকেই ইনস্টল করা আছে"
 
 #: ../gurpmi:426
-#, fuzzy, c-format
+#, c-format
 msgid "Installation finished"
-msgstr "ইনস্টলেশন ব্যর্থ"
+msgstr "ইনষ্টলেশন প্রক্রিয়া সম্পূর্ণ হয়েছে"
 
 #: ../rpm-find-leaves:12
 #, c-format
@@ -362,7 +366,6 @@ msgstr "কোন webfetch পাওয়া যায়নি, সমর্থি�
 msgid "unable to handle protocol: %s"
 msgstr "%s প্রোটকল নিয়ন্ত্রন করা সম্ভব হয়নি"
 
-# কি লেখে না লেখে, ঠিক আছে: মাধ্যম s চেষ্টা করছি প্রতি ব্যবহার একটি আগে থেকেই ব্যবহৃত মাধ্যম অগ্রাহ্য করা
 #: ../urpm.pm:200
 #, c-format
 msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
@@ -387,13 +390,11 @@ msgstr "\"%s\"-এর hdlist ফাইল ব্যবহার করা যা
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "\"%s\"-এর list ফাইল ব্যবহার করা যায়নি, মাধ্যম অগ্রহ্য করা হয়েছে"
 
-# bypass আর avoid এর বাংলা মনে আসছে না
 #: ../urpm.pm:245
 #, c-format
 msgid "trying to bypass existing medium \"%s\", avoiding"
 msgstr "বিদ্যমান মাধ্যম \"%s\" bypass করার চেষ্টা করা হচ্ছে, avoid করছি"
 
-# virtual - ?
 #: ../urpm.pm:253
 #, c-format
 msgid ""
@@ -525,9 +526,9 @@ msgid "virtual medium \"%s\" is not local, medium ignored"
 msgstr "\"%s\" ভার্চুয়াল মাধ্যম স্থানীয় নয়, মাধ্যম অগ্রাহ্য করা হয়েছে"
 
 #: ../urpm.pm:551
-#, c-format
+#, fuzzy, c-format
 msgid "Search start: %s end: %s"
-msgstr ""
+msgstr "ইনস্টলকৃত ফন্টগুলো খোঁজো"
 
 #: ../urpm.pm:556 ../urpm.pm:1000 ../urpm.pm:1084 ../urpm.pm:1155
 #: ../urpm.pm:1546
@@ -581,7 +582,6 @@ msgstr "প্রথম ইনস্টলেশন মাধ্যম ব্য
 msgid "copying hdlists file..."
 msgstr "hdlists ফাইল কপি করা হচ্ছে..."
 
-# ...কপি সম্পন্ন
 #: ../urpm.pm:701 ../urpm.pm:1100 ../urpm.pm:1175
 #, c-format
 msgid "...copying done"
@@ -604,7 +604,6 @@ msgstr ""
 msgid "retrieving hdlists file..."
 msgstr "hdlists ফাইল আনা হচ্ছে..."
 
-# ...আনা হয়েছে
 #: ../urpm.pm:723 ../urpm.pm:1528 ../urpm.pm:1992 ../urpm.pm:2684
 #: ../urpmi.addmedia:167
 #, c-format
@@ -691,7 +690,6 @@ msgstr "উপস্থিত সোর্স hdlist (অথবা synthesis)-�
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "\"%s\"-এর সোর্স hdlist (বা synthesis) কপি করা হচ্ছে..."
 
-# ভাবের মানে করলাম
 #: ../urpm.pm:1185
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
@@ -872,7 +870,7 @@ msgstr "স্থানীয় প্যাকেজসমূহ রেজিস�
 #: ../urpm.pm:2029
 #, c-format
 msgid "Search"
-msgstr ""
+msgstr "অনুসন্ধান"
 
 #: ../urpm.pm:2120
 #, c-format
@@ -928,7 +926,6 @@ msgstr "মাধ্যম \"%s\" নির্বাচিত হয়নি"
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "\"%s\" মাধ্যমের জন্য [%s] rpm ফাইল পড়া যায়নি"
 
-# incoherent=?
 #: ../urpm.pm:2588
 #, c-format
 msgid "inconsistent medium \"%s\" marked removable but not really"
@@ -1131,7 +1128,6 @@ msgstr ""
 msgid "  -v             - verbose mode.\n"
 msgstr "  -v             - verbose মোড।\n"
 
-# expression = ?
 #: ../urpme:50
 #, c-format
 msgid "  -a             - select all packages matching expression.\n"
@@ -1147,7 +1143,6 @@ msgstr "অজানা প্যাকেজসমুহ"
 msgid "unknown package"
 msgstr "অজানা প্যাকেজ"
 
-# ভাবের মানে করলাম
 #: ../urpme:93
 #, c-format
 msgid "removing package %s will break your system"
@@ -1333,7 +1328,7 @@ msgstr ""
 #: ../urpmf:60
 #, fuzzy, c-format
 msgid "  -i             - ignore case distinctions in every pattern.\n"
-msgstr "i অগ্রাহ্য করো কেস -এ প্রত্যেক প্যাটার্ন\n"
+msgstr "  -ত             - মানুষের পড়ারমত প্রয়োজনীয় তথ্য প্রিন্ট করো।\n"
 
 #: ../urpmf:61 ../urpmq:80
 #, c-format
@@ -1360,17 +1355,17 @@ msgstr "সত্য যদি এক মান আছে সত্য"
 #: ../urpmf:65
 #, fuzzy, c-format
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr "সত্য যদি মান আছে মিথ্যা"
+msgstr "                    %s ডিফল্ট।\n"
 
 #: ../urpmf:66
 #, fuzzy, c-format
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr "বাম,বামপার্শ্ব প্রতি খোলো সমষ্টি,দল,গ্রুপ মান"
+msgstr "  -a             - expression মিলিয়ে সমস্ত প্যাকেজ নির্বাচন করো।\n"
 
 #: ../urpmf:67
 #, fuzzy, c-format
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr "ডানদিক/অধিকার প্রতি বন্ধ করো সমষ্টি,দল,গ্রুপ মান"
+msgstr "  -a             - expression মিলিয়ে সমস্ত প্যাকেজ নির্বাচন করো।\n"
 
 #: ../urpmf:119
 #, c-format
@@ -1426,13 +1421,13 @@ msgstr "  --media        - শুধুমাত্র প্রদত্ত ম
 #: ../urpmi:82
 #, fuzzy, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr "ব্যবহার টি প্রদত্ত পরিবর্তে -র"
+msgstr "  --synthesis    - urpmi db'র পরিবর্তে প্রদত্ত synthesis ব্যবহার করো।\n"
 
 #: ../urpmi:84 ../urpmq:50
 #, fuzzy, c-format
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "স্বয়ংক্রীয় নির্বাচন করো স্বয়ংক্রীয়ভাবে নির্বাচন করো প্রতি আপগ্রেড টি সিস্টেম"
+msgstr "  --auto         - পছন্দসমূহ থেকে সয়ংক্রিয়ভাবে প্যাকেজ নির্বাচন করো।\n"
 
 #: ../urpmi:85
 #, fuzzy, c-format
@@ -1469,17 +1464,17 @@ msgstr "  --split-length - ছোট লেনদেনের দৈর্ঘ্
 #: ../urpmi:92 ../urpmq:51
 #, fuzzy, c-format
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
-msgstr "অস্পষ্ট অস্পষ্ট সন্ধান,খোঁজ একই  "
+msgstr "  -y             - fuzzy match on media names.\n"
 
 #: ../urpmi:93 ../urpmq:60
 #, fuzzy, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
-msgstr "পরবর্তী প্যাকেজ আছে একটি উত্‍স/সোর্স প্যাকেজ একই   s"
+msgstr "  -s             - পরবর্তি প্যাকেজটি একটি সোর্স প্যাকেজ (অনুরূপ --src)।\n"
 
 #: ../urpmi:94
 #, fuzzy, c-format
 msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr "ইনস্টল ইনস্টল শুধু উত্‍স/সোর্স প্যাকেজ না"
+msgstr "  --name         - শুধুমাত্র প্যাকেজ নাম সমুহ ছাপাও।\n"
 
 #: ../urpmi:95
 #, c-format
@@ -1515,8 +1510,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to install a chroot with --root option.\n"
 msgstr ""
-"ব্যবহার ওপর টি থেকে একটি ট্রী কাজের\n"
-" প্রতি ইনস্টল একটি সঙ্গে রুট/root অপশন"
+"  --use-distrib  - distrib ট্রি থেকে চলন্ত অবস্থায় urpmi কনফিগার করো, --root\n"
+"                    অপশনের সাথে croot (আন)ইনস্টলে কার্যকর।\n"
 
 #: ../urpmi:106 ../urpmi.addmedia:48 ../urpmi.update:31 ../urpmq:68
 #, c-format
@@ -1539,8 +1534,8 @@ msgid ""
 "  --resume       - resume transfer of partially-downloaded files\n"
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"আবার চালু করো আবার চালু করো বদলি/স্থানান্তর -র ডাউনলোড করা\n"
-" না আবার চালু করো এটি ডিফল্ট আছে নিষ্ক্রিয়"
+"  --verify-rpm   - ইনস্টলের আগে rpm স্বাক্ষর যাচাই করো\n"
+"                   (--no-verify-rpm অকার্যকর করবে, স্বাভাবিকভাবে কার্যকর).\n"
 
 #: ../urpmi:111 ../urpmi.addmedia:51 ../urpmi.update:34 ../urpmq:70
 #, fuzzy, c-format
@@ -1566,8 +1561,8 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-"ত্রুটি আউটপুট/ফলাফল একটি ত্রুটি রিপোর্ট/বিবরণ/প্রতিবেদন -এ ডিরেক্টরি নির্দিষ্ট দ্বারা\n"
-" পরবর্তী"
+"  --env          - সুনির্দিষ্ট পরিবেশ ব্যবহার করো (বিশেষত একটি ত্রুটি\n"
+"                    রিপোর্ট।)\n"
 
 #: ../urpmi:119
 #, c-format
@@ -1630,7 +1625,7 @@ msgstr "  -P             - প্যাকেজ খোঁজার জন্য
 #: ../urpmi:132 ../urpmq:91
 #, fuzzy, c-format
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr "অস্পষ্ট সন্ধান,খোঁজ একই   অস্পষ্ট"
+msgstr "  -y             - fuzzy match on media names.\n"
 
 #: ../urpmi:133 ../urpmq:88
 #, c-format
@@ -1810,7 +1805,6 @@ msgstr "%d ইনস্টলেশনের লেনদেন ব্যর্�
 msgid "Installation is possible"
 msgstr "ইনস্টলেশন সম্ভব"
 
-# পুনরায় urpmi শুরু করা হচ্ছে
 #: ../urpmi:703
 #, c-format
 msgid "restarting urpmi"
@@ -2058,7 +2052,7 @@ msgstr "  --force-key    - gpg কী আপডেটের জন্য জো�
 #: ../urpmi.update:42
 #, fuzzy, c-format
 msgid "  --ignore       - don't update, mark the media as ignored.\n"
-msgstr "  --buildhost    - build host: buildhost ট্যাগ ছাপাও।\n"
+msgstr "  --update       - শুধুমাত্র আপডেট মাধ্যম আপডেট করো।\n"
 
 #: ../urpmi.update:43
 #, c-format
@@ -2092,7 +2086,7 @@ msgstr ""
 #: ../urpmi.update:95
 #, fuzzy, c-format
 msgid "ignoring media %s"
-msgstr "\"%s\" মাধ্যম সরানো হচ্ছে"
+msgstr "\"%s\" মাধ্যমটি সম্পাদন করা হচ্ছে:"
 
 #: ../urpmi.update:95
 #, fuzzy, c-format
@@ -2260,44 +2254,3 @@ msgstr "filelist পাওয়া যায়নি\n"
 #, c-format
 msgid "No changelog found\n"
 msgstr "changelog পাওয়া যায়নি\n"
-
-#~ msgid "  --X            - use X interface.\n"
-#~ msgstr "  --X            - ইন্টারফেস ব্যবহার করো।\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "  --best-output  - choose best interface according to the environment:\n"
-#~ "                   X or text mode.\n"
-#~ msgstr ""
-#~ "সবচেয়ে ভাল আউটপুট/ফলাফল বেছে নিন সবচেয়ে ভাল ইন্টারফেস মতে প্রতি টি পরিবেশ\n"
-#~ " অথবা লেখা/টেক্সট মোড"
-
-# কিছুই করবে না
-#~ msgid "Do nothing"
-#~ msgstr "কিছুই করো না"
-
-# হ্যাঁ, আসলেই এটা ইনষ্টল করো
-#~ msgid "Yes, really install it"
-#~ msgstr "হ্যাঁ, এটি সত্যিই ইনস্টল করো"
-
-#~ msgid "Save file"
-#~ msgstr "ফাইল সংরক্ষণ করো"
-
-#~ msgid "Initializing..."
-#~ msgstr "চালু করা হচ্ছে..."
-
-# আপনি কি সম্মতি জানাচ্ছেন ?
-#~ msgid "do you agree ?"
-#~ msgstr "আপনি কি সম্মতি দিচ্ছেন ?"
-
-#~ msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-#~ msgstr "        %s%% -এর %s সম্পন্ন হয়েছে, ETA = %s, গতি = %s"
-
-#~ msgid "        %s%% completed, speed = %s"
-#~ msgstr "        %s%% সম্পন্ন হয়েছে, গতি = %ss সম্পন্ন গতি s"
-
-#~ msgid "relocated %s entries in depslist"
-#~ msgstr "depslist-এ %s এন্ট্রিসমূহ পুনরায় নির্ধারন করা হচ্ছে"
-
-#~ msgid "no entries relocated in depslist"
-#~ msgstr "depslist-এর পুনর্বস্থানে কোন এন্ট্রি নেই"

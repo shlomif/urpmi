@@ -74,9 +74,9 @@ msgid "%s: command not found\n"
 msgstr "%s: polecenie nie zostało odnalezione\n"
 
 #: ../gurpmi:99
-#, c-format
+#, fuzzy, c-format
 msgid "Please wait..."
-msgstr ""
+msgstr "Proszę czekać."
 
 #: ../gurpmi:110
 #, fuzzy, c-format
@@ -88,17 +88,17 @@ msgstr ""
 #: ../gurpmi:114
 #, fuzzy, c-format
 msgid "No packages specified"
-msgstr "brak pakietu o nazwie %s"
+msgstr "Nie wybrano polecenia"
 
 #: ../gurpmi:118
-#, c-format
+#, fuzzy, c-format
 msgid "Must be root"
-msgstr ""
+msgstr "Port myszy"
 
 #: ../gurpmi:128
 #, fuzzy, c-format
 msgid "RPM installation"
-msgstr "Instalacja pakietu..."
+msgstr "Instalacja systemu"
 
 #: ../gurpmi:141
 #, fuzzy, c-format
@@ -154,17 +154,17 @@ msgstr ""
 #: ../gurpmi:164
 #, fuzzy, c-format
 msgid "_Install"
-msgstr "Zainstaluj go"
+msgstr "Zainstaluj"
 
 #: ../gurpmi:165
-#, c-format
+#, fuzzy, c-format
 msgid "_Save"
-msgstr ""
+msgstr "Zapisz"
 
 #: ../gurpmi:166 ../gurpmi:229
-#, fuzzy, c-format
+#, c-format
 msgid "_Cancel"
-msgstr "Anuluj"
+msgstr "_Anuluj"
 
 #: ../gurpmi:170
 #, c-format
@@ -172,14 +172,14 @@ msgid "Choose location to save file"
 msgstr "Wybierz miejsce zapisania pliku"
 
 #: ../gurpmi:220
-#, c-format
+#, fuzzy, c-format
 msgid " (to upgrade)"
-msgstr ""
+msgstr "Uaktualnij"
 
 #: ../gurpmi:221
 #, fuzzy, c-format
 msgid " (to install)"
-msgstr "w celu zainstalowania pakietu %s"
+msgstr "Wyjście z instalacji"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -187,14 +187,14 @@ msgid "One of the following packages is needed:"
 msgstr "Wymagany jest jeden z następujących pakietów:"
 
 #: ../gurpmi:230 ../gurpmi:246
-#, fuzzy, c-format
+#, c-format
 msgid "_Ok"
-msgstr "OK"
+msgstr "_Ok"
 
 #: ../gurpmi:247
-#, c-format
+#, fuzzy, c-format
 msgid "_Abort"
-msgstr ""
+msgstr "Przerwij"
 
 #: ../gurpmi:276
 #, fuzzy, c-format
@@ -253,7 +253,12 @@ msgid ""
 "%s\n"
 "\n"
 "Do you want to continue installation ?"
-msgstr "Następujące pakiety zawierają niepoprawne podpisy"
+msgstr ""
+"Poniższe pakiety posiadają niepoprawne podpisy:\n"
+"\n"
+"%s\n"
+"\n"
+"Czy chcesz kontynuować instalację?"
 
 #: ../gurpmi:372 ../gurpmi:421 ../urpmi:556 ../urpmi:672
 #, c-format
@@ -287,9 +292,9 @@ msgid "Installation failed"
 msgstr "Instalacja nie powiodła się"
 
 #: ../gurpmi:416
-#, c-format
+#, fuzzy, c-format
 msgid "_Done"
-msgstr ""
+msgstr "Gotowe"
 
 #: ../gurpmi:424 ../urpmi:688
 #, c-format
@@ -297,9 +302,9 @@ msgid "The package(s) are already installed"
 msgstr "wszystko zostało już zainstalowane"
 
 #: ../gurpmi:426
-#, fuzzy, c-format
+#, c-format
 msgid "Installation finished"
-msgstr "Instalacja nie powiodła się"
+msgstr "Instalacja zakończona"
 
 #: ../rpm-find-leaves:12
 #, c-format
@@ -504,9 +509,9 @@ msgid "virtual medium \"%s\" is not local, medium ignored"
 msgstr "wirtualny nośnik \"%s\" nie jest lokalny, zignorowano nośnik"
 
 #: ../urpm.pm:551
-#, c-format
+#, fuzzy, c-format
 msgid "Search start: %s end: %s"
-msgstr ""
+msgstr "Wyszukaj zainstalowane czcionki"
 
 #: ../urpm.pm:556 ../urpm.pm:1000 ../urpm.pm:1084 ../urpm.pm:1155
 #: ../urpm.pm:1546
@@ -852,7 +857,7 @@ msgstr "błąd w trakcie rejestrowania pakietów lokalnych"
 #: ../urpm.pm:2029
 #, c-format
 msgid "Search"
-msgstr ""
+msgstr "Wyszukaj"
 
 #: ../urpm.pm:2120
 #, c-format
@@ -2081,8 +2086,7 @@ msgstr "  --force-key    - wymusza aktualizację klucza gpg.\n"
 #: ../urpmi.update:42
 #, fuzzy, c-format
 msgid "  --ignore       - don't update, mark the media as ignored.\n"
-msgstr ""
-"  --buildhost    - wyświetla znacznik buildhost: komputer budujący pakiet.\n"
+msgstr "  --update       - używa tylko nośników aktualizacyjnych.\n"
 
 #: ../urpmi.update:43
 #, c-format
@@ -2117,7 +2121,7 @@ msgstr ""
 #: ../urpmi.update:95
 #, fuzzy, c-format
 msgid "ignoring media %s"
-msgstr "usuwanie nośnika \"%s\""
+msgstr "Modyfikowanie nośnika \"%s\":"
 
 #: ../urpmi.update:95
 #, fuzzy, c-format
@@ -2293,41 +2297,3 @@ msgstr "Nie znaleziono listy plików\n"
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nie znaleziono dziennika zmian\n"
-
-#~ msgid "  --X            - use X interface.\n"
-#~ msgstr "  --X            - używa interfejsu X Window.\n"
-
-#~ msgid ""
-#~ "  --best-output  - choose best interface according to the environment:\n"
-#~ "                   X or text mode.\n"
-#~ msgstr ""
-#~ "  --best-output  - wybiera najlepszy interfejs w zależności od "
-#~ "środowiska:\n"
-#~ "                   X Window lub tryb tekstowy.\n"
-
-#~ msgid "Do nothing"
-#~ msgstr "Nic nie rób"
-
-#~ msgid "Yes, really install it"
-#~ msgstr "Tak, naprawdę zainstaluj go"
-
-#~ msgid "Save file"
-#~ msgstr "Zapisz plik"
-
-#~ msgid "Initializing..."
-#~ msgstr "Inicjalizacja..."
-
-#~ msgid "do you agree ?"
-#~ msgstr "czy się zgadzasz ?"
-
-#~ msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-#~ msgstr "        %s%% z %s gotowe, ETA = %s, szybkość = %s"
-
-#~ msgid "        %s%% completed, speed = %s"
-#~ msgstr "        %s%% gotowe, szybkość = %s"
-
-#~ msgid "relocated %s entries in depslist"
-#~ msgstr "relokowano %s wpisów w liście zależności deplist"
-
-#~ msgid "no entries relocated in depslist"
-#~ msgstr "żaden wpis nie został relokowany na liście zależności deplist"
