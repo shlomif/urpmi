@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.2
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -17,7 +17,7 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
-Version: 0.5
+Version: 0.6
 Summary: User mode rpm GUI install
 Requires: urpmi grpmi gchooser gmessage
 Group: %{group}
@@ -28,7 +28,7 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n autoirpm
-Version: 0.3
+Version: 0.4
 Summary: Auto install of rpm on demand
 Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
 Group: %{group}
@@ -89,7 +89,8 @@ autoirpm.uninstall
 
 
 %changelog
-* Wed Jul 19 2000 Pixel <pixel@mandrakesoft.com> 1.2-2mdk
+* Wed Jul 19 2000 Pixel <pixel@mandrakesoft.com> 1.2-3mdk
+- change versions of autoirpm and gurpmi
 - macroization, BM
 
 * Thu Jun 29 2000 Pixel <pixel@mandrakesoft.com> 1.2-1mdk
