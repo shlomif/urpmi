@@ -260,7 +260,7 @@ if (!$auto) {
     }
 }
 
-$urpm->read_config;
+$minimal or $urpm->read_config;
 
 my ($local_sources, $list, $local_to_removes) = $urpm->get_source_packages(\%packages);
 unless ($local_sources || $list) {

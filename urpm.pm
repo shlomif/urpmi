@@ -673,7 +673,7 @@ sub update_media {
 	    #- cleaning.
 	    $urpm->{params}->clean();
 
-	    foreach my $medium (@{$urpm->{media}}) {
+	    foreach my $medium (@{$urpm->{media} || []}) {
 		$medium->{ignore} and next;
 		if ($medium->{synthesis}) {
 		    $urpm->{log}(_("reading synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
@@ -686,7 +686,7 @@ sub update_media {
 
 	    $urpm->{log}(_("keeping only files referenced in provides"));
 	    $urpm->{params}->keep_only_cleaned_provides_files();
-	    foreach my $medium (@{$urpm->{media}}) {
+	    foreach my $medium (@{$urpm->{media} || []}) {
 		$medium->{ignore} and next;
 		if ($medium->{synthesis}) {
 		    $urpm->{log}(_("reading synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
@@ -1357,7 +1357,7 @@ sub filter_minimal_packages_to_upgrade {
 
     #- try to figure out if parsehdlist need to be called,
     #- or we have to use synthesis file.
-    my @synthesis = map { "$urpm->{statedir}/synthesis.$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media}};
+    my @synthesis = map { "$urpm->{statedir}/synthesis.$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media} || []};
     if (grep { ! -r $_ || ! -s $_ } @synthesis) {
 	$urpm->{log}(_("unable to find all synthesis file, using parsehdlist server"));
 	pipe INPUT, OUTPUT_CHILD;
@@ -1563,7 +1563,7 @@ sub filter_minimal_packages_to_upgrade {
 	close OUTPUT;
 	open STDIN, "<&INPUT_CHILD";
 	open STDOUT, ">&OUTPUT_CHILD";
-	exec "parsehdlist", "--interactive", map { "$urpm->{statedir}/$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media}}
+	exec "parsehdlist", "--interactive", map { "$urpm->{statedir}/$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media} || []}
 	  or rpmtools::_exit(1);
     }
 }
@@ -1592,7 +1592,7 @@ sub deselect_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages) = @_;
-    my ($error, %local_sources, @list, @local_to_removes, %fullname2id, %file2fullnames);
+    my ($id, $error, %local_sources, @list, @local_to_removes, %fullname2id, %file2fullnames);
     local (*D, *F, $_);
 
     #- build association hash to retrieve id and examine all list files.
@@ -1646,7 +1646,7 @@ sub get_source_packages {
 		    next;
 		} elsif (keys(%{$file2fullnames{$1} || {}}) == 1) {
 		    my ($fullname) = keys(%{$file2fullnames{$1} || {}});
-		    if (my $id = defined delete $fullname2id{$fullname}) {
+		    if (defined($id = delete $fullname2id{$fullname})) {
 			$local_sources{$id} = "$urpm->{cachedir}/rpms/$1.rpm";
 		    } else {
 			push @local_to_removes, "$urpm->{cachedir}/rpms/$1.rpm";
@@ -1672,8 +1672,7 @@ sub get_source_packages {
 			next;
 		    } elsif (keys(%{$file2fullnames{$2} || {}}) == 1) {
 			my ($fullname) = keys(%{$file2fullnames{$2} || {}});
-			my $id = delete $fullname2id{$fullname};
-			defined $id and $sources{$id} = "$1/$2.rpm";
+			defined($id = delete $fullname2id{$fullname}) and $sources{$id} = "$1/$2.rpm";
 		    }
 		} else {
 		    chomp;
@@ -1879,7 +1878,7 @@ sub select_packages_to_upgrade {
 	#- let parse synthesis file.
 	foreach (grep { -r $_ && -s $_ }
 		 map { "$urpm->{statedir}/synthesis.$_->{hdlist}" }
-		 grep { $_->{synthesis} && ! $_->{ignore} } @{$urpm->{media}}) {
+		 grep { $_->{synthesis} && ! $_->{ignore} } @{$urpm->{media} || []}) {
 	    $urpm->parse_synthesis($_);
 	}
 
@@ -2053,7 +2052,7 @@ sub select_packages_to_upgrade {
 	open STDIN, "<&INPUT_CHILD";
 	open STDOUT, ">&OUTPUT_CHILD";
 	exec "parsehdlist", "--interactive", (map { "$urpm->{statedir}/$_->{hdlist}" }
-					      grep { ! $_->{synthesis} && ! $_->{ignore} } @{$urpm->{media}})
+					      grep { ! $_->{synthesis} && ! $_->{ignore} } @{$urpm->{media} || []})
 	  or rpmtools::_exit(1);
     }
 

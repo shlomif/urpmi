@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.0
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -126,6 +126,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Nov 19 2001 François Pons <fpons@mandrakesoft.com> 2.0-6mdk
+- fixed --auto-select and rpm file upload.
+
 * Fri Nov 16 2001 François Pons <fpons@mandrakesoft.com> 2.0-5mdk
 - added /etc/urpmi/inst.list support.
 
