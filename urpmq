@@ -46,7 +46,7 @@ usage:
 ") . _("  -r             - print version and release too with name.
 ") . _("  -f             - print version, release and arch with name.
 ") . "\n" . _("  --update       - use only update media.
-") . _("  --mediums      - use only the medium listed by comma.
+") . _("  --media        - use only the media listed by comma.
 ") . _("  --auto-select  - automatically select packages for upgrading the system.
 ") . _("  --headers      - extract headers for package listed from urpmi db to
                    stdout (root only).
@@ -62,7 +62,8 @@ my @nextargv;
 for (@ARGV) {
     /^--help$/ and do { usage; next };
     /^--update$/ and do { $query->{update} = 1; next };
-    /^--mediums$/ and do { push @nextargv, \$query->{mediums}; next };
+    /^--media$/ and do { push @nextargv, \$query->{media}; next };
+    /^--mediums$/ and do { push @nextargv, \$query->{media}; next };
     /^--auto-select$/ and do { $query->{auto_select} = 1; next };
     /^--headers$/ and do { $query->{headers} = 1; next };
     /^--sources$/ and do { $query->{sources} = 1; next };
@@ -94,8 +95,14 @@ my $urpm = new urpm;
 $query->{verbose} or $urpm->{log} = sub {};
 
 $urpm->read_config(nocheck_access => 1);
-$query->{mediums} and $urpm->select_media(split ',', $query->{mediums});
-foreach (grep { !$_->{ignore} && (!$query->{update} || $_->{update}) && (!$query->{mediums} || $_->{modified}) } @{$urpm->{media} || []}) {
+if ($query->{media}) {
+    $urpm->select_media(split ',', $query->{media});
+    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
+	#- this is only a local ignore that will not be saved.
+	$_->{ignore} = 1;
+    }
+}
+foreach (grep { !$_->{ignore} && (!$query->{update} || $_->{update}) } @{$urpm->{media} || []}) {
     $urpm->parse_synthesis($_);
 }
 

@@ -20,7 +20,7 @@ urpm - Mandrake perl tools to handle urpmi database
 
 =head1 DESCRIPTION
 
-C<urpm> is used by urpmi executable to manipulate packages and mediums
+C<urpm> is used by urpmi executable to manipulate packages and media
 on a Linux-Mandrake distribution.
 
 =head1 SEE ALSO
@@ -1499,7 +1499,7 @@ sub filter_packages_to_upgrade {
 					  });
 		unless (exists $provides{$n}) {
 		    foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
-			exists $conflicts{$_}{$fullname} and next;
+			exists $conflicts{$fullname} and next;
 			my $p = $urpm->{params}{info}{$fullname};
 			$o and $n eq $p->{name} || next;
 			$v and eval(rpmtools::version_compare($p->{version}, $v) . $o . 0) || next;
@@ -1555,7 +1555,7 @@ sub filter_packages_to_upgrade {
 		    $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
 		    $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
 		      eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
-		    $conflicts{$n}{"$_[0]{name}-$_[0]{version}-$_[0]{release}"} = 1;
+		    $conflicts{"$_[0]{name}-$_[0]{version}-$_[0]{release}"} = 1;
 		    $provides{$n} ||= undef;
 		};
 		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
@@ -1566,7 +1566,7 @@ sub filter_packages_to_upgrade {
 		    $v and eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) || next;
 		    $r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
 		      eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
-		    $conflicts{$n}{"$pkg->{name}-$pkg->{version}-$pkg->{release}"} ||= 0;
+		    $conflicts{"$pkg->{name}-$pkg->{version}-$pkg->{release}"} ||= 0;
 		}
 	    }
 	}
@@ -1579,7 +1579,7 @@ sub filter_packages_to_upgrade {
 
 	    my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
 	    foreach my $fullname (keys %{$urpm->{params}{provides}{$_} || {}}) {
-		exists $conflicts{$_}{$fullname} and next;
+		exists $conflicts{$fullname} and next;
 		my $pkg = $urpm->{params}{info}{$fullname};
 		push @{$pre_choices{$pkg->{name}}}, $pkg;
 	    }
@@ -1954,7 +1954,7 @@ sub select_packages_to_upgrade {
 	    #- the hdlist does not exists and the medium is marked as using a
 	    #- synthesis file).
 	    my $p = $urpm->{params}{info}{$name} || $urpm->{params}{names}{$name};
-	    if ($pid == 1 || $p && $p->{$tag}) {
+	    if ($pid == 1 || $p && @{$p->{$tag} || []}) {
 		foreach (@{$p->{$tag} || []}) {
 		    $code->($_);
 		}

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.2
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Wed Jan 23 2002 François Pons <fpons@mandrakesoft.com> 3.2-3mdk
+- fixed possible conflicts management error.
+- fixed --mediums for upload of same package in different media.
+- changed --mediums to --media but kept --mediums.
+
 * Thu Jan 17 2002 François Pons <fpons@mandrakesoft.com> 3.2-2mdk
 - added urpm.3 man pages.
 - improved urpmi.removemedia (help, added -c flag, noclean headers).

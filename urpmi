@@ -24,7 +24,7 @@ import urpm _;
 
 #- default options.
 my $update = 0;
-my $mediums = 0;
+my $media = 0;
 my $auto = 0;
 my $allow_medium_change = 0;
 my $complete = 0;
@@ -54,7 +54,7 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 usage:
 ") . _("  --help         - print this help message.
 ") . _("  --update       - use only update media.
-") . _("  --mediums      - use only the medium listed by comma.
+") . _("  --media        - use only the media listed by comma.
 ") . _("  --auto         - automatically select a good package in choices.
 ") . _("  --auto-select  - automatically select packages for upgrading the system.
 ") . _("  --complete     - use parsehdlist server to complete selection.
@@ -78,7 +78,8 @@ my @nextargv;
 for (@ARGV) {
     /^--help$/ and do { usage; next };
     /^--update$/ and do { $update = 1; next };
-    /^--mediums$/ and do { push @nextargv, \$mediums; next };
+    /^--media$/ and do { push @nextargv, \$media; next };
+    /^--mediums$/ and do { push @nextargv, \$media; next };
     /^--auto$/ and do { $auto = 1; next };
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
@@ -152,8 +153,14 @@ $sync and $urpm->{sync} = $sync;
 $verbose or $urpm->{log} = sub {};
 
 $urpm->read_config;
-$mediums and $urpm->select_media(split ',', $mediums);
-foreach (grep { !$_->{ignore} && (!$update || $_->{update}) && (!$mediums || $_->{modified}) } @{$urpm->{media} || []}) {
+if ($media) {
+    $urpm->select_media(split ',', $media);
+    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
+	#- this is only a local ignore that will not be saved.
+	$_->{ignore} = 1;
+    }
+}
+foreach (grep { !$_->{ignore} && (!$update || $_->{update}) } @{$urpm->{media} || []}) {
     $urpm->parse_synthesis($_);
 }
 
