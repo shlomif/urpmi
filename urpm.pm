@@ -1242,14 +1242,9 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 		} else {
-		    #- try to find rpm files, use recursive method, added additional
-		    #- / after dir to make sure it will be taken into account if this
-		    #- is a symlink to a directory.
-		    #- make sure rpm filename format is correct and is not a source rpm
-		    #- which are not well managed by urpmi.
 		    File::Find::find { wanted => sub {
-			    -f && /\.rpm$/ && push @files, "$File::Find::dir/$_"
-		    } }, $dir;
+			    -f && /\.rpm$/ and push @files, "$File::Find::dir/$_"
+		    }, follow => 1 }, $dir;
 
 		    #- check files contains something good!
 		    if (@files > 0) {
