@@ -206,6 +206,8 @@ $urpm->update_media(nolock => 1);
 - fixed transaction number when split is active.
 - fixed transaction which should not be splited in parallel mode.
 - use a regular file opened in write mode for locking.
+- added shared lock for urpmi, urpmq and urpmf (exclusive lock
+  are done by urpmi.addmedia, urpmi.removemedia and urpmi.update).
 
 * Tue Jul 29 2003 François Pons <fpons@mandrakesoft.com> 4.4-15mdk
 - fixed urpme --parallel --auto still asking the user.
