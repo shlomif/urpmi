@@ -4,13 +4,14 @@
 # Taiwan Linux User Group
 # Chinese GNU/Linux Extension(CLE) http://cle.linux.org.tw/CLE/
 # Andrew Lee <andrew@cle.linux.org.tw>, 1999.
+# Joe Man <trmetal@yahoo.com.hk>, 2001
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-05-14 13:29+0200\n"
-"PO-Revision-Date: 1999-12-11 04:18+0100\n"
-"Last-Translator: Andrew Lee <andrew@cle.linux.org.tw>\n"
+"POT-Creation-Date: 2001-06-06 21:22+0200\n"
+"PO-Revision-Date: 2001-06-15 12:20+0800\n"
+"Last-Translator: Joe Man <trmetal@yahoo.com.hk>\n"
 "Language-Team: Chinese <zh@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=big5\n"
@@ -18,49 +19,51 @@ msgstr ""
 
 #: _irpm:21
 msgid "installing $rpm\n"
-msgstr "安裝中 $rpm\n"
+msgstr "正在安裝 $rpm\n"
 
 #: _irpm:31
 msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"自動安裝套件...\n"
+"您要求安裝的套件 $rpm\n"
 
-#: _irpm:31 urpmi:234
+#: _irpm:31 urpmi:237
 msgid "Is it ok?"
 msgstr "正確嗎﹖"
 
-#: _irpm:33 urpmi:237 urpmi:267
+#: _irpm:33 urpmi:240 urpmi:271
 msgid "Ok"
 msgstr "確定"
 
-#: _irpm:34 urpmi:238 urpmi:268
+#: _irpm:34 urpmi:241 urpmi:272
 msgid "Cancel"
 msgstr "取消"
 
-#: _irpm:40 urpmi:242 urpmi:300
+#: _irpm:40 urpmi:245 urpmi:304
 msgid "Nn"
-msgstr "nN不否"
+msgstr "nN(否)"
 
-#: _irpm:41 urpmi:243 urpmi:301
+#: _irpm:41 urpmi:246 urpmi:305
 msgid "Yy"
-msgstr "yY是"
+msgstr "yY(是)"
 
-#: _irpm:42 urpmi:244
+#: _irpm:42 urpmi:247
 msgid " (Y/n) "
-msgstr " (是(Y)/不(n)) [是] "
+msgstr " (Y/n) (是/否) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm：找不到指令\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "用法：rpmf [<檔案>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi 仍未安裝"
 
 #: placeholder.h:8
 #, c-format
@@ -86,6 +89,24 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi 版本 %s\n"
+"版權所有 (C) 1999, 2000, 2001 MandrakeSoft。\n"
+"這是一個自由程式並遵照 GNU GPL 的條款發佈。\n"
+"用法：\n"
+"  --help            - 顯示這個說明。\n"
+"  --auto            - 自動選擇一個合適的套件。\n"
+"  --auto-select  - 自動選擇有關套件進行升級這個系統。\n"
+"  --force            - 強制執行安裝即使某些套件不存在。\n"
+"  --X                - 使用 X 介面。\n"
+"  --best-output  - 按照目前環境選擇最好的介面：\n"
+"                             X 或者 文字模式。\n"
+"  -a                    - 選擇所有符合指令行要求的套件。\n"
+"  -m                   -  選擇與要求最接近而安裝數量最少(預設)。\n"
+"  -M                   -  選擇與要求最接近而安裝數量最多。\n"
+"  -c                    -  選擇使用完整方法去解決與要求最接近的處理。\n"
+"  -q                    - 無資訊顯示模式。\n"
+"  -v                    - 顯示資訊模式。\n"
+"  在指令行提供的名稱或 rpm 套件名稱 (只限 root 帳號) 會被安裝。\n"
 
 #: placeholder.h:28
 msgid ""
@@ -98,6 +119,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"用法：urpmi.addmedia <名稱> <url>\n"
+"<url> 是以下其中一項\n"
+"         file://<路徑>\n"
+"         ftp://<登入名稱>:<密碼>@<主機名稱>/<路徑> with <hdlist 的相關檔案名"
+"稱>\n"
+"         ftp://<主機名稱>/<路徑> with <hdlist 的相關檔案名稱>\n"
+"         http://<主機名稱>/<路徑> with <hdlist 的相關檔案名稱>\n"
+"         可移除的_<裝置>://<路徑>\n"
 
 #: placeholder.h:37 urpmi.addmedia:52
 #, c-format
@@ -105,6 +134,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"ftp 媒介的 url 缺少了 `with' 這個關鍵字\n"
 
 #: placeholder.h:41 urpmi.addmedia:48
 #, c-format
@@ -112,6 +143,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"裝置 `%s' 不存在\n"
 
 #: placeholder.h:45 urpmi.addmedia:50
 #, c-format
@@ -119,6 +152,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"缺少了 <hdlist 的相關路徑>\n"
 
 #: placeholder.h:49
 #, c-format
@@ -131,6 +166,13 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"用法：urpmi.update [-a] <name> ...\n"
+"<name> 須要更新的媒介名稱。\n"
+"   -a     選擇所有固定的媒介。\n"
+"   -c     清除檔頭快取目錄。\n"
+"   -f    強制產生 hdlist 或基本檔案。\n"
+"\n"
+"不詳的選項 '%s'\n"
 
 #: placeholder.h:58 urpmi.update:58
 #, c-format
@@ -138,6 +180,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"缺少了須要更新的項目\n"
+"(%s 的其中一個)\n"
 
 #: placeholder.h:62
 #, c-format
@@ -148,6 +192,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"用法：urpmi.removemedia [-a] <name> ...\n"
+"<name> 須要移除的媒介名稱。\n"
+"   -a    選擇所有媒介。\n"
+"\n"
+"不詳的選項 '%s'\n"
 
 #: placeholder.h:69 urpmi.removemedia:53
 #, c-format
@@ -155,69 +204,71 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"缺少了須要刪除的項目\n"
+"(%s 的其中一個)\n"
 
 #: urpmi:56
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi 版本 %s"
 
 #: urpmi:146
 msgid "Only superuser is allowed to install local packages"
-msgstr ""
+msgstr "只有超級使用者才允許安裝本機套件"
 
-#: urpmi:177
+#: urpmi:180
 msgid "One of the following packages is needed:"
-msgstr "這一個套件需要"
+msgstr "須要以下其中一個套件："
 
-#: urpmi:185
+#: urpmi:188
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "那一個是你的選擇﹖ (1-%d) "
 
-#: urpmi:188
+#: urpmi:191
 msgid "Sorry, bad choice, try again\n"
 msgstr "對不起，選擇錯誤，請再試一次\n"
 
-#: urpmi:233
+#: urpmi:236
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
 "d MB)"
 msgstr "為了符合相依性的要求，以下的套件將要被安裝。 (%d MB)"
 
-#: urpmi:264
-#, fuzzy, c-format
+#: urpmi:268
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "請插入 %s 名稱 %s"
+msgstr "請將具有名稱 %s 的媒介插入到裝置 [%s]"
 
-#: urpmi:265
+#: urpmi:269
 msgid "Press enter when it's done..."
 msgstr "完成後請按<Enter>．．"
 
-#: urpmi:279
+#: urpmi:283
 msgid "everything already installed"
 msgstr "所有都已安裝"
 
-#: urpmi:290
+#: urpmi:294
 #, c-format
 msgid "installing %s\n"
-msgstr "安裝中 %s\n"
+msgstr "正在安裝 %s\n"
 
-#: urpmi:295 urpmi:308
+#: urpmi:299 urpmi:313
 msgid "Installation failed"
 msgstr "安裝失敗"
 
-#: urpmi:302
+#: urpmi:306
 msgid "Try installation without checking dependencies? (y/N) "
-msgstr ""
+msgstr "無須檢查套件的相關性就進行安裝？(y/N)(是/否)"
 
-#: urpmi:309
+#: urpmi:314
 msgid "Try installation even more strongly (--force)? (y/N) "
-msgstr ""
+msgstr "使用更加強制性的安裝方式 (--force)？(y/N)(是/否)"
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "用法：urpmi.addmedia<名稱><url>"
 
 #. <path>
 #. <login>:<password>@<host>/<path> with <relative filename of hdlist>
@@ -231,16 +282,16 @@ msgstr "));"
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
-msgstr ""
+msgstr "無法建立媒介 \"%s\"\n"
 
 #: urpmi.addmedia:64
 #, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr ""
+msgstr "無法更新媒介 \"%s\"\n"
 
 #: urpmi.update:43
 msgid "usage: urpmi.update [-a] <name> ..."
-msgstr ""
+msgstr "用法：urpmi.update [-a] <名稱> ..."
 
 #: urpmi.removemedia:42 urpmi.update:48
 msgid "), $_);"
@@ -248,52 +299,35 @@ msgstr "), $_);"
 
 #: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "無可更新 (使用 urpmi.addmedia 指令新增媒介)\n"
 
 #: urpmi.removemedia:39
 msgid "usage: urpmi.removemedia [-a] <name> ..."
-msgstr ""
+msgstr "用法：urpmi.removemedia [-a] <名稱> ..."
 
 #: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "無可移除 (使用 urpmi.addmedia 指令新增媒介)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq 版本 %s"
 
 #: urpmq:90
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq：不詳的選項 \"-$1\"，請輸入 --help 選項閱讀使用方法\n"
 
 #: urpmq:92
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq：無法讀取 rpm 檔案 \"$_\"\n"
 
 #: urpmq:131
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
-msgstr ""
+msgstr "為了可以順利升級某些套件必須移除，但仍未支援\n"
 
 #: urpmq:153
 msgid "unable to get source packages, aborting"
-msgstr ""
-
-#~ msgid ""
-#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name "
-#~ "[package_names...]\n"
-#~ msgstr "用法: urpmi [-h] [--auto] [--force] [-a] 套件名稱 [套件名稱...]\n"
-
-#~ msgid "no package named %s\n"
-#~ msgstr "沒有套件名稱 %s\n"
-
-#~ msgid "The following packages contain %s: %s\n"
-#~ msgstr "這套件包含了 %s: %s\n"
-
-#~ msgid "rpm database query failed\n"
-#~ msgstr "rpm資料庫查尋失敗\n"
-
-#~ msgid "Sorry can't find file %s, exiting"
-#~ msgstr "無法找到檔案 %s, 中斷"
+msgstr "無法取得原始碼套件，放棄"
