@@ -239,7 +239,7 @@ msgid "found parallel handler for nodes: %s"
 msgstr "znaleziono równoleg³± funkcjê obs³ugi dla wêz³ów: %s"
 
 #: ../urpm.pm_.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "using associated media for parallel mode: %s"
 msgstr "u¿ycie no¶nika przypisanego dla trybu równoleg³ego: %s"
 
@@ -496,9 +496,9 @@ msgid "invalid rpm file name [%s]"
 msgstr "niepoprawna nazwa pliku rpm [%s]"
 
 #: ../urpm.pm_.c:1596
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm file [%s] ..."
-msgstr "pobieranie plików rpm..."
+msgstr "pobieranie pliku rpm [%s] ..."
 
 #: ../urpm.pm_.c:1603 ../urpm.pm_.c:2171
 #, c-format
@@ -536,7 +536,7 @@ msgstr "nie mo¿na poprawnie przetworzyæ [%s] przy warto¶ci \"%s\""
 #: ../urpm.pm_.c:1897
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
-msgstr ""
+msgstr "no¶nik \"%s\" nie okre¶la ¿adnej lokalizacji dla plików rpm"
 
 #: ../urpm.pm_.c:1906
 #, c-format
@@ -564,9 +564,9 @@ msgid "malformed input: [%s]"
 msgstr "niepoprawne wej¶cie: [%s]"
 
 #: ../urpm.pm_.c:2053
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "pobieranie plików rpm..."
+msgstr "pobieranie plików rpm z no¶nika \"%s\"..."
 
 #: ../urpm.pm_.c:2111
 msgid "Preparing..."
@@ -731,13 +731,12 @@ msgid "  --update       - create an update medium.\n"
 msgstr "  --update       - tworzy no¶nik aktualizacyjny.\n"
 
 #: ../urpmi.addmedia_.c:51
-#, fuzzy
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
 msgstr ""
-"  --distrib      - automatycznie tworzy wszyskie no¶niki z no¶nika "
-"instalacyjnego.\n"
+"  --distrib      - automatycznie tworzy wszyskie no¶niki z no¶nika \n"
+"                   instalacyjnego.\n"
 
 #: ../urpmi.addmedia_.c:53
 msgid ""
@@ -747,36 +746,40 @@ msgid ""
 msgstr ""
 
 #: ../urpmi.addmedia_.c:56
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --from         - use specified url for list of mirrors, the default is\n"
 "                   %s\n"
 msgstr ""
-"  --env          - u¿ywa okre¶lonego ¶rodowiska (typowo\n"
-"                   raport b³êdów).\n"
+"  --from         - u¿ywa okre¶lonego adresu url z listy mirrorów, domy¶lnie\n"
+"                   %s\n"
 
 #: ../urpmi.addmedia_.c:58
 msgid ""
 "  --version      - use specified version, the default is version of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --version      - u¿ywa okre¶lonej wersji, domy¶ln± jest wersja\n"
+"                   zainstalowanego pakietu mandrake-release.\n"
 
 #: ../urpmi.addmedia_.c:60
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --arch         - u¿ywa okre¶lonej architektury, domy¶ln± jest\n"
+"                   architektura zinstalowanego pakietu mandrake-release.\n"
 
 #: ../urpmi.addmedia_.c:62 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:70
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - czy¶ci katalogu nag³ówków pamiêci podrêcznej.\n"
 
 #: ../urpmi.addmedia_.c:63
-#, fuzzy
 msgid ""
 "  -h             - try to find and use synthesis or hdlist\n"
 "                   file.\n"
-msgstr "  -h             - próbuje odnale¼æ i u¿yæ pliku syntezy lub hdlist.\n"
+msgstr ""
+"  -h             - próbuje odnale¼æ i u¿yæ pliku syntezy lub hdlist.\n"
 
 #: ../urpmi.addmedia_.c:65 ../urpmi.update_.c:72
 msgid "  -f             - force generation of hdlist files.\n"
@@ -784,7 +787,7 @@ msgstr "  -f             - wymusza generacjê plików hdlist.\n"
 
 #: ../urpmi.addmedia_.c:130
 msgid "cannot add updates of a cooker distribution\n"
-msgstr ""
+msgstr "nie mo¿na dodaæ aktualizacji dystrybucji cooker\n"
 
 #: ../urpmi.addmedia_.c:159
 #, c-format
@@ -866,7 +869,6 @@ msgstr ""
 "gdzie <nazwa> jest nazw± no¶nika do aktualizacji.\n"
 
 #: ../urpmi.update_.c:68
-#, fuzzy
 msgid "  --update       - update only update media.\n"
 msgstr "  --update       - u¿ywa tylko no¶ników aktualizacyjnych.\n"
 
@@ -1375,12 +1377,3 @@ msgstr "spróbuj urpmf --help aby uzyskaæ wiêcej opcji"
 #: placeholder.h:40
 msgid "no full media list was found"
 msgstr "nie mo¿na odnale¼æ pe³nej listy no¶ników"
-
-#~ msgid "nothing to write in list file for \"%s\""
-#~ msgstr "nie mo¿na zapisaæ pliku listy dla \"%s\""
-
-#~ msgid "usage: urpme [-a] [--auto] <packages...>\n"
-#~ msgstr "u¿ycie: urpme [-a] [--auto] <pakiety...>\n"
-
-#~ msgid "  -h             - print this help message.\n"
-#~ msgstr "  -h             - wy¶wietla ten komunikat pomocy.\n"
