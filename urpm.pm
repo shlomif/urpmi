@@ -913,8 +913,8 @@ sub update_media {
 	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 	    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 	    unless (defined $medium->{start} && defined $medium->{end}) {
-		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-		eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
+		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+		eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 		unless (defined $medium->{start} && defined $medium->{end}) {
 		    #- this is almost a fatal error, ignore it by default?
 		    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
@@ -1017,9 +1017,9 @@ sub update_media {
 			eval { ($medium->{start}, $medium->{end}) =
 				 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 			unless (defined $medium->{start} && defined $medium->{end}) {
-			    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-			    eval { ($_->{start}, $_->{end}) =
-				     $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
+			    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+			    eval { ($medium->{start}, $medium->{end}) =
+				     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 			    unless (defined $medium->{start} && defined $medium->{end}) {
 				$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 				$medium->{ignore} = 1;
@@ -1179,9 +1179,9 @@ sub update_media {
 			    eval { ($medium->{start}, $medium->{end}) =
 				     $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-				eval { ($_->{start}, $_->{end}) =
-					 $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
+				$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+				eval { ($medium->{start}, $medium->{end}) =
+					 $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 				unless (defined $medium->{start} && defined $medium->{end}) {
 				    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 				    $medium->{ignore} = 1;
