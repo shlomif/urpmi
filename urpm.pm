@@ -1417,8 +1417,8 @@ sub search_packages {
 	if ($options{use_provides}) {
 	    unless ($options{fuzzy}) {
 		#- try to search through provides.
-		if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat) &&
-							$_->id || undef } map { $urpm->{depslist}[$_] }
+		if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat) ?
+							$_->id : undef } map { $urpm->{depslist}[$_] }
 		    keys %{$urpm->{provides}{$v} || {}}) {
 		    #- we assume that if the there is at least one package providing the resource exactly,
 		    #- this should be the best ones that is described.
@@ -1840,17 +1840,31 @@ sub install {
 	$pkg->update_header($upgrade->{$_});
 	$trans->add($pkg, 1) or $urpm->{error}(_("unable to install package %s", $upgrade->{$_}));
     }
-    !$options{nodeps} and @l = $trans->check and return @l;
+    if (!$options{nodeps} and @l = $trans->check) {
+	if ($options{translate_message}) {
+	    foreach (@l) {
+		my ($type, $needs, $conflicts) = split '@', $_;
+		$_ = ($type eq 'requires' ?
+		      _("%s is needed by %s", $needs, $conflicts) :
+		      _("%s conflicts with %s", $needs, $conflicts));
+	    }
+	}
+	return @l;
+    }
     !$options{noorder} and @l = $trans->order and return @l;
-    @l = $trans->run($urpm, force => $options{force}, nosize => $options{nosize}, delta => 1000, callback_open => sub {
-			 my ($data, $type, $id) = @_;
-			 open F, $install->{$id} || $upgrade->{$id} or
-			   $urpm->{error}(_("unable to access rpm file [%s]", $install->{$id} || $upgrade->{$id}));
-			 return fileno F;
-		     }, callback_close => sub {
-			 my ($data, $type, $id) = @_;
-			 close F;
-		     }, callback_inst => \&install_logger, callback_trans => \&install_logger);
+
+    #- assume default value for some parameter.
+    $options{delta} ||= 1000;
+    $options{callback_open} ||= sub {
+	my ($data, $type, $id) = @_;
+	open F, $install->{$id} || $upgrade->{$id} or
+	  $urpm->{error}(_("unable to access rpm file [%s]", $install->{$id} || $upgrade->{$id}));
+	return fileno F;
+    };
+    $options{callback_close} ||= sub { close F };
+    $options{callback_inst}  ||= \&install_logger;
+    $options{callback_trans} ||= \&install_logger;
+    @l = $trans->run($urpm, %options);
 }
 
 1;

@@ -2,13 +2,13 @@
 
 Name: urpmi
 Version: 3.8
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.11-1mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.11-2mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Mon Jul 22 2002 François Pons <fpons@mandrakesoft.com> 3.8-3mdk
+- fixed ldconfig cannot be installed.
+- added translation support on error.
+
 * Mon Jul 22 2002 François Pons <fpons@mandrakesoft.com> 3.8-2mdk
 - fixed no dependencies or forced install error.
 
