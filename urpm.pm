@@ -686,6 +686,7 @@ sub add_distrib_media {
 	    system("cp", "-p", "-R", $hdlists_file, "$urpm->{cachedir}/partial/hdlists")
 		? do { $urpm->{error}(N("...copying failed")); return }
 		: $urpm->{log}(N("...copying done"));
+	    chown 0, 0, "$urpm->{cachedir}/partial/hdlists";
 	} else {
 	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
 	}
@@ -1070,6 +1071,7 @@ this could happen if you mounted manually the directory when creating the medium
 			"$urpm->{statedir}/descriptions.$medium->{name}")
 		    ? do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1 }
 		    : $urpm->{log}(N("...copying done"));
+		chown 0, 0, "$urpm->{statedir}/descriptions.$medium->{name}";
 	    }
 
 	    #- examine if a distant MD5SUM file is available.
@@ -1163,6 +1165,7 @@ this could happen if you mounted manually the directory when creating the medium
 			} else {
 			    $options{callback} && $options{callback}('done', $medium->{name});
 			    $urpm->{log}(N("...copying done"));
+			    chown 0, 0, "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			}
 		    }
 
@@ -1223,6 +1226,7 @@ this could happen if you mounted manually the directory when creating the medium
 			if (-e $path_list) {
 			    system("cp", "-p", "-R", $path_list, "$urpm->{cachedir}/partial/list")
 				and do { $urpm->{error}(N("...copying failed")); $error = 1 };
+			    chown 0, 0, "$urpm->{cachedir}/partial/list";
 			}
 		    }
 		} else {
@@ -1280,6 +1284,7 @@ this could happen if you mounted manually the directory when creating the medium
 		-e $path_pubkey
 		    and system("cp", "-p", "-R", $path_pubkey, "$urpm->{cachedir}/partial/pubkey")
 		    and do { $urpm->{error}(N("...copying failed")); $error = 1 };
+		chown 0, 0, "$urpm->{cachedir}/partial/pubkey";
 	    }
 	} else {
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
@@ -1479,6 +1484,7 @@ this could happen if you mounted manually the directory when creating the medium
 				"$urpm->{cachedir}/partial/$basename")
 			    and $urpm->{error}(N("...copying failed")), $error = 1;
 		    }
+		    chown 0, 0, "$urpm->{cachedir}/partial/$basename";
 		}
 		eval {
 		    $urpm->{sync}(
