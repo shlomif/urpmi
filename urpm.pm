@@ -27,7 +27,6 @@ sub N {
 }
 
 #- tool functions.
-sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
 sub localtime2changelog { scalar(localtime($_[0])) =~ /(.*) \S+ (\d{4})$/ && "$1 $2" };
 
 #- create a new urpm object.
