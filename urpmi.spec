@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,9 @@ fi
 
 
 %changelog
+* Wed Jan 22 2003 François Pons <fpons@mandrakesoft.com> 4.2-8mdk
+- add callback support for download (fix bug 632 and 387).
+
 * Mon Jan 20 2003 François Pons <fpons@mandrakesoft.com> 4.2-7mdk
 - fixed bug 876.
 

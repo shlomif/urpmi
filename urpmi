@@ -257,6 +257,7 @@ if ($log) {
     open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
     open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
     unless ($pid_out = open STDOUT, "|-") {
+	my $buf_r;
 	while (<STDIN>) {
 	    open F, ">>$log"; select F; $| = 1;
 	    select SAVEOUT; $| = 1;
@@ -268,6 +269,7 @@ if ($log) {
 	exit 0;
     }
     unless ($pid_err = open STDERR, "|-") {
+	my $buf_r;
 	while (<STDIN>) {
 	    open F, ">>$log"; select F; $| = 1;
 	    select SAVEERR; $| = 1;
@@ -482,6 +484,18 @@ unless ($local_sources || $list) {
 
 my %sources = $urpm->download_source_packages($local_sources, $list,
 					      verbose => $verbose > 0,
+					      callback => sub {
+						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+						  if ($mode eq 'start') {
+						      $file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
+						      print SAVEERR "    $file\n";
+						  } elsif ($mode eq 'progress') {
+						      print SAVEERR _("        %s%% of %s, ETA = %s, speed = %s",
+								      $percent, $total, $eta, $speed) . "\r";
+						  } elsif ($mode eq 'end') {
+						      print SAVEERR (" "x79)."\r";
+						  }
+					      },
 					      force_local => !$X, ask_for_medium => (!$auto || $allow_medium_change) && sub {
 						  my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						  my $msg2 = _("Press Enter when ready...");

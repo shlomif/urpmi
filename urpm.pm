@@ -222,15 +222,41 @@ sub sync_webfetch {
 }
 sub sync_wget {
     -x "/usr/bin/wget" or die _("wget is missing\n");
+    local *WGET;
     my $options = shift @_;
-    system "/usr/bin/wget",
-    	(ref $options && set_proxy({type => "wget", proxy => $options->{proxy}})),
-    	(ref $options && $options->{quiet} ? ("-q") : ("-nv")), "--retr-symlinks", "-NP",
-    	(ref $options ? $options->{dir} : $options), @_;
-    $? == 0 or die _("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    my ($buf, $file) = ('', undef);
+    open WGET, "-|", "/usr/bin/wget",
+               (ref $options && set_proxy({type => "wget", proxy => $options->{proxy}})),
+	       (ref $options && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
+		ref $options && $options->{quiet} ? ("-q") : ("")),
+	       "--retr-symlinks", "-NP",
+	       (ref $options ? $options->{dir} : $options), @_;
+    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
+    while (<WGET>) {
+	$buf .= $_;
+	if ($_ eq "\r" || $_ eq "\n") {
+	    if (ref $options && $options->{callback}) {
+		if ($buf =~ /^--\d\d:\d\d:\d\d--\s+(\S.*)\n/ms) {
+		    $file = $1;
+		    $options->{callback}('start', $file);
+		} elsif (my ($percent, $eta, $speed) = $buf =~ /^\s*(\d+)%\s+.*\s+(\S+)\s+ETA\s+(\S+)[\r\n]$/ms) {
+		    $options->{callback}('progress', $file, $percent, undef, $eta, $speed);
+		    if ($_ eq "\n") {
+			$options->{callback}('end', $file);
+			$file = undef;
+		    }
+		}
+	    } else {
+		print STDERR $_;
+	    }
+	    $buf = '';
+	}
+    }
+    close WGET or die _("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 sub sync_curl {
     -x "/usr/bin/curl" or die _("curl is missing\n");
+    local *CURL;
     my $options = shift @_;
     chdir (ref $options ? $options->{dir} : $options);
     my (@ftp_files, @other_files);
@@ -244,11 +270,9 @@ sub sync_curl {
 	require Date::Manip;
 
 	#- prepare to get back size and time stamp of each file.
-	local *CURL;
 	open CURL, "/usr/bin/curl" .
 		" " . (ref $options && set_proxy({type => "curl", proxy => $options->{proxy}})) .
-		" " . (ref $options && $options->{quiet} ? ("-s") : ()) .
-		" -I " . join(" ", map { "'$_'" } @ftp_files) . " |";
+		" -s -I " . join(" ", map { "'$_'" } @ftp_files) . " |";
 	while (<CURL>) {
 	    if (/Content-Length:\s*(\d+)/) {
 		!$cur_ftp_file || exists $ftp_files_info{$cur_ftp_file}{size} and $cur_ftp_file = shift @ftp_files;
@@ -283,11 +307,35 @@ sub sync_curl {
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-z file -O <file>)*
     if (my @all_files = ((map { ("-O", $_ ) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
-	system "/usr/bin/curl",
-		(ref $options && set_proxy({type => "curl", proxy => $options->{proxy}})),
-		(ref $options && $options->{quiet} ? ("-s") : ()), "-R", "-f",
-		@all_files;
-	$? == 0 or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+	my @l = (@ftp_files, @other_files);
+	my ($buf, $file) = ('', undef);
+	open CURL, "-|", "/usr/bin/curl",
+	           (ref $options && set_proxy({type => "curl", proxy => $options->{proxy}})),
+		   (ref $options && $options->{quiet} && !$options->{verbose} ? ("-s") : ()), "-R", "-f", "--stderr", "-",
+		   @all_files;
+	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
+	while (<CURL>) {
+	    $buf .= $_;
+	    if ($_ eq "\r" || $_ eq "\n") {
+		if (ref $options && $options->{callback}) {
+		    unless (defined $file) {
+			$file = shift @l;
+			$options->{callback}('start', $file);
+		    }
+		    if (my ($percent, $total, $eta, $speed) = $buf =~ /^\s*(\d+)\s+(\S+)[^\r\n]*\s+(\S+)\s+(\S+)[\r\n]$/ms) {
+			$options->{callback}('progress', $file, $percent, $total, $eta, $speed);
+			if ($_ eq "\n") {
+			    $options->{callback}('end', $file);
+			    $file = undef;
+			}
+		    }
+		} else {
+		    print STDERR $_;
+		}
+		$buf = '';
+	    }
+	}
+	close CURL or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
     }
 }
 sub sync_rsync {
@@ -2121,12 +2169,10 @@ sub download_source_packages {
 	if (%distant_sources) {
 	    eval {
 		$urpm->{log}(_("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$_]{name}));
-		foreach (map { m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| ? "$1xxxx$2" : $_ } values %distant_sources) {
-		    $urpm->{log}("    $_") ;
-		}
 		$urpm->{sync}({ dir => "$urpm->{cachedir}/rpms",
 				quiet => 0,
 				verbose => $options{verbose},
+				callback => $options{callback},
 				proxy => $urpm->{proxy}},
 			      values %distant_sources);
 		$urpm->{log}(_("...retrieving done"));
