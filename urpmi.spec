@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.4.5
-%define release 5mdk
+%define release 6mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -129,16 +129,14 @@ install -m 644 %{name}.bash-completion %{buildroot}%{_sysconfdir}/bash_completio
 %if %{allow_gurpmi}
 mkdir -p %{buildroot}%{_menudir}
 cat << EOF > %{buildroot}%{_menudir}/gurpmi
-?package(gurpmi): command="%{_bindir}/gurpmi" needs="gnome" section=".hidden" \
+?package(gurpmi): command="/usr/bin/gurpmi" \
+needs="x11" \
 section=".hidden" \
-title="Software installer" longtitle="Graphical front end to install RPM files" \
+title="Software installer" \
+longtitle="Graphical front end to install RPM files" \
 mimetypes="application/x-rpm;application/x-urpmi" \
-multiple_files="true"
-?package(gurpmi): command="%{_bindir}/gurpmi" needs="kde" section=".hidden" \
-section=".hidden" InitialPreference="9" \
-title="Software installer" longtitle="Graphical front end to install RPM files" \
-mimetypes="application/x-rpm;application/x-urpmi" \
-multiple_files="true"
+multiple_files="true" \
+kde_opt="InitialPreference=9"
 EOF
 %endif
 
@@ -236,6 +234,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Thu Feb 19 2004 David Baudens <baudens@mandrakesoft.com> 4.4.5-6mdk
+- Fix menu entry
+
 * Wed Feb 11 2004 Olivier Blin <blino@mandrake.org> 4.4.5-5mdk
 - send download errors to error output instead of log output
   (in order to display them in non-verbose mode too)
