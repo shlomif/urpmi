@@ -2119,7 +2119,12 @@ sub search_packages {
 		keys %{$urpm->{provides}{$v} || {}}) {
 		#- we assume that if the there is at least one package providing the resource exactly,
 		#- this should be the best ones that is described.
-		$exact{$v} = join '|',  @l;
+		#- but we first check if one of the packages has the same name as searched.
+		if (my @l2 = grep { $_->name eq $v} @l) {
+		    $exact{$v} = join '|', @l2;
+		} else {
+		    $exact{$v} = join '|',  @l;
+		}
 		next;
 	    }
 	}
