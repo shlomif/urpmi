@@ -84,8 +84,9 @@ for (@ARGV) {
 	/r/ and do { $query->{version} = $query->{release} = 1; next };
 	print STDERR _("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
-    /\.rpm$/ and do { -r $_ or print STDERR _("urpmq: cannot read rpm file \"%s\"\n", $_), next;
-		      push @files, $_; next };
+    /\.rpm$/ and do { if (-r $_) { push @files, $_; }
+		      else { print STDERR _("urpmq: cannot read rpm file \"%s\"\n", $_); }
+		      next };
     push @names, $_;
 }
 
@@ -105,7 +106,7 @@ if (@files) {
     $query->{use_provides} or $urpm->read_provides;
 
     #- build closure with local package and return list of names.
-    push @names, $urpm->register_local_packages(@files);
+    push @names, $urpm->register_local_packages($query->{minimal}, @files);
 }
 
 #- reparse whole internal depslist to match against newer packages only.
