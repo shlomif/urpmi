@@ -372,7 +372,7 @@ foreach (sort keys %removables) {
 
 install(@to_install_long) if $removables{0} || $removables{1};
 
-$something_was_installed or message(_("everything already installed"));
+$something_was_installed or message_auto(_("everything already installed"));
 
 
 #- remove any reference to package in choices,
@@ -427,6 +427,9 @@ sub toMb {
 }
 
 sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : print SAVEOUT "$_[0]\n"; }
+
+sub message_auto { $auto ? print SAVEOUT "$_[0]\n" : message($_[0]); }
+
 sub _ {
     my $s = shift @_; my $t = translate($s);
     $t && ref $t or return sprintf $t, @_;

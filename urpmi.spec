@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.3
-Release: 8mdk
+Release: 9mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -104,6 +104,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Wed Sep 20 2000 Guillaume Cottenceau <gc@mandrakesoft.com> 1.3-9mdk
+- in --auto under X, does not display anymore the sucking interactive dialog
+  "everything already installed"
+
 * Wed Sep 20 2000 Guillaume Cottenceau <gc@mandrakesoft.com> 1.3-8mdk
 - added option --best-output that selects X if available
 
