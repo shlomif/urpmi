@@ -147,6 +147,7 @@ fi
 * Tue Feb 12 2002 François Pons <fpons@mandrakesoft.com> 3.3-3mdk
 - package installed (and not upgraded) are by default using --nodeps
   (typically kernel-source).
+- updated man pages.
 
 * Mon Feb 11 2002 François Pons <fpons@mandrakesoft.com> 3.3-2mdk
 - fixed multiple mounts of removable device.
