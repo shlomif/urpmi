@@ -347,7 +347,7 @@ sub sync_ssh {
     my $options = shift @_;
     my $limit_rate = ref($options) && $options->{limit_rate};
     for ($limit_rate) {
-	/^(\d+)$/     and $limit_rate = $1/1024;
+	/^(\d+)$/     and $limit_rate = int $1/1024;
 	/^(\d+)[kK]$/ and $limit_rate = $1;
 	/^(\d+)[mM]$/ and $limit_rate = 1024*$1;
 	/^(\d+)[gG]$/ and $limit_rate = 1024*1024*$1;
