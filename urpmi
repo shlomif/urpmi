@@ -130,7 +130,7 @@ while (defined($_ = shift @ARGV)) {
     /^--X$/ and do { $X = 1; next };
     /^--WID=(.*)$/ and do { $WID = $1; next };
     /^--WID$/ and do { push @nextargv, \$WID; next };
-    /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && -x "/usr/X11R6/bin/grpmi" && system('/usr/X11R6/bin/xtest', '') == 0;
+    /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && -x "/usr/sbin/grpmi" && system('/usr/X11R6/bin/xtest', '') == 0;
 			       next };
     /^--comment$/ and do { push @nextargv, undef; next };
     /^--root$/ and do { push @nextargv, \$root; next };
