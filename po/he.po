@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-03 14:02+0100\n"
-"PO-Revision-Date: 2005-02-09 22:09+0200\n"
+"PO-Revision-Date: 2005-02-13 20:08+0200\n"
 "Last-Translator: dovix <dovix2003@yahoo.com>\n"
 "Language-Team: Hebrew <mdk-hebrew@iglu.org.il>\n"
 "MIME-Version: 1.0\n"
@@ -86,9 +86,9 @@ msgid "%s: command not found\n"
 msgstr "%sפקודה לא נמצאה \n"
 
 #: ../gurpmi:31 ../gurpmi2:55
-#, fuzzy, c-format
+#, c-format
 msgid "RPM installation"
-msgstr "התקנת המערכת"
+msgstr "התקנת חבילות תוכנה"
 
 #: ../gurpmi:44
 #, c-format
@@ -102,6 +102,14 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
+"בחרת בחבילת קוד מקור:\n"
+"\n"
+"%s\n"
+"\n"
+"ייתכן ולא התכוונת להתקין חבילת קוד מקור (שהתקנתה תאפשר לך "
+"לבצע שינויים בקוד ולאחר מכן להדר אותה מחדש).\n"
+"\n"
+"מה ברצונך לעשות?"
 
 #: ../gurpmi:52
 #, c-format
@@ -112,9 +120,14 @@ msgid ""
 "\n"
 "You may prefer to just save it. What is your choice?"
 msgstr ""
+"חבילת התוכנה הבאה תותקן במחשבך:\n"
+"\n"
+"%s\n"
+"\n"
+"ייתכן וברצונך רק לשמור את החבילה לדיסק. מה ברצונך לעשות?"
 
 #: ../gurpmi:57
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are about to install the following software packages on your computer:\n"
 "\n"
@@ -122,18 +135,21 @@ msgid ""
 "\n"
 "Proceed?"
 msgstr ""
-"יש צורך בהרשאות מנהל מערכת בכדי להתקין את התלויות הבאות: \n"
+"חבילות התוכנה הבאות יותקנו כעת במחשבך:\n"
+"\n"
 "%s\n"
+"\n"
+"האם ברצונך להמשיך?"
 
 #: ../gurpmi:67
-#, fuzzy, c-format
+#, c-format
 msgid "_Install"
-msgstr "התקנה"
+msgstr "_התקנה"
 
 #: ../gurpmi:68
-#, fuzzy, c-format
+#, c-format
 msgid "_Save"
-msgstr "שמירה"
+msgstr "_שמירה"
 
 #: ../gurpmi:69 ../gurpmi2:124
 #, c-format
@@ -146,34 +162,35 @@ msgid "Choose location to save file"
 msgstr "עליך לבחור מקום לשמירת הקובץ"
 
 #: ../gurpmi2:36
-#, fuzzy, c-format
+#, c-format
 msgid "Please wait..."
-msgstr "נא להמתין."
+msgstr "נא להמתין..."
 
 #: ../gurpmi2:45
-#, fuzzy, c-format
+#, c-format
 msgid "Must be root"
-msgstr "ממשק העכבר"
+msgstr "עליך להיות בעל הרשאות מנהל מערכת"
 
 #: ../gurpmi2:75
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
 "%s\n"
 "Continue?"
 msgstr ""
-"לא יכול להתקין כמה חבילות מבוקשות:\n"
-"%s"
+"חלק מהחבילות המבוקשות לא ניתנות להתקנה:\n"
+"%s\n"
+"האם ברצונך להמשיך?"
 
 #: ../gurpmi2:115
-#, fuzzy, c-format
+#, c-format
 msgid " (to upgrade)"
-msgstr "עדכון"
+msgstr " (לשדרג)"
 
 #: ../gurpmi2:116
-#, fuzzy, c-format
+#, c-format
 msgid " (to install)"
-msgstr "יציאה מההתקנה"
+msgstr " (להתקין)"
 
 #: ../gurpmi2:120 ../urpmi:346
 #, c-format
@@ -186,27 +203,30 @@ msgid "_Ok"
 msgstr "_המשך"
 
 #: ../gurpmi2:142
-#, fuzzy, c-format
+#, c-format
 msgid "_Abort"
-msgstr "ביטול"
+msgstr "_בטל"
 
 #: ../gurpmi2:162
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
 "Continue?"
 msgstr ""
-"החבילות הבאות עומדות להימחק בכדי שניתן יהיה לשדרג חבילות אחרות: \n"
-"%s"
+"החבילות הבאות יוסרו בכדי שניתן יהיה לשדרג חבילות אחרות: \n"
+"%s\n"
+"האם ברצונך להמשיך?"
 
 #: ../gurpmi2:176
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be "
 "installed:\n"
 "%s\n"
-msgstr "בכדי לספק את התלויות, %d החבילות הבאות יותקנו (%d MB)"
+msgstr ""
+"בכדי לספק את התלויות, %d החבילות הבאות יותקנו:\n"
+"%s\n"
 
 #: ../gurpmi2:183
 #, c-format
@@ -229,15 +249,14 @@ msgid "Downloading package `%s'..."
 msgstr "מוריד חבילה `%s'..."
 
 #: ../gurpmi2:242
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have bad signatures:\n"
 "%s\n"
 "\n"
 "Do you want to continue installation ?"
 msgstr ""
-"לחבילות הללו יש חתימה לא תקינה\n"
-"\n"
+"לחבילות הללו יש חתימה לא תקינה:\n"
 "%s\n"
 "\n"
 "האם להמשיך את ההתקנה?"
@@ -274,9 +293,9 @@ msgid "Installation failed"
 msgstr "ההתקנה נכשלה"
 
 #: ../gurpmi2:293
-#, fuzzy, c-format
+#, c-format
 msgid "_Done"
-msgstr "סיום"
+msgstr "_סיום"
 
 #: ../gurpmi2:301 ../urpmi:691
 #, c-format
@@ -303,9 +322,9 @@ msgid "   -h|--help      - print this help message.\n"
 msgstr "   -h|--help      - הצגת הודעת עזרה זו.\n"
 
 #: ../rpm-find-leaves:16
-#, fuzzy, c-format
+#, c-format
 msgid "   --root <path>  - use the given root instead of /\n"
-msgstr "  --synthesis    - השתמש במיזוג שניתן במקום urpmi db.\n"
+msgstr "   --root <path>  - השתמש בשורש המוגדר במקום /\n"
 
 #: ../rpm-find-leaves:17
 #, c-format
@@ -407,7 +426,7 @@ msgstr "משתמש בהתקן נייד אחר [%s] עבור \"%s\""
 #: ../urpm.pm:354
 #, c-format
 msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr ""
+msgstr "המקור \"%s\" הוא קובץ תמונת תקליטור, הוא ייעוגן לכשידרש"
 
 #: ../urpm.pm:356 ../urpm.pm:359
 #, c-format
@@ -445,14 +464,14 @@ msgid "examining parallel handler in file [%s]"
 msgstr "בודק את המזהה המקבילי בקובץ [%s]"
 
 #: ../urpm.pm:436
-#, fuzzy, c-format
+#, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr "בודק את המזהה המקבילי בקובץ [%s]"
+msgstr ""
 
 #: ../urpm.pm:440
 #, c-format
 msgid "using associated media for parallel mode: %s"
-msgstr "משתמש במדיה מקושרת עבור מצב מקבילי: %s"
+msgstr ""
 
 #: ../urpm.pm:444
 #, c-format
@@ -465,6 +484,8 @@ msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
 "update or --parallel"
 msgstr ""
+"--synthesis לא יכול לשמש ביחד עם --media, --excludemedia, --sortmedia, --"
+"update או --parallel"
 
 #: ../urpm.pm:516 ../urpm.pm:542 ../urpm.pm:994 ../urpm.pm:1005
 #: ../urpm.pm:1077 ../urpm.pm:1094 ../urpm.pm:1164 ../urpm.pm:1223
@@ -488,9 +509,9 @@ msgid "virtual medium \"%s\" is not local, medium ignored"
 msgstr "מאגר וירטואלי \"%s\" לא מקומי, התעלמות מאגר"
 
 #: ../urpm.pm:560
-#, fuzzy, c-format
+#, c-format
 msgid "Search start: %s end: %s"
-msgstr "חפש גופנים מותקנים"
+msgstr "תחילת חיפוש: %s סיום: %s"
 
 #: ../urpm.pm:565 ../urpm.pm:1015 ../urpm.pm:1102 ../urpm.pm:1173
 #: ../urpm.pm:1564
@@ -580,7 +601,7 @@ msgstr "...האיחזור נכשל: %s"
 #: ../urpm.pm:761
 #, c-format
 msgid "invalid hdlist description \"%s\" in hdlists file"
-msgstr ""
+msgstr "התיאור \"%s\" של hdlist בקובץ hdlists אינו תקין"
 
 #: ../urpm.pm:815
 #, c-format
@@ -603,9 +624,9 @@ msgid "removing medium \"%s\""
 msgstr "מסיר מאגר \"%s\""
 
 #: ../urpm.pm:884
-#, fuzzy, c-format
+#, c-format
 msgid "reconfiguring urpmi for media \"%s\""
-msgstr "הגדרות שרת מתווך למקור \"%s\""
+msgstr "מגדיר מחדש את urpmi למקור \"%s\""
 
 #: ../urpm.pm:913
 #, c-format
@@ -677,7 +698,7 @@ msgstr "מייבא חבילות מ [%s]"
 #: ../urpm.pm:1300
 #, c-format
 msgid "no rpms read"
-msgstr ""
+msgstr "לא נקראו חבילות תוכנה"
 
 #: ../urpm.pm:1310
 #, c-format
