@@ -2484,13 +2484,13 @@ sub shlock_urpmi_db {
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_SH, $LOCK_NB) = (1, 4);
 
-    #- create the .LOCK file if needed.
+    #- create the .LOCK file if needed (and if possible)
     unless (-e "$urpm->{statedir}/.LOCK") {
 	open LOCK_FILE, ">$urpm->{statedir}/.LOCK";
 	close LOCK_FILE;
     }
-    #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    open LOCK_FILE, "$urpm->{statedir}/.LOCK";
+    #- lock urpmi database, if the LOCK file doesn't exists no share lock.
+    open LOCK_FILE, "$urpm->{statedir}/.LOCK" or return;
     flock LOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 sub unlock_urpmi_db {
@@ -2505,8 +2505,6 @@ sub unlock_urpmi_db {
     #- release lock on database.
     flock LOCK_FILE, $LOCK_UN;
     close LOCK_FILE;
-
-    unlink "$urpm->{statedir}/.LOCK";
 }
 
 sub copy_packages_of_removable_media {
