@@ -462,7 +462,10 @@ sub update_media {
 		#- try to find rpm files, use recursive method, added additional
 		#- / after dir to make sure it will be taken into account if this
 		#- is a symlink to a directory.
-		@files = split "\n", `find '$dir/' -name "*.rpm" -print`;
+		#- make sure rpm filename format is correct and is not a source rpm
+		#- which are not well managed by urpmi.
+		@files = grep { /.*\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ && $4 ne "src" }
+		  split "\n", `find '$dir/' -name "*.rpm" -print`;
 
 		#- check files contains something good!
 		if (@files > 0) {
