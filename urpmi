@@ -438,7 +438,7 @@ if (@ask_unselect) {
 	} else {
 	    $noexpr = N("Nn");
 	    $yesexpr = N("Yy");
-	    message_input($msg . N(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+	    message_input($msg . N(" (Y/n) "), $force && $yesexpr) =~ /[$noexpr]/ and exit 0;
 	}
     }
 }
@@ -447,7 +447,7 @@ my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : $urpm->removed_packag
 if (@ask_remove) {
     my $list = join "\n", $urpm->translate_why_removed($state, sort @ask_remove);
 
-    if ($no_remove) {
+    if ($no_remove && !$force) {
 	my $msg = N("The installation cannot continue because the following packages
 have to be removed for others to be upgraded:\n%s\n", $list);
 	message($msg);
@@ -464,7 +464,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 	} else {
 	    $noexpr = N("Nn");
 	    $yesexpr = N("Yy");
-	    message_input($msg . N(" (y/N) ")) =~ /[$yesexpr]/ or exit 0;
+	    message_input($msg . N(" (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/ or exit 0;
 	}
     }
 }
@@ -510,7 +510,7 @@ if (@root_only) {
     } else {
 	$noexpr = N("Nn");
 	$yesexpr = N("Yy");
-	message_input("$msg:\n$p\n$msg2" . N(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
+	message_input("$msg:\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr) =~ /[$noexpr]/ and exit 0;
     }
 }
 
@@ -602,7 +602,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 					     );
     my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources) || {}};
     
-    if ($urpm->{options}{'verify-rpm'}) {
+    if ($urpm->{options}{'verify-rpm'} && !$force) {
 	my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources, translate => 1);
 	
 	if (@bad_signatures) {
@@ -619,7 +619,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		} else {
 		    $noexpr = N("Nn");
 		    $yesexpr = N("Yy");
-		    message_input("$msg:\n$p\n$msg2" . N(" (y/N) ")) =~ /[$yesexpr]/ or exit 1;
+		    message_input("$msg:\n$p\n$msg2" . N(" (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/ or exit 1;
 		}
 	    }
 	}

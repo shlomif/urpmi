@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 33mdk
+Release: 34mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,13 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Mon Sep  8 2003 François Pons <fpons@mandrakesoft.com> 4.4-34mdk
+- make sure --force will answer yes for all question (except
+  choosing a package and changing removable media, this means that
+  signature checking is also disabled).
+- force second pass if virtual media using hdlist are used.
+- improved probing files for hdlist or synthesis.
+
 * Sat Sep  6 2003 François Pons <fpons@mandrakesoft.com> 4.4-33mdk
 - added automatic generation of /var/lib/urpmi/names.<medium>
   for completion to be faster.

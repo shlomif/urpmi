@@ -809,47 +809,58 @@ sub configure {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	}
 	unless ($options{nodepslist}) {
-	    foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
-		delete @{$_}{qw(start end)};
-		if ($_->{virtual}) {
-		    my $path = $_->{url} =~ /^file:\/*(\/[^\/].*[^\/])\/*$/ && $1;
-		    if ($path) {
-			if ($_->{synthesis}) {
-			    $urpm->{log}(N("examining synthesis file [%s]", "$path/$_->{with_hdlist}"));
-			    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$path/$_->{with_hdlist}",
-										     callback => $options{callback}) };
+	    my $second_pass;
+	    do {
+		foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
+		    delete @{$_}{qw(start end)};
+		    if ($_->{virtual}) {
+			my $path = $_->{url} =~ /^file:\/*(\/[^\/].*[^\/])\/*$/ && $1;
+			if ($path) {
+			    if ($_->{synthesis}) {
+				$urpm->{log}(N("examining synthesis file [%s]", "$path/$_->{with_hdlist}"));
+				eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$path/$_->{with_hdlist}",
+											 callback => $options{callback}) };
+			    } else {
+				$urpm->{log}(N("examining hdlist file [%s]", "$path/$_->{with_hdlist}"));
+				eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$path/$_->{with_hdlist}",
+										      packing => 1,
+										      callback => $options{callback}) };
+				#- we need a second pass now.
+				defined $second_pass or $second_pass = 1;
+			    }
 			} else {
-			    $urpm->{log}(N("examining hdlist file [%s]", "$path/$_->{with_hdlist}"));
-			    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$path/$_->{with_hdlist}",
-										  packing => 1, callback => $options{callback}) };
+			    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $_->{name}));
+			    $_->{ignore} = 1;
 			}
 		    } else {
-			$urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $_->{name}));
-			$_->{ignore} = 1;
-		    }
-		} else {
-		    if ($options{hdlist} && -s "$urpm->{statedir}/$_->{hdlist}" > 32) {
-			$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-			eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
-									      packing => 1, callback => $options{callback}) };
-		    } else {
-			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
-			eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}",
-										 callback => $options{callback}) };
-			unless (defined $_->{start} && defined $_->{end}) {
+			if ($options{hdlist} && -s "$urpm->{statedir}/$_->{hdlist}" > 32) {
 			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
 			    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
-										  packing => 1, callback => $options{callback}) };
+										  packing => 1,
+										  callback => $options{callback}) };
+			} else {
+			    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
+			    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}",
+										     callback => $options{callback}) };
+			    unless (defined $_->{start} && defined $_->{end}) {
+				$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+				eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
+										      packing => 1,
+										      callback => $options{callback}) };
+			    }
+			}
+		    }
+		    unless ($_->{ignore}) {
+			unless (defined $_->{start} && defined $_->{end}) {
+			    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $_->{name}));
+			    $_->{ignore} = 1;
 			}
 		    }
 		}
-		unless ($_->{ignore}) {
-		    unless (defined $_->{start} && defined $_->{end}) {
-			$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $_->{name}));
-			$_->{ignore} = 1;
-		    }
-		}
-	    }
+	    } while ($second_pass && do { require URPM::Build;
+					  $urpm->{log}(N("performing second pass to compute dependencies\n"));
+					  $urpm->unresolved_provides_clean;
+					  $second_pass-- });
 	}
     }
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
@@ -1092,17 +1103,17 @@ sub remove_selected_media {
 sub probe_with_try_list {
     my ($suffix, $probe_with) = @_;
 
-    my @probe = ("synthesis.hdlist.cz", "synthesis.hdlist$suffix.cz",
-		 "../synthesis.hdlist$suffix.cz", "../base/synthesis.hdlist$suffix.cz");
+    my @probe = ("../base/synthesis.hdlist$suffix.cz", "../synthesis.hdlist$suffix.cz", "synthesis.hdlist$suffix.cz");
+    length($suffix) and unshift @probe, "synthesis.hdlist.cz";
+    length($suffix) or push @probe, ("../base/synthesis.hdlist1.cz", "../base/synthesis.hdlist2.cz",
+				     "../synthesis.hdlist1.cz", "../synthesis.hdlist2.cz",
+				     "synthesis.hdlist1.cz", "synthesis.hdlist2.cz");
 
-    defined $suffix && !$suffix and push @probe, ("synthesis.hdlist1.cz", "synthesis.hdlist2.cz",
-						  "../synthesis.hdlist1.cz", "../synthesis.hdlist2.cz",
-						  "../base/synthesis.hdlist1.cz", "../base/synthesis.hdlist2.cz");
-
-    my @probe_hdlist = ("hdlist.cz", "hdlist$suffix.cz", "../hdlist$suffix.cz", "../base/hdlist$suffix.cz");
-    defined $suffix && !$suffix and push @probe_hdlist, ("hdlist1.cz", "hdlist2.cz",
-							 "../hdlist1.cz", "../hdlist2.cz",
-							 "../base/hdlist1.cz", "../base/hdlist2.cz");
+    my @probe_hdlist = ("../base/hdlist$suffix.cz", "../hdlist$suffix.cz", "hdlist$suffix.cz");
+    length($suffix) and push @probe_hdlist, "hdlist.cz";
+    length($suffix) or push @probe_hdlist, ("../base/hdlist1.cz", "../base/hdlist2.cz",
+					    "../hdlist1.cz", "../hdlist2.cz",
+					    "hdlist1.cz", "hdlist2.cz");
 
     if ($probe_with =~ /synthesis/) {
 	push @probe, @probe_hdlist;
@@ -1124,7 +1135,7 @@ sub probe_with_try_list {
 #-   noclean     -> keep header directory cleaned.
 sub update_media {
     my ($urpm, %options) = @_; #- do not trust existing hdlist and try to recompute them.
-    my ($cleaned_cache);
+    my ($cleaned_cache, $second_pass);
 
     #- take care of some options.
     $cleaned_cache = !$options{noclean};
@@ -1460,7 +1471,7 @@ this could happen if you mounted manually the directory when creating the medium
 			} else {
 			    $cleaned_cache = 0; #- make sure the headers will not be removed for another media.
 			    my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-			    @unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
+			    @unresolved_before == @unresolved_after or $second_pass = 1;
 			}
 		    };
 		    $@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
@@ -1797,7 +1808,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 		unless ($error) {
 		    my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-		    @unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
+		    @unresolved_before == @unresolved_after or $second_pass = 1;
 
 		    if ($medium->{hdlist} ne 'list' && -s "$urpm->{cachedir}/partial/list") {
 			local (*F, $_);
@@ -1908,7 +1919,7 @@ this could happen if you mounted manually the directory when creating the medium
 
     #- some unresolved provides may force to rebuild all synthesis,
     #- a second pass will be necessary.
-    if ($urpm->{second_pass}) {
+    if ($second_pass) {
 	$urpm->{log}(N("performing second pass to compute dependencies\n"));
 	$urpm->unresolved_provides_clean;
     }
@@ -1922,7 +1933,7 @@ this could happen if you mounted manually the directory when creating the medium
 	#- a modified medium is an invalid medium, we have to read back the previous hdlist
 	#- or synthesis which has not been modified by first pass above.
 	if ($medium->{headers} && !$medium->{modified}) {
-	    if ($urpm->{second_pass}) {
+	    if ($second_pass) {
 		$urpm->{log}(N("reading headers from medium \"%s\"", $medium->{name}));
 		($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
 									  headers => $medium->{headers},
@@ -1944,7 +1955,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- keep in mind we have modified database, sure at this point.
 	    $urpm->{modified} = 1;
 	} elsif ($medium->{synthesis}) {
-	    if ($urpm->{second_pass}) {
+	    if ($second_pass) {
 		if ($medium->{virtual}) {
 		    my ($path) = $medium->{url} =~ /^file:\/*(\/[^\/].*[^\/])\/*$/;
 		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
@@ -1958,12 +1969,12 @@ this could happen if you mounted manually the directory when creating the medium
 		}
 	    }
 	} else {
-	    if ($urpm->{second_pass}) {
+	    if ($second_pass) {
 		$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", 1);
 	    }
 	    #- check if synthesis file can be built.
-	    if (($urpm->{second_pass} || $medium->{modified_synthesis}) && !$medium->{modified}) {
+	    if (($second_pass || $medium->{modified_synthesis}) && !$medium->{modified}) {
 		unless ($medium->{virtual}) {
 		    $urpm->build_synthesis(start     => $medium->{start},
 					   end       => $medium->{end},
