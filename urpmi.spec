@@ -202,6 +202,8 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+- fixed --keep for parallel mode.
+
 * Tue Jul 29 2003 François Pons <fpons@mandrakesoft.com> 4.4-14mdk
 - fixed urpme --auto disabling fuzzy report.
 - fixed urpme --parallel which was not handling log.
