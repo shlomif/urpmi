@@ -21,6 +21,7 @@
 #use strict qw(subs vars refs);
 use strict;
 use urpm;
+use MDK::Common;
 
 #- contains informations to parse installed system.
 my $urpm = new urpm;
@@ -233,6 +234,10 @@ while (defined($_ = shift @argv)) {
 	    push @files, untaint($_);
 	}
 	next;
+    }
+    if (/\.urpm-rpmi$/) {
+        push @argv, split /\n/, cat_($_);
+        next;
     }
     if ($src) {
 	push @src_names, $_;
