@@ -50,20 +50,20 @@ Copyright (C) 1999, 2000, 2001 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-") . _("  --help           - print this help message.
-") . _("  --update         - use only update media.
-") . _("  --auto           - automatically select a good package in choices.
-") . _("  --auto-select    - automatically select packages for upgrading the system.
-") . _("  --force          - force invocation even if some package do not exist.
-") . _("  --wget           - use wget to retrieve distant files.
-") . _("  --curl           - use curl to retrieve distant files.
-") . _("  --X              - use X interface.
-") . _("  --best-output    - choose best interface according to the environment:
-                     X or text mode.
-") . _("  -a               - select all matches on command line.
-") . _("  -p               - allow search in provides to find package.
-") . _("  -q               - quiet mode.
-") . _("  -v               - verbose mode.
+") . _("  --help         - print this help message.
+") . _("  --update       - use only update media.
+") . _("  --auto         - automatically select a good package in choices.
+") . _("  --auto-select  - automatically select packages for upgrading the system.
+") . _("  --force        - force invocation even if some packages do not exist.
+") . _("  --wget         - use wget to retrieve distant files.
+") . _("  --curl         - use curl to retrieve distant files.
+") . _("  --X            - use X interface.
+") . _("  --best-output  - choose best interface according to the environment:
+                   X or text mode.
+") . _("  -a             - select all matches on command line.
+") . _("  -p             - allow search in provides to find package.
+") . _("  -q             - quiet mode.
+") . _("  -v             - verbose mode.
 ") . "\n" . _("  names or rpm files (only for root) given on command line are installed.
 ", $urpm::VERSION);
     exit(0);
@@ -218,7 +218,7 @@ if ($auto_select) {
     $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
 
     if (keys(%to_remove) > 0) {
-	print STDERR "some package have to be removed for being upgraded, this is not supported yet\n";
+	print STDERR "some packages have to be removed for being upgraded, this is not supported yet\n";
     }
 }
 
@@ -245,7 +245,7 @@ foreach (keys %packages) {
 if (!$auto) {
     if ($ask_user) {
 	my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
-	my $msg2 = _("Is it ok?");
+	my $msg2 = _("Is it OK?");
 	if ($X) {
 	    my $p = join "\n", @to_install;
 	    my $ok = _("Ok");
@@ -274,7 +274,7 @@ foreach (@$local_to_removes) {
 my %sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'),
 					    (!$auto || $allow_medium_change) && sub {
 						my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
-						my $msg2 = _("Press enter when it's done...");
+						my $msg2 = _("Press Enter when it's done...");
 						if ($X) {
 						    my $ok = _("Ok");
 						    my $cancel = _("Cancel");

@@ -157,10 +157,10 @@ sub read_config {
     my (%hdlists, %lists);
     foreach (@{$urpm->{media}}) {
 	exists $hdlists{$_->{hdlist}} and
-	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" try to use an already used hdlist, medium ignored", $_->{name}));
+	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" tries to use an already used hdlist, medium ignored", $_->{name}));
 	$hdlists{$_->{hdlist}} = undef;
 	exists $lists{$_->{list}} and
-	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" try to use an already used list, medium ignored", $_->{name}));
+	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" tries to use an already used list, medium ignored", $_->{name}));
 	$lists{$_->{list}} = undef;
     }
 
@@ -181,7 +181,7 @@ sub read_config {
 		    foreach (@{$urpm->{media}}) {
 			$_->{name} eq $2 and $medium = $_, last;
 		    }
-		    $medium and $urpm->{error}(_("unable to use name \"%s\" for unamed medium because it is already used",
+		    $medium and $urpm->{error}(_("unable to use name \"%s\" for unnamed medium because it is already used",
 						 $2)), next;
 
 		    $medium = { name => $2, hdlist => "hdlist.$1", list => "list.$2" };
@@ -391,7 +391,7 @@ sub remove_media {
 	    #- when a medium is removed, depslist and others need to be recomputed.
 	    $urpm->{modified} = 1;
 	} else {
-	    $urpm->{error}(_("trying to remove inexistant medium \"%s\"", $_));
+	    $urpm->{error}(_("trying to remove inexistent medium \"%s\"", $_));
 	}
     }
 
@@ -424,7 +424,7 @@ sub select_media {
     #- check if some arguments does not correspond to medium name.
     foreach (keys %media) {
 	unless ($media{$_}) {
-	    $urpm->{error}(_("trying to select inexistant medium \"%s\"", $_));
+	    $urpm->{error}(_("trying to select inexistent medium \"%s\"", $_));
 	}
     }
 }
@@ -1499,7 +1499,7 @@ sub get_source_packages {
 	if (/([^\/]*)\.rpm/) {
 	    if (-s "$urpm->{cachedir}/rpms/$1.rpm") {
 		if (keys(%{$file2fullnames{$1} || {}}) > 1) {
-		    $urpm->{error}(_("there are multiples packages with the same rpm filename \"%s\""), $1);
+		    $urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $1);
 		    next;
 		} elsif (keys(%{$file2fullnames{$1} || {}}) == 1) {
 		    my ($fullname) = keys(%{$file2fullnames{$1} || {}});
@@ -1525,7 +1525,7 @@ sub get_source_packages {
 	    while (<F>) {
 		if (/(.*)\/([^\/]*)\.rpm$/) {
 		    if (keys(%{$file2fullnames{$2} || {}}) > 1) {
-			$urpm->{error}(_("there are multiples packages with the same rpm filename \"%s\""), $2);
+			$urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $2);
 			next;
 		    } elsif (keys(%{$file2fullnames{$2} || {}}) == 1) {
 			my ($fullname) = keys(%{$file2fullnames{$2} || {}});

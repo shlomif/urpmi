@@ -8,10 +8,18 @@ echo -e "\
 char *foobar[] = { " > placeholder.h.$$
 cat ../urpmf | perl -ne 's/.*\$ECHO\s+(".*").*/N_($1),/g and print' >> placeholder.h.$$
 
-for i in $* 
-do
-	./pl_create_placeholder $i >> placeholder.h.$$
-done
+if [ "$*" = "" ]; then
+	for i in ../_irpm ../urpm.pm ../urpmf ../urpmi ../urpmi.addmedia \
+		../urpmi.update ../urpmi.removemedia ../urpmq
+	do
+		./pl_create_placeholder $i >> placeholder.h.$$
+	done
+else
+	for i in $* 
+	do
+		./pl_create_placeholder $i >> placeholder.h.$$
+	done
+fi
 
 echo "};" >> placeholder.h.$$
 

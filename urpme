@@ -63,7 +63,7 @@ if (@toremove > @l && !$auto) {
     my $sum = 0; map { $sum += $_ } `rpm -q --queryformat "%{SIZE}\n" @toremove`;
     print "To satisfy dependencies, the following packages are going to be removed";
     printf " (%d MB)", toMb($sum);
-    print ":\n@toremove\nIs it ok? (Y/n) ";
+    print ":\n@toremove\nIs it OK? (Y/n) ";
     <STDIN> =~ /n/i and exit 0;
 }
 system("rpm", "-e", @toremove);
