@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.2
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -63,6 +63,8 @@ EOF
 
 mkdir -p $RPM_BUILD_ROOT%{perl_sitearch}
 install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_sitearch}
+mkdir -p $RPM_BUILD_ROOT%{_mandir}/man3
+pod2man urpm.pm >$RPM_BUILD_ROOT%{_mandir}/man3/urpm.3
 
 find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.mo | \
     perl -pe 'm|locale/([^/_]*)(.*)|; $_ = "%%lang($1) %{_datadir}/locale/$1$2\n"' > %{name}.lang
@@ -142,6 +144,10 @@ fi
 
 
 %changelog
+* Thu Jan 17 2002 François Pons <fpons@mandrakesoft.com> 3.2-2mdk
+- added urpm.3 man pages.
+- improved urpmi.removemedia (help, added -c flag, noclean headers).
+
 * Wed Jan 16 2002 François Pons <fpons@mandrakesoft.com> 3.2-1mdk
 - fixed bad use of update flag.
 - fixed urpmi_rpm-find-leaves to use rpm db directly.
