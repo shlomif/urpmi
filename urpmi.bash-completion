@@ -1,11 +1,11 @@
 # bash completion for urpmi and friends
-# Copyright (c) 2002-2003 Guillaume Rousse <guillomovitch@linux-mandrake.com>
+# Copyright (c) 2002-2004 Guillaume Rousse <guillomovitch@linux-mandrake.com>
 # $Id$
 
 # utility functions
 _urpmi_get_medias()
 {
-	medias=( $( sed -ne 's/^\(.\+\) \+[^ ]\+ \+{/\1/p' /etc/urpmi/urpmi.cfg 2>/dev/null ) )
+	medias=( $( sed -ne 's/^\(.\+\) \+[^ ]\+ \+{/\1/p' /etc/urpmi/urpmi.cfg 2>/dev/null | sed -e 's/(/\\(/g' -e 's/)/\\)/g' -e 's/ /\\ /g' ) )
 }
 
 _urpmi_medias()
