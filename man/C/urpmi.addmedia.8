@@ -1,7 +1,7 @@
 .TH urpmi.addmedia 8 "28 Aug 2003" "Mandrakesoft" "Mandrakelinux"
 .IX urpmi.addmedia
 .SH NAME
-urpmi.addmedia \- adds a new rpm media to be used by urpmi
+urpmi.addmedia \- adds a new rpm medium to be used by urpmi
 .SH SYNOPSIS
 .B urpmi.addmedia [\fIoptions\fP] <\fIname\fP> <\fIurl\fP>
 .SH DESCRIPTION
@@ -13,7 +13,7 @@ One of the following modes must be chosen:
 .PP
 http:
 .IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> http://<\fIlogin\fP>:<\fIpass\fP>@<\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
-Where <\fIname\fP> is your reference for the media (e.g. "updates").
+Where <\fIname\fP> is your reference for the medium (e.g. "updates").
 <\fIname\fP> is optional if \fB--distrib\fP is given in \fIoptions\fP.
 .br
 <\fIhost\fP>/<\fIpath\fP> is the location of the rpm directory on the net.
@@ -29,18 +29,19 @@ the rpms. The location is given relative to <\fIpath\fP>.
 ftp:
 .IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> ftp://<\fIlogin\fP>:<\fIpass\fP>@<\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 The same as for http, just add your login and user if required (Note that
-you needn't to specify anonymous as login for anonymous access ftp servers).
+you don't need to specify \fBanonymous\fP as login for anonymous access ftp
+servers).
 .br
 Note that if \fBwget\fP is used to download files with a firewall you may
-have to add \fBpassive_ftp=on\fP option to \fB/etc/wgetrc\fP. 
+have to add the \fBpassive_ftp=on\fP option to \fB/etc/wgetrc\fP. 
 .br
 \fIeg\fP: urpmi.addmedia ftp ftp://a:a@leia//export/media/main with media_info/hdlist.cz
 .PP
 ssh:
 .IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> ssh://<\fIlogin\fP>@<\fIhost\fP>/<\fIpath\fP> [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
 The same as for http, just add your login and password if required. It is
-strongly recommended to export root key in order not to have to type password
-all the time. \fBscp\fP and \fBrsync\fP will be used to get files.
+strongly recommended to export the root key in order not to have to type a
+password all the time. \fBscp\fP and \fBrsync\fP will be used to get files.
 .br
 \fIeg\fP: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
 .PP
@@ -53,7 +54,7 @@ The same as for http, you can use <\fIhost\fP>::<\fIpath\fP> too.
 Local drive or NFS:
 .br
 .IP "\fB urpmi.addmedia [\fIoptions\fP] <\fIname\fP> file://<\fIpath\fP>\fP [with <\fIrelative path of synthesis|hdlist\fP>]\fP"
-Where <\fIname\fP> is your reference for the media (e.g. Myrpms).
+Where <\fIname\fP> is your reference for the medium (e.g. Myrpms).
 .br
 <\fIpath\fP> is the location of the rpm directory on your machine.
 .PP
@@ -89,7 +90,7 @@ Do not try to find any synthesis or hdlist file.
 .IP "\fB\--distrib\fP"
 Retrieve a set of media from a distribution. Typically, the URL provided to
 \fBurpmi.addmedia\fP will represent the parent directory of a directory
-\fBmedia\fP, which in turn will contain various subdirectories for each media
+\fBmedia\fP, which in turn will contain various subdirectories for each medium
 of the distribution. <\fIname\fP> is combined with medium names found to create
 newer medium names in the urpmi database. The \fBwith ...\fP option, if
 provided, is ignored, as hdlists found on the installation medium are used

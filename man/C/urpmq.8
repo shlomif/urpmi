@@ -5,7 +5,7 @@ urpmq \- urpmi database query tool.
 .SH SYNOPSIS
 .B urpmq [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
-urpmq is a tool to the urpmi database. It can be used to list available
+urpmq is a tool to access the urpmi database. It can be used to list available
 packages in the various urpmi media, or to list the full dependencies of a
 package, or to list the packages that will be installed if you start urpmi.
 .PP
@@ -26,7 +26,7 @@ media if \fB--update\fP is used).
 .IP "\fB\--excludemedia\fP \fImedia1,...,mediaN\fP"
 Do not use the specified media.
 .IP "\fB\--searchmedia\fP \fImedia\fP"
-Use only the specified media to search for packages when combined with
+Use only the specified medium to search for packages when combined with
 \fB\--auto-select\fP.
 .IP "\fB\--sortmedia\fP \fImedia1,...,mediaN\fP"
 Sort the specified media. Substrings may be used to simplify grouping.
@@ -38,7 +38,7 @@ Automatically select all packages that have to be upgraded, according to already
 installed packages and packages listed in various registered media.
 .IP "\fB\--fuzzy\fP"
 Disable fast search on exact package name; i.e. it will propose all
-packages matching partially the name, even if one of them matches exactly the
+packages matching the name partially, even if one of them matches exactly the
 specified name (this is the same as \fB\-y\fP).
 .IP "\fB\--keep\fP"
 When some dependencies cannot be satisfied, change the selection of packages
@@ -64,7 +64,7 @@ Extract and dump headers of selected packages to standard output.
 .IP "\fB\--sources\fP"
 Print source URLs (or file names) of all selected packages.
 .IP "\fB\--force\fP"
-Continue when requesting inexistent packages.
+Continue when requesting packages that are not available.
 .IP "\fB\--parallel\fP \fIalias\fP"
 Activate distributed execution of urpmi to other machines (it is mandatory that
 urpmi is installed but it is not necessary to have media defined on any
@@ -101,8 +101,8 @@ Select all matches on command line, useful when using \fB-f\fP or \fB-r\fP with
 incomplete name given.
 .IP "\fB\-c\fP"
 If maximal closure is used, assume that a package listed may have wrong or not
-up-to-date dependencies. This cause more package to be upgraded and may correct
-unresolved dependencies on the rpm database.
+up-to-date dependencies. This causes more packages to be upgraded and may
+correct unresolved dependencies on the rpm database.
 .IP "\fB\-p\fP"
 Search in provides to find package (this is the opposite of \fB-P\fP).
 .IP "\fB\-P\fP"

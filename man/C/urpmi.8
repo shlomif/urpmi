@@ -24,14 +24,14 @@ are already installed.
 proceed.
 .PP
 Note that urpmi handles installations from various types of media (ftp, http,
-rsync, local and nfs volumes, removable media such as CDROMs) and is able to
-install dependencies from a media different from the original package's
-media. If necessary, for removable media, urpmi may ask you to insert the
-appropriate disk.
+rsync, local and nfs volumes, and removable media such as CDROMs) and is able
+to install dependencies from a medium different from the original package's
+media. For removable media, urpmi may ask you to insert the appropriate disk,
+if necessary.
 .PP
-To add a new media containing rpms, run urpmi.addmedia.
+To add a new medium containing rpms, run urpmi.addmedia.
 .br
-To remove an existing media, use urpmi.removemedia.
+To remove an existing medium, use urpmi.removemedia.
 .br
 To update the package list (for example when the ftp archive changes) use
 urpmi.update.
@@ -77,7 +77,7 @@ packages. The default is 1 and setting this value to 0 just disables splitting
 in small transactions.
 .IP "\fB\--fuzzy\fP"
 Disable fast search on exact package name; i.e. it will propose all
-packages matching partially the name, even if one of them matches exactly the
+packages matching the name partially, even if one of them matches exactly the
 specified name (this is the same as \fB\-y\fP).
 .IP "\fB\--src\fP \fIname\fP"
 Search a source package matching \fIname\fP and select all its dependencies by
@@ -134,15 +134,15 @@ Activate or deactivate rpm signature checking. It's activated by default.
 Test (same as \fBrpm --test\fP) installation of packages but do not modify the
 system.
 .IP "\fB\--strict-arch\fP"
-Upgrade only packages if the newer version has the same architecture than the
-installed one. Mostly useful on machines that support several architectures
+Upgrade only packages if the newer version has the same architecture as the
+one installed. Mostly useful on machines that support several architectures
 (32 and 64 bit).
 .IP "\fB\--norebuild\fP"
 Don't try to rebuild the hdlist files from the RPMs if the original hdlist wasn't
 readable or was corrupted.
 .IP "\fB\--excludepath\fP \fIstring\fP"
-Do not install files whose name begins with the given \fIstring\fP (same as \fBrpm
---excludepath\fP).
+Do not install files of which the names begin with the given \fIstring\fP (same
+as \fBrpm --excludepath\fP).
 .IP "\fB\--excludedocs\fP"
 Do not install documents files (same as \fBrpm --excludedocs\fP).
 .IP "\fB\-a\fP"
@@ -152,7 +152,7 @@ Allow search in provides to find package (default).
 .IP "\fB\-P\fP"
 Do not search in provides to find package (this is the opposite of \fB-p\fP).
 .IP "\fB\-y\fP"
-Yhis is the same as \fB--fuzzy\fP.
+This is the same as \fB--fuzzy\fP.
 .IP "\fB\-s\fP"
 This is the same as \fB--src\fP.
 .IP "\fB\-q\fP"
@@ -207,12 +207,13 @@ possible.
 .PP
 Please test the report using
 .I urpmi --env bug_name_as_directory ...
-to check bug is still here, currently only resolution bugs are reproduceable.
+to check that the bug is still here. Obviously, only reproducible bugs can be
+resolved.
 .PP
 For sending the report, use
 .I tar cvfz bug_name_as_directory.tgz bug_name_as_directory
 and send it directly to the current maintainer (rgarciasuarez@mandrakesoft.com)
-with a description of what is wrong according to you.
+with a description of what you think is wrong.
 .SH BUGS
 When a package is removed, it may not be replaced with an older version.
 .SH AUTHOR
