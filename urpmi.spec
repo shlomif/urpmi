@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.5
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Mon Jun 17 2002 François Pons <fpons@mandrakesoft.com> 3.5-4mdk
+- fixed urpmq --headers on some cases.
+
 * Thu Jun 13 2002 François Pons <fpons@mandrakesoft.com> 3.5-3mdk
 - fixed --auto-select and skip.list.
 

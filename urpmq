@@ -167,6 +167,8 @@ if ($query->{auto_select} || $query->{deps}) {
     } else { #TODO fallback tempory...
 	$urpm->filter_packages_to_upgrade($db, $state->{requested}, undef, keep_alldeps => 1);
     }
+} else {
+    $state->{selected} = $state->{requested};
 }
 
 #- get out of package that should not be upgraded.
