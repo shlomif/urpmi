@@ -667,7 +667,10 @@ foreach my $set (@{$state->{transaction} || []}) {
 				    test => $test,
 				    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
 	} else {
-	    message(N("installing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), 'noX');
+	    %transaction_sources_install || %transaction_sources and
+		message(N("installing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), 'noX');
+	    @{!$urpm->{options}{'allow-force'} && $set->{remove} || []} and
+		message(N("removing %s", join(' ', @{!$urpm->{options}{'allow-force'} && $set->{remove} || []})), 'noX');
 	    log_it(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my $progress_nb;
