@@ -2311,11 +2311,13 @@ sub get_source_packages {
 
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
-	my $p = $urpm->{depslist}[$_];
-	if ($urpm->{source}{$_}) {
-	    $protected_files{$local_sources{$_} = $urpm->{source}{$_}} = undef;
-	} else {
-	    $fullname2id{$p->fullname} = $_ . '';
+	foreach (split /\|/, $_) {
+	    if ($urpm->{source}{$_}) {
+		$protected_files{$local_sources{$_} = $urpm->{source}{$_}} = undef;
+	    } else {
+		my $p = $urpm->{depslist}[$_];
+		$fullname2id{$p->fullname} = $_ . '';
+	    }
 	}
     }
 
