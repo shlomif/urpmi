@@ -257,6 +257,7 @@ if ($urpm::args::options{list_aliases}) {
 		    #- for all provides of package, look up what is requiring them.
 		    foreach ($pkg->provides) {
 			if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
+			    next if $s eq '';
 			    foreach (map { $urpm->{depslist}[$_] }
 				     grep { ! exists $state->{selected}{$_} && ! exists $properties{$_} }
 				     keys %{$requires{$n} || {}}) {
