@@ -1576,8 +1576,10 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 		} else {
 		    #- the flag is no more necessary.
-		    delete $medium->{list}
-			and unlink "$urpm->{statedir}/$medium->{list}";
+		    if ($medium->{list}) {
+			unlink "$urpm->{statedir}/$medium->{list}";
+			delete $medium->{list};
+		    }
 		}
 	    }
 	}
