@@ -1,0 +1,24 @@
+.TH proxy.cfg 5 "25 Aug 2004" "Mandrakesoft" "Mandrakelinux"
+.IX proxy.cfg
+.SH NAME
+proxy.cfg \- urpmi proxy configuration file format.
+.SH DESCRIPTION
+The proxy.cfg file contains lines of the form
+
+.B "[media:][http_proxy|ftp_proxy|proxy_user]=[value]"
+
+where the media part is optional (in this case, the line applies
+to all media).
+
+ftp_proxy and http_proxy values have the same syntax as the usual
+environment variables used by many programs such as \fIcurl\fP(1):
+
+.B "[protocol://]<host>[:port]"
+
+.SH AUTHOR
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+.PP
+Rafael Garcia-Suarez, Mandrakesoft <rgarciasuarez@mandrakesoft.com>
+(current maintainer)
+.SH SEE ALSO
+\fIurpmi\fP(8), \fIurpmi.cfg\fP(5).
