@@ -612,6 +612,8 @@ sub configure {
 }
 
 #- add a new medium, sync the config file accordingly.
+#- returns the new medium's name. (might be different from the requested
+#- name if index_name was specified)
 sub add_medium {
     my ($urpm, $name, $url, $with_hdlist, %options) = @_;
 
@@ -669,9 +671,11 @@ sub add_medium {
     #- keep in mind the database has been modified and base files need to be updated.
     #- this will be done automatically by transfering modified flag from medium to global.
     $urpm->{log}(N("added medium %s", $name));
+    $name;
 }
 
 #- add distribution media, according to url given.
+#- returns the list of names of added media.
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
     my ($hdlists_file);
@@ -688,17 +692,18 @@ sub add_distrib_media {
 
 	$hdlists_file = reduce_pathname("$dir/$distrib_root/hdlists");
 
-	$urpm->try_mounting($hdlists_file) or $urpm->{error}(N("unable to access first installation medium")), return;
+	$urpm->try_mounting($hdlists_file) or $urpm->{error}(N("unable to access first installation medium")), return ();
 
 	if (-e $hdlists_file) {
 	    unlink "$urpm->{cachedir}/partial/hdlists";
 	    $urpm->{log}(N("copying hdlists file..."));
 	    urpm::util::copy($hdlists_file, "$urpm->{cachedir}/partial/hdlists")
 		? $urpm->{log}(N("...copying done"))
-		: do { $urpm->{error}(N("...copying failed")); return };
+		: do { $urpm->{error}(N("...copying failed")); return () };
 	    chown 0, 0, "$urpm->{cachedir}/partial/hdlists";
 	} else {
-	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
+	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)"));
+	    return ();
 	}
     } else {
 	#- try to get the description of the hdlists if it has been found.
@@ -721,13 +726,15 @@ sub add_distrib_media {
 	if (-e "$urpm->{cachedir}/partial/hdlists") {
 	    $hdlists_file = "$urpm->{cachedir}/partial/hdlists";
 	} else {
-	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
+	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)"));
+	    return ();
 	}
     }
 
     #- cosmetic update of name if it contains blank char.
     $name =~ /\s/ and $name .= ' ';
 
+    my @newnames;
     #- at this point, we have found an hdlists file, so parse it
     #- and create all necessary media according to it.
     if (open my $hdlistsfh, $hdlists_file) {
@@ -740,7 +747,7 @@ sub add_distrib_media {
 	    m/^\s*(?:noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file", $_));
 	    my ($hdlist, $rpmsdir, $descr) = ($1, $2, $3);
 
-	    $urpm->add_medium(
+	    push @newnames, $urpm->add_medium(
 		$name ? "$descr ($name$medium)" : $descr,
 		"$url/$rpmsdir",
 		offset_pathname($url, $rpmsdir) . "/$distrib_root/" . ($options{probe_with} eq 'synthesis' ? 'synthesis.' : '') . $hdlist,
@@ -751,8 +758,10 @@ sub add_distrib_media {
 	    ++$medium;
 	}
 	close $hdlistsfh;
+	return @newnames;
     } else {
-	$urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
+	$urpm->{error}(N("unable to access first installation medium (no hdlists file found)"));
+	return ();
     }
 }
 
