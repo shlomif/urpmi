@@ -166,14 +166,6 @@ my $ask_choice = sub {
     $choices_id[$n - 1];
 };
 
-if ($minimal) {
-    $urpm->read_provides;
-    $urpm->read_config;
-    $urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
-} else {
-    $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, complete => $complete);
-}
-
 #- auto select package for upgrading the distribution.
 if ($auto_select) {
     my (%to_remove, %keep_files);
@@ -185,6 +177,14 @@ if ($auto_select) {
     }
 }
 
+if ($minimal) {
+    $urpm->read_provides;
+    $urpm->read_config;
+    $urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
+} else {
+    $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, complete => $complete);
+}
+
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);
 
@@ -193,7 +193,7 @@ my @to_install;
 
 #- check if there is at least one package to install that
 #- has not been given by the user.
-my $ask_user;
+my $ask_user = $auto_select;
 my $sum = 0;
 foreach (keys %packages) {
     defined $packages{$_} and $ask_user = 1;

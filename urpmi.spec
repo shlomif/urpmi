@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 9mdk
+Release: 10mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Mon Feb 26 2001 François Pons <fpons@mandrakesoft.com> 1.5-10mdk
+- fixed auto-select flag to use dependancies resolver after.
+
 * Mon Feb 26 2001 François Pons <fpons@mandrakesoft.com> 1.5-9mdk
 - fixed big bug of provides files completely read but only
   files should be extracted with no package description.
