@@ -816,32 +816,14 @@ sub remove_selected_media {
 sub _probe_with_try_list {
     my ($suffix, $probe_with) = @_;
     my @probe = (
-	"synthesis.hdlist$suffix.cz",
-	"../base/synthesis.hdlist$suffix.cz",
-	"../synthesis.hdlist$suffix.cz",
-    );
-    length($suffix) and unshift @probe, "synthesis.hdlist.cz";
-    length($suffix) or push @probe, (
-	"../base/synthesis.hdlist1.cz",
-	"../base/synthesis.hdlist2.cz",
-	"../synthesis.hdlist1.cz",
-	"../synthesis.hdlist2.cz",
-	"synthesis.hdlist1.cz",
-	"synthesis.hdlist2.cz",
+	"media_info/synthesis.hdlist.cz",
+	"../media_info/synthesis.hdlist_$suffix.cz",
+	"synthesis.hdlist.cz",
     );
     my @probe_hdlist = (
-	"hdlist$suffix.cz",
-	"../base/hdlist$suffix.cz",
-	"../hdlist$suffix.cz",
-    );
-    length($suffix) and push @probe_hdlist, "hdlist.cz";
-    length($suffix) or push @probe_hdlist, (
-	"../base/hdlist1.cz",
-	"../base/hdlist2.cz",
-	"../hdlist1.cz",
-	"../hdlist2.cz",
-	"hdlist1.cz",
-	"hdlist2.cz",
+	"media_info/hdlist.cz",
+	"../media_info/hdlist_$suffix.cz",
+	"hdlist.cz",
     );
     if ($probe_with =~ /synthesis/) {
 	push @probe, @probe_hdlist;
@@ -896,6 +878,12 @@ sub reconfig_urpmi {
 	$urpm->write_config;
     }
     $reconfigured;
+}
+
+sub _guess_hdlist_suffix {
+    my ($dir) = @_;
+    my ($suffix) = $dir =~ m{\bmedia/(\w+)/*$};
+    $suffix;
 }
 
 #- Update the urpmi database w.r.t. the current configuration.
@@ -1019,9 +1007,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- try to probe for possible with_hdlist parameter, unless
 	    #- it is already defined (and valid).
 	    if ($options{probe_with} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
-		my ($suffix) = $dir =~ m|RPMS([^/]*)/*$|;
-
-		foreach (_probe_with_try_list($suffix, $options{probe_with})) {
+		foreach (_probe_with_try_list(_guess_hdlist_suffix($dir), $options{probe_with})) {
 		    if (-e "$dir/$_" && -s _ > 32) {
 			$medium->{with_hdlist} = $_;
 			last;
@@ -1441,15 +1427,13 @@ this could happen if you mounted manually the directory when creating the medium
 	    $urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 	    $options{callback} && $options{callback}('retrieve', $medium->{name});
 	    if ($options{probe_with}) {
-		my ($suffix) = $dir =~ m|RPMS([^/]*)/*$|;
 		my @probe_list = (
 		    $medium->{with_hdlist}
 		    ? $medium->{with_hdlist}
-		    : _probe_with_try_list($suffix, $options{probe_with})
+		    : _probe_with_try_list(_guess_hdlist_suffix($dir), $options{probe_with})
 		);
 		foreach my $with_hdlist (@probe_list) {
 		    $basename = basename($with_hdlist) or next;
-
 		    $options{force} and unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
 			$urpm->{sync}(
@@ -3197,7 +3181,7 @@ urpm - Mandrakesoft perl tools to handle the urpmi database
     my $urpm = new urpm;
     $urpm->read_config();
     $urpm->add_medium('medium_ftp',
-                      'ftp://ftp.mirror/pub/linux/distributions/mandrake-devel/cooker/i586/Mandrake/RPMS',
+                      'ftp://ftp.mirror/pub/linux/distributions/mandrake-devel/cooker/i586/media/main',
                       'synthesis.hdlist.cz',
                       update => 0);
     $urpm->add_distrib_media('stable', 'removable://mnt/cdrom',
