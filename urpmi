@@ -796,6 +796,10 @@ if ($pid_err && $pid_out) {
     close STDOUT;
 }
 
+if ($urpm::args::options{X}) {
+    gtkset_mousecursor_normal(); #- for restoring a normal in any case
+    flush();
+}
 use POSIX ();
 POSIX::_exit $exit_code;
 
