@@ -1,0 +1,98 @@
+.\" Relecture Gérard Delarfond
+.TH urpmi.update 8 "29 Aou 2002" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi.update
+.SH NOM
+urpmi.update \- Met à jour les sources de paquetages spécifiées.
+.SH SYNOPSIS
+.B urpmi.update [options] [<\fInoms\fP>]
+.SH DESCRIPTION
+urpmi.update explore les sources nommées <\fInoms\fP> pour mettre à jour
+leurs listes de paquetages.
+Utile par exemple pour une source utilisant ftp.
+.PP
+<\fInoms\fP> est une liste de noms de sources tels que vous l'avez indiqué 
+à urpmi.addmedia
+
+.SH OPTIONS
+.IP "\fB\--wget\fP"
+utiliser  wget pour récupérer les fichiers distants.
+Par défaut curl est utilisé s'il est présent, wget dans le cas contraire.
+.IP "\fB\--curl\fP"
+utiliser curl pour récupérer les fichiers distants.
+Par défaut curl est utilisé s'il est présent, wget dans le cas contraire.
+.IP "\fB\-a\fP"
+sélectionne toutes les sources non amovibles
+.IP "\fB\-c\fP"
+purger le répertoire cache des en-têtes.
+.IP "\fB\-d\fP"
+Forcer le calcul complet du fichier /var/lib/urpmi/depslist.ordered
+(qui n'est plus utilisé)
+.IP "\fB\-f\fP"
+Forcer la reconstruction des fichiers hdlist ou base 
+(/var/lib/urpmi/depslist.ordered, /var/lib/urpmi/provides et 
+/var/lib/urpmi/compss).
+.SH FICHIERS
+/usr/sbin/urpmi.update
+.br
+L'exécutable \fBurpmi.update\fP (script Perl)
+.PP
+/var/lib/urpmi/list.*
+.br
+Contient une liste de tous les paquetages connus par urpmi, 
+ainsi que leurs emplacements.
+Il y a un fichier par source de programmes(*).
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+Contient les informations sur tous les paquetages connus, c'est un résumé
+des en-têtes des rpm.
+Il y a un fichier par source(*).
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Contient une synthèse de l'information sur tous les paquetages connus,
+construite à partir des fichiers hdlist, et qui peut être utilisée
+par un algorithme de rapprochement minimal. Si ces fichiers ne sont pas
+présents, utilisez \fBurpmi.update -a\fP pour les générer. Ces fichiers
+ne sont pas obligatoires.
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Contient une description des sources des programmes\ ; les anciens
+formats d'urpmi sont acceptés.
+.PP
+/etc/urpmi/parallel.cfg
+.br
+Contient une description des alias pour l'option \fB--parallel\fP de urpmi.
+Le format est 
+\fB<alias>:<interface[(media)]>:<paramètre de l interface>\fP où \fB<alias>\fP est
+un nom symbolique, \fB<interface>\fP peut être \fBka-run\fP ou \fBssh\fP,
+\fB<media>\fP est une liste de média (comme le paramètre \fB--media\fP),
+\fB<paramètre de l interface>\fP est un paramètre spécifique à l'interface comme "-c ssh
+-m node1 -m node2" pour \fBka-run\fP ou "node1:node2" pour \fBssh\fP.
+.PP
+/etc/urpmi/skip.list
+.br
+Contient une liste de paquetages qui ne doivent pas être mis à jour avec
+l'option \fB--auto-select\fP, mais qui restent installables par une demande explicite.
+Chaque ligne contient un nom de paquetage, avec optionnellement le numéro de version,
+ou une expression régulière si elle est entourée par des slashes (\fB/\fP)) .
+.PP
+/etc/urpmi/inst.list
+.br
+Contient les noms de paquetages devant être installés plutôt que mis à jour.
+.SH "VOIR AUSSI"
+urpmi(8),
+urpmi.addmedia(8),
+urpmf(8),
+urpmq(8),
+autoirpm(8),
+autoirpm-icons(8),
+gurpmi(8),
+rpmdrake(8)
+.SH AUTEURS
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+.br
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+.SH TRADUCTION
+Jean-Michel FAYARD, 2002 <jean-michel.fayard@moufrei.de>
