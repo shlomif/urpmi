@@ -236,6 +236,8 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+- gurpmi: don't escape "," in translatable string, do it after translation
+
 * Mon Feb  9 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.5-4mdk
 - fix bug #7472: progressbar forced to be thicker than default
 - gurpmi: when cancel button is destroyed forever from within
