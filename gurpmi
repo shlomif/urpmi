@@ -134,7 +134,13 @@ Proceed?", join "\n", @all_rpms)
     my $save_button = @all_rpms == 1 ? Gtk2::Button->new(but N("_Save")) : undef;
     my $ccel_button = Gtk2::Button->new(but N("_Cancel"));
 
-    $inst_button->signal_connect(clicked => \&do_install);
+    $inst_button->signal_connect(clicked => sub {
+	#- performs installation.
+	quit;
+	#- we need to switch to root if we're not already (via consolehelper)
+	#- yes. hardcoded paths. safe.
+	exec $> ? '/usr/bin/gurpmi2' : '/usr/sbin/gurpmi2', @ARGV;
+    });
     $save_button and $save_button->signal_connect(clicked => sub {
 	my $file_dialog = Gtk2::FileSelection->new(N("Choose location to save file"));
 	$file_dialog->set_modal(1);
@@ -142,10 +148,10 @@ Proceed?", join "\n", @all_rpms)
 	$file_dialog->set_filename($rpms->[0]); #- TODO must work for srpms too
 	$file_dialog->hide_fileop_buttons;
 	$file_dialog->ok_button->signal_connect(clicked => sub {
-		my $location = $file_dialog->get_filename;
-		quit;
-		$location and exec '/bin/mv', '-f', $rpms->[0], $location;
-	    });
+	    my $location = $file_dialog->get_filename;
+	    quit;
+	    $location and exec '/bin/mv', '-f', $rpms->[0], $location;
+	});
 	$file_dialog->cancel_button->signal_connect(clicked => \&quit);
 	$file_dialog->show;
     });
@@ -155,11 +161,3 @@ Proceed?", join "\n", @all_rpms)
 
 $mainw->show_all;
 Gtk2->main;
-
-#- Performs installation.
-sub do_install {
-    quit;
-    #- we need to switch to root if we're not already (via consolehelper)
-    #- yes. hardcoded paths. safe.
-    exec $> ? '/usr/bin/gurpmi2' : '/usr/sbin/gurpmi2', @ARGV;
-}

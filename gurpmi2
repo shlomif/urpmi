@@ -67,7 +67,7 @@ sub add_button_box {
     $_->set_alignment(0.5, 0.5), $hbox->add($_) foreach @buttons;
 }
 
-sub sync {
+sub sync () {
     $mainw->show;
     Gtk2->main_iteration while Gtk2->events_pending;
 }
@@ -102,7 +102,7 @@ sub wait_label {
 my (@all_rpms);
 foreach (@ARGV) {
     if (/^-/) {
-	/^--?[hv?]/ and usage;
+	/^--?[hv?]/ and usage();
 	fatal N("Unknown option %s", $_);
     }
     push @all_rpms, $_;
@@ -149,7 +149,7 @@ $mainw->show_all;
 Gtk2->main;
 
 #- Creates and configure an urpm object for this application to use.
-sub configure_urpm {
+sub configure_urpm () {
     my $urpm = new urpm;
     $urpm->{fatal} = sub {
 	Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'error', 'ok', $_[1])->run;
@@ -231,7 +231,7 @@ sub do_install {
 	: goto &do_install_2;
 }
 
-sub do_install_2 {
+sub do_install_2 () {
     my @to_install;
     foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
 	$pkg->arch ne 'src' and push @to_install, scalar $pkg->fullname;
@@ -245,7 +245,7 @@ sub do_install_2 {
 	: goto \&do_install_3;
 }
 
-sub do_install_3 {
+sub do_install_3 () {
     wait_label(N("Package installation..."));
     my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
     $local_sources || $list or $urpm->{fatal}(3, N("unable to get source packages, aborting"));
