@@ -28,11 +28,11 @@ sub load_proxy_config () {
     local $_;
     while (<$f>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	if (/^(?:(.*):\s*)(ftp|http_)proxy\s*=\s*(.*)$/) {
+	if (/^(?:(.*):\s*)?(ftp_proxy|http_proxy)\s*=\s*(.*)$/) {
 	    $proxy_config->{$1 || ''}{$2} = $3;
 	    next;
 	}
-	if (/^(?:(.*):\s*)proxy_user\s*=\s*(.*)(?::(.*))?$/) {
+	if (/^(?:(.*):\s*)?proxy_user\s*=\s*(.*)(?::(.*))?$/) {
 	    $proxy_config->{$1 || ''}{user} = $2;
 	    $proxy_config->{$1 || ''}{pwd} = $3 if defined $3;
 	    next;

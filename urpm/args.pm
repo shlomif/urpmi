@@ -83,11 +83,11 @@ my %options_spec = (
 	'resume!' => sub { $urpm->{options}{resume} = $_[1] },
 	'proxy=s' => sub {
 	    my (undef, $value) = @_;
-	    my ($proxy, $port) = $value =~ m,^(?:http://)?([^:]+(:\d+)?)/*$,
+	    my ($proxy, $port) = $value =~ m,^(?:http://)?([^:/]+(:\d+)?)/*$,
 		or die N("bad proxy declaration on command line\n");
 	    $proxy .= ":1080" unless $port;
-	    $urpm->{proxy}{http_proxy} = "http://$proxy"; #- obsolete, for compat
-	    urpm::download::set_cmdline_proxy(http_proxy => "http://$proxy");
+	    $urpm->{proxy}{http_proxy} = "http://$proxy/"; #- obsolete, for compat
+	    urpm::download::set_cmdline_proxy(http_proxy => "http://$proxy/");
 	},
 	'proxy-user=s' => sub {
 	    my (undef, $value) = @_;
