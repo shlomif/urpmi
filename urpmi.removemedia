@@ -26,8 +26,8 @@ sub main {
 
     $options{noclean} = 1;
     foreach (@_) {
-	/^--?a/ and $options{all} = 1, next;
-	/^--?c/ and $options{noclean} = 0, next;
+	/^--?a$/ and $options{all} = 1, next;
+	/^--?c$/ and $options{noclean} = 0, next;
 	/^-/ and die N("usage: urpmi.removemedia [-a] <name> ...
 where <name> is a medium name to remove.
 ") . N("  --help         - print this help message.
