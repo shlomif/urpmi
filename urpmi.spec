@@ -2,13 +2,13 @@
 
 Name: urpmi
 Version: 3.6
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.05-1mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.05-1mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Tue Jul  2 2002 Pixel <pixel@mandrakesoft.com> 3.6-5mdk
+- use perl-Locale-gettext instead of perl-gettext
+  (ie. Locale::gettext instead of Locale::GetText)
+
 * Fri Jun 28 2002 François Pons <fpons@mandrakesoft.com> 3.6-4mdk
 - increase retry count to 10 instead of 3 for rsync and ssh protocol.
 - support prefered tools to download files (grpmi only handles ftp

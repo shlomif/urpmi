@@ -95,15 +95,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 use URPM;
 use POSIX;
-use Locale::GetText;
+use Locale::gettext();
 
 #- I18N.
 setlocale (LC_ALL, "");
-Locale::GetText::textdomain ("urpmi");
+Locale::gettext::textdomain ("urpmi");
 
 sub _ {
     my ($format, @params) = @_;
-    sprintf(Locale::GetText::I_($format), @params);
+    sprintf(Locale::gettext::gettext($format), @params);
 }
 
 #- create a new urpm object.

@@ -26,9 +26,8 @@ clean:
 
 %.pot:	$(POTFILES)
 	./create_placeholder $(POTFILES)
-	xgettext --default-domain=`basename $@ .pot` \
-		--add-comments --keyword=__ --keyword=_ --keyword=N_ \
-		--keyword=I_ --keyword=i18n \
+	xgettext --default-domain=`basename $@ .pot` --add-comments \
+	        --keyword=__ --keyword=_ --keyword=N_ --keyword=gettext \
 		placeholder.h && \
 	mv `basename $@ .pot`.po $@
 
