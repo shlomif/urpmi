@@ -485,7 +485,7 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
     }
 }
 if ($env) {
-    my $msg = N("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
+    my $msg = N("To satisfy dependencies, the following %d packages are going to be installed (%d MB)", $#to_install+1, toMb($sum));
     my $p = join "\n", @to_install;
     print STDERR "$msg:\n$p\n";
     exit 0; #- exit now for specific environment.
@@ -494,7 +494,7 @@ if (@root_only) {
     print STDERR N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
 } elsif (!$urpm->{options}{auto} && ($ask_user || $urpm::args::options{X}) && @to_install) {
-    my $msg = N("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
+    my $msg = N("To satisfy dependencies, the following %d packages are going to be installed (%d MB)", $#to_install+1, toMb($sum));
     my $msg2 = N("Is this OK?");
     my $p = join "\n", @to_install;
     if ($urpm::args::options{X}) {
