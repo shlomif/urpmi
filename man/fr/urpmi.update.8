@@ -10,27 +10,40 @@ urpmi.update explore les sources nommées <\fInoms\fP> pour mettre à jour
 leurs listes de paquetages.
 Utile par exemple pour une source utilisant ftp.
 .PP
-<\fInoms\fP> est une liste de noms de sources tels que vous l'avez indiqué 
-à urpmi.addmedia
+<\fInoms\fP> est une liste de noms de sources tels que vous les avez indiqués
+à urpmi.addmedia.
 
 .SH OPTIONS
 .IP "\fB\--wget\fP"
-utiliser  wget pour récupérer les fichiers distants.
+Utiliser wget pour récupérer les fichiers distants.
 Par défaut curl est utilisé s'il est présent, wget dans le cas contraire.
 .IP "\fB\--curl\fP"
-utiliser curl pour récupérer les fichiers distants.
+Utiliser curl pour récupérer les fichiers distants.
 Par défaut curl est utilisé s'il est présent, wget dans le cas contraire.
+.IP "\fB\--limit-rate \fIdebit\fP"
+Tempte de limiter la vitesse de téléchargement. 
+\fIdebit\fP est donné en octets par seconde. Cette option est désactivée par
+défaut.
+.IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
+Utilise le proxy HTTP spécifié.
+.IP "\fB\--proxy-user\fP \fIuser:password\fP"
+Utilise les informations données pour l'authentification auprès du proxy HTTP.
+.IP "\fB\--update\fP"
+Ne s'occuper que des média de mise à jour.
+.IP "\fB\--no-md5sum\fP"
+Ne pas vérifier les sommes MD5 des fichiers.
+.IP "\fB\--force-key\fP"
+Force la mise à jour des clés GPG.
 .IP "\fB\-a\fP"
-sélectionne toutes les sources non amovibles
+Sélectionne toutes les sources non amovibles.
 .IP "\fB\-c\fP"
-purger le répertoire cache des en-têtes.
-.IP "\fB\-d\fP"
-Forcer le calcul complet du fichier /var/lib/urpmi/depslist.ordered
-(qui n'est plus utilisé)
+Purger le répertoire cache des en-têtes.
 .IP "\fB\-f\fP"
-Forcer la reconstruction des fichiers hdlist ou base 
-(/var/lib/urpmi/depslist.ordered, /var/lib/urpmi/provides et 
-/var/lib/urpmi/compss).
+Forcer la reconstruction des fichiers hdlist.
+.IP "\fB\-q\fP"
+Mode silencieux.
+.IP "\fB\-v\fP"
+Mode verbeux.
 .SH FICHIERS
 /usr/sbin/urpmi.update
 .br
