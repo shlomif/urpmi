@@ -357,27 +357,19 @@ if (@rpms_install || @rpms_upgrade) {
 	}
     } else {
 	if (@rpms_install) {
-	    system("rpm", "-i$rpm_opt", @rpms_install);
+	    system("rpm", "-i$rpm_opt", "--nodeps", @rpms_install);
 	    if (@$_) {
 		message(_("Installation failed"));
 
 		m|^/| && !-e $_ and exit 2 foreach @rpms_install; #- missing local file
+		$auto and exit 1; #- if auto has been set, avoid asking user.
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
-		print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
-		$auto and exit 1; #- if auto has been set, avoid asking user.
+		print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
 		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
-		$urpm->{log}("starting installing packages without deps");
-		system("rpm", "-i$rpm_opt", "--nodeps", @rpms_install);
-
-		if ($?) {
-		    message(_("Installation failed"));
-		    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
-		    $force or <STDIN> =~ /[$yesexpr]/ or exit 1;
-		    $urpm->{log}("starting force installing packages without deps");
-		    system("rpm", "-i$rpm_opt", "--nodeps", "--force", @rpms_install);	
-		}
+		$urpm->{log}("starting force installing packages without deps");
+		system("rpm", "-i$rpm_opt", "--nodeps", "--force", @rpms_install);	
 	    }
 	}
 	if (@rpms_upgrade) {
@@ -386,11 +378,11 @@ if (@rpms_install || @rpms_upgrade) {
 		message(_("Installation failed"));
 
 		m|^/| && !-e $_ and exit 2 foreach @rpms_upgrade; #- missing local file
+		$auto and exit 1; #- if auto has been set, avoid asking user.
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
 		print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
-		$auto and exit 1; #- if auto has been set, avoid asking user.
 		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 		$urpm->{log}("starting installing packages without deps");
 		system("rpm", "-U$rpm_opt", "--nodeps", @rpms_upgrade);
