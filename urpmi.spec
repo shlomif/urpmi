@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 3mdk
+%define release 4mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -17,7 +17,7 @@
 %{expand:%%define allow_gurpmi %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? 1 : 0')}
 %{expand:%%define req_webfetch %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "webfetch" : "curl wget"')}
 %{expand:%%define buildreq_locale %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "perl-MDK-Common-devel" : ""')}
-%{expand:%%define distribution %%(perl -e 'printf "%%s\\n", ("%_vendor" =~ /mandrake/i ? "Mandrake Linux" : "Red Hat Linux")')}
+%{expand:%%define distribution %%(perl -e 'printf "%%s\\n", ("%_vendor" =~ /mandrake/i ? "Mandrakelinux" : "Red Hat Linux")')}
 %{expand:%%define real_release %%(perl -e 'printf "%%s\\n", ("%_vendor" !~ /mandrake/i && ("%release" =~ /(.*?)mdk/)[0] || "%release")')}
 
 Name:		%{name}
@@ -252,6 +252,14 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue May 04 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-4mdk
+- urpmi.addmedia no longer probes for synthesis/hdlist files when a
+  "with" argument is provided
+- gurpmi was broken
+- skip comments in /etc/fstab
+- better bash completion (O. Blin)
+- fix rsync download (O. Thauvin)
+
 * Wed Apr 28 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-3mdk
 - Fix message output in urpme
 - Fix input of Y/N answers depending on current locale
