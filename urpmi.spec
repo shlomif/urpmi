@@ -204,8 +204,6 @@ $urpm->update_media;
 %changelog
 * Tue Jun 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-2mdk
 - fixed parallel handler with removing.
-- build transaction set just before starting downloading and
-  installing packages.
 - fixed glitches with gurpmi.
 - fixed bad test report.
 - fixed bad transaction ordering and splitting on some cases.
