@@ -2790,6 +2790,59 @@ sub parallel_remove {
 						   );
 }
 
+#- misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
+sub unselected_packages {
+    my ($urpm, $state, %options) = @_;
+
+    grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
+}
+sub translate_why_unselected {
+    my ($urpm, $state, @l) = @_;
+
+    map { my @froms = keys %{$state->{rejected}{$_}{backtrack}{closure} || {}};
+	  my @unsatisfied = @{$state->{rejected}{$_}{backtrack}{unsatisfied} || []};
+	  my $s = join ", ", ((map { N("due to missing %s", $_) } @froms),
+			      (map { N("due to unsatisfied %s", $_) } @unsatisfied));
+	  $_ . ($s ? " ($s)" : '');
+      } @l;
+}
+
+sub removed_packages {
+    my ($urpm, $state, %options) = @_;
+
+    grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected} || {}};
+}
+sub translate_why_removed {
+    my ($urpm, $state, @l) = @_;
+
+    map { my ($from) = keys %{$state->{rejected}{$_}{closure}};
+	  my ($whyk) = keys %{$state->{rejected}{$_}{closure}{$from}};
+	  my ($whyv) = $state->{rejected}{$_}{closure}{$from}{$whyk};
+	  my $frompkg = $urpm->search($from, strict_fullname => 1);
+	  my $s;
+	  for ($whyk) {
+	      /old_requested/ and
+		$s .= N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
+	      /unsatisfied/ and do {
+		  foreach (@$whyv) {
+		      $s and $s .= ', ';
+		      if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/) {
+			  $s .= N("due to unsatisfied %s", "$1 $2");
+		      } else {
+			  $s .= N("due to missing %s", $_);
+		      }
+		  }
+	      };
+	      /conflicts/ and
+		$s .= N("due to conflicts with %s", $whyv);
+	      /unrequested/ and
+		$s .= N("unrequested");
+	  }
+	  #- now insert the reason if available.
+	  $_ . ($s ? " ($s)" : '');
+      } @l;
+}
+
 1;
 
 __END__

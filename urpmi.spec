@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 14mdk
+Release: 15mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,11 @@ $urpm->update_media;
 
 
 %changelog
+* Fri Jun 13 2003 François Pons <fpons@mandrakesoft.com> 4.3-15mdk
+- fixed incorrect behaviour when no key_ids options are set.
+- created retrieve methods and translation methods for packages
+  unselected or removed.
+
 * Fri Jun 13 2003 François Pons <fpons@mandrakesoft.com> 4.3-14mdk
 - added key_ids global and per media option to list authorized
   key ids.
