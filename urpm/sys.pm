@@ -2,26 +2,6 @@ package urpm::sys;
 
 use strict;
 
-#- check if supermount is used.
-sub is_using_supermount {
-    my ($device_mntpoint) = @_;
-    local $_;
-    #- read /etc/fstab and check for existing mount point.
-    open my $f, "/etc/fstab" or die "Can't read fstab: $!\n";
-    while (<$f>) {
-	next if /^\s*#/;
-	my ($mntpoint, $fstype, $options) = m!^\s*\S+\s+(/\S+)\s+(\S+)\s+(\S+)!
-	    or next;
-	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
-	if ($fstype eq 'supermount') {
-	    return 1 if $device_mntpoint eq $mntpoint;
-	    $options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ && $device_mntpoint eq $1
-		and return 1;
-	}
-    }
-    return 0;
-}
-
 #- find used mount point from a pathname, use a optional mode to allow
 #- filtering according the next operation (mount or umount).
 sub find_mntpoints {

@@ -2716,11 +2716,7 @@ sub copy_packages_of_removable_media {
 	    $removables{$device} = [ $sorted_media[-1] ];
 	}
 
-	#- mount the removable device, only one or the important one.
-	#- if supermount is used on the device, it is preferable to copy
-	#- the file instead (because it is so slooooow).
-	$examine_removable_medium->($removables{$device}[0], $device,
-	    urpm::sys::is_using_supermount($device) ? 'copy' : 0);
+	$examine_removable_medium->($removables{$device}[0], $device, 'copy');
     }
 
     1;
