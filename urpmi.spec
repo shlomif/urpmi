@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.1
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -142,6 +142,14 @@ fi
 
 
 %changelog
+* Thu Jan 10 2002 François Pons <fpons@mandrakesoft.com> 3.1-6mdk
+- fixed distant list file support.
+- allow shadow approach of list file, the same list file (global)
+  can be used for each intermediate medium, urpmi choose the right
+  entry for each medium from the same source.
+- added /./ as string marker to probe url, this means the heading
+  ./ of find . -name "*.rpm" -print should be kept.
+
 * Wed Jan  9 2002 François Pons <fpons@mandrakesoft.com> 3.1-5mdk
 - added lock urpmi database features.
 - added support for distant list file.
