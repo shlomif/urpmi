@@ -26,6 +26,7 @@ my $urpm = new urpm;
 my $update = 0;
 my $media = '';
 my $excludemedia = '';
+my $sortmedia = '';
 my $synthesis = '';
 my $auto = 0;
 my $allow_medium_change = 0;
@@ -72,6 +73,7 @@ usage:
 ") . N("  --update       - use only update media.
 ") . N("  --media        - use only the given media, separated by comma.
 ") . N("  --excludemedia - do not use only the given media, separated by comma.
+") . N("  --sortmedia    - sort media according to substrings separated by comma.
 ") . N("  --synthesis    - use the given synthesis instead of urpmi db.
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
@@ -136,6 +138,7 @@ while (defined($_ = shift @ARGV)) {
     /^--update$/ and do { $update = 1; next };
     /^--media$/ and do { push @nextargv, \$media; next };
     /^--exclude-?media$/ and do { push @nextargv, \$excludemedia; next };
+    /^--sort-?media$/ and do { push @nextargv, \$sortmedia; next };
     /^--mediums$/ and do { push @nextargv, \$media; next };
     /^--synthesis$/ and do { push @nextargv, \$synthesis; next };
     /^--auto$/ and do { $auto = 1; next };
@@ -248,7 +251,7 @@ if ($env) {
 } else {
     if ($uid > 0) {
 	#- only src files are installable using urpmi.
-	$install_src || $root or @names || @files and $urpm->{fatal}(1, N("Only superuser is allowed to install packages"));
+	!($install_src || $root) and @names || @files and $urpm->{fatal}(1, N("Only superuser is allowed to install packages"));
     } else {
 	#- allow log if not defined.
 	$log ||= "/var/log/urpmi.log";
@@ -307,6 +310,7 @@ $verbose > 0 or $urpm->{log} = sub {};
 $urpm->configure(nocheck_access => $env || $uid > 0,
 		 media => $media,
 		 excludemedia => $excludemedia,
+		 sortmedia => $sortmedia,
 		 synthesis => $synthesis,
 		 update => $update,
 		 skip => $skip,

@@ -710,13 +710,14 @@ sub configure {
     if ($options{synthesis}) {
 	if ($options{synthesis} ne 'none') {
 	    #- synthesis take precedence over media, update options.
-	    $options{media} || $options{excludemedia} || $options{update} || $options{parallel} and
-	      $urpm->{fatal}(1, N("--synthesis cannot be used with --media, --excludemedia, --update or --parallel"));
+	    $options{media} || $options{excludemedia} || $options{sortmedia} || $options{update} || $options{parallel} and
+	      $urpm->{fatal}(1, N("--synthesis cannot be used with --media, --excludemedia, --sortmedia, --update or --parallel"));
 	    $urpm->parse_synthesis($options{synthesis});
 	}
     } else {
 	$urpm->read_config(%options);
 	if ($options{media}) {
+	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	    $urpm->select_media(split ',', $options{media});
 	    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
 		#- this is only a local ignore that will not be saved.
@@ -724,11 +725,26 @@ sub configure {
 	    }
 	}
 	if ($options{excludemedia}) {
+	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	    $urpm->select_media(split ',', $options{excludemedia});
 	    foreach (grep { $_->{modified} } @{$urpm->{media} || []}) {
 		#- this is only a local ignore that will not be saved.
 		$_->{ignore} = 1;
 	    }
+	}
+	if ($options{sortmedia}) {
+	    delete $_->{modified} foreach @{$urpm->{media} || []};
+	    my @oldmedia = @{$urpm->{media} || []};
+	    my @newmedia;
+	    foreach (split ',', $options{excludemedia}) {
+		$urpm->select_media($_);
+		push @newmedia, grep { $_->{modified} } @oldmedia;
+		@oldmedia = grep { !$_->{modified} } @oldmedia;
+	    }
+	    #- anything not selected should be added as is after the selected one.
+	    $urpm->{media} = [ @newmedia, @oldmedia ];
+	    #- clean remaining modified flag.
+	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	}
 	foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
 	    delete @{$_}{qw(start end)};
@@ -1070,7 +1086,7 @@ sub update_media {
 
 	#- list of rpm files for this medium, only available for local medium where
 	#- the source hdlist is not used (use force).
-	my ($prefix, $dir, $error, @files);
+	my ($prefix, $dir, $error, $retrieved_md5sum, @files);
 
 	#- always delete a remaining list file in cache.
 	unlink "$urpm->{cachedir}/partial/list";
@@ -1080,7 +1096,7 @@ sub update_media {
 	    #- try to figure a possible hdlist_path (or parent directory of searched directory.
 	    #- this is used to probe possible hdlist file.
 	    my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
-	    
+
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
@@ -1110,12 +1126,90 @@ sub update_media {
 		  $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
 	    }
 
+	    #- examine if a distant MD5SUM file is available.
+	    #- this will only be done if $with_hdlist is not empty in order to use
+	    #- an existing hdlist or synthesis file, and to check if download was good.
+	    #- if no MD5SUM are available, do it as before...
+	    if ($medium->{with_hdlist}) {
+		#- we can assume at this point a basename is existing, but it needs
+		#- to be checked for being valid, nothing can be deduced if no MD5SUM
+		#- file are present.
+		my ($basename) = $with_hdlist_dir =~ /\/([^\/]+)$/;
+
+		if (-s reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM") > 32) {
+		    if ($options{force}) {
+			#- force downloading the file again, else why a force option has been defined ?
+			delete $medium->{md5sum};
+		    } else {
+			unless ($medium->{md5sum}) {
+			    $urpm->{log}(N("computing MD5SUM of existing source hdlist (or synthesis)"));
+			    if ($medium->{synthesis}) {
+				-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
+				  $medium->{md5sum} = (split ' ', `md5sum '$urpm->{statedir}/synthesis.$medium->{hdlist}'`)[0];
+			    } else {
+				-e "$urpm->{statedir}/$medium->{hdlist}" and
+				  $medium->{md5sum} = (split ' ', `md5sum '$urpm->{statedir}/$medium->{hdlist}'`)[0];
+			    }
+			}
+		    }
+		    if ($medium->{md5sum}) {
+			$urpm->{log}(N("examining MD5SUM file"));
+			local (*F, $_);
+			open F, reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM");
+			while (<F>) {
+			    my ($md5sum, $file) = /(\S+)\s+(?:\.\/)?(\S+)/ or next;
+			    #- keep md5sum got here to check download was ok ! so even if md5sum is not defined, we need
+			    #- to compute it, keep it in mind ;)
+			    $file eq $basename and $retrieved_md5sum = $md5sum;
+			}
+			close F;
+			#- if an existing hdlist or synthesis file has the same md5sum, we assume the
+			#- file are the same.
+			#- if local md5sum is the same as distant md5sum, this means there is no need to
+			#- download hdlist or synthesis file again.
+			foreach (@{$urpm->{media}}) {
+			    if ($_->{md5sum} && $_->{md5sum} eq $retrieved_md5sum) {
+				unlink "$urpm->{cachedir}/partial/$basename";
+				#- the medium is now considered not modified.
+				$medium->{modified} = 0;
+				#- hdlist or synthesis file must be linked with the other same one.
+				#- a link is better for reducing used size of /var/lib/urpmi.
+				if ($_ ne $medium) {
+				    $medium->{md5sum} = $_->{md5sum};
+				    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+				    unlink "$urpm->{statedir}/$medium->{hdlist}";
+				    symlink "synthesis.$_->{hdlist}", "synthesis.$medium->{hdlist}";
+				    symlink $_->{hdlist}, $medium->{hdlist};
+				}
+				#- as previously done, just read synthesis file here, this is enough.
+				$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+				eval { ($medium->{start}, $medium->{end}) =
+					 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+				unless (defined $medium->{start} && defined $medium->{end}) {
+				    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+				    eval { ($medium->{start}, $medium->{end}) =
+					     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
+				    unless (defined $medium->{start} && defined $medium->{end}) {
+					$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+					$medium->{ignore} = 1;
+				    }
+				}
+				#- no need to continue examining other md5sum.
+				last;
+			    }
+			}
+			$medium->{modified} or next;
+		    }
+		}
+	    }
+
 	    #- if the source hdlist is present and we are not forcing using rpms file
 	    if ($options{force} < 2 && $medium->{with_hdlist} && -e $with_hdlist_dir) {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 		$options{callback} && $options{callback}('copy', $medium->{name});
-		if (system("cp", "--preserve=mode,timestamps", "-R", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
+		if (system("cp", "--preserve=mode,timestamps", "-R", $with_hdlist_dir,
+			   "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
 		    $options{callback} && $options{callback}('failed', $medium->{name});
 		    $urpm->{log}(N("...copying failed"))
 		} else {
@@ -1126,14 +1220,16 @@ sub update_media {
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
 		  $error = 1, $urpm->{error}(N("copy of [%s] failed", $with_hdlist_dir));
 
+		#- no check md5sum of file just copied ! (even on nfs or removable device).
+		
 		#- examine if a local MD5SUM file is available.
 		if (!$options{force} && -s reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM")) {
-		    my ($basename) = $with_hdlist_dir =~ /^.*\/([^\/]+)$/;
+		    my ($basename) = $with_hdlist_dir =~ /\/([^\/]+)$/;
 		    $urpm->{log}(N("examining MD5SUM file"));
 		    local (*F, $_);
 		    open F, reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM");
 		    while (<F>) {
-			my ($md5sum, $file) = /(\S+)\s+(\S+)/ or next;
+			my ($md5sum, $file) = /(\S+)\s+(?:\.\/)?(\S+)/ or next;
 			if ($file eq $basename) {
 			    $options{force} ||= (split ' ', `md5sum '$urpm->{cachedir}/partial/$medium->{hdlist}'`)[0] ne $md5sum;
 			    last;
@@ -1240,6 +1336,94 @@ sub update_media {
 		  system("mv", "$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
 	    }
 
+	    #- examine if a distant MD5SUM file is available.
+	    #- this will only be done if $with_hdlist is not empty in order to use
+	    #- an existing hdlist or synthesis file, and to check if download was good.
+	    #- if no MD5SUM are available, do it as before...
+	    if ($medium->{with_hdlist}) {
+		#- we can assume at this point a basename is existing, but it needs
+		#- to be checked for being valid, nothing can be deduced if no MD5SUM
+		#- file are present.
+		$basename = $medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1 || $medium->{with_hdlist};
+
+		unlink "$urpm->{cachedir}/partial/MD5SUM";
+		eval {
+		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
+				    quiet => 1,
+				    limit_rate => $options{limit_rate},
+				    proxy => $urpm->{proxy} },
+				  reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
+		};
+		if (!$@ && -s "$urpm->{cachedir}/partial/MD5SUM" > 32) {
+		    if ($options{force}) {
+			#- force downloading the file again, else why a force option has been defined ?
+			delete $medium->{md5sum};
+		    } else {
+			unless ($medium->{md5sum}) {
+			    $urpm->{log}(N("computing MD5SUM of existing source hdlist (or synthesis)"));
+			    if ($medium->{synthesis}) {
+				-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
+				  $medium->{md5sum} = (split ' ', `md5sum '$urpm->{statedir}/synthesis.$medium->{hdlist}'`)[0];
+			    } else {
+				-e "$urpm->{statedir}/$medium->{hdlist}" and
+				  $medium->{md5sum} = (split ' ', `md5sum '$urpm->{statedir}/$medium->{hdlist}'`)[0];
+			    }
+			}
+		    }
+		    if ($medium->{md5sum}) {
+			$urpm->{log}(N("examining MD5SUM file"));
+			local (*F, $_);
+			open F, "$urpm->{cachedir}/partial/MD5SUM";
+			while (<F>) {
+			    my ($md5sum, $file) = /(\S+)\s+(?:\.\/)?(\S+)/ or next;
+			    #- keep md5sum got here to check download was ok ! so even if md5sum is not defined, we need
+			    #- to compute it, keep it in mind ;)
+			    $file eq $basename and $retrieved_md5sum = $md5sum;
+			}
+			close F;
+			#- if an existing hdlist or synthesis file has the same md5sum, we assume the
+			#- file are the same.
+			#- if local md5sum is the same as distant md5sum, this means there is no need to
+			#- download hdlist or synthesis file again.
+			foreach (@{$urpm->{media}}) {
+			    if ($_->{md5sum} && $_->{md5sum} eq $retrieved_md5sum) {
+				unlink "$urpm->{cachedir}/partial/$basename";
+				#- the medium is now considered not modified.
+				$medium->{modified} = 0;
+				#- hdlist or synthesis file must be linked with the other same one.
+				#- a link is better for reducing used size of /var/lib/urpmi.
+				if ($_ ne $medium) {
+				    $medium->{md5sum} = $_->{md5sum};
+				    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+				    unlink "$urpm->{statedir}/$medium->{hdlist}";
+				    symlink "synthesis.$_->{hdlist}", "synthesis.$medium->{hdlist}";
+				    symlink $_->{hdlist}, $medium->{hdlist};
+				}
+				#- as previously done, just read synthesis file here, this is enough.
+				$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+				eval { ($medium->{start}, $medium->{end}) =
+					 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+				unless (defined $medium->{start} && defined $medium->{end}) {
+				    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+				    eval { ($medium->{start}, $medium->{end}) =
+					     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
+				    unless (defined $medium->{start} && defined $medium->{end}) {
+					$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+					$medium->{ignore} = 1;
+				    }
+				}
+				#- no need to continue examining other md5sum.
+				last;
+			    }
+			}
+			$medium->{modified} or next;
+		    }
+		} else {
+		    #- at this point, we don't if a basename exists and is valid, let probe it later.
+		    $basename = undef;
+		}
+	    }
+
 	    #- try to probe for possible with_hdlist parameter, unless
 	    #- it is already defined (and valid).
 	    $urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
@@ -1269,12 +1453,16 @@ sub update_media {
 
 		#- try to sync (copy if needed) local copy after restored the previous one.
 		unlink "$urpm->{cachedir}/partial/$basename";
-		if ($medium->{synthesis}) {
-		    $options{force} || ! -e "$urpm->{statedir}/synthesis.$medium->{hdlist}" or
-		      system("cp", "--preserve=mode,timestamps", "-R", "$urpm->{statedir}/synthesis.$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
-		} else {
-		    $options{force} || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
-		      system("cp", "--preserve=mode,timestamps", "-R", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+		unless ($options{force}) {
+		    if ($medium->{synthesis}) {
+			-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
+			  system("cp", "--preserve=mode,timestamps", "-R", "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+				 "$urpm->{cachedir}/partial/$basename");
+		    } else {
+			-e "$urpm->{statedir}/$medium->{hdlist}" and
+			  system("cp", "--preserve=mode,timestamps", "-R", "$urpm->{statedir}/$medium->{hdlist}",
+				 "$urpm->{cachedir}/partial/$basename");
+		    }
 		}
 		eval {
 		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
@@ -1293,51 +1481,26 @@ sub update_media {
 		$urpm->{log}(N("...retrieving done"));
 
 		unless ($options{force}) {
-		    #- examine if a distant MD5SUM file is available.
-		    unlink "$urpm->{cachedir}/partial/MD5SUM";
-		    eval {
-			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
-					quiet => 1,
-					limit_rate => $options{limit_rate},
-					proxy => $urpm->{proxy} },
-				      reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
-		    };
-		    if (!$@ && -s "$urpm->{cachedir}/partial/MD5SUM" > 32) {
-			$urpm->{log}(N("examining MD5SUM file"));
-			local (*F, $_);
-			open F, "$urpm->{cachedir}/partial/MD5SUM";
-			while (<F>) {
-			    my ($md5sum, $file) = /(\S+)\s+(\S+)/ or next;
-			    if ($file eq $basename) {
-				$options{force} ||= (split ' ', `md5sum '$urpm->{cachedir}/partial/$basename'`)[0] ne $md5sum;
-				last;
-			    }
-			}
-			close F;
-		    }
-
-		    unless ($options{force}) {
-			my @sstat = stat "$urpm->{cachedir}/partial/$basename";
-			my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
-			if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
-			    #- the two files are considered equal here, the medium is so not modified.
-			    $medium->{modified} = 0;
-			    unlink "$urpm->{cachedir}/partial/$basename";
-			    #- as previously done, just read synthesis file here, this is enough.
-			    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+		    my @sstat = stat "$urpm->{cachedir}/partial/$basename";
+		    my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
+		    if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
+			#- the two files are considered equal here, the medium is so not modified.
+			$medium->{modified} = 0;
+			unlink "$urpm->{cachedir}/partial/$basename";
+			#- as previously done, just read synthesis file here, this is enough.
+			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+			eval { ($medium->{start}, $medium->{end}) =
+				 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+			unless (defined $medium->{start} && defined $medium->{end}) {
+			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 			    eval { ($medium->{start}, $medium->{end}) =
-				     $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
+				     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-				eval { ($medium->{start}, $medium->{end}) =
-					 $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
-				unless (defined $medium->{start} && defined $medium->{end}) {
-				    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-				    $medium->{ignore} = 1;
-				}
+				$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+				$medium->{ignore} = 1;
 			    }
-			    next;
 			}
+			next;
 		    }
 		}
 
@@ -1496,6 +1659,8 @@ sub update_media {
 	    $medium->{synthesis} and unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 	    $medium->{list} and unlink "$urpm->{statedir}/$medium->{list}";
 	    unless ($medium->{headers}) {
+		unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+		unlink "$urpm->{statedir}/$medium->{hdlist}";
 		rename("$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
 		       "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}") or
 			 system("mv", "$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?

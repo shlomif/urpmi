@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -199,6 +199,10 @@ $urpm->update_media;
 
 
 %changelog
+* Wed Apr 16 2003 François Pons <fpons@mandrakesoft.com> 4.3-2mdk
+- added --sortmedia option to urpmi and urpmq.
+- improved MD5SUM file for hdlist or synthesis management.
+
 * Mon Apr 14 2003 François Pons <fpons@mandrakesoft.com> 4.3-1mdk
 - avoid scanning all urpmi cache for checking unused rpm files.
 - added smarter skip.list support (parsed before resolving requires).
