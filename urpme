@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 # Copyright (C) 1999,2002 MandrakeSoft <pixel@linux-mandrake.com>
+#                                      <fpons@mandrakesoft.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,7 +21,8 @@
 use strict;
 
 #use strict qw(subs vars refs);
-use rpmtools;
+use URPM;
+use URPM::Resolve;
 use urpm;
 
 #- get I18N translation method.
@@ -64,40 +66,42 @@ if ($matches || $maymatch) {
     }
 }
 
-my %toremove; @toremove{@m} = ();
-my $changed = 1;
-while ($changed) {
-    $changed = 0;
-    local *F;
-    open F, "LANGUAGE=C rpm -e --test " . join(" ", keys %toremove) . " 2>&1 |";
-    foreach (<F>) {
-    	if (/package (\S+) is not installed/) {
-    	    delete $toremove{$1};
-    	} elsif (/is needed by (\S+)/ && ! exists $toremove{$1}) {
-    	    $toremove{$1} = 1;
-    	    $changed = 1;
-    	}
-    }
-}
-if ( ! (@toremove = keys %toremove) ) {
-    print _("Nothing to remove.\n");
-    exit(0);
-}
+my $urpm = new urpm;
+my $state = {};
 
-#- check if a package to be removed is a part of basesystem requires.
 my %base;
 my @base = qw(basesystem);
 my %basepackages;
-my $db = rpmtools::db_open('');
-while (defined($_ = shift @base)) {
-    exists $basepackages{$_} and next;
-    rpmtools::db_traverse_tag($db, /^\// ? 'path' : 'whatprovides', [ $_ ], [ qw(name version release requires) ], sub {
-				  my ($p) = @_;
-				  push @{$basepackages{$_} ||= []}, "$p->{name}-$p->{version}-$p->{release}";
-				  push @base, @{$p->{requires} || []};
-			      });
+
+#- closure all package asked to be removed.
+{
+    my $db = URPM::DB::open;
+    foreach (@m) {
+	my ($n) = /(.*)-[^-]*-[^-]*/;
+	$db->traverse_tag('name', [ $n ], sub {
+			      my ($p) = @_;
+			      join('-', ($p->fullname)[0..2]) eq $_ or return;
+			      $urpm->resolve_closure_ask_remove($db, $state, $p, undef);
+			  }) or die _("unknown package ") . "$_\n";
+    }
+
+    #- if nothing need to be removed.
+    unless (%{$state->{ask_remove} || {}}) {
+	print _("Nothing to remove.\n");
+	exit(0);
+    }
+
+    #- check if a package to be removed is a part of basesystem requires.
+    while (defined($_ = shift @base)) {
+	exists $basepackages{$_} and next;
+	$db->traverse_tag(/^\// ? 'path' : 'whatprovides', [ $_ ], sub {
+			      my ($p) = @_;
+			      push @{$basepackages{$_} ||= []}, join '-', ($p->fullname)[0..2];
+			      push @base, $p->requires_nosense;
+			  });
+    }
 }
-rpmtools::db_close($db);
+
 foreach (values %basepackages) {
     my $n = @$_;
     foreach (@$_) {
@@ -105,6 +109,7 @@ foreach (values %basepackages) {
     }
 }
 my $base_str = '';
+my @toremove = keys %{$state->{ask_remove}};
 foreach (@toremove) {
     my $rn = $base{$_};
     if ($rn) {
@@ -121,8 +126,8 @@ if (@toremove > @l && !$auto) {
     print STDOUT "$msg:\n@toremove\n$askok" . _(" (Y/n) ");
     <STDIN> =~ /[$noexpr]/ and exit 0;
 }
-system("rpm", "-e", @toremove);
 
+$urpm->install('/', \@toremove, {}, {});
 
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;

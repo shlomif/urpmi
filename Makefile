@@ -7,7 +7,7 @@ URPMIDIR = $(PREFIX)/var/lib/urpmi
 URPMIDIR2 = $(PREFIX)/etc/urpmi
 LOCALEDIR = $(PREFIX)/usr/share/locale
 CFLAGS = -Wall -g
-LIBRPM = -lrpm -lrpmio `perl -e 'use rpmtools; rpmtools::version_compare(qx(rpm -q --qf %{VERSION} rpm), "4.0.3") >= 0 and print "-lrpmdb"'`  -lz -lbz2 -I/usr/include/rpm -lpopt
+LIBRPM = -lrpm -lrpmio -lrpmdb -lz -lbz2 -I/usr/include/rpm -lpopt
 
 NAME = urpmi
 TAR = $(NAME).tar.bz2

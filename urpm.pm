@@ -1879,8 +1879,10 @@ sub install {
 	return fileno F;
     };
     $options{callback_close} ||= sub { close F };
-    $options{callback_inst}  ||= \&install_logger;
-    $options{callback_trans} ||= \&install_logger;
+    if (keys %$install || keys %$upgrade) {
+	$options{callback_inst}  ||= \&install_logger;
+	$options{callback_trans} ||= \&install_logger;
+    }
     @l = $trans->run($urpm, %options);
 }
 

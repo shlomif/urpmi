@@ -2,21 +2,24 @@
 
 @ARGV and die "usage: rpm-find-leaves\n";
 
-use rpmtools;
-
-$db = rpmtools::db_open('');
-rpmtools::db_traverse($db, [ qw(name version release provides requires) ], sub {
-    push @packages, $_[0];
-});
-rpmtools::db_close($db);
-
-foreach my $pkg (@packages) {
-    $l{$pkg->{name}} = 1;
-    push @{$provides{$_}}, $pkg->{name} foreach @{$pkg->{provides} || []};
+use URPM;
+my @packages;
+{
+    my $db = URPM::DB::open;
+    $db->traverse(sub {
+	my ($p) = @_;
+	$p->pack_header;
+	push @packages, $p;
+    });
 }
 
 foreach my $pkg (@packages) {
-    delete @l{grep { $_ ne $pkg->{name} } @{$provides{$_} || []}} foreach @{$pkg->{requires} || []};
+    $l{$pkg->name} = 1;
+    push @{$provides{$_}}, $pkg->name foreach $pkg->provides_nosense;
+}
+
+foreach my $pkg (@packages) {
+    delete @l{grep { $_ ne $pkg->name } @{$provides{$_} || []}} foreach $pkg->requires_nosense;
 }
 
 print "$_\n" foreach sort keys %l;

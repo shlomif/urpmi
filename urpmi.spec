@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 3.9
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.50
-BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
+PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.50-2mdk
+BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
 
@@ -144,6 +144,12 @@ fi
 
 
 %changelog
+* Tue Jul 23 2002 François Pons <fpons@mandrakesoft.com> 3.9-2mdk
+- updated urpme to use perl-URPM and speed it up (no more
+  rpm -e --test ...).
+- updated rpm-find-leaves to use perl-URPM.
+- dropped build requires to rpmtools (but need rpm >= 4.0.3).
+
 * Tue Jul 23 2002 François Pons <fpons@mandrakesoft.com> 3.9-1mdk
 - updated to use perl-URPM >= 0.50.
 
