@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 24mdk
+Release: 25mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Fri Aug 22 2003 François Pons <fpons@mandrakesoft.com> 4.4-25mdk
+- automatically fork transaction if they are multiple.
+
 * Thu Aug 21 2003 François Pons <fpons@mandrakesoft.com> 4.4-24mdk
 - updated with newer perl-URPM (changes in URPM::Signature).
 
