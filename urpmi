@@ -208,7 +208,7 @@ while (defined($_ = shift @argv)) {
     /^--proxy-user$/ and do {
 	($_ = shift @argv) =~ /(.+):(.+)/, or
 	    die N("bad proxy declaration on command line\n");
-	@{$urpm->{proxy}}{qw(user proxy)} = ($1, $2);
+	@{$urpm->{proxy}}{qw(user pwd)} = ($1, $2);
 	next;
     };
     /^--bug$/ and do { push @nextargv, \$bug; next };

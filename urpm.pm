@@ -3097,7 +3097,9 @@ sub install {
     local (*CHILD_RETURNS, *ERROR_OUTPUT, $_);
     if ($options{fork}) {
 	pipe(CHILD_RETURNS, ERROR_OUTPUT);
-	if ($pid = fork()) {
+	defined($pid = fork()) or die "Can't fork: $!\n"
+	if ($pid) {
+	    # parent process
 	    close ERROR_OUTPUT;
 
 	    $urpm->{log}(N("using process %d for executing transaction"));
@@ -3119,6 +3121,7 @@ sub install {
 
 	    return @l;
 	} else {
+	    # child process
 	    close CHILD_RETURNS;
 	}
     }
