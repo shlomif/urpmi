@@ -705,7 +705,7 @@ sub add_distrib_media {
 	if (-e $hdlists_file) {
 	    unlink "$urpm->{cachedir}/partial/hdlists";
 	    $urpm->{log}(_("copying hdlists file..."));
-	    system("cp", "-a", $hdlists_file, "$urpm->{cachedir}/partial/hdlists") ?
+	    system("cp", "-pR", $hdlists_file, "$urpm->{cachedir}/partial/hdlists") ?
 	      $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
 	} else {
 	    $urpm->{error}(_("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
@@ -921,7 +921,7 @@ sub update_media {
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
 	    if (-e "$dir/../descriptions") {
 		$urpm->{log}(_("copying description file of \"%s\"...", $medium->{name}));
-		system("cp", "-a", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") ?
+		system("cp", "-pR", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") ?
 		  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
 	    }
 
@@ -929,7 +929,7 @@ sub update_media {
 	    if ($options{force} < 2 && $medium->{with_hdlist} && -e $with_hdlist_dir) {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		$urpm->{log}(_("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
-		system("cp", "-a", "$with_hdlist_dir", "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
+		system("cp", "-pR", "$with_hdlist_dir", "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
 		  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
 
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
@@ -962,7 +962,7 @@ sub update_media {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    if (-s "$dir/$local_list") {
 			$urpm->{log}(_("copying source list of \"%s\"...", $medium->{name}));
-			system("cp", "-a", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
+			system("cp", "-pR", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
 			  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
 		    }
 		}
@@ -1056,10 +1056,10 @@ sub update_media {
 		unlink "$urpm->{cachedir}/partial/$basename";
 		if ($medium->{synthesis}) {
 		    $options{force} || ! -e "$urpm->{statedir}/synthesis.$medium->{hdlist}" or
-		      system("cp", "-a", "$urpm->{statedir}/synthesis.$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+		      system("cp", "-pR", "$urpm->{statedir}/synthesis.$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 		} else {
 		    $options{force} || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
-		      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+		      system("cp", "-pR", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 		}
 		eval {
 		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 0, proxy => $urpm->{proxy}}, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
@@ -1864,7 +1864,7 @@ sub download_source_packages {
 		    }
 		}
 		if (@removable_sources) {
-		    system("cp", "-a", @removable_sources, "$urpm->{cachedir}/rpms");
+		    system("cp", "-pR", @removable_sources, "$urpm->{cachedir}/rpms");
 		}
 	    } else {
 		$urpm->{error}(_("medium \"%s\" is not selected", $medium->{name}));

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 20mdk
+Release: 21mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -194,14 +194,20 @@ fi
 
 %files -n urpmi-parallel-ka-run
 %defattr(-,root,root)
+%doc urpm/README.ka-run
 %{perl_vendorlib}/urpm/parallel_ka_run.pm
 
 %files -n urpmi-parallel-ssh
 %defattr(-,root,root)
+%doc urpm/README.ssh
 %{perl_vendorlib}/urpm/parallel_ssh.pm
 
 
 %changelog
+* Mon Sep 23 2002 François Pons <fpons@mandrakesoft.com> 4.0-21mdk
+- fixed bad copy of files when a relative symlink is used.
+- added minimal README documentation files for distributed modules.
+
 * Tue Sep 17 2002 François Pons <fpons@mandrakesoft.com> 4.0-20mdk
 - gc: fixed curl proxy management.
 

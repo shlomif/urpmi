@@ -1,0 +1,15 @@
+This extension module allow to use ssh package to perform distributed copy
+of package over network. This is more a sample module which is somewhat slow
+to run distant script.
+
+To use this module, edit /etc/urpmi/parallel.cfg and add an alias line as
+follow :
+  <name>:ssh:<node list separated by ':'>
+or
+  <name>:ssh(<default media>):<node list separated by ':'>
+where <name> is alias name parameter of --parallel options of urpmi,
+      <default media> is default --media parameter for this alias,
+      <node list separated by ':'> is list of node, for example "node1:node2:
+            ...:nodeN".
+
+For any more information, please send mail to <fpons@mandrakesoft.com>.

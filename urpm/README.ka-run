@@ -1,0 +1,15 @@
+This extension module allow to use ka-run package to perform distributed copy
+of package over network.
+
+To use this module, edit /etc/urpmi/parallel.cfg and add an alias line as
+follow :
+  <name>:ka-run:<ka-run tools command line options>
+or
+  <name>:ka-run(<default media>):<ka-run tools command line options>
+where <name> is alias name parameter of --parallel options of urpmi,
+      <default media> is default --media parameter for this alias,
+      <ka-run tools command line options> is options which will be given to
+            rshp and mput command, for example "-c ssh -m node1 -m node2 ... -m
+	    nodeN".
+
+For any more information, please send mail to <fpons@mandrakesoft.com>.
