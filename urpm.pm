@@ -1225,7 +1225,7 @@ sub get_source_packages {
 	    #- TODO arch is not checked at this point.
 	    unless ($pkg->{version} eq $2 && $pkg->{release} eq $3 && exists $packages->{$pkg->{id}}) {
 		#- keep in mind these have to be deleted or space will be tight soon...
-		push @local_to_removes, "$urpm->{cachedir}/rpms/$_";
+		push @local_to_removes, "$urpm->{cachedir}/rpms/$1-$2-$3.$4.rpm";
 		next;
 	    }
 
