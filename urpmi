@@ -22,7 +22,7 @@ while (@ARGV and $ARGV[0] eq '--comment') {
     shift @ARGV;
 }
 
-@ARGV or die "usage: urpmi [--auto] package_name [package_names...]\n";
+@ARGV or die(_("usage: urpmi [--auto] package_name [package_names...]\n"));
 
 $dir = "/var/lib/urpmi";
 $dir2 = "/etc/urpmi";
