@@ -137,7 +137,7 @@ sub get_proxy {
 		};
     local (*F, $_);
     #	open F, "$ENV{HOME}/.wgetrc" or return;
-    open F, "/etc/urpmi/proxy.cfg" or return;
+    open F, "/etc/urpmi/proxy.cfg" or return undef;
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	/^http_proxy\s*=\s*(.*)$/ and $proxy->{http_proxy} = $1, next;

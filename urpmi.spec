@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.7
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Fri Jul 12 2002 Pixel <pixel@mandrakesoft.com> 3.7-4mdk
+- fix problem with no proxy
+
 * Thu Jul 11 2002 François Pons <fpons@mandrakesoft.com> 3.7-3mdk
 - incorporated proxy patch of Andre Duclos <shirka@wanadoo.fr>.
 - added tempory error message (before message and translation are
