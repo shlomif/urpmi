@@ -163,4 +163,8 @@ __END__
 
 =back
 
+=head1 COPYRIGHT
+
+Copyright (C) 2000-2004 Mandrakesoft
+
 =cut
