@@ -2137,6 +2137,9 @@ sub resolve_dependencies {
 	}
 	#- let each node determine what is requested, according to handler given.
 	$urpm->{parallel_handler}->parallel_resolve_dependencies($file, @_);
+
+	#- build simplest transaction (no split).
+	$urpm->build_transaction_set(undef, $state, split_level => 0);
     } else {
 	my $db;
 
@@ -2157,7 +2160,7 @@ sub resolve_dependencies {
 
 	$urpm->resolve_requested($db, $state, $requested, %options);
 
-	#- build transaction set now...
+	#- build transaction set...
 	$urpm->build_transaction_set($db, $state, %options);
     }
 }

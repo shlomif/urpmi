@@ -27,13 +27,13 @@ sub parallel_find_remove {
     #- keep in mind if the previous selection is still active, it avoid
     #- to re-start urpme --test on each node.
     if ($options{find_packages_to_remove}) {
-	delete $state->{ask_remove};
+	delete $state->{rejected};
 	delete $urpm->{error_remove};
 	$test = '--test ';
     } else {
 	@{$urpm->{error_remove} || []} and return @{$urpm->{error_remove}};
 	#- no need to restart what has been started before.
-	$options{test} and return keys %{$state->{ask_remove}};
+	$options{test} and return keys %{$state->{rejected}};
 	$test = '';
     }
 
@@ -49,10 +49,10 @@ sub parallel_find_remove {
 	      and $urpm->{fatal}(1, ("node %s has bad version of urpme, please upgrade", $node));
 	    if (/unknown packages?:? (.*)/) {
 		$options{callback_notfound} and $options{callback_notfound}->($urpm, split ", ", $1)
-		  or delete $state->{ask_remove}, last;
+		  or delete $state->{rejected}, last;
 	    } elsif (/The following packages contain ([^:]*): (.*)/) {
 		$options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, $1, split " ", $2)
-		  or delete $state->{ask_remove}, last;
+		  or delete $state->{rejected}, last;
 	    } elsif (/removing package (.*) will break your system/) {
 		$base_to_remove{$1} = undef;
 	    } elsif (/Removing failed/) {
@@ -61,7 +61,8 @@ sub parallel_find_remove {
 		if (exists $bad_nodes{$node}) {
 		    /^\s+(.*)/ and push @{$bad_nodes{$node}}, $1;
 		} else {
-		    $state->{ask_remove}{$_}{$node} = undef;
+		    $state->{rejected}{$_}{removed} = 1;
+		    $state->{rejected}{$_}{nodes}{$node} = undef;
 		}
 	    }
 	}
@@ -81,7 +82,7 @@ sub parallel_find_remove {
 	}
     }
 
-    keys %{$state->{ask_remove}};
+    keys %{$state->{rejected}};
 }
 
 #- parallel resolve_dependencies
@@ -143,7 +144,8 @@ sub parallel_resolve_dependencies {
 	    while (defined ($_ = <F>)) {
 		chomp;
 		if (/^\@removing\@(.*)/) {
-		    $state->{ask_remove}{$1}{$node} = undef;
+		    $state->{rejected}{$1}{removed} = 1;
+		    $state->{rejected}{$1}{nodes}{$node} = undef;
 		} elsif (/\|/) {
 		    #- distant urpmq returned a choices, check if it has already been chosen
 		    #- or continue iteration to make sure no more choices are left.

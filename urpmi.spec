@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,14 @@ $urpm->update_media;
 
 
 %changelog
+* Tue Jun 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-2mdk
+- fixed parallel handler with removing.
+- build transaction set just before starting downloading and
+  installing packages.
+- fixed glitches with gurpmi.
+- fixed bad test report.
+- fixed bad transaction ordering and splitting on some cases.
+
 * Mon Jun 16 2003 François Pons <fpons@mandrakesoft.com> 4.4-1mdk
 - added preliminary support for small transaction set.
 - internal library changes (compabilility should have been kept).

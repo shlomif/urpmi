@@ -32,6 +32,7 @@ my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
 my $no_remove = 0;
+my $split_level = 1;
 my $force = 0;
 my $parallel = '';
 my $sync;
@@ -79,6 +80,7 @@ usage:
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
 ") . N("  --no-uninstall - never ask to uninstall a package, abort the installation.
+") . N("  --split-level  - build small transaction of minimal given length.
 ") . N("  --fuzzy        - impose fuzzy search (same as -y).
 ") . N("  --src          - next package is a source package (same as -s).
 ") . N("  --install-src  - install only source package (no binaries).
@@ -147,6 +149,7 @@ while (defined($_ = shift @ARGV)) {
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
     /^--no-(remove|uninstall)$/ and do { $no_remove = 1; next };
+    /^--split-level$/ and do { $urpm->{options}{'split-level'} = undef; push @nextargv, \$urpm->{options}{'split-level'}; next };
     /^--(no-)?fuzzy$/ and do { $urpm->{options}{fuzzy} = !$1; next };
     /^--src$/ and do { $src = 1; next };
     /^--install-src$/ and do { $install_src = 1; next };
@@ -322,7 +325,7 @@ $urpm->configure(nocheck_access => $env || $uid > 0,
 		 parallel => $parallel,
 		);
 #- get back activated default values of boolean options.
-foreach (qw(post-clean use-provides verify-rpm)) {
+foreach (qw(post-clean use-provides verify-rpm split-level)) {
     exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
 }
 
@@ -386,7 +389,7 @@ $urpm->resolve_dependencies($state, \%requested,
 			    callback_choices => \&ask_choice,
 			    install_src => $install_src,
 			    nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
-			    split_level => 1,
+			    split_level => $urpm->{parallel_handler} ? 0 : $urpm->{options}{'split-level'},
 			   );
 
 my @ask_unselect = $urpm->unselected_packages($state);
@@ -506,6 +509,8 @@ $urpm->copy_packages_of_removable_media($list, \%sources,
 					    }
 					});
 
+my $nok;
+
 foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
 
@@ -513,7 +518,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     $urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
 
     #- first, filter out what is really needed to download for this small transaction.
-    $urpm->download_packages_of_distant_media($list, \%transaction_sources, \%error_sources,
+    $urpm->download_packages_of_distant_media(\@transaction_list, \%transaction_sources, \%error_sources,
 					      verbose => $verbose > 0,
 					      limit_rate => $urpm->{options}{'limit-rate'},
 					      force_local => 1,
@@ -613,16 +618,16 @@ foreach my $set (@{$state->{transaction} || []}) {
     if (my @missing = grep { m|^/| && ! -e $_ } values %transaction_sources_install, values %transaction_sources) {
 	message(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
 		  join "\n", map { "    $_" } @missing));
-	exit 2;
+	++$nok;
     }
 
     #- install source package only (whatever the user is root or not, but use rpm for that).
     if ($install_src) {
 	if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %transaction_sources) {
 	    system("rpm", "-i$rpm_opt", @l, ($root ? ("--root", $root) : @{[]}));
-	    $? and message(N("Installation failed")), exit 1;
+	    $? and message(N("Installation failed")), ++$nok;
 	}
-	exit 0;
+	next;
     }
 
     #- clean to remove any src package now.
@@ -667,12 +672,10 @@ foreach my $set (@{$state->{transaction} || []}) {
 				   test => $test,
 				   excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
 				   callback_inst => $callback_inst, callback_trans => $callback_inst);
-	    $X and gurpm::end();
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
-		m|^/| && !-e $_ and exit 2 foreach values %transaction_sources_install, values %transaction_sources; #- missing local file
-		$auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'} and exit 1;
+		$auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'} and ++$nok;
 
 		$noexpr = N("Nn");
 		$yesexpr = N("Yy");
@@ -696,18 +699,21 @@ foreach my $set (@{$state->{transaction} || []}) {
 					test => $test,
 					excludepath => $urpm->{options}{excludepath},
 					excludedocs => $urpm->{options}{excludedocs});
-		    @l and $urpm->fatal(2, N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+		    @l and $urpm->error(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l)), ++$nok;
 		}
-	    } else {
-		$test and message(N("Installation is possible"));
 	    }
 	}
-    } elsif ($test) {
-	message(N("Installation is possible"));
-    } else {
-	$verbose >= 0 and message(N("Everything already installed"), $auto);
     }
 }
+$X and gurpm::end();
+if (!$nok) {
+    if ($test) {
+	message(N("Installation is possible"));
+    } else {
+	@{$state->{transaction} || []} == 0 && $verbose >= 0 and message(N("Everything already installed"), $auto);
+    }
+}
+
 $urpm->unlock_urpmi_db;
 
 #- try to umount removable device which may have been mounted.
