@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 11mdk
+Release: 12mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -114,6 +114,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Sep 17 2001 François Pons <fpons@mandrakesoft.com> 1.7-12mdk
+- fixed urpmq usage of urpm library.
+
 * Tue Sep 11 2001 François Pons <fpons@mandrakesoft.com> 1.7-11mdk
 - fixed unable to add a ftp or http medium when with_hdlist
   is set to a value without / inside.
