@@ -61,6 +61,7 @@ sub parallel_find_remove {
 	    if (exists $bad_nodes{$node}) {
 		/^\s+(.+)/ and push @{$bad_nodes{$node}}, $1;
 	    } else {
+		s/\s*\(.*//; #- remove reason (too complex to handle and needed to be removed).
 		$state->{rejected}{$_}{removed} = 1;
 		$state->{rejected}{$_}{nodes}{$node} = undef;
 	    }
