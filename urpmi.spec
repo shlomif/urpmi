@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.4
-Release: 23mdk
+Release: 24mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.93-7mdk
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.94
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Thu Aug 21 2003 François Pons <fpons@mandrakesoft.com> 4.4-24mdk
+- updated with newer perl-URPM (changes in URPM::Signature).
+
 * Wed Aug 20 2003 François Pons <fpons@mandrakesoft.com> 4.4-23mdk
 - fixed bad key ids recognized from pubkey during update of media.
 - simplified list and pubkey location to be more compatible with
