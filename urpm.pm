@@ -781,6 +781,9 @@ sub remove_selected_media {
 		     "$_->{name}.cache") {
 		$_ and unlink "$urpm->{statedir}/$_";
 	    }
+
+	    #- remove proxy settings for this media
+	    urpm::download::remove_proxy_media($_->{name});
 	} else {
 	    push @result, $_; #- not removed so keep it
 	}
@@ -1776,8 +1779,9 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 	}
 
-	#- this file is written in any cases.
+	#- write config files in any case
 	$urpm->write_config;
+	dump_proxy_config();
     }
 
     #- make sure names files are regenerated.

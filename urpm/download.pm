@@ -63,6 +63,11 @@ sub dump_proxy_config () {
     return 1;
 }
 
+#- deletes the proxy configuration for the specified media
+sub remove_proxy_media {
+    defined $proxy_config and delete $proxy_config->{$_[0] || ''};
+}
+
 #- reads and loads the proxy.cfg file ;
 #- returns the global proxy settings (without arguments) or the
 #- proxy settings for the specified media (with a media name as argument)
