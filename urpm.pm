@@ -967,6 +967,7 @@ sub update_media {
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
 	    if (!$media_redone{$medium->{name}}) {
 		my $reconfig_urpmi = reduce_pathname("$medium->{url}/reconfig.urpmi");
+		$reconfig_urpmi =~ s,^(removable[^:]*|file)://,,;
 		if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
 		    $media_redone{$medium->{name}} = 1;
 		    redo MEDIA;
