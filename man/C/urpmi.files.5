@@ -53,6 +53,14 @@ name of packages against.
 The list of packages that should be installed instead of updated. It has
 the same format as the skip.list.
 .TP
+.FN /etc/urpmi/mirror.config
+This file is optional. If present, it should contain a single line:
+.br
+    \fBurl=http://....\fP
+.br
+which is the URL of a document that lists the available mirrors.
+The default is to use \fBhttp://www.mandrakelinux.com/mirrorsfull.list\fP.
+.TP
 .FN /var/log/urpmi.log
 The urpmi log file.
 .SH SEE ALSO
