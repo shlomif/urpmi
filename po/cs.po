@@ -14,14 +14,15 @@ msgstr ""
 "Project-Id-Version: urpmi-cs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-11 23:08+0200\n"
-"PO-Revision-Date: 2004-04-26 19:47+0200\n"
+"PO-Revision-Date: 2004-08-19 22:35+0200\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.3\n"
+"X-Generator: KBabel 1.3.1\n"
 "Plural-Forms:  nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #. This is a list of chars acceptable as a 'yes' answer to a Yes/No question;
@@ -207,9 +208,9 @@ msgid "unable to write config file [%s]"
 msgstr "nelze zapsat soubor s nastavením [%s]"
 
 #: ../urpm.pm:370
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write file [%s]"
-msgstr "nelze zapsat soubor s nastavením [%s]"
+msgstr "nelze zapsat soubor [%s]"
 
 #: ../urpm.pm:377
 #, c-format
@@ -382,19 +383,19 @@ msgid "removing medium \"%s\""
 msgstr "odebírám zdroj \"%s\""
 
 #: ../urpm.pm:848
-#, fuzzy, c-format
+#, c-format
 msgid "reconfiguring urpmi for media \"%s\""
-msgstr "načítám rpm soubory ze zdroje \"%s\"..."
+msgstr "přenastavuji urpmi pro zdroj \"%s\""
 
 #: ../urpm.pm:874
-#, fuzzy, c-format
+#, c-format
 msgid "...reconfiguration failed"
-msgstr "...kopírování selhalo"
+msgstr "...přenastavení selhalo"
 
 #: ../urpm.pm:881
 #, c-format
 msgid "reconfiguration done"
-msgstr ""
+msgstr "přenastaveno"
 
 #: ../urpm.pm:1008
 #, c-format
@@ -734,9 +735,9 @@ msgid "unable to install package %s"
 msgstr "nelze nainstalovat balíček %s"
 
 #: ../urpm.pm:2880
-#, fuzzy, c-format
+#, c-format
 msgid "More information on package %s"
-msgstr "odstraňuje se balíček %s"
+msgstr "Více informací o balíčku %s"
 
 #: ../urpm.pm:3038 ../urpm.pm:3071
 #, c-format
@@ -804,7 +805,7 @@ msgid "Sorry, bad choice, try again\n"
 msgstr "Je mi líto, to je špatná volba. Zkuste to znovu\n"
 
 #: ../urpme:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpme version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -813,8 +814,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf verze %s\n"
-"Copyright ©2002 Mandrakesoft.\n"
+"urpme verze %s\n"
+"Copyright ©1999-2004 Mandrakesoft.\n"
 "Toto je svobodný software a je volně šiřitelný dle podmínek licence GNU "
 "GPL.\n"
 "\n"
@@ -923,7 +924,7 @@ msgid "Removing failed"
 msgstr "Odebírání selhalo"
 
 #: ../urpmf:27
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2004 Mandrakesoft.\n"
@@ -933,7 +934,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmf verze %s\n"
-"Copyright ©2002 Mandrakesoft.\n"
+"Copyright ©2002-2004 Mandrakesoft.\n"
 "Toto je svobodný software a je volně šiřitelný dle podmínek licence GNU "
 "GPL.\n"
 "\n"
@@ -994,9 +995,9 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - vypíše všechny tagy.\n"
 
 #: ../urpmf:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --name         - print only package names.\n"
-msgstr "  --all           - vypíše všechny tagy.\n"
+msgstr "  --name         - vypíše pouze názvy balíčků.\n"
 
 #: ../urpmf:44
 #, c-format
@@ -1142,14 +1143,16 @@ msgid ""
 "Note: since no media searched uses hdlists, urpmf was unable to return any "
 "result\n"
 msgstr ""
+"Poznámka: urpmf nemohl vrátit žádné výsledky, neboť žádný z prohledávaných "
+"zdrojů nepoužívá soubor hdlist\n"
 
 #: ../urpmf:152
 #, c-format
 msgid "You may want to use --name to search for package names.\n"
-msgstr ""
+msgstr "Chcete-li hledat názvy balíčků, můžete chtít použít přepínač --name.\n"
 
 #: ../urpmi:69
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -1158,8 +1161,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf verze %s\n"
-"Copyright ©2002 Mandrakesoft.\n"
+"urpmi verze %s\n"
+"Copyright ©1999-2004 Mandrakesoft.\n"
 "Toto je svobodný software a je volně šiřitelný dle podmínek licence GNU "
 "GPL.\n"
 "\n"
@@ -1354,9 +1357,9 @@ msgid "  --excludedocs  - exclude docs files.\n"
 msgstr "  --excludedocs  - vynechá soubory s dokumentací.\n"
 
 #: ../urpmi:124
-#, fuzzy, c-format
+#, c-format
 msgid "  --skip         - packages which installation should be skipped\n"
-msgstr "  --test         - zkontrolovat, zda lze dokončit instalaci správně.\n"
+msgstr "  --skip         - balíčky, jejichž instalace by měla být přeskočena\n"
 
 #: ../urpmi:125
 #, c-format
@@ -1364,6 +1367,9 @@ msgid ""
 "  --more-choices - when several packages are found, propose more choices\n"
 "                   than the default.\n"
 msgstr ""
+"  --more-choices - pokud je nalezeno více balíčků, bude se nabízet více "
+"voleb\n"
+"                   než implicitně.\n"
 
 #: ../urpmi:127 ../urpmq:79
 #, c-format
@@ -1533,6 +1539,8 @@ msgid ""
 "\n"
 "Continue?"
 msgstr ""
+"\n"
+"Pokračovat?"
 
 #: ../urpmi:465
 #, c-format
@@ -1564,13 +1572,12 @@ msgstr ""
 "%d, %d MB)"
 
 #: ../urpmi:511 ../urpmi:522
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed (%d "
 "MB)"
 msgstr ""
-"Aby byly splněny závislosti, budou nainstalovány následující balíčky (celkem "
-"%d, %d MB)"
+"Aby byly splněny závislosti, bude nainstalován následující balíček (%d MB)"
 
 #: ../urpmi:517
 #, c-format
@@ -1805,14 +1812,14 @@ msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f         - provede generování hdlist souborů.\n"
 
 #: ../urpmi.addmedia:115
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to add media"
-msgstr "Instalovat balíčky může pouze uživatel root"
+msgstr "Přidat zdroj může pouze uživatel root"
 
 #: ../urpmi.addmedia:144
 #, c-format
 msgid "found version %s and arch %d ..."
-msgstr ""
+msgstr "nalezena verze %s a architektura %d..."
 
 #: ../urpmi.addmedia:148
 #, c-format
@@ -1864,9 +1871,9 @@ msgid "  -a             - select all media.\n"
 msgstr "  -a           - vybere všechna média.\n"
 
 #: ../urpmi.removemedia:44
-#, fuzzy, c-format
+#, c-format
 msgid "  -y             - fuzzy match on media names.\n"
-msgstr "  -a             - vybere všechny vyhovující z příkazové řádky.\n"
+msgstr "  -y             - přibližná shoda v názvu zdroje.\n"
 
 #: ../urpmi.removemedia:47
 #, c-format
@@ -1878,9 +1885,9 @@ msgstr ""
 "neznámé volby '%s'\n"
 
 #: ../urpmi.removemedia:53
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to remove media"
-msgstr "Instalovat balíčky může pouze uživatel root"
+msgstr "Odstranit zdroj může pouze uživatel root"
 
 #: ../urpmi.removemedia:63
 #, c-format
@@ -1921,9 +1928,9 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a           - vybere všechna nevyjímatelná média.\n"
 
 #: ../urpmi.update:62
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to update media"
-msgstr "Instalovat balíčky může pouze uživatel root"
+msgstr "Aktualizovat zdroj může pouze uživatel root"
 
 #: ../urpmi.update:70
 #, c-format
@@ -1940,7 +1947,7 @@ msgstr ""
 "(jeden z %s)\n"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2004 Mandrakesoft.\n"
@@ -1949,8 +1956,8 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"urpmf verze %s\n"
-"Copyright ©2002 Mandrakesoft.\n"
+"urpmq verze %s\n"
+"Copyright ©2000-2004 Mandrakesoft.\n"
 "Toto je svobodný software a je volně šiřitelný dle podmínek licence GNU "
 "GPL.\n"
 "\n"
@@ -2040,15 +2047,15 @@ msgid "  -c             - complete output with package to be removed.\n"
 msgstr "  -c             - doplnit výstup balíčkem k odebrání.\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  -p             - search in provides to find package.\n"
-msgstr "  -p           - pokusí se najít balíček v položkách provides.\n"
+msgstr "  -p           - bude hledat balíček v položkách provides.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -P             - do not search in provides to find package (default).\n"
-msgstr "  -P             - nehledá balíček v položkách provides.\n"
+msgstr "  -P             - nehledá balíček v položkách provides (výchozí).\n"
 
 #: ../urpmq:83
 #, c-format
@@ -2056,9 +2063,9 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - reverzní vyhledávání požadavků balíčku.\n"
 
 #: ../urpmq:85
-#, fuzzy, c-format
+#, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
-msgstr "  -a             - vybere všechny vyhovující z příkazové řádky.\n"
+msgstr "  -Y             - jako -y, ale ignoruje velká a malá písmena.\n"
 
 #: ../urpmq:87
 #, c-format
@@ -2095,90 +2102,14 @@ msgstr "volbu --list-nodes lze použít pouze s volbou --parallel"
 #: ../urpmq:331
 #, c-format
 msgid "skipping media %s: no hdlist\n"
-msgstr ""
+msgstr "přeskakuji zdroj %s: nenalezen hdlist\n"
 
 #: ../urpmq:392
 #, c-format
 msgid "No filelist found\n"
-msgstr ""
+msgstr "Nebyl nalezen seznam souborů\n"
 
 #: ../urpmq:402
 #, c-format
 msgid "No changelog found\n"
-msgstr ""
-
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "virtuální zdroj musí být lokální"
-
-#~ msgid ""
-#~ "urpme version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpme verze %s\n"
-#~ "Copyright ©1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "Toto je svobodný software a je volně šiřitelný dle podmínek licence GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "použití:\n"
-
-#~ msgid ""
-#~ "urpmi version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmi verze %s\n"
-#~ "Copyright ©1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "Toto je svobodný software a je volně šiřitelný podle podmínek licence GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "použití:\n"
-
-#~ msgid "syntax error in config file at line %s"
-#~ msgstr "syntaktická chyba v souboru s nastavením na řádku %s"
-
-#~ msgid ""
-#~ "unable to take care of medium \"%s\" as list file is already used by "
-#~ "another medium"
-#~ msgstr ""
-#~ "nelze pracovat se zdrojem \"%s\", pokud je seznam souborů využíván jiným"
-
-#~ msgid ""
-#~ "unable to use name \"%s\" for unnamed medium because it is already used"
-#~ msgstr ""
-#~ "nelze použít jméno \"%s\" pro nepojmenovaný zdroj protože to je již "
-#~ "použito"
-
-#~ msgid ""
-#~ "unable to take medium \"%s\" into account as no list file [%s] exists"
-#~ msgstr ""
-#~ "pokud neexistuje seznam souborů [%s], nelze zařadit zdroj \"%s\" mezi "
-#~ "používané"
-
-#~ msgid "unable to determine medium of this hdlist file [%s]"
-#~ msgstr "nelze zjistit zdroj pro tento soubor hdlist [%s]"
-
-#~ msgid "One of the following packages is needed to install %s:"
-#~ msgstr ""
-#~ "Pro instalaci %s je zapotřebí nainstalovat jeden z následujících balíčků:"
-
-#~ msgid ""
-#~ "urpmq version %s\n"
-#~ "Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmq verze %s\n"
-#~ "Copyright ©2000, 2001, 2002 Mandrakesoft.\n"
-#~ "Toto je svobodný software a je volně šiřitelný podle podmínek licence GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "použití:\n"
+msgstr "Nebyl nalezen záznam změn\n"
