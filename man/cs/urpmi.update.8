@@ -1,75 +1,75 @@
-.TH urpmi.update 8 "05 Èec 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.update 8 "28 Srp 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.update
 .SH NÁZEV
 urpmi.update \- Aktualizuje seznam balíèkù pro zadané zdroje
 .SH SYNAPSE
-.B urpmi.update [volby] [<\fInázvy\fP>]
+.B urpmi.update \fB[volby]\fP \fB[<\fInázvy\fP>]\fP
 .SH POPIS
-Program urpmi.update zkoumá v¹echny zdroje se zadanými <\fInázvy\fP> 
-a aktualizuje jejich seznam balíèkù.
-To je u¾iteèné napøíklad pro zdroje s umístìním na serverech FTP.
+Program urpmi.update zkoumá v¹echny zdroje se zadanými <\fInázvy\fP> a aktualizuje jejich seznam balíèkù. To je u¾iteèné napøíklad pro zdroje s umístìním na serverech FTP.
 .PP
 <\fInázvy\fP> je seznam názvù zdrojù, které jste pøedtím zadali pomocí programu urpmi.addmedia
 
 .SH VOLBY
+.IP "\fB\--wget\fP"
+pro stahování vzdálených souborù se pou¾ije výhradnì program wget. Implicitnì se pou¾ívá program curl a program wget pouze tehdy, pokud curl není k dispozici.
+.IP "\fB\--curl\fP"
+pro stahování vzdálených souborù se pou¾ije výhradnì program curl. Implicitnì se pou¾ívá program curl a program wget pouze tehdy, pokud curl není k dispozici.
+.IP "\fB\--limit-rate\fP \fIrychlost\fP"
+pokusí se omezit rychlost stahování, \fIrychlost\fP se zadává v kb/s. Tato volba není implicitnì aktivní.
+.IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
+pou¾ije zadanou HTTP proxy.
+.IP "\fB\--proxy-user\fP \fIu¾ivatel:heslo\fP"
+pou¾ije zadaného u¾ivatele a heslo pro ovìøení na proxy.
+.IP "\fB\--update\fP"
+budou se aktualizovat pouze zdroje urèené pro aktualizaci.
 .IP "\fB\-a\fP"
-Vybere pro aktualizaci v¹echny zdroje, které nepou¾ívají vyjímatelná média.
+vybere pro aktualizaci v¹echny zdroje, které nepou¾ívají vyjímatelná média.
 .IP "\fB\-c\fP"
-Vyèistí pøi svém ukonèení adresáø /var/cache/urpmi/headers.
+vyèistí pøi svém ukonèení adresáø /var/cache/urpmi/headers.
+.IP "\fB\-d\fP"
+pøinutí ke kompletnímu výpoètu (ji¾ nepou¾ívaného) souboru /var/lib/urpmi/depslist.ordered.
 .IP "\fB\-f\fP"
-Pøinutí program urpmi.update znovu vytvoøit soubory hdlist a dal¹í pomocné soubory (/var/lib/urpmi/depslist.ordered,
-/var/lib/urpmi/provides a /var/lib/urpmi/compss).
+pøinutí program urpmi.update znovu vytvoøit soubory hdlist.
 .SH SOUBORY
-/usr/bin/urpmi
+/usr/bin/urpmi.update
 .br
-Spustitelný soubor \fBurpmi\fP (skript jazyka Perl)
+Spustitelný soubor \fBurpmi.update\fP (skript jazyka Perl)
 .PP
 /var/lib/urpmi/list.*
 .br
-Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní.
-Pro ka¾dý zdroj(*) je k dispozici jeden seznam souborù.
+Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní, pouze pokud je pou¾ito heslo pro pøístup ke vzdáleným lokacím (pomocí sí»ového protokolu), nebo rùzné adresáøe, které jsou pou¾ity k ulo¾ení balíèkù.
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM.
-Pro ka¾dý zdroj(*) je k dispozici jeden seznam hdlist.
+Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM. Pokud je pro zdroj pou¾it soubor hdlist, mù¾e program \fBurpmf\fP kompletnì fungovat, co¾ je také nejèastìj¹í pøípad. (Více viz manuálové stránky pro pøíkaz \fBurpmf\fP).
 .PP
 /var/lib/urpmi/synthesis.hdlist.*
 .br
-Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist,
-a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory
-pøítomny, pou¾ijte k jejich vytvoøení pøíkaz \fBurpmi.update -a\fP. Tyto soubory nejsou
-povinné.
+Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist, a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory pøítomny, pou¾ijí se soubory hdlist, co¾ je ov¹em výraznì pomalej¹í.
 .PP
 /etc/urpmi/urpmi.cfg
 .br
 Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
 .PP
+/etc/urpmi/parallel.cfg
+.br
+Obsahuje popis paralelních aliasù ve formátu \fB<alias>:<rozhraní[(zdroje)]>:<parametr_rozhraní>\fP, kde \fB<alias>\fP je symbolický název, \fB<rozhraní>\fP mù¾e nabývat hodnot \fBka-run\fP nebo \fBssh\fP, \fB<zdroje>\fP je seznam zdrojù (jako u volby \fB\--media\fP), \fB<parametr_rozhraní>\fP je seznam parametrù specifický pro rozhraní, napøíklad "-c ssh -m node1 -m node2" pro rozhraní \fBka-run\fP nebo "node1:node2" pro rozhraní \fBssh\fP.
+.PP
 /etc/urpmi/skip.list
 .br
-Obsahuje názvy balíèkù, které by nemìly být automaticky aktualizovány.
+Obsahuje výrazy s názvy balíèkù, které by nemìly být automaticky aktualizovány. Formát je tvoøen seznamem toho, co balíèek poskytuje (nebo regulárním výrazem, pokud je ohranièen lomítky \fB/\fP) s volitelným operátorem a øetìzcem s verzí, nebo regulárním výrazem odpovídajícím úplnému názvu balíèku.
 .PP
-/var/lib/urpmi/depslist.ordered
+/etc/urpmi/inst.list
 .br
-Jednoduchý textový soubor obsahující v¹echny závislosti v¹ech známých balíèkù.
-.PP
-/var/lib/urpmi/provides
-.br
-Jednoduchý textový soubor obsahující popis v¹eho, co poskytují balíèky (provides), a názvy tìchto balíèkù.
-.PP
-/var/lib/urpmi/compss
-.br
-Jednoduchý textový soubor obsahující pro ka¾dou Skupinu seznam balíèkù v této skupinì.
+Obsahuje názvy balíèkù, které by mìly být instalovány a ne aktualizovány.
 .SH "VIZ TAKÉ"
 urpmi(8),
 urpmi.addmedia(8),
 urpmf(8),
 urpmq(8),
-autoirpm(8),
-autoirpm-icons(8),
 gurpmi(8),
 rpmdrake(8)
 .SH AUTOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (pùvodní autor)
 .br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (souèasný autor)

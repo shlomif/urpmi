@@ -1,69 +1,59 @@
-.TH urpmi.removemedia 8 "05 Èec 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.removemedia 8 "28 Srp 2001" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.removemedia
 .SH NÁZEV
 urpmi.removemedia \- odstraní zdroj balíèkù RPM ze seznamu zdrojù známých programu urpmi
 .SH SYNAPSE
 .B urpmi.removemedia [volby] <\fInázvy\fP>
 .SH POPIS
-Program urpmi.removemedia odstraní v¹echny odkazy na zadané názvy zdrojù balíèkù vèetnì
-odkazù na balíèky z tìchto zdrojù pocházející, ze v¹ech souborù s nastavením. 
+Program urpmi.removemedia odstraní v¹echny odkazy na zadané názvy zdrojù balíèkù vèetnì odkazù na balíèky z tìchto zdrojù pocházející, ze v¹ech souborù s nastavením. 
 .PP
 <\fInázvy\fP> je seznam názvù zdrojù, které jste pøedtím zadali pomocí programu urpmi.addmedia
 
 .SH VOLBY
 .IP "\fB\-a\fP"
 Vybere a odebere v¹echny zdroje.
+.IP "\fB\-c\fP"
+vyma¾e vyrovnávací pamì» s hlavièkami v adresáøi /var/cache/urpmi/headers.
 .SH SOUBORY
-/usr/bin/urpmi
+/usr/bin/urpmi.removemedia
 .br
-Spustitelný soubor \fBurpmi\fP (skript jazyka Perl)
+Spustitelný soubor \fBurpmi.removemedia\fP (skript jazyka Perl)
 .PP
 /var/lib/urpmi/list.*
 .br
-Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní.
-Pro ka¾dý zdroj(*) je k dispozici jeden seznam souborù.
+Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní, pouze pokud je pou¾ito heslo pro pøístup ke vzdáleným lokacím (pomocí sí»ového protokolu), nebo rùzné adresáøe, které jsou pou¾ity k ulo¾ení balíèkù.
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM.
-Pro ka¾dý zdroj(*) je k dispozici jeden seznam hdlist.
+Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM. Pokud je pro zdroj pou¾it soubor hdlist, mù¾e program \fBurpmf\fP kompletnì fungovat, co¾ je také nejèastìj¹í pøípad. (Více viz manuálové stránky pro pøíkaz \fBurpmf\fP).
 .PP
 /var/lib/urpmi/synthesis.hdlist.*
 .br
-Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist,
-a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory
-pøítomny, pou¾ijte k jejich vytvoøení pøíkaz \fBurpmi.update -a\fP. Tyto soubory nejsou
-povinné.
+Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist, a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory pøítomny, pou¾ijí se soubory hdlist, co¾ je ov¹em výraznì pomalej¹í.
 .PP
 /etc/urpmi/urpmi.cfg
 .br
 Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
 .PP
+/etc/urpmi/parallel.cfg
+.br
+Obsahuje popis paralelních aliasù ve formátu \fB<alias>:<rozhraní[(zdroje)]>:<parametr_rozhraní>\fP, kde \fB<alias>\fP je symbolický název, \fB<rozhraní>\fP mù¾e nabývat hodnot \fBka-run\fP nebo \fBssh\fP, \fB<zdroje>\fP je seznam zdrojù (jako u volby \fB\--media\fP), \fB<parametr_rozhraní>\fP je seznam parametrù specifický pro rozhraní, napøíklad "-c ssh -m node1 -m node2" pro rozhraní \fBka-run\fP nebo "node1:node2" pro rozhraní \fBssh\fP.
+.PP
 /etc/urpmi/skip.list
 .br
-Obsahuje názvy balíèkù, které by nemìly být automaticky aktualizovány.
+Obsahuje výrazy s názvy balíèkù, které by nemìly být automaticky aktualizovány. Formát je tvoøen seznamem toho, co balíèek poskytuje (nebo regulárním výrazem, pokud je ohranièen lomítky \fB/\fP) s volitelným operátorem a øetìzcem s verzí, nebo regulárním výrazem odpovídajícím úplnému názvu balíèku.
 .PP
-/var/lib/urpmi/depslist.ordered
+/etc/urpmi/inst.list
 .br
-Jednoduchý textový soubor obsahující v¹echny závislosti v¹ech známých balíèkù.
-.PP
-/var/lib/urpmi/provides
-.br
-Jednoduchý textový soubor obsahující popis v¹eho, co poskytují balíèky (provides), a názvy tìchto balíèkù.
-.PP
-/var/lib/urpmi/compss
-.br
-Jednoduchý textový soubor obsahující pro ka¾dou Skupinu seznam balíèkù v této skupinì.
+Obsahuje názvy balíèkù, které by mìly být instalovány a ne aktualizovány.
 .SH "VIZ TAKÉ"
 urpmi(8),
 urpmi.addmedia(8),
-autoirpm(8),
-autoirpm-icons(8),
 gurpmi(8),
 urpmf(8),
 urpmq(8),
 rpmdrake(8)
 .SH AUTOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (pùvodní autor)
 .br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (souèasný autor)

@@ -1,4 +1,4 @@
-.TH urpmf 8 "05 Èec 2001" "MandrakeSoft" "Mandrake Linux"
+.TH urpmf 8 "28 Srp 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmf
 .SH NÁZEV
 urpmf \- RPMFind - Nalezne balíèky RPM poskytující zadaný soubor
@@ -7,44 +7,76 @@ urpmf \- RPMFind - Nalezne balíèky RPM poskytující zadaný soubor
 .SH POPIS
 Program urpmf vypí¹e seznam balíèkù, které poskytují soubor pøedaný jako parametr.
 .PP
-<\fISoubor\fP> je název souboru, u kterého chcete znát balíèek, který jej poskytuje.
-Mù¾ete napsat pouze èást názvu souboru, který hledáte, program
-\fBurpmf\fP poté vypí¹e seznam souborù, které vyhovují, vèetnì jejich odpovídajících balíèkù.
+<\fIVzor\fP> je název souboru nebo jeho èást, u kterého chcete znát balíèek, který jej poskytuje. \fBurpmf\fP vypí¹e seznam nalezených souborù a jejich odpovídajících balíèkù.
 .PP
-Program urpmf hledá v instalovaných i nenainstalovaných balíècích.
+Program \fBurpmf\fP hledá v instalovaných i nenainstalovaných balíècích.
 .SH VOLBY
 .IP "\fB\--help\fP"
 zobrazí nápovìdu a ukonèí se.
+.IP "\fB\--update\fP"
+pou¾ije pouze zdroje pro aktualizaci. To znamená, ¾e program \fBurpmf\fP bude prohledávat a øe¹it závislosti pouze ve zdrojích oznaèených jako zdroje pro aktualizaci.
+.IP "\fB\--media\fP \fIzdroj1,...,zdrojN\fP"
+pou¾ije pouze zadané zdroje, nikoli v¹echny dostupné zdroje (nebo zdroje pro aktualizaci, pokud je zadána volba \fB\--update\fP).
+.IP "\fB\--excludemedia\fP \fIzdroj1,...,zdrojN\fP"
+nepou¾ije zadané zdroje.
+.IP "\fB\--sortmedia\fP \fIzdroj1,...,zdrojN\fP"
+setøídí zadané zdroje, ke zjednodu¹ení seskupení lze pou¾ít podøetìzce.
+.IP "\fB\--synthesis\fP \fIsoubor\fP"
+pro vyhledávání v balíècích a øe¹ení závislostí pou¾ije místo databáze urpmi zadaný \fIsoubor\fP syntézy.
+.IP "\fB\--verbose\fP"
+navrhne u¾vanìný re¾im s rùznými zprávami.
 .IP "\fB\--quiet\fP"
-nebude vypisovat název znaèky (volba je nastavena jako výchozí, pokud není ¾ádná znaèka pøedána na 
-pøíkazovém øádku, a není kompatibilní s interaktivním re¾imem).
+nebude vypisovat název znaèky (volba je nastavena jako výchozí, pokud není ¾ádná znaèka pøedána na pøíkazovém øádku, a není kompatibilní s interaktivním re¾imem).
+.IP "\fB\--uniq\fP"
+nebude vypisovat stejné øádky.
 .IP "\fB\--all\fP"
-vypí¹e v¹echny znaèky.
-.IP "\fB\--name\fP"
-vypí¹e název znaèky: název souboru RPM (zapnuta, pokud není z pøíkazového øádku pøedána ¾ádná znaèka,
-ale bez názvu balíèku).
+prohledává v¹echny znaèky uvedené ní¾e.
 .IP "\fB\--group\fP"
-vypí¹e znaèku group: skupina.
+prohledává znaèku group: skupina.
 .IP "\fB\--size\fP"
-vypí¹e znaèku size: velikost.
-.IP "\fB\--serial\fP"
-vypí¹e znaèku serial: sériové èíslo.
+prohledává znaèku size: velikost.
+.IP "\fB\--epoch\fP"
+prohledává znaèku epoch: epochu.
 .IP "\fB\--summary\fP"
-vypí¹e znaèku summary: shrnutí.
+prohledává znaèku summary: shrnutí.
 .IP "\fB\--description\fP"
-vypí¹e znaèku description: popis.
+prohledává znaèku description: popis.
+.IP "\fB\--sourcerpm\fP"
+prohledává zdrojové balíèky RPM.
+.IP "\fB\--packager\fP"
+prohledává znaèku packager: autor balíèku.
+.IP "\fB\--buildhost\fP"
+prohledává znaèku buildhost: poèátaè, na kterém byl balíèek sestaven.
+.IP "\fB\--url\fP"
+prohledává URL.
 .IP "\fB\--provides\fP"
-vypí¹e znaèku provides: v¹e, co poskytuje (více øádkù).
+prohledává znaèku provides: v¹e, co balíèek poskytuje.
 .IP "\fB\--requires\fP"
-vypí¹e znaèku requires: v¹e, co potøebuje (více øádkù).
+prohledává znaèku requires: v¹e, co balíèek potøebuje.
 .IP "\fB\--files\fP"
-vypí¹e znaèku files: v¹echny soubory (více øádkù).
+prohledává znaèku files: v¹echny soubory. Tato volba je výchozí.
 .IP "\fB\--conflicts\fP"
-vypí¹e znaèku conflicts: v¹echny konflikty (více øádkù).
+vypí¹e znaèku conflicts: v¹echny konflikty.
 .IP "\fB\--obsoletes\fP"
-vypí¹e znaèku obsoletes: v¹e, co je zastaralé (více øádkù).
-.IP "\fB\--prereqs\fP"
-vypí¹e znaèku prereqs: v¹echny po¾adavky pøed instalací (více øádkù).
+vypí¹e znaèku obsoletes: v¹e, co tento balíèek èiní zastaralým.
+.IP "\fB\--env\fP \fIadresáø\fP"
+pou¾ije odli¹né prostøedí pøímo z hlá¹ení o chybì, aby bylo mo¾né zopakovat chybu, parametry jsou shodné s parametry pro volbu \fB\--bug\fP
+.IP "\fB\-c\fP"
+bude ignorovat rozdíly v malých a velkých písmenech ve v¹ech vzorech.
+.IP "\fB\-f\fP"
+vypí¹e spolu s názvem balíèku také verzi, vydání a architekturu.
+.IP "\fB\-e\fP"
+vlo¾í kód pøímo do generovaného výrazu v jazyce Perl. Pou¾ívejte tuto volbu spolu s volbou \fB\--verbose\fP, pokud chcete nahlédnout do generovaného kódu v jazyce Perl. V ka¾dém pøípadì tuto volbu pou¾ijte pouze tehdy, pokud ovládáte jazyk Perl.
+.IP "\fB\-a\fP"
+binární operátor AND, výsledek je platný pokud oba výrazy jsou platné.
+.IP "\fB\-o\fP"
+binární operátor OR, výsledek je platný pokud je jeden z výrazù platný.
+.IP "\fB!\fP"
+unární operátor NOT, výsledek je platný pokud je výraz neplatný.
+.IP "\fB(\fP"
+levé závorky otevírající skupinu výrazù.
+.IP "\fB\)\fP"
+pravé závorky uzavírající skupinu výrazù.
 .SH SOUBORY
 /usr/bin/urpmf
 .br
@@ -52,48 +84,37 @@ Spustitelný soubor \fBurpmf\fP (skript jazyka Perl)
 .PP
 /var/lib/urpmi/list.*
 .br
-Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní.
-Pro ka¾dý zdroj(*) je k dispozici jeden seznam souborù.
+Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní, pouze pokud je pou¾ito heslo pro pøístup ke vzdáleným lokacím (pomocí sí»ového protokolu), nebo rùzné adresáøe, které jsou pou¾ity k ulo¾ení balíèkù.
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM.
-Pro ka¾dý zdroj(*) je k dispozici jeden seznam hdlist.
+Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM. Pokud je pro zdroj pou¾it soubor hdlist, mù¾e program \fBurpmf\fP kompletnì fungovat, co¾ je také nejèastìj¹í pøípad. (Více viz manuálové stránky pro pøíkaz \fBurpmf\fP).
 .PP
 /var/lib/urpmi/synthesis.hdlist.*
 .br
-Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist,
-a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory
-pøítomny, pou¾ijte k jejich vytvoøení pøíkaz \fBurpmi.update -a\fP. Tyto soubory nejsou
-povinné.
+Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist, a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory pøítomny, pou¾ijí se soubory hdlist, co¾ je ov¹em výraznì pomalej¹í.
 .PP
 /etc/urpmi/urpmi.cfg
 .br
 Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
 .PP
+/etc/urpmi/parallel.cfg
+.br
+Obsahuje popis paralelních aliasù ve formátu \fB<alias>:<rozhraní[(zdroje)]>:<parametr_rozhraní>\fP, kde \fB<alias>\fP je symbolický název, \fB<rozhraní>\fP mù¾e nabývat hodnot \fBka-run\fP nebo \fBssh\fP, \fB<zdroje>\fP je seznam zdrojù (jako u volby \fB\--media\fP), \fB<parametr_rozhraní>\fP je seznam parametrù specifický pro rozhraní, napøíklad "-c ssh -m node1 -m node2" pro rozhraní \fBka-run\fP nebo "node1:node2" pro rozhraní \fBssh\fP.
+.PP
 /etc/urpmi/skip.list
 .br
-Obsahuje názvy balíèkù, které by nemìly být automaticky aktualizovány.
+Obsahuje výrazy s názvy balíèkù, které by nemìly být automaticky aktualizovány. Formát je tvoøen seznamem toho, co balíèek poskytuje (nebo regulárním výrazem, pokud je ohranièen lomítky \fB/\fP) s volitelným operátorem a øetìzcem s verzí, nebo regulárním výrazem odpovídajícím úplnému názvu balíèku.
 .PP
-/var/lib/urpmi/depslist.ordered
+/etc/urpmi/inst.list
 .br
-Jednoduchý textový soubor obsahující v¹echny závislosti v¹ech známých balíèkù.
-.PP
-/var/lib/urpmi/provides
-.br
-Jednoduchý textový soubor obsahující popis v¹eho, co poskytují balíèky (provides), a názvy tìchto balíèkù.
-.PP
-/var/lib/urpmi/compss
-.br
-Jednoduchý textový soubor obsahující pro ka¾dou Skupinu seznam balíèkù v této skupinì.
+Obsahuje názvy balíèkù, které by mìly být instalovány a ne aktualizovány.
 .SH "VIZ TAKÉ"
 urpmi(8),
 urpmq(8),
 urpmi.addmedia(8),
 urpmi.update(8),
 urpmi.removemedia(8),
-autoirpm(8),
-autoirpm-icons(8),
 gurpmi(8),
 rpmdrake(8)
 .SH AUTOR
