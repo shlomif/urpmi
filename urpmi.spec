@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,13 @@ fi
 
 
 %changelog
+* Thu Nov 28 2002 François Pons <fpons@mandrakesoft.com> 4.1-2mdk
+- allow creating medium without list file.
+- better handling of url without password to be displayed
+  in urpmi.cfg.
+- fixed remaining list file in partial cache causing bad list file
+  generation.
+
 * Wed Nov 27 2002 François Pons <fpons@mandrakesoft.com> 4.1-1mdk
 - fixed checking md5 of rpm files in cache.
 - allow rpm files to be downloaded from alternate site.

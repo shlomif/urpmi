@@ -672,14 +672,11 @@ sub add_medium {
 		modified => 1,
 	      };
 
-    #- check to see if the medium is using file protocol or removable medium.
-    if (my ($prefix, $dir) = $url =~ /^(removable[^:]*|file):\/(.*)/) {
-	#- add some more flags for this type of medium.
-	$medium->{clear_url} = $url;
+    #- check if a password is visible, if not set clear_url.
+    $url =~ m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| or $medium->{clear_url} = $url;
 
-	#- try to find device associated.
-	$urpm->probe_removable_device($medium);
-    }
+    #- check to see if the medium is using file protocol or removable medium.
+    $url =~ /^(removable[^:]*|file):\/(.*)/ and $urpm->probe_removable_device($medium);
 
     #- all flags once everything has been computed.
     $with_hdlist and $medium->{with_hdlist} = $with_hdlist;
@@ -810,7 +807,7 @@ sub remove_selected_media {
 
 	    #- remove file associated with this medium.
 	    foreach ($_->{hdlist}, $_->{list}, "synthesis.$_->{hdlist}", "descriptions.$_->{name}", "$_->{name}.cache") {
-		unlink "$urpm->{statedir}/$_";
+		$_ and unlink "$urpm->{statedir}/$_";
 	    }
 	} else {
 	    push @result, $_; #- not removed so keep it
@@ -882,6 +879,9 @@ sub update_media {
 	#- list of rpm files for this medium, only available for local medium where
 	#- the source hdlist is not used (use force).
 	my ($prefix, $dir, $error, @files);
+
+	#- always delete a remaining list file in cache.
+	unlink "$urpm->{cachedir}/partial/list";
 
 	#- check to see if the medium is using file protocol or removable medium.
 	if (($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
@@ -979,8 +979,6 @@ sub update_media {
 		#- and check hdlist has not be named very strangely...
 		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
-		    #- always delete a remaining list file in cache.
-		    unlink "$urpm->{cachedir}/partial/list";
 		    if (-s "$dir/$local_list") {
 			$urpm->{log}(_("copying source list of \"%s\"...", $medium->{name}));
 			system("cp", "-pR", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
@@ -1141,7 +1139,6 @@ sub update_media {
 		#- retrieve of hdlist (or synthesis has been successfull, check if a list file is available.
 		#- and check hdlist has not be named very strangely...
 		if ($medium->{hdlist} ne 'list') {
-		    unlink "$urpm->{cachedir}/partial/list";
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    eval {
 			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}},
@@ -1221,32 +1218,38 @@ sub update_media {
 			}
 			close F;
 		    } else {
-			foreach ($medium->{start} .. $medium->{end}) {
-			    my $filename = $urpm->{depslist}[$_]->filename;
-			    $list{$filename} = "$medium->{url}/$filename\n";
+			#- if url is clear and no relative list file has been downloaded,
+			#- there is no need for a list file.
+			if ($medium->{url} eq $medium->{clear_url}) {
+			    foreach ($medium->{start} .. $medium->{end}) {
+				my $filename = $urpm->{depslist}[$_]->filename;
+				$list{$filename} = "$medium->{url}/$filename\n";
+			    }
 			}
 		    }
 		}
 	    }
 
-	    #- check there is something found.
-	    %list or $error = 1, $urpm->{error}(_("nothing to write in list file for \"%s\"", $medium->{name}));
-
 	    unless ($error) {
-		#- write list file.
-		local *LIST;
-		my $mask = umask 077;
-		open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
-		  or $error = 1, $urpm->{error}(_("unable to write list file of \"%s\"", $medium->{name}));
-		umask $mask;
-		print LIST values %list;
-		close LIST;
+		if (%list) {
+		    #- write list file.
+		    local *LIST;
+		    my $mask = umask 077;
+		    open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
+		      or $error = 1, $urpm->{error}(_("unable to write list file of \"%s\"", $medium->{name}));
+		    umask $mask;
+		    print LIST values %list;
+		    close LIST;
 
-		#- check if at least something has been written into list file.
-		if (-s "$urpm->{cachedir}/partial/$medium->{list}" > 32) {
-		    $urpm->{log}(_("writing list file for medium \"%s\"", $medium->{name}));
+		    #- check if at least something has been written into list file.
+		    if (-s "$urpm->{cachedir}/partial/$medium->{list}") {
+			$urpm->{log}(_("writing list file for medium \"%s\"", $medium->{name}));
+		    } else {
+			$error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
+		    }
 		} else {
-		    $error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
+		    #- the flag is no more necessary.
+		    delete $medium->{list};
 		}
 	    }
 	}
@@ -1254,7 +1257,7 @@ sub update_media {
 	if ($error) {
 	    #- an error has occured for updating the medium, we have to remove tempory files.
 	    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
-	    unlink "$urpm->{cachedir}/partial/$medium->{list}";
+	    $medium->{list} and unlink "$urpm->{cachedir}/partial/$medium->{list}";
 	    #- read default synthesis (we have to make sure nothing get out of depslist).
 	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 	    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
@@ -1278,8 +1281,10 @@ sub update_media {
 				"$urpm->{statedir}/synthesis.$medium->{hdlist}" :
 				"$urpm->{statedir}/$medium->{hdlist}");
 	    }
-	    rename("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}") or
-	      system("mv", "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
+	    if ($medium->{list}) {
+		rename("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}") or
+		  system("mv", "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
+	    }
 
 	    #- and create synthesis file associated.
 	    $medium->{modified_synthesis} = !$medium->{synthesis};
@@ -1822,7 +1827,7 @@ sub get_source_packages {
 
 	unless ($medium->{ignore}) {
 	    #- always prefer a list file is available.
-	    if (defined $medium->{list} && -r "$urpm->{statedir}/$medium->{list}") {
+	    if ($medium->{list} && -r "$urpm->{statedir}/$medium->{list}") {
 		open F, "$urpm->{statedir}/$medium->{list}";
 		while (<F>) {
 		    if (my ($filename) = /\/([^\/]*)\.rpm$/) {
