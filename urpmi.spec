@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 11mdk
+Release: 12mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Mon Jul 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-12mdk
+- avoid spliting transaction if --test is used.
+
 * Mon Jul 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-11mdk
 - fixed bug 4331.
 - printing error again at the end of installation when multiple
