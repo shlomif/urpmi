@@ -226,7 +226,7 @@ sub sync_wget {
     my $options = shift @_;
     my ($buf, $file) = ('', undef);
     open WGET, "-|", "/usr/bin/wget",
-               (ref $options && set_proxy({type => "wget", proxy => $options->{proxy}})),
+               (ref $options && $options->{proxy} ? set_proxy({type => "wget", proxy => $options->{proxy}}) : ()),
 	       (ref $options && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
 		ref $options && $options->{quiet} ? ("-q") : ("")),
 	       "--retr-symlinks", "-NP",
@@ -271,7 +271,7 @@ sub sync_curl {
 
 	#- prepare to get back size and time stamp of each file.
 	open CURL, "/usr/bin/curl" .
-		" " . (ref $options && set_proxy({type => "curl", proxy => $options->{proxy}})) .
+		" " . (ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()) .
 		" -s -I " . join(" ", map { "'$_'" } @ftp_files) . " |";
 	while (<CURL>) {
 	    if (/Content-Length:\s*(\d+)/) {
