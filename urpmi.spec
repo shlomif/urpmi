@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.6.23
-%define release 4mdk
+%define release 5mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -236,6 +236,9 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Mar 25 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.23-5mdk
+- Fixes related to ISO media
+
 * Thu Mar 24 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.23-4mdk
 - Disable --gui option when $DISPLAY isn't set
 
