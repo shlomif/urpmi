@@ -8,7 +8,7 @@ Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
-Requires: eject webfetch perl-DateManip >= 5.40 gnupg
+Requires: eject webfetch gnupg
 PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.93-2mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
@@ -206,6 +206,7 @@ $urpm->update_media(nolock => 1);
   is requested more or less).
 - fixed rsync:// and ssh:// protocol with integer limit-rate not
   multiple of 1024.
+- removed requires on perl-DateManip (as it now optional).
 
 * Mon Aug 11 2003 François Pons <fpons@mandrakesoft.com> 4.4-20mdk
 - fixed bug 4637 and add reason for removing package in urpme.
