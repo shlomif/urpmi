@@ -15,47 +15,21 @@ use urpm::msg qw(N);
 use Gtk2;
 use MDK::Common::Func qw(partition);
 
-sub quit () { Gtk2->main_quit }
-
 #- globals
 my (@all_rpms, $srpms, $rpms);
 my ($mainw, $mainbox);
 
 #- Gtk2 helper functions
 
-sub add_button_box {
-    my ($vbox, @buttons) = @_;
-    my $hbox = Gtk2::HButtonBox->new;
-    $vbox->pack_start($hbox, 0, 0, 0);
-    $hbox->set_layout('edge');
-    $_->set_alignment(0.5, 0.5), $hbox->add($_) foreach @buttons;
-}
-
-sub new_label {
-    my ($msg) = @_;
-    my $label = Gtk2::Label->new($msg);
-    $label->set_line_wrap(1);
-    $label->set_alignment(0.5, 0.5);
-    if (($msg =~ tr/\n/\n/) > 5) {
-	my $sw = Gtk2::ScrolledWindow->new;
-	$sw->set_policy('never', 'automatic');
-	$sw->add_with_viewport($label);
-	$sw->set_size_request(-1,200);
-	return $sw;
-    } else {
-	return $label;
-    }
-}
-
 #- Parse command line
 foreach (@ARGV) {
     if (/^-/) {
-	/^--?[hv?]/ and gurpmi::usage();
-	gurpmi::fatal N("Unknown option %s", $_);
+	/^--?[hv?]/ and usage();
+	fatal(N("Unknown option %s", $_));
     }
     push @all_rpms, $_;
 }
-@all_rpms or gurpmi::fatal N("No packages specified");
+@all_rpms or fatal(N("No packages specified"));
 
 #- Now, the graphical stuff.
 
@@ -101,9 +75,9 @@ Proceed?", join "\n", @all_rpms)
 }
 
 {   #- buttons
-    my $inst_button = Gtk2::Button->new(gurpmi::but N("_Install"));
-    my $save_button = @all_rpms == 1 ? Gtk2::Button->new(gurpmi::but N("_Save")) : undef;
-    my $ccel_button = Gtk2::Button->new(gurpmi::but N("_Cancel"));
+    my $inst_button = Gtk2::Button->new(but(N("_Install")));
+    my $save_button = @all_rpms == 1 ? Gtk2::Button->new(but(N("_Save"))) : undef;
+    my $ccel_button = Gtk2::Button->new(but(N("_Cancel")));
 
     $inst_button->signal_connect(clicked => sub {
 	#- performs installation.

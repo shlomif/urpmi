@@ -16,6 +16,11 @@ BEGIN {
 }
 
 use urpm;
+use strict;
+
+use Exporter;
+our @ISA = qw(Exporter);
+our @EXPORT = qw(usage fatal but quit add_button_box new_label);
 
 sub usage () {
     print STDERR <<USAGE;
@@ -30,5 +35,31 @@ USAGE
 sub fatal { print STDERR "$_[0]\n"; exit 1 }
 
 sub but ($) { "    $_[0]    " }
+
+sub quit () { Gtk2->main_quit }
+
+sub add_button_box {
+    my ($vbox, @buttons) = @_;
+    my $hbox = Gtk2::HButtonBox->new;
+    $vbox->pack_start($hbox, 0, 0, 0);
+    $hbox->set_layout('edge');
+    $_->set_alignment(0.5, 0.5), $hbox->add($_) foreach @buttons;
+}
+
+sub new_label {
+    my ($msg) = @_;
+    my $label = Gtk2::Label->new($msg);
+    $label->set_line_wrap(1);
+    $label->set_alignment(0.5, 0.5);
+    if (($msg =~ tr/\n/\n/) > 5) {
+	my $sw = Gtk2::ScrolledWindow->new;
+	$sw->set_policy('never', 'automatic');
+	$sw->add_with_viewport($label);
+	$sw->set_size_request(-1,200);
+	return $sw;
+    } else {
+	return $label;
+    }
+}
 
 1;
