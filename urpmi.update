@@ -33,18 +33,19 @@ sub main {
     foreach (@_) {
 	/^--?a/ and $options{all} = 1, next;
 	/^--?c/ and $options{noclean} = 0, next;
-	/^--?c/ and $options{depslist} = 1, next;
+	/^--?d/ and $options{depslist} = 1, next;
 	/^--?f/ and ++$options{force}, next;
 	/^--wget/ and $options{sync} = \&urpm::sync_wget, next;
 	/^--curl/ and $options{sync} = \&urpm::sync_curl, next;
 	/^--?noa/ and next; #- default, keeped for compability.
 	/^-/ and die _("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.
-") . _("  -a             - select all non-removable media.
-") . _("  -c             - clean headers cache directory.
-") . _("  -f             - force generation of hdlist files.
-") . _("  --wget         - use wget to retrieve distant files.
-") . _("  --curl         - use curl to retrieve distant files.
+") . _("  -a               - select all non-removable media.
+") . _("  -c               - clean headers cache directory.
+") . _("  -d               - force complete computation of depslist.ordered file.
+") . _("  -f               - force generation of hdlist files.
+") . _("  --wget           - use wget to retrieve distant files.
+") . _("  --curl           - use curl to retrieve distant files.
 ") . _("\nunknown options '%s'\n", $_);
 	push @toupdates, $_;
     }

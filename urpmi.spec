@@ -1,14 +1,14 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 2.1
-Release: 7mdk
+Version: 2.2
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject, webfetch
-PreReq: perl-gettext, rpmtools >= 3.1-9mdk
+PreReq: perl-gettext, rpmtools >= 4.0
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -129,7 +129,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
-
+* Wed Dec  5 2001 François Pons <fpons@mandrakesoft.com> 2.2-1mdk
+- match rpmtools-4.0.
+- updated help on-line and fixed options invocation.
 - update translation (thierry)
 
 * Thu Nov 29 2001 François Pons <fpons@mandrakesoft.com> 2.1-7mdk

@@ -203,8 +203,6 @@ sub read_config {
     }
 
     #- check the presence of hdlist file and list file if necessary.
-    #- TODO?: degraded mode is possible with a list file but no hdlist, the medium
-    #- is no longer updatable nor removable TODO
     unless ($options{nocheck_access}) {
 	foreach (@{$urpm->{media}}) {
 	    $_->{ignore} and next;
@@ -446,9 +444,9 @@ sub select_media {
 sub build_synthesis_hdlist {
     my ($urpm, $medium) = @_;
 
-    #- building synthesis file using parsehdlist output, need 3.1-5mdk or above.
+    #- building synthesis file using parsehdlist output, need 3.2-1mdk or above.
     unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-    if (system "parsehdlist --compact --name --provides --requires '$urpm->{statedir}/$medium->{hdlist}' | gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'") {
+    if (system "parsehdlist --compact --info --provides --requires '$urpm->{statedir}/$medium->{hdlist}' | gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'") {
 	unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 	$urpm->{error}(_("unable to build synthesis file for medium \"%s\"", $medium->{name}));
 	return;
@@ -1007,12 +1005,13 @@ sub relocate_depslist_provides {
     #- examine provides to remove non allowed provides (no id).
     foreach (values %{$urpm->{params}{provides}}) {
 	my %list;
-	foreach (@$_) {
+	foreach (keys %$_) {
 	    if ($urpm->{params}{info}{$_} && defined $urpm->{params}{info}{$_}{id}) {
 		$list{$_} = undef;
 	    }
 	}
-	$_ = [ keys %list ];
+	$_ = {};
+	@{$_}{keys %list} = ();
     }
 
     $urpm->{log}(_("relocated %s entries in depslist", $relocated_entries));
@@ -1069,7 +1068,7 @@ sub search_packages {
 	if ($options{use_provides}) {
 	    #- try to search through provides.
 	    if (my $provide_v = $urpm->{params}{provides}{$v}) {
-		if (@{$provide_v} == 1 &&
+		if (scalar(keys %$provide_v) == 1 &&
 		    $urpm->{params}{info}{$provide_v->[0]} &&
 		    defined $urpm->{params}{info}{$provide_v->[0]}{id}) {
 		    #- we assume that if the there is only one package providing the resource exactly,
@@ -1084,9 +1083,9 @@ sub search_packages {
 		#- but manages choices correctly (as a provides may be virtual or
 		#- multiply defined.
 		/$qv/ and push @{$found{$v}}, join '|', grep { defined $_ }
-		  map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
+		  map { $urpm->{params}{info}{$_}{id} } keys %{$urpm->{params}{provides}{$_}};
 		/$qv/i and push @{$found{$v}}, join '|', grep { defined $_ }
-		  map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
+		  map { $urpm->{params}{info}{$_}{id} } keys %{$urpm->{params}{provides}{$_}};
 	    }
 	}
 
@@ -1176,17 +1175,36 @@ sub parse_synthesis {
     #- check with provides that version and release are matching else ignore safely.
     #- simply ignore src rpm, which does not have any provides.
     my $update_info = sub {
-	my $found;
-	my ($fullname, $file) = @{$info{name} || []} or return;
+	my ($found, $fullname, $serial, $size, $group, $file);
+
+	#- search important information.
+	$info{info} and ($fullname, $serial, $size, $group, $file) = @{$info{info}};
+	$fullname or $info{name} and ($fullname, $file) = @{$info{name}};
+
+	#- no fullname means no information have been found, this is really problematic here!
+	$fullname or return;
+
+	#- search an existing entry or create it.
 	unless ($found = $urpm->{params}{info}{$fullname}) {
 	    #- the entry does not exists *AND* should be created (in info, names and provides hashes)
 	    if ($fullname =~ /^(.*?)-([^-]*)-([^-]*)\.([^\-\.]*)$/) {
 		$found = $urpm->{params}{info}{$fullname} = $urpm->{params}{names}{$1} =
-		  { name => $1, version => $2, release => $3, arch => $4 };
-		#- get back epoch from provides list, if it is defined and create entry too.
-		foreach (@{$info{provides} || []}) {
-		    /(\S*)\s*==\s*(\d+:)?[^-]*-[^-]*/ && $found->{name} eq $1 && $2 > 0 and $found->{serial} = $2;
-		    /(\S*)/ and push @{$urpm->{params}{provides}{$1} ||= []}, $fullname;
+		  { name => $1, version => $2, release => $3, arch => $4,
+		    id => scalar @{$urpm->{params}{depslist}},
+		  };
+
+		#- update global depslist and provides.
+		push @{$urpm->{params}{depslist}}, $found;
+		$urpm->{params}{provides}{$found->{name}}{$fullname} = undef;
+
+		#- get back epoch from provides list unless it is already known, if it is defined and create entry too.
+		if (defined $serial) {
+		    $serial and $found->{serial} = $serial;
+		} else {
+		    foreach (@{$info{provides} || []}) {
+			/(\S*)\s*==\s*(\d+:)?[^-]*-[^-]*/ && $found->{name} eq $1 && $2 > 0 and $found->{serial} = $2;
+			/(\S*)/ and $urpm->{params}{provides}{$1}{$fullname} = undef;
+		    }
 		}
 	    }
 	}
@@ -1194,16 +1212,20 @@ sub parse_synthesis {
 	    #- an already existing entries has been found, so
 	    #- add additional information (except name)
 	    foreach my $tag (keys %info) {
-		$tag ne 'name' and $found->{$tag} ||= $info{$tag};
+		$tag ne 'name' && $tag ne 'info' and $found->{$tag} ||= $info{$tag};
 	    }
 	    #- help remind rpm filename.
+	    $size and $found->{size} ||= $size;
+	    $group and $found->{group} ||= $group;
 	    $file and $found->{file} ||= $file;
+
 	    #- keep track of package found.
 	    push @founds, $found;
 	} else {
 	    #- fullname is incoherent or not found (and not created).
 	    $urpm->{log}(_("unknown data associated with %s", $fullname));
 	}
+	$found;
     };
 
     open F, "gzip -dc '$synthesis' |";
@@ -1211,13 +1233,13 @@ sub parse_synthesis {
 	chomp;
 	my ($name, $tag, @data) = split '@';
 	if ($name ne $last_name) {
-	    $update_info->();
+	    !%info || $update_info->() or $urpm->{log}(_("unable to analyse synthesis data of %s", $last_name));
 	    $last_name = $name;
 	    %info = ();
 	}
 	$info{$tag} = \@data;
     }
-    $update_info->();
+    !%info || $update_info->() or $urpm->{log}(_("unable to analyse synthesis data of %s", $last_name));
     close F or $urpm->{error}(_("unable to parse correctly [%s]", $synthesis)), return;
     $urpm->{log}(_("read synthesis file [%s]", $synthesis));
 
@@ -1396,7 +1418,7 @@ sub filter_minimal_packages_to_upgrade {
 		$selected{$_} = undef;
 
 		my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
-		foreach my $fullname (@{$urpm->{params}{provides}{$_}}) {
+		foreach my $fullname (keys %{$urpm->{params}{provides}{$_} || {}}) {
 		    my $pkg = $urpm->{params}{info}{$fullname};
 		    push @{$pre_choices{$pkg->{name}}}, $pkg;
 		}
@@ -1479,7 +1501,7 @@ sub deselect_unwanted_packages {
     open F, $urpm->{skiplist};
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	foreach (@{$urpm->{params}{provides}{$_} || []}) {
+	foreach (keys %{$urpm->{params}{provides}{$_} || {}}) {
 	    my $pkg = $urpm->{params}{info}{$_} or next;
 	    $options{force} || (exists $packages->{$pkg->{id}} && defined $packages->{$pkg->{id}})
 	      and delete $packages->{$pkg->{id}};
@@ -1739,7 +1761,7 @@ sub extract_packages_to_install {
     open F, $urpm->{instlist};
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	foreach (@{$urpm->{params}{provides}{$_} || []}) {
+	foreach (keys %{$urpm->{params}{provides}{$_} || {}}) {
 	    my $pkg = $urpm->{params}{info}{$_} or next;
 	    exists $sources->{$pkg->{id}} and $inst{$pkg->{id}} = delete $sources->{$pkg->{id}};
 	}

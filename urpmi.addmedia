@@ -35,10 +35,11 @@ where <url> is one of
        removable://<path>
 
 and [options] are from
-") . _("  -c             - clean headers cache directory.
-") . _("  -f             - force generation of hdlist files.
-") . _("  --wget         - use wget to retrieve distant files.
-") . _("  --curl         - use curl to retrieve distant files.
+") . _("  -c               - clean headers cache directory.
+") . _("  -d               - force complete computation of depslist.ordered file.
+") . _("  -f               - force generation of hdlist files.
+") . _("  --wget           - use wget to retrieve distant files.
+") . _("  --curl           - use curl to retrieve distant files.
 ");
 
     $options{force} = 0;
@@ -46,7 +47,7 @@ and [options] are from
     $options{sync} = undef;
     while ($_ = shift @_) {
 	/^--?c/ and $options{noclean} = 0, next;
-	/^--?c/ and $options{depslist} = 1, next;
+	/^--?d/ and $options{depslist} = 1, next;
 	/^--?f/ and ++$options{force}, next;
 	/^--wget/ and $options{sync} = \&urpm::sync_wget, next;
 	/^--curl/ and $options{sync} = \&urpm::sync_curl, next;
