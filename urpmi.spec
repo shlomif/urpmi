@@ -9,7 +9,6 @@ Release:	%{release}
 Group:		%{group}
 License:	GPL
 Source0:	%{name}.tar.bz2
-Source2:	%{name}.bash-completion.bz2
 Summary:	User mode rpm install
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	eject
@@ -74,7 +73,6 @@ distributed installation using ssh and scp tools.
 
 %prep
 %setup -q -n %{name}
-bzcat %{SOURCE2} > %{name}.bash-completion
 
 %install
 rm -rf $RPM_BUILD_ROOT
