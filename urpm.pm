@@ -832,6 +832,42 @@ sub _probe_with_try_list {
     @probe;
 }
 
+#- read a reconfiguration file for urpmi, and reconfigure media accordingly
+sub reconfig_urpmi {
+    my ($urpm, $rfile, $name) = @_;
+    my @replacements;
+    my $reconfigured = 0;
+    open my $fh, $rfile or return undef;
+    $urpm->{log}(N("reconfiguring urpmi for media \"%s\"", $name));
+    while (<$fh>) {
+	chomp;
+	s/^\s*//; s/#.*$//; s/\s*$//;
+	$_ or next;
+	my ($p, $r, $f) = split /\s+/, $_, 3;
+	$f ||= 1;
+	push @replacements, [ quotemeta $p, $r, $f ];
+    }
+    for my $medium (grep { $_->{name} eq $name } @{$urpm->{media}}) {
+      URLS:
+	for my $k (qw(url with_hdlist clear_url)) {
+	    for my $r (@replacements) {
+		if ($medium->{$k} =~ s/$r->[0]/$r->[1]/) {
+		    $reconfigured = 1;
+		    #- Flags stolen from mod_rewrite: L(ast), N(ext)
+		    last if $r->[2] =~ /L/;
+		    redo URLS if $r->[2] =~ /N/;
+		}
+	    }
+	}
+    }
+    close $fh;
+    if ($reconfigured) {
+	$urpm->{log}(N("reconfiguration done"));
+	$urpm->write_config;
+    }
+    $reconfigured;
+}
+
 #- Update the urpmi database w.r.t. the current configuration.
 #- Takes care of modifications, and tries some tricks to bypass
 #- the recomputation of base files.
@@ -863,6 +899,9 @@ sub update_media {
     #- if this is the case and if not forced, try to use a pre-calculated
     #- hdlist file, else build it from rpm files.
     $urpm->clean;
+
+    my %media_redone;
+  MEDIA:
     foreach my $medium (@{$urpm->{media}}) {
 	$medium->{ignore} and next;
 
@@ -925,6 +964,15 @@ sub update_media {
 
 	#- check to see if the medium is using file protocol or removable medium.
 	if (($prefix, $dir) = $medium->{url} =~ m!^(removable[^:]*|file):/(.*)!) {
+	    #- check for a reconfig.urpmi file (if not already reconfigured)
+	    if (!$media_redone{$medium->{name}}) {
+		my $reconfig_urpmi = reduce_pathname("$medium->{url}/reconfig.urpmi");
+		if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
+		    $media_redone{$medium->{name}} = 1;
+		    redo MEDIA;
+		}
+	    }
+
 	    #- try to figure a possible hdlist_path (or parent directory of searched directory.
 	    #- this is used to probe possible hdlist file.
 	    my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
@@ -1210,6 +1258,29 @@ this could happen if you mounted manually the directory when creating the medium
 		    and $urpm->{log}(N("...copying failed"));
 	    }
 	} else {
+	    #- check for a reconfig.urpmi file (if not already reconfigured)
+	    if (!$media_redone{$medium->{name}}) {
+		my $reconfig_urpmi_url = "$medium->{url}/reconfig.urpmi";
+		unlink( my $reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi" );
+		eval {
+		    $urpm->{sync}(
+			{
+			    dir => "$urpm->{cachedir}/partial",
+			    quiet => 1,
+			    limit_rate => $options{limit_rate},
+			    compress => $options{compress},
+			    proxy => get_proxy($medium->{name}),
+			    media => $medium->{name},
+			},
+			reduce_pathname("$medium->{url}/reconfig.urpmi"),
+		    );
+		};
+		if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
+		    $media_redone{$medium->{name}} = 1, redo MEDIA unless $media_redone{$medium->{name}};
+		}
+		unlink $reconfig_urpmi;
+	    }
+
 	    my $basename;
 
 	    #- try to get the description if it has been found.
