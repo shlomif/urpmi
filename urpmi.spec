@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 29mdk
+Release: 30mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -124,18 +124,11 @@ if [ "$1" = "0" ]; then
 fi
 exit 0
 
-%post
-cd /var/lib/urpmi
-rm -f compss provides depslist*
-misconfigured=0
-for hdlist in hdlist.*; do
-  if [ -s "$hdlist" -a ! -s "synthesis.$hdlist" ]; then
-     misconfigured=1
-  fi
-done
-if [ -z "$DURING_INSTALL" -a "$misconfigured" -ge 1 ]; then
-  rm -f synthesis.hdlist.* && %{_sbindir}/urpmi.update -a
-fi
+%post -p /usr/bin/perl
+use urpm;
+$urpm = new urpm;
+$urpm->read_config;
+$urpm->update_media;
 
 #%preun -n autoirpm
 #[ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
@@ -206,6 +199,9 @@ fi
 
 
 %changelog
+* Thu Mar  6 2003 Pons François <fpons@mandrakesoft.com> 4.2-30mdk
+- fixed %%post script to be simpler and much faster.
+
 * Thu Mar  6 2003 François Pons <fpons@mandrakesoft.com> 4.2-29mdk
 - reworked po generation completely due to missing translations
   now using perl_checker. (pablo)
