@@ -127,11 +127,11 @@ _urpmq()
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
 		COMPREPLY=( $( compgen -W '-v -d -u -a -c -P -R -y -s -i -g \
-			-r -f -h --help --update --media --excludemedia \
+			-r -f -h -l --help --update --media --excludemedia \
 			--sortmedia --synthesis --auto-select --fuzzy --keep \
-			--list --list-media --list-nodes --list-aliases --src \
-			--headers --sources --force --parallel --wget --curl \
-			--proxy --proxy-user --env ' -- $cur))
+			--list --list-url --list-media --list-nodes --list-aliases \
+			--src --headers --sources --force --parallel --wget --curl \
+			--changelog --proxy --proxy-user --env ' -- $cur))
 	else
 		# return available packages (unless it is clearly a file) and rpm files
 		if [[ "$cur" != */* ]]; then
