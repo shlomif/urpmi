@@ -86,8 +86,8 @@ sub sync_webfetch {
 	    ref $m && $m->{downloader} and $option_downloader = $m->{downloader};
 	}
 	#- global config
-	!$option_downloader && exists $urpm->{global_config}{''}{downloader}
-	    and $option_downloader = $urpm->{global_config}{''}{downloader};
+	!$option_downloader && exists $urpm->{global_config}{downloader}
+	    and $option_downloader = $urpm->{global_config}{downloader};
 	if ($option_downloader) {
 	    $preferred = find { $_ eq $option_downloader } @available_webfetch;
 	}
