@@ -1348,7 +1348,7 @@ sub update_media {
 				  reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
 		};
 		if (!$@ && -s "$urpm->{cachedir}/partial/MD5SUM" > 32) {
-		    if ($options{force}) {
+		    if ($options{force} >= 2) {
 			#- force downloading the file again, else why a force option has been defined ?
 			delete $medium->{md5sum};
 		    } else {
@@ -1427,7 +1427,7 @@ sub update_media {
 		foreach my $with_hdlist ($medium->{with_hdlist}, probe_with_try_list($suffix, $options{probe_with})) {
 		    $basename = $with_hdlist =~ /^.*\/([^\/]*)$/ && $1 || $with_hdlist or next;
 
-		    unlink "$urpm->{cachedir}/partial/$basename";
+		    $options{force} and unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
 			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 					quiet => 0,
@@ -1445,7 +1445,7 @@ sub update_media {
 		$basename = $medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1 || $medium->{with_hdlist};
 
 		#- try to sync (copy if needed) local copy after restored the previous one.
-		unlink "$urpm->{cachedir}/partial/$basename";
+		$options{force} and unlink "$urpm->{cachedir}/partial/$basename";
 		unless ($options{force}) {
 		    if ($medium->{synthesis}) {
 			-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
@@ -2668,7 +2668,7 @@ sub find_packages_to_remove {
 					  my ($p) = @_;
 					  $p->fullname eq $_ or return;
 					  $urpm->resolve_closure_ask_remove($db, $state, $p);
-					  push @m, join('-', ($p->fullname)[0..2]);
+					  push @m, scalar $p->fullname;
 					  $found = 1;
 				      });
 		    $found and next;
@@ -2680,7 +2680,7 @@ sub find_packages_to_remove {
 					  my ($p) = @_;
 					  join('-', ($p->fullname)[0..2]) eq $_ or return;
 					  $urpm->resolve_closure_ask_remove($db, $state, $p);
-					  push @m, join('-', ($p->fullname)[0..2]);
+					  push @m, scalar $p->fullname;
 					  $found = 1;
 				      });
 		    $found and next;
@@ -2692,7 +2692,7 @@ sub find_packages_to_remove {
 					  my ($p) = @_;
 					  join('-', ($p->fullname)[0..1]) eq $_ or return;
 					  $urpm->resolve_closure_ask_remove($db, $state, $p);
-					  push @m, join('-', ($p->fullname)[0..2]);
+					  push @m, scalar $p->fullname;
 					  $found = 1;
 				      });
 		    $found and next;
@@ -2703,7 +2703,7 @@ sub find_packages_to_remove {
 				      my ($p) = @_;
 				      $p->name eq $_ or return;
 				      $urpm->resolve_closure_ask_remove($db, $state, $p);
-				      push @m, join('-', ($p->fullname)[0..2]);
+				      push @m, scalar $p->fullname;
 				      $found = 1;
 				  });
 		$found and next;
@@ -2727,7 +2727,7 @@ sub find_packages_to_remove {
 			      my ($p) = @_;
 			      $p->fullname =~ /$match/ or return;
 			      $urpm->resolve_closure_ask_remove($db, $state, $p);
-			      push @m, join('-', ($p->fullname)[0..2]);
+			      push @m, scalar $p->fullname;
 			  });
 
 	    if (@notfound) {
@@ -2751,7 +2751,7 @@ sub find_packages_to_remove {
 		exists($basepackages{$_}) and next;
 		$db->traverse_tag(/^\// ? 'path' : 'whatprovides', [ $_ ], sub {
 				      my ($p) = @_;
-				      push @{$basepackages{$_} ||= []}, join '-', ($p->fullname)[0..2];
+				      push @{$basepackages{$_} ||= []}, scalar $p->fullname;
 				      push @base, $p->requires_nosense;
 				  });
 	    }

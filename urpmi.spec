@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.3
-Release: 10mdk
+Release: 11mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.83-3mdk
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.84
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,11 @@ $urpm->update_media;
 
 
 %changelog
+* Fri May 16 2003 François Pons <fpons@mandrakesoft.com> 4.3-11mdk
+- try to handle resume connection (do not always remove previous
+  download, only works for hdlist or synthesis using rsync).
+- updated for perl-URPM-0.84 (ask_remove state hash simplified).
+
 * Tue May 13 2003 Pons François <fpons@mandrakesoft.com> 4.3-10mdk
 - updated to use latest perl-URPM (simplified code, no interface
   should be broken).
