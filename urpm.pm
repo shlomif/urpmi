@@ -1379,9 +1379,9 @@ sub filter_minimal_packages_to_upgrade {
 	    foreach (keys %provides) {
 		$provides{$_} and next;
 		my (@choices, @upgradable_choices, %choices_id);
-		foreach (@{$urpm->{params}{provides}{$_}}) {
+		foreach my $fullname (@{$urpm->{params}{provides}{$_}}) {
 		    #- prefer upgrade package that need to be upgraded, if they are present in the choice.
-		    my $pkg = $urpm->{params}{info}{$_};
+		    my $pkg = $urpm->{params}{info}{$fullname};
 		    if (my @best = grep { exists $packages->{$_->{id}} } ($pkg, $urpm->{params}{names}{$pkg->{name}})) {
 			$pkg = $best[0]; #- keep already requested packages.
 		    }
