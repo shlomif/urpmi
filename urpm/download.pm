@@ -22,7 +22,7 @@ sub import () {
 	sync_file sync_wget sync_curl sync_rsync sync_ssh
 	set_proxy_config dump_proxy_config
     )) {
-	*{$c.'::'.$symbol} = *$symbol;
+	*{$c . '::' . $symbol} = *$symbol;
     }
 }
 
@@ -50,11 +50,11 @@ sub load_proxy_config () {
 sub dump_proxy_config () {
     return 0 unless defined $proxy_config; #- hasn't been read yet
     open my $f, '>', $PROXY_CFG or return 0;
-    print $f "# generated ".(scalar localtime)."\n";
-    for ('', sort grep { !/^(|cmd_line)$/ } keys %$proxy_config) {
+    print $f "# generated " . (scalar localtime) . "\n";
+    foreach ('', sort grep { !/^(|cmd_line)$/ } keys %$proxy_config) {
 	my $m = $_ eq '' ? '' : "$_:";
 	my $p = $proxy_config->{$_};
-	for (qw(http_proxy ftp_proxy)) {
+	foreach (qw(http_proxy ftp_proxy)) {
 	    defined $p->{$_} && $p->{$_} ne ''
 		and print $f "$m$_=$p->{$_}\n";
 	}
@@ -97,7 +97,7 @@ sub set_cmdline_proxy {
 	user => undef,
 	pwd => undef,
     };
-    $proxy_config->{cmd_line}{$_} = $h{$_} for keys %h;
+    $proxy_config->{cmd_line}{$_} = $h{$_} foreach keys %h;
 }
 
 #- changes permanently the proxy settings
@@ -235,6 +235,11 @@ sub sync_curl {
     chdir($options->{dir});
     my (@ftp_files, @other_files);
     foreach (@_) {
+	my ($proto, $nick, $rest) = m,^(http|ftp)://([^:/]+):(.*),,;
+	if ($nick) { #- escape @ in user names
+	    $nick =~ s/@/%40/;
+	    $_ = "$proto://$nick:$rest";
+	}
 	m|^ftp://.*/([^/]*)$| && -e $1 && -s _ > 8192 and do {
 	    push @ftp_files, $_; next;
 	}; #- manage time stamp for large file only.
