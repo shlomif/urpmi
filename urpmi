@@ -218,7 +218,6 @@ if ($install_src) {
 
 #- prepare bug report.
 if ($bug) {
-    system("rm", "-rf", $bug);
     mkdir $bug or $urpm->{fatal}(8, _("Unable to create directory [%s] for bug report", $bug));
     #- copy all synthesis file used, along with configuration of urpmi
     system("cp", "-af", $urpm->{config}, $urpm->{skiplist}, $urpm->{instlist}, $bug);
