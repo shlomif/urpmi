@@ -1,4 +1,4 @@
-.TH urpmi.addmedia 8 "07 Jan 2003" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.addmedia 8 "28 Aug 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.addmedia
 .SH NAME
 urpmi.addmedia \- adds a new rpms media for use with urpmi
@@ -70,6 +70,9 @@ available or wget instead.
 .IP "\fB\--curl\fP"
 Use curl only for downloading distant files. By default curl is used if
 available or wget instead.
+.IP "\fB\--limit-rate \fIrate\fP"
+Try to limit the download speed, \fIrate\fP is given in Kb/sec. This option is
+not active by default.
 .IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
 Use specified HTTP proxy.
 .IP "\fB\--proxy-user\fP \fIuser:password\fP"
@@ -77,6 +80,12 @@ Use specified user and password to use for proxy authentication.
 .IP "\fB\--update\fP"
 Add a medium which will be taken into account when updating only update media by
 \fBurpmi\fP.
+.IP "\fB\--probe-synthesis\fP"
+Try to find and use synthesis file if \fBwith ...\fP is not given.
+.IP "\fB\--probe-hdlist\fP"
+Try to find and use hdlist file if \fBwith ...\fP is not given.
+.IP "\fB\--no-probe\fP"
+Do not try to find any synthesis or hdlist file.
 .IP "\fB\--distrib\fP"
 Add all media from an installation medium. <\fIname\fP> is used with
 medium name found to create newer medium name in urpmi database. The \fBwith
@@ -95,6 +104,10 @@ Use specified version when using \fB--distrib-XXX\fP, the default is version of
 .IP "\fB\--arch\fP \fIarch\fP"
 Use specified architecture when using \fB--distrib-XXX\fP, the default is
 architecture of \fBmandrake-release\fP package installed.
+.IP "\fB\--virtual\fP"
+Create a virtual medium, this only works for file:// and removable:// protocol
+and no files will be created in /var/lib/urpmi. The medium is always up-to-date
+and so it does not need to be updated by \fBurpmi.update\fP.
 .IP "\fB\-c\fP"
 Clean headers cache directory in /var/cache/urpmi/headers.
 .IP "\fB\-h\fP"
