@@ -1,5 +1,5 @@
-.\" Relecture Gérard Delafond
-.TH urpmi 8 "4 Jun 2002" "MandrakeSoft" "Mandrake Linux"
+.\" Relecture Gérard Delafond, svp à refaire
+.TH urpmi 8 "08 Jan 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NOM
 urpmi \- interface rpm pour simplifier les installations
@@ -8,9 +8,8 @@ urpmi \- interface rpm pour simplifier les installations
 .SH DESCRIPTION
 urpmi autorise les rpms bien connus (ou les fichiers .rpm) à être installés ainsi
 que leurs dépendances.
-Vous pouvez l'utiliser pour installer les dépendances d'un paquetage source en
-tant que super-utilisateur (root) ou le paquetage source lui même en tant que
-simple utilisateur.
+Vous pouvez l'utiliser pour installer les dépendances d'un paquetage source
+ou le paquetage source lui même.
 
 En fait, rpm est à urpmi ce que insmod est à modprobe, ou dpkg à apt-get.
 .PP
@@ -44,102 +43,134 @@ Pour installer toutes les entrées de menu de tous les paquetages connus, utilise
 autoirpm-icons.
 .SH OPTIONS
 .IP "\fB\--help\fP"
-affiche un message d'aide et quitte (identique à \fB-h\fP ou \fB-?\fP).
+Affiche un message d'aide et quitte (identique à \fB-h\fP ou \fB-?\fP).
 .IP "\fB\--update\fP"
-utilise seulement des médias de mise à jour. Cela signifie que \fBurpmi\fP
+Utilise seulement des médias de mise à jour. Cela signifie que \fBurpmi\fP
 ne recherchera et ne résoudra les dépendances que sur les média marqués comme
 mis à jour.
-.IP "\fB\--media\fP"
-sélectionne les media donnés plutôt que tous les media disponibles.
+.IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
+Sélectionne les media donnés plutôt que tous les media disponibles.
+.IP "\fB\--synthesis\fP \fIfile\fP"
+Utilise le fichier de synthèse \fIfile\fP à la place de la database de urpmi
+pour rechercher les paquetages et résoudre les dépendances.
 .IP "\fB\--auto\fP"
-installe toutes les dépendances nécessaires sans rien demander.
+Installe toutes les dépendances nécessaires sans rien demander.
 .IP "\fB\--auto-select\fP"
-sélectionne automatiquement tous les paquetages qui doivent être mis à jour
+Sélectionne automatiquement tous les paquetages qui doivent être mis à jour
 selon les paquetages déjà installés et les paquetages listés dans les divers
 médias enregistrés.
 .IP "\fB\--fuzzy\fP"
-désactive la recherche rapide sur un nom de paquetage exact et propose tous les
+Désactive la recherche rapide sur un nom de paquetage exact et propose tous les
 noms de paquetages correspondants au paramètre donné (identique à \fB-y\fP).
-.IP "\fB\--src\fP"
-le prochain nom de paquetage est considéré comme étant un nom de paquetage
-source.
+.IP "\fB\--src\fP \fIname\fP"
+\fIname\fP est considéré comme étant un nom de paquetage source.
+.IP "\fB\--install-src\fP"
+N'installe que des paquetages source, aucun paquetages binaire ne sera installé.
+.IP "\fB\--clean\fP"
+Supprime tous les paquetages du cache avant de faire quoi que ce soit
+(/var/cache/urpmi/rpms).
 .IP "\fB\--noclean\fP"
-ne suprime aucun paquetage du cache (/var/cache/urpmi/rpms).
-.IP "\fB\--complete\fP"
-utilise le serveur parsehdlist pour étendre la recherche de paquetages à mettre
-à jour au moyen de \fB--auto-select\fP (ne doit pas être nécessaire dans la
-majorité des cas).
+Ne suprime aucun paquetage du cache (/var/cache/urpmi/rpms).
 .IP "\fB\--force\fP"
-répond par l'affirmative à toutes les questions.
+Répond par l'affirmative à toutes les questions.
+.IP "\fB\--allow-nodeps\fP"
+Autorise urpmi à demander à l'utilisateur de continuer l'installation sans
+vérifier les dépendances. Par défaut urpmi quitte immédiatement dans de tel cas.
+.IP "\fB\--allow-force\fP"
+Autorise urpmi à demander à l'utilisateur de continuer l'installation sans
+vérifier les dépendances ou en forcant l'installation. Par défaut urpmi quitte
+immédiatement dans de tel cas.
+.IP "\fB\--parallel\fP \fIalias\fP"
+Active l'execution distribué de urpmi vers d'autres machines (urpmi doit être
+installé sur les noeuds distants pas n'a pas besoin d'être configuré).
+\fIalias\fP permet de choisir quel module d'extension urpmi doit utiliser et
+quelles machines doivent être mise à jour, cet alias est défini dans le fichier
+/etc/urpmi/parallel.cfg qui est défini ci-dessous.
 .IP "\fB\--wget\fP"
-utilise wget pour télécharger les fichiers. Par défaut curl est utilisé s'il est
+Utilise wget pour télécharger les fichiers. Par défaut curl est utilisé s'il est
 disponible ou wget dans le cas contraire.
 .IP "\fB\--curl\fP"
-utilise curl pour télécharger les fichiers. Par défaut curl est utilisé s'il est
+Utilise curl pour télécharger les fichiers. Par défaut curl est utilisé s'il est
 disponible ou wget dans le cas contraire.
+.IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
+Utilise le proxy HTTP indiqué.
+.IP "\fB\--proxy-user\fP \fIuser:password\fP"
+Utilise le nom d'utilisateur et le mot de passe pour l'authentification au proxy.
+.IP "\fB\--bug\fP \fIdirectory\fP"
+Créer un rapport de bug dans le répertoire \fIdirectory\fP, vous devez envoyé
+une archive compréssé de ce répertoire au maintaineur de \fBurpmi\fP pour que le
+problème soit (problablement) fixé.
+.IP "\fB\--env\fP \fIdirectory\fP"
+Utilise un environnement de rapport de bug pour simuler le comportement du bug,
+\fIdirectory\fP est le même argument qui a été donné à l'option \fB--bug\fP.
 .IP "\fB\--X\fP"
-utilise l'interface X.
+Utilise l'interface X.
 .IP "\fB\--best-output\fP"
-essaye d'utiliser l'interface X, ou si elle n'est pas disponible, l'interface
+Essaye d'utiliser l'interface X, ou si elle n'est pas disponible, l'interface
 en mode texte (qui utilise rpm).
 .IP "\fB\-a\fP"
-si plusieurs paquetages coïncident avec la sous-chaîne donnée, les prendre tous.
+Si plusieurs paquetages coïncident avec la sous-chaîne donnée, les prendre tous.
 .IP "\fB\-p\fP"
-autorise la recherche dans "provides" pour trouver un paquetage (par défaut).
+Autorise la recherche dans "provides" pour trouver un paquetage (par défaut).
 .IP "\fB\-P\fP"
-désactive la recherche dans "provides" pour trouver un paquetage.
+Désactive la recherche dans "provides" pour trouver un paquetage.
 .IP "\fB\-y\fP"
-identique à \fB--fuzzy\fP.
+Identique à \fB--fuzzy\fP.
 .IP "\fB\-s\fP"
-identique à \fB--src\fP.
+Identique à \fB--src\fP.
 .IP "\fB\-q\fP"
-active le mode silencieux pour la mise à jour utilisant rpm 
+Active le mode silencieux pour la mise à jour utilisant rpm 
 .IP "\fB\-v\fP"
-active un mode verbeux avec de nombreux messages.
+Active un mode verbeux avec de nombreux messages.
 .SH FICHIERS
-/usr/sbin/urpmi
-.br
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/sbin/urpmi
 L'exécutable \fBurpmi\fP (script perl)
-.PP
-/var/lib/urpmi/list.*
-.br
+.TP
+.FN /var/lib/urpmi/list.*
 Contient la liste de tous les paquetages connus par urpmi et leur emplacement.
 Il y a une liste de fichiers par médium(*).
-.PP
-/var/lib/urpmi/hdlist.*
-.br
+.TP
+.FN /var/lib/urpmi/hdlist.*
 Contient l'information sur tous les paquetages connus, c'est un résumé des
 en-têtes de rpm.
 Il y a un fichier hdlist par médium(*).
-.PP
-/var/lib/urpmi/synthesis.hdlist.*
-.br
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
 Contient une synthèse de tous les paquetages connus construits à partir des
 fichiers hdlist qui peut être utilisée pour l'algorithme de l'ensemble minimal.
 Si ces fichiers ne sont pas présents, utilisez \fBurpmi.update -a\fP pour les
 générer. Ces fichiers ne sont pas obligatoires.
-.PP
-/etc/urpmi/urpmi.cfg
-.br
-Contient la description du médium, l'ancien format urpmi est accepté.
-.PP
-/etc/urpmi/skip.list
-.br
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Contient la description des média, l'ancien format urpmi est accepté.
+.TP
+.FN /etc/urpmi/parallel.cfg
+Contientains la description de alias pour le mode parallele, le format est
+\fB<alias>:<interface[(media)]>:<interface_parameter>\fP où \fB<alias>\fP est
+un nom symbolique, \fB<interface>\fP peut être \fBka-run\fP ou \fBssh\fP,
+\fB<media>\fP est une liste de média (tél que donnée à \fB--media\fP),
+\fB<interface_parameter>\fP est un parametre spécifique pour l'interface, par
+exemple "-c ssh -m node1 -m node2" pour l'extension \fBka-run\fP
+ou "node1:node2" pour l'extension \fBssh\fP.
+.TP
+.FN /etc/urpmi/skip.list
 Contient les noms de paquetages à ne pas mettre à jour automatiquement.
-.PP
-/etc/urpmi/inst.list
-.br
+.TP
+.FN /etc/urpmi/inst.list
 Contient les noms de paquetages à installer plutôt qu'à mettre à jour.
 .SH "VOIR AUSSI"
-urpmi.addmedia(8),
-urpmi.update(8),
-urpmi.removemedia(8),
-autoirpm(8),
-gurpmi(8),
-urpmf(8),
-urpmq(8),
-rpmdrake(8)
+\fIurpmi.addmedia\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIgurpmi\fP(8),
+\fIurpmf\fP(8),
+\fIurpmq\fP(8),
+\fIrpmdrake\fP(8)
 .SH AUTEURS
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
-.br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (auteur originel)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (auteur actuel)
