@@ -11,7 +11,6 @@ RPM=$(HOME)/rpm
 
 NAME = urpmi
 TAR = $(NAME).tar.bz2
-LOG = $(NAME).logrotate
 
 .PHONY: install clean rpm test
 
@@ -46,7 +45,6 @@ tar: clean
 
 rpm: tar 
 	cp -f ../$(TAR) $(RPM)/SOURCES
-	cp -f $(LOG) $(RPM)/SOURCES
 	cp -f $(NAME).spec $(RPM)/SPECS/
 	-rpm -ba $(NAME).spec
 	rm -f ../$(TAR)
