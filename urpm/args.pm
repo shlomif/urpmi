@@ -34,6 +34,7 @@ sub import {
 my %options_spec = (
 
     urpmi => {
+	"version" => sub { require urpm; print "$tool $urpm::VERSION\n"; exit(0) },
 	"help|h" => sub {
 	    if (defined &::usage) { ::usage() } else { die "No help defined\n" }
 	},
@@ -268,20 +269,20 @@ my %options_spec = (
 
 # common options setup
 
-foreach my $k ("help|h", "no-locales", "test!", "force", "root=s", "use-distrib=s",
+foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "use-distrib=s",
     "parallel=s")
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "no-locales", "update", "media|mediums=s",
+foreach my $k ("help|h", "version", "no-locales", "update", "media|mediums=s",
     "excludemedia|exclude-media=s", "sortmedia|sort-media=s",
     "synthesis=s", "env=s")
 {
     $options_spec{urpmf}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "wget", "curl", "proxy=s", "proxy-user=s") {
+foreach my $k ("help|h", "version", "wget", "curl", "proxy=s", "proxy-user=s") {
     $options_spec{'urpmi.update'}{$k} =
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
