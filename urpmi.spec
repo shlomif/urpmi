@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.4
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.91-6mdk
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.91-7mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -130,7 +130,7 @@ exit 0
 use urpm;
 $urpm = new urpm;
 $urpm->read_config;
-$urpm->update_media;
+$urpm->update_media(nolock => 1);
 
 #%preun -n autoirpm
 #[ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
@@ -202,6 +202,15 @@ $urpm->update_media;
 
 
 %changelog
+* Thu Jun 26 2003 François Pons <fpons@mandrakesoft.com> 4.4-8mdk
+- fixed urpmq -d not working if package given has unsatisfied
+  dependencies as backtrack is active, now -d use nodeps.
+- added @unsatisfied@ info with -c of urpmq.
+- fixed lock database error when upgrading urpmi.
+- added hack to avoid exiting installation with --no-remove
+  if --allow-force is given, avoid removing packages in such
+  cases.
+
 * Thu Jun 26 2003 François Pons <fpons@mandrakesoft.com> 4.4-7mdk
 - fixed building of hdlist.
 

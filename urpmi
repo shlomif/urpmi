@@ -416,7 +416,7 @@ if (@ask_unselect) {
     }
 }
 
-my @ask_remove = $urpm->removed_packages($state);
+my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : $urpm->removed_packages($state);
 if (@ask_remove) {
     my $list = join "\n", $urpm->translate_why_removed($state, sort @ask_remove);
 
@@ -686,7 +686,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    gurpm::progress($amount/$total);
 		}
 	    };
-	    my @l = $urpm->install($set->{remove} || [], \%transaction_sources_install, \%transaction_sources,
+	    my @l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+				   \%transaction_sources_install, \%transaction_sources,
 				   translate_message => 1,
 				   oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
 				   test => $test,
@@ -702,7 +703,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 		message_input(N("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
 		  or ++$nok, next;
 		$urpm->{log}("starting installing packages without deps");
-		@l = $urpm->install($set->{remove} || [], \%transaction_sources_install, \%transaction_sources,
+		@l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+				    \%transaction_sources_install, \%transaction_sources,
 				    translate_message => 1, nodeps => 1,
 				    oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
 				    test => $test,
@@ -713,7 +715,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    message_input(N("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
 		      or ++$nok, next;
 		    $urpm->{log}("starting force installing packages without deps");
-		    @l = $urpm->install($set->{remove} || [], \%transaction_sources_install, \%transaction_sources,
+		    @l = $urpm->install(!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+					\%transaction_sources_install, \%transaction_sources,
 					translate_message => 1, nodeps => 1, force => 1,
 					oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
 					test => $test,

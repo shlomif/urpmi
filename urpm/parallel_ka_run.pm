@@ -139,9 +139,11 @@ sub parallel_resolve_dependencies {
 	while (defined ($_ = <F>)) {
 	    chomp;
 	    s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
-	    if (/^\@removing\@(.*)/) {
-		$state->{rejected}{$1}{removed} = 1;
-		$state->{rejected}{$1}{nodes}{$node} = undef;
+	    if (my ($action, $what) = /^\@([^\@]*)\@(.*)/) {
+		if ($action eq 'removing') {
+		    $state->{rejected}{$what}{removed} = 1;
+		    $state->{rejected}{$what}{nodes}{$node} = undef;
+		}
 	    } elsif (/\|/) {
 		#- distant urpmq returned a choices, check if it has already been chosen
 		#- or continue iteration to make sure no more choices are left.

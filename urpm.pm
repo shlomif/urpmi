@@ -1088,13 +1088,7 @@ sub update_media {
     #- now we need additional methods not defined by default in URPM.
     require URPM::Build;
 
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my ($LOCK_EX, $LOCK_NB, $LOCK_UN) = (2, 4, 8);
-
-    #- lock urpmi database.
-    local (*LOCK_FILE);
-    open LOCK_FILE, $urpm->{statedir};
-    flock LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
+    $options{nolock} or $urpm->exlock_urpmi_db;
 
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1886,12 +1880,7 @@ sub update_media {
 	$urpm->write_config();
     }
 
-    #- now everything is finished.
-    system("sync");
-
-    #- release lock on database.
-    flock LOCK_FILE, $LOCK_UN;
-    close LOCK_FILE;
+    $options{nolock} or $urpm->unlock_urpmi_db;
 }
 
 #- clean params and depslist computation zone.
@@ -2476,11 +2465,11 @@ sub exlock_urpmi_db {
     my ($urpm) = @_;
 
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my $LOCK_EX = 2;
+    my ($LOCK_EX, $LOCK_NB) = (2, 4);
 
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
     open LOCK_FILE, $urpm->{statedir};
-    flock LOCK_FILE, $LOCK_EX or $urpm->{fatal}(7, N("urpmi database locked"));
+    flock LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 
 sub unlock_urpmi_db {

@@ -306,7 +306,7 @@ if ($query->{list_aliases}) {
 	#- only deps required.
 	my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
 	require URPM::Resolve;
-	$urpm->resolve_requested($empty_db, $state, \%requested, callback_choices => $stop_on_choices);
+	$urpm->resolve_requested($empty_db, $state, \%requested, callback_choices => $stop_on_choices, nodeps => 1);
     } else {
 	$state->{selected} = \%requested;
     }
@@ -409,6 +409,15 @@ if ($query->{complete}) {
     foreach my $removal (grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} }
 			 keys %{$state->{rejected} || {}}) {
 	print '@removing@' . $removal . "\n";
+    }
+    foreach my $selected (values %{$state->{selected} || {}}) {
+	if (ref($selected) eq 'HASH' && ref($selected->{unsatisfied}) eq 'ARRAY') {
+	    foreach (@{$selected->{unsatisfied}}) {
+		exists $hack_only_one{$_} and next;
+		print '@unsatisfied@' . $_ . "\n";
+		$hack_only_one{$_} = undef;
+	    }
+	}
     }
 }
 foreach my $id ($state->{selected} ? keys %{$state->{selected}} : keys %requested) {
