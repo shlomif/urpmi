@@ -105,6 +105,10 @@ machines). \fIalias\fP defines which extension module to use by urpmi (currently
 \fBurpmi-parallel-ka-run\fP or \fBurpmi-parallel-ssh\fP) and which machines
 should be updated, this alias is defined in the file /etc/urpmi/parallel.cfg as
 described below.
+.IP "\fB\--root\fP \fIdirectory\fP"
+Use the file system tree rooted for rpm install. All operations and scripts
+will run after chroot(2). The rpm database in the rooted tree will be used but
+urpmi configuration comes from normal system.
 .IP "\fB\--wget\fP"
 Use wget only for downloading distant files. By default curl is used if
 available or wget instead.

@@ -98,6 +98,9 @@ usage:
 ") . N("  --allow-force  - allow asking user to install packages without
                    dependencies checking and integrity.
 ") . N("  --parallel     - distributed urpmi accross machines of alias.
+") . N("  --root         - use another root for rpm installation.
+") . N("  --use-distrib  - configure urpmi on the fly from a distrib tree, useful
+                   to install a chroot with --root option.
 ") . N("  --wget         - use wget to retrieve distant files.
 ") . N("  --curl         - use curl to retrieve distant files.
 ") . N("  --limit-rate   - limit the download speed.
@@ -246,7 +249,7 @@ if ($install_src) {
 
 #- prepare bug report.
 if ($bug) {
-    mkdir $bug or $urpm->{fatal}(8, N("Unable to create directory [%s] for bug report", $bug));
+    mkdir $bug or $urpm->{fatal}(8, N((-d $bug ? "Directory [%s] allready exist, please use another directory for bug report or delete it" : "Unable to create directory [%s] for bug report"), $bug));
     #- copy all synthesis file used, along with configuration of urpmi
     system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, $bug);
     #- allow log file.
@@ -335,7 +338,7 @@ $urpm->configure(nocheck_access => $env || $uid > 0,
 		 root => $root,
 		 bug => $bug,
 		 parallel => $parallel,
-         usedistrib => $usedistrib,
+		 usedistrib => $usedistrib,
 		);
 #- get back activated default values of boolean options.
 foreach (qw(post-clean verify-rpm)) {
@@ -354,7 +357,9 @@ if ($bug) {
     foreach (@{$urpm->{media}}) {
 	#- take care of virtual medium this way.
 	$_->{hdlist} ||= "hdlist.$_->{name}.cz";
-	delete $_->{virtual};
+	
+	# Why to delete this flag ? This break rpm find process if list is need
+	# delete $_->{virtual};
 	#- now build directly synthesis file, this is by far the simplest method.
 	if (defined $_->{start} && defined $_->{end}) {
 	    $urpm->build_synthesis(start => $_->{start}, end => $_->{end}, synthesis => "$bug/synthesis.$_->{hdlist}");

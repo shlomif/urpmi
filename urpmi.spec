@@ -252,8 +252,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - From Pascal Terjan <pterjan@mandrake.org> :
     - $root =~ s!/*!! to avoid root detection issue
 - From Olivier Thauvin <thauvin@aerov.jussieu.fr> :
-    - add --use-distrib code
+    - add --use-distrib
     - fix urpmq for virtual medium
+    - add --root in man/--help
+    - fix issue using virtual medium and --bug
+    - update error message if --bug dir exist
 
 * Mon Jan 12 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.1-1mdk
 - add ability to cancel packages downloads from within rpmdrake
