@@ -15,5 +15,5 @@ fi
 if [ -z "$1" ]; then
 	gzip -dc $hdlist | hdlist2files -
 else
-	gzip -dc $hdlist | hdlist2files - | grep $1
+	gzip -dc $hdlist | hdlist2files - | grep -E $1
 fi
