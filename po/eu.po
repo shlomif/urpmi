@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2002-08-28 17:57+0200\n"
-"PO-Revision-Date: 2002-08-27 12:29+0200\n"
+"POT-Creation-Date: 2002-08-28 23:38+0200\n"
+"PO-Revision-Date: 2002-08-29 10:25+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Euskara <linux-eu@chanae.alphanet.ch>\n"
 "MIME-Version: 1.0\n"
@@ -235,9 +235,9 @@ msgid "write config file [%s]"
 msgstr "[%s] konfigurazio-fitxategian idatzi"
 
 #: ../urpm.pm_.c:544
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "ezin da [%s] rpm fitxategia atzitu"
+msgstr "ezin da \"%s\" aztertu [%s] fitxategian"
 
 #: ../urpm.pm_.c:555
 #, fuzzy, c-format
@@ -255,13 +255,13 @@ msgid "using associated media for parallel mode : %s"
 msgstr ""
 
 #: ../urpm.pm_.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "ezin da \"%s\" euskarria eguneratu\n"
+msgstr "ezin da \"%s\" aukera paraleloa erabili"
 
 #: ../urpm.pm_.c:583
 msgid "--synthesis cannot be used with --media, --update or --parallel"
-msgstr ""
+msgstr "--synthesis ezin da hauekin erabili --media, --update edo --parallel"
 
 #: ../urpm.pm_.c:599 ../urpm.pm_.c:1143 ../urpm.pm_.c:1158 ../urpm.pm_.c:1288
 #, c-format
@@ -389,14 +389,14 @@ msgid "copying source list of \"%s\"..."
 msgstr "\"%s\"(r)en iturburu-zerrenda kopiatzen..."
 
 #: ../urpm.pm_.c:984
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
-msgstr "[%s] barruan dauden rpms fitxategiak irakurtzen"
+msgstr "[%s]-tik fitxategiak irakurtzen"
 
 #: ../urpm.pm_.c:1003
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
-msgstr "ezin dira rpms fitxategiak honetatik irakurri [%s]: %s"
+msgstr "ezin dira rpm fitxategiak [%s]-tik irakurri: %s"
 
 #: ../urpm.pm_.c:1008
 #, c-format
@@ -561,9 +561,8 @@ msgid "malformed input: [%s]"
 msgstr "gaizki eratutako sarrera: [%s]"
 
 #: ../urpm.pm_.c:1916
-#, fuzzy
 msgid "retrieving rpm files..."
-msgstr "rpms fitxategiak berreskuratzen..."
+msgstr "rpm fitxategiak eskuratzen..."
 
 #: ../urpm.pm_.c:1965
 msgid "Preparing..."
@@ -591,17 +590,17 @@ msgstr "%s-k %s-rekin gatazka sortzen du"
 
 #: ../urpm/parallel_ka_run.pm_.c:55 ../urpm/parallel_ka_run.pm_.c:88
 msgid "rshp failed"
-msgstr ""
+msgstr "rshp-k hutsegin du"
 
 #: ../urpm/parallel_ka_run.pm_.c:92 ../urpm/parallel_ssh.pm_.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "Instalazioak huts egin du"
+msgstr "Instalazioak %s nodoan huts egin du"
 
 #: ../urpm/parallel_ssh.pm_.c:57
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr ""
+msgstr "%s ostalariak ez dauka urpmi bertsio zuzena"
 
 #: ../urpme_.c:33
 msgid "Remove them all?"
@@ -646,7 +645,10 @@ msgstr ""
 "Mendekotasun guztiak behar bezala lagatzeko, ondoko paketeak kendu egingo "
 "dira(%d MB)"
 
-#. Translator: The URI types strings 'file:/""/', 'ftp:/""/', 'http:/""/',
+#. Translator: The URI types strings 'file:', 'ftp:', 'http:',
+#. Translator: and 'removable:' must not be translated!
+#. Translator: neither the ``with''.
+#. Translator: only what is between <brakets> can be translated.
 #: ../urpmi.addmedia_.c:33
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
@@ -867,6 +869,7 @@ msgstr ""
 #: ../urpmi_.c:72 ../urpmq_.c:53
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr ""
+" - synthesis   - erabili adierazitako sintesia urpmi db erabili beharren.\n"
 
 #: ../urpmi_.c:73
 msgid "  --auto         - automatically select a package in choices.\n"
@@ -920,21 +923,21 @@ msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr ""
 
 #: ../urpmi_.c:90
-#, fuzzy
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-"  --bug          - atera akats txosten bat hurrengo argumentuak adierazitako "
-"direktorioan.\n"
+"  --bug          - atera akats txosten bat hurrengo argumentuak adierazten "
+"duen\n"
+"                    direktorioan.\n"
 
 #: ../urpmi_.c:92
-#, fuzzy
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
 "                   report).\n"
 msgstr ""
-"  --env          - erabili ingurune zehatza (normalean akats txostena).\n"
+"  --env          - erabili ingurune zehatza (normalean akats\n"
+"                   txostena).\n"
 
 #: ../urpmi_.c:94
 msgid "  --X            - use X interface.\n"
@@ -949,16 +952,20 @@ msgstr ""
 "                   X edo testu-modua.\n"
 
 #: ../urpmi_.c:97
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disable it, default is enabled).\n"
-msgstr "  --verify-rpm   - rpm sinadura egiaztatzen du instalazio aurretik.\n"
+msgstr ""
+"  --verify-rpm   - rpm sinadura egiaztatzen du instalazio aurretik\n"
+"                   (--no-verify-rpm ezgaitu egiten du, jatorrian gaituta "
+"dago).\n"
 
 #: ../urpmi_.c:99
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+"  --test         - instalazioa arazorik gabe burutu daitekeen egiaztatzen "
+"du.\n"
 
 #: ../urpmi_.c:100
 msgid "  -a             - select all matches on command line.\n"
@@ -1105,9 +1112,9 @@ msgstr ""
 "Zure urpmi datu-basea eguneratzea nahiko duzu "
 
 #: ../urpmi_.c:498
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s\n"
-msgstr "%s instalatzen\n"
+msgstr "%s banatzen\n"
 
 #: ../urpmi_.c:534
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1118,9 +1125,8 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Areago instalatzen saiatu (--force)? (b/E) "
 
 #: ../urpmi_.c:552
-#, fuzzy
 msgid "Installation is possible"
-msgstr "Instalazioak huts egin du"
+msgstr "Instalazioak egin daiteke"
 
 #: ../urpmi_.c:558
 msgid "everything already installed"
@@ -1185,9 +1191,8 @@ msgid "  --list         - list available packages.\n"
 msgstr "  --list           - zerrendatu eskuragarri dauden paketeak.\n"
 
 #: ../urpmq_.c:57
-#, fuzzy
 msgid "  --list-media   - list available media.\n"
-msgstr "  --list           - zerrendatu eskuragarri dauden paketeak.\n"
+msgstr "  --list-media   - zerrendatu euskarri eskuragarriak.\n"
 
 #: ../urpmq_.c:59
 msgid ""
