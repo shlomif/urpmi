@@ -103,6 +103,12 @@ sub first_free_loopdev () {
 
 sub trim_until_d {
     my ($dir) = @_;
+    open my $mounts, '/proc/mounts' or do { warn "Can't read /proc/mounts: $!\n"; return $dir };
+    local *_;
+    while (<$mounts>) {
+	#- fail if an iso is already mounted
+	m!^/dev/loop! and return $dir;
+    }
     while ($dir && !-d $dir) { $dir =~ s,/[^/]*$,, }
     $dir;
 }
