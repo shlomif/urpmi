@@ -1,15 +1,16 @@
 #!/usr/bin/perl
+
+use strict;
+
 use urpm;
 use urpm::msg;
 
-sub main {
-	
-	my %options;
-	$options{restrict_group} = 0;
-	$options{group} = 'System/Libraries';
-	$options{root} = '';
-	
-	my $usage = N("usage: %s [options]
+my %options;
+$options{restrict_group} = 0;
+$options{group} = 'System/Libraries';
+$options{root} = '';
+
+my $usage = N("usage: %s [options]
 where [options] are from
 ", $0) . N("   -h|--help      - print this help message.
 ") . N("   --root <path>  - use the given root instead of /
@@ -17,46 +18,42 @@ where [options] are from
 ") . N("                    defaults is %s.
 ", $options{group});
 
-	my $group;
-	
-	while ($_ = shift @_) {
-	        /^--root$/ and do {
-			$root=shift @_;
-			$root and $options{root}=$root;
-			next;
+while ($_ = shift) {
+    /^--root$/ and do {
+	my $root = shift;
+	$root and $options{root} = $root;
+	next;
 
-		};
-		/^-g$/ and do {
-			$options{restrict_group}=1;
-			$group=shift @_;
-			$group and $options{group}=$group;
-			next;
-		};
-		die $usage;
-	}
-
-	
-	my @packages;
-	{
-		my $db = URPM::DB::open($options{root}) or die;
-		$db->traverse(sub {
-			my ($p) = @_;
-			$p->pack_header;
-			push @packages, $p;
-		});
-	}
-
-	foreach my $pkg (@packages) {
-		next if $options{restrict_group} && $pkg->group !~ /$options{group}/i;
-		$l{$pkg->name} = 1;
-		push @{$provides{$_}}, $pkg->name foreach $pkg->provides_nosense;
-	}
-
-	foreach my $pkg (@packages) {
-		delete @l{grep { $_ ne $pkg->name } @{$provides{$_} || []}} foreach $pkg->requires_nosense;
-	}
-
-	print "$_\n" foreach sort keys %l;
+    };
+    /^-g$/ and do {
+	$options{restrict_group} = 1;
+	my $group = shift;
+	$group and $options{group} = $group;
+	next;
+    };
+    print $usage; exit 0;
 }
 
-main(@ARGV);
+my @packages;
+{
+    my $db = URPM::DB::open($options{root}) or die "Can't open RPM db\n";
+    $db->traverse(sub {
+	my ($p) = @_;
+	$p->pack_header;
+	push @packages, $p;
+    });
+}
+
+my %l;
+my %provides;
+foreach my $pkg (@packages) {
+    next if $options{restrict_group} && $pkg->group !~ /$options{group}/i;
+    $l{$pkg->name} = 1;
+    push @{$provides{$_}}, $pkg->name foreach $pkg->provides_nosense;
+}
+
+foreach my $pkg (@packages) {
+    delete @l{grep { $_ ne $pkg->name } @{$provides{$_} || []}} foreach $pkg->requires_nosense;
+}
+
+print "$_\n" foreach sort keys %l;
