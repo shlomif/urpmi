@@ -16,6 +16,11 @@ if (@ARGV and $ARGV[0] eq '--auto') {
     shift @ARGV;
 }
 
+if (@ARGV and $ARGV[0] eq '--force') {
+    $force = 1;
+    shift @ARGV;
+}
+
 if (@ARGV and $ARGV[0] eq '--X') {
     $X = 1;
     shift @ARGV;
@@ -31,7 +36,7 @@ while (@ARGV and $ARGV[0] eq '--comment') {
     shift @ARGV;
 }
 
-@ARGV or die(_("usage: urpmi [-h] [--auto] [-a] package_name [package_names...]\n"));
+@ARGV or die(_("usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"));
 
 log_it(scalar localtime, " urpmi called with @ARGV\n");
 
@@ -80,9 +85,9 @@ foreach (@ARGV) {
     } else {
 	my $l = $found{$_} || $foundi{$_};
 	if (@$l == 0) { 
-	    warn(_("no package named %s\n", $_)); $ok = 0; 
+	    warn(_("no package named %s\n", $_)); $ok = $force; 
 	} elsif (@$l > 1 && !$all) {
-	    warn(_("The following packages contain %s: %s\n", $_, join(' ', @$l))); $ok = 0; 
+	    warn(_("The following packages contain %s: %s\n", $_, join(' ', @$l))); $ok = $force; 
 	} else {
 	    push @packages, @$l;
 	}
@@ -184,13 +189,13 @@ sub install {
 	m|^/| && !-e $_ and exit 1 foreach @_; #- missing local file
 
 	print SAVEOUT _("Try installation without cheking dependencies?"), " (Y/n) ";
-	<STDIN> =~ /n/i and exit 1;
+	$force or <STDIN> =~ /n/i and exit 1;
 	system("rpm", "-U", "--nodeps", @_);	
 
 	if ($?) {
 	    message(_("Installation failed"));
 	    print SAVEOUT _("Try installation even more strongly (--force)?"), " (Y/n) ";
-	    <STDIN> =~ /n/i and exit 0;
+	    $force or <STDIN> =~ /n/i and exit 0;
 	    system("rpm", "-U", "--nodeps", "--force", @_);	
 	}
     }
@@ -255,7 +260,7 @@ sub version_compare {
     my ($a, $b) = @_;
     local $_;
 
-    while ($a && $b) {
+    while ($a || $b) {
 	my ($sb, $sa) =  map { $1 if $a =~ /^\W*\d/ ? s/^\W*0*(\d+)// : s/^\W*(\D+)// } ($b, $a);
 	$_ = length($sa) cmp length($sb) || $sa cmp $sb and return $_;
     }
