@@ -2544,8 +2544,16 @@ sub get_source_packages {
 
 	if (defined $medium->{start} && defined $medium->{end} && !$medium->{ignore}) {
 	    #- always prefer a list file is available.
-	    if ($medium->{list} && -r "$urpm->{statedir}/$medium->{list}") {
-		open F, "$urpm->{statedir}/$medium->{list}";
+	    my $file = $medium->{list} && "$urpm->{statedir}/$medium->{list}";
+	    if (!$file && $medium->{virtual}) {
+		my ($dir) = $medium->{url} =~ /^(?:removable[^:]*|file)?:\/(.*)/;
+		my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
+		my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
+		$file = reduce_pathname("$with_hdlist_dir/../$local_list");
+		-s $file or $file = "$dir/list";
+	    }
+	    if (-r $file) {
+		open F, $file;
 		while (<F>) {
 		    if (my ($filename) = /\/([^\/]*\.rpm)$/) {
 			if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
@@ -2553,14 +2561,14 @@ sub get_source_packages {
 			    next;
 			} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 			    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-			    defined($id = $fullname2id{$fullname}) and $sources{$id} = $_;
+			    defined($id = $fullname2id{$fullname}) and $sources{$id} =
+			      $medium->{virtual} ? "$medium->{url}/$_" : $_;
 			    $list_examined{$fullname} = $examined{$fullname} = undef;
 			}
 		    } else {
 			chomp;
 			$error = 1;
-			$urpm->{error}(N("unable to correctly parse [%s] on value \"%s\"",
-					 "$urpm->{statedir}/$medium->{list}", $_));
+			$urpm->{error}(N("unable to correctly parse [%s] on value \"%s\"", $file, $_));
 			last;
 		    }
 		}
