@@ -102,7 +102,7 @@ sub sync_curl {
     my (@ftp_files, @other_files);
     foreach (@_) {
 	/^ftp:\/\/.*\/([^\/]*)$/ && -s $1 > 8192 and do { push @ftp_files, $_; next }; #- manage time stamp for large file only.
-	push @other_files;
+	push @other_files, $_;
     }
     if (@ftp_files) {
 	my ($cur_ftp_file, %ftp_files_info);
@@ -1336,11 +1336,11 @@ sub filter_packages_to_upgrade {
 	    my (@forced_selection, @selection);
 
 	    #- at this point we have almost only choices to resolves.
-		#- but we have to check if one package here is already selected
-		#- previously, if this is the case, use it instead.
- #- if a choice is proposed with package already installed (this is the case for
-    #- a provide with a lot of choices, we have to filter according to those who
-		#- are installed).
+	    #- but we have to check if one package here is already selected
+	    #- previously, if this is the case, use it instead.
+	    #- if a choice is proposed with package already installed (this is the case for
+	    #- a provide with a lot of choices, we have to filter according to those who
+	    #- are installed).
 	    foreach (@$id) {
 		if (exists $packages->{$_} ||
 		    rpmtools::db_traverse_tag($db, "name",
@@ -1353,11 +1353,11 @@ sub filter_packages_to_upgrade {
 
 	    #- propose the choice to the user now, or select the best one (as it is supposed to be).
 	    @selection = @forced_selection ? @forced_selection :
-	      $select_choices && @selection > 1 ?
-		($select_choices->($urpm, undef, @selection)) : ($selection[0]);
+	      $select_choices ? (@selection > 1 ? ($select_choices->($urpm, undef, @selection)) : ($selection[0])) :
+		(join '|', @selection);
 	    foreach (@selection) {
 		unless (exists $packages->{$_}) {
-		    unshift @packages, $_;
+		    /\|/ or unshift @packages, $_;
 		    $packages->{$_} = 1;
 		}
 	    }
@@ -1753,6 +1753,12 @@ sub extract_packages_to_install {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	foreach (keys %{$urpm->{params}{provides}{$_} || {}}) {
 	    my $pkg = $urpm->{params}{info}{$_} or next;
+
+	    #- some package with specific naming convention to avoid upgrade problem
+	    #- should not be taken into account here.
+	    #- these package have version=1 and release=1mdk, and name contains version and release.
+	    $pkg->{version} eq '1' && $pkg->{release} eq '1mdk' && $pkg->{name} =~ /^.*-[^\-]*mdk$/ and next;
+
 	    exists $sources->{$pkg->{id}} and $inst{$pkg->{id}} = delete $sources->{$pkg->{id}};
 	}
     }
@@ -1762,7 +1768,7 @@ sub extract_packages_to_install {
 }
 
 sub select_packages_to_upgrade {
-    my ($urpm, $prefix, $packages, $remove_packages, $keep_files) = @_;
+    my ($urpm, $prefix, $packages, $remove_packages, $keep_files, %options) = @_;
     my $db = rpmtools::db_open($prefix);
 
     #- used for package that are not correctly updated.
@@ -1787,10 +1793,16 @@ sub select_packages_to_upgrade {
     #- latter for each transaction.
     local (*INPUT, *OUTPUT_CHILD); pipe INPUT, OUTPUT_CHILD;
     local (*INPUT_CHILD, *OUTPUT); pipe INPUT_CHILD, OUTPUT;
-    if (my $pid = fork()) {
+    if (my $pid = $options{use_parsehdlist} ? fork() : 1) {
 	close INPUT_CHILD;
 	close OUTPUT_CHILD;
-	select((select(OUTPUT), $| = 1)[0]);
+	#- check if there is a parsehdlist running in the background.
+	if ($pid == 1) {
+	    close INPUT;
+	    close OUTPUT;
+	} else {
+	    select((select(OUTPUT), $| = 1)[0]);
+	}
 
 	#- internal reading from interactive mode of parsehdlist.
 	#- takes a code to call with the line read, this avoid allocating
@@ -1802,7 +1814,7 @@ sub select_packages_to_upgrade {
 	    #- the hdlist does not exists and the medium is marked as using a
 	    #- synthesis file).
 	    my $p = $urpm->{params}{info}{$name} || $urpm->{params}{names}{$name};
-	    if ($p && $p->{$tag}) {
+	    if ($pid == 1 || $p && $p->{$tag}) {
 		foreach (@{$p->{$tag} || []}) {
 		    $code->($_);
 		}
@@ -1958,9 +1970,12 @@ sub select_packages_to_upgrade {
 	%installedFilesForUpgrade = ();
 
 	#- no need to still use the child as this point, we can let him to terminate.
-	close OUTPUT;
-	close INPUT;
-	waitpid $pid, 0;
+	#- but only if a child has really been used.
+	if ($pid != 1) {
+	    close OUTPUT;
+	    close INPUT;
+	    waitpid $pid, 0;
+	}
     } else {
 	close INPUT;
 	close OUTPUT;

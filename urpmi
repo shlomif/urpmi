@@ -26,6 +26,7 @@ import urpm _;
 my $update = 0;
 my $auto = 0;
 my $allow_medium_change = 0;
+my $complete = 0;
 my $auto_select = 0;
 my $force = 0;
 my $sync = undef;
@@ -54,6 +55,7 @@ usage:
 ") . _("  --update       - use only update media.
 ") . _("  --auto         - automatically select a good package in choices.
 ") . _("  --auto-select  - automatically select packages for upgrading the system.
+") . _("  --complete     - use parsehdlist server to complete selection.
 ") . _("  --force        - force invocation even if some packages do not exist.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
@@ -77,6 +79,7 @@ for (@ARGV) {
     /^--auto$/ and do { $auto = 1; next };
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
+    /^--complete$/ and do { $complete = 1; next };
     /^--force$/ and do { $force = 1; next };
     /^--wget$/ and do { $sync = \&urpm::sync_wget; next };
     /^--curl$/ and do { $sync = \&urpm::sync_curl; next };
@@ -204,7 +207,7 @@ my $ask_choice = sub {
 if ($auto_select) {
     my (%to_remove, %keep_files);
 
-    $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
+    $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files, use_parsehdlist => $complete);
 
     if (keys(%to_remove) > 0) {
 	print STDERR "some packages have to be removed for being upgraded, this is not supported yet\n";

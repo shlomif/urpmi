@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.1
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -142,6 +142,15 @@ fi
 
 
 %changelog
+* Mon Dec 17 2001 François Pons <fpons@mandrakesoft.com> 3.1-3mdk
+- fixed choice listing.
+- somewhat fixed -p kernel.
+- fixed installation of package with naming convention changed to
+  make upgrade identical to install (kernel and kernel-source).
+- allow not to use parsehdlist during --auto-select (now disabled
+  by default)
+- fix curl support broken for http files and missing ftp files.
+
 * Fri Dec 14 2001 François Pons <fpons@mandrakesoft.com> 3.1-2mdk
 - added time conditionnal download to curl interface for both http
   and ftp protocol (so need Date::Manip because urpm library use it

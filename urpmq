@@ -186,7 +186,7 @@ foreach my $id (keys %packages) {
 	    $hack_only_one{$choices} = undef;
 	}
     } else {
-	exists $packages{$id} and print $query_sub->($id), "\n";
+	exists $packages{$id} and print join('|', map { $query_sub->($_) } split '\|', $id), "\n";
     }
 }
 
