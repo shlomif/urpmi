@@ -1153,13 +1153,14 @@ sub remove_selected_media {
 sub probe_with_try_list {
     my ($suffix, $probe_with) = @_;
 
-    my @probe = ("../base/synthesis.hdlist$suffix.cz", "../synthesis.hdlist$suffix.cz", "synthesis.hdlist$suffix.cz");
+    my @probe = ("synthesis.hdlist$suffix.cz",
+		 "../base/synthesis.hdlist$suffix.cz", "../synthesis.hdlist$suffix.cz");
     length($suffix) and unshift @probe, "synthesis.hdlist.cz";
     length($suffix) or push @probe, ("../base/synthesis.hdlist1.cz", "../base/synthesis.hdlist2.cz",
 				     "../synthesis.hdlist1.cz", "../synthesis.hdlist2.cz",
 				     "synthesis.hdlist1.cz", "synthesis.hdlist2.cz");
 
-    my @probe_hdlist = ("../base/hdlist$suffix.cz", "../hdlist$suffix.cz", "hdlist$suffix.cz");
+    my @probe_hdlist = ("hdlist$suffix.cz", "../base/hdlist$suffix.cz", "../hdlist$suffix.cz");
     length($suffix) and push @probe_hdlist, "hdlist.cz";
     length($suffix) or push @probe_hdlist, ("../base/hdlist1.cz", "../base/hdlist2.cz",
 					    "../hdlist1.cz", "../hdlist2.cz",
