@@ -25,7 +25,7 @@ my $auto = 0;
 my $force = 0;
 my $X = 0;
 my $all = 0;
-my $rpm_opt = "-U";
+my $rpm_opt = "-Uvh";
 my $datadir = "/var/lib/urpmi";
 
 my $uid;
@@ -56,6 +56,7 @@ for (@ARGV) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $all = 1; next };
 	/v/ and do { $rpm_opt = "-Uvh"; next };
+	/q/ and do { $rpm_opt = "-U"; next };
 	die "urpmi: unknown option \"-$1\", check usage with --help\n"; } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     /\.rpm$/ and do { -r $_ or print STDERR "urpmi: cannot read rpm file \"$_\"\n", next;
@@ -81,22 +82,20 @@ $urpm->read_depslist;
 if (@files) {
     $uid == 0 or die _("Only superuser is allowed to install local packages");
 
+    #- sanity check of pathname.
+    m|^/| or $_ = "./$_" foreach @files;
+
     #- read provides file which is needed only to compute incremental
     #- dependancies, of files provided.
     $urpm->read_provides;
 
-    #- compute depslist of files provided on command line.
-    $urpm->{params}->read_rpms($_) foreach @files;
-    $urpm->{params}->compute_depslist;
-
-    #- gets full names of packages, sanity check of pathname.
-    m|(.*/)?(.*)\.[^.]+\.rpm$| and push @names, $2 foreach @files;
-    m|^/| or $_ = "./$_" foreach @files;
+    #- build closure with local package and return list of names.
+    push @names, $urpm->register_local_packages(@files);
 }
 
 #- reparse whole internal depslist to match against newer packages only.
-# TO MOVE TO urpm management of ignored medium
-$urpm->{params}->relocate_depslist();
+#- ignored medium MUST HAVE BEEN taken into account for building hdlist before!
+$urpm->relocate_depslist;
 
 
 #- search the packages according the selection given by the user,
@@ -169,9 +168,19 @@ unless ($local_sources || $list) {
     exit 1;
 }
 
-my @sources = $urpm->upload_source_packages($local_sources, $list, sub {
-						 die "not implemented yet... change medium";
-					     });
+my @sources = $urpm->upload_source_packages($local_sources, $list, 'force_local', sub {
+						my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
+						my $msg2 = _("Press enter when it's done...");
+						if ($X) {
+						    my $ok = _("Ok");
+						    my $cancel = _("Cancel");
+						    `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
+						    !$?;
+						} else {
+						    print SAVEOUT "$msg\n$msg2 ";
+						    <STDIN>; 1;
+						}
+					    });
 
 my $something_was_installed;
 

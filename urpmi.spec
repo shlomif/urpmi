@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.4
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,12 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Jan 30 2001 François Pons <fpons@mandrakesoft.com> 1.4-5mdk
+- added medium change code.
+- fixed urpmi with local file.
+- changed default option to verbose when invoking rpm.
+
+
 * Thu Jan 25 2001 François Pons <fpons@mandrakesoft.com> 1.4-4mdk
 - added code to search for source rpms file to install.
 - modified manipulation of ignore flag, keep media name unique.

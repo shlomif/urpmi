@@ -93,31 +93,31 @@ sub read_config {
     local (*F, $_);
     open F, $urpm->{config}; #- no filename can be allowed on some case
     while (<F>) {
-	chomp; s/#.*$//; s/\s*$//;
-	/^\s*(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/ and do { #- urpmi.cfg format extention
+	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/ and do { #- urpmi.cfg format extention
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    while (<F>) {
-		chomp; s/#.*$//; s/\s*$//;
-		/^\s*hdlist\s*:\s*(.*)$/ and $medium->{hdlist} = $1, next;
-		/^\s*with_hdlist\s*:\s*(.*)$/ and $medium->{with_hdlist} = $1, next;
-		/^\s*list\s*:\s*(.*)$/ and $medium->{list} = $1, next;
-		/^\s*removable\s*:\s*(.*)$/ and $medium->{removable} = $1, next;
-		/^\s*ignore\s*$/ and $medium->{ignore} = 1, next;
-		/^\s*modified\s*$/ and $medium->{modified} = 1, next;
-		/^\s*}$/ and last;
-		/^\s*$/ or $urpm->{error}("syntax error at line $. in $urpm->{config}");
+		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+		/^hdlist\s*:\s*(.*)$/ and $medium->{hdlist} = $1, next;
+		/^with_hdlist\s*:\s*(.*)$/ and $medium->{with_hdlist} = $1, next;
+		/^list\s*:\s*(.*)$/ and $medium->{list} = $1, next;
+		/^removable\s*:\s*(.*)$/ and $medium->{removable} = $1, next;
+		/^ignore\s*$/ and $medium->{ignore} = 1, next;
+		/^modified\s*$/ and $medium->{modified} = 1, next;
+		$_ eq '}' and last;
+		$_ and $urpm->{error}("syntax error at line $. in $urpm->{config}");
 	    }
 	    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
 	    next; };
-	/^\s*(.*?[^\\])\s+(.*?[^\\])\s+with\s+(.*)$/ and do { #- urpmi.cfg old format for ftp
+	/^(.*?[^\\])\s+(.*?[^\\])\s+with\s+(.*)$/ and do { #- urpmi.cfg old format for ftp
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2), with_hdlist => unquotespace($3) };
 	    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
 	    next; };
-	/^\s*(.*?[^\\])\s+(?:(.*?[^\\])\s*)?$/ and do { #- urpmi.cfg old format (assume hdlist.<name>.cz2?)
+	/^(.*?[^\\])\s+(?:(.*?[^\\])\s*)?$/ and do { #- urpmi.cfg old format (assume hdlist.<name>.cz2?)
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
 	    next; };
-	/^\s*$/ or $urpm->{error}("syntax error at line $. in [$urpm->{config}]");
+	$_ and $urpm->{error}("syntax error at line $. in [$urpm->{config}]");
     }
     close F;
 
@@ -178,6 +178,7 @@ sub read_config {
 #- probe medium to be used, take old medium into account too.
 sub probe_medium {
     my ($urpm, $medium) = @_;
+    local $_;
 
     my $existing_medium;
     foreach (@{$urpm->{media}}) {
@@ -200,12 +201,12 @@ sub probe_medium {
     #- there is a little more to do at this point as url is not known, inspect directly list file for it.
     unless ($medium->{url} || $medium->{clear_url}) {
 	my %probe;
-	local (*F, $_);
-	open F, "$urpm->{statedir}/$medium->{list}";
-	while (<F>) {
+	local *L;
+	open L, "$urpm->{statedir}/$medium->{list}";
+	while (<L>) {
 	    /^(.*)\/[^\/]*/ and $probe{$1} = undef;
 	}
-	close F;
+	close L;
 	foreach (sort { length($a) <=> length($b) } keys %probe) {
 	    if ($medium->{url}) {
 		$medium->{url} eq substr($_, 0, length($medium->{url})) or
@@ -217,7 +218,7 @@ sub probe_medium {
 	}
 	$medium->{url} or
 	  $medium->{ignore} || $urpm->{error}("unable to inspect list file for \"$medium->{name}\", medium ignored"),
-	    $medium->{ignore} = 1, last;
+	    $medium->{ignore} = 1; #, last; keeping it cause perl to exit caller loop ...
     }
     $medium->{url} ||= $medium->{clear_url};
     $medium;
@@ -274,7 +275,7 @@ sub add_medium {
 	#- the directory given does not exist or may be accessible
 	#- by mounting some other. try to figure out these directory and
 	#- mount everything necessary.
-	$urpm->try_mounting($dir);
+	$urpm->try_mounting($dir, 'mount');
 
 	#- check if directory is somewhat normalized so that we can get back hdlist,
 	#- check it that case if depslist, compss and provides file are also
@@ -393,7 +394,7 @@ sub update_media {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
-	    $urpm->try_mounting($dir);
+	    $urpm->try_mounting($dir, 'mount');
 
 	    #- if the source hdlist is present and we are not forcing using rpms file
 	    if (!$options{force} && $medium->{with_hdlist} && -e "$dir/$medium->{with_hdlist}") {
@@ -593,10 +594,10 @@ sub update_media {
 
 #- check for necessity of mounting some directory to get access
 sub try_mounting {
-    my ($urpm, $dir) = @_;
+    my ($urpm, $dir, $mode) = @_;
 
     if (!-e $dir) {
-	my ($fdir, $pdir, $v, %fstab) = $dir;
+	my ($fdir, $pdir, $v, %fstab, @possible_mount_point) = $dir;
 
 	#- read /etc/fstab and check for existing mount point.
 	local (*F, $_);
@@ -624,13 +625,19 @@ sub try_mounting {
 	    }
 	}
 
-	#- check the presence of parent directory to mount directory.
+	#- check the possible mount point.
 	foreach (split '/', $fdir) {
 	    length($_) or next;
 	    $pdir .= "/$_";
 	    foreach ($pdir, "$pdir/") {
-		exists $fstab{$_} && !$fstab{$_} and $fstab{$pdir} = 1, `mount $pdir 2>/dev/null`;
+		exists $fstab{$_} and push @possible_mount_point, $_;
 	    }
+	}
+
+	#- try to mount or unmount according to mode.
+	$mode eq 'unmount' and @possible_mount_point = reverse @possible_mount_point;
+	foreach (@possible_mount_point) {
+	    $fstab{$_} == ($mode ne 'mount') and $fstab{$_} = ($mode eq 'mount'), `$mode '$_' 2>/dev/null`;
 	}
     }
     -e $dir;
@@ -693,6 +700,42 @@ sub write_base_files {
     $urpm->{log}("write compss file [$urpm->{compss}]");
 }
 
+#- relocate depslist array to use only the most recent packages,
+#- reorder info hashes too in the same manner.
+sub relocate_depslist {
+    my ($urpm) = @_;
+
+    $urpm->{params}->relocate_depslist;
+}
+
+#- register local packages for being installed, keep track of source.
+sub register_local_packages {
+    my ($urpm, @files) = @_;
+    my @names;
+
+    #- examine each rpm and build the depslist for them using current
+    #- depslist and provides environment.
+    foreach (@files) {
+	/(.*\/)?(.*)-([^-]*)-([^-]*)\.[^.]+\.rpm$/ or $urpm->{error}("invalid rpm file name [$_]"), next;
+	$urpm->{params}->read_rpms($_);
+
+	#- update info according to version and release, for source tracking.
+	$urpm->{params}{info}{$2} or $urpm->{error}("rpm file is not accessible with rpm file [$_]"), next;
+	$urpm->{params}{info}{$2}{version} eq $3 or $urpm->{error}("rpm file [$_] has not right version"), next;
+	$urpm->{params}{info}{$2}{release} eq $4 or $urpm->{error}("rpm file [$_] has not right release"), next;
+	$urpm->{params}{info}{$2}{source} = $1 ? $_ : "./$_";
+
+	#- keep in mind this package has to be installed.
+	push @names, "$2-$3-$4";
+    }
+
+    #- compute depslist associated.
+    $urpm->{params}->compute_depslist;
+
+    #- return package names...
+    @names;
+}
+
 #- search packages registered by their name by storing their id into packages hash.
 sub search_packages {
     my ($urpm, $packages, $names, %options) = @_;
@@ -746,16 +789,15 @@ sub search_packages {
 #- package are identified by their id.
 sub compute_closure {
     my ($urpm, $packages, $installed, $select_choices) = @_;
+    my ($id, @packages) = (undef, keys %$packages);
 
     #- select first level of packages, as in packages list will only be
     #- examined deps of each.
-    @{$packages}{keys %$packages} = ();
+    @{$packages}{@packages} = ();
 
     #- at this level, compute global closure of what is requested, regardless of
     #- choices for which all package in the choices are taken and their dependancies.
     #- allow iteration over a modifying list.
-    my $id;
-    my @packages = keys %$packages;
     while (defined($id = shift @packages)) {
 	#- get a relocated id if possible, by this way.
 	$id = $urpm->{params}{depslist}[$id]{id};
@@ -785,6 +827,7 @@ sub compute_closure {
 		    }
 		}
 	    } else {
+		local $_ = $urpm->{params}{depslist}[$_]{id};
 		if (ref $packages->{$_}) {
 		    #- all the choices associated here have to be dropped, need to copy else
 		    #- there could be problem with foreach on a modifying list.
@@ -948,14 +991,17 @@ sub get_source_packages {
     foreach (keys %$packages) {
 	exists $select{$_} and next;
 
-	#- error found as a package has not be selected.
-	$error = 1;
-
 	#- try to find which one.
 	my $pkg = $urpm->{params}{depslist}[$_];
 	if ($pkg) {
-	    $urpm->{error}("package $pkg->{name}-$pkg->{version}-$pkg->{release} is not found");
+	    if ($pkg->{source}) {
+		push @local_sources, $pkg->{source};
+	    } else {
+		$error = 1;
+		$urpm->{error}("package $pkg->{name}-$pkg->{version}-$pkg->{release} is not found, ids=($_,$pkg->{id})");
+	    }
 	} else {
+	    $error = 1;
 	    $urpm->{error}("internal error for selecting unknown package for id=$_");
 	}
     }
@@ -987,9 +1033,9 @@ sub upload_source_packages {
 		#- the directory given does not exist or may be accessible
 		#- by mounting some other. try to figure out these directory and
 		#- mount everything necessary.
-		unless ($urpm->try_mounting($dir)) {
-		    system("eject", $device); #- umount too... TODO
-		    $ask_for_medium->($medium->{name}) or last;
+		unless ($urpm->try_mounting($dir, 'mount')) {
+		    $urpm->try_mounting($dir, 'unmount'); system("eject", $device);
+		    $ask_for_medium->($medium->{name}, $medium->{removable}) or last;
 		}
 	    }
 	    if (-e $dir) {
@@ -1068,10 +1114,8 @@ sub upload_source_packages {
 	close F or $urpm->{error}("cannot get distant rpms files (maybe wget is missing?)");
     }
 
-    #- need verification of available files... TODO
-
     #- return the list of rpm file that have to be installed, they are all local now.
-    @sources;
+    @$local_sources, @sources;
 }
 
 
