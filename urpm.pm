@@ -78,6 +78,8 @@ sub new {
 	   media      => undef,
 	   params     => new rpmtools,
 
+	   sync       => \&sync_curl, #- first argument is directory, others are url to fetch.
+
 	   fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	   error      => sub { printf STDERR "%s\n", $_[0] },
 	   log        => sub { printf STDERR "%s\n", $_[0] },
@@ -87,6 +89,19 @@ sub new {
 #- quoting/unquoting a string that may be containing space chars.
 sub quotespace { local $_ = $_[0]; s/(\s)/\\$1/g; $_ }
 sub unquotespace { local $_ = $_[0]; s/\\(\s)/$1/g; $_ }
+
+#- syncing algorithms, currently is implemented wget and curl methods.
+sub sync_wget {
+    -x "/usr/bin/wget" or die _("wget is missing\n");
+    system "/usr/bin/wget", "-NP", @_;
+    $? == 0 or die _("wget failed\n");
+}
+sub sync_curl {
+    -x "/usr/bin/curl" or die _("curl is missing\n");
+    chdir shift @_;
+    system "/usr/bin/curl", "-R", map { ("-O", $_ ) } @_;
+    $? == 0 or die _("curl failed\n");
+}
 
 #- read /etc/urpmi/urpmi.cfg as config file, keep compability with older
 #- configuration file by examining if one entry is of the form
@@ -306,9 +321,9 @@ sub add_medium {
     #- we have to exit now
     my ($medium);
     foreach (@{$urpm->{media}}) {
-	$_->{name} eq $2 and $medium = $_;
+	$_->{name} eq $name and $medium = $_;
     }
-    $medium and $urpm->{fatal}(5, _("medium \"%s\" already exists", $medium));
+    $medium and $urpm->{fatal}(5, _("medium \"%s\" already exists", $medium->{name}));
 
     #- creating the medium info.
     $medium = { name     => $name,
@@ -514,10 +529,21 @@ sub update_media {
 
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{cachedir}/partial/descriptions";
-	    rename "$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions";
-	    system("wget", "-NP", "$urpm->{cachedir}/partial", "$medium->{url}/../descriptions");
-	    -e "$urpm->{cachedir}/partial/descriptions" and
-	      rename "$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}";
+	    if (-e "$urpm->{statedir}/descriptions.$medium->{name}") {
+		rename("$urpm->{statedir}/descriptions.$medium->{name}",
+		       "$urpm->{cachedir}/partial/descriptions") or 
+			 system("mv",
+				"$urpm->{statedir}/descriptions.$medium->{name}",
+				"$urpm->{cachedir}/partial/descriptions");
+	    }
+	    eval { $urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/../descriptions") };
+	    if (-e "$urpm->{cachedir}/partial/descriptions") {
+		rename("$urpm->{cachedir}/partial/descriptions",
+		       "$urpm->{statedir}/descriptions.$medium->{name}") or
+			 system("mv",
+				"$urpm->{cachedir}/partial/descriptions",
+				"$urpm->{statedir}/descriptions.$medium->{name}");
+	    }
 
 	    #- try to sync (copy if needed) local copy after restored the previous one.
 	    unlink "$urpm->{cachedir}/partial/$basename";
@@ -528,11 +554,9 @@ sub update_media {
 		$options{force} >= 2 || ! -e "$urpm->{statedir}/$medium->{hdlist}" or
 		  system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 	    }
-	    system("wget", "-NP", "$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
-	    $? == 0 or $error = 1, $urpm->{error}(_("wget of [%s] failed (maybe wget is missing?)",
-						    "<source_url>/$medium->{with_hdlist}"));
+	    eval { $urpm->{sync}("$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}") };
 	    -s "$urpm->{cachedir}/partial/$basename" or
-	      $error = 1, $urpm->{error}(_("wget of [%s] failed", "<source_url>/$medium->{with_hdlist}"));
+	      $error = 1, $urpm->{error}(_("retrieve of [%s] failed", "<source_url>/$medium->{with_hdlist}"));
 	    unless ($error) {
 		my @sstat = stat "$urpm->{cachedir}/partial/$basename";
 		my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
@@ -544,7 +568,11 @@ sub update_media {
 		}
 
 		#- the file are different, update local copy.
-		rename "$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		rename("$urpm->{cachedir}/partial/$basename",
+		       "$urpm->{cachedir}/partial/$medium->{hdlist}") or
+			 system("mv",
+				"$urpm->{cachedir}/partial/$basename",
+				"$urpm->{cachedir}/partial/$medium->{hdlist}");
 	    }
 	}
 
@@ -621,9 +649,13 @@ sub update_media {
 	    unlink "$urpm->{statedir}/$medium->{hdlist}";
 	    $medium->{synthesis} and unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 	    unlink "$urpm->{statedir}/$medium->{list}";
-	    rename "$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
-	      "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}";
-	    rename "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}";
+	    rename("$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
+		   "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}") or
+		     system("mv", "$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
+			    "$urpm->{statedir}/synthesis.$medium->{hdlist}" :
+			    "$urpm->{statedir}/$medium->{hdlist}");
+	    rename("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}") or
+	      system("mv", "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
 
 	    #- and create synthesis file associated.
 	    $medium->{synthesis} or $urpm->build_synthesis_hdlist($medium);
@@ -1619,7 +1651,6 @@ sub upload_source_packages {
 
     #- get back all ftp and http accessible rpms file into the local cache
     #- if necessary (as used by checksig or any other reasons).
-    #- we are using wget for that with an input from its stdin.
     foreach (0..$#$list) {
 	exists $media{$_} and next;
 	values %{$list->[$_]} or next;
@@ -1638,11 +1669,7 @@ sub upload_source_packages {
 	    }
 	}
     }
-    foreach (@distant_sources) {
-	$urpm->{log}(_("retrieving [%s]", $_));
-	system "wget", "-NP", "$urpm->{cachedir}/rpms", $_;
-	$? == 0 or $urpm->{error}(_("wget of [%s] failed", "<source_url>/$_"));
-    }
+    eval { $urpm->{sync}("$urpm->{cachedir}/rpms", @distant_sources) };
 
     #- return the hash of rpm file that have to be installed, they are all local now.
     %$local_sources, %sources;

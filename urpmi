@@ -28,6 +28,7 @@ my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
 my $force = 0;
+my $sync = undef;
 my $X = 0;
 my $WID = 0;
 my $all = 0;
@@ -54,6 +55,8 @@ usage:
 ") . _("  --auto           - automatically select a good package in choices.
 ") . _("  --auto-select    - automatically select packages for upgrading the system.
 ") . _("  --force          - force invocation even if some package do not exist.
+") . _("  --wget           - use wget to retrieve distant files.
+") . _("  --curl           - use curl to retrieve distant files.
 ") . _("  --X              - use X interface.
 ") . _("  --best-output    - choose best interface according to the environment:
                      X or text mode.
@@ -75,6 +78,8 @@ for (@ARGV) {
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
     /^--force$/ and do { $force = 1; next };
+    /^--wget$/ and do { $sync = \&urpm::sync_wget; next };
+    /^--curl$/ and do { $sync = \&urpm::sync_curl; next };
     /^--X$/ and do { $X = 1; next };
     /^--WID=(.*)$/ and do { $WID = $1; next };
     /^--WID$/ and do { push @nextargv, \$WID; next };
@@ -133,6 +138,9 @@ select STDOUT; $| = 1;     # make unbuffered
 
 #- params contains informations to parse installed system.
 my $urpm = new urpm;
+
+#- use specific sync routine.
+$sync and $urpm->{sync} = $sync;
 
 #- remove verbose if not asked.
 $verbose or $urpm->{log} = sub {};

@@ -25,32 +25,51 @@ use urpm;
 import urpm _;
 
 sub main {
-    my ($name, $url, $with, $relative_hdlist) = @_;
-    $name =~ /^--?update/ and (my $update, $name, $url, $with, $relative_hdlist) = @_;
-    my $usage = _("usage: urpmi.addmedia [--update] <name> <url>
+    my ($name, $url, $with, $relative_hdlist, %options);
+    my $usage = _("usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]
 where <url> is one of
        file://<path>
        ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>
        ftp://<host>/<path> with <relative filename of hdlist>
        http://<host>/<path> with <relative filename of hdlist>
-       removable_<device>://<path>
-");
-    $name or die $usage;
-    my ($type, $dev) = $url =~ m,^(file|ftp|http|removable_(\w+)(?:_\d+)?)://, or die $usage;
+       removable://<path>
 
-    if ($type eq "removable") {
-	$dev && -e "/dev/$dev" or die _("%s\ndevice `%s' do not exist\n", $usage, $dev);
-    } elsif ($with eq "with") {
+and [options] are from
+") . _("  -c               - clean headers cache directory.
+") . _("  -f               - force generation of hdlist files.
+") . _("  --wget           - use wget to retrieve distant files.
+") . _("  --curl           - use curl to retrieve distant files.
+");
+
+    $options{force} = 0;
+    $options{noclean} = 1;
+    $options{sync} = undef;
+    while ($_ = shift @_) {
+	/^--?c/ and $options{noclean} = 0, next;
+	/^--?c/ and $options{depslist} = 1, next;
+	/^--?f/ and ++$options{force}, next;
+	/^--wget/ and $options{sync} = \&urpm::sync_wget, next;
+	/^--curl/ and $options{sync} = \&urpm::sync_curl, next;
+	/^--update$/ and $options{update} = 1, next;
+	/^-/ and die $usage . _("\nunknown options '%s'\n", $_);
+	($name, $url, $with, $relative_hdlist) = ($_, @_);
+	last;
+    }
+    $name or die $usage;
+    my ($type) = $url =~ m,^([^:]*)://, or die $usage;
+
+    if ($with eq "with") {
 	$relative_hdlist or die _("%s\n<relative path of hdlist> missing\n", $usage);
-    } elsif ($ftp) {
+    } elsif ($type =~ /ftp|http/) {
 	$with eq "with" or die _("%s\n`with' missing for ftp media\n", $usage);
     }
 
     my $urpm = new urpm;
+    $options{sync} and $urpm->{sync} = $options{sync};
 
     $urpm->read_config;
-    $urpm->add_medium($name, $url, $relative_hdlist, update => $update);
-    $urpm->update_media(noclean => 1);
+    $urpm->add_medium($name, $url, $relative_hdlist, update => $options{update});
+    $urpm->update_media(%options);
 
     #- check creation of media (during update has been successfull)
     my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};

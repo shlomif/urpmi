@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.1
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -126,6 +126,13 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Tue Nov 27 2001 François Pons <fpons@mandrakesoft.com> 2.1-3mdk
+- added curl support (kept wget support).
+- updated help for urpmi, urpmi.update and urpmi.addmedia.
+- fixed bad check of urpmi.addmedium for existing name.
+- avoid some error message if description is missing (not all).
+- allow any prefix for url (especially removable://...).
+
 * Tue Nov 27 2001 François Pons <fpons@mandrakesoft.com> 2.1-2mdk
 - removed old optimization to get existing depslist instead
   of rebuilding it.
