@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 16mdk
+Release: 17mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,12 @@ fi
 
 
 %changelog
+* Fri Dec 13 2002 François Pons <fpons@mandrakesoft.com> 4.1-17mdk
+- added mput or scp exit code checking.
+- temporaly using hdlist file for --summary of urpmf.
+- fixed perl warning (useless code which was not really useless but
+  by side effects in fact).
+
 * Fri Dec 13 2002 François Pons <fpons@mandrakesoft.com> 4.1-16mdk
 - fixed warning message from distributed module for local rpms.
 - fixed bad test including a 0 for distributed install.

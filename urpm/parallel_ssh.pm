@@ -8,6 +8,7 @@ sub parallel_register_rpms {
 	my $sources = join ' ', map { "'$_'" } @files;
 	$urpm->{log}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms");
 	system "scp $sources $_:$urpm->{cachedir}/rpms";
+	$? == 0 or $urpm->{fatal}(1, _("scp failed on host %s", $_));
     }
 
     #- keep trace of direct files.
@@ -25,6 +26,7 @@ sub parallel_resolve_dependencies {
     foreach (keys %{$parallel->{nodes}}) {
 	$urpm->{log}("parallel_ssh: scp -q '$synthesis' '$_:$synthesis'");
 	system "scp -q '$synthesis' '$_:$synthesis'";
+	$? == 0 or $urpm->{fatal}(1, _("scp failed on host %s", $_));
     }
     $parallel->{synthesis} = $synthesis;
 
@@ -75,7 +77,7 @@ sub parallel_resolve_dependencies {
 	    while ($_ = <F>) {
 		chomp;
 		if (/^\@removing\@(.*)/) {
-		    $state->{ask_remove}{$1}{$node};
+		    $state->{ask_remove}{$1}{$node} = undef;
 		} elsif (/\|/) {
 		    #- distant urpmq returned a choices, check if it has already been chosen
 		    #- or continue iteration to make sure no more choices are left.
@@ -117,6 +119,7 @@ sub parallel_install {
 	my $sources = join ' ', map { "'$_'" } values %$install, values %$upgrade;
 	$urpm->{log}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms");
 	system "scp $sources $_:$urpm->{cachedir}/rpms";
+	$? == 0 or $urpm->{fatal}(1, _("scp failed on host %s", $_));
     }
 
     my %bad_nodes;

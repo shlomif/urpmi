@@ -6,6 +6,7 @@ sub parallel_register_rpms {
 
     $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- ".join(' ', @files)." $urpm->{cachedir}/rpms/");
     system "mput", split(' ', $parallel->{options}), '--', @files, "$urpm->{cachedir}/rpms/";
+    $? == 0 || $? == 256 or $urpm->{fatal}(1, _("mput failed, maybe a node is unreacheable"));
 
     #- keep trace of direct files.
     foreach (@files) {
@@ -22,6 +23,7 @@ sub parallel_resolve_dependencies {
     #- first propagate the synthesis file to all machine.
     $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- '$synthesis' '$synthesis'");
     system "mput $parallel->{options} -- '$synthesis' '$synthesis'";
+    $? == 0 || $? == 256 or $urpm->{fatal}(1, _("mput failed, maybe a node is unreacheable"));
     $parallel->{synthesis} = $synthesis;
 
     #- compute command line of urpm? tools.
@@ -72,7 +74,7 @@ sub parallel_resolve_dependencies {
 	    chomp;
 	    s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
 	    if (/^\@removing\@(.*)/) {
-		$state->{ask_remove}{$1}{$node};
+		$state->{ask_remove}{$1}{$node} = undef;
 	    } elsif (/\|/) {
 		#- distant urpmq returned a choices, check if it has already been chosen
 		#- or continue iteration to make sure no more choices are left.
@@ -93,7 +95,7 @@ sub parallel_resolve_dependencies {
 		$state->{selected}{$pkg->id}{$node} = $_;
 	    }
 	}
-	close F or $urpm->{fatal}(1, _("rshp failed"));
+	close F or $urpm->{fatal}(1, _("rshp failed, maybe a node is unreacheable"));
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
     } while ($cont);
@@ -111,6 +113,7 @@ sub parallel_install {
 
     $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- ".join(' ', values %$install, values %$upgrade)." $urpm->{cachedir}/rpms/");
     system "mput", split(' ', $parallel->{options}), '--', values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/";
+    $? == 0 || $? == 256 or $urpm->{fatal}(1, _("mput failed, maybe a node is unreacheable"));
 
     local (*F, $_);
     my ($node, %bad_nodes);
@@ -124,7 +127,7 @@ sub parallel_install {
 	/Installation failed/ and $bad_nodes{$node} = '';
 	/Installation is possible|everything already installed/ and delete $bad_nodes{$node};
     }
-    close F or $urpm->{fatal}(1, _("rshp failed"));
+    close F or $urpm->{fatal}(1, _("rshp failed, maybe a node is unreacheable"));
 
     foreach (keys %{$parallel->{nodes}}) {
 	exists $bad_nodes{$_} or next;
