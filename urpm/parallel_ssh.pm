@@ -231,7 +231,7 @@ sub parallel_install {
 	#- continue installation on each nodes.
 	foreach my $node (keys %{$parallel->{nodes}}) {
             $urpm->{ui_msg}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line", urpm::N("Performing install on %s...", $node));
-            $urpm->{ui}{progress}->(0);
+            $urpm->{ui}{progress}->(0) if ref $urpm->{ui}{progress};
 	    open F, "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line |";
             local $/ = \1;
             my $log;
@@ -244,7 +244,7 @@ sub parallel_install {
                     if ($urpm->{ui} && (gettimeofday() - $last_time > 0.15 || length($progress) == 50)) {
                         $urpm->{ui}{msg}->($msg =~ /\d+:(\S+)/ ? urpm::N("Installing %s on %s...", $1, $node)
                                                                : urpm::N("Preparing install on %s...", $node));
-                        $urpm->{ui}{progress}->(length($progress)/50);
+                        $urpm->{ui}{progress}->(length($progress)/50) if ref $urpm->{ui}{progress};
                         $last_time = gettimeofday();
                     }
                 }
