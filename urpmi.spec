@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.4.5
-%define release 10mdk
+%define version	4.5
+%define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -38,7 +38,7 @@ BuildArch:	noarch
 %description
 urpmi takes care of dependencies between rpms, using a pool (or pools) of rpms.
 
-You can compare rpm vs. urpmi  with  insmod vs. modprobe
+You can compare rpm vs. urpmi with insmod vs. modprobe.
 
 %if %{allow_gurpmi}
 %package -n gurpmi
@@ -108,8 +108,10 @@ mkdir -p %{buildroot}%{compat_perl_vendorlib}
 install -m 644 urpm.pm %{buildroot}%{compat_perl_vendorlib}/urpm.pm
 install -m 644 gurpm.pm %{buildroot}%{compat_perl_vendorlib}/gurpm.pm
 mkdir -p %{buildroot}%{compat_perl_vendorlib}/urpm
-install -m 644 urpm/parallel_ka_run.pm %{buildroot}%{compat_perl_vendorlib}/urpm/parallel_ka_run.pm
-install -m 644 urpm/parallel_ssh.pm %{buildroot}%{compat_perl_vendorlib}/urpm/parallel_ssh.pm
+for p in args cfg download msg util parallel_ka_run parallel_ssh
+do
+    install -m 644 urpm/$p.pm %{buildroot}%{compat_perl_vendorlib}/urpm/$p.pm
+done
 mkdir -p %{buildroot}%{_mandir}/man3
 pod2man urpm.pm >%{buildroot}%{_mandir}/man3/urpm.3
 
@@ -206,6 +208,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %lang(ru) %{_mandir}/ru/man?/urpm* 
 %lang(uk) %{_mandir}/uk/man?/urpm* 
 %{compat_perl_vendorlib}/urpm.pm
+%{compat_perl_vendorlib}/urpm/args.pm
+%{compat_perl_vendorlib}/urpm/cfg.pm
+%{compat_perl_vendorlib}/urpm/download.pm
+%{compat_perl_vendorlib}/urpm/msg.pm
+%{compat_perl_vendorlib}/urpm/util.pm
 
 %if %{allow_gurpmi}
 %files -n gurpmi
@@ -243,6 +250,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Apr 26 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-1mdk
+- Refactorization, split code in new modules, minor bugfixes
+
 * Wed Mar 17 2004 Warly <warly@mandrakesoft.com> 4.4.5-10mdk
 - do not display the urpmi internal name when asking for a media insertion 
 (confusing people with extra cdrom1, cdrom2 which does not refer to cdrom but hdlists)

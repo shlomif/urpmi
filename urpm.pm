@@ -9,7 +9,7 @@ use urpm::msg;
 use urpm::download;
 use urpm::util;
 
-$VERSION = '4.4';
+$VERSION = '4.5';
 @ISA = qw(URPM);
 
 use URPM;
