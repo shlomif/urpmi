@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "POT-Creation-Date: 2003-05-08 08:55+0200\n"
-"PO-Revision-Date: 2003-01-15 15:23+0200\n"
+"PO-Revision-Date: 2003-05-08 15:23+0200\n"
 "Last-Translator: Marek Laane <bald@online.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -202,7 +202,7 @@ msgstr "paketi %s paigaldamine ebaõnnestus"
 #: ../urpm.pm:1
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-msgstr ""
+msgstr "paketi %s lisamine (id=%d, eid=%d, uuendus=%d, fail=%s)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -210,20 +210,21 @@ msgid "unable to remove package %s"
 msgstr "paketi %s eemaldamine ebaõnnestus"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "removing package %s"
-msgstr "paketi %s eemaldamine ebaõnnestus"
+msgstr "paketi %s eemaldamine"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create transaction"
-msgstr "andmekandja \"%s\" loomine ebaõnnestus\n"
+msgstr "tehingu loomine ebaõnnestus"
 
 #: ../urpm.pm:1
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
+"tehing %s paigaldamiseks loodud (eemaldus=%d, paigaldus=%d, uuendus=%d)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -286,13 +287,13 @@ msgid "medium \"%s\" does not define any location for rpm files"
 msgstr "andmekandja \"%s\" ei määra ühtegi rpm failide asukohta"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "medium \"%s\" uses an invalid list file:\n"
 "  mirror is problably not up-to-date, trying to use alternate method"
 msgstr ""
-"andmekandja \"%s\" kasutab vigast nimekirjafaili (peegel ei ole võib-olla "
-"uuendatud, proovige mõnda muud meetodit)"
+"andmekandja \"%s\" kasutab vigast nimekirjafaili:\n"
+"  peegel ei ole võib-olla uuendatud, proovige mõnda muud meetodit"
 
 #: ../urpm.pm:1
 #, c-format
@@ -367,7 +368,7 @@ msgstr "vahemälus leiti %d päist"
 #: ../urpm.pm:1
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
-msgstr "loodi hdlist snteesifail andmekandjale \"%s\""
+msgstr "loodi hdlist sünteesifail andmekandjale \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -437,12 +438,12 @@ msgstr "allika hdlisti (või sünteesi) tõmbamine ebaõnnestus"
 #: ../urpm.pm:1
 #, c-format
 msgid "md5sum mismatch"
-msgstr ""
+msgstr "md5sum ei klapi"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr "allika hdlisti (või sünteesi) tõmbamine ebaõnnestus"
+msgstr "tõmmatud allika hdlisti (või sünteesi) md5sum arvutamine"
 
 #: ../urpm.pm:1
 #, c-format
@@ -460,9 +461,9 @@ msgid "examining MD5SUM file"
 msgstr "MD5SUM faili uurimine"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of existing source hdlist (or synthesis)"
-msgstr "\"%s\" allika hdlisti (või sünteesi) kopeerimine..."
+msgstr "olemasoleva allika hdlisti (või sünteesi) md5sum arvutamine"
 
 #: ../urpm.pm:1
 #, c-format
@@ -505,9 +506,9 @@ msgid "copy of [%s] failed"
 msgstr "[%s] kopeerimine ebaõnnestus"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
-msgstr "\"%s\" allika hdlisti (või sünteesi) kopeerimine..."
+msgstr "kopeeritud allika hdlisti (või sünteesi) md5sum arvutamine"
 
 #: ../urpm.pm:1
 #, c-format
@@ -535,7 +536,7 @@ msgid "\"%s\""
 msgstr "\"%s\""
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "püüti valida olematut andmekandjat \"%s\""
 
@@ -579,9 +580,9 @@ msgid "medium \"%s\" already exists"
 msgstr "andmekandja \"%s\" on juba olemas"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid "skipping package %s"
-msgstr "paketti nimega %s ei ole"
+msgstr "pakett %s jäetakse vahele"
 
 #: ../urpm.pm:1
 #, c-format
@@ -589,12 +590,13 @@ msgid "problem reading hdlist file of medium \"%s\""
 msgstr "probleem andmekandja \"%s\" hdlist faili lugemisel"
 
 #: ../urpm.pm:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
 "update or --parallel"
 msgstr ""
-"võtit --synthesis ei saa kasutada võtmega --media, --update või --parallel"
+"võtit --synthesis ei saa kasutada võtmega --media, --excludemedia, --"
+"sortmedia, --update või --parallel"
 
 #: ../urpm.pm:1
 #, c-format
@@ -679,7 +681,7 @@ msgstr "püütakse vältida olemasolevat andmekandjat \"%s\""
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
-msgstr "ligipääs \"%s\" nimekirjafailie ebaõnnestus, andmekandjat eiratakse"
+msgstr "ligipääs \"%s\" nimekirjafailile ebaõnnestus, andmekandjat eiratakse"
 
 #: ../urpm.pm:1
 #, c-format
@@ -793,7 +795,7 @@ msgstr "ei leitud ühtegi veebitõmbajat (praegu curl või wget)\n"
 #: ../urpm.pm:1
 #, c-format
 msgid "unknown protocol defined for %s"
-msgstr "Tundmatu protokoll %s jaoks"
+msgstr "tundmatu protokoll %s jaoks"
 
 #: ../urpm.pm:1
 #, c-format
@@ -951,53 +953,49 @@ msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -i             - tõstutundetu igas olukorras.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-msgstr ""
-"  --obsoletes     - näitab välja obsoletes: kõik iganenud (mitu rida).\n"
+msgstr "  --obsoletes     - näitab välja obsoletes: kõik iganenud.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr ""
-"  --conflicts     - näitab välja conflicts: kõik konfliktid (mitu rida).\n"
+msgstr "  --conflicts     - näitab välja conflicts: kõik konfliktid.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --files        - print tag files: all files.\n"
-msgstr "  --files         - näitab välja files: kõik failid (mitu rida).\n"
+msgstr "  --files         - näitab välja files: kõik failid.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --requires     - print tag requires: all requires.\n"
-msgstr ""
-"  --requires      - näitab välja requires: kõik nõutavad (mitu rida).\n"
+msgstr "  --requires      - näitab välja requires: kõik nõutavad.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --provides     - print tag provides: all provides.\n"
-msgstr ""
-"  --provides      - näitab välja provides: kõik pakutavad (mitu rida).\n"
+msgstr "  --provides      - näitab välja provides: kõik pakutavad.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --url          - print tag url: url.\n"
-msgstr "  --serial        - näitab välja serial: seerianumber."
+msgstr "  --url        - näitab välja urk: url.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --files         - näitab välja files: kõik failid (mitu rida).\n"
+msgstr "  --buildhost         - näitab välja buildhost: valmistajamasin.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --packager     - print tag packager: packager.\n"
-msgstr "  --group         - näitab välja group: grupp.\n"
+msgstr "  --packager         - näitab välja packager: paketi valmistaja.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print tag sourcerpm: source rpm.\n"
-msgstr "  --group         - näitab välja group: grupp.\n"
+msgstr "  --sourcerpm         - näitab välja sourcerpm: lähtekoodi rpm.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -1040,9 +1038,9 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - näitab kõiki välju.\n"
 
 #: ../urpmf:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --uniq         - do not print identical lines.\n"
-msgstr "  --size          - näitab välja size: suurus.\n"
+msgstr "  --uniq          - ei näidata ühesuguseid ridu.\n"
 
 #: ../urpmf:1
 #, c-format
@@ -1066,18 +1064,18 @@ msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
 msgstr "  --synthesis    - sünteesi kasutamine urpmi andmebaasi asemel.\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
-"  --media        - ainult määratud andmekandja(te) kasutamine (eraldajaks "
-"koma).\n"
+"  --sortmedia        - andmekandja(te) sortimine alamstringide põhjal "
+"(eraldajaks koma).\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr ""
-"  --media        - ainult määratud andmekandja(te) kasutamine (eraldajaks "
+"  --excludemedia        - ei kasutata määratud andmekandjaid (eraldajaks "
 "koma).\n"
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
@@ -1112,7 +1110,7 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "Everything already installed"
-msgstr "kõik on juba paigaldatud"
+msgstr "Kõik on juba paigaldatud"
 
 #: ../urpmi:1 ../urpm/parallel_ka_run.pm:1 ../urpm/parallel_ssh.pm:1
 #, c-format
@@ -1501,13 +1499,13 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "andmekandja \"%s\" loomine ebaõnnestus\n"
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "`with' missing for network media\n"
 msgstr ""
 "%s\n"
-"`with' puudub ftp-andmekandja jaoks\n"
+"`with' puudub võrguandmekandja jaoks\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1604,25 +1602,23 @@ msgstr ""
 "  --distrib      - loob automaatselt kõik andmekandjad paigalduskohalt.\n"
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --no-probe     - do not try to find any synthesis or\n"
 "                   hdlist file.\n"
 msgstr ""
-"  -h             - püüab leida ja kasutada sünteesi-\n"
+"  --no.probe             - ei püüta kasutada sünteesi-\n"
 "                   või hdlist-faili.\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
-msgstr ""
+msgstr "  --probe-hdlist - püütakse kasutada hdlist-faili.\n"
 
 #: ../urpmi.addmedia:1
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-synthesis - try to find and use synthesis file.\n"
-msgstr ""
-"  -h             - püüab leida ja kasutada sünteesi-\n"
-"                   või hdlist-faili.\n"
+msgstr "  --probe-synthesis             - püütakse kasutada sünteesifaili.\n"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1752,9 +1748,10 @@ msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - näitab koos nimega ka gruppi.\n"
 
 #: ../urpmq:1
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print usefull information in human readeable form.\n"
-msgstr "  -r             - näitab koos nimega ka versiooni ja väljalaset.\n"
+msgstr ""
+"  -i             - näitab kasulikku infot ka inimesele arusaadaval kujul.\n"
 
 #: ../urpmq:1
 #, c-format
