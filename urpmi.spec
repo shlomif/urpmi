@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.6.23
-%define release 1mdk
+%define release 2mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -236,6 +236,9 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Mar 11 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.23-2mdk
+- error checking was sometimes not enough forgiving
+
 * Thu Mar 10 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.23-1mdk
 - new urpmi option, --retry
 - better system error messages
