@@ -19,11 +19,12 @@ Where <\fIname\fP> is your reference for the media (e.g. MandrakeUpdate).
 <\fIhost\fP>/<\fIpath\fP> is the location of the rpm directory on the net.
 .br
 <\fIrelative path of hdlist\fP> is the pathname where to find the hdlist of the rpms. The location is given relative to <\fIpath\fP>.
-.PP
-ftp:
 .br
 .IP "\fB    urpmi.addmedia <\fIname\fP> ftp://<\fIlogin\fP>:<\fIuser\fP>@<\fIhost\fP>/<\fIpath\fP> with <\fIrelative path of hdlist\fP>\fP"
 The same as for http, just add your login and user if required (Note that you needn't to specify anonymous as login for anonymous access ftp servers).
+.nf
+eg: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist
+.fi
 .PP
 Local drive or NFS:
 .br

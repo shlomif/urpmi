@@ -36,7 +36,7 @@ open STDERR, "|tee -a /var/log/urpmi.log" or die;
 select STDERR; $| = 1;     # make unbuffered
 select STDOUT; $| = 1;     # make unbuffered
 
-open F, $depsfile or die "missing dependencies file ($depsfile)";
+open F, $depsfile or die "run urpmi.addmedia first\n";
 foreach (<F>) {
     my ($pack, $size, $deps) = /(\S+)\s+(\S+)\s+(.*)/ or die("urpmi: bad format file $depsfile\n");
     $size{$pack} = $size;
