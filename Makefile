@@ -21,6 +21,7 @@ install: autoirpm.update-all
 	install -m 0755 urpmq $(BINDIR)
 	install _irpm rpm-find-leaves urpmf $(BINDIR)
 	install -m 644 autoirpm.deny $(URPMIDIR2)
+	install -m 644 skip.list $(URPMIDIR2 )
 	install -m 644 *.8 $(MANDIR)/man8
 	install urpme urpmi.addmedia urpmi.update urpmi.removemedia autoirpm.update autoirpm.uninstall $(SBINDIR)
 	install -s autoirpm.update-all $(SBINDIR)

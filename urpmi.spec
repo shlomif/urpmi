@@ -90,6 +90,7 @@ autoirpm.uninstall
 %attr(0755, root, urpmi) %dir /var/cache/urpmi/headers
 %attr(0755, root, urpmi) %dir /var/cache/urpmi/rpms
 %attr(4750, root, urpmi) %{_bindir}/urpmi
+%config(noreplace) /etc/urpmi/skip.list
 %{_bindir}/urpmi_rpm-find-leaves
 %{_bindir}/urpmf
 %{_bindir}/urpmq
