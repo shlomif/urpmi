@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 26mdk
+Release: 27mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -114,6 +114,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Apr  3 2001 François Pons <fpons@mandrakesoft.com> 1.5-27mdk
+- added better error management.
+- fixed some typo for cache management (creating /partial).
+
 * Tue Mar 27 2001 François Pons <fpons@mandrakesoft.com> 1.5-26mdk
 - added --WID=id
 - let grpmi make the upload of packages.

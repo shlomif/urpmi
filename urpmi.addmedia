@@ -48,7 +48,7 @@ where <url> is one of
 	$dev && -e "/dev/$dev" or die(sprintf _("%s\ndevice `%s' do not exist\n"), $usage, $dev);
     } elsif ($with eq "with") {
 	$relative_hdlist or die(sprintf _("%s\n<relative path of hdlist> missing\n"), $usage);
-    } elsif ($with) {
+    } elsif ($ftp) {
 	$with eq "with" or die(sprintf _("%s\n`with' missing for ftp media\n"), $usage);
     }
 
@@ -57,6 +57,11 @@ where <url> is one of
     $urpm->read_config;
     $urpm->add_medium($name, $url, $relative_hdlist);
     $urpm->update_media;
+
+    #- check creation of media (during update has been successfull)
+    my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
+    $medium or die(sprintf _("unable to create medium \"%s\"\n"), $name);
+    $medium->{modified} and die(sprintf _("unable to update medium \"%s\"\n"), $name);
 }
 
 main(@ARGV);

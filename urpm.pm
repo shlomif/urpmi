@@ -66,6 +66,7 @@ sub new {
 	   media      => undef,
 	   params     => new rpmtools,
 
+	   fatal      => sub { die(sprintf "%s\n", $_[0]) },
 	   error      => sub { printf STDERR "%s\n", $_[0] },
 	   log        => sub { printf STDERR "%s\n", $_[0] },
 	  }, $class;
@@ -238,7 +239,7 @@ sub write_config {
     $urpm->{media} or return;
 
     local *F;
-    open F, ">$urpm->{config}" or $urpm->{error}("unable to write config file [$urpm->{config}]");
+    open F, ">$urpm->{config}" or $urpm->{fatal}("unable to write config file [$urpm->{config}]");
     foreach my $medium (@{$urpm->{media}}) {
 	printf F "%s %s {\n", quotespace($medium->{name}), quotespace($medium->{clear_url});
 	foreach (qw(hdlist with_hdlist list removable)) {
@@ -266,7 +267,7 @@ sub add_medium {
     foreach (@{$urpm->{media}}) {
 	$_->{name} eq $2 and $medium = $_;
     }
-    $medium and $urpm->{error}("medium \"$medium\" already exists"), return;
+    $medium and $urpm->{fatal}("medium \"$medium\" already exists");
 
     #- creating the medium info.
     $medium = { name     => $name,
@@ -305,7 +306,7 @@ sub add_medium {
     push @{$urpm->{media}}, $medium;
 
     #- keep in mind the database has been modified and base files need to be updated.
-    $urpm->{modified} = 1;
+    #- this will be done automatically by transfering modified flag from medium to global.
 }
 
 sub remove_media {
@@ -319,6 +320,7 @@ sub remove_media {
 
 	    #- remove file associated with this medium.
 	    #- this is the hdlist and the list files.
+	    unlink "$urpm->{statedir}/synthesis.$_->{hdlist}";
 	    unlink "$urpm->{statedir}/$_->{hdlist}";
 	    unlink "$urpm->{statedir}/$_->{list}";
 	} else {
@@ -463,6 +465,8 @@ sub update_media {
 	      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
 	    system("wget", "-NP", "$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
 	    $? == 0 or $error = 1, $urpm->{error}("wget of [<source_url>/$medium->{with_hdlist}] failed (maybe wget is missing?)");
+	    -s "$urpm->{cachedir}/partial/$basename" or
+	      $error = 1, $urpm->{error}("wget of [<source_url>/$medium->{with_hdlist}] failed");
 	    unless ($error) {
 		my @sstat = stat "$urpm->{cachedir}/partial/$basename";
 		my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
@@ -479,6 +483,11 @@ sub update_media {
 	}
 
 	#- build list file according to hdlist used.
+	unless (-s "$urpm->{cachedir}/partial/$medium->{hdlist}") {
+	    $error = 1;
+	    $urpm->{error}("no hdlist file found for medium \"$medium->{name}\"");
+	}
+
 	#- make sure group and other does not have any access to this file.
 	unless ($error) {
 	    #- sort list file contents according to depslist.ordered file.
@@ -495,8 +504,11 @@ sub update_media {
 		    /\/([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
 		    $list{"$medium->{url}/$_"} = ($urpm->{params}{info}{$1} || { id => 1000000000 })->{id};
 		}
-		close F;
+		close F or $error = 1, $urpm->{error}("unable to parse hdlist file of \"$medium->{name}\"");
 	    }
+
+	    #- check there is something found.
+	    %list or $error = 1, $urpm->{error}("nothing to write in list file for \"$medium->{name}\"");
 
 	    #- write list file.
 	    local *LIST;
@@ -579,7 +591,7 @@ sub update_media {
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
 		$urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
-		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
+		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
 		eval {
 		    local *F;
 		    open F, "| gzip >'$urpm->{statedir}/synthesis.$medium->{hdlist}'";
@@ -606,7 +618,7 @@ sub update_media {
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{ignore} and next;
 		$urpm->{log}("reading hdlist file [$urpm->{statedir}/$medium->{hdlist}]");
-		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
+		$urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}") or next;
 		$urpm->{log}("computing dependancy");
 		$urpm->{params}->compute_depslist();
 	    }
@@ -717,17 +729,17 @@ sub write_base_files {
     my ($urpm) = @_;
     local *F;
 
-    open F, ">$urpm->{depslist}" or $urpm->{error}("unable to write depslist file [$urpm->{depslist}]");
+    open F, ">$urpm->{depslist}" or $urpm->{fatal}("unable to write depslist file [$urpm->{depslist}]");
     $urpm->{params}->write_depslist(\*F);
     close F;
     $urpm->{log}("write depslist file [$urpm->{depslist}]");
 
-    open F, ">$urpm->{provides}" or $urpm->{error}("unable to write provides file [$urpm->{provides}]");
+    open F, ">$urpm->{provides}" or $urpm->{fatal}("unable to write provides file [$urpm->{provides}]");
     $urpm->{params}->write_provides(\*F);
     close F;
     $urpm->{log}("write provides file [$urpm->{provides}]");
 
-    open F, ">$urpm->{compss}" or $urpm->{error}("unable to write compss file [$urpm->{compss}]");
+    open F, ">$urpm->{compss}" or $urpm->{fatal}("unable to write compss file [$urpm->{compss}]");
     $urpm->{params}->write_compss(\*F);
     close F;
     $urpm->{log}("write compss file [$urpm->{compss}]");

@@ -39,7 +39,12 @@ sub main {
 	/^--?c/ and $options{noclean} = 0, next;
 	/^--?f/ and $options{force} = 1, next;
 	/^--?noa/ and next; #- default, keeped for compability.
-	/^-/ and die sprintf(_("unknown options \"%s\"\n"), $_);
+	/^-/ and die sprintf(
+_("usage: urpmi.update [-a] <name> ...
+where <name> is a medium name to update.
+   -a    select all non-removable media.
+
+unknown options \"%s\"\n"), $_);
 	push @toupdates, $_;
     }
 
