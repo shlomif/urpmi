@@ -2494,7 +2494,7 @@ sub shlock_urpmi_db {
     flock LOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 sub unlock_urpmi_db {
-    my ($_urpm) = @_;
+    my ($urpm) = @_;
 
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my $LOCK_UN = 8;
