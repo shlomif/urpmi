@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 27mdk
+Release: 28mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Thu Aug 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-28mdk
+- fixed transaction number restarting at 1 in split mode.
+- updated C and fr man pages.
+- added urpme man page.
+
 * Thu Aug 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-27mdk
 - update /var/lib/urpmi/MD5SUM for managing md5sum of files.
 - make sure cwd is changed when downloading to cache directory.
