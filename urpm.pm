@@ -193,7 +193,7 @@ sub probe_medium {
 	  $medium->{ignore} = 1, $urpm->{error}("unable to find hdlist file for \"$medium->{name}\", medium ignored");
     }
     unless ($medium->{ignore} || $medium->{list}) {
-	$medium->{list} = "list.$1";
+	$medium->{list} = "list.$medium->{name}";
 	-e "$urpm->{statedir}/$medium->{list}" or
 	  $medium->{ignore} = 1, $urpm->{error}("unable to find list file for \"$medium->{name}\", medium ignored");
     }
