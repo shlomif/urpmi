@@ -5,18 +5,17 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-02-17 15:50+0100\n"
+"POT-Creation-Date: 2001-03-06 03:18+0100\n"
 "PO-Revision-Date: 2000-05-15 18:58+0200\n"
-"Last-Translator: Aiet Kolkhi <aiet@gmx.net>, 2000\n"
+"Last-Translator: Aiet Kolkhi <aiet@gmx.net>\n"
 "Language-Team: Georgian\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: _irpm:21
-#, fuzzy
 msgid "installing $rpm\n"
-msgstr "ვაინსტალირებ: %s\n"
+msgstr "ვაინსტალირებ: $rpm\n"
 
 #: _irpm:31
 msgid ""
@@ -24,29 +23,29 @@ msgid ""
 "You requested installation of package $rpm\n"
 msgstr ""
 
-#: _irpm:31 urpmi:204
+#: _irpm:31 urpmi:228
 msgid "Is it ok?"
 msgstr "თანახმა ხართ?"
 
-#: _irpm:33 urpmi:207 urpmi:232
+#: _irpm:33 urpmi:231 urpmi:256
 msgid "Ok"
 msgstr "ო-ქეი"
 
-#: _irpm:34 urpmi:208 urpmi:233
+#: _irpm:34 urpmi:232 urpmi:257
 msgid "Cancel"
 msgstr "გამოქცევა"
 
-#: _irpm:40 urpmi:212 urpmi:261
+#: _irpm:40 urpmi:236 urpmi:286
 msgid "Nn"
 msgstr "nNaAა"
 
-#: _irpm:41 urpmi:213 urpmi:262
+#: _irpm:41 urpmi:237 urpmi:287
 msgid "Yy"
 msgstr "yYkKxXხ"
 
-#: _irpm:42 urpmi:214
+#: _irpm:42 urpmi:238
 msgid " (Y/n) "
-msgstr " (ხ/ა) "
+msgstr " (ხ/ა) [ხ] "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
@@ -77,13 +76,15 @@ msgid ""
 "  --best-output    - choose best interface according to the environment:\n"
 "                     X or text mode.\n"
 "  -a               - select all matches on command line.\n"
+"  -m               - choose minimum closure of requires (default).\n"
+"  -M               - choose maximun closure of requires.\n"
 "  -c               - choose complete method for resolving requires closure.\n"
 "  -q               - quiet mode.\n"
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
 
-#: placeholder.h:26
+#: placeholder.h:28
 msgid ""
 "usage: urpmi.addmedia <name> <url>\n"
 "where <url> is one of\n"
@@ -95,71 +96,71 @@ msgid ""
 "       removable_<device>://<path>\n"
 msgstr ""
 
-#: placeholder.h:35 urpmi.addmedia:52
+#: placeholder.h:37 urpmi.addmedia:52
 #, c-format
 msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
 
-#: placeholder.h:39 urpmi.addmedia:48
+#: placeholder.h:41 urpmi.addmedia:48
 #, c-format
 msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
 
-#: placeholder.h:43 urpmi.addmedia:50
+#: placeholder.h:45 urpmi.addmedia:50
 #, c-format
 msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
 
-#: placeholder.h:47 urpmi.update:52
+#: placeholder.h:49 urpmi.update:52
 #, c-format
 msgid ""
-"missing the entry to update\n"
+"the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
 
-#: placeholder.h:51 urpmi.removemedia:49
+#: placeholder.h:53 urpmi.removemedia:49
 #, c-format
 msgid ""
-"missing the entry to remove\n"
+"the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
 
-#: urpmi:56
+#: urpmi:55
 #, c-format
 msgid "urpmi version %s"
 msgstr ""
 
-#: urpmi:120
+#: urpmi:140
 msgid "Only superuser is allowed to install local packages"
 msgstr ""
 "მხოლოდ სრულუფლებიან "
 "მომხმარებელს აქვს უფლება \n"
 "ჩაწეროს პაკეტები."
 
-#: urpmi:162
+#: urpmi:171
 msgid "One of the following packages is needed:"
 msgstr ""
 "ერთერთი შემდეგი პაკეტი "
 "საჭიროა:"
 
-#: urpmi:170
+#: urpmi:179
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "თქვენი არჩევანი? (1-%d) "
 
-#: urpmi:173
+#: urpmi:182
 msgid "Sorry, bad choice, try again\n"
 msgstr ""
 "ცუდი არჩევანია, კიდევ "
 "სცადეთ\n"
 
-#: urpmi:203
+#: urpmi:227
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -169,44 +170,42 @@ msgstr ""
 "შესასრულებლად შემდეგი "
 "პაკეტები ჩაიწერება (%d მბ)"
 
-#: urpmi:229
+#: urpmi:253
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "გთხოვთ ჩადოთ: %s სახელით: %s"
 
-#: urpmi:230
+#: urpmi:254
 msgid "Press enter when it's done..."
 msgstr ""
 "გთხოვთ დაგვიდასტუროთ Enter "
 "ღილაკზე დაჭერით..."
 
-#: urpmi:243
+#: urpmi:267
 msgid "everything already installed"
 msgstr "უკვე ყველაფერი ჩაწერილია"
 
-#: urpmi:252
+#: urpmi:277
 #, c-format
 msgid "installing %s\n"
 msgstr "ვაინსტალირებ: %s\n"
 
-#: urpmi:256 urpmi:268
+#: urpmi:281 urpmi:293
 msgid "Installation failed"
 msgstr "ინსტალაცია ჩაიშალა"
 
-#: urpmi:263
-msgid "Try installation without checking dependencies? (Y/n) "
+#: urpmi:288
+msgid "Try installation without checking dependencies? (y/N) "
 msgstr ""
 "გნებავთ ვცადე ჩაწერა "
 "დამოკიდებულებების "
-"შემოწმების გარეშე?"
-" (ხ/ა) "
+"შემოწმების გარეშე? (ხ/ა) [ა] "
 
-#: urpmi:269
-msgid "Try installation even more strongly (--force)? (Y/n) "
+#: urpmi:294
+msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr ""
 "გნებავთ ვცადო ჩაწერა ძალით "
-"(--force)?"
-" (ხ/ა) "
+"(--force)? (ხ/ა) [ა] "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
@@ -225,26 +224,26 @@ msgstr ""
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
 
-#: urpmq:44
+#: urpmq:46
 #, c-format
 msgid "urpmq version %s"
 msgstr ""
 
-#: urpmq:81
+#: urpmq:92
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
 msgstr ""
 
-#: urpmq:83
+#: urpmq:94
 msgid "urpmq: cannot read rpm file \"$_\"\n"
 msgstr ""
 
-#: urpmq:119
+#: urpmq:133
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
 
-#: urpmq:132
+#: urpmq:155
 msgid "unable to get source packages, aborting"
 msgstr ""
 
