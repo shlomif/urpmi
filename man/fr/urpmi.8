@@ -1,3 +1,4 @@
+.\" Relecture Gérard Delafond
 .TH urpmi 8 "4 Jun 2002" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NOM
@@ -5,7 +6,7 @@ urpmi \- interface rpm pour simplifier les installations
 .SH SYNOPSIS
 .B urpmi [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
-urpmi autorise les rpms bien connus (ou les fichier .rpm) à être installés ainsi
+urpmi autorise les rpms bien connus (ou les fichiers .rpm) à être installés ainsi
 que leurs dépendances.
 Vous pouvez l'utiliser pour installer les dépendances d'un paquetage source en
 tant que super-utilisateur (root) ou le paquetage source lui même en tant que
@@ -14,7 +15,7 @@ simple utilisateur.
 En fait, rpm est à urpmi ce que insmod est à modprobe, ou dpkg à apt-get.
 .PP
 Lancez urpmi suivi de ce que vous pensez être le nom du/des paquetages(s),
-et urpmi :
++ et urpmi\ :
 .br
 \- Proposera des noms de paquetages possibles s'ils existent, et quittera.
 .br
@@ -26,7 +27,7 @@ toutes les dépendances nécessaires après acceptation, puis le paquetage voulu.
 .PP
 Veuillez noter que urpmi gère les installations à partir de divers médias (ftp,
 http, volumes nfs et locaux, médias amovibles commes les cédéroms), et peut
-installer les dépendances à partir d'un média différent du médium du paquetage.
+installer les dépendances à partir d'un médium différent du médium du paquetage.
 Si nécessaire, urpmi vous demandera d'insérer le médium nécessaire.
 .PP
 Pour ajouter un nouveau médium contenant des rpms, lancez urpmi.addmedia.
@@ -46,10 +47,10 @@ autoirpm-icons.
 affiche un message d'aide et quitte (identique à \fB-h\fP ou \fB-?\fP).
 .IP "\fB\--update\fP"
 utilise seulement des médias de mise à jour. Cela signifie que \fBurpmi\fP
-ne recherchera et ne résoudra les dépendances que sur les médias marqués comme
-mises à jour.
+ne recherchera et ne résoudra les dépendances que sur les média marqués comme
+mis à jour.
 .IP "\fB\--media\fP"
-sélectionne les media donnée plutôt que tous les media disponibles.
+sélectionne les media donnés plutôt que tous les media disponibles.
 .IP "\fB\--auto\fP"
 installe toutes les dépendances nécessaires sans rien demander.
 .IP "\fB\--auto-select\fP"
@@ -58,12 +59,12 @@ selon les paquetages déjà installés et les paquetages listés dans les divers
 médias enregistrés.
 .IP "\fB\--fuzzy\fP"
 désactive la recherche rapide sur un nom de paquetage exact et propose tous les
-noms de paquetage correspondant au paramètre donnée (identique à \fB-y\fP).
+noms de paquetages correspondants au paramètre donné (identique à \fB-y\fP).
 .IP "\fB\--src\fP"
 le prochain nom de paquetage est considéré comme étant un nom de paquetage
 source.
 .IP "\fB\--noclean\fP"
-ne suprime aucun paquetages du cache (/var/cache/urpmi/rpms).
+ne suprime aucun paquetage du cache (/var/cache/urpmi/rpms).
 .IP "\fB\--complete\fP"
 utilise le serveur parsehdlist pour étendre la recherche de paquetages à mettre
 à jour au moyen de \fB--auto-select\fP (ne doit pas être nécessaire dans la
@@ -108,7 +109,7 @@ Il y a une liste de fichiers par médium(*).
 /var/lib/urpmi/hdlist.*
 .br
 Contient l'information sur tous les paquetages connus, c'est un résumé des
-entêtes de rpm.
+en-têtes de rpm.
 Il y a un fichier hdlist par médium(*).
 .PP
 /var/lib/urpmi/synthesis.hdlist.*
