@@ -96,13 +96,16 @@ umask $mask;
 if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
     my $hdlist = '';
     my $flush = sub {};
-    if (-e (my $f = "$dir/Mandrake/base/hdlist")) {
-	system("gzip -f $f > $HDLIST.gz");
+    if (-e (my $f = "$dir/Mandrake/base/hdlist.gz")) {
+	system("cp -f $f $HDLIST.gz");
+    } elsif (-e (my $f = "$dir/Mandrake/base/hdlist")) {
+	system("gzip -cf $f > $HDLIST.gz");
     } else {
 	$flush = sub { system("rpm2header $hdlist | gzip >> $HDLIST.gz") if $hdlist };
     }
     print "scanning $dir...";
-    open F, "find $dir -follow -name '*.rpm'|";
+    my $realdir = readlink($dir) || $dir;
+    open F, "find '$realdir' -name '*.rpm'|";
     foreach (<F>) {
 	chomp;
 	if (length "$hdlist $_" > 1500) {
@@ -119,12 +122,12 @@ if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
 } else {
     system("wget -O $HDLIST $url/$ftp_hdlist");
     $? == 0 or die "wget of $url/$ftp_hdlist failed (maybe wget is missing?)";
-    open F, "hdlist2files $HDLIST|";
+    open F, "hdlist2names $HDLIST|";
     foreach (<F>) {
 	chomp;
 	print LIST "$url/$_\n";
     }
-    close F or die "hdlist2files failed";
+    close F or die "hdlist2names failed";
 }
 close LIST;
 

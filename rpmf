@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ "$#" -gt 1 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+    echo "usage: rpmf [<file>]"
+    exit 1
+fi
+
+hdlist="/var/lib/urpmi/hdlist.*.gz"
+
+if ! ls $hdlist >/dev/null 2>/dev/null; then
+    echo "urpmi is not installed"
+    exit 1
+fi
+
+if [ -z "$1" ]; then
+	gzip -dc $hdlist | hdlist2files -
+else
+	gzip -dc $hdlist | hdlist2files - | grep $1
+fi

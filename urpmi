@@ -85,7 +85,7 @@ if (!$auto and difference2(\@to_install, \@packages)) {
 	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
 	$? and exit 0;
     } else {
-	print SAVEOUT "$msg:\n@to_install\n$msg2 (y/n) ";
+	print SAVEOUT "$msg:\n@to_install\n$msg2 (y/N) ";
 	<STDIN> =~ /y/i or exit 0;
     }
 }
