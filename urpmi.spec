@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.12
+%define version	4.6.13
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -232,6 +232,14 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue Jan 25 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.13-1mdk
+- urpme now dies when not run as root
+- improve error reporting in urpmi-parallel
+- perl-base is no longer a priority upgrade by default
+- factor code in gurpmi.pm; gurpmi now supports the --no-verify-rpm option
+- "urpmi --gui" will now ask with a GUI popup to change media. Intended to be
+  used with --auto (so other annoying dialogs are not shown).
+
 * Wed Jan 19 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.12-1mdk
 - perl-base is now a priority upgrade by default
 - gurpmi has been split in two programs, so users can save rpms without being root
