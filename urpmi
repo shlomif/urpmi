@@ -259,6 +259,7 @@ my @sources = $urpm->upload_source_packages($local_sources, $list, 'force_local'
 						if ($X) {
 						    my $ok = _("Ok");
 						    my $cancel = _("Cancel");
+						    $msg =~ s/"/\\"/g;
 						    `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
 						    !$?;
 						} else {
