@@ -372,7 +372,7 @@ if (%{$state->{ask_unselect} || {}}) {
 	if ($X) {
 	    my $ok = _("Ok");
 	    my $cancel = _("Cancel");
-	    `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
+	    `gmessage -default "$ok" -buttons "$ok:0,$cancel:2" "$msg"`;
 	    $? and exit 0;
 	} else {
 	    $noexpr = _("Nn");
@@ -414,7 +414,7 @@ if (%{$state->{ask_remove} || {}}) {
 	if ($X) {
 	    my $ok = _("Ok");
 	    my $cancel = _("Cancel");
-	    `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
+	    `gmessage -default "$ok" -buttons "$ok:0,$cancel:2" "$msg"`;
 	    $? and exit 0;
 	} else {
 	    $noexpr = _("Nn");
@@ -463,7 +463,7 @@ if (@root_only) {
     if ($X) {
 	my $ok = _("Ok");
 	my $cancel = _("Cancel");
-	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
+	`gmessage -default "$ok" -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
 	$? and exit 0;
     } else {
 	$noexpr = _("Nn");
@@ -506,7 +506,7 @@ my %sources = $urpm->download_source_packages($local_sources, $list,
 						      my $ok = _("Ok");
 						      my $cancel = _("Cancel");
 						      $msg =~ s/"/\\"/g;
-						      `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
+						      `gmessage -default "$ok" -buttons "$ok:0,$cancel:2" "$msg"`;
 						      !$?;
 						  } else {
 						      defined message_input("$msg\n$msg2 ");
@@ -532,7 +532,7 @@ if ($urpm->{options}{'verify-rpm'}) {
 	    if ($X) {
 		my $ok = _("Ok");
 		my $cancel = _("Cancel");
-		`gmessage -default $cancel -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
+		`gmessage -default "$cancel" -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
 		$? and exit 1;
 	    } else {
 		$noexpr = _("Nn");
@@ -660,7 +660,8 @@ sub log_it {
 sub message {
     my ($msg, $noX) = @_;
     if ($X && !$noX && !$auto) {
-	`gmessage -default Ok -buttons Ok "$msg"`;
+	my $ok = _("Ok");
+	`gmessage -default "$ok" -buttons "$ok" "$msg"`;
 	$bug and log_it($msg);
     } else {
 	if ($bug) {
@@ -674,7 +675,8 @@ sub message_input {
     my ($msg, $default_input) = @_;
 
     if ($X && !default_input) { #- if a default input is given, the user doesn't have to choose (and being asked).
-	`gmessage -default Ok -buttons Ok "$msg"`;
+	my $ok = _("Ok");
+	`gmessage -default "$ok" -buttons "$ok" "$msg"`;
 	$bug and log_it($msg);
     } else {
 	if ($bug) {
