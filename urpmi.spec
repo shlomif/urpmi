@@ -237,7 +237,8 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 %changelog
 * Mon Jan 12 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.1-1mdk
-- add ability to cancel packages downloads (subsubversion increase)
+- add ability to cancel packages downloads from within rpmdrake
+  (subsubversion increase)
 - don't explicitely provide perl(urpm) and perl(gurpm), it's unneeded
 
 * Fri Jan 09 2004 Warly <warly@mandrakesoft.com> 4.4-52mdk 
