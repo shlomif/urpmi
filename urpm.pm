@@ -3,7 +3,7 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA);
 
-$VERSION = '1.30';
+$VERSION = '1.40';
 
 =head1 NAME
 
@@ -61,6 +61,7 @@ sub new {
 	   provides   => "/var/lib/urpmi/provides",
 	   compss     => "/var/lib/urpmi/compss",
 	   statedir   => "/var/lib/urpmi",
+	   cachedir   => "/var/cache/urpmi",
 	   media      => undef,
 	   params     => new rpmtools,
 
@@ -362,6 +363,10 @@ sub select_media {
 #- update urpmi database regarding the current configuration.
 #- take care of modification and try some trick to bypass
 #- computational of base files.
+#- allow options :
+#-   all     -> all medium are rebuilded
+#-   force   -> try to force rebuilding from rpms files.
+#-   noclean -> keep header directory cleaned.
 sub update_media {
     my ($urpm, %options) = @_; #- do not trust existing hdlist and try to recompute them.
 
@@ -374,7 +379,7 @@ sub update_media {
     foreach my $medium (@{$urpm->{media}}) {
 	#- take care of modified medium only or all if all have to be recomputed.
 	$medium->{ignore} and next;
-	$options{all} || $medium->{modified} or next;
+	$medium->{modified} ||= $options{all} or next;
 
 	#- list of rpm files for this medium, only available for local medium where
 	#- the source hdlist is not used (use force).
@@ -389,9 +394,23 @@ sub update_media {
 
 	    #- if the source hdlist is present and we are not forcing using rpms file
 	    if (!$options{force} && $medium->{with_hdlist} && -e "$dir/$medium->{with_hdlist}") {
-		system("cp", "-f", "$dir/$medium->{with_hdlist}", "$urpm->{statedir}/.$medium->{hdlist}");
-		-s "$urpm->{statedir}/.$medium->{hdlist}"
+		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		system("cp", "-a", "$dir/$medium->{with_hdlist}", "$urpm->{cachedir}/partial/$medium->{hdlist}");
+		
+		-s "$urpm->{cachedir}/partial/$medium->{hdlist}"
 		  or $error = 1, $urpm->{error}("copy of [$dir/$medium->{with_hdlist}] failed");
+
+		#- check if the file are equals...
+		unless ($error) {
+		    my @sstat = stat "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		    my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
+		    if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
+			#- the two files are considered equal here, the medium is so not modified.
+			$medium->{modified} = 0;
+			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+			next;
+		    }
+		}
 	    } else {
 		#- try to find rpm files, use recursive method, added additional
 		#- / after dir to make sure it will be taken into account if this
@@ -401,15 +420,39 @@ sub update_media {
 		#- check files contains something good!
 		if (@files > 0) {
 		    #- we need to rebuild from rpm files the hdlist.
-		    $urpm->{params}->build_hdlist("$urpm->{statedir}/.$medium->{hdlist}", @files);
+		    eval {
+			$urpm->{log}("building hdlist [$urpm->{cachedir}/partial/$medium->{hdlist}]");
+			$urpm->{params}->build_hdlist($options{noclean}, "$urpm->{cachedir}/headers",
+						      "$urpm->{cachedir}/partial/$medium->{hdlist}", @files);
+		    };
+		    $@ and $error = 1, $urpm->{error}("unable to build hdlist: $@");
 		} else {
 		    $error = 1;
 		    $urpm->{error}("no rpm files found from [$dir/]");
 		}
 	    }
 	} else {
-	    system("wget", "-O", "$urpm->{statedir}/.$medium->{hdlist}", "$medium->{url}/$medium->{with_hdlist}");
+	    my $basename = $medium->{with_hdlist} =~ /^.*\/([^\/]*)$/ && $1;
+
+	    #- try to sync (copy if needed) local copy after restored the previous one.
+	    unlink "$urpm->{cachedir}/partial/$basename";
+	    $options{force} or
+	      system("cp", "-a", "$urpm->{statedir}/$medium->{hdlist}", "$urpm->{cachedir}/partial/$basename");
+	    system("wget", "-NP", "$urpm->{cachedir}/partial", "$medium->{url}/$medium->{with_hdlist}");
 	    $? == 0 or $error = 1, $urpm->{error}("wget of [<source_url>/$medium->{with_hdlist}] failed (maybe wget is missing?)");
+	    unless ($error) {
+		my @sstat = stat "$urpm->{cachedir}/partial/$basename";
+		my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
+		if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
+		    #- the two files are considered equal here, the medium is so not modified.
+		    $medium->{modified} = 0;
+		    unlink "$urpm->{cachedir}/partial/$basename";
+		    next;
+		}
+
+		#- the file are different, update local copy.
+		rename "$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}";
+	    }
 	}
 
 	#- build list file according to hdlist used.
@@ -417,7 +460,7 @@ sub update_media {
 	unless ($error) {
 	    local *LIST;
 	    my $mask = umask 077;
-	    open LIST, ">$urpm->{statedir}/.$medium->{list}"
+	    open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
 	      or $error = 1, $urpm->{error}("unable to write list file of \"$medium->{name}\"");
 	    umask $mask;
 	    if (@files) {
@@ -426,7 +469,7 @@ sub update_media {
 		}
 	    } else {
 		local (*F, $_);
-		open F, "parsehdlist '$urpm->{statedir}/.$medium->{hdlist}' |";
+		open F, "parsehdlist '$urpm->{cachedir}/partial/$medium->{hdlist}' |";
 		while (<F>) {
 		    print LIST "$medium->{url}/$_";
 		}
@@ -435,14 +478,14 @@ sub update_media {
 	    close LIST;
 
 	    #- check if at least something has been written into list file.
-	    -s "$urpm->{statedir}/.$medium->{list}"
+	    -s "$urpm->{cachedir}/partial/$medium->{list}"
 	      or $error = 1, $urpm->{error}("nothing written in list file for \"$medium->{name}\"");
 	}
 
 	if ($error) {
 	    #- an error has occured for updating the medium, we have to remove tempory files.
-	    unlink "$urpm->{statedir}/.$medium->{hdlist}";
-	    unlink "$urpm->{statedir}/.$medium->{list}";
+	    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+	    unlink "$urpm->{cachedir}/partial/$medium->{list}";
 	} else {
 	    #- make sure to rebuild base files and clean medium modified state.
 	    $medium->{modified} = 0;
@@ -451,8 +494,8 @@ sub update_media {
 	    #- but use newly created file.
 	    unlink "$urpm->{statedir}/$medium->{hdlist}";
 	    unlink "$urpm->{statedir}/$medium->{list}";
-	    rename "$urpm->{statedir}/.$medium->{hdlist}", "$urpm->{statedir}/$medium->{hdlist}";
-	    rename "$urpm->{statedir}/.$medium->{list}", "$urpm->{statedir}/$medium->{list}";
+	    rename "$urpm->{cachedir}/partial/$medium->{hdlist}", "$urpm->{statedir}/$medium->{hdlist}";
+	    rename "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}";
 	}
     }
 
@@ -830,6 +873,150 @@ sub filter_packages_to_upgrade {
     @{$packages}{@packages} = ();
 
     $packages;
+}
+
+#- select source for package selected.
+#- according to keys given in the packages hash.
+#- return a list of list containing the source description for each rpm,
+#- match exactly the number of medium registered, ignored medium always
+#- have a null list.
+sub get_source_packages {
+    my ($urpm, $packages) = @_;
+    my ($error, @local_sources, @list, %select);
+    local (*D, *F, $_);
+
+    #- examine the local repository, which is trusted.
+    opendir D, "$urpm->{cachedir}/rpms";
+    while (defined($_ = readdir D)) {
+	if (/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/) {
+	    my $pkg = $urpm->{params}{info}{$1};
+
+	    #- check version, release and id selected.
+	    #- TODO arch is not checked at this point.
+	    $pkg->{version} cmp $2 && $pkg->{release} cmp $3 or next;
+	    exists $packages->{$pkg->{id}} or next;
+
+	    #- make sure only the first matching is taken...
+	    exists $select{$pkg->{id}} and next; $select{$pkg->{id}} = undef;
+
+	    #- we have found one source for id.
+	    push @local_sources, "$urpm->{cachedir}/rpms/$1-$2-$3.$4.rpm";
+	} else {
+	    $error = 1;
+	    $urpm->{error}("unable to determine rpms cache directory $urpm->{cachedir}/rpms");
+	}
+    }
+    closedir D;
+
+    #- examine each medium to search for packages.
+    foreach my $medium (@{$urpm->{media} || []}) {
+	my @sources;
+
+	if (-r "$urpm->{statedir}/$medium->{hdlist}" && -r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
+	    open F, "$urpm->{statedir}/$medium->{list}";
+	    while (<F>) {
+		if (/(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/) {
+		    my $pkg = $urpm->{params}{info}{$2};
+
+		    #- check version, release and id selected.
+		    #- TODO arch is not checked at this point.
+		    $pkg->{version} cmp $3 && $pkg->{release} cmp $4 or next;
+		    exists $packages->{$pkg->{id}} or next;
+
+		    #- make sure only the first matching is taken...
+		    exists $select{$pkg->{id}} and next; $select{$pkg->{id}} = undef;
+
+		    #- we have found one source for id.
+		    push @sources, "$1/$2-$3-$4.$5.rpm";
+		} else {
+		    $error = 1;
+		    $urpm->{error}("unable to parse correctly $urpm->{statedir}/$medium->{list}");
+		    last;
+		}
+	    }
+	    close F;
+	}
+	push @list, \@sources;
+    }
+
+    #- examine package list to see if a package has not been found.
+    foreach (keys %$packages) {
+	exists $select{$_} and next;
+
+	#- error found as a package has not be selected.
+	$error = 1;
+
+	#- try to find which one.
+	my $pkg = $urpm->{params}{depslist}[$_];
+	if ($pkg) {
+	    $urpm->{error}("internal error for selecting unknown package for id=$_");
+	} else {
+	    $urpm->{error}("package $pkg->{name}-$pkg->{version}-$pkg->{release} is not found");
+	}
+    }
+
+    $error ? () : ( \@local_sources, \@list );
+}
+
+#- upload package that may need to be uploaded.
+#- make sure header are available in the appropriate directory.
+#- change location to find the right package in the local
+#- filesystem for only one transaction.
+#- try to mount/eject removable media here.
+#- return a hash saying if a package has been uploaded or is local.
+sub upload_packages_for_install {
+    my ($urpm, $local_sources, $list) = @_;
+
+    #- make sure everything is correct on input...
+    @{$urpm->{media}} == @$list or return;
+
+    #- removable media have to be examined to keep mounted the one that has
+    #- more package than other (size is better ?).
+    my %removables;
+    foreach (0..$#$list) {
+	@{$list->[$_]} || $urpm->{media}[$_]{removable} or next;
+	push @{$removables{$urpm->{media}[$_]{removable}} ||= []}, $_;
+    }
+    foreach (keys %removables) {
+	#- here we have only removable device.
+	#- if more than one media use this device, we have to sort
+	#- needed package to copy first the needed rpms files.
+	if (@{$removables{$_}} > 1) {
+	    my @sorted_media = sort { @{$list->[$a]} <=> @{$list->[$b]} } @{$removables{$_}};
+
+	    #- mount all except the biggest one.
+	    foreach (@sorted_media[0 .. $#sorted_media-1]) {
+		my $medium = $urpm->{media}[$_];
+		if (my ($prefix, $dir) = $medium->{url} =~ /^(removable_.*?|file):\/(.*)/) {
+		    #- the directory given does not exist or may be accessible
+		    #- by mounting some other. try to figure out these directory and
+		    #- mount everything necessary.
+		    $urpm->try_mounting($dir);
+
+		    #- TODO to cut... and ask if correct to the user
+		    system("cp", "-a", map { /^(removable_.*?|file):\/(.*)/ && $1 } @{$list->[$_]}, "$urpm->{cachedir}/rpms");
+		} else {
+		    #- we have a removable device that is not removable, well...
+		    $urpm->{error}("incoherent medium \"$medium->{name}\" marked removable but not really");
+		}
+	    }
+	    #- now mount the last one...
+	    $removables{$_} = [ $sorted_media[-1] ];
+	}
+
+	#- mount the removable device, only one or the important one.
+	my $i = $removables{$_}[0];
+	if (my ($prefix, $dir) = $urpm->{media}[$i]{url} =~ /^(removable_.*?|file):\/(.*)/) {
+	    $urpm->try_mounting($dir);
+	    system("cp", "-a", map { /^(removable_.*?|file):\/(.*)/ && $1 } @{$list->[$i]}, "$urpm->{cachedir}/rpms");
+	} else {
+	    #- we have a removable device that is not removable, well...
+	    $urpm->{error}("incoherent medium \"$urpm->{media}[$i]{name}\" marked removable but not really");
+	}
+    }
+
+    #- get back all ftp and http accessible rpms file into the local cache.
+    #- TODO
 }
 
 
