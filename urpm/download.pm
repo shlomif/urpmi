@@ -341,15 +341,15 @@ sub sync_curl {
 			$file = shift @l;
 			propagate_sync_callback($options, 'start', $file);
 		    }
-		    if (my ($percent, $total, $eta, $speed) = $buf =~ /^\s*(\d+)\s+(\S+)[^\r\n]*\s+(\S+)\s+-?(\S+)\s*[\r\n]$/ms) {
+		    if (my ($percent, $total, $eta, $speed) = $buf =~ /^\s*(\d+)\s+(\S+)[^\r\n]*\s+(\S+)\s+(\S+)\s*[\r\n]$/ms) {
+			$speed =~ s/^-//;
 			if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
 			    kill 15, $curl_pid;
 			    close $curl;
 			    return;
 			}
-			#- this regexp checks that download has actually started
-			#- (work around a bug in curl 7.12.2 output when 302 answers are involved)
-			if ($_ eq "\n" && ($percent == 100 || $buf !~ /--:--:--/)) {
+			#- this checks that download has actually started
+			if ($_ eq "\n") {
 			    propagate_sync_callback($options, 'end', $file);
 			    $file = undef;
 			}
