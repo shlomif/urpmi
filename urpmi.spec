@@ -202,7 +202,7 @@ $urpm->update_media;
 
 
 %changelog
-* Fri May  2 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.3-9mdk
+* Mon May 12 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.3-9mdk
 - internalize grpmi in gurpm.pm so that we can share graphical
   progression of download and installation between gurpmi and
   rpmdrake
