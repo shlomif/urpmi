@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 21mdk
+Release: 22mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Tue Aug 19 2003 François Pons <fpons@mandrakesoft.com> 4.4-22mdk
+- fixed MD5SUM and pubkey management for local media.
+
 * Mon Aug 11 2003 François Pons <fpons@mandrakesoft.com> 4.4-21mdk
 - added -a flag for urpmq (so that urpmq -a -y -r will do what
   is requested more or less).
