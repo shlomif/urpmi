@@ -1,0 +1,208 @@
+.TH urpmi 8 "08 Jan 2003" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi
+.SH NIMI
+urpmi \- rpm apuohjelma joka tekee asennukset helpompi k‰ytt‰jille
+.SH YLEISKATSAUS
+.B urpmi [\fIoptiot\fP] [\fIpakettien_nimet\fP | \fIrpm_tiedostot...\fP]
+.SH KUVAUS
+urpmi sallii tunnettujen rpm-tiedostojen asentaminen j‰rjestelm‰‰n mukaanlukien
+kaikki niiden riippuvuuksia. Voit k‰ytt‰‰ sit‰ asentamaan paketteja ja mahdolliset
+riippuvaiset paketit.
+Voit verrata rpm vastaan urpmi samalla tavalla kuin insmod vastaan modprobe tai 
+dpkg vastaan apt-get.
+.PP
+Tarvitet vain suorittaa urpmi ja sen j‰lkeen nimi/nimet jota luulet on olemassa
+olevan/olevien paketin/pakettien nimi/nimet, ja urpmi tekee jotain n‰ist‰:
+.br
+\- Ehdottaa eri pakettien nimet jos olemassa ja lopettaa.
+.br
+\- Jos ainoastaan yksi sopiva paketti lˆytyy, tarkistetaan jos riippuvaiset
+paketit on jo asennettu, vai ei.
+.br
+\- Jos ei, ehdotetaan asentamaan riippuvaiset paketit ja sitten haluamasi paketti.
+.PP
+Huomaa ett‰ urpmi osaa k‰sitell‰ asennuksia erilaisilta medioilta (ftp, http,
+paikalliset ja nfs volyymit, siirrett‰v‰t mediat kuten cd-rom, jne) ja osaa asentaa
+riippuvaiset paketit joita sijaitsevat eri mediassa kun paketti joka olet asentamassa.
+Jos on tarvetta, urpmi pyyt‰‰ sinua asettamaan vaadittu media.
+.PP
+Lis‰t‰‰ksesi uusi rpm tiedostoja sis‰lt‰v‰ media k‰yt‰ "\fBurpmi.addmedia\fP"
+.br
+Poistaaksesi median k‰yt‰ "\fBurpmi.removemedia\fP"
+.br
+P‰ivitt‰‰ksesi pakettien listaus (esimerkiksi kuin ftp arkisto on muuttunut) k‰yt‰
+"\fBurpmi.update\fP".
+.br
+K‰ytt‰‰ksesi automaattiasennuksen joka asentaa paketteja sen mukaan mit‰ ohjelmaa 
+yrit‰t k‰ytt‰‰, k‰yt‰ "\fBautoirpm\fP".
+.br
+Asentaaksesi kaikki k‰ytett‰viss‰ olevia valikkotietueita kaikista tunnetuista
+paketeista, k‰yt‰ "\fBautoirpm-icons\fP".
+.SH OPTIOT
+.IP "\fB\--help\fP"
+Tulostaa apuviestin ja lopettaa (t‰m‰ on sama kuuin \fB-h\fP tai \fB-?\fP).
+.IP "\fB\--update\fP"
+K‰yt‰ ainoastaan p‰ivitymediaa. T‰m‰ tarkoittaa ett‰ \fBurpmi\fP etsii ainoastaan
+p‰ivitysmedioista ja k‰ytt‰‰ ainoastaan niit‰ riippuvuuksien t‰ytt‰miseksi.
+.IP "\fB\--media\fP \fImedia1,...,mediaN\fP"
+Valitse m‰‰r‰tyt mediat jota haluat k‰ytt‰‰, kaikkien k‰ytett‰viss‰ olevien
+medioiden sijasta (tai p‰ivitysmediat jos \fB--update\fP on k‰ytˆss‰).
+.IP "\fB\--synthesis\fP \fItiedosto\fP"
+K‰yt‰ annettu synteesi \fItiedosto\fP urpmi tietokannan sijasta pakettien
+etsinn‰ss‰ ja riippuvuuksien t‰ytt‰miseksi.
+.IP "\fB\--auto\fP"
+Asenna kaikki tarpeelliset riippuvuudet kysym‰tt‰.
+.IP "\fB\--auto-select\fP"
+Valitsee automaattisesti kaikki paketit jota pit‰‰/voidaan p‰ivitt‰‰ asennettujen
+pakettien mukaisesti sek‰ rekisterˆityjen medioiden mukaisesti.
+.IP "\fB\--fuzzy\fP"
+Poista k‰ytˆst‰ pikahaku tarkalla pakettien nimill‰, eli urpmi ehdottaa kaikki
+paketit joiden nimet sis‰lt‰v‰t hakemasi nimi vaikka yksi vastaa t‰ysin hakuehtosi
+(t‰m‰ on sama kuin \fB\-y\fP).
+.IP "\fB\--src\fP \fInimi\fP"
+Etsi l‰hdekoodipaketti joka vastaa \fInimi\fP ja se valitsee kaikki tarvittavat
+riippuvuudet oletuksena, paitsi jos \fB\--install-src\fP on k‰ytetty kun haluat
+asentaa itse l‰hdekoodipaketti.
+.IP "\fB\--install-src\fP"
+Asenna ainoastaan l‰hdekoodipaketti (bin‰‰riset paketit ei asenneta).
+.IP "\fB\--clean\fP"
+Poista kaikki paketit v‰limuistista hakemistossa /var/cache/urpmi/rpms.
+.IP "\fB\--noclean\fP"
+ƒl‰ poista yht‰k‰‰n paketti v‰limuistista hakemistossa /var/cache/urpmi/rpms.
+.IP "\fB\--force\fP"
+Oleta kyll‰ jokaiselle kysymykselle.
+.IP "\fB\--allow-nodeps\fP"
+Salli urpmi kysy‰ k‰ytt‰j‰lt‰ lupaa jatkaa asennusta ilman riippuvuuksien 
+tarkistusta virheen takia. Oletuksena urpmi keskeytt‰‰ asennuksen siin‰ tapauksessa.
+.IP "\fB\--allow-force\fP"
+Salli urpmi kysy‰ k‰ytt‰j‰lt‰ lupaa jatkaa asennusta ilman riippuvuuksien 
+tarkistusta tai pakkoasennuksella virheen takia. Oletuksena urpmi 
+keskeytt‰‰ asennuksen siin‰ tapauksessa.
+.IP "\fB\--parallel\fP \fIalias\fP"
+Ota k‰yttˆˆn urpmin hajautetun suorittaminen toisille koneille (vaatii ett‰ urpmi
+on asennettu niiss‰ koneissa, mutta medioita ei tarvitse olla m‰‰ritetty niss‰).
+\fIalias\fP m‰ritt‰‰ mik‰ liittym‰-moduuli urpmi pit‰‰ k‰ytt‰‰ (t‰ll‰ hetkell‰
+\fBurpmi-parallel-ka-run\fP tai \fBurpmi-parallel-ssh\fP) ja mitk‰ koneet pit‰‰
+p‰ivitt‰‰. T‰m‰ alias (n‰m‰ aliakset) m‰ritet‰‰n tiedostossa
+/etc/urpmi/parallel.cfg (kuvattu alla).
+.IP "\fB\--wget\fP"
+K‰yt‰ ainoastaan wget et‰tiedostojen lataamisessa. Oletuksena k‰ytet‰‰n curl
+jos se on asennettu ja muuten wget.
+.IP "\fB\--curl\fP"
+K‰yt‰ ainoastaan curl et‰tiedostojen lataamisessa. Oletuksena k‰ytet‰‰n curl
+jos se on asennettu ja muuten wget.
+.IP "\fB\--proxy\fP \fIv‰lityspalvelin[:portti|1080]\fP"
+K‰yt‰ m‰‰ritetty HTTP v‰lityspalvelin.
+.IP "\fB\--proxy-user\fP \fIk‰ytt‰j‰:salasana\fP"
+K‰yt‰ m‰‰ritetty k‰ytt‰j‰ ja salasana v‰lityspalvelimen tunnistukselle.
+.IP "\fB\--bug\fP \fIhakemisto\fP"
+Luo virheraportin \fIhakemisto\fPssa. Sinun pit‰‰ l‰hett‰‰ hakemiston sis‰ltˆ
+pakattuna arkistona \fBurpmi\fPn ull‰pit‰j‰lle jotta virhett‰ voidaan korjata.
+.IP "\fB\--env\fP \fIhakemisto\fP"
+K‰yt‰ eri ymp‰ristˆ suoraan virhe-raportista virheen toistamiseksi.
+Argumentti on sama kuin \fB--bug\fP optiota.
+.IP "\fB\--X\fP"
+K‰yt‰ X k‰yttˆliittym‰.
+.IP "\fB\--best-output\fP"
+Yrit‰ k‰yt‰ X k‰yttˆliittym‰, ja jos sit‰ ei ole k‰ytett‰viss‰ k‰ytet‰‰n
+tavallinen tekstipohjainen k‰yttˆliittym‰ (rpm kaltainen tuloste).
+.IP "\fB\--verify-rpm\fP" tai "\fB\--no-verify-rpm\fP"
+Ota k‰yttˆˆn (oletus) tai poista k‰ytˆst‰ rpm allekirjoituksien tarkistusta.
+.IP "\fB\--test\fP"
+Kokeile (sama kuin \fBrpm --test\fP) pakettien asennusta, mutta varsinaista
+j‰rjestelm‰n muutosta ei tehd‰.
+.IP "\fB\--excludepath\fP"
+ƒl‰ asenna tiedostoja joiden nimet alkaa annetulla hakemistolla 
+(sama kuin \fBrpm --excludepath\fP).
+.IP "\fB\-a\fP"
+Jos monta paketteja vastaa annettu alarivi, asenna kaikki.
+.IP "\fB\-p\fP"
+Salli etsiminen "tarjoaa" tiedoista lˆyt‰‰ksesi paketin (oletus).
+.IP "\fB\-P\fP"
+ƒl‰ etsi "tarjoaa" tiedoista lˆyt‰‰ksesi paketin (t‰m‰ on \fB-p\fP vastakohta).
+.IP "\fB\-y\fP"
+T‰m‰ on sama kuin \fB--fuzzy\fP.
+.IP "\fB\-s\fP"
+T‰m‰ on sama kuin \fB--src\fP.
+.IP "\fB\-q\fP"
+Ehdottaa hiljaisen tilan kun kutsutaan rpm jolloin p‰ivitystietoa ei tulosteta.
+.IP "\fB\-v\fP"
+Ehdottaa yksityiskohtaisempi tila erilaisilla viestill‰.
+.SH TIEDOSTOT
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/sbin/urpmi
+Suoritettava \fBurpmi\fP ohjelma (perl skripti).
+.TP
+.FN /var/lib/urpmi/list.*
+Sis‰lt‰‰ listauksen kaikki urpmi:n tunnetuista peketeista ainoastaan jos salasanaa
+on k‰ytetty pakettien hakemisessa et‰palvelimilta (k‰ytt‰en verkko-protokolla) tai
+eri hakemistoissa jotka ovat k‰ytetty pakettien tallennukseen.
+.TP
+.FN /var/lib/urpmi/hdlist.*
+Sis‰lt‰‰ tietoja kaikista tunnetuista paketeista, eli yhteenveto rpm-pakettien
+otsikkotiedoista. Jos hdlist-tiedosto on k‰ytetty medialle, \fBurpmi\fP voi toimia
+t‰ydellisesti, mik‰ on yleens‰ tapana.
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
+Sis‰lt‰‰ synteesi-tiedot kaikista tunnetuista paketeista. Ne ovat luotu hdlist
+tiedostoista ja voidaan k‰ytt‰‰ pienimmill‰ algoritmilla. Jos n‰it‰ tiedostoja 
+ei ole olemassa, hdlist-tiedostoja k‰ytet‰‰n, mutta se on hitaampi tapa.
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Sis‰lt‰‰ medioiden kuvaukset.
+.TP
+.FN /etc/urpmi/parallel.cfg
+Sis‰lt‰‰ rinnakkais-aliaksen kuvaukset, muodossa:
+\fB<alias>:<liitynt‰[(media)]>:<liitynt‰_parametri>\fP jossa \fB<alias>\fP on
+symbolinen nimi, \fB<liitynt‰>\fP voi olla \fBka-run\fP tai \fBssh\fP,
+\fB<media>\fP on medialistaus (vastaa \fB--media\fP parametri),
+\fB<liitynt‰_parametri>\fP on erityinen liitynt‰ parametrien listaus niin kuin
+"-c ssh-m node1 -m node2" jos k‰yt‰t \fBka-run\fP tai "node1:node2" jos k‰yt‰t
+\fBssh\fP.
+.TP
+.FN /etc/urpmi/skip.list
+sis‰lt‰‰ lausekkeita paketeista joka ei saa p‰ivitt‰‰ automaattisesti.
+Muoto on listaus pakettien 'tarjoaa' tiedoista (tai tavallinen lauseke \fB/\fP
+merkkien v‰lill‰) ja optiona operaattori ja versio, tai tavallinen lauseke
+joka vastaa pakettien koko nimi.
+.TP
+.FN /etc/urpmi/inst.list
+Sis‰lt‰‰ pakettien nimet joita pit‰‰ asentaa p‰ivitt‰misen sijasta.
+.SH KATSO MY÷S
+\fIurpmi.addmedia\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIgurpmi\fP(8),
+\fIurpmf\fP(8),
+\fIurpmq\fP(8),
+\fIrpmdrake\fP(8)
+.SH TEKIJƒT
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (alkuper‰inen tekij‰)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (nykyinen tekij‰)
+
+.SH VIRHEIDEN RAPORTOINTI
+Jos lˆyd‰t virheen \fBurpmi\fPssa, ole hyv‰ ja raportoi sit‰ k‰ytt‰m‰ll‰
+.I urpmi --bug virhe_nimi_hakemistona ...
+komentoa komentoriviss‰, jolloin automaattisesti luodaan hakemisto nimell‰ 
+\fIvirhe_nimi_hakemistona\fP joka sis‰lt‰‰ tarvittavat tiedostot virheen
+toistamiselle jos mahdollista.
+.PP
+Ole hyv‰ ja kokeile virheraporttia k‰ytt‰m‰ll‰ komentoa
+.I urpmi --env virhe_nimi_hakemistona ...
+jolla varmistat ett‰ virhe on viell‰ olemassa. T‰ll‰ hetkell‰ ainoastaan 
+resoluutio-ongelmia voidaan toistaa.
+.PP
+Jotta voit l‰hett‰‰ virheraporttia, k‰yt‰ komento
+.I tar cvfz virhe_nimi_hakemistona.tgz virhe_nimi_hakemistona
+ja l‰het‰ luotu arkisto minulle (fpons@mandrakesoft.com) suoraan, sek‰
+kirjoita viestiss‰ mit‰ sinun mieless‰ on vikana.
+.br
+HUOM! Kirjoita viesti englanniksi. HUOM!
+.SH VIRHEET
+Kun paketti on poistettu, ei voida asentaa vanhempaa versiota sen tilalle.
+.PP
+Ei ole olemassa hyv‰‰ latausinikaattoria \fBwget\fPille.

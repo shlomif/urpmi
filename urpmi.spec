@@ -161,6 +161,7 @@ $urpm->update_media;
 %lang(cs) %{_mandir}/cs/man?/urpm* 
 %lang(et) %{_mandir}/et/man?/urpm* 
 %lang(eu) %{_mandir}/eu/man?/urpm* 
+%lang(fi) %{_mandir}/fi/man?/urpm* 
 %lang(fr) %{_mandir}/fr/man?/urpm* 
 %lang(ru) %{_mandir}/ru/man?/urpm* 
 %lang(uk) %{_mandir}/uk/man?/urpm* 

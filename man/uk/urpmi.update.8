@@ -1,0 +1,83 @@
+.TH urpmi.update 8 "05 Jul 2001" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi.update
+.SH НАЗВА
+urpmi.update \- поновлю╓ список пакунк╕в для вказаного нос╕я
+.SH ВИКОРИСТАННЯ
+.B urpmi.update [параметри] [<\fIназви\fP>]
+.SH ОПИС
+urpmi.update скану╓ вс╕ нос╕╖ <\fIназви\fP> з метою поновлення списку пакунк╕в.
+Зручно користуватись для  ftp, наприклад.
+.PP
+<\fIназву\fP> \- це список назв, який ви вказували для програми  urpmi.addmedia
+
+.SH ПАРАМЕТРИ
+.IP "\fB\-a\fP"
+Вибрати вс╕ нос╕╖, як╕ не використовують зм╕нн╕ пристро╖ для ╖хнього
+поновлення
+.IP "\fB\-c\fP"
+При виход╕ з програми почистити каталог /var/cache/urpmi/headers.
+.IP "\fB\-f\fP"
+Примусове пере-створення файл╕в hdlist чи базових файл╕ (/var/lib/urpmi/depslist.ordered,
+/var/lib/urpmi/provides and /var/lib/urpmi/compss).
+.SH ФАЙЛИ
+.br
+/usr/bin/urpmi
+.br
+\fBurpmi\fP виконавча програма (скрипт на мов╕ perl)
+.PP
+/var/lib/urpmi/list.*
+.br
+М╕стить список вс╕х пакет╕в в╕домих  urpmi та ╖хн╓ м╕сцеположення. На
+кожен нос╕й ╓ один список файл╕в(*).
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+М╕стить список вс╕х пакет╕в, це \- коротка анотац╕я вс╕х заголовк╕в rpm.
+На кожен нос╕й ╓ один список файл╕в(*).
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+М╕стить зб╕рну ╕нформац╕ю про вс╕ в╕дом╕ пакети побудован╕ з файл╕в
+hdlist, як╕ можуть використовуватись алгоритмом м╕н╕мально╖
+в╕дстан╕. Якщо таких файл╕в нема╓, скористайтесь командою
+\fBurpmi.update -a\fP щоб створити ╖х. Ц╕ файли необов'язков╕.
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+М╕стить описи нос╕╖в, допуска╓ться використовувати попередн╕й формат
+в╕д старих верс╕й urpmi.
+.PP
+/etc/urpmi/skip.list
+.br
+М╕стить список тих пакет╕в, що  не можуть бути поновлен╕ автоматично.
+.PP
+/var/lib/urpmi/depslist.ordered
+.br
+Простий текстовий файл, що м╕стить вс╕ залежност╕ для вс╕х в╕домих пакет╕в.
+.PP
+/var/lib/urpmi/provides
+.br
+Простий текстовий файл, що м╕стить опис вс╕х функц╕й  ('provides') ╕ пакет╕в, як╕
+забезпечують ту чи ╕ншу функц╕ю.
+.PP
+/var/lib/urpmi/compss
+.br
+Простий текстовий файл з Групами пакет╕ ╕ списком пакет╕в для кожно╖ групи.
+this group.
+.SH "ДИВ. ТАКОЖ"
+urpmi(8),
+urpmi.addmedia(8),
+urpmf(8),
+urpmq(8),
+autoirpm(8),
+autoirpm-icons(8),
+gurpmi(8),
+rpmdrake(8)
+.SH АВТОР
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+.br
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+.SH
+ПЕРЕКЛАД
+.br
+Дмитро Ковальов, <kov@tokyo.emai.ne.jp>

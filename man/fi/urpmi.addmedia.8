@@ -1,0 +1,160 @@
+.TH urpmi.addmedia 8 "07 Jan 2003" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi.addmedia
+.SH NIMI
+urpmi.addmedia \- lis‰‰ uuden rpm median urpmin k‰yttˆˆn
+.SH YLEISKATSAUS
+.B urpmi.addmedia [\fIoptio\fP] <\fInimi\fP> <\fIosoite\fP>
+.SH KUVAUS
+urpmi.addmedia kertoo urpmille mist‰ se voi lˆyt‰‰ rpm-tiedostoja.
+T‰ll‰ hetkell‰ tuetut mediat ovat: paikalliset asemat, siirrett‰v‰t asemat
+(kuten cd-asemat, zip-asemat, jne.), verkkoasemia http, ftp, ssh ja rsync
+protokollien kautta.
+.PP
+Yksi seuraavista tiloista pit‰‰ valita:
+.PP
+http:
+.IP "\fBurpmi.addmedia [\fIoptiot\fP] <\fInimi\fP> http://<\fItunnus\fP>:<\fIsalasana\fP>@<\fIpalvelin\fP>/<\fIpolku\fP> [with <\fIrelatiivinen polku synthesis|hdlist tiedostoon\fP>]\fP"
+Miss‰ <\fInimi\fP> on sinun viitteesi medialle (esim. MandrakeUpdate).
+<\fInimi\fP> on valinnanvarainen jos \fB--distrib\fP on annettu \fIoptio\fPna.
+.br
+<\fIpalvelin\fP>/<\fIpolku\fP> on rpm hakemiston sijainti internetiss‰.
+.br
+<\fIrelatiivinen polku hdlist tiedostolle\fP> on hakemisto jossa rpm tiedostoja
+kuvaava hdlist tiedosto sijaitsee. Sijainti annetaan relatiivisesti <\fIpolku\fP>un
+n‰hden.
+.br
+\fBcurl\fP k‰ytet‰‰n oletuksena tiedostojen lataamiseen,\fBwget\fP k‰ytet‰‰n jos
+\fBcurl\fP ei ole asennettu tai \fB--wget\fP on annettu \fIoptio\fPna.
+.br
+\fIesim.\fP: urpmi.addmedia http http://jpackage.sf.net/rpm/free with hdlist.cz
+.PP
+ftp:
+.IP "\fBurpmi.addmedia [\fIoptiot\fP] <\fInimi\fP> ftp://<\fItunnus\fP>:<\fIsalasana\fP>@<\fIpalvelin\fP>/<\fIpolku\fP> [with <\fIrelatiivinen polku synthesis|hdlist tiedostoon\fP>]\fP"
+Vastaava kuin http, lis‰‰ tunnus ja salasanaa tarvittaessa (Huomaa ett‰ sinun
+ei tarvitse antaa tunnusta ja salasanaa jos k‰yt‰t anonyymipalvelinta).
+.br
+Huomaa ett‰ jos \fBwget\fP k‰ytet‰‰n tiedostojen lataamisessa palomuurin takana
+joudut ehk‰ lis‰t‰ \fBpassive_ftp=on\fP optiota \fB/etc/wgetrc\fP tiedostoon. 
+.br
+\fIesim.\fP: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist.cz
+.PP
+ssh:
+.IP "\fBurpmi.addmedia [\fIoptiot\fP] <\fInimi\fP> ssh://<\fItunnus\fP>:<\fIsalasana\fP>@<\fIpalvelin\fP>/<\fIpolku\fP> [with <\fIrelatiivinen polku synthesis|hdlist tiedostoon\fP>]\fP"
+Vastaava kuin http, lis‰‰ tunnus ja salasanaa tarvittaessa. Suosittelemme
+ett‰ viet 'root' avaimen tiedostolle jotta et tarvitse syˆtt‰‰ salasanaa
+koko ajan. \fBscp\fP ja \fBrsync\fP k‰ytet‰‰n tiedostojen hakemisessa.
+.br
+\fIesim.\fP: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/Mandrake/RPMS
+.PP
+rsync:
+.IP "\fBurpmi.addmedia [\fIoptiot\fP] <\fInimi\fP> rsync://<\fItunnus\fP>@<\fIpalvelin\fP>:<\fIportti\fP>/<\fIpolku\fP> [with <\fIrelatiivinen polku synthesis|hdlist tiedostoon\fP>]\fP"
+Vastaava kuin http, voit myˆs k‰ytt‰‰ <\fIpalvelin\fP>::<\fIpolku\fP>.
+.br
+\fIesim.\fP: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/Mandrake/base/hdlist2.cz
+.PP
+Paikallinen asema tai NFS:
+.br
+.IP "\fB urpmi.addmedia [\fIoptiot\fP] <\fInimi\fP> file://<\fIpolku\fP>\fP [with <\fIrelatiivinen polku synthesis|hdlist tiedostoon\fP>]\fP"
+Miss‰ <\fInimi\fP> on sinun viitteesi medialle (esim. MyRPMS).
+.br
+<\fIpolku\fP> on rpm tiedostoja sis‰lt‰v‰ hakemiston sijainti koneessasi.
+.PP
+Siirrett‰v‰t mediat:
+.br
+.IP "\fB urpmi.addmedia [\fIoptiot\fP] <\fInimi\fP> removable://<\fIpolku\fP>\fP [with <\fIrelatiivinen polku synthesis|hdlist tiedostoon\fP>]\fP"
+<\fIpolku\fP> on rpm tiedostoja sis‰lt‰v‰ hakemiston sijainti koneessasi
+kun siirrett‰v‰ mediasi on liitetty.
+.PP
+.SH OPTIOT
+.IP "\fB\--wget\fP"
+K‰yt‰ ainoastaan wget et‰tiedostojen lataamisessa. Oletuksena k‰ytet‰‰n curl
+jos se on asennettu ja muuten wget.
+.IP "\fB\--curl\fP"
+K‰yt‰ ainoastaan curl et‰tiedostojen lataamisessa. Oletuksena k‰ytet‰‰n curl
+jos se on asennettu ja muuten wget.
+.IP "\fB\--proxy\fP \fIv‰lityspalvelin[:portti|1080]\fP"
+K‰yt‰ m‰‰ritetty HTTP v‰lityspalvelin.
+.IP "\fB\--proxy-user\fP \fIk‰ytt‰j‰:salasana\fP"
+K‰yt‰ m‰‰ritetty k‰ytt‰j‰ ja salasana v‰lityspalvelimen tunnistukselle.
+.IP "\fB\--update\fP"
+Lis‰‰ media joka huomioidaan kun halutaan k‰ytt‰‰ ainoastaan p‰ivitysmedioita
+\fBurpmi\fPlla.
+.IP "\fB\--distrib\fP"
+Lis‰‰ kaikki mediat asennusmediasta. <\fInimi\fP> k‰ytet‰‰n lˆydetyn median
+nimen kanssa luodaakseen uudempi medianimi urpmi tietokannassa. \fBwith[...]\fP 
+ei k‰ytet‰ koska hdlist joka lˆytyy asennusmediasta k‰ytet‰‰n automaattisesti.
+.IP "\fB\--distrib-XXX\fP"
+Luo automaattisesti median XXX osalle jakelusta, XXX voi olla main, contrib,
+updates tai mit‰ vain joka on valmiiksi m‰‰ritelty.
+.IP "\fB\--from\fP \fIosoite\fP"
+K‰yt‰ m‰‰ritty \fIosoite\fP hakeaaksesi listan peilipalvelimista, oletus 
+MandrakeSoft:ilta on \fIhttp://www.linux-mandrake.com/mirrorsfull.list\fP 
+jos ei \fBurpmi.setup\fP on asennettu jolloin \fBurpmi.addmedia\fP etsii
+sen peilipalvelinten asetustiedostoa.
+.IP "\fB\--version\fP \fIversio\fP"
+K‰yt‰ m‰‰ritetty versio kun k‰yt‰t \fB--distrib-XXX\fP, oletus on asennetun
+\fBmandrake-release\fP paketin versio
+.IP "\fB\--arch\fP \fIarkitehtuuri\fP"
+K‰yt‰ m‰‰ritetty arkitehtuuri kun k‰yt‰t \fB--distrib-XXX\fP, oletus on
+asennetun \fBmandrake-release\fP paketin arkitehtuuri.
+.IP "\fB\-c\fP"
+Tyhjenn‰ otsikkotietojen v‰limuistihakemisto (/var/cache/urpmi/headers).
+.IP "\fB\-h\fP"
+Yritt‰‰ lˆyt‰‰ ja k‰ytt‰‰ synthesis tai hdlist tiedostoa.
+.IP "\fB\-f\fP"
+Pakota hdlist tiedostojen luominen.
+.SH TIEDOSTOT
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/sbin/urpmi.addmedia
+Suoritettava \fBurpmi.addmedia\fP ohjelma (perl skripti).
+.TP
+.FN /var/lib/urpmi/list.*
+Sis‰lt‰‰ listauksen kaikki urpmi:n tunnetuista peketeista ainoastaan jos salasanaa
+on k‰ytetty pakettien hakemisessa et‰palvelimilta (k‰ytt‰en verkko-protokolla) tai
+eri hakemistoissa jotka ovat k‰ytetty pakettien tallennukseen.
+.TP
+.FN /var/lib/urpmi/hdlist.*
+Sis‰lt‰‰ tietoja kaikista tunnetuista paketeista, eli yhteenveto rpm-pakettien
+otsikkotiedoista. Jos hdlist-tiedosto on k‰ytetty medialle, \fBurpmi\fP voi toimia
+t‰ydellisesti, mik‰ on yleens‰ tapana.
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
+Sis‰lt‰‰ synteesi-tiedot kaikista tunnetuista paketeista. Ne ovat luotu hdlist
+tiedostoista ja voidaan k‰ytt‰‰ pienimmill‰ algoritmilla. Jos n‰it‰ tiedostoja 
+ei ole olemassa, hdlist-tiedostoja k‰ytet‰‰n, mutta se on hitaampi tapa.
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Sis‰lt‰‰ medioiden kuvaukset.
+.TP
+.FN /etc/urpmi/parallel.cfg
+Sis‰lt‰‰ rinnakkais-aliaksen kuvaukset, muodossa:
+\fB<alias>:<liitynt‰[(media)]>:<liitynt‰_parametri>\fP jossa \fB<alias>\fP on
+symbolinen nimi, \fB<liitynt‰>\fP voi olla \fBka-run\fP tai \fBssh\fP,
+\fB<media>\fP on medialistaus (vastaa \fB--media\fP parametri),
+\fB<liitynt‰_parametri>\fP on erityinen liitynt‰ parametrien listaus niin kuin
+"-c ssh-m node1 -m node2" jos k‰yt‰t \fBka-run\fP tai "node1:node2" jos k‰yt‰t
+\fBssh\fP.
+.TP
+.FN /etc/urpmi/skip.list
+sis‰lt‰‰ lausekkeita paketeista joka ei saa p‰ivitt‰‰ automaattisesti.
+Muoto on listaus pakettien 'tarjoaa' tiedoista (tai tavallinen lauseke \fB/\fP
+merkkien v‰lill‰) ja optiona operaattori ja versio, tai tavallinen lauseke
+joka vastaa pakettien koko nimi.
+.TP
+.FN /etc/urpmi/inst.list
+Sis‰lt‰‰ pakettien nimet joita pit‰‰ asentaa p‰ivitt‰misen sijasta.
+.SH KATSO MY÷S
+\fIurpmi\fP(8),
+\fIurpmi.update\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIgurpmi\fP(8),
+\fIurpmf\fP(8),
+\fIurpmq\fP(8),
+\fIrpmdrake\fP(8)
+.SH TEKIJƒT
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (alkuper‰inen tekij‰)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (nykyinen tekij‰)

@@ -1,0 +1,42 @@
+.TH autoirpm 8 "05 Sep 2000" "Mandrakesoft" "Mandrake Linux"
+.IX autoirpm
+.SH NIMI
+autoirpm \- asentaa automaatisesti RPM joka sis‰lt‰‰ komentosi
+.SH YLEISKATSAUS
+.B autoirpm
+.SH KUVAUS
+autoirpm arvioi *maagisesti* mik‰ paketti tarvitset ja asentaa sen.
+Oletetaan ett‰ kirjoitit gmix k‰ynnist‰‰ksesi ‰‰nimikserisi. Jos se
+ei ole k‰ytett‰viss‰, sinulta kysyt‰‰n jos haluat asentaa paketti
+gnome-media joka sis‰lt‰‰ gmix ohjelman...
+.PP
+Tehd‰‰ksesi t‰m‰n, suorita autoirpm.update-all, joka etsii kaikista
+urpmi:n tuntemista paketeista ohjelmatiedostoja. Se luo sitten linkkej‰
+ohjelmien m‰‰r‰‰miin hakemistoihin...
+Suorita autoirpm.uninstall poistaaksesi autoirpm.update:n tekemi‰ linkkej‰.
+.PP
+k‰yt‰ \fBautoirpm.update <nimi>\fP p‰ivitt‰‰ksesi <nimi> median ohjelmia.
+.PP
+k‰yt‰ \fBautoirpm.update-all\fP p‰ivitt‰‰ksesi kaikki urpmi:n tuntemia 
+medioiden ohjelmia.
+.PP
+k‰yt‰ \fBautoirpm.uninstall\fP poistaaksesi kaikki autoirpm tekemi‰ linkkej‰.
+.PP
+T‰m‰ ominaisuus voidaan tarjota valikko kuvakkeille asentamalla 
+autoirpm-icons paketti.
+.SH TIEDOSTOT
+/etc/urpmi/autoirpm.deny
+.br
+Kaikki listatuihin pakettien kuuluvia ohjelmia eiv‰t k‰ynnist‰ rpm-tiedostjen
+automaattiasennus.
+.PP
+/etc/urpmi/autoirpm.allow
+.br
+Jos olemassa, ainoastaan listattujen pakettien sis‰lt‰m‰t ohjelmat k‰ynnist‰v‰t 
+automaattiasennuksen.
+.SH "KATSO MY÷S"
+urpmi(8)
+.SH TEKIJƒT
+Pascal Rigaux, Mandrakesoft
+.br
+pixel@mandrakesoft.com
