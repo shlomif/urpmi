@@ -68,7 +68,7 @@ $ok or exit 1;
 
 @installed = `/bin/rpm -qa`; $? and die(_("rpm database query failed\n"));
 foreach (@installed) {
-    my ($name, $v, $r) = /(.*)-([^-]+)-([^-.]+)\n/;
+    my ($name, $v, $r) = /(.*)-([^-]+)-([^-]+)\n/;
     exists $installed{$name} && le_version([$v, $r], $installed{$name}) or $installed{$name} = [$v, $r];
 }
 @installed{map { chop; $_ } @installed} = ();
@@ -156,7 +156,7 @@ sub closure_deps {
     my $to_install = shift;
     foreach (@_) {
 	exists $to_install->{$_} and next;
-	my ($name, $v, $r) = /(.*)-([^-]+)-([^-.]+)/;
+	my ($name, $v, $r) = /(.*)-([^-]+)-([^-]+)/;
 	exists $installed{$name} && le_version([$v, $r], $installed{$name}) and next;
 
 	$to_install->{$_} = undef;
@@ -165,7 +165,7 @@ sub closure_deps {
 	  my %l; 
 	  foreach (split '\|') { 
 	      exists $to_install->{$_} and next up;
-	      my ($name, $v, $r) = /(.*)-([^-]+)-([^-.]+)/;
+	      my ($name, $v, $r) = /(.*)-([^-]+)-([^-]+)/;
 	      if (exists $installed{$name}) {
 		  le_version([$v, $r], $installed{$name}) and next up;
 		  %l = ($name => [$v, $r]);
