@@ -1,9 +1,10 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -T
 
 $ENV{XAUTHORITY} or $ENV{XAUTHORITY} = "$ENV{HOME}/.Xauthority";
+$ENV{PATH} = '/bin:/usr/bin:/usr/sbin:/usr/X11R6/bin';
 
 $urpmi = 'urpmi';
-if (-f $urpmi) { $urpmi = './urpmi' }
+if (-f $urpmi && $ENV{DEBUG_URPMI}) { $urpmi = './urpmi' }
 
-exec $urpmi, "--X", @ARGV
-    or die "Can't exec urpmi: $!\n";
+exec $urpmi, "-X", @ARGV
+    or die "Can't exec $urpmi: $!\n";
