@@ -9,7 +9,7 @@ sub parallel_register_rpms {
 	my $sources = join ' ', map { "'$_'" } @files;
 	$urpm->{log}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms");
 	system "scp $sources $_:$urpm->{cachedir}/rpms";
-	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s", $_));
+	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
     #- keep trace of direct files.
@@ -106,7 +106,7 @@ sub parallel_resolve_dependencies {
     foreach (keys %{$parallel->{nodes}}) {
         $urpm->{ui_msg}("parallel_ssh: scp -q '$synthesis' '$_:$synthesis'", urpm::N("Propagating synthesis to %s...", $_));
 	system "scp -q '$synthesis' '$_:$synthesis'";
-	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s", $_));
+	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
     $parallel->{synthesis} = $synthesis;
 
@@ -186,7 +186,7 @@ sub parallel_resolve_dependencies {
 		    $state->{selected}{$pkg->id}{$node} = $_;
 		}
 	    }
-	    close F or $urpm->{fatal}(1, urpm::N("host %s does not have a good version of urpmi", $node));
+	    close F or $urpm->{fatal}(1, urpm::N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
 	}
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
@@ -204,7 +204,7 @@ sub parallel_install {
 	my $sources = join ' ', map { "'$_'" } values %$install, values %$upgrade;
         $urpm->{ui_msg}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms", urpm::N("Distributing files to %s...", $_));
 	system "scp $sources $_:$urpm->{cachedir}/rpms";
-	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s", $_));
+	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
     my %bad_nodes;
