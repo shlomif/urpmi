@@ -2641,10 +2641,12 @@ sub copy_packages_of_removable_media {
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- everything that might be necessary.
 	    while ($check_notfound->($id, $dir, is_iso($medium->{removable}) || 'removable')) {
-		$options{ask_for_medium} or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
+		is_iso($medium->{removable}) || $options{ask_for_medium}
+		    or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir);
 		system("/usr/bin/eject '$device' 2>/dev/null");
-		$options{ask_for_medium}(remove_internal_name($medium->{name}), $medium->{removable})
+		is_iso($medium->{removable})
+		    || $options{ask_for_medium}(remove_internal_name($medium->{name}), $medium->{removable})
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 	    }
 	    if (-e $dir) {
