@@ -4,7 +4,7 @@ use strict;
 use vars qw($VERSION);
 use base 'URPM';
 
-$VERSION = '4.1';
+$VERSION = '4.2';
 
 =head1 NAME
 
@@ -604,10 +604,12 @@ sub configure {
     }
 
     if ($options{synthesis}) {
-	#- synthesis take precedence over media, update options.
-	$options{media} || $options{update} || $options{parallel} and
-	  $urpm->{fatal}(1, _("--synthesis cannot be used with --media, --update or --parallel"));
-	$urpm->parse_synthesis($options{synthesis});
+	if ($options{synthesis} ne 'none') {
+	    #- synthesis take precedence over media, update options.
+	    $options{media} || $options{update} || $options{parallel} and
+	      $urpm->{fatal}(1, _("--synthesis cannot be used with --media, --update or --parallel"));
+	    $urpm->parse_synthesis($options{synthesis});
+	}
     } else {
 	$urpm->read_config(%options);
 	if ($options{media}) {
@@ -2069,6 +2071,8 @@ sub download_source_packages {
 	    if ($url =~ /^(removable[^:]*|file):\/(.*\.rpm)$/) {
 		if (-r $2) {
 		    $sources{$i} = $2;
+		} else {
+		    $error_sources{$i} = $2;
 		}
 	    } elsif ($url =~ /^([^:]*):\/(.*\/([^\/]*\.rpm))$/) {
 		if ($options{force_local} || $1 ne 'ftp' && $1 ne 'http') { #- only ftp and http protocol supported by grpmi.
@@ -2247,6 +2251,177 @@ sub install {
 sub parallel_install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     $urpm->{parallel_handler}->parallel_install(@_);
+}
+
+#- find packages to remove.
+sub find_packages_to_remove {
+    my ($urpm, $state, $l, %options) = @_;
+
+    if ($urpm->{parallel_handler}) {
+	#- invoke parallel finder.
+	$urpm->{parallel_handler}->parallel_find_remove($urpm, $state, $l, %options, find_packages_to_remove => 1);
+    } else {
+	my $db = URPM::DB::open($options{root});
+	my (@m, @notfound);
+
+	if (!$options{matches}) {
+	    foreach (@$l) {
+		my ($n, $found);
+
+		#- check if name-version-release may have been given.
+		if (($n) = /^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/) {
+		    $db->traverse_tag('name', [ $n ], sub {
+					  my ($p) = @_;
+					  $p->fullname eq $_ or return;
+					  $urpm->resolve_closure_ask_remove($db, $state, $p);
+					  push @m, join('-', ($p->fullname)[0..2]);
+					  $found = 1;
+				      });
+		    $found and next;
+		}
+
+		#- check if name-version-release may have been given.
+		if (($n) = /^(.*)-[^\-]*-[^\-]*$/) {
+		    $db->traverse_tag('name', [ $n ], sub {
+					  my ($p) = @_;
+					  join('-', ($p->fullname)[0..2]) eq $_ or return;
+					  $urpm->resolve_closure_ask_remove($db, $state, $p);
+					  push @m, join('-', ($p->fullname)[0..2]);
+					  $found = 1;
+				      });
+		    $found and next;
+		}
+
+		#- check if name-version may have been given.
+		if (($n) = /^(.*)-[^\-]*$/) {
+		    $db->traverse_tag('name', [ $n ], sub {
+					  my ($p) = @_;
+					  join('-', ($p->fullname)[0..1]) eq $_ or return;
+					  $urpm->resolve_closure_ask_remove($db, $state, $p);
+					  push @m, join('-', ($p->fullname)[0..2]);
+					  $found = 1;
+				      });
+		    $found and next;
+		}
+
+		#- check if only name may have been given.
+		$db->traverse_tag('name', [ $_ ], sub {
+				      my ($p) = @_;
+				      $p->name eq $_ or return;
+				      $urpm->resolve_closure_ask_remove($db, $state, $p);
+				      push @m, join('-', ($p->fullname)[0..2]);
+				      $found = 1;
+				  });
+		$found and next;
+
+		push @notfound, $_;
+	    }
+	    if (@notfound && ($options{auto} || @$l > 1)) {
+		$options{callback_notfound} and $options{callback_notfound}->($urpm, @notfound)
+		  or return ();
+	    }
+	}
+	if ($options{matches} || @notfound) {
+	    my $match = join "|", map { quotemeta } @$l;
+
+	    #- reset what has been already found.
+	    %$state = ();
+	    @m = ();
+
+	    #- search for package that matches, and perform closure again.
+	    $db->traverse(sub {
+			      my ($p) = @_;
+			      $p->fullname =~ /$match/ or return;
+			      $urpm->resolve_closure_ask_remove($db, $state, $p);
+			      push @m, join('-', ($p->fullname)[0..2]);
+			  });
+
+	    if (@notfound) {
+		unless (@m) {
+		    $options{callback_notfound} and $options{callback_notfound}->($urpm, @notfound)
+		      or return ();
+		} else {
+		    $options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, $match, @m)
+		      or return ();
+		}
+	    }
+	}
+
+	#- check if something need to be removed.
+	if ($options{callback_base} && %{$state->{ask_remove} || {}}) {
+	    my @base = qw(basesystem);
+	    my (@base_to_remove, %basepackages, %base);
+
+	    #- check if a package to be removed is a part of basesystem requires.
+	    while (defined($_ = shift @base)) {
+		exists $basepackages{$_} and next;
+		$db->traverse_tag(/^\// ? 'path' : 'whatprovides', [ $_ ], sub {
+				      my ($p) = @_;
+				      push @{$basepackages{$_} ||= []}, join '-', ($p->fullname)[0..2];
+				      push @base, $p->requires_nosense;
+				  });
+	    }
+
+	    foreach (values %basepackages) {
+		my $n = @$_;
+		foreach (@$_) {
+		    $base{$_} = \$n;
+		}
+	    }
+
+	    foreach (keys %{$state->{ask_remove}}) {
+		my $rn = $base{$_};
+		if ($rn) {
+		    $$rn == 1 and push @base_to_remove, $_;
+		    --$$rn;
+		}
+	    }
+
+	    @base_to_remove and $options{callback_base}->($urpm, @base_to_remove)
+	      || return ();
+	}
+    }
+
+    keys %{$state->{ask_remove}};
+}
+
+#- install packages according to each hashes (install or upgrade).
+sub remove {
+    my ($urpm, $remove, %options) = @_;
+    my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
+    my $trans = $db->create_transaction($urpm->{root});
+    my @l;
+    local *F;
+
+    foreach (@$remove) {
+	$trans->remove($_) or $urpm->{error}(_("unable to remove package %s", $_));
+    }
+    if (!$options{nodeps} and @l = $trans->check) {
+	if ($options{translate_message}) {
+	    foreach (@l) {
+		my ($type, $needs, $conflicts) = split '@', $_;
+		$_ = ($type eq 'requires' ?
+		      _("%s is needed by %s", $needs, $conflicts) :
+		      _("%s conflicts with %s", $needs, $conflicts));
+	    }
+	}
+	return @l;
+    }
+    !$options{noorder} and @l = $trans->order and return @l;
+
+    $trans->run($urpm, %options);
+}
+
+#- remove packages from node as remembered according to resolving done.
+sub parallel_remove {
+    my ($urpm, $remove, %options) = @_;
+    my $state = {};
+    my $callback = sub { $urpm->{fatal}(1, "internal distributed urpme fatal error") };
+    $urpm->{parallel_handler}->parallel_find_remove($urpm, $state, $remove, %options,
+						    callback_notfound => $callback,
+						    callback_fuzzy => $callback,
+						    callback_base => $callback,
+						   );
 }
 
 1;

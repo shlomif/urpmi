@@ -1,15 +1,15 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 4.1
-Release: 18mdk
+Version: 4.2
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.80
+PreReq: perl-Locale-gettext rpmtools >= 4.3-6mdk perl-URPM >= 0.81
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -37,7 +37,7 @@ gurpmi is a graphical front-end to urpmi
 
 %package -n urpmi-parallel-ka-run
 Summary: Parallel extensions to urpmi using ka-run
-Requires: urpmi >= 4.1-8mdk ka-run >= 2.0-15mdk
+Requires: urpmi >= 4.2-1mdk ka-run >= 2.0-15mdk
 Group: %{group}
 %description -n urpmi-parallel-ka-run
 urpmi-parallel-ka-run is an extensions module to urpmi for handling
@@ -45,7 +45,7 @@ distributed installation using ka-run tools.
 
 %package -n urpmi-parallel-ssh
 Summary: Parallel extensions to urpmi using ssh and scp
-Requires: urpmi >= 4.1-8mdk openssh-clients
+Requires: urpmi >= 4.2-1mdk openssh-clients
 Group: %{group}
 %description -n urpmi-parallel-ssh
 urpmi-parallel-ssh is an extensions module to urpmi for handling
@@ -204,6 +204,12 @@ fi
 
 
 %changelog
+* Wed Dec 18 2002 François Pons <fpons@mandrakesoft.com> 4.2-1mdk
+- fixed file:// protocol now checking file presence.
+- added distributed urpme (both ka-run and ssh module).
+- updated perl-URPM and urpmi requires on version (major
+  fixes in perl-URPM-0.81 and extended urpme in urpmi-4.2).
+
 * Fri Dec 13 2002 François Pons <fpons@mandrakesoft.com> 4.1-18mdk
 - fixed urpmf so that if callback is not compilable display help.
 - fixed urpmq and urpmi call without parameter to display help.

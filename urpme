@@ -28,17 +28,14 @@ use urpm;
 #- get I18N translation method.
 import urpm _;
 
-my ($auto, $matches, $maymatch, @l, @m, %base);
+my (@nextargv, $root, $test, $parallel, $auto, $matches, $maymatch, @l);
 my $askok = _("Is this OK?");
-my $askrm = _("Remove them all?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = _("Nn");
 # Translator: Add here the keys which might be pressed in the "Yes"-case.
 my $yesexpr = _("Yy");
 
-local $_ = ' ' . join(' ', @ARGV) . ' ';
-
-if ( / --?h/ || @ARGV == 0 ) {
+sub usage {
     print STDERR _("urpme version %s
 Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
@@ -46,144 +43,61 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 usage:
 ", $urpm::VERSION) . _("  --help         - print this help message.
 ") . _("  --auto         - automatically select a package in choices.
+") . _("  --test         - verify if the installation can be achieved correctly.
+") . _("  --parallel     - distributed urpmi accross machines of alias.
 ") . _("  -a             - select all packages matching expression.
 ");
     exit(0);
 }
 
-$matches = / -a /;
-$auto = / --?auto /;
-
-$urpm = new urpm;
-$state = {};
-
-#- open database to examine packages...
-{
-    my $db = URPM::DB::open;
-
-    @l = grep { !/^-/ } @ARGV;
-    if (!$matches) {
-	foreach (@l) {
-	    my ($n, $found);
-
-	    #- check if name-version-release may have been given.
-	    if (($n) = /^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/) {
-		$db->traverse_tag('name', [ $n ], sub {
-				      my ($p) = @_;
-				      $p->fullname eq $_ or return;
-				      $urpm->resolve_closure_ask_remove($db, $state, $p);
-				      push @m, join('-', ($p->fullname)[0..2]);
-				      $found = 1;
-				  });
-		$found and next;
-	    }
-
-	    #- check if name-version-release may have been given.
-	    if (($n) = /^(.*)-[^\-]*-[^\-]*$/) {
-		$db->traverse_tag('name', [ $n ], sub {
-				      my ($p) = @_;
-				      join('-', ($p->fullname)[0..2]) eq $_ or return;
-				      $urpm->resolve_closure_ask_remove($db, $state, $p);
-				      push @m, join('-', ($p->fullname)[0..2]);
-				      $found = 1;
-				  });
-		$found and next;
-	    }
-
-	    #- check if name-version may have been given.
-	    if (($n) = /^(.*)-[^\-]*$/) {
-		$db->traverse_tag('name', [ $n ], sub {
-				      my ($p) = @_;
-				      join('-', ($p->fullname)[0..1]) eq $_ or return;
-				      $urpm->resolve_closure_ask_remove($db, $state, $p);
-				      push @m, join('-', ($p->fullname)[0..2]);
-				      $found = 1;
-				  });
-		$found and next;
-	    }
-
-	    #- check if only name may have been given.
-	    $db->traverse_tag('name', [ $_ ], sub {
-				  my ($p) = @_;
-				  $p->name eq $_ or return;
-				  $urpm->resolve_closure_ask_remove($db, $state, $p);
-				  push @m, join('-', ($p->fullname)[0..2]);
-				  $found = 1;
-			      });
-	    $found and next;
-
-	    #- nothing has been found for the given name.
-	    $maymatch .= ($maymatch && ", ") . $_;
-	}
-	if ($maymatch) {
-	    my $msg = $maymatch =~ /, / ? _("unknown packages ") : _("unknown package ");
-	    $msg =~ /\s$/ or $msg .= ' '; #- add trailing space to avoid fixing bad translator (too late now for 9.0).
-	    $maymatch = "$msg$maymatch\n";
-	}
-	$maymatch && ($auto || @l > 1) and die $maymatch;
-    }
-    if ($matches || $maymatch) {
-	my $match = join "|", map { quotemeta } @l;
-
-	#- reset what has been already found.
-	$state = {};
-	@m = ();
-
-	#- search for package that matches, and perform closure again.
-	$db->traverse(sub {
-			  my ($p) = @_;
-			  $p->fullname =~ /$match/ or return;
-			  $urpm->resolve_closure_ask_remove($db, $state, $p);
-			  push @m, join('-', ($p->fullname)[0..2]);
-		      });
-
-	if ($maymatch) {
-	    @m or die $maymatch;
-	    my $msg = _("Using \"%s\" as a substring, I found", $match);
-	    print STDOUT "$msg:\n@m\n$askrm" . _(" (y/N) ");
-	    <STDIN> =~ /[$yesexpr]/ or exit 1;
-	}
-    }
-
-    #- if nothing need to be removed.
-    unless (%{$state->{ask_remove} || {}}) {
-	print _("Nothing to remove.\n");
-	exit(0);
-    }
-
-    my @base = qw(basesystem);
-    my %basepackages;
-
-    #- check if a package to be removed is a part of basesystem requires.
-    while (defined($_ = shift @base)) {
-	exists $basepackages{$_} and next;
-	$db->traverse_tag(/^\// ? 'path' : 'whatprovides', [ $_ ], sub {
-			      my ($p) = @_;
-			      push @{$basepackages{$_} ||= []}, join '-', ($p->fullname)[0..2];
-			      push @base, $p->requires_nosense;
-			  });
-    }
-
-    foreach (values %basepackages) {
-	my $n = @$_;
-	foreach (@$_) {
-	    $base{$_} = \$n;
-	}
-    }
+@ARGV or usage;
+while (defined($_ = shift @ARGV)) {
+    /^--help$/ and do { usage; next };
+    /^--no-locales$/ and do { undef *_; undef *urpm::_; *_ = *urpm::_ = sub { sprintf(shift @_, @_) }; next };
+    /^--?auto$/ and do { $auto = 1; next };
+    /^--(no-)?test$/ and do { $test = !$1; next };
+    /^--root$/ and do { push @nextargv, \$root; next };
+    /^--parallel$/ and do { push @nextargv, \$parallel; next };
+    /^-(.*)$/ and do { foreach (split //, $1) {
+	/[\?h]/ and do { usage; next };
+	/a/ and do { $matches = 1; next };
+	die _("urpme: unknown option \"-%s\", check usage with --help\n", $1); } next };
+    @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
+    push @l, $_;
 }
 
-my $base_str = '';
-my @toremove = keys %{$state->{ask_remove}};
-foreach (@toremove) {
-    my $rn = $base{$_};
-    if ($rn) {
-	$$rn == 1 and $base_str .= _("removing package %s will break your system\n", $_);
-	--$$rn;
-    }
-}
-$base_str and die $base_str;
+my $urpm = new urpm;
+my $state = {};
 
-if (@toremove > @l && !$auto) {
+#- just configure parallel mode if available.
+$parallel and $urpm->configure(synthesis => 'none',
+			       root => $root,
+			       parallel => $parallel,
+			      );
+
+#- examine packages...
+my @toremove = $urpm->find_packages_to_remove($state, \@l,
+					      test => $test, matches => $matches, auto => $auto,
+					      callback_notfound => sub {
+						  my $urpm = shift @_;
+						  $urpm->{fatal}(1, (@_ > 1 ? _("unknown packages") : _("unknown package")) .
+								 ': ' . join(', ', @_)); 0 },
+					      callback_fuzzy => sub {
+						  my $urpm = shift @_;
+						  my $match = shift @_;
+						  $urpm->{fatal}(1, _("The following packages contain %s: %s",
+								      $match, join(' ', @_))); 0 },
+					      callback_base => sub {
+						  my $urpm = shift @_;
+						  foreach (@_) {
+						      $urpm->{error}(_("removing package %s will break your system", $_));
+						  } 0 },
+					     ) or $urpm->{fatal}(0, _("Nothing to remove"));
+
+if ($test && $auto) {
+    my $msg = _("Checking to remove the following packages");
+    print STDOUT "$msg:\n" . join("\n", sort { $a cmp $b } @toremove) . "\n";
+} elsif (@toremove > @l && !$auto) {
     my $sum = 0;
     foreach (@toremove) {
 	$sum += $state->{ask_remove}{$_}{size};
@@ -193,11 +107,10 @@ if (@toremove > @l && !$auto) {
     <STDIN> =~ /[$noexpr]/ and exit 0;
 }
 
-@l = $urpm->install(\@toremove, {}, {});
-if (@l) {
-    print STDERR _("Removing failed") . ":\n" . join("\n",  map { "\t$_" } @l);
-    exit 1;
-}
+@l = $parallel ?
+  $urpm->parallel_remove(\@toremove, test => $test, translate_message => 1) :
+  $urpm->remove(\@toremove, test => $test, translate_message => 1);
+@l and $urpm->{fatal}(1, _("Removing failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;

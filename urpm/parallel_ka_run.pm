@@ -15,6 +15,71 @@ sub parallel_register_rpms {
     }
 }
 
+#- parallel find_packages_to_remove
+sub parallel_find_remove {
+    my ($parallel, $urpm, $state, $l, %options) = @_;
+    my ($test, $node, %bad_nodes, %base_to_remove);
+    local (*F, $_);
+
+    #- keep in mind if the previous selection is still active, it avoid
+    #- to re-start urpme --test on each node.
+    if ($options{find_packages_to_remove}) {
+	delete $state->{ask_remove};
+	delete $urpm->{error_remove};
+	$test = '--test ';
+    } else {
+	@{$urpm->{error_remove} || []} and return @{$urpm->{error_remove}};
+	#- no need to restart what has been started before.
+	$options{test} and return keys %{$state->{ask_remove}};
+	$test = '';
+    }
+
+    #- now try an iteration of urpmq.
+    $urpm->{log}("parallel_ka_run: rshp -v $parallel->{options} -- urpme --no-locales --auto $test".(join ' ', map { "'$_'" } @$l));
+    open F, "rshp -v $parallel->{options} -- urpme --no-locales --auto $test".join(' ', map { "'$_'" } @$l)." |";
+    while (defined ($_ = <F>)) {
+	chomp;
+	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
+	/^\s*$/ and next;
+	/Checking to remove the following packages/ and next;
+	/To satisfy dependencies, the following packages are going to be removed/
+	  and $urpm->{fatal}(1, ("node %s has bad version of urpme, please upgrade", $node));
+	if (/unknown packages?:? (.*)/) {
+	    $options{callback_notfound} and $options{callback_notfound}->($urpm, split ", ", $1)
+	      or delete $state->{ask_remove}, last;
+	} elsif (/The following packages contain ([^:]*): (.*)/) {
+	    $options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, $1, split " ", $2)
+	      or delete $state->{ask_remove}, last;
+	} elsif (/removing package (.*) will break your system/) {
+	    $base_to_remove{$1} = undef;
+	} elsif (/Removing failed/) {
+	    $bad_nodes{$node} = [];
+	} else {
+	    if (exists $bad_nodes{$node}) {
+		/^\s+(.*)/ and push @{$bad_nodes{$node}}, $1;
+	    } else {
+		$state->{ask_remove}{$_}{$node} = undef;
+	    }
+	}
+    }
+    close F or $urpm->{fatal}(1, _("rshp failed, maybe a node is unreacheable"));
+
+    #- check base, which has been delayed until there.
+    $options{callback_base} and %base_to_remove and $options{callback_base}->($urpm, keys %base_to_remove)
+      || return ();
+
+    #- build error list contains all the error returned by each node.
+    $urpm->{error_remove} = [];
+    foreach (keys %bad_nodes) {
+	my $msg = _("on node %s", $_);
+	foreach (@{$bad_nodes{$_}}) {
+	    push @{$urpm->{error_remove}}, "$msg, $_";
+	}
+    }
+
+    keys %{$state->{ask_remove}};
+}
+
 #- parallel resolve_dependencies
 sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
@@ -91,7 +156,7 @@ sub parallel_resolve_dependencies {
 		    }
 		}
 	    } else {
-		my $pkg = $urpm->search($_) or next; #TODO
+		my $pkg = $urpm->search($_) or next;
 		$state->{selected}{$pkg->id}{$node} = $_;
 	    }
 	}
@@ -102,9 +167,6 @@ sub parallel_resolve_dependencies {
 
     #- keep trace of what has been chosen finally (if any).
     $parallel->{line} = "$line ".join(' ', keys %chosen);
-
-    #- update ask_remove, ask_unselect too along with provided value.
-    #TODO
 }
 
 #- parallel install.
