@@ -97,7 +97,7 @@ while (defined($_ = shift @ARGV)) {
     /^--root$/ and do { push @nextargv, \$query->{root}; next };
     /^--parallel$/ and do { push @nextargv, \$query->{parallel}; next };
     /^--wget$/ and do { $urpm->{sync} = sub { my $options = shift @_;
-					      if (ref $options) { $options->{prefer} = 'wget' }
+					      if (ref($options)) { $options->{prefer} = 'wget' }
 					      else { $options = { dir => $options, prefer => 'wget' } }
 					      urpm::sync_webfetch($options, @_) }; next };
     /^--curl$/ and do { $urpm->{sync} = \&urpm::sync_webfetch; next };
@@ -133,8 +133,8 @@ while (defined($_ = shift @ARGV)) {
 	/f/ and do { $query->{version} = $query->{release} = $query->{arch} = 1; next };
 	print STDERR N("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
-    /\.rpm$/ and do { if (-r $_) { push @files, $_; }
-		      else { print STDERR N("urpmq: cannot read rpm file \"%s\"\n", $_); }
+    /\.rpm$/ and do { if (-r $_) { push @files, $_ }
+		      else { print STDERR N("urpmq: cannot read rpm file \"%s\"\n", $_) }
 		      next };
     if ($query->{src}) {
 	push @src_names, $_;
@@ -204,7 +204,7 @@ if ($query->{list_aliases}) {
     #- keep track of choices, do no propagate but mark them in selected.
     my $stop_on_choices = sub {
 	my ($urpm, $db, $state, $choices) = @_;
-	$state->{selected}{join '|', sort { $a <=> $b } map { $_ ? ($_->id) : () } @$choices} = 0;
+	$state->{selected}{join '|', sort { $a <=> $b } map { $_ ? $_->id : () } @$choices} = 0;
     };
     #- open/close of database should be moved here, in order to allow testing
     #- some bogus case and check for integrity. (note auto_select implies upgrade).
@@ -275,7 +275,7 @@ if ($query->{list_aliases}) {
 				    auto_select => $query->{auto_select},
 				    callback_choices => $stop_on_choices);
 	$query->{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
-								  ! defined $state->{selected}{$_}} keys %{$state->{selected}}};
+								  ! defined $state->{selected}{$_} } keys %{$state->{selected}}};
     } elsif ($query->{deps}) {
 	#- only deps required.
 	my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
@@ -346,7 +346,7 @@ if ($query->{complete}) {
 }
 foreach my $id ($state->{selected} ? keys %{$state->{selected}} : keys %requested) {
     my $class = $state->{selected}{$id} || $requested{$id};
-    if (ref $class eq 'ARRAY') {
+    if (ref($class) eq 'ARRAY') {
 	foreach my $choices (@{$class || []}) {
 	    exists $hack_only_one{$choices} and next;
 	    print join('|', map { $query_sub->($_) } @$choices), "\n";

@@ -143,7 +143,7 @@ sub sync_webfetch {
 }
 sub propagate_sync_callback {
     my $options = shift @_;
-    if (ref $options && $options->{callback}) {
+    if (ref($options) && $options->{callback}) {
 	my $mode = shift @_;
 	if ($mode =~ /^(start|progress|end)$/) {
 	    my $file = shift @_;
@@ -159,7 +159,7 @@ sub sync_file {
     foreach (@_) {
 	my ($in) = /^(?:removable[^:]*|file):\/(.*)/;
 	propagate_sync_callback($options, 'start', $_);
-	system("cp", "--preserve=mode,timestamps", "-R", $in || $_, ref $options ? $options->{dir} : $options) or die N("copy failed: %s", $@);
+	system("cp", "--preserve=mode,timestamps", "-R", $in || $_, ref($options) ? $options->{dir} : $options) or die N("copy failed: %s", $@);
 	propagate_sync_callback($options, 'end', $_);
     }
 }
@@ -169,17 +169,17 @@ sub sync_wget {
     my $options = shift @_;
     my ($buf, $total, $file) = ('', undef, undef);
     open WGET, join(" ", map { "'$_'" } "/usr/bin/wget",
-		    (ref $options && $options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
-		    (ref $options && $options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : ()),
-		    (ref $options && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
-		     ref $options && $options->{quiet} ? "-q" : ()),
+		    (ref($options) && $options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
+		    (ref($options) && $options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : ()),
+		    (ref($options) && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
+		     ref($options) && $options->{quiet} ? "-q" : @{[]}),
 		    "--retr-symlinks", "-NP",
-		    (ref $options ? $options->{dir} : $options), @_) . " |";
+		    (ref($options) ? $options->{dir} : $options), @_) . " |";
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
     while (<WGET>) {
 	$buf .= $_;
 	if ($_ eq "\r" || $_ eq "\n") {
-	    if (ref $options && $options->{callback}) {
+	    if (ref($options) && $options->{callback}) {
 		if ($buf =~ /^--\d\d:\d\d:\d\d--\s+(\S.*)\n/ms) {
 		    $file && $file ne $1 and propagate_sync_callback($options, 'end', $file);
 		    ! defined $file and propagate_sync_callback($options, 'start', $file = $1);
@@ -207,7 +207,7 @@ sub sync_curl {
     -x "/usr/bin/curl" or die N("curl is missing\n");
     local *CURL;
     my $options = shift @_;
-    chdir(ref $options ? $options->{dir} : $options);
+    chdir(ref($options) ? $options->{dir} : $options);
     my (@ftp_files, @other_files);
     foreach (@_) {
 	/^ftp:\/\/.*\/([^\/]*)$/ && -s $1 > 8192 and do { push @ftp_files, $_; next }; #- manage time stamp for large file only.
@@ -220,16 +220,16 @@ sub sync_curl {
 
 	#- prepare to get back size and time stamp of each file.
 	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
-			(ref $options && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
-			(ref $options && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()) .
+			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
+			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()) .
 			"-s", "-I", @ftp_files) . " |";
 	while (<CURL>) {
 	    if (/Content-Length:\s*(\d+)/) {
-		!$cur_ftp_file || exists $ftp_files_info{$cur_ftp_file}{size} and $cur_ftp_file = shift @ftp_files;
+		!$cur_ftp_file || exists($ftp_files_info{$cur_ftp_file}{size}) and $cur_ftp_file = shift @ftp_files;
 		$ftp_files_info{$cur_ftp_file}{size} = $1;
 	    }
 	    if (/Last-Modified:\s*(.*)/) {
-		!$cur_ftp_file || exists $ftp_files_info{$cur_ftp_file}{time} and $cur_ftp_file = shift @ftp_files;
+		!$cur_ftp_file || exists($ftp_files_info{$cur_ftp_file}{time}) and $cur_ftp_file = shift @ftp_files;
 		$ftp_files_info{$cur_ftp_file}{time} = Date::Manip::ParseDate($1);
 		$ftp_files_info{$cur_ftp_file}{time} =~ s/(\d{6}).{4}(.*)/$1$2/; #- remove day and hour.
 	    }
@@ -256,19 +256,19 @@ sub sync_curl {
     #- http files (and other files) are correctly managed by curl to conditionnal download.
     #- options for ftp files, -R (-O <file>)*
     #- options for http files, -R (-z file -O <file>)*
-    if (my @all_files = ((map { ("-O", $_) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
+    if (my @all_files = ((map { ("-O", $_) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : @{[]} } @other_files))) {
 	my @l = (@ftp_files, @other_files);
 	my ($buf, $file) = ('', undef);
 	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
-			(ref $options && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
-			(ref $options && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
-			(ref $options && $options->{quiet} && !$options->{verbose} ? "-s" : ()), "-R", "-f", "--stderr", "-",
+			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
+			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
+			(ref($options) && $options->{quiet} && !$options->{verbose} ? "-s" : @{[]}), "-R", "-f", "--stderr", "-",
 			@all_files) . " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	while (<CURL>) {
 	    $buf .= $_;
 	    if ($_ eq "\r" || $_ eq "\n") {
-		if (ref $options && $options->{callback}) {
+		if (ref($options) && $options->{callback}) {
 		    unless (defined $file) {
 			$file = shift @l;
 			propagate_sync_callback($options, 'start', $file);
@@ -292,7 +292,7 @@ sub sync_curl {
 sub sync_rsync {
     -x "/usr/bin/rsync" or die N("rsync is missing\n");
     my $options = shift @_;
-    my $limit_rate = ref $options && $options->{limit_rate};
+    my $limit_rate = ref($options) && $options->{limit_rate};
     for ($limit_rate) {
 	/^(\d+)$/     and $limit_rate = $1/1024;
 	/^(\d+)[kK]$/ and $limit_rate = $1;
@@ -309,13 +309,13 @@ sub sync_rsync {
 	    my $buf = '';
 	    open RSYNC, join(" ", map { "'$_'" } "/usr/bin/rsync",
 			     ($limit_rate ? "--bwlimit=$limit_rate" : ()),
-			     (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-			     qw(--partial --no-whole-file), $file, (ref $options ? $options->{dir} : $options)) . " |";
+			     (ref($options) && $options->{quiet} ? qw(-q) : qw(--progress -v)),
+			     qw(--partial --no-whole-file), $file, (ref($options) ? $options->{dir} : $options)) . " |";
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
 		$buf .= $_;
 		if ($_ eq "\r" || $_ eq "\n") {
-		    if (ref $options && $options->{callback}) {
+		    if (ref($options) && $options->{callback}) {
 			if (my ($percent, $speed) = $buf =~ /^\s*\d+\s+(\d+)%\s+(\S+)\s+/) {
 			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
 			}
@@ -326,7 +326,7 @@ sub sync_rsync {
 		}
 	    }
 	    close RSYNC;
-	} while ($? != 0 && --$count > 0 && -e (ref $options ? $options->{dir} : $options) . "/$basename");
+	} while ($? != 0 && --$count > 0 && -e (ref($options) ? $options->{dir} : $options) . "/$basename");
 	propagate_sync_callback($options, 'end', $file);
     }
     $? == 0 or die N("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
@@ -335,7 +335,7 @@ sub sync_ssh {
     -x "/usr/bin/rsync" or die N("rsync is missing\n");
     -x "/usr/bin/ssh" or die N("ssh is missing\n");
     my $options = shift @_;
-    my $limit_rate = ref $options && $options->{limit_rate};
+    my $limit_rate = ref($options) && $options->{limit_rate};
     for ($limit_rate) {
 	/^(\d+)$/     and $limit_rate = $1/1024;
 	/^(\d+)[kK]$/ and $limit_rate = $1;
@@ -351,13 +351,13 @@ sub sync_ssh {
 	    my $buf = '';
 	    open RSYNC, join(" ", map { "'$_'" } "/usr/bin/rsync",
 			     ($limit_rate ? "--bwlimit=$limit_rate" : ()),
-			     (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-			     qw(--partial -e ssh), $file, (ref $options ? $options->{dir} : $options)) . " |";
+			     (ref($options) && $options->{quiet} ? qw(-q) : qw(--progress -v)),
+			     qw(--partial -e ssh), $file, (ref($options) ? $options->{dir} : $options)) . " |";
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
 		$buf .= $_;
 		if ($_ eq "\r" || $_ eq "\n") {
-		    if (ref $options && $options->{callback}) {
+		    if (ref($options) && $options->{callback}) {
 			if (my ($percent, $speed) = $buf =~ /^\s*\d+\s+(\d+)%\s+(\S+)\s+/) {
 			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
 			}
@@ -368,7 +368,7 @@ sub sync_ssh {
 		}
 	    }
 	    close RSYNC;
-	} while ($? != 0 && --$count > 0 && -e (ref $options ? $options->{dir} : $options) . "/$basename");
+	} while ($? != 0 && --$count > 0 && -e (ref($options) ? $options->{dir} : $options) . "/$basename");
 	propagate_sync_callback($options, 'end', $file);
     }
     $? == 0 or die N("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
@@ -416,13 +416,13 @@ sub read_config {
 		#- check for boolean variables first, and after that valued variables.
 		my ($no, $k, $v);
 		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean)(?:\s*:\s*(.*))?$/) {
-		    unless (exists $urpm->{options}{$k}) {
+		    unless (exists($urpm->{options}{$k})) {
 			$urpm->{options}{$k} = $v eq '' || $v =~ /^(yes|on|1)$/i || 0;
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
 		    }
 		    next;
 		} elsif (($k, $v) = /^(limit-rate|excludepath)\s*:\s*(.*)$/) {
-		    unless (exists $urpm->{options}{$k}) {
+		    unless (exists($urpm->{options}{$k})) {
 			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
 			$urpm->{options}{$k} = $v;
 		    }
@@ -464,11 +464,11 @@ sub read_config {
     #- the next probe.
     my (%hdlists, %lists);
     foreach (@{$urpm->{media}}) {
-	exists $hdlists{$_->{hdlist}} and
+	exists($hdlists{$_->{hdlist}}) and
 	  $_->{ignore} = 1, $urpm->{error}(N("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name}));
 	$hdlists{$_->{hdlist}} = undef;
 	if ($_->{list}) {
-	    exists $lists{$_->{list}} and
+	    exists($lists{$_->{list}}) and
 	      $_->{ignore} = 1, $urpm->{error}(N("medium \"%s\" trying to use an already used list, medium ignored", $_->{name}));
 	    $lists{$_->{list}} = undef;
 	}
@@ -479,12 +479,12 @@ sub read_config {
     foreach (glob("$urpm->{statedir}/hdlist.*")) {
 	if (/\/hdlist\.((.*)\.cz2?)$/) {
 	    #- check if it has already been detected above.
-	    exists $hdlists{"hdlist.$1"} and next;
+	    exists($hdlists{"hdlist.$1"}) and next;
 
 	    #- if not this is a new media to take care if
 	    #- there is a list file.
 	    if (-s "$urpm->{statedir}/list.$2") {
-		if (exists $lists{"list.$2"}) {
+		if (exists($lists{"list.$2"})) {
 		    $urpm->{error}(N("unable to take care of medium \"%s\" as list file is already used by another medium", $2));
 		} else {
 		    my $medium;
@@ -598,7 +598,7 @@ sub probe_removable_device {
     }
 
     #- try to find device to open/close for removable medium.
-    if (exists $medium->{removable}) {
+    if (exists($medium->{removable})) {
 	if (my ($dir) = $medium->{url} =~ /(?:file|removable)[^:]*:\/(.*)/) {
 	    my %infos;
 	    my @mntpoints = $urpm->find_mntpoints($dir, \%infos);
@@ -770,7 +770,7 @@ sub configure {
 	$db->traverse(sub {
 			  my ($p) = @_;
 			  #- this is not right but may be enough.
-			  my $files = join '@', grep { exists $urpm->{provides}{$_} } $p->files;
+			  my $files = join '@', grep { exists($urpm->{provides}{$_}) } $p->files;
 			  $p->pack_header;
 			  $p->build_info(fileno *RPMDB, $files);
 		      });
@@ -906,7 +906,7 @@ sub select_media {
     my %media; @media{@_} = undef;
 
     foreach (@{$urpm->{media}}) {
-	if (exists $media{$_->{name}}) {
+	if (exists($media{$_->{name}})) {
 	    $media{$_->{name}} = 1; #- keep it mind this one has been selected.
 
 	    #- select medium by setting modified flags, do not check ignore.
@@ -1220,9 +1220,9 @@ sub update_media {
 
 		foreach ($medium->{with_hdlist} || (),
 			 "synthesis.hdlist.cz", "synthesis.hdlist$suffix.cz",
-			 !$suffix ? ("synthesis.hdlist1.cz", "synthesis.hdlist2.cz") : (),
-			 "../synthesis.hdlist$suffix.cz", !$suffix ? "../synthesis.hdlist1.cz" : (),
-			 "../base/hdlist$suffix.cz", !$suffix ? "../base/hdlist1.cz" : (),
+			 !$suffix ? ("synthesis.hdlist1.cz", "synthesis.hdlist2.cz") : @{[]},
+			 "../synthesis.hdlist$suffix.cz", !$suffix ? "../synthesis.hdlist1.cz" : @{[]},
+			 "../base/hdlist$suffix.cz", !$suffix ? "../base/hdlist1.cz" : @{[]},
 			) {
 		    $basename = /^.*\/([^\/]*)$/ && $1 || $_ or next;
 
@@ -1626,7 +1626,7 @@ sub find_mntpoints {
 	my ($device, $mntpoint, $fstype, $options) = /^\s*(\S+)\s+(\/\S+)\s+(\S+)\s+(\S+)/ or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	$fstab{$mntpoint} =  0;
-	if (ref $infos) {
+	if (ref($infos)) {
 	    if ($fstype eq 'supermount') {
 		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 0, device => $1, fs => $fstype };
 	    } else {
@@ -1639,7 +1639,7 @@ sub find_mntpoints {
 	my ($device, $mntpoint, $fstype, $options) = /^\s*(\S+)\s+(\/\S+)\s+(\S+)\s+(\S+)/ or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	$fstab{$mntpoint} = 1;
-	if (ref $infos) {
+	if (ref($infos)) {
 	    if ($fstype eq 'supermount') {
 		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 1, device => $1, fs => $fstype };
 	    } else {
@@ -1668,8 +1668,8 @@ sub find_mntpoints {
 	length($_) or next;
 	$pdir .= "/$_";
 	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
-	if (exists $fstab{$pdir}) {
-	    ref $infos and push @mntpoints, $pdir;
+	if (exists($fstab{$pdir})) {
+	    ref($infos) and push @mntpoints, $pdir;
 	    $infos eq 'mount' && ! $fstab{$pdir} and push @mntpoints, $pdir;
 	    $infos eq 'umount' && $fstab{$pdir} and unshift @mntpoints, $pdir;
 	}
@@ -1962,12 +1962,12 @@ sub deselect_unwanted_packages {
     close F;
 
     %skip or return;
-    foreach (grep { $options{force} || (exists $packages->{$_} && ! defined $packages->{$_}) } keys %$packages) {
+    foreach (grep { $options{force} || exists($packages->{$_}) && ! defined $packages->{$_} } keys %$packages) {
 	my $pkg = $urpm->{depslist}[$_] or next;
 	my $remove_it;
 
 	#- check if fullname is matching a regexp.
-	if (grep { exists $skip{$_}{''} && /^\/(.*)\/$/ && $pkg->fullname =~ /$1/ } keys %skip) {
+	if (grep { exists($skip{$_}{''}) && /^\/(.*)\/$/ && $pkg->fullname =~ /$1/ } keys %skip) {
 	    delete $packages->{$pkg->id};
 	} else {
 	    #- check if a provides match at least one package.
@@ -2076,7 +2076,7 @@ sub get_source_packages {
 			next;
 		    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 			my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-			unless (exists $list_examined{$fullname}) {
+			unless (exists($list_examined{$fullname})) {
 			    ++$list_warning;
 			    defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/".$pkg->filename;
 			    $examined{$fullname} = undef;
@@ -2094,12 +2094,12 @@ sub get_source_packages {
     }
 
     #- examine package list to see if a package has not been found.
-    foreach (grep { ! exists $examined{$_} } keys %fullname2id) {
+    foreach (grep { ! exists($examined{$_}) } keys %fullname2id) {
 	$error = 1;
 	$urpm->{error}(N("package %s is not found.", $_));
     }	
 
-    $error ? () : (\%local_sources, \@list);
+    $error ? @{[]} : (\%local_sources, \@list);
 }
 
 #- download package that may need to be downloaded.
@@ -2312,7 +2312,7 @@ sub extract_packages_to_install {
 	    #- these package have version=1 and release=1mdk, and name contains version and release.
 	    $pkg->version eq '1' && $pkg->release eq '1mdk' && $pkg->name =~ /^.*-[^\-]*mdk$/ and next;
 
-	    exists $sources->{$pkg->id} and $inst{$pkg->id} = delete $sources->{$pkg->id};
+	    exists($sources->{$pkg->id}) and $inst{$pkg->id} = delete $sources->{$pkg->id};
 	}
     }
     close F;
@@ -2530,7 +2530,7 @@ sub find_packages_to_remove {
 
 	    #- check if a package to be removed is a part of basesystem requires.
 	    while (defined($_ = shift @base)) {
-		exists $basepackages{$_} and next;
+		exists($basepackages{$_}) and next;
 		$db->traverse_tag(/^\// ? 'path' : 'whatprovides', [ $_ ], sub {
 				      my ($p) = @_;
 				      push @{$basepackages{$_} ||= []}, join '-', ($p->fullname)[0..2];

@@ -86,7 +86,7 @@ and [options] are from
 					    else { $options = { dir => $options, prefer => 'wget' } }
 					    urpm::sync_webfetch($options, @_) }, next;
 	/^--curl/ and $urpm->{sync} = \&urpm::sync_webfetch, next;
-	/^--limit-rate$/ and do {$options{limit_rate} = shift @_; next };
+	/^--limit-rate$/ and do { $options{limit_rate} = shift @_; next };
 	/^--proxy$/ and do {
 	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
 		die N("bad proxy declaration on command line\n");
@@ -97,8 +97,8 @@ and [options] are from
 	/^--proxy-user$/ and do {
 	    ($_ = shift @_) =~ /(.+):(.+)/, or
 		die N("bad proxy declaration on command line\n");
-	    $urpm->{proxy}->{user} = $1;
-	    $urpm->{proxy}->{pwd} = $2;
+	    $urpm->{proxy}{user} = $1;
+	    $urpm->{proxy}{pwd} = $2;
 	    next;
 	};
 	/^--distrib$/ and $options{distrib} = undef, next;
@@ -145,7 +145,7 @@ and [options] are from
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving mirrors at %s ...", $options{from}));
-		$urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}}, $options{from});
+		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} }, $options{from});
 		$urpm->{log}(N("...retrieving done"));
 	    };
 	    $@ and $urpm->{log}(N("...retrieving failed: %s", $@));

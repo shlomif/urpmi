@@ -62,7 +62,7 @@ my $update = 0;
 my $media = '';
 my $synthesis = '';
 my $verbose = 0;
-my $quiet = undef;
+my $quiet;
 my $pattern = '';
 my $full = '';
 my %params;
@@ -97,7 +97,7 @@ while (defined($_ = shift @ARGV)) {
 my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
-for (scalar(keys %params)) {
+foreach (scalar(keys %params)) {
     $_ eq 0 and do { defined $quiet or $quiet = 1; $params{files} = 1 };
     $_ eq 1 and do { defined $quiet or $quiet = 1 };
     $_ > 1 and do { defined $quiet or $quiet = 0 };

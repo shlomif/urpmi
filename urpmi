@@ -550,7 +550,7 @@ if (my @missing = grep { m|^/| && ! -e $_ } values %sources_install, values %sou
 #- install source package only (whatever the user is root or not, but use rpm for that).
 if ($install_src) {
     if (my @l = grep { /\.src\.rpm$/ } values %sources_install, values %sources) {
-	system("rpm", "-i$rpm_opt", @l, ($root ? ("--root", $root) : ()));
+	system("rpm", "-i$rpm_opt", @l, ($root ? ("--root", $root) : @{[]}));
 	$? and message(N("Installation failed")), exit 1;
     }
     exit 0;
@@ -577,7 +577,7 @@ if (%sources_install || %sources) {
 	$urpm->{log}("starting installing packages");
 	if ($X && !$root && !$test) {
 	    system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove} || {}});
-	    system("grpmi", $WID ? ("--WID=$WID") : (),
+	    system("grpmi", $WID ? "--WID=$WID" : @{[]},
 		   (map { ("-noupgrade", $_) } values %sources_install), values %sources);
 	    if ($?) {
 		#- grpmi handles --nodeps and --force by itself,
@@ -675,9 +675,9 @@ sub message_input {
 	$bug and log_it($msg);
     } else {
 	if ($bug) {
-	    print STDOUT "$msg";
+	    print STDOUT $msg;
 	} else {
-	    print SAVEOUT "$msg";
+	    print SAVEOUT $msg;
 	}
     }
 
@@ -687,7 +687,7 @@ sub message_input {
 }
 
 sub untaint {
-    my @r = ();
+    my @r;
     foreach (@_) {
         /(.*)/;
 	push @r, $1;

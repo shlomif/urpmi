@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 30mdk
+Release: 31mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -22,7 +22,7 @@ You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
 Summary: User mode rpm GUI install
-Requires: urpmi grpmi gchooser gmessage usermode menu
+Requires: urpmi >= %{version}-%{release} grpmi gchooser gmessage usermode menu
 Group: %{group}
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
@@ -37,7 +37,7 @@ gurpmi is a graphical front-end to urpmi
 
 %package -n urpmi-parallel-ka-run
 Summary: Parallel extensions to urpmi using ka-run
-Requires: urpmi >= 4.2-1mdk ka-run >= 2.0-15mdk
+Requires: urpmi >= %{version}-%{release} ka-run >= 2.0-15mdk
 Group: %{group}
 %description -n urpmi-parallel-ka-run
 urpmi-parallel-ka-run is an extensions module to urpmi for handling
@@ -45,7 +45,7 @@ distributed installation using ka-run tools.
 
 %package -n urpmi-parallel-ssh
 Summary: Parallel extensions to urpmi using ssh and scp
-Requires: urpmi >= 4.2-1mdk openssh-clients
+Requires: urpmi >= %{version}-%{release} openssh-clients
 Group: %{group}
 %description -n urpmi-parallel-ssh
 urpmi-parallel-ssh is an extensions module to urpmi for handling
@@ -199,6 +199,10 @@ $urpm->update_media;
 
 
 %changelog
+* Mon Mar 10 2003 François Pons <fpons@mandrakesoft.com> 4.2-31mdk
+- try to be somewhat perl_checker compliant.
+- strict require on urpmi.
+
 * Thu Mar  6 2003 Pons François <fpons@mandrakesoft.com> 4.2-30mdk
 - fixed %%post script to be simpler and much faster.
 
