@@ -7,6 +7,7 @@ use MDK::Common;
 use urpm::msg;
 use urpm::download;
 use urpm::util;
+use urpm::sys;
 
 our $VERSION = '4.5';
 our @ISA = qw(URPM);
@@ -337,7 +338,7 @@ sub probe_removable_device {
     if (exists($medium->{removable})) {
 	if (my ($dir) = $medium->{url} =~ m!(?:file|removable)[^:]*:/(.*)!) {
 	    my %infos;
-	    my @mntpoints = $urpm->find_mntpoints($dir, \%infos);
+	    my @mntpoints = urpm::sys::find_mntpoints($dir, \%infos);
 	    if (@mntpoints > 1) { #- return value is suitable for an hash.
 		$urpm->{log}(N("too many mount points for removable medium \"%s\"", $medium->{name}));
 		$urpm->{log}(N("taking removable device as \"%s\"", join ',', map { $infos{$_}{device} } @mntpoints));
@@ -1794,110 +1795,16 @@ sub clean {
     }
 }
 
-#- check if supermount is used.
-sub is_using_supermount {
-    my ($urpm, $device_mntpoint) = @_;
-    local (*F, $_);
-
-    #- read /etc/fstab and check for existing mount point.
-    open F, "/etc/fstab";
-    while (<F>) {
-	next if /^\s*#/;
-	my ($device, $mntpoint, $fstype, $options) = m|^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)| or next;
-	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
-	if ($fstype eq 'supermount') {
-	    $device_mntpoint eq $mntpoint and return 1;
-	    $options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ && $device_mntpoint eq $1 and return 1;
-	}
-    }
-    return 0;
-}
-
-#- find used mount point from a pathname, use a optional mode to allow
-#- filtering according the next operation (mount or umount).
-sub find_mntpoints {
-    my ($urpm, $dir, $infos) = @_;
-    my ($pdir, $v, %fstab, @mntpoints);
-    local (*F, $_);
-
-    #- read /etc/fstab and check for existing mount point.
-    open F, "/etc/fstab";
-    while (<F>) {
-	next if /^\s*#/;
-	my ($device, $mntpoint, $fstype, $options) = m|^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)| or next;
-	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
-	$fstab{$mntpoint} =  0;
-	if (ref($infos)) {
-	    if ($fstype eq 'supermount') {
-		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 0, device => $1, fs => $fstype,
-										     supermount => 1, };
-	    } else {
-		$infos->{$mntpoint} = { mounted => 0, device => $device, fs => $fstype };
-	    }
-	}
-    }
-    open F, "/etc/mtab";
-    while (<F>) {
-	my ($device, $mntpoint, $fstype, $options) = m|^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)| or next;
-	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
-	$fstab{$mntpoint} = 1;
-	if (ref($infos)) {
-	    if ($fstype eq 'supermount') {
-		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = { mounted => 1, device => $1, fs => $fstype,
-										     supermount => 1, };
-	    } else {
-		$infos->{$mntpoint} = { mounted => 1, device => $device, fs => $fstype };
-	    }
-	}
-    }
-    close F;
-
-    #- try to follow symlink, too complex symlink graph may not be seen.
-    #- check the possible mount point.
-    my @paths = split '/', $dir;
-    while (defined ($_ = shift @paths)) {
-	length($_) or next;
-	$pdir .= "/$_";
-	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
-	if (exists($fstab{$pdir})) {
-	    ref($infos) and push @mntpoints, $pdir;
-	    $infos eq 'mount' && ! $fstab{$pdir} and push @mntpoints, $pdir;
-	    $infos eq 'umount' && $fstab{$pdir} and unshift @mntpoints, $pdir;
-	    #- following symlinks may be dangerous for supermounted device and
-	    #- unusefull.
-	    #- this means it is assumed no symlink inside a removable device
-	    #- will go outside the device itself (or at least will go into
-	    #- regular already mounted device like /).
-	    #- for simplification we refuse also any other device and
-	    #- stop here.
-	    last;
-	} elsif (-l $pdir) {
-	    while ($v = readlink $pdir) {
-		if ($pdir =~ m|^/|) {
-		    $pdir = $v;
-		} else {
-		    while ($v =~ m|^\.\./(.*)|) {
-			$v = $1;
-			$pdir =~ s|^(.*)/[^/]+/*|$1|;
-		    }
-		    $pdir .= "/$v";
-		}
-	    }
-	    unshift @paths, split '/', $pdir;
-	    $pdir = '';
-	}
-    }
-
-    @mntpoints;
-}
-
 #- check for necessity of mounting some directory to get access
 sub try_mounting {
     my ($urpm, $dir, $removable) = @_;
     my %infos;
 
     $dir = reduce_pathname($dir);
-    foreach (grep { ! $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount' } $urpm->find_mntpoints($dir, \%infos)) {
+    foreach (grep {
+	    ! $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount';
+	} urpm::sys::find_mntpoints($dir, \%infos))
+    {
 	$urpm->{log}(N("mounting %s", $_));
 	`mount '$_' 2>/dev/null`;
 	$removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
@@ -1910,7 +1817,10 @@ sub try_umounting {
     my %infos;
 
     $dir = reduce_pathname($dir);
-    foreach (reverse grep { $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount' } $urpm->find_mntpoints($dir, \%infos)) {
+    foreach (reverse grep {
+	    $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount';
+	} urpm::sys::find_mntpoints($dir, \%infos))
+    {
 	$urpm->{log}(N("unmounting %s", $_));
 	`umount '$_' 2>/dev/null`;
 	delete $urpm->{removable_mounted}{$_};
@@ -2602,7 +2512,8 @@ sub copy_packages_of_removable_media {
 	#- mount the removable device, only one or the important one.
 	#- if supermount is used on the device, it is preferable to copy
 	#- the file instead (because it is so slooooow).
-	$examine_removable_medium->($removables{$device}[0], $device, $urpm->is_using_supermount($device) && 'copy');
+	$examine_removable_medium->($removables{$device}[0], $device,
+	    urpm::sys::is_using_supermount($device) ? 'copy' : 0);
     }
 
     1;
