@@ -7,7 +7,7 @@ $BASE2 = "$DIR2/autoirpm";
 $AUTO_INSTALL_BIN_LIST = "$BASE.binaries";
 $INSTALL_SCRIPT_REP = "$BASE.scripts";
 
-system("gzip -dc $DIR/hdlist.*.gz | autoirpm.update-all $BASE2.allow $BASE2.deny - > $AUTO_INSTALL_BIN_LIST");
+system("bzip2 -dc $DIR/hdlist*.cz2 2>/dev/null | autoirpm.update-all $BASE2.allow $BASE2.deny - > $AUTO_INSTALL_BIN_LIST");
 $? == 0  or die "autoirpm.upgrade-all failed\n";
 
 open F, $AUTO_INSTALL_BIN_LIST or die;
@@ -21,7 +21,7 @@ sub create_links_and_install_scripts($) {
     foreach (@progs) { lstat "/$_" and return } # verify that it's not installed
 
     foreach (@progs) {
-	make_dirname("/$_");
+	mkdir_(dirname("/$_"));
 	symlink $script, "/$_"; # or die "$rpm: /$_";
     }
 
@@ -31,8 +31,16 @@ sub create_links_and_install_scripts($) {
     chmod 0755, "$script";
 }
 
-sub make_dirname($) { 
-    my $file = $_[0];
-    my $dir = `dirname $file`;
-    `mkdir -p $dir 2>/dev/null`;
+sub dirname { local $_ = shift; s|[^/]*/*\s*$||; s|(.)/*$|$1|; $_ || '.' }
+
+sub mkdir_ {
+	-d $_[0] and return;
+
+	my $root = dirname $_[0];
+	if (-e $root) {
+	    -d $root or die "mkdir: error creating directory $_[0]: $root is a file and i won't delete it\n";
+	} else {
+	    mkdir_($root);
+	}
+	mkdir $_[0], 0755 or die "mkdir: error creating directory $_: $!\n";
 }

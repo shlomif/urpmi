@@ -18,10 +18,10 @@ install: autoirpm.update-all
 	$(MAKE) -C po $@
 	install -d $(BINDIR) $(SBINDIR) $(XBINDIR) $(URPMIDIR) $(URPMIDIR2) $(MANDIR)/man8
 	install -m 4755 urpmi $(BINDIR)
-	install _irpm rpm-find-leaves rpmf $(BINDIR)
+	install _irpm rpm-find-leaves urpmf $(BINDIR)
 	install -m 644 autoirpm.deny $(URPMIDIR2)
 	install -m 644 *.8 $(MANDIR)/man8
-	install rpme urpmi.addmedia autoirpm.update autoirpm.uninstall $(SBINDIR)
+	install urpme urpmi.addmedia autoirpm.update autoirpm.uninstall $(SBINDIR)
 	install -s autoirpm.update-all $(SBINDIR)
 	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia
 	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.update

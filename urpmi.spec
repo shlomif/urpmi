@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.1
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -46,6 +46,8 @@ make PREFIX=$RPM_BUILD_ROOT install
 install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
 install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 
+echo "Use urpmf instead" > $RPM_BUILD_ROOT/usr/bin/rpmf
+
 cd $RPM_BUILD_ROOT/usr/bin ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
 
 %clean
@@ -65,11 +67,11 @@ autoirpm.uninstall
 %attr(4750, root, urpmi) /usr/bin/urpmi
 /usr/bin/urpmi_rpm-find-leaves
 /usr/bin/rpmf
-/usr/sbin/rpme
+/usr/bin/urpmf
+/usr/sbin/urpme
 /usr/sbin/urpmi.*
 /usr/share/locale/*/LC_MESSAGES/urpmi.po
-/usr/man/man*/urpmi*
-/usr/man/man*/rpmf*
+/usr/man/man*/urpm*
 
 %files -n gurpmi
 %defattr(-,root,root)
@@ -86,6 +88,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Sun Mar 26 2000 Pixel <pixel@mandrakesoft.com> 1.1-4mdk
+- autoirpm.update: adapted to new hdlist format
+
 * Sun Mar 26 2000 Pixel <pixel@mandrakesoft.com> 1.1-3mdk
 - urpmi can handle package files given on command line. It finds out the
 dependencies if possible.

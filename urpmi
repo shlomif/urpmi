@@ -206,7 +206,7 @@ sub closure_deps {
 
 	$to_install->{$_} = undef;
 	my @notfound;
-	my @d = @{$deps{$_}} or return $_;
+	my @d = @{$deps{$_}} or next;
       up: foreach (@d) {
 	  my %l; 
 	  foreach (split '\|') { 
