@@ -122,6 +122,10 @@ _urpmq()
 			_urpmi_nodes
 			return 0
 			;;
+		--list-media)
+			COMPREPLY=( $( compgen -W 'all update active' -- $cur))
+			return 0
+			;;
 	esac
 
 	if [[ "$cur" == -* ]]; then
