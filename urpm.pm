@@ -648,14 +648,18 @@ sub add_medium {
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
     my ($hdlists_file);
+    my $distrib_root = "media/media_info";
 
     #- make sure configuration has been read.
     # (Olivier Thauvin): Is this a workaround ?
     $urpm->{media} or $urpm->read_config;
 
-    #- try to copy/retrieve Mandrake/basehdlists file.
+    #- be compatible with pre-10.1 layout
+    -d "$dir/$distrib_root" or $distrib_root = "Mandrake/base";
+
+    #- try to copy/retrieve the hdlists file.
     if (my ($dir) = $url =~ m!^(?:removable[^:]*|file):/(.*)!) {
-	$hdlists_file = reduce_pathname("$dir/Mandrake/base/hdlists");
+	$hdlists_file = reduce_pathname("$dir/$distrib_root/hdlists");
 
 	$urpm->try_mounting($hdlists_file) or $urpm->{error}(N("unable to access first installation medium")), return;
 
@@ -665,7 +669,7 @@ sub add_distrib_media {
 	    system("cp", "-p", "-R", $hdlists_file, "$urpm->{cachedir}/partial/hdlists") ?
 	      $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
 	} else {
-	    $urpm->{error}(N("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
+	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
 	}
     } else {
 	#- try to get the description if it has been found.
@@ -680,7 +684,7 @@ sub add_distrib_media {
 		    compress => $options{compress},
 		    proxy => get_proxy(),
 		},
-		reduce_pathname("$url/Mandrake/base/hdlists"),
+		reduce_pathname("$url/$distrib_root/hdlists"),
 	    );
 	    $urpm->{log}(N("...retrieving done"));
 	};
@@ -688,7 +692,7 @@ sub add_distrib_media {
 	if (-e "$urpm->{cachedir}/partial/hdlists") {
 	    $hdlists_file = "$urpm->{cachedir}/partial/hdlists";
 	} else {
-	    $urpm->{error}(N("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
+	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
 	}
     }
 
@@ -709,14 +713,14 @@ sub add_distrib_media {
 
 	    $urpm->add_medium($name ? "$descr ($name$medium)" : $descr,
 			      "$url/$rpmsdir",
-			      offset_pathname($url, $rpmsdir) . "/Mandrake/base/$hdlist",
+			      offset_pathname($url, $rpmsdir) . "/$distrib_root/$hdlist",
 			      %options);
 
 	    ++$medium;
 	}
 	close HDLISTS;
     } else {
-	$urpm->{error}(N("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
+	$urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
     }
 }
 
@@ -3164,7 +3168,7 @@ __END__
 
 =head1 NAME
 
-urpm - Mandrake perl tools to handle urpmi database
+urpm - Mandrakesoft perl tools to handle the urpmi database
 
 =head1 SYNOPSYS
 
@@ -3220,7 +3224,7 @@ urpm - Mandrake perl tools to handle urpmi database
 =head1 DESCRIPTION
 
 C<urpm> is used by urpmi executables to manipulate packages and media
-on a Linux-Mandrake distribution.
+on a Mandrakelinux distribution.
 
 =head1 SEE ALSO
 
@@ -3229,7 +3233,7 @@ level hdlist and rpm files.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000,2001,2002 Mandrakesoft <fpons@mandrakesoft.com>
+Copyright (C) 2000-2004 Mandrakesoft <fpons@mandrakesoft.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
