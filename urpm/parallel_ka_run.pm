@@ -6,7 +6,7 @@ sub parallel_register_rpms {
 
     $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- ".join(' ', @files)." $urpm->{cachedir}/rpms/");
     system "mput", split(' ', $parallel->{options}), '--', @files, "$urpm->{cachedir}/rpms/";
-    $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
+    $? == 0 || $? == 256 or $urpm->{fatal}(1, urpm::N("mput failed, maybe a node is unreacheable"));
 
     #- keep trace of direct files.
     foreach (@files) {
@@ -63,7 +63,7 @@ sub parallel_find_remove {
 	    }
 	}
     }
-    close F or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
+    close F or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
 
     #- check base, which has been delayed until there.
     $options{callback_base} and %base_to_remove and $options{callback_base}->($urpm, keys %base_to_remove)
@@ -72,7 +72,7 @@ sub parallel_find_remove {
     #- build error list contains all the error returned by each node.
     $urpm->{error_remove} = [];
     foreach (keys %bad_nodes) {
-	my $msg = N("on node %s", $_);
+	my $msg = urpm::N("on node %s", $_);
 	foreach (@{$bad_nodes{$_}}) {
 	    push @{$urpm->{error_remove}}, "$msg, $_";
 	}
@@ -89,7 +89,7 @@ sub parallel_resolve_dependencies {
     #- first propagate the synthesis file to all machine.
     $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- '$synthesis' '$synthesis'");
     system "mput $parallel->{options} -- '$synthesis' '$synthesis'";
-    $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
+    $? == 0 || $? == 256 or $urpm->{fatal}(1, urpm::N("mput failed, maybe a node is unreacheable"));
     $parallel->{synthesis} = $synthesis;
 
     #- compute command line of urpm? tools.
@@ -164,7 +164,7 @@ sub parallel_resolve_dependencies {
 		$state->{selected}{$pkg->id}{$node} = $_;
 	    }
 	}
-	close F or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
+	close F or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
     } while ($cont);
@@ -179,7 +179,7 @@ sub parallel_install {
 
     $urpm->{log}("parallel_ka_run: mput $parallel->{options} -- ".join(' ', values %$install, values %$upgrade)." $urpm->{cachedir}/rpms/");
     system "mput", split(' ', $parallel->{options}), '--', values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/";
-    $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
+    $? == 0 || $? == 256 or $urpm->{fatal}(1, urpm::N("mput failed, maybe a node is unreacheable"));
 
     local (*F, $_);
     my ($node, %bad_nodes);
@@ -193,16 +193,16 @@ sub parallel_install {
 	/Installation failed/ and $bad_nodes{$node} = '';
 	/Installation is possible/ and delete $bad_nodes{$node};
     }
-    close F or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
+    close F or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
 
     foreach (keys %{$parallel->{nodes}}) {
 	exists $bad_nodes{$_} or next;
-	$urpm->{error}(N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
+	$urpm->{error}(urpm::N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
     }
     %bad_nodes and return;
 
     if ($options{test}) {
-	$urpm->{error}(N("Installation is possible"));
+	$urpm->{error}(urpm::N("Installation is possible"));
 	1;
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");

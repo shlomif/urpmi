@@ -8,7 +8,7 @@ sub parallel_register_rpms {
 	my $sources = join ' ', map { "'$_'" } @files;
 	$urpm->{log}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms");
 	system "scp $sources $_:$urpm->{cachedir}/rpms";
-	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s", $_));
+	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s", $_));
     }
 
     #- keep trace of direct files.
@@ -76,7 +76,7 @@ sub parallel_find_remove {
     #- build error list contains all the error returned by each node.
     $urpm->{error_remove} = [];
     foreach (keys %bad_nodes) {
-	my $msg = N("on node %s", $_);
+	my $msg = urpm::N("on node %s", $_);
 	foreach (@{$bad_nodes{$_}}) {
 	    push @{$urpm->{error_remove}}, "$msg, $_";
 	}
@@ -93,7 +93,7 @@ sub parallel_resolve_dependencies {
     foreach (keys %{$parallel->{nodes}}) {
 	$urpm->{log}("parallel_ssh: scp -q '$synthesis' '$_:$synthesis'");
 	system "scp -q '$synthesis' '$_:$synthesis'";
-	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s", $_));
+	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s", $_));
     }
     $parallel->{synthesis} = $synthesis;
 
@@ -168,7 +168,7 @@ sub parallel_resolve_dependencies {
 		    $state->{selected}{$pkg->id}{$node} = $_;
 		}
 	    }
-	    close F or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi", $node));
+	    close F or $urpm->{fatal}(1, urpm::N("host %s does not have a good version of urpmi", $node));
 	}
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
@@ -186,7 +186,7 @@ sub parallel_install {
 	my $sources = join ' ', map { "'$_'" } values %$install, values %$upgrade;
 	$urpm->{log}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms");
 	system "scp $sources $_:$urpm->{cachedir}/rpms";
-	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s", $_));
+	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s", $_));
     }
 
     my %bad_nodes;
@@ -203,12 +203,12 @@ sub parallel_install {
     }
     foreach (keys %{$parallel->{nodes}}) {
 	exists $bad_nodes{$_} or next;
-	$urpm->{error}(N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
+	$urpm->{error}(urpm::N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
     }
     %bad_nodes and return;
 
     if ($options{test}) {
-	$urpm->{error}(N("Installation is possible"));
+	$urpm->{error}(urpm::N("Installation is possible"));
 	1;
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath $options{excludepath}" : "");
