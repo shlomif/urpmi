@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-11 23:08+0200\n"
-"PO-Revision-Date: 2004-02-02 10:12+0100\n"
+"PO-Revision-Date: 2004-08-21 10:12+0100\n"
 "Last-Translator: Arkadiusz Lipiec <arkadiusz.lipiec@gazeta.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -201,9 +201,9 @@ msgid "unable to write config file [%s]"
 msgstr "nie można zapisać pliku konfiguracyjnego [%s]"
 
 #: ../urpm.pm:370
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write file [%s]"
-msgstr "nie można zapisać pliku konfiguracyjnego [%s]"
+msgstr "nie można zapisać pliku [%s]"
 
 #: ../urpm.pm:377
 #, c-format
@@ -378,19 +378,19 @@ msgid "removing medium \"%s\""
 msgstr "usuwanie nośnika \"%s\""
 
 #: ../urpm.pm:848
-#, fuzzy, c-format
+#, c-format
 msgid "reconfiguring urpmi for media \"%s\""
-msgstr "pobieranie plików rpm z nośnika \"%s\"..."
+msgstr "przekonfigurowywanie urpmi dla nośnika \"%s\""
 
 #: ../urpm.pm:874
-#, fuzzy, c-format
+#, c-format
 msgid "...reconfiguration failed"
-msgstr "...kopiowanie zakończone niepowodzeniem"
+msgstr "...przekonfigurowywanie zakończone niepowodzeniem"
 
 #: ../urpm.pm:881
 #, c-format
 msgid "reconfiguration done"
-msgstr ""
+msgstr "przekonfigurowywanie zakończone"
 
 #: ../urpm.pm:1008
 #, c-format
@@ -728,9 +728,9 @@ msgid "unable to install package %s"
 msgstr "nie można zainstalować pakietu %s"
 
 #: ../urpm.pm:2880
-#, fuzzy, c-format
+#, c-format
 msgid "More information on package %s"
-msgstr "usuwanie pakietu %s"
+msgstr "Więcej informacji o pakiecie %s"
 
 #: ../urpm.pm:3038 ../urpm.pm:3071
 #, c-format
@@ -798,7 +798,7 @@ msgid "Sorry, bad choice, try again\n"
 msgstr "Niestety, niepoprawny wybór, spróbuj ponownie\n"
 
 #: ../urpme:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpme version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -808,7 +808,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq wersja %s\n"
-"Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
+"Copyright (C) 1999-2004 Mandrakesoft.\n"
 "To jest otwarte oprogramowanie i może być rozpowszechniane na zasadach "
 "licencji  GNU GPL.\n"
 "\n"
@@ -918,7 +918,7 @@ msgid "Removing failed"
 msgstr "Usuwanie zakończone niepowodzeniem"
 
 #: ../urpmf:27
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2004 Mandrakesoft.\n"
@@ -928,7 +928,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq wersja %s\n"
-"Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
+"Copyright (C) 2002-2004 Mandrakesoft.\n"
 "To jest otwarte oprogramowanie i może być rozpowszechniane na zasadach "
 "licencji  GNU GPL.\n"
 "\n"
@@ -992,9 +992,9 @@ msgid "  --all          - print all tags.\n"
 msgstr "  --all           - wyświetla wszystkie znaczniki.\n"
 
 #: ../urpmf:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --name         - print only package names.\n"
-msgstr "  --all           - wyświetla wszystkie znaczniki.\n"
+msgstr "  --name          - wyświetla tylko nazwy pakietów.\n"
 
 #: ../urpmf:44
 #, c-format
@@ -1145,14 +1145,16 @@ msgid ""
 "Note: since no media searched uses hdlists, urpmf was unable to return any "
 "result\n"
 msgstr ""
+"Uwaga: jeśli żaden z przeszykiwanych nośników nie używa plików hdlist, "
+"urpmf nie może zwrócić żadnego wyniku\n"
 
 #: ../urpmf:152
 #, c-format
 msgid "You may want to use --name to search for package names.\n"
-msgstr ""
+msgstr "Być może warto użyć opcji --name aby szukać po nazwach pakietów.\n"
 
 #: ../urpmi:69
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999-2004 Mandrakesoft.\n"
@@ -1162,7 +1164,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq wersja %s\n"
-"Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
+"Copyright (C) 1999-2004 Mandrakesoft.\n"
 "To jest otwarte oprogramowanie i może być rozpowszechniane na zasadach "
 "licencji  GNU GPL.\n"
 "\n"
@@ -1355,11 +1357,9 @@ msgid "  --excludedocs  - exclude docs files.\n"
 msgstr "  --excludedocs  - wyłącza pliki dokumentacji.\n"
 
 #: ../urpmi:124
-#, fuzzy, c-format
+#, c-format
 msgid "  --skip         - packages which installation should be skipped\n"
-msgstr ""
-"  --test         - sprawdza, czy instalacja zostanie przeprowadzona "
-"prawidłowo.\n"
+msgstr "  --skip         - pakiety, których instalacja powinna być pominięta\n"
 
 #: ../urpmi:125
 #, c-format
@@ -1367,6 +1367,8 @@ msgid ""
 "  --more-choices - when several packages are found, propose more choices\n"
 "                   than the default.\n"
 msgstr ""
+"  --more-choices - gdy kilka pakietów zostanie znalezionych, proponuje\n"
+"                   większy wybór niż tylko domyślny.\n"
 
 #: ../urpmi:127 ../urpmq:79
 #, c-format
@@ -1539,6 +1541,8 @@ msgid ""
 "\n"
 "Continue?"
 msgstr ""
+"\n"
+"Kontynuować?"
 
 #: ../urpmi:465
 #, c-format
@@ -1570,7 +1574,7 @@ msgstr ""
 "d MB)"
 
 #: ../urpmi:511 ../urpmi:522
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed (%d "
 "MB)"
@@ -1813,14 +1817,14 @@ msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - wymusza generację plików hdlist.\n"
 
 #: ../urpmi.addmedia:115
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to add media"
-msgstr "Tylko administrator ma prawo instalować pakiety"
+msgstr "Tylko administrator ma prawo dodawać nośniki"
 
 #: ../urpmi.addmedia:144
 #, c-format
 msgid "found version %s and arch %d ..."
-msgstr ""
+msgstr "znaleziono wersję %s i archiwum %d ..."
 
 #: ../urpmi.addmedia:148
 #, c-format
@@ -1873,9 +1877,9 @@ msgid "  -a             - select all media.\n"
 msgstr "  -a             - wybiera wszystkie nośniki.\n"
 
 #: ../urpmi.removemedia:44
-#, fuzzy, c-format
+#, c-format
 msgid "  -y             - fuzzy match on media names.\n"
-msgstr "  -a             - wybiera wszystkie dopasowania w wierszu poleceń.\n"
+msgstr "  -a             - rozmyte dopasowanie nazw nośników.\n"
 
 #: ../urpmi.removemedia:47
 #, c-format
@@ -1887,9 +1891,9 @@ msgstr ""
 "nieznane opcje \"%s\"\n"
 
 #: ../urpmi.removemedia:53
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to remove media"
-msgstr "Tylko administrator ma prawo instalować pakiety"
+msgstr "Tylko administrator ma prawo usuwać nośniki"
 
 #: ../urpmi.removemedia:63
 #, c-format
@@ -1930,9 +1934,9 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - wybiera wszystkie niewymienne nośniki.\n"
 
 #: ../urpmi.update:62
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to update media"
-msgstr "Tylko administrator ma prawo instalować pakiety"
+msgstr "Tylko administrator ma prawo aktualizować nośniki"
 
 #: ../urpmi.update:70
 #, c-format
@@ -1950,7 +1954,7 @@ msgstr ""
 "(jeden z %s)\n"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2004 Mandrakesoft.\n"
@@ -1960,9 +1964,9 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq wersja %s\n"
-"Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
+"Copyright (C) 2000-2004 Mandrakesoft.\n"
 "To jest otwarte oprogramowanie i może być rozpowszechniane na zasadach "
-"licencji  GNU GPL.\n"
+"licencji GNU GPL.\n"
 "\n"
 "użycie:\n"
 
@@ -2050,13 +2054,13 @@ msgid "  -c             - complete output with package to be removed.\n"
 msgstr "  -c             - zapełnia wyjście pakietami do usunięcia.\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  -p             - search in provides to find package.\n"
 msgstr ""
-"  -p             - umożliwia wyszukiwanie serwerów przy szukaniu pakietów.\n"
+"  -p             - wyszukiwanie celu znalezienia pakietu.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -P             - do not search in provides to find package (default).\n"
 msgstr ""
@@ -2068,9 +2072,11 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - wyszukiwanie odwrotne tego co wymaga pakietu.\n"
 
 #: ../urpmq:85
-#, fuzzy, c-format
+#, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
-msgstr "  -a             - wybiera wszystkie dopasowania w wierszu poleceń.\n"
+msgstr ""
+"  -Y             - jak opcja -y, lecz wymusza rozróżnianie wielkości\n"
+"                   liter.\n"
 
 #: ../urpmq:87
 #, c-format
@@ -2106,150 +2112,14 @@ msgstr "--list-nodes może być użyta tylko z opcją --parallel"
 #: ../urpmq:331
 #, c-format
 msgid "skipping media %s: no hdlist\n"
-msgstr ""
+msgstr "pomijanie nośnika %s: brak pliku hdlist\n"
 
 #: ../urpmq:392
 #, c-format
 msgid "No filelist found\n"
-msgstr ""
+msgstr "Nie znaleziono listy plików\n"
 
 #: ../urpmq:402
 #, c-format
 msgid "No changelog found\n"
-msgstr ""
-
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "nośnik wirtualny musi być lokalny"
-
-#~ msgid ""
-#~ "urpme version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmi wersja %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "To jest oprogramowanie otwarte i może być rozpowszechniane na zasadach "
-#~ "licencji GNU GPL.\n"
-#~ "\n"
-#~ "użycie:\n"
-
-#~ msgid ""
-#~ "urpmi version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmi wersja %s\n"
-#~ "Copyright (C) 1999, 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "To jest oprogramowanie otwarte i może być rozpowszechniane na zasadach "
-#~ "licencji GNU GPL.\n"
-#~ "\n"
-#~ "użycie:\n"
-
-#~ msgid "syntax error in config file at line %s"
-#~ msgstr "błąd składni pliku konfiguracyjnego w wierszu %s"
-
-#~ msgid ""
-#~ "unable to take care of medium \"%s\" as list file is already used by "
-#~ "another medium"
-#~ msgstr ""
-#~ "Nie można sprawdzić \"%s\" gdyż plik listy jest używany przez inny nośnik "
-
-#~ msgid ""
-#~ "unable to use name \"%s\" for unnamed medium because it is already used"
-#~ msgstr ""
-#~ "nie można użyć nazwy \"%s\" dla nienazwanego nośnika, ponieważ jest ona "
-#~ "już używana"
-
-#~ msgid ""
-#~ "unable to take medium \"%s\" into account as no list file [%s] exists"
-#~ msgstr ""
-#~ "nie można przypisać nośnika \"%s\" do konta, gdyż nie istnieje plik listy "
-#~ "[%s]"
-
-#~ msgid "unable to determine medium of this hdlist file [%s]"
-#~ msgstr "nie można określić nośnika związanego z tym plikiem hdlist [%s]"
-
-#~ msgid "One of the following packages is needed to install %s:"
-#~ msgstr "Jeden z poniższych pakietów musi zostać zainstalowany %s:"
-
-#~ msgid ""
-#~ "urpmq version %s\n"
-#~ "Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmq wersja %s\n"
-#~ "Copyright (C) 2000, 2001, 2002 Mandrakesoft.\n"
-#~ "To jest otwarte oprogramowanie i może być rozpowszechniane na zasadach "
-#~ "licencji GNU GPL.\n"
-#~ "\n"
-#~ "użycie:\n"
-
-#~ msgid "Unknown webfetch `%s' !!!\n"
-#~ msgstr "Nieznany typ pobierania `%s' !!!\n"
-
-#~ msgid "copy failed: %s"
-#~ msgstr "kopiowanie nie powiodło się: %s"
-
-#~ msgid "wget is missing\n"
-#~ msgstr "brak programu wget\n"
-
-#~ msgid "wget failed: exited with %d or signal %d\n"
-#~ msgstr "błąd wget: wyjście z wartością %d lub sygnałem %d\n"
-
-#~ msgid "curl is missing\n"
-#~ msgstr "brak programu curl\n"
-
-#~ msgid "curl failed: exited with %d or signal %d\n"
-#~ msgstr "błąd curl: wyjście z wartością %d lub sygnałem %d\n"
-
-#~ msgid "rsync is missing\n"
-#~ msgstr "brak programu rsync\n"
-
-#~ msgid "rsync failed: exited with %d or signal %d\n"
-#~ msgstr "błąd rsync: wyjście z wartością %d lub sygnałem %d\n"
-
-#~ msgid "ssh is missing\n"
-#~ msgstr "brak ssh\n"
-
-#~ msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpme: nieznana opcja \"-%s\", sprawdź wywołanie z opcją --help\n"
-
-#~ msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpmi: nieznana opcja \"-%s\", sprawdź wywołanie z opcją --help\n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "no need to give <relative path of hdlist> with --distrib"
-#~ msgstr ""
-#~ "%s\n"
-#~ "nie ma potrzeby podawania <ścieżki_względnej lub hdlisty> z opcją --"
-#~ "distrib"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "<relative path of hdlist> missing\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "brak <ścieżki względnej do pliku hdlist>\n"
-
-#~ msgid ""
-#~ "%s\n"
-#~ "`with' missing for network media\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "brakujący parametr \"with\" dla nośnika sieciowego\n"
-
-#~ msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
-#~ msgstr "urpme: nieznana opcja \"-%s\", sprawdź użycie z opcją --help\n"
-
-#~ msgid "no webfetch (curl or wget currently) found\n"
-#~ msgstr "Nie znaleziono programu do pobierania stron (curl lub wget)\n"
+msgstr "Nie znaleziono dziennika zmian\n"
