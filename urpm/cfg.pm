@@ -85,9 +85,9 @@ sub load_config ($) {
 	  |split-(?:level|length)
 	  |priority-upgrade
 	  |downloader
-	 )\s*:\s*(.*)$/x
+	 )\s*:\s*['"]?(.*?)['"]?$/x
 	    and $config{$medium}{$1} = $2, next;
-	/^key[-_]ids\s*:\s*(.*)$/
+	/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/
 	    and $config{$medium}{'key-ids'} = $1, next;
 	#- positive flags
 	/^(update|ignore|synthesis|virtual)$/
