@@ -188,7 +188,7 @@ if ($bug) {
 	    ? N("Directory [%s] already exists, please use another directory for bug report or delete it", $bug)
 	    : N("Unable to create directory [%s] for bug report", $bug)));
     #- copy all synthesis file used, along with configuration of urpmi
-    system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, $bug)
+    system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, $urpm->{config}, $bug)
 	and die N("Copying failed");
     #- allow log file.
     $log = "$bug/urpmi.log";
@@ -304,7 +304,7 @@ if ($bug) {
 	}
     }
     #- fake configuration written to convert virtual media on the fly.
-    $urpm->{config} = "$bug/urpmi.cfg";
+    local $urpm->{config} = "$bug/urpmi.cfg";
     $urpm->write_config;
     #- handle local packages, copy them directly in bug environment.
     foreach (keys %requested) {
