@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 13mdk
+Release: 14mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -11,6 +11,7 @@ Requires: eject, webfetch, perl-DateManip >= 5.40
 PreReq: perl-gettext, rpmtools >= 4.2-4mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
+BuildArch: noarch
 
 Group: %{group}
 %description
@@ -62,7 +63,7 @@ hackkernel
 EOF
 
 mkdir -p $RPM_BUILD_ROOT%{perl_sitearch}
-install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_sitearch}
+install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_sitearch}/../urpm.pm
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man3
 pod2man urpm.pm >$RPM_BUILD_ROOT%{_mandir}/man3/urpm.3
 
@@ -125,7 +126,7 @@ fi
 %{_mandir}/man?/urpm*
 # find_lang isn't able to find man pages yet...
 %lang(fr) %{_mandir}/fr/man?/urpm* 
-%{perl_sitearch}/urpm.pm
+%{_libdir}/perl5/site_perl/*/urpm.pm
 
 %files -n gurpmi
 %defattr(-,root,root)
@@ -144,6 +145,10 @@ fi
 
 
 %changelog
+* Thu Feb 21 2002 François Pons <fpons@ackbar.mandrakesoft.com> 3.3-14mdk
+- build package as noarch as there is no more any binary inside.
+- fixed urpme to avoid removing base package.
+
 * Thu Feb 21 2002 François Pons <fpons@mandrakesoft.com> 3.3-13mdk
 - removed staling debug log.
 - try to mount a removable device before examining if an available
