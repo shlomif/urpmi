@@ -563,13 +563,15 @@ foreach my $set (@{$state->{transaction} || []}) {
 						      if ($mode eq 'start') {
 							  print STDERR "    $file\n"; #- allow pass-protected url to be logged.
 						      } elsif ($mode eq 'progress') {
+							  my $text;
 							  if (defined $total && defined $eta) {
-							      print SAVEERR N("        %s%% of %s completed, ETA = %s, speed = %s",
-									      $percent, $total, $eta, $speed) . "\r";
+							      $text = N("        %s%% of %s completed, ETA = %s, speed = %s",
+									$percent, $total, $eta, $speed);
 							  } else {
-							      print SAVEERR N("        %s%% completed, speed = %s",
-									      $percent, $speed) . "\r";
+							      $text = N("        %s%% completed, speed = %s",
+									$percent, $speed);
 							  }
+							  print SAVEERR " " x (79 - length($text)) . "\r";
 						      } elsif ($mode eq 'end') {
 							  print SAVEERR " " x 79, "\r";
 						      }
