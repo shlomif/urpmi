@@ -1518,17 +1518,22 @@ sub get_source_packages {
     #- examine the local repository, which is trusted.
     opendir D, "$urpm->{cachedir}/rpms";
     while (defined($_ = readdir D)) {
-	if (/([^\/]*)\.rpm/ && -s "$urpm->{cachedir}/rpms/$1.rpm") {
-	    if (keys(%{$file2fullnames{$1} || {}}) > 1) {
-		$urpm->{error}(_("there are multiples packages with the same rpm filename \"%s\""), $1);
-		next;
-	    } elsif (keys(%{$file2fullnames{$1} || {}}) == 1) {
-		my ($fullname) = keys(%{$file2fullnames{$1} || {}});
-		if (defined delete $fullname2id{$fullname}) {
-		    push @local_sources, "$urpm->{cachedir}/rpms/$1.rpm";
-		} else {
-		    push @local_to_removes, "$urpm->{cachedir}/rpms/$1.rpm";
+	if (/([^\/]*)\.rpm/) {
+	    if (-s "$urpm->{cachedir}/rpms/$1.rpm") {
+		if (keys(%{$file2fullnames{$1} || {}}) > 1) {
+		    $urpm->{error}(_("there are multiples packages with the same rpm filename \"%s\""), $1);
+		    next;
+		} elsif (keys(%{$file2fullnames{$1} || {}}) == 1) {
+		    my ($fullname) = keys(%{$file2fullnames{$1} || {}});
+		    if (defined delete $fullname2id{$fullname}) {
+			push @local_sources, "$urpm->{cachedir}/rpms/$1.rpm";
+		    } else {
+			push @local_to_removes, "$urpm->{cachedir}/rpms/$1.rpm";
+		    }
 		}
+	    } else {
+		#- this is an invalid file in cache, remove it and ignore it.
+		unlink "$urpm->{cachedir}/rpms/$1.rpm";
 	    }
 	} #- no error on unknown filename located in cache (because .listing)
     }
