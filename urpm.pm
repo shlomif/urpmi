@@ -682,13 +682,13 @@ sub add_medium {
     $urpm->{log}(N("added medium %s", $name));
 
     #- we need to reload the config, since some string substitutions may have occured
-    $urpm->write_config;
-    delete $urpm->{media};
-    $urpm->read_config(nocheck_access => 1);
-    foreach (@{$urpm->{media}}) {
-	$_->{name} eq $name and $_->{modified} = 1;
+    unless ($options{no_reload_config}) {
+	$urpm->write_config;
+	delete $urpm->{media};
+	$urpm->read_config(nocheck_access => 1);
+	$_->{name} eq $name and $_->{modified} = 1 foreach @{$urpm->{media}};
+	$urpm->{modified} = 1;
     }
-    $urpm->{modified} = 1;
 
     $name;
 }
@@ -755,7 +755,7 @@ sub add_distrib_media {
 	}
     }
 
-    #- cosmetic update of name if it contains blank char.
+    #- cosmetic update of name if it contains spaces.
     $name =~ /\s/ and $name .= ' ';
 
     my @newnames;
@@ -779,6 +779,7 @@ sub add_distrib_media {
 		"$url/$rpmsdir",
 		offset_pathname($url, $rpmsdir) . "/$distrib_root/" . ($options{probe_with} eq 'synthesis' ? 'synthesis.' : '') . $hdlist,
 		index_name => $name ? undef : 0,
+		no_reload_config => 1, #- no need to reload config each time, since we don't update the media
 		%options,
 	    );
 
