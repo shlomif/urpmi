@@ -6,5 +6,7 @@ $ENV{PATH} = '/bin:/usr/bin:/usr/sbin:/usr/X11R6/bin';
 $urpmi = 'urpmi';
 if (-f $urpmi && $ENV{DEBUG_URPMI}) { $urpmi = './urpmi' }
 
+@ARGV = map { /(.*)/ ; $1 } @ARGV;
+
 exec $urpmi, "-X", @ARGV
     or die "Can't exec $urpmi: $!\n";
