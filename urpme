@@ -99,7 +99,7 @@ my @toremove = $urpm->find_packages_to_remove($state, \@l,
 if ($test && $auto) {
     my $msg = N("Checking to remove the following packages");
     print STDOUT "$msg:\n" . join("\n", sort { $a cmp $b } @toremove) . "\n";
-} elsif (@toremove > @l && !$auto) {
+} elsif ($parallel || @toremove > @l && !$auto) {
     my $sum = 0;
     foreach (@toremove) {
 	$sum += $state->{rejected}{$_}{size};
