@@ -71,7 +71,7 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 usage:
 ", $urpm::VERSION) . _("  --help         - print this help message.
 ") . _("  --update       - use only update media.
-") . _("  --media        - use only the media listed by comma.
+") . _("  --media        - use only the given media, separated by comma.
 ") . _("  --synthesis    - use the given synthesis instead of urpmi db.
 ") . _("  --auto         - automatically select a package in choices.
 ") . _("  --auto-select  - automatically select packages to upgrade the system.
@@ -626,7 +626,7 @@ if (%sources_install || %sources) {
 	}
     }
 } else {
-    $verbose >= 0 and message(_("everything already installed"), $auto);
+    $verbose >= 0 and message(_("Everything already installed"), $auto);
 }
 
 #- try to umount removable device which may have been mounted.

@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-14 03:15+0100\n"
-"PO-Revision-Date: 2003-02-01 20:33+0700\n"
+"POT-Creation-Date: 2003-02-14 16:00+0100\n"
+"PO-Revision-Date: 2003-02-14 17:43+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Gnome-Vi <Gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -124,9 +124,8 @@ msgid "        %s%% completed, speed = %s"
 msgstr "        %s%% đã hoàn thành, tốc độ = %s"
 
 #: ../urpm.pm_.c:2393 ../urpm.pm_.c:2477
-#, fuzzy
 msgid "unable to open rpmdb"
-msgstr "không thể đăng ký tập tin rpm"
+msgstr "không thể mở rpmdb"
 
 #: ../urpm.pm_.c:2400
 #, c-format
@@ -293,7 +292,8 @@ msgid "  --update       - use only update media.\n"
 msgstr "  --update       - chỉ dùng phương tiện cập nhật.\n"
 
 #: ../urpmf_.c:33 ../urpmi_.c:74 ../urpmq_.c:42
-msgid "  --media        - use only the media listed by comma.\n"
+#, fuzzy
+msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media         - chỉ dùng phương tiện được liệt kê bởi dấu phẩy.\n"
 
 #: ../urpmf_.c:34 ../urpmq_.c:43
@@ -373,7 +373,7 @@ msgid ""
 msgstr "  --obsoletes     - in ra tag hết hạn: toàn bộ obsolete (đa dòng).\n"
 
 #: ../urpmf_.c:51
-msgid "  -i             - ignore case distinctions in any patterns.\n"
+msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -i             - bỏ qua các dấu hiệu phân biệt trong mọi mẫu.\n"
 
 #: ../urpmf_.c:52 ../urpmq_.c:72
@@ -507,14 +507,16 @@ msgstr ""
 "                   %s\n"
 
 #: ../urpmi.addmedia_.c:69
+#, fuzzy
 msgid ""
-"  --version      - use specified version, the default is version of\n"
-"                   mandrake-release package installed.\n"
+"  --version      - use specified distribution version, the default is taken\n"
+"                   from the version of the distribution told by the\n"
+"                   uinstalled mandrake-release package.\n"
 msgstr ""
 "  --version      - dùng phiên bản được chỉ định, mặc định là phiên bản\n"
 "                   của gói phát hành mandrake đã cài đặt.\n"
 
-#: ../urpmi.addmedia_.c:71
+#: ../urpmi.addmedia_.c:72
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
@@ -522,11 +524,11 @@ msgstr ""
 "  --arch         - dùng kiến trúc được chỉ định, mặc định là kiến trúc của\n"
 "                   gói phát hành mandrake đã cài đặt.\n"
 
-#: ../urpmi.addmedia_.c:73 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:72
+#: ../urpmi.addmedia_.c:74 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:72
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - xoá thư mục cache headers.\n"
 
-#: ../urpmi.addmedia_.c:74
+#: ../urpmi.addmedia_.c:75
 msgid ""
 "  -h             - try to find and use synthesis or hdlist\n"
 "                   file.\n"
@@ -534,15 +536,15 @@ msgstr ""
 "  -h             - cố tìm và dùng tập tin hdlist hoặc\n"
 "                   synthesis.\n"
 
-#: ../urpmi.addmedia_.c:76 ../urpmi.update_.c:74
+#: ../urpmi.addmedia_.c:77 ../urpmi.update_.c:74
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - cố tạo các tập tin hdlist.\n"
 
-#: ../urpmi.addmedia_.c:144
+#: ../urpmi.addmedia_.c:145
 msgid "cannot add updates of a cooker distribution\n"
 msgstr "không thể thêm các cập nhật của phiên bản cooker\n"
 
-#: ../urpmi.addmedia_.c:184
+#: ../urpmi.addmedia_.c:185
 #, c-format
 msgid ""
 "%s\n"
@@ -551,12 +553,12 @@ msgstr ""
 "%s\n"
 "không cần cho --distrib vào với <đường dẫn liên quan của hdlist>"
 
-#: ../urpmi.addmedia_.c:191 ../urpmi.addmedia_.c:214
+#: ../urpmi.addmedia_.c:192 ../urpmi.addmedia_.c:215
 #, c-format
 msgid "unable to update medium \"%s\"\n"
 msgstr "không thể cập nhật phương tiện \"%s\"\n"
 
-#: ../urpmi.addmedia_.c:202
+#: ../urpmi.addmedia_.c:203
 #, c-format
 msgid ""
 "%s\n"
@@ -565,7 +567,7 @@ msgstr ""
 "%s\n"
 "thiếu <đường dẫn liên quan của hdlist> \n"
 
-#: ../urpmi.addmedia_.c:204
+#: ../urpmi.addmedia_.c:205
 #, c-format
 msgid ""
 "%s\n"
@@ -574,7 +576,7 @@ msgstr ""
 "%s\n"
 "thiếu `with' cho phương tiện ftp\n"
 
-#: ../urpmi.addmedia_.c:212
+#: ../urpmi.addmedia_.c:213
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "không thể tạo phương tiện \"%s\"\n"
@@ -947,7 +949,7 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Thử cố gắng cài đặt (--force)? (Có/[Không])"
 
 #: ../urpmi_.c:629
-msgid "everything already installed"
+msgid "Everything already installed"
 msgstr "Mọi thứ đã được cài đặt rồi"
 
 #: ../urpmq_.c:35

@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.7\n"
-"POT-Creation-Date: 2003-02-14 03:15+0100\n"
+"POT-Creation-Date: 2003-02-14 16:00+0100\n"
 "PO-Revision-Date: 2002-09-02 03:10+0800\n"
 "Last-Translator: Kenduest Lee <kenduest@i18n.linux.org.tw>\n"
 "Language-Team: Chinese Team <zh-l10n@linux.org.tw>\n"
@@ -303,7 +303,8 @@ msgid "  --update       - use only update media.\n"
 msgstr "  --update       - 只使用更新的媒介。\n"
 
 #: ../urpmf_.c:33 ../urpmi_.c:74 ../urpmq_.c:42
-msgid "  --media        - use only the media listed by comma.\n"
+#, fuzzy
+msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - 只使用以逗號列出的媒介。\n"
 
 #: ../urpmf_.c:34 ../urpmq_.c:43
@@ -391,7 +392,7 @@ msgstr "  --obsoletes     - 顯示全部過時套件 (多行顯示)。"
 
 #: ../urpmf_.c:51
 #, fuzzy
-msgid "  -i             - ignore case distinctions in any patterns.\n"
+msgid "  -i             - ignore case distinctions in every pattern.\n"
 msgstr "  -f             - 強制產生 hdlist 檔案。\n"
 
 #: ../urpmf_.c:52 ../urpmq_.c:72
@@ -519,21 +520,22 @@ msgstr "  --env          - 使用特定環境 (一般用於臭蟲回報)。\n"
 
 #: ../urpmi.addmedia_.c:69
 msgid ""
-"  --version      - use specified version, the default is version of\n"
-"                   mandrake-release package installed.\n"
+"  --version      - use specified distribution version, the default is taken\n"
+"                   from the version of the distribution told by the\n"
+"                   uinstalled mandrake-release package.\n"
 msgstr ""
 
-#: ../urpmi.addmedia_.c:71
+#: ../urpmi.addmedia_.c:72
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
 
-#: ../urpmi.addmedia_.c:73 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:72
+#: ../urpmi.addmedia_.c:74 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:72
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - 清除檔頭快取目錄。\n"
 
-#: ../urpmi.addmedia_.c:74
+#: ../urpmi.addmedia_.c:75
 #, fuzzy
 msgid ""
 "  -h             - try to find and use synthesis or hdlist\n"
@@ -541,15 +543,15 @@ msgid ""
 msgstr ""
 "  -h             - 嘗試搜尋並使用綜合檔頭清單(synthesis)或 hdlist 檔案。\n"
 
-#: ../urpmi.addmedia_.c:76 ../urpmi.update_.c:74
+#: ../urpmi.addmedia_.c:77 ../urpmi.update_.c:74
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - 強制產生 hdlist 檔案。\n"
 
-#: ../urpmi.addmedia_.c:144
+#: ../urpmi.addmedia_.c:145
 msgid "cannot add updates of a cooker distribution\n"
 msgstr ""
 
-#: ../urpmi.addmedia_.c:184
+#: ../urpmi.addmedia_.c:185
 #, c-format
 msgid ""
 "%s\n"
@@ -558,12 +560,12 @@ msgstr ""
 "%s\n"
 "--distrib 不需要給予 <檔頭清單 (hdlist) 的相對路徑>"
 
-#: ../urpmi.addmedia_.c:191 ../urpmi.addmedia_.c:214
+#: ../urpmi.addmedia_.c:192 ../urpmi.addmedia_.c:215
 #, c-format
 msgid "unable to update medium \"%s\"\n"
 msgstr "無法更新媒介“%s”\n"
 
-#: ../urpmi.addmedia_.c:202
+#: ../urpmi.addmedia_.c:203
 #, c-format
 msgid ""
 "%s\n"
@@ -572,7 +574,7 @@ msgstr ""
 "%s\n"
 "缺少了 <檔頭清單 (hdlist) 的相對路徑>\n"
 
-#: ../urpmi.addmedia_.c:204
+#: ../urpmi.addmedia_.c:205
 #, c-format
 msgid ""
 "%s\n"
@@ -581,7 +583,7 @@ msgstr ""
 "%s\n"
 "ftp 媒介的 url 缺少了“with”這個關鍵字\n"
 
-#: ../urpmi.addmedia_.c:212
+#: ../urpmi.addmedia_.c:213
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "無法建立媒介“%s”\n"
@@ -943,7 +945,7 @@ msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "使用強制性的安裝方式 (--force)？(y/N)(是/否)"
 
 #: ../urpmi_.c:629
-msgid "everything already installed"
+msgid "Everything already installed"
 msgstr "全部都已安裝"
 
 #: ../urpmq_.c:35
