@@ -1,6 +1,6 @@
 %define name	urpmi
 %define version	4.4
-%define release 43mdk
+%define release 44mdk
 %define group	System/Configuration/Packaging
 
 Name:		%{name}
@@ -226,6 +226,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Dec  5 2003 François Pons <fpons@mandrakesoft.com> 4.4-44mdk
+- fixed bug 6013, 6386, 6459.
+- fixed restart of urpmi in test mode which should be avoided.
+- added executability if perl-Locale-gettext is missing.
+
 * Wed Nov  5 2003 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4-43mdk
 - urpmi: fix exitcode always true when running in gurpmi mode, by
   using _exit instead of exit, probably some atexit gtk stuff in the way
