@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.2
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,13 @@ fi
 
 
 %changelog
+* Thu Feb  7 2002 François Pons <fpons@mandrakesoft.com> 3.2-8mdk
+- fixed a requires resolution when a package C is upgraded which
+  need a package A with a specific version and release, but a
+  package B is already installed providing A with a better version
+  and release, in such case urpmi doesn't think it is necessary
+  to upgrade A.
+
 * Thu Jan 31 2002 François Pons <fpons@mandrakesoft.com> 3.2-7mdk
 - fixed regexp in supermount fstab management.
 - simply kill urpmi logger which avoid losing 1 second.
