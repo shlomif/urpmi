@@ -3,8 +3,7 @@
 load_po();
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
-delete $ENV{ENV};
-delete $ENV{BASH_ENV};
+delete @ENV{qw(ENV BASH_ENV IFS)};
 ($<, $uid) = ($>, $<);
 
 if (@ARGV and $ARGV[0] =~ /^-?-h/) {

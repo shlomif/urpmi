@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.1
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -89,6 +89,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Thu May  4 2000 Pixel <pixel@mandrakesoft.com> 1.1-6mdk
+- urpmi: unset IFS
+
 * Tue Apr  4 2000 Pixel <pixel@mandrakesoft.com> 1.1-5mdk
 - urpmi: add option --force to ignore errors
 
