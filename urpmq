@@ -172,6 +172,7 @@ if ($query->{env}) {
     $urpm->{statedir} = $query->{env};
 }
 
+$urpm->shlock_urpmi_db;
 $urpm->configure(nocheck_access => 1,
 		 noskipping => $query->{nodepslist}, noinstalling => $query->{nodepslist}, nodepslist => $query->{nodepslist},
 		 media => $query->{media},
@@ -395,6 +396,7 @@ if ($query->{list_aliases}) {
 	exit 0;
     }
 }
+$urpm->unlock_urpmi_db;
 
 #- print sub for query.
 my $query_sub = sub {
