@@ -177,7 +177,7 @@ my %options_spec = (
 	'media|mediums=s' => \$options{media},
 	'excludemedia|exclude-media=s' => \$options{excludemedia},
 	'sortmedia|sort-media=s' => \$options{sortmedia},
-    'searchmedia|search-media=s' => \$options{searchmedia},
+	'searchmedia|search-media=s' => \$options{searchmedia},
 	'synthesis=s' => \$options{sortmedia},
 	'auto-select' => sub {
 	    $options{deps} = $options{upgrade} = $options{auto_select} = 1;
@@ -326,7 +326,7 @@ urpm::args - command-line argument parser for the urpm* tools
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2004 Mandrakesoft
+Copyright (C) 2000-2005 Mandrakesoft
 
 =cut
 
