@@ -43,7 +43,11 @@ where <name> is a medium name to remove.
 	push @toremoves, $_;
     }
 
-    my $urpm = new urpm; $urpm->read_config;
+    my $urpm = new urpm;
+    if ($< != 0) {
+	$urpm->{fatal}(1, N("Only superuser is allowed to remove media"));
+    }
+    $urpm->read_config;
     my @entries = map { $_->{name} } @{$urpm->{media}};
 
     if ($options{all}) {

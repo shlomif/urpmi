@@ -54,6 +54,9 @@ sub main {
 
     urpm::args::parse_cmdline(urpm => $urpm);
 
+    if ($< != 0) {
+	$urpm->{fatal}(1, N("Only superuser is allowed to update media"));
+    }
     $urpm->read_config;
     exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
 

@@ -105,6 +105,9 @@ sub main {
     $options{distrib} or $url or ($url, $name) = ($name, '');
     my ($type) = $url =~ m,^([^:]*)://, or $options{distrib} or usage;
 
+    if ($< != 0) {
+	$urpm->{fatal}(1, N("Only superuser is allowed to add media"));
+    }
     $urpm->read_config;
     exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
 
