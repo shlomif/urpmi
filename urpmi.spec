@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.3
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -104,6 +104,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Wed Sep 13 2000 François Pons <fpons@mandrakesoft.com> 1.3-7mdk
+- trusting root only readable file list.*, fixes gurpmi with
+  mutlitple media examination.
+
 * Tue Sep 05 2000 François Pons <fpons@mandrakesoft.com> 1.3-6mdk
 - split query mode of urpmi into new tools urpmq.
 - fixed -v option of urpmi.

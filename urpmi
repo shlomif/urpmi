@@ -317,7 +317,7 @@ my %removables;
 foreach my $list (rpmlistfiles($datadir)) {
     open F, "$datadir/$list" or die("urpmi: error opening $list\n");
     $list =~ s/list\.//;
-    foreach (<F>) { chop; m|/($to_install)| and $long{$1} = $_, $name{$1} = $list }
+    foreach (<F>) { chop; m|/($to_install)| and $long{$1} = untaint($_), $name{$1} = untaint($list) }
     close F;
 }
 
