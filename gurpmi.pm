@@ -21,7 +21,7 @@ our @ISA = qw(Exporter);
 our @EXPORT = qw(fatal but quit add_button_box new_label N);
 
 sub usage () {
-    print STDERR <<USAGE;
+    print <<USAGE;
 gurpmi version $urpm::VERSION
 Usage :
     gurpmi <rpm> [ <rpm>... ]
