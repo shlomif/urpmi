@@ -1,11 +1,13 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# urpmi message translation
+# Copyright (C) 2001 Free Software Foundation, Inc.
+# Copyright (C) 2001 MandrakeSoft 
 # Aleksey Smirnov <smi@logic.ru>, 2000
+# Vladimir Choundalov <choundalovvv@point.pwp.ru>, 2001
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-05-14 13:29+0200\n"
+"POT-Creation-Date: 2001-06-06 21:22+0200\n"
 "PO-Revision-Date: 2000-08-01 16:24+0200\n"
 "Last-Translator: Aleksey Smirnov <smi@logic.ru>\n"
 "Language-Team: Russian\n"
@@ -22,42 +24,44 @@ msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"Автоматическая установка пакетов...\n"
+"Вы запросили установку пакета $rpm\n"
 
-#: _irpm:31 urpmi:234
+#: _irpm:31 urpmi:237
 msgid "Is it ok?"
-msgstr "правильно?"
+msgstr "Это правильно?"
 
-#: _irpm:33 urpmi:237 urpmi:267
+#: _irpm:33 urpmi:240 urpmi:271
 msgid "Ok"
 msgstr "Ok"
 
-#: _irpm:34 urpmi:238 urpmi:268
+#: _irpm:34 urpmi:241 urpmi:272
 msgid "Cancel"
 msgstr "Отменить"
 
-#: _irpm:40 urpmi:242 urpmi:300
+#: _irpm:40 urpmi:245 urpmi:304
 msgid "Nn"
-msgstr "НнNn"
+msgstr "НнnN"
 
-#: _irpm:41 urpmi:243 urpmi:301
+#: _irpm:41 urpmi:246 urpmi:305
 msgid "Yy"
 msgstr "ДдYy"
 
-#: _irpm:42 urpmi:244
+#: _irpm:42 urpmi:247
 msgid " (Y/n) "
 msgstr " (Д/н) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm: команда не найдена\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "использование: rpmf [<файл>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "urpmi не установлен"
 
 #: placeholder.h:8
 #, c-format
@@ -83,6 +87,30 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi версия %s\n"
+"Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
+"Это свободное программное обеспечение и его можно распространять при "
+"соблюдении условий лицензии GNU GPL.\n"
+"использование:\n"
+"  --help           - вывести это сообщение.\n"
+"  --auto           - автоматически выбрать хороший пакет из возможных.\n"
+"  --auto-select    - автоматически выбрать пакеты для обновления системы.\n"
+"  --force          - выполнять обращение принудительно, даже если пакет не "
+"существует.\n"
+"  --X              - использовать X интерфейс (графический).\n"
+"  --best-output    - выбрать найлучший интерфейс в соответствии со средой "
+"окружения:\n"
+"                     X или text режим.\n"
+"  -a               - выбрать все сопадения в командной строке.\n"
+"  -m               - выберите минимальное ограничение требований (по "
+"умолчанию).\n"
+"  -M               - выберите максимальное ограничение требований.\n"
+"  -c               - выберите полный метод для распознания ограничений "
+"требований.\n"
+"  -q               - тихий режим.\n"
+"  -v               - подробный режим.\n"
+"  имена или rpm файлы (только для root) данные в командной строке "
+"установлены.\n"
 
 #: placeholder.h:28
 msgid ""
@@ -95,6 +123,16 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"использование: urpmi.addmedia <имя> <url>\n"
+"где <url> это \n"
+"       file://<путь>\n"
+"       ftp://<имя пользователя>:<пароль>@<удаленный компьютер>/<путь> с "
+"<относительным именем файла hdlist>\n"
+"       ftp://<удаленный компьютер>/<путь> с <относительным именем файла "
+"hdlist>\n"
+"       http://<удаленный компьютер>/<путь> с <относительным именем файла "
+"hdlist>\n"
+"       removable_<device>://<путь>  (для сьемных устройств)\n"
 
 #: placeholder.h:37 urpmi.addmedia:52
 #, c-format
@@ -102,6 +140,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`with' отсутсвует для ftp media\n"
 
 #: placeholder.h:41 urpmi.addmedia:48
 #, c-format
@@ -109,6 +149,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"устрйоство `%s' не существует\n"
 
 #: placeholder.h:45 urpmi.addmedia:50
 #, c-format
@@ -116,6 +158,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<относительный путь к hdlist> не указан\n"
 
 #: placeholder.h:49
 #, c-format
@@ -128,6 +172,13 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"использование: urpmi.update [-a] <имя> ...\n"
+"где <имя> - это имя источника данных для обновления.\n"
+"   -a    выбрать все несъемные источники данных.\n"
+"   -c    очистить каталог с кэшем заголовков (headers).\n"
+"   -f    принудительно сформировать hdlist или base файлы.\n"
+"\n"
+"неизвестные параметры '%s'\n"
 
 #: placeholder.h:58 urpmi.update:58
 #, c-format
@@ -135,6 +186,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"пункт для обновления не указан\n"
+"(один из %s)\n"
 
 #: placeholder.h:62
 #, c-format
@@ -145,6 +198,11 @@ msgid ""
 "\n"
 "unknown options '%s'\n"
 msgstr ""
+"использование: urpmi.removemedia [-a] <имя> ...\n"
+"где <имя> это имя удаляемого источника данных.\n"
+"   -a    выбрать все источники данных.\n"
+"\n"
+"неизвестные параметры '%s'\n"
 
 #: placeholder.h:69 urpmi.removemedia:53
 #, c-format
@@ -152,70 +210,74 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"пункт для удаления не указан\n"
+"(один из %s)\n"
 
 #: urpmi:56
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi версия %s"
 
 #: urpmi:146
 msgid "Only superuser is allowed to install local packages"
-msgstr "Только суперпользователь может устанавливать локальные пакеты"
+msgstr ""
+"Только суперпользователю (администратору) разрешается устанавливать "
+"локальные пакеты"
 
-#: urpmi:177
+#: urpmi:180
 msgid "One of the following packages is needed:"
 msgstr "Нужен один из следующих пакетов:"
 
-#: urpmi:185
+#: urpmi:188
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Что вы выберете? (1-%d) "
 
-#: urpmi:188
+#: urpmi:191
 msgid "Sorry, bad choice, try again\n"
-msgstr "Плохой выбор, попробуйте еще\n"
+msgstr "Извините, это плохой выбор, попробуйте еще\n"
 
-#: urpmi:233
+#: urpmi:236
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
 "d MB)"
 msgstr ""
-"Для удовлетворения зависимостей будут установлены следующие пакеты (%d MB)"
+"Для удовлетворения зависимостей будут установлены следующие пакеты  (%d MB)"
 
-#: urpmi:264
-#, fuzzy, c-format
+#: urpmi:268
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Вставьте %s под названием %s"
+msgstr "Вставьте источник данных с именем \"%s\" в устройство [%s]"
 
-#: urpmi:265
+#: urpmi:269
 msgid "Press enter when it's done..."
 msgstr "По готовности нажмите enter..."
 
-#: urpmi:279
+#: urpmi:283
 msgid "everything already installed"
 msgstr "все уже установлено"
 
-#: urpmi:290
+#: urpmi:294
 #, c-format
 msgid "installing %s\n"
 msgstr "установка %s\n"
 
-#: urpmi:295 urpmi:308
+#: urpmi:299 urpmi:313
 msgid "Installation failed"
 msgstr "Установка не прошла"
 
-#: urpmi:302
+#: urpmi:306
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Попробовать установить без проверки зависимостей? (д/Н) "
 
-#: urpmi:309
+#: urpmi:314
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Попробовать установить еще более настойчиво (--force)? (д/Н) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "тспользование: urpmi.addmedia <имя> <url>"
 
 #. <path>
 #. <login>:<password>@<host>/<path> with <relative filename of hdlist>
@@ -229,16 +291,16 @@ msgstr "));"
 #: urpmi.addmedia:63
 #, c-format
 msgid "unable to create medium \"%s\"\n"
-msgstr ""
+msgstr "не удается создать источник данных \"%s\"\n"
 
 #: urpmi.addmedia:64
 #, c-format
 msgid "unable to update medium \"%s\"\n"
-msgstr ""
+msgstr "не удается обновить источник данных \"%s\"\n"
 
 #: urpmi.update:43
 msgid "usage: urpmi.update [-a] <name> ..."
-msgstr ""
+msgstr "использование: urpmi.update [-a] <имя> ..."
 
 #: urpmi.removemedia:42 urpmi.update:48
 msgid "), $_);"
@@ -247,37 +309,44 @@ msgstr "), $_);"
 #: urpmi.update:56
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr ""
+"нечего обновлять (используйте urpmi.addmedia для добавления источника "
+"данных)\n"
 
 #: urpmi.removemedia:39
 msgid "usage: urpmi.removemedia [-a] <name> ..."
-msgstr ""
+msgstr "использование: urpmi.removemedia [-a] <имя> ..."
 
 #: urpmi.removemedia:51
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
+"нечего удалять (используйте urpmi.addmedia для добавления источника данных)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq версия %s"
 
 #: urpmq:90
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
 msgstr ""
+"urpmq: неизместный параметр \"-$1\", проверьте использование , с параметром "
+"--help\n"
 
 #: urpmq:92
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: не удается прочитать rpm файл \"$_\"\n"
 
 #: urpmq:131
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"некоторые пакеты должны быть удалены перед их обновлением, это пока не "
+"поддерживается\n"
 
 #: urpmq:153
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "не удается получить исходные (source) пакеты, выходим"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name "
