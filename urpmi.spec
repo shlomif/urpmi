@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.1
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -129,6 +129,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Thu Nov 29 2001 François Pons <fpons@mandrakesoft.com> 2.1-7mdk
+- fixed -p flag with choices.
+
 * Wed Nov 28 2001 François Pons <fpons@mandrakesoft.com> 2.1-6mdk
 - updated requires to webfetch.
 - updated requires to last rpmtools needed.

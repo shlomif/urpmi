@@ -1081,9 +1081,11 @@ sub search_packages {
 
 	    foreach (keys %{$urpm->{params}{provides}}) {
 		#- search through provides to find if a provide match this one.
-		/$qv/ and push @{$found{$v}}, grep { defined $_ }
+		#- but manages choices correctly (as a provides may be virtual or
+		#- multiply defined.
+		/$qv/ and push @{$found{$v}}, join '|', grep { defined $_ }
 		  map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
-		/$qv/i and push @{$found{$v}}, grep { defined $_ }
+		/$qv/i and push @{$found{$v}}, join '|', grep { defined $_ }
 		  map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
 	    }
 	}
@@ -1121,7 +1123,7 @@ sub search_packages {
 	    $packages->{$exact{$_}} = undef;
 	} else {
 	    #- at this level, we need to search the best package given for a given name,
-	    #- always prefer alread found package.
+	    #- always prefer already found package.
 	    my %l;
 	    foreach (@{$exact_a{$_} || $exact_ra{$_} || $found{$_} || $foundi{$_} || []}) {
 		my $info = $urpm->{params}{depslist}[$_];
@@ -1285,21 +1287,37 @@ sub filter_minimal_packages_to_upgrade {
 	#- choices for which all package in the choices are taken and their dependencies.
 	#- allow iteration over a modifying list.
 	while (defined($id = shift @packages)) {
+	    $id =~ /\|/ and delete $packages->{$id}, $id = [ split '\|', $id ]; #- get back choices...
 	    if (ref $id) {
+		my (@forced_selection, @selection);
+
 		#- at this point we have almost only choices to resolves.
 		#- but we have to check if one package here is already selected
 		#- previously, if this is the case, use it instead.
+		#- if a choice is proposed with package already installed (this is the case for
+		#- a provide with a lot of choices, we have to filter according to those who
+		#- are installed).
 		foreach (@$id) {
-		    exists $packages->{$_} and $id = undef, last;
+		    if (exists $packages->{$_} ||
+			rpmtools::db_traverse_tag($db, "name",
+						  [ $urpm->{params}{depslist}[$_]{name} ], [], undef) > 0) {
+			push @forced_selection, $_;
+		    } else {
+			push @selection, $_;
+		    }
 		}
-		defined $id or next;
 
 		#- propose the choice to the user now, or select the best one (as it is supposed to be).
-		my @selection = $select_choices ? ($select_choices->($urpm, undef, @$id)) : ($id->[0]);
+		@selection = @forced_selection ? @forced_selection :
+		  $select_choices && @selection > 1 ?
+		    ($select_choices->($urpm, undef, @selection)) : ($selection[0]);
 		foreach (@selection) {
-		    unshift @packages, $_;
-		    exists $packages->{$_} or $packages->{$_} = 1;
+		    unless (exists $packages->{$_}) {
+			unshift @packages, $_;
+			$packages->{$_} = 1;
+		    }
 		}
+		next;
 	    }
 	    my $pkg = $urpm->{params}{depslist}[$id];
 	    defined $pkg->{id} or next; #- id has been removed for package that only exists on some arch.
@@ -1376,7 +1394,7 @@ sub filter_minimal_packages_to_upgrade {
 	    foreach (keys %provides) {
 		$provides{$_} || exists $selected{$_} and next;
 		$selected{$_} = undef;
-
+		print STDERR "going to $_\n";
 		my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
 		foreach my $fullname (@{$urpm->{params}{provides}{$_}}) {
 		    my $pkg = $urpm->{params}{info}{$fullname};
@@ -1405,12 +1423,14 @@ sub filter_minimal_packages_to_upgrade {
 
 		    unless ($options{keep_alldeps}) {
 			rpmtools::db_traverse_tag($db,
-						  'name', [ $_ ],
+						  'name', [ $pkg->{name} ],
 						  [ qw(name version release serial) ], sub {
 						      my ($p) = @_;
 						      my $cmp = rpmtools::version_compare($pkg->{version},
 											  $p->{version});
+						      print STDERR "examining $pkg->{name}-$pkg->{version}-$pkg->{release}:$pkg->{serial} against $p->{name}-$p->{version}-$p->{release}:$p->{serial}";
 						      $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} && ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0));
+						      print STDERR " gives $installed{$pkg->{id}}\n";
 						  });
 		    }
 		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
