@@ -236,9 +236,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
-* Sat Jan 17 2004 Blin Olivier <olivier@blino.mds> 4.4.3-1mdk
+* Wed Jan 21 2004 Olivier Blin <blino@mandrake.org> 4.4.3-1mdk
+- fix urpmq -i on media with synthesis hdlist
 - fix --limit-rate in man pages (it's in bytes/sec)
+- really fix urpme --root
 - support --root in bash_completion (Guillaume Rousse)
+- perl_checker fixes
 
 * Thu Jan 15 2004 Olivier Blin <blino@mandrake.org> 4.4.2-1mdk
 - print updates description in urpmq -i when available
