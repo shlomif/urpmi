@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 10.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-27 15:32+0100\n"
+"POT-Creation-Date: 2004-01-28 16:28+0100\n"
 "PO-Revision-Date: 2004-01-21 00:23+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: Mandrake Simplified Chinese <cooker-i18n@linux-mandrake.com>\n"
@@ -87,6 +87,11 @@ msgstr "未知 webfetch“%s”!!!\n"
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "%s 中定义了未知的协议"
+
+#: ../urpm.pm:151
+#, c-format
+msgid "no webfetch found, supported webfetch are: %s\n"
+msgstr ""
 
 #: ../urpm.pm:167
 #, c-format
@@ -817,7 +822,7 @@ msgstr ""
 "用法:\n"
 
 #: ../urpme:40 ../urpmf:31 ../urpmi:77 ../urpmi.addmedia:53
-#: ../urpmi.removemedia:36 ../urpmi.update:62 ../urpmq:40
+#: ../urpmi.removemedia:36 ../urpmi.update:59 ../urpmq:40
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - 打印帮助信息。\n"
@@ -1234,22 +1239,22 @@ msgstr ""
 "  --use-distrib  - 配置 urpmi 实时从发行树中抓取，特别用于在 --root 选项\n"
 "                   下安装 chroot。\n"
 
-#: ../urpmi:106 ../urpmi.addmedia:54 ../urpmi.update:63 ../urpmq:64
+#: ../urpmi:106 ../urpmi.addmedia:54 ../urpmi.update:60 ../urpmq:64
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - 用 wget 取远程文件。\n"
 
-#: ../urpmi:107 ../urpmi.addmedia:55 ../urpmi.update:64 ../urpmq:65
+#: ../urpmi:107 ../urpmi.addmedia:55 ../urpmi.update:61 ../urpmq:65
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - 用 crul 取远程文件。\n"
 
-#: ../urpmi:108 ../urpmi.addmedia:56 ../urpmi.update:65
+#: ../urpmi:108 ../urpmi.addmedia:56 ../urpmi.update:62
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - 降低下载速度。\n"
 
-#: ../urpmi:109 ../urpmi.addmedia:57 ../urpmi.update:66 ../urpmq:66
+#: ../urpmi:109 ../urpmi.addmedia:57 ../urpmi.update:63 ../urpmq:66
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -1258,7 +1263,7 @@ msgstr ""
 "  --proxy        - 使用指定的 HTTP 代理，默认的端口号是\n"
 "                   1080(格式如 <proxyhost[:port]>)。\n"
 
-#: ../urpmi:111 ../urpmi.addmedia:59 ../urpmi.update:68 ../urpmq:68
+#: ../urpmi:111 ../urpmi.addmedia:59 ../urpmi.update:65 ../urpmq:68
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -1345,7 +1350,7 @@ msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  命令行给出的软件包名或 rpm 文件将会被安装。\n"
 
 #: ../urpmi:185 ../urpmi:192 ../urpmi.addmedia:98 ../urpmi.addmedia:105
-#: ../urpmi.update:45 ../urpmi.update:52 ../urpmq:127 ../urpmq:134
+#: ../urpmi.update:42 ../urpmi.update:49 ../urpmq:127 ../urpmq:134
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "命令的代理声明无效\n"
@@ -1636,22 +1641,22 @@ msgid ""
 "                   only file:// protocol is allowed.\n"
 msgstr "  --virtual      - 创建常为最新的虚拟介质，只允许 file:// 协议。\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.update:71
+#: ../urpmi.addmedia:80 ../urpmi.update:68
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
 msgstr "  --no-md5sum    - 禁用 MD5SUM 文件检查。\n"
 
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:74
+#: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:71
 #, c-format
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - 直接清除软件包头缓存。\n"
 
-#: ../urpmi.addmedia:82 ../urpmi.update:75
+#: ../urpmi.addmedia:82 ../urpmi.update:72
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - 强迫生成 hdlist 文件。\n"
 
-#: ../urpmi.addmedia:121 ../urpmi.removemedia:39 ../urpmi.update:76
+#: ../urpmi.addmedia:121 ../urpmi.removemedia:39 ../urpmi.update:73
 #, c-format
 msgid ""
 "\n"
@@ -1735,7 +1740,7 @@ msgstr ""
 "找不到要删除的项\n"
 "(%s中的一个)\n"
 
-#: ../urpmi.update:60
+#: ../urpmi.update:57
 #, c-format
 msgid ""
 "usage: urpmi.update [options] <name> ...\n"
@@ -1744,27 +1749,27 @@ msgstr ""
 "用法: urpmi.update [选项] <名称> ...\n"
 "其中 <名称> 是要删除的介质名...\n"
 
-#: ../urpmi.update:70
+#: ../urpmi.update:67
 #, c-format
 msgid "  --update       - update only update media.\n"
 msgstr "  --update       - 只使用更新介质。\n"
 
-#: ../urpmi.update:72
+#: ../urpmi.update:69
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
 msgstr "  --force-key    - 强制更新 gpg 密钥。\n"
 
-#: ../urpmi.update:73
+#: ../urpmi.update:70
 #, c-format
 msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - 选择所有不可移动的介质。\n"
 
-#: ../urpmi.update:86
+#: ../urpmi.update:83
 #, c-format
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "没有要升级的软件(用 urpmi.addmedia 添加介质)\n"
 
-#: ../urpmi.update:98
+#: ../urpmi.update:95
 #, c-format
 msgid ""
 "the entry to update is missing\n"

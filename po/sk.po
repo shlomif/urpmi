@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-27 15:32+0100\n"
+"POT-Creation-Date: 2004-01-28 16:28+0100\n"
 "PO-Revision-Date: 2004-01-21 03:12+0100\n"
 "Last-Translator: Tibor Pittich <Tibor.Pittich@mandrake.org>\n"
 "Language-Team: Slovak <i18n@mandrake.sk>\n"
@@ -81,6 +81,11 @@ msgstr "Neznámy program na získavanie súborov `%s' !!!\n"
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "neznámy protokol definovaný pre %s"
+
+#: ../urpm.pm:151
+#, c-format
+msgid "no webfetch found, supported webfetch are: %s\n"
+msgstr ""
 
 #: ../urpm.pm:167
 #, c-format
@@ -829,7 +834,7 @@ msgstr ""
 "použitie:\n"
 
 #: ../urpme:40 ../urpmf:31 ../urpmi:77 ../urpmi.addmedia:53
-#: ../urpmi.removemedia:36 ../urpmi.update:62 ../urpmq:40
+#: ../urpmi.removemedia:36 ../urpmi.update:59 ../urpmq:40
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - vypísať túto pomoc.\n"
@@ -1277,22 +1282,22 @@ msgstr ""
 "vhodné\n"
 "                   pri inštalácii v chroot prostredí s prepínačom --root.\n"
 
-#: ../urpmi:106 ../urpmi.addmedia:54 ../urpmi.update:63 ../urpmq:64
+#: ../urpmi:106 ../urpmi.addmedia:54 ../urpmi.update:60 ../urpmq:64
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - použiť wget pre získanie vzdialených súborov.\n"
 
-#: ../urpmi:107 ../urpmi.addmedia:55 ../urpmi.update:64 ../urpmq:65
+#: ../urpmi:107 ../urpmi.addmedia:55 ../urpmi.update:61 ../urpmq:65
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - použiť curl pre získanie vzdialených súborov.\n"
 
-#: ../urpmi:108 ../urpmi.addmedia:56 ../urpmi.update:65
+#: ../urpmi:108 ../urpmi.addmedia:56 ../urpmi.update:62
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - obmedziť rýchlosť získavania súborov.\n"
 
-#: ../urpmi:109 ../urpmi.addmedia:57 ../urpmi.update:66 ../urpmq:66
+#: ../urpmi:109 ../urpmi.addmedia:57 ../urpmi.update:63 ../urpmq:66
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -1301,7 +1306,7 @@ msgstr ""
 "  --proxy        - použiť špecifikovanú HTTP proxy, číslo portu je\n"
 "                   štandardne 1080 (formát zápisu <proxy[:port]>).\n"
 
-#: ../urpmi:111 ../urpmi.addmedia:59 ../urpmi.update:68 ../urpmq:68
+#: ../urpmi:111 ../urpmi.addmedia:59 ../urpmi.update:65 ../urpmq:68
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -1393,7 +1398,7 @@ msgstr ""
 "  mená alebo rpm súbory uvedené na príkazovom riadku budú nainštalované.\n"
 
 #: ../urpmi:185 ../urpmi:192 ../urpmi.addmedia:98 ../urpmi.addmedia:105
-#: ../urpmi.update:45 ../urpmi.update:52 ../urpmq:127 ../urpmq:134
+#: ../urpmi.update:42 ../urpmi.update:49 ../urpmq:127 ../urpmq:134
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "nesprávna deklarácia proxy v príkazovom riadku\n"
@@ -1703,22 +1708,22 @@ msgstr ""
 "  --virtual      - vytvorenie virtuálneho zdroja, ktorý je vždy aktuálny,\n"
 "                   povolený je iba file:// protokol.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.update:71
+#: ../urpmi.addmedia:80 ../urpmi.update:68
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
 msgstr "  --no-md5sum    - zakázať MD5SUM kontrolu.\n"
 
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:74
+#: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:71
 #, c-format
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - zmazať hlavičky v adresári dočasnej pamäte.\n"
 
-#: ../urpmi.addmedia:82 ../urpmi.update:75
+#: ../urpmi.addmedia:82 ../urpmi.update:72
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - vnúť generovanie hdlist súborov.\n"
 
-#: ../urpmi.addmedia:121 ../urpmi.removemedia:39 ../urpmi.update:76
+#: ../urpmi.addmedia:121 ../urpmi.removemedia:39 ../urpmi.update:73
 #, c-format
 msgid ""
 "\n"
@@ -1802,7 +1807,7 @@ msgstr ""
 "chýba položka pre odstránenie\n"
 "(jedna z %s)\n"
 
-#: ../urpmi.update:60
+#: ../urpmi.update:57
 #, c-format
 msgid ""
 "usage: urpmi.update [options] <name> ...\n"
@@ -1811,27 +1816,27 @@ msgstr ""
 "použitie: urpmi.update [voľby] <meno> ...\n"
 "kde <meno> je zdroj pre aktualizáciu.\n"
 
-#: ../urpmi.update:70
+#: ../urpmi.update:67
 #, c-format
 msgid "  --update       - update only update media.\n"
 msgstr "  --update       - použiť len aktualizačné zdroje.\n"
 
-#: ../urpmi.update:72
+#: ../urpmi.update:69
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
 msgstr "  --force-key    - vynútiť aktualizáciu gpg kľúča.\n"
 
-#: ../urpmi.update:73
+#: ../urpmi.update:70
 #, c-format
 msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - vybrať všetky nevymeniteľné zdroje.\n"
 
-#: ../urpmi.update:86
+#: ../urpmi.update:83
 #, c-format
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "nie je čo aktualizovať (použi urpmi.addmedia na pridanie zdroja)\n"
 
-#: ../urpmi.update:98
+#: ../urpmi.update:95
 #, c-format
 msgid ""
 "the entry to update is missing\n"

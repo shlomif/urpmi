@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-uk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-27 15:32+0100\n"
+"POT-Creation-Date: 2004-01-28 16:28+0100\n"
 "PO-Revision-Date: 2003-08-31 13:37+0300\n"
 "Last-Translator: Taras Boychuk <btr1@torba.com>\n"
 "Language-Team: ukrainian <uk@li.org>\n"
@@ -84,6 +84,11 @@ msgstr "Нев╕домий webfetch `%s' !!!\n"
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "для %s вказано нев╕домий протокол"
+
+#: ../urpm.pm:151
+#, c-format
+msgid "no webfetch found, supported webfetch are: %s\n"
+msgstr ""
 
 #: ../urpm.pm:167
 #, c-format
@@ -836,7 +841,7 @@ msgstr ""
 "використання:\n"
 
 #: ../urpme:40 ../urpmf:31 ../urpmi:77 ../urpmi.addmedia:53
-#: ../urpmi.removemedia:36 ../urpmi.update:62 ../urpmq:40
+#: ../urpmi.removemedia:36 ../urpmi.update:59 ../urpmq:40
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - виводити цю дов╕дку.\n"
@@ -1276,24 +1281,24 @@ msgid ""
 "                   to install a chroot with --root option.\n"
 msgstr ""
 
-#: ../urpmi:106 ../urpmi.addmedia:54 ../urpmi.update:63 ../urpmq:64
+#: ../urpmi:106 ../urpmi.addmedia:54 ../urpmi.update:60 ../urpmq:64
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr ""
 "  --wget         - використовувати wgetдля доступу до в╕ддалених файл╕в.\n"
 
-#: ../urpmi:107 ../urpmi.addmedia:55 ../urpmi.update:64 ../urpmq:65
+#: ../urpmi:107 ../urpmi.addmedia:55 ../urpmi.update:61 ../urpmq:65
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr ""
 "  --curl         - використовувати curl для доступу до в╕ддалених файл╕в.\n"
 
-#: ../urpmi:108 ../urpmi.addmedia:56 ../urpmi.update:65
+#: ../urpmi:108 ../urpmi.addmedia:56 ../urpmi.update:62
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate    - обмежити швидк╕сть завантаження.\n"
 
-#: ../urpmi:109 ../urpmi.addmedia:57 ../urpmi.update:66 ../urpmq:66
+#: ../urpmi:109 ../urpmi.addmedia:57 ../urpmi.update:63 ../urpmq:66
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -1302,7 +1307,7 @@ msgstr ""
 "  --proxy        - використовувати вказаний HTTP прокс╕, типово порт 1080 "
 "(формат - <proxyhost[:port]>).\n"
 
-#: ../urpmi:111 ../urpmi.addmedia:59 ../urpmi.update:68 ../urpmq:68
+#: ../urpmi:111 ../urpmi.addmedia:59 ../urpmi.update:65 ../urpmq:68
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -1392,7 +1397,7 @@ msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  назви або rpm-файли, задан╕ в командному рядку, буде встановлено.\n"
 
 #: ../urpmi:185 ../urpmi:192 ../urpmi.addmedia:98 ../urpmi.addmedia:105
-#: ../urpmi.update:45 ../urpmi.update:52 ../urpmq:127 ../urpmq:134
+#: ../urpmi.update:42 ../urpmi.update:49 ../urpmq:127 ../urpmq:134
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "нев╕рне оголошення прокс╕ в командному рядку\n"
@@ -1700,22 +1705,22 @@ msgstr ""
 "  --virtual      - створити в╕ртуального нос╕я з найнов╕шими даними,\n"
 "                   дозволя╓ться т╕льки протокол file:// protocol.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.update:71
+#: ../urpmi.addmedia:80 ../urpmi.update:68
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:74
+#: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:71
 #, c-format
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - очищувати теку заголовк╕в кешу.\n"
 
-#: ../urpmi.addmedia:82 ../urpmi.update:75
+#: ../urpmi.addmedia:82 ../urpmi.update:72
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - змушувати генерувати hdlist файли.\n"
 
-#: ../urpmi.addmedia:121 ../urpmi.removemedia:39 ../urpmi.update:76
+#: ../urpmi.addmedia:121 ../urpmi.removemedia:39 ../urpmi.update:73
 #, c-format
 msgid ""
 "\n"
@@ -1799,7 +1804,7 @@ msgstr ""
 "об'╓кта для вилучення нема╓\n"
 "(один з %s)\n"
 
-#: ../urpmi.update:60
+#: ../urpmi.update:57
 #, c-format
 msgid ""
 "usage: urpmi.update [options] <name> ...\n"
@@ -1808,27 +1813,27 @@ msgstr ""
 "використання: urpmi.update [параметри] <назва> ...\n"
 "де <незва> - це назва нос╕я з поновленнями.\n"
 
-#: ../urpmi.update:70
+#: ../urpmi.update:67
 #, c-format
 msgid "  --update       - update only update media.\n"
 msgstr "  --update       - поновити т╕льки нос╕я з поновленнями.\n"
 
-#: ../urpmi.update:72
+#: ../urpmi.update:69
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
 msgstr ""
 
-#: ../urpmi.update:73
+#: ../urpmi.update:70
 #, c-format
 msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - вибрати вс╕ незн╕мн╕ нос╕╖.\n"
 
-#: ../urpmi.update:86
+#: ../urpmi.update:83
 #, c-format
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "н╕чого поновлювати (використовуйте urpmi.addmedia, щоб додати нос╕я)\n"
 
-#: ../urpmi.update:98
+#: ../urpmi.update:95
 #, c-format
 msgid ""
 "the entry to update is missing\n"

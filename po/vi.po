@@ -1,13 +1,13 @@
 # Vietnamese Translation for URPMI.
-# Copyright (C) 2000 - 2003 Free Software Foundation, Inc.
-# Trinh Minh Thanh <tmthanh@yahoo.com>, 2001 - 2003.
+# Copyright (C) 2000 - 2003, 2004 Free Software Foundation, Inc.
+# Trinh Minh Thanh <tmthanh@yahoo.com>, 2001 - 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: urpmi 3.3\n"
+"Project-Id-Version: urpmi-vi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-01-27 15:32+0100\n"
-"PO-Revision-Date: 2003-09-04 17:30+0700\n"
+"POT-Creation-Date: 2004-01-28 16:28+0100\n"
+"PO-Revision-Date: 2004-01-28 21:57+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -80,6 +80,11 @@ msgstr "Webfetch không xác định `%s' !!!\n"
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "chỉ định giao thức không xác định cho %s"
+
+#: ../urpm.pm:151
+#, c-format
+msgid "no webfetch found, supported webfetch are: %s\n"
+msgstr ""
 
 #: ../urpm.pm:167
 #, c-format
@@ -268,7 +273,7 @@ msgstr "ghi tập tin cấu hình [%s]"
 #: ../urpm.pm:757
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
-msgstr ""
+msgstr "Không thể dùng parallel mode với use-distrib mode"
 
 #: ../urpm.pm:767
 #, c-format
@@ -834,7 +839,7 @@ msgstr ""
 "cách dùng:\n"
 
 #: ../urpme:40 ../urpmf:31 ../urpmi:77 ../urpmi.addmedia:53
-#: ../urpmi.removemedia:36 ../urpmi.update:62 ../urpmq:40
+#: ../urpmi.removemedia:36 ../urpmi.update:59 ../urpmq:40
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - in thông tin trợ giúp này.\n"
@@ -864,9 +869,9 @@ msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr "  --parallel     - phân phối urpmi qua các máy của alias.\n"
 
 #: ../urpme:45 ../urpmi:103
-#, fuzzy, c-format
+#, c-format
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --curl         - dùng curl để thu thập các tập tin ở xa.\n"
+msgstr "  --root         - dùng root khác để thực hiện cài đặt rpm.\n"
 
 #: ../urpme:46
 #, c-format
@@ -874,6 +879,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - cấu hình nhanh chóng urpmi từ một distrib tree, giúp\n"
+"                   cài đặt/bỏ cài đặt một chroot bằng tùy chọn --root.\n"
 
 #: ../urpme:48 ../urpmi:131 ../urpmq:73
 #, c-format
@@ -1264,23 +1271,25 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to install a chroot with --root option.\n"
 msgstr ""
+"  --use-distrib  - cấu hình nhanh chóng urpmi từ một distrib tree, giúp\n"
+"                   cài đặt chroot bằng tùy chọn --root.\n"
 
-#: ../urpmi:106 ../urpmi.addmedia:54 ../urpmi.update:63 ../urpmq:64
+#: ../urpmi:106 ../urpmi.addmedia:54 ../urpmi.update:60 ../urpmq:64
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - dùng wget để thu thập các tập tin ở xa.\n"
 
-#: ../urpmi:107 ../urpmi.addmedia:55 ../urpmi.update:64 ../urpmq:65
+#: ../urpmi:107 ../urpmi.addmedia:55 ../urpmi.update:61 ../urpmq:65
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - dùng curl để thu thập các tập tin ở xa.\n"
 
-#: ../urpmi:108 ../urpmi.addmedia:56 ../urpmi.update:65
+#: ../urpmi:108 ../urpmi.addmedia:56 ../urpmi.update:62
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - giới hạn tốc độ tải xuống.\n"
 
-#: ../urpmi:109 ../urpmi.addmedia:57 ../urpmi.update:66 ../urpmq:66
+#: ../urpmi:109 ../urpmi.addmedia:57 ../urpmi.update:63 ../urpmq:66
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -1290,7 +1299,7 @@ msgstr ""
 "                    là 1080 theo mặc định (định dạng là <proxyhost[:port]"
 ">).\n"
 
-#: ../urpmi:111 ../urpmi.addmedia:59 ../urpmi.update:68 ../urpmq:68
+#: ../urpmi:111 ../urpmi.addmedia:59 ../urpmi.update:65 ../urpmq:68
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -1377,7 +1386,7 @@ msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  tên hay tập tin rpm có trong dòng lệnh sẽ được cài đặt.\n"
 
 #: ../urpmi:185 ../urpmi:192 ../urpmi.addmedia:98 ../urpmi.addmedia:105
-#: ../urpmi.update:45 ../urpmi.update:52 ../urpmq:127 ../urpmq:134
+#: ../urpmi.update:42 ../urpmi.update:49 ../urpmq:127 ../urpmq:134
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "khai báo proxy sai trong dòng lệnh\n"
@@ -1398,6 +1407,8 @@ msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
+"Thư mục [%s] đã tồn tại rồi, hãy dùng thư mục khác để ghi báo cáo lỗi hoặc "
+"xóa thư mục đó đi"
 
 #: ../urpmi:251
 #, c-format
@@ -1473,7 +1484,7 @@ msgstr ""
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
 "d MB)"
-msgstr "Để thoả mãn các phụ thuộc, các gói sau đây sẽ được cài đặt (% d MB)"
+msgstr "Để thỏa mãn các phụ thuộc, những gói sau đây sẽ được cài đặt (%d MB)"
 
 #: ../urpmi:512
 #, c-format
@@ -1573,7 +1584,7 @@ msgstr "Mọi thứ đã được cài đặt rồi"
 #: ../urpmi:796
 #, c-format
 msgid "restarting urpmi"
-msgstr ""
+msgstr "khởi chạy lại urpmi"
 
 #: ../urpmi.addmedia:44
 #, c-format
@@ -1683,22 +1694,22 @@ msgstr ""
 "  --virtual      - tạo phương tiện ảo luôn được cập nhật,\n"
 "                   chỉ cho phép tập tin:// protocol.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.update:71
+#: ../urpmi.addmedia:80 ../urpmi.update:68
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
-msgstr ""
+msgstr "  --no-md5sum    - không thực hiện kiểm tra tập tin MD5SUM.\n"
 
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:74
+#: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:71
 #, c-format
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - xoá thư mục cache headers.\n"
 
-#: ../urpmi.addmedia:82 ../urpmi.update:75
+#: ../urpmi.addmedia:82 ../urpmi.update:72
 #, c-format
 msgid "  -f             - force generation of hdlist files.\n"
 msgstr "  -f             - cố tạo các tập tin hdlist.\n"
 
-#: ../urpmi.addmedia:121 ../urpmi.removemedia:39 ../urpmi.update:76
+#: ../urpmi.addmedia:121 ../urpmi.removemedia:39 ../urpmi.update:73
 #, c-format
 msgid ""
 "\n"
@@ -1782,7 +1793,7 @@ msgstr ""
 "mục nhập để gỡ bỏ đang thiếu\n"
 "(một mục cho %s)\n"
 
-#: ../urpmi.update:60
+#: ../urpmi.update:57
 #, c-format
 msgid ""
 "usage: urpmi.update [options] <name> ...\n"
@@ -1791,27 +1802,27 @@ msgstr ""
 "cách dùng: urpmi.update [tùy chọn] <tên> ...\n"
 "nơi mà <tên> là tên phương tiện để cập nhật.\n"
 
-#: ../urpmi.update:70
+#: ../urpmi.update:67
 #, c-format
 msgid "  --update       - update only update media.\n"
 msgstr "  --update       - chỉ cập nhật phương tiện cập nhật.\n"
 
-#: ../urpmi.update:72
+#: ../urpmi.update:69
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
-msgstr ""
+msgstr "  --force-key    - ép buộc cập nhật cho gpg key.\n"
 
-#: ../urpmi.update:73
+#: ../urpmi.update:70
 #, c-format
 msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - chọn toàn bộ các phương tiện lắp trong.\n"
 
-#: ../urpmi.update:86
+#: ../urpmi.update:83
 #, c-format
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
 msgstr "Không có gì để cập nhật (dùng urpmi.addmedia để thêm phương tiện)\n"
 
-#: ../urpmi.update:98
+#: ../urpmi.update:95
 #, c-format
 msgid ""
 "the entry to update is missing\n"
@@ -1848,15 +1859,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - liệt kê phương tiện hiệc có.\n"
 
 #: ../urpmq:52
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-url     - list available media and their url.\n"
-msgstr "  --list-media   - liệt kê phương tiện hiệc có.\n"
+msgstr "  --list-url     - liệt kê các phương tiện hiện có và url của chúng.\n"
 
 #: ../urpmq:53
 #, c-format
 msgid ""
 "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr ""
+"  --dump-config  - dump cấu hình theo dạng của đối số urpmi.addmedia.\n"
 
 #: ../urpmq:54
 #, c-format
@@ -1891,11 +1903,13 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
 msgstr ""
+"  --use-distrib  - cấu hình nhanh urpmi từ một distrib tree.\n"
+"                   Việc này cho phép tra vấn một distro.\n"
 
 #: ../urpmq:72
-#, fuzzy, c-format
+#, c-format
 msgid "  --changelog    - print changelog.\n"
-msgstr "  --all           - in ra toàn bộ tag.\n"
+msgstr "  --changelog    - in ra changelog.\n"
 
 #: ../urpmq:74
 #, c-format
@@ -1922,9 +1936,9 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - đảo ngược tìm kiếm cho cái yêu cầu gói.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print useful information in human readable form.\n"
-msgstr "  -i             - in ra thông tin có ích theo dạng đọc được.\n"
+msgstr "  -i             - in ra thông tin có ích mà người dùng đọc được.\n"
 
 #: ../urpmq:83
 #, c-format
@@ -1937,9 +1951,9 @@ msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - in ra phiên bản và phát hành với tên.\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  -l             - list files in package.\n"
-msgstr "  --list         - liệt kê các gói tin hiện có.\n"
+msgstr "  -l             - liệt kê các tập tin trong gói tin.\n"
 
 #: ../urpmq:87
 #, c-format
