@@ -237,6 +237,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 %changelog
 * Thu Jan 15 2004 Olivier Blin <blino@mandrake.org> 4.4.2-1mdk
+- add auto and keep options in global config section
 - urpmq -l (list files), urpmq --changelog
 - lock rpm db even in chroot for urpmq
 - enhance urpmq -i for non root user (fetch Description field)
@@ -244,7 +245,8 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 - fix urpme --root
 - / can be used as root, it's not a particular case
 - lock rpm db in chroot, and urpmi db in /
-- ask to be root too to install binary rpms in chroot
+- ask to be root to use auto-select in urpmi
+- ask to be root to install binary rpms in chroot
 - From Guillaume Cottenceau <gc@mandrakesoft.com>
     - more graphical feedback in urpmi --parallel --X (status, progress, etc)
 - From Pascal Terjan <pterjan@mandrake.org> :

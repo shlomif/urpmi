@@ -28,10 +28,8 @@ my $media = '';
 my $excludemedia = '';
 my $sortmedia = '';
 my $synthesis = '';
-my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
-my $keep = 0;
 my $no_remove = 0;
 my $split_level = 20;
 my $split_length = 1;
@@ -155,11 +153,11 @@ while (defined($_ = shift @argv)) {
     /^--sort-?media$/ and do { push @nextargv, \$sortmedia; next };
     /^--mediums$/ and do { push @nextargv, \$media; next };
     /^--synthesis$/ and do { push @nextargv, \$synthesis; next };
-    /^--auto$/ and do { $auto = 1; next };
+    /^--auto$/ and do { $urpm->{options}->{auto} = 1; next };
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
     /^--no-(remove|uninstall)$/ and do { $no_remove = 1; next };
-    /^--keep$/ and do { $keep = 1; next };
+    /^--keep$/ and do { $urpm->{options}->{keep} = 1; next };
     /^--split-level$/ and do { push @nextargv, \$urpm->{options}{'split-level'}; next };
     /^--split-length$/ and do { push @nextargv, \$urpm->{options}{'split-length'}; next };
     /^--(no-)?fuzzy$/ and do { $urpm->{options}{fuzzy} = !$1; next };
@@ -267,7 +265,7 @@ if ($env) {
 } else {
     if ($uid > 0) {
 	#- need to be root if binary rpms are to be installed
-	@names || @files and $urpm->{fatal}(1, N("Only superuser is allowed to install packages"));
+	$auto_select || @names || @files and $urpm->{fatal}(1, N("Only superuser is allowed to install packages"));
     } else {
 	#- allow log if not defined.
 	$log ||= "/var/log/urpmi.log";
@@ -399,7 +397,7 @@ sub ask_choice {
     my (@l) = map { scalar $_->fullname } @$choices;
     my $from;
 
-    if (@l > 1 && !$auto) {
+    if (@l > 1 && !$urpm->{options}->{auto}) {
 	my $msg = (defined $from ?
 		   N("One of the following packages is needed to install %s:", $from) :
 		   N("One of the following packages is needed:"));
@@ -432,7 +430,7 @@ my $restart_itself = $urpm->resolve_dependencies($state, \%requested,
 						 auto_select => $auto_select,
 						 callback_choices => \&ask_choice,
 						 install_src => $install_src,
-						 keep => $keep,
+						 keep => $urpm->{options}->{keep},
 						 nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 						 priority_upgrade => !$test && !$env && $urpm->{options}{'priority-upgrade'},
 						);
@@ -441,7 +439,7 @@ my @ask_unselect = $urpm->unselected_packages($state);
 if (@ask_unselect) {
     my $list = join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect);
     my $msg = N("Some package requested cannot be installed:\n%s", $list);
-    if ($auto) {
+    if ($urpm->{options}->{auto}) {
 	message($msg, 'noX');
     } else {
 	if ($X) {
@@ -467,7 +465,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
     }
 
     my $msg = N("The following packages have to be removed for others to be upgraded:\n%s", $list);
-    if ($auto) {
+    if ($urpm->{options}->{auto}) {
 	message($msg, 'noX');
     } else {
 	if ($X) {
@@ -512,7 +510,7 @@ if ($env) {
 if (@root_only) {
     print STDERR N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
-} elsif (!$auto && ($ask_user || $X) && @to_install) {
+} elsif (!$urpm->{options}->{auto} && ($ask_user || $X) && @to_install) {
     my $msg = N("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
     my $msg2 = N("Is this OK?");
     my $p = join "\n", @to_install;
@@ -545,7 +543,7 @@ my %error_sources;
 $urpm->copy_packages_of_removable_media($list, \%sources,
 					verbose => $verbose > 0,
 					force_local => 1,
-					ask_for_medium => (!$auto || $allow_medium_change) && sub {
+					ask_for_medium => (!$urpm->{options}->{auto} || $allow_medium_change) && sub {
 					    my $msg = N("Please insert the medium named \"%s\" on device [%s]", @_);
 					    my $msg2 = N("Press Enter when ready...");
 					    if ($X) {
@@ -621,7 +619,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    my $msg = N("The following packages have bad signatures");
 	    my $msg2 = N("Do you want to continue installation ?");
 	    my $p = join "\n", @bad_signatures;
-	    if ($auto) {
+	    if ($urpm->{options}->{auto}) {
 		message("$msg:\n$p\n", 'noX');
 		exit 1;
 	    } else {
@@ -703,7 +701,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 				   callback_inst => $callback_inst, callback_trans => $callback_inst);
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
-		if ($auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
+		if ($urpm->{options}->{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
 		    ++$nok;
 		    push @errors, @l;
 		} else {
@@ -777,7 +775,7 @@ if ($nok) {
 	message(N("Installation is possible"));
     } elsif (@names || @src_names || @files || @src_files || $auto_select) {
 	@{$state->{transaction} || []} == 0 && @ask_unselect == 0 && $verbose >= 0 and
-	  message(N("Everything already installed"), $auto);
+	  message(N("Everything already installed"), $urpm->{options}->{auto});
     }
 }
 
@@ -825,7 +823,7 @@ sub log_it {
 #- message functions.
 sub message {
     my ($msg, $noX) = @_;
-    if ($X && !$noX && !$auto) {
+    if ($X && !$noX && !$urpm->{options}->{auto}) {
 	gmessage($msg, ok_only => 1);
 	$bug and log_it($msg);
     } else {

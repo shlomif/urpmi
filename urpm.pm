@@ -461,7 +461,7 @@ sub read_config {
 		$_ eq '}' and last;
 		#- check for boolean variables first, and after that valued variables.
 		my ($no, $k, $v);
-		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean|excludedocs|compress)(?:\s*:\s*(.*))?$/) {
+		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|keep|auto|allow-(?:force|nodeps)|(?:pre|post)-clean|excludedocs|compress)(?:\s*:\s*(.*))?$/) {
 		    unless (exists($urpm->{options}{$k})) {
 			$urpm->{options}{$k} = $v eq '' || $v =~ /^(yes|on|1)$/i || 0;
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
