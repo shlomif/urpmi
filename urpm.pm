@@ -231,7 +231,8 @@ sub read_config {
     while (<MD5SUM>) {
 	my ($md5sum, $file) = /(\S*)\s+(.*)/;
 	foreach (@{$urpm->{media}}) {
-	    ($_->{synthesis} && "synthesis.").$_->{hdlist} eq $file and $_->{md5sum} = $md5sum, last;
+	    ($_->{synthesis} ? "synthesis." : "").$_->{hdlist} eq $file
+		and $_->{md5sum} = $md5sum, last;
 	}
     }
     close MD5SUM;
@@ -1575,8 +1576,8 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 		} else {
 		    #- the flag is no more necessary.
-		    delete $medium->{list};
-		    unlink "$urpm->{statedir}/$medium->{list}";
+		    delete $medium->{list}
+			and unlink "$urpm->{statedir}/$medium->{list}";
 		}
 	    }
 	}
