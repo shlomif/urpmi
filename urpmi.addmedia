@@ -22,7 +22,7 @@
 use urpm;
 
 #- get I18N translation method.
-import urpm _;
+import urpm N;
 
 sub main {
     my ($name, $url, $with, $relative_hdlist, %options);
@@ -41,7 +41,7 @@ sub main {
 # Translator: and 'removable:' must not be translated!
 # Translator: neither the ``with''.
 # Translator: only what is between <brakets> can be translated.
-    my $usage = _("usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]
+    my $usage = N("usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]
 where <url> is one of
        file://<path>
        ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>
@@ -50,31 +50,31 @@ where <url> is one of
        removable://<path>
 
 and [options] are from
-") . _("  --help         - print this help message.
-") . _("  --wget         - use wget to retrieve distant files.
-") . _("  --curl         - use curl to retrieve distant files.
-") . _("  --limit-rate   - limit the download speed.
-") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
+") . N("  --help         - print this help message.
+") . N("  --wget         - use wget to retrieve distant files.
+") . N("  --curl         - use curl to retrieve distant files.
+") . N("  --limit-rate   - limit the download speed.
+") . N("  --proxy        - use specified HTTP proxy, the port number is assumed
                    to be 1080 by default (format is <proxyhost[:port]>).
-") . _("  --proxy-user   - specify user and password to use for proxy
+") . N("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
-") . _("  --update       - create an update medium.
-") . _("  --distrib      - automatically create all media from an installation
+") . N("  --update       - create an update medium.
+") . N("  --distrib      - automatically create all media from an installation
                    medium.
-") . _("  --distrib-XXX  - automatically create a medium for XXX part of a
+") . N("  --distrib-XXX  - automatically create a medium for XXX part of a
                    distribution, XXX may be main, contrib, updates or
                    anything else that has been configured ;-)
-") . _("  --from         - use specified url for list of mirrors, the default is
+") . N("  --from         - use specified url for list of mirrors, the default is
                    %s
-", $mirrors) . _("  --version      - use specified distribution version, the default is taken
+", $mirrors) . N("  --version      - use specified distribution version, the default is taken
                    from the version of the distribution told by the
                    installed mandrake-release package.
-") . _("  --arch         - use specified architecture, the default is arch of
+") . N("  --arch         - use specified architecture, the default is arch of
                    mandrake-release package installed.
-") . _("  -c             - clean headers cache directory.
-") . _("  -h             - try to find and use synthesis or hdlist
+") . N("  -c             - clean headers cache directory.
+") . N("  -h             - try to find and use synthesis or hdlist
                    file.
-") . _("  -f             - force generation of hdlist files.
+") . N("  -f             - force generation of hdlist files.
 ");
 
     $options{force} = 0;
@@ -92,14 +92,14 @@ and [options] are from
 	/^--limit-rate$/ and do {$options{limit_rate} = shift @_; next };
 	/^--proxy$/ and do {
 	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
-		die _("bad proxy declaration on command line\n");
+		die N("bad proxy declaration on command line\n");
 	    $proxy .= ":1080" unless $port;
 	    $urpm->{proxy}{http_proxy} = $proxy;
 	    next;
 	};
 	/^--proxy-user$/ and do {
 	    ($_ = shift @_) =~ /(.+):(.+)/, or
-		die _("bad proxy declaration on command line\n");
+		die N("bad proxy declaration on command line\n");
 	    $urpm->{proxy}->{user} = $1;
 	    $urpm->{proxy}->{pwd} = $2;
 	    next;
@@ -110,7 +110,7 @@ and [options] are from
 	/^--version$/ and $options{version} = shift @_, next;
 	/^--arch$/ and $options{arch} = shift @_, next;
 	/^--update$/ and $options{update} = 1, next;
-	/^-/ and die $usage . _("\nunknown options '%s'\n", $_);
+	/^-/ and die $usage . N("\nunknown options '%s'\n", $_);
 	($name, $url, $with, $relative_hdlist) = ($_, @_);
 	last;
     }
@@ -142,16 +142,16 @@ and [options] are from
 	    }
 	    #- sanity checks...
 	    $options{distrib} eq 'updates' && $options{version} eq 'cooker' and
-	      die _("cannot add updates of a cooker distribution\n");
+	      die N("cannot add updates of a cooker distribution\n");
 	    #- get mirrors list file in urpmi cache.
 	    my ($basename) = $options{from} =~ /^.*\/([^\/]+)\/*$/;
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
-		$urpm->{log}(_("retrieving mirrors at %s ...", $options{from}));
+		$urpm->{log}(N("retrieving mirrors at %s ...", $options{from}));
 		$urpm->{sync}({dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy}}, $options{from});
-		$urpm->{log}(_("...retrieving done"));
+		$urpm->{log}(N("...retrieving done"));
 	    };
-	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
+	    $@ and $urpm->{log}(N("...retrieving failed: %s", $@));
 	    #- examine its contents and create all requested media, url is now a simple regex.
 	    my $heading = quotemeta($options{distrib});
 	    my $qarch = quotemeta($options{arch});
@@ -182,14 +182,14 @@ and [options] are from
 	    }
 	    close F;
 	} else {
-	    $with || $relative_hdlist and die _("%s\nno need to give <relative path of hdlist> with --distrib", $usage);
+	    $with || $relative_hdlist and die N("%s\nno need to give <relative path of hdlist> with --distrib", $usage);
 
 	    $urpm->add_distrib_media($name, $url, update => $options{update});
 	}
 	$urpm->update_media(%options, callback => \&urpm::sync_logger);
 
 	if (my @unsynced_media = grep { $_->{modified} } @{$urpm->{media}}) {
-	    print STDERR join("\n", map { _("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
+	    print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
 
 	    #- remove quietly the failing media.
 	    $urpm->{log} = sub {};
@@ -200,9 +200,9 @@ and [options] are from
 	$name or die $usage;
 
 	if ($with eq "with") {
-	    $relative_hdlist or die _("%s\n<relative path of hdlist> missing\n", $usage);
+	    $relative_hdlist or die N("%s\n<relative path of hdlist> missing\n", $usage);
 	} elsif ($type =~ /ftp|http/) {
-	    $options{probe_with_hdlist} || $with eq "with" or die _("%s\n`with' missing for ftp media\n", $usage);
+	    $options{probe_with_hdlist} || $with eq "with" or die N("%s\n`with' missing for ftp media\n", $usage);
 	}
 
 	$urpm->add_medium($name, $url, $relative_hdlist, update => $options{update});
@@ -210,9 +210,9 @@ and [options] are from
 
 	#- check creation of media (during update has been successfull)
 	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
-	$medium or die _("unable to create medium \"%s\"\n", $name);
+	$medium or die N("unable to create medium \"%s\"\n", $name);
 	if ($medium->{modified}) {
-	    print STDERR _("unable to update medium \"%s\"\n", $name);
+	    print STDERR N("unable to update medium \"%s\"\n", $name);
 	    #- remove quietly the failing media.
 	    $urpm->{log} = sub {};
 	    $urpm->remove_selected_media;

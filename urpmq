@@ -22,7 +22,7 @@ use strict;
 use urpm;
 
 # get I18N translation method.
-import urpm _;
+import urpm N;
 
 #- default options.
 my $query = { use_provides => 1, };
@@ -32,45 +32,45 @@ my @names;
 my @src_names;
 
 sub usage {
-    print STDERR _("urpmq version %s
+    print STDERR N("urpmq version %s
 Copyright (C) 2000, 2001, 2002 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-", $urpm::VERSION) . _("  --help         - print this help message.
-") . _("  --update       - use only update media.
-") . _("  --media        - use only the given media, separated by comma.
-") . _("  --synthesis    - use the synthesis given instead of urpmi db.
-") . _("  --auto-select  - automatically select packages to upgrade the system.
-") . _("  --fuzzy        - impose fuzzy search (same as -y).
-") . _("  --list         - list available packages.
-") . _("  --list-media   - list available media.
-") . _("  --list-nodes   - list available nodes when using --parallel.
-") . _("  --list-aliases - list available parallel aliases.
-") . _("  --src          - next package is a source package (same as -s).
-") . _("  --headers      - extract headers for package listed from urpmi db to
+", $urpm::VERSION) . N("  --help         - print this help message.
+") . N("  --update       - use only update media.
+") . N("  --media        - use only the given media, separated by comma.
+") . N("  --synthesis    - use the synthesis given instead of urpmi db.
+") . N("  --auto-select  - automatically select packages to upgrade the system.
+") . N("  --fuzzy        - impose fuzzy search (same as -y).
+") . N("  --list         - list available packages.
+") . N("  --list-media   - list available media.
+") . N("  --list-nodes   - list available nodes when using --parallel.
+") . N("  --list-aliases - list available parallel aliases.
+") . N("  --src          - next package is a source package (same as -s).
+") . N("  --headers      - extract headers for package listed from urpmi db to
                    stdout (root only).
-") . _("  --sources      - give all source packages before downloading (root only).
-") . _("  --force        - force invocation even if some packages do not exist.
-") . _("  --parallel     - distributed urpmi accross machines of alias.
-") . _("  --wget         - use wget to retrieve distant files.
-") . _("  --curl         - use curl to retrieve distant files.
-") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
+") . N("  --sources      - give all source packages before downloading (root only).
+") . N("  --force        - force invocation even if some packages do not exist.
+") . N("  --parallel     - distributed urpmi accross machines of alias.
+") . N("  --wget         - use wget to retrieve distant files.
+") . N("  --curl         - use curl to retrieve distant files.
+") . N("  --proxy        - use specified HTTP proxy, the port number is assumed
                    to be 1080 by default (format is <proxyhost[:port]>).
-") . _("  --proxy-user   - specify user and password to use for proxy
+") . N("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
-") . _("  -v             - verbose mode.
-") . _("  -d             - extend query to package dependencies.
-") . _("  -u             - remove package if a more recent version is already installed.
-") . _("  -c             - complete output with package to be removed.
-") . _("  -P             - do not search in provides to find package.
-") . _("  -R             - reverse search to what requires package.
-") . _("  -y             - impose fuzzy search (same as --fuzzy).
-") . _("  -s             - next package is a source package (same as --src).
-") . _("  -g             - print groups with name also.
-") . _("  -r             - print version and release with name also.
-") . _("  -f             - print version, release and arch with name.
-") . "\n" . _("  names or rpm files given on command line are queried.
+") . N("  -v             - verbose mode.
+") . N("  -d             - extend query to package dependencies.
+") . N("  -u             - remove package if a more recent version is already installed.
+") . N("  -c             - complete output with package to be removed.
+") . N("  -P             - do not search in provides to find package.
+") . N("  -R             - reverse search to what requires package.
+") . N("  -y             - impose fuzzy search (same as --fuzzy).
+") . N("  -s             - next package is a source package (same as --src).
+") . N("  -g             - print groups with name also.
+") . N("  -r             - print version and release with name also.
+") . N("  -f             - print version, release and arch with name.
+") . "\n" . N("  names or rpm files given on command line are queried.
 ");
     exit(0);
 }
@@ -106,14 +106,14 @@ while (defined($_ = shift @ARGV)) {
     /^--curl$/ and do { $urpm->{sync} = \&urpm::sync_webfetch; next };
     /^--proxy$/ and do {
 	my ($proxy, $port) = ($_ = shift @ARGV) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
-	    die _("bad proxy declaration on command line\n");
+	    die N("bad proxy declaration on command line\n");
 	$proxy .= ":1080" unless $port;
 	$urpm->{proxy}{http_proxy} = "http://$proxy";
 	next;
     };
     /^--proxy-user$/ and do {
 	($_ = shift @ARGV) =~ /(.+):(.+)/, or
-	    die _("bad proxy declaration on command line\n");
+	    die N("bad proxy declaration on command line\n");
 	$urpm->{proxy}{user} = $1;
 	$urpm->{proxy}{pwd} = $2;
 	next;
@@ -134,10 +134,10 @@ while (defined($_ = shift @ARGV)) {
 	/v/ and do { $query->{verbose} = 1; next };
 	/r/ and do { $query->{version} = $query->{release} = 1; next };
 	/f/ and do { $query->{version} = $query->{release} = $query->{arch} = 1; next };
-	print STDERR _("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
+	print STDERR N("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     /\.rpm$/ and do { if (-r $_) { push @files, $_; }
-		      else { print STDERR _("urpmq: cannot read rpm file \"%s\"\n", $_); }
+		      else { print STDERR N("urpmq: cannot read rpm file \"%s\"\n", $_); }
 		      next };
     if ($query->{src}) {
 	push @src_names, $_;
@@ -171,7 +171,7 @@ if ($query->{list_aliases}) {
     }
     close PARALLEL;
 } elsif ($query->{list_nodes}) {
-    $query->{parallel} or $urpm->{fatal}(1, _("--list-nodes can only be used with --parallel"));
+    $query->{parallel} or $urpm->{fatal}(1, N("--list-nodes can only be used with --parallel"));
     foreach (keys %{$urpm->{parallel_handler}{nodes} || {}}) {
 	print "$_\n";
     }
@@ -294,7 +294,7 @@ if ($query->{list_aliases}) {
     if ($query->{headers} || $query->{sources}) {
 	my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
 	unless ($local_sources || $list) {
-	    $urpm->{fatal}(1, _("unable to get source packages, aborting"));
+	    $urpm->{fatal}(1, N("unable to get source packages, aborting"));
 	}
 
 	if ($query->{headers}) {

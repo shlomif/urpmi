@@ -22,7 +22,7 @@
 use urpm;
 
 #- get I18N translation method.
-import urpm _;
+import urpm N;
 
 sub main {
     my (@toremoves, %options);
@@ -31,12 +31,12 @@ sub main {
     foreach (@_) {
 	/^--?a/ and $options{all} = 1, next;
 	/^--?c/ and $options{noclean} = 0, next;
-	/^-/ and die _("usage: urpmi.removemedia [-a] <name> ...
+	/^-/ and die N("usage: urpmi.removemedia [-a] <name> ...
 where <name> is a medium name to remove.
-") . _("  --help         - print this help message.
-") . _("  -a             - select all media.
-") . _("  -c             - clean headers cache directory.
-") . (/^--?h(?:elp)$/ ? _("\nunknown options '%s'\n", $_) : '');
+") . N("  --help         - print this help message.
+") . N("  -a             - select all media.
+") . N("  -c             - clean headers cache directory.
+") . (/^--?h(?:elp)$/ ? N("\nunknown options '%s'\n", $_) : '');
 	push @toremoves, $_;
     }
 
@@ -45,9 +45,9 @@ where <name> is a medium name to remove.
 
     if ($options{all}) {
 	@toremoves = @entries;
-	@toremoves == 0 and die _("nothing to remove (use urpmi.addmedia to add a media)\n");
+	@toremoves == 0 and die N("nothing to remove (use urpmi.addmedia to add a media)\n");
     }
-    @toremoves == 0 and die _("the entry to remove is missing\n(one of %s)\n", join(", ", @entries));
+    @toremoves == 0 and die N("the entry to remove is missing\n(one of %s)\n", join(", ", @entries));
 
     $urpm->select_media(@toremoves);
     $urpm->remove_selected_media;

@@ -99,7 +99,7 @@ use Locale::gettext();
 setlocale(LC_ALL, "");
 Locale::gettext::textdomain("urpmi");
 
-sub _ {
+sub N {
     my ($format, @params) = @_;
     sprintf(Locale::gettext::gettext($format || ''), @params);
 }
@@ -175,7 +175,7 @@ sub set_proxy {
 		}
 		last;
 	    };
-	    die _("Unknown webfetch `%s' !!!\n", $proxy->{type});
+	    die N("Unknown webfetch `%s' !!!\n", $proxy->{type});
 	}
     }
     return @res;
@@ -194,7 +194,7 @@ sub sync_webfetch {
     #- currently ftp and http protocol are managed by curl or wget,
     #- ssh and rsync protocol are managed by rsync *AND* ssh.
     foreach (@_) {
-	/^([^:_]*)[^:]*:/ or die _("unknown protocol defined for %s", $_);
+	/^([^:_]*)[^:]*:/ or die N("unknown protocol defined for %s", $_);
 	push @{$files{$1}}, $_;
     }
     if ($files{removable} || $files{file}) {
@@ -207,7 +207,7 @@ sub sync_webfetch {
 	} elsif (-x "/usr/bin/wget") {
 	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []});
 	} else {
-	    die _("no webfetch (curl or wget currently) found\n");
+	    die N("no webfetch (curl or wget currently) found\n");
 	}
 	delete @files{qw(ftp http)};
     }
@@ -223,7 +223,7 @@ sub sync_webfetch {
 	sync_ssh($options, @ssh_files);
 	delete $files{ssh};
     }
-    %files and die _("unable to handle protocol: %s", join ', ', keys %files);
+    %files and die N("unable to handle protocol: %s", join ', ', keys %files);
 }
 sub propagate_sync_callback {
     my $options = shift @_;
@@ -243,12 +243,12 @@ sub sync_file {
     foreach (@_) {
 	my ($in) = /^(?:removable[^:]*|file):\/(.*)/;
 	propagate_sync_callback($options, 'start', $_);
-	system("cp", "--preserve=mode,timestamps", "-R", $in || $_, ref $options ? $options->{dir} : $options) or die _("copy failed: %s", $@);
+	system("cp", "--preserve=mode,timestamps", "-R", $in || $_, ref $options ? $options->{dir} : $options) or die N("copy failed: %s", $@);
 	propagate_sync_callback($options, 'end', $_);
     }
 }
 sub sync_wget {
-    -x "/usr/bin/wget" or die _("wget is missing\n");
+    -x "/usr/bin/wget" or die N("wget is missing\n");
     local *WGET;
     my $options = shift @_;
     my ($buf, $total, $file) = ('', undef, undef);
@@ -285,10 +285,10 @@ sub sync_wget {
 	}
     }
     $file and propagate_sync_callback($options, 'end', $file);
-    close WGET or die _("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    close WGET or die N("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 sub sync_curl {
-    -x "/usr/bin/curl" or die _("curl is missing\n");
+    -x "/usr/bin/curl" or die N("curl is missing\n");
     local *CURL;
     my $options = shift @_;
     chdir(ref $options ? $options->{dir} : $options);
@@ -370,11 +370,11 @@ sub sync_curl {
 		$buf = '';
 	    }
 	}
-	close CURL or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+	close CURL or die N("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
     }
 }
 sub sync_rsync {
-    -x "/usr/bin/rsync" or die _("rsync is missing\n");
+    -x "/usr/bin/rsync" or die N("rsync is missing\n");
     my $options = shift @_;
     my $limit_rate = ref $options && $options->{limit_rate};
     for ($limit_rate) {
@@ -413,11 +413,11 @@ sub sync_rsync {
 	} while ($? != 0 && --$count > 0 && -e (ref $options ? $options->{dir} : $options) . "/$basename");
 	propagate_sync_callback($options, 'end', $file);
     }
-    $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    $? == 0 or die N("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 sub sync_ssh {
-    -x "/usr/bin/rsync" or die _("rsync is missing\n");
-    -x "/usr/bin/ssh" or die _("ssh is missing\n");
+    -x "/usr/bin/rsync" or die N("rsync is missing\n");
+    -x "/usr/bin/ssh" or die N("ssh is missing\n");
     my $options = shift @_;
     my $limit_rate = ref $options && $options->{limit_rate};
     for ($limit_rate) {
@@ -455,7 +455,7 @@ sub sync_ssh {
 	} while ($? != 0 && --$count > 0 && -e (ref $options ? $options->{dir} : $options) . "/$basename");
 	propagate_sync_callback($options, 'end', $file);
     }
-    $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    $? == 0 or die N("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 #- default logger suitable for sync operation on STDERR only.
 sub sync_logger {
@@ -464,9 +464,9 @@ sub sync_logger {
 	print STDERR "    $file\n";
     } elsif ($mode eq 'progress') {
 	if (defined $total && defined $eta) {
-	    print STDERR _("        %s%% of %s completed, ETA = %s, speed = %s", $percent, $total, $eta, $speed) . "\r";
+	    print STDERR N("        %s%% of %s completed, ETA = %s, speed = %s", $percent, $total, $eta, $speed) . "\r";
 	} else {
-	    print STDERR _("        %s%% completed, speed = %s", $percent, $speed) . "\r";
+	    print STDERR N("        %s%% completed, speed = %s", $percent, $speed) . "\r";
 	}
     } elsif ($mode eq 'end') {
 	print STDERR " " x 79, "\r";
@@ -512,7 +512,7 @@ sub read_config {
 		    }
 		    next;
 		}
-		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
+		$_ and $urpm->{error}(N("syntax error in config file at line %s", $.));
 	    }
 	next };
 	/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/ and do { #- urpmi.cfg format extention
@@ -528,7 +528,7 @@ sub read_config {
 		/^ignore\s*$/ and $medium->{ignore} = 1, next;
 		/^synthesis\s*$/ and $medium->{synthesis} = 1, next;
 		/^modified\s*$/ and next; # IGNORED TO AVOID EXCESIVE REMOVE $medium->{modified} = 1, next;
-		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
+		$_ and $urpm->{error}(N("syntax error in config file at line %s", $.));
 	    }
 	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 	    next };
@@ -540,7 +540,7 @@ sub read_config {
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
 	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 	    next };
-	$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
+	$_ and $urpm->{error}(N("syntax error in config file at line %s", $.));
     }
     close F;
 
@@ -549,11 +549,11 @@ sub read_config {
     my (%hdlists, %lists);
     foreach (@{$urpm->{media}}) {
 	exists $hdlists{$_->{hdlist}} and
-	  $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name}));
+	  $_->{ignore} = 1, $urpm->{error}(N("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name}));
 	$hdlists{$_->{hdlist}} = undef;
 	if ($_->{list}) {
 	    exists $lists{$_->{list}} and
-	      $_->{ignore} = 1, $urpm->{error}(_("medium \"%s\" trying to use an already used list, medium ignored", $_->{name}));
+	      $_->{ignore} = 1, $urpm->{error}(N("medium \"%s\" trying to use an already used list, medium ignored", $_->{name}));
 	    $lists{$_->{list}} = undef;
 	}
     }
@@ -569,24 +569,24 @@ sub read_config {
 	    #- there is a list file.
 	    if (-s "$urpm->{statedir}/list.$2") {
 		if (exists $lists{"list.$2"}) {
-		    $urpm->{error}(_("unable to take care of medium \"%s\" as list file is already used by another medium", $2));
+		    $urpm->{error}(N("unable to take care of medium \"%s\" as list file is already used by another medium", $2));
 		} else {
 		    my $medium;
 		    foreach (@{$urpm->{media}}) {
 			$_->{name} eq $2 and $medium = $_, last;
 		    }
-		    $medium and $urpm->{error}(_("unable to use name \"%s\" for unnamed medium because it is already used",
+		    $medium and $urpm->{error}(N("unable to use name \"%s\" for unnamed medium because it is already used",
 						 $2)), next;
 
 		    $medium = { name => $2, hdlist => "hdlist.$1", list => "list.$2" };
 		    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 		}
 	    } else {
-		$urpm->{error}(_("unable to take medium \"%s\" into account as no list file [%s] exists",
+		$urpm->{error}(N("unable to take medium \"%s\" into account as no list file [%s] exists",
 				 $2, "$urpm->{statedir}/list.$2"));
 	    }
 	} else {
-	    $urpm->{error}(_("unable to determine medium of this hdlist file [%s]", $_));
+	    $urpm->{error}(N("unable to determine medium of this hdlist file [%s]", $_));
 	}
     }
 
@@ -595,9 +595,9 @@ sub read_config {
 	foreach (@{$urpm->{media}}) {
 	    $_->{ignore} and next;
 	    -r "$urpm->{statedir}/$_->{hdlist}" || -r "$urpm->{statedir}/synthesis.$_->{hdlist}" && $_->{synthesis} or
-	      $_->{ignore} = 1, $urpm->{error}(_("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
+	      $_->{ignore} = 1, $urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
 	    $_->{list} && -r "$urpm->{statedir}/$_->{list}" || defined $_->{url} or
-	      $_->{ignore} = 1, $urpm->{error}(_("unable to access list file of \"%s\", medium ignored", $_->{name}));
+	      $_->{ignore} = 1, $urpm->{error}(N("unable to access list file of \"%s\", medium ignored", $_->{name}));
 	}
     }
 }
@@ -611,7 +611,7 @@ sub probe_medium {
     foreach (@{$urpm->{media}}) {
 	$_->{name} eq $medium->{name} and $existing_medium = $_, last;
     }
-    $existing_medium and $urpm->{error}(_("trying to bypass existing medium \"%s\", avoiding", $medium->{name})), return;
+    $existing_medium and $urpm->{error}(N("trying to bypass existing medium \"%s\", avoiding", $medium->{name})), return;
     
     $medium->{url} ||= $medium->{clear_url};
 
@@ -619,13 +619,13 @@ sub probe_medium {
 	$medium->{hdlist} = "hdlist.$medium->{name}.cz";
 	-e "$urpm->{statedir}/$medium->{hdlist}" or $medium->{hdlist} = "hdlist.$medium->{name}.cz2";
 	-e "$urpm->{statedir}/$medium->{hdlist}" or
-	  $medium->{ignore} = 1, $urpm->{error}(_("unable to find hdlist file for \"%s\", medium ignored", $medium->{name}));
+	  $medium->{ignore} = 1, $urpm->{error}(N("unable to find hdlist file for \"%s\", medium ignored", $medium->{name}));
     }
     unless ($medium->{ignore} || $medium->{list}) {
 	unless (defined $medium->{url}) {
 	    $medium->{list} = "list.$medium->{name}";
 	    unless (-e "$urpm->{statedir}/$medium->{list}") {
-		$medium->{ignore} = 1, $urpm->{error}(_("unable to find list file for \"%s\", medium ignored", $medium->{name}));
+		$medium->{ignore} = 1, $urpm->{error}(N("unable to find list file for \"%s\", medium ignored", $medium->{name}));
 	    }
 	}
     }
@@ -648,7 +648,7 @@ sub probe_medium {
 	foreach (sort { length($a) <=> length($b) } keys %probe) {
 	    if ($medium->{url}) {
 		$medium->{url} eq substr($_, 0, length($medium->{url})) or
-		  $medium->{ignore} || $urpm->{error}(_("incoherent list file for \"%s\", medium ignored", $medium->{name})),
+		  $medium->{ignore} || $urpm->{error}(N("incoherent list file for \"%s\", medium ignored", $medium->{name})),
 		    $medium->{ignore} = 1, last;
 	    } else {
 		$medium->{url} = $_;
@@ -656,7 +656,7 @@ sub probe_medium {
 	}
 	unless ($options{nocheck_access}) {
 	    $medium->{url} or
-	      $medium->{ignore} || $urpm->{error}(_("unable to inspect list file for \"%s\", medium ignored", $medium->{name})),
+	      $medium->{ignore} || $urpm->{error}(N("unable to inspect list file for \"%s\", medium ignored", $medium->{name})),
 		$medium->{ignore} = 1; #, last; keeping it cause perl to exit caller loop ...
 	}
     }
@@ -687,20 +687,20 @@ sub probe_removable_device {
 	    my %infos;
 	    my @mntpoints = $urpm->find_mntpoints($dir, \%infos);
 	    if (@mntpoints > 1) { #- return value is suitable for an hash.
-		$urpm->{log}(_("too many mount points for removable medium \"%s\"", $medium->{name}));
-		$urpm->{log}(_("taking removable device as \"%s\"", join ',', map { $infos{$_}{device} } @mntpoints));
+		$urpm->{log}(N("too many mount points for removable medium \"%s\"", $medium->{name}));
+		$urpm->{log}(N("taking removable device as \"%s\"", join ',', map { $infos{$_}{device} } @mntpoints));
 	    }
 	    if (@mntpoints) {
 		if ($medium->{removable} && $medium->{removable} ne $infos{$mntpoints[-1]}{device}) {
-		    $urpm->{log}(_("using different removable device [%s] for \"%s\"",
+		    $urpm->{log}(N("using different removable device [%s] for \"%s\"",
 				   $infos{$mntpoints[-1]}{device}, $medium->{name}));
 		}
 		$medium->{removable} = $infos{$mntpoints[-1]}{device};
 	    } else {
-		$urpm->{error}(_("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
+		$urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
 	    }
 	} else {
-	    $urpm->{error}(_("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
+	    $urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
 	}
     }
 }
@@ -713,7 +713,7 @@ sub write_config {
     $urpm->{media} or return;
 
     local *F;
-    open F, ">$urpm->{config}" or $urpm->{fatal}(6, _("unable to write config file [%s]", $urpm->{config}));
+    open F, ">$urpm->{config}" or $urpm->{fatal}(6, N("unable to write config file [%s]", $urpm->{config}));
     if (%{$urpm->{options} || {}}) {
 	printf F "{\n";
 	while (my ($k, $v) = each %{$urpm->{options}}) {
@@ -732,7 +732,7 @@ sub write_config {
 	printf F "}\n\n";
     }
     close F;
-    $urpm->{log}(_("write config file [%s]", $urpm->{config}));
+    $urpm->{log}(N("write config file [%s]", $urpm->{config}));
 
     #- everything should be synced now.
     delete $urpm->{modified};
@@ -752,7 +752,7 @@ sub configure {
 	open PARALLEL, "/etc/urpmi/parallel.cfg";
 	while (<PARALLEL>) {
 	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	    /\s*([^:]*):(.*)/ or $urpm->{error}(_("unable to parse \"%s\" in file [%s]", $_, "/etc/urpmi/parallel.cfg")), next;
+	    /\s*([^:]*):(.*)/ or $urpm->{error}(N("unable to parse \"%s\" in file [%s]", $_, "/etc/urpmi/parallel.cfg")), next;
 	    $1 eq $options{parallel} and $parallel_options = ($parallel_options && "\n") . $2;
 	}
 	close PARALLEL;
@@ -763,7 +763,7 @@ sub configure {
 		opendir DIR, $dir;
 		while ($_ = readdir DIR) {
 		    -f "$dir/$_" or next;
-		    $urpm->{log}->(_("examining parallel handler in file [%s]", "$dir/$_"));
+		    $urpm->{log}->(N("examining parallel handler in file [%s]", "$dir/$_"));
 		    eval { require "$dir/$_"; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
 		    $parallel_handler and last;
 		}
@@ -773,15 +773,15 @@ sub configure {
 	}
 	if ($parallel_handler) {
 	    if ($parallel_handler->{nodes}) {
-		$urpm->{log}->(_("found parallel handler for nodes: %s", join(', ', keys %{$parallel_handler->{nodes}})));
+		$urpm->{log}->(N("found parallel handler for nodes: %s", join(', ', keys %{$parallel_handler->{nodes}})));
 	    }
 	    if (!$options{media} && $parallel_handler->{media}) {
 		$options{media} = $parallel_handler->{media};
-		$urpm->{log}->(_("using associated media for parallel mode: %s", $options{media}));
+		$urpm->{log}->(N("using associated media for parallel mode: %s", $options{media}));
 	    }
 	    $urpm->{parallel_handler} = $parallel_handler;
 	} else {
-	    $urpm->{fatal}(1, _("unable to use parallel option \"%s\"", $options{parallel}));
+	    $urpm->{fatal}(1, N("unable to use parallel option \"%s\"", $options{parallel}));
 	}
     } else {
 	#- parallel is exclusive against root options.
@@ -792,7 +792,7 @@ sub configure {
 	if ($options{synthesis} ne 'none') {
 	    #- synthesis take precedence over media, update options.
 	    $options{media} || $options{update} || $options{parallel} and
-	      $urpm->{fatal}(1, _("--synthesis cannot be used with --media, --update or --parallel"));
+	      $urpm->{fatal}(1, N("--synthesis cannot be used with --media, --update or --parallel"));
 	    $urpm->parse_synthesis($options{synthesis});
 	}
     } else {
@@ -808,33 +808,33 @@ sub configure {
 	    delete @{$_}{qw(start end)};
 	    if ($options{callback}) {
 		if ($options{hdlist} && -s "$urpm->{statedir}/$_->{hdlist}" > 32) {
-		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
 		    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
 									  packing => 1, callback => $options{callback}) };
 		} else {
-		    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
+		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
 		    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}",
 									     callback => $options{callback}) };
 		    unless (defined $_->{start} && defined $_->{end}) {
-			$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+			$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
 			eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
 									      packing => 1, callback => $options{callback}) };
 		    }
 		}
 		unless (defined $_->{start} && defined $_->{end}) {
-		    $urpm->{error}(_("problem reading hdlist file of medium \"%s\"", $_->{name}));
+		    $urpm->{error}(N("problem reading hdlist file of medium \"%s\"", $_->{name}));
 		    $_->{ignore} = 1;
 		}
 	    } else {
 		if (-s "$urpm->{statedir}/synthesis.$_->{hdlist}" > 32) {
-		    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
+		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
 		    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}") };
 		}
 		unless (defined $_->{start} && defined $_->{end}) {
-		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
+		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
 		    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}", packing => 1) };
 		    unless (defined $_->{start} && defined $_->{end}) {
-			$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $_->{name}));
+			$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $_->{name}));
 			$_->{ignore} = 1;
 		    }
 		}
@@ -849,7 +849,7 @@ sub configure {
 	local $SIG{QUIT} = $sig_handler;
 	local *RPMDB;
 
-	$db or $urpm->{fatal}(9, _("unable to open rpmdb"));
+	$db or $urpm->{fatal}(9, N("unable to open rpmdb"));
 	open RPMDB, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$options{bug}/rpmdb.cz'";
 	$db->traverse(sub {
 			  my ($p) = @_;
@@ -887,7 +887,7 @@ sub add_medium {
 	    $_->{name} eq $name and $medium = $_;
 	}
     }
-    $medium and $urpm->{fatal}(5, _("medium \"%s\" already exists", $medium->{name}));
+    $medium and $urpm->{fatal}(5, N("medium \"%s\" already exists", $medium->{name}));
 
     #- clear URLs for trailing /es.
     $url =~ s|(.*?)/*$|$1|;
@@ -915,7 +915,7 @@ sub add_medium {
 
     #- keep in mind the database has been modified and base files need to be updated.
     #- this will be done automatically by transfering modified flag from medium to global.
-    $urpm->{log}(_("added medium %s", $name));
+    $urpm->{log}(N("added medium %s", $name));
 }
 
 #- add distribution media, according to url given.
@@ -930,33 +930,33 @@ sub add_distrib_media {
     if (my ($dir) = $url =~ /^(?:removable[^:]*|file):\/(.*)/) {
 	$hdlists_file = reduce_pathname("$dir/Mandrake/base/hdlists");
 
-	$urpm->try_mounting($hdlists_file) or $urpm->{error}(_("unable to access first installation medium")), return;
+	$urpm->try_mounting($hdlists_file) or $urpm->{error}(N("unable to access first installation medium")), return;
 
 	if (-e $hdlists_file) {
 	    unlink "$urpm->{cachedir}/partial/hdlists";
-	    $urpm->{log}(_("copying hdlists file..."));
+	    $urpm->{log}(N("copying hdlists file..."));
 	    system("cp", "--preserve=mode,timestamps", "-R", $hdlists_file, "$urpm->{cachedir}/partial/hdlists") ?
-	      $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
+	      $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
 	} else {
-	    $urpm->{error}(_("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
+	    $urpm->{error}(N("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
 	}
     } else {
 	#- try to get the description if it has been found.
 	unlink "$urpm->{cachedir}/partial/hdlists";
 	eval {
-	    $urpm->{log}(_("retrieving hdlists file..."));
+	    $urpm->{log}(N("retrieving hdlists file..."));
 	    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 			    quiet => 1,
 			    limit_rate => $options{limit_rate},
 			    proxy => $urpm->{proxy} },
 			  reduce_pathname("$url/Mandrake/base/hdlists"));
-	    $urpm->{log}(_("...retrieving done"));
+	    $urpm->{log}(N("...retrieving done"));
 	};
-	$@ and $urpm->{log}(_("...retrieving failed: %s", $@));
+	$@ and $urpm->{log}(N("...retrieving failed: %s", $@));
 	if (-e "$urpm->{cachedir}/partial/hdlists") {
 	    $hdlists_file = "$urpm->{cachedir}/partial/hdlists";
 	} else {
-	    $urpm->{error}(_("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
+	    $urpm->{error}(N("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
 	}
     }
 
@@ -972,7 +972,7 @@ sub add_distrib_media {
 	    chomp;
 	    s/\s*#.*$//;
 	    /^\s*$/ and next;
-	    m/^\s*(?:noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(_("invalid hdlist description \"%s\" in hdlists file"), $_);
+	    m/^\s*(?:noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file"), $_);
 	    my ($hdlist, $rpmsdir, $descr) = ($1, $2, $3);
 
 	    $urpm->add_medium($name ? "$descr ($name$medium)" : $descr, "$url/$rpmsdir", "../base/$hdlist", %options);
@@ -981,7 +981,7 @@ sub add_distrib_media {
 	}
 	close HDLISTS;
     } else {
-	$urpm->{error}(_("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
+	$urpm->{error}(N("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
     }
 }
 
@@ -1014,9 +1014,9 @@ sub select_media {
 	    } elsif (@foundi == 1) {
 		$foundi[0]{modified} = 1;
 	    } elsif (@found == 0 && @foundi == 0) {
-		$urpm->{error}(_("trying to select inexistent medium \"%s\"", $_));
+		$urpm->{error}(N("trying to select inexistent medium \"%s\"", $_));
 	    } else { #- multiple element in found or foundi list.
-		$urpm->{log}(_("selecting multiple media: %s", join(", ", map { _("\"%s\"", $_->{name}) } (@found ? @found : @foundi))));
+		$urpm->{log}(N("selecting multiple media: %s", join(", ", map { N("\"%s\"", $_->{name}) } (@found ? @found : @foundi))));
 		#- changed behaviour to select all occurence by default.
 		foreach (@found ? @found : @foundi) {
 		    $_->{modified} = 1;
@@ -1032,7 +1032,7 @@ sub remove_selected_media {
     
     foreach (@{$urpm->{media}}) {
 	if ($_->{modified}) {
-	    $urpm->{log}(_("removing medium \"%s\"", $_->{name}));
+	    $urpm->{log}(N("removing medium \"%s\"", $_->{name}));
 
 	    #- mark to re-write configuration.
 	    $urpm->{modified} = 1;
@@ -1078,7 +1078,7 @@ sub update_media {
     #- lock urpmi database.
     local (*LOCK_FILE);
     open LOCK_FILE, $urpm->{statedir};
-    flock LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, _("urpmi database locked"));
+    flock LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1098,14 +1098,14 @@ sub update_media {
 	    #- we still need to read it and all synthesis will be written if
 	    #- a unresolved provides is found.
 	    #- to speed up the process, we only read the synthesis at the begining.
-	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+	    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 	    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 	    unless (defined $medium->{start} && defined $medium->{end}) {
-		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+		$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		eval { ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 		unless (defined $medium->{start} && defined $medium->{end}) {
 		    #- this is almost a fatal error, ignore it by default?
-		    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+		    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 		    $medium->{ignore} = 1;
 		}
 	    }
@@ -1130,7 +1130,7 @@ sub update_media {
 	    #- mount everything necessary.
 	    $urpm->try_mounting($options{force} < 2 && ($options{probe_with_hdlist} || $medium->{with_hdlist}) ?
 				$with_hdlist_dir : $dir) or
-				  $urpm->{error}(_("unable to access medium \"%s\"", $medium->{name})), next;
+				  $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
 
 	    #- try to probe for possible with_hdlist parameter, unless
 	    #- it is already defined (and valid).
@@ -1160,31 +1160,31 @@ sub update_media {
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
 	    if (-e "$dir/../descriptions") {
-		$urpm->{log}(_("copying description file of \"%s\"...", $medium->{name}));
+		$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
 		system("cp", "--preserve=mode,timestamps", "-R", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") ?
-		  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
+		  $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
 	    }
 
 	    #- if the source hdlist is present and we are not forcing using rpms file
 	    if ($options{force} < 2 && $medium->{with_hdlist} && -e $with_hdlist_dir) {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
-		$urpm->{log}(_("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
+		$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 		$options{callback} && $options{callback}('copy', $medium->{name});
 		if (system("cp", "--preserve=mode,timestamps", "-R", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
 		    $options{callback} && $options{callback}('failed', $medium->{name});
-		    $urpm->{log}(_("...copying failed"))
+		    $urpm->{log}(N("...copying failed"))
 		} else {
 		    $options{callback} && $options{callback}('done', $medium->{name});
-		    $urpm->{log}(_("...copying done"));
+		    $urpm->{log}(N("...copying done"));
 		}
 
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
-		  $error = 1, $urpm->{error}(_("copy of [%s] failed", $with_hdlist_dir));
+		  $error = 1, $urpm->{error}(N("copy of [%s] failed", $with_hdlist_dir));
 
 		#- examine if a local MD5SUM file is available.
 		if (!$options{force} && -s reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM")) {
 		    my ($basename) = $with_hdlist_dir =~ /^.*\/([^\/]+)$/;
-		    $urpm->{log}(_("examining MD5SUM file"));
+		    $urpm->{log}(N("examining MD5SUM file"));
 		    local (*F, $_);
 		    open F, reduce_pathname("$dir/$with_hdlist_dir/../MD5SUM");
 		    while (<F>) {
@@ -1207,15 +1207,15 @@ sub update_media {
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			#- as previously done, just read synthesis file here, this is enough, but only
 			#- if synthesis exists, else it need to be recomputed.
-			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 			eval { ($medium->{start}, $medium->{end}) =
 				 $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 			unless (defined $medium->{start} && defined $medium->{end}) {
-			    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 			    eval { ($medium->{start}, $medium->{end}) =
 				     $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+				$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 				$medium->{ignore} = 1;
 			    }
 			}
@@ -1228,9 +1228,9 @@ sub update_media {
 		if ($medium->{hdlist} ne 'list') {
 		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    if (-s "$dir/$local_list") {
-			$urpm->{log}(_("copying source list of \"%s\"...", $medium->{name}));
+			$urpm->{log}(N("copying source list of \"%s\"...", $medium->{name}));
 			system("cp", "--preserve=mode,timestamps", "-R", "$dir/$local_list", "$urpm->{cachedir}/partial/list") ?
-			  $urpm->{log}(_("...copying failed")) : $urpm->{log}(_("...copying done"));
+			  $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
 		    }
 		}
 	    } else {
@@ -1245,7 +1245,7 @@ sub update_media {
 		if (@files > 0) {
 		    #- we need to rebuild from rpm files the hdlist.
 		    eval {
-			$urpm->{log}(_("reading rpm files from [%s]", $dir));
+			$urpm->{log}(N("reading rpm files from [%s]", $dir));
 			my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 			$medium->{start} = @{$urpm->{depslist}};
 			$medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
@@ -1264,12 +1264,12 @@ sub update_media {
 			    @unresolved_before == @unresolved_after or $urpm->{second_pass} = 1;
 			}
 		    };
-		    $@ and $error = 1, $urpm->{error}(_("unable to read rpm files from [%s]: %s", $dir, $@));
+		    $@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
 		    $error and delete $medium->{headers}; #- do not propagate these.
 		    $error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
 		} else {
 		    $error = 1;
-		    $urpm->{error}(_("no rpm files found from [%s]", $dir));
+		    $urpm->{error}(N("no rpm files found from [%s]", $dir));
 		}
 	    }
 	} else {
@@ -1282,13 +1282,13 @@ sub update_media {
 		  system("mv", "$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
 	    }
 	    eval {
-		$urpm->{log}(_("retrieving description file of \"%s\"...", $medium->{name}));
+		$urpm->{log}(N("retrieving description file of \"%s\"...", $medium->{name}));
 		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 				quiet => 1,
 				limit_rate => $options{limit_rate},
 				proxy => $urpm->{proxy} },
 			      reduce_pathname("$medium->{url}/../descriptions"));
-		$urpm->{log}(_("...retrieving done"));
+		$urpm->{log}(N("...retrieving done"));
 	    };
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
 		rename("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") or
@@ -1297,7 +1297,7 @@ sub update_media {
 
 	    #- try to probe for possible with_hdlist parameter, unless
 	    #- it is already defined (and valid).
-	    $urpm->{log}(_("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
+	    $urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 	    $options{callback} && $options{callback}('retrieve', $medium->{name});
 	    if ($options{probe_with_hdlist}) {
 		my ($suffix) = $dir =~ /RPMS([^\/]*)\/*$/;
@@ -1320,7 +1320,7 @@ sub update_media {
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/$basename" > 32) {
 			$medium->{with_hdlist} = $_;
-			$urpm->{log}(_("found probed hdlist (or synthesis) as %s", $basename));
+			$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $basename));
 			last; #- found a suitable with_hdlist in the list above.
 		    }
 		}
@@ -1344,13 +1344,13 @@ sub update_media {
 				    proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
 		};
 		if ($@) {
-		    $urpm->{log}(_("...retrieving failed: %s", $@));
+		    $urpm->{log}(N("...retrieving failed: %s", $@));
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		}
 	    }
 	    if (-s "$urpm->{cachedir}/partial/$basename" > 32) {
 		$options{callback} && $options{callback}('done', $medium->{name});
-		$urpm->{log}(_("...retrieving done"));
+		$urpm->{log}(N("...retrieving done"));
 
 		unless ($options{force}) {
 		    #- examine if a distant MD5SUM file is available.
@@ -1363,7 +1363,7 @@ sub update_media {
 				      reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
 		    };
 		    if (!$@ && -s "$urpm->{cachedir}/partial/MD5SUM" > 32) {
-			$urpm->{log}(_("examining MD5SUM file"));
+			$urpm->{log}(N("examining MD5SUM file"));
 			local (*F, $_);
 			open F, "$urpm->{cachedir}/partial/MD5SUM";
 			while (<F>) {
@@ -1384,15 +1384,15 @@ sub update_media {
 			    $medium->{modified} = 0;
 			    unlink "$urpm->{cachedir}/partial/$basename";
 			    #- as previously done, just read synthesis file here, this is enough.
-			    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+			    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 			    eval { ($medium->{start}, $medium->{end}) =
 				     $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+				$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 				eval { ($medium->{start}, $medium->{end}) =
 					 $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1) };
 				unless (defined $medium->{start} && defined $medium->{end}) {
-				    $urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+				    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 				    $medium->{ignore} = 1;
 				}
 			    }
@@ -1422,14 +1422,14 @@ sub update_media {
 	    } else {
 		$error = 1;
 		$options{callback} && $options{callback}('failed', $medium->{name});
-		$urpm->{error}(_("retrieve of source hdlist (or synthesis) failed"));
+		$urpm->{error}(N("retrieve of source hdlist (or synthesis) failed"));
 	    }
 	}
 
 	#- build list file according to hdlist used.
 	unless ($medium->{headers} || -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32) {
 	    $error = 1;
-	    $urpm->{error}(_("no hdlist file found for medium \"%s\"", $medium->{name}));
+	    $urpm->{error}(N("no hdlist file found for medium \"%s\"", $medium->{name}));
 	}
 
 	#- make sure group and other does not have any access to this file.
@@ -1441,7 +1441,7 @@ sub update_media {
 		#- build list hash.
 		foreach (@files) {
 		    /\/([^\/]*\.rpm)$/ or next;
-		    $list{$1} and $urpm->{error}(_("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
+		    $list{$1} and $urpm->{error}(N("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
 		    $list{$1} = "$prefix:/$_\n";
 		}
 	    } else {
@@ -1451,25 +1451,25 @@ sub update_media {
 		$options{callback} && $options{callback}('parse', $medium->{name});
 		my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 		if (!$medium->{synthesis} || -s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 262144) {
-		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
+		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 		    eval { ($medium->{start}, $medium->{end}) =
 			     $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1) };
 		    if (defined $medium->{start} && defined $medium->{end}) {
 			delete $medium->{synthesis};
 		    } else {
-			$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
+			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 			eval { ($medium->{start}, $medium->{end}) =
 				 $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}") };
 			defined $medium->{start} && defined $medium->{end} and $medium->{synthesis} = 1;
 		    }
 		} else {
-		    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
+		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 		    eval { ($medium->{start}, $medium->{end}) =
 			     $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}") };
 		    if (defined $medium->{start} && defined $medium->{end}) {
 			$medium->{synthesis} = 1;
 		    } else {
-			$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
+			$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 			eval { ($medium->{start}, $medium->{end}) =
 				 $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1) };
 			defined $medium->{start} && defined $medium->{end} and delete $medium->{synthesis};
@@ -1477,7 +1477,7 @@ sub update_media {
 		}
 		unless (defined $medium->{start} && defined $medium->{end}) {
 		    $error = 1;
-		    $urpm->{error}(_("unable to parse hdlist file of \"%s\"", $medium->{name}));
+		    $urpm->{error}(N("unable to parse hdlist file of \"%s\"", $medium->{name}));
 		    $options{callback} && $options{callback}('failed', $medium->{name});
 		    #- we will have to read back the current synthesis file unmodified.
 		} else {
@@ -1493,7 +1493,7 @@ sub update_media {
 			open F, "$urpm->{cachedir}/partial/list";
 			while (<F>) {
 			    /\/([^\/]*\.rpm)$/ or next;
-			    $list{$1} and $urpm->{error}(_("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
+			    $list{$1} and $urpm->{error}(N("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
 			    $list{$1} = "$medium->{url}/$_";
 			}
 			close F;
@@ -1516,16 +1516,16 @@ sub update_media {
 		    local *LIST;
 		    my $mask = umask 077;
 		    open LIST, ">$urpm->{cachedir}/partial/$medium->{list}"
-		      or $error = 1, $urpm->{error}(_("unable to write list file of \"%s\"", $medium->{name}));
+		      or $error = 1, $urpm->{error}(N("unable to write list file of \"%s\"", $medium->{name}));
 		    umask $mask;
 		    print LIST values %list;
 		    close LIST;
 
 		    #- check if at least something has been written into list file.
 		    if (-s "$urpm->{cachedir}/partial/$medium->{list}") {
-			$urpm->{log}(_("writing list file for medium \"%s\"", $medium->{name}));
+			$urpm->{log}(N("writing list file for medium \"%s\"", $medium->{name}));
 		    } else {
-			$error = 1, $urpm->{error}(_("nothing written in list file for \"%s\"", $medium->{name}));
+			$error = 1, $urpm->{error}(N("nothing written in list file for \"%s\"", $medium->{name}));
 		    }
 		} else {
 		    #- the flag is no more necessary.
@@ -1540,10 +1540,10 @@ sub update_media {
 	    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 	    $medium->{list} and unlink "$urpm->{cachedir}/partial/$medium->{list}";
 	    #- read default synthesis (we have to make sure nothing get out of depslist).
-	    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+	    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 	    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
 	    unless (defined $medium->{start} && defined $medium->{end}) {
-		$urpm->{error}(_("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+		$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 		$medium->{ignore} = 1;
 	    }
 	} else {
@@ -1575,7 +1575,7 @@ sub update_media {
     #- some unresolved provides may force to rebuild all synthesis,
     #- a second pass will be necessary.
     if ($urpm->{second_pass}) {
-	$urpm->{log}(_("performing second pass to compute dependencies\n"));
+	$urpm->{log}(N("performing second pass to compute dependencies\n"));
 	$urpm->unresolved_provides_clean;
     }
 
@@ -1589,12 +1589,12 @@ sub update_media {
 	#- or synthesis which has not been modified by first pass above.
 	if ($medium->{headers} && !$medium->{modified}) {
 	    if ($urpm->{second_pass}) {
-		$urpm->{log}(_("reading headers from medium \"%s\"", $medium->{name}));
+		$urpm->{log}(N("reading headers from medium \"%s\"", $medium->{name}));
 		($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
 									  headers => $medium->{headers},
 									 );
 	    }
-	    $urpm->{log}(_("building hdlist [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+	    $urpm->{log}(N("building hdlist [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 	    #- finish building operation of hdlist.
 	    $urpm->build_hdlist(start  => $medium->{start},
 				end    => $medium->{end},
@@ -1606,17 +1606,17 @@ sub update_media {
 				   end       => $medium->{end},
 				   synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
 				  );
-	    $urpm->{log}(_("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
 	    #- keep in mind we have modified database, sure at this point.
 	    $urpm->{modified} = 1;
 	} elsif ($medium->{synthesis}) {
 	    if ($urpm->{second_pass}) {
-		$urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+		$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
 	    }
 	} else {
 	    if ($urpm->{second_pass}) {
-		$urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+		$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", 1);
 	    }
 	    #- check if synthesis file can be built.
@@ -1625,7 +1625,7 @@ sub update_media {
 				       end       => $medium->{end},
 				       synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
 				      );
-		$urpm->{log}(_("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+		$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
 		#- keep in mind we have modified database, sure at this point.
 		$urpm->{modified} = 1;
 	    }
@@ -1644,11 +1644,11 @@ sub update_media {
 		/^([^\/]*-[^-]*-[^-]*\.[^\.]*)(?::\S*)?$/ and $headers{$1} = $_;
 	    }
 	    closedir D;
-	    $urpm->{log}(_("found %d headers in cache", scalar(keys %headers)));
+	    $urpm->{log}(N("found %d headers in cache", scalar(keys %headers)));
 	    foreach (@{$urpm->{depslist}}) {
 		delete $headers{$_->fullname};
 	    }
-	    $urpm->{log}(_("removing %d obsolete headers in cache", scalar(keys %headers)));
+	    $urpm->{log}(N("removing %d obsolete headers in cache", scalar(keys %headers)));
 	    foreach (values %headers) {
 		unlink "$urpm->{cachedir}/headers/$_";
 	    }
@@ -1795,7 +1795,7 @@ sub try_mounting {
 
     $dir = reduce_pathname($dir);
     foreach (grep { ! $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount' } $urpm->find_mntpoints($dir, \%infos)) {
-	$urpm->{log}(_("mounting %s", $_));
+	$urpm->{log}(N("mounting %s", $_));
 	`mount '$_' 2>/dev/null`;
 	$removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
     }
@@ -1808,7 +1808,7 @@ sub try_umounting {
 
     $dir = reduce_pathname($dir);
     foreach (reverse grep { $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount' } $urpm->find_mntpoints($dir, \%infos)) {
-	$urpm->{log}(_("unmounting %s", $_));
+	$urpm->{log}(N("unmounting %s", $_));
 	`umount '$_' 2>/dev/null`;
 	delete $urpm->{removable_mounted}{$_};
     }
@@ -1830,8 +1830,8 @@ sub relocate_depslist_provides {
     my $relocated_entries = $urpm->relocate_depslist;
 
     $urpm->{log}($relocated_entries ?
-		 _("relocated %s entries in depslist", $relocated_entries) :
-		 _("no entries relocated in depslist"));
+		 N("relocated %s entries in depslist", $relocated_entries) :
+		 N("no entries relocated in depslist"));
     $relocated_entries;
 }
 
@@ -1844,28 +1844,28 @@ sub register_rpms {
     #- depslist and provides environment.
     $start = @{$urpm->{depslist}};
     foreach (@files) {
-	/\.rpm$/ or $error = 1, $urpm->{error}(_("invalid rpm file name [%s]", $_)), next;
+	/\.rpm$/ or $error = 1, $urpm->{error}(N("invalid rpm file name [%s]", $_)), next;
 
 	#- allow url to be given.
 	if (my ($basename) = /^[^:]*:\/.*\/([^\/]*\.rpm)$/) {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
-		$urpm->{log}(_("retrieving rpm file [%s] ...", $_));
+		$urpm->{log}(N("retrieving rpm file [%s] ...", $_));
 		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial", quiet => 1, proxy => $urpm->{proxy} }, $_);
-		$urpm->{log}(_("...retrieving done"));
+		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    };
-	    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
+	    $@ and $urpm->{log}(N("...retrieving failed: %s", $@));
 	} else {
-	    -r $_ or $error = 1, $urpm->{error}(_("unable to access rpm file [%s]", $_)), next;
+	    -r $_ or $error = 1, $urpm->{error}(N("unable to access rpm file [%s]", $_)), next;
 	}
 
 	($id, undef) = $urpm->parse_rpm($_);
 	my $pkg = defined $id && $urpm->{depslist}[$id];
-	$pkg or $urpm->{error}(_("unable to register rpm file")), next;
+	$pkg or $urpm->{error}(N("unable to register rpm file")), next;
 	$urpm->{source}{$id} = $_;
     }
-    $error and $urpm->{fatal}(1, _("error registering local packages"));
+    $error and $urpm->{fatal}(1, N("error registering local packages"));
     defined $id && $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);
 
     #- distribute local packages to distant nodes directly in cache of each machine.
@@ -1957,10 +1957,10 @@ sub search_packages {
 		push @{$l{$pkg->name}}, $pkg;
 	    }
 	    if (values(%l) == 0) {
-		$urpm->{error}(_("no package named %s", $_));
+		$urpm->{error}(N("no package named %s", $_));
 		$result = 0;
 	    } elsif (values(%l) > 1 && !$options{all}) {
-		$urpm->{error}(_("The following packages contain %s: %s", $_, join(' ', keys %l)));
+		$urpm->{error}(N("The following packages contain %s: %s", $_, join(' ', keys %l)));
 		$result = 0;
 	    } else {
 		foreach (values %l) {
@@ -2016,7 +2016,7 @@ sub resolve_dependencies {
 	    $db->parse_synthesis($options{rpmdb});
 	} else {
 	    $db = URPM::DB::open($urpm->{root});
-	    $db or $urpm->{fatal}(9, _("unable to open rpmdb"));
+	    $db or $urpm->{fatal}(9, N("unable to open rpmdb"));
 	}
 
 	my $sig_handler = sub { undef $db; exit 3 };
@@ -2102,7 +2102,7 @@ sub get_source_packages {
 	    my $filepath = "$urpm->{cachedir}/rpms/$filename.rpm";
 	    if (!$options{clean_all} && -s $filepath && URPM::verify_rpm($filepath, nogpg => 1, nopgp => 1) =~ /md5 OK/) {
 		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-		    $urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $filename);
+		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
 		    next;
 		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 		    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
@@ -2134,7 +2134,7 @@ sub get_source_packages {
 		while (<F>) {
 		    if (my ($filename) = /\/([^\/]*)\.rpm$/) {
 			if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-			    $urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $filename);
+			    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
 			    next;
 			} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 			    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
@@ -2144,7 +2144,7 @@ sub get_source_packages {
 		    } else {
 			chomp;
 			$error = 1;
-			$urpm->{error}(_("unable to correctly parse [%s] on value \"%s\"",
+			$urpm->{error}(N("unable to correctly parse [%s] on value \"%s\"",
 					 "$urpm->{statedir}/$medium->{list}", $_));
 			last;
 		    }
@@ -2156,7 +2156,7 @@ sub get_source_packages {
 		    my $pkg = $urpm->{depslist}[$_];
 		    my ($filename) = $pkg->filename =~ /([^\/]*)\.rpm$/;
 		    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-			$urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $filename);
+			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\""), $filename);
 			next;
 		    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 			my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
@@ -2168,10 +2168,10 @@ sub get_source_packages {
 		    }
 		}
 		$list_warning && $medium->{list} && -r "$urpm->{statedir}/$medium->{list}" and
-		    $urpm->{error}(_("medium \"%s\" use an invalid list file (mirror is problably not up-to-date, trying to use alternate method)", $medium->{name}));
+		    $urpm->{error}(N("medium \"%s\" use an invalid list file (mirror is problably not up-to-date, trying to use alternate method)", $medium->{name}));
 	    } elsif (!%list_examined) {
 		$error = 1;
-		$urpm->{error}(_("medium \"%s\" does not define any location for rpm files", $medium->{name}));
+		$urpm->{error}(N("medium \"%s\" does not define any location for rpm files", $medium->{name}));
 	    }
 	}
 	push @list, \%sources;
@@ -2180,7 +2180,7 @@ sub get_source_packages {
     #- examine package list to see if a package has not been found.
     foreach (grep { ! exists $examined{$_} } keys %fullname2id) {
 	$error = 1;
-	$urpm->{error}(_("package %s is not found.", $_));
+	$urpm->{error}(N("package %s is not found.", $_));
     }	
 
     $error ? () : (\%local_sources, \@list);
@@ -2228,10 +2228,10 @@ sub download_source_packages {
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
 	    while ($check_notfound->($id, $dir, 'removable')) {
-		$options{ask_for_medium} or $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
+		$options{ask_for_medium} or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir); system("eject", $device);
 		$options{ask_for_medium}($medium->{name}, $medium->{removable}) or
-		  $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
+		  $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 	    }
 	    if (-e $dir) {
 		my @removable_sources;
@@ -2246,18 +2246,18 @@ sub download_source_packages {
 			    $sources{$i} = $2;
 			}
 		    } else {
-			$urpm->{error}(_("unable to read rpm file [%s] from medium \"%s\"", $2, $medium->{name}));
+			$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $2, $medium->{name}));
 		    }
 		}
 		if (@removable_sources) {
 		    system("cp", "--preserve=mode,timestamps", "-R", @removable_sources, "$urpm->{cachedir}/rpms");
 		}
 	    } else {
-		$urpm->{error}(_("medium \"%s\" is not selected", $medium->{name}));
+		$urpm->{error}(N("medium \"%s\" is not selected", $medium->{name}));
 	    }
 	} else {
 	    #- we have a removable device that is not removable, well...
-	    $urpm->{error}(_("incoherent medium \"%s\" marked removable but not really", $medium->{name}));
+	    $urpm->{error}(N("incoherent medium \"%s\" marked removable but not really", $medium->{name}));
 	}
     };
 
@@ -2267,7 +2267,7 @@ sub download_source_packages {
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
     local (*LOCK_FILE);
     open LOCK_FILE, $urpm->{statedir};
-    flock LOCK_FILE, $LOCK_EX or $urpm->{fatal}(7, _("urpmi database locked"));
+    flock LOCK_FILE, $LOCK_EX or $urpm->{fatal}(7, N("urpmi database locked"));
 
     foreach (0..$#$list) {
 	values %{$list->[$_]} or next;
@@ -2278,7 +2278,7 @@ sub download_source_packages {
 	} elsif (my ($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
 	    chomp $dir;
 	    -e $dir || $urpm->try_mounting($dir) or
-	      $urpm->{error}(_("unable to access medium \"%s\"", $medium->{name})), next;
+	      $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
 	}
     }
     foreach my $device (keys %removables) {
@@ -2334,14 +2334,14 @@ sub download_source_packages {
 		    $sources{$i} = "$1:/$2";
 		}
 	    } else {
-		$urpm->{error}(_("malformed input: [%s]", $url));
+		$urpm->{error}(N("malformed input: [%s]", $url));
 	    }
 	}
 
 	#- download files from the current medium.
 	if (%distant_sources) {
 	    eval {
-		$urpm->{log}(_("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$_]{name}));
+		$urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$_]{name}));
 		$urpm->{sync}({ dir => "$urpm->{cachedir}/rpms",
 				quiet => 0,
 				verbose => $options{verbose},
@@ -2349,10 +2349,10 @@ sub download_source_packages {
 				callback => $options{callback},
 				proxy => $urpm->{proxy} },
 			      values %distant_sources);
-		$urpm->{log}(_("...retrieving done"));
+		$urpm->{log}(N("...retrieving done"));
 	    };
 	    if ($@) {
-		$urpm->{log}(_("...retrieving failed: %s", $@));
+		$urpm->{log}(N("...retrieving failed: %s", $@));
 	    }
 	    #- clean files that have not been downloaded, but keep mind there
 	    #- has been problem downloading them at least once, this is
@@ -2414,7 +2414,7 @@ sub install_logger {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
 	    $urpm->{logger_id} = 0;
-	    printf "%-28s", _("Preparing...");
+	    printf "%-28s", N("Preparing...");
 	} else {
 	    printf "%4d:%-23s", ++$urpm->{logger_id}, ($pkg && $pkg->name);
 	}
@@ -2438,14 +2438,14 @@ sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
 
-    $db or $urpm->{fatal}(9, _("unable to open rpmdb"));
+    $db or $urpm->{fatal}(9, N("unable to open rpmdb"));
 
     my $trans = $db->create_transaction($urpm->{root});
     my ($update, @l, %file2pkg) = 0;
     local *F;
 
     foreach (@$remove) {
-	$trans->remove($_) or $urpm->{error}(_("unable to remove package %s", $_));
+	$trans->remove($_) or $urpm->{error}(N("unable to remove package %s", $_));
     }
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
@@ -2454,7 +2454,7 @@ sub install {
 	    $pkg->update_header($mode->{$_});
 	    $trans->add($pkg,
 			update => $update, $options{excludepath} ? (excludepath => [ split ',', $options{excludepath} ]) : ())
-	      or $urpm->{error}(_("unable to install package %s", $install->{$_}));
+	      or $urpm->{error}(N("unable to install package %s", $install->{$_}));
 	}
 	++$update;
     }
@@ -2463,8 +2463,8 @@ sub install {
 	    foreach (@l) {
 		my ($type, $needs, $conflicts) = split '@', $_;
 		$_ = ($type eq 'requires' ?
-		      _("%s is needed by %s", $needs, $conflicts) :
-		      _("%s conflicts with %s", $needs, $conflicts));
+		      N("%s is needed by %s", $needs, $conflicts) :
+		      N("%s conflicts with %s", $needs, $conflicts));
 	    }
 	}
 	return @l;
@@ -2476,7 +2476,7 @@ sub install {
     $options{callback_open} ||= sub {
 	my ($data, $type, $id) = @_;
 	open F, $install->{$id} || $upgrade->{$id} or
-	  $urpm->{error}(_("unable to access rpm file [%s]", $install->{$id} || $upgrade->{$id}));
+	  $urpm->{error}(N("unable to access rpm file [%s]", $install->{$id} || $upgrade->{$id}));
 	return fileno F;
     };
     $options{callback_close} ||= sub { close F };
@@ -2522,7 +2522,7 @@ sub find_packages_to_remove {
 	my $db = URPM::DB::open($options{root});
 	my (@m, @notfound);
 
-	$db or $urpm->{fatal}(9, _("unable to open rpmdb"));
+	$db or $urpm->{fatal}(9, N("unable to open rpmdb"));
 
 	if (!$options{matches}) {
 	    foreach (@$l) {

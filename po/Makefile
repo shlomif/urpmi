@@ -10,7 +10,6 @@ PL_FILES = ../_irpm ../urpm.pm ../urpme ../urpmf ../urpmi ../urpmi.addmedia \
 # C-like files to search translatable strings in
 CFILES = ./placeholder.h
 
-PL_CFILES = $(PL_FILES:%=%_.c)
 POFILES = $(shell ls *.po)
 MOFILES = $(POFILES:%.po=%.mo)
 LANGS = $(POFILES:%.po=%)
@@ -26,9 +25,6 @@ all: $(GOALS)
 placeholder.h:
 	./create_placeholder
 
-$(PL_CFILES): %_.c: %
-	./fake_c.pl $< > $@
-
 merge: $(PGOAL).pot
 	@for n in $(POFILES); do \
 		echo "Merging $$n"; \
@@ -36,14 +32,14 @@ merge: $(PGOAL).pot
 		mv -f "$$n"t "$$n"; \
 	done
 
-$(PGOAL).pot: $(PL_CFILES) $(CFILES)
-	xgettext --default-domain=$(PGOAL) -F -n \
-	--add-comments='-PO' --add-comments=' Translator:'\
+$(PGOAL).pot: $(CFILES)
+	xgettext -F -n --add-comments \
 	--keyword=_ --keyword=__ --keyword=N_ --keyword=N \
 	--keyword=gettext \
-	--language=C $(PL_CFILES) $(CFILES)
-	mv -f $(PGOAL).po $(PGOAL).pot
-	@rm -rf $(PL_CFILES)
+	--language=C -o placeholder.pot $(CFILES)
+	perl_checker -q --generate-pot $(PGOAL)_tmp.pot $(PL_FILES)
+	msgcat --use-first placeholder.pot $(PGOAL)_tmp.pot > $@
+	rm -f placeholder.pot $(PGOAL)_tmp.pot
 
 install: all
 	for l in $(LANGS); do \
@@ -52,6 +48,6 @@ install: all
 	done
 
 clean:
-	@rm -rf *~ *.mo $(GOALS) $(PL_CFILES) 
+	@rm -rf *~ *.mo $(GOALS) placeholder.pot $(PGOAL)_tmp.pot 
 
 

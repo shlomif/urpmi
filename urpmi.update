@@ -22,7 +22,7 @@
 use urpm;
 
 #- get I18N translation method.
-import urpm _;
+import urpm N;
 
 sub main {
     my (@toupdates, %options);
@@ -44,35 +44,35 @@ sub main {
 	/^--limit-rate$/ and do {$options{limit_rate} = shift @_; next };
 	/^--proxy$/ and do {
 	    my ($proxy, $port) = ($_ = shift @_) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
-		die _("bad proxy declaration on command line\n");
+		die N("bad proxy declaration on command line\n");
 	    $proxy .= ":1080" unless $port;
 	    $urpm->{proxy}{http_proxy} = $proxy;
 	    next;
 	};
 	/^--proxy-user$/ and do {
 	    ($_ = shift @_) =~ /(.+):(.+)/, or
-		die _("bad proxy declaration on command line\n");
+		die N("bad proxy declaration on command line\n");
 	    $urpm->{proxy}->{user} = $1;
 	    $urpm->{proxy}->{pwd} = $2;
 	    next;
 	};
 	/^--?noa/ and next; #- default, keeped for compability.
-	/^-/ and die _("usage: urpmi.update [options] <name> ...
+	/^-/ and die N("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.
-") . _("  --help         - print this help message.
-") . _("  --wget         - use wget to retrieve distant files.
-") . _("  --curl         - use curl to retrieve distant files.
-") . _("  --limit-rate   - limit the download speed.
-") . _("  --proxy        - use specified HTTP proxy, the port number is assumed
+") . N("  --help         - print this help message.
+") . N("  --wget         - use wget to retrieve distant files.
+") . N("  --curl         - use curl to retrieve distant files.
+") . N("  --limit-rate   - limit the download speed.
+") . N("  --proxy        - use specified HTTP proxy, the port number is assumed
                    to be 1080 by default (format is <proxyhost[:port]>).
-") . _("  --proxy-user   - specify user and password to use for proxy
+") . N("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
-") . _("  --update       - update only update media.
-") . _("  -a             - select all non-removable media.
-") . _("  -c             - clean headers cache directory.
-") . _("  -d             - force complete computation of depslist.ordered file.
-") . _("  -f             - force generation of hdlist files.
-") . (/^--?h(?:elp)$/ ? _("\nunknown options '%s'\n", $_) : '');
+") . N("  --update       - update only update media.
+") . N("  -a             - select all non-removable media.
+") . N("  -c             - clean headers cache directory.
+") . N("  -d             - force complete computation of depslist.ordered file.
+") . N("  -f             - force generation of hdlist files.
+") . (/^--?h(?:elp)$/ ? N("\nunknown options '%s'\n", $_) : '');
 	push @toupdates, $_;
     }
 
@@ -82,7 +82,7 @@ where <name> is a medium name to update.
     my @entries = map { $_->{name} } @{$urpm->{media}};
 
     if ($options{all}) {
-	@entries == 0 and die _("nothing to update (use urpmi.addmedia to add a media)\n");
+	@entries == 0 and die N("nothing to update (use urpmi.addmedia to add a media)\n");
     } else {
 	$urpm->select_media(@toupdates);
 
@@ -94,7 +94,7 @@ where <name> is a medium name to update.
 	    $_->{modified} and ++$something_todo;
 	}
 
-	$something_todo or die _("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
+	$something_todo or die N("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
     }
 
     $urpm->update_media(%options, callback => \&urpm::sync_logger);
