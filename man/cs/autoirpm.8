@@ -1,0 +1,51 @@
+.TH autoirpm 8 "05 Srp 2000" "Mandrakesoft" "Linux-Mandrake"
+.IX autoirpm
+.SH NÁZEV
+autoirpm \- automaticky instaluje balíèky RPM vyhovující va¹emu pøíkazu
+.SH SYNAPSE
+.B autoirpm
+.SH POPIS
+Program autoirpm *magicky* odhadne, které balíèky potøebujete, a nainstaluje je.
+Pøedstavte si, ¾e jste napsali pøíkaz gmix a chtìli jste spustit vá¹ zvukový mixér. 
+Pokud není k dispozici, jste poté dotázáni, zda chcete instalovat balíèek gnome-media,
+který obsahuje spustitelný soubor gmix...
+.PP
+Chcete-li toto chování, spus»te program autoirpm.update-all, který prozkoumá v¹echny
+balíèky známé programu urpmi, a zkusí najít v¹echny spustitelné soubory. Poté vytvoøí symbolické
+odkazy v odpovídajících adresáøích se spustitelnými soubory...
+Spu¹tìním program autoirpm.uninstall odstraníte v¹echny symbolické odkazy vytvoøené programem autoirpm.update.
+.PP
+Pou¾ijte \fBautoirpm.update <název>\fP, chcete-li aktualizovat spustitelné soubory obsa¾ené v balíècích
+zdroje s <názvem>.
+.PP
+Pou¾ijte \fBautoirpm.update-all\fP, chcete-li aktualizovat spustitelné soubory obsa¾ené v balíècích
+ve v¹ech zdrojích známých programu urpmi.
+.PP
+Pou¾ijte \fBautoirpm.uninstall\fP, chcete-li odstranit v¹echny symbolické odkazy instalované programem autoirpm.
+.PP
+Tuto vlastnost lze také pou¾ít pro ikony menu, pomocí instalace balíèku autoirpm-icons.
+.SH SOUBORY
+/etc/urpmi/autoirpm.deny
+.br
+V¹echny spustitelné soubory obsa¾ené v balíècích uvedených v tomto souboru nepovedou k automatické instalaci balíèku RPM.
+.PP
+/etc/urpmi/autoirpm.allow
+.br
+Pokud je tento soubor pøítomen, pak pouze spustitelné soubory z balíèkù uvedených v tomto souboru budou umo¾òovat automatickou
+instalaci.
+
+.SH "VIZ TAKÉ"
+urpmi(8)
+.SH AUTOR
+Pascal Rigaux, Mandrakesoft
+.br
+pixel@mandrakesoft.com
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,129 @@
+.TH urpmi 8 "05 Èec 2001" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi
+.SH NÁZEV
+urpmi \- obaluje program rpm a usnadòuje u¾ivateli instalace
+.SH SYNAPSE
+.B urpmi [\fIvolby\fP] [\fInázev_balíèku\fP | \fIsoubory_rpm...\fP]
+.SH POPIS
+Program urpmi umo¾òuje instalaci balíèkù RPM i jiným u¾ivatelùm, ne¾ je u¾ivatel root.
+Ve skuteènosti povoluje instalaci pouze dobøe známých balíèkù. Pokud chcete instalovat
+lokální soubor RPM, musíte být pøihlá¹en jako u¾ivatel root.
+
+Vzájemný vztah mezi programy rpm a urpmi lze srovnat se vztahem mezi programy
+insmod a modprobe, nebo mezi dpkg a apt-get.
+.PP
+Balíèky mohou instalovat v¹ichni u¾ivatelé patøící do skupiny urpmi.
+.br
+Spus»te program urpmi následovaný tím, co pokládáte za název balíèku nebo balíèkù,
+a program urpmi:
+.br
+\- Nabídne názvy jiných balíèkù, pokud jsou k dispozici, a ukonèí se.
+.br
+\- Pokud je nalezen pouze jeden odpovídající balíèek, zkontroluje, zda jsou ji¾ nainstalované balíèky,
+na kterých tento závisí.
+.br
+\- Pokud nejsou, nabídne instalaci závisejících balíèkù, a poté nainstaluje v¹echny závisející balíèky
+i balíèek samotný.
+.PP
+V¹imnìte si, ¾e program urpmi zvládne instalaci z rùzných zdrojù (FTP, HTTP, lokální a
+NFS svazky, vyjímatelná média jako CDROM), a ¾e je schopen instalovat závislé balíèky ze zdroje
+jiného ne¾ je zdroj instalovaného balíèku. Pokud je to nutné, po¾ádá vás program urpmi o vlo¾ení
+po¾adovaného média
+.PP
+Chcete-li pøidat dal¹í zdroj obsahující balíèky RPM, spus»te program urpmi.addmedia.
+.br
+Chcete-li odstranit zdroj, pou¾ijte program urpmi.removemedia.
+.br
+Chcete-li aktualizovat seznam balíèkù (pokud se napøíklad zmìnil FTP archív), pou¾ijte program urpmi.update.
+.br
+Chcete-li nainstalovat balíèek odpovídající spustitelnému souboru, který se pokou¹íte spustit, pou¾ijte program autoirpm.
+.br
+Chcete-li doinstalovat polo¾ky do v¹ech známých balíèkù, pou¾ijte balíèek autoirpm-icons.
+.SH VOLBY
+.IP "\fB\--help\fP"
+zobrazí nápovìdu a ukonèí se.
+.IP "\fB\--update\fP"
+pou¾ije pouze zdroje pro aktualizaci. To znamená, ¾e program \fBurpmi\fP bude hledat a øe¹it závislosti pouze ve zdrojích,
+které jsou oznaèené jako zdroje pro aktualizaci.
+.IP "\fB\--auto\fP"
+instaluje v¹echny potøebné závislosti bez dotazù.
+.IP "\fB\--auto-select\fP"
+automaticky vybere v¹echny balíèky, které musí být aktualizovány, podle ji¾ instalovaných balíèkù a balíèkù uvedených
+v rùzných registrovaných zdrojích.
+.IP "\fB\--force\fP"
+pøedpokládá kladnou odpovìï na v¹echny otázky.
+.IP "\fB\--X\fP"
+pou¾ije grafické rozhraní X.
+.IP "\fB\--best-output\fP"
+pokusí se pou¾ít grafické rozhraní X, nebo, pokud není k dispozici, standardní textové rozhraní (za pou¾ití programu rpm).
+.IP "\fB\-a\fP"
+pokud zadané èásti øetìzce vyhovuje více balíèkù, pou¾ije v¹echny
+.IP "\fB\-m\fP"
+pou¾ije minimální mno¾inu potøebných po¾adavkù (toto je výchozí nastavení). Je to pomìrnì pomalý algoritmus,
+který se pokou¹í minimalizovat poèet balíèkù k aktualizaci pouze na ty, které jsou opravdu nutné.
+.IP "\fB\-M\fP"
+pou¾ije maximální mno¾inu potøebných po¾adavkù. Toto je nejrychlej¹í algoritmus, který se pokusí aktualizovat v¹echny
+po¾adavky, pokud je to mo¾né.
+.IP "\fB\-c\fP"
+pokud je pou¾ita maximální mno¾ina po¾adavkù, bude pøedpokládat, ¾e balíèky v seznamu mohou mít chybné nebo zastaralé
+závislosti. To zpùsobí aktualizaci více balíèkù, a mù¾e opravit nevyøe¹ené závislosti uvnitø databáze balíèkù RPM.
+.IP "\fB\-p\fP"
+umo¾ní prohledávání v tom, co balíèek poskytuje (znaèka provides), a tak nalézt potøebný balíèek
+.IP "\fB\-q\fP"
+navrhne pøi volání programu rpm tichý re¾im, kde nejsou vypisovány informace o stavu aktualizace.
+.IP "\fB\-v\fP"
+navrhne u¾vanìný re¾im s mnoha rùznými zprávami.
+.SH SOUBORY
+/usr/bin/urpmi
+.br
+Spustitelný soubor \fBurpmi\fP (skript jazyka Perl)
+.PP
+/var/lib/urpmi/list.*
+.br
+Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam souborù.
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam hdlist.
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist,
+a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory
+pøítomny, pou¾ijte k jejich vytvoøení pøíkaz \fBurpmi.update -a\fP. Tyto soubory nejsou
+povinné.
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
+.PP
+/etc/urpmi/skip.list
+.br
+Obsahuje názvy balíèkù, které by nemìly být automaticky aktualizovány.
+.PP
+/var/lib/urpmi/depslist.ordered
+.br
+Jednoduchý textový soubor obsahující v¹echny závislosti v¹ech známých balíèkù.
+.PP
+/var/lib/urpmi/provides
+.br
+Jednoduchý textový soubor obsahující popis v¹eho, co poskytují balíèky (provides), a názvy tìchto balíèkù.
+.PP
+/var/lib/urpmi/compss
+.br
+Jednoduchý textový soubor obsahující pro ka¾dou Skupinu seznam balíèkù v této skupinì.
+.SH "VIZ TAKÉ"
+urpmi.addmedia(8),
+urpmi.update(8),
+urpmi.removemedia(8),
+autoirpm(8),
+gurpmi(8),
+urpmf(8),
+urpmq(8),
+rpmdrake(8)
+.SH AUTOR
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+.br
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>

@@ -1,0 +1,102 @@
+.TH urpmf 8 "05 Èec 2001" "MandrakeSoft" "Mandrake Linux"
+.IX urpmf
+.SH NÁZEV
+urpmf \- RPMFind - Nalezne balíèky RPM poskytující zadaný soubor
+.SH SYNAPSE
+.B urpmf [\fIvolby\fP] <\fIsoubor\fP>
+.SH POPIS
+Program urpmf vypí¹e seznam balíèkù, které poskytují soubor pøedaný jako parametr.
+.PP
+<\fISoubor\fP> je název souboru, u kterého chcete znát balíèek, který jej poskytuje.
+Mù¾ete napsat pouze èást názvu souboru, který hledáte, program
+\fBurpmf\fP poté vypí¹e seznam souborù, které vyhovují, vèetnì jejich odpovídajících balíèkù.
+.PP
+Program urpmf hledá v instalovaných i nenainstalovaných balíècích.
+.SH VOLBY
+.IP "\fB\--help\fP"
+zobrazí nápovìdu a ukonèí se.
+.IP "\fB\--quiet\fP"
+nebude vypisovat název znaèky (volba je nastavena jako výchozí, pokud není ¾ádná znaèka pøedána na 
+pøíkazovém øádku, a není kompatibilní s interaktivním re¾imem).
+.IP "\fB\--all\fP"
+vypí¹e v¹echny znaèky.
+.IP "\fB\--name\fP"
+vypí¹e název znaèky: název souboru RPM (zapnuta, pokud není z pøíkazového øádku pøedána ¾ádná znaèka,
+ale bez názvu balíèku).
+.IP "\fB\--group\fP"
+vypí¹e znaèku group: skupina.
+.IP "\fB\--size\fP"
+vypí¹e znaèku size: velikost.
+.IP "\fB\--serial\fP"
+vypí¹e znaèku serial: sériové èíslo.
+.IP "\fB\--summary\fP"
+vypí¹e znaèku summary: shrnutí.
+.IP "\fB\--description\fP"
+vypí¹e znaèku description: popis.
+.IP "\fB\--provides\fP"
+vypí¹e znaèku provides: v¹e, co poskytuje (více øádkù).
+.IP "\fB\--requires\fP"
+vypí¹e znaèku requires: v¹e, co potøebuje (více øádkù).
+.IP "\fB\--files\fP"
+vypí¹e znaèku files: v¹echny soubory (více øádkù).
+.IP "\fB\--conflicts\fP"
+vypí¹e znaèku conflicts: v¹echny konflikty (více øádkù).
+.IP "\fB\--obsoletes\fP"
+vypí¹e znaèku obsoletes: v¹e, co je zastaralé (více øádkù).
+.IP "\fB\--prereqs\fP"
+vypí¹e znaèku prereqs: v¹echny po¾adavky pøed instalací (více øádkù).
+.SH SOUBORY
+/usr/bin/urpmf
+.br
+Spustitelný soubor \fBurpmf\fP (skript jazyka Perl)
+.PP
+/var/lib/urpmi/list.*
+.br
+Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam souborù.
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam hdlist.
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist,
+a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory
+pøítomny, pou¾ijte k jejich vytvoøení pøíkaz \fBurpmi.update -a\fP. Tyto soubory nejsou
+povinné.
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
+.PP
+/etc/urpmi/skip.list
+.br
+Obsahuje názvy balíèkù, které by nemìly být automaticky aktualizovány.
+.PP
+/var/lib/urpmi/depslist.ordered
+.br
+Jednoduchý textový soubor obsahující v¹echny závislosti v¹ech známých balíèkù.
+.PP
+/var/lib/urpmi/provides
+.br
+Jednoduchý textový soubor obsahující popis v¹eho, co poskytují balíèky (provides), a názvy tìchto balíèkù.
+.PP
+/var/lib/urpmi/compss
+.br
+Jednoduchý textový soubor obsahující pro ka¾dou Skupinu seznam balíèkù v této skupinì.
+.SH "VIZ TAKÉ"
+urpmi(8),
+urpmq(8),
+urpmi.addmedia(8),
+urpmi.update(8),
+urpmi.removemedia(8),
+autoirpm(8),
+autoirpm-icons(8),
+gurpmi(8),
+rpmdrake(8)
+.SH AUTOR
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+.br
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>

@@ -1,0 +1,69 @@
+.TH urpmi.removemedia 8 "05 Èec 2001" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi.removemedia
+.SH NÁZEV
+urpmi.removemedia \- odstraní zdroj balíèkù RPM ze seznamu zdrojù známých programu urpmi
+.SH SYNAPSE
+.B urpmi.removemedia [volby] <\fInázvy\fP>
+.SH POPIS
+Program urpmi.removemedia odstraní v¹echny odkazy na zadané názvy zdrojù balíèkù vèetnì
+odkazù na balíèky z tìchto zdrojù pocházející, ze v¹ech souborù s nastavením. 
+.PP
+<\fInázvy\fP> je seznam názvù zdrojù, které jste pøedtím zadali pomocí programu urpmi.addmedia
+
+.SH VOLBY
+.IP "\fB\-a\fP"
+Vybere a odebere v¹echny zdroje.
+.SH SOUBORY
+/usr/bin/urpmi
+.br
+Spustitelný soubor \fBurpmi\fP (skript jazyka Perl)
+.PP
+/var/lib/urpmi/list.*
+.br
+Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam souborù.
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam hdlist.
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist,
+a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory
+pøítomny, pou¾ijte k jejich vytvoøení pøíkaz \fBurpmi.update -a\fP. Tyto soubory nejsou
+povinné.
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
+.PP
+/etc/urpmi/skip.list
+.br
+Obsahuje názvy balíèkù, které by nemìly být automaticky aktualizovány.
+.PP
+/var/lib/urpmi/depslist.ordered
+.br
+Jednoduchý textový soubor obsahující v¹echny závislosti v¹ech známých balíèkù.
+.PP
+/var/lib/urpmi/provides
+.br
+Jednoduchý textový soubor obsahující popis v¹eho, co poskytují balíèky (provides), a názvy tìchto balíèkù.
+.PP
+/var/lib/urpmi/compss
+.br
+Jednoduchý textový soubor obsahující pro ka¾dou Skupinu seznam balíèkù v této skupinì.
+.SH "VIZ TAKÉ"
+urpmi(8),
+urpmi.addmedia(8),
+autoirpm(8),
+autoirpm-icons(8),
+gurpmi(8),
+urpmf(8),
+urpmq(8),
+rpmdrake(8)
+.SH AUTOR
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+.br
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>

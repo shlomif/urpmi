@@ -1,0 +1,113 @@
+.TH urpmi.addmedia 8 "05 Èec 2001" "MandrakeSoft" "Mandrake Linux"
+.IX urpmi.addmedia
+.SH NÁZEV
+urpmi.addmedia \- pøidá nový zdroj s balíèky RPM pro program urpmi
+.SH SYNAPSE
+.B urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> <\fIurl\fP>
+.SH POPIS
+Program urpmi.addmedia sdìluje programu urpmi, ¾e jsou k dispozici nové balíèky RPM na
+zadaném místì. V souèasné dobì jsou podporovány následující zdroje: lokální disky, 
+vyjímatelné disky (napø. CD), HTTP a FTP.
+.PP
+Nový zdroj mohou pøidat v¹ichni u¾ivatelé patøící do skupiny urpmi.
+.PP
+Musí být zvolen jeden z následujících re¾imù:
+.PP
+HTTP:
+.br
+.IP "\fB    urpmi.addmedia <\fInázev\fP> http://<\fIpoèítaè\fP>/<\fIcesta\fP> with <\fIrelativní cesta k souboru hdlist\fP>\fP"
+Kde <\fInázev\fP> je vámi zadaný název zdroje (napø. MandrakeUpdate).
+.br
+<\fIpoèítaè\fP>/<\fIcesta\fP> je umístìní adresáøe se soubory RPM na síti.
+.br
+<\fIrelativní cesta k souboru hdlist\fP> je cesta, kde se má hledat soubor hdlist se seznamem
+balíèkù. Umístìní je dané relativnì vzhledem k <\fIcestì\fP>.
+.br
+V¹imnete si, ¾e ke sta¾ení souborù se pou¾ívá program \fBwget\fP; mù¾ete tudí¾ pøidat specifické volby pro program
+\fBwget\fP upravením souboru \fB/etc/wgetrc\fP. Více informací naleznete v dokumentaci programu \fBwget\fP.
+.PP
+FTP:
+.br
+.IP "\fB    urpmi.addmedia <\fInázev\fP> ftp://<\fIlogin\fP>:<\fIheslo\fP>@<\fIpoèítaè\fP>/<\fIcesta\fP> with <\fIrelativní cesta k souboru hdlist\fP>\fP"
+Stejnì jako v pøípadì re¾imu http, pouze pøidejte své jméno a heslo, pokud je to potøeba (pro anonymní pøihlá¹ení
+na server nemusíte zadávat ¾ádné jméno ani heslo).
+.br
+Pro sta¾ení souborù je pou¾it program \fBwget\fP; pokud pou¾íváte firewall, mo¾ná budete muset pøidat
+do souboru \fB/etc/wgetrc\fP volbu \fBpassive_ftp=on\fP. 
+.nf
+napø.: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist
+.fi
+.PP
+Lokální soubory nebo svazky NFS:
+.br
+.IP "\fB    urpmi.addmedia <\fInázev\fP> file://<\fIcesta\fP>\fP with <\fIrelativní cesta k souboru hdlist\fP>\fP"
+Kde <\fInázev\fP> je vá¹ název pro zdroj (napø. Mojerpm).
+.br
+<\fIcesta\fP> je umístìní adresáøe s balíèky RPM na va¹em poèítaèi.
+.PP
+Vyjímatelná zaøízení:
+.br
+.IP "\fB    urpmi.addmedia removable_<\fIzaøízení\fP>://<\fIcesta\fP>\fP with <\fIrelativní cesta k souboru hdlist\fP>\fP"
+<\fIzaøízení\fP> je název zdroje, jak jej lze nalézt v adresáøi /dev/ (napø. cdrom, floppy, zip, ...).
+.br
+<\fIcesta\fP> je umístìní adresáøe s balíèky RPM na va¹em poèítaèi, kam je pøipojený zdroj.
+.PP
+.SH VOLBY
+.IP "\fB\--update\fP"
+pøidá zdroj, který bude vzat v potaz pouze pøi aktualizacích pomocí programu
+\fBurpmi\fP .
+.SH SOUBORY
+/usr/bin/urpmi
+.br
+Spustitelný soubor \fBurpmi\fP (skript jazyka Perl)
+.PP
+/var/lib/urpmi/list.*
+.br
+Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam souborù.
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam hdlist.
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist,
+a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory
+pøítomny, pou¾ijte k jejich vytvoøení pøíkaz \fBurpmi.update -a\fP. Tyto soubory nejsou
+povinné.
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
+.PP
+/etc/urpmi/skip.list
+.br
+Obsahuje názvy balíèkù, které by nemìly být automaticky aktualizovány.
+.PP
+/var/lib/urpmi/depslist.ordered
+.br
+Jednoduchý textový soubor obsahující v¹echny závislosti v¹ech známých balíèkù.
+.PP
+/var/lib/urpmi/provides
+.br
+Jednoduchý textový soubor obsahující popis v¹eho, co poskytují balíèky (provides), a názvy tìchto balíèkù.
+.PP
+/var/lib/urpmi/compss
+.br
+Jednoduchý textový soubor obsahující pro ka¾dou Skupinu seznam balíèkù v této skupinì.
+.SH "VIZ TAKÉ"
+urpmi(8),
+urpmi.update(8),
+urpmi.removemedia(8),
+autoirpm(8),
+autoirpm-icons(8),
+gurpmi(8),
+urpmf(8),
+urpmq(8),
+rpmdrake(8)
+.SH AUTOR
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+.br
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>

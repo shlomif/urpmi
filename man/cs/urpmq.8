@@ -1,0 +1,118 @@
+.TH urpmq 8 "05 Èec 2001" "MandrakeSoft" "Mandrake Linux"
+.IX urpmq
+.SH NÁZEV
+urpmq \- nástroj pro dotazy na databázi urpmi.
+.SH SYNAPSE
+.B urpmq [\fIvolby\fP] [\fInázev_balíèku\fP | \fIsoubory_rpm...\fP]
+.SH POPIS
+Program urpmq umo¾òuje dotazy na databázi urpmi. Je vám k dispozici, pokud potøebujete
+zjistit seznam balíèkù dostupných na rùzných zdrojích registrovaných v programu urpmi,
+nebo pokud potøebujete vypsat závislosti balíèkù, nebo balíèky, které se nainstalují, 
+pokud spustíte program urpmi.
+.PP
+Výstupní formát programu urpmi se li¹í podle následujících parametrù z pøíkazové øádky:
+.IP
+[skupina/]název_balíèku[-verze][-vydání]
+.SH VOLBY
+.IP "\fB\--help\fP"
+zobrazí nápovìdu a ukonèí se.
+.IP "\fB\--update\fP"
+pou¾ije pouze zdroje pro aktualizaci. To znamená, ¾e program \fBurpmq\fP bude hledat a øe¹it závislosti
+pouze v rámci zdrojù oznaèených pro aktualizaci.
+.IP "\fB\--auto-select\fP"
+automaticky vybere v¹echny balíèky, které by mìly být aktualizovány, na základì ji¾ instalovaných
+balíèkù a balíèkù v seznamech jednotlivých registrovaných zdrojù.
+.IP "\fB\--headers\fP"
+získá hlavièky vybraných balíèkù a vypí¹e je na standardní výstup.
+.IP "\fB\--sources\fP"
+vypí¹e zdrojové url (nebo soubor) v¹ech vybraných balíèkù.
+.IP "\fB\--force\fP"
+bude ignorovat výskyt chyby, pokud jsou vy¾ádány neexistující balíèky.
+.IP "\fB\-v\fP"
+aktivuje u¾vanìný re¾im.
+.IP "\fB\-d\fP"
+vybere závislosti (maximální mno¾ina).
+.IP "\fB\-u\fP"
+zru¹í výbìr balíèkù, pokud je ji¾ instalovaná novìj¹í verze. Tuto volbu lze pou¾ít s volbou
+\fB-d\fP a tím simulovat re¾im \fB-M\fP programu \fBurpmi\fP.
+.IP "\fB\-m\fP"
+vybere minimální mno¾inu závislostí. Toto je relativnì pomalý algoritmus, který se sna¾í minimalizovat
+poèet balíèkù k aktualizaci pouze na ty, kde je to opravdu nutné.
+.IP "\fB\-M\fP"
+vypne algoritmus pro minimální mno¾inu závislostí, tak¾e pou¾ití voleb \fB-d\fP i \fB-u\fP je pak podobné
+re¾imu programu \fBurpmi\fP s aktivní volbou \fB-M\fP .
+.IP "\fB\-c\fP"
+pokud je vybrána maximální mno¾ina závislostí, bude program pøedpokládat, ¾e uvedené balíèky mají chybné
+nebo zastaralé závislosti. To zpùsobí, ¾e se bude aktualizovat více balíèkù, ale mù¾e
+tím opravit nevyøe¹ené závislosti uvnitø databáze rpm.
+.IP "\fB\-p\fP"
+umo¾ní prohledávat znaèky provides a nalézt tak potøebný balíèek.
+.IP "\fB\-g\fP"
+vypí¹e skupinu, do které patøí ka¾dý z vybraných balíèkù.
+.IP "\fB\-r\fP"
+vypí¹e verzi a vydání ka¾dého z vybraných balíèkù.
+.IP "\fB\-d\fP"
+vypí¹e na pøíkazovou øádku mno¾inu balíèkù vy¾adovanou vybranými balíèky.
+.SH SOUBORY
+/usr/bin/urpmq
+.br
+Spustitelný soubor \fBurpmq\fP (skript jazyka Perl)
+.PP
+/var/lib/urpmi/list.*
+.br
+Obsahuje seznam v¹ech balíèkù známých programu urpmi a jejich umístìní.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam souborù.
+.PP
+/var/lib/urpmi/hdlist.*
+.br
+Obsahuje informace o v¹ech známých balíècích, je to souhrn hlavièek balíèkù RPM.
+Pro ka¾dý zdroj(*) je k dispozici jeden seznam hdlist.
+.PP
+/var/lib/urpmi/synthesis.hdlist.*
+.br
+Obsahuje informace syntézy o v¹ech známých balíècích, které jsou sestaveny ze souborù hdlist,
+a které mohou být pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory
+pøítomny, pou¾ijte k jejich vytvoøení pøíkaz \fBurpmi.update -a\fP. Tyto soubory nejsou
+povinné.
+.PP
+/etc/urpmi/urpmi.cfg
+.br
+Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
+.PP
+/etc/urpmi/skip.list
+.br
+Obsahuje názvy balíèkù, které by nemìly být automaticky aktualizovány.
+.PP
+/var/lib/urpmi/depslist.ordered
+.br
+Jednoduchý textový soubor obsahující v¹echny závislosti v¹ech známých balíèkù.
+.PP
+/var/lib/urpmi/provides
+.br
+Jednoduchý textový soubor obsahující popis v¹eho, co poskytují balíèky (provides), a názvy tìchto balíèkù.
+.PP
+/var/lib/urpmi/compss
+.br
+Jednoduchý textový soubor obsahující pro ka¾dou Skupinu seznam balíèkù v této skupinì.
+.SH "VIZ TAKÉ"
+urpmi(8),
+urpmi.addmedia(8),
+urpmi.update(8),
+urpmi.removemedia(8),
+autoirpm(8),
+gurpmi(8),
+urpmf(8),
+rpmdrake(8)
+.SH AUTOR
+Francois Pons, Mandrakesoft
+.br
+fpons@mandrakesoft.com
+
+
+
+
+
+
+
+
+
