@@ -161,7 +161,7 @@ sub set_proxy {
 	    /wget/ && do {
 		for ($proxy->{proxy}) {
 		    if (defined $_->{http_proxy}) {
-			$ENV{http_proxy} = $_->{http_proxy} =~ /^http:\/\// ? $_->{http_proxy} : "http://$_->{http_proxy}";
+			$ENV{http_proxy} = $_->{http_proxy} =~ /^http:/ ? $_->{http_proxy} : "http://$_->{http_proxy}";
 		    }
 		    $ENV{ftp_proxy} = $_->{ftp_proxy} if defined $_->{ftp_proxy};
 		    @res = ("--proxy-user=$_->{user}", "--proxy-passwd=$_->{pwd}") if defined $_->{user} && defined $_->{pwd};
@@ -170,9 +170,9 @@ sub set_proxy {
 	    };
 	    /curl/ && do {
 		for ($proxy->{proxy}) {
-		    push @res, "-x $_->{http_proxy}" if defined $_->{http_proxy};
-		    push @res, "-x $_->{ftp_proxy}" if defined $_->{ftp_proxy};
-		    push @res, "-U $_->{user}:$_->{pwd}" if defined $_->{user} && defined $_->{pwd};
+		    push @res, ('-x', $_->{http_proxy}) if defined $_->{http_proxy};
+		    push @res, ('-x', $_->{ftp_proxy}) if defined $_->{ftp_proxy};
+		    push @res, ('-U', "$_->{user}:$_->{pwd}") if defined $_->{user} && defined $_->{pwd};
 		}
 		last;
 	    };

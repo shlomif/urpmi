@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 19mdk
+Release: 20mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ fi
 
 
 %changelog
+* Tue Sep 17 2002 François Pons <fpons@mandrakesoft.com> 4.0-20mdk
+- gc: fixed curl proxy management.
+
 * Mon Sep 16 2002 François Pons <fpons@mandrakesoft.com> 4.0-19mdk
 - fixed possible problem with http proxy for wget.
 - umount removable device automatically mounted.
