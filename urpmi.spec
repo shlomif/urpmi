@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 6mdk
+Release: 7mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,9 @@ fi
 
 
 %changelog
+* Mon Jan 20 2003 François Pons <fpons@mandrakesoft.com> 4.2-7mdk
+- fixed bug 876.
+
 * Thu Jan 16 2003 François Pons <fpons@mandrakesoft.com> 4.2-6mdk
 - fixed bug 778 (in cvs since January 11 but not uploaded).
 - more translations.
