@@ -162,10 +162,13 @@ $urpm->relocate_depslist;
 
 
 #- search the packages according the selection given by the user,
-#- basesystem is added to the list so if it need to be upgraded, all its dependancy
-#- will be updated too.
+#- basesystem is added to the list so if it need to be upgraded,
+#- all its dependancy will be updated too.
+#- make sure basesystem exists before.
 my %packages;
-$urpm->search_packages(\%packages, [ ($minimal ? () : ('basesystem')), @names], all => $all) or $force or exit 1;
+$urpm->search_packages(\%packages,
+		       [ ($minimal || !$urpm->{params}{info}{basesystem} ? () : ('basesystem')), @names],
+		       all => $all) or $force or exit 1;
 
 #- filter to add in packages selected required packages.
 my $ask_choice = sub {
@@ -293,13 +296,14 @@ sub install {
     system($X ? ("grpmi", $WID ? ("--WID=$WID") : ()) : ("rpm", $rpm_opt), @_);
     if ($?) {
 	message(_("Installation failed"));
-	$X and exit ($? >> 8) || 1; #- grpmi handles --nodeps and --force by itself, forward grpmi error.
+	$X and exit(($? >> 8) || 1); #- grpmi handles --nodeps and --force by itself, forward grpmi error.
 
 	m|^/| && !-e $_ and exit 1 foreach @_; #- missing local file
 
 	$noexpr = _("Nn");
 	$yesexpr = _("Yy");
 	print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
+	$auto and exit 1; #- if auto has been set, avoid asking user.
 	$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 	$urpm->{log}("starting installing packages without deps");
 	system("rpm", $rpm_opt, "--nodeps", @_);	
@@ -307,7 +311,7 @@ sub install {
 	if ($?) {
 	    message(_("Installation failed"));
 	    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
-	    $force or <STDIN> =~ /[$yesexpr]/ or exit 0;
+	    $force or <STDIN> =~ /[$yesexpr]/ or exit 1;
 	    $urpm->{log}("starting force installing packages without deps");
 	    system("rpm", $rpm_opt, "--nodeps", "--force", @_);	
 	}
