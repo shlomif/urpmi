@@ -1603,7 +1603,7 @@ sub filter_packages_to_upgrade {
 		}
 	    }
 
-	    $provides{$pkg->{name}} = undef; #"$pkg->{name}-$pkg->{version}-$pkg->{release}";
+	    $selected{$pkg->{name}} = undef;
 	}
 
 	#- iterate over requires of the packages, register them.
@@ -1615,11 +1615,13 @@ sub filter_packages_to_upgrade {
 		$provides{$_} ||= undef;
 		unless ($options{keep_alldeps}) {
 		    my $check_pkg = sub {
-			$o and $n eq $_[0]{name} || return;
-			(!$v || eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0)) &&
-			  (!$r || rpmtools::version_compare($_[0]{version}, $v) != 0 ||
-			   eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0)) or return;
-			$provides{$_} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
+			my ($p) = @_;
+			exists $selected{$p->{name}} and return;
+			$o and $n eq $p->{name} || return;
+			(!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
+			  (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
+			   eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
+			$provides{$_} = "$p->{name}-$p->{version}-$p->{release}";
 		    };
 		    rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
 					      [ qw (name version release) ], $check_pkg);
@@ -1672,7 +1674,6 @@ sub filter_packages_to_upgrade {
 		    #- a package with the given name.
 		    #- if an obsolete is given, it will be satisfied elsewhere. CHECK TODO
 		    if ($n ne $pkg->{name}) {
-			exists $selected{$n} and next;
 			#- a virtual provides exists with a specific version and maybe release.
 			#- try to resolve.
 			foreach (@{$pkg->{provides}}) {

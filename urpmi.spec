@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 8mdk
+Release: 9mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Mon Feb 18 2002 François Pons <fpons@mandrakesoft.com> 3.3-9mdk
+- fixed requires resolution regression when old package provides
+  property removed by newer (libification).
+
 * Mon Feb 18 2002 François Pons <fpons@mandrakesoft.com> 3.3-8mdk
 - added missing build requires on rpmtools.
 - fixed too verbose erroneous output that may hurt the user.
