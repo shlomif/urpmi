@@ -1,13 +1,13 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 1.2
-Release: 4mdk
+Version: 1.3
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
-Requires: /usr/bin/suidperl, rpmtools >= 1.1, eject, wget
-BuildRoot: %{_tmppath}/%{name}
+Requires: /usr/bin/suidperl, rpmtools >= 1.2, eject, wget
+BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
 %description
@@ -17,7 +17,7 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
-Version: 0.6
+Version: 0.7
 Summary: User mode rpm GUI install
 Requires: urpmi grpmi gchooser gmessage
 Group: %{group}
@@ -28,7 +28,7 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n autoirpm
-Version: 0.4
+Version: 0.5
 Summary: Auto install of rpm on demand
 Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
 Group: %{group}
@@ -45,9 +45,6 @@ rm -rf $RPM_BUILD_ROOT
 make PREFIX=$RPM_BUILD_ROOT MANDIR=$RPM_BUILD_ROOT%{_mandir} install
 install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
 install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
-
-echo "echo 'Use urpmf instead'" > $RPM_BUILD_ROOT%{_bindir}/rpmf
-chmod a+x $RPM_BUILD_ROOT%{_bindir}/rpmf
 
 find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.po | \
     perl -pe 'm|locale/([^/_]*)(.*)|; $_ = "%%lang($1) %{_datadir}/locale/$1$2\n"' > %{name}.lang
@@ -79,7 +76,6 @@ autoirpm.uninstall
 %attr(0755, root, urpmi) %dir /var/lib/urpmi
 %attr(4750, root, urpmi) %{_bindir}/urpmi
 %{_bindir}/urpmi_rpm-find-leaves
-%{_bindir}/rpmf
 %{_bindir}/urpmf
 %{_sbindir}/urpme
 %{_sbindir}/urpmi.*
@@ -100,6 +96,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Mon Aug 28 2000 François Pons <fpons@mandrakesoft.com> 1.3-1mdk
+- 1.3 of urpmi.
+- use rpmtools perl interface to access hdlist and build requires.
+
 * Sun Aug  6 2000 Pixel <pixel@mandrakesoft.com> 1.2-4mdk
 - use %%lang for i18n'd files
 - clean /var/lib/urpmi on removal

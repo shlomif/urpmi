@@ -1,143 +1,368 @@
 #!/usr/bin/perl -T
 
-# Copyright (C) 1999 MandrakeSoft (pixel@linux-mandrake.com)
-#
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2, or (at your option)
-# any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#- Copyright (C) 1999 MandrakeSoft (pixel@linux-mandrake.com)
+#-
+#- This program is free software; you can redistribute it and/or modify
+#- it under the terms of the GNU General Public License as published by
+#- the Free Software Foundation; either version 2, or (at your option)
+#- any later version.
+#-
+#- This program is distributed in the hope that it will be useful,
+#- but WITHOUT ANY WARRANTY; without even the implied warranty of
+#- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#- GNU General Public License for more details.
+#-
+#- You should have received a copy of the GNU General Public License
+#- along with this program; if not, write to the Free Software
+#- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
+#use strict qw(subs vars refs);
+use rpmtools;
+
+#- default options.
+my $auto = 0;
+my $force = 0;
+my $X = 0;
+my $all = 0;
+my $rpm_opt = "-U";
+my $query = undef;
+my $datadir = "/var/lib/urpmi";
+my $confdir = "/etc/urpmi";
+
+my $depslist = "$datadir/depslist.ordered";
+my $provides = "$datadir/provides";
+my $compss   = "$datadir/compss";
+
+my $uid;
+my @files;
+my @names;
+
+my %I18N;
 load_po();
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS)};
 ($<, $uid) = ($>, $<);
-
-if (@ARGV and $ARGV[0] =~ /^-?-h/) {
-    shift @ARGV;
-}
-
-if (@ARGV and $ARGV[0] eq '--auto') {
-    $auto = 1;
-    shift @ARGV;
-}
-
-if (@ARGV and $ARGV[0] eq '--force') {
-    $force = 1;
-    shift @ARGV;
-}
-
-if (@ARGV and $ARGV[0] eq '--X') {
-    $X = 1;
-    shift @ARGV;
-}
-
-if (@ARGV and $ARGV[0] eq '-a') {
-    $all = 1;
-    shift @ARGV;
-}
-
-while (@ARGV and $ARGV[0] eq '--comment') {
-    shift @ARGV;
-    shift @ARGV;
-}
-
-@ARGV or die(_("usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"));
-
+    
 log_it(scalar localtime, " urpmi called with @ARGV\n");
-
-$dir = "/var/lib/urpmi";
-$dir2 = "/etc/urpmi";
-$depsfile = "$dir/depslist";
 
 open SAVEOUT, ">&STDOUT";
 open SAVEERR, ">&STDERR";
 open STDOUT, "|tee -a /var/log/urpmi.log" or die;
-open STDERR, "|tee -a /var/log/urpmi.log" or die;
+open STDERR, "|tee >&2 -a /var/log/urpmi.log" or die;
 select STDERR; $| = 1;     # make unbuffered
 select STDOUT; $| = 1;     # make unbuffered
 
-open F, $depsfile or die "run urpmi.addmedia first\n";
+sub usage {
+    die(_("usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"));
+}
 
-if (@files = map { untaint($_) } grep { /\.rpm/ && -e $_ } @ARGV) {
+#- parse arguments list.
+my @nextargv;
+for (@ARGV) {
+    /^--auto$/ and do { $auto = 1; next };
+    /^--force$/ and do { $force = 1; next };
+    /^--X$/ and do { $X = 1; next };
+    /^--comment$/ and do { push @nextargv, undef; next };
+    /^-(.*)$/ and do { foreach (split //, $1) {
+	/[\?h]/ and do { usage; next };
+	/a/ and do { $all = 1; next };
+	/v/ and do { $rpm_opt = "-Uvh"; next };
+	/q/ and do { $query = {}; next };
+	/d/ and do { $query or die "urpmi: query mode not set to require dependancies\n"; $query->{deps} = 1; next };
+	/u/ and do { $query or die "urpmi: query mode not set to filter dependancies\n"; $query->{upgrade} = 1; next };
+	/g/ and do { $query or die "urpmi: query mode not set to require group\n"; $query->{group} = 1; next };
+	/v/ and do { $query or die "urpmi: query mode not set to require version\n"; $query->{version} = 1; next };
+	/r/ and do { $query or die "urpmi: query mode not set to require release\n"; $query->{release} = 1; next };
+	die "urpmi: unknown option \"-$1\", check usage with --help\n"; } next };
+    @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
+    /\.rpm$/ and do { -r $_ or print STDERR "urpmi: cannot read rpm file \"$_\"\n", next;
+		      push @files, untaint($_); next };
+    push @names, $_;
+}
+
+#- params contains informations to parse installed system.
+my $params = new rpmtools;
+
+open F, $depslist or die "$depslist file not found, run urpmi.addmedia first\n";
+$params->read_depslist(\*F);
+close F;
+
+if ($query && $query->{group}) {
+    open F, $compss or die "$compss file not found, run urpmi.addmedia first\n";
+    $params->read_compss(\*F);
+    close F;
+}
+
+if (@files) {
     $uid == 0 or die _("Only superuser is allowed to install local packages");
-    open G, "gendepslist2 @files -- $dir/hdlist*.cz2 2>/dev/null |";
-    -e $_ and s|(.*/)?(.*)\.[^.]+\.rpm$|$2| foreach @ARGV;
+
+    #- read provides file which is needed only to compute incremental
+    #- dependancies, of files provided.
+    open F, $provides or die "$provides file not found, run urpmi.addmedia first\n";
+    $params->read_provides(\*F);
+    close F;
+
+    #- compute depslist of files provided on command line.
+    $params->read_rpms($_) foreach @files;
+    $params->compute_depslist;
+
+    #- gets full names of packages, sanity check of pathname.
+    m|(.*/)?(.*)\.[^.]+\.rpm$| and push @names, $2 foreach @files;
     m|^/| or $_ = "./$_" foreach @files;
 }
 
-foreach (<F>, <G>) {
-    my ($pack, $size, $deps) = /(\S+)\s+(\S+)\s+(.*)/ or die("urpmi: bad format file $depsfile\n");
-    $size{$pack} = $size;
-    $deps{$pack} = [ split ' ', $deps ];
-    
-    foreach $v (@ARGV) { 
-	$_ = quotemeta $v;
-	$pack =~ /^$_-[^-]+-[^-]+$/ and $exact{$v} = $pack;
-	$pack =~ /^$_-[^-]+$/ and $exact{$v} = $pack;
-	$pack =~ /^$_$/ and $exact{$v} = $pack;
-	$pack =~ /$_/ and push @{$found{$v}}, $pack;
-	$pack =~ /$_/i and push @{$foundi{$v}}, $pack; 
+my %exact;
+my %found;
+my %foundi;
+my @packages;
+
+foreach my $v (@names) {
+    #- it is a way of speedup, providing the name of a package directly help
+    #- to find the package.
+    #- this is necessary if providing a name list of package to upgrade.
+    if ($params->{info}{$v}) {
+	$exact{$v} = $params->{info}{$v}; next;
+    }
+
+    my $qv = quotemeta $v;
+    foreach (keys %{$params->{info}}) {
+	my $info = $params->{info}{$_};
+	my $pack = $info->{name} .'-'. $info->{version} .'-'. $info->{release};
+
+	$pack =~ /^$qv-[^-]+-[^-]+$/ and $exact{$v} = $info;
+	$pack =~ /^$qv-[^-]+$/ and $exact{$v} = $info;
+	$pack =~ /$qv/ and push @{$found{$v}}, $info;
+	$pack =~ /$qv/i and push @{$foundi{$v}}, $info; 
     }
 }
-close F;
-close G or die "gendepslist2 failed" if @files;
 
 my $ok = 1;
-foreach (@ARGV) {
-    my $pack = $exact{$_};
-    if ($pack) {
-	push @packages, $pack;
+foreach (@names) {
+    my $info = $exact{$_};
+    if ($info) {
+	push @packages, $info->{id};
     } else {
 	my $l = $found{$_} || $foundi{$_};
-	if (@$l == 0) { 
+	if (@{$l || []} == 0) {
 	    warn(_("no package named %s\n", $_)); $ok = $force; 
 	} elsif (@$l > 1 && !$all) {
-	    warn(_("The following packages contain %s: %s\n", $_, join(' ', @$l))); $ok = $force; 
+	    warn(_("The following packages contain %s: %s\n", $_, join(' ', map { $_->{name} } @$l))); $ok = $force; 
 	} else {
-	    push @packages, @$l;
+	    push @packages, map { $_->{id} } @$l;
 	}
     }
 }
 $ok or exit 1;
 
-@installed = `/bin/rpm -qa`; $? and die(_("rpm database query failed\n"));
-foreach (@installed) {
-    my ($name, $v, $r) = /(.*)-([^-]+)-([^-]+)\n/;
-    exists $installed{$name} && le_version([$v, $r], $installed{$name}) or $installed{$name} = [$v, $r];
-}
-@installed{map { chop; $_ } @installed} = ();
-my %to_install; closure_deps(\%to_install, @packages); @to_install = keys %to_install;
+#- keep in mind the packages asked by the user, just for interactive activity.
+my %packages; @packages{@packages} = ();
 
-if (!$auto and difference2(\@to_install, \@packages)) {
-    my $sum = 0; map { $sum += $size{$_} } @to_install;
-    my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
-    my $msg2 = _("Is it ok?");
-    if ($X) {
-	my $p = join "\n", @to_install;
-	my $ok = _("Ok");
-	my $cancel = _("Cancel");
-	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
-	$? and exit 0;
-    } else {
-	print SAVEOUT "$msg:\n@to_install\n$msg2 (Y/n) ";
-	<STDIN> =~ /n/i and exit 0;
+#- compute closure of package to install/upgrade before examining installed
+#- packages, this help speed up the process to retrieve installed packages in
+#- the given list.
+my %packages_to_install;
+my @packages_installed;
+if (rpmtools::get_packages_installed('', \@packages_installed, [ 'basesystem' ])) {
+    #- if basesystem is installed and need to be updated.
+    #- we have to add it in the list explicitely.
+    #- in order to take care of all basesystem packages.
+    my $pkg = $params->{info}{basesystem};
+    foreach (@packages_installed) {
+	my $cmp = version_compare($pkg->{version}, $_->{version});
+	if ($cmp > 0 || $cmp == 0 && version_compare($pkg->{release}, $_->{release}) > 0) {
+	    push @packages, 'basesystem'; last;
+	}
     }
 }
 
-$to_install = join '|', map { quotemeta($_) } @to_install;
+my $id;
+while (defined($id = shift @packages)) {
+    if (ref $id) {
+	#- in such case, this is a dependancy on a choices, check
+	#- if one of the package is already selected, in such case, the choice
+	#- can safely be dropped. in other cases, the choices has to be registered.
+	foreach (@$id) {
+	    exists $packages_to_install{$_} && !$packages_to_install{$_} and $id = undef, last;
+	}
+	#- registering the choice is done by adding the class in any referenced id.
+	if ($id) {
+	    foreach (@$id) {
+		push @{$packages_to_install{$_} ||= []}, $id;
+	    }
+	}
+    } else {
+	if ($packages_to_install{$id}) {
+	    drop_in_choices(\%packages_to_install, $id);
+	}
+	exists $packages_to_install{$id} and next;
+	#- force selection as mandatory package.
+	$packages_to_install{$id} = undef;
+	#- rebuild requires_id array according to deps as requires_id is no more available (because of speed :-)
+	my @rebuild_requires_id;
+	foreach (split /\s+/, $params->{depslist}[$id]{deps}) {
+	    if (/\|/) {
+		push @rebuild_requires_id, [ split /\|/, $_ ];
+	    } else {
+		push @rebuild_requires_id, $_;
+	    }
+	}
+	#- get all dependancies to add them.
+	#- this is a partial closure, it assumes it has already be done before.
+	foreach (@rebuild_requires_id) {
+	    if (ref $_) {
+		push @packages, $_;
+	    } else {
+		$packages_to_install{$_} = undef;
+	    }
+	}
+    }
+}
 
-foreach $list (rpmlistfiles($dir)) {
-    open F, "$dir/$list" or die("urpmi: error opening $list\n");
+if (!$query || $query->{upgrade}) {
+    #- now the packages_to_install contains as keys all packages that may be selected,
+    #- this is used to determine a restricted list of packages installed, as it can
+    #- improve performance on some cases.
+    my @packages_to_install = map { $params->{depslist}[$_]{name} } keys %packages_to_install;
+    my @packages_installed;
+    if (@packages_to_install > 100) {
+	rpmtools::get_all_packages_installed('', \@packages_installed);
+    } else {
+	rpmtools::get_packages_installed('', \@packages_installed, \@packages_to_install);
+    }
+
+    #- examine installed packages, determine if a package need upgrade or not.
+    #- this list may be bigger than packages than really need to be upgraded because they
+    #- are selected.
+    foreach (@packages_installed) {
+	my $pkg = $params->{info}{$_->{name}};
+	#- if package has not event been selected by upgrade, continue.
+	#- but if the package is part of a choice, if it need upgrade, the choice will
+	#- be dropped, if it does not need upgrade, the choice has to been dropped.
+	#- in any case, a choice has to be dropped.
+	exists $packages_to_install{$pkg->{id}} or next;
+	if ($packages_to_install{$pkg->{id}}) {
+	    drop_in_choices(\%packages_to_install, $pkg->{id});
+	}
+	#- at this point, $_ is the package installed and $pkg is the package candidate to install.
+	my $cmp = version_compare($pkg->{version}, $_->{version});
+	if ($cmp < 0 || $cmp == 0 && version_compare($pkg->{release}, $_->{release}) <= 0) {
+	    #- the package $pkg is older or the same as the installed package,
+	    #- this means it has to be removed from the list, and considered to be
+	    #- already installed.
+	    delete $packages_to_install{$pkg->{id}};
+	} else {
+	    $packages_to_install{$pkg->{id}} = undef;
+	}
+    }
+}
+
+#- query informations is a way to suppress any information here!
+if ($query) {
+    #- query of dependancies will make use of packages_to_install, else just
+    #- need to use @names where all informations are given, with eventual
+    #- limitation on packages already installed.
+    my $l = $query->{deps} ? \%packages_to_install : \%packages;
+
+    #- print sub for query.
+    my $query_sub = sub {
+	my ($id) = @_;
+	my $info = $params->{depslist}[$id];
+	my $str = '';
+	$query->{group} and $str .= $info->{group} . '/';
+	$str .= $info->{name};
+	$query->{version} and $str .= '-' . $info->{version};
+	$query->{release} and $str .= '-' . $info->{release};
+	$str;
+    };
+
+    foreach my $id (keys %$l) {
+	my $class = $l->{$id};
+	if ($class) {
+	    my %hack_only_one;
+	    foreach my $choices_id (@{$class || []}) {
+		exists $hack_only_one{$choices_id} and next;
+		print SAVEOUT join('|', map { $query_sub->($_) } @$choices_id), "\n";
+		drop_in_choices($l, $choices_id->[0]);
+		$hack_only_one{$choices_id} = undef;
+	    }
+	} else {
+	    exists $l->{$id} and print SAVEOUT $query_sub->($id), "\n";
+	}
+    }
+
+    #- on query mode, exit here.
+    exit 0;
+}
+
+#- resolution of choices by the user, or automatically by the first listed.
+foreach my $id (keys %packages_to_install) {
+    my $class = $packages_to_install{$id};
+    foreach my $choices_id (@{$class || []}) {
+	my $n = 1; #- default value.
+	my @l = map { my $info = $params->{depslist}[$_]; "$info->{name}-$info->{version}-$info->{release}" } @$choices_id;
+
+	if (@l > 1 && !$auto) {
+	    my $msg = _("One of the following packages is needed:");
+	    if ($X) {
+		`gchooser "$msg" @l`;
+		$n = $? >> 8 || die;
+	    } else {
+		print SAVEOUT "$msg\n";
+		my $i = 0; foreach (@l) { print SAVEOUT " ", ++$i, "- $_\n"; }
+		while (1) {
+		    print SAVEOUT _("What is your choice? (1-%d) ", $i);
+		    $n = <STDIN>;
+		    1 <= $n && $n <= $i and last;
+		    print SAVEOUT _("Sorry, bad choice, try again\n");
+		}
+	    }
+	}
+
+	#- at this point, the choice is selected by $n and is
+	#- selected, choices are dropped.
+	drop_in_choices(\%packages_to_install, $choices_id->[$n - 1]);
+	$packages_to_install{$choices_id->[$n - 1]} = undef;
+    }
+}
+
+#- package to install as a array of strings.
+my @to_install;
+
+if (!$auto) {
+    #- check if there is at least one package to install that
+    #- has not been given by the user.
+    my $ask_user;
+    my $sum = 0;
+    foreach (keys %packages_to_install) {
+	exists $packages{$_} or $ask_user = 1;
+	my $info  = $params->{depslist}[$_];
+	$sum += $info->{size};
+	push @to_install, "$info->{name}-$info->{version}-$info->{release}";
+    }
+    if ($ask_user) {
+	my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
+	my $msg2 = _("Is it ok?");
+	if ($X) {
+	    my $p = join "\n", @to_install;
+	    my $ok = _("Ok");
+	    my $cancel = _("Cancel");
+	    `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
+	    $? and exit 0;
+	} else {
+	    print SAVEOUT "$msg:\n@to_install\n$msg2 (Y/n) ";
+	    <STDIN> =~ /n/i and exit 0;
+	}
+    }
+}
+
+my $to_install = join '|', map { quotemeta($_) } @to_install;
+my %long;
+my %name;
+my %removables;
+
+foreach my $list (rpmlistfiles($datadir)) {
+    open F, "$datadir/$list" or die("urpmi: error opening $list\n");
     $list =~ s/list\.//;
     foreach (<F>) { chop; m|/($to_install)| and $long{$1} = $_, $name{$1} = $list }
     close F;
@@ -147,7 +372,10 @@ foreach (@files) {
     m|/($to_install)| and $long{$1} = $_
 }
 
-foreach $l (@to_install) {
+my %try2mount;
+my @to_install_long;
+
+foreach my $l (@to_install) {
     local $_ = $long{$l} or die("urpmi: package $l is not available\n");
     if (s|removable_(\w+)_(\d*):/||) {
 	my $n = "$2-$name{$l}";
@@ -163,6 +391,8 @@ foreach $l (@to_install) {
 	push @to_install_long, $_;
     }
 }
+
+my $something_was_installed;
 
 install(@to_install_long) unless $removables{0} || $removables{1};
 
@@ -190,6 +420,27 @@ install(@to_install_long) if $removables{0} || $removables{1};
 
 $something_was_installed or message(_("everything already installed"));
 
+
+#- remove any reference to package in choices,
+#- it is NECESSARY the package to be in a choice, or it will die.
+sub drop_in_choices {
+    my ($packages_to_install, $id) = @_;
+
+    #- the package here is listed in a choices, drop any reference to the choices
+    #- as this package will have to be selected.
+    my %class_to_drop; @class_to_drop{@{$packages_to_install->{$id}}} = ();
+    foreach (keys %$packages_to_install) {
+	if ($packages_to_install->{$_}) {
+	    my @keeped_choices = grep { ! exists $class_to_drop{$_} } @{$packages_to_install->{$_}};
+	    if (@keeped_choices) {
+		$packages_to_install->{$_} = \@keeped_choices;
+	    } else {
+		delete $packages_to_install->{$_};
+	    }
+	}
+    }
+}
+
 sub install {
     @_ or return;
 	
@@ -216,60 +467,6 @@ sub install {
     }
 }
 
-# uses @deps and @installed
-sub closure_deps {
-    my $to_install = shift;
-    foreach (@_) {
-	exists $to_install->{$_} and next;
-	my ($name, $v, $r) = /(.*)-([^-]+)-([^-]+)/;
-	exists $installed{$name} && le_version([$v, $r], $installed{$name}) and next;
-
-	$to_install->{$_} = undef;
-	my @notfound;
-	my @d = @{$deps{$_}} or next;
-      up: foreach (@d) {
-	  my %l; 
-	  foreach (split '\|') { 
-	      exists $to_install->{$_} and next up;
-	      /^NOTFOUND_(.*)/ and push(@notfound, $1), next up;
-
-	      my ($name, $v, $r) = /(.*)-([^-]+)-([^-]+)/;
-	      if (exists $installed{$name}) {
-		  le_version([$v, $r], $installed{$name}) and next up;
-		  %l = ($name => [$v, $r]);
-		  last;
-	      }	      
-	      $l{$name} = [$v, $r] unless $l{$name} && le_version([$v, $r], $l{$name});
-	  }
-	  my ($l) = my @l = map { "$_-$l{$_}[0]-$l{$_}[1]" } keys %l;
-
-	  if (@l > 1 && !$auto) {
-	      $msg = _("One of the following packages is needed:");
-	      my $n;
-	      if ($X) {
-		  `gchooser "$msg" @l`;
-		  $n = $? >> 8 || die;
-	      } else {		  
-		  print SAVEOUT "$msg\n";
-		  my $i = 0; foreach (@l) { print SAVEOUT " ", ++$i, "- $_\n"; }
-		  while (1) {
-		      print SAVEOUT _("What is your choice? (1-%d) ", $i);
-		      $n = <STDIN>;
-		      1 <= $n && $n <= $i and last;
-		      print SAVEOUT _("Sorry, bad choice, try again\n");
-		  }
-	      }
-	      $l = $l[$n - 1];
-	  }
-	  closure_deps($to_install, $l);
-      }
-      if (@notfound) {
-	  message(_("Failed dependencies: %s requires %s", $_, join(", ", @notfound)));
-	  exit 1;
-      }
-    }
-}
-
 #- compare a version string.
 sub version_compare {
     my ($a, $b) = @_;
@@ -280,10 +477,6 @@ sub version_compare {
 	$_ = length($sa) cmp length($sb) || $sa cmp $sb and return $_;
     }
 }
-sub le_version {
-    my $cmp = version_compare($_[0][0], $_[1][0]);
-    return $cmp < 0 || $cmp == 0 && version_compare($_[0][1], $_[1][1]) <= 0;
-}
 
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;
@@ -291,9 +484,6 @@ sub toMb {
 }
 
 sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : print SAVEOUT "$_[0]\n"; }
-sub member($@) { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
-sub uniq { my %l; @l{@_} = (); keys %l }
-sub difference2(\@\@) { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
 sub _ {
     my $s = shift @_; my $t = translate($s);
     $t && ref $t or return sprintf $t, @_;

@@ -2,7 +2,6 @@
 
 my $DIR = "/var/lib/urpmi";
 my $DIR2 = "/etc/urpmi";
-my $DEPSLIST = "$DIR/depslist";
 my $CFG = "$DIR2/urpmi.cfg";
 
 $| = 1;
@@ -24,7 +23,7 @@ if ($0 =~ /removemedia/) {
 	die "nothing to remove (use urpmi.addmedia to add a media)\n";
     foreach $e (/^--?a/ ? @entries : @ARGV) {
 	my $f;
-	$f = "$DIR/hdlist.$e"; unlink("$f.cz2") or warn "failed to remove $f";
+	$f = "$DIR/hdlist.$e"; unlink("$f.cz") || unlink("$f.cz2") or warn "failed to remove $f";
 	$f = "$DIR/list.$e";   unlink($f) or warn "failed to remove $f";
 	substInFile { s/^/\#/ if /^$e\s/ } $CFG;
     }
@@ -35,9 +34,9 @@ if ($0 =~ /removemedia/) {
 	my $regexp = /^--?a/ ? '[^#]\S*' : join('|', @ARGV);
 	system("urpmi.addmedia --noupdate $_") foreach grep { /^$regexp\s/ } `cat $CFG`;
     }
-    if (glob("$DIR/hdlist.*")) {
-	print "generating dependencies list\n";
-	system("gendepslist2 $DIR/hdlist.* > $DEPSLIST");
+    my @hdlists = glob("$DIR/hdlist.*");
+    if (@hdlists) {
+	system("genbasefiles $DIR ". join (' ', @hdlists));
 	system("autoirpm.update");
     }
     exit 0;
@@ -79,7 +78,8 @@ substInFile {
 } $CFG;
 
 
-my $HDLIST = "$DIR/hdlist.$name.cz2";
+my $EXT = "cz";
+my $HDLIST = "$DIR/hdlist.$name.$EXT";
 my $RPMLIST = "$DIR/list.$name";
 
 -e $DIR || mkdir $DIR, 0755 or die "can't create $DIR";
@@ -88,9 +88,9 @@ my $RPMLIST = "$DIR/list.$name";
 if (my ($prefix, $dir) = $url =~ m,^(removable_.*?|file):/(.*),) {
     my $f;
     if ($dir =~ /RPMS(.*)$/) {
-	$f = "$dir/Mandrake/base/hdlist$1.cz2";
-	$f = "$dir/../base/hdlist$1.cz2" unless -e $f;
-	$f = "$dir/../hdlist$1.cz2" unless -e $f;
+	$f = "$dir/Mandrake/base/hdlist$1.$EXT";
+	$f = "$dir/../base/hdlist$1.$EXT" unless -e $f;
+	$f = "$dir/../hdlist$1.$EXT" unless -e $f;
     }
     if (-e $f) {
 	system("cp -f $f $HDLIST");
@@ -107,12 +107,12 @@ my $mask = umask 077;
 open LIST, ">$RPMLIST" or die "can't output $RPMLIST";
 umask $mask;
 
-open F, "bzip2 -dcq $HDLIST | hdlist2names - |";
+open F, "packdrake -c $HDLIST | parsehdlist - |";
 while (<F>) {
     chomp;
     print LIST "$url/$_\n";
 }
-close F or die "hdlist2names failed";
+close F or die "parsehdlist failed";
 close LIST;
 
 system("urpmi.update") unless $noupdate;

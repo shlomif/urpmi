@@ -1,7 +1,5 @@
 #!/bin/sh
 
-unalias ls 2>/dev/null
-
 if [ "$#" -gt 1 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     echo "usage: rpmf [<file>]"
     exit 1
@@ -10,15 +8,9 @@ fi
 dir="/var/lib/urpmi"
 
 
-if ls $dir/hdlist.*.gz >/dev/null 2>/dev/null; then
-    found=1
-    gzip -dc $dir/hdlist.*.gz | hdlist2files - | grep -E "$1"
-fi
-if ls $dir/hdlist.*.cz2 >/dev/null 2>/dev/null; then
-    found=1
-    bzip2 -dcq $dir/hdlist.*.cz2 | hdlist2files - | grep -E "$1"
-fi
-if [ "$found" != "1" ]; then
+if /bin/ls $dir/hdlist.* >/dev/null 2>/dev/null; then
+    packdrake -c $dir/hdlist.* | hdlist2files - | grep -E "$1"
+else
     echo "urpmi is not installed"
     exit 1
 fi
