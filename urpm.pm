@@ -1175,7 +1175,7 @@ sub update_media {
 	-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" > 32 or $medium->{modified_synthesis} = 1;
 
 	#- but do not take care of removable media for all.
-	$medium->{modified} ||= $options{all} && $medium->{url} !~ /removable/;
+	$medium->{modified} ||= $options{all} && $medium->{url} !~ m!^removable://!;
 	unless ($medium->{modified}) {
 	    #- the medium is not modified, but for computing dependencies,
 	    #- we still need to read it and all synthesis will be written if
