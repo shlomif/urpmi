@@ -58,7 +58,7 @@ sub message_input {
 	$urpm::args::options{bug} and log_it($msg);
     } else {
 	while (1) {
-	    if ($urpm::args::options{bug}) {
+	    if ($urpm::args::options{bug} || !defined fileno ::SAVEOUT) {
 		print STDOUT $msg;
 	    } else {
 		print ::SAVEOUT $msg;
@@ -89,7 +89,7 @@ sub message {
 	gmessage($msg, ok_only => 1);
 	$urpm::args::options{bug} and log_it($msg);
     } else {
-	if ($urpm::args::options{bug}) {
+	if ($urpm::args::options{bug} || !defined fileno ::SAVEOUT) {
 	    print STDOUT "$msg\n";
 	} else {
 	    print ::SAVEOUT "$msg\n";
