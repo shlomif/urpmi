@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.14
+%define version	4.6.15
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -208,6 +208,7 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/msg.pm
 %{compat_perl_vendorlib}/urpm/util.pm
 %{compat_perl_vendorlib}/urpm/sys.pm
+%doc ChangeLog
 
 %if %{allow_gurpmi}
 %files -n gurpmi
@@ -232,6 +233,14 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Feb 04 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.15-1mdk
+- Add ChangeLog in docs
+- Message updates
+- gurpmi now handles utf-8 messages
+- print help messages to stdout, not stderr
+- rpm-find-leaves cleanup (Michael Scherer)
+- man page updates
+
 * Mon Jan 31 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.14-1mdk
 - urpmi.addmedia and urpmi now support ISO images as removable media
 - "urpmq -R" will now report far less requires, skipping virtual packages.
