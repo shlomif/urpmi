@@ -2872,7 +2872,11 @@ sub install {
 	    my @l;
 	    while (<CHILD_RETURNS>) {
 		chomp;
-		push @l, $_;
+		if (/^\::logger_id:(\d+)/) {
+		    $urpm->{logger_id} = $1;
+		} else {
+		    push @l, $_;
+		}
 	    }
 
 	    close CHILD_RETURNS;
@@ -2960,6 +2964,7 @@ sub install {
 
     #- now exit or return according to current status.
     if (defined $pid) {
+	print ERROR_OUTPUT "::logger_id:$urpm->{logger_id}\n"; #- allow main urpmi to know transaction numbering...
 	print ERROR_OUTPUT "$_\n" foreach @l;
 	close ERROR_OUTPUT;
 	#- keep safe exit now (with destructor call).
