@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.7
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -61,8 +61,8 @@ kernel22-smp
 hackkernel
 EOF
 
-mkdir -p $RPM_BUILD_ROOT%{perl_sitearch}
-install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_sitearch}/../urpm.pm
+mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}
+install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm.pm
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man3
 pod2man urpm.pm >$RPM_BUILD_ROOT%{_mandir}/man3/urpm.3
 
@@ -125,7 +125,7 @@ fi
 %{_mandir}/man?/urpm*
 # find_lang isn't able to find man pages yet...
 %lang(fr) %{_mandir}/fr/man?/urpm* 
-%{_libdir}/perl5/site_perl/*/urpm.pm
+%{perl_vendorlib}/urpm.pm
 
 %files -n gurpmi
 %defattr(-,root,root)
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Tue Jul  9 2002 Pixel <pixel@mandrakesoft.com> 3.7-2mdk
+- rebuild for perl 5.8.0
+
 * Mon Jul  8 2002 François Pons <fpons@mandrakesoft.com> 3.7-1mdk
 - added new methods to handle directly installation of package (no
   more rpm binary needed).
