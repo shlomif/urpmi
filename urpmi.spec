@@ -202,6 +202,7 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Mon Aug 11 2003 François Pons <fpons@ackbar.mandrakesoft.com> 4.4-21mdk
 - added -a flag for urpmq (so that urpmq -a -y -r will do what
   is requested more or less).
 - fixed rsync:// and ssh:// protocol with integer limit-rate not
