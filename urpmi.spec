@@ -256,6 +256,16 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue Nov 09 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6-1mdk
+- New option --norebuild to urpmi, urpmi.update and urpmi.addmedia.
+- New --strict-arch option to urpmi
+- Fix ownership of files in /var/lib/urpmi
+- Fix bash completion for media names with spaces (Guillaume Rousse)
+- Fix parallel_ssh in non-graphical mode
+- Small fixes for local media built from directories containing RPMs
+- Fix search for source rpm by name
+- Translation updates, man page updates, code cleanup
+
 * Wed Sep 29 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-28mdk
 - New urpmf option, -m, to get the media in which a package is found
 - Silence some noise in urpmq
