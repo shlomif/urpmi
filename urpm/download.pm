@@ -368,16 +368,16 @@ sub sync_rsync {
     foreach (@_) {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = basename($_);
-	my ($file) =  m!^rsync://[^\/]*::! ? (m|^rsync://(.*)|) : ($_);
+	my $file =  m!^rsync://([^/]*::.*)! ? $1 : $_;
 	propagate_sync_callback($options, 'start', $file);
 	do {
 	    local $_;
 	    my $buf = '';
 	    open my $rsync, join(" ", "/usr/bin/rsync",
-		($limit_rate ? "--bwlimit=$limit_rate" : ()),
+		($limit_rate ? "--bwlimit=$limit_rate" : @{[]}),
 		($options->{quiet} ? qw(-q) : qw(--progress -v)),
-		($options->{compress} ? qw(-z) : ()),
-		($options->{ssh} ? qw(-e ssh) : ()),
+		($options->{compress} ? qw(-z) : @{[]}),
+		($options->{ssh} ? qw(-e ssh) : @{[]}),
 		qw(--partial --no-whole-file),
 		"'$file' '$options->{dir}' |");
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
@@ -404,7 +404,7 @@ sub sync_rsync {
 
 sub sync_ssh {
     -x "/usr/bin/ssh" or die N("ssh is missing\n");
-    my $options =shift(@_);
+    my $options = shift(@_);
     $options->{ssh} = 1;
     sync_rsync($options, @_);
 }
