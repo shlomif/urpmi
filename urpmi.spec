@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 40mdk
+Release: 41mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Thu Oct 30 2003 François Pons <fpons@mandrakesoft.com> 4.4-41mdk
+- added the Erwan feature (update rpm, perl-URPM or urpmi first and
+  restart urpmi in such case).
+- added contributors section in man page (please accept I may have
+  forget you, so ask to authors in such case).
+
 * Tue Oct 21 2003 François Pons <fpons@mandrakesoft.com> 4.4-40mdk
 - fixed invalid signature checking when using --media on first
   package listed.

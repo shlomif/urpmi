@@ -144,7 +144,8 @@ sub gmessage {
 my @nextargv;
 my $command_line = join " ", @ARGV;
 @ARGV or usage;
-while (defined($_ = shift @ARGV)) {
+my @argv = @ARGV;
+while (defined($_ = shift @argv)) {
     /^--help$/ and do { usage; next };
     /^--no-locales$/ and do { undef *N; undef *urpm::N; *N = *urpm::N = sub { sprintf(shift @_, @_) }; next };
     /^--update$/ and do { $update = 1; next };
@@ -178,14 +179,14 @@ while (defined($_ = shift @ARGV)) {
     /^--curl$/ and do { $sync = \&urpm::sync_webfetch; next };
     /^--limit-rate$/ and do { push @nextargv, \$urpm->{options}{'limit-rate'}; next };
     /^--proxy$/ and do {
-	my ($proxy, $port) = ($_ = shift @ARGV) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
+	my ($proxy, $port) = ($_ = shift @argv) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
 	    die N("bad proxy declaration on command line\n");
 	$proxy .= ":1080" unless $port;
 	$urpm->{proxy}{http_proxy} = "http://$proxy";
 	next;
     };
     /^--proxy-user$/ and do {
-	($_ = shift @ARGV) =~ /(.+):(.+)/, or
+	($_ = shift @argv) =~ /(.+):(.+)/, or
 	    die N("bad proxy declaration on command line\n");
 	@{$urpm->{proxy}}{qw(user proxy)} = ($1, $2);
 	next;
@@ -339,6 +340,7 @@ foreach (qw(post-clean verify-rpm)) {
 }
 exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
 exists $urpm->{options}{'split-length'} or $urpm->{options}{'split-length'} = $split_length;
+exists $urpm->{options}{'priority-ugrade'} or $urpm->{options}{'priority-upgrade'} = 'rpm,perl-URPM,urpmi';
 
 my $state = {};
 my %requested = $urpm->register_rpms(@files, @src_files);
@@ -412,14 +414,17 @@ sub ask_choice {
 
 #- do the resolution of dependencies between requested package (and auto selection if any).
 #- handle parallel option if any.
-$urpm->resolve_dependencies($state, \%requested,
-			    rpmdb => $env && "$env/rpmdb.cz",
-			    auto_select => $auto_select,
-			    callback_choices => \&ask_choice,
-			    install_src => $install_src,
-			    keep => $keep,
-			    nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
-			   );
+#- return value is true if program should be restarted (in order to take care of important
+#- packages being upgraded (problably urpmi and perl-URPM, but maybe rpm too, and glibc also ?).
+my $restart_itself = $urpm->resolve_dependencies($state, \%requested,
+						 rpmdb => $env && "$env/rpmdb.cz",
+						 auto_select => $auto_select,
+						 callback_choices => \&ask_choice,
+						 install_src => $install_src,
+						 keep => $keep,
+						 nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
+						 priority_upgrade => !$env && $urpm->{options}{'priority-upgrade'},
+						);
 
 my @ask_unselect = $urpm->unselected_packages($state);
 if (@ask_unselect) {
@@ -771,6 +776,14 @@ unless ($env) {
 
     #- try to umount removable device which may have been mounted.
     $urpm->try_umounting_removables;
+}
+
+#- restart urpmi if needed, keep command line for that.
+if ($restart_itself && !$exit_code) {
+    message(N("restarting urpmi"), 'noX');
+    #- it seems to work correctly with exec instead of system, provided
+    #- STDOUT or STDERR are not closed before (else no output at all).
+    exec "/usr/sbin/urpmi", @ARGV;
 }
 
 #- this help flushing correctly by closing this file before (piped on tee).

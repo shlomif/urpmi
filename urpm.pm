@@ -452,7 +452,7 @@ sub read_config {
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
 		    }
 		    next;
-		} elsif (($k, $v) = /^(limit-rate|excludepath|key[\-_]ids|split-(?:level|length))\s*:\s*(.*)$/) {
+		} elsif (($k, $v) = /^(limit-rate|excludepath|key[\-_]ids|split-(?:level|length)|priority-upgrade)\s*:\s*(.*)$/) {
 		    unless (exists($urpm->{options}{$k})) {
 			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
 			$urpm->{options}{$k} = $v;
@@ -700,7 +700,7 @@ sub write_config {
     }
     foreach my $medium (@{$urpm->{media}}) {
 	printf F "%s %s {\n", quotespace($medium->{name}), quotespace($medium->{clear_url});
-	foreach (qw(hdlist with_hdlist list removable key-ids)) {
+	foreach (qw(hdlist with_hdlist list removable key-ids priority-upgrade)) {
 	    $medium->{$_} and printf F "  %s: %s\n", $_, $medium->{$_};
 	}
 	$medium->{md5sum} and print MD5SUM "$medium->{md5sum}  ".($medium->{synthesis} && "synthesis.").$medium->{hdlist}."\n";
@@ -2422,6 +2422,25 @@ sub resolve_dependencies {
 	$options{auto_select} and $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
 
 	$urpm->resolve_requested($db, $state, $requested, %options);
+
+	if ($options{priority_upgrade} && !$options{rpmdb}) {
+	    my (%priority_upgrade, %priority_requested);
+	    @priority_upgrade{split ',', $options{priority_upgrade}} = ();
+
+	    #- try to find if a priority upgrade should be tried, this is erwan feature he waited for months :)
+	    #- this can be also considered as a special gift...
+	    foreach (keys %{$state->{selected}}) {
+		my $pkg = $urpm->{depslist}[$_] or next;
+		exists $priority_upgrade{$pkg->name} or next;
+		$priority_requested{$pkg->id} = undef;
+	    }
+
+	    if (%priority_requested) {
+		#- clean state as we found priority packages, no --auto-select should be done though here...
+		%$state = ();
+		$urpm->resolve_requested($db, $state, \%priority_requested, %options);
+	    }
+	}
     }
 }
 
