@@ -46,7 +46,8 @@ make PREFIX=$RPM_BUILD_ROOT install
 install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
 install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 
-echo "Use urpmf instead" > $RPM_BUILD_ROOT/usr/bin/rpmf
+echo "echo 'Use urpmf instead'" > $RPM_BUILD_ROOT/usr/bin/rpmf
+chmod a+x $RPM_BUILD_ROOT/usr/bin/rpmf
 
 cd $RPM_BUILD_ROOT/usr/bin ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
 
