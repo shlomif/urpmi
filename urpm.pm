@@ -730,7 +730,7 @@ sub add_distrib_media {
 	    $urpm->add_medium(
 		$name ? "$descr ($name$medium)" : $descr,
 		"$url/$rpmsdir",
-		offset_pathname($url, $rpmsdir) . "/$distrib_root/$hdlist",
+		offset_pathname($url, $rpmsdir) . "/$distrib_root/" . ($options{probe_with} eq 'synthesis' ? 'synthesis.' : '') . $hdlist,
 		index_name => 0,
 		%options,
 	    );

@@ -99,15 +99,15 @@ sub main {
     $options{force} = 0;
     $options{noclean} = 1;
     $options{verbose} = 1;
-    $options{probe_with} = 'synthesis'; #- no the default is to probe synthesis file.
     my $urpm = new urpm;
     urpm::args::parse_cmdline(urpm => $urpm);
+    #- the default is to probe a synthesis file, except for --distrib
+    $options{probe_with} = 'synthesis' unless exists($options{distrib}) || exists($options{probe_with});
     our ($name, $url, $with, $relative_hdlist) = our @cmdline;
 
     #- remove verbose if not asked.
     $options{verbose} > 0 or $urpm->{log} = sub {};
 
-    #- allow not to give name immediately.
     $options{distrib} or $url or ($url, $name) = ($name, '');
     my ($type) = $url =~ m,^(([^:]*):/)?/, or $options{distrib} or usage;
 
@@ -205,7 +205,7 @@ sub main {
 	    $with || $relative_hdlist
 		and usage N("no need to give <relative path of hdlist> with --distrib");
 
-	    $urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update});
+	    $urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update}, probe_with => $options{probe_with});
 	}
 	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 
