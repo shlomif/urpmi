@@ -755,9 +755,9 @@ sub configure {
     my ($urpm, %options) = @_;
 
     $urpm->clean;
-    
+
     $options{parallel} && $options{usedistrib} and die N("Can't use parallel mode with use-distrib mode");
-    
+
     if ($options{parallel}) {
 	my ($parallel_options, $parallel_handler);
 	#- handle parallel configuration, examine all module available that
@@ -1070,7 +1070,10 @@ sub add_distrib_media {
 	    m/^\s*(?:noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file"), $_);
 	    my ($hdlist, $rpmsdir, $descr) = ($1, $2, $3);
 
-	    $urpm->add_medium($name ? "$descr ($name$medium)" : $descr, "$url/$rpmsdir", "../base/$hdlist", %options);
+	    $urpm->add_medium($name ? "$descr ($name$medium)" : $descr,
+			      "$url/$rpmsdir",
+			      offset_pathname($url, $rpmsdir) . "/Mandrake/base/$hdlist",
+			      %options);
 
 	    ++$medium;
 	}
@@ -2206,7 +2209,13 @@ sub reduce_pathname {
     $dir = '';
     foreach (@paths) {
 	if ($_ eq '..') {
-	    $dir =~ s|([^/]+)/$|| or $dir .= "../";
+	    if ($dir =~ s|([^/]+)/$||) {
+		if ($1 eq '..') {
+		    $dir .= "../../";
+		}
+	    } else {
+		$dir .= "../";
+	    }
 	} elsif ($_ ne '.') {
 	    $dir .= "$_/";
 	}
@@ -2217,12 +2226,37 @@ sub reduce_pathname {
     $host . $dir;
 }
 
+#- offset pathname by returing the right things to add to a relative directory to make no change.
+#- url is needed to resolve going before to top base.
+sub offset_pathname {
+    my ($url, $offset) = map { reduce_pathname($_) } @_;
+
+    #- clean url to remove any macro (which cannot be solved now).
+    #- take care if this is a true url and not a simple pathname.
+    my ($host, $dir) = $url =~ m|([^:/]*://[^/]*/)?(.*)|;
+    my @paths = split '/', $dir;
+    my @offpaths = reverse split '/', $offset;
+    my @corrections;
+    my $result = '';
+
+    foreach (@offpaths) {
+	if ($_ eq '..') {
+	    push @corrections, pop @paths;
+	} else {
+	    $result .= '../';
+	}
+    }
+
+    $result . join('/', reverse @corrections);
+}
+
 #- check for necessity of mounting some directory to get access
 sub try_mounting {
     my ($urpm, $dir, $removable) = @_;
     my %infos;
 
     $dir = reduce_pathname($dir);
+    print STDERR "++++$dir\n";
     foreach (grep { ! $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount' } $urpm->find_mntpoints($dir, \%infos)) {
 	$urpm->{log}(N("mounting %s", $_));
 	`mount '$_' 2>/dev/null`;
