@@ -92,7 +92,8 @@ _urpmi()
 			--noclean --force --allow-nodeps --allow-force --parallel \
 			--wget --curl --limit-rate --proxy --proxy-user --bug \
 			--env --X --best-output --verify-rpm --no-verify-rpm \
-			--test --excludepath --excludedocs --root --norebuild' -- $cur ) )
+			--test --excludepath --excludedocs --root --norebuild \
+			--searchmedia' -- $cur ) )
 	else
 		# return available packages (unless it is clearly a file) and rpm files
 		if [[ "$cur" != */* ]]; then
@@ -132,7 +133,7 @@ _urpmq()
 			--list --list-url --list-media --list-nodes --list-aliases \
 			--src --headers --sources --force --parallel --wget --curl \
 			--changelog --proxy --proxy-user --env --dump-config \
-			--use-distrib ' -- $cur))
+			--use-distrib --searchmedia' -- $cur))
 	else
 		# return available packages (unless it is clearly a file) and rpm files
 		if [[ "$cur" != */* ]]; then

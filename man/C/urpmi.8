@@ -1,4 +1,4 @@
-.TH urpmi 8 "28 Aug 2003" "Mandrakesoft" "Mandrakelinux"
+.TH urpmi 8 "25 Nov 2004" "Mandrakesoft" "Mandrakelinux"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
@@ -25,13 +25,13 @@ proceed.
 .PP
 Note that urpmi handles installations from various types of media (ftp, http,
 rsync, local and nfs volumes, removable media such as CDROMs) and is able to
-install dependencies from a medium different from the original package's
-medium. If necessary, for removable media, urpmi may ask you to insert the
+install dependencies from a media different from the original package's
+media. If necessary, for removable media, urpmi may ask you to insert the
 appropriate disk.
 .PP
-To add a new medium containing rpms, run urpmi.addmedia.
+To add a new media containing rpms, run urpmi.addmedia.
 .br
-To remove a medium, use urpmi.removemedia.
+To remove an existing media, use urpmi.removemedia.
 .br
 To update the package list (for example when the ftp archive changes) use
 urpmi.update.
@@ -41,12 +41,15 @@ Print a help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
 .IP "\fB\--update\fP"
 Use only update media. This means that \fBurpmi\fP will search packages and
 resolve dependencies only in media marked as containing updates.
-.IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
+.IP "\fB\--media\fP \fImedia1,...,mediaN\fP"
 Select specific media to be used, instead of all available media (or update
 media if \fB--update\fP is used).
-.IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
+.IP "\fB\--excludemedia\fP \fImedia1,...,mediaN\fP"
 Do not use the specified media.
-.IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
+.IP "\fB\--searchmedia\fP \fImedia\fP"
+Use only the specified media to search for packages when combined with
+\fB\--auto-select\fP.
+.IP "\fB\--sortmedia\fP \fImedia1,...,mediaN\fP"
 Sort the specified media. Substrings may be used to simplify grouping.
 .IP "\fB\--synthesis\fP \fIfile\fP"
 Use the specified synthesis file instead of the urpmi database for
@@ -63,7 +66,7 @@ safer in auto mode.
 When some dependencies cannot be satisfied, change the selection of packages
 to try to keep existing packages instead of removing them. This behaviour
 generally rejects the upgrade of packages given on command line (or when using
---auto-select) when a dependency error occurs.
+\fB\--auto-select\fP) when a dependency error occurs.
 .IP "\fB\--split-level \fInumber\fP"
 Split urpmi's operation in small transactions when the total number of
 packages to upgrade is greater than the given \fInumber\fP. This option is
