@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 9mdk
+Release: 10mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -25,13 +25,13 @@ Group: %{group}
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
 
-%package -n autoirpm
-Summary: Auto install of rpm on demand
-Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi perl
-Group: %{group}
-
-%description -n autoirpm
-Auto install of rpm on demand
+#%package -n autoirpm
+#Summary: Auto install of rpm on demand
+#Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi perl
+#Group: %{group}
+#
+#%description -n autoirpm
+#Auto install of rpm on demand
 
 %prep
 %setup -q -n %{name}
@@ -102,8 +102,8 @@ if [ -z "$DURING_INSTALL" -a "$misconfigured" -ge 1 ]; then
   rm -f synthesis.hdlist.* && %{_sbindir}/urpmi.update -a
 fi
 
-%preun -n autoirpm
-[ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
+#%preun -n autoirpm
+#[ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
 
 %files -f %{name}.lang
 %defattr(-,root,root)
@@ -131,19 +131,22 @@ fi
 %defattr(-,root,root)
 /usr/X11R6/bin/gurpmi
 
-%files -n autoirpm
-%defattr(-,root,root)
-%dir /var/lib/urpmi/autoirpm.scripts
-%config(noreplace) /etc/urpmi/autoirpm.deny
-%{_sbindir}/autoirpm.*
-%{_mandir}/man?/autoirpm*
-# find_lang isn't able to find man pages yet...
-%lang(fr) %{_mandir}/fr/man?/autoirpm*
-%{_bindir}/_irpm
-%doc README-autoirpm-icons autoirpm.README
+#%files -n autoirpm
+#%defattr(-,root,root)
+#%dir /var/lib/urpmi/autoirpm.scripts
+#%config(noreplace) /etc/urpmi/autoirpm.deny
+#%{_sbindir}/autoirpm.*
+#%{_mandir}/man?/autoirpm*
+## find_lang isn't able to find man pages yet...
+#%lang(fr) %{_mandir}/fr/man?/autoirpm*
+#%{_bindir}/_irpm
+#%doc README-autoirpm-icons autoirpm.README
 
 
 %changelog
+* Mon Feb 18 2002 Pixel <pixel@mandrakesoft.com> 3.3-10mdk
+- remove autoirpm until it's fixed (or used/advertised)
+
 * Mon Feb 18 2002 François Pons <fpons@mandrakesoft.com> 3.3-9mdk
 - fixed requires resolution regression when old package provides
   property removed by newer (libification).
