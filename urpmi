@@ -66,7 +66,7 @@ delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 ($<, $uid) = ($>, $<);
 $ENV{HOME} ||= "/root";
 $ENV{USER} ||= "root";
-    
+
 sub usage {
     print STDERR N("urpmi version %s
 Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.
@@ -423,7 +423,7 @@ my $restart_itself = $urpm->resolve_dependencies($state, \%requested,
 						 install_src => $install_src,
 						 keep => $keep,
 						 nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
-						 priority_upgrade => !$env && $urpm->{options}{'priority-upgrade'},
+						 priority_upgrade => !$test && !$env && $urpm->{options}{'priority-upgrade'},
 						);
 
 my @ask_unselect = $urpm->unselected_packages($state);
@@ -602,10 +602,10 @@ foreach my $set (@{$state->{transaction} || []}) {
 					      },
 					     );
     my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources) || {}};
-    
+
     if ($urpm->{options}{'verify-rpm'} && !$force) {
 	my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources, translate => 1);
-	
+
 	if (@bad_signatures) {
 	    my $msg = N("The following packages have bad signatures");
 	    my $msg2 = N("Do you want to continue installation ?");
