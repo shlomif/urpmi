@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 12mdk
+Release: 13mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,11 @@ fi
 
 
 %changelog
+* Mon Jan 27 2003 François Pons <fpons@mandrakesoft.com> 4.2-13mdk
+- simplified portage to perl 5.6.1, because the following
+  open F, "-|", "/usr/bin/wget", ... are 5.8.0 restrictive.
+- fixed problem accessing removable media.
+
 * Mon Jan 27 2003 François Pons <fpons@mandrakesoft.com> 4.2-12mdk
 - fixed stupid typo using curl.
 

@@ -226,13 +226,13 @@ sub sync_wget {
     local *WGET;
     my $options = shift @_;
     my ($buf, $total, $file) = ('', undef, undef);
-    open WGET, "-|", "/usr/bin/wget",
-               (ref $options && $options->{limit_rate} ? ("--limit-rate=$options->{limit_rate}") : ()),
-               (ref $options && $options->{proxy} ? set_proxy({type => "wget", proxy => $options->{proxy}}) : ()),
-	       (ref $options && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
-		ref $options && $options->{quiet} ? ("-q") : ()),
-	       "--retr-symlinks", "-NP",
-	       (ref $options ? $options->{dir} : $options), @_;
+    open WGET, join(" ", map { "'$_'" } "/usr/bin/wget",
+		    (ref $options && $options->{limit_rate} ? ("--limit-rate=$options->{limit_rate}") : ()),
+		    (ref $options && $options->{proxy} ? set_proxy({type => "wget", proxy => $options->{proxy}}) : ()),
+		    (ref $options && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
+		     ref $options && $options->{quiet} ? ("-q") : ()),
+		    "--retr-symlinks", "-NP",
+		    (ref $options ? $options->{dir} : $options), @_) . " |";
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
     while (<WGET>) {
 	$buf .= $_;
@@ -276,10 +276,10 @@ sub sync_curl {
 	require Date::Manip;
 
 	#- prepare to get back size and time stamp of each file.
-	open CURL, "/usr/bin/curl " .
-	        (ref $options && $options->{limit_rate} ? "--limit-rate $options->{limit_rate} " : " "),
-		(ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()) .
-		" -s -I " . join(" ", map { "'$_'" } @ftp_files) . " |";
+	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
+			(ref $options && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
+			(ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()) .
+			"-s", "-I", @ftp_files) . " |";
 	while (<CURL>) {
 	    if (/Content-Length:\s*(\d+)/) {
 		!$cur_ftp_file || exists $ftp_files_info{$cur_ftp_file}{size} and $cur_ftp_file = shift @ftp_files;
@@ -316,11 +316,11 @@ sub sync_curl {
     if (my @all_files = ((map { ("-O", $_ ) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : () } @other_files))) {
 	my @l = (@ftp_files, @other_files);
 	my ($buf, $file) = ('', undef);
-	open CURL, "-|", "/usr/bin/curl",
-	           (ref $options && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
-	           (ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()),
-		   (ref $options && $options->{quiet} && !$options->{verbose} ? ("-s") : ()), "-R", "-f", "--stderr", "-",
-		   @all_files;
+	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
+			(ref $options && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
+			(ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()),
+			(ref $options && $options->{quiet} && !$options->{verbose} ? ("-s") : ()), "-R", "-f", "--stderr", "-",
+			@all_files). " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	while (<CURL>) {
 	    $buf .= $_;
@@ -364,10 +364,10 @@ sub sync_rsync {
 	do {
 	    local (*RSYNC, $_);
 	    my $buf = '';
-	    open RSYNC, "-|", "/usr/bin/rsync",
-	                ($limit_rate ? ("--bwlimit=$limit_rate") : ()),
-	                (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-			qw(--partial --no-whole-file), $file, (ref $options ? $options->{dir} : $options);
+	    open RSYNC, join(" ", map { "'$_'" } "/usr/bin/rsync",
+			     ($limit_rate ? ("--bwlimit=$limit_rate") : ()),
+			     (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
+			     qw(--partial --no-whole-file), $file, (ref $options ? $options->{dir} : $options)) . " |";
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
 		$buf .= $_;
@@ -406,10 +406,10 @@ sub sync_ssh {
 	do {
 	    local (*RSYNC, $_);
 	    my $buf = '';
-	    open RSYNC, "-|", "/usr/bin/rsync",
-	                ($limit_rate ? ("--bwlimit=$limit_rate") : ()),
-	                (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-			qw(--partial -e ssh), $file, (ref $options ? $options->{dir} : $options);
+	    open RSYNC, join(" ", map { "'$_'" } "/usr/bin/rsync",
+			     ($limit_rate ? ("--bwlimit=$limit_rate") : ()),
+			     (ref $options && $options->{quiet} ? qw(-q) : qw(--progress -v)),
+			     qw(--partial -e ssh), $file, (ref $options ? $options->{dir} : $options)). " |";
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
 		$buf .= $_;
@@ -1646,12 +1646,6 @@ sub is_using_supermount {
 #- filtering according the next operation (mount or umount).
 sub find_mntpoints {
     my ($urpm, $dir, $mode) = @_;
-
-    #- fast mode to check according to next operation.
-    $mode eq 'mount' && -e $dir and return;
-    $mode eq 'umount' && ! -e $dir and return;
-
-    #- really check and find mount points here.
     my ($fdir, $pdir, $v, %fstab, @mntpoints) = $dir;
     local (*F, $_);
 
@@ -2151,6 +2145,7 @@ sub download_source_packages {
 	$dir and $urpm->try_mounting($dir, $removable);
 	if (!$dir || -e $dir) {
 	    foreach (values %{$list->[$id]}) {
+		chomp;
 		/^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
 		unless ($dir) {
 		    $dir = $2;
@@ -2181,6 +2176,7 @@ sub download_source_packages {
 	    if (-e $dir) {
 		my @removable_sources;
 		while (my ($i, $url) = each %{$list->[$id]}) {
+		    chomp $url;
 		    $url =~ /^(removable[^:]*|file):\/(.*\/([^\/]*))/ or next;
 		    if (-r $2) {
 			if ($copy) {
@@ -2220,6 +2216,7 @@ sub download_source_packages {
 	if ($medium->{removable}) {
 	    push @{$removables{$medium->{removable}} ||= []}, $_;
 	} elsif (my ($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
+	    chomp $dir;
 	    -e $dir || $urpm->try_mounting($dir) or
 	      $urpm->{error}(_("unable to access medium \"%s\"", $medium->{name})), next;
 	}
