@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 21mdk
+Release: 22mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Mon Mar 11 2002 François Pons <fpons@mandrakesoft.com> 3.3-22mdk
+- added --wget/--curl support to urpmq (needed by rpmdrake).
+
 * Thu Mar  7 2002 François Pons <fpons@mandrakesoft.com> 3.3-21mdk
 - fix --wget and --curl for urpmi.addmedia.
 
