@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.13
+%define version	4.6.14
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -232,6 +232,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Jan 31 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.14-1mdk
+- urpmi.addmedia and urpmi now support ISO images as removable media
+- "urpmq -R" will now report far less requires, skipping virtual packages.
+- Improve bash-completion for media names, through new options to urpmq
+  --list-media (by Guillaume Rousse)
+
 * Tue Jan 25 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.13-1mdk
 - urpme now dies when not run as root
 - improve error reporting in urpmi-parallel
