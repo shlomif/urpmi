@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.17
+%define version	4.6.18
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -234,6 +234,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Thu Feb 17 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.18-1mdk
+- Work around bug 13685, bug in display of curl progress
+- Fix bug 13644, urpmi.addmedia --distrib was broken
+- Remove obsoleted and broken --distrib-XXX command-line option
+
 * Wed Feb 16 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.17-1mdk
 - Remove curl 7.2.12 bug workaround, and require at least curl 7.13.0
 - Fix parsing of hdlists file when adding media with --distrib
