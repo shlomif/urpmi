@@ -1,12 +1,12 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 1.3
-Release: 12mdk
+Version: 1.4
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
-Requires: /usr/bin/suidperl, rpmtools >= 1.2-9mdk, eject, wget
+Requires: /usr/bin/suidperl, rpmtools >= 2.1-7mdk, eject, wget
 PreReq: /usr/bin/genbasefiles
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -18,7 +18,7 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n gurpmi
-Version: 0.7
+Version: 0.8
 Summary: User mode rpm GUI install
 Requires: urpmi grpmi gchooser gmessage
 Group: %{group}
@@ -29,7 +29,7 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %package -n autoirpm
-Version: 0.5
+Version: 0.6
 Summary: Auto install of rpm on demand
 Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
 Group: %{group}
@@ -46,6 +46,8 @@ rm -rf $RPM_BUILD_ROOT
 make PREFIX=$RPM_BUILD_ROOT MANDIR=$RPM_BUILD_ROOT%{_mandir} install
 install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
 install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
+mkdir -p $RPM_BUILD_ROOT%{perl_sitearch}
+install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_sitearch}
 
 find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.po | \
     perl -pe 'm|locale/([^/_]*)(.*)|; $_ = "%%lang($1) %{_datadir}/locale/$1$2\n"' > %{name}.lang
@@ -69,10 +71,8 @@ fi
 exit 0
 
 %post
-if [ -r /var/lib/urpmi/depslist ]; then
-  rm -f /var/lib/urpmi/depslist
-  [ -z "$DURING_INSTALL" ] && %{_sbindir}/urpmi.update
-fi
+rm -f /var/lib/urpmi/depslist
+[ -z "$DURING_INSTALL" ] && %{_sbindir}/urpmi.update -a
 
 %preun -n autoirpm
 autoirpm.uninstall
@@ -88,6 +88,7 @@ autoirpm.uninstall
 %{_sbindir}/urpme
 %{_sbindir}/urpmi.*
 %{_mandir}/*/urpm*
+%{perl_sitearch}/urpm.pm
 
 %files -n gurpmi
 %defattr(-,root,root)
@@ -104,6 +105,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Jan 16 2001 François Pons <fpons@mandrakesoft.com> 1.4-1mdk
+- extract urpmi/urpmq common code and newer code for medium
+  management in perl module urpm.
+- rewrite tools to use the module.
+
 * Mon Nov 27 2000 François Pons <fpons@mandrakesoft.com> 1.3-12mdk
 - fixed urpmi.addmedia if already added media are no more accessible.
 
