@@ -35,6 +35,7 @@ sub log_it {
 
 sub to_utf8 { Locale::gettext::iconv($_[0], undef, "UTF-8") }
 
+#- this function returns a value via $?. this is evil; FIXME (and use zenity)
 sub gmessage {
     my ($msg, %params) = @_;
     my $ok = to_utf8($params{ok} || N("Ok"));
