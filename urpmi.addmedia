@@ -26,7 +26,8 @@ import urpm _;
 
 sub main {
     my ($name, $url, $with, $relative_hdlist) = @_;
-    my $usage = _("usage: urpmi.addmedia <name> <url>
+    $name =~ /^--?update/ and (my $update, $name, $url, $with, $relative_hdlist) = @_;
+    my $usage = _("usage: urpmi.addmedia [--update] <name> <url>
 where <url> is one of
        file://<path>
        ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>
@@ -48,7 +49,7 @@ where <url> is one of
     my $urpm = new urpm;
 
     $urpm->read_config;
-    $urpm->add_medium($name, $url, $relative_hdlist);
+    $urpm->add_medium($name, $url, $relative_hdlist, update => $update);
     $urpm->update_media(noclean => 1);
 
     #- check creation of media (during update has been successfull)

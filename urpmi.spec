@@ -2,12 +2,12 @@
 
 Name: urpmi
 Version: 1.6
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: eject, wget
-PreReq: perl-gettext, rpmtools >= 2.3-25mdk
+PreReq: perl-gettext, rpmtools >= 3.0-7mdk
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -106,6 +106,12 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Jul  2 2001 François Pons <fpons@mandrakesoft.com> 1.6-8mdk
+- fixed typo by pixel.
+- fixed bad reference in urpm reported by Michael Reinsch.
+- fixed dependencies for closure with old packages.
+- added --update flag to urpmi.addmedia
+
 * Thu Jun 28 2001 François Pons <fpons@mandrakesoft.com> 1.6-7mdk
 - added update flag to medium.
 - fixed -M algortihms with epoch (serial) uses.
