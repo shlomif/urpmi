@@ -32,7 +32,8 @@ my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
 my $no_remove = 0;
-my $split_level = 1;
+my $split_level = 20;
+my $split_length = 1;
 my $force = 0;
 my $parallel = '';
 my $sync;
@@ -80,8 +81,11 @@ usage:
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
 ") . N("  --no-uninstall - never ask to uninstall a package, abort the installation.
-") . N("  --split-level  - build small transaction of minimal given length.
-") . N("  --fuzzy        - impose fuzzy search (same as -y).
+") . N("  --split-level  - split in small transaction if more than given packages
+                   are going to be installed or upgraded,
+                   default is %d.
+", $split_level) . N("  --split-length - small transaction length, default is %d.
+", $split_length) . N("  --fuzzy        - impose fuzzy search (same as -y).
 ") . N("  --src          - next package is a source package (same as -s).
 ") . N("  --install-src  - install only source package (no binaries).
 ") . N("  --clean        - remove rpm from cache before anything else.
@@ -149,7 +153,8 @@ while (defined($_ = shift @ARGV)) {
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
     /^--no-(remove|uninstall)$/ and do { $no_remove = 1; next };
-    /^--split-level$/ and do { $urpm->{options}{'split-level'} = undef; push @nextargv, \$urpm->{options}{'split-level'}; next };
+    /^--split-level$/ and do { push @nextargv, \$urpm->{options}{'split-level'}; next };
+    /^--split-length$/ and do { push @nextargv, \$urpm->{options}{'split-length'}; next };
     /^--(no-)?fuzzy$/ and do { $urpm->{options}{fuzzy} = !$1; next };
     /^--src$/ and do { $src = 1; next };
     /^--install-src$/ and do { $install_src = 1; next };
@@ -166,7 +171,7 @@ while (defined($_ = shift @ARGV)) {
 				      else { $options = { dir => $options, prefer => 'wget' } }
 				      urpm::sync_webfetch($options, @_) }; next };
     /^--curl$/ and do { $sync = \&urpm::sync_webfetch; next };
-    /^--limit-rate$/ and do { $urpm->{options}{'limit-rate'} = undef; push @nextargv, \$urpm->{options}{'limit-rate'}; next };
+    /^--limit-rate$/ and do { push @nextargv, \$urpm->{options}{'limit-rate'}; next };
     /^--proxy$/ and do {
 	my ($proxy, $port) = ($_ = shift @ARGV) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
 	    die N("bad proxy declaration on command line\n");
@@ -325,9 +330,11 @@ $urpm->configure(nocheck_access => $env || $uid > 0,
 		 parallel => $parallel,
 		);
 #- get back activated default values of boolean options.
-foreach (qw(post-clean use-provides verify-rpm split-level)) {
+foreach (qw(post-clean use-provides verify-rpm)) {
     exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
 }
+exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
+exists $urpm->{options}{'split-length'} or $urpm->{options}{'split-length'} = $split_length;
 
 my $state = {};
 my %requested = $urpm->register_rpms(@files, @src_files);
@@ -389,16 +396,17 @@ $urpm->resolve_dependencies($state, \%requested,
 			    callback_choices => \&ask_choice,
 			    install_src => $install_src,
 			    nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
-			    split_level => $urpm->{parallel_handler} ? 0 : $urpm->{options}{'split-level'},
 			   );
 
 my @ask_unselect = $urpm->unselected_packages($state);
 if (@ask_unselect) {
-    unless ($auto) {
-	my $list = join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect);
-	my $msg = N("Some package requested cannot be installed:\n%s\ndo you agree ?", $list);
+    my $list = join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect);
+    my $msg = N("Some package requested cannot be installed:\n%s", $list);
+    if ($auto) {
+	message($msg, 'noX');
+    } else {
 	if ($X) {
-	    gmessage($msg);
+	    gmessage("$msg\n".N("do you agree ?"));
 	    $? and exit 0;
 	} else {
 	    $noexpr = N("Nn");
@@ -410,19 +418,21 @@ if (@ask_unselect) {
 
 my @ask_remove = $urpm->removed_packages($state);
 if (@ask_remove) {
-    unless ($auto) {
-	my $list = join "\n", $urpm->translate_why_removed($state, sort @ask_remove);
+    my $list = join "\n", $urpm->translate_why_removed($state, sort @ask_remove);
 
-	if ($no_remove) {
-	    my $msg = N("The installation cannot continue because the following packages
+    if ($no_remove) {
+	my $msg = N("The installation cannot continue because the following packages
 have to be removed for others to be upgraded:\n%s\n", $list);
-	    message($msg);
-	    exit 0;
-	}
+	message($msg);
+	exit 0;
+    }
 
-	my $msg = N("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list);
+    my $msg = N("The following packages have to be removed for others to be upgraded:\n%s", $list);
+    if ($auto) {
+	message($msg, 'noX');
+    } else {
 	if ($X) {
-	    gmessage($msg);
+	    gmessage("$msg\n".N("do you agree ?"));
 	    $? and exit 0;
 	} else {
 	    $noexpr = N("Nn");
@@ -509,10 +519,18 @@ $urpm->copy_packages_of_removable_media($list, \%sources,
 					    }
 					});
 
-my $nok;
+#- now create transaction just before installation, this will save user impression of slowness.
+$urpm->create_transaction($state,
+			  split_level => $urpm->{options}{'split-level'},
+			  split_length => $urpm->{options}{'split-length'});
+
+my $nok = 0;
 
 foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
+
+    #- put a blank line to separate with previous transaction or user question.
+    message("\n", 'noX');
 
     #- prepare transaction...
     $urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
@@ -619,6 +637,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	message(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
 		  join "\n", map { "    $_" } @missing));
 	++$nok;
+	next;
     }
 
     #- install source package only (whatever the user is root or not, but use rpm for that).
@@ -640,14 +659,14 @@ foreach my $set (@{$state->{transaction} || []}) {
 
     if (%transaction_sources_install || %transaction_sources) {
 	if ($parallel) {
-	    message(N("distributing %s\n", join(' ', values %transaction_sources_install, values %transaction_sources)), 'noX');
+	    message(N("distributing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), 'noX');
 	    #- no remove are handle here, automatically done by each distant node.
 	    $urpm->{log}("starting distributed install");
 	    $urpm->parallel_install([ keys %{$state->{rejected} || {}} ], \%transaction_sources_install, \%transaction_sources,
 				    test => $test,
 				    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
 	} else {
-	    message(N("installing %s\n", join(' ', values %transaction_sources_install, values %transaction_sources)), 'noX');
+	    message(N("installing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), 'noX');
 	    log_it(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my $progress_nb;
@@ -675,12 +694,12 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 
-		$auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'} and ++$nok;
+		$auto || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'} and ++$nok, next;
 
 		$noexpr = N("Nn");
 		$yesexpr = N("Yy");
 		message_input(N("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		  or exit 1;
+		  or ++$nok, next;
 		$urpm->{log}("starting installing packages without deps");
 		@l = $urpm->install($set->{remove} || [], \%transaction_sources_install, \%transaction_sources,
 				    translate_message => 1, nodeps => 1,
@@ -689,9 +708,9 @@ foreach my $set (@{$state->{transaction} || []}) {
 				    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
 		if (@l) {
 		    message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
-		    !$urpm->{options}{'allow-force'} and exit 1;
+		    !$urpm->{options}{'allow-force'} and ++$nok, next;
 		    message_input(N("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
-		      or exit 1;
+		      or ++$nok, next;
 		    $urpm->{log}("starting force installing packages without deps");
 		    @l = $urpm->install($set->{remove} || [], \%transaction_sources_install, \%transaction_sources,
 					translate_message => 1, nodeps => 1, force => 1,
@@ -699,18 +718,20 @@ foreach my $set (@{$state->{transaction} || []}) {
 					test => $test,
 					excludepath => $urpm->{options}{excludepath},
 					excludedocs => $urpm->{options}{excludedocs});
-		    @l and $urpm->error(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l)), ++$nok;
+		    @l and message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l)), ++$nok;
 		}
 	    }
 	}
     }
 }
 $X and gurpm::end();
-if (!$nok) {
+if ($nok) {
+    $nok > 1 and message(N("%d installation transactions failed"));
+} else {
     if ($test) {
 	message(N("Installation is possible"));
     } else {
-	@{$state->{transaction} || []} == 0 && $verbose >= 0 and message(N("Everything already installed"), $auto);
+	@{$state->{transaction} || []} == 1 && $verbose >= 0 and message(N("Everything already installed"), $auto);
     }
 }
 

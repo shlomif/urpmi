@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.4
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.91
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.91-3mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,11 @@ $urpm->update_media;
 
 
 %changelog
+* Wed Jun 18 2003 François Pons <fpons@mandrakesoft.com> 4.4-3mdk
+- changed --split-level behaviour to be a trigger (default 20).
+- added --split-length to give minimal transaction length (default 1).
+- added missing log for unselected and removed packages in auto mode.
+
 * Tue Jun 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-2mdk
 - fixed parallel handler with removing.
 - fixed glitches with gurpmi.

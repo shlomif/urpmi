@@ -426,7 +426,7 @@ sub read_config {
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
 		    }
 		    next;
-		} elsif (($k, $v) = /^(limit-rate|excludepath|key_ids)\s*:\s*(.*)$/) {
+		} elsif (($k, $v) = /^(limit-rate|excludepath|key_ids|split-(?:level|length))\s*:\s*(.*)$/) {
 		    unless (exists($urpm->{options}{$k})) {
 			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
 			$urpm->{options}{$k} = $v;
@@ -2137,9 +2137,6 @@ sub resolve_dependencies {
 	}
 	#- let each node determine what is requested, according to handler given.
 	$urpm->{parallel_handler}->parallel_resolve_dependencies($file, @_);
-
-	#- build simplest transaction (no split).
-	$urpm->build_transaction_set(undef, $state, split_level => 0);
     } else {
 	my $db;
 
@@ -2159,9 +2156,32 @@ sub resolve_dependencies {
 	$options{auto_select} and $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
 
 	$urpm->resolve_requested($db, $state, $requested, %options);
+    }
+}
+
+sub create_transaction {
+    my ($urpm, $state, %options) = @_;
+
+    if ($urpm->{parallel_handler} || !$options{split_length} || keys %{$state->{selected}} < $options{split_level}) {
+	#- build simplest transaction (no split).
+	$urpm->build_transaction_set(undef, $state, split_length => 0);
+    } else {
+	my $db;
+
+	if ($options{rpmdb}) {
+	    $db = new URPM;
+	    $db->parse_synthesis($options{rpmdb});
+	} else {
+	    $db = URPM::DB::open($urpm->{root});
+	    $db or $urpm->{fatal}(9, N("unable to open rpmdb"));
+	}
+
+	my $sig_handler = sub { undef $db; exit 3 };
+	local $SIG{INT} = $sig_handler;
+	local $SIG{QUIT} = $sig_handler;
 
 	#- build transaction set...
-	$urpm->build_transaction_set($db, $state, %options);
+	$urpm->build_transaction_set($db, $state, split_length => $options{split_length});
     }
 }
 
