@@ -1,7 +1,7 @@
 # bash completion for urpmi and friends
 # Copyright (c) 2002-2003 Guillaume Rousse <guillomovitch@linux-mandrake.com>
 # $Id$
-
+set -x
 # utility functions
 _urpmi_get_medias()
 {
@@ -95,7 +95,7 @@ _urpmi()
 		_filedir rpm
 	fi
 }
-complete -F _urpmi urpmi gurpmi
+complete -F _urpmi $filenames urpmi gurpmi
 
 # urpmq completion
 #
