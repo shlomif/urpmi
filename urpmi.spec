@@ -211,8 +211,9 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %if %{allow_gurpmi}
 %files -n gurpmi
 %defattr(-,root,root)
-%{_sbindir}/gurpmi
 %{_bindir}/gurpmi
+%{_bindir}/gurpmi2
+%{_sbindir}/gurpmi2
 %{_menudir}/gurpmi
 %endif
 

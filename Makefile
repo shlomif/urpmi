@@ -29,7 +29,7 @@ install:
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.update
 	install gurpmi $(SBINDIR)
-	ln -s -f ../../usr/bin/consolehelper $(BINDIR)/gurpmi
+	ln -s -f ../../usr/bin/consolehelper $(BINDIR)/gurpmi2
 	for i in man/??* ; \
 		do install -d $(MANDIR)/`basename $$i`/man8 ; \
 		install -m 644 $$i/urpm*.8 $(MANDIR)/`basename $$i`/man8 ; \
