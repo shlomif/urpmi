@@ -530,7 +530,7 @@ sub update_media {
 		local (*F, $_);
 		open F, "parsehdlist '$urpm->{cachedir}/partial/$medium->{hdlist}' |";
 		while (<F>) {
-		    /\/([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
+		    /^([^\/]*)-[^-\/]*-[^-\/]*\.[^\/]*\.rpm/;
 		    $list{"$medium->{url}/$_"} = ($urpm->{params}{info}{$1} || { id => 1000000000 })->{id};
 		}
 		close F or $error = 1, $urpm->{error}("unable to parse hdlist file of \"$medium->{name}\"");
