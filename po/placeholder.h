@@ -132,6 +132,7 @@ N_("Cancel"),
 N_("  --help         - print this help message.\n"),
 N_("everything already installed"),
 N_("urpmi: unknown option \"-%s\", check usage with --help\n"),
+N_("  -y             - impose fuzzy search.\n"),
 N_("One of the following packages is needed:"),
 N_("  --update       - use only update media.\n"),
 N_(""
@@ -145,14 +146,16 @@ N_("  --auto-select  - automatically select packages for upgrading the system.\n
 N_("Yy"),
 N_("  --X            - use X interface.\n"),
 N_("To satisfy dependencies, the following packages are going to be installed (%d MB)"),
+N_("  -P             - do not search in provides to find package.\n"),
 N_("Try installation without checking dependencies? (y/N) "),
 N_("  --media        - use only the media listed by comma.\n"),
 N_(""
 "  --best-output  - choose best interface according to the environment:\n"
 "                   X or text mode.\n"
 ""),
-N_("  -p             - allow search in provides to find package.\n"),
 N_("  -v             - verbose mode.\n"),
+N_("  -p             - allow search in provides to find package.\n"),
+N_("  names or rpm files given on command line are installed.\n"),
 N_("  -q             - quiet mode.\n"),
 N_("  --complete     - use parsehdlist server to complete selection.\n"),
 N_("What is your choice? (1-%d) "),
@@ -167,12 +170,10 @@ N_("Try installation even more strongly (--force)? (y/N) "),
 N_("Ok"),
 N_("  --force        - force invocation even if some packages do not exist.\n"),
 N_("Sorry, bad choice, try again\n"),
-N_("  names or rpm files (only for root) given on command line are installed.\n"),
 N_(" (Y/n) "),
 N_("  -a             - select all matches on command line.\n"),
 N_("  --curl         - use curl to retrieve distant files.\n"),
 N_("installing %s\n"),
-N_("Only superuser is allowed to install local packages"),
 N_("Please insert the medium named \"%s\" on device [%s]"),
 N_("Is it OK?"),
 N_("unable to get source packages, aborting"),
@@ -248,25 +249,14 @@ N_(""
 "usage: urpmi.removemedia [-a] <name> ...\n"
 "where <name> is a medium name to remove.\n"
 ""),
-N_("  --force        - force invocation even if some packages do not exist.\n"),
-N_("  --auto-select  - automatically select packages for upgrading the system.\n"),
-N_("some packages have to be removed for being upgraded, this is not supported yet\n"),
-N_("urpmq: unknown option \"-%s\", check usage with --help\n"),
 N_("  -h             - print this help message.\n"),
-N_(""
-"  --headers      - extract headers for package listed from urpmi db to\n"
-"                   stdout (root only).\n"
-""),
+N_("  -y             - impose fuzzy search.\n"),
 N_("  -g             - print groups too with name.\n"),
-N_("  --media        - use only the media listed by comma.\n"),
 N_("urpmq: cannot read rpm file \"%s\"\n"),
 N_("  names or rpm files given on command line are queried.\n"),
 N_("  --update       - use only update media.\n"),
 N_("  -r             - print version and release too with name.\n"),
 N_("  -f             - print version, release and arch with name.\n"),
-N_("  -v             - verbose mode.\n"),
-N_("  -p             - allow search in provides to find package.\n"),
-N_("unable to get source packages, aborting"),
 N_(""
 "urpmq version %s\n"
 "Copyright (C) 2000, 2001 MandrakeSoft.\n"
@@ -275,6 +265,19 @@ N_(""
 ""),
 N_("  -d             - extend query to package dependencies.\n"),
 N_("  --sources      - give all source packages before downloading (root only).\n"),
-N_("  -u             - remove package if a better version is already installed.\n"),
 N_("  -c             - choose complete method for resolving requires closure.\n"),
+N_("  --force        - force invocation even if some packages do not exist.\n"),
+N_("  --auto-select  - automatically select packages for upgrading the system.\n"),
+N_("some packages have to be removed for being upgraded, this is not supported yet\n"),
+N_("urpmq: unknown option \"-%s\", check usage with --help\n"),
+N_("  -P             - do not search in provides to find package.\n"),
+N_(""
+"  --headers      - extract headers for package listed from urpmi db to\n"
+"                   stdout (root only).\n"
+""),
+N_("  --media        - use only the media listed by comma.\n"),
+N_("  -p             - allow search in provides to find package.\n"),
+N_("  -v             - verbose mode.\n"),
+N_("unable to get source packages, aborting"),
+N_("  -u             - remove package if a better version is already installed.\n"),
 };
