@@ -3097,7 +3097,7 @@ sub install {
     local (*CHILD_RETURNS, *ERROR_OUTPUT, $_);
     if ($options{fork}) {
 	pipe(CHILD_RETURNS, ERROR_OUTPUT);
-	defined($pid = fork()) or die "Can't fork: $!\n"
+	defined($pid = fork()) or die "Can't fork: $!\n";
 	if ($pid) {
 	    # parent process
 	    close ERROR_OUTPUT;

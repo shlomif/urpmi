@@ -18,44 +18,44 @@
 #- along with this program; if not, write to the Free Software
 #- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#use strict qw(subs vars refs);
 use strict;
 use urpm;
+use urpm::args;
 use MDK::Common;
 
 #- contains informations to parse installed system.
 my $urpm = new urpm;
 
 #- default options.
-my $update = 0;
-my $media = '';
-my $excludemedia = '';
-my $sortmedia = '';
-my $synthesis = '';
-my $allow_medium_change = 0;
-my $auto_select = 0;
-my $no_remove = 0;
+our $update = 0;
+our $media = '';
+our $excludemedia = '';
+our $sortmedia = '';
+our $synthesis = '';
+our $allow_medium_change = 0;
+our $auto_select = 0;
+our $no_remove = 0;
+our $src = 0;
+our $install_src = 0;
+our $clean = 0;
+our $noclean = 0;
 my $split_level = 20;
 my $split_length = 1;
-my $force = 0;
-my $parallel = '';
-my $X = 0;
-my $WID = 0;
-my $all = 0;
-my $rpm_opt = "vh";
-my $use_provides = 1;
-my $src = 0;
-my $install_src = 0;
-my $clean = 0;
-my $noclean = 0;
-my $verbose = 0;
-my $skip = '';
-my $root = '';
-my $usedistrib = 0;
-my $bug = '';
-my $env = '';
+our $force = 0;
+our $parallel = '';
+our $bug = '';
+our $env = '';
+our $X = 0;
+our $WID = 0;
+our $test = 0;
+our $skip = '';
+our $root = '';
+our $all = 0;
+our $rpm_opt = "vh";
+our $use_provides = 1;
+our $verbose = 0;
+our $usedistrib = 0;
 my $log = '';
-my $test = 0;
 
 my $uid;
 my @files;
@@ -161,86 +161,28 @@ sub save_file {
     exit(1);
 }
 
-#- parse arguments list.
-my @nextargv;
+# Parse command line
 my $command_line = join " ", @ARGV;
 @ARGV or usage;
-my @argv = @ARGV;
-while (defined($_ = shift @argv)) {
-    /^--help$/ and do { usage; next };
-    /^--no-locales$/ and do { undef *N; undef *urpm::N; *N = *urpm::N = sub { sprintf(shift @_, @_) }; next };
-    /^--update$/ and do { $update = 1; next };
-    /^--media$/ and do { push @nextargv, \$media; next };
-    /^--exclude-?media$/ and do { push @nextargv, \$excludemedia; next };
-    /^--sort-?media$/ and do { push @nextargv, \$sortmedia; next };
-    /^--mediums$/ and do { push @nextargv, \$media; next };
-    /^--synthesis$/ and do { push @nextargv, \$synthesis; next };
-    /^--auto$/ and do { $urpm->{options}{auto} = 1; next };
-    /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
-    /^--auto-select$/ and do { $auto_select = 1; next };
-    /^--no-(remove|uninstall)$/ and do { $no_remove = 1; next };
-    /^--keep$/ and do { $urpm->{options}{keep} = 1; next };
-    /^--split-level$/ and do { push @nextargv, \$urpm->{options}{'split-level'}; next };
-    /^--split-length$/ and do { push @nextargv, \$urpm->{options}{'split-length'}; next };
-    /^--(no-)?fuzzy$/ and do { $urpm->{options}{fuzzy} = !$1; next };
-    /^--src$/ and do { $src = 1; next };
-    /^--install-src$/ and do { $install_src = 1; next };
-    /^--clean$/ and do { $clean = 1; $noclean = 0; next };
-    /^--noclean$/ and do { $clean = $urpm->{options}{'pre-clean'} = $urpm->{options}{'post-clean'} = 0; $noclean = 1; next };
-    /^--(no-)?pre-clean$/ and do { $urpm->{options}{'pre-clean'} = !$1; next };
-    /^--(no-)?post-clean$/ and do { $urpm->{options}{'post-clean'} = !$1; next };
-    /^--no-priority-upgrade$/ and do { $urpm->{options}{'priority-upgrade'} = ''; next };
-    /^--force$/ and do { $force = 1; next };
-    /^--allow-nodeps$/ and do { $urpm->{options}{'allow-nodeps'} = 1; next };
-    /^--allow-force$/ and do { $urpm->{options}{'allow-force'} = 1; next };
-    /^--parallel$/ and do { push @nextargv, \$parallel; next };
-    /^--wget$/ and do { $urpm->{options}{downloader} = 'wget'; next };
-    /^--curl$/ and do { $urpm->{options}{downloader} = 'curl'; next };
-    /^--limit-rate$/ and do { push @nextargv, \$urpm->{options}{'limit-rate'}; next };
-    /^--(no-)?resume$/ and do { $urpm->{options}{'resume'} = !$1; next };
-    /^--proxy$/ and do {
-	my ($proxy, $port) = ($_ = shift @argv) =~ m,^(?:http://)?([^:]+(:\d+)?)/*$, or
-	    die N("bad proxy declaration on command line\n");
-	$proxy .= ":1080" unless $port;
-	$urpm->{proxy}{http_proxy} = "http://$proxy";
+my @ARGVcopy; # keep a copy, in case we have to restart
+
+# Expand *.urpmi arguments
+foreach my $a (@ARGV) {
+    if ($a =~ /\.urpmi$/) {
+	push @ARGVcopy, split /\n/, cat_($a);
 	next;
-    };
-    /^--proxy-user$/ and do {
-	($_ = shift @argv) =~ /(.+):(.+)/, or
-	    die N("bad proxy declaration on command line\n");
-	@{$urpm->{proxy}}{qw(user pwd)} = ($1, $2);
-	next;
-    };
-    /^--bug$/ and do { push @nextargv, \$bug; next };
-    /^--env$/ and do { push @nextargv, \$env; next };
-    /^--X$/ and do { $X = 1; next };
-    /^--WID=(.*)$/ and do { $WID = $1; next };
-    /^--WID$/ and do { push @nextargv, \$WID; next };
-    /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0;
-			       next };
-    /^--(no-)?verify-rpm$/ and do { $urpm->{options}{'verify-rpm'} = !$1; next };
-    /^--(no-)?test$/ and do { $test = !$1; next };
-    /^--comment$/ and do { push @nextargv, undef; next };
-    /^--skip$/ and do { push @nextargv, \$skip; next };
-    /^--root$/ and do { push @nextargv, \$root; next };
-    /^--use-distrib$/ and do { push @nextargv, \$usedistrib; next };
-    /^--exclude-?path$/ and do { $urpm->{options}{excludepath} = undef; push @nextargv, \$urpm->{options}{excludepath}; next };
-    /^--exclude-?docs$/ and do { $urpm->{options}{excludedocs} = 1; next };
-    /^-(.*)$/ and do { foreach (split //, $1) {
-	/[\?h]/ and do { usage; next };
-	/a/ and do { $all = 1; next };
-	/c/ and do { next };
-	/m/ and do { next };
-	/M/ and do { next }; #- nop
-	/q/ and do { --$verbose; $rpm_opt = ""; next };
-	/p/ and do { $use_provides = 1; next };
-	/P/ and do { $use_provides = 0; next };
-	/y/ and do { $urpm->{options}{fuzzy} = 1; next };
-	/s/ and do { $src = 1; next };
-	/v/ and do { ++$verbose; $rpm_opt = "vh"; next };
-	/z/ and do { $urpm->{options}{compress} = 1; next };
-	die N("urpmi: unknown option \"-%s\", check usage with --help\n", $1) } next };
-    @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
+    }
+    else {
+	push @ARGVcopy, $a;
+    }
+}
+@ARGV = @ARGVcopy;
+
+# Parse command line options
+urpm::args::parse_cmdline(urpm => $urpm);
+
+# Process the rest of the arguments
+while (defined($_ = shift @ARGV)) {
     if (/\.rpm$/) {
 	if (/\.src\.rpm$/) {
 	    push @src_files, $_;
@@ -248,10 +190,6 @@ while (defined($_ = shift @argv)) {
 	    push @files, untaint($_);
 	}
 	next;
-    }
-    if (/\.urpmi$/) {
-        push @argv, split /\n/, cat_($_);
-        next;
     }
     if ($src) {
 	push @src_names, $_;
@@ -853,10 +791,12 @@ if ($restart_itself && !$exit_code) {
     #- it seems to work correctly with exec instead of system, provided
     #- STDOUT or STDERR are not closed before (else no output at all).
     #- added --no-priority-upgrade to make sure no restart will be done after this one.
-    #- renamed bug report dir as /restarted to avoid exit because it alllreday exists
-    #- This permit to have in same dir bug report before and after the restart
-    my @arg = ($ARGV[0], map { $ARGV[$_] . ($ARGV[$_ - 1] =~ /^--bug$/ ? "/restarted" : "") } (1 .. $#ARGV));
-    exec "$0", '--no-priority-upgrade', @arg;
+    #- renamed bug report dir as /restarted to avoid exit because it already exists
+    #- This permits to have in a same dir bug reports before and after the restart
+    @ARGV = @ARGVcopy;
+    my @arg = ($ARGV[0], map { $ARGV[$_] . ($ARGV[$_ - 1] =~ /^--bug$/
+		? "/restarted" : "") } (1 .. $#ARGV));
+    exec $0, '--no-priority-upgrade', @arg;
 }
 
 #- this help flushing correctly by closing this file before (piped on tee).
