@@ -338,17 +338,29 @@ if ($query->{list_aliases}) {
 		}
 	    }
 	    foreach (keys %{$state->{selected}}) {
-		my $pkg = $urpm->{depslist}[$_] or next;
-		my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/".$pkg->header_filename;
-		$pkg->update_header($file, 0, 1);
-		printf "%-12s: %s\n", "Name", $pkg->name;
-		printf "%-12s: %s\n", "Version", $pkg->version;
-		printf "%-12s: %s\n", "Release", $pkg->release;
-		printf "%-12s: %s\n", "Group", $pkg->group;
-		$pkg->sourcerpm and printf "%-12s: %s\n", "Source RPM", $pkg->sourcerpm;
-		printf "%-12s: %-28s %12s: %s\n", "Size", $pkg->size, "Architecture", $pkg->arch;
-		$pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
-		$pkg->description and printf "%-12s:\n%s\n", "Description", $pkg->description;
+		foreach (split /\|/, $_) {
+		    my $pkg = $urpm->{depslist}[$_] or next;
+		    my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/".$pkg->header_filename;
+		    $pkg->update_header($file, 0, 1);
+		    printf "%-12s: %s\n", "Name", $pkg->name;
+		    printf "%-12s: %s\n", "Version", $pkg->version;
+		    printf "%-12s: %s\n", "Release", $pkg->release;
+		    printf "%-12s: %s\n", "Group", $pkg->group;
+		    printf "%-12s: %-28s %12s: %s\n", "Size", $pkg->size, "Architecture", $pkg->arch;
+		    if ($pkg->sourcerpm || $pkg->buildhost) {
+			if ($pkg->sourcerpm && $pkg->buildhost) {
+			    printf "%-12s: %-28s %12s: %s\n", "Source RPM", $pkg->sourcerpm, "Build Host", $pkg->buildhost;
+			} elsif ($pkg->sourcerpm) {
+			    $pkg->sourcerpm and printf "%-12s: %s\n", "Source RPM", $pkg->sourcerpm;
+			} else {
+			    $pkg->sourcerpm and printf "%-12s: %s\n", "Build Host", $pkg->buildhost;
+			}
+		    }
+		    $pkg->packager and printf "%-12s: %s\n", "Packager", $pkg->packager;
+		    $pkg->url and printf "%-12s: %s\n", "URL", $pkg->url;
+		    $pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
+		    $pkg->description and printf "%-12s:\n%s\n", "Description", $pkg->description;
+		}
 	    }
 	} elsif ($query->{sources}) {
 	    print join "\n", values %$local_sources; values %$local_sources and print "\n";

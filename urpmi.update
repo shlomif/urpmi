@@ -69,7 +69,7 @@ where <name> is a medium name to update.
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -d             - force complete computation of depslist.ordered file.
 ") . N("  -f             - force generation of hdlist files.
-") . (/^--?h(?:elp)$/ ? N("\nunknown options '%s'\n", $_) : '');
+") . (/^--?h(?:elp)$/ ? '' : N("\nunknown options '%s'\n", $_));
 	push @toupdates, $_;
     }
 

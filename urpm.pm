@@ -196,7 +196,7 @@ sub sync_wget {
 		    }
 		}
 	    } else {
-		print STDERR $_;
+		print STDERR $buf;
 	    }
 	    $buf = '';
 	}
@@ -284,7 +284,7 @@ sub sync_curl {
 			}
 		    }
 		} else {
-		    print STDERR $_;
+		    print STDERR $buf;
 		}
 		$buf = '';
 	    }
@@ -323,7 +323,7 @@ sub sync_rsync {
 			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
 			}
 		    } else {
-			print STDERR $_;
+			print STDERR $buf;
 		    }
 		    $buf = '';
 		}
@@ -365,7 +365,7 @@ sub sync_ssh {
 			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
 			}
 		    } else {
-			print STDERR $_;
+			print STDERR $buf;
 		    }
 		    $buf = '';
 		}
@@ -1317,6 +1317,7 @@ sub update_media {
 			      reduce_pathname("$medium->{url}/../descriptions"));
 		$urpm->{log}(N("...retrieving done"));
 	    };
+	    $@ and $urpm->{log}(N("...retrieving failed: %s", $@));
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
 		rename("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") or
 		  system("mv", "$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
@@ -1467,7 +1468,7 @@ sub update_media {
 	    if (-s "$urpm->{cachedir}/partial/$basename" > 32 && $retrieved_md5sum) {
 		$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
 		unless ((split ' ', `md5sum '$urpm->{cachedir}/partial/$basename'`)[0] eq $retrieved_md5sum) {
-		    $urpm->{log}(N("...retrieving failed: %s", $@));
+		    $urpm->{log}(N("...retrieving failed: %s", N("md5sum mismatch")));
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		}
 	    }

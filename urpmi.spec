@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.3
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.82-2mdk
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.82-3mdk
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -199,6 +199,13 @@ $urpm->update_media;
 
 
 %changelog
+* Tue Apr 22 2003 François Pons <fpons@mandrakesoft.com> 4.3-5mdk
+- improved output of urpmq -i (with packager, buildhost and url).
+- fixed output of download informations (without callback).
+- fixed error message of urpmi.update and urpmi.removemedia when
+  using -h or --help.
+- fixed urpmq -i to work on all choices instead of the first one.
+
 * Fri Apr 18 2003 François Pons <fpons@mandrakesoft.com> 4.3-4mdk
 - added urpmq -i (the almost same as rpm -qi).
 
