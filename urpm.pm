@@ -1017,7 +1017,7 @@ sub update_media {
 	if (($prefix, $dir) = $medium->{url} =~ m!^(?:(removable[^:]*|file):/)?(/.*)!) {
 	    $prefix ||= 'file';
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
-	    if (!$media_redone{$medium->{name}} and !$medium->{noreconfigure}) {
+	    if (!$media_redone{$medium->{name}} && !$medium->{noreconfigure}) {
 		my $reconfig_urpmi = reduce_pathname("$dir/reconfig.urpmi");
 		if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
 		    $media_redone{$medium->{name}} = 1;
@@ -1169,13 +1169,13 @@ this could happen if you mounted manually the directory when creating the medium
 		    if ($options{force} < 2 && -e $with_hdlist_dir) {
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
-			$options{callback} && $options{callback}('copy', $medium->{name});
+			$options{callback} and $options{callback}('copy', $medium->{name});
 			if (urpm::util::copy($with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
-			    $options{callback} && $options{callback}('done', $medium->{name});
+			    $options{callback} and $options{callback}('done', $medium->{name});
 			    $urpm->{log}(N("...copying done"));
 			    chown 0, 0, "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			} else {
-			    $options{callback} && $options{callback}('failed', $medium->{name});
+			    $options{callback} and $options{callback}('failed', $medium->{name});
 			    #- force error, reported afterwards
 			    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			}
@@ -1312,7 +1312,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 	} else {
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
-	    if (!$media_redone{$medium->{name}} and !$medium->{noreconfigure}) {
+	    if (!$media_redone{$medium->{name}} && !$medium->{noreconfigure}) {
 		my $reconfig_urpmi_url = "$medium->{url}/reconfig.urpmi";
 		unlink(my $reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi");
 		eval {
@@ -1441,7 +1441,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- try to probe for possible with_hdlist parameter, unless
 	    #- it is already defined (and valid).
 	    $urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
-	    $options{callback} && $options{callback}('retrieve', $medium->{name});
+	    $options{callback} and $options{callback}('retrieve', $medium->{name});
 	    if ($options{probe_with}) {
 		my @probe_list = (
 		    $medium->{with_hdlist}
@@ -1524,7 +1524,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 
 	    if (-e "$urpm->{cachedir}/partial/$basename" && -s _ > 32) {
-		$options{callback} && $options{callback}('done', $medium->{name});
+		$options{callback} and $options{callback}('done', $medium->{name});
 		$urpm->{log}(N("...retrieving done"));
 
 		unless ($options{force}) {
@@ -1613,7 +1613,7 @@ this could happen if you mounted manually the directory when creating the medium
 		}
 	    } else {
 		$error = 1;
-		$options{callback} && $options{callback}('failed', $medium->{name});
+		$options{callback} and $options{callback}('failed', $medium->{name});
 		$urpm->{error}(N("retrieval of source hdlist (or synthesis) failed"));
 	    }
 	}
@@ -1639,7 +1639,7 @@ this could happen if you mounted manually the directory when creating the medium
 		#- read first pass hdlist or synthesis, try to open as synthesis, if file
 		#- is larger than 1MB, this is probably an hdlist else a synthesis.
 		#- anyway, if one tries fails, try another mode.
-		$options{callback} && $options{callback}('parse', $medium->{name});
+		$options{callback} and $options{callback}('parse', $medium->{name});
 		my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 		if (!$medium->{synthesis}
 		    || -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 262144)
@@ -1803,7 +1803,7 @@ this could happen if you mounted manually the directory when creating the medium
 	#- take care of modified medium only, or all if all have to be recomputed.
 	$medium->{ignore} and next;
 
-	$options{callback} && $options{callback}('parse', $medium->{name});
+	$options{callback} and $options{callback}('parse', $medium->{name});
 	#- a modified medium is an invalid medium, we have to read back the previous hdlist
 	#- or synthesis which has not been modified by first pass above.
 	if ($medium->{headers} && !$medium->{modified}) {
@@ -2037,13 +2037,13 @@ sub search_packages {
 		    $_
 		    && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat)
 		    && ($options{use_provides} || $_->name eq $v)
-		    && defined $_->id
+		    && defined($_->id)
 		    && (!defined $urpm->{searchmedia} || (
 			    $urpm->{searchmedia}{start} <= $_->id
 		    	    && $urpm->{searchmedia}{end} >= $_->id))
-		    ? $_ : @{[]}
+		    ? $_ : @{[]};
 		} map {
-		    $urpm->{depslist}[$_]
+		    $urpm->{depslist}[$_];
 		} keys %{$urpm->{provides}{$v} || {}})
 	    {
 		#- we assume that if there is at least one package providing
@@ -2865,7 +2865,7 @@ sub install {
 	    my $fullname = $pkg->fullname;
 	    my $trtype = (grep { /$fullname/ } values %$install) ? 'install' : '(upgrade|update)';
 	    push @readmes, map { [ $_, $fullname ] } grep {
-		/\bREADME(\.$trtype)?\.urpmi$/
+		/\bREADME(\.$trtype)?\.urpmi$/;
 	    } $pkg->files;
 	    close $fh;
 	};
@@ -3071,7 +3071,7 @@ sub translate_why_unselected {
 sub removed_packages {
     my (undef, $state) = @_;
     grep {
-	$state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted}
+	$state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted};
     } keys %{$state->{rejected} || {}};
 }
 
