@@ -4,9 +4,10 @@ s|^(__?\()| $1|;		# add a blank at the beginning (?!)
 
 s|_\(\[(.*),\s*(.*),\s*(.*)\]|ngettext($2,$3,$1)|; # special plural form handling
 
-s,\Qs/#.*//,,;			# ugly special case
+s,\Ws/#.*//,,;			# ugly special case
 
-s,(^|[^\$])#([^+].*),"$1/*" . simpl($2) . "*/",e; 
+s,\$#\w+,,;			# $#xxx are removed
+s,#([^+].*),"$1/*" . simpl($2) . "*/",e; 
                                 # rewrite comments to C format except for:
                                 # - ``#+ xxx'' comments which are kept
                                 # - ``$#xxx'' which are not comments
