@@ -1,13 +1,14 @@
 # German version of urpmi
-# Copyright (C) 1999-2001 MandrakeSoft.
+# Copyright (C) 1999-2002 MandrakeSoft.
 # Stefan Siegel <siegel@linux-mandrake.com>, 1999,2000,2001,2002.
 # Peer Dunker <peer46@gmx.net>, 2001
+# Götz Waschk <waschk@linux-mandrake.com>, 2002
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: urpmi 3.3\n"
+"Project-Id-Version: urpmi 3.2\n"
 "POT-Creation-Date: 2002-02-18 20:20+0100\n"
-"PO-Revision-Date: 2002-01-30 18:54+0100\n"
+"PO-Revision-Date: 2002-02-10 18:54+0100\n"
 "Last-Translator: Stefan Siegel <siegel@linux-mandrake.com>\n"
 "Language-Team: German <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -181,7 +182,7 @@ msgstr "Untersuchung der gesamten urpmi-Datenbank"
 
 #: po/placeholder.h:31 po/placeholder.h:331 po/placeholder.h:449
 msgid "  -y             - impose fuzzy search.\n"
-msgstr "  -y              - Unscharfe Suche vornehmen.\n"
+msgstr "  -y             - unscharfe Suche erzwingen.\n"
 
 #: po/placeholder.h:32 po/placeholder.h:223
 #, c-format
@@ -208,7 +209,8 @@ msgstr "Es wurde nichts in die Dateiliste von „%s“ geschrieben."
 msgid ""
 "  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
-"  --sources       - Ausgabe aller Quelpakete vor dem Herunterladen (nur für root).\n"
+"  --sources      - Gib alle Quellpakete vor dem Runterladen an (nur root).\n"
+".\n"
 
 #: po/placeholder.h:38 po/placeholder.h:228
 #, c-format
@@ -219,6 +221,8 @@ msgstr "Holen der Beschreibungsdatei für „%s“ ..."
 msgid ""
 "  --auto-select  - automatically select packages for upgrading the system.\n"
 msgstr ""
+"  --auto-select  - automatisch Pakete zur Aktualisierung des Systems "
+"auswählen.\n"
 
 #: po/placeholder.h:40 po/placeholder.h:230 urpm.pm:1846
 #, c-format
@@ -245,7 +249,7 @@ msgstr ""
 
 #: po/placeholder.h:45 po/placeholder.h:323 urpme:52
 msgid "unknown package(s) "
-msgstr ""
+msgstr "unbekannte(s) Paket(e)"
 
 #: po/placeholder.h:46 po/placeholder.h:239 urpm.pm:288
 #, c-format
@@ -265,7 +269,7 @@ msgstr "%d Informationen im Cache gefunden."
 
 #: po/placeholder.h:50 po/placeholder.h:361 po/placeholder.h:458
 msgid "  --src          - next package is a source package (same as -s).\n"
-msgstr ""
+msgstr "  --src          - es folgt ein Quellpaket (identisch zu „-s“).\n"
 
 #: po/placeholder.h:51 po/placeholder.h:404 urpmi.addmedia:76
 #: urpmi.addmedia:93
@@ -274,14 +278,13 @@ msgid "unable to update medium \"%s\"\n"
 msgstr "Ich kann das Medium „%s“ nicht aktualisieren.\n"
 
 #: po/placeholder.h:52 po/placeholder.h:363
-#, fuzzy
 msgid "  --noclean      - keep rpm not used in cache.\n"
-msgstr "  --all           - Alle Parameter ausgeben."
+msgstr "  --noclean      - belasse unverwendete RPMs im Cache.\n"
 
 #: po/placeholder.h:53 po/placeholder.h:410 po/placeholder.h:433
 #: po/placeholder.h:452
 msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c              - Löschen des Header-Verzeichnisses.\n"
+msgstr "  -c             - Löschen des Header-Verzeichnisses.\n"
 
 #: po/placeholder.h:54 po/placeholder.h:249
 #, c-format
@@ -296,6 +299,8 @@ msgstr "Ich kann die Dateiliste für „%s“ nicht schreiben."
 #: po/placeholder.h:56 po/placeholder.h:462
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
+"  Namen oder rpm-Dateien, die auf der Kommandozeile angegeben wurden werden "
+"abgefragt.\n"
 
 #: po/placeholder.h:57 po/placeholder.h:252 urpm.pm:1365
 #, c-format
@@ -322,13 +327,14 @@ msgid "urpmi database locked"
 msgstr "Die urpmi-Datenbank wird von einem anderen Prozess blockiert!"
 
 #: po/placeholder.h:62 po/placeholder.h:325 urpme:63
-#, fuzzy
 msgid " (y/N) "
-msgstr " (J/n) "
+msgstr " (j/N) "
 
 #: po/placeholder.h:63 po/placeholder.h:379
 msgid "  -a             - select all matches on command line.\n"
 msgstr ""
+"  -a             - Wähle alle Treffer in der Kommandozeile.\n"
+"\n"
 
 #: po/placeholder.h:65 po/placeholder.h:478 urpmq:158
 msgid ""
@@ -346,11 +352,11 @@ msgstr "Einhängen von „%s“"
 #: po/placeholder.h:67 po/placeholder.h:260 urpm.pm:145
 #, c-format
 msgid "wget failed: exited with %d or signal %d\n"
-msgstr "wget-Fehler: Rückgabewert ist ‚%d‘ oder ‚%d‘\n"
+msgstr "wget-Fehler: Beendet mit Rückgabewert '%d' oder Signal '%d'\n"
 
 #: po/placeholder.h:68 po/placeholder.h:415 po/placeholder.h:453
 msgid "  -f             - force generation of hdlist files.\n"
-msgstr "  -f              - Forciere das Erstellen einer HD-Liste.\n"
+msgstr "  -f             - Erzwinge das Erstellen einer HD-Liste.\n"
 
 #: po/placeholder.h:69 po/placeholder.h:424 urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
@@ -364,9 +370,8 @@ msgid "malformed input: [%s]"
 msgstr "Inkorrekte Eingabe: [%s]"
 
 #: po/placeholder.h:71 po/placeholder.h:385 po/placeholder.h:490
-#, fuzzy
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr "  --all           - Alle Parameter ausgeben."
+msgstr "  -y             - unscharfe Suche erzwingen (identisch zu „--fuzzy“).\n"
 
 #: po/placeholder.h:72 po/placeholder.h:264
 msgid "...copying failed"
@@ -374,17 +379,19 @@ msgstr "... das Kopieren schlug fehl!"
 
 #: po/placeholder.h:73 po/placeholder.h:386 urpmi:325
 msgid "Press Enter when it's done..."
-msgstr "Bestätigen Sie dies durch drücken der Return Taste ..."
+msgstr "Bestätigen Sie dies durch Drücken der Return-Taste ..."
 
 #: po/placeholder.h:74 po/placeholder.h:388 urpmi:244
-#, fuzzy, c-format
+#, c-format
 msgid "One of the following packages is needed to install %s:"
-msgstr "Eines der folgenden Pakete wird benötigt:"
+msgstr "Eines der folgenden Pakete wird zur Installation von %s benötigt:"
 
 #: po/placeholder.h:75 po/placeholder.h:491
 msgid ""
 "  -u             - remove package if a better version is already installed.\n"
 msgstr ""
+"  -u             - Entferne Paket wenn eine bessere Version schon "
+"installiert ist.\n"
 
 #: po/placeholder.h:76 po/placeholder.h:265 urpm.pm:260
 #, c-format
@@ -395,17 +402,15 @@ msgstr ""
 
 #: po/placeholder.h:77 po/placeholder.h:459
 msgid "  -h             - print this help message.\n"
-msgstr "  -h              - Ausgabe dieser Hilfe.\n"
+msgstr "  -h             - Ausgabe dieser Hilfe.\n"
 
 #: po/placeholder.h:78 po/placeholder.h:434
-#, fuzzy
 msgid "  -g             - print groups too with name.\n"
-msgstr "  --group         - Ausgabe des Attributs „Gruppe“."
+msgstr "  -g             - Ausgabe der Gruppe mit dem Namen.\n"
 
 #: po/placeholder.h:76 po/placeholder.h:428
-#, fuzzy
 msgid "  -a             - select all media.\n"
-msgstr "  --all           - Alle Parameter ausgeben."
+msgstr "  -a             - Alle Medien auswählen.\n"
 
 #: po/placeholder.h:80 po/placeholder.h:272
 #, c-format
@@ -413,23 +418,25 @@ msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "Fehlerhafte HD-Liste in Datei „%s“"
 
 #: po/placeholder.h:81 po/placeholder.h:417
-#, fuzzy
 msgid "  -h             - try to find and use synthesis or hdlist file.\n"
-msgstr "  --group         - Ausgabe des Attributs „Gruppe“."
+msgstr ""
+"  -h             - Suche eine synthesis- oder hdlist-Datei und benutze sie.\n"
 
 #: po/placeholder.h:82 po/placeholder.h:464
-#, fuzzy
 msgid "  -r             - print version and release too with name.\n"
-msgstr ""
-"                   wird angenommen, wenn kein Parameter angegeben wird)"
+msgstr "  -r             - Ausgabe von Version und Release mit dem Namen.\n"
 
 #: po/placeholder.h:83 po/placeholder.h:343
 msgid "  --auto         - automatically select a good package in choices.\n"
 msgstr ""
+"  --auto         - automatisch ein gutes Paket bei mehren Möglichkeiten "
+"wählen.\n"
 
 #: po/placeholder.h:84 po/placeholder.h:465
 msgid "  -f             - print version, release and arch with name.\n"
 msgstr ""
+"  -f             - Ausgabe von Version, Release und Architektur mit dem "
+"Namen.\n"
 
 #: po/placeholder.h:85 po/placeholder.h:276 urpm.pm:1483
 #, c-format
@@ -457,6 +464,8 @@ msgstr ""
 msgid ""
 "  -c             - choose complete method for resolving requires closure.\n"
 msgstr ""
+"  -c             - Wähle vollständige Methode zum Berechnen des Abschlusses "
+"der Abhängigkeiten.\n"
 
 #: po/placeholder.h:92 po/placeholder.h:403 urpmi.addmedia:92
 #, c-format
@@ -466,18 +475,17 @@ msgstr "Ich kann das Medium „%s“ nicht anlegen.\n"
 #: po/placeholder.h:93 po/placeholder.h:282
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
-msgstr ""
+msgstr "Kopiere HD-Liste (oder synthesis-Datei) von „%s“ ..."
 
 #: po/placeholder.h:94 po/placeholder.h:330 urpme:39
-#, fuzzy
 msgid "usage: urpme [-a] [--auto] <packages...>\n"
-msgstr "Verwendung: urpmi.removemedia [-a] <Name> ..."
+msgstr "Verwendung: urpme [-a] [--auto] <Name> ...\n"
 
 #: po/placeholder.h:95 po/placeholder.h:479 urpmq:94
-#, fuzzy, c-format
+#, c-format
 msgid "urpmq: unknown option \"-%s\", check usage with --help\n"
 msgstr ""
-"urpmq: unbekannte Option „-$1“. Weitere Infos erhalten Sie \n"
+"urpmq: unbekannte Option „-%s“. Weitere Infos erhalten Sie \n"
 "mittels „urpmq --help“\n"
 
 #: po/placeholder.h:96 po/placeholder.h:285
@@ -493,20 +501,20 @@ msgstr "Ich kann das RPM-Paket „%s“ von Medium „%s“ nicht lesen."
 #: po/placeholder.h:98 po/placeholder.h:287
 #, c-format
 msgid "added medium %s"
-msgstr ""
+msgstr "Medium %s hinzugefügt"
 
 #: po/placeholder.h:99 po/placeholder.h:352 po/placeholder.h:485
 msgid "  --media        - use only the media listed by comma.\n"
-msgstr ""
+msgstr "  --media        - Benutze nur durch Kommata getrennte Medienliste.\n"
 
 #: po/placeholder.h:100 po/placeholder.h:288
 msgid "retrieve of source hdlist (or synthesis) failed"
-msgstr ""
+msgstr "Holen der HD-Liste (oder synthesis-Datei) fehlgeschlagen"
 
 #: po/placeholder.h:101 po/placeholder.h:291 urpm.pm:1975
-#, fuzzy, c-format
+#, c-format
 msgid "...retrieving failed: %s"
-msgstr "Holen von [%s]"
+msgstr "...Holen fehlgeschlagen: %s"
 
 #: po/placeholder.h:102 po/placeholder.h:292 urpm.pm:1914
 #, c-format
@@ -521,7 +529,7 @@ msgstr "Ungültiger RPM Name [%s]."
 #: po/placeholder.h:104 po/placeholder.h:297 urpm.pm:1461
 #, c-format
 msgid "unknown data associated with %s"
-msgstr ""
+msgstr "unbekannte Daten assoziiert mit %s"
 
 #: po/placeholder.h:106 po/placeholder.h:365 urpmi:253
 #, c-format
@@ -531,17 +539,17 @@ msgstr "Ihre Wahl? (1-%d) "
 #: po/placeholder.h:107 po/placeholder.h:299 urpm.pm:303
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
-msgstr ""
+msgstr "Konnte nicht auf Listendatei von „%s“ zugreifen, Medium ignoriert"
 
 #: po/placeholder.h:108 po/placeholder.h:366 po/placeholder.h:416
 #: po/placeholder.h:454
 msgid "  --wget         - use wget to retrieve distant files.\n"
-msgstr ""
+msgstr "  --wget         - Benutze wget um entfernte Dateien zu laden.\n"
 
 #: po/placeholder.h:110 po/placeholder.h:300 urpm.pm:2203
 #, c-format
 msgid "avoid selecting %s as not enough files will be updated"
-msgstr ""
+msgstr "Vermeide Auswahl von %s da nicht genug Dateien aktualisert werden"
 
 #: po/placeholder.h:111 po/placeholder.h:301 urpm.pm:1261
 #, c-format
@@ -551,7 +559,7 @@ msgstr "Ich habe keinen Zugriff auf die RPM-Datei [%s]."
 #: po/placeholder.h:113 po/placeholder.h:306 urpm.pm:1247
 #, c-format
 msgid "relocated %s entries in depslist"
-msgstr ""
+msgstr "Verschiebe %s Einträge in Depslist-Datei"
 
 #: po/placeholder.h:114 po/placeholder.h:307 urpm.pm:1925
 #, c-format
@@ -565,12 +573,12 @@ msgstr "Eine schlechte Wahl, versuchen Sie es erneut\n"
 #: po/placeholder.h:116 po/placeholder.h:380 po/placeholder.h:409
 #: po/placeholder.h:447
 msgid "  --curl         - use curl to retrieve distant files.\n"
-msgstr ""
+msgstr "  --curl         - Benutze curl um entfernte Dateien zu laden.\n"
 
 #: po/placeholder.h:117 po/placeholder.h:308 urpm.pm:1834
 #, c-format
 msgid "unable to parse correctly [%s] on value \"%s\""
-msgstr ""
+msgstr "Konnte [%s] beim Wert „%s“ nicht korrekt analysieren"
 
 #: po/placeholder.h:118 po/placeholder.h:309
 #, c-format
@@ -578,23 +586,22 @@ msgid "trying to select inexistent medium \"%s\""
 msgstr "Versuch, das nicht existierende Medium „%s“ auszuwählen."
 
 #: po/placeholder.h:119 po/placeholder.h:311
-#, fuzzy, c-format
+#, c-format
 msgid "no rpm files found from [%s]"
-msgstr "Ungültiger RPM Name „%s“"
+msgstr "Keine rpm-Dateien in [%s] gefunden"
 
 #: po/placeholder.h:120 po/placeholder.h:318 urpm.pm:148
 msgid "curl is missing\n"
-msgstr ""
+msgstr "curl fehlt\n"
 
 #: po/placeholder.h:121 po/placeholder.h:321 urpm.pm:292
 #, c-format
 msgid "unable to determine medium of this hdlist file [%s]"
-msgstr ""
+msgstr "Konnte Medium dieser HD-Liste nicht bestimmen [%s]"
 
 #: po/placeholder.h:122 po/placeholder.h:334
-#, fuzzy
 msgid "  --help         - print this help message.\n"
-msgstr "  --all           - Alle Parameter ausgeben."
+msgstr "  --help         - Diese Hilfe-Botschaft anzeigen.\n"
 
 #: po/placeholder.h:124 po/placeholder.h:335 urpmi:402
 msgid "everything already installed"
@@ -628,7 +635,7 @@ msgstr "urpmq: Ich kann das RPM „%s“ nicht lesen.\n"
 
 #: po/placeholder.h:132 po/placeholder.h:329 urpme:87
 msgid "Nothing to remove.\n"
-msgstr ""
+msgstr "Nichts zu entfernen.\n"
 
 #: po/placeholder.h:134 po/placeholder.h:345 urpmi:356 urpmi:363 urpmi:379
 #: urpmi:392
@@ -640,9 +647,9 @@ msgid "unable to access first installation medium"
 msgstr "Es kann nicht auf das erste Installationsmedium zugegriffen werden."
 
 #: po/placeholder.h:136 po/placeholder.h:350 po/placeholder.h:480
-#, fuzzy
 msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  --group         - Ausgabe des Attributs „Gruppe“."
+msgstr ""
+"  -P             - nicht in „Stellt zur Verfügung“ nach dem Paket suchen.\n"
 
 #: po/placeholder.h:138 po/placeholder.h:231 urpm.pm:1186
 #, c-format
@@ -665,7 +672,7 @@ msgstr "<nichtdruckbare Zeichen>"
 
 #: po/placeholder.h:143 po/placeholder.h:358 po/placeholder.h:488
 msgid "  -v             - verbose mode.\n"
-msgstr ""
+msgstr "  -v             - ausführlicher Modus.\n"
 
 #: po/placeholder.h:144 po/placeholder.h:238
 #, c-format
@@ -683,13 +690,12 @@ msgid "trying to select multiple medium: %s"
 msgstr "Versuch, das Mehrfachmedium „%s“ auszuwählen."
 
 #: po/placeholder.h:147 po/placeholder.h:457
-#, fuzzy
 msgid "  -a             - select all non-removable media.\n"
-msgstr "  --all           - Alle Parameter ausgeben."
+msgstr "  -a             - Wählt alle nicht entfernbaren Medien..\n"
 
 #: po/placeholder.h:148 po/placeholder.h:360
 msgid "  names or rpm files given on command line are installed.\n"
-msgstr ""
+msgstr "Namen oder rpm-Dateien von der Kommandozeile werden installiert.\n"
 
 #: po/placeholder.h:149 po/placeholder.h:244 urpm.pm:2215
 #, c-format
@@ -701,6 +707,7 @@ msgstr ""
 #: po/placeholder.h:151 po/placeholder.h:364
 msgid "  --complete     - use parsehdlist server to complete selection.\n"
 msgstr ""
+"  --complete     - Benutze parsehdlist-Server für vollständige Auswahl.\n"
 
 #: po/placeholder.h:152 po/placeholder.h:251
 #, c-format
@@ -718,12 +725,12 @@ msgid ""
 "  --distrib      - automatically create all media from an installation "
 "medium.\n"
 msgstr ""
+"  --distrib      - automatisch alle Medien von einem Installations-Medium "
+"erzeugen.\n"
 
 #: po/placeholder.h:157 po/placeholder.h:378 po/placeholder.h:477
-#, fuzzy
 msgid "  -s             - next package is a source package (same as --src).\n"
-msgstr ""
-"                   wird angenommen, wenn kein Parameter angegeben wird)"
+msgstr "  -s             - es folgt ein Quellpaket (identisch zu „--src“).\n"
 
 #: po/placeholder.h:159 po/placeholder.h:258 urpm.pm:275
 #, c-format
@@ -750,24 +757,22 @@ msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "Es existieren mehrere Pakete mit dem selben RPM-Dateinamen „%s“"
 
 #: po/placeholder.h:166 po/placeholder.h:322 urpme:93
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be removed (%d "
 "MB)"
 msgstr ""
-"Um die Abhängigkeiten zu erfüllen, werden die folgenden Pakete installiert (%"
-"d MB)"
+"Um die Abhängigkeiten zu erfüllen, werden die folgenden Pakete entfernt (%d "
+"MB)"
 
 #: po/placeholder.h:167 po/placeholder.h:266
 msgid "retrieving hdlists file..."
 msgstr "Holen der HD-Liste ..."
 
 #: po/placeholder.h:168 po/placeholder.h:336 urpmi:124
-#, fuzzy, c-format
+#, c-format
 msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
-msgstr ""
-"urpmq: unbekannte Option „-$1“. Weitere Infos erhalten Sie \n"
-"mittels „urpmq --help“\n"
+msgstr "urpmi: unbekannte Option „-%s“. Bitte Hilfe mit --help nachschlagen\n"
 
 #: po/placeholder.h:169 po/placeholder.h:267 urpm.pm:301
 #, c-format
@@ -803,7 +808,7 @@ msgstr "Die Dateiliste für „%s“ ist inkonsistent, das Medium wird ignoriert
 
 #: po/placeholder.h:175 po/placeholder.h:338 po/placeholder.h:463
 msgid "  --update       - use only update media.\n"
-msgstr ""
+msgstr "  --update       - Verwende nur Aktualisierungs-Medien.\n"
 
 #: po/placeholder.h:176 po/placeholder.h:275
 #, c-format
@@ -816,24 +821,21 @@ msgid "unable to analyse synthesis data of %s"
 msgstr "Ich kann die Struktur der Synthese-Liste von „%s“ nicht analysieren."
 
 #: po/placeholder.h:178 po/placeholder.h:472
-#, fuzzy
 msgid "  -d             - extend query to package dependencies.\n"
-msgstr ""
-"                   wird angenommen, wenn kein Parameter angegeben wird)"
+msgstr "  -d             - Erweitere Anfrage auf Paket-Abhängigkeiten.\n"
 
 #: po/placeholder.h:180 po/placeholder.h:280
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-msgstr ""
+msgstr "Hole HD-Liste (oder synthesis-Datei) von „%s“..."
 
 #: po/placeholder.h:181 po/placeholder.h:281
 msgid "...copying done"
 msgstr "... das Kopieren ist beendet!"
 
 #: po/placeholder.h:182 po/placeholder.h:348
-#, fuzzy
 msgid "  --X            - use X interface.\n"
-msgstr "  --all           - Alle Parameter ausgeben."
+msgstr "  --X            - benutze X-Oberfläche.\n"
 
 #: po/placeholder.h:183 po/placeholder.h:283
 msgid "copying hdlists file..."
@@ -858,9 +860,8 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Soll ich eine Installation ohne Abhängigkeitstest versuchen? (j/N) "
 
 #: po/placeholder.h:187 po/placeholder.h:353 po/placeholder.h:486
-#, fuzzy
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
-msgstr "  --all           - Alle Parameter ausgeben."
+msgstr "  --fuzzy        - unscharfe Suche erzwingen (identisch zu „-y“).\n"
 
 #: po/placeholder.h:188 po/placeholder.h:289 urpm.pm:1269
 msgid "error registering local packages"
@@ -874,11 +875,13 @@ msgstr "Verwende Wechselmedium als „%s“"
 #: po/placeholder.h:190 po/placeholder.h:359 po/placeholder.h:487
 msgid "  -p             - allow search in provides to find package.\n"
 msgstr ""
+"  -p             - Erlaube Suche in „Stellt zur Verfügung“ nach einem "
+"Paket.\n"
 
 #: po/placeholder.h:192 po/placeholder.h:293
-#, fuzzy, c-format
+#, c-format
 msgid "copying description file of \"%s\"..."
-msgstr "Es wurde nichts in die Dateiliste von „%s“ geschrieben."
+msgstr "Kopiere Beschreibungs-Datei von „%s“..."
 
 #: po/placeholder.h:193 po/placeholder.h:294
 #, c-format
@@ -894,26 +897,27 @@ msgstr "Das Medium „%s“ wurde nicht ausgewählt."
 #: po/placeholder.h:195 po/placeholder.h:298 urpm.pm:317
 #, c-format
 msgid "trying to bypass existing medium \"%s\", avoiding"
-msgstr ""
+msgstr "Versuche existierendes Medium „%s“ zu umgehen, vermeidend"
 
 #: po/placeholder.h:196 po/placeholder.h:362
-#, fuzzy
 msgid "  -q             - quiet mode.\n"
-msgstr "  --all           - Alle Parameter ausgeben."
+msgstr "  -q             - stiller Modus.\n"
 
 #: po/placeholder.h:199 po/placeholder.h:375 po/placeholder.h:475
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
 msgstr ""
+"  --force        - Erzwinge Aufruf, sogar wenn einige Pakete nicht "
+"existieren.\n"
 
 #: po/placeholder.h:200 po/placeholder.h:326 urpme:62
 #, c-format
 msgid "Using \"%s\" as a substring, I found"
-msgstr ""
+msgstr "Unter Verwendung von „%s“ als Teilzeichenkette fand ich"
 
 #: po/placeholder.h:202 po/placeholder.h:331 urpme:30
 msgid "Remove them all?"
-msgstr ""
+msgstr "Entferne sie alle?"
 
 #: po/placeholder.h:203 po/placeholder.h:381 urpmi:343
 #, c-format
@@ -926,9 +930,9 @@ msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Bitte legen Sie das Medium mit Namen „%s“ in Gerät „%s“."
 
 #: po/placeholder.h:205 po/placeholder.h:312
-#, fuzzy, c-format
+#, c-format
 msgid "examining hdlist file [%s]"
-msgstr "Lesen der HD-Liste [%s]"
+msgstr "Prüfen der HD-Liste [%s]"
 
 #: po/placeholder.h:206 po/placeholder.h:310 urpm.pm:1368
 #, c-format
@@ -937,16 +941,15 @@ msgstr "Die folgenden Pakete enthalten „%s“: %s"
 
 #: po/placeholder.h:207 po/placeholder.h:313 urpm.pm:1248
 msgid "no entries relocated in depslist"
-msgstr ""
+msgstr "keine Einträge in depslist-Datei verschoben"
 
 #: po/placeholder.h:209 po/placeholder.h:422
 msgid "  --update       - create an update medium.\n"
-msgstr "  --update        - erstellen eines Aktualisierungsmediums.\n"
+msgstr "  --update       - Erstellen eines Aktualisierungsmediums.\n"
 
 #: po/placeholder.h:210 po/placeholder.h:314 urpm.pm:1973
-#, fuzzy
 msgid "...retrieving done"
-msgstr "Holen von [%s]"
+msgstr "...Holen fertig"
 
 #: po/placeholder.h:211 po/placeholder.h:384 po/placeholder.h:489 urpmi:313
 #: urpmq:172
@@ -954,41 +957,39 @@ msgid "unable to get source packages, aborting"
 msgstr "Ich kann die Quellpakete nicht finden, Abbruch."
 
 #: po/placeholder.h:212 po/placeholder.h:455
-#, fuzzy
 msgid ""
 "  -d             - force complete computation of depslist.ordered file.\n"
-msgstr "  --group         - Ausgabe des Attributs „Gruppe“."
+msgstr ""
+"  -d             - Erzwinge komplette Berechnung der Datei depslist."
+"ordered.\n"
 
 #: po/placeholder.h:213 po/placeholder.h:316 urpm.pm:199
 #, c-format
 msgid "curl failed: exited with %d or signal %d\n"
-msgstr ""
+msgstr "curl-Fehler: Beendet mit Rückgabewert %d oder Signal %d\n"
 
 #: po/placeholder.h:214 po/placeholder.h:315 urpm.pm:2090
 #, c-format
 msgid "selecting %s using obsoletes"
-msgstr ""
+msgstr "Wähle %s unter Verwendung von „Macht überflüssig“"
 
 #: po/placeholder.h:215 po/placeholder.h:317 urpm.pm:2212
 #, c-format
 msgid "selecting %s by selection on files"
-msgstr ""
+msgstr "Wähle %s durch Dateiauswahl"
 
 #: po/placeholder.h:216 po/placeholder.h:319
-#, fuzzy, c-format
+#, c-format
 msgid "copying source list of \"%s\"..."
-msgstr "Es wurde nichts in die Dateiliste von „%s“ geschrieben."
+msgstr "Kopiere Quellen-Liste von „%s“..."
 
 #: po/placeholder.h:217 po/placeholder.h:320 urpm.pm:141
 msgid "wget is missing\n"
-msgstr ""
+msgstr "wget fehlt\n"
 
 #: po/placeholder.h:218 po/placeholder.h:387 urpmi:148
-#, fuzzy
 msgid "Only superuser is allowed to install packages"
-msgstr ""
-"Nur der Systemadministrator mit dem privilegierten \n"
-"Benutzerkennzeichen darf Pakete installieren."
+msgstr "Nur der Systemadministrator darf Pakete installieren."
 
 #: po/placeholder.h:245
 #, c-format
@@ -1002,31 +1003,35 @@ msgstr ""
 #: po/placeholder.h:273
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
-msgstr ""
+msgstr "HD-Liste (oder synthesis-Datei) als „%s“ gefunden ..."
 
 #: po/placeholder.h:302
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "removing %s to upgrade to %s ...\n"
 "  since it will not upgrade correctly!"
 msgstr ""
-"Entfernen von %s für die Aktualisierung ...\n"
-"auf %s da die Aktualisierung sont nicht korrekt funktioniert!"
+"Entfernen von %s für die Aktualisierung auf %s ...\n"
+"  da die Aktualisierung sonst nicht korrekt funktioniert!"
 
 #: po/placeholder.h:339 urpmi:348
 msgid ""
 "Installation failed, some files are missing.\n"
 "You may want to update your urpmi database"
 msgstr ""
+"Installation fehlgeschlagen, einige Dateien fehlen.\n"
+"Sie sollten Ihre urpmi-Datenbank aktualisieren"
 
 #: po/placeholder.h:354
 msgid ""
 "  --best-output  - choose best interface according to the environment:\n"
 "                   X or text mode.\n"
 msgstr ""
+"  --best-output  - Benutze beste Oberfläche abhängig von der Umgebung:\n"
+"                   X or Text-Modus.\n"
 
 #: po/placeholder.h:367
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
@@ -1034,20 +1039,21 @@ msgid ""
 "GPL.\n"
 "usage:\n"
 msgstr ""
+"urpmi Version %s\n"
+"Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
 "Dies ist freie Software und kann unter den Bedingungen der GNU GPL weiter "
-"Vertrieben werden."
+"Vertrieben werden.\n"
 
 #: po/placeholder.h:389 urpmi.addmedia:70
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "no need to give <relative path of hdlist> with --distrib"
 msgstr ""
 "%s\n"
-"<relativer Pfad zur HD-Liste> fehlt.\n"
+"nicht erforderlich, <relativer Pfad zur HD-Liste> anzugeben mit --distrib"
 
 #: po/placeholder.h:393
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
@@ -1059,14 +1065,15 @@ msgid ""
 "       removable://<path>\n"
 "and [options] are from\n"
 msgstr ""
-"Verwendung: urpmi.addmedia [--update] <Name> <URL>\n"
+"Verwendung: urpmi.addmedia [Optionen] <Name> <URL> [mit <relativem Pfad>]>\n"
 "Mit <URL> aus folgender Menge:\n"
 "       file://<Pfad>\n"
 "       ftp://<Login>:<Passwort>@<Rechner>/<Pfad> with <relativer Pfad zur HD-"
 "Liste>\n"
 "       ftp://<Rechner>/<Pfad> with <relativer Pfad zur HD-Liste>\n"
 "       http://<Rechner>/<Pfad> with <relativer Pfad zur HD-Liste>\n"
-"       removable_<Gerät>://<Pfad>\n"
+"       removable://<Pfad>\n"
+"und [Optionen] aus\n"
 
 #: po/placeholder.h:405 po/placeholder.h:425 po/placeholder.h:443
 #: urpmi.addmedia:57
@@ -1131,7 +1138,7 @@ msgstr ""
 "(eins aus %s)\n"
 
 #: po/placeholder.h:466
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000, 2001 MandrakeSoft.\n"
@@ -1139,19 +1146,24 @@ msgid ""
 "GPL.\n"
 "usage:\n"
 msgstr ""
+"urpmq Version %s\\n\n"
+"Copyright (C) 2000, 2001 MandrakeSoft.\n"
 "Dies ist freie Software und kann unter den Bedingungen der GNU GPL weiter "
-"Vertrieben werden."
+"Vertrieben werden.\n"
 
 #: po/placeholder.h:481
 msgid ""
 "  --headers      - extract headers for package listed from urpmi db to\n"
 "                   stdout (root only).\n"
 msgstr ""
+"  --headers      - Ausgabe von Header-Informationen über Pakete aus der "
+"urpmi-DB \n"
+"                   in die Standard-Ausgabe (nur root).\n"
 
 #: urpm.pm:2116 urpm.pm:2125
 #, c-format
 msgid "removing %s to upgrade to %s ..."
-msgstr ""
+msgstr "Entferne %s um auf %s zu Aktualisieren ..."
 
 #: urpm.pm:2117 urpm.pm:2126
 msgid ", $otherPackage, "
@@ -1175,9 +1187,9 @@ msgid "urpmi version %s"
 msgstr "urpmi Version %s"
 
 #: urpmi.addmedia:29
-#, fuzzy
 msgid "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]"
-msgstr "Verwendung: urpmi.addmedia [--update] <Name> <URL>"
+msgstr ""
+"Verwendung: urpmi.addmedia [options] <Name> <URL> [mit <relativem Pfad>]"
 
 #: urpmi.addmedia:38 urpmi.addmedia:39 urpmi.addmedia:40 urpmi.addmedia:41
 #: urpmi.addmedia:42 urpmi.addmedia:43 urpmi.addmedia:44 urpmi.removemedia:36
@@ -1208,174 +1220,165 @@ msgstr "Verwendung: urpmi.update [Optionen] <Name> ..."
 msgid "urpmq version %s"
 msgstr "urpmq Version %s"
 
-#~ msgid "Only superuser is allowed to install local packages"
-#~ msgstr ""
-#~ "Nur der Systemadministrator mit dem privilegierten \n"
-#~ "Benutzerkennzeichen darf Pakete installieren."
+msgid "Only superuser is allowed to install local packages"
+msgstr ""
+"Nur der Systemadministrator mit dem privilegierten \n"
+"Benutzerkennzeichen darf Pakete installieren."
 
-#~ msgid ""
-#~ "usage: urpmi.removemedia [-a] <name> ...\n"
-#~ "where <name> is a medium name to remove.\n"
-#~ "   -a    select all media.\n"
-#~ "\n"
-#~ "unknown options '%s'\n"
-#~ msgstr ""
-#~ "Verwendung: urpmi.removemedia [-a] <Name> ...\n"
-#~ "Wobei <Name> das zu entfernende Medium ist.\n"
-#~ "   -a     Alle Medien wählen.\n"
-#~ "\n"
-#~ "Unbekannte Option „%s“\n"
+msgid ""
+"usage: urpmi.removemedia [-a] <name> ...\n"
+"where <name> is a medium name to remove.\n"
+"   -a    select all media.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+"Verwendung: urpmi.removemedia [-a] <Name> ...\n"
+"Wobei <Name> das zu entfernende Medium ist.\n"
+"   -a     Alle Medien wählen.\n"
+"\n"
+"Unbekannte Option „%s“\n"
 
-#, fuzzy
-#~ msgid "retrieve of [%s] failed"
-#~ msgstr "Wget von [%s] schlug fehl."
+msgid "retrieve of [%s] failed"
+msgstr "Besorgen von [%s] schlug fehl."
 
-#, fuzzy
-#~ msgid "  --curl           - use curl to retrieve distant files.\n"
-#~ msgstr "  --group         - Ausgabe des Attributs „Gruppe“."
+msgid "  --curl           - use curl to retrieve distant files.\n"
+msgstr "  --curl           - Verwende „curl“, zum Besorgen der Dateien.\n"
 
-#, fuzzy
-#~ msgid "  --wget           - use wget to retrieve distant files.\n"
-#~ msgstr "  --group         - Ausgabe des Attributs „Gruppe“."
+msgid "  --wget           - use wget to retrieve distant files.\n"
+msgstr "  --wget           - Verwende „wget“, zum Besorgen der Dateien.\n"
 
-#~ msgid "urpmi is not installed"
-#~ msgstr "urpmi ist nicht installiert."
+msgid "urpmi is not installed"
+msgstr "urpmi ist nicht installiert."
 
-#~ msgid "read provides file [%s]"
-#~ msgstr "Lesen der Anbieter-Datei [%s]"
+msgid "read provides file [%s]"
+msgstr "Lesen der Anbieter-Datei [%s]"
 
-#~ msgid "unable to write compss file [%s]"
-#~ msgstr "Ich kann die Datei [%s] nicht anlegen."
+msgid "unable to write compss file [%s]"
+msgstr "Ich kann die Datei [%s] nicht anlegen."
 
-#~ msgid "unable to read provides file [%s]"
-#~ msgstr "Ich kann die Anbieter-Datei [%s] nicht lesen."
+msgid "unable to read provides file [%s]"
+msgstr "Ich kann die Anbieter-Datei [%s] nicht lesen."
 
-#~ msgid "unable to read compss file [%s]"
-#~ msgstr "Ich kann die Compss-Datei [%s] nicht lesen"
+msgid "unable to read compss file [%s]"
+msgstr "Ich kann die Compss-Datei [%s] nicht lesen"
 
-#~ msgid "computing dependencies"
-#~ msgstr "Berechnen der Abhängigkeiten"
+msgid "computing dependencies"
+msgstr "Berechnen der Abhängigkeiten"
 
-#~ msgid "write provides file [%s]"
-#~ msgstr "Schreiben der Anbieter-Datei [%s]."
+msgid "write provides file [%s]"
+msgstr "Schreiben der Anbieter-Datei [%s]."
 
-#~ msgid "write compss file [%s]"
-#~ msgstr "Schreiben der Compss-Datei [%s]"
+msgid "write compss file [%s]"
+msgstr "Schreiben der Compss-Datei [%s]"
 
-#~ msgid "read depslist file [%s]"
-#~ msgstr "Lesen der Depslist-Datei [%s]"
+msgid "read depslist file [%s]"
+msgstr "Lesen der Depslist-Datei [%s]"
 
-#~ msgid "unable to write provides file [%s]"
-#~ msgstr "Ich kann die Anbieter-Datei [%s] nicht schreiben."
+msgid "unable to write provides file [%s]"
+msgstr "Ich kann die Anbieter-Datei [%s] nicht schreiben."
 
-#~ msgid "unable to read depslist file [%s]"
-#~ msgstr "Ich kann die Deplist-Datei [%s] nicht lesen."
+msgid "unable to read depslist file [%s]"
+msgstr "Ich kann die Deplist-Datei [%s] nicht lesen."
 
-#~ msgid "read compss file [%s]"
-#~ msgstr "Lesen der Compss-DAtei [%s]"
+msgid "read compss file [%s]"
+msgstr "Lesen der Compss-DAtei [%s]"
 
-#~ msgid "write depslist file [%s]"
-#~ msgstr "Schreiben der Abhängigheitsliste [%s]."
+msgid "write depslist file [%s]"
+msgstr "Schreiben der Abhängigheitsliste [%s]."
 
-#~ msgid "unable to write depslist file [%s]"
-#~ msgstr "Ich kann die Deplist-Datei [%s] nicht schreiben."
+msgid "unable to write depslist file [%s]"
+msgstr "Ich kann die Deplist-Datei [%s] nicht schreiben."
 
-#, fuzzy
-#~ msgid "wget failed\n"
-#~ msgstr "Wget von [%s] schlug fehl."
+msgid "wget failed\n"
+msgstr "Wget schlug fehl.\n"
 
-#~ msgid ""
-#~ "%s\n"
-#~ "device `%s' do not exist\n"
-#~ msgstr ""
-#~ "%s\n"
-#~ "Das Gerät „%s“ existiert nicht.\n"
+msgid ""
+"%s\n"
+"device `%s' do not exist\n"
+msgstr ""
+"%s\n"
+"Das Gerät „%s“ existiert nicht.\n"
 
-#, fuzzy
-#~ msgid ""
-#~ "usage: urpmi.update [-a] <name> ...\n"
-#~ "where <name> is a medium name to update.\n"
-#~ "   -a    select all non-removable media.\n"
-#~ "   -c    clean headers cache directory.\n"
-#~ "   -f    force generation of base files, use another -f for hdlist "
-#~ "files.\n"
-#~ "\n"
-#~ "unknown options '%s'\n"
-#~ msgstr ""
-#~ "Verwendung: urpmi.update [-a] <Name> ...\n"
-#~ "Wobei <Name> das zu aktualisierende Medium ist.\n"
-#~ "   -a    Alle nicht-entfernbaren Medien wählen.\n"
-#~ "   -c    Den Header-Cache leeren.\n"
-#~ "   -f    Erzwinge die Erzeugung von „hdlist“ oder „base“ Dateien.\n"
-#~ "\n"
-#~ "Unbekannte Option „%s“\n"
+msgid ""
+"usage: urpmi.update [-a] <name> ...\n"
+"where <name> is a medium name to update.\n"
+"   -a    select all non-removable media.\n"
+"   -c    clean headers cache directory.\n"
+"   -f    force generation of base files, use another -f for hdlist files.\n"
+"\n"
+"unknown options '%s'\n"
+msgstr ""
+"Verwendung: urpmi.update [-a] <Name> ...\n"
+"Wobei <Name> das zu aktualisierende Medium ist.\n"
+"   -a    Alle nicht-entfernbaren Medien wählen.\n"
+"   -c    Den Header-Cache leeren.\n"
+"   -f    Erzwinge die Erzeugung von „base“ Dateien oder ein weiters -f für „hdlist“ Dateien.\n"
+"\n"
+"Unbekannte Option „%s“\n"
 
-#~ msgid "wget of [%s] failed (maybe wget is missing?)"
-#~ msgstr "Wget von [%s] schlug fehl (ist wget installiert?)"
+msgid "wget of [%s] failed (maybe wget is missing?)"
+msgstr "Wget von [%s] schlug fehl (ist wget installiert?)"
 
-#~ msgid "unable to copy source of [%s] from [%s]"
-#~ msgstr "Ich kann die Quelle von [%s] von Medium [%s] nicht lesen."
+msgid "unable to copy source of [%s] from [%s]"
+msgstr "Ich kann die Quelle von [%s] von Medium [%s] nicht lesen."
 
-#~ msgid "removable medium not selected"
-#~ msgstr "Entfehrnbares Medium nich ausgewählt"
+msgid "removable medium not selected"
+msgstr "Entfehrnbares Medium nich ausgewählt"
 
-#, fuzzy
-#~ msgid ""
-#~ "urpmi version %s\n"
-#~ "Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "usage:\n"
-#~ "  --help           - print this help message.\n"
-#~ "  --update         - use only update media.\n"
-#~ "  --auto           - automatically select a good package in choices.\n"
-#~ "  --auto-select    - automatically select packages for upgrading the "
-#~ "system.\n"
-#~ "  --force          - force invocation even if some packages do not "
-#~ "exist.\n"
-#~ "  --X              - use X interface.\n"
-#~ "  --best-output    - choose best interface according to the environment:\n"
-#~ "                     X or text mode.\n"
-#~ "  -a               - select all matches on command line.\n"
-#~ "  -m               - choose minimum closure of requires (default).\n"
-#~ "  -M               - choose maximum closure of requires.\n"
-#~ "  -c               - choose complete method for resolving requires "
-#~ "closure.\n"
-#~ "  -p               - allow search in provides to find package.\n"
-#~ "  -q               - quiet mode.\n"
-#~ "  -v               - verbose mode.\n"
-#~ "  names or rpm files (only for root) given on command line are "
-#~ "installed.\n"
-#~ msgstr ""
-#~ "urpmi Version %s\n"
-#~ "Copyright © 1999-2001 MandrakeSoft.\n"
-#~ "Dieses Programm wird in der Hoffnung verteilt, dass es nützlich ist.\n"
-#~ "Es gibt KEINERLEI Garantie, nicht einmal für die TAUGLICHKEIT oder die,\n"
-#~ "VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK. In den Quellen befindet sich "
-#~ "die\n"
-#~ "Lizenz- und Kopierbedingung; die Einzelheiten sind in der Datei COPYING\n"
-#~ "(GNU General Public License) beschrieben.\n"
-#~ "\n"
-#~ "Verwendung:\n"
-#~ "  --help           - Anzeigen dieser Hilfe und beenden.\n"
-#~ "  --auto           - Automatische Wahl eines guten Pakets.\n"
-#~ "  --auto-select    - Automatische Wahl der Pakete zur Aktualisierung des "
-#~ "Systems.\n"
-#~ "  --force          - Führe den Befehl aus, selbst wenn einige Pakete "
-#~ "nicht existieren.\n"
-#~ "  --X              - Verwende die grafische Oberfläche (X11).\n"
-#~ "  --best-output    - Verwende beste Oberfläche anhand der Umgebung:\n"
-#~ "                     X11 oder Text-Modus.\n"
-#~ "  -a               - Wähle alle Treffer in der Kommandozeile.\n"
-#~ "  -m               - Wähle minimale Auflösung von Abhängigkeiten "
-#~ "(standard).\n"
-#~ "  -M               - Wähle maximale Auflösung von Abhängigkeiten.\n"
-#~ "  -c               - Wähle komplette Methode zum Auflösen von "
-#~ "Abhängigkeiten.\n"
-#~ "  -q               - Vermeide Ausgaben (quiet).\n"
-#~ "  -v               - Erzeuge aufwendigere Ausgaben (verbose).\n"
-#~ "Namen oder RPM-Dateien (nur für das privileg. Kennzeichen) die auf der "
-#~ "Kommandozeile angegeben werden, werden installiert.\n"
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"usage:\n"
+"  --help           - print this help message.\n"
+"  --update         - use only update media.\n"
+"  --auto           - automatically select a good package in choices.\n"
+"  --auto-select    - automatically select packages for upgrading the "
+"system.\n"
+"  --force          - force invocation even if some packages do not exist.\n"
+"  --X              - use X interface.\n"
+"  --best-output    - choose best interface according to the environment:\n"
+"                     X or text mode.\n"
+"  -a               - select all matches on command line.\n"
+"  -m               - choose minimum closure of requires (default).\n"
+"  -M               - choose maximum closure of requires.\n"
+"  -c               - choose complete method for resolving requires closure.\n"
+"  -p               - allow search in provides to find package.\n"
+"  -q               - quiet mode.\n"
+"  -v               - verbose mode.\n"
+"  names or rpm files (only for root) given on command line are installed.\n"
+msgstr ""
+"urpmi Version %s\n"
+"Copyright © 1999, 2000, 2001, 2002 MandrakeSoft.\n"
+"Dieses Programm wird in der Hoffnung verteilt, dass es nützlich ist.\n"
+"Es gibt KEINERLEI Garantie, nicht einmal für die TAUGLICHKEIT oder die,\n"
+"VERWENDBARKEIT FÜR EINEN BESTIMMTEN ZWECK. In den Quellen befindet sich die\n"
+"Lizenz- und Kopierbedingung; die Einzelheiten sind in der Datei COPYING\n"
+"(GNU General Public License) beschrieben.\n"
+"\n"
+"Verwendung:\n"
+"  --help           - Anzeigen dieser Hilfe und beenden.\n"
+"  --update         - Verwende nur Aktualisierungsmedien.\n"
+"  --auto           - Automatische Wahl eines guten Pakets.\n"
+"  --auto-select    - Automatische Wahl der Pakete zur Aktualisierung des "
+"Systems.\n"
+"  --force          - Führe den Befehl aus, selbst wenn einige Pakete nicht "
+"existieren.\n"
+"  --X              - Verwende die grafische Oberfläche (X11).\n"
+"  --best-output    - Verwende beste Oberfläche anhand der Umgebung:\n"
+"                     X11 oder Text-Modus.\n"
+"  -a               - Wähle alle Treffer in der Kommandozeile.\n"
+"  -m               - Wähle minimale Auflösung von Abhängigkeiten "
+"(standard).\n"
+"  -M               - Wähle maximale Auflösung von Abhängigkeiten.\n"
+"  -c               - Wähle komplette Methode zum Auflösen von "
+"Abhängigkeiten.\n"
+"  -p               - Erlaube Suche in den „Stellt bereit“ Bereichen des Pakets.\n"
+"  -q               - Vermeide Ausgaben (quiet).\n"
+"  -v               - Erzeuge aufwendigere Ausgaben (verbose).\n"
+"Namen oder RPM-Dateien (nur für das privileg. Kennzeichen) die auf der "
+"Kommandozeile angegeben werden, werden installiert.\n"
 
-#~ msgid "), $_);"
-#~ msgstr "), $_);"
+msgid "), $_);"
+msgstr "), $_);"
