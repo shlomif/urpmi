@@ -2383,6 +2383,7 @@ sub search_packages {
 #- do the resolution of dependencies.
 sub resolve_dependencies {
     my ($urpm, $state, $requested, %options) = @_;
+    my $need_restart = 0;
 
     if ($options{install_src}) {
 	#- only src will be installed, so only update $state->{selected} according
@@ -2421,27 +2422,32 @@ sub resolve_dependencies {
 	#- auto select package for upgrading the distribution.
 	$options{auto_select} and $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
 
-	$urpm->resolve_requested($db, $state, $requested, %options);
-
 	if ($options{priority_upgrade} && !$options{rpmdb}) {
 	    my (%priority_upgrade, %priority_requested);
 	    @priority_upgrade{split ',', $options{priority_upgrade}} = ();
 
 	    #- try to find if a priority upgrade should be tried, this is erwan feature he waited for months :)
 	    #- this can be also considered as a special gift...
-	    foreach (keys %{$state->{selected}}) {
+	    foreach (keys %$requested) {
 		my $pkg = $urpm->{depslist}[$_] or next;
 		exists $priority_upgrade{$pkg->name} or next;
 		$priority_requested{$pkg->id} = undef;
 	    }
 
 	    if (%priority_requested) {
-		#- clean state as we found priority packages, no --auto-select should be done though here...
+		#- clean state as we found priority packages,
+		#- no --auto-select should be done though here...
 		%$state = ();
-		$urpm->resolve_requested($db, $state, \%priority_requested, %options);
+		%$requested = %priority_requested;
+		$need_restart = 1;
 	    }
 	}
+
+	$urpm->resolve_requested($db, $state, $requested, %options);
     }
+
+    #- allow caller to know if it should try to restart.
+    $need_restart;
 }
 
 sub create_transaction {
