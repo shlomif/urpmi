@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.7
+%define version	4.6.8
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -31,6 +31,7 @@ Summary:	Command-line software installation tools
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
 PreReq:		perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 1.04
+PreReq:		packdrake >= 5.0.2
 BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3
 BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -227,6 +228,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Dec 13 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.8-1mdk
+- Adding a media should not fail when there is no pubkey file available
+  (bug #12646)
+- Require packdrake
+- Can't drop rpmtools yet, urpmq uses rpm2header
+
 * Fri Dec 10 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.7-1mdk
 - Fix a problem in finding pubkeys for SRPM media.
 - Fix a problem in detecting download ends with curl [Bug 12634]
