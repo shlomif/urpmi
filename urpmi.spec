@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.4
-Release: 5mdk
+Release: 6mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Fri Jun  7 2002 François Pons <fpons@mandrakesoft.com> 3.4-6mdk
+- fixed skip.list to skip according provides (even not the best).
+- fixed package id 0 always selected (generally ldconfig or lsbdev).
+
 * Wed Jun  5 2002 François Pons <fpons@mandrakesoft.com> 3.4-5mdk
 - fixed fuzzy search on package (error in urpm.pm around line 1404-1409).
 

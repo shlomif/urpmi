@@ -1304,6 +1304,7 @@ sub search_packages {
     my (%exact, %exact_a, %exact_ra, %found, %foundi);
 
     foreach my $v (@$names) {
+	print "search $v\n";
 	#- it is a way of speedup, providing the name of a package directly help
 	#- to find the package.
 	#- this is necessary if providing a name list of package to upgrade.
@@ -1320,7 +1321,7 @@ sub search_packages {
 	if ($options{use_provides}) {
 	    unless ($options{fuzzy}) {
 		#- try to search through provides.
-		if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->arch eq 'src' : $_->arch ne 'src') &&
+		if (my @l = grep { defined $_ } map { $_ && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat) &&
 							$_->id || undef } map { $urpm->{depslist}[$_] }
 		    keys %{$urpm->{provides}{$v} || {}}) {
 		    #- we assume that if the there is at least one package providing the resource exactly,
@@ -1703,8 +1704,8 @@ sub deselect_unwanted_packages {
 	foreach (keys %{$urpm->{provides}{$_} || {}}) {
 	    my $pkg = $urpm->{depslist}[$_] or next;
 	    $pkg->arch eq 'src' and next; #- never ignore source package.
-	    $options{force} || (exists $packages->{$pkg->id} && defined $packages->{$pkg->id})
-	      and delete $packages->{$pkg->id};
+	    $options{force} || (exists $packages->{$_} && defined $packages->{$_})
+	      and delete $packages->{$_};
 	}
     }
     close F;

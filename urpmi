@@ -198,7 +198,7 @@ $urpm->relocate_depslist_provides();
 
 #- select individual files.
 my %packages;
-@packages{($start .. $end)} = ();
+defined $start && defined $end and @packages{($start .. $end)} = ();
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded,
