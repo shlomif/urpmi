@@ -37,8 +37,8 @@ $(PGOAL).pot: $(CFILES)
 	--keyword=_ --keyword=__ --keyword=N_ --keyword=N \
 	--keyword=gettext \
 	--language=C -o placeholder.pot $(CFILES)
-	perl_checker -q --generate-pot $(PGOAL)_tmp.pot $(PL_FILES)
-	msgcat --use-first placeholder.pot $(PGOAL)_tmp.pot > $@
+	perl_checker -q --generate-pot $(PGOAL)_tmp.pot $(PL_FILES) || rm -f $(PGOAL)_tmp.pot
+	[ -e $(PGOAL)_tmp.pot ] && msgcat --use-first placeholder.pot $(PGOAL)_tmp.pot > $@
 	rm -f placeholder.pot $(PGOAL)_tmp.pot
 
 install: all
