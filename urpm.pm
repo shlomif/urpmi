@@ -1838,9 +1838,6 @@ sub install_logger {
     my $pkg = defined $id && $urpm->{depslist}[$id];
     my $progress_size = 50;
 
-    open FF, ">>/tmp/rpm_install";
-    print FF join(':', ($pkg && $pkg->name), $type, $subtype, $amount, $total) . "\n";
-
     if ($subtype eq 'start') {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
@@ -1857,13 +1854,11 @@ sub install_logger {
     } elsif ($subtype eq 'progress') {
 	my $new_progress = $total > 0 ? int($progress_size * $amount / $total) : $progress_size;
 	if ($new_progress > $urpm->{logger_progress}) {
-	    print FF "logging " . ($new_progress - $urpm->{logger_progress}) . "#\n";
 	    print '#' x ($new_progress - $urpm->{logger_progress});
 	    $urpm->{logger_progress} = $new_progress;
 	    $urpm->{logger_progress} == $progress_size and print "\n";
 	}
     }
-    close FF;
 }
 
 #- install packages according to each hashes (install or upgrade).
