@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 28mdk
+Release: 29mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -114,6 +114,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Mon Apr  9 2001 François Pons <fpons@mandrakesoft.com> 1.5-29mdk
+- fixed some missing requires for -m mode.
+- fixed bad search with version and release.
 
 * Thu Apr 05 2001 François Pons <fpons@mandrakesoft.com> 1.5-28mdk
 - updated man pages.

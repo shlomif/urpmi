@@ -801,8 +801,7 @@ sub search_packages {
 	    my $info = $urpm->{params}{info}{$_};
 	    my $pack = $info->{name} .'-'. $info->{version} .'-'. $info->{release};
 
-	    $pack =~ /^$qv-[^-]+-[^-]+$/ and $exact{$v} = $info;
-	    $pack =~ /^$qv-[^-]+$/ and $exact{$v} = $info;
+	    $pack =~ /^$qv(?:-[^-]+)?$/ and $exact{$v} = $info, next;
 	    $pack =~ /$qv/ and push @{$found{$v}}, $info;
 	    $pack =~ /$qv/i and push @{$foundi{$v}}, $info; 
 	}
@@ -1048,7 +1047,7 @@ sub filter_minimal_packages_to_upgrade {
 	};
 
 	my ($db, @packages) = (rpmtools::db_open(''), keys %$packages);
-	my ($id, %provides, %installed);
+	my ($id, %installed);
 
 	#- at this level, compute global closure of what is requested, regardless of
 	#- choices for which all package in the choices are taken and their dependancies.
@@ -1075,7 +1074,10 @@ sub filter_minimal_packages_to_upgrade {
 	    #- search for package that will be upgraded, and check the difference
 	    #- of provides to see if something will be altered and need to be upgraded.
 	    #- this is bogus as it only take care of == operator if any.
-	    my %diffprovides;
+	    #- defining %provides here could slow the algorithm but it solves multi-pass
+	    #- where a provides is A and after A == version-release, when A is already
+	    #- installed.
+	    my (%diffprovides, %provides);
 	    rpmtools::db_traverse_tag($db,
 				      'name', [ $pkg->{name} ],
 				      [ qw(name version release sense provides) ], sub {
