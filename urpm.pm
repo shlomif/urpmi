@@ -1163,7 +1163,7 @@ this could happen if you mounted manually the directory when creating the medium
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 			$options{callback} && $options{callback}('copy', $medium->{name});
-			if (system("cp", "-p", "-R", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
+			if (system("cp", "-p", "-R", "-H", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
 			    $options{callback} && $options{callback}('failed', $medium->{name});
 			    #- force error, reported afterwards
 			    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
