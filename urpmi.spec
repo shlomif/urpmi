@@ -237,6 +237,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 %changelog
 - fixed bug of reference of ../ in hdlists file. (fpons)
+- fixed bug 6834. (fpons)
 
 * Tue Feb  3 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.5-2mdk
 - convert some gurpmi dialogs to UTF8 as they should (part of
