@@ -279,22 +279,23 @@ if ($bug) {
 }
 
 #- select individual files.
-my $state = { requested => {} };
-defined $start && defined $end and @{$state->{requested}}{($start .. $end)} = ();
+my $state = {};
+my %requested;
+defined $start && defined $end and @requested{($start .. $end)} = (1) x ($end-$start+1);
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded,
 #- all its dependency will be updated too.
 #- make sure basesystem exists before.
 if (@names) {
-    $urpm->search_packages($state->{requested}, [ @names ],
+    $urpm->search_packages(\%requested, [ @names ],
 			   all => $all,
 			   use_provides => $use_provides,
 			   fuzzy => $fuzzy)
 	or $force or exit 1;
 }
 if (@src_names) {
-    $urpm->search_packages($state->{requested}, [ @src_names ],
+    $urpm->search_packages(\%requested, [ @src_names ],
 			   all => $all,
 			   use_provides => $use_provides,
 			   fuzzy => $fuzzy,
@@ -350,17 +351,13 @@ sub ask_choice {
 
     require URPM::Resolve;
     #- auto select package for upgrading the distribution.
-    if ($auto_select) {
-	my (%to_remove, %keep_files);
+    $auto_select and $urpm->request_packages_to_upgrade($db, $state, \%requested, requested => undef);
 
-	$urpm->resolve_packages_to_upgrade($db, $state, requested => undef);
-    }
-
-    $urpm->resolve_requested($db, $state, callback_choices => \&ask_choice);
+    $urpm->resolve_requested($db, $state, \%requested, callback_choices => \&ask_choice);
 }
 
 if (%{$state->{ask_unselect} || {}}) {
-    my $list = join "\n", map { $urpm->{depslist}[$_]->fullname } keys %{$state->{ask_unselect}};
+    my $list = join "\n", map { scalar $urpm->{depslist}[$_]->fullname } keys %{$state->{ask_unselect}};
     $noexpr = _("Nn");
     $yesexpr = _("Yy");
     message_input(_("Some package requested cannot be installed:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
