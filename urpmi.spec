@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.4
-Release: 8mdk
+Release: 9mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,12 @@ fi
 
 
 %changelog
+* Mon Jun 10 2002 François Pons <fpons@mandrakesoft.com> 3.4-9mdk
+- fixed no output if root.
+- use message function as most as possible. (why it wasn't used ?)
+- fix message to output more if bug report.
+- list of package is LF separated instead of space separated.
+
 * Mon Jun 10 2002 François Pons <fpons@mandrakesoft.com> 3.4-8mdk
 - added --bug option to report bug report.
 - fixed --auto-select and skip.list.

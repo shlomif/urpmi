@@ -174,16 +174,18 @@ if ($bug) {
     #- allow log file.
     $log = "$bug/urpmi.log";
 }
+
 if ($uid > 0) {
     #- only src files are installable using urpmi.
     @names || @files and $urpm->{fatal}(1, _("Only superuser is allowed to install packages"));
 
     #- allow installation.
     @rpms_install = @src_files;
-
-    #- allow log.
-    $log = "/var/log/urpmi.log";
+} else {
+    #- allow log if not defined.
+    $log ||= "/var/log/urpmi.log";
 }
+
 if ($log) {
     #- log only at this point in case of query usage.
     log_it(scalar localtime, " urpmi called with @ARGV\n");
@@ -191,25 +193,25 @@ if ($log) {
     open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
     open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
     unless ($pid_out = open STDOUT, "|-") {
-	open F, ">>$log"; select F; $| = 1;
-	select SAVEOUT; $| = 1;
-	$/ = \1;
 	while (<STDIN>) {
+	    open F, ">>$log"; select F; $| = 1;
+	    select SAVEOUT; $| = 1;
+	    $/ = \1;
 	    print SAVEOUT $_;
 	    print F $_;
+	    close F;
 	}
-	close F;
 	exit 0;
     }
     unless ($pid_err = open STDERR, "|-") {
-	open F, ">>$log"; select F; $| = 1;
-	select SAVEERR; $| = 1;
-	$/ = \1;
 	while (<STDIN>) {
+	    open F, ">>$log"; select F; $| = 1;
+	    select SAVEERR; $| = 1;
+	    $/ = \1;
 	    print SAVEERR $_;
 	    print F $_;
+	    close F;
 	}
-	close F;
 	exit 0;
     }
     select STDERR; $| = 1;     # make unbuffered
@@ -220,6 +222,11 @@ if ($log) {
 $sync and $urpm->{sync} = $sync;
 
 #- remove verbose if not asked.
+unless ($bug) {
+    $urpm->{fatal} = sub { printf SAVEERR "%s\n", $_[1]; exit($_[0]) };
+    $urpm->{error} = sub { printf SAVEERR "%s\n", $_[0] };
+    $urpm->{log} = sub { printf SAVEERR "%s\n", $_[0] };
+}
 $verbose or $urpm->{log} = sub {};
 
 $urpm->configure(nocheck_access => $uid > 0,
@@ -270,14 +277,13 @@ my $ask_choice = sub {
 	    `gchooser "$msg" @l`;
 	    $n = $? >> 8 || die;
 	} else {
-	    print SAVEOUT "$msg\n";
-	    my $i = 0; foreach (@l) { print SAVEOUT " ", ++$i, "- $_\n"; }
+	    message("$msg");
+	    my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
 	    while (1) {
-		printf SAVEOUT _("What is your choice? (1-%d) ", $i);
-		$n = <STDIN>;
+		$n = message_input(_("What is your choice? (1-%d) ", $i));
 		defined $n or exit 1;
 		1 <= $n && $n <= $i and last;
-		print SAVEOUT _("Sorry, bad choice, try again\n");
+		message(_("Sorry, bad choice, try again\n"));
 	    }
 	}
     }
@@ -339,8 +345,8 @@ if (@root_only) {
 } elsif (!$auto && $ask_user) {
     my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
     my $msg2 = _("Is it OK?");
+    my $p = join "\n", @to_install;
     if ($X) {
-	my $p = join "\n", @to_install;
 	my $ok = _("Ok");
 	my $cancel = _("Cancel");
 	`gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
@@ -348,12 +354,7 @@ if (@root_only) {
     } else {
 	$noexpr = _("Nn");
 	$yesexpr = _("Yy");
-	if (!$log) {
-	    print STDOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
-	} else {
-	    print SAVEOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
-	}
-	<STDIN> =~ /[$noexpr]/ and exit 0;
+	message_input("$msg:\n$p\n$msg2" . _(" (Y/n) ")) =~ /[$noexpr]/ and exit 0;
     }
 }
 
@@ -380,12 +381,7 @@ my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 
 						      `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg"`;
 						      !$?;
 						  } else {
-						      if (!$log) {
-							  print STDOUT "$msg\n$msg2 ";
-						      } else {
-							  print SAVEOUT "$msg\n$msg2 ";
-						      }
-						      defined <STDIN>;
+						      defined message_input("$msg\n$msg2 ");
 						  }
 					      });
 
@@ -396,12 +392,8 @@ if ($uid == 0) {
 }
 
 if (@rpms_install || @rpms_upgrade) {
-    if (!$log) {
-	printf STDOUT _("installing %s\n", join(' ', @rpms_install, @rpms_upgrade));
-    } else {
-	printf SAVEOUT _("installing %s\n", join(' ', @rpms_install, @rpms_upgrade));
-    }
-    log_it(scalar localtime, " @_\n");
+    message(_("installing %s\n", join(' ', @rpms_install, @rpms_upgrade)));
+    log_it(scalar localtime, " ", join(' ', @rpms_install, @rpms_upgrade), "\n");
     #- check for local files.
     foreach (@rpms_install, @rpms_upgrade) {
 	m|^/| && ! -e $_ or next;
@@ -429,12 +421,8 @@ if (@rpms_install || @rpms_upgrade) {
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
-		if (!$log) {
-		    print STDOUT _("Try installation even more strongly (--force)? (y/N) ");
-		} else {
-		    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
-		}
-		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
+		message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+		  or exit 1;
 		$urpm->{log}("starting force installing packages without deps");
 		system("rpm", "-i$rpm_opt", "--nodeps", "--force", @rpms_install, ($root ? ("--root", $root) : ()));
 	    }
@@ -449,23 +437,15 @@ if (@rpms_install || @rpms_upgrade) {
 
 		$noexpr = _("Nn");
 		$yesexpr = _("Yy");
-		if (!$log) {
-		    print STDOUT _("Try installation without checking dependencies? (y/N) ");
-		} else {
-		    print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
-		}
-		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
+		message_input(_("Try installation without checking dependencies? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+		  or exit 1;
 		$urpm->{log}("starting installing packages without deps");
 		system("rpm", "-U$rpm_opt", "--nodeps", @rpms_upgrade, ($root ? ("--root", $root) : ()));
 
 		if ($?) {
 		    message(_("Installation failed"));
-		    if (!$log) {
-			print STDOUT _("Try installation even more strongly (--force)? (y/N) ");
-		    } else {
-			print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
-		    }
-		    $force or <STDIN> =~ /[$yesexpr]/ or exit 1;
+		    message_input(_("Try installation even more strongly (--force)? (y/N) "), $force && $yesexpr) =~ /[$yesexpr]/
+		      or exit 1;
 		    $urpm->{log}("starting force installing packages without deps");
 		    system("rpm", "-U$rpm_opt", "--nodeps", "--force", @rpms_upgrade, ($root ? ("--root", $root) : ()));
 		}
@@ -473,7 +453,7 @@ if (@rpms_install || @rpms_upgrade) {
 	}
     }
 } else {
-    message_auto(_("everything already installed"));
+    message(_("everything already installed"), $auto);
 }
 
 #- this help flushing correctly by closing this file before (piped on tee).
@@ -489,10 +469,6 @@ sub toMb {
     int $nb + 0.5;
 }
 
-sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : !$log ? print STDOUT "$_[0]\n" : print SAVEOUT "$_[0]\n"; }
-
-sub message_auto { $auto ? (!$log ? print STDOUT "$_[0]\n" : print SAVEOUT "$_[0]\n") : message($_[0]); }
-
 sub log_it {
     #- if invoked as a simple user, nothing should be logged.
     if ($log) {
@@ -500,6 +476,30 @@ sub log_it {
 	open LOG, ">>$log" or die "can't output to log file\n";
 	print LOG @_;
     }
+}
+
+#- message functions.
+sub message {
+    my ($msg, $noX) = @_;
+    if ($X && !$noX) {
+	`gmessage -default Ok -buttons Ok "$msg"`;
+	$bug and log_it($msg);
+    } else {
+	if ($bug) {
+	    print STDOUT "$msg\n";
+	} else {
+	    print SAVEOUT "$msg\n";
+	}
+    }
+}
+sub message_input {
+    my ($msg, $default_input) = @_;
+
+    message($msg, $default_value); #- if a default value is given, the user doesn't have to choose (and being asked).
+
+    my $input = $default_value || <STDIN>;
+    $bug and log_it($input);
+    return $input;
 }
 
 sub untaint {
