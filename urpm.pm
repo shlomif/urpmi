@@ -483,7 +483,7 @@ sub configure {
 		foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
 		    delete @$_{qw(start end)};
 		    if ($_->{virtual}) {
-			my $path = $_->{url} =~ m|^file:/*(/[^/].*[^/])/*$| && $1;
+			my $path = $_->{url} =~ m{^(?:file:/*)?(/[^/].*[^/])/*$} && $1;
 			if ($path) {
 			    if ($_->{synthesis}) {
 				$urpm->{log}(N("examining synthesis file [%s]", "$path/$_->{with_hdlist}"));
@@ -618,7 +618,7 @@ sub add_medium {
 
     #- creating the medium info.
     if ($options{virtual}) {
-	$url =~ m{^file:/} or $urpm->{fatal}(1, N("virtual medium needs to be local"));
+	$url =~ m{^(?:file:)?/} or $urpm->{fatal}(1, N("virtual medium needs to be local"));
 
 	$medium = { name      => $name,
 		    url       => $url,
@@ -640,7 +640,7 @@ sub add_medium {
     }
 
     #- local media have priority, other are added at the end.
-    if ($url =~ m!^file:/!) {
+    if ($url =~ m{^(?:file:)?/}) {
 	$medium->{priority} = 0.5;
     } else {
 	$medium->{priority} = 1 + @{$urpm->{media}};
@@ -882,7 +882,7 @@ sub reconfig_urpmi {
 		}
 	    }
 	    #- check that the new url exists before committing changes (local mirrors)
-	    if ($medium->{$k} =~ m#^file:/*(/[^/].*[^/])/*$# && !-e $1) {
+	    if ($medium->{$k} =~ m#^(?:file:/*)?(/[^/].*[^/])/*$# && !-e $1) {
 		$medium->{$k} = $orig{$k} for @reconfigurable;
 		$reconfigured = 0;
 		$urpm->{log}(N("...reconfiguration failed"));
@@ -951,7 +951,7 @@ sub update_media {
 	    #- to speed up the process, we only read the synthesis at the beginning.
 	    delete @$medium{qw(start end)};
 	    if ($medium->{virtual}) {
-		my ($path) = $medium->{url} =~ m|^file:/*(/[^/].*[^/])/*$|;
+		my ($path) = $medium->{url} =~ m{^(?:file:)?/*(/[^/].*[^/])/*$};
 		if ($path) {
 		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		    if ($medium->{synthesis}) {
@@ -1828,7 +1828,7 @@ this could happen if you mounted manually the directory when creating the medium
 	} elsif ($medium->{synthesis}) {
 	    if ($second_pass) {
 		if ($medium->{virtual}) {
-		    my ($path) = $medium->{url} =~ m|^file:/*(/[^/].*[^/])/*$|;
+		    my ($path) = $medium->{url} =~ m{^(?:file:/*)?(/[^/].*[^/])/*$};
 		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		    if ($path) {
 			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));

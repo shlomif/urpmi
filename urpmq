@@ -311,7 +311,7 @@ if ($urpm::args::options{list_aliases}) {
 		    require packdrake;
 		    my $packer = new packdrake(
 				$urpm->{media}[$_]{virtual} ?
-				("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^file:/*(/.*)!)[0] :
+				("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0] :
 				"$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
 		    $packer->extract_archive(undef, @headers);
 		} else {
@@ -339,7 +339,7 @@ if ($urpm::args::options{list_aliases}) {
 			require packdrake;
 			my $packer = new packdrake(
 				$urpm->{media}[$_]{virtual} ?
-				("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^file:/*(/.*)!)[0] :
+				("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0] :
 				"$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
 			$packer->extract_archive($< == 0  ? "$urpm->{cachedir}/headers" : $tmp_header_dir, @headers);
 		    } elsif (!%downloads) {

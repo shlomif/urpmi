@@ -37,7 +37,7 @@ sub usage {
 # Translator: only what is between <brakets> can be translated.
     my $usage = N("usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]
 where <url> is one of
-       file://<path> with <relative filename of hdlist>
+       [file:/]/<path> with <relative filename of hdlist>
        ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>
        ftp://<host>/<path> with <relative filename of hdlist>
        http://<host>/<path> with <relative filename of hdlist>
@@ -109,7 +109,7 @@ sub main {
 
     #- allow not to give name immediately.
     $options{distrib} or $url or ($url, $name) = ($name, '');
-    my ($type) = $url =~ m,^([^:]*)://, or $options{distrib} or usage;
+    my ($type) = $url =~ m,^(([^:]*):/)?/, or $options{distrib} or usage;
 
     if ($< != 0) {
 	$urpm->{fatal}(1, N("Only superuser is allowed to add media"));
@@ -227,7 +227,7 @@ sub main {
 	}
     }
 
-    #- try to umount removable device which may have been mounted.
+    #- try to umount removable devices which may have been mounted.
     $urpm->try_umounting_removables;
 }
 
