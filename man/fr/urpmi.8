@@ -1,5 +1,5 @@
 .\" Relecture Gérard Delafond, svp à refaire
-.TH urpmi 8 "08 Jan 2003" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi 8 "28 Jul 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NOM
 urpmi \- interface rpm pour simplifier les installations
@@ -162,6 +162,60 @@ Contient les noms de paquetages à ne pas mettre à jour automatiquement.
 .TP
 .FN /etc/urpmi/inst.list
 Contient les noms de paquetages à installer plutôt qu'à mettre à jour.
+.SH "CODE D'ERREURS"
+.IP 1
+La ligne de commande est inconsistante entre les options.
+.IP 2
+Erreur pour lire un paquetages donnée en ligne de commande directement.
+.IP 3
+Les paquetages ne sont pas récupérables.
+.IP 4
+Le medium n'est pas sélectioné.
+.IP 5
+Le medium existe déja (erreur de création de medium).
+.IP 6
+Impossible de sauver la configuration (problème de droits ?).
+.IP 7
+La base de données de urpmi est vérouillée.
+.IP 8
+Impossible de crééer le rapport de bug, vérifier que le fichier n'existe pas déja.
+.IP 9
+Impossible d'ouvrir la base de donnée rpm (problème de droits ?).
+.IP 10
+Certains fichiers sont manquants pour l'installation.
+.IP 11
+Certaines transactions on échoué mais pas toutes.
+.IP 12
+Toutes les transactions ont échoué.
+.IP 13
+Certains fichiers sont manquants et certaines transactions ont échoué.
+.IP 14
+Certains fichiers sont manquants et toutes les transactions ont échoué.
+.SH "RAPPORT DE BOGUES"
+Si vous trouvez un bogue dans \fBurpmi\fP alors il faut le rapporter en
+utilisant ce paramètre dans la ligne de commande utilisée :
+.I urpmi --bug bug_name_as_directory ...
+Cette option va permettre de crééer automatiquement un répertoire appelé
+\fIbug_name_as_directory\fP contenant tous les fichiers nécessaire pour
+reproduire le bogue si possible.
+.PP
+Vous pouvez aussi tester la rapport en utilisant ce paramètre :
+.I urpmi --env bug_name_as_directory ...
+pour vérifier que le bogue est toujours présent, actuellement seulement les bugs
+concernant la résolutions des dépendences peuvent être reproduits en utilisant
+cette technique.
+.PP
+Pour envoyer le rapport, utilisez :
+.I tar cvfz bug_name_as_directory.tgz bug_name_as_directory
+et envoyez moi (fpons@mandrakesoft.com) le directement avec une description de
+ce qui est anormal selon vous.
+.SH BOGUES
+Lorsqu'un paquetage est enlevé, il peut ne pas être remplacé par une vieille
+version correspondante.
+.SH AUTEURS
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (auteur originel)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (auteur actuel)
 .SH "VOIR AUSSI"
 \fIurpmi.addmedia\fP(8),
 \fIurpmi.update\fP(8),
@@ -170,7 +224,3 @@ Contient les noms de paquetages à installer plutôt qu'à mettre à jour.
 \fIurpmf\fP(8),
 \fIurpmq\fP(8),
 \fIrpmdrake\fP(8)
-.SH AUTEURS
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (auteur originel)
-.PP
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (auteur actuel)
