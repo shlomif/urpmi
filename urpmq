@@ -42,6 +42,8 @@ usage:
 ") . _("  -u             - remove package if a better version is already installed.
 ") . _("  -c             - choose complete method for resolving requires closure.
 ") . _("  -p             - allow search in provides to find package.
+") . _("  -P             - do not search in provides to find package.
+") . _("  -y             - impose fuzzy search.
 ") . _("  -g             - print groups too with name.
 ") . _("  -r             - print version and release too with name.
 ") . _("  -f             - print version, release and arch with name.
@@ -77,6 +79,8 @@ for (@ARGV) {
 	/c/ and do { $query->{complete} = 1; next };
 	/g/ and do { $query->{group} = 1; next };
 	/p/ and do { $query->{use_provides} = 1; next };
+	/P/ and do { $query->{use_provides} = 0; next };
+	/y/ and do { $query->{fuzzy} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };
 	/r/ and do { $query->{version} = $query->{release} = 1; next };
 	/f/ and do { $query->{version} = $query->{release} = $query->{arch} = 1; next };
@@ -119,7 +123,8 @@ $urpm->relocate_depslist_provides();
 #- will be updated too.
 my %packages;
 $urpm->search_packages(\%packages, [ @names ],
-		       use_provides => $query->{use_provides})
+		       use_provides => $query->{use_provides},
+		       fuzzy => $query->{fuzzy})
   or $query->{force} or exit 1;
 
 #- auto select package for upgrading the distribution.

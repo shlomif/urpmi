@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.2
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,12 @@ fi
 
 
 %changelog
+* Tue Jan 29 2002 François Pons <fpons@mandrakesoft.com> 3.2-5mdk
+- added -y options to urpmi/urpmq to impose fuzzy search.
+- cleaned dependancy resolver algorithm.
+- fixed package asked to be installed but already installed (rare).
+- fixed TERM signal send to itself.
+
 * Mon Jan 28 2002 François Pons <fpons@mandrakesoft.com> 3.2-4mdk
 - integrated patch for supermount from Andrej Borsenkow.
 - fixed --wget (or --curl) not used in urpmi.update.

@@ -36,6 +36,7 @@ my $WID = 0;
 my $all = 0;
 my $rpm_opt = "vh";
 my $use_provides = 1;
+my $fuzzy = 0;
 my $verbose = 0;
 
 my $uid;
@@ -69,6 +70,8 @@ usage:
                    X or text mode.
 ") . _("  -a             - select all matches on command line.
 ") . _("  -p             - allow search in provides to find package.
+") . _("  -P             - do not search in provides to find package.
+") . _("  -y             - impose fuzzy search.
 ") . _("  -q             - quiet mode.
 ") . _("  -v             - verbose mode.
 ") . "\n" . _("  names or rpm files given on command line are installed.
@@ -104,6 +107,8 @@ for (@ARGV) {
 	/M/ and do { next }; #- nop
 	/q/ and do { $rpm_opt = ""; next };
 	/p/ and do { $use_provides = 1; next };
+	/P/ and do { $use_provides = 0; next };
+	/y/ and do { $fuzzy = 1; next };
 	/v/ and do { $verbose = 1; next };
 	die _("urpmi: unknown option \"-%s\", check usage with --help\n", $1); } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
@@ -119,6 +124,7 @@ for (@ARGV) {
 
 #- params contains informations to parse installed system.
 my $urpm = new urpm;
+my ($pid_out, $pid_err);
 
 if ($uid) {
     #- only src files are installable using urpmi.
@@ -129,8 +135,6 @@ if ($uid) {
 } else {    
     #- log only at this point in case of query usage.
     log_it(scalar localtime, " urpmi called with @ARGV\n");
-
-    my ($pid_out, $pid_err);
 
     open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
     open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
@@ -196,7 +200,9 @@ if ($uid) {
     my %packages;
     $urpm->search_packages(\%packages, [ @names],
 			   all => $all,
-			   use_provides => $use_provides) or $force or exit 1;
+			   use_provides => $use_provides,
+			   fuzzy => $fuzzy)
+	or $force or exit 1;
 
     #- filter to add in packages selected required packages.
     my $ask_choice = sub {
@@ -379,9 +385,11 @@ if (@rpms_install || @rpms_upgrade) {
 
 #- this help flushing correctly by closing this file before (piped on tee).
 #- but killing them is generally better.
-fork() or do { sleep 1; kill 15, $pid_err, $pid_out };
-close STDERR;
-close STDOUT;
+if ($pid_err && $pid_out) {
+    fork() or do { sleep 1; kill 15, $pid_err, $pid_out };
+    close STDERR;
+    close STDOUT;
+}
 
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;

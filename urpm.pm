@@ -1227,7 +1227,7 @@ sub search_packages {
 	#- it is a way of speedup, providing the name of a package directly help
 	#- to find the package.
 	#- this is necessary if providing a name list of package to upgrade.
-	if ($urpm->{params}{names}{$v} && defined $urpm->{params}{names}{$v}{id}) {
+	if (!$options{fuzzy} && $urpm->{params}{names}{$v} && defined $urpm->{params}{names}{$v}{id}) {
 	    $exact{$v} = $urpm->{params}{names}{$v}{id};
 	    next;
 	}
@@ -1235,13 +1235,15 @@ sub search_packages {
 	my $qv = quotemeta $v;
 
 	if ($options{use_provides}) {
-	    #- try to search through provides.
-	    if (my @l = grep { defined $_ } map { $_ && $_->{id} } map { $urpm->{params}{info}{$_} }
-		keys %{$urpm->{params}{provides}{$v} || {}}) {
-		#- we assume that if the there is at least one package providing the resource exactly,
-		#- this should be the best ones that is described.
-		$exact{$v} = join '|',  @l;
-		next;
+	    unless ($options{fuzzy}) {
+		#- try to search through provides.
+		if (my @l = grep { defined $_ } map { $_ && $_->{id} } map { $urpm->{params}{info}{$_} }
+		    keys %{$urpm->{params}{provides}{$v} || {}}) {
+		    #- we assume that if the there is at least one package providing the resource exactly,
+		    #- this should be the best ones that is described.
+		    $exact{$v} = join '|',  @l;
+		    next;
+		}
 	    }
 
 	    foreach (keys %{$urpm->{params}{provides}}) {
@@ -1264,15 +1266,17 @@ sub search_packages {
 	    my $pack_a = "$pack_ra-$info->{release}";
 	    my $pack = "$pack_a.$info->{arch}";
 
-	    if ($pack eq $v) {
-		$exact{$v} = $id;
-		next;
-	    } elsif ($pack_a eq $v) {
-		push @{$exact_a{$v}}, $id;
-		next;
-	    } elsif ($pack_ra eq $v) {
-		push @{$exact_ra{$v}}, $id;
-		next;
+	    unless ($options{fuzzy}) {
+		if ($pack eq $v) {
+		    $exact{$v} = $id;
+		    next;
+		} elsif ($pack_a eq $v) {
+		    push @{$exact_a{$v}}, $id;
+		    next;
+		} elsif ($pack_ra eq $v) {
+		    push @{$exact_ra{$v}}, $id;
+		    next;
+		}
 	    }
 
 	    $pack =~ /$qv/ and push @{$found{$v}}, $id;
@@ -1476,69 +1480,47 @@ sub filter_packages_to_upgrade {
 	#- defining %provides here could slow the algorithm but it solves multi-pass
 	#- where a provides is A and after A == version-release, when A is already
 	#- installed.
-	my (%diffprovides, %provides);
+	my (%diff_provides, %provides);
 
 	rpmtools::db_traverse_tag($db,
-				  'name', [ $pkg->{name} ],
+				  'name', [ $pkg->{name}, @{$pkg->{obsoletes} || []} ],
 				  [ qw(name version release sense provides) ], sub {
 				      my ($p) = @_;
 				      foreach (@{$p->{provides}}) {
 					  s/\[\*\]//;
 					  s/\[([^\]]*)\]/ $1/;
-					  /^(\S*\s*\S*\s*)(\d+:)?([^\s-]*)(-?\S*)/ or next;
-					  foreach ($_, "$1$3", "$1$2$3", "$1$3$4") {
-					      $diffprovides{$_} = "$p->{name}-$p->{version}-$p->{release}";
-					  }
+					  $diff_provides{$_} = "$p->{name}-$p->{version}-$p->{release}";
 				      }
 				  });
+
 	foreach (@{$pkg->{provides} || []}) {
 	    s/\[\*\]//;
 	    s/\[([^\]]*)\]/ $1/;
-	    /^(\S*\s*\S*\s*)(\d+:)?([^\s-]*)(-?\S*)/ or next;
-	    foreach ($_, "$1$3", "$1$2$3", "$1$3$4") {
-		delete $diffprovides{$_};
-	    }
+	    delete $diff_provides{$_};
 	}
-	foreach ($pkg->{name}, "$pkg->{name} == $pkg->{version}", "$pkg->{name} == $pkg->{version}-$pkg->{release}") {
-	    delete $diffprovides{$_};
-	}
-	delete $diffprovides{""};
 
-	foreach (keys %diffprovides) {
+	foreach (keys %diff_provides) {
 	    #- analyse the difference in provide and select other package.
 	    if (my ($n, $o, $e, $v, $r) = /^(\S*)\s*(\S*)\s*(\d+:)?([^\s-]*)-?(\S*)/) {
-		rpmtools::db_traverse_tag($db, 'whatprovides', [ $n ], [ qw(name version release) ], sub{
-					      $_[0]{name} eq $pkg->{name} and return;
-					      $o and $n eq $_[0]{name} || return;
-					      $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
-					      $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
-						eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
-					      $provides{$_} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
-					  });
-		unless (exists $provides{$_}) {
-		    foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
-			exists $conflicts{$fullname} and next;
-			my $p = $urpm->{params}{info}{$fullname};
-			$o and $n eq $p->{name} || next;
-			$v and eval(rpmtools::version_compare($p->{version}, $v) . $o . 0) || next;
-			$r && rpmtools::version_compare($p->{version}, $v) == 0 and
-			  eval(rpmtools::version_compare($p->{release}, $r) . $o . 0) || next;
-			#- this is incomplete, exact provides is not kept.
-			$provides{$_} = undef;
+		my $check = sub {
+		    my ($p) = @_;
+		    my ($needed, $satisfied) = (0, 0);
+		    foreach (@{$p->{requires}}) {
+			if (my ($pn, $po, $pv, $pr) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+			    $pn eq $n && $pn eq $pkg->{name} or next;
+			    ++$needed;
+			    $pv and eval(rpmtools::version_compare($pkg->{version}, $pv) . $po . 0) || next;
+			    $pr && rpmtools::version_compare($pkg->{version}, $pv) == 0 and
+			      eval(rpmtools::version_compare($pkg->{release}, $pr) . $po . 0) || next;
+			    #- an existing provides (propably the one examined) is satisfying the underlying.
+			    ++$satisfied;
+			}
 		    }
-		}
-		unless (exists $provides{$_}) {
-		    rpmtools::db_traverse_tag($db,
-					      'whatrequires', [ $1 ],
-					      [ qw(name version release sense requires) ], sub{
-						  my ($p) = @_;
-						  foreach (@{$p->{requires}}) {
-						      s/\[\*\]//;
-						      s/\[([^\]]*)\]/ $1/;
-						      exists $diffprovides{$_} and $provides{$p->{name}} = undef;
-						  }
-					      });
-		}
+		    #- check if the package need to be updated because it
+		    #- losts some of its requires regarding the current diff_provides.
+		    $needed > $satisfied and $provides{$p->{name}} = undef;
+		};
+		rpmtools::db_traverse_tag($db, 'whatrequires', [ $n ], [ qw(name version release sense requires) ], $check);
 	    }
 	}
 
@@ -1546,17 +1528,17 @@ sub filter_packages_to_upgrade {
 	$provides{$pkg->{name}} = undef; #"$pkg->{name}-$pkg->{version}-$pkg->{release}";
 	foreach (@{$pkg->{requires} || []}) {
 	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
-		exists $provides{$_} || exists $selected{$_} and next;
+		exists $provides{$n} || exists $selected{$n} and next;
 		#- if the provides is not found, it will be resolved at next step, else
 		#- it will be resolved by searching the rpm database.
-		$provides{$_} ||= undef;
+		$provides{$n} ||= undef;
 		my $check_pkg = sub {
 		    $options{keep_alldeps} and return;
 		    $o and $n eq $_[0]{name} || return;
 		    $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
 		    $r && rpmtools::version_compare($_[0]{version}, $v) == 0 and
 		      eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
-		    $provides{$_} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
+		    $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
 		};
 		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
 					  [ qw (name version release) ], $check_pkg);
@@ -1592,19 +1574,35 @@ sub filter_packages_to_upgrade {
 	#- at this point, all unresolved provides (requires) should be fixed by
 	#- provides files, try to minimize choice at this level.
 	foreach (keys %provides) {
-	    $provides{$_} || exists $selected{$_} and next;
-	    $selected{$_} = undef;
-
 	    my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
 	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+		$provides{$n} || exists $selected{$n} and next;
+		$selected{$n} = undef;
+
+		#my (%pre_choices, @pre_choices, @choices, @upgradable_choices, %choices_id);
+		#if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
 		    exists $conflicts{$fullname} and next;
 		    my $pkg = $urpm->{params}{info}{$fullname};
-		    $o and $n eq $pkg->{name} || next;
-		    $v and eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) || next;
-		    $r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
-		      eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
-		    push @{$pre_choices{$pkg->{name}}}, $pkg;
+		    if ($n ne $pkg->{name} && $o) {
+			#- a virtual provides exists with a specific version and maybe release.
+			#- try to resolve.
+			foreach (@{$pkg->{provides}}) {
+			    if (my ($pn, $po, $pv, $pr) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
+				$pn eq $n or next;
+				my $no = $po eq '==' ? $o : $po; #- CHECK TODO ?
+				$pv and eval(rpmtools::version_compare($pv, $v) . $no . 0) || next;
+				$pr && rpmtools::version_compare($pv, $v) == 0 and
+				  eval(rpmtools::version_compare($pr, $r) . $no . 0) || next;
+				push @{$pre_choices{$pkg->{name}}}, $pkg;
+			    }
+			}
+		    } else {
+			$v and eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0) || next;
+			$r && rpmtools::version_compare($pkg->{version}, $v) == 0 and
+			  eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0) || next;
+			push @{$pre_choices{$pkg->{name}}}, $pkg;
+		    }
 		}
 	    }
 	    foreach (values %pre_choices) {
@@ -1628,7 +1626,7 @@ sub filter_packages_to_upgrade {
 	    foreach my $pkg (@pre_choices) {
 		push @choices, $pkg;
 
-		unless ($options{keep_alldeps}) {
+		unless ($options{keep_alldeps} || exists $installed{$pkg->{id}}) {
 		    rpmtools::db_traverse_tag($db,
 					      'name', [ $pkg->{name} ],
 					      [ qw(name version release serial) ], sub {
@@ -1642,12 +1640,14 @@ sub filter_packages_to_upgrade {
 					      });
 		}
 		$installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
+		exists $installed{$pkg->{id}} and push @upgradable_choices, $pkg;
+	    }
+	    foreach my $pkg (@pre_choices) {
 		if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
 		    #- the package is already selected, or installed with a better version and release.
 		    @choices = @upgradable_choices = ();
 		    last;
 		}
-		exists $installed{$pkg->{id}} and push @upgradable_choices, $pkg;
 	    }
 	    @upgradable_choices > 0 and @choices = @upgradable_choices;
 	    @choices_id{map { $_->{id} } @choices} = ();
