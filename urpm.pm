@@ -3,7 +3,7 @@ package urpm;
 use strict;
 use vars qw($VERSION @ISA);
 
-$VERSION = '3.7';
+$VERSION = '3.8';
 @ISA = qw(URPM);
 
 =head1 NAME
@@ -1796,7 +1796,12 @@ sub install_logger {
 
     if ($subtype eq 'start') {
 	$urpm->{logger_progress} = 0;
-	printf "%-28s", $type eq 'trans' ? _("Preparing...") : ($pkg && $pkg->name);
+	if ($type eq 'trans') {
+	    $urpm->{logger_id} = 0;
+	    printf "%-28s", _("Preparing...");
+	} else {
+	    printf "%4d:%-23s", ++$urpm->{logger_id}, ($pkg && $pkg->name);
+	}
     } elsif ($subtype eq 'stop') {
 	if ($urpm->{logger_progress} < $progress_size) {
 	    print '#' x ($progress_size - $urpm->{logger_progress});
@@ -1816,12 +1821,15 @@ sub install_logger {
 
 #- install packages according to each hashes (install or upgrade).
 sub install {
-    my ($urpm, $prefix, $install, $upgrade, %options) = @_;
+    my ($urpm, $prefix, $remove, $install, $upgrade, %options) = @_;
     my $db = URPM::DB::open($prefix, 1); #- open in read/write mode.
     my $trans = $db->create_transaction($prefix);
     my @l;
     local *F;
 
+    foreach (@$remove) {
+	$trans->remove($_) or $urpm->{error}(_("unable to remove package %s", $_));
+    }
     foreach (keys %$install) {
 	my $pkg = $urpm->{depslist}[$_];
 	$pkg->update_header($install->{$_});

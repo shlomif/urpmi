@@ -1,14 +1,14 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 3.7
-Release: 6mdk
+Version: 3.8
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject webfetch perl-DateManip >= 5.40
-PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.10-1mdk
+PreReq: perl-Locale-gettext rpmtools >= 4.3-2mdk perl-URPM >= 0.11-1mdk
 BuildRequires: bzip2-devel gcc-c++ gettext rpm-devel rpmtools
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Fri Jul 19 2002 François Pons <fpons@mandrakesoft.com> 3.8-1mdk
+- removing, installing and upgrading packages is done in only
+  one transaction.
+- changed installation progress to look like rpm one.
+
 * Wed Jul 17 2002 François Pons <fpons@mandrakesoft.com> 3.7-6mdk
 - fixed uncatched die, now produce error message.
 

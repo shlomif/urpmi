@@ -370,8 +370,7 @@ if (%{$state->{ask_remove} || {}}) {
     my $list = join "\n", keys %{$state->{ask_remove}};
     $noexpr = _("Nn");
     $yesexpr = _("Yy");
-    message_input(_("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ or
-      system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove}}, ($root ? ("--root", $root) : ()));
+    message_input(_("The following packages have to be removed for others to be upgraded:\n%s\ndo you agree ?", $list) . _(" (Y/n) ")) =~ /[$noexpr]/ and $state->{ask_remove} = {};
 }
 
 #- get out of package that should not be upgraded.
@@ -467,6 +466,7 @@ if (%sources_install || %sources) {
 	exit 0;
     } else {
 	if ($X && !$root) {
+	    system("rpm", "-e", "--nodeps", keys %{$state->{ask_remove} || {}}, ($root ? ("--root", $root) : ()));
 	    system("grpmi", $WID ? ("--WID=$WID") : (),
 		   (map { ("-noupgrade", $_) } values %sources_install), values %sources);
 	    if ($?) {
@@ -476,7 +476,7 @@ if (%sources_install || %sources) {
 		exit(($? >> 8) + 32); #- forward grpmi error + 32
 	    }
 	} else {
-	    my @l = $urpm->install($root, \%sources_install, \%sources);
+	    my @l = $urpm->install($root, [ keys %{$state->{ask_remove} || {}} ], \%sources_install, \%sources);
 	    if (@l) {
 		message(_("Installation failed") . ":\n" . join("\n", @l));
 
