@@ -1,8 +1,8 @@
 %define group Utilities/System
 
 Name: urpmi
-Version: 0.9
-Release: 40mdk
+Version: 1.0
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -17,6 +17,10 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %changelog
+* Sat Feb 12 2000 Pixel <pixel@mandrakesoft.com> 1.0-1mdk
+- 1.0
+- small urpmi man page change
+
 * Thu Feb 10 2000 Pixel <pixel@mandrakesoft.com> 0.9-40mdk
 - unset $ENV to please -U
 
