@@ -856,12 +856,14 @@ sub configure {
     unless ($options{noskipping}) {
 	$urpm->compute_flags($urpm->get_packages_list($urpm->{skiplist}, $options{skip}), skip => 1, callback => sub {
 				 my ($urpm, $pkg) = @_;
+				 $pkg->is_arch_compat or return;
 				 $urpm->{error}(N("skipping package %s", scalar($pkg->fullname)));
 			     });
     }
     unless ($options{noinstalling}) {
 	$urpm->compute_flags($urpm->get_packages_list($urpm->{instlist}, $options{inst}), disable_obsolete => 1, callback => sub {
 				 my ($urpm, $pkg) = @_;
+				 $pkg->is_arch_compat or return;
 				 $urpm->{log}(N("would install instead of upgrade package %s", scalar($pkg->fullname)));
 			     });
     }
@@ -1994,6 +1996,18 @@ this could happen if you mounted manually the directory when creating the medium
 	    $urpm->{log}(N("removing %d obsolete headers in cache", scalar(keys %headers)));
 	    foreach (values %headers) {
 		unlink "$urpm->{cachedir}/headers/$_";
+	    }
+	}
+
+	foreach (@{$urpm->{media}}) {
+	    unlink "$urpm->{statedir}/names.$_->{name}";
+	    if (defined $_->{start} && defined $_->{end}) {
+		local *F;
+		open F, ">$urpm->{statedir}/names.$_->{name}";
+		foreach ($_->{start} .. $_->{end}) {
+		    print F $urpm->{depslist}[$_]->name."\n";
+		}
+		close F;
 	    }
 	}
 

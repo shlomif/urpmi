@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 32mdk
+Release: 33mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Sat Sep  6 2003 François Pons <fpons@mandrakesoft.com> 4.4-33mdk
+- added automatic generation of /var/lib/urpmi/names.<medium>
+  for completion to be faster.
+- skipped or installed entries are first tested against
+  compatible arch.
+
 * Fri Sep  5 2003 François Pons <fpons@mandrakesoft.com> 4.4-32mdk
 - fixed symlink in current working directory.
 - added fixes from gc (signature checking improvement and
