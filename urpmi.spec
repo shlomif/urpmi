@@ -204,6 +204,8 @@ $urpm->update_media(nolock => 1);
 %changelog
 - added -a flag for urpmq (so that urpmq -a -y -r will do what
   is requested more or less).
+- fixed rsync:// and ssh:// protocol with integer limit-rate not
+  multiple of 1024.
 
 * Mon Aug 11 2003 François Pons <fpons@mandrakesoft.com> 4.4-20mdk
 - fixed bug 4637 and add reason for removing package in urpme.
