@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 8mdk
+Release: 9mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,10 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Thu Jul 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-9mdk
+- fixed error code reporting after installation.
+- fixed if packages have not been found on some cases.
+
 * Thu Jun 26 2003 François Pons <fpons@mandrakesoft.com> 4.4-8mdk
 - fixed urpmq -d not working if package given has unsatisfied
   dependencies as backtrack is active, now -d use nodeps.
