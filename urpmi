@@ -145,8 +145,8 @@ $sync and $urpm->{sync} = $sync;
 #- remove verbose if not asked.
 $verbose or $urpm->{log} = sub {};
 
-$urpm->read_depslist;
-$use_provides and $urpm->read_provides;
+$urpm->read_config;
+$urpm->parse_synthesis($_) foreach grep { !$_->{ignore} && (!$update || $_->{active}) } @{$urpm->{media} || []};
 
 if (@files) {
     $uid == 0 or $urpm->fatal(1, _("Only superuser is allowed to install local packages"));
@@ -154,21 +154,12 @@ if (@files) {
     #- sanity check of pathname.
     m|^/| or $_ = "./$_" foreach @files;
 
-    #- read provides file which is needed only to compute incremental
-    #- dependencies, of files provided.
-    $use_provides or $urpm->read_provides;
-
     #- build closure with local package and return list of names.
-    push @names, $urpm->register_local_packages('minimal', @files);
+    push @names, $urpm->register_local_packages(@files);
 }
 
-#- reparse whole internal depslist to match against newer packages only.
-#- ignored medium MUST HAVE BEEN taken into account for building hdlist before!
-if ($update) {
-    $urpm->read_config();
-    $urpm->filter_active_media(use_update => 1);
-}
-$urpm->relocate_depslist_provides(use_active => $update);
+#- relocate depslist.
+$urpm->relocate_depslist_provides();
 
 
 #- search the packages according the selection given by the user,
@@ -178,8 +169,7 @@ $urpm->relocate_depslist_provides(use_active => $update);
 my %packages;
 $urpm->search_packages(\%packages, [ @names],
 		       all => $all,
-		       use_provides => $use_provides,
-		       use_active => $update) or $force or exit 1;
+		       use_provides => $use_provides) or $force or exit 1;
 
 #- filter to add in packages selected required packages.
 my $ask_choice = sub {
@@ -214,7 +204,6 @@ my $ask_choice = sub {
 if ($auto_select) {
     my (%to_remove, %keep_files);
 
-    $update or $urpm->read_config;
     $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
 
     if (keys(%to_remove) > 0) {
@@ -222,9 +211,7 @@ if ($auto_select) {
     }
 }
 
-$use_provides || @files or $urpm->read_provides;
-$update || $auto_select or $urpm->read_config;
-$urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
+$urpm->filter_packages_to_upgrade(\%packages, $ask_choice);
 
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);

@@ -91,24 +91,15 @@ my $urpm = new urpm;
 #- remove verbose if not asked.
 $query->{verbose} or $urpm->{log} = sub {};
 
-$urpm->read_depslist;
-$query->{group} and $urpm->read_compss;
-$query->{use_provides} and $urpm->read_provides;
+$urpm->read_config(nocheck_access => 1);
+$urpm->parse_synthesis($_) foreach grep { !$_->{ignore} && (!$update || $_->{active}) } @{$urpm->{media} || []};
 
 if (@files) {
-    #- read provides file which is needed only to compute incremental
-    #- dependencies, of files provided.
-    $query->{use_provides} or $urpm->read_provides;
-
     #- build closure with local package and return list of names.
-    push @names, $urpm->register_local_packages('minimal', @files);
+    push @names, $urpm->register_local_packages(@files);
 }
 
-#- reparse whole internal depslist to match against newer packages only.
-if ($query->{update}) {
-    $urpm->read_config(nocheck_access => 1);
-    $urpm->filter_active_media(use_update => 1);
-}
+#- relocate depslist.
 $urpm->relocate_depslist_provides(use_active => $query->{update});
 
 #- search the packages according the selection given by the user,
@@ -116,15 +107,13 @@ $urpm->relocate_depslist_provides(use_active => $query->{update});
 #- will be updated too.
 my %packages;
 $urpm->search_packages(\%packages, [ @names ],
-		       use_provides => $query->{use_provides},
-		       use_active => $query->{update})
+		       use_provides => $query->{use_provides})
   or $query->{force} or exit 1;
 
 #- auto select package for upgrading the distribution.
 if ($query->{auto_select}) {
     my (%to_remove, %keep_files);
 
-    $query->{update} or $urpm->read_config(nocheck_access => 1);
     $urpm->select_packages_to_upgrade('', \%packages, \%to_remove, \%keep_files);
 
     if (keys(%to_remove) > 0) {
@@ -133,17 +122,13 @@ if ($query->{auto_select}) {
 }
 
 #- filter to add in packages selected required packages.
-$query->{use_provides} || @files or $urpm->read_provides;
-$query->{update} || $query->{auto_select} or $urpm->read_config(nocheck_access => 1);
-$query->{deps} and $urpm->filter_minimal_packages_to_upgrade(\%packages, undef,
-							     keep_alldeps => !$query->{upgrade});
+$query->{deps} and $urpm->filter_packages_to_upgrade(\%packages, undef,
+						     keep_alldeps => !$query->{upgrade});
 
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);
 
 if ($query->{headers} || $query->{sources}) {
-    $urpm->read_config();
-
     my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
     unless ($local_sources || $list) {
 	$urpm->{fatal}(1, _("unable to get source packages, aborting"));

@@ -1,8 +1,8 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 2.2
-Release: 2mdk
+Version: 3.0
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -27,7 +27,7 @@ gurpmi is a graphical front-end to urpmi
 
 %package -n autoirpm
 Summary: Auto install of rpm on demand
-Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi
+Requires: sh-utils urpmi gurpmi xtest gmessage gurpmi perl
 Group: %{group}
 
 %description -n autoirpm
@@ -84,8 +84,13 @@ fi
 exit 0
 
 %post
-[ -z "$DURING_INSTALL" -a -f /var/lib/urpmi/depslist ] && %{_sbindir}/urpmi.update -a
-rm -f /var/lib/urpmi/depslist
+cd /var/lib/urpmi
+rm -f compss provides depslist*
+misconfigured=0
+for hdlist in hdlist.*; do
+  [ -s synthesis.$hdlist ] || misconfigured=1
+done
+[ -z "$DURING_INSTALL" -a "$misconfigured" -ge 1 ] && rm -f synthesis.hdlist.* && %{_sbindir}/urpmi.update -a
 
 %preun -n autoirpm
 [ -x %{_sbindir}/autoirpm.uninstall ] && %{_sbindir}/autoirpm.uninstall
@@ -129,6 +134,12 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Thu Dec  6 2001 François Pons <fpons@mandrakesoft.com> 3.0-1mdk
+- 3.0 so urpm library interface change and method removal.
+- depslist*, compss, provides are obsoleted, synthesis file
+  are now used instead (this will help rpmdrake caching).
+- added missing requires on perl for autoirpm.
+
 * Thu Dec  6 2001 François Pons <fpons@mandrakesoft.com> 2.2-2mdk
 - fixed bad reference with -p.
 - changed -p ... to use choice instead of mutliple packages.

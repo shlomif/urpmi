@@ -36,7 +36,6 @@ where <url> is one of
 
 and [options] are from
 ") . _("  -c               - clean headers cache directory.
-") . _("  -d               - force complete computation of depslist.ordered file.
 ") . _("  -f               - force generation of hdlist files.
 ") . _("  --wget           - use wget to retrieve distant files.
 ") . _("  --curl           - use curl to retrieve distant files.
@@ -47,7 +46,6 @@ and [options] are from
     $options{sync} = undef;
     while ($_ = shift @_) {
 	/^--?c/ and $options{noclean} = 0, next;
-	/^--?d/ and $options{depslist} = 1, next;
 	/^--?f/ and ++$options{force}, next;
 	/^--wget/ and $options{sync} = \&urpm::sync_wget, next;
 	/^--curl/ and $options{sync} = \&urpm::sync_curl, next;
