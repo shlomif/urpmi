@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 30mdk
+Release: 31mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,17 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Thu Sep  4 2003 François Pons <fpons@mandrakesoft.com> 4.4-31mdk
+- removed obsoleted and no more used -d of urpmi.update.
+- fixed --bug to handle local pakcages and virtual media.
+- added -z option to urpmi, urpmi.addmedia and urpmi.update for
+  handling on the fly compression if possible, only handled for
+  rsync:// and ssh:// protocol currently.
+- removed -z option by default for rsync:// protocol.
+- avoid trying locking rpmdb when using --env.
+- fixed media updating on second pass when a synthesis
+  virtual medium is used.
+
 * Tue Sep  2 2003 François Pons <fpons@mandrakesoft.com> 4.4-30mdk
 - improved checking to be safer and smarter.
 - added urpm::check_sources_signatures.

@@ -329,7 +329,8 @@ sub sync_rsync {
 	    open RSYNC, join(" ", map { "'$_'" } "/usr/bin/rsync",
 			     ($limit_rate ? "--bwlimit=$limit_rate" : ()),
 			     (ref($options) && $options->{quiet} ? qw(-q) : qw(--progress -v)),
-			     qw(--partial -z --no-whole-file), $file, (ref($options) ? $options->{dir} : $options)) . " |";
+			     (ref($options) && $options->{compress} ? qw(-z) : ()),
+			     qw(--partial --no-whole-file), $file, (ref($options) ? $options->{dir} : $options)) . " |";
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
 		$buf .= $_;
@@ -375,6 +376,7 @@ sub sync_ssh {
 	    open RSYNC, join(" ", map { "'$_'" } "/usr/bin/rsync",
 			     ($limit_rate ? "--bwlimit=$limit_rate" : ()),
 			     (ref($options) && $options->{quiet} ? qw(-q) : qw(--progress -v)),
+			     (ref($options) && $options->{compress} ? qw(-z) : ()),
 			     qw(--partial -e ssh), $file, (ref($options) ? $options->{dir} : $options)) . " |";
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<RSYNC>) {
@@ -441,7 +443,7 @@ sub read_config {
 		$_ eq '}' and last;
 		#- check for boolean variables first, and after that valued variables.
 		my ($no, $k, $v);
-		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean|excludedocs)(?:\s*:\s*(.*))?$/) {
+		if (($no, $k, $v) = /^(no-)?(verify-rpm|fuzzy|allow-(?:force|nodeps)|(?:pre|post)-clean|excludedocs|compress)(?:\s*:\s*(.*))?$/) {
 		    unless (exists($urpm->{options}{$k})) {
 			$urpm->{options}{$k} = $v eq '' || $v =~ /^(yes|on|1)$/i || 0;
 			$no and $urpm->{options}{$k} = ! $urpm->{options}{$k} || 0;
@@ -978,6 +980,7 @@ sub add_distrib_media {
 	    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 			    quiet => 1,
 			    limit_rate => $options{limit_rate},
+			    compress => $options{compress},
 			    proxy => $urpm->{proxy} },
 			  reduce_pathname("$url/Mandrake/base/hdlists"));
 	    $urpm->{log}(N("...retrieving done"));
@@ -1485,6 +1488,7 @@ this could happen if you mounted manually the directory when creating the medium
 		$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 				quiet => 1,
 				limit_rate => $options{limit_rate},
+				compress => $options{compress},
 				proxy => $urpm->{proxy} },
 			      reduce_pathname("$medium->{url}/../descriptions"));
 	    };
@@ -1509,6 +1513,7 @@ this could happen if you mounted manually the directory when creating the medium
 			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 					quiet => 1,
 					limit_rate => $options{limit_rate},
+					compress => $options{compress},
 					proxy => $urpm->{proxy} },
 				      reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"));
 		    }
@@ -1598,6 +1603,7 @@ this could happen if you mounted manually the directory when creating the medium
 			$urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 					quiet => 0,
 					limit_rate => $options{limit_rate},
+					compress => $options{compress},
 					callback => $options{callback},
 					proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$with_hdlist"));
 		    };
@@ -1627,6 +1633,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 				    quiet => 0,
 				    limit_rate => $options{limit_rate},
+				    compress => $options{compress},
 				    callback => $options{callback},
 				    proxy => $urpm->{proxy} }, reduce_pathname("$medium->{url}/$medium->{with_hdlist}"));
 		};
@@ -1687,6 +1694,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 					    quiet => 1,
 					    limit_rate => $options{limit_rate},
+					    compress => $options{compress},
 					    proxy => $urpm->{proxy} },
 					  $_);
 			    $local_list ne 'list' && -s "$urpm->{cachedir}/partial/$local_list" and
@@ -1707,6 +1715,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    $urpm->{sync}({ dir => "$urpm->{cachedir}/partial",
 					    quiet => 1,
 					    limit_rate => $options{limit_rate},
+					    compress => $options{compress},
 					    proxy => $urpm->{proxy} },
 					  $_);
 			    $local_pubkey ne 'pubkey' && -s "$urpm->{cachedir}/partial/$local_pubkey" and
@@ -1931,8 +1940,17 @@ this could happen if you mounted manually the directory when creating the medium
 	    $urpm->{modified} = 1;
 	} elsif ($medium->{synthesis}) {
 	    if ($urpm->{second_pass}) {
-		$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+		if ($medium->{virtual}) {
+		    my ($path) = $medium->{url} =~ /^file:\/*(\/[^\/].*[^\/])\/*$/;
+		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
+		    if ($path) {
+			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
+			eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file) };
+		    }
+		} else {
+		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+		    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+		}
 	    }
 	} else {
 	    if ($urpm->{second_pass}) {
@@ -2808,6 +2826,7 @@ sub download_packages_of_distant_media {
 				quiet => 0,
 				verbose => $options{verbose},
 				limit_rate => $options{limit_rate},
+				compress => $options{compress},
 				callback => $options{callback},
 				proxy => $urpm->{proxy} },
 			      values %distant_sources);

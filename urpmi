@@ -216,6 +216,7 @@ while (defined($_ = shift @ARGV)) {
 	/y/ and do { $urpm->{options}{fuzzy} = 1; next };
 	/s/ and do { $src = 1; next };
 	/v/ and do { ++$verbose; $rpm_opt = "vh"; next };
+	/z/ and do { $urpm->{options}{compress} = 1; next };
 	die N("urpmi: unknown option \"-%s\", check usage with --help\n", $1) } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     if (/\.rpm$/) {
@@ -244,13 +245,7 @@ if ($install_src) {
 if ($bug) {
     mkdir $bug or $urpm->{fatal}(8, N("Unable to create directory [%s] for bug report", $bug));
     #- copy all synthesis file used, along with configuration of urpmi
-    system("cp", "-af", $urpm->{config}, $urpm->{skiplist}, $urpm->{instlist}, $bug);
-    local *DIR;
-    opendir DIR, $urpm->{statedir};
-    while (defined ($_ = readdir DIR)) {
-	/synthesis\./ and system "cp", "-af", "$urpm->{statedir}/$_", $bug;
-    }
-    closedir DIR;
+    system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, $bug);
     #- allow log file.
     $log = "$bug/urpmi.log";
 }
@@ -323,8 +318,10 @@ unless ($bug) {
 }
 $verbose > 0 or $urpm->{log} = sub {};
 
-$urpm->exlock_rpm_db;
-$urpm->shlock_urpmi_db;
+unless ($env) {
+    $urpm->exlock_rpm_db;
+    $urpm->shlock_urpmi_db;
+}
 $urpm->configure(nocheck_access => $env || $uid > 0,
 		 media => $media,
 		 excludemedia => $excludemedia,
@@ -337,7 +334,7 @@ $urpm->configure(nocheck_access => $env || $uid > 0,
 		 parallel => $parallel,
 		);
 #- get back activated default values of boolean options.
-foreach (qw(post-clean use-provides verify-rpm)) {
+foreach (qw(post-clean verify-rpm)) {
     exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
 }
 exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
@@ -345,6 +342,28 @@ exists $urpm->{options}{'split-length'} or $urpm->{options}{'split-length'} = $s
 
 my $state = {};
 my %requested = $urpm->register_rpms(@files, @src_files);
+
+#- finish bug environment creation.
+if ($bug) {
+    require URPM::Build;
+    foreach (@{$urpm->{media}}) {
+	#- take care of virtual medium this way.
+	$_->{hdlist} ||= "hdlist.$_->{name}.cz";
+	delete $_->{virtual};
+	#- now build directly synthesis file, this is by far the simplest method.
+	if (defined $_->{start} && defined $_->{end}) {
+	    $urpm->build_synthesis(start => $_->{start}, end => $_->{end}, synthesis => "$bug/synthesis.$_->{hdlist}");
+	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $_->{name}));
+	}
+    }
+    #- fake configuration written to convert virtual media on the fly.
+    $urpm->{config} = "$bug/urpmi.cfg";
+    $urpm->write_config;
+    #- handle local packages, copy them directly in bug environment.
+    foreach (keys %requested) {
+	$urpm->{source}{$_} and system "cp", "-af", $urpm->{source}{$_}, $bug;
+    }
+}
 
 #- search the packages according the selection given by the user,
 #- basesystem is added to the list so if it need to be upgraded,
@@ -549,6 +568,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     $urpm->download_packages_of_distant_media(\@transaction_list, \%transaction_sources, \%error_sources,
 					      verbose => $verbose > 0,
 					      limit_rate => $urpm->{options}{'limit-rate'},
+					      compress => $urpm->{options}{compress},
 					      force_local => 1,
 					      callback => sub {
 						  my ($mode, $file, $percent, $total, $eta, $speed) = @_;
@@ -749,11 +769,13 @@ if ($nok) {
     }
 }
 
-$urpm->unlock_urpmi_db;
-$urpm->unlock_rpm_db;
+unless ($env) {
+    $urpm->unlock_urpmi_db;
+    $urpm->unlock_rpm_db;
 
-#- try to umount removable device which may have been mounted.
-$urpm->try_umounting_removables;
+    #- try to umount removable device which may have been mounted.
+    $urpm->try_umounting_removables;
+}
 
 #- this help flushing correctly by closing this file before (piped on tee).
 #- but killing them is generally better.

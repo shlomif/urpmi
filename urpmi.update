@@ -30,8 +30,8 @@ sub main {
     while ($_ = shift @_) {
 	/^--?a/ and $options{all} = 1, next;
 	/^--?c/ and $options{noclean} = 0, next;
-	/^--?d/ and $options{depslist} = 1, next;
 	/^--?f/ and ++$options{force}, next;
+	/^-z$/ and ++$options{compress}, next;
 	/^--update$/ and $options{update} = 1, next;
 	/^--wget$/ and $urpm->{sync} = sub { my $options = shift @_;
 					     if (ref $options) { $options->{prefer} = 'wget' }
@@ -55,6 +55,7 @@ sub main {
 	};
 	/^--no-md5sum/ and $options{nomd5sum} = 1, next;
 	/^--?noa/ and next; #- default, keeped for compability.
+	/^--?d/ and next; #- default, keeped for compability.
 	/^-/ and die N("usage: urpmi.update [options] <name> ...
 where <name> is a medium name to update.
 ") . N("  --help         - print this help message.
@@ -68,7 +69,6 @@ where <name> is a medium name to update.
 ") . N("  --update       - update only update media.
 ") . N("  -a             - select all non-removable media.
 ") . N("  -c             - clean headers cache directory.
-") . N("  -d             - force complete computation of depslist.ordered file.
 ") . N("  -f             - force generation of hdlist files.
 ") . (/^--?h(?:elp)$/ ? '' : N("\nunknown options '%s'\n", $_));
 	push @toupdates, $_;
