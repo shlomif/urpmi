@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 24mdk
+Release: 25mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,9 @@ fi
 
 
 %changelog
+* Fri Feb 28 2003 François Pons <fpons@mandrakesoft.com> 4.2-25mdk
+- fixed callback behaviour for rpmdrake.
+
 * Thu Feb 27 2003 François Pons <fpons@mandrakesoft.com> 4.2-24mdk
 - fixed removable devices not needing to be umouting if
   supermount is used.
