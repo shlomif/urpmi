@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.3
-Release: 12mdk
+Release: 13mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,10 +202,12 @@ $urpm->update_media;
 
 
 %changelog
+* Thu Jun  5 2003 François Pons <fpons@mandrakesoft.com> 4.3-13mdk
 - added patch from Michaël Scherer to add --no-uninstall
   (or --no-remove) and assume no by default when asking to
   remove packages.
 - updated urpmq with newer perl-URPM 0.90-4mdk and better.
+- fixed bad display of old package installation reason.
 
 * Mon May 26 2003 François Pons <fpons@mandrakesoft.com> 4.3-12mdk
 - updated for newer perl-URPM 0.90 series.

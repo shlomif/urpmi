@@ -409,21 +409,17 @@ if (@ask_unselect) {
     }
 }
 
-foreach (sort { $a cmp $b } keys %{$state->{rejected} || {}}) {
-    my $v = $state->{rejected}{$_};
-    print STDERR "<<$_>> removed=$v->{removed}, obsoleted=$v->{obsoleted}, size=$v->{size};\n";
-}
 my @ask_remove = grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected} || {}};
 if (@ask_remove) {
     unless ($auto) {
 	my $list = join "\n", map { my ($from) = keys %{$state->{rejected}{$_}{closure}};
 				    my ($whyk) = keys %{$state->{rejected}{$_}{closure}{$from}};
 				    my ($whyv) = $state->{rejected}{$_}{closure}{$from}{$whyk};
-				    my $frompkg = $urpm->{depslist}[$from];
+				    my $frompkg = $urpm->search($from, strict_fullname => 1);
 				    my $s;
 				    for ($whyk) {
 					/old_requested/ and
-					    $s .= N("in order to install %s", $frompkg ? $frompkg->fullname : $from);
+					    $s .= N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
 					/unsatisfied/ and do {
 					    foreach (@$whyv) {
 						$s and $s .= ', ';

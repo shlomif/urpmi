@@ -1478,7 +1478,7 @@ sub update_media {
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		}
 	    }
-		
+
 	    if (-s "$urpm->{cachedir}/partial/$basename" > 32) {
 		$options{callback} && $options{callback}('done', $medium->{name});
 		$urpm->{log}(N("...retrieving done"));
