@@ -230,7 +230,7 @@ sub sync_wget {
                (ref $options && $options->{limit_rate} ? ("--limit-rate=$options->{limit_rate}") : ()),
                (ref $options && $options->{proxy} ? set_proxy({type => "wget", proxy => $options->{proxy}}) : ()),
 	       (ref $options && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
-		ref $options && $options->{quiet} ? ("-q") : ("")),
+		ref $options && $options->{quiet} ? ("-q") : ()),
 	       "--retr-symlinks", "-NP",
 	       (ref $options ? $options->{dir} : $options), @_;
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
@@ -318,7 +318,7 @@ sub sync_curl {
 	my ($buf, $file) = ('', undef);
 	open CURL, "-|", "/usr/bin/curl",
 	           (ref $options && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
-	           (ref $options && $options->{proxy} && set_proxy({type => "curl", proxy => $options->{proxy}})),
+	           (ref $options && $options->{proxy} ? set_proxy({type => "curl", proxy => $options->{proxy}}) : ()),
 		   (ref $options && $options->{quiet} && !$options->{verbose} ? ("-s") : ()), "-R", "-f", "--stderr", "-",
 		   @all_files;
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).

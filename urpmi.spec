@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 11mdk
+Release: 12mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,9 @@ fi
 
 
 %changelog
+* Mon Jan 27 2003 François Pons <fpons@mandrakesoft.com> 4.2-12mdk
+- fixed stupid typo using curl.
+
 * Fri Jan 24 2003 François Pons <fpons@mandrakesoft.com> 4.2-11mdk
 - add --limit-rate option to urpmi, urpmi.addmedia and
   urpmi.update.
