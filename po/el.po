@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-21 19:42+0100\n"
+"POT-Creation-Date: 2003-03-05 19:38+0100\n"
 "PO-Revision-Date: 2001-08-22 22:42+0300\n"
 "Last-Translator: Thanos Kyritsis <djart@hellug.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -28,34 +28,30 @@ msgstr ""
 "Αυτόματη εγκατάσταση πακέτων...\n"
 "Ζητήσατε την εγκατάσταση του πακέτου %s\n"
 
-#: ../_irpm_.c:33 ../urpme_.c:32 ../urpmi_.c:461
+#: ../_irpm_.c:33 ../urpme_.c:32 ../urpmi_.c:467
 msgid "Is this OK?"
 msgstr "Είναι εντάξει;"
 
-#: ../_irpm_.c:35 ../urpmi_.c:373 ../urpmi_.c:415 ../urpmi_.c:464
-#: ../urpmi_.c:506 ../urpmi_.c:533
+#: ../_irpm_.c:35 ../urpmi_.c:122
 msgid "Ok"
 msgstr "Εντάξει"
 
-#: ../_irpm_.c:36 ../urpmi_.c:374 ../urpmi_.c:416 ../urpmi_.c:465
-#: ../urpmi_.c:507 ../urpmi_.c:534
+#: ../_irpm_.c:36 ../urpmi_.c:123
 msgid "Cancel"
 msgstr "Άκυρο"
 
-#. Translator: Add here the keys which might be pressed in the "No"-case.
-#: ../_irpm_.c:42 ../urpme_.c:34 ../urpmi_.c:378 ../urpmi_.c:420
-#: ../urpmi_.c:469 ../urpmi_.c:538 ../urpmi_.c:602 placeholder.h:17
+#: ../_irpm_.c:42 ../urpme_.c:34 ../urpmi_.c:386 ../urpmi_.c:426
+#: ../urpmi_.c:473 ../urpmi_.c:538 ../urpmi_.c:602 placeholder.h:17
 msgid "Nn"
 msgstr "ΟοNn"
 
-#. Translator: Add here the keys which might be pressed in the "Yes"-case.
-#: ../_irpm_.c:43 ../urpme_.c:36 ../urpmi_.c:379 ../urpmi_.c:421
-#: ../urpmi_.c:470 ../urpmi_.c:539 ../urpmi_.c:603 placeholder.h:11
+#: ../_irpm_.c:43 ../urpme_.c:36 ../urpmi_.c:387 ../urpmi_.c:427
+#: ../urpmi_.c:474 ../urpmi_.c:539 ../urpmi_.c:603 placeholder.h:11
 msgid "Yy"
 msgstr "ΝνYy"
 
-#: ../_irpm_.c:44 ../urpme_.c:106 ../urpmi_.c:380 ../urpmi_.c:422
-#: ../urpmi_.c:471
+#: ../_irpm_.c:44 ../urpme_.c:106 ../urpmi_.c:388 ../urpmi_.c:428
+#: ../urpmi_.c:475
 msgid " (Y/n) "
 msgstr " (Ν/ο) "
 
@@ -101,63 +97,494 @@ msgstr ""
 msgid "curl is missing\n"
 msgstr ""
 
-#: ../urpm.pm_.c:373
+#: ../urpm.pm_.c:556
+#, fuzzy, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr ""
+"το μέσο \"%s\" προσπαθεί να χρησιμοποιήσει την ήδη χρησιμοποιημένη λίστα, το "
+"μέσο θα αγνοηθεί"
+
+#: ../urpm.pm_.c:572
 #, c-format
-msgid "curl failed: exited with %d or signal %d\n"
+msgid ""
+"unable to take care of medium \"%s\" as list file is already used by another "
+"medium"
 msgstr ""
+"αδυναμία ελέγχου του μέσου \"%s\" καθώς το αρχείο λίστα ήδη χρησιμοποιείται "
+"από άλλο μέσο"
 
-#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
-msgid "rsync is missing\n"
-msgstr ""
-
-#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
+#: ../urpm.pm_.c:578
 #, c-format
-msgid "rsync failed: exited with %d or signal %d\n"
+msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
+"αδυναμία χρήσης ονόματος \"%s\" για το ανώνυμο μέσο γιατί ήδη χρησιμοποιείται"
 
-#: ../urpm.pm_.c:420
-msgid "ssh is missing\n"
-msgstr ""
-
-#: ../urpm.pm_.c:467 ../urpmi_.c:491
+#: ../urpm.pm_.c:585
 #, c-format
-msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
 msgstr ""
+"αδυνατώ να πάρω το μέσο \"%s\" στα σοβαρά καθώς δεν υπάρχει αρχείο λίστας [%"
+"s]"
 
-#: ../urpm.pm_.c:469 ../urpmi_.c:494
+#: ../urpm.pm_.c:589
 #, c-format
-msgid "        %s%% completed, speed = %s"
+msgid "unable to determine medium of this hdlist file [%s]"
+msgstr "αδυναμία απόφασης για το μέσο αυτού του αρχείου hdlist [%s]"
+
+#: ../urpm.pm_.c:598
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "αδυναμία πρόσβασης στο αρχείο λίστας του \"%s\", το μέσο θα αγνοηθεί"
+
+#: ../urpm.pm_.c:600
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "αδυναμία πρόσβασης στο αρχείο λίστας του \"%s\", το μέσο αγνοείται"
+
+#: ../urpm.pm_.c:614
+#, c-format
+msgid "trying to bypass existing medium \"%s\", avoiding"
+msgstr "προσπάθεια αποφυγής υπάρχοντος μέσου \"%s\""
+
+#: ../urpm.pm_.c:622
+#, c-format
+msgid "unable to find hdlist file for \"%s\", medium ignored"
+msgstr "αδυναμία εύρεσης του αρχείου hdlist για το \"%s\", το μέσο θα αγνοηθεί"
+
+#: ../urpm.pm_.c:628
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "αδυναμία εύρεσης αρχείου λίστας για το \"%s\", το μέσο θα αγνοηθεί"
+
+#: ../urpm.pm_.c:651
+#, c-format
+msgid "incoherent list file for \"%s\", medium ignored"
+msgstr "μή συναφές αρχείο λίστας για το \"%s\", το μέσο αγνοείται"
+
+#: ../urpm.pm_.c:659
+#, c-format
+msgid "unable to inspect list file for \"%s\", medium ignored"
+msgstr "αδυναμία επιθεώρηση αρχείου λίστας για το \"%s\", το μέσο θα αγνοηθεί"
+
+#: ../urpm.pm_.c:690
+#, fuzzy, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr "αδυναμία δημιουργίας του μέσου \"%s\"\n"
+
+#: ../urpm.pm_.c:691
+#, c-format
+msgid "taking removable device as \"%s\""
 msgstr ""
 
-#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
+#: ../urpm.pm_.c:695
+#, c-format
+msgid "using different removable device [%s] for \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:700 ../urpm.pm_.c:703
+#, fuzzy, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "αδυναμία δημιουργίας του μέσου \"%s\"\n"
+
+#: ../urpm.pm_.c:716
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "αδυναμία εγγραφής αρχείου ρυθμίσεων [%s]"
+
+#: ../urpm.pm_.c:735
+#, c-format
+msgid "write config file [%s]"
+msgstr "εγγραφή αρχείου ρυθμίσεων [%s]"
+
+#: ../urpm.pm_.c:755
+#, fuzzy, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "αδυναμία πρόσβασης στο rpm αρχείο [%s]"
+
+#: ../urpm.pm_.c:766
+#, fuzzy, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "ανάγνωση αρχείου hdlist [%s]"
+
+#: ../urpm.pm_.c:776
+#, fuzzy, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr "ανάγνωση αρχείου hdlist [%s]"
+
+#: ../urpm.pm_.c:780
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr ""
+
+#: ../urpm.pm_.c:784
+#, fuzzy, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "αδυναμία αναβάθμισης του μέσου \"%s\"\n"
+
+#: ../urpm.pm_.c:795
+#, fuzzy
+msgid "--synthesis cannot be used with --media, --update or --parallel"
+msgstr "  --all           - τύπωσε όλα τα tags."
+
+#: ../urpm.pm_.c:811 ../urpm.pm_.c:819 ../urpm.pm_.c:834 ../urpm.pm_.c:1104
+#: ../urpm.pm_.c:1214 ../urpm.pm_.c:1391 ../urpm.pm_.c:1454 ../urpm.pm_.c:1472
+#: ../urpm.pm_.c:1619
+#, fuzzy, c-format
+msgid "examining hdlist file [%s]"
+msgstr "ανάγνωση αρχείου hdlist [%s]"
+
+#: ../urpm.pm_.c:815 ../urpm.pm_.c:830 ../urpm.pm_.c:1101 ../urpm.pm_.c:1210
+#: ../urpm.pm_.c:1387 ../urpm.pm_.c:1460 ../urpm.pm_.c:1466 ../urpm.pm_.c:1543
+#: ../urpm.pm_.c:1614
+#, fuzzy, c-format
+msgid "examining synthesis file [%s]"
+msgstr "ανάγνωση depslist αρχείου [%s]"
+
+#: ../urpm.pm_.c:825
+#, fuzzy, c-format
+msgid "problem reading hdlist file of medium \"%s\""
+msgstr "δημιουργία αρχείου σύνθεσης hdlist από το μέσο \"%s\""
+
+#: ../urpm.pm_.c:837 ../urpm.pm_.c:1108 ../urpm.pm_.c:1218 ../urpm.pm_.c:1395
+#: ../urpm.pm_.c:1546
+#, fuzzy, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "δημιουργία αρχείου σύνθεσης hdlist από το μέσο \"%s\""
+
+#: ../urpm.pm_.c:852 ../urpm.pm_.c:2019 ../urpm.pm_.c:2441 ../urpm.pm_.c:2525
 #, fuzzy
 msgid "unable to open rpmdb"
 msgstr "αδυναμία καταγραφής του rpm αρχείου"
 
-#: ../urpm.pm_.c:2440
+#: ../urpm.pm_.c:890
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "το μέσο \"%s\" ήδη υπάρχει"
+
+#: ../urpm.pm_.c:918
+#, fuzzy, c-format
+msgid "added medium %s"
+msgstr "προσπάθεια διαγραφής μη υπαρκτού μέσου \"%s\""
+
+#: ../urpm.pm_.c:933
+#, fuzzy
+msgid "unable to access first installation medium"
+msgstr "αδυναμία πρόσβασης στο αρχείο λίστας του \"%s\", το μέσο αγνοείται"
+
+#: ../urpm.pm_.c:937
+#, fuzzy
+msgid "copying hdlists file..."
+msgstr "ανάγνωση αρχείου hdlist [%s]"
+
+#: ../urpm.pm_.c:939 ../urpm.pm_.c:1165 ../urpm.pm_.c:1178 ../urpm.pm_.c:1233
+#, fuzzy
+msgid "...copying done"
+msgstr "ανάκτηση [%s]"
+
+#: ../urpm.pm_.c:939 ../urpm.pm_.c:1165 ../urpm.pm_.c:1175 ../urpm.pm_.c:1233
+#, fuzzy
+msgid "...copying failed"
+msgstr "ανάκτηση [%s]"
+
+#: ../urpm.pm_.c:941 ../urpm.pm_.c:959 ../urpm.pm_.c:984
+#, fuzzy
+msgid ""
+"unable to access first installation medium (no Mandrake/base/hdlists file "
+"found)"
+msgstr "αδυναμία πρόσβασης στο αρχείο λίστας του \"%s\", το μέσο αγνοείται"
+
+#: ../urpm.pm_.c:947
+#, fuzzy
+msgid "retrieving hdlists file..."
+msgstr "ανάκτηση [%s]"
+
+#: ../urpm.pm_.c:953 ../urpm.pm_.c:1291 ../urpm.pm_.c:1353 ../urpm.pm_.c:1855
+#: ../urpm.pm_.c:2352
+#, fuzzy
+msgid "...retrieving done"
+msgstr "ανάκτηση [%s]"
+
+#: ../urpm.pm_.c:955 ../urpm.pm_.c:1347 ../urpm.pm_.c:1858 ../urpm.pm_.c:2355
+#, fuzzy, c-format
+msgid "...retrieving failed: %s"
+msgstr "ανάκτηση [%s]"
+
+#: ../urpm.pm_.c:975
+#, c-format
+msgid "invalid hdlist description \"%s\" in hdlists file"
+msgstr ""
+
+#: ../urpm.pm_.c:1017
+#, c-format
+msgid "trying to select inexistent medium \"%s\""
+msgstr "προσπάθεια επιλογής του μη υπαρκτού μέσου \"%s\""
+
+#: ../urpm.pm_.c:1019
+#, c-format
+msgid "\"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1019
+#, fuzzy, c-format
+msgid "selecting multiple media: %s"
+msgstr "προσπάθεια επιλογής του μη υπαρκτού μέσου \"%s\""
+
+#: ../urpm.pm_.c:1035
+#, fuzzy, c-format
+msgid "removing medium \"%s\""
+msgstr "προσπάθεια διαγραφής μη υπαρκτού μέσου \"%s\""
+
+#: ../urpm.pm_.c:1081 ../urpm.pm_.c:2270
+msgid "urpmi database locked"
+msgstr ""
+
+#: ../urpm.pm_.c:1133 ../urpm.pm_.c:2281
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "αδυναμία πρόσβασης στο μέσο \"%s\""
+
+#: ../urpm.pm_.c:1163
+#, fuzzy, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "τίποτα δεν γράφτηκε στο αρχείο λίστας για το \"%s\""
+
+#: ../urpm.pm_.c:1171
+#, fuzzy, c-format
+msgid "copying source hdlist (or synthesis) of \"%s\"..."
+msgstr "τίποτα δεν γράφτηκε στο αρχείο λίστας για το \"%s\""
+
+#: ../urpm.pm_.c:1182
+#, c-format
+msgid "copy of [%s] failed"
+msgstr "η αντιγραφή του [%s] απέτυχε"
+
+#: ../urpm.pm_.c:1187 ../urpm.pm_.c:1366
+#, fuzzy
+msgid "examining MD5SUM file"
+msgstr "ανάγνωση αρχείου hdlist [%s]"
+
+#: ../urpm.pm_.c:1231
+#, fuzzy, c-format
+msgid "copying source list of \"%s\"..."
+msgstr "τίποτα δεν γράφτηκε στο αρχείο λίστας για το \"%s\""
+
+#: ../urpm.pm_.c:1248
+#, fuzzy, c-format
+msgid "reading rpm files from [%s]"
+msgstr "δεν βρέθηκαν rpm αρχεία από το [%s]"
+
+#: ../urpm.pm_.c:1267
+#, fuzzy, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "αδυναμία ανάγνωσης του rpm αρχείου [%s] από το μέσο \"%s\""
+
+#: ../urpm.pm_.c:1272
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "δεν βρέθηκαν rpm αρχεία από το [%s]"
+
+#: ../urpm.pm_.c:1285
+#, fuzzy, c-format
+msgid "retrieving description file of \"%s\"..."
+msgstr "ανάκτηση [%s]"
+
+#: ../urpm.pm_.c:1300
+#, fuzzy, c-format
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "ανάκτηση [%s]"
+
+#: ../urpm.pm_.c:1425
+msgid "retrieve of source hdlist (or synthesis) failed"
+msgstr ""
+
+#: ../urpm.pm_.c:1432
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "δεν βρέθηκε hdlist αρχείο για το μέσο \"%s\""
+
+#: ../urpm.pm_.c:1444 ../urpm.pm_.c:1496
+#, c-format
+msgid "file [%s] already used in the same medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1480
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "αδυναμία ανάγνωσης του hdlist αρχείου του \"%s\""
+
+#: ../urpm.pm_.c:1519
+#, c-format
+msgid "unable to write list file of \"%s\""
+msgstr "αδυναμία εγγραφής αρχείου λίστας του \"%s\""
+
+#: ../urpm.pm_.c:1526
+#, fuzzy, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "δεν βρέθηκε hdlist αρχείο για το μέσο \"%s\""
+
+#: ../urpm.pm_.c:1528
+#, c-format
+msgid "nothing written in list file for \"%s\""
+msgstr "τίποτα δεν γράφτηκε στο αρχείο λίστας για το \"%s\""
+
+#: ../urpm.pm_.c:1578
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
+#: ../urpm.pm_.c:1592
+#, fuzzy, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "προσπάθεια διαγραφής μη υπαρκτού μέσου \"%s\""
+
+#: ../urpm.pm_.c:1597
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "δημιουργία hdlist [%s]"
+
+#: ../urpm.pm_.c:1609 ../urpm.pm_.c:1628
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "δημιουργία αρχείου σύνθεσης hdlist από το μέσο \"%s\""
+
+#: ../urpm.pm_.c:1647
+#, c-format
+msgid "found %d headers in cache"
+msgstr "βρέθηκαν %d κεφαλίδες στο cache"
+
+#: ../urpm.pm_.c:1651
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "διαγραφή %d ασυναφών επικεφαλίδων από την cache"
+
+#: ../urpm.pm_.c:1798
+#, c-format
+msgid "mounting %s"
+msgstr "προσαρτώ το %s"
+
+#: ../urpm.pm_.c:1811
+#, c-format
+msgid "unmounting %s"
+msgstr "αποπροσαρτώ %s"
+
+#: ../urpm.pm_.c:1833
+#, c-format
+msgid "relocated %s entries in depslist"
+msgstr "επανεντόπιση %s καταχωρήσεων στο depslist"
+
+#: ../urpm.pm_.c:1834
+#, fuzzy
+msgid "no entries relocated in depslist"
+msgstr "επανεντόπιση %s καταχωρήσεων στο depslist"
+
+#: ../urpm.pm_.c:1847
+#, c-format
+msgid "invalid rpm file name [%s]"
+msgstr "λάθος όνομα rpm αρχείου [%s]"
+
+#: ../urpm.pm_.c:1853
+#, fuzzy, c-format
+msgid "retrieving rpm file [%s] ..."
+msgstr "ανάκτηση [%s]"
+
+#: ../urpm.pm_.c:1860 ../urpm.pm_.c:2479
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "αδυναμία πρόσβασης στο rpm αρχείο [%s]"
+
+#: ../urpm.pm_.c:1865
+#, fuzzy
+msgid "unable to register rpm file"
+msgstr "αδυναμία πρόσβασης στο rpm αρχείο [%s]"
+
+#: ../urpm.pm_.c:1868
+msgid "error registering local packages"
+msgstr "σφάλμα καταγραφής τοπικών πακέτων"
+
+#: ../urpm.pm_.c:1960
+#, c-format
+msgid "no package named %s"
+msgstr "κανένα πακέτο με το όνομα %s"
+
+#: ../urpm.pm_.c:1963 ../urpme_.c:88
+#, c-format
+msgid "The following packages contain %s: %s"
+msgstr "Τα παρακάτω πακέτα περιέχουν %s: %s"
+
+#: ../urpm.pm_.c:2105 ../urpm.pm_.c:2137 ../urpm.pm_.c:2159
+#, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "υπάρχουν πολλαπλά πακέτα με το ίδιο όνομα rpm αρχείου \"%s\""
+
+#: ../urpm.pm_.c:2147
+#, fuzzy, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "αδυναμία απόδοσης σωστά του [%s] στην τιμή \"%s\""
+
+#: ../urpm.pm_.c:2171
+#, c-format
+msgid ""
+"medium \"%s\" use an invalid list file (mirror is problably not up-to-date, "
+"trying to use alternate method)"
+msgstr ""
+
+#: ../urpm.pm_.c:2174
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr ""
+
+#: ../urpm.pm_.c:2183
+#, c-format
+msgid "package %s is not found."
+msgstr "το πακέτο %s δεν βρέθηκε."
+
+#: ../urpm.pm_.c:2231 ../urpm.pm_.c:2234 ../urpm.pm_.c:2256
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "το μέσο \"%s\" δεν έχει επιλεχθεί"
+
+#: ../urpm.pm_.c:2249
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "αδυναμία ανάγνωσης του rpm αρχείου [%s] από το μέσο \"%s\""
+
+#: ../urpm.pm_.c:2260
+#, c-format
+msgid "incoherent medium \"%s\" marked removable but not really"
+msgstr "το μέσο \"%s\" έχει αναφερθεί σαν αφαιρούμενο αλλά δεν είναι"
+
+#: ../urpm.pm_.c:2337
+#, c-format
+msgid "malformed input: [%s]"
+msgstr "κακοδιατυπωμένη είσοδος: [%s]"
+
+#: ../urpm.pm_.c:2344
+#, fuzzy, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "ανάκτηση [%s]"
+
+#: ../urpm.pm_.c:2417
+msgid "Preparing..."
+msgstr ""
+
+#: ../urpm.pm_.c:2448
 #, fuzzy, c-format
 msgid "unable to remove package %s"
 msgstr "Μόνο ο υπερχρήστης μπορεί να εγκαταστήσει τοπικά πακέτα"
 
-#: ../urpm.pm_.c:2449
+#: ../urpm.pm_.c:2457
 #, fuzzy, c-format
 msgid "unable to install package %s"
 msgstr "Μόνο ο υπερχρήστης μπορεί να εγκαταστήσει τοπικά πακέτα"
 
-#: ../urpm.pm_.c:2458
+#: ../urpm.pm_.c:2466
 #, c-format
 msgid "%s is needed by %s"
 msgstr ""
 
-#: ../urpm.pm_.c:2459
+#: ../urpm.pm_.c:2467
 #, c-format
 msgid "%s conflicts with %s"
 msgstr ""
-
-#: ../urpm.pm_.c:2471
-#, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "αδυναμία πρόσβασης στο rpm αρχείο [%s]"
 
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
 #: ../urpm/parallel_ka_run.pm_.c:178
@@ -248,11 +675,6 @@ msgstr "κανένα πακέτο με το όνομα %s"
 #, fuzzy
 msgid "unknown packages"
 msgstr "κανένα πακέτο με το όνομα %s"
-
-#: ../urpme_.c:88
-#, c-format
-msgid "The following packages contain %s: %s"
-msgstr "Τα παρακάτω πακέτα περιέχουν %s: %s"
 
 #: ../urpme_.c:93
 #, c-format
@@ -444,10 +866,6 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#. Translator: The URI types strings 'file:', 'ftp:', 'http:',
-#. Translator: and 'removable:' must not be translated!
-#. Translator: neither the ``with''.
-#. Translator: only what is between <brakets> can be translated.
 #: ../urpmi.addmedia_.c:44
 #, fuzzy
 msgid ""
@@ -801,49 +1219,49 @@ msgstr ""
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr ""
 
-#: ../urpmi_.c:187
+#: ../urpmi_.c:197
 #, fuzzy, c-format
 msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
 msgstr "urpmq: άγνωστη παράμετρος \"-%s\", ελέγξτε την σύνταξη με το --help\n"
 
-#: ../urpmi_.c:206
+#: ../urpmi_.c:216
 msgid "What can be done with binary rpm files when using --install-src"
 msgstr ""
 
-#: ../urpmi_.c:213
+#: ../urpmi_.c:223
 #, fuzzy, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "αδυναμία απόδοσης σωστά του [%s] στην τιμή \"%s\""
 
-#: ../urpmi_.c:227
+#: ../urpmi_.c:237
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
 
-#: ../urpmi_.c:238
+#: ../urpmi_.c:248
 #, fuzzy
 msgid "Only superuser is allowed to install packages"
 msgstr "Μόνο ο υπερχρήστης μπορεί να εγκαταστήσει τοπικά πακέτα"
 
-#: ../urpmi_.c:339
+#: ../urpmi_.c:349
 #, fuzzy, c-format
 msgid "One of the following packages is needed to install %s:"
 msgstr "Ένα εκ των παρακάτω πακέτων απαιτείται:"
 
-#: ../urpmi_.c:340
+#: ../urpmi_.c:350
 msgid "One of the following packages is needed:"
 msgstr "Ένα εκ των παρακάτω πακέτων απαιτείται:"
 
-#: ../urpmi_.c:348
+#: ../urpmi_.c:358
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Ποιά είναι η επιλογή σας; (1-%d) "
 
-#: ../urpmi_.c:351
+#: ../urpmi_.c:361
 msgid "Sorry, bad choice, try again\n"
 msgstr "Λυπάμαι, κακή επιλογή, προσπαθήστε ξανά\n"
 
-#: ../urpmi_.c:371
+#: ../urpmi_.c:381
 #, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
@@ -851,31 +1269,31 @@ msgid ""
 "do you agree ?"
 msgstr ""
 
-#: ../urpmi_.c:394
+#: ../urpmi_.c:402
 #, fuzzy, c-format
 msgid "in order to install %s"
 msgstr "Μόνο ο υπερχρήστης μπορεί να εγκαταστήσει τοπικά πακέτα"
 
-#: ../urpmi_.c:399
+#: ../urpmi_.c:407
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr ""
 
-#: ../urpmi_.c:401
+#: ../urpmi_.c:409
 #, c-format
 msgid "due to missing %s"
 msgstr ""
 
-#: ../urpmi_.c:406
+#: ../urpmi_.c:414
 #, c-format
 msgid "due to conflicts with %s"
 msgstr ""
 
-#: ../urpmi_.c:408
+#: ../urpmi_.c:416
 msgid "unrequested"
 msgstr ""
 
-#: ../urpmi_.c:413
+#: ../urpmi_.c:421
 #, fuzzy, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -885,7 +1303,7 @@ msgstr ""
 "κάποιο πακέτο πρέπει να διαγραφεί για να αναβαθμιστεί, αυτό δεν "
 "υποστηρίζεται ακόμα\n"
 
-#: ../urpmi_.c:451 ../urpmi_.c:460
+#: ../urpmi_.c:457 ../urpmi_.c:466
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
@@ -894,33 +1312,43 @@ msgstr ""
 "Για να ικανοποιηθούν οι εξαρτήσεις (dependencies), τα παρακάτω πακέτα θα "
 "εγκατασταθούν (%d MB)"
 
-#: ../urpmi_.c:457
+#: ../urpmi_.c:463
 #, c-format
 msgid ""
 "You need to be root to install the following dependencies:\n"
 "%s\n"
 msgstr ""
 
-#: ../urpmi_.c:479 ../urpmq_.c:297
+#: ../urpmi_.c:483 ../urpmq_.c:297
 msgid "unable to get source packages, aborting"
 msgstr "αδυναμία κατεβάσματος των πηγαίων (source) πακέτων, εγκατάλειψη"
 
-#: ../urpmi_.c:503
+#: ../urpmi_.c:495
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr ""
+
+#: ../urpmi_.c:498
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr ""
+
+#: ../urpmi_.c:507
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Παρακαλώ βάλτε το μέσο με όνομα \"%s\" στη συσκευή [%s]"
 
-#: ../urpmi_.c:504
+#: ../urpmi_.c:508
 #, fuzzy
 msgid "Press Enter when ready..."
 msgstr "Πατήστε enter όταν τελειώσετε..."
 
-#: ../urpmi_.c:525
+#: ../urpmi_.c:527
 #, fuzzy
 msgid "The following packages have bad signatures"
 msgstr "Τα παρακάτω πακέτα περιέχουν %s: %s"
 
-#: ../urpmi_.c:526
+#: ../urpmi_.c:528
 msgid "Do you want to continue installation ?"
 msgstr ""
 
@@ -1167,251 +1595,6 @@ msgstr ""
 #~ msgstr ""
 #~ "το μέσο \"%s\" προσπαθεί να χρησιμοποιήσει την ήδη χρησιμοποιημένη "
 #~ "hdlist, το μέσο θα αγνοηθεί"
-
-#, fuzzy
-#~ msgid "medium \"%s\" trying to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "το μέσο \"%s\" προσπαθεί να χρησιμοποιήσει την ήδη χρησιμοποιημένη λίστα, "
-#~ "το μέσο θα αγνοηθεί"
-
-#~ msgid ""
-#~ "unable to take care of medium \"%s\" as list file is already used by "
-#~ "another medium"
-#~ msgstr ""
-#~ "αδυναμία ελέγχου του μέσου \"%s\" καθώς το αρχείο λίστα ήδη "
-#~ "χρησιμοποιείται από άλλο μέσο"
-
-#~ msgid ""
-#~ "unable to use name \"%s\" for unnamed medium because it is already used"
-#~ msgstr ""
-#~ "αδυναμία χρήσης ονόματος \"%s\" για το ανώνυμο μέσο γιατί ήδη "
-#~ "χρησιμοποιείται"
-
-#~ msgid ""
-#~ "unable to take medium \"%s\" into account as no list file [%s] exists"
-#~ msgstr ""
-#~ "αδυνατώ να πάρω το μέσο \"%s\" στα σοβαρά καθώς δεν υπάρχει αρχείο λίστας "
-#~ "[%s]"
-
-#~ msgid "unable to determine medium of this hdlist file [%s]"
-#~ msgstr "αδυναμία απόφασης για το μέσο αυτού του αρχείου hdlist [%s]"
-
-#~ msgid "unable to access hdlist file of \"%s\", medium ignored"
-#~ msgstr ""
-#~ "αδυναμία πρόσβασης στο αρχείο λίστας του \"%s\", το μέσο θα αγνοηθεί"
-
-#~ msgid "unable to access list file of \"%s\", medium ignored"
-#~ msgstr "αδυναμία πρόσβασης στο αρχείο λίστας του \"%s\", το μέσο αγνοείται"
-
-#~ msgid "trying to bypass existing medium \"%s\", avoiding"
-#~ msgstr "προσπάθεια αποφυγής υπάρχοντος μέσου \"%s\""
-
-#~ msgid "unable to find hdlist file for \"%s\", medium ignored"
-#~ msgstr ""
-#~ "αδυναμία εύρεσης του αρχείου hdlist για το \"%s\", το μέσο θα αγνοηθεί"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "αδυναμία εύρεσης αρχείου λίστας για το \"%s\", το μέσο θα αγνοηθεί"
-
-#~ msgid "incoherent list file for \"%s\", medium ignored"
-#~ msgstr "μή συναφές αρχείο λίστας για το \"%s\", το μέσο αγνοείται"
-
-#~ msgid "unable to inspect list file for \"%s\", medium ignored"
-#~ msgstr ""
-#~ "αδυναμία επιθεώρηση αρχείου λίστας για το \"%s\", το μέσο θα αγνοηθεί"
-
-#, fuzzy
-#~ msgid "unable to retrieve pathname for removable medium \"%s\""
-#~ msgstr "αδυναμία δημιουργίας του μέσου \"%s\"\n"
-
-#~ msgid "unable to write config file [%s]"
-#~ msgstr "αδυναμία εγγραφής αρχείου ρυθμίσεων [%s]"
-
-#~ msgid "write config file [%s]"
-#~ msgstr "εγγραφή αρχείου ρυθμίσεων [%s]"
-
-#, fuzzy
-#~ msgid "unable to parse \"%s\" in file [%s]"
-#~ msgstr "αδυναμία πρόσβασης στο rpm αρχείο [%s]"
-
-#, fuzzy
-#~ msgid "examining parallel handler in file [%s]"
-#~ msgstr "ανάγνωση αρχείου hdlist [%s]"
-
-#, fuzzy
-#~ msgid "unable to use parallel option \"%s\""
-#~ msgstr "αδυναμία αναβάθμισης του μέσου \"%s\"\n"
-
-#, fuzzy
-#~ msgid "examining hdlist file [%s]"
-#~ msgstr "ανάγνωση αρχείου hdlist [%s]"
-
-#, fuzzy
-#~ msgid "examining synthesis file [%s]"
-#~ msgstr "ανάγνωση depslist αρχείου [%s]"
-
-#, fuzzy
-#~ msgid "problem reading hdlist file of medium \"%s\""
-#~ msgstr "δημιουργία αρχείου σύνθεσης hdlist από το μέσο \"%s\""
-
-#, fuzzy
-#~ msgid "problem reading synthesis file of medium \"%s\""
-#~ msgstr "δημιουργία αρχείου σύνθεσης hdlist από το μέσο \"%s\""
-
-#~ msgid "medium \"%s\" already exists"
-#~ msgstr "το μέσο \"%s\" ήδη υπάρχει"
-
-#, fuzzy
-#~ msgid "unable to access first installation medium"
-#~ msgstr "αδυναμία πρόσβασης στο αρχείο λίστας του \"%s\", το μέσο αγνοείται"
-
-#, fuzzy
-#~ msgid "copying hdlists file..."
-#~ msgstr "ανάγνωση αρχείου hdlist [%s]"
-
-#, fuzzy
-#~ msgid "...copying done"
-#~ msgstr "ανάκτηση [%s]"
-
-#, fuzzy
-#~ msgid "retrieving hdlists file..."
-#~ msgstr "ανάκτηση [%s]"
-
-#, fuzzy
-#~ msgid "...retrieving done"
-#~ msgstr "ανάκτηση [%s]"
-
-#, fuzzy
-#~ msgid "...retrieving failed: %s"
-#~ msgstr "ανάκτηση [%s]"
-
-#~ msgid "trying to select inexistent medium \"%s\""
-#~ msgstr "προσπάθεια επιλογής του μη υπαρκτού μέσου \"%s\""
-
-#, fuzzy
-#~ msgid "selecting multiple media: %s"
-#~ msgstr "προσπάθεια επιλογής του μη υπαρκτού μέσου \"%s\""
-
-#, fuzzy
-#~ msgid "removing medium \"%s\""
-#~ msgstr "προσπάθεια διαγραφής μη υπαρκτού μέσου \"%s\""
-
-#~ msgid "unable to access medium \"%s\""
-#~ msgstr "αδυναμία πρόσβασης στο μέσο \"%s\""
-
-#, fuzzy
-#~ msgid "copying description file of \"%s\"..."
-#~ msgstr "τίποτα δεν γράφτηκε στο αρχείο λίστας για το \"%s\""
-
-#~ msgid "copy of [%s] failed"
-#~ msgstr "η αντιγραφή του [%s] απέτυχε"
-
-#, fuzzy
-#~ msgid "examining MD5SUM file"
-#~ msgstr "ανάγνωση αρχείου hdlist [%s]"
-
-#, fuzzy
-#~ msgid "copying source list of \"%s\"..."
-#~ msgstr "τίποτα δεν γράφτηκε στο αρχείο λίστας για το \"%s\""
-
-#, fuzzy
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "δεν βρέθηκαν rpm αρχεία από το [%s]"
-
-#, fuzzy
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "αδυναμία ανάγνωσης του rpm αρχείου [%s] από το μέσο \"%s\""
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "δεν βρέθηκαν rpm αρχεία από το [%s]"
-
-#, fuzzy
-#~ msgid "retrieving description file of \"%s\"..."
-#~ msgstr "ανάκτηση [%s]"
-
-#~ msgid "no hdlist file found for medium \"%s\""
-#~ msgstr "δεν βρέθηκε hdlist αρχείο για το μέσο \"%s\""
-
-#~ msgid "unable to parse hdlist file of \"%s\""
-#~ msgstr "αδυναμία ανάγνωσης του hdlist αρχείου του \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "αδυναμία εγγραφής αρχείου λίστας του \"%s\""
-
-#, fuzzy
-#~ msgid "writing list file for medium \"%s\""
-#~ msgstr "δεν βρέθηκε hdlist αρχείο για το μέσο \"%s\""
-
-#~ msgid "nothing written in list file for \"%s\""
-#~ msgstr "τίποτα δεν γράφτηκε στο αρχείο λίστας για το \"%s\""
-
-#, fuzzy
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "προσπάθεια διαγραφής μη υπαρκτού μέσου \"%s\""
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "δημιουργία hdlist [%s]"
-
-#~ msgid "built hdlist synthesis file for medium \"%s\""
-#~ msgstr "δημιουργία αρχείου σύνθεσης hdlist από το μέσο \"%s\""
-
-#~ msgid "found %d headers in cache"
-#~ msgstr "βρέθηκαν %d κεφαλίδες στο cache"
-
-#~ msgid "removing %d obsolete headers in cache"
-#~ msgstr "διαγραφή %d ασυναφών επικεφαλίδων από την cache"
-
-#~ msgid "mounting %s"
-#~ msgstr "προσαρτώ το %s"
-
-#~ msgid "unmounting %s"
-#~ msgstr "αποπροσαρτώ %s"
-
-#~ msgid "relocated %s entries in depslist"
-#~ msgstr "επανεντόπιση %s καταχωρήσεων στο depslist"
-
-#, fuzzy
-#~ msgid "no entries relocated in depslist"
-#~ msgstr "επανεντόπιση %s καταχωρήσεων στο depslist"
-
-#~ msgid "invalid rpm file name [%s]"
-#~ msgstr "λάθος όνομα rpm αρχείου [%s]"
-
-#, fuzzy
-#~ msgid "retrieving rpm file [%s] ..."
-#~ msgstr "ανάκτηση [%s]"
-
-#~ msgid "error registering local packages"
-#~ msgstr "σφάλμα καταγραφής τοπικών πακέτων"
-
-#~ msgid "no package named %s"
-#~ msgstr "κανένα πακέτο με το όνομα %s"
-
-#~ msgid "there are multiple packages with the same rpm filename \"%s\""
-#~ msgstr "υπάρχουν πολλαπλά πακέτα με το ίδιο όνομα rpm αρχείου \"%s\""
-
-#, fuzzy
-#~ msgid "unable to correctly parse [%s] on value \"%s\""
-#~ msgstr "αδυναμία απόδοσης σωστά του [%s] στην τιμή \"%s\""
-
-#~ msgid "package %s is not found."
-#~ msgstr "το πακέτο %s δεν βρέθηκε."
-
-#~ msgid "medium \"%s\" is not selected"
-#~ msgstr "το μέσο \"%s\" δεν έχει επιλεχθεί"
-
-#~ msgid "unable to read rpm file [%s] from medium \"%s\""
-#~ msgstr "αδυναμία ανάγνωσης του rpm αρχείου [%s] από το μέσο \"%s\""
-
-#~ msgid "incoherent medium \"%s\" marked removable but not really"
-#~ msgstr "το μέσο \"%s\" έχει αναφερθεί σαν αφαιρούμενο αλλά δεν είναι"
-
-#~ msgid "malformed input: [%s]"
-#~ msgstr "κακοδιατυπωμένη είσοδος: [%s]"
-
-#, fuzzy
-#~ msgid "retrieving rpm files from medium \"%s\"..."
-#~ msgstr "ανάκτηση [%s]"
 
 #~ msgid "nothing to write in list file for \"%s\""
 #~ msgstr "τίποτα για εγγραφή στο αρχείο λίστας για το \"%s\""

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-21 19:42+0100\n"
+"POT-Creation-Date: 2003-03-05 19:38+0100\n"
 "PO-Revision-Date: 2000-04-19 23:05-0400\n"
 "Last-Translator: Thorarinn R. Einarsson <thori@mindspring.com>\n"
 "Language-Team: is <kde-isl@mmedia.is>\n"
@@ -26,34 +26,30 @@ msgid ""
 "You requested installation of package %s\n"
 msgstr ""
 
-#: ../_irpm_.c:33 ../urpme_.c:32 ../urpmi_.c:461
+#: ../_irpm_.c:33 ../urpme_.c:32 ../urpmi_.c:467
 msgid "Is this OK?"
 msgstr "Er það í lagi?"
 
-#: ../_irpm_.c:35 ../urpmi_.c:373 ../urpmi_.c:415 ../urpmi_.c:464
-#: ../urpmi_.c:506 ../urpmi_.c:533
+#: ../_irpm_.c:35 ../urpmi_.c:122
 msgid "Ok"
 msgstr "Í lagi"
 
-#: ../_irpm_.c:36 ../urpmi_.c:374 ../urpmi_.c:416 ../urpmi_.c:465
-#: ../urpmi_.c:507 ../urpmi_.c:534
+#: ../_irpm_.c:36 ../urpmi_.c:123
 msgid "Cancel"
 msgstr "Hætta við"
 
-#. Translator: Add here the keys which might be pressed in the "No"-case.
-#: ../_irpm_.c:42 ../urpme_.c:34 ../urpmi_.c:378 ../urpmi_.c:420
-#: ../urpmi_.c:469 ../urpmi_.c:538 ../urpmi_.c:602 placeholder.h:17
+#: ../_irpm_.c:42 ../urpme_.c:34 ../urpmi_.c:386 ../urpmi_.c:426
+#: ../urpmi_.c:473 ../urpmi_.c:538 ../urpmi_.c:602 placeholder.h:17
 msgid "Nn"
 msgstr "Nn"
 
-#. Translator: Add here the keys which might be pressed in the "Yes"-case.
-#: ../_irpm_.c:43 ../urpme_.c:36 ../urpmi_.c:379 ../urpmi_.c:421
-#: ../urpmi_.c:470 ../urpmi_.c:539 ../urpmi_.c:603 placeholder.h:11
+#: ../_irpm_.c:43 ../urpme_.c:36 ../urpmi_.c:387 ../urpmi_.c:427
+#: ../urpmi_.c:474 ../urpmi_.c:539 ../urpmi_.c:603 placeholder.h:11
 msgid "Yy"
 msgstr "JjYy"
 
-#: ../_irpm_.c:44 ../urpme_.c:106 ../urpmi_.c:380 ../urpmi_.c:422
-#: ../urpmi_.c:471
+#: ../_irpm_.c:44 ../urpme_.c:106 ../urpmi_.c:388 ../urpmi_.c:428
+#: ../urpmi_.c:475
 msgid " (Y/n) "
 msgstr " (J/n) "
 
@@ -99,61 +95,476 @@ msgstr ""
 msgid "curl is missing\n"
 msgstr ""
 
-#: ../urpm.pm_.c:373
+#: ../urpm.pm_.c:556
 #, c-format
-msgid "curl failed: exited with %d or signal %d\n"
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
 msgstr ""
 
-#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
-msgid "rsync is missing\n"
-msgstr ""
-
-#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
+#: ../urpm.pm_.c:572
 #, c-format
-msgid "rsync failed: exited with %d or signal %d\n"
+msgid ""
+"unable to take care of medium \"%s\" as list file is already used by another "
+"medium"
 msgstr ""
 
-#: ../urpm.pm_.c:420
-msgid "ssh is missing\n"
-msgstr ""
-
-#: ../urpm.pm_.c:467 ../urpmi_.c:491
+#: ../urpm.pm_.c:578
 #, c-format
-msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
 
-#: ../urpm.pm_.c:469 ../urpmi_.c:494
+#: ../urpm.pm_.c:585
 #, c-format
-msgid "        %s%% completed, speed = %s"
+msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
 msgstr ""
 
-#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
+#: ../urpm.pm_.c:589
+#, c-format
+msgid "unable to determine medium of this hdlist file [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:598
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr ""
+
+#: ../urpm.pm_.c:600
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr ""
+
+#: ../urpm.pm_.c:614
+#, c-format
+msgid "trying to bypass existing medium \"%s\", avoiding"
+msgstr ""
+
+#: ../urpm.pm_.c:622
+#, c-format
+msgid "unable to find hdlist file for \"%s\", medium ignored"
+msgstr ""
+
+#: ../urpm.pm_.c:628
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr ""
+
+#: ../urpm.pm_.c:651
+#, c-format
+msgid "incoherent list file for \"%s\", medium ignored"
+msgstr ""
+
+#: ../urpm.pm_.c:659
+#, c-format
+msgid "unable to inspect list file for \"%s\", medium ignored"
+msgstr ""
+
+#: ../urpm.pm_.c:690
+#, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:691
+#, c-format
+msgid "taking removable device as \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:695
+#, c-format
+msgid "using different removable device [%s] for \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:700 ../urpm.pm_.c:703
+#, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:716
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:735
+#, c-format
+msgid "write config file [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:755
+#, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:766
+#, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:776
+#, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr ""
+
+#: ../urpm.pm_.c:780
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr ""
+
+#: ../urpm.pm_.c:784
+#, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:795
+msgid "--synthesis cannot be used with --media, --update or --parallel"
+msgstr ""
+
+#: ../urpm.pm_.c:811 ../urpm.pm_.c:819 ../urpm.pm_.c:834 ../urpm.pm_.c:1104
+#: ../urpm.pm_.c:1214 ../urpm.pm_.c:1391 ../urpm.pm_.c:1454 ../urpm.pm_.c:1472
+#: ../urpm.pm_.c:1619
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:815 ../urpm.pm_.c:830 ../urpm.pm_.c:1101 ../urpm.pm_.c:1210
+#: ../urpm.pm_.c:1387 ../urpm.pm_.c:1460 ../urpm.pm_.c:1466 ../urpm.pm_.c:1543
+#: ../urpm.pm_.c:1614
+#, c-format
+msgid "examining synthesis file [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:825
+#, c-format
+msgid "problem reading hdlist file of medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:837 ../urpm.pm_.c:1108 ../urpm.pm_.c:1218 ../urpm.pm_.c:1395
+#: ../urpm.pm_.c:1546
+#, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:852 ../urpm.pm_.c:2019 ../urpm.pm_.c:2441 ../urpm.pm_.c:2525
 msgid "unable to open rpmdb"
 msgstr ""
 
-#: ../urpm.pm_.c:2440
+#: ../urpm.pm_.c:890
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr ""
+
+#: ../urpm.pm_.c:918
+#, c-format
+msgid "added medium %s"
+msgstr ""
+
+#: ../urpm.pm_.c:933
+msgid "unable to access first installation medium"
+msgstr ""
+
+#: ../urpm.pm_.c:937
+msgid "copying hdlists file..."
+msgstr ""
+
+#: ../urpm.pm_.c:939 ../urpm.pm_.c:1165 ../urpm.pm_.c:1178 ../urpm.pm_.c:1233
+msgid "...copying done"
+msgstr ""
+
+#: ../urpm.pm_.c:939 ../urpm.pm_.c:1165 ../urpm.pm_.c:1175 ../urpm.pm_.c:1233
+#, fuzzy
+msgid "...copying failed"
+msgstr "Innsetning brást"
+
+#: ../urpm.pm_.c:941 ../urpm.pm_.c:959 ../urpm.pm_.c:984
+msgid ""
+"unable to access first installation medium (no Mandrake/base/hdlists file "
+"found)"
+msgstr ""
+
+#: ../urpm.pm_.c:947
+msgid "retrieving hdlists file..."
+msgstr ""
+
+#: ../urpm.pm_.c:953 ../urpm.pm_.c:1291 ../urpm.pm_.c:1353 ../urpm.pm_.c:1855
+#: ../urpm.pm_.c:2352
+msgid "...retrieving done"
+msgstr ""
+
+#: ../urpm.pm_.c:955 ../urpm.pm_.c:1347 ../urpm.pm_.c:1858 ../urpm.pm_.c:2355
+#, c-format
+msgid "...retrieving failed: %s"
+msgstr ""
+
+#: ../urpm.pm_.c:975
+#, c-format
+msgid "invalid hdlist description \"%s\" in hdlists file"
+msgstr ""
+
+#: ../urpm.pm_.c:1017
+#, c-format
+msgid "trying to select inexistent medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1019
+#, c-format
+msgid "\"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1019
+#, c-format
+msgid "selecting multiple media: %s"
+msgstr ""
+
+#: ../urpm.pm_.c:1035
+#, c-format
+msgid "removing medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1081 ../urpm.pm_.c:2270
+#, fuzzy
+msgid "urpmi database locked"
+msgstr "rpm gagnaskrárbeiðni brást\n"
+
+#: ../urpm.pm_.c:1133 ../urpm.pm_.c:2281
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1163
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr ""
+
+#: ../urpm.pm_.c:1171
+#, c-format
+msgid "copying source hdlist (or synthesis) of \"%s\"..."
+msgstr ""
+
+#: ../urpm.pm_.c:1182
+#, fuzzy, c-format
+msgid "copy of [%s] failed"
+msgstr "Innsetning brást"
+
+#: ../urpm.pm_.c:1187 ../urpm.pm_.c:1366
+msgid "examining MD5SUM file"
+msgstr ""
+
+#: ../urpm.pm_.c:1231
+#, c-format
+msgid "copying source list of \"%s\"..."
+msgstr ""
+
+#: ../urpm.pm_.c:1248
+#, c-format
+msgid "reading rpm files from [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:1267
+#, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr ""
+
+#: ../urpm.pm_.c:1272
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:1285
+#, c-format
+msgid "retrieving description file of \"%s\"..."
+msgstr ""
+
+#: ../urpm.pm_.c:1300
+#, c-format
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr ""
+
+#: ../urpm.pm_.c:1425
+msgid "retrieve of source hdlist (or synthesis) failed"
+msgstr ""
+
+#: ../urpm.pm_.c:1432
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1444 ../urpm.pm_.c:1496
+#, c-format
+msgid "file [%s] already used in the same medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1480
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1519
+#, c-format
+msgid "unable to write list file of \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1526
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1528
+#, c-format
+msgid "nothing written in list file for \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1578
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
+#: ../urpm.pm_.c:1592
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1597
+#, c-format
+msgid "building hdlist [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:1609 ../urpm.pm_.c:1628
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1647
+#, c-format
+msgid "found %d headers in cache"
+msgstr ""
+
+#: ../urpm.pm_.c:1651
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr ""
+
+#: ../urpm.pm_.c:1798
+#, fuzzy, c-format
+msgid "mounting %s"
+msgstr "Set inn %s\n"
+
+#: ../urpm.pm_.c:1811
+#, fuzzy, c-format
+msgid "unmounting %s"
+msgstr "Set inn %s\n"
+
+#: ../urpm.pm_.c:1833
+#, c-format
+msgid "relocated %s entries in depslist"
+msgstr ""
+
+#: ../urpm.pm_.c:1834
+msgid "no entries relocated in depslist"
+msgstr ""
+
+#: ../urpm.pm_.c:1847
+#, c-format
+msgid "invalid rpm file name [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:1853
+#, c-format
+msgid "retrieving rpm file [%s] ..."
+msgstr ""
+
+#: ../urpm.pm_.c:1860 ../urpm.pm_.c:2479
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:1865
+msgid "unable to register rpm file"
+msgstr ""
+
+#: ../urpm.pm_.c:1868
+msgid "error registering local packages"
+msgstr ""
+
+#: ../urpm.pm_.c:1960
+#, fuzzy, c-format
+msgid "no package named %s"
+msgstr "Enginn '%s' pakki\n"
+
+#: ../urpm.pm_.c:1963 ../urpme_.c:88
+#, fuzzy, c-format
+msgid "The following packages contain %s: %s"
+msgstr "Eftirfarandi pakkar innihalda %s: %s\n"
+
+#: ../urpm.pm_.c:2105 ../urpm.pm_.c:2137 ../urpm.pm_.c:2159
+#, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:2147
+#, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:2171
+#, c-format
+msgid ""
+"medium \"%s\" use an invalid list file (mirror is problably not up-to-date, "
+"trying to use alternate method)"
+msgstr ""
+
+#: ../urpm.pm_.c:2174
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr ""
+
+#: ../urpm.pm_.c:2183
+#, c-format
+msgid "package %s is not found."
+msgstr ""
+
+#: ../urpm.pm_.c:2231 ../urpm.pm_.c:2234 ../urpm.pm_.c:2256
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr ""
+
+#: ../urpm.pm_.c:2249
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:2260
+#, c-format
+msgid "incoherent medium \"%s\" marked removable but not really"
+msgstr ""
+
+#: ../urpm.pm_.c:2337
+#, c-format
+msgid "malformed input: [%s]"
+msgstr ""
+
+#: ../urpm.pm_.c:2344
+#, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr ""
+
+#: ../urpm.pm_.c:2417
+msgid "Preparing..."
+msgstr ""
+
+#: ../urpm.pm_.c:2448
 #, c-format
 msgid "unable to remove package %s"
 msgstr ""
 
-#: ../urpm.pm_.c:2449
+#: ../urpm.pm_.c:2457
 #, c-format
 msgid "unable to install package %s"
 msgstr ""
 
-#: ../urpm.pm_.c:2458
+#: ../urpm.pm_.c:2466
 #, c-format
 msgid "%s is needed by %s"
 msgstr ""
 
-#: ../urpm.pm_.c:2459
+#: ../urpm.pm_.c:2467
 #, c-format
 msgid "%s conflicts with %s"
-msgstr ""
-
-#: ../urpm.pm_.c:2471
-#, c-format
-msgid "unable to access rpm file [%s]"
 msgstr ""
 
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
@@ -241,11 +652,6 @@ msgstr "Enginn '%s' pakki\n"
 #, fuzzy
 msgid "unknown packages"
 msgstr "Enginn '%s' pakki\n"
-
-#: ../urpme_.c:88
-#, fuzzy, c-format
-msgid "The following packages contain %s: %s"
-msgstr "Eftirfarandi pakkar innihalda %s: %s\n"
 
 #: ../urpme_.c:93
 #, c-format
@@ -401,10 +807,6 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#. Translator: The URI types strings 'file:', 'ftp:', 'http:',
-#. Translator: and 'removable:' must not be translated!
-#. Translator: neither the ``with''.
-#. Translator: only what is between <brakets> can be translated.
 #: ../urpmi.addmedia_.c:44
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
@@ -708,48 +1110,48 @@ msgstr ""
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr ""
 
-#: ../urpmi_.c:187
+#: ../urpmi_.c:197
 #, c-format
 msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
 msgstr ""
 
-#: ../urpmi_.c:206
+#: ../urpmi_.c:216
 msgid "What can be done with binary rpm files when using --install-src"
 msgstr ""
 
-#: ../urpmi_.c:213
+#: ../urpmi_.c:223
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr ""
 
-#: ../urpmi_.c:227
+#: ../urpmi_.c:237
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
 
-#: ../urpmi_.c:238
+#: ../urpmi_.c:248
 msgid "Only superuser is allowed to install packages"
 msgstr ""
 
-#: ../urpmi_.c:339
+#: ../urpmi_.c:349
 #, fuzzy, c-format
 msgid "One of the following packages is needed to install %s:"
 msgstr "Krefst einnig eins af af eftirtöldum pökkum:"
 
-#: ../urpmi_.c:340
+#: ../urpmi_.c:350
 msgid "One of the following packages is needed:"
 msgstr "Krefst einnig eins af af eftirtöldum pökkum:"
 
-#: ../urpmi_.c:348
+#: ../urpmi_.c:358
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Hvað viltu? (1-%d) "
 
-#: ../urpmi_.c:351
+#: ../urpmi_.c:361
 msgid "Sorry, bad choice, try again\n"
 msgstr "Slæmt val.  Reyndu aftur\n"
 
-#: ../urpmi_.c:371
+#: ../urpmi_.c:381
 #, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
@@ -757,31 +1159,31 @@ msgid ""
 "do you agree ?"
 msgstr ""
 
-#: ../urpmi_.c:394
+#: ../urpmi_.c:402
 #, c-format
 msgid "in order to install %s"
 msgstr ""
 
-#: ../urpmi_.c:399
+#: ../urpmi_.c:407
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr ""
 
-#: ../urpmi_.c:401
+#: ../urpmi_.c:409
 #, c-format
 msgid "due to missing %s"
 msgstr ""
 
-#: ../urpmi_.c:406
+#: ../urpmi_.c:414
 #, c-format
 msgid "due to conflicts with %s"
 msgstr ""
 
-#: ../urpmi_.c:408
+#: ../urpmi_.c:416
 msgid "unrequested"
 msgstr ""
 
-#: ../urpmi_.c:413
+#: ../urpmi_.c:421
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -789,7 +1191,7 @@ msgid ""
 "do you agree ?"
 msgstr ""
 
-#: ../urpmi_.c:451 ../urpmi_.c:460
+#: ../urpmi_.c:457 ../urpmi_.c:466
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
@@ -798,33 +1200,43 @@ msgstr ""
 "Til að uppfylla innsetningarkröfur verða eftirtaldir pakkar settir inn (%d "
 "MB)"
 
-#: ../urpmi_.c:457
+#: ../urpmi_.c:463
 #, c-format
 msgid ""
 "You need to be root to install the following dependencies:\n"
 "%s\n"
 msgstr ""
 
-#: ../urpmi_.c:479 ../urpmq_.c:297
+#: ../urpmi_.c:483 ../urpmq_.c:297
 msgid "unable to get source packages, aborting"
 msgstr ""
 
-#: ../urpmi_.c:503
+#: ../urpmi_.c:495
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr ""
+
+#: ../urpmi_.c:498
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr ""
+
+#: ../urpmi_.c:507
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Vinsamlega settu inn %s %s"
 
-#: ../urpmi_.c:504
+#: ../urpmi_.c:508
 #, fuzzy
 msgid "Press Enter when ready..."
 msgstr "Sláðu á ENTER eftirá..."
 
-#: ../urpmi_.c:525
+#: ../urpmi_.c:527
 #, fuzzy
 msgid "The following packages have bad signatures"
 msgstr "Eftirfarandi pakkar innihalda %s: %s\n"
 
-#: ../urpmi_.c:526
+#: ../urpmi_.c:528
 msgid "Do you want to continue installation ?"
 msgstr ""
 
@@ -1029,18 +1441,6 @@ msgstr ""
 #: placeholder.h:40
 msgid "no full media list was found"
 msgstr ""
-
-#, fuzzy
-#~ msgid "urpmi database locked"
-#~ msgstr "rpm gagnaskrárbeiðni brást\n"
-
-#, fuzzy
-#~ msgid "mounting %s"
-#~ msgstr "Set inn %s\n"
-
-#, fuzzy
-#~ msgid "no package named %s"
-#~ msgstr "Enginn '%s' pakki\n"
 
 #~ msgid "Is it ok?"
 #~ msgstr "Er það í lagi?"

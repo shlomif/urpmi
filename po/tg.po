@@ -6,14 +6,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-21 19:42+0100\n"
-"PO-Revision-Date: 2002-02-04 19:06\n"
-"Last-Translator: Roger Kovacs <rkovacs@khujandcomptech.dyn.tj>\n"
+"POT-Creation-Date: 2003-03-05 19:38+0100\n"
+"PO-Revision-Date: 2003-03-05 15:58+0500\n"
+"Last-Translator: Dilshod Marupov <dma165@hotmail.com>\n"
 "Language-Team: Tajik\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 0.9.5\n"
+"X-Generator: KBabel 0.9.6\n"
 
 #: ../_irpm_.c:23 ../urpmi_.c:578
 #, c-format
@@ -29,34 +29,30 @@ msgstr ""
 "Коргузориши автоматикии қуттиҳо...\n"
 "Шумо коргузориши куттии '%s'-ро талаб кардед\n"
 
-#: ../_irpm_.c:33 ../urpme_.c:32 ../urpmi_.c:461
+#: ../_irpm_.c:33 ../urpme_.c:32 ../urpmi_.c:467
 msgid "Is this OK?"
 msgstr "Ин дуруст аст?"
 
-#: ../_irpm_.c:35 ../urpmi_.c:373 ../urpmi_.c:415 ../urpmi_.c:464
-#: ../urpmi_.c:506 ../urpmi_.c:533
+#: ../_irpm_.c:35 ../urpmi_.c:122
 msgid "Ok"
 msgstr "Ok"
 
-#: ../_irpm_.c:36 ../urpmi_.c:374 ../urpmi_.c:416 ../urpmi_.c:465
-#: ../urpmi_.c:507 ../urpmi_.c:534
+#: ../_irpm_.c:36 ../urpmi_.c:123
 msgid "Cancel"
 msgstr "Бекор кардан"
 
-#. Translator: Add here the keys which might be pressed in the "No"-case.
-#: ../_irpm_.c:42 ../urpme_.c:34 ../urpmi_.c:378 ../urpmi_.c:420
-#: ../urpmi_.c:469 ../urpmi_.c:538 ../urpmi_.c:602 placeholder.h:17
+#: ../_irpm_.c:42 ../urpme_.c:34 ../urpmi_.c:386 ../urpmi_.c:426
+#: ../urpmi_.c:473 ../urpmi_.c:538 ../urpmi_.c:602 placeholder.h:17
 msgid "Nn"
 msgstr "НнNn"
 
-#. Translator: Add here the keys which might be pressed in the "Yes"-case.
-#: ../_irpm_.c:43 ../urpme_.c:36 ../urpmi_.c:379 ../urpmi_.c:421
-#: ../urpmi_.c:470 ../urpmi_.c:539 ../urpmi_.c:603 placeholder.h:11
+#: ../_irpm_.c:43 ../urpme_.c:36 ../urpmi_.c:387 ../urpmi_.c:427
+#: ../urpmi_.c:474 ../urpmi_.c:539 ../urpmi_.c:603 placeholder.h:11
 msgid "Yy"
 msgstr "ҲҳYy"
 
-#: ../_irpm_.c:44 ../urpme_.c:106 ../urpmi_.c:380 ../urpmi_.c:422
-#: ../urpmi_.c:471
+#: ../_irpm_.c:44 ../urpme_.c:106 ../urpmi_.c:388 ../urpmi_.c:428
+#: ../urpmi_.c:475
 msgid " (Y/n) "
 msgstr " (Ҳ/н) "
 
@@ -80,14 +76,14 @@ msgid "no webfetch (curl or wget currently) found\n"
 msgstr ""
 
 #: ../urpm.pm_.c:226
-#, fuzzy, c-format
+#, c-format
 msgid "unable to handle protocol: %s"
-msgstr "офариниши hdlist номумкин: %s"
+msgstr "даста кардани қарордод номумкин: %s"
 
 #: ../urpm.pm_.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "copy failed: %s"
-msgstr "нусхаи [%s] нагузашт"
+msgstr "нусхабардорӣ нагузашт: %s"
 
 #: ../urpm.pm_.c:251
 msgid "wget is missing\n"
@@ -102,65 +98,496 @@ msgstr ""
 msgid "curl is missing\n"
 msgstr ""
 
-#: ../urpm.pm_.c:373
+#: ../urpm.pm_.c:556
+#, fuzzy, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr ""
+"муҳити \"%s\" кӯшиш мекунад, ки рӯйхати истифодашударо истифода барад,муҳит "
+"рад шуд"
+
+#: ../urpm.pm_.c:572
 #, c-format
-msgid "curl failed: exited with %d or signal %d\n"
+msgid ""
+"unable to take care of medium \"%s\" as list file is already used by another "
+"medium"
 msgstr ""
+"аз паи муҳити \"%s\" шудан номумкин чунки файли рӯйхат аллакай бо муҳити "
+"дигар истифода шудааст"
 
-#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
-msgid "rsync is missing\n"
-msgstr ""
-
-#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
+#: ../urpm.pm_.c:578
 #, c-format
-msgid "rsync failed: exited with %d or signal %d\n"
+msgid "unable to use name \"%s\" for unnamed medium because it is already used"
 msgstr ""
+"истифодаи номи \"%s\" барои муҳити беном номумкин, ин ном аллакай истифода "
+"шудааст"
 
-#: ../urpm.pm_.c:420
-msgid "ssh is missing\n"
-msgstr ""
-
-#: ../urpm.pm_.c:467 ../urpmi_.c:491
+#: ../urpm.pm_.c:585
 #, c-format
-msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
 msgstr ""
+"гирифтани муҳити \"%s\" ба ҳисобот аз барои вуҷуд надоштани рӯйхати файли [%"
+"s] номумкин"
 
-#: ../urpm.pm_.c:469 ../urpmi_.c:494
+#: ../urpm.pm_.c:589
 #, c-format
-msgid "        %s%% completed, speed = %s"
+msgid "unable to determine medium of this hdlist file [%s]"
+msgstr "муайян кардани муҳити ин файли hdlist-и [%s] номумкин"
+
+#: ../urpm.pm_.c:598
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "дохилшавии файли hdlist-и \"%s\" номумкин, муҳит рад шуд"
+
+#: ../urpm.pm_.c:600
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "дохилшавии файли рӯйхати \"%s\" номумкин, муҳит рад шуд"
+
+#: ../urpm.pm_.c:614
+#, c-format
+msgid "trying to bypass existing medium \"%s\", avoiding"
+msgstr "кӯшиши гузаштани муҳити вуҷуддоштаи \"%s\", кандашавӣ"
+
+#: ../urpm.pm_.c:622
+#, c-format
+msgid "unable to find hdlist file for \"%s\", medium ignored"
+msgstr "ёфтани файли hdlist барои \"%s\" номумкин, муҳит рад шуд"
+
+#: ../urpm.pm_.c:628
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "дарёфти файли рӯйхат барои \"%s\" номумкин, муҳит рад шуд"
+
+#: ../urpm.pm_.c:651
+#, c-format
+msgid "incoherent list file for \"%s\", medium ignored"
+msgstr "файли рӯйхати бемуносибат барои \"%s\", муҳит рад шуд"
+
+#: ../urpm.pm_.c:659
+#, c-format
+msgid "unable to inspect list file for \"%s\", medium ignored"
+msgstr ""
+"аз назар гузаронидани файли рӯйхат барои \"%s\" номумкин, муҳит рад шуд"
+
+#: ../urpm.pm_.c:690
+#, fuzzy, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr "офаридани муҳити \"%s\" номумкин\n"
+
+#: ../urpm.pm_.c:691
+#, fuzzy, c-format
+msgid "taking removable device as \"%s\""
+msgstr "кӯшиши хориҷи муҳити вуҷуд надоштаи \"%s\""
+
+#: ../urpm.pm_.c:695
+#, fuzzy, c-format
+msgid "using different removable device [%s] for \"%s\""
+msgstr "кӯшиши хориҷи муҳити вуҷуд надоштаи \"%s\""
+
+#: ../urpm.pm_.c:700 ../urpm.pm_.c:703
+#, fuzzy, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "офаридани муҳити \"%s\" номумкин\n"
+
+#: ../urpm.pm_.c:716
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "навиштани файли танзимдарории [%s] номумкин"
+
+#: ../urpm.pm_.c:735
+#, c-format
+msgid "write config file [%s]"
+msgstr "файли танзимдарории [%s] нависед"
+
+#: ../urpm.pm_.c:755
+#, fuzzy, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "дохилшавии файли rpm-и [%s] номумкин"
+
+#: ../urpm.pm_.c:766
+#, fuzzy, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "хондани файли hdlist-и [%s]"
+
+#: ../urpm.pm_.c:776
+#, fuzzy, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr "хондани файли hdlist-и [%s]"
+
+#: ../urpm.pm_.c:780
+#, c-format
+msgid "using associated media for parallel mode: %s"
 msgstr ""
 
-#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
+#: ../urpm.pm_.c:784
+#, fuzzy, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "нав кардани муҳити \"%s\" номумкин\n"
+
+#: ../urpm.pm_.c:795
 #, fuzzy
+msgid "--synthesis cannot be used with --media, --update or --parallel"
+msgstr "--list-nodes танҳо истифода бурда мешавад бо --parallel"
+
+#: ../urpm.pm_.c:811 ../urpm.pm_.c:819 ../urpm.pm_.c:834 ../urpm.pm_.c:1104
+#: ../urpm.pm_.c:1214 ../urpm.pm_.c:1391 ../urpm.pm_.c:1454 ../urpm.pm_.c:1472
+#: ../urpm.pm_.c:1619
+#, fuzzy, c-format
+msgid "examining hdlist file [%s]"
+msgstr "хондани файли hdlist-и [%s]"
+
+#: ../urpm.pm_.c:815 ../urpm.pm_.c:830 ../urpm.pm_.c:1101 ../urpm.pm_.c:1210
+#: ../urpm.pm_.c:1387 ../urpm.pm_.c:1460 ../urpm.pm_.c:1466 ../urpm.pm_.c:1543
+#: ../urpm.pm_.c:1614
+#, fuzzy, c-format
+msgid "examining synthesis file [%s]"
+msgstr "хондани файли hdlist-и [%s]"
+
+#: ../urpm.pm_.c:825
+#, fuzzy, c-format
+msgid "problem reading hdlist file of medium \"%s\""
+msgstr "файли сунъии офаридаи hdlist барои муҳити \"%s\""
+
+#: ../urpm.pm_.c:837 ../urpm.pm_.c:1108 ../urpm.pm_.c:1218 ../urpm.pm_.c:1395
+#: ../urpm.pm_.c:1546
+#, fuzzy, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "файли сунъии офаридаи hdlist барои муҳити \"%s\""
+
+#: ../urpm.pm_.c:852 ../urpm.pm_.c:2019 ../urpm.pm_.c:2441 ../urpm.pm_.c:2525
 msgid "unable to open rpmdb"
-msgstr "ба қайд гирифтани файли rpm номумкин"
+msgstr "кушодани rpmdb номумкин"
 
-#: ../urpm.pm_.c:2440
+#: ../urpm.pm_.c:890
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "муҳити \"%s\" аллакай вуҷуд дорад"
+
+#: ../urpm.pm_.c:918
 #, fuzzy, c-format
+msgid "added medium %s"
+msgstr "кӯшиши хориҷи муҳити вуҷуд надоштаи \"%s\""
+
+#: ../urpm.pm_.c:933
+#, fuzzy
+msgid "unable to access first installation medium"
+msgstr "дохилшавии файли рӯйхати \"%s\" номумкин, муҳит рад шуд"
+
+#: ../urpm.pm_.c:937
+#, fuzzy
+msgid "copying hdlists file..."
+msgstr "хондани файли hdlist-и [%s]"
+
+#: ../urpm.pm_.c:939 ../urpm.pm_.c:1165 ../urpm.pm_.c:1178 ../urpm.pm_.c:1233
+#, fuzzy
+msgid "...copying done"
+msgstr "барқароркунии [%s]"
+
+#: ../urpm.pm_.c:939 ../urpm.pm_.c:1165 ../urpm.pm_.c:1175 ../urpm.pm_.c:1233
+#, fuzzy
+msgid "...copying failed"
+msgstr "нусхабардорӣ нагузашт: %s"
+
+#: ../urpm.pm_.c:941 ../urpm.pm_.c:959 ../urpm.pm_.c:984
+#, fuzzy
+msgid ""
+"unable to access first installation medium (no Mandrake/base/hdlists file "
+"found)"
+msgstr "дохилшавии файли рӯйхати \"%s\" номумкин, муҳит рад шуд"
+
+#: ../urpm.pm_.c:947
+#, fuzzy
+msgid "retrieving hdlists file..."
+msgstr "хондани файли hdlist-и [%s]"
+
+#: ../urpm.pm_.c:953 ../urpm.pm_.c:1291 ../urpm.pm_.c:1353 ../urpm.pm_.c:1855
+#: ../urpm.pm_.c:2352
+#, fuzzy
+msgid "...retrieving done"
+msgstr "барқароркунии [%s]"
+
+#: ../urpm.pm_.c:955 ../urpm.pm_.c:1347 ../urpm.pm_.c:1858 ../urpm.pm_.c:2355
+#, fuzzy, c-format
+msgid "...retrieving failed: %s"
+msgstr "барқароркунии [%s]"
+
+#: ../urpm.pm_.c:975
+#, c-format
+msgid "invalid hdlist description \"%s\" in hdlists file"
+msgstr ""
+
+#: ../urpm.pm_.c:1017
+#, c-format
+msgid "trying to select inexistent medium \"%s\""
+msgstr "кӯшиши интихоби муҳити вуҷуд надоштаи \"%s\""
+
+#: ../urpm.pm_.c:1019
+#, c-format
+msgid "\"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1019
+#, fuzzy, c-format
+msgid "selecting multiple media: %s"
+msgstr "кӯшиши интихоби муҳити вуҷуд надоштаи \"%s\""
+
+#: ../urpm.pm_.c:1035
+#, fuzzy, c-format
+msgid "removing medium \"%s\""
+msgstr "кӯшиши хориҷи муҳити вуҷуд надоштаи \"%s\""
+
+#: ../urpm.pm_.c:1081 ../urpm.pm_.c:2270
+msgid "urpmi database locked"
+msgstr ""
+
+#: ../urpm.pm_.c:1133 ../urpm.pm_.c:2281
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "дохилшавии муҳити \"%s\" номумкин"
+
+#: ../urpm.pm_.c:1163
+#, fuzzy, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "дар файли рӯйхат барои \"%s\" чизе навишта нашудааст"
+
+#: ../urpm.pm_.c:1171
+#, fuzzy, c-format
+msgid "copying source hdlist (or synthesis) of \"%s\"..."
+msgstr "дар файли рӯйхат барои \"%s\" чизе навишта нашудааст"
+
+#: ../urpm.pm_.c:1182
+#, c-format
+msgid "copy of [%s] failed"
+msgstr "нусхаи [%s] нагузашт"
+
+#: ../urpm.pm_.c:1187 ../urpm.pm_.c:1366
+#, fuzzy
+msgid "examining MD5SUM file"
+msgstr "хондани файли hdlist-и [%s]"
+
+#: ../urpm.pm_.c:1231
+#, fuzzy, c-format
+msgid "copying source list of \"%s\"..."
+msgstr "дар файли рӯйхат барои \"%s\" чизе навишта нашудааст"
+
+#: ../urpm.pm_.c:1248
+#, fuzzy, c-format
+msgid "reading rpm files from [%s]"
+msgstr "файлҳои rpm аз [%s] ёфт нашуданд"
+
+#: ../urpm.pm_.c:1267
+#, fuzzy, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "хондани файли rpm [%s] аз муҳити \"%s\" номумкин"
+
+#: ../urpm.pm_.c:1272
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "файлҳои rpm аз [%s] ёфт нашуданд"
+
+#: ../urpm.pm_.c:1285
+#, fuzzy, c-format
+msgid "retrieving description file of \"%s\"..."
+msgstr "дар файли рӯйхат барои \"%s\" чизе навишта нашудааст"
+
+#: ../urpm.pm_.c:1300
+#, fuzzy, c-format
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "барқароркунии [%s]"
+
+#: ../urpm.pm_.c:1425
+msgid "retrieve of source hdlist (or synthesis) failed"
+msgstr ""
+
+#: ../urpm.pm_.c:1432
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "файли hdlist барои муҳити \"%s\" ёфт нашуд"
+
+#: ../urpm.pm_.c:1444 ../urpm.pm_.c:1496
+#, c-format
+msgid "file [%s] already used in the same medium \"%s\""
+msgstr ""
+
+#: ../urpm.pm_.c:1480
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "таҷзияи файли hdlist - и \"%s\" номумкин"
+
+#: ../urpm.pm_.c:1519
+#, c-format
+msgid "unable to write list file of \"%s\""
+msgstr "навиштани файли рӯйхатии \"%s\" номумкин"
+
+#: ../urpm.pm_.c:1526
+#, fuzzy, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "файли hdlist барои муҳити \"%s\" ёфт нашуд"
+
+#: ../urpm.pm_.c:1528
+#, c-format
+msgid "nothing written in list file for \"%s\""
+msgstr "дар файли рӯйхат барои \"%s\" чизе навишта нашудааст"
+
+#: ../urpm.pm_.c:1578
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
+#: ../urpm.pm_.c:1592
+#, fuzzy, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "кӯшиши хориҷи муҳити вуҷуд надоштаи \"%s\""
+
+#: ../urpm.pm_.c:1597
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "офариниши hdlist [%s]"
+
+#: ../urpm.pm_.c:1609 ../urpm.pm_.c:1628
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "файли сунъии офаридаи hdlist барои муҳити \"%s\""
+
+#: ../urpm.pm_.c:1647
+#, c-format
+msgid "found %d headers in cache"
+msgstr "%d сарлавҳаҳо дар кэш ёфт шуданд"
+
+#: ../urpm.pm_.c:1651
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "хориҷи сарлавҳаҳои кӯҳнашудаи %d дар кэш"
+
+#: ../urpm.pm_.c:1798
+#, c-format
+msgid "mounting %s"
+msgstr "васлкунии %s"
+
+#: ../urpm.pm_.c:1811
+#, c-format
+msgid "unmounting %s"
+msgstr "ҷудокунии %s"
+
+#: ../urpm.pm_.c:1833
+#, c-format
+msgid "relocated %s entries in depslist"
+msgstr "элементҳои %s-и ҷойивазшуда дар depslist"
+
+#: ../urpm.pm_.c:1834
+#, fuzzy
+msgid "no entries relocated in depslist"
+msgstr "элементҳои %s-и ҷойивазшуда дар depslist"
+
+#: ../urpm.pm_.c:1847
+#, c-format
+msgid "invalid rpm file name [%s]"
+msgstr "номи файли rpm-и нодурусти [%s]"
+
+#: ../urpm.pm_.c:1853
+#, fuzzy, c-format
+msgid "retrieving rpm file [%s] ..."
+msgstr "барқароркунии [%s]"
+
+#: ../urpm.pm_.c:1860 ../urpm.pm_.c:2479
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "дохилшавии файли rpm-и [%s] номумкин"
+
+#: ../urpm.pm_.c:1865
+#, fuzzy
+msgid "unable to register rpm file"
+msgstr "дохилшавии файли rpm-и [%s] номумкин"
+
+#: ../urpm.pm_.c:1868
+msgid "error registering local packages"
+msgstr "хатогии ба қайдгирии қуттиҳои маҳаллӣ"
+
+#: ../urpm.pm_.c:1960
+#, c-format
+msgid "no package named %s"
+msgstr "қуттии бо номи %s нест"
+
+#: ../urpm.pm_.c:1963 ../urpme_.c:88
+#, c-format
+msgid "The following packages contain %s: %s"
+msgstr "Қуттиҳои зерин соҳиби %s: %s"
+
+#: ../urpm.pm_.c:2105 ../urpm.pm_.c:2137 ../urpm.pm_.c:2159
+#, fuzzy, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "қуттиҳои зиёде бо чунин номи файли rpm-и \"%s\" вуҷуд доранд"
+
+#: ../urpm.pm_.c:2147
+#, fuzzy, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "таҷзияи дурсти [%s] дар қиммати \"%s\" номумкин"
+
+#: ../urpm.pm_.c:2171
+#, c-format
+msgid ""
+"medium \"%s\" use an invalid list file (mirror is problably not up-to-date, "
+"trying to use alternate method)"
+msgstr ""
+
+#: ../urpm.pm_.c:2174
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr ""
+
+#: ../urpm.pm_.c:2183
+#, c-format
+msgid "package %s is not found."
+msgstr "қуттии %s ёфт нашуд."
+
+#: ../urpm.pm_.c:2231 ../urpm.pm_.c:2234 ../urpm.pm_.c:2256
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "муҳити \"%s\" интихоб нашудааст"
+
+#: ../urpm.pm_.c:2249
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "хондани файли rpm [%s] аз муҳити \"%s\" номумкин"
+
+#: ../urpm.pm_.c:2260
+#, c-format
+msgid "incoherent medium \"%s\" marked removable but not really"
+msgstr ""
+"муҳити бемуносибати \"%s\" ҳамчун ивазшаванда ишора шудааст, локиннодуруст"
+
+#: ../urpm.pm_.c:2337
+#, c-format
+msgid "malformed input: [%s]"
+msgstr "даровардани бад: [%s]"
+
+#: ../urpm.pm_.c:2344
+#, fuzzy, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "барқароркунии [%s]"
+
+#: ../urpm.pm_.c:2417
+msgid "Preparing..."
+msgstr ""
+
+#: ../urpm.pm_.c:2448
+#, c-format
 msgid "unable to remove package %s"
-msgstr ""
-"Танҳо ба фавқулкорванд кор гузоштани қуттиҳои маҳаллӣ рухсат дода шудааст"
+msgstr "хориҷи қуттии %s номумкин"
 
-#: ../urpm.pm_.c:2449
-#, fuzzy, c-format
+#: ../urpm.pm_.c:2457
+#, c-format
 msgid "unable to install package %s"
-msgstr ""
-"Танҳо ба фавқулкорванд кор гузоштани қуттиҳои маҳаллӣ рухсат дода шудааст"
+msgstr "кор гузоштани қуттии %s номумкин"
 
-#: ../urpm.pm_.c:2458
+#: ../urpm.pm_.c:2466
 #, c-format
 msgid "%s is needed by %s"
 msgstr ""
 
-#: ../urpm.pm_.c:2459
+#: ../urpm.pm_.c:2467
 #, c-format
 msgid "%s conflicts with %s"
 msgstr ""
-
-#: ../urpm.pm_.c:2471
-#, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "дохилшавии файли rpm-и [%s] номумкин"
 
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
 #: ../urpm/parallel_ka_run.pm_.c:178
@@ -178,21 +605,20 @@ msgid "on node %s"
 msgstr ""
 
 #: ../urpm/parallel_ka_run.pm_.c:196 ../urpm/parallel_ssh.pm_.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "Коргузорӣ нагузашт"
+msgstr "Коргузорӣ дар гиреҳи %s нагузашт"
 
 #: ../urpm/parallel_ka_run.pm_.c:201 ../urpm/parallel_ssh.pm_.c:207
 #: ../urpmi_.c:624 ../urpmi_.c:629
-#, fuzzy
 msgid "Installation is possible"
-msgstr "Коргузорӣ нагузашт"
+msgstr "Коргузорӣ мумкин аст"
 
 #: ../urpm/parallel_ssh.pm_.c:11 ../urpm/parallel_ssh.pm_.c:95
 #: ../urpm/parallel_ssh.pm_.c:185
-#, fuzzy, c-format
+#, c-format
 msgid "scp failed on host %s"
-msgstr "Коргузорӣ нагузашт"
+msgstr "scp дар хидматгори %s нагузашт"
 
 #: ../urpm/parallel_ssh.pm_.c:167
 #, c-format
@@ -200,7 +626,7 @@ msgid "host %s does not have a good version of urpmi"
 msgstr ""
 
 #: ../urpme_.c:39
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpme version %s\n"
 "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
@@ -209,15 +635,18 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
+"нашри urpme %s\n"
+"Ҳуқуқи Муаллифӣ (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
 "Ин нармафзори озод аст ва метавонад дар зери шартҳои GNU GPL паҳн карда "
-"шавад."
+"шавад.\n"
+"\n"
+"истифода:\n"
 
 #: ../urpme_.c:44 ../urpmf_.c:31 ../urpmi.addmedia_.c:53
 #: ../urpmi.removemedia_.c:36 ../urpmi.update_.c:62 ../urpmi_.c:72
 #: ../urpmq_.c:40
-#, fuzzy
 msgid "  --help         - print this help message.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  --ёрӣ         - чопи ин пайғоми ёрӣ.\n"
 
 #: ../urpme_.c:45 ../urpmi_.c:76
 msgid "  --auto         - automatically select a package in choices.\n"
@@ -233,29 +662,21 @@ msgid "  --parallel     - distributed urpmi accross machines of alias.\n"
 msgstr ""
 
 #: ../urpme_.c:48
-#, fuzzy
 msgid "  -a             - select all packages matching expression.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  -a             - интихоби ҳамаи қуттиҳои бо ифода мувофиқ буда.\n"
 
 #: ../urpme_.c:64
-#, fuzzy, c-format
-msgid "urpme: unknown option \"-%s\", check usage with --help\n"
-msgstr "urpmi: хосияти номаълум \"-%s\", тафтиши истифода бо --help\n"
-
-#: ../urpme_.c:83
-#, fuzzy
-msgid "unknown package"
-msgstr "қуттии бо номи %s нест"
-
-#: ../urpme_.c:83
-#, fuzzy
-msgid "unknown packages"
-msgstr "қуттии бо номи %s нест"
-
-#: ../urpme_.c:88
 #, c-format
-msgid "The following packages contain %s: %s"
-msgstr "Қуттиҳои зерин соҳиби %s: %s"
+msgid "urpme: unknown option \"-%s\", check usage with --help\n"
+msgstr "urpme: хосияти номаълум \"-%s\", тафтиши истифода бо --help\n"
+
+#: ../urpme_.c:83
+msgid "unknown package"
+msgstr "қуттии номаълум"
+
+#: ../urpme_.c:83
+msgid "unknown packages"
+msgstr "қуттиҳои номаълум"
 
 #: ../urpme_.c:93
 #, c-format
@@ -267,25 +688,23 @@ msgid "Nothing to remove"
 msgstr ""
 
 #: ../urpme_.c:98
-#, fuzzy
 msgid "Checking to remove the following packages"
-msgstr "Яке аз қуттиҳои зерин даркор аст:"
+msgstr "Тафтишкунӣ барои хориҷи қуттиҳои зерин"
 
 #: ../urpme_.c:105
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be removed (%d "
 "MB)"
 msgstr ""
-"Барои қаноатмандии тобеиятҳо қуттиҳои зерин кор гузошта мешаванд (%d МБ)"
+"Барои қаноатмандии тобеиятҳо, қуттиҳои зерин хориҷ карда мешаванд (%d МБ)"
 
 #: ../urpme_.c:113
-#, fuzzy
 msgid "Removing failed"
-msgstr "нусхаи [%s] нагузашт"
+msgstr "Хориҷкунӣ нагузашт"
 
 #: ../urpmf_.c:26
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002 MandrakeSoft.\n"
@@ -294,17 +713,21 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
+"нашри urpmf %s\n"
+"Ҳуқуқи Муаллифӣ (C) 2002 MandrakeSoft.\n"
 "Ин нармафзори озод аст ва метавонад дар зери шартҳои GNU GPL паҳн карда "
-"шавад."
+"шавад.\n"
+"\n"
+"истифода:\n"
 
 #: ../urpmf_.c:32 ../urpmi_.c:73 ../urpmq_.c:41
 msgid "  --update       - use only update media.\n"
-msgstr ""
+msgstr "  --update       - танҳо муҳити навкунӣ истифода баред.\n"
 
 #: ../urpmf_.c:33 ../urpmi_.c:74 ../urpmq_.c:42
-#, fuzzy
 msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr ""
+"  --media        - истифодаи танҳо муҳити додашуда, бо вергул ҷудошуда.\n"
 
 #: ../urpmf_.c:34 ../urpmq_.c:43
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
@@ -315,96 +738,84 @@ msgid "  --verbose      - verbose mode.\n"
 msgstr ""
 
 #: ../urpmf_.c:36
-#, fuzzy
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
 "command\n"
 "                   line, incompatible with interactive mode).\n"
 msgstr ""
 "  --хомӯш         - номи тэгро чоп накунед (пешфарз агар ягон тэг дар фармон "
-"набошад"
+"набошад\n"
+"                   сатр, номувофиқ аст бо усули интерактивӣ).\n"
 
 #: ../urpmf_.c:38
-#, fuzzy
 msgid "  --all          - print all tags.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  --ҳама          - чопи ҳама тэгҳо.\n"
 
 #: ../urpmf_.c:39
-#, fuzzy
 msgid ""
 "  --name         - print tag name: rpm filename (assumed if no tag given on\n"
 "                   command line but without package name).\n"
 msgstr ""
-"  --ном           - чопи номи тэг: номи файли rpm (қабул шуд агар тэг дода "
-"нашуда бошад"
+"  --ном           - чопи номи тэг: номи файли rpm (қабул шуд агар тэг дар\n"
+"                   сатри фармон дода нашуда бошад вале бе номи қутти).\n"
 
 #: ../urpmf_.c:41
-#, fuzzy
 msgid "  --group        - print tag group: group.\n"
-msgstr " --гурӯҳ          - чопи гурӯҳи тэг: гурӯҳ."
+msgstr " --гурӯҳ          - чопи гурӯҳи тэг: гурӯҳ.\n"
 
 #: ../urpmf_.c:42
-#, fuzzy
 msgid "  --size         - print tag size: size.\n"
-msgstr "  --ҳаҷм          - чопи ҳаҷми тэг: ҳаҷм."
+msgstr "  --ҳаҷм          - чопи ҳаҷми тэг: ҳаҷм.\n"
 
 #: ../urpmf_.c:43
-#, fuzzy
 msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr "  --ҳаҷм          - чопи ҳаҷми тэг: ҳаҷм."
+msgstr "  --epoch        - чопи epoch тэг: epoch.\n"
 
 #: ../urpmf_.c:44
-#, fuzzy
 msgid "  --summary      - print tag summary: summary.\n"
-msgstr "  --ҷамъбаст      - чопи ҷамъбасти тэг: ҷамъбаст."
+msgstr "  --ҷамъбаст      - чопи ҷамъбасти тэг: ҷамъбаст.\n"
 
 #: ../urpmf_.c:45
-#, fuzzy
 msgid "  --description  - print tag description: description.\n"
-msgstr "  --тасвирот      - чопи тасвироти тэг: тасвирот."
+msgstr "  --тасвирот      - чопи тасвироти тэг: тасвирот.\n"
 
 #: ../urpmf_.c:46
-#, fuzzy
 msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
-msgstr "  --таъминот      - чопи таъминоти тэг: ҳама таъминот (сатрҳои зиёд)."
+msgstr ""
+"  --таъминот      - чопи таъминоти тэг: ҳама таъминот (сатрҳои зиёд).\n"
 
 #: ../urpmf_.c:47
-#, fuzzy
 msgid "  --requires     - print tag requires: all requires (multiple lines).\n"
-msgstr " --дархостҳо     - чопи дархостҳои тэг: ҳама дархостҳо (сатрҳои зиёд)."
+msgstr ""
+" --дархостҳо     - чопи дархостҳои тэг: ҳама дархостҳо (сатрҳои зиёд).\n"
 
 #: ../urpmf_.c:48
-#, fuzzy
 msgid "  --files        - print tag files: all files (multiple lines).\n"
-msgstr " --файлҳо        - чопи файлҳои тэг: ҳама файлҳо (сатрҳои зиёд)."
+msgstr " --файлҳо        - чопи файлҳои тэг: ҳама файлҳо (сатрҳои зиёд).\n"
 
 #: ../urpmf_.c:49
-#, fuzzy
 msgid ""
 "  --conflicts    - print tag conflicts: all conflicts (multiple lines).\n"
 msgstr ""
-"  --зиддиятҳо     - чопи зиддиятҳои тэг: ҳама зиддиятҳо (сатрҳои зиёд)."
+"  --зиддиятҳо     - чопи зиддиятҳои тэг: ҳама зиддиятҳо (сатрҳои зиёд).\n"
 
 #: ../urpmf_.c:50
-#, fuzzy
 msgid ""
 "  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).\n"
 msgstr ""
-"  --кӯҳнашудаҳо   - чопи кӯҳнашудаҳои тэг: ҳама кӯҳнашудаҳо (сатрҳои зиёд)."
+"  --кӯҳнашудаҳо   - чопи кӯҳнашудаҳои тэг: ҳама кӯҳнашудаҳо (сатрҳои зиёд).\n"
 
 #: ../urpmf_.c:51
-#, fuzzy
 msgid "  -i             - ignore case distinctions in every pattern.\n"
-msgstr "                    сатри фармон вале бе номи қутти)."
+msgstr "  -i             - инкоркунии фарқиятҳои вазъият дар ҳар восита.\n"
 
 #: ../urpmf_.c:52 ../urpmq_.c:72
 msgid "  -f             - print version, release and arch with name.\n"
 msgstr ""
 
 #: ../urpmf_.c:53
-#, fuzzy
 msgid "  -e             - include perl code directly as perl -e.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  -e             - дарбаргирии рамзи perl бевосита ҳамчун perl -e.\n"
 
 #: ../urpmf_.c:54
 msgid ""
@@ -417,19 +828,16 @@ msgid ""
 msgstr ""
 
 #: ../urpmf_.c:56
-#, fuzzy
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  !              - ягонӣ НЕ, рост агар ифода дурӯғ бошад.\n"
 
 #: ../urpmf_.c:57
-#, fuzzy
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  (              - қавси чап барои кушодани ифодаи гурӯҳ.\n"
 
 #: ../urpmf_.c:58
-#, fuzzy
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  )              - қавси рост барои пӯшидани ифодаи гурӯҳ.\n"
 
 #: ../urpmf_.c:115
 #, c-format
@@ -438,12 +846,7 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#. Translator: The URI types strings 'file:', 'ftp:', 'http:',
-#. Translator: and 'removable:' must not be translated!
-#. Translator: neither the ``with''.
-#. Translator: only what is between <brakets> can be translated.
 #: ../urpmi.addmedia_.c:44
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
@@ -456,14 +859,16 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"истифода: urpmi.addmedia [--update] <ном> <url>\n"
-"дар куҷо <url> ин яке аз\n"
+"истифода: urpmi.addmedia [хосиятҳо] <ном> <url> [with <relative_path>]\n"
+"дар куҷо <url> яке аз\n"
 "       file://<роҳ>\n"
 "       ftp://<номи дохилӣ>:<гузарвожа>@<соҳиб>/<роҳ> бо <номи нисбии файли "
 "hdlist>\n"
 "       ftp://<соҳиб>/<роҳ> бо <номи нисбии файли hdlist>\n"
 "       http://<соҳиб>/<роҳ> бо <номи нисбии файли hdlist>\n"
-"       ивазшаванда_<дастгоҳ>://<роҳ>\n"
+"       хориҷшаванда://<роҳ>\n"
+"\n"
+"ва [хосиятҳо] аз\n"
 
 #: ../urpmi.addmedia_.c:54 ../urpmi.update_.c:63 ../urpmi_.c:89 ../urpmq_.c:56
 msgid "  --wget         - use wget to retrieve distant files.\n"
@@ -545,13 +950,13 @@ msgid "cannot add updates of a cooker distribution\n"
 msgstr ""
 
 #: ../urpmi.addmedia_.c:185
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s\n"
 "no need to give <relative path of hdlist> with --distrib"
 msgstr ""
 "%s\n"
-"<роҳи нисбии hdlist> ҳозир нест\n"
+"ҳоҷат нест барои додани <роҳи нисбии hdlist> бо --distrib"
 
 #: ../urpmi.addmedia_.c:192 ../urpmi.addmedia_.c:215
 #, c-format
@@ -582,21 +987,16 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "офаридани муҳити \"%s\" номумкин\n"
 
 #: ../urpmi.removemedia_.c:34
-#, fuzzy
 msgid ""
 "usage: urpmi.removemedia [-a] <name> ...\n"
 "where <name> is a medium name to remove.\n"
 msgstr ""
 "истифода: urpmi.removemedia [-a] <ном> ...\n"
 "дар куҷо <ном> ин номи муҳит барои хориҷ кардан.\n"
-"   -a    интихоби ҳамаи муҳитҳо.\n"
-"\n"
-"хосиятҳои номаълуми '%s'\n"
 
 #: ../urpmi.removemedia_.c:37
-#, fuzzy
 msgid "  -a             - select all media.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  -a             - интихоби ҳама муҳит.\n"
 
 #: ../urpmi.removemedia_.c:39 ../urpmi.update_.c:75
 #, c-format
@@ -608,8 +1008,7 @@ msgstr ""
 #: ../urpmi.removemedia_.c:48
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr ""
-"ба хориҷкунӣ чизе нест (барои иловаи муҳит urpmi.addmedia-ро истифода "
-"баред)\n"
+"ба хориҷкунӣ чизе нест (барои иловаи муҳит urpmi.addmedia истифода баред)\n"
 
 #: ../urpmi.removemedia_.c:50
 #, c-format
@@ -621,21 +1020,16 @@ msgstr ""
 "(яке аз %s)\n"
 
 #: ../urpmi.update_.c:60
-#, fuzzy
 msgid ""
 "usage: urpmi.update [options] <name> ...\n"
 "where <name> is a medium name to update.\n"
 msgstr ""
 "истифода: urpmi.removemedia [-a] <ном> ...\n"
-"дар куҷо <ном> ин номи муҳит барои хориҷ кардан.\n"
-"   -a    интихоби ҳамаи муҳитҳо.\n"
-"\n"
-"хосиятҳои номаълуми '%s'\n"
+"дар куҷо <ном> ин номи муҳит барои нав кардан.\n"
 
 #: ../urpmi.update_.c:70
-#, fuzzy
 msgid "  --update       - update only update media.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  --update       - навкунии танҳо муҳити навкунӣ.\n"
 
 #: ../urpmi.update_.c:71
 msgid "  -a             - select all non-removable media.\n"
@@ -661,7 +1055,7 @@ msgstr ""
 "(яке аз %s)\n"
 
 #: ../urpmi_.c:67
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
@@ -670,8 +1064,12 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
+"нашри urpmi %s\n"
+"Ҳуқуқи Муаллифӣ (C) 1999, 2000, 2001, 2002 MandrakeSoft.\n"
 "Ин нармафзори озод аст ва метавонад дар зери шартҳои GNU GPL паҳн карда "
-"шавад."
+"шавад.\n"
+"\n"
+"истифода:\n"
 
 #: ../urpmi_.c:75
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
@@ -695,14 +1093,13 @@ msgid "  --install-src  - install only source package (no binaries).\n"
 msgstr ""
 
 #: ../urpmi_.c:81
-#, fuzzy
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  --clean        - rpm-ро пеш аз ҳама аз пинҳонӣ хориҷ кунед.\n"
 
 #: ../urpmi_.c:82
-#, fuzzy
 msgid "  --noclean      - keep rpm not used in cache.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr ""
+"  --noclean      - rpm-и истифода бурда нашударо дар пинҳонӣ нигоҳ доред.\n"
 
 #: ../urpmi_.c:83 ../urpmq_.c:54
 msgid ""
@@ -734,9 +1131,8 @@ msgid ""
 msgstr ""
 
 #: ../urpmi_.c:100
-#, fuzzy
 msgid "  --X            - use X interface.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  --X            - интерфейси X истифода баред.\n"
 
 #: ../urpmi_.c:101
 msgid ""
@@ -767,19 +1163,17 @@ msgid "  -P             - do not search in provides to find package.\n"
 msgstr ""
 
 #: ../urpmi_.c:110 ../urpmq_.c:68
-#, fuzzy
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  -y             - ҷустуҷӯи норӯшан ниҳодан (ҳамчун --fuzzy).\n"
 
 #: ../urpmi_.c:111 ../urpmq_.c:69
-#, fuzzy
 msgid "  -s             - next package is a source package (same as --src).\n"
-msgstr "                    сатри фармон вале бе номи қутти)."
+msgstr ""
+"  -s             - қуттии оянда қуттии сарчашмавӣ аст (ҳамчун --src).\n"
 
 #: ../urpmi_.c:112
-#, fuzzy
 msgid "  -q             - quiet mode.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  -q             - усули ором.\n"
 
 #: ../urpmi_.c:113 ../urpmq_.c:62
 msgid "  -v             - verbose mode.\n"
@@ -789,50 +1183,48 @@ msgstr ""
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr ""
 
-#: ../urpmi_.c:187
+#: ../urpmi_.c:197
 #, c-format
 msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
 msgstr "urpmi: хосияти номаълум \"-%s\", тафтиши истифода бо --help\n"
 
-#: ../urpmi_.c:206
+#: ../urpmi_.c:216
 msgid "What can be done with binary rpm files when using --install-src"
 msgstr ""
 
-#: ../urpmi_.c:213
-#, fuzzy, c-format
+#: ../urpmi_.c:223
+#, c-format
 msgid "Unable to create directory [%s] for bug report"
-msgstr "таҷзияи дурсти [%s] дар қиммати \"%s\" номумкин"
+msgstr "Офридани феҳристи [%s] барои маърӯзаи ғалат номумкин"
 
-#: ../urpmi_.c:227
+#: ../urpmi_.c:237
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
 
-#: ../urpmi_.c:238
-#, fuzzy
+#: ../urpmi_.c:248
 msgid "Only superuser is allowed to install packages"
-msgstr ""
-"Танҳо ба фавқулкорванд кор гузоштани қуттиҳои маҳаллӣ рухсат дода шудааст"
+msgstr "Танҳо фавқулкорванд барои коргузоштани қуттиҳо рухсат дорад"
 
-#: ../urpmi_.c:339
+#: ../urpmi_.c:349
 #, c-format
 msgid "One of the following packages is needed to install %s:"
 msgstr "Яке аз қуттиҳои зерин барои коргузории %s даркор аст:"
 
-#: ../urpmi_.c:340
+#: ../urpmi_.c:350
 msgid "One of the following packages is needed:"
 msgstr "Яке аз қуттиҳои зерин даркор аст:"
 
-#: ../urpmi_.c:348
+#: ../urpmi_.c:358
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "Интихоби шумо чист? (1-%d) "
 
-#: ../urpmi_.c:351
+#: ../urpmi_.c:361
 msgid "Sorry, bad choice, try again\n"
 msgstr "Мебахшед, интихоби бад боз кӯшиш кунед\n"
 
-#: ../urpmi_.c:371
+#: ../urpmi_.c:381
 #, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
@@ -840,41 +1232,42 @@ msgid ""
 "do you agree ?"
 msgstr ""
 
-#: ../urpmi_.c:394
-#, fuzzy, c-format
+#: ../urpmi_.c:402
+#, c-format
 msgid "in order to install %s"
-msgstr ""
-"Танҳо ба фавқулкорванд кор гузоштани қуттиҳои маҳаллӣ рухсат дода шудааст"
+msgstr "барои коргузоштани %s"
 
-#: ../urpmi_.c:399
+#: ../urpmi_.c:407
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr ""
 
-#: ../urpmi_.c:401
+#: ../urpmi_.c:409
 #, c-format
 msgid "due to missing %s"
 msgstr ""
 
-#: ../urpmi_.c:406
+#: ../urpmi_.c:414
 #, c-format
 msgid "due to conflicts with %s"
 msgstr ""
 
-#: ../urpmi_.c:408
+#: ../urpmi_.c:416
 msgid "unrequested"
 msgstr ""
 
-#: ../urpmi_.c:413
-#, fuzzy, c-format
+#: ../urpmi_.c:421
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
 "do you agree ?"
 msgstr ""
-"барои афзоиш баъзе қуттиҳо бояд хориҷ шаванд, ин ҳоло дастгирӣ нашудааст\n"
+"Қуттиҳои зерин бояд хориҷ карда шаванд ки дигаронаш нав карда шаванд:\n"
+"%s\n"
+"Шумо розӣ ҳастед?"
 
-#: ../urpmi_.c:451 ../urpmi_.c:460
+#: ../urpmi_.c:457 ../urpmi_.c:466
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
@@ -882,40 +1275,47 @@ msgid ""
 msgstr ""
 "Барои қаноатмандии тобеиятҳо қуттиҳои зерин кор гузошта мешаванд (%d МБ)"
 
-#: ../urpmi_.c:457
+#: ../urpmi_.c:463
 #, c-format
 msgid ""
 "You need to be root to install the following dependencies:\n"
 "%s\n"
 msgstr ""
 
-#: ../urpmi_.c:479 ../urpmq_.c:297
+#: ../urpmi_.c:483 ../urpmq_.c:297
 msgid "unable to get source packages, aborting"
 msgstr "қуттиҳои сарчашмавӣ гирифтан номумкин, кандашавӣ"
 
-#: ../urpmi_.c:503
+#: ../urpmi_.c:495
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr ""
+
+#: ../urpmi_.c:498
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr ""
+
+#: ../urpmi_.c:507
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Лутфан муҳити бо номи \"%s\" ба дастгоҳи [%s] дароред"
 
-#: ../urpmi_.c:504
-#, fuzzy
+#: ../urpmi_.c:508
 msgid "Press Enter when ready..."
-msgstr "Вақте, ки ин тайёр enter-ро пахш кунед..."
+msgstr "Вақте, ки тайёр Enter-ро пахш кунед..."
 
-#: ../urpmi_.c:525
-#, fuzzy
+#: ../urpmi_.c:527
 msgid "The following packages have bad signatures"
-msgstr "Қуттиҳои зерин соҳиби %s: %s"
+msgstr "Қуттиҳои зерин имзоҳои бад доранд"
 
-#: ../urpmi_.c:526
+#: ../urpmi_.c:528
 msgid "Do you want to continue installation ?"
 msgstr ""
 
 #: ../urpmi_.c:540
-#, fuzzy
 msgid " (y/N) "
-msgstr " (Ҳ/н) "
+msgstr " (ҳ/Н) "
 
 #: ../urpmi_.c:548
 #, c-format
@@ -931,9 +1331,9 @@ msgid "Installation failed"
 msgstr "Коргузорӣ нагузашт"
 
 #: ../urpmi_.c:572
-#, fuzzy, c-format
+#, c-format
 msgid "distributing %s\n"
-msgstr "коргузории %s\n"
+msgstr "тақсимкунии %s\n"
 
 #: ../urpmi_.c:604
 msgid "Try installation without checking dependencies? (y/N) "
@@ -948,7 +1348,7 @@ msgid "Everything already installed"
 msgstr "ҳамааш аллакай кор гузошта шуд"
 
 #: ../urpmq_.c:35
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000, 2001, 2002 MandrakeSoft.\n"
@@ -957,28 +1357,29 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
+"нашри urpmq %s\n"
+"Ҳуқуқи Муфаллифӣ (C) 2000, 2001, 2002 MandrakeSoft.\n"
 "Ин нармафзори озод аст ва метавонад дар зери шартҳои GNU GPL паҳн карда "
-"шавад."
+"шавад.\n"
+"\n"
+"истифода:\n"
 
 #: ../urpmq_.c:46
-#, fuzzy
 msgid "  --list         - list available packages.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  --list         - рӯйхаткунии қуттиҳои дастрас.\n"
 
 #: ../urpmq_.c:47
-#, fuzzy
 msgid "  --list-media   - list available media.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  --list-media   - рӯйхаткунии муҳити дастрас.\n"
 
 #: ../urpmq_.c:48
-#, fuzzy
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr ""
+"  --list-nodes   - рӯйхаткунии гиреҳҳои дастрас бо истифодаи --parallel.\n"
 
 #: ../urpmq_.c:49
-#, fuzzy
 msgid "  --list-aliases - list available parallel aliases.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  --list-aliases - рӯйхаткунии тахаллусҳои пареллели дастрас.\n"
 
 #: ../urpmq_.c:51
 msgid ""
@@ -992,50 +1393,44 @@ msgid ""
 msgstr ""
 
 #: ../urpmq_.c:63
-#, fuzzy
 msgid "  -d             - extend query to package dependencies.\n"
-msgstr "                    сатри фармон вале бе номи қутти)."
+msgstr "  -d             - дархости васеъ ба тобеиятҳои қуттӣ.\n"
 
 #: ../urpmq_.c:64
-#, fuzzy
 msgid ""
 "  -u             - remove package if a more recent version is already "
 "installed.\n"
-msgstr "                    сатри фармон вале бе номи қутти)."
+msgstr ""
+"  -u             - хориҷи қуттӣ агар нашри навтарин коргузошта бошад.\n"
 
 #: ../urpmq_.c:65
-#, fuzzy
 msgid "  -c             - complete output with package to be removed.\n"
-msgstr "                    сатри фармон вале бе номи қутти)."
+msgstr "  -c             - ҳосилкунии пурра бо қуттӣ барои хориҷ шудан.\n"
 
 #: ../urpmq_.c:67
-#, fuzzy
 msgid "  -R             - reverse search to what requires package.\n"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "  -R             - ҷустуҷӯи баръакс барои қуттии талабшуда.\n"
 
 #: ../urpmq_.c:70
-#, fuzzy
 msgid "  -g             - print groups with name also.\n"
-msgstr " --гурӯҳ          - чопи гурӯҳи тэг: гурӯҳ."
+msgstr "  -g             - чопи гурӯҳҳо ҳамчун бо ном.\n"
 
 #: ../urpmq_.c:71
-#, fuzzy
 msgid "  -r             - print version and release with name also.\n"
-msgstr "                    сатри фармон вале бе номи қутти)."
+msgstr "  -r             - чопи нашр ва нусха ҳамчун бо ном.\n"
 
 #: ../urpmq_.c:73
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
 
 #: ../urpmq_.c:174
-#, fuzzy
 msgid "--list-nodes can only be used with --parallel"
-msgstr " --ҳама      \t  - чопи ҳама тэгҳо."
+msgstr "--list-nodes танҳо истифода бурда мешавад бо --parallel"
 
 #: placeholder.h:18
 #, c-format
 msgid "urpmf version %s"
-msgstr "urpmf нусхаи %s"
+msgstr "нашри urpmf %s"
 
 #: placeholder.h:19
 msgid "Copyright (C) 1999, 2000, 2001, 2002 MandrakeSoft."
@@ -1050,9 +1445,8 @@ msgstr ""
 "шавад."
 
 #: placeholder.h:21 placeholder.h:38
-#, fuzzy
 msgid "usage: urpmf [options] <file>"
-msgstr "истифода: urpmf [интихобҳо] <файл>"
+msgstr "истифода: urpmf [хосиятҳо] <файл>"
 
 #: placeholder.h:22
 msgid ""
@@ -1144,243 +1538,6 @@ msgstr ""
 #~ msgstr ""
 #~ "муҳити \"%s\"кӯшиш мекунад, ки hdlist-и истифодашударо истифода барад,"
 #~ "муҳит рад шуд"
-
-#, fuzzy
-#~ msgid "medium \"%s\" trying to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "муҳити \"%s\" кӯшиш мекунад, ки рӯйхати истифодашударо истифода барад,"
-#~ "муҳит рад шуд"
-
-#~ msgid ""
-#~ "unable to take care of medium \"%s\" as list file is already used by "
-#~ "another medium"
-#~ msgstr ""
-#~ "аз паи муҳити \"%s\" шудан номумкин чунки файли рӯйхат аллакай бо муҳити "
-#~ "дигар истифода шудааст"
-
-#~ msgid ""
-#~ "unable to use name \"%s\" for unnamed medium because it is already used"
-#~ msgstr ""
-#~ "истифодаи номи \"%s\" барои муҳити беном номумкин, ин ном аллакай "
-#~ "истифода шудааст"
-
-#~ msgid ""
-#~ "unable to take medium \"%s\" into account as no list file [%s] exists"
-#~ msgstr ""
-#~ "гирифтани муҳити \"%s\" ба ҳисобот аз барои вуҷуд надоштани рӯйхати файли "
-#~ "[%s] номумкин"
-
-#~ msgid "unable to determine medium of this hdlist file [%s]"
-#~ msgstr "муайян кардани муҳити ин файли hdlist-и [%s] номумкин"
-
-#~ msgid "unable to access hdlist file of \"%s\", medium ignored"
-#~ msgstr "дохилшавии файли hdlist-и \"%s\" номумкин, муҳит рад шуд"
-
-#~ msgid "unable to access list file of \"%s\", medium ignored"
-#~ msgstr "дохилшавии файли рӯйхати \"%s\" номумкин, муҳит рад шуд"
-
-#~ msgid "trying to bypass existing medium \"%s\", avoiding"
-#~ msgstr "кӯшиши гузаштани муҳити вуҷуддоштаи \"%s\", кандашавӣ"
-
-#~ msgid "unable to find hdlist file for \"%s\", medium ignored"
-#~ msgstr "ёфтани файли hdlist барои \"%s\" номумкин, муҳит рад шуд"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "дарёфти файли рӯйхат барои \"%s\" номумкин, муҳит рад шуд"
-
-#~ msgid "incoherent list file for \"%s\", medium ignored"
-#~ msgstr "файли рӯйхати бемуносибат барои \"%s\", муҳит рад шуд"
-
-#~ msgid "unable to inspect list file for \"%s\", medium ignored"
-#~ msgstr ""
-#~ "аз назар гузаронидани файли рӯйхат барои \"%s\" номумкин, муҳит рад шуд"
-
-#, fuzzy
-#~ msgid "taking removable device as \"%s\""
-#~ msgstr "кӯшиши хориҷи муҳити вуҷуд надоштаи \"%s\""
-
-#, fuzzy
-#~ msgid "unable to retrieve pathname for removable medium \"%s\""
-#~ msgstr "офаридани муҳити \"%s\" номумкин\n"
-
-#~ msgid "unable to write config file [%s]"
-#~ msgstr "навиштани файли танзимдарории [%s] номумкин"
-
-#~ msgid "write config file [%s]"
-#~ msgstr "файли танзимдарории [%s] нависед"
-
-#, fuzzy
-#~ msgid "unable to parse \"%s\" in file [%s]"
-#~ msgstr "дохилшавии файли rpm-и [%s] номумкин"
-
-#, fuzzy
-#~ msgid "examining parallel handler in file [%s]"
-#~ msgstr "хондани файли hdlist-и [%s]"
-
-#, fuzzy
-#~ msgid "unable to use parallel option \"%s\""
-#~ msgstr "нав кардани муҳити \"%s\" номумкин\n"
-
-#, fuzzy
-#~ msgid "examining hdlist file [%s]"
-#~ msgstr "хондани файли hdlist-и [%s]"
-
-#, fuzzy
-#~ msgid "examining synthesis file [%s]"
-#~ msgstr "хондани файли hdlist-и [%s]"
-
-#, fuzzy
-#~ msgid "problem reading hdlist file of medium \"%s\""
-#~ msgstr "файли сунъии офаридаи hdlist барои муҳити \"%s\""
-
-#, fuzzy
-#~ msgid "problem reading synthesis file of medium \"%s\""
-#~ msgstr "файли сунъии офаридаи hdlist барои муҳити \"%s\""
-
-#~ msgid "medium \"%s\" already exists"
-#~ msgstr "муҳити \"%s\" аллакай вуҷуд дорад"
-
-#, fuzzy
-#~ msgid "unable to access first installation medium"
-#~ msgstr "дохилшавии файли рӯйхати \"%s\" номумкин, муҳит рад шуд"
-
-#, fuzzy
-#~ msgid "copying hdlists file..."
-#~ msgstr "хондани файли hdlist-и [%s]"
-
-#, fuzzy
-#~ msgid "retrieving hdlists file..."
-#~ msgstr "хондани файли hdlist-и [%s]"
-
-#, fuzzy
-#~ msgid "...retrieving done"
-#~ msgstr "барқароркунии [%s]"
-
-#, fuzzy
-#~ msgid "...retrieving failed: %s"
-#~ msgstr "барқароркунии [%s]"
-
-#~ msgid "trying to select inexistent medium \"%s\""
-#~ msgstr "кӯшиши интихоби муҳити вуҷуд надоштаи \"%s\""
-
-#, fuzzy
-#~ msgid "selecting multiple media: %s"
-#~ msgstr "кӯшиши интихоби муҳити вуҷуд надоштаи \"%s\""
-
-#, fuzzy
-#~ msgid "removing medium \"%s\""
-#~ msgstr "кӯшиши хориҷи муҳити вуҷуд надоштаи \"%s\""
-
-#~ msgid "unable to access medium \"%s\""
-#~ msgstr "дохилшавии муҳити \"%s\" номумкин"
-
-#, fuzzy
-#~ msgid "copying description file of \"%s\"..."
-#~ msgstr "дар файли рӯйхат барои \"%s\" чизе навишта нашудааст"
-
-#~ msgid "copy of [%s] failed"
-#~ msgstr "нусхаи [%s] нагузашт"
-
-#, fuzzy
-#~ msgid "examining MD5SUM file"
-#~ msgstr "хондани файли hdlist-и [%s]"
-
-#, fuzzy
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "файлҳои rpm аз [%s] ёфт нашуданд"
-
-#, fuzzy
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "хондани файли rpm [%s] аз муҳити \"%s\" номумкин"
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "файлҳои rpm аз [%s] ёфт нашуданд"
-
-#~ msgid "no hdlist file found for medium \"%s\""
-#~ msgstr "файли hdlist барои муҳити \"%s\" ёфт нашуд"
-
-#~ msgid "unable to parse hdlist file of \"%s\""
-#~ msgstr "таҷзияи файли hdlist - и \"%s\" номумкин"
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "навиштани файли рӯйхатии \"%s\" номумкин"
-
-#, fuzzy
-#~ msgid "writing list file for medium \"%s\""
-#~ msgstr "файли hdlist барои муҳити \"%s\" ёфт нашуд"
-
-#~ msgid "nothing written in list file for \"%s\""
-#~ msgstr "дар файли рӯйхат барои \"%s\" чизе навишта нашудааст"
-
-#, fuzzy
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "кӯшиши хориҷи муҳити вуҷуд надоштаи \"%s\""
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "офариниши hdlist [%s]"
-
-#~ msgid "built hdlist synthesis file for medium \"%s\""
-#~ msgstr "файли сунъии офаридаи hdlist барои муҳити \"%s\""
-
-#~ msgid "found %d headers in cache"
-#~ msgstr "%d сарлавҳаҳо дар кэш ёфт шуданд"
-
-#~ msgid "removing %d obsolete headers in cache"
-#~ msgstr "хориҷи сарлавҳаҳои кӯҳнашудаи %d дар кэш"
-
-#~ msgid "mounting %s"
-#~ msgstr "васлкунии %s"
-
-#~ msgid "unmounting %s"
-#~ msgstr "ҷудокунии %s"
-
-#~ msgid "relocated %s entries in depslist"
-#~ msgstr "элементҳои %s-и ҷойивазшуда дар depslist"
-
-#, fuzzy
-#~ msgid "no entries relocated in depslist"
-#~ msgstr "элементҳои %s-и ҷойивазшуда дар depslist"
-
-#~ msgid "invalid rpm file name [%s]"
-#~ msgstr "номи файли rpm-и нодурусти [%s]"
-
-#, fuzzy
-#~ msgid "retrieving rpm file [%s] ..."
-#~ msgstr "барқароркунии [%s]"
-
-#~ msgid "error registering local packages"
-#~ msgstr "хатогии ба қайдгирии қуттиҳои маҳаллӣ"
-
-#~ msgid "no package named %s"
-#~ msgstr "қуттии бо номи %s нест"
-
-#, fuzzy
-#~ msgid "there are multiple packages with the same rpm filename \"%s\""
-#~ msgstr "қуттиҳои зиёде бо чунин номи файли rpm-и \"%s\" вуҷуд доранд"
-
-#, fuzzy
-#~ msgid "unable to correctly parse [%s] on value \"%s\""
-#~ msgstr "таҷзияи дурсти [%s] дар қиммати \"%s\" номумкин"
-
-#~ msgid "package %s is not found."
-#~ msgstr "қуттии %s ёфт нашуд."
-
-#~ msgid "medium \"%s\" is not selected"
-#~ msgstr "муҳити \"%s\" интихоб нашудааст"
-
-#~ msgid "unable to read rpm file [%s] from medium \"%s\""
-#~ msgstr "хондани файли rpm [%s] аз муҳити \"%s\" номумкин"
-
-#~ msgid "incoherent medium \"%s\" marked removable but not really"
-#~ msgstr ""
-#~ "муҳити бемуносибати \"%s\" ҳамчун ивазшаванда ишора шудааст, локиннодуруст"
-
-#~ msgid "malformed input: [%s]"
-#~ msgstr "даровардани бад: [%s]"
-
-#, fuzzy
-#~ msgid "retrieving rpm files from medium \"%s\"..."
-#~ msgstr "барқароркунии [%s]"
 
 #~ msgid "nothing to write in list file for \"%s\""
 #~ msgstr "дар файли рӯйхат барои \"%s\" чизе ба навиштан нест"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-02-21 19:42+0100\n"
+"POT-Creation-Date: 2003-03-05 19:38+0100\n"
 "PO-Revision-Date: 2002-11-25 13:52-0500\n"
 "Last-Translator: Wachara Chinsettawong <wachara@yahoo.com>\n"
 "Language-Team: Thai <th@li.org>\n"
@@ -28,34 +28,30 @@ msgstr ""
 "การติดตั้ง Package แบบอัตโนมัต...\n"
 "คุณได้เลือกที่จะติดตั้ง Package %s\n"
 
-#: ../_irpm_.c:33 ../urpme_.c:32 ../urpmi_.c:461
+#: ../_irpm_.c:33 ../urpme_.c:32 ../urpmi_.c:467
 msgid "Is this OK?"
 msgstr "ตกลงไหมครับ"
 
-#: ../_irpm_.c:35 ../urpmi_.c:373 ../urpmi_.c:415 ../urpmi_.c:464
-#: ../urpmi_.c:506 ../urpmi_.c:533
+#: ../_irpm_.c:35 ../urpmi_.c:122
 msgid "Ok"
 msgstr "ตกลง"
 
-#: ../_irpm_.c:36 ../urpmi_.c:374 ../urpmi_.c:416 ../urpmi_.c:465
-#: ../urpmi_.c:507 ../urpmi_.c:534
+#: ../_irpm_.c:36 ../urpmi_.c:123
 msgid "Cancel"
 msgstr "ยกเลิก"
 
-#. Translator: Add here the keys which might be pressed in the "No"-case.
-#: ../_irpm_.c:42 ../urpme_.c:34 ../urpmi_.c:378 ../urpmi_.c:420
-#: ../urpmi_.c:469 ../urpmi_.c:538 ../urpmi_.c:602 placeholder.h:17
+#: ../_irpm_.c:42 ../urpme_.c:34 ../urpmi_.c:386 ../urpmi_.c:426
+#: ../urpmi_.c:473 ../urpmi_.c:538 ../urpmi_.c:602 placeholder.h:17
 msgid "Nn"
 msgstr "Nnม"
 
-#. Translator: Add here the keys which might be pressed in the "Yes"-case.
-#: ../_irpm_.c:43 ../urpme_.c:36 ../urpmi_.c:379 ../urpmi_.c:421
-#: ../urpmi_.c:470 ../urpmi_.c:539 ../urpmi_.c:603 placeholder.h:11
+#: ../_irpm_.c:43 ../urpme_.c:36 ../urpmi_.c:387 ../urpmi_.c:427
+#: ../urpmi_.c:474 ../urpmi_.c:539 ../urpmi_.c:603 placeholder.h:11
 msgid "Yy"
 msgstr "Yyช"
 
-#: ../_irpm_.c:44 ../urpme_.c:106 ../urpmi_.c:380 ../urpmi_.c:422
-#: ../urpmi_.c:471
+#: ../_irpm_.c:44 ../urpme_.c:106 ../urpmi_.c:388 ../urpmi_.c:428
+#: ../urpmi_.c:475
 msgid " (Y/n) "
 msgstr " (Y/n) "
 
@@ -101,63 +97,478 @@ msgstr "wget ล้มเหลว: ออกจากระบบด้วย %d หรือด้วยสัญญาณ %d\n"
 msgid "curl is missing\n"
 msgstr "curl หายไป\n"
 
-#: ../urpm.pm_.c:373
+#: ../urpm.pm_.c:556
 #, c-format
-msgid "curl failed: exited with %d or signal %d\n"
-msgstr "curl ล้มเหลวออกด้วย %d หรือด้วยสัญญาณ %d\n"
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr "อุปกรณ์\"%s\"พยายามเลือกใช้อุปกรณ์ที่ใช้แล้ว, อุปกรณ์ถูกยกเลิกไม่ใช้"
 
-#: ../urpm.pm_.c:377 ../urpm.pm_.c:419
-msgid "rsync is missing\n"
-msgstr "rsync หายไป\n"
-
-#: ../urpm.pm_.c:416 ../urpm.pm_.c:458
+#: ../urpm.pm_.c:572
 #, c-format
-msgid "rsync failed: exited with %d or signal %d\n"
-msgstr "rsync ล้มเหลวออกจากระบบด้วย %d หรือด้วยสัญญาณ %d\n"
+msgid ""
+"unable to take care of medium \"%s\" as list file is already used by another "
+"medium"
+msgstr "ไม่สามารถดูแลอุปกรณ์\"%s\"เพราะว่า list file ได้ถูกใช้โดยอุปกรณ์อื่นแล้ว"
 
-#: ../urpm.pm_.c:420
-msgid "ssh is missing\n"
-msgstr "ssh ไม่มีอยู่\n"
-
-#: ../urpm.pm_.c:467 ../urpmi_.c:491
+#: ../urpm.pm_.c:578
 #, c-format
-msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-msgstr ""
+msgid "unable to use name \"%s\" for unnamed medium because it is already used"
+msgstr "ไม่สามารถใช้ชื่อ \"%s\" สำหรับอุปกรณ์ที่ไม่มีชื่อเพราะว่ามันได้ถูกใช้แล้ว"
 
-#: ../urpm.pm_.c:469 ../urpmi_.c:494
+#: ../urpm.pm_.c:585
 #, c-format
-msgid "        %s%% completed, speed = %s"
-msgstr ""
+msgid "unable to take medium \"%s\" into account as no list file [%s] exists"
+msgstr "ไม่สามารถนำอุปกรณ์ \"%s\" มาใช้เพราะว่าไม่มี list file[%s]"
 
-#: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
+#: ../urpm.pm_.c:589
+#, c-format
+msgid "unable to determine medium of this hdlist file [%s]"
+msgstr "ไม่สามารถกำหนดอุปกรณ์ด้วย hdlist file นี้ [%s]"
+
+#: ../urpm.pm_.c:598
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "ไม่สามารถใช้งาน hdlist file \"%s\", medium ignored"
+
+#: ../urpm.pm_.c:600
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "ไม่สามารถใช้งาน list file ของ \"%s\", medium ignored"
+
+#: ../urpm.pm_.c:614
+#, c-format
+msgid "trying to bypass existing medium \"%s\", avoiding"
+msgstr "กำลังเลี่ยงการทำงานของอุปกรณ์ \"%s\""
+
+#: ../urpm.pm_.c:622
+#, c-format
+msgid "unable to find hdlist file for \"%s\", medium ignored"
+msgstr "ไม่สามารถหา hdlist file สำหรับ\"%s\",medium ignored"
+
+#: ../urpm.pm_.c:628
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "ไม่สามารถหา list file สำหรับ\"%s\",medium ignored"
+
+#: ../urpm.pm_.c:651
+#, c-format
+msgid "incoherent list file for \"%s\", medium ignored"
+msgstr "list file ไม่ปะติดปะต่อ \"%s\", medium ignored"
+
+#: ../urpm.pm_.c:659
+#, c-format
+msgid "unable to inspect list file for \"%s\", medium ignored"
+msgstr "ไม่สามารถตรวจสอบ list file สำหรับ \"%s\", medium ignored"
+
+#: ../urpm.pm_.c:690
+#, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr "จำนวนเม้าท์พ้อยท์มากเกินไปสำหรับอุปกรณ์แบบเคลื่อนย้ายได้\"%s\""
+
+#: ../urpm.pm_.c:691
+#, c-format
+msgid "taking removable device as \"%s\""
+msgstr "กำลังนำอุปกรณ์ที่เคลื่อนย้ายได้จาก \"%s\" ออกมา"
+
+#: ../urpm.pm_.c:695
+#, c-format
+msgid "using different removable device [%s] for \"%s\""
+msgstr "ใช้อุปกรณ์แบบย้ายเข้าออกได้ที่แตกต่าง [%s] สำหรับ \"%s\""
+
+#: ../urpm.pm_.c:700 ../urpm.pm_.c:703
+#, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "ไม่สามาถจะดึงส่วนของ pathname สำหรับอุปกรณ์แบบเคลื่อนย้ายได้\"%s\""
+
+#: ../urpm.pm_.c:716
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "ไม่สามารถเขียน config file [%s]"
+
+#: ../urpm.pm_.c:735
+#, c-format
+msgid "write config file [%s]"
+msgstr "เขียน config file[%s]"
+
+#: ../urpm.pm_.c:755
+#, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "ไม่สามารถใช้งาน \"%s\" ใน file [%s]"
+
+#: ../urpm.pm_.c:766
+#, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "กำลังตรวจสอบ parallel handler ในไฟล์ [%s]"
+
+#: ../urpm.pm_.c:776
+#, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr "พบ parallel handler สำหรับ %s"
+
+#: ../urpm.pm_.c:780
+#, fuzzy, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr "กำลังใช้อุปกรณ์ที่เกี่ยวข้องสำหรับ parallel mode : %s "
+
+#: ../urpm.pm_.c:784
+#, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "ไม่สามารถใช้ parallel option \"%s\""
+
+#: ../urpm.pm_.c:795
+msgid "--synthesis cannot be used with --media, --update or --parallel"
+msgstr "--synthesis cannot be used with --media, --update or --parallel"
+
+#: ../urpm.pm_.c:811 ../urpm.pm_.c:819 ../urpm.pm_.c:834 ../urpm.pm_.c:1104
+#: ../urpm.pm_.c:1214 ../urpm.pm_.c:1391 ../urpm.pm_.c:1454 ../urpm.pm_.c:1472
+#: ../urpm.pm_.c:1619
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr "กำลังตรวจสอบไฟล์ hdlist [%s]"
+
+#: ../urpm.pm_.c:815 ../urpm.pm_.c:830 ../urpm.pm_.c:1101 ../urpm.pm_.c:1210
+#: ../urpm.pm_.c:1387 ../urpm.pm_.c:1460 ../urpm.pm_.c:1466 ../urpm.pm_.c:1543
+#: ../urpm.pm_.c:1614
+#, c-format
+msgid "examining synthesis file [%s]"
+msgstr "กำลังตรวจสอบไฟล์ synthesis [%s]"
+
+#: ../urpm.pm_.c:825
+#, c-format
+msgid "problem reading hdlist file of medium \"%s\""
+msgstr "มีปัญหาในการสร้างไฟล์ hdlist สำหรับอุปกรณ์\"%s\""
+
+#: ../urpm.pm_.c:837 ../urpm.pm_.c:1108 ../urpm.pm_.c:1218 ../urpm.pm_.c:1395
+#: ../urpm.pm_.c:1546
+#, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "มีปัญหาในการอ่านไฟล์ synthesis สำหรับอุปกรณ์\"%s\""
+
+#: ../urpm.pm_.c:852 ../urpm.pm_.c:2019 ../urpm.pm_.c:2441 ../urpm.pm_.c:2525
 #, fuzzy
 msgid "unable to open rpmdb"
 msgstr "ไม่สามารถลงทะเบียน rpm file"
 
-#: ../urpm.pm_.c:2440
+#: ../urpm.pm_.c:890
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "อุปกรณ์\"%s\"มีอยู่แล้ว"
+
+#: ../urpm.pm_.c:918
+#, c-format
+msgid "added medium %s"
+msgstr "อุปกรณ์ที่ถูกเพิ่มเข้ามา %s"
+
+#: ../urpm.pm_.c:933
+msgid "unable to access first installation medium"
+msgstr "ไม่สามารถเข้าถึงอุปกรณ์เพื่อใช้ในการติดตั้งอันแรก"
+
+#: ../urpm.pm_.c:937
+msgid "copying hdlists file..."
+msgstr "กำลังคัดลอกไฟล์ hdlist"
+
+#: ../urpm.pm_.c:939 ../urpm.pm_.c:1165 ../urpm.pm_.c:1178 ../urpm.pm_.c:1233
+msgid "...copying done"
+msgstr "การคัดลอกสมบูรณ์"
+
+#: ../urpm.pm_.c:939 ../urpm.pm_.c:1165 ../urpm.pm_.c:1175 ../urpm.pm_.c:1233
+#, fuzzy
+msgid "...copying failed"
+msgstr "การคัดลอกสมบูรณ์"
+
+#: ../urpm.pm_.c:941 ../urpm.pm_.c:959 ../urpm.pm_.c:984
+msgid ""
+"unable to access first installation medium (no Mandrake/base/hdlists file "
+"found)"
+msgstr "ไม่สามารถที่จะเข้าถึงอุปกรณ์เพื่อการติดตั้งตัวแรก (ไม่พบไฟล์ Mandrake/base/hdlists)"
+
+#: ../urpm.pm_.c:947
+msgid "retrieving hdlists file..."
+msgstr "กำลังอ่านข้อมูลจากไฟล์ hdlists"
+
+#: ../urpm.pm_.c:953 ../urpm.pm_.c:1291 ../urpm.pm_.c:1353 ../urpm.pm_.c:1855
+#: ../urpm.pm_.c:2352
+msgid "...retrieving done"
+msgstr "การอ่านข้อมูลเรียบร้อย"
+
+#: ../urpm.pm_.c:955 ../urpm.pm_.c:1347 ../urpm.pm_.c:1858 ../urpm.pm_.c:2355
+#, c-format
+msgid "...retrieving failed: %s"
+msgstr "การอ่านข้อมูลล้มเหลว: %s"
+
+#: ../urpm.pm_.c:975
+#, c-format
+msgid "invalid hdlist description \"%s\" in hdlists file"
+msgstr "คำอธิบาย hdlist ไม่ถูกต้อง \"%s\" ในไฟล์ hdlists"
+
+#: ../urpm.pm_.c:1017
+#, c-format
+msgid "trying to select inexistent medium \"%s\""
+msgstr "พยายามที่จะเลือกใช้อุปกรณ์ที่ไม่มี\"%s\""
+
+#: ../urpm.pm_.c:1019
+#, c-format
+msgid "\"%s\""
+msgstr "\"%s\""
+
+#: ../urpm.pm_.c:1019
+#, c-format
+msgid "selecting multiple media: %s"
+msgstr "พยายามที่จะเลือกใช้มีเดียหลายๆตัว: %s"
+
+#: ../urpm.pm_.c:1035
+#, c-format
+msgid "removing medium \"%s\""
+msgstr "กำลังทำการย้ายออกอุปกรณ์\"%s\""
+
+#: ../urpm.pm_.c:1081 ../urpm.pm_.c:2270
+msgid "urpmi database locked"
+msgstr "ฐานข้อมูล urpmi ถูกล็อก"
+
+#: ../urpm.pm_.c:1133 ../urpm.pm_.c:2281
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "ไม่สามารถใช้อุปกรณ์\"%s\""
+
+#: ../urpm.pm_.c:1163
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "กำลังคัดลอกคำอธิบายไฟล์ของ \"%s\"..."
+
+#: ../urpm.pm_.c:1171
+#, c-format
+msgid "copying source hdlist (or synthesis) of \"%s\"..."
+msgstr "กำลังคัดลอกโค้ด hdlist (หรือ synthesis) ของ \"%s\"..."
+
+#: ../urpm.pm_.c:1182
+#, c-format
+msgid "copy of [%s] failed"
+msgstr "การทำสำเนา [%s] ไม่สำเร็จ"
+
+#: ../urpm.pm_.c:1187 ../urpm.pm_.c:1366
+msgid "examining MD5SUM file"
+msgstr "กำลังตรวจสอบไฟล์ MD5SUM"
+
+#: ../urpm.pm_.c:1231
+#, c-format
+msgid "copying source list of \"%s\"..."
+msgstr "กำลังคัดลอกรายการโค้ดของ \"%s\""
+
+#: ../urpm.pm_.c:1248
+#, c-format
+msgid "reading rpm files from [%s]"
+msgstr "กำลังอ่านไฟล์ rpm จาก [%s]"
+
+#: ../urpm.pm_.c:1267
+#, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "ไม่สามารถอ่านไฟล์ rpm จาก [%s]: %s"
+
+#: ../urpm.pm_.c:1272
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "ไม่พบ rpm files จาก [%s]"
+
+#: ../urpm.pm_.c:1285
+#, c-format
+msgid "retrieving description file of \"%s\"..."
+msgstr "กำลังอ่านคำอธิบายไฟล์ของ \"%s\"..."
+
+#: ../urpm.pm_.c:1300
+#, c-format
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "กำลังดึงโค้ด hdlist (หรือ synthesis) ของ \"%s\"..."
+
+#: ../urpm.pm_.c:1425
+msgid "retrieve of source hdlist (or synthesis) failed"
+msgstr "การดึงโค้ดจาก hdlist (หรือ synthesis)ล้มเหลว"
+
+#: ../urpm.pm_.c:1432
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "ไม่พบ hdlist file สำหรับอุปกรณ์\"%s\""
+
+#: ../urpm.pm_.c:1444 ../urpm.pm_.c:1496
+#, c-format
+msgid "file [%s] already used in the same medium \"%s\""
+msgstr "ไฟล์ [%s] มีใช้งานอยู่ในที่เดียวกันอยู่แล้ว\"%s\""
+
+#: ../urpm.pm_.c:1480
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "ไม่สามารถ parse hdlist file of \"%s\""
+
+#: ../urpm.pm_.c:1519
+#, c-format
+msgid "unable to write list file of \"%s\""
+msgstr "ไม่สามารถเขียน list file ของ\"%s\""
+
+#: ../urpm.pm_.c:1526
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "กำลังเขียน list file สำหรับอุปกรณ์\"%s\""
+
+#: ../urpm.pm_.c:1528
+#, c-format
+msgid "nothing written in list file for \"%s\""
+msgstr "ไม่มีการเขียนใน list file สำหรับ\"%s\""
+
+#: ../urpm.pm_.c:1578
+msgid "performing second pass to compute dependencies\n"
+msgstr "ทำการผ่านครั้งที่สองเพื่อทดสอบ ความเป็นอิสระ\n"
+
+#: ../urpm.pm_.c:1592
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "กำลังทำการอ่าน headers จากอุปกรณ์\"%s\""
+
+#: ../urpm.pm_.c:1597
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "สร้าง hdlist [%s]"
+
+#: ../urpm.pm_.c:1609 ../urpm.pm_.c:1628
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "สร้าง hdlist synthesis file สำหรับ อุปกรณ์ \"%s\""
+
+#: ../urpm.pm_.c:1647
+#, c-format
+msgid "found %d headers in cache"
+msgstr "พบ %d header ใน cache"
+
+#: ../urpm.pm_.c:1651
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "กำลังลบ %d headerที่ล้าสมัยใน cache"
+
+#: ../urpm.pm_.c:1798
+#, c-format
+msgid "mounting %s"
+msgstr "กำลังติดตั้ง %s"
+
+#: ../urpm.pm_.c:1811
+#, c-format
+msgid "unmounting %s"
+msgstr "กำลังถอดถอน %s"
+
+#: ../urpm.pm_.c:1833
+#, c-format
+msgid "relocated %s entries in depslist"
+msgstr "ย้าย %s ใน depslist"
+
+#: ../urpm.pm_.c:1834
+msgid "no entries relocated in depslist"
+msgstr "ไม่มีค่าซึ่งถูกย้ายใน depslist"
+
+#: ../urpm.pm_.c:1847
+#, c-format
+msgid "invalid rpm file name [%s]"
+msgstr "ชื่อ rpm fileไม่ถูกต้อง [%s]"
+
+#: ../urpm.pm_.c:1853
+#, fuzzy, c-format
+msgid "retrieving rpm file [%s] ..."
+msgstr "กำลังอ่านข้อมูลไฟล์ rpm..."
+
+#: ../urpm.pm_.c:1860 ../urpm.pm_.c:2479
+#, c-format
+msgid "unable to access rpm file [%s]"
+msgstr "ไม่สามารถใช้งาน rpm file [%s]"
+
+#: ../urpm.pm_.c:1865
+#, fuzzy
+msgid "unable to register rpm file"
+msgstr "ไม่สามารถใช้งาน rpm file [%s]"
+
+#: ../urpm.pm_.c:1868
+msgid "error registering local packages"
+msgstr "ลงทะเบียน local package มีข้อผิดพลาด"
+
+#: ../urpm.pm_.c:1960
+#, c-format
+msgid "no package named %s"
+msgstr "ไม่มี package ที่ชื่อ %s"
+
+#: ../urpm.pm_.c:1963 ../urpme_.c:88
+#, c-format
+msgid "The following packages contain %s: %s"
+msgstr "packages ต่อไปนี้มี %s: %s"
+
+#: ../urpm.pm_.c:2105 ../urpm.pm_.c:2137 ../urpm.pm_.c:2159
+#, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "มีหลาย package ที่มีชื่อไฟล์เหมือนกับ \"%s\""
+
+#: ../urpm.pm_.c:2147
+#, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "ไม่สามารถที่จะผ่าน [%s] ด้วยค่า \"%s\"อย่างถูกต้อง"
+
+#: ../urpm.pm_.c:2171
+#, c-format
+msgid ""
+"medium \"%s\" use an invalid list file (mirror is problably not up-to-date, "
+"trying to use alternate method)"
+msgstr ""
+
+#: ../urpm.pm_.c:2174
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr ""
+
+#: ../urpm.pm_.c:2183
+#, c-format
+msgid "package %s is not found."
+msgstr "หา %s package ไม่พบ"
+
+#: ../urpm.pm_.c:2231 ../urpm.pm_.c:2234 ../urpm.pm_.c:2256
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "อุปกรณ์ \"%s\" ไม่ได้ถูกเลือก"
+
+#: ../urpm.pm_.c:2249
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "ไม่สามารถอ่าน rpm file [%s] จาก \"%s\""
+
+#: ../urpm.pm_.c:2260
+#, c-format
+msgid "incoherent medium \"%s\" marked removable but not really"
+msgstr "อุปกรณ์ที่ไม่เชื่อมกัน \"%s\" ถูกระบุว่าถอดเปลี่ยนได้แต่มันไม่ใช่"
+
+#: ../urpm.pm_.c:2337
+#, c-format
+msgid "malformed input: [%s]"
+msgstr " inputไม่ถูกต้อง :[%s]"
+
+#: ../urpm.pm_.c:2344
+#, fuzzy, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "กำลังอ่านข้อมูลไฟล์ rpm..."
+
+#: ../urpm.pm_.c:2417
+msgid "Preparing..."
+msgstr "กำลังเตรียม..."
+
+#: ../urpm.pm_.c:2448
 #, c-format
 msgid "unable to remove package %s"
 msgstr "ไม่สามารถที่จะลบแพ็คเกจ %s"
 
-#: ../urpm.pm_.c:2449
+#: ../urpm.pm_.c:2457
 #, c-format
 msgid "unable to install package %s"
 msgstr "ไม่สามารถติดตั้งแพ็คเกจ %s"
 
-#: ../urpm.pm_.c:2458
+#: ../urpm.pm_.c:2466
 #, c-format
 msgid "%s is needed by %s"
 msgstr "%s จำเป็นสำหรับ %s"
 
-#: ../urpm.pm_.c:2459
+#: ../urpm.pm_.c:2467
 #, c-format
 msgid "%s conflicts with %s"
 msgstr "%s ขัดแย้งกับ %s"
-
-#: ../urpm.pm_.c:2471
-#, c-format
-msgid "unable to access rpm file [%s]"
-msgstr "ไม่สามารถใช้งาน rpm file [%s]"
 
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
 #: ../urpm/parallel_ka_run.pm_.c:178
@@ -249,11 +660,6 @@ msgstr "แพ็คเกจไม่รู้จัก"
 #, fuzzy
 msgid "unknown packages"
 msgstr "แพ็คเกจไม่รู้จัก"
-
-#: ../urpme_.c:88
-#, c-format
-msgid "The following packages contain %s: %s"
-msgstr "packages ต่อไปนี้มี %s: %s"
 
 #: ../urpme_.c:93
 #, fuzzy, c-format
@@ -436,10 +842,6 @@ msgid ""
 "%s\n"
 msgstr ""
 
-#. Translator: The URI types strings 'file:', 'ftp:', 'http:',
-#. Translator: and 'removable:' must not be translated!
-#. Translator: neither the ``with''.
-#. Translator: only what is between <brakets> can be translated.
 #: ../urpmi.addmedia_.c:44
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
@@ -797,48 +1199,48 @@ msgstr "  -v             - โหมดคำ\n"
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "ชื่อไฟล์หรือชื่อ rpm ที่ให้ไว้ในคำสั่งถูกติดตั้งแล้ว\n"
 
-#: ../urpmi_.c:187
+#: ../urpmi_.c:197
 #, c-format
 msgid "urpmi: unknown option \"-%s\", check usage with --help\n"
 msgstr "urpmi: ตัวเลือกไม่รู้จัก \"-%s\" ตรวจสอบการใช้จาก --help\n"
 
-#: ../urpmi_.c:206
+#: ../urpmi_.c:216
 msgid "What can be done with binary rpm files when using --install-src"
 msgstr ""
 
-#: ../urpmi_.c:213
+#: ../urpmi_.c:223
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "ไม่สามารถสร้างไดเร็คตอรี่ [%s] สำหรับรายงานบัก"
 
-#: ../urpmi_.c:227
+#: ../urpmi_.c:237
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
 
-#: ../urpmi_.c:238
+#: ../urpmi_.c:248
 msgid "Only superuser is allowed to install packages"
 msgstr "superuser เท่านั้นที่มีสิทธิติดตั้ง packages"
 
-#: ../urpmi_.c:339
+#: ../urpmi_.c:349
 #, c-format
 msgid "One of the following packages is needed to install %s:"
 msgstr "หนึ่งใน Packages ต่อไปนี้ต้องมีในการจะติดตั้ง %s:"
 
-#: ../urpmi_.c:340
+#: ../urpmi_.c:350
 msgid "One of the following packages is needed:"
 msgstr "หนึ่งใน Packages ต่อไปนี้ต้องได้รับการติดตั้ง "
 
-#: ../urpmi_.c:348
+#: ../urpmi_.c:358
 #, c-format
 msgid "What is your choice? (1-%d) "
 msgstr "ต้องการเลือกอะไรครับ  (1-%d) "
 
-#: ../urpmi_.c:351
+#: ../urpmi_.c:361
 msgid "Sorry, bad choice, try again\n"
 msgstr "การเลือกไม่ถูกต้อง ลองใหม่ครับ\n"
 
-#: ../urpmi_.c:371
+#: ../urpmi_.c:381
 #, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
@@ -849,31 +1251,31 @@ msgstr ""
 "%s\n"
 "คุณเห็นด้วยหรือไม่?"
 
-#: ../urpmi_.c:394
+#: ../urpmi_.c:402
 #, fuzzy, c-format
 msgid "in order to install %s"
 msgstr "ไม่สามารถติดตั้งแพ็คเกจ %s"
 
-#: ../urpmi_.c:399
+#: ../urpmi_.c:407
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr ""
 
-#: ../urpmi_.c:401
+#: ../urpmi_.c:409
 #, fuzzy, c-format
 msgid "due to missing %s"
 msgstr "wget หายไป\n"
 
-#: ../urpmi_.c:406
+#: ../urpmi_.c:414
 #, fuzzy, c-format
 msgid "due to conflicts with %s"
 msgstr "%s ขัดแย้งกับ %s"
 
-#: ../urpmi_.c:408
+#: ../urpmi_.c:416
 msgid "unrequested"
 msgstr ""
 
-#: ../urpmi_.c:413
+#: ../urpmi_.c:421
 #, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
@@ -884,14 +1286,14 @@ msgstr ""
 "%s\n"
 "คุณยอมให้ทำการลบทิ้งหรือไม่?"
 
-#: ../urpmi_.c:451 ../urpmi_.c:460
+#: ../urpmi_.c:457 ../urpmi_.c:466
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
 "d MB)"
 msgstr "เพื่อที่จะแก้ใขปัญหาการเข้ากันได้ packages ต่อไปนี้จะถูกติดตั้ง (%d MB)"
 
-#: ../urpmi_.c:457
+#: ../urpmi_.c:463
 #, c-format
 msgid ""
 "You need to be root to install the following dependencies:\n"
@@ -900,24 +1302,34 @@ msgstr ""
 "คุณจะต้องเป็นรูทในการติดตั้ง ความเป็นอิสระ :\n"
 "%s\n"
 
-#: ../urpmi_.c:479 ../urpmq_.c:297
+#: ../urpmi_.c:483 ../urpmq_.c:297
 msgid "unable to get source packages, aborting"
 msgstr "ไม่สามารถเรียก source package,กำลังยกเลิก"
 
-#: ../urpmi_.c:503
+#: ../urpmi_.c:495
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr ""
+
+#: ../urpmi_.c:498
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr ""
+
+#: ../urpmi_.c:507
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "กรุณาใส่อุปกรณ์ที่มีชื่อ \"%s\" ใน [%s]"
 
-#: ../urpmi_.c:504
+#: ../urpmi_.c:508
 msgid "Press Enter when ready..."
 msgstr "กรุณากด enter เมื่อพร้อม"
 
-#: ../urpmi_.c:525
+#: ../urpmi_.c:527
 msgid "The following packages have bad signatures"
 msgstr "แพ็คเกจต่อไปนี้มี signatures ที่ไม่ถูกต้อง"
 
-#: ../urpmi_.c:526
+#: ../urpmi_.c:528
 msgid "Do you want to continue installation ?"
 msgstr "คุณยังต้องการจะติดตั้งอีกต่อไปหรือไม่ ?"
 
@@ -1136,273 +1548,23 @@ msgstr "try urpmf --help มีทางช่วยให้เลือกมาก"
 msgid "no full media list was found"
 msgstr "ไม่พบรายการสำหรับมีเดีย"
 
+#~ msgid "curl failed: exited with %d or signal %d\n"
+#~ msgstr "curl ล้มเหลวออกด้วย %d หรือด้วยสัญญาณ %d\n"
+
+#~ msgid "rsync is missing\n"
+#~ msgstr "rsync หายไป\n"
+
+#~ msgid "rsync failed: exited with %d or signal %d\n"
+#~ msgstr "rsync ล้มเหลวออกจากระบบด้วย %d หรือด้วยสัญญาณ %d\n"
+
+#~ msgid "ssh is missing\n"
+#~ msgstr "ssh ไม่มีอยู่\n"
+
 #~ msgid "syntax error in config file at line %s"
 #~ msgstr "มีข้อผิดพลาดใน config file บรรทัดที่ %s"
 
 #~ msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
 #~ msgstr "อุปกรณ์\"%s\"พยามยามใช้ hdlistที่ใช้อยู่แล้ว ,อุปกรณ์ถูกยกเลิกไม่ใช้"
-
-#~ msgid "medium \"%s\" trying to use an already used list, medium ignored"
-#~ msgstr "อุปกรณ์\"%s\"พยายามเลือกใช้อุปกรณ์ที่ใช้แล้ว, อุปกรณ์ถูกยกเลิกไม่ใช้"
-
-#~ msgid ""
-#~ "unable to take care of medium \"%s\" as list file is already used by "
-#~ "another medium"
-#~ msgstr "ไม่สามารถดูแลอุปกรณ์\"%s\"เพราะว่า list file ได้ถูกใช้โดยอุปกรณ์อื่นแล้ว"
-
-#~ msgid ""
-#~ "unable to use name \"%s\" for unnamed medium because it is already used"
-#~ msgstr "ไม่สามารถใช้ชื่อ \"%s\" สำหรับอุปกรณ์ที่ไม่มีชื่อเพราะว่ามันได้ถูกใช้แล้ว"
-
-#~ msgid ""
-#~ "unable to take medium \"%s\" into account as no list file [%s] exists"
-#~ msgstr "ไม่สามารถนำอุปกรณ์ \"%s\" มาใช้เพราะว่าไม่มี list file[%s]"
-
-#~ msgid "unable to determine medium of this hdlist file [%s]"
-#~ msgstr "ไม่สามารถกำหนดอุปกรณ์ด้วย hdlist file นี้ [%s]"
-
-#~ msgid "unable to access hdlist file of \"%s\", medium ignored"
-#~ msgstr "ไม่สามารถใช้งาน hdlist file \"%s\", medium ignored"
-
-#~ msgid "unable to access list file of \"%s\", medium ignored"
-#~ msgstr "ไม่สามารถใช้งาน list file ของ \"%s\", medium ignored"
-
-#~ msgid "trying to bypass existing medium \"%s\", avoiding"
-#~ msgstr "กำลังเลี่ยงการทำงานของอุปกรณ์ \"%s\""
-
-#~ msgid "unable to find hdlist file for \"%s\", medium ignored"
-#~ msgstr "ไม่สามารถหา hdlist file สำหรับ\"%s\",medium ignored"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "ไม่สามารถหา list file สำหรับ\"%s\",medium ignored"
-
-#~ msgid "incoherent list file for \"%s\", medium ignored"
-#~ msgstr "list file ไม่ปะติดปะต่อ \"%s\", medium ignored"
-
-#~ msgid "unable to inspect list file for \"%s\", medium ignored"
-#~ msgstr "ไม่สามารถตรวจสอบ list file สำหรับ \"%s\", medium ignored"
-
-#~ msgid "too many mount points for removable medium \"%s\""
-#~ msgstr "จำนวนเม้าท์พ้อยท์มากเกินไปสำหรับอุปกรณ์แบบเคลื่อนย้ายได้\"%s\""
-
-#~ msgid "taking removable device as \"%s\""
-#~ msgstr "กำลังนำอุปกรณ์ที่เคลื่อนย้ายได้จาก \"%s\" ออกมา"
-
-#~ msgid "using different removable device [%s] for \"%s\""
-#~ msgstr "ใช้อุปกรณ์แบบย้ายเข้าออกได้ที่แตกต่าง [%s] สำหรับ \"%s\""
-
-#~ msgid "unable to retrieve pathname for removable medium \"%s\""
-#~ msgstr "ไม่สามาถจะดึงส่วนของ pathname สำหรับอุปกรณ์แบบเคลื่อนย้ายได้\"%s\""
-
-#~ msgid "unable to write config file [%s]"
-#~ msgstr "ไม่สามารถเขียน config file [%s]"
-
-#~ msgid "write config file [%s]"
-#~ msgstr "เขียน config file[%s]"
-
-#~ msgid "unable to parse \"%s\" in file [%s]"
-#~ msgstr "ไม่สามารถใช้งาน \"%s\" ใน file [%s]"
-
-#~ msgid "examining parallel handler in file [%s]"
-#~ msgstr "กำลังตรวจสอบ parallel handler ในไฟล์ [%s]"
-
-#~ msgid "found parallel handler for nodes: %s"
-#~ msgstr "พบ parallel handler สำหรับ %s"
-
-#, fuzzy
-#~ msgid "using associated media for parallel mode: %s"
-#~ msgstr "กำลังใช้อุปกรณ์ที่เกี่ยวข้องสำหรับ parallel mode : %s "
-
-#~ msgid "unable to use parallel option \"%s\""
-#~ msgstr "ไม่สามารถใช้ parallel option \"%s\""
-
-#~ msgid "--synthesis cannot be used with --media, --update or --parallel"
-#~ msgstr "--synthesis cannot be used with --media, --update or --parallel"
-
-#~ msgid "examining hdlist file [%s]"
-#~ msgstr "กำลังตรวจสอบไฟล์ hdlist [%s]"
-
-#~ msgid "examining synthesis file [%s]"
-#~ msgstr "กำลังตรวจสอบไฟล์ synthesis [%s]"
-
-#~ msgid "problem reading hdlist file of medium \"%s\""
-#~ msgstr "มีปัญหาในการสร้างไฟล์ hdlist สำหรับอุปกรณ์\"%s\""
-
-#~ msgid "problem reading synthesis file of medium \"%s\""
-#~ msgstr "มีปัญหาในการอ่านไฟล์ synthesis สำหรับอุปกรณ์\"%s\""
-
-#~ msgid "medium \"%s\" already exists"
-#~ msgstr "อุปกรณ์\"%s\"มีอยู่แล้ว"
-
-#~ msgid "added medium %s"
-#~ msgstr "อุปกรณ์ที่ถูกเพิ่มเข้ามา %s"
-
-#~ msgid "unable to access first installation medium"
-#~ msgstr "ไม่สามารถเข้าถึงอุปกรณ์เพื่อใช้ในการติดตั้งอันแรก"
-
-#~ msgid "copying hdlists file..."
-#~ msgstr "กำลังคัดลอกไฟล์ hdlist"
-
-#~ msgid "...copying done"
-#~ msgstr "การคัดลอกสมบูรณ์"
-
-#~ msgid ""
-#~ "unable to access first installation medium (no Mandrake/base/hdlists file "
-#~ "found)"
-#~ msgstr ""
-#~ "ไม่สามารถที่จะเข้าถึงอุปกรณ์เพื่อการติดตั้งตัวแรก (ไม่พบไฟล์ Mandrake/base/hdlists)"
-
-#~ msgid "retrieving hdlists file..."
-#~ msgstr "กำลังอ่านข้อมูลจากไฟล์ hdlists"
-
-#~ msgid "...retrieving done"
-#~ msgstr "การอ่านข้อมูลเรียบร้อย"
-
-#~ msgid "...retrieving failed: %s"
-#~ msgstr "การอ่านข้อมูลล้มเหลว: %s"
-
-#~ msgid "invalid hdlist description \"%s\" in hdlists file"
-#~ msgstr "คำอธิบาย hdlist ไม่ถูกต้อง \"%s\" ในไฟล์ hdlists"
-
-#~ msgid "trying to select inexistent medium \"%s\""
-#~ msgstr "พยายามที่จะเลือกใช้อุปกรณ์ที่ไม่มี\"%s\""
-
-#~ msgid "\"%s\""
-#~ msgstr "\"%s\""
-
-#~ msgid "selecting multiple media: %s"
-#~ msgstr "พยายามที่จะเลือกใช้มีเดียหลายๆตัว: %s"
-
-#~ msgid "removing medium \"%s\""
-#~ msgstr "กำลังทำการย้ายออกอุปกรณ์\"%s\""
-
-#~ msgid "urpmi database locked"
-#~ msgstr "ฐานข้อมูล urpmi ถูกล็อก"
-
-#~ msgid "unable to access medium \"%s\""
-#~ msgstr "ไม่สามารถใช้อุปกรณ์\"%s\""
-
-#~ msgid "copying description file of \"%s\"..."
-#~ msgstr "กำลังคัดลอกคำอธิบายไฟล์ของ \"%s\"..."
-
-#~ msgid "copying source hdlist (or synthesis) of \"%s\"..."
-#~ msgstr "กำลังคัดลอกโค้ด hdlist (หรือ synthesis) ของ \"%s\"..."
-
-#~ msgid "copy of [%s] failed"
-#~ msgstr "การทำสำเนา [%s] ไม่สำเร็จ"
-
-#~ msgid "examining MD5SUM file"
-#~ msgstr "กำลังตรวจสอบไฟล์ MD5SUM"
-
-#~ msgid "copying source list of \"%s\"..."
-#~ msgstr "กำลังคัดลอกรายการโค้ดของ \"%s\""
-
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "กำลังอ่านไฟล์ rpm จาก [%s]"
-
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "ไม่สามารถอ่านไฟล์ rpm จาก [%s]: %s"
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "ไม่พบ rpm files จาก [%s]"
-
-#~ msgid "retrieving description file of \"%s\"..."
-#~ msgstr "กำลังอ่านคำอธิบายไฟล์ของ \"%s\"..."
-
-#~ msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-#~ msgstr "กำลังดึงโค้ด hdlist (หรือ synthesis) ของ \"%s\"..."
-
-#~ msgid "retrieve of source hdlist (or synthesis) failed"
-#~ msgstr "การดึงโค้ดจาก hdlist (หรือ synthesis)ล้มเหลว"
-
-#~ msgid "no hdlist file found for medium \"%s\""
-#~ msgstr "ไม่พบ hdlist file สำหรับอุปกรณ์\"%s\""
-
-#~ msgid "file [%s] already used in the same medium \"%s\""
-#~ msgstr "ไฟล์ [%s] มีใช้งานอยู่ในที่เดียวกันอยู่แล้ว\"%s\""
-
-#~ msgid "unable to parse hdlist file of \"%s\""
-#~ msgstr "ไม่สามารถ parse hdlist file of \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "ไม่สามารถเขียน list file ของ\"%s\""
-
-#~ msgid "writing list file for medium \"%s\""
-#~ msgstr "กำลังเขียน list file สำหรับอุปกรณ์\"%s\""
-
-#~ msgid "nothing written in list file for \"%s\""
-#~ msgstr "ไม่มีการเขียนใน list file สำหรับ\"%s\""
-
-#~ msgid "performing second pass to compute dependencies\n"
-#~ msgstr "ทำการผ่านครั้งที่สองเพื่อทดสอบ ความเป็นอิสระ\n"
-
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "กำลังทำการอ่าน headers จากอุปกรณ์\"%s\""
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "สร้าง hdlist [%s]"
-
-#~ msgid "built hdlist synthesis file for medium \"%s\""
-#~ msgstr "สร้าง hdlist synthesis file สำหรับ อุปกรณ์ \"%s\""
-
-#~ msgid "found %d headers in cache"
-#~ msgstr "พบ %d header ใน cache"
-
-#~ msgid "removing %d obsolete headers in cache"
-#~ msgstr "กำลังลบ %d headerที่ล้าสมัยใน cache"
-
-#~ msgid "mounting %s"
-#~ msgstr "กำลังติดตั้ง %s"
-
-#~ msgid "unmounting %s"
-#~ msgstr "กำลังถอดถอน %s"
-
-#~ msgid "relocated %s entries in depslist"
-#~ msgstr "ย้าย %s ใน depslist"
-
-#~ msgid "no entries relocated in depslist"
-#~ msgstr "ไม่มีค่าซึ่งถูกย้ายใน depslist"
-
-#~ msgid "invalid rpm file name [%s]"
-#~ msgstr "ชื่อ rpm fileไม่ถูกต้อง [%s]"
-
-#, fuzzy
-#~ msgid "retrieving rpm file [%s] ..."
-#~ msgstr "กำลังอ่านข้อมูลไฟล์ rpm..."
-
-#~ msgid "error registering local packages"
-#~ msgstr "ลงทะเบียน local package มีข้อผิดพลาด"
-
-#~ msgid "no package named %s"
-#~ msgstr "ไม่มี package ที่ชื่อ %s"
-
-#~ msgid "there are multiple packages with the same rpm filename \"%s\""
-#~ msgstr "มีหลาย package ที่มีชื่อไฟล์เหมือนกับ \"%s\""
-
-#~ msgid "unable to correctly parse [%s] on value \"%s\""
-#~ msgstr "ไม่สามารถที่จะผ่าน [%s] ด้วยค่า \"%s\"อย่างถูกต้อง"
-
-#~ msgid "package %s is not found."
-#~ msgstr "หา %s package ไม่พบ"
-
-#~ msgid "medium \"%s\" is not selected"
-#~ msgstr "อุปกรณ์ \"%s\" ไม่ได้ถูกเลือก"
-
-#~ msgid "unable to read rpm file [%s] from medium \"%s\""
-#~ msgstr "ไม่สามารถอ่าน rpm file [%s] จาก \"%s\""
-
-#~ msgid "incoherent medium \"%s\" marked removable but not really"
-#~ msgstr "อุปกรณ์ที่ไม่เชื่อมกัน \"%s\" ถูกระบุว่าถอดเปลี่ยนได้แต่มันไม่ใช่"
-
-#~ msgid "malformed input: [%s]"
-#~ msgstr " inputไม่ถูกต้อง :[%s]"
-
-#, fuzzy
-#~ msgid "retrieving rpm files from medium \"%s\"..."
-#~ msgstr "กำลังอ่านข้อมูลไฟล์ rpm..."
-
-#~ msgid "Preparing..."
-#~ msgstr "กำลังเตรียม..."
 
 #~ msgid "Remove them all?"
 #~ msgstr "ต้องการลบทั้งหมดเลยหรือไม่?"
