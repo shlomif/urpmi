@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.2
+%define version	4.6.3
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -51,7 +51,8 @@ and remote sources such as web or FTP sites.
 %package -n gurpmi
 Summary:	User mode rpm GUI install
 Group:		%{group}
-Requires:	urpmi >= %{version}-%{release} drakxtools > 10-0.4mdk gtkdialogs >= 2.1 usermode menu zenity
+Requires:	urpmi >= %{version}-%{release} drakxtools > 10-0.4mdk gtkdialogs >= 2.1 menu zenity
+Requires:	usermode usermode-consoleonly
 Obsoletes:	grpmi
 Provides:	grpmi
 
@@ -256,6 +257,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Nov 26 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.3-1mdk
+- urpmq -i now works as non root
+- translations and man pages updated
+- more curl workarounds
+
 * Thu Nov 25 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.2-1mdk
 - when passing --proxy to urpmi.addmedia, this proxy setting is now saved for the
   new media
