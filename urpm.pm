@@ -4,7 +4,7 @@ use strict;
 use vars qw($VERSION);
 use base 'URPM';
 
-$VERSION = '4.0';
+$VERSION = '4.1';
 
 =head1 NAME
 
@@ -50,9 +50,7 @@ urpm - Mandrake perl tools to handle urpmi database
                                       $ask_choice);
     $urpm->deselect_unwanted_packages(\%packages);
 
-    my ($local_sources,
-        $list,
-        $local_to_removes) = $urpm->get_source_packages(\%packages);
+    my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
     my %sources = $urpm->download_source_packages($local_sources,
                                                   $list,
                                                   'force_local',
@@ -402,7 +400,7 @@ sub read_config {
 	    $_->{ignore} and next;
 	    -r "$urpm->{statedir}/$_->{hdlist}" || -r "$urpm->{statedir}/synthesis.$_->{hdlist}" && $_->{synthesis} or
 	      $_->{ignore} = 1, $urpm->{error}(_("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
-	    $_->{list} && -r "$urpm->{statedir}/$_->{list}" or
+	    $_->{list} && -r "$urpm->{statedir}/$_->{list}" || defined $_->{url} or
 	      $_->{ignore} = 1, $urpm->{error}(_("unable to access list file of \"%s\", medium ignored", $_->{name}));
 	}
     }
@@ -419,6 +417,8 @@ sub probe_medium {
     }
     $existing_medium and $urpm->{error}(_("trying to bypass existing medium \"%s\", avoiding", $medium->{name})), return;
     
+    $medium->{url} ||= $medium->{clear_url};
+
     unless ($medium->{ignore} || $medium->{hdlist}) {
 	$medium->{hdlist} = "hdlist.$medium->{name}.cz";
 	-e "$urpm->{statedir}/$medium->{hdlist}" or $medium->{hdlist} = "hdlist.$medium->{name}.cz2";
@@ -427,8 +427,13 @@ sub probe_medium {
     }
     unless ($medium->{ignore} || $medium->{list}) {
 	$medium->{list} = "list.$medium->{name}";
-	-e "$urpm->{statedir}/$medium->{list}" or
-	  $medium->{ignore} = 1, $urpm->{error}(_("unable to find list file for \"%s\", medium ignored", $medium->{name}));
+	unless (-e "$urpm->{statedir}/$medium->{list}") {
+	    if (defined $medium->{clear_url}) {
+		delete $medium->{list};
+	    } else {
+		$medium->{ignore} = 1, $urpm->{error}(_("unable to find list file for \"%s\", medium ignored", $medium->{name}));
+	    }
+	}
     }
 
     #- there is a little more to do at this point as url is not known, inspect directly list file for it.
@@ -459,7 +464,6 @@ sub probe_medium {
 		$medium->{ignore} = 1; #, last; keeping it cause perl to exit caller loop ...
 	}
     }
-    $medium->{url} ||= $medium->{clear_url};
 
     #- probe removable device.
     $urpm->probe_removable_device($medium);
@@ -1765,7 +1769,7 @@ sub deselect_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages, %options) = @_;
-    my ($id, $error, %local_sources, @list, @local_to_removes, %fullname2id, %file2fullnames);
+    my ($id, $error, %local_sources, @list, %fullname2id, %file2fullnames, %examined);
     local (*D, *F, $_);
 
     #- build association hash to retrieve id and examine all list files.
@@ -1789,7 +1793,7 @@ sub get_source_packages {
     while (defined($_ = readdir D)) {
 	if (my ($filename) = /^([^\/]*)\.rpm$/) {
 	    my $filepath = "$urpm->{cachedir}/rpms/$filename.rpm";
-	    if (!$options{clean} && -s $filepath && URPM::verify_rpm($filepath, nogpg => 1, nopgp => 1) =~ /OK/) {
+	    if (!$options{clean_all} && -s $filepath && URPM::verify_rpm($filepath, nogpg => 1, nopgp => 1) =~ /md5 OK/) {
 		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
 		    $urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $filename);
 		    next;
@@ -1798,10 +1802,10 @@ sub get_source_packages {
 		    if (defined($id = delete $fullname2id{$fullname})) {
 			$local_sources{$id} = $filepath;
 		    } else {
-			push @local_to_removes, $filepath;
+			$options{clean_other} and unlink $filepath;
 		    }
 		} else {
-		    push @local_to_removes, $filepath;
+		    $options{clean_other} and unlink $filepath;
 		}
 	    } else {
 		#- this is an invalid file in cache, remove it and ignore it.
@@ -1816,36 +1820,57 @@ sub get_source_packages {
     foreach my $medium (@{$urpm->{media} || []}) {
 	my %sources;
 
-	if (-r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
-	    open F, "$urpm->{statedir}/$medium->{list}";
-	    while (<F>) {
-		if (/(.*)\/([^\/]*)\.rpm$/) {
-		    if (keys(%{$file2fullnames{$2} || {}}) > 1) {
-			$urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $2);
-			next;
-		    } elsif (keys(%{$file2fullnames{$2} || {}}) == 1) {
-			my ($fullname) = keys(%{$file2fullnames{$2} || {}});
-			defined($id = delete $fullname2id{$fullname}) and $sources{$id} = "$1/$2.rpm";
+	unless ($medium->{ignore}) {
+	    #- always prefer a list file is available.
+	    if (defined $medium->{list} && -r "$urpm->{statedir}/$medium->{list}") {
+		open F, "$urpm->{statedir}/$medium->{list}";
+		while (<F>) {
+		    if (my ($filename) = /\/([^\/]*)\.rpm$/) {
+			if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
+			    $urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $filename);
+			    next;
+			} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
+			    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
+			    defined($id = $fullname2id{$fullname}) and $sources{$id} = $_;
+			    $examined{$fullname} = undef;
+			}
+		    } else {
+			chomp;
+			$error = 1;
+			$urpm->{error}(_("unable to correctly parse [%s] on value \"%s\"",
+					 "$urpm->{statedir}/$medium->{list}", $_));
+			last;
 		    }
-		} else {
-		    chomp;
-		    $error = 1;
-		    $urpm->{error}(_("unable to correctly parse [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{list}", $_));
-		    last;
 		}
+		close F;
+	    } elsif (defined $medium->{url} && defined $medium->{start} && defined $medium->{end}) {
+		foreach ($medium->{start} .. $medium->{end}) {
+		    my $pkg = $urpm->{depslist}[$_];
+		    my ($filename) = $pkg->filename =~ /([^\/]*)\.rpm$/;
+		    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
+			$urpm->{error}(_("there are multiple packages with the same rpm filename \"%s\""), $filename);
+			next;
+		    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
+			my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
+			defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/".$pkg->filename;
+			$examined{$fullname} = undef;
+		    }
+		}
+	    } else {
+		$error = 1;
+		$urpm->{error}(_("medium \"%s\" does not define any location for rpm files", $medium->{name}));
 	    }
-	    close F;
 	}
 	push @list, \%sources;
     }
 
     #- examine package list to see if a package has not been found.
-    foreach (keys %fullname2id) {
+    foreach (grep { ! exists $examined{$_} } keys %fullname2id) {
 	$error = 1;
 	$urpm->{error}(_("package %s is not found.", $_));
     }	
 
-    $error ? () : ( \%local_sources, \@list, \@local_to_removes );
+    $error ? () : ( \%local_sources, \@list );
 }
 
 #- download package that may need to be downloaded.
@@ -1855,8 +1880,8 @@ sub get_source_packages {
 #- try to mount/eject removable media here.
 #- return a list of package ready for rpm.
 sub download_source_packages {
-    my ($urpm, $local_sources, $list, $force_local, $ask_for_medium) = @_;
-    my (%sources, @distant_sources, %media, %removables);
+    my ($urpm, $local_sources, $list, %options) = @_;
+    my (%sources, %removables);
 
     #- make sure everything is correct on input...
     @{$urpm->{media} || []} == @$list or return;
@@ -1884,27 +1909,29 @@ sub download_source_packages {
     my $examine_removable_medium = sub {
 	my ($id, $device, $copy) = @_;
 	my $medium = $urpm->{media}[$id];
-	$media{$id} = undef;
 	if (my ($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
 	    #- the directory given does not exist or may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
 	    while ($check_notfound->($id, $dir, 'removable')) {
-		$ask_for_medium or $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
+		$options{ask_for_medium} or $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir); system("eject", $device);
-		$ask_for_medium->($medium->{name}, $medium->{removable}) or
+		$options{ask_for_medium}($medium->{name}, $medium->{removable}) or
 		  $urpm->{fatal}(4, _("medium \"%s\" is not selected", $medium->{name}));
 	    }
 	    if (-e $dir) {
 		my @removable_sources;
 		while (my ($i, $url) = each %{$list->[$id]}) {
 		    $url =~ /^(removable[^:]*|file):\/(.*\/([^\/]*))/ or next;
-		    -r $2 or $urpm->{error}(_("unable to read rpm file [%s] from medium \"%s\"", $2, $medium->{name}));
-		    if ($copy) {
-			push @removable_sources, $2;
-			$sources{$i} = "$urpm->{cachedir}/rpms/$3";
+		    if (-r $2) {
+			if ($copy) {
+			    push @removable_sources, $2;
+			    $sources{$i} = "$urpm->{cachedir}/rpms/$3";
+			} else {
+			    $sources{$i} = $2;
+			}
 		    } else {
-			$sources{$i} = $2;
+			$urpm->{error}(_("unable to read rpm file [%s] from medium \"%s\"", $2, $medium->{name}));
 		    }
 		}
 		if (@removable_sources) {
@@ -1959,32 +1986,51 @@ sub download_source_packages {
     #- get back all ftp and http accessible rpms file into the local cache
     #- if necessary (as used by checksig or any other reasons).
     foreach (0..$#$list) {
-	exists $media{$_} and next;
+	my %distant_sources;
+
+	#- ignore as well medium that contains nothing about the current set of files.
 	values %{$list->[$_]} or next;
+
+	#- examine all files to know what can be indexed on multiple media.
 	while (my ($i, $url) = each %{$list->[$_]}) {
-	    if ($url =~ /^(removable[^:]*|file):\/(.*)/) {
-		$sources{$i} = $2;
-	    } elsif ($url =~ /^([^:]*):\/(.*\/([^\/]*))/) {
-		if ($force_local || $1 ne 'ftp' && $1 ne 'http') { #- only ftp and http protocol supported.
-		    push @distant_sources, $url;
+	    #- it is trusted that the url given is acceptable, so the file can safely be ignored.
+	    defined $sources{$i} and next;
+	    if ($url =~ /^(removable[^:]*|file):\/(.*\.rpm)$/) {
+		if (-r $2) {
+		    $sources{$i} = $2;
+		}
+	    } elsif ($url =~ /^([^:]*):\/(.*\/([^\/]*\.rpm))$/) {
+		if ($options{force_local} || $1 ne 'ftp' && $1 ne 'http') { #- only ftp and http protocol supported by grpmi.
 		    $sources{$i} = "$urpm->{cachedir}/rpms/$3";
+		    $distant_sources{$i} = "$1:/$2";
 		} else {
-		    $sources{$i} = $url;
+		    $sources{$i} = "$1:/$2";
 		}
 	    } else {
 		$urpm->{error}(_("malformed input: [%s]", $url));
 	    }
 	}
-    }
-    @distant_sources and eval {
-	$urpm->{log}(_("retrieving rpm files..."));
-	foreach (map { m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| ? "$1xxxx$2" : $_ } @distant_sources) {
-	    $urpm->{log}("    $_") ;
+
+	#- download files from the current medium.
+	if (%distant_sources) {
+	    eval {
+		$urpm->{log}(_("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$_]{name}));
+		foreach (map { m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)| ? "$1xxxx$2" : $_ } values %distant_sources) {
+		    $urpm->{log}("    $_") ;
+		}
+		$urpm->{sync}({dir => "$urpm->{cachedir}/rpms", quiet => 0, proxy => $urpm->{proxy}}, values %distant_sources);
+		$urpm->{log}(_("...retrieving done"));
+	    };
+	    if ($@) {
+		$urpm->{log}(_("...retrieving failed: %s", $@));
+		delete @sources{keys %distant_sources};
+	    }
+	    #- clean files that have not been downloaded.
+	    foreach (keys %distant_sources) {
+		-s $sources{$_} or delete $sources{$_};
+	    }
 	}
-	$urpm->{sync}({dir => "$urpm->{cachedir}/rpms", quiet => 0, proxy => $urpm->{proxy}}, @distant_sources);
-	$urpm->{log}(_("...retrieving done"));
-    };
-    $@ and $urpm->{log}(_("...retrieving failed: %s", $@));
+    }
 
     #- return the hash of rpm file that have to be installed, they are all local now.
     %$local_sources, %sources;

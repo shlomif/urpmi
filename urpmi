@@ -439,15 +439,10 @@ if (@root_only) {
 }
 
 #- if not root, the list become invisible and no download will be possible.
-my ($local_sources, $list, $local_to_removes) = $urpm->get_source_packages($state->{selected}, clean => $clean);
+my ($local_sources, $list) = $urpm->get_source_packages($state->{selected},
+							clean_all => $clean, clean_other => !$noclean && $pre_clean_cache);
 unless ($local_sources || $list) {
     $urpm->{fatal}(3, _("unable to get source packages, aborting"));
-}
-#- clean cache with file that are not necessary with this transaction.
-if (!$noclean && $pre_clean_cache) {
-    foreach (@$local_to_removes) {
-	unlink $_;
-    }
 }
 
 my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 'force_local'),

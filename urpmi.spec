@@ -1,8 +1,8 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 4.0
-Release: 25mdk
+Version: 4.1
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -57,12 +57,12 @@ distributed installation using ssh and scp tools.
 %install
 rm -rf $RPM_BUILD_ROOT
 make PREFIX=$RPM_BUILD_ROOT MANDIR=$RPM_BUILD_ROOT%{_mandir} install
-install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
+#install -d $RPM_BUILD_ROOT/var/lib/urpmi/autoirpm.scripts
 for dir in partial headers rpms
 do
   install -d $RPM_BUILD_ROOT/var/cache/urpmi/$dir
 done
-install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
+#install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 cat <<EOF >$RPM_BUILD_ROOT/etc/urpmi/inst.list
 # Here you can specify packages that need to be installed instead
 # of being upgraded (typically kernel packages).
@@ -86,10 +86,10 @@ install -m 644 urpm/parallel_ssh.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm/parall
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man3
 pod2man urpm.pm >$RPM_BUILD_ROOT%{_mandir}/man3/urpm.3
 
-find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.mo | \
-    perl -pe 'm|locale/([^/_]*)(.*)|; $_ = "%%lang($1) %{_datadir}/locale/$1$2\n"' > %{name}.lang
+#find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.mo | \
+#    perl -pe 'm|locale/([^/_]*)(.*)|; $_ = "%%lang($1) %{_datadir}/locale/$1$2\n"' > %{name}.lang
 
-cd $RPM_BUILD_ROOT%{_bindir} ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
+mv -f $RPM_BUILD_ROOT%{_bindir}/rpm-find-leaves $RPM_BUILD_ROOT%{_bindir}/urpmi_rpm-find-leaves
 
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/urpmi
@@ -204,6 +204,11 @@ fi
 
 
 %changelog
+* Wed Nov 27 2002 François Pons <fpons@mandrakesoft.com> 4.1-1mdk
+- fixed checking md5 of rpm files in cache.
+- allow rpm files to be downloaded from alternate site.
+- allow medium to not use a list file.
+
 * Wed Nov 13 2002 François Pons <fpons@mandrakesoft.com> 4.0-25mdk
 - fixed --noclean not really completely noclean.
 - avoid possible lost of with_hdlist parameter on some case
