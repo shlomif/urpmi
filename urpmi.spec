@@ -156,9 +156,11 @@ exit 0
 
 %post -p /usr/bin/perl
 use urpm;
-$urpm = new urpm;
-$urpm->read_config;
-$urpm->update_media(nolock => 1, nopubkey => 1);
+if (-e "/etc/urpmi/urpmi.cfg") {
+    $urpm = new urpm;
+    $urpm->read_config;
+    $urpm->update_media(nolock => 1, nopubkey => 1);
+}
 
 %if %{allow_gurpmi}
 %post -n gurpmi
