@@ -15,7 +15,7 @@ LOG = $(NAME).logrotate
 
 .PHONY: install clean rpm
 
-install: autoirpm.update-all
+install:
 	$(MAKE) -C po $@
 	install -d $(BINDIR) $(SBINDIR) $(XBINDIR) $(URPMIDIR) $(URPMIDIR2) $(MANDIR)/man8
 	install urpmq $(BINDIR)
@@ -24,7 +24,7 @@ install: autoirpm.update-all
 	install -m 644 skip.list $(URPMIDIR2)
 	install -m 644 man/C/*.8 $(MANDIR)/man8
 	install urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia autoirpm.update autoirpm.uninstall $(SBINDIR)
-	install -s autoirpm.update-all $(SBINDIR)
+#	install -s autoirpm.update-all $(SBINDIR)
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.update
 	install gurpmi $(XBINDIR)
