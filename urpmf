@@ -1,7 +1,15 @@
 #!/bin/sh
 
+# NOTE TO MANTAINERS: when you add a string that is displayed to
+# the user use $ECHO not echo (that will use gettext if available)
+
+# i18n support
+ECHO=`which gettext 2> /dev/null`
+[ -z "$ECHO" ] && ECHO="echo" || ECHO="$ECHO -s"
+TEXTDOMAIN="urpmi"
+
 if [ "$#" -gt 1 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    echo "usage: rpmf [<file>]"
+    $ECHO "usage: rpmf [<file>]"
     exit 1
 fi
 
@@ -11,7 +19,7 @@ dir="/var/lib/urpmi"
 if /bin/ls $dir/hdlist.* >/dev/null 2>/dev/null; then
     packdrake -c $dir/hdlist.* | parsehdlist --files --quiet - | grep -E "$1"
 else
-    echo "urpmi is not installed"
+    $ECHO "urpmi is not installed"
     exit 1
 fi
 

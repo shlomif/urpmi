@@ -7,7 +7,7 @@ License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
 Requires: /usr/bin/suidperl, eject, wget
-PreReq: rpmtools >= 2.3
+PreReq: perl-gettext, rpmtools >= 2.3
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}

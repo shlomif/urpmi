@@ -1,0 +1,508 @@
+#!/usr/bin/perl
+
+# modified xplgettext from perl-gettext (pablo)
+
+# this program extracts internationalizable strings from a perl program.
+
+# forward declaration of subroutines.
+sub unescapeDQString;
+sub replaceString($$$$);
+sub doWarn($$);
+sub displayHelp();
+sub doNotify($);
+
+
+# we do the option handling first.
+use Getopt::Long;
+Getopt::Long::config("no_ignore_case", 
+                     "no_auto_abbrev", 
+                     "require_order",
+                     "bundling");
+# since get options doesn't seem to handle '-' as option well,
+# we'll preprocess here
+foreach $i (0 ... $#ARGV)
+{
+   if($opt eq '-')
+   {
+      $ARGV[$i] = '__stdin__';
+   }
+}
+
+if(!GetOptions(\%opts,
+#           'default-domain|d=s',
+#           'directory|D=s',
+#           'no-escape|e',
+#           'escape|E',
+#           'files-from=s',
+#           'sort-by-file|F',
+#           'help|h',
+#           'indent|i',
+#           'join-existing|j',
+#           'keyword|k:s@',
+#           'string-limit|l=i',
+#           'msgstr-prefix|m:s',
+#           'msgstr-suffix|M:s',
+#           'no-location',
+#           'add-location|n',
+#           'omit-header',
+#           'sort-output|s',
+#           'strict',
+           'verbose|v',
+#           'version|V',
+#           'exclude-file|x=s'
+           ) || defined($opts{"help"}))
+{
+   displayHelp;
+}
+
+# check if we have any file names to deal with.
+if($#ARGV == -1)
+{
+   doWarn 1, 'File name not specified.  Standard in is used instead.';
+   push @ARGV, '__stdin__';
+}
+
+
+# keeps track of the state of the parser.  basically means what we are 
+# looking for next.
+$state = 'func_head';
+
+# initialize the text temporarry strage.
+$text = "";
+
+# repeat for all the lines.
+for($i = 0; $i <= $#ARGV; $i++)
+{
+   # this keeps track of the line number.
+   $linenum = 0;
+
+   # open the file.  we take '__stdin__' as standard in.
+   $ARGV[$i] = '-' if $ARGV[$i] eq '__stdin__';
+   if(!open(IN, "< $ARGV[$i]"))
+   {
+      # failed to open the file.
+      doWarn 0, "Failed to open input file $ARGV[$i].";
+      next;
+   }
+   doNotify "File $ARGV[$i] opened.";
+
+   # keep track of the files successfully opened.
+   push @files, $ARGV[$i];
+
+   while(<IN>)
+   {
+      $linenum++;
+   
+      # discard the comment lines.
+      if(/^\s*\#/)
+      {
+         next;
+      }
+   
+      # our assumption is that 'I_(' won't appear anywhere other than where 
+      # internationalizable text is being marked.
+      chop;
+      $line = $_;
+      while ($line)
+      {
+         if($state eq 'func_head')
+         {
+            # this means we are looking for the beginning of funciton call.
+            #if($line =~ s/.*?I\_\(//)
+            if($line =~ s/.*?\_\(//)
+            {
+               $state = 'quote_begin';
+               next;
+            }
+
+            # nothing interesting in this line.
+            last;
+         }
+   
+         elsif($state eq 'quote_begin')
+         {
+            # we are looking for left quote.  there can be two of them.
+            if($line =~ s/^\s*([\"\'])//)
+            {
+               # this has to happen.  check what kind of quoting we have.
+               $start_line = $linenum;
+               if($1 eq '"')
+               {
+                  $state = 'dq_text';
+               }
+               else
+               {
+                  $state = 'sq_text';
+               }
+            }
+            else
+            {
+               # otherwise, this is something we can't handle.
+               doWarn 1, "Unrecognizable expression within I_" .
+                            " function call. (line: $linenum)";
+               $state = 'dynamic_text';
+            }
+   
+            # lines can't end in this state.
+            next;
+         }
+   
+         elsif($state eq 'dq_text')
+         {
+            # we are only interested in another double quote which is not
+            # preceded by a back slash.
+            if($line =~ s/(.*?)\"//)
+            {
+               # check if we have a back slash preceding it.
+               $t = $1;
+               if($t =~ /\\$/)
+               {
+                  # the double quote was within the string still.
+                  $text .= unescapeDQString($t + '"');
+               }
+               else
+               {
+                  # end of the string.
+                  $text .= unescapeDQString($t);
+                  $state = 'end_text';
+               }
+               next;
+            }
+
+            # all this line is the string.
+            $text .= unescapeDQString($line . '\n');
+            last;
+         }
+   
+         elsif($state eq 'sq_text')
+         {
+            # we are only interested in another single quote which is not 
+            # preceded by a back slash.
+            if($line =~ s/(.*?)\'//)
+            {
+               # check if we have a back slash preceding it.
+               $t = $1;
+               if($t =~ s/\\$//)
+               {
+                  # the single quote was still in the string.
+                  $text .= unescapeDQString($t + "'");
+               }
+               else
+               {
+                  # end of the string.
+                  $text .= unescapeDQString($t);
+                  $state = 'end_text';
+               }
+               next;
+            }
+
+            # all this line is the string.
+            $text .= unescapeDQStrig($line . '\n');
+            last;
+         }
+   
+         elsif($state eq 'dynamic_text')
+         {
+            # we can't really handle this situation, so we'll look for
+            # a close pharenthy to return to the normal state.
+            if($line =~ s/.*?\)//)
+            {
+               # we can go back to the normal state.
+               $state = 'func_head';
+               next;
+            }
+
+            # we have to find the close pharenthy to go
+            # back to the normal state.
+            last;
+         }
+   
+         elsif($state eq 'end_text')
+         {
+            # we allow only period to appear between strings.
+            if($line =~ s/^\s*([\.\)])//)
+            {
+               # check what we've got.
+               if($1 eq '.')
+               {
+                  # another string should be comming.
+                  $state = 'quote_begin';
+               }
+               else
+               {
+                  # we ended the function call.
+                  $state = 'func_head';
+   
+                  # check if the string is a valid one.
+                  if($text eq "")
+                  {
+                     # we don't accept null strings.
+                     doWarn 1, "Null string appeared. (line: $linenum)";
+                  }
+                  else
+                  {
+                     # check if this string has appeared before.
+                     if(exists($msgs{$text}))
+                     {
+                        # it does exit.
+                        $msgs{$text} .= " $ARGV[$i]:$start_line";
+                     }
+                     else
+                     {
+                        # first time.
+                        $msgs{$text} = "$ARGV[$i]:$start_line";
+                     }
+                     $text = "";
+                  }
+               }
+               next;
+            }
+            else
+            {
+               # something weird follows the text.
+               # in this case, we ignore the string processed too.
+               doWarn 1, 'Unrecognizable expression within I_' .
+                            " function call. (line: $linenum)";
+               $text = "";
+               $state = 'dynamic_text';
+               next;
+            }
+         }
+   
+         else
+         {
+            # this should not happen.
+            doWarn 2, "Unknown state $state.";
+            last;
+         }
+
+         # end of while loop for state processing.
+      }
+      # end of while loop for input lines.
+   }
+   # end of for loop for input files.
+} 
+
+
+# we should have all the data we need now.
+# output the message file.
+if(!open(OUT, ">&STDOUT"))
+{
+   doWarn 0, 'Failed to open file placeholder.h.';
+   exit(0);
+}
+
+# go through all the strings gathered.
+foreach $msgid (keys(%msgs))
+{
+   # we find out if the text has to be split into lines.
+   $#lines = - 1;
+   while($msgid =~ /(.*?\\n)/gc)
+   {
+      push @lines, $1;
+   }
+   if(pos($msgid) < length($msgid))
+   {
+      # we have another line.
+      push @lines, substr($msgid, pos($msgid));
+   }
+
+   # check how many lines we have.
+   if($#lines == 0)
+   {
+# only multiline aren't found by xgettext
+      # one line format.
+      #print OUT "N_(\"$lines[0]\"),\n";
+   }
+   else
+   {
+      # multi-line format.
+      print OUT "N_(\"\"\n";
+      foreach $line (@lines)
+      {
+         print OUT "\"$line\"\n"
+      }
+      print OUT "\"\"),\n";
+   }
+}
+
+
+# successfully completed the mission.
+exit 0;
+
+
+######################################################################
+# helper funciton section
+######################################################################
+
+# this function has to return a value, so it doesn't deserve
+# the statement style call, and therefore doesn't deserve prototype.
+sub unescapeDQString
+{
+   my $str = shift;
+
+   # check all the back slashes.
+   while($str =~ /\\/g)
+   {
+      # we found a back slash.  let's check what the following
+      # character is.
+      my $char = substr($str, pos($str));
+
+      if($char eq '')
+      {
+         # since we assume one call of this function is for one
+         # complete string (term in string expression), we
+         # assume we don't have to worry about escape sequences
+         # span multiple calls.
+         
+         # it was the last character in the string.  this shouldn't
+         # happen, but we respect the back slash.
+         doWarn 2, "Back slash found at the end of string. (line: $lnenum)";
+         $str .= '\\';
+         last;
+      }
+
+      elsif($char =~ /^([tn]|[0-8][0-8][0-8])/)
+      {
+         # valid sequence.  no problem.
+         next;
+      }
+
+      elsif($char =~ /^[rfb]/)
+      {
+         # we warn, and use them as is.
+         doWarn 1, "International string sholdn't contain \\$&.";
+         next;
+      }
+
+      elsif($char =~ /^[ae]/)
+      {
+         # we warn, and convert.
+         doWarn 1, "International string shouldn't contain \\$&.";
+         replaceString \$str, $& eq 'a' ? '007' : '033', 0, 1;
+         next;
+      }
+
+      elsif($char =~ /^x([0-9a-fA-F][0-9a-fA-F])/)
+      {
+         # here, we do the conversion silently.
+         replaceString \$str, sprintf("%03o", hex($1)), 0, 3;
+         next;
+      }
+
+      elsif($char =~ /^c(.)/)
+      {
+         # we warn, and convert.
+         doWarn 1, "International string shouldn't contain \\$&.";
+         my $ctrl = ord($1) - 64;
+         if($ctrl < 255 || $ctrl < 0)
+         {
+            doWarn 1, "Unrecognizable control sequence \\$&.";
+            next;
+         }
+         replaceString \$str, sprintf("%03o", $ctrl), 0, 2;
+         next;
+      }
+
+      elsif($char =~ /^[luLUEQ]/)
+      {
+         # perl special escape sequences.
+         # we'll let them keep the slashes.
+         replaceString \$str, '\\', 0, 0;
+         next;
+      }
+
+      else
+      {
+         # in all other cases, the slash needs to be discarded.
+         replaceString \$str, '', -1, 1;
+         next;
+      }
+      # end of while loop for slashes.
+   }
+
+   # return value is the converted string.
+   $str;
+}
+
+
+# this one replaces a part of string in the specified position.
+# it also sets the search position to the end of the replaced substring.
+# the arguments are
+#     - reference of the target string
+#     - replacement text
+#     - starting position of the substring replaced (relative to pos)
+#     - length of the substring replaced
+sub replaceString($$$$)
+{
+   my $str_ref     = shift;
+   my $replace_str = shift;
+   my $del_start   = shift;
+   my $num_del     = shift;
+
+   my $p = pos($$str_ref);
+   $$str_ref = substr($$str_ref, 0, $p + $del_start) . 
+              $replace_str .
+              substr($$str_ref, $p + $del_start + $num_del);
+
+   # adjust the search position.
+   pos($$str_ref) = $p + $del_start + length($replace_str);
+}
+
+
+# sends warning to standard error.  the first argument is for the
+# warning level:
+#     0: critical - always show
+#     1: warning  - show if verbose
+#     2: bug      - shouldn't happen
+# the second argument is the message to be displayed.
+sub doWarn($$)
+{
+   my $level   = shift;
+   my $message = shift;
+
+   if($level == 0)
+   {
+      # critical error.
+      warn "ERROR:  " . $message . "\n";
+   }
+
+   elsif($level == 1)
+   {
+      # warning. 
+      warn "WARNING:  " . $message . "\n" if exists($opts{"verbose"});
+   }
+
+   elsif($level == 2)
+   {
+      # programming error (of plxgettext).
+      warn "BUG:  " . $message . "\n";
+   }
+
+   else
+   {
+      # shouldn't happen.  let's do a recursive call.
+      doWarn 2, 'Invalid warning level specified.';
+   }
+}
+
+
+# tell user what we are doing.
+sub doNotify($)
+{
+   my $msg = shift;
+
+   if(!defined($opts{"verbose"}))
+   {
+      # nothing we can do.
+      return;
+   }
+
+   print $msg . "\n";
+}
+
+
+# show the help message.
+sub displayHelp()
+{
+}

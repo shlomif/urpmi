@@ -3,8 +3,8 @@
 # Pawel Jablonski <pj@linux-mandrake.com>, 1999-2000.
 msgid ""
 msgstr ""
-"Project-Id-Version: urpmi 1.3\n"
-"POT-Creation-Date: 2000-05-07 17:46+0200\n"
+"Project-Id-Version: urpmi 1.5\n"
+"POT-Creation-Date: 2001-02-14 17:48+0100\n"
 "PO-Revision-Date: 2000-09-08 12:48:03+0200\n"
 "Last-Translator: Pawel Jablonski <pj@linux-mandrake.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -13,32 +13,110 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KTranslator v 0.5.0\n"
 
-#: ../urpmi:38
-msgid ""
-"usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
-msgstr ""
-"u¿ycie: urpmi [-h] [--auto] [--force] [-a] nazwa_pakietu "
-"[nazwy_pakietów...]\n"
+#: _irpm:21
+#, fuzzy
+msgid "installing $rpm\n"
+msgstr "instalowanie %s\n"
 
-#: ../urpmi:56
+#: _irpm:31
+msgid ""
+"Automatic installation of packages...\n"
+"You requested installation of package $rpm\n"
+msgstr ""
+
+#: _irpm:31 urpmi:195
+msgid "Is it ok?"
+msgstr "W porz±dku?"
+
+#: _irpm:33 urpmi:198 urpmi:223
+msgid "Ok"
+msgstr "OK"
+
+#: _irpm:34 urpmi:199 urpmi:224
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: _irpm:40 urpmi:203 urpmi:252
+msgid "Nn"
+msgstr ""
+
+#: _irpm:41 urpmi:204 urpmi:253
+msgid "Yy"
+msgstr ""
+
+#: _irpm:42 urpmi:205
+msgid " (Y/n) "
+msgstr ""
+
+#: _irpm:61
+msgid "$rpm: command not found\n"
+msgstr ""
+
+#: placeholder.h:6
+msgid "usage: rpmf [<file>]"
+msgstr ""
+
+#: placeholder.h:7
+msgid "urpmi is not installed"
+msgstr ""
+
+#: placeholder.h:8
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999, 2000 MandrakeSoft.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"usage:\n"
+"  --help           - print this help message.\n"
+"  --auto           - automatically select a good package in choices.\n"
+"  --auto-select    - automatically select packages for upgrading the "
+"system.\n"
+"  --force          - force invocation even if some package does not exists.\n"
+"  --X              - use X interface.\n"
+"  --best-output    - chose best interface according to the environment:\n"
+"                     X or text mode.\n"
+"  -a               - select all matches on command line.\n"
+"  -c               - choose complete method for resolving requires closure.\n"
+"  -q               - quiet mode.\n"
+"  -v               - verbose mode.\n"
+"  names or rpm files (only for root) given on command line are installed.\n"
+msgstr ""
+
+#: placeholder.h:26
+msgid ""
+"usage: urpmi.addmedia <name> <url>\n"
+"where <url> is one of\n"
+"\tfile://<path>\n"
+"\tftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>\n"
+"\tftp://<host>/<path> with <relative filename of hdlist>\n"
+"\thttp://<host>/<path> with <relative filename of hdlist>\n"
+"        removable_<device>_<number>://<path>\n"
+msgstr ""
+
+#: urpmi:55
+#, c-format
+msgid "urpmi version %s"
+msgstr ""
+
+#: urpmi:118
 msgid "Only superuser is allowed to install local packages"
 msgstr "Tylko root ma prawo instalowaæ pakiety lokalne"
 
-#: ../urpmi:87
+#: urpmi:160
+msgid "One of the following packages is needed:"
+msgstr "Potrzebny jest jeden z nastêpuj±cych pakietów:"
+
+#: urpmi:168
 #, c-format
-msgid "no package named %s\n"
-msgstr "brak pakietu o nazwie %s\n"
+msgid "What is your choice? (1-%d) "
+msgstr "Jaki jest Twój wybór? (1-%d) "
 
-#: ../urpmi:89
-#, c-format
-msgid "The following packages contain %s: %s\n"
-msgstr "Nastêpuj±ce pakiety zawieraj± %s: %s\n"
+#: urpmi:171
+msgid "Sorry, bad choice, try again\n"
+msgstr "Niestety, z³y wybór, spróbuj ponownie\n"
 
-#: ../urpmi:97
-msgid "rpm database query failed\n"
-msgstr "zapytanie bazy rpm nie powiod³o siê\n"
-
-#: ../urpmi:107
+#: urpmi:194
 #, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed "
@@ -47,67 +125,98 @@ msgstr ""
 "Zostan± zainstalowane nastêpuj±ce pakiety w celu spe³nienia zale¿no¶ci (%d "
 "MB)"
 
-#: ../urpmi:108
-msgid "Is it ok?"
-msgstr "W porz±dku?"
-
-#: ../urpmi:111
-msgid "Ok"
-msgstr "OK"
-
-#: ../urpmi:112
-msgid "Cancel"
-msgstr "Anuluj"
-
-#: ../urpmi:159
-#, c-format
-msgid "Please insert the %s named %s"
+#: urpmi:220
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Proszê w³o¿yæ %s o nazwie %s"
 
-#: ../urpmi:161
+#: urpmi:221
 msgid "Press enter when it's done..."
 msgstr "Naci¶nij enter, gdy to zrobisz..."
 
-#: ../urpmi:166
-#, c-format
-msgid "Sorry can't find file %s, exiting"
-msgstr "Niestety nie mogê znale¼æ pliku %s, koñczê dzia³anie"
-
-#: ../urpmi:175
+#: urpmi:234
 msgid "everything already installed"
 msgstr "wszystko jest ju¿ zainstalowane"
 
-#: ../urpmi:181
+#: urpmi:243
 #, c-format
 msgid "installing %s\n"
 msgstr "instalowanie %s\n"
 
-#: ../urpmi:185 ../urpmi:195
+#: urpmi:247 urpmi:259
 msgid "Installation failed"
 msgstr "Instalacja nie powiod³a siê"
 
-#: ../urpmi:190
-msgid "Try installation without checking dependencies?"
+#: urpmi:254
+#, fuzzy
+msgid "Try installation without checking dependencies? (Y/n) "
 msgstr "Próbowaæ instalowaæ bez sprawdzania zale¿no¶ci?"
 
-#: ../urpmi:196
-msgid "Try installation even more strongly (--force)?"
+#: urpmi:260
+#, fuzzy
+msgid "Try installation even more strongly (--force)? (Y/n) "
 msgstr "Próbowaæ wymusiæ instalacjê (--force)?"
 
-#: ../urpmi:231
-msgid "One of the following packages is needed:"
-msgstr "Potrzebny jest jeden z nastêpuj±cych pakietów:"
+#: urpmi.addmedia:36
+msgid "usage: urpmi.addmedia <name> <url>"
+msgstr ""
 
-#: ../urpmi:240
+#: urpmi.addmedia:48
+msgid "$usage  bad number (is `$num')\n"
+msgstr ""
+
+#: urpmi.addmedia:49
+msgid "$usage  device `$dev' do not exist\n"
+msgstr ""
+
+#: urpmi.addmedia:51
+msgid "$usage  <relative path of hdlist> missing\n"
+msgstr ""
+
+#: urpmi.addmedia:53
+msgid "$usage  `with' missing for ftp media\n"
+msgstr ""
+
+#: urpmq:44
 #, c-format
-msgid "What is your choice? (1-%d) "
-msgstr "Jaki jest Twój wybór? (1-%d) "
+msgid "urpmq version %s"
+msgstr ""
 
-#: ../urpmi:243
-msgid "Sorry, bad choice, try again\n"
-msgstr "Niestety, z³y wybór, spróbuj ponownie\n"
+#: urpmq:79
+msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
+msgstr ""
 
-#: ../urpmi:251
-#, c-format
-msgid "Failed dependencies: %s requires %s"
-msgstr "B³±d zale¿no¶ci: %s wymaga %s"
+#: urpmq:81
+msgid "urpmq: cannot read rpm file \"$_\"\n"
+msgstr ""
+
+#: urpmq:122
+msgid ""
+"some package have to be removed for being upgraded, this is not supported "
+"yet\n"
+msgstr ""
+
+#: urpmq:135
+msgid "unable to get source packages, aborting"
+msgstr ""
+
+#~ msgid ""
+#~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
+#~ msgstr ""
+#~ "u¿ycie: urpmi [-h] [--auto] [--force] [-a] nazwa_pakietu "
+#~ "[nazwy_pakietów...]\n"
+
+#~ msgid "no package named %s\n"
+#~ msgstr "brak pakietu o nazwie %s\n"
+
+#~ msgid "The following packages contain %s: %s\n"
+#~ msgstr "Nastêpuj±ce pakiety zawieraj± %s: %s\n"
+
+#~ msgid "rpm database query failed\n"
+#~ msgstr "zapytanie bazy rpm nie powiod³o siê\n"
+
+#~ msgid "Sorry can't find file %s, exiting"
+#~ msgstr "Niestety nie mogê znale¼æ pliku %s, koñczê dzia³anie"
+
+#~ msgid "Failed dependencies: %s requires %s"
+#~ msgstr "B³±d zale¿no¶ci: %s wymaga %s"

@@ -19,6 +19,15 @@
 
 #use strict qw(subs vars refs);
 use urpm;
+# for i18n
+use POSIX;
+use Locale::GetText;
+
+setlocale (LC_ALL, "");
+Locale::GetText::textdomain ("urpmi");
+
+import Locale::GetText I_;
+*_ = *I_;
 
 #- default options.
 my $auto = 0;
@@ -34,8 +43,8 @@ my $uid;
 my @files;
 my @names;
 
-my %I18N;
-load_po();
+#my %I18N;
+#load_po();
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
@@ -43,7 +52,7 @@ delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
     
 sub usage {
     #die(_("usage: urpmi [-h] [--auto] [--force] [-a] [-v] package_name|rpm_file [package_names|rpm_files...]\n"));
-    die(_("urpmi version %s
+    die( sprintf ( _("urpmi version %s
 Copyright (C) 1999, 2000 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
@@ -61,7 +70,7 @@ usage:
   -v               - verbose mode.
 
   names or rpm files (only for root) given on command line are installed.
-", $urpm::VERSION));
+"), $urpm::VERSION));
 }
 
 #- parse arguments list.
@@ -156,7 +165,7 @@ $urpm->filter_packages_to_upgrade(\%packages, sub {
 	    print SAVEOUT "$msg\n";
 	    my $i = 0; foreach (@l) { print SAVEOUT " ", ++$i, "- $_\n"; }
 	    while (1) {
-		print SAVEOUT _("What is your choice? (1-%d) ", $i);
+		printf SAVEOUT ( _("What is your choice? (1-%d) "), $i);
 		$n = <STDIN>;
 		1 <= $n && $n <= $i and last;
 		print SAVEOUT _("Sorry, bad choice, try again\n");
@@ -182,7 +191,7 @@ foreach (keys %packages) {
 }
 if (!$auto) {
     if ($ask_user) {
-	my $msg = _("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
+	my $msg = ( _("To satisfy dependencies, the following packages are going to be installed (%d MB)"), toMb($sum));
 	my $msg2 = _("Is it ok?");
 	if ($X) {
 	    my $p = join "\n", @to_install;
@@ -191,8 +200,10 @@ if (!$auto) {
 	    `gmessage -default $ok -buttons "$ok:0,$cancel:2" "$msg:\n$p\n\n$msg2"`;
 	    $? and exit 0;
 	} else {
-	    print SAVEOUT "$msg:\n@to_install\n$msg2 (Y/n) ";
-	    <STDIN> =~ /n/i and exit 0;
+	    $noexpr = _("Nn");
+	    $yesexpr = _("Yy");
+	    print SAVEOUT "$msg:\n@to_install\n$msg2" . _(" (Y/n) ");
+	    <STDIN> =~ /[$noexpr]/ and exit 0;
 	}
     }
 }
@@ -206,7 +217,7 @@ unless ($local_sources || $list) {
 }
 
 my @sources = $urpm->upload_source_packages($local_sources, $list, 'force_local', sub {
-						my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
+						my $msg = ( _("Please insert the medium named \"%s\" on device [%s]"), @_);
 						my $msg2 = _("Press enter when it's done...");
 						if ($X) {
 						    my $ok = _("Ok");
@@ -229,7 +240,7 @@ close STDOUT;
 sub install {
     @_ or return;
 	
-    print SAVEOUT _("installing %s\n", join(' ', @_));
+    printf SAVEOUT ( _("installing %s\n"), join(' ', @_));
     log_it(scalar localtime, " @_\n");
     system($X ? "grpmi" : ("rpm", $rpm_opt), @_);
     if ($?) {
@@ -238,14 +249,16 @@ sub install {
 
 	m|^/| && !-e $_ and exit 1 foreach @_; #- missing local file
 
-	print SAVEOUT _("Try installation without checking dependencies?"), " (Y/n) ";
-	$force or <STDIN> =~ /n/i and exit 1;
+	$noexpr = _("Nn");
+	$yesexpr = _("Yy");
+	print SAVEOUT _("Try installation without checking dependencies? (Y/n) ");
+	$force or <STDIN> =~ /[$noexpr]/ and exit 1;
 	system("rpm", $rpm_opt, "--nodeps", @_);	
 
 	if ($?) {
 	    message(_("Installation failed"));
-	    print SAVEOUT _("Try installation even more strongly (--force)?"), " (Y/n) ";
-	    $force or <STDIN> =~ /n/i and exit 0;
+	    print SAVEOUT _("Try installation even more strongly (--force)? (Y/n) ");
+	    $force or <STDIN> =~ /[$noexpr]/ and exit 0;
 	    system("rpm", $rpm_opt, "--nodeps", "--force", @_);	
 	}
     }
@@ -260,13 +273,13 @@ sub message { $X ? `gmessage -default Ok -buttons Ok "$_[0]"` : print SAVEOUT "$
 
 sub message_auto { $auto ? print SAVEOUT "$_[0]\n" : message($_[0]); }
 
-sub _ {
-    my $s = shift @_; my $t = translate($s);
-    $t && ref $t or return sprintf $t, @_;
-    my ($T, @p) = @$t;
-    sprintf $T, @_[@p];
-}
-sub translate { $I18N{$_[0]} || $_[0]; }
+#sub _ {
+#    my $s = shift @_; my $t = translate($s);
+#    $t && ref $t or return sprintf $t, @_;
+#    my ($T, @p) = @$t;
+#    sprintf $T, @_[@p];
+#}
+#sub translate { $I18N{$_[0]} || $_[0]; }
 
 sub log_it {
     local *LOG;

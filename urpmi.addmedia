@@ -20,27 +20,36 @@
 
 #use strict qw(subs vars refs);
 use urpm;
+# for i18n
+use POSIX;
+use Locale::GetText;
+
+setlocale (LC_ALL, "");
+Locale::GetText::textdomain ("urpmi");
+
+import Locale::GetText I_;
+*_ = *I_;
 
 sub main {
     my ($name, $url, $with, $relative_hdlist) = @_;
-    my $usage = 
-"usage: urpmi.addmedia <name> <url>
+    my $usage = sprintf(
+_("usage: urpmi.addmedia <name> <url>
 where <url> is one of
 	file://<path>
 	ftp://<login>:<password>@<host>/<path> with <relative filename of hdlist>
 	ftp://<host>/<path> with <relative filename of hdlist>
 	http://<host>/<path> with <relative filename of hdlist>
-        removable_<device>://<path>
-";
+        removable_<device>_<number>://<path>
+"));
     $name or die $usage;
     my ($type, $dev) = $url =~ m,^(file|ftp|http|removable_(\w+)(?:_\d+)?)://, or die $usage;
 
     if ($type eq "removable") {
-	$dev && -e "/dev/$dev" or die "$usage  device `$dev' do not exist\n";
+	$dev && -e "/dev/$dev" or die( sprintf _( "$usage  device `$dev' do not exist\n"));
     } elsif ($with eq "with") {
-	$relative_hdlist or die "$usage  <relative path of hdlist> missing\n";
+	$relative_hdlist or die( sprintf _( "$usage  <relative path of hdlist> missing\n"));
     } elsif ($with) {
-	$with eq "with" or die "$usage  `with' missing for ftp media\n";
+	$with eq "with" or die( sprintf _( "$usage  `with' missing for ftp media\n"));
     }
 
     my $urpm = new urpm;

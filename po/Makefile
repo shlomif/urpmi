@@ -1,21 +1,31 @@
-POFILES = $(shell ls *.po)
-LOCALEDIR = $(PREFIX)/usr/share/locale
+# Installation directories
+localedir = $(prefix)/usr/share/locale
 
-all: $(POFILES)
+LANGS = $(shell ls *.po | xargs -i basename {} .po )
+PGOAL = urpmi
+GOALS = $(PGOAL).pot  $(foreach a, $(LANGS), $(a).mo)
 
-install: $(POFILES)
-	for i in $(POFILES:%.po=%); do \
-           install -d $(LOCALEDIR)/$$i/LC_MESSAGES ; \
-           cp -f $$i.po $(LOCALEDIR)/$$i/LC_MESSAGES/urpmi.po ; \
-        done
+# $(foreach a, $(LANGS), $($(a).mo))
+
+all: $(GOALS)
+
+install: all
+	for l in $(LANGS); do \
+		install -d $(localedir)/$$l/LC_MESSAGES; \
+		install -m 644 $$l.mo $(localedir)/$$l/LC_MESSAGES/$(PGOAL).mo; \
+	done
 
 clean:
-	rm -f messages empty.po $(POFILES:%=%t)
+	rm -f *~ *.[oas] *.mo $(GOALS) TAGS
 
-$(POFILES): urpmi.pot
-	cp -f $@ $@t
-	msgmerge $@t $< > $@
-	rm $@t
+%.mo: %.po
+	msgfmt -o $@ $<
 
-urpmi.pot: ../urpmi
-	xgettext -L C -F -n --keyword=_ -o $@ $<
+%.pot:	POTFILES.in
+	./create_placeholder 
+	xgettext --default-domain=`basename $@ .pot` --directory=.. \
+		--add-comments --keyword=__ --keyword=_ --keyword=N_ \
+		--keyword=I_ --keyword=i18n
+		--files-from=./POTFILES.in && \
+	mv `basename $@ .pot`.po $@
+
