@@ -2634,7 +2634,7 @@ sub copy_packages_of_removable_media {
     #- removable media have to be examined to keep mounted the one that has
     #- more packages than others.
     my $examine_removable_medium = sub {
-	my ($id, $device, $copy) = @_;
+	my ($id, $device) = @_;
 	my $medium = $urpm->{media}[$id];
 	if (my ($dir) = $medium->{url} =~ m!^(?:(?:removable[^:]*|file):/)?(/.*)!) {
 	    #- the directory given does not exist and may be accessible
@@ -2652,21 +2652,17 @@ sub copy_packages_of_removable_media {
 		    chomp $url;
 		    my ($filepath, $filename) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*/([^/]*))! or next;
 		    if (-r $filepath) {
-			if ($copy) {
-			    #- we should assume a possibly buggy removable device...
-			    #- First, copy in partial cache, and if the package is still good,
-			    #- transfer it to the rpms cache.
-			    unlink "$urpm->{cachedir}/partial/$filename";
-			    if (urpm::util::copy($filepath, "$urpm->{cachedir}/partial") &&
-				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/)
-			    {
-				#- now we can consider the file to be fine.
-				unlink "$urpm->{cachedir}/rpms/$filename";
-				urpm::util::move("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
-				-r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
-			    }
-			} else {
-			    $sources->{$i} = $filepath;
+			#- we should assume a possibly buggy removable device...
+			#- First, copy in partial cache, and if the package is still good,
+			#- transfer it to the rpms cache.
+			unlink "$urpm->{cachedir}/partial/$filename";
+			if (urpm::util::copy($filepath, "$urpm->{cachedir}/partial") &&
+			    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/)
+			{
+			    #- now we can consider the file to be fine.
+			    unlink "$urpm->{cachedir}/rpms/$filename";
+			    urpm::util::move("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
+			    -r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 			}
 		    }
 		    unless ($sources->{$i}) {
@@ -2710,13 +2706,13 @@ sub copy_packages_of_removable_media {
 
 	    #- mount all except the biggest one.
 	    foreach (@sorted_media[0 .. $#sorted_media-1]) {
-		$examine_removable_medium->($_, $device, 'copy');
+		$examine_removable_medium->($_, $device);
 	    }
 	    #- now mount the last one...
 	    $removables{$device} = [ $sorted_media[-1] ];
 	}
 
-	$examine_removable_medium->($removables{$device}[0], $device, 'copy');
+	$examine_removable_medium->($removables{$device}[0], $device);
     }
 
     1;
