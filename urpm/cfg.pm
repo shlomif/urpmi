@@ -48,7 +48,7 @@ sub load_config ($) {
     my ($file) = @_;
     my %config;
     my $priority = 0;
-    my $medium = undef;
+    my $medium;
     $err = '';
     open my $f, $file or do { $err = N("unable to read config file [%s]", $file); return };
     local $_;
@@ -120,7 +120,7 @@ sub load_config ($) {
 	    next;
 	}
 	#- obsolete
-	/^modified$/ and next;
+	$_ eq 'modified' and next;
     }
     close $f;
     return \%config;
@@ -138,15 +138,15 @@ sub dump_config ($$) {
 	$err = N("unable to write config file [%s]", $file);
 	return 0;
     };
-    print $f "# generated ".(scalar localtime)."\n";
-    for my $m (@media) {
+    print $f "# generated " . (scalar localtime) . "\n";
+    foreach my $m (@media) {
 	if ($m) {
 	    print $f quotespace($m), ' ', quotespace($config->{$m}{url}), " {\n";
 	} else {
 	    next if !keys %{$config->{''}};
 	    print $f "{\n";
 	}
-	for (sort grep { $_ && $_ ne 'url' } keys %{$config->{$m}}) {
+	foreach (sort grep { $_ && $_ ne 'url' } keys %{$config->{$m}}) {
 	    if (/^(update|ignore|synthesis|virtual)$/) {
 		print $f "  $_\n";
 	    } elsif ($_ ne 'priority') {

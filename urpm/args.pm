@@ -26,7 +26,7 @@ sub import {
     if (@_ > 1 && $_[1] eq 'options') {
 	# export the global %options hash
 	no strict 'refs';
-	*{caller().'::options'} = \%options;
+	*{caller() . '::options'} = \%options;
     }
 }
 
@@ -165,7 +165,7 @@ my %options_spec = (
 		# This is for non-option arguments.
 		# Assume a regex unless a ++ is inside the string.
 		$p = quotemeta $p if $p =~ /\+\+/;
-		$::expr .= "m{$p}".$::pattern;
+		$::expr .= "m{$p}" . $::pattern;
 	    }
 	},
     },

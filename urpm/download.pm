@@ -240,9 +240,9 @@ sub sync_curl {
 	    $nick =~ s/@/%40/;
 	    $_ = "$proto://$nick:$rest";
 	}
-	m|^ftp://.*/([^/]*)$| && -e $1 && -s _ > 8192 and do {
+	if (m|^ftp://.*/([^/]*)$| && -e $1 && -s _ > 8192) { #- manage time stamp for large file only
 	    push @ftp_files, $_; next;
-	}; #- manage time stamp for large file only.
+	}
 	push @other_files, $_;
     }
     if (@ftp_files) {
@@ -306,7 +306,7 @@ sub sync_curl {
 	    (map { m|/([^/]*)$| ? ("-z", $1, "-O", $_) : @{[]} } @other_files)))
     {
 	my @l = (@ftp_files, @other_files);
-	my ($buf, $file) = ('');
+	my ($buf, $file); $buf = '';
 	my $curl_pid = open my $curl, join(" ", map { "'$_'" } "/usr/bin/curl",
 	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 	    ($options->{resume} ? ("--continue-at", "-") : ()),
