@@ -1,4 +1,4 @@
-.TH urpmi 8 "29 Aug 2002" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi 8 "7 Jan 2003" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
@@ -49,6 +49,9 @@ dependencies only in media marked as update.
 .IP "\fB\--media\fP"
 select specific media to use instead of all media available (or update media is
 \fB--update\fP is used).
+.IP "\fB\--synthesis\fP"
+use the given synthesis instead of urpmi db for searching packages and resolving
+dependencies.
 .IP "\fB\--auto\fP"
 installs all required dependencies without asking.
 .IP "\fB\--auto-select\fP"
@@ -59,11 +62,15 @@ disable fast search on exact package name, ie it will propose all
 package containing the name even if one has the given name (this is the same
 as \fB\-y\fP).
 .IP "\fB\--src\fP"
-next package name is a source package and it will select all dependencies if
-\fBurpmi\fP is run as root or only install source package as simple user (this
-is the same as \fB\-s\fP).
+next package name is a source package and it will select all dependencies by
+default, unless \fB\--install-src\fP is used in order to install source package
+itself.
+.IP "\fB\--install-src\fP"
+install only source package (no binary packages will be installed).
+.IP "\fB\--clean\fP"
+remove all packages from the cache in directory /var/cache/urpmi/rpms.
 .IP "\fB\--noclean\fP"
-do not remove any package from the cache in directory /var/cache/urpmi/rpms.
+do not remove any packages from the cache in directory /var/cache/urpmi/rpms.
 .IP "\fB\--force\fP"
 assumes yes on all questions.
 .IP "\fB\--allow-nodeps\fP"
@@ -108,6 +115,9 @@ rpm).
 activate (default) or deactivate rpm signature checking.
 .IP "\fB\--test\fP"
 test (as \fBrpm --test\fP) installation of packages but do not modify the system.
+.IP "\fB\--excludepath\fP"
+do not install files whose name begins with path given (same as \fBrpm
+--excludepath\fP).
 .IP "\fB\-a\fP"
 if multiple packages match the substring given, take them all
 .IP "\fB\-p\fP"
