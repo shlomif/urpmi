@@ -54,7 +54,7 @@ for (@ARGV) {
     /^--auto$/ and do { $auto = 1; next };
     /^--force$/ and do { $force = 1; next };
     /^--X$/ and do { $X = 1; next };
-    /^--best-output$/ and do { (($ENV{DISPLAY}) && (!system "/usr/X11R6/bin/xtest", "")) and $X = 1; next };
+    /^--best-output$/ and do { $X ||= $ENV{DISPLAY} && system('/usr/X11R6/bin/xtest', '') == 0; next };
     /^--comment$/ and do { push @nextargv, undef; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
