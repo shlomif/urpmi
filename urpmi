@@ -372,7 +372,7 @@ if (@unselected_uninstalled) {
     my $msg = N("The following packages can't be installed because they depend on packages
 that are older than the installed ones:\n%s", $list);
     if ($urpm->{options}{auto}) {
-	message($msg, 'noX');
+	message($msg);
     } else {
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
@@ -390,7 +390,7 @@ if (@ask_unselect) {
     my $list = join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect);
     my $msg = N("Some package requested cannot be installed:\n%s", $list);
     if ($urpm->{options}{auto}) {
-	message($msg, 'noX');
+	message($msg);
     } else {
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
@@ -416,7 +416,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 
     my $msg = N("The following packages have to be removed for others to be upgraded:\n%s", $list);
     if ($urpm->{options}{auto}) {
-	message($msg, 'noX');
+	message($msg);
     } else {
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
@@ -505,7 +505,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
 
     #- put a blank line to separate with previous transaction or user question.
-    message("", 'noX');
+    message("");
 
     #- prepare transaction...
     $urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
@@ -535,7 +535,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    my $msg2 = N("Do you want to continue installation ?");
 	    my $p = join "\n", @bad_signatures;
 	    if ($urpm->{options}{auto}) {
-		message("$msg:\n$p\n", 'noX');
+		message("$msg:\n$p\n");
 		exit 1;
 	    } else {
 		my $noexpr = N("Nn");
@@ -572,7 +572,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 
     if (keys(%transaction_sources_install) || keys(%transaction_sources)) {
 	if ($parallel) {
-	    message(N("distributing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), 'noX');
+	    message(N("distributing %s", join(' ', values %transaction_sources_install, values %transaction_sources)));
 	    #- no remove are handle here, automatically done by each distant node.
 	    $urpm->{log}("starting distributed install");
 	    $urpm->parallel_install([ keys %{$state->{rejected} || {}} ], \%transaction_sources_install, \%transaction_sources,
@@ -583,12 +583,12 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    (my $common_prefix) = $packnames[0] =~ /^(.*)\//;
 	    if (length($common_prefix) && @packnames == grep { /^\Q$common_prefix\// } @packnames) {
 		#- there's a common prefix, simplify message
-		message(N("installing %s from %s", join(' ', map { s/.*\///; $_ } @packnames), $common_prefix), 'noX');
+		message(N("installing %s from %s", join(' ', map { s/.*\///; $_ } @packnames), $common_prefix));
 	    } else {
-		message(N("installing %s", join(' ', @packnames)), 'noX');
+		message(N("installing %s", join(' ', @packnames)));
 	    }
 	    @{!$urpm->{options}{'allow-force'} && $set->{remove} || []} and
-		message(N("removing %s", join(' ', @{!$urpm->{options}{'allow-force'} && $set->{remove} || []})), 'noX');
+		message(N("removing %s", join(' ', @{!$urpm->{options}{'allow-force'} && $set->{remove} || []})));
 	    log_it(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my @l = $urpm->install(
@@ -679,7 +679,7 @@ if ($nok) {
 	message(N("Installation is possible"));
     } elsif (@names || @src_names || @files || @src_files || $auto_select) {
 	@{$state->{transaction} || []} == 0 && @ask_unselect == 0 && $verbose >= 0 and
-	  message(N("The package(s) are already installed"), $urpm->{options}{auto});
+	  message(N("The package(s) are already installed"));
     }
 }
 
@@ -693,7 +693,7 @@ unless ($env) {
 
 #- restart urpmi if needed, keep command line for that.
 if ($restart_itself && !$exit_code) {
-    message(N("restarting urpmi"), 'noX');
+    message(N("restarting urpmi"));
     #- it seems to work correctly with exec instead of system, provided
     #- STDOUT or STDERR are not closed before (else no output at all).
     #- added --no-priority-upgrade to make sure no restart will be done after this one.
