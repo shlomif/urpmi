@@ -1,18 +1,17 @@
-.TH urpmi 8 "18 Nov 1999" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmi 8 "29 Feb 2000" "Mandrakesoft" "Linux-Mandrake"
 .IX urpmi
 .SH NAME
 urpmi \- rpm wrapper making installs easier for the user
 .SH SYNOPSIS
 .B urpmi
-[--auto]
-[-a]
+[options]
 package_name
 [package_names...]
 .SH DESCRIPTION
 urpmi enables non-superuser install of rpms. In fact, it only authorizes
 well-known rpms to be installed.
 
-You can compare rpm vs urpmi  with  insmod vs modprobe  or  dpkg vs apt-get
+You can compare rpm vs. urpmi  with  insmod vs. modprobe or dpkg vs apt-get 
 .PP
 All users belonging to group urpmi are allowed to install packages.
 .br
@@ -38,8 +37,8 @@ To install all available menu entries of all known packages, use autoirpm-icons.
 .SH OPTION
 .IP "\fB\--auto\fP"
 installs all required dependencies without asking.  
-.IP "\fB\-a\fP"
-if multiple packages match the substring given, take them all
+> .IP "\fB\-a\fP"
+> if multiple packages match the substring given, take them all 
 .SH FILES
 /usr/bin/urpmi
 .br
@@ -66,11 +65,13 @@ A simple text file containning all dependencies of all known packages.
 The same but in html format, user readable.
 .SH "SEE ALSO"
 urpmi.addmedia(8),
+urpmi.update(8),
 urpmi.removemedia(8),
 urpmi.update(8),
 autoirpm(8),
 autoirpm-icons(8),
 gurpmi(8),
+rpmf(8),
 rpmdrake(8)
 .SH AUTHOR
 Pascal Rigaux, Mandrakesoft
