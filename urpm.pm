@@ -459,7 +459,7 @@ sub configure {
             $urpm->{media} = [];
             $urpm->add_distrib_media("Virtual", $options{usedistrib}, %options, 'virtual' => 1);
         } else {
-	        $urpm->read_config(%options);
+	    $urpm->read_config(%options);
         }
 	if ($options{media}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
@@ -746,7 +746,7 @@ sub select_media {
 	}
     }
 
-    #- check if some arguments does not correspond to medium name.
+    #- check if some arguments don't correspond to the medium name.
     #- in such case, try to find the unique medium (or list candidate
     #- media found).
     foreach (keys %media) {
@@ -763,9 +763,9 @@ sub select_media {
 		$foundi[0]{modified} = 1;
 	    } elsif (@found == 0 && @foundi == 0) {
 		$urpm->{error}(N("trying to select nonexistent medium \"%s\"", $_));
-	    } else { #- multiple element in found or foundi list.
+	    } else { #- several elements in found and/or foundi lists.
 		$urpm->{log}(N("selecting multiple media: %s", join(", ", map { N("\"%s\"", $_->{name}) } (@found ? @found : @foundi))));
-		#- changed behaviour to select all occurence by default.
+		#- changed behaviour to select all occurences by default.
 		foreach (@found ? @found : @foundi) {
 		    $_->{modified} = 1;
 		}
@@ -838,62 +838,59 @@ sub _probe_with_try_list {
     @probe;
 }
 
-#- update urpmi database regarding the current configuration.
-#- take care of modification and try some trick to bypass
-#- computational of base files.
-#- allow options :
-#-   all         -> all medium are rebuilded.
+#- Update the urpmi database w.r.t. the current configuration.
+#- Takes care of modifications, and tries some tricks to bypass
+#- the recomputation of base files.
+#- Recognized options :
+#-   all         -> all medias are rebuilded.
 #-   force       -> try to force rebuilding base files (1) or hdlist from rpm files (2).
-#-   probe_with  -> probe synthesis or hdlist.
+#-   probe_with  -> probe synthesis or hdlist (or none).
 #-   ratio       -> use compression ratio (with gzip, default is 4)
-#-   noclean     -> keep header directory cleaned.
+#-   noclean     -> keep old files in the header cache directory.
+#-   nopubkey    -> don't use rpm pubkeys
+#-   nolock      -> don't lock the urpmi database
+#-   forcekey    -> force retrieval of pubkey
 sub update_media {
-    my ($urpm, %options) = @_; #- do not trust existing hdlist and try to recompute them.
-    my ($cleaned_cache, $second_pass);
+    my ($urpm, %options) = @_;
+    my $clean_cache = !$options{noclean};
+    my $second_pass;
 
-    #- take care of some options.
-    $cleaned_cache = !$options{noclean};
-
-    #- avoid trashing existing configuration in this case.
-    $urpm->{media} or return;
-
-    #- now we need additional methods not defined by default in URPM.
-    require URPM::Build;
-    require URPM::Signature;
+    $urpm->{media} or return; # verify that configuration has been read
 
     #- get gpg-pubkey signature.
-    $options{nopubkey} or $urpm->exlock_rpm_db;
-    $options{nopubkey} or $urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
-
+    if (!$options{nopubkey}) {
+	$urpm->exlock_rpm_db;
+	$urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
+    }
     #- lock database if allowed.
     $options{nolock} or $urpm->exlock_urpmi_db;
 
-    #- examine each medium to see if one of them need to be updated.
+    #- examine each medium to see if one of them needs to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
-    #- hdlist file else build it from rpm files.
+    #- hdlist file, else build it from rpm files.
     $urpm->clean;
     foreach my $medium (@{$urpm->{media}}) {
-	#- take care of modified medium only or all if all have to be recomputed.
 	$medium->{ignore} and next;
 
 	$options{forcekey} and delete $medium->{'key-ids'};
 	
-	#- and create synthesis file associated if it does not already exists...
+	#- we should create the associated synthesis file if it does not already exist...
 	-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" && -s _ > 32
 	    or $medium->{modified_synthesis} = 1;
 
-	#- but do not take care of removable media for all.
+	#- if we're rebuilding all media, mark them as modified (except removable ones)
 	$medium->{modified} ||= $options{all} && $medium->{url} !~ m!^removable://!;
+
 	unless ($medium->{modified}) {
 	    #- the medium is not modified, but for computing dependencies,
 	    #- we still need to read it and all synthesis will be written if
 	    #- a unresolved provides is found.
-	    #- to speed up the process, we only read the synthesis at the begining.
+	    #- to speed up the process, we only read the synthesis at the beginning.
 	    delete @$medium{qw(start end)};
 	    if ($medium->{virtual}) {
 		my ($path) = $medium->{url} =~ m|^file:/*(/[^/].*[^/])/*$|;
-		my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		if ($path) {
+		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		    if ($medium->{synthesis}) {
 			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
 			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file);
@@ -1182,7 +1179,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    $medium->{headers} = [ $urpm->parse_rpms_build_headers(
 				dir   => "$urpm->{cachedir}/headers",
 				rpms  => \@files,
-				clean => $cleaned_cache,
+				clean => $clean_cache,
 			    ) ];
 			    $medium->{end} = $#{$urpm->{depslist}};
 			    if ($medium->{start} > $medium->{end}) {
@@ -1192,7 +1189,7 @@ this could happen if you mounted manually the directory when creating the medium
 				die "no rpms read\n";
 			    } else {
 				#- make sure the headers will not be removed for another media.
-				$cleaned_cache = 0;
+				$clean_cache = 0;
 				my @unresolved = grep {
 				    ! defined $urpm->{provides}{$_};
 				} keys %{$urpm->{provides} || {}};
@@ -2103,7 +2100,11 @@ sub search_packages {
     $result;
 }
 
-#- do the resolution of dependencies.
+#- Resolves dependencies between requested packages (and auto selection if any).
+#- handles parallel option if any.
+#- The return value is true if program should be restarted (in order to take
+#- care of important packages being upgraded (notably urpmi and perl-URPM, but
+#- maybe rpm too, and glibc also ?).
 sub resolve_dependencies {
     my ($urpm, $state, $requested, %options) = @_;
     my $need_restart;
@@ -2143,10 +2144,12 @@ sub resolve_dependencies {
 	local $SIG{QUIT} = $sig_handler;
 
 	#- auto select package for upgrading the distribution.
-	$options{auto_select} and $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
+	if ($options{auto_select}) {
+	    $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
+	}
 
-	#- resolve dependencies which will be examined for packages needed to
-	#- updated with a restart needed.
+	#- resolve dependencies which will be examined for packages that need to
+	#- have urpmi restarted when they're updated.
 	$urpm->resolve_requested($db, $state, $requested, %options);
 
 	if ($options{priority_upgrade} && !$options{rpmdb}) {

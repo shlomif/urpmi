@@ -166,52 +166,52 @@ my %options_spec = (
     },
 
     urpmq => {
-	update => \$::query->{update},
-	'media|mediums=s' => \$::query->{media},
-	'excludemedia|exclude-media=s' => \$::query->{excludemedia},
-	'sortmedia|sort-media=s' => \$::query->{sortmedia},
-	'synthesis=s' => \$::query->{sortmedia},
+	update => \$options{update},
+	'media|mediums=s' => \$options{media},
+	'excludemedia|exclude-media=s' => \$options{excludemedia},
+	'sortmedia|sort-media=s' => \$options{sortmedia},
+	'synthesis=s' => \$options{sortmedia},
 	'auto-select' => sub {
-	    $::query->{deps} = $::query->{upgrade} = $::query->{auto_select} = 1;
+	    $options{deps} = $options{upgrade} = $options{auto_select} = 1;
 	},
 	fuzzy => sub {
-	    $::query->{fuzzy} = $::query->{all} = 1;
+	    $options{fuzzy} = $options{all} = 1;
 	},
-	keep => \$::query->{keep},
-	list => \$::query->{list},
-	changelog => \$::query->{changelog},
-	'list-media' => \$::query->{list_media},
-	'list-url' => \$::query->{list_url},
-	'list-nodes' => \$::query->{list_nodes},
-	'list-aliases' => \$::query->{list_aliases},
-	'dump-config' => \$::query->{dump_config},
-	'src|s' => \$::query->{src},
-	headers => \$::query->{headers},
-	sources => \$::query->{sources},
-	force => \$::query->{force},
-	'skip=s' => \$::query->{skip},
-	'root=s' => \$::query->{root},
-	'use-distrib=s' => \$::query->{usedistrib},
-	'parallel=s' => \$::query->{parallel},
-	'env=s' => \$::query->{env},
-	d => \$::query->{deps},
-	u => \$::query->{upgrade},
-	a => \$::query->{all},
-	'm|M' => sub { $::query->{deps} = $::query->{upgrade} = 1 },
-	c => \$::query->{complete},
-	g => \$::query->{group},
-	p => \$::query->{use_provides},
-	P => sub { $::query->{use_provides} = 0 },
-	R => \$::query->{what_requires},
-	y => sub { $::query->{fuzzy} = $::query->{all} = 1 },
-	v => \$::query->{verbose},
-	i => \$::query->{info},
-	l => \$::query->{list_files},
+	keep => \$options{keep},
+	list => \$options{list},
+	changelog => \$options{changelog},
+	'list-media' => \$options{list_media},
+	'list-url' => \$options{list_url},
+	'list-nodes' => \$options{list_nodes},
+	'list-aliases' => \$options{list_aliases},
+	'dump-config' => \$options{dump_config},
+	'src|s' => \$options{src},
+	headers => \$options{headers},
+	sources => \$options{sources},
+	force => \$options{force},
+	'skip=s' => \$options{skip},
+	'root=s' => \$options{root},
+	'use-distrib=s' => \$options{usedistrib},
+	'parallel=s' => \$options{parallel},
+	'env=s' => \$options{env},
+	d => \$options{deps},
+	u => \$options{upgrade},
+	a => \$options{all},
+	'm|M' => sub { $options{deps} = $options{upgrade} = 1 },
+	c => \$options{complete},
+	g => \$options{group},
+	p => \$options{use_provides},
+	P => sub { $options{use_provides} = 0 },
+	R => \$options{what_requires},
+	y => sub { $options{fuzzy} = $options{all} = 1 },
+	v => \$options{verbose},
+	i => \$options{info},
+	l => \$options{list_files},
 	r => sub {
-	    $::query->{version} = $::query->{release} = 1;
+	    $options{version} = $options{release} = 1;
 	},
 	f => sub {
-	    $::query->{version} = $::query->{release} = $::query->{arch} = 1;
+	    $options{version} = $options{release} = $options{arch} = 1;
 	},
 	'<>' => sub {
 	    my $x = $_[0];
@@ -219,12 +219,12 @@ my %options_spec = (
 		if (-r $x) { push @::files, $x }
 		else { print STDERR N("urpmq: cannot read rpm file \"%s\"\n", $x) }
 	    } else {
-		if ($::query->{src}) {
+		if ($options{src}) {
 		    push @::src_names, $x;
 		} else {
 		    push @::names, $x;
 		}
-		$::query->{src} = 0; #- reset switch for next package.
+		$options{src} = 0; #- reset switch for next package.
 	    }
 	},
     },
