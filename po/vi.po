@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "POT-Creation-Date: 2002-11-29 14:16+0100\n"
-"PO-Revision-Date: 2002-11-12 21:26+0700\n"
+"PO-Revision-Date: 2002-11-30 13:59+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@linuxmail.org>\n"
 "Language-Team: Gnome-Vi Team <Gnomevi-list@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -245,9 +245,9 @@ msgstr ""
 "tìm thấy trình quản lý song song (parallel) cho các điểm nút (node): %s"
 
 #: ../urpm.pm_.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "using associated media for parallel mode: %s"
-msgstr "dùng phương tiện liên quan cho chế độ song song: %s"
+msgstr "đang dùng phương tiện liên quan cho chế độ song song: %s"
 
 #: ../urpm.pm_.c:597
 #, c-format
@@ -500,9 +500,9 @@ msgid "invalid rpm file name [%s]"
 msgstr "tên tập tin rpm [%s] không hợp lệ"
 
 #: ../urpm.pm_.c:1596
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm file [%s] ..."
-msgstr "đang lấy lại các tập tin rpms..."
+msgstr "đang lấy lại tập tin rpm [%s] ..."
 
 #: ../urpm.pm_.c:1603 ../urpm.pm_.c:2171
 #, c-format
@@ -540,7 +540,7 @@ msgstr "không thể phân tích đúng [%s] trên giá trị \"%s\""
 #: ../urpm.pm_.c:1897
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
-msgstr ""
+msgstr "phương tiện \"%s\" không chỉ ra bất kỳ vị trí nào cho các tập tin rpm"
 
 #: ../urpm.pm_.c:1906
 #, c-format
@@ -570,9 +570,9 @@ msgid "malformed input: [%s]"
 msgstr "input bất thường: [%s]"
 
 #: ../urpm.pm_.c:2053
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "đang lấy lại các tập tin rpms..."
+msgstr "đang lấy lại các tập tin rpm từ phương tiện \"%s\" ..."
 
 #: ../urpm.pm_.c:2111
 msgid "Preparing..."
@@ -738,13 +738,12 @@ msgid "  --update       - create an update medium.\n"
 msgstr "  --update       - tạo phương tiện cập nhật.\n"
 
 #: ../urpmi.addmedia_.c:51
-#, fuzzy
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
 msgstr ""
-"  --distrib      - tự động tạo toàn bộ phương tiện từ một phương tiện cài "
-"đặt.\n"
+"  --distrib      - tự động tạo mọi phương tiện từ một phương tiện cài\n"
+"                     đặt.\n"
 
 #: ../urpmi.addmedia_.c:53
 msgid ""
@@ -752,38 +751,46 @@ msgid ""
 "                   distribution, XXX may be main, contrib, updates or\n"
 "                   anything else that has been configured ;-)\n"
 msgstr ""
+"  --distrib-XXX  - tự động tạo phương tiện cho phần XXX của phân\n"
+"                   phối, XXX có thể là chính, phân phối, cập nhật haybất kỳ\n"
+"                   cái gì khác đã được cấu hình  ;-)\n"
 
 #: ../urpmi.addmedia_.c:56
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --from         - use specified url for list of mirrors, the default is\n"
 "                   %s\n"
 msgstr ""
-"  --env          - dùng môi trường riêng (điển hình là báo cáo\n"
-"                    lỗi).\n"
+"  --from         - dùng url chỉ định cho danh sách các mirror, mặc định là\n"
+"                   %s\n"
 
 #: ../urpmi.addmedia_.c:58
 msgid ""
 "  --version      - use specified version, the default is version of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --version      - dùng phiên bản được chỉ định, mặc định là phiên bản\n"
+"                   của gói phát hành mandrake đã cài đặt.\n"
 
 #: ../urpmi.addmedia_.c:60
 msgid ""
 "  --arch         - use specified architecture, the default is arch of\n"
 "                   mandrake-release package installed.\n"
 msgstr ""
+"  --arch         - dùng kiến trúc được chỉ định, mặc định là kiến trúc của\n"
+"                   gói phát hành mandrake đã cài đặt.\n"
 
 #: ../urpmi.addmedia_.c:62 ../urpmi.removemedia_.c:38 ../urpmi.update_.c:70
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - xoá thư mục cache headers.\n"
 
 #: ../urpmi.addmedia_.c:63
-#, fuzzy
 msgid ""
 "  -h             - try to find and use synthesis or hdlist\n"
 "                   file.\n"
-msgstr "  -h             - cố tìm và dùng tập tin hdlist hoặc synthesis.\n"
+msgstr ""
+"  -h             - cố tìm và dùng tập tin hdlist hoặc\n"
+"                   synthesis.\n"
 
 #: ../urpmi.addmedia_.c:65 ../urpmi.update_.c:72
 msgid "  -f             - force generation of hdlist files.\n"
@@ -791,7 +798,7 @@ msgstr "  -f             - cố tạo các tập tin hdlist.\n"
 
 #: ../urpmi.addmedia_.c:130
 msgid "cannot add updates of a cooker distribution\n"
-msgstr ""
+msgstr "không thể thêm các cập nhật của phiên bản cooker\n"
 
 #: ../urpmi.addmedia_.c:159
 #, c-format
@@ -873,9 +880,8 @@ msgstr ""
 "nơi mà <tên> là tên phương tiện để cập nhật.\n"
 
 #: ../urpmi.update_.c:68
-#, fuzzy
 msgid "  --update       - update only update media.\n"
-msgstr "  --update       - chỉ dùng phương tiện cập nhật.\n"
+msgstr "  --update       - chỉ cập nhật phương tiện cập nhật.\n"
 
 #: ../urpmi.update_.c:69
 msgid "  -a             - select all non-removable media.\n"
