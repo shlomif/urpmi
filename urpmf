@@ -48,7 +48,6 @@ usage:
 ") . _("  --files        - print tag files: all files (multiple lines).
 ") . _("  --conflicts    - print tag conflicts: all conflicts (multiple lines).
 ") . _("  --obsoletes    - print tag obsoletes: all obsoletes (multiple lines).
-") . _("  --prereqs      - print tag prereqs: all prereqs (multiple lines).
 ") . _("  -f             - print version, release and arch with name.
 ") . _("  -e             - include perl code directly as perl -e.
 ") . _("  -a             - binary AND operator, true if both expression are true.
@@ -82,8 +81,8 @@ while (defined($_ = shift @ARGV)) {
     /^--verbose$/ and do { $verbose = 1; next };
     /^--quiet$/ and do { $quiet = 1; next };
     /^--all$/ and do { $params{$_} = 1
-			 foreach qw(group size summary description provides requires files conflicts obsoletes prereqs); next };
-    /^--(group|size|epoch|summary|description|provides|requires|files|conflicts|obsoletes|prereqs)$/ and
+			 foreach qw(group size summary description provides requires files conflicts obsoletes); next };
+    /^--(group|size|epoch|summary|description|provides|requires|files|conflicts|obsoletes)$/ and
       do { $params{$1} = 1; next };
     /^-f$/ and do { $full = 'full'; next };
     /^-e$/ and do { $expr .= '('.$_.')'; next };
@@ -105,7 +104,7 @@ for (scalar(keys %params)) {
 
 #- build callback according expression.
 my $callback = 'sub { my ($urpm, $pkg) = @_; '; #- it is a good start for a sub, no ;-)
-foreach (qw(group size epoch summary description provides requires files conflicts obsoletes prereqs)) {
+foreach (qw(group size epoch summary description provides requires files conflicts obsoletes)) {
     $params{$_} and $callback .= 'foreach my $e ($pkg->'.$_.') { local $_ = $pkg->'.$full.'name."'.(!$quiet && ":$_").':$e"; '.$expr.' or next; print "$_\n" }';
 }
 $callback .= ' 1; }';
@@ -117,6 +116,7 @@ $urpm->configure(nocheck_access => 1,
 		 synthesis => $synthesis,
 		 update => $update,
 		 callback => $callback,
+		 hdlist => $params{description} || $params{files},
 		);
 
 #- that'all! all has been done by callback above.

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 14mdk
+Release: 15mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,12 @@ fi
 
 
 %changelog
+* Wed Dec 11 2002 François Pons <fpons@mandrakesoft.com> 4.1-15mdk
+- improve speed of urpmf dramatically if no --files (default if
+  no flags given) nor --description are given.
+- removed not coded --prereqs of urpmf (use --requires with [*]
+  instead).
+
 * Wed Dec 11 2002 François Pons <fpons@mandrakesoft.com> 4.1-14mdk
 - changed fuzzy search on provides to be deactived by default,
   use --fuzzy for that now (previous behaviour of --fuzzy is kept).

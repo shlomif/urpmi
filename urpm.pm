@@ -620,11 +620,11 @@ sub configure {
 	foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
 	    delete @{$_}{qw(start end)};
 	    if ($options{callback}) {
-		if (-s "$urpm->{statedir}/$_->{hdlist}" > 32) {
+		if ($options{hdlist} && -s "$urpm->{statedir}/$_->{hdlist}" > 32) {
 		    $urpm->{log}(_("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
 		    eval { ($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
 									  packing => 1, callback => $options{callback}) };
-		} elsif (-s "$urpm->{statedir}/synthesis.$_->{hdlist}" > 32) {
+		} else {
 		    $urpm->{log}(_("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
 		    eval { ($_->{start}, $_->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$_->{hdlist}",
 									     callback => $options{callback}) };
