@@ -1,0 +1,105 @@
+.\" .IX urpmi.addmedia
+.TH "urpmi.addmedia" "8" "05. juuli 2001" "MandrakeSoft" "Mandrake Linux"
+.SH "NIMI"
+urpmi.addmedia \- lisab uue rpm\-e sisaldava andmekandja urpmi\-ga kasutamiseks
+.SH "KOKKUVÕTE"
+.B urpmi.addmedia [\fIvõtmed\fP] <\fInimi\fP> <\fIurl\fP>
+.SH "KIRJELDUS"
+urpmi.addmedia teatab urpmi\-le, et uusi rpm\-e leiab määratud kohast. Praegu on andmekandjatena toetatud: kõvakettad, eemaldatavad andmekandjad (näiteks cd\-d), http ja ftp.
+.PP 
+Uue andmekandja lisamine on lubatud kõigile gruppi urpmi kuuluvatele kasutajatele.
+.PP 
+Valida tuleb üks järgmistest moodustest:
+.PP 
+http:
+.br 
+.IP "\fB    urpmi.addmedia <\fInimi\fP> http://<\fImasin\fP>/<\fIasukoht\fP> with <\fIsuhteline tee hdlisti juurde\fP>\fP"
+Kus <\fInimi\fP> on Teie nimetus andmekandjale (nt MandrakeUpdate).
+.br 
+<\fImasin\fP>/<\fIasukoht\fP> on rpm\-kataloogi asukoht võrgus.
+.br 
+<\fIsuhteline tee hdlisti juurde\fP> on rada, kust leida rpm\-ide hdlist. See antakse suhtelisena <\fIasukoha\fP> suhtes.
+.br 
+Märkus: failide allalaadimiseks on kasutusel \fBwget\fP, millele võib lisada teatud võtmeid, kui redigeerida faili \fB/etc/wgetrc\fP. Selle kohta vaadake lähemat infot \fBwget\fP\-i dokumentatsioonist.
+.PP 
+ftp:
+.br 
+.IP "\fB    urpmi.addmedia <\fInimi\fP> ftp://<\fIkasutajatunnus\fP>:<\fIkasutaja\fP>@<\fImasin\fP>/<\fIasukoht\fP> with <\fIsuhteline tee hdlisti juurde\fP>\fP"
+Sama, mis http puhul, lisage vaid oma kasutajatunnus ja kasutaja, kui nõutakse (Pange tähele, et ftp\-serverile anonüümseks ligipääsuks ei ole vaja anda kasutajatunnust anonymous).
+.br 
+Märkus: failide allalaadimiseks on kasutusel \fBwget\fP, nii et kui rakendatud on tulemüür, tuleks failile \fB/etc/wgetrc\fP lisada võti \fBpassive_ftp=on\fP. 
+.nf 
+nt: urpmi.addmedia ftp ftp://a:a@leia//export/Mandrake/RPMS with ../base/hdlist
+.fi 
+.PP 
+Kõvaketas või NFS:
+.br 
+.IP "\fB    urpmi.addmedia <\fInimi\fP> file://<\fIasukoht\fP>\fP with <\fIsuhteline tee hdlisti juurde\fP>\fP"
+Kus <\fInimi\fP> on Teie antud nimetus andmekandjale (nt Minurpmid).
+.br 
+<\fIasukoht\fP> on rpm\-kataloogi asukoht Teie masinal.
+.PP 
+Eemaldatav andmekandja:
+.br 
+.IP "\fB    urpmi.addmedia removable_<\fIseade\fP>://<\fIasukoht\fP>\fP with <\fIsuhteline tee hdlisti juurde\fP>\fP"
+<\fIseade\fP> on andmekandja nimi, nagu see esineb kataloogis /dev/ (nt cdrom, floppy, zip...).
+.br 
+<\fIasukoht\fP> on rpm\-kataloogi asukoht Teie masinal, kui andmekandja on haagitud.
+.PP 
+.SH "VÕTMED"
+.IP "\fB\-\-update\fP"
+lisab andmekandja, mida arvestatakse, kui \fBurpmi\fP abil uuendatakse ainult uuendamis\-andmekandjat.
+.SH "FAILID"
+/usr/bin/urpmi
+.br 
+\fBurpmi\fP käivitusfail (perli skript)
+.PP 
+/var/lib/urpmi/list.*
+.br 
+Sisaldab kõiki urpmi\-le tuntud pakettide loendit ja nende asukohti.
+Iga andmekandja kohta(*) on üks faililoend.
+.PP 
+/var/lib/urpmi/hdlist.*
+.br 
+Sisaldab infot kõigi tuntud pakettide kohta, on rpm\-päiste kokkuvõte.
+Iga andmekandja kohta(*) on üks faililoend.
+.PP 
+/var/lib/urpmi/synthesis.hdlist.*
+.br 
+Contain synthesis information about all known packages built from hdlist files
+that can be used by minimal closure algorithm. If these files are not present
+use \fBurpmi.update \-a\fP to generate them. These files are not mandatory.
+.PP 
+/etc/urpmi/urpmi.cfg
+.br 
+Sisaldab andmekandja kirjeldust, vastuvõetav on ka urpmi varasema versiooni vorming.
+.PP 
+/etc/urpmi/skip.list
+.br 
+Sisaldab pakettide nimesid, mida ei peaks automaatselt uuendama.
+.PP 
+/var/lib/urpmi/depslist.ordered
+.br 
+Tavaline tekstifail kõigi tuntud pakettide kõigi sõltuvustega.
+.PP 
+/var/lib/urpmi/provides
+.br 
+Tavaline tekstifail kõigi pakutavate failide ja neid sisaldavate vastavate pakettide loendiga.
+.PP 
+/var/lib/urpmi/compss
+.br 
+Tavaline tekstifail igasse gruppi kuuluvate pakettide loendiga.
+.SH "VAATA KA"
+urpmi(8),
+urpmi.update(8),
+urpmi.removemedia(8),
+autoirpm(8),
+autoirpm\-icons(8),
+gurpmi(8),
+urpmf(8),
+urpmq(8),
+rpmdrake(8)
+.SH "AUTOR"
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+.br 
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>

@@ -1,0 +1,95 @@
+.\" .IX urpmf
+.TH "urpmf" "8" "05. juuli 2001" "MandrakeSoft" "Mandrake Linux"
+.SH "NIMI"
+urpmf \- RPMFind \- leiab RPM\-paketi, mis sisaldab määratud faili
+.SH "KOKKUVÕTE"
+.B urpmf [\fIvõtmed\fP] <\fIfail\fP>
+.SH "KIRJELDUS"
+urpmf\-i väljundiks on pakettide loend, milles leidub nõutud fail.
+.PP 
+<\fIfail\fP> on failinimi, mida te soovite paketis leiduvat. Muide, Te võite kirjutada ka vaid otsitava faili nime ainult osaliselt, \fBurpmf\fP näitab seejärel sobivate failide loendit koos vastavate pakettidega.
+.PP 
+urpmf otsib läbi paigaldatud ja paigaldamata paketid.
+.SH "VÕTMED"
+.IP "\fB\-\-help\fP"
+näitab abiteadet ja väljub.
+.IP "\fB\-\-quiet\fP"
+välja nime ei näidata (vaikimisi, kui välja ei ole antud käsureal, mis ei sobi kokku interaktiivse resiimiga).
+.IP "\fB\-\-all\fP"
+näitab kõiki välju.
+.IP "\fB\-\-name\fP"
+näitab välja name: rpm\-i failinimi (eeldusel, et välja ei ole antud käsureal, kuid ilma paketinimeta).
+.IP "\fB\-\-group\fP"
+näitab välja group: grupp.
+.IP "\fB\-\-size\fP"
+näitab välja size: suurus.
+.IP "\fB\-\-serial\fP"
+näitab välja serial: seerianumber.
+.IP "\fB\-\-summary\fP"
+näitab välja summary: kokkuvõte.
+.IP "\fB\-\-description\fP"
+näitab välja description: kirjeldus.
+.IP "\fB\-\-provides\fP"
+näitab välja provides: kõik pakutavad (mitu rida).
+.IP "\fB\-\-requires\fP"
+näitab välja requires: kõik nõutavad (mitu rida).
+.IP "\fB\-\-files\fP"
+näitab välja files: kõik failid (mitu rida).
+.IP "\fB\-\-conflicts\fP"
+näitab välja conflicts: kõik konfliktid (mitu rida).
+.IP "\fB\-\-obsoletes\fP"
+näitab välja obsoletes: kõik aegunud (mitu rida).
+.IP "\fB\-\-prereqs\fP"
+näitab välja prereqs: kõik eelnõutavad (mitu rida).
+.SH "FAILID"
+/usr/bin/urpmf
+.br 
+Käivitusfail \fBurpmf\fP (perli skript)
+.PP 
+/var/lib/urpmi/list.*
+.br 
+Kõigi urpmi\-le tuntud pakettide ja nende asukohtade loend.
+Iga andmekandja kohta (*) on üks faililoend.
+.PP 
+/var/lib/urpmi/hdlist.*
+.br 
+Info kõigi tuntud pakettide kohta, sisaldab rpm\-päiste kokkuvõtet.
+Iga andmekandja kohta (*) on üks faililoend.
+.PP 
+/var/lib/urpmi/synthesis.hdlist.*
+.br 
+Sisaldab kõigi tuntud pakettide sünteesiinfot, mis on loodud hdlist\-failide põhjal ja mida võib kasutada vastav algoritm. Kui neid faile ei ole, kasutage nende loomiseks käsku \fBurpmi.update \-a\fP. Need failid ei ole kohustuslikud.
+.PP 
+/etc/urpmi/urpmi.cfg
+.br 
+Sisaldab andmekandja kirjeldust, vastuvõetav on ka varasema urpmi vorming.
+.PP 
+/etc/urpmi/skip.list
+.br 
+Sisaldab nende pakettide nimesid, mida ei peaks automaatselt uuendama.
+.PP 
+/var/lib/urpmi/depslist.ordered
+.br 
+Tavaline tekstifail kõigi tuntud pakettide kõigi sõltuvustega.
+.PP 
+/var/lib/urpmi/provides
+.br 
+Tavaline tekstifail kõigi pakutavate failidega ning neid sisaldavate vastavate pakettide loendiga.
+.PP 
+/var/lib/urpmi/compss
+.br 
+Tavaline tekstifail, kus on iga grupi kohta kõigi selles leiduvate pakettide loend.
+.SH "VAATA KA"
+urpmi(8),
+urpmq(8),
+urpmi.addmedia(8),
+urpmi.update(8),
+urpmi.removemedia(8),
+autoirpm(8),
+autoirpm\-icons(8),
+gurpmi(8),
+rpmdrake(8)
+.SH "AUTOR"
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
+.br 
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
