@@ -135,7 +135,7 @@ kde_opt="InitialPreference=9"
 ?package(gurpmi): command="%{_bindir}/gurpmi" \
 needs="gnome" \
 section=".hidden" \
-title="Software installer" \
+title="Software Installer" \
 longtitle="Graphical front end to install RPM files" \
 mimetypes="application/x-rpm,application/x-urpmi" \
 multiple_files="true"
