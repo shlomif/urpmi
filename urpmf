@@ -152,6 +152,7 @@ if ($env) {
     $urpm->{statedir} = $env;
 }
 
+$urpm->shlock_urpmi_db;
 $urpm->configure(nocheck_access => 1, noskipping => 1,
 		 media => $media,
 		 excludemedia => $excludemedia,
@@ -162,5 +163,6 @@ $urpm->configure(nocheck_access => 1, noskipping => 1,
 		 hdlist => ($params{summary} || $params{description} || $params{sourcerpm} ||
 			    $params{packager} || $params{buildhost} || $params{url} || $params{files}),
 		);
+$urpm->unlock_urpmi_db;
 
 #- that'all! all has been done by callback above.
