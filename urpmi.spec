@@ -17,6 +17,10 @@ well-known rpms to be installed.
 You can compare rpm vs. urpmi  with  insmod vs. modprobe
 
 %changelog
+* Tue Jan  4 2000 Pixel <pixel@mandrakesoft.com>
+- urpmi.addmedia: replaced hdlist2files by hdlist2names
+- rpmf: created 
+
 * Mon Dec 27 1999 Pixel <pixel@mandrakesoft.com>
 - fixed a bug in urpmi.addmedia
 
