@@ -158,6 +158,8 @@ if ($urpm::args::options{list_aliases}) {
     exit 0;
 } elsif ($urpm::args::options{list_media} || $urpm::args::options{list_url}) {
     foreach (@{$urpm->{media}}) {
+	next if $urpm::args::options{list_media} eq 'update' and ! $_->{update};
+	next if $urpm::args::options{list_media} eq 'active' and $_->{ignore};
 	print $_->{name} . ($urpm::args::options{list_url} ? " $_->{url}" : "") . "\n";
     }
     exit 0;

@@ -5,7 +5,7 @@
 # utility functions
 _urpmi_get_medias()
 {
-	medias=( $( sed -ne 's/^\(.\+\) \+[^{]\+{$/\1/p' /etc/urpmi/urpmi.cfg 2>/dev/null | sed -e 's/(/\\(/g' -e 's/)/\\)/g' -e 's/ /\\ /g' ) )
+	medias=( $( urpmq --list-media $1 2>/dev/null | sed -e 's/(/\\(/g' -e 's/)/\\)/g' -e 's/ /\\ /g' ) )
 }
 
 _urpmi_medias()
@@ -13,7 +13,7 @@ _urpmi_medias()
 	# return list of available media
 	local medias IFS=$'\t\n'
         # get medias list
-        _urpmi_get_medias
+        _urpmi_get_medias all
 	# return matching ones
         COMPREPLY=( $( compgen -W '${medias[@]}' -- $cur ) )
 }
@@ -23,8 +23,8 @@ _urpmi_packages()
 	# return list of available packages
 	local medias i j IFS=$'\t\n,'
 
-        # get medias list
-	_urpmi_get_medias
+	# start with full media list
+	_urpmi_get_medias active
 
 	# find media selection options
 	for (( i=1; i < COMP_CWORD; i++ )); do
@@ -41,8 +41,7 @@ _urpmi_packages()
 			i=$(($i+1))
 		fi
 		if [[ "${COMP_WORDS[i]}" == --update ]]; then
-			COMPREPLY=( $( urpmq --update --list 2>/dev/null | grep "^$cur" ) )
-			return 0
+			_urpmi_get_medias update
 		fi
 	done
 
