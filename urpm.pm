@@ -1287,7 +1287,6 @@ this could happen if you mounted manually the directory when creating the medium
 				     $medium->{name}));
 		    $medium->{ignore} = 1;
 		}
-		next;
 	    }
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
@@ -1437,53 +1436,55 @@ this could happen if you mounted manually the directory when creating the medium
 		$error = undef;
 	    }
 
-	    if ($options{force} < 2) {
-		#- examine if a local list file is available (always probed according to with_hdlist
-		#- and check hdlist has not be named very strangely...
-		if ($medium->{hdlist} ne 'list') {
-		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
-		    my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
-		    -s $path_list or $path_list = "$dir/list";
-		    -s $path_list and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
-					     $path_list, "$urpm->{cachedir}/partial/list");
-		}
-	    } else {
-		#- try to find rpm files, use recursive method, added additional
-		#- / after dir to make sure it will be taken into account if this
-		#- is a symlink to a directory.
-		#- make sure rpm filename format is correct and is not a source rpm
-		#- which are not well managed by urpmi.
-		@files = split "\n", `find '$dir/' -name "*.rpm" -print`;
-
-		#- check files contains something good!
-		if (@files > 0) {
-		    #- we need to rebuild from rpm files the hdlist.
-		    eval {
-			$urpm->{log}(N("reading rpm files from [%s]", $dir));
-			my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-			$medium->{start} = @{$urpm->{depslist}};
-			$medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
-									       rpms  => \@files,
-									       clean => $cleaned_cache,
-									      ) ];
-			$medium->{end} = $#{$urpm->{depslist}};
-			if ($medium->{start} > $medium->{end}) {
-			    #- an error occured (provided there are files in input.
-			    delete $medium->{start};
-			    delete $medium->{end};
-			    die "no rpms read\n";
-			} else {
-			    $cleaned_cache = 0; #- make sure the headers will not be removed for another media.
-			    my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-			    @unresolved_before == @unresolved_after or $second_pass = 1;
-			}
-		    };
-		    $@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
-		    $error and delete $medium->{headers}; #- do not propagate these.
-		    $error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
+	    unless ($medium->{virtual}) {
+		if ($options{force} < 2) {
+		    #- examine if a local list file is available (always probed according to with_hdlist
+		    #- and check hdlist has not be named very strangely...
+		    if ($medium->{hdlist} ne 'list') {
+			my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
+			my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
+			-s $path_list or $path_list = "$dir/list";
+			-s $path_list and system("cp", "--preserve=mode", "--preserve=timestamps", "-R",
+						 $path_list, "$urpm->{cachedir}/partial/list");
+		    }
 		} else {
-		    $error = 1;
-		    $urpm->{error}(N("no rpm files found from [%s]", $dir));
+		    #- try to find rpm files, use recursive method, added additional
+		    #- / after dir to make sure it will be taken into account if this
+		    #- is a symlink to a directory.
+		    #- make sure rpm filename format is correct and is not a source rpm
+		    #- which are not well managed by urpmi.
+		    @files = split "\n", `find '$dir/' -name "*.rpm" -print`;
+
+		    #- check files contains something good!
+		    if (@files > 0) {
+			#- we need to rebuild from rpm files the hdlist.
+			eval {
+			    $urpm->{log}(N("reading rpm files from [%s]", $dir));
+			    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+			    $medium->{start} = @{$urpm->{depslist}};
+			    $medium->{headers} = [ $urpm->parse_rpms_build_headers(dir   => "$urpm->{cachedir}/headers",
+										   rpms  => \@files,
+										   clean => $cleaned_cache,
+										  ) ];
+			    $medium->{end} = $#{$urpm->{depslist}};
+			    if ($medium->{start} > $medium->{end}) {
+				#- an error occured (provided there are files in input.
+				delete $medium->{start};
+				delete $medium->{end};
+				die "no rpms read\n";
+			    } else {
+				$cleaned_cache = 0; #- make sure the headers will not be removed for another media.
+				my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+				@unresolved_before == @unresolved_after or $second_pass = 1;
+			    }
+			};
+			$@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
+			$error and delete $medium->{headers}; #- do not propagate these.
+			$error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
+		    } else {
+			$error = 1;
+			$urpm->{error}(N("no rpm files found from [%s]", $dir));
+		    }
 		}
 	    }
 
@@ -1759,7 +1760,7 @@ this could happen if you mounted manually the directory when creating the medium
 	}
 
 	#- make sure group and other does not have any access to this file.
-	unless ($error) {
+	unless ($error || $medium->{virtual}) {
 	    #- sort list file contents according to id.
 	    my %list;
 	    if ($medium->{headers}) {
@@ -1881,43 +1882,45 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 	}
 
-	if ($error) {
-	    #- an error has occured for updating the medium, we have to remove tempory files.
-	    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
-	    $medium->{list} and unlink "$urpm->{cachedir}/partial/$medium->{list}";
-	    #- read default synthesis (we have to make sure nothing get out of depslist).
-	    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+	unless ($medium->{virtual}) {
+	    if ($error) {
+		#- an error has occured for updating the medium, we have to remove tempory files.
+		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		$medium->{list} and unlink "$urpm->{cachedir}/partial/$medium->{list}";
+		#- read default synthesis (we have to make sure nothing get out of depslist).
+		$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 	    eval { ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}") };
-	    unless (defined $medium->{start} && defined $medium->{end}) {
-		$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-		$medium->{ignore} = 1;
-	    }
-	} else {
-	    #- make sure to rebuild base files and clean medium modified state.
-	    $medium->{modified} = 0;
-	    $urpm->{modified} = 1;
+		unless (defined $medium->{start} && defined $medium->{end}) {
+		    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+		    $medium->{ignore} = 1;
+		}
+	    } else {
+		#- make sure to rebuild base files and clean medium modified state.
+		$medium->{modified} = 0;
+		$urpm->{modified} = 1;
 
-	    #- but use newly created file.
-	    unlink "$urpm->{statedir}/$medium->{hdlist}";
-	    $medium->{synthesis} and unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-	    $medium->{list} and unlink "$urpm->{statedir}/$medium->{list}";
-	    unless ($medium->{headers}) {
-		unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+		#- but use newly created file.
 		unlink "$urpm->{statedir}/$medium->{hdlist}";
-		rename("$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
-		       "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}") or
-			 system("mv", "$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
-				"$urpm->{statedir}/synthesis.$medium->{hdlist}" :
-				"$urpm->{statedir}/$medium->{hdlist}");
-	    }
-	    if ($medium->{list}) {
-		rename("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}") or
-		  system("mv", "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
-	    }
-	    $medium->{md5sum} = $retrieved_md5sum; #- anyway, keep it, the previous one is no more usefull.
+		$medium->{synthesis} and unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+		$medium->{list} and unlink "$urpm->{statedir}/$medium->{list}";
+		unless ($medium->{headers}) {
+		    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+		    unlink "$urpm->{statedir}/$medium->{hdlist}";
+		    rename("$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
+			   "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}") or
+			     system("mv", "$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
+				    "$urpm->{statedir}/synthesis.$medium->{hdlist}" :
+				    "$urpm->{statedir}/$medium->{hdlist}");
+		}
+		if ($medium->{list}) {
+		    rename("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}") or
+		      system("mv", "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
+		}
+		$medium->{md5sum} = $retrieved_md5sum; #- anyway, keep it, the previous one is no more usefull.
 
-	    #- and create synthesis file associated.
-	    $medium->{modified_synthesis} = !$medium->{synthesis};
+		#- and create synthesis file associated.
+		$medium->{modified_synthesis} = !$medium->{synthesis};
+	    }
 	}
     }
 
@@ -2741,7 +2744,6 @@ sub copy_packages_of_removable_media {
 	    }
 	    if (-e $dir) {
 		while (my ($i, $url) = each %{$list->[$id]}) {
-		    print STDERR "copying or looking for $i:$url";
 		    chomp $url;
 		    my ($filepath, $filename) = $url =~ /^(?:removable[^:]*|file):\/(.*\/([^\/]*))/ or next;
 		    if (-r $filepath) {
