@@ -1065,7 +1065,6 @@ sub filter_minimal_packages_to_upgrade {
 	    #- provides files, try to minimize choice at this level.
 	    foreach (keys %provides) {
 		$provides{$_} and next;
-		print STDERR "provides to resolve is $_\n";
 		my (@choices, @upgradable_choices);
 		foreach (@{$urpm->{params}{provides}{$_}}) {
 		    #- prefer upgrade package that need to be upgraded, if they are present in the choice.
