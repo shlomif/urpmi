@@ -70,7 +70,7 @@ distributed installation using ka-run tools.
 
 %package -n urpmi-parallel-ssh
 Summary:	Parallel extensions to urpmi using ssh and scp
-Requires:	urpmi >= %{version}-%{release} openssh-clients
+Requires:	urpmi >= %{version}-%{release} openssh-clients perl
 Group:		%{group}
 
 %description -n urpmi-parallel-ssh
@@ -236,13 +236,15 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
-* Thu Jan 15 2004 Olivier Blin <blino@mandrake.org> 4.4.2-1mdk
-- enhance urpmq -i for non root user
-- fix urpmq --sources for non root user (do not give a wrong url)
-- fix urpme --root
-- urpmi, urpme, urpmq: / can be used as root, it's not a particular case
-- urpm.pm: lock rpm db in chroot, and urpmi db in /
-- urpmi: ask to be root to install binary rpms in chroot
+* Thu Jan 15 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.2-1mdk
+- more graphical feedback in urpmi --parallel --X (status, progress, etc)
+- Olivier Blin <blino@mandrake.org>:
+  - enhance urpmq -i for non root user
+  - fix urpmq --sources for non root user (do not give a wrong url)
+  - fix urpme --root
+  - urpmi, urpme, urpmq: / can be used as root, it's not a particular case
+  - urpm.pm: lock rpm db in chroot, and urpmi db in /
+  - urpmi: ask to be root to install binary rpms in chroot
 - From Pascal Terjan <pterjan@mandrake.org> :
     - $root =~ s!/*!! to avoid root detection issue
 - From Olivier Thauvin <thauvin@aerov.jussieu.fr> :

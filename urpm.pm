@@ -29,7 +29,8 @@ sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
 #- create a new urpm object.
 sub new {
     my ($class) = @_;
-    bless {
+    my $self;
+    $self = bless {
 	   config     => "/etc/urpmi/urpmi.cfg",
 	   skiplist   => "/etc/urpmi/skip.list",
 	   instlist   => "/etc/urpmi/inst.list",
@@ -47,6 +48,9 @@ sub new {
 	   fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	   error      => sub { printf STDERR "%s\n", $_[0] },
 	   log        => sub { printf STDERR "%s\n", $_[0] },
+
+           ui_msg     => sub { $self->{log}($_[0]); $self->{ui} and $self->{ui}{msg}->($_[1]); },
+
 	  }, $class;
 }
 

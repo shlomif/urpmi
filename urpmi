@@ -417,6 +417,12 @@ sub ask_choice {
     $choices->[$n - 1];
 };
 
+if ($parallel && $X) {  #- do it early, we'll have ui outputs while resolving deps
+    require gurpm;
+    gurpm::init(N("Package installation..."), N("Initializing..."));
+    $urpm->{ui} = { msg => sub { gurpm::label($_[0]) }, progress => sub { gurpm::progress($_[0]) } };
+}
+
 #- do the resolution of dependencies between requested package (and auto selection if any).
 #- handle parallel option if any.
 #- return value is true if program should be restarted (in order to take care of important
@@ -528,7 +534,7 @@ unless ($local_sources || $list) {
     $urpm->{fatal}(3, N("unable to get source packages, aborting"));
 }
 
-if ($X) {
+if ($X && !$parallel) {  #- for $parallel, already done
     require gurpm;
     gurpm::init(N("Package installation..."), N("Initializing..."));
 }

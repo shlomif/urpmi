@@ -1,4 +1,5 @@
 package urpm::parallel_ssh;
+use Time::HiRes qw(gettimeofday);
 
 #- parallel copy
 sub parallel_register_rpms {
@@ -39,7 +40,7 @@ sub parallel_find_remove {
 
     #- now try an iteration of urpme.
     foreach my $node (keys %{$parallel->{nodes}}) {
-	$urpm->{log}("parallel_ssh: ssh $node urpme --no-locales --auto $test".(join ' ', map { "'$_'" } @$l));
+        $urpm->{log}("parallel_ssh: ssh $node urpme --no-locales --auto $test".(join ' ', map { "'$_'" } @$l));
 	open F, "ssh 2>&1 $node urpme --no-locales --auto $test".(join ' ', map { "'$_'" } @$l)." |";
 	while (defined ($_ = <F>)) {
 	    chomp;
@@ -102,7 +103,7 @@ sub parallel_resolve_dependencies {
 
     #- first propagate the synthesis file to all machine.
     foreach (keys %{$parallel->{nodes}}) {
-	$urpm->{log}("parallel_ssh: scp -q '$synthesis' '$_:$synthesis'");
+        $urpm->{ui_msg}("parallel_ssh: scp -q '$synthesis' '$_:$synthesis'", urpm::N("Propagating synthesis to %s...", $_));
 	system "scp -q '$synthesis' '$_:$synthesis'";
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s", $_));
     }
@@ -154,7 +155,7 @@ sub parallel_resolve_dependencies {
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    $urpm->{log}("parallel_ssh: ssh $node urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen));
+            $urpm->{ui_msg}("parallel_ssh: ssh $node urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen), urpm::N("Resolving dependencies on %s...", $node));
 	    open F, "ssh $node urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen)." |";
 	    while (defined ($_ = <F>)) {
 		chomp;
@@ -199,7 +200,7 @@ sub parallel_install {
 
     foreach (keys %{$parallel->{nodes}}) {
 	my $sources = join ' ', map { "'$_'" } values %$install, values %$upgrade;
-	$urpm->{log}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms");
+        $urpm->{ui_msg}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms", urpm::N("Distributing files to %s...", $_));
 	system "scp $sources $_:$urpm->{cachedir}/rpms";
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s", $_));
     }
@@ -207,7 +208,7 @@ sub parallel_install {
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
 	local (*F, $_);
-	$urpm->{log}("parallel_ssh: ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
+        $urpm->{ui_msg}("parallel_ssh: ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", urpm::N("Verifying if install is possible on %s...", $node));
 	open F, "ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
 	while ($_ = <F>) {
 	    $bad_nodes{$node} .= $_;
@@ -229,8 +230,26 @@ sub parallel_install {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath $options{excludepath}" : "");
 	#- continue installation on each nodes.
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    $urpm->{log}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
-	    system split " ", "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line";
+            $urpm->{ui_msg}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line", urpm::N("Performing install on %s...", $node));
+            $urpm->{ui}{progress}->(0);
+	    open F, "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line |";
+            local $/ = \1;
+            my $log;
+            my $last_time;
+            while ($_ = <F>) {
+                print;
+                $log .= $_;
+                /\n/ and $log = '';
+                if (my ($msg, $progress) = $log =~ /^\s*(\S+)\s+(#+)/) {
+                    if ($urpm->{ui} && (gettimeofday() - $last_time > 0.15 || length($progress) == 50)) {
+                        $urpm->{ui}{msg}->($msg =~ /\d+:(\S+)/ ? urpm::N("Installing %s on %s...", $1, $node)
+                                                               : urpm::N("Preparing install on %s...", $node));
+                        $urpm->{ui}{progress}->(length($progress)/50);
+                        $last_time = gettimeofday();
+                    }
+                }
+            }
+            close F;
 	}
     }
 }
