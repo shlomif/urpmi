@@ -97,7 +97,6 @@ EOF
 mkdir -p %{buildroot}%{compat_perl_vendorlib}
 install -m 644 urpm.pm %{buildroot}%{compat_perl_vendorlib}/urpm.pm
 %if %{allow_gurpmi}
-install -m 644 gurpm.pm %{buildroot}%{compat_perl_vendorlib}/gurpm.pm
 %else
 rm -rf %{buildroot}%{_sbindir}/gurpmi
 %endif
@@ -212,7 +211,6 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{_sbindir}/gurpmi
 %{_bindir}/gurpmi
 %{_menudir}/gurpmi
-%{compat_perl_vendorlib}/gurpm.pm
 %endif
 
 %files -n urpmi-parallel-ka-run
