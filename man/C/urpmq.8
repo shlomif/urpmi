@@ -16,33 +16,37 @@ Output format of urpmq is the following according to command line options:
 .IP "\fB\--help\fP"
 Print a help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
 .IP "\fB\--update\fP"
-Use only update media. This means \fBurpmi\fP will search and resolve
-dependencies only in media marked as update.
+Use only update media. This means that \fBurpmq\fP will search and resolve
+dependencies only in media marked as containing updates.
 .IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
-Select specific media to use instead of all media available (or update media is
+Select specific media to be used, instead of all available media (or update
+media if \fB--update\fP is used).
 \fB--update\fP is used).
 .IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
-Do not use the given media.
+Do not use the specified media.
 .IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
-Sort the given media, substrings may be used to simplify grouping.
+Sort the specified media. Substrings may be used to simplify grouping.
 .IP "\fB\--synthesis\fP \fIfile\fP"
-Use the given synthesis\fIfile\fP instead of urpmi db for searching packages and
-resolving dependencies.
+Use the specified synthesis file instead of the urpmi database for
+searching packages and resolving dependencies.
 .IP "\fB\--auto-select\fP"
-Automatically select all packages that have to be upgraded according to already
-installed packages and packages listed in the various media registered.
+Automatically select all packages that have to be upgraded, according to already
+installed packages and packages listed in various registered media.
 .IP "\fB\--fuzzy\fP"
 Disable fast search on exact package name; i.e. it will propose all
 packages matching partially the name, even if one of them matches exactly the
 specified name (this is the same as \fB\-y\fP).
 .IP "\fB\--keep\fP"
-Change selection of package when some dependencies cannot be satisfied by trying
-to keep existing package instead of removing them. This behaviour generally
-rejects upgrade of packages given on command line (or when using --auto-select).
+When some dependencies cannot be satisfied, change the selection of packages
+to trying to keep existing packages instead of removing them. This behaviour
+generally rejects the upgrade of packages given on command line (or when using
+--auto-select) when a dependency error occurs.
 .IP "\fB\--list\fP"
 List available packages.
 .IP "\fB\--list-media\fP"
 List available media.
+.IP "\fB\--list-url\fP"
+List available media and their URLs.
 .IP "\fB\--list-nodes\fP"
 List available nodes when using \fB--parallel\fP.
 .IP "\fB\--list-aliases\fP"
@@ -52,11 +56,11 @@ Search a source package according to \fIname\fP and it will select all dependenc
 default, unless \fB\--install-src\fP is used in order to install source package
 itself.
 .IP "\fB\--headers\fP"
-Extract headers for package selected to standard output.
+Extract and dump headers of selected packages to standard output.
 .IP "\fB\--sources\fP"
-Print source url (or file) of all packages selected.
+Print source URLs (or file names) of all selected packages.
 .IP "\fB\--force\fP"
-Ignore error of inexistent packages requested.
+Continue when requesting inexistent packages.
 .IP "\fB\--parallel\fP \fIalias\fP"
 Activate distributed execution of urpmi to other machines (it is mandatory that
 urpmi is installed but it is not necessary to have media defined on any
