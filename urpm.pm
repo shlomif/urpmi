@@ -2478,7 +2478,16 @@ sub exlock_urpmi_db {
     open LOCK_FILE, ">$urpm->{statedir}/.LOCK";
     flock LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
+sub shlock_urpmi_db {
+    my ($urpm) = @_;
 
+    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
+    my $LOCK_EX = 2;
+
+    #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
+    open LOCK_FILE, ">$urpm->{statedir}/.LOCK";
+    flock LOCK_FILE, $LOCK_EX or $urpm->{fatal}(7, N("urpmi database locked"));
+}
 sub unlock_urpmi_db {
     my ($_urpm) = @_;
 
