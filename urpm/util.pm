@@ -75,7 +75,17 @@ sub offset_pathname {
 sub md5sum {
     #- Use an external command to avoid depending on perl
     my ($file) = @_;
-    return( (split ' ', `md5sum '$file'`)[0] );
+    return((split ' ', `md5sum '$file'`)[0]);
+}
+
+sub copy {
+    my ($file, $dest) = @_;
+    !system("/bin/cp", "-p", "-R", $file, $dest);
+}
+
+sub move {
+    my ($file, $dest) = @_;
+    rename($file, $dest) or !system("/bin/mv", "-f", $file, $dest);
 }
 
 1;

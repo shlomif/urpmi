@@ -160,8 +160,9 @@ sub sync_file {
     foreach (@_) {
 	my ($in) = m!^(?:removable[^:]*:/|file:/)(/.*)!;
 	propagate_sync_callback($options, 'start', $_);
-	system("cp", "-p", "-R", $in || $_, ref($options) ? $options->{dir} : $options)
-	    and die N("copy failed");
+	require urpm::util;
+	urpm::util::copy($in || $_, ref($options) ? $options->{dir} : $options)
+	    or die N("copy failed");
 	propagate_sync_callback($options, 'end', $_);
     }
 }

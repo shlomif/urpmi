@@ -685,9 +685,9 @@ sub add_distrib_media {
 	if (-e $hdlists_file) {
 	    unlink "$urpm->{cachedir}/partial/hdlists";
 	    $urpm->{log}(N("copying hdlists file..."));
-	    system("cp", "-p", "-R", $hdlists_file, "$urpm->{cachedir}/partial/hdlists")
-		? do { $urpm->{error}(N("...copying failed")); return }
-		: $urpm->{log}(N("...copying done"));
+	    urpm::util::copy($hdlists_file, "$urpm->{cachedir}/partial/hdlists")
+		? $urpm->{log}(N("...copying done"))
+		: do { $urpm->{error}(N("...copying failed")); return };
 	    chown 0, 0, "$urpm->{cachedir}/partial/hdlists";
 	} else {
 	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
@@ -1069,10 +1069,9 @@ this could happen if you mounted manually the directory when creating the medium
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
 	    if (-e "$dir/../descriptions") {
 		$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
-		system("cp", "-p", "-R", "$dir/../descriptions",
-			"$urpm->{statedir}/descriptions.$medium->{name}")
-		    ? do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1 }
-		    : $urpm->{log}(N("...copying done"));
+		urpm::util::copy("$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}")
+		    ? $urpm->{log}(N("...copying done"))
+		    : do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1 };
 		chown 0, 0, "$urpm->{statedir}/descriptions.$medium->{name}";
 	    }
 
@@ -1161,14 +1160,14 @@ this could happen if you mounted manually the directory when creating the medium
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 			$options{callback} && $options{callback}('copy', $medium->{name});
-			if (system("cp", "-p", "-R", "-H", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
-			    $options{callback} && $options{callback}('failed', $medium->{name});
-			    #- force error, reported afterwards
-			    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
-			} else {
+			if (urpm::util::copy($with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
 			    $options{callback} && $options{callback}('done', $medium->{name});
 			    $urpm->{log}(N("...copying done"));
 			    chown 0, 0, "$urpm->{cachedir}/partial/$medium->{hdlist}";
+			} else {
+			    $options{callback} && $options{callback}('failed', $medium->{name});
+			    #- force error, reported afterwards
+			    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			}
 		    }
 
@@ -1237,8 +1236,8 @@ this could happen if you mounted manually the directory when creating the medium
 			my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
 			-e $path_list or $path_list = "$dir/list";
 			if (-e $path_list) {
-			    system("cp", "-p", "-R", $path_list, "$urpm->{cachedir}/partial/list")
-				and do { $urpm->{error}(N("...copying failed")); $error = 1 };
+			    urpm::util::copy($path_list, "$urpm->{cachedir}/partial/list")
+				or do { $urpm->{error}(N("...copying failed")); $error = 1 };
 			    chown 0, 0, "$urpm->{cachedir}/partial/list";
 			}
 		    }
@@ -1292,9 +1291,10 @@ this could happen if you mounted manually the directory when creating the medium
 		my $local_pubkey = $medium->{with_hdlist} =~ /hdlist(.*)\.cz2?$/ ? "pubkey$1" : 'pubkey';
 		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../$local_pubkey");
 		-e $path_pubkey or $path_pubkey = "$dir/pubkey";
-		-e $path_pubkey
-		    and system("cp", "-p", "-R", $path_pubkey, "$urpm->{cachedir}/partial/pubkey")
-		    and do { $urpm->{error}(N("...copying failed")); $error = 1 };
+		if ($path_pubkey) {
+		    urpm::util::copy($path_pubkey, "$urpm->{cachedir}/partial/pubkey")
+			or do { $urpm->{error}(N("...copying failed")); $error = 1 };
+		}
 		chown 0, 0, "$urpm->{cachedir}/partial/pubkey";
 	    }
 	} else {
@@ -1326,8 +1326,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{cachedir}/partial/descriptions";
 	    if (-e "$urpm->{statedir}/descriptions.$medium->{name}") {
-		rename("$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions") or 
-		  system("mv", "$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
+		urpm::util::move("$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
 	    }
 	    eval {
 		$urpm->{sync}(
@@ -1343,8 +1342,7 @@ this could happen if you mounted manually the directory when creating the medium
 		);
 	    };
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
-		rename("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") or
-		  system("mv", "$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
+		urpm::util::move("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
 	    }
 
 	    #- examine if a distant MD5SUM file is available.
@@ -1484,17 +1482,19 @@ this could happen if you mounted manually the directory when creating the medium
 		$options{force} and unlink "$urpm->{cachedir}/partial/$basename";
 		unless ($options{force}) {
 		    if ($medium->{synthesis}) {
-			-e "$urpm->{statedir}/synthesis.$medium->{hdlist}"
-			    and system("cp", "-p", "-R",
+			if (-e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
+			    urpm::util::copy(
 				"$urpm->{statedir}/synthesis.$medium->{hdlist}",
-				"$urpm->{cachedir}/partial/$basename")
-			    and $urpm->{error}(N("...copying failed")), $error = 1;
+				"$urpm->{cachedir}/partial/$basename",
+			    ) or $urpm->{error}(N("...copying failed")), $error = 1;
+			}
 		    } else {
-			-e "$urpm->{statedir}/$medium->{hdlist}"
-			    and system("cp", "-p", "-R",
+			if (-e "$urpm->{statedir}/$medium->{hdlist}") {
+			    urpm::util::copy(
 				"$urpm->{statedir}/$medium->{hdlist}",
-				"$urpm->{cachedir}/partial/$basename")
-			    and $urpm->{error}(N("...copying failed")), $error = 1;
+				"$urpm->{cachedir}/partial/$basename",
+			    ) or $urpm->{error}(N("...copying failed")), $error = 1;
+			}
 		    }
 		    chown 0, 0, "$urpm->{cachedir}/partial/$basename";
 		}
@@ -1778,15 +1778,14 @@ this could happen if you mounted manually the directory when creating the medium
 		unless ($medium->{headers}) {
 		    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 		    unlink "$urpm->{statedir}/$medium->{hdlist}";
-		    rename("$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
-			   "$urpm->{statedir}/synthesis.$medium->{hdlist}" : "$urpm->{statedir}/$medium->{hdlist}") or
-			     system("mv", "$urpm->{cachedir}/partial/$medium->{hdlist}", $medium->{synthesis} ?
-				    "$urpm->{statedir}/synthesis.$medium->{hdlist}" :
-				    "$urpm->{statedir}/$medium->{hdlist}");
+		    urpm::util::move("$urpm->{cachedir}/partial/$medium->{hdlist}",
+			$medium->{synthesis}
+			    ? "$urpm->{statedir}/synthesis.$medium->{hdlist}"
+			    : "$urpm->{statedir}/$medium->{hdlist}"
+		    );
 		}
 		if ($medium->{list}) {
-		    rename("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}") or
-		      system("mv", "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
+		    urpm::util::move("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
 		}
 		$medium->{md5sum} = $retrieved_md5sum; #- anyway, keep it, the previous one is no more usefull.
 
@@ -2573,12 +2572,12 @@ sub copy_packages_of_removable_media {
 			    #- First, copy in partial cache, and if the package is still good,
 			    #- transfer it to the rpms cache.
 			    unlink "$urpm->{cachedir}/partial/$filename";
-			    if (!system("cp", "-p", "-R", $filepath, "$urpm->{cachedir}/partial") &&
-				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
+			    if (urpm::util::copy($filepath, "$urpm->{cachedir}/partial") &&
+				URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/)
+			    {
 				#- now we can consider the file to be fine.
 				unlink "$urpm->{cachedir}/rpms/$filename";
-				rename("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename") or
-				  system("mv", "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
+				urpm::util::move("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
 				-r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 			    }
 			} else {
@@ -2704,8 +2703,7 @@ sub download_packages_of_distant_media {
 		    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
 		    #- it seems the the file has been downloaded correctly and has been checked to be valid.
 		    unlink "$urpm->{cachedir}/rpms/$filename";
-		    rename("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename") or
-		      system("mv", "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
+		    urpm::util::move("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
 		    -r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 		}
 		unless ($sources->{$i}) {
