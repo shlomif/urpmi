@@ -21,7 +21,7 @@ sub parallel_register_rpms {
 #- parallel find_packages_to_remove
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
-    my ($test, $node, %bad_nodes, %base_to_remove);
+    my ($test, $node, %bad_nodes, %base_to_remove, %notfound);
     local (*F, $_);
 
     #- keep in mind if the previous selection is still active, it avoid
@@ -48,8 +48,9 @@ sub parallel_find_remove {
 	    /To satisfy dependencies, the following packages are going to be removed/
 	      and $urpm->{fatal}(1, ("node %s has bad version of urpme, please upgrade", $node));
 	    if (/unknown packages?:? (.*)/) {
-		$options{callback_notfound} and $options{callback_notfound}->($urpm, split ", ", $1)
-		  or delete $state->{rejected}, last;
+		#- keep in mind unknown package from the node, because it should not be a fatal error
+		#- if other node have it.
+		@notfound{split ", ", $1} = ();
 	    } elsif (/The following packages contain ([^:]*): (.*)/) {
 		$options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, $1, split " ", $2)
 		  or delete $state->{rejected}, last;
@@ -82,6 +83,13 @@ sub parallel_find_remove {
 	foreach (@{$bad_nodes{$_}}) {
 	    push @{$urpm->{error_remove}}, "$msg, $_";
 	}
+    }
+
+    #- if at least one node has the package, it should be seen as unknown...
+    delete @notfound{map { /^(.*)-[^-]*-[^-]*$/ } keys %{$state->{rejected}}};
+    if (%notfound) {
+	$options{callback_notfound} and $options{callback_notfound}->($urpm, keys %notfound)
+	  or delete $state->{rejected};
     }
 
     keys %{$state->{rejected}};
