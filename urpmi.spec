@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.4.5
-%define release 1mdk
+%define release 2mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -236,6 +236,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue Feb  3 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.5-2mdk
+- convert some gurpmi dialogs to UTF8 as they should (part of
+  #7156, needs latest change in perl-Locale-gettext as well)
+
 * Fri Jan 30 2004 Olivier Blin <blino@mandrake.org> 4.4.5-1mdk
 - add --resume and --no-resume options in urpmi
   (to resume transfer of partially-downloaded files)

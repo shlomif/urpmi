@@ -421,8 +421,8 @@ sub ask_choice {
 
 if ($parallel && $X) {  #- do it early, we'll have ui outputs while resolving deps
     require gurpm;
-    gurpm::init(N("Package installation..."), N("Initializing..."));
-    $urpm->{ui} = { msg => sub { gurpm::label($_[0]) }, progress => sub { gurpm::progress($_[0]) } };
+    gurpm::init(to_utf8(N("Package installation...")), to_utf8(N("Initializing...")));
+    $urpm->{ui} = { msg => sub { gurpm::label(to_utf8($_[0])) }, progress => sub { gurpm::progress($_[0]) } };
 }
 
 #- do the resolution of dependencies between requested package (and auto selection if any).
@@ -538,7 +538,7 @@ unless ($local_sources || $list) {
 
 if ($X && !$parallel) {  #- for $parallel, already done
     require gurpm;
-    gurpm::init(N("Package installation..."), N("Initializing..."));
+    gurpm::init(to_utf8(N("Package installation...")), to_utf8(N("Initializing...")));
 }
 
 my %sources = %$local_sources;
@@ -590,7 +590,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 						  if ($X) {
 						      if ($mode eq 'start') {
 							  $file =~ s|/*\s*$||; $file =~ s|.*/||;
-							  gurpm::label(N("Downloading package `%s'...", $file));
+							  gurpm::label(to_utf8(N("Downloading package `%s'...", $file)));
 						      } elsif ($mode eq 'progress') {
 							  gurpm::progress($percent/100);
 						      } elsif ($mode eq 'end') {
@@ -691,9 +691,9 @@ foreach my $set (@{$state->{transaction} || []}) {
 
 		if ($subtype eq 'start') {
 		    if ($type eq 'trans') {
-			gurpm::label(N("Preparing..."));
+			gurpm::label(to_utf8(N("Preparing...")));
 		    } else {
-			gurpm::label(N("Installing package `%s' (%s/%s)...", $pkg->name, ++$progress_nb, $total_nb));
+			gurpm::label(to_utf8(N("Installing package `%s' (%s/%s)...", $pkg->name, ++$progress_nb, $total_nb)));
 		    }
 		} elsif ($subtype eq 'progress') {
 		    gurpm::progress($amount/$total);
