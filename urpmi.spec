@@ -1,8 +1,8 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 3.0
-Release: 6mdk
+Version: 3.1
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -142,6 +142,14 @@ fi
 
 
 %changelog
+* Thu Dec 13 2001 François Pons <fpons@ackbar.mandrakesoft.com> 3.1-1mdk
+- added --distrib flag to urpmi.addmedia to add all media from the
+  installation medium.
+- fixed update on removable medium (the second to more).
+- added probe on name to select media (urpmi.update and urpmi.removemedia).
+- added log when adding or removing media.
+- release 3.1 (interface change, removed method in urpm library).
+
 * Wed Dec 12 2001 François Pons <fpons@mandrakesoft.com> 3.0-6mdk
 - fixed removable device probe for addition of medium.
 - fixed synthesis size checking.

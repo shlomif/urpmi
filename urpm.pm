@@ -320,6 +320,9 @@ sub write_config {
     }
     close F;
     $urpm->{log}(_("write config file [%s]", $urpm->{config}));
+
+    #- everything should be synced now.
+    delete $urpm->{modified};
 }
 
 #- add a new medium, sync the config file accordingly.
@@ -351,19 +354,6 @@ sub add_medium {
 
     #- check to see if the medium is using file protocol or removable medium.
     if (my ($prefix, $dir) = $url =~ /^(removable[^:]*|file):\/(.*)/) {
-	#- the directory given does not exist or may be accessible
-	#- by mounting some other. try to figure out these directory and
-	#- mount everything necessary.
-	$urpm->try_mounting($dir) or $urpm->{log}(_("unable to access medium \"%s\"", $name)), return;
-
-	#- check if directory is somewhat normalized so that we can get back hdlist,
-	if (!($with_hdlist && -e "$dir/$with_hdlist") && $dir =~ /RPMS([^\/]*)\/*$/) {
-	    foreach my $rdir (qw(Mandrake/base ../Mandrake/base ..)) {
-		-e "$dir/$_/hdlist$1.cz" and $with_hdlist = "$_/hdlist$1.cz", last;
-		-e "$dir/$_/hdlist$1.cz2" and $with_hdlist = "$_/hdlist$1.cz2", last;
-	    }
-	}
-
 	#- add some more flags for this type of medium.
 	$medium->{clear_url} = $url;
 
@@ -379,38 +369,70 @@ sub add_medium {
 
     #- keep in mind the database has been modified and base files need to be updated.
     #- this will be done automatically by transfering modified flag from medium to global.
+    $urpm->{log}(_("added medium %s", $name));
 }
 
-sub remove_media {
-    my $urpm = shift;
-    my %media; @media{@_} = undef;
-    my @result;
+#- add distribution media, according to url given.
+sub add_distrib_media {
+    my ($urpm, $name, $url, %options) = @_;
+    my ($hdlists_file);
 
-    foreach (@{$urpm->{media}}) {
-	if (exists $media{$_->{name}}) {
-	    $media{$_->{name}} = 1; #- keep it mind this one has been removed
+    #- make sure configuration has been read.
+    $urpm->{media} or $urpm->read_config();
 
-	    #- mark to re-write configuration.
-	    $urpm->{modified} = 1;
+    #- try to copy/retrive Mandrake/basehdlists file.
+    if (my ($dir) = $url =~ /^(?:removable[^:]*|file):\/(.*)/) {
+	$hdlists_file = $urpm->reduce_pathname("$dir/Mandrake/base/hdlists");
 
-	    #- remove file associated with this medium.
-	    foreach ($_->{hdlist}, $_->{list}, "synthesis.$_->{hdlist}", "descriptions.$_->{name}", "$_->{name}.cache") {
-		unlink "$urpm->{statedir}/$_";
-	    }
+	$urpm->try_mounting($hdlists_file) or $urpm->{error}(_("unable to access first installation medium")), return;
+
+	if (-e $hdlists_file) {
+	    unlink "$urpm->{cachedir}/partial/hdlists";
+	    $urpm->{log}(_("copying hdlists file..."));
+	    system("cp", "-a", $hdlists_file, "$urpm->{cachedir}/partial/hdlists") ?
+	      $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
 	} else {
-	    push @result, $_; #- not removed so keep it
+	    $urpm->{error}(_("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
+	}
+    } else {
+	#- try to get the description if it has been found.
+	unlink "$urpm->{cachedir}/partial/hdlists";
+	eval {
+	    $urpm->{log}(_("retrieving hdlists file..."));
+	    $urpm->{sync}("$urpm->{cachedir}/partial", "$url/Mandrake/base/hdlists");
+	    $urpm->{log}(_("...retrieving done"));
+	};
+	$@ and $urpm->{log}(_("...retrieving failed: %s", $@));
+	if (-e "$urpm->{cachedir}/partial/hdlists") {
+	    $hdlists_file = "$urpm->{cachedir}/partial/hdlists";
+	} else {
+	    $urpm->{error}(_("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
 	}
     }
 
-    #- check if some arguments does not correspond to medium name.
-    foreach (keys %media) {
-	unless ($media{$_}) {
-	    $urpm->{error}(_("trying to remove inexistent medium \"%s\"", $_));
-	}
-    }
+    #- cosmetic update of name if it contains blank char.
+    $name =~ /\s/ and $name .= ' ';
 
-    #- restore newer media list.
-    $urpm->{media} = \@result;
+    #- at this point, we have found an hdlists file, so parse it
+    #- and create all necessary medium according to it.
+    local *HDLISTS;
+    if (open HDLISTS, $hdlists_file) {
+	my $medium = 1;
+	foreach (<HDLISTS>) {
+	    chomp;
+	    s/\s*#.*$//;
+	    /^\s*$/ and next;
+	    m/^\s*(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(_("invalid hdlist description \"%s\" in hdlists file"), $_);
+	    my ($hdlist, $rpmsdir, $descr) = ($1, $2, $3);
+
+	    $urpm->add_medium($name ? "$descr ($name$medium)" : $descr, "$url/$rpmsdir", "../base/$hdlist", %options);
+
+	    ++$medium;
+	}
+	close HDLISTS;
+    } else {
+	$urpm->{error}(_("unable to access first installation medium (no Mandrake/base/hdlists file found)")), return;
+    }
 }
 
 sub select_media {
@@ -451,6 +473,30 @@ sub select_media {
     }
 }
 
+sub remove_selected_media {
+    my ($urpm) = @_;
+    my @result;
+    
+    foreach (@{$urpm->{media}}) {
+	if ($_->{modified}) {
+	    $urpm->{log}(_("removing medium \"%s\"", $_->{name}));
+
+	    #- mark to re-write configuration.
+	    $urpm->{modified} = 1;
+
+	    #- remove file associated with this medium.
+	    foreach ($_->{hdlist}, $_->{list}, "synthesis.$_->{hdlist}", "descriptions.$_->{name}", "$_->{name}.cache") {
+		unlink "$urpm->{statedir}/$_";
+	    }
+	} else {
+	    push @result, $_; #- not removed so keep it
+	}
+    }
+
+    #- restore newer media list.
+    $urpm->{media} = \@result;
+}
+
 sub build_synthesis_hdlist {
     my ($urpm, $medium, $use_parsehdlist) = @_;
 
@@ -481,6 +527,7 @@ sub build_synthesis_hdlist {
 	}
     }
     $urpm->{log}(_("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+    delete $medium->{modified_synthesis};
     1;
 }
 
@@ -497,9 +544,6 @@ sub update_media {
     #- avoid trashing existing configuration in this case.
     $urpm->{media} or return;
 
-    #- list of medium to update their synthesis once a pass with provides/requires will be made.
-    my @rebuild_synthesis_of_media;
-
     #- examine each medium to see if one of them need to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
     #- hdlist file else build it from rpms files.
@@ -508,7 +552,7 @@ sub update_media {
 	$medium->{ignore} and next;
 
 	#- and create synthesis file associated if it does not already exists...
-	-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" > 32 or push @rebuild_synthesis_of_media, $medium;
+	-s "$urpm->{statedir}/synthesis.$medium->{hdlist}" > 32 or $medium->{modified_synthesis} = 1;
 
 	#- but do not take care of removable media for all.
 	$medium->{modified} ||= $options{all} && $medium->{url} !~ /removable/ or next;
@@ -519,17 +563,17 @@ sub update_media {
 
 	#- check to see if the medium is using file protocol or removable medium.
 	if (($prefix, $dir) = $medium->{url} =~ /^(removable[^:]*|file):\/(.*)/) {
+	    #- try to figure a possible hdlist_path (or parent directory of searched directory.
+	    #- this is used to probe possible hdlist file.
+	    my $with_hdlist_dir = $urpm->reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
+	    
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other. try to figure out these directory and
 	    #- mount everything necessary.
-	    $urpm->try_mounting($dir) or $urpm->{log}(_("unable to access medium \"%s\"", $medium->{name})), next;
-
-	    #- try to get the description if it has been found.
-	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
-	    if (-e "$dir/../descriptions") {
-		$urpm->{log}(_("copying description file of \"%s\"...", $medium->{name}));
-		system("cp", "-a", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") ?
-		  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
+	    if ($options{force} < 2 && ($options{probe_with_hdlist} || $medium->{with_hdlist})) {
+		$urpm->try_mounting($with_hdlist_dir) or $urpm->{log}(_("unable to access medium \"%s\"", $medium->{name})), next;
+	    } else {
+		$urpm->try_mounting($dir) or $urpm->{log}(_("unable to access medium \"%s\"", $medium->{name})), next;
 	    }
 
 	    #- try to probe for possible with_hdlist parameter, unless
@@ -551,17 +595,27 @@ sub update_media {
 		} elsif (defined $suffix && !$suffix && -s "$dir/../base/hdlist1.cz" > 32) {
 		    $medium->{with_hdlist} = "../base/hdlist1.cz";
 		}
+		#- redo...
+		$with_hdlist_dir = $urpm->reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
+	    }
+
+	    #- try to get the description if it has been found.
+	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
+	    if (-e "$dir/../descriptions") {
+		$urpm->{log}(_("copying description file of \"%s\"...", $medium->{name}));
+		system("cp", "-a", "$dir/../descriptions", "$urpm->{statedir}/descriptions.$medium->{name}") ?
+		  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
 	    }
 
 	    #- if the source hdlist is present and we are not forcing using rpms file
-	    if ($options{force} < 2 && $medium->{with_hdlist} && -e "$dir/$medium->{with_hdlist}") {
+	    if ($options{force} < 2 && $medium->{with_hdlist} && -e $with_hdlist_dir) {
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		$urpm->{log}(_("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
-		system("cp", "-a", "$dir/$medium->{with_hdlist}", "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
+		system("cp", "-a", "$with_hdlist_dir", "$urpm->{cachedir}/partial/$medium->{hdlist}") ?
 		  $urpm->{log}(_("...copying falied")) : $urpm->{log}(_("...copying done"));
 		
 		-s "$urpm->{cachedir}/partial/$medium->{hdlist}" > 32 or
-		  $error = 1, $urpm->{error}(_("copy of [%s] failed", "$dir/$medium->{with_hdlist}"));
+		  $error = 1, $urpm->{error}(_("copy of [%s] failed", "$with_hdlist_dir"));
 
 		#- check if the file are equals... and no force copy...
 		unless ($error || $options{force}) {
@@ -733,17 +787,17 @@ sub update_media {
 	      system("mv", "$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
 
 	    #- and create synthesis file associated.
-	    $medium->{synthesis} or push @rebuild_synthesis_of_media, $medium;
+	    $medium->{synthesis} or $medium->{modified_synthesis} = 1;
 	}
     }
 
     #- build synthesis files once requires/files have been matched by rpmtools::read_hdlists.
-    if (@rebuild_synthesis_of_media) {
+    if (my @rebuild_synthesis = grep { $_->{modified_synthesis} && !$_->{modified} } @{$urpm->{media}}) {
 	#- cleaning whole data structures (params and per media).
 	$urpm->clean;
 
 	foreach my $medium (@{$urpm->{media} || []}) {
-	    $medium->{ignore} and next;
+	    $medium->{ignore} || $medium->{modified} and next;
 	    if ($medium->{synthesis}) {
 		#- reading the synthesis allow to propagate requires to files, so that if an hdlist can have them...
 		$urpm->{log}(_("reading synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
@@ -757,7 +811,7 @@ sub update_media {
 	$urpm->{log}(_("keeping only files referenced in provides"));
 	$urpm->{params}->keep_only_cleaned_provides_files();
 	foreach my $medium (@{$urpm->{media} || []}) {
-	    $medium->{ignore} and next;
+	    $medium->{ignore} || $medium->{modified} and next;
 	    unless ($medium->{synthesis}) {
 		$urpm->{log}(_("reading hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
 		my @fullnames = $urpm->{params}->read_hdlists("$urpm->{statedir}/$medium->{hdlist}");
@@ -779,9 +833,12 @@ sub update_media {
 	$urpm->{params}->compute_id;
 
 	#- rebuild all synthesis hdlist which need to be updated.
-	foreach (@rebuild_synthesis_of_media) {
+	foreach (@rebuild_synthesis) {
 	    $urpm->build_synthesis_hdlist($_);
 	}
+
+	#- keep in mind we have modified database, sure at this point.
+	$urpm->{modified} = 1;
     }
 
     #- clean headers cache directory to remove everything that is no more
@@ -880,10 +937,34 @@ sub find_mntpoints {
     @mntpoints;
 }
 
+#- reduce pathname by removing <something>/.. each time it appears (or . too).
+sub reduce_pathname {
+    my ($urpm, $dir) = @_;
+
+    #- remove any multiple /s or trailing /.
+    #- then split all components of pathname.
+    $dir =~ s/\/+/\//g; $dir =~ s/\/$//;
+    my @paths = split '/', $dir;
+
+    #- reset $dir, recompose it, and clean trailing / added by algorithm.
+    $dir = '';
+    foreach (@paths) {
+	if ($_ eq '..') {
+	    $dir =~ s/([^\/]+)\/$// or $dir .= "../";
+	} elsif ($_ ne '.') {
+	    $dir .= "$_/";
+	}
+    }
+    $dir =~ s/\/$//;
+
+    $dir;
+}
+
 #- check for necessity of mounting some directory to get access
 sub try_mounting {
     my ($urpm, $dir) = @_;
 
+    $dir = $urpm->reduce_pathname($dir);
     foreach ($urpm->find_mntpoints($dir, 'mount')) {
 	$urpm->{log}(_("mounting %s", $_));
 	`mount '$_' 2>/dev/null`;
@@ -894,6 +975,7 @@ sub try_mounting {
 sub try_umounting {
     my ($urpm, $dir) = @_;
 
+    $dir = $urpm->reduce_pathname($dir);
     foreach ($urpm->find_mntpoints($dir, 'umount')) {
 	$urpm->{log}(_("unmounting %s", $_));
 	`umount '$_' 2>/dev/null`;

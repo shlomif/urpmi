@@ -40,6 +40,8 @@ and [options] are from
 ") . _("  -f             - force generation of hdlist files.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
+") . _("  --update       - create an update medium.
+") . _("  --distrib      - automatically create all media from an installation medium.
 ");
 
     $options{force} = 0;
@@ -51,31 +53,47 @@ and [options] are from
 	/^--?f/ and ++$options{force}, next;
 	/^--wget/ and $options{sync} = \&urpm::sync_wget, next;
 	/^--curl/ and $options{sync} = \&urpm::sync_curl, next;
+	/^--distrib$/ and $options{distrib} = 1, next;
 	/^--update$/ and $options{update} = 1, next;
 	/^-/ and die $usage . _("\nunknown options '%s'\n", $_);
 	($name, $url, $with, $relative_hdlist) = ($_, @_);
 	last;
     }
-    $name or die $usage;
+    #- allow not to give name immediately.
+    $url or ($url, $name) = ($name, '');
     my ($type) = $url =~ m,^([^:]*)://, or die $usage;
-
-    if ($with eq "with") {
-	$relative_hdlist or die _("%s\n<relative path of hdlist> missing\n", $usage);
-    } elsif ($type =~ /ftp|http/) {
-	$with eq "with" or die _("%s\n`with' missing for ftp media\n", $usage);
-    }
 
     my $urpm = new urpm;
     $options{sync} and $urpm->{sync} = $options{sync};
 
     $urpm->read_config;
-    $urpm->add_medium($name, $url, $relative_hdlist, update => $options{update});
-    $urpm->update_media(%options);
 
-    #- check creation of media (during update has been successfull)
-    my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
-    $medium or die _("unable to create medium \"%s\"\n", $name);
-    $medium->{modified} and die _("unable to update medium \"%s\"\n", $name);
+    if ($options{distrib}) {
+	$with || $relative_hdlist and die _("%s\nno need to give <relative path of hdlist> with --distrib", $usage);
+
+	$urpm->add_distrib_media($name, $url, update => $options{update});
+	$urpm->update_media(%options);
+
+	if (my @unsynced_media = grep { $_->{modified} } @{$urpm->{media}}) {
+	    die join("\n", map { _("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
+	}
+    } else {
+	$name or die $usage;
+
+	if ($with eq "with") {
+	    $relative_hdlist or die _("%s\n<relative path of hdlist> missing\n", $usage);
+	} elsif ($type =~ /ftp|http/) {
+	    $options{probe_with_hdlist} || $with eq "with" or die _("%s\n`with' missing for ftp media\n", $usage);
+	}
+
+	$urpm->add_medium($name, $url, $relative_hdlist, update => $options{update});
+	$urpm->update_media(%options);
+
+	#- check creation of media (during update has been successfull)
+	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
+	$medium or die _("unable to create medium \"%s\"\n", $name);
+	$medium->{modified} and die _("unable to update medium \"%s\"\n", $name);
+    }
 }
 
 main(@ARGV);
