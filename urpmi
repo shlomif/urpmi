@@ -31,6 +31,7 @@ my $synthesis = '';
 my $auto = 0;
 my $allow_medium_change = 0;
 my $auto_select = 0;
+my $keep = 0;
 my $no_remove = 0;
 my $split_level = 20;
 my $split_length = 1;
@@ -81,6 +82,8 @@ usage:
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
 ") . N("  --no-uninstall - never ask to uninstall a package, abort the installation.
+") . N("  --keep         - keep existing packages if possible, reject requested
+                   packages that leads to remove.
 ") . N("  --split-level  - split in small transaction if more than given packages
                    are going to be installed or upgraded,
                    default is %d.
@@ -153,6 +156,7 @@ while (defined($_ = shift @ARGV)) {
     /^--allow-medium-change$/ and do { $allow_medium_change = 1; next };
     /^--auto-select$/ and do { $auto_select = 1; next };
     /^--no-(remove|uninstall)$/ and do { $no_remove = 1; next };
+    /^--keep$/ and do { $keep = 1; next };
     /^--split-level$/ and do { push @nextargv, \$urpm->{options}{'split-level'}; next };
     /^--split-length$/ and do { push @nextargv, \$urpm->{options}{'split-length'}; next };
     /^--(no-)?fuzzy$/ and do { $urpm->{options}{fuzzy} = !$1; next };
@@ -395,6 +399,7 @@ $urpm->resolve_dependencies($state, \%requested,
 			    auto_select => $auto_select,
 			    callback_choices => \&ask_choice,
 			    install_src => $install_src,
+			    keep => $keep,
 			    nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 			   );
 

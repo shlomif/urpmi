@@ -2982,7 +2982,9 @@ sub translate_why_unselected {
 	  my @unsatisfied = @{$rb->{unsatisfied} || []};
 	  my $s = join ", ", ((map { N("due to missing %s", $_) } @froms),
 			      (map { N("due to unsatisfied %s", $_) } @unsatisfied),
-			      $rb->{promote} ? N("trying to promote %s by selection of %s", $rb->{promote}, $rb->{psel}) : @{[]});
+			      $rb->{promote} && !$rb->{keep} ? N("trying to promote %s", join(", ", @{$rb->{promote}})) : @{[]},
+			      $rb->{keep} ? N("in order to keep %s", join(", ", @{$rb->{keep}})) : @{[]},
+			     );
 	  $_ . ($s ? " ($s)" : '');
       } @l;
 }

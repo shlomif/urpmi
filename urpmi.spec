@@ -2,14 +2,14 @@
 
 Name: urpmi
 Version: 4.4
-Release: 12mdk
+Release: 13mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 URL: http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires: eject webfetch perl-DateManip >= 5.40 gnupg
-PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.91-7mdk
+PreReq: perl-Locale-gettext >= 1.01-7mdk rpmtools >= 4.3-6mdk perl-URPM >= 0.92
 BuildRequires: bzip2-devel gettext rpm-devel >= 4.0.3 perl-MDK-Common-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 BuildArch: noarch
@@ -202,6 +202,14 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+* Mon Jul 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-13mdk
+- fixed trying to promote ARRAY(...) message.
+- fixed output of urpmq to be sorted.
+- added support for --keep in urpmi and urpmq to give an hint
+  for resolving dependencies about trying to keep existing
+  packages instead of removing them.
+- added some translations to french man page of urpmi.
+
 * Mon Jul 28 2003 François Pons <fpons@mandrakesoft.com> 4.4-12mdk
 - avoid spliting transaction if --test is used.
 

@@ -42,6 +42,8 @@ usage:
 ") . N("  --synthesis    - use the synthesis given instead of urpmi db.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
 ") . N("  --fuzzy        - impose fuzzy search (same as -y).
+") . N("  --keep         - keep existing packages if possible, reject requested
+                   packages that leads to remove.
 ") . N("  --list         - list available packages.
 ") . N("  --list-media   - list available media.
 ") . N("  --list-nodes   - list available nodes when using --parallel.
@@ -93,6 +95,7 @@ while (defined($_ = shift @ARGV)) {
     /^--synthesis$/ and do { push @nextargv, \$query->{synthesis}; next };
     /^--auto-select$/ and do { $query->{deps} = $query->{upgrade} = $query->{auto_select} = 1; next };
     /^--fuzzy$/ and do { $query->{fuzzy} = 1; next };
+    /^--keep$/ and do { $query->{keep} = 1; next };
     /^--list$/ and do { $query->{list} = 1; next };
     /^--list-media$/ and do { $query->{list_media} = 1; next };
     /^--list-nodes$/ and do { $query->{list_nodes} = 1; next };
@@ -298,6 +301,7 @@ if ($query->{list_aliases}) {
 	}
     } elsif ($query->{auto_select} || $query->{upgrade}) {
 	$urpm->resolve_dependencies($state, \%requested,
+				    keep => $query->{keep},
 				    rpmdb => $query->{env} && "$query->{env}/rpmdb.cz",
 				    auto_select => $query->{auto_select},
 				    callback_choices => $stop_on_choices);
@@ -421,7 +425,8 @@ if ($query->{complete}) {
 	}
     }
 }
-foreach my $id ($state->{selected} ? keys %{$state->{selected}} : keys %requested) {
+foreach my $id (sort { eval { $urpm->{depslist}[$a]->name cmp $urpm->{depslist}[$b]->name } || $a <=> $b }
+		$state->{selected} ? keys %{$state->{selected}} : keys %requested) {
     my $class = $state->{selected}{$id} || $requested{$id};
     if (ref($class) eq 'ARRAY') {
 	foreach my $choices (@{$class || []}) {
