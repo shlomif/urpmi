@@ -14,13 +14,14 @@
 # Mattias Dahlberg <voz@home.se>, 2001, 2002.
 # Mattias Newzella <newzella@linux.nu>, 2002,2003.
 # Lars Westergren <lars.westergren@home.se>, 2003
+# Henrik Borg <hblinux@bredband.net>, 2004.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-11 22:21+0100\n"
-"PO-Revision-Date: 2003-09-19 17:00+0200\n"
+"POT-Creation-Date: 2004-03-04 20:47+0100\n"
+"PO-Revision-Date: 2004-03-04 19:59+0100\n"
 "Last-Translator: Mattias Newzella <newzella@linux.nu>\n"
 "Language-Team: Svenska <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -84,6 +85,28 @@ msgstr " (J/n) "
 #, c-format
 msgid "%s: command not found\n"
 msgstr "%s: kommandot kunde inte hittas\n"
+
+#: ../rpm-find-leaves:10
+#, c-format
+msgid ""
+"usage: %s [options]\n"
+"where [options] are from\n"
+msgstr ""
+
+#: ../rpm-find-leaves:12
+#, fuzzy, c-format
+msgid "   -h|--help      - print this help message.\n"
+msgstr "  --help         - visar det här hjälpmeddelandet.\n"
+
+#: ../rpm-find-leaves:13
+#, fuzzy, c-format
+msgid "   -g [group]     - restrict results to given group.\n"
+msgstr "  --group         - visa taggen \"group\": grupp.\n"
+
+#: ../rpm-find-leaves:14
+#, fuzzy, c-format
+msgid "                    defaults is %s.\n"
+msgstr "  -l             - lista filerna i paketet.\n"
 
 #: ../urpm.pm:109
 #, c-format
@@ -492,7 +515,7 @@ msgstr "kopierar käll-hdlist (eller synthesis) för \"%s\"..."
 #: ../urpm.pm:1449
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
-msgstr ""
+msgstr "kopiering av [%s] misslyckades (filen är misstänkligt liten)"
 
 #: ../urpm.pm:1453
 #, c-format
@@ -500,9 +523,9 @@ msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "Beräknar MD5-summa för kopierad käll-hdlist (eller synthesis)"
 
 #: ../urpm.pm:1455
-#, fuzzy, c-format
+#, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
-msgstr "kopiering av [%s] misslyckades"
+msgstr "kopiering av [%s] misslyckades (md5sum stämmer inte)"
 
 #: ../urpm.pm:1476 ../urpm.pm:1648 ../urpm.pm:1946
 #, c-format
@@ -878,7 +901,7 @@ msgstr "  --parallel     - distribuerad urpmi över alla maskiner med alias.\n"
 #: ../urpme:45 ../urpmi:104
 #, fuzzy, c-format
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --curl         - använd curl för att hämta fjärrfiler.\n"
+msgstr "  --root         - använd en annan root för rpminstallation.\n"
 
 #: ../urpme:46
 #, c-format
@@ -1291,14 +1314,13 @@ msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - begränsa nedladdningshastigheten.\n"
 
 #: ../urpmi:110
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --resume       - resume transfer of partially-downloaded files\n"
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"  --verify-rpm   - verifiera rpm-signatur före installation\n"
-"                     (--no-verify-rpm inaktiverar det, standard är "
-"aktiverat).\n"
+"  --resume       - återuppta nedladdning av delvis nedladdade filer\n"
+"                   (--no-resume inaktiverar det, standard är inaktiverat).\n"
 
 #: ../urpmi:112 ../urpmi.addmedia:57 ../urpmi.update:63 ../urpmq:66
 #, c-format
@@ -1401,7 +1423,7 @@ msgstr "  namn eller rpm-filer som anges på kommandoraden installeras.\n"
 #: ../urpmi:156
 #, c-format
 msgid "Choose location to save file"
-msgstr ""
+msgstr "Välj var filen ska sparas"
 
 #: ../urpmi:203 ../urpmi:210 ../urpmi.addmedia:98 ../urpmi.addmedia:105
 #: ../urpmi.update:42 ../urpmi.update:49 ../urpmq:127 ../urpmq:134
@@ -1431,21 +1453,29 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
+"Du har valt ett källpaket:\n"
+"\n"
+"%s\n"
+"\n"
+"Du vill troligen inte installera detta paket (efter installation kan du\n"
+"modifiera källkoden och sedan kompilera koden).\n"
+"\n"
+"Vad vill du göra?"
 
 #: ../urpmi:281
 #, c-format
 msgid "Do nothing"
-msgstr ""
+msgstr "Gör ingenting"
 
 #: ../urpmi:282
 #, c-format
 msgid "Yes, really install it"
-msgstr ""
+msgstr "Ja, installera paketet"
 
 #: ../urpmi:283 ../urpmi:300
 #, c-format
 msgid "Save file"
-msgstr ""
+msgstr "Spara fil"
 
 #: ../urpmi:294
 #, c-format
@@ -1456,18 +1486,25 @@ msgid ""
 "\n"
 "You may prefer to just save it. What is your choice?"
 msgstr ""
+"Du är på väg att installera följande paket på din dator:\n"
+"\n"
+"%s\n"
+"\n"
+"Kanske föredrar du att endast spara detta. Vilket är ditt val?"
 
 #: ../urpmi:299
 #, fuzzy, c-format
 msgid "Install it"
-msgstr "Installationen misslyckades"
+msgstr "Installera det"
 
 #: ../urpmi:306
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
+"Katalogen [%s] finns redan, välj en annan katalog för felrapporter eller\n"
+"radera katalogen"
 
 #: ../urpmi:306
 #, c-format
@@ -1645,7 +1682,7 @@ msgstr "allt är redan installerat"
 #: ../urpmi:852
 #, c-format
 msgid "restarting urpmi"
-msgstr ""
+msgstr "startar om urpmi"
 
 #: ../urpmi.addmedia:44
 #, c-format
@@ -1760,7 +1797,7 @@ msgstr ""
 #: ../urpmi.addmedia:80 ../urpmi.update:68
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
-msgstr ""
+msgstr "  --no-md5sum    -inaktivera md5sum-kontroll av filer.\n"
 
 #: ../urpmi.addmedia:81 ../urpmi.removemedia:38 ../urpmi.update:71
 #, c-format
@@ -1873,7 +1910,7 @@ msgstr "  --update       - uppdatera endast uppdateringsmedia.\n"
 #: ../urpmi.update:69
 #, c-format
 msgid "  --force-key    - force update of gpg key.\n"
-msgstr ""
+msgstr "  --force-key    - tvinga uppdatering av gpg-nyckel.\n"
 
 #: ../urpmi.update:70
 #, c-format
@@ -1921,9 +1958,9 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   -   visa tillgänglig media.\n"
 
 #: ../urpmq:52
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-url     - list available media and their url.\n"
-msgstr "  --list-media   -   visa tillgänglig media.\n"
+msgstr "  --list-url     - lista tillgänglig media och dess sökväg.\n"
 
 #: ../urpmq:53
 #, c-format
@@ -1967,7 +2004,7 @@ msgstr ""
 #: ../urpmq:72
 #, fuzzy, c-format
 msgid "  --changelog    - print changelog.\n"
-msgstr "  --all           - visa alla taggar.\n"
+msgstr "  --changelog    - skrivut ändringsloggen (changelog).\n"
 
 #: ../urpmq:74
 #, c-format
@@ -1995,11 +2032,11 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - omvänd sökning för vad som krävs av paket.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  -i             - print useful information in human readable form.\n"
 msgstr ""
-"  -i             - visa användbar information i en form som människor kan "
-"läsa.\n"
+"  -i             - visa användbar information i en för människan läsbar "
+"form.\n"
 
 #: ../urpmq:83
 #, c-format
@@ -2012,9 +2049,9 @@ msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - visa version och utgåva med namn.\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  -l             - list files in package.\n"
-msgstr "  --list           - visa tillgängliga paket.\n"
+msgstr "  -l             - lista filerna i paketet.\n"
 
 #: ../urpmq:87
 #, c-format
