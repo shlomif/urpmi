@@ -1,0 +1,63 @@
+.TH autoirpm 8 "05 Sep 2000" "Mandrakesoft" "Linux-Mandrake"
+.IX autoirpm
+.SH NOM
+autoirpm \- installe automatiquement les RPM qui incluant un programme
+.SH SYNOPSIS
+.B autoirpm
+.SH DESCRIPTION
+autoirpm detecte 
+.B magiquement
+le paquetage necessaire et l'installe. Par exemple supposons que vous
+tapiez
+.B gmix
+pour lancer le programme de configuration du mixage audio. S'il n'est
+pas disponible, on vous demandera alors si vous voulez installer
+le paquetage 
+.B gnome-media
+lequel contient le programme gmix...
+.PP
+Pour utiliser ceci, lancez 
+.B autoirpm.update-all,
+qui va faire la liste de tous les executables contenus dans les paquetages
+connus de urpmi. Seront ensuite crées des liens dans les repertoires de
+binaires respectifs...
+Utilisez
+.B autoirpm.uninstall
+pour enlever tous les liens crées par autoirpm.update.
+.PP
+utilisez \fBautoirpm.update <nom de paquetage>\fP pour mettre à jour les executables contenus dans le paquetage spécifié.
+.PP
+utilisez \fBautoirpm.update-all\fP pour mettre à jour tous les executables contenus dans tous les paquetages connus de urpmi.
+.PP
+utilisez \fBautoirpm.uninstall\fP pour enlever tous les liens qui ont été
+installés par autoirpm.
+.PP
+Cette fonctionalité peut être offerte aussi pour les icones des menus,
+en instalant le paquetage
+.B autoirpm-icons.
+.SH FICHIERS
+/etc/urpmi/autoirpm.deny
+.br
+Les programmes inclus dans des paquetages listés dans ce fichier ne
+provoqueront pas d'installation automatique du paquetage rpm.
+.PP
+/etc/urpmi/autoirpm.allow
+.br
+Si ce fichier existe, alors seuls les executables des paquetages y listés
+offriront la fonctionalité d'auto-instalation.
+
+.SH "VOIR AUSSI"
+urpmi(8)
+.SH AUTEUR
+Pascal Rigaux, Mandrakesoft
+.br
+pixel@mandrakesoft.com
+
+
+
+
+
+
+
+
+
