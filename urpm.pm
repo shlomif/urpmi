@@ -846,7 +846,7 @@ sub search_packages {
 	#- it is a way of speedup, providing the name of a package directly help
 	#- to find the package.
 	#- this is necessary if providing a name list of package to upgrade.
-	if ($urpm->{params}{info}{$v}) {
+	if ($urpm->{params}{info}{$v} && defined $urpm->{params}{info}{$v}{id}) {
 	    $exact{$v} = $urpm->{params}{info}{$v}{id};
 	    next;
 	}
@@ -856,7 +856,9 @@ sub search_packages {
 	if ($options{use_provides}) {
 	    #- try to search through provides.
 	    if (my $provide_v = $urpm->{params}{provides}{$v}) {
-		if (@{$provide_v} == 1 && $urpm->{params}{info}{$provide_v->[0]}) {
+		if (@{$provide_v} == 1 &&
+		    $urpm->{params}{info}{$provide_v->[0]} &&
+		    defined $urpm->{params}{info}{$provide_v->[0]}{id}) {
 		    #- we assume that if the there is only one package providing the resource exactly,
 		    #- this should be the best one that is described.
 		    $exact{$v} = $urpm->{params}{info}{$provide_v->[0]}{id};
@@ -866,13 +868,17 @@ sub search_packages {
 
 	    foreach (keys %{$urpm->{params}{provides}}) {
 		#- search through provides to find if a provide match this one.
-		/$qv/ and push @{$found{$v}}, map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
-		/$qv/i and push @{$found{$v}}, map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
+		/$qv/ and push @{$found{$v}}, grep { defined $_ }
+		  map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
+		/$qv/i and push @{$found{$v}}, grep { defined $_ }
+		  map { $urpm->{params}{info}{$_}{id} } @{$urpm->{params}{provides}{$_}};
 	    }
 	}
 
 	my $id = 0;
 	foreach my $info (@{$urpm->{params}{depslist}}) {
+	    rpmtools::compat_arch($info->{arch}) or next; #- do not loose time on incompatible arch.
+
 	    my $pack_ra = "$info->{name}-$info->{version}";
 	    my $pack_a = "$pack_ra-$info->{release}";
 	    my $pack = "$pack_a.$info->{arch}";
@@ -919,8 +925,10 @@ sub search_packages {
 		    foreach (@$_) {
 			if ($best) {
 			    my $cmp_version = rpmtools::version_compare($_->{info}{version}, $best->{info}{version});
+			    my $cmp_release = $cmp_version == 0 && version_compare($_->{info}{release}, $best->{info}{release});
 			    if ($cmp_version > 0 ||
-				$cmp_version == 0 && rpmtools::version_compare($_->{info}{release}, $best->{info}{release}) > 0) {
+				$cmp_release > 0 ||
+				$cmp_version == 0 && $cmp_release == 0 && better_arch($_->{info}{arch}, $best->{info}{arch})) {
 				$best = $_;
 			    }
 			} else {
@@ -950,6 +958,7 @@ sub compute_closure {
     while (defined($id = shift @packages)) {
 	#- get a relocated id if possible, by this way.
 	$id = $urpm->{params}{depslist}[$id]{id};
+	defined $id or next; #- this means we have an incompatible arch only (uggly and test it?)
 
 	#- avoid a package if it has already been dropped in the sense of
 	#- selected directly by another way.
@@ -1187,6 +1196,7 @@ sub filter_minimal_packages_to_upgrade {
 		}
 	    }
 	    my $pkg = $urpm->{params}{depslist}[$id];
+	    defined $pkg->{id} or next; #- id has been removed for package that only exists on some arch.
 
 	    #- search for package that will be upgraded, and check the difference
 	    #- of provides to see if something will be altered and need to be upgraded.
@@ -1331,65 +1341,72 @@ sub deselect_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages) = @_;
-    my ($arch, $error, @local_to_removes, @local_sources, @list, %select);
+    my ($error, @local_to_removes, @local_sources, @list, %fullname2id, %file2fullnames);
     local (*D, *F, $_);
 
-    #- check architecture of packages listed, ignore all package that are not allowed.
-    $arch = `uname -m`; chomp $arch;
+    #- build association hash to retrieve id and examine all list files.
+    foreach (keys %$packages) {
+	my $p = $urpm->{params}{depslist}[$_];
+	$fullname2id{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} = $_;
+    }
 
-    #- examine the local repository, which is trusted.
+    #- examine each medium to search for packages.
+    #- now get rpm file name in hdlist to match list file.
+    require packdrake;
+    foreach my $medium (@{$urpm->{media} || []}) {
+	if (-r "$urpm->{statedir}/$medium->{hdlist}" && -r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
+	    my $packer = eval { new packdrake("$urpm->{statedir}/$medium->{hdlist}"); };
+	    $packer or $urpm->{error}(_("unable to parse correctly [%s]", "$urpm->{statedir}/$medium->{hdlist}")), next;
+	    foreach (@{$packer->{files}}) {
+		$packer->{data}{$_}[0] eq 'f' or next;
+		if (my ($fullname, $file) = /^([^:\s]*-[^:\-\s]+-[^:\-\s]+\.[^:\.\-\s]*)(?::(\S+))?/) {
+		    $file2fullnames{$file || $fullname}{$fullname} = undef;
+		} else {
+		    $urpm->{error}(_("unable to parse correctly [%s] on value \"%s\"",
+				     "$urpm->{statedir}/$medium->{hdlist}", $_));
+		}
+	    }
+	}
+    }
+
+    #- examine the local repository, which is trusted but only for Mandrake compliant
+    #- naming convention.
     opendir D, "$urpm->{cachedir}/rpms";
     while (defined($_ = readdir D)) {
-	if (/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/) {
-	    my $pkg = $urpm->{params}{info}{$1};
-
-	    #- check version, release, arch and id selected.
-	    exists $select{$pkg->{id}} && ! defined $select{$pkg->{id}} and next; #- package has already been selected.
-	    $select{$pkg->{id}} = undef; #- try to select, clean error flag, else it will fail.
-	    exists $packages->{$pkg->{id}} or $select{$pkg->{id}} = ""; #- no special warning here, but need define.
-	    $pkg->{version} eq $2 or $select{$pkg->{id}} .= ", mismatch version $2";
-	    $pkg->{release} eq $3 or $select{$pkg->{id}} .= ", mismatch release $3";
-	    rpmtools::compat_arch($4) or $select{$pkg->{id}} .= ", incompatible arch $4";
-	    if (defined $select{$pkg->{id}}) {
-		#- keep in mind these have to be deleted or space will be tight soon...
-		push @local_to_removes, "$urpm->{cachedir}/rpms/$1-$2-$3.$4.rpm";
+	if (/([^\/]*)\.rpm/) {
+	    if (keys(%{$file2fullnames{$1} || {}}) > 1) {
+		$urpm->{error}(_("there are multiples packages with the same rpm filename \"%s\""), $1);
 		next;
+	    } elsif (keys(%{$file2fullnames{$1} || {}}) == 1) {
+		my ($fullname) = keys(%{$file2fullnames{$2} || {}});
+		if (defined delete $fullname2id{$fullname}) {
+		    push @local_sources, "$urpm->{cachedir}/rpms/$1.rpm";
+		} else {
+		    push @local_to_removes, "$urpm->{cachedir}/rpms/$1.rpm";
+		}
 	    }
-
-	    #- we have found one source for id.
-	    push @local_sources, "$urpm->{cachedir}/rpms/$1-$2-$3.$4.rpm";
-	} else {
-	    #- syncing on this directory cause newer .listing file to appears...
-	    next;
-	}
+	} #- no error on unknown filename located in cache (because .listing)
     }
     closedir D;
 
-    #- examine each medium to search for packages.
     foreach my $medium (@{$urpm->{media} || []}) {
 	my @sources;
 
 	if (-r "$urpm->{statedir}/$medium->{hdlist}" && -r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
 	    open F, "$urpm->{statedir}/$medium->{list}";
 	    while (<F>) {
-		if (/(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/) {
-		    my $pkg = $urpm->{params}{info}{$2};
-
-		    #- check version, release, arch and id selected.
-		    #- TODO arch is not checked at this point.
-		    exists $select{$pkg->{id}} && ! defined $select{$pkg->{id}} and next; #- package has already been selected.
-		    $select{$pkg->{id}} = undef; #- try to select, clean error flag, else it will fail.
-		    exists $packages->{$pkg->{id}} or $select{$pkg->{id}} = ""; #- no special warning here, but need define.
-		    $pkg->{version} eq $3 or $select{$pkg->{id}} .= _(", mismatch version %s", $3);
-		    $pkg->{release} eq $4 or $select{$pkg->{id}} .= _(", mismatch release %s", $4);
-		    rpmtools::compat_arch($5) or $select{$pkg->{id}} .= _(", incompatible arch %s", $5);
-		    defined $select{$pkg->{id}} and next; #- an error occured, only the last one is available.
-
-		    #- we have found one source for id.
-		    push @sources, "$1/$2-$3-$4.$5.rpm";
+		if (/(.*)\/([^\/]*)\.rpm$/) {
+		    if (keys(%{$file2fullnames{$2} || {}}) > 1) {
+			$urpm->{error}(_("there are multiples packages with the same rpm filename \"%s\""), $2);
+			next;
+		    } elsif (keys(%{$file2fullnames{$2} || {}}) == 1) {
+			my ($fullname) = keys(%{$file2fullnames{$2} || {}});
+			defined delete $fullname2id{$fullname} and push @sources, "$1/$2.rpm";
+		    }
 		} else {
+		    chomp;
 		    $error = 1;
-		    $urpm->{error}(_("unable to parse correctly %s", "$urpm->{statedir}/$medium->{list}"));
+		    $urpm->{error}(_("unable to parse correctly [%s] on value \"%s\"", "$urpm->{statedir}/$medium->{list}", $_));
 		    last;
 		}
 	    }
@@ -1399,24 +1416,10 @@ sub get_source_packages {
     }
 
     #- examine package list to see if a package has not been found.
-    foreach (keys %$packages) {
-	exists $select{$_} && ! defined $select{$_} and next;
-
-	#- try to find which one.
-	my $pkg = $urpm->{params}{depslist}[$_];
-	if ($pkg) {
-	    if ($pkg->{source}) {
-		push @local_sources, $pkg->{source};
-	    } else {
-		$error = 1;
-		$urpm->{error}(_("package %s is not found%s.", "$pkg->{name}-$pkg->{version}-$pkg->{release}", $select{$_}));
-		$urpm->{error}(_("maybe the package has only been updated for another incompatible arch?"));
-	    }
-	} else {
-	    $error = 1;
-	    $urpm->{error}(_("internal error for selecting unknown package for id=%s", $_));
-	}
-    }
+    foreach (keys %fullname2id) {
+	$error = 1;
+	$urpm->{error}(_("package %s is not found.", $_));
+    }	
 
     $error ? () : ( \@local_sources, \@list, \@local_to_removes );
 }

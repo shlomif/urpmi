@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.6
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -106,6 +106,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Tue Jun 26 2001 François Pons <fpons@mandrakesoft.com> 1.6-4mdk
+- cleaned source package extraction algorithm.
+
 * Mon Jun 25 2001 François Pons <fpons@mandrakesoft.com> 1.6-3mdk
 - reworked algorithms to search packages, added -p options to
   urpmi and urpmq.

@@ -25,7 +25,7 @@ use urpm;
 import urpm _;
 
 #- default options.
-my $query;
+my $query = {};
 
 my @files;
 my @names;
@@ -94,13 +94,13 @@ my $urpm = new urpm;
 $query->{verbose} or $urpm->{log} = sub {};
 
 $urpm->read_depslist;
-$query && $query->{group} and $urpm->read_compss;
-$query && $query->{use_provides} and $urpm->read_provides;
+$query->{group} and $urpm->read_compss;
+$query->{use_provides} and $urpm->read_provides;
 
 if (@files) {
     #- read provides file which is needed only to compute incremental
     #- dependancies, of files provided.
-    $query && $query->{use_provides} or $urpm->read_provides;
+    $query->{use_provides} or $urpm->read_provides;
 
     #- build closure with local package and return list of names.
     push @names, $urpm->register_local_packages(@files);
