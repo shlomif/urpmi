@@ -187,7 +187,7 @@ sub install {
 
 	m|^/| && !-e $_ and exit 1 foreach @_; #- missing local file
 
-	print SAVEOUT _("Try installation without cheking dependencies?"), " (Y/n) ";
+	print SAVEOUT _("Try installation without checking dependencies?"), " (Y/n) ";
 	$force or <STDIN> =~ /n/i and exit 1;
 	system("rpm", "-U", "--nodeps", @_);	
 
