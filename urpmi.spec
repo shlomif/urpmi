@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 19mdk
+Release: 20mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Thu Mar  7 2002 François Pons <fpons@mandrakesoft.com> 3.3-20mdk
+- fixed when console has been closed and urpmi ask for changing
+  medium (currently it open/eject the device).
+
 * Tue Mar  5 2002 François Pons <fpons@mandrakesoft.com> 3.3-19mdk
 - fixed parse_synthesis when a the src package is following its
   binary counterpart (overidding its description).

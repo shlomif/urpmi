@@ -251,6 +251,7 @@ my $ask_choice = sub {
 	    while (1) {
 		printf SAVEOUT _("What is your choice? (1-%d) ", $i);
 		$n = <STDIN>;
+		defined $n or exit 1;
 		1 <= $n && $n <= $i and last;
 		print SAVEOUT _("Sorry, bad choice, try again\n");
 	    }
@@ -351,7 +352,7 @@ my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 
 						      } else {
 							  print SAVEOUT "$msg\n$msg2 ";
 						      }
-						      <STDIN>; 1;
+						      defined <STDIN>;
 						  }
 					      });
 
