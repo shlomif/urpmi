@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.4
-%define release 52mdk
+%define version	4.4.1
+%define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -30,7 +30,6 @@ Source0:	%{name}.tar.bz2
 Summary:	User mode rpm install
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
-Provides:	perl(urpm)
 PreReq:		perl-Locale-gettext >= 1.01-7 gettext rpmtools >= 4.5 perl-URPM >= 0.94
 BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3 
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -47,7 +46,6 @@ Summary:	User mode rpm GUI install
 Group:		%{group}
 Requires:	urpmi >= %{version}-%{release} drakxtools gchooser gmessage usermode menu
 Obsoletes:	grpmi
-Provides:	perl(gurpm)
 
 %description -n gurpmi
 gurpmi is a graphical front-end to urpmi
@@ -238,6 +236,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Jan 12 2004 Guillaume Cottenceau <gc@mandrakesoft.com> 4.4.1-1mdk
+- add ability to cancel packages downloads (subsubversion increase)
+- don't explicitely provide perl(urpm) and perl(gurpm), it's unneeded
+
 * Fri Jan 09 2004 Warly <warly@mandrakesoft.com> 4.4-52mdk 
 - provides perl(gurpm) in gurpmi
 

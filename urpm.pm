@@ -154,9 +154,9 @@ sub propagate_sync_callback {
 	if ($mode =~ /^(start|progress|end)$/) {
 	    my $file = shift @_;
 	    $file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
-	    $options->{callback}($mode, $file, @_);
+	    return $options->{callback}($mode, $file, @_);
 	} else {
-	    $options->{callback}($mode, @_);
+	    return $options->{callback}($mode, @_);
 	}
     }
 }
@@ -178,7 +178,7 @@ sub sync_wget {
     my $cwd = `pwd`; chomp $cwd;
     chdir(ref($options) ? $options->{dir} : $options);
     my ($buf, $total, $file) = ('', undef, undef);
-    open WGET, join(" ", map { "'$_'" } "/usr/bin/wget",
+    my $wget_pid = open WGET, join(" ", map { "'$_'" } "/usr/bin/wget",
 		    (ref($options) && $options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
 		    (ref($options) && $options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : ()),
 		    (ref($options) && $options->{callback} ? ("--progress=bar:force", "-o", "-") :
@@ -198,7 +198,11 @@ sub sync_wget {
 		} elsif (defined $total && $total eq '' && $buf =~ /^[^:]*:\s+(\d\S*)/) {
 		    $total = $1;
 		} elsif (my ($percent, $speed, $eta) = $buf =~ /^\s*(\d+)%.*\s+(\S+)\s+ETA\s+(\S+)\s*[\r\n]$/ms) {
-		    propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed);
+		    if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
+                        kill 15, $wget_pid;
+                        close WGET;
+                        return;
+                    }
 		    if ($_ eq "\n") {
 			propagate_sync_callback($options, 'end', $file);
 			($total, $file) = (undef, undef);
@@ -275,7 +279,7 @@ sub sync_curl {
     if (my @all_files = ((map { ("-O", $_) } @ftp_files), (map { /\/([^\/]*)$/ ? ("-z", $1, "-O", $_) : @{[]} } @other_files))) {
 	my @l = (@ftp_files, @other_files);
 	my ($buf, $file) = ('', undef);
-	open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
+	my $curl_pid = open CURL, join(" ", map { "'$_'" } "/usr/bin/curl",
 			(ref($options) && $options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 			(ref($options) && $options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 			(ref($options) && $options->{quiet} && !$options->{verbose} ? "-s" : @{[]}),
@@ -292,7 +296,11 @@ sub sync_curl {
 			propagate_sync_callback($options, 'start', $file);
 		    }
 		    if (my ($percent, $total, $eta, $speed) = $buf =~ /^\s*(\d+)\s+(\S+)[^\r\n]*\s+(\S+)\s+(\S+)[\r\n]$/ms) {
-			propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed);
+			if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
+                            kill 15, $curl_pid;
+                            close CURL;
+                            return;
+                        }
 			if ($_ eq "\n") {
 			    propagate_sync_callback($options, 'end', $file);
 			    $file = undef;

@@ -24,14 +24,14 @@ use lib qw(/usr/lib/libDrakX);
 use ugtk2 qw(:all);
 $::isStandalone = 1;
 
-our ($mainw, $label, $progressbar);
+our ($mainw, $label, $progressbar, $vbox, $cancel, $hbox_cancel);
 
 sub init {
-    my ($title, $initializing) = @_;
+    my ($title, $initializing, $cancel_msg, $cancel_cb) = @_;
     $mainw = ugtk2->new($title);
     $label = Gtk2::Label->new($initializing);
     $progressbar = gtkset_size_request(Gtk2::ProgressBar->new, 400, 0);
-    gtkadd($mainw->{window}, gtkpack(gtkadd(create_vbox(), $label, $progressbar)));
+    gtkadd($mainw->{window}, gtkpack($vbox = gtkadd(create_vbox(), $label, $progressbar)));
     $mainw->{rwindow}->set_position('center');
     $mainw->sync;
 }
@@ -54,6 +54,26 @@ sub progress {
 sub end {
     $mainw and $mainw->destroy;
     $mainw = undef;
+    $cancel = undef;  #- in case we'll do another one later
+}
+
+sub validate_cancel {
+    my ($cancel_msg, $cancel_cb) = @_;
+    if (!$cancel) {
+        gtkpack__($vbox,
+                  $hbox_cancel = gtkpack__(create_hbox(),
+                                           $cancel = gtksignal_connect(Gtk2::Button->new($cancel_msg), clicked => \&$cancel_cb)));
+    }
+    $cancel->set_sensitive(1);
+    $cancel->show;
+}
+
+sub invalidate_cancel {
+    $cancel and $cancel->set_sensitive(0);
+}
+
+sub invalidate_cancel_forever {
+    $hbox_cancel and $hbox_cancel->destroy;
 }
 
 1;
