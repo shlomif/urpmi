@@ -23,8 +23,8 @@ sub N {
 
 sub log_it {
     #- if invoked as a simple user, nothing should be logged.
-    if (our $log) {
-	open my $fh, ">>$log" or die "can't output to log file: $!\n";
+    if ($::log) {
+	open my $fh, ">>$::log" or die "can't output to log file: $!\n";
 	print $fh @_;
 	close $fh;
     }
@@ -58,7 +58,7 @@ sub message_input {
 	    if ($urpm::args::options{bug}) {
 		print STDOUT $msg;
 	    } else {
-		print SAVEOUT $msg;
+		print ::SAVEOUT $msg;
 	    }
 	    if ($default_input) {
 		$urpm::args::options{bug} and log_it($default_input);
@@ -89,7 +89,7 @@ sub message {
 	if ($urpm::args::options{bug}) {
 	    print STDOUT "$msg\n";
 	} else {
-	    print SAVEOUT "$msg\n";
+	    print ::SAVEOUT "$msg\n";
 	}
     }
 }
