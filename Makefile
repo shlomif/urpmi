@@ -32,7 +32,7 @@ autoirpm.update-all: %: %.cc
 	$(CXX) $(CFLAGS) $< $(LIBRPM) -o $@
 
 tar: clean
-	cd .. ; tar cfy $(TAR) urpmi
+	cd .. ; tar cf - urpmi | bzip2 -9 >$(TAR)
 
 rpm: tar 
 	cp -f ../$(TAR) $(RPM)/SOURCES
