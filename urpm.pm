@@ -590,7 +590,7 @@ sub configure {
 	    }
 	    if (!$options{media} && $parallel_handler->{media}) {
 		$options{media} = $parallel_handler->{media};
-		$urpm->{log}->(_("using associated media for parallel mode : %s", $options{media}));
+		$urpm->{log}->(_("using associated media for parallel mode: %s", $options{media}));
 	    }
 	    $urpm->{parallel_handler} = $parallel_handler;
 	} else {
