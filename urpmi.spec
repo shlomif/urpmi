@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.3
+%define version	4.6.4
 %define release 1mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -257,6 +257,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Nov 29 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.4-1mdk
+- From now on, look for descriptions files in the media_info subdirectory.
+  This will be used by the 10.2 update media.
+- Recall total number of packages when installing.
+
 * Fri Nov 26 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.3-1mdk
 - urpmq -i now works as non root
 - translations and man pages updated
