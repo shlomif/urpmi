@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2002-11-25 13:52-0500\n"
 "Last-Translator: Wachara Chinsettawong <wachara@yahoo.com>\n"
 "Language-Team: Thai <th@li.org>\n"
@@ -191,6 +191,11 @@ msgstr "พบ %d header ใน cache"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "มีหลาย package ที่มีชื่อไฟล์เหมือนกับ \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "ทำการผ่านครั้งที่สองเพื่อทดสอบ ความเป็นอิสระ\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -199,11 +204,6 @@ msgid ""
 msgstr ""
 "  --proxy-user   - กำหนดชื่อผู้ใช้และรหัสผ่านเพื่อใช้พร็อกซี่\n"
 "                   ในการตรวจสอบ (รูปแบบเป็น <user:password>)\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "ทำการผ่านครั้งที่สองเพื่อทดสอบ ความเป็นอิสระ\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -241,11 +241,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "ชื่อ rpm fileไม่ถูกต้อง [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "กำลังแจกจ่าย %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -259,6 +254,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "การแจ้งพร็อกซี่ที่ไม่ดี\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "การติดตั้งไม่สำเร็จ"
 
 #: ../urpm.pm:1
 #, c-format
@@ -324,6 +324,11 @@ msgstr "  --เลือกอัตโนมัติ  - เลือกแพ็คเกจที่ต้องการอัพเกรดอัตโนมัติ\n"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "no package named %s"
 msgstr "ไม่มี package ที่ชื่อ %s"
 
@@ -384,6 +389,16 @@ msgstr "แพ็คเกจไม่รู้จัก"
 msgid "Installation is possible"
 msgstr "การติดตั้งสามารถทำได้"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"แพ็คเกจต่อไปนี้จะต้องถูกลบทิ้งเพื่อจะทำการอัพเกรดโปรมแกรมอื่น:\n"
+"%s\n"
+"คุณยอมให้ทำการลบทิ้งหรือไม่?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -431,6 +446,13 @@ msgstr "อุปกรณ์ที่ไม่เชื่อมกัน \"%s\" ถูกระบุว่าถอดเปลี่ยนได้แต่มันไม่ใช่"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "อุปกรณ์\"%s\"พยามยามใช้ hdlistที่ใช้อยู่แล้ว ,medium ignore"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "กำลังคัดลอกโค้ด hdlist (หรือ synthesis) ของ \"%s\"..."
 
@@ -453,10 +475,23 @@ msgstr ""
 "\n"
 "ทางเลือกไม่รู้จัก '%s'\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "rsync หายไป\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "มีปัญหาในการอ่านไฟล์ synthesis สำหรับอุปกรณ์\"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -612,7 +647,7 @@ msgstr " --obsoletes    -พิมพ์ tag ไม่ใช้แล้ว:ใช้ไม่ได้ทั้งหมด(หลายบรรทัด)."
 msgid "medium \"%s\" already exists"
 msgstr "อุปกรณ์\"%s\"มีอยู่แล้ว"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "กำลังติดตั้ง %s\n"
@@ -699,6 +734,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media    - แสดงรายชื่ออุปกรณ์ที่มีอยู่\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"แพ็คเกจที่กำหนดไว้บางตัวไม่สามารถติดตั้งได้:\n"
+"%s\n"
+"คุณเห็นด้วยหรือไม่?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -729,6 +774,11 @@ msgstr "  --curl         - ใช้ curl เพื่อดึงไฟล์ซึ่งอยู่ภายนอก\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -c             - ทำความสะอาดส่วน headers ของไดเร็คตอรี่ cache \n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -753,11 +803,6 @@ msgstr "ไม่มี package ที่ชื่อ %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "ชื่อของไฟล์หรือของ rpm ที่ให้จากคำสั่งที่พิมพ์กำลังถูกค้นหา\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "มีปัญหาในการสร้างไฟล์ hdlist สำหรับอุปกรณ์\"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -811,6 +856,11 @@ msgstr "ไม่สามารถ parse hdlist file of \"%s\""
 msgid "due to conflicts with %s"
 msgstr "%s ขัดแย้งกับ %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "กำลังลบ %d headerที่ล้าสมัยใน cache"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -822,9 +872,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "ต้องการทดลองติดตั้งโดยที่ไม่ต้องตรอจสอบความเข้ากันได้? (y/N)"
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "กำลังลบ %d headerที่ล้าสมัยใน cache"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr "อุปกรณ์\"%s\"พยายามเลือกใช้อุปกรณ์ที่ใช้แล้ว, medium ignored"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -867,6 +917,13 @@ msgstr "กำลังอ่านคำอธิบายไฟล์ของ \"%s\"..."
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr " --conflicts    -พิมพ์ tag ที่เข้ากันไม่ได้:เข้ากันไม่ได้ทั้งหมด(หลายบรรทัด)."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr "อุปกรณ์\"%s\"พยามยามใช้ hdlistที่ใช้อยู่แล้ว ,medium ignore"
 
 #: ../urpme:1
 #, c-format
@@ -932,6 +989,11 @@ msgstr "ไม่สามารถเข้าถึงอุปกรณ์เพื่อใช้ในการติดตั้งอันแรก"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "ลงทะเบียน local package มีข้อผิดพลาด"
 
@@ -949,17 +1011,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "กำลังคัดลอกโค้ด hdlist (หรือ synthesis) ของ \"%s\"..."
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"แพ็คเกจต่อไปนี้จะต้องถูกลบทิ้งเพื่อจะทำการอัพเกรดโปรมแกรมอื่น:\n"
-"%s\n"
-"คุณยอมให้ทำการลบทิ้งหรือไม่?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1324,6 +1375,11 @@ msgstr "กำลังตรวจสอบ parallel handler ในไฟล์ [%s]"
 msgid "Nothing to remove"
 msgstr "ไม่มีอะไรที่ต้องลบทิ้ง\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "กำลังทำการอ่าน headers จากอุปกรณ์\"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1337,11 +1393,6 @@ msgid ""
 msgstr ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "กำลังทำการอ่าน headers จากอุปกรณ์\"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1422,6 +1473,11 @@ msgstr "ไม่พบ hdlist file สำหรับอุปกรณ์\"%s\""
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr "  -s             - แพ็คเกจต่อไปเป็นแพ็คเกจโค้ด (เช่นเดียวกับ --src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "กำลังติดตั้ง %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1441,6 +1497,13 @@ msgstr "  --อัตโนมัติ         - ทำการเลือกแพ็คเกจโดยอัตโนมัติ.\n"
 #, fuzzy, c-format
 msgid "Removing failed"
 msgstr "...การคัดลอกล้มเหลว"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1462,7 +1525,7 @@ msgstr "ยกเลิก"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - แพ็คเกจต่อไปเป็นส่วนของโค้ด (เช่นเดียวกับ -s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1475,11 +1538,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "ssh ไม่มีอยู่\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1536,15 +1594,20 @@ msgstr "กำลังตรวจสอบไฟล์ hdlist [%s]"
 msgid "copying hdlists file..."
 msgstr "กำลังคัดลอกไฟล์ hdlist"
 
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr " --files        - พิมพ์  tag files: file ทั้งหมด (หลายบรรทัด)."
-
 #: ../urpm.pm:1
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "กำลังเขียน list file สำหรับอุปกรณ์\"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr "อุปกรณ์\"%s\"พยายามเลือกใช้อุปกรณ์ที่ใช้แล้ว, medium ignored"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr " --files        - พิมพ์  tag files: file ทั้งหมด (หลายบรรทัด)."
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1632,7 +1695,7 @@ msgstr "อุปกรณ์ \"%s\" ไม่ได้ถูกเลือก"
 msgid "Only superuser is allowed to install packages"
 msgstr "superuser เท่านั้นที่มีสิทธิติดตั้ง packages"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1641,6 +1704,11 @@ msgstr ""
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "ไม่สามารถหา hdlist file สำหรับ\"%s\",medium ignored"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1695,6 +1763,11 @@ msgid ""
 msgstr "เพื่อความถูกต้องของการเป็นอิสระระหว่างโปรแกรมแพ็คเกจบางตัวจะถูกลบทิ้ง(%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "กำลังแจกจ่าย %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "การติดตั้งไม่สำเร็จ"
@@ -1727,17 +1800,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "กรุณาใส่อุปกรณ์ที่มีชื่อ \"%s\" ใน [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"แพ็คเกจที่กำหนดไว้บางตัวไม่สามารถติดตั้งได้:\n"
-"%s\n"
-"คุณเห็นด้วยหรือไม่?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1849,6 +1911,9 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - ตรวจสอบว่าการติดตั้งสามารถทำได้ถูกต้องหรือไม่.\n"
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "มีปัญหาในการสร้างไฟล์ hdlist สำหรับอุปกรณ์\"%s\""
+
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s ขัดแย้งกับ %s"
 
@@ -1907,17 +1972,11 @@ msgstr "  --test         - ตรวจสอบว่าการติดตั้งสามารถทำได้ถูกต้องหรือไม่.\n"
 #~ msgid "trying to select multiple media: %s"
 #~ msgstr "พยายามที่จะเลือกใช้มีเดียหลายๆตัว:%s"
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr "อุปกรณ์\"%s\"พยามยามใช้ hdlistที่ใช้อยู่แล้ว ,medium ignore"
-
 #~ msgid "unknown package(s) "
 #~ msgstr "แพ็คเกจไม่รู้จัก"
 
 #~ msgid "problem reading hdlist file, trying again"
 #~ msgstr "มีปัญหาในการอ่านไฟล์ hdlist กำลังพยายามใหม่อีกครั้ง"
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr "อุปกรณ์\"%s\"พยายามเลือกใช้อุปกรณ์ที่ใช้แล้ว, medium ignored"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - พิมพ์กลุ่มพร้อมชื่อ\n"

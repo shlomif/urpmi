@@ -10,7 +10,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-03-08 12:13+0800\n"
 "Last-Translator: Funda Wang <mandrake@en2china.com>\n"
 "Language-Team: Mandrake Simplified Chinese <mandrake@en2china.com>\n"
@@ -194,6 +194,11 @@ msgstr "缓存中找到了 %d 个头"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "有多个文件名都为“%s”的 rpm 软件包"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "正在执行第二遍依赖关系的计算\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -202,11 +207,6 @@ msgid ""
 msgstr ""
 "  --proxy-user   - 指定用于代理认证的用户和\n"
 "                   口令(格式如 <用户: 口令>)。\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "正在执行第二遍依赖关系的计算\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -245,11 +245,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "无效的 rpm 文件名[%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "正在分发 %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -263,6 +258,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "命令的代理声明无效\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "安装失败"
 
 #: ../urpm.pm:1
 #, c-format
@@ -328,6 +328,11 @@ msgstr "  --auto-select  - 自动选择升级系统的软件包。\n"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "no package named %s"
 msgstr "没有叫做 %s 的软件包"
 
@@ -389,6 +394,16 @@ msgstr "未知的软件包"
 msgid "Installation is possible"
 msgstr "可以安装"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"要升级其它软件包，需要先删除下列软件包:\n"
+"%s\n"
+"您同意吗?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -436,6 +451,13 @@ msgstr "非连贯介质“%s”标为可移动但实际不是"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "介质“%s”试图使用已经用过的 hdlist，介质被忽略"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "正在复制“%s”的源 hdlist(或综合文件)..."
 
@@ -458,10 +480,23 @@ msgstr ""
 "\n"
 "未知的选项“%s”\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "没有 rsync\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "读取介质“%s”的综合文件出现问题"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -617,7 +652,7 @@ msgstr "  --obsoletes     - 打印废除标识符: 所有的废除(多行)。\n"
 msgid "medium \"%s\" already exists"
 msgstr "介质“%s”已存在"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "正在安装 %s\n"
@@ -706,6 +741,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - 列出可用的介质。\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"某些要求的软件包无法安装:\n"
+"%s\n"
+"可以吗?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -736,6 +781,11 @@ msgstr "  --curl         - 用 crul 取远程文件。\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - 直接保留 perl 代码，就像 perl -e。\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -760,11 +810,6 @@ msgstr "没有叫做 %s 的软件包"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  需要在命令行给出名称或 rpm 文件。\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "读取介质“%s”的 hdlist 文件发生问题"
 
 #: ../urpmi:1
 #, c-format
@@ -817,6 +862,11 @@ msgstr "无法处理“%s”的 hdlist 文件"
 msgid "due to conflicts with %s"
 msgstr "原因是与 %s 冲突"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "删除缓存中的 %d 个过时头"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -828,9 +878,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "尝试忽略相关性检查而安装吗?(是(y)/否(N))[否]"
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "删除缓存中的 %d 个过时头"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr "介质“%s”试图打开已经用过的列表，介质被忽略"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -873,6 +923,13 @@ msgstr "正在获取“%s”的描述文件..."
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts     - 打印冲突标识符: 所有的冲突(多行)。\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr "介质“%s”试图使用已经用过的 hdlist，介质被忽略"
 
 #: ../urpme:1
 #, c-format
@@ -935,6 +992,11 @@ msgstr "无法访问介质的首次安装"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "注册本地软件包出错"
 
@@ -952,17 +1014,6 @@ msgstr "  --limit-rate   - 降低下载速度。\n"
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "发现探测的 hdlist(或综合文件) 为 %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"要升级其它软件包，需要先删除下列软件包:\n"
-"%s\n"
-"您同意吗?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1333,6 +1384,11 @@ msgstr "正在检查文件[%s]中的并行处理"
 msgid "Nothing to remove"
 msgstr "不需要删除任何东西。"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "正在从介质“%s”读取头"
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1346,11 +1402,6 @@ msgid ""
 msgstr ""
 "  --bug          - 输出故障报告\n"
 "                   下一个参数指定输出目录。\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "正在从介质“%s”读取头"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1431,6 +1482,11 @@ msgstr "介质“%s”未发现 hdlist 文件"
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr "  -s             - 下一个软件包是源程序包(和 --src 一样)。\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "正在安装 %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1450,6 +1506,13 @@ msgstr "  --auto         - 自动选中软件包。\n"
 #, c-format
 msgid "Removing failed"
 msgstr "删除失败"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1471,7 +1534,7 @@ msgstr "取消"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - 下一个软件包是源程序包(和 -s 一样)。\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1482,11 +1545,6 @@ msgstr "  --env          - 使用指定的环境(特别是进行故障报告时)。\n"
 #, c-format
 msgid "ssh is missing\n"
 msgstr "没有 ssh\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1543,15 +1601,20 @@ msgstr "正在检查 hdlist 文件 [%s]"
 msgid "copying hdlists file..."
 msgstr "正在复制 hdlists 文件..."
 
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --files         - 打印文件标识符: 所有的文件(多行)。\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "正在写入介质“%s”的列表文件"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr "介质“%s”试图打开已经用过的列表，介质被忽略"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files         - 打印文件标识符: 所有的文件(多行)。\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1638,7 +1701,7 @@ msgstr "介质“%s”未选中"
 msgid "Only superuser is allowed to install packages"
 msgstr "只允许超级用户安装软件包"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "在 %s 使用指定环境\n"
@@ -1647,6 +1710,11 @@ msgstr "在 %s 使用指定环境\n"
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "找不到“%s”的 hdlist 文件，介质被忽略"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1701,6 +1769,11 @@ msgid ""
 msgstr "为满足相关性要求，需要删除下列软件包(%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "正在分发 %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "安装失败"
@@ -1733,17 +1806,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "请插入标签“%s”的介质到设备 [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"某些要求的软件包无法安装:\n"
-"%s\n"
-"可以吗?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1855,6 +1917,9 @@ msgstr "试图跳过已有介质“%s”，避免中"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - 验证安装是否可以正确进行。\n"
+
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "读取介质“%s”的 hdlist 文件发生问题"
 
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s 与 %s 冲突"

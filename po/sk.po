@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-03-14 00:31--100\n"
 "Last-Translator: Tibor Pittich <Tibor.Pittich@phuture.sk>\n"
 "Language-Team: Slovak <i18n@mandrake.sk>\n"
@@ -201,6 +201,11 @@ msgstr "nájdených %d hlavičiek v dočasnej pamäti"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "existuje viacero balíčkov s rovnakým menom rpm súboru \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "druhý prechod pre výpočet závislostí\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -209,11 +214,6 @@ msgid ""
 msgstr ""
 "  --proxy-user   - špecifikácia používateľa a hesla pre použitie proxy\n"
 "                   autentifikácie (formát je <používateľ:heslo>).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "druhý prechod pre výpočet závislostí\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -253,11 +253,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "nesprávne meno rpm súboru [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "distribúcia %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -271,6 +266,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "zlá deklarácia proxy v príkazovom riadku\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Inštalácia zlyhala"
 
 #: ../urpm.pm:1
 #, c-format
@@ -339,6 +339,11 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "no package named %s"
 msgstr "žiaden balíček s meno %s"
 
@@ -402,6 +407,16 @@ msgstr "neznámy balíček"
 msgid "Installation is possible"
 msgstr "Inštalácia je možná"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Je potrebné odstrániť tieto balíčky aby bolo možné aktualizovať iné:\n"
+"%s\n"
+"súhlasíte ?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -451,6 +466,13 @@ msgstr "nekoherentné médium \"%s\" označené ako vymeniteľné avšak nie nao
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "médium \"%s\" skúša použiť už použitý hdlist, médium je ignorované"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "kopírovanie zdrojového hdlist (alebo synthesis) pre \"%s\"..."
 
@@ -474,10 +496,23 @@ msgstr ""
 "\n"
 "neznáma voľba '%s'\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "chýba rsync\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "problém s čítaním synthesis súboru pre médium \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -636,7 +671,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "médium \"%s\" už existuje"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "inštalujem %s\n"
@@ -726,6 +761,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - vypísať dostupné média.\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Niektoré požadované balíčky nemôžu byť nainštalované:\n"
+"%s\n"
+"súhlasíte ?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -756,6 +801,11 @@ msgstr "  --curl         - použiť curl pre prevzatie vzdialených súborov.\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - vložiť perlový kód priamo ako perl -e.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -780,11 +830,6 @@ msgstr "žiaden balíček s meno %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  mená alebo rpm súbory zadané v príkazovom riadku sú dotazované.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "nastal problém s čítaním hdlist súboru pre médium \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -837,6 +882,11 @@ msgstr "nieje možné správne prečítať hdlist súbor pre \"%s\""
 msgid "due to conflicts with %s"
 msgstr "kvôli konfliktom s %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "odstránenie %d nepotrebných hlavičiek z dočasnej pamäte"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -848,9 +898,10 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Skúsiť inštaláciu bez kontroly závislostí? (á/N) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "odstránenie %d nepotrebných hlavičiek z dočasnej pamäte"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"médium \"%s\" skúša použiť už používaný zoznamový súbor, médium je ignorované"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -897,6 +948,13 @@ msgstr "preberanie súboru s popismy pre \"%s\"..."
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - vypísať konflikty tagu: konflikty (viac riadkov).\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr "médium \"%s\" skúša použiť už použitý hdlist, médium je ignorované"
 
 #: ../urpme:1
 #, c-format
@@ -961,6 +1019,11 @@ msgstr "nieje možné pristúpiť k prvému inštalačnému médiu"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "chyba pri registrácii lokálnych balíčkov"
 
@@ -978,17 +1041,6 @@ msgstr "  --limit-rate   - limitovanie rýchlosti sťahovania.\n"
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "nájdený overený hdlist (alebo synthesis) ako %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Je potrebné odstrániť tieto balíčky aby bolo možné aktualizovať iné:\n"
-"%s\n"
-"súhlasíte ?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1372,6 +1424,11 @@ msgstr "prehliadanie paralelného ovládača v súbore [%s]"
 msgid "Nothing to remove"
 msgstr "Niet nič na odstránenie"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "načitávanie hlavičiek pre médium \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1385,11 +1442,6 @@ msgid ""
 msgstr ""
 "  --bug          - vytvoriť oznámenie o chybe do adresára uvedeného\n"
 "                   za argumentom.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "načitávanie hlavičiek pre médium \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1473,6 +1525,11 @@ msgstr ""
 "  -s             - nasledujúci balíček je zdrojový balíček (to isté ako --"
 "src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "inštalujem %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1492,6 +1549,13 @@ msgstr "  --auto         - automatický výber balíčkov vo voľbách.\n"
 #, c-format
 msgid "Removing failed"
 msgstr "Odstránenie nebolo úspešné"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1515,7 +1579,7 @@ msgstr ""
 "  --src          - nasledujúci balíček je zdrojový balíček (to isté ako -"
 "s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1528,11 +1592,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "chýba ssh\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1590,16 +1649,22 @@ msgstr "preverovanie hdlist súboru [%s]"
 msgid "copying hdlists file..."
 msgstr "kopírovanie hdlists súboru..."
 
+#: ../urpm.pm:1
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "zápis zoznamového súboru pre médium \"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"médium \"%s\" skúša použiť už používaný zoznamový súbor, médium je ignorované"
+
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
 msgstr ""
 "  --files         - vypísať súbory tagu: všetky súbory (viac riadkov).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "writing list file for medium \"%s\""
-msgstr "zápis zoznamového súboru pre médium \"%s\""
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1688,7 +1753,7 @@ msgstr "médium \"%s\" nebolo zvolené"
 msgid "Only superuser is allowed to install packages"
 msgstr "Inštalovať balíky má dovolené len superužívateľ"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "použitie špecifického prostredia na %s\n"
@@ -1697,6 +1762,11 @@ msgstr "použitie špecifického prostredia na %s\n"
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "nieje možné nájsť hdlist súbor pre \"%s\", médium ignorované"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1755,6 +1825,11 @@ msgstr ""
 "d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "distribúcia %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Inštalácia zlyhala"
@@ -1788,17 +1863,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Prosím vložte médium \"%s\" do zariadenia [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Niektoré požadované balíčky nemôžu byť nainštalované:\n"
-"%s\n"
-"súhlasíte ?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1913,6 +1977,9 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 "  --test         - overiť či môže byť inštalácia prevedená bez problémov.\n"
+
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "nastal problém s čítaním hdlist súboru pre médium \"%s\""
 
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s konfliktuje s %s"

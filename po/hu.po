@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-03-05 23:36+0100\n"
 "Last-Translator: Arpad Biro <biro_arpad@yahoo.com>\n"
 "Language-Team: Hungarian\n"
@@ -203,6 +203,11 @@ msgstr "%d fejléc található a gyorstárban"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "több csomag létezik azonos RPM fájlnévvel: \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "függõségek meghatározása - második lépés\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -211,11 +216,6 @@ msgid ""
 msgstr ""
 "  --proxy-user   - proxyhoz használandó felhasználónév és jelszó\n"
 "                   (formátum: <felhasználónév:jelszó>)\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "függõségek meghatározása - második lépés\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -257,11 +257,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "érvénytelen csomagfájlnév: \"%s\""
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "%s elosztása\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -275,6 +270,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "helytelen proxy-megadás a parancssorban\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "A telepítés nem sikerült"
 
 #: ../urpm.pm:1
 #, c-format
@@ -342,6 +342,11 @@ msgstr ""
 "  --auto-select  - automatikusan kiválasztja a frissíthetõ csomagokat\n"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr "%s kijelölése frissítésre (fájl-ütközések miatt)"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "no package named %s"
 msgstr "nincs ilyen nevû csomag: %s"
@@ -406,6 +411,16 @@ msgstr "ismeretlen csomag"
 msgid "Installation is possible"
 msgstr "A telepítés elvégezhetõ"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"A következõ csomagokat el kell távolítani a frissítés elõtt:\n"
+"%s\n"
+"Egyetért ezzel?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -457,6 +472,15 @@ msgstr "a(z) \"%s\" hibás adatforrás cserélhetõnek van jelölve, pedig nem az"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"a(z) \"%s\" adatforrás egy használatban levõ fejléclistát próbált használni; "
+"az adatforrás nem kerül feldolgozásra"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr ""
 "\"%s\" forrás-fejléclistájának (illetve kiterjesztett függõséglistájának) "
@@ -482,10 +506,24 @@ msgstr ""
 "\n"
 "ismeretlen opciók: \"%s\"\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "az rsync nem található\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr ""
+"probléma a(z) \"%s\" adatforrás kiterjesztett függõséglistájának olvasásakor"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -650,7 +688,7 @@ msgstr "  --obsoletes    - túlhaladott csomagok megjelenítése (több sor)\n"
 msgid "medium \"%s\" already exists"
 msgstr "\"%s\" adatforrás már létezik"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "%s telepítése folyamatban\n"
@@ -744,6 +782,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - az elérhetõ adatforrások listázása\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"A kért csomagok közül néhányat nem lehet telepíteni:\n"
+"%s\n"
+"Egyetért ezzel?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -775,6 +823,11 @@ msgstr "  --curl         - a curl használata távoli fájlok letöltésére\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - Perl kód közvetlen betevése (perl -e)\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -802,11 +855,6 @@ msgstr "nincs ilyen nevû csomag: %s"
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
 "  a parancssorban megadott csomagok illetve RPM fájlok lesznek lekérdezve\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "probléma a(z) \"%s\" adatforrás fejléclistájának olvasásakor"
 
 #: ../urpmi:1
 #, c-format
@@ -863,6 +911,11 @@ msgstr "fejléclista nem elemezhetõ: \"%s\""
 msgid "due to conflicts with %s"
 msgstr "ezzel való ütközés miatt: \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "%d elavult fejléc eltávolítása a gyorstárból"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -874,9 +927,11 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Próbáljam meg a telepítést a függõségek ellenõrzése nélkül? (i/N) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "%d elavult fejléc eltávolítása a gyorstárból"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"a(z) \"%s\" adatforrás egy használatban levõ listát próbált használni; az "
+"adatforrás nem kerül feldolgozásra"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -923,6 +978,15 @@ msgstr "\"%s\" leírásfájljának behozatala..."
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts    - ütközések megjelenítése (több sor)\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"a(z) \"%s\" adatforrás egy használatban levõ fejléclistát próbált használni; "
+"az adatforrás nem kerül feldolgozásra"
 
 #: ../urpme:1
 #, c-format
@@ -989,6 +1053,11 @@ msgstr "az elsõ telepítési adatforrás nem elérhetõ"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "hiba a helyi csomagok regisztrálásakor"
 
@@ -1006,17 +1075,6 @@ msgstr "  --limit-rate   - a letöltési sebesség korlátozása\n"
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "fejléclista (illetve kiterjesztett függõséglista): \"%s\""
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"A következõ csomagokat el kell távolítani a frissítés elõtt:\n"
-"%s\n"
-"Egyetért ezzel?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1424,6 +1482,11 @@ msgstr "párhuzamosság vizsgálata a következõ fájlban: \"%s\""
 msgid "Nothing to remove"
 msgstr "Nincs mit eltávolítani"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "\"%s\" adatforrás fejléceinek olvasása"
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1437,11 +1500,6 @@ msgid ""
 msgstr ""
 "  --bug          - hibajelentés írása a következõ argumentumban megadott\n"
 "                   könyvtárba\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "\"%s\" adatforrás fejléceinek olvasása"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1526,6 +1584,11 @@ msgstr ""
 "  -s             - a következõ csomag egy forráscsomag (--src opcióval "
 "azonos)\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "%s telepítése folyamatban\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1546,6 +1609,13 @@ msgstr ""
 #, c-format
 msgid "Removing failed"
 msgstr "Az eltávolítás sikertelen"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1568,7 +1638,7 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 "  --src          - a következõ csomag egy forráscsomag (-s opcióval azonos)\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1581,11 +1651,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "az ssh nem található\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1645,15 +1710,22 @@ msgstr "fejléclista vizsgálata: \"%s\""
 msgid "copying hdlists file..."
 msgstr "fejléclista másolása..."
 
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --files        - fájlnevek megjelenítése (több sor)\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "a(z) \"%s\" adatforrás listafájljának írása"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"a(z) \"%s\" adatforrás egy használatban levõ listát próbált használni; az "
+"adatforrás nem kerül feldolgozásra"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files        - fájlnevek megjelenítése (több sor)\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1746,7 +1818,7 @@ msgstr "a(z) \"%s\" adatforrás nincs kijelölve"
 msgid "Only superuser is allowed to install packages"
 msgstr "Csomagok telepítéséhez rendszergazdai jogosultság szükséges"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "a következõ környezet használata: %s\n"
@@ -1756,6 +1828,11 @@ msgstr "a következõ környezet használata: %s\n"
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr ""
 "\"%s\" fejléclistája nem található; az adatforrás nem kerül feldolgozásra"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1816,6 +1893,11 @@ msgstr ""
 "A függõségek feloldásához a következõ csomagokat el fogom távolítani (%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "%s elosztása\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "A telepítés nem sikerült"
@@ -1848,17 +1930,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Helyezze be a(z) \"%s\" nevû adathordozót a(z) \"%s\" meghajtóba"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"A kért csomagok közül néhányat nem lehet telepíteni:\n"
-"%s\n"
-"Egyetért ezzel?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1975,6 +2046,9 @@ msgid ""
 msgstr ""
 "  --test         - annak ellenõrzése, hogy a telepítés végrehajtható-e\n"
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "probléma a(z) \"%s\" adatforrás fejléclistájának olvasásakor"
+
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s ütközik ezzel: %s"
 
@@ -2023,9 +2097,6 @@ msgstr ""
 #~ msgid "selecting %s using obsoletes"
 #~ msgstr "%s kijelölése törlésre (elavulttá vált)"
 
-#~ msgid "selecting %s by selection on files"
-#~ msgstr "%s kijelölése frissítésre (fájl-ütközések miatt)"
-
 #~ msgid "Is it ok?"
 #~ msgstr "Így rendben van?"
 
@@ -2047,18 +2118,8 @@ msgstr ""
 #~ msgid "trying to select multiple media: %s"
 #~ msgstr "több adatforrás kijelölése: \"%s\""
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "a(z) \"%s\" adatforrás egy használatban levõ fejléclistát próbált "
-#~ "használni; az adatforrás nem kerül feldolgozásra"
-
 #~ msgid "problem reading hdlist file, trying again"
 #~ msgstr "hiba a fejléclista olvasásakor; újabb próbálkozás..."
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "a(z) \"%s\" adatforrás egy használatban levõ listát próbált használni; az "
-#~ "adatforrás nem kerül feldolgozásra"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - a névvel együtt a csoportok is jelenjenek meg\n"

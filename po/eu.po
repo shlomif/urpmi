@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2002-09-09 19:28+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Euskara <linux-eu@chanae.alphanet.ch>\n"
@@ -210,6 +210,11 @@ msgstr "%d goiburuko aurkitu dira cache-an"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "pakete bat baino gehiago dago \"%s\" rpm fitxategi-izen berarekin"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "Bigarren pasada burutzen menpekotasunak konputatzeko\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -220,11 +225,6 @@ msgstr ""
 "erabiltzaile\n"
 "                    eta pasahitza zehaztu (formatua <erabiltzailea:"
 "pasahitza> da).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "Bigarren pasada burutzen menpekotasunak konputatzeko\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -263,11 +263,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "rpm fitxategi-izena [%s] baliogabea"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "%s banatzen\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -282,6 +277,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "proxy deklarazio okerra komando-lerroan\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Instalazioak huts egin du"
 
 #: ../urpm.pm:1
 #, c-format
@@ -350,6 +350,11 @@ msgstr ""
 "hautatzen ditu.\n"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr "%s hautatzen fitxategietan hautatuz"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "no package named %s"
 msgstr "ez dago %s izeneko paketerik"
@@ -412,6 +417,16 @@ msgstr "pakete ezezaguna "
 msgid "Installation is possible"
 msgstr "Instalazioak egin daiteke"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Ondoko paketeak kendu behar dira beste batzuk eguneratuak izan daitezen:\n"
+"%s\n"
+"ados zaude?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -462,6 +477,15 @@ msgstr "\"%s\" euskarri inkoherentea aldagarri gisa markatuta, baina ez da"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"\"%s\" euskarriak erabilitako goiburuko-zerrenda bat erabili nahi du; "
+"jaramonik ez euskarriari"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "\"%s\"(r)en iturburuko goiburuko-zerrenda (edo laburpena) kopiatzen..."
 
@@ -485,10 +509,23 @@ msgstr ""
 "\n"
 "aukera ezezagunak '%s'\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "rsync falta da\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "\"%s\" euskarriaren sintesi fitxategia irakurtzeko arazoa"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -655,7 +692,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "\"%s\" euskarria badago lehendik ere"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "%s instalatzen\n"
@@ -747,6 +784,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - zerrendatu euskarri eskuragarriak.\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Eskatutako pakete batzuk ezin dira instalatu:\n"
+"%s\n"
+"ados zaude?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -780,6 +827,11 @@ msgstr ""
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -c             - goiburukoen cache-direktorioa garbitzen du.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -805,11 +857,6 @@ msgstr "ez dago %s izeneko paketerik"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  komando-lerroko izenak edo rpm-fitxategiak kontsultatu dira.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "\"%s\" euskarriaren hdlist fitxategia irakurtzeko arazoa"
 
 #: ../urpmi:1
 #, c-format
@@ -866,6 +913,11 @@ msgstr "ezin da \"%s\" (r)en goiburuko-zerrendaren fitxategia analizatu"
 msgid "due to conflicts with %s"
 msgstr "%s-k %s-rekin gatazka sortzen du"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "%d goiburuko zaharkituak cache-tik ezabatzen"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -877,9 +929,11 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Mendekotasunak egiaztatu gabe instalatzen saiatu nahi duzu? (B/e) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "%d goiburuko zaharkituak cache-tik ezabatzen"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"\"%s\" euskarriak erabilitako zerrenda bat erabili nahi du; jaramonik ez "
+"euskarriari "
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -928,6 +982,15 @@ msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - etiketa-gatazkak inprimatzen ditu: gatazka guztiak "
 "(lerro anitz)."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"\"%s\" euskarriak erabilitako goiburuko-zerrenda bat erabili nahi du; "
+"jaramonik ez euskarriari"
 
 #: ../urpme:1
 #, c-format
@@ -996,6 +1059,11 @@ msgstr "ezin da lehen instalazio-euskarria atzitu"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "errorea pakete lokalak erregistratzean"
 
@@ -1013,17 +1081,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "\"%s\"(r)en iturburuko goiburuko-zerrenda (edo laburpena) kopiatzen..."
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Ondoko paketeak kendu behar dira beste batzuk eguneratuak izan daitezen:\n"
-"%s\n"
-"ados zaude?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1411,6 +1468,11 @@ msgstr "agintari paraleloa aztertzen [%s] fitxategian"
 msgid "Nothing to remove"
 msgstr "Ez dago ezer kentzeko.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "\"%s\" euskarritik goiburuak irakurtzen"
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1426,11 +1488,6 @@ msgstr ""
 "  --bug          - atera akats txosten bat hurrengo argumentuak adierazten "
 "duen\n"
 "                    direktorioan.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "\"%s\" euskarritik goiburuak irakurtzen"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1516,6 +1573,11 @@ msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 "  -s             - hurrengo paketea iturburu-pakete bat da (--src bezala).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "%s instalatzen\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1535,6 +1597,13 @@ msgstr "  --auto         - aukeren arteako pakete bat hautatu automatikoki.\n"
 #, fuzzy, c-format
 msgid "Removing failed"
 msgstr "...huts egin du kopiatzean"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1557,7 +1626,7 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 "  --src          - hurrengo paketea iturburu-pakete bat da (-s bezalakoa).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1570,11 +1639,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "ssh falta da\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1634,17 +1698,24 @@ msgstr "[%s] goiburuko-zerrendaren fitxategia aztertzean"
 msgid "copying hdlists file..."
 msgstr "goiburuko-zerrendaren fitxategia kopiatzen..."
 
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "ez da \"%s\" euskarrirako goiburuko-zerrendaren fitxategirik aurkitu"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"\"%s\" euskarriak erabilitako zerrenda bat erabili nahi du; jaramonik ez "
+"euskarriari "
+
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
 msgstr ""
 "    --files         - etiketa-fitxategiak inprimatzen ditu: fitxategi "
 "guztiak (lerro anitz)."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "writing list file for medium \"%s\""
-msgstr "ez da \"%s\" euskarrirako goiburuko-zerrendaren fitxategirik aurkitu"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1736,7 +1807,7 @@ msgstr "\"%s\" euskarria ez dago hautatuta"
 msgid "Only superuser is allowed to install packages"
 msgstr "Supererabiltzaileak bakarrik du pakete lokalak instalatzeko baimena"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1747,6 +1818,11 @@ msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr ""
 "ezin da \"%s\"(r)en goiburuko-zerrendaren fitxategia aurkitu; jaramonik ez "
 "euskarriari"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1806,6 +1882,11 @@ msgstr ""
 "dira(%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "%s banatzen\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Instalazioak huts egin du"
@@ -1839,17 +1920,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "\"%s\" izeneko euskarria [%s] gailuan sartu"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Eskatutako pakete batzuk ezin dira instalatu:\n"
-"%s\n"
-"ados zaude?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1968,6 +2038,9 @@ msgstr ""
 "  --test         - instalazioa arazorik gabe burutu daitekeen egiaztatzen "
 "du.\n"
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "\"%s\" euskarriaren hdlist fitxategia irakurtzeko arazoa"
+
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s-k %s-rekin gatazka sortzen du"
 
@@ -2067,9 +2140,6 @@ msgstr ""
 #~ msgid "selecting %s using obsoletes"
 #~ msgstr "%s hautatzen zaharkituak erabiliz"
 
-#~ msgid "selecting %s by selection on files"
-#~ msgstr "%s hautatzen fitxategietan hautatuz"
-
 #~ msgid "Only superuser is allowed to install local packages"
 #~ msgstr "Supererabiltzaileak bakarrik du pakete lokalak instalatzeko baimena"
 
@@ -2108,21 +2178,11 @@ msgstr ""
 #~ msgid "trying to select multiple media: %s"
 #~ msgstr "hainbat euskarri hautatzen saiatzen: %s"
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "\"%s\" euskarriak erabilitako goiburuko-zerrenda bat erabili nahi du; "
-#~ "jaramonik ez euskarriari"
-
 #~ msgid "problem reading hdlist file, trying again"
 #~ msgstr "arazoa goiburuko-zerrendaren fitxategia irakurtzean, saiatu berriro"
 
 #~ msgid "keeping only files referenced in provides"
 #~ msgstr "hornitzaileetan aipatutako fitxategiak bakarrik mantentzen"
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "\"%s\" euskarriak erabilitako zerrenda bat erabili nahi du; jaramonik ez "
-#~ "euskarriari "
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - taldeak ere izenarekin inprimatzen ditu.\n"

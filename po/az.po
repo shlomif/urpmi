@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2001-11-14 17:06GMT+0200\n"
 "Last-Translator: Vasif İsmayıloğlu MD <azerb_linux@hotmail.com>\n"
 "Language-Team: Azerbaijani Turkic <linuxaz@azerimail.net>\n"
@@ -203,16 +203,16 @@ msgstr "ön yaddaşda %d başlıq tapıldı"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "\"%s\" rpm fayl adlı çoxlu fayl tapıldı"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -251,11 +251,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "hökmsüz rpm fayı adı [%s]"
 
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "distributing %s\n"
-msgstr "%s qurulur\n"
-
 #: ../urpmi.addmedia:1
 #, fuzzy, c-format
 msgid ""
@@ -269,6 +264,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr ""
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Qurulum iflas etdi"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -332,6 +332,11 @@ msgid ""
 msgstr "  --auto-select  - sistemi güncəlləmək üçün paketləri öz-özünə seç.\n"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr "%s fayllar üstündə seçilərək seçilir"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "no package named %s"
 msgstr "%s adlı paket yoxdur"
@@ -393,6 +398,15 @@ msgstr "%s adlı paket yoxdur"
 msgid "Installation is possible"
 msgstr "Qurulum iflas etdi"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"bə'zi paketlər güncəllənmək üçün çıxardılmalıdırlar, bu da hələlik "
+"dəstəklənmir\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -440,6 +454,15 @@ msgstr "\"%s\" inkeherent medyası söküləbilən deyə bildirilib, amma deyil"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"\"%s\" medyası onsuz da istifadədə olan hdlist işlətməyə cəhd etdi, medya "
+"rədd edildi"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "\"%s\" üçün siyahı faylında bir şey yazılmır"
 
@@ -460,10 +483,23 @@ msgid ""
 "unknown options '%s'\n"
 msgstr ""
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "\"%s\" medyası hdlist sintezi inşa edilid"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -618,7 +654,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "\"%s\" medyası onsuz da vardır"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "%s qurulur\n"
@@ -712,6 +748,13 @@ msgstr "  --all           - bütün təqləri göstər."
 
 #: ../urpmi:1
 #, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
@@ -741,6 +784,11 @@ msgstr ""
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "   -c            - başlıq ara yaddaşı cərgəsini təmizlə.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -765,11 +813,6 @@ msgstr "%s adlı paket yoxdur"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "\"%s\" medyası hdlist sintezi inşa edilid"
 
 #: ../urpmi:1
 #, c-format
@@ -819,6 +862,11 @@ msgstr "\"%s\" hdlist faylı alına bilmir"
 msgid "due to conflicts with %s"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "ön yaddaşdakı %d mütləq başlıqlar çıxardılır"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -830,9 +878,11 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Paket asılılıqlarına fikir vermədən qurmağı sınayım? (b/X) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "ön yaddaşdakı %d mütləq başlıqlar çıxardılır"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"\"%s\" medyumu onsuz da istifadədə olan bir siyahını işlətməyə cəhd etdi, "
+"medya rədd edildi"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -878,6 +928,15 @@ msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - təq toqquşmalarını göstər: bütün toqquşmalar (çoxlu "
 "sətir)."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"\"%s\" medyası onsuz da istifadədə olan hdlist işlətməyə cəhd etdi, medya "
+"rədd edildi"
 
 #: ../urpme:1
 #, fuzzy, c-format
@@ -934,6 +993,11 @@ msgstr "\"%s\" siyahı faylına çatıla bilmədi, medya rədd edildi"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "yerli paket qeydiyyat xətası"
 
@@ -951,16 +1015,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "\"%s\" üçün siyahı faylında bir şey yazılmır"
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"bə'zi paketlər güncəllənmək üçün çıxardılmalıdırlar, bu da hələlik "
-"dəstəklənmir\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1324,6 +1378,11 @@ msgstr "[%s] hdlist faylı oxunur"
 msgid "Nothing to remove"
 msgstr ""
 
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "mövcud olmayan \"%s\" medyası çıxardılmağa çalışılır"
+
 #: ../urpmq:1
 #, fuzzy, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1335,11 +1394,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "mövcud olmayan \"%s\" medyası çıxardılmağa çalışılır"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1422,6 +1476,11 @@ msgstr "\"%s\" medyası hdlist faylı tapılmadı"
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr "                    paket adsız əmr sətiri)."
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "%s qurulur\n"
+
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "reading rpm files from [%s]"
@@ -1441,6 +1500,13 @@ msgstr "  --auto         - seçililər arasında ən yaxşısını seç.\n"
 #, fuzzy, c-format
 msgid "Removing failed"
 msgstr "[%s] cəhd edilir"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1462,7 +1528,7 @@ msgstr "Ləğv et"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1472,11 +1538,6 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "ssh is missing\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
 msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
@@ -1532,16 +1593,23 @@ msgstr "[%s] hdlist faylı oxunur"
 msgid "copying hdlists file..."
 msgstr "[%s] hdlist faylı oxunur"
 
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "\"%s\" medyası hdlist faylı tapılmadı"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"\"%s\" medyumu onsuz da istifadədə olan bir siyahını işlətməyə cəhd etdi, "
+"medya rədd edildi"
+
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
 msgstr ""
 "  --files         - təq fayllarını göstər: bütün fayllar (çoxlu sətir)."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "writing list file for medium \"%s\""
-msgstr "\"%s\" medyası hdlist faylı tapılmadı"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1626,7 +1694,7 @@ msgid "Only superuser is allowed to install packages"
 msgstr ""
 "Yerli paketləri qurmaq üçün sadəcə olaraq sistem operatoru məs'uliyyətlidir"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1635,6 +1703,11 @@ msgstr ""
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "\"%s\" üçün hdlist faylı tapıla bilmir, medya rədd edildi"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1691,6 +1764,11 @@ msgstr ""
 "Asılıqları ortadan qaldırmaq üçün, aşağıdakı paketlər də qurulmalıdır (%d Mb)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "%s qurulur\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Qurulum iflas etdi"
@@ -1721,14 +1799,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Lütfən \"%s\" medyasını [%s] avadanlığına yerləşdirin"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1843,6 +1913,10 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 
+#, fuzzy
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "\"%s\" medyası hdlist sintezi inşa edilid"
+
 #~ msgid ""
 #~ "  -c             - choose complete method for resolving requires "
 #~ "closure.\n"
@@ -1924,9 +1998,6 @@ msgstr ""
 #~ msgid "selecting %s using obsoletes"
 #~ msgstr "%s mütləqlər işlədilərək seçilir"
 
-#~ msgid "selecting %s by selection on files"
-#~ msgstr "%s fayllar üstündə seçilərək seçilir"
-
 #~ msgid "Only superuser is allowed to install local packages"
 #~ msgstr ""
 #~ "Yerli paketləri qurmaq üçün sadəcə olaraq sistem operatoru "
@@ -1948,18 +2019,8 @@ msgstr ""
 #~ msgstr ""
 #~ "  --auto-select  - sistemi güncəlləmək üçün paketləri öz-özünə seç.\n"
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "\"%s\" medyası onsuz da istifadədə olan hdlist işlətməyə cəhd etdi, medya "
-#~ "rədd edildi"
-
 #~ msgid "keeping only files referenced in provides"
 #~ msgstr "təkcə gətirənlərdə yad edilən fayllar saxlanılır"
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "\"%s\" medyumu onsuz da istifadədə olan bir siyahını işlətməyə cəhd etdi, "
-#~ "medya rədd edildi"
 
 #~ msgid "  --auto         - automatically select a good package in choices.\n"
 #~ msgstr "  --auto         - seçililər arasında ən yaxşısını seç.\n"

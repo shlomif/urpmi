@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-05-13 12:50+0200\n"
 "Last-Translator: Lorint Hendschel <LorintHendschel@skynet.be>\n"
 "Language-Team: Walon <linux-wa@chanae.alphanet.ch>\n"
@@ -200,6 +200,11 @@ msgstr "%d tiestires trovêyes el muchete"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "i gn a pus d' on pacaedje avou l' minme no d' fitchî rpm «%s»"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "dji fwait l' deujhinme passe po carculer les aloyances\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -208,11 +213,6 @@ msgid ""
 msgstr ""
 "  --proxy-user   - dene l' uzeu eyet l' sicret a-z eployî po\n"
 "                   l' otintifiaedje sol proxy (li cogne est <uzeu:sicret>).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "dji fwait l' deujhinme passe po carculer les aloyances\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -253,11 +253,6 @@ msgstr "Astalaedje do pacaedje..."
 msgid "invalid rpm file name [%s]"
 msgstr "no d' fitchî rpm nén valåbe [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "dji distribouwe %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -271,6 +266,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "måle declaråcion do proxy sol roye di comande\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "%d installation transactions failed"
+msgstr "I gn a-st avou %d transaccions d' astalaedje k' ont fwait berwete"
 
 #: ../urpm.pm:1
 #, c-format
@@ -342,6 +342,11 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "no package named %s"
 msgstr "nou pacaedje lomé %s"
 
@@ -405,6 +410,16 @@ msgstr "pacaedje nén cnoxhou"
 msgid "Installation is possible"
 msgstr "L' astalaedje est possibe"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Les pacaedjes shuvants ont mezåjhe d' esse oistés po des ôtes esse metous a "
+"djoû:\n"
+"%s"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -454,6 +469,15 @@ msgstr "sopoirt «%s» nén cowerant, metou come bodjåve mins nel est nén vormint"
 
 #: ../urpm.pm:1
 #, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"li forveyou sopoirt «%s» èn doet nén aveur defini di fitchî hdlist ou di "
+"djivêye des fitchîs, dji passe houte do sopoirt"
+
+#: ../urpm.pm:1
+#, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "carculaedje do fitchî «hdlist» (ou del sinteze) ki vént d' esse copyî"
 
@@ -476,10 +500,24 @@ msgstr ""
 "\n"
 "tchuzes nén cnoxhowes «%s»\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "rsync n' est nén la\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr ""
+"åk n' a nén stî tot léjhant li fitchî hdlist ou di sinteze do sopoirt «%s»"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -558,6 +596,8 @@ msgstr "  --noclean      - wårder el muchete les pacaedjes rpm nén eployîs.\n"
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
+"ahivé ene transaccion po l' astalaedje so %s (oister=%d, astaler=%d, mete a "
+"djoû=%d)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -640,7 +680,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "li sopoirt «%s» egzistêye dedja"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "dj' astale %s\n"
@@ -732,6 +772,15 @@ msgstr "  --list-media   - djivêye des sopoirts k' i gn a.\n"
 
 #: ../urpmi:1
 #, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Sacwants pacaedjes dimandés n' polèt nén esse astalés:\n"
+"%s"
+
+#: ../urpmi:1
+#, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Dj' astale li pacaedje «%s» (%s/%s)..."
 
@@ -765,6 +814,11 @@ msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr ""
 "  -e             - sititchî do côde perl directumint, come «perl -e».\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr "estoz vs d' acoird?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -779,6 +833,7 @@ msgstr "...l' aberwetaedje a stî comufåt"
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
 msgstr ""
+"dji radjoute li pacaedje %s (id=%d, eid=%d, metaedje a djoû=%d, fitchîs=%s)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -789,11 +844,6 @@ msgstr "dji passe houte do pacaedje %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  les nos ou fitchîs rpm dinés sol roye di comande sont rcwerous.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "åk n' a nén stî tot lejhant li fitchî hdlist do sopoirt «%s»"
 
 #: ../urpmi:1
 #, c-format
@@ -850,6 +900,11 @@ msgstr "dji n' sai analijhî li fitchî hdlist di «%s»"
 msgid "due to conflicts with %s"
 msgstr "cåze di conflits avou %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "dji bodje %d viyès tiestires del muchete"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -862,8 +917,8 @@ msgstr "Sayî d' astaler sin verifyî les aloyaedjes? (o/N) "
 
 #: ../urpm.pm:1
 #, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "dji bodje %d viyès tiestires del muchete"
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr "li forveyou sopoirt «%s» n' est nén locå, dji passe houte do sopoirt"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -913,6 +968,15 @@ msgstr "aberwetaedje do fitchî di discrijhaedjes di «%s»..."
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts    - håyner l' etikete «conflicts»: tos les conflits.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"li forveyou sopoirt «%s» duvreut aveur on fitchî sourdant hdlist ou di "
+"sinteze valides, dji passe houte do sopoirt"
 
 #: ../urpme:1
 #, c-format
@@ -979,6 +1043,11 @@ msgstr "dji n' a savou trover li prumî sopoirt d' astalaedje"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr "les forveyous sopoirts divèt esse locås"
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "åk n' a nén stî tot-z eredjistrant les pacaedjes locås"
 
@@ -996,18 +1065,6 @@ msgstr "  --limit-rate   - limiter li roedeu di l' aberwetaedje.\n"
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "«hdlist» (ou sinteze) ki vént d' esse sayî trové come «%s»"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Les pacaedjes shuvants ont mezåjhe d' esse oistés po des ôtes esse metous a "
-"djoû:\n"
-"%s\n"
-"estoz vs d' acoird?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1403,6 +1460,11 @@ msgstr ""
 msgid "Nothing to remove"
 msgstr "Rén a oister"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "dji lét les tiestires do sopoirt «%s»"
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1417,11 +1479,6 @@ msgid ""
 msgstr ""
 "  --bug          - sicrire on rapoirt di bug dins l' ridant dné come\n"
 "                   årgumint djusse après.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "dji lét les tiestires do sopoirt «%s»"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1508,6 +1565,11 @@ msgstr ""
 "  -s             - li pacaedje shuvant est on pacaedje sourdant\n"
 "                   (parey ki --src).\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "installing %s"
+msgstr "dj' astale %s"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1528,6 +1590,15 @@ msgstr ""
 #, c-format
 msgid "Removing failed"
 msgstr "Li oistaedje a fwait berwete"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
+"  --virtual      - ahiver on forveyou sopoirt ki sont tofer a djoû,\n"
+"                   rén ki l' protocole «file://» est permetou.\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1551,7 +1622,7 @@ msgstr ""
 "  --src          - li pacaedje shuvant est on pacaedje sourdant\n"
 "                   (parey ki -s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1564,11 +1635,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "ssh n' est nén la\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1631,17 +1697,24 @@ msgstr "corwaitaedje do fitchî hdlist [%s]"
 msgid "copying hdlists file..."
 msgstr "copiaedje do fitchî hdlist..."
 
+#: ../urpm.pm:1
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "dji screye li fitchî d' djivêye («list») pol sopoirt «%s»"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"li forveyou sopoirt «%s» duvreut aveur ene haardpeye valude, dji passe houte "
+"do sopoirt"
+
 #: ../urpmf:1
 #, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
 msgstr ""
 "  --buildhost    - håyner l' etikete «buildhost»: lodjoe wice ki l' pacaedje "
 "a stî fwait.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "writing list file for medium \"%s\""
-msgstr "dji screye li fitchî d' djivêye («list») pol sopoirt «%s»"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1735,7 +1808,7 @@ msgstr "li sopoirt «%s» n' a nén stî tchoezi"
 msgid "Only superuser is allowed to install packages"
 msgstr "Seulmint li super-uzeu a l' droet d' astaler des pacaedjes"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "eployant on evironmint specifike so %s\n"
@@ -1744,6 +1817,11 @@ msgstr "eployant on evironmint specifike so %s\n"
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "dji n' sai trover li fitchî hdlist di «%s», dji passe houte do sopoirt"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1778,7 +1856,7 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to create transaction"
-msgstr ""
+msgstr "dji n' sai ahiver ene transaccion"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1802,6 +1880,11 @@ msgid ""
 msgstr ""
 "Po satisfyî les aloyaedjes, les pacaedjes ki shuvèt vont esse disastalés (%d "
 "Mo)"
+
+#: ../urpmi:1
+#, c-format
+msgid "distributing %s"
+msgstr "dji distribouwe %s"
 
 #: ../urpmi:1
 #, c-format
@@ -1836,17 +1919,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "S' i vs plait metoz li sopoirt lomé «%s» el éndjin [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Sacwants pacaedjes dimandés n' polèt nén esse astalés:\n"
-"%s\n"
-"estoz vs d' acoird?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1964,6 +2036,9 @@ msgid ""
 msgstr ""
 "  --test         - verifyî si l' astalaedje si pout fé comufåt disk' al "
 "fén.\n"
+
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "åk n' a nén stî tot lejhant li fitchî hdlist do sopoirt «%s»"
 
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s fwait des conflits avou %s"

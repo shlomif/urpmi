@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-03-20 15:35+0900\n"
 "Last-Translator: Budi Rachmanto <rac@linux-mandrake.com>\n"
 "Language-Team: Indonesian <rac@linux-mandrake.com>\n"
@@ -193,6 +193,11 @@ msgstr "temukan %d header di cache"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "banyak paket dg nama file rpm sama \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "pembilasan kedua untuk menghitung ketergantungan\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -201,11 +206,6 @@ msgid ""
 msgstr ""
 "  --proxy-user   - tentukan user dan katakunci utk otentikasi proxy\n"
 "                   (dg format <user:katakunci>).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "pembilasan kedua untuk menghitung ketergantungan\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -244,11 +244,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "nama file rpm [%s] tak berlaku"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "sebarkan %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -262,6 +257,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "deklarasi proxy buruk di baris perintah\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Instalasi gagal"
 
 #: ../urpm.pm:1
 #, c-format
@@ -329,6 +329,11 @@ msgid ""
 msgstr "  --auto-select  - otomatis menyeleksi paket utk upgrade sistem.\n"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr "pilih %s menggunakan pilihan file"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "no package named %s"
 msgstr "tiada paket bernama %s"
@@ -393,6 +398,16 @@ msgstr "paket tak dikenal"
 msgid "Installation is possible"
 msgstr "Instalasi dimungkinkan"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Paket berikut harus dihapus agar yang lain dapat di-upgrade:\n"
+"%s\n"
+"Anda setuju?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -440,6 +455,13 @@ msgstr "media nonkoheren \"%s\" bertanda removable, seharusnya tidak"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "media \"%s\" coba memakai hdlist yg telah dipakai, media diabaikan"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "sedang menyalin sumber/sintesa hdlist \"%s\"..."
 
@@ -462,10 +484,23 @@ msgstr ""
 "\n"
 "opsi tak dikenal '%s'\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "rsync hilang\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "sulit membaca file sintesa hdlist utk media \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -623,7 +658,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "media \"%s\" telah ada"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "instalasi %s\n"
@@ -712,6 +747,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - daftar media tersedia.\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Beberapa paket tak dapat diinstal:\n"
+"%s\n"
+"Setuju ?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -742,6 +787,11 @@ msgstr "  --curl         - pakai curl utk mengambil file jauh.\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - cakup kode perl secara langsung sbg perl -e.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -766,11 +816,6 @@ msgstr "tiada paket bernama %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  dicarikan nama atau file rpm yg tertera pada baris perintah.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "sulit membaca file hdlist media \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -823,6 +868,11 @@ msgstr "gagal olah file hdlist \"%s\""
 msgid "due to conflicts with %s"
 msgstr "karena konflik dg %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "hapus %d header kadaluarsa dlm cache"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -834,9 +884,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Coba instalasi tanpa cek ketergantungan? (y/T) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "hapus %d header kadaluarsa dlm cache"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr "media \"%s\" mencoba memakai list yg telah dipakai, media diabaikan"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -879,6 +929,13 @@ msgstr "ambil file deskripsi \"%s\"..."
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts     - cetak konflik tag: semua konflik (bbrp baris).\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr "media \"%s\" coba memakai hdlist yg telah dipakai, media diabaikan"
 
 #: ../urpme:1
 #, c-format
@@ -942,6 +999,11 @@ msgstr "gagal mengakses media instalasi pertama"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "salah registrasi paket lokal"
 
@@ -959,17 +1021,6 @@ msgstr "  --limit-rate   - batasi laju download.\n"
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "ditemukan hdlist (atau sintesa) terselidik sbg %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Paket berikut harus dihapus agar yang lain dapat di-upgrade:\n"
-"%s\n"
-"Anda setuju?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1344,6 +1395,11 @@ msgstr "pemeriksaan handler paralel di file [%s]"
 msgid "Nothing to remove"
 msgstr "Tiada yang dihapus"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "baca header dari media \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1357,11 +1413,6 @@ msgid ""
 msgstr ""
 "  --bug          - keluarkan laporan bug ke direktori yg ditentukan oleh\n"
 "                   arg. berikut.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "baca header dari media \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1444,6 +1495,11 @@ msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 "  -s             - paket berikut adalah paket sumber (sama dg --src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "instalasi %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1463,6 +1519,13 @@ msgstr "  --auto         - seleksi otomatis paket pilihan.\n"
 #, c-format
 msgid "Removing failed"
 msgstr "Gagal dihapus"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1484,7 +1547,7 @@ msgstr "Batal"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - paket berikut adalah paket sumber (sama dg -s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1495,11 +1558,6 @@ msgstr "  --env          - gunakan lingkungan khusus (umumnya laporan kutu).\n"
 #, c-format
 msgid "ssh is missing\n"
 msgstr "ssh hilang\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1556,15 +1614,20 @@ msgstr "periksa baca file hdlist [%s]"
 msgid "copying hdlists file..."
 msgstr "sedang menyalin file hdlist..."
 
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --files         - cetak file tag: semua file (bbrp baris).\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "penulisan file list media \"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr "media \"%s\" mencoba memakai list yg telah dipakai, media diabaikan"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files         - cetak file tag: semua file (bbrp baris).\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1652,7 +1715,7 @@ msgstr "media \"%s\" tak dipilih"
 msgid "Only superuser is allowed to install packages"
 msgstr "Hanya superuser yang boleh meng-instal paket"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "gunakan lingkungan spesifik di %s\n"
@@ -1661,6 +1724,11 @@ msgstr "gunakan lingkungan spesifik di %s\n"
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "gagal temukan file hdlist \"%s\", media diabaikan"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1717,6 +1785,11 @@ msgstr ""
 "Paket berikut akan dihapus agar syarat ketergantungan terpenuhi (%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "sebarkan %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Instalasi gagal"
@@ -1749,17 +1822,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Masukkan media \"%s\" ke perangkat [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Beberapa paket tak dapat diinstal:\n"
-"%s\n"
-"Setuju ?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1875,6 +1937,9 @@ msgid ""
 msgstr ""
 "  --test         - verifikasi apakah instalasi dapat dilaksanakan dg benar.\n"
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "sulit membaca file hdlist media \"%s\""
+
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s konflik dg %s"
 
@@ -1973,9 +2038,6 @@ msgstr ""
 #~ msgid "selecting %s using obsoletes"
 #~ msgstr "pilih %s menggunakan daftar kadaluarsa"
 
-#~ msgid "selecting %s by selection on files"
-#~ msgstr "pilih %s menggunakan pilihan file"
-
 #~ msgid "Only superuser is allowed to install local packages"
 #~ msgstr "Hanya superuser yang dapat meng-install paket lokal"
 
@@ -2019,17 +2081,11 @@ msgstr ""
 #~ msgid "trying to select multiple media: %s"
 #~ msgstr "mencoba memilih media majemuk: %s"
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr "media \"%s\" coba memakai hdlist yg telah dipakai, media diabaikan"
-
 #~ msgid "problem reading hdlist file, trying again"
 #~ msgstr "sulit baca file hdlist, coba lagi..."
 
 #~ msgid "keeping only files referenced in provides"
 #~ msgstr "hanya simpan file yg tertulis di sediaan (provides)"
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr "media \"%s\" mencoba memakai list yg telah dipakai, media diabaikan"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - juga cetak grup dg nama.\n"

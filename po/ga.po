@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2000-04-06 10:25+0100\n"
 "Last-Translator: Proinnsias Breathnach <breatpro@dublin.ml.com>\n"
 "Language-Team: Gaeilge <ga@li.org>\n"
@@ -189,16 +189,16 @@ msgstr ""
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -237,11 +237,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "Tá droch ainmchomad rpm [%s]"
 
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "distributing %s\n"
-msgstr "ag feistiú %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -253,6 +248,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr ""
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Theip ag feistiú"
 
 #: ../urpm.pm:1
 #, c-format
@@ -316,6 +316,11 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "no package named %s"
 msgstr "pacáiste ar bith den ainm %s"
 
@@ -369,6 +374,13 @@ msgstr "pacáiste ar bith den ainm %s"
 msgid "Installation is possible"
 msgstr "Theip ar feistiú"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr "Tá %s ins na pacáistí a leanas: %s \n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -416,6 +428,13 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "léamh depslist comhad [%s]"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "léamh depslist comhad [%s]"
 
@@ -436,10 +455,23 @@ msgid ""
 "unknown options '%s'\n"
 msgstr ""
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "léamh depslist comhad [%s]"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -591,7 +623,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr ""
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "ag feistiú %s\n"
@@ -677,6 +709,13 @@ msgstr ""
 
 #: ../urpmi:1
 #, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
@@ -706,6 +745,11 @@ msgstr ""
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr ""
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -730,11 +774,6 @@ msgstr "pacáiste ar bith den ainm %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "léamh depslist comhad [%s]"
 
 #: ../urpmi:1
 #, c-format
@@ -782,6 +821,11 @@ msgstr "Tá droch ainmchomad rpm [%s]"
 msgid "due to conflicts with %s"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr ""
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -794,7 +838,7 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
-msgid "removing %d obsolete headers in cache"
+msgid "virtual medium \"%s\" is not local, medium ignored"
 msgstr ""
 
 #: ../urpm.pm:1 ../urpmi:1
@@ -837,6 +881,13 @@ msgstr "léamh depslist comhad [%s]"
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
 msgstr ""
 
 #: ../urpme:1
@@ -887,6 +938,11 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr ""
 
@@ -904,14 +960,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "léamh depslist comhad [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -1263,6 +1311,11 @@ msgstr "léamh depslist comhad [%s]"
 msgid "Nothing to remove"
 msgstr ""
 
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "léamh depslist comhad [%s]"
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1274,11 +1327,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "léamh depslist comhad [%s]"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1357,6 +1405,11 @@ msgstr "léamh depslist comhad [%s]"
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "ag feistiú %s\n"
+
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "reading rpm files from [%s]"
@@ -1375,6 +1428,13 @@ msgstr ""
 #: ../urpme:1
 #, c-format
 msgid "Removing failed"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -1397,7 +1457,7 @@ msgstr "Cealaigh"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1407,11 +1467,6 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "ssh is missing\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
 msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
@@ -1467,15 +1522,20 @@ msgstr "léamh depslist comhad [%s]"
 msgid "copying hdlists file..."
 msgstr "léamh depslist comhad [%s]"
 
-#: ../urpmf:1
-#, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr ""
-
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "léamh depslist comhad [%s]"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr ""
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1557,7 +1617,7 @@ msgstr ""
 msgid "Only superuser is allowed to install packages"
 msgstr ""
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1566,6 +1626,11 @@ msgstr ""
 #, fuzzy, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "léamh depslist comhad [%s]"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1618,6 +1683,11 @@ msgid ""
 msgstr ""
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "ag feistiú %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Theip ag feistiú"
@@ -1647,14 +1717,6 @@ msgstr ""
 #: ../urpmi:1
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
 msgstr ""
 
 #: ../urpmi.addmedia:1
@@ -1761,6 +1823,10 @@ msgstr ""
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+
+#, fuzzy
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "léamh depslist comhad [%s]"
 
 #~ msgid "Is it ok?"
 #~ msgstr "An bhfuil sin Ok ?"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2000-01-30 17:59+0100\n"
 "Last-Translator: Boyan Ivanov <boyan17@bulgaria.com>\n"
 "Language-Team:  Bulgarian\n"
@@ -224,16 +224,16 @@ msgstr "намерени %d хедъра в кеша"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
 msgstr ""
 
 # Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
@@ -278,11 +278,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "прочети синтез файла [%s]"
 
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "distributing %s\n"
-msgstr "инсталиране %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -294,6 +289,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr ""
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Инсталацията провалена"
 
 # Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
 # in this case must be "проводник"
@@ -361,6 +361,11 @@ msgstr ""
 "  --auto-select  - автоматично избира пакети за ъпгрейд на системата.\n"
 
 #: ../urpm.pm:1
+#, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "no package named %s"
 msgstr "няма пакет наречен %s\n"
@@ -421,6 +426,15 @@ msgstr "неизвестен пакет(и)"
 msgid "Installation is possible"
 msgstr "Инсталацията провалена"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"някои пакети трябва да бъдат премахнати за да се ъпгрейдват, това не се "
+"поддържа все още\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -478,6 +492,17 @@ msgstr ""
 # in this case must be "проводник"
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"посредника \"%s\" прави опит да ползва вече използван hdlist, посредника е "
+"игнориран"
+
+# Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
+# in this case must be "проводник"
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "невъзможно четенето на rpm файла [%s] от посредника \"%s\""
 
@@ -498,10 +523,23 @@ msgid ""
 "unknown options '%s'\n"
 msgstr ""
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "създай hdlist синтез файл за посредник  \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -663,7 +701,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "посредника \"%s\" вече съществува"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "инсталиране %s\n"
@@ -758,6 +796,13 @@ msgstr "  --all           - отпечатва всички тагове."
 
 #: ../urpmi:1
 #, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
@@ -787,6 +832,11 @@ msgstr ""
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -c             - почистване на хедър кеш директорията.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 # Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
 # in this case must be "проводник"
 #: ../urpm.pm:1
@@ -813,11 +863,6 @@ msgstr "няма пакет наречен %s\n"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "създай hdlist синтез файл за посредник  \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -875,6 +920,11 @@ msgstr "невъзможно да се парсне hdlist файла за \"%s\""
 msgid "due to conflicts with %s"
 msgstr ""
 
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "намерени %d хедъра в кеша"
+
 # Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
 # in this case must be "проводник"
 #: ../urpmi.addmedia:1
@@ -887,10 +937,15 @@ msgstr "невъзможно осъвременяването на посредника \"%s\"\n"
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Опит за инсталиране без проверка на зависимости? (д/Н) "
 
+# Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
+# in this case must be "проводник"
+# "list" is translated in the meaning of "list file"
 #: ../urpm.pm:1
 #, fuzzy, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "намерени %d хедъра в кеша"
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"посредника \"%s\" прави опит да ползва вече използван лист, посредника е "
+"игнориран"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -942,6 +997,17 @@ msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - отпечатва конфликтите на тага: всички конфликти "
 "(множество редове)."
+
+# Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
+# in this case must be "проводник"
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"посредника \"%s\" прави опит да ползва вече използван hdlist, посредника е "
+"игнориран"
 
 #: ../urpme:1
 #, c-format
@@ -995,6 +1061,11 @@ msgstr "невъзможен достъпа до посредника за първоначална инсталация"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr ""
 
@@ -1014,16 +1085,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "невъзможно четенето на rpm файла [%s] от посредника \"%s\""
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"някои пакети трябва да бъдат премахнати за да се ъпгрейдват, това не се "
-"поддържа все още\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -1397,6 +1458,13 @@ msgstr ""
 msgid "Nothing to remove"
 msgstr ""
 
+# Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
+# in this case must be "проводник"
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "премахване на посредника \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1408,13 +1476,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-
-# Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
-# in this case must be "проводник"
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "премахване на посредника \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1500,6 +1561,11 @@ msgstr "не е намерен hdlist файл за пасредника \"%s\""
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "инсталиране %s\n"
+
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "reading rpm files from [%s]"
@@ -1519,6 +1585,13 @@ msgstr "  --auto         - автоматично избиране на добър пакет от избора.\n"
 #, fuzzy, c-format
 msgid "Removing failed"
 msgstr "...копирането се провали"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1542,7 +1615,7 @@ msgstr "Отказ"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1552,11 +1625,6 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "ssh is missing\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
 msgstr ""
 
 # Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
@@ -1621,19 +1689,29 @@ msgstr "прочети синтез файла [%s]"
 msgid "copying hdlists file..."
 msgstr ""
 
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr ""
-"  --requires      - отпечатва изисквания на тага: всички изисквания "
-"(множество редове)."
-
 # Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
 # in this case must be "проводник"
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "не е намерен hdlist файл за пасредника \"%s\""
+
+# Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
+# in this case must be "проводник"
+# "list" is translated in the meaning of "list file"
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"посредника \"%s\" прави опит да ползва вече използван лист, посредника е "
+"игнориран"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr ""
+"  --requires      - отпечатва изисквания на тага: всички изисквания "
+"(множество редове)."
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1725,7 +1803,7 @@ msgstr "посредника \"%s\" не е избран"
 msgid "Only superuser is allowed to install packages"
 msgstr "Само superuser-а има правото да инсталира локални пакети"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1736,6 +1814,11 @@ msgstr ""
 #, fuzzy, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "невъзможно намирането на hdlist файл за \"%s\", посредника е игнориран"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1799,6 +1882,11 @@ msgstr ""
 "За да се запазят зависимостите,тези пакети ще бъдат инсталирани (%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "инсталиране %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Инсталацията провалена"
@@ -1829,14 +1917,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Моля сложете \"%s\" в устройство [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
 
 # Another meaning of the word is in the sensе "The iron is good medium for the eletricity"
 # in this case must be "проводник"
@@ -1953,6 +2033,10 @@ msgstr "опит за пренебрегване на съществуващия посредник \"%s\", отхвърлен"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+
+#, fuzzy
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "създай hdlist синтез файл за посредник  \"%s\""
 
 #~ msgid "nothing to write in list file for \"%s\""
 #~ msgstr "няма нищо за запис в лист файла за \"%s\""

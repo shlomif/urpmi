@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-03-11 19:14+0500\n"
 "Last-Translator: Dilshod Marupov <dma165@hotmail.com>\n"
 "Language-Team: Tajik\n"
@@ -200,16 +200,16 @@ msgstr "%d сарлавҳаҳо дар кэш ёфт шуданд"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "қуттиҳои зиёде бо чунин номи файли rpm \"%s\" вуҷуд доранд"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -249,11 +249,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "номи файли rpm-и нодурусти [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "тақсимкунии %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -267,6 +262,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr ""
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Коргузорӣ нагузашт"
 
 #: ../urpm.pm:1
 #, c-format
@@ -331,6 +331,11 @@ msgid ""
 msgstr ""
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr "интихоби %s бо роҳи интихоб дар файлҳо"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "no package named %s"
 msgstr "қуттии бо номи %s нест"
@@ -390,6 +395,16 @@ msgstr "қуттии номаълум"
 msgid "Installation is possible"
 msgstr "Коргузорӣ мумкин аст"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Қуттиҳои зерин бояд хориҷ карда шаванд ки дигаронаш нав карда шаванд:\n"
+"%s\n"
+"Шумо розӣ ҳастед?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -440,6 +455,15 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"миёнаи \"%s\" кӯшиши истифодаи hdlist-и аллакай истифодашуда дорад, миёна "
+"рад шуд"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "нусхабардории сарчашмаи hdlist (ё synthesis)-и \"%s\"..."
 
@@ -460,10 +484,23 @@ msgid ""
 "unknown options '%s'\n"
 msgstr ""
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "муаммои хондани файли synthesis-и муҳити \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -618,7 +655,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "муҳити \"%s\" аллакай вуҷуд дорад"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "коргузории %s\n"
@@ -710,6 +747,13 @@ msgstr "  --list-media   - рӯйхаткунии муҳити дастрас.\n
 
 #: ../urpmi:1
 #, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
@@ -739,6 +783,11 @@ msgstr ""
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - дарбаргирии рамзи perl бевосита ҳамчун perl -e.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -763,11 +812,6 @@ msgstr "қуттии бо номи %s нест"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "муаммои хониши файли hdlist барои миёнаи \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -824,6 +868,11 @@ msgstr "таҷзияи файли hdlist - и \"%s\" номумкин"
 msgid "due to conflicts with %s"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "хориҷи сарлавҳаҳои кӯҳнашудаи %d дар кэш"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -835,9 +884,11 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Коргузориро бе тафтиши тобеиятҳо кӯшиш кунем? (Ҳ/Н) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "хориҷи сарлавҳаҳои кӯҳнашудаи %d дар кэш"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"миёнаи \"%s\" кӯшиши истифодаи рӯйхати аллакай истифодашуда дорад, миёна рад "
+"шуд"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -883,6 +934,15 @@ msgstr "барқароркунии файли тавсифоти \"%s\"..."
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --зиддиятҳо     - чопи зиддиятҳои тэг: ҳама зиддиятҳо (сатрҳои зиёд).\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"миёнаи \"%s\" кӯшиши истифодаи hdlist-и аллакай истифодашуда дорад, миёна "
+"рад шуд"
 
 #: ../urpme:1
 #, c-format
@@ -948,6 +1008,11 @@ msgstr "дохилшавӣ ба миёнаи коргузориши аввала
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "хатогии ба қайдгирии қуттиҳои маҳаллӣ"
 
@@ -965,17 +1030,6 @@ msgstr ""
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "hdlist (ё synthesis)-и таҳқиқшуда ёфт шуд ҳамчун %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Қуттиҳои зерин бояд хориҷ карда шаванд ки дигаронаш нав карда шаванд:\n"
-"%s\n"
-"Шумо розӣ ҳастед?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1341,6 +1395,11 @@ msgstr "санҷидани дастгузори параллел дар файл
 msgid "Nothing to remove"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "хониши сарлавҳаҳо аз миёнаи \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1352,11 +1411,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "хониши сарлавҳаҳо аз миёнаи \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1439,6 +1493,11 @@ msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 "  -s             - қуттии оянда қуттии сарчашмавӣ аст (ҳамчун --src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "коргузории %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1458,6 +1517,13 @@ msgstr ""
 #, c-format
 msgid "Removing failed"
 msgstr "Хориҷкунӣ нагузашт"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1479,7 +1545,7 @@ msgstr "Бекор кардан"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1489,11 +1555,6 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "ssh is missing\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
 msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
@@ -1550,15 +1611,22 @@ msgstr "санҷидани файли hdlist [%s]"
 msgid "copying hdlists file..."
 msgstr "нусхабардории файли hdlists..."
 
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr " --файлҳо        - чопи файлҳои тэг: ҳама файлҳо (сатрҳои зиёд).\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "навиштани файли рӯйхат барои миёнаи \"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"миёнаи \"%s\" кӯшиши истифодаи рӯйхати аллакай истифодашуда дорад, миёна рад "
+"шуд"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr " --файлҳо        - чопи файлҳои тэг: ҳама файлҳо (сатрҳои зиёд).\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1648,7 +1716,7 @@ msgstr "муҳити \"%s\" интихоб нашудааст"
 msgid "Only superuser is allowed to install packages"
 msgstr "Танҳо фавқулкорванд барои коргузоштани қуттиҳо рухсат дорад"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1657,6 +1725,11 @@ msgstr ""
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "ёфтани файли hdlist барои \"%s\" номумкин, муҳит рад шуд"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1713,6 +1786,11 @@ msgstr ""
 "Барои қаноатмандии тобеиятҳо, қуттиҳои зерин хориҷ карда мешаванд (%d МБ)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "тақсимкунии %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Коргузорӣ нагузашт"
@@ -1743,14 +1821,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Лутфан муҳити бо номи \"%s\" ба дастгоҳи [%s] дароред"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1862,6 +1932,9 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "муаммои хониши файли hdlist барои миёнаи \"%s\""
+
 #~ msgid "nothing to write in list file for \"%s\""
 #~ msgstr "дар файли рӯйхат барои \"%s\" чизе ба навиштан нест"
 
@@ -1928,9 +2001,6 @@ msgstr ""
 
 #~ msgid "selecting %s using obsoletes"
 #~ msgstr "интихоби %s бо истифодаи кӯҳнашудаҳо"
-
-#~ msgid "selecting %s by selection on files"
-#~ msgstr "интихоби %s бо роҳи интихоб дар файлҳо"
 
 #~ msgid "Is it ok?"
 #~ msgstr "Ин дуруст аст?"

@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2002-09-05 20:23+0200\n"
 "Last-Translator: Softcatalà <traddrake@softcatala.org>\n"
 "Language-Team: Catalan <info@softcatala.org>\n"
@@ -211,6 +211,11 @@ msgstr "s'han trobat %d capçaleres a la memòria cau"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "hi ha múltiples paquets amb el mateix fitxer rpm \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "fent segona passada per a computar dependències\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -220,11 +225,6 @@ msgstr ""
 "  --proxy-user   - especifica l'usuari i la contrasenya per a utilitzar la "
 "autenticació\n"
 "                   del proxy (el format és <usuari:contrasenya>).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "fent segona passada per a computar dependències\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -264,11 +264,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "el nom del fitxer rpm és incorrecte [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "s'està distribuint %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -282,6 +277,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr ""
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "La instal·lació ha fallat"
 
 #: ../urpm.pm:1
 #, c-format
@@ -351,6 +351,11 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "no package named %s"
 msgstr "no hi cap paquet anomenat %s"
 
@@ -412,6 +417,16 @@ msgstr "paquet desconegut "
 msgid "Installation is possible"
 msgstr "La instal·lació és possible"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Els paquets següents s'han d'eliminar per poder actualitzar uns altres:\n"
+"%s\n"
+"Hi esteu d'acord ?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -462,6 +477,15 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"el suport \"%s\" intenta utilitzar una hdlist ja utilitzada; s'ignora el "
+"suport"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "s'està copiant l'hdlist (o la síntesi) font de \"%s\"..."
 
@@ -484,10 +508,23 @@ msgstr ""
 "\n"
 "opcions desconegudes '%s'\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "no s'ha trobat rsync\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "s'ha trobat un problema llegint el fitxer de síntesi del suport \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -656,7 +693,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "el suport \"%s\" ja existeix"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "s'està instal·lant %s\n"
@@ -746,6 +783,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - llista els suports disponibles.\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Alguns paquets seleccionats no es poden instal·lar:\n"
+"%s\n"
+"Hi esteu d'acord ?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -778,6 +825,11 @@ msgstr "  --curl         - use curl per a recuperar fitxers llunyans.\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -c             - buida el directori de memòria cau de capçaleres.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -803,11 +855,6 @@ msgstr "no hi cap paquet anomenat %s"
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
 "  són necessaris els noms o els fitxers rpm indicats a la línia d'ordres.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "s'ha trobat un problema llegint el fitxer hdlist del suport \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -861,6 +908,11 @@ msgstr "no es pot analitzar el fitxer hdlist de \"%s\""
 msgid "due to conflicts with %s"
 msgstr "%s conflicteix amb %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "s'estan esborrant %d capçaleres obsoletes de la memòria cau"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -873,9 +925,11 @@ msgstr ""
 "Voleu intentar la instal·lació sense comprovar les dependències? (s/N) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "s'estan esborrant %d capçaleres obsoletes de la memòria cau"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"el suport \"%s\" intenta utilitzar una llista ja utilitzada. S'ignora el "
+"suport"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -924,6 +978,15 @@ msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - mostra l'etiqueta 'conflicts': tots els conflictes "
 "(línies múltiples)."
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"el suport \"%s\" intenta utilitzar una hdlist ja utilitzada; s'ignora el "
+"suport"
 
 #: ../urpme:1
 #, c-format
@@ -991,6 +1054,11 @@ msgstr "no s'ha pogut accedir al primer suport d'instal·lació"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "error registrant els paquets locals"
 
@@ -1008,17 +1076,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "s'està copiant l'hdlist (o la síntesi) font de \"%s\"..."
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Els paquets següents s'han d'eliminar per poder actualitzar uns altres:\n"
-"%s\n"
-"Hi esteu d'acord ?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1406,6 +1463,11 @@ msgstr "examinant manejador paral·lel en fitxer [%s]"
 msgid "Nothing to remove"
 msgstr "Res a esborrar.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "s'estan llegint les capçaleres per al suport \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1419,11 +1481,6 @@ msgid ""
 msgstr ""
 "  --bug          - sortida d'un informe d'errors en el directori\n"
 "                   que s'indica en l'argument següent.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "s'estan llegint les capçaleres per al suport \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1507,6 +1564,11 @@ msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 "  -s             - el següent paquet és paquet font (igual que --src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "s'està instal·lant %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1527,6 +1589,13 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Removing failed"
 msgstr "...la còpia ha fallat"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1549,7 +1618,7 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 "  --src          - el paquet següent és un paquet font (igual que -s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1562,11 +1631,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "falta ssh\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1624,17 +1688,24 @@ msgstr "examinant el fitxer hdlist [%s]"
 msgid "copying hdlists file..."
 msgstr "s'està copiant el fitxer hdlists..."
 
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "no s'ha trobat el fitxer hdlist per al suport \"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"el suport \"%s\" intenta utilitzar una llista ja utilitzada. S'ignora el "
+"suport"
+
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
 msgstr ""
 "  --files         - mostra l'etiqueta 'files': tots els fitxers (línies "
 "múltiples)."
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "writing list file for medium \"%s\""
-msgstr "no s'ha trobat el fitxer hdlist per al suport \"%s\""
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1724,7 +1795,7 @@ msgstr "suport \"%s\" no ha estat selleccionat"
 msgid "Only superuser is allowed to install packages"
 msgstr "El superusuari és l'únic autoritzat per a instal·lar paquets"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1733,6 +1804,11 @@ msgstr ""
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "no es pot trobar el fitxer hdlist per a \"%s\", s'ignora el suport"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1791,6 +1867,11 @@ msgstr ""
 "Per a complir les dependències, els paquets següents s'esborraran (%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "s'està distribuint %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "La instal·lació ha fallat"
@@ -1823,17 +1904,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Si us plau, inseriu el suport anomenat \"%s\" al dispositiu [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Alguns paquets seleccionats no es poden instal·lar:\n"
-"%s\n"
-"Hi esteu d'acord ?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1945,6 +2015,9 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - verifica si la instal·lació pot ser duta a terme.\n"
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "s'ha trobat un problema llegint el fitxer hdlist del suport \"%s\""
+
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s conflicteix amb %s"
 
@@ -1992,11 +2065,6 @@ msgstr "  --test         - verifica si la instal·lació pot ser duta a terme.\n"
 #~ msgid "trying to select multiple media: %s"
 #~ msgstr "s'estan intentant seleccionar suports múltiples: %s"
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "el suport \"%s\" intenta utilitzar una hdlist ja utilitzada; s'ignora el "
-#~ "suport"
-
 #~ msgid "unknown package(s) "
 #~ msgstr "paquet(s) desconegut(s)"
 
@@ -2017,11 +2085,6 @@ msgstr "  --test         - verifica si la instal·lació pot ser duta a terme.\n"
 
 #~ msgid "Press Enter when it's done..."
 #~ msgstr "Premeu Intro quan estigui fet..."
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "el suport \"%s\" intenta utilitzar una llista ja utilitzada. S'ignora el "
-#~ "suport"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - mostra també els grups amb el nom.\n"

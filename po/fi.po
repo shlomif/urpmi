@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fi - MDK Release 9.2\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-05-19 00:57+0300\n"
 "Last-Translator: Thomas Backlund <tmb@iki.fi>\n"
 "Language-Team: Finnish <cooker-i18n@linux-mandrake.com>\n"
@@ -215,6 +215,11 @@ msgstr "välimuistista löytyi %d otsikkokenttää"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "löytyy monta paketteja joissa on sama rpm tiedostonimi \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "suoritetaan toinen kierros riippuvuuksien määrittelemiseksi\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -223,11 +228,6 @@ msgid ""
 msgstr ""
 "  --proxy-user    - määrittele käyttäjä ja salasana välityspalvelimen\n"
 "                    todentamisessa (muodossa <käyttäjä:salasana>).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "suoritetaan toinen kierros riippuvuuksien määrittelemiseksi\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -267,11 +267,6 @@ msgstr "Pakettia asennetaan..."
 msgid "invalid rpm file name [%s]"
 msgstr "virheellinen rpm-tiedoston nimi [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "levitetään %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -286,6 +281,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "virheellinen välityspalvelinmääritys komentorivissä\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Asennus epäonnistui"
 
 #: ../urpm.pm:1
 #, c-format
@@ -350,6 +350,11 @@ msgstr "Mitä voidaan tehdä binääri rpm-tiedostolla kun käytetään --instal
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
 msgstr "  --auto-select   - valitse automaattisesti päivitettävät paketit.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -418,6 +423,16 @@ msgstr "tuntematon paketti"
 msgid "Installation is possible"
 msgstr "Asennus on mahdollinen"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Seuraavat paketit pitää poistaa jotta toiset voidaan päivittää:\n"
+"%s\n"
+"hyväksytkö?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -464,6 +479,14 @@ msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr "hajanainen media \"%s\" merkattu sirrettäväksi, vaikkei oikeastaan ole"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"media \"%s\" yrittää käyttää jo käytettyä hdlist-tiedostoa, media ohitettu"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "lasketaan md5sum kopioidulle lähde hdlist tai synthesis-tiedostolle"
@@ -489,10 +512,23 @@ msgstr ""
 "\n"
 "tuntemattomat valitsimet '%s'\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "rsync puuttuu\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "ongelmia luettaessa synteesitiedostoa medialle \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -658,7 +694,7 @@ msgstr "  --obsoletes     - tulosta merkintä vanhentaa: vanhentaa kaikki.\n"
 msgid "medium \"%s\" already exists"
 msgstr "media \"%s\" on jo olemassa"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "asennan %s\n"
@@ -748,6 +784,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media    - listaa käytettävissä olevat mediat.\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Joitakin haluttuja paketteja ei voida asentaa:\n"
+"%s\n"
+"hyväksytkö?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Asennetaan pakettia `%s' (%s/%s)..."
@@ -781,6 +827,11 @@ msgstr "  --curl          - käytä curl etätiedostojen hakemiseen.\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e              - sisällytä perl-koodia suoraan 'perl -e'.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -805,11 +856,6 @@ msgstr "ohitetaan paketti %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  komentorivissä syötetyt nimet tai rpm-tiedostot etsitään.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "ongelmia luettaessa hdlist tiedostoa medialle \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -865,6 +911,11 @@ msgstr "hdlist-tiedostoa \"%s\" ei voida tulkata"
 msgid "due to conflicts with %s"
 msgstr "ristiriidan takia %s kanssa"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "poistetaan %d ylimääräisiä otsikkotietoja välimuistista"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -876,9 +927,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Yritä asentaa ilman riippuvuuksia? (k/E) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "poistetaan %d ylimääräisiä otsikkotietoja välimuistista"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr "media \"%s\" yrittää käyttää jo käytössä olevaa listaa, media ohitettu"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -928,6 +979,14 @@ msgstr "haetaan \"%s\" tiedoston kuvaus"
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts     - tulosta merkintä ristiriita: kaikki ristiriidat.\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"media \"%s\" yrittää käyttää jo käytettyä hdlist-tiedostoa, media ohitettu"
 
 #: ../urpme:1
 #, c-format
@@ -994,6 +1053,11 @@ msgstr "en voi käyttää ensimmäinen asennusmediaa "
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "virhe rekisteröitäessä paikalliset paketit"
 
@@ -1011,17 +1075,6 @@ msgstr "  --limit-rate    - rajoita latausnopeus.\n"
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "löysin etsitty hdlist-tiedostoa (tai synteesi) nimellä %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Seuraavat paketit pitää poistaa jotta toiset voidaan päivittää:\n"
-"%s\n"
-"hyväksytkö?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1409,6 +1462,11 @@ msgstr "tutkitaan rinnakkaiskäsittelijän tiedostossa [%s]"
 msgid "Nothing to remove"
 msgstr "Ei mitään poistettavissa"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "luetaan otsikkotietoja mediasta  \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1423,11 +1481,6 @@ msgid ""
 msgstr ""
 "  --bug           - kirjoittaa virheraportin hakemistoon joka määritellään\n"
 "                    seuraavassa argumentissa.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "luetaan otsikkotietoja mediasta  \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1511,6 +1564,11 @@ msgstr ""
 "  -s              - seuraava paketti on lähdekoodi paketti (sama kuin --"
 "src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "asennan %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1530,6 +1588,13 @@ msgstr "  --auto          - valitse automaattisesti paketit tarvittaessa.\n"
 #, c-format
 msgid "Removing failed"
 msgstr "Poistaminen epäonnistui"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1552,7 +1617,7 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 "  --src           - seuraava paketti on lähdekoodi-paketti (sama kuin -s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1565,11 +1630,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "ssh puuttuu\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1626,15 +1686,20 @@ msgstr "tutkitaan hdlist-tiedostoa [%s]"
 msgid "copying hdlists file..."
 msgstr "kopioidaan hdlists tiedostoa ..."
 
-#: ../urpmf:1
-#, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --buildhost     - tulosta merkintä käännöskone: käännöskone.\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "kirjoitan listaus-tiedostoa medialle \"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr "media \"%s\" yrittää käyttää jo käytössä olevaa listaa, media ohitettu"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --buildhost     - tulosta merkintä käännöskone: käännöskone.\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1723,7 +1788,7 @@ msgstr "mediaa \"%s\" ei ole valittu"
 msgid "Only superuser is allowed to install packages"
 msgstr "Vain pääkäyttäjä saa asentaa paketteja"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "käytetään määrätty ympäristö kohteessa %s\n"
@@ -1732,6 +1797,11 @@ msgstr "käytetään määrätty ympäristö kohteessa %s\n"
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "kohteelle \"%s\" ei löytynyt hdlist-tiedostoa, media ohitettu"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1791,6 +1861,11 @@ msgid ""
 msgstr "Riippuvuuksien täyttämiseksi seuraavat paketit poistetaan (%d Mt)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "levitetään %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Asennus epäonnistui"
@@ -1823,17 +1898,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Aseta media nimeltään \"%s\" laitteeseen [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Joitakin haluttuja paketteja ei voida asentaa:\n"
-"%s\n"
-"hyväksytkö?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1948,6 +2012,9 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test          - varmista että asennusta voidaan hoitaa oikein.\n"
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "ongelmia luettaessa hdlist tiedostoa medialle \"%s\""
+
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s on ristiriidassa %s kanssa"
 
@@ -2002,16 +2069,8 @@ msgstr "  --test          - varmista että asennusta voidaan hoitaa oikein.\n"
 #~ msgid "examining whole urpmi database"
 #~ msgstr "tutkitaan koko urpmi-tietokanta"
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "media \"%s\" yrittää käyttää jo käytettyä hdlist-tiedostoa, media ohitettu"
-
 #~ msgid "problem reading hdlist file, trying again"
 #~ msgstr "ongelmia hdlist-tiedostoa lukiessa, uusi yritys"
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "media \"%s\" yrittää käyttää jo käytössä olevaa listaa, media ohitettu"
 
 #~ msgid "trying to select multiple medium: %s"
 #~ msgstr "yritetään valita useampi media: %s"

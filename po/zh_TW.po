@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.7\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2002-09-02 03:10+0800\n"
 "Last-Translator: Kenduest Lee <kenduest@i18n.linux.org.tw>\n"
 "Language-Team: Chinese Team <zh-l10n@linux.org.tw>\n"
@@ -198,6 +198,11 @@ msgstr "在快取空間內找到 %d 個檔頭"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "在那裡有多個相同名稱的套件“%s”"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "正在進行第二部相依性的計算\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -206,11 +211,6 @@ msgid ""
 msgstr ""
 "  --proxy-user   - 指定代理服務主機存取的使用者帳號與密碼\n"
 "                   一般格式為 <user:passwd>)。\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "正在進行第二部相依性的計算\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -248,11 +248,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "不合法的套件名稱 [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "正在發佈 %s \n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -266,6 +261,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "命令列上有不合法的 proxy 參數設定\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "安裝失敗"
 
 #: ../urpm.pm:1
 #, c-format
@@ -330,6 +330,11 @@ msgid ""
 msgstr "  --auto-select  - 自動選擇升級系統所需的套件。\n"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr "選取有關檔案時自動選定 %s 套件"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "no package named %s"
 msgstr "沒有套件具有這個名稱 %s"
@@ -389,6 +394,16 @@ msgstr "不明的套件 "
 msgid "Installation is possible"
 msgstr "無法進行安裝"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"為了可以順利升級，下列套件必須先行移除：\n"
+"%s\n"
+"您同意要繼續嗎？"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -436,6 +451,13 @@ msgstr "有問題的媒介“%s”，因為不正確地標示成可移除的媒介"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "媒介“%s”企圖使用一個已被使用的檔頭清單 (hdlist)，忽略這個媒介"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "複製“%s”的來源 hdlist (或綜合檔頭清單)..."
 
@@ -458,10 +480,23 @@ msgstr ""
 "\n"
 "不明選項“%s”\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "找不到 rsync 程式\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "讀取“%s”媒介的綜合檔頭清單發生錯誤"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -615,7 +650,7 @@ msgstr "  --obsoletes     - 顯示全部過時套件 (多行顯示)。"
 msgid "medium \"%s\" already exists"
 msgstr "媒介“%s”已存在"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "正在安裝 %s\n"
@@ -704,6 +739,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   -- 顯示可用的媒介清單項目。\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"下列為無法正確安裝上所需要的套件項目：\n"
+"%s\n"
+"您同意要繼續嗎？"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -734,6 +779,11 @@ msgstr "  --curl         - 使用 curl 擷取遠端檔案。\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -c             - 清除檔頭快取目錄。\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -758,11 +808,6 @@ msgstr "沒有套件具有這個名稱 %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  在命令列給予的名稱或 rpm 檔案都會被查詢。\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "建立為媒介“%s”的綜合檔頭清單時發生錯誤"
 
 #: ../urpmi:1
 #, c-format
@@ -815,6 +860,11 @@ msgstr "無法解析“%s”的檔頭清單(hdlist)檔案"
 msgid "due to conflicts with %s"
 msgstr "%s 套件與 %s 相衝突"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "移除 %d 個在快取區內無用的檔頭"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -826,9 +876,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "略過檢查套件的相依性檢查強制安裝？(y/N)(是/否)"
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "移除 %d 個在快取區內無用的檔頭"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr "媒介“%s”嘗試使用正在使用中的清單，忽略這個媒介"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -872,6 +922,13 @@ msgstr "接收“%s”的敘述檔案..."
 #, fuzzy, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts     - 顯示全部不相容的套件 (多行顯示)。"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr "媒介“%s”企圖使用一個已被使用的檔頭清單 (hdlist)，忽略這個媒介"
 
 #: ../urpme:1
 #, fuzzy, c-format
@@ -936,6 +993,11 @@ msgstr "無法存取第一個安裝媒介"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "登記本機套件時發生錯誤"
 
@@ -953,17 +1015,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "複製“%s”的來源 hdlist (或綜合檔頭清單)..."
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"為了可以順利升級，下列套件必須先行移除：\n"
-"%s\n"
-"您同意要繼續嗎？"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1324,6 +1375,11 @@ msgstr "檢驗 %s 檔案內的並列處理項目"
 msgid "Nothing to remove"
 msgstr "沒有東西可移除。\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "讀取媒介“%s”的檔頭資訊"
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1335,11 +1391,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "讀取媒介“%s”的檔頭資訊"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1420,6 +1471,11 @@ msgstr "無法找到媒介“%s”的檔頭清單 (hdlist)"
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr "  -s             - 下個套件是原始檔套件 (如同 --src)。\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "正在安裝 %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1439,6 +1495,13 @@ msgstr "  --auto         - 自動選擇適合的套件。\n"
 #, fuzzy, c-format
 msgid "Removing failed"
 msgstr "...複製失敗"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1460,7 +1523,7 @@ msgstr "取消"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - 下個套件是原始碼套件 (如同 -s)。\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1471,11 +1534,6 @@ msgstr "  --env          - 使用特定環境 (一般用於臭蟲回報)。\n"
 #, c-format
 msgid "ssh is missing\n"
 msgstr "找不到 ssh 程式檔案\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1532,15 +1590,20 @@ msgstr "檢驗 hdlist 檔案 [%s]"
 msgid "copying hdlists file..."
 msgstr "複製 hdlist 檔案..."
 
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --files        - 顯示全部相關檔案 (多行顯示)。"
-
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "無法找到媒介“%s”的檔頭清單 (hdlist)"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr "媒介“%s”嘗試使用正在使用中的清單，忽略這個媒介"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files        - 顯示全部相關檔案 (多行顯示)。"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1627,7 +1690,7 @@ msgstr "仍未選定媒介“%s”"
 msgid "Only superuser is allowed to install packages"
 msgstr "抱歉，只有超級使用者才允許安裝套件"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1636,6 +1699,11 @@ msgstr ""
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "無法找到“%s”的檔頭清單 (hdlist)，忽略這個媒介"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1690,6 +1758,11 @@ msgid ""
 msgstr "為了讓選取了的套件能正常執行，下列套件將被移除 (%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "正在發佈 %s \n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "安裝失敗"
@@ -1722,17 +1795,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "請將具有名稱“%s”的媒介放入到裝置 [%s] 內"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"下列為無法正確安裝上所需要的套件項目：\n"
-"%s\n"
-"您同意要繼續嗎？"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1843,6 +1905,9 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - 確認安裝是否能夠正確進行.\n"
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "建立為媒介“%s”的綜合檔頭清單時發生錯誤"
+
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s 套件與 %s 相衝突"
 
@@ -1941,9 +2006,6 @@ msgstr "  --test         - 確認安裝是否能夠正確進行.\n"
 #~ msgid "selecting %s using obsoletes"
 #~ msgstr "使用 obsoletes 項目選擇 %s 套件"
 
-#~ msgid "selecting %s by selection on files"
-#~ msgstr "選取有關檔案時自動選定 %s 套件"
-
 #~ msgid "Only superuser is allowed to install local packages"
 #~ msgstr "只有系統管理者才允許安裝本機套件"
 
@@ -1974,17 +2036,11 @@ msgstr "  --test         - 確認安裝是否能夠正確進行.\n"
 #~ msgid "trying to select multiple media: %s"
 #~ msgstr "嘗試選擇多個媒介：“%s”"
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr "媒介“%s”企圖使用一個已被使用的檔頭清單 (hdlist)，忽略這個媒介"
-
 #~ msgid "problem reading hdlist file, trying again"
 #~ msgstr "讀取 hdlist 檔案發生問題，再試一次"
 
 #~ msgid "keeping only files referenced in provides"
 #~ msgstr "只保存在“套件與函式庫清單”(provides) 內有關的檔案"
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr "媒介“%s”嘗試使用正在使用中的清單，忽略這個媒介"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - 顯示群組及套件名稱。\n"

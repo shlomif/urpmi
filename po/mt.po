@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-mt\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2002-09-05 19:42CET\n"
 "Last-Translator: Ramon Casha <ramon.casha@linux.org.mt>\n"
 "Language-Team: Maltese <mt@li.org>\n"
@@ -198,6 +198,11 @@ msgstr "instabu %d headers fil-cache"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "hemm diversi pakketti bl-istess isem ta' rpm \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "Qed ngħaddi t-tieni passata biex niddetermina dipendenzi\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -207,11 +212,6 @@ msgstr ""
 "  --proxy-user   - speċifika user u password biex tuża għall-"
 "awtentikazzjoni\n"
 "                   tal-proxy (format huwa <user:password>).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "Qed ngħaddi t-tieni passata biex niddetermina dipendenzi\n"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -249,11 +249,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "isem tal-fajl rpm [%s] invalidu"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "qed jiġi distribwit %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -267,6 +262,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "dikjarazzjoni ta' \"proxy\" ħażina fil-linja ta' kmand\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "installazzjoni falliet"
 
 #: ../urpm.pm:1
 #, c-format
@@ -334,6 +334,11 @@ msgstr ""
 "  --auto-select  - agħżel pakketti awtomatikament biex taġġorna s-sistema.\n"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr "qed nagħżel %s ibbażat fuq fajls"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "no package named %s"
 msgstr "ebda pakkett imsejjaħ %s"
@@ -395,6 +400,16 @@ msgstr "pakkett/i mhux magħrufa"
 msgid "Installation is possible"
 msgstr "Installazzjoni possibbli"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Dawn il-pakketti jridu jitneħħew qabel oħrajn jiġu aġġornati:\n"
+"%s\n"
+"Taċċetta?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -443,6 +458,13 @@ msgstr "sors \"%s\" immarkat li jista' jitneħħa, imma m'hux"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "sors \"%s\" qed jipprova juża hdlist li diġà użat, sors injorat"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "qed nikkopja l-hdlist (jew sinteżi) sors ta' \"%s\"..."
 
@@ -465,10 +487,23 @@ msgstr ""
 "\n"
 "għażla \"%s\" mhux magħrufa\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "resync ma jeżistix\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "problema fil-qari tas-sinteżi għas-sors \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -629,7 +664,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "sors \"%s\" diġà jeżisti"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "qed jiġi nstallat %s\n"
@@ -718,6 +753,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - illistja l-medji disponibbli.\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Xi pakketti mitluba ma jistgħux jiġu nstallati:\n"
+"%s\n"
+"Taċċetta?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -750,6 +795,11 @@ msgstr "  --curl         - uża curl biex iġġib fajls remoti.\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -c             - naddaf id-direttorju tal-cache tal-headers.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -776,11 +826,6 @@ msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
 "  ismijiet jew fajls rpm li jingħataw fuq il-linja tal-kmand jiġu "
 "spezzjonati.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "problema fil-qari tal-hdlist għas-sors \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -834,6 +879,11 @@ msgstr "ma nistax nifli l-fajl hdlist ta' \"%s\""
 msgid "due to conflicts with %s"
 msgstr "%s jikkonfliġġi ma' %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "qed inneħħi %d headers antiki mill-cache"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -845,9 +895,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Trid tinstalla mingħajr ma niċċekkja d-dipendenzi? (i/L) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "qed inneħħi %d headers antiki mill-cache"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr "is-sors \"%s\" jipprova juża lista diġà użata, sors injorat"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -892,6 +942,13 @@ msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts     - uri \"conflicts\": kull ma joħloq konflitt (diversi "
 "linji)"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr "sors \"%s\" qed jipprova juża hdlist li diġà użat, sors injorat"
 
 #: ../urpme:1
 #, fuzzy, c-format
@@ -957,6 +1014,11 @@ msgstr "ma nistax naċċessa l-ewwel sors ta' installazzjoni"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "problema fir-reġistrazzjoni ta' pakketti lokali"
 
@@ -974,17 +1036,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "qed nikkopja l-hdlist (jew sinteżi) sors ta' \"%s\"..."
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Dawn il-pakketti jridu jitneħħew qabel oħrajn jiġu aġġornati:\n"
-"%s\n"
-"Taċċetta?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1357,6 +1408,11 @@ msgstr "qed jiġi eżaminat \"parallel handler\" fil-fajl [%s]"
 msgid "Nothing to remove"
 msgstr "M'hemm xejn x'inneħħi.\n"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "qed naqra l-\"headers\" mis-sors \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1370,11 +1426,6 @@ msgid ""
 msgstr ""
 "  --bug          - ipproduċi rapport ta' bug fid-direttorju indikat "
 "fl-                   argument li jmiss.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "qed naqra l-\"headers\" mis-sors \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1456,6 +1507,11 @@ msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 "  -s             - il-pakkett li jmiss huwa sors (l-istess bħal --src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "qed jiġi nstallat %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1475,6 +1531,13 @@ msgstr "  --auto         - agħżel pakkett awtomatikament fl-għażla.\n"
 #, fuzzy, c-format
 msgid "Removing failed"
 msgstr "...ikkupjar falla"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1498,7 +1561,7 @@ msgstr ""
 "  --src          - il-pakkett li jmiss huwa pakkett sors (l-istess bħal -"
 "s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1510,11 +1573,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "ssh m'hux installat\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1571,15 +1629,20 @@ msgstr "qed jiġi eżaminat il-fajl hdlist [%s]"
 msgid "copying hdlists file..."
 msgstr "qed nikkopja l-fajl hdlist..."
 
-#: ../urpmf:1
-#, fuzzy, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --files         - uri \"files\": il-files kollha (diversi linji)"
-
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "ma nstabx fajl hdlists għas-sors \"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr "is-sors \"%s\" jipprova juża lista diġà użata, sors injorat"
+
+#: ../urpmf:1
+#, fuzzy, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --files         - uri \"files\": il-files kollha (diversi linji)"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1669,7 +1732,7 @@ msgstr "sors \"%s\" mhuwiex magħżul"
 msgid "Only superuser is allowed to install packages"
 msgstr "Is-\"superuser\" biss għandu l-awtorità jistalla pakketti"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1678,6 +1741,11 @@ msgstr ""
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "ma nistax insib il-fajl hdlist għal \"%s\", sors injorat"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, fuzzy, c-format
@@ -1734,6 +1802,11 @@ msgstr ""
 "Biex nissodisfa d-dipendenzi, dawn il-pakketti jridu jitneħħew ukoll (%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "qed jiġi distribwit %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "installazzjoni falliet"
@@ -1766,17 +1839,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Jekk jogħġbok daħħal id-diska mmarkata \"%s\" fl-apparat [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Xi pakketti mitluba ma jistgħux jiġu nstallati:\n"
-"%s\n"
-"Taċċetta?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1890,6 +1952,9 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - ivverifika li l-installazzjoni tista' ssir sew.\n"
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "problema fil-qari tal-hdlist għas-sors \"%s\""
+
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s jikkonfliġġi ma' %s"
 
@@ -1939,9 +2004,6 @@ msgstr "  --test         - ivverifika li l-installazzjoni tista' ssir sew.\n"
 #~ msgid "selecting %s using obsoletes"
 #~ msgstr "qed nagħżel %s ibbażat fuq \"obsoletes\""
 
-#~ msgid "selecting %s by selection on files"
-#~ msgstr "qed nagħżel %s ibbażat fuq fajls"
-
 #~ msgid "Is it ok?"
 #~ msgstr "Tajjeb?"
 
@@ -1964,14 +2026,8 @@ msgstr "  --test         - ivverifika li l-installazzjoni tista' ssir sew.\n"
 #~ msgid "trying to select multiple media: %s"
 #~ msgstr "qed nipprova naċċessa sors multiplu: %s"
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr "sors \"%s\" qed jipprova juża hdlist li diġà użat, sors injorat"
-
 #~ msgid "problem reading hdlist file, trying again"
 #~ msgstr "problema waqt il-qari tal-fajl hdlist, erġa' pprova"
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr "is-sors \"%s\" jipprova juża lista diġà użata, sors injorat"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - uri l-gruppi flimkiem ma' l-isem.\n"

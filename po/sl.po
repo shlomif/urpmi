@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-03-10 13:46+0100\n"
 "Last-Translator: Tadej Panjtar <panjtar@email.si>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -203,6 +203,11 @@ msgstr "najdenih je %d zglavij v medpomnilniku"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "tu je veè paketov z istim imenom rpm datoteke \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "izvajam drugi prehod za izraèun odvisnosti\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -211,11 +216,6 @@ msgid ""
 msgstr ""
 "  --proxy-user   - doloèi uporabnika in geslo za uporabo avtentifikacije\n"
 "                   pri posredniku (formatje <uporabnik:geslo>).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "izvajam drugi prehod za izraèun odvisnosti\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -254,11 +254,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "napaèno ime rpm datoteke [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "distributiram %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -272,6 +267,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "napaèna napoved posrednika v ukazni vrstici\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Neuspela namestitev"
 
 #: ../urpm.pm:1
 #, c-format
@@ -339,6 +339,11 @@ msgstr "  --auto-select  - avtomatsko izberi pakete za posodobitev sistema.\n"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "no package named %s"
 msgstr "ni paketa poimenovanega %s"
 
@@ -402,6 +407,16 @@ msgstr "neznan paket"
 msgid "Installation is possible"
 msgstr "Namestitev je mogoèa"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Sledeèi paketi morajo biti odstranjeni zaradi posodabljanj z novej¹imi :\n"
+"%s\n"
+"ali se strinja¹ ?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -450,6 +465,15 @@ msgstr "neurejen medij \"%s\" je oznaèen kot izmenljivi, a ne dr¾i"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"medij \"%s\" posku¹a uporabiti ¾e uporabljen seznam hdlist, medij je zato "
+"prezrt"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "kopiranje izvora (datoteke hdlist ali synthesis) od \"%s\"..."
 
@@ -472,10 +496,23 @@ msgstr ""
 "\n"
 "nepoznane opcije '%s'\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "rsync je pogra¹an (ni name¹èen na sistemu)\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "problem pri branju synthesis datoteke z medija \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -633,7 +670,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "medij \"%s\" ¾e obstaja"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "name¹èam %s\n"
@@ -723,6 +760,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - listaj medije na voljo.\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Nekateri zahtevani paketi ne morejo biti name¹èeni:\n"
+"%s\n"
+"ali se strinja¹ ?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
@@ -754,6 +801,11 @@ msgstr "  --curl         - uporabi curl za pobiranje datotek.\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - vkljuèi perl kodo direktno kot perl -e.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -778,11 +830,6 @@ msgstr "ni paketa poimenovanega %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  imena ali rpm datoteke podane preko ukazne vrstice so obdelane.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "problem pri branju hdlist datoteke medija \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -838,6 +885,11 @@ msgstr "nemogoèe je razèleniti hdlist medija \"%s\""
 msgid "due to conflicts with %s"
 msgstr "glede na konflikte z/s %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "odstranjujem %d zastarelih zglavij v medpomnilniku"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -849,9 +901,10 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Poizkusi z namestitvijo brez preverjan odvisnosti? (d/N) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "odstranjujem %d zastarelih zglavij v medpomnilniku"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"medij \"%s\" posku¹a uporabiti ¾e uporabljen seznam, medij je zato prezrt"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -901,6 +954,15 @@ msgstr "prina¹anje datoteke z opisi \"%s\"..."
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
 "  --conflicts    - izpi¹e oznako konfliktov: vse conflicts (veè vrstic).\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"medij \"%s\" posku¹a uporabiti ¾e uporabljen seznam hdlist, medij je zato "
+"prezrt"
 
 #: ../urpme:1
 #, c-format
@@ -966,6 +1028,11 @@ msgstr "nemogoèe je dostopati do prvega namestitvenega madija"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "napaka pri registraciji lokalnih paketov"
 
@@ -983,17 +1050,6 @@ msgstr "  --limit-rate   - omeji hitrost pobiranja.\n"
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "najden prevjerjen seznam (datoteke hdlist ali synthesis) kot %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Sledeèi paketi morajo biti odstranjeni zaradi posodabljanj z novej¹imi :\n"
-"%s\n"
-"ali se strinja¹ ?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1379,6 +1435,11 @@ msgstr "preverjam vzporednega upravljaèa v datoteki [%s]"
 msgid "Nothing to remove"
 msgstr "Nièesr za odstraniti"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "berem zglavja iz medija \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1392,11 +1453,6 @@ msgid ""
 msgstr ""
 "  --bug          - pripravi poroèilo o napaki v imenik prikazanem z\n"
 "                   naslednjim argumentom.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "berem zglavja iz medija \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1479,6 +1535,11 @@ msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 "  -s             - naslednji paket je izvorni paket (isto kot --src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "name¹èam %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1498,6 +1559,13 @@ msgstr "  --auto         - avtomatsko izbere paket v mo¾nostih.\n"
 #, c-format
 msgid "Removing failed"
 msgstr "Odstranjevanje je spodletelo "
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1519,7 +1587,7 @@ msgstr "Preklièi"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - naslednji paket je izvorni paket (isto kot -s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1532,11 +1600,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "ssh je pogra¹an (ni name¹èen na sistemu)\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, fuzzy, c-format
@@ -1593,16 +1656,22 @@ msgstr "preverjam hdlist datoteko [%s]"
 msgid "copying hdlists file..."
 msgstr "kopiranje hdlists datoteke..."
 
+#: ../urpm.pm:1
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "pi¹em datoteko s seznamom za medij \"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"medij \"%s\" posku¹a uporabiti ¾e uporabljen seznam, medij je zato prezrt"
+
 #: ../urpmf:1
 #, fuzzy, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
 msgstr ""
 "  --files        - izpi¹e oznako datoteke: vse datoteke (veè vrstic).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "writing list file for medium \"%s\""
-msgstr "pi¹em datoteko s seznamom za medij \"%s\""
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1692,7 +1761,7 @@ msgstr "medij \"%s\" ni oznaèen"
 msgid "Only superuser is allowed to install packages"
 msgstr "Samo superuporabniku je dovoljeno name¹èati pakete"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "uporabljam specifièno okolje pri %s\n"
@@ -1701,6 +1770,11 @@ msgstr "uporabljam specifièno okolje pri %s\n"
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "nemogoèe je najti hdlist datoteke \"%s\", medij je zato prezrt"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1757,6 +1831,11 @@ msgid ""
 msgstr "Zaradi zadovoljitve odvisnosti bodo odstranjeni sledeèi paketi (%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "distributiram %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Neuspela namestitev"
@@ -1790,17 +1869,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Prosim vstavi medij poimenovan \"%s\" v napravo [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Nekateri zahtevani paketi ne morejo biti name¹èeni:\n"
-"%s\n"
-"ali se strinja¹ ?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1915,6 +1983,9 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 "  --test         - preveri, èe je lahko namestitev pravilno dose¾ena.\n"
+
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "problem pri branju hdlist datoteke medija \"%s\""
 
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s je v konfliktu z/s %s"

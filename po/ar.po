@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-06-01 21:37-0300\n"
 "Last-Translator: Mohammed Gamal <f2c2001@yahoo.com>\n"
 "Language-Team: Arabic\n"
@@ -196,6 +196,11 @@ msgstr "found %d headers in cache"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "هناك حزم متعددة بنفس اسم ملف rpm \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "performing second pass to compute dependencies\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -204,11 +209,6 @@ msgid ""
 msgstr ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "performing second pass to compute dependencies\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -247,11 +247,6 @@ msgstr "تثبيت الحزم..."
 msgid "invalid rpm file name [%s]"
 msgstr "اسم ملف rpm yير موجود [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "جاري توزيع %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -265,6 +260,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "bad proxy declaration on command line\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "فشل التثبيت"
 
 #: ../urpm.pm:1
 #, c-format
@@ -328,6 +328,11 @@ msgstr "ماذا يمكن فعله مع ملف rpm تنفيذي عند استخ�
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
 msgstr "  --auto-select  - اختر الحزم آليا لترقية النظام.\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr "selecting %s by selection on files"
 
 #: ../urpm.pm:1
 #, c-format
@@ -394,6 +399,16 @@ msgstr "حزمة غير معروفة "
 msgid "Installation is possible"
 msgstr "التثبيت ممكن"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"الحزم التالية يجب أن تحذف لكي تتم ترقيت المتبقي:\n"
+"%s\n"
+"هل أنت موافق ؟"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -440,6 +455,13 @@ msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr "incoherent medium \"%s\" marked removable but not really"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "الوسيط \"%s\" يحاول اسنخدام ملف hdlist مستخدم مسبقا, تم تجاهل الوسيط"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "computing md5sum of copied source hdlist (or synthesis)"
@@ -463,10 +485,23 @@ msgstr ""
 "\n"
 "خيارات غير معروفة '%s'\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "rsync غير موجود\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "مشكلة في قراءة ملف التخليق للوسيط \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -623,7 +658,7 @@ msgstr "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
 msgid "medium \"%s\" already exists"
 msgstr "الوسيط \"%s\" موجود مسبقا"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "جاري تثبيت %s\n"
@@ -712,6 +747,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - list available media.\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"لا يمكن تثبيت بعض الحزم المطلوبة:\n"
+"%s\n"
+"هل أنت موافق ؟"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "جاري تثبيت الحزمة `%s' (%s/%s)..."
@@ -743,6 +788,11 @@ msgstr "  --curl         - use curl to retrieve distant files.\n"
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - include perl code directly as perl -e.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -767,11 +817,6 @@ msgstr "جاري تخطي الحزمة %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  الأسماء أو ملفات rpm المعطاة على سطر الأوامر يتم الاستعلام عنها.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "مشكلة في قراءة  ملف hdlist للوسيط \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -824,6 +869,11 @@ msgstr "لم يمكن تحليل ملف hdlist لـ \"%s\""
 msgid "due to conflicts with %s"
 msgstr "بسبب التعارض مع %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "removing %d obsolete headers in cache"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -835,9 +885,9 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "محاولة التثبيت دون التأكد من الاعتمادات؟ (y[نعم]/N[لا])"
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "removing %d obsolete headers in cache"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr "الوسيط \"%s\" يحاول استخدام قائمة مستخدمة مسبقا, تم تجاهل الوسيط"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -882,6 +932,13 @@ msgstr "جاري استرجاع الوصف الملف \"%s\"..."
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts    - print tag conflicts: all conflicts.\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr "الوسيط \"%s\" يحاول اسنخدام ملف hdlist مستخدم مسبقا, تم تجاهل الوسيط"
 
 #: ../urpme:1
 #, c-format
@@ -946,6 +1003,11 @@ msgstr "لم يمكن الوصول الى أول وسيط تخزين"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "خطأ في تسجيل الحزم المحلية"
 
@@ -964,17 +1026,6 @@ msgstr "  --limit-rate   - limit the download speed.\n"
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "تم ايجاد hdlist (أو ملف تخليق) كـ %s..."
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"الحزم التالية يجب أن تحذف لكي تتم ترقيت المتبقي:\n"
-"%s\n"
-"هل أنت موافق ؟"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1355,6 +1406,11 @@ msgstr "جاري اختبار المتعامل المتوازي في الملف 
 msgid "Nothing to remove"
 msgstr "لا شئ للإزالة"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "جاري قراءة الترويسة من الوسيط \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1368,11 +1424,6 @@ msgid ""
 msgstr ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "جاري قراءة الترويسة من الوسيط \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1453,6 +1504,11 @@ msgstr "لم يمكن ايجاد ملف hdlist للوسيط \"%s\""
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr "  -s              - الحزمة التالية هي حزمة مصدرية (مثل --src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "جاري تثبيت %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1472,6 +1528,13 @@ msgstr "  --auto         - قم باختيار حزمة آلياَ في الاخ
 #, c-format
 msgid "Removing failed"
 msgstr "فشلت عملية الإزالة"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1493,7 +1556,7 @@ msgstr "الغاء"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "   --src          - next package is a source package (same as -s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1506,11 +1569,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "ssh غير موجود\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1569,15 +1627,20 @@ msgstr "جاري اختبار ملف hdlist [%s]"
 msgid "copying hdlists file..."
 msgstr "جاري نسخ ملف hdlist..."
 
-#: ../urpmf:1
-#, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --buildhost    - print tag buildhost: build host.\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "جاري كتابة ملف القوائم للوسيط \"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr "الوسيط \"%s\" يحاول استخدام قائمة مستخدمة مسبقا, تم تجاهل الوسيط"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --buildhost    - print tag buildhost: build host.\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1666,7 +1729,7 @@ msgstr "الوسيط \"%s\" غير مختار"
 msgid "Only superuser is allowed to install packages"
 msgstr "المستخدم الجذر فقط مسموح له بتثبيت الحزم"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "جاري استخدام بيئة محددة على %s\n"
@@ -1675,6 +1738,11 @@ msgstr "جاري استخدام بيئة محددة على %s\n"
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "لم يمكن ايجاد ملف hdlist لـ \"%s\", تم تجاهل الوسيط"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #
 #: ../urpmf:1
@@ -1731,6 +1799,11 @@ msgid ""
 msgstr "لإرضاء الاعتمادات, ستتم ازالة الحزم التالية (%d ميغابايت)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "جاري توزيع %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "فشل التثبيت"
@@ -1763,17 +1836,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "يرجى ادخال الوسيط \"%s\" في الجهاز [%s]"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"لا يمكن تثبيت بعض الحزم المطلوبة:\n"
-"%s\n"
-"هل أنت موافق ؟"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1890,6 +1952,9 @@ msgid ""
 msgstr ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "مشكلة في قراءة  ملف hdlist للوسيط \"%s\""
+
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s يتعارض مع %s"
 
@@ -1942,9 +2007,6 @@ msgstr ""
 #~ msgid "selecting %s using obsoletes"
 #~ msgstr "selecting %s using obsoletes"
 
-#~ msgid "selecting %s by selection on files"
-#~ msgstr "selecting %s by selection on files"
-
 #~ msgid "Only superuser is allowed to install local packages"
 #~ msgstr "المستخدم الجذر فقط هو المسموح له بتثبيت الحزم المحلية"
 
@@ -1981,15 +2043,8 @@ msgstr ""
 #~ msgid "trying to select multiple media: %s"
 #~ msgstr "جاري محاولة اختيار الوسيط المتعدد: %s"
 
-#~ msgid "medium \"%s\" tries to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "الوسيط \"%s\" يحاول اسنخدام ملف hdlist مستخدم مسبقا, تم تجاهل الوسيط"
-
 #~ msgid "problem reading hdlist file, trying again"
 #~ msgstr "مشكلة في قراءة ملف hdlist, جاري اعادة المحاولة"
-
-#~ msgid "medium \"%s\" tries to use an already used list, medium ignored"
-#~ msgstr "الوسيط \"%s\" يحاول استخدام قائمة مستخدمة مسبقا, تم تجاهل الوسيط"
 
 #~ msgid "  -g             - print groups too with name.\n"
 #~ msgstr "  -g             - تطبع المجموعات أيضا مع الأسماء.\n"

@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 1999-12-19 14:43+0100\n"
 "Last-Translator: utuhiro <utuhiro@mx12.freecom.ne.jp>\n"
 "Language-Team: Japanese\n"
@@ -191,16 +191,16 @@ msgstr "%d のヘッダをキャッシュから検出"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "%s という名のRPMファイルは複数あります"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -239,11 +239,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "[%s]は無効なRPMファイル名です"
 
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "distributing %s\n"
-msgstr "%s をインストール中…\n"
-
 #: ../urpmi.addmedia:1
 #, fuzzy, c-format
 msgid ""
@@ -257,6 +252,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr ""
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "インストールに失敗しました"
 
 #: ../urpm.pm:1
 #, c-format
@@ -323,6 +323,11 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "no package named %s"
 msgstr "%s というパッケージはありません"
 
@@ -385,6 +390,15 @@ msgstr "不明なパッケージ"
 msgid "Installation is possible"
 msgstr "インストールに失敗しました"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"アップグレードのためにはいくつかのパッケージを削除する\n"
+"必要があります(これは未実装です)\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -433,6 +447,15 @@ msgstr "メディア %s はリムーバブルだと判断しましたが、不確実です"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"メディア %s はすでに使われたhdlistを使おうとしています。このメディアを無視し"
+"ます"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "%s のhdlist(またはsynthesis)をコピー中.."
 
@@ -453,10 +476,23 @@ msgid ""
 "unknown options '%s'\n"
 msgstr "未知のオプション(%s)が指定されています\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "rsyncがありません\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "メディア %s のsynthesisファイルを読み込み中に問題が発生"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -609,7 +645,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr "メディア %s は既に存在しています"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "%s をインストール中..\n"
@@ -704,6 +740,13 @@ msgstr ""
 
 #: ../urpmi:1
 #, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
@@ -733,6 +776,11 @@ msgstr ""
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr ""
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -757,11 +805,6 @@ msgstr "%s というパッケージはありません"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "アップデートを「%s」について行なうことができませんでした\n"
 
 #: ../urpmi:1
 #, c-format
@@ -816,6 +859,11 @@ msgstr "アップデートを「%s」について行なうことができませんでした\n"
 msgid "due to conflicts with %s"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr ""
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -828,9 +876,11 @@ msgstr ""
 "依存関係を確認せずにインストールを試みますか？ (はい(y)/いいえ(N)) [いいえ] "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
 msgstr ""
+"メディア %s はすでに使われたリストを使おうとしています。このメディアを無視し"
+"ます"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -873,6 +923,15 @@ msgstr "「%s」を作成することができませんでした\n"
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"メディア %s はすでに使われたhdlistを使おうとしています。このメディアを無視し"
+"ます"
 
 #: ../urpme:1
 #, c-format
@@ -929,6 +988,11 @@ msgstr "最初のインストール用メディアにアクセスできません"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "ローカルパッケージを登録中にエラーが発生"
 
@@ -946,16 +1010,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "「%s」を作成することができませんでした\n"
-
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"アップグレードのためにはいくつかのパッケージを削除する\n"
-"必要があります(これは未実装です)\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1320,6 +1374,11 @@ msgstr "「%s」を作成することができませんでした\n"
 msgid "Nothing to remove"
 msgstr "削除するものはありません"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "メディア %s のヘッダを読み込み"
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1331,11 +1390,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "メディア %s のヘッダを読み込み"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1418,6 +1472,11 @@ msgstr "メディア %s にはhdlistファイルがありません"
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "%s をインストール中..\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1437,6 +1496,13 @@ msgstr ""
 #, c-format
 msgid "Removing failed"
 msgstr "削除失敗"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1458,7 +1524,7 @@ msgstr "キャンセル"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1469,11 +1535,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "sshがありません\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1528,15 +1589,22 @@ msgstr "hdlistファイル[%s]を調査"
 msgid "copying hdlists file..."
 msgstr "hdlistファイルをコピー中.."
 
-#: ../urpmf:1
-#, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr ""
-
 #: ../urpm.pm:1
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "メディア %s のリストファイルを作成"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"メディア %s はすでに使われたリストを使おうとしています。このメディアを無視し"
+"ます"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr ""
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1619,7 +1687,7 @@ msgid "Only superuser is allowed to install packages"
 msgstr ""
 "ローカルパッケージのインストールはスーパーユーザーでなくてはできません。"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1628,6 +1696,11 @@ msgstr ""
 #, fuzzy, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "アップデートを「%s」について行なうことができませんでした\n"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1682,6 +1755,11 @@ msgid ""
 msgstr "依存関係を満たすために以下のパッケージは削除されます(%d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "%s をインストール中…\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "インストールに失敗しました"
@@ -1712,14 +1790,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "メディア(%s)を %s に挿入して下さい。"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1830,6 +1900,10 @@ msgstr "「%s」を作成することができませんでした\n"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+
+#, fuzzy
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "アップデートを「%s」について行なうことができませんでした\n"
 
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s は %s と競合しています"

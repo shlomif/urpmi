@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-uk2\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2003-05-21 22:57+0300\n"
 "Last-Translator: Taras Boychuk <btr1@torba.com>\n"
 "Language-Team: ukrainian <uk@li.org>\n"
@@ -210,6 +210,11 @@ msgstr "знайдено %d заголовк╕в у кеш╕"
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "╕сну╓ дек╕лька пакунк╕в з однаковою назвою rpm-файла \"%s\""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "зд╕йсню╓ться другий прох╕д обрахунку залежностей\n"
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -218,11 +223,6 @@ msgid ""
 msgstr ""
 "  --proxy-user    - задати користувача ╕ пароль, щоб використовувати\n"
 "для ╕дентиф╕кац╕╖ через прокс╕ (формат - <user:password>).\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
-msgstr "зд╕йсню╓ться другий прох╕д обрахунку залежностей\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -262,11 +262,6 @@ msgstr "Встановлю╓ться пакунок..."
 msgid "invalid rpm file name [%s]"
 msgstr "неправильна назва rpm-файла [%s]"
 
-#: ../urpmi:1
-#, c-format
-msgid "distributing %s\n"
-msgstr "встановлю╓ться %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -280,6 +275,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr "нев╕рне оголошення прокс╕ в командному рядку\n"
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "Встановлення неусп╕шне"
 
 #: ../urpm.pm:1
 #, c-format
@@ -349,6 +349,11 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "no package named %s"
 msgstr "нема╓ пакунку з назвою %s"
 
@@ -412,6 +417,16 @@ msgstr "нев╕домий пакунок"
 msgid "Installation is possible"
 msgstr "Встановлення можливе"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr ""
+"Наступн╕ пакунки будути вилучен╕ для того, щоб поновити ╕нш╕:\n"
+"%s\n"
+"Ви погоджу╓теся ?"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -459,6 +474,15 @@ msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr "нев╕домого нос╕я \"%s\" позначено як зм╕нного, але в╕н не ╓ таким"
 
 #: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"нос╕й \"%s\" намага╓ться використати hdlist, що вже використову╓ться, нос╕я "
+"про╕гноровано"
+
+#: ../urpm.pm:1
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr ""
@@ -484,10 +508,23 @@ msgstr ""
 "\n"
 "нев╕дом╕ параметри '%s'\n"
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr "нема╓ rsync\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "проблема читання файла synthesis для нос╕я \"%s\""
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -650,7 +687,7 @@ msgstr "  --obsoletes    - виводити параметр obsoletes: вс╕ застар╕л╕ файли.\n"
 msgid "medium \"%s\" already exists"
 msgstr "нос╕й \"%s\" вже ╕сну╓"
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "встановлю╓ться %s\n"
@@ -741,6 +778,16 @@ msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media - вивести список доступних нос╕╖в.\n"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+"Деяк╕ пакунки не встановлено:\n"
+"%s\n"
+"Ви погоджу╓теся ?"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Встановлю╓ться пакунок `%s' (%s/%s)..."
@@ -776,6 +823,11 @@ msgstr ""
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - включати код perl безпосередньо як perl -e.\n"
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -800,11 +852,6 @@ msgstr "пропуска╓ться пакунок %s"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  назви або rpm-файли, задан╕ в командному рядку, необх╕дн╕.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "проблема читання файлу hdlist з нос╕я \"%s\""
 
 #: ../urpmi:1
 #, c-format
@@ -860,6 +907,11 @@ msgstr "неможливо проанал╕зувати файл hdlist для \"%s\""
 msgid "due to conflicts with %s"
 msgstr "через конфл╕кти з %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "видаляються %d застар╕л╕ заголовки у кеш╕"
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -871,9 +923,11 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Спробувати ╕нсталяц╕ю без перев╕рки залежностей? (y/N) (т/Н) "
 
 #: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "видаляються %d застар╕л╕ заголовки у кеш╕"
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" is not local, medium ignored"
+msgstr ""
+"нос╕й \"%s\" намага╓ться використати список, що вже використову╓ться, нос╕я "
+"про╕гноровано"
 
 #: ../urpm.pm:1 ../urpmi:1
 #, c-format
@@ -920,6 +974,15 @@ msgstr "в╕дновлю╓ться файл опису для \"%s\"..."
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
 msgstr "  --conflicts    - виводити параметр conflicts: вс╕ конфл╕кти.\n"
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
+msgstr ""
+"нос╕й \"%s\" намага╓ться використати hdlist, що вже використову╓ться, нос╕я "
+"про╕гноровано"
 
 #: ../urpme:1
 #, c-format
@@ -983,6 +1046,11 @@ msgstr "нема╓ доступу до першого нос╕я встановлення"
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr "помилка ре╓страц╕╖ пакунк╕в"
 
@@ -1000,17 +1068,6 @@ msgstr "  --limit-rate    - обмежити швидк╕сть завантаження.\n"
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "знайдено випробуваний hdlist (або synthesis) як %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Наступн╕ пакунки будути вилучен╕ для того, щоб поновити ╕нш╕:\n"
-"%s\n"
-"Ви погоджу╓теся ?"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1401,6 +1458,11 @@ msgstr "перев╕ря╓ться паралельний обробник у файл╕ [%s]"
 msgid "Nothing to remove"
 msgstr "Н╕чого вилучати"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "читаються заголовки з нос╕я \"%s\""
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1414,11 +1476,6 @@ msgid ""
 msgstr ""
 "  --bug          - вивести зв╕т про помилку в теку, вказану наступним "
 "аргументом.\n"
-
-#: ../urpm.pm:1
-#, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "читаються заголовки з нос╕я \"%s\""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1501,6 +1558,11 @@ msgstr ""
 "  -s             - наступний пакунок ╓ пакунком з джерельними текстами (те "
 "саме, що --src).\n"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "встановлю╓ться %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "reading rpm files from [%s]"
@@ -1520,6 +1582,13 @@ msgstr "  --auto         - автоматично вибирати пакунок ╕з запропонованих.\n"
 #, c-format
 msgid "Removing failed"
 msgstr "Видалення невдале"
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
+msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1543,7 +1612,7 @@ msgstr ""
 "  --src          - наступний пакунок - це пакунок з вих╕дними текстами (так "
 "само, як -s).\n"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1556,11 +1625,6 @@ msgstr ""
 #, c-format
 msgid "ssh is missing\n"
 msgstr "нема╓ ssh\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
-msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1619,15 +1683,22 @@ msgstr "перев╕ря╓ться файл hdlist [%s]"
 msgid "copying hdlists file..."
 msgstr "коп╕ю╓ться файл hdlists..."
 
-#: ../urpmf:1
-#, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --buildhost    - виводити параметр buildhost: основний host.\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "запису╓ться файл списку для нос╕я \"%s\""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"нос╕й \"%s\" намага╓ться використати список, що вже використову╓ться, нос╕я "
+"про╕гноровано"
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr "  --buildhost    - виводити параметр buildhost: основний host.\n"
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1717,7 +1788,7 @@ msgstr "нос╕я \"%s\" не вибрано"
 msgid "Only superuser is allowed to install packages"
 msgstr "Т╕льки користувачу root дозволя╓ться встановлювати пакунки"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "використову╓ться особливе оточення на %s\n"
@@ -1726,6 +1797,11 @@ msgstr "використову╓ться особливе оточення на %s\n"
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
 msgstr "неможливо знайти файл hdlist для \"%s\", нос╕я про╕гноровано"
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
+msgstr ""
 
 #: ../urpmf:1
 #, c-format
@@ -1783,6 +1859,11 @@ msgid ""
 msgstr "Щоб задовольнити залежност╕, наступн╕ пакунки буде вилучено (%d МБ)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "встановлю╓ться %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "Встановлення неусп╕шне"
@@ -1816,17 +1897,6 @@ msgstr ""
 #, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Вставте, будь-ласка, нос╕я %s у пристр╕й %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
-"Деяк╕ пакунки не встановлено:\n"
-"%s\n"
-"Ви погоджу╓теся ?"
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1940,6 +2010,9 @@ msgstr "спроба об╕йти ╕снуючого нос╕я \"%s\", обх╕д"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - перев╕рити, чи дане встановлення можливе.\n"
+
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "проблема читання файлу hdlist з нос╕я \"%s\""
 
 #~ msgid "%s conflicts with %s"
 #~ msgstr "%s конфл╕кту╓ з %s"

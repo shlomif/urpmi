@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-06-17 22:08+0200\n"
+"POT-Creation-Date: 2003-06-21 15:36+0200\n"
 "PO-Revision-Date: 2000-05-09 23:50+0200\n"
 "Last-Translator: Jesús Bravo Álvarez <jba@pobox.com>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
@@ -190,16 +190,16 @@ msgstr ""
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
-msgstr ""
-
-#: ../urpm.pm:1
-#, c-format
-msgid "performing second pass to compute dependencies\n"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -238,11 +238,6 @@ msgstr ""
 msgid "invalid rpm file name [%s]"
 msgstr "Só se lle permite ó superusuario instalar paquetes locais"
 
-#: ../urpmi:1
-#, fuzzy, c-format
-msgid "distributing %s\n"
-msgstr "instalando %s\n"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid ""
@@ -254,6 +249,11 @@ msgstr ""
 #, c-format
 msgid "bad proxy declaration on command line\n"
 msgstr ""
+
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "%d installation transactions failed"
+msgstr "A instalación fallou"
 
 #: ../urpm.pm:1
 #, c-format
@@ -316,6 +316,11 @@ msgid ""
 msgstr ""
 
 #: ../urpm.pm:1
+#, c-format
+msgid "trying to promote %s by selection of %s"
+msgstr ""
+
+#: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "no package named %s"
 msgstr "non hai ningún paquete co nome %s\n"
@@ -370,6 +375,13 @@ msgstr "non hai ningún paquete co nome %s\n"
 msgid "Installation is possible"
 msgstr "A instalación fallou"
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid ""
+"The following packages have to be removed for others to be upgraded:\n"
+"%s"
+msgstr "Os seguintes paquetes conteñen %s: %s\n"
+
 #: ../urpm.pm:1
 #, c-format
 msgid "retrieve of source hdlist (or synthesis) failed"
@@ -416,6 +428,13 @@ msgid "incoherent medium \"%s\" marked removable but not really"
 msgstr ""
 
 #: ../urpm.pm:1
+#, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+
+#: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "Só se lle permite ó superusuario instalar paquetes locais"
@@ -437,10 +456,23 @@ msgid ""
 "unknown options '%s'\n"
 msgstr ""
 
+#: ../urpmi:1
+#, c-format
+msgid ""
+"  --split-level  - split in small transaction if more than given packages\n"
+"                   are going to be installed or upgraded,\n"
+"                   default is %d.\n"
+msgstr ""
+
 #: ../urpm.pm:1
 #, c-format
 msgid "rsync is missing\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "Só se lle permite ó superusuario instalar paquetes locais"
 
 #: ../urpmi:1 ../urpmi.addmedia:1 ../urpmi.update:1 ../urpmq:1
 #, c-format
@@ -592,7 +624,7 @@ msgstr ""
 msgid "medium \"%s\" already exists"
 msgstr ""
 
-#: ../_irpm:1 ../urpmi:1
+#: ../_irpm:1
 #, c-format
 msgid "installing %s\n"
 msgstr "instalando %s\n"
@@ -678,6 +710,13 @@ msgstr ""
 
 #: ../urpmi:1
 #, c-format
+msgid ""
+"Some package requested cannot be installed:\n"
+"%s"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
@@ -707,6 +746,11 @@ msgstr ""
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr ""
 
+#: ../urpmi:1
+#, c-format
+msgid "do you agree ?"
+msgstr ""
+
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "incoherent list file for \"%s\", medium ignored"
@@ -731,11 +775,6 @@ msgstr "non hai ningún paquete co nome %s\n"
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "problem reading hdlist file of medium \"%s\""
-msgstr "Só se lle permite ó superusuario instalar paquetes locais"
 
 #: ../urpmi:1
 #, c-format
@@ -783,6 +822,11 @@ msgstr "Só se lle permite ó superusuario instalar paquetes locais"
 msgid "due to conflicts with %s"
 msgstr ""
 
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr ""
+
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -795,7 +839,7 @@ msgstr "¿Probar a instalación sen comprobar as dependencias? (s/N) "
 
 #: ../urpm.pm:1
 #, c-format
-msgid "removing %d obsolete headers in cache"
+msgid "virtual medium \"%s\" is not local, medium ignored"
 msgstr ""
 
 #: ../urpm.pm:1 ../urpmi:1
@@ -838,6 +882,13 @@ msgstr "Só se lle permite ó superusuario instalar paquetes locais"
 #: ../urpmf:1
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid ""
+"virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
+"ignored"
 msgstr ""
 
 #: ../urpme:1
@@ -888,6 +939,11 @@ msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
+msgid "virtual medium need to be local"
+msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
 msgid "error registering local packages"
 msgstr ""
 
@@ -905,14 +961,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "Só se lle permite ó superusuario instalar paquetes locais"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"The following packages have to be removed for others to be upgraded:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
 
 #: ../urpm.pm:1
 #, c-format
@@ -1266,6 +1314,11 @@ msgstr ""
 msgid "Nothing to remove"
 msgstr ""
 
+#: ../urpm.pm:1
+#, fuzzy, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "Só se lle permite ó superusuario instalar paquetes locais"
+
 #: ../urpmq:1
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
@@ -1277,11 +1330,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-
-#: ../urpm.pm:1
-#, fuzzy, c-format
-msgid "reading headers from medium \"%s\""
-msgstr "Só se lle permite ó superusuario instalar paquetes locais"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1360,6 +1408,11 @@ msgstr "Só se lle permite ó superusuario instalar paquetes locais"
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 
+#: ../urpmi:1
+#, fuzzy, c-format
+msgid "installing %s"
+msgstr "instalando %s\n"
+
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "reading rpm files from [%s]"
@@ -1378,6 +1431,13 @@ msgstr ""
 #: ../urpme:1
 #, c-format
 msgid "Removing failed"
+msgstr ""
+
+#: ../urpmi.addmedia:1
+#, c-format
+msgid ""
+"  --virtual      - create virtual media wich are always up-to-date,\n"
+"                   only file:// protocol is allowed.\n"
 msgstr ""
 
 #: ../urpm.pm:1
@@ -1400,7 +1460,7 @@ msgstr "Cancelar"
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --env          - use specific environment (typically a bug\n"
@@ -1410,11 +1470,6 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "ssh is missing\n"
-msgstr ""
-
-#: ../urpmi:1
-#, c-format
-msgid "  --split-level  - build small transaction of minimal given length.\n"
 msgstr ""
 
 #: ../urpmf:1 ../urpmi:1 ../urpmq:1
@@ -1470,15 +1525,20 @@ msgstr ""
 msgid "copying hdlists file..."
 msgstr ""
 
-#: ../urpmf:1
-#, c-format
-msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr ""
-
 #: ../urpm.pm:1
 #, fuzzy, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "Só se lle permite ó superusuario instalar paquetes locais"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+
+#: ../urpmf:1
+#, c-format
+msgid "  --buildhost    - print tag buildhost: build host.\n"
+msgstr ""
 
 #: ../urpme:1 ../urpmi:1 ../urpmq:1
 #, c-format
@@ -1560,7 +1620,7 @@ msgstr ""
 msgid "Only superuser is allowed to install packages"
 msgstr "Só se lle permite ó superusuario instalar paquetes locais"
 
-#: ../urpmi:1
+#: ../urpmf:1 ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -1568,6 +1628,11 @@ msgstr ""
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to find hdlist file for \"%s\", medium ignored"
+msgstr ""
+
+#: ../urpmi:1
+#, c-format
+msgid "  --split-length - small transaction length, default is %d.\n"
 msgstr ""
 
 #: ../urpmf:1
@@ -1623,6 +1688,11 @@ msgstr ""
 "d MB)"
 
 #: ../urpmi:1
+#, fuzzy, c-format
+msgid "distributing %s"
+msgstr "instalando %s\n"
+
+#: ../urpmi:1
 #, c-format
 msgid "Installation failed"
 msgstr "A instalación fallou"
@@ -1653,14 +1723,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Por favor, insira o %s nomeado %s"
-
-#: ../urpmi:1
-#, c-format
-msgid ""
-"Some package requested cannot be installed:\n"
-"%s\n"
-"do you agree ?"
-msgstr ""
 
 #: ../urpmi.addmedia:1
 #, c-format
@@ -1766,6 +1828,10 @@ msgstr ""
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
+
+#, fuzzy
+#~ msgid "problem reading hdlist file of medium \"%s\""
+#~ msgstr "Só se lle permite ó superusuario instalar paquetes locais"
 
 #~ msgid "Only superuser is allowed to install local packages"
 #~ msgstr "Só se lle permite ó superusuario instalar paquetes locais"
