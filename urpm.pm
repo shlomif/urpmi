@@ -988,9 +988,9 @@ sub select_media {
 	    } elsif (@found == 0 && @foundi == 0) {
 		$urpm->{error}(_("trying to select inexistent medium \"%s\"", $_));
 	    } else { #- multiple element in found or foundi list.
-		$urpm->{log}(_("selecting multiple media: %s", join(", ", map { _("\"%s\"", $_->{name}) } (@found || @foundi))));
+		$urpm->{log}(_("selecting multiple media: %s", join(", ", map { _("\"%s\"", $_->{name}) } (@found ? @found : @foundi))));
 		#- changed behaviour to select all occurence by default.
-		foreach (@found || @foundi) {
+		foreach (@found ? @found : @foundi) {
 		    $_->{modified} = 1;
 		}
 	    }
@@ -1825,7 +1825,7 @@ sub register_rpms {
 	$urpm->{source}{$id} = $_;
     }
     $error and $urpm->{fatal}(1, _("error registering local packages"));
-    $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);
+    defined $id && $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);
 
     #- distribute local packages to distant nodes directly in cache of each machine.
     @files && $urpm->{parallel_handler} and $urpm->{parallel_handler}->parallel_register_rpms(@_);
@@ -2085,7 +2085,7 @@ sub get_source_packages {
     foreach my $medium (@{$urpm->{media} || []}) {
 	my %sources;
 
-	unless ($medium->{ignore}) {
+	if (defined $medium->{start} && defined $medium->{end} && !$medium->{ignore}) {
 	    #- always prefer a list file is available.
 	    if ($medium->{list} && -r "$urpm->{statedir}/$medium->{list}") {
 		open F, "$urpm->{statedir}/$medium->{list}";
@@ -2108,7 +2108,7 @@ sub get_source_packages {
 		    }
 		}
 		close F;
-	    } elsif (defined $medium->{url} && defined $medium->{start} && defined $medium->{end}) {
+	    } elsif (defined $medium->{url}) {
 		foreach ($medium->{start} .. $medium->{end}) {
 		    my $pkg = $urpm->{depslist}[$_];
 		    my ($filename) = $pkg->filename =~ /([^\/]*)\.rpm$/;

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 17mdk
+Release: 18mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -206,6 +206,10 @@ fi
 
 
 %changelog
+* Fri Feb 14 2003 François Pons <fpons@mandrakesoft.com> 4.2-18mdk
+- fixed bug 1473 and 1329.
+- fixed bug 1608 (titi sucks).
+
 * Wed Feb 12 2003 François Pons <fpons@mandrakesoft.com> 4.2-17mdk
 - added some perl_checker suggestions (some from titi).
 - help urpmf probe if this is a regexp or not (only ++ checked).
