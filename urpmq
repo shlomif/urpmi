@@ -380,7 +380,7 @@ if ($query->{list_aliases}) {
 	    # if not root, use a temporary directory to store headers
 	    $< != 0 and my $tmp_header_dir = chomp_(`mktemp -d /tmp/urpmq.XXXXXX`);
 	    foreach (0..$#{$urpm->{media} || []}) {
-		$urpm->{media}[$_]->{synthesis} and next;
+		$urpm->{media}[$_]{synthesis} and next;
 		if (my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_"; ! -s $file }
 				   map { my $pkg = $urpm->{depslist}[$_];
 					 $pkg && $pkg->header_filename } keys %{$list->[$_]})) {
