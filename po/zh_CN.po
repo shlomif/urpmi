@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-02-09 21:36+0100\n"
-"PO-Revision-Date: 2004-01-21 00:23+0800\n"
+"PO-Revision-Date: 2004-02-10 09:37+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: Mandrake Simplified Chinese <cooker-i18n@linux-mandrake.com>\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,7 @@ msgstr "%s 中定义了未知的协议"
 #: ../urpm.pm:151
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
-msgstr ""
+msgstr "未找到 webfetch，支持的 webfetch 是: %s\n"
 
 #: ../urpm.pm:167
 #, c-format
@@ -473,7 +473,7 @@ msgstr "正在复制“%s”的源 hdlist(或综合文件)..."
 #: ../urpm.pm:1446
 #, c-format
 msgid "copy of [%s] failed (file is suspectingly small)"
-msgstr ""
+msgstr "复制 [%s] 失败(文件太小了)"
 
 #: ../urpm.pm:1450
 #, c-format
@@ -481,9 +481,9 @@ msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "正在计算已复制源 hdlist(或综合文件)的 md5sum..."
 
 #: ../urpm.pm:1452
-#, fuzzy, c-format
+#, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
-msgstr "复制[%s]失败"
+msgstr "复制[%s]失败(md5sum 不匹配)"
 
 #: ../urpm.pm:1473 ../urpm.pm:1645 ../urpm.pm:1943
 #, c-format
@@ -1260,13 +1260,13 @@ msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - 降低下载速度。\n"
 
 #: ../urpmi:110
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --resume       - resume transfer of partially-downloaded files\n"
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"  --verify-rpm   - 安装之前验证 rpm 签署。\n"
-"                   (--no-verify-rpm 禁止它，默认是激活的)。\n"
+"  --resume       - 续传未下载完成的文件\n"
+"                   (--no-resume 禁用它，默认是禁用的)。\n"
 
 #: ../urpmi:112 ../urpmi.addmedia:57 ../urpmi.update:63 ../urpmq:66
 #, c-format
@@ -1366,7 +1366,7 @@ msgstr "  命令行给出的软件包名或 rpm 文件将会被安装。\n"
 #: ../urpmi:152
 #, c-format
 msgid "Choose location to save file"
-msgstr ""
+msgstr "选择保存文件的位置"
 
 #: ../urpmi:199 ../urpmi:206 ../urpmi.addmedia:98 ../urpmi.addmedia:105
 #: ../urpmi.update:42 ../urpmi.update:49 ../urpmq:127 ../urpmq:134
@@ -1396,21 +1396,28 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
+"您选择了源软件包:\n"
+"\n"
+"%s\n"
+"\n"
+"您可能并不想在您的计算机上安装它(安装它将允许您对其源代码进行修改然后进\n"
+"行编译)。\n\n"
+"您想要执行什么操作?"
 
 #: ../urpmi:277
 #, c-format
 msgid "Do nothing"
-msgstr ""
+msgstr "什么也不做"
 
 #: ../urpmi:278
 #, c-format
 msgid "Yes, really install it"
-msgstr ""
+msgstr "是，进行安装"
 
 #: ../urpmi:279 ../urpmi:296
 #, c-format
 msgid "Save file"
-msgstr ""
+msgstr "保存文件"
 
 #: ../urpmi:290
 #, c-format
@@ -1421,11 +1428,16 @@ msgid ""
 "\n"
 "You may prefer to just save it. What is your choice?"
 msgstr ""
+"您即将在您的计算机上安装下列软件包:\n"
+"\n"
+"%s\n"
+"\n"
+"您也可以选择只是保存相应的软件包。您要进行什么操作?"
 
 #: ../urpmi:295
-#, fuzzy, c-format
+#, c-format
 msgid "Install it"
-msgstr "安装失败"
+msgstr "安装"
 
 #: ../urpmi:302
 #, c-format
@@ -1977,5 +1989,3 @@ msgstr "urpmq: 无法读取 rpm 文件“%s”\n"
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes 仅能和 --parallel 一起使用"
 
-#~ msgid "no webfetch (curl or wget currently) found\n"
-#~ msgstr "没有发现下载工具(curl 或 wget)\n"
