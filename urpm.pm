@@ -135,9 +135,34 @@ sub unquotespace { local $_ = $_[0]; s/\\(\s)/$1/g; $_ }
 #- syncing algorithms, currently is implemented wget and curl methods,
 #- webfetch is trying to find the best (and one which will work :-)
 sub sync_webfetch {
-    -x "/usr/bin/curl" and return &sync_curl;
-    -x "/usr/bin/wget" and return &sync_wget;
-    die _("no webfetch (curl or wget currently) found\n");
+    my $options = shift @_;
+    my %files;
+    #- extract files according to protocol supported.
+    #- currently ftp and http protocol are managed by curl or wget,
+    #- ssh and rsync protocol are managed by rsync *AND* ssh.
+    foreach (@_) {
+	/^([^:]*):/ or die _("unknown protocol defined for %s", $_);
+	push @{$files{$1}}, $_;
+    }
+    if ($files{ftp} || $files{http}) {
+	if (-x "/usr/bin/curl") {
+	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []});
+	} elsif (-x "/usr/bin/wget") {
+	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []});
+	} else {
+	    die _("no webfetch (curl or wget currently) found\n");
+	}
+	delete @files{qw(ftp http)};
+    }
+    if ($files{rsync} || $files{ssh}) {
+	my @rsync_files = @{$files{rsync} || []};
+	foreach (@{$files{ssh} || []}) {
+	    /^ssh:\/\/([^\/]*)(.*)/ and push @rsync_files, "$1:$2";
+	}
+	sync_rsync($options, @rsync_files);
+	delete @files{qw(rsync ssh)};
+    }
+    %files and die _("unable to handle protocol: %s", join ', ', keys %files);
 }
 sub sync_wget {
     -x "/usr/bin/wget" or die _("wget is missing\n");
@@ -200,6 +225,14 @@ sub sync_curl {
 	system "/usr/bin/curl", (ref $options && $options->{quiet} ? ("-s") : ()), "-R", "-f", @all_files;
 	$? == 0 or die _("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
     }
+}
+sub sync_rsync {
+    -x "/usr/bin/rsync" or die _("rsync is missing\n");
+    -x "/usr/bin/ssh" or die _("ssh is missing\n");
+    my $options = shift @_;
+    system "/usr/bin/rsync", (ref $options && $options->{quiet} ? ("-q") : ("--progress", "-v")), "--partial", "-e", "ssh",
+      @_, (ref $options ? $options->{dir} : $options);
+    $? == 0 or die _("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 
 #- read /etc/urpmi/urpmi.cfg as config file, keep compability with older

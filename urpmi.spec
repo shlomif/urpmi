@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.6
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,9 @@ fi
 
 
 %changelog
+* Thu Jun 27 2002 François Pons <fpons@mandrakesoft.com> 3.6-2mdk
+- added rsync:// and ssh:// protocol to urpmi.
+
 * Thu Jun 27 2002 François Pons <fpons@mandrakesoft.com> 3.6-1mdk
 - removed no more used methods in urpm module.
 - make sure absent synthesis force synthesis regeneration.
