@@ -116,6 +116,7 @@ rm -f /var/lib/urpmi/depslist
 %changelog
 * Tue Sep 11 2001 François Pons <fpons@mandrakesoft.com> 1.7-10mdk
 - fixed error about urpmi saying package already installed.
+- fixed wrong propagation of indirect updates (-m mode only).
 
 * Mon Sep 10 2001 François Pons <fpons@mandrakesoft.com> 1.7-9mdk
 - moved depslist computation out of loop of reading.
