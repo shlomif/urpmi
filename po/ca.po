@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-03 14:02+0100\n"
-"PO-Revision-Date: 2005-02-02 20:11+0100\n"
+"PO-Revision-Date: 2005-02-06 13:06+0100\n"
 "Last-Translator: Albert Astals Cid <astals11@terra.es>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,6 +93,13 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
+"Heu seleccionat un paquet font:\n"
+"\n"
+"%s\n"
+"\n"
+"Probablement no voleu instal·lar-lo al vostre ordinador(fer-ho us permetrà canviar el codi fount i compilar-lo).\n"
+"\n"
+"Què voleu fer?"
 
 #: ../gurpmi:52
 #, c-format
@@ -347,8 +354,7 @@ msgstr "la font \"%s\" ha provat d'utilitzar un hdlist en ús, font ignorada"
 #: ../urpm.pm:201
 #, c-format
 msgid "medium \"%s\" trying to use an already used list, medium ignored"
-msgstr ""
-"la font \"%s\" ha provat d'utilitzar un fitxer list en ús, font ignorada"
+msgstr "la font \"%s\" ha provat d'utilitzar un fitxer list en ús, font ignorada"
 
 #: ../urpm.pm:214 ../urpm.pm:1240 ../urpm.pm:1250
 #, c-format
@@ -419,7 +425,7 @@ msgstr "utilitzant un dispositiu extraïble diferent [%s] per \"%s\""
 #: ../urpm.pm:354
 #, c-format
 msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr ""
+msgstr "La font \"%s\" és una imatge ISO, es muntarà al vol"
 
 #: ../urpm.pm:356 ../urpm.pm:359
 #, c-format
@@ -717,7 +723,7 @@ msgstr "s'està recuperant el hdlist font (o la síntesi) de \"%s\"..."
 #: ../urpm.pm:1488
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
-msgstr ""
+msgstr "s'ha trobat l'hdlist (o síntesi) buscat a %s"
 
 #: ../urpm.pm:1537
 #, c-format
@@ -794,7 +800,7 @@ msgstr "s'està construint l'hdlist [%s]"
 msgid ""
 "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
 "corrupted."
-msgstr ""
+msgstr "No s'ha pogut construir el fitxer de síntesi per la font \"%s\". El vostre fitxer hdlist pot estar corrupte."
 
 #: ../urpm.pm:1852 ../urpm.pm:1887 ../urpmi:303
 #, c-format
@@ -909,8 +915,7 @@ msgstr "no s'ha pogut llegir el fitxer rpm [%s] des de la font \"%s\""
 #: ../urpm.pm:2616
 #, c-format
 msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-"font incoherent \"%s\", marcada com a extraïble però no és així realment"
+msgstr "font incoherent \"%s\", marcada com a extraïble però no és així realment"
 
 #: ../urpm.pm:2628
 #, c-format
@@ -934,8 +939,7 @@ msgstr "s'està usant el procés %d per executar la transacció"
 
 #: ../urpm.pm:2848
 #, c-format
-msgid ""
-"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgid "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
 "s'ha creat una transacció per instal·lar a %s (elimina=%d, instal·la=%d, "
 "actualitza=%d)"
@@ -1028,7 +1032,7 @@ msgstr "s'està examinant el fitxer MD5SUM"
 #: ../urpm.pm:3238
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
-msgstr ""
+msgstr "atenció: l'md5sum de %s no està disponible al fitxer MD5SUM"
 
 #: ../urpm/args.pm:91 ../urpm/args.pm:98
 #, c-format
@@ -1071,8 +1075,7 @@ msgstr "  --help         - mostra aquest missatge d'ajuda.\n"
 #: ../urpme:42 ../urpmi:83
 #, c-format
 msgid "  --auto         - automatically select a package in choices.\n"
-msgstr ""
-"  --auto         - en escollir, selecciona un paquets automàticament.\n"
+msgstr "  --auto         - en escollir, selecciona un paquets automàticament.\n"
 
 #: ../urpme:43
 #, c-format
@@ -1081,8 +1084,7 @@ msgstr "  --test         - verifica si l'eliminació pot ser duta a terme.\n"
 
 #: ../urpme:44 ../urpmi:97 ../urpmq:64
 #, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
+msgid "  --force        - force invocation even if some packages do not exist.\n"
 msgstr ""
 "  --force        - força l'execució tot i que hi hagi paquets que no "
 "existeixen.\n"
@@ -1149,10 +1151,8 @@ msgstr ""
 
 #: ../urpme:110
 #, c-format
-msgid ""
-"To satisfy dependencies, the following %d packages will be removed (%d MB)"
-msgstr ""
-"Per a complir les dependències, s'eliminaran els següents %d paquets (%d MB)"
+msgid "To satisfy dependencies, the following %d packages will be removed (%d MB)"
+msgstr "Per a complir les dependències, s'eliminaran els següents %d paquets (%d MB)"
 
 #: ../urpme:112 ../urpmi:423 ../urpmi:552
 #, c-format
@@ -1199,18 +1199,14 @@ msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr "  --excludemedia - no usis les fonts donades, separades per comes.\n"
 
 #: ../urpmf:36 ../urpmi:81 ../urpmq:48
-#, fuzzy, c-format
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr ""
-"  --media        - utilitza només les fonts donades, s'han de separar amb "
-"comes.\n"
+#, c-format
+msgid "  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --sortmedia        - ordena les fonts segons les cadenes donades, s'han de separar amb comes.\n"
 
 #: ../urpmf:37 ../urpmq:49
 #, c-format
 msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-msgstr ""
-"  --synthesis    - utilitza la síntesi donada en comptes de la bd de urpmi.\n"
+msgstr "  --synthesis    - utilitza la síntesi donada en comptes de la bd de urpmi.\n"
 
 #: ../urpmf:38
 #, c-format
@@ -1254,9 +1250,9 @@ msgid "  --size         - print tag size: size.\n"
 msgstr "  --size          - mostra l'etiqueta size: mida.\n"
 
 #: ../urpmf:46
-#, fuzzy, c-format
+#, c-format
 msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr "  --size          - mostra l'etiqueta size: mida.\n"
+msgstr "  --epoch        - mostra l'etiqueta epoch: època.\n"
 
 #: ../urpmf:47
 #, c-format
@@ -1279,9 +1275,9 @@ msgid "  --packager     - print tag packager: packager.\n"
 msgstr "  --packager     - mostra l'etiqueta packager: empaquetador.\n"
 
 #: ../urpmf:51
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildhost    - print tag buildhost: build host.\n"
-msgstr "  --files         - mostra l'etiqueta files: tots els fitxers.\n"
+msgstr "  --buildhost    - mostra l'etiqueta buildhost: màquina de construcció.\n"
 
 #: ../urpmf:52
 #, c-format
@@ -1291,14 +1287,12 @@ msgstr "  --url          - mostra l'etiqueta url: url.\n"
 #: ../urpmf:53
 #, c-format
 msgid "  --provides     - print tag provides: all provides.\n"
-msgstr ""
-"  --provides      - mostra l'etiqueta provides: tots allò que proporciona.\n"
+msgstr "  --provides      - mostra l'etiqueta provides: tots allò que proporciona.\n"
 
 #: ../urpmf:54
 #, c-format
 msgid "  --requires     - print tag requires: all requires.\n"
-msgstr ""
-"  --requires      - mostra l'etiqueta requires: tots allò que necessita.\n"
+msgstr "  --requires      - mostra l'etiqueta requires: tots allò que necessita.\n"
 
 #: ../urpmf:55
 #, c-format
@@ -1308,8 +1302,7 @@ msgstr "  --files         - mostra l'etiqueta files: tots els fitxers.\n"
 #: ../urpmf:56
 #, c-format
 msgid "  --conflicts    - print tag conflicts: all conflicts.\n"
-msgstr ""
-"  --conflicts     - mostra l'etiqueta conflicts: tots els conflictes.\n"
+msgstr "  --conflicts     - mostra l'etiqueta conflicts: tots els conflictes.\n"
 
 #: ../urpmf:57
 #, c-format
@@ -1330,14 +1323,12 @@ msgstr ""
 #: ../urpmf:60
 #, c-format
 msgid "  -i             - ignore case distinctions in every pattern.\n"
-msgstr ""
-"  -i             - ignora les distincions de majúscules en els patrons.\n"
+msgstr "  -i             - ignora les distincions de majúscules en els patrons.\n"
 
 #: ../urpmf:61 ../urpmq:80
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr ""
-"  -f             - mostra la versió, llançament i arquitectura amb el nom.\n"
+msgstr "  -f             - mostra la versió, llançament i arquitectura amb el nom.\n"
 
 #: ../urpmf:62
 #, c-format
@@ -1346,18 +1337,15 @@ msgstr ""
 
 #: ../urpmf:63
 #, c-format
-msgid ""
-"  -a             - binary AND operator, true if both expression are true.\n"
+msgid "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr ""
 "  -a             - operador binari AND, cert si les dues expressions son "
 "certes.\n"
 
 #: ../urpmf:64
 #, c-format
-msgid ""
-"  -o             - binary OR operator, true if one expression is true.\n"
-msgstr ""
-"  -o             - operador binari OR, cert si una expressió és certa.\n"
+msgid "  -o             - binary OR operator, true if one expression is true.\n"
+msgstr "  -o             - operador binari OR, cert si una expressió és certa.\n"
 
 #: ../urpmf:65
 #, c-format
@@ -1416,24 +1404,20 @@ msgstr ""
 "sintaxi:\n"
 
 #: ../urpmi:79 ../urpmq:46
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested (or updated) "
 "packages.\n"
-msgstr ""
-"  --media        - utilitza només les fonts donades, s'han de separar amb "
-"comes.\n"
+msgstr "  --seachmedia        - utilitza només les fonts donades per cercar (o actualitzar) paquets.\n"
 
 #: ../urpmi:82
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr ""
-"  --synthesis    - utilitza la síntesi donada en comptes de la bd de urpmi.\n"
+msgstr "  --synthesis    - utilitza la síntesi donada en comptes de la bd de urpmi.\n"
 
 #: ../urpmi:84 ../urpmq:50
 #, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgid "  --auto-select  - automatically select packages to upgrade the system.\n"
 msgstr ""
 "  --auto-select  - selecciona automàticament els paquets per actualitzar el "
 "sistema.\n"
@@ -1478,26 +1462,22 @@ msgstr "  --fuzzy        - utilitza cerca difusa (igual que -y).\n"
 #: ../urpmi:93 ../urpmq:60
 #, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
-msgstr ""
-"  --src          - el paquet següent és un paquet font (igual que -s).\n"
+msgstr "  --src          - el paquet següent és un paquet font (igual que -s).\n"
 
 #: ../urpmi:94
 #, c-format
 msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr ""
-"  --install-src  - instal·la només paquets de codi font (cap binari).\n"
+msgstr "  --install-src  - instal·la només paquets de codi font (cap binari).\n"
 
 #: ../urpmi:95
 #, c-format
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr ""
-"  --clean        - esborra els rpm de la memòria cau abans de res més.\n"
+msgstr "  --clean        - esborra els rpm de la memòria cau abans de res més.\n"
 
 #: ../urpmi:96
 #, c-format
 msgid "  --noclean      - keep rpm not used in cache.\n"
-msgstr ""
-"  --noclean      - conserva els rpm que no s'utilitzen a la memòria cau.\n"
+msgstr "  --noclean      - conserva els rpm que no s'utilitzen a la memòria cau.\n"
 
 #: ../urpmi:98
 #, c-format
@@ -1547,14 +1527,11 @@ msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - limita la velocitat de descàrrega.\n"
 
 #: ../urpmi:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --resume       - resume transfer of partially-downloaded files\n"
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"  --verify-rpm   - verifica la signatura rpm abans de la instal·lació\n"
-"                   (--no-verify-rpm la deshabilita, per defecte està "
-"habilitat).\n"
 
 #: ../urpmi:111 ../urpmi.addmedia:51 ../urpmi.update:34 ../urpmq:70
 #, c-format
@@ -1598,14 +1575,13 @@ msgstr ""
 
 #: ../urpmi:121
 #, c-format
-msgid ""
-"  --test         - verify if the installation can be achieved correctly.\n"
+msgid "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - verifica si la instal·lació pot ser duta a terme.\n"
 
 #: ../urpmi:122
-#, fuzzy, c-format
+#, c-format
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr "  --excludemedia - no usis les fonts donades, separades per comes.\n"
+msgstr ""
 
 #: ../urpmi:123
 #, c-format
@@ -1637,8 +1613,7 @@ msgstr ""
 #: ../urpmi:129 ../urpmq:77
 #, c-format
 msgid "  -a             - select all matches on command line.\n"
-msgstr ""
-"  -a             - selecciona totes les coincidències en la línia d'ordres.\n"
+msgstr "  -a             - selecciona totes les coincidències en la línia d'ordres.\n"
 
 #: ../urpmi:130
 #, c-format
@@ -1660,8 +1635,7 @@ msgstr "  -y             - força una cerca difusa (igual que --fuzzy).\n"
 #: ../urpmi:133 ../urpmq:88
 #, c-format
 msgid "  -s             - next package is a source package (same as --src).\n"
-msgstr ""
-"  -s             - el següent paquet és un paquet font (igual que --src).\n"
+msgstr "  -s             - el següent paquet és un paquet font (igual que --src).\n"
 
 #: ../urpmi:134 ../urpmi.addmedia:78 ../urpmi.removemedia:49
 #: ../urpmi.update:47
@@ -1768,8 +1742,7 @@ msgstr ""
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be installed "
 "(%d MB)"
-msgstr ""
-"Per complir les dependències, s'instal·laran els %d paquets següents (%d MB)"
+msgstr "Per complir les dependències, s'instal·laran els %d paquets següents (%d MB)"
 
 #: ../urpmi:453 ../urpmi:464
 #, c-format
@@ -1820,8 +1793,7 @@ msgstr "s'està instal·lant %s"
 #: ../urpmi:620
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
-msgstr ""
-"Voleu intentar la instal·lació sense comprovar les dependències? (s/N) "
+msgstr "Voleu intentar la instal·lació sense comprovar les dependències? (s/N) "
 
 #: ../urpmi:639
 #, c-format
@@ -1919,15 +1891,12 @@ msgstr ""
 "                   la url per defecte és %s\n"
 
 #: ../urpmi.addmedia:67
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --version      - use specified distribution version, the default is taken\n"
 "                   from the version of the distribution told by the\n"
 "                   installed mandrakelinux-release package.\n"
 msgstr ""
-"  --arch         - usa l'arquitectura especificada, el valor per defecte és\n"
-"                   l'arquitectura del la versió de Mandrakelinux "
-"instal·lada.\n"
 
 #: ../urpmi.addmedia:70
 #, c-format
@@ -2031,10 +2000,9 @@ msgid "  -a             - select all media.\n"
 msgstr "  -a             - selecciona totes les fonts.\n"
 
 #: ../urpmi.removemedia:48
-#, fuzzy, c-format
+#, c-format
 msgid "  -y             - fuzzy match on media names.\n"
 msgstr ""
-"  -a             - selecciona totes les coincidències en la línia d'ordres.\n"
 
 #: ../urpmi.removemedia:51
 #, c-format
@@ -2053,8 +2021,7 @@ msgstr "El superusuari és l'únic autoritzat per a eliminar fonts"
 #: ../urpmi.removemedia:70
 #, c-format
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
-"no hi ha res per eliminar (utilitzeu urpmi.addmedia per afegir una font)\n"
+msgstr "no hi ha res per eliminar (utilitzeu urpmi.addmedia per afegir una font)\n"
 
 #: ../urpmi.removemedia:72
 #, c-format
@@ -2085,9 +2052,9 @@ msgid "  --force-key    - force update of gpg key.\n"
 msgstr "  --force-key    - força l'actualització de la clau gpg.\n"
 
 #: ../urpmi.update:42
-#, fuzzy, c-format
+#, c-format
 msgid "  --ignore       - don't update, mark the media as ignored.\n"
-msgstr "  --update       - utilitza només les fonts d'actualització.\n"
+msgstr ""
 
 #: ../urpmi.update:43
 #, c-format
@@ -2107,8 +2074,7 @@ msgstr "El superusuari és l'únic autoritzat per a actualitzar fonts"
 #: ../urpmi.update:72
 #, c-format
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
-"no hi ha res per actualitzar (utilitzeu urpmi.addmedia per afegir una font)\n"
+msgstr "no hi ha res per actualitzar (utilitzeu urpmi.addmedia per afegir una font)\n"
 
 #: ../urpmi.update:90
 #, c-format
@@ -2125,9 +2091,9 @@ msgid "ignoring media %s"
 msgstr "s'està ignorant la font %s"
 
 #: ../urpmi.update:95
-#, fuzzy, c-format
+#, c-format
 msgid "enabling media %s"
-msgstr "s'està esborrant la font \"%s\""
+msgstr "s'està habilitant la font %s"
 
 #: ../urpmq:38
 #, c-format
@@ -2164,8 +2130,7 @@ msgstr "  --list-url     - llista les fonts disponibles i la seva url.\n"
 #: ../urpmq:57
 #, c-format
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr ""
-"  --list-nodes   - llista els nodes disponibles quan s'utilitza --parallel.\n"
+msgstr "  --list-nodes   - llista els nodes disponibles quan s'utilitza --parallel.\n"
 
 #: ../urpmq:58
 #, c-format
@@ -2174,8 +2139,7 @@ msgstr "  --list-aliases - llista els àlias paral·lels disponibles.\n"
 
 #: ../urpmq:59
 #, c-format
-msgid ""
-"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+msgid "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr ""
 
 #: ../urpmq:61
@@ -2189,8 +2153,7 @@ msgstr ""
 
 #: ../urpmq:63
 #, c-format
-msgid ""
-"  --sources      - give all source packages before downloading (root only).\n"
+msgid "  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
 "  --sources      - dóna tots els paquets font abans de la baixada (només "
 "'root').\n"
@@ -2208,9 +2171,9 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - mostra els canvis.\n"
 
 #: ../urpmq:78
-#, fuzzy, c-format
+#, c-format
 msgid "  -c             - complete output with package to be removed.\n"
-msgstr "  -d             - amplia la cerca a les dependències dels paquets.\n"
+msgstr ""
 
 #: ../urpmq:79
 #, c-format
@@ -2225,8 +2188,7 @@ msgstr "  -g             - imprimeix grups amb el nom.\n"
 #: ../urpmq:82
 #, c-format
 msgid "  -i             - print useful information in human readable form.\n"
-msgstr ""
-"  -i             - mostra informació útil en un forma llegible pels humans.\n"
+msgstr "  -i             - mostra informació útil en un forma llegible pels humans.\n"
 
 #: ../urpmq:83
 #, c-format
@@ -2235,8 +2197,7 @@ msgstr "  -l             - llista els fitxers del paquet.\n"
 
 #: ../urpmq:84
 #, c-format
-msgid ""
-"  -P             - do not search in provides to find package (default).\n"
+msgid "  -P             - do not search in provides to find package (default).\n"
 msgstr ""
 "  -P             - no busquis en 'provides' per a trobar paquets (per "
 "defecte).\n"
@@ -2249,8 +2210,7 @@ msgstr "  -p             - busca en 'provides' per a trobar paquets.\n"
 #: ../urpmq:86
 #, c-format
 msgid "  -r             - print version and release with name also.\n"
-msgstr ""
-"  -r             - mostra la versió i llançament juntament amb el nom.\n"
+msgstr "  -r             - mostra la versió i llançament juntament amb el nom.\n"
 
 #: ../urpmq:87
 #, c-format
@@ -2267,17 +2227,16 @@ msgstr ""
 "nova.\n"
 
 #: ../urpmq:92
-#, fuzzy, c-format
+#, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
 msgstr ""
-"  -a             - selecciona totes les coincidències en la línia d'ordres.\n"
 
 #: ../urpmq:93
-#, fuzzy, c-format
+#, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
-"  els noms o fitxers rpm subministrats en la línia d'ordres seran "
-"instal·lats.\n"
+"  noms o fitxers rpm subministrats en la línia d'ordres seran "
+"demanats.\n"
 
 #: ../urpmq:154
 #, c-format
@@ -2304,3 +2263,4 @@ msgstr "No s'ha trobat la llista de canvis\n"
 
 #~ msgid "No packages specified"
 #~ msgstr "No s'ha especificat cap paquet"
+
