@@ -2178,7 +2178,7 @@ sub resolve_dependencies {
 	unlink $file;
 	foreach (@{$urpm->{media}}) {
 	    defined $_->{start} && defined $_->{end} or next;
-	    system "cat '$urpm->{statedir}/synthesis.$_->{hdlist}' >> $file";
+	    system "cat '$urpm->{statedir}/synthesis.$_->{hdlist}' >> '$file'";
 	}
 	#- let each node determine what is requested, according to handler given.
 	$urpm->{parallel_handler}->parallel_resolve_dependencies($file, @_);
@@ -2335,7 +2335,7 @@ sub get_source_packages {
 
     #- clean download directory, do it here even if this is not the best moment.
     if ($options{clean_all}) {
-	system("rm", "-rf", "$urpm->{cachedir}/partial");
+	MDK::Common::rm_rf("$urpm->{cachedir}/partial");
 	mkdir "$urpm->{cachedir}/partial";
     }
 
