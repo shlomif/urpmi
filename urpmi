@@ -337,7 +337,6 @@ my %sources = $urpm->download_source_packages($local_sources, $list, ($X ? '' : 
 
 #- install package.
 if ($uid == 0) {
-    print STDERR "found $_\n" foreach values %sources;
     @rpms_install = grep { $_ !~ /\.src\.rpm$/ } values %{$urpm->extract_packages_to_install(\%sources) || {}};
     @rpms_upgrade = grep { $_ !~ /\.src\.rpm$/ } values %sources;
 }
