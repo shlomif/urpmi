@@ -44,7 +44,7 @@ You can compare rpm vs. urpmi  with  insmod vs. modprobe
 %package -n gurpmi
 Summary:	User mode rpm GUI install
 Group:		%{group}
-Requires:	urpmi >= %{version}-%{release} drakxtools gchooser gmessage usermode menu
+Requires:	urpmi >= %{version}-%{release} drakxtools > 10-0.3mdk gchooser gmessage usermode menu
 Obsoletes:	grpmi
 
 %description -n gurpmi
@@ -236,6 +236,11 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+- fix bug #7472: progressbar forced to be thicker than default (gc)
+- gurpmi: when cancel button is destroyed forever from within
+  rpmdrake (after all downloads completed) ask gtk to recompute
+  size of toplevel window to not end up with an ugly void space (gc)
+
 * Tue Feb  3 2004 François Pons <fpons@mandrakesoft.com> 4.4.5-3mdk
 - fixed bug of reference of ../ in hdlists file.
 - fixed bug 6834.
