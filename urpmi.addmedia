@@ -74,6 +74,8 @@ and [options] are from
 ") . N("  --no-md5sum    - disable MD5SUM file checking.
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -f             - force generation of hdlist files.
+") . N("  -q             - quiet mode.
+") . N("  -v             - verbose mode.
 ");
     warn $m ? "$usage\n$m" : $usage;
     exit 0;
@@ -96,10 +98,14 @@ sub main {
     }
     $options{force} = 0;
     $options{noclean} = 1;
+    $options{verbose} = 1;
     $options{probe_with} = 'synthesis'; #- no the default is to probe synthesis file.
     my $urpm = new urpm;
     urpm::args::parse_cmdline(urpm => $urpm);
     our ($name, $url, $with, $relative_hdlist) = our @cmdline;
+
+    #- remove verbose if not asked.
+    $options{verbose} > 0 or $urpm->{log} = sub {};
 
     #- allow not to give name immediately.
     $options{distrib} or $url or ($url, $name) = ($name, '');

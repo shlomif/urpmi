@@ -29,16 +29,21 @@ sub main {
 
     $options{noclean} = 1;
     $options{strict_match} = 1;
+    $options{verbose} = 1;
     foreach (@_) {
 	/^--?a$/ and $options{all} = 1, next;
 	/^--?c$/ and $options{noclean} = 0, next;
 	/^--?y$/ and $options{strict_match} = 0, next;
+	/^--?v$/ and $options{verbose} = 1, next;
+	/^--?q$/ and $options{verbose} = 0, next;
 	/^-/ and die N("usage: urpmi.removemedia [-a] <name> ...
 where <name> is a medium name to remove.
 ") . N("  --help         - print this help message.
 ") . N("  -a             - select all media.
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -y             - fuzzy match on media names.
+") . N("  -q             - quiet mode.
+") . N("  -v             - verbose mode.
 ") . (/^--?h(?:elp)$/ ? '' : N("\nunknown options '%s'\n", $_));
 	push @toremoves, $_;
     }
@@ -47,6 +52,9 @@ where <name> is a medium name to remove.
     if ($< != 0) {
 	$urpm->{fatal}(1, N("Only superuser is allowed to remove media"));
     }
+
+    $options{verbose} > 0 or $urpm->{log} = sub {};
+
     $urpm->read_config;
     my @entries = map { $_->{name} } @{$urpm->{media}};
 

@@ -256,6 +256,8 @@ my %options_spec = (
 	'version=s' => \$options{version},
 	'arch=s' => \$options{arch},
 	virtual => \$options{virtual},
+	'q|quiet'   => sub { --$options{verbose} },
+	'v|verbose' => sub { ++$options{verbose} },
 	'<>' => sub {
 	    if ($_[0] =~ /^--distrib-(.*)$/) {
 		$options{distrib} = $1;
