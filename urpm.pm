@@ -1713,8 +1713,7 @@ sub select_packages_to_upgrade {
 					  if ($otherPackage && $version_cmp <= 0) {
 					      $toRemove{$otherPackage} = 0;
 					      $pkg->{selected} = 1;
-					      $urpm->{log}(_("removing %s to upgrade ...", $otherPackage));
-					      $urpm->{log}(_(" to %s since it will not be updated otherwise", "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
+					      $urpm->{log}(_("removing %s to upgrade ...\n to %s since it will not be updated otherwise", $otherPackage, "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 					  } else {
 					      $pkg->{installed} = 1;
 					  }
@@ -1722,8 +1721,7 @@ sub select_packages_to_upgrade {
 					  my $otherPackage = "$p->{name}-$p->{version}-$p->{release}";
 					  $toRemove{$otherPackage} = 0;
 					  $pkg->{selected} = 1;
-					  $urpm->{log}(_("removing %s to upgrade ...", $otherPackage));
-					  $urpm->{log}(_(" to %s since it will not upgrade correctly!", "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
+					  $urpm->{log}(_("removing %s to upgrade ...\n to %s since it will not upgrade correctly!", $otherPackage, "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 				      }
 				  } else {
 				      if (! exists $obsoletedPackages{$p->{name}}) {
