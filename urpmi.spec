@@ -6,7 +6,7 @@ Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
-Requires: /usr/bin/suidperl, rpmtools >= 1.2, eject, wget
+Requires: /usr/bin/suidperl, /usr/bin/genbasefiles, rpmtools >= 1.2, eject, wget
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
 Group: %{group}
