@@ -1518,7 +1518,7 @@ sub get_source_packages {
     #- examine the local repository, which is trusted.
     opendir D, "$urpm->{cachedir}/rpms";
     while (defined($_ = readdir D)) {
-	if (/([^\/]*)\.rpm/) {
+	if (/([^\/]*)\.rpm/ && -s "$urpm->{cachedir}/rpms/$1.rpm") {
 	    if (keys(%{$file2fullnames{$1} || {}}) > 1) {
 		$urpm->{error}(_("there are multiples packages with the same rpm filename \"%s\""), $1);
 		next;
