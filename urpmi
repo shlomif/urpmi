@@ -530,7 +530,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
 
     #- put a blank line to separate with previous transaction or user question.
-    message("\n", 'noX');
+    message("", 'noX');
 
     #- prepare transaction...
     $urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
