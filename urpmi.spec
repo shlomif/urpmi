@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 2.2
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -129,6 +129,10 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Thu Dec  6 2001 François Pons <fpons@mandrakesoft.com> 2.2-2mdk
+- fixed bad reference with -p.
+- changed -p ... to use choice instead of mutliple packages.
+
 * Wed Dec  5 2001 François Pons <fpons@mandrakesoft.com> 2.2-1mdk
 - match rpmtools-4.0.
 - updated help on-line and fixed options invocation.

@@ -1067,15 +1067,12 @@ sub search_packages {
 
 	if ($options{use_provides}) {
 	    #- try to search through provides.
-	    if (my $provide_v = $urpm->{params}{provides}{$v}) {
-		if (scalar(keys %$provide_v) == 1 &&
-		    $urpm->{params}{info}{$provide_v->[0]} &&
-		    defined $urpm->{params}{info}{$provide_v->[0]}{id}) {
-		    #- we assume that if the there is only one package providing the resource exactly,
-		    #- this should be the best one that is described.
-		    $exact{$v} = $urpm->{params}{info}{$provide_v->[0]}{id};
-		    next;
-		}
+	    if (my @l = grep { defined $_ } map { $_ && $_->{id} } map { $urpm->{params}{info}{$_} }
+		keys %{$urpm->{params}{provides}{$v} || {}}) {
+		#- we assume that if the there is at least one package providing the resource exactly,
+		#- this should be the best ones that is described.
+		$exact{$v} = join '|',  @l;
+		next;
 	    }
 
 	    foreach (keys %{$urpm->{params}{provides}}) {
@@ -1264,7 +1261,7 @@ sub filter_minimal_packages_to_upgrade {
     #- or we have to use synthesis file.
     my @synthesis = map { "$urpm->{statedir}/synthesis.$_->{hdlist}" } grep { ! $_->{ignore} } @{$urpm->{media} || []};
     if (grep { ! -r $_ || ! -s $_ } @synthesis) {
-	$urpm->{log}(_("unable to find all synthesis file, using parsehdlist server"));
+	$urpm->{error}(_("unable to find all synthesis file, using parsehdlist server"));
 	pipe INPUT, OUTPUT_CHILD;
 	pipe INPUT_CHILD, OUTPUT;
 	$pid = fork();
