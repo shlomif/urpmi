@@ -398,7 +398,7 @@ sub ask_choice {
     my (@l) = map { scalar $_->fullname } @$choices;
     my $from;
 
-    if (@l > 1 && !$urpm->{options}->{auto}) {
+    if (@l > 1 && !$urpm->{options}{auto}) {
 	my $msg = (defined $from ?
 		   N("One of the following packages is needed to install %s:", $from) :
 		   N("One of the following packages is needed:"));
@@ -431,7 +431,7 @@ my $restart_itself = $urpm->resolve_dependencies($state, \%requested,
 						 auto_select => $auto_select,
 						 callback_choices => \&ask_choice,
 						 install_src => $install_src,
-						 keep => $urpm->{options}->{keep},
+						 keep => $urpm->{options}{keep},
 						 nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 						 priority_upgrade => !$test && !$env && $urpm->{options}{'priority-upgrade'},
 						);
@@ -440,7 +440,7 @@ my @ask_unselect = $urpm->unselected_packages($state);
 if (@ask_unselect) {
     my $list = join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect);
     my $msg = N("Some package requested cannot be installed:\n%s", $list);
-    if ($urpm->{options}->{auto}) {
+    if ($urpm->{options}{auto}) {
 	message($msg, 'noX');
     } else {
 	if ($X) {
@@ -466,7 +466,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
     }
 
     my $msg = N("The following packages have to be removed for others to be upgraded:\n%s", $list);
-    if ($urpm->{options}->{auto}) {
+    if ($urpm->{options}{auto}) {
 	message($msg, 'noX');
     } else {
 	if ($X) {
@@ -511,7 +511,7 @@ if ($env) {
 if (@root_only) {
     print STDERR N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
-} elsif (!$urpm->{options}->{auto} && ($ask_user || $X) && @to_install) {
+} elsif (!$urpm->{options}{auto} && ($ask_user || $X) && @to_install) {
     my $msg = N("To satisfy dependencies, the following packages are going to be installed (%d MB)", toMb($sum));
     my $msg2 = N("Is this OK?");
     my $p = join "\n", @to_install;
@@ -544,7 +544,7 @@ my %error_sources;
 $urpm->copy_packages_of_removable_media($list, \%sources,
 					verbose => $verbose > 0,
 					force_local => 1,
-					ask_for_medium => (!$urpm->{options}->{auto} || $allow_medium_change) && sub {
+					ask_for_medium => (!$urpm->{options}{auto} || $allow_medium_change) && sub {
 					    my $msg = N("Please insert the medium named \"%s\" on device [%s]", @_);
 					    my $msg2 = N("Press Enter when ready...");
 					    if ($X) {
@@ -623,7 +623,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    my $msg = N("The following packages have bad signatures");
 	    my $msg2 = N("Do you want to continue installation ?");
 	    my $p = join "\n", @bad_signatures;
-	    if ($urpm->{options}->{auto}) {
+	    if ($urpm->{options}{auto}) {
 		message("$msg:\n$p\n", 'noX');
 		exit 1;
 	    } else {
@@ -705,7 +705,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 				   callback_inst => $callback_inst, callback_trans => $callback_inst);
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
-		if ($urpm->{options}->{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
+		if ($urpm->{options}{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
 		    ++$nok;
 		    push @errors, @l;
 		} else {
@@ -779,7 +779,7 @@ if ($nok) {
 	message(N("Installation is possible"));
     } elsif (@names || @src_names || @files || @src_files || $auto_select) {
 	@{$state->{transaction} || []} == 0 && @ask_unselect == 0 && $verbose >= 0 and
-	  message(N("Everything already installed"), $urpm->{options}->{auto});
+	  message(N("Everything already installed"), $urpm->{options}{auto});
     }
 }
 
@@ -830,7 +830,7 @@ sub log_it {
 #- message functions.
 sub message {
     my ($msg, $noX) = @_;
-    if ($X && !$noX && !$urpm->{options}->{auto}) {
+    if ($X && !$noX && !$urpm->{options}{auto}) {
 	gmessage($msg, ok_only => 1);
 	$bug and log_it($msg);
     } else {
