@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.2
-Release: 15mdk
+Release: 16mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -205,6 +205,10 @@ fi
 
 
 %changelog
+* Wed Jan 29 2003 François Pons <fpons@mandrakesoft.com> 4.2-16mdk
+- fixed limit-rate and excludepath causing error in urpmi.cfg.
+- take care of limit-rate in urpmi.update and urpmi.addmedia.
+
 * Tue Jan 28 2003 François Pons <fpons@mandrakesoft.com> 4.2-15mdk
 - fixed verify-rpm (both in urpmi.cfg or command line).
 - fixed default options activated.

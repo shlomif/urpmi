@@ -484,6 +484,7 @@ sub read_config {
 			$v =~ /^'([^']*)'$/ and $v = $1; $v =~ /^"([^"]*)"$/ and $v = $1;
 			$urpm->{options}{$k} = $v;
 		    }
+		    next;
 		}
 		$_ and $urpm->{error}(_("syntax error in config file at line %s", $.));
 	    }

@@ -118,6 +118,7 @@ and [options] are from
     my ($type) = $url =~ m,^([^:]*)://, or $options{distrib} or die $usage;
 
     $urpm->read_config;
+    exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
 
     if (exists $options{distrib}) {
 	if (defined $options{distrib}) {
