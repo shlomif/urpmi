@@ -3,7 +3,7 @@ package urpm::msg;
 use strict;
 use Exporter;
 our @ISA = 'Exporter';
-our @EXPORT = qw(N log_it to_utf8 message_input gmessage message);
+our @EXPORT = qw(N log_it to_utf8 message_input gmessage message toMb);
 
 my $noexpr = N("Nn");
 my $yesexpr = N("Yy");
@@ -93,6 +93,13 @@ sub message {
 	}
     }
 }
+
+sub toMb {
+    my $nb = $_[0] / 1024 / 1024;
+    int $nb + 0.5;
+}
+
+sub localtime2changelog { scalar(localtime($_[0])) =~ /(.*) \S+ (\d{4})$/ && "$1 $2" };
 
 1;
 

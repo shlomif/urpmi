@@ -71,23 +71,28 @@ $urpm->configure(
 );
 
 #- examine packages...
-my @toremove = $urpm->find_packages_to_remove($state, \@l,
-					      test => $test, matches => $matches, auto => $auto, force => $force,
-					      callback_notfound => sub {
-						  my $urpm = shift @_;
-						  $urpm->{fatal}(1, (@_ > 1 ? N("unknown packages") : N("unknown package")) .
-								 ': ' . join(', ', @_)); 0 },
-					      callback_fuzzy => sub {
-						  my $urpm = shift @_;
-						  my $match = shift @_;
-						  $urpm->{fatal}(1, N("The following packages contain %s: %s",
-								      $match, join(' ', @_))); 0 },
-					      callback_base => sub {
-						  my $urpm = shift @_;
-						  foreach (@_) {
-						      $urpm->{error}(N("removing package %s will break your system", $_));
-						  } 0 },
-					     ) or $urpm->{fatal}(0, N("Nothing to remove"));
+my @toremove = $urpm->find_packages_to_remove(
+    $state,
+    \@l,
+    test => $test,
+    matches => $matches,
+    auto => $auto,
+    force => $force,
+    callback_notfound => sub {
+	my $urpm = shift @_;
+	$urpm->{fatal}(1, (@_ > 1 ? N("unknown packages") : N("unknown package")) .
+	    ': ' . join(', ', @_)); 0 },
+    callback_fuzzy => sub {
+	my $urpm = shift @_;
+	my $match = shift @_;
+	$urpm->{fatal}(1, N("The following packages contain %s: %s",
+		$match, join(' ', @_))); 0 },
+    callback_base => sub {
+	my $urpm = shift @_;
+	foreach (@_) {
+	    $urpm->{error}(N("removing package %s will break your system", $_));
+	} 0 },
+) or $urpm->{fatal}(0, N("Nothing to remove"));
 
 my $list = join "\n", $urpm->translate_why_removed($state, sort @toremove);
 if ($test && $auto) {
@@ -108,8 +113,3 @@ print STDOUT "\n".N("removing %s", join(' ', sort @toremove))."\n";
   $urpm->parallel_remove(\@toremove, test => $test, force => $force, translate_message => 1) :
   $urpm->install(\@toremove, {}, {}, test => $test, force => $force, translate_message => 1);
 @l and $urpm->{fatal}(2, N("Removing failed") . ":\n" . join("\n",  map { "\t$_" } @l));
-
-sub toMb {
-    my $nb = $_[0] / 1024 / 1024;
-    int $nb + 0.5;
-}

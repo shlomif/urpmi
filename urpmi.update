@@ -22,6 +22,7 @@ use strict;
 use urpm;
 use urpm::args 'options';
 use urpm::msg;
+use urpm::download ();
 
 sub usage {
     warn N("usage: urpmi.update [options] <name> ...
@@ -74,7 +75,7 @@ sub main {
 	$something_todo or die N("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
     }
 
-    $urpm->update_media(%options, callback => \&urpm::sync_logger);
+    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 
     #- try to umount removable device which may have been mounted.
     $urpm->try_umounting_removables;

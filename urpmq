@@ -367,7 +367,9 @@ if ($query->{list_aliases}) {
 			$pkg->files and print join("\n", $pkg->files)."\n";
 		    }
 		    if ($query->{changelog} && $pkg->changelog_time && $pkg->changelog_name && $pkg->changelog_text) {
-			print join("\n", mapn { "* ".urpm::localtime2changelog($_[0])." $_[1]\n\n$_[2]\n" } [ $pkg->changelog_time ], [ $pkg->changelog_name ] , [ $pkg->changelog_text ]);
+			print join("\n", mapn {
+				"* ".urpm::msg::localtime2changelog($_[0])." $_[1]\n\n$_[2]\n"
+			    } [ $pkg->changelog_time ], [ $pkg->changelog_name ] , [ $pkg->changelog_text ]);
 		    }
 		}
 	    }

@@ -796,12 +796,8 @@ if ($pid_err && $pid_out) {
     close STDOUT;
 }
 
+use POSIX ();
 POSIX::_exit $exit_code;
-
-sub toMb {
-    my $nb = $_[0] / 1024 / 1024;
-    int $nb + 0.5;
-}
 
 sub untaint {
     my @r;

@@ -22,8 +22,8 @@ my $urpm;
 our %options;
 
 sub import {
-    if ($_[1] eq 'options') {
-	# export the %options hash
+    if (@_ > 1 && $_[1] eq 'options') {
+	# export the global %options hash
 	no strict 'refs';
 	*{caller().'::options'} = \%options;
     }
@@ -124,7 +124,7 @@ my %options_spec = (
 	all => sub {
 	    foreach my $k (qw(filename group size summary description sourcerpm
 		packager buildhost url provides requires files conflicts obsoletes))
-	    { $::params{$k} = 1; }
+	    { $::params{$k} = 1 }
 	},
 	name => \$::params{filename},
 	group => \$::params{group},

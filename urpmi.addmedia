@@ -24,6 +24,7 @@ use strict;
 use urpm;
 use urpm::args 'options';
 use urpm::msg;
+use urpm::download ();
 
 # Default mirror list
 our $mirrors = 'http://www.linux-mandrake.com/mirrorsfull.list';
@@ -82,7 +83,7 @@ sub main {
     #- parse /etc/urpmi/mirror.config if present, or use default mandrake mirror.
     #  the --from option overrides this setting.
     if ($options{mirrors_url}) {
-	$mirrors = $options{$mirrors_url};
+	$mirrors = $options{mirrors_url};
     }
     elsif (-e "/etc/urpmi/mirror.config") {
 	local $_;
@@ -172,7 +173,7 @@ sub main {
 
 	    $urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update});
 	}
-	$urpm->update_media(%options, callback => \&urpm::sync_logger);
+	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 
 	if (my @unsynced_media = grep { $_->{modified} } @{$urpm->{media}}) {
 	    print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
@@ -180,7 +181,7 @@ sub main {
 	    #- remove quietly the failing media.
 	    $urpm->{log} = sub {};
 	    $urpm->remove_selected_media;
-	    $urpm->update_media(%options, callback => \&urpm::sync_logger);
+	    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 	}
     } else {
 	$name or usage;
@@ -192,7 +193,7 @@ sub main {
 	}
 
 	$urpm->add_medium($name, $url, $relative_hdlist, virtual => $options{virtual}, update => $options{update});
-	$urpm->update_media(%options, callback => \&urpm::sync_logger);
+	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 
 	#- check creation of media (during update has been successfull)
 	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
@@ -202,7 +203,7 @@ sub main {
 	    #- remove quietly the failing media.
 	    $urpm->{log} = sub {};
 	    $urpm->remove_selected_media;
-	    $urpm->update_media(%options, callback => \&urpm::sync_logger);
+	    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 	}
     }
 
