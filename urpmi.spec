@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 20mdk
+Release: 21mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,9 @@ $urpm->update_media(nolock => 1);
 
 
 %changelog
+- added -a flag for urpmq (so that urpmq -a -y -r will do what
+  is requested more or less).
+
 * Mon Aug 11 2003 François Pons <fpons@mandrakesoft.com> 4.4-20mdk
 - fixed bug 4637 and add reason for removing package in urpme.
 - fixed handling of pubkey file.
