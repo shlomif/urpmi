@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.7
-Release: 13mdk
+Release: 14mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -114,6 +114,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Sep 24 2001 François Pons <fpons@mandrakesoft.com> 1.7-14mdk
+- fixed stale rpm file (filesize set to 0) in urpmi cache.
+
 * Wed Sep 19 2001 François Pons <fpons@mandrakesoft.com> 1.7-13mdk
 - avoid possible error on trying to remove package.
 - avoid error message which are more warning.
