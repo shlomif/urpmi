@@ -295,6 +295,7 @@ sub do_install_3 {
     foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
 	$pkg->arch ne 'src' and push @to_install, scalar $pkg->fullname;
     }
+    $urpm->{nb_install} = @to_install;
     @to_install > 1
 	? ask_continue(N(
 	    "To satisfy dependencies, the following %d packages are going to be installed:\n%s\n",
@@ -386,7 +387,7 @@ sub do_install_4 {
 		    if ($type eq 'trans') {
 			$progress_label->set_label(N("Preparing..."));
 		    } else {
-			$progress_label->set_label(N("Installing package `%s' (%s/%s)...", $pkg->name, ++$progress_nb, $total_nb));
+			$progress_label->set_label(N("Installing package `%s' (%s/%s)...", $pkg->name, ++$progress_nb, $urpm->{nb_install}));
 		    }
 		} elsif ($subtype eq 'progress') {
 		    $progressbar->set_fraction($amount / $total);
