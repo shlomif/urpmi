@@ -208,9 +208,6 @@ $urpm->update_media(nolock => 1);
   mode (bug 3982).
 - fixed moving of files inside the cache (bug 3833).
 - fixed not obvious error message (bug 3436).
-- dropped complex time checking with curl ftp download as it
-  should now be handled correctly by curl -z option since 7.10.5,
-  Data::Manip perl module is now no more used.
 - fixed parallel installation of local files.
 
 * Thu Jul 17 2003 François Pons <fpons@mandrakesoft.com> 4.4-9mdk
