@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.6.16
-%define release 1mdk
+%define release 2mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -233,6 +233,9 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Feb 14 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.16-2mdk
+- Don't call rpm during restart to avoid locking
+
 * Mon Feb 14 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.16-1mdk
 - Patch by Michael Scherer to allow to use variables in media URLs
 - Fix retrieval of source packages (e.g. urpmq --sources) with alternative
