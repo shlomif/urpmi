@@ -88,9 +88,9 @@ msgid "unable to handle protocol: %s"
 msgstr "impossible d'utiliser le protocole: %s"
 
 #: ../urpm.pm_.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "copy failed: %s"
-msgstr "...echec de la copie"
+msgstr "echec de la copie: %s"
 
 #: ../urpm.pm_.c:251
 msgid "wget is missing\n"
@@ -126,17 +126,16 @@ msgstr "ssh est manquant\n"
 #: ../urpm.pm_.c:467 ../urpmi_.c:491
 #, c-format
 msgid "        %s%% of %s completed, ETA = %s, speed = %s"
-msgstr ""
+msgstr "        %s%% de %% complèté, ETA = %s, vitesse = %s"
 
 #: ../urpm.pm_.c:469 ../urpmi_.c:494
 #, c-format
 msgid "        %s%% completed, speed = %s"
-msgstr ""
+msgstr "        %s%% complèté, vitesse = %s"
 
 #: ../urpm.pm_.c:2433 ../urpm.pm_.c:2517
-#, fuzzy
 msgid "unable to open rpmdb"
-msgstr "impossible d'enregistrer le fichier"
+msgstr "impossible d'ouvrir rpmdb"
 
 #: ../urpm.pm_.c:2440
 #, c-format
@@ -166,17 +165,17 @@ msgstr "impossible d'accéder au fichier rpm [%s]"
 #: ../urpm/parallel_ka_run.pm_.c:9 ../urpm/parallel_ka_run.pm_.c:91
 #: ../urpm/parallel_ka_run.pm_.c:178
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput a échoué, le noeud est probablement inaccessible"
 
 #: ../urpm/parallel_ka_run.pm_.c:65 ../urpm/parallel_ka_run.pm_.c:163
 #: ../urpm/parallel_ka_run.pm_.c:192
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp a échoué, le noeud est probablement inaccessible"
 
 #: ../urpm/parallel_ka_run.pm_.c:74 ../urpm/parallel_ssh.pm_.c:78
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "sur le noeud %s"
 
 #: ../urpm/parallel_ka_run.pm_.c:196 ../urpm/parallel_ssh.pm_.c:202
 #, c-format
@@ -197,7 +196,7 @@ msgstr "La commande scp a échoué sur l'hôte %s"
 #: ../urpm/parallel_ssh.pm_.c:167
 #, c-format
 msgid "host %s does not have a good version of urpmi"
-msgstr "la machine %s n'a pas une bonne version de urpmi"
+msgstr "l'hôte %s n'a pas une bonne version de urpmi"
 
 #: ../urpme_.c:39
 #, c-format
@@ -309,7 +308,6 @@ msgid "  --update       - use only update media.\n"
 msgstr "  --update       - n'utilise que les sources de mise à jour.\n"
 
 #: ../urpmf_.c:33 ../urpmi_.c:74 ../urpmq_.c:42
-#, fuzzy
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
 "  --media        - utilise seulement les sources listées (séparés par des\n"
@@ -326,48 +324,45 @@ msgid "  --verbose      - verbose mode.\n"
 msgstr "  --verbose      - mode verbeux.\n"
 
 #: ../urpmf_.c:36
-#, fuzzy
 msgid ""
 "  --quiet        - do not print tag name (default if no tag given on "
 "command\n"
 "                   line, incompatible with interactive mode).\n"
 msgstr ""
-"   --quiet        - ne pas afficher le nom des champs (actif par défaut si "
-"aucun champ "
+"  --quiet        - ne pas afficher le nom des champs (actif par défaut si "
+"aucun champ)"
 
 #: ../urpmf_.c:38
 msgid "  --all          - print all tags.\n"
 msgstr "  --all           - afficher tous les champs.\n"
 
 #: ../urpmf_.c:39
-#, fuzzy
 msgid ""
 "  --name         - print tag name: rpm filename (assumed if no tag given on\n"
 "                   command line but without package name).\n"
 msgstr ""
-"  --name       - affiche le champ « name » : nom du fichier rpm (par défaut "
-"si aucun champ"
+"  --name         - affiche le champ « name » : nom du fichier rpm\n"
+"                   (par défaut si aucun champ).\n"
 
 #: ../urpmf_.c:41
 msgid "  --group        - print tag group: group.\n"
-msgstr "  --group         - afficher le champ « group » : groupe.\n"
+msgstr "  --group        - afficher le champ « group » : groupe.\n"
 
 #: ../urpmf_.c:42
 msgid "  --size         - print tag size: size.\n"
-msgstr "  --size          - afficher le champ « size » : taille.\n"
+msgstr "  --size         - afficher le champ « size » : taille.\n"
 
 #: ../urpmf_.c:43
-#, fuzzy
 msgid "  --epoch        - print tag epoch: epoch.\n"
-msgstr "  --size          - afficher le champ « size » : taille."
+msgstr "  --epoch        - afficher le champ « epoch » : série."
 
 #: ../urpmf_.c:44
 msgid "  --summary      - print tag summary: summary.\n"
-msgstr "  --summary       - afficher le champ « summary » : résumé.\n"
+msgstr "  --summary      - afficher le champ « summary » : résumé.\n"
 
 #: ../urpmf_.c:45
 msgid "  --description  - print tag description: description.\n"
-msgstr "  --description   - afficher le champ « description » : description.\n"
+msgstr "  --description  - afficher le champ « description » : description.\n"
 
 #: ../urpmf_.c:46
 msgid "  --provides     - print tag provides: all provides (multiple lines).\n"
@@ -402,9 +397,8 @@ msgstr ""
 "obsolescences (multi-lignes).\n"
 
 #: ../urpmf_.c:51
-#, fuzzy
 msgid "  -i             - ignore case distinctions in every pattern.\n"
-msgstr "  -f             - forcer la génération des fichiers hdlist.\n"
+msgstr "  -i             - ignorer la distinction de case.\n"
 
 #: ../urpmf_.c:52 ../urpmq_.c:72
 msgid "  -f             - print version, release and arch with name.\n"
@@ -413,38 +407,35 @@ msgstr ""
 "                   du paquetage avec le nom\n"
 
 #: ../urpmf_.c:53
-#, fuzzy
 msgid "  -e             - include perl code directly as perl -e.\n"
-msgstr "  -c             - purger le répertoire cache des en-têtes.\n"
+msgstr "  -e             - inclure du code perl directement.\n"
 
 #: ../urpmf_.c:54
 msgid ""
 "  -a             - binary AND operator, true if both expression are true.\n"
 msgstr ""
+"  -a             - opérateur binaire ET, vrai si les deux espressions sont\n"
+"                   vraies.\n"
 
 #: ../urpmf_.c:55
 msgid ""
 "  -o             - binary OR operator, true if one expression is true.\n"
 msgstr ""
+"  -o             - opérateur binaire OU, vrai si une expression est vraie.\n"
 
 #: ../urpmf_.c:56
-#, fuzzy
 msgid "  !              - unary NOT, true if expression is false.\n"
-msgstr "  -f             - forcer la génération des fichiers hdlist.\n"
+msgstr "  !              - NON unaire, vrai si l'expression est fausse.\n"
 
 #: ../urpmf_.c:57
-#, fuzzy
 msgid "  (              - left parenthesis to open group expression.\n"
-msgstr ""
-"  -a             - sélectionne toutes les paquetages correspondants à "
-"l'expression\n"
+msgstr "  (              - parenthèse gauche pour ouvrir un groupe"
+"d'expression.\n"
 
 #: ../urpmf_.c:58
-#, fuzzy
 msgid "  )              - right parenthesis to close group expression.\n"
-msgstr ""
-"  -a             - sélectionne toutes les paquetages correspondants à "
-"l'expression\n"
+msgstr "  )              - parenthèse droite pour fermer un groupe"
+"d'expression.\n"
 
 #: ../urpmf_.c:115
 #, c-format
@@ -493,7 +484,7 @@ msgstr ""
 
 #: ../urpmi.addmedia_.c:56 ../urpmi.update_.c:65 ../urpmi_.c:91
 msgid "  --limit-rate   - limit the download speed.\n"
-msgstr ""
+msgstr "  --limit-rate   - limite la vitesse de téléchargement.\n"
 
 #: ../urpmi.addmedia_.c:57 ../urpmi.update_.c:66 ../urpmi_.c:92 ../urpmq_.c:58
 msgid ""
@@ -548,14 +539,13 @@ msgstr ""
 "                   %s\n"
 
 #: ../urpmi.addmedia_.c:69
-#, fuzzy
 msgid ""
 "  --version      - use specified distribution version, the default is taken\n"
 "                   from the version of the distribution told by the\n"
 "                   installed mandrake-release package.\n"
 msgstr ""
 "  --version      - utilise la version spécifiée, celle par défaut est\n"
-"               celle du paquetage installé par la distribution mandrake.\n"
+"                   celle du paquetage installé par la distribution mandrake.\n"
 
 #: ../urpmi.addmedia_.c:72
 msgid ""
@@ -713,7 +703,6 @@ msgstr ""
 "usage:\n"
 
 #: ../urpmi_.c:75
-#, fuzzy
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
 msgstr ""
 "  --synthesis    - utilise le fichier de synthèse donné plutôt que la base\n"
@@ -852,10 +841,9 @@ msgid "  -v             - verbose mode.\n"
 msgstr "  -v             - mode verbeux.\n"
 
 #: ../urpmi_.c:114
-#, fuzzy
 msgid "  names or rpm files given on command line will be installed.\n"
 msgstr ""
-"  les noms ou les fichiers rpm donnés en ligne de commande sont installés.\n"
+"  les noms ou les fichiers rpm donnés en ligne de commande seront installés.\n"
 
 #: ../urpmi_.c:187
 #, c-format
@@ -912,28 +900,28 @@ msgstr ""
 "Etes vous d'accord ?"
 
 #: ../urpmi_.c:394
-#, fuzzy, c-format
+#, c-format
 msgid "in order to install %s"
-msgstr "impossible d'installer le paquetage %s"
+msgstr "pour installer le paquetage %s"
 
 #: ../urpmi_.c:399
 #, c-format
 msgid "due to unsatisfied %s"
-msgstr ""
+msgstr "%s non satisfait"
 
 #: ../urpmi_.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "due to missing %s"
-msgstr "wget n'est pas installé\n"
+msgstr "%s absent"
 
 #: ../urpmi_.c:406
-#, fuzzy, c-format
+#, c-format
 msgid "due to conflicts with %s"
-msgstr "%s est en conflit avec %s"
+msgstr "%s est en conflit"
 
 #: ../urpmi_.c:408
 msgid "unrequested"
-msgstr ""
+msgstr "non demandé"
 
 #: ../urpmi_.c:413
 #, c-format
@@ -1087,11 +1075,10 @@ msgstr ""
 "                   installée.\n"
 
 #: ../urpmq_.c:65
-#, fuzzy
 msgid "  -c             - complete output with package to be removed.\n"
 msgstr ""
-"  -c              - sortie sur la ligne de commande avec les noms des "
-"paquetages à désinstaller.\n"
+"  -c              - sortie sur la ligne de commande avec les\n"
+"                    noms des paquetages à désinstaller.\n"
 
 #: ../urpmq_.c:67
 msgid "  -R             - reverse search to what requires package.\n"
@@ -1114,7 +1101,7 @@ msgstr ""
 
 #: ../urpmq_.c:174
 msgid "--list-nodes can only be used with --parallel"
-msgstr ""
+msgstr "--list-nodes peut seulement être utilisé avec --parallel"
 
 #: placeholder.h:18
 #, c-format
