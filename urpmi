@@ -27,7 +27,6 @@ my $update = 0;
 my $media = 0;
 my $auto = 0;
 my $allow_medium_change = 0;
-my $complete = 0;
 my $auto_select = 0;
 my $force = 0;
 my $sync = undef;
@@ -68,7 +67,6 @@ usage:
 ") . _("  --fuzzy        - impose fuzzy search (same as -y).
 ") . _("  --src          - next package is a source package (same as -s).
 ") . _("  --noclean      - keep rpm not used in cache.
-") . _("  --complete     - use parsehdlist server to complete selection.
 ") . _("  --force        - force invocation even if some packages do not exist.
 ") . _("  --wget         - use wget to retrieve distant files.
 ") . _("  --curl         - use curl to retrieve distant files.
@@ -100,7 +98,6 @@ for (@ARGV) {
     /^--fuzzy$/ and do { $fuzzy = 1; next };
     /^--src$/ and do { $src = 1; next };
     /^--noclean$/ and do { $noclean = 1; next };
-    /^--complete$/ and do { $complete = 1; next };
     /^--force$/ and do { $force = 1; next };
     /^--wget$/ and do { $sync = \&urpm::sync_wget; next };
     /^--curl$/ and do { $sync = \&urpm::sync_curl; next };
@@ -246,21 +243,30 @@ my $ask_choice = sub {
     $choices_id[$n - 1];
 };
 
-#- auto select package for upgrading the distribution.
-if ($auto_select) {
-    my (%to_remove, %keep_files);
+#- open/close of database should be moved here, in order to allow testing
+#- some bogus case and check for integrity.
+{
+    my $db = URPM::DB::open($root);
+    my $sig_handler = sub { undef $db; exit 3 };
+    local $SIG{INT} = $sig_handler;
+    local $SIG{QUIT} = $sig_handler;
 
-    $urpm->select_packages_to_upgrade($root, \%packages, \%to_remove, \%keep_files, use_parsehdlist => $complete);
+    #- auto select package for upgrading the distribution.
+    if ($auto_select) {
+	my (%to_remove, %keep_files);
 
-#-    if (keys(%to_remove) > 0) {
-#-	print STDERR "some packages have to be removed for being upgraded, this is not supported yet\n";
-#-    }
+	$urpm->select_packages_to_upgrade($db, \%packages, \%to_remove, \%keep_files);
+
+	if (keys(%to_remove) > 0) {
+	    $urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
+	}
+    }
+
+    $urpm->filter_packages_to_upgrade($db, \%packages, $ask_choice);
+    #- my $track = $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, track => 1);
+    #- require Data::Dumper;
+    #- print STDERR Data::Dumper->Dump([$track], ['$track']);
 }
-
-$urpm->filter_packages_to_upgrade(\%packages, $ask_choice, root => $root);
-#- my $track = $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, track => 1);
-#- require Data::Dumper;
-#- print STDERR Data::Dumper->Dump([$track], ['$track']);
 
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);

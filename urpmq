@@ -137,21 +137,28 @@ if (@src_names) {
 	or $query->{force} or exit 1;
 }
 
-#- auto select package for upgrading the distribution.
-if ($query->{auto_select}) {
-    my (%to_remove, %keep_files);
+#- open/close of database should be moved here, in order to allow testing
+#- some bogus case and check for integrity.
+if ($query->{auto_select} || $query->{deps}) {
+    my $db = URPM::DB::open($root);
+    my $sig_handler = sub { undef $db; exit 3 };
+    local $SIG{INT} = $sig_handler;
+    local $SIG{QUIT} = $sig_handler;
 
-    $urpm->select_packages_to_upgrade($query->{root}, \%packages, \%to_remove, \%keep_files);
+    #- auto select package for upgrading the distribution.
+    if ($query->{auto_select}) {
+	my (%to_remove, %keep_files);
 
-    if (keys(%to_remove) > 0) {
-	$urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
+	$urpm->select_packages_to_upgrade($db, \%packages, \%to_remove, \%keep_files);
+
+	if (keys(%to_remove) > 0) {
+	    $urpm->{error}(_("some packages have to be removed for being upgraded, this is not supported yet\n"));
+	}
     }
-}
 
-#- filter to add in packages selected required packages.
-$query->{deps} and $urpm->filter_packages_to_upgrade(\%packages, undef,
-						     keep_alldeps => !$query->{upgrade},
-						     root => $query->{root});
+    #- filter to add in packages selected required packages.
+    $query->{deps} and $urpm->filter_packages_to_upgrade($db, \%packages, undef, keep_alldeps => !$query->{upgrade});
+}
 
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);

@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.4
-Release: 2mdk
+Release: 3mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,10 @@ fi
 
 
 %changelog
+* Wed Jun  5 2002 François Pons <fpons@mandrakesoft.com> 3.4-3mdk
+- avoid sub of sub with different level of variable closure in perl,
+  this cause the interpreter to lose its memory usage.
+
 * Wed Jun  5 2002 François Pons <fpons@mandrakesoft.com> 3.4-2mdk
 - fix rpmdb non closed when traversing it.
 - fix ftp and http medium with bad list generation.

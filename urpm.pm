@@ -1429,23 +1429,9 @@ sub search_packages {
 #- version, try to upgrade to minimize upgrade errors.
 #- all additional package selected have a true value.
 sub filter_packages_to_upgrade {
-    my ($urpm, $packages, $select_choices, %options) = @_;
+    my ($urpm, $db, $packages, $select_choices, %options) = @_;
     my ($id, %track, %track_requires, %installed, %selected, %conflicts);
-    my ($db, @packages) = (URPM::DB::open($options{root}), keys %$packages);
-    my $sig_handler = sub { undef $db; exit 3 };
-    local $SIG{INT} = $sig_handler;
-    local $SIG{QUIT} = $sig_handler;
-
-    #- common routines that are called at different points.
-    my $check_installed = sub {
-	my ($pkg) = @_;
-	$pkg->arch eq 'src' and return;
-	$options{keep_alldeps} || exists $installed{$pkg->id} and return 0;
-	$db->traverse_tag('name', [ $pkg->name ], sub {
-			      my ($p) = @_;
-			      $installed{$pkg->id} ||= $pkg->compare_pkg($p) <= 0;
-			  });
-    };
+    my @packages = keys %$packages;
 
     #- at this level, compute global closure of what is requested, regardless of
     #- choices for which all package in the choices are taken and their dependencies.
@@ -1463,7 +1449,13 @@ sub filter_packages_to_upgrade {
 	    #- are installed).
 	    foreach (@$id) {
 		my $pkg = $urpm->{depslist}[$_];
-		if (exists $packages->{$_} || $check_installed->($pkg) > 0) {
+		$pkg->arch eq 'src' and return;
+		$options{keep_alldeps} || exists $installed{$pkg->id} and return 0;
+		my $count = $db->traverse_tag('name', [ $pkg->name ], sub {
+						  my ($p) = @_;
+						  $installed{$pkg->id} ||= $pkg->compare_pkg($p) <= 0;
+					      });
+		if (exists $packages->{$_} || $count > 0) {
 		    $installed{$pkg->id} or push @forced_selection, $_;
 		} else {
 		    push @selection, $_;
@@ -1662,7 +1654,12 @@ sub filter_packages_to_upgrade {
 	    foreach my $pkg (@pre_choices) {
 		push @choices, $pkg;
 
-		$check_installed->($pkg);
+		$pkg->arch eq 'src' and return;
+		$options{keep_alldeps} || exists $installed{$pkg->id} and return 0;
+		$db->traverse_tag('name', [ $pkg->name ], sub {
+				      my ($p) = @_;
+				      $installed{$pkg->id} ||= $pkg->compare_pkg($p) <= 0;
+				  });
 		$installed{$pkg->id} and delete $packages->{$pkg->id};
 		exists $installed{$pkg->id} and push @upgradable_choices, $pkg;
 	    }
@@ -1697,8 +1694,6 @@ sub filter_packages_to_upgrade {
 	    }
 	}
     }
-
-    undef $db;
 
     #- rpm db will be closed automatically on destruction of $db.
     \%track;
@@ -1977,11 +1972,7 @@ sub extract_packages_to_install {
 }
 
 sub select_packages_to_upgrade {
-    my ($urpm, $prefix, $packages, $remove_packages, $keep_files, %options) = @_;
-    my $db = URPM::DB::open($prefix);
-    my $sig_handler = sub { undef $db; exit 3 };
-    local $SIG{INT} = $sig_handler;
-    local $SIG{QUIT} = $sig_handler;
+    my ($urpm, $db, $packages, $remove_packages, $keep_files, %options) = @_;
 
     #- used for package that are not correctly updated.
     #- should only be used when nothing else can be done correctly.
@@ -2151,7 +2142,6 @@ sub select_packages_to_upgrade {
 			  }
 		      });
     }
-    undef $db;
 }
 
 1;
