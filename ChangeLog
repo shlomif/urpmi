@@ -1,3 +1,106 @@
+2004-04-23 14:36  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmq: The command-line parsing for urpmq wasn't quite right yet.
+
+2004-04-23 10:10  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi: - urpmi: display the total number of packages to be
+	  installed
+
+2004-04-22 12:42  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpm/download.pm, urpm/util.pm: More refactorization.
+	  Some silencing of the warnings emitted by -w.
+
+2004-04-20 11:05  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi, urpm/msg.pm: Fix regressions due to modularization
+
+2004-04-19 19:10  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpme, urpmi, urpmi.addmedia, urpmi.update, urpmq,
+	  urpm/args.pm, urpm/cfg.pm, urpm/download.pm, urpm/msg.pm: Some
+	  more cleanup and refactorization.
+
+2004-04-19 14:10  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi.addmedia, urpmi.update, urpm/args.pm: Some more options
+	  refactorisation. The --from option of urpmi.addmedia was being
+	  ignored; fix it.
+
+2004-04-17 15:36  hilbert
+
+	* po/zh_TW.po: --parallel
+
+2004-04-17 11:54  hilbert
+
+	* po/zh_TW.po: All done except options like   --use-distrib  -
+	  configure urpmi on the fly from a distrib tree.\n
+	  This permit to querying a distro.\n
+
+2004-04-16 12:14  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* po/: Makefile, urpmi.pot: Add the new .pm files in the po/
+	  makefile; regenerate urpmi.pot.
+
+2004-04-14 17:33  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmf, urpm/args.pm: Fix the parsing of command-line options of
+	  urpmf when no option is specified
+
+2004-04-14 15:47  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* rpm-find-leaves, urpm.pm, urpme, urpmf, urpmi, urpmi.addmedia,
+	  urpmi.removemedia, urpmi.update, urpmq, urpm/args.pm,
+	  urpm/msg.pm: Factorize the message/prompt/I18N code of urpm* in a
+	  separate module
+
+2004-04-14 10:33  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpmi.addmedia, urpm/args.pm: urpmi.addmedia was forgetting
+	  command-line arguments.
+
+2004-04-13 16:53  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpme, urpmf, urpmi.addmedia, urpmi.update, urpmq, urpm/args.pm:
+	  Factorize the code to handle command-line options for the urpm*
+	  tools in a module urpm::args.
+
+2004-04-13 16:28  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm: Remove a function that was already defined in
+	  MDK::Common.
+
+2004-04-09 18:38  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpmi, urpm/args.pm: Factorize command-line handling for
+	  urpm* tools in a separate module.  Use this in urpmi.
+
+2004-04-09 13:59  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* urpm.pm, urpmi: - urpmi was ignoring the password for an http
+	  proxy - urpm.pm : check whether a fork(2) succeeded before
+	  continuing
+
+2004-04-07 12:42  Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com>
+
+	* man/C/: urpme.8, urpmf.8, urpmi.8, urpmi.addmedia.8, urpmi.cfg.5,
+	  urpmi.removemedia.8, urpmi.update.8, urpmq.8: Small manpage
+	  updates.
+
+2004-04-06 10:10  Thierry Vignaud <tvignaud@mandrakesoft.com>
+
+	* man/C/: urpmf.8, urpmi.addmedia.8, urpmi.update.8, urpmq.8: typo
+	  fix
+
+2004-04-05 15:24  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/ky.po: Added Kyrgyz file
+
+2004-04-02 02:24  Pablo Saratxaga <pablo@mandrakesoft.com>
+
+	* po/sl.po: updated po file
+
 2004-03-31 09:15  Pablo Saratxaga <pablo@mandrakesoft.com>
 
 	* po/tg.po: updated po file
@@ -899,7 +1002,7 @@
 
 	* urpm.pm, urpme, urpmf, urpmi, urpmi.addmedia, urpmi.removemedia,
 	  urpmq: - re use strict, because nobody is better than perl - use
-	  sub folder bug report when restart is need - add cvs $Id: ChangeLog,v 1.28 2004/02/25 22:05:58 othauvin Exp $ in
+	  sub folder bug report when restart is need - add cvs $Id: ChangeLog,v 1.29 2004/04/01 10:40:19 tvignaud Exp $ in
 	  script
 
 2004-01-16 01:09  Olivier Thauvin <thauvin@aerov.jussieu.fr>
