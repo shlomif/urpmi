@@ -768,9 +768,11 @@ sub add_distrib_media {
 	    s/\s*#.*$//;
 	    /^\s*$/ and next;
 	    /^(?:suppl|askmedia)/ and next;
-	    m/^\s*(noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file", $_));
-	    my ($noauto, $hdlist, $rpmsdir, $descr) = ($1, $2, $3);
+	    /^\s*(noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*([^(]*)(\(.+\))?$/
+		or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file", $_));
+	    my ($noauto, $hdlist, $rpmsdir, $descr) = ($1, $2, $3, $4);
 	    next if $noauto;
+	    $descr =~ s/\s+$//;
 
 	    push @newnames, $urpm->add_medium(
 		$name ? "$descr ($name$medium)" : $descr,
