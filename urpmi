@@ -147,9 +147,7 @@ my @ARGVcopy; # keep a copy, in case we have to restart
 foreach my $a (@ARGV) {
     if ($a =~ /\.urpmi$/) {
 	push @ARGVcopy, split /\n/, cat_($a);
-	next;
-    }
-    else {
+    } else {
 	push @ARGVcopy, $a;
     }
 }
@@ -222,12 +220,12 @@ Use --allow-force to force operation.", $urpm::sys::mountpoint));
 }
 
 my ($pid_out, $pid_err);
+open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
+open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
 if ($log) {
     #- log only at this point in case of query usage.
     log_it(scalar localtime, " urpmi called with $command_line\n");
 
-    open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
-    open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
     unless ($pid_out = open STDOUT, "|-") {
 	my $buf_r;
 	while (<STDIN>) {
@@ -252,12 +250,10 @@ if ($log) {
 	}
 	exit 0;
     }
-    select STDERR; $| = 1;     # make unbuffered
-    select STDOUT; $| = 1;     # make unbuffered
-} else {
-    open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
-    open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
 }
+#- make unbuffered, and STDOUT the default
+select STDERR; $| = 1;
+select STDOUT; $| = 1;
 
 #- log to SAVEERR instead of STDERR
 unless ($bug) {
@@ -706,8 +702,9 @@ if ($restart_itself && !$exit_code) {
     #- renamed bug report dir as /restarted to avoid exit because it already exists
     #- This permits to have in a same dir bug reports before and after the restart
     @ARGV = @ARGVcopy;
-    my @arg = ($ARGV[0], map { $ARGV[$_] . ($ARGV[$_ - 1] =~ /^--bug$/
-		? "/restarted" : "") } (1 .. $#ARGV));
+    my @arg = ($ARGV[0], map {
+	    $ARGV[$_] . ($ARGV[$_ - 1] eq '--bug' ? "/restarted" : "");
+	} (1 .. $#ARGV));
     exec $0, '--no-priority-upgrade', @arg;
 }
 
