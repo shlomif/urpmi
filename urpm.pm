@@ -3259,6 +3259,8 @@ sub parse_md5sum {
     return $retrieved_md5sum;
 }
 
+sub DESTROY { }
+
 1;
 
 __END__
@@ -3279,7 +3281,7 @@ files.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2004 Mandrakesoft
+Copyright (C) 2000-2005 Mandrakesoft
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
