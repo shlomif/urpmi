@@ -2,9 +2,10 @@
 
 Name: urpmi
 Version: 1.6
-Release: 12mdk
+Release: 14mdk
 License: GPL
 Source0: %{name}.tar.bz2
+Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject, wget
 PreReq: perl-gettext, rpmtools >= 3.0-8mdk
@@ -54,6 +55,8 @@ find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.mo | \
 
 cd $RPM_BUILD_ROOT%{_bindir} ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
 
+mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/
+install -m 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/urpmi
 
 %find_lang %{name}
 
@@ -82,6 +85,7 @@ rm -f /var/lib/urpmi/depslist
 %dir /var/cache/urpmi/headers
 %dir /var/cache/urpmi/rpms
 %config(noreplace) /etc/urpmi/skip.list
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_bindir}/urpmi_rpm-find-leaves
 %{_bindir}/urpmf
 %{_bindir}/urpmq
@@ -106,6 +110,13 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Jul 16 2001 Daouda Lo <daouda@mandrakesoft.com> 1.6-14mdk
+- resync with cvs.
+
+* Sat Jul 14 2001  Daouda Lo <daouda@mandrakesoft.com> 1.6-13mdk
+- added urpmi logrotate file 
+- more macroz
+
 * Thu Jul  5 2001 François Pons <fpons@mandrakesoft.com> 1.6-12mdk
 - fixed wrong dependencies resolution for local packages
   in minimal mode.
