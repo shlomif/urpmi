@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 1mdk
+%define release 2mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -207,6 +207,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %lang(fr) %{_mandir}/fr/man?/urpm* 
 %lang(ru) %{_mandir}/ru/man?/urpm* 
 %lang(uk) %{_mandir}/uk/man?/urpm* 
+%dir %{compat_perl_vendorlib}/urpm
 %{compat_perl_vendorlib}/urpm.pm
 %{compat_perl_vendorlib}/urpm/args.pm
 %{compat_perl_vendorlib}/urpm/cfg.pm
@@ -250,6 +251,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Apr 28 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-2mdk
+- Bug fixes : locale handling, command-line argument parsing
+- Add new French manpages from the man-pages-fr package
+
 * Mon Apr 26 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-1mdk
 - Refactorization, split code in new modules, minor bugfixes
 
