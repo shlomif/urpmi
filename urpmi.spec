@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.4
-Release: 25mdk
+Release: 26mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -202,6 +202,12 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 
 %changelog
+* Tue Aug 26 2003 François Pons <fpons@mandrakesoft.com> 4.4-26mdk
+- added -z for rsync:// protocol by default.
+- fixed some cosmetic log glitches when progressing download.
+- fixed multiple removable device management.
+- fixed urpmi not locking urpmi db.
+
 * Fri Aug 22 2003 François Pons <fpons@mandrakesoft.com> 4.4-25mdk
 - automatically fork transaction if they are multiple.
 
