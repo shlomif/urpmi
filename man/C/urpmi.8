@@ -154,6 +154,14 @@ This is the same as \fB--src\fP.
 Quiet mode: when calling rpm no upgrade status is printed.
 .IP "\fB\-v\fP"
 Proposes a verbose mode with various messages.
+.SH EXAMPLES
+.IP "urpmi ssh://foo@bar.net/home/foo/test.rpm"
+Fetch /home/foo/test.rpm from server bar.net over ssh using user foo.
+You can use a public key or enter your password.
+
+.IP "urpmi --media foo- --auto-select"
+Fetch all the updates from media containing foo- in their name.
+
 .SH FILES
 .de FN
 \fI\|\\$1\|\fP
