@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 11mdk
+Release: 12mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Feb 27 2001 François Pons <fpons@mandrakesoft.com> 1.5-12mdk
+- removed use of tee, now forked.
+
 * Tue Feb 27 2001 François Pons <fpons@mandrakesoft.com> 1.5-11mdk
 - fixed cohabitation of --auto-select and skip list.
 - added -m mode for urpmq.
