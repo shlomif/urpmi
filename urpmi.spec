@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 3.3
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -144,6 +144,11 @@ fi
 
 
 %changelog
+* Tue Feb 12 2002 François Pons <fpons@mandrakesoft.com> 3.3-4mdk
+- fixed bad method reference in urpmq (used by rpmdrake).
+- fixed urpmq -d behaviour.
+- fixed bad signal handler behaviour.
+
 * Tue Feb 12 2002 François Pons <fpons@mandrakesoft.com> 3.3-3mdk
 - package installed (and not upgraded) are by default using --nodeps
   (typically kernel-source).

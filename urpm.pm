@@ -1484,7 +1484,7 @@ sub filter_packages_to_upgrade {
     my ($urpm, $packages, $select_choices, %options) = @_;
     my ($id, %installed, %selected, %conflicts);
     my ($db, @packages) = (rpmtools::db_open(''), keys %$packages);
-    my $sig_handler = sub { rpmtools::db_close($db) };
+    my $sig_handler = sub { rpmtools::db_close($db); exit 3 };
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
 
@@ -1603,16 +1603,17 @@ sub filter_packages_to_upgrade {
 		#- if the provides is not found, it will be resolved at next step, else
 		#- it will be resolved by searching the rpm database.
 		$provides{$_} ||= undef;
-		my $check_pkg = sub {
-		    $options{keep_alldeps} and return;
-		    $o and $n eq $_[0]{name} || return;
-		    (!$v || eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0)) &&
-		      (!$r || rpmtools::version_compare($_[0]{version}, $v) != 0 ||
-		       eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0)) or return;
-		    $provides{$_} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
-		};
-		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
-					  [ qw (name version release) ], $check_pkg);
+		unless ($options{keep_alldeps}) {
+		    my $check_pkg = sub {
+			$o and $n eq $_[0]{name} || return;
+			(!$v || eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0)) &&
+			  (!$r || rpmtools::version_compare($_[0]{version}, $v) != 0 ||
+			   eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0)) or return;
+			$provides{$_} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
+		    };
+		    rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
+					      [ qw (name version release) ], $check_pkg);
+		}
 	    }
 	}
 
@@ -1622,23 +1623,24 @@ sub filter_packages_to_upgrade {
 	foreach (@{$pkg->{conflicts} || []}) {
 	    if (my ($n, $o, $v, $r) = /^([^\s\[]*)(?:\[\*\])?(?:\s+|\[)?([^\s\]]*)\s*([^\s\-\]]*)-?([^\s\]]*)/) {
 		my $check_pkg = sub {
-		    $o and $n eq $_[0]{name} || return;
-		    (!$v || eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0)) &&
-		      (!$r || rpmtools::version_compare($pkg->{version}, $v) != 0 ||
-		       eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0)) or return;
-		    $conflicts{"$_[0]{name}-$_[0]{version}-$_[0]{release}"} = 1;
+		    my ($p) = @_;
+		    $o and $n eq $p->{name} || return;
+		    (!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
+		      (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
+		       eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or return;
+		    $conflicts{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} = 1;
 		    $selected{$_[0]{name}} ||= undef;
 		};
 		rpmtools::db_traverse_tag($db, $n =~ m|^/| ? 'path' : 'whatprovides', [ $n ],
-					  [ qw (name version release) ], $check_pkg);
+					  [ qw (name version release arch) ], $check_pkg);
 		foreach my $fullname (keys %{$urpm->{params}{provides}{$n} || {}}) {
-		    my $pkg = $urpm->{params}{info}{$fullname};
-		    $pkg->{arch} eq 'src' and next;
-		    $o and $n eq $pkg->{name} || next;
-		    (!$v || eval(rpmtools::version_compare($pkg->{version}, $v) . $o . 0)) &&
-		      (!$r || rpmtools::version_compare($pkg->{version}, $v) != 0 ||
-		       eval(rpmtools::version_compare($pkg->{release}, $r) . $o . 0)) or next;
-		    $conflicts{"$pkg->{name}-$pkg->{version}-$pkg->{release}"} ||= 0;
+		    my $p = $urpm->{params}{info}{$fullname};
+		    $p->{arch} eq 'src' and next;
+		    $o and $n eq $p->{name} || next;
+		    (!$v || eval(rpmtools::version_compare($p->{version}, $v) . $o . 0)) &&
+		      (!$r || rpmtools::version_compare($p->{version}, $v) != 0 ||
+		       eval(rpmtools::version_compare($p->{release}, $r) . $o . 0)) or next;
+		    $conflicts{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} ||= 0;
 		}
 	    }
 	}
@@ -1704,7 +1706,6 @@ sub filter_packages_to_upgrade {
 		push @choices, $pkg;
 
 		$check_installed->($pkg);
-		$selected{$pkg->{name}} = 1;
 		$installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
 		exists $installed{$pkg->{id}} and push @upgradable_choices, $pkg;
 	    }
@@ -1716,15 +1717,14 @@ sub filter_packages_to_upgrade {
 		}
 	    }
 	    @upgradable_choices > 0 and @choices = @upgradable_choices;
-	    @choices_id{map { $_->{id} } @choices} = ();
-	    if (keys(%choices_id) > 0) {
-		if (keys(%choices_id) == 1) {
-		    my ($id) = keys(%choices_id);
-		    exists $packages->{$id} or $packages->{$id} = 1;
-		    unshift @packages, $id;
-		} else {
-		    push @packages, [ sort { $a <=> $b } keys %choices_id ];
-		}
+	    $choices_id{$_->{id}} = $_ foreach @choices;
+	    if (keys(%choices_id) == 1) {
+		my ($id) = keys(%choices_id);
+		$selected{$choices_id{$id}{name}} = 1;
+		exists $packages->{$id} or $packages->{$id} = 1;
+		unshift @packages, $id;
+	    } elsif (keys(%choices_id) > 1) {
+		push @packages, [ sort { $a <=> $b } keys %choices_id ];
 	    }
 	}
     }
@@ -1996,7 +1996,7 @@ sub extract_packages_to_install {
 sub select_packages_to_upgrade {
     my ($urpm, $prefix, $packages, $remove_packages, $keep_files, %options) = @_;
     my $db = rpmtools::db_open($prefix);
-    my $sig_handler = sub { rpmtools::db_close($db) };
+    my $sig_handler = sub { rpmtools::db_close($db); exit 3 };
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;
 
