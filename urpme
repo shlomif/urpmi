@@ -71,11 +71,17 @@ system("rpm", "-e", @toremove);
 
 sub load_provides {
     local *F;
-    open F, "$DIR/depslist" or return;
+    open F, "$DIR/depslist.ordered" or return;
+    my @packages_id;
+    my %provides_id;
     foreach (<F>) {
 	my ($p, $size, @l) = split;
 	$size{$p} = $size;
-	push @{$provides{$_}}, $p foreach @l;
+	push @packages_id, $p;
+	push @{$provides_id{$_}}, $p foreach @l;
+    }
+    foreach (keys %provides_id) {
+	$provides{$packages_id[$_]} = $provides_id{$_};
     }
 }
 sub toMb {
