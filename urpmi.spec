@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.5
-%define release 10mdk
+%define release 11mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -258,6 +258,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Jun 30 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-11mdk
+- Methods to change and write proxy.cfg
+- Language updates
+
 * Tue Jun 29 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.5-10mdk
 - Rewrite the proxy.cfg parser
 - Let the proxy be settable per media (still undocumented)
