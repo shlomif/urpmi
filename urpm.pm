@@ -84,7 +84,7 @@ sub unquotespace { local $_ = $_[0]; s/\\(\s)/$1/g; $_ }
 #-   <name> <url>
 #-   <name> <ftp_url> with <relative_path_hdlist>
 sub read_config {
-    my ($urpm) = @_;
+    my ($urpm, %options) = @_;
 
     #- keep in mind if it has been called before.
     $urpm->{media} and return; $urpm->{media} ||= [];
@@ -108,15 +108,15 @@ sub read_config {
 		$_ eq '}' and last;
 		$_ and $urpm->{error}("syntax error at line $. in $urpm->{config}");
 	    }
-	    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
+	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 	    next; };
 	/^(.*?[^\\])\s+(.*?[^\\])\s+with\s+(.*)$/ and do { #- urpmi.cfg old format for ftp
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2), with_hdlist => unquotespace($3) };
-	    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
+	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 	    next; };
 	/^(.*?[^\\])\s+(?:(.*?[^\\])\s*)?$/ and do { #- urpmi.cfg old format (assume hdlist.<name>.cz2?)
 	    my $medium = { name => unquotespace($1), clear_url => unquotespace($2) };
-	    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
+	    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 	    next; };
 	$_ and $urpm->{error}("syntax error at line $. in [$urpm->{config}]");
     }
@@ -154,7 +154,7 @@ sub read_config {
 		    $medium and $urpm->{error}("unable to use name \"$2\" for unamed medium because it is already used"), next;
 
 		    $medium = { name => $2, hdlist => "hdlist.$1", list => "list.$2" };
-		    $urpm->probe_medium($medium) and push @{$urpm->{media}}, $medium;
+		    $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
 		}
 	    } else {
 		$urpm->{error}("unable to take medium \"$2\" into account as no list file [$urpm->{statedir}/list.$2] exists");
@@ -167,18 +167,20 @@ sub read_config {
     #- check the presence of hdlist file and list file if necessary.
     #- TODO?: degraded mode is possible with a list file but no hdlist, the medium
     #- is no longer updatable nor removable TODO
-    foreach (@{$urpm->{media}}) {
-	$_->{ignore} and next;
-	-r "$urpm->{statedir}/$_->{hdlist}" or
-	  $_->{ignore} = 1, $urpm->{error}("unable to access hdlist file of \"$_->{name}\", medium ignored");
-	$_->{list} && -r "$urpm->{statedir}/$_->{list}" or
-	  $_->{ignore} = 1, $urpm->{error}("unable to access list file of \"$_->{name}\", medium ignored");
+    unless ($options{nocheck_access}) {
+	foreach (@{$urpm->{media}}) {
+	    $_->{ignore} and next;
+	    -r "$urpm->{statedir}/$_->{hdlist}" or
+	      $_->{ignore} = 1, $urpm->{error}("unable to access hdlist file of \"$_->{name}\", medium ignored");
+	    $_->{list} && -r "$urpm->{statedir}/$_->{list}" or
+	      $_->{ignore} = 1, $urpm->{error}("unable to access list file of \"$_->{name}\", medium ignored");
+	}
     }
 }
 
 #- probe medium to be used, take old medium into account too.
 sub probe_medium {
-    my ($urpm, $medium) = @_;
+    my ($urpm, $medium, %options) = @_;
     local $_;
 
     my $existing_medium;
@@ -217,9 +219,11 @@ sub probe_medium {
 		$medium->{url} = $_;
 	    }
 	}
-	$medium->{url} or
-	  $medium->{ignore} || $urpm->{error}("unable to inspect list file for \"$medium->{name}\", medium ignored"),
-	    $medium->{ignore} = 1; #, last; keeping it cause perl to exit caller loop ...
+	unless ($options{nocheck_access}) {
+	    $medium->{url} or
+	      $medium->{ignore} || $urpm->{error}("unable to inspect list file for \"$medium->{name}\", medium ignored"),
+		$medium->{ignore} = 1; #, last; keeping it cause perl to exit caller loop ...
+	}
     }
     $medium->{url} ||= $medium->{clear_url};
     $medium;
@@ -825,10 +829,6 @@ sub compute_closure {
     my ($urpm, $packages, $installed, $select_choices) = @_;
     my ($id, @packages) = (undef, keys %$packages);
 
-    #- select first level of packages, as in packages list will only be
-    #- examined deps of each.
-    @{$packages}{@packages} = ();
-
     #- at this level, compute global closure of what is requested, regardless of
     #- choices for which all package in the choices are taken and their dependancies.
     #- allow iteration over a modifying list.
@@ -875,7 +875,7 @@ sub compute_closure {
 		if ($installed && $installed->{$_}) {
 		    delete $packages->{$_};
 		} else {
-		    $packages->{$_} = $installed && ! exists $installed->{$_};
+		    exists $packages->{$_} or $packages->{$_} = $installed && ! exists $installed->{$_};
 		}
 	    }
 	}
@@ -949,9 +949,9 @@ sub filter_packages_to_upgrade {
     #- need upgrade (0), requested (undef), already installed (not present) or
     #- newly added (1).
     #- choices if not chosen are present as ref.
-    my @packages = keys %$packages;
-    %$packages = %closures;
-    @{$packages}{@packages} = ();
+    foreach (keys %closures) {
+	exists $packages->{$_} or $packages->{$_} = $closures{$_};
+    }
 
     $packages;
 }
@@ -991,10 +991,6 @@ sub filter_minimal_packages_to_upgrade {
 
 	my ($db, @packages) = (rpmtools::db_open(''), keys %$packages);
 	my ($id, %provides, %installed);
-
-	#- select first level of packages, as in packages list will only be
-	#- examined deps of each.
-	@{$packages}{@packages} = ();
 
 	#- at this level, compute global closure of what is requested, regardless of
 	#- choices for which all package in the choices are taken and their dependancies.
@@ -1129,7 +1125,7 @@ sub filter_minimal_packages_to_upgrade {
 
 #- get out of package that should not be upgraded.
 sub deselect_unwanted_packages {
-    my ($urpm, $packages) = @_;
+    my ($urpm, $packages, %options) = @_;
 
     my %skip;
     local ($_, *F);
@@ -1137,7 +1133,7 @@ sub deselect_unwanted_packages {
     while (<F>) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	my $pkg = $urpm->{params}{info}{$_} or next;
-	exists $packages->{$pkg->{id}} && defined $packages->{$pkg->{id}} and delete $packages->{$pkg->{id}};
+	$options{force} || (exists $packages->{$pkg->{id}} && defined $packages->{$pkg->{id}}) and delete $packages->{$pkg->{id}};
     }
     close F;
 }

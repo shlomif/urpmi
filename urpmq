@@ -50,6 +50,9 @@ usage:
   -v             - verbose mode.
   -d             - extend query to package dependancies.
   -u             - remove package if a better version is already installed.
+  -m             - extend query to package dependancies, remove already
+                   installed package that provide what is necessary, add
+                   packages that may be block the upgrade.
   -c             - choose complete method for resolving requires closure.
   -g             - print groups too with name.
   -r             - print version and release too with name.
@@ -57,7 +60,8 @@ usage:
   --auto-select  - automatically select packages for upgrading the system.
   --headers      - extract headers for package listed from urpmi db to
                    stdout (root only).
-  --force          - force invocation even if some package does not exists.
+  --sources      - give all source packages before downloading (root only).
+  --force        - force invocation even if some package does not exists.
 
   names or rpm files given on command line are queried.
 ", $urpm::VERSION)));
@@ -69,11 +73,13 @@ for (@ARGV) {
     /^--help$/ and do { usage; next };
     /^--auto-select$/ and do { $query->{auto_select} = 1; next };
     /^--headers$/ and do { $query->{headers} = 1; next };
+    /^--sources$/ and do { $query->{sources} = 1; next };
     /^--force$/ and do { $query->{force} = 1; next };
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/d/ and do { $query->{deps} = 1; next };
 	/u/ and do { $query->{upgrade} = 1; next };
+	/m/ and do { $query->{minimal} = 1; next };
 	/c/ and do { $query->{complete} = 1; next };
 	/g/ and do { $query->{group} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };
@@ -124,13 +130,19 @@ if ($query->{auto_select}) {
 }
 
 #- filter to add in packages selected required packages.
-$query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);
-$query->{upgrade} and $urpm->filter_packages_to_upgrade(\%packages, complete => $query->{complete});
+if ($query->{minimal}) {
+    $urpm->read_provides;
+    $urpm->read_config(nocheck_access => 1);
+    $urpm->filter_minimal_packages_to_upgrade(\%packages, undef);
+} else {
+    $query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);
+    $query->{upgrade} and $urpm->filter_packages_to_upgrade(\%packages, undef, complete => $query->{complete});
+}
 
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);
 
-if ($query->{headers}) {
+if ($query->{headers} || $query->{sources}) {
     $urpm->read_config();
 
     my ($local_sources, $list) = $urpm->get_source_packages(\%packages);
@@ -139,20 +151,25 @@ if ($query->{headers}) {
 	exit 1;
     }
 
-    #- now examine source package to build headers list to extract.
-    foreach (@$local_sources) {
-	system 'rpm2header', @$local_sources;
-    }
-    foreach (0..$#{$urpm->{media} || []}) {
-	my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
-			      -s $file and system 'cat', $file;
-			      ! -s $file }
-		       map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } @{$list->[$_]});
-	@headers > 0 or next;
+    if ($query->{headers}) {
+	#- now examine source package to build headers list to extract.
+	@$local_sources and system 'rpm2header', @$local_sources;
+	foreach (0..$#{$urpm->{media} || []}) {
+	    my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
+				  -s $file and system 'cat', $file;
+				  ! -s $file }
+			   map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } @{$list->[$_]});
+	    @headers > 0 or next;
 
-	require packdrake;
-	my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
-	$packer->extract_archive(undef, @headers);
+	    require packdrake;
+	    my $packer = new packdrake("$urpm->{statedir}/$urpm->{media}[$_]{hdlist}");
+	    $packer->extract_archive(undef, @headers);
+	}
+    } else {
+	print join "\n", @$local_sources; @$local_sources and print "\n";
+	foreach (0..$#{$urpm->{media} || []}) {
+	    print join "\n", @{$list->[$_]}; @{$list->[$_]} and print "\n";
+	}
     }
     exit 0;
 }

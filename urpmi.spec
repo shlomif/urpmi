@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 10mdk
+Release: 11mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Feb 27 2001 François Pons <fpons@mandrakesoft.com> 1.5-11mdk
+- fixed cohabitation of --auto-select and skip list.
+- added -m mode for urpmq.
+- added --sources flag for urpmq.
+
 * Mon Feb 26 2001 François Pons <fpons@mandrakesoft.com> 1.5-10mdk
 - fixed auto-select flag to use dependancies resolver after.
 
