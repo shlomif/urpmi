@@ -107,4 +107,17 @@ sub find_mntpoints {
     @mntpoints;
 }
 
+#- checks if the main filesystems are writeable for urpmi to install files in
+sub check_fs_writable () {
+    open my $mounts, '/proc/mounts' or do { warn "Can't read /proc/mounts: $!\n"; return 1 };
+    local *_;
+    while (<$mounts>) {
+	(undef, our $mountpoint, undef, my $opts) = split ' ';
+	if ($opts =~ /\bro\b/ && $mountpoint =~ m!^(/|/usr|/s?bin)$!) {
+	    return 0;
+	}
+    }
+    1;
+}
+
 1;

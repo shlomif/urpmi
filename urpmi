@@ -215,6 +215,12 @@ if ($env) {
     }
 }
 
+unless ($bug || $install_src || $env || $urpm->{options}{'allow-force'}) {
+    require urpm::sys;
+    urpm::sys::check_fs_writable() or $urpm->{fatal}(1, N("Error: %s appears to be mounted read-only.
+Use --allow-force to force operation.", $urpm::sys::mountpoint));
+}
+
 my ($pid_out, $pid_err);
 if ($log) {
     #- log only at this point in case of query usage.
