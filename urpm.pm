@@ -2726,7 +2726,6 @@ sub install {
     }
 
     my ($update, @l, %file2pkg) = 0;
-    local *F;
 
     foreach (@$remove) {
 	if ($trans->remove($_)) {
@@ -2752,15 +2751,16 @@ sub install {
     }
     unless (!$options{nodeps} && (@l = $trans->check(%options)) ||
 	    !$options{noorder} && (@l = $trans->order)) {
+	my $fh;
 	#- assume default value for some parameter.
 	$options{delta} ||= 1000;
 	$options{callback_open} ||= sub {
 	    my ($data, $type, $id) = @_;
-	    open F, $install->{$id} || $upgrade->{$id} or
+	    open $fh, $install->{$id} || $upgrade->{$id} or
 	      $urpm->{error}(N("unable to access rpm file [%s]", $install->{$id} || $upgrade->{$id}));
-	    return fileno F;
+	    return fileno $fh;
 	};
-	$options{callback_close} ||= sub { close F };
+	$options{callback_close} ||= sub { close $fh };
 	if (keys %$install || keys %$upgrade) {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
