@@ -1,6 +1,6 @@
 %define name	urpmi
 %define version	4.4
-%define release 49mdk
+%define release 50mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -22,7 +22,6 @@ Source0:	%{name}.tar.bz2
 Summary:	User mode rpm install
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
-Requires:       bash-completion
 PreReq:		perl-Locale-gettext >= 1.01-7 gettext rpmtools >= 4.5 perl-URPM >= 0.94
 BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3 
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -229,6 +228,9 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Mon Jan 05 2004 Abel Cheung <deaddog@deaddog.org> 4.4-50mdk
+- Remove bash-completion dependency
+
 * Sun Jan 04 2004 Olivier Thauvin <thauvin@aerov.jussieu.fr> 4.4-49mdk
 - apply Guillaume Rousse patch
 - Fix bug #6666
