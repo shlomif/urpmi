@@ -244,7 +244,7 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 
 %changelog
 * Sun Feb 22 2004 François Pons <fpons@garrigue.homelinux.org> 4.4.5-8mdk
-- fix bug 8110.
+- fix bug 8110 (urpmq -y automatically uses -a).
 - gurpm.pm: allow to pass options to ugtk2 object (so that we can set
   transient_for option, fixes #8146) (gc)
 - From Olivier Thauvin <thauvin@aerov.jussieu.fr>
