@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.6
-%define release 1mdk
+%define release 2mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -30,7 +30,7 @@ Source0:	%{name}.tar.bz2
 Summary:	User mode rpm install
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
-PreReq:		perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 1.03-2mdk
+PreReq:		perl-Locale-gettext >= 1.01-7 rpmtools >= 4.5 perl-URPM >= 1.04
 BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3 
 BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-buildroot
@@ -256,6 +256,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Fri Nov 12 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6-2mdk
+- New error message: "The following packages can't be installed because they
+  depend on packages that are older than the installed ones"
+
 * Tue Nov 09 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6-1mdk
 - New option --norebuild to urpmi, urpmi.update and urpmi.addmedia.
 - New --strict-arch option to urpmi
