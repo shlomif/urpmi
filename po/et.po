@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-01-06 15:42+0100\n"
-"PO-Revision-Date: 2005-01-04 02:33+0300\n"
+"PO-Revision-Date: 2005-01-07 08:20+0300\n"
 "Last-Translator: Marek Laane <bald@online.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -71,37 +71,35 @@ msgstr " (J/e) "
 #: ../_irpm:63
 #, c-format
 msgid "%s: command not found\n"
-msgstr "%s: ei tunne seda käsku\n"
+msgstr "%s: sellist käsku ei leitud\n"
 
 #: ../gurpmi:99
-#, fuzzy, c-format
+#, c-format
 msgid "Please wait..."
-msgstr "Palun oodake."
+msgstr "Palun oodake..."
 
 #: ../gurpmi:110
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option %s"
-msgstr ""
-"\n"
-"tundmatu võti '%s'\n"
+msgstr "Tundmatu võti %s"
 
 #: ../gurpmi:114
-#, fuzzy, c-format
+#, c-format
 msgid "No packages specified"
-msgstr "Käsku pole määratud"
+msgstr "Pakette pole valitud"
 
 #: ../gurpmi:118
-#, fuzzy, c-format
+#, c-format
 msgid "Must be root"
-msgstr "Hiire port"
+msgstr "Vajalikud on administraatori õigused"
 
 #: ../gurpmi:128
-#, fuzzy, c-format
+#, c-format
 msgid "RPM installation"
-msgstr "Süsteemi paigaldus"
+msgstr "RPM-i paigaldus"
 
 #: ../gurpmi:141
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have selected a source package:\n"
 "\n"
@@ -112,7 +110,7 @@ msgid ""
 "\n"
 "What would you like to do?"
 msgstr ""
-"Valisite lähtekoodi paketi.\n"
+"Valisite lähtekoodi paketi:\n"
 "\n"
 "%s\n"
 "\n"
@@ -137,7 +135,7 @@ msgstr ""
 "Võib-olla soovite siiski seda lihtsalt salvestada? Mida ette võtta?"
 
 #: ../gurpmi:154
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are about to install the following software packages on your computer:\n"
 "\n"
@@ -145,21 +143,21 @@ msgid ""
 "\n"
 "Proceed?"
 msgstr ""
-"Kavatsete paigaldada oma arvutile järgmise tarkvarapaketi:\n"
+"Kavatsete paigaldada oma arvutile järgmisde tarkvarapaketid:\n"
 "\n"
 "%s\n"
 "\n"
-"Võib-olla soovite siiski seda lihtsalt salvestada? Mida ette võtta?"
+"Kas jätkata?"
 
 #: ../gurpmi:164
-#, fuzzy, c-format
+#, c-format
 msgid "_Install"
-msgstr "Paigalda"
+msgstr "_Paigalda"
 
 #: ../gurpmi:165
-#, fuzzy, c-format
+#, c-format
 msgid "_Save"
-msgstr "Salvesta"
+msgstr "_Salvesta"
 
 #: ../gurpmi:166 ../gurpmi:229
 #, c-format
@@ -172,14 +170,14 @@ msgid "Choose location to save file"
 msgstr "Valige faili salvestamise koht"
 
 #: ../gurpmi:220
-#, fuzzy, c-format
+#, c-format
 msgid " (to upgrade)"
-msgstr "Uuendus"
+msgstr " (uuendus)"
 
 #: ../gurpmi:221
-#, fuzzy, c-format
+#, c-format
 msgid " (to install)"
-msgstr "Programmist väljumine"
+msgstr " (paigaldus)"
 
 #: ../gurpmi:225 ../urpmi:350
 #, c-format
@@ -192,37 +190,41 @@ msgid "_Ok"
 msgstr "_Olgu"
 
 #: ../gurpmi:247
-#, fuzzy, c-format
+#, c-format
 msgid "_Abort"
-msgstr "Katkesta"
+msgstr "_Katkesta"
 
 #: ../gurpmi:276
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some package requested cannot be installed:\n"
 "%s\n"
 "Continue?"
 msgstr ""
 "Mõnda soovitud paketti ei õnnestunud paigaldada:\n"
-"%s"
+"%s\n"
+"Kas jätkata?"
 
 #: ../gurpmi:287
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
 "Continue?"
 msgstr ""
 "Teiste uuendamiseks tuleb eemaldada järgmised paketid:\n"
-"%s"
+"%s\n"
+"Kas jätkata?"
 
 #: ../gurpmi:300
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages are going to be "
 "installed:\n"
 "%s\n"
-msgstr "Sõltuvuste lahendamiseks paigaldatakse järgmised %d paketti (%d MB)"
+msgstr ""
+"Sõltuvuste lahendamiseks paigaldatakse järgmised %d paketti:\n"
+"%s\n"
 
 #: ../gurpmi:307
 #, c-format
@@ -245,7 +247,7 @@ msgid "Downloading package `%s'..."
 msgstr "Paketi '%s' allalaadimine..."
 
 #: ../gurpmi:365
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have bad signatures:\n"
 "%s\n"
@@ -253,10 +255,9 @@ msgid ""
 "Do you want to continue installation ?"
 msgstr ""
 "Järgmistel pakettidel puudub korralik signatuur:\n"
-"\n"
 "%s\n"
 "\n"
-"Kas jätkata?"
+"Kas jätkata paigaldamisega?"
 
 #: ../gurpmi:372 ../gurpmi:421 ../urpmi:556 ../urpmi:672
 #, c-format
@@ -290,9 +291,9 @@ msgid "Installation failed"
 msgstr "Paigaldamine ebaõnnestus"
 
 #: ../gurpmi:416
-#, fuzzy, c-format
+#, c-format
 msgid "_Done"
-msgstr "Tehtud"
+msgstr "_Tehtud"
 
 #: ../gurpmi:424 ../urpmi:688
 #, c-format
@@ -2114,7 +2115,7 @@ msgid "enabling media %s"
 msgstr "andmekandja %s arvestamine"
 
 #: ../urpmq:38
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2005 Mandrakesoft.\n"
@@ -2124,7 +2125,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq versioon %s\n"
-"Autoriõigus (C) 2000-2004 Mandrakesoft.\n"
+"Autoriõigus (C) 2000-2005 Mandrakesoft.\n"
 "See on vaba tarkvara, mida võib levitada vastavalt GNU Üldise Avaliku "
 "Litsentsi tingimustele.\n"
 "\n"
@@ -2276,7 +2277,7 @@ msgstr "andmekandja %s jäetakse vahele: hdlist puudub\n"
 #: ../urpmq:399
 #, c-format
 msgid "No filelist found\n"
-msgstr "Faililoendit ei leitud\n"
+msgstr "Failinimekirja ei leitud\n"
 
 #: ../urpmq:409
 #, c-format
