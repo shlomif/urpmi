@@ -39,6 +39,7 @@ where <name> is a medium name to update.
 ") . N("  --no-md5sum    - disable MD5SUM file checking.
 ") . N("  --force-key    - force update of gpg key.
 ") . N("  --norebuild    - don't try to rebuild hdlist if not readable.
+") . N("  --ignore       - don't update, mark the media as ignored.
 ") . N("  -a             - select all non-removable media.
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -f             - force generation of hdlist files.
@@ -48,45 +49,51 @@ where <name> is a medium name to update.
     exit 0;
 }
 
-sub main {
-    our @toupdates;
-    my $urpm = new urpm;
+our @toupdates; #- set by urpm::args
+my $urpm = new urpm;
 
-    $options{force} = 0;
-    $options{noclean} = $options{verbose} = 1;
+$options{force} = 0;
+$options{noclean} = $options{verbose} = 1;
 
-    urpm::args::parse_cmdline(urpm => $urpm);
+urpm::args::parse_cmdline(urpm => $urpm);
 
-    $options{verbose} > 0 or $urpm->{log} = sub {};
+$options{verbose} > 0 or $urpm->{log} = sub {};
 
-    if ($< != 0) {
-	$urpm->{fatal}(1, N("Only superuser is allowed to update media"));
-    }
-    $urpm->read_config;
-    exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
+if ($< != 0) {
+    $urpm->{fatal}(1, N("Only superuser is allowed to update media"));
+}
+$urpm->read_config;
+exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
 
-    my @entries = map { $_->{name} } @{$urpm->{media}};
+my @entries = map { $_->{name} } @{$urpm->{media}};
 
-    if ($options{all}) {
-	@entries == 0 and die N("nothing to update (use urpmi.addmedia to add a media)\n");
-    } else {
-	$urpm->select_media(@toupdates);
+if ($options{all}) {
+    @entries == 0 and die N("nothing to update (use urpmi.addmedia to add a media)\n");
+} else {
+    $urpm->select_media(@toupdates);
 
-	#- force ignored media to be returned alive.
-	my $something_todo = 0;
-	foreach (@{$urpm->{media}}) {
-	    $options{update} && $_->{update} and $_->{modified} = 1;
-	    $_->{modified} and delete $_->{ignore};
-	    $_->{modified} and ++$something_todo;
+    #- force ignored media to be returned alive.
+    my $something_todo = 0;
+    foreach (@{$urpm->{media}}) {
+	$options{update} && $_->{update} and $_->{modified} = 1;
+	if ($_->{modified}) {
+	    if ($options{ignore}) {
+		$_->{ignore} = 1;
+	    } else {
+		delete $_->{ignore};
+	    }
+	    ++$something_todo;
 	}
-
-	$something_todo or die N("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
     }
 
-    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+    $something_todo or die N("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
+}
 
+if ($options{ignore}) {
+    $urpm->{log}(N("ignoring media %s",  join(", ", map { N("\"%s\"", $_->{name}) } grep { $_->{modified} } @{$urpm->{media}})));
+    $urpm->write_config;
+} else {
+    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
     #- try to umount removable device which may have been mounted.
     $urpm->try_umounting_removables;
 }
-
-main();

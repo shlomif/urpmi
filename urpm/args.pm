@@ -246,6 +246,7 @@ my %options_spec = (
 	f => sub { ++$options{force} },
 	z => sub { ++$options{compress} },
 	update => \$options{update},
+	ignore => \$options{ignore},
 	'force-key' => \$options{forcekey},
 	'limit-rate=s' => \$options{limit_rate},
 	'no-md5sum' => \$options{nomd5sum},
