@@ -347,8 +347,7 @@ sub ask_choice {
     } @$choices;
 
     if (@l > 1 && !$urpm->{options}{auto}) {
-	my $msg = N("One of the following packages is needed:");
-	message($msg);
+	message(N("One of the following packages is needed:"));
 	my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
 	$n = message_input(N("What is your choice? (1-%d) ", $i), undef, range_min => 0, range => $i);
 	defined($n) && $n ne "0" or exit 1; # abort.
@@ -414,9 +413,8 @@ if (@ask_remove) {
     my $list = join "\n", $urpm->translate_why_removed($state, sort @ask_remove);
 
     if ($no_remove && !$force) {
-	my $msg = N("The installation cannot continue because the following packages
-have to be removed for others to be upgraded:\n%s\n", $list);
-	message($msg);
+	message(N("The installation cannot continue because the following packages
+have to be removed for others to be upgraded:\n%s\n", $list));
 	exit 0;
     }
 

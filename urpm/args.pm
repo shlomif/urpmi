@@ -56,9 +56,7 @@ my %options_spec = (
 	'sortmedia|sort-media=s' => \$::sortmedia,
 	'searchmedia|search-media=s' => \$::searchmedia,
 	'synthesis=s' => \$::synthesis,
-	auto => sub {
-	    $urpm->{options}{auto} = $::auto = 1;
-	},
+	auto => sub { $urpm->{options}{auto} =  1 },
 	'allow-medium-change' => \$::allow_medium_change,
 	'auto-select' => \$::auto_select,
 	'no-remove|no-uninstall' => \$::no_remove,
