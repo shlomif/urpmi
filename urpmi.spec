@@ -30,7 +30,7 @@ Source0:	%{name}.tar.bz2
 Summary:	User mode rpm install
 URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
-PreReq:		perl-Locale-gettext >= 1.01-7 gettext rpmtools >= 4.5 perl-URPM >= 0.94
+PreReq:		perl-Locale-gettext >= 1.01-7 gettext rpmtools >= 4.5 perl-URPM >= 0.95
 BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3 
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
