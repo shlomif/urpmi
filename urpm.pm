@@ -965,8 +965,9 @@ sub search_packages {
 	    }
 	}
 
-	my $id = 0;
-	foreach my $info (@{$urpm->{params}{depslist}}) {
+	foreach my $id (0 .. $#{$urpm->{params}{depslist}}) {
+	    my $info = $urpm->{params}{depslist}[$id];
+
 	    rpmtools::compat_arch($info->{arch}) && (!$options{use_active} || $info->{active}) or next;
 
 	    my $pack_ra = "$info->{name}-$info->{version}";
