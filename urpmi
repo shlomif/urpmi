@@ -52,7 +52,7 @@ delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
     
 sub usage {
     #die(_("usage: urpmi [-h] [--auto] [--force] [-a] [-v] package_name|rpm_file [package_names|rpm_files...]\n"));
-    die( sprintf ( _("urpmi version %s
+    die( sprintf (_("urpmi version %s
 Copyright (C) 1999, 2000 MandrakeSoft.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
@@ -173,7 +173,7 @@ my $ask_choice = sub {
 	    print SAVEOUT "$msg\n";
 	    my $i = 0; foreach (@l) { print SAVEOUT " ", ++$i, "- $_\n"; }
 	    while (1) {
-		printf SAVEOUT ( _("What is your choice? (1-%d) "), $i);
+		printf SAVEOUT sprintf(_("What is your choice? (1-%d) "), $i);
 		$n = <STDIN>;
 		1 <= $n && $n <= $i and last;
 		print SAVEOUT _("Sorry, bad choice, try again\n");
@@ -247,7 +247,7 @@ unless ($local_sources || $list) {
 }
 
 my @sources = $urpm->upload_source_packages($local_sources, $list, 'force_local', sub {
-						my $msg = ( _("Please insert the medium named \"%s\" on device [%s]"), @_);
+						my $msg = sprintf(_("Please insert the medium named \"%s\" on device [%s]"), @_);
 						my $msg2 = _("Press enter when it's done...");
 						if ($X) {
 						    my $ok = _("Ok");
@@ -270,7 +270,7 @@ close STDOUT;
 sub install {
     @_ or return;
 	
-    printf SAVEOUT ( _("installing %s\n"), join(' ', @_));
+    printf SAVEOUT sprintf(_("installing %s\n"), join(' ', @_));
     log_it(scalar localtime, " @_\n");
     system($X ? "grpmi" : ("rpm", $rpm_opt), @_);
     if ($?) {

@@ -226,6 +226,7 @@ sub probe_medium {
 	}
     }
     $medium->{url} ||= $medium->{clear_url};
+    $medium->{removable} ||= $medium->{url} =~ /^removable_([^_:]*)(?:_[^:]*)?:/ && "/dev/$1";
     $medium;
 }
 

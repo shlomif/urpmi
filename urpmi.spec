@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.5
-Release: 12mdk
+Release: 13mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -113,6 +113,10 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Feb 27 2001 François Pons <fpons@mandrakesoft.com> 1.5-13mdk
+- fixed removable cdrom old format extraction.
+- fixed bad i18n usage.
+
 * Tue Feb 27 2001 François Pons <fpons@mandrakesoft.com> 1.5-12mdk
 - removed use of tee, now forked.
 
