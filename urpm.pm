@@ -4,6 +4,7 @@ package urpm;
 
 use strict;
 use MDK::Common;
+use File::Find ();
 use urpm::msg;
 use urpm::download;
 use urpm::util;
@@ -1246,7 +1247,9 @@ this could happen if you mounted manually the directory when creating the medium
 		    #- is a symlink to a directory.
 		    #- make sure rpm filename format is correct and is not a source rpm
 		    #- which are not well managed by urpmi.
-		    @files = split "\n", `find '$dir/' -name "*.rpm" -print`;
+		    File::Find::find { wanted => sub {
+			    -f && /\.rpm$/ && push @files, "$File::Find::dir/$_"
+		    } }, $dir;
 
 		    #- check files contains something good!
 		    if (@files > 0) {
