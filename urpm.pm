@@ -68,7 +68,10 @@ sub sync_webfetch {
 	push @{$files{$1}}, $_;
     }
     if ($files{removable} || $files{file}) {
-	sync_file($options, @{$files{removable} || []}, @{$files{file} || []});
+	eval {
+	    sync_file($options, @{$files{removable} || []}, @{$files{file} || []});
+	};
+	$urpm->{fatal}(10, $@) if $@;
 	delete @files{qw(removable file)};
     }
     if ($files{ftp} || $files{http} || $files{https}) {
@@ -674,8 +677,9 @@ sub add_distrib_media {
 	if (-e $hdlists_file) {
 	    unlink "$urpm->{cachedir}/partial/hdlists";
 	    $urpm->{log}(N("copying hdlists file..."));
-	    system("cp", "-p", "-R", $hdlists_file, "$urpm->{cachedir}/partial/hdlists") ?
-	      $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
+	    system("cp", "-p", "-R", $hdlists_file, "$urpm->{cachedir}/partial/hdlists")
+		? $urpm->{error}(N("...copying failed"))
+		: $urpm->{log}(N("...copying done"));
 	} else {
 	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)")), return;
 	}
@@ -1057,8 +1061,9 @@ this could happen if you mounted manually the directory when creating the medium
 	    if (-e "$dir/../descriptions") {
 		$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
 		system("cp", "-p", "-R", "$dir/../descriptions",
-		       "$urpm->{statedir}/descriptions.$medium->{name}") ?
-			 $urpm->{log}(N("...copying failed")) : $urpm->{log}(N("...copying done"));
+			"$urpm->{statedir}/descriptions.$medium->{name}")
+		    ? $urpm->{error}(N("...copying failed"))
+		    : $urpm->{log}(N("...copying done"));
 	    }
 
 	    #- examine if a distant MD5SUM file is available.
@@ -1147,8 +1152,8 @@ this could happen if you mounted manually the directory when creating the medium
 			$options{callback} && $options{callback}('copy', $medium->{name});
 			if (system("cp", "-p", "-R", $with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
 			    $options{callback} && $options{callback}('failed', $medium->{name});
-			    $urpm->{log}(N("...copying failed"));
-			    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}"; #- force error...
+			    #- force error, reported afterwards
+			    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			} else {
 			    $options{callback} && $options{callback}('done', $medium->{name});
 			    $urpm->{log}(N("...copying done"));
@@ -1210,7 +1215,7 @@ this could happen if you mounted manually the directory when creating the medium
 			-e $path_list or $path_list = "$dir/list";
 			if (-e $path_list) {
 			    system("cp", "-p", "-R", $path_list, "$urpm->{cachedir}/partial/list")
-				and $urpm->{log}(N("...copying failed"));
+				and $urpm->{error}(N("...copying failed"));
 			}
 		    }
 		} else {
@@ -1267,7 +1272,7 @@ this could happen if you mounted manually the directory when creating the medium
 		-e $path_pubkey or $path_pubkey = "$dir/pubkey";
 		-e $path_pubkey
 		    and system("cp", "-p", "-R", $path_pubkey, "$urpm->{cachedir}/partial/pubkey")
-		    and $urpm->{log}(N("...copying failed"));
+		    and $urpm->{error}(N("...copying failed"));
 	    }
 	} else {
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
@@ -1461,13 +1466,13 @@ this could happen if you mounted manually the directory when creating the medium
 			    and system("cp", "-p", "-R",
 				"$urpm->{statedir}/synthesis.$medium->{hdlist}",
 				"$urpm->{cachedir}/partial/$basename")
-			    and $urpm->{log}(N("...copying failed"));
+			    and $urpm->{error}(N("...copying failed"));
 		    } else {
 			-e "$urpm->{statedir}/$medium->{hdlist}"
 			    and system("cp", "-p", "-R",
 				"$urpm->{statedir}/$medium->{hdlist}",
 				"$urpm->{cachedir}/partial/$basename")
-			    and $urpm->{log}(N("...copying failed"));
+			    and $urpm->{error}(N("...copying failed"));
 		    }
 		}
 		eval {
