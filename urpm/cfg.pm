@@ -144,7 +144,7 @@ sub dump_config ($$) {
 	    next if !keys %{$config->{''}};
 	    print $f "{\n";
 	}
-	for (sort grep { $_ ne 'url' } keys %{$config->{$m}}) {
+	for (sort grep { $_ && $_ ne 'url' } keys %{$config->{$m}}) {
 	    if (/^(update|ignore|synthesis|virtual)$/) {
 		print $f "  $_\n";
 	    } else {
