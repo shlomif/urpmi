@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.6.6
-%define release 1mdk
+%define release 2mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -235,6 +235,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Dec 08 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.6-2mdk
+- Improvements to gurpmi: scrollbar to avoid windows too large, interface
+  refreshed more often, less questions when unnecessary, fix --help.
+
 * Tue Dec 07 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.6-1mdk
 - gurpmi has been reimplemented as a standalone gtk2 program.
 - As a consequence, urpmi --X doesn't work any longer.
