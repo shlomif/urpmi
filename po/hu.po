@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-hu\n"
 "POT-Creation-Date: 2003-07-29 14:54+0200\n"
-"PO-Revision-Date: 2003-07-29 00:38+0200\n"
+"PO-Revision-Date: 2003-07-29 21:00+0200\n"
 "Last-Translator: Arpad Biro <biro_arpad@yahoo.com>\n"
 "Language-Team: Hungarian\n"
 "MIME-Version: 1.0\n"
@@ -323,7 +323,7 @@ msgstr "A következõ csomagok valamelyikére szükség van:"
 #, c-format
 msgid "To satisfy dependencies, the following packages will be removed (%d MB)"
 msgstr ""
-"A függõségek feloldásához a következõ csomagokat el fogom távolítani (%d MB)"
+"A függõségek feloldásához a következõ csomagok el lesznek távolítva (%d MB)"
 
 #: ../urpmi:1
 #, c-format
@@ -714,10 +714,23 @@ msgstr ""
 "a frissítendõ bejegyzés hiányzik\n"
 "(valamelyik ezek közül: %s)\n"
 
+# Francois Pons:
+# This is a message saying that a package is removed (or unselected) because the
+# dependency resolution algorithm needed to remove (or unselect) it when it tried
+# to promote a provide (a package name or property) with a better version, but it
+# failed.
+# "promote": It is a term used to say promotion of a provides (promoting perl for
+# example, is trying to find the best package providing perl and select it).
+# "%s" stands for the property being promoted, generally a simple name.
+# This is not really a failure message but an informative message. It has nothing
+# to do with failure in the sense of the application unable to continue. Urpmi
+# continues by not selecting a package which was selected by a promotion (not
+# asked by the user directly but caused by a package which has been upgraded thus
+# breaking existing packages, the promotion concerns this).
 #: ../urpm.pm:1
 #, c-format
 msgid "trying to promote %s"
-msgstr "kísérlet %s kijelölésére"
+msgstr "a legalkalmasabb \"%s\" keresése"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1167,7 +1180,7 @@ msgstr "Érvénytelen kulcsazonosító (%s)"
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
 msgstr ""
-"  --force        - végrehajtás akkor is, ha néhány csomag nem érhetõ el\n"
+"  --force        - végrehajtás akkor is, ha néhány csomag nem elérhetõ\n"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1205,7 +1218,7 @@ msgstr "nem volt kérve"
 #: ../urpm.pm:1
 #, c-format
 msgid "unable to access rpm file [%s]"
-msgstr "a csomagfájl nem érhetõ el: \"%s\""
+msgstr "a csomagfájl nem elérhetõ: \"%s\""
 
 #: ../urpmf:1
 #, c-format
@@ -1470,7 +1483,7 @@ msgid ""
 "To satisfy dependencies, the following packages are going to be installed (%"
 "d MB)"
 msgstr ""
-"A függõségek feloldásához a következõ csomagokat fogom telepíteni (%d MB)"
+"A függõségek feloldásához a következõ csomagok telepítésre kerülnek (%d MB)"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1747,7 +1760,7 @@ msgstr ""
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid "unable to get source packages, aborting"
-msgstr "a forráscsomagok nem érhetõk el, ezért a mûvelet félbeszakad"
+msgstr "a forráscsomagok nem elérhetõk, ezért a mûvelet félbeszakad"
 
 #: ../urpm.pm:1
 #, c-format
