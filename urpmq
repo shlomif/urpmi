@@ -341,14 +341,12 @@ if ($urpm::args::options{list_aliases}) {
 			map { my $pkg = $urpm->{depslist}[$_];
 			    $pkg && $pkg->header_filename } @selected))
 		{
-		    if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
+                    my $hdlist_path = $urpm->{media}[$_]{virtual}
+                      ? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
+                      :  "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}";
+                    if (-s $hdlist_path) {
 			require packdrake;
-			my $packer = new packdrake(
-			    $urpm->{media}[$_]{virtual}
-				? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
-				: "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}",
-			    quiet => 1,
-			);
+			my $packer = new packdrake($hdlist_path, quiet => 1);
 			$packer->extract_archive($tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
 			#- fallback to retrieve rpm package before, so that --headers will be ok.
