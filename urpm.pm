@@ -225,7 +225,7 @@ sub sync_wget {
     my $options = shift @_;
     system "/usr/bin/wget",
     	(ref $options && set_proxy({type => "wget", proxy => $options->{proxy}})),
-    	(ref $options && $options->{quiet} ? ("-q") : ()), "-NP",
+    	(ref $options && $options->{quiet} ? ("-q") : ("-nv")), "-NP",
     	(ref $options ? $options->{dir} : $options), @_;
     $? == 0 or die _("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
@@ -672,8 +672,20 @@ sub add_medium {
     #- if a medium with that name has already been found
     #- we have to exit now
     my ($medium);
-    foreach (@{$urpm->{media}}) {
-	$_->{name} eq $name and $medium = $_;
+    if (defined $options{index_name}) {
+	my $i = $options{index_name};
+	do {
+	    ++$i;
+	    undef $medium;
+	    foreach (@{$urpm->{media}}) {
+		$_->{name} eq $name.$i and $medium = $_;
+	    }
+	} while ($medium);
+	$name .= $i;
+    } else {
+	foreach (@{$urpm->{media}}) {
+	    $_->{name} eq $name and $medium = $_;
+	}
     }
     $medium and $urpm->{fatal}(5, _("medium \"%s\" already exists", $medium->{name}));
 

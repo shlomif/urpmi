@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.1
-Release: 9mdk
+Release: 10mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -204,6 +204,10 @@ fi
 
 
 %changelog
+* Fri Dec  6 2002 François Pons <fpons@mandrakesoft.com> 4.1-10mdk
+- fixed indexation when using --distrib-XXX for urpmi.addmedia.
+- fixed wget output to be far more quietly.
+
 * Fri Dec  6 2002 François Pons <fpons@mandrakesoft.com> 4.1-9mdk
 - improved urpmf from sh to perl, now a lot of options and
   support of synthesis only media.
