@@ -1,4 +1,4 @@
-.TH urpmi.update 8 "29 Aug 2002" "MandrakeSoft" "Mandrake Linux"
+.TH urpmi.update 8 "07 Jan 2002" "MandrakeSoft" "Mandrake Linux"
 .IX urpmi.update
 .SH NAME
 urpmi.update \- Updates packages list for specified medias
@@ -12,11 +12,15 @@ Usefull for ftp location for example.
 
 .SH OPTIONS
 .IP "\fB\--wget\fP"
-use wget only for downloading distant files. By default curl is used if
+Use wget only for downloading distant files. By default curl is used if
 available or wget instead.
 .IP "\fB\--curl\fP"
-use curl only for downloading distant files. By default curl is used if
+Use curl only for downloading distant files. By default curl is used if
 available or wget instead.
+.IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
+Use specified HTTP proxy.
+.IP "\fB\--proxy-user\fP \fIuser:password\fP"
+Use specified user and password to use for proxy authentication.
 .IP "\fB\-a\fP"
 Select all media that are not using a removable device to update them.
 .IP "\fB\-c\fP"
@@ -24,35 +28,35 @@ Clean /var/cache/urpmi/headers directory on exit.
 .IP "\fB\-d\fP"
 Force complete computation of (not used anymore) /var/lib/urpmi/depslist.ordered file.
 .IP "\fB\-f\fP"
-Force rebuild of hdlist files or base files (/var/lib/urpmi/depslist.ordered,
-/var/lib/urpmi/provides and /var/lib/urpmi/compss).
+Force rebuild of hdlist files.
 .SH FILES
-/usr/sbin/urpmi.update
-.br
+.de FN
+\fI\|\\$1\|\fP
+..
+.TP
+.FN /usr/sbin/urpmi.update
 The \fBurpmi.update\fP executable (perl script)
-.PP
-/var/lib/urpmi/list.*
-.br
-Contains the list of all packages known by urpmi and their location.
-There is one filelist per media(*).
-.PP
-/var/lib/urpmi/hdlist.*
-.br
-Contain information about all known packages, it's a summary of rpm headers.
-There is one filelist per media(*).
-.PP
-/var/lib/urpmi/synthesis.hdlist.*
-.br
-Contain synthesis information about all known packages built from hdlist files
+.TP
+.FN /var/lib/urpmi/list.*
+Contains the list of all packages known by urpmi and their location only
+if a password is used to access distant location (using network protocol) or
+various directory are used to store packages.
+.TP
+.FN /var/lib/urpmi/hdlist.*
+Contains information about all known packages, it's a summary of rpm headers.
+If an hdlist file is used for a medium \fBurpmf\fP can operate completely which
+is almost always the case (please refer to \fBurpmf\fP man page for more
+informations on this topic).
+.TP
+.FN /var/lib/urpmi/synthesis.hdlist.*
+Contains synthesis information about all known packages built from hdlist files
 that can be used by minimal closure algorithm. If these files are not present
-use \fBurpmi.update -a\fP to generate them. These files are not mandatory.
-.PP
-/etc/urpmi/urpmi.cfg
-.br
-Contains media description, previous format from older urpmi is accepted.
-.PP
-/etc/urpmi/parallel.cfg
-.br
+hdlist files will be used instead but this is much slower.
+.TP
+.FN /etc/urpmi/urpmi.cfg
+Contains media description, previous format from older urpmi is still accepted.
+.TP
+.FN /etc/urpmi/parallel.cfg
 Contains parallel alias description, format is
 \fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
 a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
@@ -60,27 +64,24 @@ a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
 \fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
 -m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
 extension.
-.PP
-/etc/urpmi/skip.list
-.br
+.TP
+.FN /etc/urpmi/skip.list
 Contains package expressions that should not be automatically updated. The
 format is a list of provide of package (or regular expression if bounded by
-slashes (\fB/\fP)) with optional operator and version string, or regular
+slashes \fB/\fP) with optional operator and version string, or regular
 expression to match the fullname of packages too.
-.PP
-/etc/urpmi/inst.list
-.br
+.TP
+.FN /etc/urpmi/inst.list
 Contains package names that should be installed instead of updated.
 .SH "SEE ALSO"
-urpmi(8),
-urpmi.addmedia(8),
-urpmf(8),
-urpmq(8),
-autoirpm(8),
-autoirpm-icons(8),
-gurpmi(8),
-rpmdrake(8)
+\fIurpmi\fP(8),
+\fIurpmi.addmedia\fP(8),
+\fIurpmi.removemedia\fP(8),
+\fIgurpmi\fP(8),
+\fIurpmf\fP(8),
+\fIurpmq\fP(8),
+\fIrpmdrake\fP(8)
 .SH AUTHOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
-.br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (original author)
+.PP
+Francois Pons, Mandrakesoft <fpons@mandrakesoft.com> (current author)
