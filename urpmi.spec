@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 4.0
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -42,6 +42,14 @@ Group: %{group}
 urpmi-parallel-ka-run is an extensions module to urpmi for handling
 distributed installation using ka-run tools.
 
+%package -n urpmi-parallel-ssh
+Summary: Parallel extensions to urpmi using ssh and scp
+Requires: urpmi >= 4.0 openssh-clients
+Group: %{group}
+%description -n urpmi-parallel-ssh
+urpmi-parallel-ssh is an extensions module to urpmi for handling
+distributed installation using ssh and scp tools.
+
 %prep
 %setup -q -n %{name}
 
@@ -72,7 +80,8 @@ EOF
 mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}
 install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm.pm
 mkdir -p $RPM_BUILD_ROOT%{perl_vendorlib}/urpm
-install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm/parallel_ka_run.pm
+install -m 644 urpm/parallel_ka_run.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm/parallel_ka_run.pm
+install -m 644 urpm/parallel_ssh.pm $RPM_BUILD_ROOT%{perl_vendorlib}/urpm/parallel_ssh.pm
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/man3
 pod2man urpm.pm >$RPM_BUILD_ROOT%{_mandir}/man3/urpm.3
 
@@ -156,8 +165,17 @@ fi
 %defattr(-,root,root)
 %{perl_vendorlib}/urpm/parallel_ka_run.pm
 
+%files -n urpmi-parallel-ssh
+%defattr(-,root,root)
+%{perl_vendorlib}/urpm/parallel_ssh.pm
+
 
 %changelog
+* Fri Aug 23 2002 François Pons <fpons@mandrakesoft.com> 4.0-2mdk
+- added ssh parallel module extension.
+- fixed check of capabilities of distant urpmi.
+- fixed wrong installation of extension modules.
+
 * Fri Aug 23 2002 François Pons <fpons@mandrakesoft.com> 4.0-1mdk
 - added --parallel options for distributed urpmi.
 - added urpmi module extensions support (only --parallel).
