@@ -1,8 +1,8 @@
 %define group System/Configuration/Packaging
 
 Name: urpmi
-Version: 2.0
-Release: 7mdk
+Version: 2.1
+Release: 1mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
@@ -126,6 +126,16 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Mon Nov 26 2001 François Pons <fpons@mandrakesoft.com> 2.1-1mdk
+- removed obsoleted code in urpm module.
+- ignore -m, -M and -c flag of urpmi/urpmq.
+- fixed group display of urpmq.
+- added -f for urpmq to display full package name.
+- fixed -d of urpmq.
+- fixed --auto-select and files of package not obsoleted but
+  present in other registered package (no more selected).
+- fixed call to grpmi (no more only installation).
+
 * Wed Nov 21 2001 François Pons <fpons@mandrakesoft.com> 2.0-7mdk
 - fixed missing urpmi configuration file not read.
 - fixed bad output of rpm files to be installed or upgraded.

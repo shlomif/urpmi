@@ -31,8 +31,6 @@ my $force = 0;
 my $X = 0;
 my $WID = 0;
 my $all = 0;
-my $complete = 0;
-my $minimal = 1;
 my $rpm_opt = "vh";
 my $use_provides = 0;
 my $verbose = 0;
@@ -60,9 +58,6 @@ usage:
 ") . _("  --best-output    - choose best interface according to the environment:
                      X or text mode.
 ") . _("  -a               - select all matches on command line.
-") . _("  -m               - choose minimum closure of requires (default).
-") . _("  -M               - ignored, kept for compability.
-") . _("  -c               - choose complete method for resolving requires closure.
 ") . _("  -p               - allow search in provides to find package.
 ") . _("  -q               - quiet mode.
 ") . _("  -v               - verbose mode.
@@ -89,8 +84,8 @@ for (@ARGV) {
     /^-(.*)$/ and do { foreach (split //, $1) {
 	/[\?h]/ and do { usage; next };
 	/a/ and do { $all = 1; next };
-	/c/ and do { $complete = 1; next };
-	/m/ and do { $minimal = 1; next };
+	/c/ and do { next };
+	/m/ and do { next };
 	/M/ and do { next }; #- nop
 	/q/ and do { $rpm_opt = ""; next };
 	/p/ and do { $use_provides = 1; next };
@@ -156,7 +151,7 @@ if (@files) {
     $use_provides or $urpm->read_provides;
 
     #- build closure with local package and return list of names.
-    push @names, $urpm->register_local_packages($minimal, @files);
+    push @names, $urpm->register_local_packages('minimal', @files);
 }
 
 #- reparse whole internal depslist to match against newer packages only.
@@ -173,9 +168,10 @@ $urpm->relocate_depslist_provides(use_active => $update);
 #- all its dependency will be updated too.
 #- make sure basesystem exists before.
 my %packages;
-$urpm->search_packages(\%packages,
-		       [ ($minimal || !$urpm->{params}{info}{basesystem} ? () : ('basesystem')), @names],
-		       all => $all, use_provides => $use_provides, use_active => $update) or $force or exit 1;
+$urpm->search_packages(\%packages, [ @names],
+		       all => $all,
+		       use_provides => $use_provides,
+		       use_active => $update) or $force or exit 1;
 
 #- filter to add in packages selected required packages.
 my $ask_choice = sub {
@@ -218,13 +214,9 @@ if ($auto_select) {
     }
 }
 
-if ($minimal) {
-    $use_provides || @files or $urpm->read_provides;
-    $update || $auto_select or $urpm->read_config;
-    $urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
-} else {
-    $urpm->filter_packages_to_upgrade(\%packages, $ask_choice, complete => $complete);
-}
+$use_provides || @files or $urpm->read_provides;
+$update || $auto_select or $urpm->read_config;
+$urpm->filter_minimal_packages_to_upgrade(\%packages, $ask_choice);
 
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);
@@ -260,8 +252,6 @@ if (!$auto) {
 	}
     }
 }
-
-$minimal or $urpm->read_config;
 
 my ($local_sources, $list, $local_to_removes) = $urpm->get_source_packages(\%packages);
 unless ($local_sources || $list) {
@@ -303,7 +293,8 @@ if (@rpms_install || @rpms_upgrade) {
     }
     $urpm->{log}("starting installing packages");
     if ($X) {
-	system("grpmi", $WID ? ("--WID=$WID") : (), map { ("-noupgrade", $_) } @rpms_install, @rpms_upgrade);
+	system("grpmi", $WID ? ("--WID=$WID") : (),
+	       (map { ("-noupgrade", $_) } @rpms_install), @rpms_upgrade);
 	if ($?) {
 	    message(_("Installation failed")); #- grpmi handles --nodeps and --force by itself,
 	    exit(($? >> 8) + 32); #- forward grpmi error + 32

@@ -1131,159 +1131,6 @@ sub search_packages {
     $result;
 }
 
-#- compute the closure of a list, mostly internal function for filter_packages_to_upgrade.
-#- limited to values in packages which should not be a reference.
-#- package are identified by their id.
-sub compute_closure {
-    my ($urpm, $packages, $installed, $select_choices) = @_;
-    my ($id, @packages) = (undef, keys %$packages);
-
-    #- at this level, compute global closure of what is requested, regardless of
-    #- choices for which all package in the choices are taken and their dependencies.
-    #- allow iteration over a modifying list.
-    while (defined($id = shift @packages)) {
-	#- get a relocated id if possible, by this way.
-	$id = $urpm->{params}{depslist}[$id]{id};
-	defined $id or next; #- this means we have an incompatible arch only (uggly and test it?)
-
-	#- avoid a package if it has already been dropped in the sense of
-	#- selected directly by another way.
-	foreach ($id, split ' ', $urpm->{params}{depslist}[$id]{deps}) {
-	    if (/\|/) {
-		my ($follow_id, @upgradable_choices, %choices_id);
-	        @choices_id{grep { defined $_ } map { $urpm->{params}{depslist}[$_]{id} } split /\|/, $_} = ();
-		my @choices = sort { $a <=> $b } keys(%choices_id);
-		foreach (@choices) {
-		    $installed && $installed->{$_} and $follow_id = -1, last;
-		    exists $packages->{$_} && ! ref $packages->{$_} and $follow_id = $_, last;
-		    $installed && exists $installed->{$_} and push @upgradable_choices, $_;
-		}
-		unless (defined $follow_id) {
-		    #- if there are at least one upgradable choice, use it instead
-		    #- of asking the user to chose among a list.
-		    if (@upgradable_choices == 1) {
-			push @packages, $upgradable_choices[0];
-		    } else {
-			@upgradable_choices > 1 and @choices = @upgradable_choices;
-			#- propose the choice to the user now, or select the best one (as it is supposed to be).
-			my @selection = $select_choices ? ($select_choices->($urpm, $id, @choices)) : ();
-			if (@selection) {
-			    foreach (@selection) {
-				unshift @packages, $_;
-				exists $packages->{$_} or $packages->{$_} = 1;
-			    }
-			} else {
-			    foreach (@choices) {
-				push @{$packages->{$_} ||= []}, \@choices;
-			    }
-			}
-		    }
-		}
-	    } else {
-		local $_ = $urpm->{params}{depslist}[$_]{id};
-		if (ref $packages->{$_}) {
-		    #- all the choices associated here have to be dropped, need to copy else
-		    #- there could be problem with foreach on a modifying list.
-		    foreach my $choices (@{$packages->{$id}}) {
-			foreach (@$choices) {
-			    $packages->{$_} = [ grep { $_ != $choices } @{$packages->{$_}} ];
-			    @{$packages->{$_}} > 0 or delete $packages->{$_};
-			}
-		    }
-		}
-		if ($installed && $installed->{$_}) {
-		    delete $packages->{$_};
-		} else {
-		    exists $packages->{$_} or $packages->{$_} = $installed && ! exists $installed->{$_};
-		}
-	    }
-	}
-    }
-}
-
-#- filter the packages list (assuming only the key is registered, so undefined
-#- value stored) to keep only packages that need to be upgraded,
-#- additionnal packages will be stored using non null values,
-#- choice will have a list of other choices as values,
-#- initial packages will have a 0 stored as values.
-#- options allow changing some behaviour of the algorithms:
-#-   complete -> perform a complete closure before trying to look for upgrade.
-sub filter_packages_to_upgrade {
-    my ($urpm, $packages, $select_choices, %options) = @_;
-    my ($id, %closures, %installed, @packages_installed);
-    my $db = rpmtools::db_open(''); #- keep it open for all operation that could be done.
-
-    #- request the primary list to rpmlib if complete mode is not activated.
-    if (!$options{complete}) {
-	#- there are not too many packages selected here to allow
-	#- take care of package up-to-date at this point,
-	#- so check version and if the package does not need to
-	#- updated, ignore it and his dependencies.
-	rpmtools::db_traverse_tag($db, "name", [ map { $urpm->{params}{depslist}[$_]{name} } keys %$packages ],
-				  [ qw(name version release serial) ], sub {
-				      my ($p) = @_;
-				      my $pkg = $urpm->{params}{info}{$p->{name}};
-				      if ($pkg) {
-					  my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
-					  $installed{$pkg->{id}} = !($pkg->{serial} > $p->{serial} ||
-								     $pkg->{serial} == $p->{serial} &&
-								     ($cmp > 0 || $cmp == 0 &&
-								      rpmtools::version_compare($pkg->{release},
-												$p->{release}) > 0))
-					    and delete $packages->{$pkg->{id}};
-				      }
-				  });
-    }
-
-    #- select first level of packages, as in packages list will only be
-    #- examined deps of each.
-    #- at this level, compute global closure of what is requested, regardless of
-    #- choices for which all package in the choices are taken and their dependencies.
-    #- allow iteration over a modifying list.
-    @closures{keys %$packages} = ();
-    $urpm->compute_closure(\%closures, undef, sub { my ($urpm, @l) = @_; @l });
-
-    #- closures has been done so that its keys are the package that may be examined.
-    #- according to number of keys, get all package installed or only the necessary
-    #- packages.
-    my $examine_installed_packages = sub {
-	my ($p) = @_;
-	my $pkg = $urpm->{params}{names}{$p->{name}};
-	if ($pkg && exists $closures{$pkg->{id}}) {
-	    my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
-	    $installed{$pkg->{id}} = !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} &&
-				       ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0))
-	      and delete $packages->{$pkg->{id}};
-	}
-    };
-    #- do not take care of already examined packages.
-    delete @closures{keys %installed};
-    if (scalar(keys %closures) < 100) {
-	rpmtools::db_traverse_tag($db, "name", [ map { $urpm->{params}{depslist}[$_]{name} } keys %closures ],
-				  [ qw(name version release serial) ], $examine_installed_packages);
-    } else {
-	rpmtools::db_traverse($db, [ qw(name version release serial) ], $examine_installed_packages);
-    }
-    rpmtools::db_close($db);
-
-    #- recompute closure but ask for which package to select on a choices.
-    #- this is necessary to have the result before the end else some dependency may
-    #- be losed or added.
-    #- accept no choice allow to browse list, and to compute it with more iteration.
-    %closures = (); @closures{keys %$packages} = ();
-    $urpm->compute_closure(\%closures, \%installed, $select_choices);
-
-    #- restore package to match selection done, update the values according to
-    #- need upgrade (0), requested (undef), already installed (not present) or
-    #- newly added (1).
-    #- choices if not chosen are present as ref.
-    foreach (keys %closures) {
-	exists $packages->{$_} or $packages->{$_} = $closures{$_};
-    }
-
-    $packages;
-}
-
 #- parse synthesis file to retrieve information stored inside.
 sub parse_synthesis {
     my ($urpm, $synthesis) = @_;
@@ -1480,6 +1327,7 @@ sub filter_minimal_packages_to_upgrade {
 				 #- it will be resolved by searching the rpm database.
 				 $provides{$n} ||= undef;
 				 my $check_pkg = sub {
+				     $options{keep_alldeps} and return;
 				     $v and eval(rpmtools::version_compare($_[0]{version}, $v) . $o . 0) || return;
 				     $r and eval(rpmtools::version_compare($_[0]{release}, $r) . $o . 0) || return;
 				     $provides{$n} = "$_[0]{name}-$_[0]{version}-$_[0]{release}";
@@ -1521,13 +1369,16 @@ sub filter_minimal_packages_to_upgrade {
 		foreach my $pkg (@pre_choices) {
 		    push @choices, $pkg;
 
-		    rpmtools::db_traverse_tag($db,
-					      'name', [ $_ ],
-					      [ qw(name version release serial) ], sub {
-						  my ($p) = @_;
-						  my $cmp = rpmtools::version_compare($pkg->{version}, $p->{version});
-						  $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} && ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0));
-					      });
+		    unless ($options{keep_alldeps}) {
+			rpmtools::db_traverse_tag($db,
+						  'name', [ $_ ],
+						  [ qw(name version release serial) ], sub {
+						      my ($p) = @_;
+						      my $cmp = rpmtools::version_compare($pkg->{version},
+											  $p->{version});
+						      $installed{$pkg->{id}} ||= !($pkg->{serial} > $p->{serial} || $pkg->{serial} == $p->{serial} && ($cmp > 0 || $cmp == 0 && rpmtools::version_compare($pkg->{release}, $p->{release}) > 0));
+						  });
+		    }
 		    $installed{$pkg->{id}} and delete $packages->{$pkg->{id}};
 		    if (exists $packages->{$pkg->{id}} || $installed{$pkg->{id}}) {
 			#- the package is already selected, or installed with a better version and release.
@@ -1924,8 +1775,8 @@ sub select_packages_to_upgrade {
 			 });
 	}
 
-	#- mark all files which are not in /dev or /etc/rc.d/ for packages which are already installed but which
-	#- are not in the packages list to upgrade.
+	#- mark all files which are not in /dev or /etc/rc.d/ for packages which are already installed
+	#- but which are not in the packages list to upgrade.
 	#- the 'installed' property will make a package unable to be selected, look at select.
 	rpmtools::db_traverse($db, [ qw(name version release serial files) ], sub {
 				  my ($p) = @_;
@@ -1936,11 +1787,13 @@ sub select_packages_to_upgrade {
 				      my $version_cmp = rpmtools::version_compare($p->{version}, $pkg->{version});
 				      if ($p->{serial} > $pkg->{serial} || $p->{serial} == $pkg->{serial} &&
 					  ($version_cmp > 0 ||
-					   $version_cmp == 0 && rpmtools::version_compare($p->{release}, $pkg->{release}) >= 0)) {
+					   $version_cmp == 0 &&
+					   rpmtools::version_compare($p->{release}, $pkg->{release}) >= 0)) {
 					  if ($otherPackage && $version_cmp <= 0) {
 					      $toRemove{$otherPackage} = 0;
 					      $pkg->{selected} = 1;
-					      $urpm->{log}(_("removing %s to upgrade ...\n to %s since it will not be updated otherwise", $otherPackage, "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
+					      $urpm->{log}(_("removing %s to upgrade to %s ...
+  since it will not be updated otherwise", $otherPackage, "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 					  } else {
 					      $pkg->{installed} = 1;
 					  }
@@ -1948,10 +1801,11 @@ sub select_packages_to_upgrade {
 					  my $otherPackage = "$p->{name}-$p->{version}-$p->{release}";
 					  $toRemove{$otherPackage} = 0;
 					  $pkg->{selected} = 1;
-					  $urpm->{log}(_("removing %s to upgrade ...\n to %s since it will not upgrade correctly!", $otherPackage, "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
+					  $urpm->{log}(_("removing %s to upgrade to %s ...
+  since it will not upgrade correctly!", $otherPackage, "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 				      }
 				  } else {
-				      if (! exists $obsoletedPackages{$p->{name}}) {
+				      if (exists $obsoletedPackages{$p->{name}}) {
 					  @installedFilesForUpgrade{grep { ($_ !~ m|^/dev/| && $_ !~ m|^/etc/rc.d/| &&
 									    $_ !~ m|\.la$| &&
 									    ! -d "$prefix/$_" && ! -l "$prefix/$_") }
@@ -2021,13 +1875,15 @@ sub select_packages_to_upgrade {
 			     });
 		if ($toSelect) {
 		    if ($toSelect <= 1 && $pkg->{name} =~ /-devel/) {
-			$urpm->{log}(_("avoid selecting %s as not enough files will be updated", "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
+			$urpm->{log}(_("avoid selecting %s as not enough files will be updated",
+				       "$pkg->{name}-$pkg->{version}-$pkg->{release}"));
 		    } else {
 			#- default case is assumed to allow upgrade.
 			my @deps = map { /\|/ and next; #- do not inspect choice
 					 my $p = $urpm->{params}{depslist}[$_];
 					 $p && $p->{name} =~ /locales-/ ? ($p) : () } split ' ', $pkg->{deps};
-			if (@deps == 0 || @deps > 0 && (grep { !$_->{selected} && !$_->{installed} } @deps) == 0) {
+			if (@deps == 0 ||
+			    @deps > 0 && (grep { !$_->{selected} && !$_->{installed} } @deps) == 0) {
 			    $urpm->{log}(_("selecting %s by selection on files", $pkg->{name}));
 			    $pkg->{selected} = 1;
 			} else {

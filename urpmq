@@ -40,14 +40,11 @@ usage:
 ") . _("  -v             - verbose mode.
 ") . _("  -d             - extend query to package dependencies.
 ") . _("  -u             - remove package if a better version is already installed.
-") . _("  -m             - extend query to package dependencies, remove already
-                   installed package that provide what is necessary, add
-                   packages that may be block the upgrade.
-") . _("  -M             - same as -m mode, see above.
 ") . _("  -c             - choose complete method for resolving requires closure.
 ") . _("  -p             - allow search in provides to find package.
 ") . _("  -g             - print groups too with name.
 ") . _("  -r             - print version and release too with name.
+") . _("  -f             - print version, release and arch with name.
 ") . "\n" . _("  --update       - use only update media.
 ") . _("  --auto-select  - automatically select packages for upgrading the system.
 ") . _("  --headers      - extract headers for package listed from urpmi db to
@@ -72,13 +69,14 @@ for (@ARGV) {
 	/[\?h]/ and do { usage; next };
 	/d/ and do { $query->{deps} = 1; next };
 	/u/ and do { $query->{upgrade} = 1; next };
-	/m/ and do { $query->{minimal} = 1; next };
-	/M/ and do { $query->{minimal} = 1; next }; #- nop same as -m
+	/m/ and do { next };
+	/M/ and do { next };
 	/c/ and do { $query->{complete} = 1; next };
 	/g/ and do { $query->{group} = 1; next };
 	/p/ and do { $query->{use_provides} = 1; next };
 	/v/ and do { $query->{verbose} = 1; next };
 	/r/ and do { $query->{version} = $query->{release} = 1; next };
+	/f/ and do { $query->{version} = $query->{release} = $query->{arch} = 1; next };
 	print STDERR _("urpmq: unknown option \"-%s\", check usage with --help\n", $1); exit(1) } next };
     @nextargv and do { my $r = shift @nextargv; $r and $$r = $_; next };
     /\.rpm$/ and do { if (-r $_) { push @files, $_; }
@@ -103,7 +101,7 @@ if (@files) {
     $query->{use_provides} or $urpm->read_provides;
 
     #- build closure with local package and return list of names.
-    push @names, $urpm->register_local_packages($query->{minimal}, @files);
+    push @names, $urpm->register_local_packages('minimal', @files);
 }
 
 #- reparse whole internal depslist to match against newer packages only.
@@ -133,14 +131,10 @@ if ($query->{auto_select}) {
 }
 
 #- filter to add in packages selected required packages.
-if ($query->{minimal}) {
-    $query->{use_provides} || @files or $urpm->read_provides;
-    $query->{update} || $query->{auto_select} or $urpm->read_config(nocheck_access => 1);
-    $urpm->filter_minimal_packages_to_upgrade(\%packages, undef);
-} else {
-    $query->{deps} && !$query->{upgrade} and $urpm->compute_closure(\%packages);
-    $query->{upgrade} and $urpm->filter_packages_to_upgrade(\%packages, undef, complete => $query->{complete});
-}
+$query->{use_provides} || @files or $urpm->read_provides;
+$query->{update} || $query->{auto_select} or $urpm->read_config(nocheck_access => 1);
+$urpm->filter_minimal_packages_to_upgrade(\%packages, undef,
+					  keep_alldeps => $query->{deps} && !$query->{upgrade});
 
 #- get out of package that should not be upgraded.
 $urpm->deselect_unwanted_packages(\%packages);
@@ -185,6 +179,7 @@ my $query_sub = sub {
 	$str .= $info->{name};
 	$query->{version} and $str .= '-' . $info->{version};
 	$query->{release} and $str .= '-' . $info->{release};
+	$query->{arch} and $str .= '.' . $info->{arch};
 	$str;
 };
 
