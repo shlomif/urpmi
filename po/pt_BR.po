@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-pt_BR\n"
-"POT-Creation-Date: 2003-08-30 13:34+0200\n"
+"POT-Creation-Date: 2003-09-04 20:39+0200\n"
 "PO-Revision-Date: 2003-08-27 22:30-0200\n"
 "Last-Translator: Jeferson Lopes Zacco aka Wooky <wooky_linuxer@ig.com.br>\n"
 "Language-Team: Brazilian Portughese <cooker-i18n@linux-mandrake.com>\n"
@@ -433,11 +433,6 @@ msgid "  --list-nodes   - list available nodes when using --parallel.\n"
 msgstr ""
 "  --list-nodes   - lista os nódulos disponíveis quando  --parallel é usada.\n"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "building hdlist [%s]"
-msgstr "Construindo hdlist [%s]"
-
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -446,6 +441,11 @@ msgid ""
 msgstr ""
 "  --keep         - mantém os pacotes existentes se possível, recusa os\n"
 "                    pacotes solicitados que impedem isso.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "Construindo hdlist [%s]"
 
 #: ../urpm.pm:1
 #, c-format
@@ -627,7 +627,7 @@ msgstr ""
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - seleciona todas as mídias.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Missing signature (%s)"
 msgstr "Assinatura perdida (%s)"
@@ -686,14 +686,6 @@ msgstr ""
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Instalando pacote `%s' (%s/%s)..."
 
-#: ../urpmi.update:1
-#, c-format
-msgid ""
-"  -d             - force complete computation of depslist.ordered file.\n"
-msgstr ""
-"  -d             - força o cálculo completo do arquivo organizado "
-"despslist.\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "no entries relocated in depslist"
@@ -739,15 +731,15 @@ msgstr "adicionando pacote %s (id=%d, eid=%d, atualização=%d, arquivo=%s)"
 msgid "skipping package %s"
 msgstr "pulando o pacote %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr "Assinatura inválida (%s)"
+
 #: ../urpmq:1
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "Nomes ou arquivos rpm dados na linha de comando são consultados \n"
-
-#: ../urpmi:1
-#, c-format
-msgid "Invalid signature (%s)"
-msgstr "Assinatura inválida (%s)"
 
 #: ../urpmi:1
 #, c-format
@@ -797,11 +789,6 @@ msgstr "Incapaz de atualizar arquivo hdlist  de \"%s\""
 msgid "due to conflicts with %s"
 msgstr "devido a conflitos com %s"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "Removendo %d cabeçalhos obsoletos no cache."
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -811,6 +798,11 @@ msgstr "incapaz de atualizar mídia \"%s\"\n"
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Tentar instalar sem checar as dependências? (s/N) "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "Removendo %d cabeçalhos obsoletos no cache."
 
 #: ../urpm.pm:1
 #, c-format
@@ -1024,7 +1016,7 @@ msgid "  -a             - select all packages matching expression.\n"
 msgstr ""
 "  -a             - seleciona todos os pacotes que combinam com a expressão.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Invalid Key ID (%s)"
 msgstr "Chave Inválida ID (%s)"
@@ -1091,7 +1083,7 @@ msgstr "Você deseja continuar com a instalação ?"
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "Não consegui ler o arquivo rpm [%s] para a mídia \"%s\""
 
-#: ../urpm.pm:1
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
 msgstr "Construído arquivo hdlist síntese para mídia \"%s\""
@@ -1905,6 +1897,12 @@ msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr ""
 "  --test         - verifica se a instalação pode ser efetuada corretamente.\n"
+
+#~ msgid ""
+#~ "  -d             - force complete computation of depslist.ordered file.\n"
+#~ msgstr ""
+#~ "  -d             - força o cálculo completo do arquivo organizado "
+#~ "despslist.\n"
 
 #~ msgid ""
 #~ "  --name         - print tag name: rpm filename (assumed if no tag given "

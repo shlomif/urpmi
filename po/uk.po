@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-uk\n"
-"POT-Creation-Date: 2003-08-30 13:34+0200\n"
+"POT-Creation-Date: 2003-09-04 20:39+0200\n"
 "PO-Revision-Date: 2003-08-31 13:37+0300\n"
 "Last-Translator: Taras Boychuk <btr1@torba.com>\n"
 "Language-Team: ukrainian <uk@li.org>\n"
@@ -426,11 +426,6 @@ msgstr ""
 "  --list-nodes     - вивести список доступних вузл╕в при використанн╕ --"
 "parallel.\n"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "building hdlist [%s]"
-msgstr "створю╓ться hdlist [%s]"
-
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
@@ -440,6 +435,11 @@ msgstr ""
 "  --keep         - залишити ╕снуюч╕ пакунки, якщо можливо, в╕дкинути "
 "замовлен╕\n"
 "                   пакунки, як╕ мають вилучатися.\n"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "створю╓ться hdlist [%s]"
 
 #: ../urpm.pm:1
 #, c-format
@@ -622,7 +622,7 @@ msgstr ""
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - вибрати вс╕ нос╕╖.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Missing signature (%s)"
 msgstr "В╕дсутн╕й п╕дпис (%s)"
@@ -683,14 +683,6 @@ msgstr ""
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Встановлю╓ться пакунок `%s' (%s/%s)..."
 
-#: ../urpmi.update:1
-#, c-format
-msgid ""
-"  -d             - force complete computation of depslist.ordered file.\n"
-msgstr ""
-"  -d             - примусово виконати повне обчислення файла depslist."
-"ordered.\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "no entries relocated in depslist"
@@ -739,15 +731,15 @@ msgstr "дода╓ться пакунок %s (id=%d, eid=%d, update=%d, file=%s)"
 msgid "skipping package %s"
 msgstr "пропуска╓ться пакунок %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr "Неправильний п╕дпис (%s)"
+
 #: ../urpmq:1
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  назви або rpm-файли, задан╕ в командному рядку, необх╕дн╕.\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "Invalid signature (%s)"
-msgstr "Неправильний п╕дпис (%s)"
 
 #: ../urpmi:1
 #, c-format
@@ -798,11 +790,6 @@ msgstr "неможливо проанал╕зувати файл hdlist для \"%s\""
 msgid "due to conflicts with %s"
 msgstr "через конфл╕кти з %s"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "видаляються %d застар╕л╕ заголовки у кеш╕"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -812,6 +799,11 @@ msgstr "неможливо понвити нос╕я\"%s\"\n"
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Спробувати ╕нсталяц╕ю без перев╕рки залежностей? (y/N) (т/Н) "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "видаляються %d застар╕л╕ заголовки у кеш╕"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1021,7 +1013,7 @@ msgstr "не знайдено webfetch (curl або wget) \n"
 msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - вибрати вс╕ пакунки в╕дпов╕дно до розширення.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Invalid Key ID (%s)"
 msgstr "Неправильний ╕дентиф╕катор ключа (%s)"
@@ -1092,7 +1084,7 @@ msgstr "Ви хочете продовжувати ╕нсталяц╕ю?"
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "неможливо прочитати rpm-файл [%s] з нос╕я \"%s\""
 
-#: ../urpm.pm:1
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
 msgstr "побудовано hdlist synthesis файл для нос╕я \"%s\""
@@ -1905,6 +1897,12 @@ msgstr "спроба об╕йти ╕снуючого нос╕я \"%s\", обх╕д"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - перев╕рити, чи дане встановлення можливе.\n"
+
+#~ msgid ""
+#~ "  -d             - force complete computation of depslist.ordered file.\n"
+#~ msgstr ""
+#~ "  -d             - примусово виконати повне обчислення файла depslist."
+#~ "ordered.\n"
 
 #~ msgid ""
 #~ "  --name         - print tag name: rpm filename (assumed if no tag given "

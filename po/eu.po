@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-08-30 13:34+0200\n"
+"POT-Creation-Date: 2003-09-04 20:39+0200\n"
 "PO-Revision-Date: 2003-08-21 19:11+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Euskara <linux-eu@chanae.alphanet.ch>\n"
@@ -434,17 +434,17 @@ msgstr ""
 "  --list-nodes   - zerrendatu \"--parallel\" erabiltzerakoan dauden nodo "
 "erabilgarriak.\n"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "building hdlist [%s]"
-msgstr "[%s] goiburuko-zerrenda eraikitzen"
-
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "[%s] goiburuko-zerrenda eraikitzen"
 
 #: ../urpm.pm:1
 #, c-format
@@ -630,7 +630,7 @@ msgstr ""
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - euskarri guztiak hautatzen ditu.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Missing signature (%s)"
 msgstr ""
@@ -692,14 +692,6 @@ msgstr ""
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
-#: ../urpmi.update:1
-#, c-format
-msgid ""
-"  -d             - force complete computation of depslist.ordered file.\n"
-msgstr ""
-"  -d             - depslist.ordered fitxategiaren kontaketa osoa bultzatzen "
-"du.\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "no entries relocated in depslist"
@@ -747,15 +739,15 @@ msgstr ""
 msgid "skipping package %s"
 msgstr "%s paketea ezikusten"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr "Sinadura baliogabea (%s)"
+
 #: ../urpmq:1
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  komando-lerroko izenak edo rpm-fitxategiak kontsultatu dira.\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "Invalid signature (%s)"
-msgstr "Sinadura baliogabea (%s)"
 
 #: ../urpmi:1
 #, c-format
@@ -806,11 +798,6 @@ msgstr "ezin da \"%s\" (r)en goiburuko-zerrendaren fitxategia analizatu"
 msgid "due to conflicts with %s"
 msgstr "%s-rekin dituen gatazkengatik"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "%d goiburuko zaharkituak cache-tik ezabatzen"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -820,6 +807,11 @@ msgstr "ezin da \"%s\" euskarria eguneratu\n"
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Mendekotasunak egiaztatu gabe instalatzen saiatu nahi duzu? (B/e) "
+
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "%d goiburuko zaharkituak cache-tik ezabatzen"
 
 #: ../urpm.pm:1
 #, c-format
@@ -1035,7 +1027,7 @@ msgid "  -a             - select all packages matching expression.\n"
 msgstr ""
 "  -a             - hautatu adierazpenarekin bat datozen pakete guztiak.\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Invalid Key ID (%s)"
 msgstr "Gako ID baliogabea (%s)"
@@ -1104,7 +1096,7 @@ msgstr "Instalazioarekin aurrera egin nahi duzu ?"
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "ezin da [%s] rpm fitxategia \"%s\" euskarrian irakurri"
 
-#: ../urpm.pm:1
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
 msgstr "eraiki \"%s\" euskarrirako goiburuko-zerrendaren laburpen-fitxategia"
@@ -1937,6 +1929,12 @@ msgid ""
 msgstr ""
 "  --test         - instalazioa arazorik gabe burutu daitekeen egiaztatzen "
 "du.\n"
+
+#~ msgid ""
+#~ "  -d             - force complete computation of depslist.ordered file.\n"
+#~ msgstr ""
+#~ "  -d             - depslist.ordered fitxategiaren kontaketa osoa "
+#~ "bultzatzen du.\n"
 
 #~ msgid ""
 #~ "  --name         - print tag name: rpm filename (assumed if no tag given "

@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.7\n"
-"POT-Creation-Date: 2003-08-30 13:34+0200\n"
+"POT-Creation-Date: 2003-09-04 20:39+0200\n"
 "PO-Revision-Date: 2002-09-02 03:10+0800\n"
 "Last-Translator: Kenduest Lee <kenduest@i18n.linux.org.tw>\n"
 "Language-Team: Chinese Team <zh-l10n@linux.org.tw>\n"
@@ -412,17 +412,17 @@ msgstr "  -p             - 允許搜尋套件與程式庫清單(provides)以找到套件。\n"
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
 msgstr "  --list-nodes   - 顯示可用的節點項目 (當使用 --parallel 時)。\n"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "building hdlist [%s]"
-msgstr "建立檔頭清單 (hdlist) [%s]"
-
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "建立檔頭清單 (hdlist) [%s]"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -599,7 +599,7 @@ msgstr ""
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - 選擇全部的媒介。\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Missing signature (%s)"
 msgstr ""
@@ -659,12 +659,6 @@ msgstr ""
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
-#: ../urpmi.update:1
-#, c-format
-msgid ""
-"  -d             - force complete computation of depslist.ordered file.\n"
-msgstr "  -d             - 強制完成 depslist.ordered 檔案的計算。\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "no entries relocated in depslist"
@@ -710,15 +704,15 @@ msgstr ""
 msgid "skipping package %s"
 msgstr "沒有套件具有這個名稱 %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr ""
+
 #: ../urpmq:1
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  在命令列給予的名稱或 rpm 檔案都會被查詢。\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "Invalid signature (%s)"
-msgstr ""
 
 #: ../urpmi:1
 #, c-format
@@ -766,11 +760,6 @@ msgstr "無法解析“%s”的檔頭清單(hdlist)檔案"
 msgid "due to conflicts with %s"
 msgstr "%s 套件與 %s 相衝突"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "移除 %d 個在快取區內無用的檔頭"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -780,6 +769,11 @@ msgstr "無法更新媒介“%s”\n"
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "略過檢查套件的相依性檢查強制安裝？(y/N)(是/否)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "移除 %d 個在快取區內無用的檔頭"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -981,7 +975,7 @@ msgstr "無 webfetch 提供者 (curl 或者是 wget 這類程式)\n"
 msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - 選擇命令列中所有符合項目。\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Invalid Key ID (%s)"
 msgstr ""
@@ -1048,7 +1042,7 @@ msgstr "您要繼續進行安裝嗎？"
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "無法正確讀取 [%s] rpm 檔案 (來自於 \"%s\" 媒介項目"
 
-#: ../urpm.pm:1
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
 msgstr "為媒介“%s”建立綜合檔頭清單 (synthesis)"
@@ -1811,6 +1805,10 @@ msgstr "嘗試忽略現存的媒介“%s”，忽略這個媒介"
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - 確認安裝是否能夠正確進行.\n"
+
+#~ msgid ""
+#~ "  -d             - force complete computation of depslist.ordered file.\n"
+#~ msgstr "  -d             - 強制完成 depslist.ordered 檔案的計算。\n"
 
 #, fuzzy
 #~ msgid ""

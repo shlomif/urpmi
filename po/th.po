@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
-"POT-Creation-Date: 2003-08-30 13:34+0200\n"
+"POT-Creation-Date: 2003-09-04 20:39+0200\n"
 "PO-Revision-Date: 2002-11-25 13:52-0500\n"
 "Last-Translator: Wachara Chinsettawong <wachara@yahoo.com>\n"
 "Language-Team: Thai <th@li.org>\n"
@@ -408,17 +408,17 @@ msgstr "  -p             - ย้อมให้มีการค้นหาแพ็คเกจจากที่ป้อนให้\n"
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
 msgstr "  --list-node     - แสดงรายชื่อnodesที่มีอยู่ขณะใช้--parallel \n"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "building hdlist [%s]"
-msgstr "สร้าง hdlist [%s]"
-
 #: ../urpmi:1 ../urpmq:1
 #, c-format
 msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
 "                   packages that leads to remove.\n"
 msgstr ""
+
+#: ../urpm.pm:1
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "สร้าง hdlist [%s]"
 
 #: ../urpm.pm:1
 #, c-format
@@ -595,7 +595,7 @@ msgstr ""
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - เลือกมีเดียทั้งหมด\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Missing signature (%s)"
 msgstr ""
@@ -655,12 +655,6 @@ msgstr ""
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
-#: ../urpmi.update:1
-#, c-format
-msgid ""
-"  -d             - force complete computation of depslist.ordered file.\n"
-msgstr "  -d             - บังคับให้มีการคำนวณโดยละเอียดของไฟล์ depslist.ordered\n"
-
 #: ../urpm.pm:1
 #, c-format
 msgid "no entries relocated in depslist"
@@ -706,15 +700,15 @@ msgstr ""
 msgid "skipping package %s"
 msgstr "ไม่มี package ที่ชื่อ %s"
 
+#: ../urpm.pm:1
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr ""
+
 #: ../urpmq:1
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "ชื่อของไฟล์หรือของ rpm ที่ให้จากคำสั่งที่พิมพ์กำลังถูกค้นหา\n"
-
-#: ../urpmi:1
-#, c-format
-msgid "Invalid signature (%s)"
-msgstr ""
 
 #: ../urpmi:1
 #, c-format
@@ -763,11 +757,6 @@ msgstr "ไม่สามารถ parse hdlist file of \"%s\""
 msgid "due to conflicts with %s"
 msgstr "%s ขัดแย้งกับ %s"
 
-#: ../urpm.pm:1
-#, c-format
-msgid "removing %d obsolete headers in cache"
-msgstr "กำลังลบ %d headerที่ล้าสมัยใน cache"
-
 #: ../urpmi.addmedia:1
 #, c-format
 msgid "unable to update medium \"%s\"\n"
@@ -777,6 +766,11 @@ msgstr "ไม่สามารถแก้ไขอุปกรณ์\"%s\"\n"
 #, c-format
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "ต้องการทดลองติดตั้งโดยที่ไม่ต้องตรอจสอบความเข้ากันได้? (y/N)"
+
+#: ../urpm.pm:1
+#, c-format
+msgid "removing %d obsolete headers in cache"
+msgstr "กำลังลบ %d headerที่ล้าสมัยใน cache"
 
 #: ../urpm.pm:1
 #, fuzzy, c-format
@@ -980,7 +974,7 @@ msgstr "ไม่พบ webfetch (curl หรือ wget ในขณะนี้)\n"
 msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - เลือกทั้งหมดที่ตรงกับคำสั่ง\n"
 
-#: ../urpmi:1
+#: ../urpm.pm:1
 #, c-format
 msgid "Invalid Key ID (%s)"
 msgstr ""
@@ -1046,7 +1040,7 @@ msgstr "คุณยังต้องการจะติดตั้งอีกต่อไปหรือไม่ ?"
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "ไม่สามารถอ่าน rpm file [%s] จาก \"%s\""
 
-#: ../urpm.pm:1
+#: ../urpm.pm:1 ../urpmi:1
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
 msgstr "สร้าง hdlist synthesis file สำหรับ อุปกรณ์ \"%s\""
@@ -1818,6 +1812,11 @@ msgstr "กำลังเลี่ยงการทำงานของอุปกรณ์ \"%s\""
 msgid ""
 "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - ตรวจสอบว่าการติดตั้งสามารถทำได้ถูกต้องหรือไม่.\n"
+
+#~ msgid ""
+#~ "  -d             - force complete computation of depslist.ordered file.\n"
+#~ msgstr ""
+#~ "  -d             - บังคับให้มีการคำนวณโดยละเอียดของไฟล์ depslist.ordered\n"
 
 #, fuzzy
 #~ msgid ""
