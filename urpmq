@@ -154,12 +154,12 @@ if ($query->{headers} || $query->{sources}) {
 
     if ($query->{headers}) {
 	#- now examine source package to build headers list to extract.
-	@$local_sources and system 'rpm2header', @$local_sources;
+	values %$local_sources and system 'rpm2header', values %$local_sources;
 	foreach (0..$#{$urpm->{media} || []}) {
 	    my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
 				  -s $file and system 'cat', $file;
 				  ! -s $file }
-			   map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } @{$list->[$_]});
+			   map { /(.*)\/([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm/ and "$2-$3-$4.$5" } values %{$list->[$_]});
 	    @headers > 0 or next;
 
 	    require packdrake;
@@ -167,9 +167,9 @@ if ($query->{headers} || $query->{sources}) {
 	    $packer->extract_archive(undef, @headers);
 	}
     } else {
-	print join "\n", @$local_sources; @$local_sources and print "\n";
+	print join "\n", values %$local_sources; values %$local_sources and print "\n";
 	foreach (0..$#{$urpm->{media} || []}) {
-	    print join "\n", @{$list->[$_]}; @{$list->[$_]} and print "\n";
+	    print join "\n", values %{$list->[$_]}; values %{$list->[$_]} and print "\n";
 	}
     }
     exit 0;

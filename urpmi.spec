@@ -2,13 +2,13 @@
 
 Name: urpmi
 Version: 2.0
-Release: 4mdk
+Release: 5mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Source1: %{name}.logrotate
 Summary: User mode rpm install
 Requires: eject, wget
-PreReq: perl-gettext, rpmtools >= 3.1
+PreReq: perl-gettext, rpmtools >= 3.1-5mdk
 BuildRequires: libbzip2-devel rpm-devel
 BuildRoot: %{_tmppath}/%{name}-buildroot
 
@@ -45,6 +45,19 @@ do
   install -d $RPM_BUILD_ROOT/var/cache/urpmi/$dir
 done
 install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
+cat <<EOF >$RPM_BUILD_ROOT/etc/urpmi/inst.list
+kernel
+kernel-smp
+kernel-secure
+kernel-enterprise
+kernel-linus2.2
+kernel-linus2.4
+kernel22
+kernel22-secure
+kernel22-smp
+hackkernel
+EOF
+
 mkdir -p $RPM_BUILD_ROOT%{perl_sitearch}
 install -m 644 urpm.pm $RPM_BUILD_ROOT%{perl_sitearch}
 
@@ -83,6 +96,7 @@ rm -f /var/lib/urpmi/depslist
 %dir /var/cache/urpmi/headers
 %dir /var/cache/urpmi/rpms
 %config(noreplace) /etc/urpmi/skip.list
+%config(noreplace) /etc/urpmi/inst.list
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_bindir}/urpmi_rpm-find-leaves
 %{_bindir}/urpmf
@@ -112,6 +126,9 @@ rm -f /var/lib/urpmi/depslist
 
 
 %changelog
+* Fri Nov 16 2001 François Pons <fpons@mandrakesoft.com> 2.0-5mdk
+- added /etc/urpmi/inst.list support.
+
 * Thu Nov 15 2001 François Pons <fpons@mandrakesoft.com> 2.0-4mdk
 - first stable support for updating synthesis file.
 

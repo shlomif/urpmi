@@ -1287,7 +1287,6 @@ sub filter_packages_to_upgrade {
 #- parse synthesis file to retrieve information stored inside.
 sub parse_synthesis {
     my ($urpm, $synthesis) = @_;
-
     local (*F, $_);
     my ($error, $last_name, @founds, %info);
 
@@ -1337,6 +1336,7 @@ sub parse_synthesis {
     }
     $update_info->();
     close F or $urpm->{error}(_("unable to parse correctly [%s]", $synthesis)), return;
+    $urpm->{log}(_("read synthesis file [%s]", $synthesis));
 
     @founds;
 }
@@ -1572,7 +1572,6 @@ sub filter_minimal_packages_to_upgrade {
 sub deselect_unwanted_packages {
     my ($urpm, $packages, %options) = @_;
 
-    my %skip;
     local ($_, *F);
     open F, $urpm->{skiplist};
     while (<F>) {
@@ -1593,14 +1592,14 @@ sub deselect_unwanted_packages {
 #- have a null list.
 sub get_source_packages {
     my ($urpm, $packages) = @_;
-    my ($error, @local_to_removes, @local_sources, @list, %fullname2id, %file2fullnames);
+    my ($error, %local_sources, @list, @local_to_removes, %fullname2id, %file2fullnames);
     local (*D, *F, $_);
 
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
 	my $p = $urpm->{params}{depslist}[$_];
 	if ($p->{source}) {
-	    push @local_sources, $p->{source};
+	    $local_sources{$_} = $p->{source};
 	} else {
 	    $fullname2id{"$p->{name}-$p->{version}-$p->{release}.$p->{arch}"} = $_;
 	}
@@ -1647,8 +1646,8 @@ sub get_source_packages {
 		    next;
 		} elsif (keys(%{$file2fullnames{$1} || {}}) == 1) {
 		    my ($fullname) = keys(%{$file2fullnames{$1} || {}});
-		    if (defined delete $fullname2id{$fullname}) {
-			push @local_sources, "$urpm->{cachedir}/rpms/$1.rpm";
+		    if (my $id = defined delete $fullname2id{$fullname}) {
+			$local_sources{$id} = "$urpm->{cachedir}/rpms/$1.rpm";
 		    } else {
 			push @local_to_removes, "$urpm->{cachedir}/rpms/$1.rpm";
 		    }
@@ -1662,7 +1661,7 @@ sub get_source_packages {
     closedir D;
 
     foreach my $medium (@{$urpm->{media} || []}) {
-	my @sources;
+	my %sources;
 
 	if (-r "$urpm->{statedir}/$medium->{list}" && !$medium->{ignore}) {
 	    open F, "$urpm->{statedir}/$medium->{list}";
@@ -1673,7 +1672,8 @@ sub get_source_packages {
 			next;
 		    } elsif (keys(%{$file2fullnames{$2} || {}}) == 1) {
 			my ($fullname) = keys(%{$file2fullnames{$2} || {}});
-			defined delete $fullname2id{$fullname} and push @sources, "$1/$2.rpm";
+			my $id = delete $fullname2id{$fullname};
+			defined $id and $sources{$id} = "$1/$2.rpm";
 		    }
 		} else {
 		    chomp;
@@ -1684,7 +1684,7 @@ sub get_source_packages {
 	    }
 	    close F;
 	}
-	push @list, \@sources;
+	push @list, \%sources;
     }
 
     #- examine package list to see if a package has not been found.
@@ -1693,7 +1693,7 @@ sub get_source_packages {
 	$urpm->{error}(_("package %s is not found.", $_));
     }	
 
-    $error ? () : ( \@local_sources, \@list, \@local_to_removes );
+    $error ? () : ( \%local_sources, \@list, \@local_to_removes );
 }
 
 #- upload package that may need to be uploaded.
@@ -1704,7 +1704,7 @@ sub get_source_packages {
 #- return a list of package ready for rpm.
 sub upload_source_packages {
     my ($urpm, $local_sources, $list, $force_local, $ask_for_medium) = @_;
-    my (@sources, @distant_sources, %media, %removables);
+    my (%sources, @distant_sources, %media, %removables);
 
     #- make sure everything is correct on input...
     @{$urpm->{media}} == @$list or return;
@@ -1719,12 +1719,12 @@ sub upload_source_packages {
 	    my $count_not_found = sub {
 		my $not_found;
 		if (-e $dir) {
-		    foreach (@{$list->[$id]}) {
+		    foreach (values %{$list->[$id]}) {
 			/^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
 			-r $2 or ++$not_found;
 		    }
 		} else {
-		    $not_found = @{$list->[$id]};
+		    $not_found = values %{$list->[$id]};
 		}
 		return $not_found;
 	    };
@@ -1742,14 +1742,14 @@ sub upload_source_packages {
 	    }
 	    if (-e $dir) {
 		my @removable_sources;
-		foreach (@{$list->[$id]}) {
-		    /^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
+		while (my ($i, $url) = each %{$list->[$id]}) {
+		    $url =~ /^(removable_?[^_:]*|file):\/(.*\/([^\/]*))/ or next;
 		    -r $2 or $urpm->{error}(_("unable to read rpm file [%s] from medium \"%s\"", $2, $medium->{name}));
 		    if ($copy) {
 			push @removable_sources, $2;
-			push @sources, "$urpm->{cachedir}/rpms/$3";
+			$sources{$i} = "$urpm->{cachedir}/rpms/$3";
 		    } else {
-			push @sources, $2;
+			$sources{$i} = $2;
 		    }
 		}
 		if (@removable_sources) {
@@ -1764,7 +1764,7 @@ sub upload_source_packages {
 	}
     };
     foreach (0..$#$list) {
-	@{$list->[$_]} or next;
+	values %{$list->[$_]} or next;
 	my $medium = $urpm->{media}[$_];
 	#- examine non removable device but that may be mounted.
 	if ($medium->{removable}) {
@@ -1779,7 +1779,7 @@ sub upload_source_packages {
 	#- if more than one media use this device, we have to sort
 	#- needed package to copy first the needed rpms files.
 	if (@{$removables{$device}} > 1) {
-	    my @sorted_media = sort { @{$list->[$a]} <=> @{$list->[$b]} } @{$removables{$device}};
+	    my @sorted_media = sort { values %{$list->[$a]} <=> values %{$list->[$b]} } @{$removables{$device}};
 
 	    #- mount all except the biggest one.
 	    foreach (@sorted_media[0 .. $#sorted_media-1]) {
@@ -1798,19 +1798,19 @@ sub upload_source_packages {
     #- we are using wget for that with an input from its stdin.
     foreach (0..$#$list) {
 	exists $media{$_} and next;
-	@{$list->[$_]} or next;
-	foreach (@{$list->[$_]}) {
-	    if (/^(removable_?[^_:]*|file):\/(.*)/) {
-		push @sources, $2;
-	    } elsif (/^([^:]*):\/(.*\/([^\/]*))/) {
+	values %{$list->[$_]} or next;
+	while (my ($i, $url) = each %{$list->[$_]}) {
+	    if ($url =~ /^(removable_?[^_:]*|file):\/(.*)/) {
+		$sources{$i} = $2;
+	    } elsif ($url =~ /^([^:]*):\/(.*\/([^\/]*))/) {
 		if ($force_local) {
-		    push @distant_sources, $_;
-		    push @sources, "$urpm->{cachedir}/rpms/$3";
+		    push @distant_sources, $url;
+		    $sources{$i} = "$urpm->{cachedir}/rpms/$3";
 		} else {
-		    push @sources, $_;
+		    $sources{$i} = $url;
 		}
 	    } else {
-		$urpm->{error}(_("malformed input: [%s]", $_));
+		$urpm->{error}(_("malformed input: [%s]", $url));
 	    }
 	}
     }
@@ -1820,8 +1820,28 @@ sub upload_source_packages {
 	$? == 0 or $urpm->{error}(_("wget of [%s] failed", "<source_url>/$_"));
     }
 
-    #- return the list of rpm file that have to be installed, they are all local now.
-    @$local_sources, @sources;
+    #- return the hash of rpm file that have to be installed, they are all local now.
+    %$local_sources, %sources;
+}
+
+#- extract package that should be installed instead of upgraded,
+#- sources is a hash of id -> source rpm filename.
+sub extract_packages_to_install {
+    my ($urpm, $sources) = @_;
+
+    my %inst;
+    local ($_, *F);
+    open F, $urpm->{instlist};
+    while (<F>) {
+	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	foreach (@{$urpm->{params}{provides}{$_} || []}) {
+	    my $pkg = $urpm->{params}{info}{$_} or next;
+	    exists $sources->{$pkg->{id}} and $inst{$pkg->{id}} = delete $sources->{$pkg->{id}};
+	}
+    }
+    close F;
+
+    \%inst;
 }
 
 sub select_packages_to_upgrade {

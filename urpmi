@@ -33,7 +33,7 @@ my $WID = 0;
 my $all = 0;
 my $complete = 0;
 my $minimal = 1;
-my $rpm_opt = "-Uvh";
+my $rpm_opt = "vh";
 my $use_provides = 0;
 my $verbose = 0;
 
@@ -92,7 +92,7 @@ for (@ARGV) {
 	/c/ and do { $complete = 1; next };
 	/m/ and do { $minimal = 1; next };
 	/M/ and do { next }; #- nop
-	/q/ and do { $rpm_opt = "-U"; next };
+	/q/ and do { $rpm_opt = ""; next };
 	/p/ and do { $use_provides = 1; next };
 	/v/ and do { $verbose = 1; next };
 	die _("urpmi: unknown option \"-%s\", check usage with --help\n", $1); } next };
@@ -272,7 +272,7 @@ foreach (@$local_to_removes) {
     unlink $_;
 }
 
-my @sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'),
+my %sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'force_local'),
 					    (!$auto || $allow_medium_change) && sub {
 						my $msg = _("Please insert the medium named \"%s\" on device [%s]", @_);
 						my $msg2 = _("Press enter when it's done...");
@@ -288,46 +288,78 @@ my @sources = $urpm->upload_source_packages($local_sources, $list, ($X ? '' : 'f
 						}
 					    });
 
-install(@sources);
-@sources or message_auto(_("everything already installed"));
+#- install package.
+my @rpms_install = grep { $_ !~ /\.src.\.rpm/ } values %{$urpm->extract_packages_to_install(\%sources) || {}};
+my @rpms_upgrade = grep { $_ !~ /\.src.\.rpm/ } values %sources;
+if (@rpms_install || @rpms_upgrade) {
+    printf SAVEOUT _("installing %s\n", join(' ', @l));
+    log_it(scalar localtime, " @_\n");
+    $urpm->{log}("starting installing packages");
+    if ($X) {
+	system("grpmi", $WID ? ("--WID=$WID") : (), map { ("-noupgrade", $_) } @rpms_install, @rpms_upgrade);
+	if ($?) {
+	    message(_("Installation failed")); #- grpmi handles --nodeps and --force by itself,
+	    exit(($? >> 8) + 32); #- forward grpmi error + 32
+	}
+    } else {
+	if (@rpms_install) {
+	    system("rpm", "-i$rpm_opt", @rpms_install);
+	    if (@$_) {
+		message(_("Installation failed"));
+
+		m|^/| && !-e $_ and exit 2 foreach @l; #- missing local file
+
+		$noexpr = _("Nn");
+		$yesexpr = _("Yy");
+		print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
+		$auto and exit 1; #- if auto has been set, avoid asking user.
+		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
+		$urpm->{log}("starting installing packages without deps");
+		system("rpm", "-i$rpm_opt", "--nodeps", @rpms_install);
+
+		if ($?) {
+		    message(_("Installation failed"));
+		    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
+		    $force or <STDIN> =~ /[$yesexpr]/ or exit 1;
+		    $urpm->{log}("starting force installing packages without deps");
+		    system("rpm", "-i$rpm_opt", "--nodeps", "--force", @rpms_install);	
+		}
+	    }
+	}
+	if (@rpms_upgrade) {
+	    system("rpm", "-U$rpm_opt", @rpms_upgrade);
+	    if ($?) {
+		message(_("Installation failed"));
+
+		m|^/| && !-e $_ and exit 2 foreach @l; #- missing local file
+
+		$noexpr = _("Nn");
+		$yesexpr = _("Yy");
+		print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
+		$auto and exit 1; #- if auto has been set, avoid asking user.
+		$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
+		$urpm->{log}("starting installing packages without deps");
+		system("rpm", "-U$rpm_opt", "--nodeps", @rpms_upgrade);
+
+		if ($?) {
+		    message(_("Installation failed"));
+		    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
+		    $force or <STDIN> =~ /[$yesexpr]/ or exit 1;
+		    $urpm->{log}("starting force installing packages without deps");
+		    system("rpm", "-U$rpm_opt", "--nodeps", "--force", @rpms_upgrade);	
+		}
+	    }
+	}
+    }
+} else {
+    message_auto(_("everything already installed"));
+}
 
 #- this help flushing correctly by closing this file before (piped on tee).
 #- but killing them is generally better.
 fork() or do { sleep 1; kill 15, $pid_err, $pid_out };
 close STDERR;
 close STDOUT;
-
-sub install {
-    my @l = grep { $_ !~ /\.src.\.rpm/ } @_;
-    @l or return;
-	
-    printf SAVEOUT _("installing %s\n", join(' ', @l));
-    log_it(scalar localtime, " @_\n");
-    $urpm->{log}("starting installing packages");
-    system($X ? ("grpmi", $WID ? ("--WID=$WID") : ()) : ("rpm", $rpm_opt), @l);
-    if ($?) {
-	message(_("Installation failed"));
-	$X and exit(($? >> 8) + 32); #- grpmi handles --nodeps and --force by itself, forward grpmi error + 32
-
-	m|^/| && !-e $_ and exit 2 foreach @l; #- missing local file
-
-	$noexpr = _("Nn");
-	$yesexpr = _("Yy");
-	print SAVEOUT _("Try installation without checking dependencies? (y/N) ");
-	$auto and exit 1; #- if auto has been set, avoid asking user.
-	$force or <STDIN> =~ /[$yesexpr]/ or exit 1;
-	$urpm->{log}("starting installing packages without deps");
-	system("rpm", $rpm_opt, "--nodeps", @l);	
-
-	if ($?) {
-	    message(_("Installation failed"));
-	    print SAVEOUT _("Try installation even more strongly (--force)? (y/N) ");
-	    $force or <STDIN> =~ /[$yesexpr]/ or exit 1;
-	    $urpm->{log}("starting force installing packages without deps");
-	    system("rpm", $rpm_opt, "--nodeps", "--force", @l);	
-	}
-    }
-}
 
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;
