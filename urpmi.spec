@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.3
-Release: 1mdk
+Release: 2mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -67,6 +67,12 @@ if [ "$1" = "0" ]; then
 fi
 exit 0
 
+%post
+if [ -r /var/lib/urpmi/depslist ]; then
+  rm -f /var/lib/urpmi/depslist
+  [ -z "$DURING_INSTALL" ] && %{_sbindir}/urpmi.updatemedia
+fi
+
 %preun -n autoirpm
 autoirpm.uninstall
 
@@ -96,6 +102,12 @@ autoirpm.uninstall
 
 
 %changelog
+* Tue Aug 31 2000 François Pons <fpons@mandrakesoft.com> 1.3-2mdk
+- added code to proper upgrade of urpmi 1.2.
+- added small correction in urpmi for basesystem selection.
+- fixed help invocation (thanks to Bryan Paxton).
+- modified urpmf not to use rpmtools-compat.
+
 * Mon Aug 28 2000 François Pons <fpons@mandrakesoft.com> 1.3-1mdk
 - 1.3 of urpmi.
 - use rpmtools perl interface to access hdlist and build requires.

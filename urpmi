@@ -60,6 +60,7 @@ sub usage {
 #- parse arguments list.
 my @nextargv;
 for (@ARGV) {
+    /^--help$/ and do { usage; next };
     /^--auto$/ and do { $auto = 1; next };
     /^--force$/ and do { $force = 1; next };
     /^--X$/ and do { $X = 1; next };

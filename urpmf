@@ -9,7 +9,7 @@ dir="/var/lib/urpmi"
 
 
 if /bin/ls $dir/hdlist.* >/dev/null 2>/dev/null; then
-    packdrake -c $dir/hdlist.* | hdlist2files - | grep -E "$1"
+    packdrake -c $dir/hdlist.* | parsehdlist --files --quiet - | grep -E "$1"
 else
     echo "urpmi is not installed"
     exit 1
