@@ -75,6 +75,22 @@ sub sync {
     Gtk2->main_iteration while Gtk2->events_pending;
 }
 
+sub new_label {
+    my ($msg) = @_;
+    my $label = Gtk2::Label->new($msg);
+    $label->set_line_wrap(1);
+    $label->set_alignment(0.5, 0.5);
+    if (($msg =~ y/\n/\n/) > 5) {
+	my $sw = Gtk2::ScrolledWindow->new();
+	$sw->set_policy('never', 'automatic');
+	$sw->add_with_viewport($label);
+	$sw->set_size_request(-1,200);
+	return $sw;
+    } else {
+	return $label;
+    }
+}
+
 #- sets the window to a please-wait message
 sub wait_label {
     my $wait_vbox = Gtk2::VBox->new(0, 5);
@@ -118,7 +134,7 @@ $mainw->add($mainbox);
 #- change depending on the number of rpms, and on the presence of srpms
 ($srpms, $rpms) = partition { /\.src\.rpm$/ } @all_rpms;
 {
-    my $label = Gtk2::Label->new(
+    my $msg = (
 	@$srpms > 0
 	? N("You have selected a source package:
 
@@ -139,9 +155,7 @@ You may prefer to just save it. What is your choice?", $rpms->[0])
 
 Proceed?", join "\n", @all_rpms)
     );
-    $label->set_line_wrap(1);
-    $label->set_alignment(0.5, 0.5);
-    $mainbox->pack_start($label, 1, 1, 0);
+    $mainbox->pack_start(new_label($msg), 1, 1, 0);
 }
 
 {   #- buttons
@@ -226,9 +240,7 @@ sub ask_choice {
 sub ask_continue {
     my ($msg, $nextclosure) = @_;
     my $vbox = Gtk2::VBox->new(0, 5);
-    my $label = Gtk2::Label->new($_[0]);
-    $label->set_alignment(0.5, 0.5);
-    $vbox->pack_start($label, 1, 1, 0);
+    $vbox->pack_start(new_label($msg), 1, 1, 0);
     my $continue_button = Gtk2::Button->new(but N("_Ok"));
     my $quit_button = Gtk2::Button->new(but N("_Abort"));
     $quit_button->signal_connect(clicked => \&quit);
