@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.2
-Release: 3mdk
+Release: 4mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -49,7 +49,13 @@ install -m 644 autoirpm.deny $RPM_BUILD_ROOT/etc/urpmi
 echo "echo 'Use urpmf instead'" > $RPM_BUILD_ROOT%{_bindir}/rpmf
 chmod a+x $RPM_BUILD_ROOT%{_bindir}/rpmf
 
+find $RPM_BUILD_ROOT%{_datadir}/locale -name %{name}.po | \
+    perl -pe 'm|locale/([^/_]*)(.*)|; $_ = "%%lang($1) %{_datadir}/locale/$1$2\n"' > %{name}.lang
+
 cd $RPM_BUILD_ROOT%{_bindir} ; mv -f rpm-find-leaves urpmi_rpm-find-leaves
+
+
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -58,10 +64,16 @@ rm -rf $RPM_BUILD_DIR/$RPM_PACKAGE_NAME
 %pre
 groupadd -r -f urpmi
 
+%preun
+if [ "$1" = "0" ]; then
+  rm -rf /var/lib/urpmi/*
+fi
+exit 0
+
 %preun -n autoirpm
 autoirpm.uninstall
 
-%files
+%files -f %{name}.lang
 %defattr(-,root,root)
 %attr(0755, root, urpmi) %dir /etc/urpmi
 %attr(0755, root, urpmi) %dir /var/lib/urpmi
@@ -72,7 +84,6 @@ autoirpm.uninstall
 %{_sbindir}/urpme
 %{_sbindir}/urpmi.*
 %{_mandir}/*/urpm*
-/usr/share/locale/*/LC_MESSAGES/urpmi.po
 
 %files -n gurpmi
 %defattr(-,root,root)
@@ -89,6 +100,11 @@ autoirpm.uninstall
 
 
 %changelog
+* Sun Aug  6 2000 Pixel <pixel@mandrakesoft.com> 1.2-4mdk
+- use %%lang for i18n'd files
+- clean /var/lib/urpmi on removal
+- urpmi local_file only if local_file ends with .rpm
+
 * Wed Jul 19 2000 Pixel <pixel@mandrakesoft.com> 1.2-3mdk
 - change versions of autoirpm and gurpmi
 - macroization, BM

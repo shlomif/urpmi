@@ -68,7 +68,7 @@ select STDOUT; $| = 1;     # make unbuffered
 
 open F, $depsfile or die "run urpmi.addmedia first\n";
 
-if (@files = map { untaint($_) } grep { -e $_ } @ARGV) {
+if (@files = map { untaint($_) } grep { /\.rpm/ && -e $_ } @ARGV) {
     $uid == 0 or die _("Only superuser is allowed to install local packages");
     open G, "gendepslist2 @files -- $dir/hdlist*.cz2 2>/dev/null |";
     -e $_ and s|(.*/)?(.*)\.[^.]+\.rpm$|$2| foreach @ARGV;
