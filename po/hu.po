@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 1.5\n"
-"POT-Creation-Date: 2001-03-08 06:17+0100\n"
-"PO-Revision-Date: 2000-05-31 22:52+0200\n"
+"POT-Creation-Date: 2001-03-21 15:04+0100\n"
+"PO-Revision-Date: 2001-03-23 00:20+0200\n"
 "Last-Translator: Csaba Szigetvári <csaba.szigetvari@informedia.hu>\n"
 "Language-Team: Informedia.hu\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,8 @@ msgid ""
 "Automatic installation of packages...\n"
 "You requested installation of package $rpm\n"
 msgstr ""
+"A csomagok automatikus telepítése...\n"
+"A $rpm csomag telepítésére történt utasítás\n"
 
 #: _irpm:31 urpmi:232
 msgid "Is it ok?"
@@ -36,11 +38,11 @@ msgstr "OK"
 msgid "Cancel"
 msgstr "Mégsem"
 
-#: _irpm:40 urpmi:240 urpmi:292
+#: _irpm:40 urpmi:240 urpmi:293
 msgid "Nn"
 msgstr "Nn"
 
-#: _irpm:41 urpmi:241 urpmi:293
+#: _irpm:41 urpmi:241 urpmi:294
 msgid "Yy"
 msgstr "IiYy"
 
@@ -50,15 +52,15 @@ msgstr " (I/n) "
 
 #: _irpm:61
 msgid "$rpm: command not found\n"
-msgstr ""
+msgstr "$rpm utasítás nem található\n"
 
 #: placeholder.h:6
 msgid "usage: rpmf [<file>]"
-msgstr ""
+msgstr "használat: rpmf [<file>]"
 
 #: placeholder.h:7
 msgid "urpmi is not installed"
-msgstr ""
+msgstr "Az urpmi nincsen telepítve"
 
 #: placeholder.h:8
 #, c-format
@@ -84,6 +86,28 @@ msgid ""
 "  -v               - verbose mode.\n"
 "  names or rpm files (only for root) given on command line are installed.\n"
 msgstr ""
+"urpmi verzió %s\n"
+"Copyright (C) 1999, 2000, 2001 MandrakeSoft.\n"
+"Szabad szoftver, mely a GNU GPL hatálya alatt terjeszthetö.\n"
+"használat:\n"
+"  --help           - megjeleníti ezt a súgószöveget.\n"
+"  --auto           - automatikusan választja a jó csomagok az elérhetök "
+"közül.\n"
+"  --auto-select    - automatikusan választja a csomagokat a "
+"rendszerfrissítéshez.\n"
+"  --force          - eröltesd akkor is, ha egyes csomagok nem elérhetöek.\n"
+"  --X              - használd az X felületet.\n"
+"  --best-output    - válaszd a lehetöségek képest a legmegfelelöbb "
+"felületet:\n"
+"                     X vagy parancssor.\n"
+"  -a               - jelöld ki az összes találatot a parancssoron.\n"
+"  -m               - válaszd a minimális függöségeket (alapértelmezett).\n"
+"  -M               - válaszd a maximális függségeket.\n"
+"  -c               - törekedj a függöségek teljes feloldására.\n"
+"  -q               - csendes üzemmód.\n"
+"  -v               - beszédes üzemmód.\n"
+"  parancssoron megadott nevek vagy rpm állományok (csak root esetében) "
+"telepítése.\n"
 
 #: placeholder.h:28
 msgid ""
@@ -96,6 +120,14 @@ msgid ""
 "       http://<host>/<path> with <relative filename of hdlist>\n"
 "       removable_<device>://<path>\n"
 msgstr ""
+"használat: urpmi.addmedia <név> <url>\n"
+"ahol <url> egyike az alábbiaknak\n"
+"       file://<elérési útvonal>\n"
+"       ftp://<bejelentkezés>:<jelszó>@<host>/<elérési útvonal> with <relatív "
+"fájlneve a hdlistának>\n"
+"       ftp://<host>/<elérési útvonal> with <relatív fájlneve a hdlistának>\n"
+"       http://<host>/<elérési útvonal> with <relatív fájlneve a hdlistának>\n"
+"       removable_<device>://<elérési útvonal>\n"
 
 #: placeholder.h:37 urpmi.addmedia:52
 #, c-format
@@ -103,6 +135,8 @@ msgid ""
 "%s\n"
 "`with' missing for ftp media\n"
 msgstr ""
+"%s\n"
+"`hiányzó ftp média\n"
 
 #: placeholder.h:41 urpmi.addmedia:48
 #, c-format
@@ -110,6 +144,8 @@ msgid ""
 "%s\n"
 "device `%s' do not exist\n"
 msgstr ""
+"%s\n"
+"eszköz `%s' nem létezik\n"
 
 #: placeholder.h:45 urpmi.addmedia:50
 #, c-format
@@ -117,6 +153,8 @@ msgid ""
 "%s\n"
 "<relative path of hdlist> missing\n"
 msgstr ""
+"%s\n"
+"<relatív fájlneve a hdlistának> hiányzik\n"
 
 #: placeholder.h:49 urpmi.update:52
 #, c-format
@@ -124,6 +162,8 @@ msgid ""
 "the entry to update is missing\n"
 "(one of %s)\n"
 msgstr ""
+"a frissítendö tétel hiányzik\n"
+"(egyik ezek közül: %s)\n"
 
 #: placeholder.h:53 urpmi.removemedia:49
 #, c-format
@@ -131,11 +171,13 @@ msgid ""
 "the entry to remove is missing\n"
 "(one of %s)\n"
 msgstr ""
+"a törlendö tétel hiányzik\n"
+"(egyik ezek közül: %s)\n"
 
 #: urpmi:55
 #, c-format
 msgid "urpmi version %s"
-msgstr ""
+msgstr "urpmi verzió %s"
 
 #: urpmi:144
 msgid "Only superuser is allowed to install local packages"
@@ -163,74 +205,77 @@ msgstr ""
 "A függõségek kielégítésére a következõ csomagok lesznek telepítve (%d MB)"
 
 #: urpmi:257
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\" on device [%s]"
-msgstr "Ékeld be a(z) %s-t, melynek neve %s"
+msgstr ""
+"Kérlek helyezd be a(z) adathordozót, melynek neve \"%s\" a(z) [%s] meghajtóba"
 
 #: urpmi:258
 msgid "Press enter when it's done..."
 msgstr "Nyomd le az Enter gombot ha kész van..."
 
-#: urpmi:271
+#: urpmi:272
 msgid "everything already installed"
 msgstr "már minden telepítve van"
 
-#: urpmi:282
+#: urpmi:283
 #, c-format
 msgid "installing %s\n"
 msgstr "telepítés: %s\n"
 
-#: urpmi:287 urpmi:300
+#: urpmi:288 urpmi:301
 msgid "Installation failed"
 msgstr "A telepítés sikertelen volt"
 
-#: urpmi:294
+#: urpmi:295
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Telepítés a függõségek ellenõrzése nélkül? (i/N) "
 
-#: urpmi:301
+#: urpmi:302
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr "Erõltetett telepítés kísérlete (--force)? (i/N) "
 
 #: urpmi.addmedia:36
 msgid "usage: urpmi.addmedia <name> <url>"
-msgstr ""
+msgstr "használat: urpmi.addmedia <név> <url>"
 
 #: urpmi.removemedia:38 urpmi.update:42
 #, c-format
 msgid "unknown options \"%s\"\n"
-msgstr ""
+msgstr "ismeretlen opciók \"%s\"\n"
 
 #: urpmi.update:50
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nincs mit frissíteni (használd az urpmi.addmedia utasítást)\n"
 
 #: urpmi.removemedia:47
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
+msgstr "nincs mit eltávolítani (használd az urpmi.addmedia utasítást)\n"
 
 #: urpmq:44
 #, c-format
 msgid "urpmq version %s"
-msgstr ""
+msgstr "urpmq verzió %s"
 
 #: urpmq:90
 msgid "urpmq: unknown option \"-$1\", check usage with --help\n"
-msgstr ""
+msgstr "urpmq: ismeretlen opció \"-$1\", bövebb info a --help alatt\n"
 
 #: urpmq:92
 msgid "urpmq: cannot read rpm file \"$_\"\n"
-msgstr ""
+msgstr "urpmq: rpm fájl nem olvasható \"$_\"\n"
 
 #: urpmq:131
 msgid ""
 "some package have to be removed for being upgraded, this is not supported "
 "yet\n"
 msgstr ""
+"néhány csomagot el kell távolítani a frissítés elött, ez jelenleg nem "
+"eszközölhetö\n"
 
 #: urpmq:153
 msgid "unable to get source packages, aborting"
-msgstr ""
+msgstr "nem találhatók a forrás csomagok, müvelet megszakítva"
 
 #~ msgid ""
 #~ "usage: urpmi [-h] [--auto] [--force] [-a] package_name [package_names...]\n"
