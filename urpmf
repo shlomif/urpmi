@@ -89,7 +89,7 @@ urpm::args::parse_cmdline();
 my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
-foreach (scalar(keys %params)) {
+foreach (scalar(grep { defined $_ } values %params)) {
     $_ == 0 and do { defined $quiet or $quiet = 1; $params{files} = 1 };
     $_ == 1 and do { defined $quiet or $quiet = 1 };
     $_ > 1  and do { defined $quiet or $quiet = 0 };

@@ -116,17 +116,26 @@ my %options_spec = (
 	all => sub {
 	    foreach my $k (qw(filename group size summary description sourcerpm
 		packager buildhost url provides requires files conflicts obsoletes))
-	    {
-		$::params{$k} = 1;
-	    }
+	    { $::params{$k} = 1; }
 	},
 	name => \$::params{filename},
-	'group|size|epoch|summary|description|sourcerpm|packager|buildhost|url|provides|requires|files|conflicts|obsoletes' => sub {
-	    $::params{$_[0]} = 1;
-	},
+	group => \$::params{group},
+	size => \$::params{size},
+	epoch => \$::params{epoch},
+	summary => \$::params{summary},
+	description => \$::params{description},
+	sourcerpm => \$::params{sourcerpm},
+	packager => \$::params{packager},
+	buildhost => \$::params{buildhost},
+	url => \$::params{url},
+	provides => \$::params{provides},
+	requires => \$::params{requires},
+	files => \$::params{files},
+	conflicts => \$::params{conflicts},
+	obsoletes => \$::params{obsoletes},
 	i => sub { $::pattern = 'i' },
 	f => sub { $::full = 'full' },
-	'e=s' => sub { $::expr .= "($_[0])" },
+	'e=s' => sub { $::expr .= "($_[1])" },
 	a => sub { $::expr .= ' && ' },
 	o => sub { $::expr .= ' || ' },
 	'<>' => sub {
