@@ -2,7 +2,7 @@
 
 Name: urpmi
 Version: 1.3
-Release: 7mdk
+Release: 8mdk
 License: GPL
 Source0: %{name}.tar.bz2
 Summary: User mode rpm install
@@ -39,7 +39,7 @@ Auto install of rpm on demand
 
 
 %prep
-%setup -n %{name}
+%setup -q -n %{name}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -104,6 +104,9 @@ autoirpm.uninstall
 
 
 %changelog
+* Wed Sep 20 2000 Guillaume Cottenceau <gc@mandrakesoft.com> 1.3-8mdk
+- added option --best-output that selects X if available
+
 * Wed Sep 13 2000 François Pons <fpons@mandrakesoft.com> 1.3-7mdk
 - trusting root only readable file list.*, fixes gurpmi with
   mutlitple media examination.
