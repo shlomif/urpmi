@@ -2257,7 +2257,6 @@ sub try_mounting {
     my %infos;
 
     $dir = reduce_pathname($dir);
-    print STDERR "++++$dir\n";
     foreach (grep { ! $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount' } $urpm->find_mntpoints($dir, \%infos)) {
 	$urpm->{log}(N("mounting %s", $_));
 	`mount '$_' 2>/dev/null`;
