@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.6.4
-%define release 2mdk
+%define release 3mdk
 
 %define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -257,6 +257,10 @@ $urpm->update_media(nolock => 1, nopubkey => 1);
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed Dec 01 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.4-3mdk
+- Internal API additions
+- urpmi wasn't taking into account the global downloader setting
+
 * Tue Nov 30 2004 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.4-2mdk
 - Fix package count introduced in previous release
 
