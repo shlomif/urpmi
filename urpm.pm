@@ -2717,15 +2717,20 @@ sub extract_packages_to_install {
 sub install_logger {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
     my $pkg = defined $id && $urpm->{depslist}[$id];
-    my $progress_size = 50;
+    my $total_pkg = $urpm->{nb_install} + $urpm->{nb_upgrade};
+    my $progress_size = $total_pkg ? 45 : 50;
 
     if ($subtype eq 'start') {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
 	    $urpm->{logger_id} ||= 0;
-	    printf "%-28s", N("Preparing...");
+	    printf $total_pkg ? "%-33s" : "%-28s", N("Preparing...");
 	} else {
-	    printf "%4d:%-23s", ++$urpm->{logger_id}, ($pkg && $pkg->name);
+	    if ($total_pkg) {
+		printf "%9s:%-23s", "(" . (++$urpm->{logger_id}) . "/" . $total_pkg . ")", ($pkg && $pkg->name);
+	    } else {
+		printf "%4d:%-23s", ++$urpm->{logger_id}, ($pkg && $pkg->name);
+	    }
 	}
     } elsif ($subtype eq 'stop') {
 	if ($urpm->{logger_progress} < $progress_size) {
@@ -2840,11 +2845,14 @@ sub install {
 	    } $pkg->files;
 	    close $fh;
 	};
-	if (keys %$install || keys %$upgrade) {
+	$urpm->{nb_install} = scalar keys %$install;
+	$urpm->{nb_upgrade} = scalar keys %$upgrade;
+	if ($urpm->{nb_install} || $urpm->{nb_upgrade}) {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
 	}
 	@l = $trans->run($urpm, %options);
+	delete $urpm->{$_} for qw(nb_install nb_upgrade);
 
 	#- in case of error or testing, do not try to check rpmdb
 	#- for packages being upgraded or not.
