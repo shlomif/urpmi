@@ -1084,7 +1084,7 @@ sub select_media {
 sub remove_selected_media {
     my ($urpm) = @_;
     my @result;
-    
+
     foreach (@{$urpm->{media}}) {
 	if ($_->{modified}) {
 	    $urpm->{log}(N("removing medium \"%s\"", $_->{name}));
@@ -2382,7 +2382,7 @@ sub search_packages {
 #- do the resolution of dependencies.
 sub resolve_dependencies {
     my ($urpm, $state, $requested, %options) = @_;
-    my $need_restart = 0;
+    my $need_restart;
 
     if ($options{install_src}) {
 	#- only src will be installed, so only update $state->{selected} according
@@ -2421,28 +2421,36 @@ sub resolve_dependencies {
 	#- auto select package for upgrading the distribution.
 	$options{auto_select} and $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef);
 
+	#- resolve dependencies which will be examined for packages needed to
+	#- updated with a restart needed.
+	$urpm->resolve_requested($db, $state, $requested, %options);
+
 	if ($options{priority_upgrade} && !$options{rpmdb}) {
 	    my (%priority_upgrade, %priority_requested);
 	    @priority_upgrade{split ',', $options{priority_upgrade}} = ();
 
 	    #- try to find if a priority upgrade should be tried, this is erwan feature he waited for months :)
 	    #- this can be also considered as a special gift...
-	    foreach (keys %$requested) {
+	    foreach (keys %{$state->{selected}}) {
 		my $pkg = $urpm->{depslist}[$_] or next;
 		exists $priority_upgrade{$pkg->name} or next;
 		$priority_requested{$pkg->id} = undef;
 	    }
 
 	    if (%priority_requested) {
-		#- clean state as we found priority packages,
-		#- no --auto-select should be done though here...
-		%$state = ();
-		%$requested = %priority_requested;
-		$need_restart = 1;
+		my %priority_state;
+
+		$urpm->resolve_requested($db, \%priority_state, \%priority_requested, %options);
+		if (grep { ! exists $priority_state{$_} } keys %priority_requested) {
+		    #- some packages which were selected previously have not been selected, strange!
+		    $need_restart = 0;
+		} elsif (grep {! exists $priority_state{$_} } keys %{$state->{selected}}) {
+		    #- there are other packages to install after this priority transaction.
+		    %$state = %priority_state;
+		    $need_restart = 1;
+		}
 	    }
 	}
-
-	$urpm->resolve_requested($db, $state, $requested, %options);
     }
 
     #- allow caller to know if it should try to restart.
