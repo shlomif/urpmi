@@ -30,7 +30,7 @@ my $urpm = new urpm;
 #- default options.
 our $update = 0;
 our $media = '';
-our $searchmedia = undef;
+our $searchmedia;
 our $excludemedia = '';
 our $sortmedia = '';
 our $synthesis = '';
@@ -173,7 +173,7 @@ urpm::args::parse_cmdline(urpm => $urpm);
 sub untaint {
     my @r;
     foreach (@_) { /(.*)/, push @r, $1 }
-    @r == 1 ? $r[0] : @r
+    @r == 1 ? $r[0] : @r;
 }
 
 # Process the rest of the arguments
@@ -393,7 +393,7 @@ sub ask_choice {
 	(scalar $_->fullname)
 	. ($_->summary ? ' : ' . $_->summary : '')
 	. ($_->flag_installed ? ' (to upgrade)' : '')
-	. ($_->flag_upgrade   ? ' (to install)' : '')
+	. ($_->flag_upgrade   ? ' (to install)' : '');
     } @$choices;
 
     if (@l > 1 && !$urpm->{options}{auto}) {
@@ -686,7 +686,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	}
     }
 
-    if (%transaction_sources_install || %transaction_sources) {
+    if (keys(%transaction_sources_install) || keys(%transaction_sources)) {
 	if ($parallel) {
 	    message(N("distributing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), 'noX');
 	    #- no remove are handle here, automatically done by each distant node.
@@ -695,14 +695,20 @@ foreach my $set (@{$state->{transaction} || []}) {
 				    test => $test,
 				    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
 	} else {
-	    %transaction_sources_install || %transaction_sources and
-		message(N("installing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), 'noX');
+	    my @packnames = (values %transaction_sources_install, values %transaction_sources);
+	    (my $common_prefix) = $packnames[0] =~ /^(.*)\//;
+	    if (length($common_prefix) && @packnames == grep { /^\Q$common_prefix\// } @packnames) {
+		#- there's a common prefix, simplify message
+		message(N("installing %s from %s", join(' ', map { s/.*\///; $_ } @packnames), $common_prefix), 'noX');
+	    } else {
+		message(N("installing %s", join(' ', @packnames)), 'noX');
+	    }
 	    @{!$urpm->{options}{'allow-force'} && $set->{remove} || []} and
 		message(N("removing %s", join(' ', @{!$urpm->{options}{'allow-force'} && $set->{remove} || []})), 'noX');
 	    log_it(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my $progress_nb;
-	    my $total_nb = grep { m|^/| } values %transaction_sources_install, values %transaction_sources;
+	    my $total_nb = scalar grep { m|^/| } values %transaction_sources_install, values %transaction_sources;
 	    my $callback_inst = $urpm::args::options{X} && sub {
 		my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
 		my $pkg = defined $id && $urpm->{depslist}[$id];
