@@ -53,7 +53,7 @@ where <name> is a medium name to remove.
     @toremoves == 0 and die sprintf(_("the entry to remove is missing\n(one of %s)\n"), join(", ", @entries));
 
     $urpm->remove_media(@toremoves);
-    $urpm->update_media;
+    $urpm->update_media(noclean => !$options{all});
 }
 
 main(@ARGV);

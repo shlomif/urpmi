@@ -1,4 +1,4 @@
-.TH urpmi.removemedia 8 "05 Apr 2001" "Mandrakesoft" "Linux-Mandrake"
+.TH urpmi.removemedia 8 "10 Apr 2001" "Mandrakesoft" "Linux-Mandrake"
 .IX urpmi.removemedia
 .SH NAME
 urpmi.removemedia \- remove a rpms media from the known medias of urpmi
@@ -30,7 +30,11 @@ There is one filelist per media(*).
 .PP
 /etc/urpmi/urpmi.cfg
 .br
-Contains one line <\fIname\fP> <\fIurl\fP> per media.
+Contains media description, previous format from older urpmi is accepted.
+.PP
+/etc/urpmi/skip.list
+.br
+Contains package names that should be not automatically updated.
 .PP
 /var/lib/urpmi/depslist.ordered
 .br

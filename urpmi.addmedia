@@ -56,7 +56,7 @@ where <url> is one of
 
     $urpm->read_config;
     $urpm->add_medium($name, $url, $relative_hdlist);
-    $urpm->update_media;
+    $urpm->update_media(noclean => 1);
 
     #- check creation of media (during update has been successfull)
     my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};

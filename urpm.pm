@@ -629,6 +629,27 @@ sub update_media {
 	    $urpm->write_base_files();
 	    $urpm->{modified} = 0;
 	}
+
+	#- clean headers cache directory to remove everything that is no more
+	#- usefull according to depslist used.
+	if ($options{noclean}) {
+	    local (*D, $_);
+	    my %arch;
+	    opendir D, "$urpm->{cachedir}/headers";
+	    while (defined($_ = readdir D)) {
+		/^([^\/]*)-([^-]*)-([^-]*)\.([^\.]*)$/ and $arch{"$1-$2-$3"} = $4;
+	    }
+	    closedir D;
+	    $urpm->{log}("found " . scalar(keys %arch) . " headers in cache");
+	    foreach (@{$urpm->{params}{depslist}}) {
+		delete $arch{"$_->{name}-$_->{version}-$_->{release}"};
+	    }
+	    $urpm->{log}("removing " . scalar(keys %arch) . " obsolete headers in cache");
+	    foreach (keys %arch) {
+		unlink "$urpm->{cachedir}/headers/$_.$arch{$_}";
+	    }
+	}
+
 	#- this file is written in any cases.
 	$urpm->write_config();
 
