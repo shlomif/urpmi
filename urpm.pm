@@ -1090,7 +1090,6 @@ this could happen if you mounted manually the directory when creating the medium
 			    }
 			}
 			if ($medium->{md5sum}) {
-			    $urpm->{log}(N("examining MD5SUM file"));
 			    parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
 			    #- If an existing hdlist or synthesis file has the same md5sum, we assume
 			    #- the files are the same.
@@ -1101,15 +1100,8 @@ this could happen if you mounted manually the directory when creating the medium
 				    unlink "$urpm->{cachedir}/partial/$basename";
 				    #- the medium is now considered not modified.
 				    $medium->{modified} = 0;
-				    #- hdlist or synthesis file must be linked with the other same one.
-				    #- a link is better for reducing used size of /var/lib/urpmi.
-				    if ($_ ne $medium) {
-					$medium->{md5sum} = $_->{md5sum};
-					unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-					unlink "$urpm->{statedir}/$medium->{hdlist}";
-					symlink "synthesis.$_->{hdlist}", "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-					symlink $_->{hdlist}, "$urpm->{statedir}/$medium->{hdlist}";
-				    }
+				    #- XXX we could link the new hdlist to the old one.
+				    #- (However links need to be managed. see bug #12391.)
 				    #- as previously done, just read synthesis file here, this is enough.
 				    $urpm->{log}(N("examining synthesis file [%s]",
 					"$urpm->{statedir}/synthesis.$medium->{hdlist}"));
@@ -1366,7 +1358,6 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 		    if ($medium->{md5sum}) {
-			$urpm->{log}(N("examining MD5SUM file"));
 			parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
 			#- if an existing hdlist or synthesis file has the same md5sum, we assume the
 			#- file are the same.
@@ -1377,15 +1368,8 @@ this could happen if you mounted manually the directory when creating the medium
 				unlink "$urpm->{cachedir}/partial/$basename";
 				#- the medium is now considered not modified.
 				$medium->{modified} = 0;
-				#- hdlist or synthesis file must be linked with the other same one.
-				#- a link is better for reducing used size of /var/lib/urpmi.
-				if ($_ ne $medium) {
-				    $medium->{md5sum} = $_->{md5sum};
-				    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-				    unlink "$urpm->{statedir}/$medium->{hdlist}";
-				    symlink "synthesis.$_->{hdlist}", "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-				    symlink $_->{hdlist}, "$urpm->{statedir}/$medium->{hdlist}";
-				}
+				#- XXX we could link the new hdlist to the old one.
+				#- (However links need to be managed. see bug #12391.)
 				#- as previously done, just read synthesis file here, this is enough.
 				$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
 				($medium->{start}, $medium->{end}) =
@@ -3162,6 +3146,7 @@ sub get_updates_description {
 sub parse_md5sum {
     my ($urpm, $path, $basename) = @_;
     my $retrieved_md5sum;
+    $urpm->{log}(N("examining MD5SUM file"));
     open my $fh, $path or return undef;
     local $_;
     while (<$fh>) {
