@@ -1836,11 +1836,18 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- check if the synthesis file can be built.
 	    if (($second_pass || $medium->{modified_synthesis}) && !$medium->{modified}) {
 		unless ($medium->{virtual}) {
-		    $urpm->build_synthesis(start     => $medium->{start},
-					   end       => $medium->{end},
-					   synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
-					  );
-		    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+		    eval { $urpm->build_synthesis(
+			start     => $medium->{start},
+			end       => $medium->{end},
+			synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+		    ) };
+		    if ($@) {
+			#- TODO translate this
+			$urpm->{error}("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name});
+			unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+		    } else {
+			$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+		    }
 		}
 		#- keep in mind we have modified database, sure at this point.
 		$urpm->{modified} = 1;
