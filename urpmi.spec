@@ -146,6 +146,7 @@ fi
 - added time conditionnal download to curl interface for both http
   and ftp protocol (so need Date::Manip because urpm library use it
   for ftp as no support in curl).
+- updated urpm library version to 3.1.
 
 * Thu Dec 13 2001 François Pons <fpons@mandrakesoft.com> 3.1-1mdk
 - added --distrib flag to urpmi.addmedia to add all media from the
