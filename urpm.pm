@@ -128,7 +128,7 @@ sub read_config {
 	    excludepath
 	    fuzzy
 	    keep
-	    key-_ids
+	    key-ids
 	    limit-rate
 	    post-clean
 	    pre-clean
