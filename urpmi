@@ -147,6 +147,15 @@ sub gmessage {
     $msg = to_utf8($msg);
     `gmessage -default "$ok" -buttons "$buttons" "$msg"`;
 }
+sub save_file {
+    my ($orig) = @_;
+    my $msg = N("Choose location to save file");
+    my $location = `gfilechooser "$msg"`;
+    if (!$? && $location) {
+        exec 'mv', '-f', $orig, $location;
+    }
+    exit(1);
+}
 
 #- parse arguments list.
 my @nextargv;
@@ -272,24 +281,20 @@ What would you like to do?", $src_files[0]),
     if ($rc == 0) {
         exit(1);
     } elsif ($rc == 1) {
-        my $msg = N("Choose location to save file");
-        my $location = `gfilechooser "$msg"`;
-        if (!$? && $msg) {
-            exec 'mv', '-f', $src_files[0], $location;
-        }
-        exit(1);
+        save_file($src_files[0]);
     }
 }
 
-#- question to describe what user who clicked on a rpm in file explorer is really doing
 if ($X && @files == 1 && @names == 0 && $verbose >= 0) {
     gmessage(
 N("You are about to install the following software package on your computer:
 
 %s
 
-Is it ok to continue?", $files[0]));
-    $? and exit(1);
+You may prefer to just save it. What is your choice?", $files[0]),
+             ok => N("Install it"),
+             cancel => N("Save file"));
+    $? and save_file($files[0]);
 }
 
 #- prepare bug report.
