@@ -723,7 +723,7 @@ sub add_distrib_media {
 	    chomp;
 	    s/\s*#.*$//;
 	    /^\s*$/ and next;
-	    /^suppl/ and next;
+	    /^(?:suppl|askmedia)/ and next;
 	    m/^\s*(?:noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*(.*)$/ or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file"), $_);
 	    my ($hdlist, $rpmsdir, $descr) = ($1, $2, $3);
 
