@@ -38,9 +38,14 @@ BuildArch:	noarch
 Conflicts: man-pages-fr < 1.58.0-8mdk
 
 %description
-urpmi takes care of dependencies between rpms, using a pool (or pools) of rpms.
-
-You can compare rpm vs. urpmi with insmod vs. modprobe.
+urpmi is Mandrakelinux's console-based software installation tool. You can
+use it to install software from the console in the same way as you use the
+graphical Install Software tool (rpmdrake) to install software from the
+desktop. urpmi will follow package dependencies -- in other words, it will
+install all the other software required by the software you ask it to
+install -- and it's capable of obtaining packages from a variety of media,
+including the Mandrakelinux installation CD-ROMs, your local hard disk,
+and remote sources such as web or FTP sites.
 
 %if %{allow_gurpmi}
 %package -n gurpmi
@@ -51,7 +56,7 @@ Obsoletes:	grpmi
 Provides:	grpmi
 
 %description -n gurpmi
-gurpmi is a graphical front-end to urpmi
+gurpmi is a graphical front-end to urpmi.
 %endif
 
 #%package -n autoirpm
@@ -68,7 +73,7 @@ Requires:	urpmi >= %{version}-%{release} ka-run >= 2.0-15mdk
 Group:		%{group}
 
 %description -n urpmi-parallel-ka-run
-urpmi-parallel-ka-run is an extensions module to urpmi for handling
+urpmi-parallel-ka-run is an extension module to urpmi for handling
 distributed installation using ka-run tools.
 
 %package -n urpmi-parallel-ssh
@@ -77,7 +82,7 @@ Requires:	urpmi >= %{version}-%{release} openssh-clients perl
 Group:		%{group}
 
 %description -n urpmi-parallel-ssh
-urpmi-parallel-ssh is an extensions module to urpmi for handling
+urpmi-parallel-ssh is an extension module to urpmi for handling
 distributed installation using ssh and scp tools.
 
 %prep
