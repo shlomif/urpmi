@@ -977,14 +977,17 @@ sub _guess_pubkey_name {
 #- Takes care of modifications, and tries some tricks to bypass
 #- the recomputation of base files.
 #- Recognized options :
-#-   all         -> all medias are rebuilded.
-#-   force       -> try to force rebuilding base files (1) or hdlist from rpm files (2).
-#-   probe_with  -> probe synthesis or hdlist (or none).
-#-   ratio       -> use compression ratio (with gzip, default is 4)
-#-   noclean     -> keep old files in the header cache directory.
-#-   nopubkey    -> don't use rpm pubkeys
-#-   nolock      -> don't lock the urpmi database
-#-   forcekey    -> force retrieval of pubkey
+#-   all         : all medias are being rebuilt
+#-   callback    : UI callback
+#-   forcekey    : force retrieval of pubkey
+#-   force       : try to force rebuilding base files (1) or hdlist from rpm files (2)
+#-   noclean     : keep old files in the header cache directory
+#-   nolock      : don't lock the urpmi database
+#-   nomd5sum    : don't verify MD5SUM of retrieved files
+#-   nopubkey    : don't use rpm pubkeys
+#-   norebuild   : don't try to rebuild hdlists from rpm headers
+#-   probe_with  : probe synthesis or hdlist (or none)
+#-   ratio       : use this compression ratio (with gzip, default is 4)
 sub update_media {
     my ($urpm, %options) = @_;
     my $clean_cache = !$options{noclean};
