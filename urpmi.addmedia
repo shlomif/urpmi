@@ -76,6 +76,17 @@ and [options] are from
     exit 0;
 }
 
+#- remove quietly the failing media.
+sub remove_failed {
+    my ($urpm, @media) = @_;
+    if (@media) {
+	print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @media);
+	local $urpm->{log} = sub {};
+	$urpm->remove_selected_media;
+	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+    }
+}
+
 #- parse /etc/urpmi/mirror.config if present, or use default mdk mirror.
 #- the --from option overrides this setting.
 if ($options{mirrors_url}) {
@@ -114,14 +125,8 @@ if ($options{distrib}) {
 
     $urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update}, probe_with => $options{probe_with});
     $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+    remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 
-    if (my @unsynced_media = grep { $_->{modified} } @{$urpm->{media}}) {
-	print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
-	#- remove quietly the failing media.
-	$urpm->{log} = sub {};
-	$urpm->remove_selected_media;
-	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
-    }
 } else {
     $name or usage;
 
@@ -139,23 +144,17 @@ if ($options{distrib}) {
     );
     urpm::download::copy_cmd_line_proxy($name);
     if ($options{raw}) {
-	$urpm->write_config();
+	$urpm->write_config;
     } else {
 	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 	#- check creation of media
 	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
 	$medium or die N("unable to create medium \"%s\"\n", $name);
-	if ($medium->{modified}) {
-	    print STDERR N("unable to update medium \"%s\"\n", $name);
-	    #- remove quietly the failing media.
-	    $urpm->{log} = sub {};
-	    $urpm->remove_selected_media;
-	    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
-	}
+	remove_failed($urpm, $medium) if $medium->{modified};
     }
 }
 
 #- try to umount removable devices which may have been mounted.
 $urpm->try_umounting_removables;
 
-=for vim:ts=8:sts=4:sw=4
+# vim:ts=8:sts=4:sw=4
