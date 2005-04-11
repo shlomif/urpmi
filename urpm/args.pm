@@ -251,7 +251,7 @@ my %options_spec = (
 	'force-key' => \$options{forcekey},
 	'limit-rate=s' => \$options{limit_rate},
 	'no-md5sum' => \$options{nomd5sum},
-	'noa|d' => \my $dummy, # default, keeped for compatibility
+	'noa|d' => \my $dummy, #- default, kept for compatibility
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
 	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1]; $options{force} = 0 },
@@ -269,6 +269,7 @@ my %options_spec = (
 	virtual => \$options{virtual},
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
+	raw => \$options{raw},
 	'<>' => sub {
 	    push @::cmdline, $_[0];
 	},

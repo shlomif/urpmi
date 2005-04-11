@@ -68,6 +68,7 @@ and [options] are from
                    only file:// protocol is allowed.
 ") . N("  --no-md5sum    - disable MD5SUM file checking.
 ") . N("  --norebuild    - don't try to rebuild hdlist if not readable.
+") . N("  --raw          - add the media in config, but don't update it.
 ") . N("  -c             - clean headers cache directory.
 ") . N("  -f             - force generation of hdlist files.
 ") . N("  -q             - quiet mode.
@@ -134,19 +135,27 @@ sub main {
 	    $options{probe_with} || $with eq "with" or usage N("`with' missing for network media\n");
 	}
 
-	$urpm->add_medium($name, $url, $relative_hdlist, virtual => $options{virtual}, update => $options{update});
+	$urpm->add_medium(
+	    $name, $url, $relative_hdlist,
+	    virtual => $options{virtual},
+	    update => $options{update},
+	    no_reload_config => $options{raw},
+	);
 	urpm::download::copy_cmd_line_proxy($name);
-	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
-
-	#- check creation of media (during update has been successfull)
-	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
-	$medium or die N("unable to create medium \"%s\"\n", $name);
-	if ($medium->{modified}) {
-	    print STDERR N("unable to update medium \"%s\"\n", $name);
-	    #- remove quietly the failing media.
-	    $urpm->{log} = sub {};
-	    $urpm->remove_selected_media;
+	if ($options{raw}) {
+	    $urpm->write_config();
+	} else {
 	    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+	    #- check creation of media
+	    my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
+	    $medium or die N("unable to create medium \"%s\"\n", $name);
+	    if ($medium->{modified}) {
+		print STDERR N("unable to update medium \"%s\"\n", $name);
+		#- remove quietly the failing media.
+		$urpm->{log} = sub {};
+		$urpm->remove_selected_media;
+		$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+	    }
 	}
     }
 
@@ -155,3 +164,5 @@ sub main {
 }
 
 main();
+
+=for vim:ts=8:sts=4:sw=4
