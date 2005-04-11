@@ -2,7 +2,7 @@
 
 # $Id$
 
-#- Copyright (C) 2000-2004 Mandrakesoft (fpons@mandrakesoft.com)
+#- Copyright (C) 1999-2004 Mandrakesoft
 #-
 #- This program is free software; you can redistribute it and/or modify
 #- it under the terms of the GNU General Public License as published by
@@ -17,8 +17,6 @@
 #- You should have received a copy of the GNU General Public License
 #- along with this program; if not, write to the Free Software
 #- Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-
-#- this program is based upon old urpmi.addmedia
 
 use strict;
 use urpm;
@@ -78,91 +76,86 @@ and [options] are from
     exit 0;
 }
 
-sub main {
-    #- parse /etc/urpmi/mirror.config if present, or use default mdk mirror.
-    #- the --from option overrides this setting.
-    if ($options{mirrors_url}) {
-	$urpm::cfg::mirrors = $options{mirrors_url};
-    } else {
-	urpm::cfg::mirrors_cfg();
-    }
-    $options{force} = 0;
-    $options{noclean} = 1;
-    $options{verbose} = 1;
-    my $urpm = new urpm;
-    urpm::args::parse_cmdline(urpm => $urpm);
-    #- the default is to probe a synthesis file, except for --distrib
-    $options{probe_with} = 'synthesis' unless $options{distrib} || exists($options{probe_with});
-    our ($name, $url, $with, $relative_hdlist) = our @cmdline;
+#- parse /etc/urpmi/mirror.config if present, or use default mdk mirror.
+#- the --from option overrides this setting.
+if ($options{mirrors_url}) {
+    $urpm::cfg::mirrors = $options{mirrors_url};
+} else {
+    urpm::cfg::mirrors_cfg();
+}
+$options{force} = 0;
+$options{noclean} = 1;
+$options{verbose} = 1;
+my $urpm = new urpm;
+urpm::args::parse_cmdline(urpm => $urpm);
+#- the default is to probe a synthesis file, except for --distrib
+$options{probe_with} = 'synthesis' unless $options{distrib} || exists($options{probe_with});
+our ($name, $url, $with, $relative_hdlist) = our @cmdline;
 
-    #- remove verbose if not asked.
-    $options{verbose} > 0 or $urpm->{log} = sub {};
+#- remove verbose if not asked.
+$options{verbose} > 0 or $urpm->{log} = sub {};
 
-    $url or ($url, $name) = ($name, '');
-    my ($type) = $url =~ m,^(([^:]*):/)?/, or usage;
+$url or ($url, $name) = ($name, '');
+my ($type) = $url =~ m,^(([^:]*):/)?/, or usage;
 
-    if ($< != 0) {
-	$urpm->{fatal}(1, N("Only superuser is allowed to add media"));
-    }
-    if (!-e $urpm->{config}) {
-	$urpm->{error}(N("Will create config file [%s]", $urpm->{config}));
-	open my $f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
-    }
-    $urpm->read_config;
-    exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
+if ($< != 0) {
+    $urpm->{fatal}(1, N("Only superuser is allowed to add media"));
+}
+if (!-e $urpm->{config}) {
+    $urpm->{error}(N("Will create config file [%s]", $urpm->{config}));
+    open my $f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
+}
+$urpm->read_config;
+exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
 
-    if ($options{distrib}) {
-	$with || $relative_hdlist
-	    and usage N("no need to give <relative path of hdlist> with --distrib");
+if ($options{distrib}) {
+    $with || $relative_hdlist
+	and usage N("no need to give <relative path of hdlist> with --distrib");
 
-	$urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update}, probe_with => $options{probe_with});
+    $urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update}, probe_with => $options{probe_with});
+    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+
+    if (my @unsynced_media = grep { $_->{modified} } @{$urpm->{media}}) {
+	print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
+	#- remove quietly the failing media.
+	$urpm->{log} = sub {};
+	$urpm->remove_selected_media;
 	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+    }
+} else {
+    $name or usage;
 
-	if (my @unsynced_media = grep { $_->{modified} } @{$urpm->{media}}) {
-	    print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @unsynced_media);
+    if ($with eq "with") {
+	$relative_hdlist or usage N("<relative path of hdlist> missing\n");
+    } elsif ($type =~ /ftp|http|rsync|ssh/) {
+	$options{probe_with} || $with eq "with" or usage N("`with' missing for network media\n");
+    }
 
+    $urpm->add_medium(
+	$name, $url, $relative_hdlist,
+	virtual => $options{virtual},
+	update => $options{update},
+	no_reload_config => $options{raw},
+    );
+    urpm::download::copy_cmd_line_proxy($name);
+    if ($options{raw}) {
+	$urpm->write_config();
+    } else {
+	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+	#- check creation of media
+	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
+	$medium or die N("unable to create medium \"%s\"\n", $name);
+	if ($medium->{modified}) {
+	    print STDERR N("unable to update medium \"%s\"\n", $name);
 	    #- remove quietly the failing media.
 	    $urpm->{log} = sub {};
 	    $urpm->remove_selected_media;
 	    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 	}
-    } else {
-	$name or usage;
-
-	if ($with eq "with") {
-	    $relative_hdlist or usage N("<relative path of hdlist> missing\n");
-	} elsif ($type =~ /ftp|http|rsync|ssh/) {
-	    $options{probe_with} || $with eq "with" or usage N("`with' missing for network media\n");
-	}
-
-	$urpm->add_medium(
-	    $name, $url, $relative_hdlist,
-	    virtual => $options{virtual},
-	    update => $options{update},
-	    no_reload_config => $options{raw},
-	);
-	urpm::download::copy_cmd_line_proxy($name);
-	if ($options{raw}) {
-	    $urpm->write_config();
-	} else {
-	    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
-	    #- check creation of media
-	    my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
-	    $medium or die N("unable to create medium \"%s\"\n", $name);
-	    if ($medium->{modified}) {
-		print STDERR N("unable to update medium \"%s\"\n", $name);
-		#- remove quietly the failing media.
-		$urpm->{log} = sub {};
-		$urpm->remove_selected_media;
-		$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
-	    }
-	}
     }
-
-    #- try to umount removable devices which may have been mounted.
-    $urpm->try_umounting_removables;
 }
 
-main();
+#- try to umount removable devices which may have been mounted.
+$urpm->try_umounting_removables;
 
 =for vim:ts=8:sts=4:sw=4
