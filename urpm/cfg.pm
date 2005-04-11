@@ -221,7 +221,7 @@ sub dump_config ($$) {
 #- routines to handle mirror list location
 
 #- Default mirror list
-our $mirrors = 'http://www.mandrakelinux.com/mirrorsfull.list';
+our $mirrors = 'http://www.mandrivalinux.com/mirrorsfull.list';
 
 sub mirrors_cfg () {
     if (-e "/etc/urpmi/mirror.config") {
