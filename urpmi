@@ -406,6 +406,16 @@ if (@ask_unselect) {
 
 my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : $urpm->removed_packages($state);
 if (@ask_remove) {
+    {
+	my $db = URPM::DB::open($root);
+	$urpm->find_removed_from_basesystem($db, $state, sub {
+	    my $urpm = shift @_;
+	    foreach (@_) {
+		$urpm->{error}(N("removing package %s will break your system", $_));
+	    }
+	    @_ and $no_remove = 1;
+	});
+    }
     my $list = join "\n", $urpm->translate_why_removed($state, sort @ask_remove);
 
     if ($no_remove && !$force) {
