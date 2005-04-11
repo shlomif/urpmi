@@ -402,7 +402,7 @@ sub write_config {
     }
     close $md5sum;
 
-    $urpm->{log}(N("write config file [%s]", $urpm->{config}));
+    $urpm->{log}(N("wrote config file [%s]", $urpm->{config}));
 
     #- everything should be synced now.
     delete $urpm->{modified};
