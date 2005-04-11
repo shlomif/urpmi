@@ -3105,25 +3105,31 @@ sub find_packages_to_remove {
 	}
 
 	#- check if something needs to be removed.
-	if ($options{callback_base} && %{$state->{rejected} || {}}) {
-	    my %basepackages;
-
-	    #- check if a package to be removed is a part of basesystem requires.
-	    $db->traverse_tag('whatprovides', [ 'basesystem' ], sub {
-				  my ($p) = @_;
-				  $basepackages{$p->fullname} = 0;
-			      });
-
-	    foreach (grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected}}) {
-		exists $basepackages{$_} or next;
-		++$basepackages{$_};
-	    }
-
-	    grep { $_ } values %basepackages and
-	      $options{callback_base}->($urpm, grep { $basepackages{$_} } keys %basepackages) || return ();
-	}
+	find_removed_from_basesystem($urpm, $db, $state, $options{callback_base})
+	    or return ();
     }
     grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected}};
+}
+
+sub find_removed_from_basesystem {
+    my ($urpm, $db, $state, $callback_base) = @_;
+    if ($callback_base && %{$state->{rejected} || {}}) {
+	my %basepackages;
+	#- check if a package to be removed is a part of basesystem requires.
+	$db->traverse_tag('whatprovides', [ 'basesystem' ], sub {
+	    my ($p) = @_;
+	    $basepackages{$p->fullname} = 0;
+	});
+	foreach (grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected}}) {
+	    exists $basepackages{$_} or next;
+	    ++$basepackages{$_};
+	}
+	warn "* $_ $basepackages{$_}\n" for keys %basepackages;
+	if (grep { $_ } values %basepackages) {
+	    return $callback_base->($urpm, grep { $basepackages{$_} } keys %basepackages);
+	}
+    }
+    return 1;
 }
 
 #- remove packages from node as remembered according to resolving done.
