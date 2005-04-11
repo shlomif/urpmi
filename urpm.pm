@@ -3124,7 +3124,6 @@ sub find_removed_from_basesystem {
 	    exists $basepackages{$_} or next;
 	    ++$basepackages{$_};
 	}
-	warn "* $_ $basepackages{$_}\n" for keys %basepackages;
 	if (grep { $_ } values %basepackages) {
 	    return $callback_base->($urpm, grep { $basepackages{$_} } keys %basepackages);
 	}
