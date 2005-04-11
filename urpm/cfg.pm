@@ -197,7 +197,6 @@ sub dump_config ($$) {
 	$err = N("unable to write config file [%s]", $file);
 	return 0;
     };
-    print $f "# generated " . (scalar localtime()) . "\n";
     foreach my $m (@media) {
 	if ($m) {
 	    print $f quotespace($m), ' ', quotespace(substitute_back($config->{$m}{url}, $config_old->{$m}{url})), " {\n";
