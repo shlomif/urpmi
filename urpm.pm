@@ -1022,6 +1022,8 @@ sub update_media {
 
 	#- if we're rebuilding all media, mark them as modified (except removable ones)
 	$medium->{modified} ||= $options{all} && $medium->{url} !~ m!^removable://!;
+	#- don't ever update static media
+	$medium->{static} and $medium->{modified} = 0;
 
 	unless ($medium->{modified}) {
 	    #- the medium is not modified, but to compute dependencies,
