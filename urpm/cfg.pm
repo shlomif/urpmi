@@ -154,7 +154,7 @@ sub load_config ($;$) {
 	/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/
 	    and $config{$medium}{'key-ids'} = $1, next;
 	#- positive flags
-	/^(update|ignore|synthesis|virtual|noreconfigure)$/
+	/^(update|ignore|synthesis|noreconfigure|static|virtual)$/
 	    and $config{$medium}{$1} = 1, next;
 	my ($no, $k, $v);
 	#- boolean options
@@ -205,7 +205,7 @@ sub dump_config ($$) {
 	    print $f "{\n";
 	}
 	foreach (sort grep { $_ && $_ ne 'url' } keys %{$config->{$m}}) {
-	    if (/^(update|ignore|synthesis|virtual)$/) {
+	    if (/^(update|ignore|synthesis|noreconfigure|static|virtual)$/) {
 		print $f "  $_\n";
 	    } elsif ($_ ne 'priority') {
 		print $f "  $_: " . substitute_back($config->{$m}{$_}, $config_old->{$m}{$_}) . "\n";
