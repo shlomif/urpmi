@@ -61,6 +61,7 @@ my %options_spec = (
 	'gui' => \$::gui,
 	'auto-select' => \$::auto_select,
 	'no-remove|no-uninstall' => \$::no_remove,
+	'no-install' => \$::no_install,
 	keep => sub { $urpm->{options}{keep} = 1 },
 	'split-level=s' => sub { $urpm->{options}{'split-level'} = $_[1] },
 	'split-length=s' => sub { $urpm->{options}{'split-length'} = $_[1] },

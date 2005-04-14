@@ -37,6 +37,7 @@ our $sortmedia = '';
 our $synthesis = '';
 our $allow_medium_change = 0;
 our $auto_select = 0;
+our $no_install = 0;
 our $no_remove = 0;
 our $src = 0;
 our $install_src = 0;
@@ -83,6 +84,7 @@ usage:
 ") . N("  --auto         - automatically select a package in choices.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
 ") . N("  --no-uninstall - never ask to uninstall a package, abort the installation.
+") . N("  --no-install   - don't install packages (only download)
 ") . N("  --keep         - keep existing packages if possible, reject requested
                    packages that lead to removals.
 ") . N("  --split-level  - split in small transaction if more than given packages
@@ -579,6 +581,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 	}
 	next;
     }
+
+    next if $no_install;
 
     #- clean to remove any src package now.
     foreach (\%transaction_sources_install, \%transaction_sources) {
