@@ -10,25 +10,23 @@
 %define version	4.6.24
 %define release 3mdk
 
-%define group %(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "System/Configuration/Packaging" : "System Environment/Base"')
+%define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
-%{expand:%%define compat_perl_vendorlib %(perl -MConfig -e 'printf "%%s\n", "%{?perl_vendorlib:1}" ? "%%{perl_vendorlib}" : "$Config{installvendorlib}"')}
-%{expand:%%define use_locale %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? 1 : 0')}
-%{expand:%%define allow_gurpmi %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? 1 : 0')}
-%{expand:%%define req_webfetch %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "webfetch" : "curl wget"')}
-%{expand:%%define buildreq_locale %%(perl -e 'printf "%%s\\n", "%_vendor" =~ /mandrake/i ? "perl-MDK-Common-devel" : ""')}
-%{expand:%%define distribution %%(perl -e 'printf "%%s\\n", ("%_vendor" =~ /mandrake/i ? "Mandrakelinux" : "Red Hat Linux")')}
-%{expand:%%define real_release %%(perl -e 'printf "%%s\\n", ("%_vendor" !~ /mandrake/i && ("%release" =~ /(.*?)mdk/)[0] || "%release")')}
+%{expand:%%define compat_perl_vendorlib %(perl -MConfig -e 'print "%{?perl_vendorlib:1}" ? "%%{perl_vendorlib}" : "$Config{installvendorlib}"')}
+%{expand:%%define use_locale %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? 1 : 0')}
+%{expand:%%define allow_gurpmi %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? 1 : 0')}
+%{expand:%%define req_webfetch %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "webfetch" : "curl wget"')}
+%{expand:%%define buildreq_locale %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "perl-MDK-Common-devel" : ""')}
+%{expand:%%define real_release %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "%release" : ("%release" =~ /(\d+)/)[0]')}
 
 Name:		%{name}
 Version:	%{version}
 Release:	%{real_release}
 Group:		%{group}
-Distribution:	%{distribution}
 License:	GPL
 Source0:	%{name}.tar.bz2
 Summary:	Command-line software installation tools
-URL:		http://cvs.mandrakesoft.com/cgi-bin/cvsweb.cgi/soft/urpmi
+URL:		http://cvs.mandriva.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
 Requires(pre):	perl-Locale-gettext >= 1.01-14mdk
 Requires(pre):	rpmtools >= 4.5
@@ -43,13 +41,13 @@ Conflicts:	rpmdrake < 2.4-2mdk
 Conflicts:	curl < 7.13.0
 
 %description
-urpmi is Mandrakelinux's console-based software installation tool. You can
+urpmi is Mandrivalinux's console-based software installation tool. You can
 use it to install software from the console in the same way as you use the
 graphical Install Software tool (rpmdrake) to install software from the
 desktop. urpmi will follow package dependencies -- in other words, it will
 install all the other software required by the software you ask it to
 install -- and it's capable of obtaining packages from a variety of media,
-including the Mandrakelinux installation CD-ROMs, your local hard disk,
+including the Mandrivalinux installation CD-ROMs, your local hard disk,
 and remote sources such as web or FTP sites.
 
 %if %{allow_gurpmi}
