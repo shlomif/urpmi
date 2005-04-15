@@ -9,7 +9,7 @@ sub find_mntpoints {
     my (%fstab, @mntpoints);
     local ($_);
     #- read /etc/fstab and check for existing mount point.
-    open my $f, "/etc/fstab" or die "Can't read fstab: $!\n";
+    open my $f, "/etc/fstab" or return ();
     while (<$f>) {
 	next if /^\s*#/;
 	my ($device, $mntpoint, $fstype, $options) = m!^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)!
@@ -30,7 +30,7 @@ sub find_mntpoints {
 	}
     }
     close $f;
-    open $f, "/etc/mtab" or die "Can't read mtab: $!\n";
+    open $f, "/etc/mtab" or return ();
     while (<$f>) {
 	my ($device, $mntpoint, $fstype, $options) = m!^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)!
 	    or next;
