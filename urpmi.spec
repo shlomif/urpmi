@@ -41,13 +41,13 @@ Conflicts:	rpmdrake < 2.4-2mdk
 Conflicts:	curl < 7.13.0
 
 %description
-urpmi is Mandrivalinux's console-based software installation tool. You can
+urpmi is Mandriva Linux's console-based software installation tool. You can
 use it to install software from the console in the same way as you use the
 graphical Install Software tool (rpmdrake) to install software from the
 desktop. urpmi will follow package dependencies -- in other words, it will
 install all the other software required by the software you ask it to
 install -- and it's capable of obtaining packages from a variety of media,
-including the Mandrivalinux installation CD-ROMs, your local hard disk,
+including the Mandriva Linux installation CD-ROMs, your local hard disk,
 and remote sources such as web or FTP sites.
 
 %if %{allow_gurpmi}
