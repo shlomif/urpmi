@@ -47,7 +47,7 @@ _urpmi_packages()
 
 	# get matching packages
 	for media in ${medias[@]}; do
-		COMPREPLY=( ${COMPREPLY[@]:-} $( grep "^$cur" /var/lib/urpmi/names.${media//\\\\/} 2>/dev/null ) )
+		COMPREPLY=( ${COMPREPLY[@]:-} $( grep "^$cur" /var/lib/urpmi/names.${media//\\/} 2>/dev/null ) )
 	done
 }
 
