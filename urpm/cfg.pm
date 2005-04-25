@@ -147,6 +147,7 @@ sub load_config ($;$) {
 	  |excludepath
 	  |split-(?:level|length)
 	  |priority-upgrade
+	  |prohibit-remove
 	  |downloader
 	  |retry
 	 )\s*:\s*['"]?(.*?)['"]?$/x

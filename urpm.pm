@@ -148,6 +148,7 @@ sub read_config {
 	    post-clean
 	    pre-clean
 	    priority-upgrade
+	    prohibit-remove
 	    resume
 	    retry
 	    split-length
@@ -3118,8 +3119,9 @@ sub find_removed_from_basesystem {
     my ($urpm, $db, $state, $callback_base) = @_;
     if ($callback_base && %{$state->{rejected} || {}}) {
 	my %basepackages;
+	my @dont_remove = ('basesystem', split /,\s*/, $urpm->{global_config}{'prohibit-remove'});
 	#- check if a package to be removed is a part of basesystem requires.
-	$db->traverse_tag('whatprovides', [ 'basesystem' ], sub {
+	$db->traverse_tag('whatprovides', \@dont_remove, sub {
 	    my ($p) = @_;
 	    $basepackages{$p->fullname} = 0;
 	});
