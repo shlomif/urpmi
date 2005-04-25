@@ -3337,12 +3337,12 @@ __END__
 
 =head1 NAME
 
-urpm - Mandrakesoft perl tools to handle the urpmi database
+urpm - Mandriva perl tools to handle the urpmi database
 
 =head1 DESCRIPTION
 
 C<urpm> is used by urpmi executables to manipulate packages and media
-on a Mandrakelinux distribution.
+on a Mandriva Linux distribution.
 
 =head1 SEE ALSO
 
@@ -3351,7 +3351,7 @@ files.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2005 Mandrakesoft
+Copyright (C) 2000-2005 Mandriva
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
