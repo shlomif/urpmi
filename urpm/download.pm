@@ -483,6 +483,6 @@ urpm::download - download routines for the urpm* tools
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2004 Mandrakesoft
+Copyright (C) 2000-2005 Mandriva
 
 =cut

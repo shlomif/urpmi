@@ -244,6 +244,6 @@ __END__
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2005 Mandrakesoft
+Copyright (C) 2000-2005 Mandriva
 
 =cut

@@ -109,6 +109,6 @@ urpm::msg - routines to prompt messages from the urpm* tools
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2004 Mandrakesoft
+Copyright (C) 2000-2005 Mandriva
 
 =cut
