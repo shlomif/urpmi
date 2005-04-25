@@ -1,4 +1,4 @@
-.TH urpmi.cfg 5 "28 Aug 2003" "Mandrakesoft" "Mandrakelinux"
+.TH urpmi.cfg 5 "28 Aug 2003" "Mandriva" "Mandriva Linux"
 .IX urpmi.cfg
 .SH NAME
 urpmi.cfg \- urpmi option and media configuration file format.
@@ -22,20 +22,6 @@ to disable signature checking and avoid transaction splits :
 The following options can be written in this section :
 
 .TP
-.B verify-rpm
-Same as \fB--verify-rpm\fP for \fBurpmi\fP. Enable or disable signature
-checking (it's enabled by default). Disabling it can be written
-in various ways (as for all the other boolean options) :
-\fBno-verify-rpm\fP or \fBverify-rpm: no\fP or \fBverify-rpm: off\fP or
-\fBverify-rpm: 0\fP.
-
-.TP
-.B fuzzy
-Same as \fB--fuzzy\fP for \fBurpmi\fP or \fBurpmq\fP. Enable or disable
-fuzzy search, disabled by default. Enabling it can be written in various ways :
-\fBfuzzy\fP or \fBfuzzy: yes\fP or \fBfuzzy: on\fP or \fBfuzzy: 1\fP.
-
-.TP
 .B allow-force
 Same as \fB--allow-force\fP for \fBurpmi\fP, disabled by default.
 
@@ -44,37 +30,24 @@ Same as \fB--allow-force\fP for \fBurpmi\fP, disabled by default.
 Same as \fB--allow-nodeps\fP for \fBurpmi\fP, disabled by default.
 
 .TP
-.B pre-clean, post-clean, clean
-Control cache management for \fBurpmi\fP, default is only \fBpost-clean\fP
-activated.
+.B downloader
+Specify which download program to use: \fBwget\fP or \fBcurl\fP.
 
 .TP
 .B excludedocs
 Same as \fB--excludedocs\fP for \fBurpmi\fP, default is disabled.
 
 .TP
-.B norebuild
-Same as \fB--norebuild\fP for \fBurpmi\fP, \fBurpmi.update\fP and
-\fBurpmi.addmedia\fP, disabled by default (meaning that \fBurpmi\fP
-will try to rebuild hdlists by default).
-
-.TP
-.B strict-arch
-Same as \fB--strict-arch\fP for \fBurpmi\fP. Boolean option, disabled by
-default (meaning that packages can be upgraded with versions for another
-architecture).
-
-.TP
-.B limit-rate
-Same as \fB--limit-rate\fP for all tools. This option allows to control download
-speed, there is no limitation by default. The number is given in kilo-bytes per
-second, unless a suffix \fBK\fP, \fBM\fP is added.
-
-.TP
 .B excludepath
 Same as \fB--excludepath\fP for \fBurpmi\fP. This options allows to give a comma
 separated list of paths to be excluded on installation. There is no path
 exclusion by default.
+
+.TP
+.B fuzzy
+Same as \fB--fuzzy\fP for \fBurpmi\fP or \fBurpmq\fP. Enable or disable
+fuzzy search, disabled by default. Enabling it can be written in various ways :
+\fBfuzzy\fP or \fBfuzzy: yes\fP or \fBfuzzy: on\fP or \fBfuzzy: 1\fP.
 
 .TP
 .B key-ids
@@ -85,10 +58,36 @@ for this medium is given. There is no default (even Mandrakesoft key id 70771ff3
 is not by default).
 
 .TP
-.B split-level
-Same as \fB--split-level\fP for \fBurpmi\fP. This option allows to control if
-transaction should be split depending of the number of packages to upgrade. The
-default value is 20.
+.B limit-rate
+Same as \fB--limit-rate\fP for all tools. This option allows to control download
+speed, there is no limitation by default. The number is given in kilo-bytes per
+second, unless a suffix \fBK\fP, \fBM\fP is added.
+
+.TP
+.B noreconfigure
+Specifies that the media should not be reconfigured (by a reconfiguration file
+present on the medium).
+
+.TP
+.B norebuild
+Same as \fB--norebuild\fP for \fBurpmi\fP, \fBurpmi.update\fP and
+\fBurpmi.addmedia\fP, disabled by default (meaning that \fBurpmi\fP
+will try to rebuild hdlists by default).
+
+.TP
+.B pre-clean, post-clean, clean
+Control cache management for \fBurpmi\fP, default is only \fBpost-clean\fP
+activated.
+
+.TP
+.B prohibit-remove
+A comma-separated list of package names that must never be removed (just like
+basesystem).
+
+.TP
+.B retry
+Specify how many times the downloader should retry in case of non-permanent
+errors.
 
 .TP
 .B split-length
@@ -97,23 +96,24 @@ minimal length of split transaction. The default value is 1 (smallest possible
 transaction). Setting this value to 0 disable the split of transaction.
 
 .TP
-.B downloader
-Specify which download program to use: \fBwget\fP or \fBcurl\fP.
+.B split-level
+Same as \fB--split-level\fP for \fBurpmi\fP. This option allows to control if
+transaction should be split depending of the number of packages to upgrade. The
+default value is 20.
 
 .TP
-.B retry
-Specify how many times the downloader should retry in case of non-permanent
-errors.
+.B strict-arch
+Same as \fB--strict-arch\fP for \fBurpmi\fP. Boolean option, disabled by
+default (meaning that packages can be upgraded with versions for another
+architecture).
 
 .TP
-.B noreconfigure
-Specifies that the media should not be reconfigured (by a reconfiguration file
-present on the medium).
-
-.TP
-.B prohibit-remove
-A commæ-separated list of package names that must never be removed (just like
-basesystem).
+.B verify-rpm
+Same as \fB--verify-rpm\fP for \fBurpmi\fP. Enable or disable signature
+checking (it's enabled by default). Disabling it can be written
+in various ways (as for all the other boolean options) :
+\fBno-verify-rpm\fP or \fBverify-rpm: no\fP or \fBverify-rpm: off\fP or
+\fBverify-rpm: 0\fP.
 
 .SS Medium description
 
