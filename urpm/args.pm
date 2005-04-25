@@ -109,7 +109,7 @@ my %options_spec = (
 	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1] },
 	'test!' => \$::test,
 	'skip=s' => \$options{skip},
-	'root=s' => \$::root,
+	'root=s' => sub { require File::Spec; $::root = File::Spec->rel2abs($_[1]) },
 	'use-distrib=s' => \$::usedistrib,
 	'excludepath|exclude-path=s' => sub { $urpm->{options}{excludepath} = $_[1] },
 	'excludedocs|exclude-docs' => sub { $urpm->{options}{excludedocs} = 1 },
