@@ -202,7 +202,7 @@ my %options_spec = (
 	sources => \$options{sources},
 	force => \$options{force},
 	'skip=s' => \$options{skip},
-	'root=s' => \$options{root},
+	'root=s' => sub { require File::Spec; $options{root} = File::Spec->rel2abs($_[1]) },
 	'use-distrib=s' => \$options{usedistrib},
 	'parallel=s' => \$options{parallel},
 	'env=s' => \$options{env},
