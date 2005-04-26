@@ -42,6 +42,10 @@ sub load_proxy_config () {
 	    $proxy_config->{$1 || ''}{pwd} = $3 if defined $3;
 	    next;
 	}
+	if (/^(?:(.*):\s*)?proxy_user_ask/) {
+	    $proxy_config->{$1 || ''}{ask} = 1;
+	    next;
+	}
     }
     close $f;
 }
@@ -50,13 +54,16 @@ sub load_proxy_config () {
 sub dump_proxy_config () {
     return 0 unless defined $proxy_config; #- hasn't been read yet
     open my $f, '>', $PROXY_CFG or return 0;
-    print $f "# generated " . (scalar localtime) . "\n";
     foreach ('', sort grep { !/^(|cmd_line)$/ } keys %$proxy_config) {
 	my $m = $_ eq '' ? '' : "$_:";
 	my $p = $proxy_config->{$_};
 	foreach (qw(http_proxy ftp_proxy)) {
 	    defined $p->{$_} && $p->{$_} ne ''
 		and print $f "$m$_=$p->{$_}\n";
+	}
+	if ($p->{ask}) {
+	    print $f "${m}proxy_user_ask\n";
+	    next;
 	}
 	defined $p->{user} && $p->{user} ne ''
 	    and print $f "${m}proxy_user=$p->{user}:$p->{pwd}\n";
@@ -77,7 +84,7 @@ sub remove_proxy_media {
 sub get_proxy (;$) {
     my ($o_media) = @_; $o_media ||= '';
     load_proxy_config();
-    return $proxy_config->{cmd_line}
+    my $p = $proxy_config->{cmd_line}
 	|| $proxy_config->{$o_media}
 	|| $proxy_config->{''}
 	|| {
@@ -86,10 +93,24 @@ sub get_proxy (;$) {
 	    user => undef,
 	    pwd => undef,
 	};
+    if ($p->{ask} && ($p->{http_proxy} || $p->{ftp_proxy}) && !$p->{user}) {
+	our $PROMPT_PROXY;
+	unless (defined $PROMPT_PROXY) {
+	    require urpm::prompt;
+	    $PROMPT_PROXY = new urpm::prompt(
+		N("Please enter your credentials for acceding proxy\n"),
+		[ N("User name:"), N("Password:") ],
+		undef,
+		[ 0, 1 ],
+	    );
+	}
+	($p->{user}, $p->{pwd}) = $PROMPT_PROXY->prompt;
+    }
+    $p;
 }
 
 #- copies the settings for proxies from the command line to media named $media
-#- and writes the proxy.cfg file (used for new media)
+#- and writes the proxy.cfg file (used when adding new media)
 sub copy_cmd_line_proxy {
     my ($media) = @_;
     return unless $media;
@@ -118,7 +139,7 @@ sub set_proxy_config {
 }
 
 #- set up the environment for proxy usage for the appropriate tool.
-#- returns an array of command-line arguments.
+#- returns an array of command-line arguments for wget or curl.
 sub set_proxy {
     my ($proxy) = @_;
     my @res;

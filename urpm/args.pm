@@ -97,9 +97,13 @@ my %options_spec = (
 	},
 	'proxy-user=s' => sub {
 	    my (undef, $value) = @_;
-	    $value =~ /(.+):(.+)/ or die N("bad proxy declaration on command line\n");
-	    @{$urpm->{proxy}}{qw(user pwd)} = ($1, $2); #- obsolete, for compat
-	    urpm::download::set_cmdline_proxy(user => $1, pwd => $2);
+	    if ($value eq 'ask') { #- should prompt for user/password
+		urpm::download::set_cmdline_proxy(ask => 1);
+	    } else {
+		$value =~ /(.+):(.+)/ or die N("bad proxy declaration on command line\n");
+		@{$urpm->{proxy}}{qw(user pwd)} = ($1, $2); #- obsolete, for compat
+		urpm::download::set_cmdline_proxy(user => $1, pwd => $2);
+	    }
 	},
 	'bug=s' => \$options{bug},
 	'env=s' => \$::env,

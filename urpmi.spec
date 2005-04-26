@@ -104,7 +104,7 @@ install -m 644 gurpmi.pm %{buildroot}%{compat_perl_vendorlib}/gurpmi.pm
 rm -rf %{buildroot}%{_sbindir}/gurpmi
 %endif
 mkdir -p %{buildroot}%{compat_perl_vendorlib}/urpm
-for p in args cfg download msg util sys parallel_ka_run parallel_ssh
+for p in args cfg download msg util sys parallel_ka_run parallel_ssh prompt
 do
     install -m 644 urpm/$p.pm %{buildroot}%{compat_perl_vendorlib}/urpm/$p.pm
 done
@@ -208,6 +208,7 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/download.pm
 %{compat_perl_vendorlib}/urpm/msg.pm
 %{compat_perl_vendorlib}/urpm/util.pm
+%{compat_perl_vendorlib}/urpm/prompt.pm
 %{compat_perl_vendorlib}/urpm/sys.pm
 %doc ChangeLog
 
