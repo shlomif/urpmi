@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.6.24
-%define release 3mdk
+%define version	4.7.0
+%define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -235,6 +235,20 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Tue Apr 26 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.0-1mdk
+- urpmi.addmedia: new option --raw
+- remove time stamps from rewritten config files
+- new config option: "prohibit-remove" (Michael Scherer)
+- urpmi: don't remove basesystem or prohibit-remove packages when installing
+  other ones
+- new config option: "static" media never get updated
+- gurpmi: correctly handle several rpms at once from konqueror
+- urpmi: new option --no-install (Michael Scherer)
+- urpmi: allow relative pathnames in --root (Michael Scherer)
+- urpmi: handle --proxy-user=ask, so urpmi will ask user for proxy credentials
+- improve man pages
+- po updates
+
 * Mon Apr 11 2005 Rafael Garcia-Suarez <rgarciasuarez@mandrakesoft.com> 4.6.24-3mdk
 - Change the default URL for the mirrors list file
 
