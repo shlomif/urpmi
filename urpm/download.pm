@@ -98,7 +98,7 @@ sub get_proxy (;$) {
 	unless (defined $PROMPT_PROXY) {
 	    require urpm::prompt;
 	    $PROMPT_PROXY = new urpm::prompt(
-		N("Please enter your credentials for acceding proxy\n"),
+		N("Please enter your credentials for accessing proxy\n"),
 		[ N("User name:"), N("Password:") ],
 		undef,
 		[ 0, 1 ],
