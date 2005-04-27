@@ -42,7 +42,6 @@ sub new {
 	cachedir   => "/var/cache/urpmi",
 	media      => undef,
 	options    => {},
-	proxy      => get_proxy(),
 
 	#- sync: first argument is options hashref, others are urls to fetch.
 	sync       => sub { $self->sync_webfetch(@_) },
