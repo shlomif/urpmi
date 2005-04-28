@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.0
+%define version	4.7.1
 %define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -235,6 +235,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Thu Apr 28 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.1-1mdk
+- Fix a long-standing bug when copying symlinked hdlists over nfs
+- Minor rewrites in the proxy handling code
+
 * Tue Apr 26 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.0-1mdk
 - urpmi.addmedia: new option --raw
 - remove time stamps from rewritten config files
