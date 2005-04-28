@@ -167,7 +167,6 @@ if ($urpm::args::options{list_aliases}) {
    foreach (@{$urpm->{media}}) {
 	$_->{update} and print "--update ";
 	$_->{virtual} and print "--virtual ";
-	$_->{synthesis} and print "--synthesis ";
 	print "$_->{name} ";
 	print "$_->{url} ";
 	print $_->{with_hdlist} ? "with $_->{with_hdlist}" : "";
