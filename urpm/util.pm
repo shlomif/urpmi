@@ -86,7 +86,7 @@ sub md5sum {
 
 sub copy {
     my ($file, $dest) = @_;
-    !system("/bin/cp", "-p", "-R", $file, $dest);
+    !system("/bin/cp", "-p", "-L", "-R", $file, $dest);
 }
 
 sub move {
