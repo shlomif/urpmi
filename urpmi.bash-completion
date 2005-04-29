@@ -234,9 +234,9 @@ _urpmi_addmedia()
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
 		COMPREPLY=( $( compgen -W '-c -f -h -v -q --help --wget --curl \
-			--limit-rate --proxy --proxy-user --update \
+			--limit-rate --proxy --proxy-user --update --raw \
 			--probe-synthesis --probe-hdlist --no-probe --distrib \
-			--env --version --arch --virtual --norebuild' -- $cur ) )
+			--env --version --arch --virtual --norebuild --nopubkey' -- $cur ) )
 	else
 		# count number of mandatory args given sofar
 		args=$COMP_CWORD

@@ -270,6 +270,7 @@ my %options_spec = (
 	'version=s' => \$options{version},
 	'arch=s' => \$options{arch},
 	virtual => \$options{virtual},
+	nopubkey => \$options{nopubkey},
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
 	raw => \$options{raw},

@@ -108,6 +108,8 @@ taken from the file /etc/urpmi/mirror.config, or
 \fIhttp://www.mandrivalinux.com/mirrorsfull.list\fP if this file doesn't
 exist.
 .IP "\fB\--version\fP \fIversion\fP"
+Use specified distribution version. The default is taken from the version of
+the distribution told by the installed mandriva-release package.
 .IP "\fB\--virtual\fP"
 Create a virtual medium, this only works for file:// and removable:// protocol
 and no files will be created in /var/lib/urpmi. The medium is always up-to-date
@@ -119,6 +121,8 @@ readable or was corrupted.
 Add the new media in the urpmi configuration file, but don't update it nor
 proceed to any download. The media, to be usable, will need to be updated with
 \fBurpmi.update\fP.
+.IP "\fB\--nopubkey\fP"
+Don't import pubkey of added media
 .IP "\fB\-c\fP"
 Clean headers cache directory in /var/cache/urpmi/headers.
 .IP "\fB\-h\fP"
