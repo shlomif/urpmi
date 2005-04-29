@@ -170,6 +170,7 @@ sub load_config ($;$) {
 	    |keep
 	    |auto
 	    |strict-arch
+	    |nopubkey
 	    |resume)(?:\s*:\s*(.*))?$/x
 	) {
 	    my $yes = $no ? 0 : 1;

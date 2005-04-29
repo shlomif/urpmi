@@ -155,6 +155,7 @@ sub read_config {
 	    verify-rpm
 	    norebuild
 	    strict-arch
+	    nopubkey
 	)) {
 	    if (defined $config->{''}{$opt} && !exists $urpm->{options}{$opt}) {
 		$urpm->{options}{$opt} = $config->{''}{$opt};
@@ -996,8 +997,9 @@ sub update_media {
 
     $urpm->{media} or return; # verify that configuration has been read
 
+    my $nopubkey = $options{nopubkey} || $urpm->{options}{nopubkey};
     #- get gpg-pubkey signature.
-    if (!$options{nopubkey}) {
+    if (!$nopubkey) {
 	$urpm->exlock_rpm_db;
 	$urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
     }
@@ -1364,7 +1366,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 
 	    #- examine if a local pubkey file is available.
-	    if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
+	    if (!$nopubkey && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
 		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../" . _guess_pubkey_name($medium));
 		-e $path_pubkey or $path_pubkey = "$dir/pubkey";
 		if ($path_pubkey) {
@@ -1654,7 +1656,7 @@ this could happen if you mounted manually the directory when creating the medium
 		}
 
 		#- retrieve pubkey file.
-		if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
+		if (!$nopubkey && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
 		    my $local_pubkey = _guess_pubkey_name($medium);
 		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_pubkey"),
 			     reduce_pathname("$medium->{url}/pubkey"),
@@ -1992,7 +1994,7 @@ this could happen if you mounted manually the directory when creating the medium
     }
 
     $options{nolock} or $urpm->unlock_urpmi_db;
-    $options{nopubkey} or $urpm->unlock_rpm_db;
+    $nopubkey or $urpm->unlock_rpm_db;
 }
 
 #- clean params and depslist computation zone.
