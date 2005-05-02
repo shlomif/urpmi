@@ -3241,7 +3241,7 @@ sub check_sources_signatures {
 		my $valid_ids = 0;
 		my $invalid_ids = 0;
 
-		foreach my $key_id ($verif =~ /#(\S+)/g) {
+		foreach my $key_id ($verif =~ /(?:key id \w{8}|#)(\w+)/gi) {
 		    if (grep { hex($_) == hex($key_id) } split /[,\s]+/, $key_ids) {
 			++$valid_ids;
 		    } else {
