@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.1
+%define version	4.7.2
 %define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -235,6 +235,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
 
 %changelog
+* Wed May 04 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.2-1mdk
+- Adaptations for rpm 4.4.1 (new-style key ids)
+- Add a "nopubkey" global option in urpmi.cfg and a --nopubkey switch to
+  urpmi.addmedia
+
 * Thu Apr 28 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.1-1mdk
 - Fix a long-standing bug when copying symlinked hdlists over nfs
 - Minor rewrites in the proxy handling code
