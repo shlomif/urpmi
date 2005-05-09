@@ -35,6 +35,10 @@ $mainw->set_modal(0);
 $mainbox = Gtk2::VBox->new(0, 5);
 $mainw->add($mainbox);
 
+sub all_descriptions {
+    join '', qx(rpm -qp --qf '%{name}-%{version}-%{release}: %{summary}\\n' @_);
+}
+
 #- Ask question: save or install ?
 #- change depending on the number of rpms, and on the presence of srpms
 ($srpms, $rpms) = partition { /\.src\.rpm$/ } @all_rpms;
@@ -53,12 +57,12 @@ What would you like to do?", $srpms->[0])
 
 %s
 
-You may prefer to just save it. What is your choice?", $rpms->[0])
+You may prefer to just save it. What is your choice?", all_descriptions($rpms->[0]))
 	: N("You are about to install the following software packages on your computer:
 
 %s
 
-Proceed?", join "\n", @all_rpms)
+Proceed?", all_descriptions(@all_rpms))
     );
     $mainbox->pack_start(new_label($msg), 1, 1, 0);
 }
