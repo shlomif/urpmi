@@ -81,6 +81,16 @@ Group:		%{group}
 urpmi-parallel-ssh is an extension module to urpmi for handling
 distributed installation using ssh and scp tools.
 
+%package -n urpmi-ldap
+Summary:	Extension to urpmi to specify media configuration via LDAP
+Requires:	urpmi >= %{version}-%{release}
+Requires:	openldap-clients
+Group:		%{group}
+
+%description -n urpmi-ldap
+urpmi-ldap is an extension module to urpmi to allow to specify
+urpmi configuration (notably media) in an LDAP directory.
+
 %prep
 %setup -q -n %{name}
 
@@ -104,7 +114,7 @@ install -m 644 gurpmi.pm %{buildroot}%{compat_perl_vendorlib}/gurpmi.pm
 rm -rf %{buildroot}%{_sbindir}/gurpmi
 %endif
 mkdir -p %{buildroot}%{compat_perl_vendorlib}/urpm
-for p in args cfg download msg util sys parallel_ka_run parallel_ssh prompt
+for p in args cfg download msg util sys parallel_ka_run parallel_ssh prompt ldap
 do
     install -m 644 urpm/$p.pm %{buildroot}%{compat_perl_vendorlib}/urpm/$p.pm
 done
@@ -233,6 +243,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %doc urpm/README.ssh
 %dir %{compat_perl_vendorlib}/urpm
 %{compat_perl_vendorlib}/urpm/parallel_ssh.pm
+
+%files -n urpmi-ldap
+%doc urpmi.schema
+%{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
 * Wed May 04 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.2-1mdk
