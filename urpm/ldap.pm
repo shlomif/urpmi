@@ -11,7 +11,9 @@ my $LDAP_CONFIG_FILE = '/etc/ldap.conf';
 # FIXME duplication
 my @per_media_opt = qw(
     downloader
+    ftp-proxy
     hdlist
+    http-proxy
     ignore
     key-ids
     list
@@ -136,8 +138,10 @@ sub get_ldap_config_dns {
 
 my %ldap_changed_attributes = (
     'source-name' => 'name',
-    url => 'clear_url',
+    'url' => 'clear_url',
     'with-hdlist' => 'with_hdlist',
+    'http-proxy' => 'http_proxy',
+    'ftp-proxy' => 'ftp_proxy',
 );
 
 sub load_ldap_media($%) {
