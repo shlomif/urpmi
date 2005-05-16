@@ -115,7 +115,7 @@ sub load_config ($;$) {
 		_syntax_error();
 		return;
 	    }
-	    $config{$medium}{priority} = ++$priority; #- to preserve order
+	    $config{$medium}{priority} = $priority++; #- to preserve order
 	    undef $medium;
 	    next;
 	}
