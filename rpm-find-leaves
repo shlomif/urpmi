@@ -5,10 +5,11 @@ use strict;
 use urpm;
 use urpm::msg;
 
-my %options;
-$options{restrict_group} = 0;
-$options{group} = 'System/Libraries';
-$options{root} = '';
+my %options = {
+    restrict_group => 0,
+    group => 'System/Libraries',
+    root => '',
+};
 
 my $usage = N("usage: %s [options]
 where [options] are from
@@ -19,13 +20,13 @@ where [options] are from
 ", $options{group});
 
 while ($_ = shift) {
-    /^--root$/ and do {
+    $_ eq '--root' and do {
 	my $root = shift;
 	$root and $options{root} = $root;
 	next;
 
     };
-    /^-g$/ and do {
+    $_ eq '-g' and do {
 	$options{restrict_group} = 1;
 	my $group = shift;
 	$group and $options{group} = $group;
@@ -47,7 +48,7 @@ my @packages;
 my %l;
 my %provides;
 foreach my $pkg (@packages) {
-    next if $options{restrict_group} && $pkg->group !~ /$options{group}/i;
+    next if $options{restrict_group} && $pkg->group !~ /$options{group}/oi;
     $l{$pkg->name} = 1;
     push @{$provides{$_}}, $pkg->name foreach $pkg->provides_nosense;
 }
