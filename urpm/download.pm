@@ -335,10 +335,10 @@ sub sync_curl {
     }
     #- http files (and other files) are correctly managed by curl wrt conditional download.
     #- options for ftp files, -R (-O <file>)*
-    #- options for http files, -R (-z file -O <file>)*
+    #- options for http files, -R (-O <file>)*
     if (my @all_files = (
 	    (map { ("-O", $_) } @ftp_files),
-	    (map { m|/([^/]*)$| ? ("-z", $1, "-O", $_) : @{[]} } @other_files)))
+	    (map { m|/| ? ("-O", $_) : @{[]} } @other_files)))
     {
 	my @l = (@ftp_files, @other_files);
 	my ($buf, $file); $buf = '';
