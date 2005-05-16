@@ -7,7 +7,7 @@ use urpm::msg 'N';
 use Net::LDAP;
 use MDK::Common;
 
-my $LDAP_CONFIG_FILE = '/etc/openldap/ldap.conf';
+my $LDAP_CONFIG_FILE = '/etc/ldap.conf';
 # FIXME duplication
 my @per_media_opt = qw(
     downloader
