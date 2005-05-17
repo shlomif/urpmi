@@ -2,32 +2,14 @@ package urpm::ldap;
 
 use strict;
 use warnings;
+use urpm;
 use urpm::msg 'N';
 
 use Net::LDAP;
 use MDK::Common;
 
-my $LDAP_CONFIG_FILE = '/etc/ldap.conf';
-# FIXME duplication
-my @per_media_opt = qw(
-    downloader
-    ftp-proxy
-    hdlist
-    http-proxy
-    ignore
-    key-ids
-    list
-    md5sum
-    noreconfigure
-    priority
-    priority-upgrade
-    removable
-    synthesis
-    update
-    verify-rpm
-    virtual
-    with_hdlist
-);
+our $LDAP_CONFIG_FILE = '/etc/ldap.conf';
+my @per_media_opt = (@urpm::PER_MEDIA_OPT, qw(ftp-proxy http-proxy));
 
 # TODO
 # use srv dns record ?

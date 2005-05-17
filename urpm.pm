@@ -119,6 +119,24 @@ sub sync_webfetch {
     %files and die N("unable to handle protocol: %s", join ', ', keys %files);
 }
 
+our $PER_MEDIA_OPT = qw(
+    downloader
+    hdlist
+    ignore
+    key-ids
+    list
+    md5sum
+    noreconfigure
+    priority
+    removable
+    static
+    synthesis
+    update
+    verify-rpm
+    virtual
+    with_hdlist
+);
+
 #- Loads /etc/urpmi/urpmi.cfg and performs basic checks.
 #- Does not handle old format: <name> <url> [with <path_hdlist>]
 #- options :
@@ -144,6 +162,8 @@ sub read_config {
 	    keep
 	    key-ids
 	    limit-rate
+	    nopubkey
+	    norebuild
 	    post-clean
 	    pre-clean
 	    priority-upgrade
@@ -152,10 +172,8 @@ sub read_config {
 	    retry
 	    split-length
 	    split-level
-	    verify-rpm
-	    norebuild
 	    strict-arch
-	    nopubkey
+	    verify-rpm
 	)) {
 	    if (defined $config->{''}{$opt} && !exists $urpm->{options}{$opt}) {
 		$urpm->{options}{$opt} = $config->{''}{$opt};
@@ -165,23 +183,7 @@ sub read_config {
     #- per-media options
     foreach my $m (grep { $_ ne '' } keys %$config) {
 	my $medium = { name => $m, clear_url => $config->{$m}{url} };
-	foreach my $opt (qw(
-	    downloader
-	    hdlist
-	    ignore
-	    key-ids
-	    list
-	    md5sum
-	    noreconfigure
-	    static
-	    priority
-	    removable
-	    synthesis
-	    update
-	    verify-rpm
-	    virtual
-	    with_hdlist
-	)) {
+	foreach my $opt (@PER_MEDIA_OPT) {
 	    defined $config->{$m}{$opt} and $medium->{$opt} = $config->{$m}{$opt};
 	}
 	$urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
