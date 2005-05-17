@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.2
+%define version	4.7.3
 %define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -249,6 +249,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Tue May 17 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.3-1mdk
+- Introduce urpmi-ldap (thanks to Michael Scherer)
+- Don't pass bogus -z option to curl
+- Add descriptions to the list of rpms to be installed in gurpmi
+
 * Wed May 04 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.2-1mdk
 - Adaptations for rpm 4.4.1 (new-style key ids)
 - Add a "nopubkey" global option in urpmi.cfg and a --nopubkey switch to
