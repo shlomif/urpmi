@@ -27,31 +27,32 @@ urpm::ldap - routines to handle configuration with ldap
 
 =item write_ldap_cache($urpm,$medium)
 
-Write the value fetched from ldap, in case of failure of server
-This should not be used to reduce the load of ldap server, as
-fetching is still needed, and therefore, caching is useless if server is up
+Writes the value fetched from ldap, in case of server failure. This should not
+be used to reduce the load of the ldap server, as fetching is still needed, and
+therefore, caching is useless if server is up.
 
 =item check_ldap_medium($medium)
 
-Check if the ldap medium has all needed attributes.
+Checks if the ldap medium has all required attributes.
 
 =item read_ldap_cache($urpm,%options)
 
-Read the cache created by the function write_ldap_cache.
-should be called if the ldap server do not respond ( upgrade, network problem,
-mobile user, etc ).
+Reads the cache created by the C<write_ldap_cache> function. Should be called
+if the ldap server doesn't answer (upgrade, network problem, mobile user, etc.)
 
 =item clean_ldap_cache($urpm)
 
-Clean the ldap cache, remove all file in the directory.
+Cleans the ldap cache, removes all files in the directory.
 
 =item load_ldap_media($urpm,%options)
 
-=item get_ldap_config
+=item get_ldap_config()
 
 =item get_ldap_config_file($file)
 
 =item get_ldap_config_dns
+
+=back
 
 =cut
 
@@ -91,7 +92,7 @@ sub clean_ldap_cache($) {
     unlink glob("$urpm->{cachedir}/ldap/*");
 }
 
-sub get_ldap_config {
+sub get_ldap_config() {
     return get_ldap_config_file($LDAP_CONFIG_FILE);
 }
 
