@@ -119,7 +119,7 @@ sub sync_webfetch {
     %files and die N("unable to handle protocol: %s", join ', ', keys %files);
 }
 
-our $PER_MEDIA_OPT = qw(
+our @PER_MEDIA_OPT = qw(
     downloader
     hdlist
     ignore
