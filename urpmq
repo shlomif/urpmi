@@ -85,6 +85,7 @@ usage:
 ") . N("  -p             - search in provides to find package.
 ") . N("  -r             - print version and release with name also.
 ") . N("  -R             - reverse search to what requires package.
+") . N("  -RR            - extended reverse search (includes virtual packages).
 ") . N("  -s             - next package is a source package (same as --src).
 ") . N("  -u             - remove package if a more recent version is already installed.
 ") . N("  -v             - verbose mode.
@@ -260,7 +261,7 @@ if ($urpm::args::options{list_aliases}) {
 			    #- NOTE. if the "provides" has no version specification, we happily
 			    #- assume that it can be skipped, because it most probably refers
 			    #- to a virtual package.
-			    next if $s eq '';
+			    next if $s eq '' && $urpm::args::options{what_requires} <= 1;
 			    foreach (map { $urpm->{depslist}[$_] }
 				     grep { ! exists $state->{selected}{$_} && ! exists $properties{$_} }
 				     keys %{$requires{$n} || {}}) {

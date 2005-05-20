@@ -216,7 +216,7 @@ my %options_spec = (
 	g => \$options{group},
 	p => \$options{use_provides},
 	P => sub { $options{use_provides} = 0 },
-	R => \$options{what_requires},
+	R => sub { ++$options{what_requires} },
 	y => sub { $options{fuzzy} = $options{all} = 1 },
 	Y => sub { $options{fuzzy} = $options{all} = $options{caseinsensitive} = 1 },
 	v => \$options{verbose},
