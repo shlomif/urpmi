@@ -328,7 +328,7 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
     require urpm::sys;
     urpm::sys::fix_fd_leak();
     # also, clean up rpm db log files, because rpm might have been upgraded
-    unlink glob('/var/lib/rpm/__db.00?') unless $root;
+    unlink glob('/var/lib/rpm/__db.*') unless $root;
 }
 
 unless ($env || $nolock) {
