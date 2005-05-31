@@ -32,7 +32,7 @@ Requires(pre):	perl-Locale-gettext >= 1.01-14mdk
 Requires(pre):	rpmtools >= 4.5
 Requires(pre):	perl-URPM >= 1.08
 Requires(pre):	packdrake >= 5.0.2
-BuildRequires:	%{buildreq_locale} bzip2-devel rpm-devel >= 4.0.3
+BuildRequires:	%{buildreq_locale} bzip2-devel
 BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
