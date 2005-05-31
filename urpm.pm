@@ -306,18 +306,20 @@ sub probe_medium {
 	    }
 	    foreach (sort { length($a) <=> length($b) } keys %probe) {
 		if ($medium->{url}) {
-		    $medium->{url} eq substr($_, 0, length($medium->{url})) or
-		      $medium->{ignore} || $urpm->{error}(N("inconsistent list file for \"%s\", medium ignored", $medium->{name})),
-			$medium->{ignore} = 1, last;
+		    if ($medium->{url} ne substr($_, 0, length($medium->{url}))) {
+			$medium->{ignore} or $urpm->{error}(N("inconsistent list file for \"%s\", medium ignored", $medium->{name}));
+			$medium->{ignore} = 1;
+			last;
+		    }
 		} else {
 		    $medium->{url} = $_;
 		}
 	    }
 	    unless ($options{nocheck_access}) {
-		$medium->{url} or
-		  $medium->{ignore} || $urpm->{error}(N("unable to inspect list file for \"%s\", medium ignored",
-							$medium->{name})),
-							  $medium->{ignore} = 1;
+		unless ($medium->{url}) {
+		    $medium->{ignore} or $urpm->{error}(N("unable to inspect list file for \"%s\", medium ignored", $medium->{name}));
+		    $medium->{ignore} = 1;
+		}
 	    }
 	}
     }
@@ -588,10 +590,12 @@ sub configure {
 			}
 		    }
 		}
-	    } while ($second_pass && do { require URPM::Build;
-					  $urpm->{log}(N("performing second pass to compute dependencies\n"));
-					  $urpm->unresolved_provides_clean;
-					  $second_pass-- });
+	    } while $second_pass && do {
+		require URPM::Build;
+		$urpm->{log}(N("performing second pass to compute dependencies\n"));
+		$urpm->unresolved_provides_clean;
+		$second_pass--;
+	    };
 	}
     }
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
@@ -2021,7 +2025,7 @@ sub try_mounting {
 	#- note: for isos, we don't parse the fstab because it might not be declared in it.
 	#- so we try to remove suffixes from the dir name until the dir exists
 	? ($dir = urpm::sys::trim_until_d($dir))
-	: urpm::sys::find_mntpoints(($dir = reduce_pathname($dir)), \%infos);
+	: urpm::sys::find_mntpoints($dir = reduce_pathname($dir), \%infos);
     foreach (grep {
 	    ! $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount';
 	} @mntpoints)
@@ -2030,9 +2034,9 @@ sub try_mounting {
 	if ($is_iso) {
 	    #- to mount an iso image, grab the first loop device
 	    my $loopdev = urpm::sys::first_free_loopdev();
-	    $loopdev and `mount '$removable' $_ -t iso9660 -o loop=$loopdev`;
+	    $loopdev and system("mount '$removable' '$_' -t iso9660 -o loop=$loopdev");
 	} else {
-	    `mount '$_' 2>/dev/null`;
+	    system("mount '$_' 2>/dev/null");
 	}
 	$removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
     }
@@ -2049,7 +2053,7 @@ sub try_umounting {
 	} urpm::sys::find_mntpoints($dir, \%infos))
     {
 	$urpm->{log}(N("unmounting %s", $_));
-	`umount '$_' 2>/dev/null`;
+	system("umount '$_' 2>/dev/null");
 	delete $urpm->{removable_mounted}{$_};
     }
     ! -e $dir;
@@ -2385,8 +2389,7 @@ sub get_source_packages {
 	    if ($urpm->{source}{$_}) {
 		$protected_files{$local_sources{$_} = $urpm->{source}{$_}} = undef;
 	    } else {
-		my $p = $urpm->{depslist}[$_];
-		$fullname2id{$p->fullname} = $_ . '';
+		$fullname2id{$urpm->{depslist}[$_]->fullname} = $_ . '';
 	    }
 	}
     }
@@ -2476,14 +2479,15 @@ sub get_source_packages {
 	    if (defined $medium->{url}) {
 		foreach ($medium->{start} .. $medium->{end}) {
 		    my $pkg = $urpm->{depslist}[$_];
-		    if (keys(%{$file2fullnames{$pkg->filename} || {}}) > 1) {
-			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $pkg->filename));
+		    my $fi = $pkg->filename;
+		    if (keys(%{$file2fullnames{$fi} || {}}) > 1) {
+			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $fi));
 			next;
-		    } elsif (keys(%{$file2fullnames{$pkg->filename} || {}}) == 1) {
-			my ($fullname) = keys(%{$file2fullnames{$pkg->filename} || {}});
+		    } elsif (keys(%{$file2fullnames{$fi} || {}}) == 1) {
+			my ($fullname) = keys(%{$file2fullnames{$fi} || {}});
 			unless (exists($list_examined{$fullname})) {
 			    ++$list_warning;
-			    defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/" . $pkg->filename;
+			    defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/" . $fi;
 			    $examined{$fullname} = undef;
 			}
 		    }
@@ -2848,7 +2852,7 @@ sub install_logger {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
 	    $urpm->{logger_id} ||= 0;
-	    printf $total_pkg ? "%-33s" : "%-28s", N("Preparing...");
+	    printf($total_pkg ? "%-33s" : "%-28s", N("Preparing..."));
 	} else {
 	    if ($total_pkg) {
 		printf "%9s: %-22s", (++$urpm->{logger_id}) . "/" . $total_pkg, ($pkg && $pkg->name);
@@ -3087,6 +3091,7 @@ sub find_packages_to_remove {
 	}
 	if ($options{matches} || @notfound) {
 	    my $match = join "|", map { quotemeta } @$l;
+	    my $qmatch = qr/$match/;
 
 	    #- reset what has been already found.
 	    %$state = ();
@@ -3094,11 +3099,12 @@ sub find_packages_to_remove {
 
 	    #- search for package that matches, and perform closure again.
 	    $db->traverse(sub {
-			      my ($p) = @_;
-			      $p->fullname =~ /$match/ or return;
-			      $urpm->resolve_rejected($db, $state, $p, removed => 1);
-			      push @m, scalar $p->fullname;
-			  });
+		my ($p) = @_;
+		my $f = scalar $p->fullname;
+		$f =~ $qmatch or return;
+		$urpm->resolve_rejected($db, $state, $p, removed => 1);
+		push @m, $f;
+	    });
 
 	    if (!$options{force} && @notfound) {
 		if (@m) {
@@ -3189,8 +3195,8 @@ sub translate_why_removed {
 	my $frompkg = $urpm->search($from, strict_fullname => 1);
 	my $s;
 	for ($whyk) {
-	    /old_requested/ and
-	    $s .= N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
+	    /old_requested/
+		and $s .= N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
 	    /unsatisfied/ and do {
 		foreach (@$whyv) {
 		    $s and $s .= ', ';
@@ -3201,10 +3207,8 @@ sub translate_why_removed {
 		    }
 		}
 	    };
-	    /conflicts/ and
-	    $s .= N("due to conflicts with %s", $whyv);
-	    /unrequested/ and
-	    $s .= N("unrequested");
+	    /conflicts/ and $s .= N("due to conflicts with %s", $whyv);
+	    /unrequested/ and $s .= N("unrequested");
 	}
 	#- now insert the reason if available.
 	$_ . ($s ? " ($s)" : '');
