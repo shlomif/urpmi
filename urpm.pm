@@ -2875,7 +2875,7 @@ sub install_logger {
     }
 }
 
-#- install packages according to each hashes (install or upgrade).
+#- install packages according to each hash (remove, install or upgrade).
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     my @readmes;
@@ -2927,7 +2927,7 @@ sub install {
 	return N("unable to create transaction");
     }
 
-    my ($update, @l, %file2pkg) = 0;
+    my ($update, @l) = 0;
 
     foreach (@$remove) {
 	if ($trans->remove($_)) {
@@ -2939,7 +2939,6 @@ sub install {
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
 	    my $pkg = $urpm->{depslist}[$_];
-	    $file2pkg{$mode->{$_}} = $pkg;
 	    $pkg->update_header($mode->{$_});
 	    if ($trans->add($pkg, update => $update,
 			    $options{excludepath} ? (excludepath => [ split ',', $options{excludepath} ]) : ())) {
