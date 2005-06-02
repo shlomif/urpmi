@@ -119,11 +119,24 @@ sub check_fs_writable () {
     local *_;
     while (<$mounts>) {
 	(undef, our $mountpoint, undef, my $opts) = split ' ';
-	if ($opts =~ /\bro\b/ && $mountpoint =~ m!^(/|/usr|/s?bin)$!) {
+	if ($opts =~ /\bro\b/ && $mountpoint =~ m!^(/|/usr|/s?bin)\z!) {
 	    return 0;
 	}
     }
     1;
+}
+
+#- create a plain rpm from an installed rpm and a delta rpm (in the current directory)
+#- returns the new rpm filename in case of success
+our $APPLYDELTARPM = '/usr/bin/applydeltarpm';
+sub apply_delta_rpm {
+    my ($deltarpm) = @_;
+    -x $APPLYDELTARPM or return 0;
+    -e $deltarpm or return 0;
+    my $rpm = qx(rpm -qp --qf '%{name}-%{version}-%{release}.%{arch}.rpm' '$deltarpm');
+    $rpm or return 0;
+    warn "[$APPLYDELTARPM -vp $deltarpm $rpm]\n";
+    (!system($APPLYDELTARPM, '-vp', $deltarpm, $rpm)) ? $rpm : 0;
 }
 
 1;
