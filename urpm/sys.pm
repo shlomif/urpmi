@@ -128,12 +128,20 @@ sub check_fs_writable () {
 
 #- create a plain rpm from an installed rpm and a delta rpm (in the current directory)
 #- returns the new rpm filename in case of success
+#- params :
+#-	$deltarpm : full pathname of the deltarpm
+#-	$pkg : URPM::Package object corresponding to the deltarpm (optional)
 our $APPLYDELTARPM = '/usr/bin/applydeltarpm';
 sub apply_delta_rpm {
-    my ($deltarpm) = @_;
+    my ($deltarpm, $pkg) = @_;
     -x $APPLYDELTARPM or return 0;
     -e $deltarpm or return 0;
-    my $rpm = qx(rpm -qp --qf '%{name}-%{version}-%{release}.%{arch}.rpm' '$deltarpm');
+    my $rpm;
+    if ($pkg) {
+	$rpm = $pkg->name . '-' . $pkg->version . '-' . $pkg->release . '.' . $pkg->arch . '.rpm';
+    } else {
+	$rpm = qx(rpm -qp --qf '%{name}-%{version}-%{release}.%{arch}.rpm' '$deltarpm');
+    }
     $rpm or return 0;
     unlink $rpm;
     system($APPLYDELTARPM, '-vp', $deltarpm, $rpm);
