@@ -130,23 +130,23 @@ sub check_fs_writable () {
 #- returns the new rpm filename in case of success
 #- params :
 #-	$deltarpm : full pathname of the deltarpm
-#-	$dir : directory where to put the produced rpm (optional)
-#-	$pkg : URPM::Package object corresponding to the deltarpm (optional)
+#-	$o_dir : directory where to put the produced rpm (optional)
+#-	$o_pkg : URPM::Package object corresponding to the deltarpm (optional)
 our $APPLYDELTARPM = '/usr/bin/applydeltarpm';
 sub apply_delta_rpm {
-    my ($deltarpm, $dir, $pkg) = @_;
+    my ($deltarpm, $o_dir, $o_pkg) = @_;
     -x $APPLYDELTARPM or return 0;
     -e $deltarpm or return 0;
     my $rpm;
-    if ($pkg) {
-	$rpm = $pkg->name . '-' . $pkg->version . '-' . $pkg->release . '.' . $pkg->arch . '.rpm';
+    if ($o_pkg) {
+	$rpm = $o_pkg->name . '-' . $o_pkg->version . '-' . $o_pkg->release . '.' . $o_pkg->arch . '.rpm';
     } else {
 	$rpm = qx(rpm -qp --qf '%{name}-%{version}-%{release}.%{arch}.rpm' '$deltarpm');
     }
     $rpm or return 0;
-    $rpm = $dir . '/' . $rpm;
+    $rpm = $o_dir . '/' . $rpm;
     unlink $rpm;
-    system($APPLYDELTARPM, '-vp', $deltarpm, $rpm);
+    system($APPLYDELTARPM, $deltarpm, $rpm);
     -e $rpm ? $rpm : '';
 }
 
