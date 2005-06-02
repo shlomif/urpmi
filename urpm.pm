@@ -2928,6 +2928,7 @@ sub install {
     }
 
     my ($update, @l) = 0;
+    my @produced_deltas;
 
     foreach (@$remove) {
 	if ($trans->remove($_)) {
@@ -2940,8 +2941,17 @@ sub install {
 	foreach (keys %$mode) {
 	    my $pkg = $urpm->{depslist}[$_];
 	    $pkg->update_header($mode->{$_});
+	    if ($pkg->payload_format eq 'drpm') { #- handle deltarpms
+		my $true_rpm = urpm::sys::apply_delta_rpm($mode->{$_}, "$urpm->{cachedir}/rpms", $pkg);
+		if ($true_rpm) {
+		    push @produced_deltas, ($mode->{$_} = $true_rpm); #- fix path
+		} else {
+		    $urpm->{error}(N("unable to extract rpm from delta-rpm package %s", $mode->{$_}));
+		}
+	    }
 	    if ($trans->add($pkg, update => $update,
-			    $options{excludepath} ? (excludepath => [ split ',', $options{excludepath} ]) : ())) {
+		    $options{excludepath} ? (excludepath => [ split /,/, $options{excludepath} ]) : ()
+	    )) {
 		$urpm->{log}(N("adding package %s (id=%d, eid=%d, update=%d, file=%s)", scalar($pkg->fullname),
 			       $_, $pkg->id, $update, $mode->{$_}));
 	    } else {
@@ -2993,6 +3003,7 @@ sub install {
 	    }
 	}
     }
+    unlink @produced_deltas;
 
     #- now exit or return according to current status.
     if (defined $pid && !$pid) { #- child process
