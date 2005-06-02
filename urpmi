@@ -613,14 +613,19 @@ foreach my $set (@{$state->{transaction} || []}) {
 		message(N("removing %s", join(' ', @{!$urpm->{options}{'allow-force'} && $set->{remove} || []})));
 	    log_it(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
+	    my %install_options_common = (
+		test => $test,
+		excludepath => $urpm->{options}{excludepath},
+		excludedocs => $urpm->{options}{excludedocs},
+		post_clean_cache => $urpm->{options}{'post-clean'},
+		translate_message => 1,
+		oldpackage => $state->{oldpackage},
+	    );
 	    my @l = $urpm->install(
 		!$urpm->{options}{'allow-force'} && $set->{remove} || [],
 		\%transaction_sources_install, \%transaction_sources,
 		'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
-		translate_message => 1,
-		oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-		test => $test,
-		excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
+		%install_options_common,
 	    );
 	    if (@l) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
@@ -637,11 +642,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 			!$urpm->{options}{'allow-force'} && $set->{remove} || [],
 			\%transaction_sources_install, \%transaction_sources,
 			'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
-			translate_message => 1, nodeps => 1,
-			oldpackage => $state->{oldpackage}, post_clean_cache => $urpm->{options}{'post-clean'},
-			test => $test,
-			excludepath => $urpm->{options}{excludepath},
-			excludedocs => $urpm->{options}{excludedocs},
+			nodeps => 1,
+			%install_options_common,
 		    );
 		    if (@l) {
 			message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
@@ -656,12 +658,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 				!$urpm->{options}{'allow-force'} && $set->{remove} || [],
 				\%transaction_sources_install, \%transaction_sources,
 				'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
-				translate_message => 1, nodeps => 1, force => 1,
-				oldpackage => $state->{oldpackage},
-				post_clean_cache => $urpm->{options}{'post-clean'},
-				test => $test,
-				excludepath => $urpm->{options}{excludepath},
-				excludedocs => $urpm->{options}{excludedocs},
+				nodeps => 1, force => 1,
+				%install_options_common,
 			    );
 			    if (@l) {
 				message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
