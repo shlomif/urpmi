@@ -135,8 +135,9 @@ sub apply_delta_rpm {
     -e $deltarpm or return 0;
     my $rpm = qx(rpm -qp --qf '%{name}-%{version}-%{release}.%{arch}.rpm' '$deltarpm');
     $rpm or return 0;
-    warn "[$APPLYDELTARPM -vp $deltarpm $rpm]\n";
-    (!system($APPLYDELTARPM, '-vp', $deltarpm, $rpm)) ? $rpm : 0;
+    unlink $rpm;
+    system($APPLYDELTARPM, '-vp', $deltarpm, $rpm);
+    -e $rpm ? $rpm : '';
 }
 
 1;
