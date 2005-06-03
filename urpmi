@@ -447,7 +447,7 @@ my @root_only;
 
 foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
     #- reflect change in flag usage, now requested is set whatever a package is selected or not,
-    #- but required is always set (so a required but not requested is a pure dependencies).
+    #- but required is always set (so a required but not requested is a pure dependency).
     $ask_user ||= !$pkg->flag_requested || $auto_select || $parallel;
 
     my $fullname = $pkg->fullname;
@@ -481,9 +481,11 @@ if (@root_only) {
     message_input("$msg:\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
 }
 
-my ($local_sources, $list) = $urpm->get_source_packages($state->{selected},
-							clean_all => $clean,
-							clean_other => !$noclean && $urpm->{options}{'pre-clean'});
+my ($local_sources, $list) = $urpm->get_source_packages(
+    $state->{selected},
+    clean_all => $clean,
+    clean_other => !$noclean && $urpm->{options}{'pre-clean'},
+);
 unless ($local_sources || $list) {
     $urpm->{fatal}(3, N("unable to get source packages, aborting"));
 }

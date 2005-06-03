@@ -2498,7 +2498,7 @@ sub get_source_packages {
 		$urpm->{error}(N("medium \"%s\" does not define any location for rpm files", $medium->{name}));
 	    }
 	}
-	push @list, \%sources if keys %sources;
+	push @list, \%sources;
     }
 
     #- examine package list to see if a package has not been found.
@@ -2622,7 +2622,8 @@ sub copy_packages_of_removable_media {
     my %removables;
 
     #- make sure everything is correct on input...
-    @{$urpm->{media} || []} == @$list or return;
+    $urpm->{media} or return;
+    @{$urpm->{media}} == @$list or return;
 
     #- examine if given medium is already inside a removable device.
     my $check_notfound = sub {
