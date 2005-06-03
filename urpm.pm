@@ -496,7 +496,7 @@ sub configure {
 	    }
 	}
 	if ($options{searchmedia}) {
-	   $urpm->select_media($options{searchmedia}); # Ensure this media has been selected
+	   $urpm->select_media($options{searchmedia}); #- Ensure this media has been selected
 	   foreach (grep { !$_->{ignore} } @{$urpm->{media} || []}) {
 		$_->{name} eq $options{searchmedia} and do {
 			$_->{searchmedia} = 1;
@@ -2238,16 +2238,25 @@ sub search_packages {
 	}
     }
 
-    #- return true if no error has been encoutered, else false.
+    #- return true if no error has been encountered, else false.
     $result;
 }
 
 #- Resolves dependencies between requested packages (and auto selection if any).
 #- handles parallel option if any.
 #- The return value is true if program should be restarted (in order to take
-#- care of important packages being upgraded (notably urpmi and perl-URPM, but
-#- maybe rpm too, and glibc also ?).
+#- care of important packages being upgraded (priority upgrades)
+#- %options :
+#-	rpmdb
+#-	auto_select
+#-	callback_choices
+#-	install_src
+#-	keep
+#-	nodeps
+#-	priority_upgrade
 sub resolve_dependencies {
+    #- $state->{selected} will contain the selection of packages to be
+    #- installed or upgraded
     my ($urpm, $state, $requested, %options) = @_;
     my $need_restart;
 
@@ -2297,10 +2306,9 @@ sub resolve_dependencies {
 
 	if ($options{priority_upgrade} && !$options{rpmdb}) {
 	    my (%priority_upgrade, %priority_requested);
-	    @priority_upgrade{split ',', $options{priority_upgrade}} = ();
+	    @priority_upgrade{split /,/, $options{priority_upgrade}} = ();
 
-	    #- try to find if a priority upgrade should be tried, this is erwan feature he waited for months :)
-	    #- this can be also considered as a special gift...
+	    #- check if a priority upgrade should be tried
 	    foreach (keys %{$state->{selected}}) {
 		my $pkg = $urpm->{depslist}[$_] or next;
 		exists $priority_upgrade{$pkg->name} or next;
@@ -2322,8 +2330,6 @@ sub resolve_dependencies {
 	    }
 	}
     }
-
-    #- allow caller to know if it should try to restart.
     $need_restart;
 }
 
@@ -2541,20 +2547,17 @@ sub download_source_packages {
 #- safety rpm db locking mechanism
 sub exlock_rpm_db {
     my ($urpm) = @_;
-
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_EX, $LOCK_NB) = (2, 4);
-
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
     open RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
     flock RPMLOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
+
 sub shlock_rpm_db {
     my ($urpm) = @_;
-
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_SH, $LOCK_NB) = (1, 4);
-
     #- create the .LOCK file if needed (and if possible)
     unless (-e "$urpm->{root}/$urpm->{statedir}/.RPMLOCK") {
 	open RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
@@ -2564,15 +2567,13 @@ sub shlock_rpm_db {
     open RPMLOCK_FILE, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK" or return;
     flock RPMLOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
+
 sub unlock_rpm_db {
     my ($urpm) = @_;
-
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my $LOCK_UN = 8;
-
     #- now everything is finished.
     system("sync");
-
     #- release lock on database.
     flock RPMLOCK_FILE, $LOCK_UN;
     close RPMLOCK_FILE;
@@ -2580,20 +2581,17 @@ sub unlock_rpm_db {
 
 sub exlock_urpmi_db {
     my ($urpm) = @_;
-
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_EX, $LOCK_NB) = (2, 4);
-
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
     open LOCK_FILE, ">$urpm->{statedir}/.LOCK";
     flock LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
+
 sub shlock_urpmi_db {
     my ($urpm) = @_;
-
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_SH, $LOCK_NB) = (1, 4);
-
     #- create the .LOCK file if needed (and if possible)
     unless (-e "$urpm->{statedir}/.LOCK") {
 	open LOCK_FILE, ">$urpm->{statedir}/.LOCK";
@@ -2603,15 +2601,13 @@ sub shlock_urpmi_db {
     open LOCK_FILE, "$urpm->{statedir}/.LOCK" or return;
     flock LOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
+
 sub unlock_urpmi_db {
     my ($urpm) = @_;
-
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my $LOCK_UN = 8;
-
     #- now everything is finished.
     system("sync");
-
     #- release lock on database.
     flock LOCK_FILE, $LOCK_UN;
     close LOCK_FILE;
