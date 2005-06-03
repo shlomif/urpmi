@@ -255,7 +255,7 @@ sub probe_medium {
 	$_->{name} eq $medium->{name} and $existing_medium = $_, last;
     }
     $existing_medium and $urpm->{error}(N("trying to bypass existing medium \"%s\", avoiding", $medium->{name})), return;
-    
+
     $medium->{url} ||= $medium->{clear_url};
 
     if ($medium->{virtual}) {
@@ -390,7 +390,7 @@ sub write_config {
 	'' => $urpm->{global_config},
     };
     foreach my $medium (@{$urpm->{media}}) {
-	next if $medium->{external}; 
+	next if $medium->{external};
 	my $medium_name = $medium->{name};
 	$config->{$medium_name}{url} = $medium->{clear_url};
 	foreach (qw(hdlist with_hdlist list removable key-ids priority priority-upgrade update noreconfigure static ignore synthesis virtual)) {
@@ -1023,7 +1023,7 @@ sub update_media {
 	$medium->{ignore} and next;
 
 	$options{forcekey} and delete $medium->{'key-ids'};
-	
+
 	#- we should create the associated synthesis file if it does not already exist...
 	-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" && -s _ > 32
 	    or $medium->{modified_synthesis} = 1;
@@ -2172,18 +2172,15 @@ sub search_packages {
 	}
 
 	foreach my $id (defined $urpm->{searchmedia} ?
-		($urpm->{searchmedia}{start} .. $urpm->{searchmedia}{end}) :
-		(0 .. $#{$urpm->{depslist}})) {
-	    
+	    ($urpm->{searchmedia}{start} .. $urpm->{searchmedia}{end}) :
+	    (0 .. $#{$urpm->{depslist}})
+	) {
 	    my $pkg = $urpm->{depslist}[$id];
-
 	    ($options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
-
 	    my $pack_name = $pkg->name;
 	    my $pack_ra = $pack_name . '-' . $pkg->version;
 	    my $pack_a = "$pack_ra-" . $pkg->release;
 	    my $pack = "$pack_a." . $pkg->arch;
-
 	    unless ($options{fuzzy}) {
 		if ($pack eq $v) {
 		    $exact{$v} = $id;
@@ -2196,7 +2193,6 @@ sub search_packages {
 		    next;
 		}
 	    }
-
 	    $pack =~ /$qv/ and push @{$found{$v}}, $id;
 	    $pack =~ /$qv/i and push @{$foundi{$v}}, $id unless $options{caseinsensitive};
 	}
@@ -2440,16 +2436,16 @@ sub get_source_packages {
 
 	if (defined $medium->{start} && defined $medium->{end} && !$medium->{ignore}) {
 	    #- always prefer a list file if available.
-	    my $file = $medium->{list} ? "$urpm->{statedir}/$medium->{list}" : '';
-	    if (!$file && $medium->{virtual}) {
+	    my $listfile = $medium->{list} ? "$urpm->{statedir}/$medium->{list}" : '';
+	    if (!$listfile && $medium->{virtual}) {
 		my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!;
 		my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 		my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
-		$file = reduce_pathname("$with_hdlist_dir/../$local_list");
-		-s $file or $file = "$dir/list";
+		$listfile = reduce_pathname("$with_hdlist_dir/../$local_list");
+		-s $listfile or $listfile = "$dir/list";
 	    }
-	    if ($file && -r $file) {
-		my $fh = $urpm->open_safe('<', $file);
+	    if ($listfile && -r $listfile) {
+		my $fh = $urpm->open_safe('<', $listfile);
 		if ($fh) {
 		    while (<$fh>) {
 			chomp;
@@ -2466,13 +2462,13 @@ sub get_source_packages {
 			} else {
 			    chomp;
 			    $error = 1;
-			    $urpm->{error}(N("unable to correctly parse [%s] on value \"%s\"", $file, $_));
+			    $urpm->{error}(N("unable to correctly parse [%s] on value \"%s\"", $listfile, $_));
 			    last;
 			}
 		    }
 		    close $fh;
 		}
-	    } elsif ($file && -e $file) {
+	    } elsif ($listfile && -e $listfile) {
 		# list file exists but isn't readable
 		# report error only if no result found, list files are only readable by root
 		push @list_error, N("unable to access list file of \"%s\", medium ignored", $medium->{name});
