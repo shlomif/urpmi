@@ -2461,8 +2461,11 @@ sub get_source_packages {
 				next;
 			    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 				my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-				defined($id = $fullname2id{$fullname})
-				    and $sources{$id} = $medium->{virtual} ? "$medium->{url}/$_" : $_;
+				if (defined($id = $fullname2id{$fullname})) {
+				    if (!/\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $options{root})) {
+					$sources{$id} = $medium->{virtual} ? "$medium->{url}/$_" : $_;
+				    }
+				}
 				$list_examined{$fullname} = $examined{$fullname} = undef;
 			    }
 			} else {
@@ -2491,7 +2494,11 @@ sub get_source_packages {
 			my ($fullname) = keys(%{$file2fullnames{$fi} || {}});
 			unless (exists($list_examined{$fullname})) {
 			    ++$list_warning;
-			    defined($id = $fullname2id{$fullname}) and $sources{$id} = "$medium->{url}/" . $fi;
+			    if (defined($id = $fullname2id{$fullname})) {
+				if ($fi !~ /\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $options{root})) {
+				    $sources{$id} = "$medium->{url}/" . $fi;
+				}
+			    }
 			    $examined{$fullname} = undef;
 			}
 		    }
@@ -2517,6 +2524,23 @@ sub get_source_packages {
     }
 
     $error ? @{[]} : (\%local_sources, \@list);
+}
+
+sub is_delta_installable {
+    my ($urpm, $pkg, $root) = @_;
+    $pkg->flag_installed or return 0;
+    my $f = $pkg->filename;
+    my $n = $pkg->name;
+    my ($v_match) = $f =~ /^\Q$n\E-(.*)_.+\.delta\.rpm$/;
+    my $db = URPM::DB::open($root)
+	or $urpm->{fatal}(9, N("unable to open rpmdb"));
+    my $v_installed;
+    $db->traverse(sub {
+	my ($p) = @_;
+	$p->name eq $n and $v_installed = $p->version . '-' . $p->release;
+    });
+    return 0 if $v_match ne $v_installed;
+    1;
 }
 
 #- download package that may need to be downloaded.
