@@ -2452,14 +2452,15 @@ sub get_source_packages {
 		my $fh = $urpm->open_safe('<', $file);
 		if ($fh) {
 		    while (<$fh>) {
+			chomp;
 			if (my ($filename) = m|/([^/]*\.rpm)$|) {
 			    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
 				$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
 				next;
 			    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 				my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-				defined($id = $fullname2id{$fullname}) and $sources{$id} =
-				  $medium->{virtual} ? "$medium->{url}/$_" : $_;
+				defined($id = $fullname2id{$fullname})
+				    and $sources{$id} = $medium->{virtual} ? "$medium->{url}/$_" : $_;
 				$list_examined{$fullname} = $examined{$fullname} = undef;
 			    }
 			} else {
