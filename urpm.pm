@@ -2498,7 +2498,7 @@ sub get_source_packages {
 		$urpm->{error}(N("medium \"%s\" does not define any location for rpm files", $medium->{name}));
 	    }
 	}
-	push @list, \%sources;
+	push @list, \%sources if keys %sources;
     }
 
     #- examine package list to see if a package has not been found.
