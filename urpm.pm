@@ -2404,7 +2404,8 @@ sub get_source_packages {
     my $dh = $urpm->opendir_safe("$urpm->{cachedir}/rpms");
     if ($dh) {
 	while (defined($_ = readdir $dh)) {
-	    if (my ($filename) = m|^([^/]*\.rpm)$|) {
+	    if (/\.rpm$/) {
+		my $filename = $_;
 		my $filepath = "$urpm->{cachedir}/rpms/$filename";
 		if (!$options{clean_all} && -s $filepath) {
 		    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
