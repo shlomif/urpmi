@@ -2539,8 +2539,7 @@ sub is_delta_installable {
 	my ($p) = @_;
 	$p->name eq $n and $v_installed = $p->version . '-' . $p->release;
     });
-    return 0 if $v_match ne $v_installed;
-    1;
+    $v_match eq $v_installed;
 }
 
 #- download package that may need to be downloaded.
