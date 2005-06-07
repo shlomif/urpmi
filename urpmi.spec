@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.3
-%define release 2mdk
+%define version	4.7.4
+%define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -30,7 +30,8 @@ URL:		http://cvs.mandriva.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
 Requires(pre):	perl-Locale-gettext >= 1.01-14mdk
 Requires(pre):	rpmtools >= 4.5
-Requires(pre):	perl-URPM >= 1.08
+Requires(pre):	perl-URPM >= 1.22
+Requires:	perl-URPM >= 1.22
 Requires(pre):	packdrake >= 5.0.2
 BuildRequires:	%{buildreq_locale} bzip2-devel
 BuildRequires:	gettext
@@ -249,6 +250,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Tue Jun 07 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.4-1mdk
+- Implement basic support for installing delta rpms
+- Fix bug #16104 in gurpmi: choice window wasn't working
+- Implement -RR in urpmq to search through virtual packages as well (bug 15895)
+- Manpage updates
+
 * Tue May 17 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.3-2mdk
 - Previous release was broken
 
