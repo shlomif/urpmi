@@ -2526,6 +2526,10 @@ sub get_source_packages {
     $error ? @{[]} : (\%local_sources, \@list);
 }
 
+#- checks whether the delta RPM represented by $pkg is installable wrt the
+#- RPM DB on $root. For this, it extracts the rpm version to which the
+#- delta applies from the delta rpm filename itself. So naming conventions
+#- do matter :)
 sub is_delta_installable {
     my ($urpm, $pkg, $root) = @_;
     $pkg->flag_installed or return 0;
