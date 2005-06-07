@@ -6,14 +6,20 @@ urpme \- rpm wrapper making deinstalls easier for the user
 .B urpme [\fIoptions\fP] [\fIpackage_names\fP]
 .SH DESCRIPTION
 urpme allow packages to be deinstalled, including all their dependencies.
+\fIpackage_names\fP must have one of the forms \fIname\fP, \fIname-version\fP,
+\fIname-version-release\fP, or \fIname-version-release.architecture\fP. If
+you want to specify packages more broadly, use the \fB-a\fP option.
 .SH OPTIONS
 .IP "\fB\--help\fP"
-Print a help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
+Prints a help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
+.IP "\fB\-a\fP"
+If multiple packages match the given substring, deinstall them all.
+.IP "\fB\-v\fP"
+Proposes a verbose mode with various messages.
 .IP "\fB\--auto\fP"
-Remove packages automatically.
+Removes packages non-interactively, without asking questions.
 .IP "\fB\--test\fP"
-Test (same as \fBrpm --test\fP) deinstallation of packages but do not modify the
-system.
+Test deinstallation of packages but do not modify the system.
 .IP "\fB\--force\fP"
 Force invocation even if some packages do not exist.
 .IP "\fB\--parallel\fP \fIalias\fP"
@@ -27,10 +33,6 @@ file /etc/urpmi/parallel.cfg as described below.
 Use the file system tree rooted for rpm install. All operations and scripts
 will run after chroot(2). The rpm database that lies in the rooted tree will
 be used, but the urpmi configuration comes from the normal system.
-.IP "\fB\-v\fP"
-Proposes a verbose mode with various messages.
-.IP "\fB\-a\fP"
-If multiple packages match the given substring, deinstall them all.
 .SH FILES
 See \fIurpmi.files\fP(5).
 .SH EXIT CODES
@@ -39,7 +41,7 @@ Command line inconsistency.
 .IP 2
 Removing of packages failed.
 .SH AUTHORS
-Pascal Rigaux, Francois Pons, Rafael Garcia-Suarez,
+Pascal Rigaux, Francois Pons, Rafael Garcia-Suarez
 <rgarciasuarez@mandriva.com> (current maintainer)
 .SH SEE ALSO
 \fIurpmi.addmedia\fP(8),
