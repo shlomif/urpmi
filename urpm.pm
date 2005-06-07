@@ -3068,7 +3068,7 @@ sub find_packages_to_remove {
 	    foreach (@$l) {
 		my ($n, $found);
 
-		#- check if name-version-release may have been given.
+		#- check if name-version-release-architecture may have been given.
 		if (($n) = /^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/) {
 		    $db->traverse_tag('name', [ $n ], sub {
 					  my ($p) = @_;
