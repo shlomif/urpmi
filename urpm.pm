@@ -3140,7 +3140,7 @@ sub find_packages_to_remove {
 
 	    if (!$options{force} && @notfound) {
 		if (@m) {
-		    $options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, $match, @m)
+		    $options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, @$l > 1 ? $match : $l->[0], @m)
 		      or return ();
 		} else {
 		    $options{callback_notfound} and $options{callback_notfound}->($urpm, @notfound)
