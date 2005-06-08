@@ -92,7 +92,7 @@ sub parallel_find_remove {
 
     #- if at least one node has the package, it should be seen as unknown...
     delete @notfound{map { /^(.*)-[^-]*-[^-]*$/ } keys %{$state->{rejected}}};
-    if (%notfound) {
+    if (keys %notfound) {
 	$options{callback_notfound} and $options{callback_notfound}->($urpm, keys %notfound)
 	  or delete $state->{rejected};
     }
@@ -136,7 +136,7 @@ sub parallel_resolve_dependencies {
 		}
 		$_ = $best_requested || $best;
 	    }
-	    #- simplified choices resolution.
+	    #- simplified choice resolution.
 	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ values %$packages ]);
 	    if ($choice) {
 		$urpm->{source}{$choice->id} and next; #- local packages have already been added.
@@ -228,7 +228,7 @@ sub parallel_install {
 	exists $bad_nodes{$_} or next;
 	$urpm->{error}(urpm::N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
     }
-    %bad_nodes and return;
+    keys %bad_nodes and return;
 
     if ($options{test}) {
 	$urpm->{error}(urpm::N("Installation is possible"));
