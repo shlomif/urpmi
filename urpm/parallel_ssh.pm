@@ -250,10 +250,10 @@ sub parallel_install {
                 $log .= $_;
                 /\n/ and $log = '';
                 if (my ($msg, $progress) = $log =~ /^\s*(\S+)\s+(#+)/) {
-                    if ($urpm->{ui} && (gettimeofday() - $last_time > 0.15 || length($progress) == 50)) {
+                    if ($urpm->{ui} && (gettimeofday() - $last_time > 0.15 || length($progress) == 45)) {
                         $urpm->{ui_msg}->($msg =~ /\d+:(\S+)/ ? urpm::N("Installing %s on %s...", $1, $node)
                                                                : urpm::N("Preparing install on %s...", $node));
-                        $urpm->{ui}{progress}->(length($progress)/50) if ref $urpm->{ui}{progress};
+                        $urpm->{ui}{progress}->(length($progress)/45) if ref $urpm->{ui}{progress};
                         $last_time = gettimeofday();
                     }
                 }
