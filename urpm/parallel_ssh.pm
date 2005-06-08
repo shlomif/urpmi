@@ -1,4 +1,5 @@
 package urpm::parallel_ssh;
+
 use Time::HiRes qw(gettimeofday);
 
 #- parallel copy
@@ -8,7 +9,7 @@ sub parallel_register_rpms {
     foreach (keys %{$parallel->{nodes}}) {
 	my $sources = join ' ', map { "'$_'" } @files;
 	$urpm->{log}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms");
-	system "scp $sources $_:$urpm->{cachedir}/rpms";
+	system 'scp' => $sources, "$_:$urpm->{cachedir}/rpms";
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
@@ -25,7 +26,7 @@ sub parallel_find_remove {
     my ($test, $node, %bad_nodes, %base_to_remove, %notfound);
     local (*F, $_);
 
-    #- keep in mind if the previous selection is still active, it avoid
+    #- keep in mind if the previous selection is still active, it avoids
     #- to re-start urpme --test on each node.
     if ($options{find_packages_to_remove}) {
 	delete $state->{rejected};
@@ -104,8 +105,8 @@ sub parallel_resolve_dependencies {
 
     #- first propagate the synthesis file to all machine.
     foreach (keys %{$parallel->{nodes}}) {
-        $urpm->{ui_msg}("parallel_ssh: scp -q '$synthesis' '$_:$synthesis'", urpm::N("Propagating synthesis to %s...", $_));
-	system "scp -q '$synthesis' '$_:$synthesis'";
+	$urpm->{ui_msg}("parallel_ssh: scp -q '$synthesis' '$_:$synthesis'", urpm::N("Propagating synthesis to %s...", $_));
+	system "scp", "-q", $synthesis, "$_:$synthesis";
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
     $parallel->{synthesis} = $synthesis;
@@ -202,8 +203,8 @@ sub parallel_install {
 
     foreach (keys %{$parallel->{nodes}}) {
 	my $sources = join ' ', map { "'$_'" } values %$install, values %$upgrade;
-        $urpm->{ui_msg}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms", urpm::N("Distributing files to %s...", $_));
-	system "scp $sources $_:$urpm->{cachedir}/rpms";
+	$urpm->{ui_msg}("parallel_ssh: scp $sources $_:$urpm->{cachedir}/rpms", urpm::N("Distributing files to %s...", $_));
+	system "scp", $sources, "$_:$urpm->{cachedir}/rpms";
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
