@@ -246,7 +246,7 @@ sub parallel_install {
                 /\n/ and $log = '';
                 if (my ($msg, $progress) = $log =~ /^\s*(\S+)\s+(#+)/) {
                     if ($urpm->{ui} && (gettimeofday() - $last_time > 0.15 || length($progress) == 50)) {
-                        $urpm->{ui}{msg}->($msg =~ /\d+:(\S+)/ ? urpm::N("Installing %s on %s...", $1, $node)
+                        $urpm->{ui_msg}->($msg =~ /\d+:(\S+)/ ? urpm::N("Installing %s on %s...", $1, $node)
                                                                : urpm::N("Preparing install on %s...", $node));
                         $urpm->{ui}{progress}->(length($progress)/50) if ref $urpm->{ui}{progress};
                         $last_time = gettimeofday();
