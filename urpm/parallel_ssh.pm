@@ -24,7 +24,7 @@ sub parallel_register_rpms {
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
     my ($test, $node, %bad_nodes, %base_to_remove, %notfound);
-    local (*F, $_);
+    local $_;
 
     #- keep in mind if the previous selection is still active, it avoids
     #- to re-start urpme --test on each node.
@@ -42,9 +42,9 @@ sub parallel_find_remove {
     #- now try an iteration of urpme.
     foreach my $node (keys %{$parallel->{nodes}}) {
         $urpm->{log}("parallel_ssh: ssh $node urpme --no-locales --auto $test".(join ' ', map { "'$_'" } @$l));
-	open F, "ssh 2>&1 $node urpme --no-locales --auto $test".(join ' ', map { "'$_'" } @$l)." |"
+	open my $fh, "ssh 2>&1 $node urpme --no-locales --auto $test".(join ' ', map { "'$_'" } @$l)." |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!\n");
-	while (defined ($_ = <F>)) {
+	while (defined ($_ = <$fh>)) {
 	    chomp;
 	    /^\s*$/ and next;
 	    /Checking to remove the following packages/ and next;
@@ -73,7 +73,7 @@ sub parallel_find_remove {
 		}
 	    }
 	}
-	close F;
+	close $fh;
     }
 
     #- check base, which has been delayed until there.
@@ -103,7 +103,7 @@ sub parallel_find_remove {
 sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
 
-    #- first propagate the synthesis file to all machine.
+    #- first propagate the synthesis file to all machines
     foreach (keys %{$parallel->{nodes}}) {
 	$urpm->{ui_msg}("parallel_ssh: scp -q '$synthesis' '$_:$synthesis'", urpm::N("Propagating synthesis to %s...", $_));
 	system "scp", "-q", $synthesis, "$_:$synthesis";
@@ -150,7 +150,7 @@ sub parallel_resolve_dependencies {
 
     #- execute urpmq to determine packages to install.
     my ($node, $cont, %chosen);
-    local (*F, $_);
+    local $_;
     do {
 	$cont = 0; #- prepare to stop iteration.
 	#- the following state should be cleaned for each iteration.
@@ -158,9 +158,9 @@ sub parallel_resolve_dependencies {
 	#- now try an iteration of urpmq.
 	foreach my $node (keys %{$parallel->{nodes}}) {
             $urpm->{ui_msg}("parallel_ssh: ssh $node urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen), urpm::N("Resolving dependencies on %s...", $node));
-	    open F, "ssh $node urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen)." |"
+	    open my $fh, "ssh $node urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen)." |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!\n");
-	    while (defined ($_ = <F>)) {
+	    while (defined ($_ = <$fh>)) {
 		chomp;
 		if (my ($action, $what) = /^\@([^\@]*)\@(.*)/) {
 		    if ($action eq 'removing') {
@@ -187,7 +187,7 @@ sub parallel_resolve_dependencies {
 		    $state->{selected}{$pkg->id}{$node} = $_;
 		}
 	    }
-	    close F or $urpm->{fatal}(1, urpm::N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
+	    close $fh or $urpm->{fatal}(1, urpm::N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
 	}
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
@@ -210,16 +210,16 @@ sub parallel_install {
 
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
-	local (*F, $_);
+	local $_;
         $urpm->{ui_msg}("parallel_ssh: ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", urpm::N("Verifying if install is possible on %s...", $node));
-	open F, "ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |"
+	open my $fh, "ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!\n");
-	while ($_ = <F>) {
+	while ($_ = <$fh>) {
 	    $bad_nodes{$node} .= $_;
 	    /Installation failed/ and $bad_nodes{$node} = '';
 	    /Installation is possible/ and delete $bad_nodes{$node}, last;
 	}
-	close F;
+	close $fh;
     }
     foreach (keys %{$parallel->{nodes}}) {
 	exists $bad_nodes{$_} or next;
@@ -232,16 +232,16 @@ sub parallel_install {
 	1;
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath $options{excludepath}" : "");
-	#- continue installation on each nodes.
+	#- continue installation on each node
 	foreach my $node (keys %{$parallel->{nodes}}) {
             $urpm->{ui_msg}("parallel_ssh: ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line", urpm::N("Performing install on %s...", $node));
             $urpm->{ui}{progress}->(0) if ref $urpm->{ui}{progress};
-	    open F, "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line |"
+	    open my $fh, "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!\n");
             local $/ = \1;
             my $log;
             my $last_time;
-            while ($_ = <F>) {
+            while ($_ = <$fh>) {
                 print;
                 $log .= $_;
                 /\n/ and $log = '';
@@ -254,7 +254,7 @@ sub parallel_install {
                     }
                 }
             }
-            close F;
+            close $fh;
 	}
     }
 }
