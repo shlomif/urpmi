@@ -52,8 +52,8 @@ sub parallel_find_remove {
 	    /To satisfy dependencies, the following packages are going to be removed/
 	      and $urpm->{fatal}(1, ("node %s has bad version of urpme, please upgrade", $node));
 	    if (/unknown packages?:? (.*)/) {
-		#- keep in mind unknown package from the node, because it should not be a fatal error
-		#- if other node have it.
+		#- remember unknown packages from the node, because it should not be a fatal error
+		#- if other nodes have it.
 		@notfound{split /, /, $1} = ();
 	    } elsif (/The following packages contain ([^:]*): (.*)/) {
 		$options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, $1, split " ", $2)
@@ -201,7 +201,7 @@ sub parallel_resolve_dependencies {
 
 #- parallel install.
 sub parallel_install {
-    my ($parallel, $urpm, $remove, $install, $upgrade, %options) = @_;
+    my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
     foreach (keys %{$parallel->{nodes}}) {
 	my $sources = join ' ', map { "'$_'" } values %$install, values %$upgrade;
@@ -266,7 +266,7 @@ sub parallel_install {
 #- allow bootstrap from urpmi code directly (namespace is urpm).
 package urpm;
 sub handle_parallel_options {
-    my ($urpm, $options) = @_;
+    my (undef, $options) = @_;
     my ($id, @nodes) = split /:/, $options;
 
     if ($id =~ /^ssh(?:\(([^\)]*)\))?$/) {
