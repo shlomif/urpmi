@@ -35,13 +35,14 @@ Contains media descriptions. See \fIurpmi.cfg\fP(5).
 Contains proxy descriptions for http and ftp media. See \fIproxy.cfg\fP(5).
 .TP
 .FN /etc/urpmi/parallel.cfg
-Contains parallel alias description. Format is
-\fB<alias>:<interface[(media)]>:<interface_parameter>\fP where \fB<alias>\fP is
-a symbolic name, \fB<interface>\fP can be \fBka-run\fP or \fBssh\fP,
-\fB<media>\fP is a media list (as \fB--media\fP parameter),
-\fB<interface_parameter>\fP is a specific interface parameter list like "-c ssh
--m node1 -m node2" for \fBka-run\fP extension or "node1:node2" for \fBssh\fP
-extension.
+Contains the descriptions of parallel aliases, one per line. Their general
+format is \fB<alias>:<interface[(media)]>:<interface_parameter>\fP where
+\fB<alias>\fP is a symbolic name to identify the parallel alias,
+\fB<interface>\fP is one of the parallel install methods (can be \fBka-run\fP
+or \fBssh\fP), \fB<media>\fP is a media list (as given to the \fB--media\fP
+parameter), and finally \fB<interface_parameter>\fP is a specific interface
+parameter list like "-c ssh -m node1 -m node2" for \fBka-run\fP extension or
+"node1:node2" (list of node hostnames) for \fBssh\fP extension.
 .TP
 .FN /etc/urpmi/skip.list
 The list of packages that should not be automatically updated when using
