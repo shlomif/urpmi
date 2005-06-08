@@ -1,15 +1,13 @@
-This extension module allow to use ssh package to perform distributed copy
-of package over network. This is more a sample module which is somewhat slow
-to run distant script.
+This extension module allows to use an ssh connection to perform distributed copy
+of rpm packages over a network.
 
 To use this module, edit /etc/urpmi/parallel.cfg and add an alias line as
-follow :
+follows :
   <name>:ssh:<node list separated by ':'>
 or
   <name>:ssh(<default media>):<node list separated by ':'>
-where <name> is alias name parameter of --parallel options of urpmi,
-      <default media> is default --media parameter for this alias,
-      <node list separated by ':'> is list of node, for example "node1:node2:
-            ...:nodeN".
-
-For any more information, please send mail to <fpons@mandrakesoft.com>.
+where <name> is the "alias name" parameter of --parallel options of the
+	  urpm* tools,
+      <default media> is the default --media parameter for this alias,
+      <node list separated by ':'> is a list of nodes (network hosts),
+	  for example "node1:node2: ...:nodeN".
