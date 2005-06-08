@@ -23,7 +23,7 @@ sub parallel_register_rpms {
 #- parallel find_packages_to_remove
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
-    my ($test, $node, %bad_nodes, %base_to_remove, %notfound);
+    my ($test, %bad_nodes, %base_to_remove, %notfound);
     local $_;
 
     #- keep in mind if the previous selection is still active, it avoids
@@ -54,7 +54,7 @@ sub parallel_find_remove {
 	    if (/unknown packages?:? (.*)/) {
 		#- keep in mind unknown package from the node, because it should not be a fatal error
 		#- if other node have it.
-		@notfound{split ", ", $1} = ();
+		@notfound{split /, /, $1} = ();
 	    } elsif (/The following packages contain ([^:]*): (.*)/) {
 		$options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, $1, split " ", $2)
 		  or delete $state->{rejected}, last;
@@ -140,7 +140,7 @@ sub parallel_resolve_dependencies {
 	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ values %$packages ]);
 	    if ($choice) {
 		$urpm->{source}{$choice->id} and next; #- local packages have already been added.
-		$line .= ' '.$choice->fullname;
+		$line .= ' ' . $choice->fullname;
 	    }
 	} else {
 	    my $pkg = $urpm->{depslist}[$_] or next;
@@ -150,7 +150,7 @@ sub parallel_resolve_dependencies {
     }
 
     #- execute urpmq to determine packages to install.
-    my ($node, $cont, %chosen);
+    my ($cont, %chosen);
     local $_;
     do {
 	$cont = 0; #- prepare to stop iteration.
@@ -173,8 +173,8 @@ sub parallel_resolve_dependencies {
 		    #- distant urpmq returned a choices, check if it has already been chosen
 		    #- or continue iteration to make sure no more choices are left.
 		    $cont ||= 1; #- invalid transitory state (still choices is strange here if next sentence is not executed).
-		    unless (grep { exists $chosen{$_} } split '\|', $_) {
-			my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { $urpm->search($_) } split '\|', $_ ]);
+		    unless (grep { exists $chosen{$_} } split /\|/, $_) {
+			my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { $urpm->search($_) } split /\|/, $_ ]);
 			if ($choice) {
 			    $chosen{scalar $choice->fullname} = $choice;
 			    #- it has not yet been chosen so need to ask user.
@@ -193,10 +193,10 @@ sub parallel_resolve_dependencies {
 	}
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
-    } while ($cont);
+    } while $cont;
 
     #- keep trace of what has been chosen finally (if any).
-    $parallel->{line} = "$line ".join(' ', keys %chosen);
+    $parallel->{line} = "$line " . join(' ', keys %chosen);
 }
 
 #- parallel install.
@@ -267,7 +267,7 @@ sub parallel_install {
 package urpm;
 sub handle_parallel_options {
     my ($urpm, $options) = @_;
-    my ($id, @nodes) = split ':', $options;
+    my ($id, @nodes) = split /:/, $options;
 
     if ($id =~ /^ssh(?:\(([^\)]*)\))?$/) {
 	my %nodes; @nodes{@nodes} = undef;
