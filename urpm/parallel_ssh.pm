@@ -203,7 +203,7 @@ sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
     foreach (keys %{$parallel->{nodes}}) {
-	my @sources = values %$install, values %$upgrade;
+	my @sources = (values %$install, values %$upgrade);
 	$urpm->{ui_msg}("parallel_ssh: scp @sources $_:$urpm->{cachedir}/rpms", urpm::N("Distributing files to %s...", $_));
 	system "scp" => @sources, "$_:$urpm->{cachedir}/rpms";
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
