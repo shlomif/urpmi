@@ -43,7 +43,7 @@ sub parallel_find_remove {
 	my $command = "ssh $node urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l);
         $urpm->{log}("parallel_ssh: $command");
 	open my $fh, "$command 2>&1 |"
-	    or $urpm->{fatal}(1, "Can't fork ssh: $!\n");
+	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
 	while (defined ($_ = <$fh>)) {
 	    chomp;
 	    /^\s*$/ and next;
@@ -160,7 +160,7 @@ sub parallel_resolve_dependencies {
 	    my $command = "ssh $node urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen);
 	    $urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Resolving dependencies on %s...", $node));
 	    open my $fh, "$command |"
-		or $urpm->{fatal}(1, "Can't fork ssh: $!\n");
+		or $urpm->{fatal}(1, "Can't fork ssh: $!");
 	    while (defined ($_ = <$fh>)) {
 		chomp;
 		if (my ($action, $what) = /^\@([^\@]*)\@(.*)/) {
@@ -215,7 +215,7 @@ sub parallel_install {
 	my $command = "ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}";
 	$urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Verifying if install is possible on %s...", $node));
 	open my $fh, "$command |"
-	    or $urpm->{fatal}(1, "Can't fork ssh: $!\n");
+	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
 	while ($_ = <$fh>) {
 	    $bad_nodes{$node} .= $_;
 	    /Installation failed/ and $bad_nodes{$node} = '';
@@ -240,7 +240,7 @@ sub parallel_install {
 	    $urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Performing install on %s...", $node));
 	    $urpm->{ui}{progress}->(0) if ref $urpm->{ui}{progress};
 	    open my $fh, "$command |"
-		or $urpm->{fatal}(1, "Can't fork ssh: $!\n");
+		or $urpm->{fatal}(1, "Can't fork ssh: $!");
             local $/ = \1;
             my $log;
             my $last_time;
