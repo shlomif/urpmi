@@ -120,7 +120,8 @@ if ($urpm::args::options{env}) {
     $urpm->{statedir} = $urpm::args::options{env};
 }
 
-$urpm::args::options{upgrade} && !$urpm::args::options{env} and $urpm->shlock_rpm_db;
+$urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
+    and $urpm->shlock_rpm_db;
 $urpm->shlock_urpmi_db;
 $urpm->configure(
     nocheck_access => 1,
@@ -435,7 +436,8 @@ if ($urpm::args::options{list_aliases}) {
     }
 }
 $urpm->unlock_urpmi_db;
-$urpm::args::options{upgrade} && !$urpm::args::options{env} and $urpm->unlock_rpm_db;
+$urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
+    and $urpm->unlock_rpm_db;
 
 #- print sub for query.
 my $query_sub = sub {

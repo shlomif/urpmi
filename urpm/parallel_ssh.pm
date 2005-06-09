@@ -2,6 +2,8 @@ package urpm::parallel_ssh;
 
 use Time::HiRes qw(gettimeofday);
 
+sub _nolock($) { $_[0] eq 'localhost' ? '--nolock ' : '' }
+
 #- parallel copy
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
@@ -157,7 +159,7 @@ sub parallel_resolve_dependencies {
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $command = "ssh $node urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen);
+	    my $command = "ssh $node urpmq " . _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen);
 	    $urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Resolving dependencies on %s...", $node));
 	    open my $fh, "$command |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!");
@@ -212,7 +214,7 @@ sub parallel_install {
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
 	local $_;
-	my $command = "ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}";
+	my $command = "ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}";
 	$urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Verifying if install is possible on %s...", $node));
 	open my $fh, "$command |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
@@ -236,7 +238,7 @@ sub parallel_install {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath $options{excludepath}" : "");
 	#- continue installation on each node
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $command = "ssh $node urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line";
+	    my $command = "ssh $node urpmi --no-locales --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line";
 	    $urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Performing install on %s...", $node));
 	    $urpm->{ui}{progress}->(0) if ref $urpm->{ui}{progress};
 	    open my $fh, "$command |"

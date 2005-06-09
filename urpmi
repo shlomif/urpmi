@@ -57,6 +57,7 @@ our $use_provides = 1;
 our $verbose = 0;
 our $usedistrib = 0;
 our $log = '';
+our $nolock = 0;
 
 my @files;
 my @src_files;
@@ -265,7 +266,7 @@ unless ($bug) {
 }
 $verbose > 0 or $urpm->{log} = sub {};
 
-unless ($env) {
+unless ($env || $nolock) {
     $urpm->exlock_rpm_db;
     $urpm->shlock_urpmi_db;
 }
@@ -707,7 +708,7 @@ if ($nok) {
     }
 }
 
-unless ($env) {
+unless ($env || $nolock) {
     $urpm->unlock_urpmi_db;
     $urpm->unlock_rpm_db;
 
