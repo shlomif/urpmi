@@ -2,7 +2,10 @@ package urpm::parallel_ssh;
 
 use Time::HiRes qw(gettimeofday);
 
-sub _nolock($) { $_[0] eq 'localhost' ? '--nolock ' : '' }
+sub _localhost { $_[0] eq 'localhost' }
+sub _nolock    { &_localhost ? '--nolock ' : '' }
+sub _ssh       { &_localhost ? '' : "ssh $_[0] " }
+sub _host      { &_localhost ? '' : "$_[0]:" }
 
 #- parallel copy
 sub parallel_register_rpms {
@@ -10,7 +13,7 @@ sub parallel_register_rpms {
 
     foreach (keys %{$parallel->{nodes}}) {
 	$urpm->{log}("parallel_ssh: scp @files $_:$urpm->{cachedir}/rpms");
-	system 'scp' => @files, "$_:$urpm->{cachedir}/rpms";
+	system 'scp' => @files, _host($_) . "$urpm->{cachedir}/rpms";
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
@@ -42,7 +45,7 @@ sub parallel_find_remove {
 
     #- now try an iteration of urpme.
     foreach my $node (keys %{$parallel->{nodes}}) {
-	my $command = "ssh $node urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l);
+	my $command = _ssh($node) . "urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l);
         $urpm->{log}("parallel_ssh: $command");
 	open my $fh, "$command 2>&1 |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
@@ -106,9 +109,9 @@ sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
 
     #- first propagate the synthesis file to all machines
-    foreach (keys %{$parallel->{nodes}}) {
-	$urpm->{ui_msg}("parallel_ssh: scp -q '$synthesis' '$_:$synthesis'", urpm::N("Propagating synthesis to %s...", $_));
-	system "scp", "-q", $synthesis, "$_:$synthesis";
+    foreach (grep { !_localhost($_) } keys %{$parallel->{nodes}}) {
+	$urpm->{ui_msg}("parallel_ssh: scp -q $synthesis $_:$synthesis", urpm::N("Propagating synthesis to %s...", $_));
+	system "scp", "-q", $synthesis, _host($_) . $synthesis;
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
     $parallel->{synthesis} = $synthesis;
@@ -159,7 +162,7 @@ sub parallel_resolve_dependencies {
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $command = "ssh $node urpmq " . _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen);
+	    my $command = _ssh($node) . "urpmq " . _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen);
 	    $urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Resolving dependencies on %s...", $node));
 	    open my $fh, "$command |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!");
@@ -207,14 +210,14 @@ sub parallel_install {
     foreach (keys %{$parallel->{nodes}}) {
 	my @sources = (values %$install, values %$upgrade);
 	$urpm->{ui_msg}("parallel_ssh: scp @sources $_:$urpm->{cachedir}/rpms", urpm::N("Distributing files to %s...", $_));
-	system "scp" => @sources, "$_:$urpm->{cachedir}/rpms";
+	system "scp" => @sources, _host($_) . "$urpm->{cachedir}/rpms";
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
 	local $_;
-	my $command = "ssh $node urpmi --pre-clean --no-locales --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}";
+	my $command = _ssh($node) . "urpmi --pre-clean --no-locales --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}";
 	$urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Verifying if install is possible on %s...", $node));
 	open my $fh, "$command |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
@@ -238,7 +241,7 @@ sub parallel_install {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath $options{excludepath}" : "");
 	#- continue installation on each node
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $command = "ssh $node urpmi --no-locales --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line";
+	    my $command = _ssh($node) . "urpmi --no-locales --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line";
 	    $urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Performing install on %s...", $node));
 	    $urpm->{ui}{progress}->(0) if ref $urpm->{ui}{progress};
 	    open my $fh, "$command |"
