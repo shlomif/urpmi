@@ -340,13 +340,14 @@ if ($urpm::args::options{list_aliases}) {
 	    my @selected = map { split /\|/ } keys %{$state->{selected}};
 	    foreach (0..$#{$urpm->{media} || []}) {
 		if ($urpm->{media}[$_]{synthesis}) {
-		    $urpm->{log}->(N("skipping media %s: no hdlist\n", $urpm->{media}[$_]{name}));
+		    $urpm->{log}->(N("skipping media %s: no hdlist", $urpm->{media}[$_]{name}));
 		    next;
 		}
 		if (my @headers = (grep { ! -s "$urpm->{cachedir}/headers/$_" }
 			map { my $pkg = $urpm->{depslist}[$_];
 			    $pkg && $pkg->header_filename } @selected))
 		{
+		    my %h = map { $_ => 1 } @headers; @headers = keys %h;
                     my $hdlist_path = $urpm->{media}[$_]{virtual}
                       ? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
                       :  "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}";
