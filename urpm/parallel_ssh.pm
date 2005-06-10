@@ -13,7 +13,12 @@ sub parallel_register_rpms {
 
     foreach (keys %{$parallel->{nodes}}) {
 	$urpm->{log}("parallel_ssh: scp @files $_:$urpm->{cachedir}/rpms");
-	system 'scp' => @files, _host($_) . "$urpm->{cachedir}/rpms";
+	if (_localhost($_)) {
+	    my @f = grep { ! m!^$urpm->{cachedir}/rpms! } @files;
+	    @f and system 'cp' => @f, "$urpm->{cachedir}/rpms";
+	} else {
+	    system 'scp' => @files, "$_:$urpm->{cachedir}/rpms";
+	}
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
@@ -210,7 +215,12 @@ sub parallel_install {
     foreach (keys %{$parallel->{nodes}}) {
 	my @sources = (values %$install, values %$upgrade);
 	$urpm->{ui_msg}("parallel_ssh: scp @sources $_:$urpm->{cachedir}/rpms", urpm::N("Distributing files to %s...", $_));
-	system "scp" => @sources, _host($_) . "$urpm->{cachedir}/rpms";
+	if (_localhost($_)) {
+	    my @f = grep { ! m!^$urpm->{cachedir}/rpms! } @sources;
+	    @f and system 'cp' => @f, "$urpm->{cachedir}/rpms";
+	} else {
+	    system 'scp' => @sources, "$_:$urpm->{cachedir}/rpms";
+	}
 	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
