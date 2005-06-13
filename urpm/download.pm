@@ -9,8 +9,8 @@ use Cwd;
 our $PROXY_CFG = '/etc/urpmi/proxy.cfg';
 my $proxy_config;
 
-#- Timeout for curl connection (in seconds)
-our $CONNECT_TIMEOUT = 60;
+#- Timeout for curl connection and wget operations
+our $CONNECT_TIMEOUT = 60; #-  (in seconds)
 
 sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
 
