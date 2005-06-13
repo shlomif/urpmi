@@ -217,7 +217,7 @@ sub sync_wget {
 	($options->{callback} ? ("--progress=bar:force", "-o", "-") :
 	    $options->{quiet} ? "-q" : @{[]}),
 	"--retr-symlinks",
-	"--connect-timeout=$CONNECT_TIMEOUT",
+	"--timeout=$CONNECT_TIMEOUT",
 	"-NP",
 	$options->{dir},
 	@_
