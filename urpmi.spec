@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.6
+%define version	4.7.7
 %define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -250,6 +250,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Mon Jun 13 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.7-1mdk
+- Fix documentation for urpmq --summary/-S and urpmf -i (Olivier Blin)
+- urpmq: extract headers only once
+
 * Fri Jun 10 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.6-1mdk
 - Fix bug on urpmi-parallel-ssh on localhost with network media
 
