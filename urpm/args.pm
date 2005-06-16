@@ -169,6 +169,10 @@ my %options_spec = (
 		# This is for -! -( -)
 		$::expr .= $1;
 	    }
+	    elsif ($p =~ /^--?(.+)/) {
+		# unrecognized option
+		die "Unknown option: $1\n";
+	    }
 	    else {
 		# This is for non-option arguments.
 		# Assume a regex unless a ++ is inside the string.
