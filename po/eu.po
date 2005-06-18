@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: urpmi-eu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-06-15 17:56+0800\n"
-"PO-Revision-Date: 2005-02-02 00:58+0100\n"
+"PO-Revision-Date: 2005-06-12 23:10+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: EUSKARA <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -488,7 +488,7 @@ msgstr "ezin da \"%s\" aukera paraleloa erabili"
 #: ../urpm.pm:472
 #, c-format
 msgid "there doesn't seem to be devices in the chroot in \"%s\""
-msgstr ""
+msgstr "ez dirudi chroot-en \"%s\"-en gailurik dagoenik"
 
 #: ../urpm.pm:478
 #, c-format
@@ -973,9 +973,9 @@ msgid "unable to remove package %s"
 msgstr "ezin da %s paketea kendu"
 
 #: ../urpm.pm:2971
-#, fuzzy, c-format
+#, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
-msgstr "ezin da %s paketea kendu"
+msgstr "ezin da rpm atera %s delta-rpm paketetik"
 
 #: ../urpm.pm:2977
 #, c-format
@@ -1476,10 +1476,9 @@ msgstr ""
 "instalazioa bertan behera uzten da.\n"
 
 #: ../urpmi:88
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-install   - don't install packages (only download)\n"
-msgstr ""
-"  --install-src  - iturburu-paketea bakarrik instalatzen du (binarioak ez).\n"
+msgstr "  --no-install   - paketeak ez instalatu (jaitsi soilik)\n"
 
 #: ../urpmi:89 ../urpmq:52
 #, c-format
@@ -1530,9 +1529,9 @@ msgid "  --clean        - remove rpm from cache before anything else.\n"
 msgstr "  --clean        - kendu rpm cachetik beste ezer baino lehen.\n"
 
 #: ../urpmi:99
-#, fuzzy, c-format
+#, c-format
 msgid "  --noclean      - don't clean rpms from cache.\n"
-msgstr "  --noclean      - erabili gabeko rpm cachean gordetzen du.\n"
+msgstr "  --noclean      - ez garbitu rpm-ak katxetik.\n"
 
 #: ../urpmi:101
 #, c-format
@@ -1992,12 +1991,12 @@ msgstr "  --no-md5sum    - MD5SUM fitxategiaren egiaztapena desgaitzen du.\n"
 #: ../urpmi.addmedia:69
 #, c-format
 msgid "  --nopubkey     - don't import pubkey of added media\n"
-msgstr ""
+msgstr "  --nopubkey     - ez inportatu erantsitako euskarrien gako-publikoa\n"
 
 #: ../urpmi.addmedia:70
 #, c-format
 msgid "  --raw          - add the media in config, but don't update it.\n"
-msgstr ""
+msgstr "  --raw          - erantsi euskarria konfig-en, baino ez eguneratu.\n"
 
 #: ../urpmi.addmedia:71 ../urpmi.removemedia:47 ../urpmi.update:45
 #, c-format
@@ -2303,10 +2302,12 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - paketeak behar duenaren alderantzizko bilaketa.\n"
 
 #: ../urpmq:89
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  -RR            - extended reverse search (includes virtual packages).\n"
-msgstr "  -R             - paketeak behar duenaren alderantzizko bilaketa.\n"
+msgstr ""
+"  -RR            - alderantzizko bilaketa hedatua (alegiazko paketeak "
+"barne).\n"
 
 #: ../urpmq:91
 #, c-format
@@ -2335,9 +2336,8 @@ msgid "--list-nodes can only be used with --parallel"
 msgstr "--nodo-zerrendak honekin bakarrik erabil daitezke: --parallel"
 
 #: ../urpmq:344
-#, fuzzy, c-format
 msgid "skipping media %s: no hdlist"
-msgstr "saltatu %s euskarria: hdlist falta da\n"
+msgstr "saltatu %s euskarria: hdlist falta da"
 
 #: ../urpmq:415
 #, c-format
@@ -2349,32 +2349,5 @@ msgstr "Ez da fitxategi-zerrenda aurkitu\n"
 msgid "No changelog found\n"
 msgstr "Ez da aldaketa-erregistroa aurkitu\n"
 
-#, fuzzy
-#~ msgid ""
-#~ "  --keep         - keep existing packages if possible, reject requested\n"
-#~ "                   packages that leads to remove.\n"
-#~ msgstr ""
-#~ "  --keep         - gorde lehendik dauden paketeak ahal bada, ezetsi "
-#~ "kentzea\n"
-#~ "                   eragiten duten pakete-eskaerak.\n"
-
-#~ msgid "unable to write file [%s]"
-#~ msgstr "ezin da fitxategia idatzi [%s]"
-
-#~ msgid ""
-#~ "  --distrib-XXX  - automatically create a medium for XXX part of a\n"
-#~ "                   distribution, XXX may be main, contrib, updates or\n"
-#~ "                   anything else that has been configured ;-)\n"
-#~ msgstr ""
-#~ "  --distrib-XXX  - banaketa baten XXX zatiaren euskarria sortzen du \n"
-#~ "                   automatikoki. XXX main, contrib, updates edo\n"
-#~ "                   konfiguratu den beste edozer izan daiteke ;-)\n"
-
-#~ msgid "found version %s and arch %s ..."
-#~ msgstr "%s bertsioa eta %s arkitektura aurkitu da ..."
-
-#~ msgid "cannot add updates of a cooker distribution\n"
-#~ msgstr "ezin dira cooker banaketa baten eguneratzeak gehitu\n"
-
-#~ msgid "retrieving mirrors at %s ..."
-#~ msgstr "%s(e)ko ispiluak berreskuratzen..."
+#~ msgid "skipping media %s: no hdlist\n"
+#~ msgstr "saltatu %s euskarria: hdlist falta da\n"
