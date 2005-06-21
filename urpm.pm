@@ -2365,7 +2365,6 @@ sub create_transaction {
 sub get_packages_list {
     my ($file, $extra) = @_;
     my $val = [];
-    local $_;
     open my $f, $file or return {};
     foreach (<$f>, split /,/, $extra || '') {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
