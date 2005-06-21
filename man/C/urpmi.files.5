@@ -48,7 +48,8 @@ parameter list like "-c ssh -m node1 -m node2" for \fBka-run\fP extension or
 The list of packages that should not be automatically updated when using
 --auto-select. It contains one package expression per line; either a package
 name, or a regular expression (if enclosed in slashes \fB/\fP) to match the
-name of packages against.
+name of packages against. (Actually, it's matched against the full name
+of the package, which has the form \fBname-version-release.arch\fP.)
 .TP
 .FN /etc/urpmi/inst.list
 The list of packages that should be installed instead of updated. It has
