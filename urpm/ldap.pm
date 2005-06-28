@@ -147,6 +147,7 @@ sub load_ldap_media($%) {
 	    $config->{host} . ($config->{port} ? ":" . $config->{port} : "") . "/";
     }
 
+    my $priority = 100; #- too add ldap media at the end
     eval {
         my $ldap = Net::LDAP->new($config->{uri})
             or die N("Cannot connect to ldap uri :"), $config->{uri};
@@ -183,6 +184,7 @@ sub load_ldap_media($%) {
             #- TODO check if name already defined ?
             $medium->{name} = "ldap_" . $medium->{name};
             $medium->{ldap} = 1;
+	    $medium->{priority} = $priority++;
             next if !check_ldap_medium($medium);
             $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
             write_ldap_cache($urpm,$medium) or $urpm->{log}(N("Could not write ldap cache : %s", $_));
