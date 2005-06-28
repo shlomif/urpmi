@@ -24,6 +24,9 @@ use strict;
 use urpm;
 use urpm::msg;
 
+$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
+delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
+
 sub main {
     my (@toremoves, %options);
 

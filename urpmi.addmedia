@@ -88,6 +88,9 @@ sub remove_failed {
     }
 }
 
+$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
+delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
+
 #- parse /etc/urpmi/mirror.config if present, or use default mdk mirror.
 #- the --from option overrides this setting.
 if ($options{mirrors_url}) {

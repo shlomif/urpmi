@@ -19,11 +19,13 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#We only make good software ;-)
 use strict;
 use urpm;
 use urpm::args;
 use urpm::msg;
+
+$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
+delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
 our ($root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, @l);
 my $askok = N("Is this OK?");

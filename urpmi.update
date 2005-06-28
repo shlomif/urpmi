@@ -50,6 +50,9 @@ where <name> is a medium name to update.
     exit 0;
 }
 
+$ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
+delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
+
 our @toupdates; #- set by urpm::args
 my $urpm = new urpm;
 
