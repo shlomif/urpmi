@@ -3372,7 +3372,7 @@ sub opendir_safe {
 
 sub error_restricted ($) {
     my ($urpm) = @_;
-    $urpm->{fatal}(2, N("Error, this operation is forbidden while running in restricted mode"));
+    $urpm->{fatal}(2, N("This operation is forbidden while running in restricted mode"));
 }
 
 sub DESTROY {}
