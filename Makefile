@@ -24,7 +24,7 @@ install:
 	install -m 644 man/C/urpm*.5 $(MANDIR)/man5
 	install -m 644 man/C/proxy*.5 $(MANDIR)/man5
 	install -m 644 man/C/urpm*.8 $(MANDIR)/man8
-	install urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia $(SBINDIR)
+	install urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia rurpmi $(SBINDIR)
 #	install -s autoirpm.update-all $(SBINDIR)
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.removemedia
 #	ln -sf urpmi.addmedia $(SBINDIR)/urpmi.update
