@@ -189,10 +189,10 @@ if ($install_src) {
 if ($restricted) {
     urpm::error_restricted($urpm) if @src_files || @files;
     #- force some options
-    $urpm->{options}{keep} = 1;
-    $urpm->{options}{'verify-rpm'} = 1;
+    foreach (qw(keep verify-rpm norebuild)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
-    urpm::error_restricted($urpm) if $::root || $::usedistrib || $::force || $::env || $::parallel;
+    urpm::error_restricted($urpm) if $root || $usedistrib || $force || $env || $parallel || $synthesis || $nolock;
+    urpm::error_restricted($urpm) if exists $urpm->{options}{'priority-upgrade'};
     foreach (qw(allow-nodeps allow-force)) { urpm::error_restricted($urpm) if $urpm->{options}{$_} }
 }
 
