@@ -1,0 +1,25 @@
+.TH rurpmi 8 "29 Jun 2005" "Mandriva" "Mandriva Linux"
+.IX rurpmi
+.SH NAME
+rurpmi \- restricted urpmi
+.SH SYNOPSIS
+.B rurpmi [\fIoptions\fP] [\fIpackage_names\fP]
+.SH DESCRIPTION
+rurpmi is similar to urpmi, but has a stripped-down set of features.
+It's intended to be used by users with sudo rights on it, preventing
+them to abuse it to compromise the system.
+
+With it, you can't install arbitrary rpm files, the \fB--keep\fP,
+\fB--verify-rpm\fP, and \fB--norebuild\fP options are forced, and
+several dangerous options are forbidden (\fB--root\fP,
+\fB--use-distrib\fP, \fB--env\fP, \fB--nolock\fP, \fB--allow-nodeps\fP,
+\fB--allow-force\fP, \fB--force\fP).
+.SH CAVEAT
+This software is still experimental. While some operations are
+forbidden, there is no guarantee it is actually secure.
+.SH OPTIONS
+The options are the same than urpmi ones.
+.SH AUTHOR
+Maintained by Rafael Garcia-Suarez, <rgarciasuarez@mandriva.com>
+.SH SEE ALSO
+\fIurpmi\fP(8).
