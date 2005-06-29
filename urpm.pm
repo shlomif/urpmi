@@ -1802,7 +1802,7 @@ this could happen if you mounted manually the directory when creating the medium
 			$error = 1, $urpm->{error}(N("nothing written in list file for \"%s\"", $medium->{name}));
 		    }
 		} else {
-		    #- the flag is no more necessary.
+		    #- the flag is no longer necessary.
 		    if ($medium->{list}) {
 			unlink "$urpm->{statedir}/$medium->{list}";
 			delete $medium->{list};
@@ -1864,7 +1864,7 @@ this could happen if you mounted manually the directory when creating the medium
 		if ($medium->{list}) {
 		    urpm::util::move("$urpm->{cachedir}/partial/$medium->{list}", "$urpm->{statedir}/$medium->{list}");
 		}
-		$medium->{md5sum} = $retrieved_md5sum; #- anyway, keep it, the previous one is no more useful.
+		$medium->{md5sum} = $retrieved_md5sum; #- anyway, keep it, the previous one is no longer useful.
 
 		#- and create synthesis file associated.
 		$medium->{modified_synthesis} = !$medium->{synthesis};
@@ -1957,7 +1957,7 @@ this could happen if you mounted manually the directory when creating the medium
 	$options{callback} && $options{callback}('done', $medium->{name});
     }
 
-    #- clean headers cache directory to remove everything that is no more
+    #- clean headers cache directory to remove everything that is no longer
     #- useful according to the depslist.
     if ($urpm->{modified}) {
 	if ($options{noclean}) {
@@ -3368,6 +3368,11 @@ sub opendir_safe {
     opendir my $d, $dirname
 	or $urpm->syserror("Can't open directory", $dirname), return undef;
     return $d;
+}
+
+sub error_restricted ($) {
+    my ($urpm) = @_;
+    $urpm->{fatal}(2, N("Error, this operation is forbidden while running in restricted mode"));
 }
 
 sub DESTROY {}

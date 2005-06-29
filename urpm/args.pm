@@ -118,6 +118,7 @@ my %options_spec = (
 	'more-choices' => sub { $urpm->{options}{morechoices} = 1 },
 	'expect-install!' => \$::expect_install,
 	'nolock' => \$::nolock,
+	restricted => \$::restricted,
 	a => \$::all,
 	q => sub { --$::verbose; $::rpm_opt = '' },
 	v => sub { ++$::verbose; $::rpm_opt = 'vh' },

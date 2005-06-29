@@ -22,7 +22,7 @@ use strict;
 use urpm;
 use urpm::args;
 use urpm::msg;
-use urpm::util qw/untaint/;
+use urpm::util qw(untaint);
 use MDK::Common;
 
 #- contains informations to parse installed system.
@@ -57,6 +57,7 @@ our $use_provides = 1;
 our $verbose = 0;
 our $usedistrib = 0;
 our $log = '';
+our $restricted = 0;
 our $nolock = 0;
 
 my @files;
@@ -182,6 +183,16 @@ if ($install_src) {
     @files and $urpm->{fatal}(1, N("What can be done with binary rpm files when using --install-src"));
     push @src_names, @names;
     @names = ();
+}
+
+#- rurpmi checks
+if ($restricted) {
+    urpm::error_restricted($urpm) if @src_files || @files;
+    $urpm->{options}{keep} = 1;
+    $urpm->{options}{'verify-rpm'} = 1;
+    urpm::error_restricted($urpm) if $::root || $::usedistrib || $::force || $::env || $::parallel;
+    foreach (qw(allow-nodeps allow-force)) { urpm::error_restricted($urpm) if $urpm->{options}{$_} }
+    foreach (qw(verify-rpm))               { urpm::error_restricted($urpm) unless $urpm->{options}{$_} }
 }
 
 #- prepare bug report.
