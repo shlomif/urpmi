@@ -188,11 +188,12 @@ if ($install_src) {
 #- rurpmi checks
 if ($restricted) {
     urpm::error_restricted($urpm) if @src_files || @files;
+    #- force some options
     $urpm->{options}{keep} = 1;
     $urpm->{options}{'verify-rpm'} = 1;
+    #- forbid some other options
     urpm::error_restricted($urpm) if $::root || $::usedistrib || $::force || $::env || $::parallel;
     foreach (qw(allow-nodeps allow-force)) { urpm::error_restricted($urpm) if $urpm->{options}{$_} }
-    foreach (qw(verify-rpm))               { urpm::error_restricted($urpm) unless $urpm->{options}{$_} }
 }
 
 #- prepare bug report.
