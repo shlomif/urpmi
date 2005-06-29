@@ -192,7 +192,6 @@ if ($restricted) {
     foreach (qw(keep verify-rpm norebuild)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
     urpm::error_restricted($urpm) if $root || $usedistrib || $force || $env || $parallel || $synthesis || $nolock;
-    urpm::error_restricted($urpm) if exists $urpm->{options}{'priority-upgrade'};
     foreach (qw(allow-nodeps allow-force)) { urpm::error_restricted($urpm) if $urpm->{options}{$_} }
 }
 
