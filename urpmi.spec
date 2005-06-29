@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.8
+%define version	4.7.9
 %define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -199,9 +199,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{_bindir}/urpmf
 %{_bindir}/urpmq
 %{_sbindir}/urpmi
+%{_sbindir}/rurpmi
 %{_sbindir}/urpme
 %{_sbindir}/urpmi.*
 %{_mandir}/man?/urpm*
+%{_mandir}/man?/rurpmi*
 %{_mandir}/man?/proxy*
 # find_lang isn't able to find man pages yet...
 %lang(cs) %{_mandir}/cs/man?/urpm*
@@ -250,6 +252,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Wed Jun 29 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.9-1mdk
+- Add rurpmi, an experimental restricted version of urpmi (intended
+  to be used by sudoers)
+
 * Tue Jun 28 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.8-1mdk
 - Allow to select more than one choice in alternative packages to be installed
   by urpmi
