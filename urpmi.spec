@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.9
+%define version	4.7.10
 %define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -252,6 +252,13 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Fri Jul 01 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.10-1mdk
+- Fix rurpmi --help
+- Patch by Pascal Terjan for bug 16663 : display the packages names urpmi
+  guessed when it issues the message 'all packages are already installed'
+- Allow to cancel insertion of new media in urpmi --gui
+- Message updates
+
 * Wed Jun 29 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.9-1mdk
 - Add rurpmi, an experimental restricted version of urpmi (intended
   to be used by sudoers)
