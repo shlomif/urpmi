@@ -8,7 +8,7 @@ PL_FILES = ../_irpm ../rpm-find-leaves ../urpm.pm ../urpme ../urpmf \
 	../urpmi ../urpmi.addmedia ../gurpmi ../gurpmi2 \
 	../urpmi.removemedia ../urpmi.update ../urpmq \
 	../urpm/parallel_ka_run.pm  ../urpm/parallel_ssh.pm \
-	../urpm/msg.pm ../urpm/args.pm
+	../urpm/msg.pm ../urpm/args.pm ../rurpmi
 # C-like files to search translatable strings in
 CFILES = ./placeholder.h
 
