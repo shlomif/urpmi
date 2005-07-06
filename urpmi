@@ -721,7 +721,7 @@ if ($nok) {
 	    if ($verbose >= 0 && !$auto_select) {
 		my @packages = map { $urpm->{depslist}[$_]->name } keys %requested;
 		my @guessed = difference2(\@packages, \(@names, @src_names));
-		message(N("The following package names were assumed : %s", join ", ", @guessed)) if @guessed;
+		message(N("The following package names were assumed: %s", join ", ", @guessed)) if @guessed;
 	    }
 	    $exit_code = 15 if our $expect_install;
 	}
