@@ -236,7 +236,7 @@ Use --allow-force to force operation.", $urpm::sys::mountpoint));
 my ($pid_out, $pid_err);
 open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
 open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
-if ($log) {
+if ($log && !$INC{"Devel/Trace.pm"}) {
     #- log only at this point in case of query usage.
     log_it(scalar localtime, " urpmi called with $command_line\n");
 
