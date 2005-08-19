@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.10
-%define release 2mdk
+%define version	4.7.11
+%define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -252,6 +252,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Fri Aug 19 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.11-1mdk
+- MD5 for hdlists weren't checked with http media
+- Don't print twice unsatisfied packages
+- gurpmi: allow to cancel when gurpmi asks to insert a new media
+
 * Mon Jul 18 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.10-2mdk
 - Message and manpage updates
 
