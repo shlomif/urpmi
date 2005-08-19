@@ -1201,7 +1201,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    }
 			}
 			if ($medium->{md5sum}) {
-			    parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
+			    $retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
 			    #- If an existing hdlist or synthesis file has the same md5sum, we assume
 			    #- the files are the same.
 			    #- If the local md5sum is the same as the distant md5sum, this means
@@ -1475,7 +1475,7 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 		    if ($medium->{md5sum}) {
-			parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
+			$retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
 			#- if an existing hdlist or synthesis file has the same md5sum, we assume the
 			#- files are the same.
 			#- if local md5sum is the same as distant md5sum, this means there is no need to
