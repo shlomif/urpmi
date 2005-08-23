@@ -129,6 +129,7 @@ if ($env) {
     $urpm->{statedir} = $env;
 }
 
+# TODO - necessary to lock ? why ?
 $urpm->shlock_urpmi_db;
 my $use_hdlist = ($params{description} ||
     $params{sourcerpm} || $params{packager} || $params{buildhost} ||
