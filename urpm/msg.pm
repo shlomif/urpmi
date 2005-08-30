@@ -29,10 +29,12 @@ sub from_utf8_dummy { $_[0] }
 
 sub N {
     my ($format, @params) = @_;
-    sprintf(
+    my $s = sprintf(
 	eval { Locale::gettext::gettext($format || '') } || $format,
 	@params,
     );
+    utf8::decode($s);
+    $s;
 }
 
 my $noexpr = N("Nn");
