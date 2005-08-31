@@ -1,6 +1,7 @@
 package urpm::msg;
 
 use strict;
+no warnings;
 use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT = qw(N log_it to_utf8 message_input message toMb from_utf8);
@@ -26,6 +27,15 @@ sub from_utf8_full { Locale::gettext::iconv($_[0], "UTF-8", $codeset) }
 sub from_utf8_dummy { $_[0] }
 
 *from_utf8 = defined $codeset ? *from_utf8_full : *from_utf8_dummy;
+
+sub import {
+    urpm::msg->export_to_level(1, @_);
+    unless ($ENV{DEBUG_URPMI}) {
+	#- turn off warnings utf8 in caller. Kludge. Find better way later
+	@_ = qw(utf8);
+	goto &warnings::unimport;
+    }
+}
 
 sub N {
     my ($format, @params) = @_;

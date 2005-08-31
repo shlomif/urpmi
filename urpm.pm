@@ -23,9 +23,6 @@ BEGIN {
     if ($ENV{DEBUG_URPMI}) {
 	require encoding::warnings;
 	encoding::warnings->import;
-    } else {
-	require warnings;
-	warnings->unimport('utf8');
     }
 }
 
