@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.7.11
-%define release 2mdk
+%define release 3mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -252,7 +252,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
-* Tue Aug 30 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.11-
+* Wed Aug 31 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.11-3mdk
+- suppress wide character warnings
+
+* Tue Aug 30 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.11-2mdk
 - message updates
 - decode utf-8 on output
 
