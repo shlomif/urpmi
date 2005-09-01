@@ -861,7 +861,7 @@ sub select_media {
 	    } elsif (@found == 0 && @foundi == 0) {
 		$urpm->{error}(N("trying to select nonexistent medium \"%s\"", $_));
 	    } else { #- several elements in found and/or foundi lists.
-		$urpm->{log}(N("selecting multiple media: %s", join(", ", map { N("\"%s\"", $_->{name}) } (@found ? @found : @foundi))));
+		$urpm->{log}(N("selecting multiple media: %s", join(", ", map { qq("$_->{name}") } (@found ? @found : @foundi))));
 		#- changed behaviour to select all occurences by default.
 		foreach (@found ? @found : @foundi) {
 		    $_->{modified} = 1;
@@ -1594,7 +1594,8 @@ this could happen if you mounted manually the directory when creating the medium
 	    if (-e "$urpm->{cachedir}/partial/$basename" && -s _ > 32 && $retrieved_md5sum) {
 		$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
 		unless (md5sum("$urpm->{cachedir}/partial/$basename") eq $retrieved_md5sum) {
-		    $urpm->{error}(N("...retrieving failed: %s", N("md5sum mismatch")));
+		    #- XXX kludge. forced to do this to avoid double encoding under utf-8 locales, even with -CL
+		    $urpm->{error}(N("...retrieving failed: ", "") . N("md5sum mismatch"));
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		}
 	    }
