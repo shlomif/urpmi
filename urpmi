@@ -522,7 +522,7 @@ $urpm->copy_packages_of_removable_media(
 	    my $gmessage = find { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
 	    if ($gmessage) {
 		my $m = to_utf8("\n$msg\n");
-		return system($gmessage, '-buttons', N("Ok") . ':0,' . N("Cancel") . ':1', $m);
+		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', $m);
 	    }
 	}
 	return defined message_input("$msg\n$msg2 ");
