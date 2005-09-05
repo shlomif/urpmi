@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.12
+%define version	4.7.13
 %define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -252,6 +252,9 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Mon Sep 05 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.13-1mdk
+- Really make Date::Manip optional
+
 * Thu Sep 01 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.12-1mdk
 - Fix urpmi --gui when changing CD-ROMs
 - Fix a case of utf-8 double encoding
