@@ -304,8 +304,6 @@ sub sync_curl {
 		    and $cur_ftp_file = shift @ftp_files;
 		eval {
 		    $ftp_files_info{$cur_ftp_file}{time} = Date::Manip::ParseDate($1);
-		    #- remove day and hour.
-		    $ftp_files_info{$cur_ftp_file}{time} =~ s/(\d{6}).{4}(.*)/$1$2/;
 		};
 	    }
 	}
@@ -322,9 +320,9 @@ sub sync_curl {
 	    foreach (keys %ftp_files_info) {
 		my ($lfile) = m|/([^/]*)$| or next; #- strange if we can't parse it correctly.
 		my $ltime = eval { Date::Manip::ParseDate(scalar gmtime((stat $1)[9])) };
-		$ltime =~ s/(\d{6}).{4}(.*)/$1$2/; #- remove day and hour.
-		-s $lfile == $ftp_files_info{$_}{size} && $ftp_files_info{$_}{time} eq $ltime or
-		push @ftp_files, $_;
+		$ltime or next; #- couldn't parse date, assume files are different (bug 18234)
+		-s $lfile == $ftp_files_info{$_}{size} && $ftp_files_info{$_}{time} eq $ltime
+		    or push @ftp_files, $_;
 	    }
 	}
     }
