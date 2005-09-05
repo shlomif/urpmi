@@ -320,7 +320,6 @@ sub sync_curl {
 	    foreach (keys %ftp_files_info) {
 		my ($lfile) = m|/([^/]*)$| or next; #- strange if we can't parse it correctly.
 		my $ltime = eval { Date::Manip::ParseDate(scalar gmtime((stat $1)[9])) };
-		warn" --- $ltime\n";
 		$ltime && -s $lfile == $ftp_files_info{$_}{size} && $ftp_files_info{$_}{time} eq $ltime
 		    or push @ftp_files, $_;
 	    }
