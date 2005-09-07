@@ -30,15 +30,6 @@ our $use_utf8_full = defined $codeset && $codeset eq 'UTF-8';
 
 *from_utf8 = $use_utf8_full ? *from_utf8_full : *from_utf8_dummy;
 
-sub import {
-    urpm::msg->export_to_level(1, @_);
-    unless ($ENV{DEBUG_URPMI}) {
-	#- turn off warnings utf8 in caller. Kludge. Find better way later
-	@_ = qw(utf8);
-	goto &warnings::unimport;
-    }
-}
-
 sub N {
     my ($format, @params) = @_;
     my $s = sprintf(
