@@ -2,6 +2,7 @@ package urpm;
 
 # $Id$
 
+no warnings 'utf8';
 use strict;
 use MDK::Common;
 use File::Find ();
@@ -11,7 +12,7 @@ use urpm::util;
 use urpm::sys;
 use urpm::cfg;
 
-our $VERSION = '4.7.13';
+our $VERSION = '4.7.14';
 our @ISA = qw(URPM);
 
 use URPM;
