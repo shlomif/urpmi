@@ -26,7 +26,9 @@ defined $codeset or eval {
 sub from_utf8_full { Locale::gettext::iconv($_[0], "UTF-8", $codeset) }
 sub from_utf8_dummy { $_[0] }
 
-*from_utf8 = defined $codeset ? *from_utf8_full : *from_utf8_dummy;
+our $use_utf8_full = defined $codeset && $codeset eq 'UTF-8';
+
+*from_utf8 = $use_utf8_full ? *from_utf8_full : *from_utf8_dummy;
 
 sub import {
     urpm::msg->export_to_level(1, @_);
@@ -43,7 +45,7 @@ sub N {
 	eval { Locale::gettext::gettext($format || '') } || $format,
 	@params,
     );
-    utf8::decode($s);
+    utf8::decode($s) unless $use_utf8_full;
     $s;
 }
 
