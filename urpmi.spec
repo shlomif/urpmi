@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.14
+%define version	4.7.15
 %define release 1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -252,6 +252,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Wed Sep 14 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.15-1mdk
+- Fix --gui bug with changing media
+- Message updates
+
 * Wed Sep 07 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.14-1mdk
 - Optimize utf-8 operations
 - Don't decode utf-8 text when the locale charset is itself in utf-8

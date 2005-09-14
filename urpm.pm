@@ -12,7 +12,7 @@ use urpm::util;
 use urpm::sys;
 use urpm::cfg;
 
-our $VERSION = '4.7.14';
+our $VERSION = '4.7.15';
 our @ISA = qw(URPM);
 
 use URPM;
