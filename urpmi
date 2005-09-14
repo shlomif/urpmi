@@ -517,7 +517,7 @@ $urpm->copy_packages_of_removable_media(
     ask_for_medium => (!$urpm->{options}{auto} || $allow_medium_change) && sub {
 	my $msg = N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1]);
 	my $msg2 = N("Press Enter when ready...");
-	if ($ENV{DISPLAY} && our $gui) {
+	if ($ENV{DISPLAY} && $::gui) {
 	    #- probably run from a drak tool
 	    my $gmessage = find { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
 	    if ($gmessage) {
