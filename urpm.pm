@@ -1596,7 +1596,7 @@ this could happen if you mounted manually the directory when creating the medium
 		$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
 		unless (md5sum("$urpm->{cachedir}/partial/$basename") eq $retrieved_md5sum) {
 		    #- XXX kludge. forced to do this to avoid double encoding under utf-8 locales, even with -CL
-		    $urpm->{error}(N("...retrieving failed: ", "") . N("md5sum mismatch"));
+		    $urpm->{error}(N("...retrieving failed: %s", "") . N("md5sum mismatch"));
 		    unlink "$urpm->{cachedir}/partial/$basename";
 		}
 	    }
