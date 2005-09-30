@@ -81,7 +81,7 @@ sub untaint {
 sub md5sum {
     #- Use an external command to avoid depending on perl
     my ($file) = @_;
-    return((split ' ', `md5sum '$file'`)[0]);
+    return((split ' ', `/usr/bin/md5sum '$file'`)[0]);
 }
 
 sub copy {
