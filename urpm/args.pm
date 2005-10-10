@@ -240,6 +240,8 @@ my %options_spec = (
 	    if ($x =~ /\.rpm$/) {
 		if (-r $x) { push @::files, $x }
 		else { print STDERR N("urpmq: cannot read rpm file \"%s\"\n", $x) }
+	    } elsif ($x =~ /^--?(.+)/) { # unrecognized option
+		die "Unknown option: $1\n";
 	    } else {
 		if ($options{src}) {
 		    push @::src_names, $x;
