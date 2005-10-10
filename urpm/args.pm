@@ -265,7 +265,13 @@ my %options_spec = (
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
 	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1]; $options{force} = 0 },
-	'<>' => sub { push @::toupdates, $_[0] },
+	'<>' => sub {
+	    my ($p) = @_;
+	    if ($p =~ /^--?(.+)/) { # unrecognized option
+		die "Unknown option: $1\n";
+	    }
+	    push @::toupdates, $p;
+	},
     },
 
     'urpmi.addmedia' => {
@@ -282,7 +288,11 @@ my %options_spec = (
 	'v|verbose' => sub { ++$options{verbose} },
 	raw => \$options{raw},
 	'<>' => sub {
-	    push @::cmdline, $_[0];
+	    my ($p) = @_;
+	    if ($p =~ /^--?(.+)/) { # unrecognized option
+		die "Unknown option: $1\n";
+	    }
+	    push @::cmdline, $p;
 	},
     },
 
