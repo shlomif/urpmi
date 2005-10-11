@@ -988,14 +988,17 @@ sub _guess_pubkey_name {
 #- Recognized options :
 #-   all         : all medias are being rebuilt
 #-   callback    : UI callback
+#-   compress    : use compressed download (for rsync)
 #-   forcekey    : force retrieval of pubkey
 #-   force       : try to force rebuilding base files (1) or hdlist from rpm files (2)
+#-   limit_rate  : download limit rate
 #-   noclean     : keep old files in the header cache directory
 #-   nolock      : don't lock the urpmi database
 #-   nomd5sum    : don't verify MD5SUM of retrieved files
 #-   nopubkey    : don't use rpm pubkeys
 #-   norebuild   : don't try to rebuild hdlists from rpm headers
 #-   probe_with  : probe synthesis or hdlist (or none)
+#-   quiet       : download hdlists quietly
 #-   ratio       : use this compression ratio (with gzip, default is 4)
 sub update_media {
     my ($urpm, %options) = @_;
@@ -1530,7 +1533,7 @@ this could happen if you mounted manually the directory when creating the medium
 			$urpm->{sync}(
 			    {
 				dir => "$urpm->{cachedir}/partial",
-				quiet => 0,
+				quiet => $options{quiet},
 				limit_rate => $options{limit_rate},
 				compress => $options{compress},
 				callback => $options{callback},
@@ -1574,7 +1577,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    $urpm->{sync}(
 			{
 			    dir => "$urpm->{cachedir}/partial",
-			    quiet => 0,
+			    quiet => $options{quiet},
 			    limit_rate => $options{limit_rate},
 			    compress => $options{compress},
 			    callback => $options{callback},
@@ -2797,7 +2800,7 @@ sub download_packages_of_distant_media {
 		$urpm->{sync}(
 		    {
 			dir => "$urpm->{cachedir}/partial",
-			quiet => 0,
+			quiet => $options{quiet},
 			limit_rate => $options{limit_rate},
 			resume => $options{resume},
 			compress => $options{compress},

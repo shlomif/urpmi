@@ -555,6 +555,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	\%transaction_sources,
 	\%error_sources,
 	verbose => $verbose > 0,
+	quiet => $verbose < 0,
 	limit_rate => $urpm->{options}{'limit-rate'},
 	compress => $urpm->{options}{compress},
 	resume => $urpm->{options}{resume},
