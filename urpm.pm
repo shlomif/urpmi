@@ -849,8 +849,8 @@ sub select_media {
 	unless ($media{$_}) {
 	    my $q = quotemeta;
 	    my (@found, @foundi);
-	    my $regex  = $options->{strict_match} ? qr/\b$q\b/  : qr/$q/;
-	    my $regexi = $options->{strict_match} ? qr/\b$q\b/i : qr/$q/i;
+	    my $regex  = $options->{strict_match} ? qr/^$q$/  : qr/$q/;
+	    my $regexi = $options->{strict_match} ? qr/^$q$/i : qr/$q/i;
 	    foreach my $medium (@{$urpm->{media}}) {
 		$medium->{name} =~ $regex  and push @found, $medium;
 		$medium->{name} =~ $regexi and push @foundi, $medium;
