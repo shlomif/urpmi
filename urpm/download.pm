@@ -344,7 +344,7 @@ sub sync_curl {
 	    ($options->{resume} ? ("--continue-at", "-") : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
-	    ($options->{quiet} && !$options->{verbose} ? "-s" : @{[]}),
+	    ($options->{quiet} ? "-s" : @{[]}),
 	    "-k",
 	    $location_trusted ? "--location-trusted" : @{[]},
 	    "-R",

@@ -2798,7 +2798,6 @@ sub download_packages_of_distant_media {
 		    {
 			dir => "$urpm->{cachedir}/partial",
 			quiet => 0,
-			verbose => $options{verbose},
 			limit_rate => $options{limit_rate},
 			resume => $options{resume},
 			compress => $options{compress},
