@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.15
-%define release 1mdk
+%define version	4.7.16
+%define release	1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -252,6 +252,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Tue Oct 11 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.16-1mdk
+- New urpmi option --ignoresize
+- urpmq, urpmi.addmedia and urpmi.update now abort on unrecognized options
+- Add glibc to the priority upgrades
+
 * Wed Sep 14 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.15-1mdk
 - Fix --gui bug with changing media
 - Message updates
