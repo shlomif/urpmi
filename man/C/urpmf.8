@@ -9,57 +9,58 @@ By default, urpmf outputs a list of packages providing the file specified as an
 argument on the command-line.
 .PP
 <\fIpattern\fP> is the name or part of the name of the file you want to locate.
-Regular expressions are allowed. \fBurpmf\fP will then print a list of matching
-files, with their corresponding packages. By using options, you may format
-output differently, and search through other rpm tags.
+Perl-style regular expressions are allowed. \fBurpmf\fP will then print a list
+of matching files, with their corresponding packages. By using options, you may
+format output differently, and search through other rpm tags.
 .PP
 Note that \fBurpmf\fP searches through the urpmi media (\fBnot\fP in the
 system's rpm database).
 .SH OPTIONS
 .IP "\fB\--help\fP"
-print a help message and exit.
+Prints a help message and exit.
 .IP "\fB\--all\fP"
-Search through all parameters listed below.
+Prints and searches through all parameters listed below.
 .IP "\fB\--buildhost\fP"
-Search through build host.
+Prints and searches through the BuildHost tag.
 .IP "\fB\--conflicts\fP"
-Search through conflicts.
+Prints and searches through the Conflicts tags.
 .IP "\fB\--description\fP"
-Search through description.
+Prints and searches through the Description tag.
 .IP "\fB\--env\fP \fIdirectory\fP"
 Use a different environment directly from a bug report to replay a bug.
 .IP "\fB\--epoch\fP"
-Search through epoch.
+Prints and searches through the Epoch tag.
 .IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
 Do not use the given media.
 .IP "\fB\--files\fP"
-Search through files (this is the default).
+Prints and searches through the list of files contained in the rpm (this is the
+default).
 .IP "\fB\--group\fP"
-Search through group.
+Prints and searches through the Group tag.
 .IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
 Select specific media to be used, instead of defaulting to all available media
 (or all update media if \fB--update\fP is used).
 .IP "\fB\--name\fP"
-Search through package names.
+Prints and searches through package names.
 .IP "\fB\--obsoletes\fP"
-Search through obsoletes.
+Prints and searches through the Obsoletes tags.
 .IP "\fB\--packager\fP"
-Search through packager.
+Prints and searches through the Packager tag.
 .IP "\fB\--provides\fP"
-Search through provides.
+Prints and searches through the Provides tags.
 .IP "\fB\--quiet\fP"
 Do not print tag name (default if no tag given on command line, incompatible
 with interactive mode).
 .IP "\fB\--requires\fP"
-Search through requires.
+Prints and searches through the Requires tag.
 .IP "\fB\--size\fP"
-Search through size.
+Prints and searches through the Size tag.
 .IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
 Sort the given media, substrings may be used to simplify grouping.
 .IP "\fB\--sourcerpm\fP"
-Search through source rpm.
+Prints and searches through the names of source rpms.
 .IP "\fB\--summary\fP"
-Search through summary.
+Prints and searches through the Summary tag.
 .IP "\fB\--synthesis\fP \fIfile\fP"
 Use the given synthesis file instead of urpmi db for searching packages and
 resolving dependencies.
@@ -69,7 +70,7 @@ Do not print identical lines.
 Use only update media. This means \fBurpmi\fP will search and resolve
 dependencies only in media marked as update.
 .IP "\fB\--url\fP"
-Search through url.
+Prints and searches through url.
 .IP "\fB\--verbose\fP"
 Verbose mode with various messages.
 .IP "\fB-i\fP"
