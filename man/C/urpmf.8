@@ -1,95 +1,99 @@
-.TH urpmf 8 "10 Sep 2003" "Mandriva" "Mandriva Linux"
+.TH urpmf 8 "12 Sep 2005" "Mandriva" "Mandriva Linux"
 .IX urpmf
 .SH NAME
-urpmf \- RPMFind - Finds the RPM package providing specified files
+urpmf \- Finds the packages matching some conditions
 .SH SYNOPSIS
 .B urpmf [\fIoptions\fP] <\fIpattern\fP>
 .SH DESCRIPTION
-urpmf outputs a list of packages providing the file specified as an argument.
+By default, urpmf outputs a list of packages providing the file specified as an
+argument on the command-line.
 .PP
-\fIpattern\fP is the name or part of the name of the file you wish to know which
-packages are providing it. \fBurpmf\fP will then print a list of matching files
-with their corresponding packages.
+<\fIpattern\fP> is the name or part of the name of the file you want to locate.
+Regular expressions are allowed. \fBurpmf\fP will then print a list of matching
+files, with their corresponding packages. By using options, you may format
+output differently, and search through other rpm tags.
 .PP
-Using options you may search through other packages' parameters.
-\fBurpmf\fP searches through installed and uninstalled packages.
+Note that \fBurpmf\fP searches through the urpmi media (\fBnot\fP in the
+system's rpm database).
 .SH OPTIONS
 .IP "\fB\--help\fP"
 print a help message and exit.
-.IP "\fB\--update\fP"
-Use only update media. This means \fBurpmi\fP will search and resolve
-dependencies only in media marked as update.
-.IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
-Select specific media to use instead of all media available (or update media if
-\fB--update\fP is used).
+.IP "\fB\--all\fP"
+Search through all parameters listed below.
+.IP "\fB\--buildhost\fP"
+Search through build host.
+.IP "\fB\--conflicts\fP"
+Search through conflicts.
+.IP "\fB\--description\fP"
+Search through description.
+.IP "\fB\--env\fP \fIdirectory\fP"
+Use a different environment directly from a bug report to replay a bug.
+.IP "\fB\--epoch\fP"
+Search through epoch.
 .IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
 Do not use the given media.
-.IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
-Sort the given media, substrings may be used to simplify grouping.
-.IP "\fB\--synthesis\fP \fIfile\fP"
-Use the given synthesis file instead of urpmi db for searching packages and
-resolving dependencies.
-.IP "\fB\--verbose\fP"
-Propose a verbose mode with various messages.
+.IP "\fB\--files\fP"
+Search through files (this is the default).
+.IP "\fB\--group\fP"
+Search through group.
+.IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
+Select specific media to be used, instead of defaulting to all available media
+(or all update media if \fB--update\fP is used).
+.IP "\fB\--name\fP"
+Search through package names.
+.IP "\fB\--obsoletes\fP"
+Search through obsoletes.
+.IP "\fB\--packager\fP"
+Search through packager.
+.IP "\fB\--provides\fP"
+Search through provides.
 .IP "\fB\--quiet\fP"
 Do not print tag name (default if no tag given on command line, incompatible
 with interactive mode).
-.IP "\fB\--uniq\fP"
-Do not print identical lines.
-.IP "\fB\--all\fP"
-Search through all parameters listed below.
-.IP "\fB\--name\fP"
-Search through package names.
-.IP "\fB\--group\fP"
-Search through group.
-.IP "\fB\--size\fP"
-Search through size.
-.IP "\fB\--epoch\fP"
-Search through epoch.
-.IP "\fB\--summary\fP"
-Search through summary.
-.IP "\fB\--description\fP"
-Search through description.
-.IP "\fB\--sourcerpm\fP"
-Search through source rpm.
-.IP "\fB\--packager\fP"
-Search through packager.
-.IP "\fB\--buildhost\fP"
-Search through build host.
-.IP "\fB\--url\fP"
-Search through url.
-.IP "\fB\--provides\fP"
-Search through provides.
 .IP "\fB\--requires\fP"
 Search through requires.
-.IP "\fB\--files\fP"
-Search through files, this is the default.
-.IP "\fB\--conflicts\fP"
-Search through conflicts.
-.IP "\fB\--obsoletes\fP"
-Search through obsoletes.
-.IP "\fB\--env\fP \fIdirectory\fP"
-Use a different environment directly from a bug report to replay a bug, the
-argument is the same argument given to \fB--bug\fP option.
+.IP "\fB\--size\fP"
+Search through size.
+.IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
+Sort the given media, substrings may be used to simplify grouping.
+.IP "\fB\--sourcerpm\fP"
+Search through source rpm.
+.IP "\fB\--summary\fP"
+Search through summary.
+.IP "\fB\--synthesis\fP \fIfile\fP"
+Use the given synthesis file instead of urpmi db for searching packages and
+resolving dependencies.
+.IP "\fB\--uniq\fP"
+Do not print identical lines.
+.IP "\fB\--update\fP"
+Use only update media. This means \fBurpmi\fP will search and resolve
+dependencies only in media marked as update.
+.IP "\fB\--url\fP"
+Search through url.
+.IP "\fB\--verbose\fP"
+Verbose mode with various messages.
 .IP "\fB-i\fP"
 Ignore case distinctions in any patterns.
+.IP "\fB-q\fP"
+Synonym of \fB--quiet\fP.
 .IP "\fB-f\fP"
 Print version, release and arch along with name of package.
 .IP "\fB-m\fP"
 Print the name of the media in which the package has been found.
 .IP "\fB-e\fP"
-Include code directly in generated perl expression. Use it with \fB--verbose\fP
-to look at perl code generated. But in any cases, use it only if you know perl.
+Include code directly in the perl search expression. Use it with
+\fB--verbose\fP to look at the generated perl code. In any cases, use it only
+if you know perl.
 .IP "\fB-a\fP"
 Binary AND operator, true if both expressions are true.
 .IP "\fB-o\fP"
 Binary OR operator, true if one expression is true.
-.IP "\fB!\fP"
+.IP "\fB-!\fP"
 Unary NOT, true if expression is false.
-.IP "\fB(\fP"
-Left parenthesis to open group expression.
-.IP "\fB)\fP"
-Right parenthesis to close group expression.
+.IP "\fB-(\fP"
+Left parenthesis to open a group expression.
+.IP "\fB-)\fP"
+Right parenthesis to close a group expression.
 .SH FILES
 See \fIurpmi.files\fP(5).
 .SH "SEE ALSO"
