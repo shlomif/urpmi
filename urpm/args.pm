@@ -212,7 +212,13 @@ my %options_spec = (
 	force => \$options{force},
 	'skip=s' => \$options{skip},
 	'root=s' => sub { require File::Spec; $options{root} = File::Spec->rel2abs($_[1]) },
-	'use-distrib=s' => \$options{usedistrib},
+	'use-distrib=s' => sub {
+	    if ($< != 0) {
+		print STDERR N("You need to be root to use --use-distrib"), "\n";
+		exit 1;
+	    }
+	    $options{usedistrib} = $_[1];
+	},
 	'parallel=s' => \$options{parallel},
 	'env=s' => \$options{env},
 	'nolock' => \$options{nolock},

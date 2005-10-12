@@ -415,7 +415,23 @@ sub write_config {
     delete $urpm->{modified};
 }
 
-#- read urpmi.cfg file as well as synthesis file needed.
+#- read urpmi.cfg file as well as necessary synthesis files
+#- options :
+#-	callback
+#-	call_back_only_once
+#-	excludemedia
+#-	hdlist
+#-	media
+#-	nodepslist
+#-	noinstalling
+#-	noskipping
+#-	parallel
+#-	root
+#-	searchmedia
+#-	skip
+#-	sortmedia
+#-	update
+#-	usedistrib
 sub configure {
     my ($urpm, %options) = @_;
 
