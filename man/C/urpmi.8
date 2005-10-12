@@ -1,7 +1,7 @@
-.TH urpmi 8 "25 Nov 2004" "Mandriva" "Mandriva Linux"
+.TH urpmi 8 "12 Oct 2005" "Mandriva" "Mandriva Linux"
 .IX urpmi
 .SH NAME
-urpmi \- rpm wrapper making installs easier for the user
+urpmi \- rpm downloader, installer and dependency solver
 .SH SYNOPSIS
 .B urpmi [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
@@ -42,8 +42,8 @@ Print a help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
 Use only update media. This means that \fBurpmi\fP will search packages and
 resolve dependencies only in media marked as containing updates.
 .IP "\fB\--media\fP \fImedia1,...,mediaN\fP"
-Select specific media to be used, instead of all available media (or update
-media if \fB--update\fP is used).
+Select specific media to be used, instead of defaulting to all available media (or
+all update media if \fB--update\fP is used).
 .IP "\fB\--excludemedia\fP \fImedia1,...,mediaN\fP"
 Do not use the specified media.
 .IP "\fB\--searchmedia\fP \fImedia\fP"
@@ -79,9 +79,9 @@ Split urpmi's operation in small transactions of at least \fIcount\fP
 packages. The default is 1 and setting this value to 0 just disables splitting
 in small transactions.
 .IP "\fB\--fuzzy\fP"
-Disable fast search on exact package name; i.e. it will propose all
-packages matching the name partially, even if one of them matches exactly the
-specified name (this is the same as \fB\-y\fP).
+Disable fast search on exact package name; that means that urpmi will propose
+all packages matching the name partially, even if one of them matches exactly
+the specified name (this is the same as \fB\-y\fP).
 .IP "\fB\--src\fP \fIname\fP"
 Search a source package matching \fIname\fP and select all its dependencies by
 default, unless \fB\--install-src\fP is used in order to install the source
@@ -135,10 +135,11 @@ Use specified user and password to use for proxy authentication.
 Specifying \fB\--proxy-user=ask\fP will cause urpmi to prompt for a username
 and a password.
 .IP "\fB\--bug\fP \fIdirectory\fP"
-Create a bug report in \fIdirectory\fP, you have to send a compressed archive of
-the directory to the \fBurpmi\fP maintainer for the bug being (probably) fixed.
+Create a bug report in \fIdirectory\fP. You have to send a compressed archive of
+the directory to the urpmi maintainer for the bug being (probably)
+reproduced.
 .IP "\fB\--env\fP \fIdirectory\fP"
-Use a different environment directly from a bug report to replay a bug, the
+Use a different environment directly from a bug report to replay a bug. The
 argument is the same argument given to \fB--bug\fP option.
 .IP "\fB\--verify-rpm\fP"
 .IP "\fB\--no-verify-rpm\fP"
@@ -234,7 +235,7 @@ resolved.
 .PP
 For sending the report, use
 .I tar cvfz bug_name_as_directory.tgz bug_name_as_directory
-and send it directly to the current maintainer (rgarciasuarez@mandriva.com)
+and send it directly to the current maintainer
 with a description of what you think is wrong.
 .SH BUGS
 When a package is removed, it may not be replaced with an older version.
