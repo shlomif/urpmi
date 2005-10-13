@@ -104,7 +104,7 @@ foreach (scalar(grep { defined $_ } values %params)) {
 
 #- build the callback matching the expression.
 my $callback = 'sub { my ($urpm, $pkg) = @_; '; #- it is a good start for a sub, no ;-)
-foreach (qw(
+foreach my $tag (qw(
     buildhost
     conflicts
     description
@@ -122,11 +122,11 @@ foreach (qw(
     summary
     url
 )) {
-    if ($params{$_}) {
-	my $fi = $_ eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->'.$_;
+    if ($params{$tag}) {
+	my $fi = $tag eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->'.$tag;
 	$callback .= '
       foreach my $e ('.$fi.') {
-        local $_ = $pkg->'.$full.'name."'.(!$quiet && ":$_").':$e";
+        local $_ = $pkg->'.$full.'name."'.(!$quiet && ":$tag").':$e";
         '.$expr.' or next;
         '.($uniq && 'exists $uniq{$_} and next; $uniq{$_} = undef;
         ').'print "$_\n";
