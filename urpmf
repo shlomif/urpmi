@@ -79,8 +79,8 @@ our $synthesis = '';
 our $verbose = 0;
 our $quiet;
 our $uniq = '';
-our $pattern = '';
-our $full = '';
+our $pattern = ''; # regexp match flags ("i" or "")
+our $full = ''; # -f : print rpm fullname instead of rpm name
 our $env;
 our (%params, %uniq);
 
@@ -92,16 +92,34 @@ my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
 foreach (scalar(grep { defined $_ } values %params)) {
-    # default is to search on file names
+    #- nothing on the command-line : default is to search on file names
     $_ == 0 and do { defined $quiet or $quiet = 1; $params{files} = 1 };
+    #- only one tag : turn --quiet on
     $_ == 1 and do { defined $quiet or $quiet = 1 };
+    #- else keep --quiet off
     $_ > 1  and do { defined $quiet or $quiet = 0 };
 }
 
 #- build the callback matching the expression.
 my $callback = 'sub { my ($urpm, $pkg) = @_; '; #- it is a good start for a sub, no ;-)
-foreach (qw(filename group size epoch summary description sourcerpm packager buildhost url
-            provides requires files conflicts obsoletes media)) {
+foreach (qw(
+    buildhost
+    conflicts
+    description
+    epoch
+    filename
+    files
+    group
+    media
+    obsoletes
+    packager
+    provides
+    requires
+    size
+    sourcerpm
+    summary
+    url
+)) {
     if ($params{$_}) {
 	my $fi = $_ eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->'.$_;
 	$callback .= '
