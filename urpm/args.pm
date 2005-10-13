@@ -167,7 +167,7 @@ my %options_spec = (
 	o => sub { $::expr .= ' || ' },
 	'<>' => sub {
 	    my $p = shift;
-	    if ($p =~ /^-([!()])$/) {
+	    if ($p =~ /^-?([!()])$/) {
 		# This is for -! -( -)
 		$::expr .= $1;
 	    }
