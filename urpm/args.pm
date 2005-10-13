@@ -179,7 +179,7 @@ my %options_spec = (
 	    }
 	    else {
 		# This is for non-option arguments.
-		if ($literal) {
+		if ($::literal) {
 		    $p = quotemeta $p;
 		} else {
 		    # quote "+" chars for packages with + in their names
