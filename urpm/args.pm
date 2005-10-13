@@ -148,6 +148,7 @@ my %options_spec = (
 	epoch => \$::params{epoch},
 	files => \$::params{files},
 	group => \$::params{group},
+	literal => \$::literal,
 	name => \$::params{filename},
 	obsoletes => \$::params{obsoletes},
 	packager => \$::params{packager},
@@ -178,8 +179,12 @@ my %options_spec = (
 	    }
 	    else {
 		# This is for non-option arguments.
-		# quote "+" chars for packages with + in their names
-		$p =~ s/\+/\\+/g;
+		if ($literal) {
+		    $p = quotemeta $p;
+		} else {
+		    # quote "+" chars for packages with + in their names
+		    $p =~ s/\+/\\+/g;
+		}
 		$::expr .= "m{$p}" . $::pattern;
 	    }
 	},

@@ -40,6 +40,7 @@ usage:
 ") . N("  --excludemedia - do not use the given media, separated by comma.
 ") . N("  --files        - print tag files: all files.
 ") . N("  --group        - print tag group: group.
+") . N("  --literal      - don't match patterns, but use argument as a literal string
 ") . N("  --media        - use only the given media, separated by comma.
 ") . N("  --name         - print only package names.
 ") . N("  --obsoletes    - print tag obsoletes: all obsoletes.
@@ -81,6 +82,7 @@ our $quiet;
 our $uniq = '';
 our $pattern = ''; # regexp match flags ("i" or "")
 our $full = ''; # -f : print rpm fullname instead of rpm name
+our $literal = 0; # should we quotemeta the pattern
 our $env;
 our (%params, %uniq);
 
