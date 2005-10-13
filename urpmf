@@ -129,8 +129,12 @@ if ($env) {
     $urpm->{statedir} = $env;
 }
 
-# TODO - necessary to lock ? why ?
-$urpm->shlock_urpmi_db;
+{
+    #- lock to avoid concurrent media updates,
+    #- but don't die if it doesn't work
+    local $urpm->{fatal} = sub { printf STDERR "%s\n", $_[0] };
+    $urpm->shlock_urpmi_db;
+}
 my $use_hdlist = ($params{description} ||
     $params{sourcerpm} || $params{packager} || $params{buildhost} ||
     $params{url} || $params{files});
