@@ -178,8 +178,8 @@ my %options_spec = (
 	    }
 	    else {
 		# This is for non-option arguments.
-		# Assume a regex unless a ++ is inside the string.
-		$p = quotemeta $p if $p =~ /\+\+/;
+		# quote "+" chars for packages with + in their names
+		$p =~ s/\+/\\+/g;
 		$::expr .= "m{$p}" . $::pattern;
 	    }
 	},
