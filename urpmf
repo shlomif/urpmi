@@ -119,7 +119,7 @@ foreach my $tag (qw(
 	my $fi = $tag eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->' . $tag;
 	$callback .= '
       foreach my $e (' . $fi . ') {
-        local $_ = $pkg->' . $full . 'name.":' . $tag . ':$e";
+        local $_ = $pkg->' . $full . 'name.":$e";
         ' . $expr . ' or next;
         ' . ($uniq && 'exists $uniq{$_} and next; $uniq{$_} = undef;
         ') . 'print "$_\n";
