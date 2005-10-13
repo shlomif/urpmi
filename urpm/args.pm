@@ -143,6 +143,7 @@ my %options_spec = (
 	},
 	buildhost => \$::params{buildhost},
 	conflicts => \$::params{conflicts},
+	debug => \$::debug,
 	description => \$::params{description},
 	epoch => \$::params{epoch},
 	files => \$::params{files},
