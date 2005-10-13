@@ -46,8 +46,6 @@ usage:
 ") . N("  --obsoletes    - print tag obsoletes: all obsoletes.
 ") . N("  --packager     - print tag packager: packager.
 ") . N("  --provides     - print tag provides: all provides.
-") . N("  --quiet        - do not print tag name (default if no tag given on command
-                   line, incompatible with interactive mode).
 ") . N("  --requires     - print tag requires: all requires.
 ") . N("  --size         - print tag size: size.
 ") . N("  --sortmedia    - sort media according to substrings separated by comma.
@@ -78,7 +76,6 @@ our $excludemedia = '';
 our $sortmedia = '';
 our $synthesis = '';
 our $verbose = 0;
-our $quiet;
 our $uniq = '';
 our $pattern = ''; # regexp match flags ("i" or "")
 our $full = ''; # -f : print rpm fullname instead of rpm name
@@ -93,13 +90,9 @@ urpm::args::parse_cmdline();
 my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
-foreach (scalar(grep { defined $_ } values %params)) {
+unless (scalar(grep defined, values %params)) {
     #- nothing on the command-line : default is to search on file names
-    $_ == 0 and do { defined $quiet or $quiet = 1; $params{files} = 1 };
-    #- only one tag : turn --quiet on
-    $_ == 1 and do { defined $quiet or $quiet = 1 };
-    #- else keep --quiet off
-    $_ > 1  and do { defined $quiet or $quiet = 0 };
+    $params{files} = 1;
 }
 
 #- build the callback matching the expression.
@@ -123,13 +116,13 @@ foreach my $tag (qw(
     url
 )) {
     if ($params{$tag}) {
-	my $fi = $tag eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->'.$tag;
+	my $fi = $tag eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->' . $tag;
 	$callback .= '
-      foreach my $e ('.$fi.') {
-        local $_ = $pkg->'.$full.'name."'.(!$quiet && ":$tag").':$e";
-        '.$expr.' or next;
-        '.($uniq && 'exists $uniq{$_} and next; $uniq{$_} = undef;
-        ').'print "$_\n";
+      foreach my $e (' . $fi . ') {
+        local $_ = $pkg->' . $full . 'name.":' . $tag . ':$e";
+        ' . $expr . ' or next;
+        ' . ($uniq && 'exists $uniq{$_} and next; $uniq{$_} = undef;
+        ') . 'print "$_\n";
       }';
     }
 }
@@ -175,7 +168,7 @@ $urpm->unlock_urpmi_db;
 if ($use_hdlist) {
     # @hdmedia is the list of all media searched that use hdlists
     my @hdmedia = grep {
-	!$_->{synthesis} && !$_->{removable} && !$_->{ignore}
+	!$_->{synthesis} && !$_->{removable} && !$_->{ignore};
     } @{ $urpm->{media} };
     if (!@hdmedia) {
 	print N("Note: since no media searched uses hdlists, urpmf was unable to return any result\n");

@@ -153,7 +153,6 @@ my %options_spec = (
 	obsoletes => \$::params{obsoletes},
 	packager => \$::params{packager},
 	provides => \$::params{provides},
-	'quiet|q' => \$::quiet,
 	requires => \$::params{requires},
 	size => \$::params{size},
 	sourcerpm => \$::params{sourcerpm},
