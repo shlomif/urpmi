@@ -141,10 +141,14 @@ my %options_spec = (
 		packager buildhost url provides requires files conflicts obsoletes))
 	    { $::params{$k} = 1 }
 	},
+	arch => \$::params{arch},
 	buildhost => \$::params{buildhost},
+	buildtime => \$::params{buildtime},
+	conffiles => \$::params{conf_files},
 	conflicts => \$::params{conflicts},
 	debug => \$::debug,
 	description => \$::params{description},
+	distribution => \$::params{distribution},
 	epoch => \$::params{epoch},
 	files => \$::params{files},
 	group => \$::params{group},
@@ -159,6 +163,7 @@ my %options_spec = (
 	summary => \$::params{summary},
 	'uniq|u' => \$::uniq,
 	url => \$::params{url},
+	vendor => \$::params{vendor},
 	'verbose|v' => \$::verbose,
 	m => \$::params{media},
 	i => sub { $::pattern = 'i' },

@@ -2,7 +2,7 @@
 
 # $Id$
 
-#- Copyright (C) 2002, 2003, 2004 Mandriva
+#- Copyright (C) 2002, 2003, 2004, 2005 Mandriva
 #-
 #- This program is free software; you can redistribute it and/or modify
 #- it under the terms of the GNU General Public License as published by
@@ -29,42 +29,46 @@ Copyright (C) 2002-2004 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-", $urpm::VERSION) . N("  --help         - print this help message.
-") . N("  --all          - print all tags.
-") . N("  --buildhost    - print tag buildhost: build host.
-") . N("  --conflicts    - print tag conflicts: all conflicts.
-") . N("  --description  - print tag description: description.
-") . N("  --env          - use specific environment (typically a bug
-                   report).
-") . N("  --epoch        - print tag epoch: epoch.
-") . N("  --excludemedia - do not use the given media, separated by comma.
-") . N("  --files        - print tag files: all files.
-") . N("  --group        - print tag group: group.
+", $urpm::VERSION) . N("  --help         - print this help message
+") . N("  --all          - print all tags
+") . N("  --arch         - print architecture
+") . N("  --buildhost    - print build host
+") . N("  --buildtime    - print build time
+") . N("  --conffiles    - print configuration files
+") . N("  --conflicts    - print conflict tags
+") . N("  --distribution - print distribution
+") . N("  --description  - print package description
+") . N("  --env          - use specific environment (typically a bug report)
+") . N("  --epoch        - print epoch
+") . N("  --excludemedia - do not use the given media, separated by comma
+") . N("  --files        - print the package's files
+") . N("  --group        - print group
 ") . N("  --literal      - don't match patterns, but use argument as a literal string
-") . N("  --media        - use only the given media, separated by comma.
-") . N("  --name         - print only package names.
-") . N("  --obsoletes    - print tag obsoletes: all obsoletes.
-") . N("  --packager     - print tag packager: packager.
-") . N("  --provides     - print tag provides: all provides.
-") . N("  --requires     - print tag requires: all requires.
-") . N("  --size         - print tag size: size.
-") . N("  --sortmedia    - sort media according to substrings separated by comma.
-") . N("  --sourcerpm    - print tag sourcerpm: source rpm.
-") . N("  --summary      - print tag summary: summary.
-") . N("  --synthesis    - use the synthesis given instead of urpmi db.
-") . N("  --uniq         - do not print identical lines.
-") . N("  --update       - use only update media.
-") . N("  --url          - print tag url: url.
-") . N("  --verbose      - verbose mode.
-") . N("  -m             - print the media in which the package was found.
-") . N("  -i             - ignore case distinctions in every pattern.
-") . N("  -f             - print version, release and arch with name.
-") . N("  -e             - include perl code directly as perl -e.
-") . N("  -a             - binary AND operator, true if both expression are true.
-") . N("  -o             - binary OR operator, true if one expression is true.
-") . N("  !              - unary NOT, true if expression is false.
-") . N("  (              - left parenthesis to open group expression.
-") . N("  )              - right parenthesis to close group expression.
+") . N("  --media        - use only the given media, separated by comma
+") . N("  --name         - print only package names
+") . N("  --obsoletes    - print obsoletes tags
+") . N("  --packager     - print packager
+") . N("  --provides     - print provides tags
+") . N("  --requires     - print requires tags
+") . N("  --size         - print installed size
+") . N("  --sortmedia    - sort media according to substrings separated by comma
+") . N("  --sourcerpm    - print source rpm name
+") . N("  --summary      - print summary
+") . N("  --synthesis    - use the synthesis given instead of urpmi db
+") . N("  --uniq         - do not print identical lines
+") . N("  --update       - use only update media
+") . N("  --url          - print url
+") . N("  --vendor       - print vendor
+") . N("  --verbose      - verbose mode
+") . N("  -m             - print the media in which the package was found
+") . N("  -i             - ignore case distinctions in every pattern
+") . N("  -f             - print version, release and arch with name
+") . N("  -e             - include perl code directly as perl -e
+") . N("  -a             - binary AND operator, true if both expression are true
+") . N("  -o             - binary OR operator, true if one expression is true
+") . N("  !              - unary NOT, true if expression is false
+") . N("  (              - left parenthesis to open group expression
+") . N("  )              - right parenthesis to close group expression
 ");
     exit(0);
 }
@@ -96,16 +100,27 @@ unless (scalar(grep defined, values %params)) {
 }
 
 #- build the callback matching the expression.
-my $callback = 'sub { my ($urpm, $pkg) = @_; '; #- it is a good start for a sub, no ;-)
-foreach my $tag (qw(
+my $callback = 'sub {
+    my ($urpm, $pkg) = @_;';
+if ($uniq) {
+    $uniq = "\n\t" . '$uniq{$_} and next; $uniq{$_} = 1;';
+}
+#- XXX name and fullname are for later
+foreach my $tag (grep { $params{$_} } qw(
+    arch
     buildhost
+    buildtime
+    conf_files
     conflicts
     description
+    distribution
     epoch
     filename
     files
+    fullname
     group
     media
+    name
     obsoletes
     packager
     provides
@@ -114,20 +129,18 @@ foreach my $tag (qw(
     sourcerpm
     summary
     url
+    vendor
 )) {
-    if ($params{$tag}) {
-	my $fi = $tag eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->' . $tag;
-	$callback .= '
-      foreach my $e (' . $fi . ') {
-        local $_ = $pkg->' . $full . 'name.":$e";
-        ' . $expr . ' or next;
-        ' . ($uniq && 'exists $uniq{$_} and next; $uniq{$_} = undef;
-        ') . 'print "$_\n";
-      }';
-    }
+    my $fi = $tag eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->' . $tag;
+    $callback .= qq{
+    foreach my \$e ($fi) {
+	local \$_ = \$pkg->${full}name.":\$e";
+	$expr or next;$uniq
+	print "\$_\\n";
+    }};
 }
 $callback .= '
-      1;
+    1;
 }';
 $urpm->{error}(N("callback is:\n%s\n", $callback)) if our $debug;
 $callback = eval $callback;
@@ -178,5 +191,3 @@ if ($use_hdlist) {
 	print N("You may want to use --name to search for package names.\n") if !$params{filename};
     }
 }
-
-#- that'all! all has been done by callback above.
