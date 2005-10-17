@@ -25,7 +25,7 @@ use urpm::msg;
 
 sub usage {
     print N("urpmf version %s
-Copyright (C) 2002-2004 Mandriva.
+Copyright (C) 2002-2005 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
@@ -164,9 +164,18 @@ if ($env) {
     local $urpm->{fatal} = sub { printf STDERR "%s\n", $_[0] };
     $urpm->shlock_urpmi_db;
 }
-my $use_hdlist = ($params{description} ||
-    $params{sourcerpm} || $params{packager} || $params{buildhost} ||
-    $params{url} || $params{files});
+my $use_hdlist = scalar grep { $params{$_} } qw(
+    buildhost
+    buildtime
+    conf_files
+    description
+    distribution
+    files
+    packager
+    sourcerpm
+    url
+    vendor
+);
 $urpm->configure(
     nocheck_access => 1,
     noskipping => 1,
