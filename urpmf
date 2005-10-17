@@ -131,7 +131,10 @@ $callback .= '
 }';
 $urpm->{error}(N("callback is:\n%s\n", $callback)) if our $debug;
 $callback = eval $callback;
-$@ and usage;
+if ($@) {
+    $debug and warn "Internal error: $@\n";
+    usage;
+}
 
 if ($env) {
     print STDERR N("using specific environment on %s\n", $env);
