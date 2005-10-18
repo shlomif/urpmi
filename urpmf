@@ -82,7 +82,7 @@ our $full = '';		# -f : print rpm fullname instead of rpm name
 our $literal = 0;	# should we quotemeta the pattern
 our $media = '';
 our $pattern = '';	# regexp match flags ("i" or "")
-our $qf = '%name';	# default format
+our $qf = '%default';	# format string
 our $sortmedia = '';
 our $synthesis = '';
 our $uniq = '';
@@ -96,16 +96,21 @@ our %uniq;
 
 #- parse arguments list.
 urpm::args::parse_cmdline();
+
+if ($qf eq '%default') {
+    #- nothing on the command-line : default is to search on file names
+    $qf = '%name:%files';
+    $params{files} = 1;
+} else {
+    #- else default to a leading %name
+    $qf =~ s/%default\b/%name/;
+}
+
+#- replace first %name by %fullname if -f was specified
 if ($full) { $qf =~ s/%name\b/%fullname/ }
 
 my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
-
-if ($qf eq '%name') {
-    #- nothing on the command-line : default is to search on file names
-    $qf = '%name:%files';
-    $params{files} = 1;
-}
 
 #- build the callback matching the expression.
 #- XXX it would be nice to use "my $_" in this callback.
@@ -185,6 +190,6 @@ if ($use_hdlist) {
     } @{ $urpm->{media} };
     if (!@hdmedia) {
 	print N("Note: since no media searched uses hdlists, urpmf was unable to return any result\n");
-	print N("You may want to use --name to search for package names.\n") if !$params{filename};
+	print N("You may want to use --name to search for package names.\n") if !$params{name};
     }
 }

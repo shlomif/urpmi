@@ -166,6 +166,11 @@ my %options_spec = (
 	conffiles => add_param_closure('conf_files'),
 	debug => \$::debug,
 	literal => \$::literal,
+	name => sub {
+	    add_param_closure('name')->();
+	    #- Remove default tag in front if --name is explicitly given
+	    $::qf =~ s/^%default:?//;
+	},
 	qf => \$::qf,
 	'uniq|u' => \$::uniq,
 	'verbose|v' => \$::verbose,
@@ -334,7 +339,6 @@ foreach my $k (qw(
     filename
     files
     group
-    name
     obsoletes
     packager
     provides
