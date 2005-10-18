@@ -331,9 +331,10 @@ foreach my $k (qw(
     description
     distribution
     epoch
+    filename
     files
     group
-    filename
+    name
     obsoletes
     packager
     provides
