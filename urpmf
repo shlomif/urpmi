@@ -41,6 +41,7 @@ usage:
 ") . N("  --env          - use specific environment (typically a bug report)
 ") . N("  --epoch        - print epoch
 ") . N("  --excludemedia - do not use the given media, separated by comma
+") . N("  --filename     - print the package's filename
 ") . N("  --files        - print the package's files
 ") . N("  --group        - print group
 ") . N("  --literal      - don't match patterns, but use argument as a literal string
@@ -75,22 +76,25 @@ usage:
 }
 
 #- default options.
-our $update = 0;
-our $media = '';
+our $env;
 our $excludemedia = '';
+our $full = '';		# -f : print rpm fullname instead of rpm name
+our $literal = 0;	# should we quotemeta the pattern
+our $media = '';
+our $pattern = '';	# regexp match flags ("i" or "")
+our $qf = '%name';	# default format
 our $sortmedia = '';
 our $synthesis = '';
-our $verbose = 0;
 our $uniq = '';
-our $pattern = ''; # regexp match flags ("i" or "")
-our $full = ''; # -f : print rpm fullname instead of rpm name
-our $literal = 0; # should we quotemeta the pattern
-our $qf = '%name';
-our $env;
-our (%params, %uniq);
+our $update = 0;
+our $verbose = 0;
+our %params;
+
+#- globals used in callback
+our $expr;		#- regexp to match against
+our %uniq;
 
 #- parse arguments list.
-our $expr;
 urpm::args::parse_cmdline();
 if ($full) { $qf =~ s/%name\b/%fullname/ }
 
