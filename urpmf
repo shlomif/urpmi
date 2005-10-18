@@ -84,65 +84,48 @@ our $uniq = '';
 our $pattern = ''; # regexp match flags ("i" or "")
 our $full = ''; # -f : print rpm fullname instead of rpm name
 our $literal = 0; # should we quotemeta the pattern
+our $qf = '%name';
 our $env;
 our (%params, %uniq);
 
 #- parse arguments list.
 our $expr;
 urpm::args::parse_cmdline();
+if ($full) { $qf =~ s/%name\b/%fullname/ }
 
 my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
-unless (scalar(grep defined, values %params)) {
+if ($qf eq '%name') {
     #- nothing on the command-line : default is to search on file names
+    $qf = '%name:%files';
     $params{files} = 1;
 }
 
 #- build the callback matching the expression.
-my $callback = 'sub {
-    my ($urpm, $pkg) = @_;';
-if ($uniq) {
-    $uniq = "\n\t" . '$uniq{$_} and next; $uniq{$_} = 1;';
+#- XXX it would be nice to use "my $_" in this callback.
+my $callback = qq<sub {
+    my (\$urpm, \$pkg) = \@_;
+    local *_; \$_ = sprintf(qq{$qf\\n}>;
+my $sprintfargs = '';
+while ($callback =~ /%[-\d]*(\w+)/g) {
+    my $tag = $1;
+    if ($tag eq 'media') {
+	$sprintfargs .= ', $urpm::currentmedia->{name}';
+    } elsif ($tag eq 'fullname') {
+	$sprintfargs .= ', scalar($pkg->fullname)';
+    } else {
+	$sprintfargs .= ', $pkg->' . $tag;
+    }
 }
-#- XXX name and fullname are for later
-foreach my $tag (grep { $params{$_} } qw(
-    arch
-    buildhost
-    buildtime
-    conf_files
-    conflicts
-    description
-    distribution
-    epoch
-    filename
-    files
-    fullname
-    group
-    media
-    name
-    obsoletes
-    packager
-    provides
-    requires
-    size
-    sourcerpm
-    summary
-    url
-    vendor
-)) {
-    my $fi = $tag eq 'media' ? '$urpm::currentmedia->{name}' : '$pkg->' . $tag;
-    $callback .= qq{
-    foreach my \$e ($fi) {
-	local \$_ = \$pkg->${full}name.":\$e";
-	$expr or next;$uniq
-	print "\$_\\n";
-    }};
-}
-$callback .= '
+$callback =~ s/%([-\d]*)(\w+)/%${1}s/g;
+$uniq and $uniq = "\n" . '    $uniq{$_} and return 1; $uniq{$_} = 1;';
+$callback .= qq<$sprintfargs);
+    $expr or return 1;$uniq
+    print;
     1;
-}';
-$urpm->{error}(N("callback is:\n%s\n", $callback)) if our $debug;
+}>;
+$urpm->{error}("qf:[$qf]\ncallback:\n$callback") if our $debug;
 $callback = eval $callback;
 if ($@) {
     $debug and warn "Internal error: $@\n";
