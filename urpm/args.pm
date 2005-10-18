@@ -163,13 +163,13 @@ my %options_spec = (
 	    summary
 	    url
 	)),
-	conffiles => \$::params{conf_files},
+	conffiles => add_param_closure('conf_files'),
 	debug => \$::debug,
 	literal => \$::literal,
 	qf => \$::qf,
 	'uniq|u' => \$::uniq,
 	'verbose|v' => \$::verbose,
-	m => \$::params{media},
+	m => add_param_closure('media'),
 	i => sub { $::pattern = 'i' },
 	f => sub { $::full = 'full' },
 	'e=s' => sub { $::expr .= "($_[1])" },
