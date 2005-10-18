@@ -150,6 +150,7 @@ my %options_spec = (
 	    buildhost
 	    conflicts
 	    description
+	    epoch
 	    filename
 	    files
 	    group
