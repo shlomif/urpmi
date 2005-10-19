@@ -30,7 +30,6 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
 ", $urpm::VERSION) . N("  --help         - print this help message
-") . N("  --all          - print all tags
 ") . N("  --arch         - print architecture
 ") . N("  --buildhost    - print build host
 ") . N("  --buildtime    - print build time
@@ -113,7 +112,8 @@ my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
 #- build the callback matching the expression.
-#- XXX it would be nice to use "my $_" in this callback.
+#- it would be nice to use "my $_" in this callback.
+#- TODO handle multiple valued tags, requires, provides, files, etc
 my $callback = qq<sub {
     my (\$urpm, \$pkg) = \@_;
     local *_; \$_ = sprintf(qq{$qf\\n}>;
