@@ -112,11 +112,25 @@ my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
 #- build the callback matching the expression.
+#- count multi-valued tags
+my $multi = 0;
+my $multitag = '';
+my %multitags = map { $_ => 1 } qw/conffiles conflicts files obsoletes provides requires/;
+while ($qf =~ /%[-\d]*(\w+)/g) { ++$multi, $multitag = $1 if $multitags{$1} }
+$multi > 1
+    and $urpm->{fatal}->(1, N("Incorrect format: you may use only one multi-valued tag"));
+
 #- it would be nice to use "my $_" in this callback.
-#- TODO handle multiple valued tags, requires, provides, files, etc
 my $callback = qq<sub {
     my (\$urpm, \$pkg) = \@_;
-    local *_; \$_ = sprintf(qq{$qf\\n}>;
+    local *_;>;
+if ($multi) {
+    $callback .= qq/
+    for my \$mt (\$pkg->$multitag) {/;
+}
+$callback .= qq<
+    \$_ = sprintf(qq{$qf\\n}>;
+
 my $sprintfargs = '';
 while ($callback =~ /%[-\d]*(\w+)/g) {
     my $tag = $1;
@@ -124,6 +138,8 @@ while ($callback =~ /%[-\d]*(\w+)/g) {
 	$sprintfargs .= ', $urpm::currentmedia->{name}';
     } elsif ($tag eq 'fullname') {
 	$sprintfargs .= ', scalar($pkg->fullname)';
+    } elsif ($tag eq $multitag) {
+	$sprintfargs .= ', $mt';
     } else {
 	$sprintfargs .= ', $pkg->' . $tag;
     }
@@ -132,9 +148,9 @@ $callback =~ s/%([-\d]*)(\w+)/%${1}s/g;
 $uniq and $uniq = "\n" . '    $uniq{$_} and return 1; $uniq{$_} = 1;';
 $callback .= qq<$sprintfargs);
     $expr or return 1;$uniq
-    print;
-    1;
-}>;
+    print;>;
+$callback .= "\n    }" if $multi;
+$callback .= "\n    1;\n}";
 $urpm->{error}("qf:[$qf]\ncallback:\n$callback") if our $debug;
 $callback = eval $callback;
 if ($@) {
@@ -154,7 +170,7 @@ if ($env) {
 {
     #- lock to avoid concurrent media updates,
     #- but don't die if it doesn't work
-    local $urpm->{fatal} = sub { printf STDERR "%s\n", $_[0] };
+    local $urpm->{fatal} = sub { printf STDERR "%s\n", $_[1] };
     $urpm->shlock_urpmi_db;
 }
 my $use_hdlist = scalar grep { $params{$_} } qw(
