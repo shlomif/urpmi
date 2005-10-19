@@ -154,7 +154,7 @@ my %options_spec = (
 	    #- Remove default tag in front if --name is explicitly given
 	    $::qf =~ s/^%default:?//;
 	},
-	qf => \$::qf,
+	'qf=s' => \$::qf,
 	'uniq|u' => \$::uniq,
 	'verbose|v' => \$::verbose,
 	m => add_param_closure('media'),
