@@ -147,9 +147,10 @@ while ($callback =~ /%[-\d]*(\w+)/g) {
     }
 }
 $callback =~ s/%([-\d]*)(\w+)/%${1}s/g;
-$uniq and $uniq = "\n" . '    $uniq{$_} and return 1; $uniq{$_} = 1;';
+my $next_st = $multi ? 'next' : 'return 1';
+$uniq and $uniq = "\n" . '    $uniq{$_} and ' . $next_st . '; $uniq{$_} = 1;';
 $callback .= qq<$sprintfargs);
-    $expr or return 1;$uniq
+    $expr or $next_st;$uniq
     print;>;
 $callback .= "\n    }" if $multi;
 $callback .= "\n    1;\n}";
