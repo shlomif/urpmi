@@ -75,7 +75,7 @@ usage:
 }
 
 #- default options.
-our $env;
+our $env;		# bug report directory
 our $excludemedia = '';
 our $full = '';		# -f : print rpm fullname instead of rpm name
 our $literal = 0;	# should we quotemeta the pattern
@@ -84,13 +84,12 @@ our $pattern = '';	# regexp match flags ("i" or "")
 our $qf = '%default';	# format string
 our $sortmedia = '';
 our $synthesis = '';
-our $uniq = '';
-our $update = 0;
-our $verbose = 0;
-our %params;
+our $uniq = '';		# --uniq
+our $update = 0;	# --update
+our $verbose = 0;	# --verbose
 
 #- globals used in callback
-our $expr;		#- regexp to match against
+our $expr;		# regexp to match against
 our %uniq;
 
 #- parse arguments list.
@@ -99,7 +98,6 @@ urpm::args::parse_cmdline();
 if ($qf eq '%default') {
     #- nothing on the command-line : default is to search on file names
     $qf = '%name:%files';
-    $params{files} = 1;
 } else {
     #- else default to a leading %name
     $qf =~ s/%default\b/%name/;
@@ -116,7 +114,11 @@ $verbose or $urpm->{log} = sub {};
 my $multi = 0;
 my $multitag = '';
 my %multitags = map { $_ => 1 } qw/conffiles conflicts files obsoletes provides requires/;
-while ($qf =~ /%[-\d]*(\w+)/g) { ++$multi, $multitag = $1 if $multitags{$1} }
+my %usedtags;
+while ($qf =~ /%[-\d]*(\w+)/g) {
+    ++$multi, $multitag = $1 if $multitags{$1};
+    $usedtags{$1} = 1;
+}
 $multi > 1
     and $urpm->{fatal}->(1, N("Incorrect format: you may use only one multi-valued tag"));
 
@@ -173,7 +175,7 @@ if ($env) {
     local $urpm->{fatal} = sub { printf STDERR "%s\n", $_[1] };
     $urpm->shlock_urpmi_db;
 }
-my $use_hdlist = scalar grep { $params{$_} } qw(
+my $use_hdlist = grep { $usedtags{$_} } qw(
     buildhost
     buildtime
     conf_files
@@ -206,6 +208,6 @@ if ($use_hdlist) {
     } @{ $urpm->{media} };
     if (!@hdmedia) {
 	print N("Note: since no media searched uses hdlists, urpmf was unable to return any result\n");
-	print N("You may want to use --name to search for package names.\n") if !$params{name};
+	print N("You may want to use --name to search for package names.\n") if !$usedtags{name};
     }
 }

@@ -34,10 +34,7 @@ sub import {
 # used by urpmf
 sub add_param_closure {
     my (@tags) = @_;
-    return sub {
-	$::qf .= join ':', '', map "%$_", @tags;
-	$::params{$_} = 1 for @tags;
-    };
+    return sub { $::qf .= join ':', '', map "%$_", @tags };
 }
 
 # options specifications for Getopt::Long
