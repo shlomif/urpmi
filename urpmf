@@ -28,50 +28,54 @@ sub usage {
 Copyright (C) 2002-2005 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
-usage:
+usage: urpmf [options] pattern-expression
 ", $urpm::VERSION)
    . N("  --help         - print this help message
-") . N("  --arch         - print architecture
-") . N("  --buildhost    - print build host
-") . N("  --buildtime    - print build time
-") . N("  --conffiles    - print configuration files
-") . N("  --conflicts    - print conflict tags
-") . N("  --distribution - print distribution
-") . N("  --description  - print package description
+") . N("  --version      - print this tool's version number
 ") . N("  --env          - use specific environment (typically a bug report)
-") . N("  --epoch        - print epoch
 ") . N("  --excludemedia - do not use the given media, separated by comma
-") . N("  --filename     - print the package's filename
-") . N("  --files        - print the package's files
-") . N("  --group        - print group
-") . N("  --literal      - don't match patterns, but use argument as a literal string
+") . N("  --literal, -l  - don't match patterns, use argument as a literal string
 ") . N("  --media        - use only the given media, separated by comma
-") . N("  --name         - print only package names
-") . N("  --obsoletes    - print obsoletes tags
-") . N("  --packager     - print packager
-") . N("  --provides     - print provides tags
-") . N("  --qf           - specify a printf-like output format
-") . N("  --requires     - print requires tags
-") . N("  --size         - print installed size
 ") . N("  --sortmedia    - sort media according to substrings separated by comma
-") . N("  --sourcerpm    - print source rpm name
-") . N("  --summary      - print summary
-") . N("  --synthesis    - use the synthesis given instead of urpmi db
-") . N("  --uniq         - do not print identical lines
+") . N("  --synthesis    - use this synthesis instead of urpmi db
+") . N("  --uniq         - do not print identical lines twice
 ") . N("  --update       - use only update media
-") . N("  --url          - print url
-") . N("  --vendor       - print vendor
 ") . N("  --verbose      - verbose mode
-") . N("  -m             - print the media in which the package was found
-") . N("  -i             - ignore case distinctions in every pattern
-") . N("  -f             - print version, release and arch with name
+") . N("  -i             - ignore case distinctions in patterns
 ") . N("  -F<str>        - change field separator (defaults to ':')
+") . N("Pattern expressions:
+") . N("  text		 - any text is parsed as a regexp, unless -l is used
 ") . N("  -e             - include perl code directly as perl -e
-") . N("  -a             - binary AND operator, true if both expression are true
-") . N("  -o             - binary OR operator, true if one expression is true
-") . N("  !              - unary NOT, true if expression is false
-") . N("  (              - left parenthesis to open group expression
-") . N("  )              - right parenthesis to close group expression
+") . N("  -a             - binary AND operator
+") . N("  -o             - binary OR operator
+") . N("  !              - unary NOT
+") . N("  ( )            - left and right parentheses
+") . N("List of tags:
+") . N("  --qf           - specify a printf-like output format
+") . N("                   example: '%%name:%%files'
+") . N("  --arch         - architecture
+") . N("  --buildhost    - build host
+") . N("  --buildtime    - build time
+") . N("  --conffiles    - configuration files
+") . N("  --conflicts    - conflict tags
+") . N("  --distribution - distribution
+") . N("  --description  - package description
+") . N("  --epoch        - epoch
+") . N("  --filename     - filename of the package
+") . N("  --files        - list of files contained in the package
+") . N("  --group        - group
+") . N("  --name         - package name
+") . N("  --obsoletes    - obsoletes tags
+") . N("  --packager     - packager
+") . N("  --provides     - provides tags
+") . N("  --requires     - requires tags
+") . N("  --size         - installed size
+") . N("  --sourcerpm    - source rpm name
+") . N("  --summary      - summary
+") . N("  --url          - url
+") . N("  --vendor       - vendor
+") . N("  -m             - the media in which the package was found
+") . N("  -f             - print version, release and arch with name
 ");
     exit(0);
 }
