@@ -34,7 +34,7 @@ sub import {
 # used by urpmf
 sub add_param_closure {
     my (@tags) = @_;
-    return sub { $::qf .= join ':', '', map "%$_", @tags };
+    return sub { $::qf .= join $::separator, '', map "%$_", @tags };
 }
 
 # options specifications for Getopt::Long
@@ -156,7 +156,8 @@ my %options_spec = (
 	'verbose|v' => \$::verbose,
 	m => add_param_closure('media'),
 	i => sub { $::pattern = 'i' },
-	f => sub { $::full = 'full' },
+	f => sub { $::full = 1 },
+	'F=s' => sub { $::separator = $_[1] },
 	'e=s' => sub { $::expr .= "($_[1])" },
 	a => sub { $::expr .= ' && ' },
 	o => sub { $::expr .= ' || ' },

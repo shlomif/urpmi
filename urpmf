@@ -29,7 +29,8 @@ Copyright (C) 2002-2005 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-", $urpm::VERSION) . N("  --help         - print this help message
+", $urpm::VERSION)
+   . N("  --help         - print this help message
 ") . N("  --arch         - print architecture
 ") . N("  --buildhost    - print build host
 ") . N("  --buildtime    - print build time
@@ -64,6 +65,7 @@ usage:
 ") . N("  -m             - print the media in which the package was found
 ") . N("  -i             - ignore case distinctions in every pattern
 ") . N("  -f             - print version, release and arch with name
+") . N("  -F<str>        - change field separator (defaults to ':')
 ") . N("  -e             - include perl code directly as perl -e
 ") . N("  -a             - binary AND operator, true if both expression are true
 ") . N("  -o             - binary OR operator, true if one expression is true
@@ -82,6 +84,7 @@ our $literal = 0;	# should we quotemeta the pattern
 our $media = '';
 our $pattern = '';	# regexp match flags ("i" or "")
 our $qf = '%default';	# format string
+our $separator = ':';	# default field separator
 our $sortmedia = '';
 our $synthesis = '';
 our $uniq = '';		# --uniq
@@ -97,7 +100,7 @@ urpm::args::parse_cmdline();
 
 if ($qf eq '%default') {
     #- nothing on the command-line : default is to search on file names
-    $qf = '%name:%files';
+    $qf = '%name' . $separator . '%files';
 } else {
     #- else default to a leading %name
     $qf =~ s/%default\b/%name/;
