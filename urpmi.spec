@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.16
+%define version	4.7.17
 %define release	1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -252,6 +252,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Thu Oct 20 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.17-1mdk
+- Complete urpmf overhaul
+- Fix verbosity of downloader routines
+
 * Tue Oct 11 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.16-1mdk
 - New urpmi option --ignoresize
 - urpmq, urpmi.addmedia and urpmi.update now abort on unrecognized options
