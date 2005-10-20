@@ -145,7 +145,7 @@ my %options_spec = (
     urpmf => {
 	conffiles => add_param_closure('conf_files'),
 	debug => \$::debug,
-	literal => \$::literal,
+	'literal|l' => \$::literal,
 	name => sub {
 	    add_param_closure('name')->();
 	    #- Remove default tag in front if --name is explicitly given
