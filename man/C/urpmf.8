@@ -5,8 +5,8 @@ urpmf \- Finds the packages matching some conditions
 .SH SYNOPSIS
 .B urpmf [\fIoptions\fP] <\fIpattern-expression\fP>
 .SH DESCRIPTION
-By default, urpmf outputs a list of packages providing the file specified as an
-argument on the command-line.
+By default, urpmf outputs the list of the known packages that contain a file
+whose name or path was specified as an argument on the command-line.
 .PP
 <\fIpattern-expression\fP> is the name or part of the name of the file you want
 to locate. Perl-style regular expressions are allowed. \fBurpmf\fP will then
@@ -21,7 +21,7 @@ Prints a help message and exits.
 .IP "\fB\--version\fP"
 Prints the version number and exits.
 .IP "\fB\--env\fP \fIdirectory\fP"
-Use a different environment directly from a bug report.
+Use a different environment directly out of a bug report tarball.
 .IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
 Do not use the given media.
 .IP "\fB\--literal\fP"
@@ -57,8 +57,8 @@ Prints the BuildHost tag.
 .IP "\fB\--buildtime\fP"
 Prints the BuildTime tag.
 .IP "\fB\--conffiles\fP"
-Prints the list of configuration files contained in the
-package.
+Prints the list of configuration files contained in the package. (Might be
+empty.)
 .IP "\fB\--conflicts\fP"
 Prints the Conflicts tags.
 .IP "\fB\--description\fP"
@@ -70,8 +70,8 @@ Prints the Epoch tag.
 .IP "\fB\--filename\fP"
 Prints package file names.
 .IP "\fB\--files\fP"
-Prints the list of files contained in the rpm (this is the
-default).
+Prints the list of files contained in the rpm (this is the default if you
+specify no field).
 .IP "\fB\--group\fP"
 Prints the Group tag.
 .IP "\fB\--name\fP"
@@ -91,7 +91,7 @@ Prints the names of source rpms.
 .IP "\fB\--summary\fP"
 Prints the Summary tag.
 .IP "\fB\--url\fP"
-Prints the packages's URL.
+Prints the packages' URL.
 .IP "\fB\--vendor\fP"
 Prints the Vendor tag.
 .IP "\fB-m\fP"
@@ -130,7 +130,7 @@ the \fB-\fP character its justification (like in printf(3)).
 The boolean operator switches allow you to construct complex expressions from
 regexps. Those expressions are then matched against the whole output line.
 .SH EXAMPLE
-This command will list all perl-Apache- modules, and list them along with
+This command will list all perl-Apache modules, and list them along with
 the media in which they're been found, nicely indented :
 
 .B urpmf --qf '%-30name is found in media %media' perl-Apache
