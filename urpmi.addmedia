@@ -145,6 +145,7 @@ if ($options{distrib}) {
 	virtual => $options{virtual},
 	update => $options{update},
 	no_reload_config => $options{raw},
+	ignore => $options{raw},
     );
     urpm::download::copy_cmd_line_proxy($name);
     if ($options{raw}) {

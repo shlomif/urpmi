@@ -673,7 +673,7 @@ sub add_medium {
     $urpm->{media} or $urpm->read_config;
 
     #- if a medium with that name has already been found, we have to exit now
-    my ($medium);
+    my $medium;
     if (defined $options{index_name}) {
 	my $i = $options{index_name};
 	do {
@@ -694,7 +694,7 @@ sub add_medium {
     $url =~ s,/*$,,; #- clear URLs for trailing /es.
 
     #- creating the medium info.
-    $medium = { name => $name, url => $url, update => $options{update}, modified => 1 };
+    $medium = { name => $name, url => $url, update => $options{update}, modified => 1, ignore => $options{ignore} };
     if ($options{virtual}) {
 	$url =~ m!^(?:file:)?/! or $urpm->{fatal}(1, N("virtual medium needs to be local"));
 	$medium->{virtual} = 1;
@@ -721,8 +721,6 @@ sub add_medium {
     #- create an entry in media list.
     push @{$urpm->{media}}, $medium;
 
-    #- keep in mind the database has been modified and base files need to be updated.
-    #- this will be done automatically by transfering modified flag from medium to global.
     $urpm->{log}(N("added medium %s", $name));
 
     #- we need to reload the config, since some string substitutions may have occured
@@ -730,6 +728,9 @@ sub add_medium {
 	$urpm->write_config;
 	delete $urpm->{media};
 	$urpm->read_config(nocheck_access => 1);
+	#- Remember that the database has been modified and base files need to
+	#- be updated. This will be done automatically by transferring the
+	#- "modified" flag from medium to global.
 	$_->{name} eq $name and $_->{modified} = 1 foreach @{$urpm->{media}};
 	$urpm->{modified} = 1;
     }
