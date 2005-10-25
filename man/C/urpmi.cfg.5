@@ -146,6 +146,10 @@ verification (unless of course signature checking has been disabled globally).
 It's also possible to override \fBverify-rpm\fP and \fBdownloader\fP in
 a medium description.
 
+Media can be marked as \fBstatic\fP: this means that they won't be updated by
+\fBurpmi.update\fP or other means. This is useful for read-only media such as
+CDs.
+
 Please note that \fBkey-ids\fP is automatically set by \fBurpmi.update\fP or
 \fBurpmi.addmedia\fP if a remote pubkey file is available on the mirror. This
 file contains all the GPG armor keys that may be used.
