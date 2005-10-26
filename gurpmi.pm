@@ -39,7 +39,18 @@ sub fatal { my $s = $_[0]; print STDERR "$s\n"; exit 1 }
 sub parse_command_line {
     my @all_rpms;
     our %options;
-    foreach (@ARGV) {
+    # Expand *.urpmi arguments
+    my @ARGV_expanded;
+    foreach my $a (@ARGV) {
+	if ($a =~ /\.urpmi$/) {
+	    open my $fh, '<', $a or do { warn "Can't open $a: $!\n"; next };
+	    push @ARGV_expanded, map { chomp; $_ } <$fh>;
+	    close $fh;
+	} else {
+	    push @ARGV_expanded, $a;
+	}
+    }
+    foreach (@ARGV_expanded) {
 	if (/^-/) {
 	    $_ eq '--no-verify-rpm' and $options{'no-verify-rpm'} = 1;
 	    /^--?[hv?]/ and usage();
