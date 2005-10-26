@@ -402,7 +402,7 @@ that are older than the installed ones:\n%s", $list);
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
 	message_input(
-	    $msg . N("\nContinue?") . N(" (Y/n) "),
+	    $msg . N("\nContinue installation anyway?") . N(" (Y/n) "),
 	    $force && $yesexpr,
 	    boolean => 1,
 	) =~ /[$noexpr]/
@@ -413,14 +413,14 @@ that are older than the installed ones:\n%s", $list);
 my @ask_unselect = $urpm->unselected_packages($state);
 if (@ask_unselect) {
     my $list = join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect);
-    my $msg = N("Some package requested cannot be installed:\n%s", $list);
+    my $msg = N("Some requested packages cannot be installed:\n%s", $list);
     if ($urpm->{options}{auto}) {
 	message($msg);
     } else {
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
 	message_input(
-	    $msg . N("\nContinue?") . N(" (Y/n) "),
+	    $msg . N("\nContinue installation anyway?") . N(" (Y/n) "),
 	    $force && $yesexpr,
 	    boolean => 1,
 	) =~ /[$noexpr]/

@@ -72,7 +72,7 @@ $urpm->resolve_dependencies(
 my @ask_unselect = $urpm->unselected_packages($state);
 @ask_unselect
 ? ask_continue(N(
-	"Some package requested cannot be installed:\n%s\nContinue?",
+	"Some requested packages cannot be installed:\n%s\nContinue installation anyway?",
 	join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect)
     ), \&do_install)
 : do_install();
@@ -160,7 +160,7 @@ sub do_install {
     my @ask_remove = $urpm->removed_packages($state);
     @ask_remove
 	? ask_continue(N(
-	    "The following packages have to be removed for others to be upgraded:\n%s\nContinue?",
+	    "The following packages have to be removed for others to be upgraded:\n%s\nContinue installation anyway?",
 	    join "\n", $urpm->translate_why_removed($state, sort @ask_remove)
 	), \&do_install_2)
 	: goto &do_install_2;
