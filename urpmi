@@ -149,14 +149,18 @@ my $command_line = join " ", @ARGV;
 my @ARGVcopy; # keep a copy, in case we have to restart
 
 # Expand *.urpmi arguments
-foreach my $a (@ARGV) {
-    if ($a =~ /\.urpmi$/) {
-	push @ARGVcopy, split /\n/, cat_($a);
-    } else {
-	push @ARGVcopy, $a;
+if (grep { $_ eq '--restricted' } @ARGV) {
+    @ARGVcopy = @ARGV;
+} else {
+    foreach my $a (@ARGV) {
+	if ($a =~ /\.urpmi$/) {
+	    push @ARGVcopy, split /\n/, cat_($a);
+	} else {
+	    push @ARGVcopy, $a;
+	}
     }
+    @ARGV = @ARGVcopy;
 }
-@ARGV = @ARGVcopy;
 
 # Parse command line options
 urpm::args::parse_cmdline(urpm => $urpm);
