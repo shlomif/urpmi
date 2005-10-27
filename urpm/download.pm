@@ -454,6 +454,7 @@ sub sync_rsync {
 sub sync_ssh {
     -x "/usr/bin/ssh" or die N("ssh is missing\n");
     my $options = shift(@_);
+    $options = { dir => $options } if !ref $options;
     $options->{ssh} = 1;
     sync_rsync($options, @_);
 }
