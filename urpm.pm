@@ -2116,7 +2116,11 @@ sub register_rpms {
 		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    };
-	    $@ and $urpm->{error}(N("...retrieving failed: %s", $@));
+	    if ($@) {
+		$urpm->{error}(N("...retrieving failed: %s", $@));
+		unlink "$urpm->{cachedir}/partial/$basename";
+		next;
+	    }
 	} else {
 	    -r $_ or $error = 1, $urpm->{error}(N("unable to access rpm file [%s]", $_)), next;
 	}
