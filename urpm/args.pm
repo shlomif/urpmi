@@ -362,6 +362,9 @@ foreach my $k ("help|h", "wget", "curl", "proxy=s", "proxy-user=s", "c", "f", "z
 sub parse_cmdline {
     my %args = @_;
     $urpm = $args{urpm};
+    for my $k (keys %{$args{defaults} || {}}) {
+	$options{$k} = $args{defaults}{$k};
+    }
     GetOptions(%{$options_spec{$tool}});
 }
 
