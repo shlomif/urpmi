@@ -307,7 +307,8 @@ sub sync_curl {
 		};
 	    }
 	}
-	close $curl;
+	close $curl
+	    or die N("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 
 	#- now analyse size and time stamp according to what already exists here.
 	if (@ftp_files) {
@@ -367,7 +368,7 @@ sub sync_curl {
 			if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
 			    kill 15, $curl_pid;
 			    close $curl;
-			    return;
+			    die N("curl failed: download canceled\n");
 			}
 			#- this checks that download has actually started
 			if ($_ eq "\n"
