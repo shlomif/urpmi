@@ -111,6 +111,7 @@ $urpm::args::options{nodepslist} = $urpm::args::options{list_aliases}
 				|| $urpm::args::options{list_media}
 				|| $urpm::args::options{dump_config}
 				|| $urpm::args::options{list_url};
+$urpm::args::options{nolock} = 1 if $urpm::args::options{nodepslist};
 
 if ($urpm::args::options{env}) {
     print STDERR N("using specific environment on %s\n", $urpm::args::options{env});
@@ -123,7 +124,7 @@ if ($urpm::args::options{env}) {
 
 $urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
     and $urpm->shlock_rpm_db;
-$urpm->shlock_urpmi_db;
+$urpm::args::options{nolock} or $urpm->shlock_urpmi_db;
 $urpm->configure(
     nocheck_access => 1,
     noskipping => $urpm::args::options{nodepslist},
@@ -437,7 +438,7 @@ if ($urpm::args::options{list_aliases}) {
 	exit 0;
     }
 }
-$urpm->unlock_urpmi_db;
+$urpm::args::options{nolock} or $urpm->unlock_urpmi_db;
 $urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
     and $urpm->unlock_rpm_db;
 
