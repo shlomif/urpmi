@@ -251,11 +251,12 @@ sub probe_medium {
     my ($urpm, $medium, %options) = @_;
     local $_;
 
-    my $existing_medium;
     foreach (@{$urpm->{media}}) {
-	$_->{name} eq $medium->{name} and $existing_medium = $_, last;
+	if ($_->{name} eq $medium->{name}) {
+	    $urpm->{error}(N("trying to override existing medium \"%s\", skipping", $medium->{name}));
+	    return;
+	}
     }
-    $existing_medium and $urpm->{error}(N("trying to bypass existing medium \"%s\", avoiding", $medium->{name})), return;
 
     $medium->{url} ||= $medium->{clear_url};
 
