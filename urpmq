@@ -316,14 +316,16 @@ if ($urpm::args::options{list_aliases}) {
 		@headers > 0 or next;
 
 		if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
-		    require packdrake;
-		    my $packer = new packdrake(
-			$urpm->{media}[$_]{virtual}
+		    require MDV::Packdrakeng;
+		    my $packer = MDV::Packdrakeng->new(
+			archive => (
+			    $urpm->{media}[$_]{virtual}
 			    ? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
 			    : "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}",
+			),
 			quiet => 1,
 		    );
-		    $packer->extract_archive(undef, @headers);
+		    $packer->extract(undef, @headers);
 		} else {
 		    #- fallback to retrieve rpm package before, so that --headers will be ok.
 		    my %downloads = $urpm->download_source_packages({}, $list, force_local => 1);
@@ -353,9 +355,9 @@ if ($urpm::args::options{list_aliases}) {
                       ? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
                       :  "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}";
                     if (-s $hdlist_path) {
-			require packdrake;
-			my $packer = new packdrake($hdlist_path, quiet => 1);
-			$packer->extract_archive($tmp_header_dir, @headers);
+			require MDV::Packdrakeng;
+			my $packer = MDV::Packdrakeng->new(archive => $hdlist_path, quiet => 1);
+			$packer->extract($tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
 			#- fallback to retrieve rpm package before, so that --headers will be ok.
 			%downloads = $urpm->download_source_packages({}, $list, force_local => 1);
