@@ -1,12 +1,12 @@
 package urpm::ldap;
 
+# $Id$
+
 use strict;
 use warnings;
 use urpm;
 use urpm::msg 'N';
-
 use Net::LDAP;
-use MDK::Common;
 
 our $LDAP_CONFIG_FILE = '/etc/ldap.conf';
 my @per_media_opt = (@urpm::PER_MEDIA_OPT, qw(ftp-proxy http-proxy));
@@ -60,7 +60,8 @@ sub write_ldap_cache($$) {
     my ($urpm, $medium) = @_;
     my $ldap_cache = "$urpm->{cachedir}/ldap";
     # FIXME what perm for cache ?
-    mkdir_p($ldap_cache);
+    -d $ldap_cache or mkdir $ldap_cache
+	or die N("Cannot create ldap cache directory");
     open my $cache, ">", "$ldap_cache/$medium->{name}"
 	or die N("Cannot write cache file for ldap\n");
     print $cache "# internal cache file for disconnect ldap operation, do not edit\n";
@@ -69,6 +70,7 @@ sub write_ldap_cache($$) {
         print $cache "$_ = $medium->{$_}\n";
     }
     close $cache;
+    return 1;
 }
 
 sub check_ldap_medium($) {
