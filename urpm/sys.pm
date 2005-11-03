@@ -1,5 +1,7 @@
 package urpm::sys;
 
+# $Id$
+
 use strict;
 
 #- find used mount point from a pathname, use a optional mode to allow
@@ -148,6 +150,20 @@ sub apply_delta_rpm {
     unlink $rpm;
     system($APPLYDELTARPM, $deltarpm, $rpm);
     -e $rpm ? $rpm : '';
+}
+
+our $tempdir_template = '/tmp/urpm.XXXXXX';
+sub mktempdir {
+    my $tmpdir;
+    eval { require File::Temp };
+    if ($@) {
+	#- fall back to external command (File::Temp not in perl-base)
+	$tmpdir = qx(mktemp -d $tempdir_template);
+	chomp $tmpdir;
+    } else {
+	$tmpdir = File::Temp::tempdir($tempdir_template);
+    }
+    return $tmpdir;
 }
 
 1;
