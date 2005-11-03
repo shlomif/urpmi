@@ -23,7 +23,6 @@ use urpm;
 use urpm::args;
 use urpm::msg;
 use urpm::util qw(untaint);
-use MDK::Common;
 
 #- contains informations to parse installed system.
 my $urpm = new urpm;
@@ -153,7 +152,9 @@ if (grep { $_ eq '--restricted' } @ARGV) {
 } else {
     foreach my $a (@ARGV) {
 	if ($a =~ /\.urpmi$/) {
-	    push @ARGVcopy, split /\n/, cat_($a);
+	    open my $fh, '<', $a or do { warn "Can't open $a: $!\n"; next };
+	    push @ARGV_expanded, map { chomp; $_ } <$fh>;
+	    close $fh;
 	} else {
 	    push @ARGVcopy, $a;
 	}
