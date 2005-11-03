@@ -35,7 +35,7 @@ therefore, caching is useless if server is up.
 
 Checks if the ldap medium has all required attributes.
 
-=item read_ldap_cache($urpm,%options)
+=item read_ldap_cache($urpm, %options)
 
 Reads the cache created by the C<write_ldap_cache> function. Should be called
 if the ldap server doesn't answer (upgrade, network problem, mobile user, etc.)
@@ -44,13 +44,17 @@ if the ldap server doesn't answer (upgrade, network problem, mobile user, etc.)
 
 Cleans the ldap cache, removes all files in the directory.
 
-=item load_ldap_media($urpm,%options)
+=item load_ldap_media($urpm, %options)
+
+Loads urpmi media configuration from ldap.
 
 =item get_ldap_config()
 
 =item get_ldap_config_file($file)
 
-=item get_ldap_config_dns
+=item get_ldap_config_dns()
+
+Not implemented yet.
 
 =back
 
@@ -84,7 +88,7 @@ sub get_vars_from_sh {
     open my $fh, $filename or return ();
     local $_;
     while (<$fh>) {
-	s/#.*//; s/^\s*//; s/\s*$//
+	s/#.*//; s/^\s*//; s/\s*$//;
 	my ($key, $val) = /^(\w+)=(.*)/ or next;
 	$val =~ s/^(["'])(.*)\1$/$2/;
 	$l{$key} = $val;
@@ -132,7 +136,7 @@ sub get_ldap_config_file($) {
 
 sub get_ldap_config_dns {
     # TODO
-    die "not implemented now";
+    die "not implemented yet\n";
 }
 
 my %ldap_changed_attributes = (
@@ -208,7 +212,7 @@ sub load_ldap_media($%) {
     };
     if ($@) {
         $urpm->{log}($@);
-        read_ldap_cache($urpm,%options);
+        read_ldap_cache($urpm, %options);
     }
 
 }
