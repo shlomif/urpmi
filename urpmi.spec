@@ -13,10 +13,8 @@
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
 %{expand:%%define compat_perl_vendorlib %(perl -MConfig -e 'print "%{?perl_vendorlib:1}" ? "%%{perl_vendorlib}" : "$Config{installvendorlib}"')}
-%{expand:%%define use_locale %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? 1 : 0')}
 %{expand:%%define allow_gurpmi %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? 1 : 0')}
 %{expand:%%define req_webfetch %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "webfetch" : "curl wget"')}
-%{expand:%%define buildreq_locale %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "perl-MDK-Common-devel" : ""')}
 %{expand:%%define real_release %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "%release" : ("%release" =~ /(\d+)/)[0]')}
 
 Name:		%{name}
@@ -29,11 +27,13 @@ Summary:	Command-line software installation tools
 URL:		http://cvs.mandriva.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
 Requires(pre):	perl-Locale-gettext >= 1.01-14mdk
-Requires(pre):	rpmtools >= 4.5
 Requires(pre):	perl-URPM >= 1.22
 Requires:	perl-URPM >= 1.22
-Requires(pre):	packdrake >= 5.0.2
-BuildRequires:	%{buildreq_locale} bzip2-devel
+#- this one is require'd by urpmi, so it's not found [yet] by perl.req
+Requires:	perl(MDV::Packdrakeng)
+#- rpm2header is needed by urpmq
+Requires:	rpmtools >= 4.5
+BuildRequires:	bzip2-devel
 BuildRequires:	gettext
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
