@@ -153,7 +153,7 @@ if (grep { $_ eq '--restricted' } @ARGV) {
     foreach my $a (@ARGV) {
 	if ($a =~ /\.urpmi$/) {
 	    open my $fh, '<', $a or do { warn "Can't open $a: $!\n"; next };
-	    push @ARGV_expanded, map { chomp; $_ } <$fh>;
+	    push @ARGVcopy, map { chomp; $_ } <$fh>;
 	    close $fh;
 	} else {
 	    push @ARGVcopy, $a;
@@ -524,7 +524,7 @@ $urpm->copy_packages_of_removable_media(
 	my $msg2 = N("Press Enter when ready...");
 	if ($ENV{DISPLAY} && $::gui) {
 	    #- probably run from a drak tool
-	    my $gmessage = find { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
+	    (my $gmessage) = grep { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
 	    if ($gmessage) {
 		my $m = to_utf8("\n$msg\n");
 		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', $m);
