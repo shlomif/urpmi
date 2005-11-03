@@ -35,11 +35,14 @@ merge: $(PGOAL).pot
 
 $(PGOAL).pot: $(CFILES)
 	xgettext -F -n --add-comments \
-	--keyword=_ --keyword=__ --keyword=N_ --keyword=N \
-	--keyword=gettext \
-	--language=C -o placeholder.pot $(CFILES)
-	perl_checker -q --generate-pot $(PGOAL)_tmp.pot $(PL_FILES) || rm -f $(PGOAL)_tmp.pot
+	  --keyword=_ --keyword=__ --keyword=N_ --keyword=N \
+	  --keyword=gettext \
+	  --language=C -o placeholder.pot $(CFILES)
+	xgettext -F -n --add-comments \
+	  --keyword=N_ --keyword=N \
+	  --language=Perl -o $(PGOAL)_tmp.pot $(PL_FILES)
 	[ ! -e $(PGOAL)_tmp.pot ] || msgcat --use-first placeholder.pot $(PGOAL)_tmp.pot > $@
+	perl -pi -es/perl-format/c-format/ $@
 	rm -f placeholder.pot $(PGOAL)_tmp.pot
 
 install: all
