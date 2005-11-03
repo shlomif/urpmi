@@ -11,12 +11,10 @@ BEGIN { #- set up a safe path and environment
 }
 
 use Gtk2;
-use MDK::Common::Func qw(partition);
-
 use gurpmi;
 
 #- globals
-my ($srpms, $rpms);
+my ($srpms, $rpms) = ([], []);
 my ($mainw, $mainbox);
 my @all_rpms = gurpmi::parse_command_line();
 
@@ -39,9 +37,13 @@ sub all_descriptions {
     join '', qx(rpm -qp --qf '%{name}-%{version}-%{release}: %{summary}\\n' @_);
 }
 
+foreach (@all_rpms) {
+    warn "$_";
+    /\.src\.rpm$/ ? push(@$srpms, $_) : push(@$rpms, $_);
+}
+
 #- Ask question: save or install ?
 #- change depending on the number of rpms, and on the presence of srpms
-($srpms, $rpms) = partition { /\.src\.rpm$/ } @all_rpms;
 {
     my $msg = (
 	@$srpms > 0

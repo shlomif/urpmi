@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 use Test::More 'no_plan';
-use MDK::Common;
+use File::Slurp;
 
 BEGIN { use_ok 'urpm::cfg' }
 BEGIN { use_ok 'urpm::download' }
@@ -49,7 +49,7 @@ $cfgtext =~ s/\bkey_ids\b/key-ids/g;
 $cfgtext =~ s/"123"/123/g;
 $cfgtext =~ s/'kernel'/kernel/g;
 
-my $cfgtext2 = cat_($file.2);
+my $cfgtext2 = read_file($file.2);
 $cfgtext2 =~ s/# generated.*\n//;
 is( $cfgtext, $cfgtext2, 'config is the same' )
     or system qw( diff -u ), $file, $file.2;
@@ -70,12 +70,12 @@ is( $p->{http_proxy}, 'http://yoyodyne:8080/', 'read media proxy' );
 is( $p->{user}, 'rafael', 'proxy user' );
 is( $p->{pwd}, 'richard', 'proxy password' );
 ok( dump_proxy_config(), 'dump_proxy_config' );
-$cfgtext2 = cat_($proxyfile);
+$cfgtext2 = read_file($proxyfile);
 $cfgtext2 =~ s/# generated.*\n//;
 is( $cfgtext, $cfgtext2, 'dumped correctly' );
 set_proxy_config(http_proxy => '');
 ok( dump_proxy_config(), 'dump_proxy_config erased' );
-$cfgtext2 = cat_($proxyfile);
+$cfgtext2 = read_file($proxyfile);
 $cfgtext2 =~ s/# generated.*\n//;
 $cfgtext =~ s/^http_proxy.*\n//;
 is( $cfgtext, $cfgtext2, 'dumped correctly' );
