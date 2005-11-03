@@ -4,10 +4,7 @@ MANDIR = $(PREFIX)/usr/man
 SBINDIR = $(PREFIX)/usr/sbin
 URPMIDIR = $(PREFIX)/var/lib/urpmi
 URPMIDIR2 = $(PREFIX)/etc/urpmi
-LOCALEDIR = $(PREFIX)/usr/share/locale
-CFLAGS = -Wall -g
-LIBRPM = -lrpm -lrpmio -lrpmdb -lz -lbz2 -I/usr/include/rpm -lpopt
-RPM=$(HOME)/rpm
+RPM=$(shell rpm --eval %_topdir)
 
 NAME = urpmi
 TAR = $(NAME).tar.bz2
@@ -31,10 +28,7 @@ install:
 	for i in man/??* ; \
 		do install -d $(MANDIR)/`basename $$i`/man8 ; \
 		install -m 644 $$i/urpm*.8 $(MANDIR)/`basename $$i`/man8 ; \
-	done	
-
-autoirpm.update-all: %: %.cc
-	$(CXX) $(CFLAGS) $< $(LIBRPM) -o $@
+	done
 
 test:
 	prove t/*.t
@@ -44,7 +38,7 @@ tar: clean
 
 rpm: tar
 	cp -f ../$(TAR) $(RPM)/SOURCES
-	cp -f $(NAME).spec $(RPM)/SPECS/
+	cp -f $(NAME).spec $(RPM)/SPECS
 	-rpm -ba --clean $(NAME).spec
 	rm -f ../$(TAR)
 
