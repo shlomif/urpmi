@@ -4,8 +4,8 @@ localedir = $(PREFIX)/usr/share/locale
 PGOAL = urpmi
 
 # perl files to search translatable strings in
-PL_FILES = ../_irpm ../rpm-find-leaves ../urpm.pm ../urpme ../urpmf \
-	../urpmi ../urpmi.addmedia ../gurpmi ../gurpmi2 \
+PL_FILES = ../rpm-find-leaves ../urpm.pm ../urpme ../urpmf \
+	../urpmi ../urpmi.addmedia ../gurpmi ../gurpmi2 ../gurpmi.pm \
 	../urpmi.removemedia ../urpmi.update ../urpmq \
 	../urpm/parallel_ka_run.pm  ../urpm/parallel_ssh.pm \
 	../urpm/msg.pm ../urpm/args.pm ../rurpmi
@@ -17,7 +17,6 @@ MOFILES = $(POFILES:%.po=%.mo)
 LANGS = $(POFILES:%.po=%)
 
 GOALS = $(PGOAL).pot  $(MOFILES)
-
 
 all: $(GOALS)
 
@@ -50,6 +49,6 @@ install: all
 	done
 
 clean:
-	@rm -rf *~ *.mo $(GOALS) placeholder.pot $(PGOAL)_tmp.pot 
+	@rm -rf *~ *.mo $(GOALS) placeholder.pot $(PGOAL)_tmp.pot
 
 
