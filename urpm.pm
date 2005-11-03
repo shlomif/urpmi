@@ -4,7 +4,6 @@ package urpm;
 
 no warnings 'utf8';
 use strict;
-use MDK::Common;
 use File::Find ();
 use urpm::msg;
 use urpm::download;
@@ -92,7 +91,7 @@ sub sync_webfetch {
 	!$option_downloader && exists $urpm->{global_config}{downloader}
 	    and $option_downloader = $urpm->{global_config}{downloader};
 	if ($option_downloader) {
-	    $preferred = find { $_ eq $option_downloader } @available_webfetch;
+	    ($preferred) = grep { $_ eq $option_downloader } @available_webfetch;
 	}
 	#- else first downloader of @webfetch is the default one
 	$preferred ||= $available_webfetch[0];
@@ -2459,7 +2458,8 @@ sub get_source_packages {
 
     #- clean download directory, do it here even if this is not the best moment.
     if ($options{clean_all}) {
-	MDK::Common::rm_rf("$urpm->{cachedir}/partial");
+	require File::Path;
+	File::Path::rmtree(["$urpm->{cachedir}/partial"]);
 	mkdir "$urpm->{cachedir}/partial";
     }
 
@@ -3062,7 +3062,11 @@ sub install {
 	if (@readmes) {
 	    foreach (@readmes) {
 		print "-" x 70, "\n", N("More information on package %s", $_->[1]), "\n";
-		print cat_($_->[0]), "-" x 70, "\n";
+		my $fh; open $fh, '<', $_->[0] and do {
+		    print while <$fh>;
+		    close $fh;
+		};
+		print "-" x 70, "\n";
 	    }
 	}
 	return @l;
@@ -3219,6 +3223,8 @@ sub unselected_packages {
     grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
 }
 
+sub uniq { my %l; $l{$_} = 1 foreach @_; grep { delete $l{$_} } @_ }
+
 sub translate_why_unselected {
     my (undef, $state, @l) = @_;
 
@@ -3331,6 +3337,15 @@ sub check_sources_signatures {
       sort keys %invalid_sources;
 }
 
+sub dump_description_file {
+    my ($urpm, $media_name) = @_;
+    open my $fh, '<', "$urpm->{statedir}/descriptions.$media_name"
+	or return ();
+    my @slurp = <$fh>;
+    close $fh;
+    return @slurp;
+}
+
 #- get reason of update for packages to be updated
 #- use all update medias if none given
 sub get_updates_description {
@@ -3340,7 +3355,7 @@ sub get_updates_description {
 
     @update_medias or @update_medias = grep { !$_->{ignore} && $_->{update} } @{$urpm->{media}};
 
-    foreach (map { cat_("$urpm->{statedir}/descriptions.$_->{name}"), '%package dummy' } @update_medias) {
+    foreach (map { $urpm->dump_description_file($_->{name}), '%package dummy' } @update_medias) {
 	/^%package (.+)/ and do {
 	    exists $cur->{importance} && !member($cur->{importance}, qw(security bugfix)) and $cur->{importance} = 'normal';
 	    $update_descr{$_} = $cur foreach @{$cur->{pkgs}};
