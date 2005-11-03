@@ -25,7 +25,7 @@ use strict;
 use urpm;
 use urpm::args;
 use urpm::msg;
-use MDK::Common;
+use urpm::sys;
 
 #- default options.
 $urpm::args::options = { use_provides => 1 };
@@ -307,17 +307,18 @@ if ($urpm::args::options{list_aliases}) {
 	    unless ($local_sources || $list) {
 		$urpm->{fatal}(1, N("unable to get source packages, aborting"));
 	    }
+	    # TODO rewrite rpm2header in perl
 	    values %$local_sources and system 'rpm2header', values %$local_sources;
 	    foreach (0..$#{$urpm->{media} || []}) {
 		my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
-				      -s $file and system 'cat', $file;
+				      -s $file and system 'cat', $file; # TODO burk
 				      ! -s $file }
 			       map { m|(.*)/([^/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm| and "$2-$3-$4.$5" } values %{$list->[$_]});
 		@headers > 0 or next;
 
 		if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
 		    require MDV::Packdrakeng;
-		    my $packer = MDV::Packdrakeng->new(
+		    my $packer = MDV::Packdrakeng->open(
 			archive => (
 			    $urpm->{media}[$_]{virtual}
 			    ? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
@@ -325,6 +326,10 @@ if ($urpm::args::options{list_aliases}) {
 			),
 			quiet => 1,
 		    );
+		    defined $packer or do {
+			warn "Can't open archive\n";
+			exit 1;
+		    };
 		    $packer->extract(undef, @headers);
 		} else {
 		    #- fallback to retrieve rpm package before, so that --headers will be ok.
@@ -339,7 +344,7 @@ if ($urpm::args::options{list_aliases}) {
 	    my $updates_descr = $urpm->urpm::get_updates_description;
 	    # if not root, use a temporary directory to store headers
 	    my $tmp_header_dir = "$urpm->{cachedir}/headers";
-	    $< != 0 and $tmp_header_dir = chomp_(`mktemp -d /tmp/urpmq.XXXXXX`);
+	    $< != 0 and $tmp_header_dir = urpm::sys::mktempdir();
 	    my @selected = map { split /\|/ } keys %{$state->{selected}};
 	    foreach (0..$#{$urpm->{media} || []}) {
 		if ($urpm->{media}[$_]{synthesis}) {
@@ -356,7 +361,11 @@ if ($urpm::args::options{list_aliases}) {
                       :  "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}";
                     if (-s $hdlist_path) {
 			require MDV::Packdrakeng;
-			my $packer = MDV::Packdrakeng->new(archive => $hdlist_path, quiet => 1);
+			my $packer = MDV::Packdrakeng->open(archive => $hdlist_path, quiet => 1);
+			defined $packer or do {
+			    warn "Can't open archive\n";
+			    exit 1;
+			};
 			$packer->extract($tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
 			#- fallback to retrieve rpm package before, so that --headers will be ok.
@@ -419,10 +428,12 @@ if ($urpm::args::options{list_aliases}) {
 		    }
 		    if ($urpm::args::options{changelog}) {
 			if ($pkg->changelog_time && $pkg->changelog_name && $pkg->changelog_text) {
-			    print join("\n", mapn {
-				    from_utf8("* ".urpm::msg::localtime2changelog($_[0])." $_[1]\n\n$_[2]\n")
-				} [ $pkg->changelog_time ], [ $pkg->changelog_name ], [ $pkg->changelog_text ]
-			    );
+			    my @ti = $pkg->changelog_time;
+			    my @na = $pkg->changelog_name;
+			    my @tx = $pkg->changelog_text;
+			    for my $i (0 .. $#ti) {
+				print "* " . urpm::msg::localtime2changelog($ti[$i]) . " $na[$i]\n$tx[$i]\n\n";
+			    }
 			} else {
 			    print STDERR N("No changelog found\n");
 			}
