@@ -1201,7 +1201,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- we can assume at this point a basename is existing, but it needs
 	    #- to be checked for being valid, nothing can be deduced if no MD5SUM
 	    #- file is present.
-	    my $basename = basename($with_hdlist_dir);
+	    my $basename = urpm::download::basename($with_hdlist_dir);
 
 	    unless ($medium->{virtual}) {
 		if ($medium->{with_hdlist}) {
@@ -1460,7 +1460,7 @@ this could happen if you mounted manually the directory when creating the medium
 		#- we can assume at this point a basename is existing, but it needs
 		#- to be checked for being valid, nothing can be deduced if no MD5SUM
 		#- file is present.
-		$basename = basename($medium->{with_hdlist});
+		$basename = urpm::download::basename($medium->{with_hdlist});
 
 		unlink "$urpm->{cachedir}/partial/MD5SUM";
 		eval {
@@ -1544,7 +1544,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    : _probe_with_try_list(_guess_hdlist_suffix($dir), $options{probe_with})
 		);
 		foreach my $with_hdlist (@probe_list) {
-		    $basename = basename($with_hdlist) or next;
+		    $basename = urpm::download::basename($with_hdlist) or next;
 		    $options{force} and unlink "$urpm->{cachedir}/partial/$basename";
 		    eval {
 			$urpm->{sync}(
@@ -1568,7 +1568,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 		}
 	    } else {
-		$basename = basename($medium->{with_hdlist});
+		$basename = urpm::download::basename($medium->{with_hdlist});
 
 		#- try to sync (copy if needed) local copy after restored the previous one.
 		$options{force} and unlink "$urpm->{cachedir}/partial/$basename";
@@ -3333,7 +3333,7 @@ sub check_sources_signatures {
 	}
     }
 
-    map { ($options{basename} ? basename($_) : $_) . ($options{translate} ? ": $invalid_sources{$_}" : "") }
+    map { ($options{basename} ? urpm::download::basename($_) : $_) . ($options{translate} ? ": $invalid_sources{$_}" : "") }
       sort keys %invalid_sources;
 }
 
@@ -3357,7 +3357,9 @@ sub get_updates_description {
 
     foreach (map { $urpm->dump_description_file($_->{name}), '%package dummy' } @update_medias) {
 	/^%package (.+)/ and do {
-	    exists $cur->{importance} && !member($cur->{importance}, qw(security bugfix)) and $cur->{importance} = 'normal';
+	    if (exists $cur->{importance} && $cur->{importance} ne "security" && $cur->{importance} ne "bugfix") {
+		$cur->{importance} = 'normal';
+	    }
 	    $update_descr{$_} = $cur foreach @{$cur->{pkgs}};
 	    $cur = {};
 	    $cur->{pkgs} = [ split /\s/, $1 ];

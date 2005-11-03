@@ -78,11 +78,25 @@ sub check_ldap_medium($) {
     return $medium->{name} && $medium->{clear_url};
 }
 
+sub get_vars_from_sh {
+    my $filename = $_[0];
+    my %l;
+    open my $fh, $filename or return ();
+    local $_;
+    while (<$fh>) {
+	s/#.*//; s/^\s*//; s/\s*$//
+	my ($key, $val) = /^(\w+)=(.*)/ or next;
+	$val =~ s/^(["'])(.*)\1$/$2/;
+	$l{$key} = $val;
+    }
+    %l;
+}
+
 sub read_ldap_cache($%) {
     my ($urpm, %options) = @_;
     foreach (glob("$urpm->{cachedir}/ldap/*")) {
 	! -f $_ and next;
-	my %medium = getVarsFromSh($_);
+	my %medium = get_vars_from_sh($_);
 	next if !check_ldap_medium(\%medium);
 	$urpm->probe_medium(\%medium, %options) and push @{$urpm->{media}}, \%medium;
     }

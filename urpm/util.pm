@@ -7,6 +7,7 @@ our @EXPORT = qw(quotespace unquotespace
     remove_internal_name
     reduce_pathname offset_pathname
     md5sum untaint
+    difference2
 );
 
 #- quoting/unquoting a string that may be containing space chars.
@@ -93,6 +94,8 @@ sub move {
     my ($file, $dest) = @_;
     rename($file, $dest) or !system("/bin/mv", "-f", $file, $dest);
 }
+
+sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
 
 1;
 
