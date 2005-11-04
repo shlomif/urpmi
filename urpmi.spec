@@ -29,8 +29,8 @@ Requires:	%{req_webfetch} eject gnupg
 Requires(pre):	perl-Locale-gettext >= 1.01-14mdk
 Requires(pre):	perl-URPM >= 1.22
 Requires:	perl-URPM >= 1.22
-#- this one is require'd by urpmi, so it's not found [yet] by perl.req
-Requires:	perl(MDV::Packdrakeng)
+#- this one is require'd by urpmq, so it's not found [yet] by perl.req
+Requires:	perl-MDV-Packdrakeng >= 1.01
 #- rpm2header is needed by urpmq
 Requires:	rpmtools >= 4.5
 BuildRequires:	bzip2-devel

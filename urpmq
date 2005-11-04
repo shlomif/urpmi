@@ -327,7 +327,7 @@ if ($urpm::args::options{list_aliases}) {
 			quiet => 1,
 		    );
 		    defined $packer or do {
-			warn "Can't open archive\n";
+			warn "Can't open archive: $MDV::Packdrakeng::error";
 			exit 1;
 		    };
 		    $packer->extract(undef, @headers);
@@ -363,7 +363,7 @@ if ($urpm::args::options{list_aliases}) {
 			require MDV::Packdrakeng;
 			my $packer = MDV::Packdrakeng->open(archive => $hdlist_path, quiet => 1);
 			defined $packer or do {
-			    warn "Can't open archive\n";
+			    warn "Can't open archive: $MDV::Packdrakeng::error";
 			    exit 1;
 			};
 			$packer->extract($tmp_header_dir, @headers);
