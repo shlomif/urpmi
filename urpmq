@@ -310,10 +310,16 @@ if ($urpm::args::options{list_aliases}) {
 	    # TODO rewrite rpm2header in perl
 	    values %$local_sources and system 'rpm2header', values %$local_sources;
 	    foreach (0..$#{$urpm->{media} || []}) {
-		my @headers = (grep { my $file = "$urpm->{cachedir}/headers/$_";
-				      -s $file and system 'cat', $file; # TODO burk
-				      ! -s $file }
-			       map { m|(.*)/([^/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm| and "$2-$3-$4.$5" } values %{$list->[$_]});
+		my @headers = (grep {
+			my $file = "$urpm->{cachedir}/headers/$_";
+			if (-s $file) {
+			    my $fh; open $fh, '<', $file and do {
+				while (<$fh>) { print STDOUT $_ }
+				close $fh;
+			    };
+			}
+			! -s $file;
+		    } map { m|(.*)/([^/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm| and "$2-$3-$4.$5" } values %{$list->[$_]});
 		@headers > 0 or next;
 
 		if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
