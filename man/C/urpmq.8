@@ -1,13 +1,14 @@
-.TH urpmq 8 "28 Aug 2002" "Mandriva" "Mandriva Linux"
+.TH urpmq 8 "4 Nov 2005" "Mandriva" "Mandriva Linux"
 .IX urpmq
 .SH NAME
 urpmq \- urpmi database query tool.
 .SH SYNOPSIS
 .B urpmq [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
-urpmq is a tool to access the urpmi database. It can be used to list available
-packages in the various urpmi media, or to list the full dependencies of a
-package, or to list the packages that will be installed if you start urpmi.
+urpmq is a tool to access and query the urpmi database. It can be used to list
+available packages in the various urpmi media, or to list the full dependencies
+of a package, or to list the packages that will be installed if you start
+urpmi.
 .PP
 The output of urpmq has the following format, adjusted according to the
 command-line options that were used:
@@ -16,7 +17,19 @@ command-line options that were used:
 .PP
 .SH OPTIONS
 .IP "\fB\--help\fP"
-Print a help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
+Prints a help message and exit (this is the same as \fB-h\fP or \fB-?\fP).
+.IP "\fB\--list\fP"
+List available packages.
+.IP "\fB\--list-media\fP [\fItype\fP]"
+List available media. You can optionally add a type selector: \fBall\fP to list
+all media (the default), \fBupdate\fP to list the update media, or \fBactive\fP
+to list only active media.
+.IP "\fB\--list-url\fP"
+List available media and their URLs.
+.IP "\fB\--list-nodes\fP"
+List available nodes when using \fB--parallel\fP.
+.IP "\fB\--list-aliases\fP"
+List available parallel aliases.
 .IP "\fB\--update\fP"
 Use only update media. This means that \fBurpmq\fP will search and resolve
 dependencies only in media marked as containing updates.
@@ -36,35 +49,24 @@ searching packages and resolving dependencies.
 .IP "\fB\--auto-select\fP"
 Automatically select all packages that have to be upgraded, according to already
 installed packages and packages listed in various registered media.
-.IP "\fB\--fuzzy\fP"
-Disable fast search on exact package name; i.e. it will propose all
-packages matching the name partially, even if one of them matches exactly the
-specified name (this is the same as \fB\-y\fP).
 .IP "\fB\--keep\fP"
 When some dependencies cannot be satisfied, change the selection of packages
 to try to keep existing packages instead of removing them. This behaviour
 generally rejects the upgrade of packages given on command line (or when using
---auto-select) when a dependency error occurs.
-.IP "\fB\--list\fP"
-List available packages.
-.IP "\fB\--list-media\fP [\fItype\fP]"
-List available media. You can optionally add a type: \fBall\fP to list
-all media (the default), \fBupdate\fP to list the update media, or
-\fBactive\fP to list only active media.
-.IP "\fB\--list-url\fP"
-List available media and their URLs.
-.IP "\fB\--list-nodes\fP"
-List available nodes when using \fB--parallel\fP.
-.IP "\fB\--list-aliases\fP"
-List available parallel aliases.
+\fB--auto-select\fP) when a dependency error occurs.
+.IP "\fB\--fuzzy\fP"
+Disable fast search on exact package name; i.e. it will propose all
+packages matching the name partially, even if one of them matches exactly the
+specified name (this is the same as \fB\-y\fP).
 .IP "\fB\--src\fP \fIname\fP"
-Search a source package according to \fIname\fP and it will select all dependencies by
-default, unless \fB\--install-src\fP is used in order to install source package
-itself.
+Search a source package matching \fIname\fP and it will select all
+dependencies by default.
 .IP "\fB\--headers\fP"
 Extract and dump headers of selected packages to standard output.
+(Can be used by the superuser only.)
 .IP "\fB\--sources\fP"
-Print source URLs (or file names) of all selected packages.
+Prints source URLs (or file names) of all selected packages.
+(Can be used by the superuser only.)
 .IP "\fB\--force\fP"
 Continue when requesting packages that are not available.
 .IP "\fB\--parallel\fP \fIalias\fP"
@@ -94,12 +96,12 @@ and a password.
 Configure urpmq on the fly from a distrib tree. You must be root to use this
 option.
 .IP "\fB\--env\fP \fIdirectory\fP"
-Use a different environment directly from a bug report to replay a bug, the
+Use a different environment directly from a bug report to replay a bug. The
 argument is the same argument given to \fB--bug\fP option.
 .IP "\fB\--changelog\fP"
-Print the package changelog.
+Prints the package changelog.
 .IP "\fB\--summary\fP"
-Print concise information about the package.
+Prints concise information about the package.
 .IP "\fB\-v\fP"
 Activate verbose mode.
 .IP "\fB\-d\fP"
@@ -128,16 +130,16 @@ Same as \fB--summary\fP.
 This is the same as \fB--fuzzy\fP.
 .IP "\fB\-Y\fP"
 Like \fB-y\fP, but forces to match case-insensitively.
-.IP "\fB\-s\fP"
+.IP "\fB\-s\fP" \fIname\fP"
 This is the same as \fB--src\fP.
 .IP "\fB\-i\fP"
-Print useful information in human readable form, as for \fIrpm -qi\fP.
+Prints useful information in human readable form, as for \fIrpm -qi\fP.
 .IP "\fB\-g\fP"
-Print group of each package listed.
+Prints groups of each package listed.
 .IP "\fB\-r\fP"
-Print version and release of each package listed.
+Prints version and release of each package listed.
 .IP "\fB\-f\fP"
-Print version, release and arch of each package listed.
+Prints version, release and arch of each package listed.
 .SH FILES
 See \fIurpmi.files\fP(5).
 .SH SEE ALSO
