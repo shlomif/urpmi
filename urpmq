@@ -307,8 +307,13 @@ if ($urpm::args::options{list_aliases}) {
 	    unless ($local_sources || $list) {
 		$urpm->{fatal}(1, N("unable to get source packages, aborting"));
 	    }
+	    my $rpm2header = '/usr/bin/rpm2header';
 	    # TODO rewrite rpm2header in perl
-	    values %$local_sources and system 'rpm2header', values %$local_sources;
+	    -x $rpm2header
+		or $urpm->{fatal}(2, N("rpm2header utility not found, impossible to use the --header option"));
+	    if (values %$local_sources) {
+		system $rpm2header, values %$local_sources;
+	    }
 	    foreach (0..$#{$urpm->{media} || []}) {
 		my @headers = (grep {
 			my $file = "$urpm->{cachedir}/headers/$_";
