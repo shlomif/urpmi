@@ -1,5 +1,6 @@
 #!/usr/bin/perl
 
+use strict;
 use Test::More 'no_plan';
 use File::Slurp;
 
