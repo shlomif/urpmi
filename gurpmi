@@ -38,7 +38,14 @@ sub all_descriptions {
 }
 
 foreach (@all_rpms) {
-    warn "$_";
+    unless (-e $_) {
+	$mainbox->pack_start(new_label(N("Error: unable to find file %s, will cancel operation", $_)), 1, 1, 0);
+	my $abort_button = Gtk2::Button->new(but(N("_Ok")));
+	$abort_button->signal_connect(clicked => sub { quit(); exit 1 });
+	add_button_box($mainbox, $abort_button);
+	$mainw->show_all;
+	Gtk2->main;
+    }
     /\.src\.rpm$/ ? push(@$srpms, $_) : push(@$rpms, $_);
 }
 
