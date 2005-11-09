@@ -52,7 +52,10 @@ sub parse_command_line {
     }
     foreach (@ARGV_expanded) {
 	if (/^-/) {
-	    $_ eq '--no-verify-rpm' and $options{'no-verify-rpm'} = 1;
+	    if ($_ eq '--no-verify-rpm') {
+		$options{'no-verify-rpm'} = 1;
+		next;
+	    }
 	    /^--?[hv?]/ and usage();
 	    fatal(N("Unknown option %s", $_));
 	}
