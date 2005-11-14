@@ -9,6 +9,8 @@ RPM=$(shell rpm --eval %_topdir)
 NAME = urpmi
 TAR = $(NAME).tar.bz2
 
+all: rpm
+
 .PHONY: install clean rpm test ChangeLog
 
 install:
