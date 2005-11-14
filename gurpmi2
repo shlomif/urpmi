@@ -64,6 +64,9 @@ $mainw->add($mainbox);
 my $urpm = configure_urpm();
 my $state = {};
 my %requested = $urpm->register_rpms(@all_rpms);
+if (@gurpmi::names) {
+    $urpm->search_packages(\%requested, [ @gurpmi::names ]);
+}
 $urpm->resolve_dependencies(
     $state,
     \%requested,

@@ -36,9 +36,11 @@ sub fatal { my $s = $_[0]; print STDERR "$s\n"; exit 1 }
 
 #- Parse command line
 #- puts options in %gurpmi::options
+#- puts bare names (not rpm filenames) in @gurpmi::names
 sub parse_command_line {
     my @all_rpms;
     our %options;
+    our @names;
     # Expand *.urpmi arguments
     my @ARGV_expanded;
     foreach my $a (@ARGV) {
@@ -59,9 +61,14 @@ sub parse_command_line {
 	    /^--?[hv?]/ and usage();
 	    fatal(N("Unknown option %s", $_));
 	}
-	push @all_rpms, $_;
+	if (/^[-a-zA-Z0-9_+]+\z/) { # is this an rpm name ?
+	    push @names, $_;
+	} else { # assume it's a filename
+	    push @all_rpms, $_;
+	}
     }
-    return @all_rpms or fatal(N("No packages specified"));
+    @all_rpms + @names or fatal(N("No packages specified"));
+    return @all_rpms;
 }
 
 sub but ($) { "    $_[0]    " }

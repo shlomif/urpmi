@@ -61,6 +61,12 @@ foreach (@all_rpms) {
 You probably didn't want to install it on your computer (installing it would allow you to make modifications to its sourcecode then compile it).
 
 What would you like to do?", $srpms->[0])
+	: @all_rpms == 0
+	? N("You are about to install the following software packages on your computer:
+
+%s
+
+Proceed?", @gurpmi::names)
 	: @all_rpms == 1
 	? N("You are about to install the following software package on your computer:
 
