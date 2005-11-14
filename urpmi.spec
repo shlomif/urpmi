@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.7.18
+%define version	4.8.0
 %define release	1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -252,6 +252,18 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Mon Nov 14 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.0-1mdk
+- Allow to put rpm names on the gurpmi command-line
+- Make --no-verify-rpm work for gurpmi
+- Improve some error messages in urpmi and gurpmi (bug #19060)
+- Fail earlier and more aggressively when downloading fails
+- Fix download with rsync over ssh
+- Use the --no-check-certificate option for downloading with wget
+- Use MDV::Packdrakeng; avoid requiring File::Temp, MDK::Common and packdrake
+- rpmtools is no longer a PreReq
+- Build process improvements
+- Reorganize urpmq docs; make urpmq more robust; make urpmq require less locks
+
 * Wed Oct 26 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.7.18-1mdk
 - gurpmi now expands .urpmi files given on command-line, just like urpmi
 - urpmi.addmedia --raw marks the newly added media as ignored

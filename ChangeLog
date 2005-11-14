@@ -1,6 +1,226 @@
-2005-10-26 14:44  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+2005-11-14 16:22  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
 
-	* gurpmi.pm: Expand .urpmi arguments to gurpmi
+	* Makefile: Let rpm be the default target
+
+2005-11-14 16:18  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi, gurpmi.pm, gurpmi2: Allow to put rpm names on the gurpmi
+	  command-line
+
+2005-11-14 12:04  Sharuzzaman Ahmat Raslan <sharuzzaman at myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2005-11-09 13:46  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi: Show proper error message when gurpmi cannot find an rpm
+	  file
+
+2005-11-09 11:55  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi.pm: Make --no-verify-rpm work for gurpmi
+
+2005-11-08 21:28  José JORGE <jjorge at free.fr>
+
+	* po/pt.po: merge with pot
+
+2005-11-07 17:25  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* t/: 01compile.t, cfg.t: Add test to ensure everything compiles.
+	  Use strict in tests.
+
+2005-11-07 16:51  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmq: Better error message when rpm2header isn't installed
+
+2005-11-07 15:53  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: update
+
+2005-11-04 15:51  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* skip.list: Missing anchor
+
+2005-11-04 13:54  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* man/C/urpmq.8: Reorganize urpmq manpage, plus a few doc fixes
+
+2005-11-04 12:36  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmq: Avoid useless use of cat
+
+2005-11-04 11:55  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.spec, urpmq: Better error messages when urpmq fails to read
+	  cz archives
+
+2005-11-03 18:19  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.spec: Remove dependencies on packdrake. Remove build
+	  dependencies on MDK::Common.	Add manual dependencies on
+	  MDV::Packdrakeng. Make rpmtools a regular dependency, no longer a
+	  prereq.
+
+2005-11-03 17:28  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/: Makefile, urpmi.pot: Surprisingly, xgettext does a better
+	  job than perl_checker at extracting strings from Perl code.
+
+2005-11-03 17:20  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.addmedia: Escape @< in double quoted string
+
+2005-11-03 16:16  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* Makefile: Remove obsolete target. Properly retrieve RPM topdir in
+	  Makefile.
+
+2005-11-03 16:13  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* Makefile, po/Makefile: Cleanup makefiles. Remove obsolete, broken
+	  and non-standard test suite.
+
+2005-11-03 15:57  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/ldap.pm: Fix syntax error, add more docs
+
+2005-11-03 15:47  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpmi, urpm/ldap.pm, urpm/util.pm: Remove more
+	  MDK::Common vestigia
+
+2005-11-03 14:25  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/ldap.pm: Don't use functions from MDK::Common
+
+2005-11-03 14:18  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi, t/cfg.t: Don't use MDK::Common
+
+2005-11-03 14:04  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi: Fix syntax error. Remove last occurence of a function from
+	  MDK::Common.
+
+2005-11-03 13:53  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Don't use MDK::Common
+
+2005-11-03 11:59  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi: Don't use MDK::Common.
+
+2005-11-03 11:53  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmq: Fix opening of hdlists when non-root.	Better failure
+	  handling.  Remove MDK::Common functions.
+
+2005-11-03 11:43  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/sys.pm: Provide our own tempdir function, that doesn't
+	  require File::Temp if it's not installed on the system
+
+2005-11-02 17:49  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmq: Use MDV::Packdrakeng instead of deprecated wrapper
+
+2005-11-02 17:08  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* README-autoirpm-icons, _irpm, autoirpm.README, autoirpm.deny,
+	  autoirpm.uninstall, autoirpm.update, autoirpm.update-all.cc,
+	  man/C/autoirpm.8, man/cs/autoirpm.8, man/et/autoirpm.8,
+	  man/eu/autoirpm.8, man/fi/autoirpm.8, man/fr/autoirpm.8,
+	  man/nl/autoirpm.8, man/ru/autoirpm.8, man/uk/autoirpm.8: Remove
+	  old autoirpm attempt
+
+2005-10-31 13:59  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Simplify code, change obscure error message
+
+2005-10-31 09:49  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/download.pm: Use the --no-check-certificate option for
+	  downloading with wget, since the club https servers use
+	  self-signed certificates.
+
+2005-10-29 06:42  Shiva Huang <blueshiva at giga.net.tw>
+
+	* po/zh_TW.po: updated po file
+
+2005-10-29 05:30  Sharuzzaman Ahmat Raslan <sharuzzaman at myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2005-10-28 13:04  renato
+
+	* po/pt_BR.po: Solved 30 fuzzy strings
+
+2005-10-28 13:00  Tomasz Bednarski <tbednarski at mandrivalinux.pl>
+
+	* po/pl.po: Translation updates
+
+2005-10-28 11:52  Willy Sudiarto Raharjo <willysr at gmail.com>
+
+	* po/id.po: Updated
+
+2005-10-28 07:26  mmodem
+
+	* po/pt.po: [no log message]
+
+2005-10-27 18:50  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bn.po, br.po, bs.po, ca.po,
+	  cs.po, cy.po, da.po, de.po, el.po, eo.po, es.po, et.po, eu.po,
+	  fa.po, fi.po, fr.po, fur.po, ga.po, gl.po, he.po, hi.po, hr.po,
+	  hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po, ky.po, lt.po,
+	  lv.po, mk.po, mn.po, ms.po, mt.po, nb.po, nl.po, nn.po, pa_IN.po,
+	  pl.po, pt.po, pt_BR.po, ro.po, ru.po, sc.po, sk.po, sl.po, sq.po,
+	  sr.po, sr@Latn.po, sv.po, tg.po, th.po, tl.po, tr.po, uk.po,
+	  urpmi.pot, uz.po, uz@Latn.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	  updated pot file
+
+2005-10-27 16:43  Pablo Saratxaga <pablo at mandriva.com>
+
+	* urpmf, urpmi, urpmq: small changes to translatable strings, to
+	  avoid duplication and to reuse existing translations when
+	  possible
+
+2005-10-27 15:35  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/download.pm: Fix bug in rsync over ssh invocation
+
+2005-10-27 14:29  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmq: Don't let urpmq lock the urpmi db if it only dumps the
+	  configuration
+
+2005-10-27 14:13  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/args.pm: Add API to have defaults in urpm::args
+
+2005-10-27 12:27  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Remove encoding kludge
+
+2005-10-27 12:05  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Fail earlier and more aggressively when downloading an
+	  rpm fails
+
+2005-10-27 12:02  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/download.pm: Report curl download errors on ftp or on
+	  cancellation more agressively, so the urpm routines can recover
+	  properly.
+
+2005-10-26 18:23  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi2, urpmi: Improve some installation error messages (in
+	  English) (bug #19060)
+
+2005-10-26 15:02  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpmi.spec: 4.7.18-1mdk
 
 2005-10-26 14:36  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
 
