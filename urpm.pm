@@ -2925,7 +2925,7 @@ sub install_logger {
 #- install packages according to each hash (remove, install or upgrade).
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
-    my @readmes;
+    my %readmes;
 
     #- allow process to be forked now.
     my $pid;
@@ -3022,9 +3022,7 @@ sub install {
 	    my $pkg = $urpm->{depslist}[$pkgid];
 	    my $fullname = $pkg->fullname;
 	    my $trtype = (grep { /$fullname/ } values %$install) ? 'install' : '(upgrade|update)';
-	    push @readmes, map { [ $_, $fullname ] } grep {
-		/\bREADME(\.$trtype)?\.urpmi$/;
-	    } $pkg->files;
+	    for ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $readmes{$_} = $fullname }
 	    close $fh if defined $fh;
 	};
 	if (scalar keys %$install || scalar keys %$upgrade) {
@@ -3059,10 +3057,10 @@ sub install {
 	#- keep safe exit now (with destructor call).
 	exit 0;
     } else { #- parent process
-	if (@readmes) {
-	    foreach (@readmes) {
-		print "-" x 70, "\n", N("More information on package %s", $_->[1]), "\n";
-		my $fh; open $fh, '<', $_->[0] and do {
+	if (keys %readmes) {
+	    foreach (keys %readmes) {
+		print "-" x 70, "\n", N("More information on package %s", $readmes{$_}), "\n";
+		my $fh; open $fh, '<', $_ and do {
 		    print while <$fh>;
 		    close $fh;
 		};
