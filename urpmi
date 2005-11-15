@@ -124,6 +124,7 @@ usage:
 ") . N("  --excludepath  - exclude path separated by comma.
 ") . N("  --excludedocs  - exclude doc files.
 ") . N("  --ignoresize   - don't verify disk space before installation.
+") . N("  --noscripts    - do not execute package scriptlet(s)
 ") . N("  --skip         - packages which installation should be skipped
 ") . N("  --more-choices - when several packages are found, propose more choices
                    than the default.
@@ -645,6 +646,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		translate_message => 1,
 		oldpackage => $state->{oldpackage},
 		nosize => $urpm->{options}{ignoresize},
+		noscripts => $urpm->{options}{noscripts},
 	    );
 	    my @l = $urpm->install(
 		!$urpm->{options}{'allow-force'} && $set->{remove} || [],

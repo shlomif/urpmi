@@ -122,6 +122,7 @@ my %options_spec = (
 	'excludepath|exclude-path=s' => sub { $urpm->{options}{excludepath} = $_[1] },
 	'excludedocs|exclude-docs' => sub { $urpm->{options}{excludedocs} = 1 },
 	'ignoresize' => sub { $urpm->{options}{ignoresize} = 1 },
+	noscripts => sub { $urpm->{options}{noscripts} = 1 },
 	'more-choices' => sub { $urpm->{options}{morechoices} = 1 },
 	'expect-install!' => \$::expect_install,
 	'nolock' => \$::nolock,
