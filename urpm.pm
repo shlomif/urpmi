@@ -2882,7 +2882,8 @@ sub extract_packages_to_install {
 
     foreach (keys %$sources) {
 	my $pkg = $urpm->{depslist}[$_] or next;
-	$pkg->flag_disable_obsolete and $inst{$pkg->id} = delete $sources->{$pkg->id};
+	$pkg->flag_disable_obsolete || !$pkg->flag_installed
+	    and $inst{$pkg->id} = delete $sources->{$pkg->id};
     }
 
     \%inst;
