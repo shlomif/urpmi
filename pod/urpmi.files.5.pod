@@ -1,0 +1,83 @@
+=head1 NAME
+
+urpmi.files - files used by the urpmi tools
+
+=head1 DESCRIPTION
+
+The urpmi tools (urpmi, urpme, urpmi.addmedia, urpmi.update, etc.) use
+several different files to store the state of the RPM repositories (or
+media). This manual page documents them.
+
+=head1 FILES
+
+=over
+
+=item I</var/lib/urpmi/list.<media_name>>
+
+Contains the list of all packages known by urpmi and their location. This
+file is used when a password is used to access a distant location (using
+a network protocol) or when various directories are used to store the
+packages. That's why it's not world-readable.
+
+=item I</var/lib/urpmi/hdlist.<media_name>.cz>
+
+Contains information about all known packages; it's a summary of rpm
+headers. If an hdlist file is used for a medium, B<urpmf> can operate
+completely without accessing this medium (this is almost always the case).
+
+=item I</var/lib/urpmi/synthesis.hdlist.<media_name>.cz>
+
+Contains synthesis information about all known packages built from hdlist
+files that can be used by minimal closure algorithm. If these files are
+not present, hdlist files will be used instead to resolve dependencies
+(but this is much slower).
+
+=item I</etc/urpmi/urpmi.cfg>
+
+Contains media descriptions.
+See urpmi.cfg(5).
+
+=item I</etc/urpmi/proxy.cfg>
+
+Contains proxy descriptions for http and ftp media. See proxy.cfg(5).
+
+=item I</etc/urpmi/parallel.cfg>
+
+Contains the descriptions of parallel aliases, one per line. Their general
+format is B<< <alias>:<interface[(media)]>:<interface_parameter> >> where
+B<< <alias> >> is a symbolic name to identify the parallel alias, B<<
+<interface> >> is one of the parallel install methods (can be B<ka-run> or
+B<ssh>), B<< <media> >> is a media list (as given to the B<--media>
+parameter), and finally B<< <interface_parameter> >> is a specific interface
+parameter list like C<-c ssh -m node1 -m node2> for B<ka-run> extension or
+C<node1:node2> (list of node hostnames) for B<ssh> extension.
+
+=item I</etc/urpmi/skip.list>
+
+The list of packages that should not be automatically
+updated when using --auto-select. It contains one package expression per line;
+either a package name, or a regular expression (if enclosed in slashes
+B</>) to match the name of packages against. (Actually, it's matched against
+the full name of the package, which has the form B<name-version-release.arch>.)
+
+=item I</etc/urpmi/inst.list>
+
+The list of packages that should be installed instead of updated. It has
+the same format as the skip.list.
+
+=item I</etc/urpmi/mirror.config>
+
+This file is optional. If present, it should contain a single line:
+B<url=http://....> which is the URL of a document that lists the available
+mirrors. The default is to use
+B<http://www.mandrivalinux.com/mirrorsfull.list>.
+
+=item I</var/log/urpmi.log>
+
+The urpmi log file.
+
+=back
+
+=head1 SEE ALSO
+
+urpmi.cfg(5), proxy.cfg(5).

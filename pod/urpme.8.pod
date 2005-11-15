@@ -1,0 +1,92 @@
+=head1 NAME
+
+urpme - rpm deinstaller
+
+=head1 SYNOPSIS
+
+    urpme [options] [package_names]
+
+=head1 DESCRIPTION
+
+urpme allow packages to be deinstalled,
+including all their dependencies. I<package_names> must have one of the forms
+I<name>, I<name-version>, I<name-version-release>, or I<name-version-release.architecture>.
+If you want to specify packages more broadly, use the B<-a> option.
+
+=head1 OPTIONS
+
+=over
+
+=item B<--help>
+
+Prints a help message and exit (this is the same as B<-h> or B<-?>). 
+
+=item B<-a>
+
+If multiple packages match the given substring, deinstall them all. 
+
+=item B<-v>
+
+Proposes a verbose mode with various messages. 
+
+=item B<--auto>
+
+Removes packages non-interactively, without asking questions. 
+
+=item B<--test>
+
+Test deinstallation of packages but do not modify the system.
+
+=item B<--force>
+
+Force invocation even if some packages do not exist. 
+
+=item B<--parallel> I<alias>
+
+Activate distributed execution of urpmi to other machines (it is mandatory
+that urpmi is installed, but it is not necessary to have media defined on
+any machines). I<alias> defines which extension module is to be used by
+urpmi (currently, B<urpmi-parallel-ka-run> or B<urpmi-parallel-ssh> are
+available) and which machines should be updated. This alias is defined in
+the file F</etc/urpmi/parallel.cfg> as described below. 
+
+=item B<--root> I<directory>
+
+Use the file system tree rooted for rpm install. All operations and
+scripts will run after chroot(2). The rpm database that lies in the
+rooted tree will be used, but the urpmi configuration comes from the
+normal system.
+
+=item B<--use-distrib> I<directory>
+
+Configure urpme on the fly from a distribution tree.
+
+=back
+
+=head1 FILES
+
+See urpmi.files(5).
+
+=head1 EXIT CODES
+
+=over
+
+=item 1
+
+Command line inconsistency. 
+
+=item 2
+
+Removal of packages failed.
+
+=back
+
+=head1 AUTHORS
+
+Pascal Rigaux, Francois Pons, Rafael Garcia-Suarez
+<rgarciasuarez@mandriva.com> (current maintainer)
+
+=head1 SEE ALSO
+
+urpmi.addmedia(8), urpmi.update(8), urpmi.removemedia(8), urpmf(8),
+urpmi(8), urpmq(8), urpmi.files(5). 

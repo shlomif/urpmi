@@ -1,0 +1,206 @@
+=head1 NAME
+
+urpmi.addmedia - adds a new rpm medium to be used by urpmi
+
+=head1 SYNOPSIS
+
+    urpmi.addmedia [options] <name> <url> [with <hdlist>]
+
+=head1 DESCRIPTION
+
+urpmi.addmedia is used to add a new media to be used by urpmi, so it can
+find new rpms at the specified location. Currently supported media types
+are: local drives, removable drives (such as CDs), and networked media via
+different protocols (http, ftp, ssh and rsync). One of the following modes
+must be chosen:
+
+=over
+
+=item B<urpmi.addmedia [I<options>>] <I<name>> http://<I<login>>:<I<pass>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+
+where <I<name>> is your reference for the medium (e.g. "updates").
+<I<name>> is optional if B<--distrib> is given in the options list.
+<I<host>>/<I<path>> is the location of the media directory on the net
+(e.g. C<media/main>). <I<relative path of hdlist>> is the pathname where
+to find the hdlist of the rpms. The location is given relative to
+<I<path>>. B<curl> is used by default to download files, B<wget> may be
+used if B<curl> is not installed or if or B<--wget> is given in
+I<options>. Example:
+
+    urpmi.addmedia http http://jpackage.sf.net/rpm/free with hdlist.cz ftp:
+
+=item B<urpmi.addmedia [I<options>>] <I<name>> ftp://<I<login>>:<I<pass>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+
+The same as for http. Add your login and password if required (note that
+you don't need to specify B<anonymous> as login for anonymous access ftp
+servers). If B<wget> is used to download files with a firewall you may
+have to ensure that the B<passive_ftp> option is on in B</etc/wgetrc>
+(that's usually the default). Example:
+
+    urpmi.addmedia ftp ftp://a:a@leia//export/media/main with media_info/hdlist.cz
+
+=item B<urpmi.addmedia [I<options>>] <I<name>> ssh://<I<login>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+
+The same as for http and ftp; add your login and password if required. It
+is strongly recommended to export the public key in order not to have to
+type your password all the time. B<scp> and B<rsync> will be used to get
+files. Example:
+
+    urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
+
+=item B<urpmi.addmedia [I<options>>] <I<name>> rsync://<I<login>>@<I<host>>:<I<port>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+
+The same as for http; you can use the <I<host>>::<I<path>> syntax too. Example:
+
+    urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/media/media_info/hdlist2.cz
+
+=item B<urpmi.addmedia [I<options>>] <I<name>> file://<I<path>> [with <I<relative path of synthesis|hdlist>>]
+
+where <I<name>> is your reference for the medium (e.g. Myrpms). <I<path>>
+is the location of the media directory on your machine (e.g. C<media/main>).
+
+=item B<urpmi.addmedia [I<options>>] <I<name>> removable://<I<path>> [with <I<relative path of synthesis|hdlist>>]
+
+<I<path>> is the location of the media directory on your machine when the
+removable device is mounted. This works for removable drives, but also for
+ISO images mounted on a loop device. urpmi will then be able to re-mount
+the ISO image to the specified path (but the ISO image must be mounted
+when you run B<urpmi.addmedia>).
+
+=back
+
+=head1 OPTIONS
+
+=over
+
+=item B<--wget>
+
+Use wget only for downloading distant files. By default curl is used if
+available.
+
+=item B<--curl>
+
+Use curl only for downloading distant files. This is the default if curl
+is available.
+
+=item B<--limit-rate I<rate>>
+
+Try to limit the download speed, I<rate> is given in bytes/sec. This option
+is not active by default.
+
+=item B<--proxy> I<proxyhost[:port|1080]>
+
+Use specified HTTP proxy.
+
+=item B<--proxy-user> I<user:password>
+
+Use specified user and password to use for proxy authentication.
+Specifying B<--proxy-user=ask> will cause urpmi.addmedia to prompt for a
+username and a password.
+
+=item B<--update>
+
+Add a medium which will be taken into
+account by B<MandrivaUpdate> or by B<urpmi --update> when looking for updates.
+
+=item B<--probe-synthesis>
+
+Try to find and use synthesis file if B<with ...> is not given.
+
+=item B<--probe-hdlist>
+
+Try to find and use hdlist file if B<with ...> is not given.
+
+=item B<--no-probe>
+
+Do not try to find any synthesis or hdlist file.
+
+=item B<--distrib>
+
+Retrieve a set of media from a distribution. Typically, the URL provided
+to B<urpmi.addmedia> will represent the parent directory of a directory
+B<media>, which in turn will contain various subdirectories for each
+medium of the distribution. <I<name>> is combined with medium names found
+to create newer medium names in the urpmi database. The B<with ...>
+option, if provided, is ignored, as hdlists found on the installation
+medium are used instead automatically.
+
+=item B<--from> I<url>
+
+Use specified URL for list of mirrors. The default is taken from the file
+F</etc/urpmi/mirror.config>, or
+F<http://www.mandrivalinux.com/mirrorsfull.list> if this file doesn't
+exist.
+
+=item B<--version> I<version>
+
+Use specified distribution version. The default is taken from the version
+of the distribution told by the installed mandriva-release package.
+
+=item B<--virtual>
+
+Creates a virtual medium. This only works for C<file://> and
+C<removable://> protocols, and no files will be created in
+F</var/lib/urpmi>. The medium is always up-to-date and so it does not need
+to be updated by B<urpmi.update>.
+
+=item B<--norebuild>
+
+Don't try to rebuild the hdlist files from the RPMs
+if the original hdlist wasn't readable or was corrupted.
+
+=item B<--raw>
+
+Add the new media
+in the urpmi configuration file, but don't update it nor proceed to any
+download. The media, to be usable, will need to be updated with B<urpmi.update>.
+
+=item B<--nopubkey>
+
+Don't import pubkey of added media.
+
+=item B<-c>
+
+Clean headers cache directory in F</var/cache/urpmi/headers>.
+
+=item B<-h>
+
+Try to find and use synthesis or hdlist file.
+
+=item B<-f>
+
+Force rebuild of base files, or of hdlist files when specified twice.
+
+=back
+
+=head1 Variables
+
+Beginning with urpmi 4.6.16, you can use variables in media URLs (for
+example F</mnt/mirror/$RELEASE/$ARCH/media/main>). The variables supported
+so far are:
+
+=over
+
+=item B<$ARCH>
+
+The architecture (as given in F</etc/mandriva-release>)
+
+=item B<$RELEASE>
+
+The OS release (as given in F</etc/mandriva-release>; its value is
+B<cooker> on a cooker system.)
+
+=item B<$HOST>
+
+The canonical hostname of the machine urpmi runs on.
+
+=back
+
+=head1 SEE ALSO
+
+urpmi(8), urpmi.update(8), urpmi.removemedia(8), urpmf(8), urpmq(8), urpmi.files(5).
+
+=head1 Author
+
+Pascal Rigaux (original author), FranE<ccedil>ois Pons, Rafael
+Garcia-Suarez, <rgarciasuarez@mandriva.com> (current maintainer)

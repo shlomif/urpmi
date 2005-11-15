@@ -1,0 +1,35 @@
+=head1 NAME
+
+rurpmi - restricted urpmi
+
+=head1 SYNOPSIS
+
+ rurpmi [options] [package_names]
+
+=head1 DESCRIPTION
+
+rurpmi is similar to urpmi, but has a stripped-down set of features. It's
+intended to be used by users with sudo rights on it, preventing them to
+abuse it to compromise the system. With it, you can't install arbitrary
+rpm files, the B<--keep>, B<--verify-rpm>, and B<--norebuild> options are
+forced, and several dangerous options are forbidden (B<--root>,
+B<--use-distrib>, B<--env>, B<--nolock>, B<--allow-nodeps>,
+B<--allow-force>, B<--force>).
+
+=head1 CAVEAT
+
+This software is still experimental. While some operations are forbidden,
+there is no guarantee it is actually secure.
+
+=head1 OPTIONS
+
+The options are the same than urpmi ones.
+
+=head1 AUTHOR
+
+Maintained by Rafael Garcia-Suarez,
+<rgarciasuarez@mandriva.com>
+
+=head1 SEE ALSO
+
+L<I<urpmi>(8)>.

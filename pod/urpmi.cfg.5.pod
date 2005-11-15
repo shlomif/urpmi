@@ -1,0 +1,169 @@
+=head1 NAME
+
+urpmi.cfg - urpmi option and media configuration file format
+
+=head1 DESCRIPTION
+
+The urpmi.cfg file is divided in multiple sections: one section to set
+global options, and one section per media.
+
+=head1 GLOBAL OPTIONS
+
+Some global options can be activated by default. The following sample
+shows how to disable signature checking and avoid transaction splits :
+
+    {
+	no-verify-rpm
+	split-length: 0
+    }
+
+The following options can be written in this section :
+
+=over
+
+=item B<allow-force>
+
+Same as specifying B<--allow-force> for B<urpmi>, disabled by default.
+
+=item B<allow-nodeps>
+
+Same as specifying B<--allow-nodeps> for B<urpmi>, disabled by default.
+
+=item B<downloader>
+
+Specify which download program to use: B<wget> or B<curl>.
+
+=item B<excludedocs>
+
+Same as specifying B<--excludedocs> for B<urpmi>, disabled by default.
+
+=item B<excludepath>
+
+Same as B<--excludepath> for B<urpmi>. This options allows to give a comma
+separated list of paths to be excluded on installation. There is no path
+exclusion by default.
+
+=item B<fuzzy>
+
+Same as B<--fuzzy> for B<urpmi> or B<urpmq>. Enable or disable fuzzy
+search, disabled by default. Enabling it can be written in various ways :
+C<fuzzy> or C<fuzzy: yes> or C<fuzzy: on> or C<fuzzy: 1>.
+
+=item B<key-ids>
+
+This option is not available on the command line. It allows to use a comma
+separated list of key ids to be globally accepted (keys still need to be
+authorized by B<rpm>) for any medium unless a specific B<key-ids> option
+for this medium is given. There is no default (even Mandriva public key id
+70771ff3 is not included by default).
+
+=item B<limit-rate>
+
+Same as B<--limit-rate> for all tools. This option allows to control
+download speed; there is no limitation by default. The number is given in
+kilo-bytes per second, unless a suffix C<K> or C<M> is added.
+
+=item B<nopubkey>
+
+Don't import pubkeys when updating media.
+
+=item B<noreconfigure>
+
+Specifies that the media should not be reconfigured (by a reconfiguration
+file present on the medium).
+
+=item B<norebuild>
+
+Same as B<--norebuild> for B<urpmi>, B<urpmi.update> and
+B<urpmi.addmedia>, disabled by default (meaning that B<urpmi> will try to
+rebuild hdlists by default).
+
+=item B<pre-clean, post-clean, clean>
+
+Control cache management for B<urpmi>, default is only activated as
+B<post-clean>.
+
+=item B<prohibit-remove>
+
+A comma-separated list of package names that must never be removed (just
+like B<basesystem> dependencies).
+
+=item B<retry>
+
+Specify how many times the downloader should retry in case of non-permanent
+errors.
+
+=item B<split-length>
+
+Same as B<--split-length> for B<urpmi>. This option allows to control the
+minimal length of splitted transactions. The default value is 1 (smallest
+possible transaction). Setting this value to 0 disables the splitting of
+transactions.
+
+=item B<split-level>
+
+Same as B<--split-level> for B<urpmi>. This option allows to control if
+transactions should be splitted depending of the number of packages to
+upgrade. The default value is 20.
+
+=item B<strict-arch>
+
+Same as B<--strict-arch> for B<urpmi>. Boolean option, disabled by
+default, meaning that packages can be upgraded with versions for another
+architecture.
+
+=item B<verify-rpm>
+
+Same as B<--verify-rpm> for B<urpmi>. Enable or disable signature checking
+(it's enabled by default). Disabling it can be written in various ways (as
+for all the other boolean options) : C<no-verify-rpm> or C<verify-rpm: no>
+or C<verify-rpm: off> or C<verify-rpm: 0>.
+
+=back
+
+=head1 MEDIUM DESCRIPTION
+
+A medium is described as follows :
+
+    name url {
+	hdlist: ...
+	... list of options, one per line ...
+    }
+
+where B<name> is the medium name (space characters must be prefixed by a
+backslash) and where the optional B<url> is the medium URL (if no B<url>
+is given, it will be guessed according to the mandatory list file).
+
+Most other options like B<list>, B<with_hdlist>, B<synthesis>,
+B<removable>, B<virtual> are for internal use and should be changed only
+by experienced users.
+
+Options like B<update>, B<ignore> or B<key-ids> can be modified by users
+to respectively mark mediums as update sources, to have them being
+ignored, or to specify the allowed GPG key ids for packages from the
+medium for verification (unless of course signature checking has been
+disabled globally). It's also possible to override B<verify-rpm> and
+B<downloader> in a medium description.
+
+Media can be marked as B<static>: this means that they won't be updated by
+B<urpmi.update> or other means. This is useful for read-only media such as
+CDs.
+
+Please note that B<key-ids> is automatically set by B<urpmi.update> or
+B<urpmi.addmedia> if a remote pubkey file is available on the mirror. This
+file contains all the GPG armor keys that may be used.
+
+=head1 BUGS
+
+A C<{> should finish a line, as well as a C<}> should start it when used.
+This means the construction C<{ no-verify-rpm }> on a single line is
+invalid.
+
+=head1 AUTHOR
+
+Pascal Rigaux (original author), Francois Pons, Rafael Garcia-Suarez,
+<rgarciasuarez@mandriva.com> (current maintainer)
+
+=head1 SEE ALSO
+
+urpmi(8), urpmi.files(5).

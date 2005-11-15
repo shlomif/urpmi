@@ -1,0 +1,29 @@
+=head1 NAME
+
+proxy.cfg - urpmi proxy configuration file format.
+
+=head1 DESCRIPTION
+
+The proxy.cfg file contains lines of the form
+
+ [media:]http_proxy=[value]
+ [media:]ftp_proxy=[value]
+ [media:]proxy_user=[value]
+
+where the media part is optional (in this case, the line applies to all
+media). ftp_proxy and http_proxy values have the same syntax as the usual
+environment variables used by many programs such as curl(1):
+
+ [protocol://]<host>[:port]
+
+proxy_user values are simply a user name, or a user name and a password
+separated by a colon (C<:>).
+
+=head1 AUTHOR
+
+FranE<ccedil>ois Pons, Rafael Garcia-Suarez <rgarciasuarez@mandriva.com>
+(current maintainer)
+
+=head1 SEE ALSO
+
+urpmi(8), urpmi.cfg(5), urpmi.files(5).
