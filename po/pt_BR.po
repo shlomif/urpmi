@@ -53,7 +53,7 @@ msgstr "Instalação de RPM"
 #: ../gurpmi:42
 #, c-format
 msgid "Error: unable to find file %s, will cancel operation"
-msgstr ""
+msgstr "Erro: não foi possível encontrar arquivo %s, cancelando operação"
 
 #: ../gurpmi:43 ../gurpmi2:122 ../gurpmi2:145
 msgid "_Ok"
@@ -131,16 +131,13 @@ msgid "Choose location to save file"
 msgstr "Escolha o local para salvar o arquivo"
 
 #: ../gurpmi.pm:62
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option %s"
-msgstr ""
-"\n"
-"Opcões desconhecidas '%s'\n"
+msgstr "Opção desconhecida %s"
 
 #: ../gurpmi.pm:70
-#, fuzzy
 msgid "No packages specified"
-msgstr "Nenhum nome de pacote %s"
+msgstr "Nenhum pacote especificado"
 
 #: ../gurpmi2:36
 msgid "Please wait..."
@@ -347,9 +344,9 @@ msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "incapaz de acessar a lista de arquivos de \"%s\", mídia ignorada."
 
 #: ../urpm.pm:255
-#, fuzzy, c-format
+#, c-format
 msgid "trying to override existing medium \"%s\", skipping"
-msgstr "Tentando contornar mídia existente \"%s\", evitando"
+msgstr "tentando contornar mídia existente \"%s\", evitando"
 
 #: ../urpm.pm:266
 #, c-format
@@ -1027,40 +1024,40 @@ msgstr "Desculpe, má escolha, tente novamente\n"
 #: ../urpm/parallel_ka_run.pm:9 ../urpm/parallel_ka_run.pm:103
 #: ../urpm/parallel_ka_run.pm:197
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput falhou, provavelmente um nó está inacessível"
 
 #: ../urpm/parallel_ka_run.pm:70 ../urpm/parallel_ka_run.pm:182
 #: ../urpm/parallel_ka_run.pm:211
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp falhou, provavelmente um nó está inacessível"
 
 #: ../urpm/parallel_ka_run.pm:79 ../urpm/parallel_ssh.pm:96
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "no nó %s"
 
 #. - first propagate the synthesis file to all machine.
 #: ../urpm/parallel_ka_run.pm:101
 msgid "Propagating synthesis to nodes..."
-msgstr ""
+msgstr "Propagando synthesis para os nós..."
 
 #. - now try an iteration of urpmq.
 #: ../urpm/parallel_ka_run.pm:152
 msgid "Resolving dependencies on nodes..."
-msgstr ""
+msgstr "Resolvendo dependências nos nós..."
 
 #: ../urpm/parallel_ka_run.pm:195
 msgid "Distributing files to nodes..."
-msgstr ""
+msgstr "Distribuindo arquivos para os nós..."
 
 #: ../urpm/parallel_ka_run.pm:201
 msgid "Verifying if install is possible on nodes..."
-msgstr ""
+msgstr "Verificando se a instalação é possível nos nós..."
 
 #: ../urpm/parallel_ka_run.pm:215 ../urpm/parallel_ssh.pm:243
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "A Instalação falhou"
+msgstr "A Instalação falhou no nó %s"
 
 #: ../urpm/parallel_ka_run.pm:220 ../urpm/parallel_ssh.pm:248 ../urpmi:726
 msgid "Installation is possible"
@@ -1068,55 +1065,54 @@ msgstr "Instalação é possível"
 
 #. - continue installation.
 #: ../urpm/parallel_ka_run.pm:225
-#, fuzzy
 msgid "Installing packages on nodes..."
-msgstr "Instalando pacote `%s' (%s/%s)..."
+msgstr "Instalando pacotes nos nós..."
 
 #: ../urpm/parallel_ssh.pm:22 ../urpm/parallel_ssh.pm:120
 #: ../urpm/parallel_ssh.pm:224
 #, c-format
 msgid "scp failed on host %s (%d)"
-msgstr ""
+msgstr "scp falhou no host %s (%d)"
 
 #: ../urpm/parallel_ssh.pm:118
-#, fuzzy, c-format
+#, c-format
 msgid "Propagating synthesis to %s..."
-msgstr "Examinando arquivo de síntese [%s]"
+msgstr "Propagando synthesis para %s..."
 
 #: ../urpm/parallel_ssh.pm:171
 #, c-format
 msgid "Resolving dependencies on %s..."
-msgstr ""
+msgstr "Resolvendo dependências em %s..."
 
 #: ../urpm/parallel_ssh.pm:201
 #, c-format
 msgid "host %s does not have a good version of urpmi (%d)"
-msgstr ""
+msgstr "host %s não tem uma versão necessária do urpmi (%d)"
 
 #: ../urpm/parallel_ssh.pm:217
-#, fuzzy, c-format
+#, c-format
 msgid "Distributing files to %s..."
-msgstr "distribuindo %s"
+msgstr "Distribuindo arquivos para %s..."
 
 #: ../urpm/parallel_ssh.pm:231
 #, c-format
 msgid "Verifying if install is possible on %s..."
-msgstr ""
+msgstr "Verificando se instalação é possível em %s..."
 
 #: ../urpm/parallel_ssh.pm:255
-#, fuzzy, c-format
+#, c-format
 msgid "Performing install on %s..."
-msgstr "Instalação de pacotes..."
+msgstr "Executando instalação em %s..."
 
 #: ../urpm/parallel_ssh.pm:268
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s on %s..."
-msgstr "instalando %s a partir de %s"
+msgstr "instalando %s em %s..."
 
 #: ../urpm/parallel_ssh.pm:269
-#, fuzzy, c-format
+#, c-format
 msgid "Preparing install on %s..."
-msgstr "Instalação de pacotes..."
+msgstr "Preparando instalação em %s..."
 
 #: ../urpme:31 ../urpmi:500
 msgid "Is this OK?"
@@ -1652,9 +1648,8 @@ msgstr ""
 "  --ignoresize   - não verifica o espaço em disco antes da instalação.\n"
 
 #: ../urpmi:127
-#, fuzzy
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
-msgstr "  --description  - descrição do pacote\n"
+msgstr "  --noscripts    - não executa script(s) dos pacotes\n"
 
 #: ../urpmi:128
 msgid "  --skip         - packages which installation should be skipped\n"
@@ -2281,7 +2276,7 @@ msgstr "--list-nodes só pode ser usado com --parallel"
 #. TODO rewrite rpm2header in perl
 #: ../urpmq:313
 msgid "rpm2header utility not found, impossible to use the --header option"
-msgstr ""
+msgstr "utilitário rpm2header não encontrado, impossível usar opção --header"
 
 #: ../urpmq:362
 #, c-format
