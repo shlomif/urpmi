@@ -10,7 +10,7 @@ our $rshp_command = 'rshp';
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
 
-    $urpm->{log}("parallel_ka_run: $mput_command $parallel->{options} -- ".join(' ', @files)." $urpm->{cachedir}/rpms/");
+    $urpm->{log}("parallel_ka_run: $mput_command $parallel->{options} -- @files $urpm->{cachedir}/rpms/");
     system $mput_command, split(' ', $parallel->{options}), '--', @files, "$urpm->{cachedir}/rpms/";
     $? == 0 || $? == 256 or $urpm->{fatal}(1, urpm::N("mput failed, maybe a node is unreacheable"));
 
@@ -25,7 +25,7 @@ sub parallel_register_rpms {
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
     my ($test, $node, %bad_nodes, %base_to_remove, %notfound);
-    local (*F, $_);
+    local $_;
 
     #- keep in mind if the previous selection is still active, it avoid
     #- to re-start urpme --test on each node.
@@ -41,9 +41,9 @@ sub parallel_find_remove {
     }
 
     #- now try an iteration of urpmq.
-    $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test".(join ' ', map { "'$_'" } @$l));
-    open F, "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test".join(' ', map { "'$_'" } @$l)." 2>&1 |";
-    while (defined ($_ = <F>)) {
+    $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l));
+    open my $fh, "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l) . " 2>&1 |";
+    while (<$fh>) {
 	chomp;
 	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
 	/^\s*$/ and next;
@@ -55,7 +55,7 @@ sub parallel_find_remove {
 	    #- if other node have it.
 	    @notfound{split ", ", $1} = ();
 	} elsif (/The following packages contain ([^:]*): (.*)/) {
-	    $options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, $1, split " ", $2)
+	    $options{callback_fuzzy} && $options{callback_fuzzy}->($urpm, $1, split " ", $2)
 	      or delete $state->{rejected}, last;
 	} elsif (/removing package (.*) will break your system/) {
 	    $base_to_remove{$1} = undef;
@@ -73,7 +73,7 @@ sub parallel_find_remove {
 	    }
 	}
     }
-    close F or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
+    close $fh or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
 
     #- check base, which has been delayed until there.
     $options{callback_base} and %base_to_remove and $options{callback_base}->($urpm, keys %base_to_remove)
@@ -91,7 +91,7 @@ sub parallel_find_remove {
     #- if at least one node has the package, it should be seen as unknown...
     delete @notfound{map { /^(.*)-[^-]*-[^-]*$/ } keys %{$state->{rejected}}};
     if (%notfound) {
-	$options{callback_notfound} and $options{callback_notfound}->($urpm, keys %notfound)
+	$options{callback_notfound} && $options{callback_notfound}->($urpm, keys %notfound)
 	  or delete $state->{rejected};
     }
 
@@ -138,26 +138,26 @@ sub parallel_resolve_dependencies {
 	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ values %$packages ]);
 	    if ($choice) {
 		$urpm->{source}{$choice->id} and next; #- local packages have already been added.
-		$line .= ' '.$choice->fullname;
+		$line .= ' ' . $choice->fullname;
 	    }
 	} else {
 	    my $pkg = $urpm->{depslist}[$_] or next;
 	    $urpm->{source}{$pkg->id} and next; #- local packages have already been added.
-	    $line .= ' '.$pkg->fullname;
+	    $line .= ' ' . $pkg->fullname;
 	}
     }
 
     #- execute urpmq to determine packages to install.
     my ($node, $cont, %chosen);
-    local (*F, $_);
+    local $_;
     do {
 	$cont = 0; #- prepare to stop iteration.
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
-        $urpm->{ui_msg}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen), urpm::N("Resolving dependencies on nodes..."));
-	open F, "$rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line ".join(' ', keys %chosen)." |";
-	while (defined ($_ = <F>)) {
+	$urpm->{ui_msg}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen), urpm::N("Resolving dependencies on nodes..."));
+	open my $fh, "$rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen) . " |";
+	while (<$fh>) {
 	    chomp;
 	    s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
 	    if (my ($action, $what) = /^\@([^\@]*)\@(.*)/) {
@@ -185,10 +185,10 @@ sub parallel_resolve_dependencies {
 		$state->{selected}{$pkg->id}{$node} = $_;
 	    }
 	}
-	close F or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
+	close $fh or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
-    } while ($cont);
+    } while $cont;
 
     #- keep trace of what has been chosen finally (if any).
     $parallel->{line} = "$line ".join(' ', keys %chosen);
@@ -196,18 +196,18 @@ sub parallel_resolve_dependencies {
 
 #- parallel install.
 sub parallel_install {
-    my ($parallel, $urpm, $remove, $install, $upgrade, %options) = @_;
+    my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
     $urpm->{ui_msg}("parallel_ka_run: $mput_command $parallel->{options} -- ".join(' ', values %$install, values %$upgrade)." $urpm->{cachedir}/rpms/", urpm::N("Distributing files to nodes..."));
     system $mput_command, split(' ', $parallel->{options}), '--', values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/";
     $? == 0 || $? == 256 or $urpm->{fatal}(1, urpm::N("mput failed, maybe a node is unreacheable"));
 
-    local (*F, $_);
+    local $_;
     my ($node, %bad_nodes);
     $urpm->{ui_msg}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}",
 	urpm::N("Verifying if install is possible on nodes..."));
-    open F, "$rshp_command -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
-    while (defined ($_ = <F>)) {
+    open my $fh, "$rshp_command -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
+    while (<$fh>) {
 	chomp;
 	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
 	/^\s*$/ and next;
@@ -215,7 +215,7 @@ sub parallel_install {
 	/Installation failed/ and $bad_nodes{$node} = '';
 	/Installation is possible/ and delete $bad_nodes{$node};
     }
-    close F or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
+    close $fh or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
 
     foreach (keys %{$parallel->{nodes}}) {
 	exists $bad_nodes{$_} or next;
@@ -239,7 +239,7 @@ sub parallel_install {
 package urpm;
 
 sub handle_parallel_options {
-    my ($urpm, $options) = @_;
+    my (undef, $options) = @_;
     my ($media, $ka_run_options) = $options =~ /ka-run(?:\(([^\)]*)\))?:(.*)/;
     if ($ka_run_options) {
 	my ($flush_nodes, %nodes);
