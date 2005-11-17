@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.8.1
-%define release	1mdk
+%define release	2mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -253,6 +253,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Thu Nov 17 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.1-2mdk
+- urpmi: Move summary of number of packages / size installed at the end
+- Don't require ka-run directly, use virtual package parallel-tools
+- Message updates
+
 * Thu Nov 17 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.1-1mdk
 - Display README.urpmi only once
 - Add a --noscripts option to urpmi
