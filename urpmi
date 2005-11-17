@@ -682,7 +682,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 			    ++$nok;
 			    push @errors, @l;
 			} else {
-			    message_input(N("Try installation even more strongly (--force)? (y/N) "),
+			    message_input(N("Try harder to install (--force)? (y/N) "),
 					  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 			    $urpm->{log}("starting force installing packages without deps");
 			    @l = $urpm->install(
