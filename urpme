@@ -86,16 +86,19 @@ my @toremove = $urpm->find_packages_to_remove(
     force => $force,
     callback_notfound => sub {
 	my $urpm = shift @_;
+	#- Warning : the following message is parsed in urpm::parallel_ka_run
 	$urpm->{fatal}(1, (@_ > 1 ? N("unknown packages") : N("unknown package")) .
 	    ': ' . join(', ', @_)); 0 },
     callback_fuzzy => sub {
 	my $urpm = shift @_;
 	my $match = shift @_;
+	#- Warning : the following message is parsed in urpm::parallel_ka_run
 	$urpm->{fatal}(1, N("The following packages contain %s: %s",
 		$match, join(' ', @_))); 0 },
     callback_base => sub {
 	my $urpm = shift @_;
 	foreach (@_) {
+	    #- Warning : the following message is parsed in urpm::parallel_*
 	    $urpm->{error}(N("removing package %s will break your system", $_));
 	} 0 },
     root => $root,
@@ -103,6 +106,7 @@ my @toremove = $urpm->find_packages_to_remove(
 
 my $list = join "\n", $urpm->translate_why_removed($state, sort @toremove);
 if ($test && $auto) {
+    #- Warning : the following message is parsed in urpm::parallel_*
     my $msg = N("Checking to remove the following packages");
     print STDOUT "$msg:\n$list\n";
 } elsif (($parallel || @toremove > @l) && !$auto) {
@@ -115,8 +119,11 @@ if ($test && $auto) {
     message_input($askok . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
 }
 
-print STDOUT "\n".N("removing %s", join(' ', sort @toremove))."\n";
-@l = $parallel ?
-  $urpm->parallel_remove(\@toremove, test => $test, force => $force, translate_message => 1) :
-  $urpm->install(\@toremove, {}, {}, test => $test, force => $force, translate_message => 1);
-@l and $urpm->{fatal}(2, N("Removing failed") . ":\n" . join("\n",  map { "\t$_" } @l));
+#- Warning : the following message is parsed in urpm::parallel_*
+print "\n" . N("removing %s", join(' ', sort @toremove)) . "\n";
+@l = $parallel
+    ? $urpm->parallel_remove(\@toremove, test => $test, force => $force, translate_message => 1)
+    : $urpm->install(\@toremove, {}, {}, test => $test, force => $force, translate_message => 1);
+
+#- Warning : the following message is parsed in urpm::parallel_*
+@l and $urpm->{fatal}(2, N("Removal failed") . ":\n" . join("\n",  map { "\t$_" } @l));

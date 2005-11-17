@@ -49,7 +49,7 @@ sub parallel_find_remove {
 	/^\s*$/ and next;
 	/Checking to remove the following packages/ and next;
 	/To satisfy dependencies, the following packages are going to be removed/
-	  and $urpm->{fatal}(1, ("node %s has bad version of urpme, please upgrade", $node));
+	    and $urpm->{fatal}(1, urpm::N("node %s has an old version of urpme, please upgrade", $node));
 	if (/unknown packages?:? (.*)/) {
 	    #- keep in mind unknown package from the node, because it should not be a fatal error
 	    #- if other node have it.
@@ -61,7 +61,7 @@ sub parallel_find_remove {
 	    $base_to_remove{$1} = undef;
 	} elsif (/removing \S/) {
 	    #- this is log for newer urpme, so do not try to remove removing...
-	} elsif (/Removing failed/) {
+	} elsif (/Removal failed/) {
 	    $bad_nodes{$node} = [];
 	} else {
 	    if (exists $bad_nodes{$node}) {
