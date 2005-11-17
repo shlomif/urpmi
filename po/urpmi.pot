@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-11-16 22:47+0800\n"
+"POT-Creation-Date: 2005-11-17 12:00+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -185,7 +185,8 @@ msgid ""
 "Do you want to continue installation ?"
 msgstr ""
 
-#: ../gurpmi2:254 ../gurpmi2:303 ../urpmi:595 ../urpmi:713
+#. - Warning : the following message is parsed in urpm::parallel_*
+#: ../gurpmi2:254 ../gurpmi2:303 ../urpmi:596 ../urpmi:719
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
@@ -193,7 +194,8 @@ msgid ""
 "You may want to update your urpmi database"
 msgstr ""
 
-#: ../gurpmi2:261 ../urpme:118 ../urpmi:638
+#. - Warning : the following message is parsed in urpm::parallel_*
+#: ../gurpmi2:261 ../urpme:123 ../urpmi:640
 #, c-format
 msgid "removing %s"
 msgstr ""
@@ -207,7 +209,8 @@ msgstr ""
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
-#: ../gurpmi2:289 ../urpmi:605 ../urpmi:658 ../urpmi:676 ../urpmi:692
+#. - Warning : the following message is parsed in urpm::parallel_*
+#: ../gurpmi2:289 ../urpmi:607 ../urpmi:661 ../urpmi:680 ../urpmi:697
 msgid "Installation failed"
 msgstr ""
 
@@ -215,7 +218,7 @@ msgstr ""
 msgid "_Done"
 msgstr ""
 
-#: ../gurpmi2:306 ../urpmi:729
+#: ../gurpmi2:306 ../urpmi:736
 msgid "The package(s) are already installed"
 msgstr ""
 
@@ -762,7 +765,8 @@ msgstr ""
 msgid "no package named %s"
 msgstr ""
 
-#: ../urpm.pm:2245 ../urpme:94
+#. - Warning : the following message is parsed in urpm::parallel_*
+#: ../urpm.pm:2245 ../urpme:96
 #, c-format
 msgid "The following packages contain %s: %s"
 msgstr ""
@@ -954,95 +958,101 @@ msgstr ""
 msgid "Sorry, bad choice, try again\n"
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:9 ../urpm/parallel_ka_run.pm:103
-#: ../urpm/parallel_ka_run.pm:197
+#: ../urpm/parallel_ka_run.pm:24 ../urpm/parallel_ka_run.pm:118
+#: ../urpm/parallel_ka_run.pm:212
 msgid "mput failed, maybe a node is unreacheable"
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:70 ../urpm/parallel_ka_run.pm:182
-#: ../urpm/parallel_ka_run.pm:211
+#: ../urpm/parallel_ka_run.pm:61
+#, c-format
+msgid "node %s has an old version of urpme, please upgrade"
+msgstr ""
+
+#: ../urpm/parallel_ka_run.pm:85 ../urpm/parallel_ka_run.pm:197
+#: ../urpm/parallel_ka_run.pm:227
 msgid "rshp failed, maybe a node is unreacheable"
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:79 ../urpm/parallel_ssh.pm:96
+#: ../urpm/parallel_ka_run.pm:94 ../urpm/parallel_ssh.pm:99
 #, c-format
 msgid "on node %s"
 msgstr ""
 
 #. - first propagate the synthesis file to all machine.
-#: ../urpm/parallel_ka_run.pm:101
+#: ../urpm/parallel_ka_run.pm:116
 msgid "Propagating synthesis to nodes..."
 msgstr ""
 
 #. - now try an iteration of urpmq.
-#: ../urpm/parallel_ka_run.pm:152
+#: ../urpm/parallel_ka_run.pm:167
 msgid "Resolving dependencies on nodes..."
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:195
+#: ../urpm/parallel_ka_run.pm:210
 msgid "Distributing files to nodes..."
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:201
+#: ../urpm/parallel_ka_run.pm:217
 msgid "Verifying if install is possible on nodes..."
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:215 ../urpm/parallel_ssh.pm:243
+#: ../urpm/parallel_ka_run.pm:231 ../urpm/parallel_ssh.pm:246
 #, c-format
 msgid "Installation failed on node %s"
 msgstr ""
 
-#: ../urpm/parallel_ka_run.pm:220 ../urpm/parallel_ssh.pm:248 ../urpmi:726
+#. - Warning : the following message is parsed in urpm::parallel_*
+#: ../urpm/parallel_ka_run.pm:236 ../urpm/parallel_ssh.pm:251 ../urpmi:733
 msgid "Installation is possible"
 msgstr ""
 
 #. - continue installation.
-#: ../urpm/parallel_ka_run.pm:225
+#: ../urpm/parallel_ka_run.pm:241
 msgid "Installing packages on nodes..."
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:22 ../urpm/parallel_ssh.pm:120
-#: ../urpm/parallel_ssh.pm:224
+#: ../urpm/parallel_ssh.pm:25 ../urpm/parallel_ssh.pm:123
+#: ../urpm/parallel_ssh.pm:227
 #, c-format
 msgid "scp failed on host %s (%d)"
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:118
+#: ../urpm/parallel_ssh.pm:121
 #, c-format
 msgid "Propagating synthesis to %s..."
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:171
+#: ../urpm/parallel_ssh.pm:174
 #, c-format
 msgid "Resolving dependencies on %s..."
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:201
+#: ../urpm/parallel_ssh.pm:204
 #, c-format
 msgid "host %s does not have a good version of urpmi (%d)"
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:217
+#: ../urpm/parallel_ssh.pm:220
 #, c-format
 msgid "Distributing files to %s..."
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:231
+#: ../urpm/parallel_ssh.pm:234
 #, c-format
 msgid "Verifying if install is possible on %s..."
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:255
+#: ../urpm/parallel_ssh.pm:258
 #, c-format
 msgid "Performing install on %s..."
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:268
+#: ../urpm/parallel_ssh.pm:271
 #, c-format
 msgid "Installing %s on %s..."
 msgstr ""
 
-#: ../urpm/parallel_ssh.pm:269
+#: ../urpm/parallel_ssh.pm:272
 #, c-format
 msgid "Preparing install on %s..."
 msgstr ""
@@ -1107,39 +1117,43 @@ msgstr ""
 msgid "Only superuser is allowed to remove packages"
 msgstr ""
 
-#: ../urpme:89
+#: ../urpme:90
 msgid "unknown package"
 msgstr ""
 
-#: ../urpme:89
+#. - Warning : the following message is parsed in urpm::parallel_*
+#: ../urpme:90
 msgid "unknown packages"
 msgstr ""
 
-#: ../urpme:99 ../urpmi:439
+#. - Warning : the following message is parsed in urpm::parallel_*
+#: ../urpme:102 ../urpmi:439
 #, c-format
 msgid "removing package %s will break your system"
 msgstr ""
 
-#: ../urpme:102
+#: ../urpme:105
 msgid "Nothing to remove"
 msgstr ""
 
-#: ../urpme:106
+#. - Warning : the following message is parsed in urpm::parallel_*
+#: ../urpme:110
 msgid "Checking to remove the following packages"
 msgstr ""
 
-#: ../urpme:113
+#: ../urpme:117
 #, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages will be removed (%d MB)"
 msgstr ""
 
-#: ../urpme:115 ../urpmi:458 ../urpmi:588
+#: ../urpme:119 ../urpmi:458 ../urpmi:588
 msgid " (y/N) "
 msgstr ""
 
-#: ../urpme:122
-msgid "Removing failed"
+#. - Warning : the following message is parsed in urpm::parallel_*
+#: ../urpme:129
+msgid "Removal failed"
 msgstr ""
 
 #: ../urpmf:27
@@ -1671,41 +1685,41 @@ msgstr ""
 msgid "Do you want to continue installation ?"
 msgstr ""
 
-#: ../urpmi:622
+#: ../urpmi:624
 #, c-format
 msgid "distributing %s"
 msgstr ""
 
 #. - there's a common prefix, simplify message
-#: ../urpmi:633
+#: ../urpmi:635
 #, c-format
 msgid "installing %s from %s"
 msgstr ""
 
-#: ../urpmi:635
+#: ../urpmi:637
 #, c-format
 msgid "installing %s"
 msgstr ""
 
-#: ../urpmi:665
+#: ../urpmi:668
 msgid "Try installation without checking dependencies? (y/N) "
 msgstr ""
 
-#: ../urpmi:681
+#: ../urpmi:685
 msgid "Try installation even more strongly (--force)? (y/N) "
 msgstr ""
 
-#: ../urpmi:718
+#: ../urpmi:724
 #, c-format
 msgid "%d installation transactions failed"
 msgstr ""
 
-#: ../urpmi:733
+#: ../urpmi:740
 #, c-format
 msgid "The following package names were assumed: %s"
 msgstr ""
 
-#: ../urpmi:750
+#: ../urpmi:757
 msgid "restarting urpmi"
 msgstr ""
 
