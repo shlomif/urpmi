@@ -66,12 +66,13 @@ gurpmi is a graphical front-end to urpmi.
 
 %package -n urpmi-parallel-ka-run
 Summary:	Parallel extensions to urpmi using ka-run
-Requires:	urpmi >= %{version}-%{release} ka-run >= 2.0-15mdk
+Requires:	urpmi >= %{version}-%{release}
+Requires:	parallel-tools
 Group:		%{group}
 
 %description -n urpmi-parallel-ka-run
 urpmi-parallel-ka-run is an extension module to urpmi for handling
-distributed installation using ka-run tools.
+distributed installation using ka-run or Taktuk tools.
 
 %package -n urpmi-parallel-ssh
 Summary:	Parallel extensions to urpmi using ssh and scp
