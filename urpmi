@@ -484,10 +484,11 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
 $urpm->{nb_install} = @to_install;
 if ($env) {
     my $msg = $#to_install
-      ? N("To satisfy dependencies, the following %d packages are going to be installed (%d MB)", $#to_install+1, toMb($sum))
-      : N("To satisfy dependencies, the following package is going to be installed (%d MB)", toMb($sum));
+      ? N("To satisfy dependencies, the following packages are going to be installed")
+      : N("To satisfy dependencies, the following package is going to be installed");
+    my $msg2 = N("(%d packages, %d MB)", $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
-    print STDERR "$msg:\n$p\n";
+    print STDERR "$msg:\n$p\n$msg2\n";
     exit 0; #- exit now for specific environment.
 }
 if (@root_only) {
@@ -495,9 +496,9 @@ if (@root_only) {
     exit 1;
 } elsif (!$urpm->{options}{auto} && $ask_user && @to_install) {
     my $msg = $#to_install
-      ? N("To satisfy dependencies, the following %d packages are going to be installed (%d MB)", $#to_install+1, toMb($sum))
-      : N("To satisfy dependencies, the following package is going to be installed (%d MB)", toMb($sum));
-    my $msg2 = N("Is this OK?");
+      ? N("To satisfy dependencies, the following packages are going to be installed")
+      : N("To satisfy dependencies, the following package is going to be installed");
+    my $msg2 = N("Is this OK? (%d packages, %d MB)", $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
     my $noexpr = N("Nn");
     my $yesexpr = N("Yy");
