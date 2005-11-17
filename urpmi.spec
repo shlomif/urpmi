@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.0
+%define version	4.8.1
 %define release	1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -252,6 +252,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Thu Nov 17 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.1-1mdk
+- Display README.urpmi only once
+- Add a --noscripts option to urpmi
+- Install uninstalled packages as installs, not as upgrades
+- Make urpmi::parallel_ka_run work with taktuk2
+
 * Mon Nov 14 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.0-1mdk
 - Allow to put rpm names on the gurpmi command-line
 - Make --no-verify-rpm work for gurpmi

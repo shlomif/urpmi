@@ -1,3 +1,118 @@
+2005-11-17 12:04  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/parallel_ka_run.pm: Fix stealth context
+
+2005-11-17 12:00  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/urpmi.pot: Update pot file
+
+2005-11-17 11:54  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/parallel_ka_run.pm: Use taktuk2 instead of ka if available.
+	  Make it overriable with the URPMI_MPUT_COMMAND and
+	  URPMI_RSHP_COMMAND environment variables.
+
+2005-11-17 11:51  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpme, urpmi: Add more notes about messages parsed by
+	  urpm::parallel_*
+
+2005-11-17 11:43  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bn.po, br.po, bs.po, ca.po,
+	  cs.po, cy.po, da.po, de.po, el.po, eo.po, es.po, et.po, eu.po,
+	  fa.po, fi.po, fr.po, fur.po, ga.po, gl.po, he.po, hi.po, hr.po,
+	  hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po, ky.po, lt.po,
+	  lv.po, mk.po, mn.po, ms.po, mt.po, nb.po, nl.po, nn.po, pa_IN.po,
+	  pl.po, pt.po, pt_BR.po, ro.po, ru.po, sc.po, sk.po, sl.po, sq.po,
+	  sr.po, sr@Latn.po, sv.po, tg.po, th.po, tl.po, tr.po, uk.po,
+	  uz.po, uz@Latn.po, vi.po, wa.po, zh_CN.po, zh_TW.po: Update
+	  original string due to change in wording
+
+2005-11-17 11:42  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/: parallel_ka_run.pm, parallel_ssh.pm: Be backwards
+	  compatible with older versions of urpme
+
+2005-11-17 11:41  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpme, urpm/parallel_ka_run.pm, urpm/parallel_ssh.pm: Add
+	  comments in urpme about messages that should not be changed.	But
+	  change a message badly worded.
+
+2005-11-17 11:28  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/parallel_ka_run.pm: Don't use global variables, and some
+	  other cosmetic fixes
+
+2005-11-17 11:11  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/: parallel_ka_run.pm, parallel_ssh.pm: Add VERSION in
+	  parallel modules
+
+2005-11-17 11:08  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/parallel_ka_run.pm: Factorize command names
+
+2005-11-17 11:03  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/: parallel_ka_run.pm, parallel_ssh.pm: use strict !
+
+2005-11-16 18:30  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: update
+
+2005-11-16 18:04  Wanderlei Antonio Cavassin <cavassin at mandriva.com>
+
+	* po/pt_BR.po: Small fixes for pt_BR.
+
+2005-11-16 15:54  Funda Wang <fundawang at linux.net.cn>
+
+	* po/: af.po, ar.po, az.po, bg.po, bn.po, br.po, bs.po, ca.po,
+	  cs.po, cy.po, da.po, de.po, el.po, eo.po, es.po, et.po, eu.po,
+	  fa.po, fi.po, fr.po, fur.po, ga.po, gl.po, he.po, hi.po, hr.po,
+	  hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po, ky.po, lt.po,
+	  lv.po, mk.po, mn.po, ms.po, mt.po, nb.po, nl.po, nn.po, pa_IN.po,
+	  pl.po, pt.po, pt_BR.po, ro.po, ru.po, sc.po, sk.po, sl.po, sq.po,
+	  sr.po, sr@Latn.po, sv.po, tg.po, th.po, tl.po, tr.po, uk.po,
+	  uz.po, uz@Latn.po, vi.po, wa.po, zh_CN.po, zh_TW.po, urpmi.pot:
+	  Updated POT file.
+
+2005-11-15 17:27  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Install uninstalled packages as installs, not as
+	  upgrades
+
+2005-11-15 16:02  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* pod/urpmi.8.pod: Document urpmi --noscripts
+
+2005-11-15 16:00  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi, urpm/args.pm: Add a --noscripts option to urpmi
+
+2005-11-15 14:35  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* pod/: proxy.cfg.5.pod, rurpmi.8.pod, urpme.8.pod, urpmf.8.pod,
+	  urpmi.8.pod, urpmi.addmedia.8.pod, urpmi.cfg.5.pod,
+	  urpmi.files.5.pod, urpmi.removemedia.8.pod, urpmi.update.8.pod,
+	  urpmq.8.pod: Add pod versions of the manpages, bound to replace
+	  the nroff ones
+
+2005-11-15 13:10  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: update
+
+2005-11-15 11:24  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Display a README.urpmi only once. It could be displayed
+	  twice if the end of installation callback was called twice, which
+	  happens when a package has both post and posttrans hooks.
+
+2005-11-14 17:24  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpmi.spec: 4.8.0-1mdk
+
 2005-11-14 16:22  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
 
 	* Makefile: Let rpm be the default target
