@@ -2,6 +2,7 @@ package urpm::parallel_ka_run;
 
 use strict;
 
+(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
 our $mput_command = 'mput';
 our $rshp_command = 'rshp';
 
@@ -233,15 +234,15 @@ sub parallel_install {
     }
 }
 
-#- allow bootstrap from urpmi code directly (namespace is urpm).
+#- allow to bootstrap from urpmi code directly (namespace is urpm).
+
 package urpm;
+
 sub handle_parallel_options {
     my ($urpm, $options) = @_;
     my ($media, $ka_run_options) = $options =~ /ka-run(?:\(([^\)]*)\))?:(.*)/;
-
     if ($ka_run_options) {
 	my ($flush_nodes, %nodes);
-
 	foreach (split ' ', $ka_run_options) {
 	    if ($_ eq '-m') {
 		$flush_nodes = 1;
@@ -250,14 +251,12 @@ sub handle_parallel_options {
 		undef $flush_nodes;
 	    }
 	}
-
 	return bless {
-		      media   => $media,
-		      options => $ka_run_options,
-		      nodes   => \%nodes,
-		     }, "urpm::parallel_ka_run";
+	    media   => $media,
+	    options => $ka_run_options,
+	    nodes   => \%nodes,
+	}, "urpm::parallel_ka_run";
     }
-
     return undef;
 }
 

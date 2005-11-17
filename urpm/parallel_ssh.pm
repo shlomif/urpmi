@@ -3,6 +3,8 @@ package urpm::parallel_ssh;
 use strict;
 use Time::HiRes qw(gettimeofday);
 
+(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+
 sub _localhost { $_[0] eq 'localhost' }
 sub _nolock    { &_localhost ? '--nolock ' : '' }
 sub _ssh       { &_localhost ? '' : "ssh $_[0] " }
@@ -278,8 +280,10 @@ sub parallel_install {
     }
 }
 
-#- allow bootstrap from urpmi code directly (namespace is urpm).
+#- allow to bootstrap from urpmi code directly (namespace is urpm).
+
 package urpm;
+
 sub handle_parallel_options {
     my (undef, $options) = @_;
     my ($id, @nodes) = split /:/, $options;
