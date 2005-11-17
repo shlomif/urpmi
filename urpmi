@@ -592,6 +592,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 
     #- check for local files.
     if (my @missing = grep { m|^/| && ! -e $_ } values %transaction_sources_install, values %transaction_sources) {
+	#- Warning : the following message is parsed in urpm::parallel_*
 	message(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
 		  join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } @missing));
 	++$nok;
@@ -602,6 +603,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     if ($install_src) {
 	if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %transaction_sources) {
 	    system("rpm", "-i$rpm_opt", @l, ($root ? ("--root", $root) : @{[]}));
+	    #- Warning : the following message is parsed in urpm::parallel_*
 	    $? and message(N("Installation failed")), ++$nok;
 	}
 	next;
@@ -655,6 +657,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		%install_options_common,
 	    );
 	    if (@l) {
+		#- Warning : the following message is parsed in urpm::parallel_*
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 		if ($urpm->{options}{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
 		    ++$nok;
@@ -673,6 +676,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 			%install_options_common,
 		    );
 		    if (@l) {
+			#- Warning : the following message is parsed in urpm::parallel_*
 			message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 			if (!$urpm->{options}{'allow-force'}) {
 			    ++$nok;
@@ -689,6 +693,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 				%install_options_common,
 			    );
 			    if (@l) {
+				#- Warning : the following message is parsed in urpm::parallel_*
 				message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 				++$nok;
 				push @errors, @l;
@@ -710,6 +715,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 #- keep a track of error code.
 my $exit_code = 0;
 if (values %error_sources) {
+    #- Warning : the following message is parsed in urpm::parallel_*
     message(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
 	      join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } values %error_sources));
     $exit_code = 10;
@@ -723,6 +729,7 @@ if ($nok) {
     }
 } else {
     if ($test) {
+	#- Warning : the following message is parsed in urpm::parallel_*
 	message(N("Installation is possible"));
     } elsif (@names || @src_names || @files || @src_files || $auto_select) {
 	if (@{$state->{transaction} || []} == 0 && @ask_unselect == 0) {

@@ -86,13 +86,13 @@ my @toremove = $urpm->find_packages_to_remove(
     force => $force,
     callback_notfound => sub {
 	my $urpm = shift @_;
-	#- Warning : the following message is parsed in urpm::parallel_ka_run
+	#- Warning : the following message is parsed in urpm::parallel_*
 	$urpm->{fatal}(1, (@_ > 1 ? N("unknown packages") : N("unknown package")) .
 	    ': ' . join(', ', @_)); 0 },
     callback_fuzzy => sub {
 	my $urpm = shift @_;
 	my $match = shift @_;
-	#- Warning : the following message is parsed in urpm::parallel_ka_run
+	#- Warning : the following message is parsed in urpm::parallel_*
 	$urpm->{fatal}(1, N("The following packages contain %s: %s",
 		$match, join(' ', @_))); 0 },
     callback_base => sub {
