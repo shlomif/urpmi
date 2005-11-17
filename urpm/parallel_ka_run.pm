@@ -1,5 +1,7 @@
 package urpm::parallel_ka_run;
 
+use strict;
+
 #- parallel copy
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;

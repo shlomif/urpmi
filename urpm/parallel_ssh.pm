@@ -1,5 +1,6 @@
 package urpm::parallel_ssh;
 
+use strict;
 use Time::HiRes qw(gettimeofday);
 
 sub _localhost { $_[0] eq 'localhost' }
