@@ -498,7 +498,7 @@ if (@root_only) {
     my $msg = $#to_install
       ? N("To satisfy dependencies, the following packages are going to be installed")
       : N("To satisfy dependencies, the following package is going to be installed");
-    my $msg2 = N("Proceed to installation of %d packages? (%d MB)", $urpm->{nb_install}, toMb($sum));
+    my $msg2 = N("Proceed with the installation of the %d packages? (%d MB)", $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
     my $noexpr = N("Nn");
     my $yesexpr = N("Yy");
