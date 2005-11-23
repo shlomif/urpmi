@@ -103,10 +103,6 @@ for dir in partial headers rpms
 do
   install -d %{buildroot}/var/cache/urpmi/$dir
 done
-cat <<EOF >%{buildroot}/etc/urpmi/inst.list
-# Here you can specify packages that need to be installed instead
-# of being upgraded.
-EOF
 
 mkdir -p %{buildroot}%{compat_perl_vendorlib}
 install -m 644 urpm.pm %{buildroot}%{compat_perl_vendorlib}/urpm.pm
