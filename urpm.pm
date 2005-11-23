@@ -1931,6 +1931,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    if ($@) {
 		#- XXX this happens when building a synthesis for a local media from RPMs... why ?
 		$urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
+		$urpm->{error}($@);
 		unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 	    } else {
 		$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
@@ -1966,6 +1967,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    ) };
 		    if ($@) {
 			$urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
+			$urpm->{error}($@);
 			unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 		    } else {
 			$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
