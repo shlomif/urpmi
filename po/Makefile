@@ -45,3 +45,7 @@ install: all
 
 clean:
 	@rm -rf *~ *.mo $(GOALS) $(PGOAL)_tmp.pot
+
+test:
+
+realclean: clean
