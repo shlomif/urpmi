@@ -92,7 +92,7 @@ _urpmi()
 			--wget --curl --limit-rate --proxy --proxy-user --bug \
 			--env --verify-rpm --no-verify-rpm --no-install \
 			--test --excludepath --excludedocs --root --norebuild \
-			--searchmedia' -- $cur ) )
+			--searchmedia --noscripts --ignoresize' -- $cur ) )
 	else
 		# return available packages (unless it is clearly a file) and rpm files
 		if [[ "$cur" != */* ]]; then
