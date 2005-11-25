@@ -81,9 +81,9 @@ installconfigfiles:
 
 installstatedir:
 	install -d \$(LOCALSTATEDIR)/urpmi
-	install -d \$(LOCALSTATEDIR)/urpmi/partial
-	install -d \$(LOCALSTATEDIR)/urpmi/headers
-	install -d \$(LOCALSTATEDIR)/urpmi/rpms
+	install -d \$(DESTDIR)/var/cache/urpmi/partial
+	install -d \$(DESTDIR)/var/cache/urpmi/headers
+	install -d \$(DESTDIR)/var/cache/urpmi/rpms
 
 installgurpmi2: pure_install
 	ln -s -f consolehelper \$(DESTINSTALLSCRIPT)/gurpmi2
@@ -132,7 +132,7 @@ WriteMakefile(
     },
     EXE_FILES		=> [ @bin_scripts, @sbin_scripts ],
     PMLIBDIRS		=> [ qw(urpm) ],
-    DIR			=> $with_po ? [ 'po' ] : undef,
+    $with_po ? (DIR	=> [ 'po' ]) : (),
     MAN1PODS		=> {
 	map {
 	    my $targ = $_;
