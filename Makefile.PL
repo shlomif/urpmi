@@ -9,8 +9,10 @@ use ExtUtils::MakeMaker;
 # --without-rpm : use rpm to find some paths, and generate make targets to
 #   produce an rpm of this
 # --install-po : compile .po files and install locale files
+# --install-gui : install gurpmi
 my $with_rpm = 1; $with_rpm = 0 if grep $_ eq '--without-rpm', @ARGV;
-my $with_po = 0;  $with_po = 1  if grep $_ eq '--install-po', @ARGV;
+my $with_po  = 0; $with_po  = 1 if grep $_ eq '--install-po', @ARGV;
+my $with_gui = 0; $with_gui = 1 if grep $_ eq '--install-gui', @ARGV;
 
 # Directory where to build an rpm of this
 my $rpmtopdir = $with_rpm ? qx(rpm --eval %_topdir) : '';
@@ -19,6 +21,10 @@ chomp $rpmtopdir;
 # All scripts, some of them go in /usr/sbin (see DESTINSTALLSBIN below)
 our @bin_scripts = qw(urpmq urpmf rpm-find-leaves);
 our @sbin_scripts = qw(urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia rurpmi);
+if ($with_gui) {
+    push @bin_scripts, qw(gurpmi);
+    push @sbin_scripts, qw(gurpmi2);
+}
 
 # And now, add some functionality to MakeMaker.
 package MY;
@@ -48,7 +54,8 @@ sub install {
     $inherited =~ s/\$\(INST_BIN\) \$\(DESTINSTALL(\w*)BIN\)/$& \$(INST_SBIN) \$(DESTINSTALL$1SBIN) \$(INST_MAN5DIR) \$(DESTINSTALLMAN5DIR) \$(INST_MAN8DIR) \$(DESTINSTALLMAN8DIR)/g;
     # install files under /etc and /var
     my $po = $with_po ? ' installpo' : '';
-    $inherited =~ s/^install ::/$& installconfigfiles installstatedir$po/gm;
+    my $gui = $with_gui ? ' installgurpmi2' : '';
+    $inherited =~ s/^install ::/$& installconfigfiles installstatedir$po$gui/gm;
     $inherited;
 }
 
@@ -75,6 +82,9 @@ installconfigfiles:
 installstatedir:
 	install -d \$(LOCALSTATEDIR)/urpmi
 
+installgurpmi2: pure_install
+	ln -s -f consolehelper \$(DESTINSTALLSCRIPT)/gurpmi2
+
 ChangeLog:
 	cvs2cl -W 400 -I ChangeLog --accum -U ../../soft/common/username
 	rm -f *.bak
@@ -90,8 +100,6 @@ rpm: rpmdist
 	rpmbuild -ba --clean --rmsource $rpmtopdir/SPECS/urpmi.spec
 **MM**
 }
-
-# TODO gurpmi, gurpmi2 (need console-helper)
 
 # Back to our schedule
 package main;
