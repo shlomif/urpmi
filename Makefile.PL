@@ -81,6 +81,9 @@ installconfigfiles:
 
 installstatedir:
 	install -d \$(LOCALSTATEDIR)/urpmi
+	install -d \$(LOCALSTATEDIR)/urpmi/partial
+	install -d \$(LOCALSTATEDIR)/urpmi/headers
+	install -d \$(LOCALSTATEDIR)/urpmi/rpms
 
 installgurpmi2: pure_install
 	ln -s -f consolehelper \$(DESTINSTALLSCRIPT)/gurpmi2
