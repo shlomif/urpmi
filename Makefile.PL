@@ -108,7 +108,7 @@ WriteMakefile(
     NAME		=> 'urpmi',
     PREREQ_PM		=> {
 	'Locale::gettext'	=> '1.01',
-	'MDV::Packdrakeng'	=> '1.00',
+	'MDV::Packdrakeng'	=> '1.01',
 	'URPM'			=> '1.29',
     },
     VERSION_FROM	=> 'urpm.pm',
