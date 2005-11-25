@@ -22,7 +22,7 @@ Version:	%{version}
 Release:	%{real_release}
 Group:		%{group}
 License:	GPL
-Source0:	%{name}.tar.bz2
+Source0:	%{name}-%{version}.tar.bz2
 Summary:	Command-line software installation tools
 URL:		http://cvs.mandriva.com/cgi-bin/cvsweb.cgi/soft/urpmi
 Requires:	%{req_webfetch} eject gnupg
@@ -94,32 +94,22 @@ urpmi-ldap is an extension module to urpmi to allow to specify
 urpmi configuration (notably media) in an LDAP directory.
 
 %prep
-%setup -q -n %{name}
+%setup -q -n %{name}-%{version}
+
+%build
+%{__perl} Makefile.PL INSTALLDIRS=vendor \
+%if %{allow_gurpmi}
+    --install-gui \
+%endif
+    --install-po
+%{__make}
+
+%check
+%{__make} test
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} PREFIX=%{buildroot} MANDIR=%{buildroot}%{_mandir} install
-for dir in partial headers rpms
-do
-  install -d %{buildroot}/var/cache/urpmi/$dir
-done
-
-mkdir -p %{buildroot}%{compat_perl_vendorlib}
-install -m 644 urpm.pm %{buildroot}%{compat_perl_vendorlib}/urpm.pm
-%if %{allow_gurpmi}
-install -m 644 gurpmi.pm %{buildroot}%{compat_perl_vendorlib}/gurpmi.pm
-%else
-rm -rf %{buildroot}%{_sbindir}/gurpmi
-%endif
-mkdir -p %{buildroot}%{compat_perl_vendorlib}/urpm
-for p in args cfg download msg util sys parallel_ka_run parallel_ssh prompt ldap
-do
-    install -m 644 urpm/$p.pm %{buildroot}%{compat_perl_vendorlib}/urpm/$p.pm
-done
-mkdir -p %{buildroot}%{_mandir}/man3
-pod2man urpm.pm >%{buildroot}%{_mandir}/man3/urpm.3
-
-mv -f %{buildroot}%{_bindir}/rpm-find-leaves %{buildroot}%{_bindir}/urpmi_rpm-find-leaves
+%{makeinstall_std}
 
 # logrotate
 install -d -m 755 %{buildroot}%{_sysconfdir}/logrotate.d
@@ -128,6 +118,12 @@ install -m 644 %{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 # bash completion
 install -d -m 755 %{buildroot}%{_sysconfdir}/bash_completion.d
 install -m 644 %{name}.bash-completion %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
+
+# rpm-find-leaves is invoked by this name in rpmdrake
+cp -f %{buildroot}%{_bindir}/rpm-find-leaves %{buildroot}%{_bindir}/urpmi_rpm-find-leaves
+
+# Don't install READMEs twice
+rm -f %{buildroot}%{compat_perl_vendorlib}/urpm/README*
 
 %if %{allow_gurpmi}
 mkdir -p %{buildroot}%{_menudir}
@@ -153,7 +149,7 @@ EOF
 %find_lang %{name}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %preun
 if [ "$1" = "0" ]; then
@@ -193,6 +189,7 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/bash_completion.d/%{name}
 %{_bindir}/urpmi_rpm-find-leaves
+%{_bindir}/rpm-find-leaves
 %{_bindir}/urpmf
 %{_bindir}/urpmq
 %{_sbindir}/urpmi
@@ -203,14 +200,14 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{_mandir}/man?/rurpmi*
 %{_mandir}/man?/proxy*
 # find_lang isn't able to find man pages yet...
-%lang(cs) %{_mandir}/cs/man?/urpm*
-%lang(et) %{_mandir}/et/man?/urpm*
-%lang(eu) %{_mandir}/eu/man?/urpm*
-%lang(fi) %{_mandir}/fi/man?/urpm*
-%lang(fr) %{_mandir}/fr/man?/urpm*
-%lang(nl) %{_mandir}/nl/man?/urpm*
-%lang(ru) %{_mandir}/ru/man?/urpm*
-%lang(uk) %{_mandir}/uk/man?/urpm*
+#%lang(cs) %{_mandir}/cs/man?/urpm*
+#%lang(et) %{_mandir}/et/man?/urpm*
+#%lang(eu) %{_mandir}/eu/man?/urpm*
+#%lang(fi) %{_mandir}/fi/man?/urpm*
+#%lang(fr) %{_mandir}/fr/man?/urpm*
+#%lang(nl) %{_mandir}/nl/man?/urpm*
+#%lang(ru) %{_mandir}/ru/man?/urpm*
+#%lang(uk) %{_mandir}/uk/man?/urpm*
 %dir %{compat_perl_vendorlib}/urpm
 %{compat_perl_vendorlib}/urpm.pm
 %{compat_perl_vendorlib}/urpm/args.pm
