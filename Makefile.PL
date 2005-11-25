@@ -6,8 +6,11 @@ use strict;
 use ExtUtils::MakeMaker;
 
 # Command-line parsing.
-my $with_rpm = 1;
-$with_rpm = 0 if grep $_ eq '--without-rpm', @ARGV;
+# --without-rpm : use rpm to find some paths, and generate make targets to
+#   produce an rpm of this
+# --install-po : compile .po files and install locale files
+my $with_rpm = 1; $with_rpm = 0 if grep $_ eq '--without-rpm', @ARGV;
+my $with_po = 0;  $with_po = 1  if grep $_ eq '--install-po', @ARGV;
 
 # Directory where to build an rpm of this
 my $rpmtopdir = $with_rpm ? qx(rpm --eval %_topdir) : '';
@@ -44,7 +47,8 @@ sub install {
     # and new manpage sections
     $inherited =~ s/\$\(INST_BIN\) \$\(DESTINSTALL(\w*)BIN\)/$& \$(INST_SBIN) \$(DESTINSTALL$1SBIN) \$(INST_MAN5DIR) \$(DESTINSTALLMAN5DIR) \$(INST_MAN8DIR) \$(DESTINSTALLMAN8DIR)/g;
     # install files under /etc and /var
-    $inherited =~ s/^install ::/$& installconfigfiles installstatedir/gm;
+    my $po = $with_po ? ' installpo' : '';
+    $inherited =~ s/^install ::/$& installconfigfiles installstatedir$po/gm;
     $inherited;
 }
 
@@ -61,8 +65,8 @@ sub postamble {
     <<"**MM**";
 .PHONY: installconfigfiles installstatedir ChangeLog rpmdist srpm rpm
 
-po:
-	\$(MAKE) -C \$\@
+installpo:
+	\$(MAKE) -C po install
 
 installconfigfiles:
 	install -d \$(SYSCONFDIR)/urpmi
@@ -117,6 +121,7 @@ WriteMakefile(
     },
     EXE_FILES		=> [ @bin_scripts, @sbin_scripts ],
     PMLIBDIRS		=> [ qw(urpm) ],
+    DIR			=> $with_po ? [ 'po' ] : undef,
     MAN1PODS		=> {
 	map {
 	    my $targ = $_;
