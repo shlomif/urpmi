@@ -7,8 +7,8 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.1
-%define release	2mdk
+%define version	4.8.2
+%define release	1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
@@ -246,6 +246,14 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Fri Nov 25 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.2-1mdk
+- Now build urpmi using MakeMaker.
+- Some basic regression tests.
+- Non-english man pages are not installed by default anymore. They were not at
+  all up to date with the development of the last years.
+- English man pages are now in POD format.
+- Correctly search for package names that contain regex metacharacters.
+
 * Thu Nov 17 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.1-2mdk
 - urpmi: Move summary of number of packages / size installed at the end
 - Don't require ka-run directly, use virtual package parallel-tools
