@@ -19,19 +19,19 @@ If you want to specify packages more broadly, use the B<-a> option.
 
 =item B<--help>
 
-Prints a help message and exit (this is the same as B<-h> or B<-?>). 
+Prints a help message and exit (this is the same as B<-h> or B<-?>).
 
 =item B<-a>
 
-If multiple packages match the given substring, deinstall them all. 
+If multiple packages match the given substring, deinstall them all.
 
 =item B<-v>
 
-Proposes a verbose mode with various messages. 
+Proposes a verbose mode with various messages.
 
 =item B<--auto>
 
-Removes packages non-interactively, without asking questions. 
+Removes packages non-interactively, without asking questions.
 
 =item B<--test>
 
@@ -39,7 +39,7 @@ Test deinstallation of packages but do not modify the system.
 
 =item B<--force>
 
-Force invocation even if some packages do not exist. 
+Force invocation even if some packages do not exist.
 
 =item B<--parallel> I<alias>
 
@@ -48,7 +48,7 @@ that urpmi is installed, but it is not necessary to have media defined on
 any machines). I<alias> defines which extension module is to be used by
 urpmi (currently, B<urpmi-parallel-ka-run> or B<urpmi-parallel-ssh> are
 available) and which machines should be updated. This alias is defined in
-the file F</etc/urpmi/parallel.cfg> as described below. 
+the file F</etc/urpmi/parallel.cfg> as described below.
 
 =item B<--root> I<directory>
 
@@ -71,9 +71,15 @@ See urpmi.files(5).
 
 =over
 
+=item 0
+
+Success; or nothing was found to remove; or the user cancelled the whole
+operation.
+
 =item 1
 
-Command line inconsistency. 
+Command line inconsistency, invocation failure (you are not root), or
+packages not found.
 
 =item 2
 
@@ -89,4 +95,4 @@ Pascal Rigaux, Francois Pons, Rafael Garcia-Suarez
 =head1 SEE ALSO
 
 urpmi.addmedia(8), urpmi.update(8), urpmi.removemedia(8), urpmf(8),
-urpmi(8), urpmq(8), urpmi.files(5). 
+urpmi(8), urpmq(8), urpmi.files(5).

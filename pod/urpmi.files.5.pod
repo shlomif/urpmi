@@ -12,20 +12,20 @@ media). This manual page documents them.
 
 =over
 
-=item I</var/lib/urpmi/list.<media_name>>
+=item I<< /var/lib/urpmi/list.<media_name> >>
 
 Contains the list of all packages known by urpmi and their location. This
 file is used when a password is used to access a distant location (using
 a network protocol) or when various directories are used to store the
 packages. That's why it's not world-readable.
 
-=item I</var/lib/urpmi/hdlist.<media_name>.cz>
+=item I<< /var/lib/urpmi/hdlist.<media_name>.cz >>
 
 Contains information about all known packages; it's a summary of rpm
 headers. If an hdlist file is used for a medium, B<urpmf> can operate
 completely without accessing this medium (this is almost always the case).
 
-=item I</var/lib/urpmi/synthesis.hdlist.<media_name>.cz>
+=item I<< /var/lib/urpmi/synthesis.hdlist.<media_name>.cz >>
 
 Contains synthesis information about all known packages built from hdlist
 files that can be used by minimal closure algorithm. If these files are
@@ -34,8 +34,7 @@ not present, hdlist files will be used instead to resolve dependencies
 
 =item I</etc/urpmi/urpmi.cfg>
 
-Contains media descriptions.
-See urpmi.cfg(5).
+Contains media descriptions. See urpmi.cfg(5).
 
 =item I</etc/urpmi/proxy.cfg>
 

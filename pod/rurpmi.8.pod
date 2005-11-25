@@ -9,12 +9,13 @@ rurpmi - restricted urpmi
 =head1 DESCRIPTION
 
 rurpmi is similar to urpmi, but has a stripped-down set of features. It's
-intended to be used by users with sudo rights on it, preventing them to
-abuse it to compromise the system. With it, you can't install arbitrary
-rpm files, the B<--keep>, B<--verify-rpm>, and B<--norebuild> options are
-forced, and several dangerous options are forbidden (B<--root>,
-B<--use-distrib>, B<--env>, B<--nolock>, B<--allow-nodeps>,
-B<--allow-force>, B<--force>).
+intended to be used by users without root privileges but with sudo rights
+on it, preventing any abuse of this tool to compromise the system.
+
+With rurpmi, you can't install arbitrary rpm files; moreoever the
+B<--keep>, B<--verify-rpm>, and B<--norebuild> options are forced, and
+several dangerous options are forbidden (B<--root>, B<--use-distrib>,
+B<--env>, B<--nolock>, B<--allow-nodeps>, B<--allow-force>, B<--force>).
 
 =head1 CAVEAT
 
@@ -32,4 +33,4 @@ Maintained by Rafael Garcia-Suarez,
 
 =head1 SEE ALSO
 
-L<I<urpmi>(8)>.
+urpmi(8).
