@@ -120,7 +120,7 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/bash_completion.d
 install -m 644 %{name}.bash-completion %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
 
 # rpm-find-leaves is invoked by this name in rpmdrake
-cp -f %{buildroot}%{_bindir}/rpm-find-leaves %{buildroot}%{_bindir}/urpmi_rpm-find-leaves
+ln -s -f %{buildroot}%{_bindir}/rpm-find-leaves %{buildroot}%{_bindir}/urpmi_rpm-find-leaves
 
 # Don't install READMEs twice
 rm -f %{buildroot}%{compat_perl_vendorlib}/urpm/README*
