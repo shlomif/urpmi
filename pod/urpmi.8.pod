@@ -43,7 +43,7 @@ Print a help message and exit (this is the same as B<-h> or B<-?>).
 
 =item B<--update>
 
-Use only update media. This means that B<urpmi> will search
+Use only update media. This means that urpmi will search
 packages and resolve dependencies only in media marked as containing updates.
 
 =item B<--media> I<media1,...,mediaN>
@@ -159,7 +159,7 @@ this case.
 Activate distributed execution of urpmi to other machines (it is mandatory
 that urpmi is installed, but it is not necessary to have media defined on
 any machines). I<alias> defines which extension module is to be used by
-urpmi (currently, B<urpmi-parallel-ka-run> or B<urpmi-parallel-ssh> are
+urpmi (currently, urpmi-parallel-ka-run or urpmi-parallel-ssh are
 available) and which machines should be updated. This alias is defined in
 the file F</etc/urpmi/parallel.cfg> as described below.
 
@@ -305,18 +305,14 @@ Proposes a verbose mode with various messages.
 
 =head1 EXAMPLES
 
-=over
-
-=item urpmi ssh://foo@bar.net/home/foo/test.rpm
+    urpmi ssh://foo@bar.net/home/foo/test.rpm
 
 Fetch F</home/foo/test.rpm> from server bar.net over ssh using user foo.
 You can use a public key or enter your password.
 
-=item urpmi --media foo- --auto-select
+    urpmi --media foo- --auto-select
 
 Fetch all the updates from media containing C<foo-> in their name.
-
-=back
 
 =head1 FILES
 
@@ -388,7 +384,7 @@ Some files are missing and all transactions failed.
 
 =head1 BUG REPORTS
 
-If you find a bug in B<urpmi> please report it using the command :
+If you find a bug in urpmi please report it using the command :
 
     urpmi --bug bug_name_as_directory ...
 

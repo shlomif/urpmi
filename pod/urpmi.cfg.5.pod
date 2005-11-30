@@ -23,11 +23,11 @@ The following options can be written in this section :
 
 =item B<allow-force>
 
-Same as specifying B<--allow-force> for B<urpmi>, disabled by default.
+Same as specifying B<--allow-force> for urpmi, disabled by default.
 
 =item B<allow-nodeps>
 
-Same as specifying B<--allow-nodeps> for B<urpmi>, disabled by default.
+Same as specifying B<--allow-nodeps> for urpmi, disabled by default.
 
 =item B<downloader>
 
@@ -35,17 +35,17 @@ Specify which download program to use: B<wget> or B<curl>.
 
 =item B<excludedocs>
 
-Same as specifying B<--excludedocs> for B<urpmi>, disabled by default.
+Same as specifying B<--excludedocs> for urpmi, disabled by default.
 
 =item B<excludepath>
 
-Same as B<--excludepath> for B<urpmi>. This options allows to give a comma
+Same as B<--excludepath> for urpmi. This options allows to give a comma
 separated list of paths to be excluded on installation. There is no path
 exclusion by default.
 
 =item B<fuzzy>
 
-Same as B<--fuzzy> for B<urpmi> or B<urpmq>. Enable or disable fuzzy
+Same as B<--fuzzy> for urpmi or urpmq. Enable or disable fuzzy
 search, disabled by default. Enabling it can be written in various ways :
 C<fuzzy> or C<fuzzy: yes> or C<fuzzy: on> or C<fuzzy: 1>.
 
@@ -74,13 +74,13 @@ file present on the medium).
 
 =item B<norebuild>
 
-Same as B<--norebuild> for B<urpmi>, B<urpmi.update> and
-B<urpmi.addmedia>, disabled by default (meaning that B<urpmi> will try to
+Same as B<--norebuild> for urpmi, urpmi.update and
+urpmi.addmedia, disabled by default (meaning that urpmi will try to
 rebuild hdlists by default).
 
 =item B<pre-clean, post-clean, clean>
 
-Control cache management for B<urpmi>, default is only activated as
+Control cache management for urpmi, default is only activated as
 B<post-clean>.
 
 =item B<prohibit-remove>
@@ -95,26 +95,26 @@ errors.
 
 =item B<split-length>
 
-Same as B<--split-length> for B<urpmi>. This option allows to control the
+Same as B<--split-length> for urpmi. This option allows to control the
 minimal length of splitted transactions. The default value is 1 (smallest
 possible transaction). Setting this value to 0 disables the splitting of
 transactions.
 
 =item B<split-level>
 
-Same as B<--split-level> for B<urpmi>. This option allows to control if
+Same as B<--split-level> for urpmi. This option allows to control if
 transactions should be splitted depending of the number of packages to
 upgrade. The default value is 20.
 
 =item B<strict-arch>
 
-Same as B<--strict-arch> for B<urpmi>. Boolean option, disabled by
+Same as B<--strict-arch> for urpmi. Boolean option, disabled by
 default, meaning that packages can be upgraded with versions for another
 architecture.
 
 =item B<verify-rpm>
 
-Same as B<--verify-rpm> for B<urpmi>. Enable or disable signature checking
+Same as B<--verify-rpm> for urpmi. Enable or disable signature checking
 (it's enabled by default). Disabling it can be written in various ways (as
 for all the other boolean options) : C<no-verify-rpm> or C<verify-rpm: no>
 or C<verify-rpm: off> or C<verify-rpm: 0>.
@@ -146,11 +146,11 @@ disabled globally). It's also possible to override B<verify-rpm> and
 B<downloader> in a medium description.
 
 Media can be marked as B<static>: this means that they won't be updated by
-B<urpmi.update> or other means. This is useful for read-only media such as
+urpmi.update or other means. This is useful for read-only media such as
 CDs.
 
-Please note that B<key-ids> is automatically set by B<urpmi.update> or
-B<urpmi.addmedia> if a remote pubkey file is available on the mirror. This
+Please note that B<key-ids> is automatically set by urpmi.update or
+urpmi.addmedia if a remote pubkey file is available on the mirror. This
 file contains all the GPG armor keys that may be used.
 
 =head1 BUGS

@@ -16,7 +16,7 @@ must be chosen:
 
 =over
 
-=item B<urpmi.addmedia [I<options>>] <I<name>> http://<I<login>>:<I<pass>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> http://<I<login>>:<I<pass>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
 where <I<name>> is your reference for the medium (e.g. "updates").
 <I<name>> is optional if B<--distrib> is given in the options list.
@@ -29,7 +29,7 @@ I<options>. Example:
 
     urpmi.addmedia http http://jpackage.sf.net/rpm/free with hdlist.cz ftp:
 
-=item B<urpmi.addmedia [I<options>>] <I<name>> ftp://<I<login>>:<I<pass>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> ftp://<I<login>>:<I<pass>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
 The same as for http. Add your login and password if required (note that
 you don't need to specify B<anonymous> as login for anonymous access ftp
@@ -39,7 +39,7 @@ have to ensure that the B<passive_ftp> option is on in B</etc/wgetrc>
 
     urpmi.addmedia ftp ftp://a:a@leia//export/media/main with media_info/hdlist.cz
 
-=item B<urpmi.addmedia [I<options>>] <I<name>> ssh://<I<login>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> ssh://<I<login>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
 The same as for http and ftp; add your login and password if required. It
 is strongly recommended to export the public key in order not to have to
@@ -48,18 +48,18 @@ files. Example:
 
     urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
 
-=item B<urpmi.addmedia [I<options>>] <I<name>> rsync://<I<login>>@<I<host>>:<I<port>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> rsync://<I<login>>@<I<host>>:<I<port>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
 The same as for http; you can use the <I<host>>::<I<path>> syntax too. Example:
 
     urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/media/media_info/hdlist2.cz
 
-=item B<urpmi.addmedia [I<options>>] <I<name>> file://<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> file://<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
 where <I<name>> is your reference for the medium (e.g. Myrpms). <I<path>>
 is the location of the media directory on your machine (e.g. C<media/main>).
 
-=item B<urpmi.addmedia [I<options>>] <I<name>> removable://<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> removable://<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
 <I<path>> is the location of the media directory on your machine when the
 removable device is mounted. This works for removable drives, but also for

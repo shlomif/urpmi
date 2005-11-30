@@ -49,7 +49,7 @@ List available parallel aliases.
 =item B<--update>
 
 Use only update
-media. This means that B<urpmq> will search and resolve dependencies only in
+media. This means that urpmq will search and resolve dependencies only in
 media marked as containing updates.
 
 =item B<--media> I<media1,...,mediaN>
@@ -122,7 +122,7 @@ packages that are not available.
 Activate distributed execution of urpmi to other machines (it is mandatory
 that urpmi is installed but it is not necessary to have media defined on
 any machines). I<alias> defines which extension module to use by urpmi
-(currently B<urpmi-parallel-ka-run> or B<urpmi-parallel-ssh>) and which
+(currently urpmi-parallel-ka-run or urpmi-parallel-ssh) and which
 machines should be updated, this alias is defined in the file
 F</etc/urpmi/parallel.cfg> as described below.
 
@@ -180,8 +180,7 @@ Select dependencies (maximal closure).
 
 =item B<-u>
 
-Deselect packages if a better version is already installed, this option
-can be used with B<-d> to simulate B<-M> mode of B<urpmi>.
+Deselect packages if a better version is already installed.
 
 =item B<-a>
 
@@ -224,6 +223,7 @@ Like B<-y>, but forces to match case-insensitively.
 =item B<-s>
 
 This is the same as B<--src>.
+
 =item B<-i>
 
 Prints useful information in human readable form, as for I<rpm -qi>.

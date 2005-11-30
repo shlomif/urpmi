@@ -4,14 +4,15 @@ urpme - rpm deinstaller
 
 =head1 SYNOPSIS
 
-    urpme [options] [package_names]
+    urpme [options] [package_name...]
 
 =head1 DESCRIPTION
 
 urpme allow packages to be deinstalled,
 including all their dependencies. I<package_names> must have one of the forms
-I<name>, I<name-version>, I<name-version-release>, or I<name-version-release.architecture>.
-If you want to specify packages more broadly, use the B<-a> option.
+I<name>, I<name-version>, I<name-version-release>, or
+I<name-version-release.architecture>. If you want to specify packages more
+broadly, use the B<-a> option.
 
 =head1 OPTIONS
 
@@ -46,7 +47,7 @@ Force invocation even if some packages do not exist.
 Activate distributed execution of urpmi to other machines (it is mandatory
 that urpmi is installed, but it is not necessary to have media defined on
 any machines). I<alias> defines which extension module is to be used by
-urpmi (currently, B<urpmi-parallel-ka-run> or B<urpmi-parallel-ssh> are
+urpmi (currently, urpmi-parallel-ka-run or urpmi-parallel-ssh are
 available) and which machines should be updated. This alias is defined in
 the file F</etc/urpmi/parallel.cfg> as described below.
 
