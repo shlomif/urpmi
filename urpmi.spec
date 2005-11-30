@@ -24,7 +24,7 @@ Group:		%{group}
 License:	GPL
 Source0:	%{name}-%{version}.tar.bz2
 Summary:	Command-line software installation tools
-URL:		http://cvs.mandriva.com/cgi-bin/cvsweb.cgi/soft/urpmi
+URL:		http://search.cpan.org/dist/%{name}/
 Requires:	%{req_webfetch} eject gnupg
 Requires(pre):	perl-Locale-gettext >= 1.01-14mdk
 Requires(pre):	perl-URPM >= 1.22
