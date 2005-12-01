@@ -121,7 +121,7 @@ sub check_fs_writable () {
     local *_;
     while (<$mounts>) {
 	(undef, our $mountpoint, undef, my $opts) = split ' ';
-	if ($opts =~ /\bro\b/ && $mountpoint =~ m!^(/|/usr|/s?bin)\z!) {
+	if ($opts =~ /(?:^|,)ro(?:,|$)/ && $mountpoint =~ m!^(/|/usr|/s?bin)\z!) {
 	    return 0;
 	}
     }
