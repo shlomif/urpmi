@@ -15,15 +15,16 @@
 # Hilbert <h@mandrake.org>, 2004.
 # Shiva Huang <blueshiva@giga.net.tw>, 2005.
 # Shiva Huang <shivahuang@gmail.com>, 2005.
-# You-Cheng Hsieh <yochenhsieh@xuite.net>, 2005.
+# You-Cheng Hsieh <yochenhsieh@xuite.net>, 2005
+# Yujia Kang <yujia.kang@gmail.com>, 2005..
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-11-16 22:47+0800\n"
-"PO-Revision-Date: 2005-06-25 01:06+0800\n"
-"Last-Translator: You-Cheng Hsieh <yochenhsieh@xuite.net>\n"
+"PO-Revision-Date: 2005-12-01 15:01+0800\n"
+"Last-Translator: Yujia Kang <yujia.kang@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +56,7 @@ msgstr "RPM 套件安裝"
 #: ../gurpmi:42
 #, c-format
 msgid "Error: unable to find file %s, will cancel operation"
-msgstr ""
+msgstr "錯誤：無法找到檔案 %s，作業將取消"
 
 #: ../gurpmi:43 ../gurpmi2:122 ../gurpmi2:145
 msgid "_Ok"
@@ -130,16 +131,13 @@ msgid "Choose location to save file"
 msgstr "選擇存檔的位置"
 
 #: ../gurpmi.pm:62
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option %s"
-msgstr ""
-"\n"
-"未知的選項 '%s'\n"
+msgstr "未知的選項 %s"
 
 #: ../gurpmi.pm:70
-#, fuzzy
 msgid "No packages specified"
-msgstr "沒有套件命名為 %s"
+msgstr "未指定套件"
 
 #: ../gurpmi2:36
 msgid "Please wait..."
@@ -346,9 +344,9 @@ msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "無法存取 \"%s\" 的列表，忽略這個媒體"
 
 #: ../urpm.pm:255
-#, fuzzy, c-format
+#, c-format
 msgid "trying to override existing medium \"%s\", skipping"
-msgstr "正在嘗試避開現存的媒體  \"%s\"，正在避開"
+msgstr "正在嘗試跳過已存在媒體  \"%s\"，正在跳過"
 
 #: ../urpm.pm:266
 #, c-format
@@ -457,7 +455,7 @@ msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
 "update or --parallel"
 msgstr ""
-"--synthesis 不能夠與 --media，--excludemedia，--sortmedia，--update 與 --"
+"--synthesis 不能夠與 --media、--excludemedia、--sortmedia、--update 以及 --"
 "parallel 一起使用"
 
 #. - XXX we could link the new hdlist to the old one.
@@ -1016,40 +1014,40 @@ msgstr "抱歉，選擇錯誤，請再試一次\n"
 #: ../urpm/parallel_ka_run.pm:9 ../urpm/parallel_ka_run.pm:103
 #: ../urpm/parallel_ka_run.pm:197
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput 失敗，可能無法連接至該節點"
 
 #: ../urpm/parallel_ka_run.pm:70 ../urpm/parallel_ka_run.pm:182
 #: ../urpm/parallel_ka_run.pm:211
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp 失敗，可能無法連接至該節點"
 
 #: ../urpm/parallel_ka_run.pm:79 ../urpm/parallel_ssh.pm:96
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "在節點 %s"
 
 #. - first propagate the synthesis file to all machine.
 #: ../urpm/parallel_ka_run.pm:101
 msgid "Propagating synthesis to nodes..."
-msgstr ""
+msgstr "正在將綜合文件同步到節點..."
 
 #. - now try an iteration of urpmq.
 #: ../urpm/parallel_ka_run.pm:152
 msgid "Resolving dependencies on nodes..."
-msgstr ""
+msgstr "正在處理節點的相依性"
 
 #: ../urpm/parallel_ka_run.pm:195
 msgid "Distributing files to nodes..."
-msgstr ""
+msgstr "正在將檔案發佈到節點..."
 
 #: ../urpm/parallel_ka_run.pm:201
 msgid "Verifying if install is possible on nodes..."
-msgstr ""
+msgstr "正在驗證是否可在節點上進行安裝..."
 
 #: ../urpm/parallel_ka_run.pm:215 ../urpm/parallel_ssh.pm:243
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "安裝失敗"
+msgstr "節點 %s 安裝失敗"
 
 #: ../urpm/parallel_ka_run.pm:220 ../urpm/parallel_ssh.pm:248 ../urpmi:726
 msgid "Installation is possible"
@@ -1057,55 +1055,54 @@ msgstr "可以安裝"
 
 #. - continue installation.
 #: ../urpm/parallel_ka_run.pm:225
-#, fuzzy
 msgid "Installing packages on nodes..."
-msgstr "正在安裝套件 `%s' (%s/%s)..."
+msgstr "正在由節點安裝套件..."
 
 #: ../urpm/parallel_ssh.pm:22 ../urpm/parallel_ssh.pm:120
 #: ../urpm/parallel_ssh.pm:224
 #, c-format
 msgid "scp failed on host %s (%d)"
-msgstr ""
+msgstr "主機 %s scp 失敗 (%d)"
 
 #: ../urpm/parallel_ssh.pm:118
-#, fuzzy, c-format
+#, c-format
 msgid "Propagating synthesis to %s..."
-msgstr "檢驗 synthesis 檔案 [%s]"
+msgstr "正在將綜合文件傳送到 %s..."
 
 #: ../urpm/parallel_ssh.pm:171
 #, c-format
 msgid "Resolving dependencies on %s..."
-msgstr ""
+msgstr "正在解决 %s 上的相依性..."
 
 #: ../urpm/parallel_ssh.pm:201
 #, c-format
 msgid "host %s does not have a good version of urpmi (%d)"
-msgstr ""
+msgstr "主機 %s 上的 urpmi 版本並不正確 (%d)"
 
 #: ../urpm/parallel_ssh.pm:217
-#, fuzzy, c-format
+#, c-format
 msgid "Distributing files to %s..."
-msgstr "正在發佈 %s"
+msgstr "正在發佈檔案到 %s"
 
 #: ../urpm/parallel_ssh.pm:231
 #, c-format
 msgid "Verifying if install is possible on %s..."
-msgstr ""
+msgstr "正在驗證使不可以在 %s 上進行安裝..."
 
 #: ../urpm/parallel_ssh.pm:255
-#, fuzzy, c-format
+#, c-format
 msgid "Performing install on %s..."
-msgstr "套件安裝..."
+msgstr "正在 %s 上進行安装..."
 
 #: ../urpm/parallel_ssh.pm:268
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s on %s..."
-msgstr "正在由 %2$s 安裝 %1$s"
+msgstr "正在 %2$s 上安装 %1$s..."
 
 #: ../urpm/parallel_ssh.pm:269
-#, fuzzy, c-format
+#, c-format
 msgid "Preparing install on %s..."
-msgstr "套件安裝..."
+msgstr "正在準備安裝到 %s 上..."
 
 #: ../urpme:31 ../urpmi:500
 msgid "Is this OK?"
@@ -1158,8 +1155,8 @@ msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
-"  --use-distrib  - 立即由一個散佈套件樹設定 urpmi，有助於安裝/反安裝一"
-"個                   藉由 --root 選項的 chroot。\n"
+"  --use-distrib  - 立即由一個散佈套件樹設定 urpmi，有助於安裝/反安裝一個"
+"                   藉由 --root 選項的 chroot。\n"
 
 #: ../urpme:51 ../urpmi:139 ../urpmi.addmedia:74 ../urpmi.removemedia:53
 #: ../urpmi.update:48 ../urpmq:91
@@ -1241,6 +1238,7 @@ msgstr "  --excludemedia - 不使用給定的媒體，不同媒體間請以逗�
 msgid ""
 "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
+"  --literal, -l  - 不比對樣版，把參數當作一般字串。\n"
 
 #: ../urpmf:38 ../urpmi:80 ../urpmq:45
 msgid "  --media        - use only the given media, separated by comma.\n"
@@ -1273,16 +1271,15 @@ msgstr "  -i             - 忽略每個樣版中的大小寫差異。\n"
 
 #: ../urpmf:45
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
-msgstr ""
+msgstr "  -F<字串>       - 更改字串分隔符號 (預設為“:”)。\n"
 
 #: ../urpmf:46
-#, fuzzy
 msgid "Pattern expressions:\n"
-msgstr "搜尋表示式："
+msgstr "樣版表示式：\n"
 
 #: ../urpmf:47
 msgid "  text           - any text is parsed as a regexp, unless -l is used.\n"
-msgstr ""
+msgstr "  文字           - 任何文字都將被分析為正規表示式，除非使用了 -l。\n"
 
 #: ../urpmf:48
 msgid "  -e             - include perl code directly as perl -e.\n"
@@ -1301,14 +1298,12 @@ msgid "  !              - unary NOT.\n"
 msgstr "  !              - 一元 NOT 運算子。\n"
 
 #: ../urpmf:52
-#, fuzzy
 msgid "  ( )            - left and right parentheses.\n"
-msgstr "  )              - 右括弧用來表示一組表示式的結束。\n"
+msgstr "  ( )            - 左右括弧。\n"
 
 #: ../urpmf:53
-#, fuzzy
 msgid "List of tags:\n"
-msgstr "帳戶清單"
+msgstr "標籤清單：\n"
 
 #: ../urpmf:54
 msgid "  --qf           - specify a printf-like output format\n"
@@ -1344,9 +1339,8 @@ msgid "  --description  - package description\n"
 msgstr "  --description   - 套件描述\n"
 
 #: ../urpmf:62
-#, fuzzy
 msgid "  --distribution - distribution\n"
-msgstr "視為郵件清單"
+msgstr "  --distribution - 發行版\n"
 
 #: ../urpmf:63
 msgid "  --epoch        - epoch\n"
@@ -1369,9 +1363,8 @@ msgid "  --name         - package name\n"
 msgstr "  --name          - 套件名稱\n"
 
 #: ../urpmf:68
-#, fuzzy
 msgid "  --obsoletes    - obsoletes tags\n"
-msgstr "  --obsoletes    - 顯示廢棄標籤：廢棄。\n"
+msgstr "  --obsoletes    - 淘汰標籤\n\n"
 
 #: ../urpmf:69
 msgid "  --packager     - packager\n"
@@ -1415,7 +1408,7 @@ msgstr "  -f             - 顯示版本、發行編號與平台。\n"
 
 #: ../urpmf:130
 msgid "Incorrect format: you may use only one multi-valued tag"
-msgstr ""
+msgstr "格式錯誤：您只能使用一個多值標籤"
 
 #: ../urpmf:172 ../urpmi:218 ../urpmq:116
 #, c-format
@@ -1608,9 +1601,8 @@ msgid "  --ignoresize   - don't verify disk space before installation.\n"
 msgstr "  --ignoresize   - 安裝前不檢查剩餘的磁碟空間。\n"
 
 #: ../urpmi:127
-#, fuzzy
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
-msgstr "  --description   - 套件描述\n"
+msgstr "  --noscripts    - 不執行套件中的命令稿。\n"
 
 #: ../urpmi:128
 msgid "  --skip         - packages which installation should be skipped\n"
@@ -2204,7 +2196,7 @@ msgstr "--list-nodes 參數只能夠配合 --parallel 參數一起使用"
 #. TODO rewrite rpm2header in perl
 #: ../urpmq:313
 msgid "rpm2header utility not found, impossible to use the --header option"
-msgstr ""
+msgstr "找不到 rpm2header 這個工具，無法使用 --header 這個選項"
 
 #: ../urpmq:362
 #, c-format
