@@ -29,6 +29,10 @@ Same as specifying B<--allow-force> for urpmi, disabled by default.
 
 Same as specifying B<--allow-nodeps> for urpmi, disabled by default.
 
+=item B<curl-options>
+
+Additional options to pass to B<curl> when downloading files.
+
 =item B<downloader>
 
 Specify which download program to use: B<wget> or B<curl>.
@@ -93,6 +97,10 @@ like B<basesystem> dependencies).
 Specify how many times the downloader should retry in case of non-permanent
 errors.
 
+=item B<rsync-options>
+
+Additional options to pass to B<rsync> when downloading files.
+
 =item B<split-length>
 
 Same as B<--split-length> for urpmi. This option allows to control the
@@ -118,6 +126,10 @@ Same as B<--verify-rpm> for urpmi. Enable or disable signature checking
 (it's enabled by default). Disabling it can be written in various ways (as
 for all the other boolean options) : C<no-verify-rpm> or C<verify-rpm: no>
 or C<verify-rpm: off> or C<verify-rpm: 0>.
+
+=item B<wget-options>
+
+Additional options to pass to B<wget> when downloading files.
 
 =back
 

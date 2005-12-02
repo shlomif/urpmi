@@ -15,11 +15,6 @@ urpmi.update scans the specified urpmi media to update their package list.
 
 =over
 
-=item B<--curl>
-
-Use curl for downloading distant
-files. By default curl is used if available, or wget instead.
-
 =item B<--force-key>
 
 Force update of GPG key.
@@ -57,10 +52,25 @@ username and a password.
 
 Use only update media.
 
+=item B<--curl>
+
+Use curl for downloading distant
+files. By default curl is used if available, or wget instead.
+
 =item B<--wget>
 
 Use wget for downloading distant files. By default curl
 is used if available, or wget instead.
+
+=item B<--curl-options> I<'options'>
+
+=item B<--rsync-options> I<'options'>
+
+=item B<--wget-options> I<'options'>
+
+Specify additional command-line options to be passed to curl, rsync or
+wget when retrieving files. If several options are to be passed, separate
+them with spaces and enclose them in quotes.
 
 =item B<-a>
 
