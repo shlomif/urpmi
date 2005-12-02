@@ -58,11 +58,9 @@ sub new {
 }
 
 #- syncing algorithms.
-#- currently wget and curl methods are implemented; trying to find the best
-#- (and one which will work :-)
 sub sync_webfetch {
-    my $urpm = shift @_;
-    my $options = shift @_;
+    my $urpm = shift;
+    my $options = shift;
     my %files;
     #- currently ftp and http protocols are managed by curl or wget,
     #- ssh and rsync protocols are managed by rsync *AND* ssh.
@@ -76,6 +74,9 @@ sub sync_webfetch {
 	};
 	$urpm->{fatal}(10, $@) if $@;
 	delete @files{qw(removable file)};
+    }
+    for my $cpt (qw(wget-options curl-options rsync-options)) {
+	$options->{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
     if ($files{ftp} || $files{http} || $files{https}) {
 	my @webfetch = qw(curl wget);
@@ -174,6 +175,9 @@ sub read_config {
 	    split-level
 	    strict-arch
 	    verify-rpm
+	    curl-options
+	    rsync-options
+	    wget-options
 	)) {
 	    if (defined $config->{''}{$opt} && !exists $urpm->{options}{$opt}) {
 		$urpm->{options}{$opt} = $config->{''}{$opt};

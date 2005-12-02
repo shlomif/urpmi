@@ -150,6 +150,7 @@ sub load_config ($;$) {
 	  |prohibit-remove
 	  |downloader
 	  |retry
+	  |(?:curl|rsync|wget)-options
 	 )\s*:\s*['"]?(.*?)['"]?$/x
 	    and $config{$medium}{$1} = $2, next;
 	/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/

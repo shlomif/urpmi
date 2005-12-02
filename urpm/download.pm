@@ -220,6 +220,7 @@ sub sync_wget {
 	"--no-check-certificate",
 	"--timeout=$CONNECT_TIMEOUT",
 	"-NP",
+	(defined $options->{'wget-options'} ? split /\s+/, $options->{'wget-options'} : ()),
 	$options->{dir},
 	@_
     ) . " |";
@@ -293,7 +294,9 @@ sub sync_curl {
 	    "--stderr", "-", # redirect everything to stdout
 	    "--disable-epsv",
 	    "--connect-timeout", $CONNECT_TIMEOUT,
-	    "-s", "-I", @ftp_files) . " |";
+	    "-s", "-I",
+	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : ()),
+	    @ftp_files) . " |";
 	while (<$curl>) {
 	    if (/Content-Length:\s*(\d+)/) {
 		!$cur_ftp_file || exists($ftp_files_info{$cur_ftp_file}{size})
@@ -353,6 +356,7 @@ sub sync_curl {
 	    "-f",
 	    "--disable-epsv",
 	    "--connect-timeout", $CONNECT_TIMEOUT,
+	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : ()),
 	    "--stderr", "-", # redirect everything to stdout
 	    @all_files) . " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
@@ -429,6 +433,7 @@ sub sync_rsync {
 		($options->{compress} ? qw(-z) : @{[]}),
 		($options->{ssh} ? qw(-e ssh) : @{[]}),
 		qw(--partial --no-whole-file),
+		(defined $options->{'rsync-options'} ? split /\s+/, $options->{'rsync-options'} : ()),
 		"'$file' '$options->{dir}' |");
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    while (<$rsync>) {
