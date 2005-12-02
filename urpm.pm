@@ -157,6 +157,7 @@ sub read_config {
 	    auto
 	    compress
 	    downloader
+	    default-media
 	    excludedocs
 	    excludepath
 	    fuzzy
@@ -507,10 +508,13 @@ sub configure {
             $urpm->add_distrib_media("Virtual", $options{usedistrib}, %options, 'virtual' => 1);
         } else {
 	    $urpm->read_config(%options);
+	    if (!$options{media} && $urpm->{options}{'default-media'}) {
+		$options{media} = $urpm->{options}{'default-media'};
+	    }
         }
 	if ($options{media}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
-	    $urpm->select_media(split ',', $options{media});
+	    $urpm->select_media(split /,/, $options{media});
 	    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
 		#- this is only a local ignore that will not be saved.
 		$_->{ignore} = 1;
@@ -527,7 +531,7 @@ sub configure {
 	}
 	if ($options{excludemedia}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
-	    $urpm->select_media(split ',', $options{excludemedia});
+	    $urpm->select_media(split /,/, $options{excludemedia});
 	    foreach (grep { $_->{modified} } @{$urpm->{media} || []}) {
 		#- this is only a local ignore that will not be saved.
 		$_->{ignore} = 1;
