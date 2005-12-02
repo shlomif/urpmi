@@ -100,3 +100,19 @@ sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
 1;
 
 __END__
+
+=head1 NAME
+
+urpm::util - Misc. utilities subs for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005 Mandriva SA
+
+=cut

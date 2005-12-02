@@ -3434,12 +3434,14 @@ on a Mandriva Linux distribution.
 
 =head1 SEE ALSO
 
-The perl-URPM package is used to manipulate at a lower level hdlist and rpm
+The C<URPM> package is used to manipulate at a lower level hdlist and rpm
 files.
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2005 Mandriva
+Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
+
+Copyright (C) 2005 Mandriva SA
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -1,5 +1,8 @@
 package urpm::parallel_ka_run;
 
+#- Copyright (C) 2002, 2003, 2004, 2005 MandrakeSoft SA
+#- Copyright (C) 2005 Mandriva SA
+
 use strict;
 
 (our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;

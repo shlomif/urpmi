@@ -218,3 +218,13 @@ sub load_ldap_media($%) {
 }
 
 1;
+
+__END__
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005 Mandriva SA
+
+=cut

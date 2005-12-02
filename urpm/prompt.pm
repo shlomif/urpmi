@@ -52,6 +52,8 @@ urpm::prompt - base class to prompt the user for data
 
 =head1 COPYRIGHT
 
-Copyright (C) 2005 Mandriva
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005 Mandriva SA
 
 =cut

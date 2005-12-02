@@ -1,5 +1,8 @@
 package urpm::parallel_ssh;
 
+#- Copyright (C) 2002, 2003, 2004, 2005 MandrakeSoft SA
+#- Copyright (C) 2005 Mandriva SA
+
 use strict;
 use Time::HiRes qw(gettimeofday);
 

@@ -167,3 +167,20 @@ sub mktempdir {
 }
 
 1;
+__END__
+
+=head1 NAME
+
+urpm::sys - OS-related routines for urpmi
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=head1 COPYRIGHT
+
+Copyright (C) 2005 MandrakeSoft SA
+
+Copyright (C) 2005 Mandriva SA
+
+=cut

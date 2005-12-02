@@ -385,7 +385,9 @@ urpm::args - command-line argument parser for the urpm* tools
 
 =head1 COPYRIGHT
 
-Copyright (C) 2000-2005 Mandriva
+Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
+
+Copyright (C) 2005 Mandriva SA
 
 =cut
 
