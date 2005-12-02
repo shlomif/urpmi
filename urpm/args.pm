@@ -7,6 +7,8 @@ use Getopt::Long;# 2.33;
 use urpm::download;
 use urpm::msg;
 
+(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+
 # The program that invokes us
 (my $tool = $0) =~ s!.*/!!;
 

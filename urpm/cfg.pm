@@ -5,6 +5,8 @@ use warnings;
 use urpm::util;
 use urpm::msg 'N';
 
+(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+
 =head1 NAME
 
 urpm::cfg - routines to handle the urpmi configuration files

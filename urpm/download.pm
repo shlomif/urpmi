@@ -5,6 +5,8 @@ use urpm::msg;
 use urpm::cfg;
 use Cwd;
 
+(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+
 #- proxy config file.
 our $PROXY_CFG = '/etc/urpmi/proxy.cfg';
 my $proxy_config;

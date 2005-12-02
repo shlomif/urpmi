@@ -3,6 +3,9 @@ package urpm::msg;
 use strict;
 no warnings;
 use Exporter;
+
+(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+
 our @ISA = 'Exporter';
 our @EXPORT = qw(N log_it to_utf8 message_input message toMb from_utf8);
 
