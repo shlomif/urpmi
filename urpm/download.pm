@@ -207,7 +207,7 @@ sub sync_wget {
     my $cwd = getcwd();
     chdir $options->{dir};
     my ($buf, $total, $file) = ('', undef, undef);
-    my $wget_pid = open my $wget, join(" ", map { "'$_'" }
+    my $wget_command = join(" ", map { "'$_'" }
 	#- construction of the wget command-line
 	"/usr/bin/wget",
 	($options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
@@ -219,11 +219,12 @@ sub sync_wget {
 	"--retr-symlinks",
 	"--no-check-certificate",
 	"--timeout=$CONNECT_TIMEOUT",
-	"-NP",
+	"-N",
 	(defined $options->{'wget-options'} ? split /\s+/, $options->{'wget-options'} : ()),
-	$options->{dir},
+	'-P', $options->{dir},
 	@_
     ) . " |";
+    my $wget_pid = open my $wget, $wget_command;
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
     while (<$wget>) {
 	$buf .= $_;
