@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.2
+%define version	4.8.3
 %define release	1mdk
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -35,6 +35,8 @@ Requires:	perl-MDV-Packdrakeng >= 1.01
 Requires:	rpmtools >= 4.5
 BuildRequires:	bzip2-devel
 BuildRequires:	gettext
+BuildRequires:	perl-File-Slurp
+BuildRequires:	perl-ldap
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
 Conflicts:	man-pages-fr < 1.58.0-8mdk
@@ -120,7 +122,7 @@ install -d -m 755 %{buildroot}%{_sysconfdir}/bash_completion.d
 install -m 644 %{name}.bash-completion %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
 
 # rpm-find-leaves is invoked by this name in rpmdrake
-ln -s -f %{buildroot}%{_bindir}/rpm-find-leaves %{buildroot}%{_bindir}/urpmi_rpm-find-leaves
+( cd %{buildroot}%{_bindir} ; ln -s -f rpm-find-leaves urpmi_rpm-find-leaves )
 
 # Don't install READMEs twice
 rm -f %{buildroot}%{compat_perl_vendorlib}/urpm/README*
@@ -246,6 +248,16 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Mon Dec 05 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.3-1mdk
+- New configuration option, default-media
+- New options --wget-options, --curl-options and --rsync-options
+- Fix /proc/mount parsing to figure out if a fs is read-only (Olivier Blin)
+- Use a symlink for rpm-find-leaves (Thierry Vignaud)
+- Better error checking when generating names file
+- Manpage updates
+- Translation updates
+- Bash completion updates
+
 * Fri Nov 25 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.2-1mdk
 - Now build urpmi using MakeMaker.
 - Some basic regression tests.
