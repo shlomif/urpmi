@@ -346,7 +346,7 @@ if ($urpm::args::options{list_aliases}) {
 		} else {
 		    #- fallback to retrieve rpm package before, so that --headers will be ok.
 		    my %downloads = $urpm->download_source_packages({}, $list, force_local => 1);
-		    system "rpm2header", values %downloads;
+		    system $rpm2header, values %downloads;
 		}
 	    }
 	} elsif ($urpm::args::options{info} || $urpm::args::options{list_files} || $urpm::args::options{changelog}
