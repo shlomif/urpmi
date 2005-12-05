@@ -2023,9 +2023,15 @@ this could happen if you mounted manually the directory when creating the medium
 	    my $fh = $urpm->open_safe(">", "$urpm->{statedir}/names.$_->{name}");
 	    if ($fh) {
 		foreach ($_->{start} .. $_->{end}) {
-		    print $fh $urpm->{depslist}[$_]->name . "\n";
+		    if (defined $urpm->{depslist}[$_]) {
+			print $fh $urpm->{depslist}[$_]->name . "\n";
+		    } else {
+			$urpm->{error}(N("Error generating names file: dependency %d not found", $_));
+		    }
 		}
 		close $fh;
+	    } else {
+		$urpm->{error}(N("Error generating names file: Can't write to file (%s)", $!));
 	    }
 	}
     }
