@@ -8,7 +8,7 @@
 
 %define name	urpmi
 %define version	4.8.3
-%define release	1mdk
+%define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
