@@ -250,6 +250,8 @@ sub parallel_install {
 
 package urpm;
 
+no warnings 'redefine';
+
 sub handle_parallel_options {
     my (undef, $options) = @_;
     my ($media, $ka_run_options) = $options =~ /ka-run(?:\(([^\)]*)\))?:(.*)/;

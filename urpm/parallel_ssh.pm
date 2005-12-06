@@ -287,6 +287,8 @@ sub parallel_install {
 
 package urpm;
 
+no warnings 'redefine';
+
 sub handle_parallel_options {
     my (undef, $options) = @_;
     my ($id, @nodes) = split /:/, $options;
