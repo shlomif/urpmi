@@ -59,8 +59,6 @@ usage:
 ") . N("  --list-aliases - list available parallel aliases.
 ") . N("  --dump-config  - dump the config in form of urpmi.addmedia argument.
 ") . N("  --src          - next package is a source package (same as -s).
-") . N("  --headers      - extract headers for package listed from urpmi db to
-                   stdout (root only).
 ") . N("  --sources      - give all source packages before downloading (root only).
 ") . N("  --force        - force invocation even if some packages do not exist.
 ") . N("  --parallel     - distributed urpmi across machines of alias.
@@ -294,8 +292,7 @@ if ($urpm::args::options{list_aliases}) {
 	$state->{selected} = \%requested;
     }
 
-    if ($urpm::args::options{headers}
-	|| $urpm::args::options{sources}
+    if (   $urpm::args::options{sources}
 	|| $urpm::args::options{info}
 	|| $urpm::args::options{summary}
 	|| $urpm::args::options{list_files}
@@ -303,53 +300,7 @@ if ($urpm::args::options{list_aliases}) {
     {
 	my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
 
-	if ($urpm::args::options{headers}) {
-	    #- now examine source package to build headers list to extract.
-	    unless ($local_sources || $list) {
-		$urpm->{fatal}(1, N("unable to get source packages, aborting"));
-	    }
-	    my $rpm2header = '/usr/bin/rpm2header';
-	    # TODO rewrite rpm2header in perl
-	    -x $rpm2header
-		or $urpm->{fatal}(2, N("rpm2header utility not found, impossible to use the --header option"));
-	    if (values %$local_sources) {
-		system $rpm2header, values %$local_sources;
-	    }
-	    foreach (0..$#{$urpm->{media} || []}) {
-		my @headers = (grep {
-			my $file = "$urpm->{cachedir}/headers/$_";
-			if (-s $file) {
-			    my $fh; open $fh, '<', $file and do {
-				while (<$fh>) { print STDOUT $_ }
-				close $fh;
-			    };
-			}
-			! -s $file;
-		    } map { m|(.*)/([^/]*)-([^-]*)-([^-]*)\.([^\.]*)\.rpm| and "$2-$3-$4.$5" } values %{$list->[$_]});
-		@headers > 0 or next;
-
-		if (-s "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}") {
-		    require MDV::Packdrakeng;
-		    my $packer = MDV::Packdrakeng->open(
-			archive => (
-			    $urpm->{media}[$_]{virtual}
-			    ? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
-			    : "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}",
-			),
-			quiet => 1,
-		    );
-		    defined $packer or do {
-			warn "Can't open archive: $MDV::Packdrakeng::error";
-			exit 1;
-		    };
-		    $packer->extract(undef, @headers);
-		} else {
-		    #- fallback to retrieve rpm package before, so that --headers will be ok.
-		    my %downloads = $urpm->download_source_packages({}, $list, force_local => 1);
-		    system $rpm2header, values %downloads;
-		}
-	    }
-	} elsif ($urpm::args::options{info} || $urpm::args::options{list_files} || $urpm::args::options{changelog}
+	if ($urpm::args::options{info} || $urpm::args::options{list_files} || $urpm::args::options{changelog}
 		|| $urpm::args::options{summary}) {
 	    my %downloads;
 	    # get descriptions of update sources
@@ -380,7 +331,6 @@ if ($urpm::args::options{list_aliases}) {
 			};
 			$packer->extract($tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
-			#- fallback to retrieve rpm package before, so that --headers will be ok.
 			%downloads = $urpm->download_source_packages({}, $list, force_local => 1);
 		    }
 		}

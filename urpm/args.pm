@@ -213,7 +213,6 @@ my %options_spec = (
 	'list-aliases' => \$options{list_aliases},
 	'dump-config' => \$options{dump_config},
 	'src|s' => \$options{src},
-	headers => \$options{headers},
 	sources => \$options{sources},
 	force => \$options{force},
 	'skip=s' => \$options{skip},

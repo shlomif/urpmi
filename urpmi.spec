@@ -31,8 +31,6 @@ Requires(pre):	perl-URPM >= 1.22
 Requires:	perl-URPM >= 1.22
 #- this one is require'd by urpmq, so it's not found [yet] by perl.req
 Requires:	perl-MDV-Packdrakeng >= 1.01
-#- rpm2header is needed by urpmq
-Requires:	rpmtools >= 4.5
 BuildRequires:	bzip2-devel
 BuildRequires:	gettext
 BuildRequires:	perl-File-Slurp
