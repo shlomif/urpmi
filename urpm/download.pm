@@ -226,7 +226,7 @@ sub sync_wget {
 	'-P', $options->{dir},
 	@_
     ) . " |";
-    my $wget_pid = open my $wget, $wget_command;
+    my $wget_pid = open my($wget), $wget_command;
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
     while (<$wget>) {
 	$buf .= $_;
