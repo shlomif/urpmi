@@ -125,6 +125,7 @@ sub copy_cmd_line_proxy {
 #- overrides the config file proxy settings with values passed via command-line
 sub set_cmdline_proxy {
     my (%h) = @_;
+    load_proxy_config();
     $proxy_config->{cmd_line} ||= {
 	http_proxy => undef,
 	ftp_proxy => undef,
