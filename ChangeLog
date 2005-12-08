@@ -1,3 +1,68 @@
+2005-12-08 17:17  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.removemedia: urpmi.removemedia should remove proxy settings
+	  too
+
+2005-12-08 16:55  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/download.pm: urpmi.addmedia with proxy did erase the
+	  previous proxy settings (bug 20108)
+
+2005-12-08 15:28  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi2, urpm.pm, urpmi: Fix a regression (introduced in urpm.pm
+	  revision 1.579) : the packages that obsoleted older packages were
+	  installed as 'install', not as 'upgrade', thus rpm wasn't
+	  attempting to deinstall the old package.
+
+2005-12-08 11:50  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: update
+
+2005-12-08 11:48  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: typo fixes
+
+2005-12-06 15:47  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* t/01compile.t, urpm/parallel_ka_run.pm, urpm/parallel_ssh.pm: The
+	  parallel handlers define the same function. This could lead to
+	  warnings; silence them.
+
+2005-12-06 15:45  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/download.pm: Fix compilation warning
+
+2005-12-06 12:24  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.bash-completion, urpmi.spec, urpmq, pod/urpmq.8.pod,
+	  urpm/args.pm: Drop the urpmq --headers options (and the
+	  requirement on rpmtools). It was only used by the late rpminst.
+
+2005-12-06 00:13  Michael Scherer <mscherer at mandrake.org>
+
+	* urpmi.spec: - use mkrel
+
+2005-12-05 18:56  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmq: One of the calls to rpm2header still used PATH
+
+2005-12-05 14:34  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* .cvsignore: Add a cvsignore file
+
+2005-12-05 13:59  Shiva Huang <blueshiva at giga.net.tw>
+
+	* po/zh_TW.po: updated po file
+
+2005-12-05 13:53  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi.pm: Add version number
+
+2005-12-05 12:07  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpmi.spec: 4.8.3-1mdk
+
 2005-12-05 11:33  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
 
 	* urpm.pm: More error checking when generating names file

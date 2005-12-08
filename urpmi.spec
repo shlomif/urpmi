@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.3
+%define version	4.8.4
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -246,6 +246,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Thu Dec 08 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.4-1mdk
+- urpmi.addmedia doesn't reset proxy settings anymore
+- urpmi.removemedia now removes corresponding proxy settings
+- Fix installation of packages that provide and obsolete older ones
+- Remove the urpmq --headers option
+
 * Mon Dec 05 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.3-1mdk
 - New configuration option, default-media
 - New options --wget-options, --curl-options and --rsync-options
