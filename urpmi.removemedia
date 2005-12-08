@@ -24,6 +24,7 @@
 use strict;
 use urpm;
 use urpm::msg;
+use urpm::download;
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
@@ -67,6 +68,7 @@ where <name> is a medium name to remove.
     $options{verbose} > 0 or $urpm->{log} = sub {};
 
     $urpm->read_config;
+    urpm::download::set_cmdline_proxy();
     my @entries = map { $_->{name} } @{$urpm->{media}};
 
     if ($options{all}) {
