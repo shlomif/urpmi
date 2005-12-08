@@ -577,7 +577,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    goto &urpm::download::sync_logger;
 	},
     );
-    my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources) || {}};
+    my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources, $state) || {}};
 
     if (!$force && ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}})) {
 	my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources, translate => 1);

@@ -2893,12 +2893,14 @@ sub prepare_transaction {
 #- extract package that should be installed instead of upgraded,
 #- sources is a hash of id -> source rpm filename.
 sub extract_packages_to_install {
-    my ($urpm, $sources) = @_;
+    my ($urpm, $sources, $state) = @_;
     my %inst;
+    my $rej = ref $state ? $state->{rejected} || {} : {};
 
     foreach (keys %$sources) {
 	my $pkg = $urpm->{depslist}[$_] or next;
 	$pkg->flag_disable_obsolete || !$pkg->flag_installed
+	    and !grep { exists $rej->{$_}{closure}{$pkg->fullname} } keys %$rej
 	    and $inst{$pkg->id} = delete $sources->{$pkg->id};
     }
 
