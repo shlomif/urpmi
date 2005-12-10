@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: urpmi-nl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-04 13:39+0800\n"
-"PO-Revision-Date: 2005-08-15 00:43+0100\n"
+"PO-Revision-Date: 2005-12-09 23:03+0100\n"
 "Last-Translator: Reinout van Schouwen <reinout@cs.vu.nl>\n"
 "Language-Team: Nederlands\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "RPM-installatie"
 #: ../gurpmi:43
 #, c-format
 msgid "Error: unable to find file %s, will cancel operation"
-msgstr ""
+msgstr "Fout opgetreden: kan bestand %s niet vinden, operatie wordt afgebroken"
 
 #: ../gurpmi:44 ../gurpmi2:123 ../gurpmi2:146
 msgid "_Ok"
@@ -106,19 +106,16 @@ msgstr "_Annuleren"
 
 #: ../gurpmi:99
 msgid "Choose location to save file"
-msgstr "Kies map om bestand in op te slaan"
+msgstr "Kies locatie om bestand in op te slaan"
 
 #: ../gurpmi.pm:65
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option %s"
-msgstr ""
-"\n"
-"onbekende opties '%s'\n"
+msgstr "Onbekende optie '%s'"
 
 #: ../gurpmi.pm:73
-#, fuzzy
 msgid "No packages specified"
-msgstr "geen pakket genaamd %s"
+msgstr "Geen pakketten gespecificeerd"
 
 #: ../gurpmi2:37
 msgid "Please wait..."
@@ -129,15 +126,15 @@ msgid "Must be root"
 msgstr "Dient 'root' te zijn"
 
 #: ../gurpmi2:79
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
 "%s\n"
 "Continue installation anyway?"
 msgstr ""
-"Bepaalde gevraagde pakketten konden niet worden geïnstalleerd:\n"
+"Bepaalde gevraagde pakketten kunnen niet worden geïnstalleerd:\n"
 "%s\n"
-"Verder gaan?"
+"Toch verdergaan met installatie?"
 
 #: ../gurpmi2:119
 msgid " (to upgrade)"
@@ -160,7 +157,7 @@ msgid "_Abort"
 msgstr "_Afbreken"
 
 #: ../gurpmi2:167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
@@ -169,7 +166,7 @@ msgstr ""
 "De volgende pakketten moeten worden verwijderd om andere te kunnen "
 "opwaarderen:\n"
 "%s\n"
-"Verder gaan?"
+"Toch verdergaan met installatie?"
 
 #: ../gurpmi2:181
 #, c-format
@@ -334,9 +331,9 @@ msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "kon list bestand van \"%s\" niet benaderen, medium genegeerd"
 
 #: ../urpm.pm:260
-#, fuzzy, c-format
+#, c-format
 msgid "trying to override existing medium \"%s\", skipping"
-msgstr "proberen bestaand medium \"%s\" te omzeilen"
+msgstr "overslaan, vanwege poging om bestaand medium \"%s\" te omzeilen"
 
 #: ../urpm.pm:271
 #, c-format
@@ -350,7 +347,7 @@ msgstr ""
 #: ../urpm.pm:276
 #, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-msgstr "Virtueel medium \"%s\" moet een leeg url hebben, medium genegeerd"
+msgstr "virtueel medium \"%s\" dient een lege url te hebben, medium genegeerd"
 
 #: ../urpm.pm:285
 #, c-format
@@ -1001,9 +998,8 @@ msgid "bad proxy declaration on command line\n"
 msgstr "ongeldige proxy-aanduiding op opdrachtregel\n"
 
 #: ../urpm/args.pm:223
-#, fuzzy
 msgid "You need to be root to use --use-distrib"
-msgstr "U dient geautoriseerd te zijn om mappen te delen"
+msgstr "U dient 'root' te zijn om --use-distrib te gebruiken"
 
 #: ../urpm/args.pm:255
 #, c-format
@@ -1024,50 +1020,50 @@ msgstr "YyJj"
 
 #: ../urpm/msg.pm:85
 msgid "Sorry, bad choice, try again\n"
-msgstr "Sorry, foutieve keuze, probeer een andere\n"
+msgstr "Sorry, ongeldige keuze, probeer het nogmaals\n"
 
 #: ../urpm/parallel_ka_run.pm:27 ../urpm/parallel_ka_run.pm:121
 #: ../urpm/parallel_ka_run.pm:215
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput mislukt, misschien is er een node onbereikbaar"
 
 #: ../urpm/parallel_ka_run.pm:64
 #, c-format
 msgid "node %s has an old version of urpme, please upgrade"
-msgstr ""
+msgstr "node %s heeft een oude versie van urpme, gelieve op te waarderen"
 
 #: ../urpm/parallel_ka_run.pm:88 ../urpm/parallel_ka_run.pm:200
 #: ../urpm/parallel_ka_run.pm:230
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp mislukt, misschien is er een node onbereikbaar"
 
 #: ../urpm/parallel_ka_run.pm:97 ../urpm/parallel_ssh.pm:102
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "op node %s"
 
 #. - first propagate the synthesis file to all machine.
 #: ../urpm/parallel_ka_run.pm:119
 msgid "Propagating synthesis to nodes..."
-msgstr ""
+msgstr "Synthesis doorgeven naar nodes..."
 
 #. - now try an iteration of urpmq.
 #: ../urpm/parallel_ka_run.pm:170
 msgid "Resolving dependencies on nodes..."
-msgstr ""
+msgstr "Uitzoeken van afhankelijkheden op nodes..."
 
 #: ../urpm/parallel_ka_run.pm:213
 msgid "Distributing files to nodes..."
-msgstr ""
+msgstr "Distribueren van bestanden naar nodes..."
 
 #: ../urpm/parallel_ka_run.pm:220
 msgid "Verifying if install is possible on nodes..."
-msgstr ""
+msgstr "Nagaan of installatie mogelijk is op nodes..."
 
 #: ../urpm/parallel_ka_run.pm:234 ../urpm/parallel_ssh.pm:249
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "Installatie mislukt"
+msgstr "Installatie mislukt op node %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
 #: ../urpm/parallel_ka_run.pm:239 ../urpm/parallel_ssh.pm:254 ../urpmi:740
@@ -1076,55 +1072,54 @@ msgstr "Installatie is mogelijk"
 
 #. - continue installation.
 #: ../urpm/parallel_ka_run.pm:244
-#, fuzzy
 msgid "Installing packages on nodes..."
-msgstr "Bezig met installeren van pakket `%s' (%s/%s)..."
+msgstr "Installeren van pakketten op nodes..."
 
 #: ../urpm/parallel_ssh.pm:28 ../urpm/parallel_ssh.pm:126
 #: ../urpm/parallel_ssh.pm:230
 #, c-format
 msgid "scp failed on host %s (%d)"
-msgstr ""
+msgstr "scp mislukt op host %s (%d)"
 
 #: ../urpm/parallel_ssh.pm:124
-#, fuzzy, c-format
+#, c-format
 msgid "Propagating synthesis to %s..."
-msgstr "onderzoeken van het synthesis-bestand [%s]"
+msgstr "Doorgeven van synthesis naar %s..."
 
 #: ../urpm/parallel_ssh.pm:177
 #, c-format
 msgid "Resolving dependencies on %s..."
-msgstr ""
+msgstr "Uitzoeken van afhankelijkheden op %s..."
 
 #: ../urpm/parallel_ssh.pm:207
 #, c-format
 msgid "host %s does not have a good version of urpmi (%d)"
-msgstr ""
+msgstr "computer %s heeft geen juiste versie van urpmi (%d)"
 
 #: ../urpm/parallel_ssh.pm:223
-#, fuzzy, c-format
+#, c-format
 msgid "Distributing files to %s..."
-msgstr "bezig met distribueren van %s"
+msgstr "Distribueren van bestanden naar %s..."
 
 #: ../urpm/parallel_ssh.pm:237
 #, c-format
 msgid "Verifying if install is possible on %s..."
-msgstr ""
+msgstr "Nagaan of installatie op %s mogelijk is..."
 
 #: ../urpm/parallel_ssh.pm:261
-#, fuzzy, c-format
+#, c-format
 msgid "Performing install on %s..."
-msgstr "Pakket-installatie..."
+msgstr "Installatie uitvoeren op %s..."
 
 #: ../urpm/parallel_ssh.pm:274
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s on %s..."
-msgstr "installeren van %s vanaf %s"
+msgstr "Installeren van %s op %s...."
 
 #: ../urpm/parallel_ssh.pm:275
-#, fuzzy, c-format
+#, c-format
 msgid "Preparing install on %s..."
-msgstr "Pakket-installatie..."
+msgstr "Voorbereiden van installatie op %s..."
 
 #: ../urpme:31
 msgid "Is this OK?"
@@ -1243,7 +1238,7 @@ msgid "Removal failed"
 msgstr "Verwijderen is mislukt"
 
 #: ../urpmf:28
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2005 Mandriva.\n"
@@ -1253,16 +1248,16 @@ msgid ""
 "usage: urpmf [options] pattern-expression\n"
 msgstr ""
 "urpmf versie %s\n"
-"Copyright © 2002-2004 Mandriva.\n"
+"Copyright © 2002-2005 Mandriva.\n"
 "Dit is vrije software en mag worden verspreid onder de voorwaarden van de "
 "GNU GPL.\n"
 "\n"
-"gebruik:\n"
+"gebruik: urpmf [opties] patroon-expressie\n"
 
 #: ../urpmf:35
-#, fuzzy
+#
 msgid "  --version      - print this tool's version number.\n"
-msgstr "  --help         - geeft deze hulptekst.\n"
+msgstr "  --version      - geeft het versienummer van dit programma weer.\n"
 
 #: ../urpmf:36 ../urpmi:124 ../urpmq:75
 msgid "  --env          - use specific environment (typically a bug report).\n"
@@ -1277,6 +1272,7 @@ msgstr "  --excludemedia - gebruik de gegeven media niet, kommagescheiden.\n"
 msgid ""
 "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
+"  --literal, -l  - geen patronen vergelijken, argument als letterlijke reeks.\n"
 
 #: ../urpmf:39 ../urpmi:81 ../urpmq:46
 msgid "  --media        - use only the given media, separated by comma.\n"
@@ -1313,15 +1309,17 @@ msgstr ""
 
 #: ../urpmf:46
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
-msgstr ""
+msgstr "  -F<str>        - veldscheidingsteken veranderen (standaard ':').\n"
 
 #: ../urpmf:47
 msgid "Pattern expressions:\n"
-msgstr ""
+msgstr "Patroonuitdrukkingen:\n"
 
 #: ../urpmf:48
 msgid "  text           - any text is parsed as a regexp, unless -l is used.\n"
 msgstr ""
+"  text           - alle tekst geïnterpreteerd als regexp, tenzij -l wordt \n"
+"					gebruikt.\n"
 
 #: ../urpmf:49
 msgid "  -e             - include perl code directly as perl -e.\n"
@@ -1340,134 +1338,109 @@ msgid "  !              - unary NOT.\n"
 msgstr "  !              - unary NOT.\n"
 
 #: ../urpmf:53
-#, fuzzy
 msgid "  ( )            - left and right parentheses.\n"
-msgstr "  )              - rechter haakje om groepexpressie te sluiten.\n"
+msgstr "  ( )            - linker en rechter haakjes.\n"
 
 #: ../urpmf:54
-#, fuzzy
 msgid "List of tags:\n"
-msgstr ""
-"Lijst van te herstellen gegevens:\n"
-"\n"
+msgstr "Lijst van tags:\n"
 
 #: ../urpmf:55
-#, fuzzy
 msgid "  --qf           - specify a printf-like output format\n"
-msgstr "  --X            - gebruik een grafische interface.\n"
+msgstr "  --qf            - een printf-achtig uitvoerformaat gebruiken.\n"
 
 #: ../urpmf:56
-#, fuzzy, c-format
+#, c-format
 msgid "                   example: '%%name:%%files'\n"
-msgstr "                    standaard is %s.\n"
+msgstr "                   voorbeeld: '%%name:%%files'\n"
 
 #: ../urpmf:57
-#, fuzzy
 msgid "  --arch         - architecture\n"
-msgstr "  --url          - geeft de tag url: url.\n"
+msgstr "  --arch          - architectuur\n"
 
 #: ../urpmf:58
-#, fuzzy
 msgid "  --buildhost    - build host\n"
-msgstr "  --buildhost    - geeft de tag buildhost: 'bouwcomputer'.\n"
+msgstr "  --buildhost    - buildhost ('bouwcomputer')\n"
 
 #: ../urpmf:59
 msgid "  --buildtime    - build time\n"
-msgstr ""
+msgstr "  --buildtime    - build-tijdstip\n"
 
 #: ../urpmf:60
-#, fuzzy
 msgid "  --conffiles    - configuration files\n"
-msgstr "wijziging doorvoeren in configuratiebestand"
+msgstr "  --conffiles    - configuratieestanden\n"
 
 #: ../urpmf:61
-#, fuzzy
 msgid "  --conflicts    - conflict tags\n"
-msgstr "  --conflicts     - geeft de tag conflicts: alle conflicten.\n"
+msgstr "  --conflicts     - conflict-tags\n"
 
 #: ../urpmf:62
-#, fuzzy
 msgid "  --description  - package description\n"
-msgstr "  --description   - geeft de tag description: omschrijving.\n"
+msgstr "  --description   - pakketomschrijving\n"
 
 #: ../urpmf:63
 msgid "  --distribution - distribution\n"
-msgstr ""
+msgstr "  --distribution - distributie\n"
 
 #: ../urpmf:64
-#, fuzzy
 msgid "  --epoch        - epoch\n"
-msgstr "  --epoch        - geeft de tag epoch weer: epoch.\n"
+msgstr "  --epoch        - epoch\n"
 
 #: ../urpmf:65
-#, fuzzy
 msgid "  --filename     - filename of the package\n"
-msgstr "  --name          - geeft alleen de pakketnamen weer.\n"
+msgstr "  --filename     - bestandsnaam van het pakket\n"
 
 #: ../urpmf:66
-#, fuzzy
 msgid "  --files        - list of files contained in the package\n"
-msgstr "  -l             - geeft alle bestanden in pakket weer\n"
+msgstr "  --files        - geeft alle bestanden in het pakket weer\n"
 
 #: ../urpmf:67
-#, fuzzy
 msgid "  --group        - group\n"
-msgstr "  --group         - geeft de tag group weer: groep.\n"
+msgstr "  --group         - groep\n"
 
 #: ../urpmf:68
-#, fuzzy
 msgid "  --name         - package name\n"
-msgstr "  --name          - geeft alleen de pakketnamen weer.\n"
+msgstr "  --name          - pakketnaam\n"
 
 #: ../urpmf:69
-#, fuzzy
 msgid "  --obsoletes    - obsoletes tags\n"
-msgstr "  --obsoletes     - geeft de tag obsoletes: alle verouderden\n"
+msgstr "  --obsoletes     - obsoletes ('verouderd')-tags\n"
 
 #: ../urpmf:70
-#, fuzzy
 msgid "  --packager     - packager\n"
-msgstr "  --packager     - geeft de tag packager: pakketsamensteller.\n"
+msgstr "  --packager     - pakketsamensteller.\n"
 
 #: ../urpmf:71
-#, fuzzy
 msgid "  --provides     - provides tags\n"
-msgstr "  --provides      - geeft de tag provides: alle 'levert's.\n"
+msgstr "  --provides      - provides ('levert')-tags\n"
 
 #: ../urpmf:72
-#, fuzzy
 msgid "  --requires     - requires tags\n"
-msgstr "  --requires      - geeft de tag requires: alle vereisten\n"
+msgstr "  --requires      - requires ('vereisten')-tags\n"
 
 #: ../urpmf:73
-#, fuzzy
 msgid "  --size         - installed size\n"
-msgstr "  --size          - geeft de tag size weer: grootte.\n"
+msgstr "  --size          - geïnstalleerde grootte.\n"
 
 #: ../urpmf:74
-#, fuzzy
 msgid "  --sourcerpm    - source rpm name\n"
-msgstr "  --sourcerpm    - geeft de tag sourcerpm: broncode rpm.\n"
+msgstr "  --sourcerpm    - naam van de broncode-rpm.\n"
 
 #: ../urpmf:75
-#, fuzzy
 msgid "  --summary      - summary\n"
-msgstr "  --summary, -S  - geeft de samenvatting.\n"
+msgstr "  --summary      - samenvatting\n"
 
 #: ../urpmf:76
-#, fuzzy
 msgid "  --url          - url\n"
-msgstr "  --url          - geeft de tag url: url.\n"
+msgstr "  --url          - URL\n"
 
 #: ../urpmf:77
-#, fuzzy
 msgid "  --vendor       - vendor\n"
-msgstr "  --verbose      - 'uitgebreid verslag'-modus.\n"
+msgstr "  --vendor      - leverancier\n"
 
 #: ../urpmf:78
-#, fuzzy
 msgid "  -m             - the media in which the package was found\n"
-msgstr "  -l             - geeft alle bestanden in pakket weer\n"
+msgstr "  -m             - de media waarin het pakket gevonden is\n"
 
 #: ../urpmf:79 ../urpmq:81
 msgid "  -f             - print version, release and arch with name.\n"
@@ -1475,7 +1448,7 @@ msgstr "  -f             - geeft de versie, uitgave en arch met naam.\n"
 
 #: ../urpmf:131
 msgid "Incorrect format: you may use only one multi-valued tag"
-msgstr ""
+msgstr "Onjuist formaat: u mag maar één tag gebruiken met meerdere waarden"
 
 #: ../urpmf:173 ../urpmi:224 ../urpmq:117
 #, c-format
@@ -1505,7 +1478,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmi versie %s\n"
-"Copyright © 2002-2004 Mandriva.\n"
+"Copyright © 1999-2005 Mandriva.\n"
 "Dit is vrije software en mag worden verspreid onder de voorwaarden van de "
 "GNU GPL.\n"
 "\n"
@@ -1592,7 +1565,7 @@ msgid ""
 "                   dependencies checking.\n"
 msgstr ""
 "  --allow-nodeps - sta toe de gebruiker te vragen om pakketten te\n"
-"                    installeren zonder afhankelijkhedencontrole.\n"
+"                   installeren zonder afhankelijkhedencontrole.\n"
 
 #: ../urpmi:104
 msgid ""
@@ -1600,8 +1573,8 @@ msgid ""
 "                   dependencies checking and integrity.\n"
 msgstr ""
 "  --allow-force  - sta toe de gebruiker te vragen om pakketten te\n"
-"                     installeren zonder afhankelijkheids controle en zonder\n"
-"                     integriteits controle.\n"
+"                   installeren zonder afhankelijkhedencontrole en zonder\n"
+"                   integriteitscontrole.\n"
 
 #: ../urpmi:107
 msgid "  --root         - use another root for rpm installation.\n"
@@ -1628,15 +1601,15 @@ msgstr ""
 
 #: ../urpmi:112
 msgid "  --curl-options - additional options to pass to curl\n"
-msgstr ""
+msgstr "  --curl-options - extra opties om aan curl door te geven\n"
 
 #: ../urpmi:113
 msgid "  --rsync-options- additional options to pass to rsync\n"
-msgstr ""
+msgstr "  --rsync-options- extra opties om aan rsync door te geven\n"
 
 #: ../urpmi:114
 msgid "  --wget-options - additional options to pass to wget\n"
-msgstr ""
+msgstr "  --wget-options - extra opties om aan wget door te geven\n"
 
 #: ../urpmi:115 ../urpmi.addmedia:47 ../urpmi.update:34
 msgid "  --limit-rate   - limit the download speed.\n"
@@ -1700,16 +1673,13 @@ msgid "  --excludedocs  - exclude doc files.\n"
 msgstr "  --excludedocs  - doc bestanden niet meerekenen.\n"
 
 #: ../urpmi:130
-#, fuzzy
 msgid "  --ignoresize   - don't verify disk space before installation.\n"
 msgstr ""
-"  --no-uninstall - vraag nooit om verwijdering van een pakket, breek de "
-"installatie af.\n"
+"  --ignoresize   - de vrije schijfruimte niet controleren voor installatie\n"
 
 #: ../urpmi:131
-#, fuzzy
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
-msgstr "  --description   - geeft de tag description: omschrijving.\n"
+msgstr "  --noscripts    - de pakketscriptlet(s) niet uivoeren\n"
 
 #: ../urpmi:132
 msgid "  --skip         - packages which installation should be skipped\n"
@@ -1812,17 +1782,17 @@ msgid ""
 "that are older than the installed ones:\n"
 "%s"
 msgstr ""
-"De volgende pakketten kunnen niet worden geinstalleerd omdat ze afhangen "
-"van\n"
-"pakketten die ouder zijn dan de reeds geinstalleerde pakketten:\n"
+"De volgende pakketten kunnen niet worden geïnstalleerd omdat ze afhangen\n"
+"van pakketten die ouder zijn dan de reeds geïnstalleerde pakketten:\n"
 "%s"
 
 #: ../urpmi:412 ../urpmi:430
-#, fuzzy
 msgid ""
 "\n"
 "Continue installation anyway?"
-msgstr "Toch doorgaan?"
+msgstr ""
+"\n"
+"Toch doorgaan met de installatie?"
 
 #: ../urpmi:412 ../urpmi:430 ../urpmi:511
 msgid " (Y/n) "
@@ -1834,7 +1804,7 @@ msgid ""
 "Some requested packages cannot be installed:\n"
 "%s"
 msgstr ""
-"Bepaalde gevraagde pakketten konden niet worden geïnstalleerd:\n"
+"Enkele gevraagde pakketten kunnen niet worden geïnstalleerd:\n"
 "%s"
 
 #: ../urpmi:453
@@ -1844,9 +1814,8 @@ msgid ""
 "have to be removed for others to be upgraded:\n"
 "%s\n"
 msgstr ""
-"De installatie kan niet voltrokken worden omdat de volgende pakketten "
-"moeten \n"
-"worden verwijderd om andere te kunnen opwaarderen:\n"
+"De installatie kan niet doorgaan omdat de volgende pakketten\n"
+"moeten worden verwijderd om andere te kunnen opwaarderen:\n"
 "%s\n"
 
 #: ../urpmi:458
@@ -1859,26 +1828,24 @@ msgstr ""
 "opwaarderen:\n"
 "%s"
 
+# Should use ngettext plural forms :-/
 #: ../urpmi:493 ../urpmi:505
-#, fuzzy
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed"
 msgstr ""
-"Om aan de afhankelijkheden te voldoen worden de volgende %d pakketten "
-"geïnstalleerd :\n"
-"%s\n"
+"Om aan de afhankelijkheden te voldoen worden de volgende pakketten "
+"geïnstalleerd"
 
 #: ../urpmi:494 ../urpmi:506
-#, fuzzy
 msgid "To satisfy dependencies, the following package is going to be installed"
 msgstr ""
 "Om aan de afhankelijkheden te voldoen wordt het volgende pakket ook "
-"geïnstalleerd (%d MB)"
+"geïnstalleerd"
 
 #: ../urpmi:495
 #, c-format
 msgid "(%d packages, %d MB)"
-msgstr ""
+msgstr "(%d pakketten, %d MB)"
 
 #: ../urpmi:501
 #, c-format
@@ -1892,7 +1859,7 @@ msgstr ""
 #: ../urpmi:507
 #, c-format
 msgid "Proceed with the installation of the %d packages? (%d MB)"
-msgstr ""
+msgstr "Verdergaan met de installatie van de %d pakketten? (%d MB)"
 
 #: ../urpmi:532
 msgid "Press Enter when ready..."
@@ -1912,7 +1879,7 @@ msgstr "De volgende pakketten bevatten een onjuiste handtekening"
 
 #: ../urpmi:587
 msgid "Do you want to continue installation ?"
-msgstr "Wilt u doorgaan met de installatie ?"
+msgstr "Wilt u doorgaan met de installatie?"
 
 #: ../urpmi:631
 #, c-format
@@ -1936,7 +1903,6 @@ msgstr ""
 "Proberen te installeren zonder de afhankelijkheden te controleren? (j/N) "
 
 #: ../urpmi:692
-#, fuzzy
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Installatie trachten te forceren (--force)? (j/N) "
 
@@ -2361,7 +2327,7 @@ msgstr "--list-nodes kan alleen worden gebruikt met --parallel"
 #. TODO rewrite rpm2header in perl
 #: ../urpmq:314
 msgid "rpm2header utility not found, impossible to use the --header option"
-msgstr ""
+msgstr "rpm2header-hulpprogramma niet gevonden, --header optie niet mogelijk"
 
 #: ../urpmq:363
 #, c-format
