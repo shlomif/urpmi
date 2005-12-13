@@ -643,8 +643,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    } else {
 		message(N("installing %s", join(' ', @packnames)));
 	    }
-	    @{!$urpm->{options}{'allow-force'} && $set->{remove} || []} and
-		message(N("removing %s", join(' ', @{!$urpm->{options}{'allow-force'} && $set->{remove} || []})));
+	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : ($set->{remove} || []);
+	    @$to_remove and message(N("removing %s", "@$to_remove"));
 	    log_it(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my %install_options_common = (
@@ -658,7 +658,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		noscripts => $urpm->{options}{noscripts},
 	    );
 	    my @l = $urpm->install(
-		!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+		$to_remove,
 		\%transaction_sources_install, \%transaction_sources,
 		'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
 		%install_options_common,
@@ -676,7 +676,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 				  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 		    $urpm->{log}("starting installing packages without deps");
 		    @l = $urpm->install(
-			!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+			$to_remove,
 			\%transaction_sources_install, \%transaction_sources,
 			'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
 			nodeps => 1,
@@ -693,7 +693,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 					  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 			    $urpm->{log}("starting force installing packages without deps");
 			    @l = $urpm->install(
-				!$urpm->{options}{'allow-force'} && $set->{remove} || [],
+				$to_remove,
 				\%transaction_sources_install, \%transaction_sources,
 				'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
 				nodeps => 1, force => 1,
