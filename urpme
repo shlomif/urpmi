@@ -27,7 +27,7 @@ use urpm::msg;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our ($root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, @l);
+our ($root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, $noscripts, @l);
 my $askok = N("Is this OK?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
@@ -46,6 +46,7 @@ usage:
 ") . N("  --force        - force invocation even if some packages do not exist.
 ") . N("  --parallel     - distributed urpmi across machines of alias.
 ") . N("  --root         - use another root for rpm removal.
+") . N("  --noscripts    - do not execute package scriptlet(s)
 ") . N("  --use-distrib  - configure urpmi on the fly from a distrib tree, useful
                    to (un)install a chroot with --root option.
 ") . N("  -v             - verbose mode.
@@ -122,8 +123,20 @@ if ($test && $auto) {
 #- Warning : the following message is parsed in urpm::parallel_*
 print "\n" . N("removing %s", join(' ', sort @toremove)) . "\n";
 @l = $parallel
-    ? $urpm->parallel_remove(\@toremove, test => $test, force => $force, translate_message => 1)
-    : $urpm->install(\@toremove, {}, {}, test => $test, force => $force, translate_message => 1);
+    ? $urpm->parallel_remove(
+	\@toremove,
+	test => $test,
+	force => $force,
+	translate_message => 1,
+	noscripts => $noscripts,
+    )
+    : $urpm->install(
+	\@toremove, {}, {},
+	test => $test,
+	force => $force,
+	translate_message => 1,
+	noscripts => $noscripts,
+    );
 
 #- Warning : the following message is parsed in urpm::parallel_*
 @l and $urpm->{fatal}(2, N("Removal failed") . ":\n" . join("\n",  map { "\t$_" } @l));
