@@ -1,7 +1,7 @@
 #
 # Latest versions of po files are at http://www.mandrivalinux.com/l10n/ja.php3
 #
-# SOME DESCRIPTIVE TITLE.
+# translation of urpmi to japanese.
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Copyright (c) 1999 Mandriva
 # Taisuke Yamada <tai@imasy.or.jp>, 1999.
@@ -11,10 +11,10 @@
 # ｙ
 msgid ""
 msgstr ""
-"Project-Id-Version: urpmi 3.3\n"
+"Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-04 13:39+0800\n"
-"PO-Revision-Date: 2005-07-08 21:30+0900\n"
+"PO-Revision-Date: 2005-12-15 20:00+0900\n"
 "Last-Translator: BANDO Yukiko <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -28,7 +28,7 @@ msgstr "RPMのインストール"
 #: ../gurpmi:43
 #, c-format
 msgid "Error: unable to find file %s, will cancel operation"
-msgstr ""
+msgstr "エラー: ファイル %s が見つかりません。操作をキャンセルします。"
 
 #: ../gurpmi:44 ../gurpmi2:123 ../gurpmi2:146
 msgid "_Ok"
@@ -120,7 +120,7 @@ msgid "Must be root"
 msgstr "root権限が必要です"
 
 #: ../gurpmi2:79
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
 "%s\n"
@@ -128,7 +128,7 @@ msgid ""
 msgstr ""
 "インストールできないパッケージがあります:\n"
 "%s\n"
-"続けますか？"
+"このままインストールを続けますか？"
 
 #: ../gurpmi2:119
 msgid " (to upgrade)"
@@ -151,7 +151,7 @@ msgid "_Abort"
 msgstr "中止(_A)"
 
 #: ../gurpmi2:167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
@@ -159,7 +159,7 @@ msgid ""
 msgstr ""
 "更新するには以下のパッケージを削除しなければなりません:\n"
 "%s\n"
-"続けますか？"
+"このままインストールを続けますか？"
 
 #: ../gurpmi2:181
 #, c-format
@@ -323,9 +323,9 @@ msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "%s のリストファイルにアクセスできません。メディアを無視します"
 
 #: ../urpm.pm:260
-#, fuzzy, c-format
+#, c-format
 msgid "trying to override existing medium \"%s\", skipping"
-msgstr "既存のメディア %s を回避します"
+msgstr "既存のメディア %s を上書きしようとしています。スキップします。"
 
 #: ../urpm.pm:271
 #, c-format
@@ -987,9 +987,8 @@ msgid "bad proxy declaration on command line\n"
 msgstr "コマンドラインのプロキシ宣言が間違っています\n"
 
 #: ../urpm/args.pm:223
-#, fuzzy
 msgid "You need to be root to use --use-distrib"
-msgstr "このコマンドを実行するにはroot権限が必要です! \n"
+msgstr "--use-distrib を使用するにはroot権限が必要です。"
 
 #: ../urpm/args.pm:255
 #, c-format
@@ -1015,45 +1014,45 @@ msgstr "有効な選択ではありません。やり直してください\n"
 #: ../urpm/parallel_ka_run.pm:27 ../urpm/parallel_ka_run.pm:121
 #: ../urpm/parallel_ka_run.pm:215
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput失敗。恐らくノードが接続不可能です。"
 
 #: ../urpm/parallel_ka_run.pm:64
 #, c-format
 msgid "node %s has an old version of urpme, please upgrade"
-msgstr ""
+msgstr "ノード %s のurpmeのバージョンが古いのでアップグレードしてください。"
 
 #: ../urpm/parallel_ka_run.pm:88 ../urpm/parallel_ka_run.pm:200
 #: ../urpm/parallel_ka_run.pm:230
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp失敗。恐らくノードが接続不可能です。"
 
 #: ../urpm/parallel_ka_run.pm:97 ../urpm/parallel_ssh.pm:102
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "ノード %s で"
 
 #. - first propagate the synthesis file to all machine.
 #: ../urpm/parallel_ka_run.pm:119
 msgid "Propagating synthesis to nodes..."
-msgstr ""
+msgstr "ノードにsynthesisを伝送中..."
 
 #. - now try an iteration of urpmq.
 #: ../urpm/parallel_ka_run.pm:170
 msgid "Resolving dependencies on nodes..."
-msgstr ""
+msgstr "ノードで依存を解決中..."
 
 #: ../urpm/parallel_ka_run.pm:213
 msgid "Distributing files to nodes..."
-msgstr ""
+msgstr "ノードにファイルを配信中..."
 
 #: ../urpm/parallel_ka_run.pm:220
 msgid "Verifying if install is possible on nodes..."
-msgstr ""
+msgstr "ノードでインストール可能かどうかを確認中..."
 
 #: ../urpm/parallel_ka_run.pm:234 ../urpm/parallel_ssh.pm:249
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "インストールに失敗"
+msgstr "ノード %s でインストールに失敗"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
 #: ../urpm/parallel_ka_run.pm:239 ../urpm/parallel_ssh.pm:254 ../urpmi:740
@@ -1062,55 +1061,54 @@ msgstr "インストール可能です"
 
 #. - continue installation.
 #: ../urpm/parallel_ka_run.pm:244
-#, fuzzy
 msgid "Installing packages on nodes..."
-msgstr "パッケージ %s (%s/%s)をインストール.."
+msgstr "ノードでパッケージをインストール中..."
 
 #: ../urpm/parallel_ssh.pm:28 ../urpm/parallel_ssh.pm:126
 #: ../urpm/parallel_ssh.pm:230
 #, c-format
 msgid "scp failed on host %s (%d)"
-msgstr ""
+msgstr "ホスト %s でscp失敗 (%d)"
 
 #: ../urpm/parallel_ssh.pm:124
-#, fuzzy, c-format
+#, c-format
 msgid "Propagating synthesis to %s..."
-msgstr "synthesisファイル[%s]を調査中"
+msgstr "synthesisを %s に伝送中..."
 
 #: ../urpm/parallel_ssh.pm:177
 #, c-format
 msgid "Resolving dependencies on %s..."
-msgstr ""
+msgstr "%s で依存を解決中..."
 
 #: ../urpm/parallel_ssh.pm:207
 #, c-format
 msgid "host %s does not have a good version of urpmi (%d)"
-msgstr ""
+msgstr "ホスト %s のurpmiのバージョンが不正です (%d)"
 
 #: ../urpm/parallel_ssh.pm:223
-#, fuzzy, c-format
+#, c-format
 msgid "Distributing files to %s..."
-msgstr "%s を配信中"
+msgstr "%s にファイルを配信中..."
 
 #: ../urpm/parallel_ssh.pm:237
 #, c-format
 msgid "Verifying if install is possible on %s..."
-msgstr ""
+msgstr "%s でインストール可能かどうか確認中..."
 
 #: ../urpm/parallel_ssh.pm:261
-#, fuzzy, c-format
+#, c-format
 msgid "Performing install on %s..."
-msgstr "パッケージをインストール.."
+msgstr "%s でインストールを実行中..."
 
 #: ../urpm/parallel_ssh.pm:274
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s on %s..."
-msgstr "%s を %s からインストール"
+msgstr "%s を %s にインストール中..."
 
 #: ../urpm/parallel_ssh.pm:275
-#, fuzzy, c-format
+#, c-format
 msgid "Preparing install on %s..."
-msgstr "パッケージをインストール.."
+msgstr "%s でインストール準備中..."
 
 #: ../urpme:31
 msgid "Is this OK?"
@@ -1130,7 +1128,7 @@ msgstr ""
 "Copyright (C) 1999-2005 Mandriva.\n"
 "これはフリーソフトウェアであり、GNU GPLの条件のもとで再配布できます。\n"
 "\n"
-"使いかた:\n"
+"使い方:\n"
 
 #: ../urpme:43 ../urpmf:34 ../urpmi:79 ../urpmi.addmedia:44
 #: ../urpmi.removemedia:49 ../urpmi.update:31 ../urpmq:44
@@ -1220,7 +1218,7 @@ msgid "Removal failed"
 msgstr "削除に失敗"
 
 #: ../urpmf:28
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2005 Mandriva.\n"
@@ -1230,15 +1228,14 @@ msgid ""
 "usage: urpmf [options] pattern-expression\n"
 msgstr ""
 "urpmf version %s\n"
-"Copyright (C) 2002-2004 Mandriva.\n"
+"Copyright (C) 2002-2005 Mandriva.\n"
 "これはフリーソフトウェアであり、GNU GPLの条件のもとで再配布できます。\n"
 "\n"
-"使いかた:\n"
+"使い方: urpmf [オプション] パターン表現\n"
 
 #: ../urpmf:35
-#, fuzzy
 msgid "  --version      - print this tool's version number.\n"
-msgstr "  --help         - このヘルプを表示\n"
+msgstr "  --version      - このツールのバージョンを表示\n"
 
 #: ../urpmf:36 ../urpmi:124 ../urpmq:75
 msgid "  --env          - use specific environment (typically a bug report).\n"
@@ -1252,6 +1249,7 @@ msgstr "  --excludemedia - 指定したメディアは使わない(コンマで�
 msgid ""
 "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
+"  --literal, -l  - パターンで検索せずに引数を普通の文字列とみなす\n"
 
 #: ../urpmf:39 ../urpmi:81 ../urpmq:46
 msgid "  --media        - use only the given media, separated by comma.\n"
@@ -1281,174 +1279,144 @@ msgstr "  --verbose      - 詳細モード\n"
 
 #: ../urpmf:45
 msgid "  -i             - ignore case distinctions in patterns.\n"
-msgstr "  -i             - 検索時に大文字と小文字の区別をしない\n"
+msgstr "  -i             - パターンの大文字小文字を区別しない\n"
 
 #: ../urpmf:46
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
-msgstr ""
+msgstr "  -F<str>        - 区切り文字を<str>に変更 (デフォルトは ':')\n"
 
 #: ../urpmf:47
 msgid "Pattern expressions:\n"
-msgstr ""
+msgstr "パターン表現:\n"
 
 #: ../urpmf:48
 msgid "  text           - any text is parsed as a regexp, unless -l is used.\n"
-msgstr ""
+msgstr "  text           - テキストを正規表現とみなす(-l が使われていない限り)\n"
 
 #: ../urpmf:49
 msgid "  -e             - include perl code directly as perl -e.\n"
 msgstr "  -e             - Perlコードをそのまま表示\n"
 
 #: ../urpmf:50
-#, fuzzy
 msgid "  -a             - binary AND operator.\n"
-msgstr "  -a             - binary AND operator, 両方の表現がtrueの場合はtrue\n"
+msgstr "  -a             - binary AND operator\n"
 
 #: ../urpmf:51
-#, fuzzy
 msgid "  -o             - binary OR operator.\n"
-msgstr ""
-"  -o             - binary OR operator, いずれかの表現がtrueの場合はtrue\n"
+msgstr "  -o             - binary OR operator\n"
 
 #: ../urpmf:52
-#, fuzzy
 msgid "  !              - unary NOT.\n"
-msgstr "  -q             - 詳細を表示しない\n"
+msgstr " !               - unary NOT\n"
 
 #: ../urpmf:53
-#, fuzzy
 msgid "  ( )            - left and right parentheses.\n"
-msgstr "  )              - グループ表現を閉じる右括弧\n"
+msgstr "  ( )            - 左右括弧\n"
 
 #: ../urpmf:54
-#, fuzzy
 msgid "List of tags:\n"
-msgstr ""
-"復元するデータのリスト:\n"
-"\n"
+msgstr "タグのリスト:\n"
 
 #: ../urpmf:55
-#, fuzzy
 msgid "  --qf           - specify a printf-like output format\n"
-msgstr "  --X            - Xインタフェースを使う\n"
+msgstr "  --qf            - printf風の出力形式を指定\n"
 
 #: ../urpmf:56
-#, fuzzy, c-format
+#, c-format
 msgid "                   example: '%%name:%%files'\n"
-msgstr "                    デフォルトは %s\n"
+msgstr "                   例: '%%name:%%files'\n"
 
 #: ../urpmf:57
-#, fuzzy
 msgid "  --arch         - architecture\n"
-msgstr "  --url          - URLタグを表示\n"
+msgstr "  --arch         - アーキテクチャ\n"
 
 #: ../urpmf:58
-#, fuzzy
 msgid "  --buildhost    - build host\n"
-msgstr "  --buildhost    - ビルドホストを表示\n"
+msgstr "  --buildhost    - ビルドホスト\n"
 
 #: ../urpmf:59
 msgid "  --buildtime    - build time\n"
-msgstr ""
+msgstr "  --buildtime    - ビルド日時\n"
 
 #: ../urpmf:60
-#, fuzzy
 msgid "  --conffiles    - configuration files\n"
-msgstr "変更を設定ファイルに適用"
+msgstr "  --conffiles    - 設定ファイル\n"
 
 #: ../urpmf:61
-#, fuzzy
 msgid "  --conflicts    - conflict tags\n"
-msgstr "  --conflicts    - conflict(衝突)タグを表示\n"
+msgstr "  --conflicts    - conflict(衝突)タグ\n"
 
 #: ../urpmf:62
-#, fuzzy
 msgid "  --description  - package description\n"
-msgstr "  --description  - 説明タグを表示\n"
+msgstr "  --description  - パッケージの説明\n"
 
 #: ../urpmf:63
 msgid "  --distribution - distribution\n"
-msgstr ""
+msgstr "  --distribution - ディストリビューション\n"
 
 #: ../urpmf:64
-#, fuzzy
 msgid "  --epoch        - epoch\n"
-msgstr "  --epoch        - エポックタグを表示\n"
+msgstr "  --epoch        - エポック\n"
 
 #: ../urpmf:65
-#, fuzzy
 msgid "  --filename     - filename of the package\n"
-msgstr "  --name         - パッケージ名だけを表示\n"
+msgstr "  --filename     - パッケージのファイル名\n"
 
 #: ../urpmf:66
-#, fuzzy
 msgid "  --files        - list of files contained in the package\n"
-msgstr "  -l             - パッケージに含まれるファイルを表示\n"
+msgstr "  --files        - パッケージに含まれるファイルのリスト\n"
 
 #: ../urpmf:67
-#, fuzzy
 msgid "  --group        - group\n"
-msgstr "  --group        - グループタグを表示\n"
+msgstr "  --group        - グループ\n"
 
 #: ../urpmf:68
-#, fuzzy
 msgid "  --name         - package name\n"
-msgstr "  --name         - パッケージ名だけを表示\n"
+msgstr "  --name         - パッケージ名\n"
 
 #: ../urpmf:69
-#, fuzzy
 msgid "  --obsoletes    - obsoletes tags\n"
-msgstr "  --obsoletes    - obsolete(廃止)タグを表示\n"
+msgstr "  --obsoletes    - obsolete(廃止)タグ\n"
 
 #: ../urpmf:70
-#, fuzzy
 msgid "  --packager     - packager\n"
-msgstr "  --packager     - パッケージ作成者を表示\n"
+msgstr "  --packager     - パッケージ作成者\n"
 
 #: ../urpmf:71
-#, fuzzy
 msgid "  --provides     - provides tags\n"
-msgstr "  --provides     - provide(提供)タグを表示\n"
+msgstr "  --provides     - provide(提供)タグ\n"
 
 #: ../urpmf:72
-#, fuzzy
 msgid "  --requires     - requires tags\n"
-msgstr "  --requires     - require(要求)タグを表示\n"
+msgstr "  --requires     - require(要求)タグ\n"
 
 #: ../urpmf:73
-#, fuzzy
 msgid "  --size         - installed size\n"
-msgstr "  --size         -  サイズタグを表示\n"
+msgstr "  --size         - インストール後のサイズ\n"
 
 #: ../urpmf:74
-#, fuzzy
 msgid "  --sourcerpm    - source rpm name\n"
-msgstr "  --sourcerpm    - ソースRPMタグを表示\n"
+msgstr "  --sourcerpm    - ソースRPMの名前\n"
 
 #: ../urpmf:75
-#, fuzzy
 msgid "  --summary      - summary\n"
-msgstr "  --summary, -S  - 要約を表示\n"
+msgstr "  --summary      - 要約\n"
 
 #: ../urpmf:76
-#, fuzzy
 msgid "  --url          - url\n"
-msgstr "  --url          - URLタグを表示\n"
+msgstr "  --url          - URL\n"
 
 #: ../urpmf:77
-#, fuzzy
 msgid "  --vendor       - vendor\n"
-msgstr "  --verbose      - 詳細モード\n"
+msgstr "  --vendor       - ベンダー\n"
 
 #: ../urpmf:78
-#, fuzzy
 msgid "  -m             - the media in which the package was found\n"
-msgstr "  -l             - パッケージに含まれるファイルを表示\n"
+msgstr "  -m             - パッケージのあるメディア\n"
 
 #: ../urpmf:79 ../urpmq:81
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr ""
-"  -f             - 名前, バージョン, リリース番号, アーキテクチャを表示\n"
+msgstr "  -f             - バージョン, リリース番号, アーキテクチャを表示\n"
 
 #: ../urpmf:131
 msgid "Incorrect format: you may use only one multi-valued tag"
@@ -1592,15 +1560,15 @@ msgstr "  --curl         - リモートファイルの取得にcurlを使う\n"
 
 #: ../urpmi:112
 msgid "  --curl-options - additional options to pass to curl\n"
-msgstr ""
+msgstr "  --curl-options - curlに送る追加オプション\n"
 
 #: ../urpmi:113
 msgid "  --rsync-options- additional options to pass to rsync\n"
-msgstr ""
+msgstr "  --rsync-options - rsyncに送る追加オプション\n"
 
 #: ../urpmi:114
 msgid "  --wget-options - additional options to pass to wget\n"
-msgstr ""
+msgstr "  --wget-options - wgetに送る追加オプション\n"
 
 #: ../urpmi:115 ../urpmi.addmedia:47 ../urpmi.update:34
 msgid "  --limit-rate   - limit the download speed.\n"
@@ -1658,16 +1626,12 @@ msgid "  --excludedocs  - exclude doc files.\n"
 msgstr "  --excludedocs  - docファイルを除外する\n"
 
 #: ../urpmi:130
-#, fuzzy
 msgid "  --ignoresize   - don't verify disk space before installation.\n"
-msgstr ""
-"  --no-uninstall - パッケージを削除する必要があるときは自動的にインストールを"
-"中止\n"
+msgstr "  --ignoresize   - インストールする前にディスク容量を確認しない\n"
 
 #: ../urpmi:131
-#, fuzzy
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
-msgstr "  --description  - 説明タグを表示\n"
+msgstr "  --noscripts    - パッケージのスクリプトを実行しない\n"
 
 #: ../urpmi:132
 msgid "  --skip         - packages which installation should be skipped\n"
@@ -1767,11 +1731,12 @@ msgstr ""
 "%s"
 
 #: ../urpmi:412 ../urpmi:430
-#, fuzzy
 msgid ""
 "\n"
 "Continue installation anyway?"
-msgstr "このまま続けますか？"
+msgstr ""
+"\n"
+"このままインストールを続けますか？"
 
 #: ../urpmi:412 ../urpmi:430 ../urpmi:511
 msgid " (Y/n) "
@@ -1807,22 +1772,18 @@ msgstr ""
 "%s"
 
 #: ../urpmi:493 ../urpmi:505
-#, fuzzy
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed"
-msgstr ""
-"依存を満たすために以下の %d 個のパッケージをインストールします:\n"
-"%s\n"
+msgstr "依存を満たすために次のパッケージをインストールします"
 
 #: ../urpmi:494 ../urpmi:506
-#, fuzzy
 msgid "To satisfy dependencies, the following package is going to be installed"
-msgstr "依存を満たすために次のパッケージをインストールします(%d MB)"
+msgstr "依存を満たすために次のパッケージをインストールします"
 
 #: ../urpmi:495
 #, c-format
 msgid "(%d packages, %d MB)"
-msgstr ""
+msgstr "(%d 個のパッケージ %d MB)"
 
 #: ../urpmi:501
 #, c-format
@@ -1836,7 +1797,7 @@ msgstr ""
 #: ../urpmi:507
 #, c-format
 msgid "Proceed with the installation of the %d packages? (%d MB)"
-msgstr ""
+msgstr "%d 個のパッケージ(%d MB)のインストールを開始しますか？"
 
 #: ../urpmi:532
 msgid "Press Enter when ready..."
@@ -1879,9 +1840,8 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "依存を確認せずにインストールしますか？ (y/N)[デフォルトはN] "
 
 #: ../urpmi:692
-#, fuzzy
 msgid "Try harder to install (--force)? (y/N) "
-msgstr "[--force]でインストールを試みますか？(y/N)[デフォルトはN]"
+msgstr "インストールを強行(--force)してみますか？(y/N)[デフォルトはN]"
 
 #: ../urpmi:731
 #, c-format
@@ -2280,7 +2240,7 @@ msgstr "[--list-nodes]は[--parallel]と一緒にしか使えません"
 #. TODO rewrite rpm2header in perl
 #: ../urpmq:314
 msgid "rpm2header utility not found, impossible to use the --header option"
-msgstr ""
+msgstr "rpm2header が見つかりません。--header オプションは使用できません。"
 
 #: ../urpmq:363
 #, c-format
