@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-04 13:39+0800\n"
+"POT-Creation-Date: 2005-12-17 20:28+0800\n"
 "PO-Revision-Date: 2005-12-05 20:59+0800\n"
 "Last-Translator: Shiva Huang <shivahuang@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -112,12 +112,12 @@ msgstr "取消 (_C)"
 msgid "Choose location to save file"
 msgstr "選擇存檔的位置"
 
-#: ../gurpmi.pm:65
+#: ../gurpmi.pm:66
 #, c-format
 msgid "Unknown option %s"
 msgstr "未知的選項 %s"
 
-#: ../gurpmi.pm:73
+#: ../gurpmi.pm:74
 msgid "No packages specified"
 msgstr "未指定套件"
 
@@ -185,7 +185,7 @@ msgstr ""
 msgid "Package installation..."
 msgstr "套件安裝..."
 
-#: ../gurpmi2:190 ../urpmi:520 ../urpmq:309
+#: ../gurpmi2:190 ../urpmi:520
 msgid "unable to get source packages, aborting"
 msgstr "無法取得原始碼套件，放棄"
 
@@ -225,12 +225,12 @@ msgstr ""
 "您或許要更新您的 urpmi 資料庫"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../gurpmi2:262 ../urpme:123 ../urpmi:647
+#: ../gurpmi2:262 ../urpme:124 ../urpmi:647
 #, c-format
 msgid "removing %s"
 msgstr "正在移除 %s"
 
-#: ../gurpmi2:270 ../urpm.pm:2913
+#: ../gurpmi2:270 ../urpm.pm:2921
 msgid "Preparing..."
 msgstr "準備中..."
 
@@ -323,7 +323,7 @@ msgstr "無法存取 \"%s\" 的 hdlist 檔案，忽略這個媒體"
 
 #. list file exists but isn't readable
 #. report error only if no result found, list files are only readable by root
-#: ../urpm.pm:232 ../urpm.pm:2519
+#: ../urpm.pm:232 ../urpm.pm:2525
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "無法存取 \"%s\" 的列表，忽略這個媒體"
@@ -501,8 +501,8 @@ msgstr "將會安裝而非升級套件 %s"
 
 #. - beware this can be a child process or the main process now...
 #. - open in read/write mode unless testing installation.
-#: ../urpm.pm:660 ../urpm.pm:2325 ../urpm.pm:2386 ../urpm.pm:2576
-#: ../urpm.pm:2978 ../urpm.pm:3102
+#: ../urpm.pm:660 ../urpm.pm:2331 ../urpm.pm:2392 ../urpm.pm:2582
+#: ../urpm.pm:2986 ../urpm.pm:3110
 msgid "unable to open rpmdb"
 msgstr "無法開啟 rpmdb"
 
@@ -545,11 +545,11 @@ msgstr "無法存取第一個安裝媒體 (找不到 hdlists 檔案)"
 msgid "retrieving hdlists file..."
 msgstr "擷取 hdlists 檔案..."
 
-#: ../urpm.pm:806 ../urpm.pm:1633 ../urpm.pm:2125 ../urpm.pm:2845
+#: ../urpm.pm:806 ../urpm.pm:1633 ../urpm.pm:2131 ../urpm.pm:2851
 msgid "...retrieving done"
 msgstr "...擷取完成"
 
-#: ../urpm.pm:808 ../urpm.pm:1617 ../urpm.pm:2129 ../urpm.pm:2847
+#: ../urpm.pm:808 ../urpm.pm:1617 ../urpm.pm:2135 ../urpm.pm:2853
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...擷取失敗：%s"
@@ -760,65 +760,75 @@ msgstr "在快取中找到 %d 個標頭"
 msgid "removing %d obsolete headers in cache"
 msgstr "正在移除 %d 個在快取內被廢棄的標頭"
 
-#: ../urpm.pm:2064
+#: ../urpm.pm:2029
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm.pm:2034
+#, c-format
+msgid "Error generating names file: Can't write to file (%s)"
+msgstr ""
+
+#: ../urpm.pm:2070
 #, c-format
 msgid "mounting %s"
 msgstr "正在掛載 %s"
 
-#: ../urpm.pm:2086
+#: ../urpm.pm:2092
 #, c-format
 msgid "unmounting %s"
 msgstr "正在卸載 %s"
 
-#: ../urpm.pm:2110
+#: ../urpm.pm:2116
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "無效的 rpm 檔案名稱 [%s]"
 
-#: ../urpm.pm:2116
+#: ../urpm.pm:2122
 #, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "正在擷取 rpm 檔案 [%s] ..."
 
-#: ../urpm.pm:2134
+#: ../urpm.pm:2140
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "無法存取 rpm 檔案 [%s]"
 
-#: ../urpm.pm:2139
+#: ../urpm.pm:2145
 msgid "unable to register rpm file"
 msgstr "無法註冊 rpm 檔案"
 
-#: ../urpm.pm:2142
+#: ../urpm.pm:2148
 msgid "error registering local packages"
 msgstr "註冊本地端套件錯誤"
 
-#: ../urpm.pm:2166
+#: ../urpm.pm:2172
 msgid "Search"
 msgstr "搜尋"
 
-#: ../urpm.pm:2253
+#: ../urpm.pm:2259
 #, c-format
 msgid "no package named %s"
 msgstr "沒有套件命名為 %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpm.pm:2255 ../urpme:96
+#: ../urpm.pm:2261 ../urpme:97
 #, c-format
 msgid "The following packages contain %s: %s"
 msgstr "以下套件包含 %s：%s"
 
-#: ../urpm.pm:2449 ../urpm.pm:2496 ../urpm.pm:2527
+#: ../urpm.pm:2455 ../urpm.pm:2502 ../urpm.pm:2533
 #, c-format
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "有多個套件具有相同的 rpm 檔名 \"%s\""
 
-#: ../urpm.pm:2510
+#: ../urpm.pm:2516
 #, c-format
 msgid "unable to correctly parse [%s] on value \"%s\""
 msgstr "在值 \"%2$s\" 上無法正確解析 [%1$s]"
 
-#: ../urpm.pm:2543
+#: ../urpm.pm:2549
 #, c-format
 msgid ""
 "medium \"%s\" uses an invalid list file:\n"
@@ -827,156 +837,156 @@ msgstr ""
 "媒體 \"%s\" 使用一個無效的列表檔案：\n"
 "  映射站可能不在最新狀態，正在嘗試使用替代的方案"
 
-#: ../urpm.pm:2547
+#: ../urpm.pm:2553
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
 msgstr "媒體 \"%s\" 沒有定義任何 rpm 檔案的位置"
 
-#: ../urpm.pm:2559
+#: ../urpm.pm:2565
 #, c-format
 msgid "package %s is not found."
 msgstr "沒有找到套件 %s。"
 
-#: ../urpm.pm:2617 ../urpm.pm:2631 ../urpm.pm:2651 ../urpm.pm:2665
+#: ../urpm.pm:2623 ../urpm.pm:2637 ../urpm.pm:2657 ../urpm.pm:2671
 msgid "urpmi database locked"
 msgstr "urpmi 資料庫被鎖住了"
 
-#: ../urpm.pm:2717 ../urpm.pm:2722 ../urpm.pm:2748
+#: ../urpm.pm:2723 ../urpm.pm:2728 ../urpm.pm:2754
 #, c-format
 msgid "medium \"%s\" is not selected"
 msgstr "媒體 \"%s\" 沒有被選取"
 
 #. - fallback to use other method for retrieving the file later.
-#: ../urpm.pm:2744
+#: ../urpm.pm:2750
 #, c-format
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "無法由媒體 \"%2$s\" 讀取 [%1$s] rpm 檔"
 
 #. - we have a removable device that is not removable, well...
-#: ../urpm.pm:2752
+#: ../urpm.pm:2758
 #, c-format
 msgid "inconsistent medium \"%s\" marked removable but not really"
 msgstr "自相矛盾的媒體 \"%s\" 標示為可移除但是事實上卻不是這麼一回事"
 
-#: ../urpm.pm:2764
+#: ../urpm.pm:2770
 #, c-format
 msgid "unable to access medium \"%s\""
 msgstr "無法存取媒體 \"%s\" "
 
-#: ../urpm.pm:2823
+#: ../urpm.pm:2829
 #, c-format
 msgid "malformed input: [%s]"
 msgstr "輸入格式錯誤：[%s]"
 
-#: ../urpm.pm:2830
+#: ../urpm.pm:2836
 #, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "正在由媒體 \"%s\" 擷取 rpm 檔案..."
 
-#: ../urpm.pm:2951
+#: ../urpm.pm:2959
 #, c-format
 msgid "using process %d for executing transaction"
 msgstr "正在使用第 %d 號程序執行交辦的安裝程序"
 
-#: ../urpm.pm:2982
+#: ../urpm.pm:2990
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr "已建立在 %s 上的安裝程序 (移除 = %d，安裝 = %d，升級 = %d)"
 
-#: ../urpm.pm:2985
+#: ../urpm.pm:2993
 msgid "unable to create transaction"
 msgstr "無法建立安裝程序"
 
-#: ../urpm.pm:2993
+#: ../urpm.pm:3001
 #, c-format
 msgid "removing package %s"
 msgstr "正在移除套件 %s"
 
-#: ../urpm.pm:2995
+#: ../urpm.pm:3003
 #, c-format
 msgid "unable to remove package %s"
 msgstr "無法移除套件 %s"
 
-#: ../urpm.pm:3007
+#: ../urpm.pm:3015
 #, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
 msgstr "無法由 delta-rpm 套件包中取出套件 %s"
 
-#: ../urpm.pm:3013
+#: ../urpm.pm:3021
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
 msgstr "正在新增套件 %s (id = %d，eid = %d，更新 = %d，檔案 = %s)"
 
-#: ../urpm.pm:3016
+#: ../urpm.pm:3024
 #, c-format
 msgid "unable to install package %s"
 msgstr "無法安裝套件 %s"
 
-#: ../urpm.pm:3073
+#: ../urpm.pm:3081
 #, c-format
 msgid "More information on package %s"
 msgstr "更多關於套件 %s 的資訊"
 
-#: ../urpm.pm:3244 ../urpm.pm:3277
+#: ../urpm.pm:3252 ../urpm.pm:3285
 #, c-format
 msgid "due to missing %s"
 msgstr "由於遺失了 %s"
 
-#: ../urpm.pm:3245 ../urpm.pm:3275
+#: ../urpm.pm:3253 ../urpm.pm:3283
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "由於未滿足 %s"
 
-#: ../urpm.pm:3246
+#: ../urpm.pm:3254
 #, c-format
 msgid "trying to promote %s"
 msgstr "正在試著促進 %s"
 
-#: ../urpm.pm:3247
+#: ../urpm.pm:3255
 #, c-format
 msgid "in order to keep %s"
 msgstr "為了要保留 %s"
 
-#: ../urpm.pm:3270
+#: ../urpm.pm:3278
 #, c-format
 msgid "in order to install %s"
 msgstr "為了要安裝 %s"
 
-#: ../urpm.pm:3281
+#: ../urpm.pm:3289
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "由於與 %s 發生衝突"
 
-#: ../urpm.pm:3282
+#: ../urpm.pm:3290
 msgid "unrequested"
 msgstr "未被要求"
 
-#: ../urpm.pm:3298
+#: ../urpm.pm:3306
 #, c-format
 msgid "Invalid signature (%s)"
 msgstr "無效的簽名 (%s)"
 
-#: ../urpm.pm:3330
+#: ../urpm.pm:3338
 #, c-format
 msgid "Invalid Key ID (%s)"
 msgstr "無效的公鑰 ID (%s)"
 
-#: ../urpm.pm:3332
+#: ../urpm.pm:3340
 #, c-format
 msgid "Missing signature (%s)"
 msgstr "遺失簽名 (%s)"
 
-#: ../urpm.pm:3392
+#: ../urpm.pm:3400
 msgid "examining MD5SUM file"
 msgstr "正在檢驗 MD5SUM 檔案"
 
-#: ../urpm.pm:3403
+#: ../urpm.pm:3411
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
 msgstr "警告：在 MD5SUM 檔案中找不到 %s 的 md5sum"
 
-#: ../urpm.pm:3425
+#: ../urpm.pm:3433
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "使用限制模式執行時禁止該操作程序"
 
@@ -1129,7 +1139,7 @@ msgstr ""
 "使用方式：\n"
 
 #: ../urpme:43 ../urpmf:34 ../urpmi:79 ../urpmi.addmedia:44
-#: ../urpmi.removemedia:49 ../urpmi.update:31 ../urpmq:44
+#: ../urpmi.removemedia:50 ../urpmi.update:31 ../urpmq:44
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - 顯示此說明訊息。\n"
 
@@ -1141,12 +1151,12 @@ msgstr "  --auto         - 自動選擇套件。\n"
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - 確認刪除是否能夠正確進行。\n"
 
-#: ../urpme:46 ../urpmi:101 ../urpmq:65
+#: ../urpme:46 ../urpmi:101 ../urpmq:63
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
 msgstr "  --force        - 即使某些套件不存在仍然強制執行。\n"
 
-#: ../urpme:47 ../urpmi:106 ../urpmq:66
+#: ../urpme:47 ../urpmi:106 ../urpmq:64
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - 在同步管理的機器上分散式的執行 urpmi。\n"
 
@@ -1154,7 +1164,11 @@ msgstr "  --parallel     - 在同步管理的機器上分散式的執行 urpmi�
 msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - 使用另一個根目錄移除 rpm 套件。\n"
 
-#: ../urpme:49
+#: ../urpme:49 ../urpmi:131
+msgid "  --noscripts    - do not execute package scriptlet(s)\n"
+msgstr "  --noscripts    - 不執行套件中的命令稿。\n"
+
+#: ../urpme:50
 msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
@@ -1162,55 +1176,55 @@ msgstr ""
 "  --use-distrib  - 立即由一個散佈套件樹設定 urpmi，有助於安裝/反安裝一"
 "個                   藉由 --root 選項的 chroot。\n"
 
-#: ../urpme:51 ../urpmi:143 ../urpmi.addmedia:75 ../urpmi.removemedia:54
-#: ../urpmi.update:49 ../urpmq:92
+#: ../urpme:52 ../urpmi:143 ../urpmi.addmedia:75 ../urpmi.removemedia:55
+#: ../urpmi.update:49 ../urpmq:90
 msgid "  -v             - verbose mode.\n"
 msgstr "  -v             - 完整訊息模式。\n"
 
-#: ../urpme:52
+#: ../urpme:53
 msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - 選擇所有符合描述的套件。\n"
 
-#: ../urpme:68
+#: ../urpme:69
 msgid "Only superuser is allowed to remove packages"
 msgstr "只有擁有管理者權限的使用者才能移除套件"
 
-#: ../urpme:90
+#: ../urpme:91
 msgid "unknown package"
 msgstr "未知的套件"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:90
+#: ../urpme:91
 msgid "unknown packages"
 msgstr "未知的套件"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:102 ../urpmi:445
+#: ../urpme:103 ../urpmi:445
 #, c-format
 msgid "removing package %s will break your system"
 msgstr "移除套件 %s 將破壞您的系統"
 
-#: ../urpme:105
+#: ../urpme:106
 msgid "Nothing to remove"
 msgstr "沒有東西可移除"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:110
+#: ../urpme:111
 msgid "Checking to remove the following packages"
 msgstr "正在檢查以移除下列套件"
 
-#: ../urpme:117
+#: ../urpme:118
 #, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages will be removed (%d MB)"
 msgstr "為了滿足相依性，下列 %d 個套件將被移除 (%d MB)"
 
-#: ../urpme:119 ../urpmi:464 ../urpmi:595
+#: ../urpme:120 ../urpmi:464 ../urpmi:595
 msgid " (y/N) "
 msgstr " (y/N) (是/否) "
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:129
+#: ../urpme:142
 msgid "Removal failed"
 msgstr "移除失敗"
 
@@ -1234,7 +1248,7 @@ msgstr ""
 msgid "  --version      - print this tool's version number.\n"
 msgstr "  --version      - 印出這個工具的版本編號。\n"
 
-#: ../urpmf:36 ../urpmi:124 ../urpmq:75
+#: ../urpmf:36 ../urpmi:124 ../urpmq:73
 msgid "  --env          - use specific environment (typically a bug report).\n"
 msgstr "  --env          - 使用特定環境 (一般用於臭蟲回報)。\n"
 
@@ -1411,7 +1425,7 @@ msgstr "  --vendor       - 提供者\n"
 msgid "  -m             - the media in which the package was found\n"
 msgstr "  -m             - 這個套件被找到的媒介\n"
 
-#: ../urpmf:79 ../urpmq:81
+#: ../urpmf:79 ../urpmq:79
 msgid "  -f             - print version, release and arch with name.\n"
 msgstr "  -f             - 顯示版本、發行編號與平台。\n"
 
@@ -1419,7 +1433,7 @@ msgstr "  -f             - 顯示版本、發行編號與平台。\n"
 msgid "Incorrect format: you may use only one multi-valued tag"
 msgstr "格式錯誤：您只能使用一個多值標籤"
 
-#: ../urpmf:173 ../urpmi:224 ../urpmq:117
+#: ../urpmf:173 ../urpmi:224 ../urpmq:115
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "正在 %s 上使用特定的環境\n"
@@ -1542,11 +1556,11 @@ msgstr ""
 "  --use-distrib  - 由一個發行版樹即時設定 urpmi，有助於藉由 --root 選項\n"
 "                   安裝一個 chroot。\n"
 
-#: ../urpmi:110 ../urpmi.addmedia:45 ../urpmi.update:32 ../urpmq:69
+#: ../urpmi:110 ../urpmi.addmedia:45 ../urpmi.update:32 ../urpmq:67
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - 使用 wget 擷取遠端檔案。\n"
 
-#: ../urpmi:111 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:70
+#: ../urpmi:111 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:68
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - 使用 curl 擷取遠端檔案。\n"
 
@@ -1574,7 +1588,7 @@ msgstr ""
 "  --resume       - 接著傳送下載到一半的檔案\n"
 "                   (--no-resume 選項停用它，預設值為停用)。\n"
 
-#: ../urpmi:118 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:71
+#: ../urpmi:118 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:69
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
 "                   to be 1080 by default (format is <proxyhost[:port]>).\n"
@@ -1582,7 +1596,7 @@ msgstr ""
 "  --proxy        - 使用指定的 HTTP 代理伺服器，通訊埠假設為預設值 1080 \n"
 "                   (格式為 <proxyhost[:port]>)。\n"
 
-#: ../urpmi:120 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:73
+#: ../urpmi:120 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:71
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
@@ -1621,10 +1635,6 @@ msgstr "  --excludedocs  - 排除說明文件檔案。\n"
 msgid "  --ignoresize   - don't verify disk space before installation.\n"
 msgstr "  --ignoresize   - 安裝前不檢查剩餘的磁碟空間。\n"
 
-#: ../urpmi:131
-msgid "  --noscripts    - do not execute package scriptlet(s)\n"
-msgstr "  --noscripts    - 不執行套件中的命令稿。\n"
-
 #: ../urpmi:132
 msgid "  --skip         - packages which installation should be skipped\n"
 msgstr "  --skip         - 安裝時應該略過的套件。\n"
@@ -1646,7 +1656,7 @@ msgstr ""
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
 msgstr "  --strict-arch  - 只升級相同平台的套件。\n"
 
-#: ../urpmi:137 ../urpmq:78
+#: ../urpmi:137 ../urpmq:76
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - 選擇命令列中所有符合的項目。\n"
 
@@ -1658,15 +1668,15 @@ msgstr "  -p             - 允許於 provides 中搜尋套件。\n"
 msgid "  -P             - do not search in provides to find package.\n"
 msgstr "  -P             - 不在 provides 中搜尋套件。\n"
 
-#: ../urpmi:140 ../urpmq:93
+#: ../urpmi:140 ../urpmq:91
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
 msgstr "  -y             - 加上模糊搜尋 (與 --fuzzy 相同)。\n"
 
-#: ../urpmi:141 ../urpmq:90
+#: ../urpmi:141 ../urpmq:88
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr "  -s             - 下個套件是原始碼套件 (與 --src 相同)。\n"
 
-#: ../urpmi:142 ../urpmi.addmedia:74 ../urpmi.removemedia:53
+#: ../urpmi:142 ../urpmi.addmedia:74 ../urpmi.removemedia:54
 #: ../urpmi.update:48
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - 安靜模式。\n"
@@ -1762,8 +1772,7 @@ msgstr ""
 #: ../urpmi:493 ../urpmi:505
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed"
-msgstr ""
-"為了滿足相依性，將一併安裝下列套件"
+msgstr "為了滿足相依性，將一併安裝下列套件"
 
 #: ../urpmi:494 ../urpmi:506
 msgid "To satisfy dependencies, the following package is going to be installed"
@@ -1944,7 +1953,7 @@ msgstr "  --nopubkey     - 不匯入新增的媒體的公鑰\n"
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr "  --raw          - 加入這個媒介到設定檔中，但不更新它。\n"
 
-#: ../urpmi.addmedia:72 ../urpmi.removemedia:51 ../urpmi.update:46
+#: ../urpmi.addmedia:72 ../urpmi.removemedia:52 ../urpmi.update:46
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - 清除標頭快取目錄。\n"
 
@@ -1988,7 +1997,7 @@ msgstr "使用網路媒體時遺漏了 `with'\n"
 msgid "unable to create medium \"%s\"\n"
 msgstr "無法建立媒體 \"%s\"\n"
 
-#: ../urpmi.removemedia:47
+#: ../urpmi.removemedia:48
 msgid ""
 "usage: urpmi.removemedia [-a] <name> ...\n"
 "where <name> is a medium name to remove.\n"
@@ -1996,15 +2005,15 @@ msgstr ""
 "用法：urpmi.removemedia [-a] <名稱> ...\n"
 "其中 <名稱> 是要移除的媒體名稱。\n"
 
-#: ../urpmi.removemedia:50
+#: ../urpmi.removemedia:51
 msgid "  -a             - select all media.\n"
 msgstr "  -a             - 選擇全部的媒體。\n"
 
-#: ../urpmi.removemedia:52
+#: ../urpmi.removemedia:53
 msgid "  -y             - fuzzy match on media names.\n"
 msgstr "  -y             - 對媒體名稱進行模糊比對。\n"
 
-#: ../urpmi.removemedia:55
+#: ../urpmi.removemedia:56
 #, c-format
 msgid ""
 "\n"
@@ -2013,15 +2022,15 @@ msgstr ""
 "\n"
 "未知的選項 '%s'\n"
 
-#: ../urpmi.removemedia:64
+#: ../urpmi.removemedia:65
 msgid "Only superuser is allowed to remove media"
 msgstr "只有管理者才可以移除媒體"
 
-#: ../urpmi.removemedia:74
+#: ../urpmi.removemedia:76
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
 msgstr "沒有東西可以移除 (使用 urpmi.addmedia 來新增一個媒體)\n"
 
-#: ../urpmi.removemedia:76
+#: ../urpmi.removemedia:78
 #, c-format
 msgid ""
 "the entry to remove is missing\n"
@@ -2133,18 +2142,10 @@ msgstr "  --dump-config  - 以 urpmi.addmedia 的參數形式的匯出設定值�
 
 #: ../urpmq:62
 msgid ""
-"  --headers      - extract headers for package listed from urpmi db to\n"
-"                   stdout (root only).\n"
-msgstr ""
-"  --headers      - 由 urpmi 資料庫中擷取套件標頭到標準輸出 (僅供管理者\n"
-"                   使用)。\n"
-
-#: ../urpmq:64
-msgid ""
 "  --sources      - give all source packages before downloading (root only).\n"
 msgstr "  --sources      - 下載前先給予所有的原始碼套件 (僅供管理者使用).\n"
 
-#: ../urpmq:67
+#: ../urpmq:65
 msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
@@ -2152,91 +2153,96 @@ msgstr ""
 "  --use-distrib  - 立即由一個散佈套件樹設定 urpmi。可用來查詢散佈\n"
 "                   套件。\n"
 
-#: ../urpmq:76
+#: ../urpmq:74
 msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - 顯示更新紀錄。\n"
 
-#: ../urpmq:77
+#: ../urpmq:75
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - 顯示摘要。\n"
 
-#: ../urpmq:79
+#: ../urpmq:77
 msgid "  -c             - complete output with package to be removed.\n"
 msgstr "  -c             - 完整輸出要移除的套件。\n"
 
-#: ../urpmq:80
+#: ../urpmq:78
 msgid "  -d             - extend query to package dependencies.\n"
 msgstr "  -d             - 延伸套件相依性的查詢。\n"
 
-#: ../urpmq:82
+#: ../urpmq:80
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - 顯示群組名稱。\n"
 
-#: ../urpmq:83
+#: ../urpmq:81
 msgid "  -i             - print useful information in human readable form.\n"
 msgstr "  -i             - 以人類可讀的形式顯示有用資訊。\n"
 
-#: ../urpmq:84
+#: ../urpmq:82
 msgid "  -l             - list files in package.\n"
 msgstr "  -l             - 列出套件內包含的檔案。\n"
 
-#: ../urpmq:85
+#: ../urpmq:83
 msgid ""
 "  -P             - do not search in provides to find package (default).\n"
 msgstr "  -P             - 不於 provides 中搜尋套件 (預設值)。\n"
 
-#: ../urpmq:86
+#: ../urpmq:84
 msgid "  -p             - search in provides to find package.\n"
 msgstr "  -p             - 於 provides 中搜尋套件。\n"
 
-#: ../urpmq:87
+#: ../urpmq:85
 msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - 顯示版本與發行名稱。\n"
 
-#: ../urpmq:88
+#: ../urpmq:86
 msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - 逆向搜尋何者需要此套件。\n"
 
-#: ../urpmq:89
+#: ../urpmq:87
 msgid ""
 "  -RR            - extended reverse search (includes virtual packages).\n"
 msgstr "  -RR            - 進階逆向搜尋 (包含虛擬套件)。\n"
 
-#: ../urpmq:91
+#: ../urpmq:89
 msgid ""
 "  -u             - remove package if a more recent version is already "
 "installed.\n"
 msgstr "  -u             - 若已經安裝較新的版本則移除套件。\n"
 
-#: ../urpmq:94
+#: ../urpmq:92
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
 msgstr "  -Y             - 類似 -y 參數，但強制比對大小寫。\n"
 
-#: ../urpmq:95
+#: ../urpmq:93
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  查詢命令列給予的套件名稱或 RPM 檔案。\n"
 
-#: ../urpmq:158
+#: ../urpmq:156
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes 參數只能夠配合 --parallel 參數一起使用"
 
-#. TODO rewrite rpm2header in perl
 #: ../urpmq:314
-msgid "rpm2header utility not found, impossible to use the --header option"
-msgstr "找不到 rpm2header 這個工具，無法使用 --header 這個選項"
-
-#: ../urpmq:363
 #, c-format
 msgid "skipping media %s: no hdlist"
 msgstr "略過媒體 %s：沒有 hdlist 檔"
 
-#: ../urpmq:438
+#: ../urpmq:388
 msgid "No filelist found\n"
 msgstr "沒有找到檔案列表\n"
 
-#: ../urpmq:450
+#: ../urpmq:400
 msgid "No changelog found\n"
 msgstr "沒有找到更新紀錄\n"
+
+#~ msgid ""
+#~ "  --headers      - extract headers for package listed from urpmi db to\n"
+#~ "                   stdout (root only).\n"
+#~ msgstr ""
+#~ "  --headers      - 由 urpmi 資料庫中擷取套件標頭到標準輸出 (僅供管理者\n"
+#~ "                   使用)。\n"
+
+#~ msgid "rpm2header utility not found, impossible to use the --header option"
+#~ msgstr "找不到 rpm2header 這個工具，無法使用 --header 這個選項"
 
 #~ msgid ""
 #~ "To satisfy dependencies, the following %d packages are going to be "

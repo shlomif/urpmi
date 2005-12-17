@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-12-14 13:51+0100\n"
+"POT-Creation-Date: 2005-12-17 20:28+0800\n"
 "PO-Revision-Date: 2005-12-07 20:44+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
@@ -215,7 +215,7 @@ msgstr ""
 "Pode ser que desexe actualizar a base de datos do seu urpmi"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../gurpmi2:262 ../urpme:123 ../urpmi:647
+#: ../gurpmi2:262 ../urpme:124 ../urpmi:647
 #, c-format
 msgid "removing %s"
 msgstr "eliminando %s"
@@ -816,7 +816,7 @@ msgid "no package named %s"
 msgstr "non hai ningún paquete que se chame %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpm.pm:2261 ../urpme:96
+#: ../urpm.pm:2261 ../urpme:97
 #, c-format
 msgid "The following packages contain %s: %s"
 msgstr "Os seguintes paquetes conteñen %s: %s"
@@ -1001,11 +1001,11 @@ msgstr "Esta operación está prohibida mentres se executa en modo restrinxido"
 msgid "bad proxy declaration on command line\n"
 msgstr "declaración errónea do proxy na liña de comandos\n"
 
-#: ../urpm/args.pm:222
+#: ../urpm/args.pm:223
 msgid "You need to be root to use --use-distrib"
 msgstr "Necesita ser root para usar --use-distrib"
 
-#: ../urpm/args.pm:254
+#: ../urpm/args.pm:255
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: non se puido ler o ficheiro rpm \"%s\"\n"
@@ -1175,52 +1175,57 @@ msgstr ""
 msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - usar outra raíz para a eliminación de rpms.\n"
 
-#: ../urpme:49
+#: ../urpme:49 ../urpmi:131
+#, fuzzy
+msgid "  --noscripts    - do not execute package scriptlet(s)\n"
+msgstr "  --description  - amosar a etiqueta description: descrición.\n"
+
+#: ../urpme:50
 msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
 
-#: ../urpme:51 ../urpmi:143 ../urpmi.addmedia:75 ../urpmi.removemedia:55
+#: ../urpme:52 ../urpmi:143 ../urpmi.addmedia:75 ../urpmi.removemedia:55
 #: ../urpmi.update:49 ../urpmq:90
 msgid "  -v             - verbose mode.\n"
 msgstr "  -v             - modo detallado.\n"
 
-#: ../urpme:52
+#: ../urpme:53
 msgid "  -a             - select all packages matching expression.\n"
 msgstr ""
 "  -a             - selecciona tódolos paquetes que concordan ca expresión.\n"
 
-#: ../urpme:68
+#: ../urpme:69
 msgid "Only superuser is allowed to remove packages"
 msgstr "Só o superusuario pode eliminar paquetes"
 
-#: ../urpme:90
+#: ../urpme:91
 msgid "unknown package"
 msgstr "paquete descoñecido"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:90
+#: ../urpme:91
 msgid "unknown packages"
 msgstr "paquetes descoñecidos"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:102 ../urpmi:445
+#: ../urpme:103 ../urpmi:445
 #, c-format
 msgid "removing package %s will break your system"
 msgstr "Se se elimina o paquete %s o sistema estropearase"
 
-#: ../urpme:105
+#: ../urpme:106
 msgid "Nothing to remove"
 msgstr "Non hai nada que eliminar"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:110
+#: ../urpme:111
 #, fuzzy
 msgid "Checking to remove the following packages"
 msgstr "Comprobando para eliminar os seguintes paquetes"
 
-#: ../urpme:117
+#: ../urpme:118
 #, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages will be removed (%d MB)"
@@ -1228,12 +1233,12 @@ msgstr ""
 "Para satisfacer as dependencias, vanse eliminar os seguintes %d paquetes (%d "
 "MB)"
 
-#: ../urpme:119 ../urpmi:464 ../urpmi:595
+#: ../urpme:120 ../urpmi:464 ../urpmi:595
 msgid " (y/N) "
 msgstr " (s/N) "
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:129
+#: ../urpme:142
 msgid "Removal failed"
 msgstr "Fallo ó eliminar"
 
@@ -1660,11 +1665,6 @@ msgid "  --ignoresize   - don't verify disk space before installation.\n"
 msgstr ""
 "  --ignoresize   - non verificar o espacio baleiro do disco antes\n"
 "                   de instalar.\n"
-
-#: ../urpmi:131
-#, fuzzy
-msgid "  --noscripts    - do not execute package scriptlet(s)\n"
-msgstr "  --description  - amosar a etiqueta description: descrición.\n"
 
 #: ../urpmi:132
 msgid "  --skip         - packages which installation should be skipped\n"
