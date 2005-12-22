@@ -37,6 +37,7 @@ our $sortmedia = '';
 our $synthesis = '';
 our $allow_medium_change = 0;
 our $auto_select = 0;
+our $auto_update = 0;
 our $no_install = 0;
 our $no_remove = 0;
 our $src = 0;
@@ -201,7 +202,7 @@ if ($restricted) {
     #- force some options
     foreach (qw(keep verify-rpm norebuild)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
-    urpm::error_restricted($urpm) if $root || $usedistrib || $force || $env || $parallel || $synthesis || $nolock;
+    urpm::error_restricted($urpm) if $root || $usedistrib || $force || $env || $parallel || $synthesis || $nolock || $auto_update;
     foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options)) {
 	urpm::error_restricted($urpm) if $urpm->{options}{$_};
     }
@@ -306,6 +307,20 @@ $urpm->configure(nocheck_access => $env || $< != 0,
 		 parallel => $parallel,
 		 usedistrib => $usedistrib,
 		);
+
+if ($auto_update) {
+    message(N("Updating medias..."));
+    $urpm->update_media(
+	all => 1,
+	callback => \&urpm::download::sync_logger,
+	compress => $urpm->{options}{compress},
+	limit_rate => $urpm->{options}{'limit-rate'},
+	noclean => $noclean,
+	norebuild => $urpm->{options}{norebuild},
+	quiet => $verbose < 0,
+    );
+}
+
 #- get back activated default values of boolean options.
 exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
 exists $urpm->{options}{'split-length'} or $urpm->{options}{'split-length'} = $split_length;

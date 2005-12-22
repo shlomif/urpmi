@@ -68,6 +68,7 @@ my %options_spec = (
 	'allow-medium-change' => \$::allow_medium_change,
 	'gui' => \$::gui,
 	'auto-select' => \$::auto_select,
+	'auto-update' => sub { $::auto_update = $::auto_select = 1 },
 	'no-remove|no-uninstall' => \$::no_remove,
 	'no-install' => \$::no_install,
 	keep => sub { $urpm->{options}{keep} = 1 },
