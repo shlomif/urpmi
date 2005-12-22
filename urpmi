@@ -308,7 +308,7 @@ $urpm->configure(nocheck_access => $env || $< != 0,
 		 usedistrib => $usedistrib,
 		);
 
-if ($auto_update) {
+if ($auto_update && !$bug && !$env) {
     message(N("Updating media..."));
     $urpm->update_media(
 	all => 1,
