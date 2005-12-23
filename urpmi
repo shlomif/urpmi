@@ -294,22 +294,28 @@ unless ($env || $nolock) {
     $urpm->exlock_rpm_db;
     $urpm->shlock_urpmi_db;
 }
-$urpm->configure(nocheck_access => $env || $< != 0,
-		 media => $media,
-		 searchmedia => $searchmedia,
-		 excludemedia => $excludemedia,
-		 sortmedia => $sortmedia,
-		 synthesis => $synthesis,
-		 update => $update,
-		 skip => $urpm::args::options{skip},
-		 root => $root,
-		 bug => $bug,
-		 parallel => $parallel,
-		 usedistrib => $usedistrib,
-		);
+
+my %config_hash = (
+    bug => $bug,
+    excludemedia => $excludemedia,
+    media => $media,
+    nocheck_access => $env || $< != 0,
+    parallel => $parallel,
+    root => $root,
+    searchmedia => $searchmedia,
+    skip => $urpm::args::options{skip},
+    sortmedia => $sortmedia,
+    synthesis => $synthesis,
+    update => $update,
+    usedistrib => $usedistrib,
+);
 
 if ($auto_update && !$bug && !$env) {
     message(N("Updating media..."));
+    #- FIXME we need to configure it twice; otherwise
+    #- some settings are lost (like the skiplist) for
+    #- some reason.
+    $urpm->configure( %config_hash );
     $urpm->update_media(
 	all => 1,
 	callback => \&urpm::download::sync_logger,
@@ -320,6 +326,8 @@ if ($auto_update && !$bug && !$env) {
 	quiet => $verbose < 0,
     );
 }
+
+$urpm->configure( %config_hash );
 
 #- get back activated default values of boolean options.
 exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
