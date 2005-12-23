@@ -310,6 +310,9 @@ my %config_hash = (
     usedistrib => $usedistrib,
 );
 
+if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-upgrade'} eq '') {
+    $auto_update = 0;
+}
 if ($auto_update && !$bug && !$env) {
     message(N("Updating media..."));
     #- FIXME we need to configure it twice; otherwise
