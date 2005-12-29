@@ -11,13 +11,13 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-23 21:41+0800\n"
-"PO-Revision-Date: 2005-07-02 21:03+0000\n"
+"PO-Revision-Date: 2005-12-29 02:25+0000\n"
 "Last-Translator: Pjetur G. Hjaltason <pjetur@pjetur.net>\n"
-"Language-Team: Icelandic <isl@molar.is>\n"
+"Language-Team: Icelandic <kde-isl@molar.is>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9.1\n"
+"X-Generator: KBabel 1.10.2\n"
 
 #: ../gurpmi:30 ../gurpmi2:56
 msgid "RPM installation"
@@ -26,7 +26,7 @@ msgstr "RPM innsetning"
 #: ../gurpmi:43
 #, c-format
 msgid "Error: unable to find file %s, will cancel operation"
-msgstr ""
+msgstr "Villa: finn ekki skrá %s, mun stöðva aðgerð"
 
 #: ../gurpmi:44 ../gurpmi2:123 ../gurpmi2:146
 msgid "_Ok"
@@ -102,16 +102,13 @@ msgid "Choose location to save file"
 msgstr "Veldu stað til að vista skrá"
 
 #: ../gurpmi.pm:66
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option %s"
-msgstr ""
-"\n"
-"óþekktir valkostir '%s'\n"
+msgstr "óþekktur valkostur %s"
 
 #: ../gurpmi.pm:74
-#, fuzzy
 msgid "No packages specified"
-msgstr "enginn pakki heitir %s"
+msgstr "Engir pakkar tilgreindir"
 
 #: ../gurpmi2:37
 msgid "Please wait..."
@@ -122,15 +119,15 @@ msgid "Must be root"
 msgstr "Verður að vera root"
 
 #: ../gurpmi2:79
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
 "%s\n"
 "Continue installation anyway?"
 msgstr ""
-"Ekki er hægt að setja inn suma pakkana:\n"
+"Ekki er hægt að setja inn suma umbeðna pakka:\n"
 "%s\n"
-"Halda áfram?"
+"Halda samt áfram með uppsetningu?"
 
 #: ../gurpmi2:119
 msgid " (to upgrade)"
@@ -153,15 +150,15 @@ msgid "_Abort"
 msgstr "_Hætta við"
 
 #: ../gurpmi2:167
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
 "Continue installation anyway?"
 msgstr ""
-"Eftirfarandi pakka þarf að fjarlægja til að uppfæra aðra:\n"
+"Eftirfarandi pakka þarf að fjarlægja til að geta uppfært aðra:\n"
 "%s\n"
-"Halda áfram?"
+"Halda samt áfram með uppsetningu?"
 
 #: ../gurpmi2:181
 #, c-format
@@ -325,9 +322,9 @@ msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "gat ekki kannað lista-skrá fyrir \"%s\", miðill hunsaður"
 
 #: ../urpm.pm:260
-#, fuzzy, c-format
+#, c-format
 msgid "trying to override existing medium \"%s\", skipping"
-msgstr "reyni að hunsa miðil \"%s\", forðast"
+msgstr "reyni að hunsa núverandi miðil \"%s\", forðast"
 
 #: ../urpm.pm:271
 #, c-format
@@ -431,8 +428,7 @@ msgstr "get ekki notað samhliðavalkost \"%s\""
 #: ../urpm.pm:494
 #, c-format
 msgid "there doesn't seem to be devices in the chroot in \"%s\""
-msgstr ""
-"það lítur ekki út fyrir að það séu nein tæki í lokuðu rótinni (chroot) \"%s\""
+msgstr "það lítur ekki út fyrir að það séu nein tæki í lokuðu rótinni (chroot) \"%s\""
 
 #: ../urpm.pm:500
 msgid ""
@@ -893,10 +889,8 @@ msgstr "nota feril %d til að keyra færslu"
 
 #: ../urpm.pm:2990
 #, c-format
-msgid ""
-"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
-msgstr ""
-"bjó til færslu fyrir uppsetningu á %s (fjarlægi=%d, set inn=%d, uppfæri=%d)"
+msgid "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr "bjó til færslu fyrir uppsetningu á %s (fjarlægi=%d, set inn=%d, uppfæri=%d)"
 
 #: ../urpm.pm:2993
 msgid "unable to create transaction"
@@ -999,9 +993,8 @@ msgid "bad proxy declaration on command line\n"
 msgstr "röng selskilgreining á skipanalínu\n"
 
 #: ../urpm/args.pm:224
-#, fuzzy
 msgid "You need to be root to use --use-distrib"
-msgstr "Þú verður að vera kerfisstjóri til að nota þessa skipun ! \n"
+msgstr "Þú verður að vera kerfisstjóri til að nota --use-distrib"
 
 #: ../urpm/args.pm:256
 #, c-format
@@ -1063,9 +1056,9 @@ msgid "Verifying if install is possible on nodes..."
 msgstr ""
 
 #: ../urpm/parallel_ka_run.pm:234 ../urpm/parallel_ssh.pm:249
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "Innsetning brást"
+msgstr "Innsetning brást á hnútpunkti %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
 #: ../urpm/parallel_ka_run.pm:239 ../urpm/parallel_ssh.pm:254 ../urpmi:763
@@ -1074,9 +1067,8 @@ msgstr "Innsetning er möguleg"
 
 #. - continue installation.
 #: ../urpm/parallel_ka_run.pm:244
-#, fuzzy
 msgid "Installing packages on nodes..."
-msgstr "Set inn pakka `%s' (%s/%s)..."
+msgstr "Set inn pakka á hnútpunktum..."
 
 #: ../urpm/parallel_ssh.pm:28 ../urpm/parallel_ssh.pm:126
 #: ../urpm/parallel_ssh.pm:230
@@ -1085,9 +1077,9 @@ msgid "scp failed on host %s (%d)"
 msgstr ""
 
 #: ../urpm/parallel_ssh.pm:124
-#, fuzzy, c-format
+#, c-format
 msgid "Propagating synthesis to %s..."
-msgstr "athuga samantektar-skrá [%s]"
+msgstr "Flyt samantektar-skrá yfir á %s..."
 
 #: ../urpm/parallel_ssh.pm:177
 #, c-format
@@ -1100,9 +1092,9 @@ msgid "host %s does not have a good version of urpmi (%d)"
 msgstr ""
 
 #: ../urpm/parallel_ssh.pm:223
-#, fuzzy, c-format
+#, c-format
 msgid "Distributing files to %s..."
-msgstr "miðla %s"
+msgstr "Dreifi skrám til %s..."
 
 #: ../urpm/parallel_ssh.pm:237
 #, c-format
@@ -1110,19 +1102,19 @@ msgid "Verifying if install is possible on %s..."
 msgstr ""
 
 #: ../urpm/parallel_ssh.pm:261
-#, fuzzy, c-format
+#, c-format
 msgid "Performing install on %s..."
-msgstr "Pakka innsetning..."
+msgstr "Pakka innsetning á %s..."
 
 #: ../urpm/parallel_ssh.pm:274
-#, fuzzy, c-format
+#, c-format
 msgid "Installing %s on %s..."
-msgstr "set inn %s frá %s"
+msgstr "Set inn %s á %s..."
 
 #: ../urpm/parallel_ssh.pm:275
-#, fuzzy, c-format
+#, c-format
 msgid "Preparing install on %s..."
-msgstr "Pakka innsetning..."
+msgstr "Undirbý innsetningu á %s..."
 
 #: ../urpme:31
 msgid "Is this OK?"
@@ -1158,8 +1150,7 @@ msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - staðfesta að hægt sé að fjarlægja umbeðna pakka.\n"
 
 #: ../urpme:46 ../urpmi:102 ../urpmq:63
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
+msgid "  --force        - force invocation even if some packages do not exist.\n"
 msgstr "  --force        - þvinga uppsetningu þó sumir pakkar séu ekki til.\n"
 
 #: ../urpme:47 ../urpmi:107 ../urpmq:64
@@ -1171,9 +1162,8 @@ msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - nota aðra rót til að fjarlægja rpm.\n"
 
 #: ../urpme:49 ../urpmi:132
-#, fuzzy
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
-msgstr "  --description  - prenta lýsingartag: lýsing.\n"
+msgstr "  --noscripts    - ekki keyra uppsetninga-skriftur í pakka\n"
 
 #: ../urpme:50
 msgid ""
@@ -1222,10 +1212,8 @@ msgstr "Forathugun við að fjarlægja eftirtalda pakka"
 
 #: ../urpme:118
 #, c-format
-msgid ""
-"To satisfy dependencies, the following %d packages will be removed (%d MB)"
-msgstr ""
-"Til að viðhalda samræmi, verða eftirtaldir %d pakkar fjarlægðir (%d MB)"
+msgid "To satisfy dependencies, the following %d packages will be removed (%d MB)"
+msgstr "Til að viðhalda samræmi, verða eftirtaldir %d pakkar fjarlægðir (%d MB)"
 
 #: ../urpme:120 ../urpmi:487 ../urpmi:618
 msgid " (y/N) "
@@ -1237,7 +1225,7 @@ msgid "Removal failed"
 msgstr "Mistókst að fjarlægja"
 
 #: ../urpmf:28
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2005 Mandriva.\n"
@@ -1247,15 +1235,14 @@ msgid ""
 "usage: urpmf [options] pattern-expression\n"
 msgstr ""
 "urpmf útgáfa %s\n"
-"Höfundaréttur © 2002-2004 Mandriva.\n"
-"Þetta er frjáls hugbúnaður dreift með skilmálum GNU GPL.\n"
+"Höfundaréttur © 2002-2005 Mandriva.\n"
+"Þetta er frjáls hugbúnaður og má dreifa samkvæmt skilmálum GNU GPL.\n"
 "\n"
-"notkun:\n"
+"notkun: urpmf [valkostir] mynstur\n"
 
 #: ../urpmf:35
-#, fuzzy
 msgid "  --version      - print this tool's version number.\n"
-msgstr "  --help         - prenta þetta.\n"
+msgstr "  --version      - prenta útgáfunúmer þessa tóls.\n"
 
 #: ../urpmf:36 ../urpmi:125 ../urpmq:73
 msgid "  --env          - use specific environment (typically a bug report).\n"
@@ -1268,8 +1255,7 @@ msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr "  --excludemedia - nota ekki uppgefna miðla, aðskildir með kommum.\n"
 
 #: ../urpmf:38
-msgid ""
-"  --literal, -l  - don't match patterns, use argument as a literal string.\n"
+msgid "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
 
 #: ../urpmf:39 ../urpmi:82 ../urpmq:46
@@ -1277,15 +1263,12 @@ msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - nota aðeins uppgefna miðla, aðskildir með kommum.\n"
 
 #: ../urpmf:40 ../urpmi:85 ../urpmq:49
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr ""
-"  --sortmedia    - raða miðlum eftir undirstrengjum, aðskildir með kommum.\n"
+msgid "  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr "  --sortmedia    - raða miðlum eftir undirstrengjum, aðskildir með kommum.\n"
 
 #: ../urpmf:41 ../urpmi:86 ../urpmq:50
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr ""
-"  --synthesis    - nota gefna samantektar-skrá í stað urpmi gagnagrunns.\n"
+msgstr "  --synthesis    - nota gefna samantektar-skrá í stað urpmi gagnagrunns.\n"
 
 #: ../urpmf:42
 msgid "  --uniq         - do not print identical lines twice.\n"
@@ -1332,139 +1315,113 @@ msgid "  !              - unary NOT.\n"
 msgstr "  !              - formerki EKKI.\n"
 
 #: ../urpmf:53
-#, fuzzy
 msgid "  ( )            - left and right parentheses.\n"
-msgstr "  )              - hægri svigi, til að loka hóp segða.\n"
+msgstr "  ( )            - vinstri og hægri svigar.\n"
 
 #: ../urpmf:54
-#, fuzzy
 msgid "List of tags:\n"
-msgstr ""
-"Listi af gögnum sem hægt er að endurheimta:\n"
-"\n"
+msgstr "Listi af tögum:\n"
 
 #: ../urpmf:55
-#, fuzzy
 msgid "  --qf           - specify a printf-like output format\n"
-msgstr "  -g             - prenta hópa með nafni líka.\n"
+msgstr "  --qf           - tilgreina printf-líkt úttakssnið\n"
 
 #: ../urpmf:56
-#, fuzzy, c-format
+#, c-format
 msgid "                   example: '%%name:%%files'\n"
-msgstr "                    sjálfgefið er %s.\n"
+msgstr "                   example: '%%nafn:%%skrár'\n"
 
 #: ../urpmf:57
-#, fuzzy
 msgid "  --arch         - architecture\n"
-msgstr "  --url          - prenta tag url: url.\n"
+msgstr "  --arch         - vélbúnaðartegund\n"
 
 #: ../urpmf:58
-#, fuzzy
 msgid "  --buildhost    - build host\n"
-msgstr "  --buildhost    - prenta \"buildhost\" tag: build host.\n"
+msgstr "  --buildhost    - byggt á vél.\n"
 
 #: ../urpmf:59
 msgid "  --buildtime    - build time\n"
 msgstr ""
 
 #: ../urpmf:60
-#, fuzzy
 msgid "  --conffiles    - configuration files\n"
-msgstr "vista breytingar í stillingaskrá"
+msgstr "  --conffiles    - uppsetningaskrár\n"
 
 #: ../urpmf:61
-#, fuzzy
 msgid "  --conflicts    - conflict tags\n"
-msgstr "  --conflicts     - prentar ósamræmi við tag: öll ósamræmi\n"
+msgstr "  --conflicts     - ósamræmanleg tög\n"
 
 #: ../urpmf:62
-#, fuzzy
 msgid "  --description  - package description\n"
-msgstr "  --description  - prenta lýsingartag: lýsing.\n"
+msgstr "  --description  - lýsing pakka.\n"
 
 #: ../urpmf:63
 msgid "  --distribution - distribution\n"
-msgstr ""
+msgstr "  --distribution - dreifing\n"
 
 #: ../urpmf:64
-#, fuzzy
 msgid "  --epoch        - epoch\n"
-msgstr "  --epoch        - prenta tag tímapunkt: tímapunkt.\n"
+msgstr "  --epoch        - tímapunktur.\n"
 
 #: ../urpmf:65
-#, fuzzy
 msgid "  --filename     - filename of the package\n"
-msgstr "  --name         - prenta aðeins pakkanöfn.\n"
+msgstr "  --filename     - skráarnafn pakka\n"
 
 #: ../urpmf:66
-#, fuzzy
 msgid "  --files        - list of files contained in the package\n"
-msgstr "  -l             - lista skrár í pakka.\n"
+msgstr "  --files        - listi af skrám sem eru í pakkanum\n"
 
 #: ../urpmf:67
-#, fuzzy
 msgid "  --group        - group\n"
-msgstr "  --group        - prenta hóptög: hóp.\n"
+msgstr "  --group        - hópur.\n"
 
 #: ../urpmf:68
-#, fuzzy
 msgid "  --name         - package name\n"
-msgstr "  --name         - prenta aðeins pakkanöfn.\n"
+msgstr "  --name         - pakkanafn.\n"
 
 #: ../urpmf:69
-#, fuzzy
 msgid "  --obsoletes    - obsoletes tags\n"
-msgstr "  --obsoletes     - prentar úrelt tög: öll úrelt\n"
+msgstr "  --obsoletes     - úreldir\n"
 
 #: ../urpmf:70
-#, fuzzy
 msgid "  --packager     - packager\n"
-msgstr "  --packager     - prenta tag pakkara: Pakkað af\n"
+msgstr "  --packager     - pakkað af\n"
 
 #: ../urpmf:71
-#, fuzzy
 msgid "  --provides     - provides tags\n"
-msgstr "  --provides     - prenta hvað tag skaffar: allt sem er skaffað.\n"
+msgstr "  --provides     - hvað er skaffað.\n"
 
 #: ../urpmf:72
-#, fuzzy
 msgid "  --requires     - requires tags\n"
-msgstr "  --requires      - prenta þarfir tags: allar þarfir\n"
+msgstr "  --requires      - þarfnast\n"
 
 #: ../urpmf:73
-#, fuzzy
 msgid "  --size         - installed size\n"
-msgstr "  --size         - prenta stærð taga: stærð.\n"
+msgstr "  --size         - stærð.\n"
 
 #: ../urpmf:74
-#, fuzzy
 msgid "  --sourcerpm    - source rpm name\n"
-msgstr "  --sourcerpm    - prenta tag frumrpm: frumrpm.\n"
+msgstr "  --sourcerpm    - frumrpm.\n"
 
 #: ../urpmf:75
-#, fuzzy
 msgid "  --summary      - summary\n"
-msgstr "  --summary, -S  - prenta samantekt.\n"
+msgstr "  --summary      - samantekt\n"
 
 #: ../urpmf:76
-#, fuzzy
 msgid "  --url          - url\n"
-msgstr "  --url          - prenta tag url: url.\n"
+msgstr "  --url          - slóð.\n"
 
 #: ../urpmf:77
-#, fuzzy
 msgid "  --vendor       - vendor\n"
-msgstr "  --verbose      - ítarlegri hamur.\n"
+msgstr "  --vendor       - útgefandi\n"
 
 #: ../urpmf:78
-#, fuzzy
 msgid "  -m             - the media in which the package was found\n"
-msgstr "  -l             - lista skrár í pakka.\n"
+msgstr "  -m             - miðillinn sem innihélt pakkann\n"
 
 #: ../urpmf:79 ../urpmq:79
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr ""
-"  -f             - prenta útgáfu, undirnúmer og vélartegund með nafni.\n"
+msgstr "  -f             - prenta útgáfu, undirnúmer og vélartegund með nafni.\n"
 
 #: ../urpmf:131
 msgid "Incorrect format: you may use only one multi-valued tag"
@@ -1479,8 +1436,7 @@ msgstr "nota tilgreint umhverfi á %s\n"
 msgid ""
 "Note: since no media searched uses hdlists, urpmf was unable to return any "
 "result\n"
-msgstr ""
-"Athugið: þar sem enginn miðill notar hdlist skrá, þá fann urpmf ekki neitt\n"
+msgstr "Athugið: þar sem enginn miðill notar hdlist skrá, þá fann urpmf ekki neitt\n"
 
 #: ../urpmf:220
 msgid "You may want to use --name to search for package names.\n"
@@ -1511,8 +1467,7 @@ msgstr ""
 "uppfærðum) pakka.\n"
 
 #: ../urpmi:88 ../urpmq:51
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgid "  --auto-select  - automatically select packages to upgrade the system.\n"
 msgstr "  --auto-select  - velja sjálfkrafa pakka til að uppfæra kerfið.\n"
 
 #: ../urpmi:89
@@ -1562,8 +1517,7 @@ msgstr "  --src          - næsti pakki er frumkóða-pakki (sama og -s).\n"
 
 #: ../urpmi:99
 msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr ""
-"  --install-src  - setja aðeins inn frumkóða-pakka (engin forþýdd forrit).\n"
+msgstr "  --install-src  - setja aðeins inn frumkóða-pakka (engin forþýdd forrit).\n"
 
 #: ../urpmi:100
 msgid "  --clean        - remove rpm from cache before anything else.\n"
@@ -1668,8 +1622,7 @@ msgstr ""
 "pakka).\n"
 
 #: ../urpmi:128
-msgid ""
-"  --test         - verify if the installation can be achieved correctly.\n"
+msgid "  --test         - verify if the installation can be achieved correctly.\n"
 msgstr "  --test         - athuga hvort uppsetning muni takast.\n"
 
 #: ../urpmi:129
@@ -1681,11 +1634,8 @@ msgid "  --excludedocs  - exclude doc files.\n"
 msgstr "  --excludedocs  - undanskilja doc skrár (handbækur).\n"
 
 #: ../urpmi:131
-#, fuzzy
 msgid "  --ignoresize   - don't verify disk space before installation.\n"
-msgstr ""
-"  --no-uninstall - aldrei biðja um að eyða uppsettum pakka, hætta við "
-"uppsetningu.\n"
+msgstr "  --ignoresize   - ekki athuga með diskpláss fyrir uppsetningu.\n"
 
 #: ../urpmi:133
 msgid "  --skip         - packages which installation should be skipped\n"
@@ -1716,13 +1666,11 @@ msgstr "  -a             - velja allt sem passar á skipanalínu.\n"
 
 #: ../urpmi:139
 msgid "  -p             - allow search in provides to find package.\n"
-msgstr ""
-"  -p             - leyfa leit í 'skaffar' (provides) til að finna pakka.\n"
+msgstr "  -p             - leyfa leit í 'skaffar' (provides) til að finna pakka.\n"
 
 #: ../urpmi:140
 msgid "  -P             - do not search in provides to find package.\n"
-msgstr ""
-"  -P             - ekki leita í 'skaffar (provides) til að finna pakka.\n"
+msgstr "  -P             - ekki leita í 'skaffar (provides) til að finna pakka.\n"
 
 #: ../urpmi:141 ../urpmq:91
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
@@ -1739,13 +1687,11 @@ msgstr "  -q             - hljóður hamur.\n"
 
 #: ../urpmi:145
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr ""
-"  nöfn eða rpm skrár sem eru tilgreindar á skipanalínunni verða sett inn.\n"
+msgstr "  nöfn eða rpm skrár sem eru tilgreindar á skipanalínunni verða sett inn.\n"
 
 #: ../urpmi:194
 msgid "What can be done with binary rpm files when using --install-src"
-msgstr ""
-"Hvað hægt er að gera við vélamáls-rpm pakka þegar notað er --install-src"
+msgstr "Hvað hægt er að gera við vélamáls-rpm pakka þegar notað er --install-src"
 
 #: ../urpmi:215
 #, c-format
@@ -1795,11 +1741,12 @@ msgstr ""
 "%s"
 
 #: ../urpmi:435 ../urpmi:453
-#, fuzzy
 msgid ""
 "\n"
 "Continue installation anyway?"
-msgstr "Halda samt áfram?"
+msgstr ""
+"\n"
+"Halda samt áfram með uppsetningu?"
 
 #: ../urpmi:435 ../urpmi:453 ../urpmi:534
 msgid " (Y/n) "
@@ -1835,22 +1782,17 @@ msgstr ""
 "%s"
 
 #: ../urpmi:516 ../urpmi:528
-#, fuzzy
-msgid ""
-"To satisfy dependencies, the following packages are going to be installed"
-msgstr ""
-"Til að viðhalda samræmi verða eftirtaldir %d pakkar settir inn:\n"
-"%s\n"
+msgid "To satisfy dependencies, the following packages are going to be installed"
+msgstr "Til að viðhalda samræmi, verða eftirtaldir pakkar settir inn"
 
 #: ../urpmi:517 ../urpmi:529
-#, fuzzy
 msgid "To satisfy dependencies, the following package is going to be installed"
-msgstr "Til að viðhalda samræmi verða eftirtaldir pakkar settir inn (%d MB)"
+msgstr "Til að viðhalda samræmi, verður eftirfarandi pakki settur inn"
 
 #: ../urpmi:518
 #, c-format
 msgid "(%d packages, %d MB)"
-msgstr ""
+msgstr "(%d pakkar, %d MB)"
 
 #: ../urpmi:524
 #, c-format
@@ -1908,7 +1850,6 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Prófa innsetningu án þess að athuga hvaða skrár þarf? (j/N) "
 
 #: ../urpmi:715
-#, fuzzy
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Prófa sterkari innsetningu (--force)? (j/N) "
 
@@ -1977,8 +1918,7 @@ msgstr ""
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
-msgstr ""
-"  --distrib      - sjálfvirkt búa til alla miðla frá dreifingarmiðli.\n"
+msgstr "  --distrib      - sjálfvirkt búa til alla miðla frá dreifingarmiðli.\n"
 
 #: ../urpmi.addmedia:59
 #, c-format
@@ -2022,13 +1962,11 @@ msgstr "  --no-md5sum    - aftengja MD5SUM skráarathugun.\n"
 
 #: ../urpmi.addmedia:70
 msgid "  --nopubkey     - don't import pubkey of added media\n"
-msgstr ""
-"  --nopubkey     - ekki flytja inn dulritunar-lykil fyrir viðbættan miðil\n"
+msgstr "  --nopubkey     - ekki flytja inn dulritunar-lykil fyrir viðbættan miðil\n"
 
 #: ../urpmi.addmedia:71
 msgid "  --raw          - add the media in config, but don't update it.\n"
-msgstr ""
-"  --raw          - bæta miðlinum við uppsetningu, en ekki uppfæra hann.\n"
+msgstr "  --raw          - bæta miðlinum við uppsetningu, en ekki uppfæra hann.\n"
 
 #: ../urpmi.addmedia:72 ../urpmi.removemedia:52 ../urpmi.update:46
 msgid "  -c             - clean headers cache directory.\n"
@@ -2105,8 +2043,7 @@ msgstr "Aðeins kerfisstjórar hafa leyfi til að fjarlægja miðil"
 
 #: ../urpmi.removemedia:76
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr ""
-"ekkert til að fjarlægja (notaðu urpmi.addmedia til að bæta við miðli)\n"
+msgstr "ekkert til að fjarlægja (notaðu urpmi.addmedia til að bæta við miðli)\n"
 
 #: ../urpmi.removemedia:78
 #, c-format
@@ -2207,21 +2144,18 @@ msgstr "  --list-url     - lista tiltæka miðla og slóðir að þeim.\n"
 
 #: ../urpmq:58
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr ""
-"  --list-nodes   - lista tiltæka hnútpunkta þegar notað er --parallel.\n"
+msgstr "  --list-nodes   - lista tiltæka hnútpunkta þegar notað er --parallel.\n"
 
 #: ../urpmq:59
 msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr "  --list-aliases - lista tiltæk samhliða samheiti.\n"
 
 #: ../urpmq:60
-msgid ""
-"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+msgid "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr "  --dump-config  - sýna uppsetninguna sem urpmi.addmedia viðfang.\n"
 
 #: ../urpmq:62
-msgid ""
-"  --sources      - give all source packages before downloading (root only).\n"
+msgid "  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
 "  --sources      - sýna alla frumpakka áður en þeir eru sóttir (aðeins "
 "kerfisstjóri - root).\n"
@@ -2263,8 +2197,7 @@ msgid "  -l             - list files in package.\n"
 msgstr "  -l             - lista skrár í pakka.\n"
 
 #: ../urpmq:83
-msgid ""
-"  -P             - do not search in provides to find package (default).\n"
+msgid "  -P             - do not search in provides to find package (default).\n"
 msgstr ""
 "  -P             - ekki leita í 'skaffar' (provides) til að finna pakka "
 "(sjálfgefið).\n"
@@ -2284,16 +2217,14 @@ msgstr ""
 "þörf.\n"
 
 #: ../urpmq:87
-msgid ""
-"  -RR            - extended reverse search (includes virtual packages).\n"
+msgid "  -RR            - extended reverse search (includes virtual packages).\n"
 msgstr "  -RR            - öflugri öfug leit (innifelur sýndarpakka).\n"
 
 #: ../urpmq:89
 msgid ""
 "  -u             - remove package if a more recent version is already "
 "installed.\n"
-msgstr ""
-"  -u             - fjarlægja pakka aðeins ef nýrri útgáfa er þegar uppsett.\n"
+msgstr "  -u             - fjarlægja pakka aðeins ef nýrri útgáfa er þegar uppsett.\n"
 
 #: ../urpmq:92
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
@@ -2320,176 +2251,3 @@ msgstr "Engir skráarlistar fundust\n"
 msgid "No changelog found\n"
 msgstr "Enginn breytilisti fannst\n"
 
-#~ msgid ""
-#~ "  --headers      - extract headers for package listed from urpmi db to\n"
-#~ "                   stdout (root only).\n"
-#~ msgstr ""
-#~ "  --headers      - draga út hausa fyrir listaða pakka frá urpmi "
-#~ "gagnagrunni\n"
-#~ "                   á staðlað úttak (aðeins root).\n"
-
-#~ msgid ""
-#~ "To satisfy dependencies, the following %d packages are going to be "
-#~ "installed (%d MB)"
-#~ msgstr ""
-#~ "Til að viðhalda samræmi verða eftirtaldir %d pakkar settir inn (%d MB)"
-
-#~ msgid "installing %s\n"
-#~ msgstr "Set inn %s\n"
-
-#~ msgid ""
-#~ "Automatic installation of packages...\n"
-#~ "You requested installation of package %s\n"
-#~ msgstr ""
-#~ "Sjálfvirk uppsetning pakka...\n"
-#~ "Þú baðst um að innsetningu pakka %s\n"
-
-#~ msgid "%s: command not found\n"
-#~ msgstr "%s skipun fannst ekki\n"
-
-#~ msgid ""
-#~ "Some package requested cannot be installed:\n"
-#~ "%s\n"
-#~ "Continue?"
-#~ msgstr ""
-#~ "Ekki er hægt að setja inn suma pakkana:\n"
-#~ "%s\n"
-#~ "Halda áfram?"
-
-#~ msgid ""
-#~ "The following packages have to be removed for others to be upgraded:\n"
-#~ "%s\n"
-#~ "Continue?"
-#~ msgstr ""
-#~ "Eftirfarandi pakka þarf að fjarlægja til að uppfæra aðra:\n"
-#~ "%s\n"
-#~ "Halda áfram?"
-
-#~ msgid "md5sum mismatch"
-#~ msgstr "ósamræmi í md5 gátsummu"
-
-#~ msgid ""
-#~ "urpmf version %s\n"
-#~ "Copyright (C) 2002-2004 Mandriva.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urpmf útgáfa %s\n"
-#~ "Höfundaréttur © 2002-2004 Mandriva.\n"
-#~ "Þetta er frjáls hugbúnaður dreift með skilmálum GNU GPL.\n"
-#~ "\n"
-#~ "notkun:\n"
-
-#~ msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-#~ msgstr ""
-#~ "  --synthesis    - nota samantektar-skrá í stað urpmi gagnagrunns.\n"
-
-#~ msgid ""
-#~ "  --quiet        - do not print tag name (default if no tag given on "
-#~ "command\n"
-#~ "                   line, incompatible with interactive mode).\n"
-#~ msgstr ""
-#~ "  --quiet        - ekki prenta nafn tags (sjálfgefið ef ekkert tag er "
-#~ "gefið á skipanalínu\n"
-#~ "                   ósamhæft með gagnvirkum ham).\n"
-
-#~ msgid "  --uniq         - do not print identical lines.\n"
-#~ msgstr "  --uniq         - ekki prenta tvíteknar línur.\n"
-
-#~ msgid "  --all          - print all tags.\n"
-#~ msgstr "  --all          - prenta öll tög.\n"
-
-#~ msgid "  --summary      - print tag summary: summary.\n"
-#~ msgstr "  --summary      - prenta samantekt taga: samantekt.\n"
-
-#~ msgid "  --description  - print tag description: description.\n"
-#~ msgstr "  --description  - prenta lýsingartag: lýsing.\n"
-
-#~ msgid "  --buildhost    - print tag buildhost: build host.\n"
-#~ msgstr "  --buildhost    - prenta \"buildhost\" tag: build host.\n"
-
-#~ msgid "  --provides     - print tag provides: all provides.\n"
-#~ msgstr "  --provides     - prenta hvað tag skaffar: allt sem er skaffað.\n"
-
-#~ msgid "  --requires     - print tag requires: all requires.\n"
-#~ msgstr "  --requires      - prenta þarfir tags: allar þarfir\n"
-
-#~ msgid "  --files        - print tag files: all files.\n"
-#~ msgstr "  --files         - prenta skrár tags: allar skrár\n"
-
-#~ msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-#~ msgstr "  --obsoletes     - prentar úrelt tög: öll úrelt\n"
-
-#~ msgid ""
-#~ "  --env          - use specific environment (typically a bug\n"
-#~ "                   report).\n"
-#~ msgstr ""
-#~ "  --env          - nota tiltekið umhverfi (yfirleitt vegna "
-#~ "villutilkynninga).\n"
-
-#~ msgid "  -i             - ignore case distinctions in every pattern.\n"
-#~ msgstr "  -i             - hunsa stafastærð í samanburði allra mynstra.\n"
-
-#~ msgid ""
-#~ "  -a             - binary AND operator, true if both expression are "
-#~ "true.\n"
-#~ msgstr ""
-#~ "  -a             - tvíundarvirki OG, satt ef báðar segðir eru sannar.\n"
-
-#~ msgid ""
-#~ "  -o             - binary OR operator, true if one expression is true.\n"
-#~ msgstr ""
-#~ "  -o             - tvíundarvirki EÐA, satt ef önnur segðin er sönn.\n"
-
-#~ msgid "  !              - unary NOT, true if expression is false.\n"
-#~ msgstr "  !              - formerki EKKI, satt ef segð er ósönn.\n"
-
-#~ msgid "  (              - left parenthesis to open group expression.\n"
-#~ msgstr "  (              - vinstri svigi, til að opna hóp segða.\n"
-
-#~ msgid "  )              - right parenthesis to close group expression.\n"
-#~ msgstr "  )              - hægri svigi, til að loka hóp segða.\n"
-
-#~ msgid ""
-#~ "callback is:\n"
-#~ "%s\n"
-#~ msgstr ""
-#~ "endurkall er :\n"
-#~ "%s\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Continue?"
-#~ msgstr ""
-#~ "\n"
-#~ "Áfram?"
-
-#~ msgid ""
-#~ "Some package requested cannot be installed:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ekki er hægt að setja inn suma umbeðna pakka:\n"
-#~ "%s"
-
-#, fuzzy
-#~ msgid ""
-#~ "  --keep         - keep existing packages if possible, reject requested\n"
-#~ "                   packages that leads to remove.\n"
-#~ msgstr ""
-#~ "  --keep         - halda núverandi pökkum ef mögulegt er, hafna nýjum "
-#~ "pökkum sem\n"
-#~ "                   leiða til að núverandi pakkar séu fjarlægðir.\n"
-
-#~ msgid "unable to write file [%s]"
-#~ msgstr "get ekki skrifað í skrá [%s]"
-
-#~ msgid "found version %s and arch %s ..."
-#~ msgstr "fann útgáfu %s og arch %s ..."
-
-#~ msgid "cannot add updates of a cooker distribution\n"
-#~ msgstr "get ekki bætt við uppfærslum frá cooker dreifingu\n"
-
-#~ msgid "retrieving mirrors at %s ..."
-#~ msgstr "sæki skráar-spegla á %s ..."
