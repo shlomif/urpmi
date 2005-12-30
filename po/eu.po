@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: urpmi-eu\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-12-23 21:41+0800\n"
-"PO-Revision-Date: 2005-12-29 11:04+0100\n"
+"PO-Revision-Date: 2005-12-30 10:46+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: EUSKARA <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -323,9 +323,9 @@ msgstr ""
 "zaio"
 
 #: ../urpm.pm:260
-#, fuzzy, c-format
+#, c-format
 msgid "trying to override existing medium \"%s\", skipping"
-msgstr "lehendik dagoen \"%s\" euskarria saltatzeko ahalegina, ekiditen"
+msgstr "existitzen den \"%s\" euskarriari jaramonik ez egiteko ahalegina, ekiditen"
 
 #: ../urpm.pm:271
 #, c-format
@@ -1269,7 +1269,7 @@ msgstr "  --excludemedia - ez erabili adierazitako euskarria, komaz bereizita.\n
 
 #: ../urpmf:38
 msgid "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
-msgstr ""
+msgstr "  --literal, -l  - ez parekatu patroi gisa, erabili argumentua hitzez hitz testu ilara gisa.\n"
 
 #: ../urpmf:39 ../urpmi:82 ../urpmq:46
 msgid "  --media        - use only the given media, separated by comma.\n"
@@ -1297,7 +1297,7 @@ msgstr "  --update       - eguneratze-euskarria bakarrik erabiltzen du.\n"
 
 #: ../urpmf:44
 msgid "  --verbose      - verbose mode.\n"
-msgstr "  --verbose      - modu xehatua.\n"
+msgstr "  --verbose      - modu berritsua.\n"
 
 #: ../urpmf:45
 msgid "  -i             - ignore case distinctions in patterns.\n"
@@ -1305,7 +1305,7 @@ msgstr "  -i             - ez bereizi maiuskulak eta minuskulak ereduetan.\n"
 
 #: ../urpmf:46
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
-msgstr ""
+msgstr "  -F<str>        - aldatu eremu bakantzailea (lehenetsia ':').\n"
 
 #: ../urpmf:47
 msgid "Pattern expressions:\n"
@@ -1313,7 +1313,7 @@ msgstr "Adierazpen patroiak:\n"
 
 #: ../urpmf:48
 msgid "  text           - any text is parsed as a regexp, unless -l is used.\n"
-msgstr ""
+msgstr "  text           - edozein testu regexp bezala aztertzen da, -l erabiltzen denean ezik..\n"
 
 #: ../urpmf:49
 msgid "  -e             - include perl code directly as perl -e.\n"
@@ -1337,17 +1337,16 @@ msgstr "  ( )            - ezker eta eskuin parentesiak.\n"
 
 #: ../urpmf:54
 msgid "List of tags:\n"
-msgstr "Etiketa zerrenda:\n"
+msgstr "Etiketa zerrendak:\n"
 
 #: ../urpmf:55
-#, fuzzy
 msgid "  --qf           - specify a printf-like output format\n"
-msgstr "  --X            - X interfazea erabiltzen du.\n"
+msgstr "  --qf           - printf-antzeko irteera formatua zehazten du\n"
 
 #: ../urpmf:56
-#, fuzzy, c-format
+#, c-format
 msgid "                   example: '%%name:%%files'\n"
-msgstr "                    lehenetsia %s da.\n"
+msgstr "                   adibidez: '%%name:%%files'\n"
 
 #: ../urpmf:57
 msgid "  --arch         - architecture\n"
@@ -1355,7 +1354,7 @@ msgstr "  --arch         - arkitektura\n"
 
 #: ../urpmf:58
 msgid "  --buildhost    - build host\n"
-msgstr "  --buildhost    - eraikuntza ostalaria.\n"
+msgstr "  --buildhost    - eraikuntza ostalaria\n"
 
 #: ../urpmf:59
 msgid "  --buildtime    - build time\n"
@@ -1367,20 +1366,19 @@ msgstr "  --conffiles    - konfiguraketa fitxategiak\n"
 
 #: ../urpmf:61
 msgid "  --conflicts    - conflict tags\n"
-msgstr "  --conflicts    - gatazka etiketak\n"
+msgstr "  --conflicts    - \"gatazka\" etiketak\n"
 
 #: ../urpmf:62
 msgid "  --description  - package description\n"
-msgstr "  --description - paketeen deskribapenak.\n"
+msgstr "  --description - paketeen deskribapena\n"
 
 #: ../urpmf:63
 msgid "  --distribution - distribution\n"
-msgstr ""
+msgstr "  --distribution - banaketa\n"
 
 #: ../urpmf:64
-#, fuzzy
 msgid "  --epoch        - epoch\n"
-msgstr "  --epoch        - epoch etiketa inprimatzen du: aroa.\n"
+msgstr "  --epoch        - garaia.\n"
 
 #: ../urpmf:65
 msgid "  --filename     - filename of the package\n"
@@ -1399,48 +1397,40 @@ msgid "  --name         - package name\n"
 msgstr "  --name         - pakete izena\n"
 
 #: ../urpmf:69
-#, fuzzy
 msgid "  --obsoletes    - obsoletes tags\n"
-msgstr "  --obsoletes    - obsoletes etiketa inprimatzen du: zaharkitu guztiak.\n"
+msgstr "  --obsoletes    - \"zaharkituak\" etiketak\n"
 
 #: ../urpmf:70
 msgid "  --packager     - packager\n"
 msgstr "  --packager     - paketatzailea\n"
 
 #: ../urpmf:71
-#, fuzzy
 msgid "  --provides     - provides tags\n"
-msgstr "  --provides     - provides etiketa inprimatzen du: eskaintzen duen guztia.\n"
+msgstr "  --provides     - \"hornitu\" etiketak.\n"
 
 #: ../urpmf:72
-#, fuzzy
 msgid "  --requires     - requires tags\n"
-msgstr "  --requires     - requires etiketa inprimatzen du: eskatzen duen guztia.\n"
+msgstr "  --requires     - \"beharrezko\" etiketak\n"
 
 #: ../urpmf:73
-#, fuzzy
 msgid "  --size         - installed size\n"
-msgstr "  --size         - 'size' etiketa inprimatzen du: tamaina.\n"
+msgstr "  --size         - neurria instalatu ondoren\n"
 
 #: ../urpmf:74
-#, fuzzy
 msgid "  --sourcerpm    - source rpm name\n"
-msgstr "  --sourcerpm    - sourcerpm etiketa inprimatzen du: iturburuko rpm.\n"
+msgstr "  --sourcerpm    - rpm iturburu izena.\n"
 
 #: ../urpmf:75
-#, fuzzy
 msgid "  --summary      - summary\n"
-msgstr "  --summary, -S  - laburpena inprimatu.\n"
+msgstr "  --summary      - laburpena\n"
 
 #: ../urpmf:76
-#, fuzzy
 msgid "  --url          - url\n"
-msgstr "  --url          - url etiketa inprimatzen du: url.\n"
+msgstr "  --url          - url\n"
 
 #: ../urpmf:77
-#, fuzzy
 msgid "  --vendor       - vendor\n"
-msgstr "  --verbose      - modu xehatua.\n"
+msgstr "  --verbose      - hornitzailea\n"
 
 #: ../urpmf:78
 msgid "  -m             - the media in which the package was found\n"
@@ -1454,7 +1444,7 @@ msgstr ""
 
 #: ../urpmf:131
 msgid "Incorrect format: you may use only one multi-valued tag"
-msgstr ""
+msgstr "Formatu okerra: etiketa balio-anitz bakarra erabili dezakezu"
 
 #: ../urpmf:173 ../urpmi:225 ../urpmq:115
 #, c-format
@@ -1603,11 +1593,11 @@ msgstr "  --curl-options - curl-i aukera gehiago pasatzeko\n"
 
 #: ../urpmi:114
 msgid "  --rsync-options- additional options to pass to rsync\n"
-msgstr ""
+msgstr "  --rsync-options- rsync-i aukera gehigarriak pasatzeko\n"
 
 #: ../urpmi:115
 msgid "  --wget-options - additional options to pass to wget\n"
-msgstr ""
+msgstr "  --wget-options - wget-i aukera gehigarriak pasatzeko\n"
 
 #: ../urpmi:116 ../urpmi.addmedia:47 ../urpmi.update:34
 msgid "  --limit-rate   - limit the download speed.\n"
@@ -1670,11 +1660,8 @@ msgid "  --excludedocs  - exclude doc files.\n"
 msgstr "  --excludedocs  - docs fitxategiak kanpoan uzten ditu.\n"
 
 #: ../urpmi:131
-#, fuzzy
 msgid "  --ignoresize   - don't verify disk space before installation.\n"
-msgstr ""
-"  --no-uninstall - inoiz ez du pakete bat desinstalatu nahi den galdetzen, "
-"instalazioa bertan behera uzten da.\n"
+msgstr "  --ignoresize   - ez egiaztatu diskoan dagoen lekua instalazio aurretik.\n"
 
 #: ../urpmi:133
 msgid "  --skip         - packages which installation should be skipped\n"
@@ -1885,14 +1872,13 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Mendekotasunak egiaztatu gabe saiatu nahi duzu instalatzen? (b/E) "
 
 #: ../urpmi:715
-#, fuzzy
 msgid "Try harder to install (--force)? (y/N) "
-msgstr "Areago instalatzen saiatu (--force)? (b/E) "
+msgstr "Indar handiagoz instalatzen saiatu (--force)? (b/E) "
 
 #: ../urpmi:754
 #, c-format
 msgid "%d installation transactions failed"
-msgstr "%d instalazio-transakzioek huts egin dute"
+msgstr "%d instalazio transakzioek huts egin dute"
 
 #: ../urpmi:770
 #, c-format
