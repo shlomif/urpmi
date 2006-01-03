@@ -694,6 +694,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
 		if ($urpm->{options}{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
 		    ++$nok;
+		    ++$urpm->{logger_id};
 		    push @errors, @l;
 		} else {
 		    my $noexpr = N("Nn");
@@ -713,6 +714,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 			message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 			if (!$urpm->{options}{'allow-force'}) {
 			    ++$nok;
+			    ++$urpm->{logger_id};
 			    push @errors, @l;
 			} else {
 			    message_input(N("Try harder to install (--force)? (y/N) "),
@@ -729,6 +731,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 				#- Warning : the following message is parsed in urpm::parallel_*
 				message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
 				++$nok;
+				++$urpm->{logger_id};
 				push @errors, @l;
 			    } else {
 				++$ok;
