@@ -1049,7 +1049,7 @@ sub update_media {
     my %media_redone;
   MEDIA:
     foreach my $medium (@{$urpm->{media}}) {
-	$medium->{ignore} and next;
+	$medium->{ignore} and next MEDIA;
 
 	$options{forcekey} and delete $medium->{'key-ids'};
 
@@ -1263,7 +1263,7 @@ this could happen if you mounted manually the directory when creating the medium
 				    }
 				}
 			    }
-			    $medium->{modified} or next;
+			    $medium->{modified} or next MEDIA;
 			}
 		    }
 
@@ -1316,7 +1316,7 @@ this could happen if you mounted manually the directory when creating the medium
 				    $medium->{ignore} = 1;
 				}
 			    }
-			    next;
+			    next MEDIA;
 			}
 		    }
 		} else {
@@ -1537,7 +1537,7 @@ this could happen if you mounted manually the directory when creating the medium
 				}
 			    }
 			}
-			$medium->{modified} or next;
+			$medium->{modified} or next MEDIA;
 		    }
 		} else {
 		    #- at this point, we don't if a basename exists and is valid, let probe it later.
@@ -1656,7 +1656,7 @@ this could happen if you mounted manually the directory when creating the medium
 				$medium->{ignore} = 1;
 			    }
 			}
-			next;
+			next MEDIA;
 		    }
 		}
 
