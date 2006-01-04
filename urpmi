@@ -612,7 +612,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    my $msg = N("The following packages have bad signatures");
 	    my $msg2 = N("Do you want to continue installation ?");
 	    my $p = join "\n", @bad_signatures;
-	    if ($urpm->{options}{auto}) {
+	    #- rurpmi always abort here
+	    if ($urpm->{options}{auto} || $restricted) {
 		message("$msg:\n$p\n");
 		exit 1;
 	    } else {
