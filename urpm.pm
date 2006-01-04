@@ -1214,21 +1214,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    unless ($medium->{virtual}) {
 		if ($medium->{with_hdlist}) {
 		    if (!$options{nomd5sum} && -s reduce_pathname("$with_hdlist_dir/../MD5SUM") > 32) {
-			if ($options{force}) {
-			    #- force downloading the file again, else why a force option has been defined ?
-			    delete $medium->{md5sum};
-			} else {
-			    unless ($medium->{md5sum}) {
-				$urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
-				if ($medium->{synthesis}) {
-				    -e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
-				      $medium->{md5sum} = md5sum("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-				} else {
-				    -e "$urpm->{statedir}/$medium->{hdlist}" and
-				      $medium->{md5sum} = md5sum("$urpm->{statedir}/$medium->{hdlist}");
-				}
-			    }
-			}
+			recompute_local_md5sum($urpm, $medium, $options{force});
 			if ($medium->{md5sum}) {
 			    $retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
 			    #- If an existing hdlist or synthesis file has the same md5sum, we assume
@@ -1488,21 +1474,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    }
 		};
 		if (!$@ && -e "$urpm->{cachedir}/partial/MD5SUM" && -s _ > 32) {
-		    if ($options{force} >= 2) {
-			#- force downloading the file again, else why a force option has been defined ?
-			delete $medium->{md5sum};
-		    } else {
-			unless ($medium->{md5sum}) {
-			    $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
-			    if ($medium->{synthesis}) {
-				-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
-				  $medium->{md5sum} = md5sum("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-			    } else {
-				-e "$urpm->{statedir}/$medium->{hdlist}" and
-				  $medium->{md5sum} = md5sum("$urpm->{statedir}/$medium->{hdlist}");
-			    }
-			}
-		    }
+		    recompute_local_md5sum($urpm, $medium, $options{force} >= 2);
 		    if ($medium->{md5sum}) {
 			$retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
 			#- if an existing hdlist or synthesis file has the same md5sum, we assume the
@@ -3404,6 +3376,25 @@ sub parse_md5sum {
     defined $retrieved_md5sum
 	or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
     return $retrieved_md5sum;
+}
+
+sub recompute_local_md5sum {
+    my ($urpm, $medium, $force) = @_;
+    if ($force) {
+	#- force downloading the file again, else why a force option has been defined ?
+	delete $medium->{md5sum};
+    } else {
+	unless ($medium->{md5sum}) {
+	    $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
+	    if ($medium->{synthesis}) {
+		-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
+		$medium->{md5sum} = md5sum("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    } else {
+		-e "$urpm->{statedir}/$medium->{hdlist}" and
+		$medium->{md5sum} = md5sum("$urpm->{statedir}/$medium->{hdlist}");
+	    }
+	}
+    }
 }
 
 sub syserror { my ($urpm, $msg, $info) = @_; $urpm->{error}("$msg [$info] [$!]") }
