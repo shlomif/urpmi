@@ -1348,13 +1348,17 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 		} else {
-		    File::Find::find(
-			{
-			    wanted => sub { -f $_ && /\.rpm$/ and push @files, "$File::Find::dir/$_" },
-			    follow => 1,
-			},
-			$dir,
-		    );
+		    {
+			my %f;
+			File::Find::find(
+			    {
+				wanted => sub { -f $_ && /\.rpm$/ and $f{"$File::Find::dir/$_"} = 1 },
+				follow_fast => 1,
+			    },
+			    $dir,
+			);
+			push @files, keys %f;
+		    }
 
 		    #- check files contains something good!
 		    if (@files > 0) {
