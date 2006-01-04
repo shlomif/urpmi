@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.5
+%define version	4.8.6
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -248,6 +248,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Wed Jan 04 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.6-1mdk
+- rurpmi now doesn't install packages with unmatching signatures
+- Fix MD5SUM bug
+- Count correctly transactions even when some of them failed
+- Don't update media twice when restarting urpmi
+
 * Fri Dec 23 2005 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.5-1mdk
 - New urpmi option, --auto-update
 - New urpme option, --noscripts
