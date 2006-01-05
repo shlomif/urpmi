@@ -16,13 +16,23 @@ You can compare rpm vs. urpmi with insmod vs. modprobe or dpkg vs apt-get.
 Just launch urpmi followed by what you think is the name of the
 package(s), and urpmi will:
 
-- Propose different package names if the name was ambiguous, and quit.
+=over 4
 
-- If only one corresponding package is found, check whether its
+=item *
+
+Propose different package names if the name was ambiguous, and quit.
+
+=item *
+
+If only one corresponding package is found, check whether its
 dependencies are already installed.
 
-- If not, propose to install the dependencies, and on a positive answer,
+=item *
+
+If not, propose to install the dependencies, and on a positive answer,
 proceed.
+
+=back
 
 Note that urpmi handles installations from various types of media (ftp,
 http, rsync, local and nfs volumes, and removable media such as CDROMs)
@@ -125,14 +135,14 @@ the name partially, even if one of them matches exactly the specified name
 
 =item B<--src> I<name>
 
-Search a source package matching I<name> and
-select all its dependencies by default, unless B<--install-src> is used in order
-to install the source package itself.
+Search a source package matching I<name> and select all its dependencies
+by default, unless B<--install-src> is used in order to install the source
+package itself.
 
 =item B<--install-src>
 
-Install only the source
-package (no binary packages will be installed).
+Install only the source package (no binary packages will be installed).
+You don't need to be root to use this option.
 
 =item B<--clean>
 
