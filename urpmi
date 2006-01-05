@@ -191,7 +191,7 @@ while (defined($_ = shift @ARGV)) {
 
 #- use install_src to promote all names as src package.
 if ($install_src) {
-    @files and $urpm->{fatal}(1, N("What can be done with binary rpm files when using --install-src"));
+    @files and $urpm->{fatal}(1, N("You can't install binary rpm files when using --install-src"));
     push @src_names, @names;
     @names = ();
     #- allow to use --install-src as a non-root user
