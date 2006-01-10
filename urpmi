@@ -486,6 +486,9 @@ have to be removed for others to be upgraded:\n%s\n", $list));
     }
 
     my $msg = N("The following packages have to be removed for others to be upgraded:\n%s", $list);
+    if ($test) {
+	$msg = "$msg\n" . N("(test only, removal will not be actually done)");
+    }
     if ($urpm->{options}{auto}) {
 	message($msg);
     } else {
@@ -534,6 +537,9 @@ if (@root_only) {
     my $msg = $#to_install
       ? N("To satisfy dependencies, the following packages are going to be installed")
       : N("To satisfy dependencies, the following package is going to be installed");
+    if ($test) {
+	$msg = "$msg\n" . N("(test only, installation will not be actually done)");
+    }
     my $msg2 = N("Proceed with the installation of the %d packages? (%d MB)", $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
     my $noexpr = N("Nn");
