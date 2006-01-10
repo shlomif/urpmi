@@ -71,7 +71,7 @@ delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 $ENV{HOME} ||= "/root";
 $ENV{USER} ||= "root";
 
-sub usage {
+sub usage () {
     print N("urpmi version %s
 Copyright (C) 1999-2005 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
@@ -149,7 +149,6 @@ usage:
 
 # Parse command line
 my $command_line = join " ", @ARGV;
-@ARGV or usage;
 my @ARGVcopy; # keep a copy, in case we have to restart
 
 # Expand *.urpmi arguments
@@ -170,6 +169,9 @@ if (grep { $_ eq '--restricted' } @ARGV) {
 
 # Parse command line options
 urpm::args::parse_cmdline(urpm => $urpm);
+
+# Verify that arguments were given
+@ARGV || $auto_select or usage;
 
 # Process the rest of the arguments
 while (defined($_ = shift @ARGV)) {
