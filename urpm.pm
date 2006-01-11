@@ -3277,11 +3277,12 @@ sub check_sources_signatures {
 			and $medium = $_, last;
 		}
 	    }
+	    #- no medium found for this rpm ?
+	    next if !$medium;
 	    #- check whether verify-rpm is specifically disabled for this medium
-	    $medium && defined $medium->{'verify-rpm'} && !$medium->{'verify-rpm'}
-		and next;
+	    next if defined $medium->{'verify-rpm'} && !$medium->{'verify-rpm'};
 
-	    my $key_ids = $medium && $medium->{'key-ids'} || $urpm->{options}{'key-ids'};
+	    my $key_ids = $medium->{'key-ids'} || $urpm->{options}{'key-ids'};
 	    #- check that the key ids of the medium match the key ids of the package.
 	    if ($key_ids) {
 		my $valid_ids = 0;
