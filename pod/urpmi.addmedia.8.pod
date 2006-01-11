@@ -105,7 +105,7 @@ Use specified HTTP proxy.
 =item B<--proxy-user> I<user:password>
 
 Use specified user and password to use for proxy authentication.
-Specifying B<--proxy-user=ask> will cause urpmi.addmedia to prompt for a
+Specifying B<--proxy-user=ask> will cause B<urpmi.addmedia> to prompt for a
 username and a password.
 
 =item B<--update>
@@ -124,6 +124,12 @@ Try to find and use hdlist file if B<with ...> is not given.
 =item B<--no-probe>
 
 Do not try to find any synthesis or hdlist file.
+
+So, if you use a network media (http, ftp, etc.), specifying the location
+of a synthesis or hdlist with B<with...> is mandatory.
+
+On the other hand, if you use a local media B<urpmi.addmedia> will extract
+all RPM headers and construct an hdlist by itself.
 
 =item B<--distrib>
 
