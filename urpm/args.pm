@@ -123,7 +123,7 @@ my %options_spec = (
 	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1] },
 	'test!' => \$::test,
 	'skip=s' => \$options{skip},
-	'root=s' => sub { require File::Spec; $::root = File::Spec->rel2abs($_[1]) },
+	'root=s' => sub { require File::Spec; $::root = File::Spec->rel2abs($_[1]); $::nolock = 1 },
 	'use-distrib=s' => \$::usedistrib,
 	'excludepath|exclude-path=s' => sub { $urpm->{options}{excludepath} = $_[1] },
 	'excludedocs|exclude-docs' => sub { $urpm->{options}{excludedocs} = 1 },
@@ -218,7 +218,7 @@ my %options_spec = (
 	sources => \$options{sources},
 	force => \$options{force},
 	'skip=s' => \$options{skip},
-	'root=s' => sub { require File::Spec; $options{root} = File::Spec->rel2abs($_[1]) },
+	'root=s' => sub { require File::Spec; $options{root} = File::Spec->rel2abs($_[1]); $options{nolock} = 1 },
 	'use-distrib=s' => sub {
 	    if ($< != 0) {
 		print STDERR N("You need to be root to use --use-distrib"), "\n";
