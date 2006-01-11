@@ -205,7 +205,7 @@ if ($restricted) {
     #- force some options
     foreach (qw(keep verify-rpm norebuild)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
-    urpm::error_restricted($urpm) if $root || $usedistrib || $force || $env || $parallel || $synthesis || $nolock || $auto_update;
+    urpm::error_restricted($urpm) if $root || $usedistrib || $force || $env || $parallel || $synthesis || $auto_update;
     foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options)) {
 	urpm::error_restricted($urpm) if $urpm->{options}{$_};
     }
