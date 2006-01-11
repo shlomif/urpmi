@@ -84,16 +84,16 @@ of the urpmi database for searching packages and resolving dependencies.
 
 Install all required dependencies without asking.
 
+=item B<--auto-select>
+
+Select all packages that can be upgraded, according to already installed
+packages and packages listed in various registered media.
+
 =item B<--auto-update>
 
 Like B<--auto-select>, but also updates all relevant media before
-selection of upgradeable packages is made.
-
-=item B<--auto-select>
-
-Automatically select all packages that have to be upgraded, according to
-already installed packages and packages listed in various registered
-media.
+selection of upgradeable packages is made. This avoids a previous call to
+C<urpmi.update>.
 
 =item B<--no-install>
 
@@ -192,13 +192,13 @@ with the B<--root> option.
 
 =item B<--wget>
 
-Use wget for downloading distant files. By default curl
-is used if available, or wget instead.
+Use wget for downloading distant files. By default curl is used if
+available, or wget instead.
 
 =item B<--curl>
 
-Use curl for downloading distant
-files. By default curl is used if available, or wget instead.
+Use curl for downloading distant files. By default curl is used if
+available, or wget instead.
 
 =item B<--curl-options> I<'options'>
 
@@ -255,26 +255,26 @@ by default.
 =item B<--test>
 
 Test the installation of packages but do not actually install anything or
-modify the system. (That's the same as B<rpm --test>).
+modify the system. (That's the same as C<rpm --test>).
 
 =item B<--excludepath> I<string>
 
 Do not install files of which the
-names begin with the given I<string> (same as B<rpm --excludepath>).
+names begin with the given I<string> (same as C<rpm --excludepath>).
 
 =item B<--excludedocs>
 
-Do not install documents files (same as B<rpm --excludedocs>).
+Do not install documents files (same as C<rpm --excludedocs>).
 
 =item B<--ignoresize>
 
 Don't check file systems for sufficient disk space before installation.
-This is equivalent to B<rpm --ignoresize>.
+This is equivalent to C<rpm --ignoresize>.
 
 =item B<--noscripts>
 
 Don't execute the scriptlets.
-This is equivalent to B<rpm --noscripts>.
+This is equivalent to C<rpm --noscripts>.
 
 =item B<--skip> I<pattern,...>
 
@@ -303,12 +303,11 @@ If multiple packages match the given substring, install them all.
 
 =item B<-p>
 
-Allow search in provides to find package (default).
+Allow search in provides to find the package (this is the default).
 
 =item B<-P>
 
-Do not search in provides to find package (this
-is the opposite of B<-p>).
+Do not search in provides to find package (this is the opposite of B<-p>).
 
 =item B<-y>
 
