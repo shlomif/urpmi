@@ -2556,23 +2556,16 @@ sub is_delta_installable {
     $v_match eq $v_installed;
 }
 
-#- download package that may need to be downloaded.
-#- make sure header are available in the appropriate directory.
-#- change location to find the right package in the local
-#- filesystem for only one transaction.
-#- try to mount/eject removable media here.
-#- return a list of package ready for rpm.
+#- Obsolescent method.
 sub download_source_packages {
     my ($urpm, $local_sources, $list, %options) = @_;
     my %sources = %$local_sources;
     my %error_sources;
 
-    #print STDERR "calling obsoleted method urpm::download_source_packages\n";
-
-    $urpm->exlock_urpmi_db;
+    $urpm->exlock_urpmi_db unless $options{nolock};
     $urpm->copy_packages_of_removable_media($list, \%sources, %options) or return;
     $urpm->download_packages_of_distant_media($list, \%sources, \%error_sources, %options);
-    $urpm->unlock_urpmi_db;
+    $urpm->unlock_urpmi_db unless $options{nolock};
 
     %sources, %error_sources;
 }
