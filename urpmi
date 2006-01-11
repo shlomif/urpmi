@@ -78,13 +78,13 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
 ", $urpm::VERSION) . N("  --help         - print this help message.
-") . N("  --update       - use only update media.
 ") . N("  --media        - use only the given media, separated by comma.
-") . N("  --searchmedia  - use only the given media to search requested (or updated) packages.
 ") . N("  --excludemedia - do not use the given media, separated by comma.
+") . N("  --update       - use only update media.
+") . N("  --searchmedia  - use only the given media to search requested packages.
 ") . N("  --sortmedia    - sort media according to substrings separated by comma.
 ") . N("  --synthesis    - use the given synthesis instead of urpmi db.
-") . N("  --auto         - automatically select a package in choices.
+") . N("  --auto         - non-interactive mode, assume default answers to questions.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
 ") . N("  --no-uninstall - never ask to uninstall a package, abort the installation.
 ") . N("  --no-install   - don't install packages (only download)
@@ -94,8 +94,8 @@ usage:
                    are going to be installed or upgraded,
                    default is %d.
 ", $split_level) . N("  --split-length - small transaction length, default is %d.
-", $split_length) . N("  --fuzzy        - impose fuzzy search (same as -y).
-") . N("  --src          - next package is a source package (same as -s).
+", $split_length) . N("  --fuzzy, -y    - impose fuzzy search.
+") . N("  --src, -s      - next package is a source package.
 ") . N("  --install-src  - install only source package (no binaries).
 ") . N("  --clean        - remove rpm from cache before anything else.
 ") . N("  --noclean      - don't clean rpms from cache.
@@ -124,8 +124,8 @@ usage:
                    next arg.
 ") . N("  --env          - use specific environment (typically a bug report).
 ") . N("  --verify-rpm   - verify rpm signature before installation
-                   (--no-verify-rpm disable it, default is enabled).
-") . N("  --test         - verify if the installation can be achieved correctly.
+                   (--no-verify-rpm disables it, default is enabled).
+") . N("  --test         - only verify if the installation can be achieved correctly.
 ") . N("  --excludepath  - exclude path separated by comma.
 ") . N("  --excludedocs  - exclude doc files.
 ") . N("  --ignoresize   - don't verify disk space before installation.
@@ -139,8 +139,6 @@ usage:
 ") . N("  -a             - select all matches on command line.
 ") . N("  -p             - allow search in provides to find package.
 ") . N("  -P             - do not search in provides to find package.
-") . N("  -y             - impose fuzzy search (same as --fuzzy).
-") . N("  -s             - next package is a source package (same as --src).
 ") . N("  -q             - quiet mode.
 ") . N("  -v             - verbose mode.
 ") . "\n" . N("  names or rpm files given on command line will be installed.
