@@ -8,9 +8,9 @@ urpmi.removemedia - remove a rpm media from the known media of urpmi
 
 =head1 DESCRIPTION
 
-urpmi.removemedia removes from all configuration files all references to
-the named media and to rpms from that media. <I<names>> is a list of names
-you first told to urpmi.addmedia.
+B<urpmi.removemedia> removes from all configuration files all references
+to the named media and to rpms from that media. <I<names>> is a list of
+names you first told to B<urpmi.addmedia>.
 
 =head1 OPTIONS
 
@@ -23,6 +23,18 @@ Select and remove all media.
 =item B<-c>
 
 Clean header cache directory (F</var/cache/urpmi/headers>).
+
+=item B<-y>
+
+Fuzzy match on media names, so you can remove several media at once.
+
+=item B<-v>
+
+Be verbose (the default).
+
+=item B<-q>
+
+Be quiet.
 
 =back
 
