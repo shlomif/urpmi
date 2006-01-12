@@ -3258,9 +3258,11 @@ sub translate_why_removed {
 sub check_sources_signatures {
     my ($urpm, $sources_install, $sources, %options) = @_;
     my ($medium, %invalid_sources);
+    my $s = $sources_install;
 
-    foreach my $id (sort { $a <=> $b } keys %$sources_install, keys %$sources) {
-	my $filepath = $sources_install->{$id} || $sources->{$id};
+    foreach my $id (keys %$sources_install, -1, keys %$sources) {
+	if ($id == -1) { $s = $sources; next }
+	my $filepath = $s->{$id};
 	my $verif = URPM::verify_rpm($filepath);
 
 	if ($verif =~ /NOT OK/) {
