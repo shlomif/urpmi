@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.6
+%define version	4.8.7
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -249,6 +249,14 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Fri Jan 13 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.7-1mdk
+- Allow to install SRPMs as a non-root user (Pascal Terjan)
+- Better diagnostics in a few cases
+- Doc improvements; document --nolock option
+- Don't lock when installing into a chroot
+- Code cleanup in download routines
+- Fix BuildRequires
+
 * Wed Jan 04 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.6-1mdk
 - rurpmi now doesn't install packages with unmatching signatures
 - Fix MD5SUM bug
