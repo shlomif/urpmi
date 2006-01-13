@@ -35,8 +35,9 @@ BuildRequires:	bzip2-devel
 BuildRequires:	gettext
 BuildRequires:	perl-File-Slurp
 BuildRequires:	perl-ldap
-BuildRequires:	perl-URPM
+BuildRequires:	perl-URPM >= 1.22
 BuildRequires:	perl-MDV-Packdrakeng
+BuildRequires:	perl-Locale-gettext >= 1.01-14mdk
 BuildRoot:	%{_tmppath}/%{name}-buildroot
 BuildArch:	noarch
 Conflicts:	man-pages-fr < 1.58.0-8mdk
