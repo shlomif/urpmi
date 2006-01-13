@@ -331,7 +331,7 @@ if ($urpm::args::options{list_aliases}) {
 			};
 			$packer->extract($tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
-			%downloads = $urpm->download_source_packages({}, $list, force_local => 1, nolock => $urpm::args::options{nolock});
+			%downloads = $urpm->download_source_packages({}, $list, nolock => $urpm::args::options{nolock});
 		    }
 		}
 	    }

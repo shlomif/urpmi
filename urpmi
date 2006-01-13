@@ -561,7 +561,6 @@ my %error_sources;
 $urpm->copy_packages_of_removable_media(
     $list, \%sources,
     verbose => $verbose > 0,
-    force_local => 1,
     ask_for_medium => (!$urpm->{options}{auto} || $allow_medium_change) && sub {
 	my $msg = N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1]);
 	my $msg2 = N("Press Enter when ready...");
@@ -606,7 +605,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 	limit_rate => $urpm->{options}{'limit-rate'},
 	compress => $urpm->{options}{compress},
 	resume => $urpm->{options}{resume},
-	force_local => 1,
 	callback => sub {
 	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
 	    goto &urpm::download::sync_logger;

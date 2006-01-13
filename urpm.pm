@@ -2781,12 +2781,7 @@ sub download_packages_of_distant_media {
 		    $error_sources->{$i} = $2;
 		}
 	    } elsif ($url =~ m!^([^:]*):/(.*/([^/]*\.rpm))\Z!) {
-		if ($options{force_local}) {
-		    #- will download now
-		    $distant_sources{$i} = "$1:/$2";
-		} else {
-		    $sources->{$i} = "$1:/$2";
-		}
+		$distant_sources{$i} = "$1:/$2"; #- will download now
 	    } else {
 		$urpm->{error}(N("malformed URL: [%s]", $url));
 	    }
