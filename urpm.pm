@@ -2759,19 +2759,19 @@ sub copy_packages_of_removable_media {
     1;
 }
 
+# TODO verify that files are downloaded from the right corresponding media
 sub download_packages_of_distant_media {
     my ($urpm, $list, $sources, $error_sources, %options) = @_;
 
     #- get back all ftp and http accessible rpm files into the local cache
-    #- if necessary (as used by checksig or any other reasons).
-    foreach (0..$#$list) {
+    foreach my $n (0..$#$list) {
 	my %distant_sources;
 
-	#- ignore as well medium that contains nothing about the current set of files.
-	values %{$list->[$_]} or next;
+	#- ignore media that contain nothing for the current set of files
+	values %{$list->[$n]} or next;
 
 	#- examine all files to know what can be indexed on multiple media.
-	while (my ($i, $url) = each %{$list->[$_]}) {
+	while (my ($i, $url) = each %{$list->[$n]}) {
 	    #- the given URL is trusted, so the file can safely be ignored.
 	    defined $sources->{$i} and next;
 	    if ($url =~ m!^(removable[^:]*:/|file:/)?(/.*\.rpm)\Z!) {
@@ -2780,21 +2780,22 @@ sub download_packages_of_distant_media {
 		} else {
 		    $error_sources->{$i} = $2;
 		}
-	    } elsif ($url =~ m|^([^:]*):/(.*/([^/]*\.rpm))$|) {
-		if ($options{force_local} || $1 ne 'ftp' && $1 ne 'http') { #- only ftp and http protocol supported by grpmi.
+	    } elsif ($url =~ m!^([^:]*):/(.*/([^/]*\.rpm))\Z!) {
+		if ($options{force_local}) {
+		    #- will download now
 		    $distant_sources{$i} = "$1:/$2";
 		} else {
 		    $sources->{$i} = "$1:/$2";
 		}
 	    } else {
-		$urpm->{error}(N("malformed input: [%s]", $url));
+		$urpm->{error}(N("malformed URL: [%s]", $url));
 	    }
 	}
 
 	#- download files from the current medium.
 	if (%distant_sources) {
 	    eval {
-		$urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$_]{name}));
+		$urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
 		$urpm->{sync}(
 		    {
 			dir => "$urpm->{cachedir}/partial",
@@ -2803,8 +2804,8 @@ sub download_packages_of_distant_media {
 			resume => $options{resume},
 			compress => $options{compress},
 			callback => $options{callback},
-			proxy => get_proxy($urpm->{media}[$_]{name}),
-			media => $urpm->{media}[$_]{name},
+			proxy => get_proxy($urpm->{media}[$n]{name}),
+			media => $urpm->{media}[$n]{name},
 			retry => $urpm->{options}{retry},
 		    },
 		    values %distant_sources,
