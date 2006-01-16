@@ -296,8 +296,6 @@ my %options_spec = (
 	'no-probe' => sub { $options{probe_with} = undef },
 	distrib => sub { $options{distrib} = 1 },
 	'from=s' => \$options{mirrors_url},
-	'version=s' => \$options{version},
-	'arch=s' => \$options{arch},
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
 	'q|quiet'   => sub { --$options{verbose} },
