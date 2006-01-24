@@ -3,7 +3,7 @@
 # $Id$
 
 #- Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
-#- Copyright (C) 2005 Mandriva SA
+#- Copyright (C) 2005, 2006 Mandriva SA
 #-
 #- This program is free software; you can redistribute it and/or modify
 #- it under the terms of the GNU General Public License as published by
@@ -95,6 +95,16 @@ usage:
     exit(0);
 }
 
+sub escape_shell ($) {
+    my ($s) = @_;
+    if ($s =~ /\s|'|"/) {
+	$s =~ s/"/\\"/g;
+	$s = qq("$s");
+    } else {
+	return $s;
+    }
+}
+
 #- parse arguments list.
 @ARGV or usage;
 my $urpm = new urpm;
@@ -166,15 +176,14 @@ if ($urpm::args::options{list_aliases}) {
     }
     exit 0;
 } elsif ($urpm::args::options{dump_config}) {
-   foreach (@{$urpm->{media}}) {
+    foreach (@{$urpm->{media}}) {
 	$_->{update} and print "--update ";
 	$_->{virtual} and print "--virtual ";
-	print "$_->{name} ";
-	print "$_->{url} ";
-	print $_->{with_hdlist} ? "with $_->{with_hdlist}" : "";
+	print escape_shell($_->{name}), " ", escape_shell($_->{url}), " ";
+	$_->{with_hdlist} and print "with " . escape_shell($_->{with_hdlist});
 	print "\n";
-   }
-   exit 0;
+    }
+    exit 0;
 } elsif ($urpm::args::options{list}) {
     # --list lists all available packages: select them all
     @{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
