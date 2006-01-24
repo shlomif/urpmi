@@ -49,13 +49,13 @@ List available parallel aliases.
 =item B<--update>
 
 Use only update media. This means that urpmq will search and resolve
-dependencies only in media marked as containing updates.
+dependencies only in media marked as containing updates (e.g. which have
+been created with C<urpmi.addmedia --update>).
 
 =item B<--media> I<media1,...,mediaN>
 
-Select specific
-media to be used, instead of all available media (or update media if B<--update>
-is used).
+Select specific media to be used, instead of all available media (or
+all update media if B<--update> is used).
 
 =item B<--excludemedia> I<media1,...,mediaN>
 
@@ -186,8 +186,8 @@ Deselect packages if a better version is already installed.
 
 =item B<-a>
 
-Select all matches on command line, useful when using B<-f> or B<-r> with
-incomplete name given.
+Select all matches on command line; that's useful when one gives an
+incomplete pacakge name and when using B<-f> or B<-r>.
 
 =item B<-c>
 
@@ -236,11 +236,11 @@ Prints groups of each package listed.
 
 =item B<-r>
 
-Prints version and release of each package listed.
+Prints also version and release of each package listed.
 
 =item B<-f>
 
-Prints version, release and arch of each package listed.
+Prints also version, release and arch of each package listed.
 
 =back
 
