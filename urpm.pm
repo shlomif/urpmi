@@ -2081,10 +2081,10 @@ sub register_rpms {
     #- depslist and provides environment.
     $start = @{$urpm->{depslist}};
     foreach (@files) {
-	/\.rpm$/ or $error = 1, $urpm->{error}(N("invalid rpm file name [%s]", $_)), next;
+	/\.(?:rpm|spec)$/ or $error = 1, $urpm->{error}(N("invalid rpm file name [%s]", $_)), next;
 
 	#- allow url to be given.
-	if (my ($basename) = m|^[^:]*:/.*/([^/]*\.rpm)$|) {
+	if (my ($basename) = m{^[^:]*:/.*/([^/]*\.(?:rpm|spec))\z}) {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving rpm file [%s] ...", $_));
@@ -2108,10 +2108,18 @@ sub register_rpms {
 	    -r $_ or $error = 1, $urpm->{error}(N("unable to access rpm file [%s]", $_)), next;
 	}
 
-	($id, undef) = $urpm->parse_rpm($_);
-	my $pkg = defined $id && $urpm->{depslist}[$id];
-	$pkg or $urpm->{error}(N("unable to register rpm file")), next;
-	$urpm->{source}{$id} = $_;
+	if (/\.spec$/) {
+	    my $pkg = URPM::spec2srcheader($_)
+		or $error = 1, $urpm->{error}(N("unable to parse spec file %s [%s]", $_, $!)), next;
+	    $id = @{$urpm->{depslist}};
+	    $urpm->{depslist}[$id] = $pkg;
+	    $urpm->{source}{$id} = $_;
+	} else {
+	    ($id, undef) = $urpm->parse_rpm($_);
+	    my $pkg = defined $id && $urpm->{depslist}[$id];
+	    $pkg or $error = 1, $urpm->{error}(N("unable to register rpm file")), next;
+	    $urpm->{source}{$id} = $_;
+	}
     }
     $error and $urpm->{fatal}(2, N("error registering local packages"));
     defined $id && $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);

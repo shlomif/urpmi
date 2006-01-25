@@ -174,8 +174,8 @@ urpm::args::parse_cmdline(urpm => $urpm);
 
 # Process the rest of the arguments
 while (defined($_ = shift @ARGV)) {
-    if (/\.rpm$/) {
-	if (/\.src\.rpm$/) {
+    if (/\.(?:rpm|spec)$/) {
+	if (/\.(?:src\.rpm|spec)$/) {
 	    push @src_files, $_;
 	} else {
 	    push @files, untaint($_);
