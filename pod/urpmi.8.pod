@@ -8,13 +8,15 @@ urpmi - rpm downloader, installer and dependency solver
 
 =head1 DESCRIPTION
 
-The purpose of urpmi is to install rpms (or rpm files), including all
-their dependencies. You can also use it to install the build dependencies
-of a source package (or of an rpm spec file), or a source package itself.
+The purpose of urpmi is to install rpm packages, including all their
+dependencies. You can also use it to install the build dependencies of an
+srpm (an rpm source package), or the build dependencies read from a plain
+rpm spec file; or to install a source package itself in order to rebuild
+it afterwards.
 
 You can compare rpm vs. urpmi with insmod vs. modprobe or dpkg vs apt-get.
-Just launch urpmi followed by what you think is the name of the
-package(s), and urpmi will:
+Just run urpmi followed by what you think is the name of the package(s),
+and urpmi will:
 
 =over 4
 
@@ -32,16 +34,21 @@ dependencies are already installed.
 If not, propose to install the dependencies, and on a positive answer,
 proceed.
 
+=item *
+
+Finish by installing the requested package(s).
+
 =back
 
 Note that urpmi handles installations from various types of media (ftp,
-http, rsync, local and nfs volumes, and removable media such as CDROMs)
-and is able to install dependencies from a medium different from the
+http, rsync, local and nfs volumes, and removable media such as CDROMs or
+DVDs) and is able to install dependencies from a medium different from the
 original package's media. For removable media, urpmi may ask you to insert
-the appropriate disk, if necessary. To add a new medium containing rpms,
-run C<urpmi.addmedia>. To remove an existing medium, use
-C<urpmi.removemedia>. To update the package list (for example when the ftp
-archive changes) use C<urpmi.update>.
+the appropriate disk, if necessary.
+
+To add a new medium containing rpms, run C<urpmi.addmedia>. To remove an
+existing medium, use C<urpmi.removemedia>. To update the package list (for
+example when the ftp archive changes) use C<urpmi.update>.
 
 =head1 OPTIONS
 
@@ -49,12 +56,12 @@ archive changes) use C<urpmi.update>.
 
 =item B<--help>
 
-Print a help message and exit (this is the same as B<-h> or B<-?>).
+Prints a help message and exit (this is the same as B<-h> or B<-?>).
 
 =item B<--update>
 
-Use only update media. This means that urpmi will search
-packages and resolve dependencies only in media marked as containing updates.
+Use only update media. This means that urpmi will search packages and
+resolve dependencies only in media marked as containing updates.
 
 =item B<--media> I<media1,...,mediaN>
 
@@ -72,8 +79,7 @@ B<--auto-select>.
 
 =item B<--sortmedia> I<media1,...,mediaN>
 
-Sort the specified media. Substrings may be used
-to simplify grouping.
+Sort the specified media. Substrings may be used to simplify grouping.
 
 =item B<--synthesis> I<file>
 
@@ -97,8 +103,8 @@ C<urpmi.update>.
 
 =item B<--no-install>
 
-Only download packages, don't install them. You'll find them in
-F</var/cache/urpmi/rpms>.
+Only download packages, don't install them. After operation, you'll find
+them in F</var/cache/urpmi/rpms>.
 
 =item B<--no-uninstall>
 
@@ -107,20 +113,18 @@ This can be safer in auto mode.
 
 =item B<--keep>
 
-When some dependencies cannot be satisfied,
-change the selection of packages to try to keep existing packages instead
-of removing them. This behaviour generally rejects the upgrade of packages
-given on command line (or when using B<--auto-select>) when a dependency error
-occurs.
+When some dependencies cannot be satisfied, change the selection of
+packages to try to keep existing packages instead of removing them. This
+behaviour generally rejects the upgrade of packages given on command line
+(or when using B<--auto-select>) when a dependency error occurs.
 
-=item B<--split-level I<number>>
+=item B<--split-level> I<number>
 
-Split urpmi's operation in small transactions when
-the total number of packages to upgrade is greater than the given I<number>.
-This option is activated by default, and the default value of I<number> is
-20.
+Split urpmi's operation in small transactions when the total number of
+packages to upgrade is greater than the given I<number>. This option is
+activated by default, and the default value of I<number> is 20.
 
-=item B<--split-length I<count>>
+=item B<--split-length> I<count>
 
 Split urpmi's operation in small transactions of at
 least I<count> packages. The default is 1 and setting this value to 0 just
@@ -176,7 +180,7 @@ this case.
 Activate distributed execution of urpmi to other machines (it is mandatory
 that urpmi is installed, but it is not necessary to have media defined on
 any machines). I<alias> defines which extension module is to be used by
-urpmi (currently, urpmi-parallel-ka-run or urpmi-parallel-ssh are
+urpmi (currently, C<urpmi-parallel-ka-run> or C<urpmi-parallel-ssh> are
 available) and which machines should be updated. This alias is defined in
 the file F</etc/urpmi/parallel.cfg> as described below.
 
@@ -212,9 +216,9 @@ Specify additional command-line options to be passed to curl, rsync or
 wget when retrieving files. If several options are to be passed, separate
 them with spaces and enclose them in quotes.
 
-=item B<--limit-rate I<rate>>
+=item B<--limit-rate> I<rate>
 
-Try to limit the download speed, I<rate> is given in bytes/sec. This
+Try to limit the download speed. I<rate> is given in bytes/sec. This
 option is not active by default.
 
 =item B<--resume>
@@ -437,15 +441,8 @@ with an older version.
 
 =head1 AUTHOR
 
-Pascal Rigaux (original author), Francois Pons,
+Pascal Rigaux (original author), FranE<ccedil>ois Pons,
 Rafael Garcia-Suarez, <rgarciasuarez@mandriva.com> (current maintainer)
-
-=head1 CONTRIBUTORS
-
-Please mail to authors if you are not belonging to this alphabetically
-sorted list after having contributed. Andrej Borsenkow, Guillaume
-Cottenceau, Philippe Libat, Bryan Paxton, Guillaume Rousse, Michael
-Scherer, Alexander Skwar, Olivier Thauvin, Erwan Velu, Florent Villard.
 
 =head1 SEE ALSO
 
