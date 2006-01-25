@@ -2116,6 +2116,7 @@ sub register_rpms {
 	    #- It happens that URPM sets an internal id to the depslist id.
 	    #- We need to set it by hand here.
 	    $pkg->set_id($id);
+	    $urpm->{source}{$id} = $_;
 	} else {
 	    ($id, undef) = $urpm->parse_rpm($_);
 	    my $pkg = defined $id && $urpm->{depslist}[$id];
