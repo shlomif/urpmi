@@ -112,7 +112,7 @@ WriteMakefile(
     PREREQ_PM		=> {
 	'Locale::gettext'	=> '1.01',
 	'MDV::Packdrakeng'	=> '1.01',
-	'URPM'			=> '1.29',
+	'URPM'			=> '1.32',
     },
     VERSION_FROM	=> 'urpm.pm',
     macro		=> {
