@@ -9,8 +9,8 @@ urpmi - rpm downloader, installer and dependency solver
 =head1 DESCRIPTION
 
 The purpose of urpmi is to install rpms (or rpm files), including all
-their dependencies. You can also use it to install the dependencies of a
-source package, or a source package itself.
+their dependencies. You can also use it to install the build dependencies
+of a source package (or of an rpm spec file), or a source package itself.
 
 You can compare rpm vs. urpmi with insmod vs. modprobe or dpkg vs apt-get.
 Just launch urpmi followed by what you think is the name of the
@@ -128,21 +128,23 @@ disables splitting in small transactions.
 
 =item B<--fuzzy>
 
-Disable fast search on exact
-package name; that means that urpmi will propose all packages matching
-the name partially, even if one of them matches exactly the specified name
-(this is the same as B<-y>).
+Disable fast search on exact package name; that means that urpmi will
+propose all packages matching part of the name, even if one of them
+matches exactly the specified name (this is the same as B<-y>).
 
 =item B<--src> I<name>
 
 Search a source package matching I<name> and select all its dependencies
-by default, unless B<--install-src> is used in order to install the source
-package itself.
+(that is, its C<BuildRequires>) by default, unless the B<--install-src>
+switch is used in order to install the source package itself. (You can
+also install the build dependencies read directly from an rpm spec
+file.)
 
 =item B<--install-src>
 
-Install only the source package (no binary packages will be installed).
-You don't need to be root to use this option.
+Install only the source package (that is, no binary packages will be
+installed). You don't need to be root to use this option (if you have
+write access to your rpm build top directory).
 
 =item B<--clean>
 
@@ -318,7 +320,7 @@ Do not search in provides to find package (this is the opposite of B<-p>).
 
 This is the same as B<--fuzzy>.
 
-=item B<-s>
+=item B<-s> I<name>
 
 This is the same as B<--src>.
 
