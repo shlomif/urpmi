@@ -269,6 +269,10 @@ sub sync_curl {
     -x "/usr/bin/curl" or die N("curl is missing\n");
     my $options = shift @_;
     $options = { dir => $options } if !ref $options;
+    if (defined $options->{limit_rate} && $options->{limit_rate} =~ /\d$/) {
+	#- use bytes by default
+	$options->{limit_rate} .= 'B';
+    }
     #- force download to be done in cachedir to avoid polluting cwd,
     #- however for curl, this is mandatory.
     my $cwd = getcwd();
