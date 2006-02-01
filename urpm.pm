@@ -1438,10 +1438,16 @@ this could happen if you mounted manually the directory when creating the medium
 		media => $medium->{name},
 	    };
 	    eval { $urpm->{sync}($syncopts, reduce_pathname("$medium->{url}/media_info/descriptions")) };
-	    -e "$urpm->{cachedir}/partial/descriptions" or eval {
-		#- try older location
-		$urpm->{sync}($syncopts, reduce_pathname("$medium->{url}/../descriptions"));
-	    };
+	    #- It is possible that the original fetch of the descriptions
+	    #- failed, but the file still remains in partial/ because it was
+	    #- moved from $urpm->{statedir} earlier. So we need to check if
+	    #- the previous download failed.
+	    if ($@ || (! -e "$urpm->{cachedir}/partial/descriptions")) {
+		eval {
+		    #- try older location
+		    $urpm->{sync}($syncopts, reduce_pathname("$medium->{url}/../descriptions"));
+		};
+	    }
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
 		urpm::util::move("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
 	    }
