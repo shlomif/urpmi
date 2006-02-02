@@ -1,5 +1,5 @@
 # bash completion for urpmi and friends
-# Copyright (c) 2002-2004 Guillaume Rousse <guillomovitch@mandriva.com>
+# Copyright (c) 2002-2006 Guillaume Rousse <guillomovitch@mandriva.com>
 # $Id$
 
 # utility functions
@@ -159,7 +159,7 @@ _urpme()
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
 		COMPREPLY=( $( compgen -W '-v -a -h --help --auto --test \
-			--parallel' -- $cur ) )
+			--parallel --noscripts' -- $cur ) )
 	else
 		# return list of available packages
 		_rpm_installed_packages
