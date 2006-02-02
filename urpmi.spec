@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.8
+%define version	4.8.9
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -249,6 +249,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{compat_perl_vendorlib}/urpm/ldap.pm
 
 %changelog
+* Thu Feb 02 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.9-1mdk
+- Fix call of --limit-rate option with recent curls
+- Fix some explanations on biarch environments
+- Fix error recovery on download of description files (Shlomi Fish)
+- Docs and translation updates
+
 * Wed Jan 25 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.8-1mdk
 - urpmi can now install specfile dependencies
 - Escape media names in urpmq --dump-config (Michael Scherer)
