@@ -8,11 +8,10 @@ urpme - rpm deinstaller
 
 =head1 DESCRIPTION
 
-urpme allow packages to be deinstalled,
-including all their dependencies. I<package_names> must have one of the forms
-I<name>, I<name-version>, I<name-version-release>, or
-I<name-version-release.architecture>. If you want to specify packages more
-broadly, use the B<-a> option.
+urpme allows packages to be deinstalled, including all their dependencies.
+I<package_names> must have one of the forms I<name>, I<name-version>,
+I<name-version-release>, or I<name-version-release.architecture>. If you
+want to specify packages more broadly, use the B<-a> option.
 
 =head1 OPTIONS
 
@@ -44,8 +43,9 @@ Force invocation even if some packages do not exist.
 
 =item B<--noscripts>
 
-Don't execute the scriptlets.
-This is equivalent to B<rpm --noscripts>.
+Don't execute the scriptlets. This is equivalent to B<rpm --noscripts>.
+This can be useful to remove packages where uninstall scriptlets fail for
+some reason.
 
 =item B<--parallel> I<alias>
 
