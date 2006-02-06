@@ -70,7 +70,7 @@ my %options_spec = (
 	'auto-select' => \$::auto_select,
 	'auto-update' => sub { $::auto_update = $::auto_select = 1 },
 	'no-remove|no-uninstall' => \$::no_remove,
-	'no-install' => \$::no_install,
+	'no-install|noinstall' => \$::no_install,
 	keep => sub { $urpm->{options}{keep} = 1 },
 	'split-level=s' => sub { $urpm->{options}{'split-level'} = $_[1] },
 	'split-length=s' => sub { $urpm->{options}{'split-length'} = $_[1] },
