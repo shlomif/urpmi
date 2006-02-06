@@ -3,7 +3,7 @@
 # $Id$
 
 #- Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
-#- Copyright (C) 2005 Mandriva SA
+#- Copyright (C) 2005, 2006 Mandriva SA
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,6 @@ $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
 our ($root, $test, $parallel, $auto, $matches, $verbose, $maymatch, $usedistrib, $force, $noscripts, @l);
-my $askok = N("Is this OK?");
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
 # Translator: Add here the keys which might be pressed in the "Yes"-case.
@@ -117,7 +116,7 @@ if ($test && $auto) {
     }
     my $msg = N("To satisfy dependencies, the following %d packages will be removed (%d MB)", scalar(@toremove), toMb($sum));
     print STDOUT "$msg:\n$list\n";
-    message_input($askok . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
+    message_input(N("Remove %d packages?", scalar(@toremove)) . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
 }
 
 #- Warning : the following message is parsed in urpm::parallel_*
