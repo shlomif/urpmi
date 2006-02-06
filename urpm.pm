@@ -548,7 +548,7 @@ sub configure {
 	    }
 	    #- anything not selected should be added here, as it's after the selected ones.
 	    $urpm->{media} = [ @newmedia, @oldmedia ];
-	    #- clean remaining modified flags.
+	    #- forget remaining modified flags.
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	}
 	unless ($options{nodepslist}) {
@@ -1315,7 +1315,7 @@ this could happen if you mounted manually the directory when creating the medium
 			$medium->{ignore} = 1;
 		    } else {
 			$options{force} < 2 and $options{force} = 2;
-			#- clean error state now.
+			#- clear error state now.
 			$error = undef;
 		    }
 		}
@@ -1847,7 +1847,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    $medium->{ignore} = 1;
 		}
 	    } else {
-		#- make sure to rebuild base files and clean medium modified state.
+		#- make sure to rebuild base files and clear medium modified state.
 		$medium->{modified} = 0;
 		$urpm->{modified} = 1;
 
@@ -2431,28 +2431,26 @@ sub get_source_packages {
     #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
     my $dh = $urpm->opendir_safe("$urpm->{cachedir}/rpms");
     if ($dh) {
-	while (defined($_ = readdir $dh)) {
-	    if (/\.rpm$/) {
-		my $filename = $_;
-		my $filepath = "$urpm->{cachedir}/rpms/$filename";
-		if (!$options{clean_all} && -s $filepath) {
-		    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
-			next;
-		    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
-			my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-			if (defined($id = delete $fullname2id{$fullname})) {
-			    $local_sources{$id} = $filepath;
-			} else {
-			    $options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
-			}
+	while (defined(my $filename = readdir $dh)) {
+	    my $filepath = "$urpm->{cachedir}/rpms/$filename";
+	    next if -d $filepath;
+	    if (!$options{clean_all} && -s _) {
+		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
+		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
+		    next;
+		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
+		    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
+		    if (defined($id = delete $fullname2id{$fullname})) {
+			$local_sources{$id} = $filepath;
 		    } else {
 			$options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
 		    }
 		} else {
-		    unlink $filepath; #- this file should be removed or is already empty.
+		    $options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
 		}
-	    } #- no error on unknown filename located in cache (because .listing) inherited from old urpmi
+	    } else {
+		unlink $filepath; #- this file should be removed or is already empty.
+	    }
 	}
 	closedir $dh;
     }
@@ -2825,9 +2823,9 @@ sub download_packages_of_distant_media {
 		$urpm->{log}(N("...retrieving done"));
 	    };
 	    $@ and $urpm->{error}(N("...retrieving failed: %s", $@));
-	    #- clean files that have not been downloaded, but keep mind there
-	    #- has been problem downloading them at least once, this is
-	    #- necessary to keep track of failing download in order to
+	    #- clean files that have not been downloaded, but keep in mind
+	    #- there have been problems downloading them at least once, this
+	    #- is necessary to keep track of failing downloads in order to
 	    #- present the error to the user.
 	    foreach my $i (keys %distant_sources) {
 		my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
