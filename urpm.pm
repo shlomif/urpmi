@@ -2154,7 +2154,6 @@ sub _findindeps {
 sub search_packages {
     my ($urpm, $packages, $names, %options) = @_;
     my (%exact, %exact_a, %exact_ra, %found, %foundi);
-	$urpm->{log}(N("Search"));
     foreach my $v (@$names) {
 	my $qv = quotemeta $v;
 	$qv = '(?i)' . $qv if $options{caseinsensitive};
@@ -3022,19 +3021,11 @@ sub install {
 	}
 	@l = $trans->run($urpm, %options);
 
-	#- in case of error or testing, do not try to check rpmdb
-	#- for packages being upgraded or not.
-	unless (@l || $options{test}) {
-	    #- examine the local repository to delete package which have been installed.
-	    if ($options{post_clean_cache}) {
-		foreach (keys %$install, keys %$upgrade) {
-		    my $pkg = $urpm->{depslist}[$_];
-		    $db->traverse_tag('name', [ $pkg->name ], sub {
-					  my ($p) = @_;
-					  $p->fullname eq $pkg->fullname or return;
-					  unlink "$urpm->{cachedir}/rpms/" . $pkg->filename;
-				      });
-		}
+	if (!$options{test} && $options{post_clean_cache}) {
+	    #- examine the local cahe to delete packages which were part of this transaction
+	    foreach (keys %$install, keys %$upgrade) {
+		my $pkg = $urpm->{depslist}[$_];
+		unlink "$urpm->{cachedir}/rpms/" . $pkg->filename;
 	    }
 	}
     }
