@@ -57,7 +57,7 @@ our $rpm_opt = "vh";
 our $use_provides = 1;
 our $verbose = 0;
 our $usedistrib = 0;
-our $log = '';
+our $logfile = '';
 our $restricted = 0;
 our $nolock = 0;
 
@@ -220,14 +220,14 @@ if ($bug) {
     #- copy all synthesis file used, along with configuration of urpmi
     system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, $urpm->{config}, $bug)
 	and die N("Copying failed");
-    #- allow log file.
-    $log = "$bug/urpmi.log";
+    #- log everything for bug report.
+    $logfile = "$bug/urpmi.log";
 }
 
 if ($env) {
     print STDERR N("using specific environment on %s\n", $env);
-    $log = "$env/urpmi_env.log";
-    unlink $log;
+    $logfile = "$env/urpmi_env.log";
+    unlink $logfile;
     #- setting new environment.
     $urpm->{config} = "$env/urpmi.cfg";
     $urpm->{skiplist} = "$env/skip.list";
@@ -238,8 +238,8 @@ if ($env) {
 	#- need to be root if binary rpms are to be installed
 	$auto_select || @names || @files and $urpm->{fatal}(1, N("Only superuser is allowed to install packages"));
     } else {
-	#- allow log if not defined.
-	$log ||= "/var/log/urpmi.log";
+	#- default log file
+	$logfile ||= "/var/log/urpmi.log";
     }
 }
 
@@ -252,14 +252,14 @@ Use --allow-force to force operation.", $urpm::sys::mountpoint));
 my ($pid_out, $pid_err);
 open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
 open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
-if ($log && !$INC{"Devel/Trace.pm"}) {
-    #- log only at this point in case of query usage.
+if ($logfile && !$INC{"Devel/Trace.pm"}) {
     log_it(scalar localtime, " urpmi called with $command_line\n");
 
+    #- fork twice to copy stdout and stderr to $logfile
     unless ($pid_out = open STDOUT, "|-") {
 	my $buf_r;
 	while (<STDIN>) {
-	    open my $fh, ">>$log"; select $fh; $| = 1;
+	    open my $fh, ">>$logfile"; select $fh; $| = 1;
 	    select SAVEOUT; $| = 1;
 	    $/ = \1;
 	    print SAVEOUT $_;
@@ -271,7 +271,7 @@ if ($log && !$INC{"Devel/Trace.pm"}) {
     unless ($pid_err = open STDERR, "|-") {
 	my $buf_r;
 	while (<STDIN>) {
-	    open my $fh, ">>$log"; select $fh; $| = 1;
+	    open my $fh, ">>$logfile"; select $fh; $| = 1;
 	    select SAVEERR; $| = 1;
 	    $/ = \1;
 	    print SAVEERR $_;

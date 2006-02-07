@@ -46,10 +46,11 @@ sub N {
 my $noexpr = N("Nn");
 my $yesexpr = N("Yy");
 
+#- writes only to logfile, not to screen
 sub log_it {
-    #- if invoked as a simple user, nothing should be logged.
-    if ($::log) {
-	open my $fh, ">>$::log" or die "can't output to log file: $!\n";
+    if ($::logfile) {
+	open my $fh, ">>$::logfile"
+	    or die "Can't output to log file [$::logfile]: $!\n";
 	print $fh @_;
 	close $fh;
     }
