@@ -7,7 +7,7 @@ use Exporter;
 (our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
 
 our @ISA = 'Exporter';
-our @EXPORT = qw(N bug_log to_utf8 message_input message toMb from_utf8 sys_log);
+our @EXPORT = qw(N bug_log to_utf8 message_input toMb from_utf8 sys_log);
 
 #- I18N.
 use Locale::gettext;
@@ -93,18 +93,9 @@ sub message_input {
 	} else {
 	    last;
 	}
-	message(N("Sorry, bad choice, try again\n"));
+	print N("Sorry, bad choice, try again\n");
     }
     return $input;
-}
-
-sub message {
-    my ($msg) = @_;
-    if ($urpm::args::options{bug} || !defined fileno ::SAVEOUT) {
-	print STDOUT "$msg\n";
-    } else {
-	print ::SAVEOUT "$msg\n";
-    }
 }
 
 sub toMb {
@@ -130,6 +121,6 @@ urpm::msg - routines to prompt messages from the urpm* tools
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
 
-Copyright (C) 2005 Mandriva SA
+Copyright (C) 2005, 2006 Mandriva SA
 
 =cut

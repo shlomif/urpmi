@@ -320,7 +320,7 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
 }
 if ($auto_update && !$bug && !$env) {
     #- For translators : there are several media here
-    message(N("Updating media..."));
+    print N("Updating media..."), "\n";
     #- FIXME we need to configure it twice; otherwise
     #- some settings are lost (like the skiplist) for
     #- some reason.
@@ -401,8 +401,9 @@ sub ask_choice {
     } @$choices;
 
     if (@l > 1 && !$urpm->{options}{auto}) {
-	message(N("One of the following packages is needed:"));
-	my $i = 0; foreach (@l) { message(" " . ++$i . "- $_") }
+	print N("One of the following packages is needed:"), "\n";
+	my $i = 0;
+	foreach (@l) { print " " . ++$i . "- $_\n" }
 	$n = message_input(N("What is your choice? (1-%d) ", $i), undef, range_min => 0, range => $i);
 	defined($n) && $n ne "0" or exit 1; # abort.
 	if ($n =~ /\D/) {
@@ -436,7 +437,7 @@ if (@unselected_uninstalled) {
     my $msg = N("The following packages can't be installed because they depend on packages
 that are older than the installed ones:\n%s", $list);
     if ($urpm->{options}{auto}) {
-	message($msg);
+	print "$msg\n";
     } else {
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
@@ -454,7 +455,7 @@ if (@ask_unselect) {
     my $list = join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect);
     my $msg = N("Some requested packages cannot be installed:\n%s", $list);
     if ($urpm->{options}{auto}) {
-	message($msg);
+	print "$msg\n";
     } else {
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
@@ -482,8 +483,8 @@ if (@ask_remove) {
     my $list = join "\n", $urpm->translate_why_removed($state, sort @ask_remove);
 
     if ($no_remove && !$force) {
-	message(N("The installation cannot continue because the following packages
-have to be removed for others to be upgraded:\n%s\n", $list));
+	print N("The installation cannot continue because the following packages
+have to be removed for others to be upgraded:\n%s\n", $list), "\n";
 	exit 0;
     }
 
@@ -492,7 +493,7 @@ have to be removed for others to be upgraded:\n%s\n", $list));
 	$msg = "$msg\n" . N("(test only, removal will not be actually done)");
     }
     if ($urpm->{options}{auto}) {
-	message($msg);
+	print "$msg\n";
     } else {
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
@@ -593,7 +594,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
 
     #- put a blank line to separate with previous transaction or user question.
-    message("");
+    print "\n";
 
     #- prepare transaction...
     $urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
@@ -624,7 +625,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    my $p = join "\n", @bad_signatures;
 	    #- rurpmi always abort here
 	    if ($urpm->{options}{auto} || $restricted) {
-		message("$msg:\n$p\n");
+		print "$msg:\n$p\n\n";
 		exit 1;
 	    } else {
 		my $noexpr = N("Nn");
@@ -637,8 +638,8 @@ foreach my $set (@{$state->{transaction} || []}) {
     #- check for local files.
     if (my @missing = grep { m|^/| && ! -e $_ } values %transaction_sources_install, values %transaction_sources) {
 	#- Warning : the following message is parsed in urpm::parallel_*
-	message(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
-		  join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } @missing));
+	print N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+	    join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } @missing), "\n";
 	++$nok;
 	next;
     }
@@ -648,7 +649,10 @@ foreach my $set (@{$state->{transaction} || []}) {
 	if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %transaction_sources) {
 	    system("rpm", "-i$rpm_opt", @l, ($root ? ("--root", $root) : @{[]}));
 	    #- Warning : the following message is parsed in urpm::parallel_*
-	    $? and message(N("Installation failed")), ++$nok;
+	    if ($?) {
+		print N("Installation failed"), "\n";
+		++$nok;
+	    }
 	}
 	next;
     }
@@ -665,7 +669,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 
     if (keys(%transaction_sources_install) || keys(%transaction_sources)) {
 	if ($parallel) {
-	    message(N("distributing %s", join(' ', values %transaction_sources_install, values %transaction_sources)));
+	    print N("distributing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), "\n";
 	    #- no remove are handle here, automatically done by each distant node.
 	    $urpm->{log}("starting distributed install");
 	    $urpm->parallel_install([ keys %{$state->{rejected} || {}} ], \%transaction_sources_install, \%transaction_sources,
@@ -676,12 +680,12 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    (my $common_prefix) = $packnames[0] =~ /^(.*)\//;
 	    if (length($common_prefix) && @packnames == grep { /^\Q$common_prefix\// } @packnames) {
 		#- there's a common prefix, simplify message
-		message(N("installing %s from %s", join(' ', map { s/.*\///; $_ } @packnames), $common_prefix));
+		print N("installing %s from %s", join(' ', map { s/.*\///; $_ } @packnames), $common_prefix), "\n";
 	    } else {
-		message(N("installing %s", join(' ', @packnames)));
+		print N("installing %s", "@packnames"), "\n";
 	    }
 	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : ($set->{remove} || []);
-	    @$to_remove and message(N("removing %s", "@$to_remove"));
+	    @$to_remove and print N("removing %s", "@$to_remove"), "\n";
 	    bug_log(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my %install_options_common = (
@@ -702,7 +706,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    );
 	    if (@l) {
 		#- Warning : the following message is parsed in urpm::parallel_*
-		message(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
+		print N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l), "\n";
 		if ($urpm->{options}{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
 		    ++$nok;
 		    ++$urpm->{logger_id};
@@ -722,7 +726,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    );
 		    if (@l) {
 			#- Warning : the following message is parsed in urpm::parallel_*
-			message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+			print N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l), "\n";
 			if (!$urpm->{options}{'allow-force'}) {
 			    ++$nok;
 			    ++$urpm->{logger_id};
@@ -740,7 +744,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 			    );
 			    if (@l) {
 				#- Warning : the following message is parsed in urpm::parallel_*
-				message(N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l));
+				print N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l), "\n";
 				++$nok;
 				++$urpm->{logger_id};
 				push @errors, @l;
@@ -763,12 +767,12 @@ foreach my $set (@{$state->{transaction} || []}) {
 my $exit_code = 0;
 if (values %error_sources) {
     #- Warning : the following message is parsed in urpm::parallel_*
-    message(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
-	      join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } values %error_sources));
+    print N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+	join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } values %error_sources), "\n";
     $exit_code = 10;
 }
 if ($nok) {
-    $nok > 1 and message(N("%d installation transactions failed", $nok) . (@errors && ":\n" . join("\n", map { "\t$_" } @errors)));
+    $nok > 1 and print N("%d installation transactions failed", $nok) . (@errors && ":\n" . join("\n", map { "\t$_" } @errors)), "\n";
     if ($exit_code) {
 	$exit_code = $ok ? 13 : 14;
     } else {
@@ -777,14 +781,14 @@ if ($nok) {
 } else {
     if ($test) {
 	#- Warning : the following message is parsed in urpm::parallel_*
-	message(N("Installation is possible"));
+	print N("Installation is possible"), "\n";
     } elsif (@names || @src_names || @files || @src_files || $auto_select) {
 	if (@{$state->{transaction} || []} == 0 && @ask_unselect == 0) {
-	    message(N("The package(s) are already installed")) if $verbose >= 0;
+	    print N("The package(s) are already installed"), "\n" if $verbose >= 0;
 	    if ($verbose >= 0 && !$auto_select) {
 		my @packages = map { $urpm->{depslist}[$_]->name } keys %requested;
 		my @guessed = difference2(\@packages, \(@names, @src_names));
-		message(N("The following package names were assumed: %s", join ", ", @guessed)) if @guessed;
+		print N("The following package names were assumed: %s", join ", ", @guessed), "\n" if @guessed;
 	    }
 	    $exit_code = 15 if our $expect_install;
 	}
@@ -801,7 +805,7 @@ unless ($env || $nolock) {
 
 #- restart urpmi if needed, keep command line for that.
 if ($restart_itself && !$exit_code) {
-    message(N("restarting urpmi"));
+    print N("restarting urpmi"), "\n";
     #- it seems to work correctly with exec instead of system, provided
     #- STDOUT or STDERR are not closed before (else no output at all).
     #- added --no-priority-upgrade to make sure no restart will be done after this one.
