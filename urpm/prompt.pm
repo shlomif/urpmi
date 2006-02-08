@@ -16,11 +16,7 @@ sub new {
 
 sub write {
     my (undef, $msg) = @_;
-    if ($urpm::args::options{bug} || !defined fileno ::SAVEOUT) {
-	print STDOUT $msg;
-    } else {
-	print ::SAVEOUT $msg;
-    }
+    print STDOUT $msg;
 }
 
 sub prompt {
@@ -56,6 +52,6 @@ urpm::prompt - base class to prompt the user for data
 
 Copyright (C) 2005 MandrakeSoft SA
 
-Copyright (C) 2005 Mandriva SA
+Copyright (C) 2005, 2006 Mandriva SA
 
 =cut
