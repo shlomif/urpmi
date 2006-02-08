@@ -3,7 +3,7 @@
 # $Id$
 
 #- Copyright (C) 2002, 2003, 2004, 2005 MandrakeSoft SA
-#- Copyright (C) 2005 Mandriva SA
+#- Copyright (C) 2005, 2006 Mandriva SA
 #-
 #- This program is free software; you can redistribute it and/or modify
 #- it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ use urpm::msg;
 
 sub usage {
     print N("urpmf version %s
-Copyright (C) 2002-2005 Mandriva.
+Copyright (C) 2002-2006 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage: urpmf [options] pattern-expression
@@ -170,7 +170,7 @@ if ($@) {
 }
 
 if ($env) {
-    print STDERR N("using specific environment on %s\n", $env);
+    print N("using specific environment on %s\n", $env);
     #- setting new environment.
     $urpm->{config} = "$env/urpmi.cfg";
     $urpm->{skiplist} = "$env/skip.list";

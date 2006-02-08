@@ -37,7 +37,7 @@ our @src_names;
 
 sub usage {
     print N("urpmq version %s
-Copyright (C) 2000-2005 Mandriva.
+Copyright (C) 2000-2006 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
@@ -122,7 +122,7 @@ $urpm::args::options{nodepslist} = $urpm::args::options{list_aliases}
 $urpm::args::options{nolock} = 1 if $urpm::args::options{nodepslist};
 
 if ($urpm::args::options{env}) {
-    print STDERR N("using specific environment on %s\n", $urpm::args::options{env});
+    print N("using specific environment on %s\n", $urpm::args::options{env});
     #- setting new environment.
     $urpm->{config} = "$urpm::args::options{env}/urpmi.cfg";
     $urpm->{skiplist} = "$urpm::args::options{env}/skip.list";

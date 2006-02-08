@@ -226,7 +226,7 @@ if ($bug) {
 
 if ($env) {
     -d $env or $urpm->{fatal}(8, N("Environment directory %s does not exist", $env));
-    warn N("using specific environment on %s\n", $env);
+    print N("using specific environment on %s\n", $env);
     $logfile = "$env/urpmi_env.log";
     unlink $logfile;
     #- setting new environment.
@@ -530,11 +530,11 @@ if ($env) {
       : N("To satisfy dependencies, the following package is going to be installed");
     my $msg2 = N("(%d packages, %d MB)", $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
-    warn "$msg:\n$p\n$msg2\n";
+    print "$msg:\n$p\n$msg2\n";
     exit 0; #- exit now for specific environment.
 }
 if (@root_only) {
-    warn N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
+    print N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
 } elsif (!$urpm->{options}{auto} && $ask_user && @to_install) {
     my $msg = $#to_install
