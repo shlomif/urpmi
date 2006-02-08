@@ -72,11 +72,7 @@ sub message_input {
     my ($msg, $default_input, %opts) = @_;
     my $input;
     while (1) {
-	if ($urpm::args::options{bug} || !defined fileno ::SAVEOUT) {
-	    print STDOUT $msg;
-	} else {
-	    print ::SAVEOUT $msg;
-	}
+	print $msg;
 	if ($default_input) {
 	    $urpm::args::options{bug} and bug_log($default_input);
 	    return $default_input;
