@@ -73,7 +73,7 @@ $ENV{USER} ||= "root";
 
 sub usage () {
     print N("urpmi version %s
-Copyright (C) 1999-2005 Mandriva.
+Copyright (C) 1999-2006 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
@@ -226,7 +226,7 @@ if ($bug) {
 
 if ($env) {
     -d $env or $urpm->{fatal}(8, N("Environment directory %s does not exist", $env));
-    print STDERR N("using specific environment on %s\n", $env);
+    warn N("using specific environment on %s\n", $env);
     $logfile = "$env/urpmi_env.log";
     unlink $logfile;
     #- setting new environment.
@@ -248,10 +248,11 @@ Use --allow-force to force operation.", $urpm::sys::mountpoint));
 }
 
 my ($pid_out, $pid_err);
-open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
-open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
 if ($logfile && !$INC{"Devel/Trace.pm"}) {
     bug_log(scalar localtime, " urpmi called with $command_line\n");
+
+    open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
+    open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
 
     #- fork twice to copy stdout and stderr to $logfile
     unless ($pid_out = open STDOUT, "|-") {
@@ -278,17 +279,20 @@ if ($logfile && !$INC{"Devel/Trace.pm"}) {
 	}
 	exit 0;
     }
+
+    #- log to SAVEERR instead of STDERR
+    unless ($bug) {
+	$urpm->{fatal} = sub { printf SAVEERR "%s\n", $_[1]; exit($_[0]) };
+	$urpm->{error} = sub { printf SAVEERR "%s\n", $_[0] };
+	$urpm->{log}   = sub { printf SAVEOUT "%s\n", $_[0] };
+    }
 }
-#- make unbuffered, and STDOUT the default
+
+#- make unbuffered
 select STDERR; $| = 1;
 select STDOUT; $| = 1;
 
-#- log to SAVEERR instead of STDERR
-unless ($bug) {
-    $urpm->{fatal} = sub { printf SAVEERR "%s\n", $_[1]; exit($_[0]) };
-    $urpm->{error} = sub { printf SAVEERR "%s\n", $_[0] };
-    $urpm->{log}   = sub { printf SAVEOUT "%s\n", $_[0] };
-}
+#- log is only for verbose runs.
 $verbose > 0 or $urpm->{log} = sub {};
 
 unless ($env || $nolock) {
@@ -525,11 +529,11 @@ if ($env) {
       : N("To satisfy dependencies, the following package is going to be installed");
     my $msg2 = N("(%d packages, %d MB)", $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
-    print STDERR "$msg:\n$p\n$msg2\n";
+    warn "$msg:\n$p\n$msg2\n";
     exit 0; #- exit now for specific environment.
 }
 if (@root_only) {
-    print STDERR N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
+    warn N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
 } elsif (!$urpm->{options}{auto} && $ask_user && @to_install) {
     my $msg = $#to_install
@@ -812,7 +816,7 @@ if ($restart_itself && !$exit_code) {
 
 #- this help flushing correctly by closing this file before (piped on tee).
 #- but killing them is generally better.
-if ($pid_err && $pid_out) {
+if ($pid_err || $pid_out) {
     kill 15, $pid_err, $pid_out;
     close STDERR;
     close STDOUT;
