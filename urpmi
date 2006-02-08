@@ -225,6 +225,7 @@ if ($bug) {
 }
 
 if ($env) {
+    -d $env or $urpm->{fatal}(8, N("Environment directory %s does not exist", $env));
     print STDERR N("using specific environment on %s\n", $env);
     $logfile = "$env/urpmi_env.log";
     unlink $logfile;
@@ -237,9 +238,6 @@ if ($env) {
     if ($< != 0) {
 	#- need to be root if binary rpms are to be installed
 	$auto_select || @names || @files and $urpm->{fatal}(1, N("Only superuser is allowed to install packages"));
-    } else {
-	#- default log file
-	$logfile ||= "/var/log/urpmi.log";
     }
 }
 
@@ -253,7 +251,7 @@ my ($pid_out, $pid_err);
 open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
 open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
 if ($logfile && !$INC{"Devel/Trace.pm"}) {
-    log_it(scalar localtime, " urpmi called with $command_line\n");
+    bug_log(scalar localtime, " urpmi called with $command_line\n");
 
     #- fork twice to copy stdout and stderr to $logfile
     unless ($pid_out = open STDOUT, "|-") {
@@ -680,7 +678,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    }
 	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : ($set->{remove} || []);
 	    @$to_remove and message(N("removing %s", "@$to_remove"));
-	    log_it(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
+	    bug_log(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my %install_options_common = (
 		test => $test,

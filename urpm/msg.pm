@@ -7,7 +7,7 @@ use Exporter;
 (our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
 
 our @ISA = 'Exporter';
-our @EXPORT = qw(N log_it to_utf8 message_input message toMb from_utf8);
+our @EXPORT = qw(N bug_log to_utf8 message_input message toMb from_utf8 sys_log);
 
 #- I18N.
 use Locale::gettext;
@@ -46,8 +46,18 @@ sub N {
 my $noexpr = N("Nn");
 my $yesexpr = N("Yy");
 
+eval {
+    require Sys::Syslog;
+    Sys::Syslog->import();
+    (my $tool = $0) =~ s!.*/!!;
+    openlog($tool, '', 'user');
+    END { closelog() }
+};
+
+sub sys_log { defined &syslog and syslog("info", @_) }
+
 #- writes only to logfile, not to screen
-sub log_it {
+sub bug_log {
     if ($::logfile) {
 	open my $fh, ">>$::logfile"
 	    or die "Can't output to log file [$::logfile]: $!\n";
@@ -68,13 +78,13 @@ sub message_input {
 	    print ::SAVEOUT $msg;
 	}
 	if ($default_input) {
-	    $urpm::args::options{bug} and log_it($default_input);
+	    $urpm::args::options{bug} and bug_log($default_input);
 	    return $default_input;
 	}
 	$input = <STDIN>;
 	defined $input or return undef;
 	chomp $input;
-	$urpm::args::options{bug} and log_it($input);
+	$urpm::args::options{bug} and bug_log($input);
 	if ($opts{boolean}) {
 	    $input =~ /^[$noexpr$yesexpr]?$/ and last;
 	} elsif ($opts{range}) {
