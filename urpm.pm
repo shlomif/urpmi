@@ -2958,6 +2958,7 @@ sub install {
 
     my $trans = $db->create_transaction($urpm->{root});
     if ($trans) {
+	sys_log("transaction on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/', scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade));
 	$urpm->{log}(N("created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)", $urpm->{root} || '/',
 		       scalar(@{$remove || []}), scalar(values %$install), scalar(values %$upgrade)));
     } else {
@@ -3022,7 +3023,7 @@ sub install {
 	@l = $trans->run($urpm, %options);
 
 	if (!$options{test} && $options{post_clean_cache}) {
-	    #- examine the local cahe to delete packages which were part of this transaction
+	    #- examine the local cache to delete packages which were part of this transaction
 	    foreach (keys %$install, keys %$upgrade) {
 		my $pkg = $urpm->{depslist}[$_];
 		unlink "$urpm->{cachedir}/rpms/" . $pkg->filename;
