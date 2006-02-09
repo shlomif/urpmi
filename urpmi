@@ -247,6 +247,10 @@ unless ($bug || $install_src || $env || $urpm->{options}{'allow-force'} || $root
 Use --allow-force to force operation.", $urpm::sys::mountpoint));
 }
 
+unless ($bug || $env || $test) {
+    sys_log("called with: $command_line");
+}
+
 my ($pid_out, $pid_err);
 if ($logfile && !$INC{"Devel/Trace.pm"}) {
     bug_log(scalar localtime, " urpmi called with $command_line\n");
