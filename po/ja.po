@@ -6,7 +6,7 @@
 # Copyright (c) 1999 Mandriva
 # Taisuke Yamada <tai@imasy.or.jp>, 1999.
 # UTUMI Hirosi <utuhiro@mx12.freecom.ne.jp>, 2003
-# BANDO Yukiko <ybando@k6.dion.ne.jp>, 2004, 2005.
+# BANDO Yukiko <ybando@k6.dion.ne.jp>, 2004, 2005, 2006.
 #
 # ｙ
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-02 19:45+0800\n"
-"PO-Revision-Date: 2005-12-15 20:00+0900\n"
+"PO-Revision-Date: 2006-02-09 23:00+0900\n"
 "Last-Translator: BANDO Yukiko <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese\n"
 "MIME-Version: 1.0\n"
@@ -759,12 +759,12 @@ msgstr "%d 個の古いヘッダをキャッシュから削除"
 #: ../urpm.pm:2003
 #, c-format
 msgid "Error generating names file: dependency %d not found"
-msgstr ""
+msgstr "名前ファイルの生成エラー: 依存 %d が見つかりません"
 
 #: ../urpm.pm:2008
 #, c-format
 msgid "Error generating names file: Can't write to file (%s)"
-msgstr ""
+msgstr "名前ファイルの生成エラー: ファイルに書き込めません (%s)"
 
 #: ../urpm.pm:2044
 #, c-format
@@ -792,9 +792,9 @@ msgid "unable to access rpm file [%s]"
 msgstr "RPMファイル[%s]にアクセスできません"
 
 #: ../urpm.pm:2119
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse spec file %s [%s]"
-msgstr "ファイル[%2$s]の %1$s を分析できません"
+msgstr "スペックファイル %s [%s] を分析できません"
 
 #: ../urpm.pm:2129
 msgid "unable to register rpm file"
@@ -875,9 +875,9 @@ msgid "unable to access medium \"%s\""
 msgstr "メディア %s にアクセスできません"
 
 #: ../urpm.pm:2803
-#, fuzzy, c-format
+#, c-format
 msgid "malformed URL: [%s]"
-msgstr "不正な入力: [%s]"
+msgstr "不正な形式のURL: [%s]"
 
 #: ../urpm.pm:2810
 #, c-format
@@ -1439,7 +1439,7 @@ msgstr "  -f             - バージョン, リリース番号, アーキテク�
 
 #: ../urpmf:131
 msgid "Incorrect format: you may use only one multi-valued tag"
-msgstr ""
+msgstr "不正な形式: 多値タグはひとつしか使えません"
 
 #: ../urpmf:173 ../urpmi:228 ../urpmq:125
 #, c-format
@@ -1475,18 +1475,17 @@ msgstr ""
 "使い方:\n"
 
 #: ../urpmi:84
-#, fuzzy
 msgid ""
 "  --searchmedia  - use only the given media to search requested packages.\n"
 msgstr ""
-"  --searchmedia   - 指定したメディアのみを要求した(または更新された)パッケー"
-"ジの検索に使う\n"
+"  --searchmedia   - 指定したメディアのみを要求したパッケージの検索に使う\n"
 
 #: ../urpmi:87
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
+"  --auto	  - 非対話モード、質問に対する答えはデフォルトとみなす\n"
 
 #: ../urpmi:88 ../urpmq:51
 msgid ""
@@ -1527,14 +1526,12 @@ msgid "  --split-length - small transaction length, default is %d.\n"
 msgstr "  --split-length - 分割する最低パッケージ数。デフォルトは %d\n"
 
 #: ../urpmi:97
-#, fuzzy
 msgid "  --fuzzy, -y    - impose fuzzy search.\n"
-msgstr "  --fuzzy        - ファジー検索(-yと同じ)\n"
+msgstr "  --fuzzy, -y    - ファジー検索\n"
 
 #: ../urpmi:98
-#, fuzzy
 msgid "  --src, -s      - next package is a source package.\n"
-msgstr "  --src          - ソースパッケージを指定(-s と同じ)\n"
+msgstr "  --src, -s      - ソースパッケージを指定\n"
 
 #: ../urpmi:99
 msgid "  --install-src  - install only source package (no binaries).\n"
@@ -1632,7 +1629,6 @@ msgid ""
 msgstr "  --bug          - 指定したディレクトリにバグレポートを出力\n"
 
 #: ../urpmi:126
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disables it, default is enabled).\n"
@@ -1641,7 +1637,6 @@ msgstr ""
 "                   (=デフォルト。[--no-verify-rpm]で無効)\n"
 
 #: ../urpmi:128
-#, fuzzy
 msgid ""
 "  --test         - only verify if the installation can be achieved "
 "correctly.\n"
@@ -1676,9 +1671,8 @@ msgid "  --norebuild    - don't try to rebuild hdlist if not readable.\n"
 msgstr "  --norebuild    - 読み込み不可ならhdlistをリビルドしない\n"
 
 #: ../urpmi:137
-#, fuzzy
 msgid "  --nolock       - don't lock rpm db.\n"
-msgstr "  --noclean      - RPMをキャッシュに残す\n"
+msgstr "  --nolock       - RPMデータベースをロックしない\n"
 
 #: ../urpmi:138
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
@@ -1707,9 +1701,8 @@ msgstr ""
 "  コマンドラインで指定したパッケージ名/RPMファイルをインストールします\n"
 
 #: ../urpmi:195
-#, fuzzy
 msgid "You can't install binary rpm files when using --install-src"
-msgstr "[--install-src]オプション使用時のバイナリRPMファイルの扱い"
+msgstr "バイナリRPMは[--install-src]オプション使用時にはインストールできません"
 
 #: ../urpmi:218
 #, c-format
@@ -1741,7 +1734,7 @@ msgstr ""
 #. - For translators : there are several media here
 #: ../urpmi:321
 msgid "Updating media..."
-msgstr ""
+msgstr "メディアを更新..."
 
 #: ../urpmi:404
 #, c-format
@@ -1802,7 +1795,7 @@ msgstr ""
 
 #: ../urpmi:490
 msgid "(test only, removal will not be actually done)"
-msgstr ""
+msgstr "(テストのみ、実際には削除されません)"
 
 #: ../urpmi:526 ../urpmi:538
 msgid ""
@@ -1829,7 +1822,7 @@ msgstr ""
 
 #: ../urpmi:541
 msgid "(test only, installation will not be actually done)"
-msgstr ""
+msgstr "(テストのみ、実際にはインストールされません)"
 
 #: ../urpmi:543
 #, c-format
