@@ -130,6 +130,7 @@ usage:
 ") . N("  --excludedocs  - exclude doc files.
 ") . N("  --ignoresize   - don't verify disk space before installation.
 ") . N("  --noscripts    - do not execute package scriptlet(s)
+") . N("  --repackage    - Re-package the files before erasing
 ") . N("  --skip         - packages which installation should be skipped
 ") . N("  --more-choices - when several packages are found, propose more choices
                    than the default.
@@ -696,6 +697,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		test => $test,
 		excludepath => $urpm->{options}{excludepath},
 		excludedocs => $urpm->{options}{excludedocs},
+		repackage   => $urpm->{options}{repackage},
 		post_clean_cache => $urpm->{options}{'post-clean'},
 		translate_message => 1,
 		oldpackage => $state->{oldpackage},

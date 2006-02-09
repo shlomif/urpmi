@@ -173,6 +173,7 @@ sub load_config ($;$) {
 	    |compress
 	    |keep
 	    |auto
+	    |repackage
 	    |strict-arch
 	    |nopubkey
 	    |resume)(?:\s*:\s*(.*))?$/x

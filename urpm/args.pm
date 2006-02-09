@@ -130,6 +130,7 @@ my %options_spec = (
 	'excludedocs|exclude-docs' => sub { $urpm->{options}{excludedocs} = 1 },
 	'ignoresize' => sub { $urpm->{options}{ignoresize} = 1 },
 	noscripts => sub { $urpm->{options}{noscripts} = 1 },
+	repackage => sub { $urpm->{options}{repackage} = 1 },
 	'more-choices' => sub { $urpm->{options}{morechoices} = 1 },
 	'expect-install!' => \$::expect_install,
 	'nolock' => \$::nolock,

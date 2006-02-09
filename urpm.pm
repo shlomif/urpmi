@@ -170,6 +170,7 @@ sub read_config {
 	    pre-clean
 	    priority-upgrade
 	    prohibit-remove
+	    repackage
 	    resume
 	    retry
 	    split-length
