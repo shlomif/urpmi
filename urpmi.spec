@@ -114,10 +114,6 @@ urpmi configuration (notably media) in an LDAP directory.
 %{__rm} -rf %{buildroot}
 %{makeinstall_std}
 
-# logrotate
-install -d -m 755 %{buildroot}%{_sysconfdir}/logrotate.d
-install -m 644 %{name}.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-
 # bash completion
 install -d -m 755 %{buildroot}%{_sysconfdir}/bash_completion.d
 install -m 644 %{name}.bash-completion %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
@@ -189,7 +185,6 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %dir /var/cache/urpmi/rpms
 %config(noreplace) /etc/urpmi/skip.list
 %config(noreplace) /etc/urpmi/inst.list
-%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %config(noreplace) %{_sysconfdir}/bash_completion.d/%{name}
 %{_bindir}/urpmi_rpm-find-leaves
 %{_bindir}/rpm-find-leaves
