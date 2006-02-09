@@ -2045,8 +2045,10 @@ sub try_mounting {
 	if ($is_iso) {
 	    #- to mount an iso image, grab the first loop device
 	    my $loopdev = urpm::sys::first_free_loopdev();
+	    sys_log("mount iso $_ on $removable");
 	    $loopdev and system("mount '$removable' '$_' -t iso9660 -o loop=$loopdev");
 	} else {
+	    sys_log("mount $_");
 	    system("mount '$_' 2>/dev/null");
 	}
 	$removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
@@ -2064,6 +2066,7 @@ sub try_umounting {
 	} urpm::sys::find_mntpoints($dir, \%infos))
     {
 	$urpm->{log}(N("unmounting %s", $_));
+	sys_log("umount $_");
 	system("umount '$_' 2>/dev/null");
 	delete $urpm->{removable_mounted}{$_};
     }
