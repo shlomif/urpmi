@@ -283,6 +283,12 @@ sub do_install_3 () {
 		oldpackage => $state->{oldpackage},
 		callback_inst => $callback_inst,
 		callback_trans => $callback_inst,
+		#- global options that might have been read from urpmi.cfg
+		excludepath => $urpm->{options}{excludepath},
+		excludedocs => $urpm->{options}{excludedocs},
+		repackage   => $urpm->{options}{repackage},
+		nosize => $urpm->{options}{ignoresize},
+		noscripts => $urpm->{options}{noscripts},
 	    );
 	    if (@l) {
 		$progress_label->set_label(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
