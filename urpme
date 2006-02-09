@@ -27,7 +27,7 @@ use urpm::msg;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our ($root, $test, $parallel, $auto, $matches, $verbose, $usedistrib, $force, $noscripts, @l);
+our ($root, $test, $parallel, $auto, $matches, $verbose, $usedistrib, $force, $noscripts, $repackage, @l);
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
 # Translator: Add here the keys which might be pressed in the "Yes"-case.
@@ -44,6 +44,7 @@ usage:
 ") . N("  --test         - verify if the removal can be achieved correctly.
 ") . N("  --force        - force invocation even if some packages do not exist.
 ") . N("  --parallel     - distributed urpmi across machines of alias.
+") . N("  --repackage    - Re-package the files before erasing
 ") . N("  --root         - use another root for rpm removal.
 ") . N("  --noscripts    - do not execute package scriptlet(s).
 ") . N("  --use-distrib  - configure urpme on the fly from a distrib tree, useful
@@ -133,6 +134,7 @@ print "\n" . N("removing %s", join(' ', sort @toremove)) . "\n";
 	force => $force,
 	translate_message => 1,
 	noscripts => $noscripts,
+	repackage => $repackage || $urpm->{options}{repackage},
     )
     : $urpm->install(
 	\@toremove, {}, {},
@@ -140,6 +142,7 @@ print "\n" . N("removing %s", join(' ', sort @toremove)) . "\n";
 	force => $force,
 	translate_message => 1,
 	noscripts => $noscripts,
+	repackage => $repackage || $urpm->{options}{repackage},
     );
 
 #- Warning : the following message is parsed in urpm::parallel_*
