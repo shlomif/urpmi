@@ -19,7 +19,7 @@ my $rpmtopdir = $with_rpm ? qx(rpm --eval %_topdir) : '';
 chomp $rpmtopdir;
 
 # All scripts, some of them go in /usr/sbin (see DESTINSTALLSBIN below)
-our @bin_scripts = qw(urpmq urpmf rpm-find-leaves);
+our @bin_scripts = qw(urpmq urpmf rpm-find-leaves urpmi.recover);
 our @sbin_scripts = qw(urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia rurpmi);
 if ($with_gui) {
     push @bin_scripts, qw(gurpmi);
@@ -112,7 +112,7 @@ WriteMakefile(
     PREREQ_PM		=> {
 	'Locale::gettext'	=> '1.01',
 	'MDV::Packdrakeng'	=> '1.01',
-	'URPM'			=> '1.33',
+	'URPM'			=> '1.35',
     },
     VERSION_FROM	=> 'urpm.pm',
     macro		=> {
