@@ -313,6 +313,14 @@ my %options_spec = (
 	},
     },
 
+    'urpmi.recover' => {
+	'list=s' => \$::listdate,
+	'list-all' => sub { $::listdate = -1 },
+	checkpoint => \$::do_checkpoint,
+	'rollback=s' => \$::rollback,
+	noclean => \$::noclean,
+    },
+
 );
 
 # generate urpmf options callbacks
@@ -368,6 +376,10 @@ foreach my $k ("help|h", "wget", "curl", "proxy=s", "proxy-user=s", "c", "f", "z
     "wget-options=s", "curl-options=s", "rsync-options=s")
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
+}
+
+foreach my $k ("help|h", "version") {
+    $options_spec{'urpmi.recover'}{$k} = $options_spec{urpmi}{$k};
 }
 
 sub parse_cmdline {
