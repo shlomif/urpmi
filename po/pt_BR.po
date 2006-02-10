@@ -802,9 +802,9 @@ msgid "unable to access rpm file [%s]"
 msgstr "incapaz de acessar o arquivo rpm [%s]"
 
 #: ../urpm.pm:2119
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse spec file %s [%s]"
-msgstr "incapaz de processar \"%s\" no arquivo [%s]"
+msgstr "incapaz de processar arquivo spec %s [%s]"
 
 #: ../urpm.pm:2129
 msgid "unable to register rpm file"
@@ -886,9 +886,9 @@ msgid "unable to access medium \"%s\""
 msgstr "incapaz de acessar a mídia \"%s\""
 
 #: ../urpm.pm:2803
-#, fuzzy, c-format
+#, c-format
 msgid "malformed URL: [%s]"
-msgstr "entrada mal construída: [%s]"
+msgstr "URL mal formada: [%s]"
 
 #: ../urpm.pm:2810
 #, c-format
@@ -1503,18 +1503,18 @@ msgstr ""
 "uso:\n"
 
 #: ../urpmi:84
-#, fuzzy
 msgid ""
 "  --searchmedia  - use only the given media to search requested packages.\n"
 msgstr ""
-"  --searchmedia  - usa apenas a mídia fornecida para buscar pacotes (ou "
-"atualizações).\n"
+"  --searchmedia  - usa apenas a mídia fornecida para buscar pacotes.\n"
 
 #: ../urpmi:87
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
+"  --auto         - modo não-interativo, assume respostas padrão para "
+"as perguntas.\n"
 
 #: ../urpmi:88 ../urpmq:51
 msgid ""
@@ -1560,15 +1560,12 @@ msgid "  --split-length - small transaction length, default is %d.\n"
 msgstr "  --split-length - transações em pequenos pedaços, o padrão é %d.\n"
 
 #: ../urpmi:97
-#, fuzzy
 msgid "  --fuzzy, -y    - impose fuzzy search.\n"
-msgstr "  --fuzzy        - impõe uma busca aproximada (igual a -y).\n"
+msgstr "  --fuzzy, -y    - impõe uma busca aproximada.\n"
 
 #: ../urpmi:98
-#, fuzzy
 msgid "  --src, -s      - next package is a source package.\n"
-msgstr ""
-"  --src          - o próximo pacote é um pacote fonte (o mesmo que -s).\n"
+msgstr "  --src, -s      - o próximo pacote é um pacote fonte.\n"
 
 #: ../urpmi:99
 msgid "  --install-src  - install only source package (no binaries).\n"
@@ -1670,21 +1667,20 @@ msgstr ""
 "                   pelo próximo argumento.\n"
 
 #: ../urpmi:126
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disables it, default is enabled).\n"
 msgstr ""
 "  --verify-rpm   - verifica a assinatura do rpm antes da instalação.\n"
-"                   (--no-verify-rpm desabilita; por padrão é habilitado).\n"
+"                   (--no-verify-rpm desabilita, por padrão é habilitado).\n"
 
 #: ../urpmi:128
-#, fuzzy
 msgid ""
 "  --test         - only verify if the installation can be achieved "
 "correctly.\n"
 msgstr ""
-"  --test         - verifica se a instalação pode ser efetuada corretamente.\n"
+"  --test         - apenas verifica se a instalação pode ser efetuada "
+"corretamente.\n"
 
 #: ../urpmi:129
 msgid "  --excludepath  - exclude path separated by comma.\n"
@@ -1718,9 +1714,8 @@ msgstr ""
 "  --norebuild    - não tenta recriar o hdlist se ele não puder ser lido.\n"
 
 #: ../urpmi:137
-#, fuzzy
 msgid "  --nolock       - don't lock rpm db.\n"
-msgstr "  --noclean      - não remove os rpms do cache.\n"
+msgstr "  --nolock       - não bloqueia o banco de dados rpm.\n"
 
 #: ../urpmi:138
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
@@ -1750,9 +1745,8 @@ msgid "  names or rpm files given on command line will be installed.\n"
 msgstr "  nomes ou arquivos rpm dados na linha de comando serão instalados.\n"
 
 #: ../urpmi:195
-#, fuzzy
 msgid "You can't install binary rpm files when using --install-src"
-msgstr "O que pode ser feito com arquivos rpm binários ao usar --install-src"
+msgstr "Você não pode instalar arquivos rpm binários ao usar --install-src"
 
 #: ../urpmi:218
 #, c-format
@@ -1845,7 +1839,7 @@ msgstr ""
 
 #: ../urpmi:490
 msgid "(test only, removal will not be actually done)"
-msgstr ""
+msgstr "(somente teste, remoções não serão efetivadas)"
 
 #: ../urpmi:526 ../urpmi:538
 msgid ""
@@ -1872,7 +1866,7 @@ msgstr ""
 
 #: ../urpmi:541
 msgid "(test only, installation will not be actually done)"
-msgstr ""
+msgstr "(somente teste, instalações não serão efetivadas)"
 
 #: ../urpmi:543
 #, c-format
