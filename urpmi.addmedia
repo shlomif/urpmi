@@ -98,7 +98,7 @@ $options{force} = 0;
 $options{noclean} = 1;
 $options{verbose} = 1;
 my $urpm = new urpm;
-urpm::args::parse_cmdline(urpm => $urpm);
+urpm::args::parse_cmdline(urpm => $urpm) or usage;
 #- the default is to probe a synthesis file, except for --distrib
 $options{probe_with} = 'synthesis' unless $options{distrib} || exists($options{probe_with});
 our ($name, $url, $with, $relative_hdlist) = our @cmdline;

@@ -101,7 +101,7 @@ our $expr;		# regexp to match against
 our %uniq;
 
 #- parse arguments list.
-urpm::args::parse_cmdline();
+urpm::args::parse_cmdline() or exit(1);
 
 if ($qf eq '%default') {
     #- nothing on the command-line : default is to search on file names
@@ -166,7 +166,7 @@ $urpm->{error}("qf:[$qf]\ncallback:\n$callback") if our $debug;
 $callback = eval $callback;
 if ($@) {
     $debug and warn "Internal error: $@\n";
-    usage;
+    exit(1);
 }
 
 if ($env) {

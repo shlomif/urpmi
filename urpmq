@@ -109,7 +109,7 @@ sub escape_shell ($) {
 #- parse arguments list.
 @ARGV or usage;
 my $urpm = new urpm;
-urpm::args::parse_cmdline(urpm => $urpm);
+urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 
 #- remove verbose if not asked.
 $urpm::args::options{verbose} or $urpm->{log} = sub {};

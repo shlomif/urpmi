@@ -57,7 +57,7 @@ usage:
 
 @ARGV or usage;
 my @origARGV = @ARGV;
-urpm::args::parse_cmdline();
+urpm::args::parse_cmdline() or exit(1);
 @l = @ARGV;
 
 my $urpm = new urpm;
