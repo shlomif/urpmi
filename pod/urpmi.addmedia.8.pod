@@ -1,6 +1,6 @@
 =head1 NAME
 
-urpmi.addmedia - adds a new rpm medium to be used by urpmi
+urpmi.addmedia - adds a new rpm media to be used by urpmi
 
 =head1 SYNOPSIS
 
@@ -18,11 +18,11 @@ must be chosen:
 
 =item B<urpmi.addmedia> [I<options>] <I<name>> http://<I<login>>:<I<pass>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
-where <I<name>> is your reference for the medium (e.g. "updates").
-<I<name>> is optional if B<--distrib> is given in the options list.
-<I<host>>/<I<path>> is the location of the media directory on the net
-(e.g. C<media/main>). <I<relative path of hdlist>> is the pathname where
-to find the hdlist of the rpms. The location is given relative to
+where <I<name>> is a human-readable name for the new media (e.g.
+"updates"). <I<name>> is optional if B<--distrib> is given in the options
+list. <I<host>>/<I<path>> is the location of the media directory on the
+net (e.g. C<media/main>). <I<relative path of hdlist>> is the pathname
+where to find the hdlist of the rpms. The location is given relative to
 <I<path>>. B<curl> is used by default to download files, B<wget> may be
 used if B<curl> is not installed or if or B<--wget> is given in
 I<options>. Example:
@@ -56,8 +56,9 @@ The same as for http; you can use the <I<host>>::<I<path>> syntax too. Example:
 
 =item B<urpmi.addmedia> [I<options>] <I<name>> file://<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
-where <I<name>> is your reference for the medium (e.g. Myrpms). <I<path>>
-is the location of the media directory on your machine (e.g. C<media/main>).
+where <I<name>> is a human-readable name for the new media (e.g.
+"local updates"). <I<path>> is the location of the media directory on your
+machine (e.g. C<media/main>).
 
 =item B<urpmi.addmedia> [I<options>] <I<name>> removable://<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
@@ -110,8 +111,8 @@ username and a password.
 
 =item B<--update>
 
-Add a medium which will be taken into
-account by B<MandrivaUpdate> or by C<urpmi --update> when looking for updates.
+Adds a media which will be taken into account by B<MandrivaUpdate> or by
+C<urpmi --update> when looking for updates.
 
 =item B<--probe-synthesis>
 
@@ -157,14 +158,16 @@ to be updated by C<urpmi.update>.
 
 =item B<--norebuild>
 
-Don't try to rebuild the hdlist files from the RPMs
-if the original hdlist wasn't readable or was corrupted.
+Don't try to rebuild the hdlist files from the RPMs if the original hdlist
+wasn't readable or was corrupted (which is the default behaviour). For non
+local media, rebuilding the hdlists can be very time- and
+bandwidth-consuming.
 
 =item B<--raw>
 
-Add the new media
-in the urpmi configuration file, but don't update it nor proceed to any
-download. The media, to be usable, will need to be updated with C<urpmi.update>.
+Add the new media in the urpmi configuration file, but don't update it nor
+proceed to any download. The media, to be usable, will need to be updated
+with C<urpmi.update>; it's ignored until then.
 
 =item B<--nopubkey>
 
@@ -173,10 +176,6 @@ Don't import pubkey of added media.
 =item B<-c>
 
 Clean headers cache directory in F</var/cache/urpmi/headers>.
-
-=item B<-h>
-
-Try to find and use synthesis or hdlist file.
 
 =item B<-f>
 
@@ -194,12 +193,12 @@ so far are:
 
 =item B<$ARCH>
 
-The architecture (as given in F</etc/mandriva-release>)
+The architecture (if found in F</etc/release>).
 
 =item B<$RELEASE>
 
-The OS release (as given in F</etc/mandriva-release>; its value is
-B<cooker> on a cooker system.)
+The OS release (if found in F</etc/release>; its value should be B<cooker>
+on a Mandriva cooker system.)
 
 =item B<$HOST>
 
