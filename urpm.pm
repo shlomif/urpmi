@@ -26,6 +26,11 @@ BEGIN {
     }
 }
 
+#- this violently overrides is_arch_compat() to always return true.
+sub shunt_ignorearch {
+    eval q( sub URPM::Package::is_arch_compat { 1 } );
+}
+
 #- create a new urpm object.
 sub new {
     my ($class) = @_;
@@ -2166,10 +2171,7 @@ sub search_packages {
 	    #- try to search through provides.
 	    if (my @l = map {
 		    $_
-		    && ($options{ignorearch}
-			? 1
-			: $options{src} ? $_->arch eq 'src' : $_->is_arch_compat
-		    )
+		    && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat)
 		    && ($options{use_provides} || $_->name eq $v)
 		    && defined($_->id)
 		    && (!defined $urpm->{searchmedia} || (
@@ -2208,7 +2210,7 @@ sub search_packages {
 	    (0 .. $#{$urpm->{depslist}})
 	) {
 	    my $pkg = $urpm->{depslist}[$id];
-	    ($options{ignorearch} ? 1 : $options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
+	    ($options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
 	    my $pack_name = $pkg->name;
 	    my $pack_ra = $pack_name . '-' . $pkg->version;
 	    my $pack_a = "$pack_ra-" . $pkg->release;

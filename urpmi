@@ -306,6 +306,9 @@ unless ($env || $nolock) {
     $urpm->shlock_urpmi_db;
 }
 
+#- should we ignore arch compatibility
+if ($urpm->{options}{ignorearch}) { urpm::shunt_ignorearch() }
+
 my %config_hash = (
     bug => $bug,
     excludemedia => $excludemedia,
@@ -386,7 +389,6 @@ if (@names) {
 	all => $all,
 	use_provides => $use_provides,
 	fuzzy => $urpm->{options}{fuzzy},
-	ignorearch => $urpm->{options}{ignorearch},
     ) || $force or exit 1;
 }
 if (@src_names) {

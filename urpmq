@@ -131,6 +131,9 @@ if ($urpm::args::options{env}) {
     $urpm->{statedir} = $urpm::args::options{env};
 }
 
+#- should we ignore arch compatibility
+if ($urpm::args::options{ignorearch}) { urpm::shunt_ignorearch() }
+
 $urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
     and $urpm->shlock_rpm_db;
 $urpm::args::options{nolock} or $urpm->shlock_urpmi_db;
@@ -200,7 +203,6 @@ if ($urpm::args::options{list_aliases}) {
 	    fuzzy => $urpm::args::options{fuzzy},
 	    caseinsensitive => $urpm::args::options{caseinsensitive},
 	    all => $urpm::args::options{all},
-	    ignorearch => $urpm::args::options{ignorearch},
 	) or $urpm::args::options{force}
 	    or exit 1;
     }
