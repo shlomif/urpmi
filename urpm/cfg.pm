@@ -42,7 +42,9 @@ Returns 1 on success, 0 on failure.
 
 =cut
 
-#- implementations of the substitutions. arch and release are mdk-specific
+#- implementations of the substitutions. arch and release are mdk-specific.
+#- XXX this is fragile code, it's an heuristic that depends on the format of
+#- /etc/release
 
 my ($arch, $release);
 sub _init_arch_release () {
@@ -252,6 +254,6 @@ __END__
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
 
-Copyright (C) 2005 Mandriva SA
+Copyright (C) 2005, 2006 Mandriva SA
 
 =cut
