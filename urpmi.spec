@@ -27,15 +27,15 @@ Summary:	Command-line software installation tools
 URL:		http://search.cpan.org/dist/%{name}/
 Requires:	%{req_webfetch} eject gnupg
 Requires(pre):	perl-Locale-gettext >= 1.01-14mdk
-Requires(pre):	perl-URPM >= 1.35
-Requires:	perl-URPM >= 1.35
+Requires(pre):	perl-URPM >= 1.36
+Requires:	perl-URPM >= 1.36
 #- this one is require'd by urpmq, so it's not found [yet] by perl.req
 Requires:	perl-MDV-Packdrakeng >= 1.01
 BuildRequires:	bzip2-devel
 BuildRequires:	gettext
 BuildRequires:	perl-File-Slurp
 BuildRequires:	perl-ldap
-BuildRequires:	perl-URPM >= 1.35
+BuildRequires:	perl-URPM >= 1.36
 BuildRequires:	perl-MDV-Packdrakeng
 BuildRequires:	perl-Locale-gettext >= 1.01-14mdk
 BuildRoot:	%{_tmppath}/%{name}-buildroot
