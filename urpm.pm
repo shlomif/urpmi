@@ -2208,7 +2208,7 @@ sub search_packages {
 	    (0 .. $#{$urpm->{depslist}})
 	) {
 	    my $pkg = $urpm->{depslist}[$id];
-	    ($options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
+	    ($options{ignorearch} ? 1 : $options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
 	    my $pack_name = $pkg->name;
 	    my $pack_ra = $pack_name . '-' . $pkg->version;
 	    my $pack_a = "$pack_ra-" . $pkg->release;
