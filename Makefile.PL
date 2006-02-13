@@ -6,8 +6,8 @@ use strict;
 use ExtUtils::MakeMaker;
 
 # Command-line parsing.
-# --without-rpm : use rpm to find some paths, and generate make targets to
-#   produce an rpm of this
+# --without-rpm : don't use rpm to find some paths, and generate make targets
+#   to produce an rpm of this
 # --install-po : compile .po files and install locale files
 # --install-gui : install gurpmi
 my $with_rpm = 1; $with_rpm = 0 if grep $_ eq '--without-rpm', @ARGV;
