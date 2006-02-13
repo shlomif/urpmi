@@ -139,6 +139,9 @@ if ($do_checkpoint) {
 
 # Don't erase on rollback before this date (seconds since epoch)
 %_unsafe_rollbacks $unsafe_rollbacks
+
+# Automate transaction rollbacks on upgrade failure
+%_rollback_transaction_on_failure 0
 MACROS
     close $fh;
 
