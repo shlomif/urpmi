@@ -217,6 +217,7 @@ my %options_spec = (
 	'list-url' => \$options{list_url},
 	'list-nodes' => \$options{list_nodes},
 	'list-aliases' => \$options{list_aliases},
+	'ignorearch' => \$options{ignorearch},
 	'dump-config' => \$options{dump_config},
 	'src|s' => \$options{src},
 	sources => \$options{sources},

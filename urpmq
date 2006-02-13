@@ -61,6 +61,7 @@ usage:
 ") . N("  --src          - next package is a source package (same as -s).
 ") . N("  --sources      - give all source packages before downloading (root only).
 ") . N("  --force        - force invocation even if some packages do not exist.
+") . N("  --ignorearch   - allow to query rpms for unmatched architectures.
 ") . N("  --parallel     - distributed urpmi across machines of alias.
 ") . N("  --use-distrib  - configure urpmi on the fly from a distrib tree.
                    This permit to querying a distro.
@@ -199,6 +200,7 @@ if ($urpm::args::options{list_aliases}) {
 	    fuzzy => $urpm::args::options{fuzzy},
 	    caseinsensitive => $urpm::args::options{caseinsensitive},
 	    all => $urpm::args::options{all},
+	    ignorearch => $urpm::args::options{ignorearch},
 	) or $urpm::args::options{force}
 	    or exit 1;
     }
