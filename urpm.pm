@@ -2166,7 +2166,10 @@ sub search_packages {
 	    #- try to search through provides.
 	    if (my @l = map {
 		    $_
-		    && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat)
+		    && ($options{ignorearch}
+			? 1
+			: $options{src} ? $_->arch eq 'src' : $_->is_arch_compat
+		    )
 		    && ($options{use_provides} || $_->name eq $v)
 		    && defined($_->id)
 		    && (!defined $urpm->{searchmedia} || (

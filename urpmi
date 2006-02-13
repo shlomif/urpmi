@@ -381,19 +381,21 @@ if ($bug) {
 
 #- search the packages according to the selection given by the user.
 if (@names) {
-    $urpm->search_packages(\%requested, [ @names ],
-			   all => $all,
-			   use_provides => $use_provides,
-			   fuzzy => $urpm->{options}{fuzzy})
-      || $force or exit 1;
+    $urpm->search_packages(
+	\%requested, [ @names ],
+	all => $all,
+	use_provides => $use_provides,
+	fuzzy => $urpm->{options}{fuzzy},
+	ignorearch => $urpm->{options}{ignorearch},
+    ) || $force or exit 1;
 }
 if (@src_names) {
     $urpm->search_packages(\%requested, [ @src_names ],
-			   all => $all,
-			   use_provides => $use_provides,
-			   fuzzy => $urpm->{options}{fuzzy},
-			   src => 1)
-      || $force or exit 1;
+	all => $all,
+	use_provides => $use_provides,
+	fuzzy => $urpm->{options}{fuzzy},
+	src => 1,
+    ) || $force or exit 1;
 }
 
 sub ask_choice {
