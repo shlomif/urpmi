@@ -109,7 +109,7 @@ $< == 0 or die N("You must be superuser to do this");
 
 if ($do_checkpoint) {
 
-    my $db = URPM::DB::open(); #- to load macros
+    URPM::read_config_files();
     my $repackage_dir = URPM::expand("%_repackage_dir");
     if (!$repackage_dir || $repackage_dir eq '/') {
 	die N("Repackage directory not defined\n");
