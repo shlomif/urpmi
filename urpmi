@@ -129,6 +129,7 @@ usage:
 ") . N("  --excludepath  - exclude path separated by comma.
 ") . N("  --excludedocs  - exclude doc files.
 ") . N("  --ignoresize   - don't verify disk space before installation.
+") . N("  --ignorearch   - allow to install rpms for unmatched architectures.
 ") . N("  --noscripts    - do not execute package scriptlet(s)
 ") . N("  --repackage    - Re-package the files before erasing
 ") . N("  --skip         - packages which installation should be skipped
@@ -702,6 +703,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		translate_message => 1,
 		oldpackage => $state->{oldpackage},
 		nosize => $urpm->{options}{ignoresize},
+		ignorearch => $urpm->{options}{ignorearch},
 		noscripts => $urpm->{options}{noscripts},
 	    );
 	    my @l = $urpm->install(
