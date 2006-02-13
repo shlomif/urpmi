@@ -23,15 +23,15 @@ The following options can be written in this section :
 
 =item B<allow-force>
 
-Same as specifying B<--allow-force> for urpmi, disabled by default.
+Same as specifying B<--allow-force> for urpmi. Disabled by default.
 
 =item B<allow-nodeps>
 
-Same as specifying B<--allow-nodeps> for urpmi, disabled by default.
+Same as specifying B<--allow-nodeps> for urpmi. Disabled by default.
 
 =item B<curl-options>
 
-Additional options to pass to B<curl> when downloading files.
+Additional options to pass to B<curl>'s command line when downloading files.
 
 =item B<default-media>
 
@@ -45,7 +45,7 @@ Specify which download program to use: B<wget> or B<curl>.
 
 =item B<excludedocs>
 
-Same as specifying B<--excludedocs> for urpmi, disabled by default.
+Same as specifying B<--excludedocs> for urpmi. Disabled by default.
 
 =item B<excludepath>
 
@@ -56,7 +56,7 @@ exclusion by default.
 =item B<fuzzy>
 
 Same as B<--fuzzy> for urpmi or urpmq. Enable or disable fuzzy
-search, disabled by default. Enabling it can be written in various ways :
+search. Disabled by default. Enabling it can be written in various ways :
 C<fuzzy> or C<fuzzy: yes> or C<fuzzy: on> or C<fuzzy: 1>.
 
 =item B<key-ids>
@@ -84,9 +84,9 @@ file present on the medium).
 
 =item B<norebuild>
 
-Same as B<--norebuild> for urpmi, urpmi.update and
-urpmi.addmedia, disabled by default (meaning that urpmi will try to
-rebuild hdlists by default).
+Same as B<--norebuild> for urpmi, urpmi.update and urpmi.addmedia.
+Disabled by default (meaning that urpmi will try to rebuild hdlists by
+default).
 
 =item B<pre-clean, post-clean, clean>
 
@@ -100,7 +100,7 @@ like B<basesystem> dependencies).
 
 =item B<repackage>
 
-Same as specifying B<--repackage> for urpmi, disabled by default.
+Same as specifying B<--repackage> for urpmi. Disabled by default.
 
 =item B<retry>
 
@@ -139,7 +139,7 @@ or C<verify-rpm: off> or C<verify-rpm: 0>.
 
 =item B<wget-options>
 
-Additional options to pass to B<wget> when downloading files.
+Additional options to pass to B<wget>'s command line when downloading files.
 
 =back
 
@@ -153,8 +153,10 @@ A medium is described as follows :
     }
 
 where B<name> is the medium name (space characters must be prefixed by a
-backslash) and where the optional B<url> is the medium URL (if no B<url>
-is given, it will be guessed according to the mandatory list file).
+backslash) and where the optional B<url> is the medium URL. If no B<url>
+is given, it will be read from the mandatory list file. (This is the case
+when passwords appear in the URL, so passwords remain hidden to non-root
+users, urpmi.cfg being world-readable.)
 
 Most other options like B<list>, B<with_hdlist>, B<synthesis>,
 B<removable>, B<virtual> are for internal use and should be changed only
@@ -167,9 +169,9 @@ medium for verification (unless of course signature checking has been
 disabled globally). It's also possible to override B<verify-rpm> and
 B<downloader> in a medium description.
 
-Media can be marked as B<static>: this means that they won't be updated by
-urpmi.update or other means. This is useful for read-only media such as
-CDs.
+Media can be marked as B<static>: this means that they will never get
+updated by urpmi.update or other means. This is useful for read-only media
+such as CDs.
 
 Please note that B<key-ids> is automatically set by urpmi.update or
 urpmi.addmedia if a remote pubkey file is available on the mirror. This
@@ -183,8 +185,8 @@ invalid.
 
 =head1 AUTHOR
 
-Pascal Rigaux (original author), Francois Pons, Rafael Garcia-Suarez,
-<rgarciasuarez@mandriva.com> (current maintainer)
+Pascal Rigaux (original author), FranE<ccedil>ois Pons, Rafael
+Garcia-Suarez, <rgarciasuarez@mandriva.com> (current maintainer)
 
 =head1 SEE ALSO
 
