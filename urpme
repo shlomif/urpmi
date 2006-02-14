@@ -126,7 +126,7 @@ if ($test && $auto) {
 }
 
 #- Warning : the following message is parsed in urpm::parallel_*
-print "\n" . N("removing %s", join(' ', sort @toremove)) . "\n";
+print N("removing %s", join(' ', sort @toremove)) . "\n";
 @l = $parallel
     ? $urpm->parallel_remove(
 	\@toremove,
