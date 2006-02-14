@@ -11,7 +11,7 @@ use urpm::util;
 use urpm::sys;
 use urpm::cfg;
 
-our $VERSION = '4.8.9';
+our $VERSION = '4.8.10';
 our @ISA = qw(URPM);
 
 use URPM;
@@ -2887,7 +2887,7 @@ sub extract_packages_to_install {
     \%inst;
 }
 
-#- install logger (à la rpm)
+#- install logger (a la rpm)
 sub install_logger {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
     my $pkg = defined $id && $urpm->{depslist}[$id];

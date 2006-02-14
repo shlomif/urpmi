@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.9
+%define version	4.8.10
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -136,6 +136,10 @@ install -m 644 %{name}.bash-completion %{buildroot}%{_sysconfdir}/bash_completio
 # Don't install READMEs twice
 rm -f %{buildroot}%{compat_perl_vendorlib}/urpm/README*
 
+# For ghost file
+mkdir -p %{buildroot}%{_sys_macros_dir}
+touch %{buildroot}%{_sys_macros_dir}/urpmi.recover.macros
+
 %if %{allow_gurpmi}
 mkdir -p %{buildroot}%{_menudir}
 cat << EOF > %{buildroot}%{_menudir}/gurpmi
@@ -208,9 +212,17 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{_sbindir}/urpmi.addmedia
 %{_sbindir}/urpmi.removemedia
 %{_sbindir}/urpmi.update
-%{_mandir}/man?/urpm*
-%{_mandir}/man?/rurpmi*
-%{_mandir}/man?/proxy*
+%{_mandir}/man3/urpm*
+%{_mandir}/man5/urpm*
+%{_mandir}/man5/proxy*
+%{_mandir}/man8/rurpmi*
+%{_mandir}/man8/urpme*
+%{_mandir}/man8/urpmf*
+%{_mandir}/man8/urpmq*
+%{_mandir}/man8/urpmi.8*
+%{_mandir}/man8/urpmi.addmedia*
+%{_mandir}/man8/urpmi.removemedia*
+%{_mandir}/man8/urpmi.update*
 # find_lang isn't able to find man pages yet...
 #%lang(cs) %{_mandir}/cs/man?/urpm*
 #%lang(et) %{_mandir}/et/man?/urpm*
@@ -259,9 +271,24 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 
 %files -n urpmi-recover
 %{_sbindir}/urpmi.recover
-%config(noreplace) /etc/rpm/macros.d/urpmi.recover.macros
+%{_mandir}/man8/urpmi.recover*
+%config(noreplace) %_sys_macros_dir/urpmi.recover.macros
+%ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Tue Feb 14 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.10-1mdk
+- New tool: urpmi.recover (in its own rpm)
+- urpmi: clean cache more aggressively (bug #17913)
+- Don't log to /var/log/urpmi.log anymore, use syslog
+- urpme and urpmi.recover use syslog too
+- New config file urpmi.recover.macros
+- Add new option --repackage to urpmi and urpme
+- Add new option --ignorearch to urpmi and urpmq
+- Fix --no-verify-rpm with gurpmi
+- Fix usage of global urpmi.cfg options in gurpmi
+- Various useability fixes in urpme
+- Doc improvements
+
 * Thu Feb 02 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.9-1mdk
 - Fix call of --limit-rate option with recent curls
 - Fix some explanations on biarch environments
