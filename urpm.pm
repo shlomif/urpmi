@@ -2887,11 +2887,15 @@ sub extract_packages_to_install {
     \%inst;
 }
 
-#- install logger (ala rpm)
+#- install logger (à la rpm)
 sub install_logger {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
     my $pkg = defined $id && $urpm->{depslist}[$id];
     my $total_pkg = $urpm->{nb_install};
+    if ($urpm->{options}{repackage} || URPM::expand('%_repackage_all_erasures')) {
+	# there are repackaging transactions too
+	$total_pkg *= 2;
+    }
     my $progress_size = $total_pkg ? 45 : 50;
 
     if ($subtype eq 'start') {
