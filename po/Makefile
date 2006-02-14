@@ -25,7 +25,7 @@ all: $(GOALS)
 merge: $(PGOAL).pot
 	@for n in $(POFILES); do \
 	    echo "Merging $$n"; \
-	    msgmerge --width=80 "$$n" $< > "$$n"t; \
+	    msgmerge --width=79 "$$n" $< > "$$n"t; \
 	    mv -f "$$n"t "$$n"; \
 	done
 
