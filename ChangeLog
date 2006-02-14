@@ -1,3 +1,303 @@
+2006-02-14 15:40  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpmi.spec: Bump version number.  Make urpmi.recover
+	  macro file a ghost file.  Put urpmi.recover manpage in
+	  urpmi-recover rpm.
+
+2006-02-14 15:06  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/fr.po: A few new French translations
+
+2006-02-14 14:46  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/: Makefile, af.po, ar.po, az.po, bg.po, bn.po, br.po, bs.po,
+	  ca.po, cs.po, cy.po, da.po, de.po, el.po, eo.po, es.po, et.po,
+	  eu.po, fa.po, fi.po, fr.po, fur.po, ga.po, gl.po, he.po, hi.po,
+	  hr.po, hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po, ky.po,
+	  lt.po, lv.po, mk.po, mn.po, ms.po, mt.po, nb.po, nl.po, nn.po,
+	  pa_IN.po, pl.po, pt.po, pt_BR.po, ro.po, ru.po, sc.po, sk.po,
+	  sl.po, sq.po, sr.po, sr@Latn.po, sv.po, tg.po, th.po, tl.po,
+	  tr.po, uk.po, uz.po, uz@Latn.po, vi.po, wa.po, zh_CN.po,
+	  zh_TW.po: Merge strings
+
+2006-02-14 14:39  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/urpmi.pot: Regenerate
+
+2006-02-14 14:36  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/Makefile: Add width argument to msgmerge
+
+2006-02-14 13:55  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* MANIFEST: Remove urpmi.logrotate from the MANIFEST, since we
+	  don't use our own logfile anymore
+
+2006-02-14 12:29  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpme: Remove a spurious newline
+
+2006-02-14 12:13  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Adjust transaction count when repackaging
+
+2006-02-14 10:45  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* pod/urpmi.8.pod: Note about the limited usefulness of urpmi
+	  --repackage
+
+2006-02-13 16:02  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* Makefile.PL: Fix description of command-line options
+
+2006-02-13 15:50  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.removemedia: Code cleanup
+
+2006-02-13 15:45  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpme, urpmf, urpmi.addmedia, urpmi.update, urpmq: Die if unknown
+	  command-line options are given.
+
+2006-02-13 15:21  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* pod/urpmi.addmedia.8.pod: Man page overhaul. Remove -h option,
+	  that doesn't exist
+
+2006-02-13 15:14  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* pod/urpmi.recover.8.pod: First concise version of the
+	  urpmi.recover manpage. Probably need to add more complete
+	  examples.
+
+2006-02-13 15:04  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.recover: Fix description of --list option
+
+2006-02-13 14:21  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpmi, urpmq: Make --ignorearch really work by
+	  overriding a package subroutine (not very clean, but fast)
+
+2006-02-13 13:54  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.recover: No need to open the rpmdb to load macros
+
+2006-02-13 13:45  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Another --ignorearch fix in search_packages()
+
+2006-02-13 12:36  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.bash-completion, urpmq, pod/urpmq.8.pod, urpm/args.pm: Add
+	  ignorearch option to urpmq
+
+2006-02-13 12:27  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpmi: Make research of packages work with ignorearch
+	  option
+
+2006-02-13 12:08  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* pod/urpmi.cfg.5.pod: Doc nits in urpmi.cfg man page
+
+2006-02-13 12:03  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/cfg.pm: Document that parsing /etc/release is fragile,
+	  because the format of this file is undocumented, and there is no
+	  definitive way to get version and architecture for a given
+	  Mandriva system. (Warly sux)
+
+2006-02-13 11:48  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* Makefile.PL, urpmi.spec: Require latest URPM for supporting the
+	  --ignorearch option
+
+2006-02-13 11:47  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi2, urpmi, urpmi.bash-completion, pod/urpmi.8.pod,
+	  urpm/args.pm: Add --ignorearch flag to urpmi
+
+2006-02-13 10:12  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.recover: If called without arguments, make urpmi.recover
+	  print usage
+
+2006-02-13 10:06  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.recover: Add the _rollback_transaction_on_failure macro
+	  (with the default value, disabled) to the urpmi.recover.macros
+	  file
+
+2006-02-11 14:32  berthy
+
+	* po/fr.po: Update french translation
+
+2006-02-10 19:11  Wanderlei Antonio Cavassin <cavassin at mandriva.com>
+
+	* po/pt_BR.po: More pt_BR translations.
+
+2006-02-10 19:09  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* MANIFEST, pod/urpmi.recover.8.pod: Add skeleton manpage for
+	  urpmi.recover
+
+2006-02-10 18:39  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/Makefile: urpmi.recover contains translatable strings
+
+2006-02-10 18:37  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.spec: Add new package urpmi-recover.  Require recent URPM.
+
+2006-02-10 18:29  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* MANIFEST: Update MANIFEST
+
+2006-02-10 18:15  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* Makefile.PL: Add urpmi.recover in Makefile.PL. Bump requirement
+	  for recent URPM.
+
+2006-02-10 18:14  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.recover, urpm/args.pm: New tool, urpmi.recover
+
+2006-02-09 17:10  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/ja.po: update (Yukiko Bando)
+
+2006-02-09 16:09  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi2: gurpmi should install global options when installing
+
+2006-02-09 16:04  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpme, pod/urpme.8.pod, urpm/args.pm: urpme needs to support
+	  --repackage too
+
+2006-02-09 14:30  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* Makefile.PL, urpmi.spec: Require latest URPM to support repackage
+	  option
+
+2006-02-09 14:24  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpmi, pod/urpmi.8.pod, pod/urpmi.cfg.5.pod,
+	  urpm/args.pm, urpm/cfg.pm: Implement urpmi --repackage. Add a
+	  "repackage" global option in urpmi.cfg.  Document them.
+
+2006-02-09 13:24  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Log mounts and umounts
+
+2006-02-09 12:47  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Log transaction creation
+
+2006-02-09 12:26  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpme, urpmi: Log calls to urpmi and urpme
+
+2006-02-09 11:16  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.spec: Remove logrotate file
+
+2006-02-08 18:13  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmf, urpmi, urpmq: Use stdout for informational messages, not
+	  stderr
+
+2006-02-08 18:13  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/msg.pm: Simplification of usage of duped stdout
+
+2006-02-08 16:16  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/prompt.pm: Simplify prompt function
+
+2006-02-08 16:11  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi, urpm/args.pm, urpm/msg.pm: Get rid of message() function
+
+2006-02-08 15:40  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi: Dup standard streams only when necessart
+
+2006-02-08 15:16  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/args.pm: Add a --logfile option for debug
+
+2006-02-08 15:13  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi, pod/urpmi.8.pod, urpm/msg.pm: Remove default logging to
+	  /var/log/urpmi.log.  Add an interface to syslog in urpm::msg.
+	  Make --env verify if env dir exists.
+
+2006-02-07 22:55  mmodem
+
+	* po/pt.po: [no log message]
+
+2006-02-07 18:59  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi, urpm/msg.pm: A bit of clarification in logging code
+
+2006-02-07 11:22  Willy Sudiarto Raharjo <willysr at gmail.com>
+
+	* po/id.po: Updated
+
+2006-02-06 16:52  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Always remove from the local cache all packages that
+	  were part of the transaction, even if they weren't successfully
+	  installed. (Bug #17913)
+
+2006-02-06 16:45  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/args.pm: I keep typing --noinstall instead of --no-install.
+	  Add this as an alias.
+
+2006-02-06 15:54  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Clean more aggressively in /var/cache/rpms
+
+2006-02-06 13:53  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/fr.po: French translation nits
+
+2006-02-06 13:34  berthy
+
+	* po/fr.po: Update french translation
+
+2006-02-06 10:53  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpme: Fixes in --help output
+
+2006-02-06 10:47  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpme: Make message to ask whether N packages should be removed
+	  more explicit (suggested by blino)
+
+2006-02-05 10:47  Funda Wang <fundawang at linux.net.cn>
+
+	* po/it.po: Updated Italian translations from Andrea Celli
+	  <andrea.celli@libero.it>.
+
+2006-02-03 14:26  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi2: Stupid typo, --no-verify-rpm wasn't working correctly
+	  with gurpmi
+
+2006-02-03 10:01  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* pod/: urpme.8.pod, urpmi.8.pod: Add urpme in urpmi manpage / see
+	  also. Remove misleading BUGS section in urpmi manpage. Minor
+	  fixes and additions in urpme manpage.
+
+2006-02-02 18:32  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.bash-completion: Add --noscripts to urpme completion
+
 2006-02-02 16:03  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
 
 	* urpm.pm, urpmi.spec: 4.8.9-1mdk
