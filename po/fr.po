@@ -1198,9 +1198,8 @@ msgstr ""
 "  --parallel     - urpmi distribué sur plusieurs machines de l'alias.\n"
 
 #: ../urpme:47 ../urpmi:134
-#, fuzzy
 msgid "  --repackage    - Re-package the files before erasing\n"
-msgstr "  --packager     - chercher dans le nom du créateur du paquetage\n"
+msgstr "  --repackage    - Réempaqueter les fichiers avant effacement\n"
 
 #: ../urpme:48
 msgid "  --root         - use another root for rpm removal.\n"
@@ -1209,9 +1208,8 @@ msgstr ""
 "désinstallation.\n"
 
 #: ../urpme:49
-#, fuzzy
 msgid "  --noscripts    - do not execute package scriptlet(s).\n"
-msgstr "  --noscripts    - ne pas exécuter les scripts d'installation\n"
+msgstr "  --noscripts    - ne pas exécuter les scripts de désinstallation.\n"
 
 #: ../urpme:50
 #, fuzzy
@@ -1275,9 +1273,9 @@ msgid " (y/N) "
 msgstr " (o/N) "
 
 #: ../urpme:125
-#, fuzzy, c-format
+#, c-format
 msgid "Remove %d packages?"
-msgstr "désinstallation du paquetage %s"
+msgstr "Supprimer %s paquets ?"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
 #: ../urpme:149
@@ -1752,9 +1750,9 @@ msgstr ""
 "  --ignoresize   - ne pas vérifier la place disque avant installation.\n"
 
 #: ../urpmi:132
-#, fuzzy
 msgid "  --ignorearch   - allow to install rpms for unmatched architectures.\n"
-msgstr "  --arch         - chercher dans le champ architecture\n"
+msgstr "  --ignorearch   - autoriser l'installation de paquets pour d'autres\n"
+"                   architectures.\n"
 
 #: ../urpmi:133
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
@@ -2171,19 +2169,18 @@ msgid "  --checkpoint   - set repackaging start now\n"
 msgstr ""
 
 #: ../urpmi.recover:33
-#, fuzzy
 msgid "  --noclean      - don't clean repackage directory on checkpoint\n"
-msgstr "  --noclean      - ne supprime aucun paquetage du cache.\n"
+msgstr "  --noclean      - ne pas vider le répertoire de cache.\n"
 
 #: ../urpmi.recover:34
 msgid ""
 "  --list         - list transactions since provided date/duration argument\n"
 msgstr ""
+"  --list         - liste les transactions depuis la date donnée en argument\n"
 
 #: ../urpmi.recover:35
-#, fuzzy
 msgid "  --list-all     - list all transactions in rpmdb (long)\n"
-msgstr "  --list-url     - montrer tous les médias disponibles et leurs URL.\n"
+msgstr "  --list-all     - lister toutes les transactions de la base RPM.\n"
 
 #: ../urpmi.recover:36
 msgid ""
@@ -2194,7 +2191,7 @@ msgstr ""
 #: ../urpmi.recover:52
 #, c-format
 msgid "Invalid date or duration [%s]\n"
-msgstr ""
+msgstr "Date ou durée invalide [%s]\n"
 
 #: ../urpmi.recover:62
 #, c-format
@@ -2216,48 +2213,46 @@ msgstr ""
 #: ../urpmi.recover:90
 #, c-format
 msgid "No transaction found since %s\n"
-msgstr ""
+msgstr "Pas de transaction trouvée depuis %s\n"
 
 #. - check we're running as root
 #: ../urpmi.recover:105
 msgid "You must be superuser to do this"
-msgstr ""
+msgstr "Vous devez être administrateur pour faire cela"
 
 #: ../urpmi.recover:114
-#, fuzzy
 msgid "Repackage directory not defined\n"
-msgstr "paquetage %s non trouvé"
+msgstr "Répertoire de cache de paquets non défini\n"
 
 #: ../urpmi.recover:117
 #, c-format
 msgid "Can't write to repackage directory [%s]\n"
-msgstr ""
+msgstr "Ne peut pas écrire dans le répertoire de cache de paquets [%s]\n"
 
 #: ../urpmi.recover:122
 #, c-format
 msgid "Cleaning up repackage directory [%s]...\n"
-msgstr ""
+msgstr "Vidage du répertoire de cache de paquets [%s]...\n"
 
 #: ../urpmi.recover:124
 #, c-format
 msgid "%d files removed\n"
-msgstr ""
+msgstr "%d fichiers effacés\n"
 
 #. - write rpm config file
 #: ../urpmi.recover:128
-#, fuzzy, c-format
+#, c-format
 msgid "Writing rpm macros file [%s]...\n"
-msgstr "récupération des fichiers rpm [%s]..."
+msgstr "Ecriture du fichier de macros rpm [%s]...\n"
 
 #: ../urpmi.recover:170
-#, fuzzy
 msgid "No rollback date found\n"
-msgstr "Aucune liste de fichiers n'a pu être trouvée\n"
+msgstr "Aucune date de retour en arrière spécifiée\n"
 
 #: ../urpmi.recover:173
 #, c-format
 msgid "Rollback until %s...\n"
-msgstr ""
+msgstr "Retour en arrière jusqu'à %s...\n"
 
 #: ../urpmi.removemedia:52
 msgid ""
@@ -2435,9 +2430,9 @@ msgstr ""
 "                   télécharger (administrateur seulement).\n"
 
 #: ../urpmq:64
-#, fuzzy
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
-msgstr "  --arch         - chercher dans le champ architecture\n"
+msgstr "  --ignorearch   - autoriser la recherche de paquets pour d'autres\n"
+"                   architectures.\n"
 
 #: ../urpmq:66
 msgid ""
