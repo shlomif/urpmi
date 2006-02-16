@@ -321,6 +321,7 @@ my %options_spec = (
 	checkpoint => \$::do_checkpoint,
 	'rollback=s' => \$::rollback,
 	noclean => \$::noclean,
+	disable => \$::disable,
     },
 
 );

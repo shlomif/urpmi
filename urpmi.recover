@@ -21,6 +21,7 @@ our $listdate;
 our $do_checkpoint;
 our $noclean;
 our $rollback;
+our $disable;
 
 sub usage () {
     print N("urpmi.recover version %s
@@ -35,6 +36,7 @@ usage:
 ") . N("  --list-all     - list all transactions in rpmdb (long)
 ") . N("  --rollback     - rollback until specified date,
                    or rollback the specified number of transactions
+") . N("  --disable      - turn off repackaging
 ");
     exit(0);
 }
@@ -53,6 +55,21 @@ sub date_to_tid {
     UnixDate($d, '%s');
 }
 
+#- clean up repackage directory
+sub clean_repackage_dir {
+    my ($repackage_dir) = @_;
+    if (!$repackage_dir || $repackage_dir eq '/') {
+	die N("Repackage directory not defined\n");
+    }
+    -d $repackage_dir
+	or die N("Can't write to repackage directory [%s]\n", $repackage_dir);
+    unless ($noclean) {
+	print N("Cleaning up repackage directory [%s]...\n", $repackage_dir);
+	my $nb = unlink grep !-d, glob("$repackage_dir/*");
+	print N("%d files removed\n", $nb);
+    }
+}
+
 #- option parsing
 
 @ARGV or usage();
@@ -66,6 +83,8 @@ $do_checkpoint && $listdate
     and die N("You can't specify --checkpoint and --list at the same time\n");
 $rollback && $listdate
     and die N("You can't specify --rollback and --list at the same time\n");
+$disable && ($listdate || $rollback || $do_checkpoint)
+    and die N("You can't specify --disable along with another option");
 
 #- --list <date> and --list-all
 
@@ -110,19 +129,9 @@ if ($do_checkpoint) {
 
     URPM::read_config_files();
     my $repackage_dir = URPM::expand("%_repackage_dir");
-    if (!$repackage_dir || $repackage_dir eq '/') {
-	die N("Repackage directory not defined\n");
-    }
-    -d $repackage_dir
-	or die N("Can't write to repackage directory [%s]\n", $repackage_dir);
     my $unsafe_rollbacks = time();
 
-    #- clean up repackage directory
-    unless ($noclean) {
-	print N("Cleaning up repackage directory [%s]...\n", $repackage_dir);
-	my $nb = unlink grep !-d, glob("$repackage_dir/*");
-	print N("%d files removed\n", $nb);
-    }
+    clean_repackage_dir($repackage_dir);
 
     #- write rpm config file
     print N("Writing rpm macros file [%s]...\n", $MACROS);
@@ -172,4 +181,31 @@ if ($rollback) {
     my $rollbackdate = fmt_tid($tid);
     print N("Rollback until %s...\n", $rollbackdate), "\n";
     exec '/bin/rpm', '-Uvh', '--rollback', $rollbackdate;
+}
+
+#- --disable
+
+if ($disable) {
+    print N("Disabling repackaging\n");
+
+    unless ($noclean) {
+	URPM::read_config_files();
+	my $repackage_dir = URPM::expand("%_repackage_dir");
+	clean_repackage_dir($repackage_dir);
+    }
+
+    open my $fh, '<', $MACROS
+	or die "Can't open $MACROS for reading: $!\n";
+    my $macrosfile = join '', <$fh>;
+    close $fh;
+    #- turn off repackaging macro
+    $macrosfile =~ s/_repackage_all_erasures\s+\w+/_repackage_all_erasures 0/g;
+    print N("Writing rpm macros file [%s]...\n", $MACROS);
+    open $fh, '>', $MACROS
+	or die "Can't open $MACROS for writing: $!\n";
+    print $fh $macrosfile;
+    close $fh;
+
+    sys_log("repackaging disabled");
+    exit(0);
 }
