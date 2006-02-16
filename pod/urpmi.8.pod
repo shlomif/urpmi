@@ -67,6 +67,7 @@ resolve dependencies only in media marked as containing updates.
 
 Select specific media to be used, instead of defaulting
 to all available media (or all update media if B<--update> is used).
+No rpm will be fetched from other media.
 
 =item B<--excludemedia> I<media1,...,mediaN>
 
@@ -74,8 +75,9 @@ Do not use the specified media.
 
 =item B<--searchmedia> I<media>
 
-Use only the specified media to search for packages when combined with
-B<--auto-select>.
+Use only the specified media to search for packages that are specified on
+the command-line, or which are found when using B<--auto-select>.
+Dependencies of those packages can still be found in other media.
 
 =item B<--sortmedia> I<media1,...,mediaN>
 
