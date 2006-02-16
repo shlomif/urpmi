@@ -7,6 +7,7 @@ urpmi.recover - manages repackaging of old RPMs and rollbacks
     urpmi.recover --checkpoint
     urpmi.recover --list '1 week ago'
     urpmi.recover --rollback '1 hour ago'
+    urpmi.recover --disable
 
 =head1 DESCRIPTION
 
@@ -67,6 +68,12 @@ Lists all installations and upgrades known to the RPM database.
 
 Roll back the system to the given date (see C<--list> for accepted date
 formats), or rolls back the given number of transactions.
+
+=item --disable
+
+Turn off repackaging. Unless C<--noclean> was also specified, this cleans
+up the repackage directory as well. To turn it on again, use
+C<--checkpoint>.
 
 =back
 
