@@ -166,6 +166,7 @@ sub read_config {
 	    excludedocs
 	    excludepath
 	    fuzzy
+	    ignoresize
 	    keep
 	    key-ids
 	    limit-rate

@@ -174,6 +174,7 @@ sub load_config ($;$) {
 	    |excludedocs
 	    |compress
 	    |keep
+	    |ignoresize
 	    |auto
 	    |repackage
 	    |strict-arch
