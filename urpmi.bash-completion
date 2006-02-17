@@ -68,7 +68,15 @@ _urpmi()
 	prev=${COMP_WORDS[COMP_CWORD-1]}
 
 	case "$prev" in
-		--@(media|excludemedia|sortmedia))
+		--media)
+			_urpmi_medias
+			return 0
+			;;
+		--excludemedia)
+			_urpmi_medias
+			return 0
+			;;
+		--sortmedia)
 			_urpmi_medias
 			return 0
 			;;
@@ -116,7 +124,15 @@ _urpmq()
 	prev=${COMP_WORDS[COMP_CWORD-1]}
 
 	case "$prev" in
-		--@(media|excludemedia|sortmedia))
+		--media)
+			_urpmi_medias
+			return 0
+			;;
+		--excludemedia)
+			_urpmi_medias
+			return 0
+			;;
+		--sortmedia)
 			_urpmi_medias
 			return 0
 			;;
@@ -180,7 +196,15 @@ _urpmf()
 	prev=${COMP_WORDS[COMP_CWORD-1]}
 
 	case "$prev" in
-		--@(media|excludemedia|sortmedia))
+		--media)
+			_urpmi_medias
+			return 0
+			;;
+		--excludemedia)
+			_urpmi_medias
+			return 0
+			;;
+		--sortmedia)
 			_urpmi_medias
 			return 0
 			;;
