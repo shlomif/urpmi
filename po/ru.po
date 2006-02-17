@@ -3,7 +3,7 @@
 #
 # Aleksey Smirnov <smi@logic.ru>, 2000.
 # Vladimir Choundalov <choundalovvv@point.pwp.ru>, 2001.
-# Pavel Maryanov <acid_jack@ukr.net>, 2002, 2003, 2004, 2005.
+# Pavel Maryanov <acid_jack@ukr.net>, 2002, 2003, 2004, 2005, 2006.
 # Alice Lafox <alice@lafox.com.ua>, 2003.
 # Alice Lafox <alice@lafox.net>, 2004, 2005.
 msgid ""
@@ -11,13 +11,13 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-02-14 14:40+0100\n"
-"PO-Revision-Date: 2005-12-29 14:13+0200\n"
+"PO-Revision-Date: 2006-02-17 15:30+0200\n"
 "Last-Translator: Pavel Maryanov <acid_jack@ukr.net>\n"
 "Language-Team: Russian <docteam@lafox.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11\n"
+"X-Generator: KBabel 1.11.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gurpmi:30 ../gurpmi2:56
@@ -468,8 +468,7 @@ msgstr "проверяется файл hdlist [%s]"
 #: ../urpm.pm:584 ../urpm.pm:1089
 #, c-format
 msgid "virtual medium \"%s\" is not local, medium ignored"
-msgstr ""
-"виртуальный источник \"%s\" не является локальным, источник проигнорирован"
+msgstr "виртуальный источник \"%s\" не является локальным, источник проигнорирован"
 
 #: ../urpm.pm:614
 #, c-format
@@ -794,13 +793,13 @@ msgid "unable to access rpm file [%s]"
 msgstr "нет доступа к rpm-файлу [%s]"
 
 #: ../urpm.pm:2128
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse spec file %s [%s]"
-msgstr "невозможно разобрать \"%s\" в файле [%s]"
+msgstr "невозможно разобрать spec-файл %s [%s]"
 
 #: ../urpm.pm:2138
 msgid "unable to register rpm file"
-msgstr "не удается зарегистрировать rpm-файл"
+msgstr "невозможно зарегистрировать rpm-файл"
 
 #: ../urpm.pm:2142
 msgid "error registering local packages"
@@ -874,9 +873,9 @@ msgid "unable to access medium \"%s\""
 msgstr "нет доступа к источнику \"%s\""
 
 #: ../urpm.pm:2809
-#, fuzzy, c-format
+#, c-format
 msgid "malformed URL: [%s]"
-msgstr "неверно сформированный ввод: [%s]"
+msgstr "неверно сформированный URL: [%s]"
 
 #: ../urpm.pm:2816
 #, c-format
@@ -890,10 +889,8 @@ msgstr "процесс %d используется для выполнения �
 
 #: ../urpm.pm:2975
 #, c-format
-msgid ""
-"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
-msgstr ""
-"создана транзакция для установки на %s (remove=%d, install=%d, upgrade=%d)"
+msgid "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr "создана транзакция для установки на %s (remove=%d, install=%d, upgrade=%d)"
 
 #: ../urpm.pm:2978
 msgid "unable to create transaction"
@@ -1124,7 +1121,7 @@ msgid "Preparing install on %s..."
 msgstr "Подготавливается установка на %s..."
 
 #: ../urpme:37
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpme version %s\n"
 "Copyright (C) 1999-2006 Mandriva.\n"
@@ -1134,7 +1131,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpme версия %s\n"
-"Copyright (C) 1999-2005 Mandriva.\n"
+"Copyright (C) 1999-2006 Mandriva.\n"
 "Это свободное программное обеспечение и может распространяться согласно "
 "условиям GNU GPL.\n"
 "\n"
@@ -1154,8 +1151,7 @@ msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - проверка возможности корректного удаления.\n"
 
 #: ../urpme:45 ../urpmi:102 ../urpmq:63
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
+msgid "  --force        - force invocation even if some packages do not exist.\n"
 msgstr ""
 "  --force        - принудительное выполнение, даже если некоторые пакеты\n"
 "                   не существуют.\n"
@@ -1165,27 +1161,24 @@ msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - распределенный urpmi через машины алиаса.\n"
 
 #: ../urpme:47 ../urpmi:134
-#, fuzzy
 msgid "  --repackage    - Re-package the files before erasing\n"
-msgstr "  --packager     - создатель пакета\n"
+msgstr "  --repackage    - повторная упаковка файлов перед удалением\n"
 
 #: ../urpme:48
 msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - использование другого корня для удаления rpm.\n"
 
 #: ../urpme:49
-#, fuzzy
 msgid "  --noscripts    - do not execute package scriptlet(s).\n"
-msgstr "  --noscripts    - не выполнять scriptlet'ы пакета\n"
+msgstr "  --noscripts    - не выполнять scriptlet'ы пакета.\n"
 
 #: ../urpme:50
-#, fuzzy
 msgid ""
 "  --use-distrib  - configure urpme on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
-"  --use-distrib  - настройка urpmi на лету из дерева distrib, полезна\n"
-"                   для установки/удаления в chroot с опцией --root.\n"
+"  --use-distrib  - настройка urpme на лету из дерева distrib, полезно\n"
+"                   для установки/удаления в/из chroot с опцией --root.\n"
 
 #: ../urpme:52 ../urpmi:145 ../urpmi.addmedia:70 ../urpmi.removemedia:59
 #: ../urpmi.update:49 ../urpmq:91
@@ -1226,19 +1219,17 @@ msgstr "Проверяется возможность удаления след�
 
 #: ../urpme:123
 #, c-format
-msgid ""
-"To satisfy dependencies, the following %d packages will be removed (%d MB)"
-msgstr ""
-"Для удовлетворения зависимостей будут удалены следующие %d пакетов (%d МБ)"
+msgid "To satisfy dependencies, the following %d packages will be removed (%d MB)"
+msgstr "Для удовлетворения зависимостей будут удалены следующие %d пакетов (%d МБ)"
 
 #: ../urpme:125 ../urpmi:510 ../urpmi:643
 msgid " (y/N) "
 msgstr " (y/N) "
 
 #: ../urpme:125
-#, fuzzy, c-format
+#, c-format
 msgid "Remove %d packages?"
-msgstr "удаляется пакет %s"
+msgstr "Удалить %d пакетов?"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
 #: ../urpme:149
@@ -1246,7 +1237,7 @@ msgid "Removal failed"
 msgstr "Удаление не удалось"
 
 #: ../urpmf:28
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2006 Mandriva.\n"
@@ -1256,7 +1247,7 @@ msgid ""
 "usage: urpmf [options] pattern-expression\n"
 msgstr ""
 "urpmf версия %s\n"
-"Copyright (C) 2002-2005 Mandriva.\n"
+"Copyright (C) 2002-2006 Mandriva.\n"
 "Это свободное программное обеспечение и может распространяться согласно "
 "условиям GNU GPL.\n"
 "\n"
@@ -1279,8 +1270,7 @@ msgstr ""
 "                   разделенных запятыми.\n"
 
 #: ../urpmf:38
-msgid ""
-"  --literal, -l  - don't match patterns, use argument as a literal string.\n"
+msgid "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
 "  --literal, -l  - не искать соответствия шаблону, использовать аргумент\n"
 "                   как буквенную строку.\n"
@@ -1292,16 +1282,14 @@ msgstr ""
 "                   разделенных запятыми.\n"
 
 #: ../urpmf:40 ../urpmi:85 ../urpmq:49
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgid "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
 "  --sortmedia    - сортировка источников по подстрокам, разделенных\n"
 "                   запятыми.\n"
 
 #: ../urpmf:41 ../urpmi:86 ../urpmq:50
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr ""
-"  --synthesis    - использование указанного synthesis вместо БД urpmi.\n"
+msgstr "  --synthesis    - использование указанного synthesis вместо БД urpmi.\n"
 
 #: ../urpmf:42
 msgid "  --uniq         - do not print identical lines twice.\n"
@@ -1482,7 +1470,7 @@ msgid "You may want to use --name to search for package names.\n"
 msgstr "Вы можете использовать --name для поиска пакетов по их именам.\n"
 
 #: ../urpmi:75
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999-2006 Mandriva.\n"
@@ -1492,31 +1480,27 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmi версия %s\n"
-"Copyright (C) 1999-2005 Mandriva.\n"
+"Copyright (C) 1999-2006 Mandriva.\n"
 "Это свободное программное обеспечение и может распространяться согласно "
 "условиям GNU GPL.\n"
 "\n"
 "использование:\n"
 
 #: ../urpmi:84
-#, fuzzy
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
+msgid "  --searchmedia  - use only the given media to search requested packages.\n"
 msgstr ""
 "  --searchmedia  - использование только указанных источников для поиска\n"
-"                   запрошенных (или обновляемых) пакетов.\n"
+"                   запрошенных пакетов.\n"
 
 #: ../urpmi:87
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
-msgstr ""
+msgstr "  --auto         - неинтерактивный режим; на вопросы даются ответы по умолчанию.\n"
 
 #: ../urpmi:88 ../urpmq:51
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - автоматический выбор пакетов для обновления системы.\n"
+msgid "  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - автоматический выбор пакетов для обновления системы.\n"
 
 #: ../urpmi:89
 msgid ""
@@ -1556,17 +1540,12 @@ msgid "  --split-length - small transaction length, default is %d.\n"
 msgstr "  --split-length - длина маленькой транзакции, по умолчанию %d.\n"
 
 #: ../urpmi:97
-#, fuzzy
 msgid "  --fuzzy, -y    - impose fuzzy search.\n"
-msgstr ""
-"  --fuzzy        - установка поиска на основе нечеткой логики (эквивалент -"
-"y).\n"
+msgstr "  --fuzzy, -y    - поиск на основе нечёткой логики.\n"
 
 #: ../urpmi:98
-#, fuzzy
 msgid "  --src, -s      - next package is a source package.\n"
-msgstr ""
-"  --src          - следующий пакет содержит исходные коды (эквивалент -s).\n"
+msgstr "  --src, -s      - следующий пакет содержит исходные коды.\n"
 
 #: ../urpmi:99
 msgid "  --install-src  - install only source package (no binaries).\n"
@@ -1667,16 +1646,14 @@ msgstr ""
 "                   следующим аргументом.\n"
 
 #: ../urpmi:126
-#, fuzzy
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disables it, default is enabled).\n"
 msgstr ""
 "  --verify-rpm   - проверка подписи rpm перед установкой\n"
-"                   (--no-verify-rpm отключает ее, по умолчанию включена).\n"
+"                   (--no-verify-rpm отключает её, по умолчанию включена).\n"
 
 #: ../urpmi:128
-#, fuzzy
 msgid ""
 "  --test         - only verify if the installation can be achieved "
 "correctly.\n"
@@ -1692,13 +1669,11 @@ msgstr "  --excludedocs  - исключение файлов документа�
 
 #: ../urpmi:131
 msgid "  --ignoresize   - don't verify disk space before installation.\n"
-msgstr ""
-"  --ignoresize   - не проверять дисковое пространство перед установкой.\n"
+msgstr "  --ignoresize   - не проверять дисковое пространство перед установкой.\n"
 
 #: ../urpmi:132
-#, fuzzy
 msgid "  --ignorearch   - allow to install rpms for unmatched architectures.\n"
-msgstr "  --arch         - архитектура\n"
+msgstr "  --ignorearch   - разрешать устанавливать rpm'ы для несоответствующих архитектур.\n"
 
 #: ../urpmi:133
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
@@ -1723,14 +1698,12 @@ msgstr ""
 "                   невозможно.\n"
 
 #: ../urpmi:139
-#, fuzzy
 msgid "  --nolock       - don't lock rpm db.\n"
-msgstr "  --noclean      - не удалять rpm из кэша.\n"
+msgstr "  --nolock       - не блокировать базу данных rpm.\n"
 
 #: ../urpmi:140
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
-msgstr ""
-"  --strict-arch  - обновление пакетов только с такой же архитектурой.\n"
+msgstr "  --strict-arch  - обновление пакетов только с такой же архитектурой.\n"
 
 #: ../urpmi:141 ../urpmq:77
 msgid "  -a             - select all matches on command line.\n"
@@ -1751,14 +1724,12 @@ msgstr "  -q             - тихий режим (quiet).\n"
 
 #: ../urpmi:146
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr ""
-"  будут установлены имена или rpm-файлы, указанные в командной строке.\n"
+msgstr "  будут установлены имена или rpm-файлы, указанные в командной строке.\n"
 
 #: ../urpmi:197
-#, fuzzy
 msgid "You can't install binary rpm files when using --install-src"
 msgstr ""
-"Что может быть сделано с бинарными rpm-файлами при использовании --install-"
+"Вы не можете устанавливать бинарные rpm-файлы при использовании --install-"
 "src"
 
 #: ../urpmi:220
@@ -1766,9 +1737,7 @@ msgstr ""
 msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
-msgstr ""
-"Каталог [%s] уже существует, используйте другой каталог для отчета об ошибке "
-"или удалите его"
+msgstr "Каталог [%s] уже существует, используйте другой каталог для отчёта об ошибке или удалите его"
 
 #: ../urpmi:221
 #, c-format
@@ -1782,7 +1751,7 @@ msgstr "Копирование не удалось"
 #: ../urpmi:230
 #, c-format
 msgid "Environment directory %s does not exist"
-msgstr ""
+msgstr "Каталог окружения %s не существует"
 
 #: ../urpmi:248
 #, c-format
@@ -1857,11 +1826,10 @@ msgstr ""
 
 #: ../urpmi:503
 msgid "(test only, removal will not be actually done)"
-msgstr ""
+msgstr "(только проверка, удаление выполнено не будет)"
 
 #: ../urpmi:539 ../urpmi:551
-msgid ""
-"To satisfy dependencies, the following packages are going to be installed"
+msgid "To satisfy dependencies, the following packages are going to be installed"
 msgstr "Для удовлетворения зависимостей будут установлены следующие пакеты"
 
 #: ../urpmi:540 ../urpmi:552
@@ -1884,7 +1852,7 @@ msgstr ""
 
 #: ../urpmi:554
 msgid "(test only, installation will not be actually done)"
-msgstr ""
+msgstr "(только проверка, установка выполнена не будет)"
 
 #: ../urpmi:556
 #, c-format
@@ -2078,7 +2046,7 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "невозможно создать источник \"%s\"\n"
 
 #: ../urpmi.recover:26
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi.recover version %s\n"
 "Copyright (C) 2006 Mandriva.\n"
@@ -2088,7 +2056,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpme версия %s\n"
-"Copyright (C) 1999-2005 Mandriva.\n"
+"Copyright (C) 1999-2006 Mandriva.\n"
 "Это свободное программное обеспечение и может распространяться согласно "
 "условиям GNU GPL.\n"
 "\n"
@@ -2096,96 +2064,95 @@ msgstr ""
 
 #: ../urpmi.recover:32
 msgid "  --checkpoint   - set repackaging start now\n"
-msgstr ""
+msgstr "  --checkpoint   - установить сейчас повторную упаковку\n"
 
 #: ../urpmi.recover:33
-#, fuzzy
 msgid "  --noclean      - don't clean repackage directory on checkpoint\n"
-msgstr "  --noclean      - не удалять rpm из кэша.\n"
+msgstr "  --noclean      - не очищать каталог повторной упаковки в контрольной точке.\n"
 
 #: ../urpmi.recover:34
-msgid ""
-"  --list         - list transactions since provided date/duration argument\n"
+msgid "  --list         - list transactions since provided date/duration argument\n"
 msgstr ""
+"  --list         - список транзакций относительно указанной\n"
+"                   даты/продолжительности\n"
 
 #: ../urpmi.recover:35
-#, fuzzy
 msgid "  --list-all     - list all transactions in rpmdb (long)\n"
-msgstr "  --list-url     - список доступных источников и их url.\n"
+msgstr "  --list-all     - список всех транзакций в rpmdb (длинный)\n"
 
 #: ../urpmi.recover:36
 msgid ""
 "  --rollback     - rollback until specified date,\n"
 "                   or rollback the specified number of transactions\n"
 msgstr ""
+"  --rollback     - откат до указанной даты,\n"
+"                   или откат указанного числа транзакций\n"
 
 #: ../urpmi.recover:52
 #, c-format
 msgid "Invalid date or duration [%s]\n"
-msgstr ""
+msgstr "Неверная дата или продолжительность [%s]\n"
 
 #: ../urpmi.recover:62
 #, c-format
 msgid "Spurious command-line arguments [%s]\n"
-msgstr ""
+msgstr "Ложные аргументы командной строки [%s]\n"
 
 #: ../urpmi.recover:64
 msgid "You can't specify --checkpoint and --rollback at the same time\n"
-msgstr ""
+msgstr "Вы не можете одновременно указать --checkpoint и --rollback\n"
 
 #: ../urpmi.recover:66
 msgid "You can't specify --checkpoint and --list at the same time\n"
-msgstr ""
+msgstr "Вы не можете одновременно указать --checkpoint и --list\n"
 
 #: ../urpmi.recover:68
 msgid "You can't specify --rollback and --list at the same time\n"
-msgstr ""
+msgstr "Вы не можете одновременно указать --rollback и --list\n"
 
 #: ../urpmi.recover:90
 #, c-format
 msgid "No transaction found since %s\n"
-msgstr ""
+msgstr "Не найдены транзакции от %s\n"
 
 #. - check we're running as root
 #: ../urpmi.recover:105
 msgid "You must be superuser to do this"
-msgstr ""
+msgstr "Для этого вам нужны права суперпользователя"
 
 #: ../urpmi.recover:114
-#, fuzzy
 msgid "Repackage directory not defined\n"
-msgstr "пакет %s не найден."
+msgstr "Не определён каталог повторной упаковки\n"
 
 #: ../urpmi.recover:117
 #, c-format
 msgid "Can't write to repackage directory [%s]\n"
-msgstr ""
+msgstr "Невозможно выполнить запись в каталог повторной упаковки [%s]\n"
 
 #: ../urpmi.recover:122
 #, c-format
 msgid "Cleaning up repackage directory [%s]...\n"
-msgstr ""
+msgstr "Очищается каталог повторной упаковки [%s]...\n"
 
 #: ../urpmi.recover:124
 #, c-format
 msgid "%d files removed\n"
-msgstr ""
+msgstr "Удалено %d файлов\n"
 
 #. - write rpm config file
 #: ../urpmi.recover:128
-#, fuzzy, c-format
+#, c-format
 msgid "Writing rpm macros file [%s]...\n"
-msgstr "извлекается rpm-файл [%s] ..."
+msgstr "Записывается файл макроса rpm [%s]...\n"
 
 #: ../urpmi.recover:170
-#, fuzzy
 msgid "No rollback date found\n"
-msgstr "Не найден filelist\n"
+msgstr "Не найдена дата отката\n"
 
 #: ../urpmi.recover:173
 #, c-format
 msgid "Rollback until %s...\n"
-msgstr ""
+msgstr "Откат до %s...\n"
 
 #: ../urpmi.removemedia:52
 msgid ""
@@ -2263,8 +2230,7 @@ msgstr "Только суперпользователю разрешается �
 
 #: ../urpmi.update:76
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
-"нечего обновлять (используйте urpmi.addmedia для добавления источника)\n"
+msgstr "нечего обновлять (используйте urpmi.addmedia для добавления источника)\n"
 
 #: ../urpmi.update:94
 #, c-format
@@ -2291,7 +2257,7 @@ msgid "ignoring media %s"
 msgstr "игнорируется источник %s"
 
 #: ../urpmq:39
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2006 Mandriva.\n"
@@ -2301,7 +2267,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq версия %s\n"
-"Copyright (C) 2000-2005 Mandriva.\n"
+"Copyright (C) 2000-2006 Mandriva.\n"
 "Это свободное программное обеспечение и может распространяться согласно "
 "условиям GNU GPL.\n"
 "\n"
@@ -2335,35 +2301,29 @@ msgstr "  --list-url     - список доступных источников 
 
 #: ../urpmq:58
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr ""
-"  --list-nodes   - список доступных узлов при использовании --parallel.\n"
+msgstr "  --list-nodes   - список доступных узлов при использовании --parallel.\n"
 
 #: ../urpmq:59
 msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr "  --list-aliases - список доступных алиасов parallel.\n"
 
 #: ../urpmq:60
-msgid ""
-"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
-msgstr ""
-"  --dump-config  - дамп config'а в виде аргумента для urpmi.addmedia.\n"
+msgid "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+msgstr "  --dump-config  - дамп config'а в виде аргумента для urpmi.addmedia.\n"
 
 #: ../urpmq:61
 msgid "  --src          - next package is a source package (same as -s).\n"
-msgstr ""
-"  --src          - следующий пакет содержит исходные коды (эквивалент -s).\n"
+msgstr "  --src          - следующий пакет содержит исходные коды (эквивалент -s).\n"
 
 #: ../urpmq:62
-msgid ""
-"  --sources      - give all source packages before downloading (root only).\n"
+msgid "  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
 "  --sources      - вывод всех пакетов с исходными кодами перед загрузкой\n"
 "                   (только для root'a).\n"
 
 #: ../urpmq:64
-#, fuzzy
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
-msgstr "  --arch         - архитектура\n"
+msgstr "  --ignorearch   - разрешить запрашивать rpm'ы для несоответствующих архитектур.\n"
 
 #: ../urpmq:66
 msgid ""
@@ -2395,16 +2355,14 @@ msgstr "  -g             - вывод групп с именами.\n"
 
 #: ../urpmq:82
 msgid "  -i             - print useful information in human readable form.\n"
-msgstr ""
-"  -i             - вывод полезной информации в удобной для чтения форме.\n"
+msgstr "  -i             - вывод полезной информации в удобной для чтения форме.\n"
 
 #: ../urpmq:83
 msgid "  -l             - list files in package.\n"
 msgstr "  -l             - список файлов в пакете.\n"
 
 #: ../urpmq:84
-msgid ""
-"  -P             - do not search in provides to find package (default).\n"
+msgid "  -P             - do not search in provides to find package (default).\n"
 msgstr "  -P             - не искать пакеты в provides (по умолчанию).\n"
 
 #: ../urpmq:85
@@ -2420,16 +2378,14 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - реверсивный поиск того, что требуется пакету.\n"
 
 #: ../urpmq:88
-msgid ""
-"  -RR            - extended reverse search (includes virtual packages).\n"
+msgid "  -RR            - extended reverse search (includes virtual packages).\n"
 msgstr ""
 "  -RR            - расширенный реверсивный поиск (включая виртуальные "
 "пакеты).\n"
 
 #: ../urpmq:89
 msgid "  -s             - next package is a source package (same as --src).\n"
-msgstr ""
-"  -s             - следующий пакет содержит исходные коды (эквивалент -s).\n"
+msgstr "  -s             - следующий пакет содержит исходные коды (эквивалент -s).\n"
 
 #: ../urpmq:90
 msgid ""
@@ -2653,3 +2609,4 @@ msgstr "Не найден changelog\n"
 #~ msgstr ""
 #~ "Некоторые запрошенные пакеты не могут быть установлены:\n"
 #~ "%s"
+
