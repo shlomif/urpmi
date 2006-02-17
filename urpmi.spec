@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.10
+%define version	4.8.11
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -276,6 +276,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Fri Feb 17 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.11-1mdk
+- New option, urpmi.recover --disable
+- Docs fixes
+- Miscellaneous bash completions fixes
+- Let "ignoresize" be configurable in urpmi.cfg
+
 * Tue Feb 14 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.10-1mdk
 - New tool: urpmi.recover (in its own rpm)
 - urpmi: clean cache more aggressively (bug #17913)
