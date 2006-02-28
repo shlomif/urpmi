@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.11
+%define version	4.8.12
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -276,6 +276,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Tue Feb 28 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.12-1mdk
+- Less verbosity with urpmi -q
+- Translation and doc updates
+- avoid a perl warning in urpmi.recover
+
 * Fri Feb 17 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.11-1mdk
 - New option, urpmi.recover --disable
 - Docs fixes
