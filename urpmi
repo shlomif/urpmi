@@ -329,7 +329,7 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
 }
 if ($auto_update && !$bug && !$env) {
     #- For translators : there are several media here
-    print N("Updating media..."), "\n";
+    $urpm->{log}(N("Updating media...\n"));
     #- FIXME we need to configure it twice; otherwise
     #- some settings are lost (like the skiplist) for
     #- some reason.

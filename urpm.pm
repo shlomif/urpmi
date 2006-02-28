@@ -3030,7 +3030,7 @@ sub install {
 	    for ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $readmes{$_} = $fullname }
 	    close $fh if defined $fh;
 	};
-	if (scalar keys %$install || scalar keys %$upgrade) {
+	if ($::verbose >= 0 && (scalar keys %$install || scalar keys %$upgrade)) {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
 	}
