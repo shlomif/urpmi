@@ -51,7 +51,7 @@ eval {
     Sys::Syslog->import();
     (my $tool = $0) =~ s!.*/!!;
     openlog($tool, '', 'user');
-    END { closelog() }
+    END { defined &closelog and closelog() }
 };
 
 sub sys_log { defined &syslog and syslog("info", @_) }
