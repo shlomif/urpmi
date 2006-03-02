@@ -2468,7 +2468,7 @@ sub get_source_packages {
     if ($options{clean_all}) {
 	require File::Path;
 	File::Path::rmtree(["$urpm->{cachedir}/partial"]);
-	mkdir "$urpm->{cachedir}/partial";
+	mkdir "$urpm->{cachedir}/partial", 0755;
     }
 
     foreach my $medium (@{$urpm->{media} || []}) {
