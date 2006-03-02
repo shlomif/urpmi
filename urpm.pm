@@ -3036,7 +3036,8 @@ sub install {
 	}
 	@l = $trans->run($urpm, %options);
 
-	if (!$options{test} && $options{post_clean_cache}) {
+	#- don't clear cache if transaction failed. We might want to retry.
+	if (@l == 0 && !$options{test} && $options{post_clean_cache}) {
 	    #- examine the local cache to delete packages which were part of this transaction
 	    foreach (keys %$install, keys %$upgrade) {
 		my $pkg = $urpm->{depslist}[$_];
