@@ -1,7 +1,7 @@
 package gurpmi;
 
 #- Copyright (C) 2005 MandrakeSoft SA
-#- Copyright (C) 2005 Mandriva SA
+#- Copyright (C) 2005, 2006 Mandriva SA
 
 #- This is needed because text printed by Gtk2 will always be encoded
 #- in UTF-8; we first check if LC_ALL is defined, because if it is,
@@ -30,6 +30,7 @@ gurpmi version $urpm::VERSION
 Usage :
     gurpmi <rpm> [ <rpm>... ]
 Options :
+    --auto-select
     --no-verify-rpm
 USAGE
     exit 0;
@@ -62,6 +63,10 @@ sub parse_command_line {
 		$options{'no-verify-rpm'} = 1;
 		next;
 	    }
+	    if ($_ eq '--auto-select') {
+		$options{'auto-select'} = 1;
+		next;
+	    }
 	    /^--?[hv?]/ and usage();
 	    fatal(N("Unknown option %s", $_));
 	}
@@ -71,7 +76,7 @@ sub parse_command_line {
 	    push @all_rpms, $_;
 	}
     }
-    @all_rpms + @names or fatal(N("No packages specified"));
+    $options{'auto-select'} || @all_rpms + @names or fatal(N("No packages specified"));
     return @all_rpms;
 }
 

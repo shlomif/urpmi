@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 #- Copyright (C) 2005 MandrakeSoft SA
-#- Copyright (C) 2005 Mandriva SA
+#- Copyright (C) 2005, 2006 Mandriva SA
 
 use strict;
 use warnings;
@@ -50,9 +50,15 @@ foreach (@all_rpms) {
     /\.src\.rpm$/ ? push(@$srpms, $_) : push(@$rpms, $_);
 }
 
+sub proceed {
+    #- we need to switch to root if we're not already (via consolehelper)
+    #- yes. hardcoded paths. safe.
+    exec $> ? '/usr/bin/gurpmi2' : '/usr/sbin/gurpmi2', @ARGV;
+}
+
 #- Ask question: save or install ?
 #- change depending on the number of rpms, and on the presence of srpms
-{
+if (@all_rpms + @gurpmi::names) {
     my $msg = (
 	@$srpms > 0
 	? N("You have selected a source package:
@@ -81,6 +87,9 @@ You may prefer to just save it. What is your choice?", all_descriptions($rpms->[
 Proceed?", all_descriptions(@all_rpms))
     );
     $mainbox->pack_start(new_label($msg), 1, 1, 0);
+} else {
+    #- we're doing an --auto-select, proceed without asking
+    proceed();
 }
 
 {   #- buttons
@@ -91,9 +100,7 @@ Proceed?", all_descriptions(@all_rpms))
     $inst_button->signal_connect(clicked => sub {
 	#- performs installation.
 	quit();
-	#- we need to switch to root if we're not already (via consolehelper)
-	#- yes. hardcoded paths. safe.
-	exec $> ? '/usr/bin/gurpmi2' : '/usr/sbin/gurpmi2', @ARGV;
+	proceed();
     });
     $save_button and $save_button->signal_connect(clicked => sub {
 	my $file_dialog = Gtk2::FileSelection->new(N("Choose location to save file"));
