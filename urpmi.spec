@@ -7,7 +7,7 @@
 ##################################################################
 
 %define name	urpmi
-%define version	4.8.12
+%define version	4.8.13
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -27,8 +27,8 @@ Summary:	Command-line software installation tools
 URL:		http://search.cpan.org/dist/%{name}/
 Requires:	%{req_webfetch} eject gnupg
 Requires(pre):	perl-Locale-gettext >= 1.01-14mdk
-Requires(pre):	perl-URPM >= 1.36
-Requires:	perl-URPM >= 1.36
+Requires(pre):	perl-URPM >= 1.37
+Requires:	perl-URPM >= 1.37
 #- this one is require'd by urpmq, so it's not found [yet] by perl.req
 Requires:	perl-MDV-Packdrakeng >= 1.01
 BuildRequires:	bzip2-devel
@@ -276,6 +276,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Fri Mar 03 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.13-1mdk
+- Doc
+- Fix cache cleanup (bug #17913)
+- Require latest perl-URPM
+
 * Tue Feb 28 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.12-1mdk
 - Less verbosity with urpmi -q
 - Translation and doc updates
