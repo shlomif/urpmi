@@ -2722,7 +2722,7 @@ sub copy_packages_of_removable_media {
 			#- transfer it to the rpms cache.
 			unlink "$urpm->{cachedir}/partial/$filename";
 			if (urpm::util::copy($filepath, "$urpm->{cachedir}/partial") &&
-			    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/)
+			    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1))
 			{
 			    #- now we can consider the file to be fine.
 			    unlink "$urpm->{cachedir}/rpms/$filename";
@@ -2839,7 +2839,8 @@ sub download_packages_of_distant_media {
 	    foreach my $i (keys %distant_sources) {
 		my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
 		if ($filename && -s "$urpm->{cachedir}/partial/$filename" &&
-		    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1) !~ /NOT OK/) {
+		    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1))
+		{
 		    #- it seems the the file has been downloaded correctly and has been checked to be valid.
 		    unlink "$urpm->{cachedir}/rpms/$filename";
 		    urpm::util::move("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
@@ -3287,9 +3288,10 @@ sub check_sources_signatures {
     foreach my $id (keys %$sources_install, -1, keys %$sources) {
 	if ($id == -1) { $s = $sources; next }
 	my $filepath = $s->{$id};
-	my $verif = URPM::verify_rpm($filepath);
+	my $verif = URPM::verify_signature($filepath);
 
 	if ($verif =~ /NOT OK/) {
+	    $verif =~ s/\n//g;
 	    $invalid_sources{$filepath} = N("Invalid signature (%s)", $verif);
 	} else {
 	    unless ($medium &&
