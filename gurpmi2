@@ -72,6 +72,7 @@ $urpm->resolve_dependencies(
     $state,
     \%requested,
     callback_choices => \&ask_choice,
+    auto_select => $gurpmi::options{'auto-select'},
 );
 my @ask_unselect = $urpm->unselected_packages($state);
 @ask_unselect
