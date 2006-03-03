@@ -32,6 +32,8 @@ Usage :
 Options :
     --auto-select
     --no-verify-rpm
+    --media media1,...
+    --searchmedia media1,...
 USAGE
     exit 0;
 }
@@ -57,14 +59,16 @@ sub parse_command_line {
 	    push @ARGV_expanded, $a;
 	}
     }
+    my $nextopt;
     foreach (@ARGV_expanded) {
+	if ($nextopt) { $options{$nextopt} = $_; undef $nextopt; next }
 	if (/^-/) {
-	    if ($_ eq '--no-verify-rpm') {
-		$options{'no-verify-rpm'} = 1;
+	    if (/^--(no-verify-rpm|auto-select)$/) {
+		$options{$1} = 1;
 		next;
 	    }
-	    if ($_ eq '--auto-select') {
-		$options{'auto-select'} = 1;
+	    if (/^--(media|searchmedia)$/) {
+		$nextopt = $1;
 		next;
 	    }
 	    /^--?[hv?]/ and usage();
