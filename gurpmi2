@@ -218,6 +218,7 @@ sub do_install_3 () {
 	split_length => $urpm->{options}{'split-length'},
     );
     my ($nok, @errors);
+    my $progress_nb;
     foreach my $set (@{$state->{transaction} || []}) {
 	my (@transaction_list, %transaction_sources);
 	$urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
@@ -262,7 +263,6 @@ sub do_install_3 () {
 	if (keys(%transaction_sources_install) || keys(%transaction_sources)) {
 	    @{$set->{remove} || []} and
 		$progress_label->set_label(N("removing %s", join(' ', @{$set->{remove} || []})));
-	    my $progress_nb;
 	    my $total_nb = scalar grep { m|^/| } values %transaction_sources_install, values %transaction_sources;
 	    my $callback_inst = sub {
 		my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
