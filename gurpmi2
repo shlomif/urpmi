@@ -180,7 +180,7 @@ sub do_install_2 () {
 	$pkg->arch ne 'src' and push @to_install, scalar $pkg->fullname;
     }
     $urpm->{nb_install} = @to_install;
-    @to_install > 1
+    (@to_install > 1 && !$gurpmi::options{auto})
 	? ask_continue(N(
 	    "To satisfy dependencies, the following %d packages are going to be installed:\n%s\n",
 	    scalar(@to_install), join "\n", @to_install

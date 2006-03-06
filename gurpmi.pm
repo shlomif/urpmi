@@ -30,6 +30,7 @@ gurpmi version $urpm::VERSION
 Usage :
     gurpmi <rpm> [ <rpm>... ]
 Options :
+    --auto
     --auto-select
     --no-verify-rpm
     --media media1,...
@@ -63,7 +64,7 @@ sub parse_command_line {
     foreach (@ARGV_expanded) {
 	if ($nextopt) { $options{$nextopt} = $_; undef $nextopt; next }
 	if (/^-/) {
-	    if (/^--(no-verify-rpm|auto-select)$/) {
+	    if (/^--(no-verify-rpm|auto-select|auto)$/) {
 		$options{$1} = 1;
 		next;
 	    }
@@ -80,7 +81,8 @@ sub parse_command_line {
 	    push @all_rpms, $_;
 	}
     }
-    $options{'auto-select'} || @all_rpms + @names or fatal(N("No packages specified"));
+    $options{'auto-select'} || @all_rpms + @names
+	or fatal(N("No packages specified"));
     return @all_rpms;
 }
 

@@ -58,7 +58,7 @@ sub proceed {
 
 #- Ask question: save or install ?
 #- change depending on the number of rpms, and on the presence of srpms
-if (@all_rpms + @gurpmi::names) {
+if (!$gurpmi::options{auto} && @all_rpms + @gurpmi::names) {
     my $msg = (
 	@$srpms > 0
 	? N("You have selected a source package:
