@@ -16,7 +16,6 @@ our @ISA = qw(URPM);
 
 use URPM;
 use URPM::Resolve;
-use POSIX;
 
 BEGIN {
     # this won't work in 5.10 when encoding::warnings will be lexical
