@@ -2099,7 +2099,7 @@ sub register_rpms {
     foreach (@files) {
 	/\.(?:rpm|spec)$/ or $error = 1, $urpm->{error}(N("invalid rpm file name [%s]", $_)), next;
 
-	#- allow url to be given.
+	#- if that's an URL, download.
 	if (my ($basename) = m{^[^:]*:/.*/([^/]*\.(?:rpm|spec))\z}) {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
@@ -2134,9 +2134,11 @@ sub register_rpms {
 	    $pkg->set_id($id);
 	    $urpm->{source}{$id} = $_;
 	} else {
-	    ($id, undef) = $urpm->parse_rpm($_);
+	    ($id) = $urpm->parse_rpm($_);
 	    my $pkg = defined $id && $urpm->{depslist}[$id];
 	    $pkg or $error = 1, $urpm->{error}(N("unable to register rpm file")), next;
+	    $pkg->is_arch_compat()
+		or $error = 1, $urpm->{error}(N("Incompatible architecture for rpm [%s]", $_)), next;
 	    $urpm->{source}{$id} = $_;
 	}
     }
