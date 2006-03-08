@@ -27,7 +27,7 @@ use urpm::msg;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our ($root, $test, $parallel, $auto, $matches, $verbose, $usedistrib, $force, $noscripts, $repackage, @l);
+our ($root, $test, $parallel, $auto, $matches, $verbose, $usedistrib, $force, $noscripts, $repackage, @l, $bundle);
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
 # Translator: Add here the keys which might be pressed in the "Yes"-case.
@@ -86,10 +86,9 @@ $urpm->configure(
 my @toremove = $urpm->find_packages_to_remove(
     $state,
     \@l,
-    test => $test,
     matches => $matches,
-    auto => $auto,
     force => $force,
+    bundle => $bundle,
     callback_notfound => sub {
 	my $urpm = shift @_;
 	#- Warning : the following message is parsed in urpm::parallel_*

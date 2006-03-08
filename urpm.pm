@@ -3078,6 +3078,15 @@ sub parallel_install {
 }
 
 #- find packages to remove.
+#- options:
+#-	bundle
+#-	callback_base
+#-	callback_fuzzy
+#-	callback_notfound
+#-	force
+#-	matches
+#-	root
+#-	test
 sub find_packages_to_remove {
     my ($urpm, $state, $l, %options) = @_;
 
@@ -3094,50 +3103,50 @@ sub find_packages_to_remove {
 	    foreach (@$l) {
 		my ($n, $found);
 
-		#- check if name-version-release-architecture may have been given.
+		#- check if name-version-release-architecture was given.
 		if (($n) = /^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/) {
 		    $db->traverse_tag('name', [ $n ], sub {
-					  my ($p) = @_;
-					  $p->fullname eq $_ or return;
-					  $urpm->resolve_rejected($db, $state, $p, removed => 1);
-					  push @m, scalar $p->fullname;
-					  $found = 1;
-				      });
+			    my ($p) = @_;
+			    $p->fullname eq $_ or return;
+			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
+			    push @m, scalar $p->fullname;
+			    $found = 1;
+			});
 		    $found and next;
 		}
 
-		#- check if name-version-release may have been given.
+		#- check if name-version-release was given.
 		if (($n) = /^(.*)-[^\-]*-[^\-]*$/) {
 		    $db->traverse_tag('name', [ $n ], sub {
-					  my ($p) = @_;
-					  join('-', ($p->fullname)[0..2]) eq $_ or return;
-					  $urpm->resolve_rejected($db, $state, $p, removed => 1);
-					  push @m, scalar $p->fullname;
-					  $found = 1;
-				      });
+			    my ($p) = @_;
+			    join('-', ($p->fullname)[0..2]) eq $_ or return;
+			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
+			    push @m, scalar $p->fullname;
+			    $found = 1;
+			});
 		    $found and next;
 		}
 
-		#- check if name-version may have been given.
+		#- check if name-version was given.
 		if (($n) = /^(.*)-[^\-]*$/) {
 		    $db->traverse_tag('name', [ $n ], sub {
-					  my ($p) = @_;
-					  join('-', ($p->fullname)[0..1]) eq $_ or return;
-					  $urpm->resolve_rejected($db, $state, $p, removed => 1);
-					  push @m, scalar $p->fullname;
-					  $found = 1;
-				      });
+			    my ($p) = @_;
+			    join('-', ($p->fullname)[0..1]) eq $_ or return;
+			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
+			    push @m, scalar $p->fullname;
+			    $found = 1;
+			});
 		    $found and next;
 		}
 
-		#- check if only name may have been given.
+		#- check if only name was given.
 		$db->traverse_tag('name', [ $_ ], sub {
-				      my ($p) = @_;
-				      $p->name eq $_ or return;
-				      $urpm->resolve_rejected($db, $state, $p, removed => 1);
-				      push @m, scalar $p->fullname;
-				      $found = 1;
-				  });
+			my ($p) = @_;
+			$p->name eq $_ or return;
+			$urpm->resolve_rejected($db, $state, $p, removed => 1);
+			push @m, scalar $p->fullname;
+			$found = 1;
+		    });
 		$found and next;
 
 		push @notfound, $_;
@@ -3155,14 +3164,14 @@ sub find_packages_to_remove {
 	    %$state = ();
 	    @m = ();
 
-	    #- search for package that matches, and perform closure again.
+	    #- search for packages that match, and perform closure again.
 	    $db->traverse(sub {
-		my ($p) = @_;
-		my $f = scalar $p->fullname;
-		$f =~ $qmatch or return;
-		$urpm->resolve_rejected($db, $state, $p, removed => 1);
-		push @m, $f;
-	    });
+		    my ($p) = @_;
+		    my $f = scalar $p->fullname;
+		    $f =~ $qmatch or return;
+		    $urpm->resolve_rejected($db, $state, $p, removed => 1);
+		    push @m, $f;
+		});
 
 	    if (!$options{force} && @notfound) {
 		if (@m) {
