@@ -3265,7 +3265,7 @@ sub translate_why_removed {
 		and $s .= N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
 	    /unsatisfied/ and do {
 		foreach (@$whyv) {
-		    $s and $s .= ', ';
+		    $s and $s .= ",\n  ";
 		    if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/ && $2 ne '*') {
 			$s .= N("due to unsatisfied %s", "$1 $2");
 		    } else {
@@ -3277,7 +3277,7 @@ sub translate_why_removed {
 	    /unrequested/ and $s .= N("unrequested");
 	}
 	#- now insert the reason if available.
-	$_ . ($s ? " ($s)" : '');
+	$_ . ($s ? "\n ($s)" : '');
     } @l;
 }
 
