@@ -282,7 +282,7 @@ sub do_install_3 () {
 		$set->{remove} || [],
 		\%transaction_sources_install,
 		\%transaction_sources,
-		'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
+		'fork' => 0, #- do not fork (even if multiple transaction) because of X11 crash
 		translate_message => 1,
 		oldpackage => $state->{oldpackage},
 		callback_inst => $callback_inst,
