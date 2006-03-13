@@ -29,6 +29,13 @@ if ($with_gui) {
 # And now, add some functionality to MakeMaker.
 package MY;
 
+# Don't install gurpmi.pm if we don't install gui
+sub libscan {
+    my ($self, $path) = @_;
+    if (!$with_gui && $path =~ /gurpmi/) { return '' }
+    return $path;
+}
+
 # Make proper sbin/man5/man8 dirs in blib
 sub top_targets {
     my $inherited = shift->SUPER::top_targets(@_);
