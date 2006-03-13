@@ -6,20 +6,25 @@
 #
 ##################################################################
 
+# local RH-friendly definition of %mkrel, so we can assume it works and drop 
+# other release hacking macros
+%{?!mkrel: %define mkrel(c:) %{-c: 0.%{-c*}.}%{1}%{?distsuffix:.%distsuffix}%{?distversion}}
+%{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
+
 %define name	urpmi
 %define version	4.8.13
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
 
-%{expand:%%define compat_perl_vendorlib %(perl -MConfig -e 'print "%{?perl_vendorlib:1}" ? "%%{perl_vendorlib}" : "$Config{installvendorlib}"')}
-%{expand:%%define allow_gurpmi %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? 1 : 0')}
-%{expand:%%define req_webfetch %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "webfetch" : "curl wget"')}
-%{expand:%%define real_release %%(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "%release" : ("%release" =~ /(\d+)/)[0]')}
+%define compat_perl_vendorlib %(perl -MConfig -e 'print "%{?perl_vendorlib:1}" ? "%{perl_vendorlib}" : "$Config{installvendorlib}"')
+%global allow_gurpmi %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? 1 : 0')
+%define req_webfetch %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "webfetch" : "curl wget"')
+%{?!%_sys_macros_dir: %global _sys_macros_dir /etc/rpm}
 
 Name:		%{name}
 Version:	%{version}
-Release:	%{real_release}
+Release:	%{release}
 Group:		%{group}
 License:	GPL
 Source0:	%{name}-%{version}.tar.bz2
@@ -33,8 +38,9 @@ Requires:	perl-URPM >= 1.37
 Requires:	perl-MDV-Packdrakeng >= 1.01
 BuildRequires:	bzip2-devel
 BuildRequires:	gettext
+BuildRequires:	perl
 BuildRequires:	perl-File-Slurp
-BuildRequires:	perl-ldap
+BuildRequires:	perl(Net::LDAP)
 BuildRequires:	perl-URPM >= 1.36
 BuildRequires:	perl-MDV-Packdrakeng
 BuildRequires:	perl-Locale-gettext >= 1.01-14mdk
