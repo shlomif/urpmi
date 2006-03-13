@@ -3108,7 +3108,7 @@ sub find_packages_to_remove {
 		    $db->traverse_tag('name', [ $n ], sub {
 			    my ($p) = @_;
 			    $p->fullname eq $_ or return;
-			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
+			    $urpm->resolve_rejected($db, $state, $p, removed => 1, bundle => $options{bundle});
 			    push @m, scalar $p->fullname;
 			    $found = 1;
 			});
@@ -3120,7 +3120,7 @@ sub find_packages_to_remove {
 		    $db->traverse_tag('name', [ $n ], sub {
 			    my ($p) = @_;
 			    join('-', ($p->fullname)[0..2]) eq $_ or return;
-			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
+			    $urpm->resolve_rejected($db, $state, $p, removed => 1, bundle => $options{bundle});
 			    push @m, scalar $p->fullname;
 			    $found = 1;
 			});
@@ -3132,7 +3132,7 @@ sub find_packages_to_remove {
 		    $db->traverse_tag('name', [ $n ], sub {
 			    my ($p) = @_;
 			    join('-', ($p->fullname)[0..1]) eq $_ or return;
-			    $urpm->resolve_rejected($db, $state, $p, removed => 1);
+			    $urpm->resolve_rejected($db, $state, $p, removed => 1, bundle => $options{bundle});
 			    push @m, scalar $p->fullname;
 			    $found = 1;
 			});
@@ -3143,7 +3143,7 @@ sub find_packages_to_remove {
 		$db->traverse_tag('name', [ $_ ], sub {
 			my ($p) = @_;
 			$p->name eq $_ or return;
-			$urpm->resolve_rejected($db, $state, $p, removed => 1);
+			$urpm->resolve_rejected($db, $state, $p, removed => 1, bundle => $options{bundle});
 			push @m, scalar $p->fullname;
 			$found = 1;
 		    });
@@ -3169,7 +3169,7 @@ sub find_packages_to_remove {
 		    my ($p) = @_;
 		    my $f = scalar $p->fullname;
 		    $f =~ $qmatch or return;
-		    $urpm->resolve_rejected($db, $state, $p, removed => 1);
+		    $urpm->resolve_rejected($db, $state, $p, removed => 1, bundle => $options{bundle});
 		    push @m, $f;
 		});
 
