@@ -2136,7 +2136,7 @@ sub register_rpms {
 	    ($id) = $urpm->parse_rpm($_);
 	    my $pkg = defined $id && $urpm->{depslist}[$id];
 	    $pkg or $error = 1, $urpm->{error}(N("unable to register rpm file")), next;
-	    $pkg->is_arch_compat()
+	    $pkg->arch eq 'src' || $pkg->is_arch_compat()
 		or $error = 1, $urpm->{error}(N("Incompatible architecture for rpm [%s]", $_)), next;
 	    $urpm->{source}{$id} = $_;
 	}
