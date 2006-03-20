@@ -2908,9 +2908,14 @@ sub install_logger {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
 	    $urpm->{logger_id} ||= 0;
+	    $urpm->{logger_count} ||= 0;
 	    printf("%-28s", N("Preparing..."));
 	} else {
-	    printf "%9s: %-22s", (++$urpm->{logger_id}) . "/" . $total_pkg, ($pkg && $pkg->name);
+	    ++$urpm->{logger_id};
+	    my $pname = $pkg ? $pkg->name : '';
+	    ++$urpm->{logger_count} if $pname;
+	    $pname ||= N("[repackaging]");
+	    printf "%9s: %-22s", $urpm->{logger_count} . "/" . $total_pkg, $pname;
 	}
     } elsif ($subtype eq 'stop') {
 	if ($urpm->{logger_progress} < $progress_size) {
