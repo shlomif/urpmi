@@ -2898,10 +2898,6 @@ sub install_logger {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
     my $pkg = defined $id && $urpm->{depslist}[$id];
     my $total_pkg = $urpm->{nb_install};
-    if ($urpm->{options}{repackage} || URPM::expand('%_repackage_all_erasures')) {
-	# there are repackaging transactions too
-	$total_pkg *= 2;
-    }
     my $progress_size = 45;
 
     if ($subtype eq 'start') {
@@ -2909,7 +2905,7 @@ sub install_logger {
 	if ($type eq 'trans') {
 	    $urpm->{logger_id} ||= 0;
 	    $urpm->{logger_count} ||= 0;
-	    printf("%-28s", N("Preparing..."));
+	    printf("%-33s", N("Preparing..."));
 	} else {
 	    ++$urpm->{logger_id};
 	    my $pname = $pkg ? $pkg->name : '';
