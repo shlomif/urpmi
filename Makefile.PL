@@ -79,7 +79,10 @@ sub manifypods {
     my $inherited = shift->SUPER::manifypods(@_);
     #- TODO repartition of man pages in sections by pod2man is incorrect
     #- TODO as more languages are added adapt the following quick hack
-    $with_po and $inherited =~ s/\t\$/\t\$(NOECHO) \$(MKPATH) \$(INST_MAN8DIR)\/fr\n$&/;
+    if ($with_po) {
+	$inherited =~ s/(INST_MAN(\d)DIR\)\/)\bfr\b/$1..\/fr\/man$2/g;
+	$inherited =~ s/\t\$/\t\$(NOECHO) \$(MKPATH) \$(INST_MAN8DIR)\/..\/fr\/man8\n$&/;
+    }
     $inherited;
 }
 
@@ -90,6 +93,8 @@ sub postamble {
 
 installpo:
 	\$(MAKE) -C po install
+	\$(NOECHO) \$(MOD_INSTALL) \\
+		\$(INST_MAN8DIR)\/..\/fr \$(DESTDIR)/usr/share/man/fr
 
 installconfigfiles:
 	install -d \$(SYSCONFDIR)/urpmi
