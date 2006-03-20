@@ -123,7 +123,14 @@ if ($options{distrib}) {
     $with || $relative_hdlist
 	and usage N("no need to give <relative path of hdlist> with --distrib");
 
-    $urpm->add_distrib_media($name, $url, virtual => $options{virtual}, update => $options{update}, probe_with => $options{probe_with});
+    $urpm->add_distrib_media(
+	$name,
+	$url,
+	virtual => $options{virtual},
+	update => $options{update},
+	probe_with => $options{probe_with},
+	nolock => $options{nolock},
+    );
     $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
     remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 
@@ -142,6 +149,7 @@ if ($options{distrib}) {
 	update => $options{update},
 	no_reload_config => $options{raw},
 	ignore => $options{raw},
+	nolock => $options{nolock},
     );
     urpm::download::copy_cmd_line_proxy($name);
     if ($options{raw}) {

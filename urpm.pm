@@ -686,6 +686,7 @@ sub add_medium {
 
     #- make sure configuration has been read.
     $urpm->{media} or $urpm->read_config;
+    $options{nolock} or $urpm->exlock_urpmi_db;
 
     #- if a medium with that name has already been found, we have to exit now
     my $medium;
@@ -755,6 +756,7 @@ sub add_medium {
 	}
     }
 
+    $options{nolock} or $urpm->unlock_urpmi_db;
     $name;
 }
 
