@@ -2902,19 +2902,15 @@ sub install_logger {
 	# there are repackaging transactions too
 	$total_pkg *= 2;
     }
-    my $progress_size = $total_pkg ? 45 : 50;
+    my $progress_size = 45;
 
     if ($subtype eq 'start') {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
 	    $urpm->{logger_id} ||= 0;
-	    printf($total_pkg ? "%-33s" : "%-28s", N("Preparing..."));
+	    printf("%-28s", N("Preparing..."));
 	} else {
-	    if ($total_pkg) {
-		printf "%9s: %-22s", (++$urpm->{logger_id}) . "/" . $total_pkg, ($pkg && $pkg->name);
-	    } else {
-		printf "%4d: %-22s", ++$urpm->{logger_id}, ($pkg && $pkg->name);
-	    }
+	    printf "%9s: %-22s", (++$urpm->{logger_id}) . "/" . $total_pkg, ($pkg && $pkg->name);
 	}
     } elsif ($subtype eq 'stop') {
 	if ($urpm->{logger_progress} < $progress_size) {
