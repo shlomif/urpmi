@@ -84,8 +84,7 @@ sub sync_webfetch {
     }
     if ($files{ftp} || $files{http} || $files{https}) {
 	my @webfetch = qw(curl wget);
-	my @available_webfetch = grep { -x "/usr/bin/$_" } @webfetch;
-	my $preferred;
+	my @available_webfetch = grep { -x "/usr/bin/$_" || -x "/bin/$_" } @webfetch;
 	#- use user default downloader if provided and available
 	my $option_downloader = $urpm->{options}{downloader}; #- cmd-line switch
 	if (!$option_downloader && $options->{media}) { #- per-media config
@@ -95,11 +94,13 @@ sub sync_webfetch {
 	#- global config
 	!$option_downloader && exists $urpm->{global_config}{downloader}
 	    and $option_downloader = $urpm->{global_config}{downloader};
-	if ($option_downloader) {
-	    ($preferred) = grep { $_ eq $option_downloader } @available_webfetch;
-	}
+	my ($preferred) = grep { $_ eq $option_downloader } @available_webfetch;
 	#- else first downloader of @webfetch is the default one
 	$preferred ||= $available_webfetch[0];
+	if ($option_downloader ne $preferred && $option_downloader && !our $webfetch_not_available) {
+	    $urpm->{log}(N("%s is not available, falling back on %s", $option_downloader, $preferred));
+	    $webfetch_not_available = 1;
+	}
 	if ($preferred eq 'curl') {
 	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} elsif ($preferred eq 'wget') {
