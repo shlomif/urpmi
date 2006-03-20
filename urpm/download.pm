@@ -439,7 +439,7 @@ sub sync_rsync {
 		($limit_rate ? "--bwlimit=$limit_rate" : @{[]}),
 		($options->{quiet} ? qw(-q) : qw(--progress -v)),
 		($options->{compress} ? qw(-z) : @{[]}),
-		($options->{ssh} ? qw(-e ssh) : @{[]}),
+		($options->{ssh} ? qq(-e $options->{ssh}) : @{[]}),
 		qw(--partial --no-whole-file),
 		(defined $options->{'rsync-options'} ? split /\s+/, $options->{'rsync-options'} : ()),
 		"'$file' '$options->{dir}' |");
@@ -465,12 +465,59 @@ sub sync_rsync {
     $? == 0 or die N("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
 }
 
+our $SSH_PATH;
+sub _init_ssh_path {
+    for (qw(/usr/bin/ssh /bin/ssh)) {
+	-x $_ and $SSH_PATH = $_;
+	next;
+    }
+}
+
+#- Don't generate a tmp dir name, so when we restart urpmi, the old ssh
+#- connection can be reused
+our $SSH_CONTROL_DIR = $ENV{TMP} || $ENV{TMPDIR} || '/tmp';
+our $SSH_CONTROL_OPTION;
+
 sub sync_ssh {
-    -x "/usr/bin/ssh" or die N("ssh is missing\n");
-    my $options = shift(@_);
+    $SSH_PATH or _init_ssh_path();
+    $SSH_PATH or die N("ssh is missing\n");
+    my $options = shift;
     $options = { dir => $options } if !ref $options;
-    $options->{ssh} = 1;
+    my $server = '';
+    $_[0] =~ /((?:\w|\.)*):/ and $server = $1;
+    $SSH_CONTROL_OPTION = "-o 'ControlPath $SSH_CONTROL_DIR/ssh-urpmi-$$-%h_%p_%r' -o 'ControlMaster auto'";
+    if (start_ssh_master($server)) {
+	$options->{ssh} = qq("$SSH_PATH $SSH_CONTROL_OPTION");
+    } else {
+	#- can't start master, use single connection
+	$options->{ssh} = $SSH_PATH;
+    }
     sync_rsync($options, @_);
+}
+
+sub start_ssh_master {
+    my $server = shift;
+    $server or return 0;
+    if (!check_ssh_master($server)) {
+        system(qq($SSH_PATH -f -N $SSH_CONTROL_OPTION -M $server));
+	return ! $?;
+    }
+    return 1;
+}
+
+sub check_ssh_master {
+    my $server = shift;
+    system(qq($SSH_PATH -q -f -N  $SSH_CONTROL_OPTION $server -O check));
+    return ! $?;
+}
+
+END {
+    #- remove ssh persistent connections
+    for my $socket (glob "$SSH_CONTROL_DIR/ssh-urpmi-$$-*") {
+	$socket =~ /ssh-urpmi-\d+-([^_]+)_/;
+	my $server = $1 or next;
+        system("$SSH_PATH -q -f -N -o 'ControlPath $socket' -O exit $server");
+    }
 }
 
 #- get the width of the terminal
