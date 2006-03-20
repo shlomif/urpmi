@@ -1,3 +1,219 @@
+2006-03-20 16:19  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* MANIFEST, pod/fr/urpmi.8.pod: Add urpmi man page translation in
+	  French, thanks to Christophe Berthel�
+
+2006-03-20 16:19  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* Makefile.PL: Install localized manpages if asked
+
+2006-03-20 16:17  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/ja.po: Malformed translation
+
+2006-03-20 14:30  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/download.pm: If rsync-options are configured and contain
+	  what looks like a remote shell setting, ignore ssh options
+
+2006-03-20 13:37  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm/download.pm: Allow to use the same ssh connection for all
+	  rsync transfers.  Based on a patch by Michael Scherer (bug
+	  #20706)
+
+2006-03-20 09:46  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Patch by Michael Scherer (with tweaks) to warn the user
+	  when urpmi is using another web-downloader than the one specified
+	  in the configuration (because it's not available) (bug #21661)
+
+2006-03-17 17:09  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/ja.po: update (Yukiko Bando)
+
+2006-03-16 11:05  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/cy.po: updated po file
+
+2006-03-15 15:58  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: typo fix
+
+2006-03-15 12:23  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/el.po: updated po file
+
+2006-03-14 15:07  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: --install-src was broken
+
+2006-03-13 15:19  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.spec: Portability patch by Buchan Milne. Also, buildrequire
+	  perl (for Time::HiRes) and perl(Net::LDAP) instead of the more
+	  mdv-specific perl-ldap.
+
+2006-03-13 15:03  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* Makefile.PL: Don't install gurpmi.pm if we don't install GUI
+	  utils
+
+2006-03-13 14:23  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: do not fork (even if there're multiple transaction)
+	  because else gurpmi crashes due to X11
+
+2006-03-13 13:23  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: use short forms
+
+2006-03-13 11:19  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Passing bundle option, even if that does nothing for now
+
+2006-03-13 10:48  Сергій Рибалченко (Sergey Ribalchenko) <fisher at obu.ck.ua>
+
+	* po/uk.po: uk tr-tion update
+
+2006-03-11 07:15  mmodem
+
+	* po/pt.po: [no log message]
+
+2006-03-10 17:49  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/: af.po, ar.po, az.po, bg.po, bn.po, br.po, bs.po, ca.po,
+	  cs.po, cy.po, da.po, de.po, el.po, eo.po, es.po, et.po, eu.po,
+	  fa.po, fi.po, fr.po, fur.po, ga.po, gl.po, he.po, hi.po, hr.po,
+	  hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po, ky.po, lt.po,
+	  lv.po, mk.po, mn.po, ms.po, mt.po, nb.po, nl.po, nn.po, pa_IN.po,
+	  pl.po, pt.po, pt_BR.po, ro.po, ru.po, sc.po, sk.po, sl.po, sq.po,
+	  sr.po, sr@Latn.po, sv.po, tg.po, th.po, tl.po, tr.po, uk.po,
+	  urpmi.pot, uz.po, uz@Latn.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	  updated pot file
+
+2006-03-10 04:58  mmodem
+
+	* po/pt.po: [no log message]
+
+2006-03-08 18:52  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* rpm-find-leaves: Misc fixes in rpm-find-leaves
+
+2006-03-08 18:19  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpme, urpm/args.pm: Some urpme cleanup
+
+2006-03-08 16:03  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Easier to read layout when explaining reasons for
+	  removal
+
+2006-03-08 14:02  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* po/fr.po: Spelling nits
+
+2006-03-07 19:45  Pjetur G. Hjaltason <pjetur at pjetur.net>
+
+	* po/is.po: Small changes
+
+2006-03-07 14:43  berthy
+
+	* po/fr.po: Update french translation
+
+2006-03-07 11:33  Marek Laane <bald at starman.ee>
+
+	* po/et.po:
+	  Fixed errors due to not checking files on previous commit...
+
+2006-03-07 11:13  Willy Sudiarto Raharjo <willysr at gmail.com>
+
+	* po/id.po: Updated
+
+2006-03-07 11:06  Pjetur G. Hjaltason <pjetur at pjetur.net>
+
+	* po/is.po: Latest sync
+
+2006-03-07 10:38  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: POSIX is actually not used by urpm
+
+2006-03-07 10:18  Pjetur G. Hjaltason <pjetur at pjetur.net>
+
+	* po/is.po: Latest sync
+
+2006-03-07 10:16  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm: Check architecture of local packages too
+
+2006-03-06 21:35  Wanderlei Antonio Cavassin <cavassin at mandriva.com>
+
+	* po/pt_BR.po: Small fixes for pt_BR.
+
+2006-03-06 15:00  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/: cy.po, wa.po: updated po files
+
+2006-03-06 12:18  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi, gurpmi.pm, gurpmi2: Patch by Titi for gurpmi, to avoid
+	  asking confirmation when the new option --auto is given
+
+2006-03-06 11:50  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi2: Patch by Titi to fix display of numbers when multiple
+	  transactions are involved in gurpmi
+
+2006-03-06 07:22  Shiva Huang <blueshiva at giga.net.tw>
+
+	* po/zh_TW.po: updated po file
+
+2006-03-05 19:45  Keld Jørn Simonsen <keld at dkuug.dk>
+
+	* po/da.po: updates soft/control-center/po/da.po
+	  soft/initscripts/po/da.po soft/mdkonline/po/da.po
+	  soft/urpmi/po/da.po gi/perl-install/share/po/da.po
+
+2006-03-05 14:46  Marek Laane <bald at starman.ee>
+
+	* po/et.po:
+	  Updated Estonian translations.
+
+2006-03-05 11:56  Funda Wang <fundawang at linux.net.cn>
+
+	* po/: af.po, ar.po, az.po, bg.po, bn.po, br.po, bs.po, ca.po,
+	  cs.po, cy.po, da.po, de.po, el.po, eo.po, es.po, et.po, eu.po,
+	  fa.po, fi.po, fr.po, fur.po, ga.po, gl.po, he.po, hi.po, hr.po,
+	  hu.po, id.po, is.po, it.po, ja.po, ka.po, ko.po, ky.po, lt.po,
+	  lv.po, mk.po, mn.po, ms.po, mt.po, nb.po, nl.po, nn.po, pa_IN.po,
+	  pl.po, pt.po, pt_BR.po, ro.po, ru.po, sc.po, sk.po, sl.po, sq.po,
+	  sr.po, sr@Latn.po, sv.po, tg.po, th.po, tl.po, tr.po, uk.po,
+	  urpmi.pot, uz.po, uz@Latn.po, vi.po, wa.po, zh_CN.po, zh_TW.po:
+	  Updated POT file.
+
+2006-03-03 22:41  Wanderlei Antonio Cavassin <cavassin at mandriva.com>
+
+	* po/pt_BR.po: Fixed some large strings to fit 80 columns or to use
+	  2 lines.
+
+2006-03-03 18:32  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi.pm, gurpmi2: Add --media and --searchmedia options to
+	  gurpmi
+
+2006-03-03 18:16  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi2: Pass the new gurpmi auto-select option to the resolver
+
+2006-03-03 18:03  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi, gurpmi.pm: Add --auto-select option in gurpmi first
+	  (non-root) half
+
+2006-03-03 16:59  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* Makefile.PL, urpm.pm, urpmi.spec: 4.8.13
+
 2006-03-03 16:12  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
 
 	* urpm.pm: Use the new versions of verify_rpm and verify_signature

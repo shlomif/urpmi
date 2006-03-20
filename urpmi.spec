@@ -12,7 +12,7 @@
 %{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
 
 %define name	urpmi
-%define version	4.8.13
+%define version	4.8.14
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -229,15 +229,7 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{_mandir}/man8/urpmi.addmedia*
 %{_mandir}/man8/urpmi.removemedia*
 %{_mandir}/man8/urpmi.update*
-# find_lang isn't able to find man pages yet...
-#%lang(cs) %{_mandir}/cs/man?/urpm*
-#%lang(et) %{_mandir}/et/man?/urpm*
-#%lang(eu) %{_mandir}/eu/man?/urpm*
-#%lang(fi) %{_mandir}/fi/man?/urpm*
-#%lang(fr) %{_mandir}/fr/man?/urpm*
-#%lang(nl) %{_mandir}/nl/man?/urpm*
-#%lang(ru) %{_mandir}/ru/man?/urpm*
-#%lang(uk) %{_mandir}/uk/man?/urpm*
+%lang(fr) %{_mandir}/fr/man?/urpm*
 %dir %{compat_perl_vendorlib}/urpm
 %{compat_perl_vendorlib}/urpm.pm
 %{compat_perl_vendorlib}/urpm/args.pm
@@ -282,6 +274,15 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Mon Mar 20 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.14-1mdk
+- Add --auto-select, --media and --searchmedia options to gurpmi
+- Various gurpmi fixes (Thierry Vignaud)
+- Fix installation of srpms by urpmi
+- Portability enhancements (Buchan Milne)
+- Warn on downloader change (Michael Scherer)
+- Reuse ssh connection if possible (Michael Scherer)
+- Add French man page (Christophe Berthelé)
+
 * Fri Mar 03 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.13-1mdk
 - Doc
 - Fix cache cleanup (bug #17913)
