@@ -177,11 +177,11 @@ sub set_proxy {
 }
 
 sub propagate_sync_callback {
-    my $options = shift @_;
+    my $options = shift;
     if (ref($options) && $options->{callback}) {
-	my $mode = shift @_;
+	my $mode = shift;
 	if ($mode =~ /^(?:start|progress|end)$/) {
-	    my $file = shift @_;
+	    my $file = shift;
 	    $file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
 	    return $options->{callback}($mode, $file, @_);
 	} else {
@@ -204,7 +204,7 @@ sub sync_file {
 
 sub sync_wget {
     -x "/usr/bin/wget" or die N("wget is missing\n");
-    my $options = shift @_;
+    my $options = shift;
     $options = { dir => $options } if !ref $options;
     #- force download to be done in cachedir to avoid polluting cwd.
     my $cwd = getcwd();
@@ -267,7 +267,7 @@ sub sync_wget {
 
 sub sync_curl {
     -x "/usr/bin/curl" or die N("curl is missing\n");
-    my $options = shift @_;
+    my $options = shift;
     $options = { dir => $options } if !ref $options;
     if (defined $options->{limit_rate} && $options->{limit_rate} =~ /\d$/) {
 	#- use bytes by default
@@ -421,7 +421,7 @@ sub _calc_limit_rate {
 
 sub sync_rsync {
     -x "/usr/bin/rsync" or die N("rsync is missing\n");
-    my $options = shift @_;
+    my $options = shift;
     $options = { dir => $options } if !ref $options;
     #- force download to be done in cachedir to avoid polluting cwd.
     my $cwd = getcwd();
@@ -483,14 +483,16 @@ sub sync_ssh {
     $SSH_PATH or die N("ssh is missing\n");
     my $options = shift;
     $options = { dir => $options } if !ref $options;
-    my $server = '';
-    $_[0] =~ /((?:\w|\.)*):/ and $server = $1;
-    $SSH_CONTROL_OPTION = "-o 'ControlPath $SSH_CONTROL_DIR/ssh-urpmi-$$-%h_%p_%r' -o 'ControlMaster auto'";
-    if (start_ssh_master($server)) {
-	$options->{ssh} = qq("$SSH_PATH $SSH_CONTROL_OPTION");
-    } else {
-	#- can't start master, use single connection
-	$options->{ssh} = $SSH_PATH;
+    unless ($options->{'rsync-options'} =~ /(?:-e|--rsh)\b/) {
+	my $server = '';
+	$_[0] =~ /((?:\w|\.)*):/ and $server = $1;
+	$SSH_CONTROL_OPTION = "-o 'ControlPath $SSH_CONTROL_DIR/ssh-urpmi-$$-%h_%p_%r' -o 'ControlMaster auto'";
+	if (start_ssh_master($server)) {
+	    $options->{ssh} = qq("$SSH_PATH $SSH_CONTROL_OPTION");
+	} else {
+	    #- can't start master, use single connection
+	    $options->{ssh} = $SSH_PATH;
+	}
     }
     sync_rsync($options, @_);
 }
@@ -566,6 +568,6 @@ urpm::download - download routines for the urpm* tools
 
 Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005 MandrakeSoft SA
 
-Copyright (C) 2005 Mandriva SA
+Copyright (C) 2005, 2006 Mandriva SA
 
 =cut
