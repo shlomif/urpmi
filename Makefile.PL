@@ -9,6 +9,7 @@ use ExtUtils::MakeMaker;
 # --without-rpm : don't use rpm to find some paths, and generate make targets
 #   to produce an rpm of this
 # --install-po : compile .po files and install locale files
+#		 also, install localized man pages
 # --install-gui : install gurpmi
 my $with_rpm = 1; $with_rpm = 0 if grep $_ eq '--without-rpm', @ARGV;
 my $with_po  = 0; $with_po  = 1 if grep $_ eq '--install-po', @ARGV;
@@ -71,6 +72,14 @@ sub install {
 sub special_targets {
     my $inherited = shift->SUPER::special_targets(@_);
     $inherited =~ s/PHONY:/$& pm_to_blib/;
+    $inherited;
+}
+
+sub manifypods {
+    my $inherited = shift->SUPER::manifypods(@_);
+    #- TODO repartition of man pages in sections by pod2man is incorrect
+    #- TODO as more languages are added adapt the following quick hack
+    $with_po and $inherited =~ s/\t\$/\t\$(NOECHO) \$(MKPATH) \$(INST_MAN8DIR)\/fr\n$&/;
     $inherited;
 }
 
@@ -147,7 +156,7 @@ WriteMakefile(
 	    $targ =~ s/\.(\d)\.pod$//;
 	    my $section = $1 || 1;
 	    ( $_ => "\$(INST_MAN${section}DIR)/$targ.$section" );
-	} <pod/*.pod>
+	} <pod/*.pod>, $with_po ? <pod/*/*.pod> : ()
     },
     dist		=> { COMPRESS => "bzip2", SUFFIX => ".bz2" },
 );
