@@ -84,7 +84,7 @@ sub manifypods {
 	# make fr man directory
 	$inherited =~ s/\t\$/\t\$(NOECHO) \$(MKPATH) \$(INST_MAN8DIR)\/..\/$lang\/man8\n$&/;
 	# install fr manpages in correct path
-	$inherited =~ s{(INST_MAN(\d)DIR\)/)$lang(\/\S+)(\.$lang)?\.\2}{$1../$lang/man$2$3.$2}g;
+	$inherited =~ s{(INST_MAN(\d)DIR\)/)$lang(\/\S+)\.\2}{my$x="$1../$lang/man$2$3.$2";$x=~s/\.$lang//;$x}eg;
     }
     $inherited;
 }
