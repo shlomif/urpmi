@@ -12,7 +12,7 @@
 %{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
 
 %define name	urpmi
-%define version	4.8.14
+%define version	4.8.15
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -274,6 +274,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Tue Mar 21 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.15-1mdk
+- Lock the urpmi db when adding a media
+- Correct transaction count, even when repackaging, and better readability
+- Enhance a couple of error messages
+
 * Mon Mar 20 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.14-1mdk
 - Add --auto-select, --media and --searchmedia options to gurpmi
 - Various gurpmi fixes (Thierry Vignaud)
