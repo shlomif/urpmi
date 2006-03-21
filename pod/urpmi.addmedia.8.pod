@@ -41,10 +41,12 @@ have to ensure that the B<passive_ftp> option is on in B</etc/wgetrc>
 
 =item B<urpmi.addmedia> [I<options>] <I<name>> ssh://<I<login>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
 
-The same as for http and ftp; add your login and password if required. It
-is strongly recommended to export the public key in order not to have to
-type your password all the time. B<scp> and B<rsync> will be used to get
-files. Example:
+The same as for http and ftp; add your login and password if required. You
+may want to export the public key in order not to have to type your
+password. rsync over an ssh connection will be used to get files. urpmi
+will try to re-use the same ssh connection over multiple invocations.
+
+Example:
 
     urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
 
@@ -93,6 +95,8 @@ is available.
 Specify additional command-line options to be passed to curl, rsync or
 wget when retrieving files. If several options are to be passed, separate
 them with spaces and enclose them in quotes.
+
+Note that the rsync options will also be used for ssh media.
 
 =item B<--limit-rate I<rate>>
 
