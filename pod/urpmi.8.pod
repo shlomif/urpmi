@@ -41,10 +41,10 @@ Finish by installing the requested package(s).
 =back
 
 Note that urpmi handles installations from various types of media (ftp,
-http, rsync, local and nfs volumes, and removable media such as CDROMs or
-DVDs) and is able to install dependencies from a medium different from the
-original package's media. For removable media, urpmi may ask you to insert
-the appropriate disk, if necessary.
+http, https, rsync, ssh, local and nfs volumes, and removable media such
+as CDROMs or DVDs) and is able to install dependencies from a medium
+different from the original package's media. For removable media, urpmi
+may ask you to insert the appropriate disk, if necessary.
 
 To add a new medium containing rpms, run C<urpmi.addmedia>. To remove an
 existing medium, use C<urpmi.removemedia>. To update the package list (for
@@ -57,11 +57,6 @@ example when the ftp archive changes) use C<urpmi.update>.
 =item B<--help>
 
 Prints a help message and exit (this is the same as B<-h> or B<-?>).
-
-=item B<--update>
-
-Use only update media. This means that urpmi will search packages and
-resolve dependencies only in media marked as containing updates.
 
 =item B<--media> I<media1,...,mediaN>
 
@@ -85,10 +80,16 @@ Sort the specified media. Substrings may be used to simplify grouping.
 This way, C<media1> will be taken into account first, then C<media2>, and
 so on. Media which aren't listed are taken into account after the others.
 
+=item B<--update>
+
+Use only update media. This means that urpmi will search packages and
+resolve dependencies only in media marked as containing updates.
+
 =item B<--synthesis> I<file>
 
-Use the specified synthesis file instead
-of the urpmi database for searching packages and resolving dependencies.
+Use the specified synthesis file instead of the urpmi database for
+searching packages and resolving dependencies. This option is mostly
+designed for internal use.
 
 =item B<--auto>
 
@@ -112,8 +113,8 @@ them in F</var/cache/urpmi/rpms>.
 
 =item B<--no-uninstall>
 
-Never ask to uninstall a package but prefer aborting instead.
-This can be safer in auto mode.
+Never ask to uninstall a package but prefer aborting instead. This can be
+safer in auto mode.
 
 =item B<--keep>
 
@@ -203,13 +204,13 @@ in the C<urpmi.addmedia> manpage.
 
 =item B<--wget>
 
-Use wget for downloading distant files. By default curl is used if
-available, or wget instead.
+Use wget for downloading distant files via http or ftp. By default curl is
+used if available, or wget instead.
 
 =item B<--curl>
 
-Use curl for downloading distant files. By default curl is used if
-available, or wget instead.
+Use curl for downloading distant files via http or ftp. By default curl is
+used if available, or wget instead.
 
 =item B<--curl-options> I<'options'>
 
@@ -238,33 +239,33 @@ Resume transfer of partially-downloaded files.
 Retries to download files over FTP or HTTP the specified number
 of times.
 
-=item B<--proxy> I<proxyhost[:port|1080]>
+=item B<--proxy> I<proxyhost[:port]>
 
 Use specified HTTP proxy.
 
 =item B<--proxy-user> I<user:password>
 
-Use
-specified user and password to use for proxy authentication. Specifying
-B<--proxy-user=ask> will cause urpmi to prompt for a username and a password.
+Use specified user and password to use for proxy authentication.
+Specifying B<--proxy-user=ask> will cause urpmi to prompt for a username
+and a password.
 
 =item B<--bug> I<directory>
 
-Create a bug report in I<directory>. You have to send a compressed
-archive of the directory to the urpmi maintainer for the bug being (probably)
+Create a bug report in I<directory>. You have to send a compressed archive
+of the directory to the urpmi maintainer for the bug being (probably)
 reproduced.
 
 =item B<--env> I<directory>
 
-Use a different environment directly from a bug
-report to replay a bug. The argument is the same argument given to B<--bug> option.
+Use a different environment directly from a bug report to replay a bug.
+The argument is the same argument given to B<--bug> option.
 
 =item B<--verify-rpm>
 
 =item B<--no-verify-rpm>
 
-Activate or deactivate rpm signature checking. It's activated
-by default.
+Activate or deactivate rpm signature checking. It's activated by default,
+and can be overriden in global configuration.
 
 =item B<--test>
 
@@ -467,3 +468,7 @@ Rafael Garcia-Suarez, <rgarciasuarez@mandriva.com> (current maintainer)
 
 urpmi.addmedia(8), urpmi.update(8), urpmi.removemedia(8), urpme(8),
 urpmf(8), urpmq(8), urpmi.cfg(5), urpmi.files(5).
+
+=cut
+
+$Id$
