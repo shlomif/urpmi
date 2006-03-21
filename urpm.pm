@@ -2519,6 +2519,7 @@ sub get_source_packages {
 		# list file exists but isn't readable
 		# report error only if no result found, list files are only readable by root
 		push @list_error, N("unable to access list file of \"%s\", medium ignored", $medium->{name});
+		$< and push @list_error, "    " . N("(retry as root?)");
 		next;
 	    }
 	    if (defined $medium->{url}) {
