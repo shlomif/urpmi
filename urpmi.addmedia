@@ -139,8 +139,8 @@ if ($options{distrib}) {
 
     if ($with eq "with") {
 	$relative_hdlist or usage N("<relative path of hdlist> missing\n");
-    } elsif ($type =~ /ftp|http|rsync|ssh/) {
-	$options{probe_with} || $with eq "with" or usage N("`with' missing for network media\n");
+    } elsif ($type =~ /^(ftp|https?|rsync|ssh)$/) {
+	$options{probe_with} or usage N("`with' missing for network media\n");
     }
 
     $urpm->add_medium(
