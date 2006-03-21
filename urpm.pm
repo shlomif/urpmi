@@ -2894,12 +2894,19 @@ sub extract_packages_to_install {
     \%inst;
 }
 
+my $progress_size = 45;
+eval {
+    require Term::ReadKey;
+    ($progress_size) = Term::ReadKey::GetTerminalSize();
+    $progress_size -= 35;
+    $progress_size < 5 and $progress_size = 5;
+};
+
 #- install logger (a la rpm)
 sub install_logger {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
     my $pkg = defined $id && $urpm->{depslist}[$id];
     my $total_pkg = $urpm->{nb_install};
-    my $progress_size = 45;
 
     if ($subtype eq 'start') {
 	$urpm->{logger_progress} = 0;
