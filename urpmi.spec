@@ -12,7 +12,7 @@
 %{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
 
 %define name	urpmi
-%define version	4.8.15
+%define version	4.8.16
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -274,6 +274,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Wed Mar 22 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.16-1mdk
+- Fix again transaction counter (and make it prettier)
+- More docs
+
 * Tue Mar 21 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.15-1mdk
 - Lock the urpmi db when adding a media
 - Correct transaction count, even when repackaging, and better readability
