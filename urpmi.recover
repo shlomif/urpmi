@@ -35,6 +35,7 @@ usage:
 ") . N("  --noclean      - don't clean repackage directory on checkpoint
 ") . N("  --list         - list transactions since provided date/duration argument
 ") . N("  --list-all     - list all transactions in rpmdb (long)
+") . N("  --list-safe    - list transactions since checkpoint
 ") . N("  --rollback     - rollback until specified date,
                    or rollback the specified number of transactions
 ") . N("  --disable      - turn off repackaging
@@ -91,7 +92,10 @@ $disable && ($listdate || $rollback || $do_checkpoint)
 
 if ($listdate) {
     my $listtime = -1;
-    if ($listdate ne -1) {
+    if ($listdate eq 'checkpoint') {
+	URPM::read_config_files();
+	$listtime = URPM::expand("%_unsafe_rollbacks");
+    } elsif ($listdate ne -1) {
 	#- convert to timestamp
 	$listtime = date_to_tid($listdate);
     }

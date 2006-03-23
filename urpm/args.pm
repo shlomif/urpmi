@@ -319,6 +319,7 @@ my %options_spec = (
     'urpmi.recover' => {
 	'list=s' => \$::listdate,
 	'list-all' => sub { $::listdate = -1 },
+	'list-safe' => sub { $::listdate = 'checkpoint' },
 	checkpoint => \$::do_checkpoint,
 	'rollback=s' => \$::rollback,
 	noclean => \$::noclean,
