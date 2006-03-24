@@ -155,6 +155,10 @@ if ($options{distrib}) {
     if ($options{raw}) {
 	$urpm->write_config;
     } else {
+	local $SIG{INT} = sub {
+	    remove_failed($urpm, grep { $_->{name} eq $name && $_->{modified} } @{$urpm->{media}});
+	    exit(1);
+	};
 	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
 	#- check creation of media
 	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
