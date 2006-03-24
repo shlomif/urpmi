@@ -131,6 +131,10 @@ if ($options{distrib}) {
 	probe_with => $options{probe_with},
 	nolock => $options{nolock},
     );
+    local $SIG{INT} = sub {
+	remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
+	exit(1);
+    };
     $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
     remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 
