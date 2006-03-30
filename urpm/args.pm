@@ -203,7 +203,7 @@ my %options_spec = (
 	'excludemedia|exclude-media=s' => \$options{excludemedia},
 	'sortmedia|sort-media=s' => \$options{sortmedia},
 	'searchmedia|search-media=s' => \$options{searchmedia},
-	'synthesis=s' => \$options{sortmedia},
+	'synthesis=s' => \$options{synthesis},
 	'auto-select' => sub {
 	    $options{deps} = $options{upgrade} = $options{auto_select} = 1;
 	},
