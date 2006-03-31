@@ -75,11 +75,12 @@ sub parse_command_line {
 	    /^--?[hv?]/ and usage();
 	    fatal(N("Unknown option %s", $_));
 	}
-	if (/^[-a-zA-Z0-9_+]+\z/) { # is this an rpm name ?
-	    push @names, $_;
-	} else { # assume it's a filename
-	    push @all_rpms, $_;
+	if (-f) {
+	    push @all_rpms, $_
+	} else {
+	    push @names, $_
 	}
+	
     }
     $options{'auto-select'} || @all_rpms + @names
 	or fatal(N("No packages specified"));
