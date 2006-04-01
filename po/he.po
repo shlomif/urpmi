@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: he\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-05 18:43+0800\n"
+"POT-Creation-Date: 2006-04-01 16:35+0800\n"
 "PO-Revision-Date: 2005-07-09 23:33+0300\n"
 "Last-Translator: dovix <dovix2003@yahoo.com>\n"
 "Language-Team: Hebrew <mdk-hebrew@iglu.org.il>\n"
@@ -107,14 +107,14 @@ msgstr "_ביטול"
 msgid "Choose location to save file"
 msgstr "עליך לבחור מקום לשמירת הקובץ"
 
-#: ../gurpmi.pm:75
+#: ../gurpmi.pm:76
 #, fuzzy, c-format
 msgid "Unknown option %s"
 msgstr ""
 "\n"
 "unknown options '%s'\n"
 
-#: ../gurpmi.pm:83
+#: ../gurpmi.pm:86
 #, fuzzy
 msgid "No packages specified"
 msgstr "לא נמצאה חבילה בשם %s"
@@ -192,12 +192,12 @@ msgstr "אין אפשרות לקרוא חבילות מהמאגר, הפעולה �
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "נא להכניס את המדיה הנקראת \"%s\"  להתקן [%s]"
 
-#: ../gurpmi2:235
+#: ../gurpmi2:236
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "מוריד חבילה `%s'..."
 
-#: ../gurpmi2:250
+#: ../gurpmi2:251
 #, c-format
 msgid ""
 "The following packages have bad signatures:\n"
@@ -211,7 +211,7 @@ msgstr ""
 "האם להמשיך את ההתקנה?"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../gurpmi2:257 ../gurpmi2:313 ../urpmi:651 ../urpmi:782
+#: ../gurpmi2:258 ../gurpmi2:314 ../urpmi:651 ../urpmi:782
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
@@ -223,12 +223,12 @@ msgstr ""
 "יתכן ועליך לעדכן את מאגר הנתונים של urpmi"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../gurpmi2:264 ../urpme:129 ../urpmi:698
+#: ../gurpmi2:265 ../urpme:128 ../urpmi:698
 #, c-format
 msgid "removing %s"
 msgstr "מסיר %s"
 
-#: ../gurpmi2:272 ../urpm.pm:2907
+#: ../gurpmi2:272 ../urpm.pm:2916
 msgid "Preparing..."
 msgstr "הכנה..."
 
@@ -238,19 +238,19 @@ msgid "Installing package `%s' (%s/%s)..."
 msgstr "מתקין חבילה `%s' (%s/%s)..."
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../gurpmi2:299 ../urpmi:663 ../urpmi:721 ../urpmi:741 ../urpmi:759
+#: ../gurpmi2:300 ../urpmi:663 ../urpmi:721 ../urpmi:741 ../urpmi:759
 msgid "Installation failed"
 msgstr "ההתקנה נכשלה"
 
-#: ../gurpmi2:308
+#: ../gurpmi2:309
 msgid "_Done"
 msgstr "_סיום"
 
-#: ../gurpmi2:316 ../urpmi:799
+#: ../gurpmi2:317 ../urpmi:799
 msgid "The package(s) are already installed"
 msgstr "הכל כבר מותקן"
 
-#: ../gurpmi2:318
+#: ../gurpmi2:319
 msgid "Installation finished"
 msgstr "ההתקנה הסתיימה"
 
@@ -289,10 +289,15 @@ msgstr "רק מנהל מערכת מורשה להתקין חבילות"
 msgid "Running urpmi in restricted mode..."
 msgstr "הפעלת urpmi באופן עבודה מוגבל..."
 
-#: ../urpm.pm:73
+#: ../urpm.pm:72
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "פרוטוקול לא מזוהה הוגדר עבור %s"
+
+#: ../urpm.pm:101
+#, c-format
+msgid "%s is not available, falling back on %s"
+msgstr ""
 
 #: ../urpm.pm:109
 #, c-format
@@ -314,14 +319,14 @@ msgstr "מאגר \"%s\" מנסה להשתמש ב-hdlist שכבר בשימוש, �
 msgid "medium \"%s\" trying to use an already used list, medium ignored"
 msgstr "המאגר \"%s\" מנסה להשתמש ברשימה שכבר בשימוש, מתעלם ממאגר"
 
-#: ../urpm.pm:236 ../urpm.pm:1311 ../urpm.pm:1321
+#: ../urpm.pm:236 ../urpm.pm:1313 ../urpm.pm:1323
 #, c-format
 msgid "unable to access hdlist file of \"%s\", medium ignored"
 msgstr "אין אפשרות לגשת לקובץ hdlist של \"%s\", מדיה זו לא תהיה בשימוש"
 
 #. list file exists but isn't readable
 #. report error only if no result found, list files are only readable by root
-#: ../urpm.pm:239 ../urpm.pm:2517
+#: ../urpm.pm:239 ../urpm.pm:2521
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "אין אפשרות גישה לקובץ הרשימה של \"%s\", מדיה זו לא תהיה בשימוש"
@@ -450,23 +455,23 @@ msgstr ""
 #. - (However links need to be managed. see bug #12391.)
 #. - as previously done, just read synthesis file here, this is enough.
 #. - read default synthesis (we have to make sure nothing get out of depslist).
-#: ../urpm.pm:571 ../urpm.pm:597 ../urpm.pm:1083 ../urpm.pm:1094
-#: ../urpm.pm:1166 ../urpm.pm:1183 ../urpm.pm:1238 ../urpm.pm:1294
-#: ../urpm.pm:1504 ../urpm.pm:1624 ../urpm.pm:1741 ../urpm.pm:1747
-#: ../urpm.pm:1850 ../urpm.pm:1936 ../urpm.pm:1940
+#: ../urpm.pm:571 ../urpm.pm:597 ../urpm.pm:1085 ../urpm.pm:1096
+#: ../urpm.pm:1168 ../urpm.pm:1185 ../urpm.pm:1240 ../urpm.pm:1296
+#: ../urpm.pm:1506 ../urpm.pm:1626 ../urpm.pm:1743 ../urpm.pm:1749
+#: ../urpm.pm:1852 ../urpm.pm:1938 ../urpm.pm:1942
 #, c-format
 msgid "examining synthesis file [%s]"
 msgstr "בודק את קובץ הsynthesis [%s]"
 
-#: ../urpm.pm:575 ../urpm.pm:590 ../urpm.pm:603 ../urpm.pm:1086
-#: ../urpm.pm:1097 ../urpm.pm:1172 ../urpm.pm:1178 ../urpm.pm:1243
-#: ../urpm.pm:1298 ../urpm.pm:1508 ../urpm.pm:1628 ../urpm.pm:1735
-#: ../urpm.pm:1753 ../urpm.pm:1946
+#: ../urpm.pm:575 ../urpm.pm:590 ../urpm.pm:603 ../urpm.pm:1088
+#: ../urpm.pm:1099 ../urpm.pm:1174 ../urpm.pm:1180 ../urpm.pm:1245
+#: ../urpm.pm:1300 ../urpm.pm:1510 ../urpm.pm:1630 ../urpm.pm:1737
+#: ../urpm.pm:1755 ../urpm.pm:1948
 #, c-format
 msgid "examining hdlist file [%s]"
 msgstr "בודק את הקובץ hdlist [%s]"
 
-#: ../urpm.pm:585 ../urpm.pm:1090
+#: ../urpm.pm:585 ../urpm.pm:1092
 #, c-format
 msgid "virtual medium \"%s\" is not local, medium ignored"
 msgstr "מאגר וירטואלי \"%s\" לא מקומי, התעלמות מאגר"
@@ -477,13 +482,13 @@ msgid "Search start: %s end: %s"
 msgstr "תחילת חיפוש: %s סיום: %s"
 
 #. - this is almost a fatal error, ignore it by default?
-#: ../urpm.pm:620 ../urpm.pm:1104 ../urpm.pm:1191 ../urpm.pm:1247
-#: ../urpm.pm:1632
+#: ../urpm.pm:620 ../urpm.pm:1106 ../urpm.pm:1193 ../urpm.pm:1249
+#: ../urpm.pm:1634
 #, c-format
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
 msgstr "בעיה בקריאת hdlist או קובץ מיזוג של המאגר \"%s\""
 
-#: ../urpm.pm:627 ../urpm.pm:1888
+#: ../urpm.pm:627 ../urpm.pm:1890
 msgid "performing second pass to compute dependencies\n"
 msgstr "מבצע מעבר שני בכדי לחשב תלויות\n"
 
@@ -499,94 +504,94 @@ msgstr "האם להתקין במקום לשדרג את החבילה %s"
 
 #. - beware this can be a child process or the main process now...
 #. - open in read/write mode unless testing installation.
-#: ../urpm.pm:667 ../urpm.pm:2325 ../urpm.pm:2386 ../urpm.pm:2574
-#: ../urpm.pm:2972 ../urpm.pm:3090
+#: ../urpm.pm:667 ../urpm.pm:2329 ../urpm.pm:2390 ../urpm.pm:2579
+#: ../urpm.pm:2982 ../urpm.pm:3109
 msgid "unable to open rpmdb"
 msgstr "אין אפשרות לפתוח את בסיס הנתונים של החבילות rpmdb"
 
-#: ../urpm.pm:707
+#: ../urpm.pm:708
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "המאגר \"%s\" כבר קיים"
 
-#: ../urpm.pm:714
+#: ../urpm.pm:715
 msgid "virtual medium needs to be local"
 msgstr "מאגר וירטואלי צריך להיות מקומי"
 
-#: ../urpm.pm:739
+#: ../urpm.pm:740
 #, c-format
 msgid "added medium %s"
 msgstr "מאגר %s הוסף"
 
-#: ../urpm.pm:784
+#: ../urpm.pm:786
 msgid "unable to access first installation medium"
 msgstr "אין אפשרות גישה למאגר ההתקנה הראשון"
 
-#: ../urpm.pm:788
+#: ../urpm.pm:790
 msgid "copying hdlists file..."
 msgstr "מעתיק קובץ hdlists..."
 
-#: ../urpm.pm:790 ../urpm.pm:1207 ../urpm.pm:1264
+#: ../urpm.pm:792 ../urpm.pm:1209 ../urpm.pm:1266
 msgid "...copying done"
 msgstr "...ההעתקה הסתיימה"
 
-#: ../urpm.pm:791 ../urpm.pm:1208 ../urpm.pm:1339 ../urpm.pm:1402
-#: ../urpm.pm:1570 ../urpm.pm:1577
+#: ../urpm.pm:793 ../urpm.pm:1210 ../urpm.pm:1341 ../urpm.pm:1404
+#: ../urpm.pm:1572 ../urpm.pm:1579
 msgid "...copying failed"
 msgstr "...ההעתקה נכשלה"
 
-#: ../urpm.pm:794 ../urpm.pm:819 ../urpm.pm:858
+#: ../urpm.pm:796 ../urpm.pm:821 ../urpm.pm:860
 msgid "unable to access first installation medium (no hdlists file found)"
 msgstr "גישה להתקנה הראשונה של המאגר בלתי אפשרות (הקובץ hdlists לא נמצא)"
 
-#: ../urpm.pm:801
+#: ../urpm.pm:803
 msgid "retrieving hdlists file..."
 msgstr "מאחזר את הקובץ hdlists ..."
 
-#: ../urpm.pm:813 ../urpm.pm:1614 ../urpm.pm:2115 ../urpm.pm:2832
+#: ../urpm.pm:815 ../urpm.pm:1616 ../urpm.pm:2117 ../urpm.pm:2837
 msgid "...retrieving done"
 msgstr "...האחזור הסתיים"
 
-#: ../urpm.pm:815 ../urpm.pm:1598 ../urpm.pm:2119 ../urpm.pm:2834
+#: ../urpm.pm:817 ../urpm.pm:1600 ../urpm.pm:2121 ../urpm.pm:2839
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...האיחזור נכשל: %s"
 
-#: ../urpm.pm:839
+#: ../urpm.pm:841
 #, c-format
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "התיאור \"%s\" של hdlist בקובץ hdlists אינו תקין"
 
-#: ../urpm.pm:895
+#: ../urpm.pm:897
 #, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "ניסיון לבחור במאגר שאינו קיים \"%s\""
 
 #. - several elements in found and/or foundi lists.
-#: ../urpm.pm:897
+#: ../urpm.pm:899
 #, c-format
 msgid "selecting multiple media: %s"
 msgstr "בוחר הרבה מדיה:%s"
 
-#: ../urpm.pm:913
+#: ../urpm.pm:915
 #, c-format
 msgid "removing medium \"%s\""
 msgstr "מסיר מאגר \"%s\""
 
-#: ../urpm.pm:964
+#: ../urpm.pm:966
 #, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "מגדיר מחדש את urpmi למקור \"%s\""
 
-#: ../urpm.pm:993
+#: ../urpm.pm:995
 msgid "...reconfiguration failed"
 msgstr "...ההגדרה מחדש נכשלה"
 
-#: ../urpm.pm:1000
+#: ../urpm.pm:1002
 msgid "reconfiguration done"
 msgstr "ההגדרה מחדש הושלמה"
 
-#: ../urpm.pm:1144
+#: ../urpm.pm:1146
 #, c-format
 msgid ""
 "unable to access medium \"%s\",\n"
@@ -596,7 +601,7 @@ msgstr ""
 "אין אפשרות לגשת למאגר \"%s\",\n"
 "זה יכול לקרות אם היית מחובר ידנית לספרייה בזמן יצירת המאגר."
 
-#: ../urpm.pm:1195
+#: ../urpm.pm:1197
 #, c-format
 msgid ""
 "virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
@@ -604,135 +609,135 @@ msgid ""
 msgstr ""
 "מאגר וירטואלי \"%s\" צריך שיהיה לו מקור hdlist או מיזוג בר תוקף, מתעלם ממאגר"
 
-#: ../urpm.pm:1205
+#: ../urpm.pm:1207
 #, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "מעתיק תיאור קובץ של \"%s\"..."
 
-#: ../urpm.pm:1260
+#: ../urpm.pm:1262
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "מעתיק מקור hdlist (או מיזוג) של \"%s\"..."
 
-#: ../urpm.pm:1274
+#: ../urpm.pm:1276
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "העתקת [%s] נכשלה (הקובץ קטן מהמצופה)"
 
-#: ../urpm.pm:1279
+#: ../urpm.pm:1281
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "חישוב md5sum של מקור hdlist (או synthesis) מועתקים"
 
-#: ../urpm.pm:1281
+#: ../urpm.pm:1283
 #, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
 msgstr "העתקת [%s] נכשלה (חתימת md5sum אינה תואמת)"
 
-#: ../urpm.pm:1302 ../urpm.pm:1512 ../urpm.pm:1853
+#: ../urpm.pm:1304 ../urpm.pm:1514 ../urpm.pm:1855
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "בעיה בקריאת קובץ מיזוג של מאגר \"%s\""
 
-#: ../urpm.pm:1360
+#: ../urpm.pm:1362
 #, c-format
 msgid "reading rpm files from [%s]"
 msgstr "מייבא חבילות מ [%s]"
 
-#: ../urpm.pm:1375
+#: ../urpm.pm:1377
 msgid "no rpms read"
 msgstr "לא נקראו חבילות תוכנה"
 
-#: ../urpm.pm:1385
+#: ../urpm.pm:1387
 #, c-format
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "אין אפשרות לקרוא את קובצי ה-RPM מ [%s]: %s"
 
-#: ../urpm.pm:1390
+#: ../urpm.pm:1392
 #, c-format
 msgid "no rpm files found from [%s]"
 msgstr "לא נמצאו חבילות מ [%s]"
 
 #. - try to probe for possible with_hdlist parameter, unless
 #. - it is already defined (and valid).
-#: ../urpm.pm:1527
+#: ../urpm.pm:1529
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "מוריד את קובץ המקור hdlist (או synthesis) של \"%s\"..."
 
-#: ../urpm.pm:1555
+#: ../urpm.pm:1557
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "נמצא hdlist (או מיזוג) בחון כ-%s"
 
-#: ../urpm.pm:1605
+#: ../urpm.pm:1607
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
 msgstr "מחשב חתימות md5sum של קובץ hdlist (או synthesis)"
 
-#: ../urpm.pm:1607
+#: ../urpm.pm:1609
 msgid "...retrieving failed: md5sum mismatch"
 msgstr "...האיחזור נכשל: אי התאמה של md5sum"
 
-#: ../urpm.pm:1705
+#: ../urpm.pm:1707
 msgid "retrieval of source hdlist (or synthesis) failed"
 msgstr "אחזור של רשימת hdlist (או synthesis) נכשל"
 
-#: ../urpm.pm:1712
+#: ../urpm.pm:1714
 #, c-format
 msgid "no hdlist file found for medium \"%s\""
 msgstr "לא נמצאו קובצי hdlist עבור מאגר \"%s\""
 
-#: ../urpm.pm:1723 ../urpm.pm:1777
+#: ../urpm.pm:1725 ../urpm.pm:1779
 #, c-format
 msgid "file [%s] already used in the same medium \"%s\""
 msgstr "הקובץ [%s] כבר משומש באותו מאגר \"%s\""
 
-#: ../urpm.pm:1763
+#: ../urpm.pm:1765
 #, c-format
 msgid "unable to parse hdlist file of \"%s\""
 msgstr "אין אפשרות לפענח את קובץ ה-hdlist של \"%s\""
 
-#: ../urpm.pm:1802
+#: ../urpm.pm:1804
 #, c-format
 msgid "unable to write list file of \"%s\""
 msgstr "אין אפשרות לכתוב את קובץ הרשימה של \"%s\""
 
-#: ../urpm.pm:1810
+#: ../urpm.pm:1812
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "כותב קובץ רשימה עבור מאגר \"%s\""
 
-#: ../urpm.pm:1812
+#: ../urpm.pm:1814
 #, c-format
 msgid "nothing written in list file for \"%s\""
 msgstr "לא נכתב דבר ברשימת הקובץ עבור \"%s\""
 
-#: ../urpm.pm:1827
+#: ../urpm.pm:1829
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "בודק קובץ מפתחות ציבורי של \"%s\"..."
 
-#: ../urpm.pm:1834
+#: ../urpm.pm:1836
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr ".. מפתח %s מיובא מתוך קובץ ציבורי של \"%s\""
 
-#: ../urpm.pm:1837
+#: ../urpm.pm:1839
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "לא יכול לייבוא קובץ של מפתח ציבורי של \"%s\""
 
-#: ../urpm.pm:1902
+#: ../urpm.pm:1904
 #, c-format
 msgid "reading headers from medium \"%s\""
 msgstr "קורא כותרות מתוך מאגר \"%s\""
 
-#: ../urpm.pm:1907
+#: ../urpm.pm:1909
 #, c-format
 msgid "building hdlist [%s]"
 msgstr "בונה hdlist [%s]"
 
 #. - XXX this happens when building a synthesis for a local media from RPMs... why ?
-#: ../urpm.pm:1922 ../urpm.pm:1958
+#: ../urpm.pm:1924 ../urpm.pm:1960
 #, c-format
 msgid ""
 "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
@@ -740,91 +745,100 @@ msgid ""
 msgstr ""
 "יצירת קובץ synthesis עבור המקור  \"%s\" נכשלה. קובץ hdlist עלול להיות פגום."
 
-#: ../urpm.pm:1926 ../urpm.pm:1962 ../urpmi:370
+#: ../urpm.pm:1928 ../urpm.pm:1964 ../urpmi:370
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
 msgstr "קובץ hdlist synthesis עבור המקור \"%s\" נבנה"
 
-#: ../urpm.pm:1985
+#: ../urpm.pm:1987
 #, c-format
 msgid "found %d headers in cache"
 msgstr "נמצאו %d כותרים במטמון"
 
-#: ../urpm.pm:1989
+#: ../urpm.pm:1991
 #, c-format
 msgid "removing %d obsolete headers in cache"
 msgstr "מסיר %d ספקי כותרות במטמון"
 
-#: ../urpm.pm:2010
+#: ../urpm.pm:2012
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr ""
 
-#: ../urpm.pm:2015
+#: ../urpm.pm:2017
 #, c-format
 msgid "Error generating names file: Can't write to file (%s)"
 msgstr ""
 
-#: ../urpm.pm:2051
+#: ../urpm.pm:2053
 #, c-format
 msgid "mounting %s"
 msgstr "מחבר את %s"
 
-#: ../urpm.pm:2075
+#: ../urpm.pm:2077
 #, c-format
 msgid "unmounting %s"
 msgstr "מנתק את %s"
 
-#: ../urpm.pm:2100
+#: ../urpm.pm:2102
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "שם החבילה [%s] אינו תקין"
 
-#: ../urpm.pm:2106
+#: ../urpm.pm:2108
 #, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "מאחזר קובץ RPM [%s]..."
 
-#: ../urpm.pm:2124
+#: ../urpm.pm:2126
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "הגישה לחבילה [%s] נכשלה"
 
-#: ../urpm.pm:2129
+#: ../urpm.pm:2131
 #, fuzzy, c-format
 msgid "unable to parse spec file %s [%s]"
 msgstr "אין אפשרות לפענח את \"%s\" בקובץ [%s]"
 
-#: ../urpm.pm:2139
+#: ../urpm.pm:2141
 msgid "unable to register rpm file"
 msgstr "אין אפשרות לבצע רישום של החבילה"
 
 #: ../urpm.pm:2143
+#, c-format
+msgid "Incompatible architecture for rpm [%s]"
+msgstr ""
+
+#: ../urpm.pm:2147
 msgid "error registering local packages"
 msgstr "חלה שגיאה בעת רישום חבילות מקומיות"
 
-#: ../urpm.pm:2253
+#: ../urpm.pm:2257
 #, c-format
 msgid "no package named %s"
 msgstr "לא נמצאה חבילה בשם %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpm.pm:2255 ../urpme:102
+#: ../urpm.pm:2259 ../urpme:101
 #, c-format
 msgid "The following packages contain %s: %s"
 msgstr "The following packages contain %s: %s"
 
-#: ../urpm.pm:2448 ../urpm.pm:2494 ../urpm.pm:2525
+#: ../urpm.pm:2452 ../urpm.pm:2498 ../urpm.pm:2530
 #, c-format
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "ישנן הרבה חבילות RPM עם אותו שם קובץ \"%s\""
 
-#: ../urpm.pm:2508
+#: ../urpm.pm:2512
 #, c-format
 msgid "unable to correctly parse [%s] on value \"%s\""
 msgstr "פענוח [%s] נכשל בערך \"%s\""
 
-#: ../urpm.pm:2541
+#: ../urpm.pm:2522
+msgid "(retry as root?)"
+msgstr ""
+
+#: ../urpm.pm:2546
 #, c-format
 msgid ""
 "medium \"%s\" uses an invalid list file:\n"
@@ -833,160 +847,164 @@ msgstr ""
 "מאגר \"%s\" משתמש בקובץ רשימה לא תקף:\n"
 "  המראה קרוב לוודאי לא עדכנית, נסה להשתמש בשיטה חלופית"
 
-#: ../urpm.pm:2545
+#: ../urpm.pm:2550
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
 msgstr "מאגר \"%s\" לא הגדיר מיקום כלשהו עבור קובצי RPM"
 
-#: ../urpm.pm:2557
+#: ../urpm.pm:2562
 #, c-format
 msgid "package %s is not found."
 msgstr "החבילה %s לא נמצאה."
 
-#: ../urpm.pm:2608 ../urpm.pm:2622 ../urpm.pm:2642 ../urpm.pm:2656
+#: ../urpm.pm:2613 ../urpm.pm:2627 ../urpm.pm:2647 ../urpm.pm:2661
 msgid "urpmi database locked"
 msgstr "בסיס הנתונים של urpmi נעול"
 
-#: ../urpm.pm:2708 ../urpm.pm:2713 ../urpm.pm:2739
+#: ../urpm.pm:2713 ../urpm.pm:2718 ../urpm.pm:2744
 #, c-format
 msgid "medium \"%s\" is not selected"
 msgstr "מאגר \"%s\" לא נבחר"
 
 #. - fallback to use other method for retrieving the file later.
-#: ../urpm.pm:2735
+#: ../urpm.pm:2740
 #, c-format
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "אין אפשרות לקרוא את קובץ ה-RPM [%s] מ \"%s\""
 
 #. - we have a removable device that is not removable, well...
-#: ../urpm.pm:2743
+#: ../urpm.pm:2748
 #, c-format
 msgid "inconsistent medium \"%s\" marked removable but not really"
 msgstr "מאגר לא רציף \"%s\" מסומן כניתן למחיקה אבל לא באמת"
 
-#: ../urpm.pm:2755
+#: ../urpm.pm:2760
 #, c-format
 msgid "unable to access medium \"%s\""
 msgstr "הגישה למדיה \"%s\" נכשלה"
 
-#: ../urpm.pm:2810
+#: ../urpm.pm:2815
 #, fuzzy, c-format
 msgid "malformed URL: [%s]"
 msgstr "קלט לא תקין: [%s]"
 
-#: ../urpm.pm:2817
+#: ../urpm.pm:2822
 #, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "מעתיק חבילות תוכנה מהמקור \"%s\"..."
 
-#: ../urpm.pm:2945
+#: ../urpm.pm:2921
+msgid "[repackaging]"
+msgstr ""
+
+#: ../urpm.pm:2954
 #, c-format
 msgid "using process %d for executing transaction"
 msgstr "משתמש בתהליך %d כדי לבצע את הפעולה"
 
-#: ../urpm.pm:2977
+#: ../urpm.pm:2987
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr "יצר עסקה עבור התקנה על %s (הסרה=%d, התקנה=%d, עדכון=%d)"
 
-#: ../urpm.pm:2980
+#: ../urpm.pm:2990
 msgid "unable to create transaction"
 msgstr "בלתי אפשרי לעשות עסקה"
 
-#: ../urpm.pm:2988
+#: ../urpm.pm:2998
 #, c-format
 msgid "removing package %s"
 msgstr "מסיר חבילה %s"
 
-#: ../urpm.pm:2990
+#: ../urpm.pm:3000
 #, c-format
 msgid "unable to remove package %s"
 msgstr "הסרת החבילה %s נכשלה"
 
-#: ../urpm.pm:3002
+#: ../urpm.pm:3012
 #, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
 msgstr "אין אפשרות לחלץ rpm מתוך חבילת delta-rpm ששמה %s"
 
-#: ../urpm.pm:3008
+#: ../urpm.pm:3018
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
 msgstr "מוסיף חבילה %s (id=%d, eid=%d, עדכון=%d, קובץ=%s)"
 
-#: ../urpm.pm:3011
+#: ../urpm.pm:3021
 #, c-format
 msgid "unable to install package %s"
 msgstr "התקנת החבילה %s נכשלה"
 
-#: ../urpm.pm:3061
+#: ../urpm.pm:3071
 #, c-format
 msgid "More information on package %s"
 msgstr "מידע נוסף על החבילה %s"
 
-#: ../urpm.pm:3233 ../urpm.pm:3271
+#: ../urpm.pm:3252 ../urpm.pm:3290
 #, c-format
 msgid "due to missing %s"
 msgstr "עקב %s חסר"
 
-#: ../urpm.pm:3234 ../urpm.pm:3269
+#: ../urpm.pm:3253 ../urpm.pm:3288
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "עקב תלות %s שלא מולאה"
 
-#: ../urpm.pm:3240
+#: ../urpm.pm:3259
 #, c-format
 msgid "trying to promote %s"
 msgstr "מנסה לקדם %s"
 
-#: ../urpm.pm:3241
+#: ../urpm.pm:3260
 #, c-format
 msgid "in order to keep %s"
 msgstr "בכדי לשמור %s"
 
-#: ../urpm.pm:3264
+#: ../urpm.pm:3283
 #, c-format
 msgid "in order to install %s"
 msgstr "בכדי להתקין %s"
 
-#: ../urpm.pm:3275
+#: ../urpm.pm:3294
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "עקב התנגשות עם %s"
 
-#: ../urpm.pm:3276
+#: ../urpm.pm:3295
 msgid "unrequested"
 msgstr "לא התבקש"
 
-#: ../urpm.pm:3295
+#: ../urpm.pm:3314
 #, c-format
 msgid "Invalid signature (%s)"
 msgstr "חתימה לא תקפה (%s)"
 
-#: ../urpm.pm:3328
+#: ../urpm.pm:3347
 #, c-format
 msgid "Invalid Key ID (%s)"
 msgstr "מפתח זהות לא תקין (%s)"
 
-#: ../urpm.pm:3330
+#: ../urpm.pm:3349
 #, c-format
 msgid "Missing signature (%s)"
 msgstr "חתימה חסרה (%s)"
 
-#: ../urpm.pm:3389
+#: ../urpm.pm:3408
 msgid "examining MD5SUM file"
 msgstr "בודק את קובץ החתימות MD5SUM"
 
-#: ../urpm.pm:3399
+#: ../urpm.pm:3418
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
 msgstr "אזהרה: חתימת md5sum עבור %s לא זמינה בקובץ MD5SUM"
 
-#: ../urpm.pm:3410
+#: ../urpm.pm:3429
 msgid "computing md5sum of existing source hdlist (or synthesis)"
 msgstr "מחשב MD5SUM של hdlist (או synthesis) של המקור"
 
-#: ../urpm.pm:3440
+#: ../urpm.pm:3459
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "פעולה זו אינה מותרת באופן עבודה מוגבל"
 
@@ -994,12 +1012,12 @@ msgstr "פעולה זו אינה מותרת באופן עבודה מוגבל"
 msgid "bad proxy declaration on command line\n"
 msgstr "הכרזת proxy לא תקנית בשורת הפקודה\n"
 
-#: ../urpm/args.pm:229
+#: ../urpm/args.pm:230
 #, fuzzy
 msgid "You need to be root to use --use-distrib"
 msgstr "עליך להיות משתמש-על כדי להפעיל פקודה זו!\n"
 
-#: ../urpm/args.pm:261
+#: ../urpm/args.pm:262
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: לא יכול קובץ RPM \"%s\"\n"
@@ -1195,47 +1213,47 @@ msgstr "  -a             - בחירת כל החבילות עם ביטוי מתא
 msgid "Only superuser is allowed to remove packages"
 msgstr "רק מנהל מערכת מורשה להסיר חבילות תוכנה"
 
-#: ../urpme:96
+#: ../urpme:95
 msgid "unknown package"
 msgstr "חבילה לא מוכרת"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:96
+#: ../urpme:95
 msgid "unknown packages"
 msgstr "חבילות לא מוכרות"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:108 ../urpmi:488
+#: ../urpme:107 ../urpmi:488
 #, c-format
 msgid "removing package %s will break your system"
 msgstr "הסרת החבילה %s תגרום נזק למערכת"
 
-#: ../urpme:111
+#: ../urpme:110
 msgid "Nothing to remove"
 msgstr "שום-דבר למחיקה"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:116
+#: ../urpme:115
 msgid "Checking to remove the following packages"
 msgstr "בדיקה להסרה של החבילות הבאות"
 
-#: ../urpme:123
+#: ../urpme:122
 #, c-format
 msgid ""
 "To satisfy dependencies, the following %d packages will be removed (%d MB)"
 msgstr "בכדי לענות על התלויות, %d החבילות הבאות יימחקו (%d MB)"
 
-#: ../urpme:125 ../urpmi:510 ../urpmi:643
+#: ../urpme:124 ../urpmi:510 ../urpmi:643
 msgid " (y/N) "
 msgstr " (כן/*לא) "
 
-#: ../urpme:125
+#: ../urpme:124
 #, fuzzy, c-format
 msgid "Remove %d packages?"
 msgstr "מסיר חבילה %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:149
+#: ../urpme:148
 msgid "Removal failed"
 msgstr "ההסרה נכשלה"
 
@@ -2064,15 +2082,15 @@ msgstr "אין אפשרות ליצור את קובץ ההגדרות [%s]"
 msgid "no need to give <relative path of hdlist> with --distrib"
 msgstr "no need to give <relative path of hdlist> with --distrib"
 
-#: ../urpmi.addmedia:134
+#: ../urpmi.addmedia:145
 msgid "<relative path of hdlist> missing\n"
 msgstr "חסר <relative path of hdlist>\n"
 
-#: ../urpmi.addmedia:136
+#: ../urpmi.addmedia:147
 msgid "`with' missing for network media\n"
 msgstr "`with' חסר עבור מדית רשת\n"
 
-#: ../urpmi.addmedia:153
+#: ../urpmi.addmedia:169
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "הוספת המאגר \"%s\" נכשל\n"
@@ -2114,89 +2132,94 @@ msgid "  --list-all     - list all transactions in rpmdb (long)\n"
 msgstr "  --list-url     - הצגת מאגרי עדכון זמינים ואת כתובתם.\n"
 
 #: ../urpmi.recover:38
+#, fuzzy
+msgid "  --list-safe    - list transactions since checkpoint\n"
+msgstr "  --list-url     - הצגת מאגרי עדכון זמינים ואת כתובתם.\n"
+
+#: ../urpmi.recover:39
 msgid ""
 "  --rollback     - rollback until specified date,\n"
 "                   or rollback the specified number of transactions\n"
 msgstr ""
 
-#: ../urpmi.recover:40
+#: ../urpmi.recover:41
 #, fuzzy
 msgid "  --disable      - turn off repackaging\n"
 msgstr "  --name         - הצגת שמות חבילות בלבד.\n"
 
-#: ../urpmi.recover:55
+#: ../urpmi.recover:56
 #, c-format
 msgid "Invalid date or duration [%s]\n"
 msgstr ""
 
-#: ../urpmi.recover:63
+#: ../urpmi.recover:64
 #, fuzzy
 msgid "Repackage directory not defined\n"
 msgstr "החבילה %s לא נמצאה."
 
-#: ../urpmi.recover:66
+#: ../urpmi.recover:67
 #, c-format
 msgid "Can't write to repackage directory [%s]\n"
 msgstr ""
 
-#: ../urpmi.recover:68
+#: ../urpmi.recover:69
 #, c-format
 msgid "Cleaning up repackage directory [%s]...\n"
 msgstr ""
 
-#: ../urpmi.recover:70
+#: ../urpmi.recover:71
 #, c-format
 msgid "%d files removed\n"
 msgstr ""
 
-#: ../urpmi.recover:80
+#: ../urpmi.recover:81
 #, c-format
 msgid "Spurious command-line arguments [%s]\n"
 msgstr ""
 
-#: ../urpmi.recover:82
+#: ../urpmi.recover:83
 msgid "You can't specify --checkpoint and --rollback at the same time\n"
 msgstr ""
 
-#: ../urpmi.recover:84
+#: ../urpmi.recover:85
 msgid "You can't specify --checkpoint and --list at the same time\n"
 msgstr ""
 
-#: ../urpmi.recover:86
+#: ../urpmi.recover:87
 msgid "You can't specify --rollback and --list at the same time\n"
 msgstr ""
 
-#: ../urpmi.recover:88
+#: ../urpmi.recover:89
 msgid "You can't specify --disable along with another option"
 msgstr ""
 
-#: ../urpmi.recover:110
+#: ../urpmi.recover:114
 #, c-format
 msgid "No transaction found since %s\n"
 msgstr ""
 
 #. - check we're running as root
-#: ../urpmi.recover:125
+#: ../urpmi.recover:129
 msgid "You must be superuser to do this"
 msgstr ""
 
 #. - write rpm config file
-#: ../urpmi.recover:138 ../urpmi.recover:204
+#: ../urpmi.recover:142 ../urpmi.recover:208
 #, fuzzy, c-format
 msgid "Writing rpm macros file [%s]...\n"
 msgstr "מאחזר קובץ RPM [%s]..."
 
-#: ../urpmi.recover:180
+#: ../urpmi.recover:184
 #, fuzzy
 msgid "No rollback date found\n"
 msgstr "לא נמצאה רשימת קבצים\n"
 
-#: ../urpmi.recover:183
+#: ../urpmi.recover:187
 #, c-format
 msgid "Rollback until %s...\n"
 msgstr ""
 
-#: ../urpmi.recover:190
+#: ../urpmi.recover:194
 msgid "Disabling repackaging\n"
 msgstr ""
 

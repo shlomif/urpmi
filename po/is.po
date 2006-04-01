@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2006-03-05 18:43+0800\n"
+"POT-Creation-Date: 2006-04-01 16:35+0800\n"
 "PO-Revision-Date: 2006-03-07 18:15+0000\n"
 "Last-Translator: Pjetur G. Hjaltason <pjetur@pjetur.net>\n"
 "Language-Team:  <is@li.org>\n"
@@ -101,12 +101,12 @@ msgstr "Hætta _við"
 msgid "Choose location to save file"
 msgstr "Veldu stað til að vista skrá"
 
-#: ../gurpmi.pm:75
+#: ../gurpmi.pm:76
 #, c-format
 msgid "Unknown option %s"
 msgstr "óþekktur valkostur %s"
 
-#: ../gurpmi.pm:83
+#: ../gurpmi.pm:86
 msgid "No packages specified"
 msgstr "Engir pakkar tilgreindir"
 
@@ -183,12 +183,12 @@ msgstr "Get ekki sótt frumpakka, hætti við"
 msgid "Please insert the medium named \"%s\" on device [%s]"
 msgstr "Vinsamlega settu inn %s %s"
 
-#: ../gurpmi2:235
+#: ../gurpmi2:236
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Sæki pakka `%s'..."
 
-#: ../gurpmi2:250
+#: ../gurpmi2:251
 #, c-format
 msgid ""
 "The following packages have bad signatures:\n"
@@ -202,7 +202,7 @@ msgstr ""
 "Viltu halda áfram innsetningu ?"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../gurpmi2:257 ../gurpmi2:313 ../urpmi:651 ../urpmi:782
+#: ../gurpmi2:258 ../gurpmi2:314 ../urpmi:651 ../urpmi:782
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
@@ -214,12 +214,12 @@ msgstr ""
 "Þú ættir sennilega að uppfæra urpmi gagnagrunninn"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../gurpmi2:264 ../urpme:129 ../urpmi:698
+#: ../gurpmi2:265 ../urpme:128 ../urpmi:698
 #, c-format
 msgid "removing %s"
 msgstr "fjarlægi %s"
 
-#: ../gurpmi2:272 ../urpm.pm:2907
+#: ../gurpmi2:272 ../urpm.pm:2916
 msgid "Preparing..."
 msgstr "Undirbý..."
 
@@ -229,19 +229,19 @@ msgid "Installing package `%s' (%s/%s)..."
 msgstr "Set inn pakka `%s' (%s/%s)..."
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../gurpmi2:299 ../urpmi:663 ../urpmi:721 ../urpmi:741 ../urpmi:759
+#: ../gurpmi2:300 ../urpmi:663 ../urpmi:721 ../urpmi:741 ../urpmi:759
 msgid "Installation failed"
 msgstr "Innsetning brást"
 
-#: ../gurpmi2:308
+#: ../gurpmi2:309
 msgid "_Done"
 msgstr "_Lokið"
 
-#: ../gurpmi2:316 ../urpmi:799
+#: ../gurpmi2:317 ../urpmi:799
 msgid "The package(s) are already installed"
 msgstr "Allt er nú þegar komið inn"
 
-#: ../gurpmi2:318
+#: ../gurpmi2:319
 msgid "Installation finished"
 msgstr "Innsetningu lokið"
 
@@ -280,10 +280,15 @@ msgstr "Aðeins kerfisstjóri hefur leyfi til að setja inn pakka"
 msgid "Running urpmi in restricted mode..."
 msgstr "Keyri urpmi í vernduðum ham..."
 
-#: ../urpm.pm:73
+#: ../urpm.pm:72
 #, c-format
 msgid "unknown protocol defined for %s"
 msgstr "óþekkt samskiptaregla skilgreind fyrir %s"
+
+#: ../urpm.pm:101
+#, c-format
+msgid "%s is not available, falling back on %s"
+msgstr ""
 
 #: ../urpm.pm:109
 #, c-format
@@ -309,14 +314,14 @@ msgstr ""
 "miðill \"%s\" er að reyna að nota lista sem er þegar í notkun, miðill "
 "hunsaður"
 
-#: ../urpm.pm:236 ../urpm.pm:1311 ../urpm.pm:1321
+#: ../urpm.pm:236 ../urpm.pm:1313 ../urpm.pm:1323
 #, c-format
 msgid "unable to access hdlist file of \"%s\", medium ignored"
 msgstr "gat ekki kannað hdlist fyrir \"%s\", miðill hunsaður"
 
 #. list file exists but isn't readable
 #. report error only if no result found, list files are only readable by root
-#: ../urpm.pm:239 ../urpm.pm:2517
+#: ../urpm.pm:239 ../urpm.pm:2521
 #, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "gat ekki kannað lista-skrá fyrir \"%s\", miðill hunsaður"
@@ -428,7 +433,8 @@ msgstr "get ekki notað samhliðavalkost \"%s\""
 #: ../urpm.pm:501
 #, c-format
 msgid "there doesn't seem to be devices in the chroot in \"%s\""
-msgstr "það lítur ekki út fyrir að það séu nein tæki í lokuðu rótinni (chroot) \"%s\""
+msgstr ""
+"það lítur ekki út fyrir að það séu nein tæki í lokuðu rótinni (chroot) \"%s\""
 
 #: ../urpm.pm:507
 msgid ""
@@ -447,23 +453,23 @@ msgstr ""
 #. - (However links need to be managed. see bug #12391.)
 #. - as previously done, just read synthesis file here, this is enough.
 #. - read default synthesis (we have to make sure nothing get out of depslist).
-#: ../urpm.pm:571 ../urpm.pm:597 ../urpm.pm:1083 ../urpm.pm:1094
-#: ../urpm.pm:1166 ../urpm.pm:1183 ../urpm.pm:1238 ../urpm.pm:1294
-#: ../urpm.pm:1504 ../urpm.pm:1624 ../urpm.pm:1741 ../urpm.pm:1747
-#: ../urpm.pm:1850 ../urpm.pm:1936 ../urpm.pm:1940
+#: ../urpm.pm:571 ../urpm.pm:597 ../urpm.pm:1085 ../urpm.pm:1096
+#: ../urpm.pm:1168 ../urpm.pm:1185 ../urpm.pm:1240 ../urpm.pm:1296
+#: ../urpm.pm:1506 ../urpm.pm:1626 ../urpm.pm:1743 ../urpm.pm:1749
+#: ../urpm.pm:1852 ../urpm.pm:1938 ../urpm.pm:1942
 #, c-format
 msgid "examining synthesis file [%s]"
 msgstr "athuga samantektar-skrá [%s]"
 
-#: ../urpm.pm:575 ../urpm.pm:590 ../urpm.pm:603 ../urpm.pm:1086
-#: ../urpm.pm:1097 ../urpm.pm:1172 ../urpm.pm:1178 ../urpm.pm:1243
-#: ../urpm.pm:1298 ../urpm.pm:1508 ../urpm.pm:1628 ../urpm.pm:1735
-#: ../urpm.pm:1753 ../urpm.pm:1946
+#: ../urpm.pm:575 ../urpm.pm:590 ../urpm.pm:603 ../urpm.pm:1088
+#: ../urpm.pm:1099 ../urpm.pm:1174 ../urpm.pm:1180 ../urpm.pm:1245
+#: ../urpm.pm:1300 ../urpm.pm:1510 ../urpm.pm:1630 ../urpm.pm:1737
+#: ../urpm.pm:1755 ../urpm.pm:1948
 #, c-format
 msgid "examining hdlist file [%s]"
 msgstr "athuga hdlist [%s]"
 
-#: ../urpm.pm:585 ../urpm.pm:1090
+#: ../urpm.pm:585 ../urpm.pm:1092
 #, c-format
 msgid "virtual medium \"%s\" is not local, medium ignored"
 msgstr "sýndarmiðill \"%s\" er ekki staðbundinn, miðill hunsaður"
@@ -474,13 +480,13 @@ msgid "Search start: %s end: %s"
 msgstr "Leit byrjun: %s endir: %s"
 
 #. - this is almost a fatal error, ignore it by default?
-#: ../urpm.pm:620 ../urpm.pm:1104 ../urpm.pm:1191 ../urpm.pm:1247
-#: ../urpm.pm:1632
+#: ../urpm.pm:620 ../urpm.pm:1106 ../urpm.pm:1193 ../urpm.pm:1249
+#: ../urpm.pm:1634
 #, c-format
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
 msgstr "vandræði við lestur á hdlist eða samantektar-skrá miðils \"%s\""
 
-#: ../urpm.pm:627 ../urpm.pm:1888
+#: ../urpm.pm:627 ../urpm.pm:1890
 msgid "performing second pass to compute dependencies\n"
 msgstr "Fer yfir í annað sinn til að athuga hvað er háð\n"
 
@@ -496,94 +502,94 @@ msgstr "mundi setja inn í stað uppfærslu á pakka %s"
 
 #. - beware this can be a child process or the main process now...
 #. - open in read/write mode unless testing installation.
-#: ../urpm.pm:667 ../urpm.pm:2325 ../urpm.pm:2386 ../urpm.pm:2574
-#: ../urpm.pm:2972 ../urpm.pm:3090
+#: ../urpm.pm:667 ../urpm.pm:2329 ../urpm.pm:2390 ../urpm.pm:2579
+#: ../urpm.pm:2982 ../urpm.pm:3109
 msgid "unable to open rpmdb"
 msgstr "gat ekki opnað rpmdb"
 
-#: ../urpm.pm:707
+#: ../urpm.pm:708
 #, c-format
 msgid "medium \"%s\" already exists"
 msgstr "miðill  \"%s\" er þegar til"
 
-#: ../urpm.pm:714
+#: ../urpm.pm:715
 msgid "virtual medium needs to be local"
 msgstr "sýndarmiðlar verða að vera staðbundnir"
 
-#: ../urpm.pm:739
+#: ../urpm.pm:740
 #, c-format
 msgid "added medium %s"
 msgstr "bætt við miðli %s"
 
-#: ../urpm.pm:784
+#: ../urpm.pm:786
 msgid "unable to access first installation medium"
 msgstr "enginn aðgangur að fyrsta uppsetningarmiðli"
 
-#: ../urpm.pm:788
+#: ../urpm.pm:790
 msgid "copying hdlists file..."
 msgstr "afrita hdlists skrá..."
 
-#: ../urpm.pm:790 ../urpm.pm:1207 ../urpm.pm:1264
+#: ../urpm.pm:792 ../urpm.pm:1209 ../urpm.pm:1266
 msgid "...copying done"
 msgstr "...afritun lokið"
 
-#: ../urpm.pm:791 ../urpm.pm:1208 ../urpm.pm:1339 ../urpm.pm:1402
-#: ../urpm.pm:1570 ../urpm.pm:1577
+#: ../urpm.pm:793 ../urpm.pm:1210 ../urpm.pm:1341 ../urpm.pm:1404
+#: ../urpm.pm:1572 ../urpm.pm:1579
 msgid "...copying failed"
 msgstr "...afritun brást"
 
-#: ../urpm.pm:794 ../urpm.pm:819 ../urpm.pm:858
+#: ../urpm.pm:796 ../urpm.pm:821 ../urpm.pm:860
 msgid "unable to access first installation medium (no hdlists file found)"
 msgstr "get ekki fundið fyrsta uppsetningarmiðil (engin hdlist skrá fannst)"
 
-#: ../urpm.pm:801
+#: ../urpm.pm:803
 msgid "retrieving hdlists file..."
 msgstr "sæki hdlists skrá..."
 
-#: ../urpm.pm:813 ../urpm.pm:1614 ../urpm.pm:2115 ../urpm.pm:2832
+#: ../urpm.pm:815 ../urpm.pm:1616 ../urpm.pm:2117 ../urpm.pm:2837
 msgid "...retrieving done"
 msgstr "...niðurhali lokið"
 
-#: ../urpm.pm:815 ../urpm.pm:1598 ../urpm.pm:2119 ../urpm.pm:2834
+#: ../urpm.pm:817 ../urpm.pm:1600 ../urpm.pm:2121 ../urpm.pm:2839
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...mistókst að sækja: %s"
 
-#: ../urpm.pm:839
+#: ../urpm.pm:841
 #, c-format
 msgid "invalid hdlist description \"%s\" in hdlists file"
 msgstr "ógild hdlist lýsing \"%s\" í hdlist skrá"
 
-#: ../urpm.pm:895
+#: ../urpm.pm:897
 #, c-format
 msgid "trying to select nonexistent medium \"%s\""
 msgstr "reynt að velja miðil sem er ekki til \"%s\""
 
 #. - several elements in found and/or foundi lists.
-#: ../urpm.pm:897
+#: ../urpm.pm:899
 #, c-format
 msgid "selecting multiple media: %s"
 msgstr "vel marga miðla: %s"
 
-#: ../urpm.pm:913
+#: ../urpm.pm:915
 #, c-format
 msgid "removing medium \"%s\""
 msgstr "fjarlægi miðil \"%s\""
 
-#: ../urpm.pm:964
+#: ../urpm.pm:966
 #, c-format
 msgid "reconfiguring urpmi for media \"%s\""
 msgstr "endurstilli urpmi fyrir miðil \"%s\""
 
-#: ../urpm.pm:993
+#: ../urpm.pm:995
 msgid "...reconfiguration failed"
 msgstr "...endurstilling mistókst"
 
-#: ../urpm.pm:1000
+#: ../urpm.pm:1002
 msgid "reconfiguration done"
 msgstr "endurstillingu lokið"
 
-#: ../urpm.pm:1144
+#: ../urpm.pm:1146
 #, c-format
 msgid ""
 "unable to access medium \"%s\",\n"
@@ -594,7 +600,7 @@ msgstr ""
 "þetta getur verið vegna þess að þú tengdir möppuna handvirkt þegar þú bjóst "
 "miðilinn til."
 
-#: ../urpm.pm:1195
+#: ../urpm.pm:1197
 #, c-format
 msgid ""
 "virtual medium \"%s\" should have valid source hdlist or synthesis, medium "
@@ -603,135 +609,135 @@ msgstr ""
 "sýndarmiðill \"%s\" ætti að hafa gilda hdlist eða samantektar skrá, miðill "
 "hunsaður"
 
-#: ../urpm.pm:1205
+#: ../urpm.pm:1207
 #, c-format
 msgid "copying description file of \"%s\"..."
 msgstr "afrita lýsingaskrá fyrir \"%s\"..."
 
-#: ../urpm.pm:1260
+#: ../urpm.pm:1262
 #, c-format
 msgid "copying source hdlist (or synthesis) of \"%s\"..."
 msgstr "afrita hdlist skrá (eða samantektar-skrá) frá \"%s\"..."
 
-#: ../urpm.pm:1274
+#: ../urpm.pm:1276
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "afrit af [%s] brást (skráin er grunsamlega lítil)"
 
-#: ../urpm.pm:1279
+#: ../urpm.pm:1281
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "reikna md5 gátsummu yfir afritaða skrá (eða samantektar-skrá)"
 
-#: ../urpm.pm:1281
+#: ../urpm.pm:1283
 #, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
 msgstr "afrit af [%s] brást (md5 gátsumma passar ekki)"
 
-#: ../urpm.pm:1302 ../urpm.pm:1512 ../urpm.pm:1853
+#: ../urpm.pm:1304 ../urpm.pm:1514 ../urpm.pm:1855
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "vandræði við lestur á samantektar-skrá fyrir miðil \"%s\""
 
-#: ../urpm.pm:1360
+#: ../urpm.pm:1362
 #, c-format
 msgid "reading rpm files from [%s]"
 msgstr "les rpm skrár frá [%s]"
 
-#: ../urpm.pm:1375
+#: ../urpm.pm:1377
 msgid "no rpms read"
 msgstr "engar rpm skrár lesnar"
 
-#: ../urpm.pm:1385
+#: ../urpm.pm:1387
 #, c-format
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "get ekki lesið rpm skrár frá [%s]: %s"
 
-#: ../urpm.pm:1390
+#: ../urpm.pm:1392
 #, c-format
 msgid "no rpm files found from [%s]"
 msgstr "engar rpm skrár fundust frá [%s]"
 
 #. - try to probe for possible with_hdlist parameter, unless
 #. - it is already defined (and valid).
-#: ../urpm.pm:1527
+#: ../urpm.pm:1529
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "sæki hdlist skrá (eða samantektar-skrá) fyrir \"%s\"..."
 
-#: ../urpm.pm:1555
+#: ../urpm.pm:1557
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "fann, við leit, hdlist skrá (eða samantektar-skrá) sem %s"
 
-#: ../urpm.pm:1605
+#: ../urpm.pm:1607
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
 msgstr "reikna md5 gátsummu yfir sótta hdlist skrá (eða samantektar-skrá)"
 
-#: ../urpm.pm:1607
+#: ../urpm.pm:1609
 msgid "...retrieving failed: md5sum mismatch"
 msgstr "...mistókst að sækja: ósamræmi í md5 gátsummu"
 
-#: ../urpm.pm:1705
+#: ../urpm.pm:1707
 msgid "retrieval of source hdlist (or synthesis) failed"
 msgstr "ekki tókst að sækja hdlist skrá (eða samantektar-skrá)"
 
-#: ../urpm.pm:1712
+#: ../urpm.pm:1714
 #, c-format
 msgid "no hdlist file found for medium \"%s\""
 msgstr "engin hdlist skrá fannst fyrir miðil \"%s\""
 
-#: ../urpm.pm:1723 ../urpm.pm:1777
+#: ../urpm.pm:1725 ../urpm.pm:1779
 #, c-format
 msgid "file [%s] already used in the same medium \"%s\""
 msgstr "skrá [%s] þegar notuð í sama miðli \"%s\""
 
-#: ../urpm.pm:1763
+#: ../urpm.pm:1765
 #, c-format
 msgid "unable to parse hdlist file of \"%s\""
 msgstr "gat ekki unnið úr hdlist skrá fyrir \"%s\""
 
-#: ../urpm.pm:1802
+#: ../urpm.pm:1804
 #, c-format
 msgid "unable to write list file of \"%s\""
 msgstr "gat ekki skrifað lista-skrá fyrir \"%s\""
 
-#: ../urpm.pm:1810
+#: ../urpm.pm:1812
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "skrifa lista-skrá fyrir miðil \"%s\""
 
-#: ../urpm.pm:1812
+#: ../urpm.pm:1814
 #, c-format
 msgid "nothing written in list file for \"%s\""
 msgstr "ekkert skrifað í lista-skrá fyrir \"%s\""
 
-#: ../urpm.pm:1827
+#: ../urpm.pm:1829
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "athuga lykilskrá \"%s\"..."
 
-#: ../urpm.pm:1834
+#: ../urpm.pm:1836
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "...flutti inn lykil %s úr lyklaskrá \"%s\""
 
-#: ../urpm.pm:1837
+#: ../urpm.pm:1839
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "gat ekki flutt inn lykilskrá \"%s\""
 
-#: ../urpm.pm:1902
+#: ../urpm.pm:1904
 #, c-format
 msgid "reading headers from medium \"%s\""
 msgstr "les hausa frá miðli \"%s\""
 
-#: ../urpm.pm:1907
+#: ../urpm.pm:1909
 #, c-format
 msgid "building hdlist [%s]"
 msgstr "byggi hdlist [%s]"
 
 #. - XXX this happens when building a synthesis for a local media from RPMs... why ?
-#: ../urpm.pm:1922 ../urpm.pm:1958
+#: ../urpm.pm:1924 ../urpm.pm:1960
 #, c-format
 msgid ""
 "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
@@ -740,91 +746,100 @@ msgstr ""
 "Get ekki búið til samantektar-skrá fyrir miðil \"%s\". hdlist skráin þín er "
 "kannski gölluð."
 
-#: ../urpm.pm:1926 ../urpm.pm:1962 ../urpmi:370
+#: ../urpm.pm:1928 ../urpm.pm:1964 ../urpmi:370
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
 msgstr "byggði hdlist samantektar-skrá fyrir miðil \"%s\""
 
-#: ../urpm.pm:1985
+#: ../urpm.pm:1987
 #, c-format
 msgid "found %d headers in cache"
 msgstr "fann %d hausa á biðsvæði"
 
-#: ../urpm.pm:1989
+#: ../urpm.pm:1991
 #, c-format
 msgid "removing %d obsolete headers in cache"
 msgstr "fjarlægi %d útrunna hausa af biðsvæði"
 
-#: ../urpm.pm:2010
+#: ../urpm.pm:2012
 #, c-format
 msgid "Error generating names file: dependency %d not found"
 msgstr "Villa við myndun nafnaskrár: er háð %d sem finnst ekki"
 
-#: ../urpm.pm:2015
+#: ../urpm.pm:2017
 #, c-format
 msgid "Error generating names file: Can't write to file (%s)"
 msgstr "Villa við myndun nafnaskrár: get ekki skrifað í skrá (%s)"
 
-#: ../urpm.pm:2051
+#: ../urpm.pm:2053
 #, c-format
 msgid "mounting %s"
 msgstr "tengi %s"
 
-#: ../urpm.pm:2075
+#: ../urpm.pm:2077
 #, c-format
 msgid "unmounting %s"
 msgstr "aftengi %s"
 
-#: ../urpm.pm:2100
+#: ../urpm.pm:2102
 #, c-format
 msgid "invalid rpm file name [%s]"
 msgstr "ógilt rpm skráarnafn [%s]"
 
-#: ../urpm.pm:2106
+#: ../urpm.pm:2108
 #, c-format
 msgid "retrieving rpm file [%s] ..."
 msgstr "sæki rpm skrá [%s] ..."
 
-#: ../urpm.pm:2124
+#: ../urpm.pm:2126
 #, c-format
 msgid "unable to access rpm file [%s]"
 msgstr "get ekki lesið rpm skrá [%s]"
 
-#: ../urpm.pm:2129
+#: ../urpm.pm:2131
 #, c-format
 msgid "unable to parse spec file %s [%s]"
 msgstr "get ekki unnið úr spec skrá %s [%s]"
 
-#: ../urpm.pm:2139
+#: ../urpm.pm:2141
 msgid "unable to register rpm file"
 msgstr "gat ekki skráð rpm skrá"
 
 #: ../urpm.pm:2143
+#, c-format
+msgid "Incompatible architecture for rpm [%s]"
+msgstr ""
+
+#: ../urpm.pm:2147
 msgid "error registering local packages"
 msgstr "villa við að skrá staðbundna pakka"
 
-#: ../urpm.pm:2253
+#: ../urpm.pm:2257
 #, c-format
 msgid "no package named %s"
 msgstr "enginn pakki heitir %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpm.pm:2255 ../urpme:102
+#: ../urpm.pm:2259 ../urpme:101
 #, c-format
 msgid "The following packages contain %s: %s"
 msgstr "Eftirfarandi pakkar innihalda %s: %s"
 
-#: ../urpm.pm:2448 ../urpm.pm:2494 ../urpm.pm:2525
+#: ../urpm.pm:2452 ../urpm.pm:2498 ../urpm.pm:2530
 #, c-format
 msgid "there are multiple packages with the same rpm filename \"%s\""
 msgstr "það eru margir pakkar með sama rpm skráarnafn \"%s\""
 
-#: ../urpm.pm:2508
+#: ../urpm.pm:2512
 #, c-format
 msgid "unable to correctly parse [%s] on value \"%s\""
 msgstr "get ekki túlkað rétt [%s] úr gildi \"%s\""
 
-#: ../urpm.pm:2541
+#: ../urpm.pm:2522
+msgid "(retry as root?)"
+msgstr ""
+
+#: ../urpm.pm:2546
 #, c-format
 msgid ""
 "medium \"%s\" uses an invalid list file:\n"
@@ -833,159 +848,166 @@ msgstr ""
 "miðill \"%s\" notar ógilda lista-skrá:\n"
 "   spegill er sennilega ekki með nýjustu gögn, reyni aðra aðferð"
 
-#: ../urpm.pm:2545
+#: ../urpm.pm:2550
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
 msgstr "miðill \"%s\" skilgreinir enga staðsetningu fyrir rpm skrár"
 
-#: ../urpm.pm:2557
+#: ../urpm.pm:2562
 #, c-format
 msgid "package %s is not found."
 msgstr "pakki %s fannst ekki."
 
-#: ../urpm.pm:2608 ../urpm.pm:2622 ../urpm.pm:2642 ../urpm.pm:2656
+#: ../urpm.pm:2613 ../urpm.pm:2627 ../urpm.pm:2647 ../urpm.pm:2661
 msgid "urpmi database locked"
 msgstr "urpmi gagnagrunnur læstur"
 
-#: ../urpm.pm:2708 ../urpm.pm:2713 ../urpm.pm:2739
+#: ../urpm.pm:2713 ../urpm.pm:2718 ../urpm.pm:2744
 #, c-format
 msgid "medium \"%s\" is not selected"
 msgstr "miðill \"%s\" er ekki valinn"
 
 #. - fallback to use other method for retrieving the file later.
-#: ../urpm.pm:2735
+#: ../urpm.pm:2740
 #, c-format
 msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "get ekki lesið rpm skrá [%s] frá miðli \"%s\""
 
 #. - we have a removable device that is not removable, well...
-#: ../urpm.pm:2743
+#: ../urpm.pm:2748
 #, c-format
 msgid "inconsistent medium \"%s\" marked removable but not really"
 msgstr "ósamræmi í miðli \"%s\" merktur útskiptanlegur en er það ekki í raun"
 
-#: ../urpm.pm:2755
+#: ../urpm.pm:2760
 #, c-format
 msgid "unable to access medium \"%s\""
 msgstr "get ekki lesið miðil \"%s\""
 
-#: ../urpm.pm:2810
+#: ../urpm.pm:2815
 #, c-format
 msgid "malformed URL: [%s]"
 msgstr "gölluð slóð: [%s]"
 
-#: ../urpm.pm:2817
+#: ../urpm.pm:2822
 #, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
 msgstr "sæki rpm skrá frá miðli \"%s\"..."
 
-#: ../urpm.pm:2945
+#: ../urpm.pm:2921
+#, fuzzy
+msgid "[repackaging]"
+msgstr "Aftengja endurpökkun\n"
+
+#: ../urpm.pm:2954
 #, c-format
 msgid "using process %d for executing transaction"
 msgstr "nota feril %d til að keyra færslu"
 
-#: ../urpm.pm:2977
+#: ../urpm.pm:2987
 #, c-format
-msgid "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
-msgstr "bjó til færslu fyrir uppsetningu á %s (fjarlægi=%d, set inn=%d, uppfæri=%d)"
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
+"bjó til færslu fyrir uppsetningu á %s (fjarlægi=%d, set inn=%d, uppfæri=%d)"
 
-#: ../urpm.pm:2980
+#: ../urpm.pm:2990
 msgid "unable to create transaction"
 msgstr "Gat ekki búið til færslu"
 
-#: ../urpm.pm:2988
+#: ../urpm.pm:2998
 #, c-format
 msgid "removing package %s"
 msgstr "fjarlægi pakka %s"
 
-#: ../urpm.pm:2990
+#: ../urpm.pm:3000
 #, c-format
 msgid "unable to remove package %s"
 msgstr "get ekki fjarlægt pakka %s"
 
-#: ../urpm.pm:3002
+#: ../urpm.pm:3012
 #, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
 msgstr "gat ekki dregið rpm úr breytinga-rpm pakka %s"
 
-#: ../urpm.pm:3008
+#: ../urpm.pm:3018
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
 msgstr "bæti við pakka %s (id=%d, eid=%d, uppfæra=%d, skrá=%s)"
 
-#: ../urpm.pm:3011
+#: ../urpm.pm:3021
 #, c-format
 msgid "unable to install package %s"
 msgstr "get ekki sett inn pakka %s"
 
-#: ../urpm.pm:3061
+#: ../urpm.pm:3071
 #, c-format
 msgid "More information on package %s"
 msgstr "Meiri upplýsingar um pakka %s"
 
-#: ../urpm.pm:3233 ../urpm.pm:3271
+#: ../urpm.pm:3252 ../urpm.pm:3290
 #, c-format
 msgid "due to missing %s"
 msgstr "vegna þess að %s vantar"
 
-#: ../urpm.pm:3234 ../urpm.pm:3269
+#: ../urpm.pm:3253 ../urpm.pm:3288
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "vegna óuppfylltra %s"
 
-#: ../urpm.pm:3240
+#: ../urpm.pm:3259
 #, c-format
 msgid "trying to promote %s"
 msgstr "þegar reynt var að setja upp %s"
 
-#: ../urpm.pm:3241
+#: ../urpm.pm:3260
 #, c-format
 msgid "in order to keep %s"
 msgstr "til þess að halda %s"
 
-#: ../urpm.pm:3264
+#: ../urpm.pm:3283
 #, c-format
 msgid "in order to install %s"
 msgstr "til þess að setja inn %s"
 
-#: ../urpm.pm:3275
+#: ../urpm.pm:3294
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "vegna árekstra við %s"
 
-#: ../urpm.pm:3276
+#: ../urpm.pm:3295
 msgid "unrequested"
 msgstr "óumbeðið"
 
-#: ../urpm.pm:3295
+#: ../urpm.pm:3314
 #, c-format
 msgid "Invalid signature (%s)"
 msgstr "ógild undirskrift (%s)"
 
-#: ../urpm.pm:3328
+#: ../urpm.pm:3347
 #, c-format
 msgid "Invalid Key ID (%s)"
 msgstr "Ógilt auðkenni lykils (%s)"
 
-#: ../urpm.pm:3330
+#: ../urpm.pm:3349
 #, c-format
 msgid "Missing signature (%s)"
 msgstr "Vantar undirskrift (%s)"
 
-#: ../urpm.pm:3389
+#: ../urpm.pm:3408
 msgid "examining MD5SUM file"
 msgstr "athuga MD5SUM skrá"
 
-#: ../urpm.pm:3399
+#: ../urpm.pm:3418
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
 msgstr "aðvörun: md5 gátsumma fyrir %s ekki til í MD5SUM skrá"
 
-#: ../urpm.pm:3410
+#: ../urpm.pm:3429
 msgid "computing md5sum of existing source hdlist (or synthesis)"
 msgstr "reikna md5 gátsummu yfir núverandi hdlist skrá (eða samantektar-skrá)"
 
-#: ../urpm.pm:3440
+#: ../urpm.pm:3459
 msgid "This operation is forbidden while running in restricted mode"
 msgstr "Þessi aðgerð er bönnuð þegar keyrt er í vernduðum ham"
 
@@ -993,11 +1015,11 @@ msgstr "Þessi aðgerð er bönnuð þegar keyrt er í vernduðum ham"
 msgid "bad proxy declaration on command line\n"
 msgstr "röng selskilgreining á skipanalínu\n"
 
-#: ../urpm/args.pm:229
+#: ../urpm/args.pm:230
 msgid "You need to be root to use --use-distrib"
 msgstr "Þú verður að vera kerfisstjóri til að nota --use-distrib"
 
-#: ../urpm/args.pm:261
+#: ../urpm/args.pm:262
 #, c-format
 msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: get ekki lesið rpm skrá \"%s\"\n"
@@ -1147,7 +1169,8 @@ msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - staðfesta að hægt sé að fjarlægja umbeðna pakka.\n"
 
 #: ../urpme:45 ../urpmi:102 ../urpmq:63
-msgid "  --force        - force invocation even if some packages do not exist.\n"
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
 msgstr "  --force        - þvinga uppsetningu þó sumir pakkar séu ekki til.\n"
 
 #: ../urpme:46 ../urpmi:107 ../urpmq:65
@@ -1187,46 +1210,48 @@ msgstr "  -a             - velja alla pakka sem passa við segð.\n"
 msgid "Only superuser is allowed to remove packages"
 msgstr "Aðeins kerfisstjóri hefur leyfi til að fjarlægja pakka"
 
-#: ../urpme:96
+#: ../urpme:95
 msgid "unknown package"
 msgstr "Óþekktur pakki"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:96
+#: ../urpme:95
 msgid "unknown packages"
 msgstr "óþekktir pakkar"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:108 ../urpmi:488
+#: ../urpme:107 ../urpmi:488
 #, c-format
 msgid "removing package %s will break your system"
 msgstr "ef pakki %s er fjarlægður raskast uppsetning kerfisins"
 
-#: ../urpme:111
+#: ../urpme:110
 msgid "Nothing to remove"
 msgstr "Ekkert til að fjarlægja"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:116
+#: ../urpme:115
 msgid "Checking to remove the following packages"
 msgstr "Forathugun við að fjarlægja eftirtalda pakka"
 
-#: ../urpme:123
+#: ../urpme:122
 #, c-format
-msgid "To satisfy dependencies, the following %d packages will be removed (%d MB)"
-msgstr "Til að viðhalda samræmi, verða eftirtaldir %d pakkar fjarlægðir (%d MB)"
+msgid ""
+"To satisfy dependencies, the following %d packages will be removed (%d MB)"
+msgstr ""
+"Til að viðhalda samræmi, verða eftirtaldir %d pakkar fjarlægðir (%d MB)"
 
-#: ../urpme:125 ../urpmi:510 ../urpmi:643
+#: ../urpme:124 ../urpmi:510 ../urpmi:643
 msgid " (y/N) "
 msgstr " (J/n) "
 
-#: ../urpme:125
+#: ../urpme:124
 #, c-format
 msgid "Remove %d packages?"
 msgstr "Fjarlæga %d  pakka?"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
-#: ../urpme:149
+#: ../urpme:148
 msgid "Removal failed"
 msgstr "Mistókst að fjarlægja"
 
@@ -1261,7 +1286,8 @@ msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr "  --excludemedia - nota ekki uppgefna miðla, aðskildir með kommum.\n"
 
 #: ../urpmf:38
-msgid "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
+msgid ""
+"  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
 "  --literal, -l  - ekki leita að mynstrum, nota viðfang sem uppgefinn "
 "ákveðinn texta.\n"
@@ -1271,12 +1297,15 @@ msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - nota aðeins uppgefna miðla, aðskildir með kommum.\n"
 
 #: ../urpmf:40 ../urpmi:85 ../urpmq:49
-msgid "  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr "  --sortmedia    - raða miðlum eftir undirstrengjum, aðskildir með kommum.\n"
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr ""
+"  --sortmedia    - raða miðlum eftir undirstrengjum, aðskildir með kommum.\n"
 
 #: ../urpmf:41 ../urpmi:86 ../urpmq:50
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr "  --synthesis    - nota gefna samantektar-skrá í stað urpmi gagnagrunns.\n"
+msgstr ""
+"  --synthesis    - nota gefna samantektar-skrá í stað urpmi gagnagrunns.\n"
 
 #: ../urpmf:42
 msgid "  --uniq         - do not print identical lines twice.\n"
@@ -1431,7 +1460,8 @@ msgstr "  -m             - miðillinn sem innihélt pakkann\n"
 
 #: ../urpmf:79 ../urpmq:80
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr "  -f             - prenta útgáfu, undirnúmer og vélartegund með nafni.\n"
+msgstr ""
+"  -f             - prenta útgáfu, undirnúmer og vélartegund með nafni.\n"
 
 #: ../urpmf:131
 msgid "Incorrect format: you may use only one multi-valued tag"
@@ -1446,7 +1476,8 @@ msgstr "nota tilgreint umhverfi á %s\n"
 msgid ""
 "Note: since no media searched uses hdlists, urpmf was unable to return any "
 "result\n"
-msgstr "Athugið: þar sem enginn miðill notar hdlist skrá, þá fann urpmf ekki neitt\n"
+msgstr ""
+"Athugið: þar sem enginn miðill notar hdlist skrá, þá fann urpmf ekki neitt\n"
 
 #: ../urpmf:220
 msgid "You may want to use --name to search for package names.\n"
@@ -1469,17 +1500,23 @@ msgstr ""
 "notkun:\n"
 
 #: ../urpmi:84
-msgid "  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr "  --searchmedia  - nota aðeins uppgefin miðil til að leita að umbeðnum pökkum.\n"
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - nota aðeins uppgefin miðil til að leita að umbeðnum "
+"pökkum.\n"
 
 #: ../urpmi:87
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
-msgstr "  --auto         - ekki gagnvirkur hamur, gera ráðfyrir sjálfgefnum svörum við spurningum.\n"
+msgstr ""
+"  --auto         - ekki gagnvirkur hamur, gera ráðfyrir sjálfgefnum svörum "
+"við spurningum.\n"
 
 #: ../urpmi:88 ../urpmq:51
-msgid "  --auto-select  - automatically select packages to upgrade the system.\n"
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
 msgstr "  --auto-select  - velja sjálfkrafa pakka til að uppfæra kerfið.\n"
 
 #: ../urpmi:89
@@ -1529,7 +1566,8 @@ msgstr "  --src          - næsti pakki er frumkóða-pakki.\n"
 
 #: ../urpmi:99
 msgid "  --install-src  - install only source package (no binaries).\n"
-msgstr "  --install-src  - setja aðeins inn frumkóða-pakka (engin forþýdd forrit).\n"
+msgstr ""
+"  --install-src  - setja aðeins inn frumkóða-pakka (engin forþýdd forrit).\n"
 
 #: ../urpmi:100
 msgid "  --clean        - remove rpm from cache before anything else.\n"
@@ -1653,7 +1691,9 @@ msgstr "  --ignoresize   - ekki athuga með diskpláss fyrir uppsetningu.\n"
 
 #: ../urpmi:132
 msgid "  --ignorearch   - allow to install rpms for unmatched architectures.\n"
-msgstr "  --ignorearch   - leyfa uppsetningu á rpm pökkum fyrir aðra vélbúnaðartegund.\n"
+msgstr ""
+"  --ignorearch   - leyfa uppsetningu á rpm pökkum fyrir aðra "
+"vélbúnaðartegund.\n"
 
 #: ../urpmi:133
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
@@ -1692,11 +1732,13 @@ msgstr "  -a             - velja allt sem passar á skipanalínu.\n"
 
 #: ../urpmi:142
 msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - leyfa leit í 'skaffar' (provides) til að finna pakka.\n"
+msgstr ""
+"  -p             - leyfa leit í 'skaffar' (provides) til að finna pakka.\n"
 
 #: ../urpmi:143
 msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - ekki leita í 'skaffar (provides) til að finna pakka.\n"
+msgstr ""
+"  -P             - ekki leita í 'skaffar (provides) til að finna pakka.\n"
 
 #: ../urpmi:144 ../urpmi.addmedia:69 ../urpmi.removemedia:58
 #: ../urpmi.update:48
@@ -1705,7 +1747,8 @@ msgstr "  -q             - hljóður hamur.\n"
 
 #: ../urpmi:146
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr "  nöfn eða rpm skrár sem eru tilgreindar á skipanalínunni verða sett inn.\n"
+msgstr ""
+"  nöfn eða rpm skrár sem eru tilgreindar á skipanalínunni verða sett inn.\n"
 
 #: ../urpmi:197
 msgid "You can't install binary rpm files when using --install-src"
@@ -1810,7 +1853,8 @@ msgid "(test only, removal will not be actually done)"
 msgstr "(aðeins prófun, ekkert verður í raun fjarlægt)"
 
 #: ../urpmi:539 ../urpmi:551
-msgid "To satisfy dependencies, the following packages are going to be installed"
+msgid ""
+"To satisfy dependencies, the following packages are going to be installed"
 msgstr "Til að viðhalda samræmi, verða eftirtaldir pakkar settir inn"
 
 #: ../urpmi:540 ../urpmi:552
@@ -1950,7 +1994,8 @@ msgstr ""
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
-msgstr "  --distrib      - sjálfvirkt búa til alla miðla frá dreifingarmiðli.\n"
+msgstr ""
+"  --distrib      - sjálfvirkt búa til alla miðla frá dreifingarmiðli.\n"
 
 #: ../urpmi.addmedia:59
 #, c-format
@@ -1976,11 +2021,13 @@ msgstr "  --no-md5sum    - aftengja MD5SUM skráarathugun.\n"
 
 #: ../urpmi.addmedia:65
 msgid "  --nopubkey     - don't import pubkey of added media\n"
-msgstr "  --nopubkey     - ekki flytja inn dulritunar-lykil fyrir viðbættan miðil\n"
+msgstr ""
+"  --nopubkey     - ekki flytja inn dulritunar-lykil fyrir viðbættan miðil\n"
 
 #: ../urpmi.addmedia:66
 msgid "  --raw          - add the media in config, but don't update it.\n"
-msgstr "  --raw          - bæta miðlinum við uppsetningu, en ekki uppfæra hann.\n"
+msgstr ""
+"  --raw          - bæta miðlinum við uppsetningu, en ekki uppfæra hann.\n"
 
 #: ../urpmi.addmedia:67 ../urpmi.removemedia:56 ../urpmi.update:46
 msgid "  -c             - clean headers cache directory.\n"
@@ -2013,15 +2060,15 @@ msgstr "Get ekki búið til uppsetningaskrá [%s]"
 msgid "no need to give <relative path of hdlist> with --distrib"
 msgstr "engin þörf á að gefa upp <slóð að hdlist> með --distrib"
 
-#: ../urpmi.addmedia:134
+#: ../urpmi.addmedia:145
 msgid "<relative path of hdlist> missing\n"
 msgstr "<slóð að hdlist> vantar\n"
 
-#: ../urpmi.addmedia:136
+#: ../urpmi.addmedia:147
 msgid "`with' missing for network media\n"
 msgstr "`with' vantar fyrir net-miðil\n"
 
-#: ../urpmi.addmedia:153
+#: ../urpmi.addmedia:169
 #, c-format
 msgid "unable to create medium \"%s\"\n"
 msgstr "gat ekki búið til miðil \"%s\"\n"
@@ -2051,14 +2098,21 @@ msgid "  --noclean      - don't clean repackage directory on checkpoint\n"
 msgstr "  --noclean      - ekki hreinsa endurpökkunar-möppu við sta%s.\n"
 
 #: ../urpmi.recover:36
-msgid "  --list         - list transactions since provided date/duration argument\n"
-msgstr "  --list         - lista færslur síðan uppgefin dagsetning eða tímabil\n"
+msgid ""
+"  --list         - list transactions since provided date/duration argument\n"
+msgstr ""
+"  --list         - lista færslur síðan uppgefin dagsetning eða tímabil\n"
 
 #: ../urpmi.recover:37
 msgid "  --list-all     - list all transactions in rpmdb (long)\n"
 msgstr "  --list-all     - lista allar færslur í rpmdb (langur listi).\n"
 
 #: ../urpmi.recover:38
+#, fuzzy
+msgid "  --list-safe    - list transactions since checkpoint\n"
+msgstr "  --list-all     - lista allar færslur í rpmdb (langur listi).\n"
+
+#: ../urpmi.recover:39
 msgid ""
 "  --rollback     - rollback until specified date,\n"
 "                   or rollback the specified number of transactions\n"
@@ -2066,81 +2120,81 @@ msgstr ""
 "  --rollback     - snúa til baka til ákveðinnar dagsetningar\n"
 "                   eða snúa til baka ákveðin fjölda færslna\n"
 
-#: ../urpmi.recover:40
+#: ../urpmi.recover:41
 msgid "  --disable      - turn off repackaging\n"
 msgstr "  --disable      - slökkva á endurpökkun\n"
 
-#: ../urpmi.recover:55
+#: ../urpmi.recover:56
 #, c-format
 msgid "Invalid date or duration [%s]\n"
 msgstr "Ógild dagsetning eða tímabil [%s]\n"
 
-#: ../urpmi.recover:63
+#: ../urpmi.recover:64
 msgid "Repackage directory not defined\n"
 msgstr "Endurpökkunarmappa ekki skilgreind\n"
 
-#: ../urpmi.recover:66
+#: ../urpmi.recover:67
 #, c-format
 msgid "Can't write to repackage directory [%s]\n"
 msgstr "Get ekki skrifað í endurpökkunarmöppu [%s]\n"
 
-#: ../urpmi.recover:68
+#: ../urpmi.recover:69
 #, c-format
 msgid "Cleaning up repackage directory [%s]...\n"
 msgstr "Hreinsa upp endurpökkunarmöppu [%s]...\n"
 
-#: ../urpmi.recover:70
+#: ../urpmi.recover:71
 #, c-format
 msgid "%d files removed\n"
 msgstr "%d skrár fjarlægðar\n"
 
-#: ../urpmi.recover:80
+#: ../urpmi.recover:81
 #, c-format
 msgid "Spurious command-line arguments [%s]\n"
 msgstr "Aukaleg viðföng í skipanalínu [%s]\n"
 
-#: ../urpmi.recover:82
+#: ../urpmi.recover:83
 msgid "You can't specify --checkpoint and --rollback at the same time\n"
 msgstr "Þú getur ekki tilgreint --checkpoint og --rollback á sama tíma\n"
 
-#: ../urpmi.recover:84
+#: ../urpmi.recover:85
 msgid "You can't specify --checkpoint and --list at the same time\n"
 msgstr "Þú getur ekki tilgreint --checkpoint og --list á sama tíma\n"
 
-#: ../urpmi.recover:86
+#: ../urpmi.recover:87
 msgid "You can't specify --rollback and --list at the same time\n"
 msgstr "Þú getur ekki tilgreint --rollback og --list á sama tíma\n"
 
-#: ../urpmi.recover:88
+#: ../urpmi.recover:89
 msgid "You can't specify --disable along with another option"
 msgstr "Þú getur ekki tilgreint --disable með öðrum valkostum"
 
-#: ../urpmi.recover:110
+#: ../urpmi.recover:114
 #, c-format
 msgid "No transaction found since %s\n"
 msgstr "Engin færsla fundin síðan %s\n"
 
 #. - check we're running as root
-#: ../urpmi.recover:125
+#: ../urpmi.recover:129
 msgid "You must be superuser to do this"
 msgstr "Þú verður að vera kerfisstjóri til að gera þetta"
 
 #. - write rpm config file
-#: ../urpmi.recover:138 ../urpmi.recover:204
+#: ../urpmi.recover:142 ../urpmi.recover:208
 #, c-format
 msgid "Writing rpm macros file [%s]...\n"
 msgstr "Skrifa rpm skriftu-skrá [%s] ...\n"
 
-#: ../urpmi.recover:180
+#: ../urpmi.recover:184
 msgid "No rollback date found\n"
 msgstr "Engin dagsetning fannst sem hægt er að snúa til\n"
 
-#: ../urpmi.recover:183
+#: ../urpmi.recover:187
 #, c-format
 msgid "Rollback until %s...\n"
 msgstr "Snúa til baka að %s...\n"
 
-#: ../urpmi.recover:190
+#: ../urpmi.recover:194
 msgid "Disabling repackaging\n"
 msgstr "Aftengja endurpökkun\n"
 
@@ -2175,7 +2229,8 @@ msgstr "Aðeins kerfisstjórar hafa leyfi til að fjarlægja miðil"
 
 #: ../urpmi.removemedia:81
 msgid "nothing to remove (use urpmi.addmedia to add a media)\n"
-msgstr "ekkert til að fjarlægja (notaðu urpmi.addmedia til að bæta við miðli)\n"
+msgstr ""
+"ekkert til að fjarlægja (notaðu urpmi.addmedia til að bæta við miðli)\n"
 
 #: ../urpmi.removemedia:83
 #, c-format
@@ -2288,14 +2343,16 @@ msgstr "  --list-url     - lista tiltæka miðla og slóðir að þeim.\n"
 
 #: ../urpmq:58
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr "  --list-nodes   - lista tiltæka hnútpunkta þegar notað er --parallel.\n"
+msgstr ""
+"  --list-nodes   - lista tiltæka hnútpunkta þegar notað er --parallel.\n"
 
 #: ../urpmq:59
 msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr "  --list-aliases - lista tiltæk samhliða samheiti.\n"
 
 #: ../urpmq:60
-msgid "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+msgid ""
+"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr "  --dump-config  - sýna uppsetninguna sem urpmi.addmedia viðfang.\n"
 
 #: ../urpmq:61
@@ -2303,14 +2360,16 @@ msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - næsti pakki er frumkóða-pakki (sama og -s).\n"
 
 #: ../urpmq:62
-msgid "  --sources      - give all source packages before downloading (root only).\n"
+msgid ""
+"  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
 "  --sources      - sýna alla frumpakka áður en þeir eru sóttir (aðeins "
 "kerfisstjóri - root).\n"
 
 #: ../urpmq:64
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
-msgstr "  --ignorearch   - leyfa fyrirspurn eftir rpm pökkum fyrir annan vélbúnað.\n"
+msgstr ""
+"  --ignorearch   - leyfa fyrirspurn eftir rpm pökkum fyrir annan vélbúnað.\n"
 
 #: ../urpmq:66
 msgid ""
@@ -2349,7 +2408,8 @@ msgid "  -l             - list files in package.\n"
 msgstr "  -l             - lista skrár í pakka.\n"
 
 #: ../urpmq:84
-msgid "  -P             - do not search in provides to find package (default).\n"
+msgid ""
+"  -P             - do not search in provides to find package (default).\n"
 msgstr ""
 "  -P             - ekki leita í 'skaffar' (provides) til að finna pakka "
 "(sjálfgefið).\n"
@@ -2369,7 +2429,8 @@ msgstr ""
 "þörf.\n"
 
 #: ../urpmq:88
-msgid "  -RR            - extended reverse search (includes virtual packages).\n"
+msgid ""
+"  -RR            - extended reverse search (includes virtual packages).\n"
 msgstr "  -RR            - öflugri öfug leit (innifelur sýndarpakka).\n"
 
 #: ../urpmq:89
@@ -2380,7 +2441,8 @@ msgstr "  -s             - næsti pakki er frumkóða-pakki (sama og --src).\n"
 msgid ""
 "  -u             - remove package if a more recent version is already "
 "installed.\n"
-msgstr "  -u             - fjarlægja pakka aðeins ef nýrri útgáfa er þegar uppsett.\n"
+msgstr ""
+"  -u             - fjarlægja pakka aðeins ef nýrri útgáfa er þegar uppsett.\n"
 
 #: ../urpmq:92
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
@@ -2410,4 +2472,3 @@ msgstr "Engir skráarlistar fundust\n"
 #: ../urpmq:413
 msgid "No changelog found\n"
 msgstr "Enginn breytilisti fannst\n"
-
