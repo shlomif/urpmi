@@ -484,10 +484,11 @@ sub sync_ssh {
     my $options = shift;
     $options = { dir => $options } if !ref $options;
     unless ($options->{'rsync-options'} =~ /(?:-e|--rsh)\b/) {
-	my $server = '';
+	my ($server, $user) = ('', getpwuid($<));
 	$_[0] =~ /((?:\w|\.)*):/ and $server = $1;
+	$_[0] =~ /((?:\w|-)*)@/ and $user = $1;
 	$SSH_CONTROL_OPTION = "-o 'ControlPath $SSH_CONTROL_DIR/ssh-urpmi-$$-%h_%p_%r' -o 'ControlMaster auto'";
-	if (start_ssh_master($server)) {
+	if (start_ssh_master($server, $user)) {
 	    $options->{ssh} = qq("$SSH_PATH $SSH_CONTROL_OPTION");
 	} else {
 	    #- can't start master, use single connection
@@ -498,27 +499,28 @@ sub sync_ssh {
 }
 
 sub start_ssh_master {
-    my $server = shift;
+    my ($server, $user) = @_;
     $server or return 0;
-    if (!check_ssh_master($server)) {
-        system(qq($SSH_PATH -f -N $SSH_CONTROL_OPTION -M $server));
+    if (!check_ssh_master($server, $user)) {
+	system(qq($SSH_PATH -f -N $SSH_CONTROL_OPTION -M $user\@$server));
 	return ! $?;
     }
     return 1;
 }
 
 sub check_ssh_master {
-    my $server = shift;
-    system(qq($SSH_PATH -q -f -N  $SSH_CONTROL_OPTION $server -O check));
+    my ($server, $user) = @_;
+    system(qq($SSH_PATH -q -f -N $SSH_CONTROL_OPTION $user\@$server -O check));
     return ! $?;
 }
 
 END {
     #- remove ssh persistent connections
     for my $socket (glob "$SSH_CONTROL_DIR/ssh-urpmi-$$-*") {
-	$socket =~ /ssh-urpmi-\d+-([^_]+)_/;
+	$socket =~ /ssh-urpmi-\d+-([^_]+)_\d+_(.*)$/;
 	my $server = $1 or next;
-        system("$SSH_PATH -q -f -N -o 'ControlPath $socket' -O exit $server");
+	my $login = $2 or next;
+	system("$SSH_PATH -q -f -N -o 'ControlPath $socket' -O exit $2\@$server");
     }
 }
 
