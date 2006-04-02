@@ -1424,6 +1424,7 @@ this could happen if you mounted manually the directory when creating the medium
 			reduce_pathname("$medium->{url}/reconfig.urpmi"),
 		    );
 		};
+		$@ and $urpm->{error}(N("...retrieving failed: %s", $@));
 		if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
 		    $media_redone{$medium->{name}} = 1, redo MEDIA unless $media_redone{$medium->{name}};
 		}
@@ -1457,6 +1458,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    $urpm->{sync}($syncopts, reduce_pathname("$medium->{url}/../descriptions"));
 		};
 	    }
+	    $@ and $urpm->{error}(N("...retrieving failed: %s", $@));
 	    if (-e "$urpm->{cachedir}/partial/descriptions") {
 		urpm::util::move("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
 	    }
@@ -1488,6 +1490,7 @@ this could happen if you mounted manually the directory when creating the medium
 			);
 		    }
 		};
+		$@ and $urpm->{error}(N("...retrieving failed: %s", $@));
 		if (!$@ && -e "$urpm->{cachedir}/partial/MD5SUM" && -s _ > 32) {
 		    recompute_local_md5sum($urpm, $medium, $options{force} >= 2);
 		    if ($medium->{md5sum}) {
@@ -1552,6 +1555,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    reduce_pathname("$medium->{url}/$with_hdlist"),
 			);
 		    };
+		    $@ and $urpm->{error}(N("...retrieving failed: %s", $@));
 		    if (!$@ && -e "$urpm->{cachedir}/partial/$basename" && -s _ > 32) {
 			$medium->{with_hdlist} = $with_hdlist;
 			$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
@@ -1668,7 +1672,10 @@ this could happen if you mounted manually the directory when creating the medium
 				    "$urpm->{cachedir}/partial/$local_list",
 				    "$urpm->{cachedir}/partial/list");
 			};
-			$@ and unlink "$urpm->{cachedir}/partial/list";
+			if ($@) {
+			    $urpm->{error}(N("...retrieving failed: %s", $@));
+			    unlink "$urpm->{cachedir}/partial/list";
+			}
 			-s "$urpm->{cachedir}/partial/list" and last;
 		    }
 		}
@@ -1697,7 +1704,10 @@ this could happen if you mounted manually the directory when creating the medium
 				    "$urpm->{cachedir}/partial/$local_pubkey",
 				    "$urpm->{cachedir}/partial/pubkey");
 			};
-			$@ and unlink "$urpm->{cachedir}/partial/pubkey";
+			if ($@) {
+			    $urpm->{error}(N("...retrieving failed: %s", $@));
+			    unlink "$urpm->{cachedir}/partial/pubkey";
+			}
 			-s "$urpm->{cachedir}/partial/pubkey" and last;
 		    }
 		}
