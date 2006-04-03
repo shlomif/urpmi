@@ -12,7 +12,7 @@
 %{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
 
 %define name	urpmi
-%define version	4.8.16
+%define version	4.8.17
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -274,6 +274,16 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Mon Apr 03 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.17-1mdk
+- urpmi.recover --list-safe
+- proper handling of SIGINT in urpmi.addmedia
+- make gurpmi clean the download cache
+- fix urpmq --synthesis
+- make gurpmi test directly if file argument exists (Warly)
+- fix ssh download as non-root (Michael Scherer)
+- print more reports on download errors
+- doc updates
+
 * Wed Mar 22 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.16-1mdk
 - Fix again transaction counter (and make it prettier)
 - More docs
