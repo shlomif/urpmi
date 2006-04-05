@@ -12,7 +12,7 @@
 %{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
 
 %define name	urpmi
-%define version	4.8.17
+%define version	4.8.18
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -274,6 +274,10 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Wed Apr 05 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.18-1mdk
+- Fix noisy output on http media update
+- Translation updates
+
 * Mon Apr 03 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.17-1mdk
 - urpmi.recover --list-safe
 - proper handling of SIGINT in urpmi.addmedia
