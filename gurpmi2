@@ -266,12 +266,15 @@ sub do_install_3 () {
 	    my $total_nb = scalar grep { m|^/| } values %transaction_sources_install, values %transaction_sources;
 	    my $callback_inst = sub {
 		my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
-		my $pkg = defined $id && $urpm->{depslist}[$id];
+		my $pkg = defined $id ? $urpm->{depslist}[$id] : undef;
 		if ($subtype eq 'start') {
 		    if ($type eq 'trans') {
 			$progress_label->set_label(N("Preparing..."));
 		    } else {
-			$progress_label->set_label(N("Installing package `%s' (%s/%s)...", $pkg->name, ++$progress_nb, $urpm->{nb_install}));
+			defined $pkg
+			    and $progress_label->set_label(
+				N("Installing package `%s' (%s/%s)...", $pkg->name, ++$progress_nb, $urpm->{nb_install})
+			    );
 		    }
 		} elsif ($subtype eq 'progress') {
 		    $progressbar->set_fraction($amount / $total);
