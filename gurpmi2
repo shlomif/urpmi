@@ -95,7 +95,28 @@ sub configure_urpm {
 	exit $_[0];
     };
     $urpm->{error} = sub {
-	my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', Locale::gettext::iconv($_[0], undef, 'UTF-8'));
+        my ($message) = @_;
+        my $nb_lines = split("\n", $message);
+        $message = Locale::gettext::iconv($message, undef, 'UTF-8');
+
+
+        my $w;
+        if ($nb_lines > 30) {
+            $w  = Gtk2::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
+            $w->vbox->add(my $f = Gtk2::Frame->new);
+            my $sw = Gtk2::ScrolledWindow->new(undef, undef);
+            $f->add($sw);
+            $f->set_shadow_type('in');
+            $sw->set_policy('automatic', 'automatic');
+            my $text = Gtk2::TextView->new;
+            $sw->add($text);
+            $text->get_buffer->set_text($message);
+            $sw->set_border_width(2);
+            $_->show foreach $f, $sw, $text;
+            $w->set_size_request(400,400);
+        } else {
+            $w  = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', $message);
+        }
 	$w->run;
 	$w->destroy;
     };
