@@ -12,7 +12,7 @@
 %{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
 
 %define name	urpmi
-%define version	4.8.18
+%define version	4.8.19
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -274,6 +274,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Thu Apr 20 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.19-1mdk
+- Fix running rurpmi with curl/wget, could have tainting errors
+- Repackaging counter is prettier
+- Several fixes in gurpmi by Thierry Vignaud
+
 * Wed Apr 05 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.18-1mdk
 - Fix noisy output on http media update
 - Translation updates
