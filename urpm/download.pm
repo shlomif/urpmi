@@ -207,7 +207,7 @@ sub sync_wget {
     my $options = shift;
     $options = { dir => $options } if !ref $options;
     #- force download to be done in cachedir to avoid polluting cwd.
-    my $cwd = getcwd();
+    (my $cwd) = getcwd() =~ /(.*)/;
     chdir $options->{dir};
     my ($buf, $total, $file) = ('', undef, undef);
     my $wget_command = join(" ", map { "'$_'" }
@@ -275,7 +275,7 @@ sub sync_curl {
     }
     #- force download to be done in cachedir to avoid polluting cwd,
     #- however for curl, this is mandatory.
-    my $cwd = getcwd();
+    (my $cwd) = getcwd() =~ /(.*)/;
     chdir($options->{dir});
     my (@ftp_files, @other_files);
     foreach (@_) {
@@ -424,7 +424,7 @@ sub sync_rsync {
     my $options = shift;
     $options = { dir => $options } if !ref $options;
     #- force download to be done in cachedir to avoid polluting cwd.
-    my $cwd = getcwd();
+    (my $cwd) = getcwd() =~ /(.*)/;
     chdir($options->{dir});
     my $limit_rate = _calc_limit_rate $options->{limit_rate};
     foreach (@_) {
