@@ -2632,7 +2632,6 @@ sub unlock_rpm_db {
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my $LOCK_UN = 8;
     #- now everything is finished.
-    system("sync");
     #- release lock on database.
     flock RPMLOCK_FILE, $LOCK_UN;
     close RPMLOCK_FILE;
@@ -2666,7 +2665,6 @@ sub unlock_urpmi_db {
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my $LOCK_UN = 8;
     #- now everything is finished.
-    system("sync");
     #- release lock on database.
     flock LOCK_FILE, $LOCK_UN;
     close LOCK_FILE;
