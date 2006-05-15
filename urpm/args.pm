@@ -394,6 +394,20 @@ sub parse_cmdline {
 	$options{$k} = $args{defaults}{$k};
     }
     GetOptions(%{$options_spec{$tool}});
+    if ($tool eq 'urpmf' && @ARGV && $ARGV[0] eq '--') {
+	if (@ARGV == 2) {
+	    my $p = $ARGV[1];
+	    if ($::literal) {
+		$p = quotemeta $p;
+	    } else {
+		$p =~ s/\+/\\+/g;
+	    }
+	    $::expr .= "m{$p}" . $::pattern;
+	}
+	else {
+	    die N("Too many arguments\n");
+	}
+    }
 }
 
 1;
