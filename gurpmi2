@@ -133,6 +133,7 @@ sub configure_urpm {
 #- Callback for choices
 sub ask_choice {
     my (undef, undef, undef, $choices) = @_;
+    return $choices->[0] if $gurpmi::options{auto};
     my $radio;
     my @radios = map {
 	$radio = Gtk2::RadioButton->new_with_label(
