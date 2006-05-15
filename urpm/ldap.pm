@@ -118,7 +118,9 @@ sub get_ldap_config() {
 
 sub get_ldap_config_file($) {
     my ($file) = @_;
-    my %config;
+    my %config = (
+	ssl => 'off',
+    );
     # TODO more verbose error ?
     open my $conffh, $file or return;
     while (<$conffh>) {
@@ -225,6 +227,6 @@ __END__
 
 Copyright (C) 2005 MandrakeSoft SA
 
-Copyright (C) 2005 Mandriva SA
+Copyright (C) 2005, 2006 Mandriva SA
 
 =cut
