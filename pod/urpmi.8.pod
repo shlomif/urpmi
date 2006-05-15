@@ -253,7 +253,7 @@ and a password.
 
 Create a bug report in I<directory>. You have to send a compressed archive
 of the directory to the urpmi maintainer for the bug being (probably)
-reproduced.
+reproduced. See L</"BUG REPORTS"> below.
 
 =item B<--env> I<directory>
 
@@ -446,13 +446,15 @@ Some files are missing and all transactions failed.
 
 If you find a bug in urpmi please report it using the command :
 
-    urpmi --bug bug_name_as_directory ...
+    urpmi --bug bug_name_as_directory <other arguments>
 
 This will automatically create a directory called F<bug_name_as_directory>
-containing necessary files to reproduce it if possible. Please test the
+containing necessary files to reproduce it if possible. I<< <other
+arguments> >> represent the command-line arguments you noticed the bug
+with (e.g. C<--auto-select> or a list of rpm names). Please test the
 report using
 
-    urpmi --env bug_name_as_directory ...
+    urpmi --env bug_name_as_directory <other arguments>
 
 to check that the bug is still here. Obviously, only reproducible bugs can
 be resolved. For sending the report, make a tarball of this directory and
