@@ -334,6 +334,7 @@ my %config_hash = (
 if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-upgrade'} eq '') {
     $auto_update = 0;
 }
+$root and $urpm->{options}{'priority-upgrade'} = '';
 if ($auto_update && !$bug && !$env) {
     #- For translators : there are several media here
     $urpm->{log}(N("Updating media...\n"));
