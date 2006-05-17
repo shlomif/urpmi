@@ -85,7 +85,7 @@ my %options_spec = (
 	},
 	'pre-clean!' => sub { $urpm->{options}{'pre-clean'} = $_[1] },
 	'post-clean!' => sub { $urpm->{options}{'post-clean'} = $_[1] },
-	'no-priority-upgrades' => sub {
+	'no-priority-upgrade' => sub {
 	    $urpm->{options}{'priority-upgrade'} = '';
 	},
 	force => \$::force,
