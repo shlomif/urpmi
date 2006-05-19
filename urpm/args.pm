@@ -169,6 +169,7 @@ my %options_spec = (
 	'verbose|v' => \$::verbose,
 	m => add_param_closure('media'),
 	i => sub { $::pattern = 'i' },
+	I => sub { $::pattern = '' },
 	f => sub { $::full = 1 },
 	'F=s' => sub { $::separator = $_[1] },
 	'e=s' => sub { $::expr .= "($_[1])" },
