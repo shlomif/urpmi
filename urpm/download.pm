@@ -116,9 +116,13 @@ sub get_proxy (;$) {
 sub copy_cmd_line_proxy {
     my ($media) = @_;
     return unless $media;
+    load_proxy_config();
     if (defined $proxy_config->{cmd_line}) {
 	$proxy_config->{$media} = $proxy_config->{cmd_line};
 	dump_proxy_config();
+    } else {
+	#- use default if available
+	$proxy_config->{$media} = $proxy_config->{''};
     }
 }
 
