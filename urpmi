@@ -726,7 +726,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    );
 	    if (@l) {
 		#- Warning : the following message is parsed in urpm::parallel_*
-		print N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l), "\n";
+		print N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @l), "\n";
 		if ($urpm->{options}{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
 		    ++$nok;
 		    ++$urpm->{logger_id};
