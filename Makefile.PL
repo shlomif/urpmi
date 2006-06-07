@@ -89,6 +89,16 @@ sub manifypods {
     $inherited;
 }
 
+# to generate the ChangeLog depending on the checkout layout
+my $commonusername = "../common/";
+-d $commonusername or do {
+    $commonusername = "../../common/";
+    -d $commonusername or do {
+	$commonusername = "../../../common/";
+	-d $commonusername or $commonusername = "";
+    };
+};
+
 # Additional targets
 sub postamble {
     <<"**MM**";
@@ -113,7 +123,7 @@ installgurpmi2: pure_install
 	ln -s -f consolehelper \$(DESTINSTALLSCRIPT)/gurpmi2
 
 ChangeLog:
-	cvs2cl -W 400 -I ChangeLog --accum -U ../../soft/common/username
+	svn2cl --accum --strip-prefix=soft/rpm/urpmi/trunk --authors ${commonusername}username.xml
 	rm -f *.bak
 
 rpmdist: dist
