@@ -2,6 +2,7 @@ package gurpmi;
 
 #- Copyright (C) 2005 MandrakeSoft SA
 #- Copyright (C) 2005, 2006 Mandriva SA
+#- $Id$
 
 #- This is needed because text printed by Gtk2 will always be encoded
 #- in UTF-8; we first check if LC_ALL is defined, because if it is,
@@ -22,7 +23,7 @@ use strict;
 use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw(fatal but quit add_button_box new_label N);
-(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+our $VERSION = $urpm::VERSION;
 
 sub usage () {
     print <<USAGE;

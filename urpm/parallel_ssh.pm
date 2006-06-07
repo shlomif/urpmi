@@ -1,12 +1,14 @@
 package urpm::parallel_ssh;
 
+# $Id$
+
 #- Copyright (C) 2002, 2003, 2004, 2005 MandrakeSoft SA
 #- Copyright (C) 2005 Mandriva SA
 
 use strict;
 use Time::HiRes qw(gettimeofday);
 
-(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+(our $VERSION) = q$Revision$ =~ /(\d+)/;
 
 sub _localhost { $_[0] eq 'localhost' }
 sub _nolock    { &_localhost ? '--nolock ' : '' }

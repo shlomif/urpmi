@@ -1,11 +1,13 @@
 package urpm::download;
 
+# $Id$
+
 use strict;
 use urpm::msg;
 use urpm::cfg;
 use Cwd;
 
-(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+(our $VERSION) = q$Revision$ =~ /(\d+)/;
 
 #- proxy config file.
 our $PROXY_CFG = '/etc/urpmi/proxy.cfg';

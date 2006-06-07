@@ -1,10 +1,12 @@
 package urpm::msg;
 
+# $Id$
+
 use strict;
 no warnings;
 use Exporter;
 
-(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+(our $VERSION) = q$Revision$ =~ /(\d+)/;
 
 our @ISA = 'Exporter';
 our @EXPORT = qw(N bug_log to_utf8 message_input toMb from_utf8 sys_log);

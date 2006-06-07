@@ -1,8 +1,10 @@
 package urpm::prompt;
 
+# $Id$
+
 use strict;
 
-(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+(our $VERSION) = q$Revision$ =~ /(\d+)/;
 
 sub new {
     my ($class, $title, $prompts, $defaults, $hidden) = @_;

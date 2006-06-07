@@ -1,11 +1,13 @@
 package urpm::cfg;
 
+# $Id$
+
 use strict;
 use warnings;
 use urpm::util;
 use urpm::msg 'N';
 
-(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+(our $VERSION) = q$Revision$ =~ /(\d+)/;
 
 =head1 NAME
 

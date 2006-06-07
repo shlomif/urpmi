@@ -1,8 +1,10 @@
 package urpm::sys;
 
+# $Id$
+
 use strict;
 
-(our $VERSION) = q$Id$ =~ /(\d+\.\d+)/;
+(our $VERSION) = q$Revision$ =~ /(\d+)/;
 
 #- find used mount point from a pathname, use a optional mode to allow
 #- filtering according the next operation (mount or umount).
