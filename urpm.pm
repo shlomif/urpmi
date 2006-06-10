@@ -10,6 +10,7 @@ use urpm::download;
 use urpm::util;
 use urpm::sys;
 use urpm::cfg;
+use MDV::Distribconf;
 
 our $VERSION = '4.8.19';
 our @ISA = qw(URPM);
@@ -769,38 +770,28 @@ sub add_medium {
 #- other options are passed to add_medium()
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
-    my ($hdlists_file);
-    my $distrib_root = "media/media_info";
 
     #- make sure configuration has been read.
     # (Olivier Thauvin): Is this a workaround ?
     $urpm->{media} or $urpm->read_config;
+    
+    my $distribconf = MDV::Distribconf->new($url);
 
-    #- try to copy/retrieve the hdlists file.
     if (my ($dir) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
-	#- be compatible with pre-10.1 layout
-	-d "$dir/$distrib_root" or $distrib_root = "Mandrake/base";
 
-	$hdlists_file = reduce_pathname("$dir/$distrib_root/hdlists");
+	$urpm->try_mounting($url) or $urpm->{error}(N("unable to access first installation medium")), return ();
+    
+    $distribconf->load() or $urpm->{error}(N("this url seems to not contains any distrib")), return ();
 
-	$urpm->try_mounting($hdlists_file) or $urpm->{error}(N("unable to access first installation medium")), return ();
-
-	if (-e $hdlists_file) {
-	    unlink "$urpm->{cachedir}/partial/hdlists";
-	    $urpm->{log}(N("copying hdlists file..."));
-	    urpm::util::copy($hdlists_file, "$urpm->{cachedir}/partial/hdlists")
-		? $urpm->{log}(N("...copying done"))
-		: do { $urpm->{error}(N("...copying failed")); return () };
-	    chown 0, 0, "$urpm->{cachedir}/partial/hdlists";
-	} else {
-	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)"));
-	    return ();
-	}
     } else {
-	#- try to get the description of the hdlists if it has been found.
-	unlink "$urpm->{cachedir}/partial/hdlists";
+	unlink "$urpm->{cachedir}/partial/media.cfg";
+    # Workaround, settree not implement for now
+    # $distribconf->settree('mandriva');
+    $distribconf->{infodir} = "media/media_info";
+    $distribconf->{mediadir} = "media";
+
 	eval {
-	    $urpm->{log}(N("retrieving hdlists file..."));
+	    $urpm->{log}(N("retrieving media.cfg file..."));
 	    $urpm->{sync}(
 		{
 		    dir => "$urpm->{cachedir}/partial",
@@ -810,13 +801,14 @@ sub add_distrib_media {
 		    retry => $urpm->{options}{retry},
 		    proxy => get_proxy(),
 		},
-		reduce_pathname("$url/$distrib_root/hdlists"),
+		reduce_pathname($distribconf->getfullpath(undef, 'infodir') .'/media.cfg'),
 	    );
 	    $urpm->{log}(N("...retrieving done"));
 	};
 	$@ and $urpm->{error}(N("...retrieving failed: %s", $@));
-	if (-e "$urpm->{cachedir}/partial/hdlists") {
-	    $hdlists_file = "$urpm->{cachedir}/partial/hdlists";
+	if (-e "$urpm->{cachedir}/partial/media.cfg") {
+        $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg") or 
+             $urpm->{error}(N("unable to parse media.cfg")), return();
 	} else {
 	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)"));
 	    return ();
@@ -827,39 +819,38 @@ sub add_distrib_media {
     $name =~ /\s/ and $name .= ' ';
 
     my @newnames;
-    #- at this point, we have found an hdlists file, so parse it
+    #- at this point, we have found a media.cfg file, so parse it
     #- and create all necessary media according to it.
-    my $hdlistsfh;
-    if ($hdlistsfh = $urpm->open_safe("<", $hdlists_file)) {
 	my $medium = $options{initial_number} || 1;
-	foreach (<$hdlistsfh>) {
-	    chomp;
-	    s/\s*#.*$//;
-	    /^\s*$/ and next;
-	    /^(?:suppl|askmedia)/ and next;
-	    /^\s*(noauto:)?(hdlist\S*\.cz2?)\s+(\S+)\s*([^(]*)(\(.+\))?$/
-		or $urpm->{error}(N("invalid hdlist description \"%s\" in hdlists file", $_));
-	    my ($noauto, $hdlist, $rpmsdir, $descr) = ($1, $2, $3, $4);
-	    next if $noauto;
-	    $descr =~ s/\s+$//;
+    foreach my $media ($distribconf->listmedia()) {
+        my $skip = 0;
+        # if one of value is set, we skip the media
+        foreach (qw(suppl askmedia noauto)) {
+            $distribconf->getvalue($media, $_) and do {
+                $skip = 1;
+                last;
+            };
+        }
+        $skip and next;
+        my $media_name = $distribconf->getvalue($media, 'name') || '';
 
-	    push @newnames, $urpm->add_medium(
-		$name ? "$descr ($name$medium)" : $descr,
-		"$url/$rpmsdir",
-		offset_pathname($url, $rpmsdir) . "/$distrib_root/" . ($options{probe_with} eq 'synthesis' ? 'synthesis.' : '') . $hdlist,
-		index_name => $name ? undef : 0,
-		no_reload_config => 1, #- no need to reload config each time, since we don't update the media
-		%options,
-	    );
+        push @newnames, $urpm->add_medium(
+            $name ? "$media_name ($name$medium)" : $media_name,
+            reduce_pathname($distribconf->getfullpath($media, 'path')),
+            offset_pathname(
+                $url,
+                $distribconf->getpath($media, 'path')
+            ) . '/' . $distribconf->getpath($media, 
+                ($options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist')
+            ),
 
-	    ++$medium;
-	}
-	close $hdlistsfh;
-	return @newnames;
-    } else {
-	$urpm->{error}(N("unable to access first installation medium (no hdlists file found)"));
-	return ();
+            index_name => $name ? undef : 0,
+            no_reload_config => 1, #- no need to reload config each time, since we don't update the media
+            %options,
+        );
+        ++$medium;
     }
+	return @newnames;
 }
 
 sub select_media {
