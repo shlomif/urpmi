@@ -822,16 +822,29 @@ sub add_distrib_media {
     #- at this point, we have found a media.cfg file, so parse it
     #- and create all necessary media according to it.
 	my $medium = $options{initial_number} || 1;
+    my @media_list_toadd;
+
     foreach my $media ($distribconf->listmedia()) {
         my $skip = 0;
-        # if one of value is set, we skip the media
+        # if one of value is set, we skip the media by default
         foreach (qw(suppl askmedia noauto)) {
             $distribconf->getvalue($media, $_) and do {
                 $skip = 1;
                 last;
             };
         }
+        if ($options{ask_media}) {
+            if($options{ask_media}->(
+                $distribconf->getvalue($media, 'name'),
+                !$skip,
+            )) {
+                $skip = 0;
+            } else {
+                $skip = 1;
+            }
+        }
         $skip and next;
+        
         my $media_name = $distribconf->getvalue($media, 'name') || '';
 
         push @newnames, $urpm->add_medium(
