@@ -396,7 +396,7 @@ sub parse_cmdline {
     for my $k (keys %{$args{defaults} || {}}) {
 	$options{$k} = $args{defaults}{$k};
     }
-    GetOptions(%{$options_spec{$tool}});
+    my $ret = GetOptions(%{$options_spec{$tool}});
     if ($tool eq 'urpmf' && @ARGV && $ARGV[0] eq '--') {
 	if (@ARGV == 2) {
 	    my $p = $ARGV[1];
@@ -406,11 +406,13 @@ sub parse_cmdline {
 		$p =~ s/\+/\\+/g;
 	    }
 	    $::expr .= "m{$p}" . $::pattern;
+            $ret = 1;
 	}
 	else {
 	    die N("Too many arguments\n");
 	}
     }
+    $ret
 }
 
 1;
