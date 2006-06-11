@@ -56,6 +56,8 @@ and [options] are from
                    hdlist file.
 ") . N("  --distrib      - automatically create all media from an installation
                    medium.
+") . N("  --interactive  - with --distrib, ask confirmation for each media before addition
+") . N("  --all-media    - with --distrib, add all medium include not automatic one
 ") . N("  --from         - use specified url for list of mirrors, the default is
                    %s
 ", $urpm::cfg::mirrors) . N("  --virtual      - create virtual media wich are always up-to-date,
@@ -123,6 +125,18 @@ if ($options{distrib}) {
     $with || $relative_hdlist
 	and usage N("no need to give <relative path of hdlist> with --distrib");
 
+    my $add_media_callback = $options{interactive} || $options{allmedia} ?
+        sub {
+            my ($medianame, $default) = @_;
+            my $yesexpr = N("Yy");
+            my $answer = message_input(
+                N("\nDo you want to add media '%s'", $medianame) . ($default ? N(" (Y/n) ") : N(" (y/N) ")),
+                $options{allmedia} ? $yesexpr : undef,
+                boolean => 1
+            );
+            return($answer ? $answer =~ /[$yesexpr]/ : $default);
+        } : undef;
+    
     $urpm->add_distrib_media(
 	$name,
 	$url,
@@ -130,15 +144,7 @@ if ($options{distrib}) {
 	update => $options{update},
 	probe_with => $options{probe_with},
 	nolock => $options{nolock},
-        ask_media => sub {
-            my ($medianame, $default) = @_;
-            my $yesexpr = N("Yy");
-            my $answer = message_input(
-                N("\nDo you want to add media '%s'", $medianame) . ($default ? N(" (Y/n) ") : N(" (y/N) ")),
-                undef, boolean => 1
-            );
-            return($answer ? $answer =~ /[$yesexpr]/ : $default);
-        },
+        ask_media => $add_media_callback,
     );
     local $SIG{INT} = sub {
 	remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});

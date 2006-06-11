@@ -304,6 +304,8 @@ my %options_spec = (
 	'probe-hdlist' => sub { $options{probe_with} = 'hdlist' },
 	'no-probe' => sub { $options{probe_with} = undef },
 	distrib => sub { $options{distrib} = 1 },
+        interactive => sub { $options{interactive} = 1 },
+        'all-media' => sub { $options{allmedia} = 1 },
 	'from=s' => \$options{mirrors_url},
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
