@@ -146,6 +146,19 @@ to create newer medium names in the urpmi database. The B<with ...>
 option, is not necessary, as media.cfg or hdlists found on the installation
 medium are used instead automatically.
 
+=item B<--interactive>
+
+This option is to be used with B<--distrib>. With it, C<urpmi.addmedia>
+will ask for confirmation for each media it finds for the specified
+distribution.
+
+=item B<--all-media>
+
+This option is to be used with B<--distrib>. With it, C<urpmi.addmedia>
+will attempt to add all media it finds. By default, it won't add media
+containing source rpms, or media corresponding to supplementary CD-ROMs
+on distributions.
+
 =item B<--from> I<url>
 
 Use specified URL for list of mirrors. The default is taken from the file
