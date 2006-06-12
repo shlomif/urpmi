@@ -1,3 +1,56 @@
+2006-06-12 09:47  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* pod/urpmi.addmedia.8.pod: Document the two new options in the
+	  urpmi.addmedia man page.
+
+2006-06-12 09:43  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpm.pm, urpmi.addmedia: Make options --interactive and
+	  --all-media independent in urpmi.addmedia.
+	  Plus spelling fixes.
+
+2006-06-11 18:40  Olivier Thauvin <thauvin at aerov.jussieu.fr>
+
+	* urpm/args.pm, urpmi.addmedia: - restore old behavior of
+	  urpmi.addmedia, add --all-media and --interactive options
+
+2006-06-11 18:31  Olivier Thauvin <thauvin at aerov.jussieu.fr>
+
+	* urpm/args.pm: - fix r36644, ensure urpm::args::parse_cmdline()
+	  return true if there is no error
+
+2006-06-10 02:11  Olivier Thauvin <thauvin at aerov.jussieu.fr>
+
+	* urpm.pm, urpmi.addmedia: - make urpmi.addmedia asking media by
+	  media if they should be installed
+
+2006-06-10 00:56  Olivier Thauvin <thauvin at aerov.jussieu.fr>
+
+	* pod/urpmi.addmedia.8.pod, urpm.pm: - use MDV::Distribconf for
+	  --distrib option, use media.cfg instead hdlists
+
+2006-06-07 09:52  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* gurpmi.pm, urpm/args.pm, urpm/cfg.pm, urpm/download.pm,
+	  urpm/ldap.pm, urpm/msg.pm, urpm/parallel_ka_run.pm,
+	  urpm/parallel_ssh.pm, urpm/prompt.pm, urpm/sys.pm, urpm/util.pm:
+	  Use revision number as version numbers for internal modules.
+	  For gurpmi.pm, use the same version number as urpm.
+
+2006-06-07 09:28  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* urpmi.logrotate: We don't need urpmi.logrotate anymore, now that
+	  urpmi logs through syslog
+
+2006-06-07 09:27  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* .cvsignore: Remove cvsignore file, no longer needed
+
+2006-06-07 09:16  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
+
+	* ChangeLog, Makefile.PL: Update makefile to use svn2cl, and
+	  regenerate ChangeLog.
+
 2006-06-06 16:26  Thierry Vignaud <tvignaud at mandriva.com>
 
 	* urpmi: let be nicer with translators (we should never

@@ -12,7 +12,7 @@
 %{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
 
 %define name	urpmi
-%define version	4.8.19
+%define version	4.8.20
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -274,6 +274,17 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Mon Jun 12 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.20-1mdv2007.0
+- New options to urpmi.addmedia: --interactive and --all-media (Olivier Thauvin)
+- urpmi.addmedia --distrib now uses media.cfg instead of hdlists (Olivier Thauvin)
+- Use global proxy settings when adding a media (Vincent Panel, bug #22000)
+- New urpmf option: -I. Also, make it handle "--" on command line
+- Don't restart urpmi when started with --root (bug #22509)
+- Misc. fixes to urpmi --bug
+- Misc. fixes to gurpmi
+- Don't sync to disk when closing rpmdb
+- Doc fixes
+
 * Thu Apr 20 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.19-1mdk
 - Fix running rurpmi with curl/wget, could have tainting errors
 - Repackaging counter is prettier
