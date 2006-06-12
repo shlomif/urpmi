@@ -767,6 +767,7 @@ sub add_medium {
 #- - limit_rate, compress : for downloading files
 #- - initial_number : when adding several numbered media, start with this number
 #- - probe_with : if eq 'synthesis', use synthesis instead of hdlists
+#- ­ ask_media : callback to know whether each media should be added
 #- other options are passed to add_medium()
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
@@ -774,21 +775,22 @@ sub add_distrib_media {
     #- make sure configuration has been read.
     # (Olivier Thauvin): Is this a workaround ?
     $urpm->{media} or $urpm->read_config;
-    
+
     my $distribconf = MDV::Distribconf->new($url);
 
     if (my ($dir) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
 
-	$urpm->try_mounting($url) or $urpm->{error}(N("unable to access first installation medium")), return ();
-    
+	$urpm->try_mounting($url)
+	    or $urpm->{error}(N("unable to access first installation medium")), return ();
+
     $distribconf->load() or $urpm->{error}(N("this url seems to not contains any distrib")), return ();
 
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
-    # Workaround, settree not implement for now
-    # $distribconf->settree('mandriva');
-    $distribconf->{infodir} = "media/media_info";
-    $distribconf->{mediadir} = "media";
+	# Workaround, settree not implement for now
+	# $distribconf->settree('mandriva');
+	$distribconf->{infodir} = "media/media_info";
+	$distribconf->{mediadir} = "media";
 
 	eval {
 	    $urpm->{log}(N("retrieving media.cfg file..."));
@@ -807,8 +809,8 @@ sub add_distrib_media {
 	};
 	$@ and $urpm->{error}(N("...retrieving failed: %s", $@));
 	if (-e "$urpm->{cachedir}/partial/media.cfg") {
-        $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg") or 
-             $urpm->{error}(N("unable to parse media.cfg")), return();
+	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
+		or $urpm->{error}(N("unable to parse media.cfg")), return();
 	} else {
 	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)"));
 	    return ();
@@ -821,20 +823,20 @@ sub add_distrib_media {
     my @newnames;
     #- at this point, we have found a media.cfg file, so parse it
     #- and create all necessary media according to it.
-	my $medium = $options{initial_number} || 1;
+    my $medium = $options{initial_number} || 1;
     my @media_list_toadd;
 
     foreach my $media ($distribconf->listmedia()) {
         my $skip = 0;
-        # if one of value is set, we skip the media by default
-        foreach (qw(suppl askmedia noauto)) {
-            $distribconf->getvalue($media, $_) and do {
-                $skip = 1;
-                last;
-            };
-        }
+	# if one of those values is set, by default, we skip adding the media
+	foreach (qw(suppl askmedia noauto)) {
+	    $distribconf->getvalue($media, $_) and do {
+		$skip = 1;
+		last;
+	    };
+	}
         if ($options{ask_media}) {
-            if($options{ask_media}->(
+            if ($options{ask_media}->(
                 $distribconf->getvalue($media, 'name'),
                 !$skip,
             )) {
@@ -844,7 +846,7 @@ sub add_distrib_media {
             }
         }
         $skip and next;
-        
+
         my $media_name = $distribconf->getvalue($media, 'name') || '';
 
         push @newnames, $urpm->add_medium(
@@ -853,10 +855,9 @@ sub add_distrib_media {
             offset_pathname(
                 $url,
                 $distribconf->getpath($media, 'path')
-            ) . '/' . $distribconf->getpath($media, 
+	    ) . '/' . $distribconf->getpath($media,
                 ($options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist')
             ),
-
             index_name => $name ? undef : 0,
             no_reload_config => 1, #- no need to reload config each time, since we don't update the media
             %options,
@@ -3503,3 +3504,5 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 =cut
+
+# ex: set ts=8 sts=4 sw=4 noet:
