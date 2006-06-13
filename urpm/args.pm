@@ -153,6 +153,7 @@ my %options_spec = (
 	a => \$::matches,
 	noscripts => \$::noscripts,
 	repackage => \$::repackage,
+	restricted => \$::restricted,
 	'bundle!' => sub { $::bundle = $_[1] },
     },
 

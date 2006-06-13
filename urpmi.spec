@@ -214,6 +214,7 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{_bindir}/urpmq
 %{_sbindir}/urpmi
 %{_sbindir}/rurpmi
+%{_sbindir}/rurpme
 %{_sbindir}/urpme
 %{_sbindir}/urpmi.addmedia
 %{_sbindir}/urpmi.removemedia
@@ -221,7 +222,7 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %{_mandir}/man3/urpm*
 %{_mandir}/man5/urpm*
 %{_mandir}/man5/proxy*
-%{_mandir}/man8/rurpmi*
+%{_mandir}/man8/rurpm*
 %{_mandir}/man8/urpme*
 %{_mandir}/man8/urpmf*
 %{_mandir}/man8/urpmq*

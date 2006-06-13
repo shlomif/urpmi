@@ -27,7 +27,7 @@ use urpm::msg;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our ($root, $test, $parallel, $auto, $matches, $verbose, $usedistrib, $force, $noscripts, $repackage, @l, $bundle);
+our ($root, $test, $parallel, $auto, $matches, $verbose, $usedistrib, $force, $noscripts, $repackage, @l, $bundle, $restricted);
 # Translator: Add here the keys which might be pressed in the "No"-case.
 my $noexpr = N("Nn");
 # Translator: Add here the keys which might be pressed in the "Yes"-case.
@@ -68,6 +68,11 @@ $verbose or $urpm->{log} = sub {};
 
 if ($< && !$test) {
     $urpm->{fatal}(1, N("Only superuser is allowed to remove packages"));
+}
+
+#- rurpme checks
+if ($restricted) {
+    urpm::error_restricted($urpm) if $root || $usedistrib || $noscripts || $parallel;
 }
 
 unless ($test) {

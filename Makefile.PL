@@ -21,7 +21,7 @@ chomp $rpmtopdir;
 
 # All scripts, some of them go in /usr/sbin (see DESTINSTALLSBIN below)
 our @bin_scripts = qw(urpmq urpmf rpm-find-leaves urpmi.recover);
-our @sbin_scripts = qw(urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia rurpmi);
+our @sbin_scripts = qw(urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia rurpmi rurpme);
 if ($with_gui) {
     push @bin_scripts, qw(gurpmi);
     push @sbin_scripts, qw(gurpmi2);
