@@ -101,7 +101,7 @@ if ($listdate) {
     }
     my %tids;
 
-    my $db = URPM::DB::open();
+    my $db = URPM::DB::open() or die "Can't open RPM DB\n";
     $db->traverse(sub {
 	my ($p) = @_;
 	my $tid = $p->installtid();
@@ -173,7 +173,7 @@ if ($rollback) {
 	#- $rollback contains a number of transactions to roll back
 	#- get a date from there
 	my %tids;
-	my $db = URPM::DB::open();
+	my $db = URPM::DB::open() or die "Can't open RPM DB\n";
 	$db->traverse(sub { ++$tids{ $_[0]->installtid() } });
 	my @tids = sort { $b <=> $a } keys %tids;
 	$tid = $tids[$rollback - 1];
