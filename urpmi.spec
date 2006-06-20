@@ -12,7 +12,7 @@
 %{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
 
 %define name	urpmi
-%define version	4.8.20
+%define version	4.8.21
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -275,6 +275,12 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Tue Jun 20 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.21-1mdv2007.0
+- New command rurpme
+- Forbid rurpmi --noscripts
+- Don't ignore unselected media with --auto-update
+- Remove old rpmdb log files at restart
+
 * Mon Jun 12 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.20-1mdv2007.0
 - New options to urpmi.addmedia: --interactive and --all-media (Olivier Thauvin)
 - urpmi.addmedia --distrib now uses media.cfg instead of hdlists (Olivier Thauvin)
