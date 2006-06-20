@@ -308,6 +308,14 @@ select STDOUT; $| = 1;
 #- log is only for verbose runs.
 $verbose > 0 or $urpm->{log} = sub {};
 
+if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-upgrade'} eq '') {
+    # we were run with --no-priority-upgrade (we were just restarted.)
+    # so, no need to update the media again
+    $auto_update = 0;
+    # also, clean up rpm db log files, because rpm might have been upgraded
+    unlink </var/lib/rpm/__db.00?> unless $root;
+}
+
 unless ($env || $nolock) {
     $urpm->exlock_rpm_db;
     $urpm->shlock_urpmi_db;
@@ -331,9 +339,6 @@ my %config_hash = (
     usedistrib => $usedistrib,
 );
 
-if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-upgrade'} eq '') {
-    $auto_update = 0;
-}
 $root and $urpm->{options}{'priority-upgrade'} = '';
 if ($auto_update && !$bug && !$env) {
     #- For translators : there are several media here
