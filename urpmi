@@ -351,6 +351,9 @@ if ($auto_update && !$bug && !$env) {
 	norebuild => $urpm->{options}{norebuild},
 	quiet => $verbose < 0,
     );
+    foreach (@{$urpm->{media} || []}) {
+	$_->{modified} and delete $_->{ignore};
+    }
 }
 
 $urpm->configure( %config_hash );
