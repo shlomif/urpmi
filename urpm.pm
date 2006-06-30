@@ -767,7 +767,7 @@ sub add_medium {
 #- - limit_rate, compress : for downloading files
 #- - initial_number : when adding several numbered media, start with this number
 #- - probe_with : if eq 'synthesis', use synthesis instead of hdlists
-#- ­ ask_media : callback to know whether each media should be added
+#- - ask_media : callback to know whether each media should be added
 #- other options are passed to add_medium()
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
