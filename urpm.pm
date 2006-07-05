@@ -1353,6 +1353,7 @@ this could happen if you mounted manually the directory when creating the medium
 			File::Find::find(
 			    {
 				wanted => sub { -f $_ && /\.rpm$/ and $f{"$File::Find::dir/$_"} = 1 },
+				follow_skip => 2,
 				follow_fast => 1,
 			    },
 			    $dir,
