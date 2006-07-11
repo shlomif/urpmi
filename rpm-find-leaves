@@ -16,6 +16,7 @@ where [options] are from
 ", $0) . N("   -h|--help      - print this help message.
 ") . N("   --root <path>  - use the given root instead of /
 ") . N("   -g [group]     - restrict results to specified group.
+") . N("   -f             - output rpm full name (NVRA)
 ") . N("                    defaults to %s.
 ", $options{group});
 
@@ -33,6 +34,7 @@ while ($_ = shift) {
 	$options{group} = $group;
 	next;
     };
+    $_ eq '-f' and do { $options{fullname} = 1; next };
     print $usage; exit 0;
 }
 
@@ -50,7 +52,7 @@ my %l;
 my %provides;
 foreach my $pkg (@packages) {
     next if $options{restrict_group} && $pkg->group !~ /\Q$options{group}/oi;
-    $l{$pkg->name} = 1;
+    $l{$pkg->name} = $pkg;
     push @{$provides{$_}}, $pkg->name foreach $pkg->provides_nosense;
 }
 
@@ -58,4 +60,11 @@ foreach my $pkg (@packages) {
     delete @l{grep { $_ ne $pkg->name } @{$provides{$_} || []}} foreach $pkg->requires_nosense;
 }
 
-print "$_\n" foreach sort keys %l;
+if ($options{fullname}) {
+    foreach my $k (sort keys %l) {
+	my $l = $l{$k};
+	print $l->name, '-', $l->version, '-', $l->release, '.', $l->arch, "\n";
+    }
+} else {
+    print "$_\n" foreach sort keys %l;
+}
