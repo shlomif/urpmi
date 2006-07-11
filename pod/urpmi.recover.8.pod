@@ -4,10 +4,10 @@ urpmi.recover - manages repackaging of old RPMs and rollbacks
 
 =head1 SYNOPSIS
 
-    urpmi.recover --checkpoint
+    urpmi.recover --checkpoint [--noclean]
     urpmi.recover --list '1 week ago'
     urpmi.recover --rollback '1 hour ago'
-    urpmi.recover --disable
+    urpmi.recover --disable [--noclean]
 
 =head1 DESCRIPTION
 
@@ -19,7 +19,8 @@ that you consider stable, and to start storing info that will enable you
 to rollback installations and upgrades to this state.
 
 C<urpmi.recover --list> is used to list chronologically all installations
-and upgrades on your system.
+and upgrades on your system. (It has two variants, C<--list-all> and
+C<--list-safe>.)
 
 C<urpmi.recover --rollback> is used to roll back installations and
 upgrades to a previous point in the past (at most until your checkpoint.)
@@ -54,9 +55,10 @@ option.
 
 =item --list <date>
 
-Lists all installations and upgrades from now since the provided date. The
-date parser is quite elaborated, so you can give a date in ISO format or
-close to it (C<YYYY-MM-DD hh:mm:ss>) or a duration (e.g. "1 day ago").
+Lists all installations and upgrades from now since the provided date,
+grouped by installation transactions. The date parser is quite elaborated,
+so you can give a date in ISO format or close to it (C<YYYY-MM-DD
+hh:mm:ss>) or a duration (e.g. "1 day ago").
 
 =item --list-all
 
@@ -84,7 +86,9 @@ C<--checkpoint>.
 =head1 BUGS
 
 When enabled, you can't install and repackage delta rpms (rpms generated
-with the C<makedeltarpm> tool.)
+with the C<makedeltarpm> tool.) Also, if you install a delta rpm, you
+won't be able to rollback past this point. A sound advice would be to
+completely avoid delta rpms if you're planning to use urpmi.recover.
 
 =head1 FILES
 
@@ -93,6 +97,8 @@ with the C<makedeltarpm> tool.)
 =head1 AUTHOR
 
 Rafael Garcia-Suarez, <rgarciasuarez@mandriva.com>
+
+Copyright (C) 2006 Mandriva SA
 
 =head1 SEE ALSO
 
