@@ -12,14 +12,14 @@ use urpm::sys;
 use urpm::cfg;
 use MDV::Distribconf;
 
-our $VERSION = '4.8.21';
+our $VERSION = '4.8.22';
 our @ISA = qw(URPM);
 
 use URPM;
 use URPM::Resolve;
 
 BEGIN {
-    # this won't work in 5.10 when encoding::warnings will be lexical
+    # this doesn't work for perls >= 5.9.4
     if ($ENV{DEBUG_URPMI}) {
 	require encoding::warnings;
 	encoding::warnings->import;

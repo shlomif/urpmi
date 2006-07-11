@@ -12,7 +12,7 @@
 %{?!makeinstall_std: %define makeinstall_std() make DESTDIR=%{?buildroot:%{buildroot}} install}
 
 %define name	urpmi
-%define version	4.8.21
+%define version	4.8.22
 %define release	%mkrel 1
 
 %define group %(perl -e 'print "%_vendor" =~ /\\bmandr/i ? "System/Configuration/Packaging" : "System Environment/Base"')
@@ -275,6 +275,11 @@ if (-e "/etc/urpmi/urpmi.cfg") {
 %ghost %_sys_macros_dir/urpmi.recover.macros
 
 %changelog
+* Tue Jul 11 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.22-1mdv2007.0
+- Update docs and translations
+- Allow to install deps of an srpm via rurpmi (Pascal Terjan)
+- Add an -f option to rpm-find-leaves
+
 * Tue Jun 20 2006 Rafael Garcia-Suarez <rgarciasuarez@mandriva.com> 4.8.21-1mdv2007.0
 - New command rurpme
 - Forbid rurpmi --noscripts
