@@ -22,17 +22,103 @@ directories are treated like local drives.
 
 =head2 Installing and updating RPMs
 
-The tool used to install RPMs is urpmi.
+The tool used to install RPMs is urpmi. Its basic usage is as follows:
+
+    urpmi <list of package names>
+
+That prompts urpmi to fetch and install all packages and their unmet
+dependencies from the media you have configured. In the process, urpmi
+might ask a few questions. Notably, if some packages need to be upgraded,
+or if some new (unspecified) packages should be installed, it will ask for
+confirmation. If some packages need to be removed (due to conflicts with
+the requested packages), urpmi will ask for confirmation as well. In some
+cases, urpmi will also propose a choice between different alternatives,
+usually proposing the "best" package as a default.
+
+Another very useful mode of action for urpmi is to ask it to upgrade all
+packages to the latest version found on the media. This is done by
+
+    urpmi --auto-update
+
+urpmi can also help installing RPM files directly. Instead of using
+C<rpm -i foobar.rpm>, you can pass the path to the rpm file to urpmi: it
+will then try to resolve the needed dependencies.
+
+Useful options to urpmi include :
+
+=over 4
+
+=item --auto
+
+automatic mode: urpmi will not ask questions and always select the default
+choice.
+
+=item --test
+
+tests the installation of packages, but do not actually install anything or
+modify the system.
+
+=item --media I<media1,...,mediaN>
+
+Use only the specified media, instead of defaulting to all available
+media. You can also specify a substring of media names, and urpmi will
+select all media that contain this substring. (For example,
+
+    urpmi --auto-update --media updates
+
+will search updates from all media that have "updates" in their name.)
+
+=back
+
+See the urpmi(8) manpage for the complete reference of all options that
+urpmi supports.
 
 =head2 Removing RPMs
 
-The tool used to deinstall RPMs is urpme.
+The tool used to deinstall RPMs is urpme. The command
+
+    urpme <list of package names>
+
+will attempt to remove all listed packages, plus the packages that depend
+on them. It will refuse to uninstall "important" packages (that is, the
+ones that are part of the base system.)
+
+See the urpme(8) manpage for the reference of all options urpme supports.
+
+urpme isn't able to detect packages that are no longer used: for example,
+libraries that no application requires. To clean them up, a handy tool is
+B<rpm-find-leaves>. It will list all RPMs on your system that no other
+package requires.
 
 =head1 Media management
 
 =head2 Adding media
 
+urpmi is usable only when you have defined some media. Usually the OS
+installation procedure configures a predefined set of media, which
+correspond to the installation method you've selected: that might be
+installation CDs, or an HTTP or FTP server if you installed from a
+networked mirror, and so on. But you might want to add media yourself.
+For that, you should use the urpmi.addmedia program. Its usage is as
+follows:
+
+    urpmi.addmedia [options] <name> <url> [with <hdlist>]
+
+In this synopsis, C<< <name> >> is the name of the new media,
+C<< <url> >> the URL where the RPMs are to be found, and the C<with>
+parameter optionnally specifies where to find the information file that
+describes the media's contents.
+
+Supported URLs can be http://, ftp://, rsync://, ssh:// (this will use rsync over
+ssh), file://, and removable:// (removable:// works like file://, but
+instructs urpmi that the directory is mounted from a removable media, such
+as a CD or a DVD.) If the media requires authentication, you can use the
+usual URL syntax: C<< <scheme>://<login>:<pass>@host/path >>. Those
+credentials won't be stored in any world-readable file.
+
 =head2 Removing media
+
+=head2 Updating media
 
 =head2 Inactive media
 
