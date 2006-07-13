@@ -109,30 +109,155 @@ C<< <url> >> the URL where the RPMs are to be found, and the C<with>
 parameter optionnally specifies where to find the information file that
 describes the media's contents.
 
-Supported URLs can be http://, ftp://, rsync://, ssh:// (this will use rsync over
-ssh), file://, and removable:// (removable:// works like file://, but
-instructs urpmi that the directory is mounted from a removable media, such
-as a CD or a DVD.) If the media requires authentication, you can use the
-usual URL syntax: C<< <scheme>://<login>:<pass>@host/path >>. Those
-credentials won't be stored in any world-readable file.
+Supported URLs can be C<http://>, C<ftp://>, C<rsync://>, C<ssh://> (this
+will use rsync over ssh), C<file://>, and C<removable://> (C<removable://>
+works like C<file://>, but instructs urpmi that the directory is mounted
+from a removable media, such as a CD or a DVD.) If the media requires
+authentication, you can use the usual URL syntax:
+
+    <scheme>://<login>:<pass>@host/path
+
+Those credentials won't be stored in any world-readable file.
+
+In some cases, if your media points at an external HTTP or FTP server, you
+might want to use a proxy to access it. This is possible by using the
+C<--proxy> and C<--proxy-user> options (the second one in case of your
+proxy requires authentication.)
 
 =head2 Removing media
 
+This is straightforward; to remove a media C<foo>, simply use the
+command:
+
+    urpmi.removemedia foo
+
 =head2 Updating media
 
-=head2 Inactive media
+Some media never change; this is the case, for example, for CD-ROMs and
+the like. However, some other ones -- typically updates -- grow; new RPMs
+are added to them, and old ones are removed. Thus, before using them, from
+time to time, you should instruct urpmi that their contents might have
+changed.
+
+To do this, use the urpmi.update program. You can either update all media:
+
+    urpmi.update -a
+
+or update only media specifically named:
+
+    urpmi.update updates-one updates-two
 
 =head2 Creating your own media
 
-gendistrib
+The easiest way to create your own media is to let urpmi.addmedia do it.
+However, this will work well only if you have a small number of rpms,
+stored on disk or on a shared NFS mount. To do that, assuming that your
+RPMs are under a directory /var/my-rpms, simply enter the command:
 
-public key
+    urpmi.addmedia my-media /var/my-rpms
+
+However, to create media containing a large number of RPMs, or to be put
+on a shared server, you'll need to use the gendistrib tool. It comes in
+the C<rpmtools> package. It is able to generate a mirror tree for one or
+several media.
+
+A typical media repository, under a root directory F</ROOT/>, has the
+following structure: (here, we have two media, named C<first> and
+C<second>)
+
+    ROOT/ - media/
+            |- first/
+            |   `- media_info/
+            |- second/
+            |   `- media_info/
+            `- media_info/
+
+The RPMs are place in the C<first> and C<second> subdirectories.
+Repository metadata is contained in the top-level F<media_info> directory.
+Per-media metadata are contained in the F<first/media_info> and
+F<second/media_info> subdirectories.
+
+Per-media metadata consists in an C<hdlist.cz> file, that contains the
+gzipped headers of the RPMs in the media, a C<synthesis.hdlist.cz> file,
+much smaller than the hdlist and that contains only the information
+necessary to urpmi to resolve dependencies, and optionnally a C<pubkey>
+file if the RPMs are signed (so urpmi can check that the RPMs it downloads
+are signed with the key associated to this media.)
+
+Before using F<gendistrib>, you must create a file F<media_info/media.cfg>
+to describe this media repository. The syntax of this file is reminiscent
+of F<.ini> files. It contains one section per media: for example,
+
+    [first]
+    hdlist=hdlist_first.cz
+    name=First supplementary media
+
+Here, C<first> is the directory name, C<hdlist_first.cz> is the name of
+the hdlist file that will be created (it must end with C<.cz>), and
+C<name=> gives a human-readable descriptive name for the media.
+
+Then, you can run gendistrib. It should be passed the F</ROOT/> directory as
+parameter. It will then generate the hdlist and synthesis files and all
+other files needed for proper repository operation.
+
+For further information, see the gendistrib(1) manpage.
 
 =head1 Searching for packages
 
 =head2 urpmf
 
+urpmf is a grep-like tool for the urpmi database (the database of all RPMs
+in the media). By default, it will search through the file names contained
+in packages, but a variety of options allows to search through package
+names, provides, requires, RPM descriptions, etc. (or several of those at
+once.)
+
+For example, to find all packages that begin with "apache-" :
+
+    urpmf --name '^apache-'
+
+(the ^ being the beginning-of-line anchor used in standard regular
+expressions.)
+
+To find all packages that contain files whose pathname includes
+/etc/httpd.conf.d :
+
+    urpmf /etc/httpd.conf.d
+
+To find all packages that provide "mail-server", with their version and
+release number (-f) :
+
+    urpmf --provides -f mail-server
+
+See the urpmf(8) manpage for more examples and the list of all options.
+
 =head2 urpmq
+
+urpmq is a tool to query the urpmi database. It has several modes of
+operation. Here are a couple of useful uses.
+
+    urpmq -i package
+
+will list the information for that package (like C<rpm -qi> would do for
+installed packages.) The C<--summary> option is similar, but gives only
+one-line concise information.
+
+    urpmq --source package
+
+will give the URL from which the package can be retrieved.
+
+    urpmq -d package
+
+will give the list of all RPMs that are required by the specified package
+(recursively).
+
+Inversely, the command
+
+    urpmq -R package
+
+will give the list of all RPMs that require the specified package.
+
+See the urpmq(8) manpage for the list of all options.
 
 =head1 urpmi-parallel
 
