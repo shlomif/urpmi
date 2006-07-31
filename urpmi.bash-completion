@@ -93,25 +93,38 @@ _urpmi()
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
 		COMPREPLY=( $( compgen -W '-a -p -P -y -s -q -v -h --help \
-			--update --media --excludemedia --sortmedia --synthesis \
-			--auto --auto-select --auto-update --no-uninstall --keep --split-level \
-			--split-length --fuzzy --src --install-src --clean \
-			--noclean --force --allow-nodeps --allow-force --parallel \
-			--wget --curl --limit-rate --proxy --proxy-user --bug \
-			--env --verify-rpm --no-verify-rpm --no-install \
-			--test --excludepath --excludedocs --root --norebuild \
-			--searchmedia --noscripts --ignoresize --ignorearch \
-			--strict-arch --use-distrib --wget-options --curl-options \
-			--rsync-options --resume --retry --skip --nolock --more-choices' -- $cur ) )
+			--update --media --excludemedia --sortmedia \
+			--synthesis --auto --auto-select --no-uninstall \
+			--split-level --split-length --fuzzy --src \
+			--install-src --clean --noclean --parallel --wget \
+			--curl --limit-rate --proxy --proxy-user --bug \
+			--no-verify-rpm --no-install --test --excludepath \
+			--excludedocs --searchmedia --ignoresize --ignorearch \
+			--strict-arch --wget-options --curl-options \
+			--rsync-options --resume --retry --skip --nolock \
+			--more-choices' -- $cur ) )
+		# add dangereous option for everything else as rurpmi
+		if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
+			COMPREPLY=( $( compgen -W '${COMPREPLY[@]} --root \
+				--use-distrib --env --allow-nodeps \
+				--allow-force --force --noscripts \
+				--auto-update --keep --verify-rpm --norebuild' \
+				-- $cur ) )
+			fi
 	else
-		# return available packages (unless it is clearly a file) and rpm files
-		if [[ "$cur" != */* ]]; then
+		# return available packages only
+		if [[ ${COMP_WORDS[0]} == *rurpmi ]]; then
 			_urpmi_packages
+		else 
+			# return available packages (unless it is clearly a file) and rpm files
+			if [[ "$cur" != */* ]]; then
+				_urpmi_packages
+			fi
+			_filedir rpm
 		fi
-		_filedir rpm
 	fi
 }
-complete -F _urpmi urpmi gurpmi
+complete -F _urpmi urpmi gurpmi rurpmi
 
 # urpmq completion
 #
