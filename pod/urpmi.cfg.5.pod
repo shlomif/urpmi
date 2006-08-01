@@ -82,11 +82,6 @@ kilo-bytes per second, unless a suffix C<K> or C<M> is added.
 
 Don't import pubkeys when updating media.
 
-=item B<noreconfigure>
-
-Specifies that the media should not be reconfigured (by a reconfiguration
-file present on the medium).
-
 =item B<norebuild>
 
 Same as B<--norebuild> for urpmi, urpmi.update and urpmi.addmedia.
@@ -175,6 +170,9 @@ ignored, or to specify the allowed GPG key ids for packages from the
 medium for verification (unless of course signature checking has been
 disabled globally). It's also possible to override B<verify-rpm> and
 B<downloader> in a medium description.
+
+The B<noreconfigure> flag can be added to specify that the media should
+not be reconfigured (by a reconfiguration file present on the mirror).
 
 Media can be marked as B<static>: this means that they will never get
 updated by urpmi.update or other means. This is useful for read-only media
