@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-06-30 14:05+0200\n"
-"PO-Revision-Date: 2006-04-01 16:41+0800\n"
+"PO-Revision-Date: 2006-08-10 22:36+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: Mandriva Linux Simplified Chinese <cooker-i18n@mandrivalinux."
 "org>\n"
@@ -137,7 +137,7 @@ msgstr "确定"
 
 #: ../gurpmi2:102
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: ../gurpmi2:142
 msgid " (to upgrade)"
@@ -531,12 +531,11 @@ msgstr "无法访问介质的首次安装"
 
 #: ../urpm.pm:786
 msgid "this url seems to not contains any distrib"
-msgstr ""
+msgstr "此 url 似乎不包含任何发行版"
 
 #: ../urpm.pm:796
-#, fuzzy
 msgid "retrieving media.cfg file..."
-msgstr "正在获取 hdlists 文件..."
+msgstr "正在获取 media.cfg 文件..."
 
 #: ../urpm.pm:808 ../urpm.pm:1621 ../urpm.pm:2122 ../urpm.pm:2840
 msgid "...retrieving done"
@@ -548,9 +547,8 @@ msgid "...retrieving failed: %s"
 msgstr "...获取失败: %s"
 
 #: ../urpm.pm:813
-#, fuzzy
 msgid "unable to parse media.cfg"
-msgstr "无法打开 rpmdb"
+msgstr "无法分析 media.cfg"
 
 #: ../urpm.pm:815
 msgid "unable to access first installation medium (no hdlists file found)"
@@ -1024,7 +1022,7 @@ msgstr "urpmq: 无法读取 rpm 文件“%s”\n"
 
 #: ../urpm/args.pm:415
 msgid "Too many arguments\n"
-msgstr ""
+msgstr "参数太多\n"
 
 #. Translator: Add here the keys which might be pressed in the "No"-case.
 #: ../urpm/msg.pm:48 ../urpme:32 ../urpmi:468 ../urpmi:486 ../urpmi:524
@@ -1319,9 +1317,8 @@ msgid "  -i             - ignore case distinctions in patterns.\n"
 msgstr "  -i             - 忽略各种情况下的冲突。\n"
 
 #: ../urpmf:46
-#, fuzzy
 msgid "  -I             - honor case distinctions in patterns (default).\n"
-msgstr "  -i             - 忽略各种情况下的冲突。\n"
+msgstr "  -I             - 在模式中遵从大小写(默认值)。\n"
 
 #: ../urpmf:47
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
@@ -1725,7 +1722,7 @@ msgstr "  命令行给出的软件包名或 rpm 文件将会被安装。\n"
 msgid ""
 "Error: To generate a bug report, specify the usual command-line arguments\n"
 "along with --bug.\n"
-msgstr ""
+msgstr "出错：要生成错误报告，请在指定命令行参数时多加 --bug。\n"
 
 #: ../urpmi:204
 msgid "You can't install binary rpm files when using --install-src"
@@ -1891,9 +1888,8 @@ msgstr "正在安装 %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
 #: ../urpmi:737
-#, fuzzy
 msgid "Installation failed:"
-msgstr "安装失败"
+msgstr "安装失败："
 
 #: ../urpmi:745
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1922,7 +1918,6 @@ msgstr "重新启动 urpmi"
 #. Translator: neither the ``with''.
 #. Translator: only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:35
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
@@ -1941,7 +1936,7 @@ msgstr ""
 "       ftp://<登录名>:<密码>@<主机>/<路径> with <hdlist 的相对路径文件名>\n"
 "       ftp://<主机>/<路径> with <hdlist 的相对路径文件名>\n"
 "       http://<主机>/<路径> with <hdlist 的相对路径文件名>\n"
-"       removable://<路径>\n"
+"       removable://<路径> with <hdlist 的相对路径文件名>\n"
 "\n"
 "而 [options] 可以来自\n"
 
@@ -1971,12 +1966,11 @@ msgstr "  --distrib      - 自动从安装介质创建全部介质。\n"
 
 #: ../urpmi.addmedia:59
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
-msgstr ""
+msgstr "  --interactive  - 对于 --distrib，请求每个介质的确认\n"
 
 #: ../urpmi.addmedia:60
-#, fuzzy
 msgid "  --all-media    - with --distrib, add every listed media\n"
-msgstr "  --list-media   - 列出可用的介质。\n"
+msgstr "  --all-media    - 对于 --distrib，添加列出的每个介质\n"
 
 #: ../urpmi.addmedia:61
 #, c-format
@@ -2039,7 +2033,7 @@ msgstr "使用 --distrib 不需要提供 <hdlist 的相对路径>"
 msgid ""
 "\n"
 "Do you want to add media '%s'"
-msgstr ""
+msgstr "\n您是否想要添加介质“%s”"
 
 #: ../urpmi.addmedia:163
 msgid "<relative path of hdlist> missing\n"
@@ -2128,7 +2122,7 @@ msgstr "删除了 %d 个文件\n"
 #: ../urpmi.recover:81
 #, c-format
 msgid "Spurious command-line arguments [%s]\n"
-msgstr ""
+msgstr "冲突的命令行参数[%s]\n"
 
 #: ../urpmi.recover:83
 msgid "You can't specify --checkpoint and --rollback at the same time\n"
@@ -2436,8 +2430,3 @@ msgstr "没有找到文件列表\n"
 msgid "No changelog found\n"
 msgstr "没有找到更新日志\n"
 
-#~ msgid "copying hdlists file..."
-#~ msgstr "正在复制 hdlists 文件..."
-
-#~ msgid "invalid hdlist description \"%s\" in hdlists file"
-#~ msgstr "hdlists 文件中的 hdlist 描述“%s”无效"
