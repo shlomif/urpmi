@@ -15,10 +15,6 @@ my $with_rpm = 1; $with_rpm = 0 if grep $_ eq '--without-rpm', @ARGV;
 my $with_po  = 0; $with_po  = 1 if grep $_ eq '--install-po', @ARGV;
 my $with_gui = 0; $with_gui = 1 if grep $_ eq '--install-gui', @ARGV;
 
-# Directory where to build an rpm of this
-my $rpmtopdir = $with_rpm ? qx(rpm --eval %_topdir) : '';
-chomp $rpmtopdir;
-
 # All scripts, some of them go in /usr/sbin (see DESTINSTALLSBIN below)
 our @bin_scripts = qw(urpmq urpmf rpm-find-leaves urpmi.recover);
 our @sbin_scripts = qw(urpmi urpme urpmi.addmedia urpmi.update urpmi.removemedia rurpmi rurpme);
@@ -102,7 +98,7 @@ my $commonusername = "../common/";
 # Additional targets
 sub postamble {
     <<"**MM**";
-.PHONY: installconfigfiles installstatedir ChangeLog rpmdist srpm rpm
+.PHONY: installconfigfiles installstatedir ChangeLog
 
 installpo:
 	\$(MAKE) -C po install
@@ -125,16 +121,6 @@ installgurpmi2: pure_install
 ChangeLog:
 	svn2cl --accum --strip-prefix=soft/rpm/urpmi/trunk --authors ${commonusername}username.xml
 	rm -f *.bak
-
-rpmdist: dist
-	cp -f urpmi.spec $rpmtopdir/SPECS
-	mv -f urpmi-*.tar.bz2 $rpmtopdir/SOURCES
-
-srpm: rpmdist
-	rpmbuild -bs --clean --rmsource $rpmtopdir/SPECS/urpmi.spec
-
-rpm: rpmdist
-	rpmbuild -ba --clean --rmsource $rpmtopdir/SPECS/urpmi.spec
 **MM**
 }
 
