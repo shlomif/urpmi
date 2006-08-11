@@ -244,6 +244,7 @@ sub read_config {
     #- read MD5 sums (usually not in urpmi.cfg but in a separate file)
     my $md5sum = $urpm->open_safe("<", "$urpm->{statedir}/MD5SUM");
     if ($md5sum) {
+	local $_;
 	while (<$md5sum>) {
 	    my ($md5sum, $file) = /(\S*)\s+(.*)/;
 	    foreach (@{$urpm->{media}}) {
@@ -972,6 +973,7 @@ sub reconfig_urpmi {
     #- the first line of reconfig.urpmi must be magic, to be sure it's not an error file
     my $magic = <$fh>;
     $magic =~ /^# this is an urpmi reconfiguration file/ or return undef;
+    local $_;
     while (<$fh>) {
 	chomp;
 	s/^\s*//; s/#.*$//; s/\s*$//;
@@ -2497,6 +2499,7 @@ sub get_source_packages {
 	    if ($listfile && -r $listfile) {
 		my $fh = $urpm->open_safe('<', $listfile);
 		if ($fh) {
+		    local $_;
 		    while (<$fh>) {
 			chomp;
 			if (my ($filename) = m|/([^/]*\.rpm)$|) {

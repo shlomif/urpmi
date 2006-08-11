@@ -235,6 +235,7 @@ sub sync_wget {
     ) . " |";
     my $wget_pid = open my($wget), $wget_command;
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
+    local $_;
     while (<$wget>) {
 	$buf .= $_;
 	if ($_ eq "\r" || $_ eq "\n") {
@@ -297,6 +298,7 @@ sub sync_curl {
     }
     if (@ftp_files) {
 	my ($cur_ftp_file, %ftp_files_info);
+	local $_;
 
 	eval { require Date::Manip };
 
@@ -376,6 +378,7 @@ sub sync_curl {
 	    "--stderr", "-", # redirect everything to stdout
 	    @all_files) . " |";
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
+	local $_;
 	while (<$curl>) {
 	    $buf .= $_;
 	    if ($_ eq "\r" || $_ eq "\n") {
@@ -452,6 +455,7 @@ sub sync_rsync {
 		(defined $options->{'rsync-options'} ? split /\s+/, $options->{'rsync-options'} : ()),
 		"'$file' '$options->{dir}' |");
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
+	    local $_;
 	    while (<$rsync>) {
 		$buf .= $_;
 		if ($_ eq "\r" || $_ eq "\n") {

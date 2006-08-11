@@ -125,6 +125,7 @@ sub get_ldap_config_file($) {
     );
     # TODO more verbose error ?
     open my $conffh, $file or return;
+    local $_;
     while (<$conffh>) {
 	s/#.*//;
 	s/^\s*//;
