@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-06-30 14:05+0200\n"
-"PO-Revision-Date: 2006-08-17 21:15+0200\n"
+"PO-Revision-Date: 2006-08-18 01:55+0200\n"
 "Last-Translator: Per Øyvind Karlsen <pkarlsen@mandriva.com>\n"
 "Language-Team: Norwegian Bokmål <cooker-i18n@mandrivalinux.com>\n"
 "MIME-Version: 1.0\n"
@@ -1197,18 +1197,16 @@ msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - bruk en annen rot for rpm-fjerning.\n"
 
 #: ../urpme:49
-#, fuzzy
 msgid "  --noscripts    - do not execute package scriptlet(s).\n"
-msgstr "  --description  - vis etikett description: beskrivelse.\n"
+msgstr "  --noscripts    - ikke kjør pakkeskript.\n"
 
 #: ../urpme:50
-#, fuzzy
 msgid ""
 "  --use-distrib  - configure urpme on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
-"  --use-distrib  - setter opp urpmi fortgående fra et distrib-tre, nyttig\n"
-"                   for å (av)installere en chroot med --root-opsjon.\n"
+"  --use-distrib  - konfigurer urpme fortløpende fra ett distrib-tre, brukbart\n"
+"                   for å (av)installere en chroot med --root.\n"
 
 #: ../urpme:52 ../urpmi:145 ../urpmi.addmedia:72 ../urpmi.removemedia:59
 #: ../urpmi.update:49 ../urpmq:91
@@ -1296,7 +1294,7 @@ msgstr "  --excludemedia - ikke bruk gitte media, delt med komma.\n"
 
 #: ../urpmf:38
 msgid "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
-msgstr ""
+msgstr "  --literal, -l  - ikke sjekk søkestrenger, bruk argumenter som bokstavelige strenger.\n"
 
 #: ../urpmf:39 ../urpmi:81 ../urpmq:46
 msgid "  --media        - use only the given media, separated by comma.\n"
@@ -1334,7 +1332,7 @@ msgstr "  -I             - skill mellom store og små bokstaver i søkestrenger 
 
 #: ../urpmf:47
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
-msgstr ""
+msgstr "  -F<str>        - endre feltseparator (standard er ':').\n"
 
 #: ../urpmf:48
 msgid "Pattern expressions:\n"
@@ -2114,12 +2112,11 @@ msgstr "  --noclean      - ikke fjern rpm-pakker fra cache.\n"
 
 #: ../urpmi.recover:36
 msgid "  --list         - list transactions since provided date/duration argument\n"
-msgstr ""
+msgstr "  --list         - list transaksjoner siden oppgitte dato/varighet-argument\n"
 
 #: ../urpmi.recover:37
-#, fuzzy
 msgid "  --list-all     - list all transactions in rpmdb (long)\n"
-msgstr "  --list-url     - lister tilgjengelige medier og deres url.\n"
+msgstr "  --list-all     - list alle transaksjoner i rpm-database (lang)\n"
 
 #: ../urpmi.recover:38
 #, fuzzy
@@ -2131,6 +2128,8 @@ msgid ""
 "  --rollback     - rollback until specified date,\n"
 "                   or rollback the specified number of transactions\n"
 msgstr ""
+"  --rollback     - hent tilbake til spesifisert dato,\n"
+"                   eller hent tilbake til det spesifiserte nummeret på transaksjoner\n"
 
 #: ../urpmi.recover:41
 #, fuzzy
@@ -2140,7 +2139,7 @@ msgstr "  --name         - vis bare pakkenavn.\n"
 #: ../urpmi.recover:56
 #, c-format
 msgid "Invalid date or duration [%s]\n"
-msgstr ""
+msgstr "Ugyldig dato eller varighet [%s]\n"
 
 #: ../urpmi.recover:64
 #, fuzzy
@@ -2160,54 +2159,53 @@ msgstr ""
 #: ../urpmi.recover:71
 #, c-format
 msgid "%d files removed\n"
-msgstr ""
+msgstr "%d filer fjernet\n"
 
 #: ../urpmi.recover:81
 #, c-format
 msgid "Spurious command-line arguments [%s]\n"
-msgstr ""
+msgstr "Ugyldige kommandolinjeargumenter [%s]\n"
 
 #: ../urpmi.recover:83
 msgid "You can't specify --checkpoint and --rollback at the same time\n"
-msgstr ""
+msgstr "Du kan ikke spesifisere --checkpoint og --rollback samtidig\n"
 
 #: ../urpmi.recover:85
 msgid "You can't specify --checkpoint and --list at the same time\n"
-msgstr ""
+msgstr "Du kan ikke spesifisere --checkpoint og --list samtidig\n"
 
 #: ../urpmi.recover:87
 msgid "You can't specify --rollback and --list at the same time\n"
-msgstr ""
+msgstr "Du kan ikke spesifisere --rollback og --list samtidig\n"
 
 #: ../urpmi.recover:89
 msgid "You can't specify --disable along with another option"
-msgstr ""
+msgstr "Du kan ikke spesifisere --disable med andre valg"
 
 #: ../urpmi.recover:114
 #, c-format
 msgid "No transaction found since %s\n"
-msgstr ""
+msgstr "Ingen transaksjon funnet siden %s\n"
 
 #. - check we're running as root
 #: ../urpmi.recover:129
 msgid "You must be superuser to do this"
-msgstr ""
+msgstr "Du må være superbruker for å gjøre dette"
 
 #. - write rpm config file
 #: ../urpmi.recover:142 ../urpmi.recover:208
-#, fuzzy, c-format
+#, c-format
 msgid "Writing rpm macros file [%s]...\n"
-msgstr "mottar rpm-fil [%s] ..."
+msgstr "Skriver rpm-macrofil [%s]...\n"
 
 #: ../urpmi.recover:184
-#, fuzzy
 msgid "No rollback date found\n"
-msgstr "Ingen filliste funnet\n"
+msgstr "Ingen tilbakehentingsdato funnet\n"
 
 #: ../urpmi.recover:187
 #, c-format
 msgid "Rollback until %s...\n"
-msgstr ""
+msgstr "Hent tilbake til %s...\n"
 
 #: ../urpmi.recover:194
 msgid "Disabling repackaging\n"
@@ -2316,7 +2314,7 @@ msgid "ignoring media %s"
 msgstr "ignorerer media %s"
 
 #: ../urpmq:39
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmq version %s\n"
 "Copyright (C) 2000-2006 Mandriva.\n"
@@ -2326,7 +2324,7 @@ msgid ""
 "usage:\n"
 msgstr ""
 "urpmq versjon %s\n"
-"Copyright © 2000-2005 Mandriva.\n"
+"Copyright © 2000-2006 Mandriva.\n"
 "Dette er fri programvare og kan redistribueres under vilkårene til GNU GPL.\n"
 "\n"
 "bruk:\n"
@@ -2376,9 +2374,8 @@ msgid "  --sources      - give all source packages before downloading (root only
 msgstr "  --sources      - gir alle kildepakker før nedlasting (kun root).\n"
 
 #: ../urpmq:64
-#, fuzzy
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
-msgstr "  --url          - vis etikett url: url.\n"
+msgstr "  --ignorearch   - tillat å spørre etter rpm'er for ulike arkitekturer.\n"
 
 #: ../urpmq:66
 msgid ""
