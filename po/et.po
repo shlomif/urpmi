@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-06-30 14:05+0200\n"
-"PO-Revision-Date: 2006-04-02 10:25+0300\n"
+"PO-Revision-Date: 2006-08-17 16:20+0300\n"
 "Last-Translator: Marek Laane <bald@starman.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -131,7 +131,7 @@ msgstr "Olgu"
 
 #: ../gurpmi2:102
 msgid "Warning"
-msgstr ""
+msgstr "Hoiatus"
 
 #: ../gurpmi2:142
 msgid " (to upgrade)"
@@ -531,12 +531,11 @@ msgstr "ligipääs esimesele paigaldus-andmekandjale ebaõnnestus"
 
 #: ../urpm.pm:786
 msgid "this url seems to not contains any distrib"
-msgstr ""
+msgstr "see URL ei paista sisaldavat ühtegi distributsiooni"
 
 #: ../urpm.pm:796
-#, fuzzy
 msgid "retrieving media.cfg file..."
-msgstr "hdlists faili tõmbamine..."
+msgstr "faili media.cfg tõmbamine..."
 
 #: ../urpm.pm:808 ../urpm.pm:1621 ../urpm.pm:2122 ../urpm.pm:2840
 msgid "...retrieving done"
@@ -548,14 +547,13 @@ msgid "...retrieving failed: %s"
 msgstr "...tõmbamine ebaõnnestus: %s"
 
 #: ../urpm.pm:813
-#, fuzzy
 msgid "unable to parse media.cfg"
-msgstr "rpmdb avamine ebaõnnestus"
+msgstr "faili media.cfg parsimine ebaõnnestus"
 
 #: ../urpm.pm:815
 msgid "unable to access first installation medium (no hdlists file found)"
 msgstr ""
-"ligpääs esimesele paigaldus-andmekandjale ebaõnnestus (ei leitud faili "
+"ligipääs esimesele paigaldus-andmekandjale ebaõnnestus (ei leitud faili "
 "hdlists)"
 
 #: ../urpm.pm:902
@@ -1031,7 +1029,7 @@ msgstr "urpmq: RPM-faili \"%s\" lugemine ebaõnnestus\n"
 
 #: ../urpm/args.pm:415
 msgid "Too many arguments\n"
-msgstr ""
+msgstr "Liiga palju argumente\n"
 
 #. Translator: Add here the keys which might be pressed in the "No"-case.
 #: ../urpm/msg.pm:48 ../urpme:32 ../urpmi:468 ../urpmi:486 ../urpmi:524
@@ -1345,9 +1343,8 @@ msgid "  -i             - ignore case distinctions in patterns.\n"
 msgstr "  -i             - tõstutundetu igas olukorras.\n"
 
 #: ../urpmf:46
-#, fuzzy
 msgid "  -I             - honor case distinctions in patterns (default).\n"
-msgstr "  -i             - tõstutundetu igas olukorras.\n"
+msgstr "  -I             - tõstu arvestamine mustrites (vaikimisi).\n"
 
 #: ../urpmf:47
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
@@ -1778,6 +1775,8 @@ msgid ""
 "Error: To generate a bug report, specify the usual command-line arguments\n"
 "along with --bug.\n"
 msgstr ""
+"Viga: vearaporti loomiseks kasutage koos võtmega --bug\n"
+"tavalisi käsureaargumente.\n"
 
 #: ../urpmi:204
 msgid "You can't install binary rpm files when using --install-src"
@@ -1947,9 +1946,8 @@ msgstr "%s paigaldamine"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
 #: ../urpmi:737
-#, fuzzy
 msgid "Installation failed:"
-msgstr "Paigaldamine ebaõnnestus"
+msgstr "Paigaldamine ebaõnnestus:"
 
 #: ../urpmi:745
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1978,7 +1976,6 @@ msgstr "urpmi taaskäivitamine"
 #. Translator: neither the ``with''.
 #. Translator: only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:35
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
@@ -1991,14 +1988,14 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"kasutamine: urpmi.addmedia [võti] <nimi> <url> [with <suhteline_tee>]\n"
+"kasutamine: urpmi.addmedia [võtmed] <nimi> <url> [with <suhteline_tee>]\n"
 "kus <url> on esitatud kujul\n"
 "       [file:/]/<asukoht> with <suhteline tee hdlist juurde>\n"
 "       ftp://<kasutajanimi>:<parool>@<masin>/<asukoht> with <suhteline tee "
 "hdlist juurde>\n"
 "       ftp://<masin>/<asukoht> with <suhteline tee hdlist juurde>\n"
 "       http://<masin>/<asukoht> with <suhteline tee hdlist juurde>\n"
-"       removable://<asukoht>\n"
+"       removable://<asukoht> with <suhteline tee hdlist juurde>\n"
 "\n"
 "ja [võti] on üks järgmistest\n"
 
@@ -2031,12 +2028,11 @@ msgstr ""
 
 #: ../urpmi.addmedia:59
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
-msgstr ""
+msgstr "  --interactive  - koos võtmega --distrib küsib kinnitust iga andmekandja puhul\n"
 
 #: ../urpmi.addmedia:60
-#, fuzzy
 msgid "  --all-media    - with --distrib, add every listed media\n"
-msgstr "  --list-media   - näitab saadaolevaid andmekandjaid.\n"
+msgstr "  --all-media    - koos võtmega --distrib lisab kõik loetletud andmekandjad.\n"
 
 #: ../urpmi.addmedia:61
 #, c-format
@@ -2107,6 +2103,8 @@ msgid ""
 "\n"
 "Do you want to add media '%s'"
 msgstr ""
+"\n"
+"Kas soovite lisada andmekandja '%s'?"
 
 #: ../urpmi.addmedia:163
 msgid "<relative path of hdlist> missing\n"
