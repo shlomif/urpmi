@@ -788,10 +788,8 @@ sub add_distrib_media {
 
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
-	# Workaround, settree not implement for now
-	# $distribconf->settree('mandriva');
-	$distribconf->{infodir} = "media/media_info";
-	$distribconf->{mediadir} = "media";
+
+	$distribconf->settree('mandriva');
 
 	eval {
 	    $urpm->{log}(N("retrieving media.cfg file..."));
