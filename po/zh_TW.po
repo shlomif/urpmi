@@ -14,7 +14,7 @@
 # Hilbert <freehil@yahoo.com>, 2003, 2004.
 # Hilbert <h@mandrake.org>, 2004.
 # Shiva Huang <blueshiva@giga.net.tw>, 2005.
-# Shiva Huang <shivahuang@gmail.com>, 2005.
+# Shiva Huang <shivahuang@gmail.com>, 2005, 2006.
 # You-Cheng Hsieh <yochenhsieh@xuite.net>, 2005
 # Yujia Kang <yujia.kang@gmail.com>, 2005..
 #
@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-06-30 14:05+0200\n"
-"PO-Revision-Date: 2006-04-04 01:04+0800\n"
+"PO-Revision-Date: 2006-09-01 21:32+0800\n"
 "Last-Translator: Shiva Huang <shivahuang@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
@@ -146,7 +146,7 @@ msgstr "確定"
 
 #: ../gurpmi2:102
 msgid "Warning"
-msgstr ""
+msgstr "警告"
 
 #: ../gurpmi2:142
 msgid " (to upgrade)"
@@ -539,12 +539,11 @@ msgstr "無法存取第一個安裝媒體"
 
 #: ../urpm.pm:786
 msgid "this url seems to not contains any distrib"
-msgstr ""
+msgstr "這個 url 看起來並沒有包含任何散佈套件"
 
 #: ../urpm.pm:796
-#, fuzzy
 msgid "retrieving media.cfg file..."
-msgstr "擷取 hdlists 檔案..."
+msgstr "正在擷取 media.cfg 檔案..."
 
 #: ../urpm.pm:808 ../urpm.pm:1621 ../urpm.pm:2122 ../urpm.pm:2840
 msgid "...retrieving done"
@@ -556,9 +555,8 @@ msgid "...retrieving failed: %s"
 msgstr "...擷取失敗：%s"
 
 #: ../urpm.pm:813
-#, fuzzy
 msgid "unable to parse media.cfg"
-msgstr "無法開啟 rpmdb"
+msgstr "無法解析 media.cfg"
 
 #: ../urpm.pm:815
 msgid "unable to access first installation medium (no hdlists file found)"
@@ -1033,7 +1031,7 @@ msgstr "urpmq：無法讀取 rpm 檔案 \"%s\"\n"
 
 #: ../urpm/args.pm:415
 msgid "Too many arguments\n"
-msgstr ""
+msgstr "參數太多\n"
 
 #. Translator: Add here the keys which might be pressed in the "No"-case.
 #: ../urpm/msg.pm:48 ../urpme:32 ../urpmi:468 ../urpmi:486 ../urpmi:524
@@ -1325,12 +1323,11 @@ msgstr "  --verbose      - 完整訊息模式。\n"
 
 #: ../urpmf:45
 msgid "  -i             - ignore case distinctions in patterns.\n"
-msgstr "  -i             - 忽略每個樣版中的大小寫差異。\n"
+msgstr "  -i             - 忽略樣版中的大小寫差異。\n"
 
 #: ../urpmf:46
-#, fuzzy
 msgid "  -I             - honor case distinctions in patterns (default).\n"
-msgstr "  -i             - 忽略每個樣版中的大小寫差異。\n"
+msgstr "  -I             - 分辨樣版中的大小寫差異 (預設值)。\n"
 
 #: ../urpmf:47
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
@@ -1742,6 +1739,7 @@ msgid ""
 "Error: To generate a bug report, specify the usual command-line arguments\n"
 "along with --bug.\n"
 msgstr ""
+"錯誤：要生成一個臭蟲回報，請指定平常的命令列參數另外再加上 --bug。\n"
 
 #: ../urpmi:204
 msgid "You can't install binary rpm files when using --install-src"
@@ -1907,9 +1905,8 @@ msgstr "正在安裝 %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
 #: ../urpmi:737
-#, fuzzy
 msgid "Installation failed:"
-msgstr "安裝失敗"
+msgstr "安裝失敗；"
 
 #: ../urpmi:745
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1938,7 +1935,6 @@ msgstr "正在重新啟動 urpmi"
 #. Translator: neither the ``with''.
 #. Translator: only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:35
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
@@ -1988,12 +1984,11 @@ msgstr "  --distrib      - 自動根據安裝媒體建立所有的媒體。\n"
 
 #: ../urpmi.addmedia:59
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
-msgstr ""
+msgstr "  --interactive  - 搭配 --distrib，每個媒體都要徵詢同意\n"
 
 #: ../urpmi.addmedia:60
-#, fuzzy
 msgid "  --all-media    - with --distrib, add every listed media\n"
-msgstr "  --list-media   - 列出可用的媒體。\n"
+msgstr "  --all-media    - 搭配 --distrib，加入所有列出的媒體\n"
 
 #: ../urpmi.addmedia:61
 #, c-format
@@ -2061,6 +2056,8 @@ msgid ""
 "\n"
 "Do you want to add media '%s'"
 msgstr ""
+"\n"
+"您要加入媒體 '%s'"
 
 #: ../urpmi.addmedia:163
 msgid "<relative path of hdlist> missing\n"
