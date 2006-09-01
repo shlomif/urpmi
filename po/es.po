@@ -112,16 +112,13 @@ msgid "Choose location to save file"
 msgstr "Elija ubicación para guardar archivo"
 
 #: ../gurpmi.pm:77
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown option %s"
-msgstr ""
-"\n"
-"opciones desconocidas «%s»\n"
+msgstr "Opción desconocida «%s»"
 
 #: ../gurpmi.pm:87
-#, fuzzy
 msgid "No packages specified"
-msgstr "ningún paquete llamado %s"
+msgstr "Ningún paquete especificado"
 
 #: ../gurpmi2:37
 msgid "Please wait..."
@@ -132,15 +129,15 @@ msgid "Must be root"
 msgstr "Debe ser root"
 
 #: ../gurpmi2:80
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
 "%s\n"
 "Continue installation anyway?"
 msgstr ""
-"No se puede instalar algún paquete pedido:\n"
+"No se puede instalar algunos de los paquetes pedidos:\n"
 "%s\n"
-"¿Continuar?"
+"¿Continuar a pesar de todo?"
 
 #: ../gurpmi2:102 ../urpmi:602
 msgid "Ok"
@@ -148,7 +145,7 @@ msgstr "Aceptar"
 
 #: ../gurpmi2:102
 msgid "Warning"
-msgstr ""
+msgstr "Advertencia"
 
 #: ../gurpmi2:142
 msgid " (to upgrade)"
@@ -156,7 +153,7 @@ msgstr " (para actualizar)"
 
 #: ../gurpmi2:143
 msgid " (to install)"
-msgstr "( para instalar)"
+msgstr " (para instalar)"
 
 #: ../gurpmi2:146
 msgid "Package choice"
@@ -171,14 +168,15 @@ msgid "_Abort"
 msgstr "_Abortar"
 
 #: ../gurpmi2:190
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
 "Continue installation anyway?"
 msgstr ""
 "Se tienen que quitar los paquetes siguientes para poder actualizar otros:\n"
-"%s ¿Continuar?"
+"%s\n"
+"¿Continuar a pesar de todo?"
 
 #: ../gurpmi2:204
 #, c-format
@@ -546,9 +544,8 @@ msgid "this url seems to not contains any distrib"
 msgstr ""
 
 #: ../urpm.pm:796
-#, fuzzy
 msgid "retrieving media.cfg file..."
-msgstr "recuperando archivo hdlists..."
+msgstr "recuperando archivo media.cfg..."
 
 #: ../urpm.pm:808 ../urpm.pm:1621 ../urpm.pm:2122 ../urpm.pm:2840
 msgid "...retrieving done"
@@ -560,9 +557,8 @@ msgid "...retrieving failed: %s"
 msgstr "...falló la recuperación: %s"
 
 #: ../urpm.pm:813
-#, fuzzy
 msgid "unable to parse media.cfg"
-msgstr "no se puede abrir rpmdb"
+msgstr "no se puede interpretar media.cfg"
 
 #: ../urpm.pm:815
 msgid "unable to access first installation medium (no hdlists file found)"
@@ -815,9 +811,9 @@ msgid "unable to access rpm file [%s]"
 msgstr "no se puede acceder al archivo rpm [%s]"
 
 #: ../urpm.pm:2136
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse spec file %s [%s]"
-msgstr "no se puede analizar \"%s\" en el archivo [%s]"
+msgstr "no se pudo interpretar el archivo spec %s [%s]"
 
 #: ../urpm.pm:2146
 msgid "unable to register rpm file"
@@ -826,7 +822,7 @@ msgstr "no se puede registrar el archivo rpm"
 #: ../urpm.pm:2148
 #, c-format
 msgid "Incompatible architecture for rpm [%s]"
-msgstr ""
+msgstr "Arquitectura incompatible para el rpm [%s]"
 
 #: ../urpm.pm:2152
 msgid "error registering local packages"
@@ -904,9 +900,9 @@ msgid "unable to access medium \"%s\""
 msgstr "no se puede acceder al soporte «%s»"
 
 #: ../urpm.pm:2818
-#, fuzzy, c-format
+#, c-format
 msgid "malformed URL: [%s]"
-msgstr "entrada mal formada [%s]"
+msgstr "URL mal formada: [%s]"
 
 #: ../urpm.pm:2825
 #, c-format
@@ -1035,9 +1031,8 @@ msgid "bad proxy declaration on command line\n"
 msgstr "declaración incorrecta del proxy en la línea de comandos\n"
 
 #: ../urpm/args.pm:234
-#, fuzzy
 msgid "You need to be root to use --use-distrib"
-msgstr "¡Necesita ser root para usar este comando! \n"
+msgstr "Necesita ser root para usar --use-distrib"
 
 #: ../urpm/args.pm:266
 #, c-format
@@ -1046,7 +1041,7 @@ msgstr "urpmq: no se puede leer el archivo rpm «%s»\n"
 
 #: ../urpm/args.pm:415
 msgid "Too many arguments\n"
-msgstr ""
+msgstr "Demasiados argumentos\n"
 
 #. Translator: Add here the keys which might be pressed in the "No"-case.
 #: ../urpm/msg.pm:48 ../urpme:32 ../urpmi:468 ../urpmi:486 ../urpmi:524
@@ -2600,197 +2595,3 @@ msgstr "No se encontró filelist\n"
 #: ../urpmq:413
 msgid "No changelog found\n"
 msgstr "No se encontró changelog\n"
-
-#~ msgid "copying hdlists file..."
-#~ msgstr "copiando archivo hdlists..."
-
-#~ msgid "invalid hdlist description \"%s\" in hdlists file"
-#~ msgstr "descripción de hdlist no válida «%s» en archivo hdlists"
-
-#~ msgid "Search"
-#~ msgstr "Buscar"
-
-#~ msgid "Is this OK?"
-#~ msgstr "¿Está todo bien?"
-
-#~ msgid ""
-#~ "  --version      - use specified distribution version, the default is "
-#~ "taken\n"
-#~ "                   from the version of the distribution told by the\n"
-#~ "                   installed mandriva-release package.\n"
-#~ msgstr ""
-#~ "  --version      - usar versión de distribución especificada, por "
-#~ "defecto,\n"
-#~ "                   se toma la versión de la distribución indicada por el\n"
-#~ "                   paquete mandriva-release instalado.\n"
-
-#~ msgid ""
-#~ "  --arch         - use specified architecture, the default is arch of\n"
-#~ "                   mandriva-release package installed.\n"
-#~ msgstr ""
-#~ "  --arch         - usar arquitectura especificada, lo predeterminado es "
-#~ "la\n"
-#~ "                   arquitectura del paquete mandriva-release instalado.\n"
-
-#~ msgid ""
-#~ "  --headers      - extract headers for package listed from urpmi db to\n"
-#~ "                   stdout (root only).\n"
-#~ msgstr ""
-#~ "  --headers      - extrae cabeceras para paquetes listados desde la\n"
-#~ "                   bd de urpmi a stdout (sólo root).\n"
-
-#~ msgid ""
-#~ "To satisfy dependencies, the following %d packages are going to be "
-#~ "installed (%d MB)"
-#~ msgstr ""
-#~ "Para satisfacer las dependencias, se instalarán los %d paquetes "
-#~ "siguientes (%d MB)"
-
-#~ msgid "installing %s\n"
-#~ msgstr "instalando %s\n"
-
-#~ msgid ""
-#~ "Automatic installation of packages...\n"
-#~ "You requested installation of package %s\n"
-#~ msgstr ""
-#~ "Instalación automática de paquetes...\n"
-#~ "Pidió la instalación del paquete %s\n"
-
-#~ msgid "%s: command not found\n"
-#~ msgstr "%s: comando no encontrado\n"
-
-#~ msgid ""
-#~ "Some package requested cannot be installed:\n"
-#~ "%s\n"
-#~ "Continue?"
-#~ msgstr ""
-#~ "No se puede instalar algún paquete pedido:\n"
-#~ "%s\n"
-#~ "¿Continuar?"
-
-#~ msgid ""
-#~ "The following packages have to be removed for others to be upgraded:\n"
-#~ "%s\n"
-#~ "Continue?"
-#~ msgstr ""
-#~ "Se tienen que quitar los paquetes siguientes para poder actualizar "
-#~ "otros:\n"
-#~ "%s ¿Continuar?"
-
-#~ msgid "md5sum mismatch"
-#~ msgstr "no concuerda md5sum"
-
-#~ msgid ""
-#~ "urpmf version %s\n"
-#~ "Copyright (C) 2002-2004 Mandriva.\n"
-#~ "This is free software and may be redistributed under the terms of the GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "usage:\n"
-#~ msgstr ""
-#~ "urmpf versión %s\n"
-#~ "Copyright © 2002-2004 Mandriva.\n"
-#~ "Esto es software libre y se debe redistribuir bajo los términos de la GNU "
-#~ "GPL.\n"
-#~ "\n"
-#~ "uso:\n"
-
-#~ msgid "  --synthesis    - use the synthesis given instead of urpmi db.\n"
-#~ msgstr ""
-#~ "  --synthesis    - usar la síntesis provista en vez de la base de datos "
-#~ "de urpmi.\n"
-
-#~ msgid ""
-#~ "  --quiet        - do not print tag name (default if no tag given on "
-#~ "command\n"
-#~ "                   line, incompatible with interactive mode).\n"
-#~ msgstr ""
-#~ "  --quiet         - no imprime nombre de etiqueta (por defecto si no se "
-#~ "proporciona\n"
-#~ "etiqueta en la línea de comandos, incompatible con modo interactivo)\n"
-
-#~ msgid "  --uniq         - do not print identical lines.\n"
-#~ msgstr "  --uniq         - no imprime líneas idénticas.\n"
-
-#~ msgid "  --all          - print all tags.\n"
-#~ msgstr "  --all           - imprime todas las etiquetas.\n"
-
-#~ msgid "  --summary      - print tag summary: summary.\n"
-#~ msgstr "  --summary       - imprime etiqueta resumen: summary.\n"
-
-#~ msgid "  --description  - print tag description: description.\n"
-#~ msgstr "  --description   - imprime etiqueta de descripción: description.\n"
-
-#~ msgid "  --buildhost    - print tag buildhost: build host.\n"
-#~ msgstr ""
-#~ "  --buildhost    - imprime etiq. buildhost: máquina en la que se "
-#~ "construyó.\n"
-
-#~ msgid "  --provides     - print tag provides: all provides.\n"
-#~ msgstr "  --provides      - imprime etiq. provides: todo que proporciona.\n"
-
-#~ msgid "  --requires     - print tag requires: all requires.\n"
-#~ msgstr "  --requires      - imprime etiq. requires: todo que precisa.\n"
-
-#~ msgid "  --files        - print tag files: all files.\n"
-#~ msgstr "  --files         - imprime etiq. archivos: todos archivos.\n"
-
-#~ msgid "  --obsoletes    - print tag obsoletes: all obsoletes.\n"
-#~ msgstr "  --obsoletes     - imprime etiq. obsoletes: todo lo obsoleto.\n"
-
-#~ msgid ""
-#~ "  --env          - use specific environment (typically a bug\n"
-#~ "                   report).\n"
-#~ msgstr ""
-#~ "  --env          - usar entorno específico (típicamente para reportar\n"
-#~ "                   bugs).\n"
-
-#~ msgid "  -i             - ignore case distinctions in every pattern.\n"
-#~ msgstr ""
-#~ "  -i             - ignora distinción entre mayús. y minús. en todos los "
-#~ "patrones.\n"
-
-#~ msgid ""
-#~ "  -a             - binary AND operator, true if both expression are "
-#~ "true.\n"
-#~ msgstr ""
-#~ "  -a             - operador binario Y, verdadero si ambas expresiones son "
-#~ "verdaderas.\n"
-
-#~ msgid ""
-#~ "  -o             - binary OR operator, true if one expression is true.\n"
-#~ msgstr ""
-#~ "  -o             - operador O binario, verdadero si una expresión es "
-#~ "verdadera.\n"
-
-#~ msgid "  !              - unary NOT, true if expression is false.\n"
-#~ msgstr "  !              - NO unario, verdadero si la expresión es falsa.\n"
-
-#~ msgid "  (              - left parenthesis to open group expression.\n"
-#~ msgstr ""
-#~ "  (              - paréntesis izquierdo para abrir grupo de expresiones.\n"
-
-#~ msgid "  )              - right parenthesis to close group expression.\n"
-#~ msgstr ""
-#~ "  )              - paréntesis derecho para cerrar grupo de expresiones.\n"
-
-#~ msgid ""
-#~ "callback is:\n"
-#~ "%s\n"
-#~ msgstr ""
-#~ "callback es :\n"
-#~ "%s\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "Continue?"
-#~ msgstr ""
-#~ "\n"
-#~ "¿Continuar?"
-
-#~ msgid ""
-#~ "Some package requested cannot be installed:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "No se puede instalar algún paquete pedido:\n"
-#~ "%s"
