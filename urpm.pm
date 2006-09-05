@@ -2899,6 +2899,7 @@ sub extract_packages_to_install {
     \%inst;
 }
 
+# size of the installation progress bar
 my $progress_size = 45;
 eval {
     require Term::ReadKey;
@@ -2907,18 +2908,20 @@ eval {
     $progress_size < 5 and $progress_size = 5;
 };
 
-#- install logger (a la rpm)
+# install logger callback
 sub install_logger {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
     my $pkg = defined $id && $urpm->{depslist}[$id];
     my $total_pkg = $urpm->{nb_install};
+    local $| = 1;
 
     if ($subtype eq 'start') {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
 	    $urpm->{logger_id} ||= 0;
 	    $urpm->{logger_count} ||= 0;
-	    printf("%-33s", N("Preparing..."));
+	    my $p = N("Preparing...");
+	    print $p, " " x (33 - length $p);
 	} else {
 	    ++$urpm->{logger_id};
 	    my $pname = $pkg ? $pkg->name : '';
@@ -2930,7 +2933,7 @@ sub install_logger {
     } elsif ($subtype eq 'stop') {
 	if ($urpm->{logger_progress} < $progress_size) {
 	    print '#' x ($progress_size - $urpm->{logger_progress});
-	    print "\n";
+	    print "\n" if $progress_size != $urpm->{logger_progress};
 	}
     } elsif ($subtype eq 'progress') {
 	my $new_progress = $total > 0 ? int($progress_size * $amount / $total) : $progress_size;
