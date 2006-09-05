@@ -3072,7 +3072,7 @@ sub install {
 	#- keep safe exit now (with destructor call).
 	exit 0;
     } else { #- parent process
-	if (keys %readmes) {
+	if ($::verbose >= 0 && keys %readmes) {
 	    foreach (keys %readmes) {
 		print "-" x 70, "\n", N("More information on package %s", $readmes{$_}), "\n";
 		my $fh; open $fh, '<', $_ and do {
