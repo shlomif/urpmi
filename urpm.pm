@@ -784,7 +784,7 @@ sub add_distrib_media {
 	$urpm->try_mounting($url)
 	    or $urpm->{error}(N("unable to access first installation medium")), return ();
 
-    $distribconf->load() or $urpm->{error}(N("this url seems to not contains any distrib")), return ();
+    $distribconf->load() or $urpm->{error}(N("this url seems to not contain any distrib")), return ();
 
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
@@ -847,23 +847,24 @@ sub add_distrib_media {
         $skip and next;
 
         my $media_name = $distribconf->getvalue($media, 'name') || '';
+	my $is_update_media = $distribconf->getvalue($media, 'updates_for');
 
-        push @newnames, $urpm->add_medium(
-            $name ? "$media_name ($name$medium)" : $media_name,
-            reduce_pathname($distribconf->getfullpath($media, 'path')),
-            offset_pathname(
-                $url,
-                $distribconf->getpath($media, 'path')
-	    ) . '/' . $distribconf->getpath($media,
-                ($options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist')
-            ),
-            index_name => $name ? undef : 0,
-            no_reload_config => 1, #- no need to reload config each time, since we don't update the media
-            %options,
-        );
-        ++$medium;
+	push @newnames, $urpm->add_medium(
+	    $name ? "$media_name ($name$medium)" : $media_name,
+	    reduce_pathname($distribconf->getfullpath($media, 'path')),
+	    offset_pathname(
+		$url,
+		$distribconf->getpath($media, 'path')
+	    ) . '/' . $distribconf->getpath( $media, ($options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist') ),
+	    index_name => $name ? undef : 0,
+	    no_reload_config => 1, #- no need to reload config each time, since we don't update the media
+	    %options,
+	    # the following override %options
+	    update => $is_update_media ? 1 : 0,
+	);
+	++$medium;
     }
-	return @newnames;
+    return @newnames;
 }
 
 sub select_media {
