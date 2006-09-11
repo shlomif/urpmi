@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-06-30 14:05+0200\n"
-"PO-Revision-Date: 2006-04-07 07:54+0700\n"
+"PO-Revision-Date: 2006-08-05 08:09+0700\n"
 "Last-Translator: Willy Sudiarto Raharjo <willysr@gmail.com>\n"
 "Language-Team: Indonesia <mdk-id@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -137,7 +137,7 @@ msgstr "Ok"
 
 #: ../gurpmi2:102
 msgid "Warning"
-msgstr ""
+msgstr "Peringatan"
 
 #: ../gurpmi2:142
 msgid " (to upgrade)"
@@ -532,13 +532,12 @@ msgid "unable to access first installation medium"
 msgstr "gagal mengakses media instalasi pertama"
 
 #: ../urpm.pm:786
-msgid "this url seems to not contains any distrib"
-msgstr ""
+msgid "this url seems to not contain any distrib"
+msgstr "URL ini tampaknya tidak mengandung sembarang distrib"
 
 #: ../urpm.pm:796
-#, fuzzy
 msgid "retrieving media.cfg file..."
-msgstr "mengambil file hdlist..."
+msgstr "menerima file media.cfg..."
 
 #: ../urpm.pm:808 ../urpm.pm:1621 ../urpm.pm:2122 ../urpm.pm:2840
 msgid "...retrieving done"
@@ -550,9 +549,8 @@ msgid "...retrieving failed: %s"
 msgstr "...pengambilan gagal: %s"
 
 #: ../urpm.pm:813
-#, fuzzy
 msgid "unable to parse media.cfg"
-msgstr "gagal membuka rpmdb"
+msgstr "tidak dapat mengolah media.cfg"
 
 #: ../urpm.pm:815
 msgid "unable to access first installation medium (no hdlists file found)"
@@ -1034,7 +1032,7 @@ msgstr "urpmq: tidak dapat membaca file rpm \"%s\"\n"
 
 #: ../urpm/args.pm:415
 msgid "Too many arguments\n"
-msgstr ""
+msgstr "Terlalu banyak argumen\n"
 
 #. Translator: Add here the keys which might be pressed in the "No"-case.
 #: ../urpm/msg.pm:48 ../urpme:32 ../urpmi:468 ../urpmi:486 ../urpmi:524
@@ -1342,10 +1340,8 @@ msgstr ""
 "  -i             - abaikan perbedaan huruf besar/kecil dalam setiap pola.\n"
 
 #: ../urpmf:46
-#, fuzzy
 msgid "  -I             - honor case distinctions in patterns (default).\n"
-msgstr ""
-"  -i             - abaikan perbedaan huruf besar/kecil dalam setiap pola.\n"
+msgstr "  -I             - menerima perbedaan huruf besar/kecil pada pola (default).\n"
 
 #: ../urpmf:47
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
@@ -1781,6 +1777,8 @@ msgid ""
 "Error: To generate a bug report, specify the usual command-line arguments\n"
 "along with --bug.\n"
 msgstr ""
+"Kesalahan: Untuk menghasilkan laporan kesalahan, tentukan argumen perintah baris\n"
+"bersamaan dengan --bug.\n"
 
 #: ../urpmi:204
 msgid "You can't install binary rpm files when using --install-src"
@@ -1951,9 +1949,8 @@ msgstr "menginstall %s"
 
 #. - Warning : the following message is parsed in urpm::parallel_*
 #: ../urpmi:737
-#, fuzzy
 msgid "Installation failed:"
-msgstr "Instalasi gagal"
+msgstr "Instalasi gagal:"
 
 #: ../urpmi:745
 msgid "Try installation without checking dependencies? (y/N) "
@@ -1982,7 +1979,6 @@ msgstr "jalankan ulang urpmi"
 #. Translator: neither the ``with''.
 #. Translator: only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:35
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]\n"
 "where <url> is one of\n"
@@ -1995,12 +1991,12 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"pemakaian: urpmi.addmedia [opsi] <nama> <url> [with <path_relatif>]\n"
-"dimana: <url> adalah\n"
-"       [file:/]/<path> with <namafile relatif hdlist>\n"
-"       ftp://<login>:<sandi>@<host>/<path> with <namafile relatif hdlist>\n"
-"       ftp://<host>/<path> with <namafile relatif hdlist>\n"
-"       http://<host>/<path> with <namafile relatif hdlist>\n"
+"pemakaian: urpmi.addmedia [opsi] <nama> <url> [dengan <path_relatif>]\n"
+"dimana: <url> adalah salah satu dari\n"
+"       [file:/]/<path> dengan <namafile relatif dari hdlist>\n"
+"       ftp://<login>:<katasandi>@<host>/<path> dengan <namafile relatif dari hdlist>\n"
+"       ftp://<host>/<path> dengan <namafile relatif dari hdlist>\n"
+"       http://<host>/<path> dengan <namafile relatif dari hdlist>\n"
 "       removable://<path>\n"
 "\n"
 "dan [opsi] dari\n"
@@ -2034,12 +2030,11 @@ msgstr ""
 
 #: ../urpmi.addmedia:59
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
-msgstr ""
+msgstr "  --interactive  - dengan --distrib, menanyakan konfirmasi untuk setiap media\n"
 
 #: ../urpmi.addmedia:60
-#, fuzzy
 msgid "  --all-media    - with --distrib, add every listed media\n"
-msgstr "  --list-media   - daftar media tersedia.\n"
+msgstr "  --all-media    - dengan --distrib, menambahkan semua media yang terdaftar\n"
 
 #: ../urpmi.addmedia:61
 #, c-format
@@ -2110,6 +2105,8 @@ msgid ""
 "\n"
 "Do you want to add media '%s'"
 msgstr ""
+"\n"
+"Apakah Anda hendak menambahkan media '%s'"
 
 #: ../urpmi.addmedia:163
 msgid "<relative path of hdlist> missing\n"
