@@ -860,7 +860,7 @@ sub add_distrib_media {
 	    no_reload_config => 1, #- no need to reload config each time, since we don't update the media
 	    %options,
 	    # the following override %options
-	    update => $is_update_media ? 1 : 0,
+	    update => $is_update_media ? 1 : undef,
 	);
 	++$medium;
     }
