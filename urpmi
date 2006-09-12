@@ -357,7 +357,7 @@ if ($auto_update && !$bug && !$env) {
 	quiet => $verbose < 0,
     );
     foreach (@{$urpm->{media} || []}) {
-	$_->{modified} and delete $_->{ignore};
+	$_->{tempignore} and delete $_->{ignore};
     }
 }
 

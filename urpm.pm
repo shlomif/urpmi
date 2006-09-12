@@ -526,7 +526,7 @@ sub configure {
 	    $urpm->select_media(split /,/, $options{media});
 	    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
 		#- this is only a local ignore that will not be saved.
-		$_->{ignore} = 1;
+		$_->{tempignore} = $_->{ignore} = 1;
 	    }
 	}
 	if ($options{searchmedia}) {
@@ -543,7 +543,7 @@ sub configure {
 	    $urpm->select_media(split /,/, $options{excludemedia});
 	    foreach (grep { $_->{modified} } @{$urpm->{media} || []}) {
 		#- this is only a local ignore that will not be saved.
-		$_->{ignore} = 1;
+		$_->{tempignore} = $_->{ignore} = 1;
 	    }
 	}
 	if ($options{sortmedia}) {
