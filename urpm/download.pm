@@ -304,6 +304,7 @@ sub sync_curl {
 
 	#- prepare to get back size and time stamp of each file.
 	open my $curl, join(" ", map { "'$_'" } "/usr/bin/curl",
+	    "-q", # don't read .curlrc; some toggle options might interfer
 	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
@@ -362,6 +363,7 @@ sub sync_curl {
 	my @l = (@ftp_files, @other_files);
 	my ($buf, $file); $buf = '';
 	my $curl_pid = open my $curl, join(" ", map { "'$_'" } "/usr/bin/curl",
+	    "-q", # don't read .curlrc; some toggle options might interfer
 	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 	    ($options->{resume} ? ("--continue-at", "-") : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
