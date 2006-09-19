@@ -12,7 +12,7 @@ use urpm::sys;
 use urpm::cfg;
 use MDV::Distribconf;
 
-our $VERSION = '4.8.26';
+our $VERSION = '4.8.27';
 our @ISA = qw(URPM);
 
 use URPM;
