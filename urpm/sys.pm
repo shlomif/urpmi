@@ -3,6 +3,8 @@ package urpm::sys;
 # $Id$
 
 use strict;
+use warnings;
+use POSIX ();
 
 (our $VERSION) = q$Revision$ =~ /(\d+)/;
 
@@ -166,6 +168,19 @@ sub mktempdir {
 	$tmpdir = File::Temp::tempdir($tempdir_template);
     }
     return $tmpdir;
+}
+
+# temporary hack used by urpmi when restarting itself.
+sub fix_fd_leak {
+    opendir my $dirh, "/proc/$$/fd" or return undef;
+    my @fds = grep { /^(\d+)$/ && $1 > 2 } readdir $dirh;
+    closedir $dirh;
+    for (@fds) {
+	my $link = readlink("/proc/$$/fd/$_");
+	$link or next;
+	next if $link =~ m(^/(usr|dev)/) || $link !~ m(^/);
+	POSIX::close($_);
+    }
 }
 
 1;

@@ -171,10 +171,15 @@ if (grep { $_ eq '--restricted' } @ARGV) {
 # Parse command line options
 urpm::args::parse_cmdline(urpm => $urpm);
 
+if (@ARGV && $auto_select) {
+    print STDERR N("Error: can't use --auto-select along with package list.\n");
+    exit 1;
+}
+
 # Verify that arguments were given
 unless (@ARGV || $auto_select) {
     if ($urpm::args::options{bug}) {
-	print N("Error: To generate a bug report, specify the usual command-line arguments
+	print STDERR N("Error: To generate a bug report, specify the usual command-line arguments
 along with --bug.\n");
 	exit 1;
     }
@@ -312,6 +317,10 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
     # we were run with --no-priority-upgrade (we were just restarted.)
     # so, no need to update the media again
     $auto_update = 0;
+    # temporary hack : if we were using an old version of URPM, file handles
+    # might have leaked, so close them (with some heuristics.)
+    require urpm::sys;
+    urpm::sys::fix_fd_leak();
     # also, clean up rpm db log files, because rpm might have been upgraded
     unlink </var/lib/rpm/__db.00?> unless $root;
 }
