@@ -18,14 +18,6 @@ our @ISA = qw(URPM);
 use URPM;
 use URPM::Resolve;
 
-BEGIN {
-    # this doesn't work for perls >= 5.9.4
-    if ($ENV{DEBUG_URPMI}) {
-	require encoding::warnings;
-	encoding::warnings->import;
-    }
-}
-
 #- this violently overrides is_arch_compat() to always return true.
 sub shunt_ignorearch {
     eval q( sub URPM::Package::is_arch_compat { 1 } );
@@ -774,15 +766,16 @@ sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
 
     #- make sure configuration has been read.
-    # (Olivier Thauvin): Is this a workaround ?
     $urpm->{media} or $urpm->read_config;
 
     my $distribconf;
 
     if (my ($dir) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
+	# FIXME obscure error message
 	$urpm->try_mounting($dir)
 	    or $urpm->{error}(N("unable to access first installation medium")), return ();
 	$distribconf = MDV::Distribconf->new($dir);
+	# FIXME ugly error message
 	$distribconf->load() or $urpm->{error}(N("this url seems to not contain any distrib")), return ();
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
