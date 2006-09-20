@@ -777,18 +777,17 @@ sub add_distrib_media {
     # (Olivier Thauvin): Is this a workaround ?
     $urpm->{media} or $urpm->read_config;
 
-    my $distribconf = MDV::Distribconf->new($url);
+    my $distribconf;
 
     if (my ($dir) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
-
-	$urpm->try_mounting($url)
+	$urpm->try_mounting($dir)
 	    or $urpm->{error}(N("unable to access first installation medium")), return ();
-
-    $distribconf->load() or $urpm->{error}(N("this url seems to not contain any distrib")), return ();
-
+	$distribconf = MDV::Distribconf->new($dir);
+	$distribconf->load() or $urpm->{error}(N("this url seems to not contain any distrib")), return ();
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
 
+	$distribconf = MDV::Distribconf->new($url);
 	$distribconf->settree('mandriva');
 
 	eval {
