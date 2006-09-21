@@ -771,12 +771,11 @@ sub add_distrib_media {
     my $distribconf;
 
     if (my ($dir) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
-	# FIXME obscure error message
 	$urpm->try_mounting($dir)
-	    or $urpm->{error}(N("unable to access first installation medium")), return ();
+	    or $urpm->{error}(N("unable to mount the distribution medium")), return ();
 	$distribconf = MDV::Distribconf->new($dir);
-	# FIXME ugly error message
-	$distribconf->load() or $urpm->{error}(N("this url seems to not contain any distrib")), return ();
+	$distribconf->load()
+	    or $urpm->{error}(N("this location doesn't seem to contain any distribution")), return ();
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
 
@@ -803,7 +802,7 @@ sub add_distrib_media {
 	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
 		or $urpm->{error}(N("unable to parse media.cfg")), return();
 	} else {
-	    $urpm->{error}(N("unable to access first installation medium (no hdlists file found)"));
+	    $urpm->{error}(N("unable to access the distribution medium (no media.cfg file found)"));
 	    return ();
 	}
     }
