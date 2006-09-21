@@ -110,9 +110,11 @@ usage:
                    to install a chroot with --root option.
 ") . N("  --wget         - use wget to retrieve distant files.
 ") . N("  --curl         - use curl to retrieve distant files.
+") . N("  --prozilla     - use prozilla to retrieve distant files.
 ") . N("  --curl-options - additional options to pass to curl
 ") . N("  --rsync-options- additional options to pass to rsync
 ") . N("  --wget-options - additional options to pass to wget
+") . N("  --prozilla-options - additional options to pass to prozilla
 ") . N("  --limit-rate   - limit the download speed.
 ") . N("  --resume       - resume transfer of partially-downloaded files
                    (--no-resume disables it, default is disabled).
@@ -220,7 +222,7 @@ if ($restricted) {
     foreach (qw(keep verify-rpm norebuild)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
     urpm::error_restricted($urpm) if $root || $usedistrib || $force || $env || $parallel || $synthesis || $auto_update;
-    foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options noscripts)) {
+    foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options prozilla-options noscripts)) {
 	urpm::error_restricted($urpm) if $urpm->{options}{$_};
     }
 }

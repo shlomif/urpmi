@@ -96,11 +96,11 @@ _urpmi()
 			--update --media --excludemedia --sortmedia \
 			--synthesis --auto --auto-select --no-uninstall \
 			--split-level --split-length --fuzzy --src \
-			--install-src --clean --noclean --parallel --wget \
+			--install-src --clean --noclean --parallel --wget --prozilla \
 			--curl --limit-rate --proxy --proxy-user --bug \
 			--no-verify-rpm --no-install --test --excludepath \
 			--excludedocs --searchmedia --ignoresize --ignorearch \
-			--strict-arch --wget-options --curl-options \
+			--strict-arch --wget-options --curl-options --prozilla-options \
 			--rsync-options --resume --retry --skip --nolock \
 			--more-choices' -- $cur ) )
 		# add dangereous option for everything else as rurpmi
@@ -165,7 +165,7 @@ _urpmq()
 			-r -f -h -l --help --update --media --excludemedia \
 			--sortmedia --synthesis --auto-select --fuzzy --keep \
 			--list --list-url --list-media --list-nodes --list-aliases \
-			--src --sources --force --parallel --wget --curl \
+			--src --sources --force --parallel --wget --curl --prozilla \
 			--changelog --proxy --proxy-user --env --dump-config \
 			--use-distrib --searchmedia --ignorearch' -- $cur))
 	else
@@ -249,7 +249,7 @@ _urpmi_update()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W '-a -c -f -q -v --help --wget \
+		COMPREPLY=( $( compgen -W '-a -c -f -q -v --help --wget --prozilla \
 			--curl --limit-rate --proxy --proxy-user --update \
 			--ignore --no-ignore \
 			--no-md5sum --force-key --norebuild' \
@@ -272,7 +272,7 @@ _urpmi_addmedia()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W '-c -f -h -v -q --help --wget --curl \
+		COMPREPLY=( $( compgen -W '-c -f -h -v -q --help --wget --curl --prozilla \
 			--limit-rate --proxy --proxy-user --update --raw \
 			--probe-synthesis --probe-hdlist --no-probe --distrib \
 			--env --version --arch --virtual --norebuild --nopubkey' -- $cur ) )

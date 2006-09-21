@@ -72,12 +72,15 @@ sub sync_webfetch {
 	$urpm->{fatal}(10, $@) if $@;
 	delete @files{qw(removable file)};
     }
-    for my $cpt (qw(wget-options curl-options rsync-options)) {
+    for my $cpt (qw(wget-options curl-options rsync-options prozilla-options)) {
 	$options->{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
     if ($files{ftp} || $files{http} || $files{https}) {
-	my @webfetch = qw(curl wget);
-	my @available_webfetch = grep { -x "/usr/bin/$_" || -x "/bin/$_" } @webfetch;
+	my @webfetch = qw(curl wget prozilla);
+	my %webfetch_executables = (curl => 'curl', wget => 'wget', prozilla => 'proz');
+	my @available_webfetch = grep {
+	    -x "/usr/bin/$webfetch_executables{$_}" || -x "/bin/$webfetch_executables{$_}"
+	} @webfetch;
 	#- use user default downloader if provided and available
 	my $option_downloader = $urpm->{options}{downloader}; #- cmd-line switch
 	if (!$option_downloader && $options->{media}) { #- per-media config
@@ -98,6 +101,8 @@ sub sync_webfetch {
 	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} elsif ($preferred eq 'wget') {
 	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
+	} elsif ($preferred eq 'prozilla') {
+	    sync_prozilla($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	} else {
 	    die N("no webfetch found, supported webfetch are: %s\n", join(", ", @webfetch));
 	}
@@ -179,6 +184,7 @@ sub read_config {
 	    curl-options
 	    rsync-options
 	    wget-options
+	    prozilla-options
 	)) {
 	    if (defined $config->{''}{$opt} && !exists $urpm->{options}{$opt}) {
 		$urpm->{options}{$opt} = $config->{''}{$opt};

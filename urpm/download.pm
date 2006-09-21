@@ -512,6 +512,30 @@ sub sync_ssh {
     sync_rsync($options, @_);
 }
 
+sub sync_prozilla {
+    -x "/usr/bin/proz" or die N("prozilla is missing\n");
+    my $options = shift;
+    $options = { dir => $options } if !ref $options;
+    #- force download to be done in cachedir to avoid polluting cwd.
+    (my $cwd) = getcwd() =~ /(.*)/;
+    chdir $options->{dir};
+    my $proz_command = join(" ", map { "'$_'" }
+	"/usr/bin/proz",
+	"--no-curses",
+	(defined $options->{'prozilla-options'} ? split /\s+/, $options->{'prozilla-options'} : ()),
+	@_
+    );
+    my $ret = system($proz_command);
+    chdir $cwd;
+    if ($ret) {
+	if ($? == -1) {
+	    die N("Couldn't execute prozilla\n");
+	} else {
+	    die N("prozilla failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+	}
+    }
+}
+
 sub start_ssh_master {
     my ($server, $user) = @_;
     $server or return 0;
