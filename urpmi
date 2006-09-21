@@ -717,7 +717,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		#- there's a common prefix, simplify message
 		print N("installing %s from %s", join(' ', map { s/.*\///; $_ } @packnames), $common_prefix), "\n";
 	    } else {
-		print N("installing %s", "@packnames"), "\n";
+		print N("installing %s", join "\n", @packnames), "\n";
 	    }
 	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : ($set->{remove} || []);
 	    @$to_remove and print N("removing %s", "@$to_remove"), "\n";
