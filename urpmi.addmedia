@@ -76,6 +76,8 @@ and [options] are from
     exit 0;
 }
 
+my $sync_logger = sub {};
+
 #- remove quietly the failing media.
 sub remove_failed {
     my ($urpm, @media) = @_;
@@ -83,7 +85,7 @@ sub remove_failed {
 	print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @media);
 	local $urpm->{log} = sub {};
 	$urpm->remove_selected_media;
-	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+	$urpm->update_media(%options, callback => $sync_logger);
 	exit(1);
     }
 }
@@ -109,6 +111,7 @@ our ($name, $url, $with, $relative_hdlist) = our @cmdline;
 
 #- remove verbose if not asked.
 $options{verbose} > 0 or $urpm->{log} = sub {};
+$sync_logger = \&urpm::download::sync_logger if $options{verbose} > 1;
 
 $url or ($url, $name) = ($name, '');
 my ($type) = $url =~ m,^(([^:]*):/)?/, or usage;
@@ -155,7 +158,7 @@ if ($options{distrib}) {
 	remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 	exit(1);
     };
-    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+    $urpm->update_media(%options, callback => $sync_logger);
     remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 
 } else {
@@ -183,7 +186,7 @@ if ($options{distrib}) {
 	    remove_failed($urpm, grep { $_->{name} eq $name && $_->{modified} } @{$urpm->{media}});
 	    exit(1);
 	};
-	$urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+	$urpm->update_media(%options, callback => $sync_logger);
 	#- check creation of media
 	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
 	$medium or die N("unable to create medium \"%s\"\n", $name);
