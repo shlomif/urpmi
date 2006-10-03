@@ -85,7 +85,7 @@ sub sync_webfetch {
 	my $option_downloader = $urpm->{options}{downloader}; #- cmd-line switch
 	if (!$option_downloader && $options->{media}) { #- per-media config
 	    (my $m) = grep { $_->{name} eq $options->{media} } @{$urpm->{media}};
-	    ref $m && $m->{downloader} and $option_downloader = $m->{downloader};
+	    ref $m && defined $m->{downloader} and $option_downloader = $m->{downloader};
 	}
 	#- global config
 	!$option_downloader && exists $urpm->{global_config}{downloader}
@@ -406,7 +406,7 @@ sub write_config {
 	next if $medium->{external};
 	my $medium_name = $medium->{name};
 	$config->{$medium_name}{url} = $medium->{clear_url};
-	foreach (qw(hdlist with_hdlist list removable key-ids priority priority-upgrade update noreconfigure static ignore synthesis virtual)) {
+	foreach (qw(hdlist with_hdlist list removable key-ids priority priority-upgrade update noreconfigure static ignore synthesis virtual downloader)) {
 	    defined $medium->{$_} and $config->{$medium_name}{$_} = $medium->{$_};
 	}
     }
