@@ -5,6 +5,7 @@ urpmi - rpm downloader, installer and dependency solver
 =head1 SYNOPSIS
 
     urpmi [options] [package_names | rpm_files...]
+    urpmi [options] --auto-select
 
 =head1 DESCRIPTION
 
@@ -106,6 +107,14 @@ Like B<--auto-select>, but also updates all relevant media before
 selection of upgradeable packages is made. This avoids a previous call to
 C<urpmi.update>.
 
+=item B<--no-md5sum>
+
+Disable MD5SUM file checking when updating media.
+
+=item B<--force-key>
+
+Force update of GPG key when updating media.
+
 =item B<--no-install>
 
 Only download packages, don't install them. After operation, you'll find
@@ -180,6 +189,11 @@ With this option, urpmi will ask the user on error whether it should
 proceed to a forced installation. By default, urpmi exits immediately in
 this case.
 
+=item B<--allow-medium-change>
+
+When used when B<--auto>, do not suppress all questions, but still ask the
+user for medium changes (e.g. insertion of CD-ROMs).
+
 =item B<--parallel> I<alias>
 
 Activate distributed execution of urpmi to other machines (it is mandatory
@@ -187,7 +201,8 @@ that urpmi is installed, but it is not necessary to have media defined on
 any machines). I<alias> defines which extension module is to be used by
 urpmi (currently, C<urpmi-parallel-ka-run> or C<urpmi-parallel-ssh> are
 available) and which machines should be updated. This alias is defined in
-the file F</etc/urpmi/parallel.cfg> as described below.
+the file F</etc/urpmi/parallel.cfg> as described in the L<urpmi.files>
+manpage.
 
 =item B<--root> I<directory>
 

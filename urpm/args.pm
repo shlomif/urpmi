@@ -147,6 +147,8 @@ my %options_spec = (
 	'expect-install!' => \$::expect_install,
 	'nolock' => \$::nolock,
 	restricted => \$::restricted,
+	'no-md5sum' => \$::nomd5sum,
+	'force-key' => \$::forcekey,
 	a => \$::all,
 	q => sub { --$::verbose; $::rpm_opt = '' },
 	v => sub { ++$::verbose; $::rpm_opt = 'vh' },
