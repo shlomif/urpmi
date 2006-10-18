@@ -102,7 +102,7 @@ _urpmi()
 			--excludedocs --searchmedia --ignoresize --ignorearch \
 			--strict-arch --wget-options --curl-options --prozilla-options \
 			--rsync-options --resume --retry --skip --nolock \
-			--more-choices' -- $cur ) )
+			--more-choices --no-md5sum --force-key' -- $cur ) )
 		# add dangereous option for everything else as rurpmi
 		if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
 			COMPREPLY=( $( compgen -W '${COMPREPLY[@]} --root \
