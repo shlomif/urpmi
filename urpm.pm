@@ -826,7 +826,7 @@ sub add_distrib_media {
     foreach my $media ($distribconf->listmedia()) {
         my $skip = 0;
 	# if one of those values is set, by default, we skip adding the media
-	foreach (qw(suppl askmedia noauto)) {
+	foreach (qw(noauto)) {
 	    $distribconf->getvalue($media, $_) and do {
 		$skip = 1;
 		last;
