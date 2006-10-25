@@ -120,6 +120,7 @@ sub configure_urpm {
     $urpm->exlock_rpm_db;
     $urpm->shlock_urpmi_db;
     $urpm->configure(
+	root	    => $gurpmi::options{root},
 	media	    => $gurpmi::options{media},
 	searchmedia => $gurpmi::options{searchmedia},
     );

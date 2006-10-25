@@ -35,6 +35,7 @@ Options :
     --auto-select
     --no-verify-rpm
     --media media1,...
+    --root root
     --searchmedia media1,...
 USAGE
     exit 0;
@@ -69,7 +70,7 @@ sub parse_command_line {
 		$options{$1} = 1;
 		next;
 	    }
-	    if (/^--(media|searchmedia)$/) {
+	    if (/^--(media|searchmedia|root)$/) {
 		$nextopt = $1;
 		next;
 	    }
