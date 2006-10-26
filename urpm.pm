@@ -94,6 +94,7 @@ sub _sync_webfetch_raw {
     if ($files{ftp} || $files{http} || $files{https}) {
 	my @webfetch = qw(curl wget prozilla);
 	my %webfetch_executables = (curl => 'curl', wget => 'wget', prozilla => 'proz');
+	my %webfetch_funcs = (curl => \&sync_curl, wget => \&sync_wget, prozilla => \&sync_prozilla);
 	my @available_webfetch = grep {
 	    -x "/usr/bin/$webfetch_executables{$_}" || -x "/bin/$webfetch_executables{$_}";
 	} @webfetch;
@@ -113,15 +114,9 @@ sub _sync_webfetch_raw {
 	    $urpm->{log}(N("%s is not available, falling back on %s", $option_downloader, $preferred));
 	    $webfetch_not_available = 1;
 	}
-	if ($preferred eq 'curl') {
-	    sync_curl($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
-	} elsif ($preferred eq 'wget') {
-	    sync_wget($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
-	} elsif ($preferred eq 'prozilla') {
-	    sync_prozilla($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
-	} else {
-	    die N("no webfetch found, supported webfetch are: %s\n", join(", ", @webfetch));
-	}
+	my $sync = $webfetch_funcs{$preferred} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", @webfetch));
+	$sync->($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
+
 	delete @files{qw(ftp http https)};
     }
     if ($files{rsync}) {
