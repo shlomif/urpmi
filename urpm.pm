@@ -63,12 +63,15 @@ sub sync_webfetch {
 	dir => "$urpm->{cachedir}/partial",
 	limit_rate => $std_options->{limit_rate},
 	compress => $std_options->{compress},
-	retry => $urpm->{options}{retry},
 	proxy => get_proxy($medium),
 	quiet => $std_options->{quiet}, #- often overridden in the caller, why??
 	$medium ? (media => $medium->{name}) : (),
 	%more_options,
     );
+    foreach my $cpt (qw(retry wget-options curl-options rsync-options prozilla-options)) {
+	$options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
+    }
+
     _sync_webfetch_raw($urpm, $files, \%options);
 }
 
@@ -87,9 +90,6 @@ sub _sync_webfetch_raw {
 	eval { sync_file($options, @l) };
 	$urpm->{fatal}(10, $@) if $@;
 	delete @files{qw(removable file)};
-    }
-    foreach my $cpt (qw(wget-options curl-options rsync-options prozilla-options)) {
-	$options->{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
     if ($files{ftp} || $files{http} || $files{https}) {
 	my @webfetch = qw(curl wget prozilla);
