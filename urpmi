@@ -193,7 +193,7 @@ along with --bug.\n");
 }
 
 # Process the rest of the arguments
-while (defined($_ = shift @ARGV)) {
+foreach (@ARGV) {
     if (/\.(?:rpm|spec)$/) {
 	if (/\.(?:src\.rpm|spec)$/) {
 	    push @src_files, $_;
