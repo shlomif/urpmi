@@ -3281,7 +3281,7 @@ sub translate_why_removed {
     map {
 	my ($from) = keys %{$state->{rejected}{$_}{closure}};
 	my ($whyk) = keys %{$state->{rejected}{$_}{closure}{$from}};
-	my ($whyv) = $state->{rejected}{$_}{closure}{$from}{$whyk};
+	my $whyv = $state->{rejected}{$_}{closure}{$from}{$whyk};
 	my $frompkg = $urpm->search($from, strict_fullname => 1);
 	my $s;
 	for ($whyk) {
