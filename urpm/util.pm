@@ -9,7 +9,7 @@ our @EXPORT = qw(quotespace unquotespace
     remove_internal_name
     reduce_pathname offset_pathname
     md5sum untaint
-    difference2
+    difference2 member
 );
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -109,6 +109,7 @@ sub move {
 }
 
 sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
+sub member { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
 
 1;
 
