@@ -7,7 +7,7 @@ use urpm::msg;
 use urpm::cfg;
 use Cwd;
 
-(our $VERSION) = q$Revision$ =~ /(\d+)/;
+(our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 #- proxy config file.
 our $PROXY_CFG = '/etc/urpmi/proxy.cfg';
@@ -480,7 +480,7 @@ sub sync_rsync {
 }
 
 our $SSH_PATH;
-sub _init_ssh_path {
+sub _init_ssh_path() {
     for (qw(/usr/bin/ssh /bin/ssh)) {
 	-x $_ and $SSH_PATH = $_;
 	next;
@@ -557,7 +557,7 @@ END {
     for my $socket (glob "$SSH_CONTROL_DIR/ssh-urpmi-$$-*") {
 	$socket =~ /ssh-urpmi-\d+-([^_]+)_\d+_(.*)$/;
 	my $server = $1 or next;
-	my $login = $2 or next;
+	my $_login = $2 or next;
 	system("$SSH_PATH -q -f -N -o 'ControlPath $socket' -O exit $2\@$server");
     }
 }

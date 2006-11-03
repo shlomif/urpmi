@@ -9,7 +9,7 @@ use Getopt::Long;# 2.33;
 use urpm::download;
 use urpm::msg;
 
-(our $VERSION) = q$Revision$ =~ /(\d+)/;
+(our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 # The program that invokes us
 (my $tool = $0) =~ s!.*/!!;
@@ -38,7 +38,7 @@ sub import {
 # used by urpmf
 sub add_param_closure {
     my (@tags) = @_;
-    return sub { $::qf .= join $::separator, '', map "%$_", @tags };
+    return sub { $::qf .= join $::separator, '', map { "%$_" } @tags };
 }
 
 # options specifications for Getopt::Long
@@ -305,7 +305,7 @@ my %options_spec = (
 	'force-key' => \$options{forcekey},
 	'limit-rate=s' => \$options{limit_rate},
 	'no-md5sum' => \$options{nomd5sum},
-	'noa|d' => \my $dummy, #- default, kept for compatibility
+	'noa|d' => \my $_dummy, #- default, kept for compatibility
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
 	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1]; $options{force} = 0 },
@@ -414,7 +414,7 @@ foreach my $k ("help|h", "version") {
 sub parse_cmdline {
     my %args = @_;
     $urpm = $args{urpm};
-    for my $k (keys %{$args{defaults} || {}}) {
+    foreach my $k (keys %{$args{defaults} || {}}) {
 	$options{$k} = $args{defaults}{$k};
     }
     my $ret = GetOptions(%{$options_spec{$tool}});
@@ -433,7 +433,7 @@ sub parse_cmdline {
 	    die N("Too many arguments\n");
 	}
     }
-    $ret
+    $ret;
 }
 
 1;

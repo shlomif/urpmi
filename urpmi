@@ -273,19 +273,20 @@ unless ($bug || $env || $test) {
 
 my ($pid_out, $pid_err);
 if ($logfile && !$INC{"Devel/Trace.pm"}) {
-    bug_log(scalar localtime, " urpmi called with $command_line\n");
+    bug_log(scalar localtime(), " urpmi called with $command_line\n");
 
-    open SAVEOUT, ">&STDOUT"; select SAVEOUT; $| = 1;
-    open SAVEERR, ">&STDERR"; select SAVEERR; $| = 1;
+    open(my $SAVEOUT, ">&STDOUT"); select $SAVEOUT; $| = 1;
+    open(my $SAVEERR, ">&STDERR"); select $SAVEERR; $| = 1;
 
     #- fork twice to copy stdout and stderr to $logfile
     unless ($pid_out = open STDOUT, "|-") {
 	my $buf_r;
+	local $_;
 	while (<STDIN>) {
 	    open my $fh, ">>$logfile"; select $fh; $| = 1;
-	    select SAVEOUT; $| = 1;
+	    select $SAVEOUT; $| = 1;
 	    $/ = \1;
-	    print SAVEOUT $_;
+	    print $SAVEOUT $_;
 	    print $fh $_;
 	    close $fh;
 	}
@@ -293,11 +294,12 @@ if ($logfile && !$INC{"Devel/Trace.pm"}) {
     }
     unless ($pid_err = open STDERR, "|-") {
 	my $buf_r;
+	local $_;
 	while (<STDIN>) {
 	    open my $fh, ">>$logfile"; select $fh; $| = 1;
-	    select SAVEERR; $| = 1;
+	    select $SAVEERR; $| = 1;
 	    $/ = \1;
-	    print SAVEERR $_;
+	    print $SAVEERR $_;
 	    print $fh $_;
 	    close $fh;
 	}
@@ -306,9 +308,9 @@ if ($logfile && !$INC{"Devel/Trace.pm"}) {
 
     #- log to SAVEERR instead of STDERR
     unless ($bug) {
-	$urpm->{fatal} = sub { printf SAVEERR "%s\n", $_[1]; exit($_[0]) };
-	$urpm->{error} = sub { printf SAVEERR "%s\n", $_[0] };
-	$urpm->{log}   = sub { printf SAVEOUT "%s\n", $_[0] };
+	$urpm->{fatal} = sub { printf $SAVEERR "%s\n", $_[1]; exit($_[0]) };
+	$urpm->{error} = sub { printf $SAVEERR "%s\n", $_[0] };
+	$urpm->{log}   = sub { printf $SAVEOUT "%s\n", $_[0] };
     }
 }
 
@@ -328,7 +330,7 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
     require urpm::sys;
     urpm::sys::fix_fd_leak();
     # also, clean up rpm db log files, because rpm might have been upgraded
-    unlink </var/lib/rpm/__db.00?> unless $root;
+    unlink glob('/var/lib/rpm/__db.00?') unless $root;
 }
 
 unless ($env || $nolock) {
@@ -361,7 +363,7 @@ if ($auto_update && !$bug && !$env) {
     #- FIXME we need to configure it twice; otherwise
     #- some settings are lost (like the skiplist) for
     #- some reason.
-    $urpm->configure( %config_hash );
+    $urpm->configure(%config_hash);
     $urpm->update_media(
 	all => 1,
 	callback => \&urpm::download::sync_logger,
@@ -378,7 +380,7 @@ if ($auto_update && !$bug && !$env) {
     }
 }
 
-$urpm->configure( %config_hash );
+$urpm->configure(%config_hash);
 
 #- get back activated default values of boolean options.
 exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
@@ -434,7 +436,7 @@ if (@src_names) {
 }
 
 sub ask_choice {
-    my ($urpm, $db, $state, $choices) = @_;
+    my ($urpm, $_db, $_state, $choices) = @_;
     my $n = 1; #- default value.
     my (@l) = map {
 	(scalar $_->fullname)
@@ -653,7 +655,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	compress => $urpm->{options}{compress},
 	resume => $urpm->{options}{resume},
 	callback => sub {
-	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+#	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
 	    goto &urpm::download::sync_logger;
 	},
     );
@@ -720,16 +722,16 @@ foreach my $set (@{$state->{transaction} || []}) {
 				    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
 	} else {
 	    my @packnames = (values %transaction_sources_install, values %transaction_sources);
-	    (my $common_prefix) = $packnames[0] =~ /^(.*)\//;
-	    if (length($common_prefix) && @packnames == grep { /^\Q$common_prefix\// } @packnames) {
+	    (my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
+	    if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
 		#- there's a common prefix, simplify message
-		print N("installing %s from %s", join(' ', map { s/.*\///; $_ } @packnames), $common_prefix), "\n";
+		print N("installing %s from %s", join(' ', map { s!.*/!!; $_ } @packnames), $common_prefix), "\n";
 	    } else {
 		print N("installing %s", join "\n", @packnames), "\n";
 	    }
-	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : ($set->{remove} || []);
+	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
 	    @$to_remove and print N("removing %s", "@$to_remove"), "\n";
-	    bug_log(scalar localtime, " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
+	    bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my %install_options_common = (
 		test => $test,

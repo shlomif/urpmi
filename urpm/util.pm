@@ -12,7 +12,7 @@ our @EXPORT = qw(quotespace unquotespace
     difference2
 );
 
-(our $VERSION) = q$Revision$ =~ /(\d+)/;
+(our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 #- quoting/unquoting a string that may be containing space chars.
 sub quotespace		 { my $x = $_[0] || ''; $x =~ s/(\s)/\\$1/g; $x }

@@ -72,14 +72,14 @@ sub sync_webfetch {
 	$urpm->{fatal}(10, $@) if $@;
 	delete @files{qw(removable file)};
     }
-    for my $cpt (qw(wget-options curl-options rsync-options prozilla-options)) {
+    foreach my $cpt (qw(wget-options curl-options rsync-options prozilla-options)) {
 	$options->{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
     if ($files{ftp} || $files{http} || $files{https}) {
 	my @webfetch = qw(curl wget prozilla);
 	my %webfetch_executables = (curl => 'curl', wget => 'wget', prozilla => 'proz');
 	my @available_webfetch = grep {
-	    -x "/usr/bin/$webfetch_executables{$_}" || -x "/bin/$webfetch_executables{$_}"
+	    -x "/usr/bin/$webfetch_executables{$_}" || -x "/bin/$webfetch_executables{$_}";
 	} @webfetch;
 	#- use user default downloader if provided and available
 	my $option_downloader = $urpm->{options}{downloader}; #- cmd-line switch
@@ -780,13 +780,13 @@ sub add_distrib_media {
     if (my ($dir) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
 	$urpm->try_mounting($dir)
 	    or $urpm->{error}(N("unable to mount the distribution medium")), return ();
-	$distribconf = MDV::Distribconf->new($dir);
-	$distribconf->load()
+	$distribconf = MDV::Distribconf->new($dir, undef);
+	$distribconf->load
 	    or $urpm->{error}(N("this location doesn't seem to contain any distribution")), return ();
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
 
-	$distribconf = MDV::Distribconf->new($url);
+	$distribconf = MDV::Distribconf->new($url, undef);
 	$distribconf->settree('mandriva');
 
 	eval {
@@ -800,7 +800,7 @@ sub add_distrib_media {
 		    retry => $urpm->{options}{retry},
 		    proxy => get_proxy(),
 		},
-		reduce_pathname($distribconf->getfullpath(undef, 'infodir') .'/media.cfg'),
+		reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg'),
 	    );
 	    $urpm->{log}(N("...retrieving done"));
 	};
@@ -823,7 +823,7 @@ sub add_distrib_media {
     my $medium = $options{initial_number} || 1;
     my @media_list_toadd;
 
-    foreach my $media ($distribconf->listmedia()) {
+    foreach my $media ($distribconf->listmedia) {
         my $skip = 0;
 	# if one of those values is set, by default, we skip adding the media
 	foreach (qw(noauto)) {
@@ -852,8 +852,8 @@ sub add_distrib_media {
 	    reduce_pathname($distribconf->getfullpath($media, 'path')),
 	    offset_pathname(
 		$url,
-		$distribconf->getpath($media, 'path')
-	    ) . '/' . $distribconf->getpath( $media, ($options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist') ),
+		$distribconf->getpath($media, 'path'),
+	    ) . '/' . $distribconf->getpath($media, $options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist'),
 	    index_name => $name ? undef : 0,
 	    no_reload_config => 1, #- no need to reload config each time, since we don't update the media
 	    %options,
@@ -1456,7 +1456,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- failed, but the file still remains in partial/ because it was
 	    #- moved from $urpm->{statedir} earlier. So we need to check if
 	    #- the previous download failed.
-	    if ($@ || (! -e "$urpm->{cachedir}/partial/descriptions")) {
+	    if ($@ || ! -e "$urpm->{cachedir}/partial/descriptions") {
 		eval {
 		    #- try older location
 		    $urpm->{sync}($syncopts, reduce_pathname("$medium->{url}/../descriptions"));
@@ -1835,7 +1835,7 @@ this could happen if you mounted manually the directory when creating the medium
 		my %key_ids;
 		$urpm->import_needed_pubkeys([ $urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey") ],
 					     root => $urpm->{root}, callback => sub {
-						 my (undef, undef, $k, $id, $imported) = @_;
+						 my (undef, undef, $_k, $id, $imported) = @_;
 						 if ($id) {
 						     $key_ids{$id} = undef;
 						     $imported and $urpm->{log}(N("...imported key %s from pubkey file of \"%s\"",
@@ -2060,7 +2060,7 @@ sub try_mounting {
 	    #- to mount an iso image, grab the first loop device
 	    my $loopdev = urpm::sys::first_free_loopdev();
 	    sys_log("mount iso $_ on $removable");
-	    $loopdev and system("mount '$removable' '$_' -t iso9660 -o loop=$loopdev");
+	    $loopdev and system('mount', $removable, $_, '-t', 'iso9660', '-o', "loop=$loopdev");
 	} else {
 	    sys_log("mount $_");
 	    system("mount '$_' 2>/dev/null");
@@ -2107,7 +2107,7 @@ sub register_rpms {
 	/\.(?:rpm|spec)$/ or $error = 1, $urpm->{error}(N("invalid rpm file name [%s]", $_)), next;
 
 	#- if that's an URL, download.
-	if (my ($basename) = m{^[^:]*:/.*/([^/]*\.(?:rpm|spec))\z}) {
+	if (my ($basename) = m!^[^:]*:/.*/([^/]*\.(?:rpm|spec))\z!) {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving rpm file [%s] ...", $_));
@@ -2144,7 +2144,7 @@ sub register_rpms {
 	    ($id) = $urpm->parse_rpm($_);
 	    my $pkg = defined $id && $urpm->{depslist}[$id];
 	    $pkg or $error = 1, $urpm->{error}(N("unable to register rpm file")), next;
-	    $pkg->arch eq 'src' || $pkg->is_arch_compat()
+	    $pkg->arch eq 'src' || $pkg->is_arch_compat
 		or $error = 1, $urpm->{error}(N("Incompatible architecture for rpm [%s]", $_)), next;
 	    $urpm->{source}{$id} = $_;
 	}
@@ -2153,7 +2153,7 @@ sub register_rpms {
     defined $id && $start <= $id and @requested{($start .. $id)} = (1) x ($id-$start+1);
 
     #- distribute local packages to distant nodes directly in cache of each machine.
-    @files && $urpm->{parallel_handler} and $urpm->{parallel_handler}->parallel_register_rpms(@_);
+    @files && $urpm->{parallel_handler} and $urpm->{parallel_handler}->parallel_register_rpms($urpm, @files);
 
     %requested;
 }
@@ -2209,7 +2209,7 @@ sub search_packages {
 		#- search through provides to find if a provide matches this one;
 		#- but manage choices correctly (as a provides may be virtual or
 		#- defined several times).
-		if (/$qv/ || (!$options{caseinsensitive} && /$qv/i)) {
+		if (/$qv/ || !$options{caseinsensitive} && /$qv/i) {
 		    $urpm->_findindeps(\%found, $v, %options);
 		}
 	    }
@@ -2322,7 +2322,7 @@ sub resolve_dependencies {
 	    system "cat '$urpm->{statedir}/synthesis.$_->{hdlist}' >> '$file'";
 	}
 	#- let each node determine what is requested, according to handler given.
-	$urpm->{parallel_handler}->parallel_resolve_dependencies($file, @_);
+	$urpm->{parallel_handler}->parallel_resolve_dependencies($file, $urpm, $state, $requested, %options);
     } else {
 	my $db;
 
@@ -2407,10 +2407,10 @@ sub create_transaction {
 #- get the list of packages that should not be upgraded or installed,
 #- typically from the inst.list or skip.list files.
 sub get_packages_list {
-    my ($file, $extra) = @_;
+    my ($file, $o_extra) = @_;
     my $val = [];
     open my $f, $file or return [];
-    foreach (<$f>, split /,/, $extra || '') {
+    foreach (<$f>, split /,/, $o_extra || '') {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	next if $_ eq '';
 	push @$val, $_;
@@ -2562,7 +2562,7 @@ sub get_source_packages {
     #- examine package list to see if a package has not been found.
     foreach (grep { ! exists($examined{$_}) } keys %fullname2id) {
 	# print list errors only once if any
-	@list_error and map { $urpm->{error}($_) } @list_error;
+	$urpm->{error}($_) foreach @list_error;
 	@list_error = ();
 	$error = 1;
 	$urpm->{error}(N("package %s is not found.", $_));
@@ -2634,7 +2634,7 @@ sub shlock_rpm_db {
 }
 
 sub unlock_rpm_db {
-    my ($urpm) = @_;
+    my ($_urpm) = @_;
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my $LOCK_UN = 8;
     #- now everything is finished.
@@ -2667,7 +2667,7 @@ sub shlock_urpmi_db {
 }
 
 sub unlock_urpmi_db {
-    my ($urpm) = @_;
+    my ($_urpm) = @_;
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my $LOCK_UN = 8;
     #- now everything is finished.
@@ -3036,7 +3036,7 @@ sub install {
 	#- assume default value for some parameter.
 	$options{delta} ||= 1000;
 	$options{callback_open} ||= sub {
-	    my ($data, $type, $id) = @_;
+	    my ($_data, $_type, $id) = @_;
 	    $fh = $urpm->open_safe('<', $install->{$id} || $upgrade->{$id});
 	    return defined $fh ? fileno $fh : undef;
 	};
@@ -3046,7 +3046,7 @@ sub install {
 	    my $pkg = $urpm->{depslist}[$pkgid];
 	    my $fullname = $pkg->fullname;
 	    my $trtype = (grep { /\Q$fullname\E/ } values %$install) ? 'install' : '(upgrade|update)';
-	    for ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $readmes{$_} = $fullname }
+	    foreach ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $readmes{$_} = $fullname }
 	    close $fh if defined $fh;
 	};
 	if ($::verbose >= 0 && (scalar keys %$install || scalar keys %$upgrade)) {
@@ -3090,8 +3090,9 @@ sub install {
 
 #- install all files to node as remembered according to resolving done.
 sub parallel_install {
-    my ($urpm, $remove, $install, $upgrade, %options) = @_;
-    $urpm->{parallel_handler}->parallel_install(@_);
+    my @para = @_;
+    my ($urpm, $_remove, $_install, $_upgrade, %_options) = @para;
+    $urpm->{parallel_handler}->parallel_install(@para);
 }
 
 #- find packages to remove.
@@ -3169,7 +3170,7 @@ sub find_packages_to_remove {
 		push @notfound, $_;
 	    }
 	    if (!$options{force} && @notfound && @$l > 1) {
-		$options{callback_notfound} and $options{callback_notfound}->($urpm, @notfound)
+		$options{callback_notfound} && $options{callback_notfound}->($urpm, @notfound)
 		  or return ();
 	    }
 	}
@@ -3192,10 +3193,10 @@ sub find_packages_to_remove {
 
 	    if (!$options{force} && @notfound) {
 		if (@m) {
-		    $options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, @$l > 1 ? $match : $l->[0], @m)
+		    $options{callback_fuzzy} && $options{callback_fuzzy}->($urpm, @$l > 1 ? $match : $l->[0], @m)
 		      or return ();
 		} else {
-		    $options{callback_notfound} and $options{callback_notfound}->($urpm, @notfound)
+		    $options{callback_notfound} && $options{callback_notfound}->($urpm, @notfound)
 		      or return ();
 		}
 	    }
@@ -3262,7 +3263,7 @@ sub translate_why_unselected {
 		    #- XXX in theory we shouldn't need this, dependencies (and not ids) should
 		    #- already be present in @unsatisfied. But with biarch packages this is
 		    #- not always the case.
-		    /\D/ ? $_ : scalar($urpm->{depslist}[$_]->fullname)
+		    /\D/ ? $_ : scalar($urpm->{depslist}[$_]->fullname);
 		} @unsatisfied),
 	    $rb->{promote} && !$rb->{keep} ? N("trying to promote %s", join(", ", @{$rb->{promote}})) : @{[]},
 	    $rb->{keep} ? N("in order to keep %s", join(", ", @{$rb->{keep}})) : @{[]},

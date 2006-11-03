@@ -6,7 +6,7 @@ use strict;
 no warnings;
 use Exporter;
 
-(our $VERSION) = q$Revision$ =~ /(\d+)/;
+(our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 our @ISA = 'Exporter';
 our @EXPORT = qw(N bug_log to_utf8 message_input toMb from_utf8 sys_log);
@@ -33,7 +33,7 @@ sub from_utf8_dummy { $_[0] }
 
 our $use_utf8_full = defined $codeset && $codeset eq 'UTF-8';
 
-*from_utf8 = $use_utf8_full ? *from_utf8_full : *from_utf8_dummy;
+sub from_utf8 { $use_utf8_full ? &from_utf8_full : &from_utf8_dummy }
 
 sub N {
     my ($format, @params) = @_;
@@ -71,23 +71,23 @@ sub bug_log {
 sub to_utf8 { Locale::gettext::iconv($_[0], undef, "UTF-8") }
 
 sub message_input {
-    my ($msg, $default_input, %opts) = @_;
+    my ($msg, $o_default_input, %o_opts) = @_;
     my $input;
     while (1) {
 	print $msg;
-	if ($default_input) {
-	    $urpm::args::options{bug} and bug_log($default_input);
-	    return $default_input;
+	if ($o_default_input) {
+	    $urpm::args::options{bug} and bug_log($o_default_input);
+	    return $o_default_input;
 	}
 	$input = <STDIN>;
 	defined $input or return undef;
 	chomp $input;
 	$urpm::args::options{bug} and bug_log($input);
-	if ($opts{boolean}) {
+	if ($o_opts{boolean}) {
 	    $input =~ /^[$noexpr$yesexpr]?$/ and last;
-	} elsif ($opts{range}) {
+	} elsif ($o_opts{range}) {
 	    $input eq "" and $input = 1; #- defaults to first choice
-	    (defined $opts{range_min} ? $opts{range_min} : 1) <= $input && $input <= $opts{range} and last;
+	    (defined $o_opts{range_min} ? $o_opts{range_min} : 1) <= $input && $input <= $o_opts{range} and last;
 	} else {
 	    last;
 	}

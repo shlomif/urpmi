@@ -8,7 +8,7 @@ use urpm;
 use urpm::msg 'N';
 use Net::LDAP;
 
-(our $VERSION) = q$Revision$ =~ /(\d+)/;
+(our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 our $LDAP_CONFIG_FILE = '/etc/ldap.conf';
 my @per_media_opt = (@urpm::PER_MEDIA_OPT, qw(ftp-proxy http-proxy));

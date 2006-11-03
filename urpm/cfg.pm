@@ -7,7 +7,7 @@ use warnings;
 use urpm::util;
 use urpm::msg 'N';
 
-(our $VERSION) = q$Revision$ =~ /(\d+)/;
+(our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 =head1 NAME
 
@@ -104,7 +104,7 @@ sub expand_line {
 }
 
 sub load_config ($;$) {
-    my ($file, $norewrite) = @_;
+    my ($file, $b_norewrite) = @_;
     my %config;
     my $priority = 0;
     my $medium;
@@ -115,7 +115,7 @@ sub load_config ($;$) {
 	chomp;
 	next if /^\s*#/; #- comments
 	s/^\s+//; s/\s+$//;
-	$_ = expand_line($_) unless $norewrite;
+	$_ = expand_line($_) unless $b_norewrite;
 	if ($_ eq '}') { #-{
 	    if (!defined $medium) {
 		_syntax_error();

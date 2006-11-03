@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use POSIX ();
 
-(our $VERSION) = q$Revision$ =~ /(\d+)/;
+(our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 #- find used mount point from a pathname, use a optional mode to allow
 #- filtering according the next operation (mount or umount).
@@ -110,7 +110,7 @@ sub first_free_loopdev () {
 sub trim_until_d {
     my ($dir) = @_;
     open my $mounts, '/proc/mounts' or do { warn "Can't read /proc/mounts: $!\n"; return $dir };
-    local *_;
+    local $_;
     while (<$mounts>) {
 	#- fail if an iso is already mounted
 	m!^/dev/loop! and return $dir;
@@ -171,14 +171,14 @@ sub mktempdir {
 }
 
 # temporary hack used by urpmi when restarting itself.
-sub fix_fd_leak {
+sub fix_fd_leak() {
     opendir my $dirh, "/proc/$$/fd" or return undef;
     my @fds = grep { /^(\d+)$/ && $1 > 2 } readdir $dirh;
     closedir $dirh;
     for (@fds) {
 	my $link = readlink("/proc/$$/fd/$_");
 	$link or next;
-	next if $link =~ m(^/(usr|dev)/) || $link !~ m(^/);
+	next if $link =~ m!^/(usr|dev)/! || $link !~ m!^/!;
 	POSIX::close($_);
     }
 }
