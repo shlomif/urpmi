@@ -1093,7 +1093,7 @@ sub update_media {
 		    }
 		} else {
 		    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
-		    $_->{ignore} = 1;
+		    $medium->{ignore} = 1;
 		}
 	    } else {
 		$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
@@ -1323,7 +1323,7 @@ this could happen if you mounted manually the directory when creating the medium
 		#- if copying hdlist has failed, try to build it directly.
 		if ($error) {
 		    if ($urpm->{options}{norebuild}) {
-			$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
+			$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
 			$medium->{ignore} = 1;
 		    } else {
 			$options{force} < 2 and $options{force} = 2;
@@ -2157,14 +2157,21 @@ sub register_rpms {
 }
 
 sub _findindeps {
-    my ($urpm, $found, $v, %options) = @_;
-    my @list = grep { defined $_ } map {
-	my $pkg = $urpm->{depslist}[$_];
-	$pkg
-	&& ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
-	? $pkg->id : undef;
-    } keys %{$urpm->{provides}{$_} || {}};
-    @list > 0 and push @{$found->{$v}}, join '|', @list;
+    my ($urpm, $found, $qv, $v, %options) = @_;
+
+    foreach (keys %{$urpm->{provides}}) {
+	#- search through provides to find if a provide matches this one;
+	#- but manage choices correctly (as a provides may be virtual or
+	#- defined several times).
+	/$qv/ || !$options{caseinsensitive} && /$qv/i or next;
+
+	my @list = grep { defined $_ } map {
+	    my $pkg = $urpm->{depslist}[$_];
+	    $pkg && ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
+	      ? $pkg->id : undef;
+	} keys %{$urpm->{provides}{$_} || {}};
+	@list > 0 and push @{$found->{$v}}, join '|', @list;
+    }
 }
 
 #- search packages registered by their names by storing their ids into the $packages hash.
@@ -2203,14 +2210,7 @@ sub search_packages {
 	}
 
 	if ($options{use_provides} && $options{fuzzy}) {
-	    foreach (keys %{$urpm->{provides}}) {
-		#- search through provides to find if a provide matches this one;
-		#- but manage choices correctly (as a provides may be virtual or
-		#- defined several times).
-		if (/$qv/ || !$options{caseinsensitive} && /$qv/i) {
-		    $urpm->_findindeps(\%found, $v, %options);
-		}
-	    }
+	    _findindeps($urpm, \%found, $qv, $v, %options);
 	}
 
 	foreach my $id (defined $urpm->{searchmedia} ?
@@ -2868,7 +2868,7 @@ sub download_packages_of_distant_media {
 
 #- prepare transaction.
 sub prepare_transaction {
-    my ($urpm, $set, $list, $sources, $transaction_list, $transaction_sources) = @_;
+    my ($_urpm, $set, $list, $sources, $transaction_list, $transaction_sources) = @_;
 
     foreach my $id (@{$set->{upgrade}}) {
 	foreach (0..$#$list) {
