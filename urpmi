@@ -23,7 +23,7 @@ use strict;
 use urpm;
 use urpm::args;
 use urpm::msg;
-use urpm::util qw(untaint difference2);
+use urpm::util qw(untaint difference2 member);
 
 #- contains informations to parse installed system.
 my $urpm = new urpm;
@@ -159,7 +159,7 @@ my $command_line = join " ", @ARGV;
 my @ARGVcopy; # keep a copy, in case we have to restart
 
 # Expand *.urpmi arguments
-if (grep { $_ eq '--restricted' } @ARGV) {
+if (member('--restricted', @ARGV)) {
     @ARGVcopy = @ARGV;
 } else {
     foreach my $a (@ARGV) {
