@@ -280,7 +280,6 @@ if ($logfile && !$INC{"Devel/Trace.pm"}) {
 
     #- fork twice to copy stdout and stderr to $logfile
     unless ($pid_out = open STDOUT, "|-") {
-	my $buf_r;
 	local $_;
 	while (<STDIN>) {
 	    open my $fh, ">>$logfile"; select $fh; $| = 1;
@@ -293,7 +292,6 @@ if ($logfile && !$INC{"Devel/Trace.pm"}) {
 	exit 0;
     }
     unless ($pid_err = open STDERR, "|-") {
-	my $buf_r;
 	local $_;
 	while (<STDIN>) {
 	    open my $fh, ">>$logfile"; select $fh; $| = 1;
@@ -540,7 +538,6 @@ have to be removed for others to be upgraded:\n%s\n", $list), "\n";
     if ($urpm->{options}{auto}) {
 	print "$msg\n";
     } else {
-	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
 	message_input($msg . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
     }
@@ -673,7 +670,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 		print "$msg:\n$p\n\n";
 		exit 1;
 	    } else {
-		my $noexpr = N("Nn");
 		my $yesexpr = N("Yy");
 		message_input("$msg:\n$p\n$msg2" . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 1;
 	    }
@@ -759,7 +755,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    ++$urpm->{logger_id};
 		    push @errors, @l;
 		} else {
-		    my $noexpr = N("Nn");
 		    my $yesexpr = N("Yy");
 		    message_input(N("Try installation without checking dependencies? (y/N) "),
 				  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;

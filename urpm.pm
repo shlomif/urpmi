@@ -821,7 +821,6 @@ sub add_distrib_media {
     #- at this point, we have found a media.cfg file, so parse it
     #- and create all necessary media according to it.
     my $medium = $options{initial_number} || 1;
-    my @media_list_toadd;
 
     foreach my $media ($distribconf->listmedia) {
         my $skip = 0;
@@ -1413,7 +1412,6 @@ this could happen if you mounted manually the directory when creating the medium
 	} else {
 	    #- check for a reconfig.urpmi file (if not already reconfigured)
 	    if (!$media_redone{$medium->{name}} && !$medium->{noreconfigure}) {
-		my $reconfig_urpmi_url = "$medium->{url}/reconfig.urpmi";
 		unlink(my $reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi");
 		eval {
 		    $urpm->{sync}(
@@ -2873,7 +2871,6 @@ sub prepare_transaction {
     my ($urpm, $set, $list, $sources, $transaction_list, $transaction_sources) = @_;
 
     foreach my $id (@{$set->{upgrade}}) {
-	my $pkg = $urpm->{depslist}[$id];
 	foreach (0..$#$list) {
 	    exists $list->[$_]{$id} and $transaction_list->[$_]{$id} = $list->[$_]{$id};
 	}
