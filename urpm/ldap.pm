@@ -212,7 +212,7 @@ sub load_ldap_media($%) {
 	    $medium->{priority} = $priority++;
             next if !check_ldap_medium($medium);
             $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
-            write_ldap_cache($urpm,$medium) or $urpm->{log}(N("Could not write ldap cache : %s", $_));
+            write_ldap_cache($urpm,$medium); 
         }
     };
     if ($@) {
