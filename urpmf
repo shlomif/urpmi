@@ -124,25 +124,25 @@ my $multi = 0;
 my $multitag = '';
 my %multitags = map { $_ => 1 } qw(conffiles conflicts files obsoletes provides requires);
 my %usedtags;
-while ($qf =~ /%[-\d]*(\w+)/g) {
-    ++$multi, $multitag = $1 if $multitags{$1};
-    $usedtags{$1} = 1;
-}
-$multi > 1
-    and $urpm->{fatal}->(1, N("Incorrect format: you may use only one multi-valued tag"));
 
 (my $proto = $qf) =~ s/%([-\d]*)(\w+)/%${1}s/g;
 my $sprintfargs = join(', ', map {
+    $usedtags{$1} = 1;
     if ($_ eq 'media') {
 	'$urpm::currentmedia->{name}';
     } elsif ($_ eq 'fullname') {
 	'scalar($pkg->fullname)';
-    } elsif ($_ eq $multitag) {
+    } elsif ($multitags{$_}) {
+	$multi++;
+	$multitag = $_;
 	'$mt';
     } else {
 	'$pkg->' . $_;
     }
 } $qf =~ /%[-\d]*(\w+)/g);
+
+$multi > 1
+    and $urpm->{fatal}->(1, N("Incorrect format: you may use only one multi-valued tag"));
 
 my $next_st = $multi ? 'next' : 'return 1';
 my @inner = (
