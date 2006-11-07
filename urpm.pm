@@ -1806,7 +1806,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    #- make sure group and other do not have any access to this file, used to hide passwords.
 		    if ($medium->{list}) {
 			my $mask = umask 077;
-			open my $listfh, ">$urpm->{cachedir}/partial/$medium->{list}"
+			open my $listfh, ">", "$urpm->{cachedir}/partial/$medium->{list}"
 			    or $error = 1, $urpm->{error}(N("unable to write list file of \"%s\"", $medium->{name}));
 			umask $mask;
 			print $listfh values %list;
@@ -2616,7 +2616,7 @@ sub exlock_rpm_db {
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_EX, $LOCK_NB) = (2, 4);
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    open $RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
+    open $RPMLOCK_FILE, ">", "$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
     flock $RPMLOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 
@@ -2626,7 +2626,7 @@ sub shlock_rpm_db {
     my ($LOCK_SH, $LOCK_NB) = (1, 4);
     #- create the .LOCK file if needed (and if possible)
     unless (-e "$urpm->{root}/$urpm->{statedir}/.RPMLOCK") {
-	open $RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
+	open $RPMLOCK_FILE, ">", "$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
 	close $RPMLOCK_FILE;
     }
     #- lock urpmi database, if the LOCK file doesn't exists no share lock.
@@ -2649,7 +2649,7 @@ sub exlock_urpmi_db {
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_EX, $LOCK_NB) = (2, 4);
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    open $LOCK_FILE, ">$urpm->{statedir}/.LOCK";
+    open $LOCK_FILE, ">", "$urpm->{statedir}/.LOCK";
     flock $LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 
@@ -2659,7 +2659,7 @@ sub shlock_urpmi_db {
     my ($LOCK_SH, $LOCK_NB) = (1, 4);
     #- create the .LOCK file if needed (and if possible)
     unless (-e "$urpm->{statedir}/.LOCK") {
-	open $LOCK_FILE, ">$urpm->{statedir}/.LOCK";
+	open $LOCK_FILE, ">", "$urpm->{statedir}/.LOCK";
 	close $LOCK_FILE;
     }
     #- lock urpmi database, if the LOCK file doesn't exists no share lock.
