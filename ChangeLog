@@ -1,3 +1,177 @@
+2006-11-07 12:04  Pixel <pixel at mandriva.com>
+
+	* urpm/parallel_ka_run.pm: perl_checker compliance
+
+2006-11-07 12:00  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpmi: ask user before installing a package that
+	  matching part of the name
+
+2006-11-07 11:19  Pixel <pixel at mandriva.com>
+
+	* urpmi: replace the dreaded "The package(s) are already
+	  installed" with:
+	  - "Packages are up to date" for auto installs
+	  - "Package foo-1.1-1mdv.i586 is already installed" when asking
+	  to install package foo
+	  - "Packages foo-1.1-1mdv.i586, bar-1.1-1mdv.i586 are already
+	  installed" when asking to install packages foo and bar
+	  
+	  the message "The following package names were assumed: %s" is
+	  dropped, since
+	  package names are now displayed (and next commit will add prompt
+	  before using
+	  guessed package)
+
+2006-11-07 10:03  Pixel <pixel at mandriva.com>
+
+	* urpmf: indent the description and do not display on first line.
+	  this allow processing of the output of urpmf (as required by
+	  Erwan Velu)
+	  
+	  for now choosing not to filter description (as suggested by rgs)
+
+2006-11-07 09:52  Pixel <pixel at mandriva.com>
+
+	* urpmf: pre-compute part of the qf in case of multitag
+	  => around 25% speedup for file search and 10% speedup for
+	  requires search
+
+2006-11-07 09:07  Pixel <pixel at mandriva.com>
+
+	* urpmf: perl_checker compliance
+
+2006-11-07 09:06  Pixel <pixel at mandriva.com>
+
+	* urpmf: fix typo
+	* urpmf: simplify: drop $multi, $multitag is enough
+
+2006-11-07 09:04  Pixel <pixel at mandriva.com>
+
+	* urpmf: factorize
+
+2006-11-07 08:57  Pixel <pixel at mandriva.com>
+
+	* urpmf: move the "\n" in the print, it's nicer (but no real
+	  speedup)
+
+2006-11-07 08:54  Pixel <pixel at mandriva.com>
+
+	* urpmf: use $s instead of $_, it's cleaner and same speed
+
+2006-11-07 08:49  Pixel <pixel at mandriva.com>
+
+	* urpmf: rewrite the generation of the callback code
+
+2006-11-07 08:33  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: use 3 args in open: replace ">$file" with ">", "$file"
+
+2006-11-07 08:31  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: use $LOCK_FILE and $RPMLOCK_FILE instead of LOCK_FILE
+	  and RPMLOCK_FILE
+
+2006-11-06 17:02  Pixel <pixel at mandriva.com>
+
+	* urpmf: perl_checker compliance
+
+2006-11-03 17:01  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpm/util.pm: replace -e $file && -s _ > xxx with
+	  file_size($file) > xxx
+
+2006-11-03 16:15  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: simplify
+
+2006-11-03 16:14  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: fix bad typo in previous commit: $qv is now needed in
+	  _findindeps
+
+2006-11-03 16:13  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: - _findindeps was using both $_ and arguments, moving
+	  the loop which was calling _findindeps into _findindeps
+	  - do not use a method call for _findindeps which is only used in
+	  this module
+
+2006-11-03 15:51  Pixel <pixel at mandriva.com>
+
+	* urpm/msg.pm: do not import, use fully-qualified
+	  function/constants
+
+2006-11-03 15:47  Pixel <pixel at mandriva.com>
+
+	* urpm/ldap.pm: perl_checker compliance
+
+2006-11-03 14:35  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: fix potential bugs: replace $_ with $medium since $_
+	  has no valid value in this part of the code
+
+2006-11-03 14:30  Pixel <pixel at mandriva.com>
+
+	* urpmi: when using "-v", display which packages+versions urpmi
+	  will try to install
+
+2006-11-03 14:12  Pixel <pixel at mandriva.com>
+
+	* urpmi: there may be more than 9 __db.XXX files, and simpler
+	  (thanks to rgs)
+
+2006-11-03 14:04  Pixel <pixel at mandriva.com>
+
+	* urpmi: simplify
+
+2006-11-03 13:53  misc
+
+	* urpm/ldap.pm: - remove useless call to log, as we are calling
+	  'die' in write_ldap_cache, and run inside a eval block, spotted
+	  by pixel.
+
+2006-11-03 13:53  Pixel <pixel at mandriva.com>
+
+	* urpmi: use member()
+
+2006-11-03 13:52  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpmi: remove unused variables
+
+2006-11-03 13:37  Pixel <pixel at mandriva.com>
+
+	* urpm/util.pm: add member()
+
+2006-11-03 13:34  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpm/args.pm, urpm/cfg.pm, urpm/download.pm,
+	  urpm/ldap.pm, urpm/msg.pm, urpm/prompt.pm, urpm/sys.pm,
+	  urpm/util.pm, urpmi: perl_checker compliance
+
+2006-11-01 11:43  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2006-10-31 09:29  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/gl.po, po/pl.po: updated Galician file; corrected syntax
+	  errors in Polish file
+
+2006-10-25 10:49  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: prevent a dialog to have a height of several scores of
+	  thousands pixels
+
+2006-10-25 10:48  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi.pm, gurpmi2: add support of --root for gurpmi
+
+2006-10-21 01:00  nanardon
+
+	* urpm.pm: - askmedia and suppl option in hdlists where not per
+	  media option but undocumented global option for gi
+
 2006-09-20 09:18  Rafael Garcia-Suarez <rgarciasuarez at mandriva.com>
 
 	* urpm.pm: Notes for later.
