@@ -146,10 +146,10 @@ my $sprintfargs = join(', ', map {
 
 my $next_st = $multi ? 'next' : 'return 1';
 my @inner = (
-    "my \$s = sprintf(qq{$proto\\n}, $sprintfargs);",
+    "my \$s = sprintf(qq{$proto}, $sprintfargs);",
     "\$s =~ $expr or $next_st;",
     $uniq ? ('$uniq{$s} and ' . $next_st . ';', '$uniq{$s} = 1;') : (),
-    'print $s;',
+    'print $s, "\n";',
 );
 
 if ($multi) {
