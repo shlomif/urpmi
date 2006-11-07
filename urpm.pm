@@ -18,6 +18,9 @@ our @ISA = qw(URPM);
 use URPM;
 use URPM::Resolve;
 
+my $RPMLOCK_FILE;
+my $LOCK_FILE;
+
 #- this violently overrides is_arch_compat() to always return true.
 sub shunt_ignorearch {
     eval q( sub URPM::Package::is_arch_compat { 1 } );
@@ -587,7 +590,7 @@ sub configure {
 			    $_->{ignore} = 1;
 			}
 		    } else {
-			if ($options{hdlist} && -e "$urpm->{statedir}/$_->{hdlist}" && -s _ > 32) {
+			if ($options{hdlist} && file_size("$urpm->{statedir}/$_->{hdlist}") > 32) {
 			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
 			    ($_->{start}, $_->{end}) = $urpm->parse_hdlist(
 				"$urpm->{statedir}/$_->{hdlist}",
@@ -1066,7 +1069,7 @@ sub update_media {
 	$options{forcekey} and delete $medium->{'key-ids'};
 
 	#- we should create the associated synthesis file if it does not already exist...
-	-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" && -s _ > 32
+	file_size("$urpm->{statedir}/synthesis.$medium->{hdlist}") > 32
 	    or $medium->{modified_synthesis} = 1;
 
 	#- if we're rebuilding all media, mark them as modified (except removable ones)
@@ -1153,7 +1156,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- it is already defined (and valid).
 	    if ($options{probe_with} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
 		foreach (_probe_with_try_list(_guess_hdlist_suffix($dir), $options{probe_with})) {
-		    if (-e "$dir/$_" && -s _ > 32) {
+		    if (file_size("$dir/$_") > 32) {
 			$medium->{with_hdlist} = $_;
 			last;
 		    }
@@ -1225,7 +1228,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 	    unless ($medium->{virtual}) {
 		if ($medium->{with_hdlist}) {
-		    if (!$options{nomd5sum} && -s reduce_pathname("$with_hdlist_dir/../MD5SUM") > 32) {
+		    if (!$options{nomd5sum} && file_size(reduce_pathname("$with_hdlist_dir/../MD5SUM")) > 32) {
 			recompute_local_md5sum($urpm, $medium, $options{force});
 			if ($medium->{md5sum}) {
 			    $retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
@@ -1275,7 +1278,7 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 
-		    -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 32 or
+		    file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 32 or
 		      $error = 1, $urpm->{error}(N("copy of [%s] failed (file is suspiciously small)",
                                              "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 
@@ -1491,7 +1494,7 @@ this could happen if you mounted manually the directory when creating the medium
 			);
 		    }
 		};
-		if (!$@ && -e "$urpm->{cachedir}/partial/MD5SUM" && -s _ > 32) {
+		if (!$@ && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
 		    recompute_local_md5sum($urpm, $medium, $options{force} >= 2);
 		    if ($medium->{md5sum}) {
 			$retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
@@ -1555,7 +1558,7 @@ this could happen if you mounted manually the directory when creating the medium
 			    reduce_pathname("$medium->{url}/$with_hdlist"),
 			);
 		    };
-		    if (!$@ && -e "$urpm->{cachedir}/partial/$basename" && -s _ > 32) {
+		    if (!$@ && file_size("$urpm->{cachedir}/partial/$basename") > 32) {
 			$medium->{with_hdlist} = $with_hdlist;
 			$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
 			last; #- found a suitable with_hdlist in the list above.
@@ -1606,7 +1609,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 
 	    #- check downloaded file has right signature.
-	    if (-e "$urpm->{cachedir}/partial/$basename" && -s _ > 32 && $retrieved_md5sum) {
+	    if (file_size("$urpm->{cachedir}/partial/$basename") > 32 && $retrieved_md5sum) {
 		$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
 		unless (md5sum("$urpm->{cachedir}/partial/$basename") eq $retrieved_md5sum) {
 		    $urpm->{error}(N("...retrieving failed: md5sum mismatch"));
@@ -1614,7 +1617,7 @@ this could happen if you mounted manually the directory when creating the medium
 		}
 	    }
 
-	    if (-e "$urpm->{cachedir}/partial/$basename" && -s _ > 32) {
+	    if (file_size("$urpm->{cachedir}/partial/$basename") > 32) {
 		$options{callback} and $options{callback}('done', $medium->{name});
 		$urpm->{log}(N("...retrieving done"));
 
@@ -1666,7 +1669,7 @@ this could happen if you mounted manually the directory when creating the medium
 				},
 				$_
 			    );
-			    $local_list ne 'list' && -e "$urpm->{cachedir}/partial/$local_list" && -s _
+			    $local_list ne 'list' && -s "$urpm->{cachedir}/partial/$local_list"
 				and rename(
 				    "$urpm->{cachedir}/partial/$local_list",
 				    "$urpm->{cachedir}/partial/list");
@@ -1695,7 +1698,7 @@ this could happen if you mounted manually the directory when creating the medium
 				},
 				$_,
 			    );
-			    $local_pubkey ne 'pubkey' && -e "$urpm->{cachedir}/partial/$local_pubkey" && -s _
+			    $local_pubkey ne 'pubkey' && -s "$urpm->{cachedir}/partial/$local_pubkey"
 				and rename(
 				    "$urpm->{cachedir}/partial/$local_pubkey",
 				    "$urpm->{cachedir}/partial/pubkey");
@@ -1712,7 +1715,7 @@ this could happen if you mounted manually the directory when creating the medium
 	}
 
 	#- build list file according to hdlist.
-	unless ($medium->{headers} || -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 32) {
+	unless ($medium->{headers} || file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 32) {
 	    $error = 1;
 	    $urpm->{error}(N("no hdlist file found for medium \"%s\"", $medium->{name}));
 	}
@@ -1735,7 +1738,7 @@ this could happen if you mounted manually the directory when creating the medium
 		$options{callback} and $options{callback}('parse', $medium->{name});
 		my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 		if (!$medium->{synthesis}
-		    || -e "$urpm->{cachedir}/partial/$medium->{hdlist}" && -s _ > 262144)
+		    || file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 262144)
 		{
 		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
 		    ($medium->{start}, $medium->{end}) =
@@ -2613,8 +2616,8 @@ sub exlock_rpm_db {
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_EX, $LOCK_NB) = (2, 4);
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    open RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
-    flock RPMLOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
+    open $RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
+    flock $RPMLOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 
 sub shlock_rpm_db {
@@ -2623,12 +2626,12 @@ sub shlock_rpm_db {
     my ($LOCK_SH, $LOCK_NB) = (1, 4);
     #- create the .LOCK file if needed (and if possible)
     unless (-e "$urpm->{root}/$urpm->{statedir}/.RPMLOCK") {
-	open RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
-	close RPMLOCK_FILE;
+	open $RPMLOCK_FILE, ">$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
+	close $RPMLOCK_FILE;
     }
     #- lock urpmi database, if the LOCK file doesn't exists no share lock.
-    open RPMLOCK_FILE, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK" or return;
-    flock RPMLOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
+    open $RPMLOCK_FILE, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK" or return;
+    flock $RPMLOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 
 sub unlock_rpm_db {
@@ -2637,8 +2640,8 @@ sub unlock_rpm_db {
     my $LOCK_UN = 8;
     #- now everything is finished.
     #- release lock on database.
-    flock RPMLOCK_FILE, $LOCK_UN;
-    close RPMLOCK_FILE;
+    flock $RPMLOCK_FILE, $LOCK_UN;
+    close $RPMLOCK_FILE;
 }
 
 sub exlock_urpmi_db {
@@ -2646,8 +2649,8 @@ sub exlock_urpmi_db {
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_EX, $LOCK_NB) = (2, 4);
     #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    open LOCK_FILE, ">$urpm->{statedir}/.LOCK";
-    flock LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
+    open $LOCK_FILE, ">$urpm->{statedir}/.LOCK";
+    flock $LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 
 sub shlock_urpmi_db {
@@ -2656,12 +2659,12 @@ sub shlock_urpmi_db {
     my ($LOCK_SH, $LOCK_NB) = (1, 4);
     #- create the .LOCK file if needed (and if possible)
     unless (-e "$urpm->{statedir}/.LOCK") {
-	open LOCK_FILE, ">$urpm->{statedir}/.LOCK";
-	close LOCK_FILE;
+	open $LOCK_FILE, ">$urpm->{statedir}/.LOCK";
+	close $LOCK_FILE;
     }
     #- lock urpmi database, if the LOCK file doesn't exists no share lock.
-    open LOCK_FILE, "$urpm->{statedir}/.LOCK" or return;
-    flock LOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
+    open $LOCK_FILE, "$urpm->{statedir}/.LOCK" or return;
+    flock $LOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 
 sub unlock_urpmi_db {
@@ -2670,8 +2673,8 @@ sub unlock_urpmi_db {
     my $LOCK_UN = 8;
     #- now everything is finished.
     #- release lock on database.
-    flock LOCK_FILE, $LOCK_UN;
-    close LOCK_FILE;
+    flock $LOCK_FILE, $LOCK_UN;
+    close $LOCK_FILE;
 }
 
 sub copy_packages_of_removable_media {
