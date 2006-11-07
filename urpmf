@@ -148,7 +148,7 @@ my @inner = (
 
 if ($multitag) {
     @inner = (
-	"for my \$mt (\$pkg->$multitag) {", 
+	"foreach my \$mt (\$pkg->$multitag) {", 
 	(map { "    $_" } @inner), 
 	"}",
     );
