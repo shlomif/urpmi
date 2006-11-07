@@ -146,10 +146,10 @@ my $sprintfargs = join(', ', map {
 
 my $next_st = $multi ? 'next' : 'return 1';
 my @inner = (
-    "\$_ = sprintf(qq{$proto\\n}, $sprintfargs);",
-    "$expr or $next_st;",
-    $uniq ? ('$uniq{$_} and ' . $next_st . ';', '$uniq{$_} = 1;') : (),
-    "print;",
+    "my \$s = sprintf(qq{$proto\\n}, $sprintfargs);",
+    "\$s =~ $expr or $next_st;",
+    $uniq ? ('$uniq{$s} and ' . $next_st . ';', '$uniq{$s} = 1;') : (),
+    'print $s;',
 );
 
 if ($multi) {
@@ -160,12 +160,10 @@ if ($multi) {
     );
 }
 
-#- it would be nice to use "my $_" in this callback.
 my $callback = join("\n", 
     "sub {", 
     (map { "    $_" } 
        'my ($urpm, $pkg) = @_;',
-       'local *_;',
        @inner,
        '1;'),
     "}");
