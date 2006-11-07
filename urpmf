@@ -129,6 +129,8 @@ my $sprintfargs = join(', ', map {
 	'$urpm::currentmedia->{name}';
     } elsif ($_ eq 'fullname') {
 	'scalar($pkg->fullname)';
+    } elsif ($_ eq 'description') {
+	'do { my $d = $pkg->description; $d =~ s/^/\t/mg; "\n$d" }';
     } elsif ($multitags{$_}) {
 	$multitag and $urpm->{fatal}->(1, N("Incorrect format: you may use only one multi-valued tag"));
 	$multitag = $_;
