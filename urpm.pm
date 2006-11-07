@@ -2267,6 +2267,10 @@ sub search_packages {
 		);
 		$result = 0;
 	    } else {
+		if (!@{$exact_a{$_} || $exact_ra{$_} || []}) {
+		    #- we found a non-exact match
+		    $result = 'substring';
+		}
 		foreach (values %l) {
 		    my $best;
 		    foreach (@$_) {

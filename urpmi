@@ -416,16 +416,21 @@ if ($bug) {
 }
 
 #- search the packages according to the selection given by the user.
+my $search_result;
 if (@names) {
-    $urpm->search_packages(
+    $search_result = $urpm->search_packages(
 	\%requested, [ @names ],
 	all => $all,
 	use_provides => $use_provides,
 	fuzzy => $urpm->{options}{fuzzy},
     ) || $force or exit 1;
+
+    if (%requested) {
+	$urpm->{log}("found package(s): " . join(" ", map { scalar $urpm->{depslist}[$_]->fullname } keys %requested));
+    }
 }
 if (@src_names) {
-    $urpm->search_packages(\%requested, [ @src_names ],
+    $search_result = $urpm->search_packages(\%requested, [ @src_names ],
 	all => $all,
 	use_provides => $use_provides,
 	fuzzy => $urpm->{options}{fuzzy},
@@ -548,7 +553,7 @@ my @to_install;
 
 #- check if there is at least one package to install that
 #- has not been given by the user.
-my $ask_user = $env;
+my $ask_user = $env || $search_result eq 'substring';
 my $sum = 0;
 my @root_only;
 
@@ -826,11 +831,15 @@ if ($nok) {
 	print N("Installation is possible"), "\n";
     } elsif (@names || @src_names || @files || @src_files || $auto_select) {
 	if (@{$state->{transaction} || []} == 0 && @ask_unselect == 0) {
-	    print N("The package(s) are already installed"), "\n" if $verbose >= 0;
-	    if ($verbose >= 0 && !$auto_select) {
-		my @packages = map { $urpm->{depslist}[$_]->name } keys %requested;
-		my @guessed = difference2(\@packages, \(@names, @src_names));
-		print N("The following package names were assumed: %s", join ", ", @guessed), "\n" if @guessed;
+	    if ($verbose >= 0) {
+		if ($auto_select) {
+		    print N("Packages are up to date"), "\n";
+		} else {
+		    my @l = map { scalar $urpm->{depslist}[$_]->fullname } keys %requested;
+		    my $msg = @l > 1 ? N("Packages %s are already installed", join(', ', @l)) : 
+		                       N("Package %s is already installed", @l);
+		    print "$msg\n";
+		}
 	    }
 	    $exit_code = 15 if our $expect_install;
 	}
