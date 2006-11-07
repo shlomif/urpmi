@@ -132,11 +132,17 @@ my $sprintfargs = join(', ', map {
     } elsif ($multitags{$_}) {
 	$multitag and $urpm->{fatal}->(1, N("Incorrect format: you may use only one multi-valued tag"));
 	$multitag = $_;
-	'$mt';
+	"'%s'";
     } else {
 	'$pkg->' . $_;
     }
 } $qf =~ /%[-\d]*(\w+)/g);
+
+my ($proto_cooked, $sprintfargs_cooked);
+if ($multitag) {
+    ($proto_cooked, $sprintfargs_cooked) = ($proto, $sprintfargs);
+    ($proto, $sprintfargs) = ('$proto_cooked', '$mt');    
+}
 
 my $next_st = $multitag ? 'next' : 'return 1';
 my @inner = (
@@ -148,6 +154,7 @@ my @inner = (
 
 if ($multitag) {
     @inner = (
+	"my \$proto_cooked = sprintf(qq{$proto_cooked}, $sprintfargs_cooked);",
 	"foreach my \$mt (\$pkg->$multitag) {", 
 	(map { "    $_" } @inner), 
 	"}",
