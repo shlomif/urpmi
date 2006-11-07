@@ -131,38 +131,45 @@ while ($qf =~ /%[-\d]*(\w+)/g) {
 $multi > 1
     and $urpm->{fatal}->(1, N("Incorrect format: you may use only one multi-valued tag"));
 
-#- it would be nice to use "my $_" in this callback.
-my $callback = 'sub {
-    my ($urpm, $pkg) = @_;
-    local *_;';
-if ($multi) {
-    $callback .= "
-    for my \$mt (\$pkg->$multitag) {";
-}
-$callback .= "
-    \$_ = sprintf(qq{$qf\\n}";
-
-my $sprintfargs = '';
-while ($callback =~ /%[-\d]*(\w+)/g) {
-    my $tag = $1;
-    if ($tag eq 'media') {
-	$sprintfargs .= ', $urpm::currentmedia->{name}';
-    } elsif ($tag eq 'fullname') {
-	$sprintfargs .= ', scalar($pkg->fullname)';
-    } elsif ($tag eq $multitag) {
-	$sprintfargs .= ', $mt';
+(my $proto = $qf) =~ s/%([-\d]*)(\w+)/%${1}s/g;
+my $sprintfargs = join(', ', map {
+    if ($_ eq 'media') {
+	'$urpm::currentmedia->{name}';
+    } elsif ($_ eq 'fullname') {
+	'scalar($pkg->fullname)';
+    } elsif ($_ eq $multitag) {
+	'$mt';
     } else {
-	$sprintfargs .= ', $pkg->' . $tag;
+	'$pkg->' . $_;
     }
-}
-$callback =~ s/%([-\d]*)(\w+)/%${1}s/g;
+} $qf =~ /%[-\d]*(\w+)/g);
+
 my $next_st = $multi ? 'next' : 'return 1';
-$uniq and $uniq = "\n" . '    $uniq{$_} and ' . $next_st . '; $uniq{$_} = 1;';
-$callback .= "$sprintfargs);
-    $expr or $next_st;$uniq
-    print;";
-$callback .= "\n    }" if $multi;
-$callback .= "\n    1;\n}";
+my @inner = (
+    "\$_ = sprintf(qq{$proto\\n}, $sprintfargs);",
+    "$expr or $next_st;",
+    $uniq ? ('$uniq{$_} and ' . $next_st . ';', '$uniq{$_} = 1;') : (),
+    "print;",
+);
+
+if ($multi) {
+    @inner = (
+	"for my \$mt (\$pkg->$multitag) {", 
+	(map { "    $_" } @inner), 
+	"}",
+    );
+}
+
+#- it would be nice to use "my $_" in this callback.
+my $callback = join("\n", 
+    "sub {", 
+    (map { "    $_" } 
+       'my ($urpm, $pkg) = @_;',
+       'local *_;',
+       @inner,
+       '1;'),
+    "}");
+
 our $debug;
 $urpm->{error}("qf:[$qf]\ncallback:\n$callback") if $debug;
 $callback = eval $callback;
