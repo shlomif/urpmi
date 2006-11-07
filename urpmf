@@ -118,9 +118,6 @@ if ($full) { $qf =~ s/%name\b/%fullname/ }
 my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
-#- build the callback matching the expression.
-#- count multi-valued tags
-my $multi = 0;
 my $multitag = '';
 my %multitags = map { $_ => 1 } qw(conffiles conflicts files obsoletes provides requires);
 my %usedtags;
@@ -133,7 +130,7 @@ my $sprintfargs = join(', ', map {
     } elsif ($_ eq 'fullname') {
 	'scalar($pkg->fullname)';
     } elsif ($multitags{$_}) {
-	$multi++;
+	$multitag and $urpm->{fatal}->(1, N("Incorrect format: you may use only one multi-valued tag"));
 	$multitag = $_;
 	'$mt';
     } else {
@@ -141,10 +138,7 @@ my $sprintfargs = join(', ', map {
     }
 } $qf =~ /%[-\d]*(\w+)/g);
 
-$multi > 1
-    and $urpm->{fatal}->(1, N("Incorrect format: you may use only one multi-valued tag"));
-
-my $next_st = $multi ? 'next' : 'return 1';
+my $next_st = $multitag ? 'next' : 'return 1';
 my @inner = (
     "my \$s = sprintf(qq{$proto}, $sprintfargs);",
     "\$s =~ $expr or $next_st;",
@@ -152,7 +146,7 @@ my @inner = (
     'print $s, "\n";',
 );
 
-if ($multi) {
+if ($multitag) {
     @inner = (
 	"for my \$mt (\$pkg->$multitag) {", 
 	(map { "    $_" } @inner), 
@@ -160,6 +154,7 @@ if ($multi) {
     );
 }
 
+#- build the callback matching the expression.
 my $callback = join("\n", 
     "sub {", 
     (map { "    $_" } 
