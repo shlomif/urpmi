@@ -2961,18 +2961,19 @@ sub install {
 
     #- allow process to be forked now.
     my $pid;
-    local (*CHILD_RETURNS, *ERROR_OUTPUT, $_);
+    my ($CHILD_RETURNS, $ERROR_OUTPUT);
     if ($options{fork}) {
-	pipe(CHILD_RETURNS, ERROR_OUTPUT);
+	pipe($CHILD_RETURNS, $ERROR_OUTPUT);
 	defined($pid = fork()) or die "Can't fork: $!\n";
 	if ($pid) {
 	    # parent process
-	    close ERROR_OUTPUT;
+	    close $ERROR_OUTPUT;
 
 	    $urpm->{log}(N("using process %d for executing transaction", $pid));
 	    #- now get all errors from the child and return them directly.
 	    my @l;
-	    while (<CHILD_RETURNS>) {
+	    local $_;
+	    while (<$CHILD_RETURNS>) {
 		chomp;
 		if (/^::logger_id:(\d+)(?::(\d+))?/) {
 		    $urpm->{logger_id} = $1;
@@ -2982,7 +2983,7 @@ sub install {
 		}
 	    }
 
-	    close CHILD_RETURNS;
+	    close $CHILD_RETURNS;
 	    waitpid($pid, 0);
 	    #- take care of return code from transaction, an error should be returned directly.
 	    $? >> 8 and exit $? >> 8;
@@ -2990,7 +2991,7 @@ sub install {
 	    return @l;
 	} else {
 	    # child process
-	    close CHILD_RETURNS;
+	    close $CHILD_RETURNS;
 	}
     }
     #- beware this can be a child process or the main process now...
@@ -3078,9 +3079,9 @@ sub install {
 
     #- now exit or return according to current status.
     if (defined $pid && !$pid) { #- child process
-	print ERROR_OUTPUT "::logger_id:$urpm->{logger_id}:$urpm->{logger_count}\n"; #- allow main urpmi to know transaction numbering...
-	print ERROR_OUTPUT "$_\n" foreach @l;
-	close ERROR_OUTPUT;
+	print $ERROR_OUTPUT "::logger_id:$urpm->{logger_id}:$urpm->{logger_count}\n"; #- allow main urpmi to know transaction numbering...
+	print $ERROR_OUTPUT "$_\n" foreach @l;
+	close $ERROR_OUTPUT;
 	#- keep safe exit now (with destructor call).
 	exit 0;
     } else { #- parent process
