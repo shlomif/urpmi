@@ -23,7 +23,6 @@ use strict;
 use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw(fatal but quit add_button_box new_label N);
-our $VERSION = $urpm::VERSION;
 
 sub usage () {
     print <<USAGE;
