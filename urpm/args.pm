@@ -108,7 +108,6 @@ my %options_spec = (
 	},
 	'bug=s' => \$options{bug},
 	'env=s' => \$::env,
-	WID => \$::WID,
 	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
 	'strict-arch!' => sub { $urpm->{options}{'strict-arch'} = $_[1] },
 	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1] },
