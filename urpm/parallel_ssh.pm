@@ -9,6 +9,8 @@ use strict;
 use urpm::util;
 use Time::HiRes qw(gettimeofday);
 
+our @ISA = (); #- help perl_checker
+
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 sub _localhost { $_[0] eq 'localhost' }

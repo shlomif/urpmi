@@ -8,6 +8,8 @@ package urpm::parallel_ka_run;
 use strict;
 use urpm::util;
 
+our @ISA = (); #- help perl_checker
+
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 our $mput_command = $ENV{URPMI_MPUT_COMMAND};
 our $rshp_command = $ENV{URPMI_RSHP_COMMAND};
