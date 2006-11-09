@@ -5,6 +5,7 @@ package urpm::download;
 use strict;
 use urpm::msg;
 use urpm::cfg;
+use urpm::util;
 use Cwd;
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -33,9 +34,8 @@ sub import () {
 #- parses proxy.cfg (private)
 sub load_proxy_config () {
     return if defined $proxy_config;
-    open my $f, $PROXY_CFG or $proxy_config = {}, return;
-    local $_;
-    while (<$f>) {
+    $proxy_config = {};
+    foreach (cat_($PROXY_CFG)) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	if (/^(?:(.*):\s*)?(ftp_proxy|http_proxy)\s*=\s*(.*)$/) {
 	    $proxy_config->{$1 || ''}{$2} = $3;
@@ -51,7 +51,6 @@ sub load_proxy_config () {
 	    next;
 	}
     }
-    close $f;
 }
 
 #- writes proxy.cfg

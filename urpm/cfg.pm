@@ -109,9 +109,8 @@ sub load_config ($;$) {
     my $priority = 0;
     my $medium;
     $err = '';
-    open my $f, $file or do { $err = N("unable to read config file [%s]", $file); return };
-    local $_;
-    while (<$f>) {
+    my @conf_lines = cat_($file) or do { $err = N("unable to read config file [%s]", $file); return };
+    foreach (@conf_lines) {
 	chomp;
 	next if /^\s*#/; #- comments
 	s/^\s+//; s/\s+$//;
@@ -192,7 +191,6 @@ sub load_config ($;$) {
 	#- obsolete
 	$_ eq 'modified' and next;
     }
-    close $f;
     return \%config;
 }
 
@@ -235,14 +233,9 @@ sub dump_config ($$) {
 our $mirrors = 'http://www.mandrivalinux.com/mirrorsfull.list';
 
 sub mirrors_cfg () {
-    if (-e "/etc/urpmi/mirror.config") {
-	local $_;
-	open my $fh, "/etc/urpmi/mirror.config" or return undef;
-	while (<$fh>) {
+    foreach (cat_("/etc/urpmi/mirror.config")) {
 	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	    /^url\s*=\s*(.*)/ and $mirrors = $1;
-	}
-	close $fh;
     }
     return 1;
 }
