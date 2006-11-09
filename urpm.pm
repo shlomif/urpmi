@@ -2053,10 +2053,10 @@ sub clean {
 }
 
 sub try_mounting {
-    my ($urpm, $dir, $removable) = @_;
+    my ($urpm, $dir, $o_removable) = @_;
     my %infos;
 
-    my $is_iso = is_iso($removable);
+    my $is_iso = is_iso($o_removable);
     my @mntpoints = $is_iso
 	#- note: for isos, we don't parse the fstab because it might not be declared in it.
 	#- so we try to remove suffixes from the dir name until the dir exists
@@ -2070,13 +2070,13 @@ sub try_mounting {
 	if ($is_iso) {
 	    #- to mount an iso image, grab the first loop device
 	    my $loopdev = urpm::sys::first_free_loopdev();
-	    sys_log("mount iso $_ on $removable");
-	    $loopdev and system('mount', $removable, $_, '-t', 'iso9660', '-o', "loop=$loopdev");
+	    sys_log("mount iso $_ on $o_removable");
+	    $loopdev and system('mount', $o_removable, $_, '-t', 'iso9660', '-o', "loop=$loopdev");
 	} else {
 	    sys_log("mount $_");
 	    system("mount '$_' 2>/dev/null");
 	}
-	$removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
+	$o_removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
     }
     -e $dir;
 }
