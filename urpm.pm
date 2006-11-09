@@ -3146,7 +3146,8 @@ sub find_packages_to_remove {
 		if (($n) = /^(.*)-[^\-]*-[^\-]*$/) {
 		    $db->traverse_tag('name', [ $n ], sub {
 			    my ($p) = @_;
-			    join('-', ($p->fullname)[0..2]) eq $_ or return;
+			    my ($name, $version, $release) = $p->fullname;
+			    "$name-$version-$release" eq $_ or return;
 			    $urpm->resolve_rejected($db, $state, $p, removed => 1, bundle => $options{bundle});
 			    push @m, scalar $p->fullname;
 			    $found = 1;
@@ -3158,7 +3159,8 @@ sub find_packages_to_remove {
 		if (($n) = /^(.*)-[^\-]*$/) {
 		    $db->traverse_tag('name', [ $n ], sub {
 			    my ($p) = @_;
-			    join('-', ($p->fullname)[0..1]) eq $_ or return;
+			    my ($name, $version) = $p->fullname;
+			    "$name-$version" eq $_ or return;
 			    $urpm->resolve_rejected($db, $state, $p, removed => 1, bundle => $options{bundle});
 			    push @m, scalar $p->fullname;
 			    $found = 1;
