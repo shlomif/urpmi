@@ -3270,6 +3270,8 @@ sub unselected_packages {
     grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
 }
 
+sub uniq { my %l; $l{$_} = 1 foreach @_; grep { delete $l{$_} } @_ }
+
 sub translate_why_unselected {
     my ($urpm, $state, @l) = @_;
 
@@ -3279,12 +3281,12 @@ sub translate_why_unselected {
 	my @unsatisfied = @{$rb->{unsatisfied} || []};
 	my $s = join ", ", (
 	    (map { N("due to missing %s", $_) } @froms),
-	    (map { N("due to unsatisfied %s", $_) } uniq map {
+	    (map { N("due to unsatisfied %s", $_) } uniq(map {
 		    #- XXX in theory we shouldn't need this, dependencies (and not ids) should
 		    #- already be present in @unsatisfied. But with biarch packages this is
 		    #- not always the case.
 		    /\D/ ? $_ : scalar($urpm->{depslist}[$_]->fullname);
-		} @unsatisfied),
+		} @unsatisfied)),
 	    $rb->{promote} && !$rb->{keep} ? N("trying to promote %s", join(", ", @{$rb->{promote}})) : @{[]},
 	    $rb->{keep} ? N("in order to keep %s", join(", ", @{$rb->{keep}})) : @{[]},
 	);
