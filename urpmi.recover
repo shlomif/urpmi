@@ -51,7 +51,7 @@ sub fmt_tid {
 
 sub date_to_tid {
     my ($date) = @_;
-    require Date::Manip; Date::Manip->import();
+    require Date::Manip; Date::Manip->import;
     my $d = ParseDate($date)
 	or die N("Invalid date or duration [%s]\n", $date);
     UnixDate($d, '%s');
@@ -67,7 +67,7 @@ sub clean_repackage_dir {
 	or die N("Can't write to repackage directory [%s]\n", $repackage_dir);
     unless ($noclean) {
 	print N("Cleaning up repackage directory [%s]...\n", $repackage_dir);
-	my $nb = unlink grep !-d, glob("$repackage_dir/*");
+	my $nb = unlink grep { ! -d $_ } glob("$repackage_dir/*");
 	print N("%d files removed\n", $nb);
     }
 }
@@ -104,7 +104,7 @@ if ($listdate) {
     my $db = URPM::DB::open() or die "Can't open RPM DB\n";
     $db->traverse(sub {
 	my ($p) = @_;
-	my $tid = $p->installtid();
+	my $tid = $p->installtid;
 	return if $tid < $listtime;
 	exists $tids{$tid} or $tids{$tid} = [];
 	push @{ $tids{$tid} }, scalar($p->fullname);
@@ -115,7 +115,7 @@ if ($listdate) {
     }
     print "Date                rpms\n";
     print "------------------- -------------------\n";
-    for my $tid (sort { $a <=> $b } keys %tids) {
+    foreach my $tid (sort { $a <=> $b } keys %tids) {
 	my @p = @{$tids{$tid}};
 	print fmt_tid($tid), " ", shift(@p), "\n";
 	while (@p) {
@@ -174,7 +174,7 @@ if ($rollback) {
 	#- get a date from there
 	my %tids;
 	my $db = URPM::DB::open() or die "Can't open RPM DB\n";
-	$db->traverse(sub { ++$tids{ $_[0]->installtid() } });
+	$db->traverse(sub { ++$tids{ $_[0]->installtid } });
 	my @tids = sort { $b <=> $a } keys %tids;
 	$tid = $tids[$rollback - 1];
     } else {
