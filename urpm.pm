@@ -3437,16 +3437,12 @@ sub get_updates_description {
 sub parse_md5sum {
     my ($urpm, $path, $basename) = @_;
     $urpm->{log}(N("examining MD5SUM file"));
-    my $fh = $urpm->open_safe('<', $path) or return undef;
-    my $retrieved_md5sum;
-    local $_;
-    while (<$fh>) {
-	my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)| or next;
-	$file eq $basename and $retrieved_md5sum = $md5sum;
-    }
-    close $fh;
-    defined $retrieved_md5sum
-	or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
+
+    my ($retrieved_md5sum) = map {
+	my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)|;
+	$file && $file eq $basename ? $md5sum : ();
+    } cat_($path) or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
+
     return $retrieved_md5sum;
 }
 
