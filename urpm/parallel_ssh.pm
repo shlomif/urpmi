@@ -8,7 +8,7 @@ package urpm::parallel_ssh;
 use strict;
 use Time::HiRes qw(gettimeofday);
 
-(our $VERSION) = q$Revision$ =~ /(\d+)/;
+(our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 sub _localhost { $_[0] eq 'localhost' }
 sub _nolock    { &_localhost ? '--nolock ' : '' }
@@ -32,7 +32,7 @@ sub parallel_register_rpms {
 
     #- keep trace of direct files.
     foreach (@files) {
-	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+	my $basename = basename($_);
 	$parallel->{line} .= "'$urpm->{cachedir}/rpms/$basename' ";
     }
 }
@@ -73,7 +73,7 @@ sub parallel_find_remove {
 		#- if other nodes have it.
 		@notfound{split /, /, $1} = ();
 	    } elsif (/The following packages contain ([^:]*): (.*)/) {
-		$options{callback_fuzzy} and $options{callback_fuzzy}->($urpm, $1, split " ", $2)
+		$options{callback_fuzzy} && $options{callback_fuzzy}->($urpm, $1, split(" ", $2))
 		  or delete $state->{rejected}, last;
 	    } elsif (/removing package (.*) will break your system/) {
 		$base_to_remove{$1} = undef;
@@ -95,8 +95,9 @@ sub parallel_find_remove {
     }
 
     #- check base, which has been delayed until there.
-    $options{callback_base} and keys %base_to_remove
-	and $options{callback_base}->($urpm, keys %base_to_remove) || return ();
+    if ($options{callback_base} && keys %base_to_remove) {
+	$options{callback_base}->($urpm, keys %base_to_remove) or return ();
+    }
 
     #- build error list contains all the error returned by each node.
     $urpm->{error_remove} = [];
@@ -110,7 +111,7 @@ sub parallel_find_remove {
     #- if at least one node has the package, it should be seen as unknown...
     delete @notfound{map { /^(.*)-[^-]*-[^-]*$/ } keys %{$state->{rejected}}};
     if (keys %notfound) {
-	$options{callback_notfound} and $options{callback_notfound}->($urpm, keys %notfound)
+	$options{callback_notfound} && $options{callback_notfound}->($urpm, keys %notfound)
 	  or delete $state->{rejected};
     }
 
@@ -162,7 +163,7 @@ sub parallel_resolve_dependencies {
 	} else {
 	    my $pkg = $urpm->{depslist}[$_] or next;
 	    $urpm->{source}{$pkg->id} and next; #- local packages have already been added.
-	    $line .= ' '.$pkg->fullname;
+	    $line .= ' ' . $pkg->fullname;
 	}
     }
 
@@ -267,7 +268,8 @@ sub parallel_install {
             local $/ = \1;
             my $log;
             my $last_time;
-            while ($_ = <$fh>) {
+	    local $_;
+            while (<$fh>) {
                 print;
                 $log .= $_;
                 /\n/ and $log = '';

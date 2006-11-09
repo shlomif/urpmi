@@ -17,8 +17,6 @@ my $proxy_config;
 #- Timeout for curl connection and wget operations
 our $CONNECT_TIMEOUT = 60; #-  (in seconds)
 
-sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
-
 sub import () {
     my $c = caller;
     no strict 'refs';

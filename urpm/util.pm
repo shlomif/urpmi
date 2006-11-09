@@ -9,7 +9,7 @@ our @EXPORT = qw(quotespace unquotespace
     remove_internal_name
     reduce_pathname offset_pathname
     md5sum untaint
-    difference2 member
+    difference2 member file_size cat_ basename
 );
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -18,6 +18,8 @@ our @EXPORT = qw(quotespace unquotespace
 sub quotespace		 { my $x = $_[0] || ''; $x =~ s/(\s)/\\$1/g; $x }
 sub unquotespace	 { my $x = $_[0] || ''; $x =~ s/\\(\s)/$1/g; $x }
 sub remove_internal_name { my $x = $_[0] || ''; $x =~ s/\(\S+\)$/$1/g; $x }
+
+sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
 
 #- reduce pathname by removing <something>/.. each time it appears (or . too).
 sub reduce_pathname {
@@ -78,8 +80,7 @@ sub offset_pathname {
 }
 
 sub untaint {
-    my @r;
-    foreach (@_) { /(.*)/; push @r, $1 }
+    my @r = map { /(.*)/ } @_;
     @r == 1 ? $r[0] : @r;
 }
 
@@ -88,7 +89,7 @@ sub md5sum {
     eval { require Digest::MD5 };
     if ($@) {
 	#- Use an external command to avoid depending on perl
-	return((split ' ', `/usr/bin/md5sum '$file'`)[0]);
+	return (split ' ', `/usr/bin/md5sum '$file'`)[0];
     } else {
 	my $ctx = Digest::MD5->new;
 	open my $fh, $file or return '';
@@ -105,11 +106,18 @@ sub copy {
 
 sub move {
     my ($file, $dest) = @_;
-    rename($file, $dest) or !system("/bin/mv", "-f", $file, $dest);
+    rename($file, $dest) || !system("/bin/mv", "-f", $file, $dest);
+}
+
+#- file_size is useful to write file_size(...) > 32 without having warnings if file doesn't exist
+sub file_size {
+    my ($file) = @_;
+    -s $file || 0;
 }
 
 sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
 sub member { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
+sub cat_ { my @l = map { my $F; open($F, '<', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
 
 1;
 

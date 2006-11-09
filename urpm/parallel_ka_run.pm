@@ -14,11 +14,11 @@ our $rshp_command = $ENV{URPMI_RSHP_COMMAND};
 if (!$mput_command) {
     ($mput_command) = grep { -x $_ } qw(/usr/bin/mput2 /usr/bin/mput);
 }
-$mput_command = 'mput' unless $mput_command;
+$mput_command ||= 'mput';
 if (!$rshp_command) {
     ($rshp_command) = grep { -x $_ } qw(/usr/bin/rshp2 /usr/bin/rshp);
 }
-$rshp_command = 'rshp' unless $rshp_command;
+$rshp_command ||= 'rshp';
 
 #- parallel copy
 sub parallel_register_rpms {
@@ -30,7 +30,7 @@ sub parallel_register_rpms {
 
     #- keep trace of direct files.
     foreach (@files) {
-	my $basename = (/^.*\/([^\/]*)$/ && $1) || $_;
+	my $basename = basename($_);
 	$parallel->{line} .= "'$urpm->{cachedir}/rpms/$basename' ";
     }
 }
@@ -90,8 +90,9 @@ sub parallel_find_remove {
     close $fh or $urpm->{fatal}(1, urpm::N("rshp failed, maybe a node is unreacheable"));
 
     #- check base, which has been delayed until there.
-    $options{callback_base} and %base_to_remove and $options{callback_base}->($urpm, keys %base_to_remove)
-      || return ();
+    if ($options{callback_base} && %base_to_remove) {
+	$options{callback_base}->($urpm, keys %base_to_remove) or return ();
+    }
 
     #- build error list contains all the error returned by each node.
     $urpm->{error_remove} = [];
@@ -119,7 +120,7 @@ sub parallel_resolve_dependencies {
 
     #- first propagate the synthesis file to all machine.
     $urpm->{ui_msg}("parallel_ka_run: $mput_command $parallel->{options} -- '$synthesis' '$synthesis'", urpm::N("Propagating synthesis to nodes..."));
-    system "$mput_command $parallel->{options} -- '$synthesis' '$synthesis'";
+    system($mput_command, $parallel->{options}, '--', $synthesis, $synthesis);
     $? == 0 || $? == 256 or $urpm->{fatal}(1, urpm::N("mput failed, maybe a node is unreacheable"));
     $parallel->{synthesis} = $synthesis;
 
@@ -205,14 +206,14 @@ sub parallel_resolve_dependencies {
     } while $cont;
 
     #- keep trace of what has been chosen finally (if any).
-    $parallel->{line} = "$line ".join(' ', keys %chosen);
+    $parallel->{line} = join(' ', $line, keys %chosen);
 }
 
 #- parallel install.
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    $urpm->{ui_msg}("parallel_ka_run: $mput_command $parallel->{options} -- ".join(' ', values %$install, values %$upgrade)." $urpm->{cachedir}/rpms/", urpm::N("Distributing files to nodes..."));
+    $urpm->{ui_msg}("parallel_ka_run: $mput_command $parallel->{options} -- " . join(' ', values %$install, values %$upgrade) . " $urpm->{cachedir}/rpms/", urpm::N("Distributing files to nodes..."));
     system $mput_command, split(' ', $parallel->{options}), '--', values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/";
     $? == 0 || $? == 256 or $urpm->{fatal}(1, urpm::N("mput failed, maybe a node is unreacheable"));
 
