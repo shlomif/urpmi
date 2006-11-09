@@ -3049,7 +3049,7 @@ sub install {
 	$options{callback_open} ||= sub {
 	    my ($_data, $_type, $id) = @_;
 	    $fh = $urpm->open_safe('<', $install->{$id} || $upgrade->{$id});
-	    return defined $fh ? fileno $fh : undef;
+	    $fh ? fileno $fh : undef;
 	};
 	$options{callback_close} ||= sub {
 	    my ($urpm, undef, $pkgid) = @_;
@@ -3295,9 +3295,10 @@ sub removed_packages {
 sub translate_why_removed {
     my ($urpm, $state, @l) = @_;
     map {
-	my ($from) = keys %{$state->{rejected}{$_}{closure}};
-	my ($whyk) = keys %{$state->{rejected}{$_}{closure}{$from}};
-	my $whyv = $state->{rejected}{$_}{closure}{$from}{$whyk};
+	my $closure = $state->{rejected}{$_}{closure};
+	my ($from) = keys %$closure;
+	my ($whyk) = keys %{$closure->{$from}};
+	my $whyv = $closure->{$from}{$whyk};
 	my $frompkg = $urpm->search($from, strict_fullname => 1);
 	my $s;
 	for ($whyk) {
