@@ -11,7 +11,7 @@ use urpm::msg;
 use Exporter;
 
 our @ISA = 'Exporter';
-our @EXPORT = ('%options');
+our @EXPORT = '%options';
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
