@@ -33,8 +33,9 @@ sub sync () {
 
 #- sets the window to a please-wait message
 sub wait_label {
+    my ($o_text) = @_;
     my $wait_vbox = Gtk2::VBox->new(0, 5);
-    my $wait_label = Gtk2::Label->new($_[0] || N("Please wait..."));
+    my $wait_label = Gtk2::Label->new($o_text || N("Please wait..."));
     $wait_label->set_alignment(0.5, 0.5);
     $wait_vbox->pack_start($wait_label, 1, 1, 0);
     change_mainw($wait_vbox);
@@ -86,11 +87,11 @@ $mainw->show_all;
 Gtk2->main;
 
 #- Creates and configure an urpm object for this application to use.
-sub configure_urpm {
+sub configure_urpm() {
     my $urpm = new urpm;
     $urpm->{fatal} = sub {
 	Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'error', 'ok', Locale::gettext::iconv($_[1], undef, 'UTF-8'))->run;
-	quit;
+	quit();
 	exit $_[0];
     };
     $urpm->{error} = sub {
@@ -180,11 +181,11 @@ sub ask_continue_blocking {
     my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'question', 'yes-no', $msg);
     my $answer = $w->run;
     $w->destroy;
-    quit if $answer eq 'no';
+    quit() if $answer eq 'no';
 }
 
 sub do_install {
-    wait_label;
+    wait_label();
     my @ask_remove = $urpm->removed_packages($state);
     @ask_remove
 	? ask_continue(N(
@@ -200,7 +201,7 @@ sub do_install_2 () {
 	$pkg->arch ne 'src' and push @to_install, scalar $pkg->fullname;
     }
     $urpm->{nb_install} = @to_install;
-    (@to_install > 1 && !$gurpmi::options{auto})
+    @to_install > 1 && !$gurpmi::options{auto}
 	? ask_continue(N(
 	    "To satisfy dependencies, the following %d packages are going to be installed:\n%s\n",
 	    scalar(@to_install), join "\n", @to_install
