@@ -1022,6 +1022,107 @@ sub _guess_pubkey_name {
     return $medium->{with_hdlist} =~ /hdlist(.*?)(?:\.src)?\.cz2?$/ ? "pubkey$1" : 'pubkey';
 }
 
+sub _update_media__when_not_modified {
+    my ($urpm, $medium) = @_;
+
+    delete @$medium{qw(start end)};
+    if ($medium->{virtual}) {
+	my ($path) = $medium->{url} =~ m!^(?:file:)?/*(/[^/].*[^/])/*\Z!;
+	if ($path) {
+	    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
+	    if ($medium->{synthesis}) {
+		$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
+		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file);
+	    } else {
+		$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_file));
+		($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_file, packing => 1);
+	    }
+	} else {
+	    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
+	    $medium->{ignore} = 1;
+	}
+    } else {
+	$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
+	($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	unless (defined $medium->{start} && defined $medium->{end}) {
+	    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+	    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+	}
+    }
+    unless ($medium->{ignore}) {
+	unless (defined $medium->{start} && defined $medium->{end}) {
+	    #- this is almost a fatal error, ignore it by default?
+	    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
+	    $medium->{ignore} = 1;
+	}
+    }
+}
+
+sub _update_media__virtual {
+    my ($urpm, $medium, $with_hdlist_dir) = @_;
+
+    if ($medium->{with_hdlist} && -e $with_hdlist_dir) {
+	delete @$medium{qw(start end)};
+	if ($medium->{synthesis}) {
+	    $urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
+	    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
+	    delete $medium->{modified};
+	    $medium->{synthesis} = 1;
+	    $urpm->{modified} = 1;
+	    unless (defined $medium->{start} && defined $medium->{end}) {
+		$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
+		($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
+		delete @$medium{qw(modified synthesis)};
+		$urpm->{modified} = 1;
+	    }
+	} else {
+	    $urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
+	    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
+	    delete @$medium{qw(modified synthesis)};
+	    $urpm->{modified} = 1;
+	    unless (defined $medium->{start} && defined $medium->{end}) {
+		$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
+		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
+		delete $medium->{modified};
+		$medium->{synthesis} = 1;
+		$urpm->{modified} = 1;
+	    }
+	}
+	unless (defined $medium->{start} && defined $medium->{end}) {
+	    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
+	    $medium->{ignore} = 1;
+	}
+    } else {
+	$urpm->{error}(N("virtual medium \"%s\" should have valid source hdlist or synthesis, medium ignored",
+			 $medium->{name}));
+	$medium->{ignore} = 1;
+    }
+}
+
+sub generate_media_names {
+    my ($urpm) = @_;
+
+    #- make sure names files are regenerated.
+    foreach (@{$urpm->{media}}) {
+	unlink "$urpm->{statedir}/names.$_->{name}";
+	if (defined $_->{start} && defined $_->{end}) {
+	    my $fh = $urpm->open_safe(">", "$urpm->{statedir}/names.$_->{name}");
+	    if ($fh) {
+		foreach ($_->{start} .. $_->{end}) {
+		    if (defined $urpm->{depslist}[$_]) {
+			print $fh $urpm->{depslist}[$_]->name . "\n";
+		    } else {
+			$urpm->{error}(N("Error generating names file: dependency %d not found", $_));
+		    }
+		}
+		close $fh;
+	    } else {
+		$urpm->{error}(N("Error generating names file: Can't write to file (%s)", $!));
+	    }
+	}
+    }
+}
+
 #- Update the urpmi database w.r.t. the current configuration.
 #- Takes care of modifications, and tries some tricks to bypass
 #- the recomputation of base files.
@@ -1082,37 +1183,7 @@ sub update_media {
 	    #- we still need to read it and all synthesis will be written if
 	    #- an unresolved provides is found.
 	    #- to speed up the process, we only read the synthesis at the beginning.
-	    delete @$medium{qw(start end)};
-	    if ($medium->{virtual}) {
-		my ($path) = $medium->{url} =~ m!^(?:file:)?/*(/[^/].*[^/])/*\Z!;
-		if ($path) {
-		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
-		    if ($medium->{synthesis}) {
-			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
-			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file);
-		    } else {
-			$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_file));
-			($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_file, packing => 1);
-		    }
-		} else {
-		    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
-		    $medium->{ignore} = 1;
-		}
-	    } else {
-		$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-		unless (defined $medium->{start} && defined $medium->{end}) {
-		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-		    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-		}
-	    }
-	    unless ($medium->{ignore}) {
-		unless (defined $medium->{start} && defined $medium->{end}) {
-		    #- this is almost a fatal error, ignore it by default?
-		    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
-		    $medium->{ignore} = 1;
-		}
-	    }
+	    _update_media__when_not_modified($urpm, $medium);
 	    next;
 	}
 
@@ -1168,42 +1239,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    if ($medium->{virtual}) {
 		#- syncing a virtual medium is very simple, just try to read the file in order to
 		#- determine its type, once a with_hdlist has been found (but is mandatory).
-		if ($medium->{with_hdlist} && -e $with_hdlist_dir) {
-		    delete @$medium{qw(start end)};
-		    if ($medium->{synthesis}) {
-			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
-			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
-			delete $medium->{modified};
-			$medium->{synthesis} = 1;
-			$urpm->{modified} = 1;
-			unless (defined $medium->{start} && defined $medium->{end}) {
-			    $urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
-			    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
-			    delete @$medium{qw(modified synthesis)};
-			    $urpm->{modified} = 1;
-			}
-		    } else {
-			$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
-			($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
-			delete @$medium{qw(modified synthesis)};
-			$urpm->{modified} = 1;
-			unless (defined $medium->{start} && defined $medium->{end}) {
-			    $urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
-			    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
-			    delete $medium->{modified};
-			    $medium->{synthesis} = 1;
-			    $urpm->{modified} = 1;
-			}
-		    }
-		    unless (defined $medium->{start} && defined $medium->{end}) {
-			$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
-			$medium->{ignore} = 1;
-		    }
-		} else {
-		    $urpm->{error}(N("virtual medium \"%s\" should have valid source hdlist or synthesis, medium ignored",
-				     $medium->{name}));
-		    $medium->{ignore} = 1;
-		}
+		_update_media__virtual($urpm, $medium, $with_hdlist_dir);
 	    }
 	    #- try to get the description if it has been found.
 	    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
@@ -2005,25 +2041,7 @@ this could happen if you mounted manually the directory when creating the medium
 	dump_proxy_config();
     }
 
-    #- make sure names files are regenerated.
-    foreach (@{$urpm->{media}}) {
-	unlink "$urpm->{statedir}/names.$_->{name}";
-	if (defined $_->{start} && defined $_->{end}) {
-	    my $fh = $urpm->open_safe(">", "$urpm->{statedir}/names.$_->{name}");
-	    if ($fh) {
-		foreach ($_->{start} .. $_->{end}) {
-		    if (defined $urpm->{depslist}[$_]) {
-			print $fh $urpm->{depslist}[$_]->name . "\n";
-		    } else {
-			$urpm->{error}(N("Error generating names file: dependency %d not found", $_));
-		    }
-		}
-		close $fh;
-	    } else {
-		$urpm->{error}(N("Error generating names file: Can't write to file (%s)", $!));
-	    }
-	}
-    }
+    generate_media_names($urpm);
 
     $options{nolock} or $urpm->unlock_urpmi_db;
     $nopubkey or $urpm->unlock_rpm_db;
