@@ -284,7 +284,6 @@ sub do_install_3 () {
 	if (keys(%transaction_sources_install) || keys(%transaction_sources)) {
 	    @{$set->{remove} || []} and
 		$progress_label->set_label(N("removing %s", join(' ', @{$set->{remove} || []})));
-	    my $total_nb = scalar grep { m|^/| } values %transaction_sources_install, values %transaction_sources;
 	    my $callback_inst = sub {
 		my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
 		my $pkg = defined $id ? $urpm->{depslist}[$id] : undef;
