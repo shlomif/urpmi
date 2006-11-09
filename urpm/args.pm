@@ -8,6 +8,10 @@ no warnings 'once';
 use Getopt::Long;# 2.33;
 use urpm::download;
 use urpm::msg;
+use Exporter;
+
+our @ISA = 'Exporter';
+our @EXPORT = ('%options');
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
@@ -27,14 +31,6 @@ my $urpm;
 # stores the values of the command-line options
 our %options;
 
-sub import {
-    if (@_ > 1 && $_[1] eq 'options') {
-	# export the global %options hash
-	no strict 'refs';
-	*{caller() . '::options'} = \%options;
-    }
-}
-
 # used by urpmf
 sub add_param_closure {
     my (@tags) = @_;
@@ -49,17 +45,7 @@ my %options_spec = (
 	"help|h" => sub {
 	    if (defined &::usage) { ::usage() } else { die "No help defined\n" }
 	},
-	"no-locales" => sub {
-	    undef *::N;
-	    undef *urpm::N;
-	    undef *urpm::msg::N;
-	    undef *urpm::args::N;
-	    undef *urpm::cfg::N;
-	    undef *urpm::download::N;
-	    *::N = *urpm::N = *urpm::msg::N = *urpm::args::N
-	        = *urpm::cfg::N = *urpm::download::N
-		= sub { my ($f, @p) = @_; sprintf($f, @p) };
-	},
+	"no-locales" => sub { $urpm::msg::no_translation = 1 },
 	update => \$::update,
 	'media|mediums=s' => \$::media,
 	'excludemedia|exclude-media=s' => \$::excludemedia,

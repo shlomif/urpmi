@@ -7,6 +7,14 @@ use urpm::msg;
 use urpm::cfg;
 use urpm::util;
 use Cwd;
+use Exporter;
+
+our @ISA = 'Exporter';
+our @EXPORT = qw(get_proxy
+	propagate_sync_callback
+	sync_file sync_wget sync_curl sync_rsync sync_ssh
+	set_proxy_config dump_proxy_config
+);
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
@@ -16,18 +24,6 @@ my $proxy_config;
 
 #- Timeout for curl connection and wget operations
 our $CONNECT_TIMEOUT = 60; #-  (in seconds)
-
-sub import () {
-    my $c = caller;
-    no strict 'refs';
-    foreach my $symbol (qw(get_proxy
-	propagate_sync_callback
-	sync_file sync_wget sync_curl sync_rsync sync_ssh
-	set_proxy_config dump_proxy_config
-    )) {
-	*{$c . '::' . $symbol} = *$symbol;
-    }
-}
 
 #- parses proxy.cfg (private)
 sub load_proxy_config () {
