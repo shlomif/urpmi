@@ -2197,9 +2197,9 @@ sub search_packages {
 		    && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat)
 		    && ($options{use_provides} || $_->name eq $v)
 		    && defined($_->id)
-		    && (!defined $urpm->{searchmedia} || (
+		    && (!defined $urpm->{searchmedia} ||
 			    $urpm->{searchmedia}{start} <= $_->id
-		    	    && $urpm->{searchmedia}{end} >= $_->id))
+		    	    && $urpm->{searchmedia}{end} >= $_->id)
 		    ? $_ : @{[]};
 		} map {
 		    $urpm->{depslist}[$_];
@@ -2780,7 +2780,7 @@ sub copy_packages_of_removable_media {
 	#- If more than one media uses this device, we have to sort
 	#- needed packages to copy the needed rpm files.
 	if (@{$removables{$device}} > 1) {
-	    my @sorted_media = sort { values %{$list->[$a]} <=> values %{$list->[$b]} } @{$removables{$device}};
+	    my @sorted_media = sort { values(%{$list->[$a]}) <=> values(%{$list->[$b]}) } @{$removables{$device}};
 
 	    #- check if a removable device is already mounted (and files present).
 	    if (my ($already_mounted_medium) = grep { !$check_notfound->($_) } @sorted_media) {
@@ -2789,11 +2789,12 @@ sub copy_packages_of_removable_media {
 	    }
 
 	    #- mount all except the biggest one.
-	    foreach (@sorted_media[0 .. $#sorted_media-1]) {
+	    my $biggest = pop @sorted_media;
+	    foreach (@sorted_media) {
 		$examine_removable_medium->($_, $device);
 	    }
 	    #- now mount the last one...
-	    $removables{$device} = [ $sorted_media[-1] ];
+	    $removables{$device} = [ $biggest ];
 	}
 
 	$examine_removable_medium->($removables{$device}[0], $device);
