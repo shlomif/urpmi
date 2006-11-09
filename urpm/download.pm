@@ -232,7 +232,7 @@ sub sync_wget {
 	'-P', $options->{dir},
 	@_
     ) . " |";
-    my $wget_pid = open my($wget), $wget_command;
+    my $wget_pid = open(my $wget, $wget_command);
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
     local $_;
     while (<$wget>) {
@@ -290,7 +290,7 @@ sub sync_curl {
 	    $nick =~ s/@/%40/;
 	    $_ = "$proto://$nick:$rest";
 	}
-	if (m|^ftp://.*/([^/]*)$| && -e $1 && -s _ > 8192) { #- manage time stamp for large file only
+	if (m|^ftp://.*/([^/]*)$| && file_size($1) > 8192) { #- manage time stamp for large file only
 	    push @ftp_files, $_; next;
 	}
 	push @other_files, $_;
@@ -480,7 +480,7 @@ sub sync_rsync {
 
 our $SSH_PATH;
 sub _init_ssh_path() {
-    for (qw(/usr/bin/ssh /bin/ssh)) {
+    foreach (qw(/usr/bin/ssh /bin/ssh)) {
 	-x $_ and $SSH_PATH = $_;
 	next;
     }
@@ -553,11 +553,9 @@ sub check_ssh_master {
 
 END {
     #- remove ssh persistent connections
-    for my $socket (glob "$SSH_CONTROL_DIR/ssh-urpmi-$$-*") {
-	$socket =~ /ssh-urpmi-\d+-([^_]+)_\d+_(.*)$/;
-	my $server = $1 or next;
-	my $_login = $2 or next;
-	system("$SSH_PATH -q -f -N -o 'ControlPath $socket' -O exit $2\@$server");
+    foreach my $socket (glob "$SSH_CONTROL_DIR/ssh-urpmi-$$-*") {
+	my ($server, $login) = $socket =~ /ssh-urpmi-\d+-([^_]+)_\d+_(.*)$/ or next;
+	system($SSH_PATH, '-q', '-f', '-N', '-o', "ControlPath $socket", '-O', 'exit', "$login\@$server");
     }
 }
 
