@@ -7,14 +7,14 @@ package gurpmi;
 #- This is needed because text printed by Gtk2 will always be encoded
 #- in UTF-8; we first check if LC_ALL is defined, because if it is,
 #- changing only LC_COLLATE will have no effect.
-use POSIX qw(setlocale LC_ALL LC_COLLATE);
+use POSIX();
 use locale;
 my $collation_locale = $ENV{LC_ALL};
 if ($collation_locale) {
-    $collation_locale =~ /UTF-8/ or setlocale(LC_ALL, "$collation_locale.UTF-8");
+    $collation_locale =~ /UTF-8/ or POSIX::setlocale(POSIX::LC_ALL(), "$collation_locale.UTF-8");
 } else {
-    $collation_locale = setlocale(LC_COLLATE);
-    $collation_locale =~ /UTF-8/ or setlocale(LC_COLLATE, "$collation_locale.UTF-8");
+    $collation_locale = POSIX::setlocale(POSIX::LC_COLLATE());
+    $collation_locale =~ /UTF-8/ or POSIX::setlocale(POSIX::LC_COLLATE(), "$collation_locale.UTF-8");
 }
 
 use urpm;
@@ -47,7 +47,7 @@ sub fatal { my $s = $_[0]; print STDERR "$s\n"; exit 1 }
 #- Parse command line
 #- puts options in %gurpmi::options
 #- puts bare names (not rpm filenames) in @gurpmi::names
-sub parse_command_line {
+sub parse_command_line() {
     my @all_rpms;
     our %options;
     our @names;
@@ -77,10 +77,10 @@ sub parse_command_line {
 	    /^--?[hv?]/ and usage();
 	    fatal(N("Unknown option %s", $_));
 	}
-	if (-f) {
-	    push @all_rpms, $_
+	if (-f $_) {
+	    push @all_rpms, $_;
 	} else {
-	    push @names, $_
+	    push @names, $_;
 	}
 	
     }
