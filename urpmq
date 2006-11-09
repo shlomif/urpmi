@@ -35,7 +35,7 @@ our @files;
 our @names;
 our @src_names;
 
-sub usage {
+sub usage() {
     print N("urpmq version %s
 Copyright (C) 2000-2006 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
@@ -108,7 +108,7 @@ sub escape_shell ($) {
 }
 
 #- parse arguments list.
-@ARGV or usage;
+@ARGV or usage();
 my $urpm = new urpm;
 urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 
@@ -175,8 +175,8 @@ if ($urpm::args::options{list_aliases}) {
     exit 0;
 } elsif ($urpm::args::options{list_media} || $urpm::args::options{list_url}) {
     foreach (@{$urpm->{media}}) {
-	next if $urpm::args::options{list_media} eq 'update' and ! $_->{update};
-	next if $urpm::args::options{list_media} eq 'active' and $_->{ignore};
+	next if $urpm::args::options{list_media} eq 'update' && !$_->{update};
+	next if $urpm::args::options{list_media} eq 'active' && $_->{ignore};
 	print $_->{name} . ($urpm::args::options{list_url} ? " $_->{url}" : "") . "\n";
     }
     exit 0;
@@ -306,11 +306,11 @@ if ($urpm::args::options{list_aliases}) {
 	$state->{selected} = \%requested;
     }
 
-    if (   $urpm::args::options{sources}
-	|| $urpm::args::options{info}
-	|| $urpm::args::options{summary}
-	|| $urpm::args::options{list_files}
-	|| $urpm::args::options{changelog})
+    if ($urpm::args::options{sources}
+     || $urpm::args::options{info}
+     || $urpm::args::options{summary}
+     || $urpm::args::options{list_files}
+     || $urpm::args::options{changelog})
     {
 	my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
 
@@ -353,12 +353,12 @@ if ($urpm::args::options{list_aliases}) {
 		foreach (split /\|/, $_) {
 		    my $pkg = $urpm->{depslist}[$_] or next;
 		    #- even if non-root, search for a header in the global cachedir
-		    my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/".$pkg->header_filename;
+		    my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
 		    if (-s $file) {
 			$pkg->update_header($file, keep_all_tags => 1);
 		    } elsif ($< != 0) {
-			$pkg->update_header("$tmp_header_dir/".$pkg->header_filename, keep_all_tags => 1);
-			unlink "$tmp_header_dir/".$pkg->header_filename;
+			$pkg->update_header("$tmp_header_dir/" . $pkg->header_filename, keep_all_tags => 1);
+			unlink "$tmp_header_dir/" . $pkg->header_filename;
 		    }
 		    if ($urpm::args::options{info})  {
 			printf "%-12s: %s\n", "Name", $pkg->name;
@@ -397,7 +397,7 @@ if ($urpm::args::options{list_aliases}) {
 		    }
 		    if ($urpm::args::options{list_files}) {
 			if ($pkg->files) {
-			    print join("\n", $pkg->files)."\n";
+			    print join("\n", $pkg->files) . "\n";
 			} else {
 			    print STDERR N("No filelist found\n");
 			}
@@ -407,7 +407,7 @@ if ($urpm::args::options{list_aliases}) {
 			    my @ti = $pkg->changelog_time;
 			    my @na = $pkg->changelog_name;
 			    my @tx = $pkg->changelog_text;
-			    for my $i (0 .. $#ti) {
+			    foreach my $i (0 .. $#ti) {
 				print "* " . urpm::msg::localtime2changelog($ti[$i]) . " $na[$i]\n$tx[$i]\n\n";
 			    }
 			} else {
