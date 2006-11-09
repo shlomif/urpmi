@@ -346,7 +346,7 @@ sub probe_medium {
 #- returns the removable device name if it corresponds to an iso image, '' otherwise
 sub is_iso {
     my ($removable_dev) = @_;
-    $removable_dev && $removable_dev =~ /\.iso$/i ? $removable_dev : '';
+    $removable_dev && $removable_dev =~ /\.iso$/i;
 }
 
 #- probe device associated with a removable device.
@@ -1211,7 +1211,7 @@ sub update_media {
 		$options{force} < 2 && ($options{probe_with} || $medium->{with_hdlist})
 		    ? $with_hdlist_dir : $dir,
 		#- in case of an iso image, pass its name
-		is_iso($medium->{removable}),
+		is_iso($medium->{removable}) && $medium->{removable},
 	    ) or $urpm->{error}(N("unable to access medium \"%s\",
 this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), next;
 
@@ -2727,7 +2727,7 @@ sub copy_packages_of_removable_media {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- everything that might be necessary.
-	    while ($check_notfound->($id, $dir, is_iso($medium->{removable}) || 'removable')) {
+	    while ($check_notfound->($id, $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
 		is_iso($medium->{removable}) || $options{ask_for_medium}
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir);
