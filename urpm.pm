@@ -450,15 +450,10 @@ sub configure {
     if ($options{parallel}) {
 	my ($parallel_options, $parallel_handler);
 	#- read parallel configuration
-	local $_;
-	my $parallel = $urpm->open_safe("<", "/etc/urpmi/parallel.cfg");
-	if ($parallel) {
-	    while (<$parallel>) {
+	foreach (cat_("/etc/urpmi/parallel.cfg")) {
 		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 		/\s*([^:]*):(.*)/ or $urpm->{error}(N("unable to parse \"%s\" in file [%s]", $_, "/etc/urpmi/parallel.cfg")), next;
 		$1 eq $options{parallel} and $parallel_options = ($parallel_options && "\n") . $2;
-	    }
-	    close $parallel;
 	}
 	#- if a configuration option has been found, use it; else fatal error.
 	if ($parallel_options) {
