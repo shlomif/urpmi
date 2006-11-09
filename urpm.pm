@@ -283,7 +283,6 @@ sub probe_medium {
     } else {
 	unless ($medium->{ignore} || $medium->{hdlist}) {
 	    $medium->{hdlist} = "hdlist.$medium->{name}.cz";
-	    -e "$urpm->{statedir}/$medium->{hdlist}" or $medium->{hdlist} = "hdlist.$medium->{name}.cz2";
 	    -e "$urpm->{statedir}/$medium->{hdlist}" or
 	      $medium->{ignore} = 1,
 		$urpm->{error}(N("unable to find hdlist file for \"%s\", medium ignored", $medium->{name}));
@@ -1012,7 +1011,7 @@ sub _guess_hdlist_suffix {
 
 sub _guess_pubkey_name {
     my ($medium) = @_;
-    return $medium->{with_hdlist} =~ /hdlist(.*?)(?:\.src)?\.cz2?$/ ? "pubkey$1" : 'pubkey';
+    return $medium->{with_hdlist} =~ /hdlist(.*?)(?:\.src)?\.cz$/ ? "pubkey$1" : 'pubkey';
 }
 
 sub _update_media__when_not_modified {
@@ -1368,7 +1367,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    #- examine if a local list file is available (always probed according to with_hdlist)
 		    #- and check hdlist wasn't named very strangely...
 		    if ($medium->{hdlist} ne 'list') {
-			my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
+			my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 			my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
 			-e $path_list or $path_list = "$dir/list";
 			if (-e $path_list) {
@@ -1681,7 +1680,7 @@ this could happen if you mounted manually the directory when creating the medium
 		#- check whether a list file is available.
 		#- and check hdlist wasn't named very strangely...
 		if ($medium->{hdlist} ne 'list') {
-		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
+		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_list"),
 			     reduce_pathname("$medium->{url}/list"),
 			    ) {
@@ -2505,7 +2504,7 @@ sub get_source_packages {
 	    if (!$listfile && $medium->{virtual}) {
 		my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!;
 		my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
-		my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz2?$/ ? $1 : 'list';
+		my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
 		$listfile = reduce_pathname("$with_hdlist_dir/../$local_list");
 		-s $listfile or $listfile = "$dir/list";
 	    }
