@@ -6,6 +6,7 @@ package urpm::parallel_ka_run;
 #- Copyright (C) 2005 Mandriva SA
 
 use strict;
+use urpm::util;
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 our $mput_command = $ENV{URPMI_MPUT_COMMAND};
