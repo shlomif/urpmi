@@ -33,7 +33,7 @@ my $noexpr = N("Nn");
 # Translator: Add here the keys which might be pressed in the "Yes"-case.
 my $yesexpr = N("Yy");
 
-sub usage {
+sub usage() {
     print N("urpme version %s
 Copyright (C) 1999-2006 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
@@ -55,7 +55,7 @@ usage:
     exit(0);
 }
 
-@ARGV or usage;
+@ARGV or usage();
 my @origARGV = @ARGV;
 urpm::args::parse_cmdline() or exit(1);
 @l = @ARGV;
