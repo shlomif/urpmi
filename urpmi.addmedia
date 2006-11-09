@@ -21,7 +21,7 @@
 
 use strict;
 use urpm;
-use urpm::args 'options';
+use urpm::args;
 use urpm::msg;
 use urpm::download ();
 use urpm::cfg;
@@ -72,7 +72,7 @@ and [options] are from
 ") . N("  -q             - quiet mode.
 ") . N("  -v             - verbose mode.
 ");
-    print $m ? "$usage\n$m" : $usage;
+    print($m ? "$usage\n$m" : $usage);
     exit 0;
 }
 
@@ -104,9 +104,9 @@ $options{force} = 0;
 $options{noclean} = 1;
 $options{verbose} = 1;
 my $urpm = new urpm;
-urpm::args::parse_cmdline(urpm => $urpm) or usage;
+urpm::args::parse_cmdline(urpm => $urpm) or usage();
 #- the default is to probe a synthesis file, except for --distrib
-$options{probe_with} = 'synthesis' unless $options{distrib} || exists($options{probe_with});
+$options{probe_with} = 'synthesis' if !$options{distrib} && !exists($options{probe_with});
 our ($name, $url, $with, $relative_hdlist) = our @cmdline;
 
 #- remove verbose if not asked.
@@ -114,14 +114,14 @@ $options{verbose} > 0 or $urpm->{log} = sub {};
 $sync_logger = \&urpm::download::sync_logger if $options{verbose} > 1;
 
 $url or ($url, $name) = ($name, '');
-my ($type) = $url =~ m,^(([^:]*):/)?/, or usage;
+my ($type) = $url =~ m,^(([^:]*):/)?/, or usage();
 
 if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to add media"));
 }
 if (!-e $urpm->{config}) {
     $urpm->{error}(N("Will create config file [%s]", $urpm->{config}));
-    open my $f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
+    open my $_f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
 }
 $urpm->read_config;
 exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
@@ -162,7 +162,7 @@ if ($options{distrib}) {
     remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 
 } else {
-    $name or usage;
+    $name or usage();
 
     if ($with eq "with") {
 	$relative_hdlist or usage N("<relative path of hdlist> missing\n");
