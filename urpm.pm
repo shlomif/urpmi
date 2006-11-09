@@ -3270,8 +3270,6 @@ sub unselected_packages {
     grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
 }
 
-sub uniq { my %l; $l{$_} = 1 foreach @_; grep { delete $l{$_} } @_ }
-
 sub translate_why_unselected {
     my ($urpm, $state, @l) = @_;
 
