@@ -464,6 +464,8 @@ sub configure {
 		    while (defined ($_ = readdir $dh)) { #- load parallel modules
 			/parallel.*\.pm$/ && -f "$dir/$_" or next;
 			$urpm->{log}->(N("examining parallel handler in file [%s]", "$dir/$_"));
+			# perl_checker: require urpm::parallel_ka_run
+			# perl_checker: require urpm::parallel_ssh
 			eval { require "$dir/$_"; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
 			$parallel_handler and last;
 		    }
