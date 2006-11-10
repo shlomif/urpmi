@@ -3293,35 +3293,38 @@ sub removed_packages {
 }
 
 sub translate_why_removed {
-    my ($urpm, $state, @l) = @_;
-    map {
-	my $closure = $state->{rejected}{$_}{closure};
-	my ($from) = keys %$closure;
-	my ($whyk) = keys %{$closure->{$from}};
-	my $whyv = $closure->{$from}{$whyk};
-	my $frompkg = $urpm->search($from, strict_fullname => 1);
-	my $s = do {
-	    if ($whyk =~ /old_requested/) {
-		N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
-	    } elsif ($whyk =~ /unsatisfied/) {
-		join(",\n  ", map {
-		    if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/ && $2 ne '*') {
-			N("due to unsatisfied %s", "$1 $2");
-		    } else {
-			N("due to missing %s", $_);
-		    }
-		} @$whyv);
-	    } elsif ($whyk =~ /conflicts/) {
-		N("due to conflicts with %s", $whyv);
-	    } elsif ($whyk =~ /unrequested/) {
-		N("unrequested");
-	    } else {
-		undef;
-	    }
-	};
-	#- now insert the reason if available.
-	$_ . ($s ? "\n ($s)" : '');
-    } @l;
+    my ($urpm, $state, @fullnames) = @_;
+    join("\n", map { translate_why_removed_one($urpm, $state, $_) } sort @fullnames);
+}
+sub translate_why_removed_one {
+    my ($urpm, $state, $fullname) = @_;
+
+    my $closure = $state->{rejected}{$fullname}{closure};
+    my ($from) = keys %$closure;
+    my ($whyk) = keys %{$closure->{$from}};
+    my $whyv = $closure->{$from}{$whyk};
+    my $frompkg = $urpm->search($from, strict_fullname => 1);
+    my $s = do {
+	if ($whyk =~ /old_requested/) {
+	    N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
+	} elsif ($whyk =~ /unsatisfied/) {
+	    join(",\n  ", map {
+		if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/ && $2 ne '*') {
+		    N("due to unsatisfied %s", "$1 $2");
+		} else {
+		    N("due to missing %s", $_);
+		}
+	    } @$whyv);
+	} elsif ($whyk =~ /conflicts/) {
+	    N("due to conflicts with %s", $whyv);
+	} elsif ($whyk =~ /unrequested/) {
+	    N("unrequested");
+	} else {
+	    undef;
+	}
+    };
+    #- now insert the reason if available.
+    $fullname . ($s ? "\n ($s)" : '');
 }
 
 sub check_sources_signatures {

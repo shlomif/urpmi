@@ -112,7 +112,7 @@ my @toremove = $urpm->find_packages_to_remove(
     root => $root,
 ) or $urpm->{fatal}(0, N("Nothing to remove"));
 
-my $list = join "\n", $urpm->translate_why_removed($state, sort @toremove);
+my $list = $urpm->translate_why_removed($state, @toremove);
 if ($test && $auto) {
     #- Warning : the following message is parsed in urpm::parallel_*
     my $msg = N("Checking to remove the following packages");

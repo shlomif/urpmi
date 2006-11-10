@@ -190,7 +190,7 @@ sub do_install {
     @ask_remove
 	? ask_continue(N(
 	    "The following packages have to be removed for others to be upgraded:\n%s\nContinue installation anyway?",
-	    join "\n", $urpm->translate_why_removed($state, sort @ask_remove)
+	    $urpm->translate_why_removed($state, @ask_remove)
 	), \&do_install_2)
 	: goto &do_install_2;
 }
