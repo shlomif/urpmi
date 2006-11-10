@@ -79,7 +79,7 @@ my @ask_unselect = $urpm->unselected_packages($state);
 @ask_unselect
 ? ask_continue(N(
 	"Some requested packages cannot be installed:\n%s\nContinue installation anyway?",
-	join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect)
+	$urpm->translate_why_unselected($state, @ask_unselect)
     ), \&do_install)
 : do_install();
 
