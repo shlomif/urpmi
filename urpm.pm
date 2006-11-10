@@ -423,6 +423,39 @@ sub write_config {
     delete $urpm->{modified};
 }
 
+sub _configure_parallel {
+    my ($urpm, $alias) = @_;
+    my ($parallel_options, $parallel_handler);
+    #- read parallel configuration
+    foreach (cat_("/etc/urpmi/parallel.cfg")) {
+	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	/\s*([^:]*):(.*)/ or $urpm->{error}(N("unable to parse \"%s\" in file [%s]", $_, "/etc/urpmi/parallel.cfg")), next;
+	$1 eq $alias and $parallel_options = ($parallel_options && "\n") . $2;
+    }
+    #- if a configuration option has been found, use it; else fatal error.
+    if ($parallel_options) {
+	foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
+	    foreach my $pm (grep { -f $_ } glob("$dir/parallel*.pm")) {
+		#- load parallel modules
+		$urpm->{log}->(N("examining parallel handler in file [%s]", $pm));
+		# perl_checker: require urpm::parallel_ka_run
+		# perl_checker: require urpm::parallel_ssh
+		eval { require $pm; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
+		$parallel_handler and last;
+	    }
+	    $parallel_handler and last;
+	}
+    }
+    if ($parallel_handler) {
+	if ($parallel_handler->{nodes}) {
+	    $urpm->{log}->(N("found parallel handler for nodes: %s", join(', ', keys %{$parallel_handler->{nodes}})));
+	}
+	$urpm->{parallel_handler} = $parallel_handler;
+    } else {
+	$urpm->{fatal}(1, N("unable to use parallel option \"%s\"", $alias));
+    }
+}
+
 #- read urpmi.cfg file as well as necessary synthesis files
 #- options :
 #-	callback
@@ -448,38 +481,11 @@ sub configure {
     $options{parallel} && $options{usedistrib} and $urpm->{fatal}(1, N("Can't use parallel mode with use-distrib mode"));
 
     if ($options{parallel}) {
-	my ($parallel_options, $parallel_handler);
-	#- read parallel configuration
-	foreach (cat_("/etc/urpmi/parallel.cfg")) {
-		chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-		/\s*([^:]*):(.*)/ or $urpm->{error}(N("unable to parse \"%s\" in file [%s]", $_, "/etc/urpmi/parallel.cfg")), next;
-		$1 eq $options{parallel} and $parallel_options = ($parallel_options && "\n") . $2;
-	}
-	#- if a configuration option has been found, use it; else fatal error.
-	if ($parallel_options) {
-	    foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
-		foreach my $pm (grep { -f $_ } glob("$dir/parallel*.pm")) {
-		    #- load parallel modules
-		    $urpm->{log}->(N("examining parallel handler in file [%s]", $pm));
-		    # perl_checker: require urpm::parallel_ka_run
-		    # perl_checker: require urpm::parallel_ssh
-		    eval { require $pm; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
-		    $parallel_handler and last;
-		}
-		$parallel_handler and last;
-	    }
-	}
-	if ($parallel_handler) {
-	    if ($parallel_handler->{nodes}) {
-		$urpm->{log}->(N("found parallel handler for nodes: %s", join(', ', keys %{$parallel_handler->{nodes}})));
-	    }
-	    if (!$options{media} && $parallel_handler->{media}) {
-		$options{media} = $parallel_handler->{media};
-		$urpm->{log}->(N("using associated media for parallel mode: %s", $options{media}));
-	    }
-	    $urpm->{parallel_handler} = $parallel_handler;
-	} else {
-	    $urpm->{fatal}(1, N("unable to use parallel option \"%s\"", $options{parallel}));
+	_configure_parallel($urpm, $options{parallel});
+
+	if (!$options{media} && $urpm->{parallel_handler}{media}) {
+	    $options{media} = $urpm->{parallel_handler}{media};
+	    $urpm->{log}->(N("using associated media for parallel mode: %s", $options{media}));
 	}
     } else {
 	#- parallel is exclusive against root options.
