@@ -12,7 +12,7 @@ use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT = qw(get_proxy
 	propagate_sync_callback
-	sync_file sync_wget sync_curl sync_rsync sync_ssh
+	sync_file sync_prozilla sync_wget sync_curl sync_rsync sync_ssh
 	set_proxy_config dump_proxy_config
 );
 
