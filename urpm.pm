@@ -3300,23 +3300,25 @@ sub translate_why_removed {
 	my ($whyk) = keys %{$closure->{$from}};
 	my $whyv = $closure->{$from}{$whyk};
 	my $frompkg = $urpm->search($from, strict_fullname => 1);
-	my $s;
-	for ($whyk) {
-	    /old_requested/
-		and $s .= N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
-	    /unsatisfied/ and do {
-		foreach (@$whyv) {
-		    $s and $s .= ",\n  ";
+	my $s = do {
+	    if ($whyk =~ /old_requested/) {
+		N("in order to install %s", $frompkg ? scalar $frompkg->fullname : $from);
+	    } elsif ($whyk =~ /unsatisfied/) {
+		join(",\n  ", map {
 		    if (/([^\[\s]*)(?:\[\*\])?(?:\[|\s+)([^\]]*)\]?$/ && $2 ne '*') {
-			$s .= N("due to unsatisfied %s", "$1 $2");
+			N("due to unsatisfied %s", "$1 $2");
 		    } else {
-			$s .= N("due to missing %s", $_);
+			N("due to missing %s", $_);
 		    }
-		}
-	    };
-	    /conflicts/ and $s .= N("due to conflicts with %s", $whyv);
-	    /unrequested/ and $s .= N("unrequested");
-	}
+		} @$whyv);
+	    } elsif ($whyk =~ /conflicts/) {
+		N("due to conflicts with %s", $whyv);
+	    } elsif ($whyk =~ /unrequested/) {
+		N("unrequested");
+	    } else {
+		undef;
+	    }
+	};
 	#- now insert the reason if available.
 	$_ . ($s ? "\n ($s)" : '');
     } @l;
