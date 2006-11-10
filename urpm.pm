@@ -458,18 +458,13 @@ sub configure {
 	#- if a configuration option has been found, use it; else fatal error.
 	if ($parallel_options) {
 	    foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
-		my $dh = $urpm->opendir_safe($dir);
-		if ($dh) {
-		    local $_;
-		    while (defined ($_ = readdir $dh)) { #- load parallel modules
-			/parallel.*\.pm$/ && -f "$dir/$_" or next;
-			$urpm->{log}->(N("examining parallel handler in file [%s]", "$dir/$_"));
-			# perl_checker: require urpm::parallel_ka_run
-			# perl_checker: require urpm::parallel_ssh
-			eval { require "$dir/$_"; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
-			$parallel_handler and last;
-		    }
-		    closedir $dh;
+		foreach my $pm (grep { -f $_ } glob("$dir/parallel*.pm")) {
+		    #- load parallel modules
+		    $urpm->{log}->(N("examining parallel handler in file [%s]", $pm));
+		    # perl_checker: require urpm::parallel_ka_run
+		    # perl_checker: require urpm::parallel_ssh
+		    eval { require $pm; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
+		    $parallel_handler and last;
 		}
 		$parallel_handler and last;
 	    }
