@@ -425,22 +425,23 @@ sub write_config {
 
 sub _configure_parallel {
     my ($urpm, $alias) = @_;
-    my ($parallel_options, $parallel_handler);
+    my @parallel_options;
     #- read parallel configuration
     foreach (cat_("/etc/urpmi/parallel.cfg")) {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	/\s*([^:]*):(.*)/ or $urpm->{error}(N("unable to parse \"%s\" in file [%s]", $_, "/etc/urpmi/parallel.cfg")), next;
-	$1 eq $alias and $parallel_options = ($parallel_options && "\n") . $2;
+	$1 eq $alias and push @parallel_options, $2;
     }
     #- if a configuration option has been found, use it; else fatal error.
-    if ($parallel_options) {
+    my $parallel_handler;
+    if (@parallel_options) {
 	foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
 	    foreach my $pm (grep { -f $_ } glob("$dir/parallel*.pm")) {
 		#- load parallel modules
 		$urpm->{log}->(N("examining parallel handler in file [%s]", $pm));
 		# perl_checker: require urpm::parallel_ka_run
 		# perl_checker: require urpm::parallel_ssh
-		eval { require $pm; $parallel_handler = $urpm->handle_parallel_options($parallel_options) };
+		eval { require $pm; $parallel_handler = $urpm->handle_parallel_options(join("\n", @parallel_options)) };
 		$parallel_handler and last;
 	    }
 	    $parallel_handler and last;
