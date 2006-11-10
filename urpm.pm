@@ -2974,9 +2974,9 @@ sub install {
 	    local $_;
 	    while (<$CHILD_RETURNS>) {
 		chomp;
-		if (/^::logger_id:(\d+)(?::(\d+))?/) {
+		if (/^::logger_id:(\d*):(\d*)/) {
 		    $urpm->{logger_id} = $1;
-		    $2 and $urpm->{logger_count} = $2;
+		    $urpm->{logger_count} = $2 if $2;
 		} else {
 		    push @l, $_;
 		}
