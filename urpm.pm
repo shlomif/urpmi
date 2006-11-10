@@ -460,6 +460,7 @@ sub configure {
 	    foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
 		my $dh = $urpm->opendir_safe($dir);
 		if ($dh) {
+		    local $_;
 		    while (defined ($_ = readdir $dh)) { #- load parallel modules
 			/parallel.*\.pm$/ && -f "$dir/$_" or next;
 			$urpm->{log}->(N("examining parallel handler in file [%s]", "$dir/$_"));
@@ -1374,6 +1375,7 @@ this could happen if you mounted manually the directory when creating the medium
 		} else {
 		    {
 			my %f;
+			local $_; #- help perl_checker not warning "undeclared $_" in wanted callback below
 			File::Find::find(
 			    {
 				wanted => sub { -f $_ && /\.rpm$/ and $f{"$File::Find::dir/$_"} = 1 },
@@ -3440,7 +3442,7 @@ sub get_md5sum {
 
     my ($retrieved_md5sum) = map {
 	my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)|;
-	$file && $file eq $basename ? $md5sum : ();
+	$file && $file eq $basename ? $md5sum : @{[]};
     } cat_($path);
 
     $retrieved_md5sum;
