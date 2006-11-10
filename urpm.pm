@@ -3083,7 +3083,10 @@ sub install {
 	close $ERROR_OUTPUT;
 	#- keep safe exit now (with destructor call).
 	exit 0;
-    } else { #- parent process
+    } else { 
+	#- when non-forking
+	# !!! BUG: this part of the code is not called when forking !!!
+	# !!! BUG: when forking %readmes is empty, since the child is not passing this information to its parent !!!
 	if ($::verbose >= 0 && keys %readmes) {
 	    foreach (keys %readmes) {
 		print "-" x 70, "\n", N("More information on package %s", $readmes{$_}), "\n";
