@@ -1815,6 +1815,83 @@ this could happen if you mounted manually the directory when creating the medium
     }
 }
 
+#- take care of modified medium only, or all if all have to be recomputed.
+sub _update_medium_second_pass {
+    my ($urpm, $medium, $second_pass, $callback) = @_;
+
+    $medium->{ignore} and return;
+
+    $callback and $callback->('parse', $medium->{name});
+    #- a modified medium is an invalid medium, we have to read back the previous hdlist
+    #- or synthesis which has not been modified by first pass above.
+    if ($medium->{headers} && !$medium->{modified}) {
+	if ($second_pass) {
+	    $urpm->{log}(N("reading headers from medium \"%s\"", $medium->{name}));
+	    ($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
+								      headers => $medium->{headers},
+								  );
+	}
+	$urpm->{log}(N("building hdlist [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+	#- finish building operation of hdlist.
+	$urpm->build_hdlist(start  => $medium->{start},
+			    end    => $medium->{end},
+			    dir    => "$urpm->{cachedir}/headers",
+			    hdlist => "$urpm->{statedir}/$medium->{hdlist}",
+			);
+	#- synthesis needs to be created, since the medium has been built from rpm files.
+	eval { $urpm->build_synthesis(
+	    start     => $medium->{start},
+	    end       => $medium->{end},
+	    synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+	) };
+	if ($@) {
+	    #- XXX this happens when building a synthesis for a local media from RPMs... why ?
+	    $urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
+	    $urpm->{error}($@);
+	    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+	} else {
+	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+	}
+	#- keep in mind we have a modified database, sure at this point.
+	$urpm->{modified} = 1;
+    } elsif ($medium->{synthesis}) {
+	if ($second_pass) {
+	    if ($medium->{virtual}) {
+		my ($path) = $medium->{url} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z!;
+		my $with_hdlist_file = "$path/$medium->{with_hdlist}";
+		if ($path) {
+		    _parse_synthesis($urpm, $medium, $with_hdlist_file);
+		}
+	    } else {
+		_parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    }
+	}
+    } else {
+	if ($second_pass) {
+	    _parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+	}
+	#- check if the synthesis file can be built.
+	if (($second_pass || $medium->{modified_synthesis}) && !$medium->{modified}) {
+	    unless ($medium->{virtual}) {
+		eval { $urpm->build_synthesis(
+		    start     => $medium->{start},
+		    end       => $medium->{end},
+		    synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+		) };
+		if ($@) {
+		    $urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
+		    $urpm->{error}($@);
+		    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+		} else {
+		    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
+		}
+	    }
+	    #- keep in mind we have modified database, sure at this point.
+	    $urpm->{modified} = 1;
+	}
+    }
+    $callback && $callback->('done', $medium->{name});
+}
 
 #- Update the urpmi database w.r.t. the current configuration.
 #- Takes care of modifications, and tries some tricks to bypass
@@ -1868,79 +1945,7 @@ sub update_media {
 
     #- second pass consists in reading again synthesis or hdlists.
     foreach my $medium (@{$urpm->{media}}) {
-	#- take care of modified medium only, or all if all have to be recomputed.
-	$medium->{ignore} and next;
-
-	$options{callback} and $options{callback}('parse', $medium->{name});
-	#- a modified medium is an invalid medium, we have to read back the previous hdlist
-	#- or synthesis which has not been modified by first pass above.
-	if ($medium->{headers} && !$medium->{modified}) {
-	    if ($second_pass) {
-		$urpm->{log}(N("reading headers from medium \"%s\"", $medium->{name}));
-		($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
-									  headers => $medium->{headers},
-									 );
-	    }
-	    $urpm->{log}(N("building hdlist [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-	    #- finish building operation of hdlist.
-	    $urpm->build_hdlist(start  => $medium->{start},
-				end    => $medium->{end},
-				dir    => "$urpm->{cachedir}/headers",
-				hdlist => "$urpm->{statedir}/$medium->{hdlist}",
-			       );
-	    #- synthesis needs to be created, since the medium has been built from rpm files.
-	    eval { $urpm->build_synthesis(
-	        start     => $medium->{start},
-	        end       => $medium->{end},
-	        synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
-	    ) };
-	    if ($@) {
-		#- XXX this happens when building a synthesis for a local media from RPMs... why ?
-		$urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
-		$urpm->{error}($@);
-		unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-	    } else {
-		$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
-	    }
-	    #- keep in mind we have a modified database, sure at this point.
-	    $urpm->{modified} = 1;
-	} elsif ($medium->{synthesis}) {
-	    if ($second_pass) {
-		if ($medium->{virtual}) {
-		    my ($path) = $medium->{url} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z!;
-		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
-		    if ($path) {
-			_parse_synthesis($urpm, $medium, $with_hdlist_file);
-		    }
-		} else {
-		    _parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
-		}
-	    }
-	} else {
-	    if ($second_pass) {
-		_parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-	    }
-	    #- check if the synthesis file can be built.
-	    if (($second_pass || $medium->{modified_synthesis}) && !$medium->{modified}) {
-		unless ($medium->{virtual}) {
-		    eval { $urpm->build_synthesis(
-			start     => $medium->{start},
-			end       => $medium->{end},
-			synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
-		    ) };
-		    if ($@) {
-			$urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
-			$urpm->{error}($@);
-			unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-		    } else {
-			$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
-		    }
-		}
-		#- keep in mind we have modified database, sure at this point.
-		$urpm->{modified} = 1;
-	    }
-	}
-	$options{callback} && $options{callback}('done', $medium->{name});
+	_update_medium_second_pass($urpm, $medium, $second_pass, $options{callback});
     }
 
     #- clean headers cache directory to remove everything that is no longer
