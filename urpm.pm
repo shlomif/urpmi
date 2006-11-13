@@ -864,6 +864,7 @@ sub add_distrib_media {
     return @newnames;
 }
 
+#- deprecated, use select_media_by_name instead
 sub select_media {
     my $urpm = shift;
     my $options = {};
@@ -909,12 +910,17 @@ sub select_media_by_name {
     @l;
 }
 
+#- deprecated, use remove_media instead
 sub remove_selected_media {
     my ($urpm) = @_;
-    my @result;
 
-    foreach (@{$urpm->{media}}) {
-	if ($_->{modified}) {
+    remove_media($urpm, [ grep { $_->{modified} } @{$urpm->{media}} ]);
+}
+
+sub remove_media {
+    my ($urpm, $to_remove) = @_;
+
+    foreach (@$to_remove) {
 	    $urpm->{log}(N("removing medium \"%s\"", $_->{name}));
 
 	    #- mark to re-write configuration.
@@ -928,13 +934,9 @@ sub remove_selected_media {
 
 	    #- remove proxy settings for this media
 	    urpm::download::remove_proxy_media($_->{name});
-	} else {
-	    push @result, $_; #- not removed so keep it
-	}
     }
 
-    #- restore newer media list.
-    $urpm->{media} = \@result;
+    $urpm->{media} = [ difference2($urpm->{media}, $to_remove) ];
 }
 
 #- return list of synthesis or hdlist reference to probe.
