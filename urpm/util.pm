@@ -9,7 +9,7 @@ our @EXPORT = qw(quotespace unquotespace
     remove_internal_name
     reduce_pathname offset_pathname
     md5sum untaint
-    difference2 member file_size cat_ basename
+    difference2 member file_size cat_ dirname basename
 );
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -19,6 +19,7 @@ sub quotespace		 { my $x = $_[0] || ''; $x =~ s/(\s)/\\$1/g; $x }
 sub unquotespace	 { my $x = $_[0] || ''; $x =~ s/\\(\s)/$1/g; $x }
 sub remove_internal_name { my $x = $_[0] || ''; $x =~ s/\(\S+\)$/$1/g; $x }
 
+sub dirname { local $_ = shift; s|[^/]*/*\s*$||; s|(.)/*$|$1|; $_ || '.' }
 sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
 
 #- reduce pathname by removing <something>/.. each time it appears (or . too).
