@@ -1293,10 +1293,10 @@ sub _update_medium_first_pass {
 
     #- list of rpm files for this medium, only available for local medium where
     #- the source hdlist is not used (use force).
-    my ($dir, $error, $retrieved_md5sum, @files);
+    my ($error, $retrieved_md5sum, @files);
 
     #- check if the medium is using a local or a removable medium.
-    if ($dir = file_from_local_url($medium->{url})) {
+    if (my $dir = file_from_local_url($medium->{url})) {
 
 	#- try to figure a possible hdlist_path (or parent directory of searched directory).
 	#- this is used to probe for a possible hdlist file.
