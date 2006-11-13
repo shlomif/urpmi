@@ -868,44 +868,45 @@ sub select_media {
     my $urpm = shift;
     my $options = {};
     if (ref $_[0]) { $options = shift }
-    my %media; @media{@_} = ();
-
-    foreach (@{$urpm->{media}}) {
-	if (exists($media{$_->{name}})) {
-	    $media{$_->{name}} = 1; #- keep in mind this one has been selected.
-	    #- select medium by setting the modified flag, do not check ignore.
-	    $_->{modified} = 1;
-	}
+    foreach (select_media_by_name($urpm, [ @_ ], $options)) {
+	#- select medium by setting the modified flag, do not check ignore.
+	$_->{modified} = 1;
     }
+}
+
+sub select_media_by_name {
+    my ($urpm, $names, $options) = @_;
+
+    my %wanted = map { $_ => 1 } @$names;
+
+    #- first the exact matches
+    my @l = grep { delete $wanted{$_->{name}} } @{$urpm->{media}};
 
     #- check if some arguments don't correspond to the medium name.
     #- in such case, try to find the unique medium (or list candidate
     #- media found).
-    foreach (keys %media) {
-	unless ($media{$_}) {
-	    my $q = quotemeta;
-	    my (@found, @foundi);
-	    my $regex  = $options->{strict_match} ? qr/^$q$/  : qr/$q/;
-	    my $regexi = $options->{strict_match} ? qr/^$q$/i : qr/$q/i;
-	    foreach my $medium (@{$urpm->{media}}) {
-		$medium->{name} =~ $regex  and push @found, $medium;
-		$medium->{name} =~ $regexi and push @foundi, $medium;
+    foreach (keys %wanted) {
+	my $q = quotemeta;
+	my (@found, @foundi);
+	my $regex  = $options->{strict_match} ? qr/^$q$/  : qr/$q/;
+	my $regexi = $options->{strict_match} ? qr/^$q$/i : qr/$q/i;
+	foreach my $medium (@{$urpm->{media}}) {
+	    $medium->{name} =~ $regex  and push @found, $medium;
+	    $medium->{name} =~ $regexi and push @foundi, $medium;
+	}
+	@found = @foundi if !@found;
+
+	if (@found == 0) {
+	    $urpm->{error}(N("trying to select nonexistent medium \"%s\"", $_));
+	} else {
+	    if (@found > 1) {
+		$urpm->{log}(N("selecting multiple media: %s", join(", ", map { qq("$_->{name}") } @found)));
 	    }
-	    if (@found == 1) {
-		$found[0]{modified} = 1;
-	    } elsif (@foundi == 1) {
-		$foundi[0]{modified} = 1;
-	    } elsif (@found == 0 && @foundi == 0) {
-		$urpm->{error}(N("trying to select nonexistent medium \"%s\"", $_));
-	    } else { #- several elements in found and/or foundi lists.
-		$urpm->{log}(N("selecting multiple media: %s", join(", ", map { qq("$_->{name}") } (@found ? @found : @foundi))));
-		#- changed behaviour to select all occurences by default.
-		foreach (@found ? @found : @foundi) {
-		    $_->{modified} = 1;
-		}
-	    }
+	    #- changed behaviour to select all occurences by default.
+	    push @l, @found;
 	}
     }
+    @l;
 }
 
 sub remove_selected_media {
