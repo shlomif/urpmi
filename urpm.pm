@@ -94,8 +94,8 @@ sub _sync_webfetch_raw {
     #- currently ftp and http protocols are managed by curl or wget,
     #- ssh and rsync protocols are managed by rsync *AND* ssh.
     foreach (@$files) {
-	/^([^:_]*)[^:]*:/ or die N("unknown protocol defined for %s", $_);
-	push @{$files{$1}}, $_;
+	my $proto = protocol_from_url($_) or die N("unknown protocol defined for %s", $_);
+	push @{$files{$proto}}, $_;
     }
     if ($files{removable} || $files{file}) {
 	my @l = map { file_from_local_url($_) } @{$files{removable} || []}, @{$files{file} || []};
@@ -355,6 +355,10 @@ sub is_iso {
     $removable_dev && $removable_dev =~ /\.iso$/i;
 }
 
+sub protocol_from_url {
+    my ($url) = @_;
+    $url =~ m!^([^:_]*)[^:]*:! && $1;
+}
 sub file_from_local_url {
     my ($url) = @_;
     $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)! && $1;
@@ -1255,8 +1259,8 @@ sub _update_medium_first_pass {
     }
 
     #- check if the medium is using a local or a removable medium.
-    if (($protocol, $dir) = $medium->{url} =~ m!^(?:(removable[^:]*|file):/)?(/.*)!) {
-	$protocol ||= 'file';
+    if ($dir = file_from_local_url($medium->{url})) {
+	$protocol = protocol_from_url($medium->{url});
 	#- check for a reconfig.urpmi file (if not already reconfigured)
 	if (!$medium_redone && !$medium->{noreconfigure}) {
 	    my $reconfig_urpmi = reduce_pathname("$dir/reconfig.urpmi");
@@ -2057,7 +2061,8 @@ sub register_rpms {
 	/\.(?:rpm|spec)$/ or $error = 1, $urpm->{error}(N("invalid rpm file name [%s]", $_)), next;
 
 	#- if that's an URL, download.
-	if (my ($basename) = m!^[^:]*:/.*/([^/]*\.(?:rpm|spec))\z!) {
+	if (protocol_from_url($_)) {
+	    my $basename = basename($_);
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving rpm file [%s] ...", $_));
