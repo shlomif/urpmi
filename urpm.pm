@@ -349,6 +349,11 @@ sub is_iso {
     $removable_dev && $removable_dev =~ /\.iso$/i;
 }
 
+sub analyse_url__file_if_local {
+    my ($url) = @_;
+    $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)! && $1;
+}
+
 #- probe device associated with a removable device.
 sub probe_removable_device {
     my ($urpm, $medium) = @_;
@@ -763,7 +768,7 @@ sub add_distrib_media {
 
     my $distribconf;
 
-    if (my ($dir) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
+    if (my $dir = analyse_url__file_if_local($url)) {
 	$urpm->try_mounting($dir)
 	    or $urpm->{error}(N("unable to mount the distribution medium")), return ();
 	$distribconf = MDV::Distribconf->new($dir, undef);
@@ -2439,7 +2444,7 @@ sub get_source_packages {
 	    #- always prefer a list file if available.
 	    my $listfile = $medium->{list} ? "$urpm->{statedir}/$medium->{list}" : '';
 	    if (!$listfile && $medium->{virtual}) {
-		my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!;
+		my $dir = analyse_url__file_if_local($medium->{url});
 		my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 		my $local_list = 'list' . _hdlist_suffix($medium);
 		$listfile = reduce_pathname("$with_hdlist_dir/../$local_list");
@@ -2625,12 +2630,13 @@ sub copy_packages_of_removable_media {
 	if (!$dir || -e $dir) {
 	    foreach (values %{$list->[$id]}) {
 		chomp;
-		m!^(removable[^:]*:/|file:/)?(/.*/([^/]*)$)! or next;
+		my $dir_ = analyse_url__file_if_local($_) or next;
+		$dir_ =~ m!/.*/! or next; #- is this really needed??
 		unless ($dir) {
-		    $dir = $2;
+		    $dir = $dir_;
 		    $urpm->try_mounting($dir, $removable);
 		}
-		-r $2 or return 1;
+		-r $dir_ or return 1;
 	    }
 	} else {
 	    return 2;
@@ -2642,7 +2648,7 @@ sub copy_packages_of_removable_media {
     my $examine_removable_medium = sub {
 	my ($id, $device) = @_;
 	my $medium = $urpm->{media}[$id];
-	if (my ($dir) = $medium->{url} =~ m!^(?:(?:removable[^:]*|file):/)?(/.*)!) {
+	if (my $dir = analyse_url__file_if_local($medium->{url})) {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- everything that might be necessary.
@@ -2658,7 +2664,11 @@ sub copy_packages_of_removable_media {
 	    if (-e $dir) {
 		while (my ($i, $url) = each %{$list->[$id]}) {
 		    chomp $url;
-		    my ($filepath, $filename) = $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*/([^/]*))! or next;
+		    my ($filepath, $filename) = do {
+			my $f = analyse_url__file_if_local($url) or next;
+			$f =~ m!/.*/! or next; #- is this really needed??
+			dirname($f), basename($f);
+		    };
 		    if (-r $filepath) {
 			#- we should assume a possibly buggy removable device...
 			#- First, copy in partial cache, and if the package is still good,
@@ -2693,7 +2703,7 @@ sub copy_packages_of_removable_media {
 	#- examine non removable device but that may be mounted.
 	if ($medium->{removable}) {
 	    push @{$removables{$medium->{removable}} ||= []}, $_;
-	} elsif (my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!) {
+	} elsif (my $dir = analyse_url__file_if_local($medium->{url})) {
 	    -e $dir || $urpm->try_mounting($dir) or
 	      $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
 	}
@@ -2742,11 +2752,12 @@ sub download_packages_of_distant_media {
 	while (my ($i, $url) = each %{$list->[$n]}) {
 	    #- the given URL is trusted, so the file can safely be ignored.
 	    defined $sources->{$i} and next;
-	    if ($url =~ m!^(removable[^:]*:/|file:/)?(/.*\.rpm)\Z!) {
-		if (-r $2) {
-		    $sources->{$i} = $2;
+	    my $local_file = analyse_url__file_if_local($url);
+	    if ($local_file && $local_file =~ /\.rpm$/) {
+		if (-r $local_file) {
+		    $sources->{$i} = $local_file;
 		} else {
-		    $error_sources->{$i} = $2;
+		    $error_sources->{$i} = $local_file;
 		}
 	    } elsif ($url =~ m!^([^:]*):/(.*/([^/]*\.rpm))\Z!) {
 		$distant_sources{$i} = "$1:/$2"; #- will download now
