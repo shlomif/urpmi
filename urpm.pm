@@ -1247,7 +1247,7 @@ sub _update_medium_first_pass {
 
     #- list of rpm files for this medium, only available for local medium where
     #- the source hdlist is not used (use force).
-    my ($prefix, $dir, $error, $retrieved_md5sum, @files);
+    my ($protocol, $dir, $error, $retrieved_md5sum, @files);
 
     #- always delete a remaining list file or pubkey file in cache.
     foreach (qw(list pubkey)) {
@@ -1255,8 +1255,8 @@ sub _update_medium_first_pass {
     }
 
     #- check if the medium is using a local or a removable medium.
-    if (($prefix, $dir) = $medium->{url} =~ m!^(?:(removable[^:]*|file):/)?(/.*)!) {
-	$prefix ||= 'file';
+    if (($protocol, $dir) = $medium->{url} =~ m!^(?:(removable[^:]*|file):/)?(/.*)!) {
+	$protocol ||= 'file';
 	#- check for a reconfig.urpmi file (if not already reconfigured)
 	if (!$medium_redone && !$medium->{noreconfigure}) {
 	    my $reconfig_urpmi = reduce_pathname("$dir/reconfig.urpmi");
@@ -1655,7 +1655,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    foreach (@files) {
 		m|/([^/]*\.rpm)$| or next;
 		$list{$1} and $urpm->{error}(N("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
-		$list{$1} = "$prefix:/$_\n";
+		$list{$1} = "$protocol:/$_\n";
 	    }
 	} else {
 	    #- read first pass hdlist or synthesis, try to open as synthesis, if file
