@@ -69,9 +69,8 @@ sub sync_webfetch {
 	push @{$files{$1}}, $_;
     }
     if ($files{removable} || $files{file}) {
-	eval {
-	    sync_file($options, @{$files{removable} || []}, @{$files{file} || []});
-	};
+	my @l = map { analyse_url__file_if_local($_) } @{$files{removable} || []}, @{$files{file} || []};
+	eval { sync_file($options, @l) };
 	$urpm->{fatal}(10, $@) if $@;
 	delete @files{qw(removable file)};
     }

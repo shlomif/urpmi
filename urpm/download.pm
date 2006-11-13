@@ -4,7 +4,6 @@ package urpm::download;
 
 use strict;
 use urpm::msg;
-use urpm::cfg;
 use urpm::util;
 use Cwd;
 use Exporter;
@@ -192,10 +191,9 @@ sub propagate_sync_callback {
 sub sync_file {
     my $options = shift;
     foreach (@_) {
-	my ($in) = m!^(?:removable[^:]*:/|file:/)(/.*)!;
 	propagate_sync_callback($options, 'start', $_);
 	require urpm::util;
-	urpm::util::copy($in || $_, ref($options) ? $options->{dir} : $options)
+	urpm::util::copy($_, ref($options) ? $options->{dir} : $options)
 	    or die N("copy failed");
 	propagate_sync_callback($options, 'end', $_);
     }
