@@ -183,13 +183,13 @@ if ($options{distrib}) {
 	$urpm->write_config;
     } else {
 	local $SIG{INT} = sub {
-	    remove_failed($urpm, grep { $_->{name} eq $name && $_->{modified} } @{$urpm->{media}});
+	    my $medium = urpm::name2medium($urpm, $name);
+	    remove_failed($urpm, $medium) if $medium && $medium->{modified};
 	    exit(1);
 	};
 	$urpm->update_media(%options, callback => $sync_logger);
 	#- check creation of media
-	my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
-	$medium or die N("unable to create medium \"%s\"\n", $name);
+	my $medium = urpm::name2medium($urpm, $name) or die N("unable to create medium \"%s\"\n", $name);
 	remove_failed($urpm, $medium) if $medium->{modified};
     }
 }

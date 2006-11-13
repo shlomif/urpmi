@@ -61,7 +61,7 @@ sub requested_ftp_http_downloader {
     $urpm->{options}{downloader} || #- cmd-line switch
       $media_name && do {
 	  #- per-media config
-	  my ($m) = grep { $_->{name} eq $media_name } @{$urpm->{media}};
+	  my $m = name2medium($urpm, $media_name);
 	  $m && $m->{downloader};
       } || $urpm->{global_config}{downloader};
 }
@@ -267,11 +267,9 @@ sub probe_medium {
     my ($urpm, $medium, %options) = @_;
     local $_;
 
-    foreach (@{$urpm->{media}}) {
-	if ($_->{name} eq $medium->{name}) {
-	    $urpm->{error}(N("trying to override existing medium \"%s\", skipping", $medium->{name}));
-	    return;
-	}
+    if (name2medium($urpm, $medium->{name})) {
+	$urpm->{error}(N("trying to override existing medium \"%s\", skipping", $medium->{name}));
+	return;
     }
 
     $medium->{url} ||= $medium->{clear_url};
@@ -364,6 +362,12 @@ sub file_from_local_url {
 sub file_from_file_url {
     my ($url) = @_;
     $url =~ m!^(?:file:/)?(/.*)! && $1;
+}
+
+sub name2medium {
+    my ($urpm, $name) = @_;
+    my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
+    $medium;
 }
 
 #- probe device associated with a removable device.
@@ -699,16 +703,11 @@ sub add_medium {
 	my $i = $options{index_name};
 	do {
 	    ++$i;
-	    undef $medium;
-	    foreach (@{$urpm->{media}}) {
-		$_->{name} eq $name . $i and $medium = $_;
-	    }
+	    $medium = name2medium($urpm, $name . $i);
 	} while $medium;
 	$name .= $i;
     } else {
-	foreach (@{$urpm->{media}}) {
-	    $_->{name} eq $name and $medium = $_;
-	}
+	$medium = name2medium($urpm, $name);
     }
     $medium and $urpm->{fatal}(5, N("medium \"%s\" already exists", $medium->{name}));
 
@@ -750,7 +749,7 @@ sub add_medium {
 	$urpm->read_config(nocheck_access => 1);
 
 	#- need getting the fresh datastructure after read_config
-	($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
+	$medium = name2medium($urpm, $name); #- need getting the fresh datastructure after read_config
 
 	#- Remember that the database has been modified and base files need to
 	#- be updated. This will be done automatically by transferring the
@@ -986,7 +985,7 @@ sub reconfig_urpmi {
     my $reconfigured = 0;
     my @reconfigurable = qw(url with_hdlist clear_url);
 
-    my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}} or return;
+    my $medium = name2medium($urpm, $name) or return;
     my %orig = %$medium;
 
   URLS:
