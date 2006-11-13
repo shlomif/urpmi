@@ -363,31 +363,30 @@ sub probe_removable_device {
 	$medium->{removable} ||= $1 && "/dev/$1";
     } else {
 	delete $medium->{removable};
+	return;
     }
 
     #- try to find device to open/close for removable medium.
-    if (exists($medium->{removable})) {
-	if (my ($dir) = $medium->{url} =~ m!^(?:(?:file|removable)[^:]*:/)?(/.*)!) {
-	    my %infos;
-	    my @mntpoints = urpm::sys::find_mntpoints($dir, \%infos);
-	    if (@mntpoints > 1) { #- return value is suitable for an hash.
-		$urpm->{log}(N("too many mount points for removable medium \"%s\"", $medium->{name}));
-		$urpm->{log}(N("taking removable device as \"%s\"", join ',', map { $infos{$_}{device} } @mntpoints));
+    if (my $dir = analyse_url__file_if_local($medium->{url})) {
+	my %infos;
+	my @mntpoints = urpm::sys::find_mntpoints($dir, \%infos);
+	if (@mntpoints > 1) {	#- return value is suitable for an hash.
+	    $urpm->{log}(N("too many mount points for removable medium \"%s\"", $medium->{name}));
+	    $urpm->{log}(N("taking removable device as \"%s\"", join ',', map { $infos{$_}{device} } @mntpoints));
+	}
+	if (is_iso($medium->{removable})) {
+	    $urpm->{log}(N("Medium \"%s\" is an ISO image, will be mounted on-the-fly", $medium->{name}));
+	} elsif (@mntpoints) {
+	    if ($medium->{removable} && $medium->{removable} ne $infos{$mntpoints[-1]}{device}) {
+		$urpm->{log}(N("using different removable device [%s] for \"%s\"",
+			       $infos{$mntpoints[-1]}{device}, $medium->{name}));
 	    }
-	    if (is_iso($medium->{removable})) {
-		$urpm->{log}(N("Medium \"%s\" is an ISO image, will be mounted on-the-fly", $medium->{name}));
-	    } elsif (@mntpoints) {
-		if ($medium->{removable} && $medium->{removable} ne $infos{$mntpoints[-1]}{device}) {
-		    $urpm->{log}(N("using different removable device [%s] for \"%s\"",
-				   $infos{$mntpoints[-1]}{device}, $medium->{name}));
-		}
-		$medium->{removable} = $infos{$mntpoints[-1]}{device};
-	    } else {
-		$urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
-	    }
+	    $medium->{removable} = $infos{$mntpoints[-1]}{device};
 	} else {
 	    $urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
 	}
+    } else {
+	$urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
     }
 }
 
@@ -709,8 +708,7 @@ sub add_medium {
     } else {
 	$medium->{hdlist} = "hdlist.$name.cz";
 	$medium->{list} = "list.$name";
-	#- check if the medium is using a local or a removable medium.
-	$url =~ m!^(?:(removable[^:]*|file):/)?(/.*)! and $urpm->probe_removable_device($medium);
+	$urpm->probe_removable_device($medium);
     }
 
     #- local media have priority, other are added at the end.
