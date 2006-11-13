@@ -358,9 +358,11 @@ sub analyse_url__file_if_local {
 sub probe_removable_device {
     my ($urpm, $medium) = @_;
 
-    #- try to find device name in url scheme
-    if ($medium->{url} && $medium->{url} =~ /^removable_?([^_:]*)(?:_[^:]*)?:/) {
-	$medium->{removable} ||= $1 && "/dev/$1";
+    if ($medium->{url} && $medium->{url} =~ /^removable/) {
+	#- try to find device name in url scheme, this is deprecated, use medium option "removable" instead
+	if ($medium->{url} =~ /^removable_?([^_:]*)/) {
+	    $medium->{removable} ||= $1 && "/dev/$1";
+	}
     } else {
 	delete $medium->{removable};
 	return;
