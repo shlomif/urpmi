@@ -1566,23 +1566,16 @@ this could happen if you mounted manually the directory when creating the medium
 	} else {
 	    $basename = basename($medium->{with_hdlist});
 
-	    #- try to sync (copy if needed) local copy after restored the previous one.
-	    $options{force} and unlink "$urpm->{cachedir}/partial/$basename";
-	    unless ($options{force}) {
-		if ($medium->{synthesis}) {
-		    if (-e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
-			urpm::util::copy(
-			    "$urpm->{statedir}/synthesis.$medium->{hdlist}",
-			    "$urpm->{cachedir}/partial/$basename",
-			) or $urpm->{error}(N("...copying failed")), $error = 1;
-		    }
-		} else {
-		    if (-e "$urpm->{statedir}/$medium->{hdlist}") {
-			urpm::util::copy(
-			    "$urpm->{statedir}/$medium->{hdlist}",
-			    "$urpm->{cachedir}/partial/$basename",
-			) or $urpm->{error}(N("...copying failed")), $error = 1;
-		    }
+	    if ($options{force}) {
+		unlink "$urpm->{cachedir}/partial/$basename";
+	    } else {
+		#- try to sync (copy if needed) local copy after restored the previous one.
+		my $wanted = ($medium->{synthesis} ? 'synthesis.' : '') . $medium->{hdlist};
+		if (-e "$urpm->{statedir}/$wanted") {
+		    urpm::util::copy(
+			"$urpm->{statedir}/$wanted",
+			"$urpm->{cachedir}/partial/$basename",
+		    ) or $urpm->{error}(N("...copying failed")), $error = 1;
 		}
 		chown 0, 0, "$urpm->{cachedir}/partial/$basename";
 	    }
