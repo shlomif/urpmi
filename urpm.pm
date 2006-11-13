@@ -1444,10 +1444,13 @@ sub _update_medium_first_pass {
     file_size("$urpm->{statedir}/synthesis.$medium->{hdlist}") > 32
       or $medium->{modified_synthesis} = 1;
 
-    #- if we're rebuilding all media, mark them as modified (except removable ones)
-    $medium->{modified} ||= $options{all} && $medium->{url} !~ m!^removable!;
-    #- don't ever update static media
-    $medium->{static} and $medium->{modified} = 0;
+    if ($medium->{static}) {
+	#- don't ever update static media
+	$medium->{modified} = 0;
+    } elsif ($options{all}) {
+	#- if we're rebuilding all media, mark them as modified (except removable ones)
+	$medium->{modified} ||= $medium->{url} !~ m!^removable!;
+    }
 
     unless ($medium->{modified}) {
 	#- the medium is not modified, but to compute dependencies,
