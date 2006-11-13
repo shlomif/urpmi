@@ -55,6 +55,17 @@ sub new {
     $self;
 }
 
+sub requested_ftp_http_downloader {
+    my ($urpm, $media_name) = @_;
+
+    $urpm->{options}{downloader} || #- cmd-line switch
+      $media_name && do {
+	  #- per-media config
+	  my ($m) = grep { $_->{name} eq $media_name } @{$urpm->{media}};
+	  $m && $m->{downloader};
+      } || $urpm->{global_config}{downloader};
+}
+
 #- $medium can be undef
 sub sync_webfetch {
     my ($urpm, $medium, $files, $std_options, %more_options) = @_;
@@ -78,6 +89,7 @@ sub sync_webfetch {
 #- syncing algorithms.
 sub _sync_webfetch_raw {    
     my ($urpm, $files, $options) = @_;
+
     my %files;
     #- currently ftp and http protocols are managed by curl or wget,
     #- ssh and rsync protocols are managed by rsync *AND* ssh.
@@ -86,48 +98,36 @@ sub _sync_webfetch_raw {
 	push @{$files{$1}}, $_;
     }
     if ($files{removable} || $files{file}) {
-	my @l = map { analyse_url__file_if_local($_) } @{$files{removable} || []}, @{$files{file} || []};
+	my @l = map { file_from_local_url($_) } @{$files{removable} || []}, @{$files{file} || []};
 	eval { sync_file($options, @l) };
 	$urpm->{fatal}(10, $@) if $@;
 	delete @files{qw(removable file)};
     }
     if ($files{ftp} || $files{http} || $files{https}) {
-	my @webfetch = qw(curl wget prozilla);
-	my %webfetch_executables = (curl => 'curl', wget => 'wget', prozilla => 'proz');
-	my %webfetch_funcs = (curl => \&sync_curl, wget => \&sync_wget, prozilla => \&sync_prozilla);
-	my @available_webfetch = grep {
-	    -x "/usr/bin/$webfetch_executables{$_}" || -x "/bin/$webfetch_executables{$_}";
-	} @webfetch;
+	my @available = urpm::download::available_ftp_http_downloaders();
+
 	#- use user default downloader if provided and available
-	my $option_downloader = $urpm->{options}{downloader}; #- cmd-line switch
-	if (!$option_downloader && $options->{media}) { #- per-media config
-	    (my $m) = grep { $_->{name} eq $options->{media} } @{$urpm->{media}};
-	    ref $m && defined $m->{downloader} and $option_downloader = $m->{downloader};
+	my $requested_downloader = requested_ftp_http_downloader($urpm, $options->{media});
+	my ($preferred) = grep { $_ eq $requested_downloader } @available;
+	if (!$preferred) {
+	    #- else first downloader of @available is the default one
+	    $preferred = $available[0];
+	    if ($requested_downloader && !our $webfetch_not_available) {
+		$urpm->{log}(N("%s is not available, falling back on %s", $requested_downloader, $preferred));
+		$webfetch_not_available = 1;
+	    }
 	}
-	#- global config
-	!$option_downloader && exists $urpm->{global_config}{downloader}
-	    and $option_downloader = $urpm->{global_config}{downloader};
-	my ($preferred) = grep { $_ eq $option_downloader } @available_webfetch;
-	#- else first downloader of @webfetch is the default one
-	$preferred ||= $available_webfetch[0];
-	if ($option_downloader ne $preferred && $option_downloader && !our $webfetch_not_available) {
-	    $urpm->{log}(N("%s is not available, falling back on %s", $option_downloader, $preferred));
-	    $webfetch_not_available = 1;
-	}
-	my $sync = $webfetch_funcs{$preferred} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", @webfetch));
+	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
 	$sync->($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 
 	delete @files{qw(ftp http https)};
     }
     if ($files{rsync}) {
-	sync_rsync($options, @{$files{rsync} || []});
+	sync_rsync($options, @{$files{rsync}});
 	delete $files{rsync};
     }
     if ($files{ssh}) {
-	my @ssh_files;
-	foreach (@{$files{ssh} || []}) {
-	    m|^ssh://([^/]*)(.*)| and push @ssh_files, "$1:$2";
-	}
+	my @ssh_files = map { m!^ssh://([^/]*)(.*)! ? "$1:$2" : () } @{$files{ssh}};
 	sync_ssh($options, @ssh_files);
 	delete $files{ssh};
     }
@@ -357,9 +357,13 @@ sub is_iso {
     $removable_dev && $removable_dev =~ /\.iso$/i;
 }
 
-sub analyse_url__file_if_local {
+sub file_from_local_url {
     my ($url) = @_;
     $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)! && $1;
+}
+sub file_from_file_url {
+    my ($url) = @_;
+    $url =~ m!^(?:file:/)?(/.*)! && $1;
 }
 
 #- probe device associated with a removable device.
@@ -377,7 +381,7 @@ sub probe_removable_device {
     }
 
     #- try to find device to open/close for removable medium.
-    if (my $dir = analyse_url__file_if_local($medium->{url})) {
+    if (my $dir = file_from_local_url($medium->{url})) {
 	my %infos;
 	my @mntpoints = urpm::sys::find_mntpoints($dir, \%infos);
 	if (@mntpoints > 1) {	#- return value is suitable for an hash.
@@ -575,7 +579,7 @@ sub configure {
 		    our $currentmedia = $_; #- hack for urpmf
 		    delete @$_{qw(start end)};
 		    if ($_->{virtual}) {
-			my $path = $_->{url} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z! && $1;
+			my $path = file_from_file_url($_->{url});
 			if ($path) {
 			    if ($_->{synthesis}) {
 				_parse_synthesis($urpm, $_,
@@ -713,7 +717,7 @@ sub add_medium {
     #- creating the medium info.
     $medium = { name => $name, url => $url, update => $options{update}, modified => 1, ignore => $options{ignore} };
     if ($options{virtual}) {
-	$url =~ m!^(?:file:)?/! or $urpm->{fatal}(1, N("virtual medium needs to be local"));
+	file_from_file_url($url) or $urpm->{fatal}(1, N("virtual medium needs to be local"));
 	$medium->{virtual} = 1;
     } else {
 	$medium->{hdlist} = "hdlist.$name.cz";
@@ -722,7 +726,7 @@ sub add_medium {
     }
 
     #- local media have priority, other are added at the end.
-    if ($url =~ m!^(?:file:)?/!) {
+    if (file_from_file_url($url)) {
 	$medium->{priority} = 0.5;
     } else {
 	$medium->{priority} = 1 + @{$urpm->{media}};
@@ -776,7 +780,7 @@ sub add_distrib_media {
 
     my $distribconf;
 
-    if (my $dir = analyse_url__file_if_local($url)) {
+    if (my $dir = file_from_local_url($url)) {
 	$urpm->try_mounting($dir)
 	    or $urpm->{error}(N("unable to mount the distribution medium")), return ();
 	$distribconf = MDV::Distribconf->new($dir, undef);
@@ -950,48 +954,62 @@ sub _probe_with_try_list {
 
 #- read a reconfiguration file for urpmi, and reconfigure media accordingly
 #- $rfile is the reconfiguration file (local), $name is the media name
+#-
+#- the format is similar to the RewriteRule of mod_rewrite, so:
+#-    PATTERN REPLACEMENT [FLAG]
+#- where FLAG can be L or N
+#-
+#- example of reconfig.urpmi:
+#-    # this is an urpmi reconfiguration file
+#-    /cooker /cooker/$ARCH
 sub reconfig_urpmi {
     my ($urpm, $rfile, $name) = @_;
-    my @replacements;
-    my @reconfigurable = qw(url with_hdlist clear_url);
-    my $reconfigured = 0;
-    my $fh = $urpm->open_safe("<", $rfile) or return undef;
+    -r $rfile or return;
+
     $urpm->{log}(N("reconfiguring urpmi for media \"%s\"", $name));
+
+    my ($magic, @lines) = cat_($rfile);
     #- the first line of reconfig.urpmi must be magic, to be sure it's not an error file
-    my $magic = <$fh>;
     $magic =~ /^# this is an urpmi reconfiguration file/ or return undef;
-    local $_;
-    while (<$fh>) {
+
+    my @replacements;
+    foreach (@lines) {
 	chomp;
 	s/^\s*//; s/#.*$//; s/\s*$//;
 	$_ or next;
 	my ($p, $r, $f) = split /\s+/, $_, 3;
-	$f ||= 1;
-	push @replacements, [ quotemeta $p, $r, $f ];
+	push @replacements, [ quotemeta $p, $r, $f || 1 ];
     }
-  MEDIA:
-    foreach my $medium (grep { $_->{name} eq $name } @{$urpm->{media}}) {
-        my %orig = map { $_ => $medium->{$_} } @reconfigurable;
-      URLS:
-	foreach my $k (@reconfigurable) {
-	    foreach my $r (@replacements) {
-		if ($medium->{$k} =~ s/$r->[0]/$r->[1]/) {
-		    $reconfigured = 1;
-		    #- Flags stolen from mod_rewrite: L(ast), N(ext)
-		    last if $r->[2] =~ /L/;
-		    redo URLS if $r->[2] =~ /N/;
+
+    my $reconfigured = 0;
+    my @reconfigurable = qw(url with_hdlist clear_url);
+
+    my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}} or return;
+    my %orig = %$medium;
+
+  URLS:
+    foreach my $k (@reconfigurable) {
+	foreach my $r (@replacements) {
+	    if ($medium->{$k} =~ s/$r->[0]/$r->[1]/) {
+		$reconfigured = 1;
+		#- Flags stolen from mod_rewrite: L(ast), N(ext)
+		if ($r->[2] =~ /L/) {
+		    last;
+		} elsif ($r->[2] =~ /N/) { #- dangerous option
+		    redo URLS;
 		}
 	    }
-	    #- check that the new url exists before committing changes (local mirrors)
-	    if ($medium->{$k} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z! && !-e $1) {
-		$medium->{$k} = $orig{$k} foreach @reconfigurable;
-		$reconfigured = 0;
-		$urpm->{log}(N("...reconfiguration failed"));
-		last MEDIA;
-	    }
+	}
+	#- check that the new url exists before committing changes (local mirrors)
+	my $file = file_from_local_url($medium->{$k});
+	if ($file && !-e $file) {
+	    %$medium = %orig;
+	    $reconfigured = 0;
+	    $urpm->{log}(N("...reconfiguration failed"));
+	    return;
 	}
     }
-    close $fh;
+
     if ($reconfigured) {
 	$urpm->{log}(N("reconfiguration done"));
 	$urpm->write_config;
@@ -1015,8 +1033,7 @@ sub _update_media__when_not_modified {
 
     delete @$medium{qw(start end)};
     if ($medium->{virtual}) {
-	my ($path) = $medium->{url} =~ m!^(?:file:)?/*(/[^/].*[^/])/*\Z!;
-	if ($path) {
+	if (my $path = file_from_file_url($medium->{url})) {
 	    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 	    if ($medium->{synthesis}) {
 		_parse_synthesis($urpm, $medium, $with_hdlist_file);
@@ -1214,7 +1231,7 @@ sub _update_medium_first_pass {
       or $medium->{modified_synthesis} = 1;
 
     #- if we're rebuilding all media, mark them as modified (except removable ones)
-    $medium->{modified} ||= $options{all} && $medium->{url} !~ m!^removable://!;
+    $medium->{modified} ||= $options{all} && $medium->{url} !~ m!^removable!;
     #- don't ever update static media
     $medium->{static} and $medium->{modified} = 0;
 
@@ -1830,9 +1847,8 @@ sub _update_medium_second_pass {
     } elsif ($medium->{synthesis}) {
 	if ($second_pass) {
 	    if ($medium->{virtual}) {
-		my ($path) = $medium->{url} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z!;
-		my $with_hdlist_file = "$path/$medium->{with_hdlist}";
-		if ($path) {
+		if (my $path = file_from_file_url($medium->{url})) {
+		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		    _parse_synthesis($urpm, $medium, $with_hdlist_file);
 		}
 	    } else {
@@ -2412,7 +2428,7 @@ sub get_source_packages {
 	    #- always prefer a list file if available.
 	    my $listfile = $medium->{list} ? "$urpm->{statedir}/$medium->{list}" : '';
 	    if (!$listfile && $medium->{virtual}) {
-		my $dir = analyse_url__file_if_local($medium->{url});
+		my $dir = file_from_local_url($medium->{url});
 		my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 		my $local_list = 'list' . _hdlist_suffix($medium);
 		$listfile = reduce_pathname("$with_hdlist_dir/../$local_list");
@@ -2600,7 +2616,7 @@ sub copy_packages_of_removable_media {
 	}
 	foreach (values %{$list->[$id]}) {
 	    chomp;
-	    my $dir_ = analyse_url__file_if_local($_) or next;
+	    my $dir_ = file_from_local_url($_) or next;
 	    $dir_ =~ m!/.*/! or next; #- is this really needed??
 	    unless ($dir) {
 		$dir = $dir_;
@@ -2615,7 +2631,7 @@ sub copy_packages_of_removable_media {
     my $examine_removable_medium = sub {
 	my ($id, $device) = @_;
 	my $medium = $urpm->{media}[$id];
-	if (my $dir = analyse_url__file_if_local($medium->{url})) {
+	if (my $dir = file_from_local_url($medium->{url})) {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- everything that might be necessary.
@@ -2632,7 +2648,7 @@ sub copy_packages_of_removable_media {
 		while (my ($i, $url) = each %{$list->[$id]}) {
 		    chomp $url;
 		    my ($filepath, $filename) = do {
-			my $f = analyse_url__file_if_local($url) or next;
+			my $f = file_from_local_url($url) or next;
 			$f =~ m!/.*/! or next; #- is this really needed??
 			dirname($f), basename($f);
 		    };
@@ -2670,7 +2686,7 @@ sub copy_packages_of_removable_media {
 	#- examine non removable device but that may be mounted.
 	if ($medium->{removable}) {
 	    push @{$removables{$medium->{removable}} ||= []}, $_;
-	} elsif (my $dir = analyse_url__file_if_local($medium->{url})) {
+	} elsif (my $dir = file_from_local_url($medium->{url})) {
 	    -e $dir || $urpm->try_mounting($dir) or
 	      $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
 	}
@@ -2719,7 +2735,7 @@ sub download_packages_of_distant_media {
 	while (my ($i, $url) = each %{$list->[$n]}) {
 	    #- the given URL is trusted, so the file can safely be ignored.
 	    defined $sources->{$i} and next;
-	    my $local_file = analyse_url__file_if_local($url);
+	    my $local_file = file_from_local_url($url);
 	    if ($local_file && $local_file =~ /\.rpm$/) {
 		if (-r $local_file) {
 		    $sources->{$i} = $local_file;
@@ -3284,11 +3300,7 @@ sub check_sources_signatures {
 
 sub dump_description_file {
     my ($urpm, $media_name) = @_;
-    open my $fh, '<', "$urpm->{statedir}/descriptions.$media_name"
-	or return ();
-    my @slurp = <$fh>;
-    close $fh;
-    return @slurp;
+    cat_("$urpm->{statedir}/descriptions.$media_name");
 }
 
 #- get reason of update for packages to be updated
