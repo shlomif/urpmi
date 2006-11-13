@@ -1119,6 +1119,17 @@ sub generate_media_names {
 }
 
 
+sub _read_existing_synthesis_and_hdlist_if_same_time_and_msize {
+    my ($urpm, $medium, $basename) = @_;
+
+    same_size_and_mtime("$urpm->{cachedir}/partial/$basename", 
+			"$urpm->{statedir}/$medium->{hdlist}") or return;
+
+    _read_existing_synthesis_and_hdlist($urpm, $medium, $basename);
+
+    1;
+}
+
 sub _read_existing_synthesis_and_hdlist_if_same_md5sum {
     my ($urpm, $medium, $basename, $retrieved_md5sum) = @_;
 
@@ -1127,6 +1138,14 @@ sub _read_existing_synthesis_and_hdlist_if_same_md5sum {
     #- if local md5sum is the same as distant md5sum, this means there is no need to
     #- download hdlist or synthesis file again.
     $retrieved_md5sum && $medium->{md5sum} eq $retrieved_md5sum or return;
+
+    _read_existing_synthesis_and_hdlist($urpm, $medium, $basename);
+
+    1;
+}
+
+sub _read_existing_synthesis_and_hdlist {
+    my ($urpm, $medium, $basename) = @_;
 
     unlink "$urpm->{cachedir}/partial/$basename";
     #- the medium is now considered not modified.
@@ -1363,20 +1382,8 @@ this could happen if you mounted manually the directory when creating the medium
 
 		#- check if the files are equal... and no force copy...
 		if (!$error && !$options{force} && -e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
-		    if (same_size_and_mtime("$urpm->{cachedir}/partial/$medium->{hdlist}", 
-					    "$urpm->{statedir}/$medium->{hdlist}")) {
-			#- the two files are considered equal here, the medium is so not modified.
-			$medium->{modified} = 0;
-			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
-			#- as previously done, just read synthesis file here, this is enough, but only
-			#- if synthesis exists, else it needs to be recomputed.
-			_parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
-			if (!is_valid_medium($medium)) {
-			    _parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-			    _check_after_reading_hdlist_or_synthesis($urpm, $medium);
-			}
-			return;
-		    }
+		    _read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $medium->{hdlist}) 
+		      and return;
 		}
 	    } else {
 		$error = 1;
@@ -1603,19 +1610,8 @@ this could happen if you mounted manually the directory when creating the medium
 	    $urpm->{log}(N("...retrieving done"));
 
 	    unless ($options{force}) {
-		if (same_size_and_mtime("$urpm->{cachedir}/partial/$basename",
-					"$urpm->{statedir}/$medium->{hdlist}")) {
-		    #- the two files are considered equal here, the medium is so not modified.
-		    $medium->{modified} = 0;
-		    unlink "$urpm->{cachedir}/partial/$basename";
-		    #- as previously done, just read synthesis file here, this is enough.
-		    _parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
-		    if (!is_valid_medium($medium)) {
-			_parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-			_check_after_reading_hdlist_or_synthesis($urpm, $medium);
-		    }
-		    return;
-		}
+		_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $basename)
+		  and return;
 	    }
 
 	    #- the files are different, update local copy.
