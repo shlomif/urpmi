@@ -564,14 +564,12 @@ sub configure {
 			my $path = $_->{url} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z! && $1;
 			if ($path) {
 			    if ($_->{synthesis}) {
-				$urpm->{log}(N("examining synthesis file [%s]", "$path/$_->{with_hdlist}"));
-				($_->{start}, $_->{end}) = $urpm->parse_synthesis(
+				_parse_synthesis($urpm, $_,
 				    "$path/$_->{with_hdlist}", callback => $options{callback});
 			    } else {
-				$urpm->{log}(N("examining hdlist file [%s]", "$path/$_->{with_hdlist}"));
 				#- we'll need a second pass
 				defined $second_pass or $second_pass = 1;
-				($_->{start}, $_->{end}) = $urpm->parse_hdlist(
+				_parse_hdlist($urpm, $_,
 				    "$path/$_->{with_hdlist}",
 				    packing => 1,
 				    callback => $options{call_back_only_once} && $second_pass ? undef : $options{callback},
@@ -583,21 +581,17 @@ sub configure {
 			}
 		    } else {
 			if ($options{hdlist} && file_size("$urpm->{statedir}/$_->{hdlist}") > 32) {
-			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-			    ($_->{start}, $_->{end}) = $urpm->parse_hdlist(
-				"$urpm->{statedir}/$_->{hdlist}",
+			    _parse_hdlist($urpm, $_, "$urpm->{statedir}/$_->{hdlist}",
 				packing => 1,
 				callback => $options{callback},
 			    );
 			} else {
-			    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$_->{hdlist}"));
-			    ($_->{start}, $_->{end}) = $urpm->parse_synthesis(
+			    _parse_synthesis($urpm, $_,
 				"$urpm->{statedir}/synthesis.$_->{hdlist}",
 				callback => $options{callback},
 			    );
-			    unless (defined $_->{start} && defined $_->{end}) {
-				$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$_->{hdlist}"));
-				($_->{start}, $_->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$_->{hdlist}",
+			    if (!is_valid_medium($_)) {
+				_parse_hdlist($urpm, $_, "$urpm->{statedir}/$_->{hdlist}",
 				    packing => 1,
 				    callback => $options{callback},
 				);
@@ -605,17 +599,15 @@ sub configure {
 			}
 		    }
 		    unless ($_->{ignore}) {
-			if (defined $_->{start} && defined $_->{end}) {
+			_check_after_reading_hdlist_or_synthesis($urpm, $_);
+		    }
+		    unless ($_->{ignore}) {
 			    if ($_->{searchmedia}) {
 			        ($urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}) = ($_->{start}, $_->{end});
 				$urpm->{log}(N("Search start: %s end: %s",
 					$urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}));
 				delete $_->{searchmedia};
 			    }
-			} else {
-			    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $_->{name}));
-			    $_->{ignore} = 1;
-			}
 		    }
 		}
 	    } while $second_pass && do {
@@ -655,12 +647,11 @@ sub configure {
     }
     if ($options{bug}) {
 	#- and a dump of rpmdb itself as synthesis file.
-	my $db = URPM::DB::open($options{root});
+	my $db = db_open_or_die($urpm, $options{root});
 	my $sig_handler = sub { undef $db; exit 3 };
 	local $SIG{INT} = $sig_handler;
 	local $SIG{QUIT} = $sig_handler;
 
-	$db or $urpm->{fatal}(9, N("unable to open rpmdb"));
 	open my $rpmdb, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$options{bug}/rpmdb.cz'"
 	    or $urpm->syserror("Can't fork", "gzip");
 	$db->traverse(sub {
@@ -682,7 +673,7 @@ sub add_medium {
 
     #- make sure configuration has been read.
     $urpm->{media} or $urpm->read_config;
-    $options{nolock} or $urpm->exlock_urpmi_db;
+    $urpm->lock_urpmi_db('exclusive') if !$options{nolock};
 
     #- if a medium with that name has already been found, we have to exit now
     my $medium;
@@ -788,12 +779,8 @@ sub add_distrib_media {
 	    $urpm->{log}(N("retrieving media.cfg file..."));
 	    $urpm->{sync}(
 		{
-		    dir => "$urpm->{cachedir}/partial",
+		    _sync_options($urpm, \%options),
 		    quiet => 1,
-		    limit_rate => $options{limit_rate},
-		    compress => $options{compress},
-		    retry => $urpm->{options}{retry},
-		    proxy => get_proxy(),
 		},
 		reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg'),
 	    );
@@ -1003,15 +990,28 @@ sub reconfig_urpmi {
     $reconfigured;
 }
 
+sub _sync_options {
+    my ($urpm, $options, $o_medium) = @_;
+    ( 
+	dir => "$urpm->{cachedir}/partial",
+	limit_rate => $options->{limit_rate},
+	compress => $options->{compress},
+	retry => $urpm->{options}{retry},
+	proxy => get_proxy($o_medium),
+	quiet => $options->{quiet}, #- often overridden in the caller, why??
+	$o_medium ? (media => $o_medium->{name}) : (),
+    );
+}
+
 sub _guess_hdlist_suffix {
     my ($dir) = @_;
     my ($suffix) = $dir =~ m!\bmedia/(\w+)/*\Z!;
     $suffix;
 }
 
-sub _guess_pubkey_name {
+sub _hdlist_suffix {
     my ($medium) = @_;
-    return $medium->{with_hdlist} =~ /hdlist(.*?)(?:\.src)?\.cz$/ ? "pubkey$1" : 'pubkey';
+    $medium->{with_hdlist} =~ /hdlist(.*?)(?:\.src)?\.cz$/ ? $1 : '';
 }
 
 sub _update_media__when_not_modified {
@@ -1023,30 +1023,22 @@ sub _update_media__when_not_modified {
 	if ($path) {
 	    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 	    if ($medium->{synthesis}) {
-		$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
-		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file);
+		_parse_synthesis($urpm, $medium, $with_hdlist_file);
 	    } else {
-		$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_file));
-		($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_file, packing => 1);
+		_parse_hdlist($urpm, $medium, $with_hdlist_file, packing => 1);
 	    }
 	} else {
 	    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
 	    $medium->{ignore} = 1;
 	}
     } else {
-	$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-	($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-	unless (defined $medium->{start} && defined $medium->{end}) {
-	    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-	    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+	_parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	if (!is_valid_medium($medium)) {
+	    _parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
 	}
     }
     unless ($medium->{ignore}) {
-	unless (defined $medium->{start} && defined $medium->{end}) {
-	    #- this is almost a fatal error, ignore it by default?
-	    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
-	    $medium->{ignore} = 1;
-	}
+	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
     }
 }
 
@@ -1056,34 +1048,27 @@ sub _update_media__virtual {
     if ($medium->{with_hdlist} && -e $with_hdlist_dir) {
 	delete @$medium{qw(start end)};
 	if ($medium->{synthesis}) {
-	    $urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
-	    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
+	    _parse_synthesis($urpm, $medium, $with_hdlist_dir);
 	    delete $medium->{modified};
 	    $medium->{synthesis} = 1;
 	    $urpm->{modified} = 1;
-	    unless (defined $medium->{start} && defined $medium->{end}) {
-		$urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
-		($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
+	    if (!is_valid_medium($medium)) {
+		_parse_hdlist($urpm, $medium, $with_hdlist_dir, packing => 1);
 		delete @$medium{qw(modified synthesis)};
 		$urpm->{modified} = 1;
 	    }
 	} else {
-	    $urpm->{log}(N("examining hdlist file [%s]", $with_hdlist_dir));
-	    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($with_hdlist_dir, packing => 1);
+	    _parse_hdlist($urpm, $medium, $with_hdlist_dir, packing => 1);
 	    delete @$medium{qw(modified synthesis)};
 	    $urpm->{modified} = 1;
-	    unless (defined $medium->{start} && defined $medium->{end}) {
-		$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_dir));
-		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_dir);
+	    if (!is_valid_medium($medium)) {
+		_parse_synthesis($urpm, $medium, $with_hdlist_dir);
 		delete $medium->{modified};
 		$medium->{synthesis} = 1;
 		$urpm->{modified} = 1;
 	    }
 	}
-	unless (defined $medium->{start} && defined $medium->{end}) {
-	    $urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
-	    $medium->{ignore} = 1;
-	}
+	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
     } else {
 	$urpm->{error}(N("virtual medium \"%s\" should have valid source hdlist or synthesis, medium ignored",
 			 $medium->{name}));
@@ -1097,7 +1082,7 @@ sub generate_media_names {
     #- make sure names files are regenerated.
     foreach (@{$urpm->{media}}) {
 	unlink "$urpm->{statedir}/names.$_->{name}";
-	if (defined $_->{start} && defined $_->{end}) {
+	if (is_valid_medium($_)) {
 	    my $fh = $urpm->open_safe(">", "$urpm->{statedir}/names.$_->{name}");
 	    if ($fh) {
 		foreach ($_->{start} .. $_->{end}) {
@@ -1113,6 +1098,108 @@ sub generate_media_names {
 	    }
 	}
     }
+}
+
+
+sub _read_existing_synthesis_and_hdlist_if_same_md5sum {
+    my ($urpm, $medium, $basename, $retrieved_md5sum) = @_;
+
+    #- if an existing hdlist or synthesis file has the same md5sum, we assume the
+    #- files are the same.
+    #- if local md5sum is the same as distant md5sum, this means there is no need to
+    #- download hdlist or synthesis file again.
+    $retrieved_md5sum && $medium->{md5sum} eq $retrieved_md5sum or return;
+
+    unlink "$urpm->{cachedir}/partial/$basename";
+    #- the medium is now considered not modified.
+    $medium->{modified} = 0;
+    #- XXX we could link the new hdlist to the old one.
+    #- (However links need to be managed. see bug #12391.)
+    #- as previously done, just read synthesis file here, this is enough.
+    _parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+    if (!is_valid_medium($medium)) {
+	_parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
+    }
+
+    1;
+}
+
+sub _parse_hdlist {
+    my ($urpm, $medium, $hdlist_file, %args) = @_;
+
+    $urpm->{log}(N("examining hdlist file [%s]", $hdlist_file));
+    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($hdlist_file, %args);
+}
+
+sub _parse_synthesis {
+    my ($urpm, $medium, $synthesis_file, %args) = @_;
+
+    $urpm->{log}(N("examining synthesis file [%s]", $synthesis_file));
+    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($synthesis_file, %args);
+}
+
+sub is_valid_medium {
+    my ($medium) = @_;
+    defined $medium->{start} && defined $medium->{end};
+}
+
+sub _check_after_reading_hdlist_or_synthesis {
+    my ($urpm, $medium) = @_;
+
+    if (!is_valid_medium($medium)) {
+	$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
+	$medium->{ignore} = 1;
+    }
+}
+
+sub db_open_or_die {
+    my ($urpm, $root, $b_force) = @_;
+
+    my $db = URPM::DB::open($root, $b_force)
+      or $urpm->{fatal}(9, N("unable to open rpmdb"));
+
+    $db;
+}
+
+sub _update_media__sync_file {
+    my ($urpm, $medium, $name, $options) = @_;
+
+    my $local_name = $name . _hdlist_suffix($medium);
+
+    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_name"),
+	     reduce_pathname("$medium->{url}/$name")) {
+	eval {
+	    $urpm->{sync}(
+		{
+		    _sync_options($urpm, $options, $medium),
+		    quiet => 1,
+		}, $_);
+
+	    $local_name ne $name && -s "$urpm->{cachedir}/partial/$local_name"
+	      and rename(
+		  "$urpm->{cachedir}/partial/$local_name",
+		  "$urpm->{cachedir}/partial/$name");
+	};
+	$@ and unlink "$urpm->{cachedir}/partial/$name";
+	-s "$urpm->{cachedir}/partial/$name" and last;
+    }
+}
+
+sub recursive_find_rpm_files {
+    my ($dir) = @_;
+
+    my %f;
+    local $_; #- help perl_checker not warning "undeclared $_" in wanted callback below
+    File::Find::find(
+	{
+	    wanted => sub { -f $_ && /\.rpm$/ and $f{"$File::Find::dir/$_"} = 1 },
+	    follow_skip => 2,
+	    follow_fast => 1,
+	},
+	$dir,
+    );
+    keys %f;
 }
 
 #- Update the urpmi database w.r.t. the current configuration.
@@ -1143,11 +1230,11 @@ sub update_media {
     my $nopubkey = $options{nopubkey} || $urpm->{options}{nopubkey};
     #- get gpg-pubkey signature.
     if (!$nopubkey) {
-	$urpm->exlock_rpm_db;
+	$urpm->lock_rpm_db('exclusive');
 	$urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
     }
     #- lock database if allowed.
-    $options{nolock} or $urpm->exlock_urpmi_db;
+    $urpm->lock_urpmi_db('exclusive') if !$options{nolock};
 
     #- examine each medium to see if one of them needs to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1260,33 +1347,8 @@ this could happen if you mounted manually the directory when creating the medium
 			recompute_local_md5sum($urpm, $medium, $options{force});
 			if ($medium->{md5sum}) {
 			    $retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
-			    #- If an existing hdlist or synthesis file has the same md5sum, we assume
-			    #- the files are the same.
-			    #- If the local md5sum is the same as the distant md5sum, this means
-			    #- that there is no need to download the hdlist or synthesis file again.
-			    if (defined $retrieved_md5sum && $medium->{md5sum} eq $retrieved_md5sum) {
-				unlink "$urpm->{cachedir}/partial/$basename";
-				#- the medium is now considered not modified.
-				$medium->{modified} = 0;
-				#- XXX we could link the new hdlist to the old one.
-				#- (However links need to be managed. see bug #12391.)
-				#- as previously done, just read synthesis file here, this is enough.
-				$urpm->{log}(N("examining synthesis file [%s]",
-				    "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-				($medium->{start}, $medium->{end}) =
-				    $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-				unless (defined $medium->{start} && defined $medium->{end}) {
-				    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-				    ($medium->{start}, $medium->{end}) =
-					$urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-				    unless (defined $medium->{start} && defined $medium->{end}) {
-					$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"",
-					    $medium->{name}));
-					$medium->{ignore} = 1;
-				    }
-				}
-			    }
-			    $medium->{modified} or next MEDIA;
+			    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $basename, $retrieved_md5sum)
+			      and next MEDIA;
 			}
 		    }
 
@@ -1327,14 +1389,10 @@ this could happen if you mounted manually the directory when creating the medium
 			    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 			    #- as previously done, just read synthesis file here, this is enough, but only
 			    #- if synthesis exists, else it needs to be recomputed.
-			    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			    ($medium->{start}, $medium->{end}) =
-				$urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-				($medium->{start}, $medium->{end}) =
-				    $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-				unless (defined $medium->{start} && defined $medium->{end}) {
+			    _parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+			    if (!is_valid_medium($medium)) {
+				_parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+				if (!is_valid_medium($medium)) {
 				    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 				    $medium->{ignore} = 1;
 				}
@@ -1343,12 +1401,7 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 		} else {
-		    if ($urpm->{options}{norebuild}) {
-			$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
-			$medium->{ignore} = 1;
-		    } else {
-			$options{force} < 2 and $options{force} = 2;
-		    }
+		    $error = 1;
 		}
 
 		#- if copying hdlist has failed, try to build it directly.
@@ -1367,7 +1420,7 @@ this could happen if you mounted manually the directory when creating the medium
 		    #- examine if a local list file is available (always probed according to with_hdlist)
 		    #- and check hdlist wasn't named very strangely...
 		    if ($medium->{hdlist} ne 'list') {
-			my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
+			my $local_list = 'list' . _hdlist_suffix($medium);
 			my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
 			-e $path_list or $path_list = "$dir/list";
 			if (-e $path_list) {
@@ -1377,19 +1430,7 @@ this could happen if you mounted manually the directory when creating the medium
 			}
 		    }
 		} else {
-		    {
-			my %f;
-			local $_; #- help perl_checker not warning "undeclared $_" in wanted callback below
-			File::Find::find(
-			    {
-				wanted => sub { -f $_ && /\.rpm$/ and $f{"$File::Find::dir/$_"} = 1 },
-				follow_skip => 2,
-				follow_fast => 1,
-			    },
-			    $dir,
-			);
-			push @files, keys %f;
-		    }
+		    push @files, recursive_find_rpm_files($dir);
 
 		    #- check files contains something good!
 		    if (@files > 0) {
@@ -1433,7 +1474,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 	    #- examine if a local pubkey file is available.
 	    if (!$nopubkey && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
-		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../" . _guess_pubkey_name($medium));
+		my $path_pubkey = reduce_pathname("$with_hdlist_dir/../pubkey" . _hdlist_suffix($medium));
 		-e $path_pubkey or $path_pubkey = "$dir/pubkey";
 		if ($path_pubkey) {
 		    urpm::util::copy($path_pubkey, "$urpm->{cachedir}/partial/pubkey")
@@ -1448,13 +1489,8 @@ this could happen if you mounted manually the directory when creating the medium
 		eval {
 		    $urpm->{sync}(
 			{
-			    dir => "$urpm->{cachedir}/partial",
+			    _sync_options($urpm, \%options, $medium),
 			    quiet => 1,
-			    limit_rate => $options{limit_rate},
-			    compress => $options{compress},
-			    proxy => get_proxy($medium->{name}),
-			    media => $medium->{name},
-			    retry => $urpm->{options}{retry},
 			},
 			reduce_pathname("$medium->{url}/reconfig.urpmi"),
 		    );
@@ -1473,13 +1509,8 @@ this could happen if you mounted manually the directory when creating the medium
 		urpm::util::move("$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
 	    }
 	    my $syncopts = {
-		dir => "$urpm->{cachedir}/partial",
+		_sync_options($urpm, \%options, $medium),
 		quiet => 1,
-		limit_rate => $options{limit_rate},
-		compress => $options{compress},
-		proxy => get_proxy($medium->{name}),
-		retry => $urpm->{options}{retry},
-		media => $medium->{name},
 	    };
 	    eval { $urpm->{sync}($syncopts, reduce_pathname("$medium->{url}/media_info/descriptions")) };
 	    #- It is possible that the original fetch of the descriptions
@@ -1511,13 +1542,8 @@ this could happen if you mounted manually the directory when creating the medium
 		    if (!$options{nomd5sum}) {
 			$urpm->{sync}(
 			    {
-				dir => "$urpm->{cachedir}/partial",
+				_sync_options($urpm, \%options, $medium),
 				quiet => 1,
-				limit_rate => $options{limit_rate},
-				compress => $options{compress},
-				proxy => get_proxy($medium->{name}),
-				media => $medium->{name},
-				retry => $urpm->{options}{retry},
 			    },
 			    reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"),
 			);
@@ -1527,31 +1553,8 @@ this could happen if you mounted manually the directory when creating the medium
 		    recompute_local_md5sum($urpm, $medium, $options{force} >= 2);
 		    if ($medium->{md5sum}) {
 			$retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
-			#- if an existing hdlist or synthesis file has the same md5sum, we assume the
-			#- files are the same.
-			#- if local md5sum is the same as distant md5sum, this means there is no need to
-			#- download hdlist or synthesis file again.
-			if (defined $retrieved_md5sum && $medium->{md5sum} eq $retrieved_md5sum) {
-			    unlink "$urpm->{cachedir}/partial/$basename";
-			    #- the medium is now considered not modified.
-			    $medium->{modified} = 0;
-			    #- XXX we could link the new hdlist to the old one.
-			    #- (However links need to be managed. see bug #12391.)
-			    #- as previously done, just read synthesis file here, this is enough.
-			    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			    ($medium->{start}, $medium->{end}) =
-				$urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-				($medium->{start}, $medium->{end}) =
-				    $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-				unless (defined $medium->{start} && defined $medium->{end}) {
-				    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-				    $medium->{ignore} = 1;
-				}
-			    }
-			}
-			$medium->{modified} or next MEDIA;
+			_read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $basename, $retrieved_md5sum)
+			  and next MEDIA;
 		    }
 		} else {
 		    #- at this point, we don't if a basename exists and is valid, let probe it later.
@@ -1575,14 +1578,8 @@ this could happen if you mounted manually the directory when creating the medium
 		    eval {
 			$urpm->{sync}(
 			    {
-				dir => "$urpm->{cachedir}/partial",
-				quiet => $options{quiet},
-				limit_rate => $options{limit_rate},
-				compress => $options{compress},
+				_sync_options($urpm, \%options, $medium),
 				callback => $options{callback},
-				proxy => get_proxy($medium->{name}),
-				media => $medium->{name},
-				retry => $urpm->{options}{retry},
 			    },
 			    reduce_pathname("$medium->{url}/$with_hdlist"),
 			);
@@ -1619,14 +1616,8 @@ this could happen if you mounted manually the directory when creating the medium
 		eval {
 		    $urpm->{sync}(
 			{
-			    dir => "$urpm->{cachedir}/partial",
-			    quiet => $options{quiet},
-			    limit_rate => $options{limit_rate},
-			    compress => $options{compress},
+			    _sync_options($urpm, \%options, $medium),
 			    callback => $options{callback},
-			    proxy => get_proxy($medium->{name}),
-			    media => $medium->{name},
-			    retry => $urpm->{options}{retry},
 			},
 			reduce_pathname("$medium->{url}/$medium->{with_hdlist}"),
 		    );
@@ -1658,17 +1649,10 @@ this could happen if you mounted manually the directory when creating the medium
 			$medium->{modified} = 0;
 			unlink "$urpm->{cachedir}/partial/$basename";
 			#- as previously done, just read synthesis file here, this is enough.
-			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-			($medium->{start}, $medium->{end}) =
-			    $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-			unless (defined $medium->{start} && defined $medium->{end}) {
-			    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-			    ($medium->{start}, $medium->{end}) =
-				$urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-			    unless (defined $medium->{start} && defined $medium->{end}) {
-				$urpm->{error}(N("problem reading hdlist or synthesis file of medium \"%s\"", $medium->{name}));
-				$medium->{ignore} = 1;
-			    }
+			_parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+			if (!is_valid_medium($medium)) {
+			    _parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+			    _check_after_reading_hdlist_or_synthesis($urpm, $medium);
 			}
 			next MEDIA;
 		    }
@@ -1681,60 +1665,12 @@ this could happen if you mounted manually the directory when creating the medium
 		#- check whether a list file is available.
 		#- and check hdlist wasn't named very strangely...
 		if ($medium->{hdlist} ne 'list') {
-		    my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
-		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_list"),
-			     reduce_pathname("$medium->{url}/list"),
-			    ) {
-			eval {
-			    $urpm->{sync}(
-				{
-				    dir => "$urpm->{cachedir}/partial",
-				    quiet => 1,
-				    limit_rate => $options{limit_rate},
-				    compress => $options{compress},
-				    proxy => get_proxy($medium->{name}),
-				    media => $medium->{name},
-				    retry => $urpm->{options}{retry},
-				},
-				$_
-			    );
-			    $local_list ne 'list' && -s "$urpm->{cachedir}/partial/$local_list"
-				and rename(
-				    "$urpm->{cachedir}/partial/$local_list",
-				    "$urpm->{cachedir}/partial/list");
-			};
-			$@ and unlink "$urpm->{cachedir}/partial/list";
-			-s "$urpm->{cachedir}/partial/list" and last;
-		    }
+		    _update_media__sync_file($urpm, $medium, 'list', \%options);
 		}
 
 		#- retrieve pubkey file.
 		if (!$nopubkey && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
-		    my $local_pubkey = _guess_pubkey_name($medium);
-		    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_pubkey"),
-			     reduce_pathname("$medium->{url}/pubkey"),
-			    ) {
-			eval {
-			    $urpm->{sync}(
-				{
-				    dir => "$urpm->{cachedir}/partial",
-				    quiet => 1,
-				    limit_rate => $options{limit_rate},
-				    compress => $options{compress},
-				    proxy => get_proxy($medium->{name}),
-				    media => $medium->{name},
-				    retry => $urpm->{options}{retry},
-				},
-				$_,
-			    );
-			    $local_pubkey ne 'pubkey' && -s "$urpm->{cachedir}/partial/$local_pubkey"
-				and rename(
-				    "$urpm->{cachedir}/partial/$local_pubkey",
-				    "$urpm->{cachedir}/partial/pubkey");
-			};
-			$@ and unlink "$urpm->{cachedir}/partial/pubkey";
-			-s "$urpm->{cachedir}/partial/pubkey" and last;
-		    }
+		    _update_media__sync_file($urpm, $medium, 'pubkey', \%options);
 		}
 	    } else {
 		$error = 1;
@@ -1769,31 +1705,23 @@ this could happen if you mounted manually the directory when creating the medium
 		if (!$medium->{synthesis}
 		    || file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 262144)
 		{
-		    $urpm->{log}(N("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-		    ($medium->{start}, $medium->{end}) =
-			     $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
-		    if (defined $medium->{start} && defined $medium->{end}) {
+		    _parse_hdlist($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}", packing => 1);
+		    if (is_valid_medium($medium)) {
 			delete $medium->{synthesis};
 		    } else {
-			$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-			($medium->{start}, $medium->{end}) =
-				 $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
-			defined $medium->{start} && defined $medium->{end} and $medium->{synthesis} = 1;
+			_parse_synthesis($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}");
+			is_valid_medium($medium) and $medium->{synthesis} = 1;
 		    }
 		} else {
-		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-		    ($medium->{start}, $medium->{end}) =
-			     $urpm->parse_synthesis("$urpm->{cachedir}/partial/$medium->{hdlist}");
-		    if (defined $medium->{start} && defined $medium->{end}) {
+		    _parse_synthesis($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}");
+		    if (is_valid_medium($medium)) {
 			$medium->{synthesis} = 1;
 		    } else {
-			$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-			($medium->{start}, $medium->{end}) =
-				 $urpm->parse_hdlist("$urpm->{cachedir}/partial/$medium->{hdlist}", 1);
-			defined $medium->{start} && defined $medium->{end} and delete $medium->{synthesis};
+			_parse_hdlist($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}", packing => 1);
+			is_valid_medium($medium) and delete $medium->{synthesis};
 		    }
 		}
-		if (defined $medium->{start} && defined $medium->{end}) {
+		if (is_valid_medium($medium)) {
 		    $options{callback} && $options{callback}('done', $medium->{name});
 		} else {
 		    $error = 1;
@@ -1884,9 +1812,8 @@ this could happen if you mounted manually the directory when creating the medium
 		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 		$medium->{list} and unlink "$urpm->{cachedir}/partial/$medium->{list}";
 		#- read default synthesis (we have to make sure nothing get out of depslist).
-		$urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-		($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-		unless (defined $medium->{start} && defined $medium->{end}) {
+		_parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+		if (!is_valid_medium($medium)) {
 		    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 		    $medium->{ignore} = 1;
 		}
@@ -1970,18 +1897,15 @@ this could happen if you mounted manually the directory when creating the medium
 		    my ($path) = $medium->{url} =~ m!^(?:file:/*)?(/[^/].*[^/])/*\Z!;
 		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
 		    if ($path) {
-			$urpm->{log}(N("examining synthesis file [%s]", $with_hdlist_file));
-			($medium->{start}, $medium->{end}) = $urpm->parse_synthesis($with_hdlist_file);
+			_parse_synthesis($urpm, $medium, $with_hdlist_file);
 		    }
 		} else {
-		    $urpm->{log}(N("examining synthesis file [%s]", "$urpm->{statedir}/synthesis.$medium->{hdlist}"));
-		    ($medium->{start}, $medium->{end}) = $urpm->parse_synthesis("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+		    _parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
 		}
 	    }
 	} else {
 	    if ($second_pass) {
-		$urpm->{log}(N("examining hdlist file [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
-		($medium->{start}, $medium->{end}) = $urpm->parse_hdlist("$urpm->{statedir}/$medium->{hdlist}", 1);
+		_parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
 	    }
 	    #- check if the synthesis file can be built.
 	    if (($second_pass || $medium->{modified_synthesis}) && !$medium->{modified}) {
@@ -2123,14 +2047,7 @@ sub register_rpms {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving rpm file [%s] ...", $_));
-		$urpm->{sync}(
-		    {
-			dir => "$urpm->{cachedir}/partial",
-			quiet => 1,
-			proxy => get_proxy(),
-		    },
-		    $_,
-		);
+		$urpm->{sync}({ _sync_options($urpm, { quiet => 1 }) }, $_);
 		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    };
@@ -2214,11 +2131,10 @@ sub search_packages {
 		#- we assume that if there is at least one package providing
 		#- the resource exactly, this should be the best one; but we
 		#- first check if one of the packages has the same name as searched.
-		if ((my @l2) = grep { $_->name eq $v } @l) {
-		    $exact{$v} = join '|', map { $_->id } @l2;
-		} else {
-		    $exact{$v} = join '|', map { $_->id } @l;
+		if (my @l2 = grep { $_->name eq $v } @l) {
+		    @l = @l2;
 		}
+		$exact{$v} = join('|', map { $_->id } @l);
 		next;
 	    }
 	}
@@ -2334,7 +2250,7 @@ sub resolve_dependencies {
 	my $file = "$urpm->{cachedir}/partial/parallel.cz";
 	unlink $file;
 	foreach (@{$urpm->{media}}) {
-	    defined $_->{start} && defined $_->{end} or next;
+	    is_valid_medium($_) or next;
 	    system "cat '$urpm->{statedir}/synthesis.$_->{hdlist}' >> '$file'";
 	}
 	#- let each node determine what is requested, according to handler given.
@@ -2346,8 +2262,7 @@ sub resolve_dependencies {
 	    $db = new URPM;
 	    $db->parse_synthesis($options{rpmdb});
 	} else {
-	    $db = URPM::DB::open($urpm->{root});
-	    $db or $urpm->{fatal}(9, N("unable to open rpmdb"));
+	    $db = db_open_or_die($urpm, $urpm->{root});
 	}
 
 	my $sig_handler = sub { undef $db; exit 3 };
@@ -2407,8 +2322,7 @@ sub create_transaction {
 	    $db = new URPM;
 	    $db->parse_synthesis($options{rpmdb});
 	} else {
-	    $db = URPM::DB::open($urpm->{root});
-	    $db or $urpm->{fatal}(9, N("unable to open rpmdb"));
+	    $db = db_open_or_die($urpm, $urpm->{root});
 	}
 
 	my $sig_handler = sub { undef $db; exit 3 };
@@ -2499,13 +2413,13 @@ sub get_source_packages {
     foreach my $medium (@{$urpm->{media} || []}) {
 	my (%sources, %list_examined, $list_warning);
 
-	if (defined $medium->{start} && defined $medium->{end} && !$medium->{ignore}) {
+	if (is_valid_medium($medium) && !$medium->{ignore}) {
 	    #- always prefer a list file if available.
 	    my $listfile = $medium->{list} ? "$urpm->{statedir}/$medium->{list}" : '';
 	    if (!$listfile && $medium->{virtual}) {
 		my ($dir) = $medium->{url} =~ m!^(?:removable[^:]*:/|file:/)?(/.*)!;
 		my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
-		my $local_list = $medium->{with_hdlist} =~ /hd(list.*)\.cz$/ ? $1 : 'list';
+		my $local_list = 'list' . _hdlist_suffix($medium);
 		$listfile = reduce_pathname("$with_hdlist_dir/../$local_list");
 		-s $listfile or $listfile = "$dir/list";
 	    }
@@ -2597,8 +2511,7 @@ sub is_delta_installable {
     my $f = $pkg->filename;
     my $n = $pkg->name;
     my ($v_match) = $f =~ /^\Q$n\E-(.*)_.+\.delta\.rpm$/;
-    my $db = URPM::DB::open($root)
-	or $urpm->{fatal}(9, N("unable to open rpmdb"));
+    my $db = db_open_or_die($urpm, $root);
     my $v_installed;
     $db->traverse(sub {
 	my ($p) = @_;
@@ -2613,7 +2526,7 @@ sub download_source_packages {
     my %sources = %$local_sources;
     my %error_sources;
 
-    $urpm->exlock_urpmi_db unless $options{nolock};
+    $urpm->lock_urpmi_db('exclusive') if !$options{nolock};
     $urpm->copy_packages_of_removable_media($list, \%sources, %options) or return;
     $urpm->download_packages_of_distant_media($list, \%sources, \%error_sources, %options);
     $urpm->unlock_urpmi_db unless $options{nolock};
@@ -2624,72 +2537,55 @@ sub download_source_packages {
 #- lock policy concerning chroot :
 #  - lock rpm db in chroot
 #  - lock urpmi db in /
-
-#- safety rpm db locking mechanism
-sub exlock_rpm_db {
-    my ($urpm) = @_;
+sub _lock {
+    my ($urpm, $fh_ref, $file, $b_exclusive) = @_;
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my ($LOCK_EX, $LOCK_NB) = (2, 4);
-    #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    open $RPMLOCK_FILE, ">", "$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
-    flock $RPMLOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
-}
-
-sub shlock_rpm_db {
-    my ($urpm) = @_;
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my ($LOCK_SH, $LOCK_NB) = (1, 4);
-    #- create the .LOCK file if needed (and if possible)
-    unless (-e "$urpm->{root}/$urpm->{statedir}/.RPMLOCK") {
-	open $RPMLOCK_FILE, ">", "$urpm->{root}/$urpm->{statedir}/.RPMLOCK";
-	close $RPMLOCK_FILE;
+    my ($LOCK_SH, $LOCK_EX, $LOCK_NB) = (1, 2, 4);
+    if ($b_exclusive) {
+	#- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
+    } else {
+	#- create the .LOCK file if needed (and if possible)
+	unless (-e $file) {
+	    open(my $f, ">", $file);
+	    close $f;
+	}
+	#- lock urpmi database, if the LOCK file doesn't exists no share lock.
     }
-    #- lock urpmi database, if the LOCK file doesn't exists no share lock.
-    open $RPMLOCK_FILE, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK" or return;
-    flock $RPMLOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
+    my ($sense, $mode) = $b_exclusive ? ('>', $LOCK_EX) : ('<', $LOCK_SH);
+    open $$fh_ref, $sense, $file or return;
+    flock $$fh_ref, $mode|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
 }
 
-sub unlock_rpm_db {
-    my ($_urpm) = @_;
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my $LOCK_UN = 8;
-    #- now everything is finished.
-    #- release lock on database.
-    flock $RPMLOCK_FILE, $LOCK_UN;
-    close $RPMLOCK_FILE;
+sub lock_rpm_db { 
+    my ($urpm, $b_exclusive) = @_;
+    _lock($urpm, \$RPMLOCK_FILE, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK", $b_exclusive);
 }
-
+sub lock_urpmi_db {
+    my ($urpm, $b_exclusive) = @_;
+    _lock($urpm, \$LOCK_FILE, "$urpm->{statedir}/.LOCK", $b_exclusive);
+}
+#- deprecated
 sub exlock_urpmi_db {
     my ($urpm) = @_;
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my ($LOCK_EX, $LOCK_NB) = (2, 4);
-    #- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    open $LOCK_FILE, ">", "$urpm->{statedir}/.LOCK";
-    flock $LOCK_FILE, $LOCK_EX|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
+    lock_urpmi_db($urpm, 'exclusive');
 }
 
-sub shlock_urpmi_db {
-    my ($urpm) = @_;
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my ($LOCK_SH, $LOCK_NB) = (1, 4);
-    #- create the .LOCK file if needed (and if possible)
-    unless (-e "$urpm->{statedir}/.LOCK") {
-	open $LOCK_FILE, ">", "$urpm->{statedir}/.LOCK";
-	close $LOCK_FILE;
-    }
-    #- lock urpmi database, if the LOCK file doesn't exists no share lock.
-    open $LOCK_FILE, "$urpm->{statedir}/.LOCK" or return;
-    flock $LOCK_FILE, $LOCK_SH|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
-}
-
-sub unlock_urpmi_db {
-    my ($_urpm) = @_;
+sub _unlock {
+    my ($fh_ref) = @_;
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my $LOCK_UN = 8;
     #- now everything is finished.
     #- release lock on database.
-    flock $LOCK_FILE, $LOCK_UN;
-    close $LOCK_FILE;
+    flock $$fh_ref, $LOCK_UN;
+    close $$fh_ref;
+}
+sub unlock_rpm_db {
+    my ($_urpm) = @_;
+    _unlock(\$RPMLOCK_FILE);
+}
+sub unlock_urpmi_db {
+    my ($_urpm) = @_;
+    _unlock(\$LOCK_FILE);
 }
 
 sub copy_packages_of_removable_media {
@@ -2843,15 +2739,9 @@ sub download_packages_of_distant_media {
 		$urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
 		$urpm->{sync}(
 		    {
-			dir => "$urpm->{cachedir}/partial",
-			quiet => $options{quiet},
-			limit_rate => $options{limit_rate},
+			_sync_options($urpm, \%options, $urpm->{media}[$n]),
 			resume => $options{resume},
-			compress => $options{compress},
 			callback => $options{callback},
-			proxy => get_proxy($urpm->{media}[$n]{name}),
-			media => $urpm->{media}[$n]{name},
-			retry => $urpm->{options}{retry},
 		    },
 		    values %distant_sources,
 		);
@@ -3002,9 +2892,7 @@ sub install {
     }
     #- beware this can be a child process or the main process now...
 
-    my $db = URPM::DB::open($urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
-
-    $db or $urpm->{fatal}(9, N("unable to open rpmdb"));
+    my $db = db_open_or_die($urpm, $urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
 
     my $trans = $db->create_transaction($urpm->{root});
     if ($trans) {
@@ -3132,10 +3020,8 @@ sub find_packages_to_remove {
 	#- invoke parallel finder.
 	$urpm->{parallel_handler}->parallel_find_remove($urpm, $state, $l, %options, find_packages_to_remove => 1);
     } else {
-	my $db = URPM::DB::open($options{root});
+	my $db = db_open_or_die($urpm, $options{root});
 	my (@m, @notfound);
-
-	$db or $urpm->{fatal}(9, N("unable to open rpmdb"));
 
 	if (!$options{matches}) {
 	    foreach (@$l) {
@@ -3354,14 +3240,12 @@ sub check_sources_signatures {
 	    $verif =~ s/\n//g;
 	    $invalid_sources{$filepath} = N("Invalid signature (%s)", $verif);
 	} else {
-	    unless ($medium &&
-		defined $medium->{start} && $medium->{start} <= $id &&
-		defined $medium->{end} && $id <= $medium->{end})
+	    unless ($medium && is_valid_medium($medium) &&
+		    $medium->{start} <= $id && $id <= $medium->{end})
 	    {
 		$medium = undef;
 		foreach (@{$urpm->{media}}) {
-		    defined $_->{start} && $_->{start} <= $id
-			&& defined $_->{end} && $id <= $_->{end}
+		    is_valid_medium($_) && $_->{start} <= $id && $id <= $_->{end}
 			and $medium = $_, last;
 		}
 	    }
@@ -3469,16 +3353,20 @@ sub recompute_local_md5sum {
 	#- force downloading the file again, else why a force option has been defined ?
 	delete $medium->{md5sum};
     } else {
-	unless ($medium->{md5sum}) {
-	    $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
-	    if ($medium->{synthesis}) {
-		-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
-		$medium->{md5sum} = md5sum("$urpm->{statedir}/synthesis.$medium->{hdlist}");
-	    } else {
-		-e "$urpm->{statedir}/$medium->{hdlist}" and
-		$medium->{md5sum} = md5sum("$urpm->{statedir}/$medium->{hdlist}");
-	    }
-	}
+	compute_local_md5sum($urpm, $medium) if !$medium->{md5sum};
+    }
+}
+
+sub compute_local_md5sum {
+    my ($urpm, $medium) = @_;
+
+    $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
+    if ($medium->{synthesis}) {
+	-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
+	  $medium->{md5sum} = md5sum("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+    } else {
+	-e "$urpm->{statedir}/$medium->{hdlist}" and
+	  $medium->{md5sum} = md5sum("$urpm->{statedir}/$medium->{hdlist}");
     }
 }
 
