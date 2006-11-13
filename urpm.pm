@@ -1363,9 +1363,8 @@ this could happen if you mounted manually the directory when creating the medium
 
 		#- check if the files are equal... and no force copy...
 		if (!$error && !$options{force} && -e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
-		    my @sstat = stat "$urpm->{cachedir}/partial/$medium->{hdlist}";
-		    my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
-		    if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
+		    if (same_size_and_mtime("$urpm->{cachedir}/partial/$medium->{hdlist}", 
+					    "$urpm->{statedir}/$medium->{hdlist}")) {
 			#- the two files are considered equal here, the medium is so not modified.
 			$medium->{modified} = 0;
 			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
@@ -1374,10 +1373,7 @@ this could happen if you mounted manually the directory when creating the medium
 			_parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
 			if (!is_valid_medium($medium)) {
 			    _parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
-			    if (!is_valid_medium($medium)) {
-				$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-				$medium->{ignore} = 1;
-			    }
+			    _check_after_reading_hdlist_or_synthesis($urpm, $medium);
 			}
 			return;
 		    }
@@ -1607,9 +1603,8 @@ this could happen if you mounted manually the directory when creating the medium
 	    $urpm->{log}(N("...retrieving done"));
 
 	    unless ($options{force}) {
-		my @sstat = stat "$urpm->{cachedir}/partial/$basename";
-		my @lstat = stat "$urpm->{statedir}/$medium->{hdlist}";
-		if ($sstat[7] == $lstat[7] && $sstat[9] == $lstat[9]) {
+		if (same_size_and_mtime("$urpm->{cachedir}/partial/$basename",
+					"$urpm->{statedir}/$medium->{hdlist}")) {
 		    #- the two files are considered equal here, the medium is so not modified.
 		    $medium->{modified} = 0;
 		    unlink "$urpm->{cachedir}/partial/$basename";
