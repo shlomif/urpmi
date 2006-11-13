@@ -1893,6 +1893,27 @@ sub _update_medium_second_pass {
     $callback && $callback->('done', $medium->{name});
 }
 
+sub remove_obsolete_headers_in_cache {
+    my ($urpm) = @_;
+    my %headers;
+    my $dh = $urpm->opendir_safe("$urpm->{cachedir}/headers");
+    if ($dh) {
+	local $_;
+	while (defined($_ = readdir $dh)) {
+	    m|^([^/]*-[^-]*-[^-]*\.[^\.]*)(?::\S*)?$| and $headers{$1} = $_;
+	}
+	closedir $dh;
+    }
+    $urpm->{log}(N("found %d headers in cache", scalar(keys %headers)));
+    foreach (@{$urpm->{depslist}}) {
+	delete $headers{$_->fullname};
+    }
+    $urpm->{log}(N("removing %d obsolete headers in cache", scalar(keys %headers)));
+    foreach (values %headers) {
+	unlink "$urpm->{cachedir}/headers/$_";
+    }
+}
+
 #- Update the urpmi database w.r.t. the current configuration.
 #- Takes care of modifications, and tries some tricks to bypass
 #- the recomputation of base files.
@@ -1952,25 +1973,8 @@ sub update_media {
     #- useful according to the depslist.
     if ($urpm->{modified}) {
 	if ($options{noclean}) {
-	    local $_;
-	    my %headers;
-	    my $dh = $urpm->opendir_safe("$urpm->{cachedir}/headers");
-	    if ($dh) {
-		while (defined($_ = readdir $dh)) {
-		    m|^([^/]*-[^-]*-[^-]*\.[^\.]*)(?::\S*)?$| and $headers{$1} = $_;
-		}
-		closedir $dh;
-	    }
-	    $urpm->{log}(N("found %d headers in cache", scalar(keys %headers)));
-	    foreach (@{$urpm->{depslist}}) {
-		delete $headers{$_->fullname};
-	    }
-	    $urpm->{log}(N("removing %d obsolete headers in cache", scalar(keys %headers)));
-	    foreach (values %headers) {
-		unlink "$urpm->{cachedir}/headers/$_";
-	    }
+	    remove_obsolete_headers_in_cache($urpm);
 	}
-
 	#- write config files in any case
 	$urpm->write_config;
 	dump_proxy_config();
