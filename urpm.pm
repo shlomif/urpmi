@@ -1904,13 +1904,15 @@ sub remove_obsolete_headers_in_cache {
 	}
 	closedir $dh;
     }
-    $urpm->{log}(N("found %d headers in cache", scalar(keys %headers)));
-    foreach (@{$urpm->{depslist}}) {
-	delete $headers{$_->fullname};
-    }
-    $urpm->{log}(N("removing %d obsolete headers in cache", scalar(keys %headers)));
-    foreach (values %headers) {
-	unlink "$urpm->{cachedir}/headers/$_";
+    if (%headers) {
+	$urpm->{log}(N("found %d headers in cache", scalar(keys %headers)));
+	foreach (@{$urpm->{depslist}}) {
+	    delete $headers{$_->fullname};
+	}
+	$urpm->{log}(N("removing %d obsolete headers in cache", scalar(keys %headers)));
+	foreach (values %headers) {
+	    unlink "$urpm->{cachedir}/headers/$_";
+	}
     }
 }
 
