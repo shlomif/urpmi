@@ -1202,6 +1202,15 @@ sub recursive_find_rpm_files {
     keys %f;
 }
 
+sub clean_dir {
+    my ($dir) = @_;
+
+    require File::Path;
+    File::Path::rmtree([$dir]);
+    mkdir $dir, 0755;
+}
+
+
 #- Update the urpmi database w.r.t. the current configuration.
 #- Takes care of modifications, and tries some tricks to bypass
 #- the recomputation of base files.
@@ -2404,11 +2413,7 @@ sub get_source_packages {
     }
 
     #- clean download directory, do it here even if this is not the best moment.
-    if ($options{clean_all}) {
-	require File::Path;
-	File::Path::rmtree(["$urpm->{cachedir}/partial"]);
-	mkdir "$urpm->{cachedir}/partial", 0755;
-    }
+    clean_dir("$urpm->{cachedir}/partial") if $options{clean_all};
 
     foreach my $medium (@{$urpm->{media} || []}) {
 	my (%sources, %list_examined, $list_warning);
