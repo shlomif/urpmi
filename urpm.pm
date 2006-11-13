@@ -748,16 +748,18 @@ sub add_medium {
 	$urpm->write_config;
 	delete $urpm->{media};
 	$urpm->read_config(nocheck_access => 1);
+
+	#- need getting the fresh datastructure after read_config
+	($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
+
 	#- Remember that the database has been modified and base files need to
 	#- be updated. This will be done automatically by transferring the
 	#- "modified" flag from medium to global.
-	$_->{name} eq $name and $_->{modified} = 1 foreach @{$urpm->{media}};
+	$medium->{modified} = 1;
 	$urpm->{modified} = 1;
     }
     if ($has_password) {
-	foreach (grep { $_->{name} eq $name } @{$urpm->{media}}) {
-	    $_->{url} = $url;
-	}
+	$medium->{url} = $url;
     }
 
     $options{nolock} or $urpm->unlock_urpmi_db;
