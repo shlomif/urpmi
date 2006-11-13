@@ -1455,7 +1455,7 @@ sub _update_medium_first_pass {
 	#- an unresolved provides is found.
 	#- to speed up the process, we only read the synthesis at the beginning.
 	_update_media__when_not_modified($urpm, $medium);
-	next;
+	return;
     }
 
     #- always delete a remaining list file or pubkey file in cache.
