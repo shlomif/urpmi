@@ -1283,7 +1283,7 @@ sub _update_medium_first_pass {
 	if (!$medium_redone && !$medium->{noreconfigure}) {
 	    my $reconfig_urpmi = reduce_pathname("$dir/reconfig.urpmi");
 	    if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
-		_update_medium_first_pass($urpm, $medium, $second_pass, $clean_cache, 'redo', %options);
+		return _update_medium_first_pass($urpm, $medium, $second_pass, $clean_cache, 'redo', %options);
 	    }
 	}
 
@@ -1476,7 +1476,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    };
 	    if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
 		if (!$medium_redone) {
-		    _update_medium_first_pass($urpm, $medium, $second_pass, $clean_cache, 'redo', %options);
+		    return _update_medium_first_pass($urpm, $medium, $second_pass, $clean_cache, 'redo', %options);
 		}
 	    }
 	    unlink $reconfig_urpmi;
