@@ -1261,7 +1261,7 @@ sub _update_medium_first_pass__local {
 	#- in case of an iso image, pass its name
 	is_iso($medium->{removable}) && $medium->{removable},
     ) or $urpm->{error}(N("unable to access medium \"%s\",
-this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), next;
+this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return 'unmodified';
 
     #- try to probe for possible with_hdlist parameter, unless
     #- it is already defined (and valid).
