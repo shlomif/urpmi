@@ -1570,6 +1570,7 @@ this could happen if you mounted manually the directory when creating the medium
 		unlink "$urpm->{cachedir}/partial/$basename";
 	    } else {
 		#- try to sync (copy if needed) local copy after restored the previous one.
+		#- this is useful for rsync (?)
 		my $wanted = ($medium->{synthesis} ? 'synthesis.' : '') . $medium->{hdlist};
 		if (-e "$urpm->{statedir}/$wanted") {
 		    urpm::util::copy(
