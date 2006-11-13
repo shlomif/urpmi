@@ -2365,8 +2365,7 @@ sub get_packages_list {
 #- associated to a null list.
 sub get_source_packages {
     my ($urpm, $packages, %options) = @_;
-    my ($id, $error, @list_error, %protected_files, %local_sources, @list, %fullname2id, %file2fullnames, %examined);
-    local $_;
+    my (%protected_files, %local_sources, %fullname2id);
 
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
@@ -2381,6 +2380,7 @@ sub get_source_packages {
 
     #- examine each medium to search for packages.
     #- now get rpm file name in hdlist to match list file.
+    my %file2fullnames;
     foreach my $pkg (@{$urpm->{depslist} || []}) {
 	$file2fullnames{$pkg->filename}{$pkg->fullname} = undef;
     }
@@ -2397,7 +2397,7 @@ sub get_source_packages {
 		    next;
 		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 		    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-		    if (defined($id = delete $fullname2id{$fullname})) {
+		    if (defined(my $id = delete $fullname2id{$fullname})) {
 			$local_sources{$id} = $filepath;
 		    } else {
 			$options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
@@ -2414,6 +2414,8 @@ sub get_source_packages {
 
     #- clean download directory, do it here even if this is not the best moment.
     clean_dir("$urpm->{cachedir}/partial") if $options{clean_all};
+
+    my ($error, @list_error, @list, %examined);
 
     foreach my $medium (@{$urpm->{media} || []}) {
 	my (%sources, %list_examined, $list_warning);
@@ -2440,7 +2442,7 @@ sub get_source_packages {
 				next;
 			    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 				my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-				if (defined($id = $fullname2id{$fullname})) {
+				if (defined(my $id = $fullname2id{$fullname})) {
 				    if (!/\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $options{root})) {
 					$sources{$id} = $medium->{virtual} ? "$medium->{url}/$_" : $_;
 				    }
@@ -2474,7 +2476,7 @@ sub get_source_packages {
 			my ($fullname) = keys(%{$file2fullnames{$fi} || {}});
 			unless (exists($list_examined{$fullname})) {
 			    ++$list_warning;
-			    if (defined($id = $fullname2id{$fullname})) {
+			    if (defined(my $id = $fullname2id{$fullname})) {
 				if ($fi !~ /\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $options{root})) {
 				    $sources{$id} = "$medium->{url}/" . $fi;
 				}
