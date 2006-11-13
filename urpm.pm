@@ -1244,7 +1244,7 @@ sub clean_dir {
 }
 
 sub _update_medium_first_pass {
-    my ($urpm, $medium, $second_pass, $clean_cache, $medium_redone, %options) = @_;
+    my ($urpm, $medium, $second_pass, $clean_cache, %options) = @_;
 
     $medium->{ignore} and return;
 
@@ -1268,24 +1268,35 @@ sub _update_medium_first_pass {
 	next;
     }
 
-    #- list of rpm files for this medium, only available for local medium where
-    #- the source hdlist is not used (use force).
-    my ($dir, $error, $retrieved_md5sum, @files);
-
     #- always delete a remaining list file or pubkey file in cache.
     foreach (qw(list pubkey)) {
 	unlink "$urpm->{cachedir}/partial/$_";
     }
 
+    #- check for a reconfig.urpmi file (if not already reconfigured)
+    if (!$medium->{noreconfigure}) {
+	my $reconfig_urpmi;
+	if (my $dir = file_from_file_url($medium->{url})) {
+	    $reconfig_urpmi = reduce_pathname("$dir/reconfig.urpmi");
+	} else {
+	    unlink($reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi");
+	    eval {
+		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ],
+			      \%options, quiet => 1);
+	    };
+	}
+	if (-s $reconfig_urpmi) {
+	    $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name});
+	}
+	unlink $reconfig_urpmi if !file_from_file_url($medium->{url});
+    }
+
+    #- list of rpm files for this medium, only available for local medium where
+    #- the source hdlist is not used (use force).
+    my ($dir, $error, $retrieved_md5sum, @files);
+
     #- check if the medium is using a local or a removable medium.
     if ($dir = file_from_local_url($medium->{url})) {
-	#- check for a reconfig.urpmi file (if not already reconfigured)
-	if (!$medium_redone && !$medium->{noreconfigure}) {
-	    my $reconfig_urpmi = reduce_pathname("$dir/reconfig.urpmi");
-	    if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
-		return _update_medium_first_pass($urpm, $medium, $second_pass, $clean_cache, 'redo', %options);
-	    }
-	}
 
 	#- try to figure a possible hdlist_path (or parent directory of searched directory).
 	#- this is used to probe for a possible hdlist file.
@@ -1467,21 +1478,6 @@ this could happen if you mounted manually the directory when creating the medium
 	    chown 0, 0, "$urpm->{cachedir}/partial/pubkey";
 	}
     } else {
-	#- check for a reconfig.urpmi file (if not already reconfigured)
-	if (!$medium_redone && !$medium->{noreconfigure}) {
-	    unlink(my $reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi");
-	    eval {
-		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ],
-			      \%options, quiet => 1);
-	    };
-	    if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
-		if (!$medium_redone) {
-		    return _update_medium_first_pass($urpm, $medium, $second_pass, $clean_cache, 'redo', %options);
-		}
-	    }
-	    unlink $reconfig_urpmi;
-	}
-
 	my $basename;
 
 	#- try to get the description if it has been found.
@@ -1936,7 +1932,7 @@ sub update_media {
     my $clean_cache = !$options{noclean};
     my $second_pass;
     foreach my $medium (@{$urpm->{media}}) {
-	_update_medium_first_pass($urpm, $medium, \$second_pass, \$clean_cache, 0, %options);
+	_update_medium_first_pass($urpm, $medium, \$second_pass, \$clean_cache, %options);
     }
 
     #- some unresolved provides may force to rebuild all synthesis,
