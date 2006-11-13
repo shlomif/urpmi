@@ -1209,10 +1209,10 @@ sub _update_media__sync_file {
 	eval {
 	    sync_webfetch($urpm, $medium, [$_], $options, quiet => 1);
 
-	    $local_name ne $name && -s "$urpm->{cachedir}/partial/$local_name"
-	      and rename(
-		  "$urpm->{cachedir}/partial/$local_name",
-		  "$urpm->{cachedir}/partial/$name");
+	    if ($local_name ne $name && -s "$urpm->{cachedir}/partial/$local_name") {
+		rename("$urpm->{cachedir}/partial/$local_name",
+		       "$urpm->{cachedir}/partial/$name");
+	    }
 	};
 	$@ and unlink "$urpm->{cachedir}/partial/$name";
 	-s "$urpm->{cachedir}/partial/$name" and last;
