@@ -1543,7 +1543,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    my @probe_list = (
 		$medium->{with_hdlist}
 		  ? $medium->{with_hdlist}
-		    : _probe_with_try_list(_guess_hdlist_suffix($dir), $options{probe_with})
+		    : _probe_with_try_list(_guess_hdlist_suffix($medium->{url}), $options{probe_with})
 		);
 	    foreach my $with_hdlist (@probe_list) {
 		$basename = basename($with_hdlist) or next;
