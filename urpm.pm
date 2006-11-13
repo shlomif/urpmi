@@ -1243,6 +1243,196 @@ sub clean_dir {
     mkdir $dir, 0755;
 }
 
+sub _update_medium_first_pass__local {
+    my ($urpm, $medium, $second_pass, $clean_cache, $retrieved_md5sum, $rpm_files, $options) = @_;
+
+    my $dir = file_from_local_url($medium->{url});
+
+    #- try to figure a possible hdlist_path (or parent directory of searched directory).
+    #- this is used to probe for a possible hdlist file.
+    my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
+
+    #- the directory given does not exist and may be accessible
+    #- by mounting some other directory. Try to figure it out and mount
+    #- everything that might be necessary.
+    -d $dir or $urpm->try_mounting(
+	$options->{force} < 2 && ($options->{probe_with} || $medium->{with_hdlist})
+	  ? $with_hdlist_dir : $dir,
+	#- in case of an iso image, pass its name
+	is_iso($medium->{removable}) && $medium->{removable},
+    ) or $urpm->{error}(N("unable to access medium \"%s\",
+this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), next;
+
+    #- try to probe for possible with_hdlist parameter, unless
+    #- it is already defined (and valid).
+    if ($options->{probe_with} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
+	foreach (_probe_with_try_list(_guess_hdlist_suffix($dir), $options->{probe_with})) {
+	    if (file_size("$dir/$_") > 32) {
+		$medium->{with_hdlist} = $_;
+		last;
+	    }
+	}
+	#- redo...
+	$with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
+    }
+
+    if ($medium->{virtual}) {
+	#- syncing a virtual medium is very simple, just try to read the file in order to
+	#- determine its type, once a with_hdlist has been found (but is mandatory).
+	_update_media__virtual($urpm, $medium, $with_hdlist_dir);
+    }
+    #- try to get the description if it has been found.
+    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
+    my $description_file = "$dir/media_info/descriptions"; #- new default location
+    -e $description_file or $description_file = "$dir/../descriptions";
+    if (-e $description_file) {
+	$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
+	urpm::util::copy($description_file, "$urpm->{statedir}/descriptions.$medium->{name}")
+	    ? $urpm->{log}(N("...copying done"))
+	      : do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1 };
+	chown 0, 0, "$urpm->{statedir}/descriptions.$medium->{name}";
+    }
+
+    #- examine if a distant MD5SUM file is available.
+    #- this will only be done if $with_hdlist is not empty in order to use
+    #- an existing hdlist or synthesis file, and to check if download was good.
+    #- if no MD5SUM is available, do it as before...
+    #- we can assume at this point a basename is existing, but it needs
+    #- to be checked for being valid, nothing can be deduced if no MD5SUM
+    #- file is present.
+    my $basename = basename($with_hdlist_dir);
+
+    my $error;
+
+    unless ($medium->{virtual}) {
+	if ($medium->{with_hdlist}) {
+	    if (!$options->{nomd5sum} && file_size(reduce_pathname("$with_hdlist_dir/../MD5SUM")) > 32) {
+		recompute_local_md5sum($urpm, $medium, $options->{force});
+		if ($medium->{md5sum}) {
+		    $$retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
+		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $basename, $$retrieved_md5sum)
+		      and return 'unmodified';
+		}
+	    }
+
+	    #- if the source hdlist is present and we are not forcing using rpm files
+	    if ($options->{force} < 2 && -e $with_hdlist_dir) {
+		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
+		$options->{callback} and $options->{callback}('copy', $medium->{name});
+		if (urpm::util::copy($with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
+		    $options->{callback} and $options->{callback}('done', $medium->{name});
+		    $urpm->{log}(N("...copying done"));
+		    chown 0, 0, "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		} else {
+		    $options->{callback} and $options->{callback}('failed', $medium->{name});
+		    #- force error, reported afterwards
+		    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		}
+	    }
+
+	    file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 32 or
+	      $error = 1, $urpm->{error}(N("copy of [%s] failed (file is suspiciously small)",
+					   "$urpm->{cachedir}/partial/$medium->{hdlist}"));
+
+	    #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
+	    if (!$error && $$retrieved_md5sum) {
+		$urpm->{log}(N("computing md5sum of copied source hdlist (or synthesis)"));
+		md5sum("$urpm->{cachedir}/partial/$medium->{hdlist}") eq $$retrieved_md5sum or
+		  $error = 1, $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", $with_hdlist_dir));
+	    }
+
+	    #- check if the files are equal... and no force copy...
+	    if (!$error && !$options->{force} && -e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
+		_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $medium->{hdlist}) 
+		  and return 'unmodified';
+	    }
+	} else {
+	    $error = 1;
+	}
+
+	#- if copying hdlist has failed, try to build it directly.
+	if ($error) {
+	    if ($urpm->{options}{norebuild}) {
+		$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
+		$medium->{ignore} = 1;
+	    } else {
+		$options->{force} < 2 and $options->{force} = 2;
+		#- clear error state now.
+		$error = undef;
+	    }
+	}
+
+	if ($options->{force} < 2) {
+	    #- examine if a local list file is available (always probed according to with_hdlist)
+	    #- and check hdlist wasn't named very strangely...
+	    if ($medium->{hdlist} ne 'list') {
+		my $local_list = 'list' . _hdlist_suffix($medium);
+		my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
+		-e $path_list or $path_list = "$dir/list";
+		if (-e $path_list) {
+		    urpm::util::copy($path_list, "$urpm->{cachedir}/partial/list")
+			or do { $urpm->{error}(N("...copying failed")); $error = 1 };
+		    chown 0, 0, "$urpm->{cachedir}/partial/list";
+		}
+	    }
+	} else {
+	    push @$rpm_files, recursive_find_rpm_files($dir);
+
+	    #- check files contains something good!
+	    if (@$rpm_files > 0) {
+		#- we need to rebuild from rpm files the hdlist.
+		eval {
+		    $urpm->{log}(N("reading rpm files from [%s]", $dir));
+		    my @unresolved_before = grep {
+			! defined $urpm->{provides}{$_};
+		    } keys %{$urpm->{provides} || {}};
+		    $medium->{start} = @{$urpm->{depslist}};
+		    $medium->{headers} = [ $urpm->parse_rpms_build_headers(
+			dir   => "$urpm->{cachedir}/headers",
+			rpms  => $rpm_files,
+			clean => $$clean_cache,
+		    ) ];
+		    $medium->{end} = $#{$urpm->{depslist}};
+		    if ($medium->{start} > $medium->{end}) {
+			#- an error occured (provided there are files in input.)
+			delete $medium->{start};
+			delete $medium->{end};
+			$urpm->{fatal}(9, N("no rpms read"));
+		    } else {
+			#- make sure the headers will not be removed for another media.
+			$$clean_cache = 0;
+			my @unresolved = grep {
+			    ! defined $urpm->{provides}{$_};
+			} keys %{$urpm->{provides} || {}};
+			@unresolved_before == @unresolved or $$second_pass = 1;
+		    }
+		};
+		$@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
+		$error and delete $medium->{headers}; #- do not propagate these.
+		$error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
+	    } else {
+		$error = 1;
+		$urpm->{error}(N("no rpm files found from [%s]", $dir));
+		$medium->{ignore} = 1;
+	    }
+	}
+    }
+
+    #- examine if a local pubkey file is available.
+    if (!$options->{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
+	my $path_pubkey = reduce_pathname("$with_hdlist_dir/../pubkey" . _hdlist_suffix($medium));
+	-e $path_pubkey or $path_pubkey = "$dir/pubkey";
+	if ($path_pubkey) {
+	    urpm::util::copy($path_pubkey, "$urpm->{cachedir}/partial/pubkey")
+		or do { $urpm->{error}(N("...copying failed")) };
+	}
+	chown 0, 0, "$urpm->{cachedir}/partial/pubkey";
+    }
+
+    $error;
+}
+
 sub _update_medium_first_pass {
     my ($urpm, $medium, $second_pass, $clean_cache, %options) = @_;
 
@@ -1296,186 +1486,12 @@ sub _update_medium_first_pass {
     my ($error, $retrieved_md5sum, @files);
 
     #- check if the medium is using a local or a removable medium.
-    if (my $dir = file_from_local_url($medium->{url})) {
-
-	#- try to figure a possible hdlist_path (or parent directory of searched directory).
-	#- this is used to probe for a possible hdlist file.
-	my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
-
-	#- the directory given does not exist and may be accessible
-	#- by mounting some other directory. Try to figure it out and mount
-	#- everything that might be necessary.
-	-d $dir or $urpm->try_mounting(
-	    $options{force} < 2 && ($options{probe_with} || $medium->{with_hdlist})
-	      ? $with_hdlist_dir : $dir,
-	    #- in case of an iso image, pass its name
-	    is_iso($medium->{removable}) && $medium->{removable},
-	) or $urpm->{error}(N("unable to access medium \"%s\",
-this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), next;
-
-	#- try to probe for possible with_hdlist parameter, unless
-	#- it is already defined (and valid).
-	if ($options{probe_with} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
-	    foreach (_probe_with_try_list(_guess_hdlist_suffix($dir), $options{probe_with})) {
-		if (file_size("$dir/$_") > 32) {
-		    $medium->{with_hdlist} = $_;
-		    last;
-		}
-	    }
-	    #- redo...
-	    $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
-	}
-
-	if ($medium->{virtual}) {
-	    #- syncing a virtual medium is very simple, just try to read the file in order to
-	    #- determine its type, once a with_hdlist has been found (but is mandatory).
-	    _update_media__virtual($urpm, $medium, $with_hdlist_dir);
-	}
-	#- try to get the description if it has been found.
-	unlink "$urpm->{statedir}/descriptions.$medium->{name}";
-	my $description_file = "$dir/media_info/descriptions"; #- new default location
-	-e $description_file or $description_file = "$dir/../descriptions";
-	if (-e $description_file) {
-	    $urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
-	    urpm::util::copy($description_file, "$urpm->{statedir}/descriptions.$medium->{name}")
-		? $urpm->{log}(N("...copying done"))
-		  : do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1 };
-	    chown 0, 0, "$urpm->{statedir}/descriptions.$medium->{name}";
-	}
-
-	#- examine if a distant MD5SUM file is available.
-	#- this will only be done if $with_hdlist is not empty in order to use
-	#- an existing hdlist or synthesis file, and to check if download was good.
-	#- if no MD5SUM is available, do it as before...
-	#- we can assume at this point a basename is existing, but it needs
-	#- to be checked for being valid, nothing can be deduced if no MD5SUM
-	#- file is present.
-	my $basename = basename($with_hdlist_dir);
-
-	unless ($medium->{virtual}) {
-	    if ($medium->{with_hdlist}) {
-		if (!$options{nomd5sum} && file_size(reduce_pathname("$with_hdlist_dir/../MD5SUM")) > 32) {
-		    recompute_local_md5sum($urpm, $medium, $options{force});
-		    if ($medium->{md5sum}) {
-			$retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
-			_read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $basename, $retrieved_md5sum)
-			  and return;
-		    }
-		}
-
-		#- if the source hdlist is present and we are not forcing using rpm files
-		if ($options{force} < 2 && -e $with_hdlist_dir) {
-		    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
-		    $urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
-		    $options{callback} and $options{callback}('copy', $medium->{name});
-		    if (urpm::util::copy($with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
-			$options{callback} and $options{callback}('done', $medium->{name});
-			$urpm->{log}(N("...copying done"));
-			chown 0, 0, "$urpm->{cachedir}/partial/$medium->{hdlist}";
-		    } else {
-			$options{callback} and $options{callback}('failed', $medium->{name});
-			#- force error, reported afterwards
-			unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
-		    }
-		}
-
-		file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 32 or
-		  $error = 1, $urpm->{error}(N("copy of [%s] failed (file is suspiciously small)",
-					       "$urpm->{cachedir}/partial/$medium->{hdlist}"));
-
-		#- keep checking md5sum of file just copied ! (especially on nfs or removable device).
-		if (!$error && $retrieved_md5sum) {
-		    $urpm->{log}(N("computing md5sum of copied source hdlist (or synthesis)"));
-		    md5sum("$urpm->{cachedir}/partial/$medium->{hdlist}") eq $retrieved_md5sum or
-		      $error = 1, $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", $with_hdlist_dir));
-		}
-
-		#- check if the files are equal... and no force copy...
-		if (!$error && !$options{force} && -e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
-		    _read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $medium->{hdlist}) 
-		      and return;
-		}
-	    } else {
-		$error = 1;
-	    }
-
-	    #- if copying hdlist has failed, try to build it directly.
-	    if ($error) {
-		if ($urpm->{options}{norebuild}) {
-		    $urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
-		    $medium->{ignore} = 1;
-		} else {
-		    $options{force} < 2 and $options{force} = 2;
-		    #- clear error state now.
-		    $error = undef;
-		}
-	    }
-
-	    if ($options{force} < 2) {
-		#- examine if a local list file is available (always probed according to with_hdlist)
-		#- and check hdlist wasn't named very strangely...
-		if ($medium->{hdlist} ne 'list') {
-		    my $local_list = 'list' . _hdlist_suffix($medium);
-		    my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
-		    -e $path_list or $path_list = "$dir/list";
-		    if (-e $path_list) {
-			urpm::util::copy($path_list, "$urpm->{cachedir}/partial/list")
-			    or do { $urpm->{error}(N("...copying failed")); $error = 1 };
-			chown 0, 0, "$urpm->{cachedir}/partial/list";
-		    }
-		}
-	    } else {
-		push @files, recursive_find_rpm_files($dir);
-
-		#- check files contains something good!
-		if (@files > 0) {
-		    #- we need to rebuild from rpm files the hdlist.
-		    eval {
-			$urpm->{log}(N("reading rpm files from [%s]", $dir));
-			my @unresolved_before = grep {
-			    ! defined $urpm->{provides}{$_};
-			} keys %{$urpm->{provides} || {}};
-			$medium->{start} = @{$urpm->{depslist}};
-			$medium->{headers} = [ $urpm->parse_rpms_build_headers(
-			    dir   => "$urpm->{cachedir}/headers",
-			    rpms  => \@files,
-			    clean => $$clean_cache,
-			) ];
-			$medium->{end} = $#{$urpm->{depslist}};
-			if ($medium->{start} > $medium->{end}) {
-			    #- an error occured (provided there are files in input.)
-			    delete $medium->{start};
-			    delete $medium->{end};
-			    $urpm->{fatal}(9, N("no rpms read"));
-			} else {
-			    #- make sure the headers will not be removed for another media.
-			    $$clean_cache = 0;
-			    my @unresolved = grep {
-				! defined $urpm->{provides}{$_};
-			    } keys %{$urpm->{provides} || {}};
-			    @unresolved_before == @unresolved or $$second_pass = 1;
-			}
-		    };
-		    $@ and $error = 1, $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
-		    $error and delete $medium->{headers}; #- do not propagate these.
-		    $error or delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
-		} else {
-		    $error = 1;
-		    $urpm->{error}(N("no rpm files found from [%s]", $dir));
-		    $medium->{ignore} = 1;
-		}
-	    }
-	}
-
-	#- examine if a local pubkey file is available.
-	if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
-	    my $path_pubkey = reduce_pathname("$with_hdlist_dir/../pubkey" . _hdlist_suffix($medium));
-	    -e $path_pubkey or $path_pubkey = "$dir/pubkey";
-	    if ($path_pubkey) {
-		urpm::util::copy($path_pubkey, "$urpm->{cachedir}/partial/pubkey")
-		    or do { $urpm->{error}(N("...copying failed")) };
-	    }
-	    chown 0, 0, "$urpm->{cachedir}/partial/pubkey";
+    if (file_from_local_url($medium->{url})) {
+	my $rc = _update_medium_first_pass__local($urpm, $medium, $second_pass, $clean_cache, \$retrieved_md5sum, \@files, \%options);
+	if ($rc eq 'unmodified') {
+	    return;
+	} else {
+	    $error = $rc;
 	}
     } else {
 	my $basename;
