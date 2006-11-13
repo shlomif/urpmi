@@ -2624,22 +2624,21 @@ sub copy_packages_of_removable_media {
     #- examine if given medium is already inside a removable device.
     my $check_notfound = sub {
 	my ($id, $dir, $removable) = @_;
-	$dir and $urpm->try_mounting($dir, $removable);
-	if (!$dir || -e $dir) {
-	    foreach (values %{$list->[$id]}) {
-		chomp;
-		my $dir_ = analyse_url__file_if_local($_) or next;
-		$dir_ =~ m!/.*/! or next; #- is this really needed??
-		unless ($dir) {
-		    $dir = $dir_;
-		    $urpm->try_mounting($dir, $removable);
-		}
-		-r $dir_ or return 1;
-	    }
-	} else {
-	    return 2;
+	if ($dir) {
+	    $urpm->try_mounting($dir, $removable);
+	    -e $dir or return 2;
 	}
-	return 0;
+	foreach (values %{$list->[$id]}) {
+	    chomp;
+	    my $dir_ = analyse_url__file_if_local($_) or next;
+	    $dir_ =~ m!/.*/! or next; #- is this really needed??
+	    unless ($dir) {
+		$dir = $dir_;
+		$urpm->try_mounting($dir, $removable);
+	    }
+	    -r $dir_ or return 1;
+	}
+	0;
     };
     #- removable media have to be examined to keep mounted the one that has
     #- more packages than others.
