@@ -82,12 +82,11 @@ if ($options{all}) {
     @toremove or die N("the entry to remove is missing\n(one of %s)\n", join(", ", @entries));
 }
 
-$urpm->select_media({ strict_match => $options{strict_match} }, @toremove);
+my @selected = $urpm->select_media_by_name(\@toremove, { strict_match => $options{strict_match} })
+  or exit 1;
 
-my $selected = grep { $_->{modified} } @{$urpm->{media}};
-
-$urpm->remove_selected_media;
+$urpm->remove_media(\@selected);
 
 $urpm->update_media(noclean => $options{noclean});
 
-exit($selected ? 0 : 1);
+exit(0);
