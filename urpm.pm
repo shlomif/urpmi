@@ -1270,7 +1270,7 @@ sub _update_medium_first_pass {
 
     #- list of rpm files for this medium, only available for local medium where
     #- the source hdlist is not used (use force).
-    my ($protocol, $dir, $error, $retrieved_md5sum, @files);
+    my ($dir, $error, $retrieved_md5sum, @files);
 
     #- always delete a remaining list file or pubkey file in cache.
     foreach (qw(list pubkey)) {
@@ -1279,7 +1279,6 @@ sub _update_medium_first_pass {
 
     #- check if the medium is using a local or a removable medium.
     if ($dir = file_from_local_url($medium->{url})) {
-	$protocol = protocol_from_url($medium->{url});
 	#- check for a reconfig.urpmi file (if not already reconfigured)
 	if (!$medium_redone && !$medium->{noreconfigure}) {
 	    my $reconfig_urpmi = reduce_pathname("$dir/reconfig.urpmi");
@@ -1639,6 +1638,8 @@ this could happen if you mounted manually the directory when creating the medium
 	#- sort list file contents according to id.
 	my %list;
 	if ($medium->{headers}) {
+	    my $protocol = protocol_from_url($medium->{url});
+
 	    #- rpm files have already been read (first pass), there is just a need to
 	    #- build list hash.
 	    foreach (@files) {
