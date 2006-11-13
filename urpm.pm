@@ -55,14 +55,30 @@ sub new {
     $self;
 }
 
-#- syncing algorithms.
+#- $medium can be undef
 sub sync_webfetch {
-    my $urpm = shift;
-    my $options = shift;
+    my ($urpm, $medium, $files, $std_options, %more_options) = @_;
+
+    my %options = ( 
+	dir => "$urpm->{cachedir}/partial",
+	limit_rate => $std_options->{limit_rate},
+	compress => $std_options->{compress},
+	retry => $urpm->{options}{retry},
+	proxy => get_proxy($medium),
+	quiet => $std_options->{quiet}, #- often overridden in the caller, why??
+	$medium ? (media => $medium->{name}) : (),
+	%more_options,
+    );
+    _sync_webfetch_raw($urpm, $files, \%options);
+}
+
+#- syncing algorithms.
+sub _sync_webfetch_raw {    
+    my ($urpm, $files, $options) = @_;
     my %files;
     #- currently ftp and http protocols are managed by curl or wget,
     #- ssh and rsync protocols are managed by rsync *AND* ssh.
-    foreach (@_) {
+    foreach (@$files) {
 	/^([^:_]*)[^:]*:/ or die N("unknown protocol defined for %s", $_);
 	push @{$files{$1}}, $_;
     }
@@ -779,13 +795,9 @@ sub add_distrib_media {
 
 	eval {
 	    $urpm->{log}(N("retrieving media.cfg file..."));
-	    $urpm->sync_webfetch(
-		{
-		    _sync_options($urpm, \%options),
-		    quiet => 1,
-		},
-		reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg'),
-	    );
+	    sync_webfetch($urpm, undef,
+			  [ reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg') ],
+			  \%options, quiet => 1);
 	    $urpm->{log}(N("...retrieving done"));
 	};
 	$@ and $urpm->{error}(N("...retrieving failed: %s", $@));
@@ -992,19 +1004,6 @@ sub reconfig_urpmi {
     $reconfigured;
 }
 
-sub _sync_options {
-    my ($urpm, $options, $o_medium) = @_;
-    ( 
-	dir => "$urpm->{cachedir}/partial",
-	limit_rate => $options->{limit_rate},
-	compress => $options->{compress},
-	retry => $urpm->{options}{retry},
-	proxy => get_proxy($o_medium),
-	quiet => $options->{quiet}, #- often overridden in the caller, why??
-	$o_medium ? (media => $o_medium->{name}) : (),
-    );
-}
-
 sub _guess_hdlist_suffix {
     my ($dir) = @_;
     my ($suffix) = $dir =~ m!\bmedia/(\w+)/*\Z!;
@@ -1172,11 +1171,7 @@ sub _update_media__sync_file {
     foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_name"),
 	     reduce_pathname("$medium->{url}/$name")) {
 	eval {
-	    $urpm->sync_webfetch(
-		{
-		    _sync_options($urpm, $options, $medium),
-		    quiet => 1,
-		}, $_);
+	    sync_webfetch($urpm, $medium, [$_], $options, quiet => 1);
 
 	    $local_name ne $name && -s "$urpm->{cachedir}/partial/$local_name"
 	      and rename(
@@ -1457,13 +1452,8 @@ this could happen if you mounted manually the directory when creating the medium
 	if (!$medium_redone && !$medium->{noreconfigure}) {
 	    unlink(my $reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi");
 	    eval {
-		$urpm->sync_webfetch(
-		    {
-			_sync_options($urpm, \%options, $medium),
-			quiet => 1,
-		    },
-		    reduce_pathname("$medium->{url}/reconfig.urpmi"),
-		);
+		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ],
+			      \%options, quiet => 1);
 	    };
 	    if (-s $reconfig_urpmi && $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name})) {
 		if (!$medium_redone) {
@@ -1480,11 +1470,10 @@ this could happen if you mounted manually the directory when creating the medium
 	if (-e "$urpm->{statedir}/descriptions.$medium->{name}") {
 	    urpm::util::move("$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
 	}
-	my $syncopts = {
-	    _sync_options($urpm, \%options, $medium),
-	    quiet => 1,
+	eval { 
+	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ],
+			  \%options, quiet => 1);
 	};
-	eval { $urpm->sync_webfetch($syncopts, reduce_pathname("$medium->{url}/media_info/descriptions")) };
 	#- It is possible that the original fetch of the descriptions
 	#- failed, but the file still remains in partial/ because it was
 	#- moved from $urpm->{statedir} earlier. So we need to check if
@@ -1492,7 +1481,8 @@ this could happen if you mounted manually the directory when creating the medium
 	if ($@ || ! -e "$urpm->{cachedir}/partial/descriptions") {
 	    eval {
 		#- try older location
-		$urpm->sync_webfetch($syncopts, reduce_pathname("$medium->{url}/../descriptions"));
+		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], 
+			      \%options, quiet => 1);
 	    };
 	}
 	if (-e "$urpm->{cachedir}/partial/descriptions") {
@@ -1512,13 +1502,9 @@ this could happen if you mounted manually the directory when creating the medium
 	    unlink "$urpm->{cachedir}/partial/MD5SUM";
 	    eval {
 		if (!$options{nomd5sum}) {
-		    $urpm->sync_webfetch(
-			{
-			    _sync_options($urpm, \%options, $medium),
-			    quiet => 1,
-			},
-			reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM"),
-		    );
+		    sync_webfetch($urpm, $medium, 
+				  [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM") ],
+				  \%options, quiet => 1);
 		}
 	    };
 	    if (!$@ && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
@@ -1548,13 +1534,8 @@ this could happen if you mounted manually the directory when creating the medium
 		$basename = basename($with_hdlist) or next;
 		$options{force} and unlink "$urpm->{cachedir}/partial/$basename";
 		eval {
-		    $urpm->sync_webfetch(
-			{
-			    _sync_options($urpm, \%options, $medium),
-			    callback => $options{callback},
-			},
-			reduce_pathname("$medium->{url}/$with_hdlist"),
-		    );
+		    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
+				  \%options, callback => $options{callback});
 		};
 		if (!$@ && file_size("$urpm->{cachedir}/partial/$basename") > 32) {
 		    $medium->{with_hdlist} = $with_hdlist;
@@ -1586,13 +1567,8 @@ this could happen if you mounted manually the directory when creating the medium
 		chown 0, 0, "$urpm->{cachedir}/partial/$basename";
 	    }
 	    eval {
-		$urpm->sync_webfetch(
-		    {
-			_sync_options($urpm, \%options, $medium),
-			callback => $options{callback},
-		    },
-		    reduce_pathname("$medium->{url}/$medium->{with_hdlist}"),
-		);
+		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}") ],
+			      \%options, callback => $options{callback});
 	    };
 	    if ($@) {
 		$urpm->{error}(N("...retrieving failed: %s", $@));
@@ -2073,7 +2049,7 @@ sub register_rpms {
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    eval {
 		$urpm->{log}(N("retrieving rpm file [%s] ...", $_));
-		$urpm->sync_webfetch({ _sync_options($urpm, { quiet => 1 }) }, $_);
+		sync_webfetch($urpm, undef, [$_], { quiet => 1 });
 		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    };
@@ -2766,14 +2742,8 @@ sub download_packages_of_distant_media {
 	if (%distant_sources) {
 	    eval {
 		$urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
-		$urpm->sync_webfetch(
-		    {
-			_sync_options($urpm, \%options, $urpm->{media}[$n]),
-			resume => $options{resume},
-			callback => $options{callback},
-		    },
-		    values %distant_sources,
-		);
+		sync_webfetch($urpm, $urpm->{media}[$n], [ values %distant_sources ],
+			      \%options, resume => $options{resume}, callback => $options{callback});
 		$urpm->{log}(N("...retrieving done"));
 	    };
 	    $@ and $urpm->{error}(N("...retrieving failed: %s", $@));
