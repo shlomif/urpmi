@@ -612,7 +612,6 @@ sub configure {
 				defined $second_pass or $second_pass = 1;
 				_parse_hdlist($urpm, $_,
 				    hdlist_or_synthesis_for_virtual_medium($_),
-				    packing => 1,
 				    callback => $options{call_back_only_once} && $second_pass ? undef : $options{callback},
 				);
 			    }
@@ -623,7 +622,6 @@ sub configure {
 		    } else {
 			if ($options{hdlist} && file_size(statedir_hdlist($urpm, $_)) > 32) {
 			    _parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_),
-				packing => 1,
 				callback => $options{callback},
 			    );
 			} else {
@@ -633,7 +631,6 @@ sub configure {
 			    );
 			    if (!is_valid_medium($_)) {
 				_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_),
-				    packing => 1,
 				    callback => $options{callback},
 				);
 			    }
@@ -1060,7 +1057,7 @@ sub _update_media__when_not_modified {
 	    if ($medium->{synthesis}) {
 		_parse_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
 	    } else {
-		_parse_hdlist($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium), packing => 1);
+		_parse_hdlist($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
 	    }
 	} else {
 	    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
@@ -1069,7 +1066,7 @@ sub _update_media__when_not_modified {
     } else {
 	_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
 	if (!is_valid_medium($medium)) {
-	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium), packing => 1);
+	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
 	}
     }
     unless ($medium->{ignore}) {
@@ -1088,12 +1085,12 @@ sub _update_media__virtual {
 	    $medium->{synthesis} = 1;
 	    $urpm->{modified} = 1;
 	    if (!is_valid_medium($medium)) {
-		_parse_hdlist($urpm, $medium, $with_hdlist_dir, packing => 1);
+		_parse_hdlist($urpm, $medium, $with_hdlist_dir);
 		delete @$medium{qw(modified synthesis)};
 		$urpm->{modified} = 1;
 	    }
 	} else {
-	    _parse_hdlist($urpm, $medium, $with_hdlist_dir, packing => 1);
+	    _parse_hdlist($urpm, $medium, $with_hdlist_dir);
 	    delete @$medium{qw(modified synthesis)};
 	    $urpm->{modified} = 1;
 	    if (!is_valid_medium($medium)) {
@@ -1172,7 +1169,7 @@ sub _read_existing_synthesis_and_hdlist {
     #- as previously done, just read synthesis file here, this is enough.
     _parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
     if (!is_valid_medium($medium)) {
-	_parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium), packing => 1);
+	_parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
 	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
     }
 
@@ -1183,7 +1180,7 @@ sub _parse_hdlist {
     my ($urpm, $medium, $hdlist_file, %args) = @_;
 
     $urpm->{log}(N("examining hdlist file [%s]", $hdlist_file));
-    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($hdlist_file, %args);
+    ($medium->{start}, $medium->{end}) = $urpm->parse_hdlist($hdlist_file, packing => 1, %args);
 }
 
 sub _parse_synthesis {
@@ -1687,7 +1684,7 @@ sub _update_medium_first_pass {
 	    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 	    if (!$medium->{synthesis}
 		  || file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 262144) {
-		_parse_hdlist($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}", packing => 1);
+		_parse_hdlist($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}");
 		if (is_valid_medium($medium)) {
 		    delete $medium->{synthesis};
 		} else {
@@ -1699,7 +1696,7 @@ sub _update_medium_first_pass {
 		if (is_valid_medium($medium)) {
 		    $medium->{synthesis} = 1;
 		} else {
-		    _parse_hdlist($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}", packing => 1);
+		    _parse_hdlist($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}");
 		    is_valid_medium($medium) and delete $medium->{synthesis};
 		}
 	    }
@@ -1879,7 +1876,7 @@ sub _update_medium_second_pass {
 	}
     } else {
 	if ($second_pass) {
-	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium), packing => 1);
+	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
 	}
 	#- check if the synthesis file can be built.
 	if (($second_pass || $medium->{modified_synthesis}) && !$medium->{modified}) {
