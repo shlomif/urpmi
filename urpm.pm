@@ -463,6 +463,10 @@ sub write_MD5SUM {
 	my $s = basename(statedir_hdlist_or_synthesis($urpm, $medium));
 	print $fh "$medium->{md5sum}  $s\n";
     }
+
+    $urpm->{log}(N("wrote %s", "$urpm->{statedir}/MD5SUM"));
+
+    delete $urpm->{md5sum_modified};
 }
 
 #- Writes the urpmi.cfg file.
@@ -789,11 +793,9 @@ sub add_medium {
 	#- need getting the fresh datastructure after read_config
 	$medium = name2medium($urpm, $name); #- need getting the fresh datastructure after read_config
 
-	#- Remember that the database has been modified and base files need to
-	#- be updated. This will be done automatically by transferring the
-	#- "modified" flag from medium to global.
+	#- Remember that the database has been modified and base files need to be updated.
 	$medium->{modified} = 1;
-	$urpm->{modified} = 1;
+	$urpm->{md5sum_modified} = 1;
     }
     if ($has_password) {
 	$medium->{url} = $url;
@@ -1124,21 +1126,19 @@ sub _update_media__virtual {
 	    _parse_synthesis($urpm, $medium, $with_hdlist_dir);
 	    delete $medium->{modified};
 	    $medium->{synthesis} = 1;
-	    $urpm->{modified} = 1;
+	    $urpm->{md5sum_modified} = 1;
 	    if (!is_valid_medium($medium)) {
 		_parse_hdlist($urpm, $medium, $with_hdlist_dir);
 		delete @$medium{qw(modified synthesis)};
-		$urpm->{modified} = 1;
 	    }
 	} else {
 	    _parse_hdlist($urpm, $medium, $with_hdlist_dir);
 	    delete @$medium{qw(modified synthesis)};
-	    $urpm->{modified} = 1;
+	    $urpm->{md5sum_modified} = 1;
 	    if (!is_valid_medium($medium)) {
 		_parse_synthesis($urpm, $medium, $with_hdlist_dir);
 		delete $medium->{modified};
 		$medium->{synthesis} = 1;
-		$urpm->{modified} = 1;
 	    }
 	}
 	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
@@ -1838,7 +1838,7 @@ sub _update_medium_first_pass {
 	} else {
 	    #- make sure to rebuild base files and clear medium modified state.
 	    $medium->{modified} = 0;
-	    $urpm->{modified} = 1;
+	    $urpm->{md5sum_modified} = 1;
 
 	    #- but use newly created file.
 	    unlink statedir_hdlist($urpm, $medium);
@@ -1899,7 +1899,7 @@ sub _update_medium_second_pass {
 	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
 	}
 	#- keep in mind we have a modified database, sure at this point.
-	$urpm->{modified} = 1;
+	$urpm->{md5sum_modified} = 1;
     } elsif ($medium->{synthesis}) {
 	if ($second_pass) {
 	    if ($medium->{virtual}) {
@@ -1931,7 +1931,7 @@ sub _update_medium_second_pass {
 		}
 	    }
 	    #- keep in mind we have modified database, sure at this point.
-	    $urpm->{modified} = 1;
+	    $urpm->{md5sum_modified} = 1;
 	}
     }
     $callback && $callback->('done', $medium->{name});
@@ -2024,6 +2024,9 @@ sub update_media {
 	#- write config files in any case
 	$urpm->write_config;
 	dump_proxy_config();
+    } elsif ($urpm->{md5sum_modified}) {
+	#- NB: in case of $urpm->{modified}, write_MD5SUM is called in write_config above
+	write_MD5SUM($urpm);
     }
 
     generate_media_names($urpm);
