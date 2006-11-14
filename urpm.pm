@@ -1206,6 +1206,8 @@ sub _read_existing_synthesis_and_hdlist_if_same_md5sum {
 sub _read_existing_synthesis_and_hdlist {
     my ($urpm, $medium) = @_;
 
+    $urpm->{log}(N("medium \"%s\" is up-to-date", $medium->{name}));
+
     #- the medium is now considered not modified.
     $medium->{modified} = 0;
     #- XXX we could link the new hdlist to the old one.
