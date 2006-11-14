@@ -453,6 +453,18 @@ sub probe_removable_device {
     }
 }
 
+
+sub write_MD5SUM {
+    my ($urpm) = @_;
+
+    #- write MD5SUM file
+    my $fh = $urpm->open_safe('>', "$urpm->{statedir}/MD5SUM") or return 0;
+    foreach my $medium (grep { $_->{md5sum} } @{$urpm->{media}}) {
+	my $s = basename(statedir_hdlist_or_synthesis($urpm, $medium));
+	print $fh "$medium->{md5sum}  $s\n";
+    }
+}
+
 #- Writes the urpmi.cfg file.
 sub write_config {
     my ($urpm) = @_;
@@ -476,13 +488,7 @@ sub write_config {
     urpm::cfg::dump_config($urpm->{config}, $config)
 	or $urpm->{fatal}(6, N("unable to write config file [%s]", $urpm->{config}));
 
-    #- write MD5SUM file
-    my $md5sum = $urpm->open_safe('>', "$urpm->{statedir}/MD5SUM") or return 0;
-    foreach my $medium (@{$urpm->{media}}) {
-	$medium->{md5sum}
-	    and print $md5sum "$medium->{md5sum}  " . ($medium->{synthesis} && "synthesis.") . $medium->{hdlist} . "\n";
-    }
-    close $md5sum;
+    write_MD5SUM($urpm);
 
     $urpm->{log}(N("wrote config file [%s]", $urpm->{config}));
 
