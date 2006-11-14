@@ -1155,13 +1155,15 @@ sub _read_existing_synthesis_and_hdlist_if_same_time_and_msize {
     same_size_and_mtime("$urpm->{cachedir}/partial/$basename", 
 			statedir_hdlist($urpm, $medium)) or return;
 
-    _read_existing_synthesis_and_hdlist($urpm, $medium, $basename);
+    unlink "$urpm->{cachedir}/partial/$basename";
+
+    _read_existing_synthesis_and_hdlist($urpm, $medium);
 
     1;
 }
 
 sub _read_existing_synthesis_and_hdlist_if_same_md5sum {
-    my ($urpm, $medium, $basename, $retrieved_md5sum) = @_;
+    my ($urpm, $medium, $retrieved_md5sum) = @_;
 
     #- if an existing hdlist or synthesis file has the same md5sum, we assume the
     #- files are the same.
@@ -1169,15 +1171,16 @@ sub _read_existing_synthesis_and_hdlist_if_same_md5sum {
     #- download hdlist or synthesis file again.
     $retrieved_md5sum && $medium->{md5sum} eq $retrieved_md5sum or return;
 
-    _read_existing_synthesis_and_hdlist($urpm, $medium, $basename);
+    unlink "$urpm->{cachedir}/partial/" . basename($medium->{with_hdlist});
+
+    _read_existing_synthesis_and_hdlist($urpm, $medium);
 
     1;
 }
 
 sub _read_existing_synthesis_and_hdlist {
-    my ($urpm, $medium, $basename) = @_;
+    my ($urpm, $medium) = @_;
 
-    unlink "$urpm->{cachedir}/partial/$basename";
     #- the medium is now considered not modified.
     $medium->{modified} = 0;
     #- XXX we could link the new hdlist to the old one.
@@ -1340,7 +1343,7 @@ this could happen if you mounted manually the directory when creating the medium
 		recompute_local_md5sum($urpm, $medium, $options->{force});
 		if ($medium->{md5sum}) {
 		    $$retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
-		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $basename, $$retrieved_md5sum)
+		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $$retrieved_md5sum)
 		      and return 'unmodified';
 		}
 	    }
@@ -1575,7 +1578,7 @@ sub _update_medium_first_pass {
 		recompute_local_md5sum($urpm, $medium, $options{force} >= 2);
 		if ($medium->{md5sum}) {
 		    $retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
-		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $basename, $retrieved_md5sum)
+		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		      and return;
 		}
 	    } else {
