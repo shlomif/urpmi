@@ -241,15 +241,22 @@ sub read_config {
     }
 
     #- check the presence of hdlist and list files if necessary.
-    unless ($options{nocheck_access}) {
-	foreach (@{$urpm->{media}}) {
-	    $_->{ignore} and next;
-	    -r "$urpm->{statedir}/$_->{hdlist}" || -r "$urpm->{statedir}/synthesis.$_->{hdlist}" && $_->{synthesis}
-		or $_->{ignore} = 1,
-		$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $_->{name}));
-	    $_->{list} && -r "$urpm->{statedir}/$_->{list}" || defined $_->{url}
-		or $_->{ignore} = 1,
-		$urpm->{error}(N("unable to access list file of \"%s\", medium ignored", $_->{name}));
+    if (!$options{nocheck_access}) {
+	foreach my $medium (@{$urpm->{media}}) {
+	    $medium->{ignore} and next;
+
+	    if (-r "$urpm->{statedir}/$medium->{hdlist}") {}
+	    elsif ($medium->{synthesis} && -r "$urpm->{statedir}/synthesis.$medium->{hdlist}") {}
+	    else {
+		$medium->{ignore} = 1;
+		$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
+	    }
+	    if ($medium->{list} && -r "$urpm->{statedir}/$medium->{list}") {}
+	    elsif ($medium->{url}) {}
+	    else {
+		$medium->{ignore} = 1;
+		$urpm->{error}(N("unable to access list file of \"%s\", medium ignored", $medium->{name}));
+	    }
 	}
     }
 
