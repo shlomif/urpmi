@@ -377,6 +377,13 @@ sub file_from_file_url {
     $url =~ m!^(?:file:/)?(/.*)! && $1;
 }
 
+sub hdlist_or_synthesis_for_virtual_medium {
+    my ($medium) = @_;
+
+    my $path = file_from_file_url($medium->{url}) or return;
+    "$path/$medium->{with_hdlist}";
+}
+
 sub statedir_hdlist {
     my ($urpm, $medium) = @_;
     "$urpm->{statedir}/$medium->{hdlist}";
@@ -596,16 +603,15 @@ sub configure {
 		    our $currentmedia = $_; #- hack for urpmf
 		    delete @$_{qw(start end)};
 		    if ($_->{virtual}) {
-			my $path = file_from_file_url($_->{url});
-			if ($path) {
+			if (file_from_file_url($_->{url})) {
 			    if ($_->{synthesis}) {
 				_parse_synthesis($urpm, $_,
-				    "$path/$_->{with_hdlist}", callback => $options{callback});
+				    hdlist_or_synthesis_for_virtual_medium($_), callback => $options{callback});
 			    } else {
 				#- we'll need a second pass
 				defined $second_pass or $second_pass = 1;
 				_parse_hdlist($urpm, $_,
-				    "$path/$_->{with_hdlist}",
+				    hdlist_or_synthesis_for_virtual_medium($_),
 				    packing => 1,
 				    callback => $options{call_back_only_once} && $second_pass ? undef : $options{callback},
 				);
@@ -1050,12 +1056,11 @@ sub _update_media__when_not_modified {
 
     delete @$medium{qw(start end)};
     if ($medium->{virtual}) {
-	if (my $path = file_from_file_url($medium->{url})) {
-	    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
+	if (file_from_file_url($medium->{url})) {
 	    if ($medium->{synthesis}) {
-		_parse_synthesis($urpm, $medium, $with_hdlist_file);
+		_parse_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
 	    } else {
-		_parse_hdlist($urpm, $medium, $with_hdlist_file, packing => 1);
+		_parse_hdlist($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium), packing => 1);
 	    }
 	} else {
 	    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
@@ -1865,9 +1870,8 @@ sub _update_medium_second_pass {
     } elsif ($medium->{synthesis}) {
 	if ($second_pass) {
 	    if ($medium->{virtual}) {
-		if (my $path = file_from_file_url($medium->{url})) {
-		    my $with_hdlist_file = "$path/$medium->{with_hdlist}";
-		    _parse_synthesis($urpm, $medium, $with_hdlist_file);
+		if (file_from_file_url($medium->{url})) {
+		    _parse_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
 		}
 	    } else {
 		_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
