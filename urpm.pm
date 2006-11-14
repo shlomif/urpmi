@@ -3386,12 +3386,9 @@ sub compute_local_md5sum {
     my ($urpm, $medium) = @_;
 
     $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
-    if ($medium->{synthesis}) {
-	-e statedir_synthesis($urpm, $medium) and
-	  $medium->{md5sum} = md5sum(statedir_synthesis($urpm, $medium));
-    } else {
-	-e statedir_hdlist($urpm, $medium) and
-	  $medium->{md5sum} = md5sum(statedir_hdlist($urpm, $medium));
+    my $f = $medium->{synthesis} ? statedir_synthesis($urpm, $medium) : statedir_hdlist($urpm, $medium);
+    if (-e $f) {
+	$medium->{md5sum} = md5sum($f);
     }
 }
 
