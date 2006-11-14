@@ -1465,6 +1465,31 @@ this could happen if you mounted manually the directory when creating the medium
     $error;
 }
 
+sub _read_cachedir_pubkey {
+    my ($urpm, $medium) = @_;
+    -s "$urpm->{cachedir}/partial/pubkey" or return;
+
+    $urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
+
+    my %key_ids;
+    $urpm->import_needed_pubkeys(
+	[ $urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey") ],
+	root => $urpm->{root}, 
+	callback => sub {
+	    my (undef, undef, $_k, $id, $imported) = @_;
+	    if ($id) {
+		$key_ids{$id} = undef;
+		$imported and $urpm->{log}(N("...imported key %s from pubkey file of \"%s\"",
+					     $id, $medium->{name}));
+	    } else {
+		$urpm->{error}(N("unable to import pubkey file of \"%s\"", $medium->{name}));
+	    }
+	});
+    if (keys(%key_ids)) {
+	$medium->{'key-ids'} = join(',', keys %key_ids);
+    }
+}
+
 sub _update_medium_first_pass {
     my ($urpm, $medium, $second_pass, $clean_cache, %options) = @_;
 
@@ -1784,22 +1809,7 @@ sub _update_medium_first_pass {
 
     unless ($error) {
 	#- now... on pubkey
-	if (-s "$urpm->{cachedir}/partial/pubkey") {
-	    $urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
-	    my %key_ids;
-	    $urpm->import_needed_pubkeys([ $urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey") ],
-					 root => $urpm->{root}, callback => sub {
-					     my (undef, undef, $_k, $id, $imported) = @_;
-					     if ($id) {
-						 $key_ids{$id} = undef;
-						 $imported and $urpm->{log}(N("...imported key %s from pubkey file of \"%s\"",
-									      $id, $medium->{name}));
-					     } else {
-						 $urpm->{error}(N("unable to import pubkey file of \"%s\"", $medium->{name}));
-					     }
-					 });
-	    keys(%key_ids) and $medium->{'key-ids'} = join ',', keys %key_ids;
-	}
+	_read_cachedir_pubkey($urpm, $medium);
     }
 
     unless ($medium->{virtual}) {
