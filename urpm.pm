@@ -1333,7 +1333,6 @@ this could happen if you mounted manually the directory when creating the medium
     #- we can assume at this point a basename is existing, but it needs
     #- to be checked for being valid, nothing can be deduced if no MD5SUM
     #- file is present.
-    my $basename = basename($with_hdlist_dir);
 
     my $error;
 
@@ -1342,7 +1341,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    if (!$options->{nomd5sum} && file_size(reduce_pathname("$with_hdlist_dir/../MD5SUM")) > 32) {
 		recompute_local_md5sum($urpm, $medium, $options->{force});
 		if ($medium->{md5sum}) {
-		    $$retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), $basename);
+		    $$retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), basename($with_hdlist_dir));
 		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $$retrieved_md5sum)
 		      and return 'unmodified';
 		}
