@@ -2457,7 +2457,10 @@ sub get_source_packages {
 	while (defined(my $filename = readdir $dh)) {
 	    my $filepath = "$urpm->{cachedir}/rpms/$filename";
 	    next if -d $filepath;
-	    if (!$options{clean_all} && -s _) {
+
+	    if ($options{clean_all} || ! -s _) {
+		unlink $filepath; #- this file should be removed or is already empty.
+	    } else {
 		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
 		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
 		    next;
@@ -2471,8 +2474,6 @@ sub get_source_packages {
 		} else {
 		    $options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
 		}
-	    } else {
-		unlink $filepath; #- this file should be removed or is already empty.
 	    }
 	}
 	closedir $dh;
