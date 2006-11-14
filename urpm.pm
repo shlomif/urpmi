@@ -726,7 +726,7 @@ sub add_medium {
     my ($urpm, $name, $url, $with_hdlist, %options) = @_;
 
     #- make sure configuration has been read.
-    $urpm->{media} or $urpm->read_config;
+    $urpm->{media} or die "caller should have used ->read_config or ->configure first";
     $urpm->lock_urpmi_db('exclusive') if !$options{nolock};
 
     #- if a medium with that name has already been found, we have to exit now
@@ -809,7 +809,7 @@ sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
 
     #- make sure configuration has been read.
-    $urpm->{media} or $urpm->read_config;
+    $urpm->{media} or die "caller should have used ->read_config or ->configure first";
 
     my $distribconf;
 
