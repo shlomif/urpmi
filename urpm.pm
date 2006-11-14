@@ -245,8 +245,8 @@ sub read_config {
 	foreach my $medium (@{$urpm->{media}}) {
 	    $medium->{ignore} and next;
 
-	    if (-r "$urpm->{statedir}/$medium->{hdlist}") {}
-	    elsif ($medium->{synthesis} && -r "$urpm->{statedir}/synthesis.$medium->{hdlist}") {}
+	    if (-r statedir_hdlist($urpm, $medium)) {}
+	    elsif ($medium->{synthesis} && -r statedir_synthesis($urpm, $medium)) {}
 	    else {
 		$medium->{ignore} = 1;
 		$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
@@ -298,7 +298,7 @@ sub probe_medium {
     } else {
 	unless ($medium->{ignore} || $medium->{hdlist}) {
 	    $medium->{hdlist} = "hdlist.$medium->{name}.cz";
-	    -e "$urpm->{statedir}/$medium->{hdlist}" or
+	    -e statedir_hdlist($urpm, $medium) or
 	      $medium->{ignore} = 1,
 		$urpm->{error}(N("unable to find hdlist file for \"%s\", medium ignored", $medium->{name}));
 	}
@@ -375,6 +375,15 @@ sub file_from_local_url {
 sub file_from_file_url {
     my ($url) = @_;
     $url =~ m!^(?:file:/)?(/.*)! && $1;
+}
+
+sub statedir_hdlist {
+    my ($urpm, $medium) = @_;
+    "$urpm->{statedir}/$medium->{hdlist}";
+}
+sub statedir_synthesis {
+    my ($urpm, $medium) = @_;
+    "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 }
 
 sub name2medium {
@@ -606,18 +615,18 @@ sub configure {
 			    $_->{ignore} = 1;
 			}
 		    } else {
-			if ($options{hdlist} && file_size("$urpm->{statedir}/$_->{hdlist}") > 32) {
-			    _parse_hdlist($urpm, $_, "$urpm->{statedir}/$_->{hdlist}",
+			if ($options{hdlist} && file_size(statedir_hdlist($urpm, $_)) > 32) {
+			    _parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_),
 				packing => 1,
 				callback => $options{callback},
 			    );
 			} else {
 			    _parse_synthesis($urpm, $_,
-				"$urpm->{statedir}/synthesis.$_->{hdlist}",
+				statedir_synthesis($urpm, $_),
 				callback => $options{callback},
 			    );
 			    if (!is_valid_medium($_)) {
-				_parse_hdlist($urpm, $_, "$urpm->{statedir}/$_->{hdlist}",
+				_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_),
 				    packing => 1,
 				    callback => $options{callback},
 				);
@@ -1053,9 +1062,9 @@ sub _update_media__when_not_modified {
 	    $medium->{ignore} = 1;
 	}
     } else {
-	_parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
 	if (!is_valid_medium($medium)) {
-	    _parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium), packing => 1);
 	}
     }
     unless ($medium->{ignore}) {
@@ -1126,7 +1135,7 @@ sub _read_existing_synthesis_and_hdlist_if_same_time_and_msize {
     my ($urpm, $medium, $basename) = @_;
 
     same_size_and_mtime("$urpm->{cachedir}/partial/$basename", 
-			"$urpm->{statedir}/$medium->{hdlist}") or return;
+			statedir_hdlist($urpm, $medium)) or return;
 
     _read_existing_synthesis_and_hdlist($urpm, $medium, $basename);
 
@@ -1156,9 +1165,9 @@ sub _read_existing_synthesis_and_hdlist {
     #- XXX we could link the new hdlist to the old one.
     #- (However links need to be managed. see bug #12391.)
     #- as previously done, just read synthesis file here, this is enough.
-    _parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+    _parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
     if (!is_valid_medium($medium)) {
-	_parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+	_parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium), packing => 1);
 	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
     }
 
@@ -1346,7 +1355,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    }
 
 	    #- check if the files are equal... and no force copy...
-	    if (!$error && !$options->{force} && -e "$urpm->{statedir}/synthesis.$medium->{hdlist}") {
+	    if (!$error && !$options->{force} && -e statedir_synthesis($urpm, $medium)) {
 		_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $medium->{hdlist}) 
 		  and return 'unmodified';
 	    }
@@ -1444,7 +1453,7 @@ sub _update_medium_first_pass {
     $options{forcekey} and delete $medium->{'key-ids'};
 
     #- we should create the associated synthesis file if it does not already exist...
-    file_size("$urpm->{statedir}/synthesis.$medium->{hdlist}") > 32
+    file_size(statedir_synthesis($urpm, $medium)) > 32
       or $medium->{modified_synthesis} = 1;
 
     if ($medium->{static}) {
@@ -1780,7 +1789,7 @@ sub _update_medium_first_pass {
 	    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
 	    $medium->{list} and unlink "$urpm->{cachedir}/partial/$medium->{list}";
 	    #- read default synthesis (we have to make sure nothing get out of depslist).
-	    _parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	    _parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
 	    if (!is_valid_medium($medium)) {
 		$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 		$medium->{ignore} = 1;
@@ -1791,16 +1800,16 @@ sub _update_medium_first_pass {
 	    $urpm->{modified} = 1;
 
 	    #- but use newly created file.
-	    unlink "$urpm->{statedir}/$medium->{hdlist}";
-	    $medium->{synthesis} and unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+	    unlink statedir_hdlist($urpm, $medium);
+	    $medium->{synthesis} and unlink statedir_synthesis($urpm, $medium);
 	    $medium->{list} and unlink "$urpm->{statedir}/$medium->{list}";
 	    unless ($medium->{headers}) {
-		unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
-		unlink "$urpm->{statedir}/$medium->{hdlist}";
+		unlink statedir_synthesis($urpm, $medium);
+		unlink statedir_hdlist($urpm, $medium);
 		urpm::util::move("$urpm->{cachedir}/partial/$medium->{hdlist}",
 				 $medium->{synthesis}
-				   ? "$urpm->{statedir}/synthesis.$medium->{hdlist}"
-				     : "$urpm->{statedir}/$medium->{hdlist}"
+				   ? statedir_synthesis($urpm, $medium)
+				     : statedir_hdlist($urpm, $medium)
 				 );
 	    }
 	    if ($medium->{list}) {
@@ -1830,24 +1839,24 @@ sub _update_medium_second_pass {
 								      headers => $medium->{headers},
 								  );
 	}
-	$urpm->{log}(N("building hdlist [%s]", "$urpm->{statedir}/$medium->{hdlist}"));
+	$urpm->{log}(N("building hdlist [%s]", statedir_hdlist($urpm, $medium)));
 	#- finish building operation of hdlist.
 	$urpm->build_hdlist(start  => $medium->{start},
 			    end    => $medium->{end},
 			    dir    => "$urpm->{cachedir}/headers",
-			    hdlist => "$urpm->{statedir}/$medium->{hdlist}",
+			    hdlist => statedir_hdlist($urpm, $medium),
 			);
 	#- synthesis needs to be created, since the medium has been built from rpm files.
 	eval { $urpm->build_synthesis(
 	    start     => $medium->{start},
 	    end       => $medium->{end},
-	    synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+	    synthesis => statedir_synthesis($urpm, $medium),
 	) };
 	if ($@) {
 	    #- XXX this happens when building a synthesis for a local media from RPMs... why ?
 	    $urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
 	    $urpm->{error}($@);
-	    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+	    unlink statedir_synthesis($urpm, $medium);
 	} else {
 	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
 	}
@@ -1861,12 +1870,12 @@ sub _update_medium_second_pass {
 		    _parse_synthesis($urpm, $medium, $with_hdlist_file);
 		}
 	    } else {
-		_parse_synthesis($urpm, $medium, "$urpm->{statedir}/synthesis.$medium->{hdlist}");
+		_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
 	    }
 	}
     } else {
 	if ($second_pass) {
-	    _parse_hdlist($urpm, $medium, "$urpm->{statedir}/$medium->{hdlist}", packing => 1);
+	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium), packing => 1);
 	}
 	#- check if the synthesis file can be built.
 	if (($second_pass || $medium->{modified_synthesis}) && !$medium->{modified}) {
@@ -1874,12 +1883,12 @@ sub _update_medium_second_pass {
 		eval { $urpm->build_synthesis(
 		    start     => $medium->{start},
 		    end       => $medium->{end},
-		    synthesis => "$urpm->{statedir}/synthesis.$medium->{hdlist}",
+		    synthesis => statedir_synthesis($urpm, $medium),
 		) };
 		if ($@) {
 		    $urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
 		    $urpm->{error}($@);
-		    unlink "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+		    unlink statedir_synthesis($urpm, $medium);
 		} else {
 		    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
 		}
@@ -3378,11 +3387,11 @@ sub compute_local_md5sum {
 
     $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
     if ($medium->{synthesis}) {
-	-e "$urpm->{statedir}/synthesis.$medium->{hdlist}" and
-	  $medium->{md5sum} = md5sum("$urpm->{statedir}/synthesis.$medium->{hdlist}");
+	-e statedir_synthesis($urpm, $medium) and
+	  $medium->{md5sum} = md5sum(statedir_synthesis($urpm, $medium));
     } else {
-	-e "$urpm->{statedir}/$medium->{hdlist}" and
-	  $medium->{md5sum} = md5sum("$urpm->{statedir}/$medium->{hdlist}");
+	-e statedir_hdlist($urpm, $medium) and
+	  $medium->{md5sum} = md5sum(statedir_hdlist($urpm, $medium));
     }
 }
 
