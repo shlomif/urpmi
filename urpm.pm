@@ -2456,14 +2456,12 @@ sub get_source_packages {
     if ($dh) {
 	while (defined(my $filename = readdir $dh)) {
 	    my $filepath = "$urpm->{cachedir}/rpms/$filename";
-	    next if -d $filepath;
-
-	    if ($options{clean_all} || ! -s _) {
+	    if (-d $filepath) {
+	    } elsif ($options{clean_all} || ! -s _) {
 		unlink $filepath; #- this file should be removed or is already empty.
 	    } else {
 		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
 		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
-		    next;
 		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 		    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
 		    if (defined(my $id = delete $fullname2id{$fullname})) {
