@@ -384,6 +384,10 @@ sub hdlist_or_synthesis_for_virtual_medium {
     "$path/$medium->{with_hdlist}";
 }
 
+sub statedir_hdlist_or_synthesis {
+    my ($urpm, $medium) = @_;
+    "$urpm->{statedir}/" . ($medium->{synthesis} ? 'synthesis.' : '') . $medium->{hdlist};
+}
 sub statedir_hdlist {
     my ($urpm, $medium) = @_;
     "$urpm->{statedir}/$medium->{hdlist}";
@@ -1611,10 +1615,9 @@ sub _update_medium_first_pass {
 	    } else {
 		#- try to sync (copy if needed) local copy after restored the previous one.
 		#- this is useful for rsync (?)
-		my $wanted = ($medium->{synthesis} ? 'synthesis.' : '') . $medium->{hdlist};
-		if (-e "$urpm->{statedir}/$wanted") {
+		if (-e statedir_hdlist_or_synthesis($urpm, $medium)) {
 		    urpm::util::copy(
-			"$urpm->{statedir}/$wanted",
+			statedir_hdlist_or_synthesis($urpm, $medium),
 			"$urpm->{cachedir}/partial/$basename",
 		    ) or $urpm->{error}(N("...copying failed")), $error = 1;
 		}
@@ -1821,10 +1824,7 @@ sub _update_medium_first_pass {
 		unlink statedir_synthesis($urpm, $medium);
 		unlink statedir_hdlist($urpm, $medium);
 		urpm::util::move(cachedir_hdlist($urpm, $medium),
-				 $medium->{synthesis}
-				   ? statedir_synthesis($urpm, $medium)
-				     : statedir_hdlist($urpm, $medium)
-				 );
+				 statedir_hdlist_or_synthesis($urpm, $medium));
 	    }
 	    if ($medium->{list}) {
 		urpm::util::move(cachedir_list($urpm, $medium), statedir_list($urpm, $medium));
@@ -3399,7 +3399,7 @@ sub compute_local_md5sum {
     my ($urpm, $medium) = @_;
 
     $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
-    my $f = $medium->{synthesis} ? statedir_synthesis($urpm, $medium) : statedir_hdlist($urpm, $medium);
+    my $f = statedir_hdlist_or_synthesis($urpm, $medium);
     if (-e $f) {
 	$medium->{md5sum} = md5sum($f);
     }
