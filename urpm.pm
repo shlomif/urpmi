@@ -262,7 +262,7 @@ sub read_config {
 
     #- read MD5 sums (usually not in urpmi.cfg but in a separate file)
     foreach (@{$urpm->{media}}) {
-	if (my $md5sum = get_md5sum("$urpm->{statedir}/MD5SUM", ($_->{synthesis} ? "synthesis." : "") . $_->{hdlist})) {
+	if (my $md5sum = get_md5sum("$urpm->{statedir}/MD5SUM", statedir_hdlist_or_synthesis($urpm, $_))) {
 	    $_->{md5sum} = $md5sum;
 	}
     }
@@ -3392,20 +3392,21 @@ sub get_updates_description {
 
 #- parse an MD5SUM file from a mirror
 sub get_md5sum {
-    my ($path, $basename) = @_;
+    my ($md5sum_file, $f) = @_;  
+    my $basename = basename($f);
 
     my ($retrieved_md5sum) = map {
 	my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)|;
 	$file && $file eq $basename ? $md5sum : @{[]};
-    } cat_($path);
+    } cat_($md5sum_file);
 
     $retrieved_md5sum;
 }
 
 sub parse_md5sum {
-    my ($urpm, $path, $basename) = @_;
+    my ($urpm, $md5sum_file, $basename) = @_;
     $urpm->{log}(N("examining MD5SUM file"));
-    my $retrieved_md5sum = get_md5sum($path, $basename) 
+    my $retrieved_md5sum = get_md5sum($md5sum_file, $basename) 
       or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
     return $retrieved_md5sum;
 }
