@@ -223,17 +223,19 @@ sub read_config {
 
     #- remember if an hdlist or list file is already used
     my %filelists;
-    foreach (@{$urpm->{media}}) {
+    foreach my $medium (@{$urpm->{media}}) {
 	foreach my $filetype (qw(hdlist list)) {
-	    if ($_->{$filetype}) {
-		exists($filelists{$filetype}{$_->{$filetype}})
-		    and $_->{ignore} = 1,
-		    $urpm->{error}(
-			$filetype eq 'hdlist'
-			    ? N("medium \"%s\" trying to use an already used hdlist, medium ignored", $_->{name})
-			    : N("medium \"%s\" trying to use an already used list, medium ignored",   $_->{name})
-		    );
-		$filelists{$filetype}{$_->{$filetype}} = undef;
+	    $medium->{$filetype} or next;
+
+	    if ($filelists{$filetype}{$medium->{$filetype}}) {
+		$medium->{ignore} = 1;
+		$urpm->{error}(
+		    $filetype eq 'hdlist'
+		      ? N("medium \"%s\" trying to use an already used hdlist, medium ignored", $medium->{name})
+		      : N("medium \"%s\" trying to use an already used list, medium ignored",   $medium->{name})
+		  );
+	    } else {
+		$filelists{$filetype}{$medium->{$filetype}} = 1;
 	    }
 	}
     }
