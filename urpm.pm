@@ -988,6 +988,25 @@ sub _probe_with_try_list {
     @probe;
 }
 
+sub may_reconfig_urpmi {
+    my ($urpm, $medium, $options) = @_;
+
+    my $f;
+    if (my $dir = file_from_file_url($medium->{url})) {
+	$f = reduce_pathname("$dir/reconfig.urpmi");
+    } else {
+	unlink($f = "$urpm->{cachedir}/partial/reconfig.urpmi");
+	eval {
+	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ],
+			  $options, quiet => 1);
+	};
+    }
+    if (-s $f) {
+	reconfig_urpmi($urpm, $f, $medium->{name});
+    }
+    unlink $f if !file_from_file_url($medium->{url});
+}
+
 #- read a reconfiguration file for urpmi, and reconfigure media accordingly
 #- $rfile is the reconfiguration file (local), $name is the media name
 #-
@@ -1525,20 +1544,7 @@ sub _update_medium_first_pass {
 
     #- check for a reconfig.urpmi file (if not already reconfigured)
     if (!$medium->{noreconfigure}) {
-	my $reconfig_urpmi;
-	if (my $dir = file_from_file_url($medium->{url})) {
-	    $reconfig_urpmi = reduce_pathname("$dir/reconfig.urpmi");
-	} else {
-	    unlink($reconfig_urpmi = "$urpm->{cachedir}/partial/reconfig.urpmi");
-	    eval {
-		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ],
-			      \%options, quiet => 1);
-	    };
-	}
-	if (-s $reconfig_urpmi) {
-	    $urpm->reconfig_urpmi($reconfig_urpmi, $medium->{name});
-	}
-	unlink $reconfig_urpmi if !file_from_file_url($medium->{url});
+	may_reconfig_urpmi($urpm, $medium, \%options);
     }
 
     #- list of rpm files for this medium, only available for local medium where
