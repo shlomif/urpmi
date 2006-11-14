@@ -560,25 +560,16 @@ sub configure {
 	}
 	if ($options{excludemedia}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
-	    $urpm->select_media(split /,/, $options{excludemedia});
-	    foreach (grep { $_->{modified} } @{$urpm->{media} || []}) {
+	    foreach (select_media_by_name($urpm, [ split /,/, $options{excludemedia} ], {})) {
+		$_->{modified} = 1;
 		#- this is only a local ignore that will not be saved.
 		$_->{tempignore} = $_->{ignore} = 1;
 	    }
 	}
 	if ($options{sortmedia}) {
-	    delete $_->{modified} foreach @{$urpm->{media} || []};
-	    my @oldmedia = @{$urpm->{media} || []};
-	    my @newmedia;
-	    foreach (split /,/, $options{sortmedia}) {
-		$urpm->select_media($_);
-		push @newmedia, grep { $_->{modified} } @oldmedia;
-		@oldmedia = grep { !$_->{modified} } @oldmedia;
-	    }
-	    #- anything not selected should be added here, as it's after the selected ones.
-	    $urpm->{media} = [ @newmedia, @oldmedia ];
-	    #- forget remaining modified flags.
-	    delete $_->{modified} foreach @{$urpm->{media} || []};
+	    my @sorted_media = map { select_media_by_name($urpm, [$_], {}) } split(/,/, $options{sortmedia});
+	    my @remaining = difference2($urpm->{media}, \@sorted_media);
+	    $urpm->{media} = [ @sorted_media, @remaining ];
 	}
 	unless ($options{nodepslist}) {
 	    my $second_pass;
