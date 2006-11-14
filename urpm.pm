@@ -2296,7 +2296,8 @@ sub resolve_dependencies {
 	unlink $file;
 	foreach (@{$urpm->{media}}) {
 	    is_valid_medium($_) or next;
-	    system "cat '$urpm->{statedir}/synthesis.$_->{hdlist}' >> '$file'";
+	    my $f = statedir_synthesis($urpm, $_);
+	    system "cat '$f' >> '$file'";
 	}
 	#- let each node determine what is requested, according to handler given.
 	$urpm->{parallel_handler}->parallel_resolve_dependencies($file, $urpm, $state, $requested, %options);
