@@ -392,6 +392,10 @@ sub statedir_synthesis {
     my ($urpm, $medium) = @_;
     "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 }
+sub cachedir_hdlist {
+    my ($urpm, $medium) = @_;
+    "$urpm->{cachedir}/partial/$medium->{hdlist}";
+}
 
 sub name2medium {
     my ($urpm, $name) = @_;
@@ -1331,28 +1335,28 @@ this could happen if you mounted manually the directory when creating the medium
 
 	    #- if the source hdlist is present and we are not forcing using rpm files
 	    if ($options->{force} < 2 && -e $with_hdlist_dir) {
-		unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		unlink cachedir_hdlist($urpm, $medium);
 		$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 		$options->{callback} and $options->{callback}('copy', $medium->{name});
-		if (urpm::util::copy($with_hdlist_dir, "$urpm->{cachedir}/partial/$medium->{hdlist}")) {
+		if (urpm::util::copy($with_hdlist_dir, cachedir_hdlist($urpm, $medium))) {
 		    $options->{callback} and $options->{callback}('done', $medium->{name});
 		    $urpm->{log}(N("...copying done"));
-		    chown 0, 0, "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		    chown 0, 0, cachedir_hdlist($urpm, $medium);
 		} else {
 		    $options->{callback} and $options->{callback}('failed', $medium->{name});
 		    #- force error, reported afterwards
-		    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+		    unlink cachedir_hdlist($urpm, $medium);
 		}
 	    }
 
-	    file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 32 or
+	    file_size(cachedir_hdlist($urpm, $medium)) > 32 or
 	      $error = 1, $urpm->{error}(N("copy of [%s] failed (file is suspiciously small)",
-					   "$urpm->{cachedir}/partial/$medium->{hdlist}"));
+					   cachedir_hdlist($urpm, $medium)));
 
 	    #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
 	    if (!$error && $$retrieved_md5sum) {
 		$urpm->{log}(N("computing md5sum of copied source hdlist (or synthesis)"));
-		md5sum("$urpm->{cachedir}/partial/$medium->{hdlist}") eq $$retrieved_md5sum or
+		md5sum(cachedir_hdlist($urpm, $medium)) eq $$retrieved_md5sum or
 		  $error = 1, $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", $with_hdlist_dir));
 	    }
 
@@ -1637,7 +1641,7 @@ sub _update_medium_first_pass {
 	    }
 
 	    #- the files are different, update local copy.
-	    rename("$urpm->{cachedir}/partial/$basename", "$urpm->{cachedir}/partial/$medium->{hdlist}");
+	    rename("$urpm->{cachedir}/partial/$basename", cachedir_hdlist($urpm, $medium));
 
 	    #- retrieval of hdlist or synthesis has been successful,
 	    #- check whether a list file is available.
@@ -1658,7 +1662,7 @@ sub _update_medium_first_pass {
     }
 
     #- build list file according to hdlist.
-    unless ($medium->{headers} || file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 32) {
+    unless ($medium->{headers} || file_size(cachedir_hdlist($urpm, $medium)) > 32) {
 	$error = 1;
 	$urpm->{error}(N("no hdlist file found for medium \"%s\"", $medium->{name}));
     }
@@ -1683,20 +1687,20 @@ sub _update_medium_first_pass {
 	    $options{callback} and $options{callback}('parse', $medium->{name});
 	    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 	    if (!$medium->{synthesis}
-		  || file_size("$urpm->{cachedir}/partial/$medium->{hdlist}") > 262144) {
-		_parse_hdlist($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}");
+		  || file_size(cachedir_hdlist($urpm, $medium)) > 262144) {
+		_parse_hdlist($urpm, $medium, cachedir_hdlist($urpm, $medium));
 		if (is_valid_medium($medium)) {
 		    delete $medium->{synthesis};
 		} else {
-		    _parse_synthesis($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}");
+		    _parse_synthesis($urpm, $medium, cachedir_hdlist($urpm, $medium));
 		    is_valid_medium($medium) and $medium->{synthesis} = 1;
 		}
 	    } else {
-		_parse_synthesis($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}");
+		_parse_synthesis($urpm, $medium, cachedir_hdlist($urpm, $medium));
 		if (is_valid_medium($medium)) {
 		    $medium->{synthesis} = 1;
 		} else {
-		    _parse_hdlist($urpm, $medium, "$urpm->{cachedir}/partial/$medium->{hdlist}");
+		    _parse_hdlist($urpm, $medium, cachedir_hdlist($urpm, $medium));
 		    is_valid_medium($medium) and delete $medium->{synthesis};
 		}
 	    }
@@ -1788,7 +1792,7 @@ sub _update_medium_first_pass {
     unless ($medium->{virtual}) {
 	if ($error) {
 	    #- an error has occured for updating the medium, we have to remove temporary files.
-	    unlink "$urpm->{cachedir}/partial/$medium->{hdlist}";
+	    unlink cachedir_hdlist($urpm, $medium);
 	    $medium->{list} and unlink "$urpm->{cachedir}/partial/$medium->{list}";
 	    #- read default synthesis (we have to make sure nothing get out of depslist).
 	    _parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
@@ -1808,7 +1812,7 @@ sub _update_medium_first_pass {
 	    unless ($medium->{headers}) {
 		unlink statedir_synthesis($urpm, $medium);
 		unlink statedir_hdlist($urpm, $medium);
-		urpm::util::move("$urpm->{cachedir}/partial/$medium->{hdlist}",
+		urpm::util::move(cachedir_hdlist($urpm, $medium),
 				 $medium->{synthesis}
 				   ? statedir_synthesis($urpm, $medium)
 				     : statedir_hdlist($urpm, $medium)
