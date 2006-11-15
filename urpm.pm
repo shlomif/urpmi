@@ -1569,6 +1569,7 @@ sub _update_medium_first_pass__remote {
 	    $options->{force} and unlink "$urpm->{cachedir}/partial/$basename";
 	    if (sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
 			      $options, callback => $options->{callback}) && file_size("$urpm->{cachedir}/partial/$basename") > 32) {
+		$urpm->{log}(N("...retrieving done"));
 		$medium->{with_hdlist} = $with_hdlist;
 		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
 		last;	    #- found a suitable with_hdlist in the list above.
@@ -1589,8 +1590,10 @@ sub _update_medium_first_pass__remote {
 		) or $urpm->{error}(N("...copying failed")), $error = 1;
 	    }
 	}
-	if (!sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}") ],
+	if (sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}") ],
 			   $options, callback => $options->{callback})) {
+	    $urpm->{log}(N("...retrieving done"));
+	} else {
 	    $urpm->{error}(N("...retrieving failed: %s", $@));
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	}
@@ -1607,7 +1610,6 @@ sub _update_medium_first_pass__remote {
 
     if (file_size("$urpm->{cachedir}/partial/$basename") > 32) {
 	$options->{callback} and $options->{callback}('done', $medium->{name});
-	$urpm->{log}(N("...retrieving done"));
 
 	unless ($options->{force}) {
 	    _read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $basename)
