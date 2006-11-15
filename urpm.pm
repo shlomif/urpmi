@@ -2022,10 +2022,10 @@ sub update_media {
 	_update_medium_second_pass($urpm, $medium, $second_pass, $options{callback});
     }
 
-    #- clean headers cache directory to remove everything that is no longer
-    #- useful according to the depslist.
     if ($urpm->{modified}) {
 	if ($options{noclean}) {
+	    #- clean headers cache directory to remove everything that is no longer
+	    #- useful according to the depslist.
 	    remove_obsolete_headers_in_cache($urpm);
 	}
 	#- write config files in any case
