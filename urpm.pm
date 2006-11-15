@@ -664,14 +664,11 @@ sub configure {
 				callback => $options{callback},
 			    );
 			} else {
-			    _parse_synthesis($urpm, $_,
-				statedir_synthesis($urpm, $_),
-				callback => $options{callback},
-			    );
-			    if (!is_valid_medium($_)) {
+			    if (!_parse_synthesis($urpm, $_,
+						  statedir_synthesis($urpm, $_),
+						  callback => $options{callback})) {
 				_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_),
-				    callback => $options{callback},
-				);
+					      callback => $options{callback});
 			    }
 			}
 		    }
@@ -1112,8 +1109,7 @@ sub _update_media__when_not_modified {
 	    $medium->{ignore} = 1;
 	}
     } else {
-	_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
-	if (!is_valid_medium($medium)) {
+	if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
 	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
 	}
     }
@@ -1214,8 +1210,7 @@ sub _read_existing_synthesis_and_hdlist {
     #- XXX we could link the new hdlist to the old one.
     #- (However links need to be managed. see bug #12391.)
     #- as previously done, just read synthesis file here, this is enough.
-    _parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
-    if (!is_valid_medium($medium)) {
+    if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
 	_parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
 	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
     }
@@ -1745,20 +1740,16 @@ sub _update_medium_first_pass {
 	    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 	    if (!$medium->{synthesis}
 		  || file_size(cachedir_hdlist($urpm, $medium)) > 262144) {
-		_parse_hdlist($urpm, $medium, cachedir_hdlist($urpm, $medium));
-		if (is_valid_medium($medium)) {
+		if (_parse_hdlist($urpm, $medium, cachedir_hdlist($urpm, $medium))) {
 		    delete $medium->{synthesis};
-		} else {
-		    _parse_synthesis($urpm, $medium, cachedir_hdlist($urpm, $medium));
-		    is_valid_medium($medium) and $medium->{synthesis} = 1;
+		} elsif (_parse_synthesis($urpm, $medium, cachedir_hdlist($urpm, $medium))) {
+		    $medium->{synthesis} = 1;
 		}
 	    } else {
-		_parse_synthesis($urpm, $medium, cachedir_hdlist($urpm, $medium));
-		if (is_valid_medium($medium)) {
+		if (_parse_synthesis($urpm, $medium, cachedir_hdlist($urpm, $medium))) {
 		    $medium->{synthesis} = 1;
-		} else {
-		    _parse_hdlist($urpm, $medium, cachedir_hdlist($urpm, $medium));
-		    is_valid_medium($medium) and delete $medium->{synthesis};
+		} elsif (_parse_hdlist($urpm, $medium, cachedir_hdlist($urpm, $medium))) {
+		    delete $medium->{synthesis};
 		}
 	    }
 	    if (is_valid_medium($medium)) {
@@ -1837,8 +1828,7 @@ sub _update_medium_first_pass {
 	    unlink cachedir_hdlist($urpm, $medium);
 	    $medium->{list} and unlink cachedir_list($urpm, $medium);
 	    #- read default synthesis (we have to make sure nothing get out of depslist).
-	    _parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
-	    if (!is_valid_medium($medium)) {
+	    if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
 		$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
 		$medium->{ignore} = 1;
 	    }
