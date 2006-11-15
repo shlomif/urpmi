@@ -246,6 +246,7 @@ sub recover_url_from_list {
 	    }
 	} else {
 	    $medium->{url} = $_;
+	    $urpm->{modified} = 1; #- ensure urpmi.cfg is handled using only partially hidden url + netrc, since file list won't be generated anymore
 	}
     }
 }
