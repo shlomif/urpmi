@@ -1272,20 +1272,24 @@ sub db_open_or_die {
 sub _update_media__sync_file {
     my ($urpm, $medium, $name, $options) = @_;
 
-    my $local_name = $name . _hdlist_suffix($medium);
+    my $found;
+    if (_hdlist_suffix($medium)) {
+	my $local_name = $name . _hdlist_suffix($medium);
 
-    foreach (reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_name"),
-	     reduce_pathname("$medium->{url}/$name")) {
 	eval {
-	    sync_webfetch($urpm, $medium, [$_], $options, quiet => 1);
-
-	    if ($local_name ne $name && -s "$urpm->{cachedir}/partial/$local_name") {
-		rename("$urpm->{cachedir}/partial/$local_name",
-		       "$urpm->{cachedir}/partial/$name");
-	    }
+	    sync_webfetch($urpm, $medium, [reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_name")], 
+			  $options, quiet => 1);
+	    
+	    rename("$urpm->{cachedir}/partial/$local_name", "$urpm->{cachedir}/partial/$name");
+	    $found = 1;
+	};
+    }
+    if (!$found) {
+	eval {
+	    sync_webfetch($urpm, $medium, [reduce_pathname("$medium->{url}/$name")], $options, quiet => 1);
+	    $found = 1;
 	};
 	$@ and unlink "$urpm->{cachedir}/partial/$name";
-	-s "$urpm->{cachedir}/partial/$name" and last;
     }
 }
 
