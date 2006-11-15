@@ -1324,13 +1324,12 @@ sub _update_medium__get_descriptions_local {
     -e $description_file or return;
 
     $urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
-    if (urpm::util::copy($description_file, statedir_descriptions($urpm, $medium))) {
+    if (copy_and_own($description_file, statedir_descriptions($urpm, $medium))) {
 	$urpm->{log}(N("...copying done"));
     } else {
 	$urpm->{error}(N("...copying failed"));
 	$medium->{ignore} = 1;
     }
-    chown 0, 0, statedir_descriptions($urpm, $medium);
 }
 sub _update_medium__get_descriptions_remote {
     my ($urpm, $medium, $options) = @_;
@@ -1427,10 +1426,9 @@ this could happen if you mounted manually the directory when creating the medium
 		unlink cachedir_hdlist($urpm, $medium);
 		$urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
 		$options->{callback} and $options->{callback}('copy', $medium->{name});
-		if (urpm::util::copy($with_hdlist_dir, cachedir_hdlist($urpm, $medium))) {
+		if (copy_and_own($with_hdlist_dir, cachedir_hdlist($urpm, $medium))) {
 		    $options->{callback} and $options->{callback}('done', $medium->{name});
 		    $urpm->{log}(N("...copying done"));
-		    chown 0, 0, cachedir_hdlist($urpm, $medium);
 		} else {
 		    $options->{callback} and $options->{callback}('failed', $medium->{name});
 		    #- force error, reported afterwards
@@ -1478,9 +1476,8 @@ this could happen if you mounted manually the directory when creating the medium
 		my $path_list = reduce_pathname("$with_hdlist_dir/../$local_list");
 		-e $path_list or $path_list = "$dir/list";
 		if (-e $path_list) {
-		    urpm::util::copy($path_list, "$urpm->{cachedir}/partial/list")
+		    copy_and_own($path_list, "$urpm->{cachedir}/partial/list")
 			or do { $urpm->{error}(N("...copying failed")); $error = 1 };
-		    chown 0, 0, "$urpm->{cachedir}/partial/list";
 		}
 	    }
 	} else {
@@ -1531,10 +1528,9 @@ this could happen if you mounted manually the directory when creating the medium
 	my $path_pubkey = reduce_pathname("$with_hdlist_dir/../pubkey" . _hdlist_suffix($medium));
 	-e $path_pubkey or $path_pubkey = "$dir/pubkey";
 	if ($path_pubkey) {
-	    urpm::util::copy($path_pubkey, "$urpm->{cachedir}/partial/pubkey")
+	    copy_and_own($path_pubkey, "$urpm->{cachedir}/partial/pubkey")
 		or do { $urpm->{error}(N("...copying failed")) };
 	}
-	chown 0, 0, "$urpm->{cachedir}/partial/pubkey";
     }
 
     $error;
@@ -1609,12 +1605,11 @@ sub _update_medium_first_pass__remote {
 	    #- try to sync (copy if needed) local copy after restored the previous one.
 	    #- this is useful for rsync (?)
 	    if (-e statedir_hdlist_or_synthesis($urpm, $medium)) {
-		urpm::util::copy(
+		copy_and_own(
 		    statedir_hdlist_or_synthesis($urpm, $medium),
 		    "$urpm->{cachedir}/partial/$basename",
 		) or $urpm->{error}(N("...copying failed")), $error = 1;
 	    }
-	    chown 0, 0, "$urpm->{cachedir}/partial/$basename";
 	}
 	eval {
 	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}") ],

@@ -9,6 +9,8 @@ our @EXPORT = qw(quotespace unquotespace
     remove_internal_name
     reduce_pathname offset_pathname
     md5sum untaint
+    copy_and_own
+    same_size_and_mtime
     difference2 member file_size cat_ dirname basename
 );
 
@@ -104,6 +106,10 @@ sub copy {
     my ($file, $dest) = @_;
     !system("/bin/cp", "-p", "-L", "-R", $file, $dest);
 }
+sub copy_and_own {
+    my ($file, $dest_file) = @_;
+    copy($file, $dest_file) && chown(0, 0, $dest_file) == 1;
+}
 
 sub move {
     my ($file, $dest) = @_;
@@ -114,6 +120,14 @@ sub move {
 sub file_size {
     my ($file) = @_;
     -s $file || 0;
+}
+
+sub same_size_and_mtime {
+    my ($f1, $f2) = @_;
+
+    my @sstat = stat $f1;
+    my @lstat = stat $f2;
+    $sstat[7] == $lstat[7] && $sstat[9] == $lstat[9];
 }
 
 sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
