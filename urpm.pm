@@ -83,7 +83,7 @@ sub sync_webfetch {
 	$options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
 
-    _sync_webfetch_raw($urpm, $files, \%options);
+    eval { _sync_webfetch_raw($urpm, $files, \%options); 1 };
 }
 
 #- syncing algorithms.
@@ -846,20 +846,17 @@ sub add_distrib_media {
 	$distribconf = MDV::Distribconf->new($url, undef);
 	$distribconf->settree('mandriva');
 
-	eval {
-	    $urpm->{log}(N("retrieving media.cfg file..."));
-	    sync_webfetch($urpm, undef,
+	$urpm->{log}(N("retrieving media.cfg file..."));
+	if (sync_webfetch($urpm, undef,
 			  [ reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg') ],
-			  \%options, quiet => 1);
+			  \%options, quiet => 1)) {
 	    $urpm->{log}(N("...retrieving done"));
-	};
-	if ($@) {
+	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
+		or $urpm->{error}(N("unable to parse media.cfg")), return();
+	} else {
 	    $urpm->{error}(N("...retrieving failed: %s", $@));
 	    $urpm->{error}(N("unable to access the distribution medium (no media.cfg file found)"));
 	    return ();
-	} else {
-	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
-		or $urpm->{error}(N("unable to parse media.cfg")), return();
 	}
     }
 
@@ -1014,10 +1011,8 @@ sub may_reconfig_urpmi {
 	$f = reduce_pathname("$dir/reconfig.urpmi");
     } else {
 	unlink($f = "$urpm->{cachedir}/partial/reconfig.urpmi");
-	eval {
-	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ],
-			  $options, quiet => 1);
-	};
+	sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ],
+		      $options, quiet => 1);
     }
     if (-s $f) {
 	reconfig_urpmi($urpm, $f, $medium->{name});
@@ -1276,20 +1271,15 @@ sub _update_media__sync_file {
     if (_hdlist_suffix($medium)) {
 	my $local_name = $name . _hdlist_suffix($medium);
 
-	eval {
-	    sync_webfetch($urpm, $medium, [reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_name")], 
-			  $options, quiet => 1);
-	    
+	if (sync_webfetch($urpm, $medium, [reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_name")], 
+			  $options, quiet => 1)) {
 	    rename("$urpm->{cachedir}/partial/$local_name", "$urpm->{cachedir}/partial/$name");
 	    $found = 1;
-	};
+	}
     }
     if (!$found) {
-	eval {
-	    sync_webfetch($urpm, $medium, [reduce_pathname("$medium->{url}/$name")], $options, quiet => 1);
-	    $found = 1;
-	};
-	$@ and unlink "$urpm->{cachedir}/partial/$name";
+	sync_webfetch($urpm, $medium, [reduce_pathname("$medium->{url}/$name")], $options, quiet => 1)
+	  or unlink "$urpm->{cachedir}/partial/$name";
     }
 }
 
@@ -1343,17 +1333,12 @@ sub _update_medium__get_descriptions_remote {
     if (-e statedir_descriptions($urpm, $medium)) {
 	urpm::util::move(statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
     }
-    eval { 
-	sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ],
+    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ],
+		      $options, quiet => 1) 
+      or #- try older location
+	sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], 
 		      $options, quiet => 1);
-    };
-    if ($@) {
-	eval {
-	    #- try older location
-	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], 
-			  $options, quiet => 1);
-	};
-    }
+
     if (-e "$urpm->{cachedir}/partial/descriptions") {
 	urpm::util::move("$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
     }
@@ -1553,14 +1538,10 @@ sub _update_medium_first_pass__remote {
 	$basename = basename($medium->{with_hdlist});
 
 	unlink "$urpm->{cachedir}/partial/MD5SUM";
-	eval {
-	    if (!$options->{nomd5sum}) {
-		sync_webfetch($urpm, $medium, 
-			      [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM") ],
-			      $options, quiet => 1);
-	    }
-	};
-	if (!$@ && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
+	if (!$options->{nomd5sum} && 
+	      sync_webfetch($urpm, $medium, 
+			    [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM") ],
+			    $options, quiet => 1) && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
 	    recompute_local_md5sum($urpm, $medium, $options->{force} >= 2);
 	    if ($medium->{md5sum}) {
 		$$retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
@@ -1586,11 +1567,8 @@ sub _update_medium_first_pass__remote {
 	foreach my $with_hdlist (@probe_list) {
 	    $basename = basename($with_hdlist) or next;
 	    $options->{force} and unlink "$urpm->{cachedir}/partial/$basename";
-	    eval {
-		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
-			      $options, callback => $options->{callback});
-	    };
-	    if (!$@ && file_size("$urpm->{cachedir}/partial/$basename") > 32) {
+	    if (sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
+			      $options, callback => $options->{callback}) && file_size("$urpm->{cachedir}/partial/$basename") > 32) {
 		$medium->{with_hdlist} = $with_hdlist;
 		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
 		last;	    #- found a suitable with_hdlist in the list above.
@@ -1611,11 +1589,8 @@ sub _update_medium_first_pass__remote {
 		) or $urpm->{error}(N("...copying failed")), $error = 1;
 	    }
 	}
-	eval {
-	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}") ],
-			  $options, callback => $options->{callback});
-	};
-	if ($@) {
+	if (!sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}") ],
+			   $options, callback => $options->{callback})) {
 	    $urpm->{error}(N("...retrieving failed: %s", $@));
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	}
@@ -2151,13 +2126,11 @@ sub register_rpms {
 	if (protocol_from_url($_)) {
 	    my $basename = basename($_);
 	    unlink "$urpm->{cachedir}/partial/$basename";
-	    eval {
-		$urpm->{log}(N("retrieving rpm file [%s] ...", $_));
-		sync_webfetch($urpm, undef, [$_], { quiet => 1 });
+	    $urpm->{log}(N("retrieving rpm file [%s] ...", $_));
+	    if (sync_webfetch($urpm, undef, [$_], { quiet => 1 })) {
 		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
-	    };
-	    if ($@) {
+	    } else {
 		$urpm->{error}(N("...retrieving failed: %s", $@));
 		unlink "$urpm->{cachedir}/partial/$basename";
 		next;
@@ -2846,13 +2819,13 @@ sub download_packages_of_distant_media {
 
 	#- download files from the current medium.
 	if (%distant_sources) {
-	    eval {
-		$urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
-		sync_webfetch($urpm, $urpm->{media}[$n], [ values %distant_sources ],
-			      \%options, resume => $options{resume}, callback => $options{callback});
+	    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
+	    if (sync_webfetch($urpm, $urpm->{media}[$n], [ values %distant_sources ],
+			      \%options, resume => $options{resume}, callback => $options{callback})) {
 		$urpm->{log}(N("...retrieving done"));
-	    };
-	    $@ and $urpm->{error}(N("...retrieving failed: %s", $@));
+	    } else {
+		$urpm->{error}(N("...retrieving failed: %s", $@));
+	    }
 	    #- clean files that have not been downloaded, but keep in mind
 	    #- there have been problems downloading them at least once, this
 	    #- is necessary to keep track of failing downloads in order to
