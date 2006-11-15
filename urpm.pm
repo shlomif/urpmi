@@ -1126,22 +1126,20 @@ sub _update_media__virtual {
     my ($urpm, $medium, $with_hdlist_dir) = @_;
 
     if ($medium->{with_hdlist} && -e $with_hdlist_dir) {
-	delete @$medium{qw(start end)};
+	delete $medium->{modified};
 	$urpm->{md5sum_modified} = 1;
 	if ($medium->{synthesis}) {
 	    _parse_synthesis($urpm, $medium, $with_hdlist_dir);
-	    delete $medium->{modified};
 	    $medium->{synthesis} = 1;
 	    if (!is_valid_medium($medium)) {
 		_parse_hdlist($urpm, $medium, $with_hdlist_dir);
-		delete @$medium{qw(modified synthesis)};
+		delete $medium->{synthesis};
 	    }
 	} else {
 	    _parse_hdlist($urpm, $medium, $with_hdlist_dir);
-	    delete @$medium{qw(modified synthesis)};
+	    delete $medium->{synthesis};
 	    if (!is_valid_medium($medium)) {
 		_parse_synthesis($urpm, $medium, $with_hdlist_dir);
-		delete $medium->{modified};
 		$medium->{synthesis} = 1;
 	    }
 	}
