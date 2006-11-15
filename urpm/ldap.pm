@@ -5,6 +5,7 @@ package urpm::ldap;
 use strict;
 use warnings;
 use urpm;
+use urpm::util;
 use urpm::msg 'N';
 use Net::LDAP;
 
@@ -81,15 +82,13 @@ sub write_ldap_cache($$) {
 
 sub check_ldap_medium($) {
     my ($medium) = @_;
-    return $medium->{name} && $medium->{clear_url};
+    return $medium->{name} && $medium->{url};
 }
 
 sub get_vars_from_sh {
-    my $filename = $_[0];
+    my ($filename) = @_;
     my %l;
-    open my $fh, $filename or return ();
-    local $_;
-    while (<$fh>) {
+    foreach (cat_($filename)) {
 	s/#.*//; s/^\s*//; s/\s*$//;
 	my ($key, $val) = /^(\w+)=(.*)/ or next;
 	$val =~ s/^(["'])(.*)\1$/$2/;
@@ -118,15 +117,12 @@ sub get_ldap_config() {
     return get_ldap_config_file($LDAP_CONFIG_FILE);
 }
 
-sub get_ldap_config_file($) {
+sub get_ldap_config_file {
     my ($file) = @_;
     my %config = (
 	ssl => 'off',
     );
-    # TODO more verbose error ?
-    open my $conffh, $file or return;
-    local $_;
-    while (<$conffh>) {
+    foreach (cat_($file)) {
 	s/#.*//;
 	s/^\s*//;
 	s/\s*$//;
@@ -135,18 +131,16 @@ sub get_ldap_config_file($) {
 	/^(\S*)\s*(\S*)/ && $2 or next;
 	$config{$1} = $2;
     }
-    close($conffh);
-    return \%config;
+    return %config && \%config;
 }
 
-sub get_ldap_config_dns {
+sub get_ldap_config_dns() {
     # TODO
     die "not implemented yet\n";
 }
 
 my %ldap_changed_attributes = (
     'source-name' => 'name',
-    'url' => 'clear_url',
     'with-hdlist' => 'with_hdlist',
     'http-proxy' => 'http_proxy',
     'ftp-proxy' => 'ftp_proxy',

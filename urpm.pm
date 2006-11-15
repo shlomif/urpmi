@@ -38,6 +38,7 @@ sub new {
 	config     => "/etc/urpmi/urpmi.cfg",
 	skiplist   => "/etc/urpmi/skip.list",
 	instlist   => "/etc/urpmi/inst.list",
+	private_netrc => "/etc/urpmi/netrc",
 	statedir   => "/var/lib/urpmi",
 	cachedir   => "/var/cache/urpmi",
 	media      => undef,
@@ -148,10 +149,76 @@ our @PER_MEDIA_OPT = qw(
     static
     synthesis
     update
+    url
     verify-rpm
     virtual
     with_hdlist
 );
+
+sub read_private_netrc {
+    my ($urpm) = @_;
+
+    my @words = split(/\s+/, scalar cat_($urpm->{private_netrc}));
+    my @l;
+    my $e;
+    while (@words) {
+	my $keyword = shift @words;
+	if ($keyword eq 'machine') {
+	    push @l, $e = { machine => shift(@words) };
+	} elsif ($keyword eq 'default') {
+	    push @l, $e = { default => '' };
+	} elsif ($keyword eq 'login' || $keyword eq 'password' || $keyword eq 'account') {
+	    $e->{$keyword} = shift(@words);
+	} else {
+	    $urpm->{error}("unknown netrc command $keyword");
+	}
+    }
+    @l;
+}
+
+sub parse_url_with_login {
+    my ($url) = @_;
+    $url =~ m!([^:]*)://([^/:\@]*)(:([^/:\@]*))?\@([^/]*)(.*)! &&
+      { proto => $1, login => $2, password => $4, machine => $5, dir => $6 };
+}
+
+sub read_config_add_passwords {
+    my ($urpm, $config) = @_;
+
+    my @netrc = read_private_netrc($urpm) or return;
+    foreach (values %$config) {
+	my $u = parse_url_with_login($_->{url}) or next;
+	if (my ($e) = grep { ($_->{default} || $_->{machine} eq $u->{machine}) && $_->{login} eq $u->{login} } @netrc) {
+	    warn "was $_->{url} ", %$u, "\n";
+	    $_->{url} = sprintf('%s://%s:%s@%s%s', $u->{proto}, $u->{login}, $e->{password}, $u->{machine}, $u->{dir});
+	    warn "url is now $_->{url}\n";
+	} else {
+	    $urpm->{log}("no password found for $u->{login}@$u->{machine}");
+	}
+    }
+}
+
+sub remove_passwords_and_write_private_netrc {
+    my ($urpm, $config) = @_;
+
+    my @l;
+    foreach (values %$config) {
+	my $u = parse_url_with_login($_->{url}) or next;
+	#- check whether a password is visible
+	$u->{password} or next;
+
+	push @l, $u;
+	$_->{url} = sprintf('%s://%s@%s%s', $u->{proto}, $u->{login}, $u->{machine}, $u->{dir});
+	warn "url is now $_->{url}\n";
+    }
+    {
+	my $fh = $urpm->open_safe('>', $urpm->{private_netrc}) or return;
+	foreach my $u (@l) {
+	    printf $fh "machine %s login %s password %s\n", $u->{machine}, $u->{login}, $u->{password};
+	}
+    }
+    chmod 0600, $urpm->{private_netrc};
+}
 
 #- Loads /etc/urpmi/urpmi.cfg and performs basic checks.
 #- Does not handle old format: <name> <url> [with <path_hdlist>]
@@ -163,6 +230,8 @@ sub read_config {
     $urpm->{media} = [];
     my $config = urpm::cfg::load_config($urpm->{config})
 	or $urpm->{fatal}(6, $urpm::cfg::err);
+
+    read_config_add_passwords($urpm, $config);
 
     #- global options
     if ($config->{''}) {
@@ -205,7 +274,7 @@ sub read_config {
     }
     #- per-media options
     foreach my $m (grep { $_ ne '' } keys %$config) {
-	my $medium = { name => $m, clear_url => $config->{$m}{url} };
+	my $medium = { name => $m };
 	foreach my $opt (@PER_MEDIA_OPT) {
 	    defined $config->{$m}{$opt} and $medium->{$opt} = $config->{$m}{$opt};
 	}
@@ -280,8 +349,6 @@ sub probe_medium {
 	return;
     }
 
-    $medium->{url} ||= $medium->{clear_url};
-
     if ($medium->{virtual}) {
 	#- a virtual medium needs to have an url available without using a list file.
 	if ($medium->{hdlist} || $medium->{list}) {
@@ -351,7 +418,6 @@ sub probe_medium {
 
     #- clear URLs for trailing /es.
     $medium->{url} and $medium->{url} =~ s|(.*?)/*$|$1|;
-    $medium->{clear_url} and $medium->{clear_url} =~ s|(.*?)/*$|$1|;
 
     $medium;
 }
@@ -490,11 +556,13 @@ sub write_urpmi_cfg {
     foreach my $medium (@{$urpm->{media}}) {
 	next if $medium->{external};
 	my $medium_name = $medium->{name};
-	$config->{$medium_name}{url} = $medium->{clear_url};
+
 	foreach (@PER_MEDIA_OPT) {
 	    defined $medium->{$_} and $config->{$medium_name}{$_} = $medium->{$_};
 	}
     }
+    remove_passwords_and_write_private_netrc($urpm, $config);
+
     urpm::cfg::dump_config($urpm->{config}, $config)
 	or $urpm->{fatal}(6, N("unable to write config file [%s]", $urpm->{config}));
 
@@ -781,10 +849,6 @@ sub add_medium {
 	$medium->{priority} = 1 + @{$urpm->{media}};
     }
 
-    #- check whether a password is visible, if not, set clear_url.
-    my $has_password = $url =~ m|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|;
-    $medium->{clear_url} = $url unless $has_password;
-
     $with_hdlist and $medium->{with_hdlist} = $with_hdlist;
 
     #- create an entry in media list.
@@ -804,9 +868,6 @@ sub add_medium {
 	#- Remember that the database has been modified and base files need to be updated.
 	$medium->{modified} = 1;
 	$urpm->{md5sum_modified} = 1;
-    }
-    if ($has_password) {
-	$medium->{url} = $url;
     }
 
     $options{nolock} or $urpm->unlock_urpmi_db;
@@ -1045,7 +1106,7 @@ sub reconfig_urpmi {
     }
 
     my $reconfigured = 0;
-    my @reconfigurable = qw(url with_hdlist clear_url);
+    my @reconfigurable = qw(url with_hdlist);
 
     my $medium = name2medium($urpm, $name) or return;
     my %orig = %$medium;
@@ -1767,15 +1828,6 @@ sub _update_medium_first_pass {
 			    m|/([^/]*\.rpm)$| or next;
 			    $list{$1} and $urpm->{error}(N("file [%s] already used in the same medium \"%s\"", $1, $medium->{name})), next;
 			    $list{$1} = "$medium->{url}/$_";
-			}
-		    }
-		} else {
-		    #- if url is clear and no relative list file has been downloaded,
-		    #- there is no need for a list file.
-		    if ($medium->{url} ne $medium->{clear_url}) {
-			foreach ($medium->{start} .. $medium->{end}) {
-			    my $filename = $urpm->{depslist}[$_]->filename;
-			    $list{$filename} = "$medium->{url}/$filename\n";
 			}
 		    }
 		}
