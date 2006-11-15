@@ -853,13 +853,13 @@ sub add_distrib_media {
 			  \%options, quiet => 1);
 	    $urpm->{log}(N("...retrieving done"));
 	};
-	$@ and $urpm->{error}(N("...retrieving failed: %s", $@));
-	if (-e "$urpm->{cachedir}/partial/media.cfg") {
-	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
-		or $urpm->{error}(N("unable to parse media.cfg")), return();
-	} else {
+	if ($@) {
+	    $urpm->{error}(N("...retrieving failed: %s", $@));
 	    $urpm->{error}(N("unable to access the distribution medium (no media.cfg file found)"));
 	    return ();
+	} else {
+	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
+		or $urpm->{error}(N("unable to parse media.cfg")), return();
 	}
     }
 
@@ -1343,11 +1343,7 @@ sub _update_medium__get_descriptions_remote {
 	sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ],
 		      $options, quiet => 1);
     };
-    #- It is possible that the original fetch of the descriptions
-    #- failed, but the file still remains in partial/ because it was
-    #- moved from $urpm->{statedir} earlier. So we need to check if
-    #- the previous download failed.
-    if ($@ || ! -e "$urpm->{cachedir}/partial/descriptions") {
+    if ($@) {
 	eval {
 	    #- try older location
 	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], 
