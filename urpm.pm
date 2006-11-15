@@ -1127,7 +1127,6 @@ sub _update_media__virtual {
 	if ($medium->{synthesis}) {
 	    if (_parse_synthesis($urpm, $medium, $with_hdlist_dir)) {
 		$medium->{synthesis} = 1;
-		$urpm->{modified} = 1;
 	    } elsif (_parse_hdlist($urpm, $medium, $with_hdlist_dir)) {
 		delete $medium->{synthesis};
 	    }
