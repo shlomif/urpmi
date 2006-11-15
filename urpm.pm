@@ -2752,7 +2752,7 @@ sub copy_packages_of_removable_media {
 			#- First, copy in partial cache, and if the package is still good,
 			#- transfer it to the rpms cache.
 			unlink "$urpm->{cachedir}/partial/$filename";
-			if (urpm::util::copy($filepath, "$urpm->{cachedir}/partial") &&
+			if (copy_and_own($filepath, "$urpm->{cachedir}/partial/$filename") &&
 			    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1))
 			{
 			    #- now we can consider the file to be fine.
