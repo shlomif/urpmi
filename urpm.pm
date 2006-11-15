@@ -1502,6 +1502,154 @@ this could happen if you mounted manually the directory when creating the medium
     $error;
 }
 
+sub _update_medium_first_pass__remote {
+    my ($urpm, $medium, $retrieved_md5sum, $options) = @_;
+    my ($error, $basename);
+
+    #- try to get the description if it has been found.
+    unlink "$urpm->{cachedir}/partial/descriptions";
+    if (-e statedir_descriptions($urpm, $medium)) {
+	urpm::util::move(statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
+    }
+    eval { 
+	sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ],
+		      $options, quiet => 1);
+    };
+    #- It is possible that the original fetch of the descriptions
+    #- failed, but the file still remains in partial/ because it was
+    #- moved from $urpm->{statedir} earlier. So we need to check if
+    #- the previous download failed.
+    if ($@ || ! -e "$urpm->{cachedir}/partial/descriptions") {
+	eval {
+	    #- try older location
+	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], 
+			  $options, quiet => 1);
+	};
+    }
+    if (-e "$urpm->{cachedir}/partial/descriptions") {
+	urpm::util::move("$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
+    }
+
+    #- examine if a distant MD5SUM file is available.
+    #- this will only be done if $with_hdlist is not empty in order to use
+    #- an existing hdlist or synthesis file, and to check if download was good.
+    #- if no MD5SUM is available, do it as before...
+    if ($medium->{with_hdlist}) {
+	#- we can assume at this point a basename is existing, but it needs
+	#- to be checked for being valid, nothing can be deduced if no MD5SUM
+	#- file is present.
+	$basename = basename($medium->{with_hdlist});
+
+	unlink "$urpm->{cachedir}/partial/MD5SUM";
+	eval {
+	    if (!$options->{nomd5sum}) {
+		sync_webfetch($urpm, $medium, 
+			      [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM") ],
+			      $options, quiet => 1);
+	    }
+	};
+	if (!$@ && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
+	    recompute_local_md5sum($urpm, $medium, $options->{force} >= 2);
+	    if ($medium->{md5sum}) {
+		$$retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
+		_read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $$retrieved_md5sum)
+		  and return 'unmodified';
+	    }
+	} else {
+	    #- at this point, we don't if a basename exists and is valid, let probe it later.
+	    $basename = undef;
+	}
+    }
+
+    #- try to probe for possible with_hdlist parameter, unless
+    #- it is already defined (and valid).
+    $urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
+    $options->{callback} and $options->{callback}('retrieve', $medium->{name});
+    if ($options->{probe_with}) {
+	my @probe_list = (
+	    $medium->{with_hdlist}
+	      ? $medium->{with_hdlist}
+		: _probe_with_try_list(_guess_hdlist_suffix($medium->{url}), $options->{probe_with})
+	    );
+	foreach my $with_hdlist (@probe_list) {
+	    $basename = basename($with_hdlist) or next;
+	    $options->{force} and unlink "$urpm->{cachedir}/partial/$basename";
+	    eval {
+		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
+			      $options, callback => $options->{callback});
+	    };
+	    if (!$@ && file_size("$urpm->{cachedir}/partial/$basename") > 32) {
+		$medium->{with_hdlist} = $with_hdlist;
+		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
+		last;	    #- found a suitable with_hdlist in the list above.
+	    }
+	}
+    } else {
+	$basename = basename($medium->{with_hdlist});
+
+	if ($options->{force}) {
+	    unlink "$urpm->{cachedir}/partial/$basename";
+	} else {
+	    #- try to sync (copy if needed) local copy after restored the previous one.
+	    #- this is useful for rsync (?)
+	    if (-e statedir_hdlist_or_synthesis($urpm, $medium)) {
+		urpm::util::copy(
+		    statedir_hdlist_or_synthesis($urpm, $medium),
+		    "$urpm->{cachedir}/partial/$basename",
+		) or $urpm->{error}(N("...copying failed")), $error = 1;
+	    }
+	    chown 0, 0, "$urpm->{cachedir}/partial/$basename";
+	}
+	eval {
+	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}") ],
+			  $options, callback => $options->{callback});
+	};
+	if ($@) {
+	    $urpm->{error}(N("...retrieving failed: %s", $@));
+	    unlink "$urpm->{cachedir}/partial/$basename";
+	}
+    }
+
+    #- check downloaded file has right signature.
+    if (file_size("$urpm->{cachedir}/partial/$basename") > 32 && $$retrieved_md5sum) {
+	$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
+	unless (md5sum("$urpm->{cachedir}/partial/$basename") eq $$retrieved_md5sum) {
+	    $urpm->{error}(N("...retrieving failed: md5sum mismatch"));
+	    unlink "$urpm->{cachedir}/partial/$basename";
+	}
+    }
+
+    if (file_size("$urpm->{cachedir}/partial/$basename") > 32) {
+	$options->{callback} and $options->{callback}('done', $medium->{name});
+	$urpm->{log}(N("...retrieving done"));
+
+	unless ($options->{force}) {
+	    _read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $basename)
+	      and return 'unmodified';
+	}
+
+	#- the files are different, update local copy.
+	rename("$urpm->{cachedir}/partial/$basename", cachedir_hdlist($urpm, $medium));
+
+	#- retrieval of hdlist or synthesis has been successful,
+	#- check whether a list file is available.
+	#- and check hdlist wasn't named very strangely...
+	if ($medium->{hdlist} ne 'list') {
+	    _update_media__sync_file($urpm, $medium, 'list', $options);
+	}
+
+	#- retrieve pubkey file.
+	if (!$options->{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
+	    _update_media__sync_file($urpm, $medium, 'pubkey', $options);
+	}
+    } else {
+	$error = 1;
+	$options->{callback} and $options->{callback}('failed', $medium->{name});
+	$urpm->{error}(N("retrieval of source hdlist (or synthesis) failed"));
+    }
+    $error;
+}
+
 sub _read_cachedir_pubkey {
     my ($urpm, $medium) = @_;
     -s "$urpm->{cachedir}/partial/pubkey" or return;
@@ -1578,148 +1726,11 @@ sub _update_medium_first_pass {
 	    $error = $rc;
 	}
     } else {
-	my $basename;
-
-	#- try to get the description if it has been found.
-	unlink "$urpm->{cachedir}/partial/descriptions";
-	if (-e statedir_descriptions($urpm, $medium)) {
-	    urpm::util::move(statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
-	}
-	eval { 
-	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ],
-			  \%options, quiet => 1);
-	};
-	#- It is possible that the original fetch of the descriptions
-	#- failed, but the file still remains in partial/ because it was
-	#- moved from $urpm->{statedir} earlier. So we need to check if
-	#- the previous download failed.
-	if ($@ || ! -e "$urpm->{cachedir}/partial/descriptions") {
-	    eval {
-		#- try older location
-		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], 
-			      \%options, quiet => 1);
-	    };
-	}
-	if (-e "$urpm->{cachedir}/partial/descriptions") {
-	    urpm::util::move("$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
-	}
-
-	#- examine if a distant MD5SUM file is available.
-	#- this will only be done if $with_hdlist is not empty in order to use
-	#- an existing hdlist or synthesis file, and to check if download was good.
-	#- if no MD5SUM is available, do it as before...
-	if ($medium->{with_hdlist}) {
-	    #- we can assume at this point a basename is existing, but it needs
-	    #- to be checked for being valid, nothing can be deduced if no MD5SUM
-	    #- file is present.
-	    $basename = basename($medium->{with_hdlist});
-
-	    unlink "$urpm->{cachedir}/partial/MD5SUM";
-	    eval {
-		if (!$options{nomd5sum}) {
-		    sync_webfetch($urpm, $medium, 
-				  [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM") ],
-				  \%options, quiet => 1);
-		}
-	    };
-	    if (!$@ && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
-		recompute_local_md5sum($urpm, $medium, $options{force} >= 2);
-		if ($medium->{md5sum}) {
-		    $retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
-		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
-		      and return;
-		}
-	    } else {
-		#- at this point, we don't if a basename exists and is valid, let probe it later.
-		$basename = undef;
-	    }
-	}
-
-	#- try to probe for possible with_hdlist parameter, unless
-	#- it is already defined (and valid).
-	$urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
-	$options{callback} and $options{callback}('retrieve', $medium->{name});
-	if ($options{probe_with}) {
-	    my @probe_list = (
-		$medium->{with_hdlist}
-		  ? $medium->{with_hdlist}
-		    : _probe_with_try_list(_guess_hdlist_suffix($medium->{url}), $options{probe_with})
-		);
-	    foreach my $with_hdlist (@probe_list) {
-		$basename = basename($with_hdlist) or next;
-		$options{force} and unlink "$urpm->{cachedir}/partial/$basename";
-		eval {
-		    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
-				  \%options, callback => $options{callback});
-		};
-		if (!$@ && file_size("$urpm->{cachedir}/partial/$basename") > 32) {
-		    $medium->{with_hdlist} = $with_hdlist;
-		    $urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
-		    last;   #- found a suitable with_hdlist in the list above.
-		}
-	    }
+	my $rc = _update_medium_first_pass__remote($urpm, $medium, \$retrieved_md5sum, \%options);
+	if ($rc eq 'unmodified') {
+	    return;
 	} else {
-	    $basename = basename($medium->{with_hdlist});
-
-	    if ($options{force}) {
-		unlink "$urpm->{cachedir}/partial/$basename";
-	    } else {
-		#- try to sync (copy if needed) local copy after restored the previous one.
-		#- this is useful for rsync (?)
-		if (-e statedir_hdlist_or_synthesis($urpm, $medium)) {
-		    urpm::util::copy(
-			statedir_hdlist_or_synthesis($urpm, $medium),
-			"$urpm->{cachedir}/partial/$basename",
-		    ) or $urpm->{error}(N("...copying failed")), $error = 1;
-		}
-		chown 0, 0, "$urpm->{cachedir}/partial/$basename";
-	    }
-	    eval {
-		sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}") ],
-			      \%options, callback => $options{callback});
-	    };
-	    if ($@) {
-		$urpm->{error}(N("...retrieving failed: %s", $@));
-		unlink "$urpm->{cachedir}/partial/$basename";
-	    }
-	}
-
-	#- check downloaded file has right signature.
-	if (file_size("$urpm->{cachedir}/partial/$basename") > 32 && $retrieved_md5sum) {
-	    $urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
-	    unless (md5sum("$urpm->{cachedir}/partial/$basename") eq $retrieved_md5sum) {
-		$urpm->{error}(N("...retrieving failed: md5sum mismatch"));
-		unlink "$urpm->{cachedir}/partial/$basename";
-	    }
-	}
-
-	if (file_size("$urpm->{cachedir}/partial/$basename") > 32) {
-	    $options{callback} and $options{callback}('done', $medium->{name});
-	    $urpm->{log}(N("...retrieving done"));
-
-	    unless ($options{force}) {
-		_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $basename)
-		  and return;
-	    }
-
-	    #- the files are different, update local copy.
-	    rename("$urpm->{cachedir}/partial/$basename", cachedir_hdlist($urpm, $medium));
-
-	    #- retrieval of hdlist or synthesis has been successful,
-	    #- check whether a list file is available.
-	    #- and check hdlist wasn't named very strangely...
-	    if ($medium->{hdlist} ne 'list') {
-		_update_media__sync_file($urpm, $medium, 'list', \%options);
-	    }
-
-	    #- retrieve pubkey file.
-	    if (!$options{nopubkey} && $medium->{hdlist} ne 'pubkey' && !$medium->{'key-ids'}) {
-		_update_media__sync_file($urpm, $medium, 'pubkey', \%options);
-	    }
-	} else {
-	    $error = 1;
-	    $options{callback} and $options{callback}('failed', $medium->{name});
-	    $urpm->{error}(N("retrieval of source hdlist (or synthesis) failed"));
+	    $error = $rc;
 	}
     }
 
