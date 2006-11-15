@@ -976,8 +976,7 @@ sub remove_media {
 	    $urpm->{modified} = 1;
 
 	    #- remove files associated with this medium.
-	    foreach ($_->{hdlist}, $_->{list}, "synthesis.$_->{hdlist}", "descriptions.$_->{name}", "names.$_->{name}",
-		     "$_->{name}.cache") {
+	    foreach ($_->{hdlist}, $_->{list}, "synthesis.$_->{hdlist}", "descriptions.$_->{name}", "names.$_->{name}") {
 		$_ and unlink "$urpm->{statedir}/$_";
 	    }
 
