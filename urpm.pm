@@ -1129,17 +1129,16 @@ sub _update_media__virtual {
 	delete $medium->{modified};
 	$urpm->{md5sum_modified} = 1;
 	if ($medium->{synthesis}) {
-	    _parse_synthesis($urpm, $medium, $with_hdlist_dir);
-	    $medium->{synthesis} = 1;
-	    if (!is_valid_medium($medium)) {
-		_parse_hdlist($urpm, $medium, $with_hdlist_dir);
+	    if (_parse_synthesis($urpm, $medium, $with_hdlist_dir)) {
+		$medium->{synthesis} = 1;
+		$urpm->{modified} = 1;
+	    } elsif (_parse_hdlist($urpm, $medium, $with_hdlist_dir)) {
 		delete $medium->{synthesis};
 	    }
 	} else {
-	    _parse_hdlist($urpm, $medium, $with_hdlist_dir);
-	    delete $medium->{synthesis};
-	    if (!is_valid_medium($medium)) {
-		_parse_synthesis($urpm, $medium, $with_hdlist_dir);
+	    if (_parse_hdlist($urpm, $medium, $with_hdlist_dir)) {
+		delete $medium->{synthesis};
+	    } elsif (_parse_synthesis($urpm, $medium, $with_hdlist_dir)) {
 		$medium->{synthesis} = 1;
 	    }
 	}
