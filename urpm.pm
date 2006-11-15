@@ -2477,8 +2477,10 @@ sub get_source_packages {
 	closedir $dh;
     }
 
-    #- clean download directory, do it here even if this is not the best moment.
-    clean_dir("$urpm->{cachedir}/partial") if $options{clean_all};
+    if ($options{clean_all}) {
+	#- clean download directory, do it here even if this is not the best moment.
+	clean_dir("$urpm->{cachedir}/partial");
+    }
 
     my ($error, @list_error, @list, %examined);
 
