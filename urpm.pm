@@ -404,6 +404,10 @@ sub statedir_descriptions {
     my ($urpm, $medium) = @_;
     "$urpm->{statedir}/descriptions.$medium->{name}";
 }
+sub statedir_names {
+    my ($urpm, $medium) = @_;
+    "$urpm->{statedir}/names.$medium->{name}";
+}
 sub cachedir_hdlist {
     my ($urpm, $medium) = @_;
     "$urpm->{cachedir}/partial/$medium->{hdlist}";
@@ -1163,9 +1167,9 @@ sub generate_media_names {
 
     #- make sure names files are regenerated.
     foreach (@{$urpm->{media}}) {
-	unlink "$urpm->{statedir}/names.$_->{name}";
+	unlink statedir_names($urpm, $_);
 	if (is_valid_medium($_)) {
-	    my $fh = $urpm->open_safe(">", "$urpm->{statedir}/names.$_->{name}");
+	    my $fh = $urpm->open_safe(">", statedir_names($urpm, $_));
 	    if ($fh) {
 		foreach ($_->{start} .. $_->{end}) {
 		    if (defined $urpm->{depslist}[$_]) {
