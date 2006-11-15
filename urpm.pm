@@ -386,35 +386,35 @@ sub hdlist_or_synthesis_for_virtual_medium {
 
 sub statedir_hdlist_or_synthesis {
     my ($urpm, $medium) = @_;
-    "$urpm->{statedir}/" . ($medium->{synthesis} ? 'synthesis.' : '') . $medium->{hdlist};
+    $medium->{hdlist} && "$urpm->{statedir}/" . ($medium->{synthesis} ? 'synthesis.' : '') . $medium->{hdlist};
 }
 sub statedir_hdlist {
     my ($urpm, $medium) = @_;
-    "$urpm->{statedir}/$medium->{hdlist}";
+    $medium->{hdlist} && "$urpm->{statedir}/$medium->{hdlist}";
 }
 sub statedir_synthesis {
     my ($urpm, $medium) = @_;
-    "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+    $medium->{hdlist} && "$urpm->{statedir}/synthesis.$medium->{hdlist}";
 }
 sub statedir_list {
     my ($urpm, $medium) = @_;
-    "$urpm->{statedir}/$medium->{list}";
+    $medium->{list} && "$urpm->{statedir}/$medium->{list}";
 }
 sub statedir_descriptions {
     my ($urpm, $medium) = @_;
-    "$urpm->{statedir}/descriptions.$medium->{name}";
+    $medium->{name} && "$urpm->{statedir}/descriptions.$medium->{name}";
 }
 sub statedir_names {
     my ($urpm, $medium) = @_;
-    "$urpm->{statedir}/names.$medium->{name}";
+    $medium->{name} && "$urpm->{statedir}/names.$medium->{name}";
 }
 sub cachedir_hdlist {
     my ($urpm, $medium) = @_;
-    "$urpm->{cachedir}/partial/$medium->{hdlist}";
+    $medium->{hdlist} && "$urpm->{cachedir}/partial/$medium->{hdlist}";
 }
 sub cachedir_list {
     my ($urpm, $medium) = @_;
-    "$urpm->{cachedir}/partial/$medium->{list}";
+    $medium->{list} && "$urpm->{cachedir}/partial/$medium->{list}";
 }
 
 sub name2medium {
@@ -969,19 +969,17 @@ sub remove_selected_media {
 sub remove_media {
     my ($urpm, $to_remove) = @_;
 
-    foreach (@$to_remove) {
-	    $urpm->{log}(N("removing medium \"%s\"", $_->{name}));
+    foreach my $medium (@$to_remove) {
+	$urpm->{log}(N("removing medium \"%s\"", $medium->{name}));
 
-	    #- mark to re-write configuration.
-	    $urpm->{modified} = 1;
+	#- mark to re-write configuration.
+	$urpm->{modified} = 1;
 
-	    #- remove files associated with this medium.
-	    foreach ($_->{hdlist}, $_->{list}, "synthesis.$_->{hdlist}", "descriptions.$_->{name}", "names.$_->{name}") {
-		$_ and unlink "$urpm->{statedir}/$_";
-	    }
+	#- remove files associated with this medium.
+	unlink grep { $_ } map { $_->($urpm, $medium) } \&statedir_hdlist, \&statedir_list, \&statedir_synthesis, \&statedir_descriptions, \&statedir_names;
 
-	    #- remove proxy settings for this media
-	    urpm::download::remove_proxy_media($_->{name});
+	#- remove proxy settings for this media
+	urpm::download::remove_proxy_media($medium->{name});
     }
 
     $urpm->{media} = [ difference2($urpm->{media}, $to_remove) ];
