@@ -1313,6 +1313,53 @@ sub clean_dir {
     mkdir $dir, 0755;
 }
 
+sub _update_medium__get_descriptions_local {
+    my ($urpm, $medium) = @_;
+
+    unlink statedir_descriptions($urpm, $medium);
+
+    my $dir = file_from_local_url($medium->{url});
+    my $description_file = "$dir/media_info/descriptions"; #- new default location
+    -e $description_file or $description_file = "$dir/../descriptions";
+    -e $description_file or return;
+
+    $urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
+    if (urpm::util::copy($description_file, statedir_descriptions($urpm, $medium))) {
+	$urpm->{log}(N("...copying done"));
+    } else {
+	$urpm->{error}(N("...copying failed"));
+	$medium->{ignore} = 1;
+    }
+    chown 0, 0, statedir_descriptions($urpm, $medium);
+}
+sub _update_medium__get_descriptions_remote {
+    my ($urpm, $medium, $options) = @_;
+
+    unlink "$urpm->{cachedir}/partial/descriptions";
+
+    if (-e statedir_descriptions($urpm, $medium)) {
+	urpm::util::move(statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
+    }
+    eval { 
+	sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ],
+		      $options, quiet => 1);
+    };
+    #- It is possible that the original fetch of the descriptions
+    #- failed, but the file still remains in partial/ because it was
+    #- moved from $urpm->{statedir} earlier. So we need to check if
+    #- the previous download failed.
+    if ($@ || ! -e "$urpm->{cachedir}/partial/descriptions") {
+	eval {
+	    #- try older location
+	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], 
+			  $options, quiet => 1);
+	};
+    }
+    if (-e "$urpm->{cachedir}/partial/descriptions") {
+	urpm::util::move("$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
+    }
+}
+
 sub _update_medium_first_pass__local {
     my ($urpm, $medium, $second_pass, $clean_cache, $retrieved_md5sum, $rpm_files, $options) = @_;
 
@@ -1351,17 +1398,8 @@ this could happen if you mounted manually the directory when creating the medium
 	#- determine its type, once a with_hdlist has been found (but is mandatory).
 	_update_media__virtual($urpm, $medium, $with_hdlist_dir);
     }
-    #- try to get the description if it has been found.
-    unlink statedir_descriptions($urpm, $medium);
-    my $description_file = "$dir/media_info/descriptions"; #- new default location
-    -e $description_file or $description_file = "$dir/../descriptions";
-    if (-e $description_file) {
-	$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
-	urpm::util::copy($description_file, statedir_descriptions($urpm, $medium))
-	    ? $urpm->{log}(N("...copying done"))
-	      : do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1 };
-	chown 0, 0, statedir_descriptions($urpm, $medium);
-    }
+
+    _update_medium__get_descriptions_local($urpm, $medium);
 
     #- examine if a distant MD5SUM file is available.
     #- this will only be done if $with_hdlist is not empty in order to use
@@ -1506,29 +1544,7 @@ sub _update_medium_first_pass__remote {
     my ($urpm, $medium, $retrieved_md5sum, $options) = @_;
     my ($error, $basename);
 
-    #- try to get the description if it has been found.
-    unlink "$urpm->{cachedir}/partial/descriptions";
-    if (-e statedir_descriptions($urpm, $medium)) {
-	urpm::util::move(statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
-    }
-    eval { 
-	sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ],
-		      $options, quiet => 1);
-    };
-    #- It is possible that the original fetch of the descriptions
-    #- failed, but the file still remains in partial/ because it was
-    #- moved from $urpm->{statedir} earlier. So we need to check if
-    #- the previous download failed.
-    if ($@ || ! -e "$urpm->{cachedir}/partial/descriptions") {
-	eval {
-	    #- try older location
-	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], 
-			  $options, quiet => 1);
-	};
-    }
-    if (-e "$urpm->{cachedir}/partial/descriptions") {
-	urpm::util::move("$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
-    }
+    _update_medium__get_descriptions_remote($urpm, $medium, $options);
 
     #- examine if a distant MD5SUM file is available.
     #- this will only be done if $with_hdlist is not empty in order to use
