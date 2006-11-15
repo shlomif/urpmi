@@ -470,7 +470,7 @@ sub write_MD5SUM {
 }
 
 #- Writes the urpmi.cfg file.
-sub write_config {
+sub write_urpmi_cfg {
     my ($urpm) = @_;
 
     #- avoid trashing exiting configuration if it wasn't loaded
@@ -492,12 +492,17 @@ sub write_config {
     urpm::cfg::dump_config($urpm->{config}, $config)
 	or $urpm->{fatal}(6, N("unable to write config file [%s]", $urpm->{config}));
 
-    write_MD5SUM($urpm);
-
     $urpm->{log}(N("wrote config file [%s]", $urpm->{config}));
 
     #- everything should be synced now.
     delete $urpm->{modified};
+}
+
+sub write_config {
+    my ($urpm) = @_;
+
+    write_urpmi_cfg($urpm);
+    write_MD5SUM($urpm);
 }
 
 sub _configure_parallel {
