@@ -400,6 +400,10 @@ sub statedir_list {
     my ($urpm, $medium) = @_;
     "$urpm->{statedir}/$medium->{list}";
 }
+sub statedir_descriptions {
+    my ($urpm, $medium) = @_;
+    "$urpm->{statedir}/descriptions.$medium->{name}";
+}
 sub cachedir_hdlist {
     my ($urpm, $medium) = @_;
     "$urpm->{cachedir}/partial/$medium->{hdlist}";
@@ -1347,15 +1351,15 @@ this could happen if you mounted manually the directory when creating the medium
 	_update_media__virtual($urpm, $medium, $with_hdlist_dir);
     }
     #- try to get the description if it has been found.
-    unlink "$urpm->{statedir}/descriptions.$medium->{name}";
+    unlink statedir_descriptions($urpm, $medium);
     my $description_file = "$dir/media_info/descriptions"; #- new default location
     -e $description_file or $description_file = "$dir/../descriptions";
     if (-e $description_file) {
 	$urpm->{log}(N("copying description file of \"%s\"...", $medium->{name}));
-	urpm::util::copy($description_file, "$urpm->{statedir}/descriptions.$medium->{name}")
+	urpm::util::copy($description_file, statedir_descriptions($urpm, $medium))
 	    ? $urpm->{log}(N("...copying done"))
 	      : do { $urpm->{error}(N("...copying failed")); $medium->{ignore} = 1 };
-	chown 0, 0, "$urpm->{statedir}/descriptions.$medium->{name}";
+	chown 0, 0, statedir_descriptions($urpm, $medium);
     }
 
     #- examine if a distant MD5SUM file is available.
@@ -1577,8 +1581,8 @@ sub _update_medium_first_pass {
 
 	#- try to get the description if it has been found.
 	unlink "$urpm->{cachedir}/partial/descriptions";
-	if (-e "$urpm->{statedir}/descriptions.$medium->{name}") {
-	    urpm::util::move("$urpm->{statedir}/descriptions.$medium->{name}", "$urpm->{cachedir}/partial/descriptions");
+	if (-e statedir_descriptions($urpm, $medium)) {
+	    urpm::util::move(statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
 	}
 	eval { 
 	    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ],
@@ -1596,7 +1600,7 @@ sub _update_medium_first_pass {
 	    };
 	}
 	if (-e "$urpm->{cachedir}/partial/descriptions") {
-	    urpm::util::move("$urpm->{cachedir}/partial/descriptions", "$urpm->{statedir}/descriptions.$medium->{name}");
+	    urpm::util::move("$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
 	}
 
 	#- examine if a distant MD5SUM file is available.
@@ -3366,11 +3370,6 @@ sub check_sources_signatures {
       sort keys %invalid_sources;
 }
 
-sub dump_description_file {
-    my ($urpm, $media_name) = @_;
-    cat_("$urpm->{statedir}/descriptions.$media_name");
-}
-
 #- get reason of update for packages to be updated
 #- use all update medias if none given
 sub get_updates_description {
@@ -3380,7 +3379,7 @@ sub get_updates_description {
 
     @update_medias or @update_medias = grep { !$_->{ignore} && $_->{update} } @{$urpm->{media}};
 
-    foreach (map { $urpm->dump_description_file($_->{name}), '%package dummy' } @update_medias) {
+    foreach (map { cat_(statedir_descriptions($urpm, $_)), '%package dummy' } @update_medias) {
 	/^%package (.+)/ and do {
 	    if (exists $cur->{importance} && $cur->{importance} ne "security" && $cur->{importance} ne "bugfix") {
 		$cur->{importance} = 'normal';
