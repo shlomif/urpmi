@@ -106,7 +106,7 @@ sub expand_line {
 sub load_config ($;$) {
     my ($file, $b_norewrite) = @_;
     my %config;
-    my $priority = 0;
+    my $priority = 1;
     my $medium;
     $err = '';
     my @conf_lines = cat_($file) or do { $err = N("unable to read config file [%s]", $file); return };
@@ -120,7 +120,7 @@ sub load_config ($;$) {
 		_syntax_error();
 		return;
 	    }
-	    $config{$medium}{priority} = $priority++; #- to preserve order
+	    $config{$medium}{priority} = $priority++ if $medium ne ''; #- to preserve order
 	    undef $medium;
 	    next;
 	}
