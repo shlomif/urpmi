@@ -331,8 +331,8 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
 }
 
 unless ($env || $nolock) {
-    $urpm->exlock_rpm_db;
-    $urpm->shlock_urpmi_db;
+    $urpm->lock_rpm_db('exclusive');
+    $urpm->lock_urpmi_db;
 }
 
 #- should we ignore arch compatibility
@@ -367,7 +367,6 @@ if ($auto_update && !$bug && !$env) {
 	compress => $urpm->{options}{compress},
 	limit_rate => $urpm->{options}{'limit-rate'},
 	noclean => $noclean,
-	norebuild => $urpm->{options}{norebuild},
 	quiet => $verbose < 0,
 	nomd5sum => $nomd5sum,
 	forcekey => $forcekey,
@@ -397,7 +396,7 @@ if ($bug) {
 	#- take care of virtual medium this way.
 	$_->{hdlist} ||= "hdlist.$_->{name}.cz";
 	#- now build directly synthesis file, this is by far the simplest method.
-	if (defined $_->{start} && defined $_->{end}) {
+	if (urpm::is_valid_medium($_)) {
 	    $urpm->build_synthesis(start => $_->{start}, end => $_->{end}, synthesis => "$bug/synthesis.$_->{hdlist}");
 	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $_->{name}));
 	}
@@ -518,7 +517,7 @@ if (@ask_unselect) {
 my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : $urpm->removed_packages($state);
 if (@ask_remove) {
     {
-	my $db = URPM::DB::open($root);
+	my $db = urpm::db_open_or_die($urpm, $root);
 	$urpm->find_removed_from_basesystem($db, $state, sub {
 	    my $urpm = shift @_;
 	    foreach (@_) {
