@@ -19,6 +19,7 @@ if ($collation_locale) {
 
 use urpm;
 use strict;
+use Gtk2;
 
 use Exporter;
 our @ISA = qw(Exporter);
