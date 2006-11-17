@@ -142,6 +142,7 @@ sub create_scrolled_window {
     $W->show;
     if (ref($W) =~ /Gtk2::TextView|Gtk2::TreeView/) {
 	my $f = Gtk2::Frame->new;
+	$w->show;
 	$f->set_shadow_type('in');
      $f->add($w);
      $f;
