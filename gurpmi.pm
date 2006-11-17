@@ -20,10 +20,11 @@ if ($collation_locale) {
 use urpm;
 use strict;
 use Gtk2;
+use urpm::util;
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(fatal but quit add_button_box new_label N);
+our @EXPORT = qw(create_scrolled_window fatal but quit add_button_box new_label N);
 
 sub usage () {
     print <<USAGE;
@@ -124,6 +125,31 @@ sub N {
 	@params,
     );
     Locale::gettext::iconv($r, undef, "UTF-8");
+}
+
+
+# copied from ugtk2:
+sub create_scrolled_window {
+    my ($W, $o_policy, $o_viewport_shadow) = @_;
+    my $w = Gtk2::ScrolledWindow->new(undef, undef);
+    $w->set_policy($o_policy ? @$o_policy : ('automatic', 'automatic'));
+    if (member(ref($W), qw(Gtk2::Layout Gtk2::Html2::View Gtk2::Text Gtk2::TextView Gtk2::TreeView))) {
+	$w->add($W);
+    } else {
+	$w->add_with_viewport($W);
+    }
+    $o_viewport_shadow and $w->child->set_shadow_type($o_viewport_shadow);
+    $W->can('set_focus_vadjustment') and $W->set_focus_vadjustment($w->get_vadjustment);
+    $W->set_left_margin(6) if ref($W) =~ /Gtk2::TextView/;
+    $W->show;
+    if (ref($W) =~ /Gtk2::TextView|Gtk2::TreeView/) {
+	my $f = Gtk2::Frame->new;
+	$f->set_shadow_type('in');
+     $f->add($w);
+     $f;
+    } else {
+	$w;
+    }
 }
 
 1;
