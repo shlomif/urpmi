@@ -102,14 +102,10 @@ sub configure_urpm() {
 	if ($nb_lines > 30) {
 	    $w  = Gtk2::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
 	    $w->vbox->add(my $f = Gtk2::Frame->new);
-	    my $sw = Gtk2::ScrolledWindow->new(undef, undef);
-	    $f->add($sw);
-	    $f->set_shadow_type('in');
-	    $sw->set_policy('automatic', 'automatic');
-	    my $text = Gtk2::TextView->new;
-	    $sw->add($text);
-	    $text->get_buffer->set_text($message);
+	    my $sw = create_scrolled_window(my $text = Gtk2::TextView->new);
 	    $sw->set_border_width(2);
+	    $f->add($sw);
+	    $text->get_buffer->set_text($message);
 	    $_->show foreach $f, $sw, $text;
 	    $w->set_size_request(400, 400);
 	} else {
@@ -118,8 +114,8 @@ sub configure_urpm() {
 	$w->run;
 	$w->destroy;
     };
-    $urpm->exlock_rpm_db;
-    $urpm->shlock_urpmi_db;
+    $urpm->lock_rpm_db('exclusive');
+    $urpm->lock_urpmi_db;
     $urpm->configure(
 	root	    => $gurpmi::options{root},
 	media	    => $gurpmi::options{media},
@@ -247,9 +243,6 @@ sub do_install_3 () {
 	    \@transaction_list,
 	    \%transaction_sources,
 	    \%error_sources,
-	    limit_rate => $urpm->{options}{'limit-rate'},
-	    compress => $urpm->{options}{compress},
-	    resume => $urpm->{options}{resume},
 	    callback => sub {
 		my ($mode, $file, $percent) = @_;
 		if ($mode eq 'start') {
@@ -305,7 +298,6 @@ sub do_install_3 () {
 		$set->{remove} || [],
 		\%transaction_sources_install,
 		\%transaction_sources,
-		'fork' => 0, #- do not fork (even if multiple transaction) because of X11 crash
 		translate_message => 1,
 		oldpackage => $state->{oldpackage},
 		callback_inst => $callback_inst,
@@ -328,10 +320,7 @@ sub do_install_3 () {
     }
     $vbox = Gtk2::VBox->new(0, 5);
     $progress_label = Gtk2::Label->new('-');
-    my $sw = Gtk2::ScrolledWindow->new(undef, undef);
-    $sw->add_with_viewport($progress_label);
-    $sw->set_shadow_type('in');
-    $sw->set_policy('automatic', 'automatic');
+    my $sw = create_scrolled_window($progress_label);
     $sw->set_size_request(500, 200);
     $vbox->pack_start($sw, 1, 1, 0);
     my $quit_button = Gtk2::Button->new(but(N("_Done")));

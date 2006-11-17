@@ -108,9 +108,7 @@ sub new_label {
     $label->set_line_wrap(1);
     $label->set_alignment(0.5, 0.5);
     if (($msg =~ tr/\n/\n/) > 5) {
-	my $sw = Gtk2::ScrolledWindow->new;
-	$sw->set_policy('never', 'automatic');
-	$sw->add_with_viewport($label);
+	my $sw = create_scrolled_window($label, [ 'never', 'automatic' ]);
 	$sw->set_size_request(-1,200);
 	return $sw;
     } else {
