@@ -29,7 +29,7 @@ merge: $(PGOAL).pot
 	    mv -f "$$n"t "$$n"; \
 	done
 
-$(PGOAL).pot:
+$(PGOAL).pot2:
 	xgettext -F -n --add-comments \
 	  --keyword=N_ --keyword=N \
 	  --language=Perl -o $(PGOAL)_tmp.pot $(PL_FILES)
