@@ -233,7 +233,7 @@ sub recover_url_from_list {
 #- options :
 #-    - nocheck_access : don't check presence of hdlist and other files
 sub read_config {
-    my ($urpm, %options) = @_;
+    my ($urpm, $b_nocheck_access) = @_;
     return if $urpm->{media}; #- media already loaded
     $urpm->{media} = [];
     my $config = urpm::cfg::load_config($urpm->{config})
@@ -265,10 +265,10 @@ sub read_config {
 	    $medium->{url} or $urpm->{error}("unable to find url in list file $medium->{name}, medium ignored");
 	}
 
-	$urpm->add_existing_medium($medium, $options{nocheck_access});
+	$urpm->add_existing_medium($medium, $b_nocheck_access);
     }
 
-    eval { require urpm::ldap; urpm::ldap::load_ldap_media($urpm, %options) };
+    eval { require urpm::ldap; urpm::ldap::load_ldap_media($urpm) };
 
     #- load default values
     foreach (qw(post-clean verify-rpm)) {
@@ -625,7 +625,7 @@ sub configure {
             $urpm->{media} = [];
             $urpm->add_distrib_media("Virtual", $options{usedistrib}, %options, 'virtual' => 1);
         } else {
-	    $urpm->read_config(%options);
+	    $urpm->read_config($options{nocheck_access});
 	    if (!$options{media} && $urpm->{options}{'default-media'}) {
 		$options{media} = $urpm->{options}{'default-media'};
 	    }
