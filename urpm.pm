@@ -974,17 +974,14 @@ sub remove_media {
 
 #- return list of synthesis or hdlist reference to probe.
 sub _probe_with_try_list {
-    my ($url, $probe_with) = @_;
-    my $suffix = _guess_hdlist_suffix($url);
+    my ($probe_with) = @_;
 
     my @probe_synthesis = (
 	"media_info/synthesis.hdlist.cz",
-	"../media_info/synthesis.hdlist_$suffix.cz",
 	"synthesis.hdlist.cz",
     );
     my @probe_hdlist = (
 	"media_info/hdlist.cz",
-	"../media_info/hdlist_$suffix.cz",
 	"hdlist.cz",
     );
     $probe_with =~ /synthesis/
@@ -1395,7 +1392,7 @@ this could happen if you mounted manually the directory when creating the medium
     #- try to probe for possible with_hdlist parameter, unless
     #- it is already defined (and valid).
     if ($options->{probe_with} && !$medium->{with_hdlist}) {
-	foreach (_probe_with_try_list($medium->{url}, $options->{probe_with})) {
+	foreach (_probe_with_try_list($options->{probe_with})) {
 	    -e "$dir/$_" or next;
 	    if (file_size("$dir/$_") > 32) {
 		$medium->{with_hdlist} = $_;
@@ -1569,7 +1566,7 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
     $urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
     $options->{callback} and $options->{callback}('retrieve', $medium->{name});
     if ($options->{probe_with} && !$medium->{with_hdlist}) {
-	foreach my $with_hdlist (_probe_with_try_list($medium->{url}, $options->{probe_with})) {
+	foreach my $with_hdlist (_probe_with_try_list($options->{probe_with})) {
 	    $basename = basename($with_hdlist) or next;
 	    $options->{force} and unlink "$urpm->{cachedir}/partial/$basename";
 	    if (sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
