@@ -397,11 +397,20 @@ sub file_from_file_url {
     $url =~ m!^(?:file:/)?(/.*)! && $1;
 }
 
-sub hdlist_or_synthesis_for_virtual_medium {
+sub _hdlist_dir {
+    my ($medium) = @_;
+    my $base = file_from_file_url($medium->{url}) || $medium->{url};
+    $medium->{with_hdlist} && reduce_pathname("$base/$medium->{with_hdlist}/..");
+}
+sub _url_with_hdlist {
     my ($medium) = @_;
 
-    my $path = file_from_file_url($medium->{url}) or return;
-    $medium->{with_hdlist} && "$path/$medium->{with_hdlist}";
+    my $base = file_from_file_url($medium->{url}) || $medium->{url};
+    $medium->{with_hdlist} && reduce_pathname("$base/$medium->{with_hdlist}");
+}
+sub hdlist_or_synthesis_for_virtual_medium {
+    my ($medium) = @_;
+    file_from_file_url($medium->{url}) && _url_with_hdlist($medium);
 }
 
 sub statedir_hdlist_or_synthesis {
@@ -1268,9 +1277,9 @@ sub db_open_or_die {
 }
 
 sub _get_list_or_pubkey__local {
-    my ($urpm, $medium, $with_hdlist_dir, $name) = @_;
+    my ($urpm, $medium, $name) = @_;
 
-    my $path = reduce_pathname("$with_hdlist_dir/../$name" . _hdlist_suffix($medium));
+    my $path = _hdlist_dir($medium) . "/$name" . _hdlist_suffix($medium);
     -e $path or $path = file_from_local_url($medium->{url}) . "/$name";
     if (-e $path) {
 	copy_and_own($path, "$urpm->{cachedir}/partial/$name")
@@ -1286,7 +1295,7 @@ sub _get_list_or_pubkey__remote {
     if (_hdlist_suffix($medium)) {
 	my $local_name = $name . _hdlist_suffix($medium);
 
-	if (sync_webfetch($urpm, $medium, [reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../$local_name")], 
+	if (sync_webfetch($urpm, $medium, [_hdlist_dir($medium) . "/$local_name"], 
 			  quiet => 1)) {
 	    rename("$urpm->{cachedir}/partial/$local_name", "$urpm->{cachedir}/partial/$name");
 	    $found = 1;
@@ -1341,12 +1350,12 @@ sub get_descriptions_remote {
     }
 }
 sub get_hdlist_or_synthesis__local {
-    my ($urpm, $medium, $with_hdlist_dir, $callback) = @_;
+    my ($urpm, $medium, $callback) = @_;
 
     unlink cachedir_hdlist($urpm, $medium);
     $urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
     $callback and $callback->('copy', $medium->{name});
-    if (copy_and_own($with_hdlist_dir, cachedir_hdlist($urpm, $medium))) {
+    if (copy_and_own(_url_with_hdlist($medium), cachedir_hdlist($urpm, $medium))) {
 	$callback and $callback->('done', $medium->{name});
 	$urpm->{log}(N("...copying done"));
 	if (file_size(cachedir_hdlist($urpm, $medium)) <= 32) {
@@ -1369,17 +1378,13 @@ sub _update_medium__parse_if_unmodified__or_get_files__local {
 
     my $dir = file_from_local_url($medium->{url});
 
-    #- try to figure a possible hdlist_path (or parent directory of searched directory).
-    #- this is used to probe for a possible hdlist file.
-    my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
-
     if (!-d $dir) {
 	#- the directory given does not exist and may be accessible
 	#- by mounting some other directory. Try to figure it out and mount
 	#- everything that might be necessary.
 	$urpm->try_mounting(
 	    !$options->{force_building_hdlist} && $medium->{with_hdlist}
-	      ? $with_hdlist_dir : $dir,
+	      ? _hdlist_dir($medium) : $dir,
 	    #- in case of an iso image, pass its name
 	    is_iso($medium->{removable}) && $medium->{removable},
 	) or $urpm->{error}(N("unable to access medium \"%s\",
@@ -1401,8 +1406,6 @@ this could happen if you mounted manually the directory when creating the medium
 		$error = 1;
 	    }
 	}
-	#- redo...
-	$with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
     }
 
     if ($medium->{virtual}) {
@@ -1425,18 +1428,18 @@ this could happen if you mounted manually the directory when creating the medium
 
     unless ($medium->{virtual}) {
 	if ($medium->{with_hdlist}) {
-	    if (!$options->{nomd5sum} && file_size(reduce_pathname("$with_hdlist_dir/../MD5SUM")) > 32) {
+	    if (!$options->{nomd5sum} && file_size(_hdlist_dir($medium) . '/MD5SUM') > 32) {
 		recompute_local_md5sum($urpm, $medium, $options->{force});
 		if ($medium->{md5sum}) {
-		    $retrieved_md5sum = parse_md5sum($urpm, reduce_pathname("$with_hdlist_dir/../MD5SUM"), basename($with_hdlist_dir));
+		    $retrieved_md5sum = parse_md5sum($urpm, _hdlist_dir($medium) . '/MD5SUM', basename($medium->{with_hdlist}));
 		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		      and return 'unmodified';
 		}
 	    }
 
 	    #- if the source hdlist is present and we are not forcing using rpm files
-	    if (!$options->{force_building_hdlist} && -e $with_hdlist_dir) {
-		get_hdlist_or_synthesis__local($urpm, $medium, $with_hdlist_dir, $options->{callback}) 
+	    if (!$options->{force_building_hdlist} && -e _url_with_hdlist($medium)) {
+		get_hdlist_or_synthesis__local($urpm, $medium, $options->{callback}) 
 		  or $error = 1;
 	    }
 
@@ -1444,7 +1447,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    if (!$error && $retrieved_md5sum) {
 		$urpm->{log}(N("computing md5sum of copied source hdlist (or synthesis)"));
 		md5sum(cachedir_hdlist($urpm, $medium)) eq $retrieved_md5sum or
-		  $error = 1, $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", $with_hdlist_dir));
+		  $error = 1, $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", _url_with_hdlist($medium)));
 	    }
 
 	    #- check if the files are equal... and no force copy...
@@ -1521,7 +1524,7 @@ this could happen if you mounted manually the directory when creating the medium
 
     #- examine if a local pubkey file is available.
     if (!$options->{nopubkey} && !$medium->{'key-ids'}) {
-	_get_list_or_pubkey__local($urpm, $medium, $with_hdlist_dir, 'pubkey');
+	_get_list_or_pubkey__local($urpm, $medium, 'pubkey');
     }
 
     ($error, $retrieved_md5sum);
@@ -1547,7 +1550,7 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
 	unlink "$urpm->{cachedir}/partial/MD5SUM";
 	if (!$options->{nomd5sum} && 
 	      sync_webfetch($urpm, $medium, 
-			    [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}/../MD5SUM") ],
+			    [ reduce_pathname(_hdlist_dir($medium) . '/MD5SUM') ],
 			    quiet => 1) && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
 	    recompute_local_md5sum($urpm, $medium, $options->{force} >= 2);
 	    if ($medium->{md5sum}) {
@@ -1592,7 +1595,7 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
 		) or $urpm->{error}(N("...copying failed")), $error = 1;
 	    }
 	}
-	if (sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$medium->{with_hdlist}") ],
+	if (sync_webfetch($urpm, $medium, [ _url_with_hdlist($medium) ],
 			  quiet => $options->{quiet}, callback => $options->{callback})) {
 	    $urpm->{log}(N("...retrieving done"));
 	} else {
