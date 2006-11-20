@@ -571,12 +571,13 @@ sub _configure_parallel {
 
 #- read urpmi.cfg file as well as necessary synthesis files
 #- options :
+#-	root
+#-	cmdline_skiplist
+#-
 #-	callback (urpmf)
 #-	need_hdlist (for urpmf: to be able to have info not available in synthesis)
 #-	nodepslist (for urpmq: we don't need the hdlist/synthesis)
 #-	no_skiplist (urpmf)
-#-	root
-#-	skip
 #-
 #-	synthesis (use this synthesis file, and only this synthesis file)
 #-
@@ -717,7 +718,7 @@ sub configure {
     unless ($options{nodepslist} || $options{no_skiplist}) {
 	my %uniq;
 	$urpm->compute_flags(
-	    get_packages_list($urpm->{skiplist}, $options{skip}),
+	    get_packages_list($urpm->{skiplist}, $options{cmdline_skiplist}),
 	    skip => 1,
 	    callback => sub {
 		my ($urpm, $pkg) = @_;

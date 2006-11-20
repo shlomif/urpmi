@@ -140,7 +140,6 @@ usage:
 ") . N("  --skip         - packages which installation should be skipped
 ") . N("  --more-choices - when several packages are found, propose more choices
                    than the default.
-") . N("  --norebuild    - don't try to rebuild hdlist if not readable.
 ") . N("  --nolock       - don't lock rpm db.
 ") . N("  --strict-arch  - upgrade only packages with the same architecture.
 ") . N("  -a             - select all matches on command line.
@@ -222,7 +221,7 @@ if ($install_src) {
 if ($restricted) {
     urpm::error_restricted($urpm) if @files;
     #- force some options
-    foreach (qw(keep verify-rpm norebuild)) { $urpm->{options}{$_} = 1 }
+    foreach (qw(keep verify-rpm)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
     urpm::error_restricted($urpm) if $root || $usedistrib || $force || $env || $parallel || $synthesis || $auto_update;
     foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options prozilla-options noscripts)) {
@@ -346,7 +345,7 @@ my %config_hash = (
     parallel => $parallel,
     root => $root,
     searchmedia => $searchmedia,
-    skip => $urpm::args::options{skip},
+    cmdline_skiplist => $urpm::args::options{skip},
     sortmedia => $sortmedia,
     synthesis => $synthesis,
     update => $update,
@@ -364,8 +363,6 @@ if ($auto_update && !$bug && !$env) {
     $urpm->update_media(
 	all => 1,
 	callback => \&urpm::download::sync_logger,
-	compress => $urpm->{options}{compress},
-	limit_rate => $urpm->{options}{'limit-rate'},
 	noclean => $noclean,
 	quiet => $verbose < 0,
 	nomd5sum => $nomd5sum,
@@ -651,9 +648,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 	\%error_sources,
 	verbose => $verbose > 0,
 	quiet => $verbose < 0,
-	limit_rate => $urpm->{options}{'limit-rate'},
-	compress => $urpm->{options}{compress},
-	resume => $urpm->{options}{resume},
 	callback => sub {
 #	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
 	    goto &urpm::download::sync_logger;
@@ -747,7 +741,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    my @l = $urpm->install(
 		$to_remove,
 		\%transaction_sources_install, \%transaction_sources,
-		'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
 		%install_options_common,
 	    );
 	    if (@l) {
@@ -765,7 +758,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    @l = $urpm->install(
 			$to_remove,
 			\%transaction_sources_install, \%transaction_sources,
-			'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
 			nodeps => 1,
 			%install_options_common,
 		    );
@@ -783,7 +775,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 			    @l = $urpm->install(
 				$to_remove,
 				\%transaction_sources_install, \%transaction_sources,
-				'fork' => @{$state->{transaction} || []} > 1, #- fork if multiple transaction
 				nodeps => 1, force => 1,
 				%install_options_common,
 			    );
