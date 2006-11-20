@@ -2087,17 +2087,17 @@ sub register_rpms {
 }
 
 sub _findindeps {
-    my ($urpm, $found, $qv, $v, %options) = @_;
+    my ($urpm, $found, $qv, $v, $caseinsensitive, $src) = @_;
 
     foreach (keys %{$urpm->{provides}}) {
 	#- search through provides to find if a provide matches this one;
 	#- but manage choices correctly (as a provides may be virtual or
 	#- defined several times).
-	/$qv/ || !$options{caseinsensitive} && /$qv/i or next;
+	/$qv/ || !$caseinsensitive && /$qv/i or next;
 
 	my @list = grep { defined $_ } map {
 	    my $pkg = $urpm->{depslist}[$_];
-	    $pkg && ($options{src} ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
+	    $pkg && ($src ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
 	      ? $pkg->id : undef;
 	} keys %{$urpm->{provides}{$_} || {}};
 	@list > 0 and push @{$found->{$v}}, join '|', @list;
@@ -2145,7 +2145,7 @@ sub search_packages {
 	}
 
 	if ($options{use_provides} && $options{fuzzy}) {
-	    _findindeps($urpm, \%found, $qv, $v, %options);
+	    _findindeps($urpm, \%found, $qv, $v, $options{caseinsensitive}, $options{src});
 	}
 
 	foreach my $id (defined $urpm->{searchmedia} ?
