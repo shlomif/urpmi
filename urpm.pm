@@ -2230,11 +2230,12 @@ sub search_packages {
 #- %options :
 #-	rpmdb
 #-	auto_select
-#-	callback_choices
 #-	install_src
+#-	priority_upgrade
+#- %options passed to ->resolve_requested:
+#-	callback_choices
 #-	keep
 #-	nodeps
-#-	priority_upgrade
 sub resolve_dependencies {
     #- $state->{selected} will contain the selection of packages to be
     #- installed or upgraded
