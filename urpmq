@@ -136,12 +136,10 @@ if ($urpm::args::options{env}) {
 if ($urpm::args::options{ignorearch}) { urpm::shunt_ignorearch() }
 
 $urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
-    and $urpm->shlock_rpm_db;
-$urpm::args::options{nolock} or $urpm->shlock_urpmi_db;
+    and $urpm->lock_rpm_db;
+$urpm->lock_urpmi_db if !$urpm::args::options{nolock};
 $urpm->configure(
     nocheck_access => 1,
-    noskipping => $urpm::args::options{nodepslist},
-    noinstalling => $urpm::args::options{nodepslist},
     nodepslist => $urpm::args::options{nodepslist},
     media => $urpm::args::options{media},
     searchmedia => $urpm::args::options{searchmedia},
@@ -201,7 +199,7 @@ if ($urpm::args::options{list_aliases}) {
 	    \%requested,
 	    [ @names ],
 	    use_provides => $urpm::args::options{use_provides},
-	    fuzzy => $urpm::args::options{fuzzy},
+	    fuzzy => $urpm->{options}{fuzzy},
 	    caseinsensitive => $urpm::args::options{caseinsensitive},
 	    all => $urpm::args::options{all},
 	) or $urpm::args::options{force}
@@ -212,7 +210,7 @@ if ($urpm::args::options{list_aliases}) {
 	    \%requested,
 	    [ @src_names ],
 	    use_provides => $urpm::args::options{use_provides},
-	    fuzzy => $urpm::args::options{fuzzy},
+	    fuzzy => $urpm->{options}{fuzzy},
 	    caseinsensitive => $urpm::args::options{caseinsensitive},
 	    src => 1,
 	) or $urpm::args::options{force}
@@ -334,8 +332,8 @@ if ($urpm::args::options{list_aliases}) {
 		{
 		    my %h = map { $_ => 1 } @headers; @headers = keys %h;
                     my $hdlist_path = $urpm->{media}[$_]{virtual}
-                      ? ("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}" =~ m!^(?:file:/*)?(/[^/].*)!)[0]
-                      :  "$urpm->{statedir}/$urpm->{media}[$_]{hdlist}";
+                      ? urpm::file_from_file_url("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}")
+                      : urpm::statedir_hdlist($urpm, $urpm->{media}[$_]);
                     if (-s $hdlist_path) {
 			require MDV::Packdrakeng;
 			my $packer = MDV::Packdrakeng->open(archive => $hdlist_path, quiet => 1);

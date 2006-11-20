@@ -577,8 +577,7 @@ sub _configure_parallel {
 #-	media
 #-	need_hdlist (for urpmf: to be able to have info not available in synthesis)
 #-	nodepslist
-#-	noinstalling
-#-	no_skiplist (urpmf & urpmq)
+#-	no_skiplist (urpmf)
 #-	parallel
 #-	root
 #-	searchmedia
@@ -712,7 +711,7 @@ sub configure {
 	}
     }
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
-    unless ($options{no_skiplist}) {
+    unless ($options{nodepslist} || $options{no_skiplist}) {
 	my %uniq;
 	$urpm->compute_flags(
 	    get_packages_list($urpm->{skiplist}, $options{skip}),
@@ -725,7 +724,7 @@ sub configure {
 	    },
 	);
     }
-    unless ($options{noinstalling}) {
+    unless ($options{nodepslist}) {
 	my %uniq;
 	$urpm->compute_flags(
 	    get_packages_list($urpm->{instlist}),
