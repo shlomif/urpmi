@@ -747,6 +747,7 @@ sub configure {
 #- add a new medium, sync the config file accordingly.
 #- returns the new medium's name. (might be different from the requested
 #- name if index_name was specified)
+#- options: ignore, index_name, nolock, update, virtual
 sub add_medium {
     my ($urpm, $name, $url, $with_hdlist, %options) = @_;
 
