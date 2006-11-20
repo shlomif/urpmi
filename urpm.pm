@@ -2713,6 +2713,7 @@ sub copy_packages_of_removable_media {
 }
 
 # TODO verify that files are downloaded from the right corresponding media
+#- options: quiet, callback, 
 sub download_packages_of_distant_media {
     my ($urpm, $list, $sources, $error_sources, %options) = @_;
 
