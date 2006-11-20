@@ -32,13 +32,13 @@ sub usage {
 # Translator: and 'removable:' must not be translated!
 # Translator: neither the ``with''.
 # Translator: only what is between <brackets> can be translated.
-    my $usage = N("usage: urpmi.addmedia [options] <name> <url> [with <relative_path>]
+    my $usage = N("usage: urpmi.addmedia [options] <name> <url>
 where <url> is one of
-       [file:/]/<path> with <relative filename of hdlist>
-       ftp://<login>:<password>\@<host>/<path> with <relative filename of hdlist>
-       ftp://<host>/<path> with <relative filename of hdlist>
-       http://<host>/<path> with <relative filename of hdlist>
-       removable://<path> with <relative filename of hdlist>
+       [file:/]/<path>
+       ftp://<login>:<password>\@<host>/<path>
+       ftp://<host>/<path>
+       http://<host>/<path>
+       removable://<path>
 
 and [options] are from
 ") . N("  --help         - print this help message.
@@ -64,7 +64,6 @@ and [options] are from
 ", $urpm::cfg::mirrors) . N("  --virtual      - create virtual media wich are always up-to-date,
                    only file:// protocol is allowed.
 ") . N("  --no-md5sum    - disable MD5SUM file checking.
-") . N("  --norebuild    - don't try to rebuild hdlist if not readable.
 ") . N("  --nopubkey     - don't import pubkey of added media
 ") . N("  --raw          - add the media in config, but don't update it.
 ") . N("  -c             - clean headers cache directory.
@@ -124,7 +123,6 @@ if (!-e $urpm->{config}) {
     open my $_f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
 }
 $urpm->read_config;
-exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
 
 if ($options{distrib}) {
     $with || $relative_hdlist
@@ -174,7 +172,6 @@ if ($options{distrib}) {
 	$name, $url, $relative_hdlist,
 	virtual => $options{virtual},
 	update => $options{update},
-	no_reload_config => $options{raw},
 	ignore => $options{raw},
 	nolock => $options{nolock},
     );

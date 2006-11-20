@@ -4,7 +4,7 @@ urpmi.addmedia - adds a new rpm media to be used by urpmi
 
 =head1 SYNOPSIS
 
-    urpmi.addmedia [options] <name> <url> [with <hdlist>]
+    urpmi.addmedia [options] <name> <url>
 
 =head1 DESCRIPTION
 
@@ -16,7 +16,7 @@ must be chosen:
 
 =over
 
-=item B<urpmi.addmedia> [I<options>] <I<name>> http://<I<login>>:<I<pass>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> http://<I<login>>:<I<pass>>@<I<host>>/<I<path>>
 
 where <I<name>> is a human-readable name for the new media (e.g.
 "updates"). <I<name>> is optional if B<--distrib> is given in the options
@@ -27,9 +27,9 @@ where to find the hdlist of the rpms. The location is given relative to
 used if B<curl> is not installed or if or B<--wget> is given in
 I<options>. Example:
 
-    urpmi.addmedia http http://jpackage.sf.net/rpm/free with hdlist.cz ftp:
+    urpmi.addmedia http http://jpackage.sf.net/rpm/free
 
-=item B<urpmi.addmedia> [I<options>] <I<name>> ftp://<I<login>>:<I<pass>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> ftp://<I<login>>:<I<pass>>@<I<host>>/<I<path>>
 
 The same as for http. Add your login and password if required (note that
 you don't need to specify B<anonymous> as login for anonymous access ftp
@@ -37,9 +37,9 @@ servers). If B<wget> is used to download files with a firewall you may
 have to ensure that the B<passive_ftp> option is on in B</etc/wgetrc>
 (that's usually the default). Example:
 
-    urpmi.addmedia ftp ftp://a:a@leia//export/media/main with media_info/hdlist.cz
+    urpmi.addmedia ftp ftp://a:a@leia//export/media/main
 
-=item B<urpmi.addmedia> [I<options>] <I<name>> ssh://<I<login>>@<I<host>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> ssh://<I<login>>@<I<host>>/<I<path>>
 
 The same as for http and ftp; add your login and password if required. You
 may want to export the public key in order not to have to type your
@@ -50,19 +50,19 @@ Example:
 
     urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
 
-=item B<urpmi.addmedia> [I<options>] <I<name>> rsync://<I<login>>@<I<host>>:<I<port>>/<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> rsync://<I<login>>@<I<host>>:<I<port>>/<I<path>>
 
 The same as for http; you can use the <I<host>>::<I<path>> syntax too. Example:
 
     urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc
 
-=item B<urpmi.addmedia> [I<options>] <I<name>> file://<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> file://<I<path>>
 
 where <I<name>> is a human-readable name for the new media (e.g.
 "local updates"). <I<path>> is the location of the media directory on your
 machine (e.g. C<media/main>).
 
-=item B<urpmi.addmedia> [I<options>] <I<name>> removable://<I<path>> [with <I<relative path of synthesis|hdlist>>]
+=item B<urpmi.addmedia> [I<options>] <I<name>> removable://<I<path>>
 
 <I<path>> is the location of the media directory on your machine when the
 removable device is mounted. This works for removable drives, but also for
@@ -120,21 +120,11 @@ C<urpmi --update> when looking for updates.
 
 =item B<--probe-synthesis>
 
-Try to find and use synthesis file if B<with ...> is not given.
+Use synthesis file.
 
 =item B<--probe-hdlist>
 
-Try to find and use hdlist file if B<with ...> is not given.
-
-=item B<--no-probe>
-
-Do not try to find any synthesis or hdlist file.
-
-So, if you use a network media (http, ftp, etc.), specifying the location
-of a synthesis or hdlist with B<with...> is mandatory.
-
-On the other hand, if you use a local media C<urpmi.addmedia> will extract
-all RPM headers and construct an hdlist by itself.
+Use hdlist file.
 
 =item B<--distrib>
 
@@ -142,9 +132,7 @@ Retrieve a set of media from a distribution. Typically, the URL provided
 to C<urpmi.addmedia> will represent the parent directory of a directory
 B<media>, which in turn will contain various subdirectories for each
 medium of the distribution. <I<name>> is combined with medium names found
-to create newer medium names in the urpmi database. The B<with ...>
-option, is not necessary, as media.cfg or hdlists found on the installation
-medium are used instead automatically.
+to create newer medium names in the urpmi database.
 
 =item B<--interactive>
 
