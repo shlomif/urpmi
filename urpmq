@@ -316,14 +316,13 @@ if ($urpm::args::options{list_aliases}) {
 		|| $urpm::args::options{summary}) {
 	    my %downloads;
 	    # get descriptions of update sources
-	    my $updates_descr = $urpm->urpm::get_updates_description;
+	    my $updates_descr = urpm::get_updates_description($urpm);
 	    # if not root, use a temporary directory to store headers
-	    my $tmp_header_dir = "$urpm->{cachedir}/headers";
-	    $< != 0 and $tmp_header_dir = urpm::sys::mktempdir();
+	    my $tmp_header_dir = $< != 0 ? urpm::sys::mktempdir() : "$urpm->{cachedir}/headers";
 	    my @selected = map { split /\|/ } keys %{$state->{selected}};
-	    foreach (0..$#{$urpm->{media} || []}) {
-		if ($urpm->{media}[$_]{synthesis}) {
-		    $urpm->{log}->(N("skipping media %s: no hdlist", $urpm->{media}[$_]{name}));
+	    foreach my $medium (@{$urpm->{media} || []}) {
+		if ($medium->{synthesis}) {
+		    $urpm->{log}->(N("skipping media %s: no hdlist", $medium->{name}));
 		    next;
 		}
 		if (my @headers = (grep { ! -s "$urpm->{cachedir}/headers/$_" }
@@ -331,9 +330,9 @@ if ($urpm::args::options{list_aliases}) {
 			    $pkg && $pkg->header_filename } @selected))
 		{
 		    my %h = map { $_ => 1 } @headers; @headers = keys %h;
-                    my $hdlist_path = $urpm->{media}[$_]{virtual}
-                      ? urpm::file_from_file_url("$urpm->{media}[$_]{url}/$urpm->{media}[$_]{with_hdlist}")
-                      : urpm::statedir_hdlist($urpm, $urpm->{media}[$_]);
+                    my $hdlist_path = $medium->{virtual}
+                      ? urpm::file_from_file_url("$medium->{url}/$medium->{with_hdlist}")
+                      : urpm::statedir_hdlist($urpm, $medium);
                     if (-s $hdlist_path) {
 			require MDV::Packdrakeng;
 			my $packer = MDV::Packdrakeng->open(archive => $hdlist_path, quiet => 1);
