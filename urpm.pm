@@ -1389,7 +1389,7 @@ this could happen if you mounted manually the directory when creating the medium
     my $error;
     #- try to probe for possible with_hdlist parameter, unless
     #- it is already defined (and valid).
-    if ($options->{probe_with} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
+    if ($options->{probe_with} && !$medium->{with_hdlist}) {
 	foreach (_probe_with_try_list($medium->{url}, $options->{probe_with})) {
 	    -e "$dir/$_" or next;
 	    if (file_size("$dir/$_") > 32) {
