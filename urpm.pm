@@ -741,24 +741,6 @@ sub configure {
 	    },
 	);
     }
-    if ($options{bug}) {
-	#- and a dump of rpmdb itself as synthesis file.
-	my $db = db_open_or_die($urpm, $options{root});
-	my $sig_handler = sub { undef $db; exit 3 };
-	local $SIG{INT} = $sig_handler;
-	local $SIG{QUIT} = $sig_handler;
-
-	open my $rpmdb, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$options{bug}/rpmdb.cz'"
-	    or $urpm->syserror("Can't fork", "gzip");
-	$db->traverse(sub {
-			  my ($p) = @_;
-			  #- this is not right but may be enough.
-			  my $files = join '@', grep { exists($urpm->{provides}{$_}) } $p->files;
-			  $p->pack_header;
-			  $p->build_info(fileno $rpmdb, $files);
-		      });
-	close $rpmdb;
-    }
 }
 
 #- add a new medium, sync the config file accordingly.
