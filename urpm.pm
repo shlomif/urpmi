@@ -3176,7 +3176,7 @@ sub translate_why_removed_one {
     $fullname . ($s ? "\n ($s)" : '');
 }
 
-#- options: callback, basename, translate
+#- options: callback, basename
 sub check_sources_signatures {
     my ($urpm, $sources_install, $sources, %options) = @_;
     sort(_check_sources_signatures($urpm, $sources_install, %options),
@@ -3237,7 +3237,7 @@ sub _check_sources_signatures {
 	    );
 	}
     }
-    map { ($options{basename} ? basename($_) : $_) . ($options{translate} ? ": $invalid_sources{$_}" : "") }
+    map { ($options{basename} ? basename($_) : $_) . ": $invalid_sources{$_}" }
       keys %invalid_sources;
 }
 
