@@ -807,7 +807,7 @@ sub add_medium {
 #- - initial_number : when adding several numbered media, start with this number
 #- - probe_with : if eq 'synthesis', use synthesis instead of hdlists
 #- - ask_media : callback to know whether each media should be added
-#- other options are passed to add_medium()
+#- other options are passed to add_medium(): ignore, nolock, virtual
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
 
