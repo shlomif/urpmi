@@ -1372,16 +1372,18 @@ sub _update_medium__parse_if_unmodified__or_get_files__local {
     #- this is used to probe for a possible hdlist file.
     my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
 
-    #- the directory given does not exist and may be accessible
-    #- by mounting some other directory. Try to figure it out and mount
-    #- everything that might be necessary.
-    -d $dir or $urpm->try_mounting(
-	!$options->{force_building_hdlist} && ($options->{probe_with} || $medium->{with_hdlist})
-	  ? $with_hdlist_dir : $dir,
-	#- in case of an iso image, pass its name
-	is_iso($medium->{removable}) && $medium->{removable},
-    ) or $urpm->{error}(N("unable to access medium \"%s\",
+    if (!-d $dir) {
+	#- the directory given does not exist and may be accessible
+	#- by mounting some other directory. Try to figure it out and mount
+	#- everything that might be necessary.
+	$urpm->try_mounting(
+	    !$options->{force_building_hdlist} && ($options->{probe_with} || $medium->{with_hdlist})
+	      ? $with_hdlist_dir : $dir,
+	    #- in case of an iso image, pass its name
+	    is_iso($medium->{removable}) && $medium->{removable},
+	) or $urpm->{error}(N("unable to access medium \"%s\",
 this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return 'unmodified';
+    }
 
     my $error;
     #- try to probe for possible with_hdlist parameter, unless
