@@ -2853,9 +2853,15 @@ sub install_logger {
 }
 
 #- install packages according to each hash (remove, install or upgrade).
+#- options: 
+#-      test, excludepath, nodeps, noorder (unused), delta, 
+#-      callback_open, callback_close, callback_inst, callback_trans, post_clean_cache
+#-   (more options for trans->run)
+#-      excludedocs, nosize, noscripts, oldpackage, repackage, ignorearch
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     my %readmes;
+    $options{translate_message} = 1;
 
     my $db = db_open_or_die($urpm, $urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
 
