@@ -1874,17 +1874,16 @@ sub remove_obsolete_headers_in_cache {
     }
 }
 
-#- handled flags: forcekey, all
 sub _update_media__handle_some_flags {
-    my ($urpm, $options) = @_;
+    my ($urpm, $forcekey, $all) = @_;
 
     foreach my $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
-	$options->{forcekey} and delete $medium->{'key-ids'};
+	$forcekey and delete $medium->{'key-ids'};
 
 	if ($medium->{static}) {
 	    #- don't ever update static media
 	    $medium->{modified} = 0;
-	} elsif ($options->{all}) {
+	} elsif ($all) {
 	    #- if we're rebuilding all media, mark them as modified (except removable ones)
 	    $medium->{modified} ||= $medium->{url} !~ m!^removable!;
 	}
@@ -1925,7 +1924,7 @@ sub update_media {
     #- hdlist file, else build it from rpm files.
     $urpm->clean;
 
-    _update_media__handle_some_flags($urpm, \%options);
+    _update_media__handle_some_flags($urpm, $options{forcekey}, $options{all});
 
     my $clean_cache = !$options{noclean};
     my $second_pass;
