@@ -401,7 +401,7 @@ sub hdlist_or_synthesis_for_virtual_medium {
     my ($medium) = @_;
 
     my $path = file_from_file_url($medium->{url}) or return;
-    "$path/$medium->{with_hdlist}";
+    $medium->{with_hdlist} && "$path/$medium->{with_hdlist}";
 }
 
 sub statedir_hdlist_or_synthesis {
