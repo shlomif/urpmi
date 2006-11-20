@@ -1100,21 +1100,21 @@ sub _update_media__when_not_modified {
 }
 
 sub _parse_hdlist_or_synthesis__virtual {
-    my ($urpm, $medium, $with_hdlist_dir) = @_;
+    my ($urpm, $medium) = @_;
 
-    if ($medium->{with_hdlist} && -e $with_hdlist_dir) {
+    if (my $hdlist_or = hdlist_or_synthesis_for_virtual_medium($medium)) {
 	delete $medium->{modified};
 	$urpm->{md5sum_modified} = 1;
 	if ($medium->{synthesis}) {
-	    if (_parse_synthesis($urpm, $medium, $with_hdlist_dir)) {
+	    if (_parse_synthesis($urpm, $medium, $hdlist_or)) {
 		$medium->{synthesis} = 1;
-	    } elsif (_parse_hdlist($urpm, $medium, $with_hdlist_dir)) {
+	    } elsif (_parse_hdlist($urpm, $medium, $hdlist_or)) {
 		delete $medium->{synthesis};
 	    }
 	} else {
-	    if (_parse_hdlist($urpm, $medium, $with_hdlist_dir)) {
+	    if (_parse_hdlist($urpm, $medium, $hdlist_or)) {
 		delete $medium->{synthesis};
-	    } elsif (_parse_synthesis($urpm, $medium, $with_hdlist_dir)) {
+	    } elsif (_parse_synthesis($urpm, $medium, $hdlist_or)) {
 		$medium->{synthesis} = 1;
 	    }
 	}
@@ -1408,7 +1408,7 @@ this could happen if you mounted manually the directory when creating the medium
     if ($medium->{virtual}) {
 	#- syncing a virtual medium is very simple, just try to read the file in order to
 	#- determine its type, once a with_hdlist has been found (but is mandatory).
-	_parse_hdlist_or_synthesis__virtual($urpm, $medium, $with_hdlist_dir);
+	_parse_hdlist_or_synthesis__virtual($urpm, $medium);
     }
 
     get_descriptions_local($urpm, $medium);
