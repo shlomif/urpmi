@@ -2425,18 +2425,9 @@ sub get_source_packages {
 
 	if (is_valid_medium($medium) && !$medium->{ignore}) {
 	    #- always prefer a list file if available.
-	    my $listfile = $medium->{list} ? statedir_list($urpm, $medium) : '';
-	    if (!$listfile && $medium->{virtual}) {
-		my $dir = file_from_local_url($medium->{url});
-		my $with_hdlist_dir = reduce_pathname($dir . ($medium->{with_hdlist} ? "/$medium->{with_hdlist}" : "/.."));
-		my $local_list = 'list' . _hdlist_suffix($medium);
-		$listfile = reduce_pathname("$with_hdlist_dir/../$local_list");
-		-s $listfile or $listfile = "$dir/list";
-	    }
-	    if ($listfile && -r $listfile) {
-		if (my $fh = $urpm->open_safe('<', $listfile)) {
-		    local $_;
-		    while (<$fh>) {
+	    if ($medium->{list}) {
+		if (-r statedir_list($urpm, $medium)) {
+		    foreach (cat_(statedir_list($urpm, $medium))) {
 			chomp;
 			if (my ($filename) = m!([^/]*\.rpm)$!) {
 			    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
@@ -2458,13 +2449,13 @@ sub get_source_packages {
 			    last;
 			}
 		    }
+		} else {
+		    # list file exists but isn't readable
+		    # report error only if no result found, list files are only readable by root
+		    push @list_error, N("unable to access list file of \"%s\", medium ignored", $medium->{name});
+		    $< and push @list_error, "    " . N("(retry as root?)");
+		    next;
 		}
-	    } elsif ($listfile && -e $listfile) {
-		# list file exists but isn't readable
-		# report error only if no result found, list files are only readable by root
-		push @list_error, N("unable to access list file of \"%s\", medium ignored", $medium->{name});
-		$< and push @list_error, "    " . N("(retry as root?)");
-		next;
 	    }
 	    if (defined $medium->{url}) {
 		foreach ($medium->{start} .. $medium->{end}) {
