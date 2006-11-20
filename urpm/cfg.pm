@@ -54,7 +54,6 @@ sub _init_arch_release () {
 	my $l = cat_('/etc/release') or return undef;
 	($release, $arch) = $l =~ /release (\d+\.\d+).*for (\w+)/;
 	$release = 'cooker' if $l =~ /cooker/i;
-	warn  "$arch $release\n";
     }
     1;
 }
