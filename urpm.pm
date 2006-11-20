@@ -1378,7 +1378,7 @@ sub _update_medium__parse_if_unmodified__or_get_files__local {
 	#- by mounting some other directory. Try to figure it out and mount
 	#- everything that might be necessary.
 	$urpm->try_mounting(
-	    !$options->{force_building_hdlist} && ($options->{probe_with} || $medium->{with_hdlist})
+	    !$options->{force_building_hdlist} && $medium->{with_hdlist}
 	      ? $with_hdlist_dir : $dir,
 	    #- in case of an iso image, pass its name
 	    is_iso($medium->{removable}) && $medium->{removable},
@@ -1565,13 +1565,8 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
     #- it is already defined (and valid).
     $urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
     $options->{callback} and $options->{callback}('retrieve', $medium->{name});
-    if ($options->{probe_with}) {
-	my @probe_list = (
-	    $medium->{with_hdlist}
-	      ? $medium->{with_hdlist}
-		: _probe_with_try_list($medium->{url}, $options->{probe_with})
-	    );
-	foreach my $with_hdlist (@probe_list) {
+    if ($options->{probe_with} && !$medium->{with_hdlist}) {
+	foreach my $with_hdlist (_probe_with_try_list($medium->{url}, $options->{probe_with})) {
 	    $basename = basename($with_hdlist) or next;
 	    $options->{force} and unlink "$urpm->{cachedir}/partial/$basename";
 	    if (sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
