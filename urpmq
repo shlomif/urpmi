@@ -342,7 +342,8 @@ if ($urpm::args::options{list_aliases}) {
 			};
 			$packer->extract($tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
-			%downloads = $urpm->download_source_packages({}, $list, nolock => $urpm::args::options{nolock});
+			$urpm->download_packages_of_distant_media($list, \%downloads, my $error = {});
+			warn "missing file $_\n" foreach values %$error;
 		    }
 		}
 	    }
