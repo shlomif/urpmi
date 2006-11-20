@@ -3176,6 +3176,7 @@ sub translate_why_removed_one {
     $fullname . ($s ? "\n ($s)" : '');
 }
 
+#- options: callback, basename, translate
 sub check_sources_signatures {
     my ($urpm, $sources_install, $sources, %options) = @_;
     sort(_check_sources_signatures($urpm, $sources_install, %options),
@@ -3229,7 +3230,7 @@ sub _check_sources_signatures {
 	    }
 	    #- invoke check signature callback.
 	    $options{callback} and $options{callback}->(
-		$urpm, $filepath, %options,
+		$urpm, $filepath,
 		id => $id,
 		verif => $verif,
 		why => $invalid_sources{$filepath},
