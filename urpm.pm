@@ -573,6 +573,7 @@ sub _configure_parallel {
 #- options :
 #-	root
 #-	cmdline_skiplist
+#-      nocheck_access (used by read_config)
 #-
 #-	callback (urpmf)
 #-	need_hdlist (for urpmf: to be able to have info not available in synthesis)
@@ -604,7 +605,7 @@ sub configure {
 	    $urpm->{log}->(N("using associated media for parallel mode: %s", $options{media}));
 	}
     } else {
-	#- parallel is exclusive against root options.
+	#- nb: can't have both parallel and root
 	$urpm->{root} = $options{root};
     }
 
