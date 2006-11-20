@@ -1063,9 +1063,8 @@ sub reconfig_urpmi {
 }
 
 sub _guess_hdlist_suffix {
-    my ($dir) = @_;
-    my ($suffix) = $dir =~ m!\bmedia/(\w+)/*\Z!;
-    $suffix;
+    my ($url) = @_;
+    $url =~ m!\bmedia/(\w+)/*\Z! && $1;
 }
 
 sub _hdlist_suffix {
@@ -1389,7 +1388,7 @@ this could happen if you mounted manually the directory when creating the medium
     #- try to probe for possible with_hdlist parameter, unless
     #- it is already defined (and valid).
     if ($options->{probe_with} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
-	foreach (_probe_with_try_list(_guess_hdlist_suffix($dir), $options->{probe_with})) {
+	foreach (_probe_with_try_list(_guess_hdlist_suffix($medium->{url}), $options->{probe_with})) {
 	    -e "$dir/$_" or next;
 	    if (file_size("$dir/$_") > 32) {
 		$medium->{with_hdlist} = $_;
