@@ -2445,7 +2445,7 @@ sub get_source_packages {
 			} else {
 			    chomp;
 			    $error = 1;
-			    $urpm->{error}(N("unable to correctly parse [%s] on value \"%s\"", $listfile, $_));
+			    $urpm->{error}(N("unable to correctly parse [%s] on value \"%s\"", statedir_list($urpm, $medium), $_));
 			    last;
 			}
 		    }
