@@ -1383,6 +1383,7 @@ sub _update_medium__parse_if_unmodified__or_get_files__local {
     ) or $urpm->{error}(N("unable to access medium \"%s\",
 this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return 'unmodified';
 
+    my $error;
     #- try to probe for possible with_hdlist parameter, unless
     #- it is already defined (and valid).
     if ($options->{probe_with} && (!$medium->{with_hdlist} || ! -e "$dir/$medium->{with_hdlist}")) {
@@ -1390,9 +1391,11 @@ this could happen if you mounted manually the directory when creating the medium
 	    -e "$dir/$_" or next;
 	    if (file_size("$dir/$_") > 32) {
 		$medium->{with_hdlist} = $_;
+		undef $error; #- allowing a valid hdlist to save from an invalid hdlist
 		last;
 	    } else {
 		$urpm->{error}(N("invalid hdlist file %s for medium \"%s\"", "$dir/$_", $medium->{name}));
+		$error = 1;
 	    }
 	}
 	#- redo...
@@ -1415,7 +1418,7 @@ this could happen if you mounted manually the directory when creating the medium
     #- to be checked for being valid, nothing can be deduced if no MD5SUM
     #- file is present.
 
-    my ($retrieved_md5sum, $error);
+    my ($retrieved_md5sum);
 
     unless ($medium->{virtual}) {
 	if ($medium->{with_hdlist}) {
