@@ -572,19 +572,22 @@ sub _configure_parallel {
 #- read urpmi.cfg file as well as necessary synthesis files
 #- options :
 #-	callback (urpmf)
-#-	excludemedia
-#-	hdlist
-#-	media
 #-	need_hdlist (for urpmf: to be able to have info not available in synthesis)
-#-	nodepslist
+#-	nodepslist (for urpmq: we don't need the hdlist/synthesis)
 #-	no_skiplist (urpmf)
-#-	parallel
 #-	root
-#-	searchmedia
 #-	skip
-#-	sortmedia
-#-	update
-#-	usedistrib
+#-
+#-	synthesis (use this synthesis file, and only this synthesis file)
+#-
+#-	usedistrib (otherwise uses urpmi.cfg)
+#-	parallel
+#-	  media
+#-	  excludemedia
+#-	  sortmedia
+#-
+#-	  update
+#-	  searchmedia
 sub configure {
     my ($urpm, %options) = @_;
 
