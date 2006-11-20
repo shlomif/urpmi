@@ -331,7 +331,7 @@ if ($urpm::args::options{list_aliases}) {
 		{
 		    my %h = map { $_ => 1 } @headers; @headers = keys %h;
                     my $hdlist_path = $medium->{virtual}
-                      ? urpm::file_from_file_url("$medium->{url}/$medium->{with_hdlist}")
+                      ? urpm::hdlist_or_synthesis_for_virtual_medium($medium)
                       : urpm::statedir_hdlist($urpm, $medium);
                     if (-s $hdlist_path) {
 			require MDV::Packdrakeng;
