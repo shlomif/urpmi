@@ -2530,7 +2530,7 @@ sub download_source_packages {
     my %error_sources;
 
     $urpm->lock_urpmi_db('exclusive') if !$options{nolock};
-    $urpm->copy_packages_of_removable_media($list, \%sources, %options) or return;
+    $urpm->copy_packages_of_removable_media($list, \%sources, $options{ask_for_medium}) or return;
     $urpm->download_packages_of_distant_media($list, \%sources, \%error_sources, %options);
     $urpm->unlock_urpmi_db unless $options{nolock};
 
@@ -2592,7 +2592,7 @@ sub unlock_urpmi_db {
 #- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
 #- where there is one hash for each medium in {media}
 sub copy_packages_of_removable_media {
-    my ($urpm, $list, $sources, %options) = @_;
+    my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
     my %removables;
 
     #- make sure everything is correct on input...
@@ -2628,12 +2628,12 @@ sub copy_packages_of_removable_media {
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- everything that might be necessary.
 	    while ($check_notfound->($id, $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
-		is_iso($medium->{removable}) || $options{ask_for_medium}
+		is_iso($medium->{removable}) || $o_ask_for_medium
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 		$urpm->try_umounting($dir);
 		system("/usr/bin/eject '$device' 2>/dev/null");
 		is_iso($medium->{removable})
-		    || $options{ask_for_medium}(remove_internal_name($medium->{name}), $medium->{removable})
+		    || $o_ask_for_medium->(remove_internal_name($medium->{name}), $medium->{removable})
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
 	    }
 	    if (-e $dir) {

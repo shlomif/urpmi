@@ -218,8 +218,7 @@ sub do_install_3 () {
     $progressbar->set_size_request(300, -1);
     $vbox->pack_start($progressbar, 0, 0, 0);
     change_mainw($vbox);
-    $urpm->copy_packages_of_removable_media($list, \%sources,
-	ask_for_medium => sub {
+    $urpm->copy_packages_of_removable_media($list, \%sources, sub {
 	    my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok-cancel',
 		N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1])
 	    );
@@ -227,8 +226,7 @@ sub do_install_3 () {
 	    $w->destroy;
 	    exit 0 if $response eq 'cancel';
 	    1;
-	}
-    );
+	});
     $urpm->create_transaction(
 	$state,
 	split_level => $urpm->{options}{'split-level'},
