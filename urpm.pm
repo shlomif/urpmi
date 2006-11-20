@@ -1362,6 +1362,7 @@ sub get_hdlist_or_synthesis__local {
     }
 }
 
+#- options: callback, force, force_building_hdlist, nomd5sum, nopubkey, probe_with
 sub _update_medium__parse_if_unmodified__or_get_files__local {
     my ($urpm, $medium, $second_pass, $clean_cache, $rpm_files, $options) = @_;
 
@@ -1520,6 +1521,7 @@ this could happen if you mounted manually the directory when creating the medium
     ($error, $retrieved_md5sum);
 }
 
+#- options: callback, force, nomd5sum, nopubkey, probe_with, quiet
 sub _update_medium__parse_if_unmodified__or_get_files__remote {
     my ($urpm, $medium, $options) = @_;
     my ($error, $retrieved_md5sum, $basename);
@@ -1677,6 +1679,8 @@ sub _write_rpm_list_if_needed {
     1;
 }
 
+#- options: callback, force, force_building_hdlist, nomd5sum, nopubkey, probe_with, quiet
+#- (from _update_medium__parse_if_unmodified__or_get_files__local and _update_medium__parse_if_unmodified__or_get_files__remote)
 sub _update_medium_first_pass {
     my ($urpm, $medium, $second_pass, $clean_cache, %options) = @_;
 
@@ -1870,6 +1874,7 @@ sub remove_obsolete_headers_in_cache {
     }
 }
 
+#- handled flags: forcekey, all
 sub _update_media__handle_some_flags {
     my ($urpm, $options) = @_;
 
@@ -1893,7 +1898,8 @@ sub _update_media__handle_some_flags {
 #-   all         : all medias are being rebuilt
 #-   callback    : UI callback
 #-   forcekey    : force retrieval of pubkey
-#-   force       : try to force rebuilding base files (1) or hdlist from rpm files (2)
+#-   force       : try to force rebuilding base files
+#-   force_building_hdlist
 #-   noclean     : keep old files in the header cache directory
 #-   nolock      : don't lock the urpmi database
 #-   nomd5sum    : don't verify MD5SUM of retrieved files
