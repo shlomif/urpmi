@@ -51,11 +51,10 @@ Returns 1 on success, 0 on failure.
 my ($arch, $release);
 sub _init_arch_release () {
     if (!$arch && !$release) {
-	open my $f, '/etc/release' or return undef;
-	my $l = <$f>;
-	close $f;
+	my $l = cat_('/etc/release') or return undef;
 	($release, $arch) = $l =~ /release (\d+\.\d+).*for (\w+)/;
 	$release = 'cooker' if $l =~ /cooker/i;
+	warn  "$arch $release\n";
     }
     1;
 }
