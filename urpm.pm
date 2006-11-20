@@ -650,14 +650,14 @@ sub configure {
 	}
 	if ($options{excludemedia}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
-	    foreach (select_media_by_name($urpm, [ split /,/, $options{excludemedia} ], {})) {
+	    foreach (select_media_by_name($urpm, [ split /,/, $options{excludemedia} ])) {
 		$_->{modified} = 1;
 		#- this is only a local ignore that will not be saved.
 		$_->{tempignore} = $_->{ignore} = 1;
 	    }
 	}
 	if ($options{sortmedia}) {
-	    my @sorted_media = map { select_media_by_name($urpm, [$_], {}) } split(/,/, $options{sortmedia});
+	    my @sorted_media = map { select_media_by_name($urpm, [$_]) } split(/,/, $options{sortmedia});
 	    my @remaining = difference2($urpm->{media}, \@sorted_media);
 	    $urpm->{media} = [ @sorted_media, @remaining ];
 	}
@@ -896,14 +896,14 @@ sub select_media {
     my $urpm = shift;
     my $options = {};
     if (ref $_[0]) { $options = shift }
-    foreach (select_media_by_name($urpm, [ @_ ], $options)) {
+    foreach (select_media_by_name($urpm, [ @_ ], $options->{strict_match})) {
 	#- select medium by setting the modified flag, do not check ignore.
 	$_->{modified} = 1;
     }
 }
 
 sub select_media_by_name {
-    my ($urpm, $names, $options) = @_;
+    my ($urpm, $names, $b_strict_match) = @_;
 
     my %wanted = map { $_ => 1 } @$names;
 
@@ -916,8 +916,8 @@ sub select_media_by_name {
     foreach (keys %wanted) {
 	my $q = quotemeta;
 	my (@found, @foundi);
-	my $regex  = $options->{strict_match} ? qr/^$q$/  : qr/$q/;
-	my $regexi = $options->{strict_match} ? qr/^$q$/i : qr/$q/i;
+	my $regex  = $b_strict_match ? qr/^$q$/  : qr/$q/;
+	my $regexi = $b_strict_match ? qr/^$q$/i : qr/$q/i;
 	foreach my $medium (@{$urpm->{media}}) {
 	    $medium->{name} =~ $regex  and push @found, $medium;
 	    $medium->{name} =~ $regexi and push @foundi, $medium;
