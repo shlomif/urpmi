@@ -143,6 +143,7 @@ sub apply_delta_rpm {
     -e $deltarpm or return 0;
     my $rpm;
     if ($o_pkg) {
+	require URPM; #- help perl_checker
 	$rpm = $o_pkg->name . '-' . $o_pkg->version . '-' . $o_pkg->release . '.' . $o_pkg->arch . '.rpm';
     } else {
 	$rpm = `rpm -qp --qf '%{name}-%{version}-%{release}.%{arch}.rpm' '$deltarpm'`;
