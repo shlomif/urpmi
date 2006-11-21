@@ -114,8 +114,8 @@ sub configure_urpm() {
 	$w->run;
 	$w->destroy;
     };
-    $urpm->lock_rpm_db('exclusive');
-    $urpm->lock_urpmi_db;
+    urpm::sys::lock_rpm_db($urpm, 'exclusive');
+    urpm::sys::lock_urpmi_db($urpm);
     $urpm->configure(
 	root	    => $gurpmi::options{root},
 	media	    => $gurpmi::options{media},
@@ -332,7 +332,7 @@ sub do_install_3 () {
     } else {
 	$progress_label->set_label(N("Installation finished"));
     }
-    $urpm->unlock_urpmi_db;
-    $urpm->unlock_rpm_db;
+    urpm::sys::unlock_urpmi_db($urpm);
+    urpm::sys::unlock_rpm_db($urpm);
     $urpm->try_umounting_removables;
 }

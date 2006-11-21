@@ -18,9 +18,6 @@ our @ISA = qw(URPM);
 use URPM;
 use URPM::Resolve;
 
-my $RPMLOCK_FILE;
-my $LOCK_FILE;
-
 #- this violently overrides is_arch_compat() to always return true.
 sub shunt_ignorearch {
     eval q( sub URPM::Package::is_arch_compat { 1 } );
@@ -740,7 +737,7 @@ sub add_medium {
 
     #- make sure configuration has been read.
     $urpm->{media} or die "caller should have used ->read_config or ->configure first";
-    $urpm->lock_urpmi_db('exclusive') if !$options{nolock};
+    urpm::sys::lock_urpmi_db($urpm, 'exclusive') if !$options{nolock};
 
     #- if a medium with that name has already been found, we have to exit now
     my $medium;
@@ -783,7 +780,7 @@ sub add_medium {
     $urpm->{log}(N("added medium %s", $name));
     $urpm->{modified} = 1;
 
-    $options{nolock} or $urpm->unlock_urpmi_db;
+    $options{nolock} or urpm::sys::unlock_urpmi_db($urpm);
     $name;
 }
 
@@ -1888,11 +1885,11 @@ sub update_media {
     $options{nopubkey} ||= $urpm->{options}{nopubkey};
     #- get gpg-pubkey signature.
     if (!$options{nopubkey}) {
-	$urpm->lock_rpm_db('exclusive');
+	urpm::sys::lock_rpm_db($urpm, 'exclusive');
 	$urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
     }
     #- lock database if allowed.
-    $urpm->lock_urpmi_db('exclusive') if !$options{nolock};
+    urpm::sys::lock_urpmi_db($urpm, 'exclusive') if !$options{nolock};
 
     #- examine each medium to see if one of them needs to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1943,8 +1940,8 @@ sub update_media {
 	write_MD5SUM($urpm);
     }
 
-    $options{nolock} or $urpm->unlock_urpmi_db;
-    $options{nopubkey} or $urpm->unlock_rpm_db;
+    $options{nolock} or urpm::sys::unlock_urpmi_db($urpm);
+    $options{nopubkey} or urpm::sys::unlock_rpm_db($urpm);
 }
 
 #- clean params and depslist computation zone.
@@ -2494,64 +2491,18 @@ sub download_source_packages {
     my %sources = %$local_sources;
     my %error_sources;
 
-    $urpm->lock_urpmi_db('exclusive') if !$options{nolock};
+    urpm::sys::lock_urpmi_db($urpm, 'exclusive') if !$options{nolock};
     $urpm->copy_packages_of_removable_media($list, \%sources, $options{ask_for_medium}) or return;
     $urpm->download_packages_of_distant_media($list, \%sources, \%error_sources, %options);
-    $urpm->unlock_urpmi_db unless $options{nolock};
+    urpm::sys::unlock_urpmi_db($urpm) unless $options{nolock};
 
     %sources, %error_sources;
 }
 
-#- lock policy concerning chroot :
-#  - lock rpm db in chroot
-#  - lock urpmi db in /
-sub _lock {
-    my ($urpm, $fh_ref, $file, $b_exclusive) = @_;
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my ($LOCK_SH, $LOCK_EX, $LOCK_NB) = (1, 2, 4);
-    if ($b_exclusive) {
-	#- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    } else {
-	#- create the .LOCK file if needed (and if possible)
-	-e $file or open(my $_f, ">", $file);
-
-	#- lock urpmi database, if the LOCK file doesn't exists no share lock.
-    }
-    my ($sense, $mode) = $b_exclusive ? ('>', $LOCK_EX) : ('<', $LOCK_SH);
-    open $$fh_ref, $sense, $file or return;
-    flock $$fh_ref, $mode|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
-}
-
-sub lock_rpm_db { 
-    my ($urpm, $b_exclusive) = @_;
-    _lock($urpm, \$RPMLOCK_FILE, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK", $b_exclusive);
-}
-sub lock_urpmi_db {
-    my ($urpm, $b_exclusive) = @_;
-    _lock($urpm, \$LOCK_FILE, "$urpm->{statedir}/.LOCK", $b_exclusive);
-}
 #- deprecated
 sub exlock_urpmi_db {
     my ($urpm) = @_;
-    lock_urpmi_db($urpm, 'exclusive');
-}
-
-sub _unlock {
-    my ($fh_ref) = @_;
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my $LOCK_UN = 8;
-    #- now everything is finished.
-    #- release lock on database.
-    flock $$fh_ref, $LOCK_UN;
-    close $$fh_ref;
-}
-sub unlock_rpm_db {
-    my ($_urpm) = @_;
-    _unlock(\$RPMLOCK_FILE);
-}
-sub unlock_urpmi_db {
-    my ($_urpm) = @_;
-    _unlock(\$LOCK_FILE);
+    urpm::sys::lock_urpmi_db($urpm, 'exclusive');
 }
 
 #- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]

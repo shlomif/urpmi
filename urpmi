@@ -330,8 +330,8 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
 }
 
 unless ($env || $nolock) {
-    $urpm->lock_rpm_db('exclusive');
-    $urpm->lock_urpmi_db;
+    urpm::sys::lock_rpm_db($urpm, 'exclusive');
+    urpm::sys::lock_urpmi_db($urpm);
 }
 
 #- should we ignore arch compatibility
@@ -820,8 +820,8 @@ if ($nok) {
 }
 
 unless ($env || $nolock) {
-    $urpm->unlock_urpmi_db;
-    $urpm->unlock_rpm_db;
+    urpm::sys::unlock_urpmi_db($urpm);
+    urpm::sys::unlock_rpm_db($urpm);
 
     #- try to umount removable device which may have been mounted.
     $urpm->try_umounting_removables;

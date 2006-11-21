@@ -136,8 +136,8 @@ if ($urpm::args::options{env}) {
 if ($urpm::args::options{ignorearch}) { urpm::shunt_ignorearch() }
 
 $urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
-    and $urpm->lock_rpm_db;
-$urpm->lock_urpmi_db if !$urpm::args::options{nolock};
+    and urpm::sys::lock_rpm_db($urpm);
+urpm::sys::lock_urpmi_db($urpm) if !$urpm::args::options{nolock};
 $urpm->configure(
     nocheck_access => 1,
     nodepslist => $urpm::args::options{nodepslist},
@@ -424,9 +424,9 @@ if ($urpm::args::options{list_aliases}) {
 	exit 0;
     }
 }
-$urpm::args::options{nolock} or $urpm->unlock_urpmi_db;
+$urpm::args::options{nolock} or urpm::sys::unlock_urpmi_db($urpm);
 $urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
-    and $urpm->unlock_rpm_db;
+    and urpm::sys::unlock_rpm_db($urpm);
 
 #- print sub for query.
 my $query_sub = sub {
