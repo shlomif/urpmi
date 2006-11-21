@@ -1086,11 +1086,7 @@ sub _update_media__when_not_modified {
     delete @$medium{qw(start end)};
     if ($medium->{virtual}) {
 	if (file_from_file_url($medium->{url})) {
-	    if ($medium->{synthesis}) {
-		_parse_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
-	    } else {
-		_parse_hdlist($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
-	    }
+	    _parse_maybe_hdlist_or_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
 	} else {
 	    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
 	    $medium->{ignore} = 1;
