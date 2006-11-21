@@ -2918,13 +2918,6 @@ sub install {
     @l;
 }
 
-#- install all files to node as remembered according to resolving done.
-sub parallel_install {
-    my @para = @_;
-    my ($urpm, $_remove, $_install, $_upgrade, %_options) = @para;
-    $urpm->{parallel_handler}->parallel_install(@para);
-}
-
 #- find packages to remove.
 #- options:
 #-	bundle

@@ -693,9 +693,11 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    print N("distributing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), "\n";
 	    #- no remove are handle here, automatically done by each distant node.
 	    $urpm->{log}("starting distributed install");
-	    $urpm->parallel_install([ keys %{$state->{rejected} || {}} ], \%transaction_sources_install, \%transaction_sources,
-				    test => $test,
-				    excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs});
+	    $urpm->{parallel_handler}->parallel_install(
+		[ keys %{$state->{rejected} || {}} ], \%transaction_sources_install, \%transaction_sources,
+		test => $test,
+		excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
+	    );
 	} else {
 	    my @packnames = (values %transaction_sources_install, values %transaction_sources);
 	    (my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
