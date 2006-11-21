@@ -1676,23 +1676,17 @@ sub _read_cachedir_pubkey {
     }
 }
 
-sub _write_rpm_list_if_needed {
-    my ($urpm, $medium, $rpm_list) = @_;
+sub _write_rpm_list {
+    my ($urpm, $medium) = @_;
 
-    if (@$rpm_list) {
-	$medium->{list} ||= "list.$medium->{name}";
+    @{$medium->{rpm_files} || []} or return;
 
-	#- write list file.
-	$urpm->{log}(N("writing list file for medium \"%s\"", $medium->{name}));
-	my $listfh = $urpm->open_safe('>', cachedir_list($urpm, $medium)) or return;
-	print $listfh basename($_), "\n" foreach @$rpm_list;
-    } else {
-	#- the flag is no longer necessary.
-	if ($medium->{list}) {
-	    unlink statedir_list($urpm, $medium);
-	    delete $medium->{list};
-	}
-    }
+    $medium->{list} ||= "list.$medium->{name}";
+
+    #- write list file.
+    $urpm->{log}(N("writing list file for medium \"%s\"", $medium->{name}));
+    my $listfh = $urpm->open_safe('>', cachedir_list($urpm, $medium)) or return;
+    print $listfh basename($_), "\n" foreach @{$medium->{rpm_files}};
     1;
 }
 
@@ -1743,7 +1737,7 @@ sub _update_medium_first_pass {
 
     if (!$medium->{virtual}) {
 	if ($medium->{headers}) {
-	    _write_rpm_list_if_needed($urpm, $medium, $medium->{rpm_files}) or return;
+	    _write_rpm_list($urpm, $medium) or return;
 	} else {
 	    #- read first pass hdlist or synthesis, try to open as synthesis, if file
 	    #- is larger than 1MB, this is probably an hdlist else a synthesis.
@@ -1769,6 +1763,7 @@ sub _update_medium_first_pass {
 		}
 		return;
 	    }
+	    delete $medium->{list};
 
 	    {
 		my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
