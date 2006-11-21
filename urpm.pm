@@ -1816,18 +1816,13 @@ sub _update_medium_second_pass {
     $callback and $callback->('parse', $medium->{name});
     #- a modified medium is an invalid medium, we have to read back the previous hdlist
     #- or synthesis which has not been modified by first pass above.
-    if ($medium->{headers} && !$medium->{modified}) {
-	if ($second_pass) {
+    if ($second_pass) {
+	if ($medium->{headers} && !$medium->{modified}) {
 	    $urpm->{log}(N("reading headers from medium \"%s\"", $medium->{name}));
 	    ($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
 								      headers => $medium->{headers},
 								  );
-	}
-	_build_hdlist_using_rpm_headers($urpm, $medium);
-	#- synthesis needs to be created, since the medium has been built from rpm files.
-	_build_synthesis($urpm,  $medium);
-    } elsif ($medium->{synthesis}) {
-	if ($second_pass) {
+	} elsif ($medium->{synthesis}) {
 	    if ($medium->{virtual}) {
 		if (file_from_file_url($medium->{url})) {
 		    _parse_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
@@ -1835,13 +1830,20 @@ sub _update_medium_second_pass {
 	    } else {
 		_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
 	    }
-	}
-    } else {
-	if ($second_pass) {
+	} else {
 	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
+	    $medium->{must_build_synthesis} ||= 1;
 	}
+    }
+
+    if ($medium->{headers} && !$medium->{modified}) {
+	_build_hdlist_using_rpm_headers($urpm, $medium);
+	#- synthesis needs to be created, since the medium has been built from rpm files.
+	_build_synthesis($urpm,  $medium);
+    } elsif ($medium->{synthesis}) {
+    } else {
 	#- check if the synthesis file can be built.
-	if (($second_pass || $medium->{must_build_synthesis}) && !$medium->{modified} && !$medium->{virtual}) {
+	if ($medium->{must_build_synthesis} && !$medium->{modified} && !$medium->{virtual}) {
 	    _build_synthesis($urpm, $medium);
 	}
     }
