@@ -592,7 +592,7 @@ unless ($local_sources || $list) {
 my %sources = %$local_sources;
 my %error_sources;
 
-$urpm->copy_packages_of_removable_media(
+urpm::removable::copy_packages_of_removable_media($urpm,
     $list, \%sources,
     (!$urpm->{options}{auto} || $allow_medium_change) && sub {
 	my $msg = N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1]);
@@ -826,7 +826,7 @@ unless ($env || $nolock) {
     urpm::sys::unlock_rpm_db($urpm);
 
     #- try to umount removable device which may have been mounted.
-    $urpm->try_umounting_removables;
+    urpm::removable::try_umounting_removables($urpm);
 }
 
 #- restart urpmi if needed, keep command line for that.

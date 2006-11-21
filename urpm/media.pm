@@ -5,6 +5,7 @@ package urpm::media;
 use urpm 'file_from_local_url';
 use urpm::msg;
 use urpm::util;
+use urpm::removable;
 
 
 our @PER_MEDIA_OPT = qw(
@@ -334,7 +335,7 @@ sub probe_removable_device {
 	    $urpm->{log}(N("too many mount points for removable medium \"%s\"", $medium->{name}));
 	    $urpm->{log}(N("taking removable device as \"%s\"", join ',', map { $infos{$_}{device} } @mntpoints));
 	}
-	if (urpm::is_iso($medium->{removable})) {
+	if (urpm::removable::is_iso($medium->{removable})) {
 	    $urpm->{log}(N("Medium \"%s\" is an ISO image, will be mounted on-the-fly", $medium->{name}));
 	} elsif (@mntpoints) {
 	    if ($medium->{removable} && $medium->{removable} ne $infos{$mntpoints[-1]}{device}) {
@@ -663,7 +664,7 @@ sub add_distrib_media {
     my $distribconf;
 
     if (my $dir = file_from_local_url($url)) {
-	$urpm->try_mounting($dir)
+	urpm::removable::try_mounting($urpm, $dir)
 	    or $urpm->{error}(N("unable to mount the distribution medium")), return ();
 	$distribconf = MDV::Distribconf->new($dir, undef);
 	$distribconf->load
@@ -1272,11 +1273,11 @@ sub _update_medium__parse_if_unmodified__local {
 	#- the directory given does not exist and may be accessible
 	#- by mounting some other directory. Try to figure it out and mount
 	#- everything that might be necessary.
-	$urpm->try_mounting(
+	urpm::removable::try_mounting($urpm,
 	    !$options->{force_building_hdlist} && $medium->{with_hdlist}
 	      ? _hdlist_dir($medium) : $dir,
 	    #- in case of an iso image, pass its name
-	    urpm::is_iso($medium->{removable}) && $medium->{removable},
+	    urpm::removable::is_iso($medium->{removable}) && $medium->{removable},
 	) or $urpm->{error}(N("unable to access medium \"%s\",
 this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return 'unmodified';
     }

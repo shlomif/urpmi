@@ -220,7 +220,7 @@ sub do_install_3 () {
     $progressbar->set_size_request(300, -1);
     $vbox->pack_start($progressbar, 0, 0, 0);
     change_mainw($vbox);
-    $urpm->copy_packages_of_removable_media($list, \%sources, sub {
+    urpm::removable::copy_packages_of_removable_media($urpm, $list, \%sources, sub {
 	    my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok-cancel',
 		N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1])
 	    );
@@ -336,5 +336,5 @@ sub do_install_3 () {
     }
     urpm::sys::unlock_urpmi_db($urpm);
     urpm::sys::unlock_rpm_db($urpm);
-    $urpm->try_umounting_removables;
+    urpm::removable::try_umounting_removables($urpm);
 }
