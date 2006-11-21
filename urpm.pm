@@ -670,64 +670,67 @@ sub configure {
 	    my @remaining = difference2($urpm->{media}, \@sorted_media);
 	    $urpm->{media} = [ @sorted_media, @remaining ];
 	}
-	unless ($options{nodepslist}) {
-	    my $second_pass;
-	    do {
-		foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) } @{$urpm->{media} || []}) {
-		    our $currentmedia = $_; #- hack for urpmf
-		    delete @$_{qw(start end)};
-		    if ($_->{virtual}) {
-			if (file_from_file_url($_->{url})) {
-			    if ($_->{synthesis}) {
-				_parse_synthesis($urpm, $_,
-				    hdlist_or_synthesis_for_virtual_medium($_), $options{callback});
-			    } else {
-				#- we'll need a second pass
-				defined $second_pass or $second_pass = 1;
-				_parse_hdlist($urpm, $_,
-				    hdlist_or_synthesis_for_virtual_medium($_),
-				    $second_pass ? undef : $options{callback},
-				);
-			    }
-			} else {
-			    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $_->{name}));
-			    $_->{ignore} = 1;
-			}
-		    } else {
-			if ($options{need_hdlist} && file_size(statedir_hdlist($urpm, $_)) > 32) {
-			    _parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options{callback});
-			} else {
-			    if (!_parse_synthesis($urpm, $_,
-						  statedir_synthesis($urpm, $_),
-						  $options{callback})) {
-				_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options{callback});
-			    }
-			}
-		    }
-		    unless ($_->{ignore}) {
-			_check_after_reading_hdlist_or_synthesis($urpm, $_);
-		    }
-		    unless ($_->{ignore}) {
-			    if ($_->{searchmedia}) {
-			        ($urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}) = ($_->{start}, $_->{end});
-				$urpm->{log}(N("Search start: %s end: %s",
-					$urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}));
-				delete $_->{searchmedia};
-			    }
-		    }
-		}
-	    } while $second_pass && do {
-		require URPM::Build;
-		$urpm->{log}(N("performing second pass to compute dependencies\n"));
-		$urpm->unresolved_provides_clean;
-		$second_pass--;
-	    };
-	}
+	_parse_media($urpm, 0, \%options) if !$options{nodepslist};
     }
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
     if (!$options{nodepslist}) {
 	_compute_flags_for_skiplist($urpm, $options{cmdline_skiplist}) if !$options{no_skiplist};
 	_compute_flags_for_instlist($urpm);
+    }
+}
+
+sub _parse_media {
+    my ($urpm, $second_pass, $options) = @_;
+
+    foreach (grep { !$_->{ignore} && (!$options->{update} || $_->{update}) } @{$urpm->{media} || []}) {
+	our $currentmedia = $_; #- hack for urpmf
+	delete @$_{qw(start end)};
+	if ($_->{virtual}) {
+	    if (file_from_file_url($_->{url})) {
+		if ($_->{synthesis}) {
+		    _parse_synthesis($urpm, $_,
+				     hdlist_or_synthesis_for_virtual_medium($_), $options->{callback});
+		} else {
+				#- we'll need a second pass
+		    $second_pass++;
+		    _parse_hdlist($urpm, $_,
+				  hdlist_or_synthesis_for_virtual_medium($_),
+				  $second_pass > 1 ? undef : $options->{callback},
+			      );
+		}
+	    } else {
+		$urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $_->{name}));
+		$_->{ignore} = 1;
+	    }
+	} else {
+	    if ($options->{need_hdlist} && file_size(statedir_hdlist($urpm, $_)) > 32) {
+		_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options->{callback});
+	    } else {
+		if (!_parse_synthesis($urpm, $_,
+				      statedir_synthesis($urpm, $_),
+				      $options->{callback})) {
+		    _parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options->{callback});
+		}
+	    }
+	}
+	unless ($_->{ignore}) {
+	    _check_after_reading_hdlist_or_synthesis($urpm, $_);
+	}
+	unless ($_->{ignore}) {
+	    if ($_->{searchmedia}) {
+		($urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}) = ($_->{start}, $_->{end});
+		$urpm->{log}(N("Search start: %s end: %s",
+			       $urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}));
+		delete $_->{searchmedia};
+	    }
+	}
+    }
+
+    if ($second_pass == 1) {
+	require URPM::Build;
+	$urpm->{log}(N("performing second pass to compute dependencies\n"));
+	$urpm->unresolved_provides_clean;
+	_parse_media($urpm, 1, $options);
     }
 }
 
