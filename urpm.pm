@@ -650,11 +650,9 @@ sub configure {
 	}
 	if ($options{searchmedia}) {
 	   $urpm->select_media($options{searchmedia}); #- Ensure this media has been selected
-	   foreach (grep { !$_->{ignore} } @{$urpm->{media} || []}) {
-		$_->{name} eq $options{searchmedia} and do {
-			$_->{searchmedia} = 1;
-			last;
-		};
+	   if (my $medium = name2medium($urpm, $options{searchmedia})) {
+	       $medium->{ignore} and $urpm->{fatal}("searchmedia is ignored");
+	       $medium->{searchmedia} = 1;
 	   }
 	}
 	if ($options{excludemedia}) {
