@@ -1805,8 +1805,7 @@ sub _update_medium_first_pass_failed {
     !$medium->{virtual} or return;
 
     #- an error has occured for updating the medium, we have to remove temporary files.
-    unlink cachedir_hdlist($urpm, $medium);
-    $medium->{list} and unlink cachedir_list($urpm, $medium);
+    unlink(glob("$urpm->{cachedir}/partial/*"));
     #- read default synthesis (we have to make sure nothing get out of depslist).
     if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
 	$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
