@@ -1485,8 +1485,6 @@ this could happen if you mounted manually the directory when creating the medium
 	_parse_hdlist_or_synthesis__virtual($urpm, $medium);
     }
 
-    get_descriptions_local($urpm, $medium);
-
     #- examine if a distant MD5SUM file is available.
     #- this will only be done if $with_hdlist is not empty in order to use
     #- an existing hdlist or synthesis file, and to check if download was good.
@@ -1539,11 +1537,6 @@ this could happen if you mounted manually the directory when creating the medium
 	}
     }
 
-    #- examine if a local pubkey file is available.
-    if (!$options->{nopubkey} && !$medium->{'key-ids'}) {
-	_get_list_or_pubkey__local($urpm, $medium, 'pubkey');
-    }
-
     1;
 }
 
@@ -1551,8 +1544,6 @@ this could happen if you mounted manually the directory when creating the medium
 sub _update_medium__parse_if_unmodified__or_get_files__remote {
     my ($urpm, $medium, $options) = @_;
     my ($retrieved_md5sum, $basename);
-
-    get_descriptions_remote($urpm, $medium);
 
     #- examine if a distant MD5SUM file is available.
     #- this will only be done if $with_hdlist is not empty in order to use
@@ -1639,11 +1630,6 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
 
 	#- the files are different, update local copy.
 	rename("$urpm->{cachedir}/partial/$basename", cachedir_hdlist($urpm, $medium));
-
-	#- retrieve pubkey file.
-	if (!$options->{nopubkey} && !$medium->{'key-ids'}) {
-	    _get_list_or_pubkey__remote($urpm, $medium, 'pubkey');
-	}
     } else {
 	$options->{callback} and $options->{callback}('failed', $medium->{name});
 	$urpm->{error}(N("retrieval of source hdlist (or synthesis) failed"));
@@ -1651,6 +1637,19 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
     }
     $urpm->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
     1;
+}
+
+sub _get_pubkey_and_descriptions {
+    my ($urpm, $medium, $nopubkey) = @_;
+
+    my $local = file_from_local_url($medium->{url});
+
+    ($local ? \&get_descriptions_local : \&get_descriptions_remote)->($urpm, $medium);
+
+    #- examine if a pubkey file is available.
+    if (!$nopubkey && !$medium->{'key-ids'}) {
+	($local ? \&_get_list_or_pubkey__local : \&_get_list_or_pubkey__remote)->($urpm, $medium, 'pubkey');
+    }
 }
 
 sub _read_cachedir_pubkey {
@@ -1780,6 +1779,8 @@ sub _update_medium_first_pass {
 	    }
 	}
     }
+
+    _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
 
     _read_cachedir_pubkey($urpm, $medium);
 
