@@ -23,6 +23,7 @@ use strict;
 use urpm;
 use urpm::args;
 use urpm::msg;
+use urpm::install;
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
@@ -137,7 +138,7 @@ print N("removing %s", join(' ', sort @toremove)) . "\n";
 	noscripts => $noscripts,
 	repackage => $repackage || $urpm->{options}{repackage},
     )
-    : $urpm->install(
+    : urpm::install::install($urpm,
 	\@toremove, {}, {},
 	test => $test,
 	force => $force,

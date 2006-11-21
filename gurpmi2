@@ -12,6 +12,7 @@ BEGIN { #- set up a safe path and environment
 }
 
 use gurpmi;
+use urpm::install;
 use Gtk2;
 
 #- GUI globals
@@ -292,7 +293,7 @@ sub do_install_3 () {
 		}
 		sync();
 	    };
-	    my @l = $urpm->install(
+	    my @l = urpm::install::install($urpm,
 		$set->{remove} || [],
 		\%transaction_sources_install,
 		\%transaction_sources,

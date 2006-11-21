@@ -23,6 +23,7 @@ use strict;
 use urpm;
 use urpm::args;
 use urpm::msg;
+use urpm::install;
 use urpm::util qw(untaint difference2 member);
 
 #- contains informations to parse installed system.
@@ -722,7 +723,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		ignorearch => $urpm->{options}{ignorearch},
 		noscripts => $urpm->{options}{noscripts},
 	    );
-	    my @l = $urpm->install(
+	    my @l = urpm::install::install($urpm,
 		$to_remove,
 		\%transaction_sources_install, \%transaction_sources,
 		%install_options_common,
@@ -739,7 +740,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    message_input(N("Try installation without checking dependencies? (y/N) "),
 				  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 		    $urpm->{log}("starting installing packages without deps");
-		    @l = $urpm->install(
+		    @l = urpm::install::install($urpm,
 			$to_remove,
 			\%transaction_sources_install, \%transaction_sources,
 			nodeps => 1,
@@ -756,7 +757,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 			    message_input(N("Try harder to install (--force)? (y/N) "),
 					  $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or ++$nok, next;
 			    $urpm->{log}("starting force installing packages without deps");
-			    @l = $urpm->install(
+			    @l = urpm::install::install($urpm,
 				$to_remove,
 				\%transaction_sources_install, \%transaction_sources,
 				nodeps => 1, force => 1,
