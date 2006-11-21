@@ -1375,6 +1375,21 @@ sub get_hdlist_or_synthesis__local {
     }
 }
 
+sub get_hdlist_or_synthesis_and_check_md5sum__local {
+    my ($urpm, $medium, $retrieved_md5sum, $callback) = @_;
+
+    get_hdlist_or_synthesis__local($urpm, $medium, $callback) or return;
+
+    #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
+    if ($retrieved_md5sum) {
+	$urpm->{log}(N("computing md5sum of copied source hdlist (or synthesis)"));
+	md5sum(cachedir_hdlist($urpm, $medium)) eq $retrieved_md5sum or
+	  $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", _url_with_hdlist($medium))), return;
+    }
+
+    1;
+}
+
 #- options: callback, force, force_building_hdlist, nomd5sum, nopubkey, probe_with
 sub _update_medium__parse_if_unmodified__or_get_files__local {
     my ($urpm, $medium, $second_pass, $clean_cache, $rpm_files, $options) = @_;
@@ -1437,35 +1452,23 @@ this could happen if you mounted manually the directory when creating the medium
 		}
 	    }
 
-	    my $error;
-
 	    #- if the source hdlist is present and we are not forcing using rpm files
 	    if (!$options->{force_building_hdlist} && -e _url_with_hdlist($medium)) {
-		get_hdlist_or_synthesis__local($urpm, $medium, $options->{callback}) 
-		  or $error = 1;
-	    }
-
-	    #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
-	    if (!$error && $retrieved_md5sum) {
-		$urpm->{log}(N("computing md5sum of copied source hdlist (or synthesis)"));
-		md5sum(cachedir_hdlist($urpm, $medium)) eq $retrieved_md5sum or
-		  $error = 1, $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", _url_with_hdlist($medium)));
-	    }
-
-	    #- check if the files are equal... and no force copy...
-	    if (!$error && !$options->{force} && -e statedir_synthesis($urpm, $medium)) {
-		_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $medium->{hdlist}) 
-		  and return 'unmodified';
-	    }
-
-	    #- if copying hdlist has failed, try to build it directly.
-	    if ($error) {
-		if ($urpm->{options}{'build-hdlist-on-error'}) {
-		    $options->{force_building_hdlist} = 1;
+		if (get_hdlist_or_synthesis_and_check_md5sum__local($urpm, $medium, $retrieved_md5sum, $options->{callback})) {
+		    #- check if the files are equal... and no force copy...
+		    if (!$options->{force}) {
+			_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $medium->{hdlist}) 
+			  and return 'unmodified';
+		    }
 		} else {
-		    $urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
-		    $medium->{ignore} = 1;
-		    return;
+		    #- if copying hdlist has failed, try to build it directly.
+		    if ($urpm->{options}{'build-hdlist-on-error'}) {
+			$options->{force_building_hdlist} = 1;
+		    } else {
+			$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
+			$medium->{ignore} = 1;
+			return;
+		    }
 		}
 	    }
 	} else {
