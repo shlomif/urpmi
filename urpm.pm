@@ -1705,7 +1705,7 @@ sub _update_medium_first_pass {
 	#- an unresolved provides is found.
 	#- to speed up the process, we only read the synthesis at the beginning.
 	_update_media__when_not_modified($urpm, $medium);
-	return;
+	return 1;
     }
 
     #- always delete a remaining list file or pubkey file in cache.
@@ -1720,7 +1720,7 @@ sub _update_medium_first_pass {
 
     #- list of rpm files for this medium, only available for local medium where
     #- the source hdlist is not used (use force).
-    my ($error, $retrieved_md5sum, @rpm_files);
+    my ($retrieved_md5sum, @rpm_files);
 
     {
 	(my $rc, $retrieved_md5sum) = 
@@ -1728,20 +1728,18 @@ sub _update_medium_first_pass {
 	    ? _update_medium__parse_if_unmodified__or_get_files__local($urpm, $medium, $second_pass, $clean_cache, \@rpm_files, \%options)
 	    : _update_medium__parse_if_unmodified__or_get_files__remote($urpm, $medium, \%options);
 
-	if ($rc eq 'unmodified') {
-	    return;
-	} else {
-	    $error = $rc;
+	if ($rc) {
+	    return $rc eq 'unmodified';
 	}
     }
 
     #- build list file according to hdlist.
     if (!$medium->{headers} && !$medium->{virtual} && file_size(cachedir_hdlist($urpm, $medium)) <= 32) {
-	$error = 1;
 	$urpm->{error}(N("no hdlist file found for medium \"%s\"", $medium->{name}));
+	return;
     }
 
-    if (!$error && !$medium->{virtual}) {
+    if (!$medium->{virtual}) {
 	if (!$medium->{headers}) {
 	    #- read first pass hdlist or synthesis, try to open as synthesis, if file
 	    #- is larger than 1MB, this is probably an hdlist else a synthesis.
@@ -1756,13 +1754,13 @@ sub _update_medium_first_pass {
 	    if (is_valid_medium($medium)) {
 		$options{callback} && $options{callback}('done', $medium->{name});
 	    } else {
-		$error = 1;
 		$urpm->{error}(N("unable to parse hdlist file of \"%s\"", $medium->{name}));
-		$options{callback} && $options{callback}('failed', $medium->{name});
+		$options{callback} and $options{callback}('failed', $medium->{name});
+		return;
 		#- we will have to read back the current synthesis file unmodified.
 	    }
 
-	    unless ($error) {
+	    {
 		my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 		@unresolved_before == @unresolved_after or $$second_pass = 1;
 
@@ -1770,27 +1768,12 @@ sub _update_medium_first_pass {
 	    }
 	}
 
-	unless ($error) {
-	    _write_rpm_list_if_needed($urpm, $medium, \@rpm_files) or
-	      $error = 1;
-	}
+	_write_rpm_list_if_needed($urpm, $medium, \@rpm_files) or return;
     }
 
-    unless ($error) {
-	_read_cachedir_pubkey($urpm, $medium);
-    }
+    _read_cachedir_pubkey($urpm, $medium);
 
     unless ($medium->{virtual}) {
-	if ($error) {
-	    #- an error has occured for updating the medium, we have to remove temporary files.
-	    unlink cachedir_hdlist($urpm, $medium);
-	    $medium->{list} and unlink cachedir_list($urpm, $medium);
-	    #- read default synthesis (we have to make sure nothing get out of depslist).
-	    if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
-		$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-		$medium->{ignore} = 1;
-	    }
-	} else {
 	    #- make sure to rebuild base files and clear medium modified state.
 	    $medium->{modified} = 0;
 	    $urpm->{md5sum_modified} = 1;
@@ -1812,7 +1795,22 @@ sub _update_medium_first_pass {
 
 	    #- and create synthesis file associated.
 	    $medium->{must_build_synthesis} = !$medium->{synthesis};
-	}
+    }
+    1;
+}
+
+sub _update_medium_first_pass_failed {
+    my ($urpm, $medium) = @_;
+
+    !$medium->{virtual} or return;
+
+    #- an error has occured for updating the medium, we have to remove temporary files.
+    unlink cachedir_hdlist($urpm, $medium);
+    $medium->{list} and unlink cachedir_list($urpm, $medium);
+    #- read default synthesis (we have to make sure nothing get out of depslist).
+    if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
+	$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+	$medium->{ignore} = 1;
     }
 }
 
@@ -1931,7 +1929,8 @@ sub update_media {
     my $clean_cache = !$options{noclean};
     my $second_pass;
     foreach my $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
-	_update_medium_first_pass($urpm, $medium, \$second_pass, \$clean_cache, %options);
+	_update_medium_first_pass($urpm, $medium, \$second_pass, \$clean_cache, %options)
+	  or _update_medium_first_pass_failed($urpm, $medium);
     }
 
     #- some unresolved provides may force to rebuild all synthesis,
