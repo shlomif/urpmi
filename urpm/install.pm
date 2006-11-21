@@ -16,6 +16,45 @@ eval {
     $progress_size < 5 and $progress_size = 5;
 };
 
+
+#- prepare transaction.
+sub prepare_transaction {
+    my ($_urpm, $set, $list, $sources, $transaction_list, $transaction_sources) = @_;
+
+    foreach my $id (@{$set->{upgrade}}) {
+	foreach (0..$#$list) {
+	    exists $list->[$_]{$id} and $transaction_list->[$_]{$id} = $list->[$_]{$id};
+	}
+	exists $sources->{$id} and $transaction_sources->{$id} = $sources->{$id};
+    }
+}
+
+sub create_transaction {
+    my ($urpm, $state, %options) = @_;
+
+    if ($urpm->{parallel_handler} || !$options{split_length} ||
+	keys %{$state->{selected}} < $options{split_level}) {
+	#- build simplest transaction (no split).
+	$urpm->build_transaction_set(undef, $state, split_length => 0);
+    } else {
+	my $db;
+
+	if ($options{rpmdb}) {
+	    $db = new URPM;
+	    $db->parse_synthesis($options{rpmdb});
+	} else {
+	    $db = urpm::db_open_or_die($urpm, $urpm->{root});
+	}
+
+	my $sig_handler = sub { undef $db; exit 3 };
+	local $SIG{INT} = $sig_handler;
+	local $SIG{QUIT} = $sig_handler;
+
+	#- build transaction set...
+	$urpm->build_transaction_set($db, $state, split_length => $options{split_length});
+    }
+}
+
 # install logger callback
 sub install_logger {
     my ($urpm, $type, $id, $subtype, $amount, $total) = @_;

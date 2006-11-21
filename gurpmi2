@@ -228,7 +228,7 @@ sub do_install_3 () {
 	    exit 0 if $response eq 'cancel';
 	    1;
 	});
-    $urpm->create_transaction(
+    urpm::install::create_transaction($urpm,
 	$state,
 	split_level => $urpm->{options}{'split-level'},
 	split_length => $urpm->{options}{'split-length'},
@@ -237,7 +237,7 @@ sub do_install_3 () {
     my $progress_nb;
     foreach my $set (@{$state->{transaction} || []}) {
 	my (@transaction_list, %transaction_sources);
-	$urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
+	urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
 	$urpm->download_packages_of_distant_media(
 	    \@transaction_list,
 	    \%transaction_sources,

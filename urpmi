@@ -609,7 +609,7 @@ $urpm->copy_packages_of_removable_media(
 
 #- now create transaction just before installation, this will save user impression of slowness.
 #- split of transaction should be disabled if --test is used.
-$urpm->create_transaction($state,
+urpm::install::create_transaction($urpm, $state,
 			  nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 			  split_level => $urpm->{options}{'split-level'},
 			  split_length => !$test && $urpm->{options}{'split-length'});
@@ -624,7 +624,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     print "\n";
 
     #- prepare transaction...
-    $urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
+    urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
 
     #- first, filter out what is really needed to download for this small transaction.
     $urpm->download_packages_of_distant_media(
