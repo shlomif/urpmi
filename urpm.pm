@@ -1419,9 +1419,9 @@ this could happen if you mounted manually the directory when creating the medium
 		last;
 	    } else {
 		$urpm->{error}(N("invalid hdlist file %s for medium \"%s\"", "$dir/$_", $medium->{name}));
+		return;
 	    }
 	}
-	$medium->{with_hdlist} or return;
     }
 
     if ($medium->{virtual}) {
