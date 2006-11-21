@@ -1332,7 +1332,7 @@ sub get_hdlist_or_synthesis__local {
     if (copy_and_own(_url_with_hdlist($medium), cachedir_hdlist($urpm, $medium))) {
 	$callback and $callback->('done', $medium->{name});
 	$urpm->{log}(N("...copying done"));
-	if (file_size(cachedir_hdlist($urpm, $medium)) <= 32) {
+	if (file_size(cachedir_hdlist($urpm, $medium)) < 20) {
 	    $urpm->{error}(N("copy of [%s] failed (file is suspiciously small)", cachedir_hdlist($urpm, $medium)));
 	    0;
 	} else {
@@ -1440,7 +1440,7 @@ this could happen if you mounted manually the directory when creating the medium
     if ($options->{probe_with} && !$medium->{with_hdlist}) {
 	foreach (_probe_with_try_list($options->{probe_with})) {
 	    -e "$dir/$_" or next;
-	    if (file_size("$dir/$_") > 32) {
+	    if (file_size("$dir/$_") >= 20) {
 		$medium->{with_hdlist} = $_;
 		last;
 	    } else {
@@ -1551,7 +1551,7 @@ sub _update_medium__parse_if_unmodified__remote {
 	    $basename = basename($with_hdlist) or next;
 	    $options->{force} and unlink "$urpm->{cachedir}/partial/$basename";
 	    if (sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
-			      quiet => $options->{quiet}, callback => $options->{callback}) && file_size("$urpm->{cachedir}/partial/$basename") > 32) {
+			      quiet => $options->{quiet}, callback => $options->{callback}) && file_size("$urpm->{cachedir}/partial/$basename") >= 20) {
 		$urpm->{log}(N("...retrieving done"));
 		$medium->{with_hdlist} = $with_hdlist;
 		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
@@ -1583,7 +1583,7 @@ sub _update_medium__parse_if_unmodified__remote {
     }
 
     #- check downloaded file has right signature.
-    if (file_size("$urpm->{cachedir}/partial/$basename") > 32 && $retrieved_md5sum) {
+    if (file_size("$urpm->{cachedir}/partial/$basename") >= 20 && $retrieved_md5sum) {
 	$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
 	unless (md5sum("$urpm->{cachedir}/partial/$basename") eq $retrieved_md5sum) {
 	    $urpm->{error}(N("...retrieving failed: md5sum mismatch"));
@@ -1591,7 +1591,7 @@ sub _update_medium__parse_if_unmodified__remote {
 	}
     }
 
-    if (file_size("$urpm->{cachedir}/partial/$basename") > 32) {
+    if (file_size("$urpm->{cachedir}/partial/$basename") >= 20) {
 	$options->{callback} and $options->{callback}('done', $medium->{name});
 
 	unless ($options->{force}) {
@@ -1668,7 +1668,7 @@ sub _update_medium_first_pass {
     my ($urpm, $medium, $second_pass, $clean_cache, %options) = @_;
 
     #- we should create the associated synthesis file if it does not already exist...
-    file_size(statedir_synthesis($urpm, $medium)) > 32
+    file_size(statedir_synthesis($urpm, $medium)) >= 20
       or $medium->{must_build_synthesis} = 1;
 
     unless ($medium->{modified}) {
@@ -1702,7 +1702,7 @@ sub _update_medium_first_pass {
     }
 
     #- build list file according to hdlist.
-    if (!$medium->{headers} && !$medium->{virtual} && file_size(cachedir_hdlist($urpm, $medium)) <= 32) {
+    if (!$medium->{headers} && !$medium->{virtual} && file_size(cachedir_hdlist($urpm, $medium)) < 20) {
 	$urpm->{error}(N("no hdlist file found for medium \"%s\"", $medium->{name}));
 	return;
     }
