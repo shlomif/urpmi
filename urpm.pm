@@ -1390,6 +1390,61 @@ sub get_hdlist_or_synthesis_and_check_md5sum__local {
     1;
 }
 
+sub _read_rpms_from_dir {
+    my ($urpm, $medium, $second_pass, $clean_cache, $rpm_files) = @_;
+
+    my $dir = file_from_local_url($medium->{url});
+
+    @$rpm_files = glob("$dir/*.rpm");
+
+    #- check files contains something good!
+    if (!@$rpm_files) {
+	$urpm->{error}(N("no rpm files found from [%s]", $dir));
+	$medium->{ignore} = 1;
+	return;
+    }
+
+    #- we need to rebuild from rpm files the hdlist.
+
+    $urpm->{log}(N("reading rpm files from [%s]", $dir));
+    my @unresolved_before = grep {
+	! defined $urpm->{provides}{$_};
+    } keys %{$urpm->{provides} || {}};
+    $medium->{start} = @{$urpm->{depslist}};
+
+    eval {
+	$medium->{headers} = [ $urpm->parse_rpms_build_headers(
+	    dir   => "$urpm->{cachedir}/headers",
+	    rpms  => $rpm_files,
+	    clean => $$clean_cache,
+	    packing => 1,
+	) ];
+    };
+    if ($@) {
+	$urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
+	delete $medium->{headers}; #- do not propagate these.
+	return;
+    }
+
+    $medium->{end} = $#{$urpm->{depslist}};
+    if ($medium->{start} > $medium->{end}) {
+	#- an error occured (provided there are files in input.)
+	delete $medium->{start};
+	delete $medium->{end};
+	$urpm->{fatal}(9, N("no rpms read"));
+    }
+
+    #- make sure the headers will not be removed for another media.
+    $$clean_cache = 0;
+    my @unresolved = grep {
+	! defined $urpm->{provides}{$_};
+    } keys %{$urpm->{provides} || {}};
+    @unresolved_before == @unresolved or $$second_pass = 1;
+
+    delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
+    1;
+}
+
 #- options: callback, force, force_building_hdlist, nomd5sum, nopubkey, probe_with
 sub _update_medium__parse_if_unmodified__or_get_files__local {
     my ($urpm, $medium, $second_pass, $clean_cache, $rpm_files, $options) = @_;
@@ -1477,52 +1532,7 @@ this could happen if you mounted manually the directory when creating the medium
 	}
 
 	if ($options->{force_building_hdlist}) {
-	    push @$rpm_files, glob("$dir/*.rpm");
-
-	    #- check files contains something good!
-	    if (@$rpm_files > 0) {
-		#- we need to rebuild from rpm files the hdlist.
-
-		$urpm->{log}(N("reading rpm files from [%s]", $dir));
-		my @unresolved_before = grep {
-		    ! defined $urpm->{provides}{$_};
-		} keys %{$urpm->{provides} || {}};
-		$medium->{start} = @{$urpm->{depslist}};
-
-		eval {
-		    $medium->{headers} = [ $urpm->parse_rpms_build_headers(
-			dir   => "$urpm->{cachedir}/headers",
-			rpms  => $rpm_files,
-			clean => $$clean_cache,
-			packing => 1,
-		    ) ];
-		};
-		if ($@) {
-		    $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
-		    delete $medium->{headers}; #- do not propagate these.
-		    return;
-		} else {
-		    $medium->{end} = $#{$urpm->{depslist}};
-		    if ($medium->{start} > $medium->{end}) {
-			#- an error occured (provided there are files in input.)
-			delete $medium->{start};
-			delete $medium->{end};
-			$urpm->{fatal}(9, N("no rpms read"));
-		    } else {
-			#- make sure the headers will not be removed for another media.
-			$$clean_cache = 0;
-			my @unresolved = grep {
-			    ! defined $urpm->{provides}{$_};
-			} keys %{$urpm->{provides} || {}};
-			@unresolved_before == @unresolved or $$second_pass = 1;
-		    }
-		    delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
-		}
-	    } else {
-		$urpm->{error}(N("no rpm files found from [%s]", $dir));
-		$medium->{ignore} = 1;
-		return;
-	    }
+	    _read_rpms_from_dir($urpm, $medium, $second_pass, $clean_cache, $rpm_files) or return;
 	}
     }
 
