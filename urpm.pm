@@ -1111,19 +1111,7 @@ sub _parse_hdlist_or_synthesis__virtual {
     if (my $hdlist_or = hdlist_or_synthesis_for_virtual_medium($medium)) {
 	delete $medium->{modified};
 	$urpm->{md5sum_modified} = 1;
-	if ($medium->{synthesis}) {
-	    if (_parse_synthesis($urpm, $medium, $hdlist_or)) {
-		$medium->{synthesis} = 1;
-	    } elsif (_parse_hdlist($urpm, $medium, $hdlist_or)) {
-		delete $medium->{synthesis};
-	    }
-	} else {
-	    if (_parse_hdlist($urpm, $medium, $hdlist_or)) {
-		delete $medium->{synthesis};
-	    } elsif (_parse_synthesis($urpm, $medium, $hdlist_or)) {
-		$medium->{synthesis} = 1;
-	    }
-	}
+	_parse_maybe_hdlist_or_synthesis($urpm, $medium, $hdlist_or);
 	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
     } else {
 	$urpm->{error}(N("virtual medium \"%s\" should have valid source hdlist or synthesis, medium ignored",
@@ -1217,6 +1205,28 @@ sub _parse_synthesis {
     $urpm->{log}(N("examining synthesis file [%s]", $synthesis_file));
     ($medium->{start}, $medium->{end}) = 
       $urpm->parse_synthesis($synthesis_file, $o_callback ? (callback => $o_callback) : @{[]});
+}
+sub _parse_maybe_hdlist_or_synthesis {
+    my ($urpm, $medium, $hdlist_or) = @_;
+
+    if ($medium->{synthesis}) {
+	if (_parse_synthesis($urpm, $medium, $hdlist_or)) {
+	    $medium->{synthesis} = 1;
+	} elsif (_parse_hdlist($urpm, $medium, $hdlist_or)) {
+	    delete $medium->{synthesis};
+	} else {
+	    return;
+	}
+    } else {
+	if (_parse_hdlist($urpm, $medium, $hdlist_or)) {
+	    delete $medium->{synthesis};
+	} elsif (_parse_synthesis($urpm, $medium, $hdlist_or)) {
+	    $medium->{synthesis} = 1;
+	} else {
+	    return;
+	}
+    }
+    1;
 }
 
 sub _build_hdlist_using_rpm_headers {
@@ -1738,20 +1748,11 @@ sub _update_medium_first_pass {
 	    #- anyway, if one tries fails, try another mode.
 	    $options{callback} and $options{callback}('parse', $medium->{name});
 	    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-	    if (!$medium->{synthesis}
-		  || file_size(cachedir_hdlist($urpm, $medium)) > 262144) {
-		if (_parse_hdlist($urpm, $medium, cachedir_hdlist($urpm, $medium))) {
-		    delete $medium->{synthesis};
-		} elsif (_parse_synthesis($urpm, $medium, cachedir_hdlist($urpm, $medium))) {
-		    $medium->{synthesis} = 1;
-		}
-	    } else {
-		if (_parse_synthesis($urpm, $medium, cachedir_hdlist($urpm, $medium))) {
-		    $medium->{synthesis} = 1;
-		} elsif (_parse_hdlist($urpm, $medium, cachedir_hdlist($urpm, $medium))) {
-		    delete $medium->{synthesis};
-		}
-	    }
+
+	    #- if it looks like a hdlist, try to parse as hdlist first
+	    delete $medium->{synthesis} if file_size(cachedir_hdlist($urpm, $medium)) > 262144;
+	    _parse_maybe_hdlist_or_synthesis($urpm, $medium, cachedir_hdlist($urpm, $medium));
+
 	    if (is_valid_medium($medium)) {
 		$options{callback} && $options{callback}('done', $medium->{name});
 	    } else {
