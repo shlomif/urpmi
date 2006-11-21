@@ -193,9 +193,9 @@ if ($env) {
     #- lock to avoid concurrent media updates,
     #- but don't die if it doesn't work
     local $urpm->{fatal} = sub { printf STDERR "%s\n", $_[1] };
-    $urpm->shlock_urpmi_db;
+    $urpm->lock_urpmi_db;
 }
-my $use_hdlist = grep { $usedtags{$_} } qw(
+my $need_hdlist = grep { $usedtags{$_} } qw(
     buildhost
     buildtime
     conf_files
@@ -209,19 +209,18 @@ my $use_hdlist = grep { $usedtags{$_} } qw(
 );
 $urpm->configure(
     nocheck_access => 1,
-    noskipping => 1,
+    no_skiplist => 1,
     media => $media,
     excludemedia => $excludemedia,
     sortmedia => $sortmedia,
     synthesis => $synthesis,
     update => $update,
     callback => $callback,
-    call_back_only_once => 1,
-    hdlist => $use_hdlist,
+    need_hdlist => $need_hdlist,
 );
 $urpm->unlock_urpmi_db;
 
-if ($use_hdlist) {
+if ($need_hdlist) {
     # @hdmedia is the list of all media searched that use hdlists
     my @hdmedia = grep {
 	!$_->{synthesis} && !$_->{removable} && !$_->{ignore};
