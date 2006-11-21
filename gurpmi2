@@ -15,6 +15,7 @@ use gurpmi;
 use urpm::install;
 use urpm::media;
 use urpm::signature;
+use urpm::get_pkgs;
 use Gtk2;
 
 #- GUI globals
@@ -210,7 +211,7 @@ sub do_install_2 () {
 
 sub do_install_3 () {
     wait_label(N("Package installation..."));
-    my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
+    my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
     $local_sources || $list or $urpm->{fatal}(3, N("unable to get source packages, aborting"));
     my %sources = %$local_sources;
     my %error_sources;
@@ -240,7 +241,7 @@ sub do_install_3 () {
     foreach my $set (@{$state->{transaction} || []}) {
 	my (@transaction_list, %transaction_sources);
 	urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
-	$urpm->download_packages_of_distant_media(
+	urpm::get_pkgs::download_packages_of_distant_media($urpm,
 	    \@transaction_list,
 	    \%transaction_sources,
 	    \%error_sources,

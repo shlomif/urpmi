@@ -25,6 +25,7 @@ use urpm::args;
 use urpm::msg;
 use urpm::install;
 use urpm::media;
+use urpm::get_pkgs;
 use urpm::signature;
 use urpm::util qw(untaint difference2 member);
 
@@ -581,7 +582,7 @@ if (@root_only) {
     message_input("$msg:\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
 }
 
-my ($local_sources, $list) = $urpm->get_source_packages(
+my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm,
     $state->{selected},
     clean_all => $clean,
     clean_other => !$noclean && $urpm->{options}{'pre-clean'},
@@ -629,7 +630,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
 
     #- first, filter out what is really needed to download for this small transaction.
-    $urpm->download_packages_of_distant_media(
+    urpm::get_pkgs::download_packages_of_distant_media($urpm,
 	\@transaction_list,
 	\%transaction_sources,
 	\%error_sources,

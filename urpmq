@@ -28,6 +28,7 @@ use urpm::args;
 use urpm::msg;
 use urpm::sys;
 use urpm::media;
+use urpm::get_pkgs;
 
 #- default options.
 $urpm::args::options = { use_provides => 1 };
@@ -311,7 +312,7 @@ if ($urpm::args::options{list_aliases}) {
      || $urpm::args::options{list_files}
      || $urpm::args::options{changelog})
     {
-	my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
+	my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
 
 	if ($urpm::args::options{info} || $urpm::args::options{list_files} || $urpm::args::options{changelog}
 		|| $urpm::args::options{summary}) {
@@ -343,7 +344,7 @@ if ($urpm::args::options{list_aliases}) {
 			};
 			$packer->extract($tmp_header_dir, @headers);
 		    } elsif (!%downloads) {
-			$urpm->download_packages_of_distant_media($list, \%downloads, my $error = {});
+			urpm::get_pkgs::download_packages_of_distant_media($urpm, $list, \%downloads, my $error = {});
 			warn "missing file $_\n" foreach values %$error;
 		    }
 		}
