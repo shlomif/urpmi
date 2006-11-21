@@ -1445,7 +1445,7 @@ sub _read_rpms_from_dir {
 }
 
 #- options: callback, force, force_building_hdlist, nomd5sum, nopubkey, probe_with
-sub _update_medium__parse_if_unmodified__or_get_files__local {
+sub _update_medium__parse_if_unmodified__local {
     my ($urpm, $medium, $second_pass, $clean_cache, $options) = @_;
 
     my $dir = file_from_local_url($medium->{url});
@@ -1540,7 +1540,7 @@ this could happen if you mounted manually the directory when creating the medium
 }
 
 #- options: callback, force, nomd5sum, nopubkey, probe_with, quiet
-sub _update_medium__parse_if_unmodified__or_get_files__remote {
+sub _update_medium__parse_if_unmodified__remote {
     my ($urpm, $medium, $options) = @_;
     my ($retrieved_md5sum, $basename);
 
@@ -1691,7 +1691,7 @@ sub _write_rpm_list {
 }
 
 #- options: callback, force, force_building_hdlist, nomd5sum, probe_with, quiet
-#- (from _update_medium__parse_if_unmodified__or_get_files__local and _update_medium__parse_if_unmodified__or_get_files__remote)
+#- (from _update_medium__parse_if_unmodified__local and _update_medium__parse_if_unmodified__remote)
 sub _update_medium_first_pass {
     my ($urpm, $medium, $second_pass, $clean_cache, %options) = @_;
 
@@ -1721,8 +1721,8 @@ sub _update_medium_first_pass {
     {
 	my $rc = 
 	  file_from_local_url($medium->{url})
-	    ? _update_medium__parse_if_unmodified__or_get_files__local($urpm, $medium, $second_pass, $clean_cache, \%options)
-	    : _update_medium__parse_if_unmodified__or_get_files__remote($urpm, $medium, \%options);
+	    ? _update_medium__parse_if_unmodified__local($urpm, $medium, $second_pass, $clean_cache, \%options)
+	    : _update_medium__parse_if_unmodified__remote($urpm, $medium, \%options);
 
 	if (!$rc || $rc eq 'unmodified') {
 	    return $rc;
