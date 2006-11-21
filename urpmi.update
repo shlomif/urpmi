@@ -24,6 +24,7 @@ use urpm;
 use urpm::args;
 use urpm::msg;
 use urpm::download ();
+use urpm::media;
 
 sub usage() {
     print N("usage: urpmi.update [options] <name> ...
@@ -40,7 +41,6 @@ where <name> is a medium name to update.
 ") . N("  --update       - update only update media.
 ") . N("  --no-md5sum    - disable MD5SUM file checking.
 ") . N("  --force-key    - force update of gpg key.
-") . N("  --norebuild    - don't try to rebuild hdlist if not readable.
 ") . N("  --ignore       - don't update, mark the media as ignored.
 ") . N("  --no-ignore    - don't update, mark the media as enabled.
 ") . N("  -a             - select all non-removable media.
@@ -68,8 +68,7 @@ $options{verbose} > 0 or $urpm->{log} = sub {};
 if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to update media"));
 }
-$urpm->read_config;
-exists $options{limit_rate} or $options{limit_rate} = $urpm->{options}{'limit-rate'};
+urpm::media::read_config($urpm);
 
 my @entries = map { $_->{name} } @{$urpm->{media}};
 
@@ -77,7 +76,7 @@ if ($options{all} && !defined $options{ignore}) {
     @entries == 0 and die N("nothing to update (use urpmi.addmedia to add a media)\n");
 } else {
     if ($options{all}) { @toupdates = '' } #- select all
-    $urpm->select_media(@toupdates);
+    urpm::media::select_media($urpm, @toupdates);
     my $something_todo = 0;
     foreach (@{$urpm->{media}}) {
 	$options{update} && $_->{update} and $_->{modified} = 1;
@@ -98,9 +97,9 @@ if ($options{all} && !defined $options{ignore}) {
 if (defined $options{ignore}) {
     my $str = join(", ", map { N("\"%s\"", $_->{name}) } grep { $_->{modified} } @{$urpm->{media}});
     $urpm->{log}($options{ignore} ? N("ignoring media %s", $str) : N("enabling media %s", $str));
-    $urpm->write_config;
+    urpm::media::write_config($urpm);
 } else {
-    $urpm->update_media(%options, callback => \&urpm::download::sync_logger);
+    urpm::media::update_media($urpm, %options, callback => \&urpm::download::sync_logger);
     #- try to umount removable device which may have been mounted.
     $urpm->try_umounting_removables;
 }

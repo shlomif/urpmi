@@ -32,14 +32,14 @@ sub write_urpmdb {
 	#- take care of virtual medium this way.
 	$_->{hdlist} ||= "hdlist.$_->{name}.cz";
 	#- now build directly synthesis file, this is by far the simplest method.
-	if (urpm::is_valid_medium($_)) {
+	if (urpm::media::is_valid_medium($_)) {
 	    $urpm->build_synthesis(start => $_->{start}, end => $_->{end}, synthesis => "$bug_report_dir/synthesis.$_->{hdlist}");
 	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $_->{name}));
 	}
     }
     #- fake configuration written to convert virtual media on the fly.
     local $urpm->{config} = "$bug_report_dir/urpmi.cfg";
-    $urpm->write_config;
+    urpm::media::write_config($urpm);
 }
 
 sub copy_requested {

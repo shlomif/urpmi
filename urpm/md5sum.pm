@@ -40,8 +40,8 @@ sub on_local_medium {
 sub compute_on_local_medium {
     my ($urpm, $medium) = @_;
 
-    require urpm; #- help perl_checker
-    my $f = urpm::statedir_hdlist_or_synthesis($urpm, $medium);
+    require urpm::media; #- help perl_checker
+    my $f = urpm::media::statedir_hdlist_or_synthesis($urpm, $medium);
     $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis) [%s]", $f));
     -e $f && compute($f);
 }

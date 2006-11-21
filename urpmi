@@ -24,6 +24,7 @@ use urpm;
 use urpm::args;
 use urpm::msg;
 use urpm::install;
+use urpm::media;
 use urpm::util qw(untaint difference2 member);
 
 #- contains informations to parse installed system.
@@ -359,8 +360,8 @@ if ($auto_update && !$bug && !$env) {
     #- FIXME we need to configure it twice; otherwise
     #- some settings are lost (like the skiplist) for
     #- some reason.
-    $urpm->configure(%config_hash);
-    $urpm->update_media(
+    urpm::media::configure($urpm, %config_hash);
+    urpm::media::update_media($urpm, 
 	all => 1,
 	callback => \&urpm::download::sync_logger,
 	noclean => $noclean,
@@ -373,7 +374,7 @@ if ($auto_update && !$bug && !$env) {
     }
 }
 
-$urpm->configure(%config_hash);
+urpm::media::configure($urpm, %config_hash);
 
 if ($bug) {
     require urpm::bug_report;

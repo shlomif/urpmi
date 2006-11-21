@@ -25,6 +25,7 @@ use strict;
 use urpm;
 use urpm::msg;
 use urpm::download;
+use urpm::media;
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
@@ -72,7 +73,7 @@ if ($< != 0) {
 
 $options{verbose} > 0 or $urpm->{log} = sub {};
 
-$urpm->read_config;
+urpm::media::read_config($urpm);
 urpm::download::set_cmdline_proxy();
 my @entries = map { $_->{name} } @{$urpm->{media}};
 
@@ -82,15 +83,15 @@ if ($options{all}) {
     @toremove or die N("the entry to remove is missing\n(one of %s)\n", join(", ", @entries));
 }
 
-my @selected = $urpm->select_media_by_name(\@toremove, $options{strict_match})
+my @selected = urpm::media::select_media_by_name($urpm, \@toremove, $options{strict_match})
   or exit 1;
 
-$urpm->remove_media(\@selected);
+urpm::media::remove_media($urpm, \@selected);
 
 if ($options{noclean}) {
     #- FIXME: AFAIK it is broken because function below use {depslist} which we don't clean here
     urpm::remove_obsolete_headers_in_cache($urpm);
 }
-$urpm->write_urpmi_cfg;
+urpm::media::write_urpmi_cfg($urpm);
 
 exit(0);

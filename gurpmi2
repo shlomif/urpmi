@@ -13,6 +13,7 @@ BEGIN { #- set up a safe path and environment
 
 use gurpmi;
 use urpm::install;
+use urpm::media;
 use Gtk2;
 
 #- GUI globals
@@ -117,7 +118,7 @@ sub configure_urpm() {
     };
     urpm::sys::lock_rpm_db($urpm, 'exclusive');
     urpm::sys::lock_urpmi_db($urpm);
-    $urpm->configure(
+    urpm::media::configure($urpm,
 	root	    => $gurpmi::options{root},
 	media	    => $gurpmi::options{media},
 	searchmedia => $gurpmi::options{searchmedia},

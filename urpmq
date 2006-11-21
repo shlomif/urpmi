@@ -27,6 +27,7 @@ use urpm;
 use urpm::args;
 use urpm::msg;
 use urpm::sys;
+use urpm::media;
 
 #- default options.
 $urpm::args::options = { use_provides => 1 };
@@ -138,7 +139,7 @@ if ($urpm::args::options{ignorearch}) { urpm::shunt_ignorearch() }
 $urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
     and urpm::sys::lock_rpm_db($urpm);
 urpm::sys::lock_urpmi_db($urpm) if !$urpm::args::options{nolock};
-$urpm->configure(
+urpm::media::configure($urpm,
     nocheck_access => 1,
     nodepslist => $urpm::args::options{nodepslist},
     media => $urpm::args::options{media},
@@ -331,8 +332,8 @@ if ($urpm::args::options{list_aliases}) {
 		{
 		    my %h = map { $_ => 1 } @headers; @headers = keys %h;
                     my $hdlist_path = $medium->{virtual}
-                      ? urpm::hdlist_or_synthesis_for_virtual_medium($medium)
-                      : urpm::statedir_hdlist($urpm, $medium);
+                      ? urpm::media::hdlist_or_synthesis_for_virtual_medium($medium)
+                      : urpm::media::statedir_hdlist($urpm, $medium);
                     if (-s $hdlist_path) {
 			require MDV::Packdrakeng;
 			my $packer = MDV::Packdrakeng->open(archive => $hdlist_path, quiet => 1);

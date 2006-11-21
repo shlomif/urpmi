@@ -38,7 +38,7 @@ therefore, caching is useless if server is up.
 
 Checks if the ldap medium has all required attributes.
 
-=item read_ldap_cache($urpm, %options)
+=item read_ldap_cache($urpm)
 
 Reads the cache created by the C<write_ldap_cache> function. Should be called
 if the ldap server doesn't answer (upgrade, network problem, mobile user, etc.)
@@ -47,7 +47,7 @@ if the ldap server doesn't answer (upgrade, network problem, mobile user, etc.)
 
 Cleans the ldap cache, removes all files in the directory.
 
-=item load_ldap_media($urpm, %options)
+=item load_ldap_media($urpm)
 
 Loads urpmi media configuration from ldap.
 
@@ -97,13 +97,13 @@ sub get_vars_from_sh {
     %l;
 }
 
-sub read_ldap_cache($%) {
-    my ($urpm, %options) = @_;
+sub read_ldap_cache {
+    my ($urpm) = @_;
     foreach (glob("$urpm->{cachedir}/ldap/*")) {
 	! -f $_ and next;
 	my %medium = get_vars_from_sh($_);
 	next if !check_ldap_medium(\%medium);
-	$urpm->probe_medium(\%medium, %options) and push @{$urpm->{media}}, \%medium;
+	urpm::media::add_existing_medium($urpm, \%medium);
     }
 }
 
@@ -146,8 +146,8 @@ my %ldap_changed_attributes = (
     'ftp-proxy' => 'ftp_proxy',
 );
 
-sub load_ldap_media($%) {
-    my ($urpm, %options) = @_;
+sub load_ldap_media {
+    my ($urpm) = @_;
 
     my $config = get_ldap_config() or return;
 
@@ -205,13 +205,13 @@ sub load_ldap_media($%) {
             $medium->{ldap} = 1;
 	    $medium->{priority} = $priority++;
             next if !check_ldap_medium($medium);
-            $urpm->probe_medium($medium, %options) and push @{$urpm->{media}}, $medium;
+            urpm::media::add_existing_medium($urpm, $medium);
             write_ldap_cache($urpm,$medium); 
         }
     };
     if ($@) {
         $urpm->{log}($@);
-        read_ldap_cache($urpm, %options);
+        read_ldap_cache($urpm);
     }
 
 }

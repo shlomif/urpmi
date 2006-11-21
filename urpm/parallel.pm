@@ -46,8 +46,8 @@ sub resolve_dependencies {
     my $file = "$urpm->{cachedir}/partial/parallel.cz";
     unlink $file;
     foreach (@{$urpm->{media}}) {
-	urpm::is_valid_medium($_) or next;
-	my $f = urpm::statedir_synthesis($urpm, $_);
+	urpm::media::is_valid_medium($_) or next;
+	my $f = urpm::media::statedir_synthesis($urpm, $_);
 	system "cat '$f' >> '$file'";
     }
     #- let each node determine what is requested, according to handler given.

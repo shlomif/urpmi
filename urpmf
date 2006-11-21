@@ -23,6 +23,7 @@ use strict;
 use urpm;
 use urpm::args;
 use urpm::msg;
+use urpm::media;
 
 sub usage() {
     print N("urpmf version %s
@@ -207,7 +208,7 @@ my $need_hdlist = grep { $usedtags{$_} } qw(
     url
     vendor
 );
-$urpm->configure(
+urpm::media::configure($urpm,
     nocheck_access => 1,
     no_skiplist => 1,
     media => $media,

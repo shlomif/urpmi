@@ -25,6 +25,7 @@ use urpm::args;
 use urpm::msg;
 use urpm::download ();
 use urpm::cfg;
+use urpm::media;
 
 sub usage {
     my $m = shift;
@@ -83,8 +84,8 @@ sub remove_failed {
     if (@media) {
 	print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @media);
 	local $urpm->{log} = sub {};
-	$urpm->remove_selected_media;
-	$urpm->update_media(%options, callback => $sync_logger);
+	urpm::media::remove_selected_media($urpm);
+	urpm::media::update_media($urpm, %options, callback => $sync_logger);
 	exit(1);
     }
 }
@@ -122,7 +123,7 @@ if (!-e $urpm->{config}) {
     $urpm->{error}(N("Will create config file [%s]", $urpm->{config}));
     open my $_f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
 }
-$urpm->read_config;
+urpm::media::read_config($urpm);
 
 if ($options{distrib}) {
     $with || $relative_hdlist
@@ -143,7 +144,7 @@ if ($options{distrib}) {
 	    1;
 	} : undef;
 
-    $urpm->add_distrib_media(
+    urpm::media::add_distrib_media($urpm,
 	$name,
 	$url,
 	virtual => $options{virtual},
@@ -156,7 +157,7 @@ if ($options{distrib}) {
 	remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 	exit(1);
     };
-    $urpm->update_media(%options, callback => $sync_logger);
+    urpm::media::update_media($urpm, %options, callback => $sync_logger);
     remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 
 } else {
@@ -168,7 +169,7 @@ if ($options{distrib}) {
 	$options{probe_with} or usage N("`with' missing for network media\n");
     }
 
-    $urpm->add_medium(
+    urpm::media::add_medium($urpm,
 	$name, $url, $relative_hdlist,
 	virtual => $options{virtual},
 	update => $options{update},
@@ -177,16 +178,16 @@ if ($options{distrib}) {
     );
     urpm::download::copy_cmd_line_proxy($name);
     if ($options{raw}) {
-	$urpm->write_config;
+	urpm::media::write_config($urpm);
     } else {
 	local $SIG{INT} = sub {
-	    my $medium = urpm::name2medium($urpm, $name);
+	    my $medium = urpm::media::name2medium($urpm, $name);
 	    remove_failed($urpm, $medium) if $medium && $medium->{modified};
 	    exit(1);
 	};
-	$urpm->update_media(%options, callback => $sync_logger);
+	urpm::media::update_media($urpm, %options, callback => $sync_logger);
 	#- check creation of media
-	my $medium = urpm::name2medium($urpm, $name) or die N("unable to create medium \"%s\"\n", $name);
+	my $medium = urpm::media::name2medium($urpm, $name) or die N("unable to create medium \"%s\"\n", $name);
 	remove_failed($urpm, $medium) if $medium->{modified};
     }
 }

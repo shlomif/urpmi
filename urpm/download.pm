@@ -11,7 +11,7 @@ use Exporter;
 our @ISA = 'Exporter';
 our @EXPORT = qw(get_proxy
 	propagate_sync_callback
-	sync_file sync_prozilla sync_wget sync_curl sync_rsync sync_ssh
+	sync_file sync_rsync sync_ssh
 	set_proxy_config dump_proxy_config
 );
 
@@ -23,6 +23,20 @@ my $proxy_config;
 
 #- Timeout for curl connection and wget operations
 our $CONNECT_TIMEOUT = 60; #-  (in seconds)
+
+
+
+sub ftp_http_downloaders() { qw(curl wget prozilla) }
+
+sub available_ftp_http_downloaders() {
+    my %binaries = (
+	curl => 'curl', 
+	wget => 'wget', 
+	prozilla => 'proz',
+    );
+    grep { -x "/usr/bin/$binaries{$_}" || -x "/bin/$binaries{$_}" } ftp_http_downloaders();
+}
+
 
 #- parses proxy.cfg (private)
 sub load_proxy_config () {
@@ -294,7 +308,7 @@ sub sync_curl {
 	eval { require Date::Manip };
 
 	#- prepare to get back size and time stamp of each file.
-	open my $curl, join(" ", map { "'$_'" } "/usr/bin/curl",
+	my $cmd = join(" ", map { "'$_'" } "/usr/bin/curl",
 	    "-q", # don't read .curlrc; some toggle options might interfer
 	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
@@ -305,7 +319,8 @@ sub sync_curl {
 	    "-s", "-I",
 	    "--anyauth",
 	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : ()),
-	    @ftp_files) . " |";
+	    @ftp_files);
+	open my $curl, "$cmd |";
 	while (<$curl>) {
 	    if (/Content-Length:\s*(\d+)/) {
 		!$cur_ftp_file || exists($ftp_files_info{$cur_ftp_file}{size})
@@ -353,7 +368,7 @@ sub sync_curl {
     {
 	my @l = (@ftp_files, @other_files);
 	my ($buf, $file); $buf = '';
-	my $curl_pid = open my $curl, join(" ", map { "'$_'" } "/usr/bin/curl",
+	my $cmd = join(" ", map { "'$_'" } "/usr/bin/curl",
 	    "-q", # don't read .curlrc; some toggle options might interfer
 	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
 	    ($options->{resume} ? ("--continue-at", "-") : ()),
@@ -369,7 +384,8 @@ sub sync_curl {
 	    "--anyauth",
 	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : ()),
 	    "--stderr", "-", # redirect everything to stdout
-	    @all_files) . " |";
+	    @all_files);
+	my $curl_pid = open(my $curl, "$cmd |");
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	local $_;
 	while (<$curl>) {
@@ -579,6 +595,85 @@ sub sync_logger {
 	#- error is 3rd argument, saved in $percent
 	print STDERR N("...retrieving failed: %s", $percent), "\n";
     }
+}
+
+
+sub requested_ftp_http_downloader {
+    my ($urpm, $media_name) = @_;
+
+    $urpm->{options}{downloader} || #- cmd-line switch
+      $media_name && do {
+	  #- per-media config
+	  require urpm::media; #- help perl_checker
+	  my $m = urpm::media::name2medium($urpm, $media_name);
+	  $m && $m->{downloader};
+      } || $urpm->{global_config}{downloader};
+}
+
+#- $medium can be undef
+#- known options: quiet, resume, callback
+sub sync {
+    my ($urpm, $medium, $files, %options) = @_;
+
+    my %all_options = ( 
+	dir => "$urpm->{cachedir}/partial",
+	proxy => get_proxy($medium),
+	$medium ? (media => $medium->{name}) : (),
+	%options,
+    );
+    foreach my $cpt (qw(compress limit_rate retry wget-options curl-options rsync-options prozilla-options)) {
+	$all_options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
+    }
+
+    eval { _sync_webfetch_raw($urpm, $files, \%all_options); 1 };
+}
+
+#- syncing algorithms.
+sub _sync_webfetch_raw {    
+    my ($urpm, $files, $options) = @_;
+
+    my %files;
+    #- currently ftp and http protocols are managed by curl or wget,
+    #- ssh and rsync protocols are managed by rsync *AND* ssh.
+    foreach (@$files) {
+	my $proto = urpm::protocol_from_url($_) or die N("unknown protocol defined for %s", $_);
+	push @{$files{$proto}}, $_;
+    }
+    if ($files{removable} || $files{file}) {
+	my @l = map { urpm::file_from_local_url($_) } @{$files{removable} || []}, @{$files{file} || []};
+	eval { sync_file($options, @l) };
+	$urpm->{fatal}(10, $@) if $@;
+	delete @files{qw(removable file)};
+    }
+    if ($files{ftp} || $files{http} || $files{https}) {
+	my @available = urpm::download::available_ftp_http_downloaders();
+
+	#- use user default downloader if provided and available
+	my $requested_downloader = requested_ftp_http_downloader($urpm, $options->{media});
+	my ($preferred) = grep { $_ eq $requested_downloader } @available;
+	if (!$preferred) {
+	    #- else first downloader of @available is the default one
+	    $preferred = $available[0];
+	    if ($requested_downloader && !our $webfetch_not_available) {
+		$urpm->{log}(N("%s is not available, falling back on %s", $requested_downloader, $preferred));
+		$webfetch_not_available = 1;
+	    }
+	}
+	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
+	$sync->($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
+
+	delete @files{qw(ftp http https)};
+    }
+    if ($files{rsync}) {
+	sync_rsync($options, @{$files{rsync}});
+	delete $files{rsync};
+    }
+    if ($files{ssh}) {
+	my @ssh_files = map { m!^ssh://([^/]*)(.*)! ? "$1:$2" : () } @{$files{ssh}};
+	sync_ssh($options, @ssh_files);
+	delete $files{ssh};
+    }
+    %files and die N("unable to handle protocol: %s", join ', ', keys %files);
 }
 
 1;
