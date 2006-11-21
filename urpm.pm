@@ -1469,8 +1469,10 @@ this could happen if you mounted manually the directory when creating the medium
 	    my ($retrieved_md5sum);
 
 	    if (!$options->{nomd5sum} && file_size(_hdlist_dir($medium) . '/MD5SUM') > 32) {
+		#- get md5sum even if there is no local md5sum to compare with,
+		#- since $retrieved_md5sum is needed to write into /var/lib/urpmi/MD5SUM
+		$retrieved_md5sum = parse_md5sum($urpm, _hdlist_dir($medium) . '/MD5SUM', basename($medium->{with_hdlist}));
 		if (local_md5sum($urpm, $medium, $options->{force})) {
-		    $retrieved_md5sum = parse_md5sum($urpm, _hdlist_dir($medium) . '/MD5SUM', basename($medium->{with_hdlist}));
 		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		      and return 'unmodified';
 		}
