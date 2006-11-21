@@ -1811,12 +1811,13 @@ sub _update_medium_first_pass_failed {
 
 #- take care of modified medium only, or all if all have to be recomputed.
 sub _update_medium_second_pass {
-    my ($urpm, $medium, $second_pass, $callback) = @_;
+    my ($urpm, $medium, $callback) = @_;
 
     $callback and $callback->('parse', $medium->{name});
+
     #- a modified medium is an invalid medium, we have to read back the previous hdlist
     #- or synthesis which has not been modified by first pass above.
-    if ($second_pass) {
+
 	if ($medium->{headers} && !$medium->{modified}) {
 	    $urpm->{log}(N("reading headers from medium \"%s\"", $medium->{name}));
 	    ($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
@@ -1834,7 +1835,12 @@ sub _update_medium_second_pass {
 	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
 	    $medium->{must_build_synthesis} ||= 1;
 	}
-    }
+
+    $callback && $callback->('done', $medium->{name});
+}
+
+sub _update_medium_build_hdlist_synthesis {
+    my ($urpm, $medium) = @_;
 
     if ($medium->{headers} && !$medium->{modified}) {
 	_build_hdlist_using_rpm_headers($urpm, $medium);
@@ -1847,7 +1853,6 @@ sub _update_medium_second_pass {
 	    _build_synthesis($urpm, $medium);
 	}
     }
-    $callback && $callback->('done', $medium->{name});
 }
 
 sub remove_obsolete_headers_in_cache {
@@ -1937,9 +1942,12 @@ sub update_media {
 	$urpm->unresolved_provides_clean;
     }
 
-    #- second pass consists in reading again synthesis or hdlists.
     foreach my $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
-	_update_medium_second_pass($urpm, $medium, $second_pass, $options{callback});
+	if ($second_pass) {
+	    #- second pass consists in reading again synthesis or hdlists.
+	    _update_medium_second_pass($urpm, $medium, $options{callback});
+	}
+	_update_medium_build_hdlist_synthesis($urpm, $medium);
     }
 
     if ($urpm->{modified}) {
