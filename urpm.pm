@@ -787,7 +787,6 @@ sub add_medium {
 	$medium->{virtual} = 1;
     } else {
 	$medium->{hdlist} = "hdlist.$name.cz";
-	$medium->{list} = "list.$name";
 	$urpm->probe_removable_device($medium);
     }
 
@@ -1681,10 +1680,8 @@ sub _write_rpm_list_if_needed {
     my ($urpm, $medium, $rpm_list) = @_;
 
     if (@$rpm_list) {
-	if (!$medium->{list}) {
-	    $urpm->{error}("{list} is not set, please report bug");
-	    return;
-	}
+	$medium->{list} ||= "list.$medium->{name}";
+
 	#- write list file.
 	$urpm->{log}(N("writing list file for medium \"%s\"", $medium->{name}));
 	my $listfh = $urpm->open_safe('>', cachedir_list($urpm, $medium)) or return;
