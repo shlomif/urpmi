@@ -1117,25 +1117,21 @@ sub _parse_hdlist_or_synthesis__virtual {
 }
 
 #- names.<media_name> is used by external progs (namely for bash-completion)
-sub generate_media_names {
-    my ($urpm) = @_;
+sub generate_medium_names {
+    my ($urpm, $medium) = @_;
 
-    #- make sure names files are regenerated.
-    foreach (@{$urpm->{media}}) {
-	unlink statedir_names($urpm, $_);
-	if (is_valid_medium($_)) {
-	    if (my $fh = $urpm->open_safe(">", statedir_names($urpm, $_))) {
-		foreach ($_->{start} .. $_->{end}) {
-		    if (defined $urpm->{depslist}[$_]) {
-			print $fh $urpm->{depslist}[$_]->name . "\n";
-		    } else {
-			$urpm->{error}(N("Error generating names file: dependency %d not found", $_));
-		    }
-		}
+    unlink statedir_names($urpm, $medium);
+
+    if (my $fh = $urpm->open_safe(">", statedir_names($urpm, $medium))) {
+	foreach ($medium->{start} .. $medium->{end}) {
+	    if (defined $urpm->{depslist}[$_]) {
+		print $fh $urpm->{depslist}[$_]->name . "\n";
 	    } else {
-		$urpm->{error}(N("Error generating names file: Can't write to file (%s)", $!));
+		$urpm->{error}(N("Error generating names file: dependency %d not found", $_));
 	    }
 	}
+    } else {
+	$urpm->{error}(N("Error generating names file: Can't write to file (%s)", $!));
     }
 }
 
@@ -1951,6 +1947,7 @@ sub update_media {
 	if ($medium->{really_modified}) {
 	    _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
 	    _read_cachedir_pubkey($urpm, $medium);
+	    generate_medium_names($urpm, $medium);
 	}
     }
 
@@ -1967,8 +1964,6 @@ sub update_media {
 	#- NB: in case of $urpm->{modified}, write_MD5SUM is called in write_config above
 	write_MD5SUM($urpm);
     }
-
-    generate_media_names($urpm);
 
     $options{nolock} or $urpm->unlock_urpmi_db;
     $options{nopubkey} or $urpm->unlock_rpm_db;
