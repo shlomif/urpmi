@@ -1183,8 +1183,11 @@ sub _read_existing_synthesis_and_hdlist {
     #- XXX we could link the new hdlist to the old one.
     #- (However links need to be managed. see bug #12391.)
     #- as previously done, just read synthesis file here, this is enough.
-    _parse_maybe_hdlist_or_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))
-      or _check_after_reading_hdlist_or_synthesis($urpm, $medium);
+    if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
+	_parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
+	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
+    }
+
     1;
 }
 
