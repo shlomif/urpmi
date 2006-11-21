@@ -130,7 +130,7 @@ if ($test && $auto) {
 #- Warning : the following message is parsed in urpm::parallel_*
 print N("removing %s", join(' ', sort @toremove)) . "\n";
 @l = $parallel
-    ? $urpm->parallel_remove(
+    ? urpm::parallel::remove($urpm,
 	\@toremove,
 	test => $test,
 	force => $force,

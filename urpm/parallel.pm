@@ -54,4 +54,16 @@ sub resolve_dependencies {
     $urpm->{parallel_handler}->parallel_resolve_dependencies($file, $urpm, $state, $requested, %options);
 }
 
+#- remove packages from node as remembered according to resolving done.
+sub remove {
+    my ($urpm, $remove, %options) = @_;
+    my $state = {};
+    my $callback = sub { $urpm->{fatal}(1, "internal distributed remove fatal error") };
+    $urpm->{parallel_handler}->parallel_find_remove($urpm, $state, $remove, %options,
+						    callback_notfound => undef,
+						    callback_fuzzy => $callback,
+						    callback_base => $callback,
+						   );
+}
+
 1;

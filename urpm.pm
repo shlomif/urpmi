@@ -3053,17 +3053,8 @@ sub find_removed_from_basesystem {
     return 1;
 }
 
-#- remove packages from node as remembered according to resolving done.
-sub parallel_remove {
-    my ($urpm, $remove, %options) = @_;
-    my $state = {};
-    my $callback = sub { $urpm->{fatal}(1, "internal distributed remove fatal error") };
-    $urpm->{parallel_handler}->parallel_find_remove($urpm, $state, $remove, %options,
-						    callback_notfound => undef,
-						    callback_fuzzy => $callback,
-						    callback_base => $callback,
-						   );
-}
+#- deprecated
+sub parallel_remove { &urpm::parallel::remove }
 
 #- misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
 sub unselected_packages {
