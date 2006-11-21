@@ -3215,8 +3215,8 @@ sub local_md5sum {
 sub compute_local_md5sum {
     my ($urpm, $medium) = @_;
 
-    $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis)"));
     my $f = statedir_hdlist_or_synthesis($urpm, $medium);
+    $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis) [%s]", $f));
     -e $f && md5sum($f);
 }
 
