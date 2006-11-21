@@ -1105,6 +1105,7 @@ sub _parse_hdlist_or_synthesis__virtual {
 
     if (my $hdlist_or = hdlist_or_synthesis_for_virtual_medium($medium)) {
 	delete $medium->{modified};
+	$medium->{really_modified} = 1;
 	$urpm->{md5sum_modified} = 1;
 	_parse_maybe_hdlist_or_synthesis($urpm, $medium, $hdlist_or);
 	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
@@ -1775,6 +1776,7 @@ sub _update_medium_first_pass {
     unless ($medium->{virtual}) {
 	    #- make sure to rebuild base files and clear medium modified state.
 	    $medium->{modified} = 0;
+	    $medium->{really_modified} = 1;
 	    $urpm->{md5sum_modified} = 1;
 
 	    #- but use newly created file.
@@ -1946,10 +1948,10 @@ sub update_media {
 	}
 	_build_hdlist_synthesis($urpm, $medium);
 
-	_get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
-
-	_read_cachedir_pubkey($urpm, $medium);
-
+	if ($medium->{really_modified}) {
+	    _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
+	    _read_cachedir_pubkey($urpm, $medium);
+	}
     }
 
     if ($urpm->{modified}) {
