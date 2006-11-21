@@ -25,6 +25,7 @@ use urpm::args;
 use urpm::msg;
 use urpm::install;
 use urpm::media;
+use urpm::select;
 use urpm::get_pkgs;
 use urpm::signature;
 use urpm::util qw(untaint difference2 member);
@@ -403,7 +404,7 @@ if ($bug) {
 #- search the packages according to the selection given by the user.
 my $search_result;
 if (@names) {
-    $search_result = $urpm->search_packages(
+    $search_result = urpm::select::search_packages($urpm,
 	\%requested, [ @names ],
 	all => $all,
 	use_provides => $use_provides,
@@ -415,7 +416,7 @@ if (@names) {
     }
 }
 if (@src_names) {
-    $search_result = $urpm->search_packages(\%requested, [ @src_names ],
+    $search_result = urpm::select::search_packages($urpm, \%requested, [ @src_names ],
 	all => $all,
 	use_provides => $use_provides,
 	fuzzy => $urpm->{options}{fuzzy},
@@ -452,7 +453,7 @@ sub ask_choice {
 #- handle parallel option if any.
 #- return value is true if program should be restarted (in order to take care of important
 #- packages being upgraded (problably urpmi and perl-URPM, but maybe rpm too, and glibc also ?).
-my $restart_itself = $urpm->resolve_dependencies(
+my $restart_itself = urpm::select::resolve_dependencies($urpm,
     $state,
     \%requested,
     rpmdb => $env && "$env/rpmdb.cz",
@@ -483,9 +484,9 @@ that are older than the installed ones:\n%s", $list);
     }
 }
 
-my @ask_unselect = $urpm->unselected_packages($state);
+my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
 if (@ask_unselect) {
-    my $list = $urpm->translate_why_unselected($state, @ask_unselect);
+    my $list = urpm::select::translate_why_unselected($urpm, $state, @ask_unselect);
     my $msg = N("Some requested packages cannot be installed:\n%s", $list);
     if ($urpm->{options}{auto}) {
 	print "$msg\n";
@@ -501,11 +502,11 @@ if (@ask_unselect) {
     }
 }
 
-my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : $urpm->removed_packages($state);
+my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : urpm::select::removed_packages($urpm, $state);
 if (@ask_remove) {
     {
 	my $db = urpm::db_open_or_die($urpm, $root);
-	$urpm->find_removed_from_basesystem($db, $state, sub {
+	urpm::select::find_removed_from_basesystem($urpm, $db, $state, sub {
 	    my $urpm = shift @_;
 	    foreach (@_) {
 		$urpm->{error}(N("removing package %s will break your system", $_));
@@ -513,7 +514,7 @@ if (@ask_remove) {
 	    @_ and $no_remove = 1;
 	});
     }
-    my $list = $urpm->translate_why_removed($state, @ask_remove);
+    my $list = urpm::select::translate_why_removed($urpm, $state, @ask_remove);
 
     if ($no_remove && !$force) {
 	print N("The installation cannot continue because the following packages

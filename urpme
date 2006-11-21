@@ -25,6 +25,8 @@ use urpm::args;
 use urpm::msg;
 use urpm::install;
 use urpm::media;
+use urpm::select;
+
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
@@ -88,7 +90,7 @@ urpm::media::configure($urpm,
 );
 
 #- examine packages...
-my @toremove = $urpm->find_packages_to_remove(
+my @toremove = urpm::select::find_packages_to_remove($urpm,
     $state,
     \@l,
     matches => $matches,
@@ -114,7 +116,7 @@ my @toremove = $urpm->find_packages_to_remove(
     root => $root,
 ) or $urpm->{fatal}(0, N("Nothing to remove"));
 
-my $list = $urpm->translate_why_removed($state, @toremove);
+my $list = urpm::select::translate_why_removed($urpm, $state, @toremove);
 if ($test && $auto) {
     #- Warning : the following message is parsed in urpm::parallel_*
     my $msg = N("Checking to remove the following packages");

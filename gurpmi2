@@ -16,6 +16,7 @@ use urpm::install;
 use urpm::media;
 use urpm::signature;
 use urpm::get_pkgs;
+use urpm::select;
 use Gtk2;
 
 #- GUI globals
@@ -71,19 +72,19 @@ my $urpm = configure_urpm();
 my $state = {};
 my %requested = $urpm->register_rpms(@all_rpms);
 if (@gurpmi::names) {
-    $urpm->search_packages(\%requested, [ @gurpmi::names ]);
+    urpm::select::search_packages($urpm, \%requested, [ @gurpmi::names ]);
 }
-$urpm->resolve_dependencies(
+urpm::select::resolve_dependencies($urpm,
     $state,
     \%requested,
     callback_choices => \&ask_choice,
     auto_select => $gurpmi::options{'auto-select'},
 );
-my @ask_unselect = $urpm->unselected_packages($state);
+my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
 @ask_unselect
 ? ask_continue(N(
 	"Some requested packages cannot be installed:\n%s\nContinue installation anyway?",
-	$urpm->translate_why_unselected($state, @ask_unselect)
+	urpm::select::translate_why_unselected($urpm, $state, @ask_unselect)
     ), \&do_install)
 : do_install();
 
@@ -186,11 +187,11 @@ sub ask_continue_blocking {
 
 sub do_install {
     wait_label();
-    my @ask_remove = $urpm->removed_packages($state);
+    my @ask_remove = urpm::select::removed_packages($urpm, $state);
     @ask_remove
 	? ask_continue(N(
 	    "The following packages have to be removed for others to be upgraded:\n%s\nContinue installation anyway?",
-	    $urpm->translate_why_removed($state, @ask_remove)
+	    urpm::select::translate_why_removed($urpm, $state, @ask_remove)
 	), \&do_install_2)
 	: goto &do_install_2;
 }

@@ -28,6 +28,7 @@ use urpm::args;
 use urpm::msg;
 use urpm::sys;
 use urpm::media;
+use urpm::select;
 use urpm::get_pkgs;
 
 #- default options.
@@ -197,7 +198,7 @@ if ($urpm::args::options{list_aliases}) {
 
     #- search the packages according to the selection given by the user.
     if (@names) {
-	$urpm->search_packages(
+	urpm::select::search_packages($urpm,
 	    \%requested,
 	    [ @names ],
 	    use_provides => $urpm::args::options{use_provides},
@@ -208,7 +209,7 @@ if ($urpm::args::options{list_aliases}) {
 	    or exit 1;
     }
     if (@src_names) {
-	$urpm->search_packages(
+	urpm::select::search_packages($urpm,
 	    \%requested,
 	    [ @src_names ],
 	    use_provides => $urpm::args::options{use_provides},
@@ -291,7 +292,7 @@ if ($urpm::args::options{list_aliases}) {
 	    }
 	}
     } elsif ($urpm::args::options{auto_select} || $urpm::args::options{upgrade}) {
-	$urpm->resolve_dependencies($state, \%requested,
+	urpm::select::resolve_dependencies($urpm, $state, \%requested,
 				    keep => $urpm::args::options{keep},
 				    rpmdb => $urpm::args::options{env} && "$urpm::args::options{env}/rpmdb.cz",
 				    auto_select => $urpm::args::options{auto_select},
