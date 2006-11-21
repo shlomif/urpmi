@@ -1495,10 +1495,10 @@ this could happen if you mounted manually the directory when creating the medium
     #- to be checked for being valid, nothing can be deduced if no MD5SUM
     #- file is present.
 
-    my ($retrieved_md5sum);
-
     unless ($medium->{virtual}) {
 	if ($medium->{with_hdlist}) {
+	    my ($retrieved_md5sum);
+
 	    if (!$options->{nomd5sum} && file_size(_hdlist_dir($medium) . '/MD5SUM') > 32) {
 		if (local_md5sum($urpm, $medium, $options->{force})) {
 		    $retrieved_md5sum = parse_md5sum($urpm, _hdlist_dir($medium) . '/MD5SUM', basename($medium->{with_hdlist}));
@@ -1510,6 +1510,9 @@ this could happen if you mounted manually the directory when creating the medium
 	    #- if the source hdlist is present and we are not forcing using rpm files
 	    if (!$options->{force_building_hdlist} && -e _url_with_hdlist($medium)) {
 		if (get_hdlist_or_synthesis_and_check_md5sum__local($urpm, $medium, $retrieved_md5sum, $options->{callback})) {
+
+		    $medium->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
+
 		    #- check if the files are equal... and no force copy...
 		    if (!$options->{force}) {
 			_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $medium->{hdlist}) 
@@ -1541,7 +1544,7 @@ this could happen if you mounted manually the directory when creating the medium
 	_get_list_or_pubkey__local($urpm, $medium, 'pubkey');
     }
 
-    (1, $retrieved_md5sum);
+    1;
 }
 
 #- options: callback, force, nomd5sum, nopubkey, probe_with, quiet
@@ -1646,7 +1649,8 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
 	$urpm->{error}(N("retrieval of source hdlist (or synthesis) failed"));
 	return;
     }
-    (1, $retrieved_md5sum);
+    $urpm->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
+    1;
 }
 
 sub _read_cachedir_pubkey {
@@ -1726,10 +1730,10 @@ sub _update_medium_first_pass {
 
     #- list of rpm files for this medium, only available for local medium where
     #- the source hdlist is not used (use force).
-    my ($retrieved_md5sum, @rpm_files);
+    my (@rpm_files);
 
     {
-	(my $rc, $retrieved_md5sum) = 
+	my $rc = 
 	  file_from_local_url($medium->{url})
 	    ? _update_medium__parse_if_unmodified__or_get_files__local($urpm, $medium, $second_pass, $clean_cache, \@rpm_files, \%options)
 	    : _update_medium__parse_if_unmodified__or_get_files__remote($urpm, $medium, \%options);
@@ -1762,8 +1766,14 @@ sub _update_medium_first_pass {
 	    } else {
 		$urpm->{error}(N("unable to parse hdlist file of \"%s\"", $medium->{name}));
 		$options{callback} and $options{callback}('failed', $medium->{name});
+		delete $medium->{md5sum};
+
+		#- we have to read back the current synthesis file unmodified.
+		if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
+		    $urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
+		    $medium->{ignore} = 1;
+		}
 		return;
-		#- we will have to read back the current synthesis file unmodified.
 	    }
 
 	    {
@@ -1797,7 +1807,6 @@ sub _update_medium_first_pass {
 	    if ($medium->{list}) {
 		urpm::util::move(cachedir_list($urpm, $medium), statedir_list($urpm, $medium));
 	    }
-	    $medium->{md5sum} = $retrieved_md5sum; #- anyway, keep it, the previous one is no longer useful.
 
 	    #- and create synthesis file associated.
 	    $medium->{must_build_synthesis} = !$medium->{synthesis};
