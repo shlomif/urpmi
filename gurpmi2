@@ -14,6 +14,7 @@ BEGIN { #- set up a safe path and environment
 use gurpmi;
 use urpm::install;
 use urpm::media;
+use urpm::signature;
 use Gtk2;
 
 #- GUI globals
@@ -259,7 +260,7 @@ sub do_install_3 () {
 	);
 	my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources, $state) || {}};
 	if ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}}) {
-	    my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources);
+	    my @bad_signatures = urpm::signature::check($urpm, \%transaction_sources_install, \%transaction_sources);
 	    if (@bad_signatures) {
 		ask_continue_blocking(N(
 		    "The following packages have bad signatures:\n%s\n\nDo you want to continue installation ?",

@@ -25,6 +25,7 @@ use urpm::args;
 use urpm::msg;
 use urpm::install;
 use urpm::media;
+use urpm::signature;
 use urpm::util qw(untaint difference2 member);
 
 #- contains informations to parse installed system.
@@ -641,7 +642,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources, $state) || {}};
 
     if (!$force && ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}})) {
-	my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources);
+	my @bad_signatures = urpm::signature::check($urpm, \%transaction_sources_install, \%transaction_sources);
 
 	if (@bad_signatures) {
 	    my $msg = N("The following packages have bad signatures");
