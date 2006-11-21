@@ -1079,7 +1079,7 @@ sub _hdlist_suffix {
     $medium->{with_hdlist} =~ /hdlist(.*?)(?:\.src)?\.cz$/ ? $1 : '';
 }
 
-sub _update_media__when_not_modified {
+sub _parse_hdlist_or_synthesis__when_not_modified {
     my ($urpm, $medium) = @_;
 
     delete @$medium{qw(start end)};
@@ -1704,7 +1704,7 @@ sub _update_medium_first_pass {
 	#- we still need to read it and all synthesis will be written if
 	#- an unresolved provides is found.
 	#- to speed up the process, we only read the synthesis at the beginning.
-	_update_media__when_not_modified($urpm, $medium);
+	_parse_hdlist_or_synthesis__when_not_modified($urpm, $medium);
 	return 1;
     }
 
@@ -1836,7 +1836,7 @@ sub _update_medium_second_pass {
     $callback && $callback->('done', $medium->{name});
 }
 
-sub _update_medium_build_hdlist_synthesis {
+sub _build_hdlist_synthesis {
     my ($urpm, $medium) = @_;
 
     if ($medium->{headers} && !$medium->{modified}) {
@@ -1944,7 +1944,7 @@ sub update_media {
 	    #- second pass consists in reading again synthesis or hdlists.
 	    _update_medium_second_pass($urpm, $medium, $options{callback});
 	}
-	_update_medium_build_hdlist_synthesis($urpm, $medium);
+	_build_hdlist_synthesis($urpm, $medium);
 
 	_get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
 
