@@ -182,6 +182,14 @@ sub fix_fd_leak() {
     }
 }
 
+sub clean_dir {
+    my ($dir) = @_;
+
+    require File::Path;
+    File::Path::rmtree([$dir]);
+    mkdir $dir, 0755;
+}
+
 #- lock policy concerning chroot :
 #  - lock rpm db in chroot
 #  - lock urpmi db in /

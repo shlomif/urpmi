@@ -79,14 +79,6 @@ sub db_open_or_die {
     $db;
 }
 
-sub clean_dir {
-    my ($dir) = @_;
-
-    require File::Path;
-    File::Path::rmtree([$dir]);
-    mkdir $dir, 0755;
-}
-
 sub remove_obsolete_headers_in_cache {
     my ($urpm) = @_;
     my %headers;
@@ -492,7 +484,7 @@ sub get_source_packages {
 
     if ($options{clean_all}) {
 	#- clean download directory, do it here even if this is not the best moment.
-	clean_dir("$urpm->{cachedir}/partial");
+	urpm::sys::clean_dir("$urpm->{cachedir}/partial");
     }
 
     my ($error, @list_error, @list, %examined);
