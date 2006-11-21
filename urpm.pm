@@ -1802,11 +1802,6 @@ sub _update_medium_first_pass_failed {
 
     #- an error has occured for updating the medium, we have to remove temporary files.
     unlink(glob("$urpm->{cachedir}/partial/*"));
-    #- read default synthesis (we have to make sure nothing get out of depslist).
-    if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
-	$urpm->{error}(N("problem reading synthesis file of medium \"%s\"", $medium->{name}));
-	$medium->{ignore} = 1;
-    }
 }
 
 #- take care of modified medium only, or all if all have to be recomputed.
