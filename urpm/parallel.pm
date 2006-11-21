@@ -1,4 +1,4 @@
-package urpm::parallel; # $Id: $
+package urpm::parallel; # $Id$
 
 use urpm;
 use urpm::util;

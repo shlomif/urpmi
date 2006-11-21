@@ -1,4 +1,4 @@
-package urpm::bug_report; # $Id: $
+package urpm::bug_report; # $Id$
 
 use urpm;
 use urpm::msg;

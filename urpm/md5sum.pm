@@ -1,4 +1,4 @@
-package urpm::md5sum; # $Id: $
+package urpm::md5sum; # $Id$
 
 use urpm;
 use urpm::util;
