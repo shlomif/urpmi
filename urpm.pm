@@ -10,6 +10,7 @@ use urpm::download;
 use urpm::util;
 use urpm::sys;
 use urpm::cfg;
+use urpm::md5sum;
 use MDV::Distribconf;
 
 our $VERSION = '4.8.29';
@@ -199,7 +200,7 @@ sub read_config {
 
     #- read MD5 sums (usually not in urpmi.cfg but in a separate file)
     foreach (@{$urpm->{media}}) {
-	if (my $md5sum = from_MD5SUM("$urpm->{statedir}/MD5SUM", statedir_hdlist_or_synthesis($urpm, $_))) {
+	if (my $md5sum = urpm::md5sum::from_MD5SUM("$urpm->{statedir}/MD5SUM", statedir_hdlist_or_synthesis($urpm, $_))) {
 	    $_->{md5sum} = $md5sum;
 	}
     }
@@ -1277,7 +1278,7 @@ sub get_hdlist_or_synthesis_and_check_md5sum__local {
     #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
     if ($retrieved_md5sum) {
 	$urpm->{log}(N("computing md5sum of copied source hdlist (or synthesis)"));
-	md5sum(cachedir_hdlist($urpm, $medium)) eq $retrieved_md5sum or
+	urpm::md5sum::compute(cachedir_hdlist($urpm, $medium)) eq $retrieved_md5sum or
 	  $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", _url_with_hdlist($medium))), return;
     }
 
@@ -1392,8 +1393,8 @@ this could happen if you mounted manually the directory when creating the medium
 	    my ($retrieved_md5sum);
 
 	    if (!$options->{nomd5sum} && file_size(_hdlist_dir($medium) . '/MD5SUM') > 32) {
-		$retrieved_md5sum = from_MD5SUM__or_warn($urpm, _hdlist_dir($medium) . '/MD5SUM', basename($medium->{with_hdlist}));
-		if (local_md5sum($urpm, $medium, $options->{force})) {
+		$retrieved_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, _hdlist_dir($medium) . '/MD5SUM', basename($medium->{with_hdlist}));
+		if (urpm::md5sum::on_local_medium($urpm, $medium, $options->{force})) {
 		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		      and return 'unmodified';
 		}
@@ -1454,8 +1455,8 @@ sub _update_medium__parse_if_unmodified__remote {
 	      urpm::download::sync($urpm, $medium, 
 				   [ reduce_pathname(_hdlist_dir($medium) . '/MD5SUM') ],
 				   quiet => 1) && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
-	    if (local_md5sum($urpm, $medium, $options->{force} >= 2)) {
-		$retrieved_md5sum = from_MD5SUM__or_warn($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
+	    if (urpm::md5sum::on_local_medium($urpm, $medium, $options->{force} >= 2)) {
+		$retrieved_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
 		_read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		  and return 'unmodified';
 	    }
@@ -1508,7 +1509,7 @@ sub _update_medium__parse_if_unmodified__remote {
     #- check downloaded file has right signature.
     if (file_size("$urpm->{cachedir}/partial/$basename") >= 20 && $retrieved_md5sum) {
 	$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
-	unless (md5sum("$urpm->{cachedir}/partial/$basename") eq $retrieved_md5sum) {
+	unless (urpm::md5sum::compute("$urpm->{cachedir}/partial/$basename") eq $retrieved_md5sum) {
 	    $urpm->{error}(N("...retrieving failed: md5sum mismatch"));
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	}
@@ -3099,46 +3100,6 @@ sub get_updates_description {
 	$section eq 'description' and $cur->{description} .= $_;
     }
     \%update_descr;
-}
-
-#- parse an MD5SUM file from a mirror
-sub from_MD5SUM {
-    my ($md5sum_file, $f) = @_;  
-    my $basename = basename($f);
-
-    my ($retrieved_md5sum) = map {
-	my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)|;
-	$file && $file eq $basename ? $md5sum : @{[]};
-    } cat_($md5sum_file);
-
-    $retrieved_md5sum;
-}
-
-sub from_MD5SUM__or_warn {
-    my ($urpm, $md5sum_file, $basename) = @_;
-    $urpm->{log}(N("examining %s file", $md5sum_file));
-    my $retrieved_md5sum = from_MD5SUM($md5sum_file, $basename) 
-      or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
-    return $retrieved_md5sum;
-}
-
-sub local_md5sum {
-    my ($urpm, $medium, $force) = @_;
-    if ($force) {
-	#- force downloading the file again, else why a force option has been defined ?
-	delete $medium->{md5sum};
-    } else {
-	$medium->{md5sum} ||= compute_local_md5sum($urpm, $medium);
-    }
-    $medium->{md5sum};
-}
-
-sub compute_local_md5sum {
-    my ($urpm, $medium) = @_;
-
-    my $f = statedir_hdlist_or_synthesis($urpm, $medium);
-    $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis) [%s]", $f));
-    -e $f && md5sum($f);
 }
 
 sub error_restricted ($) {

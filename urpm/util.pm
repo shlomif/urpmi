@@ -8,7 +8,7 @@ our @ISA = 'Exporter';
 our @EXPORT = qw(quotespace unquotespace
     remove_internal_name
     reduce_pathname offset_pathname
-    md5sum untaint
+    untaint
     copy_and_own
     same_size_and_mtime
     difference2 member file_size cat_ dirname basename
@@ -85,21 +85,6 @@ sub offset_pathname {
 sub untaint {
     my @r = map { /(.*)/ } @_;
     @r == 1 ? $r[0] : @r;
-}
-
-sub md5sum {
-    my ($file) = @_;
-    eval { require Digest::MD5 };
-    if ($@) {
-	#- Use an external command to avoid depending on perl
-	return (split ' ', `/usr/bin/md5sum '$file'`)[0];
-    } else {
-	my $ctx = Digest::MD5->new;
-	open my $fh, $file or return '';
-	$ctx->addfile($fh);
-	close $fh;
-	return $ctx->hexdigest;
-    }
 }
 
 sub copy {
