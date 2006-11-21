@@ -276,7 +276,7 @@ sub read_config {
 
     #- read MD5 sums (usually not in urpmi.cfg but in a separate file)
     foreach (@{$urpm->{media}}) {
-	if (my $md5sum = get_md5sum("$urpm->{statedir}/MD5SUM", statedir_hdlist_or_synthesis($urpm, $_))) {
+	if (my $md5sum = from_MD5SUM("$urpm->{statedir}/MD5SUM", statedir_hdlist_or_synthesis($urpm, $_))) {
 	    $_->{md5sum} = $md5sum;
 	}
     }
@@ -1469,9 +1469,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    my ($retrieved_md5sum);
 
 	    if (!$options->{nomd5sum} && file_size(_hdlist_dir($medium) . '/MD5SUM') > 32) {
-		#- get md5sum even if there is no local md5sum to compare with,
-		#- since $retrieved_md5sum is needed to write into /var/lib/urpmi/MD5SUM
-		$retrieved_md5sum = parse_md5sum($urpm, _hdlist_dir($medium) . '/MD5SUM', basename($medium->{with_hdlist}));
+		$retrieved_md5sum = from_MD5SUM__or_warn($urpm, _hdlist_dir($medium) . '/MD5SUM', basename($medium->{with_hdlist}));
 		if (local_md5sum($urpm, $medium, $options->{force})) {
 		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		      and return 'unmodified';
@@ -1534,7 +1532,7 @@ sub _update_medium__parse_if_unmodified__remote {
 			    [ reduce_pathname(_hdlist_dir($medium) . '/MD5SUM') ],
 			    quiet => 1) && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
 	    if (local_md5sum($urpm, $medium, $options->{force} >= 2)) {
-		$retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
+		$retrieved_md5sum = from_MD5SUM__or_warn($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
 		_read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		  and return 'unmodified';
 	    }
@@ -3181,7 +3179,7 @@ sub get_updates_description {
 }
 
 #- parse an MD5SUM file from a mirror
-sub get_md5sum {
+sub from_MD5SUM {
     my ($md5sum_file, $f) = @_;  
     my $basename = basename($f);
 
@@ -3193,10 +3191,10 @@ sub get_md5sum {
     $retrieved_md5sum;
 }
 
-sub parse_md5sum {
+sub from_MD5SUM__or_warn {
     my ($urpm, $md5sum_file, $basename) = @_;
-    $urpm->{log}(N("examining MD5SUM file"));
-    my $retrieved_md5sum = get_md5sum($md5sum_file, $basename) 
+    $urpm->{log}(N("examining %s file", $md5sum_file));
+    my $retrieved_md5sum = from_MD5SUM($md5sum_file, $basename) 
       or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
     return $retrieved_md5sum;
 }
