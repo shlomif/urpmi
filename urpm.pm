@@ -1391,14 +1391,14 @@ sub get_hdlist_or_synthesis_and_check_md5sum__local {
 }
 
 sub _read_rpms_from_dir {
-    my ($urpm, $medium, $second_pass, $clean_cache, $rpm_files) = @_;
+    my ($urpm, $medium, $second_pass, $clean_cache) = @_;
 
     my $dir = file_from_local_url($medium->{url});
 
-    @$rpm_files = glob("$dir/*.rpm");
+    $medium->{rpm_files} = [ glob("$dir/*.rpm") ];
 
     #- check files contains something good!
-    if (!@$rpm_files) {
+    if (!@{$medium->{rpm_files}}) {
 	$urpm->{error}(N("no rpm files found from [%s]", $dir));
 	$medium->{ignore} = 1;
 	return;
@@ -1415,7 +1415,7 @@ sub _read_rpms_from_dir {
     eval {
 	$medium->{headers} = [ $urpm->parse_rpms_build_headers(
 	    dir   => "$urpm->{cachedir}/headers",
-	    rpms  => $rpm_files,
+	    rpms  => $medium->{rpm_files},
 	    clean => $$clean_cache,
 	    packing => 1,
 	) ];
@@ -1447,7 +1447,7 @@ sub _read_rpms_from_dir {
 
 #- options: callback, force, force_building_hdlist, nomd5sum, nopubkey, probe_with
 sub _update_medium__parse_if_unmodified__or_get_files__local {
-    my ($urpm, $medium, $second_pass, $clean_cache, $rpm_files, $options) = @_;
+    my ($urpm, $medium, $second_pass, $clean_cache, $options) = @_;
 
     my $dir = file_from_local_url($medium->{url});
 
@@ -1535,7 +1535,7 @@ this could happen if you mounted manually the directory when creating the medium
 	}
 
 	if ($options->{force_building_hdlist}) {
-	    _read_rpms_from_dir($urpm, $medium, $second_pass, $clean_cache, $rpm_files) or return;
+	    _read_rpms_from_dir($urpm, $medium, $second_pass, $clean_cache) or return;
 	}
     }
 
@@ -1728,14 +1728,10 @@ sub _update_medium_first_pass {
 	may_reconfig_urpmi($urpm, $medium);
     }
 
-    #- list of rpm files for this medium, only available for local medium where
-    #- the source hdlist is not used (use force).
-    my (@rpm_files);
-
     {
 	my $rc = 
 	  file_from_local_url($medium->{url})
-	    ? _update_medium__parse_if_unmodified__or_get_files__local($urpm, $medium, $second_pass, $clean_cache, \@rpm_files, \%options)
+	    ? _update_medium__parse_if_unmodified__or_get_files__local($urpm, $medium, $second_pass, $clean_cache, \%options)
 	    : _update_medium__parse_if_unmodified__or_get_files__remote($urpm, $medium, \%options);
 
 	if (!$rc || $rc eq 'unmodified') {
@@ -1750,7 +1746,9 @@ sub _update_medium_first_pass {
     }
 
     if (!$medium->{virtual}) {
-	if (!$medium->{headers}) {
+	if ($medium->{headers}) {
+	    _write_rpm_list_if_needed($urpm, $medium, $medium->{rpm_files}) or return;
+	} else {
 	    #- read first pass hdlist or synthesis, try to open as synthesis, if file
 	    #- is larger than 1MB, this is probably an hdlist else a synthesis.
 	    #- anyway, if one tries fails, try another mode.
@@ -1779,12 +1777,8 @@ sub _update_medium_first_pass {
 	    {
 		my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 		@unresolved_before == @unresolved_after or $$second_pass = 1;
-
-		@rpm_files = grep { /\.rpm$/ } map { chomp; $_ } cat_("$urpm->{cachedir}/partial/list");
 	    }
 	}
-
-	_write_rpm_list_if_needed($urpm, $medium, \@rpm_files) or return;
     }
 
     _read_cachedir_pubkey($urpm, $medium);
