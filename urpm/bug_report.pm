@@ -13,7 +13,7 @@ sub rpmdb_to_synthesis {
     local $SIG{QUIT} = $sig_handler;
 
     open my $rpmdb, "| " . ($ENV{LD_LOADER} || '') . " gzip -9 >'$synthesis'"
-      or $urpm->syserror("Can't fork", "gzip");
+      or urpm::sys::syserror($urpm, "Can't fork", "gzip");
     $db->traverse(sub {
 		      my ($p) = @_;
 		      #- this is not right but may be enough.

@@ -232,6 +232,25 @@ sub unlock_urpmi_db {
     _unlock(\$LOCK_FILE);
 }
 
+sub syserror { 
+    my ($urpm, $msg, $info) = @_;
+    $urpm->{error}("$msg [$info] [$!]");
+}
+
+sub open_safe {
+    my ($urpm, $sense, $filename) = @_;
+    open my $f, $sense, $filename
+	or syserror($urpm, $sense eq '>' ? "Can't write file" : "Can't open file", $filename), return undef;
+    return $f;
+}
+
+sub opendir_safe {
+    my ($urpm, $dirname) = @_;
+    opendir my $d, $dirname
+	or syserror($urpm, "Can't open directory", $dirname), return undef;
+    return $d;
+}
+
 1;
 __END__
 

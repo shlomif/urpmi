@@ -53,83 +53,6 @@ sub new {
     $self;
 }
 
-sub requested_ftp_http_downloader {
-    my ($urpm, $media_name) = @_;
-
-    $urpm->{options}{downloader} || #- cmd-line switch
-      $media_name && do {
-	  #- per-media config
-	  my $m = name2medium($urpm, $media_name);
-	  $m && $m->{downloader};
-      } || $urpm->{global_config}{downloader};
-}
-
-#- $medium can be undef
-#- known options: quiet, resume, callback
-sub sync_webfetch {
-    my ($urpm, $medium, $files, %options) = @_;
-
-    my %all_options = ( 
-	dir => "$urpm->{cachedir}/partial",
-	proxy => get_proxy($medium),
-	$medium ? (media => $medium->{name}) : (),
-	%options,
-    );
-    foreach my $cpt (qw(compress limit_rate retry wget-options curl-options rsync-options prozilla-options)) {
-	$all_options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
-    }
-
-    eval { _sync_webfetch_raw($urpm, $files, \%all_options); 1 };
-}
-
-#- syncing algorithms.
-sub _sync_webfetch_raw {    
-    my ($urpm, $files, $options) = @_;
-
-    my %files;
-    #- currently ftp and http protocols are managed by curl or wget,
-    #- ssh and rsync protocols are managed by rsync *AND* ssh.
-    foreach (@$files) {
-	my $proto = protocol_from_url($_) or die N("unknown protocol defined for %s", $_);
-	push @{$files{$proto}}, $_;
-    }
-    if ($files{removable} || $files{file}) {
-	my @l = map { file_from_local_url($_) } @{$files{removable} || []}, @{$files{file} || []};
-	eval { sync_file($options, @l) };
-	$urpm->{fatal}(10, $@) if $@;
-	delete @files{qw(removable file)};
-    }
-    if ($files{ftp} || $files{http} || $files{https}) {
-	my @available = urpm::download::available_ftp_http_downloaders();
-
-	#- use user default downloader if provided and available
-	my $requested_downloader = requested_ftp_http_downloader($urpm, $options->{media});
-	my ($preferred) = grep { $_ eq $requested_downloader } @available;
-	if (!$preferred) {
-	    #- else first downloader of @available is the default one
-	    $preferred = $available[0];
-	    if ($requested_downloader && !our $webfetch_not_available) {
-		$urpm->{log}(N("%s is not available, falling back on %s", $requested_downloader, $preferred));
-		$webfetch_not_available = 1;
-	    }
-	}
-	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
-	$sync->($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
-
-	delete @files{qw(ftp http https)};
-    }
-    if ($files{rsync}) {
-	sync_rsync($options, @{$files{rsync}});
-	delete $files{rsync};
-    }
-    if ($files{ssh}) {
-	my @ssh_files = map { m!^ssh://([^/]*)(.*)! ? "$1:$2" : () } @{$files{ssh}};
-	sync_ssh($options, @ssh_files);
-	delete $files{ssh};
-    }
-    %files and die N("unable to handle protocol: %s", join ', ', keys %files);
-}
-
 our @PER_MEDIA_OPT = qw(
     downloader
     hdlist
@@ -204,7 +127,7 @@ sub remove_passwords_and_write_private_netrc {
 	$_->{url} = sprintf('%s://%s@%s%s', $u->{proto}, $u->{login}, $u->{machine}, $u->{dir});
     }
     {
-	my $fh = $urpm->open_safe('>', $urpm->{private_netrc}) or return;
+	my $fh = urpm::sys::open_safe($urpm, '>', $urpm->{private_netrc}) or return;
 	foreach my $u (@l) {
 	    printf $fh "machine %s login %s password %s\n", $u->{machine}, $u->{login}, $u->{password};
 	}
@@ -492,7 +415,7 @@ sub write_MD5SUM {
     my ($urpm) = @_;
 
     #- write MD5SUM file
-    my $fh = $urpm->open_safe('>', "$urpm->{statedir}/MD5SUM") or return 0;
+    my $fh = urpm::sys::open_safe($urpm, '>', "$urpm->{statedir}/MD5SUM") or return 0;
     foreach my $medium (grep { $_->{md5sum} } @{$urpm->{media}}) {
 	my $s = basename(statedir_hdlist_or_synthesis($urpm, $medium));
 	print $fh "$medium->{md5sum}  $s\n";
@@ -812,9 +735,9 @@ sub add_distrib_media {
 	$distribconf->settree('mandriva');
 
 	$urpm->{log}(N("retrieving media.cfg file..."));
-	if (sync_webfetch($urpm, undef,
-			  [ reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg') ],
-			  quiet => 1)) {
+	if (urpm::download::sync($urpm, undef,
+				 [ reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg') ],
+				 quiet => 1)) {
 	    $urpm->{log}(N("...retrieving done"));
 	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
 		or $urpm->{error}(N("unable to parse media.cfg")), return();
@@ -971,7 +894,7 @@ sub may_reconfig_urpmi {
 	$f = reduce_pathname("$dir/reconfig.urpmi");
     } else {
 	unlink($f = "$urpm->{cachedir}/partial/reconfig.urpmi");
-	sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ], quiet => 1);
+	urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ], quiet => 1);
     }
     if (-s $f) {
 	reconfig_urpmi($urpm, $f, $medium->{name});
@@ -1097,7 +1020,7 @@ sub generate_medium_names {
 
     unlink statedir_names($urpm, $medium);
 
-    if (my $fh = $urpm->open_safe(">", statedir_names($urpm, $medium))) {
+    if (my $fh = urpm::sys::open_safe($urpm, ">", statedir_names($urpm, $medium))) {
 	foreach ($medium->{start} .. $medium->{end}) {
 	    if (defined $urpm->{depslist}[$_]) {
 		print $fh $urpm->{depslist}[$_]->name . "\n";
@@ -1269,15 +1192,15 @@ sub _get_list_or_pubkey__remote {
     if (_hdlist_suffix($medium)) {
 	my $local_name = $name . _hdlist_suffix($medium);
 
-	if (sync_webfetch($urpm, $medium, [_hdlist_dir($medium) . "/$local_name"], 
-			  quiet => 1)) {
+	if (urpm::download::sync($urpm, $medium, [_hdlist_dir($medium) . "/$local_name"], 
+				 quiet => 1)) {
 	    rename("$urpm->{cachedir}/partial/$local_name", "$urpm->{cachedir}/partial/$name");
 	    $found = 1;
 	}
     }
     if (!$found) {
-	sync_webfetch($urpm, $medium, [reduce_pathname("$medium->{url}/$name")], quiet => 1)
-	  or unlink "$urpm->{cachedir}/partial/$name";
+	urpm::download::sync($urpm, $medium, [reduce_pathname("$medium->{url}/$name")], quiet => 1)
+	    or unlink "$urpm->{cachedir}/partial/$name";
     }
 }
 
@@ -1315,9 +1238,9 @@ sub get_descriptions_remote {
     if (-e statedir_descriptions($urpm, $medium)) {
 	urpm::util::move(statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
     }
-    sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ], quiet => 1) 
-      or #- try older location
-	sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], quiet => 1);
+    urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ], quiet => 1) 
+	or #- try older location
+	  urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], quiet => 1);
 
     if (-e "$urpm->{cachedir}/partial/descriptions") {
 	urpm::util::move("$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
@@ -1528,9 +1451,9 @@ sub _update_medium__parse_if_unmodified__remote {
 
 	unlink "$urpm->{cachedir}/partial/MD5SUM";
 	if (!$options->{nomd5sum} && 
-	      sync_webfetch($urpm, $medium, 
-			    [ reduce_pathname(_hdlist_dir($medium) . '/MD5SUM') ],
-			    quiet => 1) && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
+	      urpm::download::sync($urpm, $medium, 
+				   [ reduce_pathname(_hdlist_dir($medium) . '/MD5SUM') ],
+				   quiet => 1) && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
 	    if (local_md5sum($urpm, $medium, $options->{force} >= 2)) {
 		$retrieved_md5sum = from_MD5SUM__or_warn($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
 		_read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
@@ -1550,8 +1473,8 @@ sub _update_medium__parse_if_unmodified__remote {
 	foreach my $with_hdlist (_probe_with_try_list($options->{probe_with})) {
 	    $basename = basename($with_hdlist) or next;
 	    $options->{force} and unlink "$urpm->{cachedir}/partial/$basename";
-	    if (sync_webfetch($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
-			      quiet => $options->{quiet}, callback => $options->{callback}) && file_size("$urpm->{cachedir}/partial/$basename") >= 20) {
+	    if (urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
+				     quiet => $options->{quiet}, callback => $options->{callback}) && file_size("$urpm->{cachedir}/partial/$basename") >= 20) {
 		$urpm->{log}(N("...retrieving done"));
 		$medium->{with_hdlist} = $with_hdlist;
 		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
@@ -1573,8 +1496,8 @@ sub _update_medium__parse_if_unmodified__remote {
 		) or $urpm->{error}(N("...copying failed")), return;
 	    }
 	}
-	if (sync_webfetch($urpm, $medium, [ _url_with_hdlist($medium) ],
-			  quiet => $options->{quiet}, callback => $options->{callback})) {
+	if (urpm::download::sync($urpm, $medium, [ _url_with_hdlist($medium) ],
+				 quiet => $options->{quiet}, callback => $options->{callback})) {
 	    $urpm->{log}(N("...retrieving done"));
 	} else {
 	    $urpm->{error}(N("...retrieving failed: %s", $@));
@@ -1657,7 +1580,7 @@ sub _write_rpm_list {
 
     #- write list file.
     $urpm->{log}(N("writing list file for medium \"%s\"", $medium->{name}));
-    my $listfh = $urpm->open_safe('>', cachedir_list($urpm, $medium)) or return;
+    my $listfh = urpm::sys::open_safe($urpm, '>', cachedir_list($urpm, $medium)) or return;
     print $listfh basename($_), "\n" foreach @{$medium->{rpm_files}};
     1;
 }
@@ -1828,7 +1751,7 @@ sub _build_hdlist_synthesis {
 sub remove_obsolete_headers_in_cache {
     my ($urpm) = @_;
     my %headers;
-    if (my $dh = $urpm->opendir_safe("$urpm->{cachedir}/headers")) {
+    if (my $dh = urpm::sys::opendir_safe($urpm, "$urpm->{cachedir}/headers")) {
 	local $_;
 	while (defined($_ = readdir $dh)) {
 	    m|^([^/]*-[^-]*-[^-]*\.[^\.]*)(?::\S*)?$| and $headers{$1} = $_;
@@ -2027,7 +1950,7 @@ sub register_rpms {
 	    my $basename = basename($_);
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    $urpm->{log}(N("retrieving rpm file [%s] ...", $_));
-	    if (sync_webfetch($urpm, undef, [$_], quiet => 1)) {
+	    if (urpm::download::sync($urpm, undef, [$_], quiet => 1)) {
 		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    } else {
@@ -2354,7 +2277,7 @@ sub get_source_packages {
     }
 
     #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
-    my $dh = $urpm->opendir_safe("$urpm->{cachedir}/rpms");
+    my $dh = urpm::sys::opendir_safe($urpm, "$urpm->{cachedir}/rpms");
     if ($dh) {
 	while (defined(my $filename = readdir $dh)) {
 	    my $filepath = "$urpm->{cachedir}/rpms/$filename";
@@ -2661,8 +2584,8 @@ sub download_packages_of_distant_media {
 	#- download files from the current medium.
 	if (%distant_sources) {
 	    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
-	    if (sync_webfetch($urpm, $urpm->{media}[$n], [ values %distant_sources ],
-			      quiet => $options{quiet}, resume => $urpm->{options}{resume}, callback => $options{callback})) {
+	    if (urpm::download::sync($urpm, $urpm->{media}[$n], [ values %distant_sources ],
+				     quiet => $options{quiet}, resume => $urpm->{options}{resume}, callback => $options{callback})) {
 		$urpm->{log}(N("...retrieving done"));
 	    } else {
 		$urpm->{error}(N("...retrieving failed: %s", $@));
@@ -2830,7 +2753,7 @@ sub install {
 	$options{delta} ||= 1000;
 	$options{callback_open} ||= sub {
 	    my ($_data, $_type, $id) = @_;
-	    $fh = $urpm->open_safe('<', $install->{$id} || $upgrade->{$id});
+	    $fh = urpm::sys::open_safe($urpm, '<', $install->{$id} || $upgrade->{$id});
 	    $fh ? fileno $fh : undef;
 	};
 	$options{callback_close} ||= sub {
@@ -3216,22 +3139,6 @@ sub compute_local_md5sum {
     my $f = statedir_hdlist_or_synthesis($urpm, $medium);
     $urpm->{log}(N("computing md5sum of existing source hdlist (or synthesis) [%s]", $f));
     -e $f && md5sum($f);
-}
-
-sub syserror { my ($urpm, $msg, $info) = @_; $urpm->{error}("$msg [$info] [$!]") }
-
-sub open_safe {
-    my ($urpm, $sense, $filename) = @_;
-    open my $f, $sense, $filename
-	or $urpm->syserror($sense eq '>' ? "Can't write file" : "Can't open file", $filename), return undef;
-    return $f;
-}
-
-sub opendir_safe {
-    my ($urpm, $dirname) = @_;
-    opendir my $d, $dirname
-	or $urpm->syserror("Can't open directory", $dirname), return undef;
-    return $d;
 }
 
 sub error_restricted ($) {
