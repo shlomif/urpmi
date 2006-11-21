@@ -1394,7 +1394,6 @@ sub _update_medium__parse_if_unmodified__or_get_files__local {
 this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return 'unmodified';
     }
 
-    my $error;
     #- try to probe for possible with_hdlist parameter, unless
     #- it is already defined (and valid).
     if ($options->{probe_with} && !$medium->{with_hdlist}) {
@@ -1402,13 +1401,12 @@ this could happen if you mounted manually the directory when creating the medium
 	    -e "$dir/$_" or next;
 	    if (file_size("$dir/$_") > 32) {
 		$medium->{with_hdlist} = $_;
-		undef $error; #- allowing a valid hdlist to save from an invalid hdlist
 		last;
 	    } else {
 		$urpm->{error}(N("invalid hdlist file %s for medium \"%s\"", "$dir/$_", $medium->{name}));
-		$error = 1;
 	    }
 	}
+	$medium->{with_hdlist} or return;
     }
 
     if ($medium->{virtual}) {
@@ -1440,6 +1438,8 @@ this could happen if you mounted manually the directory when creating the medium
 		}
 	    }
 
+	    my $error;
+
 	    #- if the source hdlist is present and we are not forcing using rpm files
 	    if (!$options->{force_building_hdlist} && -e _url_with_hdlist($medium)) {
 		get_hdlist_or_synthesis__local($urpm, $medium, $options->{callback}) 
@@ -1463,11 +1463,10 @@ this could happen if you mounted manually the directory when creating the medium
 	    if ($error) {
 		if ($urpm->{options}{'build-hdlist-on-error'}) {
 		    $options->{force_building_hdlist} = 1;
-		    #- clear error state now.
-		    $error = undef;
 		} else {
 		    $urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
 		    $medium->{ignore} = 1;
+		    return;
 		}
 	    }
 	} else {
@@ -1475,7 +1474,7 @@ this could happen if you mounted manually the directory when creating the medium
 	    $options->{force_building_hdlist} = 1;
 	}
 
-	if (!$error && $options->{force_building_hdlist}) {
+	if ($options->{force_building_hdlist}) {
 	    push @$rpm_files, glob("$dir/*.rpm");
 
 	    #- check files contains something good!
@@ -1497,9 +1496,9 @@ this could happen if you mounted manually the directory when creating the medium
 		    ) ];
 		};
 		if ($@) {
-		    $error = 1;
 		    $urpm->{error}(N("unable to read rpm files from [%s]: %s", $dir, $@));
 		    delete $medium->{headers}; #- do not propagate these.
+		    return;
 		} else {
 		    $medium->{end} = $#{$urpm->{depslist}};
 		    if ($medium->{start} > $medium->{end}) {
@@ -1518,9 +1517,9 @@ this could happen if you mounted manually the directory when creating the medium
 		    delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
 		}
 	    } else {
-		$error = 1;
 		$urpm->{error}(N("no rpm files found from [%s]", $dir));
 		$medium->{ignore} = 1;
+		return;
 	    }
 	}
     }
@@ -1530,13 +1529,13 @@ this could happen if you mounted manually the directory when creating the medium
 	_get_list_or_pubkey__local($urpm, $medium, 'pubkey');
     }
 
-    ($error, $retrieved_md5sum);
+    (1, $retrieved_md5sum);
 }
 
 #- options: callback, force, nomd5sum, nopubkey, probe_with, quiet
 sub _update_medium__parse_if_unmodified__or_get_files__remote {
     my ($urpm, $medium, $options) = @_;
-    my ($error, $retrieved_md5sum, $basename);
+    my ($retrieved_md5sum, $basename);
 
     get_descriptions_remote($urpm, $medium);
 
@@ -1595,7 +1594,7 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
 		copy_and_own(
 		    statedir_hdlist_or_synthesis($urpm, $medium),
 		    "$urpm->{cachedir}/partial/$basename",
-		) or $urpm->{error}(N("...copying failed")), $error = 1;
+		) or $urpm->{error}(N("...copying failed")), return;
 	    }
 	}
 	if (sync_webfetch($urpm, $medium, [ _url_with_hdlist($medium) ],
@@ -1632,11 +1631,11 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
 	    _get_list_or_pubkey__remote($urpm, $medium, 'pubkey');
 	}
     } else {
-	$error = 1;
 	$options->{callback} and $options->{callback}('failed', $medium->{name});
 	$urpm->{error}(N("retrieval of source hdlist (or synthesis) failed"));
+	return;
     }
-    ($error, $retrieved_md5sum);
+    (1, $retrieved_md5sum);
 }
 
 sub _read_cachedir_pubkey {
@@ -1724,8 +1723,8 @@ sub _update_medium_first_pass {
 	    ? _update_medium__parse_if_unmodified__or_get_files__local($urpm, $medium, $second_pass, $clean_cache, \@rpm_files, \%options)
 	    : _update_medium__parse_if_unmodified__or_get_files__remote($urpm, $medium, \%options);
 
-	if ($rc) {
-	    return $rc eq 'unmodified';
+	if (!$rc || $rc eq 'unmodified') {
+	    return $rc;
 	}
     }
 
