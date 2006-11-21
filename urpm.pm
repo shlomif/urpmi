@@ -725,32 +725,42 @@ sub configure {
 	}
     }
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
-    unless ($options{nodepslist} || $options{no_skiplist}) {
-	my %uniq;
-	$urpm->compute_flags(
-	    get_packages_list($urpm->{skiplist}, $options{cmdline_skiplist}),
-	    skip => 1,
-	    callback => sub {
-		my ($urpm, $pkg) = @_;
-		$pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
-		$uniq{$pkg->fullname} = undef;
-		$urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
-	    },
-	);
+    if (!$options{nodepslist}) {
+	_compute_flags_for_skiplist($urpm, $options{cmdline_skiplist}) if !$options{no_skiplist};
+	_compute_flags_for_instlist($urpm);
     }
-    unless ($options{nodepslist}) {
-	my %uniq;
-	$urpm->compute_flags(
-	    get_packages_list($urpm->{instlist}),
-	    disable_obsolete => 1,
-	    callback => sub {
-		my ($urpm, $pkg) = @_;
-		$pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
-		$uniq{$pkg->fullname} = undef;
-		$urpm->{log}(N("would install instead of upgrade package %s", scalar($pkg->fullname)));
-	    },
-	);
-    }
+}
+
+sub _compute_flags_for_skiplist {
+    my ($urpm, $cmdline_skiplist) = @_;
+    my %uniq;
+    $urpm->compute_flags(
+	get_packages_list($urpm->{skiplist}, $cmdline_skiplist),
+	skip => 1,
+	callback => sub {
+	    my ($urpm, $pkg) = @_;
+	    $pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
+	    $uniq{$pkg->fullname} = undef;
+	    $urpm->{log}(N("skipping package %s", scalar($pkg->fullname)));
+	},
+    );
+}
+
+sub _compute_flags_for_instlist {
+    my ($urpm) = @_;
+
+    my %uniq;
+    $urpm->compute_flags(
+	get_packages_list($urpm->{instlist}),
+	disable_obsolete => 1,
+	callback => sub {
+	    my ($urpm, $pkg) = @_;
+	    $pkg->is_arch_compat && ! exists $uniq{$pkg->fullname} or return;
+	    $uniq{$pkg->fullname} = undef;
+	    $urpm->{log}(N("would install instead of upgrade package %s", scalar($pkg->fullname)));
+	},
+    );
+
 }
 
 #- add a new medium, sync the config file accordingly.
