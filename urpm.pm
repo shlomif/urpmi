@@ -1430,7 +1430,7 @@ this could happen if you mounted manually the directory when creating the medium
     unless ($medium->{virtual}) {
 	if ($medium->{with_hdlist}) {
 	    if (!$options->{nomd5sum} && file_size(_hdlist_dir($medium) . '/MD5SUM') > 32) {
-		if (recompute_local_md5sum($urpm, $medium, $options->{force})) {
+		if (local_md5sum($urpm, $medium, $options->{force})) {
 		    $retrieved_md5sum = parse_md5sum($urpm, _hdlist_dir($medium) . '/MD5SUM', basename($medium->{with_hdlist}));
 		    _read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		      and return 'unmodified';
@@ -1553,7 +1553,7 @@ sub _update_medium__parse_if_unmodified__or_get_files__remote {
 	      sync_webfetch($urpm, $medium, 
 			    [ reduce_pathname(_hdlist_dir($medium) . '/MD5SUM') ],
 			    quiet => 1) && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
-	    if (recompute_local_md5sum($urpm, $medium, $options->{force} >= 2)) {
+	    if (local_md5sum($urpm, $medium, $options->{force} >= 2)) {
 		$retrieved_md5sum = parse_md5sum($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
 		_read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		  and return 'unmodified';
@@ -3293,7 +3293,7 @@ sub parse_md5sum {
     return $retrieved_md5sum;
 }
 
-sub recompute_local_md5sum {
+sub local_md5sum {
     my ($urpm, $medium, $force) = @_;
     if ($force) {
 	#- force downloading the file again, else why a force option has been defined ?
