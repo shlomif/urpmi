@@ -1690,7 +1690,7 @@ sub _write_rpm_list {
     1;
 }
 
-#- options: callback, force, force_building_hdlist, nomd5sum, nopubkey, probe_with, quiet
+#- options: callback, force, force_building_hdlist, nomd5sum, probe_with, quiet
 #- (from _update_medium__parse_if_unmodified__or_get_files__local and _update_medium__parse_if_unmodified__or_get_files__remote)
 sub _update_medium_first_pass {
     my ($urpm, $medium, $second_pass, $clean_cache, %options) = @_;
@@ -1771,10 +1771,6 @@ sub _update_medium_first_pass {
 	    }
 	}
     }
-
-    _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
-
-    _read_cachedir_pubkey($urpm, $medium);
 
     unless ($medium->{virtual}) {
 	    #- make sure to rebuild base files and clear medium modified state.
@@ -1949,6 +1945,11 @@ sub update_media {
 	    _update_medium_second_pass($urpm, $medium, $options{callback});
 	}
 	_update_medium_build_hdlist_synthesis($urpm, $medium);
+
+	_get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
+
+	_read_cachedir_pubkey($urpm, $medium);
+
     }
 
     if ($urpm->{modified}) {
