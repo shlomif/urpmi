@@ -14,7 +14,6 @@ our @PER_MEDIA_OPT = qw(
     ignore
     key-ids
     list
-    md5sum
     noreconfigure
     priority
     priority-upgrade
@@ -152,7 +151,7 @@ sub read_config {
 
     $urpm->{media} = [ sort { $a->{priority} <=> $b->{priority} } @{$urpm->{media}} ];
 
-    #- read MD5 sums (usually not in urpmi.cfg but in a separate file)
+    #- read MD5 sums (not in urpmi.cfg but in a separate file)
     foreach (@{$urpm->{media}}) {
 	if (my $md5sum = urpm::md5sum::from_MD5SUM("$urpm->{statedir}/MD5SUM", statedir_hdlist_or_synthesis($urpm, $_))) {
 	    $_->{md5sum} = $md5sum;
@@ -1582,6 +1581,7 @@ sub _update_medium_first_pass {
 		}
 		return;
 	    }
+	    unlink statedir_list($urpm, $medium);
 	    delete $medium->{list};
 
 	    {

@@ -12,7 +12,7 @@ use Net::LDAP;
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 our $LDAP_CONFIG_FILE = '/etc/ldap.conf';
-my @per_media_opt = (@urpm::media::PER_MEDIA_OPT, qw(ftp-proxy http-proxy));
+my @per_media_opt = (@urpm::media::PER_MEDIA_OPT, qw(md5sum ftp-proxy http-proxy));
 
 # TODO
 # use srv dns record ?
