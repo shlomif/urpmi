@@ -194,7 +194,8 @@ sub clean_dir {
 #  - lock rpm db in chroot
 #  - lock urpmi db in /
 sub _lock {
-    my ($urpm, $file, $b_exclusive) = @_;
+    my ($urpm, $file, $msg, $b_exclusive) = @_;
+#    warn "locking $file $b_exclusive\n";
     #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
     my ($LOCK_SH, $LOCK_EX, $LOCK_NB) = (1, 2, 4);
     if ($b_exclusive) {
@@ -207,19 +208,19 @@ sub _lock {
     }
     my ($sense, $mode) = $b_exclusive ? ('>', $LOCK_EX) : ('<', $LOCK_SH);
     open(my $fh, $sense, $file) or return;
-    flock $fh, $mode|$LOCK_NB or $urpm->{fatal}(7, N("urpmi database locked"));
-#    warn "locking $file $b_exclusive ($fh)\n";
+    flock $fh, $mode|$LOCK_NB or $urpm->{fatal}(7, $msg);
+#    warn "locked $file $b_exclusive ($fh)\n";
     $fh;
 }
 
 
-sub lock_rpm_db { 
+sub lock_rpm_db {
     my ($urpm, $b_exclusive) = @_;
-    _lock($urpm, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK", $b_exclusive);
+    _lock($urpm, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK", N("rpm database locked"), $b_exclusive);
 }
 sub lock_urpmi_db {
     my ($urpm, $b_exclusive) = @_;
-    _lock($urpm, "$urpm->{statedir}/.LOCK", $b_exclusive);
+    _lock($urpm, "$urpm->{statedir}/.LOCK", N("urpmi database locked"), $b_exclusive);
 }
 
 sub unlock {
