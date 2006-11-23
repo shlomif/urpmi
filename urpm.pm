@@ -175,10 +175,8 @@ sub download_source_packages {
     my %error_sources;
 
     require urpm::get_pkgs;
-    my $lock = !$options{nolock} && urpm::sys::lock_urpmi_db($urpm, 'exclusive');
     urpm::removable::copy_packages_of_removable_media($urpm, $list, \%sources, $options{ask_for_medium}) or return;
     urpm::get_pkgs::download_packages_of_distant_media($urpm, $list, \%sources, \%error_sources, %options);
-    $lock and urpm::sys::unlock($lock);
 
     %sources, %error_sources;
 }
