@@ -401,7 +401,7 @@ if ($bug) {
 my $rpm_lock = !$env && !$nolock && urpm::lock::rpm_db($urpm, 'exclusive');
 
 #- search the packages according to the selection given by the user.
-my $search_result;
+my $search_result = '';
 if (@names) {
     $search_result = urpm::select::search_packages($urpm,
 	\%requested, [ @names ],
