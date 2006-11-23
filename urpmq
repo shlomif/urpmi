@@ -138,9 +138,10 @@ if ($urpm::args::options{env}) {
 #- should we ignore arch compatibility
 if ($urpm::args::options{ignorearch}) { urpm::shunt_ignorearch() }
 
-$urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
-    and urpm::sys::lock_rpm_db($urpm);
-urpm::sys::lock_urpmi_db($urpm) if !$urpm::args::options{nolock};
+my $rpm_lock = 
+  $urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
+  && urpm::sys::lock_rpm_db($urpm);
+my $urpmi_lock = !$urpm::args::options{nolock} && urpm::sys::lock_urpmi_db($urpm);
 urpm::media::configure($urpm,
     nocheck_access => 1,
     nodepslist => $urpm::args::options{nodepslist},
@@ -427,9 +428,8 @@ if ($urpm::args::options{list_aliases}) {
 	exit 0;
     }
 }
-$urpm::args::options{nolock} or urpm::sys::unlock_urpmi_db($urpm);
-$urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
-    and urpm::sys::unlock_rpm_db($urpm);
+$urpmi_lock and urpm::sys::unlock($urpmi_lock);
+$rpm_lock and urpm::sys::unlock($rpm_lock);
 
 #- print sub for query.
 my $query_sub = sub {

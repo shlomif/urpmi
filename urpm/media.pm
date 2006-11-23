@@ -600,7 +600,7 @@ sub add_medium {
 
     #- make sure configuration has been read.
     $urpm->{media} or die "caller should have used ->read_config or ->configure first";
-    urpm::sys::lock_urpmi_db($urpm, 'exclusive') if !$options{nolock};
+    my $lock = urpm::sys::lock_urpmi_db($urpm, 'exclusive');
 
     #- if a medium with that name has already been found, we have to exit now
     my $medium;
@@ -643,7 +643,7 @@ sub add_medium {
     $urpm->{log}(N("added medium %s", $name));
     $urpm->{modified} = 1;
 
-    $options{nolock} or urpm::sys::unlock_urpmi_db($urpm);
+    $lock and urpm::sys::unlock($lock);
     $name;
 }
 
@@ -1710,12 +1710,13 @@ sub update_media {
 
     $options{nopubkey} ||= $urpm->{options}{nopubkey};
     #- get gpg-pubkey signature.
+    my $rpm_lock;
     if (!$options{nopubkey}) {
-	urpm::sys::lock_rpm_db($urpm, 'exclusive');
+	$rpm_lock = urpm::sys::lock_rpm_db($urpm, 'exclusive');
 	$urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
     }
     #- lock database if allowed.
-    urpm::sys::lock_urpmi_db($urpm, 'exclusive') if !$options{nolock};
+    my $urpmi_lock = urpm::sys::lock_urpmi_db($urpm, 'exclusive') if !$options{nolock};
 
     #- examine each medium to see if one of them needs to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1766,8 +1767,8 @@ sub update_media {
 	write_MD5SUM($urpm);
     }
 
-    $options{nolock} or urpm::sys::unlock_urpmi_db($urpm);
-    $options{nopubkey} or urpm::sys::unlock_rpm_db($urpm);
+    $urpmi_lock and urpm::sys::unlock($urpmi_lock);
+    $rpm_lock and urpm::sys::unlock($rpm_lock);
 }
 
 #- clean params and depslist computation zone.

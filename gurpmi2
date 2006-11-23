@@ -91,6 +91,8 @@ my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
 $mainw->show_all;
 Gtk2->main;
 
+my ($rpm_lock, $urpmi_lock);
+
 #- Creates and configure an urpm object for this application to use.
 sub configure_urpm() {
     my $urpm = new urpm;
@@ -119,8 +121,8 @@ sub configure_urpm() {
 	$w->run;
 	$w->destroy;
     };
-    urpm::sys::lock_rpm_db($urpm, 'exclusive');
-    urpm::sys::lock_urpmi_db($urpm);
+    $rpm_lock = urpm::sys::lock_rpm_db($urpm, 'exclusive');
+    $urpmi_lock = urpm::sys::lock_urpmi_db($urpm);
     urpm::media::configure($urpm,
 	root	    => $gurpmi::options{root},
 	media	    => $gurpmi::options{media},
@@ -337,7 +339,7 @@ sub do_install_3 () {
     } else {
 	$progress_label->set_label(N("Installation finished"));
     }
-    urpm::sys::unlock_urpmi_db($urpm);
-    urpm::sys::unlock_rpm_db($urpm);
+    urpm::sys::unlock($urpmi_lock);
+    urpm::sys::unlock($rpm_lock);
     urpm::removable::try_umounting_removables($urpm);
 }

@@ -13,7 +13,7 @@ use urpm::cfg;
 use urpm::md5sum;
 use MDV::Distribconf;
 
-our $VERSION = '4.8.29';
+our $VERSION = '4.9.0';
 our @ISA = qw(URPM Exporter);
 our @EXPORT_OK = 'file_from_local_url';
 
@@ -175,18 +175,12 @@ sub download_source_packages {
     my %error_sources;
 
     require urpm::get_pkgs;
-    urpm::sys::lock_urpmi_db($urpm, 'exclusive') if !$options{nolock};
+    my $lock = !$options{nolock} && urpm::sys::lock_urpmi_db($urpm, 'exclusive');
     urpm::removable::copy_packages_of_removable_media($urpm, $list, \%sources, $options{ask_for_medium}) or return;
     urpm::get_pkgs::download_packages_of_distant_media($urpm, $list, \%sources, \%error_sources, %options);
-    urpm::sys::unlock_urpmi_db($urpm) unless $options{nolock};
+    $lock and urpm::sys::unlock($lock);
 
     %sources, %error_sources;
-}
-
-#- deprecated
-sub exlock_urpmi_db {
-    my ($urpm) = @_;
-    urpm::sys::lock_urpmi_db($urpm, 'exclusive');
 }
 
 #- extract package that should be installed instead of upgraded,
