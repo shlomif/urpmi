@@ -334,11 +334,7 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
     unlink glob('/var/lib/rpm/__db.*') unless $root;
 }
 
-my ($rpm_lock, $urpmi_lock);
-unless ($env || $nolock) {
-    $rpm_lock = urpm::sys::lock_rpm_db($urpm, 'exclusive');
-    $urpmi_lock = urpm::sys::lock_urpmi_db($urpm);
-}
+my $urpmi_lock = !$env && !$nolock && urpm::lock::urpmi_db($urpm);
 
 #- should we ignore arch compatibility
 if ($urpm->{options}{ignorearch}) { urpm::shunt_ignorearch() }
@@ -401,6 +397,8 @@ if ($bug) {
     urpm::bug_report::write_urpmdb($urpm, $bug);
     urpm::bug_report::copy_requested($urpm, $bug, \%requested);
 }
+
+my $rpm_lock = !$env && !$nolock && urpm::lock::rpm_db($urpm, 'exclusive');
 
 #- search the packages according to the selection given by the user.
 my $search_result;
@@ -826,8 +824,8 @@ if ($nok) {
 }
 
 unless ($env || $nolock) {
-    urpm::sys::unlock($urpmi_lock);
-    urpm::sys::unlock($rpm_lock);
+    $urpmi_lock->unlock;
+    $rpm_lock->unlock;
 
     #- try to umount removable device which may have been mounted.
     urpm::removable::try_umounting_removables($urpm);

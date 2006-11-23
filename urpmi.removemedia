@@ -73,6 +73,7 @@ if ($< != 0) {
 
 $options{verbose} > 0 or $urpm->{log} = sub {};
 
+my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive');
 urpm::media::read_config($urpm);
 urpm::download::set_cmdline_proxy();
 my @entries = map { $_->{name} } @{$urpm->{media}};

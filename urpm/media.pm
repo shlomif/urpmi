@@ -6,6 +6,7 @@ use urpm 'file_from_local_url';
 use urpm::msg;
 use urpm::util;
 use urpm::removable;
+use urpm::lock;
 
 
 our @PER_MEDIA_OPT = qw(
@@ -600,7 +601,6 @@ sub add_medium {
 
     #- make sure configuration has been read.
     $urpm->{media} or die "caller should have used ->read_config or ->configure first";
-    my $lock = urpm::sys::lock_urpmi_db($urpm, 'exclusive');
 
     #- if a medium with that name has already been found, we have to exit now
     my $medium;
@@ -643,7 +643,6 @@ sub add_medium {
     $urpm->{log}(N("added medium %s", $name));
     $urpm->{modified} = 1;
 
-    $lock and urpm::sys::unlock($lock);
     $name;
 }
 
@@ -1475,6 +1474,8 @@ sub _read_cachedir_pubkey {
 
     $urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
 
+    my $_rpm_lock = urpm::lock::rpm_db($urpm, 'exclusive');
+
     my %key_ids;
     $urpm->import_needed_pubkeys(
 	[ $urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey") ],
@@ -1698,7 +1699,6 @@ sub _update_media__handle_some_flags {
 #-   force       : try to force rebuilding base files
 #-   force_building_hdlist
 #-   noclean     : keep old files in the header cache directory
-#-   nolock      : don't lock the urpmi database
 #-   nomd5sum    : don't verify MD5SUM of retrieved files
 #-   nopubkey    : don't use rpm pubkeys
 #-   probe_with  : probe synthesis or hdlist (or none)
@@ -1709,14 +1709,11 @@ sub update_media {
     $urpm->{media} or return; # verify that configuration has been read
 
     $options{nopubkey} ||= $urpm->{options}{nopubkey};
-    #- get gpg-pubkey signature.
-    my $rpm_lock;
     if (!$options{nopubkey}) {
-	$rpm_lock = urpm::sys::lock_rpm_db($urpm, 'exclusive');
+	#- get gpg-pubkey signature.
+	my $_rpm_lock = urpm::lock::rpm_db($urpm);
 	$urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
     }
-    #- lock database if allowed.
-    my $urpmi_lock = urpm::sys::lock_urpmi_db($urpm, 'exclusive') if !$options{nolock};
 
     #- examine each medium to see if one of them needs to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
@@ -1766,9 +1763,6 @@ sub update_media {
 	#- NB: in case of $urpm->{modified}, write_MD5SUM is called in write_config above
 	write_MD5SUM($urpm);
     }
-
-    $urpmi_lock and urpm::sys::unlock($urpmi_lock);
-    $rpm_lock and urpm::sys::unlock($rpm_lock);
 }
 
 #- clean params and depslist computation zone.

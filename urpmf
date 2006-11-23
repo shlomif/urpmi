@@ -190,12 +190,7 @@ if ($env) {
     $urpm->{statedir} = $env;
 }
 
-my $lock = do {
-    #- lock to avoid concurrent media updates,
-    #- but don't die if it doesn't work
-    local $urpm->{fatal} = sub { printf STDERR "%s\n", $_[1] };
-    urpm::sys::lock_urpmi_db($urpm);
-};
+my $lock = urpm::lock::urpmi_db($urpm, '', 'nofatal');
 my $need_hdlist = grep { $usedtags{$_} } qw(
     buildhost
     buildtime
@@ -219,7 +214,6 @@ urpm::media::configure($urpm,
     callback => $callback,
     need_hdlist => $need_hdlist,
 );
-urpm::sys::unlock($lock);
 
 if ($need_hdlist) {
     # @hdmedia is the list of all media searched that use hdlists

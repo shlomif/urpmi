@@ -190,50 +190,6 @@ sub clean_dir {
     mkdir $dir, 0755;
 }
 
-#- lock policy concerning chroot :
-#  - lock rpm db in chroot
-#  - lock urpmi db in /
-sub _lock {
-    my ($urpm, $file, $msg, $b_exclusive) = @_;
-#    warn "locking $file $b_exclusive\n";
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my ($LOCK_SH, $LOCK_EX, $LOCK_NB) = (1, 2, 4);
-    if ($b_exclusive) {
-	#- lock urpmi database, but keep lock to wait for an urpmi.update to finish.
-    } else {
-	#- create the .LOCK file if needed (and if possible)
-	-e $file or open(my $_f, ">", $file);
-
-	#- lock urpmi database, if the LOCK file doesn't exists no share lock.
-    }
-    my ($sense, $mode) = $b_exclusive ? ('>', $LOCK_EX) : ('<', $LOCK_SH);
-    open(my $fh, $sense, $file) or return;
-    flock $fh, $mode|$LOCK_NB or $urpm->{fatal}(7, $msg);
-#    warn "locked $file $b_exclusive ($fh)\n";
-    $fh;
-}
-
-
-sub lock_rpm_db {
-    my ($urpm, $b_exclusive) = @_;
-    _lock($urpm, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK", N("rpm database locked"), $b_exclusive);
-}
-sub lock_urpmi_db {
-    my ($urpm, $b_exclusive) = @_;
-    _lock($urpm, "$urpm->{statedir}/.LOCK", N("urpmi database locked"), $b_exclusive);
-}
-
-sub unlock {
-    my ($fh) = @_;
-#    warn "unlocking $fh\n";
-    #- avoid putting a require on Fcntl ':flock' (which is perl and not perl-base).
-    my $LOCK_UN = 8;
-    #- now everything is finished.
-    #- release lock on database.
-    flock $fh, $LOCK_UN;
-    close $fh;
-}
-
 sub syserror { 
     my ($urpm, $msg, $info) = @_;
     $urpm->{error}("$msg [$info] [$!]");

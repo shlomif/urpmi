@@ -68,6 +68,7 @@ $options{verbose} > 0 or $urpm->{log} = sub {};
 if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to update media"));
 }
+my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive');
 urpm::media::read_config($urpm);
 
 my @entries = map { $_->{name} } @{$urpm->{media}};

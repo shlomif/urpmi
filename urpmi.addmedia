@@ -123,6 +123,7 @@ if (!-e $urpm->{config}) {
     $urpm->{error}(N("Will create config file [%s]", $urpm->{config}));
     open my $_f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
 }
+my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive');
 urpm::media::read_config($urpm);
 
 if ($options{distrib}) {
