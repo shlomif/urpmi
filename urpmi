@@ -60,7 +60,6 @@ our $all = 0;
 our $rpm_opt = "vh";
 our $use_provides = 1;
 our $verbose = 0;
-our $usedistrib = 0;
 our $logfile = '';
 our $restricted = 0;
 our $nolock = 0;
@@ -230,7 +229,7 @@ if ($restricted) {
     #- force some options
     foreach (qw(keep verify-rpm)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
-    urpm::error_restricted($urpm) if $root || $usedistrib || $force || $env || $parallel || $synthesis || $auto_update;
+    urpm::error_restricted($urpm) if $root || $options{usedistrib} || $force || $env || $parallel || $synthesis || $auto_update;
     foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options prozilla-options noscripts)) {
 	urpm::error_restricted($urpm) if $urpm->{options}{$_};
     }
@@ -352,7 +351,7 @@ my %config_hash = (
     sortmedia => $sortmedia,
     synthesis => $synthesis,
     update => $update,
-    usedistrib => $usedistrib,
+    usedistrib => $options{usedistrib},
     probe_with => $options{probe_with},
 );
 

@@ -31,7 +31,7 @@ use urpm::select;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our ($root, $test, $parallel, $auto, $matches, $verbose, $usedistrib, $force, $noscripts, $repackage, @l, $bundle, $restricted);
+our ($root, $test, $parallel, $auto, $matches, $verbose, $force, $noscripts, $repackage, @l, $bundle, $restricted);
 # Translator: Add here the keys which might be pressed in the "Yes"-case.
 my $yesexpr = N("Yy");
 
@@ -76,7 +76,7 @@ if ($< && !$test) {
 
 #- rurpme checks
 if ($restricted) {
-    urpm::error_restricted($urpm) if $root || $usedistrib || $noscripts || $parallel;
+    urpm::error_restricted($urpm) if $root || $options{usedistrib} || $noscripts || $parallel;
 }
 
 unless ($test) {
@@ -90,7 +90,7 @@ urpm::media::configure($urpm,
     root => $root,
     parallel => $parallel,
     probe_with => $options{probe_with},
-    usedistrib => $usedistrib,
+    usedistrib => $options{usedistrib},
 );
 
 #- examine packages...

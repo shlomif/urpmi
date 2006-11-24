@@ -59,7 +59,7 @@ my %options_spec = (
 	'auto-update' => sub { $::auto_update = $::auto_select = 1 },
 	'no-remove|no-uninstall' => \$::no_remove,
 	'no-install|noinstall' => \$::no_install,
-	keep => sub { $urpm->{options}{keep} = 1 },
+	'keep!' => sub { $urpm->{options}{keep} = $_[1] },
 	'logfile=s' => \$::logfile,
 	'split-level=s' => sub { $urpm->{options}{'split-level'} = $_[1] },
 	'split-length=s' => sub { $urpm->{options}{'split-length'} = $_[1] },
@@ -110,7 +110,7 @@ my %options_spec = (
 	'env=s' => \$::env,
 	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
 	'strict-arch!' => sub { $urpm->{options}{'strict-arch'} = $_[1] },
-	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1] },
+	'norebuild!' => sub { $urpm->{options}{'build-hdlist-on-error'} = !$_[1] },
 	'test!' => \$::test,
 	'skip=s' => \$options{skip},
 	'root=s' => sub {
@@ -121,7 +121,9 @@ my %options_spec = (
 	    }
 	    $::nolock = 1;
 	},
-	'use-distrib=s' => \$::usedistrib,
+	'use-distrib=s' => \$options{usedistrib},
+	'probe-synthesis' => sub { $options{probe_with} = 'synthesis' },
+	'probe-hdlist' => sub { $options{probe_with} = 'hdlist' },
 	'excludepath|exclude-path=s' => sub { $urpm->{options}{excludepath} = $_[1] },
 	'excludedocs|exclude-docs' => sub { $urpm->{options}{excludedocs} = 1 },
 	'ignoresize' => sub { $urpm->{options}{ignoresize} = 1 },
@@ -207,9 +209,7 @@ my %options_spec = (
 	'auto-select' => sub {
 	    $options{deps} = $options{upgrade} = $options{auto_select} = 1;
 	},
-	fuzzy => sub {
-	    $options{fuzzy} = $options{all} = 1;
-	},
+	fuzzy => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
 	keep => \$options{keep},
 	list => \$options{list},
 	changelog => \$options{changelog},
@@ -251,8 +251,8 @@ my %options_spec = (
 	p => \$options{use_provides},
 	P => sub { $options{use_provides} = 0 },
 	R => sub { ++$options{what_requires} },
-	y => sub { $options{fuzzy} = $options{all} = 1 },
-	Y => sub { $options{fuzzy} = $options{all} = $options{caseinsensitive} = 1 },
+	y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
+	Y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = $options{caseinsensitive} = 1 },
 	v => \$options{verbose},
 	i => \$options{info},
 	l => \$options{list_files},
@@ -283,17 +283,16 @@ my %options_spec = (
     'urpmi.update' => {
 	a => \$options{all},
 	c => sub { $options{noclean} = 0 },
-	f => sub { ++$options{force} },
+	f => sub { ++$options{force}; $options{force_building_hdlist} = 1 if $options{force} == 2 },
 	z => sub { ++$options{compress} },
 	update => \$options{update},
 	'ignore!' => sub { $options{ignore} = $_[1] },
 	'force-key' => \$options{forcekey},
-	'limit-rate=s' => \$options{limit_rate},
 	'no-md5sum' => \$options{nomd5sum},
 	'noa|d' => \my $_dummy, #- default, kept for compatibility
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
-	'norebuild!' => sub { $urpm->{options}{norebuild} = $_[1]; $options{force} = 0 },
+	'norebuild!' => sub { $urpm->{options}{'build-hdlist-on-error'} = !$_[1]; $options{force} = 0 },
 	'<>' => sub {
 	    my ($p) = @_;
 	    if ($p =~ /^--?(.+)/) { # unrecognized option
@@ -304,8 +303,6 @@ my %options_spec = (
     },
 
     'urpmi.addmedia' => {
-	'probe-synthesis' => sub { $options{probe_with} = 'synthesis' },
-	'probe-hdlist' => sub { $options{probe_with} = 'hdlist' },
 	'no-probe' => sub { $options{probe_with} = undef },
 	distrib => sub { $options{distrib} = 1 },
         interactive => sub { $options{interactive} = 1 },
@@ -379,6 +376,7 @@ foreach my $k ("help|h", "version", "no-locales", "update", "media|mediums=s",
 }
 
 foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "proxy=s", "proxy-user=s",
+    'limit-rate=s',
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s")
 {
     $options_spec{'urpmi.update'}{$k} =
@@ -390,6 +388,13 @@ foreach my $k ("help|h", "wget", "curl", "prozilla", "proxy=s", "proxy-user=s", 
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s")
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
+}
+
+foreach my $k ("probe-synthesis", "probe-hdlist")
+{
+    $options_spec{'urpmi.addmedia'}{$k} = 
+      $options_spec{urpme}{$k} = 
+	$options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
 foreach my $k ("help|h", "version") {
