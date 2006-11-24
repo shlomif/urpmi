@@ -107,7 +107,8 @@ sub load_config ($;$) {
     my $priority = 1;
     my $medium;
     $err = '';
-    my @conf_lines = cat_($file) or do { $err = N("unable to read config file [%s]", $file); return };
+    -r $file or do { $err = N("unable to read config file [%s]", $file); return };
+    my @conf_lines = cat_($file);
     foreach (@conf_lines) {
 	chomp;
 	next if /^\s*#/; #- comments
