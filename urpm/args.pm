@@ -408,6 +408,10 @@ sub parse_cmdline {
 	$options{$k} = $args{defaults}{$k};
     }
     my $ret = GetOptions(%{$options_spec{$tool}});
+
+    if ($tool ne 'urpmi.addmedia' && $options{probe_with} && !$options{usedistrib}) {
+	die N("Can't use %s without %s", "--probe-$options{probe_with}", "--use-distrib");
+    }
     if ($tool eq 'urpmf' && @ARGV && $ARGV[0] eq '--') {
 	if (@ARGV == 2) {
 	    my $p = $ARGV[1];
