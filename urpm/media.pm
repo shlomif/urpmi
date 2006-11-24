@@ -286,7 +286,8 @@ sub statedir_hdlist {
 }
 sub statedir_synthesis {
     my ($urpm, $medium) = @_;
-    $medium->{hdlist} && "$urpm->{statedir}/synthesis.$medium->{hdlist}";
+    my $hdlist = $medium->{hdlist} || $medium->{name} && "hdlist.$medium->{name}.cz";
+    $hdlist && "$urpm->{statedir}/synthesis.$hdlist";
 }
 sub statedir_list {
     my ($urpm, $medium) = @_;
@@ -508,20 +509,21 @@ sub _parse_media {
     foreach (grep { !$_->{ignore} && (!$options->{update} || $_->{update}) } @{$urpm->{media} || []}) {
 	our $currentmedia = $_; #- hack for urpmf
 	delete @$_{qw(start end)};
-	if ($_->{virtual}) {
+	if (!$options->{need_hdlist} && 
+	      _parse_synthesis($urpm, $_, statedir_synthesis($urpm, $_), $options->{callback})) {
+	    #- cool
+	} elsif ($_->{virtual}) {
 	    _parse_hdlist_or_synthesis($urpm, $_, 
 				       hdlist_or_synthesis_for_virtual_medium($_), 
 				       $options->{callback});
 	    $need_second_pass = 1 if !$is_second_pass && !$_->{synthesis} && !$options->{no_second_pass};
 	} else {
-	    if ($options->{need_hdlist} && file_size(statedir_hdlist($urpm, $_)) > 32) {
-		_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options->{callback});
-	    } else {
-		if (!_parse_synthesis($urpm, $_,
-				      statedir_synthesis($urpm, $_),
-				      $options->{callback})) {
-		    _parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options->{callback});
-		}
+	    if (!_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options->{callback})) {
+		$urpm->{error}(N("Note: no hdlist for medium \"%s\", urpmf is unable to return any result for it\n", $_->{name}));
+		#- bad, we need hdlist but we don't have it
+		_parse_synthesis($urpm, $_,
+				 statedir_synthesis($urpm, $_),
+				 $options->{callback});
 	    }
 	}
 	unless ($_->{ignore}) {
@@ -918,12 +920,11 @@ sub _parse_hdlist_or_synthesis__when_not_modified {
     my ($urpm, $medium) = @_;
 
     delete @$medium{qw(start end)};
-    if ($medium->{virtual}) {
+    if (_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
+    } elsif ($medium->{virtual}) {
 	_parse_maybe_hdlist_or_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
     } else {
-	if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
-	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
-	}
+	_parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
     }
     unless ($medium->{ignore}) {
 	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
@@ -1010,6 +1011,8 @@ sub _read_existing_synthesis_and_hdlist {
 sub _parse_hdlist {
     my ($urpm, $medium, $hdlist_file, $o_callback) = @_;
 
+    -e $hdlist_file or return;
+
     $urpm->{log}(N("examining hdlist file [%s]", $hdlist_file));
     ($medium->{start}, $medium->{end}) = 
       $urpm->parse_hdlist($hdlist_file, packing => 1, $o_callback ? (callback => $o_callback) : @{[]});
@@ -1017,6 +1020,8 @@ sub _parse_hdlist {
 
 sub _parse_synthesis {
     my ($urpm, $medium, $synthesis_file, $o_callback) = @_;
+
+    -e $synthesis_file or return;
 
     $urpm->{log}(N("examining synthesis file [%s]", $synthesis_file));
     ($medium->{start}, $medium->{end}) = 
