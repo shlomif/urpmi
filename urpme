@@ -51,6 +51,8 @@ usage:
 ") . N("  --noscripts    - do not execute package scriptlet(s).
 ") . N("  --use-distrib  - configure urpme on the fly from a distrib tree, useful
                    to (un)install a chroot with --root option.
+") . N("    --probe-synthesis - use synthesis file.
+") . N("    --probe-hdlist - use hdlist file.
 ") . N("  -v             - verbose mode.
 ") . N("  -a             - select all packages matching expression.
 ");
@@ -87,6 +89,7 @@ urpm::media::configure($urpm,
     synthesis => ($parallel ? 'none' : ''),
     root => $root,
     parallel => $parallel,
+    probe_with => $options{probe_with},
     usedistrib => $usedistrib,
 );
 

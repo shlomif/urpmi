@@ -114,6 +114,8 @@ usage:
 ") . N("  --root         - use another root for rpm installation.
 ") . N("  --use-distrib  - configure urpmi on the fly from a distrib tree, useful
                    to install a chroot with --root option.
+") . N("    --probe-synthesis - use synthesis file.
+") . N("    --probe-hdlist - use hdlist file.
 ") . N("  --wget         - use wget to retrieve distant files.
 ") . N("  --curl         - use curl to retrieve distant files.
 ") . N("  --prozilla     - use prozilla to retrieve distant files.
@@ -187,7 +189,7 @@ if (@ARGV && $auto_select) {
 
 # Verify that arguments were given
 unless (@ARGV || $auto_select) {
-    if ($urpm::args::options{bug}) {
+    if ($options{bug}) {
 	print STDERR N("Error: To generate a bug report, specify the usual command-line arguments
 along with --bug.\n");
 	exit 1;
@@ -235,7 +237,7 @@ if ($restricted) {
 }
 
 #- prepare bug report.
-my $bug = $urpm::args::options{bug};
+my $bug = $options{bug};
 if ($bug) {
     mkdir $bug or $urpm->{fatal}(8, (-d $bug
 	    ? N("Directory [%s] already exists, please use another directory for bug report or delete it", $bug)
@@ -346,11 +348,12 @@ my %config_hash = (
     parallel => $parallel,
     root => $root,
     searchmedia => $searchmedia,
-    cmdline_skiplist => $urpm::args::options{skip},
+    cmdline_skiplist => $options{skip},
     sortmedia => $sortmedia,
     synthesis => $synthesis,
     update => $update,
     usedistrib => $usedistrib,
+    probe_with => $options{probe_with},
 );
 
 $root and $urpm->{options}{'priority-upgrade'} = '';
