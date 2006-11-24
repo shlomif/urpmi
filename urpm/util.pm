@@ -11,6 +11,7 @@ our @EXPORT = qw(quotespace unquotespace
     untaint
     copy_and_own
     same_size_and_mtime
+    partition
     difference2 member file_size cat_ dirname basename
 );
 
@@ -113,6 +114,15 @@ sub same_size_and_mtime {
     my @sstat = stat $f1;
     my @lstat = stat $f2;
     $sstat[7] == $lstat[7] && $sstat[9] == $lstat[9];
+}
+
+sub partition(&@) {
+    my $f = shift;
+    my (@a, @b);
+    foreach (@_) {
+	$f->($_) ? push(@a, $_) : push(@b, $_);
+    }
+    \@a, \@b;
 }
 
 sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
