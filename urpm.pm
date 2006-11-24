@@ -13,7 +13,7 @@ use urpm::cfg;
 use urpm::md5sum;
 use MDV::Distribconf;
 
-our $VERSION = '4.9.0';
+our $VERSION = '4.9.1';
 our @ISA = qw(URPM Exporter);
 our @EXPORT_OK = 'file_from_local_url';
 
@@ -57,7 +57,7 @@ sub new {
 
 sub protocol_from_url {
     my ($url) = @_;
-    $url =~ m!^([^:_]*)[^:]*:! && $1;
+    $url =~ m!^(\w+)(_[^:]*)?:! && $1;
 }
 sub file_from_local_url {
     my ($url) = @_;
