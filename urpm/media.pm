@@ -1071,9 +1071,10 @@ sub _build_synthesis {
 	end       => $medium->{end},
 	synthesis => statedir_synthesis($urpm, $medium),
     ) };
-    if ($@) {
+    if (my $err = $@) {
+	chomp($err);
 	$urpm->{error}(N("Unable to build synthesis file for medium \"%s\". Your hdlist file may be corrupted.", $medium->{name}));
-	$urpm->{error}($@);
+	$urpm->{error}($err);
 	unlink statedir_synthesis($urpm, $medium);
     } else {
 	$urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $medium->{name}));
