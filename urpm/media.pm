@@ -925,12 +925,7 @@ sub _parse_hdlist_or_synthesis__when_not_modified {
 
     delete @$medium{qw(start end)};
     if ($medium->{virtual}) {
-	if (file_from_file_url($medium->{url})) {
-	    _parse_maybe_hdlist_or_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
-	} else {
-	    $urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $medium->{name}));
-	    $medium->{ignore} = 1;
-	}
+	_parse_maybe_hdlist_or_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
     } else {
 	if (!_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium))) {
 	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
@@ -944,17 +939,11 @@ sub _parse_hdlist_or_synthesis__when_not_modified {
 sub _parse_hdlist_or_synthesis__virtual {
     my ($urpm, $medium) = @_;
 
-    if (my $hdlist_or = hdlist_or_synthesis_for_virtual_medium($medium)) {
-	delete $medium->{modified};
-	$medium->{really_modified} = 1;
-	$urpm->{md5sum_modified} = 1;
-	_parse_maybe_hdlist_or_synthesis($urpm, $medium, $hdlist_or);
-	_check_after_reading_hdlist_or_synthesis($urpm, $medium);
-    } else {
-	$urpm->{error}(N("virtual medium \"%s\" should have valid source hdlist or synthesis, medium ignored",
-			 $medium->{name}));
-	$medium->{ignore} = 1;
-    }
+    delete $medium->{modified};
+    $medium->{really_modified} = 1;
+    $urpm->{md5sum_modified} = 1;
+    _parse_maybe_hdlist_or_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
+    _check_after_reading_hdlist_or_synthesis($urpm, $medium);
 }
 
 #- names.<media_name> is used by external progs (namely for bash-completion)
