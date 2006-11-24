@@ -517,10 +517,13 @@ sub _parse_media {
 				       hdlist_or_synthesis_for_virtual_medium($_), 
 				       $options->{callback});
 	    $need_second_pass = 1 if !$is_second_pass && !$_->{synthesis} && !$options->{no_second_pass};
+	    $_->{synthesis} && $options->{need_hdlist}
+	      and $urpm->{error}(N("Note: no hdlist for medium \"%s\", urpmf is unable to return any result for it", $_->{name}));
 	} else {
 	    if (!_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options->{callback})) {
-		$urpm->{error}(N("Note: no hdlist for medium \"%s\", urpmf is unable to return any result for it\n", $_->{name}));
-		#- bad, we need hdlist but we don't have it
+		$options->{need_hdlist}
+		  and $urpm->{error}(N("Note: no hdlist for medium \"%s\", urpmf is unable to return any result for it", $_->{name}));
+
 		_parse_synthesis($urpm, $_,
 				 statedir_synthesis($urpm, $_),
 				 $options->{callback});
