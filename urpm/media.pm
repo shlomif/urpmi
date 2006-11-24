@@ -15,6 +15,7 @@ our @PER_MEDIA_OPT = qw(
     ignore
     key-ids
     list
+    name
     noreconfigure
     priority
     priority-upgrade
@@ -27,6 +28,12 @@ our @PER_MEDIA_OPT = qw(
     virtual
     with_hdlist
 );
+
+sub only_media_opts {
+    my ($m) = @_;
+    my %m = map { $_ => $m->{$_} } grep { defined $m->{$_} } @PER_MEDIA_OPT;
+    \%m;
+}
 
 sub read_private_netrc {
     my ($urpm) = @_;
@@ -59,7 +66,7 @@ sub read_config_add_passwords {
     my ($urpm, $config) = @_;
 
     my @netrc = read_private_netrc($urpm) or return;
-    foreach (values %$config) {
+    foreach (@{$config->{media}}) {
 	my $u = parse_url_with_login($_->{url}) or next;
 	if (my ($e) = grep { ($_->{default} || $_->{machine} eq $u->{machine}) && $_->{login} eq $u->{login} } @netrc) {
 	    $_->{url} = sprintf('%s://%s:%s@%s%s', $u->{proto}, $u->{login}, $e->{password}, $u->{machine}, $u->{dir});
@@ -73,7 +80,7 @@ sub remove_passwords_and_write_private_netrc {
     my ($urpm, $config) = @_;
 
     my @l;
-    foreach (values %$config) {
+    foreach (@{$config->{media}}) {
 	my $u = parse_url_with_login($_->{url}) or next;
 	#- check whether a password is visible
 	$u->{password} or next;
@@ -115,7 +122,7 @@ sub read_config {
 	or $urpm->{fatal}(6, $urpm::cfg::err);
 
     #- global options
-    if (my $global = $config->{''}) {
+    if (my $global = $config->{global}) {
 	foreach my $opt (keys %$global) {
 	    if (defined $global->{$opt} && !exists $urpm->{options}{$opt}) {
 		$urpm->{options}{$opt} = $global->{$opt};
@@ -127,11 +134,8 @@ sub read_config {
 
     read_config_add_passwords($urpm, $config);
 
-    foreach my $m (grep { $_ ne '' } keys %$config) {
-	my $medium = { name => $m };
-	foreach my $opt (@PER_MEDIA_OPT) {
-	    defined $config->{$m}{$opt} and $medium->{$opt} = $config->{$m}{$opt};
-	}
+    foreach my $m (@{$config->{media}}) {
+	my $medium = only_media_opts($m);
 
 	if (!$medium->{url}) {
 	    #- recover the url the old deprecated way...
@@ -150,8 +154,6 @@ sub read_config {
 	exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
     }
 
-    $urpm->{media} = [ sort { $a->{priority} <=> $b->{priority} } @{$urpm->{media}} ];
-
     #- read MD5 sums (not in urpmi.cfg but in a separate file)
     foreach (@{$urpm->{media}}) {
 	if (my $md5sum = urpm::md5sum::from_MD5SUM("$urpm->{statedir}/MD5SUM", statedir_hdlist_or_synthesis($urpm, $_))) {
@@ -160,7 +162,7 @@ sub read_config {
     }
 
     #- remember global options for write_config
-    $urpm->{global_config} = $config->{''};
+    $urpm->{global_config} = $config->{global};
 }
 
 #- if invalid, set {ignore}
@@ -377,16 +379,9 @@ sub write_urpmi_cfg {
     my $config = {
 	#- global config options found in the config file, without the ones
 	#- set from the command-line
-	'' => $urpm->{global_config},
+	global => $urpm->{global_config},
+	media => [ map { only_media_opts($_) } grep { !$_->{external} } @{$urpm->{media}} ],
     };
-    foreach my $medium (@{$urpm->{media}}) {
-	next if $medium->{external};
-	my $medium_name = $medium->{name};
-
-	foreach (@PER_MEDIA_OPT) {
-	    defined $medium->{$_} and $config->{$medium_name}{$_} = $medium->{$_};
-	}
-    }
     remove_passwords_and_write_private_netrc($urpm, $config);
 
     urpm::cfg::dump_config($urpm->{config}, $config)
@@ -514,7 +509,6 @@ sub _parse_media {
 	our $currentmedia = $_; #- hack for urpmf
 	delete @$_{qw(start end)};
 	if ($_->{virtual}) {
-	    if (file_from_file_url($_->{url})) {
 		if ($_->{synthesis}) {
 		    _parse_synthesis($urpm, $_,
 				     hdlist_or_synthesis_for_virtual_medium($_), $options->{callback});
@@ -525,10 +519,6 @@ sub _parse_media {
 				  $options->{callback},
 			      );
 		}
-	    } else {
-		$urpm->{error}(N("virtual medium \"%s\" is not local, medium ignored", $_->{name}));
-		$_->{ignore} = 1;
-	    }
 	} else {
 	    if ($options->{need_hdlist} && file_size(statedir_hdlist($urpm, $_)) > 32) {
 		_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options->{callback});
@@ -596,7 +586,7 @@ sub _compute_flags_for_instlist {
 #- add a new medium, sync the config file accordingly.
 #- returns the new medium's name. (might be different from the requested
 #- name if index_name was specified)
-#- options: ignore, index_name, nolock, update, virtual
+#- options: ignore, index_name, nolock, synthesis, update, virtual
 sub add_medium {
     my ($urpm, $name, $url, $with_hdlist, %options) = @_;
 
@@ -620,7 +610,13 @@ sub add_medium {
     $url =~ s,/*$,,; #- clear URLs for trailing /es.
 
     #- creating the medium info.
-    $medium = { name => $name, url => $url, update => $options{update}, modified => 1, ignore => $options{ignore} };
+    $medium = { name => $name, 
+		url => $url, 
+		modified => 1, 
+		update => $options{update}, 
+		ignore => $options{ignore},
+		synthesis => $options{synthesis},
+	    };
     if ($options{virtual}) {
 	file_from_file_url($url) or $urpm->{fatal}(1, N("virtual medium needs to be local"));
 	$medium->{virtual} = 1;
@@ -629,19 +625,25 @@ sub add_medium {
 	probe_removable_device($urpm, $medium);
     }
 
-    #- local media have priority, other are added at the end.
-    if (file_from_file_url($url)) {
-	$medium->{priority} = 0.5;
-    } else {
-	$medium->{priority} = 1 + @{$urpm->{media}};
-    }
-
     $with_hdlist and $medium->{with_hdlist} = $with_hdlist;
 
-    #- create an entry in media list.
-    push @{$urpm->{media}}, $medium;
+    #- local media have priority, other are added at the end.
+    my $inserted;
+    if (file_from_file_url($url)) {
+	#- insert before first remote medium
+	@{$urpm->{media}} = map {  
+	    if (!file_from_file_url($_->{url}) && !$inserted) {
+		$inserted = 1;
+		$urpm->{log}(N("added medium %s before remote medium %s", $name, $_->{name}));
+		$medium, $_;
+	    } else { $_ }
+	} @{$urpm->{media}};
+    }
+    if (!$inserted) {
+	$urpm->{log}(N("added medium %s", $name));
+	push @{$urpm->{media}}, $medium;
+    }
 
-    $urpm->{log}(N("added medium %s", $name));
     $urpm->{modified} = 1;
 
     $name;
@@ -729,6 +731,7 @@ sub add_distrib_media {
 	    ) . '/' . $distribconf->getpath($media, $options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist'),
 	    index_name => $name ? undef : 0,
 	    %options,
+	    synthesis => $options{probe_with} eq 'synthesis',
 	    # the following override %options
 	    update => $is_update_media ? 1 : undef,
 	);
