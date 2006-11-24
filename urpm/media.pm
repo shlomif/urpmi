@@ -1253,6 +1253,7 @@ sub _read_rpms_from_dir {
 
     #- make sure the headers will not be removed for another media.
     $$clean_cache = 0;
+
     my @unresolved = grep {
 	! defined $urpm->{provides}{$_};
     } keys %{$urpm->{provides} || {}};
