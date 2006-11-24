@@ -1028,6 +1028,15 @@ sub _parse_synthesis {
     ($medium->{start}, $medium->{end}) = 
       $urpm->parse_synthesis($synthesis_file, $o_callback ? (callback => $o_callback) : @{[]});
 }
+sub _parse_hdlist_or_synthesis {
+    my ($urpm, $medium, $hdlist_or) = @_;
+
+    if ($medium->{synthesis}) {
+	_parse_synthesis($urpm, $medium, $hdlist_or);
+    } else {
+	_parse_hdlist($urpm, $medium, $hdlist_or);
+    }
+}
 sub _parse_maybe_hdlist_or_synthesis {
     my ($urpm, $medium, $hdlist_or) = @_;
 
@@ -1636,17 +1645,14 @@ sub _update_medium_second_pass {
 	    ($medium->{start}, $medium->{end}) = $urpm->parse_headers(dir     => "$urpm->{cachedir}/headers",
 								      headers => $medium->{headers},
 								  );
-	} elsif ($medium->{synthesis}) {
-	    if ($medium->{virtual}) {
-		if (file_from_file_url($medium->{url})) {
-		    _parse_synthesis($urpm, $medium, hdlist_or_synthesis_for_virtual_medium($medium));
-		}
-	    } else {
-		_parse_synthesis($urpm, $medium, statedir_synthesis($urpm, $medium));
-	    }
 	} else {
-	    _parse_hdlist($urpm, $medium, statedir_hdlist($urpm, $medium));
-	    $medium->{must_build_synthesis} ||= 1;
+	    my $hdlist_or = $medium->{virtual} ? hdlist_or_synthesis_for_virtual_medium($medium) :
+	                    $medium->{synthesis} ? 
+			      statedir_synthesis($urpm, $medium) :
+			      statedir_hdlist($urpm, $medium);
+	    _parse_hdlist_or_synthesis($urpm, $medium, $hdlist_or);
+
+	    $medium->{must_build_synthesis} = !$medium->{synthesis};
 	}
 
     $callback && $callback->('done', $medium->{name});
