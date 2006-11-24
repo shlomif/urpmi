@@ -509,16 +509,10 @@ sub _parse_media {
 	our $currentmedia = $_; #- hack for urpmf
 	delete @$_{qw(start end)};
 	if ($_->{virtual}) {
-		if ($_->{synthesis}) {
-		    _parse_synthesis($urpm, $_,
-				     hdlist_or_synthesis_for_virtual_medium($_), $options->{callback});
-		} else {
-		    $need_second_pass = 1 if !$is_second_pass && !$options->{no_second_pass};
-		    _parse_hdlist($urpm, $_,
-				  hdlist_or_synthesis_for_virtual_medium($_),
-				  $options->{callback},
-			      );
-		}
+	    _parse_hdlist_or_synthesis($urpm, $_, 
+				       hdlist_or_synthesis_for_virtual_medium($_), 
+				       $options->{callback});
+	    $need_second_pass = 1 if !$is_second_pass && !$_->{synthesis} && !$options->{no_second_pass};
 	} else {
 	    if ($options->{need_hdlist} && file_size(statedir_hdlist($urpm, $_)) > 32) {
 		_parse_hdlist($urpm, $_, statedir_hdlist($urpm, $_), $options->{callback});
@@ -1029,12 +1023,12 @@ sub _parse_synthesis {
       $urpm->parse_synthesis($synthesis_file, $o_callback ? (callback => $o_callback) : @{[]});
 }
 sub _parse_hdlist_or_synthesis {
-    my ($urpm, $medium, $hdlist_or) = @_;
+    my ($urpm, $medium, $hdlist_or, $o_callback) = @_;
 
     if ($medium->{synthesis}) {
-	_parse_synthesis($urpm, $medium, $hdlist_or);
+	_parse_synthesis($urpm, $medium, $hdlist_or, $o_callback);
     } else {
-	_parse_hdlist($urpm, $medium, $hdlist_or);
+	_parse_hdlist($urpm, $medium, $hdlist_or, $o_callback);
     }
 }
 sub _parse_maybe_hdlist_or_synthesis {
