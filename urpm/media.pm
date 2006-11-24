@@ -694,7 +694,7 @@ sub add_distrib_media {
     my @newnames;
     #- at this point, we have found a media.cfg file, so parse it
     #- and create all necessary media according to it.
-    my $medium = $options{initial_number} || 1;
+    my $medium_index = $options{initial_number} || 1;
 
     foreach my $media ($distribconf->listmedia) {
         my $skip = 0;
@@ -721,7 +721,7 @@ sub add_distrib_media {
 	my $is_update_media = $distribconf->getvalue($media, 'updates_for');
 
 	push @newnames, add_medium($urpm,
-	    $name ? "$media_name ($name$medium)" : $media_name,
+	    $name ? "$media_name ($name$medium_index)" : $media_name,
 	    reduce_pathname($distribconf->getfullpath($media, 'path')),
 	    offset_pathname(
 		$url,
@@ -732,7 +732,7 @@ sub add_distrib_media {
 	    # the following override %options
 	    update => $is_update_media ? 1 : undef,
 	);
-	++$medium;
+	++$medium_index;
     }
     return @newnames;
 }
