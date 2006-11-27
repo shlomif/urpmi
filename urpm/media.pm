@@ -188,12 +188,6 @@ sub check_existing_medium {
 	      $medium->{ignore} = 1,
 		$urpm->{error}(N("invalid hdlist name"));
 	}
-	if (!$medium->{ignore} && !$medium->{hdlist}) {
-	    $medium->{hdlist} = "hdlist.$medium->{name}.cz";
-	    -e statedir_hdlist($urpm, $medium) or
-	      $medium->{ignore} = 1,
-		$urpm->{error}(N("unable to find hdlist file for \"%s\", medium ignored", $medium->{name}));
-	}
 	if (!$medium->{ignore} && !$medium->{list}) {
 	    unless (defined $medium->{url}) {
 		$medium->{list} = "list.$medium->{name}";
@@ -276,18 +270,22 @@ sub hdlist_or_synthesis_for_virtual_medium {
     file_from_file_url($medium->{url}) && _url_with_hdlist($medium);
 }
 
+sub _hdlist {
+    my ($medium) = @_;
+    $medium->{hdlist} || $medium->{name} && "hdlist.$medium->{name}.cz";
+}
+
 sub statedir_hdlist_or_synthesis {
     my ($urpm, $medium) = @_;
-    $medium->{hdlist} && "$urpm->{statedir}/" . ($medium->{synthesis} ? 'synthesis.' : '') . $medium->{hdlist};
+    "$urpm->{statedir}/" . ($medium->{synthesis} ? 'synthesis.' : '') . _hdlist($medium);
 }
 sub statedir_hdlist {
     my ($urpm, $medium) = @_;
-    $medium->{hdlist} && "$urpm->{statedir}/$medium->{hdlist}";
+    "$urpm->{statedir}/" . _hdlist($medium);
 }
 sub statedir_synthesis {
     my ($urpm, $medium) = @_;
-    my $hdlist = $medium->{hdlist} || $medium->{name} && "hdlist.$medium->{name}.cz";
-    $hdlist && "$urpm->{statedir}/synthesis.$hdlist";
+    "$urpm->{statedir}/synthesis." . _hdlist($medium);
 }
 sub statedir_list {
     my ($urpm, $medium) = @_;
@@ -303,7 +301,7 @@ sub statedir_names {
 }
 sub cachedir_hdlist {
     my ($urpm, $medium) = @_;
-    $medium->{hdlist} && "$urpm->{cachedir}/partial/$medium->{hdlist}";
+    "$urpm->{cachedir}/partial/" . _hdlist($medium);
 }
 sub cachedir_list {
     my ($urpm, $medium) = @_;
@@ -620,7 +618,6 @@ sub add_medium {
 	file_from_file_url($url) or $urpm->{fatal}(1, N("virtual medium needs to be local"));
 	$medium->{virtual} = 1;
     } else {
-	$medium->{hdlist} = "hdlist.$name.cz";
 	probe_removable_device($urpm, $medium);
     }
 
@@ -652,7 +649,7 @@ sub add_medium {
 #- returns the list of names of added media.
 #- options :
 #- - initial_number : when adding several numbered media, start with this number
-#- - probe_with : if eq 'synthesis', use synthesis instead of hdlists
+#- - probe_with : force use of synthesis or hdlist instead of using both
 #- - ask_media : callback to know whether each media should be added
 #- other options are passed to add_medium(): ignore, nolock, virtual
 sub add_distrib_media {
@@ -1335,7 +1332,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 		    #- check if the files are equal... and no force copy...
 		    if (!$options->{force}) {
-			_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $medium->{hdlist}) 
+			_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, _hdlist($medium)) 
 			  and return 'unmodified';
 		    }
 		} else {
