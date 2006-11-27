@@ -303,6 +303,10 @@ sub cachedir_hdlist {
     my ($urpm, $medium) = @_;
     "$urpm->{cachedir}/partial/" . _hdlist($medium);
 }
+sub cachedir_with_hdlist {
+    my ($urpm, $medium) = @_;
+    $medium->{with_hdlist} && "$urpm->{cachedir}/partial/" . basename($medium->{with_hdlist});
+}
 sub cachedir_list {
     my ($urpm, $medium) = @_;
     $medium->{list} && "$urpm->{cachedir}/partial/$medium->{list}";
@@ -962,12 +966,12 @@ sub generate_medium_names {
 
 
 sub _read_existing_synthesis_and_hdlist_if_same_time_and_msize {
-    my ($urpm, $medium, $basename) = @_;
+    my ($urpm, $medium, $hdlist_or) = @_;
 
-    same_size_and_mtime("$urpm->{cachedir}/partial/$basename", 
+    same_size_and_mtime($hdlist_or, 
 			statedir_hdlist($urpm, $medium)) or return;
 
-    unlink "$urpm->{cachedir}/partial/$basename";
+    unlink $hdlist_or;
 
     _read_existing_synthesis_and_hdlist($urpm, $medium);
 
@@ -1332,7 +1336,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 		    #- check if the files are equal... and no force copy...
 		    if (!$options->{force}) {
-			_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, _hdlist($medium)) 
+			_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, cachedir_hdlist($urpm, $medium))
 			  and return 'unmodified';
 		    }
 		} else {
@@ -1362,7 +1366,7 @@ this could happen if you mounted manually the directory when creating the medium
 #- options: callback, force, nomd5sum, nopubkey, probe_with, quiet
 sub _update_medium__parse_if_unmodified__remote {
     my ($urpm, $medium, $options) = @_;
-    my ($retrieved_md5sum, $basename);
+    my ($retrieved_md5sum);
 
     #- examine if a distant MD5SUM file is available.
     #- this will only be done if $with_hdlist is not empty in order to use
@@ -1372,7 +1376,6 @@ sub _update_medium__parse_if_unmodified__remote {
 	#- we can assume at this point a basename is existing, but it needs
 	#- to be checked for being valid, nothing can be deduced if no MD5SUM
 	#- file is present.
-	$basename = basename($medium->{with_hdlist});
 
 	unlink "$urpm->{cachedir}/partial/MD5SUM";
 	if (!$options->{nomd5sum} && 
@@ -1380,13 +1383,10 @@ sub _update_medium__parse_if_unmodified__remote {
 				   [ reduce_pathname(_hdlist_dir($medium) . '/MD5SUM') ],
 				   quiet => 1) && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
 	    if (urpm::md5sum::on_local_medium($urpm, $medium, $options->{force} >= 2)) {
-		$retrieved_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, "$urpm->{cachedir}/partial/MD5SUM", $basename);
+		$retrieved_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, "$urpm->{cachedir}/partial/MD5SUM", basename($medium->{with_hdlist}));
 		_read_existing_synthesis_and_hdlist_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
 		  and return 'unmodified';
 	    }
-	} else {
-	    #- at this point, we don't if a basename exists and is valid, let probe it later.
-	    $basename = undef;
 	}
     }
 
@@ -1396,10 +1396,10 @@ sub _update_medium__parse_if_unmodified__remote {
     $options->{callback} and $options->{callback}('retrieve', $medium->{name});
     if ($options->{probe_with} && !$medium->{with_hdlist}) {
 	foreach my $with_hdlist (_probe_with_try_list($options->{probe_with})) {
-	    $basename = basename($with_hdlist) or next;
-	    $options->{force} and unlink "$urpm->{cachedir}/partial/$basename";
+	    my $f = "$urpm->{cachedir}/partial/" . basename($with_hdlist);
+	    $options->{force} and unlink $f;
 	    if (urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
-				     quiet => $options->{quiet}, callback => $options->{callback}) && file_size("$urpm->{cachedir}/partial/$basename") >= 20) {
+				     quiet => $options->{quiet}, callback => $options->{callback}) && file_size($f) >= 20) {
 		$urpm->{log}(N("...retrieving done"));
 		$medium->{with_hdlist} = $with_hdlist;
 		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
@@ -1407,17 +1407,15 @@ sub _update_medium__parse_if_unmodified__remote {
 	    }
 	}
     } else {
-	$basename = basename($medium->{with_hdlist});
-
 	if ($options->{force}) {
-	    unlink "$urpm->{cachedir}/partial/$basename";
+	    unlink cachedir_with_hdlist($urpm, $medium);
 	} else {
 	    #- try to sync (copy if needed) local copy after restored the previous one.
 	    #- this is useful for rsync (?)
 	    if (-e statedir_hdlist_or_synthesis($urpm, $medium)) {
 		copy_and_own(
 		    statedir_hdlist_or_synthesis($urpm, $medium),
-		    "$urpm->{cachedir}/partial/$basename",
+		    cachedir_with_hdlist($urpm, $medium),
 		) or $urpm->{error}(N("...copying failed")), return;
 	    }
 	}
@@ -1426,29 +1424,29 @@ sub _update_medium__parse_if_unmodified__remote {
 	    $urpm->{log}(N("...retrieving done"));
 	} else {
 	    $urpm->{error}(N("...retrieving failed: %s", $@));
-	    unlink "$urpm->{cachedir}/partial/$basename";
+	    unlink cachedir_with_hdlist($urpm, $medium);
 	}
     }
 
     #- check downloaded file has right signature.
-    if (file_size("$urpm->{cachedir}/partial/$basename") >= 20 && $retrieved_md5sum) {
+    if (file_size(cachedir_with_hdlist($urpm, $medium)) >= 20 && $retrieved_md5sum) {
 	$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
-	unless (urpm::md5sum::compute("$urpm->{cachedir}/partial/$basename") eq $retrieved_md5sum) {
+	unless (urpm::md5sum::compute(cachedir_with_hdlist($urpm, $medium)) eq $retrieved_md5sum) {
 	    $urpm->{error}(N("...retrieving failed: md5sum mismatch"));
-	    unlink "$urpm->{cachedir}/partial/$basename";
+	    unlink cachedir_with_hdlist($urpm, $medium);
 	}
     }
 
-    if (file_size("$urpm->{cachedir}/partial/$basename") >= 20) {
+    if (file_size(cachedir_with_hdlist($urpm, $medium)) >= 20) {
 	$options->{callback} and $options->{callback}('done', $medium->{name});
 
 	unless ($options->{force}) {
-	    _read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, $basename)
+	    _read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, cachedir_with_hdlist($urpm, $medium))
 	      and return 'unmodified';
 	}
 
 	#- the files are different, update local copy.
-	rename("$urpm->{cachedir}/partial/$basename", cachedir_hdlist($urpm, $medium));
+	rename(cachedir_with_hdlist($urpm, $medium), cachedir_hdlist($urpm, $medium));
     } else {
 	$options->{callback} and $options->{callback}('failed', $medium->{name});
 	$urpm->{error}(N("retrieval of source hdlist (or synthesis) failed"));
