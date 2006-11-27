@@ -147,7 +147,9 @@ sub install {
 	}
 	++$update;
     }
-    if (($options{nodeps} || !(@l = $trans->check(%options))) && ($options{noorder} || !(@l = $trans->order))) {
+    if (!$options{nodeps} && (@l = $trans->check(%options))) {
+    } elsif (!$options{noorder} && (@l = $trans->order)) {
+    } else {
 	my $fh;
 	#- assume default value for some parameter.
 	$options{delta} ||= 1000;
