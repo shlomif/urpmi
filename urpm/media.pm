@@ -1543,6 +1543,8 @@ sub _update_medium_first_pass {
 	may_reconfig_urpmi($urpm, $medium);
     }
 
+    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+
     {
 	my $rc = 
 	  file_from_local_url($medium->{url})
@@ -1568,7 +1570,6 @@ sub _update_medium_first_pass {
 	    #- is larger than 1MB, this is probably an hdlist else a synthesis.
 	    #- anyway, if one tries fails, try another mode.
 	    $options{callback} and $options{callback}('parse', $medium->{name});
-	    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 
 	    #- if it looks like a hdlist, try to parse as hdlist first
 	    delete $medium->{synthesis} if file_size(cachedir_hdlist($urpm, $medium)) > 262144;
@@ -1591,11 +1592,12 @@ sub _update_medium_first_pass {
 	    unlink statedir_list($urpm, $medium);
 	    delete $medium->{list};
 
-	    {
-		my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-		@unresolved_before == @unresolved_after or $$need_second_pass = 1;
-	    }
 	}
+    }
+
+    {
+	my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+	@unresolved_before == @unresolved_after or $$need_second_pass = 1;
     }
 
     unless ($medium->{virtual}) {
