@@ -100,7 +100,6 @@ sub install_logger {
 #-      excludedocs, nosize, noscripts, oldpackage, repackage, ignorearch
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
-    my %readmes;
     $options{translate_message} = 1;
 
     my $db = urpm::db_open_or_die($urpm, $urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
@@ -150,6 +149,7 @@ sub install {
     if (!$options{nodeps} && (@l = $trans->check(%options))) {
     } elsif (!$options{noorder} && (@l = $trans->order)) {
     } else {
+	my %readmes;
 	my $fh;
 	#- assume default value for some parameter.
 	$options{delta} ||= 1000;
@@ -181,16 +181,17 @@ sub install {
 		unlink "$urpm->{cachedir}/rpms/" . $pkg->filename;
 	    }
 	}
+
+	if ($::verbose >= 0) {
+	    foreach (keys %readmes) {
+		print "-" x 70, "\n", N("More information on package %s", $readmes{$_}), "\n";
+		print cat_($_);
+		print "-" x 70, "\n";
+	    }
+	}
     }
     unlink @produced_deltas;
 
-    if ($::verbose >= 0) {
-	foreach (keys %readmes) {
-	    print "-" x 70, "\n", N("More information on package %s", $readmes{$_}), "\n";
-	    print cat_($_);
-	    print "-" x 70, "\n";
-	}
-    }
     @l;
 }
 
