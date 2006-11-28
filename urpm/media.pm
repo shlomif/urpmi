@@ -1622,17 +1622,15 @@ sub _update_medium_first_pass {
 	    $medium->{really_modified} = 1;
 	    $urpm->{md5sum_modified} = 1;
 
-	    if (-e statedir_synthesis($urpm, $medium) || -e statedir_list($urpm, $medium)) {
+	    if (-e statedir_hdlist_or_synthesis($urpm, $medium, 's') || -e statedir_list($urpm, $medium)) {
 		$urpm->{info}(N("updated medium \"%s\"", $medium->{name}));
 	    }
 
 	    #- but use newly created file.
 	    unlink statedir_hdlist($urpm, $medium);
-	    $medium->{synthesis} and unlink statedir_synthesis($urpm, $medium);
-	    $medium->{list} and unlink statedir_list($urpm, $medium);
+	    unlink statedir_synthesis($urpm, $medium);
+	    $medium->{list} unlink statedir_list($urpm, $medium);
 	    unless ($medium->{headers}) {
-		unlink statedir_synthesis($urpm, $medium);
-		unlink statedir_hdlist($urpm, $medium);
 		urpm::util::move(cachedir_with_hdlist($urpm, $medium, 's'),
 				 statedir_hdlist_or_synthesis($urpm, $medium, 's'));
 	    }
@@ -1641,7 +1639,7 @@ sub _update_medium_first_pass {
 	    }
 
 	    #- and create synthesis file associated.
-	    $medium->{must_build_synthesis} = !$medium->{synthesis};
+	    $medium->{must_build_synthesis} = !_synthesis_or_not($medium, 's');
     }
     1;
 }
