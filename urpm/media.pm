@@ -1615,9 +1615,9 @@ sub _update_medium_first_pass {
 	my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 	if (@unresolved_before != @unresolved_after) {
 	    $medium->{need_second_pass} = 1;
-	    $urpm->{debug}(sprintf "medium \"%s\" has unresolved dependencies: %s", 
+	    $urpm->{debug}(sprintf qq(medium "%s" has unresolved dependencies: %s), 
 			   $medium->{name}, 
-			   join(' ', difference2(\@unresolved_after, \@unresolved_before)))
+			   join(' ', difference2(\@unresolved_after, \@unresolved_before)));
 	}
     }
 
