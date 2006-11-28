@@ -13,7 +13,7 @@ use urpm::cfg;
 use urpm::md5sum;
 use MDV::Distribconf;
 
-our $VERSION = '4.9.1';
+our $VERSION = '4.9.4';
 our @ISA = qw(URPM Exporter);
 our @EXPORT_OK = 'file_from_local_url';
 
@@ -45,7 +45,9 @@ sub new {
 
 	fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	error      => sub { printf STDERR "%s\n", $_[0] },
+	info       => sub { printf "%s\n", $_[0] },
 	log        => sub { printf "%s\n", $_[0] },
+	debug      => sub {},
 	ui_msg     => sub {
 	    $self->{log}($_[0]);
 	    ref $self->{ui} && ref $self->{ui}{msg} and $self->{ui}{msg}->($_[1]);

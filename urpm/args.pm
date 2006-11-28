@@ -108,6 +108,7 @@ my %options_spec = (
 	},
 	'bug=s' => \$options{bug},
 	'env=s' => \$::env,
+	'debug' => sub { $urpm->{debug} = sub { print STDERR "$_[0]\n" } },
 	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
 	'strict-arch!' => sub { $urpm->{options}{'strict-arch'} = $_[1] },
 	'norebuild!' => sub { $urpm->{options}{'build-hdlist-on-error'} = !$_[1] },
@@ -390,7 +391,7 @@ foreach my $k ("help|h", "wget", "curl", "prozilla", "proxy=s", "proxy-user=s", 
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
 
-foreach my $k ("probe-synthesis", "probe-hdlist")
+foreach my $k ("probe-synthesis", "probe-hdlist", 'debug')
 {
     $options_spec{'urpmi.addmedia'}{$k} = 
       $options_spec{urpme}{$k} = 

@@ -632,7 +632,13 @@ sub sync {
 	$all_options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
 
-    eval { _sync_webfetch_raw($urpm, $files, \%all_options); 1 };
+    $urpm->{debug}(N("retrieving %s", join(' ', @$files)));
+
+    eval { 
+	_sync_webfetch_raw($urpm, $files, \%all_options); 
+	$urpm->{log}(N("retrieved %s", join(' ', @$files)));
+	1;
+    };
 }
 
 #- syncing algorithms.

@@ -676,7 +676,6 @@ sub add_distrib_media {
 	if (urpm::download::sync($urpm, undef,
 				 [ reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg') ],
 				 quiet => 1)) {
-	    $urpm->{log}(N("...retrieving done"));
 	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
 		or $urpm->{error}(N("unable to parse media.cfg")), return();
 	} else {
@@ -1196,7 +1195,6 @@ sub get_hdlist_or_synthesis__remote {
     if (urpm::download::sync($urpm, $medium, [ _url_with_hdlist($medium) ],
 			     quiet => $quiet, callback => $callback) &&
 			       file_size(cachedir_with_hdlist($urpm, $medium)) >= 20) {
-	$urpm->{log}(N("...retrieving done"));
 	1;
     } else {
 	chomp(my $err = $@);
@@ -1428,7 +1426,6 @@ sub _update_medium__parse_if_unmodified__remote {
 	    $options->{force} and unlink $f;
 	    if (urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/$with_hdlist") ],
 				     quiet => $options->{quiet}, callback => $options->{callback}) && file_size($f) >= 20) {
-		$urpm->{log}(N("...retrieving done"));
 		$medium->{with_hdlist} = $with_hdlist;
 		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
 		last;	    #- found a suitable with_hdlist in the list above.
