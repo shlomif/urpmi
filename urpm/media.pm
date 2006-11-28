@@ -642,6 +642,7 @@ sub add_medium {
     $medium = { name => $name, 
 		url => $url, 
 		modified => 1, 
+		downloader => $options{downloader}, 
 		update => $options{update}, 
 		ignore => $options{ignore},
 		synthesis => $options{synthesis},
