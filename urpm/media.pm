@@ -1241,7 +1241,7 @@ sub get_hdlist_or_synthesis_and_check_md5sum__remote {
 }
 
 sub _read_rpms_from_dir {
-    my ($urpm, $medium, $need_second_pass, $clean_cache) = @_;
+    my ($urpm, $medium, $clean_cache) = @_;
 
     my $dir = file_from_local_url($medium->{url});
 
@@ -1290,7 +1290,7 @@ sub _read_rpms_from_dir {
     my @unresolved = grep {
 	! defined $urpm->{provides}{$_};
     } keys %{$urpm->{provides} || {}};
-    @unresolved_before == @unresolved or $$need_second_pass = 1;
+    @unresolved_before == @unresolved or $medium->{need_second_pass} = 1;
 
     delete $medium->{synthesis}; #- when building hdlist by ourself, drop synthesis property.
     1;
@@ -1298,7 +1298,7 @@ sub _read_rpms_from_dir {
 
 #- options: callback, force, force_building_hdlist, nomd5sum, nopubkey, probe_with
 sub _update_medium__parse_if_unmodified__local {
-    my ($urpm, $medium, $need_second_pass, $clean_cache, $options) = @_;
+    my ($urpm, $medium, $clean_cache, $options) = @_;
 
     my $dir = file_from_local_url($medium->{url});
 
@@ -1385,7 +1385,7 @@ this could happen if you mounted manually the directory when creating the medium
 	}
 
 	if ($options->{force_building_hdlist}) {
-	    _read_rpms_from_dir($urpm, $medium, $need_second_pass, $clean_cache) or return;
+	    _read_rpms_from_dir($urpm, $medium, $clean_cache) or return;
 	}
     }
 
@@ -1536,7 +1536,7 @@ sub _write_rpm_list {
 #- options: callback, force, force_building_hdlist, nomd5sum, probe_with, quiet
 #- (from _update_medium__parse_if_unmodified__local and _update_medium__parse_if_unmodified__remote)
 sub _update_medium_first_pass {
-    my ($urpm, $medium, $need_second_pass, $clean_cache, %options) = @_;
+    my ($urpm, $medium, $clean_cache, %options) = @_;
 
     #- we should create the associated synthesis file if it does not already exist...
     file_size(statedir_synthesis($urpm, $medium)) >= 20
@@ -1566,7 +1566,7 @@ sub _update_medium_first_pass {
     {
 	my $rc = 
 	  file_from_local_url($medium->{url})
-	    ? _update_medium__parse_if_unmodified__local($urpm, $medium, $need_second_pass, $clean_cache, \%options)
+	    ? _update_medium__parse_if_unmodified__local($urpm, $medium, $clean_cache, \%options)
 	    : _update_medium__parse_if_unmodified__remote($urpm, $medium, \%options);
 
 	if (!$rc || $rc eq 'unmodified') {
@@ -1613,7 +1613,12 @@ sub _update_medium_first_pass {
 
     {
 	my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-	@unresolved_before == @unresolved_after or $$need_second_pass = 1;
+	if (@unresolved_before != @unresolved_after) {
+	    $medium->{need_second_pass} = 1;
+	    $urpm->{debug}(sprintf "medium \"%s\" has unresolved dependencies: %s", 
+			   $medium->{name}, 
+			   join(' ', difference2(\@unresolved_after, \@unresolved_before)))
+	}
     }
 
     unless ($medium->{virtual}) {
@@ -1742,14 +1747,19 @@ sub update_media {
     _update_media__handle_some_flags($urpm, $options{forcekey}, $options{all});
 
     my $clean_cache = !$options{noclean};
-    my $need_second_pass;
     foreach my $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
-	_update_medium_first_pass($urpm, $medium, \$need_second_pass, \$clean_cache, %options)
+	_update_medium_first_pass($urpm, $medium, \$clean_cache, %options)
 	  or _update_medium_first_pass_failed($urpm, $medium);
     }
 
     #- some unresolved provides may force to rebuild all synthesis,
     #- a second pass will be necessary.
+    my $need_second_pass = 
+      (grep { $_->{need_second_pass} } @{$urpm->{media}})
+	#- second pass not useful if not a single media allowed to build a synthesis
+	&& (grep { !$_->{virtual} } @{$urpm->{media}}) 
+	#- second pass not useful if only synthesis available
+	&& (grep { !$_->{synthesis} } @{$urpm->{media}});  
     if ($need_second_pass) {
 	$urpm->{log}(N("performing second pass to compute dependencies\n"));
 	$urpm->unresolved_provides_clean;
