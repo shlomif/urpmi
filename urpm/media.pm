@@ -962,12 +962,12 @@ sub generate_medium_names {
 
 
 sub _read_existing_synthesis_and_hdlist_if_same_time_and_msize {
-    my ($urpm, $medium, $hdlist_or) = @_;
+    my ($urpm, $medium) = @_;
 
-    same_size_and_mtime($hdlist_or, 
+    same_size_and_mtime(cachedir_with_hdlist($urpm, $medium),
 			statedir_hdlist($urpm, $medium)) or return;
 
-    unlink $hdlist_or;
+    unlink cachedir_with_hdlist($urpm, $medium);
 
     _read_existing_synthesis_and_hdlist($urpm, $medium);
 
@@ -1332,7 +1332,7 @@ this could happen if you mounted manually the directory when creating the medium
 
 		    #- check if the files are equal... and no force copy...
 		    if (!$options->{force}) {
-			_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, cachedir_with_hdlist($urpm, $medium))
+			_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium)
 			  and return 'unmodified';
 		    }
 		} else {
@@ -1437,7 +1437,7 @@ sub _update_medium__parse_if_unmodified__remote {
 	$options->{callback} and $options->{callback}('done', $medium->{name});
 
 	unless ($options->{force}) {
-	    _read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium, cachedir_with_hdlist($urpm, $medium))
+	    _read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium)
 	      and return 'unmodified';
 	}
     } else {
