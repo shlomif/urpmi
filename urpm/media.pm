@@ -1190,6 +1190,20 @@ sub get_hdlist_or_synthesis__local {
 	0;
     }
 }
+sub get_hdlist_or_synthesis__remote {
+    my ($urpm, $medium, $callback, $quiet) = @_;
+
+    if (urpm::download::sync($urpm, $medium, [ _url_with_hdlist($medium) ],
+			     quiet => $quiet, callback => $callback) &&
+			       file_size(cachedir_with_hdlist($urpm, $medium)) >= 20) {
+	$urpm->{log}(N("...retrieving done"));
+	1;
+    } else {
+	chomp(my $err = $@);
+	$urpm->{error}(N("...retrieving failed: %s", $err));
+	0;
+    }
+}
 
 sub get_hdlist_or_synthesis_and_check_md5sum__local {
     my ($urpm, $medium, $retrieved_md5sum, $callback) = @_;
@@ -1203,6 +1217,19 @@ sub get_hdlist_or_synthesis_and_check_md5sum__local {
 	  $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", _url_with_hdlist($medium))), return;
     }
 
+    1;
+}
+sub get_hdlist_or_synthesis_and_check_md5sum__remote {
+    my ($urpm, $medium, $retrieved_md5sum, $callback, $quiet) = @_;
+
+    get_hdlist_or_synthesis__remote($urpm, $medium, $callback, $quiet) or return;
+
+    #- check downloaded file has right signature.
+    if ($retrieved_md5sum) {
+	$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
+	urpm::md5sum::compute(cachedir_with_hdlist($urpm, $medium)) eq $retrieved_md5sum or
+	    $urpm->{error}(N("...retrieving failed: md5sum mismatch")), return;
+    }
     1;
 }
 
@@ -1388,7 +1415,14 @@ sub _update_medium__parse_if_unmodified__remote {
     #- it is already defined (and valid).
     $urpm->{log}(N("retrieving source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
     $options->{callback} and $options->{callback}('retrieve', $medium->{name});
+    my $error = sub {
+	my ($msg) = @_;
+	$urpm->{error}($msg);
+	unlink cachedir_with_hdlist($urpm, $medium);
+	$options->{callback} and $options->{callback}('failed', $medium->{name});
+    };
     if ($options->{probe_with} && !$medium->{with_hdlist}) {
+	my $err;
 	foreach my $with_hdlist (_probe_with_try_list($options->{probe_with})) {
 	    my $f = "$urpm->{cachedir}/partial/" . basename($with_hdlist);
 	    $options->{force} and unlink $f;
@@ -1398,7 +1432,14 @@ sub _update_medium__parse_if_unmodified__remote {
 		$medium->{with_hdlist} = $with_hdlist;
 		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
 		last;	    #- found a suitable with_hdlist in the list above.
+	    } else {
+		chomp($err = $@);
 	    }
+	}
+	if (!$medium->{with_hdlist}) {
+	    $error->(N("no hdlist file found for medium \"%s\"", $medium->{name}));
+	    $urpm->{error}(N("...retrieving failed: %s", $err));
+	    return;
 	}
     } else {
 	if ($options->{force}) {
@@ -1410,40 +1451,24 @@ sub _update_medium__parse_if_unmodified__remote {
 		copy_and_own(
 		    statedir_hdlist_or_synthesis($urpm, $medium),
 		    cachedir_with_hdlist($urpm, $medium),
-		) or $urpm->{error}(N("...copying failed")), return;
+		) or $error->(N("...copying failed")), return;
 	    }
 	}
-	if (urpm::download::sync($urpm, $medium, [ _url_with_hdlist($medium) ],
-				 quiet => $options->{quiet}, callback => $options->{callback})) {
-	    $urpm->{log}(N("...retrieving done"));
+	if (get_hdlist_or_synthesis_and_check_md5sum__remote($urpm, $medium, $retrieved_md5sum, $options->{callback}, $options->{quiet})) {
+	    $options->{callback} and $options->{callback}('done', $medium->{name});
+
+	    $medium->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
+
+	    if (!$options->{force}) {
+		_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium)
+		  and return 'unmodified';
+	    }
 	} else {
-	    $urpm->{error}(N("...retrieving failed: %s", $@));
-	    unlink cachedir_with_hdlist($urpm, $medium);
+	    $error->(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
+	    $medium->{ignore} = 1;
+	    return;
 	}
     }
-
-    #- check downloaded file has right signature.
-    if (file_size(cachedir_with_hdlist($urpm, $medium)) >= 20 && $retrieved_md5sum) {
-	$urpm->{log}(N("computing md5sum of retrieved source hdlist (or synthesis)"));
-	unless (urpm::md5sum::compute(cachedir_with_hdlist($urpm, $medium)) eq $retrieved_md5sum) {
-	    $urpm->{error}(N("...retrieving failed: md5sum mismatch"));
-	    unlink cachedir_with_hdlist($urpm, $medium);
-	}
-    }
-
-    if (file_size(cachedir_with_hdlist($urpm, $medium)) >= 20) {
-	$options->{callback} and $options->{callback}('done', $medium->{name});
-
-	unless ($options->{force}) {
-	    _read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium)
-	      and return 'unmodified';
-	}
-    } else {
-	$options->{callback} and $options->{callback}('failed', $medium->{name});
-	$urpm->{error}(N("retrieval of source hdlist (or synthesis) failed"));
-	return;
-    }
-    $urpm->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
     1;
 }
 
