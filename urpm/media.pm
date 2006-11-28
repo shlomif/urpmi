@@ -1363,18 +1363,11 @@ this could happen if you mounted manually the directory when creating the medium
 	#- syncing a virtual medium is very simple, just try to read the file in order to
 	#- determine its type, once a with_hdlist has been found (but is mandatory).
 	_parse_hdlist_or_synthesis__virtual($urpm, $medium);
-    }
-
-    #- examine if a distant MD5SUM file is available.
-    #- this will only be done if $with_hdlist is not empty in order to use
-    #- an existing hdlist or synthesis file, and to check if download was good.
-    #- if no MD5SUM is available, do it as before...
-    #- we can assume at this point a basename is existing, but it needs
-    #- to be checked for being valid, nothing can be deduced if no MD5SUM
-    #- file is present.
-
-    unless ($medium->{virtual}) {
-	if (_hdlist_dir($medium)) {
+	1;
+    } elsif ($options->{force_building_hdlist} || !_hdlist_dir($medium)) {
+	#- build hdlist/synthesis from rpms
+	_read_rpms_from_dir($urpm, $medium, $clean_cache);
+    } elsif (_hdlist_dir($medium)) {
 	    my ($retrieved_md5sum);
 
 	    if (!$options->{nomd5sum} && file_size(_hdlist_dir($medium) . '/MD5SUM') > 32) {
@@ -1386,9 +1379,7 @@ this could happen if you mounted manually the directory when creating the medium
 		}
 	    }
 
-	    #- if the source hdlist is present and we are not forcing using rpm files
-	    if (!$options->{force_building_hdlist} && -e _url_with_hdlist($medium, 's')) {
-		if (get_hdlist_or_synthesis_and_check_md5sum__local($urpm, $medium, $retrieved_md5sum, $options->{callback})) {
+	    if (get_hdlist_or_synthesis_and_check_md5sum__local($urpm, $medium, $retrieved_md5sum, $options->{callback})) {
 
 		    $medium->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
 
@@ -1397,28 +1388,19 @@ this could happen if you mounted manually the directory when creating the medium
 			_read_existing_synthesis_and_hdlist_if_same_time_and_msize($urpm, $medium)
 			  and return 'unmodified';
 		    }
-		} else {
+		    1;
+	    } else {
 		    #- if copying hdlist has failed, try to build it directly.
 		    if ($urpm->{options}{'build-hdlist-on-error'}) {
-			$options->{force_building_hdlist} = 1;
+			#- no available hdlist/synthesis, try to build it from rpms
+			_read_rpms_from_dir($urpm, $medium, $clean_cache);
 		    } else {
 			$urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
 			$medium->{ignore} = 1;
-			return;
+			'';
 		    }
-		}
 	    }
-	} else {
-	    #- no available hdlist/synthesis, try to build it from rpms
-	    $options->{force_building_hdlist} = 1;
-	}
-
-	if ($options->{force_building_hdlist}) {
-	    _read_rpms_from_dir($urpm, $medium, $clean_cache) or return;
-	}
     }
-
-    1;
 }
 
 #- options: callback, force, nomd5sum, nopubkey, probe_with, quiet
