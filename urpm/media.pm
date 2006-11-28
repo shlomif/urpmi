@@ -967,8 +967,6 @@ sub _read_existing_synthesis_and_hdlist_if_same_time_and_msize {
     same_size_and_mtime(cachedir_with_hdlist($urpm, $medium),
 			statedir_hdlist($urpm, $medium)) or return;
 
-    unlink cachedir_with_hdlist($urpm, $medium);
-
     _read_existing_synthesis_and_hdlist($urpm, $medium);
 
     1;
@@ -983,8 +981,6 @@ sub _read_existing_synthesis_and_hdlist_if_same_md5sum {
     #- download hdlist or synthesis file again.
     $retrieved_md5sum && $medium->{md5sum} eq $retrieved_md5sum or return;
 
-    unlink cachedir_with_hdlist($urpm, $medium);
-
     _read_existing_synthesis_and_hdlist($urpm, $medium);
 
     1;
@@ -992,6 +988,8 @@ sub _read_existing_synthesis_and_hdlist_if_same_md5sum {
 
 sub _read_existing_synthesis_and_hdlist {
     my ($urpm, $medium) = @_;
+
+    unlink cachedir_with_hdlist($urpm, $medium);
 
     $urpm->{info}(N("medium \"%s\" is up-to-date", $medium->{name}));
 
