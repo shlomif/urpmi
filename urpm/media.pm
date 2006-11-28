@@ -1629,7 +1629,7 @@ sub _update_medium_first_pass {
 	    #- but use newly created file.
 	    unlink statedir_hdlist($urpm, $medium);
 	    unlink statedir_synthesis($urpm, $medium);
-	    $medium->{list} unlink statedir_list($urpm, $medium);
+	    $medium->{list} and unlink statedir_list($urpm, $medium);
 	    unless ($medium->{headers}) {
 		urpm::util::move(cachedir_with_hdlist($urpm, $medium, 's'),
 				 statedir_hdlist_or_synthesis($urpm, $medium, 's'));
