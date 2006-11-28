@@ -18,7 +18,6 @@ our @PER_MEDIA_OPT = qw(
     media_info_dir
     name
     noreconfigure
-    priority
     priority-upgrade
     removable
     static
