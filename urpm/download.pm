@@ -188,6 +188,14 @@ sub set_proxy {
     return @res;
 }
 
+sub _error {
+    my ($name) = @_;
+
+    my $msg = $? & 127 ? N("%s failed: exited with signal %d", $name, $? & 127) :
+                         N("%s failed: exited with %d", $name, $? >> 8);
+    die "$msg\n";
+}
+
 sub propagate_sync_callback {
     my $options = shift;
     if (ref($options) && $options->{callback}) {
@@ -274,7 +282,7 @@ sub sync_wget {
     }
     $file and propagate_sync_callback($options, 'end', $file);
     chdir $cwd;
-    close $wget or die N("wget failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    close $wget or _error('wget');
 }
 
 sub sync_curl {
@@ -335,8 +343,7 @@ sub sync_curl {
 		};
 	    }
 	}
-	close $curl
-	    or die N("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+	close $curl or _error('curl');
 
 	#- now analyse size and time stamp according to what already exists here.
 	if (@ftp_files) {
@@ -422,7 +429,7 @@ sub sync_curl {
 	    }
 	}
 	chdir $cwd;
-	close $curl or die N("curl failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+	close $curl or _error('curl');
     } else {
 	chdir $cwd;
     }
@@ -483,7 +490,7 @@ sub sync_rsync {
 	propagate_sync_callback($options, 'end', $file);
     }
     chdir $cwd;
-    $? == 0 or die N("rsync failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+    $? == 0 or _error('rsync');
 }
 
 our $SSH_PATH;
@@ -538,7 +545,7 @@ sub sync_prozilla {
 	if ($? == -1) {
 	    die N("Couldn't execute prozilla\n");
 	} else {
-	    die N("prozilla failed: exited with %d or signal %d\n", $? >> 8, $? & 127);
+	    _error('prozilla');
 	}
     }
 }
