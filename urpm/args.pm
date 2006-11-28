@@ -38,6 +38,11 @@ sub add_param_closure {
 }
 
 # options specifications for Getopt::Long
+
+my %options_spec_all = (
+	'debug' => sub { $urpm->{debug} = sub { print STDERR "$_[0]\n" } },
+);
+
 my %options_spec = (
 
     urpmi => {
@@ -108,7 +113,6 @@ my %options_spec = (
 	},
 	'bug=s' => \$options{bug},
 	'env=s' => \$::env,
-	'debug' => sub { $urpm->{debug} = sub { print STDERR "$_[0]\n" } },
 	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
 	'strict-arch!' => sub { $urpm->{options}{'strict-arch'} = $_[1] },
 	'norebuild!' => sub { $urpm->{options}{'build-hdlist-on-error'} = !$_[1] },
@@ -391,7 +395,7 @@ foreach my $k ("help|h", "wget", "curl", "prozilla", "proxy=s", "proxy-user=s", 
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
 
-foreach my $k ("probe-synthesis", "probe-hdlist", 'debug')
+foreach my $k ("probe-synthesis", "probe-hdlist")
 {
     $options_spec{'urpmi.addmedia'}{$k} = 
       $options_spec{urpme}{$k} = 
@@ -408,7 +412,7 @@ sub parse_cmdline {
     foreach my $k (keys %{$args{defaults} || {}}) {
 	$options{$k} = $args{defaults}{$k};
     }
-    my $ret = GetOptions(%{$options_spec{$tool}});
+    my $ret = GetOptions(%{$options_spec{$tool}}, %options_spec_all);
 
     if ($tool ne 'urpmi.addmedia' && $options{probe_with} && !$options{usedistrib}) {
 	die N("Can't use %s without %s", "--probe-$options{probe_with}", "--use-distrib");
