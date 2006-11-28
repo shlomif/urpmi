@@ -11,7 +11,7 @@ our @EXPORT = qw(quotespace unquotespace
     untaint
     copy_and_own
     same_size_and_mtime
-    partition
+    partition uniq
     difference2 member file_size cat_ dirname basename
 );
 
@@ -125,6 +125,7 @@ sub partition(&@) {
     \@a, \@b;
 }
 
+sub uniq { my %l; $l{$_} = 1 foreach @_; grep { delete $l{$_} } @_ }
 sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
 sub member { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
 sub cat_ { my @l = map { my $F; open($F, '<', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
