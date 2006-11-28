@@ -841,21 +841,50 @@ sub remove_media {
 }
 
 sub _probe_with_try_list {
-    my ($medium, $probe_with, $f) = @_;
+    my ($urpm, $medium, $probe_with, $f) = @_;
 
-    my $want_synthesis = $probe_with eq 'synthesis';
+    my $probe = sub {
+	my ($synthesis, $media_info_dir) = @_;
+
+	my $base = file_from_file_url($medium->{url}) || $medium->{url};
+	my $url = reduce_pathname("$base/$media_info_dir") . '/' . ($synthesis ? 'synthesis.hdlist.cz' : 'hdlist.cz');
+	$f->($url) or return;
+
+	$urpm->{debug}("found hdlist/synthesis: $url");
+
+	$medium->{media_info_dir} = $media_info_dir;
+	if ($probe_with) {
+	    $medium->{synthesis} = 1 if $synthesis;
+	    $medium->{hdlist} = _hdlist($medium) if !$synthesis;
+	}
+	1;
+    };
+
+
+    my $want_synthesis = !$probe_with || $probe_with eq 'synthesis';
     my @media_info_dirs = ('media_info', '.');
 
-    foreach ($want_synthesis, !$want_synthesis) {
-	$medium->{synthesis} = $_;
-	foreach (@media_info_dirs) {
-	    $medium->{media_info_dir} = $_;
-	    $f->() and return 1;
+    foreach my $media_info_dir (@media_info_dirs) {
+	if ($probe->($want_synthesis, $media_info_dir)) {
+	    return 1 if $probe_with;
 	}
     }
-    delete $medium->{synthesis}; #- needed?
-    delete $medium->{media_info_dir};
-    0;
+    if ($medium->{media_info_dir}) {
+	#- try to have both synthesis and hdlist :-)
+	if (file_from_file_url($medium->{url}) &&
+	      !$probe->(!$want_synthesis, $medium->{media_info_dir})) {
+	    #- sad, only one available.
+	    $medium->{synthesis} = 1 if $want_synthesis;
+	    $medium->{hdlist} = _hdlist($medium) if !$want_synthesis;
+	}
+	1;
+    } else {
+	foreach my $media_info_dir (@media_info_dirs) {
+	    $probe->(!$want_synthesis, $media_info_dir)
+	      and return 1;
+	}
+	'';
+    }
 }
 
 sub may_reconfig_urpmi {
@@ -1180,7 +1209,7 @@ sub get_hdlist_or_synthesis__local {
 
     my $f = cachedir_with_hdlist($urpm, $medium, 's');
     unlink $f;
-    $urpm->{log}(N("copying source hdlist (or synthesis) of \"%s\"...", $medium->{name}));
+    $urpm->{log}(N("copying [%s] for medium \"%s\"...", _url_with_hdlist($medium, 's'), $medium->{name}));
     $callback and $callback->('copy', $medium->{name});
     if (copy_and_own(_url_with_hdlist($medium, 's'), $f)) {
 	$callback and $callback->('done', $medium->{name});
@@ -1317,11 +1346,11 @@ this could happen if you mounted manually the directory when creating the medium
 
     #- try to probe for possible with_hdlist parameter, unless
     #- it is already defined (and valid).
-    if ($options->{probe_with} && !_hdlist_dir($medium)) {
-	_probe_with_try_list($medium, $options->{probe_with}, sub {
-	    my $url = _url_with_hdlist($medium, 's');
+    if (!_hdlist_dir($medium)) {
+	_probe_with_try_list($urpm, $medium, $options->{probe_with}, sub {
+	    my ($url) = @_;
 	    -e $url or return;
-	    if (file_size(_url_with_hdlist($medium, 's')) >= 20) {
+	    if (file_size($url) >= 20) {
 		1;
 	    } else {
 		$urpm->{error}(N("invalid hdlist file %s for medium \"%s\"", $url, $medium->{name}));
@@ -1430,18 +1459,19 @@ sub _update_medium__parse_if_unmodified__remote {
 	unlink cachedir_with_hdlist($urpm, $medium, 's');
 	$options->{callback} and $options->{callback}('failed', $medium->{name});
     };
-    if ($options->{probe_with} && !_hdlist_dir($medium)) {
+    if (!_hdlist_dir($medium)) {
 	my $err;
-	_probe_with_try_list($medium, $options->{probe_with}, sub {
-	    my $f = cachedir_with_hdlist($urpm, $medium, 's');
+	_probe_with_try_list($urpm, $medium, $options->{probe_with}, sub {
+	    my ($url) = @_;
+	    my $f = "$urpm->{cachedir}/partial/" . basename($url);
 	    $options->{force} and unlink $f;
-	    if (urpm::download::sync($urpm, $medium, [ _url_with_hdlist($medium, 's') ],
+	    if (urpm::download::sync($urpm, $medium, [ $url ],
 				     quiet => $options->{quiet}, callback => $options->{callback}) && file_size($f) >= 20) {
+		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $url));
 		1;
-		$urpm->{log}(N("found probed hdlist (or synthesis) as %s", $medium->{with_hdlist}));
-		last;	    #- found a suitable with_hdlist in the list above.
 	    } else {
 		chomp($err = $@);
+		0;
 	    }
 	}) or do {
 	    $error->(N("no hdlist file found for medium \"%s\"", $medium->{name}));
@@ -1583,6 +1613,14 @@ sub _update_medium_first_pass {
     if (!$medium->{virtual}) {
 	if ($medium->{headers}) {
 	    _write_rpm_list($urpm, $medium) or return;
+
+	    if (-e statedir_list($urpm, $medium)) {
+		$urpm->{info}(N("updated medium \"%s\"", $medium->{name}));
+	    }
+	    unlink statedir_hdlist($urpm, $medium);
+	    unlink statedir_synthesis($urpm, $medium);
+	    unlink statedir_list($urpm, $medium);
+	    urpm::util::move(cachedir_list($urpm, $medium), statedir_list($urpm, $medium));
 	} else {
 	    #- read first pass hdlist or synthesis, try to open as synthesis, if file
 	    #- is larger than 1MB, this is probably an hdlist else a synthesis.
@@ -1605,10 +1643,28 @@ sub _update_medium_first_pass {
 		}
 		return;
 	    }
-	    unlink statedir_list($urpm, $medium);
-	    delete $medium->{list};
 
+	    if (-e statedir_hdlist_or_synthesis($urpm, $medium, 's')) {
+		$urpm->{info}(N("updated medium \"%s\"", $medium->{name}));
+	    }
+
+
+	    unlink statedir_list($urpm, $medium);
+	    unlink statedir_hdlist($urpm, $medium);
+	    unlink statedir_synthesis($urpm, $medium);
+	    #- use newly created file.
+	    urpm::util::move(cachedir_with_hdlist($urpm, $medium, 's'),
+			     statedir_hdlist_or_synthesis($urpm, $medium, 's'));
+	    delete $medium->{list};
 	}
+
+	#- make sure to rebuild base files and clear medium modified state.
+	$medium->{modified} = 0;
+	$medium->{really_modified} = 1;
+	$urpm->{md5sum_modified} = 1;
+	
+	#- and create synthesis file associated.
+	$medium->{must_build_synthesis} = !_synthesis_or_not($medium, 's');
     }
 
     {
@@ -1621,31 +1677,6 @@ sub _update_medium_first_pass {
 	}
     }
 
-    unless ($medium->{virtual}) {
-	    #- make sure to rebuild base files and clear medium modified state.
-	    $medium->{modified} = 0;
-	    $medium->{really_modified} = 1;
-	    $urpm->{md5sum_modified} = 1;
-
-	    if (-e statedir_hdlist_or_synthesis($urpm, $medium, 's') || -e statedir_list($urpm, $medium)) {
-		$urpm->{info}(N("updated medium \"%s\"", $medium->{name}));
-	    }
-
-	    #- but use newly created file.
-	    unlink statedir_hdlist($urpm, $medium);
-	    unlink statedir_synthesis($urpm, $medium);
-	    $medium->{list} and unlink statedir_list($urpm, $medium);
-	    unless ($medium->{headers}) {
-		urpm::util::move(cachedir_with_hdlist($urpm, $medium, 's'),
-				 statedir_hdlist_or_synthesis($urpm, $medium, 's'));
-	    }
-	    if ($medium->{list}) {
-		urpm::util::move(cachedir_list($urpm, $medium), statedir_list($urpm, $medium));
-	    }
-
-	    #- and create synthesis file associated.
-	    $medium->{must_build_synthesis} = !_synthesis_or_not($medium, 's');
-    }
     1;
 }
 
