@@ -120,11 +120,11 @@ my %options_spec = (
 	'skip=s' => \$options{skip},
 	'root=s' => sub {
 	    require File::Spec;
-	    $::root = File::Spec->rel2abs($_[1]);
-	    if (!-d $::root) {
+	    $options{root} = File::Spec->rel2abs($_[1]);
+	    if (!-d $options{root}) {
 		$urpm->{fatal}->(9, N("chroot directory doesn't exist"));
 	    }
-	    $::nolock = 1;
+	    $options{nolock} = 1;
 	},
 	'use-distrib=s' => \$options{usedistrib},
 	'probe-synthesis' => sub { $options{probe_with} = 'synthesis' },
@@ -137,7 +137,7 @@ my %options_spec = (
 	repackage => sub { $urpm->{options}{repackage} = 1 },
 	'more-choices' => sub { $urpm->{options}{morechoices} = 1 },
 	'expect-install!' => \$::expect_install,
-	'nolock' => \$::nolock,
+	'nolock' => \$options{nolock},
 	restricted => \$::restricted,
 	'no-md5sum' => \$::nomd5sum,
 	'force-key' => \$::forcekey,
@@ -229,14 +229,6 @@ my %options_spec = (
 	sources => \$options{sources},
 	force => \$options{force},
 	'skip=s' => \$options{skip},
-	'root=s' => sub {
-	    require File::Spec;
-	    $options{root} = File::Spec->rel2abs($_[1]);
-	    if (!-d $options{root}) {
-		$urpm->{fatal}->(9, N("chroot directory doesn't exist"));
-	    }
-	    $options{nolock} = 1;
-	},
 	'use-distrib=s' => sub {
 	    if ($< != 0) {
 		print STDERR N("You need to be root to use --use-distrib"), "\n";
@@ -246,7 +238,6 @@ my %options_spec = (
 	},
 	'parallel=s' => \$options{parallel},
 	'env=s' => \$options{env},
-	'nolock' => \$options{nolock},
 	d => \$options{deps},
 	u => \$options{upgrade},
 	a => \$options{all},
@@ -364,6 +355,10 @@ foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "u
     "parallel=s")
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
+}
+foreach my $k ("root=s", "nolock")
+{
+    $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
 foreach my $k ("help|h", "version", "no-locales", "update", "media|mediums=s",

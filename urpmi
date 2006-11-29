@@ -56,14 +56,12 @@ our $force = 0;
 our $parallel = '';
 our $env = '';
 our $test = 0;
-our $root = '';
 our $all = 0;
 our $rpm_opt = "vh";
 our $use_provides = 1;
 our $verbose = 0;
 our $logfile = '';
 our $restricted = 0;
-our $nolock = 0;
 our $nomd5sum = 0;
 our $forcekey = 0;
 
@@ -222,7 +220,7 @@ if ($install_src) {
     push @src_names, @names;
     @names = ();
     #- allow to use --install-src as a non-root user
-    $nolock = 1;
+    $options{nolock} = 1;
 }
 
 #- rurpmi checks
@@ -231,7 +229,7 @@ if ($restricted) {
     #- force some options
     foreach (qw(keep verify-rpm)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
-    urpm::error_restricted($urpm) if $root || $options{usedistrib} || $force || $env || $parallel || $synthesis || $auto_update;
+    urpm::error_restricted($urpm) if $options{root} || $options{usedistrib} || $force || $env || $parallel || $synthesis || $auto_update;
     foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options prozilla-options noscripts)) {
 	urpm::error_restricted($urpm) if $urpm->{options}{$_};
     }
@@ -267,7 +265,7 @@ if ($env) {
     }
 }
 
-unless ($bug || $install_src || $env || $urpm->{options}{'allow-force'} || $root) {
+unless ($bug || $install_src || $env || $urpm->{options}{'allow-force'} || $options{root}) {
     require urpm::sys;
     urpm::sys::check_fs_writable() or $urpm->{fatal}(1, N("Error: %s appears to be mounted read-only.
 Use --allow-force to force operation.", $urpm::sys::mountpoint));
@@ -335,10 +333,10 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
     require urpm::sys;
     urpm::sys::fix_fd_leak();
     # also, clean up rpm db log files, because rpm might have been upgraded
-    unlink glob('/var/lib/rpm/__db.*') unless $root;
+    unlink glob('/var/lib/rpm/__db.*') unless $options{root};
 }
 
-my $urpmi_lock = !$env && !$nolock && urpm::lock::urpmi_db($urpm);
+my $urpmi_lock = !$env && !$options{nolock} && urpm::lock::urpmi_db($urpm);
 
 #- should we ignore arch compatibility
 if ($urpm->{options}{ignorearch}) { urpm::shunt_ignorearch() }
@@ -348,7 +346,7 @@ my %config_hash = (
     media => $media,
     nocheck_access => $env || $< != 0,
     parallel => $parallel,
-    root => $root,
+    root => $options{root},
     searchmedia => $searchmedia,
     cmdline_skiplist => $options{skip},
     sortmedia => $sortmedia,
@@ -358,7 +356,7 @@ my %config_hash = (
     probe_with => $options{probe_with},
 );
 
-$root and $urpm->{options}{'priority-upgrade'} = '';
+$options{root} and $urpm->{options}{'priority-upgrade'} = '';
 if ($auto_update && !$bug && !$env) {
     #- For translators : there are several media here
     $urpm->{log}(N("Updating media...\n"));
@@ -383,7 +381,7 @@ urpm::media::configure($urpm, %config_hash);
 
 if ($bug) {
     require urpm::bug_report;
-    urpm::bug_report::rpmdb_to_synthesis($urpm, "$bug/rpmdb.cz", $root);
+    urpm::bug_report::rpmdb_to_synthesis($urpm, "$bug/rpmdb.cz", $options{root});
 }
 
 #- get back activated default values of boolean options.
@@ -403,7 +401,7 @@ if ($bug) {
     urpm::bug_report::copy_requested($urpm, $bug, \%requested);
 }
 
-my $rpm_lock = !$env && !$nolock && urpm::lock::rpm_db($urpm, 'exclusive');
+my $rpm_lock = !$env && !$options{nolock} && urpm::lock::rpm_db($urpm, 'exclusive');
 
 #- search the packages according to the selection given by the user.
 my $search_result = '';
@@ -515,7 +513,7 @@ if (@ask_unselect) {
 my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : urpm::select::removed_packages($urpm, $state);
 if (@ask_remove) {
     {
-	my $db = urpm::db_open_or_die($urpm, $root);
+	my $db = urpm::db_open_or_die($urpm, $options{root});
 	urpm::select::find_removed_from_basesystem($urpm, $db, $state, sub {
 	    my $urpm = shift @_;
 	    foreach (@_) {
@@ -683,7 +681,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     #- install source package only (whatever the user is root or not, but use rpm for that).
     if ($install_src) {
 	if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %transaction_sources) {
-	    system("rpm", "-i$rpm_opt", @l, ($root ? ("--root", $root) : @{[]}));
+	    system("rpm", "-i$rpm_opt", @l, ($options{root} ? ("--root", $options{root}) : @{[]}));
 	    #- Warning : the following message is parsed in urpm::parallel_*
 	    if ($?) {
 		print N("Installation failed"), "\n";
@@ -834,7 +832,7 @@ if ($nok) {
     }
 }
 
-unless ($env || $nolock) {
+unless ($env || $options{nolock}) {
     $urpmi_lock->unlock;
     $rpm_lock->unlock;
 

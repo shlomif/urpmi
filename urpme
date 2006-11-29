@@ -31,7 +31,7 @@ use urpm::select;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our ($root, $test, $parallel, $auto, $matches, $verbose, $force, $noscripts, $repackage, @l, $bundle, $restricted);
+our ($test, $parallel, $auto, $matches, $verbose, $force, $noscripts, $repackage, @l, $bundle, $restricted);
 # Translator: Add here the keys which might be pressed in the "Yes"-case.
 my $yesexpr = N("Yy");
 
@@ -76,7 +76,7 @@ if ($< && !$test) {
 
 #- rurpme checks
 if ($restricted) {
-    urpm::error_restricted($urpm) if $root || $options{usedistrib} || $noscripts || $parallel;
+    urpm::error_restricted($urpm) if $options{root} || $options{usedistrib} || $noscripts || $parallel;
 }
 
 unless ($test) {
@@ -87,7 +87,7 @@ unless ($test) {
 my $_urpmi_lock = urpm::lock::urpmi_db($urpm);
 urpm::media::configure($urpm,
     synthesis => ($parallel ? 'none' : ''),
-    root => $root,
+    root => $options{root},
     parallel => $parallel,
     probe_with => $options{probe_with},
     usedistrib => $options{usedistrib},
@@ -117,7 +117,7 @@ my @toremove = urpm::select::find_packages_to_remove($urpm,
 	    #- Warning : the following message is parsed in urpm::parallel_*
 	    $urpm->{error}(N("removing package %s will break your system", $_));
 	} 0 },
-    root => $root,
+    root => $options{root},
 ) or $urpm->{fatal}(0, N("Nothing to remove"));
 
 my $list = urpm::select::translate_why_removed($urpm, $state, @toremove);
