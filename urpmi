@@ -431,8 +431,7 @@ sub ask_choice {
     my ($urpm, $_db, $_state, $choices) = @_;
     my $n = 1; #- default value.
     my (@l) = map {
-	(scalar $_->fullname)
-	. ($_->summary ? ': ' . $_->summary : '')
+	join(': ', scalar($_->fullname), ($_->summary || ()))
 	. ($_->flag_installed ? ' (to upgrade)' : '')
 	. ($_->flag_upgrade   ? ' (to install)' : '');
     } @$choices;
