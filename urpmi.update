@@ -55,11 +55,11 @@ where <name> is a medium name to update.
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our @toupdates; #- set by urpm::args
+our @cmdline; #- set by urpm::args
 my $urpm = new urpm;
 
 $options{force} = 0;
-$options{noclean} = $options{verbose} = 1;
+$options{noclean} = 1;
 
 urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 
@@ -76,8 +76,8 @@ my @entries = map { $_->{name} } @{$urpm->{media}};
 if ($options{all} && !defined $options{ignore}) {
     @entries == 0 and die N("nothing to update (use urpmi.addmedia to add a media)\n");
 } else {
-    if ($options{all}) { @toupdates = '' } #- select all
-    urpm::media::select_media($urpm, @toupdates);
+    if ($options{all}) { @cmdline = '' } #- select all
+    urpm::media::select_media($urpm, @cmdline);
     my $something_todo = 0;
     foreach (@{$urpm->{media}}) {
 	$options{update} && $_->{update} and $_->{modified} = 1;

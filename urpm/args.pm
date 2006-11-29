@@ -303,7 +303,7 @@ my %options_spec = (
 	    if ($p =~ /^--?(.+)/) { # unrecognized option
 		die "Unknown option: $1\n";
 	    }
-	    push @::toupdates, $p;
+	    push @::cmdline, $p;
 	},
     },
 
@@ -318,13 +318,6 @@ my %options_spec = (
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
 	raw => \$options{raw},
-	'<>' => sub {
-	    my ($p) = @_;
-	    if ($p =~ /^--?(.+)/) { # unrecognized option
-		die "Unknown option: $1\n";
-	    }
-	    push @::cmdline, $p;
-	},
     },
 
     'urpmi.recover' => {
@@ -390,9 +383,16 @@ foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "proxy=s", "prox
 
 foreach my $k ("help|h", "wget", "curl", "prozilla", "proxy=s", "proxy-user=s", "c", "f", "z",
     "limit-rate=s", "no-md5sum", "update", "norebuild!",
-    "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s")
+    "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", '<>')
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
+}
+
+foreach my $k ("a", "c", 'v|verbose', 'q|quiet', '<>') {
+    $options_spec{'urpmi.removemedia'}{$k} = $options_spec{'urpmi.update'}{$k};
+}
+foreach my $k ("y") {
+    $options_spec{'urpmi.removemedia'}{$k} = $options_spec{urpmi}{$k};
 }
 
 foreach my $k ("probe-synthesis", "probe-hdlist")
@@ -403,7 +403,8 @@ foreach my $k ("probe-synthesis", "probe-hdlist")
 }
 
 foreach my $k ("help|h", "version") {
-    $options_spec{'urpmi.recover'}{$k} = $options_spec{urpmi}{$k};
+    $options_spec{'urpmi.removemedia'}{$k} = 
+      $options_spec{'urpmi.recover'}{$k} = $options_spec{urpmi}{$k};
 }
 
 sub parse_cmdline {
