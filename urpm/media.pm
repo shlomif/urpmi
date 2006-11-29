@@ -105,6 +105,7 @@ sub recover_url_from_list {
     #- find . -name "*.rpm" > list
     #- for exportable list file.
     if (my @probe = map { m!^(.*)/\./! || m!^(.*)/[^/]*$! } cat_(statedir_list($urpm, $medium))) {
+	$urpm->{log}("recovering url from " . statedir_list($urpm, $medium));
 	($medium->{url}) = sort { length($a) <=> length($b) } @probe;
 	$urpm->{modified} = 1; #- ensure urpmi.cfg is handled using only partially hidden url + netrc, since file list won't be generated anymore
     }
