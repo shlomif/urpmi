@@ -431,9 +431,10 @@ sub ask_choice {
     my ($urpm, $_db, $_state, $choices) = @_;
     my $n = 1; #- default value.
     my (@l) = map {
-	join(': ', scalar($_->fullname), ($_->summary || ()))
-	. ($_->flag_installed ? ' (to upgrade)' : '')
-	. ($_->flag_upgrade   ? ' (to install)' : '');
+	my ($name, $summary) = (scalar($_->fullname), $_->summary);
+	#-PO: here format is "<package_name>: <summary> (to upgrade)"
+	$_->flag_installed ? ($_->summary ? N("%s: %s (to upgrade)", $name, $summary) : N("%s (to upgrade)", $name)) :
+	  $_->flag_upgrade ? ($_->summary ? N("%s: %s (to install)", $name, $summary) : N("%s (to install)", $name)) : $name;
     } @$choices;
 
     if (@l > 1 && !$urpm->{options}{auto}) {
