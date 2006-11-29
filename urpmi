@@ -329,8 +329,9 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
     # we were run with --no-priority-upgrade (we were just restarted.)
     # so, no need to update the media again
     $auto_update = 0;
-    # temporary hack : if we were using an old version of URPM, file handles
-    # might have leaked, so close them (with some heuristics.)
+    # temporary hack : if we were using an old version of URPM (eg: when
+    # upgrading from 2006), file handles might have leaked, so close them (with
+    # some heuristics.)
     require urpm::sys;
     urpm::sys::fix_fd_leak();
     # also, clean up rpm db log files, because rpm might have been upgraded
