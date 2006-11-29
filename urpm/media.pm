@@ -442,7 +442,7 @@ sub write_config {
 
 #- read urpmi.cfg file as well as necessary synthesis files
 #- options :
-#-	root
+#-	root (deprecated, set directly $urpm->{root})
 #-	cmdline_skiplist
 #-      nocheck_access (used by read_config)
 #-
@@ -479,7 +479,7 @@ sub configure {
 	}
     } else {
 	#- nb: can't have both parallel and root
-	$urpm->{root} = $options{root};
+	$urpm->{root} = $options{root} if $options{root};
     }
 
     $urpm->{root} && ! -c "$urpm->{root}/dev/null"

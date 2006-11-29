@@ -229,7 +229,7 @@ if ($restricted) {
     #- force some options
     foreach (qw(keep verify-rpm)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
-    urpm::error_restricted($urpm) if $options{root} || $options{usedistrib} || $force || $env || $parallel || $synthesis || $auto_update;
+    urpm::error_restricted($urpm) if $urpm->{root} || $options{usedistrib} || $force || $env || $parallel || $synthesis || $auto_update;
     foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options prozilla-options noscripts)) {
 	urpm::error_restricted($urpm) if $urpm->{options}{$_};
     }
@@ -265,7 +265,7 @@ if ($env) {
     }
 }
 
-unless ($bug || $install_src || $env || $urpm->{options}{'allow-force'} || $options{root}) {
+unless ($bug || $install_src || $env || $urpm->{options}{'allow-force'} || $urpm->{root}) {
     require urpm::sys;
     urpm::sys::check_fs_writable() or $urpm->{fatal}(1, N("Error: %s appears to be mounted read-only.
 Use --allow-force to force operation.", $urpm::sys::mountpoint));
@@ -333,7 +333,7 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
     require urpm::sys;
     urpm::sys::fix_fd_leak();
     # also, clean up rpm db log files, because rpm might have been upgraded
-    unlink glob('/var/lib/rpm/__db.*') unless $options{root};
+    unlink glob('/var/lib/rpm/__db.*') unless $urpm->{root};
 }
 
 my $urpmi_lock = !$env && !$options{nolock} && urpm::lock::urpmi_db($urpm);
@@ -346,7 +346,6 @@ my %config_hash = (
     media => $media,
     nocheck_access => $env || $< != 0,
     parallel => $parallel,
-    root => $options{root},
     searchmedia => $searchmedia,
     cmdline_skiplist => $options{skip},
     sortmedia => $sortmedia,
@@ -356,7 +355,7 @@ my %config_hash = (
     probe_with => $options{probe_with},
 );
 
-$options{root} and $urpm->{options}{'priority-upgrade'} = '';
+$urpm->{root} and $urpm->{options}{'priority-upgrade'} = '';
 if ($auto_update && !$bug && !$env) {
     #- For translators : there are several media here
     $urpm->{log}(N("Updating media...\n"));
@@ -381,7 +380,7 @@ urpm::media::configure($urpm, %config_hash);
 
 if ($bug) {
     require urpm::bug_report;
-    urpm::bug_report::rpmdb_to_synthesis($urpm, "$bug/rpmdb.cz", $options{root});
+    urpm::bug_report::rpmdb_to_synthesis($urpm, "$bug/rpmdb.cz", $urpm->{root});
 }
 
 #- get back activated default values of boolean options.
@@ -513,7 +512,7 @@ if (@ask_unselect) {
 my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : urpm::select::removed_packages($urpm, $state);
 if (@ask_remove) {
     {
-	my $db = urpm::db_open_or_die($urpm, $options{root});
+	my $db = urpm::db_open_or_die($urpm, $urpm->{root});
 	urpm::select::find_removed_from_basesystem($urpm, $db, $state, sub {
 	    my $urpm = shift @_;
 	    foreach (@_) {
@@ -681,7 +680,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     #- install source package only (whatever the user is root or not, but use rpm for that).
     if ($install_src) {
 	if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %transaction_sources) {
-	    system("rpm", "-i$rpm_opt", @l, ($options{root} ? ("--root", $options{root}) : @{[]}));
+	    system("rpm", "-i$rpm_opt", @l, ($urpm->{root} ? ("--root", $urpm->{root}) : @{[]}));
 	    #- Warning : the following message is parsed in urpm::parallel_*
 	    if ($?) {
 		print N("Installation failed"), "\n";

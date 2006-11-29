@@ -68,6 +68,8 @@ usage:
 ") . N("  --parallel     - distributed urpmi across machines of alias.
 ") . N("  --use-distrib  - configure urpmi on the fly from a distrib tree.
                    This permit to querying a distro.
+") . N("    --probe-synthesis - use synthesis file.
+") . N("    --probe-hdlist - use hdlist file.
 ") . N("  --wget         - use wget to retrieve distant files.
 ") . N("  --curl         - use curl to retrieve distant files.
 ") . N("  --prozilla     - use prozilla to retrieve distant files.
@@ -151,8 +153,8 @@ urpm::media::configure($urpm,
     sortmedia => $urpm::args::options{sortmedia},
     synthesis => $urpm::args::options{synthesis},
     update => $urpm::args::options{update},
-    root => $urpm::args::options{root},
     parallel => $urpm::args::options{parallel},
+    probe_with => $urpm::args::options{probe_with},
     usedistrib => $urpm::args::options{usedistrib},
     cmdline_skiplist => $urpm::args::options{skip},
 );
@@ -334,9 +336,7 @@ if ($urpm::args::options{list_aliases}) {
 			    $pkg && $pkg->header_filename } @selected))
 		{
 		    my %h = map { $_ => 1 } @headers; @headers = keys %h;
-                    my $hdlist_path = $medium->{virtual}
-                      ? urpm::media::hdlist_or_synthesis_for_virtual_medium($medium)
-                      : urpm::media::statedir_hdlist($urpm, $medium);
+                    my $hdlist_path = urpm::media::any_hdlist($urpm, $medium);
                     if (-s $hdlist_path) {
 			require MDV::Packdrakeng;
 			my $packer = MDV::Packdrakeng->open(archive => $hdlist_path, quiet => 1);

@@ -235,7 +235,6 @@ sub resolve_dependencies {
 #-	callback_notfound
 #-	force
 #-	matches
-#-	root
 #-	test
 sub find_packages_to_remove {
     my ($urpm, $state, $l, %options) = @_;
@@ -244,7 +243,7 @@ sub find_packages_to_remove {
 	#- invoke parallel finder.
 	$urpm->{parallel_handler}->parallel_find_remove($urpm, $state, $l, %options, find_packages_to_remove => 1);
     } else {
-	my $db = urpm::db_open_or_die($urpm, $options{root});
+	my $db = urpm::db_open_or_die($urpm, $urpm->{root});
 	my (@m, @notfound);
 
 	if (!$options{matches}) {

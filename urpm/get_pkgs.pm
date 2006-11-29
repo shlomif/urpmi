@@ -85,7 +85,7 @@ sub selected2list {
 			    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
 				my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
 				if (defined(my $id = $fullname2id{$fullname})) {
-				    if (!/\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $options{root})) {
+				    if (!/\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $urpm->{root})) {
 					$sources{$id} = "$medium->{url}/$filename";
 				    }
 				}
@@ -118,7 +118,7 @@ sub selected2list {
 			unless (exists($list_examined{$fullname})) {
 			    ++$list_warning;
 			    if (defined(my $id = $fullname2id{$fullname})) {
-				if ($fi !~ /\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $options{root})) {
+				if ($fi !~ /\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $urpm->{root})) {
 				    $sources{$id} = "$medium->{url}/" . $fi;
 				}
 			    }

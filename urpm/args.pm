@@ -120,8 +120,8 @@ my %options_spec = (
 	'skip=s' => \$options{skip},
 	'root=s' => sub {
 	    require File::Spec;
-	    $options{root} = File::Spec->rel2abs($_[1]);
-	    if (!-d $options{root}) {
+	    $urpm->{root} = File::Spec->rel2abs($_[1]);
+	    if (!-d $urpm->{root}) {
 		$urpm->{fatal}->(9, N("chroot directory doesn't exist"));
 	    }
 	    $options{nolock} = 1;

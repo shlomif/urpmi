@@ -76,7 +76,7 @@ if ($< && !$test) {
 
 #- rurpme checks
 if ($restricted) {
-    urpm::error_restricted($urpm) if $options{root} || $options{usedistrib} || $noscripts || $parallel;
+    urpm::error_restricted($urpm) if $urpm->{root} || $options{usedistrib} || $noscripts || $parallel;
 }
 
 unless ($test) {
@@ -87,7 +87,7 @@ unless ($test) {
 my $_urpmi_lock = urpm::lock::urpmi_db($urpm);
 urpm::media::configure($urpm,
     synthesis => ($parallel ? 'none' : ''),
-    root => $options{root},
+    root => $urpm->{root},
     parallel => $parallel,
     probe_with => $options{probe_with},
     usedistrib => $options{usedistrib},
@@ -117,7 +117,6 @@ my @toremove = urpm::select::find_packages_to_remove($urpm,
 	    #- Warning : the following message is parsed in urpm::parallel_*
 	    $urpm->{error}(N("removing package %s will break your system", $_));
 	} 0 },
-    root => $options{root},
 ) or $urpm->{fatal}(0, N("Nothing to remove"));
 
 my $list = urpm::select::translate_why_removed($urpm, $state, @toremove);
