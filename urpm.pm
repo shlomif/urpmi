@@ -34,12 +34,6 @@ sub new {
 	depslist   => [],
 	provides   => {},
 
-	config     => "/etc/urpmi/urpmi.cfg",
-	skiplist   => "/etc/urpmi/skip.list",
-	instlist   => "/etc/urpmi/inst.list",
-	private_netrc => "/etc/urpmi/netrc",
-	statedir   => "/var/lib/urpmi",
-	cachedir   => "/var/cache/urpmi",
 	media      => undef,
 	options    => {},
 
@@ -53,8 +47,30 @@ sub new {
 	    ref $self->{ui} && ref $self->{ui}{msg} and $self->{ui}{msg}->($_[1]);
 	},
     }, $class;
+
+    set_files($self, '');
     $self->set_nofatal(1);
     $self;
+}
+
+sub set_files {
+    my ($urpm, $urpmi_root) = @_;
+    my %h = (
+	config        => "$urpmi_root/etc/urpmi/urpmi.cfg",
+	skiplist      => "$urpmi_root/etc/urpmi/skip.list",
+	instlist      => "$urpmi_root/etc/urpmi/inst.list",
+	private_netrc => "$urpmi_root/etc/urpmi/netrc",
+	statedir      => "$urpmi_root/var/lib/urpmi",
+	cachedir      => "$urpmi_root/var/cache/urpmi",
+	root          => $urpmi_root,
+	$urpmi_root ? (urpmi_root => $urpmi_root) : (),
+    );
+    $urpm->{$_} = $h{$_} foreach keys %h;
+
+    require File::Path;
+    File::Path::mkpath([ $h{statedir}, 
+			 (map { "$h{cachedir}/$_" } qw(headers partial rpms)),
+			 dirname($h{config}) ]);
 }
 
 sub protocol_from_url {
