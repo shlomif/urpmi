@@ -432,7 +432,7 @@ sub ask_choice {
     my $n = 1; #- default value.
     my (@l) = map {
 	(scalar $_->fullname)
-	. ($_->summary ? ' : ' . $_->summary : '')
+	. ($_->summary ? ': ' . $_->summary : '')
 	. ($_->flag_installed ? ' (to upgrade)' : '')
 	. ($_->flag_upgrade   ? ' (to install)' : '');
     } @$choices;
