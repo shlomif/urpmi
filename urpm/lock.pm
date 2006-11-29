@@ -73,7 +73,7 @@ sub release_exclusive {
 
 sub unlock {
     my ($lock) = @_;
-    $lock->{fh} or warn "lock $lock->{db_name} already release\n", return;
+    $lock->{fh} or warn "lock $lock->{db_name} already released\n", return;
 
     if ($lock->{locked}) {
 	$lock->{log} and $lock->{log}("unlocking $lock->{db_name} database");
