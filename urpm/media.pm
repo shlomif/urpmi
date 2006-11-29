@@ -482,8 +482,10 @@ sub configure {
 	$urpm->{root} = $options{root} if $options{root};
     }
 
-    $urpm->{root} && ! -c "$urpm->{root}/dev/null"
-	and $urpm->{error}(N("there doesn't seem to be devices in the chroot in \"%s\"", $urpm->{root}));
+    if ($urpm->{root} && ! -c "$urpm->{root}/dev/null") {
+	mkdir "$urpm->{root}/dev";
+	system("/bin/cp", "-a", '/dev/null', "$urpm->{root}/dev");
+    }
 
     if ($options{synthesis}) {
 	if ($options{synthesis} ne 'none') {
