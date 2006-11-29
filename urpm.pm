@@ -70,7 +70,9 @@ sub set_files {
     require File::Path;
     File::Path::mkpath([ $h{statedir}, 
 			 (map { "$h{cachedir}/$_" } qw(headers partial rpms)),
-			 dirname($h{config}) ]);
+			 dirname($h{config}),
+			 "$urpmi_root/var/lib/rpm",
+		     ]);
 }
 
 sub protocol_from_url {
