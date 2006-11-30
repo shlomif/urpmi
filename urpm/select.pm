@@ -313,6 +313,7 @@ sub find_packages_to_remove {
 	    %$state = ();
 	    @m = ();
 
+	    $urpm->{log}(qq(going through installed packages looking for "$match"...));
 	    #- search for packages that match, and perform closure again.
 	    $db->traverse(sub {
 		    my ($p) = @_;
@@ -321,6 +322,7 @@ sub find_packages_to_remove {
 		    $urpm->resolve_rejected($db, $state, $p, removed => 1, bundle => $options{bundle});
 		    push @m, $f;
 		});
+	    $urpm->{log}("...done, packages found [" . join(' ', @m) . "]");
 
 	    if (!$options{force} && @notfound) {
 		if (@m) {
