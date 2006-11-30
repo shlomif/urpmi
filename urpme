@@ -48,6 +48,7 @@ usage:
 ") . N("  --parallel     - distributed urpmi across machines of alias.
 ") . N("  --repackage    - Re-package the files before erasing
 ") . N("  --root         - use another root for rpm removal.
+") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . N("  --noscripts    - do not execute package scriptlet(s).
 ") . N("  --use-distrib  - configure urpme on the fly from a distrib tree, useful
                    to (un)install a chroot with --root option.
@@ -87,7 +88,6 @@ unless ($test) {
 my $_urpmi_lock = urpm::lock::urpmi_db($urpm);
 urpm::media::configure($urpm,
     synthesis => ($parallel ? 'none' : ''),
-    root => $urpm->{root},
     parallel => $parallel,
     probe_with => $options{probe_with},
     usedistrib => $options{usedistrib},
