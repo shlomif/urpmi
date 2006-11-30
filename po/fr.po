@@ -25,13 +25,13 @@ msgstr ""
 "Project-Id-Version: urpmi-fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-29 02:27+0100\n"
-"PO-Revision-Date: 2006-11-29 02:32+0100\n"
+"PO-Revision-Date: 2006-11-30 18:47+0100\n"
 "Last-Translator: Christophe Berthelé <cpjc@free.fr>\n"
 "Language-Team: Français <cooker-i18n@mandrivalinux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2;plural=(n>1);\n"
 
 #: ../gurpmi:30 ../gurpmi2:62
@@ -296,9 +296,8 @@ msgid "   -g [group]     - restrict results to specified group.\n"
 msgstr "   -g [groupe]    - restreindre les résultats au groupe spécifié.\n"
 
 #: ../rpm-find-leaves:19
-#, fuzzy
 msgid "   -f             - output rpm full name (NVRA)\n"
-msgstr "  -g             - afficher les groupes ainsi que les noms.\n"
+msgstr "   -f             - afficher le nom complet du paquetage (NVRA)\n"
 
 #: ../rpm-find-leaves:20
 #, c-format
@@ -322,6 +321,8 @@ msgstr "impossible d'ouvrir la base de donnée rpm"
 #, c-format
 msgid "found %d rpm headers in cache, removing %d obsolete headers"
 msgstr ""
+"il y a %d entêtes de paquetages dans le cache, suppression de %d entêtes "
+"obsolètes"
 
 #: ../urpm.pm:108
 #, c-format
@@ -389,7 +390,7 @@ msgstr "urpmq : impossible de lire le fichier rpm « %s »\n"
 #: ../urpm/args.pm:418
 #, c-format
 msgid "Can't use %s without %s"
-msgstr ""
+msgstr "Impossible d'utiliser %s sans %s"
 
 #: ../urpm/args.pm:432
 msgid "Too many arguments\n"
@@ -1044,10 +1045,9 @@ msgstr ""
 "  --curl         - utiliser curl pour récupérer les fichiers distants.\n"
 
 #: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:75
-#, fuzzy
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr ""
-"  --curl         - utiliser curl pour récupérer les fichiers distants.\n"
+"  --prozilla     - utiliser prozilla pour récupérer les fichiers distants.\n"
 
 #: ../urpmi:124
 msgid "  --curl-options - additional options to pass to curl\n"
@@ -1062,9 +1062,8 @@ msgid "  --wget-options - additional options to pass to wget\n"
 msgstr "  --wget-options - options supplémentaires à passer à wget\n"
 
 #: ../urpmi:127
-#, fuzzy
 msgid "  --prozilla-options - additional options to pass to prozilla\n"
-msgstr "  --curl-options - options supplémentaires à passer à curl\n"
+msgstr "  --prozilla-options - options supplémentaires à passer à prozilla\n"
 
 #: ../urpmi:128 ../urpmi.addmedia:49 ../urpmi.update:36
 msgid "  --limit-rate   - limit the download speed.\n"
@@ -1208,6 +1207,7 @@ msgstr ""
 #: ../urpmi:188
 msgid "Error: can't use --auto-select along with package list.\n"
 msgstr ""
+"Erreur : options --auto-select et la liste de paquetages incompatibles.\n"
 
 #: ../urpmi:195
 msgid ""
@@ -1451,7 +1451,6 @@ msgstr "Redémarrage de urpmi"
 #. Translator: neither the ``with''.
 #. Translator: only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -1463,14 +1462,13 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"Utilisation : urpmi.addmedia [options] <nom> <url> [with <chemin relatif>]\n"
+"Utilisation : urpmi.addmedia [options] <nom> <url>\n"
 "où <url> est parmi :\n"
-"       [file:/]/<chemin> with <nom de fichier relatif de hdlist>\n"
-"       ftp://<utilisateur>:<mot de passe>@<hôte>/<chemin> with <nom de "
-"fichier relatif de hdlist>\n"
-"       ftp://<hôte>/<chemin> with <nom de fichier relatif de hdlist>\n"
-"       http://<hôte>/<chemin> with <nom de fichier relatif de hdlist>\n"
-"       removable://<chemin> with <nom de fichier relatif de hdlist>\n"
+"       [file:/]/<chemin>\n"
+"       ftp://<utilisateur>:<mot de passe>@<hôte>/<chemin>\n"
+"       ftp://<hôte>/<chemin>\n"
+"       http://<hôte>/<chemin>\n"
+"       removable://<chemin>\n"
 "\n"
 "et [options] parmi\n"
 
@@ -2019,445 +2017,3 @@ msgstr "Aucune liste de fichiers n'a pu être trouvée\n"
 #: ../urpmq:417
 msgid "No changelog found\n"
 msgstr "Aucun Changelog trouvé\n"
-
-#~ msgid "unknown protocol defined for %s"
-#~ msgstr "protocole inconnu défini pour %s"
-
-#~ msgid "%s is not available, falling back on %s"
-#~ msgstr "%s n'est pas disponible, utilisation de %s"
-
-#~ msgid "no webfetch found, supported webfetch are: %s\n"
-#~ msgstr ""
-#~ "aucun programme de téléchargement trouvé, ceux supportés sont : %s\n"
-
-#~ msgid "unable to handle protocol: %s"
-#~ msgstr "impossible d'utiliser le protocole : %s"
-
-#~ msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "le média « %s » essaye d'utiliser un hdlist déjà utilisé, média ignoré"
-
-#~ msgid "medium \"%s\" trying to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "le média « %s » essaye d'utiliser une liste déjà utilisée, média ignoré"
-
-#~ msgid "unable to access hdlist file of \"%s\", medium ignored"
-#~ msgstr "impossible d'accéder au fichier hdlist de « %s », média ignoré"
-
-#~ msgid "unable to access list file of \"%s\", medium ignored"
-#~ msgstr "impossible d'accéder au fichier de liste de « %s », média ignoré"
-
-#~ msgid "trying to override existing medium \"%s\", skipping"
-#~ msgstr ""
-#~ "tentative d'outrepasser un média existant « %s », non pris en compte"
-
-#~ msgid ""
-#~ "virtual medium \"%s\" should not have defined hdlist or list file, medium "
-#~ "ignored"
-#~ msgstr ""
-#~ "le média virtuel « %s » ne devrait pas avoir de liste de fichier ou de "
-#~ "hdlist, média ignoré"
-
-#~ msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-#~ msgstr ""
-#~ "le média virtuel « %s » devrait avoir une url en clair, média ignoré"
-
-#~ msgid "unable to find hdlist file for \"%s\", medium ignored"
-#~ msgstr "impossible de trouver le fichier hdlist pour « %s », média ignoré"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "impossible de trouver le fichier liste de « %s », média ignoré"
-
-#~ msgid "inconsistent list file for \"%s\", medium ignored"
-#~ msgstr "fichier de liste incohérent pour « %s », média ignoré"
-
-#~ msgid "unable to inspect list file for \"%s\", medium ignored"
-#~ msgstr ""
-#~ "impossible de consulter le fichier de liste pour « %s », média ignoré"
-
-#~ msgid "too many mount points for removable medium \"%s\""
-#~ msgstr "trop de points de montage pour le média amovible « %s »"
-
-#~ msgid "taking removable device as \"%s\""
-#~ msgstr "périphérique amovible pris en tant que « %s »"
-
-#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-#~ msgstr "Le média « %s » est une image ISO, elle va être montée à la volée"
-
-#~ msgid "using different removable device [%s] for \"%s\""
-#~ msgstr "utilisation de différents périphériques amovibles [%s] pour « %s »"
-
-#~ msgid "unable to retrieve pathname for removable medium \"%s\""
-#~ msgstr "impossible d'accéder au chemin du média amovible « %s »"
-
-#~ msgid "unable to write config file [%s]"
-#~ msgstr "impossible d'écrire le fichier de configuration [%s]"
-
-#~ msgid "wrote config file [%s]"
-#~ msgstr "le fichier de configuration [%s] a été écrit"
-
-#~ msgid "Can't use parallel mode with use-distrib mode"
-#~ msgstr ""
-#~ "Le mode distribué ne peut pas être utilisé avec le mode « use-distrib »"
-
-#~ msgid "unable to parse \"%s\" in file [%s]"
-#~ msgstr "impossible d'analyser « %s » dans le fichier [%s]"
-
-#~ msgid "examining parallel handler in file [%s]"
-#~ msgstr "examen du support distribué dans le fichier [%s]"
-
-#~ msgid "found parallel handler for nodes: %s"
-#~ msgstr "support distribué trouvé pour les noeuds : %s"
-
-#~ msgid "using associated media for parallel mode: %s"
-#~ msgstr "utilisation du média associé pour le mode distribué : %s"
-
-#~ msgid "unable to use parallel option \"%s\""
-#~ msgstr "impossible d'utiliser l'option distribuée « %s »"
-
-#~ msgid "there doesn't seem to be devices in the chroot in \"%s\""
-#~ msgstr ""
-#~ "il semble ne pas y avoir de fichiers spéciaux dans le chroot dans « %s »"
-
-#~ msgid ""
-#~ "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
-#~ "update or --parallel"
-#~ msgstr ""
-#~ "--synthesis ne peut pas être utilisé avec --media, --excludemedia, --"
-#~ "sortmedia, --update ou --parallel"
-
-#~ msgid "examining synthesis file [%s]"
-#~ msgstr "examen de la liste de synthèse [%s]"
-
-#~ msgid "examining hdlist file [%s]"
-#~ msgstr "examen du fichier hdlist [%s]"
-
-#~ msgid "virtual medium \"%s\" is not local, medium ignored"
-#~ msgstr "le média virtuel « %s » n'est pas local, média ignoré"
-
-#~ msgid "Search start: %s end: %s"
-#~ msgstr "Recherche début : %s fin : %s"
-
-#~ msgid "problem reading hdlist or synthesis file of medium \"%s\""
-#~ msgstr ""
-#~ "problème de lecture du fichier hdlist ou de synthèse du média « %s »"
-
-#~ msgid "performing second pass to compute dependencies\n"
-#~ msgstr "seconde exécution pour calculer les dépendances\n"
-
-#~ msgid "skipping package %s"
-#~ msgstr "paquetage %s ignoré"
-
-#~ msgid "would install instead of upgrade package %s"
-#~ msgstr "effectuerait une installation plutôt qu'une mise à jour de %s"
-
-#~ msgid "medium \"%s\" already exists"
-#~ msgstr "le média « %s » existe déjà"
-
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "les médias virtuels doivent être locaux"
-
-#~ msgid "added medium %s"
-#~ msgstr "média %s ajouté"
-
-#~ msgid "unable to access first installation medium"
-#~ msgstr "impossible d'accéder au premier média d'installation"
-
-#~ msgid "this url seems to not contain any distrib"
-#~ msgstr "cette URL ne semble pas contenir de distribution"
-
-#~ msgid "retrieving media.cfg file..."
-#~ msgstr "récupération du fichier media.cfg..."
-
-#~ msgid "unable to parse media.cfg"
-#~ msgstr "impossible d'analyser media.cfg"
-
-#~ msgid "unable to access first installation medium (no hdlists file found)"
-#~ msgstr ""
-#~ "impossible d'accéder au premier média d'installation (pas de fichier "
-#~ "hdlists)"
-
-#~ msgid "trying to select nonexistent medium \"%s\""
-#~ msgstr "essai de sélection du média inexistant « %s »"
-
-#~ msgid "selecting multiple media: %s"
-#~ msgstr "sélection de plusieurs médias : %s"
-
-#~ msgid "removing medium \"%s\""
-#~ msgstr "enlever le média « %s »"
-
-#~ msgid "reconfiguring urpmi for media \"%s\""
-#~ msgstr "reconfiguration de urpmi pour le média « %s »..."
-
-#~ msgid "...reconfiguration failed"
-#~ msgstr "... la reconfiguration a échoué"
-
-#~ msgid "reconfiguration done"
-#~ msgstr "reconfiguration effectuée"
-
-#~ msgid ""
-#~ "unable to access medium \"%s\",\n"
-#~ "this could happen if you mounted manually the directory when creating the "
-#~ "medium."
-#~ msgstr ""
-#~ "Impossible d'accéder au média « %s »,\n"
-#~ "cela peut arriver si vous avez effectué un montage manuel lors de la "
-#~ "création du média."
-
-#~ msgid ""
-#~ "virtual medium \"%s\" should have valid source hdlist or synthesis, "
-#~ "medium ignored"
-#~ msgstr ""
-#~ "le média virtuel « %s » devrait avoir un fichier hdlist ou de synthèse "
-#~ "valide, média ignoré"
-
-#~ msgid "copying description file of \"%s\"..."
-#~ msgstr "copie du fichier description de « %s »..."
-
-#~ msgid "...copying done"
-#~ msgstr "... copie effectuée"
-
-#~ msgid "...copying failed"
-#~ msgstr "... copie impossible"
-
-#~ msgid "copying source hdlist (or synthesis) of \"%s\"..."
-#~ msgstr "copie du hdlist source (ou de synthèse) de « %s »..."
-
-#~ msgid "copy of [%s] failed (file is suspiciously small)"
-#~ msgstr "La copie de [%s] a échoué (le fichier est étrangement petit)"
-
-#~ msgid "computing md5sum of copied source hdlist (or synthesis)"
-#~ msgstr ""
-#~ "calcul de la somme de contrôle MD5 du fichier hdlist copié (ou de "
-#~ "synthèse)"
-
-#~ msgid "copy of [%s] failed (md5sum mismatch)"
-#~ msgstr "la copie de [%s] a échoué (sommes de contrôle MD5 différentes)"
-
-#~ msgid "problem reading synthesis file of medium \"%s\""
-#~ msgstr "problème de lecture du fichier de synthèse du média « %s »"
-
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "lecture des fichiers rpm à partir de [%s]"
-
-#~ msgid "no rpms read"
-#~ msgstr "aucun rpms lu"
-
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "impossible de lire les fichiers rpm à partir de [%s] : %s"
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "pas de fichier rpm trouvé pour [%s]"
-
-#~ msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-#~ msgstr "récupération du hdlist source (ou de synthèse) de « %s »..."
-
-#~ msgid "found probed hdlist (or synthesis) as %s"
-#~ msgstr "hdlist source (ou de synthèse) potentiel trouvé en tant que %s"
-
-#~ msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-#~ msgstr ""
-#~ "calcul de la somme de contrôle MD5 du fichier hdlist (ou de synthèse) "
-#~ "téléchargé"
-
-#~ msgid "...retrieving failed: md5sum mismatch"
-#~ msgstr ""
-#~ "... échec de la récupération : la somme de contrôle MD5 ne correspond pas"
-
-#~ msgid "retrieval of source hdlist (or synthesis) failed"
-#~ msgstr "la récupération du hdlist source (ou de synthèse) a échoué"
-
-#~ msgid "no hdlist file found for medium \"%s\""
-#~ msgstr "pas de fichier hdlist trouvé pour le média « %s »"
-
-#~ msgid "file [%s] already used in the same medium \"%s\""
-#~ msgstr "le fichier [%s] est déjà utilisé sur le même support « %s »"
-
-#~ msgid "unable to parse hdlist file of \"%s\""
-#~ msgstr "impossible d'analyser le fichier hdlist de « %s »"
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "impossible d'écrire le fichier de liste « %s »"
-
-#~ msgid "writing list file for medium \"%s\""
-#~ msgstr "écriture de la liste des fichiers pour le média « %s »"
-
-#~ msgid "nothing written in list file for \"%s\""
-#~ msgstr "rien n'a été écrit dans le fichier de liste pour « %s »"
-
-#~ msgid "examining pubkey file of \"%s\"..."
-#~ msgstr "examen du fichier de la clé publique de « %s »..."
-
-#~ msgid "...imported key %s from pubkey file of \"%s\""
-#~ msgstr ""
-#~ "... clé %s importée à partir du fichier de la clé publique de « %s »"
-
-#~ msgid "unable to import pubkey file of \"%s\""
-#~ msgstr "impossible d'importer le fichier de la clé publique de « %s »"
-
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "lecture des en-têtes du média « %s »"
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "création du fichier hdlist [%s]"
-
-#~ msgid ""
-#~ "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
-#~ "corrupted."
-#~ msgstr ""
-#~ "Impossible de créer le fichier de synthèse pour le média « %s ». Votre "
-#~ "fichier hdlist est peut-être corrompu."
-
-#~ msgid "built hdlist synthesis file for medium \"%s\""
-#~ msgstr "fichier de synthèse créé pour le média « %s »"
-
-#~ msgid "found %d headers in cache"
-#~ msgstr "%d en-têtes trouvés dans le cache"
-
-#~ msgid "removing %d obsolete headers in cache"
-#~ msgstr "destruction de %d en-têtes obsolètes dans le cache"
-
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "Erreur de génération de nom de fichiers : dépendance %d non trouvée"
-
-#~ msgid "Error generating names file: Can't write to file (%s)"
-#~ msgstr ""
-#~ "Erreur de génération de nom de fichiers : impossible d'écrire dans le "
-#~ "fichier (%s)"
-
-#~ msgid "mounting %s"
-#~ msgstr "montage de %s"
-
-#~ msgid "unmounting %s"
-#~ msgstr "démontage de %s"
-
-#~ msgid "No package named %s"
-#~ msgstr "Pas de paquetage nommé %s"
-
-#~ msgid "there are multiple packages with the same rpm filename \"%s\""
-#~ msgstr "il y a plusieurs paquetages avec le même nom de fichier « %s »"
-
-#~ msgid "unable to correctly parse [%s] on value \"%s\""
-#~ msgstr "impossible d'analyser correctement [%s] pour la valeur « %s »"
-
-#~ msgid "(retry as root?)"
-#~ msgstr "(réessayer en root ?)"
-
-#~ msgid ""
-#~ "medium \"%s\" uses an invalid list file:\n"
-#~ "  mirror is probably not up-to-date, trying to use alternate method"
-#~ msgstr ""
-#~ "Le média « %s » utilise un fichier de liste invalide :\n"
-#~ "  le site miroir n'est probablement pas à jour. Essai d'une méthode "
-#~ "alternative en cours..."
-
-#~ msgid "medium \"%s\" does not define any location for rpm files"
-#~ msgstr "Le média « %s » ne définit aucun emplacement pour les fichiers rpm"
-
-#~ msgid "package %s is not found."
-#~ msgstr "paquetage %s non trouvé."
-
-#~ msgid "urpmi database locked"
-#~ msgstr "base de données urpmi verrouillée"
-
-#~ msgid "medium \"%s\" is not selected"
-#~ msgstr "le média « %s » n'est pas sélectionné"
-
-#~ msgid "unable to read rpm file [%s] from medium \"%s\""
-#~ msgstr "impossible de lire le fichier rpm [%s] depuis le média « %s »"
-
-#~ msgid "inconsistent medium \"%s\" marked removable but not really"
-#~ msgstr ""
-#~ "média incohérent « %s », marqué amovible mais sans l'être réellement"
-
-#~ msgid "unable to access medium \"%s\""
-#~ msgstr "impossible d'accéder au média « %s »"
-
-#~ msgid "malformed URL: [%s]"
-#~ msgstr "URL incorrecte : [%s]"
-
-#~ msgid "retrieving rpm files from medium \"%s\"..."
-#~ msgstr "récupération des fichiers rpm à partir de « %s »..."
-
-#~ msgid "[repackaging]"
-#~ msgstr "[regénération]"
-
-#~ msgid "using process %d for executing transaction"
-#~ msgstr "Utilisation du processus %d pour exécuter la transaction"
-
-#~ msgid ""
-#~ "created transaction for installing on %s (remove=%d, install=%d, upgrade=%"
-#~ "d)"
-#~ msgstr ""
-#~ "transaction créée pour l'installation sur %s (remove=%d, install=%d, "
-#~ "upgrade=%d)"
-
-#~ msgid "unable to create transaction"
-#~ msgstr "impossible de créer la transaction"
-
-#~ msgid "removing package %s"
-#~ msgstr "désinstallation du paquetage %s"
-
-#~ msgid "unable to remove package %s"
-#~ msgstr "impossible d'enlever le paquetage %s"
-
-#~ msgid "unable to extract rpm from delta-rpm package %s"
-#~ msgstr "impossible d'extraire le rpm du paquetage delta-rpm %s"
-
-#~ msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-#~ msgstr "ajout du paquetage %s (id=%d, eid=%d, update=%d, file=%s)"
-
-#~ msgid "unable to install package %s"
-#~ msgstr "impossible d'installer le paquetage %s"
-
-#~ msgid "More information on package %s"
-#~ msgstr "Plus d'information sur le paquetage %s"
-
-#~ msgid "due to missing %s"
-#~ msgstr "en raison du manque de %s"
-
-#~ msgid "due to unsatisfied %s"
-#~ msgstr "car %s est non satisfait"
-
-#~ msgid "trying to promote %s"
-#~ msgstr "Tentative de promouvoir %s"
-
-#~ msgid "in order to keep %s"
-#~ msgstr "afin de garder %s"
-
-#~ msgid "in order to install %s"
-#~ msgstr "pour installer le paquetage %s"
-
-#~ msgid "due to conflicts with %s"
-#~ msgstr "en raison de conflit avec %s"
-
-#~ msgid "unrequested"
-#~ msgstr "non demandé"
-
-#~ msgid "Invalid signature (%s)"
-#~ msgstr "Signature incorrecte (%s)"
-
-#~ msgid "Invalid Key ID (%s)"
-#~ msgstr "Identifiant de clef incorrect (%s)"
-
-#~ msgid "Missing signature (%s)"
-#~ msgstr "Signature absente (%s)"
-
-#~ msgid "examining MD5SUM file"
-#~ msgstr "examen du fichier de somme de contrôle MD5"
-
-#~ msgid "warning: md5sum for %s unavailable in MD5SUM file"
-#~ msgstr "attention : le MD5 pour %s est indisponible dans le fichier MD5SUM"
-
-#~ msgid "computing md5sum of existing source hdlist (or synthesis)"
-#~ msgstr ""
-#~ "calcul de la somme de contrôle MD5 du fichier hdlist (ou de synthèse) "
-#~ "existant"
-
-#~ msgid "  --norebuild    - don't try to rebuild hdlist if not readable.\n"
-#~ msgstr ""
-#~ "  --norebuild    - ne pas essayer de recréer le hdlist s'il n'est pas "
-#~ "lisible.\n"
-
-#~ msgid "The following package names were assumed: %s"
-#~ msgstr "Les paquetages suivants ont été trouvés : %s"
