@@ -1,0 +1,95 @@
+#!/usr/bin/perl
+
+use strict;
+use Test::More 'no_plan';
+
+BEGIN { use_ok 'urpm::cfg' }
+BEGIN { use_ok 'urpm::download' }
+
+chdir 't' if -d 't';
+require './helper.pm';
+
+helper::need_root_and_prepare();
+
+my $name = 'various';
+
+my $urpmi_debug_opt = '-q';#'-v --debug';
+my $urpmi_addmedia = "perl -I.. ../urpmi.addmedia $urpmi_debug_opt --urpmi-root $::pwd/root";
+my $urpmi          = "perl -I.. ../urpmi          $urpmi_debug_opt --urpmi-root $::pwd/root --ignoresize";
+my $urpme          = "perl -I.. ../urpme --urpmi-root $::pwd/root";
+
+my @want = `rpm -qpl media/$name/$name-1-1.*.rpm`;
+
+system_("$urpmi_addmedia $name $::pwd/media/$name");
+
+foreach ([ '', \@want ],
+	 [ '--excludedocs', [ grep { !m!^/usr/share/doc! } @want ] ],
+	 [ '--excludepath /usr', [ grep { !m!^/usr! } @want ] ],
+     ) {
+    my ($option, $want) = @$_;
+
+    test_rpm_cmdline($option, $want);
+    test_urpmi_cmdline($option, $want);
+    test_urpmi_through_urpmi_cfg($option, $want);
+}
+
+sub test_rpm_cmdline {
+    my ($option, $want) = @_;
+
+    system_("rpm --root $::pwd/root -i $option media/$name/$name-1-1.*.rpm");
+    check("rpm -i $option", $want);
+    system_("rpm --root $::pwd/root -e $name");
+    check('rpm -e', []);
+}
+sub test_urpmi_cmdline {
+    my ($option, $want) = @_;
+
+    system_("$urpmi $option $name");
+    check("urpmi $option", $want);
+    system_("$urpme $name");
+    check('rpm -e', []);
+}
+sub test_urpmi_through_urpmi_cfg {
+    my ($option, $want) = @_;
+
+    set_urpmi_cfg_global_options(cmdline2hash($option));
+    system_("$urpmi $name");
+    check("urpmi ($option in urpmi.cfg)", $want);
+    system_("$urpme $name");
+    check('rpm -e', []);
+    set_urpmi_cfg_global_options({});
+}
+
+sub check {
+    my ($kind, $want) = @_;
+    my @got_all = filter_urpmi_rpm_files(`find root  | sed 's/^root//'`);
+    my @got_no_dirs = filter_urpmi_rpm_files(`find root ! -type d | sed 's/^root//'`);
+    is(join('', difference2(\@got_no_dirs, $want)), '', "too many files ($kind)");
+    is(join('', difference2($want, \@got_all)), '', "missing files ($kind)");
+}
+
+sub cmdline2hash {
+    my ($option) = @_;
+    $option =~ /--(\S+)\s*(\S*)/ ? { $1 => $2 } : {};
+}
+
+sub set_urpmi_cfg_global_options {
+    my ($options) = @_;
+    my $f = "root/etc/urpmi/urpmi.cfg";
+    my $config = urpm::cfg::load_config($f);
+    $config->{global} = $options;
+    ok(urpm::cfg::dump_config($f, $config), 'config written');
+}
+
+sub filter_urpmi_rpm_files {
+    grep { !m!^(/dev/null|/etc/urpmi|/etc/rpm/macros|/var/(cache|lib)/(urpmi|rpm))! } @_;
+}
+
+sub system_ {
+    my ($cmd) = @_;
+    system($cmd);
+    ok($? == 0, $cmd);
+}
+sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
+
+END { system('rm -rf root') }
