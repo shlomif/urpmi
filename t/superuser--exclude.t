@@ -1,26 +1,20 @@
 #!/usr/bin/perl
 
 use strict;
+use lib '.', 't';
+use helper;
 use Test::More 'no_plan';
 
 BEGIN { use_ok 'urpm::cfg' }
 BEGIN { use_ok 'urpm::download' }
 
-chdir 't' if -d 't';
-require './helper.pm';
-
-helper::need_root_and_prepare();
+need_root_and_prepare();
 
 my $name = 'various';
 
-my $urpmi_debug_opt = '-q';#'-v --debug';
-my $urpmi_addmedia = "perl -I.. ../urpmi.addmedia $urpmi_debug_opt --urpmi-root $::pwd/root";
-my $urpmi          = "perl -I.. ../urpmi          $urpmi_debug_opt --urpmi-root $::pwd/root --ignoresize";
-my $urpme          = "perl -I.. ../urpme --urpmi-root $::pwd/root";
-
 my @want = `rpm -qpl media/$name/$name-1-1.*.rpm`;
 
-system_("$urpmi_addmedia $name $::pwd/media/$name");
+urpmi_addmedia("$name $::pwd/media/$name");
 
 foreach ([ '', \@want ],
 	 [ '--excludedocs', [ grep { !m!^/usr/share/doc! } @want ] ],
@@ -44,18 +38,18 @@ sub test_rpm_cmdline {
 sub test_urpmi_cmdline {
     my ($option, $want) = @_;
 
-    system_("$urpmi $option $name");
+    urpmi("$option $name");
     check("urpmi $option", $want);
-    system_("$urpme $name");
+    urpme($name);
     check('rpm -e', []);
 }
 sub test_urpmi_through_urpmi_cfg {
     my ($option, $want) = @_;
 
     set_urpmi_cfg_global_options(cmdline2hash($option));
-    system_("$urpmi $name");
+    urpmi($name);
     check("urpmi ($option in urpmi.cfg)", $want);
-    system_("$urpme $name");
+    urpme($name);
     check('rpm -e', []);
     set_urpmi_cfg_global_options({});
 }
@@ -85,11 +79,4 @@ sub filter_urpmi_rpm_files {
     grep { !m!^(/dev/null|/etc/urpmi|/etc/rpm/macros|/var/(cache|lib)/(urpmi|rpm))! } @_;
 }
 
-sub system_ {
-    my ($cmd) = @_;
-    system($cmd);
-    ok($? == 0, $cmd);
-}
 sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
-
-END { system('rm -rf root') }
