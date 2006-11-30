@@ -62,10 +62,10 @@ usage:
 
 @ARGV or usage();
 my @origARGV = @ARGV;
-urpm::args::parse_cmdline() or exit(1);
+my $urpm = new urpm;
+urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 @l = @ARGV;
 
-my $urpm = new urpm;
 my $state = {};
 
 #- remove verbose if not asked.
