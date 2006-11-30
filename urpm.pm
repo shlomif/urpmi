@@ -87,6 +87,8 @@ sub file_from_local_url {
 sub db_open_or_die {
     my ($urpm, $root, $b_write_perm) = @_;
 
+    $urpm->{debug}("opening rpmdb (root=$root, write=$b_write_perm)");
+
     my $db = URPM::DB::open($root, $b_write_perm || 0)
       or $urpm->{fatal}(9, N("unable to open rpmdb"));
 
