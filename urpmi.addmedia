@@ -118,7 +118,7 @@ if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to add media"));
 }
 if (!-e $urpm->{config}) {
-    $urpm->{error}(N("Will create config file [%s]", $urpm->{config}));
+    $urpm->{log}(N("creating config file [%s]", $urpm->{config}));
     open my $_f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
 }
 my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive');
