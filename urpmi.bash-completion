@@ -108,7 +108,7 @@ _urpmi()
 			COMPREPLY=( $( compgen -W '${COMPREPLY[@]} --root \
 				--use-distrib --env --allow-nodeps \
 				--allow-force --force --noscripts \
-				--auto-update --keep --verify-rpm --norebuild' \
+				--auto-update --keep --verify-rpm' \
 				-- $cur ) )
 			fi
 	else
@@ -227,7 +227,7 @@ _urpmf()
 		# return list of available options
 		COMPREPLY=( $( compgen -W '-i -f -e -a -o -m --help --update \
 			--media --excludemedia --sortmedia --synthesis \
-			--verbose --quiet --uniq --all --name --group --size \
+			--verbose --quiet --uniq --name --group --size \
 			--epoch --summary --description --sourcerpm --packager\
 			--buildhost --url --provides --requires --files \
 			--conflicts --obsoletes --env ' -- $cur ) )
