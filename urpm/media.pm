@@ -239,6 +239,21 @@ sub check_existing_medium {
     }
 }
 
+sub _migrate__with_hdlist {
+    my ($medium) = @_;
+
+    grep { $_ eq '..' } split('/', $medium->{with_hdlist}) and return;
+
+    #- try to migrate to media_info_dir
+    my $b = basename($medium->{with_hdlist});
+    if ($b eq ($medium->{synthesis} ? 'synthesis.hdlist.cz' : 'hdlist.cz')) {
+	$medium->{media_info_dir} = dirname(delete $medium->{with_hdlist});
+	1;
+    } else {
+	0;
+    }
+}
+
 #- probe medium to be used, take old medium into account too.
 sub add_existing_medium {
     my ($urpm, $medium, $b_nocheck_access, $b_auto_correct) = @_;
@@ -248,12 +263,7 @@ sub add_existing_medium {
 	return;
     }
 
-    if ($medium->{with_hdlist} && ! grep { $_ eq '..' } split('/', $medium->{with_hdlist})) {
-	#- try to migrate to media_info_dir
-	my $b = basename($medium->{with_hdlist});
-	if ($b eq ($medium->{synthesis} ? 'synthesis.hdlist.cz' : 'hdlist.cz')) {
-	    $medium->{media_info_dir} = dirname(delete $medium->{with_hdlist});
-	}
+    if ($medium->{with_hdlist} && _migrate__with_hdlist($medium)) {
 	$urpm->{modified} = 1;
     }
 
@@ -667,7 +677,15 @@ sub add_medium {
 	probe_removable_device($urpm, $medium);
     }
 
-    $with_hdlist and $medium->{with_hdlist} = $with_hdlist;
+    if ($with_hdlist) {
+	if ($with_hdlist =~ m!(^|/)synthesis\.!) {
+	    $medium->{synthesis} = 1;
+	} else {
+	    $medium->{hdlist} = _hdlist($medium);
+	}
+	$medium->{with_hdlist} = $with_hdlist;
+	_migrate__with_hdlist($medium);
+    }
 
     #- local media have priority, other are added at the end.
     my $inserted;
@@ -879,6 +897,7 @@ sub _probe_with_try_list {
 
     foreach my $media_info_dir (@media_info_dirs) {
 	if ($probe->($want_synthesis, $media_info_dir)) {
+	    return 1 if $probe_with;
 	    last;
 	}
     }
