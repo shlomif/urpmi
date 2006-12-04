@@ -29,7 +29,7 @@ sub httpd_port { 6969 }
 sub start_httpd() {
     $server_pid = fork();
     if ($server_pid == 0) {
-	exec './simple-httpd', $pwd, "$pwd/tmp", httpd_port();
+	exec './simple-httpd', $::pwd, "$::pwd/tmp", httpd_port();
 	exit 1;
     }
     'http://localhost:' . httpd_port();
