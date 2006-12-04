@@ -113,6 +113,7 @@ usage:
                    dependencies checking and integrity.
 ") . N("  --parallel     - distributed urpmi across machines of alias.
 ") . N("  --root         - use another root for rpm installation.
+") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . N("  --use-distrib  - configure urpmi on the fly from a distrib tree, useful
                    to install a chroot with --root option.
 ") . N("    --probe-synthesis - use synthesis file.
@@ -151,8 +152,8 @@ usage:
 ") . N("  -a             - select all matches on command line.
 ") . N("  -p             - allow search in provides to find package.
 ") . N("  -P             - do not search in provides to find package.
-") . N("  -q             - quiet mode.
-") . N("  -v             - verbose mode.
+") . N("  --quiet, -q    - quiet mode.
+") . N("  --verbose, -v  - verbose mode.
 ") . "\n" . N("  names or rpm files given on command line will be installed.
 ");
     exit(0);
@@ -413,7 +414,8 @@ if (@names) {
     ) || $force or exit 1;
 
     if (%requested) {
-	$urpm->{log}("found package(s): " . join(" ", map { scalar $urpm->{depslist}[$_]->fullname } keys %requested));
+	$urpm->{log}("found package(s): " . join(" ", map { scalar $urpm->{depslist}[$_]->fullname } 
+						      map { split /\|/ } keys %requested));
     }
 }
 if (@src_names) {
@@ -632,7 +634,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
 
     #- put a blank line to separate with previous transaction or user question.
-    print "\n";
+    print "\n" if $verbose >= 0;
 
     #- prepare transaction...
     urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
@@ -711,13 +713,15 @@ foreach my $set (@{$state->{transaction} || []}) {
 		excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
 	    );
 	} else {
-	    my @packnames = (values %transaction_sources_install, values %transaction_sources);
-	    (my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
-	    if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
-		#- there's a common prefix, simplify message
-		print N("installing %s from %s", join(' ', map { s!.*/!!; $_ } @packnames), $common_prefix), "\n";
-	    } else {
-		print N("installing %s", join "\n", @packnames), "\n";
+	    if ($verbose >= 0) {
+		my @packnames = (values %transaction_sources_install, values %transaction_sources);
+		(my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
+		if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
+		    #- there's a common prefix, simplify message
+		    print N("installing %s from %s", join(' ', map { s!.*/!!; $_ } @packnames), $common_prefix), "\n";
+		} else {
+		    print N("installing %s", join "\n", @packnames), "\n";
+		}
 	    }
 	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
 	    @$to_remove and print N("removing %s", "@$to_remove"), "\n";
