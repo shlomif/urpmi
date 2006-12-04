@@ -116,7 +116,7 @@ sub recover_url_from_list {
 #- options :
 #-    - nocheck_access : don't check presence of hdlist and other files
 sub read_config {
-    my ($urpm, $b_nocheck_access) = @_;
+    my ($urpm, $b_nocheck_access, $b_auto_correct) = @_;
     return if $urpm->{media}; #- media already loaded
     $urpm->{media} = [];
     my $config = urpm::cfg::load_config($urpm->{config})
@@ -145,7 +145,7 @@ sub read_config {
 	    $medium->{url} or $urpm->{error}("unable to find url in list file $medium->{name}, medium ignored");
 	}
 
-	add_existing_medium($urpm, $medium, $b_nocheck_access);
+	add_existing_medium($urpm, $medium, $b_nocheck_access, $b_auto_correct);
     }
 
     eval { require urpm::ldap; urpm::ldap::load_ldap_media($urpm) };
@@ -168,7 +168,7 @@ sub read_config {
 
 #- if invalid, set {ignore}
 sub check_existing_medium {
-    my ($urpm, $medium, $b_nocheck_access) = @_;
+    my ($urpm, $medium, $b_nocheck_access, $b_auto_correct) = @_;
 
     if ($medium->{virtual}) {
 	#- a virtual medium needs to have an url available without using a list file.
@@ -205,13 +205,23 @@ sub check_existing_medium {
     if (!$b_nocheck_access && !$medium->{ignore}) {
 	if ($medium->{virtual} && -r hdlist_or_synthesis_for_virtual_medium($medium, 's')) {}
 	elsif (-r statedir_hdlist_or_synthesis($urpm, $medium, 's')) {}
-	else {
+	elsif (-r statedir_hdlist($urpm, $medium)) {
+	    $b_auto_correct and delete $urpm->{synthesis};
+	    $urpm->{error}(N("\"synthesis\" should not be set (medium \"%s\")", $medium->{name}));
+	} elsif (-r statedir_synthesis($urpm, $medium)) {
+	    $medium->{synthesis} = 1;
+	    $urpm->{error}(N("\"synthesis\" should be set (medium \"%s\")", $medium->{name}));
+	} else {
 	    $medium->{ignore} = 1;
 	    $urpm->{error}(N("unable to access hdlist file of \"%s\", medium ignored", $medium->{name}));
 	}
 	if ($medium->{list} && -r statedir_list($urpm, $medium)) {}
-	elsif ($medium->{url}) {}
-	else {
+	elsif ($medium->{url}) { 
+	    if ($medium->{list}) {
+		$b_auto_correct and delete $medium->{list}; #- remove buggy list
+		$urpm->{error}(N("unable to access list file of \"%s\"", $medium->{name}));
+	    }
+	} else {
 	    $medium->{ignore} = 1;
 	    $urpm->{error}(N("unable to access list file of \"%s\", medium ignored", $medium->{name}));
 	}
@@ -231,7 +241,7 @@ sub check_existing_medium {
 
 #- probe medium to be used, take old medium into account too.
 sub add_existing_medium {
-    my ($urpm, $medium, $b_nocheck_access) = @_;
+    my ($urpm, $medium, $b_nocheck_access, $b_auto_correct) = @_;
 
     if (name2medium($urpm, $medium->{name})) {
 	$urpm->{error}(N("trying to override existing medium \"%s\", skipping", $medium->{name}));
@@ -247,7 +257,7 @@ sub add_existing_medium {
 	$urpm->{modified} = 1;
     }
 
-    check_existing_medium($urpm, $medium, $b_nocheck_access);
+    check_existing_medium($urpm, $medium, $b_nocheck_access, $b_auto_correct);
 
     #- probe removable device.
     probe_removable_device($urpm, $medium);
@@ -454,8 +464,8 @@ sub write_config {
 #-
 #-	synthesis (use this synthesis file, and only this synthesis file)
 #-
-#-	usedistrib (otherwise uses urpmi.cfg)
 #-	parallel
+#-	usedistrib (otherwise uses urpmi.cfg)
 #-	  media
 #-	  excludemedia
 #-	  sortmedia
@@ -501,7 +511,7 @@ sub configure {
             $urpm->{media} = [];
             add_distrib_media($urpm, "Virtual", $options{usedistrib}, %options, 'virtual' => 1);
         } else {
-	    read_config($urpm, $options{nocheck_access});
+	    read_config($urpm, $options{nocheck_access}, 1);
 	    if (!$options{media} && $urpm->{options}{'default-media'}) {
 		$options{media} = $urpm->{options}{'default-media'};
 	    }
@@ -869,7 +879,7 @@ sub _probe_with_try_list {
 
     foreach my $media_info_dir (@media_info_dirs) {
 	if ($probe->($want_synthesis, $media_info_dir)) {
-	    return 1 if $probe_with;
+	    last;
 	}
     }
     if ($medium->{media_info_dir}) {
@@ -1168,7 +1178,7 @@ sub _get_list_or_pubkey__remote {
 	}
     }
     if (!$found) {
-	urpm::download::sync($urpm, $medium, [reduce_pathname("$medium->{url}/$name")], quiet => 1)
+	urpm::download::sync($urpm, $medium, [_hdlist_dir($medium) .  "/$name"], quiet => 1)
 	    or unlink "$urpm->{cachedir}/partial/$name";
     }
 }
@@ -1640,7 +1650,11 @@ sub _update_medium_first_pass {
 	    #- use newly created file.
 	    urpm::util::move(cachedir_with_hdlist($urpm, $medium, 's'),
 			     statedir_hdlist_or_synthesis($urpm, $medium, 's'));
-	    delete $medium->{list};
+
+	    if ($medium->{list}) {
+		delete $medium->{list};
+		$urpm->{modified} = 1;
+	    }
 	}
 
 	#- make sure to rebuild base files and clear medium modified state.
