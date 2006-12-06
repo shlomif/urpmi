@@ -37,10 +37,18 @@ sub add_param_closure {
     return sub { $::qf .= join $::separator, '', map { "%$_" } @tags };
 }
 
+# debug code to display a nice message when exiting, 
+# to ensure f*cking code (eg: Sys::Syslog) won't exit and break graphical interfaces
+END { $::debug_exit and print STDERR "EXITING (pid=$$)\n" }
+
 # options specifications for Getopt::Long
 
 my %options_spec_all = (
-	'debug' => sub { $urpm->{debug} = sub { print STDERR "$_[0]\n" } },
+	'debug' => sub { 
+	    $::debug_exit = 1; 
+	    $urpm->{debug} = sub { print STDERR "$_[0]\n" };
+	},
+	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
 );
 
 my %options_spec = (
@@ -142,8 +150,8 @@ my %options_spec = (
 	'no-md5sum' => \$::nomd5sum,
 	'force-key' => \$::forcekey,
 	a => \$::all,
-	q => sub { --$::verbose; $::rpm_opt = '' },
-	v => sub { ++$::verbose; $::rpm_opt = 'vh' },
+	'q|quiet' => sub { --$::verbose; $::rpm_opt = '' },
+	'v|verbose' => sub { ++$::verbose; $::rpm_opt = 'vh' },
 	p => sub { $::use_provides = 1 },
 	P => sub { $::use_provides = 0 },
 	y => sub { $urpm->{options}{fuzzy} = 1 },
@@ -152,7 +160,7 @@ my %options_spec = (
 
     urpme => {
 	auto => \$::auto,
-	v => \$::verbose,
+	'v|verbose' => \$::verbose,
 	a => \$::matches,
 	noscripts => \$::noscripts,
 	repackage => \$::repackage,
@@ -249,7 +257,7 @@ my %options_spec = (
 	R => sub { ++$options{what_requires} },
 	y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
 	Y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = $options{caseinsensitive} = 1 },
-	v => \$options{verbose},
+	'verbose|v' => \$options{verbose},
 	i => \$options{info},
 	l => \$options{list_files},
 	r => sub {
