@@ -6,6 +6,7 @@ our @EXPORT = qw(need_root_and_prepare
 		 start_httpd httpd_port
 		 urpmi_addmedia urpmi_removemedia
 		 urpmi_cmd urpmi urpme
+		 urpmi_cfg set_urpmi_cfg_global_options
 		 system_
 	    );
 
@@ -60,6 +61,16 @@ sub urpmi {
 sub urpme {
     my ($para) = @_;
     system_("perl -I.. ../urpme --urpmi-root $::pwd/root $para");
+}
+sub urpmi_cfg() {
+    "$::pwd/root/etc/urpmi/urpmi.cfg";
+}
+sub set_urpmi_cfg_global_options {
+    my ($options) = @_;
+    require_ok('urpm::cfg');
+    ok(my $config = urpm::cfg::load_config(urpmi_cfg()));
+    $config->{global} = $options;
+    ok(urpm::cfg::dump_config(urpmi_cfg(), $config), 'set_urpmi_cfg_global_options');
 }
 
 sub system_ {
