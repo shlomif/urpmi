@@ -4,7 +4,7 @@ use Test::More;
 use base 'Exporter';
 our @EXPORT = qw(need_root_and_prepare 
 		 start_httpd httpd_port
-		 urpmi_addmedia urpmi_removemedia
+		 urpmi_addmedia urpmi_removemedia urpmi_update
 		 urpmi_cmd urpmi urpme
 		 urpmi_cfg set_urpmi_cfg_global_options
 		 system_
@@ -50,6 +50,10 @@ sub urpmi_addmedia {
 sub urpmi_removemedia {
     my ($para) = @_;
     system_("perl -I.. ../urpmi.removemedia $urpmi_debug_opt --urpmi-root $::pwd/root $para");
+}
+sub urpmi_update {
+    my ($para) = @_;
+    system_("perl -I.. ../urpmi.update $urpmi_debug_opt --urpmi-root $::pwd/root $para");
 }
 sub urpmi_cmd() {
     "perl -I.. ../urpmi $urpmi_debug_opt --urpmi-root $::pwd/root --ignoresize";
