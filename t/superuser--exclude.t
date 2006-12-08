@@ -67,13 +67,6 @@ sub cmdline2hash {
     $option =~ /--(\S+)\s*(\S*)/ ? { $1 => $2 } : {};
 }
 
-sub set_urpmi_cfg_global_options {
-    my ($options) = @_;
-    my $f = "root/etc/urpmi/urpmi.cfg";
-    my $config = urpm::cfg::load_config($f);
-    $config->{global} = $options;
-    ok(urpm::cfg::dump_config($f, $config), 'config written');
-}
 
 sub filter_urpmi_rpm_files {
     grep { !m!^(/dev/null|/etc/urpmi|/etc/rpm/macros|/var/(cache|lib)/(urpmi|rpm))! } @_;
