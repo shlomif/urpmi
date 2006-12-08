@@ -172,12 +172,11 @@ sub check_existing_medium {
 
     if ($medium->{virtual}) {
 	#- a virtual medium needs to have an url available without using a list file.
-	if ($medium->{hdlist} || $medium->{list}) {
+	if ($medium->{list}) {
 	    $medium->{ignore} = 1;
 	    $urpm->{error}(N("virtual medium \"%s\" should not have defined hdlist or list file, medium ignored",
 			     $medium->{name}));
-	}
-	unless ($medium->{url}) {
+	} elsif (!$medium->{url}) {
 	    $medium->{ignore} = 1;
 	    $urpm->{error}(N("virtual medium \"%s\" should have a clear url, medium ignored",
 			     $medium->{name}));
@@ -228,7 +227,7 @@ sub check_existing_medium {
     }
 
     foreach my $field ('hdlist', 'list') {
-	$medium->{$field} or next;
+	$medium->{$field} && $medium->{$field} ne '1' or next;
 	if (grep { $_->{$field} eq $medium->{$field} } @{$urpm->{media}}) {
 	    $medium->{ignore} = 1;
 	    $urpm->{error}(
@@ -278,6 +277,12 @@ sub add_existing_medium {
     push @{$urpm->{media}}, $medium;
 }
 
+sub _set_synthesis_or_hdlist {
+    my ($medium, $want_synthesis) = @_;
+
+    $medium->{$want_synthesis ? 'synthesis' : 'hdlist'} = 1;
+}
+
 sub file_from_file_url {
     my ($url) = @_;
     $url =~ m!^(?:file:/)?(/.*)! && $1;
@@ -317,7 +322,9 @@ sub hdlist_or_synthesis_for_virtual_medium {
 
 sub _hdlist {
     my ($medium) = @_;
-    $medium->{hdlist} || $medium->{name} && "hdlist.$medium->{name}.cz";
+    $medium->{hdlist} && $medium->{hdlist} ne '1'
+      ? $medium->{hdlist} 
+      : $medium->{name} && "hdlist.$medium->{name}.cz";
 }
 
 sub statedir_hdlist_or_synthesis {
@@ -678,11 +685,7 @@ sub add_medium {
     }
 
     if ($with_hdlist) {
-	if ($with_hdlist =~ m!(^|/)synthesis\.!) {
-	    $medium->{synthesis} = 1;
-	} else {
-	    $medium->{hdlist} = _hdlist($medium);
-	}
+	_set_synthesis_or_hdlist($medium, $with_hdlist =~ m!(^|/)synthesis\.!);
 	$medium->{with_hdlist} = $with_hdlist;
 	_migrate__with_hdlist($medium);
     }
@@ -790,7 +793,6 @@ sub add_distrib_media {
 	    ) . '/' . $distribconf->getpath($media, $options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist'),
 	    index_name => $name ? undef : 0,
 	    %options,
-	    synthesis => $options{probe_with} eq 'synthesis',
 	    # the following override %options
 	    update => $is_update_media ? 1 : undef,
 	);
@@ -885,8 +887,7 @@ sub _probe_with_try_list {
 
 	$medium->{media_info_dir} = $media_info_dir;
 	if ($probe_with) {
-	    $medium->{synthesis} = 1 if $synthesis;
-	    $medium->{hdlist} = _hdlist($medium) if !$synthesis;
+	    _set_synthesis_or_hdlist($medium, $synthesis);
 	}
 	1;
     };
@@ -906,8 +907,7 @@ sub _probe_with_try_list {
 	if (file_from_file_url($medium->{url}) &&
 	      !$probe->(!$want_synthesis, $medium->{media_info_dir})) {
 	    #- sad, only one available.
-	    $medium->{synthesis} = 1 if $want_synthesis;
-	    $medium->{hdlist} = _hdlist($medium) if !$want_synthesis;
+	    _set_synthesis_or_hdlist($medium, $want_synthesis);
 	}
 	1;
     } else {
@@ -1782,10 +1782,11 @@ sub update_media {
     $urpm->{media} or return; # verify that configuration has been read
 
     $options{nopubkey} ||= $urpm->{options}{nopubkey};
-    if (!$options{nopubkey}) {
+    if (!$options{nopubkey} && !$urpm->{keys}) {
 	#- get gpg-pubkey signature.
 	my $_rpm_lock = urpm::lock::rpm_db($urpm);
-	$urpm->{keys} or $urpm->parse_pubkeys(root => $urpm->{root});
+	$urpm->{log}(qq(getting "gpg-pubkey"s from rpmdb));
+	$urpm->parse_pubkeys(root => $urpm->{root});
     }
 
     #- examine each medium to see if one of them needs to be updated.
