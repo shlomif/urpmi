@@ -5,7 +5,7 @@ use base 'Exporter';
 our @EXPORT = qw(need_root_and_prepare 
 		 start_httpd httpd_port
 		 urpmi_addmedia urpmi_removemedia urpmi_update
-		 urpmi_cmd urpmi urpme
+		 urpm_cmd urpmi_cmd urpmi urpme
 		 urpmi_cfg set_urpmi_cfg_global_options
 		 system_
 	    );
@@ -43,28 +43,31 @@ chomp($::pwd = `pwd`);
 my $urpmi_debug_opt = '-q';
 #$urpmi_debug_opt = '-v --debug';
 
+sub urpm_cmd {
+    my ($prog) = @_;
+    "perl -I.. ../$prog --urpmi-root $::pwd/root";
+}
+sub urpmi_cmd() { urpm_cmd('urpmi') }
+
 sub urpmi_addmedia {
     my ($para) = @_;
-    system_("perl -I.. ../urpmi.addmedia $urpmi_debug_opt --urpmi-root $::pwd/root $para");
+    system_(urpm_cmd('urpmi.addmedia') . " $urpmi_debug_opt $para");
 }
 sub urpmi_removemedia {
     my ($para) = @_;
-    system_("perl -I.. ../urpmi.removemedia $urpmi_debug_opt --urpmi-root $::pwd/root $para");
+    system_(urpm_cmd('urpmi.removemedia') . " $urpmi_debug_opt $para");
 }
 sub urpmi_update {
     my ($para) = @_;
-    system_("perl -I.. ../urpmi.update $urpmi_debug_opt --urpmi-root $::pwd/root $para");
-}
-sub urpmi_cmd() {
-    "perl -I.. ../urpmi $urpmi_debug_opt --urpmi-root $::pwd/root --ignoresize";
+    system_(urpm_cmd('urpmi.update') . " $urpmi_debug_opt $para");
 }
 sub urpmi {
     my ($para) = @_;
-    system_(urpmi_cmd() . " $para");
+    system_(urpmi_cmd() . " --ignoresize $urpmi_debug_opt $para");
 }
 sub urpme {
     my ($para) = @_;
-    system_("perl -I.. ../urpme --urpmi-root $::pwd/root $para");
+    system_(urpm_cmd('urpme') . " $para");
 }
 sub urpmi_cfg() {
     "$::pwd/root/etc/urpmi/urpmi.cfg";
