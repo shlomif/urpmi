@@ -147,6 +147,11 @@ will attempt to add all media it finds. By default, it won't add media
 containing source rpms, or media corresponding to supplementary CD-ROMs
 on distributions.
 
+=item B<--urpmi-root> I<directory>
+
+Use the file system tree rooted for urpmi database and rpm install. Contrary
+to B<--root>, the urpmi configuration comes from the rooted tree.
+
 =item B<--from> I<url>
 
 Use specified URL for list of mirrors. The default is taken from the file
@@ -175,9 +180,9 @@ Don't import pubkey of added media.
 
 Clean headers cache directory in F</var/cache/urpmi/headers>.
 
-=item B<-f>
+=item B<-f -f>
 
-Force rebuild of base files, or of hdlist files when specified twice.
+Force rebuild of hdlist files.
 
 =back
 
