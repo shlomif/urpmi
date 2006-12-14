@@ -11,13 +11,13 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2006-11-29 02:27+0100\n"
-"PO-Revision-Date: 2006-09-11 00:02+0300\n"
+"PO-Revision-Date: 2006-12-14 03:33+0200\n"
 "Last-Translator: Pavel Maryanov <acid_jack@ukr.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../gurpmi:30 ../gurpmi2:62
@@ -264,20 +264,19 @@ msgstr ""
 
 #: ../rpm-find-leaves:16
 msgid "   -h|--help      - print this help message.\n"
-msgstr "   -h|--help      - вывод этого справочного сообщения.\n"
+msgstr "   -h|--help      - вывести это справочное сообщение\n"
 
 #: ../rpm-find-leaves:17
 msgid "   --root <path>  - use the given root instead of /\n"
-msgstr "   --root <path>  - использовать данный корень вместо /\n"
+msgstr "   --root <путь>  - использовать данный корень вместо /\n"
 
 #: ../rpm-find-leaves:18
 msgid "   -g [group]     - restrict results to specified group.\n"
-msgstr "   -g [group]     - ограничение результатов до данной группы.\n"
+msgstr "   -g [группа]    - ограничить результаты до указанной группы.\n"
 
 #: ../rpm-find-leaves:19
-#, fuzzy
 msgid "   -f             - output rpm full name (NVRA)\n"
-msgstr "  -g             - вывод групп с именами.\n"
+msgstr "   -f             - выводить полное имя rpm (NVRA)\n"
 
 #: ../rpm-find-leaves:20
 #, c-format
@@ -295,12 +294,12 @@ msgstr "Запуск urpmi в ограниченном режиме..."
 
 #: ../urpm.pm:73
 msgid "unable to open rpmdb"
-msgstr "невозможно открыть rpmdb"
+msgstr "невозможно открыть базу данных RPM"
 
 #: ../urpm.pm:92
 #, c-format
 msgid "found %d rpm headers in cache, removing %d obsolete headers"
-msgstr ""
+msgstr "в кэше найдено %d заголовков rpm; удаляется %d устаревших заголовков"
 
 #: ../urpm.pm:108
 #, c-format
@@ -353,13 +352,12 @@ msgid "bad proxy declaration on command line\n"
 msgstr "неверное объявление proxy в командной строке\n"
 
 #: ../urpm/args.pm:125 ../urpm/args.pm:236
-#, fuzzy
 msgid "chroot directory doesn't exist"
-msgstr "Каталог окружения %s не существует"
+msgstr "Каталог chroot не существует"
 
 #: ../urpm/args.pm:242
 msgid "You need to be root to use --use-distrib"
-msgstr "Вы должны быть root'ом, чтобы использовать --use-distrib"
+msgstr "Чтобы использовать параметр --use-distrib, нужно иметь права root'а"
 
 #: ../urpm/args.pm:274
 #, c-format
@@ -369,7 +367,7 @@ msgstr "urpmq: невозможно прочитать rpm-файл \"%s\"\n"
 #: ../urpm/args.pm:418
 #, c-format
 msgid "Can't use %s without %s"
-msgstr ""
+msgstr "Нельзя использовать %s без %s"
 
 #: ../urpm/args.pm:432
 msgid "Too many arguments\n"
@@ -508,66 +506,62 @@ msgstr ""
 #: ../urpme:44 ../urpmf:35 ../urpmi:88 ../urpmi.addmedia:45
 #: ../urpmi.recover:33 ../urpmi.removemedia:54 ../urpmi.update:32 ../urpmq:47
 msgid "  --help         - print this help message.\n"
-msgstr "  --help         - вывод этого справочного сообщения.\n"
+msgstr "  --help         - вывести это справочное сообщение\n"
 
 #: ../urpme:45
 msgid "  --auto         - automatically select a package in choices.\n"
-msgstr "  --auto         - автоматический выбор пакета из предлагаемых.\n"
+msgstr "  --auto         - автоматически выбрать пакет из предлагаемых\n"
 
 #: ../urpme:46
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
-msgstr "  --test         - проверка возможности корректного удаления.\n"
+msgstr "  --test         - проверить возможность корректного удаления\n"
 
 #: ../urpme:47 ../urpmi:110 ../urpmq:66
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
+msgid "  --force        - force invocation even if some packages do not exist.\n"
 msgstr ""
 "  --force        - принудительное выполнение, даже если некоторые пакеты\n"
-"                   не существуют.\n"
+"                   не существуют\n"
 
 #: ../urpme:48 ../urpmi:115 ../urpmq:68
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
-msgstr "  --parallel     - распределенный urpmi через машины алиаса.\n"
+msgstr "  --parallel     - распределённый urpmi через машины алиаса\n"
 
 #: ../urpme:49 ../urpmi:148
 msgid "  --repackage    - Re-package the files before erasing\n"
-msgstr "  --repackage    - повторная упаковка файлов перед удалением\n"
+msgstr "  --repackage    - повторно упаковывать файлы перед удалением\n"
 
 #: ../urpme:50
 msgid "  --root         - use another root for rpm removal.\n"
-msgstr "  --root         - использование другого корня для удаления rpm.\n"
+msgstr "  --root         - использовать другой корень для удаления rpm.\n"
 
 #: ../urpme:51
 msgid "  --noscripts    - do not execute package scriptlet(s).\n"
-msgstr "  --noscripts    - не выполнять scriptlet'ы пакета.\n"
+msgstr "  --noscripts    - не выполнять scriptlet'ы пакета\n"
 
 #: ../urpme:52
 msgid ""
 "  --use-distrib  - configure urpme on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
-"  --use-distrib  - настройка urpme на лету из дерева distrib, полезно\n"
-"                   для установки/удаления в/из chroot с опцией --root.\n"
+"  --use-distrib  - настроить urpme на лету из дерева distrib; полезно\n"
+"                   для установки/удаления в/из chroot с параметром --root\n"
 
 #: ../urpme:54 ../urpmi:119 ../urpmq:71
-#, fuzzy
 msgid "    --probe-synthesis - use synthesis file.\n"
-msgstr ""
-"  --probe-synthesis - попытаться найти и использовать файл synthesis.\n"
+msgstr "  --probe-synthesis - использовать файл synthesis\n"
 
 #: ../urpme:55 ../urpmi:120 ../urpmq:72
-#, fuzzy
 msgid "    --probe-hdlist - use hdlist file.\n"
-msgstr "  --probe-hdlist - попытаться найти и использовать файл hdlist.\n"
+msgstr "  --probe-hdlist - использовать файл hdlist\n"
 
 #: ../urpme:56 ../urpmi:158 ../urpmi.addmedia:73 ../urpmi.removemedia:59
 #: ../urpmi.update:50 ../urpmq:97
 msgid "  -v             - verbose mode.\n"
-msgstr "  -v             - подробный режим.\n"
+msgstr "  -v             - подробный режим\n"
 
 #: ../urpme:57
 msgid "  -a             - select all packages matching expression.\n"
-msgstr "  -a             - выбор всех пакетов, соответствующих выражению.\n"
+msgstr "  -a             - выбрать все пакеты, удовлетворяющие выражению\n"
 
 #: ../urpme:74
 msgid "Only superuser is allowed to remove packages"
@@ -605,10 +599,8 @@ msgstr "Проверяется возможность удаления след�
 
 #: ../urpme:133
 #, c-format
-msgid ""
-"To satisfy dependencies, the following %d packages will be removed (%d MB)"
-msgstr ""
-"Для удовлетворения зависимостей будут удалены следующие %d пакетов (%d МБ)"
+msgid "To satisfy dependencies, the following %d packages will be removed (%d MB)"
+msgstr "Для удовлетворения зависимостей будут удалены следующие %d пакетов (%d МБ)"
 
 #: ../urpme:135 ../urpmi:543 ../urpmi:669 ../urpmi.addmedia:136
 msgid " (y/N) "
@@ -658,8 +650,7 @@ msgstr ""
 "                   перечисленные через запятую.\n"
 
 #: ../urpmf:39
-msgid ""
-"  --literal, -l  - don't match patterns, use argument as a literal string.\n"
+msgid "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
 "  --literal, -l  - не искать соответствия шаблону, использовать аргумент\n"
 "                   как буквенную строку.\n"
@@ -671,8 +662,7 @@ msgstr ""
 "                   перечисленные через запятую.\n"
 
 #: ../urpmf:41 ../urpmi:93 ../urpmq:52
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgid "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
 "  --sortmedia    - сортировать источники по подстрокам, перечисленным\n"
 "                   через запятую.\n"
@@ -881,8 +871,7 @@ msgstr ""
 "использование:\n"
 
 #: ../urpmi:92
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
+msgid "  --searchmedia  - use only the given media to search requested packages.\n"
 msgstr ""
 "  --searchmedia  - использование только указанных источников для поиска\n"
 "                   запрошенных пакетов.\n"
@@ -896,10 +885,8 @@ msgstr ""
 "умолчанию.\n"
 
 #: ../urpmi:96 ../urpmq:54
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - автоматический выбор пакетов для обновления системы.\n"
+msgid "  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - автоматический выбор пакетов для обновления системы.\n"
 
 #: ../urpmi:97
 msgid ""
@@ -965,127 +952,124 @@ msgid ""
 "  --allow-nodeps - allow asking user to install packages without\n"
 "                   dependencies checking.\n"
 msgstr ""
-"  --allow-nodeps - разрешение установки пакетов без проверки зависимостей\n"
-"                   после запроса у пользователя.\n"
+"  --allow-nodeps - разрешить устанавливать пакеты без проверки зависимостей\n"
+"                   после запроса у пользователя\n"
 
 #: ../urpmi:113
 msgid ""
 "  --allow-force  - allow asking user to install packages without\n"
 "                   dependencies checking and integrity.\n"
 msgstr ""
-"  --allow-force  - разрешение установки пакетов без проверки зависимостей\n"
-"                   и целостности после запроса у пользователя .\n"
+"  --allow-force  - разрешить устанавливать пакеты без проверки зависимостей\n"
+"                   и целостности после запроса у пользователя\n"
 
 #: ../urpmi:116
 msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - использование другого корня для установки rpm.\n"
+msgstr "  --root         - использовать другой корень для установки rpm.\n"
 
 #: ../urpmi:117
 msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree, useful\n"
 "                   to install a chroot with --root option.\n"
 msgstr ""
-"  --use-distrib  - настройка urpmi на лету из дерева distrib, полезна\n"
-"                   для установки в chroot с опцией --root.\n"
+"  --use-distrib  - настроить urpmi на лету из дерева distrib; полезно\n"
+"                   для установки в chroot с параметром --root.\n"
 
 #: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:73
 msgid "  --wget         - use wget to retrieve distant files.\n"
-msgstr "  --wget         - использование wget для загрузки удаленных файлов.\n"
+msgstr "  --wget         - использовать wget для загрузки удалённых файлов\n"
 
 #: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:74
 msgid "  --curl         - use curl to retrieve distant files.\n"
-msgstr "  --curl         - использование curl для загрузки удаленных файлов.\n"
+msgstr "  --curl         - использовать curl для загрузки удалённых файлов.\n"
 
 #: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:75
-#, fuzzy
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
-msgstr "  --curl         - использование curl для загрузки удаленных файлов.\n"
+msgstr "  --prozilla     - использовать prozilla для загрузки удалённых файлов\n"
 
 #: ../urpmi:124
 msgid "  --curl-options - additional options to pass to curl\n"
-msgstr "  --curl-options - дополнительные параметры, передаваемые curl'у\n"
+msgstr "  --curl-options - дополнительные параметры, передаваемые в curl\n"
 
 #: ../urpmi:125
 msgid "  --rsync-options- additional options to pass to rsync\n"
-msgstr "  --rsync-options- дополнительные параметры, передаваемые rsync'у\n"
+msgstr "  --rsync-options - дополнительные параметры, передаваемые в rsync\n"
 
 #: ../urpmi:126
 msgid "  --wget-options - additional options to pass to wget\n"
-msgstr "  --wget-options - дополнительные параметры, передаваемые wget'у\n"
+msgstr "  --wget-options - дополнительные параметры, передаваемые во wget\n"
 
 #: ../urpmi:127
-#, fuzzy
 msgid "  --prozilla-options - additional options to pass to prozilla\n"
-msgstr "  --curl-options - дополнительные параметры, передаваемые curl'у\n"
+msgstr "  --prozilla-options - дополнительные параметры, передаваемые в prozilla\n"
 
 #: ../urpmi:128 ../urpmi.addmedia:49 ../urpmi.update:36
 msgid "  --limit-rate   - limit the download speed.\n"
-msgstr "  --limit-rate   - ограничение скорости загрузки.\n"
+msgstr "  --limit-rate   - ограничение скорости загрузки\n"
 
 #: ../urpmi:129
 msgid ""
 "  --resume       - resume transfer of partially-downloaded files\n"
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
-"  --resume       - возобновление загрузки частично загруженных файлов\n"
-"                   (--no-resume отключает ее, по умолчанию отключена).\n"
+"  --resume       - возобновить загрузку частично загруженных файлов\n"
+"                   (--no-resume отключает её; по умолчанию отключена).\n"
 
 #: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:76
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
 "                   to be 1080 by default (format is <proxyhost[:port]>).\n"
 msgstr ""
-"  --proxy        - использование указанного HTTP-прокси, по умолчанию\n"
-"                   используется порт 1080 (формат <хост_прокси[:порт]>).\n"
+"  --proxy        - использовать указанный HTTP-прокси; по умолчанию\n"
+"                   используется порт 1080 (формат - <хост_прокси[:порт]>).\n"
 
 #: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:78
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
 "                   authentication (format is <user:password>).\n"
 msgstr ""
-"  --proxy-user   - указание пользователя и пароля для авторизации на прокси\n"
-"                   (формат <пользователь:пароль>).\n"
+"  --proxy-user   - пользователь и пароль для аутентификации на прокси\n"
+"                   (формат - <пользователь:пароль>).\n"
 
 #: ../urpmi:135
 msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-"  --bug          - вывод отчета об ошибках в каталог, определенный\n"
-"                   следующим аргументом.\n"
+"  --bug          - вывести отчёт об ошибках в каталог, определённый\n"
+"                   следующим аргументом\n"
 
 #: ../urpmi:138
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disables it, default is enabled).\n"
 msgstr ""
-"  --verify-rpm   - проверка подписи rpm перед установкой\n"
-"                   (--no-verify-rpm отключает её, по умолчанию включена).\n"
+"  --verify-rpm   - проверять подписи rpm перед установкой\n"
+"                   (--no-verify-rpm отключает её; по умолчанию включена)\n"
 
 #: ../urpmi:140
 msgid ""
 "  --test         - only verify if the installation can be achieved "
 "correctly.\n"
-msgstr "  --test         - проверка возможности корректной установки.\n"
+msgstr "  --test         - проверить возможность корректной установки\n"
 
 #: ../urpmi:141
 msgid "  --excludepath  - exclude path separated by comma.\n"
-msgstr "  --excludepath  - исключить пути, перечисленные через запятую.\n"
+msgstr "  --excludepath  - исключить пути, перечисленные через запятую\n"
 
 #: ../urpmi:142
 msgid "  --excludedocs  - exclude doc files.\n"
-msgstr "  --excludedocs  - исключить файлы документации (docs).\n"
+msgstr "  --excludedocs  - исключить файлы документации (docs)\n"
 
 #: ../urpmi:143
 msgid "  --ignoresize   - don't verify disk space before installation.\n"
-msgstr ""
-"  --ignoresize   - не проверять дисковое пространство перед установкой.\n"
+msgstr "  --ignoresize   - не проверять дисковое пространство перед установкой\n"
 
 #: ../urpmi:144
 msgid "  --ignorearch   - allow to install rpms for unmatched architectures.\n"
 msgstr ""
-"  --ignorearch   - разрешать устанавливать rpm'ы для несоответствующих "
-"архитектур.\n"
+"  --ignorearch   - разрешать устанавливать rpm'ы для несоответствующих\n"
+"                   архитектур\n"
 
 #: ../urpmi:145
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
@@ -1093,15 +1077,15 @@ msgstr "  --noscripts    - не выполнять scriptlet'ы пакета\n"
 
 #: ../urpmi:146 ../urpmi.addmedia:67 ../urpmi.update:42
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
-msgstr "  --no-md5sum    - отключить проверку файла MD5SUM.\n"
+msgstr "  --no-md5sum    - отключить проверку файла MD5SUM\n"
 
 #: ../urpmi:147 ../urpmi.update:43
 msgid "  --force-key    - force update of gpg key.\n"
-msgstr "  --force-key    - принудительное обновление gpg-ключа.\n"
+msgstr "  --force-key    - принудительно обновить gpg-ключ\n"
 
 #: ../urpmi:149
 msgid "  --skip         - packages which installation should be skipped\n"
-msgstr "  --skip         - пакеты, установка которых будет пропущена.\n"
+msgstr "  --skip         - пакеты, установка которых будет пропущена\n"
 
 #: ../urpmi:150
 msgid ""
@@ -1109,54 +1093,52 @@ msgid ""
 "                   than the default.\n"
 msgstr ""
 "  --more-choices - если найдены разные пакеты, предложить больше\n"
-"                   вариантов, чем предлагается по умолчанию.\n"
+"                   вариантов, чем предлагается по умолчанию\n"
 
 #: ../urpmi:152
 msgid "  --nolock       - don't lock rpm db.\n"
-msgstr "  --nolock       - не блокировать базу данных rpm.\n"
+msgstr "  --nolock       - не блокировать базу данных rpm\n"
 
 #: ../urpmi:153
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
-msgstr "  --strict-arch  - обновить пакеты только с такой же архитектурой.\n"
+msgstr "  --strict-arch  - обновить пакеты только с такой же архитектурой\n"
 
 #: ../urpmi:154 ../urpmq:83
 msgid "  -a             - select all matches on command line.\n"
-msgstr "  -a             - выбрать все совпадения из командной строки.\n"
+msgstr "  -a             - выбрать все совпадения из командной строки\n"
 
 #: ../urpmi:155
 msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - разрешить искать в provides для поиска пакетов.\n"
+msgstr "  -p             - разрешить искать пакеты в provides\n"
 
 #: ../urpmi:156
 msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - не искать пакеты в provides.\n"
+msgstr "  -P             - не искать пакеты в provides\n"
 
 #: ../urpmi:157 ../urpmi.addmedia:72 ../urpmi.removemedia:58
 #: ../urpmi.update:49
 msgid "  -q             - quiet mode.\n"
-msgstr "  -q             - тихий режим (quiet).\n"
+msgstr "  -q             - тихий режим (quiet)\n"
 
 #: ../urpmi:159
 msgid "  names or rpm files given on command line will be installed.\n"
-msgstr ""
-"  будут установлены имена или rpm-файлы, указанные в командной строке.\n"
+msgstr "  будут установлены имена или rpm-файлы, указанные в командной строке.\n"
 
 #: ../urpmi:188
 msgid "Error: can't use --auto-select along with package list.\n"
-msgstr ""
+msgstr "Ошибка: нельзя использовать опцию --auto-select одновременно со списком пакетов.\n"
 
 #: ../urpmi:195
 msgid ""
 "Error: To generate a bug report, specify the usual command-line arguments\n"
 "along with --bug.\n"
 msgstr ""
-"Ошибка: Чтобы создать отчёт об ошибке, нужно указать обычные аргументы\n"
+"Ошибка: чтобы создать отчёт об ошибке, нужно указать обычные аргументы\n"
 "командной строки вместе с опцией --bug.\n"
 
 #: ../urpmi:222
 msgid "You can't install binary rpm files when using --install-src"
-msgstr ""
-"Вы не можете устанавливать бинарные rpm-файлы при использовании --install-src"
+msgstr "При использовании опции --install-src нельзя устанавливать бинарные rpm-файлы"
 
 #: ../urpmi:245
 #, c-format
@@ -1170,7 +1152,7 @@ msgstr ""
 #: ../urpmi:246
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
-msgstr "Невозможно создать каталог [%s] для отчета об ошибке"
+msgstr "Невозможно создать каталог [%s] для отчёта об ошибке"
 
 #: ../urpmi:249
 msgid "Copying failed"
@@ -1197,27 +1179,27 @@ msgstr "Обновляется источник...\n"
 
 #. -PO: here format is "<package_name>: <summary> (to upgrade)"
 #: ../urpmi:438
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (to upgrade)"
-msgstr " (обновить)"
+msgstr "%s: %s (для обновления)"
 
 #. -PO: here format is "<package_name> (to upgrade)"
 #: ../urpmi:440
-#, fuzzy, c-format
+#, c-format
 msgid "%s (to upgrade)"
-msgstr " (обновить)"
+msgstr "%s (для обновления)"
 
 #. -PO: here format is "<package_name>: <summary> (to install)"
 #: ../urpmi:442
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (to install)"
-msgstr " (установить)"
+msgstr "%s: %s (для установки)"
 
 #. -PO: here format is "<package_name> (to install)"
 #: ../urpmi:444
-#, fuzzy, c-format
+#, c-format
 msgid "%s (to install)"
-msgstr " (установить)"
+msgstr "%s (для установки)"
 
 #: ../urpmi:451
 #, c-format
@@ -1281,8 +1263,7 @@ msgid "(test only, removal will not be actually done)"
 msgstr "(только проверка, удаление выполнено не будет)"
 
 #: ../urpmi:572 ../urpmi:584
-msgid ""
-"To satisfy dependencies, the following packages are going to be installed"
+msgid "To satisfy dependencies, the following packages are going to be installed"
 msgstr "Для удовлетворения зависимостей будут установлены следующие пакеты"
 
 #: ../urpmi:573 ../urpmi:585
@@ -1364,17 +1345,17 @@ msgstr "%d установочных транзакций не удались"
 
 #: ../urpmi:824
 msgid "Packages are up to date"
-msgstr ""
+msgstr "Пакеты находятся в актуальном состоянии"
 
 #: ../urpmi:827
-#, fuzzy, c-format
+#, c-format
 msgid "Packages %s are already installed"
-msgstr "Все уже установлено"
+msgstr "Пакеты %s уже установлены"
 
 #: ../urpmi:828
-#, fuzzy, c-format
+#, c-format
 msgid "Package %s is already installed"
-msgstr "Все уже установлено"
+msgstr "Пакет %s уже установлен"
 
 #: ../urpmi:847
 msgid "restarting urpmi"
@@ -1385,7 +1366,6 @@ msgstr "urpmi перезапускается"
 #. Translator: neither the ``with''.
 #. Translator: only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, fuzzy
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -1397,44 +1377,41 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"использование: urpmi.addmedia [опции] <название> <url> [with "
-"<относительный_путь>]\n"
+"использование: urpmi.addmedia [опции] <название> <url>\n"
 "где <url> может быть:\n"
-"    [file:/]/<путь> with <относительный путь к файлу hdlist>\n"
-"    ftp://<логин>:<пароль>@<хост>/<путь> with <относительный путь к файлу "
-"hdlist>\n"
-"    ftp://<хост>/<путь> with <относительный путь к файлу hdlist>\n"
-"    http://<хост>/<путь> with <относительный путь к файлу hdlist>\n"
-"    removable://<путь> with <относительный путь к файлу hdlist>\n"
+"    [file:/]/<путь>\n"
+"    ftp://<логин>:<пароль>@<хост>/<путь>\n"
+"    ftp://<хост>/<путь>\n"
+"    http://<хост>/<путь>\n"
+"    removable://<путь>\n"
 "\n"
 "и [опциями] могут быть:\n"
 
 #: ../urpmi.addmedia:54
 msgid "  --update       - create an update medium.\n"
-msgstr "  --update       - создать источник обновления.\n"
+msgstr "  --update       - создать источник обновления\n"
 
 #: ../urpmi.addmedia:55
 msgid "  --probe-synthesis - try to find and use synthesis file.\n"
-msgstr ""
-"  --probe-synthesis - попытаться найти и использовать файл synthesis.\n"
+msgstr "  --probe-synthesis - попытаться найти и использовать файл synthesis\n"
 
 #: ../urpmi.addmedia:56
 msgid "  --probe-hdlist - try to find and use hdlist file.\n"
-msgstr "  --probe-hdlist - попытаться найти и использовать файл hdlist.\n"
+msgstr "  --probe-hdlist - попытаться найти и использовать файл hdlist\n"
 
 #: ../urpmi.addmedia:57
 msgid ""
 "  --no-probe     - do not try to find any synthesis or\n"
 "                   hdlist file.\n"
-msgstr "  --no-probe     - не пытаться найти файл synthesis или hdlist.\n"
+msgstr "  --no-probe     - не пытаться найти файл synthesis или hdlist\n"
 
 #: ../urpmi.addmedia:59
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
 "                   medium.\n"
 msgstr ""
-"  --distrib      - автоматически создать все источники из источника "
-"установки.\n"
+"  --distrib      - автоматически создать все источники из источника\n"
+"                   установки\n"
 
 #: ../urpmi.addmedia:61
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
@@ -1445,8 +1422,8 @@ msgstr ""
 #: ../urpmi.addmedia:62
 msgid "  --all-media    - with --distrib, add every listed media\n"
 msgstr ""
-"  --all-media    - (вместе с --distrib) добавить все перечисленные "
-"источники\n"
+"  --all-media    - (вместе с --distrib) добавить все перечисленные\n"
+"                   источники\n"
 
 #: ../urpmi.addmedia:63
 #, c-format
@@ -1463,23 +1440,23 @@ msgid ""
 "                   only file:// protocol is allowed.\n"
 msgstr ""
 "  --virtual      - создать виртуальный источник, который всегда является\n"
-"                   самым свежим, допускается только протокол file://.\n"
+"                   самым свежим, допускается только протокол file://\n"
 
 #: ../urpmi.addmedia:68
 msgid "  --nopubkey     - don't import pubkey of added media\n"
-msgstr "  --nopubkey     - не импортировать pubkey добавленного источника\n"
+msgstr "  --nopubkey     - не импортировать pubkey из добавленного источника\n"
 
 #: ../urpmi.addmedia:69
 msgid "  --raw          - add the media in config, but don't update it.\n"
-msgstr "  --raw          - добавить источник в config, но не обновлять его.\n"
+msgstr "  --raw          - добавить источник в config, но не обновлять его\n"
 
 #: ../urpmi.addmedia:70 ../urpmi.removemedia:56 ../urpmi.update:47
 msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - очистить каталог с кэшем заголовков.\n"
+msgstr "  -c             - очистить каталог с кэшем заголовков\n"
 
 #: ../urpmi.addmedia:71 ../urpmi.update:48
 msgid "  -f             - force generation of hdlist files.\n"
-msgstr "  -f             - принудительно создать файлы hdlist.\n"
+msgstr "  -f             - принудительно создать файлы hdlist\n"
 
 #: ../urpmi.addmedia:85
 #, c-format
@@ -1555,8 +1532,7 @@ msgstr ""
 "точке.\n"
 
 #: ../urpmi.recover:36
-msgid ""
-"  --list         - list transactions since provided date/duration argument\n"
+msgid "  --list         - list transactions since provided date/duration argument\n"
 msgstr ""
 "  --list         - список транзакций относительно указанной\n"
 "                   даты/продолжительности\n"
@@ -1727,8 +1703,7 @@ msgstr "Только суперпользователю разрешается �
 
 #: ../urpmi.update:77
 msgid "nothing to update (use urpmi.addmedia to add a media)\n"
-msgstr ""
-"нечего обновлять (используйте urpmi.addmedia для добавления источника)\n"
+msgstr "нечего обновлять (используйте urpmi.addmedia для добавления источника)\n"
 
 #: ../urpmi.update:95
 #, c-format
@@ -1799,27 +1774,22 @@ msgstr "  --list-url     - список доступных источников 
 
 #: ../urpmq:61
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
-msgstr ""
-"  --list-nodes   - список доступных узлов при использовании --parallel.\n"
+msgstr "  --list-nodes   - список доступных узлов при использовании --parallel.\n"
 
 #: ../urpmq:62
 msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr "  --list-aliases - список доступных алиасов parallel.\n"
 
 #: ../urpmq:63
-msgid ""
-"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
-msgstr ""
-"  --dump-config  - дамп config'а в виде аргумента для urpmi.addmedia.\n"
+msgid "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+msgstr "  --dump-config  - дамп config'а в виде аргумента для urpmi.addmedia.\n"
 
 #: ../urpmq:64
 msgid "  --src          - next package is a source package (same as -s).\n"
-msgstr ""
-"  --src          - следующий пакет содержит исходные коды (эквивалент -s).\n"
+msgstr "  --src          - следующий пакет содержит исходные коды (эквивалент -s).\n"
 
 #: ../urpmq:65
-msgid ""
-"  --sources      - give all source packages before downloading (root only).\n"
+msgid "  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
 "  --sources      - вывод всех пакетов с исходными кодами перед загрузкой\n"
 "                   (только для root'a).\n"
@@ -1860,16 +1830,14 @@ msgstr "  -g             - вывод групп с именами.\n"
 
 #: ../urpmq:88
 msgid "  -i             - print useful information in human readable form.\n"
-msgstr ""
-"  -i             - вывод полезной информации в удобной для чтения форме.\n"
+msgstr "  -i             - вывод полезной информации в удобной для чтения форме.\n"
 
 #: ../urpmq:89
 msgid "  -l             - list files in package.\n"
 msgstr "  -l             - список файлов в пакете.\n"
 
 #: ../urpmq:90
-msgid ""
-"  -P             - do not search in provides to find package (default).\n"
+msgid "  -P             - do not search in provides to find package (default).\n"
 msgstr "  -P             - не искать пакеты в provides (по умолчанию).\n"
 
 #: ../urpmq:91
@@ -1885,16 +1853,14 @@ msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - реверсивный поиск того, что требуется пакету.\n"
 
 #: ../urpmq:94
-msgid ""
-"  -RR            - extended reverse search (includes virtual packages).\n"
+msgid "  -RR            - extended reverse search (includes virtual packages).\n"
 msgstr ""
 "  -RR            - расширенный реверсивный поиск (включая виртуальные "
 "пакеты).\n"
 
 #: ../urpmq:95
 msgid "  -s             - next package is a source package (same as --src).\n"
-msgstr ""
-"  -s             - следующий пакет содержит исходные коды (эквивалент -s).\n"
+msgstr "  -s             - следующий пакет содержит исходные коды (эквивалент -s).\n"
 
 #: ../urpmq:96
 msgid ""
@@ -2554,3 +2520,4 @@ msgstr "Не найден changelog\n"
 #~ msgstr ""
 #~ "Некоторые запрошенные пакеты не могут быть установлены:\n"
 #~ "%s"
+
