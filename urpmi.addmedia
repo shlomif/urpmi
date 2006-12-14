@@ -112,7 +112,6 @@ $options{verbose} > 0 or $urpm->{log} = sub {};
 $sync_logger = \&urpm::download::sync_logger if $options{verbose} > 1;
 
 $url or ($url, $name) = ($name, '');
-my ($type) = $url =~ m,^(([^:]*):/)?/, or die N("bad <url> (for local directory, the path must be absolute)\n");
 
 if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to add media"));
@@ -164,8 +163,6 @@ if ($options{distrib}) {
 
     if ($with eq "with") {
 	$relative_hdlist or usage N("<relative path of hdlist> missing\n");
-    } elsif ($type =~ /^(ftp|https?|rsync|ssh)$/) {
-	$options{probe_with} or usage N("`with' missing for network media\n");
     }
 
     urpm::media::add_medium($urpm,
