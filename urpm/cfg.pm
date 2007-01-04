@@ -51,7 +51,9 @@ Returns 1 on success, 0 on failure.
 my ($arch, $release);
 sub _init_arch_release () {
     if (!$arch && !$release) {
-	my $l = cat_('/etc/release') or return undef;
+	open my $f, '/etc/release' or return undef;
+	my $l = <$f>;
+	close $f;
 	($release, $arch) = $l =~ /release (\d+\.\d+).*for (\w+)/;
 	$release = 'cooker' if $l =~ /cooker/i;
     }
@@ -107,8 +109,7 @@ sub load_config ($;$) {
     my $priority = 1;
     my $medium;
     $err = '';
-    -r $file or do { $err = N("unable to read config file [%s]", $file); return };
-    my @conf_lines = cat_($file);
+    my @conf_lines = cat_($file) or do { $err = N("unable to read config file [%s]", $file); return };
     foreach (@conf_lines) {
 	chomp;
 	next if /^\s*#/; #- comments
