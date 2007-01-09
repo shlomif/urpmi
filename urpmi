@@ -500,7 +500,7 @@ that are older than the installed ones:\n%s", $#unselected_uninstalled, $list);
 my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
 if (@ask_unselect) {
     my $list = urpm::select::translate_why_unselected($urpm, $state, @ask_unselect);
-    my $msg = P("Some requested packages cannot be installed:\n%s",
+    my $msg = P("A requested package cannot be installed:\n%s",
 			"Some requested packages cannot be installed:\n%s", $#ask_unselect, $list);
     if ($urpm->{options}{auto}) {
 	print "$msg\n";
