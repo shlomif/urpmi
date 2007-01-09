@@ -479,8 +479,10 @@ my $restart_itself = urpm::select::resolve_dependencies($urpm,
 my @unselected_uninstalled = @{$state->{unselected_uninstalled} || []};
 if (@unselected_uninstalled) {
     my $list = join "\n", map { $_->name . '-' . $_->version . '-' . $_->release  } @unselected_uninstalled;
-    my $msg = N("The following packages can't be installed because they depend on packages
-that are older than the installed ones:\n%s", $list);
+    my $msg = P("The following package cannot be installed because it depends on packages
+that are older than the installed ones:\n%s",
+			"The following packages can't be installed because they depend on packages
+that are older than the installed ones:\n%s", $#unselected_uninstalled, $list);
     if ($urpm->{options}{auto}) {
 	print "$msg\n";
     } else {
@@ -498,7 +500,8 @@ that are older than the installed ones:\n%s", $list);
 my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
 if (@ask_unselect) {
     my $list = urpm::select::translate_why_unselected($urpm, $state, @ask_unselect);
-    my $msg = N("Some requested packages cannot be installed:\n%s", $list);
+    my $msg = P("Some requested packages cannot be installed:\n%s",
+			"Some requested packages cannot be installed:\n%s", $#ask_unselect, $list);
     if ($urpm->{options}{auto}) {
 	print "$msg\n";
     } else {
@@ -528,12 +531,15 @@ if (@ask_remove) {
     my $list = urpm::select::translate_why_removed($urpm, $state, @ask_remove);
 
     if ($no_remove && !$force) {
-	print N("The installation cannot continue because the following packages
-have to be removed for others to be upgraded:\n%s\n", $list), "\n";
+	print P("The installation cannot continue because the following package
+has to be removed for others to be upgraded:\n%s\n", 
+	"The installation cannot continue because the following packages
+have to be removed for others to be upgraded:\n%s\n", $#ask_remove, $list), "\n";
 	exit 0;
     }
 
-    my $msg = N("The following packages have to be removed for others to be upgraded:\n%s", $list);
+    my $msg = P("The following package has to be removed for others to be upgraded:\n%s",
+    	"The following packages have to be removed for others to be upgraded:\n%s", $#ask_remove, $list);
     if ($test) {
 	$msg = "$msg\n" . N("(test only, removal will not be actually done)");
     }
@@ -585,7 +591,8 @@ if (@root_only) {
     if ($test) {
 	$msg = "$msg\n" . N("(test only, installation will not be actually done)");
     }
-    my $msg2 = N("Proceed with the installation of the %d packages? (%d MB)", $urpm->{nb_install}, toMb($sum));
+    my $msg2 = P("Proceed with the installation of 1 package? (%2\$d MB)",
+    		"Proceed with the installation of the %d packages? (%d MB)", $urpm->{nb_install}, $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
     my $noexpr = N("Nn");
     my $yesexpr = N("Yy");
@@ -656,7 +663,8 @@ foreach my $set (@{$state->{transaction} || []}) {
 	my @bad_signatures = urpm::signature::check($urpm, \%transaction_sources_install, \%transaction_sources);
 
 	if (@bad_signatures) {
-	    my $msg = N("The following packages have bad signatures");
+	    my $msg = P("The following package has bad signature",
+				"The following packages have bad signatures", $#bad_signatures);
 	    my $msg2 = N("Do you want to continue installation ?");
 	    my $p = join "\n", @bad_signatures;
 	    #- rurpmi always abort here
