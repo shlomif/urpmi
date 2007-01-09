@@ -46,7 +46,7 @@ END { $::debug_exit and print STDERR "EXITING (pid=$$)\n" }
 my %options_spec_all = (
 	'debug' => sub { 
 	    $::debug_exit = 1; 
-	    $urpm->{debug} = sub { print STDERR "$_[0]\n" };
+	    $urpm->{debug} = $urpm->{debug_URPM} = sub { print STDERR "$_[0]\n" };
 	},
 	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
 );
@@ -287,7 +287,7 @@ my %options_spec = (
     'urpmi.update' => {
 	a => \$options{all},
 	c => sub { $options{noclean} = 0 },
-	f => sub { ++$options{force}; $options{force_building_hdlist} = 1 if $options{force} == 2 },
+	f => sub { ++$options{force}; $options{probe_with} = 'rpms' if $options{force} == 2 },
 	z => sub { ++$options{compress} },
 	update => \$options{update},
 	'ignore!' => sub { $options{ignore} = $_[1] },
@@ -311,6 +311,7 @@ my %options_spec = (
 	distrib => sub { $options{distrib} = 1 },
         interactive => sub { $options{interactive} = 1 },
         'all-media' => sub { $options{allmedia} = 1 },
+	'probe-rpms' => sub { $options{probe_with} = 'rpms' },
 	'from=s' => \$options{mirrors_url},
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
@@ -420,6 +421,9 @@ sub parse_cmdline {
 
     if ($tool ne 'urpmi.addmedia' && $options{probe_with} && !$options{usedistrib}) {
 	die N("Can't use %s without %s", "--probe-$options{probe_with}", "--use-distrib");
+    }
+    if ($options{probe_with} && $options{probe_with} eq 'rpms' && $options{virtual}) {
+	die N("Can't use %s with %s", "--probe-rpms", "--virtual");
     }
     if ($tool eq 'urpmf' && @ARGV && $ARGV[0] eq '--') {
 	if (@ARGV == 2) {
