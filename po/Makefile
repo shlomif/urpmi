@@ -30,9 +30,7 @@ merge: $(PGOAL).pot
 	done
 
 $(PGOAL).pot:
-	xgettext -F -n --add-comments \
-	  --keyword=N_ --keyword=N \
-	  --language=Perl -o $(PGOAL)_tmp.pot $(PL_FILES)
+	perl_checker -q --generate-pot $(PGOAL)_tmp.pot $(PL_FILES)
 	[ ! -e $(PGOAL)_tmp.pot ] || msgcat --use-first $(PGOAL)_tmp.pot > $@
 	perl -pi -es/perl-format/c-format/ $@
 	rm -f $(PGOAL)_tmp.pot
