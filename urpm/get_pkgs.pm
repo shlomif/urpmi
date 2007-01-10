@@ -36,6 +36,13 @@ sub selected2list {
 	$file2fullnames{$pkg->filename}{$pkg->fullname} = undef;
     }
 
+    if ($options{clean_all}) {
+	#- clean download directory, do it here even if this is not the best moment.
+	$urpm->{log}(N("cleaning %s and %s", "$urpm->{cachedir}/partial", "$urpm->{cachedir}/rpms"));
+	urpm::sys::clean_dir("$urpm->{cachedir}/partial");
+	urpm::sys::clean_dir("$urpm->{cachedir}/rpms");
+    }
+
     #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
     foreach my $filepath (glob("$urpm->{cachedir}/rpms/*")) {
 	next if -d $filepath;
@@ -54,12 +61,6 @@ sub selected2list {
 		$options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
 	    }
 	}
-    }
-
-    if ($options{clean_all}) {
-	#- clean download directory, do it here even if this is not the best moment.
-	$urpm->{log}(N("cleaning %s", "$urpm->{cachedir}/partial"));
-	urpm::sys::clean_dir("$urpm->{cachedir}/partial");
     }
 
     my ($error, @list_error, @list, %examined);
