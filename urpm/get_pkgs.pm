@@ -61,7 +61,7 @@ sub selected2list {
 
     if ($options{clean_all}) {
 	#- clean download directory, do it here even if this is not the best moment.
-	$urpm->{log}(N("cleaning $urpm->{cachedir}/partial"));
+	$urpm->{log}(N("cleaning %s", "$urpm->{cachedir}/partial"));
 	urpm::sys::clean_dir("$urpm->{cachedir}/partial");
     }
 
