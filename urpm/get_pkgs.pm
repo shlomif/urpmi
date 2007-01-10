@@ -37,14 +37,13 @@ sub selected2list {
     }
 
     #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
-    my $dh = urpm::sys::opendir_safe($urpm, "$urpm->{cachedir}/rpms");
-    if ($dh) {
-	while (defined(my $filename = readdir $dh)) {
-	    my $filepath = "$urpm->{cachedir}/rpms/$filename";
-	    if (-d $filepath) {
-	    } elsif ($options{clean_all} || ! -s _) {
-		unlink $filepath; #- this file should be removed or is already empty.
-	    } else {
+    foreach my $filepath (glob("$urpm->{cachedir}/rpms/*")) {
+	next if -d $filepath;
+
+	if (! -s $filepath) {
+	    unlink $filepath; #- this file should be removed or is already empty.
+	} else {
+		my $filename = basename($filepath);
 		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
 		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
 		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
@@ -57,9 +56,7 @@ sub selected2list {
 		} else {
 		    $options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
 		}
-	    }
 	}
-	closedir $dh;
     }
 
     if ($options{clean_all}) {
