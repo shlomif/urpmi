@@ -716,7 +716,7 @@ sub add_medium {
 #- returns the list of names of added media.
 #- options :
 #- - initial_number : when adding several numbered media, start with this number
-#- - probe_with : force use of synthesis or hdlist instead of using both
+#- - probe_with : force use of synthesis/hdlist/rpms instead of using both synthesis&hdlist
 #- - ask_media : callback to know whether each media should be added
 #- other options are passed to add_medium(): ignore, nolock, virtual
 sub add_distrib_media {
@@ -761,27 +761,15 @@ sub add_distrib_media {
     my $medium_index = $options{initial_number} || 1;
 
     foreach my $media ($distribconf->listmedia) {
-        my $skip = 0;
-	# if one of those values is set, by default, we skip adding the media
-	foreach (qw(noauto)) {
-	    $distribconf->getvalue($media, $_) and do {
-		$skip = 1;
-		last;
-	    };
-	}
-        if ($options{ask_media}) {
-            if ($options{ask_media}->(
-                $distribconf->getvalue($media, 'name'),
-                !$skip,
-            )) {
-                $skip = 0;
-            } else {
-                $skip = 1;
-            }
-        }
-        $skip and next;
-
         my $media_name = $distribconf->getvalue($media, 'name') || '';
+
+        my $add_by_default = !$distribconf->getvalue($media, 'noauto');
+        if ($options{ask_media}) {
+            $options{ask_media}->($media_name, $add_by_default) or next;
+        } else {
+	    $add_by_default or next;
+	}
+
 	my $is_update_media = $distribconf->getvalue($media, 'updates_for');
 
 	push @newnames, add_medium($urpm,
@@ -1306,7 +1294,8 @@ sub _read_rpms_from_dir {
 
     my $dir = file_from_local_url($medium->{url});
 
-    $medium->{rpm_files} = [ glob("$dir/*.rpm") ];
+    require File::Glob;
+    $medium->{rpm_files} = [ File::Glob::glob("$dir/*.rpm") ];
 
     #- check files contains something good!
     if (!@{$medium->{rpm_files}}) {
@@ -1357,7 +1346,7 @@ sub _read_rpms_from_dir {
     1;
 }
 
-#- options: callback, force, force_building_hdlist, nomd5sum, nopubkey, probe_with
+#- options: callback, force, nomd5sum, nopubkey, probe_with
 sub _update_medium__parse_if_unmodified__local {
     my ($urpm, $medium, $clean_cache, $options) = @_;
 
@@ -1368,7 +1357,7 @@ sub _update_medium__parse_if_unmodified__local {
 	#- by mounting some other directory. Try to figure it out and mount
 	#- everything that might be necessary.
 	urpm::removable::try_mounting($urpm,
-	    !$options->{force_building_hdlist} && _hdlist_dir($medium)
+	    $options->{probe_with} ne 'rpms' && _hdlist_dir($medium)
 	      ? _hdlist_dir($medium) : $dir,
 	    #- in case of an iso image, pass its name
 	    urpm::removable::is_iso($medium->{removable}) && $medium->{removable},
@@ -1378,7 +1367,7 @@ this could happen if you mounted manually the directory when creating the medium
 
     #- try to probe for possible with_hdlist parameter, unless
     #- it is already defined (and valid).
-    if (!_hdlist_dir($medium)) {
+    if (!_hdlist_dir($medium) && $options->{probe_with} ne 'rpms') {
 	_probe_with_try_list($urpm, $medium, $options->{probe_with}, sub {
 	    my ($url) = @_;
 	    -e $url or return;
@@ -1396,7 +1385,7 @@ this could happen if you mounted manually the directory when creating the medium
 	#- determine its type, once a with_hdlist has been found (but is mandatory).
 	_parse_hdlist_or_synthesis__virtual($urpm, $medium);
 	1;
-    } elsif ($options->{force_building_hdlist} || !_hdlist_dir($medium)) {
+    } elsif ($options->{probe_with} eq 'rpms' || !_hdlist_dir($medium)) {
 	#- build hdlist/synthesis from rpms
 	_read_rpms_from_dir($urpm, $medium, $clean_cache);
     } elsif (_hdlist_dir($medium)) {
@@ -1577,7 +1566,7 @@ sub _write_rpm_list {
     1;
 }
 
-#- options: callback, force, force_building_hdlist, nomd5sum, probe_with, quiet
+#- options: callback, force, nomd5sum, probe_with, quiet
 #- (from _update_medium__parse_if_unmodified__local and _update_medium__parse_if_unmodified__remote)
 sub _update_medium_first_pass {
     my ($urpm, $medium, $clean_cache, %options) = @_;
@@ -1770,7 +1759,6 @@ sub _update_media__handle_some_flags {
 #-   callback    : UI callback
 #-   forcekey    : force retrieval of pubkey
 #-   force       : try to force rebuilding base files
-#-   force_building_hdlist
 #-   noclean     : keep old files in the header cache directory
 #-   nomd5sum    : don't verify MD5SUM of retrieved files
 #-   nopubkey    : don't use rpm pubkeys
