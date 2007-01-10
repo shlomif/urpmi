@@ -467,6 +467,11 @@ sub write_config {
     write_MD5SUM($urpm);
 }
 
+sub _tempignore {
+    my ($medium, $ignore) = @_;
+    $medium->{tempignore} = $medium->{ignore} = $ignore;
+}
+
 #- read urpmi.cfg file as well as necessary synthesis files
 #- options :
 #-	root (deprecated, set directly $urpm->{root})
@@ -537,8 +542,7 @@ sub configure {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	    select_media($urpm, split /,/, $options{media});
 	    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
-		#- this is only a local ignore that will not be saved.
-		$_->{tempignore} = $_->{ignore} = 1;
+		_tempignore($_, 1);
 	    }
 	}
 	if ($options{searchmedia}) {
@@ -553,7 +557,7 @@ sub configure {
 	    foreach (select_media_by_name($urpm, [ split /,/, $options{excludemedia} ])) {
 		$_->{modified} = 1;
 		#- this is only a local ignore that will not be saved.
-		$_->{tempignore} = $_->{ignore} = 1;
+		_tempignore($_, 1);
 	    }
 	}
 	if ($options{sortmedia}) {
@@ -653,25 +657,23 @@ sub add_medium {
     $urpm->{media} or die "caller should have used ->read_config or ->configure first";
 
     #- if a medium with that name has already been found, we have to exit now
-    my $medium;
     if (defined $options{index_name}) {
-	my $i = $options{index_name};
-	do {
+	my ($i, $basename) = ($options{index_name}, $name);
+	while (1) {
 	    ++$i;
-	    $medium = name2medium($urpm, $name . $i);
-	} while $medium;
-	$name .= $i;
+	    $name = $basename . ($i == 1 ? '' : $i);
+	    last if !name2medium($urpm, $name);
+	}
     } else {
-	$medium = name2medium($urpm, $name);
+	name2medium($urpm, $name) and $urpm->{fatal}(5, N("medium \"%s\" already exists", $name));
     }
-    $medium and $urpm->{fatal}(5, N("medium \"%s\" already exists", $medium->{name}));
 
     $url =~ s,/*$,,; #- clear URLs for trailing /es.
 
     #- creating the medium info.
-    $medium = { name => $name, 
+    my $medium = { name => $name, 
 		url => $url, 
-		modified => 1, 
+		modified => !$options{ignore}, 
 		downloader => $options{downloader}, 
 		update => $options{update}, 
 		ignore => $options{ignore},
@@ -692,18 +694,19 @@ sub add_medium {
 
     #- local media have priority, other are added at the end.
     my $inserted;
+    my $ignore_text = $medium->{ignore} ? ' ' . N("(ignored by default)") : '';
     if (file_from_file_url($url)) {
 	#- insert before first remote medium
 	@{$urpm->{media}} = map {  
 	    if (!file_from_file_url($_->{url}) && !$inserted) {
 		$inserted = 1;
-		$urpm->{info}(N("adding medium \"%s\" before remote medium \"%s\"", $name, $_->{name}));
+		$urpm->{info}(N("adding medium \"%s\" before remote medium \"%s\"", $name, $_->{name}) . $ignore_text);
 		$medium, $_;
 	    } else { $_ }
 	} @{$urpm->{media}};
     }
     if (!$inserted) {
-	$urpm->{info}(N("adding medium \"%s\"", $name));
+	$urpm->{info}(N("adding medium \"%s\"", $name) . $ignore_text);
 	push @{$urpm->{media}}, $medium;
     }
 
@@ -767,7 +770,9 @@ sub add_distrib_media {
         if ($options{ask_media}) {
             $options{ask_media}->($media_name, $add_by_default) or next;
         } else {
-	    $add_by_default or next;
+	    my $simple_rpms = !$distribconf->getvalue($media, 'debug_for') && 
+	                      !$distribconf->getvalue($media, 'rpms');
+	    $add_by_default || $simple_rpms or next;
 	}
 
 	my $is_update_media = $distribconf->getvalue($media, 'updates_for');
@@ -780,6 +785,7 @@ sub add_distrib_media {
 		$distribconf->getpath($media, 'path'),
 	    ) . '/' . $distribconf->getpath($media, $options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist'),
 	    index_name => $name ? undef : 0,
+	    $add_by_default ? () : (ignore => 1),
 	    %options,
 	    # the following override %options
 	    update => $is_update_media ? 1 : undef,
