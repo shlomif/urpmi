@@ -43,19 +43,16 @@ sub selected2list {
 	if (! -s $filepath) {
 	    unlink $filepath; #- this file should be removed or is already empty.
 	} else {
-		my $filename = basename($filepath);
-		if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-		    $urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
-		} elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
-		    my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-		    if (defined(my $id = delete $fullname2id{$fullname})) {
-			$local_sources{$id} = $filepath;
-		    } else {
-			$options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
-		    }
-		} else {
-		    $options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
-		}
+	    my $filename = basename($filepath);
+	    my @fullnames = keys(%{$file2fullnames{$filename} || {}});
+	    if (@fullnames > 1) {
+		$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
+	    } elsif (@fullnames == 1 &&
+		       defined(my $id = delete $fullname2id{$fullnames[0]})) {
+		$local_sources{$id} = $filepath;
+	    } else {
+		$options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
+	    }
 	}
     }
 
