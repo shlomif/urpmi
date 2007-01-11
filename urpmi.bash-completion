@@ -61,7 +61,7 @@ _urpmi_aliases()
 #
 _urpmi()
 {
-	local cur prev
+	local cur prev options
 
 	COMPREPLY=()
 	cur=${COMP_WORDS[COMP_CWORD]}
@@ -92,25 +92,38 @@ _urpmi()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W '-a -p -P -y -s -q -v -h --help \
-			--update --media --excludemedia --sortmedia \
-			--synthesis --auto --auto-select --no-uninstall \
-			--split-level --split-length --fuzzy --src \
-			--install-src --clean --noclean --parallel --wget --prozilla \
-			--curl --limit-rate --proxy --proxy-user --bug \
+		options='-a -p -P -y -s -q -v -h --help --update --media \
+			--excludemedia --sortmedia --synthesis --auto \
+			--auto-select --no-uninstall --split-level \
+			--split-length --fuzzy --src --install-src --clean \
+			--noclean --parallel --wget --prozilla --curl \
+			--limit-rate --proxy --proxy-user --bug \
 			--no-verify-rpm --no-install --test --excludepath \
 			--excludedocs --searchmedia --ignoresize --ignorearch \
-			--strict-arch --wget-options --curl-options --prozilla-options \
-			--rsync-options --resume --retry --skip --nolock \
-			--more-choices --no-md5sum --force-key' -- $cur ) )
+			--strict-arch --wget-options --curl-options \
+			--prozilla-options --rsync-options --resume --retry \
+			--skip --nolock --more-choices'
 		# add dangereous option for everything else as rurpmi
 		if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
-			COMPREPLY=( $( compgen -W '${COMPREPLY[@]} --root \
-				--use-distrib --env --allow-nodeps \
-				--allow-force --force --noscripts \
-				--auto-update --keep --nokeep --verify-rpm' \
-				-- $cur ) )
-			fi
+			options="$options --root --use-distrib --env \
+				--allow-nodeps --allow-force --force \
+				--noscripts --auto-update --keep --nokeep \
+				--verify-rpm"
+			for (( i=1; i < COMP_CWORD; i++ )); do
+				case ${COMP_WORDS[i]} in
+					--use-distrib)
+						options="$options \
+						--probe-synthesis \
+						--probe-hdlist"
+						;;
+					----auto-update)
+						options="$options --no-md5sum \
+						--force-key"
+						;;
+				esac
+			done
+		fi
+		COMPREPLY=( $( compgen -W "$options" -- $cur ) )
 	else
 		# return available packages only
 		if [[ ${COMP_WORDS[0]} == *rurpmi ]]; then
