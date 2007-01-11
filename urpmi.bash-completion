@@ -108,7 +108,7 @@ _urpmi()
 			COMPREPLY=( $( compgen -W '${COMPREPLY[@]} --root \
 				--use-distrib --env --allow-nodeps \
 				--allow-force --force --noscripts \
-				--auto-update --keep --verify-rpm' \
+				--auto-update --keep --nokeep --verify-rpm' \
 				-- $cur ) )
 			fi
 	else
@@ -163,7 +163,7 @@ _urpmq()
 		# return list of available options
 		COMPREPLY=( $( compgen -W '-v -d -u -a -c -P -R -y -s -i -g \
 			-r -f -h -l --help --update --media --excludemedia \
-			--sortmedia --synthesis --auto-select --fuzzy --keep \
+			--sortmedia --synthesis --auto-select --fuzzy --keep --nokeep \
 			--list --list-url --list-media --list-nodes --list-aliases \
 			--src --sources --force --parallel --wget --curl --prozilla \
 			--changelog --proxy --proxy-user --env --dump-config \
@@ -274,7 +274,7 @@ _urpmi_addmedia()
 		# return list of available options
 		COMPREPLY=( $( compgen -W '-c -f -h -v -q --help --wget --curl --prozilla \
 			--limit-rate --proxy --proxy-user --update --raw \
-			--probe-synthesis --probe-hdlist --no-probe --distrib \
+			--probe-synthesis --probe-hdlist --probe-rpms --no-probe --distrib \
 			--env --version --arch --virtual --norebuild --nopubkey' -- $cur ) )
 	else
 		# count number of mandatory args given sofar
