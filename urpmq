@@ -66,6 +66,8 @@ usage:
 ") . N("  --force        - force invocation even if some packages do not exist.
 ") . N("  --ignorearch   - allow to query rpms for unmatched architectures.
 ") . N("  --parallel     - distributed urpmi across machines of alias.
+") . N("  --root         - use another root for rpm installation.
+") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . N("  --use-distrib  - configure urpmi on the fly from a distrib tree.
                    This permit to querying a distro.
 ") . N("    --probe-synthesis - use synthesis file.
@@ -80,6 +82,7 @@ usage:
 ") . N("  --env          - use specific environment (typically a bug report).
 ") . N("  --changelog    - print changelog.
 ") . N("  --summary, -S  - print summary.
+") . N("  --verbose, -v  - verbose mode.
 ") . N("  -a             - select all matches on command line.
 ") . N("  -c             - complete output with package to be removed.
 ") . N("  -d             - extend query to package dependencies.
@@ -94,7 +97,6 @@ usage:
 ") . N("  -RR            - extended reverse search (includes virtual packages).
 ") . N("  -s             - next package is a source package (same as --src).
 ") . N("  -u             - remove package if a more recent version is already installed.
-") . N("  -v             - verbose mode.
 ") . N("  -y             - impose fuzzy search (same as --fuzzy).
 ") . N("  -Y             - like -y, but forces to match case-insensitively.
 ") . "\n" . N("  names or rpm files given on command line are queried.
@@ -326,15 +328,16 @@ if ($urpm::args::options{list_aliases}) {
 	    # if not root, use a temporary directory to store headers
 	    my $tmp_header_dir = $< != 0 ? urpm::sys::mktempdir() : "$urpm->{cachedir}/headers";
 	    my @selected = map { split /\|/ } keys %{$state->{selected}};
-	    foreach my $medium (@{$urpm->{media} || []}) {
-		if ($medium->{synthesis}) {
-		    $urpm->{log}->(N("skipping media %s: no hdlist", $medium->{name}));
-		    next;
-		}
-		if (my @headers = (grep { ! -s "$urpm->{cachedir}/headers/$_" }
-			map { my $pkg = $urpm->{depslist}[$_];
-			    $pkg && $pkg->header_filename } @selected))
-		{
+
+	    if (my @headers = (grep { ! -s "$urpm->{cachedir}/headers/$_" }
+				 map { my $pkg = $urpm->{depslist}[$_];
+				       $pkg && $pkg->header_filename } @selected)) {
+
+		foreach my $medium (@{$urpm->{media} || []}) {
+		    if ($medium->{synthesis}) {
+			$urpm->{log}->(N("skipping media %s: no hdlist", $medium->{name}));
+			next;
+		    }
 		    my %h = map { $_ => 1 } @headers; @headers = keys %h;
                     my $hdlist_path = urpm::media::any_hdlist($urpm, $medium);
                     if (-s $hdlist_path) {
@@ -356,6 +359,7 @@ if ($urpm::args::options{list_aliases}) {
 		    my $pkg = $urpm->{depslist}[$_] or next;
 		    #- even if non-root, search for a header in the global cachedir
 		    my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
+		    warn "$file\n";
 		    if (-s $file) {
 			$pkg->update_header($file, keep_all_tags => 1);
 		    } elsif ($< != 0) {
