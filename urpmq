@@ -27,6 +27,7 @@ use urpm;
 use urpm::args;
 use urpm::msg;
 use urpm::sys;
+use urpm::util;
 use urpm::media;
 use urpm::select;
 use urpm::get_pkgs;
@@ -332,13 +333,13 @@ if ($urpm::args::options{list_aliases}) {
 	    if (my @headers = (grep { ! -s "$urpm->{cachedir}/headers/$_" }
 				 map { my $pkg = $urpm->{depslist}[$_];
 				       $pkg && $pkg->header_filename } @selected)) {
+		@headers = uniq(@headers);
 
 		foreach my $medium (@{$urpm->{media} || []}) {
 		    if ($medium->{synthesis}) {
 			$urpm->{log}->(N("skipping media %s: no hdlist", $medium->{name}));
 			next;
 		    }
-		    my %h = map { $_ => 1 } @headers; @headers = keys %h;
                     my $hdlist_path = urpm::media::any_hdlist($urpm, $medium);
                     if (-s $hdlist_path) {
 			require MDV::Packdrakeng;
