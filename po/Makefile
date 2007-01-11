@@ -8,8 +8,7 @@ PGOAL = urpmi
 PL_FILES = ../rpm-find-leaves ../urpm.pm ../urpme ../urpmf \
 	../urpmi ../urpmi.addmedia ../gurpmi ../gurpmi2 ../gurpmi.pm \
 	../urpmi.removemedia ../urpmi.update ../urpmq ../urpmi.recover \
-	../urpm/parallel_ka_run.pm ../urpm/parallel_ssh.pm \
-	../urpm/msg.pm ../urpm/args.pm ../rurpmi
+	../urpm/*.pm ../rurpmi
 
 POFILES = $(shell ls *.po)
 MOFILES = $(POFILES:%.po=%.mo)
