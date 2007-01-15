@@ -417,7 +417,7 @@ msgstr "引数が多すぎます\n"
 #: ../urpm/bug_report.pm:36 ../urpm/media.pm:1142
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
-msgstr ""
+msgstr "メディア %s のhdlist synthesisファイルを作成しました"
 
 #: ../urpm/bug_report.pm:51 ../urpmi:247
 #, c-format
@@ -440,9 +440,9 @@ msgid "medium `%s' is defined twice, aborting"
 msgstr ""
 
 #: ../urpm/cfg.pm:226 ../urpm/media.pm:449
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write config file [%s]"
-msgstr "設定ファイル [%s] を作成できません"
+msgstr "設定ファイル[%s]を作成できません"
 
 #: ../urpm/download.pm:111
 #, c-format
@@ -537,22 +537,22 @@ msgstr "...取得に失敗: %s"
 #: ../urpm/download.pm:668
 #, c-format
 msgid "unknown protocol defined for %s"
-msgstr ""
+msgstr "%s に不明なプロトコルが定義されています"
 
 #: ../urpm/download.pm:687
 #, c-format
 msgid "%s is not available, falling back on %s"
-msgstr ""
+msgstr "%s は利用できません。%s にフォールバックします。"
 
 #: ../urpm/download.pm:691
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
-msgstr ""
+msgstr "webfetchが見つかりません。利用可能なwebfetch: %s\n"
 
 #: ../urpm/download.pm:705
-#, fuzzy, c-format
+#, c-format
 msgid "unable to handle protocol: %s"
-msgstr "スペックファイル %s [%s] を分析できません"
+msgstr "プロトコルを処理できません: %s"
 
 #: ../urpm/get_pkgs.pm:41
 #, fuzzy, c-format
@@ -562,22 +562,22 @@ msgstr "%s を %s にインストール中..."
 #: ../urpm/get_pkgs.pm:56 ../urpm/get_pkgs.pm:79 ../urpm/get_pkgs.pm:110
 #, c-format
 msgid "there are multiple packages with the same rpm filename \"%s\""
-msgstr ""
+msgstr "%s という名のRPMファイルが複数あります"
 
 #: ../urpm/get_pkgs.pm:93
-#, fuzzy, c-format
+#, c-format
 msgid "unable to correctly parse [%s] on value \"%s\""
-msgstr "メディア %s を作成できません\n"
+msgstr "値 %2$s で %1$s を正しく分析できません"
 
 #: ../urpm/get_pkgs.pm:100 ../urpm/media.pm:219
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
-msgstr "RPM ファイル [%s] にアクセスできません"
+msgstr "%s のリストファイルにアクセスできません。メディアを無視します"
 
 #: ../urpm/get_pkgs.pm:101
 #, c-format
 msgid "(retry as root?)"
-msgstr ""
+msgstr "(root で再試行しますか？)"
 
 #: ../urpm/get_pkgs.pm:126
 #, c-format
@@ -585,67 +585,71 @@ msgid ""
 "medium \"%s\" uses an invalid list file:\n"
 "  mirror is probably not up-to-date, trying to use alternate method"
 msgstr ""
+"メディア %s のリストファイルが無効です:\n"
+"  恐らくミラーが最新状態に更新されていません。別の方法を試みます"
 
 #: ../urpm/get_pkgs.pm:130
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
-msgstr ""
+msgstr "メディア %s にはRPMファイルの所在が定義されていません"
 
 #: ../urpm/get_pkgs.pm:142
-#, fuzzy, c-format
+#, c-format
 msgid "package %s is not found."
-msgstr "パッケージ %s は既にインストールされています"
+msgstr "パッケージ %s は見つかりません"
 
 #: ../urpm/get_pkgs.pm:174
 #, c-format
 msgid "malformed URL: [%s]"
-msgstr ""
+msgstr "不正な形式のURL: [%s]"
 
 #: ../urpm/get_pkgs.pm:180
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "RPM ファイル [%s] を取得中..."
+msgstr "メディア %s からRPMファイルを検索..."
 
 #: ../urpm/install.pm:77
-#, fuzzy, c-format
+#, c-format
 msgid "[repackaging]"
-msgstr "repackaging を無効にします\n"
+msgstr "[repackaging 再パッケージ化]"
 
 #: ../urpm/install.pm:110
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
+"%s にインストールするためのトランザクションを作成しました\n"
+"(remove=%d, install=%d, upgrade-%d)"
 
 #: ../urpm/install.pm:113
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create transaction"
-msgstr "メディア %s を作成できません\n"
+msgstr "トランザクションを作成できません"
 
 #: ../urpm/install.pm:121
-#, fuzzy, c-format
+#, c-format
 msgid "removing package %s"
 msgstr "%s を削除"
 
 #: ../urpm/install.pm:123
-#, fuzzy, c-format
+#, c-format
 msgid "unable to remove package %s"
-msgstr "ソースパッケージを取得できませんでした。中止します。"
+msgstr "%s を削除できません"
 
 #: ../urpm/install.pm:135
 #, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
-msgstr ""
+msgstr "delta-rpmパッケージ %s からrpmを抽出できません"
 
 #: ../urpm/install.pm:141
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-msgstr ""
+msgstr "パッケージ %s を追加 (id=%d, eid=%d, update=%d, file=%s)"
 
 #: ../urpm/install.pm:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install package %s"
-msgstr "パッケージのインストールはスーパーユーザにしかできません"
+msgstr "%s をインストールできません"
 
 #: ../urpm/install.pm:180
 #, fuzzy, c-format
@@ -655,7 +659,7 @@ msgstr "%s を %s からインストール"
 #: ../urpm/install.pm:186
 #, c-format
 msgid "More information on package %s"
-msgstr ""
+msgstr "パッケージ %s の詳細情報"
 
 #: ../urpm/ldap.pm:71
 #, fuzzy, c-format
@@ -695,7 +699,7 @@ msgstr ""
 #: ../urpm/md5sum.pm:25
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
-msgstr ""
+msgstr "警告: MD5SUMファイルに %s のmd5sumがありません"
 
 #: ../urpm/md5sum.pm:45
 #, c-format
@@ -708,11 +712,13 @@ msgid ""
 "virtual medium \"%s\" should not have defined hdlist or list file, medium "
 "ignored"
 msgstr ""
+"仮想メディア %s にhdlistまたはリストファイルが指定されています。メディアを無"
+"視します"
 
 #: ../urpm/media.pm:175
 #, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-msgstr ""
+msgstr "仮想メディア %s に正しいURLが指定されていません。メディアを無視します"
 
 #: ../urpm/media.pm:183
 #, fuzzy, c-format
@@ -722,7 +728,7 @@ msgstr "RPM ファイル名 [%s] が無効です"
 #: ../urpm/media.pm:190
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
-msgstr ""
+msgstr "%s のリストファイルが見つかりません。メディアを無視します"
 
 #: ../urpm/media.pm:203
 #, c-format
@@ -735,9 +741,9 @@ msgid "\"synthesis\" should be set (medium \"%s\")"
 msgstr ""
 
 #: ../urpm/media.pm:209 ../urpm/media.pm:1419 ../urpm/media.pm:1507
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access hdlist file of \"%s\", medium ignored"
-msgstr "RPM ファイル [%s] にアクセスできません"
+msgstr "%s のhdlistファイルにアクセスできません。メディアを無視します"
 
 #: ../urpm/media.pm:215
 #, fuzzy, c-format
@@ -748,41 +754,45 @@ msgstr "RPM ファイル [%s] にアクセスできません"
 #, c-format
 msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
 msgstr ""
+"メディア %s はすでに使われたhdlistを使おうとしています。このメディアを無視し"
+"ます"
 
 #: ../urpm/media.pm:230
 #, c-format
 msgid "medium \"%s\" trying to use an already used list, medium ignored"
 msgstr ""
+"メディア %s はすでに使われたリストを使おうとしています。このメディアを無視し"
+"ます"
 
 #: ../urpm/media.pm:255
 #, c-format
 msgid "trying to override existing medium \"%s\", skipping"
-msgstr ""
+msgstr "既存のメディア %s を上書きしようとしています。スキップします。"
 
 #: ../urpm/media.pm:398
 #, c-format
 msgid "too many mount points for removable medium \"%s\""
-msgstr ""
+msgstr "リムーバブルメディア %s にはマウントポイントが多過ぎます"
 
 #: ../urpm/media.pm:399
 #, c-format
 msgid "taking removable device as \"%s\""
-msgstr ""
+msgstr "リムーバブルデバイスを %s と認識します"
 
 #: ../urpm/media.pm:402
 #, c-format
 msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr ""
+msgstr "メディア %s はISOイメージです。オンザフライでマウントされます。"
 
 #: ../urpm/media.pm:405
 #, c-format
 msgid "using different removable device [%s] for \"%s\""
-msgstr ""
+msgstr "%2$s に他のリムーバブルデバイス[%1$s]を使います"
 
 #: ../urpm/media.pm:410 ../urpm/media.pm:413
-#, fuzzy, c-format
+#, c-format
 msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "メディア %s を作成できません\n"
+msgstr "リムーバブルメディア %s のパスを読み出せません"
 
 #: ../urpm/media.pm:428
 #, c-format
@@ -790,19 +800,19 @@ msgid "wrote %s"
 msgstr ""
 
 #: ../urpm/media.pm:451
-#, fuzzy, c-format
+#, c-format
 msgid "wrote config file [%s]"
-msgstr "設定ファイル [%s] を作成します"
+msgstr "設定ファイル[%s]を作成"
 
 #: ../urpm/media.pm:496
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
-msgstr ""
+msgstr "パラレルモードは [--use-distrib] と一緒には使えません"
 
 #: ../urpm/media.pm:504
 #, c-format
 msgid "using associated media for parallel mode: %s"
-msgstr ""
+msgstr "パラレルモードに担当メディアを使用: %s"
 
 #: ../urpm/media.pm:520
 #, c-format
@@ -821,32 +831,32 @@ msgstr ""
 #: ../urpm/media.pm:596
 #, c-format
 msgid "Search start: %s end: %s"
-msgstr ""
+msgstr "検索開始: %s 終了: %s"
 
 #: ../urpm/media.pm:605 ../urpm/media.pm:1802
 #, c-format
 msgid "performing second pass to compute dependencies\n"
-msgstr ""
+msgstr "セカンドステージ実行中(依存を計算)\n"
 
 #: ../urpm/media.pm:621
-#, fuzzy, c-format
+#, c-format
 msgid "skipping package %s"
-msgstr "不明なパッケージ"
+msgstr "パッケージ %s をスキップ"
 
 #: ../urpm/media.pm:637
 #, c-format
 msgid "would install instead of upgrade package %s"
-msgstr ""
+msgstr "パッケージ %s を更新ではなくインストールする"
 
 #: ../urpm/media.pm:662
 #, c-format
 msgid "medium \"%s\" already exists"
-msgstr ""
+msgstr "メディア %s は既に存在します"
 
 #: ../urpm/media.pm:677
 #, c-format
 msgid "virtual medium needs to be local"
-msgstr ""
+msgstr "仮想メディアはローカルでなければいけません"
 
 #: ../urpm/media.pm:691
 #, c-format
@@ -874,14 +884,14 @@ msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
 #: ../urpm/media.pm:739
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving media.cfg file..."
-msgstr "RPM ファイル [%s] を取得中..."
+msgstr "media.cfg ファイルを取得..."
 
 #: ../urpm/media.pm:744
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse media.cfg"
-msgstr "rpmdb を開けません"
+msgstr "media.cfg を分析できません"
 
 #: ../urpm/media.pm:747
 #, c-format
@@ -889,44 +899,44 @@ msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr ""
 
 #: ../urpm/media.pm:826
-#, fuzzy, c-format
+#, c-format
 msgid "trying to select nonexistent medium \"%s\""
-msgstr "メディア %s を作成できません\n"
+msgstr "%s というメディアは存在しません"
 
 #: ../urpm/media.pm:829
-#, fuzzy, c-format
+#, c-format
 msgid "selecting multiple media: %s"
-msgstr "メディア %s を有効にしています"
+msgstr "複数のメディアを選択: %s"
 
 #: ../urpm/media.pm:849
-#, fuzzy, c-format
+#, c-format
 msgid "removing medium \"%s\""
-msgstr "%s を削除"
+msgstr "メディア %s を削除"
 
 #: ../urpm/media.pm:940
 #, c-format
 msgid "reconfiguring urpmi for media \"%s\""
-msgstr ""
+msgstr "メディア %s についてurpmiを再設定"
 
 #: ../urpm/media.pm:979
-#, fuzzy, c-format
+#, c-format
 msgid "...reconfiguration failed"
-msgstr "...取得に失敗: %s"
+msgstr "..再設定に失敗"
 
 #: ../urpm/media.pm:985
 #, c-format
 msgid "reconfiguration done"
-msgstr ""
+msgstr "再設定完了"
 
 #: ../urpm/media.pm:1033
 #, c-format
 msgid "Error generating names file: dependency %d not found"
-msgstr ""
+msgstr "名前ファイルの生成エラー: 依存 %d が見つかりません"
 
 #: ../urpm/media.pm:1037
 #, c-format
 msgid "Error generating names file: Can't write to file (%s)"
-msgstr ""
+msgstr "名前ファイルの生成エラー: ファイルに書き込めません (%s)"
 
 #: ../urpm/media.pm:1072
 #, c-format
@@ -934,19 +944,19 @@ msgid "medium \"%s\" is up-to-date"
 msgstr ""
 
 #: ../urpm/media.pm:1092
-#, fuzzy, c-format
+#, c-format
 msgid "examining hdlist file [%s]"
-msgstr "設定ファイル [%s] を作成します"
+msgstr "hdlistファイル[%s]を調査中"
 
 #: ../urpm/media.pm:1102
-#, fuzzy, c-format
+#, c-format
 msgid "examining synthesis file [%s]"
-msgstr "設定ファイル [%s] を作成します"
+msgstr "synthesisファイル[%s]を調査中"
 
 #: ../urpm/media.pm:1119
 #, c-format
 msgid "building hdlist [%s]"
-msgstr ""
+msgstr "hdlist[%s]を作成"
 
 #: ../urpm/media.pm:1138
 #, c-format
@@ -954,26 +964,28 @@ msgid ""
 "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
 "corrupted."
 msgstr ""
+"メディア %s のsynthesisファイルをビルドできません。hdlistファイルが壊れている"
+"可能性があります。"
 
 #: ../urpm/media.pm:1157
 #, c-format
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
-msgstr ""
+msgstr "メディア %s のhdlist(またはsynthesis)ファイルの読込中に問題が発生"
 
 #: ../urpm/media.pm:1169 ../urpm/media.pm:1207 ../urpm/media.pm:1494
-#, fuzzy, c-format
+#, c-format
 msgid "...copying failed"
-msgstr "コピーに失敗"
+msgstr "..コピーに失敗"
 
 #: ../urpm/media.pm:1203
-#, fuzzy, c-format
+#, c-format
 msgid "copying description file of \"%s\"..."
-msgstr "%s にファイルを配信中..."
+msgstr "%s の説明ファイルをコピー..."
 
 #: ../urpm/media.pm:1205 ../urpm/media.pm:1236
-#, fuzzy, c-format
+#, c-format
 msgid "...copying done"
-msgstr "...取得完了"
+msgstr "..コピー完了"
 
 #: ../urpm/media.pm:1232
 #, c-format
@@ -983,47 +995,47 @@ msgstr ""
 #: ../urpm/media.pm:1238
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
-msgstr ""
+msgstr "[%s]のコピーに失敗(ファイルが異常に小さ過ぎます)"
 
 #: ../urpm/media.pm:1271
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
-msgstr ""
+msgstr "コピーしたsource hdlist(またはsynthesis)のmd5sumを計算"
 
 #: ../urpm/media.pm:1273
 #, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
-msgstr ""
+msgstr "[%s]のコピーに失敗 (md5sum不一致)"
 
 #: ../urpm/media.pm:1285
 #, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr ""
+msgstr "取得したhdlist(またはsynthesis)のmd5sumを計算"
 
 #: ../urpm/media.pm:1287
-#, fuzzy, c-format
+#, c-format
 msgid "...retrieving failed: md5sum mismatch"
-msgstr "...取得に失敗: %s"
+msgstr "取得に失敗: md5sum不一致"
 
 #: ../urpm/media.pm:1302
-#, fuzzy, c-format
+#, c-format
 msgid "no rpm files found from [%s]"
-msgstr "RPM ファイル名 [%s] が無効です"
+msgstr "%s にはRPMファイルがありません"
 
 #: ../urpm/media.pm:1309
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
-msgstr "RPM ファイル [%s] を取得中..."
+msgstr "[%s]からRPMファイルを読込中"
 
 #: ../urpm/media.pm:1324
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
-msgstr "RPM ファイル [%s] にアクセスできません"
+msgstr "[%s]からRPMファイルを読み込めません: %s"
 
 #: ../urpm/media.pm:1334
 #, c-format
 msgid "no rpms read"
-msgstr ""
+msgstr "RPMを読めませんでした"
 
 #: ../urpm/media.pm:1364
 #, c-format
@@ -1032,6 +1044,9 @@ msgid ""
 "this could happen if you mounted manually the directory when creating the "
 "medium."
 msgstr ""
+"メディア %s にアクセスできません。\n"
+"この現象は、メディアを追加するときに手動でディレクトリをマウントすると起こる"
+"ことがあります。"
 
 #: ../urpm/media.pm:1377
 #, c-format
@@ -1041,37 +1056,37 @@ msgstr ""
 #: ../urpm/media.pm:1457
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-msgstr ""
+msgstr "%s のsource hdlist(またはsynthesis)を取得..."
 
 #: ../urpm/media.pm:1473
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
-msgstr ""
+msgstr "検出したhdlist(またはsynthesis)を %s と認識しました"
 
 #: ../urpm/media.pm:1480 ../urpm/media.pm:1612
 #, c-format
 msgid "no hdlist file found for medium \"%s\""
-msgstr ""
+msgstr "メディア %s にはhdlistファイルがありません"
 
 #: ../urpm/media.pm:1532
-#, fuzzy, c-format
+#, c-format
 msgid "examining pubkey file of \"%s\"..."
-msgstr "RPM ファイル [%s] を取得中..."
+msgstr "%s の公開鍵ファイルを調査中..."
 
 #: ../urpm/media.pm:1544
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
-msgstr ""
+msgstr "..%2$s の公開鍵ファイルからキー %1$sを取り込みました"
 
 #: ../urpm/media.pm:1547
-#, fuzzy, c-format
+#, c-format
 msgid "unable to import pubkey file of \"%s\""
-msgstr "スペックファイル %s [%s] を分析できません"
+msgstr "%s の公開鍵ファイルを取り込めません"
 
 #: ../urpm/media.pm:1563
 #, c-format
 msgid "writing list file for medium \"%s\""
-msgstr ""
+msgstr "メディア %s のリストファイルを作成"
 
 #: ../urpm/media.pm:1621 ../urpm/media.pm:1651
 #, fuzzy, c-format
@@ -1079,19 +1094,19 @@ msgid "updated medium \"%s\""
 msgstr "メディア %s を更新できません\n"
 
 #: ../urpm/media.pm:1638
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse hdlist file of \"%s\""
-msgstr "スペックファイル %s [%s] を分析できません"
+msgstr "%s のhdlistを分析できません"
 
 #: ../urpm/media.pm:1644
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
-msgstr ""
+msgstr "メディア %s のsynthesisファイルの読込中に問題が発生"
 
 #: ../urpm/media.pm:1709
 #, c-format
 msgid "reading headers from medium \"%s\""
-msgstr ""
+msgstr "メディア %s のヘッダを読込中"
 
 #: ../urpm/msg.pm:61 ../urpmi:489 ../urpmi:508 ../urpmi:597
 #, c-format
@@ -1110,54 +1125,54 @@ msgid "Sorry, bad choice, try again\n"
 msgstr "有効な選択ではありません。やり直してください\n"
 
 #: ../urpm/parallel.pm:14
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "スペックファイル %s [%s] を分析できません"
+msgstr "ファイル[%2$s]の %1$s を分析できません"
 
 #: ../urpm/parallel.pm:23
 #, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr ""
+msgstr "ファイル[%s]のパラレルハンドラを調査中"
 
 #: ../urpm/parallel.pm:34
 #, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr ""
+msgstr "ノードのパラレルハンドラを検出しました: %s"
 
 #: ../urpm/parallel.pm:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "メディア %s を更新できません\n"
+msgstr "パラレルオプション %s は使用できません"
 
 #: ../urpm/removable.pm:32
-#, fuzzy, c-format
+#, c-format
 msgid "mounting %s"
-msgstr "%s を削除"
+msgstr "%s をマウント"
 
 #: ../urpm/removable.pm:56
-#, fuzzy, c-format
+#, c-format
 msgid "unmounting %s"
-msgstr "%s を削除"
+msgstr "%s をアンマウント"
 
 #: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
 #, c-format
 msgid "medium \"%s\" is not selected"
-msgstr ""
+msgstr "メディア %s は選択されていません"
 
 #: ../urpm/removable.pm:143
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "メディア %s を作成できません\n"
+msgstr "RPMファイル[%s]をメディア %s から読み込めません"
 
 #: ../urpm/removable.pm:151
 #, c-format
 msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
+msgstr "メディア %s はリムーバブルだと判断しましたが、不確実です"
 
 #: ../urpm/removable.pm:163
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access medium \"%s\""
-msgstr "メディア %s を更新できません\n"
+msgstr "メディア %s にアクセスできません"
 
 #: ../urpm/select.pm:115
 #, fuzzy, c-format
@@ -1172,52 +1187,52 @@ msgstr "以下のパッケージが %s を含んでいます: %s"
 #: ../urpm/select.pm:398 ../urpm/select.pm:438
 #, c-format
 msgid "due to missing %s"
-msgstr ""
+msgstr "%s がないために"
 
 #: ../urpm/select.pm:399 ../urpm/select.pm:436
 #, c-format
 msgid "due to unsatisfied %s"
-msgstr ""
+msgstr "%s が依存を満たしていないために"
 
 #: ../urpm/select.pm:405
-#, fuzzy, c-format
+#, c-format
 msgid "trying to promote %s"
-msgstr "削除するものはありません"
+msgstr "%s をアップグレードするために"
 
 #: ../urpm/select.pm:406
 #, c-format
 msgid "in order to keep %s"
-msgstr ""
+msgstr "%s を維持するために"
 
 #: ../urpm/select.pm:432
-#, fuzzy, c-format
+#, c-format
 msgid "in order to install %s"
-msgstr " (インストールするため)"
+msgstr "%s をインストールするために"
 
 #: ../urpm/select.pm:442
 #, c-format
 msgid "due to conflicts with %s"
-msgstr ""
+msgstr "%s と衝突するために"
 
 #: ../urpm/select.pm:444
 #, c-format
 msgid "unrequested"
-msgstr ""
+msgstr "要求されていません"
 
 #: ../urpm/signature.pm:26
 #, c-format
 msgid "Invalid signature (%s)"
-msgstr ""
+msgstr "無効な署名 (%s)"
 
 #: ../urpm/signature.pm:57
 #, c-format
 msgid "Invalid Key ID (%s)"
-msgstr ""
+msgstr "無効なキーID (%s)"
 
 #: ../urpm/signature.pm:59
 #, c-format
 msgid "Missing signature (%s)"
-msgstr ""
+msgstr "署名がありません (%s)"
 
 #: ../urpme:39
 #, c-format

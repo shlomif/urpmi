@@ -423,7 +423,7 @@ msgstr "Zbyt wiele argumentów\n"
 #: ../urpm/bug_report.pm:36 ../urpm/media.pm:1142
 #, c-format
 msgid "built hdlist synthesis file for medium \"%s\""
-msgstr ""
+msgstr "zbudowano plik syntezy dla nośnika \"%s\""
 
 #: ../urpm/bug_report.pm:51 ../urpmi:247
 #, c-format
@@ -446,9 +446,9 @@ msgid "medium `%s' is defined twice, aborting"
 msgstr ""
 
 #: ../urpm/cfg.pm:226 ../urpm/media.pm:449
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write config file [%s]"
-msgstr "Utworzenie pliku konfiguracyjnego było niemożliwe [%s]"
+msgstr "nie można zapisać pliku konfiguracyjnego [%s]"
 
 #: ../urpm/download.pm:111
 #, c-format
@@ -543,22 +543,22 @@ msgstr "...pobieranie nie powiodło się: %s"
 #: ../urpm/download.pm:668
 #, c-format
 msgid "unknown protocol defined for %s"
-msgstr ""
+msgstr "nieznany protokół zdefiniowany dla %s"
 
 #: ../urpm/download.pm:687
 #, c-format
 msgid "%s is not available, falling back on %s"
-msgstr ""
+msgstr "%s jest niedostępny, ponowne stosowanie %s"
 
 #: ../urpm/download.pm:691
 #, c-format
 msgid "no webfetch found, supported webfetch are: %s\n"
-msgstr ""
+msgstr "nie znaleziono narzędzia do pobierania stron, obsługiwanymi są: %s\n"
 
 #: ../urpm/download.pm:705
-#, fuzzy, c-format
+#, c-format
 msgid "unable to handle protocol: %s"
-msgstr "nie można przetworzyć pliku konfiguracyjnego %s [%s]"
+msgstr "nie można obsłużyć protokołu: %s"
 
 #: ../urpm/get_pkgs.pm:41
 #, fuzzy, c-format
@@ -568,22 +568,24 @@ msgstr "instalowanie %s na %s"
 #: ../urpm/get_pkgs.pm:56 ../urpm/get_pkgs.pm:79 ../urpm/get_pkgs.pm:110
 #, c-format
 msgid "there are multiple packages with the same rpm filename \"%s\""
-msgstr ""
+msgstr "Istnieje wiele pakietów o tej samej nazwie pliku rpm \"%s\""
 
 #: ../urpm/get_pkgs.pm:93
-#, fuzzy, c-format
+#, c-format
 msgid "unable to correctly parse [%s] on value \"%s\""
-msgstr "nie można utworzyć nośnika \"%s\"\n"
+msgstr "nie można poprawnie przetworzyć [%s] przy wartości \"%s\""
 
 #: ../urpm/get_pkgs.pm:100 ../urpm/media.pm:219
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access list file of \"%s\", medium ignored"
-msgstr "nie można uzyskać dostępu do pliku rpm [%s]"
+msgstr ""
+"nie można uzyskać dostępu do pliku listy związanego z \"%s\", zignorowano "
+"nośnik"
 
 #: ../urpm/get_pkgs.pm:101
 #, c-format
 msgid "(retry as root?)"
-msgstr ""
+msgstr "(spróbować ponownie jako root?)"
 
 #: ../urpm/get_pkgs.pm:126
 #, c-format
@@ -591,67 +593,72 @@ msgid ""
 "medium \"%s\" uses an invalid list file:\n"
 "  mirror is probably not up-to-date, trying to use alternate method"
 msgstr ""
+"nośnik \"%s\" używa niepoprawnego pliku listy:\n"
+"serwer zwierciadlany jest prawdopodobnie nieaktualny,\n"
+"próba wykorzystania metody alternatywnej"
 
 #: ../urpm/get_pkgs.pm:130
 #, c-format
 msgid "medium \"%s\" does not define any location for rpm files"
-msgstr ""
+msgstr "nośnik \"%s\" nie określa żadnej lokalizacji dla plików rpm"
 
 #: ../urpm/get_pkgs.pm:142
-#, fuzzy, c-format
+#, c-format
 msgid "package %s is not found."
-msgstr "Pakiet %s jest już zaintalowany w systemie"
+msgstr "pakiet %s nie został odnaleziony."
 
 #: ../urpm/get_pkgs.pm:174
 #, c-format
 msgid "malformed URL: [%s]"
-msgstr ""
+msgstr "niepoprawny adres URL: [%s]"
 
 #: ../urpm/get_pkgs.pm:180
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving rpm files from medium \"%s\"..."
-msgstr "pobieranie pliku rpm [%s] ..."
+msgstr "pobieranie plików rpm z nośnika \"%s\"..."
 
 #: ../urpm/install.pm:77
-#, fuzzy, c-format
+#, c-format
 msgid "[repackaging]"
-msgstr "Wyłączanie ponownego tworzenia pakietów\n"
+msgstr "[ponowne tworzenie pakietu]"
 
 #: ../urpm/install.pm:110
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
+"utworzono transakcję dla instalacji na %s (usuwanie=%d, instalacja=%d, "
+"aktualizacja=%d)"
 
 #: ../urpm/install.pm:113
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create transaction"
-msgstr "nie można utworzyć nośnika \"%s\"\n"
+msgstr "nie można utworzyć transakcji"
 
 #: ../urpm/install.pm:121
-#, fuzzy, c-format
+#, c-format
 msgid "removing package %s"
-msgstr "usuwanie %s"
+msgstr "usuwanie pakietu %s"
 
 #: ../urpm/install.pm:123
-#, fuzzy, c-format
+#, c-format
 msgid "unable to remove package %s"
-msgstr "nie można pobrać pakietów źródłowych, zaniechanie"
+msgstr "nie można usunąć pakietu %s"
 
 #: ../urpm/install.pm:135
 #, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
-msgstr ""
+msgstr "nie można wypakować pakietu rpm z pakietu delta-rpm %s"
 
 #: ../urpm/install.pm:141
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-msgstr ""
+msgstr "dodawanie pakietu %s (id=%d, eid=%d, aktualizacja=%d, plik=%s)"
 
 #: ../urpm/install.pm:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install package %s"
-msgstr "Tylko administrator ma prawo instalować pakiety"
+msgstr "nie można zainstalować pakietu %s"
 
 #: ../urpm/install.pm:180
 #, fuzzy, c-format
@@ -661,7 +668,7 @@ msgstr "instalowanie %s z %s"
 #: ../urpm/install.pm:186
 #, c-format
 msgid "More information on package %s"
-msgstr ""
+msgstr "Więcej informacji o pakiecie %s"
 
 #: ../urpm/ldap.pm:71
 #, fuzzy, c-format
@@ -701,7 +708,7 @@ msgstr ""
 #: ../urpm/md5sum.pm:25
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
-msgstr ""
+msgstr "ostrzeżenie: md5sum dla %s jest niedostępna w pliku MD5SUM"
 
 #: ../urpm/md5sum.pm:45
 #, c-format
@@ -714,11 +721,14 @@ msgid ""
 "virtual medium \"%s\" should not have defined hdlist or list file, medium "
 "ignored"
 msgstr ""
+"wirtualny nośnik \"%s\" nie powinien posiadać zdefiniowanego pliku hdlist "
+"lub listy, zignorowano nośnik"
 
 #: ../urpm/media.pm:175
 #, c-format
 msgid "virtual medium \"%s\" should have a clear url, medium ignored"
 msgstr ""
+"wirtualny nośnik \"%s\" powinien posiadać jasny url, zignorowano nośnik"
 
 #: ../urpm/media.pm:183
 #, fuzzy, c-format
@@ -728,7 +738,7 @@ msgstr "niepoprawna nazwa pliku rpm [%s]"
 #: ../urpm/media.pm:190
 #, c-format
 msgid "unable to find list file for \"%s\", medium ignored"
-msgstr ""
+msgstr "nie można znaleźć pliku listy dla \"%s\", nośnik zignorowano"
 
 #: ../urpm/media.pm:203
 #, c-format
@@ -741,9 +751,9 @@ msgid "\"synthesis\" should be set (medium \"%s\")"
 msgstr ""
 
 #: ../urpm/media.pm:209 ../urpm/media.pm:1419 ../urpm/media.pm:1507
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access hdlist file of \"%s\", medium ignored"
-msgstr "nie można uzyskać dostępu do pliku rpm [%s]"
+msgstr "nie można uzyskać dostępu do pliku hdlist \"%s\", zignorowano nośnik"
 
 #: ../urpm/media.pm:215
 #, fuzzy, c-format
@@ -754,41 +764,42 @@ msgstr "nie można uzyskać dostępu do pliku rpm [%s]"
 #, c-format
 msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
 msgstr ""
+"nośnik \"%s\" próbuje używać wykorzystany już plik hdlist, zignorowano nośnik"
 
 #: ../urpm/media.pm:230
 #, c-format
 msgid "medium \"%s\" trying to use an already used list, medium ignored"
-msgstr ""
+msgstr "nośnik \"%s\" próbuje użyć już wykorzystaną listę, zignorowano nośnik"
 
 #: ../urpm/media.pm:255
 #, c-format
 msgid "trying to override existing medium \"%s\", skipping"
-msgstr ""
+msgstr "próba przełączenia istniejącego nośnika \"%s\", anulowano"
 
 #: ../urpm/media.pm:398
 #, c-format
 msgid "too many mount points for removable medium \"%s\""
-msgstr ""
+msgstr "zbyt dużo punktów montowania dla wymiennego nośnika \"%s\""
 
 #: ../urpm/media.pm:399
 #, c-format
 msgid "taking removable device as \"%s\""
-msgstr ""
+msgstr "traktowanie napędu wymiennego jako \"%s\""
 
 #: ../urpm/media.pm:402
 #, c-format
 msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr ""
+msgstr "Nośnik \"%s\" jest obrazem ISO. Zostanie zamontowany w locie"
 
 #: ../urpm/media.pm:405
 #, c-format
 msgid "using different removable device [%s] for \"%s\""
-msgstr ""
+msgstr "używanie innego urządzenia wymiennego [%s] dla \"%s\""
 
 #: ../urpm/media.pm:410 ../urpm/media.pm:413
-#, fuzzy, c-format
+#, c-format
 msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "nie można utworzyć nośnika \"%s\"\n"
+msgstr "nie można pobrać ścieżki dla nośnika wymiennego \"%s\""
 
 #: ../urpm/media.pm:428
 #, c-format
@@ -796,19 +807,19 @@ msgid "wrote %s"
 msgstr ""
 
 #: ../urpm/media.pm:451
-#, fuzzy, c-format
+#, c-format
 msgid "wrote config file [%s]"
-msgstr "Zapisywanie pliku konfiguracyjnego [%s]"
+msgstr "zapisywanie pliku konfiguracyjnego [%s]"
 
 #: ../urpm/media.pm:496
 #, c-format
 msgid "Can't use parallel mode with use-distrib mode"
-msgstr ""
+msgstr "Nie można użyć trybu zrównoleglenia z trybem use-distrib"
 
 #: ../urpm/media.pm:504
 #, c-format
 msgid "using associated media for parallel mode: %s"
-msgstr ""
+msgstr "użycie nośnika przypisanego dla trybu równoległego: %s"
 
 #: ../urpm/media.pm:520
 #, c-format
@@ -827,32 +838,32 @@ msgstr ""
 #: ../urpm/media.pm:596
 #, c-format
 msgid "Search start: %s end: %s"
-msgstr ""
+msgstr "Początek wyszukiwania: %s koniec: %s"
 
 #: ../urpm/media.pm:605 ../urpm/media.pm:1802
 #, c-format
 msgid "performing second pass to compute dependencies\n"
-msgstr ""
+msgstr "podejmowanie kolejnej operacji obliczenia zależności\n"
 
 #: ../urpm/media.pm:621
-#, fuzzy, c-format
+#, c-format
 msgid "skipping package %s"
-msgstr "nieznane pakiety"
+msgstr "pomijanie pakietu %s"
 
 #: ../urpm/media.pm:637
 #, c-format
 msgid "would install instead of upgrade package %s"
-msgstr ""
+msgstr "mogłoby to spowodować zainstalowanie zamiast uaktualnienia pakietu %s"
 
 #: ../urpm/media.pm:662
 #, c-format
 msgid "medium \"%s\" already exists"
-msgstr ""
+msgstr "nośnik \"%s\" już istnieje"
 
 #: ../urpm/media.pm:677
 #, c-format
 msgid "virtual medium needs to be local"
-msgstr ""
+msgstr "wirtualny nośnik musi być dostępny lokalnie"
 
 #: ../urpm/media.pm:691
 #, c-format
@@ -880,14 +891,14 @@ msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
 #: ../urpm/media.pm:739
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving media.cfg file..."
-msgstr "pobieranie pliku rpm [%s] ..."
+msgstr "pobieranie pliku media.cfg..."
 
 #: ../urpm/media.pm:744
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse media.cfg"
-msgstr "nie można otworzyć bazy danych rpm"
+msgstr "nie można przetworzyć media.cfg"
 
 #: ../urpm/media.pm:747
 #, c-format
@@ -895,44 +906,44 @@ msgid "unable to access the distribution medium (no media.cfg file found)"
 msgstr ""
 
 #: ../urpm/media.pm:826
-#, fuzzy, c-format
+#, c-format
 msgid "trying to select nonexistent medium \"%s\""
-msgstr "nie można utworzyć nośnika \"%s\"\n"
+msgstr "próba wyboru nieistniejącego nośnika \"%s\""
 
 #: ../urpm/media.pm:829
-#, fuzzy, c-format
+#, c-format
 msgid "selecting multiple media: %s"
-msgstr "włączanie nośnika \"%s\""
+msgstr "wybieranie wielu nośników: %s"
 
 #: ../urpm/media.pm:849
-#, fuzzy, c-format
+#, c-format
 msgid "removing medium \"%s\""
-msgstr "usuwanie %s"
+msgstr "usuwanie nośnika \"%s\""
 
 #: ../urpm/media.pm:940
 #, c-format
 msgid "reconfiguring urpmi for media \"%s\""
-msgstr ""
+msgstr "przekonfigurowywanie urpmi dla nośnika \"%s\""
 
 #: ../urpm/media.pm:979
-#, fuzzy, c-format
+#, c-format
 msgid "...reconfiguration failed"
-msgstr "...pobieranie nie powiodło się: %s"
+msgstr "...przekonfigurowywanie zakończone niepowodzeniem"
 
 #: ../urpm/media.pm:985
 #, c-format
 msgid "reconfiguration done"
-msgstr ""
+msgstr "przekonfigurowywanie zakończone"
 
 #: ../urpm/media.pm:1033
 #, c-format
 msgid "Error generating names file: dependency %d not found"
-msgstr ""
+msgstr "Błąd tworzenia pliku nazw: zależność %d nie została znaleziona"
 
 #: ../urpm/media.pm:1037
 #, c-format
 msgid "Error generating names file: Can't write to file (%s)"
-msgstr ""
+msgstr "Błąd tworzenia pliku nazw: Nie można zapisać do pliku (%s)"
 
 #: ../urpm/media.pm:1072
 #, c-format
@@ -940,19 +951,19 @@ msgid "medium \"%s\" is up-to-date"
 msgstr ""
 
 #: ../urpm/media.pm:1092
-#, fuzzy, c-format
+#, c-format
 msgid "examining hdlist file [%s]"
-msgstr "Zapisywanie pliku konfiguracyjnego [%s]"
+msgstr "badanie pliku hdlist [%s]"
 
 #: ../urpm/media.pm:1102
-#, fuzzy, c-format
+#, c-format
 msgid "examining synthesis file [%s]"
-msgstr "Zapisywanie pliku konfiguracyjnego [%s]"
+msgstr "sprawdzanie pliku syntezy [%s]"
 
 #: ../urpm/media.pm:1119
 #, c-format
 msgid "building hdlist [%s]"
-msgstr ""
+msgstr "budowanie pliku hdlist [%s]"
 
 #: ../urpm/media.pm:1138
 #, c-format
@@ -960,26 +971,28 @@ msgid ""
 "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
 "corrupted."
 msgstr ""
+"Utworzenie pliku syntezy dla nośnika \"%s\" było niemożliwe. Plik hdlist "
+"może być uszkodzony."
 
 #: ../urpm/media.pm:1157
 #, c-format
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
-msgstr ""
+msgstr "wystąpił problem podczas odczytu pliku syntezy dla nośnika \"%s\""
 
 #: ../urpm/media.pm:1169 ../urpm/media.pm:1207 ../urpm/media.pm:1494
-#, fuzzy, c-format
+#, c-format
 msgid "...copying failed"
-msgstr "Kopiowanie zakończone niepowodzeniem"
+msgstr "...kopiowanie zakończone niepowodzeniem"
 
 #: ../urpm/media.pm:1203
-#, fuzzy, c-format
+#, c-format
 msgid "copying description file of \"%s\"..."
-msgstr "Przesyłanie plików do %s..."
+msgstr "kopiowanie pliku opisowego związanego z \"%s\"..."
 
 #: ../urpm/media.pm:1205 ../urpm/media.pm:1236
-#, fuzzy, c-format
+#, c-format
 msgid "...copying done"
-msgstr "...pobieranie zakończone"
+msgstr "...kopiowanie zakończone"
 
 #: ../urpm/media.pm:1232
 #, c-format
@@ -989,47 +1002,47 @@ msgstr ""
 #: ../urpm/media.pm:1238
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
-msgstr ""
+msgstr "kopiowanie [%s] zakończone niepowodzeniem (plik jest podejrzanie mały)"
 
 #: ../urpm/media.pm:1271
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
-msgstr ""
+msgstr "obliczanie sumy md5 skopiowanego źródłowego pliku hdlist (lub syntezy)"
 
 #: ../urpm/media.pm:1273
 #, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
-msgstr ""
+msgstr "kopiowanie [%s] zakończone niepowodzeniem (niezgodna suma md5)"
 
 #: ../urpm/media.pm:1285
 #, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-msgstr ""
+msgstr "obliczanie sumy md5 pobranego pliku źródłowego hdlist (lub syntezy)"
 
 #: ../urpm/media.pm:1287
-#, fuzzy, c-format
+#, c-format
 msgid "...retrieving failed: md5sum mismatch"
-msgstr "...pobieranie nie powiodło się: %s"
+msgstr "...pobieranie nie powiodło się: niezgodność sumy md5"
 
 #: ../urpm/media.pm:1302
-#, fuzzy, c-format
+#, c-format
 msgid "no rpm files found from [%s]"
-msgstr "niepoprawna nazwa pliku rpm [%s]"
+msgstr "nie znaleziono żadnych plików rpm z [%s]"
 
 #: ../urpm/media.pm:1309
-#, fuzzy, c-format
+#, c-format
 msgid "reading rpm files from [%s]"
-msgstr "pobieranie pliku rpm [%s] ..."
+msgstr "odczytywanie plików rpm z [%s]"
 
 #: ../urpm/media.pm:1324
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm files from [%s]: %s"
-msgstr "nie można uzyskać dostępu do pliku rpm [%s]"
+msgstr "nie można czytać plików rpm z [%s]: %s"
 
 #: ../urpm/media.pm:1334
 #, c-format
 msgid "no rpms read"
-msgstr ""
+msgstr "nie odczytano żadnych pakietów RPM"
 
 #: ../urpm/media.pm:1364
 #, c-format
@@ -1038,6 +1051,9 @@ msgid ""
 "this could happen if you mounted manually the directory when creating the "
 "medium."
 msgstr ""
+"Nie można uzyskać dostępu do nośnika \"%s\",\n"
+"To może się zdarzyć jeśli podczas tworzenia nośnika katalog został "
+"zamontowany ręcznie."
 
 #: ../urpm/media.pm:1377
 #, c-format
@@ -1048,36 +1064,37 @@ msgstr ""
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr ""
+"pobieranie pliku źródłowego hdlist (lub syntezy) związanego z \"%s\"..."
 
 #: ../urpm/media.pm:1473
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
-msgstr ""
+msgstr "znaleziono zbadany plik hdlist (lub synthesis) jako %s"
 
 #: ../urpm/media.pm:1480 ../urpm/media.pm:1612
 #, c-format
 msgid "no hdlist file found for medium \"%s\""
-msgstr ""
+msgstr "nie znaleziono pliku hdlist dla nośnika \"%s\""
 
 #: ../urpm/media.pm:1532
-#, fuzzy, c-format
+#, c-format
 msgid "examining pubkey file of \"%s\"..."
-msgstr "pobieranie pliku rpm [%s] ..."
+msgstr "sprawdzanie pliku klucza publicznego związanego z \"%s\"..."
 
 #: ../urpm/media.pm:1544
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
-msgstr ""
+msgstr "...zaimportowany klucz %s z klucza publicznego związanego z \"%s\""
 
 #: ../urpm/media.pm:1547
-#, fuzzy, c-format
+#, c-format
 msgid "unable to import pubkey file of \"%s\""
-msgstr "nie można przetworzyć pliku konfiguracyjnego %s [%s]"
+msgstr "nie można zaimportować pliku klucza publicznego związanego z \"%s\""
 
 #: ../urpm/media.pm:1563
 #, c-format
 msgid "writing list file for medium \"%s\""
-msgstr ""
+msgstr "zapisywanie pliku listy dla nośnika \"%s\""
 
 #: ../urpm/media.pm:1621 ../urpm/media.pm:1651
 #, fuzzy, c-format
@@ -1085,19 +1102,19 @@ msgid "updated medium \"%s\""
 msgstr "nie można zaktualizować nośnika \"%s\"\n"
 
 #: ../urpm/media.pm:1638
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse hdlist file of \"%s\""
-msgstr "nie można przetworzyć pliku konfiguracyjnego %s [%s]"
+msgstr "nie można przetworzyć pliku hdlist związanego z \"%s\""
 
 #: ../urpm/media.pm:1644
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
-msgstr ""
+msgstr "wystąpił problem podczas odczytu pliku syntezy dla nośnika \"%s\""
 
 #: ../urpm/media.pm:1709
 #, c-format
 msgid "reading headers from medium \"%s\""
-msgstr ""
+msgstr "odczytywanie nagłówków z nośnika \"%s\""
 
 #: ../urpm/msg.pm:61 ../urpmi:489 ../urpmi:508 ../urpmi:597
 #, c-format
@@ -1116,54 +1133,54 @@ msgid "Sorry, bad choice, try again\n"
 msgstr "Niestety, niepoprawny wybór, spróbuj ponownie\n"
 
 #: ../urpm/parallel.pm:14
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse \"%s\" in file [%s]"
-msgstr "nie można przetworzyć pliku konfiguracyjnego %s [%s]"
+msgstr "nie można przetworzyć \"%s\" w pliku [%s]"
 
 #: ../urpm/parallel.pm:23
 #, c-format
 msgid "examining parallel handler in file [%s]"
-msgstr ""
+msgstr "badanie równoległej funkcji obsługi w pliku [%s]"
 
 #: ../urpm/parallel.pm:34
 #, c-format
 msgid "found parallel handler for nodes: %s"
-msgstr ""
+msgstr "znaleziono równoległą funkcję obsługi dla węzłów: %s"
 
 #: ../urpm/parallel.pm:38
-#, fuzzy, c-format
+#, c-format
 msgid "unable to use parallel option \"%s\""
-msgstr "nie można zaktualizować nośnika \"%s\"\n"
+msgstr "nie można użyć równoległej opcji \"%s\""
 
 #: ../urpm/removable.pm:32
-#, fuzzy, c-format
+#, c-format
 msgid "mounting %s"
-msgstr "usuwanie %s"
+msgstr "montowanie %s"
 
 #: ../urpm/removable.pm:56
-#, fuzzy, c-format
+#, c-format
 msgid "unmounting %s"
-msgstr "usuwanie %s"
+msgstr "odmontowywanie %s"
 
 #: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
 #, c-format
 msgid "medium \"%s\" is not selected"
-msgstr ""
+msgstr "nośnik \"%s\" nie został wybrany"
 
 #: ../urpm/removable.pm:143
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "nie można utworzyć nośnika \"%s\"\n"
+msgstr "nie można czytać pliku rpm [%s] z nośnika \"%s\""
 
 #: ../urpm/removable.pm:151
 #, c-format
 msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
+msgstr "niespójny nośnik \"%s\" zaznaczony jako wymienny ale niekoniecznie"
 
 #: ../urpm/removable.pm:163
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access medium \"%s\""
-msgstr "nie można zaktualizować nośnika \"%s\"\n"
+msgstr "nie można uzyskać dostępu do nośnika \"%s\""
 
 #: ../urpm/select.pm:115
 #, fuzzy, c-format
@@ -1178,52 +1195,52 @@ msgstr "Następujące pakiety zawierają %s: %s"
 #: ../urpm/select.pm:398 ../urpm/select.pm:438
 #, c-format
 msgid "due to missing %s"
-msgstr ""
+msgstr "z powodu brakującego %s"
 
 #: ../urpm/select.pm:399 ../urpm/select.pm:436
 #, c-format
 msgid "due to unsatisfied %s"
-msgstr ""
+msgstr "z powodu niesatysfakcjonującego pakietu %s"
 
 #: ../urpm/select.pm:405
-#, fuzzy, c-format
+#, c-format
 msgid "trying to promote %s"
-msgstr "Brak elementów do usunięcia"
+msgstr "próba ulepszenia %s"
 
 #: ../urpm/select.pm:406
 #, c-format
 msgid "in order to keep %s"
-msgstr ""
+msgstr "w celu zachowania pakietu %s"
 
 #: ../urpm/select.pm:432
-#, fuzzy, c-format
+#, c-format
 msgid "in order to install %s"
-msgstr " (do zainstalowania)"
+msgstr "w celu zainstalowania pakietu %s"
 
 #: ../urpm/select.pm:442
 #, c-format
 msgid "due to conflicts with %s"
-msgstr ""
+msgstr "z powodu kolizji z pakietem %s"
 
 #: ../urpm/select.pm:444
 #, c-format
 msgid "unrequested"
-msgstr ""
+msgstr "niezgłoszony"
 
 #: ../urpm/signature.pm:26
 #, c-format
 msgid "Invalid signature (%s)"
-msgstr ""
+msgstr "Niepoprawny podpis (%s)"
 
 #: ../urpm/signature.pm:57
 #, c-format
 msgid "Invalid Key ID (%s)"
-msgstr ""
+msgstr "Niepoprawny identyfikator klucza (%s)"
 
 #: ../urpm/signature.pm:59
 #, c-format
 msgid "Missing signature (%s)"
-msgstr ""
+msgstr "Brakujący podpis (%s)"
 
 #: ../urpme:39
 #, c-format
