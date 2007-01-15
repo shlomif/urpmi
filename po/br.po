@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-09 14:23+0100\n"
+"POT-Creation-Date: 2007-01-15 14:22+0100\n"
 "PO-Revision-Date: 2006-11-29 02:34+0100\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandrakesoft.com>\n"
 "Language-Team: Breton <LL@li.org>\n"
@@ -206,7 +206,7 @@ msgstr ""
 "\n"
 "Ha fellout a ra deoc'h da genderc'hel ar staliadur ?"
 
-#: ../gurpmi2:278 ../gurpmi2:336 ../urpmi:684 ../urpmi:814
+#: ../gurpmi2:278 ../gurpmi2:333 ../urpmi:684 ../urpmi:814
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
@@ -214,37 +214,37 @@ msgid ""
 "You may want to update your urpmi database"
 msgstr ""
 
-#: ../gurpmi2:285 ../urpme:138 ../urpmi:735
+#: ../gurpmi2:284 ../urpme:138 ../urpmi:735
 #, c-format
 msgid "removing %s"
 msgstr "lemel %s"
 
-#: ../gurpmi2:291
+#: ../gurpmi2:290 ../urpm/install.pm:70
 #, c-format
 msgid "Preparing..."
 msgstr "O prientiñ ..."
 
-#: ../gurpmi2:295
+#: ../gurpmi2:294
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "O staliañ ar pakad `%s' (%s/%s)..."
 
-#: ../gurpmi2:320 ../urpmi:696 ../urpmi:774 ../urpmi:791
-#, c-format
-msgid "Installation failed"
-msgstr "Sac'het eo an staliadur"
-
-#: ../gurpmi2:331
+#: ../gurpmi2:326
 #, c-format
 msgid "_Done"
 msgstr "_Graet"
 
-#: ../gurpmi2:339
+#: ../gurpmi2:331 ../urpmi:696 ../urpmi:774 ../urpmi:791
+#, c-format
+msgid "Installation failed"
+msgstr "Sac'het eo an staliadur"
+
+#: ../gurpmi2:336
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Staliet eo ar pakad(où) c'hoazh"
 
-#: ../gurpmi2:341
+#: ../gurpmi2:338
 #, c-format
 msgid "Installation finished"
 msgstr "Echu eo ar staliadur"
@@ -311,12 +311,13 @@ msgstr "n'eo ket mat an ar restr rpm [%s]"
 msgid "retrieving rpm file [%s] ..."
 msgstr "o tigas ar restr rpm [%s] ..."
 
-#: ../urpm.pm:136
+#: ../urpm.pm:136 ../urpm/get_pkgs.pm:183
 #, c-format
 msgid "...retrieving done"
 msgstr "... echu eo ar resev"
 
-#: ../urpm.pm:139
+#: ../urpm.pm:139 ../urpm/download.pm:603 ../urpm/get_pkgs.pm:185
+#: ../urpm/media.pm:746 ../urpm/media.pm:1259 ../urpm/media.pm:1481
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "... sac'het eo ar resev : %s"
@@ -386,21 +387,810 @@ msgstr ""
 msgid "Too many arguments\n"
 msgstr ""
 
-#: ../urpm/msg.pm:52 ../urpmi:489 ../urpmi:508 ../urpmi:597
+#: ../urpm/bug_report.pm:36 ../urpm/media.pm:1142
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "savet eo bet ar restr synthesis hdlist evit ar vedium « %s »"
+
+#: ../urpm/bug_report.pm:51 ../urpmi:247
+#, c-format
+msgid "Copying failed"
+msgstr "Fazi en ur eilañ"
+
+#: ../urpm/cfg.pm:81
+#, fuzzy, c-format
+msgid "syntax error in config file at line %s"
+msgstr "n'hellan ket skrivañ restr ar c'hefluniadur [%s]"
+
+#: ../urpm/cfg.pm:112
+#, fuzzy, c-format
+msgid "unable to read config file [%s]"
+msgstr "n'hellan ket skrivañ restr ar c'hefluniadur [%s]"
+
+#: ../urpm/cfg.pm:138
+#, c-format
+msgid "medium `%s' is defined twice, aborting"
+msgstr ""
+
+#: ../urpm/cfg.pm:226 ../urpm/media.pm:449
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "n'hellan ket skrivañ restr ar c'hefluniadur [%s]"
+
+#: ../urpm/download.pm:111
+#, c-format
+msgid "Please enter your credentials for accessing proxy\n"
+msgstr ""
+
+#: ../urpm/download.pm:112
+#, c-format
+msgid "User name:"
+msgstr ""
+
+#: ../urpm/download.pm:112
+#, c-format
+msgid "Password:"
+msgstr ""
+
+#: ../urpm/download.pm:185
+#, c-format
+msgid "Unknown webfetch `%s' !!!\n"
+msgstr ""
+
+#: ../urpm/download.pm:194
+#, c-format
+msgid "%s failed: exited with signal %d"
+msgstr ""
+
+#: ../urpm/download.pm:195
+#, c-format
+msgid "%s failed: exited with %d"
+msgstr ""
+
+#: ../urpm/download.pm:219
+#, fuzzy, c-format
+msgid "copy failed"
+msgstr "Fazi en ur eilañ"
+
+#: ../urpm/download.pm:225
+#, fuzzy, c-format
+msgid "wget is missing\n"
+msgstr "peogwir %s zo manket"
+
+#: ../urpm/download.pm:289
+#, fuzzy, c-format
+msgid "curl is missing\n"
+msgstr "peogwir %s zo manket"
+
+#: ../urpm/download.pm:411
+#, c-format
+msgid "curl failed: download canceled\n"
+msgstr ""
+
+#: ../urpm/download.pm:450
+#, c-format
+msgid "rsync is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:511
+#, c-format
+msgid "ssh is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:530
+#, c-format
+msgid "prozilla is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:546
+#, c-format
+msgid "Couldn't execute prozilla\n"
+msgstr ""
+
+#: ../urpm/download.pm:593
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr ""
+
+#: ../urpm/download.pm:595
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr ""
+
+#: ../urpm/download.pm:651
+#, fuzzy, c-format
+msgid "retrieving %s"
+msgstr "lemel %s"
+
+#: ../urpm/download.pm:655
+#, fuzzy, c-format
+msgid "retrieved %s"
+msgstr "... sac'het eo ar resev : %s"
+
+#: ../urpm/download.pm:668
+#, c-format
+msgid "unknown protocol defined for %s"
+msgstr ""
+
+#: ../urpm/download.pm:687
+#, c-format
+msgid "%s is not available, falling back on %s"
+msgstr ""
+
+#: ../urpm/download.pm:691
+#, c-format
+msgid "no webfetch found, supported webfetch are: %s\n"
+msgstr ""
+
+#: ../urpm/download.pm:705
+#, fuzzy, c-format
+msgid "unable to handle protocol: %s"
+msgstr "n'hellan ket staliañ ar pakad %s"
+
+#: ../urpm/get_pkgs.pm:41
+#, fuzzy, c-format
+msgid "cleaning %s and %s"
+msgstr "O staliañ %s war %s ..."
+
+#: ../urpm/get_pkgs.pm:56 ../urpm/get_pkgs.pm:79 ../urpm/get_pkgs.pm:110
+#, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "bez euz meur a bakad gant ar memes anv restr rpm « %s »"
+
+#: ../urpm/get_pkgs.pm:93
+#, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "n'hell ket bet lennet [%s] gant ar werzh « %s »"
+
+#: ../urpm/get_pkgs.pm:100 ../urpm/media.pm:219
+#, fuzzy, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "N'hellan ket kavout restr ar roll evit « %s », medium dibvrud"
+
+#: ../urpm/get_pkgs.pm:101
+#, c-format
+msgid "(retry as root?)"
+msgstr ""
+
+#: ../urpm/get_pkgs.pm:126
+#, c-format
+msgid ""
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is probably not up-to-date, trying to use alternate method"
+msgstr ""
+
+#: ../urpm/get_pkgs.pm:130
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr ""
+
+#: ../urpm/get_pkgs.pm:142
+#, c-format
+msgid "package %s is not found."
+msgstr "ar pakad %s n'eo ket bet kavet."
+
+#: ../urpm/get_pkgs.pm:174
+#, c-format
+msgid "malformed URL: [%s]"
+msgstr "URL siek : [%s]"
+
+#: ../urpm/get_pkgs.pm:180
+#, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "o tigas ar restroù rpm eus ar medium « %s » ..."
+
+#: ../urpm/install.pm:77
+#, c-format
+msgid "[repackaging]"
+msgstr ""
+
+#: ../urpm/install.pm:110
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
+
+#: ../urpm/install.pm:113
+#, fuzzy, c-format
+msgid "unable to create transaction"
+msgstr "ne m'eus ket krouiñ ar mediom « %s »\n"
+
+#: ../urpm/install.pm:121
+#, c-format
+msgid "removing package %s"
+msgstr "lemel pakad %s"
+
+#: ../urpm/install.pm:123
+#, c-format
+msgid "unable to remove package %s"
+msgstr "n'hellan ket lemel ar pakad %s"
+
+#: ../urpm/install.pm:135
+#, c-format
+msgid "unable to extract rpm from delta-rpm package %s"
+msgstr "n'hell ket eztennet an rpm deus ar pakad delta-rpm %s"
+
+#: ../urpm/install.pm:141
+#, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr "oc'h ouzhpennañ ar pakad %s (id=%d, eid=%d, update=%d, restr=%s)"
+
+#: ../urpm/install.pm:144
+#, c-format
+msgid "unable to install package %s"
+msgstr "n'hellan ket staliañ ar pakad %s"
+
+#: ../urpm/install.pm:180
+#, fuzzy, c-format
+msgid "removing installed rpms (%s) from %s"
+msgstr "o staliañ %s eus %s"
+
+#: ../urpm/install.pm:186
+#, c-format
+msgid "More information on package %s"
+msgstr "Titouroù muioc'h diwwar-benn ar pakad %s"
+
+#: ../urpm/ldap.pm:71
+#, c-format
+msgid "Cannot create ldap cache directory"
+msgstr ""
+
+#: ../urpm/ldap.pm:73
+#, c-format
+msgid "Cannot write cache file for ldap\n"
+msgstr ""
+
+#: ../urpm/ldap.pm:162
+#, c-format
+msgid "No server defined, missing uri or host"
+msgstr ""
+
+#: ../urpm/ldap.pm:163
+#, fuzzy, c-format
+msgid "No base defined"
+msgstr "N'eus pakad dibabet ebet"
+
+#: ../urpm/ldap.pm:172 ../urpm/ldap.pm:175
+#, c-format
+msgid "Cannot connect to ldap uri :"
+msgstr ""
+
+#: ../urpm/lock.pm:50
+#, fuzzy, c-format
+msgid "%s database locked"
+msgstr "krouilhet eo ar stlennvon urpm  "
+
+#: ../urpm/md5sum.pm:23
+#, fuzzy, c-format
+msgid "examining %s file"
+msgstr "o lenn ar restr MD5SUM"
+
+#: ../urpm/md5sum.pm:25
+#, c-format
+msgid "warning: md5sum for %s unavailable in MD5SUM file"
+msgstr ""
+
+#: ../urpm/md5sum.pm:45
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis) [%s]"
+msgstr "oc'h eilañ hdlist (pe an synthesis) tizh « %s » ..."
+
+#: ../urpm/media.pm:171
+#, fuzzy, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "n'hellan ket kavout ar restr hdlist evit « %s », medium dibvrud"
+
+#: ../urpm/media.pm:175
+#, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+
+#: ../urpm/media.pm:183
+#, fuzzy, c-format
+msgid "invalid hdlist name"
+msgstr "n'eo ket mat an ar restr rpm [%s]"
+
+#: ../urpm/media.pm:190
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "N'hellan ket kavout restr ar roll evit « %s », medium dibvrud"
+
+#: ../urpm/media.pm:203
+#, c-format
+msgid "\"synthesis\" should not be set (medium \"%s\")"
+msgstr ""
+
+#: ../urpm/media.pm:206
+#, fuzzy, c-format
+msgid "\"synthesis\" should be set (medium \"%s\")"
+msgstr "savet eo bet ar restr synthesis hdlist evit ar vedium « %s »"
+
+#: ../urpm/media.pm:209 ../urpm/media.pm:1419 ../urpm/media.pm:1507
+#, fuzzy, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "n'hellan ket kavout ar restr hdlist evit « %s », medium dibvrud"
+
+#: ../urpm/media.pm:215
+#, fuzzy, c-format
+msgid "unable to access list file of \"%s\""
+msgstr "n'hell ket bet lennet restr hdlist « %s »"
+
+#: ../urpm/media.pm:229
+#, c-format
+msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
+msgstr ""
+
+#: ../urpm/media.pm:230
+#, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr ""
+
+#: ../urpm/media.pm:255
+#, c-format
+msgid "trying to override existing medium \"%s\", skipping"
+msgstr ""
+
+#: ../urpm/media.pm:398
+#, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr "bez eus re poentoù marc'hañ evit ar medium lem/laka « %s »"
+
+#: ../urpm/media.pm:399
+#, fuzzy, c-format
+msgid "taking removable device as \"%s\""
+msgstr "Trobarzhell lem-laka"
+
+#: ../urpm/media.pm:402
+#, c-format
+msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgstr ""
+
+#: ../urpm/media.pm:405
+#, c-format
+msgid "using different removable device [%s] for \"%s\""
+msgstr "oc'h implij un trobarzhell lem-laka all [%s] evit « %s »"
+
+#: ../urpm/media.pm:410 ../urpm/media.pm:413
+#, fuzzy, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "bez eus re poentoù marc'hañ evit ar medium lem/laka « %s »"
+
+#: ../urpm/media.pm:428
+#, c-format
+msgid "wrote %s"
+msgstr ""
+
+#: ../urpm/media.pm:451
+#, c-format
+msgid "wrote config file [%s]"
+msgstr "skrivet e oa ar restr [%s]"
+
+#: ../urpm/media.pm:496
+#, c-format
+msgid "Can't use parallel mode with use-distrib mode"
+msgstr ""
+
+#: ../urpm/media.pm:504
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr ""
+
+#: ../urpm/media.pm:520
+#, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update, --use-distrib or --parallel"
+msgstr ""
+
+#: ../urpm/media.pm:586
+#, c-format
+msgid "Note: no hdlist for medium \"%s\", unable to return any result for it"
+msgstr ""
+
+#: ../urpm/media.pm:596
+#, c-format
+msgid "Search start: %s end: %s"
+msgstr ""
+
+#: ../urpm/media.pm:605 ../urpm/media.pm:1802
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr ""
+
+#: ../urpm/media.pm:621
+#, c-format
+msgid "skipping package %s"
+msgstr "o tremen e-biou ar pakad %s"
+
+#: ../urpm/media.pm:637
+#, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "bez vefe staliet ar pakad %s e-lec'h bezañ bremañet"
+
+#: ../urpm/media.pm:662
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "endeo eo ar medium « %s »"
+
+#: ../urpm/media.pm:677
+#, c-format
+msgid "virtual medium needs to be local"
+msgstr ""
+
+#: ../urpm/media.pm:691
+#, c-format
+msgid "(ignored by default)"
+msgstr ""
+
+#: ../urpm/media.pm:697
+#, fuzzy, c-format
+msgid "adding medium \"%s\" before remote medium \"%s\""
+msgstr "o lenn reollinoù eus ar medium « %s »"
+
+#: ../urpm/media.pm:703
+#, fuzzy, c-format
+msgid "adding medium \"%s\""
+msgstr "o lemel ar medium « %s »"
+
+#: ../urpm/media.pm:729
+#, c-format
+msgid "unable to mount the distribution medium"
+msgstr ""
+
+#: ../urpm/media.pm:732
+#, c-format
+msgid "this location doesn't seem to contain any distribution"
+msgstr ""
+
+#: ../urpm/media.pm:739
+#, c-format
+msgid "retrieving media.cfg file..."
+msgstr "o tigas ar restr media.cfg ..."
+
+#: ../urpm/media.pm:744
+#, c-format
+msgid "unable to parse media.cfg"
+msgstr "n'hell ket bet lennet ar restr media.cfg"
+
+#: ../urpm/media.pm:747
+#, c-format
+msgid "unable to access the distribution medium (no media.cfg file found)"
+msgstr ""
+
+#: ../urpm/media.pm:826
+#, fuzzy, c-format
+msgid "trying to select nonexistent medium \"%s\""
+msgstr "o skrivañ restr ar roll evit ar medium « %s »"
+
+#: ../urpm/media.pm:829
+#, c-format
+msgid "selecting multiple media: %s"
+msgstr "o tibab meur a media : %s"
+
+#: ../urpm/media.pm:849
+#, c-format
+msgid "removing medium \"%s\""
+msgstr "o lemel ar medium « %s »"
+
+#: ../urpm/media.pm:940
+#, c-format
+msgid "reconfiguring urpmi for media \"%s\""
+msgstr "oc'h adkefluniañ urpmi evit ar media « %s »"
+
+#: ../urpm/media.pm:979
+#, c-format
+msgid "...reconfiguration failed"
+msgstr "... sac'het eo an adkefluniadur"
+
+#: ../urpm/media.pm:985
+#, c-format
+msgid "reconfiguration done"
+msgstr "graet eo an adkefluniadur"
+
+#: ../urpm/media.pm:1033
+#, fuzzy, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr "Fazi en ur sevel anvioù restr : n'hell ket bet skrivet ar restr (%s)"
+
+#: ../urpm/media.pm:1037
+#, c-format
+msgid "Error generating names file: Can't write to file (%s)"
+msgstr "Fazi en ur sevel anvioù restr : n'hell ket bet skrivet ar restr (%s)"
+
+#: ../urpm/media.pm:1072
+#, fuzzy, c-format
+msgid "medium \"%s\" is up-to-date"
+msgstr "n'eo ket dibabet ar medium « %s »"
+
+#: ../urpm/media.pm:1092
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr "o lenn ar restr hdlist [%s]"
+
+#: ../urpm/media.pm:1102
+#, c-format
+msgid "examining synthesis file [%s]"
+msgstr "o lenn ar restr synthesis [%s]"
+
+#: ../urpm/media.pm:1119
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "o sevel an hdlist [%s]"
+
+#: ../urpm/media.pm:1138
+#, c-format
+msgid ""
+"Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
+"corrupted."
+msgstr ""
+"N'hell ket bet savet ar restr synthesis hdlist evit ar vedium « %s ». "
+"Marteze eo sac'het ho restr hdlist."
+
+#: ../urpm/media.pm:1157
+#, fuzzy, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "fazi en ur lenn restr synthesis ar vedium « %s »"
+
+#: ../urpm/media.pm:1169 ../urpm/media.pm:1207 ../urpm/media.pm:1494
+#, c-format
+msgid "...copying failed"
+msgstr "... sac'het eo ar staliadur "
+
+#: ../urpm/media.pm:1203
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "oc'h eilañ restr deskrivadur eus « %s » ..."
+
+#: ../urpm/media.pm:1205 ../urpm/media.pm:1236
+#, c-format
+msgid "...copying done"
+msgstr "... graet eo an eil"
+
+#: ../urpm/media.pm:1232
+#, fuzzy, c-format
+msgid "copying [%s] for medium \"%s\"..."
+msgstr "o skrivañ restr ar roll evit ar medium « %s »"
+
+#: ../urpm/media.pm:1238
+#, c-format
+msgid "copy of [%s] failed (file is suspiciously small)"
+msgstr "sac'het eo eil [%s] (re vihan eo ar restr)"
+
+#: ../urpm/media.pm:1271
+#, fuzzy, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "oc'h eilañ hdlist (pe an synthesis) tizh « %s » ..."
+
+#: ../urpm/media.pm:1273
+#, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "sac'het eo eil [%s] (ne glot ket ar md5sum)"
+
+#: ../urpm/media.pm:1285
+#, fuzzy, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "sac'het eo resev an hdlist (pe synthesis) tizh"
+
+#: ../urpm/media.pm:1287
+#, c-format
+msgid "...retrieving failed: md5sum mismatch"
+msgstr "... sac'het eo ar resev : ne glot ket ar md5sum"
+
+#: ../urpm/media.pm:1302
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "n'eus restr rpm kavet eus [%s]"
+
+#: ../urpm/media.pm:1309
+#, c-format
+msgid "reading rpm files from [%s]"
+msgstr "o lenn ar restroù rpm eus [%s]"
+
+#: ../urpm/media.pm:1324
+#, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "n'hellan ket lenn ar restroù rpm eus [%s] : %s"
+
+#: ../urpm/media.pm:1334
+#, c-format
+msgid "no rpms read"
+msgstr "n'eus ket rpm lennet ebet"
+
+#: ../urpm/media.pm:1364
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+
+#: ../urpm/media.pm:1377
+#, fuzzy, c-format
+msgid "invalid hdlist file %s for medium \"%s\""
+msgstr "n'eus restr hdlist kavet ebet evit ar medium « %s »"
+
+#: ../urpm/media.pm:1457
+#, c-format
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "o resev an hdlist (pe synthesis) tizh evit « %s » ..."
+
+#: ../urpm/media.pm:1473
+#, fuzzy, c-format
+msgid "found probed hdlist (or synthesis) as %s"
+msgstr "oc'h eilañ hdlist (pe an synthesis) tizh « %s » ..."
+
+#: ../urpm/media.pm:1480 ../urpm/media.pm:1612
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "n'eus restr hdlist kavet ebet evit ar medium « %s »"
+
+#: ../urpm/media.pm:1532
+#, c-format
+msgid "examining pubkey file of \"%s\"..."
+msgstr "o lenn restr pubkey « %s » ..."
+
+#: ../urpm/media.pm:1544
+#, c-format
+msgid "...imported key %s from pubkey file of \"%s\""
+msgstr "... bez e oa enporzhet an alc'hwezh %s eus restr pubkey « %s »"
+
+#: ../urpm/media.pm:1547
+#, c-format
+msgid "unable to import pubkey file of \"%s\""
+msgstr "n'hell ket bet enporzhet restr pubkey « %s »"
+
+#: ../urpm/media.pm:1563
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "o skrivañ restr ar roll evit ar medium « %s »"
+
+#: ../urpm/media.pm:1621 ../urpm/media.pm:1651
+#, fuzzy, c-format
+msgid "updated medium \"%s\""
+msgstr "ouzhpennet eo ar medium %s"
+
+#: ../urpm/media.pm:1638
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "n'hell ket bet lennet restr hdlist « %s »"
+
+#: ../urpm/media.pm:1644
+#, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "fazi en ur lenn restr synthesis ar vedium « %s »"
+
+#: ../urpm/media.pm:1709
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "o lenn reollinoù eus ar medium « %s »"
+
+#: ../urpm/msg.pm:61 ../urpmi:489 ../urpmi:508 ../urpmi:597
 #, c-format
 msgid "Nn"
 msgstr "Nn"
 
-#: ../urpm/msg.pm:53 ../urpme:36 ../urpmi:490 ../urpmi:509 ../urpmi:549
+#: ../urpm/msg.pm:62 ../urpme:36 ../urpmi:490 ../urpmi:509 ../urpmi:549
 #: ../urpmi:598 ../urpmi:675 ../urpmi:762 ../urpmi.addmedia:134
 #, c-format
 msgid "Yy"
 msgstr "YyOo"
 
-#: ../urpm/msg.pm:104
+#: ../urpm/msg.pm:113
 #, c-format
 msgid "Sorry, bad choice, try again\n"
 msgstr "Ho tigarez, fall eo an dibab-mañ, klaskit adarre\n"
+
+#: ../urpm/parallel.pm:14
+#, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "n'hellan ket bet lennet « %s » e-barzh ar restr [%s]\""
+
+#: ../urpm/parallel.pm:23
+#, fuzzy, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "o lenn ar restr hdlist [%s]"
+
+#: ../urpm/parallel.pm:34
+#, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr ""
+
+#: ../urpm/parallel.pm:38
+#, fuzzy, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "n'hell ket bet bremañaet ar medium « %s »\n"
+
+#: ../urpm/removable.pm:32
+#, c-format
+msgid "mounting %s"
+msgstr "o marc'hañ %s"
+
+#: ../urpm/removable.pm:56
+#, c-format
+msgid "unmounting %s"
+msgstr "o divarc'hañ %s"
+
+#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "n'eo ket dibabet ar medium « %s »"
+
+#: ../urpm/removable.pm:143
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "n'hellan ket lenn ar restr rpm [%s] eus ar medium « %s »"
+
+#: ../urpm/removable.pm:151
+#, c-format
+msgid "inconsistent medium \"%s\" marked removable but not really"
+msgstr ""
+
+#: ../urpm/removable.pm:163
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "n'eo ket possubl da voned ar vedia « %s »"
+
+#: ../urpm/select.pm:115
+#, c-format
+msgid "No package named %s"
+msgstr "N'eus pakad ebet ket a vez graet %s anezhañ"
+
+#: ../urpm/select.pm:117 ../urpme:112
+#, c-format
+msgid "The following packages contain %s: %s"
+msgstr "%s zo er pakadoù a-heul : %s"
+
+#: ../urpm/select.pm:398 ../urpm/select.pm:438
+#, c-format
+msgid "due to missing %s"
+msgstr "peogwir %s zo manket"
+
+#: ../urpm/select.pm:399 ../urpm/select.pm:436
+#, c-format
+msgid "due to unsatisfied %s"
+msgstr "peogwir %s zo manket"
+
+#: ../urpm/select.pm:405
+#, fuzzy, c-format
+msgid "trying to promote %s"
+msgstr "N'eus pakad da zilemel ebet"
+
+#: ../urpm/select.pm:406
+#, c-format
+msgid "in order to keep %s"
+msgstr "evit mirout %s"
+
+#: ../urpm/select.pm:432
+#, c-format
+msgid "in order to install %s"
+msgstr "evit staliañ %s"
+
+#: ../urpm/select.pm:442
+#, fuzzy, c-format
+msgid "due to conflicts with %s"
+msgstr "peogwir %s zo manket"
+
+#: ../urpm/select.pm:444
+#, c-format
+msgid "unrequested"
+msgstr "n'eo ket goulennet"
+
+#: ../urpm/signature.pm:26
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr "N'eo ket mat ar sinadur (%s)"
+
+#: ../urpm/signature.pm:57
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr "N'eo ket mat ID an alc'hwezh (%s)"
+
+#: ../urpm/signature.pm:59
+#, c-format
+msgid "Missing signature (%s)"
+msgstr "Mankout a ra ar sinadur (%s)"
 
 #: ../urpme:39
 #, c-format
@@ -420,7 +1210,7 @@ msgstr ""
 "arveriadur :\n"
 
 #: ../urpme:44 ../urpmf:35 ../urpmi:84 ../urpmi.addmedia:45
-#: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:47
+#: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:48
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr ""
@@ -435,13 +1225,13 @@ msgstr ""
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr ""
 
-#: ../urpme:47 ../urpmi:109 ../urpmq:66
+#: ../urpme:47 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
 msgstr ""
 
-#: ../urpme:48 ../urpmi:114 ../urpmq:68
+#: ../urpme:48 ../urpmi:114 ../urpmq:69
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr ""
@@ -457,7 +1247,7 @@ msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - implij ur gwrizienn all evit lemel pakadoù.\n"
 
 #: ../urpme:51 ../urpmf:40 ../urpmi:116 ../urpmi.addmedia:60
-#: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:70
+#: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:71
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - implij ur gwrizienn all evit lemel pakadoù.\n"
@@ -474,17 +1264,17 @@ msgid ""
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
 
-#: ../urpme:55 ../urpmi:119 ../urpmq:73
+#: ../urpme:55 ../urpmi:119 ../urpmq:74
 #, c-format
 msgid "    --probe-synthesis - use synthesis file.\n"
 msgstr ""
 
-#: ../urpme:56 ../urpmi:120 ../urpmq:74
+#: ../urpme:56 ../urpmi:120 ../urpmq:75
 #, c-format
 msgid "    --probe-hdlist - use hdlist file.\n"
 msgstr ""
 
-#: ../urpme:57 ../urpmi:156 ../urpmq:85
+#: ../urpme:57 ../urpmi:156 ../urpmq:86
 #, c-format
 msgid "  --verbose, -v  - verbose mode.\n"
 msgstr ""
@@ -508,11 +1298,6 @@ msgstr "dianav eo ar pakadoù"
 #, c-format
 msgid "unknown package"
 msgstr "pakad anavez"
-
-#: ../urpme:112
-#, c-format
-msgid "The following packages contain %s: %s"
-msgstr "%s zo er pakadoù a-heul : %s"
 
 #: ../urpme:118 ../urpmi:526
 #, c-format
@@ -572,12 +1357,12 @@ msgstr ""
 msgid "  --version      - print this tool's version number.\n"
 msgstr ""
 
-#: ../urpmf:37 ../urpmi:137 ../urpmq:82
+#: ../urpmf:37 ../urpmi:137 ../urpmq:83
 #, c-format
 msgid "  --env          - use specific environment (typically a bug report).\n"
 msgstr ""
 
-#: ../urpmf:38 ../urpmi:86 ../urpmq:51
+#: ../urpmf:38 ../urpmi:86 ../urpmq:52
 #, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr ""
@@ -588,18 +1373,18 @@ msgid ""
 "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
 
-#: ../urpmf:41 ../urpmi:85 ../urpmq:49
+#: ../urpmf:41 ../urpmi:85 ../urpmq:50
 #, c-format
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
 
-#: ../urpmf:42 ../urpmi:89 ../urpmq:52
+#: ../urpmf:42 ../urpmi:89 ../urpmq:53
 #, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
 
-#: ../urpmf:43 ../urpmi:90 ../urpmq:53
+#: ../urpmf:43 ../urpmi:90 ../urpmq:54
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
 msgstr ""
@@ -609,7 +1394,7 @@ msgstr ""
 msgid "  --uniq         - do not print identical lines twice.\n"
 msgstr ""
 
-#: ../urpmf:45 ../urpmi:87 ../urpmq:48
+#: ../urpmf:45 ../urpmi:87 ../urpmq:49
 #, c-format
 msgid "  --update       - use only update media.\n"
 msgstr ""
@@ -794,7 +1579,7 @@ msgstr ""
 msgid "  -m             - the media in which the package was found\n"
 msgstr ""
 
-#: ../urpmf:82 ../urpmq:89
+#: ../urpmf:82 ../urpmq:90
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
 msgstr ""
@@ -804,7 +1589,7 @@ msgstr ""
 msgid "Incorrect format: you may use only one multi-valued tag"
 msgstr ""
 
-#: ../urpmf:186 ../urpmi:254 ../urpmq:134
+#: ../urpmf:186 ../urpmi:254 ../urpmq:135
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr ""
@@ -851,7 +1636,7 @@ msgid ""
 "questions.\n"
 msgstr ""
 
-#: ../urpmi:92 ../urpmq:54
+#: ../urpmi:92 ../urpmq:55
 #, c-format
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
@@ -884,7 +1669,7 @@ msgstr ""
 msgid "  --no-install   - don't install packages (only download)\n"
 msgstr ""
 
-#: ../urpmi:98 ../urpmq:56
+#: ../urpmi:98 ../urpmq:57
 #, c-format
 msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
@@ -943,7 +1728,7 @@ msgid ""
 "                   dependencies checking and integrity.\n"
 msgstr ""
 
-#: ../urpmi:115 ../urpmq:69
+#: ../urpmi:115 ../urpmq:70
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr ""
@@ -955,17 +1740,17 @@ msgid ""
 "                   to install a chroot with --root option.\n"
 msgstr ""
 
-#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:75
+#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:76
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr ""
 
-#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:76
+#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:77
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr ""
 
-#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:77
+#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:78
 #, c-format
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr ""
@@ -1002,14 +1787,14 @@ msgid ""
 "                   (--no-resume disables it, default is disabled).\n"
 msgstr ""
 
-#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:78
+#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:79
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
 "                   to be 1080 by default (format is <proxyhost[:port]>).\n"
 msgstr ""
 
-#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:80
+#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:81
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -1084,7 +1869,7 @@ msgstr ""
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
 msgstr ""
 
-#: ../urpmi:152 ../urpmq:86
+#: ../urpmi:152 ../urpmq:87
 #, c-format
 msgid "  -a             - select all matches on command line.\n"
 msgstr ""
@@ -1137,11 +1922,6 @@ msgstr ""
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "N'hell ket bet krouer ar renkell [%s] evit reiñ da c'houzout ur gudenn"
-
-#: ../urpmi:247
-#, c-format
-msgid "Copying failed"
-msgstr "Fazi en ur eilañ"
 
 #: ../urpmi:253
 #, c-format
@@ -1773,7 +2553,7 @@ msgstr ""
 msgid "enabling media %s"
 msgstr "o bevaat ar media %s"
 
-#: ../urpmq:42
+#: ../urpmq:43
 #, c-format
 msgid ""
 "urpmq version %s\n"
@@ -1790,180 +2570,193 @@ msgstr ""
 "\n"
 "arveriadur :\n"
 
-#: ../urpmq:50
+#: ../urpmq:51
 #, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested (or updated) "
 "packages.\n"
 msgstr ""
 
-#: ../urpmq:55
+#: ../urpmq:56
 #, c-format
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
 msgstr ""
 
-#: ../urpmq:58
+#: ../urpmq:59
 #, c-format
 msgid "  --list         - list available packages.\n"
 msgstr ""
 
-#: ../urpmq:59
+#: ../urpmq:60
 #, c-format
 msgid "  --list-media   - list available media.\n"
 msgstr ""
 
-#: ../urpmq:60
+#: ../urpmq:61
 #, c-format
 msgid "  --list-url     - list available media and their url.\n"
 msgstr ""
 
-#: ../urpmq:61
+#: ../urpmq:62
 #, c-format
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
 msgstr ""
 
-#: ../urpmq:62
+#: ../urpmq:63
 #, c-format
 msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr ""
 
-#: ../urpmq:63
+#: ../urpmq:64
 #, c-format
 msgid ""
 "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr ""
 
-#: ../urpmq:64
+#: ../urpmq:65
 #, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr ""
 
-#: ../urpmq:65
+#: ../urpmq:66
 #, c-format
 msgid ""
 "  --sources      - give all source packages before downloading (root only).\n"
 msgstr ""
 
-#: ../urpmq:67
+#: ../urpmq:68
 #, c-format
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
 msgstr ""
 
-#: ../urpmq:71
+#: ../urpmq:72
 #, c-format
 msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
 "                   This permit to querying a distro.\n"
 msgstr ""
 
-#: ../urpmq:83
+#: ../urpmq:84
 #, c-format
 msgid "  --changelog    - print changelog.\n"
 msgstr ""
 
-#: ../urpmq:84
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - diskouez an diverrañ.\n"
 
-#: ../urpmq:87
+#: ../urpmq:88
 #, c-format
 msgid "  -c             - complete output with package to be removed.\n"
 msgstr ""
 
-#: ../urpmq:88
+#: ../urpmq:89
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
 msgstr ""
 
-#: ../urpmq:90
+#: ../urpmq:91
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr ""
 
-#: ../urpmq:91
+#: ../urpmq:92
 #, c-format
 msgid "  -i             - print useful information in human readable form.\n"
 msgstr ""
 
-#: ../urpmq:92
+#: ../urpmq:93
 #, c-format
 msgid "  -l             - list files in package.\n"
 msgstr ""
 
-#: ../urpmq:93
+#: ../urpmq:94
 #, c-format
 msgid ""
 "  -P             - do not search in provides to find package (default).\n"
 msgstr ""
 
-#: ../urpmq:94
+#: ../urpmq:95
 #, c-format
 msgid "  -p             - search in provides to find package.\n"
 msgstr ""
 
-#: ../urpmq:95
+#: ../urpmq:96
 #, c-format
 msgid "  -r             - print version and release with name also.\n"
 msgstr ""
 
-#: ../urpmq:96
+#: ../urpmq:97
 #, c-format
 msgid "  -R             - reverse search to what requires package.\n"
 msgstr ""
 
-#: ../urpmq:97
+#: ../urpmq:98
 #, c-format
 msgid ""
 "  -RR            - extended reverse search (includes virtual packages).\n"
 msgstr ""
 
-#: ../urpmq:98
+#: ../urpmq:99
 #, c-format
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr ""
 
-#: ../urpmq:99
+#: ../urpmq:100
 #, c-format
 msgid ""
 "  -u             - remove package if a more recent version is already "
 "installed.\n"
 msgstr ""
 
-#: ../urpmq:100
+#: ../urpmq:101
 #, c-format
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
 msgstr ""
 
-#: ../urpmq:101
+#: ../urpmq:102
 #, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
 msgstr ""
 
-#: ../urpmq:102
+#: ../urpmq:103
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr ""
 
-#: ../urpmq:177
+#: ../urpmq:178
 #, c-format
 msgid "--list-nodes can only be used with --parallel"
 msgstr ""
 
-#: ../urpmq:333
+#: ../urpmq:350
 #, c-format
-msgid "skipping media %s: no hdlist"
-msgstr "o tremen e-biou ar vedia %s : n'eus ket hdlist ebet"
+msgid "no hdlist for medium \"%s\", only partial result for package %s"
+msgid_plural "no hdlist for medium \"%s\", only partial result for packages %s"
+msgstr[0] ""
+msgstr[1] ""
 
-#: ../urpmq:406
+#: ../urpmq:353
+#, c-format
+msgid "no hdlist for medium \"%s\", unable to return any result for package %s"
+msgid_plural ""
+"no hdlist for medium \"%s\", unable to return any result for packages %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../urpmq:405
 #, c-format
 msgid "No filelist found\n"
 msgstr "Filelist kavet ebet\n"
 
-#: ../urpmq:418
+#: ../urpmq:417
 #, c-format
 msgid "No changelog found\n"
 msgstr "Changelog kavet ebet\n"
+
+#~ msgid "skipping media %s: no hdlist"
+#~ msgstr "o tremen e-biou ar vedia %s : n'eus ket hdlist ebet"
 
 #~ msgid "Distributing files to nodes..."
 #~ msgstr "O skignañ ar restroù d'ar skoulmoù ..."
@@ -1987,9 +2780,6 @@ msgstr "Changelog kavet ebet\n"
 #~ msgid "Performing install on %s..."
 #~ msgstr "O staliañ war %s ..."
 
-#~ msgid "Installing %s on %s..."
-#~ msgstr "O staliañ %s war %s ..."
-
 #~ msgid "Preparing install on %s..."
 #~ msgstr "O prientiñ da staliañ war %s ..."
 
@@ -1998,249 +2788,20 @@ msgstr "Changelog kavet ebet\n"
 #~ "To satisfy dependencies, the following package is going to be installed"
 #~ msgstr "Ar pakadoù a-heul a zo war-nes bezañ staliet"
 
-#~ msgid "unable to find hdlist file for \"%s\", medium ignored"
-#~ msgstr "n'hellan ket kavout ar restr hdlist evit « %s », medium dibvrud"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "N'hellan ket kavout restr ar roll evit « %s », medium dibvrud"
-
-#~ msgid "too many mount points for removable medium \"%s\""
-#~ msgstr "bez eus re poentoù marc'hañ evit ar medium lem/laka « %s »"
-
-#, fuzzy
-#~ msgid "taking removable device as \"%s\""
-#~ msgstr "Trobarzhell lem-laka"
-
-#~ msgid "using different removable device [%s] for \"%s\""
-#~ msgstr "oc'h implij un trobarzhell lem-laka all [%s] evit « %s »"
-
-#~ msgid "unable to write config file [%s]"
-#~ msgstr "n'hellan ket skrivañ restr ar c'hefluniadur [%s]"
-
-#~ msgid "wrote config file [%s]"
-#~ msgstr "skrivet e oa ar restr [%s]"
-
-#~ msgid "unable to parse \"%s\" in file [%s]"
-#~ msgstr "n'hellan ket bet lennet « %s » e-barzh ar restr [%s]\""
-
-#~ msgid "examining synthesis file [%s]"
-#~ msgstr "o lenn ar restr synthesis [%s]"
-
-#~ msgid "examining hdlist file [%s]"
-#~ msgstr "o lenn ar restr hdlist [%s]"
-
-#~ msgid "skipping package %s"
-#~ msgstr "o tremen e-biou ar pakad %s"
-
-#~ msgid "would install instead of upgrade package %s"
-#~ msgstr "bez vefe staliet ar pakad %s e-lec'h bezañ bremañet"
-
-#~ msgid "medium \"%s\" already exists"
-#~ msgstr "endeo eo ar medium « %s »"
-
-#~ msgid "added medium %s"
-#~ msgstr "ouzhpennet eo ar medium %s"
-
-#~ msgid "retrieving media.cfg file..."
-#~ msgstr "o tigas ar restr media.cfg ..."
-
-#~ msgid "unable to parse media.cfg"
-#~ msgstr "n'hell ket bet lennet ar restr media.cfg"
-
-#~ msgid "selecting multiple media: %s"
-#~ msgstr "o tibab meur a media : %s"
-
-#~ msgid "removing medium \"%s\""
-#~ msgstr "o lemel ar medium « %s »"
-
-#~ msgid "reconfiguring urpmi for media \"%s\""
-#~ msgstr "oc'h adkefluniañ urpmi evit ar media « %s »"
-
-#~ msgid "...reconfiguration failed"
-#~ msgstr "... sac'het eo an adkefluniadur"
-
-#~ msgid "reconfiguration done"
-#~ msgstr "graet eo an adkefluniadur"
-
-#~ msgid "copying description file of \"%s\"..."
-#~ msgstr "oc'h eilañ restr deskrivadur eus « %s » ..."
-
-#~ msgid "...copying done"
-#~ msgstr "... graet eo an eil"
-
-#~ msgid "...copying failed"
-#~ msgstr "... sac'het eo ar staliadur "
-
-#~ msgid "copying source hdlist (or synthesis) of \"%s\"..."
-#~ msgstr "oc'h eilañ hdlist (pe an synthesis) tizh « %s » ..."
-
-#~ msgid "copy of [%s] failed (file is suspiciously small)"
-#~ msgstr "sac'het eo eil [%s] (re vihan eo ar restr)"
-
-#~ msgid "copy of [%s] failed (md5sum mismatch)"
-#~ msgstr "sac'het eo eil [%s] (ne glot ket ar md5sum)"
-
-#~ msgid "problem reading synthesis file of medium \"%s\""
-#~ msgstr "fazi en ur lenn restr synthesis ar vedium « %s »"
-
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "o lenn ar restroù rpm eus [%s]"
-
-#~ msgid "no rpms read"
-#~ msgstr "n'eus ket rpm lennet ebet"
-
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "n'hellan ket lenn ar restroù rpm eus [%s] : %s"
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "n'eus restr rpm kavet eus [%s]"
-
-#~ msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-#~ msgstr "o resev an hdlist (pe synthesis) tizh evit « %s » ..."
-
-#~ msgid "...retrieving failed: md5sum mismatch"
-#~ msgstr "... sac'het eo ar resev : ne glot ket ar md5sum"
-
-#~ msgid "retrieval of source hdlist (or synthesis) failed"
-#~ msgstr "sac'het eo resev an hdlist (pe synthesis) tizh"
-
-#~ msgid "no hdlist file found for medium \"%s\""
-#~ msgstr "n'eus restr hdlist kavet ebet evit ar medium « %s »"
-
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "bez eo implijet c'hoazh ar restr [%s] er memes medium « %s »"
-
-#~ msgid "unable to parse hdlist file of \"%s\""
-#~ msgstr "n'hell ket bet lennet restr hdlist « %s »"
 
 #~ msgid "unable to write list file of \"%s\""
 #~ msgstr "n'hell ket skrivañ restr hdlist « %s »"
 
-#~ msgid "writing list file for medium \"%s\""
-#~ msgstr "o skrivañ restr ar roll evit ar medium « %s »"
-
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "bez eus netra skriver e restr roll evit « %s »"
-
-#~ msgid "examining pubkey file of \"%s\"..."
-#~ msgstr "o lenn restr pubkey « %s » ..."
-
-#~ msgid "...imported key %s from pubkey file of \"%s\""
-#~ msgstr "... bez e oa enporzhet an alc'hwezh %s eus restr pubkey « %s »"
-
-#~ msgid "unable to import pubkey file of \"%s\""
-#~ msgstr "n'hell ket bet enporzhet restr pubkey « %s »"
-
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "o lenn reollinoù eus ar medium « %s »"
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "o sevel an hdlist [%s]"
-
-#~ msgid ""
-#~ "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
-#~ "corrupted."
-#~ msgstr ""
-#~ "N'hell ket bet savet ar restr synthesis hdlist evit ar vedium « %s ». "
-#~ "Marteze eo sac'het ho restr hdlist."
-
-#~ msgid "built hdlist synthesis file for medium \"%s\""
-#~ msgstr "savet eo bet ar restr synthesis hdlist evit ar vedium « %s »"
 
 #~ msgid "found %d headers in cache"
 #~ msgstr "kavet eo %d reollin er grubuilh"
 
 #~ msgid "removing %d obsolete headers in cache"
 #~ msgstr "o lemel %d reollin kozh er grubuilh"
-
-#~ msgid "Error generating names file: Can't write to file (%s)"
-#~ msgstr ""
-#~ "Fazi en ur sevel anvioù restr : n'hell ket bet skrivet ar restr (%s)"
-
-#~ msgid "mounting %s"
-#~ msgstr "o marc'hañ %s"
-
-#~ msgid "unmounting %s"
-#~ msgstr "o divarc'hañ %s"
-
-#~ msgid "No package named %s"
-#~ msgstr "N'eus pakad ebet ket a vez graet %s anezhañ"
-
-#~ msgid "there are multiple packages with the same rpm filename \"%s\""
-#~ msgstr "bez euz meur a bakad gant ar memes anv restr rpm « %s »"
-
-#~ msgid "unable to correctly parse [%s] on value \"%s\""
-#~ msgstr "n'hell ket bet lennet [%s] gant ar werzh « %s »"
-
-#~ msgid "package %s is not found."
-#~ msgstr "ar pakad %s n'eo ket bet kavet."
-
-#~ msgid "urpmi database locked"
-#~ msgstr "krouilhet eo ar stlennvon urpm  "
-
-#~ msgid "medium \"%s\" is not selected"
-#~ msgstr "n'eo ket dibabet ar medium « %s »"
-
-#~ msgid "unable to read rpm file [%s] from medium \"%s\""
-#~ msgstr "n'hellan ket lenn ar restr rpm [%s] eus ar medium « %s »"
-
-#~ msgid "unable to access medium \"%s\""
-#~ msgstr "n'eo ket possubl da voned ar vedia « %s »"
-
-#~ msgid "malformed URL: [%s]"
-#~ msgstr "URL siek : [%s]"
-
-#~ msgid "retrieving rpm files from medium \"%s\"..."
-#~ msgstr "o tigas ar restroù rpm eus ar medium « %s » ..."
-
-#~ msgid "removing package %s"
-#~ msgstr "lemel pakad %s"
-
-#~ msgid "unable to remove package %s"
-#~ msgstr "n'hellan ket lemel ar pakad %s"
-
-#~ msgid "unable to extract rpm from delta-rpm package %s"
-#~ msgstr "n'hell ket eztennet an rpm deus ar pakad delta-rpm %s"
-
-#~ msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-#~ msgstr "oc'h ouzhpennañ ar pakad %s (id=%d, eid=%d, update=%d, restr=%s)"
-
-#~ msgid "unable to install package %s"
-#~ msgstr "n'hellan ket staliañ ar pakad %s"
-
-#~ msgid "More information on package %s"
-#~ msgstr "Titouroù muioc'h diwwar-benn ar pakad %s"
-
-#~ msgid "due to missing %s"
-#~ msgstr "peogwir %s zo manket"
-
-#~ msgid "due to unsatisfied %s"
-#~ msgstr "peogwir %s zo manket"
-
-#~ msgid "in order to keep %s"
-#~ msgstr "evit mirout %s"
-
-#~ msgid "in order to install %s"
-#~ msgstr "evit staliañ %s"
-
-#, fuzzy
-#~ msgid "due to conflicts with %s"
-#~ msgstr "peogwir %s zo manket"
-
-#~ msgid "unrequested"
-#~ msgstr "n'eo ket goulennet"
-
-#~ msgid "Invalid signature (%s)"
-#~ msgstr "N'eo ket mat ar sinadur (%s)"
-
-#~ msgid "Invalid Key ID (%s)"
-#~ msgstr "N'eo ket mat ID an alc'hwezh (%s)"
-
-#~ msgid "Missing signature (%s)"
-#~ msgstr "Mankout a ra ar sinadur (%s)"
-
-#~ msgid "examining MD5SUM file"
-#~ msgstr "o lenn ar restr MD5SUM"
 
 #, fuzzy
 #~ msgid "The following package names were assumed: %s"

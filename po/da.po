@@ -17,12 +17,12 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-09 14:23+0100\n"
+"POT-Creation-Date: 2007-01-15 14:22+0100\n"
 "PO-Revision-Date: 2006-10-01 17:20+0200\n"
 "Last-Translator: Keld Simonsen <keld@rap.dk>\n"
 "Language-Team:  <da@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.10.2\n"
 
@@ -234,7 +234,7 @@ msgstr ""
 "\n"
 "Ønsker du at fortsætte installeringen?"
 
-#: ../gurpmi2:278 ../gurpmi2:336 ../urpmi:684 ../urpmi:814
+#: ../gurpmi2:278 ../gurpmi2:333 ../urpmi:684 ../urpmi:814
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
@@ -245,37 +245,37 @@ msgstr ""
 "%s\n"
 "Du ønsker måske at opdatere din urpmi-database"
 
-#: ../gurpmi2:285 ../urpme:138 ../urpmi:735
+#: ../gurpmi2:284 ../urpme:138 ../urpmi:735
 #, c-format
 msgid "removing %s"
 msgstr "fjerner %s"
 
-#: ../gurpmi2:291
+#: ../gurpmi2:290 ../urpm/install.pm:70
 #, c-format
 msgid "Preparing..."
 msgstr "Forbereder..."
 
-#: ../gurpmi2:295
+#: ../gurpmi2:294
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Installerer pakke `%s' (%s/%s)..."
 
-#: ../gurpmi2:320 ../urpmi:696 ../urpmi:774 ../urpmi:791
-#, c-format
-msgid "Installation failed"
-msgstr "Installationen fejlede"
-
-#: ../gurpmi2:331
+#: ../gurpmi2:326
 #, c-format
 msgid "_Done"
 msgstr "_Færdig"
 
-#: ../gurpmi2:339
+#: ../gurpmi2:331 ../urpmi:696 ../urpmi:774 ../urpmi:791
+#, c-format
+msgid "Installation failed"
+msgstr "Installationen fejlede"
+
+#: ../gurpmi2:336
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "alting er allerede installeret"
 
-#: ../gurpmi2:341
+#: ../gurpmi2:338
 #, c-format
 msgid "Installation finished"
 msgstr "Installationen færdig"
@@ -344,12 +344,13 @@ msgstr "ugyldigt rpm-filnavn [%s]"
 msgid "retrieving rpm file [%s] ..."
 msgstr "henter rpm-fil [%s]..."
 
-#: ../urpm.pm:136
+#: ../urpm.pm:136 ../urpm/get_pkgs.pm:183
 #, c-format
 msgid "...retrieving done"
 msgstr "...hentning færdig"
 
-#: ../urpm.pm:139
+#: ../urpm.pm:139 ../urpm/download.pm:603 ../urpm/get_pkgs.pm:185
+#: ../urpm/media.pm:746 ../urpm/media.pm:1259 ../urpm/media.pm:1481
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...hentning mislykkedes: %s"
@@ -419,21 +420,824 @@ msgstr ""
 msgid "Too many arguments\n"
 msgstr "For mange argumenter\n"
 
-#: ../urpm/msg.pm:52 ../urpmi:489 ../urpmi:508 ../urpmi:597
+#: ../urpm/bug_report.pm:36 ../urpm/media.pm:1142
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "byggede hdlist syntese fil for medie \"%s\""
+
+#: ../urpm/bug_report.pm:51 ../urpmi:247
+#, c-format
+msgid "Copying failed"
+msgstr "Kopiering mislykkedes"
+
+#: ../urpm/cfg.pm:81
+#, fuzzy, c-format
+msgid "syntax error in config file at line %s"
+msgstr "kunne ikke skrive config-fil [%s]"
+
+#: ../urpm/cfg.pm:112
+#, fuzzy, c-format
+msgid "unable to read config file [%s]"
+msgstr "kunne ikke skrive config-fil [%s]"
+
+#: ../urpm/cfg.pm:138
+#, c-format
+msgid "medium `%s' is defined twice, aborting"
+msgstr ""
+
+#: ../urpm/cfg.pm:226 ../urpm/media.pm:449
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "kunne ikke skrive config-fil [%s]"
+
+#: ../urpm/download.pm:111
+#, c-format
+msgid "Please enter your credentials for accessing proxy\n"
+msgstr ""
+
+#: ../urpm/download.pm:112
+#, c-format
+msgid "User name:"
+msgstr ""
+
+#: ../urpm/download.pm:112
+#, c-format
+msgid "Password:"
+msgstr ""
+
+#: ../urpm/download.pm:185
+#, c-format
+msgid "Unknown webfetch `%s' !!!\n"
+msgstr ""
+
+#: ../urpm/download.pm:194
+#, c-format
+msgid "%s failed: exited with signal %d"
+msgstr ""
+
+#: ../urpm/download.pm:195
+#, c-format
+msgid "%s failed: exited with %d"
+msgstr ""
+
+#: ../urpm/download.pm:219
+#, fuzzy, c-format
+msgid "copy failed"
+msgstr "Kopiering mislykkedes"
+
+#: ../urpm/download.pm:225
+#, fuzzy, c-format
+msgid "wget is missing\n"
+msgstr "grundet manglende %s"
+
+#: ../urpm/download.pm:289
+#, fuzzy, c-format
+msgid "curl is missing\n"
+msgstr "grundet manglende %s"
+
+#: ../urpm/download.pm:411
+#, c-format
+msgid "curl failed: download canceled\n"
+msgstr ""
+
+#: ../urpm/download.pm:450
+#, c-format
+msgid "rsync is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:511
+#, c-format
+msgid "ssh is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:530
+#, c-format
+msgid "prozilla is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:546
+#, c-format
+msgid "Couldn't execute prozilla\n"
+msgstr ""
+
+#: ../urpm/download.pm:593
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr ""
+
+#: ../urpm/download.pm:595
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr ""
+
+#: ../urpm/download.pm:651
+#, fuzzy, c-format
+msgid "retrieving %s"
+msgstr "fjerner %s"
+
+#: ../urpm/download.pm:655
+#, fuzzy, c-format
+msgid "retrieved %s"
+msgstr "...hentning mislykkedes: %s"
+
+#: ../urpm/download.pm:668
+#, c-format
+msgid "unknown protocol defined for %s"
+msgstr "ukendt protokol defineret for %s"
+
+#: ../urpm/download.pm:687
+#, c-format
+msgid "%s is not available, falling back on %s"
+msgstr "%s er ikke tilgængelig, falder tilbage til %s"
+
+#: ../urpm/download.pm:691
+#, c-format
+msgid "no webfetch found, supported webfetch are: %s\n"
+msgstr "Ingen webhentning fundet, understøttede webhentninger er: %s\n"
+
+#: ../urpm/download.pm:705
+#, c-format
+msgid "unable to handle protocol: %s"
+msgstr "kunne ikke behandle protokol: %s"
+
+#: ../urpm/get_pkgs.pm:41
+#, fuzzy, c-format
+msgid "cleaning %s and %s"
+msgstr "installerer %s på %s"
+
+#: ../urpm/get_pkgs.pm:56 ../urpm/get_pkgs.pm:79 ../urpm/get_pkgs.pm:110
+#, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "der er flere pakker med samme rpm-filnavn \"%s\""
+
+#: ../urpm/get_pkgs.pm:93
+#, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "kunne ikke fortolke [%s] korrekt ved værdi \"%s\""
+
+#: ../urpm/get_pkgs.pm:100 ../urpm/media.pm:219
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "kan ikke få adgang til filen \"%s\", medie ignoreret"
+
+#: ../urpm/get_pkgs.pm:101
+#, c-format
+msgid "(retry as root?)"
+msgstr "(prøv igen som root?)"
+
+#: ../urpm/get_pkgs.pm:126
+#, c-format
+msgid ""
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is probably not up-to-date, trying to use alternate method"
+msgstr ""
+"medie \"%s\" bruger en ugyldig listefil:\n"
+"  spejlet er nok ikke opdateret, prøver at bruge en anden metode"
+
+#: ../urpm/get_pkgs.pm:130
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr "medie \"%s\" definerer ikke noget sted for rpm-filer"
+
+#: ../urpm/get_pkgs.pm:142
+#, c-format
+msgid "package %s is not found."
+msgstr "pakke %s er ikke fundet."
+
+#: ../urpm/get_pkgs.pm:174
+#, c-format
+msgid "malformed URL: [%s]"
+msgstr "misdannet URL: [%s]"
+
+#: ../urpm/get_pkgs.pm:180
+#, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "henter rpm-filer fra medie '%s'..."
+
+#: ../urpm/install.pm:77
+#, c-format
+msgid "[repackaging]"
+msgstr "[genpakning]"
+
+#: ../urpm/install.pm:110
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
+"oprettede transaktion for installering på %s (fjern=%d, installér=%d, "
+"opgradér=%d)"
+
+#: ../urpm/install.pm:113
+#, c-format
+msgid "unable to create transaction"
+msgstr "kan ikke oprette transaktion"
+
+#: ../urpm/install.pm:121
+#, c-format
+msgid "removing package %s"
+msgstr "fjerner pakke %s"
+
+#: ../urpm/install.pm:123
+#, c-format
+msgid "unable to remove package %s"
+msgstr "kan ikke fjerne pakke %s"
+
+#: ../urpm/install.pm:135
+#, c-format
+msgid "unable to extract rpm from delta-rpm package %s"
+msgstr "kan ikke udpakke rpm fra delta-rpm pakke %s"
+
+#: ../urpm/install.pm:141
+#, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr "tilføjer pakke %s (id=%d, eid=%d, opdatering=%d, fil=%s)"
+
+#: ../urpm/install.pm:144
+#, c-format
+msgid "unable to install package %s"
+msgstr "kunne ikke installere pakke %s"
+
+#: ../urpm/install.pm:180
+#, fuzzy, c-format
+msgid "removing installed rpms (%s) from %s"
+msgstr "installerer %s fra %s"
+
+#: ../urpm/install.pm:186
+#, c-format
+msgid "More information on package %s"
+msgstr "Mere information om pakke %s"
+
+#: ../urpm/ldap.pm:71
+#, fuzzy, c-format
+msgid "Cannot create ldap cache directory"
+msgstr "Kan ikke skrive til genpakningskatalog [%s]\n"
+
+#: ../urpm/ldap.pm:73
+#, c-format
+msgid "Cannot write cache file for ldap\n"
+msgstr ""
+
+#: ../urpm/ldap.pm:162
+#, c-format
+msgid "No server defined, missing uri or host"
+msgstr ""
+
+#: ../urpm/ldap.pm:163
+#, fuzzy, c-format
+msgid "No base defined"
+msgstr "Ingen pakker angivet"
+
+#: ../urpm/ldap.pm:172 ../urpm/ldap.pm:175
+#, c-format
+msgid "Cannot connect to ldap uri :"
+msgstr ""
+
+#: ../urpm/lock.pm:50
+#, fuzzy, c-format
+msgid "%s database locked"
+msgstr "urpmi-database låst"
+
+#: ../urpm/md5sum.pm:23
+#, fuzzy, c-format
+msgid "examining %s file"
+msgstr "undersøger MD5SUM-fil"
+
+#: ../urpm/md5sum.pm:25
+#, c-format
+msgid "warning: md5sum for %s unavailable in MD5SUM file"
+msgstr "advarsel: md5sum for %s er ikke tilgængelig i MD5SUM-fil"
+
+#: ../urpm/md5sum.pm:45
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis) [%s]"
+msgstr "beregner md5sum på eksisterende kilde-hdlist (eller -syntese)"
+
+#: ../urpm/media.pm:171
+#, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"det virtuelle medie \"%s\" bør ikke have defineret en hdlist- eller list-"
+"fil, medie ignoreret"
+
+#: ../urpm/media.pm:175
+#, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr "virtuelt medie \"%s\" bør have en klar url, medie ignoreret"
+
+#: ../urpm/media.pm:183
+#, fuzzy, c-format
+msgid "invalid hdlist name"
+msgstr "ugyldigt rpm-filnavn [%s]"
+
+#: ../urpm/media.pm:190
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "kunne ikke finde listefil for \"%s\", medie ignoreret"
+
+#: ../urpm/media.pm:203
+#, fuzzy, c-format
+msgid "\"synthesis\" should not be set (medium \"%s\")"
+msgstr "prøver at vælge ikke-eksisterende medie \"%s\""
+
+#: ../urpm/media.pm:206
+#, fuzzy, c-format
+msgid "\"synthesis\" should be set (medium \"%s\")"
+msgstr "byggede hdlist syntese fil for medie \"%s\""
+
+#: ../urpm/media.pm:209 ../urpm/media.pm:1419 ../urpm/media.pm:1507
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "kunne ikke nå hdlist-fil af \"%s\", medie ignoreret"
+
+#: ../urpm/media.pm:215
+#, fuzzy, c-format
+msgid "unable to access list file of \"%s\""
+msgstr "kunne ikke fortolke hdlist-filen \"%s\""
+
+#: ../urpm/media.pm:229
+#, c-format
+msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
+msgstr "medie \"%s\" prøver at bruge en allerede brugt hdlist, medie ignoreret"
+
+#: ../urpm/media.pm:230
+#, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr "medie \"%s\" prøver at bruge en allerede brugt liste, medie ignoreret"
+
+#: ../urpm/media.pm:255
+#, c-format
+msgid "trying to override existing medium \"%s\", skipping"
+msgstr "prøver at forbigå eksisterende medie \"%s\", springer over"
+
+#: ../urpm/media.pm:398
+#, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr "For mange monteringspunkter for udskifteligt medium \"%s\""
+
+#: ../urpm/media.pm:399
+#, c-format
+msgid "taking removable device as \"%s\""
+msgstr "tager udskifteligt medium som \"%s\""
+
+#: ../urpm/media.pm:402
+#, c-format
+msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgstr "Medie \"%s\" er et ISO-aftryk, vil blive monteret omgående"
+
+#: ../urpm/media.pm:405
+#, c-format
+msgid "using different removable device [%s] for \"%s\""
+msgstr "bruger en anden udskiftelig enhed [%s] for \"%s\""
+
+#: ../urpm/media.pm:410 ../urpm/media.pm:413
+#, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "kan ikke finde stinavn for udskifteligt medie \"%s\""
+
+#: ../urpm/media.pm:428
+#, c-format
+msgid "wrote %s"
+msgstr ""
+
+#: ../urpm/media.pm:451
+#, c-format
+msgid "wrote config file [%s]"
+msgstr "skriver config fil [%s]"
+
+#: ../urpm/media.pm:496
+#, c-format
+msgid "Can't use parallel mode with use-distrib mode"
+msgstr "Kan ikke bruge parallel-tilstand med 'use-distrib '-tilstand"
+
+#: ../urpm/media.pm:504
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr "bruger tilknyttet medie for parallel tilstand: %s"
+
+#: ../urpm/media.pm:520
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update, --use-distrib or --parallel"
+msgstr ""
+"--synthesis kan ikke bruges med --media, --excludemedia, --sortmedia, --"
+"update eller --parallel"
+
+#: ../urpm/media.pm:586
+#, fuzzy, c-format
+msgid "Note: no hdlist for medium \"%s\", unable to return any result for it"
+msgstr ""
+"Bemærk: da ingen af de undersøgte medier bruger en hdlist, var urpmf ikke i "
+"stand til at returnere noget resultat\n"
+
+#: ../urpm/media.pm:596
+#, c-format
+msgid "Search start: %s end: %s"
+msgstr "Søgnings-start: %s slut: %s"
+
+#: ../urpm/media.pm:605 ../urpm/media.pm:1802
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "udfører andet gennemløb for at beregne afhængigheder\n"
+
+#: ../urpm/media.pm:621
+#, c-format
+msgid "skipping package %s"
+msgstr "overspringer pakke %s"
+
+#: ../urpm/media.pm:637
+#, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "ville installere i stedet for at opgradere pakke %s"
+
+#: ../urpm/media.pm:662
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "medie \"%s\" eksisterer allerede"
+
+#: ../urpm/media.pm:677
+#, c-format
+msgid "virtual medium needs to be local"
+msgstr "virtuelt medie skal være lokalt"
+
+#: ../urpm/media.pm:691
+#, c-format
+msgid "(ignored by default)"
+msgstr ""
+
+#: ../urpm/media.pm:697
+#, fuzzy, c-format
+msgid "adding medium \"%s\" before remote medium \"%s\""
+msgstr "læser hoveder fra medium \"%s\""
+
+#: ../urpm/media.pm:703
+#, fuzzy, c-format
+msgid "adding medium \"%s\""
+msgstr "fjerner medium \"%s\""
+
+#: ../urpm/media.pm:729
+#, fuzzy, c-format
+msgid "unable to mount the distribution medium"
+msgstr "kan ikke få adgang til første installationsmedium"
+
+#: ../urpm/media.pm:732
+#, fuzzy, c-format
+msgid "this location doesn't seem to contain any distribution"
+msgstr "denne url ser ikke ud til at indeholde nogen distrib"
+
+#: ../urpm/media.pm:739
+#, c-format
+msgid "retrieving media.cfg file..."
+msgstr "modtager media.cfg-fil..."
+
+#: ../urpm/media.pm:744
+#, c-format
+msgid "unable to parse media.cfg"
+msgstr "kunne ikke læse media.cfg"
+
+#: ../urpm/media.pm:747
+#, fuzzy, c-format
+msgid "unable to access the distribution medium (no media.cfg file found)"
+msgstr ""
+"kunne ikke få fat på det første installationsmedium (ingen hdlists fil "
+"fundet)"
+
+#: ../urpm/media.pm:826
+#, c-format
+msgid "trying to select nonexistent medium \"%s\""
+msgstr "prøver at vælge ikke-eksisterende medie \"%s\""
+
+#: ../urpm/media.pm:829
+#, c-format
+msgid "selecting multiple media: %s"
+msgstr "vælger flere medier: %s"
+
+#: ../urpm/media.pm:849
+#, c-format
+msgid "removing medium \"%s\""
+msgstr "fjerner medium \"%s\""
+
+#: ../urpm/media.pm:940
+#, c-format
+msgid "reconfiguring urpmi for media \"%s\""
+msgstr "omkonfigurerer urpmi for medie \"%s\""
+
+#: ../urpm/media.pm:979
+#, c-format
+msgid "...reconfiguration failed"
+msgstr "...omkonfigurering mislykkedes"
+
+#: ../urpm/media.pm:985
+#, c-format
+msgid "reconfiguration done"
+msgstr "omkonfigurering færdig"
+
+#: ../urpm/media.pm:1033
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr "Fejl ved generering af navnefil: afhængighed %d ikke fundet"
+
+#: ../urpm/media.pm:1037
+#, c-format
+msgid "Error generating names file: Can't write to file (%s)"
+msgstr "Fejl ved generering af navnefil: Kan ikke skrive til fil (%s)"
+
+#: ../urpm/media.pm:1072
+#, fuzzy, c-format
+msgid "medium \"%s\" is up-to-date"
+msgstr "medie \"%s\" er ikke valgt"
+
+#: ../urpm/media.pm:1092
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr "undersøger hdlist-fil [%s]"
+
+#: ../urpm/media.pm:1102
+#, c-format
+msgid "examining synthesis file [%s]"
+msgstr "undersøger syntese-fil [%s]"
+
+#: ../urpm/media.pm:1119
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "bygger hdlist [%s]"
+
+#: ../urpm/media.pm:1138
+#, c-format
+msgid ""
+"Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
+"corrupted."
+msgstr ""
+"Kunne ikke bygge syntese-fil for medie \"%s\". Din hdlist-fil er måske "
+"ødelagt."
+
+#: ../urpm/media.pm:1157
+#, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "problem ved læsning af hdlist- eller syntese-fil for medie \"%s\""
+
+#: ../urpm/media.pm:1169 ../urpm/media.pm:1207 ../urpm/media.pm:1494
+#, c-format
+msgid "...copying failed"
+msgstr "...kopiering mislykkedes"
+
+#: ../urpm/media.pm:1203
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "kopierer beskrivelsesfil for \"%s\"..."
+
+#: ../urpm/media.pm:1205 ../urpm/media.pm:1236
+#, c-format
+msgid "...copying done"
+msgstr "...kopiering færdig"
+
+#: ../urpm/media.pm:1232
+#, fuzzy, c-format
+msgid "copying [%s] for medium \"%s\"..."
+msgstr "skriver liste-fil for medie \"%s\""
+
+#: ../urpm/media.pm:1238
+#, c-format
+msgid "copy of [%s] failed (file is suspiciously small)"
+msgstr "kopiering af [%s] mislykkedes (filen er mistænkeligt lille)"
+
+#: ../urpm/media.pm:1271
+#, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "beregner md5sum på kopieret kilde-hdlist (eller -syntese)"
+
+#: ../urpm/media.pm:1273
+#, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "kopi af [%s] mislykkedes (md5sum-uoverensstemmelse)"
+
+#: ../urpm/media.pm:1285
+#, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "beregner md5sum på hentet kilde-hdlist (eller -syntese)"
+
+#: ../urpm/media.pm:1287
+#, c-format
+msgid "...retrieving failed: md5sum mismatch"
+msgstr "...hentning mislykkedes: md5sum: passer ikke"
+
+#: ../urpm/media.pm:1302
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "ingen rpm filer fundet fra [%s]"
+
+#: ../urpm/media.pm:1309
+#, c-format
+msgid "reading rpm files from [%s]"
+msgstr "læser rpm-filer fra [%s]"
+
+#: ../urpm/media.pm:1324
+#, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "kunne ikke læse rpm-filer fra  [%s]: %s"
+
+#: ../urpm/media.pm:1334
+#, c-format
+msgid "no rpms read"
+msgstr "ingen rpm'er læst"
+
+#: ../urpm/media.pm:1364
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+"Kan ikke tilgå medie '%s',\n"
+"dette kan ske hvis du manuelt monterede kataloget ved oprettelsen af mediet."
+
+#: ../urpm/media.pm:1377
+#, fuzzy, c-format
+msgid "invalid hdlist file %s for medium \"%s\""
+msgstr "ingen hdlist-fil fundet for medie \"%s\""
+
+#: ../urpm/media.pm:1457
+#, c-format
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "henter kilde-hdlist (eller -syntese) for \"%s\"..."
+
+#: ../urpm/media.pm:1473
+#, c-format
+msgid "found probed hdlist (or synthesis) as %s"
+msgstr "fandt undersøgte hdlist (eller syntese) for \"%s\"..."
+
+#: ../urpm/media.pm:1480 ../urpm/media.pm:1612
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "ingen hdlist-fil fundet for medie \"%s\""
+
+#: ../urpm/media.pm:1532
+#, c-format
+msgid "examining pubkey file of \"%s\"..."
+msgstr "undersøger pubkey-fil for '%s'"
+
+#: ../urpm/media.pm:1544
+#, c-format
+msgid "...imported key %s from pubkey file of \"%s\""
+msgstr "...importeret nøgle %s fra pubkey-fil for \"%s\""
+
+#: ../urpm/media.pm:1547
+#, c-format
+msgid "unable to import pubkey file of \"%s\""
+msgstr "kunne ikke importere pubkey-fil for \"%s\""
+
+#: ../urpm/media.pm:1563
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "skriver liste-fil for medie \"%s\""
+
+#: ../urpm/media.pm:1621 ../urpm/media.pm:1651
+#, fuzzy, c-format
+msgid "updated medium \"%s\""
+msgstr "tilføjede medie %s"
+
+#: ../urpm/media.pm:1638
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "kunne ikke fortolke hdlist-filen \"%s\""
+
+#: ../urpm/media.pm:1644
+#, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "problem ved læsning af syntese-fil for medie \"%s\""
+
+#: ../urpm/media.pm:1709
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "læser hoveder fra medium \"%s\""
+
+#: ../urpm/msg.pm:61 ../urpmi:489 ../urpmi:508 ../urpmi:597
 #, c-format
 msgid "Nn"
 msgstr "Nn"
 
-#: ../urpm/msg.pm:53 ../urpme:36 ../urpmi:490 ../urpmi:509 ../urpmi:549
+#: ../urpm/msg.pm:62 ../urpme:36 ../urpmi:490 ../urpmi:509 ../urpmi:549
 #: ../urpmi:598 ../urpmi:675 ../urpmi:762 ../urpmi.addmedia:134
 #, c-format
 msgid "Yy"
 msgstr "YyJj"
 
-#: ../urpm/msg.pm:104
+#: ../urpm/msg.pm:113
 #, c-format
 msgid "Sorry, bad choice, try again\n"
 msgstr "Undskyld, dårligt valg, prøv igen\n"
+
+#: ../urpm/parallel.pm:14
+#, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "kunne ikke tolke '%s' i fil [%s]"
+
+#: ../urpm/parallel.pm:23
+#, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "undersøger parallelbehandling i fil [%s]"
+
+#: ../urpm/parallel.pm:34
+#, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr "fandt parallelbehandling for knuder: %s"
+
+#: ../urpm/parallel.pm:38
+#, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "kan ikke bruge parallel mulighed \"%s\""
+
+#: ../urpm/removable.pm:32
+#, c-format
+msgid "mounting %s"
+msgstr "monterer %s"
+
+#: ../urpm/removable.pm:56
+#, c-format
+msgid "unmounting %s"
+msgstr "afmonterer %s"
+
+#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "medie \"%s\" er ikke valgt"
+
+#: ../urpm/removable.pm:143
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "kunne ikke læse rpm-fil [%s] fra medie \"%s\""
+
+#: ../urpm/removable.pm:151
+#, c-format
+msgid "inconsistent medium \"%s\" marked removable but not really"
+msgstr "inkonsistent medie \"%s\" mærket udskifteligt, men er det ikke"
+
+#: ../urpm/removable.pm:163
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "kunne ikke nå medie \"%s\""
+
+#: ../urpm/select.pm:115
+#, c-format
+msgid "No package named %s"
+msgstr "Ingen pakke kaldet %s"
+
+#: ../urpm/select.pm:117 ../urpme:112
+#, c-format
+msgid "The following packages contain %s: %s"
+msgstr "Følgende pakker indeholder %s: %s"
+
+#: ../urpm/select.pm:398 ../urpm/select.pm:438
+#, c-format
+msgid "due to missing %s"
+msgstr "grundet manglende %s"
+
+#: ../urpm/select.pm:399 ../urpm/select.pm:436
+#, c-format
+msgid "due to unsatisfied %s"
+msgstr "grundet uopfyldt %s"
+
+#: ../urpm/select.pm:405
+#, c-format
+msgid "trying to promote %s"
+msgstr "prøver at fremme %s"
+
+#: ../urpm/select.pm:406
+#, c-format
+msgid "in order to keep %s"
+msgstr "for at kunne beholde %s"
+
+#: ../urpm/select.pm:432
+#, c-format
+msgid "in order to install %s"
+msgstr "for at kunne installere %s"
+
+#: ../urpm/select.pm:442
+#, c-format
+msgid "due to conflicts with %s"
+msgstr "grundet modstrid med %s"
+
+#: ../urpm/select.pm:444
+#, c-format
+msgid "unrequested"
+msgstr "ikke ønsket"
+
+#: ../urpm/signature.pm:26
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr "Ugyldig signatur (%s)"
+
+#: ../urpm/signature.pm:57
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr "Ugyldig nøgle-id (%s)"
+
+#: ../urpm/signature.pm:59
+#, c-format
+msgid "Missing signature (%s)"
+msgstr "Manglende signatur (%s)"
 
 #: ../urpme:39
 #, c-format
@@ -452,7 +1256,7 @@ msgstr ""
 "brug:\n"
 
 #: ../urpme:44 ../urpmf:35 ../urpmi:84 ../urpmi.addmedia:45
-#: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:47
+#: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:48
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - udskriv denne hjælpebesked.\n"
@@ -467,14 +1271,14 @@ msgstr "  --auto         - vælg automatisk en pakke ved valg.\n"
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - afprøv om fjernelsen kan udføres korrekt.\n"
 
-#: ../urpme:47 ../urpmi:109 ../urpmq:66
+#: ../urpme:47 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
 msgstr ""
 "  --force        - gennemfør kald selv om nogen pakker ikke eksisterer.\n"
 
-#: ../urpme:48 ../urpmi:114 ../urpmq:68
+#: ../urpme:48 ../urpmi:114 ../urpmq:69
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - distribueret urpmi over maskiner med alias.\n"
@@ -490,7 +1294,7 @@ msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - brug en anden root for rpm-fjernelse.\n"
 
 #: ../urpme:51 ../urpmf:40 ../urpmi:116 ../urpmi.addmedia:60
-#: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:70
+#: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:71
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - brug en anden root for rpm-installation.\n"
@@ -509,18 +1313,18 @@ msgstr ""
 "  --use-distrib  - konfigurér urpme løbende fra et distrib træ, "
 "nyttigt               til at (af)installere en chroot med root-tilvalget.\n"
 
-#: ../urpme:55 ../urpmi:119 ../urpmq:73
+#: ../urpme:55 ../urpmi:119 ../urpmq:74
 #, fuzzy, c-format
 msgid "    --probe-synthesis - use synthesis file.\n"
 msgstr ""
 "  --probe-synthesis forsøg at finde og bruge syntese- eller hdlist-fil.\n"
 
-#: ../urpme:56 ../urpmi:120 ../urpmq:74
+#: ../urpme:56 ../urpmi:120 ../urpmq:75
 #, fuzzy, c-format
 msgid "    --probe-hdlist - use hdlist file.\n"
 msgstr "  --probe-hdlist - forsøg at finde og bruge hdlist-fil.\n"
 
-#: ../urpme:57 ../urpmi:156 ../urpmq:85
+#: ../urpme:57 ../urpmi:156 ../urpmq:86
 #, fuzzy, c-format
 msgid "  --verbose, -v  - verbose mode.\n"
 msgstr "  -v             - udførlig tilstand.\n"
@@ -544,11 +1348,6 @@ msgstr "ukendte pakker"
 #, c-format
 msgid "unknown package"
 msgstr "ukendt pakke"
-
-#: ../urpme:112
-#, c-format
-msgid "The following packages contain %s: %s"
-msgstr "Følgende pakker indeholder %s: %s"
 
 #: ../urpme:118 ../urpmi:526
 #, c-format
@@ -609,12 +1408,12 @@ msgstr ""
 msgid "  --version      - print this tool's version number.\n"
 msgstr "  --version      - udskriv dette værktøjs versionsnummer.\n"
 
-#: ../urpmf:37 ../urpmi:137 ../urpmq:82
+#: ../urpmf:37 ../urpmi:137 ../urpmq:83
 #, c-format
 msgid "  --env          - use specific environment (typically a bug report).\n"
 msgstr "  --env          - brug specifikt miljø (typisk ved en fejlrapport).\n"
 
-#: ../urpmf:38 ../urpmi:86 ../urpmq:51
+#: ../urpmf:38 ../urpmi:86 ../urpmq:52
 #, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr "  --excludemedia - brug ikke de opgivne medier, adskilt med komma.\n"
@@ -627,19 +1426,19 @@ msgstr ""
 "  --literal, -l  - kontrollér ikke søgestrenge, brug argumenter som "
 "bogstavelige strenge.\n"
 
-#: ../urpmf:41 ../urpmi:85 ../urpmq:49
+#: ../urpmf:41 ../urpmi:85 ../urpmq:50
 #, c-format
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - brug kun de opgivne medier, adskilt med komma.\n"
 
-#: ../urpmf:42 ../urpmi:89 ../urpmq:52
+#: ../urpmf:42 ../urpmi:89 ../urpmq:53
 #, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
 "  --sortmedia    - sortér medier ifølge delstrenge, adskilt med komma.\n"
 
-#: ../urpmf:43 ../urpmi:90 ../urpmq:53
+#: ../urpmf:43 ../urpmi:90 ../urpmq:54
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
 msgstr "  --synthesis    - brug synthesis angivet i stedet for urpmi-db.\n"
@@ -649,7 +1448,7 @@ msgstr "  --synthesis    - brug synthesis angivet i stedet for urpmi-db.\n"
 msgid "  --uniq         - do not print identical lines twice.\n"
 msgstr "  --uniq          - udskriv ikke identiske linjer.\n"
 
-#: ../urpmf:45 ../urpmi:87 ../urpmq:48
+#: ../urpmf:45 ../urpmi:87 ../urpmq:49
 #, c-format
 msgid "  --update       - use only update media.\n"
 msgstr "  --update       - brug kun opdateringsmedie.\n"
@@ -842,7 +1641,7 @@ msgstr "  --vendor       - leverandør\n"
 msgid "  -m             - the media in which the package was found\n"
 msgstr "  -m             - mediet i hvilken pakken blev fundet\n"
 
-#: ../urpmf:82 ../urpmq:89
+#: ../urpmf:82 ../urpmq:90
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
 msgstr "  -f             - udskriv version, udgave og arkitektur med navn.\n"
@@ -852,7 +1651,7 @@ msgstr "  -f             - udskriv version, udgave og arkitektur med navn.\n"
 msgid "Incorrect format: you may use only one multi-valued tag"
 msgstr "Ugyldigt format: du kan kun bruge flerværdi-etiketter"
 
-#: ../urpmf:186 ../urpmi:254 ../urpmq:134
+#: ../urpmf:186 ../urpmi:254 ../urpmq:135
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "bruger særligt miljø på %s\n"
@@ -904,7 +1703,7 @@ msgstr ""
 "  --auto         - ikke-interaktiv tilstand, antag standardsvar på "
 "spørgsmål.\n"
 
-#: ../urpmi:92 ../urpmq:54
+#: ../urpmi:92 ../urpmq:55
 #, c-format
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
@@ -941,7 +1740,7 @@ msgstr ""
 msgid "  --no-install   - don't install packages (only download)\n"
 msgstr "  --no-install   - installér ikke pakker (kun nedhentning)\n"
 
-#: ../urpmi:98 ../urpmq:56
+#: ../urpmi:98 ../urpmq:57
 #, c-format
 msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
@@ -1010,7 +1809,7 @@ msgstr ""
 "  --allow-force  - tillad at spørge bruger om installering af pakker\n"
 "                   uden kontrol af afhængigheder og integritet.\n"
 
-#: ../urpmi:115 ../urpmq:69
+#: ../urpmi:115 ../urpmq:70
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - brug en anden root for rpm-installation.\n"
@@ -1024,17 +1823,17 @@ msgstr ""
 "  --use-distrib  - konfigurér urpmi løbende fra et distrib-træ, "
 "nyttigt               til at installere en chroot med --root-tilvalget.\n"
 
-#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:75
+#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:76
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - brug wget til at hente eksterne filer.\n"
 
-#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:76
+#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:77
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - brug 'curl' til at hente retrieve eksterne filer.\n"
 
-#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:77
+#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:78
 #, fuzzy, c-format
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --curl         - brug 'curl' til at hente retrieve eksterne filer.\n"
@@ -1073,7 +1872,7 @@ msgstr ""
 " --resume       - genoptag overførsel af delvist hentede filer\n"
 "                   (--no-resume deaktiverer det, standard er deaktiveret).\n"
 
-#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:78
+#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:79
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -1082,7 +1881,7 @@ msgstr ""
 "  --proxy        - brug den angivne HTTP proxy, portnummeret antages at\n"
 "                   være 1080 som standard (formatet er <proxyvært[:port]>).\n"
 
-#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:80
+#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:81
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -1169,7 +1968,7 @@ msgstr "  --nolock       - lås ikke rpm-database.\n"
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
 msgstr "  --strict-arch  - opgradér kun pakker med den samme arkitektur.\n"
 
-#: ../urpmi:152 ../urpmq:86
+#: ../urpmi:152 ../urpmq:87
 #, c-format
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - vælg alle træffere på kommandolinje.\n"
@@ -1227,11 +2026,6 @@ msgstr ""
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "kunne ikke oprette katalog [%s] til fejlrapport"
-
-#: ../urpmi:247
-#, c-format
-msgid "Copying failed"
-msgstr "Kopiering mislykkedes"
 
 #: ../urpmi:253
 #, c-format
@@ -1910,7 +2704,7 @@ msgstr "ignorerer medie %s"
 msgid "enabling media %s"
 msgstr "aktiverer medie %s"
 
-#: ../urpmq:42
+#: ../urpmq:43
 #, c-format
 msgid ""
 "urpmq version %s\n"
@@ -1926,7 +2720,7 @@ msgstr ""
 "\n"
 "brug:\n"
 
-#: ../urpmq:50
+#: ../urpmq:51
 #, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested (or updated) "
@@ -1935,37 +2729,37 @@ msgstr ""
 "  --searchmedia  - brug kun det opgivne medie for at søge efter de ønskede "
 "(eller opdaterede) pakker.\n"
 
-#: ../urpmq:55
+#: ../urpmq:56
 #, c-format
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
 msgstr "  --fuzzy        - gennemfør søgning efter fuzzy (samme som -y).\n"
 
-#: ../urpmq:58
+#: ../urpmq:59
 #, c-format
 msgid "  --list         - list available packages.\n"
 msgstr "  --list          - skriv tilgængelige pakker.\n"
 
-#: ../urpmq:59
+#: ../urpmq:60
 #, c-format
 msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - list tilgængelige medier.\n"
 
-#: ../urpmq:60
+#: ../urpmq:61
 #, c-format
 msgid "  --list-url     - list available media and their url.\n"
 msgstr "  --list-url     - list tilgængelige medier og deres url.\n"
 
-#: ../urpmq:61
+#: ../urpmq:62
 #, c-format
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
 msgstr "  --list-nodes   - list tilgængelige knuder ved brug af --parallel.\n"
 
-#: ../urpmq:62
+#: ../urpmq:63
 #, c-format
 msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr "  --list-aliases - list tilgængelige parallelle aliaser.\n"
 
-#: ../urpmq:63
+#: ../urpmq:64
 #, c-format
 msgid ""
 "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
@@ -1973,25 +2767,25 @@ msgstr ""
 "  --dump-config  - udskriv konfigurationen i form af urpmi.addmedia "
 "argumenter.\n"
 
-#: ../urpmq:64
+#: ../urpmq:65
 #, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - næste pakke er en kildepakke (samme som -s).\n"
 
-#: ../urpmq:65
+#: ../urpmq:66
 #, c-format
 msgid ""
 "  --sources      - give all source packages before downloading (root only).\n"
 msgstr "  --sources      - giv alle kildepakker før hentning (kun root).\n"
 
-#: ../urpmq:67
+#: ../urpmq:68
 #, c-format
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
 msgstr ""
 "  --ignorearch   - tillad at spørge efter rpm'er for forskellige "
 "arkitekturer.\n"
 
-#: ../urpmq:71
+#: ../urpmq:72
 #, c-format
 msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
@@ -2000,76 +2794,76 @@ msgstr ""
 "  --use-distrib  - konfigurér urpmi løbende fra et distrib-træ.\n"
 "              Dette muliggør at spørge efter en distro.\n"
 
-#: ../urpmq:83
+#: ../urpmq:84
 #, c-format
 msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - udskriv ændringslog.\n"
 
-#: ../urpmq:84
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - skriv resumé.\n"
 
-#: ../urpmq:87
+#: ../urpmq:88
 #, c-format
 msgid "  -c             - complete output with package to be removed.\n"
 msgstr "  -c             - færdiggør uddata med pakke der skal fjernes.\n"
 
-#: ../urpmq:88
+#: ../urpmq:89
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
 msgstr "  -d             - udvid forespørgsel til pakkeafhængigheder.\n"
 
-#: ../urpmq:90
+#: ../urpmq:91
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - udskriv også grupper med navn.\n"
 
-#: ../urpmq:91
+#: ../urpmq:92
 #, c-format
 msgid "  -i             - print useful information in human readable form.\n"
 msgstr "  -i             - udskriv nyttig information på læsevenlig form.\n"
 
-#: ../urpmq:92
+#: ../urpmq:93
 #, c-format
 msgid "  -l             - list files in package.\n"
 msgstr "  -l..          - udskriv filer i pakken.\n"
 
-#: ../urpmq:93
+#: ../urpmq:94
 #, c-format
 msgid ""
 "  -P             - do not search in provides to find package (default).\n"
 msgstr ""
 "  -P             - søg ikke i 'provides' for at finde pakke (standard).\n"
 
-#: ../urpmq:94
+#: ../urpmq:95
 #, c-format
 msgid "  -p             - search in provides to find package.\n"
 msgstr "  -p             - søg i 'provides' for at finde pakke.\n"
 
-#: ../urpmq:95
+#: ../urpmq:96
 #, c-format
 msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - udskriv også version og udgave med navn.\n"
 
-#: ../urpmq:96
+#: ../urpmq:97
 #, c-format
 msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - omvendt søgning til hvad der kræver pakke.\n"
 
-#: ../urpmq:97
+#: ../urpmq:98
 #, c-format
 msgid ""
 "  -RR            - extended reverse search (includes virtual packages).\n"
 msgstr ""
 "  -RR            - udvidet omvendt søgning (inklusive virtuelle pakker).\n"
 
-#: ../urpmq:98
+#: ../urpmq:99
 #, c-format
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr "  -s             - næste pakke er en kildepakke (samme som --src).\n"
 
-#: ../urpmq:99
+#: ../urpmq:100
 #, c-format
 msgid ""
 "  -u             - remove package if a more recent version is already "
@@ -2078,42 +2872,55 @@ msgstr ""
 "  -u             - fjern pakke hvis en nyere version allerede er "
 "installeret.\n"
 
-#: ../urpmq:100
+#: ../urpmq:101
 #, c-format
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
 msgstr "  -y             - gennemfør upræcis søgning (samme som --fuzzy).\n"
 
-#: ../urpmq:101
+#: ../urpmq:102
 #, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
 msgstr ""
 "  -Y             - som -y, men tvinger matchning uden forske på små og store "
 "bogstaver.\n"
 
-#: ../urpmq:102
+#: ../urpmq:103
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  navne eller rpm-filer givne på kommandolinjen bliver forespurgt.\n"
 
-#: ../urpmq:177
+#: ../urpmq:178
 #, c-format
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes kan kun bruges med --parallel"
 
-#: ../urpmq:333
+#: ../urpmq:350
 #, c-format
-msgid "skipping media %s: no hdlist"
-msgstr "overspringer medie %s: ingen hdlist"
+msgid "no hdlist for medium \"%s\", only partial result for package %s"
+msgid_plural "no hdlist for medium \"%s\", only partial result for packages %s"
+msgstr[0] ""
+msgstr[1] ""
 
-#: ../urpmq:406
+#: ../urpmq:353
+#, c-format
+msgid "no hdlist for medium \"%s\", unable to return any result for package %s"
+msgid_plural ""
+"no hdlist for medium \"%s\", unable to return any result for packages %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../urpmq:405
 #, c-format
 msgid "No filelist found\n"
 msgstr "Ingen filliste fundet\n"
 
-#: ../urpmq:418
+#: ../urpmq:417
 #, c-format
 msgid "No changelog found\n"
 msgstr "Ingen ændringslog fundet\n"
+
+#~ msgid "skipping media %s: no hdlist"
+#~ msgstr "overspringer medie %s: ingen hdlist"
 
 #~ msgid "mput failed, maybe a node is unreacheable"
 #~ msgstr "mput mislykkedes, måske kan en node ikke nås"
@@ -2166,9 +2973,6 @@ msgstr "Ingen ændringslog fundet\n"
 #~ msgid "Performing install on %s..."
 #~ msgstr "Udfører installering på %s..."
 
-#~ msgid "Installing %s on %s..."
-#~ msgstr "installerer %s på %s"
-
 #~ msgid "Preparing install on %s..."
 #~ msgstr "Forbereder installation på %s..."
 
@@ -2195,50 +2999,8 @@ msgstr "Ingen ændringslog fundet\n"
 #~ "\n"
 #~ "ukendte valg '%s'\n"
 
-#~ msgid "unknown protocol defined for %s"
-#~ msgstr "ukendt protokol defineret for %s"
-
-#~ msgid "%s is not available, falling back on %s"
-#~ msgstr "%s er ikke tilgængelig, falder tilbage til %s"
-
-#~ msgid "no webfetch found, supported webfetch are: %s\n"
-#~ msgstr "Ingen webhentning fundet, understøttede webhentninger er: %s\n"
-
-#~ msgid "unable to handle protocol: %s"
-#~ msgstr "kunne ikke behandle protokol: %s"
-
-#~ msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "medie \"%s\" prøver at bruge en allerede brugt hdlist, medie ignoreret"
-
-#~ msgid "medium \"%s\" trying to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "medie \"%s\" prøver at bruge en allerede brugt liste, medie ignoreret"
-
-#~ msgid "unable to access hdlist file of \"%s\", medium ignored"
-#~ msgstr "kunne ikke nå hdlist-fil af \"%s\", medie ignoreret"
-
-#~ msgid "unable to access list file of \"%s\", medium ignored"
-#~ msgstr "kan ikke få adgang til filen \"%s\", medie ignoreret"
-
-#~ msgid "trying to override existing medium \"%s\", skipping"
-#~ msgstr "prøver at forbigå eksisterende medie \"%s\", springer over"
-
-#~ msgid ""
-#~ "virtual medium \"%s\" should not have defined hdlist or list file, medium "
-#~ "ignored"
-#~ msgstr ""
-#~ "det virtuelle medie \"%s\" bør ikke have defineret en hdlist- eller list-"
-#~ "fil, medie ignoreret"
-
-#~ msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-#~ msgstr "virtuelt medie \"%s\" bør have en klar url, medie ignoreret"
-
 #~ msgid "unable to find hdlist file for \"%s\", medium ignored"
 #~ msgstr "kunne ikke finde hdlist-fil for \"%s\", medie ignoreret"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "kunne ikke finde listefil for \"%s\", medie ignoreret"
 
 #~ msgid "inconsistent list file for \"%s\", medium ignored"
 #~ msgstr "inkonsistent listefil for \"%s\", medie ignoreret"
@@ -2246,131 +3008,11 @@ msgstr "Ingen ændringslog fundet\n"
 #~ msgid "unable to inspect list file for \"%s\", medium ignored"
 #~ msgstr "kunne ikke inspicere listefil for \"%s\", medie ignoreret"
 
-#~ msgid "too many mount points for removable medium \"%s\""
-#~ msgstr "For mange monteringspunkter for udskifteligt medium \"%s\""
-
-#~ msgid "taking removable device as \"%s\""
-#~ msgstr "tager udskifteligt medium som \"%s\""
-
-#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-#~ msgstr "Medie \"%s\" er et ISO-aftryk, vil blive monteret omgående"
-
-#~ msgid "using different removable device [%s] for \"%s\""
-#~ msgstr "bruger en anden udskiftelig enhed [%s] for \"%s\""
-
-#~ msgid "unable to retrieve pathname for removable medium \"%s\""
-#~ msgstr "kan ikke finde stinavn for udskifteligt medie \"%s\""
-
-#~ msgid "unable to write config file [%s]"
-#~ msgstr "kunne ikke skrive config-fil [%s]"
-
-#~ msgid "wrote config file [%s]"
-#~ msgstr "skriver config fil [%s]"
-
-#~ msgid "Can't use parallel mode with use-distrib mode"
-#~ msgstr "Kan ikke bruge parallel-tilstand med 'use-distrib '-tilstand"
-
-#~ msgid "unable to parse \"%s\" in file [%s]"
-#~ msgstr "kunne ikke tolke '%s' i fil [%s]"
-
-#~ msgid "examining parallel handler in file [%s]"
-#~ msgstr "undersøger parallelbehandling i fil [%s]"
-
-#~ msgid "found parallel handler for nodes: %s"
-#~ msgstr "fandt parallelbehandling for knuder: %s"
-
-#~ msgid "using associated media for parallel mode: %s"
-#~ msgstr "bruger tilknyttet medie for parallel tilstand: %s"
-
-#~ msgid "unable to use parallel option \"%s\""
-#~ msgstr "kan ikke bruge parallel mulighed \"%s\""
-
 #~ msgid "there doesn't seem to be devices in the chroot in \"%s\""
 #~ msgstr "det ser ud til at der ikke er nogen enheder ved chroot til '%s'"
 
-#~ msgid ""
-#~ "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
-#~ "update or --parallel"
-#~ msgstr ""
-#~ "--synthesis kan ikke bruges med --media, --excludemedia, --sortmedia, --"
-#~ "update eller --parallel"
-
-#~ msgid "examining synthesis file [%s]"
-#~ msgstr "undersøger syntese-fil [%s]"
-
-#~ msgid "examining hdlist file [%s]"
-#~ msgstr "undersøger hdlist-fil [%s]"
-
 #~ msgid "virtual medium \"%s\" is not local, medium ignored"
 #~ msgstr "virtuelt medie \"%s\" er ikke lokalt, medie ignoreret"
-
-#~ msgid "Search start: %s end: %s"
-#~ msgstr "Søgnings-start: %s slut: %s"
-
-#~ msgid "problem reading hdlist or synthesis file of medium \"%s\""
-#~ msgstr "problem ved læsning af hdlist- eller syntese-fil for medie \"%s\""
-
-#~ msgid "performing second pass to compute dependencies\n"
-#~ msgstr "udfører andet gennemløb for at beregne afhængigheder\n"
-
-#~ msgid "skipping package %s"
-#~ msgstr "overspringer pakke %s"
-
-#~ msgid "would install instead of upgrade package %s"
-#~ msgstr "ville installere i stedet for at opgradere pakke %s"
-
-#~ msgid "medium \"%s\" already exists"
-#~ msgstr "medie \"%s\" eksisterer allerede"
-
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "virtuelt medie skal være lokalt"
-
-#~ msgid "added medium %s"
-#~ msgstr "tilføjede medie %s"
-
-#~ msgid "unable to access first installation medium"
-#~ msgstr "kan ikke få adgang til første installationsmedium"
-
-#~ msgid "this url seems to not contain any distrib"
-#~ msgstr "denne url ser ikke ud til at indeholde nogen distrib"
-
-#~ msgid "retrieving media.cfg file..."
-#~ msgstr "modtager media.cfg-fil..."
-
-#~ msgid "unable to parse media.cfg"
-#~ msgstr "kunne ikke læse media.cfg"
-
-#~ msgid "unable to access first installation medium (no hdlists file found)"
-#~ msgstr ""
-#~ "kunne ikke få fat på det første installationsmedium (ingen hdlists fil "
-#~ "fundet)"
-
-#~ msgid "trying to select nonexistent medium \"%s\""
-#~ msgstr "prøver at vælge ikke-eksisterende medie \"%s\""
-
-#~ msgid "selecting multiple media: %s"
-#~ msgstr "vælger flere medier: %s"
-
-#~ msgid "removing medium \"%s\""
-#~ msgstr "fjerner medium \"%s\""
-
-#~ msgid "reconfiguring urpmi for media \"%s\""
-#~ msgstr "omkonfigurerer urpmi for medie \"%s\""
-
-#~ msgid "...reconfiguration failed"
-#~ msgstr "...omkonfigurering mislykkedes"
-
-#~ msgid "reconfiguration done"
-#~ msgstr "omkonfigurering færdig"
-
-#~ msgid ""
-#~ "unable to access medium \"%s\",\n"
-#~ "this could happen if you mounted manually the directory when creating the "
-#~ "medium."
-#~ msgstr ""
-#~ "Kan ikke tilgå medie '%s',\n"
-#~ "dette kan ske hvis du manuelt monterede kataloget ved oprettelsen af "
-#~ "mediet."
 
 #~ msgid ""
 #~ "virtual medium \"%s\" should have valid source hdlist or synthesis, "
@@ -2379,99 +3021,20 @@ msgstr "Ingen ændringslog fundet\n"
 #~ "virtuelt medie \"%s\" burde have gyldig kilde-hdlist eller -syntese, "
 #~ "medie ignoreret"
 
-#~ msgid "copying description file of \"%s\"..."
-#~ msgstr "kopierer beskrivelsesfil for \"%s\"..."
-
-#~ msgid "...copying done"
-#~ msgstr "...kopiering færdig"
-
-#~ msgid "...copying failed"
-#~ msgstr "...kopiering mislykkedes"
-
 #~ msgid "copying source hdlist (or synthesis) of \"%s\"..."
 #~ msgstr "kopierer kilde-hdlist (eller -syntese) for \"%s\"..."
-
-#~ msgid "copy of [%s] failed (file is suspiciously small)"
-#~ msgstr "kopiering af [%s] mislykkedes (filen er mistænkeligt lille)"
-
-#~ msgid "computing md5sum of copied source hdlist (or synthesis)"
-#~ msgstr "beregner md5sum på kopieret kilde-hdlist (eller -syntese)"
-
-#~ msgid "copy of [%s] failed (md5sum mismatch)"
-#~ msgstr "kopi af [%s] mislykkedes (md5sum-uoverensstemmelse)"
-
-#~ msgid "problem reading synthesis file of medium \"%s\""
-#~ msgstr "problem ved læsning af syntese-fil for medie \"%s\""
-
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "læser rpm-filer fra [%s]"
-
-#~ msgid "no rpms read"
-#~ msgstr "ingen rpm'er læst"
-
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "kunne ikke læse rpm-filer fra  [%s]: %s"
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "ingen rpm filer fundet fra [%s]"
-
-#~ msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-#~ msgstr "henter kilde-hdlist (eller -syntese) for \"%s\"..."
-
-#~ msgid "found probed hdlist (or synthesis) as %s"
-#~ msgstr "fandt undersøgte hdlist (eller syntese) for \"%s\"..."
-
-#~ msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-#~ msgstr "beregner md5sum på hentet kilde-hdlist (eller -syntese)"
-
-#~ msgid "...retrieving failed: md5sum mismatch"
-#~ msgstr "...hentning mislykkedes: md5sum: passer ikke"
 
 #~ msgid "retrieval of source hdlist (or synthesis) failed"
 #~ msgstr "hentning af kilde-hdlist (eller -syntese) mislykkedes"
 
-#~ msgid "no hdlist file found for medium \"%s\""
-#~ msgstr "ingen hdlist-fil fundet for medie \"%s\""
-
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "fil [%s] er allerede brugt på det samme medie \"%s\""
-
-#~ msgid "unable to parse hdlist file of \"%s\""
-#~ msgstr "kunne ikke fortolke hdlist-filen \"%s\""
 
 #~ msgid "unable to write list file of \"%s\""
 #~ msgstr "kunne ikke skrive listefil for \"%s\""
 
-#~ msgid "writing list file for medium \"%s\""
-#~ msgstr "skriver liste-fil for medie \"%s\""
-
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "ingenting skrevet i listefil for \"%s\""
-
-#~ msgid "examining pubkey file of \"%s\"..."
-#~ msgstr "undersøger pubkey-fil for '%s'"
-
-#~ msgid "...imported key %s from pubkey file of \"%s\""
-#~ msgstr "...importeret nøgle %s fra pubkey-fil for \"%s\""
-
-#~ msgid "unable to import pubkey file of \"%s\""
-#~ msgstr "kunne ikke importere pubkey-fil for \"%s\""
-
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "læser hoveder fra medium \"%s\""
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "bygger hdlist [%s]"
-
-#~ msgid ""
-#~ "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
-#~ "corrupted."
-#~ msgstr ""
-#~ "Kunne ikke bygge syntese-fil for medie \"%s\". Din hdlist-fil er måske "
-#~ "ødelagt."
-
-#~ msgid "built hdlist synthesis file for medium \"%s\""
-#~ msgstr "byggede hdlist syntese fil for medie \"%s\""
 
 #~ msgid "found %d headers in cache"
 #~ msgstr "fandt %d hoveder i hurtiglager"
@@ -2479,136 +3042,8 @@ msgstr "Ingen ændringslog fundet\n"
 #~ msgid "removing %d obsolete headers in cache"
 #~ msgstr "fjerner %d forældede hoveder i hurtiglager"
 
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "Fejl ved generering af navnefil: afhængighed %d ikke fundet"
-
-#~ msgid "Error generating names file: Can't write to file (%s)"
-#~ msgstr "Fejl ved generering af navnefil: Kan ikke skrive til fil (%s)"
-
-#~ msgid "mounting %s"
-#~ msgstr "monterer %s"
-
-#~ msgid "unmounting %s"
-#~ msgstr "afmonterer %s"
-
-#~ msgid "No package named %s"
-#~ msgstr "Ingen pakke kaldet %s"
-
-#~ msgid "there are multiple packages with the same rpm filename \"%s\""
-#~ msgstr "der er flere pakker med samme rpm-filnavn \"%s\""
-
-#~ msgid "unable to correctly parse [%s] on value \"%s\""
-#~ msgstr "kunne ikke fortolke [%s] korrekt ved værdi \"%s\""
-
-#~ msgid "(retry as root?)"
-#~ msgstr "(prøv igen som root?)"
-
-#~ msgid ""
-#~ "medium \"%s\" uses an invalid list file:\n"
-#~ "  mirror is probably not up-to-date, trying to use alternate method"
-#~ msgstr ""
-#~ "medie \"%s\" bruger en ugyldig listefil:\n"
-#~ "  spejlet er nok ikke opdateret, prøver at bruge en anden metode"
-
-#~ msgid "medium \"%s\" does not define any location for rpm files"
-#~ msgstr "medie \"%s\" definerer ikke noget sted for rpm-filer"
-
-#~ msgid "package %s is not found."
-#~ msgstr "pakke %s er ikke fundet."
-
-#~ msgid "urpmi database locked"
-#~ msgstr "urpmi-database låst"
-
-#~ msgid "medium \"%s\" is not selected"
-#~ msgstr "medie \"%s\" er ikke valgt"
-
-#~ msgid "unable to read rpm file [%s] from medium \"%s\""
-#~ msgstr "kunne ikke læse rpm-fil [%s] fra medie \"%s\""
-
-#~ msgid "inconsistent medium \"%s\" marked removable but not really"
-#~ msgstr "inkonsistent medie \"%s\" mærket udskifteligt, men er det ikke"
-
-#~ msgid "unable to access medium \"%s\""
-#~ msgstr "kunne ikke nå medie \"%s\""
-
-#~ msgid "malformed URL: [%s]"
-#~ msgstr "misdannet URL: [%s]"
-
-#~ msgid "retrieving rpm files from medium \"%s\"..."
-#~ msgstr "henter rpm-filer fra medie '%s'..."
-
-#~ msgid "[repackaging]"
-#~ msgstr "[genpakning]"
-
 #~ msgid "using process %d for executing transaction"
 #~ msgstr "bruger proces %d for at udføre transaktion"
-
-#~ msgid ""
-#~ "created transaction for installing on %s (remove=%d, install=%d, upgrade=%"
-#~ "d)"
-#~ msgstr ""
-#~ "oprettede transaktion for installering på %s (fjern=%d, installér=%d, "
-#~ "opgradér=%d)"
-
-#~ msgid "unable to create transaction"
-#~ msgstr "kan ikke oprette transaktion"
-
-#~ msgid "removing package %s"
-#~ msgstr "fjerner pakke %s"
-
-#~ msgid "unable to remove package %s"
-#~ msgstr "kan ikke fjerne pakke %s"
-
-#~ msgid "unable to extract rpm from delta-rpm package %s"
-#~ msgstr "kan ikke udpakke rpm fra delta-rpm pakke %s"
-
-#~ msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-#~ msgstr "tilføjer pakke %s (id=%d, eid=%d, opdatering=%d, fil=%s)"
-
-#~ msgid "unable to install package %s"
-#~ msgstr "kunne ikke installere pakke %s"
-
-#~ msgid "More information on package %s"
-#~ msgstr "Mere information om pakke %s"
-
-#~ msgid "due to missing %s"
-#~ msgstr "grundet manglende %s"
-
-#~ msgid "due to unsatisfied %s"
-#~ msgstr "grundet uopfyldt %s"
-
-#~ msgid "trying to promote %s"
-#~ msgstr "prøver at fremme %s"
-
-#~ msgid "in order to keep %s"
-#~ msgstr "for at kunne beholde %s"
-
-#~ msgid "in order to install %s"
-#~ msgstr "for at kunne installere %s"
-
-#~ msgid "due to conflicts with %s"
-#~ msgstr "grundet modstrid med %s"
-
-#~ msgid "unrequested"
-#~ msgstr "ikke ønsket"
-
-#~ msgid "Invalid signature (%s)"
-#~ msgstr "Ugyldig signatur (%s)"
-
-#~ msgid "Invalid Key ID (%s)"
-#~ msgstr "Ugyldig nøgle-id (%s)"
-
-#~ msgid "Missing signature (%s)"
-#~ msgstr "Manglende signatur (%s)"
-
-#~ msgid "examining MD5SUM file"
-#~ msgstr "undersøger MD5SUM-fil"
-
-#~ msgid "warning: md5sum for %s unavailable in MD5SUM file"
-#~ msgstr "advarsel: md5sum for %s er ikke tilgængelig i MD5SUM-fil"
-
-#~ msgid "computing md5sum of existing source hdlist (or synthesis)"
-#~ msgstr "beregner md5sum på eksisterende kilde-hdlist (eller -syntese)"
 
 #~ msgid "  --norebuild    - don't try to rebuild hdlist if not readable.\n"
 #~ msgstr ""

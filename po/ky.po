@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ky\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-09 14:23+0100\n"
+"POT-Creation-Date: 2007-01-15 14:22+0100\n"
 "PO-Revision-Date: 2005-07-13 13:23+0000\n"
 "Last-Translator: Timur Jamakeev <ztimur@mail..ru>\n"
 "Language-Team: Kyrgyz\n"
@@ -225,7 +225,7 @@ msgstr ""
 "\n"
 "Орнотууну улантууну каалайсызбы?"
 
-#: ../gurpmi2:278 ../gurpmi2:336 ../urpmi:684 ../urpmi:814
+#: ../gurpmi2:278 ../gurpmi2:333 ../urpmi:684 ../urpmi:814
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
@@ -236,37 +236,37 @@ msgstr ""
 "%s\n"
 "Мүмкүн сизге urpmi берилиштер базасын жаңылоо керек"
 
-#: ../gurpmi2:285 ../urpme:138 ../urpmi:735
+#: ../gurpmi2:284 ../urpme:138 ../urpmi:735
 #, c-format
 msgid "removing %s"
 msgstr "%s алынып салынууда"
 
-#: ../gurpmi2:291
+#: ../gurpmi2:290 ../urpm/install.pm:70
 #, c-format
 msgid "Preparing..."
 msgstr "Даярдоо ..."
 
-#: ../gurpmi2:295
+#: ../gurpmi2:294
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Пакет орнотулууда: `%s' (%s/%s)..."
 
-#: ../gurpmi2:320 ../urpmi:696 ../urpmi:774 ../urpmi:791
-#, c-format
-msgid "Installation failed"
-msgstr "Орнотуу ишке ашпады"
-
-#: ../gurpmi2:331
+#: ../gurpmi2:326
 #, c-format
 msgid "_Done"
 msgstr "_Даяр"
 
-#: ../gurpmi2:339
+#: ../gurpmi2:331 ../urpmi:696 ../urpmi:774 ../urpmi:791
+#, c-format
+msgid "Installation failed"
+msgstr "Орнотуу ишке ашпады"
+
+#: ../gurpmi2:336
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "Бардыгы алдагачан орнотулган"
 
-#: ../gurpmi2:341
+#: ../gurpmi2:338
 #, c-format
 msgid "Installation finished"
 msgstr "Орнотуу аяктады"
@@ -335,12 +335,13 @@ msgstr "[%s] туура эмес rpm файл аты"
 msgid "retrieving rpm file [%s] ..."
 msgstr "[%s] rpm файлы кабыл алынууда..."
 
-#: ../urpm.pm:136
+#: ../urpm.pm:136 ../urpm/get_pkgs.pm:183
 #, c-format
 msgid "...retrieving done"
 msgstr "...кабыл алуу аяктады"
 
-#: ../urpm.pm:139
+#: ../urpm.pm:139 ../urpm/download.pm:603 ../urpm/get_pkgs.pm:185
+#: ../urpm/media.pm:746 ../urpm/media.pm:1259 ../urpm/media.pm:1481
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...кабыл алуу ийгиликсиз: %s"
@@ -410,21 +411,833 @@ msgstr ""
 msgid "Too many arguments\n"
 msgstr ""
 
-#: ../urpm/msg.pm:52 ../urpmi:489 ../urpmi:508 ../urpmi:597
+#: ../urpm/bug_report.pm:36 ../urpm/media.pm:1142
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "\"%s\" булагы үчүн hdlist synthesis файлы түзүлдү"
+
+#: ../urpm/bug_report.pm:51 ../urpmi:247
+#, c-format
+msgid "Copying failed"
+msgstr "Көчүрүү ишке ашпады"
+
+#: ../urpm/cfg.pm:81
+#, fuzzy, c-format
+msgid "syntax error in config file at line %s"
+msgstr "[%s] конфиг файлын жазуу мүмкүн эмес"
+
+#: ../urpm/cfg.pm:112
+#, fuzzy, c-format
+msgid "unable to read config file [%s]"
+msgstr "[%s] конфиг файлын жазуу мүмкүн эмес"
+
+#: ../urpm/cfg.pm:138
+#, c-format
+msgid "medium `%s' is defined twice, aborting"
+msgstr ""
+
+#: ../urpm/cfg.pm:226 ../urpm/media.pm:449
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "[%s] конфиг файлын жазуу мүмкүн эмес"
+
+#: ../urpm/download.pm:111
+#, c-format
+msgid "Please enter your credentials for accessing proxy\n"
+msgstr ""
+
+#: ../urpm/download.pm:112
+#, c-format
+msgid "User name:"
+msgstr ""
+
+#: ../urpm/download.pm:112
+#, c-format
+msgid "Password:"
+msgstr ""
+
+#: ../urpm/download.pm:185
+#, c-format
+msgid "Unknown webfetch `%s' !!!\n"
+msgstr ""
+
+#: ../urpm/download.pm:194
+#, c-format
+msgid "%s failed: exited with signal %d"
+msgstr ""
+
+#: ../urpm/download.pm:195
+#, c-format
+msgid "%s failed: exited with %d"
+msgstr ""
+
+#: ../urpm/download.pm:219
+#, fuzzy, c-format
+msgid "copy failed"
+msgstr "Көчүрүү ишке ашпады"
+
+#: ../urpm/download.pm:225
+#, fuzzy, c-format
+msgid "wget is missing\n"
+msgstr "%s жоктугунан"
+
+#: ../urpm/download.pm:289
+#, fuzzy, c-format
+msgid "curl is missing\n"
+msgstr "%s жоктугунан"
+
+#: ../urpm/download.pm:411
+#, c-format
+msgid "curl failed: download canceled\n"
+msgstr ""
+
+#: ../urpm/download.pm:450
+#, c-format
+msgid "rsync is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:511
+#, c-format
+msgid "ssh is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:530
+#, c-format
+msgid "prozilla is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:546
+#, c-format
+msgid "Couldn't execute prozilla\n"
+msgstr ""
+
+#: ../urpm/download.pm:593
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr ""
+
+#: ../urpm/download.pm:595
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr ""
+
+#: ../urpm/download.pm:651
+#, fuzzy, c-format
+msgid "retrieving %s"
+msgstr "%s алынып салынууда"
+
+#: ../urpm/download.pm:655
+#, fuzzy, c-format
+msgid "retrieved %s"
+msgstr "...кабыл алуу ийгиликсиз: %s"
+
+#: ../urpm/download.pm:668
+#, c-format
+msgid "unknown protocol defined for %s"
+msgstr "%s үчүн белгисиз протокол берилген"
+
+#: ../urpm/download.pm:687
+#, c-format
+msgid "%s is not available, falling back on %s"
+msgstr ""
+
+#: ../urpm/download.pm:691
+#, c-format
+msgid "no webfetch found, supported webfetch are: %s\n"
+msgstr "webfetch табылбады, колдоого ээ webfetch: %s\n"
+
+#: ../urpm/download.pm:705
+#, c-format
+msgid "unable to handle protocol: %s"
+msgstr "протокол аткарылбады: %s"
+
+#: ../urpm/get_pkgs.pm:41
+#, fuzzy, c-format
+msgid "cleaning %s and %s"
+msgstr "%2s булагынан %1s орнотулууда"
+
+#: ../urpm/get_pkgs.pm:56 ../urpm/get_pkgs.pm:79 ../urpm/get_pkgs.pm:110
+#, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "\"%s\" rpm файл аты бирдей болгон бир нече пакет бар"
+
+#: ../urpm/get_pkgs.pm:93
+#, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "[%s] туура ажыратууга мүмкүн эмес, ал \"%s\" ичинде"
+
+#: ../urpm/get_pkgs.pm:100 ../urpm/media.pm:219
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "\"%s\" үчүн тизме файлына жетүүгө болбоду, булак четке кагылды"
+
+#: ../urpm/get_pkgs.pm:101
+#, c-format
+msgid "(retry as root?)"
+msgstr ""
+
+#: ../urpm/get_pkgs.pm:126
+#, c-format
+msgid ""
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is probably not up-to-date, trying to use alternate method"
+msgstr ""
+"\"%s\" булагы туура эмес тизме файлын колдонууда:\n"
+"  мүмкүн күзгү эски, альтернативдик методду колдонуу аракети"
+
+#: ../urpm/get_pkgs.pm:130
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr "\"%s\" булагы rpm файлдарынын турган жерин аныктабайт"
+
+#: ../urpm/get_pkgs.pm:142
+#, c-format
+msgid "package %s is not found."
+msgstr "%s пакети табылбады."
+
+#: ../urpm/get_pkgs.pm:174
+#, fuzzy, c-format
+msgid "malformed URL: [%s]"
+msgstr "туура эмес форматталган кирүү: [%s]"
+
+#: ../urpm/get_pkgs.pm:180
+#, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "rpm файлдарын \"%s\" булагынан кабыл алуу жүрүп жатат..."
+
+#: ../urpm/install.pm:77
+#, c-format
+msgid "[repackaging]"
+msgstr ""
+
+#: ../urpm/install.pm:110
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr ""
+"%s ичине инсталляциялоо үчүн транзакция түзүлдү (remove=%d, install=%d, "
+"upgrade=%d)"
+
+#: ../urpm/install.pm:113
+#, c-format
+msgid "unable to create transaction"
+msgstr "транзакция түзүүгө мүмкүн эмес"
+
+#: ../urpm/install.pm:121
+#, c-format
+msgid "removing package %s"
+msgstr "%s пакети алынып салынууда"
+
+#: ../urpm/install.pm:123
+#, c-format
+msgid "unable to remove package %s"
+msgstr "%s пакетин алып салууга мүмкүн эмес"
+
+#: ../urpm/install.pm:135
+#, c-format
+msgid "unable to extract rpm from delta-rpm package %s"
+msgstr "%s дельта-rpm пакетинен rpm-ди чыгаруугу мүмкүн эмес"
+
+#: ../urpm/install.pm:141
+#, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr "%s пакети кошулууда (id=%d, eid=%d, update=%d, file=%s)"
+
+#: ../urpm/install.pm:144
+#, c-format
+msgid "unable to install package %s"
+msgstr "%s пакетин орнотуу мүмкүн эмес"
+
+#: ../urpm/install.pm:180
+#, fuzzy, c-format
+msgid "removing installed rpms (%s) from %s"
+msgstr "%2s булагынан %1s орнотулууда"
+
+#: ../urpm/install.pm:186
+#, c-format
+msgid "More information on package %s"
+msgstr "%s пакети жөнүндө кеңирээк маалымат"
+
+#: ../urpm/ldap.pm:71
+#, c-format
+msgid "Cannot create ldap cache directory"
+msgstr ""
+
+#: ../urpm/ldap.pm:73
+#, c-format
+msgid "Cannot write cache file for ldap\n"
+msgstr ""
+
+#: ../urpm/ldap.pm:162
+#, c-format
+msgid "No server defined, missing uri or host"
+msgstr ""
+
+#: ../urpm/ldap.pm:163
+#, fuzzy, c-format
+msgid "No base defined"
+msgstr "%s аттуу пакет жок"
+
+#: ../urpm/ldap.pm:172 ../urpm/ldap.pm:175
+#, c-format
+msgid "Cannot connect to ldap uri :"
+msgstr ""
+
+#: ../urpm/lock.pm:50
+#, fuzzy, c-format
+msgid "%s database locked"
+msgstr "urpmi берилиштер базасы кулпуланган"
+
+#: ../urpm/md5sum.pm:23
+#, fuzzy, c-format
+msgid "examining %s file"
+msgstr "MD5SUM файлы текшерилүүдө"
+
+#: ../urpm/md5sum.pm:25
+#, c-format
+msgid "warning: md5sum for %s unavailable in MD5SUM file"
+msgstr "эскертүү: MD5SUM файлынын ичинде %s үчүн md5sum табылбады"
+
+#: ../urpm/md5sum.pm:45
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis) [%s]"
+msgstr "баштапкы hdlist (же synthesis) үчүн md5sum эсептелүүдө"
+
+#: ../urpm/media.pm:171
+#, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr ""
+"\"%s\" виртуалдык булагы hdlist же тизме файлын аныктабашы керек, булак "
+"четке кагылды"
+
+#: ../urpm/media.pm:175
+#, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr ""
+"\"%s\" виртуалдык булагынын url'и бош болушу керек, булак четке кагылды"
+
+#: ../urpm/media.pm:183
+#, fuzzy, c-format
+msgid "invalid hdlist name"
+msgstr "[%s] туура эмес rpm файл аты"
+
+#: ../urpm/media.pm:190
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "\"%s\" үчүн тизме файлы табылбады, булак четке кагылды"
+
+#: ../urpm/media.pm:203
+#, fuzzy, c-format
+msgid "\"synthesis\" should not be set (medium \"%s\")"
+msgstr "жашабаган \"%s\" булагын тандоо аракети"
+
+#: ../urpm/media.pm:206
+#, fuzzy, c-format
+msgid "\"synthesis\" should be set (medium \"%s\")"
+msgstr "\"%s\" булагы үчүн hdlist synthesis файлы түзүлдү"
+
+#: ../urpm/media.pm:209 ../urpm/media.pm:1419 ../urpm/media.pm:1507
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "\"%s\" үчүн hdlist файлына жетүүгө болбоду, булак четке кагылды"
+
+#: ../urpm/media.pm:215
+#, fuzzy, c-format
+msgid "unable to access list file of \"%s\""
+msgstr "\"%s\" үчүн hdlist файлын түшүнө албадым"
+
+#: ../urpm/media.pm:229
+#, c-format
+msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
+msgstr ""
+"\"%s\" булагы алдагачан колдонулуп жаткан hdlist алуу аракетинде, булак "
+"четке кагылды"
+
+#: ../urpm/media.pm:230
+#, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr ""
+"\"%s\" булагы алдагачан колдонулуп жаткан тизмени алуу аракетинде, булак "
+"четке кагылды"
+
+#: ../urpm/media.pm:255
+#, fuzzy, c-format
+msgid "trying to override existing medium \"%s\", skipping"
+msgstr "\"%s\" бар булагынан аттап өтүү аракети, калтырылды"
+
+#: ../urpm/media.pm:398
+#, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr ""
+" \"%s\" чыгарылып алынуучу булагы үчүн бириктирүү чекиттери өтө эле көп "
+
+#: ../urpm/media.pm:399
+#, c-format
+msgid "taking removable device as \"%s\""
+msgstr "чыгарылып алынуучу түзүлүш \"%s\" катары каралууда"
+
+#: ../urpm/media.pm:402
+#, c-format
+msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgstr ""
+"\"%s\" булагы ISO сүрөттөлүшү болуп эсептелет жана ал автоматтык түрдө "
+"туташылат"
+
+#: ../urpm/media.pm:405
+#, c-format
+msgid "using different removable device [%s] for \"%s\""
+msgstr "[%s] башка чыгарып алынуучу түзүлүш колдонулууда; \"%s\" үчүн"
+
+#: ../urpm/media.pm:410 ../urpm/media.pm:413
+#, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "\"%s\" чыгарып алынуучу булагынын жолун алуу мүмкүн эмес"
+
+#: ../urpm/media.pm:428
+#, c-format
+msgid "wrote %s"
+msgstr ""
+
+#: ../urpm/media.pm:451
+#, c-format
+msgid "wrote config file [%s]"
+msgstr "[%s] конфиг файлын жазуу"
+
+#: ../urpm/media.pm:496
+#, c-format
+msgid "Can't use parallel mode with use-distrib mode"
+msgstr "Параллелдик режимди use-distrib режими менен чогуу колдонууга болбойт"
+
+#: ../urpm/media.pm:504
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr "параллелдик режим үчүн байланышкан булак колдонулууда: %s"
+
+#: ../urpm/media.pm:520
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update, --use-distrib or --parallel"
+msgstr ""
+"--synthesis төмөнкүлөр менен бирге --media, --excludemedia, --sortmedia, --"
+"update же --parallel менен колдонууга болбойт"
+
+#: ../urpm/media.pm:586
+#, fuzzy, c-format
+msgid "Note: no hdlist for medium \"%s\", unable to return any result for it"
+msgstr ""
+"Эске алыңыз: изилденип жаткан булак hdlist'терди колдонбогондуктан, urpmf эч "
+"кандай жыйынтык кайтара албады\n"
+
+#: ../urpm/media.pm:596
+#, c-format
+msgid "Search start: %s end: %s"
+msgstr "Издөө: башы-%s, аягы-%s"
+
+#: ../urpm/media.pm:605 ../urpm/media.pm:1802
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "көз карандылыктарды экинчи жолку эсептөөсүү аткарылууда\n"
+
+#: ../urpm/media.pm:621
+#, c-format
+msgid "skipping package %s"
+msgstr "%s пакети коё берилүүдө"
+
+#: ../urpm/media.pm:637
+#, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "%s пакетин жаңылоонун ордуна аны орнотуу аткарылат"
+
+#: ../urpm/media.pm:662
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "\"%s\" булагы алдагачан бар"
+
+#: ../urpm/media.pm:677
+#, c-format
+msgid "virtual medium needs to be local"
+msgstr "виртуалдык булак локалдык болушу керек"
+
+#: ../urpm/media.pm:691
+#, c-format
+msgid "(ignored by default)"
+msgstr ""
+
+#: ../urpm/media.pm:697
+#, fuzzy, c-format
+msgid "adding medium \"%s\" before remote medium \"%s\""
+msgstr "\"%s\" булагынын башсаптары окулууда"
+
+#: ../urpm/media.pm:703
+#, fuzzy, c-format
+msgid "adding medium \"%s\""
+msgstr "\"%s\" булагы алынып салынууда"
+
+#: ../urpm/media.pm:729
+#, fuzzy, c-format
+msgid "unable to mount the distribution medium"
+msgstr "инсталляциянын биринчи булагына жетүү мүмкүн эмес"
+
+#: ../urpm/media.pm:732
+#, c-format
+msgid "this location doesn't seem to contain any distribution"
+msgstr ""
+
+#: ../urpm/media.pm:739
+#, fuzzy, c-format
+msgid "retrieving media.cfg file..."
+msgstr "hdlists файлы кабыл алынууда..."
+
+#: ../urpm/media.pm:744
+#, fuzzy, c-format
+msgid "unable to parse media.cfg"
+msgstr "rpmdb ачууга болбоду"
+
+#: ../urpm/media.pm:747
+#, fuzzy, c-format
+msgid "unable to access the distribution medium (no media.cfg file found)"
+msgstr "биринчи инсталлялык булакка жетүүгө болбоду (hdlists файлы табылбады)"
+
+#: ../urpm/media.pm:826
+#, c-format
+msgid "trying to select nonexistent medium \"%s\""
+msgstr "жашабаган \"%s\" булагын тандоо аракети"
+
+#: ../urpm/media.pm:829
+#, c-format
+msgid "selecting multiple media: %s"
+msgstr "составдык булак тандалууда: %s"
+
+#: ../urpm/media.pm:849
+#, c-format
+msgid "removing medium \"%s\""
+msgstr "\"%s\" булагы алынып салынууда"
+
+#: ../urpm/media.pm:940
+#, c-format
+msgid "reconfiguring urpmi for media \"%s\""
+msgstr "\"%s\" булагы үчүн urpmi программасын кайра конфигурациялоо"
+
+#: ../urpm/media.pm:979
+#, c-format
+msgid "...reconfiguration failed"
+msgstr "...кайра конфигурациялоо ишке ашпады"
+
+#: ../urpm/media.pm:985
+#, c-format
+msgid "reconfiguration done"
+msgstr "кайра конфигурациялоо аяктады"
+
+#: ../urpm/media.pm:1033
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1037
+#, c-format
+msgid "Error generating names file: Can't write to file (%s)"
+msgstr ""
+
+#: ../urpm/media.pm:1072
+#, fuzzy, c-format
+msgid "medium \"%s\" is up-to-date"
+msgstr "\"%s\" булагы тандалган эмес"
+
+#: ../urpm/media.pm:1092
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr "[%s] hdlist файлы текшерилүүдө"
+
+#: ../urpm/media.pm:1102
+#, c-format
+msgid "examining synthesis file [%s]"
+msgstr "[%s] synthesis файлы текшерилүүдө"
+
+#: ../urpm/media.pm:1119
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "hdlist [%s] түзүлүшү"
+
+#: ../urpm/media.pm:1138
+#, c-format
+msgid ""
+"Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
+"corrupted."
+msgstr ""
+"\"%s\" булагы үчүн synthesis файлын түзүүгө болбоду. Сиздин hdlist файлыңыз "
+"бузук болушу мүмкүн."
+
+#: ../urpm/media.pm:1157
+#, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "\"%s\" булагы үчүн hdlist же synthesis файлын окуу проблемасы"
+
+#: ../urpm/media.pm:1169 ../urpm/media.pm:1207 ../urpm/media.pm:1494
+#, c-format
+msgid "...copying failed"
+msgstr "...көчүрүү ишке ашпады"
+
+#: ../urpm/media.pm:1203
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "\"%s\" үчүн баяндоо файлы көчүрүлүүдө..."
+
+#: ../urpm/media.pm:1205 ../urpm/media.pm:1236
+#, c-format
+msgid "...copying done"
+msgstr "...көчүрүү аяктады"
+
+#: ../urpm/media.pm:1232
+#, fuzzy, c-format
+msgid "copying [%s] for medium \"%s\"..."
+msgstr "\"%s\" булагы үчүн тизме файлы жазылууда"
+
+#: ../urpm/media.pm:1238
+#, c-format
+msgid "copy of [%s] failed (file is suspiciously small)"
+msgstr "[%s] көчүрүү ишке ашпады (файл күмөндүү кыска)"
+
+#: ../urpm/media.pm:1271
+#, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "көчүрүлгөн баштапкы hdlist (же synthesis) үчүн md5sum эсептелүүдө"
+
+#: ../urpm/media.pm:1273
+#, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr " [%s] көчүрүү ишке ашпады (md5sum туура эмес)"
+
+#: ../urpm/media.pm:1285
+#, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "кабыл алынган баштапкы hdlist (же synthesis) үчүн md5sum эсептелүүдө"
+
+#: ../urpm/media.pm:1287
+#, c-format
+msgid "...retrieving failed: md5sum mismatch"
+msgstr "...кабыл алуу ийгиликсиз: md5sum дал келбестиги"
+
+#: ../urpm/media.pm:1302
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "[%s] булагында rpm файлдары табылдбады"
+
+#: ../urpm/media.pm:1309
+#, c-format
+msgid "reading rpm files from [%s]"
+msgstr "[%s] булагынын rpm файлдары окулууда"
+
+#: ../urpm/media.pm:1324
+#, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "[%s] булагынан rpm файлдарын окууга болбоду: %s"
+
+#: ../urpm/media.pm:1334
+#, c-format
+msgid "no rpms read"
+msgstr "rpm-дер окулбады"
+
+#: ../urpm/media.pm:1364
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+"\"%s\" булагына жетүүгө болбойт,\n"
+"бул ката сиз булакты түзүүдө аны өз алдыңызча бириктиргенде пайда болушу "
+"мүмкүн."
+
+#: ../urpm/media.pm:1377
+#, fuzzy, c-format
+msgid "invalid hdlist file %s for medium \"%s\""
+msgstr "\"%s\" булагы үчүн hdlist файлы табылбады"
+
+#: ../urpm/media.pm:1457
+#, c-format
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "\"%s\" булагынын баштапкы hdlist (же synthesis) кабыл алынууда..."
+
+#: ../urpm/media.pm:1473
+#, c-format
+msgid "found probed hdlist (or synthesis) as %s"
+msgstr "изделген hdlist (же synthesis) табылды: %s"
+
+#: ../urpm/media.pm:1480 ../urpm/media.pm:1612
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "\"%s\" булагы үчүн hdlist файлы табылбады"
+
+#: ../urpm/media.pm:1532
+#, c-format
+msgid "examining pubkey file of \"%s\"..."
+msgstr "\"%s\" үчүн ачык ачкыч файлы текшерилүүдө..."
+
+#: ../urpm/media.pm:1544
+#, c-format
+msgid "...imported key %s from pubkey file of \"%s\""
+msgstr "...%s ачкычы \"%s\" ачык ачкычынан импорттолду"
+
+#: ../urpm/media.pm:1547
+#, c-format
+msgid "unable to import pubkey file of \"%s\""
+msgstr "\"%s\" ачык ачкыч файлын импортоо мүмкүн эмес"
+
+#: ../urpm/media.pm:1563
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "\"%s\" булагы үчүн тизме файлы жазылууда"
+
+#: ../urpm/media.pm:1621 ../urpm/media.pm:1651
+#, fuzzy, c-format
+msgid "updated medium \"%s\""
+msgstr "%s булагы кошулду"
+
+#: ../urpm/media.pm:1638
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "\"%s\" үчүн hdlist файлын түшүнө албадым"
+
+#: ../urpm/media.pm:1644
+#, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "\"%s\" булагынын synthesis файлын окуу проблемасы"
+
+#: ../urpm/media.pm:1709
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "\"%s\" булагынын башсаптары окулууда"
+
+#: ../urpm/msg.pm:61 ../urpmi:489 ../urpmi:508 ../urpmi:597
 #, c-format
 msgid "Nn"
 msgstr "NnжЖ;:"
 
-#: ../urpm/msg.pm:53 ../urpme:36 ../urpmi:490 ../urpmi:509 ../urpmi:549
+#: ../urpm/msg.pm:62 ../urpme:36 ../urpmi:490 ../urpmi:509 ../urpmi:549
 #: ../urpmi:598 ../urpmi:675 ../urpmi:762 ../urpmi.addmedia:134
 #, c-format
 msgid "Yy"
 msgstr "YyоО"
 
-#: ../urpm/msg.pm:104
+#: ../urpm/msg.pm:113
 #, c-format
 msgid "Sorry, bad choice, try again\n"
 msgstr "Кечириңиз, туура эмес тандоо, кайталап көрүңүз\n"
+
+#: ../urpm/parallel.pm:14
+#, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "\"%s\" түшүнүүгө болбоду; ал [%s] файлынын ичинде"
+
+#: ../urpm/parallel.pm:23
+#, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "[%s] файлынын ичинде параллелдик аткаргыч текшерилүүдө"
+
+#: ../urpm/parallel.pm:34
+#, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr "%s бутактары үчүн параллелдик аткаруучу табылды"
+
+#: ../urpm/parallel.pm:38
+#, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "\"%s\" параллелдик опциясын колдонуу мүмкүн эмес"
+
+#: ../urpm/removable.pm:32
+#, c-format
+msgid "mounting %s"
+msgstr "%s бириктирилүүдө"
+
+#: ../urpm/removable.pm:56
+#, c-format
+msgid "unmounting %s"
+msgstr "%s ажыратылууда"
+
+#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "\"%s\" булагы тандалган эмес"
+
+#: ../urpm/removable.pm:143
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "[%s] rpm файлын \"%s\" булагынан окуу мүмкүн эмес"
+
+#: ../urpm/removable.pm:151
+#, c-format
+msgid "inconsistent medium \"%s\" marked removable but not really"
+msgstr ""
+"түшүнүлбөгөн \"%s\" булагы чыкма түзүлүш катары көрсөтүлгөн, бирок ал андай "
+"эмес"
+
+#: ../urpm/removable.pm:163
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "\"%s\" булагына жетүүгө мүмкүн эмес"
+
+#: ../urpm/select.pm:115
+#, fuzzy, c-format
+msgid "No package named %s"
+msgstr "%s аттуу пакет жок"
+
+#: ../urpm/select.pm:117 ../urpme:112
+#, c-format
+msgid "The following packages contain %s: %s"
+msgstr "Төмөнкү пакеттер %s камтыйт: %s"
+
+#: ../urpm/select.pm:398 ../urpm/select.pm:438
+#, c-format
+msgid "due to missing %s"
+msgstr "%s жоктугунан"
+
+#: ../urpm/select.pm:399 ../urpm/select.pm:436
+#, c-format
+msgid "due to unsatisfied %s"
+msgstr "%s канаатанбагандыгынан"
+
+#: ../urpm/select.pm:405
+#, c-format
+msgid "trying to promote %s"
+msgstr "%s активдештирүү аракети"
+
+#: ../urpm/select.pm:406
+#, c-format
+msgid "in order to keep %s"
+msgstr "%s сактоо үчүн"
+
+#: ../urpm/select.pm:432
+#, c-format
+msgid "in order to install %s"
+msgstr "%s орнотуу үчүн"
+
+#: ../urpm/select.pm:442
+#, c-format
+msgid "due to conflicts with %s"
+msgstr "%s менен конфликтешкендиги үчүн"
+
+#: ../urpm/select.pm:444
+#, c-format
+msgid "unrequested"
+msgstr "талап кылынбаган"
+
+#: ../urpm/signature.pm:26
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr "Туура эмес сигнатура (%s)"
+
+#: ../urpm/signature.pm:57
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr "Туура эмес Key ID (%s)"
+
+#: ../urpm/signature.pm:59
+#, c-format
+msgid "Missing signature (%s)"
+msgstr "Сигнатура жок (%s)"
 
 #: ../urpme:39
 #, fuzzy, c-format
@@ -444,7 +1257,7 @@ msgstr ""
 "колдонулушу:\n"
 
 #: ../urpme:44 ../urpmf:35 ../urpmi:84 ../urpmi.addmedia:45
-#: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:47
+#: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:48
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - бул жардамды чыгаруу.\n"
@@ -460,14 +1273,14 @@ msgstr ""
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - туура өчүрүү мүмүкүнчүлүгүн текшерүү.\n"
 
-#: ../urpme:47 ../urpmi:109 ../urpmq:66
+#: ../urpme:47 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
 msgstr ""
 "  --force        - кээ бир пакеттер жок болсо дагы, мажбурлап аткаруу.\n"
 
-#: ../urpme:48 ../urpmi:114 ../urpmq:68
+#: ../urpme:48 ../urpmi:114 ../urpmq:69
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - машиналардын алиастары боюнча бөлүнгөн urpmi.\n"
@@ -483,7 +1296,7 @@ msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - rpm өчүрүү үчүн башка түп колдонуу.\n"
 
 #: ../urpme:51 ../urpmf:40 ../urpmi:116 ../urpmi.addmedia:60
-#: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:70
+#: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:71
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - орнотуу үчүн башка түп колдонуу.\n"
@@ -503,17 +1316,17 @@ msgstr ""
 "конфигурациялоо,\n"
 "                   chroot (кайра)орнотууда --root опциясы менен пайдалуу.\n"
 
-#: ../urpme:55 ../urpmi:119 ../urpmq:73
+#: ../urpme:55 ../urpmi:119 ../urpmq:74
 #, fuzzy, c-format
 msgid "    --probe-synthesis - use synthesis file.\n"
 msgstr "  --probe-synthesis - synthesis файлын издөө жана аны колдонуу.\n"
 
-#: ../urpme:56 ../urpmi:120 ../urpmq:74
+#: ../urpme:56 ../urpmi:120 ../urpmq:75
 #, fuzzy, c-format
 msgid "    --probe-hdlist - use hdlist file.\n"
 msgstr "  --probe-hdlist - hdlist файлын издөө жана аны колдонуу.\n"
 
-#: ../urpme:57 ../urpmi:156 ../urpmq:85
+#: ../urpme:57 ../urpmi:156 ../urpmq:86
 #, fuzzy, c-format
 msgid "  --verbose, -v  - verbose mode.\n"
 msgstr "  --verbose      - кеңири режим.\n"
@@ -537,11 +1350,6 @@ msgstr "белгисиз пакеттер"
 #, c-format
 msgid "unknown package"
 msgstr "белгисиз пакет"
-
-#: ../urpme:112
-#, c-format
-msgid "The following packages contain %s: %s"
-msgstr "Төмөнкү пакеттер %s камтыйт: %s"
 
 #: ../urpme:118 ../urpmi:526
 #, c-format
@@ -602,14 +1410,14 @@ msgstr ""
 msgid "  --version      - print this tool's version number.\n"
 msgstr "  --help         - бул жардамды чыгаруу.\n"
 
-#: ../urpmf:37 ../urpmi:137 ../urpmq:82
+#: ../urpmf:37 ../urpmi:137 ../urpmq:83
 #, c-format
 msgid "  --env          - use specific environment (typically a bug report).\n"
 msgstr ""
 "  --env          - спецификалык чөйрөнү колдонуу (демейде ката жөнүндө "
 "отчет).\n"
 
-#: ../urpmf:38 ../urpmi:86 ../urpmq:51
+#: ../urpmf:38 ../urpmi:86 ../urpmq:52
 #, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr ""
@@ -621,20 +1429,20 @@ msgid ""
 "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
 
-#: ../urpmf:41 ../urpmi:85 ../urpmq:49
+#: ../urpmf:41 ../urpmi:85 ../urpmq:50
 #, c-format
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
 "  --media        - үтүр менен бөлүнүп көрсөтүлгөн булактарды гана колдонуу.\n"
 
-#: ../urpmf:42 ../urpmi:89 ../urpmq:52
+#: ../urpmf:42 ../urpmi:89 ../urpmq:53
 #, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr ""
 "  --sortmedia    - үтүр менен бөлүнгөп саптарга ылайык булактарды сорттоо.\n"
 
-#: ../urpmf:43 ../urpmi:90 ../urpmq:53
+#: ../urpmf:43 ../urpmi:90 ../urpmq:54
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
 msgstr "  --synthesis    - urpmi db ордуна көрсөтүлгөн synthesis колдонуу.\n"
@@ -644,7 +1452,7 @@ msgstr "  --synthesis    - urpmi db ордуна көрсөтүлгөн synthesi
 msgid "  --uniq         - do not print identical lines twice.\n"
 msgstr "  --uniq         - бирдей саптарды чыгарбоо.\n"
 
-#: ../urpmf:45 ../urpmi:87 ../urpmq:48
+#: ../urpmf:45 ../urpmi:87 ../urpmq:49
 #, c-format
 msgid "  --update       - use only update media.\n"
 msgstr "  --update       - жаңылоо булагын гана колдонуу.\n"
@@ -833,7 +1641,7 @@ msgstr "  --verbose      - кеңири режим.\n"
 msgid "  -m             - the media in which the package was found\n"
 msgstr "  -l             - пакеттеги файлдар тизмеси.\n"
 
-#: ../urpmf:82 ../urpmq:89
+#: ../urpmf:82 ../urpmq:90
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
 msgstr ""
@@ -845,7 +1653,7 @@ msgstr ""
 msgid "Incorrect format: you may use only one multi-valued tag"
 msgstr ""
 
-#: ../urpmf:186 ../urpmi:254 ../urpmq:134
+#: ../urpmf:186 ../urpmi:254 ../urpmq:135
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "%s үчүн спецификалык чөйрө колдонулууда\n"
@@ -897,7 +1705,7 @@ msgid ""
 "questions.\n"
 msgstr ""
 
-#: ../urpmi:92 ../urpmq:54
+#: ../urpmi:92 ../urpmq:55
 #, c-format
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
@@ -936,7 +1744,7 @@ msgstr ""
 msgid "  --no-install   - don't install packages (only download)\n"
 msgstr "  --no-install  - пакетттерди орнотпоо (жүктөө гана)\n"
 
-#: ../urpmi:98 ../urpmq:56
+#: ../urpmi:98 ../urpmq:57
 #, c-format
 msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
@@ -1007,7 +1815,7 @@ msgstr ""
 "  --allow-force  - колдонуучудан пакеттердин көз карандылыктарына\n"
 "                   жана бүтүндүгүнө карабай орнотуу уруксатын алуу.\n"
 
-#: ../urpmi:115 ../urpmq:69
+#: ../urpmi:115 ../urpmq:70
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - орнотуу үчүн башка түп колдонуу.\n"
@@ -1022,17 +1830,17 @@ msgstr ""
 "конфигурациялоо,\n"
 "                   chroot орнотуу үчүн --root опциясын колдонууда ыңгайлуу.\n"
 
-#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:75
+#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:76
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - алыста жайгашкан файлдары wget аркылуу кабылдоо.\n"
 
-#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:76
+#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:77
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - алыста жайгашкан файлдары curl аркылуу кабылдоо.\n"
 
-#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:77
+#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:78
 #, fuzzy, c-format
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --curl         - алыста жайгашкан файлдары curl аркылуу кабылдоо.\n"
@@ -1071,7 +1879,7 @@ msgstr ""
 "  --resume       - жарым-жартылай кабыл алынган файлдарды жүктөөнү\n"
 "                   улантуу (--no-resume муну өчүрөт, алдынала өчүрүлгөн).\n"
 
-#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:78
+#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:79
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -1080,7 +1888,7 @@ msgstr ""
 "  --proxy        - көрсөтүлгөн HTTP проксини колдонуу, алдыалынган\n"
 "                   порт номери 1080 (форматы: <proxyhost[:port]>).\n"
 
-#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:80
+#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:81
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -1166,7 +1974,7 @@ msgstr "  --noclean      - rpm-дерди кэштен тазалабоо.\n"
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
 msgstr "  --strict-arch  - архитектуралары бирдей гана пакеттерди жаңылоо.\n"
 
-#: ../urpmi:152 ../urpmq:86
+#: ../urpmi:152 ../urpmq:87
 #, c-format
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - бардык тийиштүүсүн командалык саптан алуу.\n"
@@ -1222,11 +2030,6 @@ msgstr ""
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "Баг отчету үчүн [%s] каталогун түзүүгө болбоду"
-
-#: ../urpmi:247
-#, c-format
-msgid "Copying failed"
-msgstr "Көчүрүү ишке ашпады"
 
 #: ../urpmi:253
 #, c-format
@@ -1906,7 +2709,7 @@ msgstr "%s булагы оңдолууда:"
 msgid "enabling media %s"
 msgstr "%s булагы иштөөдө"
 
-#: ../urpmq:42
+#: ../urpmq:43
 #, fuzzy, c-format
 msgid ""
 "urpmq version %s\n"
@@ -1923,7 +2726,7 @@ msgstr ""
 "\n"
 "колдонулушу:\n"
 
-#: ../urpmq:50
+#: ../urpmq:51
 #, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested (or updated) "
@@ -1932,41 +2735,41 @@ msgstr ""
 "  --searchmedia        - талап кылынган (же жаңыланган) пакеттерди издөө "
 "үчүн көрсөтүлгөн булактарды гана колдонуу.\n"
 
-#: ../urpmq:55
+#: ../urpmq:56
 #, c-format
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
 msgstr ""
 "  --fuzzy        - издөөнү так эмес логиканын негизинде көрсөтүү (-y "
 "сыяктуу).\n"
 
-#: ../urpmq:58
+#: ../urpmq:59
 #, c-format
 msgid "  --list         - list available packages.\n"
 msgstr "  --list         - мүмкүн болгон пакеттер тизмеси.\n"
 
-#: ../urpmq:59
+#: ../urpmq:60
 #, c-format
 msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - мүмкүн болгон булактар тизмеси.\n"
 
-#: ../urpmq:60
+#: ../urpmq:61
 #, c-format
 msgid "  --list-url     - list available media and their url.\n"
 msgstr ""
 "  --list-url     - мүмкүн болгон булактар тизмеси жана алардын url-дери.\n"
 
-#: ../urpmq:61
+#: ../urpmq:62
 #, c-format
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
 msgstr ""
 "  --list-nodes   - --parallel колдонуудагы мүмкүн болгон түйүндөр тизмеси.\n"
 
-#: ../urpmq:62
+#: ../urpmq:63
 #, c-format
 msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr "  --list-aliases - мүмкүн болгон параллель алиастар тизмеси.\n"
 
-#: ../urpmq:63
+#: ../urpmq:64
 #, c-format
 msgid ""
 "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
@@ -1974,12 +2777,12 @@ msgstr ""
 "  --dump-config  - конфигди urpmi.addmedia аргументи көрсөткөн формада "
 "дамптоо.\n"
 
-#: ../urpmq:64
+#: ../urpmq:65
 #, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - кийинки пакет-баштапкы пакет (-s сыяктуу).\n"
 
-#: ../urpmq:65
+#: ../urpmq:66
 #, c-format
 msgid ""
 "  --sources      - give all source packages before downloading (root only).\n"
@@ -1987,12 +2790,12 @@ msgstr ""
 "  --sources      - жүктөө алдында пакеттердин баштапкы коддорун чыгаруу "
 "(root үчүн гана).\n"
 
-#: ../urpmq:67
+#: ../urpmq:68
 #, fuzzy, c-format
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
 msgstr "  --url          - url: url тэгин чыгаруу.\n"
 
-#: ../urpmq:71
+#: ../urpmq:72
 #, c-format
 msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
@@ -2001,45 +2804,45 @@ msgstr ""
 "  --use-distrib  - иштөө учурунда distrib дарагынан urpmi-ди конфигдөө.\n"
 "                   Опция дистрибутивди суроо-талабына уруксат берет.\n"
 
-#: ../urpmq:83
+#: ../urpmq:84
 #, c-format
 msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - changelog чыгаруу.\n"
 
-#: ../urpmq:84
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - жалпы маалымат тэгин чыгаруу.\n"
 
-#: ../urpmq:87
+#: ../urpmq:88
 #, c-format
 msgid "  -c             - complete output with package to be removed.\n"
 msgstr "  -c             - пакетти алып салууда кеңири маалымат чыгаруу.\n"
 
-#: ../urpmq:88
+#: ../urpmq:89
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
 msgstr ""
 "  -d             - пакеттерди көз карандылыктары үчүн кеңейтилген суроо-"
 "талап.\n"
 
-#: ../urpmq:90
+#: ../urpmq:91
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - группаларды наамдары менен кошо чыгаруу.\n"
 
-#: ../urpmq:91
+#: ../urpmq:92
 #, c-format
 msgid "  -i             - print useful information in human readable form.\n"
 msgstr ""
 "  -i             - керектүү информацияны окууга ыңгайлуу формада чыгаруу.\n"
 
-#: ../urpmq:92
+#: ../urpmq:93
 #, c-format
 msgid "  -l             - list files in package.\n"
 msgstr "  -l             - пакеттеги файлдар тизмеси.\n"
 
-#: ../urpmq:93
+#: ../urpmq:94
 #, c-format
 msgid ""
 "  -P             - do not search in provides to find package (default).\n"
@@ -2047,23 +2850,23 @@ msgstr ""
 "  -P             - пакетти табуу үчүн, provides'терден издебөө (алдынала "
 "орнотулган).\n"
 
-#: ../urpmq:94
+#: ../urpmq:95
 #, c-format
 msgid "  -p             - search in provides to find package.\n"
 msgstr "  -p             - пакеттерди табуу үчүн provides'терден издөө.\n"
 
-#: ../urpmq:95
+#: ../urpmq:96
 #, c-format
 msgid "  -r             - print version and release with name also.\n"
 msgstr ""
 "  -r             - версиясын жана релизин наамдары менен кошо чыгаруу.\n"
 
-#: ../urpmq:96
+#: ../urpmq:97
 #, c-format
 msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - кректелген пакеттерди тескери тартипте издөө.\n"
 
-#: ../urpmq:97
+#: ../urpmq:98
 #, c-format
 msgid ""
 "  -RR            - extended reverse search (includes virtual packages).\n"
@@ -2071,12 +2874,12 @@ msgstr ""
 "  -RR             - тескери тартипте кеңири издөө (анык пакеттерди "
 "камтыйт).\n"
 
-#: ../urpmq:98
+#: ../urpmq:99
 #, c-format
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr "  -s             - кийинки пакет-баштапкы пакет (--src сыяктуу).\n"
 
-#: ../urpmq:99
+#: ../urpmq:100
 #, c-format
 msgid ""
 "  -u             - remove package if a more recent version is already "
@@ -2084,44 +2887,57 @@ msgid ""
 msgstr ""
 "  -u             - жаңыраак версиясы орнотулган болсо пакетти алып салуу.\n"
 
-#: ../urpmq:100
+#: ../urpmq:101
 #, c-format
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
 msgstr ""
 "  -y             - издөөнү так эмес логиканын негизинде көрсөтүү(--fuzzy "
 "сыяктуу).\n"
 
-#: ../urpmq:101
+#: ../urpmq:102
 #, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
 msgstr ""
 "  -Y             - -y ачкычынын эквиваленти, бирок тамгалар регистрин эске "
 "албайт.\n"
 
-#: ../urpmq:102
+#: ../urpmq:103
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  командалык сапта көрсөтүлгөн наамдар же rpm файлдар суралды.\n"
 
-#: ../urpmq:177
+#: ../urpmq:178
 #, c-format
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes опциясы --parallel менен чогуу гана колдонулат"
 
-#: ../urpmq:333
+#: ../urpmq:350
 #, c-format
-msgid "skipping media %s: no hdlist"
-msgstr "%s булагы коё берилди: hdlist жок"
+msgid "no hdlist for medium \"%s\", only partial result for package %s"
+msgid_plural "no hdlist for medium \"%s\", only partial result for packages %s"
+msgstr[0] ""
+msgstr[1] ""
 
-#: ../urpmq:406
+#: ../urpmq:353
+#, c-format
+msgid "no hdlist for medium \"%s\", unable to return any result for package %s"
+msgid_plural ""
+"no hdlist for medium \"%s\", unable to return any result for packages %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../urpmq:405
 #, c-format
 msgid "No filelist found\n"
 msgstr "filelist табылбады\n"
 
-#: ../urpmq:418
+#: ../urpmq:417
 #, c-format
 msgid "No changelog found\n"
 msgstr "changelog табылбады\n"
+
+#~ msgid "skipping media %s: no hdlist"
+#~ msgstr "%s булагы коё берилди: hdlist жок"
 
 #, fuzzy
 #~ msgid "Installation failed on node %s"
@@ -2142,10 +2958,6 @@ msgstr "changelog табылбады\n"
 #, fuzzy
 #~ msgid "Performing install on %s..."
 #~ msgstr "Пакет орнотулууда..."
-
-#, fuzzy
-#~ msgid "Installing %s on %s..."
-#~ msgstr "%2s булагынан %1s орнотулууда"
 
 #, fuzzy
 #~ msgid "Preparing install on %s..."
@@ -2173,51 +2985,8 @@ msgstr "changelog табылбады\n"
 #~ "\n"
 #~ "белгисиз опциялар: '%s'\n"
 
-#~ msgid "unknown protocol defined for %s"
-#~ msgstr "%s үчүн белгисиз протокол берилген"
-
-#~ msgid "no webfetch found, supported webfetch are: %s\n"
-#~ msgstr "webfetch табылбады, колдоого ээ webfetch: %s\n"
-
-#~ msgid "unable to handle protocol: %s"
-#~ msgstr "протокол аткарылбады: %s"
-
-#~ msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "\"%s\" булагы алдагачан колдонулуп жаткан hdlist алуу аракетинде, булак "
-#~ "четке кагылды"
-
-#~ msgid "medium \"%s\" trying to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "\"%s\" булагы алдагачан колдонулуп жаткан тизмени алуу аракетинде, булак "
-#~ "четке кагылды"
-
-#~ msgid "unable to access hdlist file of \"%s\", medium ignored"
-#~ msgstr "\"%s\" үчүн hdlist файлына жетүүгө болбоду, булак четке кагылды"
-
-#~ msgid "unable to access list file of \"%s\", medium ignored"
-#~ msgstr "\"%s\" үчүн тизме файлына жетүүгө болбоду, булак четке кагылды"
-
-#, fuzzy
-#~ msgid "trying to override existing medium \"%s\", skipping"
-#~ msgstr "\"%s\" бар булагынан аттап өтүү аракети, калтырылды"
-
-#~ msgid ""
-#~ "virtual medium \"%s\" should not have defined hdlist or list file, medium "
-#~ "ignored"
-#~ msgstr ""
-#~ "\"%s\" виртуалдык булагы hdlist же тизме файлын аныктабашы керек, булак "
-#~ "четке кагылды"
-
-#~ msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-#~ msgstr ""
-#~ "\"%s\" виртуалдык булагынын url'и бош болушу керек, булак четке кагылды"
-
 #~ msgid "unable to find hdlist file for \"%s\", medium ignored"
 #~ msgstr "\"%s\" үчүн hdlist файлы табылбады, булак четке кагылды"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "\"%s\" үчүн тизме файлы табылбады, булак четке кагылды"
 
 #~ msgid "inconsistent list file for \"%s\", medium ignored"
 #~ msgstr "\"%s\" үчүн тизме файлы байланышсыз, булак четке кагылды"
@@ -2225,133 +2994,11 @@ msgstr "changelog табылбады\n"
 #~ msgid "unable to inspect list file for \"%s\", medium ignored"
 #~ msgstr "\"%s\" үчүн тизме файлын текшерүүгө болбоду, булак четке кагылды"
 
-#~ msgid "too many mount points for removable medium \"%s\""
-#~ msgstr ""
-#~ " \"%s\" чыгарылып алынуучу булагы үчүн бириктирүү чекиттери өтө эле көп "
-
-#~ msgid "taking removable device as \"%s\""
-#~ msgstr "чыгарылып алынуучу түзүлүш \"%s\" катары каралууда"
-
-#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-#~ msgstr ""
-#~ "\"%s\" булагы ISO сүрөттөлүшү болуп эсептелет жана ал автоматтык түрдө "
-#~ "туташылат"
-
-#~ msgid "using different removable device [%s] for \"%s\""
-#~ msgstr "[%s] башка чыгарып алынуучу түзүлүш колдонулууда; \"%s\" үчүн"
-
-#~ msgid "unable to retrieve pathname for removable medium \"%s\""
-#~ msgstr "\"%s\" чыгарып алынуучу булагынын жолун алуу мүмкүн эмес"
-
-#~ msgid "unable to write config file [%s]"
-#~ msgstr "[%s] конфиг файлын жазуу мүмкүн эмес"
-
-#~ msgid "wrote config file [%s]"
-#~ msgstr "[%s] конфиг файлын жазуу"
-
-#~ msgid "Can't use parallel mode with use-distrib mode"
-#~ msgstr ""
-#~ "Параллелдик режимди use-distrib режими менен чогуу колдонууга болбойт"
-
-#~ msgid "unable to parse \"%s\" in file [%s]"
-#~ msgstr "\"%s\" түшүнүүгө болбоду; ал [%s] файлынын ичинде"
-
-#~ msgid "examining parallel handler in file [%s]"
-#~ msgstr "[%s] файлынын ичинде параллелдик аткаргыч текшерилүүдө"
-
-#~ msgid "found parallel handler for nodes: %s"
-#~ msgstr "%s бутактары үчүн параллелдик аткаруучу табылды"
-
-#~ msgid "using associated media for parallel mode: %s"
-#~ msgstr "параллелдик режим үчүн байланышкан булак колдонулууда: %s"
-
-#~ msgid "unable to use parallel option \"%s\""
-#~ msgstr "\"%s\" параллелдик опциясын колдонуу мүмкүн эмес"
-
 #~ msgid "there doesn't seem to be devices in the chroot in \"%s\""
 #~ msgstr " \"%s\" chroot чөйрөсүндө түзүлүштөр байкалбады"
 
-#~ msgid ""
-#~ "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
-#~ "update or --parallel"
-#~ msgstr ""
-#~ "--synthesis төмөнкүлөр менен бирге --media, --excludemedia, --sortmedia, "
-#~ "--update же --parallel менен колдонууга болбойт"
-
-#~ msgid "examining synthesis file [%s]"
-#~ msgstr "[%s] synthesis файлы текшерилүүдө"
-
-#~ msgid "examining hdlist file [%s]"
-#~ msgstr "[%s] hdlist файлы текшерилүүдө"
-
 #~ msgid "virtual medium \"%s\" is not local, medium ignored"
 #~ msgstr "\"%s\" виртуалдык булагы локалдык эмес, булак четке кагылды"
-
-#~ msgid "Search start: %s end: %s"
-#~ msgstr "Издөө: башы-%s, аягы-%s"
-
-#~ msgid "problem reading hdlist or synthesis file of medium \"%s\""
-#~ msgstr "\"%s\" булагы үчүн hdlist же synthesis файлын окуу проблемасы"
-
-#~ msgid "performing second pass to compute dependencies\n"
-#~ msgstr "көз карандылыктарды экинчи жолку эсептөөсүү аткарылууда\n"
-
-#~ msgid "skipping package %s"
-#~ msgstr "%s пакети коё берилүүдө"
-
-#~ msgid "would install instead of upgrade package %s"
-#~ msgstr "%s пакетин жаңылоонун ордуна аны орнотуу аткарылат"
-
-#~ msgid "medium \"%s\" already exists"
-#~ msgstr "\"%s\" булагы алдагачан бар"
-
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "виртуалдык булак локалдык болушу керек"
-
-#~ msgid "added medium %s"
-#~ msgstr "%s булагы кошулду"
-
-#~ msgid "unable to access first installation medium"
-#~ msgstr "инсталляциянын биринчи булагына жетүү мүмкүн эмес"
-
-#, fuzzy
-#~ msgid "retrieving media.cfg file..."
-#~ msgstr "hdlists файлы кабыл алынууда..."
-
-#, fuzzy
-#~ msgid "unable to parse media.cfg"
-#~ msgstr "rpmdb ачууга болбоду"
-
-#~ msgid "unable to access first installation medium (no hdlists file found)"
-#~ msgstr ""
-#~ "биринчи инсталлялык булакка жетүүгө болбоду (hdlists файлы табылбады)"
-
-#~ msgid "trying to select nonexistent medium \"%s\""
-#~ msgstr "жашабаган \"%s\" булагын тандоо аракети"
-
-#~ msgid "selecting multiple media: %s"
-#~ msgstr "составдык булак тандалууда: %s"
-
-#~ msgid "removing medium \"%s\""
-#~ msgstr "\"%s\" булагы алынып салынууда"
-
-#~ msgid "reconfiguring urpmi for media \"%s\""
-#~ msgstr "\"%s\" булагы үчүн urpmi программасын кайра конфигурациялоо"
-
-#~ msgid "...reconfiguration failed"
-#~ msgstr "...кайра конфигурациялоо ишке ашпады"
-
-#~ msgid "reconfiguration done"
-#~ msgstr "кайра конфигурациялоо аяктады"
-
-#~ msgid ""
-#~ "unable to access medium \"%s\",\n"
-#~ "this could happen if you mounted manually the directory when creating the "
-#~ "medium."
-#~ msgstr ""
-#~ "\"%s\" булагына жетүүгө болбойт,\n"
-#~ "бул ката сиз булакты түзүүдө аны өз алдыңызча бириктиргенде пайда болушу "
-#~ "мүмкүн."
 
 #~ msgid ""
 #~ "virtual medium \"%s\" should have valid source hdlist or synthesis, "
@@ -2360,100 +3007,20 @@ msgstr "changelog табылбады\n"
 #~ "\"%s\" виртуалдык булагы туура hdlist же synthesis керектейт, булак четке "
 #~ "кагылды"
 
-#~ msgid "copying description file of \"%s\"..."
-#~ msgstr "\"%s\" үчүн баяндоо файлы көчүрүлүүдө..."
-
-#~ msgid "...copying done"
-#~ msgstr "...көчүрүү аяктады"
-
-#~ msgid "...copying failed"
-#~ msgstr "...көчүрүү ишке ашпады"
-
 #~ msgid "copying source hdlist (or synthesis) of \"%s\"..."
 #~ msgstr "\"%s\" үчүн баштапкы hdlist (же synthesis) көчүрүлүүдө ..."
-
-#~ msgid "copy of [%s] failed (file is suspiciously small)"
-#~ msgstr "[%s] көчүрүү ишке ашпады (файл күмөндүү кыска)"
-
-#~ msgid "computing md5sum of copied source hdlist (or synthesis)"
-#~ msgstr "көчүрүлгөн баштапкы hdlist (же synthesis) үчүн md5sum эсептелүүдө"
-
-#~ msgid "copy of [%s] failed (md5sum mismatch)"
-#~ msgstr " [%s] көчүрүү ишке ашпады (md5sum туура эмес)"
-
-#~ msgid "problem reading synthesis file of medium \"%s\""
-#~ msgstr "\"%s\" булагынын synthesis файлын окуу проблемасы"
-
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "[%s] булагынын rpm файлдары окулууда"
-
-#~ msgid "no rpms read"
-#~ msgstr "rpm-дер окулбады"
-
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "[%s] булагынан rpm файлдарын окууга болбоду: %s"
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "[%s] булагында rpm файлдары табылдбады"
-
-#~ msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-#~ msgstr "\"%s\" булагынын баштапкы hdlist (же synthesis) кабыл алынууда..."
-
-#~ msgid "found probed hdlist (or synthesis) as %s"
-#~ msgstr "изделген hdlist (же synthesis) табылды: %s"
-
-#~ msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-#~ msgstr ""
-#~ "кабыл алынган баштапкы hdlist (же synthesis) үчүн md5sum эсептелүүдө"
-
-#~ msgid "...retrieving failed: md5sum mismatch"
-#~ msgstr "...кабыл алуу ийгиликсиз: md5sum дал келбестиги"
 
 #~ msgid "retrieval of source hdlist (or synthesis) failed"
 #~ msgstr "hdlist (же synthesis) кабыл алуунун ишке ашпагандыгы"
 
-#~ msgid "no hdlist file found for medium \"%s\""
-#~ msgstr "\"%s\" булагы үчүн hdlist файлы табылбады"
-
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "[%s] файлы окшош \"%s\" булагында алдагачан колдонулууда"
-
-#~ msgid "unable to parse hdlist file of \"%s\""
-#~ msgstr "\"%s\" үчүн hdlist файлын түшүнө албадым"
 
 #~ msgid "unable to write list file of \"%s\""
 #~ msgstr "\"%s\" үчүн тизме файлын жазууга болбоду"
 
-#~ msgid "writing list file for medium \"%s\""
-#~ msgstr "\"%s\" булагы үчүн тизме файлы жазылууда"
-
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "\"%s\" үчүн тизме файлына эч нерсе жазылган жок"
-
-#~ msgid "examining pubkey file of \"%s\"..."
-#~ msgstr "\"%s\" үчүн ачык ачкыч файлы текшерилүүдө..."
-
-#~ msgid "...imported key %s from pubkey file of \"%s\""
-#~ msgstr "...%s ачкычы \"%s\" ачык ачкычынан импорттолду"
-
-#~ msgid "unable to import pubkey file of \"%s\""
-#~ msgstr "\"%s\" ачык ачкыч файлын импортоо мүмкүн эмес"
-
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "\"%s\" булагынын башсаптары окулууда"
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "hdlist [%s] түзүлүшү"
-
-#~ msgid ""
-#~ "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
-#~ "corrupted."
-#~ msgstr ""
-#~ "\"%s\" булагы үчүн synthesis файлын түзүүгө болбоду. Сиздин hdlist "
-#~ "файлыңыз бузук болушу мүмкүн."
-
-#~ msgid "built hdlist synthesis file for medium \"%s\""
-#~ msgstr "\"%s\" булагы үчүн hdlist synthesis файлы түзүлдү"
 
 #~ msgid "found %d headers in cache"
 #~ msgstr "кэште %d башсап табылды"
@@ -2461,128 +3028,8 @@ msgstr "changelog табылбады\n"
 #~ msgid "removing %d obsolete headers in cache"
 #~ msgstr "кэштеги эскирген %d башсап өчүүрүлүүдө"
 
-#~ msgid "mounting %s"
-#~ msgstr "%s бириктирилүүдө"
-
-#~ msgid "unmounting %s"
-#~ msgstr "%s ажыратылууда"
-
-#, fuzzy
-#~ msgid "No package named %s"
-#~ msgstr "%s аттуу пакет жок"
-
-#~ msgid "there are multiple packages with the same rpm filename \"%s\""
-#~ msgstr "\"%s\" rpm файл аты бирдей болгон бир нече пакет бар"
-
-#~ msgid "unable to correctly parse [%s] on value \"%s\""
-#~ msgstr "[%s] туура ажыратууга мүмкүн эмес, ал \"%s\" ичинде"
-
-#~ msgid ""
-#~ "medium \"%s\" uses an invalid list file:\n"
-#~ "  mirror is probably not up-to-date, trying to use alternate method"
-#~ msgstr ""
-#~ "\"%s\" булагы туура эмес тизме файлын колдонууда:\n"
-#~ "  мүмкүн күзгү эски, альтернативдик методду колдонуу аракети"
-
-#~ msgid "medium \"%s\" does not define any location for rpm files"
-#~ msgstr "\"%s\" булагы rpm файлдарынын турган жерин аныктабайт"
-
-#~ msgid "package %s is not found."
-#~ msgstr "%s пакети табылбады."
-
-#~ msgid "urpmi database locked"
-#~ msgstr "urpmi берилиштер базасы кулпуланган"
-
-#~ msgid "medium \"%s\" is not selected"
-#~ msgstr "\"%s\" булагы тандалган эмес"
-
-#~ msgid "unable to read rpm file [%s] from medium \"%s\""
-#~ msgstr "[%s] rpm файлын \"%s\" булагынан окуу мүмкүн эмес"
-
-#~ msgid "inconsistent medium \"%s\" marked removable but not really"
-#~ msgstr ""
-#~ "түшүнүлбөгөн \"%s\" булагы чыкма түзүлүш катары көрсөтүлгөн, бирок ал "
-#~ "андай эмес"
-
-#~ msgid "unable to access medium \"%s\""
-#~ msgstr "\"%s\" булагына жетүүгө мүмкүн эмес"
-
-#, fuzzy
-#~ msgid "malformed URL: [%s]"
-#~ msgstr "туура эмес форматталган кирүү: [%s]"
-
-#~ msgid "retrieving rpm files from medium \"%s\"..."
-#~ msgstr "rpm файлдарын \"%s\" булагынан кабыл алуу жүрүп жатат..."
-
 #~ msgid "using process %d for executing transaction"
 #~ msgstr "транзакцияны аткаруу үчүн %d процесси колдонулууда"
-
-#~ msgid ""
-#~ "created transaction for installing on %s (remove=%d, install=%d, upgrade=%"
-#~ "d)"
-#~ msgstr ""
-#~ "%s ичине инсталляциялоо үчүн транзакция түзүлдү (remove=%d, install=%d, "
-#~ "upgrade=%d)"
-
-#~ msgid "unable to create transaction"
-#~ msgstr "транзакция түзүүгө мүмкүн эмес"
-
-#~ msgid "removing package %s"
-#~ msgstr "%s пакети алынып салынууда"
-
-#~ msgid "unable to remove package %s"
-#~ msgstr "%s пакетин алып салууга мүмкүн эмес"
-
-#~ msgid "unable to extract rpm from delta-rpm package %s"
-#~ msgstr "%s дельта-rpm пакетинен rpm-ди чыгаруугу мүмкүн эмес"
-
-#~ msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-#~ msgstr "%s пакети кошулууда (id=%d, eid=%d, update=%d, file=%s)"
-
-#~ msgid "unable to install package %s"
-#~ msgstr "%s пакетин орнотуу мүмкүн эмес"
-
-#~ msgid "More information on package %s"
-#~ msgstr "%s пакети жөнүндө кеңирээк маалымат"
-
-#~ msgid "due to missing %s"
-#~ msgstr "%s жоктугунан"
-
-#~ msgid "due to unsatisfied %s"
-#~ msgstr "%s канаатанбагандыгынан"
-
-#~ msgid "trying to promote %s"
-#~ msgstr "%s активдештирүү аракети"
-
-#~ msgid "in order to keep %s"
-#~ msgstr "%s сактоо үчүн"
-
-#~ msgid "in order to install %s"
-#~ msgstr "%s орнотуу үчүн"
-
-#~ msgid "due to conflicts with %s"
-#~ msgstr "%s менен конфликтешкендиги үчүн"
-
-#~ msgid "unrequested"
-#~ msgstr "талап кылынбаган"
-
-#~ msgid "Invalid signature (%s)"
-#~ msgstr "Туура эмес сигнатура (%s)"
-
-#~ msgid "Invalid Key ID (%s)"
-#~ msgstr "Туура эмес Key ID (%s)"
-
-#~ msgid "Missing signature (%s)"
-#~ msgstr "Сигнатура жок (%s)"
-
-#~ msgid "examining MD5SUM file"
-#~ msgstr "MD5SUM файлы текшерилүүдө"
-
-#~ msgid "warning: md5sum for %s unavailable in MD5SUM file"
-#~ msgstr "эскертүү: MD5SUM файлынын ичинде %s үчүн md5sum табылбады"
-
-#~ msgid "computing md5sum of existing source hdlist (or synthesis)"
-#~ msgstr "баштапкы hdlist (же synthesis) үчүн md5sum эсептелүүдө"
 
 #~ msgid "  --norebuild    - don't try to rebuild hdlist if not readable.\n"
 #~ msgstr ""

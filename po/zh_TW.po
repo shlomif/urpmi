@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-09 14:23+0100\n"
+"POT-Creation-Date: 2007-01-15 14:22+0100\n"
 "PO-Revision-Date: 2006-09-01 21:32+0800\n"
 "Last-Translator: Shiva Huang <shivahuang@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -237,7 +237,7 @@ msgstr ""
 "\n"
 "您要繼續安裝嗎？"
 
-#: ../gurpmi2:278 ../gurpmi2:336 ../urpmi:684 ../urpmi:814
+#: ../gurpmi2:278 ../gurpmi2:333 ../urpmi:684 ../urpmi:814
 #, c-format
 msgid ""
 "Installation failed, some files are missing:\n"
@@ -248,37 +248,37 @@ msgstr ""
 "%s\n"
 "您或許要更新您的 urpmi 資料庫"
 
-#: ../gurpmi2:285 ../urpme:138 ../urpmi:735
+#: ../gurpmi2:284 ../urpme:138 ../urpmi:735
 #, c-format
 msgid "removing %s"
 msgstr "正在移除 %s"
 
-#: ../gurpmi2:291
+#: ../gurpmi2:290 ../urpm/install.pm:70
 #, c-format
 msgid "Preparing..."
 msgstr "準備中..."
 
-#: ../gurpmi2:295
+#: ../gurpmi2:294
 #, c-format
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "正在安裝套件 `%s' (%s/%s)..."
 
-#: ../gurpmi2:320 ../urpmi:696 ../urpmi:774 ../urpmi:791
-#, c-format
-msgid "Installation failed"
-msgstr "安裝失敗"
-
-#: ../gurpmi2:331
+#: ../gurpmi2:326
 #, c-format
 msgid "_Done"
 msgstr "完成 (_D)"
 
-#: ../gurpmi2:339
+#: ../gurpmi2:331 ../urpmi:696 ../urpmi:774 ../urpmi:791
+#, c-format
+msgid "Installation failed"
+msgstr "安裝失敗"
+
+#: ../gurpmi2:336
 #, c-format
 msgid "The package(s) are already installed"
 msgstr "每個套件都已經安裝了"
 
-#: ../gurpmi2:341
+#: ../gurpmi2:338
 #, c-format
 msgid "Installation finished"
 msgstr "安裝完畢"
@@ -347,12 +347,13 @@ msgstr "無效的 rpm 檔案名稱 [%s]"
 msgid "retrieving rpm file [%s] ..."
 msgstr "正在擷取 rpm 檔案 [%s] ..."
 
-#: ../urpm.pm:136
+#: ../urpm.pm:136 ../urpm/get_pkgs.pm:183
 #, c-format
 msgid "...retrieving done"
 msgstr "...擷取完成"
 
-#: ../urpm.pm:139
+#: ../urpm.pm:139 ../urpm/download.pm:603 ../urpm/get_pkgs.pm:185
+#: ../urpm/media.pm:746 ../urpm/media.pm:1259 ../urpm/media.pm:1481
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...擷取失敗：%s"
@@ -422,21 +423,815 @@ msgstr ""
 msgid "Too many arguments\n"
 msgstr "參數太多\n"
 
-#: ../urpm/msg.pm:52 ../urpmi:489 ../urpmi:508 ../urpmi:597
+#: ../urpm/bug_report.pm:36 ../urpm/media.pm:1142
+#, c-format
+msgid "built hdlist synthesis file for medium \"%s\""
+msgstr "為媒體 \"%s\" 建立 hdlist synthesis 檔"
+
+#: ../urpm/bug_report.pm:51 ../urpmi:247
+#, c-format
+msgid "Copying failed"
+msgstr "複製失敗"
+
+#: ../urpm/cfg.pm:81
+#, fuzzy, c-format
+msgid "syntax error in config file at line %s"
+msgstr "無法寫入設定檔 [%s]"
+
+#: ../urpm/cfg.pm:112
+#, fuzzy, c-format
+msgid "unable to read config file [%s]"
+msgstr "無法寫入設定檔 [%s]"
+
+#: ../urpm/cfg.pm:138
+#, c-format
+msgid "medium `%s' is defined twice, aborting"
+msgstr ""
+
+#: ../urpm/cfg.pm:226 ../urpm/media.pm:449
+#, c-format
+msgid "unable to write config file [%s]"
+msgstr "無法寫入設定檔 [%s]"
+
+#: ../urpm/download.pm:111
+#, c-format
+msgid "Please enter your credentials for accessing proxy\n"
+msgstr ""
+
+#: ../urpm/download.pm:112
+#, c-format
+msgid "User name:"
+msgstr ""
+
+#: ../urpm/download.pm:112
+#, c-format
+msgid "Password:"
+msgstr ""
+
+#: ../urpm/download.pm:185
+#, c-format
+msgid "Unknown webfetch `%s' !!!\n"
+msgstr ""
+
+#: ../urpm/download.pm:194
+#, c-format
+msgid "%s failed: exited with signal %d"
+msgstr ""
+
+#: ../urpm/download.pm:195
+#, c-format
+msgid "%s failed: exited with %d"
+msgstr ""
+
+#: ../urpm/download.pm:219
+#, fuzzy, c-format
+msgid "copy failed"
+msgstr "複製失敗"
+
+#: ../urpm/download.pm:225
+#, fuzzy, c-format
+msgid "wget is missing\n"
+msgstr "由於遺失了 %s"
+
+#: ../urpm/download.pm:289
+#, fuzzy, c-format
+msgid "curl is missing\n"
+msgstr "由於遺失了 %s"
+
+#: ../urpm/download.pm:411
+#, c-format
+msgid "curl failed: download canceled\n"
+msgstr ""
+
+#: ../urpm/download.pm:450
+#, c-format
+msgid "rsync is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:511
+#, c-format
+msgid "ssh is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:530
+#, c-format
+msgid "prozilla is missing\n"
+msgstr ""
+
+#: ../urpm/download.pm:546
+#, c-format
+msgid "Couldn't execute prozilla\n"
+msgstr ""
+
+#: ../urpm/download.pm:593
+#, c-format
+msgid "        %s%% of %s completed, ETA = %s, speed = %s"
+msgstr ""
+
+#: ../urpm/download.pm:595
+#, c-format
+msgid "        %s%% completed, speed = %s"
+msgstr ""
+
+#: ../urpm/download.pm:651
+#, fuzzy, c-format
+msgid "retrieving %s"
+msgstr "正在移除 %s"
+
+#: ../urpm/download.pm:655
+#, fuzzy, c-format
+msgid "retrieved %s"
+msgstr "...擷取失敗：%s"
+
+#: ../urpm/download.pm:668
+#, c-format
+msgid "unknown protocol defined for %s"
+msgstr "%s 中定義了未知的通訊協定"
+
+#: ../urpm/download.pm:687
+#, c-format
+msgid "%s is not available, falling back on %s"
+msgstr "%s 無法使用，回到 %s"
+
+#: ../urpm/download.pm:691
+#, c-format
+msgid "no webfetch found, supported webfetch are: %s\n"
+msgstr "沒有找到 webfetch，支援的 webfetch 有：%s\n"
+
+#: ../urpm/download.pm:705
+#, c-format
+msgid "unable to handle protocol: %s"
+msgstr "無法處理通訊協定：%s"
+
+#: ../urpm/get_pkgs.pm:41
+#, fuzzy, c-format
+msgid "cleaning %s and %s"
+msgstr "正在 %2$s 上安装 %1$s..."
+
+#: ../urpm/get_pkgs.pm:56 ../urpm/get_pkgs.pm:79 ../urpm/get_pkgs.pm:110
+#, c-format
+msgid "there are multiple packages with the same rpm filename \"%s\""
+msgstr "有多個套件具有相同的 rpm 檔名 \"%s\""
+
+#: ../urpm/get_pkgs.pm:93
+#, c-format
+msgid "unable to correctly parse [%s] on value \"%s\""
+msgstr "在值 \"%2$s\" 上無法正確解析 [%1$s]"
+
+#: ../urpm/get_pkgs.pm:100 ../urpm/media.pm:219
+#, c-format
+msgid "unable to access list file of \"%s\", medium ignored"
+msgstr "無法存取 \"%s\" 的列表，忽略這個媒體"
+
+#: ../urpm/get_pkgs.pm:101
+#, c-format
+msgid "(retry as root?)"
+msgstr "(以 root 重試？)"
+
+#: ../urpm/get_pkgs.pm:126
+#, c-format
+msgid ""
+"medium \"%s\" uses an invalid list file:\n"
+"  mirror is probably not up-to-date, trying to use alternate method"
+msgstr ""
+"媒體 \"%s\" 使用一個無效的列表檔案：\n"
+"  映射站可能不在最新狀態，正在嘗試使用替代的方案"
+
+#: ../urpm/get_pkgs.pm:130
+#, c-format
+msgid "medium \"%s\" does not define any location for rpm files"
+msgstr "媒體 \"%s\" 沒有定義任何 rpm 檔案的位置"
+
+#: ../urpm/get_pkgs.pm:142
+#, c-format
+msgid "package %s is not found."
+msgstr "沒有找到套件 %s。"
+
+#: ../urpm/get_pkgs.pm:174
+#, c-format
+msgid "malformed URL: [%s]"
+msgstr "畸形的 URL：[%s]"
+
+#: ../urpm/get_pkgs.pm:180
+#, c-format
+msgid "retrieving rpm files from medium \"%s\"..."
+msgstr "正在由媒體 \"%s\" 擷取 rpm 檔案..."
+
+#: ../urpm/install.pm:77
+#, c-format
+msgid "[repackaging]"
+msgstr "[正在重新打包]"
+
+#: ../urpm/install.pm:110
+#, c-format
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgstr "已建立在 %s 上的安裝程序 (移除 = %d，安裝 = %d，升級 = %d)"
+
+#: ../urpm/install.pm:113
+#, c-format
+msgid "unable to create transaction"
+msgstr "無法建立安裝程序"
+
+#: ../urpm/install.pm:121
+#, c-format
+msgid "removing package %s"
+msgstr "正在移除套件 %s"
+
+#: ../urpm/install.pm:123
+#, c-format
+msgid "unable to remove package %s"
+msgstr "無法移除套件 %s"
+
+#: ../urpm/install.pm:135
+#, c-format
+msgid "unable to extract rpm from delta-rpm package %s"
+msgstr "無法由 delta-rpm 套件包中取出套件 %s"
+
+#: ../urpm/install.pm:141
+#, c-format
+msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
+msgstr "正在新增套件 %s (id = %d，eid = %d，更新 = %d，檔案 = %s)"
+
+#: ../urpm/install.pm:144
+#, c-format
+msgid "unable to install package %s"
+msgstr "無法安裝套件 %s"
+
+#: ../urpm/install.pm:180
+#, fuzzy, c-format
+msgid "removing installed rpms (%s) from %s"
+msgstr "正在由 %2$s 安裝 %1$s"
+
+#: ../urpm/install.pm:186
+#, c-format
+msgid "More information on package %s"
+msgstr "更多關於套件 %s 的資訊"
+
+#: ../urpm/ldap.pm:71
+#, fuzzy, c-format
+msgid "Cannot create ldap cache directory"
+msgstr "無法寫入重新打包目錄 [%s]\n"
+
+#: ../urpm/ldap.pm:73
+#, c-format
+msgid "Cannot write cache file for ldap\n"
+msgstr ""
+
+#: ../urpm/ldap.pm:162
+#, c-format
+msgid "No server defined, missing uri or host"
+msgstr ""
+
+#: ../urpm/ldap.pm:163
+#, fuzzy, c-format
+msgid "No base defined"
+msgstr "未指定套件"
+
+#: ../urpm/ldap.pm:172 ../urpm/ldap.pm:175
+#, c-format
+msgid "Cannot connect to ldap uri :"
+msgstr ""
+
+#: ../urpm/lock.pm:50
+#, fuzzy, c-format
+msgid "%s database locked"
+msgstr "urpmi 資料庫被鎖住了"
+
+#: ../urpm/md5sum.pm:23
+#, fuzzy, c-format
+msgid "examining %s file"
+msgstr "正在檢驗 MD5SUM 檔案"
+
+#: ../urpm/md5sum.pm:25
+#, c-format
+msgid "warning: md5sum for %s unavailable in MD5SUM file"
+msgstr "警告：在 MD5SUM 檔案中找不到 %s 的 md5sum"
+
+#: ../urpm/md5sum.pm:45
+#, fuzzy, c-format
+msgid "computing md5sum of existing source hdlist (or synthesis) [%s]"
+msgstr "計算來源 hdlist (或 synthesis) 的 md5sum"
+
+#: ../urpm/media.pm:171
+#, c-format
+msgid ""
+"virtual medium \"%s\" should not have defined hdlist or list file, medium "
+"ignored"
+msgstr "虛擬媒體 \"%s\" 不應該指定 hdlist 或列表檔案，忽略這個媒體"
+
+#: ../urpm/media.pm:175
+#, c-format
+msgid "virtual medium \"%s\" should have a clear url, medium ignored"
+msgstr "虛擬媒體 \"%s\" 應該有一個清楚的 url，忽略這個媒體"
+
+#: ../urpm/media.pm:183
+#, fuzzy, c-format
+msgid "invalid hdlist name"
+msgstr "無效的 rpm 檔案名稱 [%s]"
+
+#: ../urpm/media.pm:190
+#, c-format
+msgid "unable to find list file for \"%s\", medium ignored"
+msgstr "無法找到 \"%s\" 的列表檔案，忽略這個媒體"
+
+#: ../urpm/media.pm:203
+#, fuzzy, c-format
+msgid "\"synthesis\" should not be set (medium \"%s\")"
+msgstr "正在嘗試選擇不存在的媒體 \"%s\""
+
+#: ../urpm/media.pm:206
+#, fuzzy, c-format
+msgid "\"synthesis\" should be set (medium \"%s\")"
+msgstr "為媒體 \"%s\" 建立 hdlist synthesis 檔"
+
+#: ../urpm/media.pm:209 ../urpm/media.pm:1419 ../urpm/media.pm:1507
+#, c-format
+msgid "unable to access hdlist file of \"%s\", medium ignored"
+msgstr "無法存取 \"%s\" 的 hdlist 檔案，忽略這個媒體"
+
+#: ../urpm/media.pm:215
+#, fuzzy, c-format
+msgid "unable to access list file of \"%s\""
+msgstr "無法解析 \"%s\" 的 hdlist 檔案"
+
+#: ../urpm/media.pm:229
+#, c-format
+msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
+msgstr "媒體 \"%s\" 正在嘗試使用一個已經被使用的 hdlist，忽略這個媒體"
+
+#: ../urpm/media.pm:230
+#, c-format
+msgid "medium \"%s\" trying to use an already used list, medium ignored"
+msgstr "媒體 \"%s\" 正在嘗試使用一個已經被使用的列表，忽略這個媒體"
+
+#: ../urpm/media.pm:255
+#, c-format
+msgid "trying to override existing medium \"%s\", skipping"
+msgstr "正在嘗試跳過已存在媒體  \"%s\"，正在跳過"
+
+#: ../urpm/media.pm:398
+#, c-format
+msgid "too many mount points for removable medium \"%s\""
+msgstr "可移除式媒體 \"%s\" 的掛載點過多"
+
+#: ../urpm/media.pm:399
+#, c-format
+msgid "taking removable device as \"%s\""
+msgstr "將可移除式裝置當成 \"%s\""
+
+#: ../urpm/media.pm:402
+#, c-format
+msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgstr "媒體 \"%s\" 是一個光碟映像檔，將立即掛載起來"
+
+#: ../urpm/media.pm:405
+#, c-format
+msgid "using different removable device [%s] for \"%s\""
+msgstr "使用不同的可移除式裝置 [%s] 於 \"%s\" "
+
+#: ../urpm/media.pm:410 ../urpm/media.pm:413
+#, c-format
+msgid "unable to retrieve pathname for removable medium \"%s\""
+msgstr "無法擷取可移除式媒體 \"%s\" 的路徑名稱"
+
+#: ../urpm/media.pm:428
+#, c-format
+msgid "wrote %s"
+msgstr ""
+
+#: ../urpm/media.pm:451
+#, c-format
+msgid "wrote config file [%s]"
+msgstr "寫入設定檔 [%s]"
+
+#: ../urpm/media.pm:496
+#, c-format
+msgid "Can't use parallel mode with use-distrib mode"
+msgstr "無法於 use-distrib 模式下使用同步管理模式"
+
+#: ../urpm/media.pm:504
+#, c-format
+msgid "using associated media for parallel mode: %s"
+msgstr "於同步管理模式使用相關連的媒體：%s"
+
+#: ../urpm/media.pm:520
+#, fuzzy, c-format
+msgid ""
+"--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
+"update, --use-distrib or --parallel"
+msgstr ""
+"--synthesis 不能夠與 --media、--excludemedia、--sortmedia、--update 以及 --"
+"parallel 一起使用"
+
+#: ../urpm/media.pm:586
+#, fuzzy, c-format
+msgid "Note: no hdlist for medium \"%s\", unable to return any result for it"
+msgstr ""
+"注意：因為所有搜尋過的媒體都沒有使用 hdlists，所以 urpmf 無法回傳任何結果\n"
+
+#: ../urpm/media.pm:596
+#, c-format
+msgid "Search start: %s end: %s"
+msgstr "搜尋開始於：%s 結束於：%s"
+
+#: ../urpm/media.pm:605 ../urpm/media.pm:1802
+#, c-format
+msgid "performing second pass to compute dependencies\n"
+msgstr "正在進行第二個步驟，相依性的計算\n"
+
+#: ../urpm/media.pm:621
+#, c-format
+msgid "skipping package %s"
+msgstr "正在略過套件 %s"
+
+#: ../urpm/media.pm:637
+#, c-format
+msgid "would install instead of upgrade package %s"
+msgstr "將會安裝而非升級套件 %s"
+
+#: ../urpm/media.pm:662
+#, c-format
+msgid "medium \"%s\" already exists"
+msgstr "媒體 \"%s\" 已經存在"
+
+#: ../urpm/media.pm:677
+#, c-format
+msgid "virtual medium needs to be local"
+msgstr "虛擬媒體必須在本地端"
+
+#: ../urpm/media.pm:691
+#, c-format
+msgid "(ignored by default)"
+msgstr ""
+
+#: ../urpm/media.pm:697
+#, fuzzy, c-format
+msgid "adding medium \"%s\" before remote medium \"%s\""
+msgstr "正在讀取媒體 \"%s\" 的標頭"
+
+#: ../urpm/media.pm:703
+#, fuzzy, c-format
+msgid "adding medium \"%s\""
+msgstr "移除媒體 \"%s\""
+
+#: ../urpm/media.pm:729
+#, fuzzy, c-format
+msgid "unable to mount the distribution medium"
+msgstr "無法存取第一個安裝媒體"
+
+#: ../urpm/media.pm:732
+#, fuzzy, c-format
+msgid "this location doesn't seem to contain any distribution"
+msgstr "這個 url 看起來並沒有包含任何散佈套件"
+
+#: ../urpm/media.pm:739
+#, c-format
+msgid "retrieving media.cfg file..."
+msgstr "正在擷取 media.cfg 檔案..."
+
+#: ../urpm/media.pm:744
+#, c-format
+msgid "unable to parse media.cfg"
+msgstr "無法解析 media.cfg"
+
+#: ../urpm/media.pm:747
+#, fuzzy, c-format
+msgid "unable to access the distribution medium (no media.cfg file found)"
+msgstr "無法存取第一個安裝媒體 (找不到 hdlists 檔案)"
+
+#: ../urpm/media.pm:826
+#, c-format
+msgid "trying to select nonexistent medium \"%s\""
+msgstr "正在嘗試選擇不存在的媒體 \"%s\""
+
+#: ../urpm/media.pm:829
+#, c-format
+msgid "selecting multiple media: %s"
+msgstr "正在選擇多個媒體：\"%s\""
+
+#: ../urpm/media.pm:849
+#, c-format
+msgid "removing medium \"%s\""
+msgstr "移除媒體 \"%s\""
+
+#: ../urpm/media.pm:940
+#, c-format
+msgid "reconfiguring urpmi for media \"%s\""
+msgstr "正在重新設定媒體 \"%s\" 的 urpmi 設定"
+
+#: ../urpm/media.pm:979
+#, c-format
+msgid "...reconfiguration failed"
+msgstr "重新設定失敗"
+
+#: ../urpm/media.pm:985
+#, c-format
+msgid "reconfiguration done"
+msgstr "重新設定完成"
+
+#: ../urpm/media.pm:1033
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr "生成名稱檔案時發生錯誤：相依性 %d 沒有找到"
+
+#: ../urpm/media.pm:1037
+#, c-format
+msgid "Error generating names file: Can't write to file (%s)"
+msgstr "生成名稱檔案時發生錯誤：無法寫入檔案 (%s)"
+
+#: ../urpm/media.pm:1072
+#, fuzzy, c-format
+msgid "medium \"%s\" is up-to-date"
+msgstr "媒體 \"%s\" 沒有被選取"
+
+#: ../urpm/media.pm:1092
+#, c-format
+msgid "examining hdlist file [%s]"
+msgstr "檢驗 hdlist 檔案 [%s]"
+
+#: ../urpm/media.pm:1102
+#, c-format
+msgid "examining synthesis file [%s]"
+msgstr "檢驗 synthesis 檔案 [%s]"
+
+#: ../urpm/media.pm:1119
+#, c-format
+msgid "building hdlist [%s]"
+msgstr "正在建立 hdlist [%s]"
+
+#: ../urpm/media.pm:1138
+#, c-format
+msgid ""
+"Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
+"corrupted."
+msgstr "無法為媒介 \"%s\" 建立 synthesis 檔。您的 hdlist 檔可能並不標準。"
+
+#: ../urpm/media.pm:1157
+#, c-format
+msgid "problem reading hdlist or synthesis file of medium \"%s\""
+msgstr "讀取 \"%s\" 媒體的 hdlist 或 synthesis 檔案時發生問題"
+
+#: ../urpm/media.pm:1169 ../urpm/media.pm:1207 ../urpm/media.pm:1494
+#, c-format
+msgid "...copying failed"
+msgstr "...複製失敗"
+
+#: ../urpm/media.pm:1203
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "正在複製 \"%s\" 的敘述檔案..."
+
+#: ../urpm/media.pm:1205 ../urpm/media.pm:1236
+#, c-format
+msgid "...copying done"
+msgstr "...複製完成"
+
+#: ../urpm/media.pm:1232
+#, fuzzy, c-format
+msgid "copying [%s] for medium \"%s\"..."
+msgstr "正在寫入媒體 \"%s\" 的列表檔"
+
+#: ../urpm/media.pm:1238
+#, c-format
+msgid "copy of [%s] failed (file is suspiciously small)"
+msgstr "複製 [%s] 失敗 (檔案小得可疑)"
+
+#: ../urpm/media.pm:1271
+#, c-format
+msgid "computing md5sum of copied source hdlist (or synthesis)"
+msgstr "正在計算複製的來源 hdlist (或 synthesis) 的 md5sum"
+
+#: ../urpm/media.pm:1273
+#, c-format
+msgid "copy of [%s] failed (md5sum mismatch)"
+msgstr "複製 [%s] 失敗 (md5sum 不合)"
+
+#: ../urpm/media.pm:1285
+#, c-format
+msgid "computing md5sum of retrieved source hdlist (or synthesis)"
+msgstr "正在計算來源 hdlist (或 synthesis) 的 md5sum"
+
+#: ../urpm/media.pm:1287
+#, c-format
+msgid "...retrieving failed: md5sum mismatch"
+msgstr "...擷取失敗：md5sum 不合"
+
+#: ../urpm/media.pm:1302
+#, c-format
+msgid "no rpm files found from [%s]"
+msgstr "在 [%s] 內找不到 rpm 檔案"
+
+#: ../urpm/media.pm:1309
+#, c-format
+msgid "reading rpm files from [%s]"
+msgstr "由 [%s] 讀取 rpm 檔案"
+
+#: ../urpm/media.pm:1324
+#, c-format
+msgid "unable to read rpm files from [%s]: %s"
+msgstr "無法由 [%s] 讀取 rpm 套件：%s"
+
+#: ../urpm/media.pm:1334
+#, c-format
+msgid "no rpms read"
+msgstr "沒有讀取到任何的 rpm"
+
+#: ../urpm/media.pm:1364
+#, c-format
+msgid ""
+"unable to access medium \"%s\",\n"
+"this could happen if you mounted manually the directory when creating the "
+"medium."
+msgstr ""
+"無法存取媒體 \"%s\"，\n"
+"這可能是因為您建立媒體時是手動將這個目錄掛載到系統裡的。"
+
+#: ../urpm/media.pm:1377
+#, fuzzy, c-format
+msgid "invalid hdlist file %s for medium \"%s\""
+msgstr "沒有找到媒體 \"%s\" 的 hdlist 檔案"
+
+#: ../urpm/media.pm:1457
+#, c-format
+msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
+msgstr "正在擷取 \"%s\" 的來源 hdlist (或 synthesis)..."
+
+#: ../urpm/media.pm:1473
+#, c-format
+msgid "found probed hdlist (or synthesis) as %s"
+msgstr "發現尋找到的 hdlist (或 synthesis) 為 %s"
+
+#: ../urpm/media.pm:1480 ../urpm/media.pm:1612
+#, c-format
+msgid "no hdlist file found for medium \"%s\""
+msgstr "沒有找到媒體 \"%s\" 的 hdlist 檔案"
+
+#: ../urpm/media.pm:1532
+#, c-format
+msgid "examining pubkey file of \"%s\"..."
+msgstr "檢驗 \"%s\" 的公鑰..."
+
+#: ../urpm/media.pm:1544
+#, c-format
+msgid "...imported key %s from pubkey file of \"%s\""
+msgstr "...由 \"%2$s\" 的公鑰檔案匯入鑰匙 %1$s"
+
+#: ../urpm/media.pm:1547
+#, c-format
+msgid "unable to import pubkey file of \"%s\""
+msgstr "無法匯入 \"%s\" 的公鑰"
+
+#: ../urpm/media.pm:1563
+#, c-format
+msgid "writing list file for medium \"%s\""
+msgstr "正在寫入媒體 \"%s\" 的列表檔"
+
+#: ../urpm/media.pm:1621 ../urpm/media.pm:1651
+#, fuzzy, c-format
+msgid "updated medium \"%s\""
+msgstr "加入的媒體 %s"
+
+#: ../urpm/media.pm:1638
+#, c-format
+msgid "unable to parse hdlist file of \"%s\""
+msgstr "無法解析 \"%s\" 的 hdlist 檔案"
+
+#: ../urpm/media.pm:1644
+#, c-format
+msgid "problem reading synthesis file of medium \"%s\""
+msgstr "讀取 \"%s\" 媒體的 synthesis 檔案時發生問題"
+
+#: ../urpm/media.pm:1709
+#, c-format
+msgid "reading headers from medium \"%s\""
+msgstr "正在讀取媒體 \"%s\" 的標頭"
+
+#: ../urpm/msg.pm:61 ../urpmi:489 ../urpmi:508 ../urpmi:597
 #, c-format
 msgid "Nn"
 msgstr "Nn否"
 
-#: ../urpm/msg.pm:53 ../urpme:36 ../urpmi:490 ../urpmi:509 ../urpmi:549
+#: ../urpm/msg.pm:62 ../urpme:36 ../urpmi:490 ../urpmi:509 ../urpmi:549
 #: ../urpmi:598 ../urpmi:675 ../urpmi:762 ../urpmi.addmedia:134
 #, c-format
 msgid "Yy"
 msgstr "Yy是"
 
-#: ../urpm/msg.pm:104
+#: ../urpm/msg.pm:113
 #, c-format
 msgid "Sorry, bad choice, try again\n"
 msgstr "抱歉，選擇錯誤，請再試一次\n"
+
+#: ../urpm/parallel.pm:14
+#, c-format
+msgid "unable to parse \"%s\" in file [%s]"
+msgstr "無法解析檔案 [%2$s] 內的 \"%1$s\""
+
+#: ../urpm/parallel.pm:23
+#, c-format
+msgid "examining parallel handler in file [%s]"
+msgstr "檢驗 [%s] 檔案內的同步管理處理器"
+
+#: ../urpm/parallel.pm:34
+#, c-format
+msgid "found parallel handler for nodes: %s"
+msgstr "找到屬於節點 %s 的同步管理處理器"
+
+#: ../urpm/parallel.pm:38
+#, c-format
+msgid "unable to use parallel option \"%s\""
+msgstr "無法使用同步管理選項 \"%s\""
+
+#: ../urpm/removable.pm:32
+#, c-format
+msgid "mounting %s"
+msgstr "正在掛載 %s"
+
+#: ../urpm/removable.pm:56
+#, c-format
+msgid "unmounting %s"
+msgstr "正在卸載 %s"
+
+#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
+#, c-format
+msgid "medium \"%s\" is not selected"
+msgstr "媒體 \"%s\" 沒有被選取"
+
+#: ../urpm/removable.pm:143
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "無法由媒體 \"%2$s\" 讀取 [%1$s] rpm 檔"
+
+#: ../urpm/removable.pm:151
+#, c-format
+msgid "inconsistent medium \"%s\" marked removable but not really"
+msgstr "自相矛盾的媒體 \"%s\" 標示為可移除但是事實上卻不是這麼一回事"
+
+#: ../urpm/removable.pm:163
+#, c-format
+msgid "unable to access medium \"%s\""
+msgstr "無法存取媒體 \"%s\" "
+
+#: ../urpm/select.pm:115
+#, c-format
+msgid "No package named %s"
+msgstr "沒有套件命名為 %s"
+
+#: ../urpm/select.pm:117 ../urpme:112
+#, c-format
+msgid "The following packages contain %s: %s"
+msgstr "以下套件包含 %s：%s"
+
+#: ../urpm/select.pm:398 ../urpm/select.pm:438
+#, c-format
+msgid "due to missing %s"
+msgstr "由於遺失了 %s"
+
+#: ../urpm/select.pm:399 ../urpm/select.pm:436
+#, c-format
+msgid "due to unsatisfied %s"
+msgstr "由於未滿足 %s"
+
+#: ../urpm/select.pm:405
+#, c-format
+msgid "trying to promote %s"
+msgstr "正在試著促進 %s"
+
+#: ../urpm/select.pm:406
+#, c-format
+msgid "in order to keep %s"
+msgstr "為了要保留 %s"
+
+#: ../urpm/select.pm:432
+#, c-format
+msgid "in order to install %s"
+msgstr "為了要安裝 %s"
+
+#: ../urpm/select.pm:442
+#, c-format
+msgid "due to conflicts with %s"
+msgstr "由於與 %s 發生衝突"
+
+#: ../urpm/select.pm:444
+#, c-format
+msgid "unrequested"
+msgstr "未被要求"
+
+#: ../urpm/signature.pm:26
+#, c-format
+msgid "Invalid signature (%s)"
+msgstr "無效的簽名 (%s)"
+
+#: ../urpm/signature.pm:57
+#, c-format
+msgid "Invalid Key ID (%s)"
+msgstr "無效的公鑰 ID (%s)"
+
+#: ../urpm/signature.pm:59
+#, c-format
+msgid "Missing signature (%s)"
+msgstr "遺失簽名 (%s)"
 
 #: ../urpme:39
 #, c-format
@@ -455,7 +1250,7 @@ msgstr ""
 "用法：\n"
 
 #: ../urpme:44 ../urpmf:35 ../urpmi:84 ../urpmi.addmedia:45
-#: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:47
+#: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:48
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - 顯示此說明訊息。\n"
@@ -470,13 +1265,13 @@ msgstr "  --auto         - 自動選擇套件。\n"
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - 確認刪除是否能夠正確進行。\n"
 
-#: ../urpme:47 ../urpmi:109 ../urpmq:66
+#: ../urpme:47 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
 msgstr "  --force        - 即使某些套件不存在仍然強制執行。\n"
 
-#: ../urpme:48 ../urpmi:114 ../urpmq:68
+#: ../urpme:48 ../urpmi:114 ../urpmq:69
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - 在同步管理的機器上分散式的執行 urpmi。\n"
@@ -492,7 +1287,7 @@ msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - 使用另一個根目錄移除 rpm 套件。\n"
 
 #: ../urpme:51 ../urpmf:40 ../urpmi:116 ../urpmi.addmedia:60
-#: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:70
+#: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:71
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - 使用另一個根目錄進行 RPM 套件的安裝。\n"
@@ -511,17 +1306,17 @@ msgstr ""
 "  --use-distrib  - 立即由一個散佈套件樹設定 urpme，在搭配 --root 選項來安\n"
 "                   裝/移除一個 chroot 時很方便。\n"
 
-#: ../urpme:55 ../urpmi:119 ../urpmq:73
+#: ../urpme:55 ../urpmi:119 ../urpmq:74
 #, fuzzy, c-format
 msgid "    --probe-synthesis - use synthesis file.\n"
 msgstr "  --probe-synthesis - 嘗試尋找並使用 synthesis 檔案。\n"
 
-#: ../urpme:56 ../urpmi:120 ../urpmq:74
+#: ../urpme:56 ../urpmi:120 ../urpmq:75
 #, fuzzy, c-format
 msgid "    --probe-hdlist - use hdlist file.\n"
 msgstr "  --probe-hdlist - 嘗試尋找並使用 hdlist 檔案。\n"
 
-#: ../urpme:57 ../urpmi:156 ../urpmq:85
+#: ../urpme:57 ../urpmi:156 ../urpmq:86
 #, fuzzy, c-format
 msgid "  --verbose, -v  - verbose mode.\n"
 msgstr "  --verbose      - 完整訊息模式。\n"
@@ -545,11 +1340,6 @@ msgstr "未知的套件"
 #, c-format
 msgid "unknown package"
 msgstr "未知的套件"
-
-#: ../urpme:112
-#, c-format
-msgid "The following packages contain %s: %s"
-msgstr "以下套件包含 %s：%s"
 
 #: ../urpme:118 ../urpmi:526
 #, c-format
@@ -608,12 +1398,12 @@ msgstr ""
 msgid "  --version      - print this tool's version number.\n"
 msgstr "  --version      - 印出這個工具的版本編號。\n"
 
-#: ../urpmf:37 ../urpmi:137 ../urpmq:82
+#: ../urpmf:37 ../urpmi:137 ../urpmq:83
 #, c-format
 msgid "  --env          - use specific environment (typically a bug report).\n"
 msgstr "  --env          - 使用特定環境 (一般用於臭蟲回報)。\n"
 
-#: ../urpmf:38 ../urpmi:86 ../urpmq:51
+#: ../urpmf:38 ../urpmi:86 ../urpmq:52
 #, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
 msgstr "  --excludemedia - 不使用給定的媒體，不同媒體間請以逗號分隔。\n"
@@ -624,18 +1414,18 @@ msgid ""
 "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr "  --literal, -l  - 不比對樣版，把參數當作一般字串。\n"
 
-#: ../urpmf:41 ../urpmi:85 ../urpmq:49
+#: ../urpmf:41 ../urpmi:85 ../urpmq:50
 #, c-format
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - 只使用給定的媒體，不同媒體間請以逗號分隔。\n"
 
-#: ../urpmf:42 ../urpmi:89 ../urpmq:52
+#: ../urpmf:42 ../urpmi:89 ../urpmq:53
 #, c-format
 msgid ""
 "  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr "  --sortmedia    - 依據子字串排序媒體，以逗號分開。\n"
 
-#: ../urpmf:43 ../urpmi:90 ../urpmq:53
+#: ../urpmf:43 ../urpmi:90 ../urpmq:54
 #, c-format
 msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
 msgstr "  --synthesis    - 使用指定的 synthesis 檔而非 urpmi 資料庫。\n"
@@ -645,7 +1435,7 @@ msgstr "  --synthesis    - 使用指定的 synthesis 檔而非 urpmi 資料庫�
 msgid "  --uniq         - do not print identical lines twice.\n"
 msgstr "  --uniq         - 不顯示相同的訊息。\n"
 
-#: ../urpmf:45 ../urpmi:87 ../urpmq:48
+#: ../urpmf:45 ../urpmi:87 ../urpmq:49
 #, c-format
 msgid "  --update       - use only update media.\n"
 msgstr "  --update       - 只使用更新媒體。\n"
@@ -832,7 +1622,7 @@ msgstr "  --vendor       - 提供者\n"
 msgid "  -m             - the media in which the package was found\n"
 msgstr "  -m             - 這個套件被找到的媒介\n"
 
-#: ../urpmf:82 ../urpmq:89
+#: ../urpmf:82 ../urpmq:90
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
 msgstr "  -f             - 顯示版本、發行編號與平台。\n"
@@ -842,7 +1632,7 @@ msgstr "  -f             - 顯示版本、發行編號與平台。\n"
 msgid "Incorrect format: you may use only one multi-valued tag"
 msgstr "格式錯誤：您只能使用一個多值標籤"
 
-#: ../urpmf:186 ../urpmi:254 ../urpmq:134
+#: ../urpmf:186 ../urpmi:254 ../urpmq:135
 #, c-format
 msgid "using specific environment on %s\n"
 msgstr "正在 %s 上使用特定的環境\n"
@@ -889,7 +1679,7 @@ msgid ""
 "questions.\n"
 msgstr "  --auto         - 非互動式模式，對問題使用預設的回答。\n"
 
-#: ../urpmi:92 ../urpmq:54
+#: ../urpmi:92 ../urpmq:55
 #, c-format
 msgid ""
 "  --auto-select  - automatically select packages to upgrade the system.\n"
@@ -922,7 +1712,7 @@ msgstr "  --no-uninstall - 絕不要求移除套件，直接中斷安裝。\n"
 msgid "  --no-install   - don't install packages (only download)\n"
 msgstr "  --no-install   - 不安裝套件 (只下載)。\n"
 
-#: ../urpmi:98 ../urpmq:56
+#: ../urpmi:98 ../urpmq:57
 #, c-format
 msgid ""
 "  --keep         - keep existing packages if possible, reject requested\n"
@@ -988,7 +1778,7 @@ msgstr ""
 "  --allow-force  - 允許要求使用者安裝套件而不檢查相依性與完整\n"
 "                   性。\n"
 
-#: ../urpmi:115 ../urpmq:69
+#: ../urpmi:115 ../urpmq:70
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - 使用另一個根目錄進行 RPM 套件的安裝。\n"
@@ -1002,17 +1792,17 @@ msgstr ""
 "  --use-distrib  - 立即由一個散佈套件樹設定 urpmi，在搭配 --root 選項來安\n"
 "                   裝/移除一個 chroot 時很方便。\n"
 
-#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:75
+#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:76
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - 使用 wget 擷取遠端檔案。\n"
 
-#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:76
+#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:77
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - 使用 curl 擷取遠端檔案。\n"
 
-#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:77
+#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:78
 #, fuzzy, c-format
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --curl         - 使用 curl 擷取遠端檔案。\n"
@@ -1051,7 +1841,7 @@ msgstr ""
 "  --resume       - 接著傳送下載到一半的檔案\n"
 "                   (--no-resume 選項停用它，預設值為停用)。\n"
 
-#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:78
+#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:79
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -1060,7 +1850,7 @@ msgstr ""
 "  --proxy        - 使用指定的 HTTP 代理伺服器，通訊埠假設為預設值 1080 \n"
 "                   (格式為 <proxyhost[:port]>)。\n"
 
-#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:80
+#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:81
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -1140,7 +1930,7 @@ msgstr "  --nolock       - 不鎖定 RPM 資料庫。\n"
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
 msgstr "  --strict-arch  - 只升級相同平台的套件。\n"
 
-#: ../urpmi:152 ../urpmq:86
+#: ../urpmi:152 ../urpmq:87
 #, c-format
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - 選擇命令列中所有符合的項目。\n"
@@ -1193,11 +1983,6 @@ msgstr "目錄 [%s] 已經存在，請指定另一個目錄給臭蟲回報或刪
 #, c-format
 msgid "Unable to create directory [%s] for bug report"
 msgstr "無法建立 [%s] 目錄給臭蟲回報使用"
-
-#: ../urpmi:247
-#, c-format
-msgid "Copying failed"
-msgstr "複製失敗"
 
 #: ../urpmi:253
 #, c-format
@@ -1862,7 +2647,7 @@ msgstr "略過媒體 %s"
 msgid "enabling media %s"
 msgstr "啟用媒體 %s"
 
-#: ../urpmq:42
+#: ../urpmq:43
 #, c-format
 msgid ""
 "urpmq version %s\n"
@@ -1878,66 +2663,66 @@ msgstr ""
 "\n"
 "用法：\n"
 
-#: ../urpmq:50
+#: ../urpmq:51
 #, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested (or updated) "
 "packages.\n"
 msgstr "  --searchmedia  - 只使用指定的媒體來搜尋或升級套件。\n"
 
-#: ../urpmq:55
+#: ../urpmq:56
 #, c-format
 msgid "  --fuzzy        - impose fuzzy search (same as -y).\n"
 msgstr "  --fuzzy        - 加上模糊搜尋 (與 -y 相同)。\n"
 
-#: ../urpmq:58
+#: ../urpmq:59
 #, c-format
 msgid "  --list         - list available packages.\n"
 msgstr "  --list         - 列出可用的的套件。\n"
 
-#: ../urpmq:59
+#: ../urpmq:60
 #, c-format
 msgid "  --list-media   - list available media.\n"
 msgstr "  --list-media   - 列出可用的媒體。\n"
 
-#: ../urpmq:60
+#: ../urpmq:61
 #, c-format
 msgid "  --list-url     - list available media and their url.\n"
 msgstr "  --list-url     - 列出可用的媒體與其 URL。\n"
 
-#: ../urpmq:61
+#: ../urpmq:62
 #, c-format
 msgid "  --list-nodes   - list available nodes when using --parallel.\n"
 msgstr "  --list-nodes   - 當使用 --parallel 選項時列出可用的節點。\n"
 
-#: ../urpmq:62
+#: ../urpmq:63
 #, c-format
 msgid "  --list-aliases - list available parallel aliases.\n"
 msgstr "  --list-aliases - 列出可用的同步管理別名。\n"
 
-#: ../urpmq:63
+#: ../urpmq:64
 #, c-format
 msgid ""
 "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr "  --dump-config  - 以 urpmi.addmedia 的參數形式的匯出設定值。\n"
 
-#: ../urpmq:64
+#: ../urpmq:65
 #, c-format
 msgid "  --src          - next package is a source package (same as -s).\n"
 msgstr "  --src          - 下個套件是原始碼套件 (與 -s 相同)。\n"
 
-#: ../urpmq:65
+#: ../urpmq:66
 #, c-format
 msgid ""
 "  --sources      - give all source packages before downloading (root only).\n"
 msgstr "  --sources      - 下載前先給予所有的原始碼套件 (僅供管理者使用).\n"
 
-#: ../urpmq:67
+#: ../urpmq:68
 #, c-format
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
 msgstr "  --ignorearch   - 允許查詢硬體架構不相符的 RPM 檔。\n"
 
-#: ../urpmq:71
+#: ../urpmq:72
 #, c-format
 msgid ""
 "  --use-distrib  - configure urpmi on the fly from a distrib tree.\n"
@@ -1946,114 +2731,127 @@ msgstr ""
 "  --use-distrib  - 立即由一個散佈套件樹設定 urpmi。可用來查詢散佈\n"
 "                   套件。\n"
 
-#: ../urpmq:83
+#: ../urpmq:84
 #, c-format
 msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - 顯示更新紀錄。\n"
 
-#: ../urpmq:84
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - 顯示摘要。\n"
 
-#: ../urpmq:87
+#: ../urpmq:88
 #, c-format
 msgid "  -c             - complete output with package to be removed.\n"
 msgstr "  -c             - 完整輸出要移除的套件。\n"
 
-#: ../urpmq:88
+#: ../urpmq:89
 #, c-format
 msgid "  -d             - extend query to package dependencies.\n"
 msgstr "  -d             - 延伸套件相依性的查詢。\n"
 
-#: ../urpmq:90
+#: ../urpmq:91
 #, c-format
 msgid "  -g             - print groups with name also.\n"
 msgstr "  -g             - 顯示群組名稱。\n"
 
-#: ../urpmq:91
+#: ../urpmq:92
 #, c-format
 msgid "  -i             - print useful information in human readable form.\n"
 msgstr "  -i             - 以人類可讀的形式顯示有用資訊。\n"
 
-#: ../urpmq:92
+#: ../urpmq:93
 #, c-format
 msgid "  -l             - list files in package.\n"
 msgstr "  -l             - 列出套件內包含的檔案。\n"
 
-#: ../urpmq:93
+#: ../urpmq:94
 #, c-format
 msgid ""
 "  -P             - do not search in provides to find package (default).\n"
 msgstr "  -P             - 不於 provides 中搜尋套件 (預設值)。\n"
 
-#: ../urpmq:94
+#: ../urpmq:95
 #, c-format
 msgid "  -p             - search in provides to find package.\n"
 msgstr "  -p             - 於 provides 中搜尋套件。\n"
 
-#: ../urpmq:95
+#: ../urpmq:96
 #, c-format
 msgid "  -r             - print version and release with name also.\n"
 msgstr "  -r             - 顯示名稱時一併顯示版本號與發行編號。\n"
 
-#: ../urpmq:96
+#: ../urpmq:97
 #, c-format
 msgid "  -R             - reverse search to what requires package.\n"
 msgstr "  -R             - 逆向搜尋何者需要此套件。\n"
 
-#: ../urpmq:97
+#: ../urpmq:98
 #, c-format
 msgid ""
 "  -RR            - extended reverse search (includes virtual packages).\n"
 msgstr "  -RR            - 進階逆向搜尋 (包含虛擬套件)。\n"
 
-#: ../urpmq:98
+#: ../urpmq:99
 #, c-format
 msgid "  -s             - next package is a source package (same as --src).\n"
 msgstr "  -s             - 下個套件是原始碼套件 (與 --src 相同)。\n"
 
-#: ../urpmq:99
+#: ../urpmq:100
 #, c-format
 msgid ""
 "  -u             - remove package if a more recent version is already "
 "installed.\n"
 msgstr "  -u             - 若已經安裝較新的版本則移除套件。\n"
 
-#: ../urpmq:100
+#: ../urpmq:101
 #, c-format
 msgid "  -y             - impose fuzzy search (same as --fuzzy).\n"
 msgstr "  -y             - 加上模糊搜尋 (與 --fuzzy 相同)。\n"
 
-#: ../urpmq:101
+#: ../urpmq:102
 #, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
 msgstr "  -Y             - 類似 -y 參數，但強制比對大小寫。\n"
 
-#: ../urpmq:102
+#: ../urpmq:103
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
 msgstr "  查詢命令列給予的套件名稱或 RPM 檔案。\n"
 
-#: ../urpmq:177
+#: ../urpmq:178
 #, c-format
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes 參數只能夠配合 --parallel 參數一起使用"
 
-#: ../urpmq:333
+#: ../urpmq:350
 #, c-format
-msgid "skipping media %s: no hdlist"
-msgstr "略過媒體 %s：沒有 hdlist 檔"
+msgid "no hdlist for medium \"%s\", only partial result for package %s"
+msgid_plural "no hdlist for medium \"%s\", only partial result for packages %s"
+msgstr[0] ""
+msgstr[1] ""
 
-#: ../urpmq:406
+#: ../urpmq:353
+#, c-format
+msgid "no hdlist for medium \"%s\", unable to return any result for package %s"
+msgid_plural ""
+"no hdlist for medium \"%s\", unable to return any result for packages %s"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../urpmq:405
 #, c-format
 msgid "No filelist found\n"
 msgstr "沒有找到檔案列表\n"
 
-#: ../urpmq:418
+#: ../urpmq:417
 #, c-format
 msgid "No changelog found\n"
 msgstr "沒有找到更新紀錄\n"
+
+#~ msgid "skipping media %s: no hdlist"
+#~ msgstr "略過媒體 %s：沒有 hdlist 檔"
 
 #~ msgid "mput failed, maybe a node is unreacheable"
 #~ msgstr "mput 失敗，可能無法連接至該節點"
@@ -2106,9 +2904,6 @@ msgstr "沒有找到更新紀錄\n"
 #~ msgid "Performing install on %s..."
 #~ msgstr "正在 %s 上進行安装..."
 
-#~ msgid "Installing %s on %s..."
-#~ msgstr "正在 %2$s 上安装 %1$s..."
-
 #~ msgid "Preparing install on %s..."
 #~ msgstr "正在準備安裝到 %s 上..."
 
@@ -2132,46 +2927,8 @@ msgstr "沒有找到更新紀錄\n"
 #~ "\n"
 #~ "未知的選項 '%s'\n"
 
-#~ msgid "unknown protocol defined for %s"
-#~ msgstr "%s 中定義了未知的通訊協定"
-
-#~ msgid "%s is not available, falling back on %s"
-#~ msgstr "%s 無法使用，回到 %s"
-
-#~ msgid "no webfetch found, supported webfetch are: %s\n"
-#~ msgstr "沒有找到 webfetch，支援的 webfetch 有：%s\n"
-
-#~ msgid "unable to handle protocol: %s"
-#~ msgstr "無法處理通訊協定：%s"
-
-#~ msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-#~ msgstr "媒體 \"%s\" 正在嘗試使用一個已經被使用的 hdlist，忽略這個媒體"
-
-#~ msgid "medium \"%s\" trying to use an already used list, medium ignored"
-#~ msgstr "媒體 \"%s\" 正在嘗試使用一個已經被使用的列表，忽略這個媒體"
-
-#~ msgid "unable to access hdlist file of \"%s\", medium ignored"
-#~ msgstr "無法存取 \"%s\" 的 hdlist 檔案，忽略這個媒體"
-
-#~ msgid "unable to access list file of \"%s\", medium ignored"
-#~ msgstr "無法存取 \"%s\" 的列表，忽略這個媒體"
-
-#~ msgid "trying to override existing medium \"%s\", skipping"
-#~ msgstr "正在嘗試跳過已存在媒體  \"%s\"，正在跳過"
-
-#~ msgid ""
-#~ "virtual medium \"%s\" should not have defined hdlist or list file, medium "
-#~ "ignored"
-#~ msgstr "虛擬媒體 \"%s\" 不應該指定 hdlist 或列表檔案，忽略這個媒體"
-
-#~ msgid "virtual medium \"%s\" should have a clear url, medium ignored"
-#~ msgstr "虛擬媒體 \"%s\" 應該有一個清楚的 url，忽略這個媒體"
-
 #~ msgid "unable to find hdlist file for \"%s\", medium ignored"
 #~ msgstr "無法找到 \"%s\" 的 hdlist 檔案，忽略這個媒體"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "無法找到 \"%s\" 的列表檔案，忽略這個媒體"
 
 #~ msgid "inconsistent list file for \"%s\", medium ignored"
 #~ msgstr "\"%s\" 的列表檔案自相矛盾，忽略這個媒體"
@@ -2179,128 +2936,11 @@ msgstr "沒有找到更新紀錄\n"
 #~ msgid "unable to inspect list file for \"%s\", medium ignored"
 #~ msgstr "無法檢查 \"%s\" 的清單檔案，忽略這個媒體"
 
-#~ msgid "too many mount points for removable medium \"%s\""
-#~ msgstr "可移除式媒體 \"%s\" 的掛載點過多"
-
-#~ msgid "taking removable device as \"%s\""
-#~ msgstr "將可移除式裝置當成 \"%s\""
-
-#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-#~ msgstr "媒體 \"%s\" 是一個光碟映像檔，將立即掛載起來"
-
-#~ msgid "using different removable device [%s] for \"%s\""
-#~ msgstr "使用不同的可移除式裝置 [%s] 於 \"%s\" "
-
-#~ msgid "unable to retrieve pathname for removable medium \"%s\""
-#~ msgstr "無法擷取可移除式媒體 \"%s\" 的路徑名稱"
-
-#~ msgid "unable to write config file [%s]"
-#~ msgstr "無法寫入設定檔 [%s]"
-
-#~ msgid "wrote config file [%s]"
-#~ msgstr "寫入設定檔 [%s]"
-
-#~ msgid "Can't use parallel mode with use-distrib mode"
-#~ msgstr "無法於 use-distrib 模式下使用同步管理模式"
-
-#~ msgid "unable to parse \"%s\" in file [%s]"
-#~ msgstr "無法解析檔案 [%2$s] 內的 \"%1$s\""
-
-#~ msgid "examining parallel handler in file [%s]"
-#~ msgstr "檢驗 [%s] 檔案內的同步管理處理器"
-
-#~ msgid "found parallel handler for nodes: %s"
-#~ msgstr "找到屬於節點 %s 的同步管理處理器"
-
-#~ msgid "using associated media for parallel mode: %s"
-#~ msgstr "於同步管理模式使用相關連的媒體：%s"
-
-#~ msgid "unable to use parallel option \"%s\""
-#~ msgstr "無法使用同步管理選項 \"%s\""
-
 #~ msgid "there doesn't seem to be devices in the chroot in \"%s\""
 #~ msgstr "似乎沒有裝置在位於 \"%s\" 的 chroot 內"
 
-#~ msgid ""
-#~ "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
-#~ "update or --parallel"
-#~ msgstr ""
-#~ "--synthesis 不能夠與 --media、--excludemedia、--sortmedia、--update 以及 "
-#~ "--parallel 一起使用"
-
-#~ msgid "examining synthesis file [%s]"
-#~ msgstr "檢驗 synthesis 檔案 [%s]"
-
-#~ msgid "examining hdlist file [%s]"
-#~ msgstr "檢驗 hdlist 檔案 [%s]"
-
 #~ msgid "virtual medium \"%s\" is not local, medium ignored"
 #~ msgstr "虛擬媒體 \"%s\" 不在本地端，忽略這個媒體"
-
-#~ msgid "Search start: %s end: %s"
-#~ msgstr "搜尋開始於：%s 結束於：%s"
-
-#~ msgid "problem reading hdlist or synthesis file of medium \"%s\""
-#~ msgstr "讀取 \"%s\" 媒體的 hdlist 或 synthesis 檔案時發生問題"
-
-#~ msgid "performing second pass to compute dependencies\n"
-#~ msgstr "正在進行第二個步驟，相依性的計算\n"
-
-#~ msgid "skipping package %s"
-#~ msgstr "正在略過套件 %s"
-
-#~ msgid "would install instead of upgrade package %s"
-#~ msgstr "將會安裝而非升級套件 %s"
-
-#~ msgid "medium \"%s\" already exists"
-#~ msgstr "媒體 \"%s\" 已經存在"
-
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "虛擬媒體必須在本地端"
-
-#~ msgid "added medium %s"
-#~ msgstr "加入的媒體 %s"
-
-#~ msgid "unable to access first installation medium"
-#~ msgstr "無法存取第一個安裝媒體"
-
-#~ msgid "this url seems to not contain any distrib"
-#~ msgstr "這個 url 看起來並沒有包含任何散佈套件"
-
-#~ msgid "retrieving media.cfg file..."
-#~ msgstr "正在擷取 media.cfg 檔案..."
-
-#~ msgid "unable to parse media.cfg"
-#~ msgstr "無法解析 media.cfg"
-
-#~ msgid "unable to access first installation medium (no hdlists file found)"
-#~ msgstr "無法存取第一個安裝媒體 (找不到 hdlists 檔案)"
-
-#~ msgid "trying to select nonexistent medium \"%s\""
-#~ msgstr "正在嘗試選擇不存在的媒體 \"%s\""
-
-#~ msgid "selecting multiple media: %s"
-#~ msgstr "正在選擇多個媒體：\"%s\""
-
-#~ msgid "removing medium \"%s\""
-#~ msgstr "移除媒體 \"%s\""
-
-#~ msgid "reconfiguring urpmi for media \"%s\""
-#~ msgstr "正在重新設定媒體 \"%s\" 的 urpmi 設定"
-
-#~ msgid "...reconfiguration failed"
-#~ msgstr "重新設定失敗"
-
-#~ msgid "reconfiguration done"
-#~ msgstr "重新設定完成"
-
-#~ msgid ""
-#~ "unable to access medium \"%s\",\n"
-#~ "this could happen if you mounted manually the directory when creating the "
-#~ "medium."
-#~ msgstr ""
-#~ "無法存取媒體 \"%s\"，\n"
-#~ "這可能是因為您建立媒體時是手動將這個目錄掛載到系統裡的。"
 
 #~ msgid ""
 #~ "virtual medium \"%s\" should have valid source hdlist or synthesis, "
@@ -2308,97 +2948,20 @@ msgstr "沒有找到更新紀錄\n"
 #~ msgstr ""
 #~ "虛擬媒體 \"%s\" 應該有個有效的來源 hdlist 或 synthesis 檔案，忽略這個媒體"
 
-#~ msgid "copying description file of \"%s\"..."
-#~ msgstr "正在複製 \"%s\" 的敘述檔案..."
-
-#~ msgid "...copying done"
-#~ msgstr "...複製完成"
-
-#~ msgid "...copying failed"
-#~ msgstr "...複製失敗"
-
 #~ msgid "copying source hdlist (or synthesis) of \"%s\"..."
 #~ msgstr "正在複製 \"%s\" 的來源 hdlist (或 synthesis)..."
-
-#~ msgid "copy of [%s] failed (file is suspiciously small)"
-#~ msgstr "複製 [%s] 失敗 (檔案小得可疑)"
-
-#~ msgid "computing md5sum of copied source hdlist (or synthesis)"
-#~ msgstr "正在計算複製的來源 hdlist (或 synthesis) 的 md5sum"
-
-#~ msgid "copy of [%s] failed (md5sum mismatch)"
-#~ msgstr "複製 [%s] 失敗 (md5sum 不合)"
-
-#~ msgid "problem reading synthesis file of medium \"%s\""
-#~ msgstr "讀取 \"%s\" 媒體的 synthesis 檔案時發生問題"
-
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "由 [%s] 讀取 rpm 檔案"
-
-#~ msgid "no rpms read"
-#~ msgstr "沒有讀取到任何的 rpm"
-
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "無法由 [%s] 讀取 rpm 套件：%s"
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "在 [%s] 內找不到 rpm 檔案"
-
-#~ msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
-#~ msgstr "正在擷取 \"%s\" 的來源 hdlist (或 synthesis)..."
-
-#~ msgid "found probed hdlist (or synthesis) as %s"
-#~ msgstr "發現尋找到的 hdlist (或 synthesis) 為 %s"
-
-#~ msgid "computing md5sum of retrieved source hdlist (or synthesis)"
-#~ msgstr "正在計算來源 hdlist (或 synthesis) 的 md5sum"
-
-#~ msgid "...retrieving failed: md5sum mismatch"
-#~ msgstr "...擷取失敗：md5sum 不合"
 
 #~ msgid "retrieval of source hdlist (or synthesis) failed"
 #~ msgstr "擷取來源 hdlist (或 synthesis) 失敗"
 
-#~ msgid "no hdlist file found for medium \"%s\""
-#~ msgstr "沒有找到媒體 \"%s\" 的 hdlist 檔案"
-
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "檔案 [%s] 已經在相同的媒體 \"%s\" 中使用了"
-
-#~ msgid "unable to parse hdlist file of \"%s\""
-#~ msgstr "無法解析 \"%s\" 的 hdlist 檔案"
 
 #~ msgid "unable to write list file of \"%s\""
 #~ msgstr "無法寫入 \"%s\" 的列表檔"
 
-#~ msgid "writing list file for medium \"%s\""
-#~ msgstr "正在寫入媒體 \"%s\" 的列表檔"
-
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "沒有寫入資料到 \"%s\" 的列表檔"
-
-#~ msgid "examining pubkey file of \"%s\"..."
-#~ msgstr "檢驗 \"%s\" 的公鑰..."
-
-#~ msgid "...imported key %s from pubkey file of \"%s\""
-#~ msgstr "...由 \"%2$s\" 的公鑰檔案匯入鑰匙 %1$s"
-
-#~ msgid "unable to import pubkey file of \"%s\""
-#~ msgstr "無法匯入 \"%s\" 的公鑰"
-
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "正在讀取媒體 \"%s\" 的標頭"
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "正在建立 hdlist [%s]"
-
-#~ msgid ""
-#~ "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
-#~ "corrupted."
-#~ msgstr "無法為媒介 \"%s\" 建立 synthesis 檔。您的 hdlist 檔可能並不標準。"
-
-#~ msgid "built hdlist synthesis file for medium \"%s\""
-#~ msgstr "為媒體 \"%s\" 建立 hdlist synthesis 檔"
 
 #~ msgid "found %d headers in cache"
 #~ msgstr "在快取中找到 %d 個標頭"
@@ -2406,134 +2969,8 @@ msgstr "沒有找到更新紀錄\n"
 #~ msgid "removing %d obsolete headers in cache"
 #~ msgstr "正在移除 %d 個在快取內被廢棄的標頭"
 
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "生成名稱檔案時發生錯誤：相依性 %d 沒有找到"
-
-#~ msgid "Error generating names file: Can't write to file (%s)"
-#~ msgstr "生成名稱檔案時發生錯誤：無法寫入檔案 (%s)"
-
-#~ msgid "mounting %s"
-#~ msgstr "正在掛載 %s"
-
-#~ msgid "unmounting %s"
-#~ msgstr "正在卸載 %s"
-
-#~ msgid "No package named %s"
-#~ msgstr "沒有套件命名為 %s"
-
-#~ msgid "there are multiple packages with the same rpm filename \"%s\""
-#~ msgstr "有多個套件具有相同的 rpm 檔名 \"%s\""
-
-#~ msgid "unable to correctly parse [%s] on value \"%s\""
-#~ msgstr "在值 \"%2$s\" 上無法正確解析 [%1$s]"
-
-#~ msgid "(retry as root?)"
-#~ msgstr "(以 root 重試？)"
-
-#~ msgid ""
-#~ "medium \"%s\" uses an invalid list file:\n"
-#~ "  mirror is probably not up-to-date, trying to use alternate method"
-#~ msgstr ""
-#~ "媒體 \"%s\" 使用一個無效的列表檔案：\n"
-#~ "  映射站可能不在最新狀態，正在嘗試使用替代的方案"
-
-#~ msgid "medium \"%s\" does not define any location for rpm files"
-#~ msgstr "媒體 \"%s\" 沒有定義任何 rpm 檔案的位置"
-
-#~ msgid "package %s is not found."
-#~ msgstr "沒有找到套件 %s。"
-
-#~ msgid "urpmi database locked"
-#~ msgstr "urpmi 資料庫被鎖住了"
-
-#~ msgid "medium \"%s\" is not selected"
-#~ msgstr "媒體 \"%s\" 沒有被選取"
-
-#~ msgid "unable to read rpm file [%s] from medium \"%s\""
-#~ msgstr "無法由媒體 \"%2$s\" 讀取 [%1$s] rpm 檔"
-
-#~ msgid "inconsistent medium \"%s\" marked removable but not really"
-#~ msgstr "自相矛盾的媒體 \"%s\" 標示為可移除但是事實上卻不是這麼一回事"
-
-#~ msgid "unable to access medium \"%s\""
-#~ msgstr "無法存取媒體 \"%s\" "
-
-#~ msgid "malformed URL: [%s]"
-#~ msgstr "畸形的 URL：[%s]"
-
-#~ msgid "retrieving rpm files from medium \"%s\"..."
-#~ msgstr "正在由媒體 \"%s\" 擷取 rpm 檔案..."
-
-#~ msgid "[repackaging]"
-#~ msgstr "[正在重新打包]"
-
 #~ msgid "using process %d for executing transaction"
 #~ msgstr "正在使用第 %d 號程序執行交辦的安裝程序"
-
-#~ msgid ""
-#~ "created transaction for installing on %s (remove=%d, install=%d, upgrade=%"
-#~ "d)"
-#~ msgstr "已建立在 %s 上的安裝程序 (移除 = %d，安裝 = %d，升級 = %d)"
-
-#~ msgid "unable to create transaction"
-#~ msgstr "無法建立安裝程序"
-
-#~ msgid "removing package %s"
-#~ msgstr "正在移除套件 %s"
-
-#~ msgid "unable to remove package %s"
-#~ msgstr "無法移除套件 %s"
-
-#~ msgid "unable to extract rpm from delta-rpm package %s"
-#~ msgstr "無法由 delta-rpm 套件包中取出套件 %s"
-
-#~ msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
-#~ msgstr "正在新增套件 %s (id = %d，eid = %d，更新 = %d，檔案 = %s)"
-
-#~ msgid "unable to install package %s"
-#~ msgstr "無法安裝套件 %s"
-
-#~ msgid "More information on package %s"
-#~ msgstr "更多關於套件 %s 的資訊"
-
-#~ msgid "due to missing %s"
-#~ msgstr "由於遺失了 %s"
-
-#~ msgid "due to unsatisfied %s"
-#~ msgstr "由於未滿足 %s"
-
-#~ msgid "trying to promote %s"
-#~ msgstr "正在試著促進 %s"
-
-#~ msgid "in order to keep %s"
-#~ msgstr "為了要保留 %s"
-
-#~ msgid "in order to install %s"
-#~ msgstr "為了要安裝 %s"
-
-#~ msgid "due to conflicts with %s"
-#~ msgstr "由於與 %s 發生衝突"
-
-#~ msgid "unrequested"
-#~ msgstr "未被要求"
-
-#~ msgid "Invalid signature (%s)"
-#~ msgstr "無效的簽名 (%s)"
-
-#~ msgid "Invalid Key ID (%s)"
-#~ msgstr "無效的公鑰 ID (%s)"
-
-#~ msgid "Missing signature (%s)"
-#~ msgstr "遺失簽名 (%s)"
-
-#~ msgid "examining MD5SUM file"
-#~ msgstr "正在檢驗 MD5SUM 檔案"
-
-#~ msgid "warning: md5sum for %s unavailable in MD5SUM file"
-#~ msgstr "警告：在 MD5SUM 檔案中找不到 %s 的 md5sum"
-
-#~ msgid "computing md5sum of existing source hdlist (or synthesis)"
-#~ msgstr "計算來源 hdlist (或 synthesis) 的 md5sum"
 
 #~ msgid "  --norebuild    - don't try to rebuild hdlist if not readable.\n"
 #~ msgstr ""
