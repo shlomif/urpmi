@@ -207,7 +207,7 @@ sub do_install_2 () {
     $urpm->{nb_install} = @to_install;
     @to_install > 1 && !$gurpmi::options{auto}
 	? ask_continue(P("To satisfy dependencies, the following package is going to be installed:",
-	    "To satisfy dependencies, the following %d packages are going to be installed:",
+	    "To satisfy dependencies, the following packages are going to be installed:",
 	    scalar(@to_install), 
 	) . join("\n", '', @to_install, ''), \&do_install_3)
 	: goto \&do_install_3;
