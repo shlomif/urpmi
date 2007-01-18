@@ -188,7 +188,7 @@ if (@ARGV && $auto_select) {
 }
 
 # Verify that arguments were given
-unless (@ARGV || $auto_select) {
+unless (@ARGV || $auto_select || $clean) {
     if ($options{bug}) {
 	print STDERR N("Error: To generate a bug report, specify the usual command-line arguments
 along with --bug.\n");
@@ -575,8 +575,8 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
 }
 $urpm->{nb_install} = @to_install;
 if ($env) {
-    my $msg = P("To satisfy dependencies, the following packages are going to be installed",
-      "To satisfy dependencies, the following package is going to be installed", $#to_install);
+    my $msg = P("To satisfy dependencies, the following package is going to be installed", 
+		"To satisfy dependencies, the following packages are going to be installed", $#to_install);
     my $msg2 = N("(%d packages, %d MB)", $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
     print "$msg:\n$p\n$msg2\n";
@@ -586,8 +586,8 @@ if (@root_only) {
     print N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
 } elsif (!$urpm->{options}{auto} && $ask_user && @to_install) {
-    my $msg = P("To satisfy dependencies, the following packages are going to be installed",
-      "To satisfy dependencies, the following package is going to be installed", $#to_install);
+    my $msg = P("To satisfy dependencies, the following package is going to be installed", 
+		"To satisfy dependencies, the following packages are going to be installed", $#to_install);
     if ($test) {
 	$msg = "$msg\n" . N("(test only, installation will not be actually done)");
     }
