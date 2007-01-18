@@ -202,15 +202,20 @@ sub do_install {
 
 sub do_install_2 () {
     my @to_install;
+    my $sum;
     foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
-	$pkg->arch ne 'src' and push @to_install, scalar $pkg->fullname;
+        if ($pkg->arch ne 'src') {
+            push @to_install, scalar $pkg->fullname;
+            $sum += $pkg->size;
+        }
     }
     $urpm->{nb_install} = @to_install;
     @to_install > 1 && !$gurpmi::options{auto}
 	? ask_continue(P("To satisfy dependencies, the following package is going to be installed:",
 	    "To satisfy dependencies, the following packages are going to be installed:",
 	    scalar(@to_install), 
-	) . join("\n", '', @to_install, ''), \&do_install_3)
+	) . join("\n", '', @to_install, '') . N("(%d packages, %d MB)", scalar(@to_install), toMb($sum)),
+                    , \&do_install_3)
 	: goto \&do_install_3;
 }
 
