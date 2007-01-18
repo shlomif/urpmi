@@ -12,6 +12,11 @@ BEGIN { #- set up a safe path and environment
 }
 
 use gurpmi;
+use urpm::install;
+use urpm::media;
+use urpm::signature;
+use urpm::get_pkgs;
+use urpm::select;
 use Gtk2;
 
 #- GUI globals
@@ -49,6 +54,7 @@ $> and fatal(N("Must be root"));
 #- Now, the graphical stuff.
 
 Gtk2->init;
+Gtk2->croak_execeptions;
 
 #- Create main window
 
@@ -67,24 +73,26 @@ my $urpm = configure_urpm();
 my $state = {};
 my %requested = $urpm->register_rpms(@all_rpms);
 if (@gurpmi::names) {
-    $urpm->search_packages(\%requested, [ @gurpmi::names ]);
+    urpm::select::search_packages($urpm, \%requested, [ @gurpmi::names ]);
 }
-$urpm->resolve_dependencies(
+urpm::select::resolve_dependencies($urpm,
     $state,
     \%requested,
     callback_choices => \&ask_choice,
     auto_select => $gurpmi::options{'auto-select'},
 );
-my @ask_unselect = $urpm->unselected_packages($state);
+my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
 @ask_unselect
 ? ask_continue(N(
 	"Some requested packages cannot be installed:\n%s\nContinue installation anyway?",
-	join "\n", $urpm->translate_why_unselected($state, sort @ask_unselect)
+	urpm::select::translate_why_unselected($urpm, $state, @ask_unselect)
     ), \&do_install)
 : do_install();
 
 $mainw->show_all;
 Gtk2->main;
+
+my ($rpm_lock, $urpmi_lock);
 
 #- Creates and configure an urpm object for this application to use.
 sub configure_urpm() {
@@ -102,14 +110,10 @@ sub configure_urpm() {
 	if ($nb_lines > 30) {
 	    $w  = Gtk2::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
 	    $w->vbox->add(my $f = Gtk2::Frame->new);
-	    my $sw = Gtk2::ScrolledWindow->new(undef, undef);
-	    $f->add($sw);
-	    $f->set_shadow_type('in');
-	    $sw->set_policy('automatic', 'automatic');
-	    my $text = Gtk2::TextView->new;
-	    $sw->add($text);
-	    $text->get_buffer->set_text($message);
+	    my $sw = create_scrolled_window(my $text = Gtk2::TextView->new);
 	    $sw->set_border_width(2);
+	    $f->add($sw);
+	    $text->get_buffer->set_text($message);
 	    $_->show foreach $f, $sw, $text;
 	    $w->set_size_request(400, 400);
 	} else {
@@ -118,9 +122,9 @@ sub configure_urpm() {
 	$w->run;
 	$w->destroy;
     };
-    $urpm->exlock_rpm_db;
-    $urpm->shlock_urpmi_db;
-    $urpm->configure(
+    $rpm_lock = urpm::lock::rpm_db($urpm, 'exclusive');
+    $urpmi_lock = urpm::lock::urpmi_db($urpm);
+    urpm::media::configure($urpm,
 	root	    => $gurpmi::options{root},
 	media	    => $gurpmi::options{media},
 	searchmedia => $gurpmi::options{searchmedia},
@@ -186,11 +190,11 @@ sub ask_continue_blocking {
 
 sub do_install {
     wait_label();
-    my @ask_remove = $urpm->removed_packages($state);
+    my @ask_remove = urpm::select::removed_packages($urpm, $state);
     @ask_remove
 	? ask_continue(N(
 	    "The following packages have to be removed for others to be upgraded:\n%s\nContinue installation anyway?",
-	    $urpm->translate_why_removed($state, @ask_remove)
+	    urpm::select::translate_why_removed($urpm, $state, @ask_remove)
 	), \&do_install_2)
 	: goto &do_install_2;
 }
@@ -202,7 +206,7 @@ sub do_install_2 () {
     }
     $urpm->{nb_install} = @to_install;
     @to_install > 1 && !$gurpmi::options{auto}
-	? ask_continue(N(
+	? ask_continue(P("To satisfy dependencies, the following package is going to be installed\n%d2s\n",
 	    "To satisfy dependencies, the following %d packages are going to be installed:\n%s\n",
 	    scalar(@to_install), join "\n", @to_install
 	), \&do_install_3)
@@ -211,7 +215,7 @@ sub do_install_2 () {
 
 sub do_install_3 () {
     wait_label(N("Package installation..."));
-    my ($local_sources, $list) = $urpm->get_source_packages($state->{selected});
+    my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
     $local_sources || $list or $urpm->{fatal}(3, N("unable to get source packages, aborting"));
     my %sources = %$local_sources;
     my %error_sources;
@@ -222,8 +226,7 @@ sub do_install_3 () {
     $progressbar->set_size_request(300, -1);
     $vbox->pack_start($progressbar, 0, 0, 0);
     change_mainw($vbox);
-    $urpm->copy_packages_of_removable_media($list, \%sources,
-	ask_for_medium => sub {
+    urpm::removable::copy_packages_of_removable_media($urpm, $list, \%sources, sub {
 	    my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok-cancel',
 		N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1])
 	    );
@@ -231,25 +234,21 @@ sub do_install_3 () {
 	    $w->destroy;
 	    exit 0 if $response eq 'cancel';
 	    1;
-	}
-    );
-    $urpm->create_transaction(
+	});
+    urpm::install::create_transaction($urpm,
 	$state,
 	split_level => $urpm->{options}{'split-level'},
 	split_length => $urpm->{options}{'split-length'},
     );
-    my ($nok, @errors);
+    my (@errors);
     my $progress_nb;
     foreach my $set (@{$state->{transaction} || []}) {
 	my (@transaction_list, %transaction_sources);
-	$urpm->prepare_transaction($set, $list, \%sources, \@transaction_list, \%transaction_sources);
-	$urpm->download_packages_of_distant_media(
+	urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
+	urpm::get_pkgs::download_packages_of_distant_media($urpm,
 	    \@transaction_list,
 	    \%transaction_sources,
 	    \%error_sources,
-	    limit_rate => $urpm->{options}{'limit-rate'},
-	    compress => $urpm->{options}{compress},
-	    resume => $urpm->{options}{resume},
 	    callback => sub {
 		my ($mode, $file, $percent) = @_;
 		if ($mode eq 'start') {
@@ -266,7 +265,7 @@ sub do_install_3 () {
 	);
 	my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources, $state) || {}};
 	if ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}}) {
-	    my @bad_signatures = $urpm->check_sources_signatures(\%transaction_sources_install, \%transaction_sources, translate => 1);
+	    my @bad_signatures = urpm::signature::check($urpm, \%transaction_sources_install, \%transaction_sources);
 	    if (@bad_signatures) {
 		ask_continue_blocking(N(
 		    "The following packages have bad signatures:\n%s\n\nDo you want to continue installation ?",
@@ -278,7 +277,6 @@ sub do_install_3 () {
 	if (my @missing = grep { m|^/| && ! -e $_ } values %transaction_sources_install, values %transaction_sources) {
 	    $urpm->{error}(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
 		    join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } @missing));
-	    ++$nok;
 	    next;
 	}
 	if (keys(%transaction_sources_install) || keys(%transaction_sources)) {
@@ -301,12 +299,10 @@ sub do_install_3 () {
 		}
 		sync();
 	    };
-	    my @l = $urpm->install(
+	    my @l = urpm::install::install($urpm,
 		$set->{remove} || [],
 		\%transaction_sources_install,
 		\%transaction_sources,
-		'fork' => 0, #- do not fork (even if multiple transaction) because of X11 crash
-		translate_message => 1,
 		oldpackage => $state->{oldpackage},
 		callback_inst => $callback_inst,
 		callback_trans => $callback_inst,
@@ -319,26 +315,21 @@ sub do_install_3 () {
 		noscripts => $urpm->{options}{noscripts},
 		post_clean_cache => $urpm->{options}{'post-clean'},
 	    );
-	    if (@l) {
-		$progress_label->set_label(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @l));
-		++$nok;
-		push @errors, @l;
-	    }
+	    push @errors, @l;
 	}
     }
     $vbox = Gtk2::VBox->new(0, 5);
     $progress_label = Gtk2::Label->new('-');
-    my $sw = Gtk2::ScrolledWindow->new(undef, undef);
-    $sw->add_with_viewport($progress_label);
-    $sw->set_shadow_type('in');
-    $sw->set_policy('automatic', 'automatic');
+    my $sw = create_scrolled_window($progress_label);
     $sw->set_size_request(500, 200);
     $vbox->pack_start($sw, 1, 1, 0);
     my $quit_button = Gtk2::Button->new(but(N("_Done")));
     $quit_button->signal_connect(clicked => \&quit);
     add_button_box($vbox, $quit_button);
     change_mainw($vbox);
-    if (values %error_sources) {
+    if (@errors) {
+	$progress_label->set_label(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @errors));
+    } elsif (values %error_sources) {
 	$progress_label->set_label(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
 		join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } values %error_sources));
     } elsif (@{$state->{transaction} || []} == 0 && @ask_unselect == 0) {
@@ -346,7 +337,7 @@ sub do_install_3 () {
     } else {
 	$progress_label->set_label(N("Installation finished"));
     }
-    $urpm->unlock_urpmi_db;
-    $urpm->unlock_rpm_db;
-    $urpm->try_umounting_removables;
+    $urpmi_lock->unlock;
+    $rpm_lock->unlock;
+    urpm::removable::try_umounting_removables($urpm);
 }
