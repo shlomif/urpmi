@@ -575,11 +575,11 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
 }
 $urpm->{nb_install} = @to_install;
 if ($env) {
-    my $msg = P("To satisfy dependencies, the following package is going to be installed", 
-		"To satisfy dependencies, the following packages are going to be installed", $#to_install);
+    my $msg = P("To satisfy dependencies, the following package is going to be installed:", 
+		"To satisfy dependencies, the following packages are going to be installed:", $#to_install);
     my $msg2 = N("(%d packages, %d MB)", $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
-    print "$msg:\n$p\n$msg2\n";
+    print "$msg\n$p\n$msg2\n";
     exit 0; #- exit now for specific environment.
 }
 if (@root_only) {
