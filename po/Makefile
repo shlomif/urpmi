@@ -22,7 +22,7 @@ all: $(GOALS)
 	msgfmt -o $@ $<
 
 merge: $(PGOAL).pot
-	@for n in $(POFILES); do \
+	@for n in fr.po; do \
 	    echo "Merging $$n"; \
 	    msgmerge "$$n" $< > "$$n"t; \
 	    mv -f "$$n"t "$$n"; \
