@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-15 14:22+0100\n"
+"POT-Creation-Date: 2007-01-18 15:22+0100\n"
 "PO-Revision-Date: 2007-01-17 16:17+0700\n"
 "Last-Translator: Willy Sudiarto Raharjo <willysr@gmail.com>\n"
 "Language-Team: Indonesia <mdk-id@yahoogroups.com>\n"
@@ -184,16 +184,6 @@ msgstr ""
 "Paket berikut harus di hapus agar yang lain dapat di upgrade:\n"
 "%s\n"
 "Lanjutkan installasi?"
-
-#: ../gurpmi2:210
-#, c-format
-msgid ""
-"To satisfy dependencies, the following %d packages are going to be "
-"installed:\n"
-"%s\n"
-msgstr ""
-"Untuk memenuhi ketergantungan, paket %d berikut juga harus diinstal:\n"
-"%s\n"
 
 #: ../gurpmi2:217
 #, c-format
@@ -817,14 +807,15 @@ msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
 "update, --use-distrib or --parallel"
 msgstr ""
-"--synthesis tidak dapat dipakai dengan --media, --excludemedia, --sortmedia, --"
-"update, --use-distrib atau --parallel"
+"--synthesis tidak dapat dipakai dengan --media, --excludemedia, --sortmedia, "
+"--update, --use-distrib atau --parallel"
 
 #: ../urpm/media.pm:586
 #, c-format
 msgid "Note: no hdlist for medium \"%s\", unable to return any result for it"
 msgstr ""
-"Catatan: tidak ada hdlist untuk media \"%s\", tidak dapat mengembalikan hasil apapun"
+"Catatan: tidak ada hdlist untuk media \"%s\", tidak dapat mengembalikan "
+"hasil apapun"
 
 #: ../urpm/media.pm:596
 #, c-format
@@ -894,7 +885,9 @@ msgstr "tidak dapat mengolah media.cfg"
 #: ../urpm/media.pm:747
 #, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
-msgstr "tidak dapat mengakses media distribusi (tidak ada file media.cfg yang ditemukan)"
+msgstr ""
+"tidak dapat mengakses media distribusi (tidak ada file media.cfg yang "
+"ditemukan)"
 
 #: ../urpm/media.pm:826
 #, c-format
@@ -2167,15 +2160,13 @@ msgstr[1] ""
 msgid "(test only, removal will not be actually done)"
 msgstr "(hanya pengujian, penghapusan tidak akan dilakukan)"
 
-#: ../urpmi:578 ../urpmi:589
-#, c-format
-msgid ""
-"To satisfy dependencies, the following packages are going to be installed"
+#: ../urpmi:578
+#, fuzzy, c-format
+msgid "To satisfy dependencies, the following package is going to be installed"
 msgid_plural ""
-"To satisfy dependencies, the following package is going to be installed"
-msgstr[0] ""
-"Untuk memenuhi ketergantungan, paket-paket berikut juga akan diinstal"
-msgstr[1] "Untuk memenuhi ketergantungan, paket berikut juga akan diinstal"
+"To satisfy dependencies, the following packages are going to be installed"
+msgstr[0] "Untuk memenuhi ketergantungan, paket berikut akan diinstall"
+msgstr[1] "Untuk memenuhi ketergantungan, paket berikut akan diinstall"
 
 #: ../urpmi:580
 #, c-format
@@ -2190,6 +2181,15 @@ msgid ""
 msgstr ""
 "Anda perlu jadi root untuk menginstall ketergantungan berikut:\n"
 "%s\n"
+
+#: ../urpmi:589 ../gurpmi2:209
+#, fuzzy, c-format
+msgid ""
+"To satisfy dependencies, the following package is going to be installed:"
+msgid_plural ""
+"To satisfy dependencies, the following packages are going to be installed:"
+msgstr[0] "Untuk memenuhi ketergantungan, paket berikut akan diinstall"
+msgstr[1] "Untuk memenuhi ketergantungan, paket berikut akan diinstall"
 
 #: ../urpmi:592
 #, c-format
@@ -2917,16 +2917,22 @@ msgstr "--list-nodes hanya dapat dipakai dengan --parallel"
 #, c-format
 msgid "no hdlist for medium \"%s\", only partial result for package %s"
 msgid_plural "no hdlist for medium \"%s\", only partial result for packages %s"
-msgstr[0] "tidak ada hdlist untuk media \"%s\", hanya hasil parsial untuk paket %s"
-msgstr[1] "tidak ada hdlist untuk media \"%s\", hanya hasil parsial untuk paket-paket %s"
+msgstr[0] ""
+"tidak ada hdlist untuk media \"%s\", hanya hasil parsial untuk paket %s"
+msgstr[1] ""
+"tidak ada hdlist untuk media \"%s\", hanya hasil parsial untuk paket-paket %s"
 
 #: ../urpmq:353
 #, c-format
 msgid "no hdlist for medium \"%s\", unable to return any result for package %s"
 msgid_plural ""
 "no hdlist for medium \"%s\", unable to return any result for packages %s"
-msgstr[0] "tidak ada hdlist untuk media \"%s\", tidak dapat mengembalikan hasil untuk paket %s"
-msgstr[1] "tidak ada hdlist untuk media \"%s\", tidak dapat mengembalikan hasil untuk paket-paket %s"
+msgstr[0] ""
+"tidak ada hdlist untuk media \"%s\", tidak dapat mengembalikan hasil untuk "
+"paket %s"
+msgstr[1] ""
+"tidak ada hdlist untuk media \"%s\", tidak dapat mengembalikan hasil untuk "
+"paket-paket %s"
 
 #: ../urpmq:405
 #, c-format
@@ -2937,6 +2943,22 @@ msgstr "Tidak ada filelist yang ditemukan\n"
 #, c-format
 msgid "No changelog found\n"
 msgstr "Changelog tidak ditemukan\n"
+
+#~ msgid ""
+#~ "To satisfy dependencies, the following %d packages are going to be "
+#~ "installed:\n"
+#~ "%s\n"
+#~ msgstr ""
+#~ "Untuk memenuhi ketergantungan, paket %d berikut juga harus diinstal:\n"
+#~ "%s\n"
+
+#~ msgid ""
+#~ "To satisfy dependencies, the following packages are going to be installed"
+#~ msgid_plural ""
+#~ "To satisfy dependencies, the following package is going to be installed"
+#~ msgstr[0] ""
+#~ "Untuk memenuhi ketergantungan, paket-paket berikut juga akan diinstal"
+#~ msgstr[1] "Untuk memenuhi ketergantungan, paket berikut juga akan diinstal"
 
 #~ msgid "skipping media %s: no hdlist"
 #~ msgstr "mengabaikan media %s: tidak ada hdlist"
@@ -2994,10 +3016,6 @@ msgstr "Changelog tidak ditemukan\n"
 
 #~ msgid "Preparing install on %s..."
 #~ msgstr "Mempersiapkan installasi pada %s..."
-
-#~ msgid ""
-#~ "To satisfy dependencies, the following package is going to be installed"
-#~ msgstr "Untuk memenuhi ketergantungan, paket berikut akan diinstall"
 
 #~ msgid "  --probe-synthesis - try to find and use synthesis file.\n"
 #~ msgstr "  --probe-synthesis - coba cari dan gunakan file sintesa.\n"

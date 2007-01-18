@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-01-15 14:22+0100\n"
+"POT-Creation-Date: 2007-01-18 15:22+0100\n"
 "PO-Revision-Date: 2005-04-29 13:26+0200\n"
 "Last-Translator: José Manuel Pérez <jmprodu@hotmail.com>\n"
 "Language-Team: Español <es@li.org>\n"
@@ -192,16 +192,6 @@ msgstr ""
 "Se tienen que quitar los paquetes siguientes para poder actualizar otros:\n"
 "%s\n"
 "¿Continuar a pesar de todo?"
-
-#: ../gurpmi2:210
-#, c-format
-msgid ""
-"To satisfy dependencies, the following %d packages are going to be "
-"installed:\n"
-"%s\n"
-msgstr ""
-"Para satisfacer las dependencias, se instalarán los %d paquetes siguientes:\n"
-"%s\n"
 
 #: ../gurpmi2:217
 #, c-format
@@ -2178,18 +2168,15 @@ msgstr[1] ""
 msgid "(test only, removal will not be actually done)"
 msgstr ""
 
-#: ../urpmi:578 ../urpmi:589
+#: ../urpmi:578
 #, fuzzy, c-format
-msgid ""
-"To satisfy dependencies, the following packages are going to be installed"
+msgid "To satisfy dependencies, the following package is going to be installed"
 msgid_plural ""
-"To satisfy dependencies, the following package is going to be installed"
+"To satisfy dependencies, the following packages are going to be installed"
 msgstr[0] ""
-"Para satisfacer las dependencias, se instalarán los %d paquetes siguientes:\n"
-"%s\n"
+"Para satisfacer las dependencias, se instalará el paquete siguiente (%d MB)"
 msgstr[1] ""
-"Para satisfacer las dependencias, se instalarán los %d paquetes siguientes:\n"
-"%s\n"
+"Para satisfacer las dependencias, se instalará el paquete siguiente (%d MB)"
 
 #: ../urpmi:580
 #, c-format
@@ -2204,6 +2191,17 @@ msgid ""
 msgstr ""
 "Necesita ser root para instalar las dependencias siguientes:\n"
 "%s\n"
+
+#: ../urpmi:589 ../gurpmi2:209
+#, fuzzy, c-format
+msgid ""
+"To satisfy dependencies, the following package is going to be installed:"
+msgid_plural ""
+"To satisfy dependencies, the following packages are going to be installed:"
+msgstr[0] ""
+"Para satisfacer las dependencias, se instalará el paquete siguiente (%d MB)"
+msgstr[1] ""
+"Para satisfacer las dependencias, se instalará el paquete siguiente (%d MB)"
 
 #: ../urpmi:592
 #, c-format
@@ -2942,6 +2940,29 @@ msgstr "No se encontró filelist\n"
 msgid "No changelog found\n"
 msgstr "No se encontró changelog\n"
 
+#~ msgid ""
+#~ "To satisfy dependencies, the following %d packages are going to be "
+#~ "installed:\n"
+#~ "%s\n"
+#~ msgstr ""
+#~ "Para satisfacer las dependencias, se instalarán los %d paquetes "
+#~ "siguientes:\n"
+#~ "%s\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "To satisfy dependencies, the following packages are going to be installed"
+#~ msgid_plural ""
+#~ "To satisfy dependencies, the following package is going to be installed"
+#~ msgstr[0] ""
+#~ "Para satisfacer las dependencias, se instalarán los %d paquetes "
+#~ "siguientes:\n"
+#~ "%s\n"
+#~ msgstr[1] ""
+#~ "Para satisfacer las dependencias, se instalarán los %d paquetes "
+#~ "siguientes:\n"
+#~ "%s\n"
+
 #~ msgid "skipping media %s: no hdlist"
 #~ msgstr "omitiendo soporte %s: sin hdlist"
 
@@ -2968,13 +2989,6 @@ msgstr "No se encontró changelog\n"
 #, fuzzy
 #~ msgid "Preparing install on %s..."
 #~ msgstr "Instalación de paquete..."
-
-#, fuzzy
-#~ msgid ""
-#~ "To satisfy dependencies, the following package is going to be installed"
-#~ msgstr ""
-#~ "Para satisfacer las dependencias, se instalará el paquete siguiente (%d "
-#~ "MB)"
 
 #~ msgid "  --probe-synthesis - try to find and use synthesis file.\n"
 #~ msgstr "  --probe-synthesis - intentar y encontrar archivo synthesis.\n"
