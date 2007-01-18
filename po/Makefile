@@ -31,7 +31,6 @@ merge: $(PGOAL).pot
 $(PGOAL).pot:
 	perl_checker -q --generate-pot $(PGOAL)_tmp.pot $(PL_FILES)
 	[ ! -e $(PGOAL)_tmp.pot ] || msgcat --use-first $(PGOAL)_tmp.pot > $@
-	perl -pi -es/perl-format/c-format/ $@
 	rm -f $(PGOAL)_tmp.pot
 
 install: all
