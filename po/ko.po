@@ -16,6 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../gurpmi:30 ../gurpmi2:63
 #, fuzzy, c-format
@@ -157,19 +158,12 @@ msgid ""
 msgstr "다음 팩키지들이 제거될 것입니다."
 
 #: ../gurpmi2:214 ../urpmi:578 ../urpmi:589
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed:"
 msgid_plural ""
 "To satisfy dependencies, the following packages are going to be installed:"
-msgstr[0] ""
-"의존성 문제로 인하여, 다음 팩키지들도\n"
-"설치되어야 합니다.\n"
-"\n"
-msgstr[1] ""
-"의존성 문제로 인하여, 다음 팩키지들도\n"
-"설치되어야 합니다.\n"
-"\n"
+msgstr[0] "의존성 문제로 인하여, 다음 팩키지들도 설치되어야 합니다:"
 
 #: ../gurpmi2:217 ../urpmi:580
 #, c-format
@@ -254,6 +248,8 @@ msgid ""
 "usage: %s [options]\n"
 "where [options] are from\n"
 msgstr ""
+"사용법: %s [옵션]\n"
+"옵션:\n"
 
 #: ../rpm-find-leaves:16
 #, c-format
@@ -1201,11 +1197,11 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"mdkupdate 버전 %s\n"
-"저작권(C) %s Mandriva.\n"
+"urpme 버전 %s\n"
+"저작권(C) 1999-2006 Mandriva.\n"
 "공개 소프트웨어이며, GNU GPL 조건하에서 재배포될 수 있습니다.\n"
 "\n"
-"usage:\n"
+"사용법:\n"
 
 #: ../urpme:44 ../urpmf:35 ../urpmi:84 ../urpmi.addmedia:45
 #: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:48
@@ -1350,7 +1346,7 @@ msgstr ""
 "저작권(C) %s Mandriva.\n"
 "공개 소프트웨어이며, GNU GPL 조건하에서 재배포될 수 있습니다.\n"
 "\n"
-"usage:\n"
+"사용법:\n"
 
 #: ../urpmf:36
 #, fuzzy, c-format
@@ -1607,7 +1603,7 @@ msgid "You may want to use --name to search for package names.\n"
 msgstr ""
 
 #: ../urpmi:79
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi version %s\n"
 "Copyright (C) 1999-2006 Mandriva.\n"
@@ -1616,11 +1612,11 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"mdkupdate 버전 %s\n"
-"저작권(C) %s Mandriva.\n"
+"urpmi 버전 %s\n"
+"저작권(C) 1999-2006 Mandriva.\n"
 "공개 소프트웨어이며, GNU GPL 조건하에서 재배포될 수 있습니다.\n"
 "\n"
-"usage:\n"
+"사용법:\n"
 
 #: ../urpmi:88
 #, c-format
@@ -1979,14 +1975,15 @@ msgid_plural ""
 "that are older than the installed ones:\n"
 "%s"
 msgstr[0] ""
-msgstr[1] ""
 
 #: ../urpmi:492 ../urpmi:511
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Continue installation anyway?"
-msgstr "계속하시겠습니까?"
+msgstr ""
+"\n"
+"계속하시겠습니까?"
 
 #: ../urpmi:492 ../urpmi:511 ../urpmi:599 ../urpmi.addmedia:137
 #, c-format
@@ -2002,7 +1999,6 @@ msgid_plural ""
 "Some requested packages cannot be installed:\n"
 "%s"
 msgstr[0] "일부 팩키지는 제거되어야 합니다."
-msgstr[1] "일부 팩키지는 제거되어야 합니다."
 
 #: ../urpmi:534
 #, fuzzy, c-format
@@ -2017,9 +2013,6 @@ msgid_plural ""
 msgstr[0] ""
 "업그레이드하기 위해서는 일부 팩키지가 제거되어야 합니다. 이 기능은 아직 지원"
 "되지 않습니다.\n"
-msgstr[1] ""
-"업그레이드하기 위해서는 일부 팩키지가 제거되어야 합니다. 이 기능은 아직 지원"
-"되지 않습니다.\n"
 
 #: ../urpmi:541
 #, fuzzy, c-format
@@ -2030,7 +2023,6 @@ msgid_plural ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s"
 msgstr[0] "다음 팩키지들이 제거될 것입니다."
-msgstr[1] "다음 팩키지들이 제거될 것입니다."
 
 #: ../urpmi:544
 #, c-format
@@ -2054,7 +2046,6 @@ msgstr ""
 msgid "Proceed with the installation of 1 package? (%2$d MB)"
 msgid_plural "Proceed with the installation of the %d packages? (%d MB)"
 msgstr[0] ""
-msgstr[1] ""
 
 #: ../urpmi:618
 #, fuzzy, c-format
@@ -2071,7 +2062,6 @@ msgstr "취소"
 msgid "The following package has bad signature"
 msgid_plural "The following packages have bad signatures"
 msgstr[0] "다음 팩키지들이 설치될 것입니다."
-msgstr[1] "다음 팩키지들이 설치될 것입니다."
 
 #: ../urpmi:668
 #, fuzzy, c-format
@@ -2128,14 +2118,12 @@ msgstr ""
 msgid "Package %s is already installed"
 msgid_plural "Packages %s are already installed"
 msgstr[0] "모든 것이 이미 설치되어 있습니다."
-msgstr[1] "모든 것이 이미 설치되어 있습니다."
 
 #: ../urpmi:843
-#, fuzzy, c-format
+#, c-format
 msgid "Package %s can not be installed"
 msgid_plural "Packages %s can not be installed"
-msgstr[0] "모든 것이 이미 설치되어 있습니다."
-msgstr[1] "모든 것이 이미 설치되어 있습니다."
+msgstr[0] "[%s] 팩키지를 설치할 수 없습니다."
 
 #: ../urpmi:863
 #, c-format
@@ -2143,7 +2131,7 @@ msgid "restarting urpmi"
 msgstr ""
 
 #: ../urpmi.addmedia:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2155,7 +2143,7 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"사용법: urpmi.addmedia [--update] <이름> <URL>\n"
+"사용법: urpmi.addmedia [옵션] <이름> <URL>\n"
 "<URL>은 다음 중 하나입니다.\n"
 "       [file:/]/<경로> with <팩키지 목록 파일의 상대경로>\n"
 "       ftp://<로그인명>:<암호>@<호스트>/<경로> with <팩키지 목록 파일의 상대"
@@ -2163,6 +2151,8 @@ msgstr ""
 "       ftp://<호스트>/<경로> with <팩키지 목록 파일의 상대경로>\n"
 "       http://<호스트>/<경로> with <팩키지 목록 파일의 상대경로>\n"
 "       removable://<경로> with <팩키지 목록 파일의 상대경로>\n"
+"\n"
+"옵션:\n"
 
 #: ../urpmi.addmedia:54
 #, c-format
@@ -2303,7 +2293,7 @@ msgid "unable to create medium \"%s\"\n"
 msgstr "「%s」매체를 생성할 수 없습니다.\n"
 
 #: ../urpmi.recover:28
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmi.recover version %s\n"
 "Copyright (C) 2006 Mandriva.\n"
@@ -2312,11 +2302,11 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"mdkupdate 버전 %s\n"
-"저작권(C) %s Mandriva.\n"
+"urpmi.recover 버전 %s\n"
+"저작권(C) 2006 Mandriva.\n"
 "공개 소프트웨어이며, GNU GPL 조건하에서 재배포될 수 있습니다.\n"
 "\n"
-"usage:\n"
+"사용법:\n"
 
 #: ../urpmi.recover:34
 #, c-format
@@ -2566,11 +2556,11 @@ msgid ""
 "\n"
 "usage:\n"
 msgstr ""
-"mdkupdate 버전 %s\n"
-"저작권(C) %s Mandriva.\n"
+"urpmq 버전 %s\n"
+"저작권(C) 2000-2006 Mandriva.\n"
 "공개 소프트웨어이며, GNU GPL 조건하에서 재배포될 수 있습니다.\n"
 "\n"
-"usage:\n"
+"사용법:\n"
 
 #: ../urpmq:51
 #, c-format
@@ -2737,7 +2727,6 @@ msgstr ""
 msgid "no hdlist for medium \"%s\", only partial result for package %s"
 msgid_plural "no hdlist for medium \"%s\", only partial result for packages %s"
 msgstr[0] ""
-msgstr[1] ""
 
 #: ../urpmq:353
 #, c-format
@@ -2745,7 +2734,6 @@ msgid "no hdlist for medium \"%s\", unable to return any result for package %s"
 msgid_plural ""
 "no hdlist for medium \"%s\", unable to return any result for packages %s"
 msgstr[0] ""
-msgstr[1] ""
 
 #: ../urpmq:405
 #, fuzzy, c-format
@@ -2757,16 +2745,11 @@ msgstr "하드 디스크를 찾을 수 없습니다."
 msgid "No changelog found\n"
 msgstr "하드 디스크를 찾을 수 없습니다."
 
-#, fuzzy
 #~ msgid ""
 #~ "To satisfy dependencies, the following package is going to be installed"
 #~ msgid_plural ""
 #~ "To satisfy dependencies, the following packages are going to be installed"
 #~ msgstr[0] ""
-#~ "의존성 문제로 인하여, 다음 팩키지들도\n"
-#~ "설치되어야 합니다.\n"
-#~ "\n"
-#~ msgstr[1] ""
 #~ "의존성 문제로 인하여, 다음 팩키지들도\n"
 #~ "설치되어야 합니다.\n"
 #~ "\n"
@@ -2782,52 +2765,8 @@ msgstr "하드 디스크를 찾을 수 없습니다."
 #~ "\n"
 
 #, fuzzy
-#~ msgid ""
-#~ "To satisfy dependencies, the following packages are going to be installed"
-#~ msgid_plural ""
-#~ "To satisfy dependencies, the following package is going to be installed"
-#~ msgstr[0] ""
-#~ "의존성 문제로 인하여, 다음 팩키지들도\n"
-#~ "설치되어야 합니다.\n"
-#~ "\n"
-#~ msgstr[1] ""
-#~ "의존성 문제로 인하여, 다음 팩키지들도\n"
-#~ "설치되어야 합니다.\n"
-#~ "\n"
-
-#, fuzzy
-#~ msgid "Installation failed on node %s"
-#~ msgstr "설치 실패."
-
-#, fuzzy
-#~ msgid "Installing packages on nodes..."
-#~ msgstr "팩키지 설치 중: [%s] (%s/%s)..."
-
-#, fuzzy
-#~ msgid "Propagating synthesis to %s..."
-#~ msgstr "의존목록 파일 [%s] 읽기"
-
-#, fuzzy
-#~ msgid "Distributing files to %s..."
-#~ msgstr "%s 설치 중...\n"
-
-#, fuzzy
-#~ msgid "Performing install on %s..."
-#~ msgstr "설치 준비중입니다"
-
-#, fuzzy
-#~ msgid "Preparing install on %s..."
-#~ msgstr "설치 준비중입니다"
-
-#, fuzzy
 #~ msgid "`with' missing for network media\n"
 #~ msgstr "FTP 미디어에 대해 「with」가 빠져있습니다.\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "\n"
-#~ "unknown options '%s'\n"
-#~ msgstr "%s: 알 수 없는 옵션 `%s'\n"
 
 #~ msgid "unable to find hdlist file for \"%s\", medium ignored"
 #~ msgstr "「%s」에 대한 목록 파일을 찾을 수 없습니다. 매체 무시됨."
@@ -2881,15 +2820,6 @@ msgstr "하드 디스크를 찾을 수 없습니다."
 #~ msgid "Is this OK?"
 #~ msgstr "계속할까요?"
 
-#, fuzzy
-#~ msgid ""
-#~ "To satisfy dependencies, the following %d packages are going to be "
-#~ "installed (%d MB)"
-#~ msgstr ""
-#~ "의존성 문제로 인하여, 다음 팩키지들도\n"
-#~ "설치되어야 합니다.\n"
-#~ "\n"
-
 #~ msgid "installing %s\n"
 #~ msgstr "%s 설치 중...\n"
 
@@ -2902,20 +2832,6 @@ msgstr "하드 디스크를 찾을 수 없습니다."
 
 #~ msgid "%s: command not found\n"
 #~ msgstr "%s: 명령어를 찾을 수 없습니다.\n"
-
-#, fuzzy
-#~ msgid "  --all          - print all tags.\n"
-#~ msgstr "  --help         - 이 도움말 출력.\n"
-
-#, fuzzy
-#~ msgid "  --files        - print tag files: all files.\n"
-#~ msgstr "  --help         - 이 도움말 출력.\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "\n"
-#~ "Continue?"
-#~ msgstr "계속"
 
 #, fuzzy
 #~ msgid "unable to write file [%s]"

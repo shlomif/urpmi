@@ -19,6 +19,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.9.1\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 0 : n==2 ? 1 : n>=3 && n<=10 ? 2 : "
+"3\n"
 
 #: ../gurpmi:30 ../gurpmi2:63
 #, c-format
@@ -193,6 +195,8 @@ msgid_plural ""
 "To satisfy dependencies, the following packages are going to be installed:"
 msgstr[0] "لإرضاء المُعتمدات، سيتمّ تثبيت الحزمة التّالية (%d ميغابايت)"
 msgstr[1] "لإرضاء المُعتمدات، سيتمّ تثبيت الحزمة التّالية (%d ميغابايت)"
+msgstr[2] "لإرضاء المُعتمدات، سيتمّ تثبيت الحزمة التّالية (%d ميغابايت)"
+msgstr[3] "لإرضاء المُعتمدات، سيتمّ تثبيت الحزمة التّالية (%d ميغابايت)"
 
 #: ../gurpmi2:217 ../urpmi:580
 #, c-format
@@ -2057,6 +2061,14 @@ msgstr[1] ""
 "الحزم التالية لا يمكن تثبيتها لأنها تعتمد على حزم\n"
 "أقدم من المثبتة:\n"
 "%s"
+msgstr[2] ""
+"الحزم التالية لا يمكن تثبيتها لأنها تعتمد على حزم\n"
+"أقدم من المثبتة:\n"
+"%s"
+msgstr[3] ""
+"الحزم التالية لا يمكن تثبيتها لأنها تعتمد على حزم\n"
+"أقدم من المثبتة:\n"
+"%s"
 
 #: ../urpmi:492 ../urpmi:511
 #, fuzzy, c-format
@@ -2084,6 +2096,12 @@ msgstr[0] ""
 msgstr[1] ""
 "لا يمكن تثبيت بعض الحزم المطلوبة:\n"
 "%s"
+msgstr[2] ""
+"لا يمكن تثبيت بعض الحزم المطلوبة:\n"
+"%s"
+msgstr[3] ""
+"لا يمكن تثبيت بعض الحزم المطلوبة:\n"
+"%s"
 
 #: ../urpmi:534
 #, fuzzy, c-format
@@ -2103,6 +2121,14 @@ msgstr[1] ""
 "لم يمكن متابعة التثبيت لأنه يجب ازالة الحزم التالية\n"
 "لكي تتم ترقية الحزم الأخرى:\n"
 "%s\n"
+msgstr[2] ""
+"لم يمكن متابعة التثبيت لأنه يجب ازالة الحزم التالية\n"
+"لكي تتم ترقية الحزم الأخرى:\n"
+"%s\n"
+msgstr[3] ""
+"لم يمكن متابعة التثبيت لأنه يجب ازالة الحزم التالية\n"
+"لكي تتم ترقية الحزم الأخرى:\n"
+"%s\n"
 
 #: ../urpmi:541
 #, fuzzy, c-format
@@ -2116,6 +2142,12 @@ msgstr[0] ""
 "يجب حذف الحزم التالية لترقية الحزم الأخرى:\n"
 "%s"
 msgstr[1] ""
+"يجب حذف الحزم التالية لترقية الحزم الأخرى:\n"
+"%s"
+msgstr[2] ""
+"يجب حذف الحزم التالية لترقية الحزم الأخرى:\n"
+"%s"
+msgstr[3] ""
 "يجب حذف الحزم التالية لترقية الحزم الأخرى:\n"
 "%s"
 
@@ -2144,6 +2176,8 @@ msgid "Proceed with the installation of 1 package? (%2$d MB)"
 msgid_plural "Proceed with the installation of the %d packages? (%d MB)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
 
 #: ../urpmi:618
 #, c-format
@@ -2161,6 +2195,8 @@ msgid "The following package has bad signature"
 msgid_plural "The following packages have bad signatures"
 msgstr[0] "الحزم التالية تحتوي على توقيعات فاسدة"
 msgstr[1] "الحزم التالية تحتوي على توقيعات فاسدة"
+msgstr[2] "الحزم التالية تحتوي على توقيعات فاسدة"
+msgstr[3] "الحزم التالية تحتوي على توقيعات فاسدة"
 
 #: ../urpmi:668
 #, c-format
@@ -2218,6 +2254,8 @@ msgid "Package %s is already installed"
 msgid_plural "Packages %s are already installed"
 msgstr[0] "كل شئ مثبت مسبقا"
 msgstr[1] "كل شئ مثبت مسبقا"
+msgstr[2] "كل شئ مثبت مسبقا"
+msgstr[3] "كل شئ مثبت مسبقا"
 
 #: ../urpmi:843
 #, fuzzy, c-format
@@ -2225,6 +2263,8 @@ msgid "Package %s can not be installed"
 msgid_plural "Packages %s can not be installed"
 msgstr[0] "كل شئ مثبت مسبقا"
 msgstr[1] "كل شئ مثبت مسبقا"
+msgstr[2] "كل شئ مثبت مسبقا"
+msgstr[3] "كل شئ مثبت مسبقا"
 
 #: ../urpmi:863
 #, c-format
@@ -2829,19 +2869,39 @@ msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes يمكن استخدامه فقط مع --parallel"
 
 #: ../urpmq:350
-#, c-format
+#, fuzzy, c-format
 msgid "no hdlist for medium \"%s\", only partial result for package %s"
 msgid_plural "no hdlist for medium \"%s\", only partial result for packages %s"
 msgstr[0] ""
+"ملاحظة: بما أنّه لا يوجد وسيط من الوسائط المبحوث فيها يستعمل hdlist، فإنّ "
+"urpmf لم يستطع إرجاع أيّة نتيجة\n"
 msgstr[1] ""
+"ملاحظة: بما أنّه لا يوجد وسيط من الوسائط المبحوث فيها يستعمل hdlist، فإنّ "
+"urpmf لم يستطع إرجاع أيّة نتيجة\n"
+msgstr[2] ""
+"ملاحظة: بما أنّه لا يوجد وسيط من الوسائط المبحوث فيها يستعمل hdlist، فإنّ "
+"urpmf لم يستطع إرجاع أيّة نتيجة\n"
+msgstr[3] ""
+"ملاحظة: بما أنّه لا يوجد وسيط من الوسائط المبحوث فيها يستعمل hdlist، فإنّ "
+"urpmf لم يستطع إرجاع أيّة نتيجة\n"
 
 #: ../urpmq:353
-#, c-format
+#, fuzzy, c-format
 msgid "no hdlist for medium \"%s\", unable to return any result for package %s"
 msgid_plural ""
 "no hdlist for medium \"%s\", unable to return any result for packages %s"
 msgstr[0] ""
+"ملاحظة: بما أنّه لا يوجد وسيط من الوسائط المبحوث فيها يستعمل hdlist، فإنّ "
+"urpmf لم يستطع إرجاع أيّة نتيجة\n"
 msgstr[1] ""
+"ملاحظة: بما أنّه لا يوجد وسيط من الوسائط المبحوث فيها يستعمل hdlist، فإنّ "
+"urpmf لم يستطع إرجاع أيّة نتيجة\n"
+msgstr[2] ""
+"ملاحظة: بما أنّه لا يوجد وسيط من الوسائط المبحوث فيها يستعمل hdlist، فإنّ "
+"urpmf لم يستطع إرجاع أيّة نتيجة\n"
+msgstr[3] ""
+"ملاحظة: بما أنّه لا يوجد وسيط من الوسائط المبحوث فيها يستعمل hdlist، فإنّ "
+"urpmf لم يستطع إرجاع أيّة نتيجة\n"
 
 #: ../urpmq:405
 #, c-format
@@ -2853,31 +2913,11 @@ msgstr "لم يتمّ إيجاد قائمة ملفّات\n"
 msgid "No changelog found\n"
 msgstr "لم يُعثر على سجلّ تغييرات\n"
 
-#, fuzzy
-#~ msgid ""
-#~ "To satisfy dependencies, the following package is going to be installed"
-#~ msgid_plural ""
-#~ "To satisfy dependencies, the following packages are going to be installed"
-#~ msgstr[0] "لإرضاء المُعتمدات، سيتمّ تثبيت الحزمة التّالية (%d ميغابايت)"
-#~ msgstr[1] "لإرضاء المُعتمدات، سيتمّ تثبيت الحزمة التّالية (%d ميغابايت)"
-
 #~ msgid ""
 #~ "To satisfy dependencies, the following %d packages are going to be "
 #~ "installed:\n"
 #~ "%s\n"
 #~ msgstr ""
-#~ "لإرضاء المُعتمدات، سيتم تثبيت الحزم %d التّالية:\n"
-#~ "%s\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "To satisfy dependencies, the following packages are going to be installed"
-#~ msgid_plural ""
-#~ "To satisfy dependencies, the following package is going to be installed"
-#~ msgstr[0] ""
-#~ "لإرضاء المُعتمدات، سيتم تثبيت الحزم %d التّالية:\n"
-#~ "%s\n"
-#~ msgstr[1] ""
 #~ "لإرضاء المُعتمدات، سيتم تثبيت الحزم %d التّالية:\n"
 #~ "%s\n"
 
