@@ -23,7 +23,7 @@
 
 use strict;
 
-use urpm;
+use urpm 'file_from_local_url';
 use urpm::args;
 use urpm::msg;
 use urpm::sys;
@@ -315,43 +315,43 @@ if ($urpm::args::options{list_aliases}) {
 
     if ($urpm::args::options{sources}
      || $urpm::args::options{info}
-     || $urpm::args::options{summary}
      || $urpm::args::options{list_files}
      || $urpm::args::options{changelog})
     {
 	my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
 
-	if ($urpm::args::options{info} || $urpm::args::options{list_files} || $urpm::args::options{changelog}
-		|| $urpm::args::options{summary}) {
-	    my %downloads;
+	if ($urpm::args::options{info} || $urpm::args::options{list_files} || $urpm::args::options{changelog}) {
 	    # get descriptions of update sources
 	    my $updates_descr = urpm::get_updates_description($urpm);
 	    # if not root, use a temporary directory to store headers
 	    my $tmp_header_dir = $< != 0 ? urpm::sys::mktempdir() : "$urpm->{cachedir}/headers";
-	    my @selected = map { split /\|/ } keys %{$state->{selected}};
 
-	    if (my @headers = (grep { ! -s "$urpm->{cachedir}/headers/$_" }
-				 map { my $pkg = $urpm->{depslist}[$_];
-				       $pkg && $pkg->header_filename } @selected)) {
-		@headers = uniq(@headers);
+	    my @selected = uniq(map { keys %$_ } @$list);
 
-		foreach my $medium (@{$urpm->{media} || []}) {
-		    if ($medium->{synthesis}) {
-			$urpm->{log}->(N("skipping media %s: no hdlist", $medium->{name}));
-			next;
-		    }
-                    my $hdlist_path = urpm::media::any_hdlist($urpm, $medium);
-                    if (-s $hdlist_path) {
-			require MDV::Packdrakeng;
-			my $packer = MDV::Packdrakeng->open(archive => $hdlist_path, quiet => 1);
-			defined $packer or do {
-			    warn "Can't open archive: $MDV::Packdrakeng::error";
-			    exit 1;
-			};
-			$packer->extract($tmp_header_dir, @headers);
-		    } elsif (!%downloads) {
-			urpm::get_pkgs::download_packages_of_distant_media($urpm, $list, \%downloads, my $error = {});
-			warn "missing file $_\n" foreach values %$error;
+	    foreach my $medium (@{$urpm->{media} || []}) {
+		my @l = grep { $medium->{start} <= $_ && $_ <= $medium->{end} } @selected or next;
+		my @pkgs = map { $urpm->{depslist}[$_] } @l or next;
+
+		my $hdlist_path = urpm::media::any_hdlist($urpm, $medium);
+		if (-s $hdlist_path) {
+		    require MDV::Packdrakeng;
+		    my $packer = MDV::Packdrakeng->open(archive => $hdlist_path, quiet => 1);
+		    defined $packer or do {
+			warn "Can't open archive: $MDV::Packdrakeng::error";
+			exit 1;
+		    };
+		    my @headers = map { $_->header_filename } @pkgs or next;
+		    $packer->extract($tmp_header_dir, @headers);
+		} elsif (my $dir = file_from_local_url($medium->{url})) {
+		    $local_sources->{$_->id} = "$dir/" . $_->filename foreach @pkgs;
+		} else {
+		    my $pkgs_text = join(' ', map { $_->name } @pkgs);
+		    if ($urpm::args::options{info}) {
+			$urpm->{info}(P("no hdlist for medium \"%s\", only partial result for package %s", 
+					"no hdlist for medium \"%s\", only partial result for packages %s", int(@pkgs), $medium->{name}, $pkgs_text));
+		    } else {
+			$urpm->{error}(P("no hdlist for medium \"%s\", unable to return any result for package %s",
+					 "no hdlist for medium \"%s\", unable to return any result for packages %s", int(@pkgs), $medium->{name}, $pkgs_text));
 		    }
 		}
 	    }
@@ -359,8 +359,7 @@ if ($urpm::args::options{list_aliases}) {
 		foreach (split /\|/, $_) {
 		    my $pkg = $urpm->{depslist}[$_] or next;
 		    #- even if non-root, search for a header in the global cachedir
-		    my $file = $local_sources->{$_} || $downloads{$_} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
-		    warn "$file\n";
+		    my $file = $local_sources->{$_} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
 		    if (-s $file) {
 			$pkg->update_header($file, keep_all_tags => 1);
 		    } elsif ($< != 0) {
@@ -371,7 +370,7 @@ if ($urpm::args::options{list_aliases}) {
 			printf "%-12s: %s\n", "Name", $pkg->name;
 			printf "%-12s: %s\n", "Version", $pkg->version;
 			printf "%-12s: %s\n", "Release", $pkg->release;
-			print from_utf8(sprintf("%-12s: %s\n", "Group", $pkg->group));
+			printf "%-12s: %s\n", "Group", $pkg->group;
 			printf "%-12s: %-28s %12s: %s\n", "Size", $pkg->size, "Architecture", $pkg->arch;
 			if ($pkg->sourcerpm || $pkg->buildhost) {
 			    if ($pkg->sourcerpm && $pkg->buildhost) {
@@ -382,12 +381,12 @@ if ($urpm::args::options{list_aliases}) {
 				$pkg->sourcerpm and printf "%-12s: %s\n", "Build Host", $pkg->buildhost;
 			    }
 			}
-			$pkg->packager and print from_utf8(sprintf("%-12s: %s\n", "Packager", $pkg->packager));
+			$pkg->packager and printf "%-12s: %s\n", "Packager", $pkg->packager;
 			$pkg->url and printf "%-12s: %s\n", "URL", $pkg->url;
-			$pkg->summary and print from_utf8(sprintf("%-12s: %s\n", "Summary", $pkg->summary));
+			$pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
 			my $updesc = $updates_descr->{$pkg->name};
 			$pkg->description && !$updesc->{description}
-			    and print from_utf8(sprintf("%-12s:\n%s\n", "Description", $pkg->description));
+			    and printf "%-12s:\n%s\n", "Description", $pkg->description;
 			if ($updesc) {
 			    $updesc->{description}
 				and print from_utf8(sprintf("%-12s:\n%s\n", "Description", $updesc->{description}));
@@ -398,9 +397,6 @@ if ($urpm::args::options{list_aliases}) {
 			    $updesc->{pre}
 				and print from_utf8(sprintf("%-20s:\n%s\n", "Reason for update", $updesc->{pre}));
 			}
-		    }
-		    if ($urpm::args::options{summary})  {
-			printf "%s : %s ( %s%s-%s )\n", $pkg->name, $pkg->summary, ($pkg->epoch ? $pkg->epoch . ':' : ''), $pkg->version, $pkg->release;
 		    }
 		    if ($urpm::args::options{list_files}) {
 			if ($pkg->files) {
@@ -428,6 +424,14 @@ if ($urpm::args::options{list_aliases}) {
 	    print join "\n", values %$local_sources; values %$local_sources and print "\n";
 	    foreach (0..$#{$urpm->{media} || []}) {
 		print join "\n", values %{$list->[$_]}; values %{$list->[$_]} and print "\n";
+	    }
+	}
+	exit 0;
+    } elsif ($urpm::args::options{summary}) {
+	foreach (keys %{$state->{selected}}) {
+	    foreach (split /\|/, $_) {
+		my $pkg = $urpm->{depslist}[$_] or next;
+		printf "%s : %s ( %s%s-%s )\n", $pkg->name, $pkg->summary, ($pkg->epoch ? $pkg->epoch . ':' : ''), $pkg->version, $pkg->release;
 	    }
 	}
 	exit 0;
