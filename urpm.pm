@@ -189,9 +189,7 @@ sub read_config_add_passwords {
     foreach (values %$config) {
 	my $u = parse_url_with_login($_->{url}) or next;
 	if (my ($e) = grep { ($_->{default} || $_->{machine} eq $u->{machine}) && $_->{login} eq $u->{login} } @netrc) {
-	    warn "was $_->{url} ", %$u, "\n";
 	    $_->{url} = sprintf('%s://%s:%s@%s%s', $u->{proto}, $u->{login}, $e->{password}, $u->{machine}, $u->{dir});
-	    warn "url is now $_->{url}\n";
 	} else {
 	    $urpm->{log}("no password found for $u->{login}@$u->{machine}");
 	}
