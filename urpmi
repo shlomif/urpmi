@@ -285,26 +285,22 @@ if ($logfile && !$INC{"Devel/Trace.pm"}) {
 
     #- fork twice to copy stdout and stderr to $logfile
     unless ($pid_out = open STDOUT, "|-") {
-	local $_;
-	while (<STDIN>) {
-	    open my $fh, ">>$logfile"; select $fh; $| = 1;
-	    select $SAVEOUT; $| = 1;
-	    $/ = \1;
-	    print $SAVEOUT $_;
-	    print $fh $_;
-	    close $fh;
+	select $SAVEOUT; $| = 1;
+	$/ = \1;
+	while (my $s = <STDIN>) {
+	    open my $fh, ">>$logfile";
+	    print $SAVEOUT $s;
+	    print $fh $s;
 	}
 	exit 0;
     }
     unless ($pid_err = open STDERR, "|-") {
-	local $_;
-	while (<STDIN>) {
-	    open my $fh, ">>$logfile"; select $fh; $| = 1;
-	    select $SAVEERR; $| = 1;
-	    $/ = \1;
-	    print $SAVEERR $_;
-	    print $fh $_;
-	    close $fh;
+	select $SAVEERR; $| = 1;
+	$/ = \1;
+	while (my $s = <STDIN>) {
+	    open my $fh, ">>$logfile";
+	    print $SAVEERR $s;
+	    print $fh $s;
 	}
 	exit 0;
     }
