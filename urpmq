@@ -84,6 +84,9 @@ usage:
 ") . N("  --changelog    - print changelog.
 ") . N("  --summary, -S  - print summary.
 ") . N("  --verbose, -v  - verbose mode.
+") . N("  --whatrequires - reverse search to what requires package.
+") . N("  --whatrequires-recursive
+                   - extended reverse search (includes virtual packages).
 ") . N("  -a             - select all matches on command line.
 ") . N("  -c             - complete output with package to be removed.
 ") . N("  -d             - extend query to package dependencies.
@@ -91,11 +94,8 @@ usage:
 ") . N("  -g             - print groups with name also.
 ") . N("  -i             - print useful information in human readable form.
 ") . N("  -l             - list files in package.
-") . N("  -P             - do not search in provides to find package (default).
 ") . N("  -p             - search in provides to find package.
 ") . N("  -r             - print version and release with name also.
-") . N("  -R             - reverse search to what requires package.
-") . N("  -RR            - extended reverse search (includes virtual packages).
 ") . N("  -s             - next package is a source package (same as --src).
 ") . N("  -u             - remove package if a more recent version is already installed.
 ") . N("  -y             - impose fuzzy search (same as --fuzzy).
@@ -283,12 +283,23 @@ if ($urpm::args::options{list_aliases}) {
 			    #- NOTE. if the "provides" has no version specification, we happily
 			    #- assume that it can be skipped, because it most probably refers
 			    #- to a virtual package.
-			    next if $s eq '' && $urpm::args::options{what_requires} <= 1;
+			    next if $s eq '' && !$urpm::args::options{what_requires_recursive};
+
+                            if (keys %{$urpm->{provides}{$n}} > 1) {
+				#- If more than one thing provides this requirement 
+				#- then don't bother finding stuff
+				#- that needs it as it will be invalid
+				my @l = grep { $_ ne $pkg->name } map { $urpm->{depslist}[$_]->name } keys %{$urpm->{provides}{$n}};
+				$urpm->{log}(sprintf "skipping package(s) required by %s via %s, since that virtual package is provided by %s", $pkg->name, $n, join(' ', @l));
+				next;
+			    }
+
 			    foreach (map { $urpm->{depslist}[$_] }
 				     grep { ! exists $state->{selected}{$_} && ! exists $properties{$_} }
 				     keys %{$requires{$n} || {}}) {
 				if (grep { URPM::ranges_overlap("$n $s", $_) } $_->requires) {
 				    push @properties, $_->id;
+				    $urpm->{debug} and $urpm->{debug}(sprintf "adding package %s required by %s via %s", $_->name, $pkg->name, $n, );
 				    $properties{$_->id} = undef;
 				}
 			    }
@@ -389,13 +400,13 @@ if ($urpm::args::options{list_aliases}) {
 			    and printf "%-12s:\n%s\n", "Description", $pkg->description;
 			if ($updesc) {
 			    $updesc->{description}
-				and print from_utf8(sprintf("%-12s:\n%s\n", "Description", $updesc->{description}));
+				and printf "%-12s:\n%s\n", "Description", $updesc->{description};
 			    $updesc->{updated}
-				and print from_utf8(sprintf("%-20s: %s\n", "Last updated", $updesc->{updated}));
+				and printf "%-20s: %s\n", "Last updated", $updesc->{updated};
 			    $updesc->{importance}
-				and print from_utf8(sprintf("%-20s: %s\n", "Update importance", $updesc->{importance}));
+				and printf "%-20s: %s\n", "Update importance", $updesc->{importance};
 			    $updesc->{pre}
-				and print from_utf8(sprintf("%-20s:\n%s\n", "Reason for update", $updesc->{pre}));
+				and printf "%-20s:\n%s\n", "Reason for update", $updesc->{pre};
 			}
 		    }
 		    if ($urpm::args::options{list_files}) {
