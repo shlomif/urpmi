@@ -94,6 +94,7 @@ usage:
 ") . N("  -g             - print groups with name also.
 ") . N("  -i             - print useful information in human readable form.
 ") . N("  -l             - list files in package.
+") . N("  -m             - equivalent to -du
 ") . N("  -p             - search in provides to find package.
 ") . N("  -r             - print version and release with name also.
 ") . N("  -s             - next package is a source package (same as --src).
@@ -277,14 +278,11 @@ if ($urpm::args::options{list_aliases}) {
 		    exists $state->{selected}{$pkg->id} and next;
 		    $state->{selected}{$pkg->id} = undef;
 
+		    next if !$requested{$dep} && !$urpm::args::options{what_requires_recursive};
+
 		    #- for all provides of package, look up what is requiring them.
 		    foreach ($pkg->provides) {
 			if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
-			    #- NOTE. if the "provides" has no version specification, we happily
-			    #- assume that it can be skipped, because it most probably refers
-			    #- to a virtual package.
-			    next if $s eq '' && !$urpm::args::options{what_requires_recursive};
-
                             if (keys %{$urpm->{provides}{$n}} > 1) {
 				#- If more than one thing provides this requirement 
 				#- then don't bother finding stuff
