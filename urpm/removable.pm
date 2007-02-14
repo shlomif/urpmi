@@ -109,26 +109,26 @@ sub copy_packages_of_removable_media {
 	    #- everything that might be necessary.
 	    while ($check_notfound->($id, $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
 		is_iso($medium->{removable}) || $o_ask_for_medium
-		    or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
+		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 		try_umounting($urpm, $dir);
 		system("/usr/bin/eject '$device' 2>/dev/null");
 		is_iso($medium->{removable})
 		    || $o_ask_for_medium->(remove_internal_name($medium->{name}), $medium->{removable})
-		    or $urpm->{fatal}(4, N("medium \"%s\" is not selected", $medium->{name}));
+		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 	    }
 	    if (-e $dir) {
 		while (my ($i, $url) = each %{$list->[$id]}) {
 		    chomp $url;
-		    my ($filepath, $filename) = do {
-			my $f = file_from_local_url($url) or next;
-			$f =~ m!/.*/! or next; #- is this really needed??
-			dirname($f), basename($f);
-		    };
+		    my $filepath = file_from_local_url($url) or next;
+		    $filepath =~ m!/.*/! or next; #- is this really needed??
+		    my $filename = basename($filepath);
+
 		    if (-r $filepath) {
 			#- we should assume a possibly buggy removable device...
 			#- First, copy in partial cache, and if the package is still good,
 			#- transfer it to the rpms cache.
 			unlink "$urpm->{cachedir}/partial/$filename";
+			$urpm->{log}("copying $filepath");
 			if (copy_and_own($filepath, "$urpm->{cachedir}/partial/$filename") &&
 			    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1))
 			{
@@ -144,7 +144,7 @@ sub copy_packages_of_removable_media {
 		    }
 		}
 	    } else {
-		$urpm->{error}(N("medium \"%s\" is not selected", $medium->{name}));
+		$urpm->{error}(N("medium \"%s\" is not available", $medium->{name}));
 	    }
 	} else {
 	    #- we have a removable device that is not removable, well...
