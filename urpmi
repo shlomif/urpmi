@@ -595,7 +595,7 @@ if (@root_only) {
 	$msg = "$msg\n" . N("(test only, installation will not be actually done)");
     }
     my $msg2 = ($urpm->{nb_install} == 1) ?
-    		N("Proceed with the installation of 1 package? (%2\$d MB)",toMb($sum))
+    		N("Proceed with the installation of 1 package? (%d MB)",toMb($sum))
 		: P("Proceed with the installation of the %d package? (%d MB)",
     		"Proceed with the installation of the %d packages? (%d MB)", $urpm->{nb_install}, $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
