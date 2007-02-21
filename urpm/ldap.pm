@@ -144,6 +144,7 @@ my %ldap_changed_attributes = (
     'with-hdlist' => 'with_hdlist',
     'http-proxy' => 'http_proxy',
     'ftp-proxy' => 'ftp_proxy',
+    'media-info-dir' => 'media_info_dir',
 );
 
 sub load_ldap_media {
@@ -166,13 +167,12 @@ sub load_ldap_media {
 	    $config->{host} . ($config->{port} ? ":" . $config->{port} : "") . "/";
     }
 
-    my $priority = 100; #- too add ldap media at the end
     eval {
         my $ldap = Net::LDAP->new($config->{uri})
-            or die N("Cannot connect to ldap uri :"), $config->{uri};
+            or die N("Cannot connect to ldap uri:"), $config->{uri};
 
         $ldap->bind($config->{binddn}, $config->{password})
-            or die N("Cannot connect to ldap uri :"), $config->{uri};
+            or die N("Cannot connect to ldap uri:"), $config->{uri};
         #- base is mandatory
         my $result = $ldap->search(
             base   => $config->{base},
@@ -203,7 +203,6 @@ sub load_ldap_media {
             #- TODO check if name already defined ?
             $medium->{name} = "ldap_" . $medium->{name};
             $medium->{ldap} = 1;
-	    $medium->{priority} = $priority++;
             next if !check_ldap_medium($medium);
             urpm::media::add_existing_medium($urpm, $medium);
             write_ldap_cache($urpm,$medium); 
