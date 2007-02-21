@@ -356,11 +356,13 @@ if ($urpm::args::options{list_aliases}) {
 		} else {
 		    my $pkgs_text = join(' ', map { $_->name } @pkgs);
 		    if ($urpm::args::options{info}) {
-			$urpm->{info}(P("no hdlist for medium \"%s\", only partial result for package %s", 
-					"no hdlist for medium \"%s\", only partial result for packages %s", int(@pkgs), $medium->{name}, $pkgs_text));
+			$urpm->{info}((int(@pkgs) == 1) ?
+				N("no hdlist for medium \"%s\", only partial result for package %s", $medium->{name}, $pkgs_text)
+				: N("no hdlist for medium \"%s\", only partial result for packages %s", $medium->{name}, $pkgs_text));
 		    } else {
-			$urpm->{error}(P("no hdlist for medium \"%s\", unable to return any result for package %s",
-					 "no hdlist for medium \"%s\", unable to return any result for packages %s", int(@pkgs), $medium->{name}, $pkgs_text));
+			$urpm->{error}((int(@pkgs) == 1) ?
+				N("no hdlist for medium \"%s\", unable to return any result for package %s",$medium->{name}, $pkgs_text)
+				: N("no hdlist for medium \"%s\", unable to return any result for packages %s", $medium->{name}, $pkgs_text));
 		    }
 		}
 	    }
