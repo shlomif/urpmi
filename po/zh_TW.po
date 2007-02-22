@@ -465,17 +465,17 @@ msgstr "無法寫入設定檔 [%s]"
 #: ../urpm/download.pm:111
 #, c-format
 msgid "Please enter your credentials for accessing proxy\n"
-msgstr ""
+msgstr "請輸入您的憑證以使用代理伺服器\n"
 
 #: ../urpm/download.pm:112
 #, c-format
 msgid "User name:"
-msgstr ""
+msgstr "用戶名稱："
 
 #: ../urpm/download.pm:112
 #, c-format
 msgid "Password:"
-msgstr ""
+msgstr "密碼："
 
 #: ../urpm/download.pm:185
 #, c-format
@@ -698,9 +698,9 @@ msgid "No base defined"
 msgstr "未指定套件"
 
 #: ../urpm/ldap.pm:172 ../urpm/ldap.pm:175
-#, c-format
+#, fuzzy, c-format
 msgid "Cannot connect to ldap uri:"
-msgstr ""
+msgstr "無法連接至伺服器"
 
 #: ../urpm/lock.pm:50
 #, fuzzy, c-format
@@ -2051,7 +2051,7 @@ msgstr ""
 "%s"
 
 #: ../urpmi:483
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages can't be installed because they depend on packages\n"
 "that are older than the installed ones:\n"
@@ -2084,7 +2084,7 @@ msgstr ""
 "%s"
 
 #: ../urpmi:504
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
 "%s"
@@ -2103,7 +2103,7 @@ msgstr ""
 "%s\n"
 
 #: ../urpmi:537
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The installation cannot continue because the following packages\n"
 "have to be removed for others to be upgraded:\n"
@@ -2122,7 +2122,7 @@ msgstr ""
 "%s"
 
 #: ../urpmi:545
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s"
@@ -2176,7 +2176,7 @@ msgid "The following package has bad signature"
 msgstr "下列套件有不正確的簽章"
 
 #: ../urpmi:673
-#, fuzzy, c-format
+#, c-format
 msgid "The following packages have bad signatures"
 msgstr "下列套件有不正確的簽章"
 
@@ -2769,16 +2769,18 @@ msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - 顯示摘要。\n"
 
 #: ../urpmq:87
-#, fuzzy, c-format
+#, c-format
 msgid "  --whatrequires - reverse search to what requires package.\n"
-msgstr "  -R             - 逆向搜尋何者需要此套件。\n"
+msgstr "  --whatrequires - 逆向搜尋何者需要此套件。\n"
 
 #: ../urpmq:88
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --whatrequires-recursive\n"
 "                   - extended reverse search (includes virtual packages).\n"
-msgstr "  -RR            - 進階逆向搜尋 (包含虛擬套件)。\n"
+msgstr ""
+"  --whatrequires-recursive\n"
+"                   - 進階逆向搜尋 (包含虛擬套件)。\n"
 
 #: ../urpmq:91
 #, c-format
@@ -2885,9 +2887,24 @@ msgstr "沒有找到檔案列表\n"
 msgid "No changelog found\n"
 msgstr "沒有找到更新紀錄\n"
 
+#~ msgid "(%d packages, %d MB)"
+#~ msgstr "(%d 個套件，共 %d MB)"
+
+#, fuzzy
+#~ msgid "Proceed with the installation of 1 package? (%2$d MB)"
+#~ msgid_plural "Proceed with the installation of the %d packages? (%d MB)"
+#~ msgstr[0] "繼續安裝這 %d 個套件？(共 %d MB)"
+
 #~ msgid ""
 #~ "  -P             - do not search in provides to find package (default).\n"
 #~ msgstr "  -P             - 不於 provides 中搜尋套件 (預設值)。\n"
+
+#~ msgid "  -R             - reverse search to what requires package.\n"
+#~ msgstr "  -R             - 逆向搜尋何者需要此套件。\n"
+
+#~ msgid ""
+#~ "  -RR            - extended reverse search (includes virtual packages).\n"
+#~ msgstr "  -RR            - 進階逆向搜尋 (包含虛擬套件)。\n"
 
 #~ msgid ""
 #~ "To satisfy dependencies, the following %d packages are going to be "
