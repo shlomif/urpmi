@@ -33,6 +33,7 @@ usage:
 ", $urpm::VERSION) . N("  --help         - print this help message.
 ") . N("  --checkpoint   - set repackaging start now
 ") . N("  --noclean      - don't clean repackage directory on checkpoint
+") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . N("  --list         - list transactions since provided date/duration argument
 ") . N("  --list-all     - list all transactions in rpmdb (long)
 ") . N("  --list-safe    - list transactions since checkpoint
@@ -68,7 +69,7 @@ sub clean_repackage_dir {
     unless ($noclean) {
 	print N("Cleaning up repackage directory [%s]...\n", $repackage_dir);
 	my $nb = unlink grep { ! -d $_ } glob("$repackage_dir/*");
-	print N("%d files removed\n", $nb);
+	print P("%d file removed\n", "%d files removed\n", $nb, $nb);
     }
 }
 

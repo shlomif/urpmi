@@ -594,10 +594,10 @@ if (@root_only) {
     if ($test) {
 	$msg = "$msg\n" . N("(test only, installation will not be actually done)");
     }
-    my $msg2 = ($urpm->{nb_install} == 1) ?
-    		N("Proceed with the installation of 1 package? (%d MB)",toMb($sum))
-		: P("Proceed with the installation of the %d package? (%d MB)",
-    		"Proceed with the installation of the %d packages? (%d MB)", $urpm->{nb_install}, $urpm->{nb_install}, toMb($sum));
+    my $msg2 = P("Proceed with the installation of one package?",
+    		"Proceed with the installation of the %d packages?",
+		$urpm->{nb_install}, $urpm->{nb_install})
+	        . N(" (%d MB)", toMb($sum));
     my $p = join "\n", @to_install;
     my $noexpr = N("Nn");
     my $yesexpr = N("Yy");
@@ -822,7 +822,8 @@ if (values %error_sources) {
     $exit_code = 10;
 }
 if ($nok) {
-    $nok > 1 and print N("%d installation transactions failed", $nok) . (@errors && ":\n" . join("\n", map { "\t$_" } @errors)), "\n";
+    $nok > 1 and print P("%d installation transaction failed",
+	    "%d installation transactions failed", $nok, $nok) . (@errors && ":\n" . join("\n", map { "\t$_" } @errors)), "\n";
     if ($exit_code) {
 	$exit_code = $ok ? 13 : 14;
     } else {

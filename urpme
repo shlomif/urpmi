@@ -129,7 +129,10 @@ if ($test && $auto) {
     foreach (@toremove) {
 	$sum += $state->{rejected}{$_}{size};
     }
-    my $msg = N("To satisfy dependencies, the following %d packages will be removed (%d MB)", scalar(@toremove), toMb($sum));
+    my $msg = 
+    P("To satisfy dependencies, the following package will be removed",
+    "To satisfy dependencies, the following %d packages will be removed",
+    scalar(@toremove), scalar(@toremove)) . N(" (%d MB)", toMb($sum));
     print STDOUT "$msg:\n$list\n";
     message_input(P("Remove %d package?", "Remove %d packages?", scalar(@toremove), scalar(@toremove)) . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
 }
