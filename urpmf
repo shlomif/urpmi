@@ -37,6 +37,7 @@ usage: urpmf [options] pattern-expression
 ") . N("  --env          - use specific environment (typically a bug report).
 ") . N("  --excludemedia - do not use the given media, separated by comma.
 ") . N("  --literal, -l  - don't match patterns, use argument as a literal string.
+") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . N("  --media        - use only the given media, separated by comma.
 ") . N("  --sortmedia    - sort media according to substrings separated by comma.
 ") . N("  --synthesis    - use the given synthesis instead of urpmi db.
@@ -103,7 +104,8 @@ our $expr;		# regexp to match against
 our %uniq;
 
 #- parse arguments list.
-urpm::args::parse_cmdline() or exit(1);
+my $urpm = new urpm;
+urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 
 if ($qf eq '%default') {
     #- nothing on the command-line : default is to search on file names
@@ -116,7 +118,6 @@ if ($qf eq '%default') {
 #- replace first %name by %fullname if -f was specified
 if ($full) { $qf =~ s/%name\b/%fullname/ }
 
-my $urpm = new urpm;
 $verbose or $urpm->{log} = sub {};
 
 my $multitag = '';
@@ -190,7 +191,7 @@ if ($env) {
     $urpm->{statedir} = $env;
 }
 
-my $lock = urpm::lock::urpmi_db($urpm, '', 'nofatal');
+my $_lock = urpm::lock::urpmi_db($urpm, '', 'nofatal');
 my $need_hdlist = grep { $usedtags{$_} } qw(
     buildhost
     buildtime
@@ -206,6 +207,7 @@ my $need_hdlist = grep { $usedtags{$_} } qw(
 urpm::media::configure($urpm,
     nocheck_access => 1,
     no_skiplist => 1,
+    no_second_pass => 1,
     media => $media,
     excludemedia => $excludemedia,
     sortmedia => $sortmedia,
@@ -216,11 +218,8 @@ urpm::media::configure($urpm,
 );
 
 if ($need_hdlist) {
-    # @hdmedia is the list of all media searched that use hdlists
-    my @hdmedia = grep {
-	!$_->{synthesis} && !$_->{removable} && !$_->{ignore};
-    } @{ $urpm->{media} };
-    if (!@hdmedia) {
+    my @hdlist_media = grep { !$_->{ignore} && -e urpm::media::any_hdlist($urpm, $_) } @{$urpm->{media}};
+    if (!@hdlist_media) {
 	print N("Note: since no media searched uses hdlists, urpmf was unable to return any result\n");
 	print N("You may want to use --name to search for package names.\n") if !$usedtags{name};
     }
