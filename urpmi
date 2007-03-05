@@ -431,7 +431,7 @@ sub ask_choice {
     my ($urpm, $_db, $_state, $choices) = @_;
     my $n = 1; #- default value.
     my (@l) = map {
-	my ($name, $summary) = (scalar($_->fullname), $_->summary);
+	my ($name, $summary) = (scalar($_->fullname), translate($_->summary));
 	$_->flag_installed ?
           #-PO: here format is "<package_name>: <summary> (to upgrade)"
           ($_->summary ? N("%s: %s (to upgrade)", $name, $summary) :
