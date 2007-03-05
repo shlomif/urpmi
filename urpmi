@@ -390,7 +390,7 @@ exists $urpm->{options}{'split-length'} or $urpm->{options}{'split-length'} = $s
 # comma-separated list of packages that should be installed first,
 # and that trigger an urpmi restart
 exists $urpm->{options}{'priority-upgrade'}
-    or $urpm->{options}{'priority-upgrade'} = 'rpm,perl-URPM,urpmi,glibc';
+    or $urpm->{options}{'priority-upgrade'} = 'rpm,perl-URPM,perl-MDV-Distribconf,urpmi,glibc';
 
 my $state = {};
 my %requested = $urpm->register_rpms(@files, @src_files);
@@ -625,8 +625,7 @@ urpm::removable::copy_packages_of_removable_media($urpm,
 	    #- probably run from a drak tool
 	    (my $gmessage) = grep { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
 	    if ($gmessage) {
-		my $m = to_utf8("\n$msg\n");
-		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', $m);
+		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', "\n$msg\n");
 	    }
 	}
 	return defined message_input("$msg\n$msg2 ");
@@ -777,7 +776,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    );
 		    if (@l) {
 			#- Warning : the following message is parsed in urpm::parallel_*
-			print N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l), "\n";
+			print N("Installation failed:") . "\n" . join("\n", map { "\t$_" } @l), "\n";
 			if (!$urpm->{options}{'allow-force'}) {
 			    ++$nok;
 			    ++$urpm->{logger_id};
@@ -794,7 +793,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 			    );
 			    if (@l) {
 				#- Warning : the following message is parsed in urpm::parallel_*
-				print N("Installation failed") . ":\n" . join("\n", map { "\t$_" } @l), "\n";
+				print N("Installation failed:") . "\n" . join("\n", map { "\t$_" } @l), "\n";
 				++$nok;
 				++$urpm->{logger_id};
 				push @errors, @l;

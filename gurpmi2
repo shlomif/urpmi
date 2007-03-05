@@ -336,7 +336,7 @@ sub do_install_3 () {
     add_button_box($vbox, $quit_button);
     change_mainw($vbox);
     if (@errors) {
-	$progress_label->set_label(N("Installation failed") . ":\n" . join("\n",  map { "\t$_" } @errors));
+	$progress_label->set_label(N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @errors));
     } elsif (values %error_sources) {
 	$progress_label->set_label(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
 		join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } values %error_sources));
