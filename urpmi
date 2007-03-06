@@ -683,15 +683,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 	}
     }
 
-    #- check for local files.
-    if (my @missing = grep { m|^/| && ! -e $_ } values %transaction_sources_install, values %transaction_sources) {
-	#- Warning : the following message is parsed in urpm::parallel_*
-	print N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
-	    join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } @missing), "\n";
-	++$nok;
-	next;
-    }
-
     #- install source package only (whatever the user is root or not, but use rpm for that).
     if ($install_src) {
 	if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %transaction_sources) {
