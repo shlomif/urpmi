@@ -87,6 +87,8 @@ usage:
 ") . N("  --whatrequires - reverse search to what requires package.
 ") . N("  --whatrequires-recursive
                    - extended reverse search (includes virtual packages).
+") . N("  --whatprovides, -p
+                   - search in provides to find package.
 ") . N("  -a             - select all matches on command line.
 ") . N("  -c             - complete output with package to be removed.
 ") . N("  -d             - extend query to package dependencies.
@@ -95,7 +97,6 @@ usage:
 ") . N("  -i             - print useful information in human readable form.
 ") . N("  -l             - list files in package.
 ") . N("  -m             - equivalent to -du
-") . N("  -p             - search in provides to find package.
 ") . N("  -r             - print version and release with name also.
 ") . N("  -s             - next package is a source package (same as --src).
 ") . N("  -u             - remove package if a more recent version is already installed.
@@ -288,7 +289,7 @@ if ($urpm::args::options{list_aliases}) {
 				#- then don't bother finding stuff
 				#- that needs it as it will be invalid
 				my @l = grep { $_ ne $pkg->name } map { $urpm->{depslist}[$_]->name } keys %{$urpm->{provides}{$n}};
-				$urpm->{log}(sprintf "skipping package(s) required by %s via %s, since that virtual package is provided by %s", $pkg->name, $n, join(' ', @l));
+				$urpm->{log}(sprintf "skipping package(s) requiring %s via %s, since %s is also provided by %s", $pkg->name, $n, $n, join(' ', @l));
 				next;
 			    }
 
@@ -297,7 +298,7 @@ if ($urpm::args::options{list_aliases}) {
 				     keys %{$requires{$n} || {}}) {
 				if (grep { URPM::ranges_overlap("$n $s", $_) } $_->requires) {
 				    push @properties, $_->id;
-				    $urpm->{debug} and $urpm->{debug}(sprintf "adding package %s required by %s via %s", $_->name, $pkg->name, $n, );
+				    $urpm->{debug} and $urpm->{debug}(sprintf "adding package %s (requires %s%s)", $_->name, $pkg->name, $n eq $pkg->name ? '' : " via $n");
 				    $properties{$_->id} = undef;
 				}
 			    }
@@ -369,13 +370,13 @@ if ($urpm::args::options{list_aliases}) {
 	    foreach (keys %{$state->{selected}}) {
 		foreach (split /\|/, $_) {
 		    my $pkg = $urpm->{depslist}[$_] or next;
+
 		    #- even if non-root, search for a header in the global cachedir
-		    my $file = $local_sources->{$_} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
-		    if (-s $file) {
+		    my $file1 = $local_sources->{$_} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
+		    my $file2 = "$tmp_header_dir/" . $pkg->header_filename;
+		    if (my ($file) = grep { -s $_ } $file1, $file2) {
 			$pkg->update_header($file, keep_all_tags => 1);
-		    } elsif ($< != 0) {
-			$pkg->update_header("$tmp_header_dir/" . $pkg->header_filename, keep_all_tags => 1);
-			unlink "$tmp_header_dir/" . $pkg->header_filename;
+			$file eq $file2 and unlink $file;
 		    }
 		    if ($urpm::args::options{info})  {
 			printf "%-12s: %s\n", "Name", $pkg->name;
