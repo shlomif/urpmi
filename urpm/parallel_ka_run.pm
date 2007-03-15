@@ -62,7 +62,7 @@ sub parallel_find_remove {
     open my $fh, "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l) . " 2>&1 |";
     while (<$fh>) {
 	chomp;
-	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
+	($_, $node) = _parse_rshp_output($_) or next;
 	/^\s*$/ and next;
 	/Checking to remove the following packages/ and next;
 	/To satisfy dependencies, the following packages are going to be removed/
@@ -177,7 +177,7 @@ sub parallel_resolve_dependencies {
 	open my $fh, "$rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen) . " |";
 	while (<$fh>) {
 	    chomp;
-	    s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
+	    ($_, $node) = _parse_rshp_output($_) or next;
 	    if (my ($action, $what) = /^\@([^\@]*)\@(.*)/) {
 		if ($action eq 'removing') {
 		    $state->{rejected}{$what}{removed} = 1;
@@ -227,7 +227,7 @@ sub parallel_install {
     open my $fh, "$rshp_command -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
     while (<$fh>) {
 	chomp;
-	s/<([^>]*)>.*:->:(.*)/$2/ and $node = $1;
+	($_, $node) = _parse_rshp_output($_) or next;
 	/^\s*$/ and next;
 	$bad_nodes{$node} .= $_;
 	/Installation failed/ and $bad_nodes{$node} = '';
@@ -249,6 +249,18 @@ sub parallel_install {
 	#- continue installation.
         $urpm->{ui_msg}("parallel_ka_run: $rshp_command $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line", urpm::N("Installing packages on nodes..."));
 	system("$rshp_command $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line") == 0;
+    }
+}
+
+sub _parse_rshp_output {
+    my ($s) = @_;
+    #- eg of output of rshp2: <tata2.mandriva.com> [rank:2]:@removing@mpich-1.2.5.2-10mlcs4.x86_64
+
+    if ($s =~ /<([^>]*)>.*:->:(.*)/ || $s =~ /<([^>]*)>\s*\[[^]]*\]:(.*)/) {
+	($1, $2);
+    } else { 
+	warn "bad rshp output $s\n";
+	();
     }
 }
 
