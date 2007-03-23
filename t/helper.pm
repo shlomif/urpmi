@@ -23,11 +23,13 @@ sub need_root_and_prepare() {
     isnt(-d 'root', "test root dir can not be removed $!");
     mkdir 'root';
     $using_root = 1;
+    $ENV{LC_ALL} = 'C';
 }
 
 my $server_pid;
 sub httpd_port { 6969 }
 sub start_httpd() {
+    system('perl -MNet::Server::Single -e 1') == 0 or die "module Net::Server::Simple is missing (package perl-Net-Server)\n";
     $server_pid = fork();
     if ($server_pid == 0) {
 	exec './simple-httpd', $::pwd, "$::pwd/tmp", httpd_port();
@@ -44,8 +46,9 @@ my $urpmi_debug_opt = '-q';
 #$urpmi_debug_opt = '-v --debug';
 
 sub urpm_cmd {
-    my ($prog) = @_;
-    "perl -I.. ../$prog --urpmi-root $::pwd/root";
+    my ($prog, $o_perl_para) = @_;
+    $o_perl_para ||= '';
+    "perl $o_perl_para -I.. ../$prog --urpmi-root $::pwd/root";
 }
 sub urpmi_cmd() { urpm_cmd('urpmi') }
 
