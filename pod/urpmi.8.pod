@@ -177,6 +177,14 @@ F</var/cache/urpmi/rpms>.
 
 Assume yes on all questions.
 
+=item B<--quiet>
+
+Quiet mode: when calling rpm no upgrade status is printed.
+
+=item B<--verbose>
+
+Proposes a verbose mode with various messages.
+
 =item B<--allow-nodeps>
 
 With this option, urpmi will ask the user on error whether it should
@@ -211,11 +219,24 @@ scripts will run after chroot(2). The rpm database that lies in the rooted
 tree will be used, but the urpmi configuration comes from the normal
 system.
 
+=item B<--urpmi-root> I<directory>
+
+Use the file system tree rooted for urpmi database and rpm install. Contrary
+to B<--root>, the urpmi configuration comes from the rooted tree.
+
 =item B<--use-distrib> I<directory>
 
 Configure urpmi on the fly from a distrib tree, useful to install a chroot
 with the B<--root> option. See the description of the B<--distrib> option
 in the C<urpmi.addmedia> manpage.
+
+=item B<--probe-synthesis>
+
+Use synthesis file (to use with --use-distrib).
+
+=item B<--probe-hdlist>
+
+Use hdlist file (to use with --use-distrib).
 
 =item B<--wget>
 
@@ -366,11 +387,11 @@ This is the same as B<--src>.
 
 =item B<-q>
 
-Quiet mode: when calling rpm no upgrade status is printed.
+This is the same as B<--quiet>.
 
 =item B<-v>
 
-Proposes a verbose mode with various messages.
+This is the same as B<--verbose>.
 
 =back
 
@@ -474,7 +495,7 @@ think is wrong.
 =head1 AUTHOR
 
 Pascal Rigaux <pixel@mandriva.com> (original author and current maintainer), 
-FranE<ccedil>ois Pons, Rafael Garcia-Suarez <rgarciasuarez@mandriva.com>
+FranE<ccedil>ois Pons, Rafael Garcia-Suarez 
 
 =head1 SEE ALSO
 

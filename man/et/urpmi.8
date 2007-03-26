@@ -1,78 +1,78 @@
 .\" .IX urpmi
 .TH "urpmi" "8" "05. juuli 2001" "Mandrakesoft" "Mandrakelinux"
 .SH "NIMI"
-urpmi \- rpm\-rakendus, mis muudab paigaldamise kasutajale hõlpsamaks
-.SH "KOKKUVÕTE"
-.B urpmi [\fIvõtmed\fP] [\fIpaketinimed\fP | \fIrpm_failid...\fP]
+urpmi \- rpm\-rakendus, mis muudab paigaldamise kasutajale hÃµlpsamaks
+.SH "KOKKUVÃ•TE"
+.B urpmi [\fIvÃµtmed\fP] [\fIpaketinimed\fP | \fIrpm_failid...\fP]
 .SH "KIRJELDUS"
-urpmi võimaldab mitteadministraatoril rpm\-e paigaldada. Tegelikult lubab see paigaldada ainult hästi tuntud rpm\-e. Kui soovite paigaldada kohalikku rpm\-faili, peate olema administraator.
+urpmi vÃµimaldab mitteadministraatoril rpm\-e paigaldada. Tegelikult lubab see paigaldada ainult hÃ¤sti tuntud rpm\-e. Kui soovite paigaldada kohalikku rpm\-faili, peate olema administraator.
 
-Rpm\-i ja urpmi võrdlus on sama, mis võrdlus insmod\-i ja modprobe või dpkg ja apt\-get\-i vahel
+Rpm\-i ja urpmi vÃµrdlus on sama, mis vÃµrdlus insmod\-i ja modprobe vÃµi dpkg ja apt\-get\-i vahel
 .PP 
-Pakette võivad paigaldada kõik kasutajad, kes kuuluvad gruppi urpmi.
+Pakette vÃµivad paigaldada kÃµik kasutajad, kes kuuluvad gruppi urpmi.
 .br 
-Käivitage urpmi ja lisage märgid, mis Teie arvates tähistavad mõnd paketti ning urpmi:
+KÃ¤ivitage urpmi ja lisage mÃ¤rgid, mis Teie arvates tÃ¤histavad mÃµnd paketti ning urpmi:
 .br 
-\- Pakub välja erinevad paketinimed, kui neid on, ja väljub.
+\- Pakub vÃ¤lja erinevad paketinimed, kui neid on, ja vÃ¤ljub.
 .br 
-\- Kui leiti ainult üks vastav pakett, kontrollib, kas sõltuvused on juba paigaldatud.
+\- Kui leiti ainult Ã¼ks vastav pakett, kontrollib, kas sÃµltuvused on juba paigaldatud.
 .br 
-\- Kui ei ole, teeb ettepaneku paigaldada sõltuvused ning paigaldab siis kõik vajalikud sõltuvused ja tellitud paketi(d).
+\- Kui ei ole, teeb ettepaneku paigaldada sÃµltuvused ning paigaldab siis kÃµik vajalikud sÃµltuvused ja tellitud paketi(d).
 .PP 
-Pange tähele, et urpmi suudab toime tulla paigaldusega erinevatelt andmekandjatelt (ftp, http, kohalikud ja nfs kettad, eemaldatavad andmekandjad, nt CDROM\-id) ning võib sõltuvusi paigaldada tellitud paketiga võrreldes erinevalt andmekandjalt. Vajaduse korral palub urpmi Teil sisestada vajaliku andmekandja.
+Pange tÃ¤hele, et urpmi suudab toime tulla paigaldusega erinevatelt andmekandjatelt (ftp, http, kohalikud ja nfs kettad, eemaldatavad andmekandjad, nt CDROM\-id) ning vÃµib sÃµltuvusi paigaldada tellitud paketiga vÃµrreldes erinevalt andmekandjalt. Vajaduse korral palub urpmi Teil sisestada vajaliku andmekandja.
 .PP 
-Rpm\-e sisaldava uue andmekandja lisamiseks käivitage urpmi.addmedia.
+Rpm\-e sisaldava uue andmekandja lisamiseks kÃ¤ivitage urpmi.addmedia.
 .br 
-Andmekandja eemaldamiseks käivitage urpmi.removemedia.
+Andmekandja eemaldamiseks kÃ¤ivitage urpmi.removemedia.
 .br 
-Pakettide loendi uuendamiseks (kui näiteks ftp\-arhiiv on muutunud) käivitage urpmi.update.
+Pakettide loendi uuendamiseks (kui nÃ¤iteks ftp\-arhiiv on muutunud) kÃ¤ivitage urpmi.update.
 .br 
-Paketi automaatseks paigaldamiseks vastavalt käivitusfailile, mida Te proovisite käivitada, käivitage autoirpm.
+Paketi automaatseks paigaldamiseks vastavalt kÃ¤ivitusfailile, mida Te proovisite kÃ¤ivitada, kÃ¤ivitage autoirpm.
 .br 
-Kõigi tuntud pakettide kõigi saadaolevate menüükirjete paigaldamiseks käivitage autoirpm\-icons.
-.SH "VÕTMED"
+KÃµigi tuntud pakettide kÃµigi saadaolevate menÃ¼Ã¼kirjete paigaldamiseks kÃ¤ivitage autoirpm\-icons.
+.SH "VÃ•TMED"
 .IP "\fB\-\-help\fP"
-näitab abiteadet ja väljub.
+nÃ¤itab abiteadet ja vÃ¤ljub.
 .IP "\fB\-\-update\fP"
-kasutab ainult uuendus\-andmekandjaid. See tähendab, et \fBurpmi\fP otsib ja lahendab sõltuvusi ainult andmekandjatel, mis on märgitud uuenduseks.
+kasutab ainult uuendus\-andmekandjaid. See tÃ¤hendab, et \fBurpmi\fP otsib ja lahendab sÃµltuvusi ainult andmekandjatel, mis on mÃ¤rgitud uuenduseks.
 .IP "\fB\-\-auto\fP"
-paigaldab kõik nõutud sõltuvused ilma küsimusi esitamata.
+paigaldab kÃµik nÃµutud sÃµltuvused ilma kÃ¼simusi esitamata.
 .IP "\fB\-\-auto\-select\fP"
-valib automaatselt kõik paketid, mida tuleb uuendada sõltuvalt juba paigaldatud ja erinevatel andmekandjatel registreeritud pakettidest.
+valib automaatselt kÃµik paketid, mida tuleb uuendada sÃµltuvalt juba paigaldatud ja erinevatel andmekandjatel registreeritud pakettidest.
 .IP "\fB\-\-force\fP"
-eeldab, et igale küsimusele vastatakse jaatavalt.
+eeldab, et igale kÃ¼simusele vastatakse jaatavalt.
 .IP "\fB\-\-X\fP"
 kasutab X\-keskkonda.
 .IP "\fB\-\-best\-output\fP"
-püüab kasutada X\-keskkonda või kui see pole saadaval, siis standardset tekstikeskkonda (kasutades rpm\-i).
+pÃ¼Ã¼ab kasutada X\-keskkonda vÃµi kui see pole saadaval, siis standardset tekstikeskkonda (kasutades rpm\-i).
 .IP "\fB\-a\fP"
-kui alamstringile vastab mitu paketti, võtab need kõik
+kui alamstringile vastab mitu paketti, vÃµtab need kÃµik
 .IP "\fB\-m\fP"
-valib nõutavate miinimumvaliku (see on vaikeseade). See on suhteliselt aeglane algoritm, mis püüab minimeerida uuendavate pakettide valiku nii väheseks, kui võimalik.
+valib nÃµutavate miinimumvaliku (see on vaikeseade). See on suhteliselt aeglane algoritm, mis pÃ¼Ã¼ab minimeerida uuendavate pakettide valiku nii vÃ¤heseks, kui vÃµimalik.
 .IP "\fB\-M\fP"
-valib nõutavate maksimumvaliku. See on kiireim algoritm, mis püüab uuendada kõik nõutavad, kui neid vähegi uuendada saab.
+valib nÃµutavate maksimumvaliku. See on kiireim algoritm, mis pÃ¼Ã¼ab uuendada kÃµik nÃµutavad, kui neid vÃ¤hegi uuendada saab.
 .IP "\fB\-c\fP"
-kui kasutatakse maksimumvalikut, võib juhtuda, et valitud paketil on valed või vananenud sõltuvused. See põhjustab enamate pakettide uuendamise ja võib parandada lahendamata sõltuvused rpm\-andmebaasis.
+kui kasutatakse maksimumvalikut, vÃµib juhtuda, et valitud paketil on valed vÃµi vananenud sÃµltuvused. See pÃµhjustab enamate pakettide uuendamise ja vÃµib parandada lahendamata sÃµltuvused rpm\-andmebaasis.
 .IP "\fB\-p\fP"
 lubab paketi leidmiseks otsingut pakutavate seas.
 .IP "\fB\-q\fP"
-lülitub vaiksesse resiimi, kus rpm\-i uuendamise olekut ei näidata.
+lÃ¼litub vaiksesse resiimi, kus rpm\-i uuendamise olekut ei nÃ¤idata.
 .IP "\fB\-v\fP"
-lülitub selgitavasse resiimi, mis teatab kõigest juhtuvast.
+lÃ¼litub selgitavasse resiimi, mis teatab kÃµigest juhtuvast.
 .SH "FAILID"
 /usr/bin/urpmi
 .br 
-\fBurpmi\fP käivitusfail (perli skript)
+\fBurpmi\fP kÃ¤ivitusfail (perli skript)
 .PP 
 /var/lib/urpmi/list.*
 .br 
-Sisaldab kõigi urpmi\-le tuntud pakettide loendit ja nende asukohti.
-Iga andmekandja kohta(*) on üks faililoend.
+Sisaldab kÃµigi urpmi\-le tuntud pakettide loendit ja nende asukohti.
+Iga andmekandja kohta(*) on Ã¼ks faililoend.
 .PP 
 /var/lib/urpmi/hdlist.*
 .br 
-Sisaldab infot kõigi tuntud pakettide kohta, on rpm\-päiste kokkuvõte.
-Iga andmekandja kohta (*) on üks hdlist.
+Sisaldab infot kÃµigi tuntud pakettide kohta, on rpm\-pÃ¤iste kokkuvÃµte.
+Iga andmekandja kohta (*) on Ã¼ks hdlist.
 .PP 
 /var/lib/urpmi/synthesis.hdlist.*
 .br 
@@ -82,7 +82,7 @@ use \fBurpmi.update \-a\fP to generate them. These files are not mandatory.
 .PP 
 /etc/urpmi/urpmi.cfg
 .br 
-Sisaldab andmekandja kirjeldust, vastuvõetav on urpmi varasema versiooni vorming.
+Sisaldab andmekandja kirjeldust, vastuvÃµetav on urpmi varasema versiooni vorming.
 .PP 
 /etc/urpmi/skip.list
 .br 
@@ -90,11 +90,11 @@ Sisaldab pakettide nimesid, mida ei tuleks automaatselt uuendada.
 .PP 
 /var/lib/urpmi/depslist.ordered
 .br 
-Tavaline tekstifail kõigi tuntud pakettide kõigi sõltuvustega.
+Tavaline tekstifail kÃµigi tuntud pakettide kÃµigi sÃµltuvustega.
 .PP 
 /var/lib/urpmi/provides
 .br 
-Tavaline tekstifail kõigi pakutavate ning neid sisaldavate pakettide loendiga.
+Tavaline tekstifail kÃµigi pakutavate ning neid sisaldavate pakettide loendiga.
 .PP 
 /var/lib/urpmi/compss
 .br 
@@ -109,6 +109,6 @@ urpmq(8),
 .SH "AUTOR"
 Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
 .br 
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Francois Pons, Mandrakesoft 
 .br
-Rafael Garcia-Suarez, Mandrakesoft <rgarciasuarez@mandrakesoft.com>
+Rafael Garcia-Suarez, Mandrakesoft 

@@ -1,4 +1,4 @@
-.\" Relecture Gérard Delafond, svp à refaire
+.\" Relecture GÃ©rard Delafond, svp Ã  refaire
 .TH urpmi 8 "28 Aug 2003" "Mandrakesoft" "Mandrakelinux"
 .IX urpmi
 .SH NOM
@@ -6,154 +6,154 @@ urpmi \- interface rpm pour simplifier les installations
 .SH SYNOPSIS
 .B urpmi [\fIoptions\fP] [\fIpackage_names\fP | \fIrpm_files...\fP]
 .SH DESCRIPTION
-urpmi autorise les rpms bien connus (ou les fichiers .rpm) à être installés ainsi
-que leurs dépendances.
-Vous pouvez l'utiliser pour installer les dépendances d'un paquetage source
-ou le paquetage source lui même.
+urpmi autorise les rpms bien connus (ou les fichiers .rpm) Ã  Ãªtre installÃ©s ainsi
+que leurs dÃ©pendances.
+Vous pouvez l'utiliser pour installer les dÃ©pendances d'un paquetage source
+ou le paquetage source lui mÃªme.
 
-En fait, rpm est à urpmi ce que insmod est à modprobe, ou dpkg à apt-get.
+En fait, rpm est Ã  urpmi ce que insmod est Ã  modprobe, ou dpkg Ã  apt-get.
 .PP
-Lancez urpmi suivi de ce que vous pensez être le nom du/des paquetages(s),
+Lancez urpmi suivi de ce que vous pensez Ãªtre le nom du/des paquetages(s),
 + et urpmi\ :
 .br
 \- Proposera des noms de paquetages possibles s'ils existent, et quittera.
 .br
-\- Vérifiera si les dépendances sont déjà installées, dans le cas où un seul
-paquetage est trouvé.
+\- VÃ©rifiera si les dÃ©pendances sont dÃ©jÃ  installÃ©es, dans le cas oÃ¹ un seul
+paquetage est trouvÃ©.
 .br
-\- Proposera d'installer les dépendances si elles sont absentes, installera
-toutes les dépendances nécessaires après acceptation, puis le paquetage voulu.
+\- Proposera d'installer les dÃ©pendances si elles sont absentes, installera
+toutes les dÃ©pendances nÃ©cessaires aprÃ¨s acceptation, puis le paquetage voulu.
 .PP
-Veuillez noter que urpmi gère les installations à partir de divers médias (ftp,
-http, volumes nfs et locaux, médias amovibles commes les cédéroms), et peut
-installer les dépendances à partir d'un médium différent du médium du paquetage.
-Si nécessaire, urpmi vous demandera d'insérer le médium nécessaire.
+Veuillez noter que urpmi gÃ¨re les installations Ã  partir de divers mÃ©dias (ftp,
+http, volumes nfs et locaux, mÃ©dias amovibles commes les cÃ©dÃ©roms), et peut
+installer les dÃ©pendances Ã  partir d'un mÃ©dium diffÃ©rent du mÃ©dium du paquetage.
+Si nÃ©cessaire, urpmi vous demandera d'insÃ©rer le mÃ©dium nÃ©cessaire.
 .PP
-Pour ajouter un nouveau médium contenant des rpms, lancez urpmi.addmedia.
+Pour ajouter un nouveau mÃ©dium contenant des rpms, lancez urpmi.addmedia.
 .br
-Pour retirer un médium, utilisez urpmi.removemedia.
+Pour retirer un mÃ©dium, utilisez urpmi.removemedia.
 .br
-Pour mettre à jour la liste des paquetages, (par exemple quand l'archive ftp
-a changé) utilisez urpmi.update.
+Pour mettre Ã  jour la liste des paquetages, (par exemple quand l'archive ftp
+a changÃ©) utilisez urpmi.update.
 .br
-Pour installer automatiquement un paquetage correspondant à un exécutable que
-vous avez tenté de lancer, utilisez autoirpm.
+Pour installer automatiquement un paquetage correspondant Ã  un exÃ©cutable que
+vous avez tentÃ© de lancer, utilisez autoirpm.
 .br
-Pour installer toutes les entrées de menu de tous les paquetages connus, utilisez
+Pour installer toutes les entrÃ©es de menu de tous les paquetages connus, utilisez
 autoirpm-icons.
 .SH OPTIONS
 .IP "\fB\--help\fP"
-Affiche un message d'aide et quitte (identique à \fB-h\fP ou \fB-?\fP).
+Affiche un message d'aide et quitte (identique Ã  \fB-h\fP ou \fB-?\fP).
 .IP "\fB\--update\fP"
-Utilise seulement des médias de mise à jour. Cela signifie que \fBurpmi\fP
-ne recherchera et ne résoudra les dépendances que sur les média marqués comme
-mis à jour.
+Utilise seulement des mÃ©dias de mise Ã  jour. Cela signifie que \fBurpmi\fP
+ne recherchera et ne rÃ©soudra les dÃ©pendances que sur les mÃ©dia marquÃ©s comme
+mis Ã  jour.
 .IP "\fB\--media\fP \fImedium1,...,mediumN\fP"
-Sélectionne les media donnés plutôt que tous les media disponibles.
+SÃ©lectionne les media donnÃ©s plutÃ´t que tous les media disponibles.
 .IP "\fB\--excludemedia\fP \fImedium1,...,mediumN\fP"
-Ne pas utiliser les media donnés.
+Ne pas utiliser les media donnÃ©s.
 .IP "\fB\--sortmedia\fP \fImedium1,...,mediumN\fP"
-Trier les media donnés, des sous-chaîne peuvent être utilisé pour simplifier le
+Trier les media donnÃ©s, des sous-chaÃ®ne peuvent Ãªtre utilisÃ© pour simplifier le
 groupement des media.
 .IP "\fB\--synthesis\fP \fIfile\fP"
-Utilise le fichier de synthèse \fIfile\fP à la place de la database de urpmi
-pour rechercher les paquetages et résoudre les dépendances.
+Utilise le fichier de synthÃ¨se \fIfile\fP Ã  la place de la database de urpmi
+pour rechercher les paquetages et rÃ©soudre les dÃ©pendances.
 .IP "\fB\--auto\fP"
-Installe toutes les dépendances nécessaires sans rien demander.
+Installe toutes les dÃ©pendances nÃ©cessaires sans rien demander.
 .IP "\fB\--auto-select\fP"
-Sélectionne automatiquement tous les paquetages qui doivent être mis à jour
-selon les paquetages déjà installés et les paquetages listés dans les divers
-médias enregistrés.
+SÃ©lectionne automatiquement tous les paquetages qui doivent Ãªtre mis Ã  jour
+selon les paquetages dÃ©jÃ  installÃ©s et les paquetages listÃ©s dans les divers
+mÃ©dias enregistrÃ©s.
 .IP "\fB\--no-uninstall\fP"
-Ne demande jamais à l'utilisateur d'enlever un paquetage mais abandonne à la
-place. Ce mode peut être plus sûr en automatique.
+Ne demande jamais Ã  l'utilisateur d'enlever un paquetage mais abandonne Ã  la
+place. Ce mode peut Ãªtre plus sÃ»r en automatique.
 .IP "\fB\--keep\fP"
-Changer la sélection des paquetages lorsque certaines dépendances ne sont pas
-satisfaites en essayant de conserver les paquetages déja installés. Ce
-comportement empêche en général l'installation de paquetages donnée sur la ligne
-de commande en cas d'erreurs de dépendances.
+Changer la sÃ©lection des paquetages lorsque certaines dÃ©pendances ne sont pas
+satisfaites en essayant de conserver les paquetages dÃ©ja installÃ©s. Ce
+comportement empÃªche en gÃ©nÃ©ral l'installation de paquetages donnÃ©e sur la ligne
+de commande en cas d'erreurs de dÃ©pendances.
 .IP "\fB\--split-level \fInumber\fP"
-Découpe en petite transaction l'installation lorsque le nombre de paquetages à
-mettre à jour est supérieur à \fInumber\fP. Cette option est active par défaut
+DÃ©coupe en petite transaction l'installation lorsque le nombre de paquetages Ã 
+mettre Ã  jour est supÃ©rieur Ã  \fInumber\fP. Cette option est active par dÃ©faut
 et la value de \fInumber\fP est de 20.
 .IP "\fB\--split-length \fIcount\fP"
-Découpe en petite transaction d'au moins \fIcount\fP paquetages, par défaut 1.
-Mette 0 dans ce paramètre permet de désactiver le découpage en petite
+DÃ©coupe en petite transaction d'au moins \fIcount\fP paquetages, par dÃ©faut 1.
+Mette 0 dans ce paramÃ¨tre permet de dÃ©sactiver le dÃ©coupage en petite
 transaction.
 .IP "\fB\--fuzzy\fP"
-Désactive la recherche rapide sur un nom de paquetage exact et propose tous les
-noms de paquetages correspondants au paramètre donné (identique à \fB-y\fP).
+DÃ©sactive la recherche rapide sur un nom de paquetage exact et propose tous les
+noms de paquetages correspondants au paramÃ¨tre donnÃ© (identique Ã  \fB-y\fP).
 .IP "\fB\--src\fP \fIname\fP"
-\fIname\fP est considéré comme étant un nom de paquetage source.
+\fIname\fP est considÃ©rÃ© comme Ã©tant un nom de paquetage source.
 .IP "\fB\--install-src\fP"
-N'installe que des paquetages source, aucun paquetages binaire ne sera installé.
+N'installe que des paquetages source, aucun paquetages binaire ne sera installÃ©.
 .IP "\fB\--clean\fP"
 Supprime tous les paquetages du cache avant de faire quoi que ce soit
 (/var/cache/urpmi/rpms).
 .IP "\fB\--noclean\fP"
 Ne supprime aucun paquetage du cache (/var/cache/urpmi/rpms).
 .IP "\fB\--force\fP"
-Répond par l'affirmative à toutes les questions.
+RÃ©pond par l'affirmative Ã  toutes les questions.
 .IP "\fB\--allow-nodeps\fP"
-Autorise urpmi à demander à l'utilisateur de continuer l'installation sans
-vérifier les dépendances. Par défaut urpmi quitte immédiatement dans de tel cas.
+Autorise urpmi Ã  demander Ã  l'utilisateur de continuer l'installation sans
+vÃ©rifier les dÃ©pendances. Par dÃ©faut urpmi quitte immÃ©diatement dans de tel cas.
 .IP "\fB\--allow-force\fP"
-Autorise urpmi à demander à l'utilisateur de continuer l'installation sans
-vérifier les dépendances ou en forcant l'installation. Par défaut urpmi quitte
-immédiatement dans de tel cas.
+Autorise urpmi Ã  demander Ã  l'utilisateur de continuer l'installation sans
+vÃ©rifier les dÃ©pendances ou en forcant l'installation. Par dÃ©faut urpmi quitte
+immÃ©diatement dans de tel cas.
 .IP "\fB\--parallel\fP \fIalias\fP"
-Active l'execution distribué de urpmi vers d'autres machines (urpmi doit être
-installé sur les noeuds distants pas n'a pas besoin d'être configuré).
+Active l'execution distribuÃ© de urpmi vers d'autres machines (urpmi doit Ãªtre
+installÃ© sur les noeuds distants pas n'a pas besoin d'Ãªtre configurÃ©).
 \fIalias\fP permet de choisir quel module d'extension urpmi doit utiliser et
-quelles machines doivent être mise à jour, cet alias est défini dans le fichier
-/etc/urpmi/parallel.cfg qui est défini ci-dessous.
+quelles machines doivent Ãªtre mise Ã  jour, cet alias est dÃ©fini dans le fichier
+/etc/urpmi/parallel.cfg qui est dÃ©fini ci-dessous.
 .IP "\fB\--wget\fP"
-Utilise wget pour télécharger les fichiers. Par défaut curl est utilisé s'il est
+Utilise wget pour tÃ©lÃ©charger les fichiers. Par dÃ©faut curl est utilisÃ© s'il est
 disponible ou wget dans le cas contraire.
 .IP "\fB\--curl\fP"
-Utilise curl pour télécharger les fichiers. Par défaut curl est utilisé s'il est
+Utilise curl pour tÃ©lÃ©charger les fichiers. Par dÃ©faut curl est utilisÃ© s'il est
 disponible ou wget dans le cas contraire.
 .IP "\fB\--limit-rate \fIrate\fP"
-Essaye de limiter la vitesse de téléchargement, \fIrate\fP est donnée en octets/sec.
-Cette option n'est pas activée par défaut.
+Essaye de limiter la vitesse de tÃ©lÃ©chargement, \fIrate\fP est donnÃ©e en octets/sec.
+Cette option n'est pas activÃ©e par dÃ©faut.
 .IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
-Utilise le proxy HTTP indiqué.
+Utilise le proxy HTTP indiquÃ©.
 .IP "\fB\--proxy-user\fP \fIuser:password\fP"
 Utilise le nom d'utilisateur et le mot de passe pour l'authentification au proxy.
 .IP "\fB\--bug\fP \fIdirectory\fP"
-Créer un rapport de bug dans le répertoire \fIdirectory\fP, vous devez envoyé
-une archive compréssé de ce répertoire au maintaineur de \fBurpmi\fP pour que le
-problème soit (problablement) fixé.
+CrÃ©er un rapport de bug dans le rÃ©pertoire \fIdirectory\fP, vous devez envoyÃ©
+une archive comprÃ©ssÃ© de ce rÃ©pertoire au maintaineur de \fBurpmi\fP pour que le
+problÃ¨me soit (problablement) fixÃ©.
 .IP "\fB\--env\fP \fIdirectory\fP"
 Utilise un environnement de rapport de bug pour simuler le comportement du bug,
-\fIdirectory\fP est le même argument qui a été donné à l'option \fB--bug\fP.
+\fIdirectory\fP est le mÃªme argument qui a Ã©tÃ© donnÃ© Ã  l'option \fB--bug\fP.
 .IP "\fB\--X\fP"
 Utilise l'interface X.
 .IP "\fB\--best-output\fP"
 Essaye d'utiliser l'interface X, ou si elle n'est pas disponible, l'interface
 en mode texte (qui utilise rpm).
 .IP "\fB\--verify-rpm\fP" or "\fB\--no-verify-rpm\fP"
-Active (défaut) ou désactive la vérification des signatures des paquetages.
+Active (dÃ©faut) ou dÃ©sactive la vÃ©rification des signatures des paquetages.
 .IP "\fB\--test\fP"
-Tester (de la même manière que \fBrpm --test\fP) l'installation de paquetages
-sans modifier le système installé.
+Tester (de la mÃªme maniÃ¨re que \fBrpm --test\fP) l'installation de paquetages
+sans modifier le systÃ¨me installÃ©.
 .IP "\fB\--excludepath\fP \fIstring\fP"
-N'installe pas de fichiers dont les noms commencent par la chaîne donnée (tél
+N'installe pas de fichiers dont les noms commencent par la chaÃ®ne donnÃ©e (tÃ©l
 que le fait \fBrpm --excludepath\fP).
 .IP "\fB\--excludedocs\fP"
-N'installe pas les fichiers de documentations (tél que \fBrpm --excludedocs\fP).
+N'installe pas les fichiers de documentations (tÃ©l que \fBrpm --excludedocs\fP).
 .IP "\fB\-a\fP"
-Si plusieurs paquetages coïncident avec la sous-chaîne donnée, les prendre tous.
+Si plusieurs paquetages coÃ¯ncident avec la sous-chaÃ®ne donnÃ©e, les prendre tous.
 .IP "\fB\-p\fP"
-Autorise la recherche dans "provides" pour trouver un paquetage (par défaut).
+Autorise la recherche dans "provides" pour trouver un paquetage (par dÃ©faut).
 .IP "\fB\-P\fP"
-Désactive la recherche dans "provides" pour trouver un paquetage.
+DÃ©sactive la recherche dans "provides" pour trouver un paquetage.
 .IP "\fB\-y\fP"
-Identique à \fB--fuzzy\fP.
+Identique Ã  \fB--fuzzy\fP.
 .IP "\fB\-s\fP"
-Identique à \fB--src\fP.
+Identique Ã  \fB--src\fP.
 .IP "\fB\-q\fP"
-Active le mode silencieux pour la mise à jour utilisant rpm 
+Active le mode silencieux pour la mise Ã  jour utilisant rpm 
 .IP "\fB\-v\fP"
 Active un mode verbeux avec de nombreux messages.
 .SH FICHIERS
@@ -162,99 +162,99 @@ Active un mode verbeux avec de nombreux messages.
 ..
 .TP
 .FN /usr/sbin/urpmi
-L'exécutable \fBurpmi\fP (script perl)
+L'exÃ©cutable \fBurpmi\fP (script perl)
 .TP
 .FN /var/lib/urpmi/list.*
 Contient la liste de tous les paquetages connus par urpmi et leur emplacement.
-Il y a une liste de fichiers par médium(*).
+Il y a une liste de fichiers par mÃ©dium(*).
 .TP
 .FN /var/lib/urpmi/hdlist.*
-Contient l'information sur tous les paquetages connus, c'est un résumé des
-en-têtes de rpm.
-Il y a un fichier hdlist par médium(*).
+Contient l'information sur tous les paquetages connus, c'est un rÃ©sumÃ© des
+en-tÃªtes de rpm.
+Il y a un fichier hdlist par mÃ©dium(*).
 .TP
 .FN /var/lib/urpmi/synthesis.hdlist.*
-Contient une synthèse de tous les paquetages connus construits à partir des
-fichiers hdlist qui peut être utilisée pour l'algorithme de l'ensemble minimal.
-Si ces fichiers ne sont pas présents, utilisez \fBurpmi.update -a\fP pour les
-générer. Ces fichiers ne sont pas obligatoires.
+Contient une synthÃ¨se de tous les paquetages connus construits Ã  partir des
+fichiers hdlist qui peut Ãªtre utilisÃ©e pour l'algorithme de l'ensemble minimal.
+Si ces fichiers ne sont pas prÃ©sents, utilisez \fBurpmi.update -a\fP pour les
+gÃ©nÃ©rer. Ces fichiers ne sont pas obligatoires.
 .TP
 .FN /etc/urpmi/urpmi.cfg
-Contient la description des média, l'ancien format urpmi est accepté.
+Contient la description des mÃ©dia, l'ancien format urpmi est acceptÃ©.
 .TP
 .FN /etc/urpmi/parallel.cfg
 Contientains la description de alias pour le mode parallele, le format est
-\fB<alias>:<interface[(media)]>:<interface_parameter>\fP où \fB<alias>\fP est
-un nom symbolique, \fB<interface>\fP peut être \fBka-run\fP ou \fBssh\fP,
-\fB<media>\fP est une liste de média (tél que donnée à \fB--media\fP),
-\fB<interface_parameter>\fP est un parametre spécifique pour l'interface, par
+\fB<alias>:<interface[(media)]>:<interface_parameter>\fP oÃ¹ \fB<alias>\fP est
+un nom symbolique, \fB<interface>\fP peut Ãªtre \fBka-run\fP ou \fBssh\fP,
+\fB<media>\fP est une liste de mÃ©dia (tÃ©l que donnÃ©e Ã  \fB--media\fP),
+\fB<interface_parameter>\fP est un parametre spÃ©cifique pour l'interface, par
 exemple "-c ssh -m node1 -m node2" pour l'extension \fBka-run\fP
 ou "node1:node2" pour l'extension \fBssh\fP.
 .TP
 .FN /etc/urpmi/skip.list
-Contient les noms de paquetages à ne pas mettre à jour automatiquement.
+Contient les noms de paquetages Ã  ne pas mettre Ã  jour automatiquement.
 .TP
 .FN /etc/urpmi/inst.list
-Contient les noms de paquetages à installer plutôt qu'à mettre à jour.
+Contient les noms de paquetages Ã  installer plutÃ´t qu'Ã  mettre Ã  jour.
 .SH "CODE D'ERREURS"
 .IP 1
 La ligne de commande est inconsistante entre les options.
 .IP 2
-Erreur pour lire un paquetages donnée en ligne de commande directement.
+Erreur pour lire un paquetages donnÃ©e en ligne de commande directement.
 .IP 3
-Les paquetages ne sont pas récupérables.
+Les paquetages ne sont pas rÃ©cupÃ©rables.
 .IP 4
-Le medium n'est pas sélectioné.
+Le medium n'est pas sÃ©lectionÃ©.
 .IP 5
-Le medium existe déja (erreur de création de medium).
+Le medium existe dÃ©ja (erreur de crÃ©ation de medium).
 .IP 6
-Impossible de sauver la configuration (problème de droits ?).
+Impossible de sauver la configuration (problÃ¨me de droits ?).
 .IP 7
-La base de données de urpmi est vérouillée.
+La base de donnÃ©es de urpmi est vÃ©rouillÃ©e.
 .IP 8
-Impossible de créer le rapport de bug, vérifier que le fichier n'existe pas déja.
+Impossible de crÃ©er le rapport de bug, vÃ©rifier que le fichier n'existe pas dÃ©ja.
 .IP 9
-Impossible d'ouvrir la base de donnée rpm (problème de droits ?).
+Impossible d'ouvrir la base de donnÃ©e rpm (problÃ¨me de droits ?).
 .IP 10
 Certains fichiers sont manquants pour l'installation.
 .IP 11
-Certaines transactions on échoué mais pas toutes.
+Certaines transactions on Ã©chouÃ© mais pas toutes.
 .IP 12
-Toutes les transactions ont échoué.
+Toutes les transactions ont Ã©chouÃ©.
 .IP 13
-Certains fichiers sont manquants et certaines transactions ont échoué.
+Certains fichiers sont manquants et certaines transactions ont Ã©chouÃ©.
 .IP 14
-Certains fichiers sont manquants et toutes les transactions ont échoué.
+Certains fichiers sont manquants et toutes les transactions ont Ã©chouÃ©.
 .SH "RAPPORT DE BOGUES"
 Si vous trouvez un bogue dans \fBurpmi\fP alors il faut le rapporter en
-utilisant ce paramètre dans la ligne de commande utilisée :
+utilisant ce paramÃ¨tre dans la ligne de commande utilisÃ©e :
 .I urpmi --bug bug_name_as_directory ...
-Cette option va permettre de crééer automatiquement un répertoire appelé
-\fIbug_name_as_directory\fP contenant tous les fichiers nécessaire pour
+Cette option va permettre de crÃ©Ã©er automatiquement un rÃ©pertoire appelÃ©
+\fIbug_name_as_directory\fP contenant tous les fichiers nÃ©cessaire pour
 reproduire le bogue si possible.
 .PP
-Vous pouvez aussi tester la rapport en utilisant ce paramètre :
+Vous pouvez aussi tester la rapport en utilisant ce paramÃ¨tre :
 .I urpmi --env bug_name_as_directory ...
-pour vérifier que le bogue est toujours présent, actuellement seulement les bugs
-concernant la résolutions des dépendences peuvent être reproduits en utilisant
+pour vÃ©rifier que le bogue est toujours prÃ©sent, actuellement seulement les bugs
+concernant la rÃ©solutions des dÃ©pendences peuvent Ãªtre reproduits en utilisant
 cette technique.
 .PP
 Pour envoyer le rapport, utilisez :
 .I tar cvfz bug_name_as_directory.tgz bug_name_as_directory
-et envoyez-le directement au mainteneur (rgarciasuarez@mandrakesoft.com)
+et envoyez-le directement au mainteneur
 avec une description de ce qui est anormal selon vous.
 .SH BOGUES
-Lorsqu'un paquetage est enlevé, il peut ne pas être remplacé par une vieille
+Lorsqu'un paquetage est enlevÃ©, il peut ne pas Ãªtre remplacÃ© par une vieille
 version correspondante.
 .SH AUTEURS
 Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (auteur originel)
 .PP
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Francois Pons, Mandrakesoft 
 .br
-Rafael Garcia-Suarez, Mandrakesoft <rgarciasuarez@mandrakesoft.com>
+Rafael Garcia-Suarez, Mandrakesoft 
 .SH CONTRIBUTEURS
-Envoyez un mail aux auteurs si vous n'êtes pas dans cette liste triée
-alphabetiquement lorsque vous avez contribué à urpmi.
+Envoyez un mail aux auteurs si vous n'Ãªtes pas dans cette liste triÃ©e
+alphabetiquement lorsque vous avez contribuÃ© Ã  urpmi.
 .PP
 Andrej Borsenkow,
 Guillaume Cottenceau,

@@ -1,142 +1,142 @@
 .TH urpmi.addmedia 8 "28 Srp 2003" "Mandrakesoft" "Mandrakelinux"
 .IX urpmi.addmedia
-.SH NÁZEV
-urpmi.addmedia \- pøidá novı zdroj s balíèky RPM pro program urpmi
+.SH NÃZEV
+urpmi.addmedia \- pÅ™idÃ¡ novÃ½ zdroj s balÃ­Äky RPM pro program urpmi
 .SH SYNAPSE
-.B urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> <\fIurl\fP>
+.B urpmi.addmedia [\fIvolby\fP] <\fInÃ¡zev\fP> <\fIurl\fP>
 .SH POPIS
-Program urpmi.addmedia sdìluje programu urpmi, ¾e jsou k dispozici nové balíèky RPM na zadaném místì. V souèasné dobì jsou podporovány následující zdroje: lokální disky, vyjímatelné disky (napø. CD), sí»ové zdroje typu HTTP, FTP, SSH a rsync.
+Program urpmi.addmedia sdÄ›luje programu urpmi, Å¾e jsou k dispozici novÃ© balÃ­Äky RPM na zadanÃ©m mÃ­stÄ›. V souÄasnÃ© dobÄ› jsou podporovÃ¡ny nÃ¡sledujÃ­cÃ­ zdroje: lokÃ¡lnÃ­ disky, vyjÃ­matelnÃ© disky (napÅ™. CD), sÃ­Å¥ovÃ© zdroje typu HTTP, FTP, SSH a rsync.
 .PP
-Musí bıt zvolen jeden z následujících re¾imù:
+MusÃ­ bÃ½t zvolen jeden z nÃ¡sledujÃ­cÃ­ch reÅ¾imÅ¯:
 .PP
 HTTP:
 .br
-.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> http://<\fIu¾ivatel\fP>:<\fIheslo\fP>@<\fIpoèítaè\fP>/<\fIcesta\fP> [with <\fIrelativní cesta k souboru hdlist\fP>]\fP"
-Kde <\fInázev\fP> je vámi zadanı název zdroje (napø. "updates"). <\fInázev\fP> je volitelnı, pokud je ve <\fIvolbách\fP> pøítomna volba <\fB\--distrib\fP>.
+.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInÃ¡zev\fP> http://<\fIuÅ¾ivatel\fP>:<\fIheslo\fP>@<\fIpoÄÃ­taÄ\fP>/<\fIcesta\fP> [with <\fIrelativnÃ­ cesta k souboru hdlist\fP>]\fP"
+Kde <\fInÃ¡zev\fP> je vÃ¡mi zadanÃ½ nÃ¡zev zdroje (napÅ™. "updates"). <\fInÃ¡zev\fP> je volitelnÃ½, pokud je ve <\fIvolbÃ¡ch\fP> pÅ™Ã­tomna volba <\fB\--distrib\fP>.
 .br
- <\fIpoèítaè\fP>/<\fIcesta\fP> je umístìní adresáøe se soubory RPM na síti.
+ <\fIpoÄÃ­taÄ\fP>/<\fIcesta\fP> je umÃ­stÄ›nÃ­ adresÃ¡Å™e se soubory RPM na sÃ­ti.
 .br
-<\fIrelativní cesta k souboru hdlist\fP> je cesta, kde se má hledat soubor hdlist se seznamem balíèkù. Umístìní je dané relativnì vzhledem k <\fIcestì\fP>.
+<\fIrelativnÃ­ cesta k souboru hdlist\fP> je cesta, kde se mÃ¡ hledat soubor hdlist se seznamem balÃ­ÄkÅ¯. UmÃ­stÄ›nÃ­ je danÃ© relativnÄ› vzhledem k <\fIcestÄ›\fP>.
 .br
-Ke sta¾ení souborù se pou¾ívá program \fBcurl\fP, lze v¹ak pou¾ít také program \fBwget\fP, pokud není program \fBcurl\fP nainstalován nebo je ve volbách pou¾ita volba \fB\--curl\fP.
+Ke staÅ¾enÃ­ souborÅ¯ se pouÅ¾Ã­vÃ¡ program \fBcurl\fP, lze vÅ¡ak pouÅ¾Ã­t takÃ© program \fBwget\fP, pokud nenÃ­ program \fBcurl\fP nainstalovÃ¡n nebo je ve volbÃ¡ch pouÅ¾ita volba \fB\--curl\fP.
 .nf
-napø.: urpmi.addmedia http http://jpackage.sf.net/rpm/free with hdlist.cz
+napÅ™.: urpmi.addmedia http http://jpackage.sf.net/rpm/free with hdlist.cz
 .fi
 .PP
 FTP:
 .br
-.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> ftp://<\fIu¾ivatel\fP>:<\fIheslo\fP>@<\fIpoèítaè\fP>/<\fIcesta\fP> [with <\fIrelativní cesta k souboru hdlist\fP>]\fP"
-Stejnì jako v pøípadì re¾imu http, pouze pøidejte své u¾ivatelské jméno a heslo, pokud je to potøeba (pro anonymní pøihlá¹ení na server nemusíte zadávat ¾ádné jméno ani heslo).
+.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInÃ¡zev\fP> ftp://<\fIuÅ¾ivatel\fP>:<\fIheslo\fP>@<\fIpoÄÃ­taÄ\fP>/<\fIcesta\fP> [with <\fIrelativnÃ­ cesta k souboru hdlist\fP>]\fP"
+StejnÄ› jako v pÅ™Ã­padÄ› reÅ¾imu http, pouze pÅ™idejte svÃ© uÅ¾ivatelskÃ© jmÃ©no a heslo, pokud je to potÅ™eba (pro anonymnÃ­ pÅ™ihlÃ¡Å¡enÃ­ na server nemusÃ­te zadÃ¡vat Å¾Ã¡dnÃ© jmÃ©no ani heslo).
 .br
-Pokud je pro sta¾ení souborù pou¾it program \fBwget\fP a pou¾íváte firewall, mo¾ná budete muset pøidat do souboru \fB/etc/wgetrc\fP volbu \fBpassive_ftp=on\fP. 
+Pokud je pro staÅ¾enÃ­ souborÅ¯ pouÅ¾it program \fBwget\fP a pouÅ¾Ã­vÃ¡te firewall, moÅ¾nÃ¡ budete muset pÅ™idat do souboru \fB/etc/wgetrc\fP volbu \fBpassive_ftp=on\fP. 
 .nf
-napø.: urpmi.addmedia ftp ftp://a:a@leia//export/media/main with ../base/hdlist
+napÅ™.: urpmi.addmedia ftp ftp://a:a@leia//export/media/main with ../base/hdlist
 .fi
 .PP
 SSH:
 .br
-.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> ssh://<\fIu¾ivatel\fP>:<\fIheslo\fP>@<\fIpoèítaè\fP>/<\fIcesta\fP> [with <\fIrelativní cesta k souboru hdlist\fP>]\fP"
-Stejnì jako v pøípadì re¾imu http, pouze pøidejte své u¾ivatelské jméno a heslo, pokud je to potøeba. Velmi doporuèujeme exportovat klíè u¾ivatele root, abyste nemuseli zadávat poøád jeho heslo. Pro sta¾ení souborù se pou¾ijí pøíkazy \fBscp\fP a \fBrsync\fP.
+.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInÃ¡zev\fP> ssh://<\fIuÅ¾ivatel\fP>:<\fIheslo\fP>@<\fIpoÄÃ­taÄ\fP>/<\fIcesta\fP> [with <\fIrelativnÃ­ cesta k souboru hdlist\fP>]\fP"
+StejnÄ› jako v pÅ™Ã­padÄ› reÅ¾imu http, pouze pÅ™idejte svÃ© uÅ¾ivatelskÃ© jmÃ©no a heslo, pokud je to potÅ™eba. Velmi doporuÄujeme exportovat klÃ­Ä uÅ¾ivatele root, abyste nemuseli zadÃ¡vat poÅ™Ã¡d jeho heslo. Pro staÅ¾enÃ­ souborÅ¯ se pouÅ¾ijÃ­ pÅ™Ã­kazy \fBscp\fP a \fBrsync\fP.
 .nf
-napø: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
+napÅ™: urpmi.addmedia -h ssh ssh://fpons@bi/c/i586/media/main
 .fi
 .PP
 rsync:
 .br
-.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> rsync://<\fIu¾ivatel\fP>:<\fIheslo\fP>@<\fIpoèítaè\fP>:<\fIport\fP>/<\fIcesta\fP> [with <\fIrelativní cesta k souboru hdlist\fP>]\fP"
-Stejnì jako v pøípadì re¾imu http, mù¾ete pou¾ít poèítaè a cestu.
+.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInÃ¡zev\fP> rsync://<\fIuÅ¾ivatel\fP>:<\fIheslo\fP>@<\fIpoÄÃ­taÄ\fP>:<\fIport\fP>/<\fIcesta\fP> [with <\fIrelativnÃ­ cesta k souboru hdlist\fP>]\fP"
+StejnÄ› jako v pÅ™Ã­padÄ› reÅ¾imu http, mÅ¯Å¾ete pouÅ¾Ã­t poÄÃ­taÄ a cestu.
 .nf
-napø: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/media/media_info/hdlist2.cz
+napÅ™: urpmi.addmedia rsync rsync://ftp.orst.edu::mandrake-devel/contrib/ppc with ../../cooker/ppc/media/media_info/hdlist2.cz
 .fi
 .PP
-Lokální soubory nebo svazky NFS:
+LokÃ¡lnÃ­ soubory nebo svazky NFS:
 .br
-.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> file://<\fIcesta\fP>\fP [with <\fIrelativní cesta k souboru hdlist\fP>]\fP"
-Kde <\fInázev\fP> je vá¹ název pro zdroj (napø. Mojerpm).
+.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInÃ¡zev\fP> file://<\fIcesta\fP>\fP [with <\fIrelativnÃ­ cesta k souboru hdlist\fP>]\fP"
+Kde <\fInÃ¡zev\fP> je vÃ¡Å¡ nÃ¡zev pro zdroj (napÅ™. Mojerpm).
 .br
-<\fIcesta\fP> je umístìní adresáøe s balíèky RPM na va¹em poèítaèi.
+<\fIcesta\fP> je umÃ­stÄ›nÃ­ adresÃ¡Å™e s balÃ­Äky RPM na vaÅ¡em poÄÃ­taÄi.
 .PP
-Vyjímatelná zaøízení:
+VyjÃ­matelnÃ¡ zaÅ™Ã­zenÃ­:
 .br
-.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInázev\fP> removable://<\fIcesta\fP>\fP [with <\fIrelativní cesta k souboru hdlist\fP>]\fP"
-<\fIcesta\fP> je umístìní adresáøe s balíèky RPM na va¹em poèítaèi, kam je pøipojenı zdroj.
+.IP "\fB  urpmi.addmedia [\fIvolby\fP] <\fInÃ¡zev\fP> removable://<\fIcesta\fP>\fP [with <\fIrelativnÃ­ cesta k souboru hdlist\fP>]\fP"
+<\fIcesta\fP> je umÃ­stÄ›nÃ­ adresÃ¡Å™e s balÃ­Äky RPM na vaÅ¡em poÄÃ­taÄi, kam je pÅ™ipojenÃ½ zdroj.
 .PP
 .SH VOLBY
 .IP "\fB\--wget\fP"
-pro stahování vzdálenıch souborù se pou¾ije vıhradnì program wget. Implicitnì se pou¾ívá program curl a program wget pouze tehdy, pokud curl není k dispozici.
+pro stahovÃ¡nÃ­ vzdÃ¡lenÃ½ch souborÅ¯ se pouÅ¾ije vÃ½hradnÄ› program wget. ImplicitnÄ› se pouÅ¾Ã­vÃ¡ program curl a program wget pouze tehdy, pokud curl nenÃ­ k dispozici.
 .IP "\fB\--curl\fP"
-pro stahování vzdálenıch souborù se pou¾ije vıhradnì program curl. Implicitnì se pou¾ívá program curl a program wget pouze tehdy, pokud curl není k dispozici.
+pro stahovÃ¡nÃ­ vzdÃ¡lenÃ½ch souborÅ¯ se pouÅ¾ije vÃ½hradnÄ› program curl. ImplicitnÄ› se pouÅ¾Ã­vÃ¡ program curl a program wget pouze tehdy, pokud curl nenÃ­ k dispozici.
 .IP "\fB\--limit-rate\fP \fIrychlost\fP"
-pokusí se omezit rychlost stahování, \fIrychlost\fP se zadává v b/s. Tato volba není implicitnì aktivní.
+pokusÃ­ se omezit rychlost stahovÃ¡nÃ­, \fIrychlost\fP se zadÃ¡vÃ¡ v b/s. Tato volba nenÃ­ implicitnÄ› aktivnÃ­.
 .IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
-pou¾ije zadanou HTTP proxy.
-.IP "\fB\--proxy-user\fP \fIu¾ivatel:heslo\fP"
-pou¾ije zadaného u¾ivatele a heslo pro ovìøení na proxy.
+pouÅ¾ije zadanou HTTP proxy.
+.IP "\fB\--proxy-user\fP \fIuÅ¾ivatel:heslo\fP"
+pouÅ¾ije zadanÃ©ho uÅ¾ivatele a heslo pro ovÄ›Å™enÃ­ na proxy.
 .IP "\fB\--update\fP"
-pøidá zdroj, kterı bude vzat v potaz pouze pøi aktualizacích zdrojù pomocí programu \fBurpmi\fP.
+pÅ™idÃ¡ zdroj, kterÃ½ bude vzat v potaz pouze pÅ™i aktualizacÃ­ch zdrojÅ¯ pomocÃ­ programu \fBurpmi\fP.
 .IP "\fB\--probe-synthesis\fP"
-pokusí se najít a pou¾ít soubor se syntézou, pokud není zadána volba \fB with ...\fP.
+pokusÃ­ se najÃ­t a pouÅ¾Ã­t soubor se syntÃ©zou, pokud nenÃ­ zadÃ¡na volba \fB with ...\fP.
 .IP "\fB\--probe-hdlist\fP"
-pokusí se najít a pou¾ít soubor hdlist, pokud není zadána volba \fB with ...\fP.
+pokusÃ­ se najÃ­t a pouÅ¾Ã­t soubor hdlist, pokud nenÃ­ zadÃ¡na volba \fB with ...\fP.
 .IP "\fB\--no-probe\fP"
-nepokusí se hledat ani soubor hdlist, ani soubor se syntézou.
+nepokusÃ­ se hledat ani soubor hdlist, ani soubor se syntÃ©zou.
 .IP "\fB\--distrib\fP"
-pøidá v¹echna zdroje z instalaèního zdroje. <\fInázev\fP> je pou¾it spolu s názvem nalezeného zdroje k vytvoøení novìj¹ího názvu zdroje v databázi urpmi. Volba \fBwith\fP se v tomto pøípadì nepou¾ije, proto¾e se pou¾ijí automaticky soubory hdlist nalezené na instalaèním zdroji.
+pÅ™idÃ¡ vÅ¡echna zdroje z instalaÄnÃ­ho zdroje. <\fInÃ¡zev\fP> je pouÅ¾it spolu s nÃ¡zvem nalezenÃ©ho zdroje k vytvoÅ™enÃ­ novÄ›jÅ¡Ã­ho nÃ¡zvu zdroje v databÃ¡zi urpmi. Volba \fBwith\fP se v tomto pÅ™Ã­padÄ› nepouÅ¾ije, protoÅ¾e se pouÅ¾ijÃ­ automaticky soubory hdlist nalezenÃ© na instalaÄnÃ­m zdroji.
 .IP "\fB\--distrib-XXX\fP"
-automaticky vytvoøí zdroj pro èást XXX distribuce. XXX mù¾e bıt main, contrib, udates nebo cokoli jiného, co je nastaveno.
+automaticky vytvoÅ™Ã­ zdroj pro ÄÃ¡st XXX distribuce. XXX mÅ¯Å¾e bÃ½t main, contrib, udates nebo cokoli jinÃ©ho, co je nastaveno.
 .IP "\fB\--from\fP \fIurl\fP"
-pou¾ije zadané \fIurl\fP pro získání seznamu zrcadel, vıchozí pro Mandrakesoft je http://www.linux-mandrake.com/mirrorsfull.list. Pouze v pøípadì, ¾e je instalován program \fBurpmi.setup\fP, se pou¾ije seznam zrcadel z jeho souboru s nastavením.
+pouÅ¾ije zadanÃ© \fIurl\fP pro zÃ­skÃ¡nÃ­ seznamu zrcadel, vÃ½chozÃ­ pro Mandrakesoft je http://www.linux-mandrake.com/mirrorsfull.list. Pouze v pÅ™Ã­padÄ›, Å¾e je instalovÃ¡n program \fBurpmi.setup\fP, se pouÅ¾ije seznam zrcadel z jeho souboru s nastavenÃ­m.
 .IP "\fB\--version\fP \fIverze\fP"
-pou¾ije zadanou verzi pøi pou¾ití volby \fB\--distrib-XXX\fP, vıchozí je hodnota verze instalovaného balíèku \fBmandrake-release\fP.
+pouÅ¾ije zadanou verzi pÅ™i pouÅ¾itÃ­ volby \fB\--distrib-XXX\fP, vÃ½chozÃ­ je hodnota verze instalovanÃ©ho balÃ­Äku \fBmandrake-release\fP.
 .IP "\fB\--arch\fP \fIarchitektura\fP"
-pou¾ije zadanou architekturu pøi pou¾ití volby \fB\--distrib-XXX\fP, vıchozí je architektura instalovaného balíèku \fBmandrake-release\fP.
+pouÅ¾ije zadanou architekturu pÅ™i pouÅ¾itÃ­ volby \fB\--distrib-XXX\fP, vÃ½chozÃ­ je architektura instalovanÃ©ho balÃ­Äku \fBmandrake-release\fP.
 .IP "\fB\-c\fP"
-vyma¾e vyrovnávací pamì» s hlavièkami v adresáøi /var/cache/urpmi/headers.
+vymaÅ¾e vyrovnÃ¡vacÃ­ pamÄ›Å¥ s hlaviÄkami v adresÃ¡Å™i /var/cache/urpmi/headers.
 .IP "\fB\-h\fP"
-pokusí se najít a pou¾ít soubory se syntézou nebo soubory hdlist.
+pokusÃ­ se najÃ­t a pouÅ¾Ã­t soubory se syntÃ©zou nebo soubory hdlist.
 .IP "\fB\-f\fP"
-donutí program násilím vygenerovat soubory hdlist.
+donutÃ­ program nÃ¡silÃ­m vygenerovat soubory hdlist.
 .SH SOUBORY
 /usr/bin/urpmi.addmedia
 .br
-Spustitelnı soubor \fBurpmi.addmedia\fP (skript jazyka Perl)
+SpustitelnÃ½ soubor \fBurpmi.addmedia\fP (skript jazyka Perl)
 .PP
 /var/lib/urpmi/list.*
 .br
-Obsahuje seznam v¹ech balíèkù známıch programu urpmi a jejich umístìní, pouze pokud je pou¾ito heslo pro pøístup ke vzdálenım lokacím (pomocí sí»ového protokolu), nebo rùzné adresáøe, které jsou pou¾ity k ulo¾ení balíèkù.
+Obsahuje seznam vÅ¡ech balÃ­ÄkÅ¯ znÃ¡mÃ½ch programu urpmi a jejich umÃ­stÄ›nÃ­, pouze pokud je pouÅ¾ito heslo pro pÅ™Ã­stup ke vzdÃ¡lenÃ½m lokacÃ­m (pomocÃ­ sÃ­Å¥ovÃ©ho protokolu), nebo rÅ¯znÃ© adresÃ¡Å™e, kterÃ© jsou pouÅ¾ity k uloÅ¾enÃ­ balÃ­ÄkÅ¯.
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Obsahuje informace o v¹ech známıch balíècích, je to souhrn hlavièek balíèkù RPM. Pokud je pro zdroj pou¾it soubor hdlist, mù¾e program \fBurpmf\fP kompletnì fungovat, co¾ je také nejèastìj¹í pøípad. (Více viz manuálové stránky pro pøíkaz \fBurpmf\fP).
+Obsahuje informace o vÅ¡ech znÃ¡mÃ½ch balÃ­ÄcÃ­ch, je to souhrn hlaviÄek balÃ­ÄkÅ¯ RPM. Pokud je pro zdroj pouÅ¾it soubor hdlist, mÅ¯Å¾e program \fBurpmf\fP kompletnÄ› fungovat, coÅ¾ je takÃ© nejÄastÄ›jÅ¡Ã­ pÅ™Ã­pad. (VÃ­ce viz manuÃ¡lovÃ© strÃ¡nky pro pÅ™Ã­kaz \fBurpmf\fP).
 .PP
 /var/lib/urpmi/synthesis.hdlist.*
 .br
-Obsahuje informace syntézy o v¹ech známıch balíècích, které jsou sestaveny ze souborù hdlist, a které mohou bıt pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory pøítomny, pou¾ijí se soubory hdlist, co¾ je ov¹em vıraznì pomalej¹í.
+Obsahuje informace syntÃ©zy o vÅ¡ech znÃ¡mÃ½ch balÃ­ÄcÃ­ch, kterÃ© jsou sestaveny ze souborÅ¯ hdlist, a kterÃ© mohou bÃ½t pouÅ¾ity pro urychlenÃ­ zpracovÃ¡nÃ­ vaÅ¡ich poÅ¾adavkÅ¯. Pokud nejsou tyto soubory pÅ™Ã­tomny, pouÅ¾ijÃ­ se soubory hdlist, coÅ¾ je ovÅ¡em vÃ½raznÄ› pomalejÅ¡Ã­.
 .PP
 /etc/urpmi/urpmi.cfg
 .br
-Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
+Obsahuje informace o zdrojÃ­ch. Je pÅ™ijÃ­mÃ¡n i formÃ¡t ze starÅ¡Ã­ch verzÃ­ programu urpmi.
 .PP
 /etc/urpmi/parallel.cfg
 .br
-Obsahuje popis paralelních aliasù ve formátu \fB<alias>:<rozhraní[(zdroje)]>:<parametr_rozhraní>\fP, kde \fB<alias>\fP je symbolickı název, \fB<rozhraní>\fP mù¾e nabıvat hodnot \fBka-run\fP nebo \fBssh\fP, \fB<zdroje>\fP je seznam zdrojù (jako u volby \fB\--media\fP), \fB<parametr_rozhraní>\fP je seznam parametrù specifickı pro rozhraní, napøíklad "-c ssh -m node1 -m node2" pro rozhraní \fBka-run\fP nebo "node1:node2" pro rozhraní \fBssh\fP.
+Obsahuje popis paralelnÃ­ch aliasÅ¯ ve formÃ¡tu \fB<alias>:<rozhranÃ­[(zdroje)]>:<parametr_rozhranÃ­>\fP, kde \fB<alias>\fP je symbolickÃ½ nÃ¡zev, \fB<rozhranÃ­>\fP mÅ¯Å¾e nabÃ½vat hodnot \fBka-run\fP nebo \fBssh\fP, \fB<zdroje>\fP je seznam zdrojÅ¯ (jako u volby \fB\--media\fP), \fB<parametr_rozhranÃ­>\fP je seznam parametrÅ¯ specifickÃ½ pro rozhranÃ­, napÅ™Ã­klad "-c ssh -m node1 -m node2" pro rozhranÃ­ \fBka-run\fP nebo "node1:node2" pro rozhranÃ­ \fBssh\fP.
 .PP
 /etc/urpmi/skip.list
 .br
-Obsahuje vırazy s názvy balíèkù, které by nemìly bıt automaticky aktualizovány. Formát je tvoøen seznamem toho, co balíèek poskytuje (nebo regulárním vırazem, pokud je ohranièen lomítky \fB/\fP) s volitelnım operátorem a øetìzcem s verzí, nebo regulárním vırazem odpovídajícím úplnému názvu balíèku.
+Obsahuje vÃ½razy s nÃ¡zvy balÃ­ÄkÅ¯, kterÃ© by nemÄ›ly bÃ½t automaticky aktualizovÃ¡ny. FormÃ¡t je tvoÅ™en seznamem toho, co balÃ­Äek poskytuje (nebo regulÃ¡rnÃ­m vÃ½razem, pokud je ohraniÄen lomÃ­tky \fB/\fP) s volitelnÃ½m operÃ¡torem a Å™etÄ›zcem s verzÃ­, nebo regulÃ¡rnÃ­m vÃ½razem odpovÃ­dajÃ­cÃ­m ÃºplnÃ©mu nÃ¡zvu balÃ­Äku.
 .PP
 /etc/urpmi/inst.list
 .br
-Obsahuje názvy balíèkù, které by mìly bıt instalovány a ne aktualizovány.
-.SH "VIZ TAKÉ"
+Obsahuje nÃ¡zvy balÃ­ÄkÅ¯, kterÃ© by mÄ›ly bÃ½t instalovÃ¡ny a ne aktualizovÃ¡ny.
+.SH "VIZ TAKÃ‰"
 urpmi(8),
 urpmi.update(8),
 urpmi.removemedia(8),
 urpmf(8),
 urpmq(8),
 .SH AUTOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (pùvodní autor)
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (pÅ¯vodnÃ­ autor)
 .br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Francois Pons, Mandrakesoft 
 .br
-Rafael Garcia-Suarez, Mandrakesoft <rgarciasuarez@mandrakesoft.com>
+Rafael Garcia-Suarez, Mandrakesoft 

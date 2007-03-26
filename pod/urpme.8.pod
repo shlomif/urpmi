@@ -25,9 +25,13 @@ Prints a help message and exit (this is the same as B<-h> or B<-?>).
 
 If multiple packages match the given substring, deinstall them all.
 
-=item B<-v>
+=item B<--verbose>
 
 Proposes a verbose mode with various messages.
+
+=item B<-v>
+
+This is the same as B<--verbose>.
 
 =item B<--auto>
 
@@ -73,9 +77,22 @@ scripts will run after chroot(2). The rpm database that lies in the
 rooted tree will be used, but the urpmi configuration comes from the
 normal system.
 
+=item B<--urpmi-root> I<directory>
+
+Use the file system tree rooted for urpmi database and rpm install. Contrary
+to B<--root>, the urpmi configuration comes from the rooted tree.
+
 =item B<--use-distrib> I<directory>
 
 Configure urpme on the fly from a distribution tree.
+
+=item B<--probe-synthesis>
+
+Use synthesis file (to use with --use-distrib).
+
+=item B<--probe-hdlist>
+
+Use hdlist file (to use with --use-distrib).
 
 =back
 
@@ -106,7 +123,7 @@ Removal of packages failed.
 =head1 AUTHORS
 
 Pascal Rigaux <pixel@mandriva.com> (current maintainer), 
-Francois Pons, Rafael Garcia-Suarez <rgarciasuarez@mandriva.com>
+Francois Pons, Rafael Garcia-Suarez 
 
 =head1 SEE ALSO
 

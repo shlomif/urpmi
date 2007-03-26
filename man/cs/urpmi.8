@@ -1,196 +1,196 @@
 .TH urpmi 8 "28 Srp 2003" "Mandrakesoft" "Mandrakelinux"
 .IX urpmi
-.SH NÁZEV
-urpmi \- obaluje program rpm a usnadòuje u¾ivateli instalace
+.SH NÃZEV
+urpmi \- obaluje program rpm a usnadÅˆuje uÅ¾ivateli instalace
 .SH SYNAPSE
-.B urpmi [\fIvolby\fP] [\fInázev_balíèku\fP | \fIsoubory_rpm...\fP]
+.B urpmi [\fIvolby\fP] [\fInÃ¡zev_balÃ­Äku\fP | \fIsoubory_rpm...\fP]
 .SH POPIS
-Program urpmi povoluje instalaci balíèkù RPM a balíèkù na nich závislıch. Lze jej pou¾ít pro instalaci balíèkù se zdroji nebo balíèkù na nich závislıch.
+Program urpmi povoluje instalaci balÃ­ÄkÅ¯ RPM a balÃ­ÄkÅ¯ na nich zÃ¡vislÃ½ch. Lze jej pouÅ¾Ã­t pro instalaci balÃ­ÄkÅ¯ se zdroji nebo balÃ­ÄkÅ¯ na nich zÃ¡vislÃ½ch.
 .PP
-Vzájemnı vztah mezi programy rpm a urpmi lze srovnat se vztahem mezi programy
+VzÃ¡jemnÃ½ vztah mezi programy rpm a urpmi lze srovnat se vztahem mezi programy
 insmod a modprobe, nebo mezi dpkg a apt-get.
 .PP
-Spus»te program urpmi následovanı tím, co pokládáte za název balíèku nebo balíèkù, a program urpmi:
+SpusÅ¥te program urpmi nÃ¡sledovanÃ½ tÃ­m, co poklÃ¡dÃ¡te za nÃ¡zev balÃ­Äku nebo balÃ­ÄkÅ¯, a program urpmi:
 .br
-\- Nabídne názvy jinıch balíèkù, pokud jsou k dispozici, a ukonèí se.
+\- NabÃ­dne nÃ¡zvy jinÃ½ch balÃ­ÄkÅ¯, pokud jsou k dispozici, a ukonÄÃ­ se.
 .br
-\- Pokud je nalezen pouze jeden odpovídající balíèek, zkontroluje, zda jsou ji¾ nainstalované balíèky, na kterıch tento závisí.
+\- Pokud je nalezen pouze jeden odpovÃ­dajÃ­cÃ­ balÃ­Äek, zkontroluje, zda jsou jiÅ¾ nainstalovanÃ© balÃ­Äky, na kterÃ½ch tento zÃ¡visÃ­.
 .br
-\- Pokud nejsou, nabídne instalaci závisejících balíèkù, a poté nainstaluje v¹echny závisející balíèky i balíèek samotnı.
+\- Pokud nejsou, nabÃ­dne instalaci zÃ¡visejÃ­cÃ­ch balÃ­ÄkÅ¯, a potÃ© nainstaluje vÅ¡echny zÃ¡visejÃ­cÃ­ balÃ­Äky i balÃ­Äek samotnÃ½.
 .PP
-V¹imnìte si, ¾e program urpmi zvládne instalaci z rùznıch zdrojù (FTP, HTTP, lokální a NFS svazky, vyjímatelná média jako CDROM), a ¾e je schopen instalovat závislé balíèky ze zdroje jiného ne¾ je zdroj instalovaného balíèku. Pokud je to nutné, po¾ádá vás program urpmi o vlo¾ení po¾adovaného média.
+VÅ¡imnÄ›te si, Å¾e program urpmi zvlÃ¡dne instalaci z rÅ¯znÃ½ch zdrojÅ¯ (FTP, HTTP, lokÃ¡lnÃ­ a NFS svazky, vyjÃ­matelnÃ¡ mÃ©dia jako CDROM), a Å¾e je schopen instalovat zÃ¡vislÃ© balÃ­Äky ze zdroje jinÃ©ho neÅ¾ je zdroj instalovanÃ©ho balÃ­Äku. Pokud je to nutnÃ©, poÅ¾Ã¡dÃ¡ vÃ¡s program urpmi o vloÅ¾enÃ­ poÅ¾adovanÃ©ho mÃ©dia.
 .PP
-Chcete-li pøidat dal¹í zdroj obsahující balíèky RPM, spus»te program urpmi.addmedia.
+Chcete-li pÅ™idat dalÅ¡Ã­ zdroj obsahujÃ­cÃ­ balÃ­Äky RPM, spusÅ¥te program urpmi.addmedia.
 .br
-Chcete-li odstranit zdroj, pou¾ijte program urpmi.removemedia.
+Chcete-li odstranit zdroj, pouÅ¾ijte program urpmi.removemedia.
 .br
-Chcete-li aktualizovat seznam balíèkù (pokud se napøíklad zmìnil FTP archív), pou¾ijte program urpmi.update.
+Chcete-li aktualizovat seznam balÃ­ÄkÅ¯ (pokud se napÅ™Ã­klad zmÄ›nil FTP archÃ­v), pouÅ¾ijte program urpmi.update.
 .br
-Chcete-li nainstalovat balíèek odpovídající spustitelnému souboru, kterı se pokou¹íte spustit, pou¾ijte program autoirpm.
+Chcete-li nainstalovat balÃ­Äek odpovÃ­dajÃ­cÃ­ spustitelnÃ©mu souboru, kterÃ½ se pokouÅ¡Ã­te spustit, pouÅ¾ijte program autoirpm.
 .br
-Chcete-li doinstalovat polo¾ky do v¹ech známıch balíèkù, pou¾ijte balíèek autoirpm-icons.
+Chcete-li doinstalovat poloÅ¾ky do vÅ¡ech znÃ¡mÃ½ch balÃ­ÄkÅ¯, pouÅ¾ijte balÃ­Äek autoirpm-icons.
 .SH VOLBY
 .IP "\fB\--help\fP"
-zobrazí nápovìdu a ukonèí se.
+zobrazÃ­ nÃ¡povÄ›du a ukonÄÃ­ se.
 .IP "\fB\--update\fP"
-pou¾ije pouze zdroje pro aktualizaci. To znamená, ¾e program \fBurpmi\fP bude hledat a øe¹it závislosti pouze ve zdrojích,
-které jsou oznaèené jako zdroje pro aktualizaci.
+pouÅ¾ije pouze zdroje pro aktualizaci. To znamenÃ¡, Å¾e program \fBurpmi\fP bude hledat a Å™eÅ¡it zÃ¡vislosti pouze ve zdrojÃ­ch,
+kterÃ© jsou oznaÄenÃ© jako zdroje pro aktualizaci.
 .IP "\fB\--media\fP \fIzdroj1,...,zdrojN\fP"
-pou¾ije pouze zadané zdroje, nikoli v¹echny dostupné zdroje (nebo zdroje pro aktualizaci, pokud je zadána volba \fB\--update\fP).
+pouÅ¾ije pouze zadanÃ© zdroje, nikoli vÅ¡echny dostupnÃ© zdroje (nebo zdroje pro aktualizaci, pokud je zadÃ¡na volba \fB\--update\fP).
 .IP "\fB\--excludemedia\fP \fIzdroj1,...,zdrojN\fP"
-nepou¾ije zadané zdroje.
+nepouÅ¾ije zadanÃ© zdroje.
 .IP "\fB\--sortmedia\fP \fIzdroj1,...,zdrojN\fP"
-setøídí zadané zdroje, ke zjednodu¹ení seskupení lze pou¾ít podøetìzce.
+setÅ™Ã­dÃ­ zadanÃ© zdroje, ke zjednoduÅ¡enÃ­ seskupenÃ­ lze pouÅ¾Ã­t podÅ™etÄ›zce.
 .IP "\fB\--synthesis\fP \fIsoubor\fP"
-pro vyhledávání v balíècích a øe¹ení závislostí pou¾ije místo databáze urpmi zadanı \fIsoubor\fP syntézy.
+pro vyhledÃ¡vÃ¡nÃ­ v balÃ­ÄcÃ­ch a Å™eÅ¡enÃ­ zÃ¡vislostÃ­ pouÅ¾ije mÃ­sto databÃ¡ze urpmi zadanÃ½ \fIsoubor\fP syntÃ©zy.
 .IP "\fB\--auto\fP"
-instaluje v¹echny potøebné závislosti bez dotazù.
+instaluje vÅ¡echny potÅ™ebnÃ© zÃ¡vislosti bez dotazÅ¯.
 .IP "\fB\--auto-select\fP"
-automaticky vybere v¹echny balíèky, které musí bıt aktualizovány, podle ji¾ instalovanıch balíèkù a balíèkù uvedenıch v rùznıch registrovanıch zdrojích.
+automaticky vybere vÅ¡echny balÃ­Äky, kterÃ© musÃ­ bÃ½t aktualizovÃ¡ny, podle jiÅ¾ instalovanÃ½ch balÃ­ÄkÅ¯ a balÃ­ÄkÅ¯ uvedenÃ½ch v rÅ¯znÃ½ch registrovanÃ½ch zdrojÃ­ch.
 .IP "\fB\--no-uninstall\fP"
-nebude se ptát, zda-li chcete odinstalovat balíèek, místo toho pøeru¹í instalaci. Tato volba mù¾e uèinit automatickı re¾im bezpeènìj¹í.
+nebude se ptÃ¡t, zda-li chcete odinstalovat balÃ­Äek, mÃ­sto toho pÅ™eruÅ¡Ã­ instalaci. Tato volba mÅ¯Å¾e uÄinit automatickÃ½ reÅ¾im bezpeÄnÄ›jÅ¡Ã­.
 .IP "\fB\--keep\fP"
-zmìní vıbìr balíèkù, pokud nemohou bıt uspokojeny nìkteré závislosti tak, ¾e se pokusí ponechat existující balíèky místo toho, aby je odstranil. Toto chování obecnì odmítne aktualizaci balíèkù zadanıch na pøíkazové øádce (nebo pøi pou¾ití volby --auto-select), pokud dojde k chybì v závislostech.
-.IP "\fB\--split-level\fP \fIèíslo\fP"
-rozdìlí aktualizaci na více men¹ích transakcí, pokud poèet aktualizovanıch balíèkù pøesáhne zadané \fIèíslo\fP. Tato volba je implicitnì aktivní a vıchozí hodnota poètu balíèkù je 20.
-.IP "\fB\--split-length\fP \fIèíslo\fP"
-rozdìlí aktualizaci do men¹ích transakcí, ka¾dá z nich musí obsahovat alespoò \fIèíslo\fP balíèkù. Vıchozí hodnota je 1, pokud zadáte hodnotu 0, pak dìlení do men¹ích transakcí vypnete.
+zmÄ›nÃ­ vÃ½bÄ›r balÃ­ÄkÅ¯, pokud nemohou bÃ½t uspokojeny nÄ›kterÃ© zÃ¡vislosti tak, Å¾e se pokusÃ­ ponechat existujÃ­cÃ­ balÃ­Äky mÃ­sto toho, aby je odstranil. Toto chovÃ¡nÃ­ obecnÄ› odmÃ­tne aktualizaci balÃ­ÄkÅ¯ zadanÃ½ch na pÅ™Ã­kazovÃ© Å™Ã¡dce (nebo pÅ™i pouÅ¾itÃ­ volby --auto-select), pokud dojde k chybÄ› v zÃ¡vislostech.
+.IP "\fB\--split-level\fP \fIÄÃ­slo\fP"
+rozdÄ›lÃ­ aktualizaci na vÃ­ce menÅ¡Ã­ch transakcÃ­, pokud poÄet aktualizovanÃ½ch balÃ­ÄkÅ¯ pÅ™esÃ¡hne zadanÃ© \fIÄÃ­slo\fP. Tato volba je implicitnÄ› aktivnÃ­ a vÃ½chozÃ­ hodnota poÄtu balÃ­ÄkÅ¯ je 20.
+.IP "\fB\--split-length\fP \fIÄÃ­slo\fP"
+rozdÄ›lÃ­ aktualizaci do menÅ¡Ã­ch transakcÃ­, kaÅ¾dÃ¡ z nich musÃ­ obsahovat alespoÅˆ \fIÄÃ­slo\fP balÃ­ÄkÅ¯. VÃ½chozÃ­ hodnota je 1, pokud zadÃ¡te hodnotu 0, pak dÄ›lenÃ­ do menÅ¡Ã­ch transakcÃ­ vypnete.
 .IP "\fB\--fuzzy\fP"
-vypne rychlé hledání pøesného názvu balíèku, jinımi slovy navrhne v¹echny balíèky obsahující zadanı název, i pokud existuje takovı, kterı má zadanı název (tato volba je stejná jako volba \fB\-y\fP.
-.IP "\fB\--src\fP \fInázev\fP"
-prohledává zdrojovı balíèek podle \fInázvu\fP a implicitnì vybere v¹echny závislosti, pokud není zadaná volba \fB\--install-src\fP pro instalaci zdrojového balíèku samotného.
+vypne rychlÃ© hledÃ¡nÃ­ pÅ™esnÃ©ho nÃ¡zvu balÃ­Äku, jinÃ½mi slovy navrhne vÅ¡echny balÃ­Äky obsahujÃ­cÃ­ zadanÃ½ nÃ¡zev, i pokud existuje takovÃ½, kterÃ½ mÃ¡ zadanÃ½ nÃ¡zev (tato volba je stejnÃ¡ jako volba \fB\-y\fP.
+.IP "\fB\--src\fP \fInÃ¡zev\fP"
+prohledÃ¡vÃ¡ zdrojovÃ½ balÃ­Äek podle \fInÃ¡zvu\fP a implicitnÄ› vybere vÅ¡echny zÃ¡vislosti, pokud nenÃ­ zadanÃ¡ volba \fB\--install-src\fP pro instalaci zdrojovÃ©ho balÃ­Äku samotnÃ©ho.
 .IP "\fB\--install-src\fP"
-nainstaluje pouze zdrojovı balíèek (nebude nainstalován ¾ádnı binární balíèek).
+nainstaluje pouze zdrojovÃ½ balÃ­Äek (nebude nainstalovÃ¡n Å¾Ã¡dnÃ½ binÃ¡rnÃ­ balÃ­Äek).
 .IP "\fB\--clean\fP"
-odstraní v¹echny balíèky z vyrovnávací pamìti v adresáøi /var/cache/urpmi/rpms.
+odstranÃ­ vÅ¡echny balÃ­Äky z vyrovnÃ¡vacÃ­ pamÄ›ti v adresÃ¡Å™i /var/cache/urpmi/rpms.
 .IP "\fB\--noclean\fP"
-neodstraní ¾ádnı balíèek z vyrovnávací pamìti v adresáøi /var/cache/urpmi/rpms.
+neodstranÃ­ Å¾Ã¡dnÃ½ balÃ­Äek z vyrovnÃ¡vacÃ­ pamÄ›ti v adresÃ¡Å™i /var/cache/urpmi/rpms.
 .IP "\fB\--force\fP"
-pøedpokládá kladnou odpovìï na v¹echny otázky.
+pÅ™edpoklÃ¡dÃ¡ kladnou odpovÄ›Ä na vÅ¡echny otÃ¡zky.
 .IP "\fB\--allow-nodeps\fP"
-povolí programu urpmi zeptat se u¾ivatele, zda se má pokraèovat v instalaci bez kontroly závislostí v pøípadì jejich poru¹ení díky chybì. Vıchozí chování je instalaci okam¾itì ukonèit.
+povolÃ­ programu urpmi zeptat se uÅ¾ivatele, zda se mÃ¡ pokraÄovat v instalaci bez kontroly zÃ¡vislostÃ­ v pÅ™Ã­padÄ› jejich poruÅ¡enÃ­ dÃ­ky chybÄ›. VÃ½chozÃ­ chovÃ¡nÃ­ je instalaci okamÅ¾itÄ› ukonÄit.
 .IP "\fB\--allow-force\fP"
-povolí programu urpmi zeptat se u¾ivatele, zda se má pokraèovat v instalaci bez kontroly závislostí v pøípadì jejich poru¹ení díky chybì nebo zda se má provést instalace násilím. Vıchozí chování je instalaci v takovıch pøípadech okam¾itì ukonèit.
+povolÃ­ programu urpmi zeptat se uÅ¾ivatele, zda se mÃ¡ pokraÄovat v instalaci bez kontroly zÃ¡vislostÃ­ v pÅ™Ã­padÄ› jejich poruÅ¡enÃ­ dÃ­ky chybÄ› nebo zda se mÃ¡ provÃ©st instalace nÃ¡silÃ­m. VÃ½chozÃ­ chovÃ¡nÃ­ je instalaci v takovÃ½ch pÅ™Ã­padech okamÅ¾itÄ› ukonÄit.
 .IP "\fB\--parallel\fP \fIalias\fP"
-aktivuje distribuované spu¹tìní urpmi na dal¹ích poèítaèích (je nutné, aby na tìchto poèítaèích bylo urpmi instalováno, nemusí v¹ak mít definované zdroje). \fIalias\fP definuje, kterı roz¹iøující modul pro urpmi se má pou¾ít (v souèasné dobì se mù¾e jednat o \fBurpmi-parallel-ka-run\fP nebo \fBurpmi-parallel-ssh\fP) a které poèítaèe by mìly bıt aktualizovány. Tento alias je definován v souboru /etc/urpmi/parallel.cfg, jak je popsáno ní¾e.
+aktivuje distribuovanÃ© spuÅ¡tÄ›nÃ­ urpmi na dalÅ¡Ã­ch poÄÃ­taÄÃ­ch (je nutnÃ©, aby na tÄ›chto poÄÃ­taÄÃ­ch bylo urpmi instalovÃ¡no, nemusÃ­ vÅ¡ak mÃ­t definovanÃ© zdroje). \fIalias\fP definuje, kterÃ½ rozÅ¡iÅ™ujÃ­cÃ­ modul pro urpmi se mÃ¡ pouÅ¾Ã­t (v souÄasnÃ© dobÄ› se mÅ¯Å¾e jednat o \fBurpmi-parallel-ka-run\fP nebo \fBurpmi-parallel-ssh\fP) a kterÃ© poÄÃ­taÄe by mÄ›ly bÃ½t aktualizovÃ¡ny. Tento alias je definovÃ¡n v souboru /etc/urpmi/parallel.cfg, jak je popsÃ¡no nÃ­Å¾e.
 .IP "\fB\--wget\fP"
-pro stahování vzdálenıch souborù se pou¾ije vıhradnì program wget. Implicitnì se pou¾ívá program curl a program wget pouze tehdy, pokud curl není k dispozici.
+pro stahovÃ¡nÃ­ vzdÃ¡lenÃ½ch souborÅ¯ se pouÅ¾ije vÃ½hradnÄ› program wget. ImplicitnÄ› se pouÅ¾Ã­vÃ¡ program curl a program wget pouze tehdy, pokud curl nenÃ­ k dispozici.
 .IP "\fB\--curl\fP"
-pro stahování vzdálenıch souborù se pou¾ije vıhradnì program curl. Implicitnì se pou¾ívá program curl a program wget pouze tehdy, pokud curl není k dispozici.
+pro stahovÃ¡nÃ­ vzdÃ¡lenÃ½ch souborÅ¯ se pouÅ¾ije vÃ½hradnÄ› program curl. ImplicitnÄ› se pouÅ¾Ã­vÃ¡ program curl a program wget pouze tehdy, pokud curl nenÃ­ k dispozici.
 .IP "\fB\--limit-rate\fP \fIrychlost\fP"
-pokusí se omezit rychlost stahování, \fIrychlost\fP se zadává v b/s. Tato volba není implicitnì aktivní.
+pokusÃ­ se omezit rychlost stahovÃ¡nÃ­, \fIrychlost\fP se zadÃ¡vÃ¡ v b/s. Tato volba nenÃ­ implicitnÄ› aktivnÃ­.
 .IP "\fB\--proxy\fP \fIproxyhost[:port|1080]\fP"
-pou¾ije zadanou HTTP proxy.
-.IP "\fB\--proxy-user\fP \fIu¾ivatel:heslo\fP"
-pou¾ije zadaného u¾ivatele a heslo pro ovìøení na proxy.
-.IP "\fB\--bug\fP \fIadresáø\fP"
-vytvoøí hlá¹ení o chybì v \fIadresáøi\fP. Toto chybové hlá¹ení je nutné komprimované poslat správci programu urpmi, kterı ho (doufejme) opraví.
-.IP "\fB\--env\fP \fIadresáø\fP"
-pou¾ije odli¹né prostøedí pøímo z hlá¹ení o chybì, aby bylo mo¾né zopakovat chybu, parametry jsou shodné s parametry pro volbu \fB\--bug\fP
+pouÅ¾ije zadanou HTTP proxy.
+.IP "\fB\--proxy-user\fP \fIuÅ¾ivatel:heslo\fP"
+pouÅ¾ije zadanÃ©ho uÅ¾ivatele a heslo pro ovÄ›Å™enÃ­ na proxy.
+.IP "\fB\--bug\fP \fIadresÃ¡Å™\fP"
+vytvoÅ™Ã­ hlÃ¡Å¡enÃ­ o chybÄ› v \fIadresÃ¡Å™i\fP. Toto chybovÃ© hlÃ¡Å¡enÃ­ je nutnÃ© komprimovanÃ© poslat sprÃ¡vci programu urpmi, kterÃ½ ho (doufejme) opravÃ­.
+.IP "\fB\--env\fP \fIadresÃ¡Å™\fP"
+pouÅ¾ije odliÅ¡nÃ© prostÅ™edÃ­ pÅ™Ã­mo z hlÃ¡Å¡enÃ­ o chybÄ›, aby bylo moÅ¾nÃ© zopakovat chybu, parametry jsou shodnÃ© s parametry pro volbu \fB\--bug\fP
 .IP "\fB\--X\fP"
-pou¾ije grafické rozhraní X.
+pouÅ¾ije grafickÃ© rozhranÃ­ X.
 .IP "\fB\--best-output\fP"
-pokusí se pou¾ít grafické rozhraní X, nebo, pokud není k dispozici, standardní textové rozhraní (za pou¾ití programu rpm).
+pokusÃ­ se pouÅ¾Ã­t grafickÃ© rozhranÃ­ X, nebo, pokud nenÃ­ k dispozici, standardnÃ­ textovÃ© rozhranÃ­ (za pouÅ¾itÃ­ programu rpm).
 .IP "\fB\--verify-rpm\fP"
-aktivuje (vıchozí) nebo vypne kontrolu podpisù balíèkù RPM.
+aktivuje (vÃ½chozÃ­) nebo vypne kontrolu podpisÅ¯ balÃ­ÄkÅ¯ RPM.
 .IP "\fB\--test\fP"
-otestuje (stejnì jako pøíkaz \fBrpm --test\fP) instalaci balíèkù, ale neprovede ¾ádnı zásah do systému.
-.IP "\fB\--excludepath\fP \fIøetìzec\fP"
-nebude instalovat soubory, jejich¾ název zaèíná na zadanı \fIøetìzec\fP (stejné jako pøíkaz \fBrpm --excludepath\fP).
+otestuje (stejnÄ› jako pÅ™Ã­kaz \fBrpm --test\fP) instalaci balÃ­ÄkÅ¯, ale neprovede Å¾Ã¡dnÃ½ zÃ¡sah do systÃ©mu.
+.IP "\fB\--excludepath\fP \fIÅ™etÄ›zec\fP"
+nebude instalovat soubory, jejichÅ¾ nÃ¡zev zaÄÃ­nÃ¡ na zadanÃ½ \fIÅ™etÄ›zec\fP (stejnÃ© jako pÅ™Ã­kaz \fBrpm --excludepath\fP).
 .IP "\fB\--excludedocs\fP"
-nenainstaluje soubory s dokumentací (stejné jako pøíkaz \fBrpm --excludedocs\fP).
+nenainstaluje soubory s dokumentacÃ­ (stejnÃ© jako pÅ™Ã­kaz \fBrpm --excludedocs\fP).
 .IP "\fB\-a\fP"
-pokud zadané èásti øetìzce vyhovuje více balíèkù, pou¾ije v¹echny.
+pokud zadanÃ© ÄÃ¡sti Å™etÄ›zce vyhovuje vÃ­ce balÃ­ÄkÅ¯, pouÅ¾ije vÅ¡echny.
 .IP "\fB\-p\fP"
-umo¾ní prohledávání v tom, co balíèek poskytuje (znaèka provides), a tak nalézt potøebnı balíèek.
+umoÅ¾nÃ­ prohledÃ¡vÃ¡nÃ­ v tom, co balÃ­Äek poskytuje (znaÄka provides), a tak nalÃ©zt potÅ™ebnÃ½ balÃ­Äek.
 .IP "\fB\-P\fP"
-nebude hledat v tom, co balíèek poskytuje (znaèka provides), a tak nalézt potøebnı balíèek (opak pøepínaèe \fB\-p\fP).
+nebude hledat v tom, co balÃ­Äek poskytuje (znaÄka provides), a tak nalÃ©zt potÅ™ebnÃ½ balÃ­Äek (opak pÅ™epÃ­naÄe \fB\-p\fP).
 .IP "\fB\-y\fP"
-Stejné jako pøepínaè \fB\--fuzzy\fP.
+StejnÃ© jako pÅ™epÃ­naÄ \fB\--fuzzy\fP.
 .IP "\fB\-s\fP"
-Stejné jako pøepínaè \fB\--src\fP.
+StejnÃ© jako pÅ™epÃ­naÄ \fB\--src\fP.
 .IP "\fB\-q\fP"
-navrhne pøi volání programu rpm tichı re¾im, kde nejsou vypisovány informace o stavu aktualizace.
+navrhne pÅ™i volÃ¡nÃ­ programu rpm tichÃ½ reÅ¾im, kde nejsou vypisovÃ¡ny informace o stavu aktualizace.
 .IP "\fB\-v\fP"
-navrhne u¾vanìnı re¾im s mnoha rùznımi zprávami.
+navrhne uÅ¾vanÄ›nÃ½ reÅ¾im s mnoha rÅ¯znÃ½mi zprÃ¡vami.
 .SH SOUBORY
 /usr/bin/urpmi
 .br
-Spustitelnı soubor \fBurpmi\fP (skript jazyka Perl)
+SpustitelnÃ½ soubor \fBurpmi\fP (skript jazyka Perl)
 .PP
 /var/lib/urpmi/list.*
 .br
-Obsahuje seznam v¹ech balíèkù známıch programu urpmi a jejich umístìní, pouze pokud je pou¾ito heslo pro pøístup ke vzdálenım lokacím (pomocí sí»ového protokolu), nebo rùzné adresáøe, které jsou pou¾ity k ulo¾ení balíèkù.
+Obsahuje seznam vÅ¡ech balÃ­ÄkÅ¯ znÃ¡mÃ½ch programu urpmi a jejich umÃ­stÄ›nÃ­, pouze pokud je pouÅ¾ito heslo pro pÅ™Ã­stup ke vzdÃ¡lenÃ½m lokacÃ­m (pomocÃ­ sÃ­Å¥ovÃ©ho protokolu), nebo rÅ¯znÃ© adresÃ¡Å™e, kterÃ© jsou pouÅ¾ity k uloÅ¾enÃ­ balÃ­ÄkÅ¯.
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Obsahuje informace o v¹ech známıch balíècích, je to souhrn hlavièek balíèkù RPM. Pokud je pro zdroj pou¾it soubor hdlist, mù¾e program \fBurpmf\fP kompletnì fungovat, co¾ je také nejèastìj¹í pøípad. (Více viz manuálové stránky pro pøíkaz \fBurpmf\fP).
+Obsahuje informace o vÅ¡ech znÃ¡mÃ½ch balÃ­ÄcÃ­ch, je to souhrn hlaviÄek balÃ­ÄkÅ¯ RPM. Pokud je pro zdroj pouÅ¾it soubor hdlist, mÅ¯Å¾e program \fBurpmf\fP kompletnÄ› fungovat, coÅ¾ je takÃ© nejÄastÄ›jÅ¡Ã­ pÅ™Ã­pad. (VÃ­ce viz manuÃ¡lovÃ© strÃ¡nky pro pÅ™Ã­kaz \fBurpmf\fP).
 .PP
 /var/lib/urpmi/synthesis.hdlist.*
 .br
-Obsahuje informace syntézy o v¹ech známıch balíècích, které jsou sestaveny ze souborù hdlist, a které mohou bıt pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory pøítomny, pou¾ijí se soubory hdlist, co¾ je ov¹em vıraznì pomalej¹í.
+Obsahuje informace syntÃ©zy o vÅ¡ech znÃ¡mÃ½ch balÃ­ÄcÃ­ch, kterÃ© jsou sestaveny ze souborÅ¯ hdlist, a kterÃ© mohou bÃ½t pouÅ¾ity pro urychlenÃ­ zpracovÃ¡nÃ­ vaÅ¡ich poÅ¾adavkÅ¯. Pokud nejsou tyto soubory pÅ™Ã­tomny, pouÅ¾ijÃ­ se soubory hdlist, coÅ¾ je ovÅ¡em vÃ½raznÄ› pomalejÅ¡Ã­.
 .PP
 /etc/urpmi/urpmi.cfg
 .br
-Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
+Obsahuje informace o zdrojÃ­ch. Je pÅ™ijÃ­mÃ¡n i formÃ¡t ze starÅ¡Ã­ch verzÃ­ programu urpmi.
 .PP
 /etc/urpmi/parallel.cfg
 .br
-Obsahuje popis paralelních aliasù ve formátu \fB<alias>:<rozhraní[(zdroje)]>:<parametr_rozhraní>\fP, kde \fB<alias>\fP je symbolickı název, \fB<rozhraní>\fP mù¾e nabıvat hodnot \fBka-run\fP nebo \fBssh\fP, \fB<zdroje>\fP je seznam zdrojù (jako u volby \fB\--media\fP), \fB<parametr_rozhraní>\fP je seznam parametrù specifickı pro rozhraní, napøíklad "-c ssh -m node1 -m node2" pro rozhraní \fBka-run\fP nebo "node1:node2" pro rozhraní \fBssh\fP.
+Obsahuje popis paralelnÃ­ch aliasÅ¯ ve formÃ¡tu \fB<alias>:<rozhranÃ­[(zdroje)]>:<parametr_rozhranÃ­>\fP, kde \fB<alias>\fP je symbolickÃ½ nÃ¡zev, \fB<rozhranÃ­>\fP mÅ¯Å¾e nabÃ½vat hodnot \fBka-run\fP nebo \fBssh\fP, \fB<zdroje>\fP je seznam zdrojÅ¯ (jako u volby \fB\--media\fP), \fB<parametr_rozhranÃ­>\fP je seznam parametrÅ¯ specifickÃ½ pro rozhranÃ­, napÅ™Ã­klad "-c ssh -m node1 -m node2" pro rozhranÃ­ \fBka-run\fP nebo "node1:node2" pro rozhranÃ­ \fBssh\fP.
 .PP
 /etc/urpmi/skip.list
 .br
-Obsahuje vırazy s názvy balíèkù, které by nemìly bıt automaticky aktualizovány. Formát je tvoøen seznamem toho, co balíèek poskytuje (nebo regulárním vırazem, pokud je ohranièen lomítky \fB/\fP) s volitelnım operátorem a øetìzcem s verzí, nebo regulárním vırazem odpovídajícím úplnému názvu balíèku.
+Obsahuje vÃ½razy s nÃ¡zvy balÃ­ÄkÅ¯, kterÃ© by nemÄ›ly bÃ½t automaticky aktualizovÃ¡ny. FormÃ¡t je tvoÅ™en seznamem toho, co balÃ­Äek poskytuje (nebo regulÃ¡rnÃ­m vÃ½razem, pokud je ohraniÄen lomÃ­tky \fB/\fP) s volitelnÃ½m operÃ¡torem a Å™etÄ›zcem s verzÃ­, nebo regulÃ¡rnÃ­m vÃ½razem odpovÃ­dajÃ­cÃ­m ÃºplnÃ©mu nÃ¡zvu balÃ­Äku.
 .PP
 /etc/urpmi/inst.list
 .br
-Obsahuje názvy balíèkù, které by mìly bıt instalovány a ne aktualizovány.
-.SH "NÁVRATOVÉ KÓDY"
+Obsahuje nÃ¡zvy balÃ­ÄkÅ¯, kterÃ© by mÄ›ly bÃ½t instalovÃ¡ny a ne aktualizovÃ¡ny.
+.SH "NÃVRATOVÃ‰ KÃ“DY"
 .IP "\fB1\fP"
-Nekonzistence na pøíkazovém øádku.
+Nekonzistence na pÅ™Ã­kazovÃ©m Å™Ã¡dku.
 .IP "\fB2\fP"
-Problém s registrací lokálního balíèku.
+ProblÃ©m s registracÃ­ lokÃ¡lnÃ­ho balÃ­Äku.
 .IP "\fB3\fP"
-Zdrojovı balíèek nelze získat.
+ZdrojovÃ½ balÃ­Äek nelze zÃ­skat.
 .IP "\fB4\fP"
-Zdroj není vybrán.
+Zdroj nenÃ­ vybrÃ¡n.
 .IP "\fB5\fP"
-Zdroj ji¾ existuje.
+Zdroj jiÅ¾ existuje.
 .IP "\fB6\fP"
-Nelze ulo¾it nastavení.
+Nelze uloÅ¾it nastavenÃ­.
 .IP "\fB7\fP"
-Databáze urpmi je zamèená.
+DatabÃ¡ze urpmi je zamÄenÃ¡.
 .IP "\fB8\fP"
-Nelze vytvoøit hlá¹ení o chybì.
+Nelze vytvoÅ™it hlÃ¡Å¡enÃ­ o chybÄ›.
 .IP "\fB9\fP"
-Nelze otevøít databázi rpmdb.
+Nelze otevÅ™Ã­t databÃ¡zi rpmdb.
 .IP "\fB10\fP"
-Nìkteré soubory pro instalaci chybí.
+NÄ›kterÃ© soubory pro instalaci chybÃ­.
 .IP "\fB11\fP"
-Nìkteré transakce selhaly, ale ne v¹echny.
+NÄ›kterÃ© transakce selhaly, ale ne vÅ¡echny.
 .IP "\fB12\fP"
-V¹echny transakce selhaly.
+VÅ¡echny transakce selhaly.
 .IP "\fB13\fP"
-Nìkteré soubory chybí a nìkteré transakce selhaly, ale ne v¹echny.
+NÄ›kterÃ© soubory chybÃ­ a nÄ›kterÃ© transakce selhaly, ale ne vÅ¡echny.
 .IP "\fB14\fP"
-Nìkteré soubory chybí a v¹echny transakce selhaly.
-.SH "HLÁ©ENÍ O CHYBÌ"
-Pokud naleznete v programu \fBurpmi\fP chybu, nahlaste ji prosím pomocí pøíkazu \fIurpmi --bug název_chyby_jako_adresáø ...\fP na pøíkazové øádce. Bude automaticky vytvoøen adresáø \fInázev_chyby_jako_adresáø\fP obsahující soubory nutné pro zopakování chyby, pokud je to mo¾né.
+NÄ›kterÃ© soubory chybÃ­ a vÅ¡echny transakce selhaly.
+.SH "HLÃÅ ENÃ O CHYBÄš"
+Pokud naleznete v programu \fBurpmi\fP chybu, nahlaste ji prosÃ­m pomocÃ­ pÅ™Ã­kazu \fIurpmi --bug nÃ¡zev_chyby_jako_adresÃ¡Å™ ...\fP na pÅ™Ã­kazovÃ© Å™Ã¡dce. Bude automaticky vytvoÅ™en adresÃ¡Å™ \fInÃ¡zev_chyby_jako_adresÃ¡Å™\fP obsahujÃ­cÃ­ soubory nutnÃ© pro zopakovÃ¡nÃ­ chyby, pokud je to moÅ¾nÃ©.
 .PP
-Otestujte prosím hlá¹ení o chybì pomocí pøíkazu \fIurpmi --env název_chyby_jako_adresáø ...\fP a zkontrolujte, zda-li dojde znovu k té¾e chybì. V souèasné dobì lze reprodukovat pouze chyby v øe¹ení závislostí.
+Otestujte prosÃ­m hlÃ¡Å¡enÃ­ o chybÄ› pomocÃ­ pÅ™Ã­kazu \fIurpmi --env nÃ¡zev_chyby_jako_adresÃ¡Å™ ...\fP a zkontrolujte, zda-li dojde znovu k tÃ©Å¾e chybÄ›. V souÄasnÃ© dobÄ› lze reprodukovat pouze chyby v Å™eÅ¡enÃ­ zÃ¡vislostÃ­.
 .PP
-Chcete-li hlá¹ení o chybì poslat, pou¾ijte pøíkaz \fItar cvzf název_chyby_jako_adresáø.tgz název_chyby_jako_adresáø\fP a po¹lete vıslednı soubor pøímo na adresu fpons@mandrakesoft.com s popisem toho, co je podle vás ¹patnì.
+Chcete-li hlÃ¡Å¡enÃ­ o chybÄ› poslat, pouÅ¾ijte pÅ™Ã­kaz \fItar cvzf nÃ¡zev_chyby_jako_adresÃ¡Å™.tgz nÃ¡zev_chyby_jako_adresÃ¡Å™\fP a poÅ¡lete vÃ½slednÃ½ soubor pÅ™Ã­mo na adresu  s popisem toho, co je podle vÃ¡s Å¡patnÄ›.
 .SH "CHYBY"
-Pokud je balíèek odstranìn, nelze jej nahradit star¹í verzí.
-.SH "VIZ TAKÉ"
+Pokud je balÃ­Äek odstranÄ›n, nelze jej nahradit starÅ¡Ã­ verzÃ­.
+.SH "VIZ TAKÃ‰"
 urpmi.addmedia(8),
 urpmi.update(8),
 urpmi.removemedia(8),
 urpmf(8),
 urpmq(8),
 .SH AUTOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (pùvodní autor)
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (pÅ¯vodnÃ­ autor)
 .br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Francois Pons, Mandrakesoft 
 .br
-Rafael Garcia-Suarez, Mandrakesoft <rgarciasuarez@mandrakesoft.com>
+Rafael Garcia-Suarez, Mandrakesoft 

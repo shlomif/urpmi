@@ -1,31 +1,31 @@
 .TH urpmi.update 8 "07 Jan 2003" "Mandrakesoft" "Mandrakelinux"
 .IX urpmi.update
 .SH NIMI
-urpmi.update \- P‰ivitt‰‰ m‰‰ritettyjen medioiden paketti-listauksia.
+urpmi.update \- P√§ivitt√§√§ m√§√§ritettyjen medioiden paketti-listauksia.
 .SH YLEISKATSAUS
 .B urpmi.update [optiot] [<\fInimet\fP>]
 .SH KUVAUS
-urpmi.update tarkistaa kaikki <\fInimet\fPyt> mediat p‰ivitt‰‰kseen niiden
-pakettilistauksia. Hyˆdyllinen esimerkiksi ftp l‰hteille.
+urpmi.update tarkistaa kaikki <\fInimet\fPyt> mediat p√§ivitt√§√§kseen niiden
+pakettilistauksia. Hy√∂dyllinen esimerkiksi ftp l√§hteille.
 .PP
-<\fInimet\fP> on listan nimist‰ jota olet m‰‰ritt‰nyt urpmi.addmedian kautta.
+<\fInimet\fP> on listan nimist√§ jota olet m√§√§ritt√§nyt urpmi.addmedian kautta.
 .SH OPTIOT
 .IP "\fB\--wget\fP"
-K‰yt‰ ainoastaan wget et‰tiedostojen lataamisessa. Oletuksena k‰ytet‰‰n curl
+K√§yt√§ ainoastaan wget et√§tiedostojen lataamisessa. Oletuksena k√§ytet√§√§n curl
 jos se on asennettu ja muuten wget.
 .IP "\fB\--curl\fP"
-K‰yt‰ ainoastaan curl et‰tiedostojen lataamisessa. Oletuksena k‰ytet‰‰n curl
+K√§yt√§ ainoastaan curl et√§tiedostojen lataamisessa. Oletuksena k√§ytet√§√§n curl
 jos se on asennettu ja muuten wget.
-.IP "\fB\--proxy\fP \fIv‰lityspalvelin[:portti|1080]\fP"
-K‰yt‰ m‰‰ritetty HTTP v‰lityspalvelin.
-.IP "\fB\--proxy-user\fP \fIk‰ytt‰j‰:salasana\fP"
-K‰yt‰ m‰‰ritetty k‰ytt‰j‰ ja salasana v‰lityspalvelimen tunnistukselle.
+.IP "\fB\--proxy\fP \fIv√§lityspalvelin[:portti|1080]\fP"
+K√§yt√§ m√§√§ritetty HTTP v√§lityspalvelin.
+.IP "\fB\--proxy-user\fP \fIk√§ytt√§j√§:salasana\fP"
+K√§yt√§ m√§√§ritetty k√§ytt√§j√§ ja salasana v√§lityspalvelimen tunnistukselle.
 .IP "\fB\-a\fP"
-valitse kaikki mediat jotka eiv‰t k‰yt‰ siirrett‰v‰‰ mediaa p‰ivitt‰miselle.
+valitse kaikki mediat jotka eiv√§t k√§yt√§ siirrett√§v√§√§ mediaa p√§ivitt√§miselle.
 .IP "\fB\-c\fP"
-Tyhjenn‰ hakemisto /var/cache/urpmi/headers lopettaessa.
+Tyhjenn√§ hakemisto /var/cache/urpmi/headers lopettaessa.
 .IP "\fB\-d\fP"
-Pakota t‰ydellinen laskenta (ei en‰‰ k‰ytˆss‰) /var/lib/urpmi/depslist.ordered
+Pakota t√§ydellinen laskenta (ei en√§√§ k√§yt√∂ss√§) /var/lib/urpmi/depslist.ordered
 tiedostolle.
 .IP "\fB\-f\fP"
 Pakota hdlist tiedostojen uudelleenluonti.
@@ -38,49 +38,49 @@ Pakota hdlist tiedostojen uudelleenluonti.
 Suoritettava \fBurpmi.update\fP ohjelma (perl skripti).
 .TP
 .FN /var/lib/urpmi/list.*
-Sis‰lt‰‰ listauksen kaikki urpmi:n tunnetuista peketeista ainoastaan jos salasanaa
-on k‰ytetty pakettien hakemisessa et‰palvelimilta (k‰ytt‰en verkko-protokolla) tai
-eri hakemistoissa jotka ovat k‰ytetty pakettien tallennukseen.
+Sis√§lt√§√§ listauksen kaikki urpmi:n tunnetuista peketeista ainoastaan jos salasanaa
+on k√§ytetty pakettien hakemisessa et√§palvelimilta (k√§ytt√§en verkko-protokolla) tai
+eri hakemistoissa jotka ovat k√§ytetty pakettien tallennukseen.
 .TP
 .FN /var/lib/urpmi/hdlist.*
-Sis‰lt‰‰ tietoja kaikista tunnetuista paketeista, eli yhteenveto rpm-pakettien
-otsikkotiedoista. Jos hdlist-tiedosto on k‰ytetty medialle, \fBurpmi\fP voi toimia
-t‰ydellisesti, mik‰ on yleens‰ tapana.
+Sis√§lt√§√§ tietoja kaikista tunnetuista paketeista, eli yhteenveto rpm-pakettien
+otsikkotiedoista. Jos hdlist-tiedosto on k√§ytetty medialle, \fBurpmi\fP voi toimia
+t√§ydellisesti, mik√§ on yleens√§ tapana.
 .TP
 .FN /var/lib/urpmi/synthesis.hdlist.*
-Sis‰lt‰‰ synteesi-tiedot kaikista tunnetuista paketeista. Ne ovat luotu hdlist
-tiedostoista ja voidaan k‰ytt‰‰ pienimmill‰ algoritmilla. Jos n‰it‰ tiedostoja 
-ei ole olemassa, hdlist-tiedostoja k‰ytet‰‰n, mutta se on hitaampi tapa.
+Sis√§lt√§√§ synteesi-tiedot kaikista tunnetuista paketeista. Ne ovat luotu hdlist
+tiedostoista ja voidaan k√§ytt√§√§ pienimmill√§ algoritmilla. Jos n√§it√§ tiedostoja 
+ei ole olemassa, hdlist-tiedostoja k√§ytet√§√§n, mutta se on hitaampi tapa.
 .TP
 .FN /etc/urpmi/urpmi.cfg
-Sis‰lt‰‰ medioiden kuvaukset.
+Sis√§lt√§√§ medioiden kuvaukset.
 .TP
 .FN /etc/urpmi/parallel.cfg
-Sis‰lt‰‰ rinnakkais-aliaksen kuvaukset, muodossa:
-\fB<alias>:<liitynt‰[(media)]>:<liitynt‰_parametri>\fP jossa \fB<alias>\fP on
-symbolinen nimi, \fB<liitynt‰>\fP voi olla \fBka-run\fP tai \fBssh\fP,
+Sis√§lt√§√§ rinnakkais-aliaksen kuvaukset, muodossa:
+\fB<alias>:<liitynt√§[(media)]>:<liitynt√§_parametri>\fP jossa \fB<alias>\fP on
+symbolinen nimi, \fB<liitynt√§>\fP voi olla \fBka-run\fP tai \fBssh\fP,
 \fB<media>\fP on medialistaus (vastaa \fB--media\fP parametri),
-\fB<liitynt‰_parametri>\fP on erityinen liitynt‰ parametrien listaus niin kuin
-"-c ssh-m node1 -m node2" jos k‰yt‰t \fBka-run\fP tai "node1:node2" jos k‰yt‰t
+\fB<liitynt√§_parametri>\fP on erityinen liitynt√§ parametrien listaus niin kuin
+"-c ssh-m node1 -m node2" jos k√§yt√§t \fBka-run\fP tai "node1:node2" jos k√§yt√§t
 \fBssh\fP.
 .TP
 .FN /etc/urpmi/skip.list
-sis‰lt‰‰ lausekkeita paketeista joka ei saa p‰ivitt‰‰ automaattisesti.
+sis√§lt√§√§ lausekkeita paketeista joka ei saa p√§ivitt√§√§ automaattisesti.
 Muoto on listaus pakettien 'tarjoaa' tiedoista (tai tavallinen lauseke \fB/\fP
-merkkien v‰lill‰) ja optiona operaattori ja versio, tai tavallinen lauseke
+merkkien v√§lill√§) ja optiona operaattori ja versio, tai tavallinen lauseke
 joka vastaa pakettien koko nimi.
 .TP
 .FN /etc/urpmi/inst.list
-Sis‰lt‰‰ pakettien nimet joita pit‰‰ asentaa p‰ivitt‰misen sijasta.
-.SH KATSO MY÷S
+Sis√§lt√§√§ pakettien nimet joita pit√§√§ asentaa p√§ivitt√§misen sijasta.
+.SH KATSO MY√ñS
 \fIurpmi\fP(8),
 \fIurpmi.addmedia\fP(8),
 \fIurpmi.removemedia\fP(8),
 \fIurpmf\fP(8),
 \fIurpmq\fP(8),
-.SH TEKIJƒT
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (alkuper‰inen tekij‰)
+.SH TEKIJ√ÑT
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (alkuper√§inen tekij√§)
 .PP
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Francois Pons, Mandrakesoft 
 .PP
-Rafael Garcia-Suarez, Mandrakesoft <rgarciasuarez@mandrakesoft.com>
+Rafael Garcia-Suarez, Mandrakesoft 

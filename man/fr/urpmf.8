@@ -1,55 +1,55 @@
-.\" Relecture Gérard Delafond
+.\" Relecture GÃ©rard Delafond
 .TH urpmf 8 "05 Jul 2001" "Mandrakesoft" "Mandrakelinux"
 .IX urpmf
 .SH NOM
-urpmf \- RPMFind - Trouve le paquetage RPM procurant le fichier spécifié.
+urpmf \- RPMFind - Trouve le paquetage RPM procurant le fichier spÃ©cifiÃ©.
 .SH SYNOPSIS
 .B urpmf [\fIoptions\fP] <\fIfichier\fP>
 .SH DESCRIPTION
-urpmf affiche une liste de paquetages procurant le fichier spécifié en argument.
+urpmf affiche une liste de paquetages procurant le fichier spÃ©cifiÃ© en argument.
 .PP
-<\fIfichier\fP> est le nom du fichier dont vous voulez connaître le paquetage d'origine.
+<\fIfichier\fP> est le nom du fichier dont vous voulez connaÃ®tre le paquetage d'origine.
 Notez que vous pouvez vous contenter de taper une partie du nom du fichier que vous cherchez.
-\fBurpmf\fP va alors afficher une liste de fichiers correspondant à ce motif, avec le nom
+\fBurpmf\fP va alors afficher une liste de fichiers correspondant Ã  ce motif, avec le nom
 du paquetage correspondant.
 .PP
-urpmf cherche parmi les paquetages installés ou non.
+urpmf cherche parmi les paquetages installÃ©s ou non.
 .SH OPTIONS
 .IP "\fB\--help\fP"
 affiche un message d'aide et quitte.
 .IP "\fB\--quiet\fP"
-ne pas afficher le nom des champs (actif par défaut si aucun champ
-n'est précisé sur la ligne de commande, incompatible avec le mode interactif).
+ne pas afficher le nom des champs (actif par dÃ©faut si aucun champ
+n'est prÃ©cisÃ© sur la ligne de commande, incompatible avec le mode interactif).
 .IP "\fB\--all\fP"
 chercher dans tous les champs.
 .IP "\fB\--name\fP"
-chercher dans le champ «\ name\ »\ : nom du fichier rpm
+chercher dans le champ Â«\ name\ Â»\ : nom du fichier rpm
 .IP "\fB\--group\fP"
-chercher dans le champ «\ group\ »\ : groupe
+chercher dans le champ Â«\ group\ Â»\ : groupe
 .IP "\fB\--size\fP"
-chercher dans le champ «\ size\ »\ : taille.
+chercher dans le champ Â«\ size\ Â»\ : taille.
 .IP "\fB\--serial\fP"
-chercher dans le champ «\ serial\ »\ : numéro de série.
+chercher dans le champ Â«\ serial\ Â»\ : numÃ©ro de sÃ©rie.
 .IP "\fB\--summary\fP"
-chercher dans le champ «\ summary\ »\ : résumé.
+chercher dans le champ Â«\ summary\ Â»\ : rÃ©sumÃ©.
 .IP "\fB\--description\fP"
-chercher dans le champ «\ description\ »\ : description.
+chercher dans le champ Â«\ description\ Â»\ : description.
 .IP "\fB\--provides\fP"
- chercher dans le champ «\ provides\ »\ : tous les apports (multi-lignes).
+ chercher dans le champ Â«\ provides\ Â»\ : tous les apports (multi-lignes).
 .IP "\fB\--requires\fP"
-chercher dans le champ «\ requires\ »\ : toutes les dépendances (multi-lignes).
+chercher dans le champ Â«\ requires\ Â»\ : toutes les dÃ©pendances (multi-lignes).
 .IP "\fB\--files\fP"
-chercher dans le champ «\ files\ »\ : tous les fichiers (multi-lignes).
+chercher dans le champ Â«\ files\ Â»\ : tous les fichiers (multi-lignes).
 .IP "\fB\--conflicts\fP"
-chercher dans le champ «\ conflicts\ »\ : tous les conflits (multi-lignes).
+chercher dans le champ Â«\ conflicts\ Â»\ : tous les conflits (multi-lignes).
 .IP "\fB\--obsoletes\fP"
-chercher dans le champ «\ obsoletes\ »\ : toutes les obsolescences (multi-lignes).
+chercher dans le champ Â«\ obsoletes\ Â»\ : toutes les obsolescences (multi-lignes).
 .IP "\fB\--prereqs\fP"
-chercher dans le champ «\ prereqs\ »\ : toutes les dépendances préliminaires(multi-lignes).
+chercher dans le champ Â«\ prereqs\ Â»\ : toutes les dÃ©pendances prÃ©liminaires(multi-lignes).
 .SH FICHIERS
 /usr/bin/urpmf
 .br
-L' exécutable \fBurpmf\fP  (script Perl)
+L' exÃ©cutable \fBurpmf\fP  (script Perl)
 .PP
 /var/lib/urpmi/list.*
 .br
@@ -59,39 +59,39 @@ Il y a un fichier par source de programmes(*).
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Contient les informations sur tous les paquetages connus, c'est un résumé
-des en-têtes des rpm.
-Il y a un fichier par média(*).
+Contient les informations sur tous les paquetages connus, c'est un rÃ©sumÃ©
+des en-tÃªtes des rpm.
+Il y a un fichier par mÃ©dia(*).
 .PP
 /var/lib/urpmi/synthesis.hdlist.*
 .br
-Contient une synthèse des informations sur tous les paquetages connus,
-construite à partir des fichiers hdlist, et qui peut être utilisée
+Contient une synthÃ¨se des informations sur tous les paquetages connus,
+construite Ã  partir des fichiers hdlist, et qui peut Ãªtre utilisÃ©e
 par un algorithme de rapprochement minimal. Si ces fichiers ne sont pas
-présents, utilisez \fBurpmi.update -a\fP pour les générer. Ces fichiers
+prÃ©sents, utilisez \fBurpmi.update -a\fP pour les gÃ©nÃ©rer. Ces fichiers
 ne sont pas obligatoires.
 .PP
 /etc/urpmi/urpmi.cfg
 .br
 Contient une description des sources des programmes\ ; les anciens
-formats d'urpmi sont acceptés.
+formats d'urpmi sont acceptÃ©s.
 .PP
 /etc/urpmi/skip.list
 .br
-Contient une liste de paquetages qui ne doivent pas être mis à jour avec
+Contient une liste de paquetages qui ne doivent pas Ãªtre mis Ã  jour avec
 l'option \fB--auto-select\fP, mais qui restent installables par une demande explicite.
-Chaque ligne contient un nom de paquetage, avec optionellement le numéro de version,
-ou une expression régulière si elle est entourée par des slashes (\fB/\fP)) .
+Chaque ligne contient un nom de paquetage, avec optionellement le numÃ©ro de version,
+ou une expression rÃ©guliÃ¨re si elle est entourÃ©e par des slashes (\fB/\fP)) .
 .PP
 /var/lib/urpmi/depslist.ordered
 .br
-Un simple fichier texte contenant toutes les dépendances de tous
+Un simple fichier texte contenant toutes les dÃ©pendances de tous
 les paquetages connus.
 .PP
 /var/lib/urpmi/provides
 .br
 Un simple fichier texte contenant les fichiers fournis et la liste
-des paquetages associés qui les contiennent.
+des paquetages associÃ©s qui les contiennent.
 .PP
 /var/lib/urpmi/compss
 .br
@@ -107,8 +107,8 @@ rpmdrake(8)
 .SH AUTEURS
 Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com>
 .br
-François Pons, Mandrakesoft <fpons@mandrakesoft.com>
+FranÃ§ois Pons, Mandrakesoft 
 .br
-Rafael Garcia-Suarez, Mandrakesoft <rgarciasuarez@mandrakesoft.com>
+Rafael Garcia-Suarez, Mandrakesoft 
 .SH TRADUCTION
 Jean-Michel FAYARD, 2002 <jean-michel.fayard@moufrei.de>

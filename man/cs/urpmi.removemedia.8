@@ -1,59 +1,59 @@
 .TH urpmi.removemedia 8 "28 Srp 2001" "Mandrakesoft" "Mandrakelinux"
 .IX urpmi.removemedia
-.SH NÁZEV
-urpmi.removemedia \- odstraní zdroj balíèkù RPM ze seznamu zdrojù známıch programu urpmi
+.SH NÃZEV
+urpmi.removemedia \- odstranÃ­ zdroj balÃ­ÄkÅ¯ RPM ze seznamu zdrojÅ¯ znÃ¡mÃ½ch programu urpmi
 .SH SYNAPSE
-.B urpmi.removemedia [volby] <\fInázvy\fP>
+.B urpmi.removemedia [volby] <\fInÃ¡zvy\fP>
 .SH POPIS
-Program urpmi.removemedia odstraní v¹echny odkazy na zadané názvy zdrojù balíèkù vèetnì odkazù na balíèky z tìchto zdrojù pocházející, ze v¹ech souborù s nastavením. 
+Program urpmi.removemedia odstranÃ­ vÅ¡echny odkazy na zadanÃ© nÃ¡zvy zdrojÅ¯ balÃ­ÄkÅ¯ vÄetnÄ› odkazÅ¯ na balÃ­Äky z tÄ›chto zdrojÅ¯ pochÃ¡zejÃ­cÃ­, ze vÅ¡ech souborÅ¯ s nastavenÃ­m. 
 .PP
-<\fInázvy\fP> je seznam názvù zdrojù, které jste pøedtím zadali pomocí programu urpmi.addmedia
+<\fInÃ¡zvy\fP> je seznam nÃ¡zvÅ¯ zdrojÅ¯, kterÃ© jste pÅ™edtÃ­m zadali pomocÃ­ programu urpmi.addmedia
 
 .SH VOLBY
 .IP "\fB\-a\fP"
-Vybere a odebere v¹echny zdroje.
+Vybere a odebere vÅ¡echny zdroje.
 .IP "\fB\-c\fP"
-vyma¾e vyrovnávací pamì» s hlavièkami v adresáøi /var/cache/urpmi/headers.
+vymaÅ¾e vyrovnÃ¡vacÃ­ pamÄ›Å¥ s hlaviÄkami v adresÃ¡Å™i /var/cache/urpmi/headers.
 .SH SOUBORY
 /usr/bin/urpmi.removemedia
 .br
-Spustitelnı soubor \fBurpmi.removemedia\fP (skript jazyka Perl)
+SpustitelnÃ½ soubor \fBurpmi.removemedia\fP (skript jazyka Perl)
 .PP
 /var/lib/urpmi/list.*
 .br
-Obsahuje seznam v¹ech balíèkù známıch programu urpmi a jejich umístìní, pouze pokud je pou¾ito heslo pro pøístup ke vzdálenım lokacím (pomocí sí»ového protokolu), nebo rùzné adresáøe, které jsou pou¾ity k ulo¾ení balíèkù.
+Obsahuje seznam vÅ¡ech balÃ­ÄkÅ¯ znÃ¡mÃ½ch programu urpmi a jejich umÃ­stÄ›nÃ­, pouze pokud je pouÅ¾ito heslo pro pÅ™Ã­stup ke vzdÃ¡lenÃ½m lokacÃ­m (pomocÃ­ sÃ­Å¥ovÃ©ho protokolu), nebo rÅ¯znÃ© adresÃ¡Å™e, kterÃ© jsou pouÅ¾ity k uloÅ¾enÃ­ balÃ­ÄkÅ¯.
 .PP
 /var/lib/urpmi/hdlist.*
 .br
-Obsahuje informace o v¹ech známıch balíècích, je to souhrn hlavièek balíèkù RPM. Pokud je pro zdroj pou¾it soubor hdlist, mù¾e program \fBurpmf\fP kompletnì fungovat, co¾ je také nejèastìj¹í pøípad. (Více viz manuálové stránky pro pøíkaz \fBurpmf\fP).
+Obsahuje informace o vÅ¡ech znÃ¡mÃ½ch balÃ­ÄcÃ­ch, je to souhrn hlaviÄek balÃ­ÄkÅ¯ RPM. Pokud je pro zdroj pouÅ¾it soubor hdlist, mÅ¯Å¾e program \fBurpmf\fP kompletnÄ› fungovat, coÅ¾ je takÃ© nejÄastÄ›jÅ¡Ã­ pÅ™Ã­pad. (VÃ­ce viz manuÃ¡lovÃ© strÃ¡nky pro pÅ™Ã­kaz \fBurpmf\fP).
 .PP
 /var/lib/urpmi/synthesis.hdlist.*
 .br
-Obsahuje informace syntézy o v¹ech známıch balíècích, které jsou sestaveny ze souborù hdlist, a které mohou bıt pou¾ity pro urychlení zpracování va¹ich po¾adavkù. Pokud nejsou tyto soubory pøítomny, pou¾ijí se soubory hdlist, co¾ je ov¹em vıraznì pomalej¹í.
+Obsahuje informace syntÃ©zy o vÅ¡ech znÃ¡mÃ½ch balÃ­ÄcÃ­ch, kterÃ© jsou sestaveny ze souborÅ¯ hdlist, a kterÃ© mohou bÃ½t pouÅ¾ity pro urychlenÃ­ zpracovÃ¡nÃ­ vaÅ¡ich poÅ¾adavkÅ¯. Pokud nejsou tyto soubory pÅ™Ã­tomny, pouÅ¾ijÃ­ se soubory hdlist, coÅ¾ je ovÅ¡em vÃ½raznÄ› pomalejÅ¡Ã­.
 .PP
 /etc/urpmi/urpmi.cfg
 .br
-Obsahuje informace o zdrojích. Je pøijímán i formát ze star¹ích verzí programu urpmi.
+Obsahuje informace o zdrojÃ­ch. Je pÅ™ijÃ­mÃ¡n i formÃ¡t ze starÅ¡Ã­ch verzÃ­ programu urpmi.
 .PP
 /etc/urpmi/parallel.cfg
 .br
-Obsahuje popis paralelních aliasù ve formátu \fB<alias>:<rozhraní[(zdroje)]>:<parametr_rozhraní>\fP, kde \fB<alias>\fP je symbolickı název, \fB<rozhraní>\fP mù¾e nabıvat hodnot \fBka-run\fP nebo \fBssh\fP, \fB<zdroje>\fP je seznam zdrojù (jako u volby \fB\--media\fP), \fB<parametr_rozhraní>\fP je seznam parametrù specifickı pro rozhraní, napøíklad "-c ssh -m node1 -m node2" pro rozhraní \fBka-run\fP nebo "node1:node2" pro rozhraní \fBssh\fP.
+Obsahuje popis paralelnÃ­ch aliasÅ¯ ve formÃ¡tu \fB<alias>:<rozhranÃ­[(zdroje)]>:<parametr_rozhranÃ­>\fP, kde \fB<alias>\fP je symbolickÃ½ nÃ¡zev, \fB<rozhranÃ­>\fP mÅ¯Å¾e nabÃ½vat hodnot \fBka-run\fP nebo \fBssh\fP, \fB<zdroje>\fP je seznam zdrojÅ¯ (jako u volby \fB\--media\fP), \fB<parametr_rozhranÃ­>\fP je seznam parametrÅ¯ specifickÃ½ pro rozhranÃ­, napÅ™Ã­klad "-c ssh -m node1 -m node2" pro rozhranÃ­ \fBka-run\fP nebo "node1:node2" pro rozhranÃ­ \fBssh\fP.
 .PP
 /etc/urpmi/skip.list
 .br
-Obsahuje vırazy s názvy balíèkù, které by nemìly bıt automaticky aktualizovány. Formát je tvoøen seznamem toho, co balíèek poskytuje (nebo regulárním vırazem, pokud je ohranièen lomítky \fB/\fP) s volitelnım operátorem a øetìzcem s verzí, nebo regulárním vırazem odpovídajícím úplnému názvu balíèku.
+Obsahuje vÃ½razy s nÃ¡zvy balÃ­ÄkÅ¯, kterÃ© by nemÄ›ly bÃ½t automaticky aktualizovÃ¡ny. FormÃ¡t je tvoÅ™en seznamem toho, co balÃ­Äek poskytuje (nebo regulÃ¡rnÃ­m vÃ½razem, pokud je ohraniÄen lomÃ­tky \fB/\fP) s volitelnÃ½m operÃ¡torem a Å™etÄ›zcem s verzÃ­, nebo regulÃ¡rnÃ­m vÃ½razem odpovÃ­dajÃ­cÃ­m ÃºplnÃ©mu nÃ¡zvu balÃ­Äku.
 .PP
 /etc/urpmi/inst.list
 .br
-Obsahuje názvy balíèkù, které by mìly bıt instalovány a ne aktualizovány.
-.SH "VIZ TAKÉ"
+Obsahuje nÃ¡zvy balÃ­ÄkÅ¯, kterÃ© by mÄ›ly bÃ½t instalovÃ¡ny a ne aktualizovÃ¡ny.
+.SH "VIZ TAKÃ‰"
 urpmi(8),
 urpmi.addmedia(8),
 urpmf(8),
 urpmq(8),
 .SH AUTOR
-Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (pùvodní autor)
+Pascal Rigaux, Mandrakesoft <pixel@mandrakesoft.com> (pÅ¯vodnÃ­ autor)
 .br
-Francois Pons, Mandrakesoft <fpons@mandrakesoft.com>
+Francois Pons, Mandrakesoft 
 .br
-Rafael Garcia-Suarez, Mandrakesoft <rgarciasuarez@mandrakesoft.com>
+Rafael Garcia-Suarez, Mandrakesoft 

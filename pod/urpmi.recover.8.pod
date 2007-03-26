@@ -75,6 +75,11 @@ Lists all installations and upgrades up to the date of the checkpoint.
 Roll back the system to the given date (see C<--list> for accepted date
 formats), or rolls back the given number of transactions.
 
+=item B<--urpmi-root> I<directory>
+
+Use the file system tree rooted for urpmi database and rpm install. Contrary
+to B<--root>, the urpmi configuration comes from the rooted tree.
+
 =item --disable
 
 Turn off repackaging. Unless C<--noclean> was also specified, this cleans
@@ -96,7 +101,7 @@ completely avoid delta rpms if you're planning to use urpmi.recover.
 
 =head1 AUTHOR
 
-Rafael Garcia-Suarez, <rgarciasuarez@mandriva.com>
+Rafael Garcia-Suarez, 
 
 Copyright (C) 2006 Mandriva SA
 
