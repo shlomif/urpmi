@@ -29,11 +29,10 @@ use urpm::media;
 
 sub usage {
     my $m = shift;
-# Translator: The URI types strings 'file:', 'ftp:', 'http:',
-# Translator: and 'removable:' must not be translated!
-# Translator: neither the ``with''.
-# Translator: only what is between <brackets> can be translated.
-    my $usage = N("usage: urpmi.addmedia [options] <name> <url>
+    my $usage =
+      #-PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+      #-PO: neither the ``with''.  Only what is between <brackets> can be translated.
+      N("usage: urpmi.addmedia [options] <name> <url>
 where <url> is one of
        [file:/]/<path>
        ftp://<login>:<password>\@<host>/<path>

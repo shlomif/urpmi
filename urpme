@@ -32,8 +32,9 @@ $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
 our ($test, $parallel, $auto, $matches, $verbose, $force, $noscripts, $repackage, @l, $bundle, $restricted);
-# Translator: Add here the keys which might be pressed in the "Yes"-case.
-my $yesexpr = N("Yy");
+my $yesexpr =
+  #-PO: Add here the keys which might be pressed in the "Yes"-case.
+  N("Yy");
 
 sub usage() {
     print N("urpme version %s
