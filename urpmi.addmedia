@@ -54,6 +54,7 @@ and [options] are from
 ") . N("  --update       - create an update medium.
 ") . N("  --probe-synthesis - use synthesis file.
 ") . N("  --probe-hdlist - use hdlist file.
+") . N("  --probe-rpms   - use rpm files (instead of synthesis/hdlist).
 ") . N("  --no-probe     - do not try to find any synthesis or hdlist file.
 ") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . N("  --distrib      - automatically create all media from an installation
@@ -68,15 +69,12 @@ and [options] are from
 ") . N("  --nopubkey     - don't import pubkey of added media
 ") . N("  --raw          - add the media in config, but don't update it.
 ") . N("  -c             - clean headers cache directory.
-") . N("  -f -f          - force generation of hdlist files.
 ") . N("  -q             - quiet mode.
 ") . N("  -v             - verbose mode.
 ");
     print($m ? "$usage\n$m" : $usage);
     exit 0;
 }
-
-my $sync_logger = sub {};
 
 #- remove quietly the failing media.
 sub remove_failed {
@@ -85,7 +83,7 @@ sub remove_failed {
 	print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @media);
 	local $urpm->{log} = sub {};
 	urpm::media::remove_selected_media($urpm);
-	urpm::media::update_media($urpm, %options, callback => $sync_logger);
+	urpm::media::update_media($urpm, %options, quiet => 1);
 	exit(1);
     }
 }
@@ -108,7 +106,7 @@ our ($name, $url, $with, $relative_hdlist) = our @cmdline;
 
 #- remove verbose if not asked.
 $options{verbose} > 0 or $urpm->{log} = sub {};
-$sync_logger = \&urpm::download::sync_logger if $options{verbose} > 1;
+$options{quiet} = 1 if $options{verbose} < 0;
 
 $url or ($url, $name) = ($name, '');
 $url =~ m,^(([^:]*):/)?/, or die N("bad <url> (for local directory, the path must be absolute)\n");
@@ -155,7 +153,9 @@ if ($options{distrib}) {
 	remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 	exit(1);
     };
-    urpm::media::update_media($urpm, %options, callback => $sync_logger);
+    urpm::media::update_media($urpm, %options, 
+			      quiet => $options{verbose} < 0,		      
+			      callback => \&urpm::download::sync_logger);
     remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
 
 } else {
@@ -163,6 +163,9 @@ if ($options{distrib}) {
 
     if ($with eq "with") {
 	$relative_hdlist or usage N("<relative path of hdlist> missing\n");
+    }
+    if ($options{probe_with} && $options{probe_with} eq 'rpms' && !urpm::file_from_local_url($url)) {
+	die N("Can't use %s with remote medium", "--probe-rpms");
     }
 
     urpm::media::add_medium($urpm,
@@ -181,7 +184,9 @@ if ($options{distrib}) {
 	    remove_failed($urpm, $medium) if $medium && $medium->{modified};
 	    exit(1);
 	};
-	urpm::media::update_media($urpm, %options, callback => $sync_logger);
+	urpm::media::update_media($urpm, %options, 
+				  quiet => $options{verbose} < 0,
+				  callback => \&urpm::download::sync_logger);
 	#- check creation of media
 	my $medium = urpm::media::name2medium($urpm, $name) or die N("unable to create medium \"%s\"\n", $name);
 	remove_failed($urpm, $medium) if $medium->{modified};
