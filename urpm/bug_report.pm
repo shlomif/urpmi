@@ -30,10 +30,9 @@ sub write_urpmdb {
     require URPM::Build;
     foreach (@{$urpm->{media}}) {
 	#- take care of virtual medium this way.
-	$_->{hdlist} ||= "hdlist.$_->{name}.cz";
 	#- now build directly synthesis file, this is by far the simplest method.
 	if (urpm::media::is_valid_medium($_)) {
-	    $urpm->build_synthesis(start => $_->{start}, end => $_->{end}, synthesis => "$bug_report_dir/synthesis.$_->{hdlist}");
+	    $urpm->build_synthesis(start => $_->{start}, end => $_->{end}, synthesis => "$bug_report_dir/synthesis." . urpm::media::_hdlist($_));
 	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $_->{name}));
 	}
     }

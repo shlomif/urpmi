@@ -17,7 +17,8 @@ my ($LOCK_SH, $LOCK_EX, $LOCK_NB, $LOCK_UN) = (1, 2, 4, 8);
 #  - lock urpmi db in /
 sub rpm_db {
     my ($urpm, $b_exclusive) = @_;
-    urpm::lock->new($urpm, "$urpm->{root}/$urpm->{statedir}/.RPMLOCK", 'rpm', $b_exclusive);
+    my $f = ($urpm->{root} && !$urpm->{urpmi_root} ? "$urpm->{root}/" : '') . "$urpm->{statedir}/.RPMLOCK";
+    urpm::lock->new($urpm, $f, 'rpm', $b_exclusive);
 }
 sub urpmi_db {
     my ($urpm, $b_exclusive, $b_nofatal) = @_;

@@ -252,9 +252,11 @@ my %options_spec = (
 	'm|M' => sub { $options{deps} = $options{upgrade} = 1 },
 	c => \$options{complete},
 	g => \$options{group},
-	p => \$options{use_provides},
+	'whatprovides|p' => \$options{use_provides},
 	P => sub { $options{use_provides} = 0 },
-	R => sub { ++$options{what_requires} },
+	'whatrequires|R' => sub { $options{what_requires} and $options{what_requires_recursive} = 1; 
+				   $options{what_requires} = 1 },
+	'whatrequires-recursive' => sub { $options{what_requires_recursive} = $options{what_requires} = 1 },
 	y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
 	Y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = $options{caseinsensitive} = 1 },
 	'verbose|v' => \$options{verbose},
@@ -297,6 +299,7 @@ my %options_spec = (
 	'q|quiet'   => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
 	'norebuild!' => sub { $urpm->{options}{'build-hdlist-on-error'} = !$_[1]; $options{force} = 0 },
+	'probe-rpms' => sub { $options{probe_with} = 'rpms' },
 	'<>' => sub {
 	    my ($p) = @_;
 	    if ($p =~ /^--?(.+)/) { # unrecognized option
@@ -311,7 +314,6 @@ my %options_spec = (
 	distrib => sub { $options{distrib} = 1 },
         interactive => sub { $options{interactive} = 1 },
         'all-media' => sub { $options{allmedia} = 1 },
-	'probe-rpms' => sub { $options{probe_with} = 'rpms' },
 	'from=s' => \$options{mirrors_url},
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
@@ -386,7 +388,7 @@ foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "proxy=s", "prox
 }
 
 foreach my $k ("help|h", "wget", "curl", "prozilla", "proxy=s", "proxy-user=s", "c", "f", "z",
-    "limit-rate=s", "no-md5sum", "update", "norebuild!",
+    "limit-rate=s", "no-md5sum", "update", "norebuild!", "probe-rpms",
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", '<>')
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
@@ -419,7 +421,8 @@ sub parse_cmdline {
     }
     my $ret = GetOptions(%{$options_spec{$tool}}, %options_spec_all);
 
-    if ($tool ne 'urpmi.addmedia' && $options{probe_with} && !$options{usedistrib}) {
+    if ($tool ne 'urpmi.addmedia' && $tool ne 'urpmi.update' &&
+	  $options{probe_with} && !$options{usedistrib}) {
 	die N("Can't use %s without %s", "--probe-$options{probe_with}", "--use-distrib");
     }
     if ($options{probe_with} && $options{probe_with} eq 'rpms' && $options{virtual}) {

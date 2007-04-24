@@ -10,14 +10,14 @@ BEGIN { use_ok 'urpm::download' }
 my $file = 'testurpmi.cfg';
 my $proxyfile = $urpm::download::PROXY_CFG = 'testproxy.cfg';
 open my $f, '>', $file or die $!;
-print $f (my $cfgtext = <<URPMICFG);
+print $f (my $cfgtext = <<'URPMICFG');
 {
   downloader: wget
   fuzzy: no
   verify-rpm: 0
 }
 
-update\\ 1 http://foo/bar/ {
+update\ 1 http://foo/bar/$RELEASE {
   compress: 1
   fuzzy: 1
   keep: yes
@@ -41,7 +41,20 @@ close $f;
 my $config = urpm::cfg::load_config($file);
 ok( ref $config, 'config loaded' );
 
-ok( urpm::cfg::dump_config($file.2, $config), 'config written' );
+is($config->{global}{downloader}, 'wget');
+ok(my ($update_2) = grep { $_->{name} eq 'update_2' } @{$config->{media}});
+is($update_2->{url}, 'ftp://foo/bar/');
+ok(my ($update_1) = grep { $_->{name} eq 'update 1' } @{$config->{media}});
+is($update_1->{url}, 'http://foo/bar/' . urpm::cfg::get_release());
+
+my $config_verbatim = urpm::cfg::load_config_raw($file, 1);
+ok( ref $config_verbatim, 'config loaded' );
+
+unlink "$file.verbatim", "$file.bad";
+urpm::util::copy($file, "$file.state"); #- dump_config has a state
+ok( urpm::cfg::dump_config_raw("$file.verbatim", $config_verbatim), 'config written' );
+ok( urpm::cfg::dump_config("$file.bad", $config), 'config written' );
+ok( urpm::cfg::dump_config("$file.state", $config), 'config written' );
 
 # things that have been tidied up by dump_config
 $cfgtext =~ s/\byes\b/1/g;
@@ -50,10 +63,26 @@ $cfgtext =~ s/\bkey_ids\b/key-ids/g;
 $cfgtext =~ s/"123"/123/g;
 $cfgtext =~ s/'kernel'/kernel/g;
 
-my $cfgtext2 = read_file($file.2);
+{
+my $cfgtext2 = read_file("$file.verbatim");
 $cfgtext2 =~ s/# generated.*\n//;
 is( $cfgtext, $cfgtext2, 'config is the same' )
-    or system qw( diff -u ), $file, $file.2;
+    or system qw( diff -u ), $file, "$file.verbatim";
+}
+{
+my $cfgtext2 = read_file("$file.bad");
+$cfgtext2 =~ s/# generated.*\n//;
+isnt( $cfgtext, $cfgtext2, 'config should differ' )
+    or system qw( diff -u ), $file, "$file.bad";
+}
+{
+my $cfgtext2 = read_file("$file.state");
+$cfgtext2 =~ s/# generated.*\n//;
+is( $cfgtext, $cfgtext2, 'config is the same' )
+    or system qw( diff -u ), $file, "$file.state";
+}
+
+
 
 open $f, '>', $proxyfile or die $!;
 print $f ($cfgtext = <<PROXYCFG);
@@ -71,7 +100,7 @@ is( $p->{http_proxy}, 'http://yoyodyne:8080/', 'read media proxy' );
 is( $p->{user}, 'rafael', 'proxy user' );
 is( $p->{pwd}, 'richard', 'proxy password' );
 ok( dump_proxy_config(), 'dump_proxy_config' );
-$cfgtext2 = read_file($proxyfile);
+my $cfgtext2 = read_file($proxyfile);
 $cfgtext2 =~ s/# generated.*\n//;
 is( $cfgtext, $cfgtext2, 'dumped correctly' );
 set_proxy_config(http_proxy => '');
@@ -81,4 +110,4 @@ $cfgtext2 =~ s/# generated.*\n//;
 $cfgtext =~ s/^http_proxy.*\n//;
 is( $cfgtext, $cfgtext2, 'dumped correctly' );
 
-END { unlink $file, $file.2, $proxyfile }
+END { unlink $file, glob("$file.*"), $proxyfile }

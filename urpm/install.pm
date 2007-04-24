@@ -163,7 +163,7 @@ sub install {
 	    return unless defined $pkgid;
 	    my $pkg = $urpm->{depslist}[$pkgid];
 	    my $fullname = $pkg->fullname;
-	    my $trtype = (grep { /\Q$fullname\E/ } values %$install) ? 'install' : '(upgrade|update)';
+	    my $trtype = $pkg->flag_installed ? '(upgrade|update)' : 'install';
 	    foreach ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $readmes{$_} = $fullname }
 	    close $fh if defined $fh;
 	};
@@ -176,16 +176,15 @@ sub install {
 	#- don't clear cache if transaction failed. We might want to retry.
 	if (@l == 0 && !$options{test} && $options{post_clean_cache}) {
 	    #- examine the local cache to delete packages which were part of this transaction
-	    foreach (keys %$install, keys %$upgrade) {
-		my $pkg = $urpm->{depslist}[$_];
-		unlink "$urpm->{cachedir}/rpms/" . $pkg->filename;
-	    }
+	    my @pkgs = map { $urpm->{depslist}[$_]->filename } keys %$install, keys %$upgrade;
+	    $urpm->{log}(N("removing installed rpms (%s) from %s", join(' ', @pkgs), "$urpm->{cachedir}/rpms"));
+	    unlink "$urpm->{cachedir}/rpms/$_" foreach @pkgs;
 	}
 
 	if ($::verbose >= 0) {
 	    foreach (keys %readmes) {
 		print "-" x 70, "\n", N("More information on package %s", $readmes{$_}), "\n";
-		print cat_($_);
+		print cat_(($urpm->{root} || '') . $_);
 		print "-" x 70, "\n";
 	    }
 	}

@@ -1,0 +1,287 @@
+- urpmi
+  o always upgrade (-U) packages instead of installing (-i) them,
+    except for inst.list packages. This change is needed to fix
+    "b--obsoletes-->a and c--conflicts-->a prompting for upgrading a"
+    in perl-URPM 1.61
+  o fix displaying README.*urpmi when using --root or --urpmi-root
+  o fix displaying README.install.urpmi when installing a package conflicting
+    with an available package
+- for rpmdrake
+  o make translate_why_removed() safe to call (cf bug #28613)
+
+Version 4.9.21 - 27 March 2007, by Pascal "Pixel" Rigaux
+
+- urpmi
+  o add kernel-source-latest to skip.list 
+    (to be coherent with other kernel*latest) (#29933)
+- urpmi.addmedia
+  o do display download progression by default (be coherent with other tools),
+    use -q to hide it
+- urpmi.update
+  o do not display download progression with -q
+
+Version 4.9.20 - 15 March 2007, by Pascal "Pixel" Rigaux
+
+- all tools
+  o be failsafe when module encoding is not there 
+    (ie when only perl-base is installed) (#29387)
+- gurpmi:
+  o fix displaying size of packages
+  o fix displaying only the first package in "you're about to..." dialog
+  o prevent downloading/installing dialog from resizing
+- urpmi-parallel-ka-run:
+  o fix parsing the output of rshp2 (only rshp output was successfully parsed)
+
+Version 4.9.19 - 8 March 2007, by Pascal "Pixel" Rigaux
+
+- urpmi
+  o fix priority-upgrade broken on some x86_64 (#29125)
+    (bug introduced in urpmi 4.9.11)
+- gurpmi
+  o use same translation routines as urpmi, fixing various encoding issues (#29248)
+- urpmq
+  o remove duplicated warning for "urpmq -l" when a rpm header is missing (#29174)
+
+Version 4.9.17 - 6 March 2007, by Pascal "Pixel" Rigaux
+
+- urpmq
+  o add --whatprovides (doing same as -p) (#29175)
+- urpmi
+  o don't auto upgrade mandriva kernels (ie add kernel*-latest to skip.list)
+  o add perl-MDV-Distribconf to priority upgrade packages
+  o display translated summaries
+
+Version 4.9.16 - 2 March 2007, by Pascal "Pixel" Rigaux
+
+- urpmi
+  o fix crash asking for medium
+- urpmf
+  o do not display invalid error at the end when using removable media (#28905)
+- urpmq
+  o --whatrequires-recursive: fix debug message explaining why a package
+    is added, and enhance the verbose message explaining why some package are
+    skipped
+
+Version 4.9.15 - 6 February 2007, by Pascal "Pixel" Rigaux
+
+- urpmi.update
+  o add --probe-rpms to replace -f -f
+  o -f -f should be allowed (#28500)
+- urpmq
+  o --whatrequires will now handle virtual package requires
+    (eg: bash is now returned by "urpmq --whatrequires glibc")
+    (#28367)
+- german translation
+  o don't use non iso-8859-15 chars otherwise perl segfaults (#28537)
+    (perl bug #41442)
+
+Version 4.9.14 - 25 January 2007, by Pascal "Pixel" Rigaux
+
+- urpmi
+  o fix encoding issue with "--bug ..." introduced in previous version (#28387)
+- urpmi, ...
+  o workaround no locale (eg: LC_ALL=C): when encoding is "ascii", 
+    do not try to convert strings to this encoding, any encoding will do
+    (#28367)
+- urpmq
+  o rename option -R into --whatrequires
+  o rename option -RR into --whatrequires-recursive,
+    and don't go through virtual packages which are provided by another
+    package, eg: "skipping package(s) required by db1-devel via devel(libdb),
+    since that virtual package is provided by libdb2-devel"
+    (#27814)
+  o do not document option -P (which is the default)
+
+Version 4.9.13 - 19 January 2007, by Pascal "Pixel" Rigaux
+
+- urpmi, ...
+  o fix encoding/codeset mess (using the magical
+  Locale::gettext::bind_textdomain_codeset(..., "UTF-8") from new
+  perl-Locale-gettext)
+  o fix translating rpmlib messages (using URPM::bind_rpm_textdomain_codeset())
+- gurpmi2
+  o do display installation failed on file conflicts (#22131)
+- urpmi.addmedia
+  o do not display in clear text the password (when using -v or --debug)
+- urpmq
+  o when using synthesis do not download packages to get information.
+    before this modification, it was downloaded iff one medium was using hdlist (#16772)
+  o when using synthesis fix using local rpms to get information
+    before this modification, local rpm was used iff one medium was using hdlist
+  o display a warning about no hdlist only for needed media, 
+    adapt the warning to the option (for "-i", synthesis can still help),
+    and tell which rpms and impacted
+
+Version 4.9.12 - 10 January 2007, by Pascal "Pixel" Rigaux
+
+- urpmi
+  o fix handling removable media (bug introduced in 4.9.x) (#27854)
+  o with "-v", display the package file copied to disk
+  o use P (ie ngettext) to handle plurals
+  o re-allow "urpmi --clean" with no arguments 
+    (broken on january 2006, commit r36390) (#27747)
+  o be more verbose with "-v"
+- urpmi, urpmq, urpmf
+  o "--media foo" and "--searchmedia foo" use medium "foo" 
+    even if "foo" is flagged "ignore" (#27745)
+- urpmi.addmedia
+  o new option "--probe-rpms" which replaces "-f -f"
+  o fix using dir "/foo/bar boo" and no hdlist (using *.rpm)
+  o when using "--distrib <url>", have "xxx" instead of "xxx1" 
+    for the medium name (eg: "Main" instead of "Main1")
+  o when using --distrib, add noauto media with flag ignore 
+    so that someone can easily use them by removing ignore
+    (nb: debug_for and srpm media are not added though)
+    (cf bug #28050)
+
+Version 4.9.11 - 12 December 2006, by Pascal "Pixel" Rigaux
+
+- urpmi
+  o when "urpmi --auto-select" needs to restart urpmi because of a
+    priority-upgrade, ensure it doesn't prompt an unneeded choice before
+    restarting (#27527)
+    (nb: the problem can still occur on "urpmi rpmdrake")
+- urpmi.removedia
+  o "urpmi.removedia -a" when urpmi.cfg has no entry still warn the user, 
+     but exits with status 0
+
+Version 4.9.10 - 7 December 2006, by Pascal "Pixel" Rigaux
+
+- urpmi.addmedia
+  o fix using "--virtual --distrib ..."
+
+Version 4.9.9 - 6 December 2006, by Pascal "Pixel" Rigaux
+
+- urpmi
+  o fix "rpmdb: environment reference count went negative" 
+    when syslog service is down
+  o fix having more than "hdlist" flag in urpmi.cfg
+- gurpmi2 (and rpmdrake)
+  o fix crash when syslog service is down (#26256)
+
+Version 4.9.8 - 6 December 2006, by Pascal "Pixel" Rigaux
+
+- urpmi.addmedia, urpmi
+  o use "hdlist" just like "synthesis" when forcing only hdlist usage
+  o "hdlist" is valid with "virtual"
+- urpmi
+  o don't say "Package foo-1.1 already installed"
+    when in fact it is "Package foo-1.2 already installed". 
+    Still display "Package foo-1.1 can not be installed" until we can do
+    better (#27176)
+- gurpmi (tvignaud)
+  o don't ignore exceptions in callbacks
+  o fix crash and really lock the urpm db
+
+Version 4.9.7 - 4 December 2006, by Pascal "Pixel" Rigaux
+
+- bug fix release
+- urpmi.addmedia
+  o fix --probe-hdlist
+  o fix "... with hdlist.cz" (only "... with synthesis.hdlist.cz" was working)
+- urpmi
+  o add the long version of -q/-v (ie --quiet/--verbose)
+  o --quiet is really quiet (#14538)
+
+Version 4.9.6 - 31 November 2006, by Pascal "Pixel" Rigaux
+
+- bug fix release
+- urpmf:
+  o handle --urpmi-root
+- urpmi.addmedia:
+  o fix downloading synthesis which is done twice when remote
+  o fix downloading pubkey in media_info/
+
+Version 4.9.5 - 30 November 2006, by Pascal "Pixel" Rigaux
+
+- all tools:
+  o new option --urpmi-root that is similar to --root but also use rooted 
+    urpmi db
+- urpmi:
+  o handle buggy "list: xxx" in urpmi.cfg (when the list can't be found)
+  o handle no "synthesis" together with "with_hdlist: synthesis.hdlist.cz"
+- urpmi.cfg:
+  o new per-medium field "media_info_dir:" which replaces "with_hdlist:" in
+    most cases. It allows using either hdlist & synthesis when nor
+    "hdlist:" nor "synthesis" is set (#16232)
+- urpmi.update:
+  o not so verbose by default, only display 
+    'medium "foo" is up-to-date' or 'medium "foo" updated'
+- urpmi.removemedia:
+  o not so verbose by default, only display 'removing medium "foo"'
+  o do not allow both "-a" and <name>, fix usage
+- urpmi.addmedia:
+  o not so verbose by default, only display 'adding medium "foo"'
+  o do not add "hdlist: hdlist.<name>.cz" lines in urpmi.cfg,
+    compute it from <name> (one can still enforce a file name)
+  o do not default to --probe-synthesis but use both hdlist/synthesis
+
+Version 4.9.4 - 24 November 2006, by Pascal "Pixel" Rigaux
+
+- urpmi.addmedia:
+  o fix random ordering of media (using --distrib on a non-remote medium)
+  o now inserting non-remote medium after first non-remote medium
+    (instead of adding it as first medium)
+- urpmi, urpme, urpmq:
+  o add option --probe-synthesis (allowed with --use-distrib)
+
+Version 4.9.3 - 24 November 2006, by Pascal "Pixel" Rigaux
+
+- bug fix release:
+- fix handling multiple virtual hdlist files
+  (the second pass was not done...)
+
+Version 4.9.2 - 24 November 2006, by Pascal "Pixel" Rigaux
+
+- bug fix release:
+- /foo/@86875:bar.src.rpm is not a url with protocol /foo/@86875
+- /foo/chroot_tmp/... is not a url with protocol /foo/chroot
+
+Version 4.9.1 - 23 November 2006, by Pascal "Pixel" Rigaux
+
+- cleanup locks handling, log locking, and don't say "urpmi database locked"
+  when it's the rpm database that is locked
+- urpmi:
+  o add --nokeep (which overrides urpmi.cfg global option "keep")
+
+Version 4.9.0 - 22 November 2006, by Pascal "Pixel" Rigaux
+
+- urpmi:
+  o don't fork on multiple transactions
+  o fix buggy print "::logger_id::" (#27026)
+- gurpmi2 (tvignaud): 
+  o fix unvisible content
+  o prevent a dialog to have a height of several scores of thousands pixels
+  o add support of --root
+- urpmi.update:
+  o don't write urpmi.cfg unless really needed
+  o don't write md5sum in urpmi.cfg (bugfix)
+- urpmi.addmedia:
+  o drop support for "list" file
+    (now you must have a hdlist/synthesis on remote server)
+  o drop support for searching recursively rpms when there is no
+    hdlist/synthesis. Only search in given directory (ie $url/*.rpm)
+  o do not use list.<media_name> to store passwords, use /etc/urpmi/netrc
+    instead. Also do have the url in urpmi.cfg, only the password is removed
+  o change the format of list.<media_name>, it contains only rpm files
+    relative to the medium url
+  o deprecate "... with <relative hdlist/synthesis>". It is not useful anymore
+    (nb: if you want to force using hdlist or synthesis, use --probe-hdlist or
+    --probe-synthesis)
+  o don't write urpmi.cfg twice
+  o do not look for hdlist/synthesis in ../media_info/hdlist$suffix.cz (nb:
+    with media.cfg, it will still use hdlist from media/media_info/, but it
+    will simply use the hdlist$suffix.cz given by media.cfg )
+  o --norebuild is by default (and deprecated): when the local
+    hdlist/synthesis is buggy, do not discard it and go searching for *.rpm.
+    Make it an error instead
+  o fix building synthesis when using *.rpm (ie no hdlist/synthesis)
+- urpmi.removemedia: much faster (since it doesn't parse hdlist/synthesis anymore)
+- handle "empty" hdlist/synthesis
+- generate names.<media_name> only when the medium is created/updated
+- major splitting of urpm.pm in many modules
+- major splitting of functions in smaller functions
+  (eg: update_media was 988 lines long, has been splitted in functions shorter
+  than 105 lines)
+- big code cleanup/rework
+- perl_checker compliance (very useful for such big code rework)

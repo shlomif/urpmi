@@ -8,6 +8,7 @@ our @EXPORT = qw(need_root_and_prepare
 		 urpm_cmd urpmi_cmd urpmi urpme
 		 urpmi_cfg set_urpmi_cfg_global_options
 		 system_
+		 check_installed_names check_installed_and_remove check_installed_and_urpme
 	    );
 
 my $using_root;
@@ -88,6 +89,31 @@ sub system_ {
     system($cmd);
     ok($? == 0, $cmd);
 }
+
+
+sub check_installed_names {
+    my (@names) = @_;
+    is(`rpm -qa --qf '%{name}\\n' --root $::pwd/root | sort`, join('', map { "$_\n" } sort(@names)));
+}
+
+sub check_nothing_installed() {
+    is(`rpm -qa --root $::pwd/root`, '');    
+}
+
+sub check_installed_and_remove {
+    my (@names) = @_;
+    check_installed_names(@names);
+    system_("rpm --root $::pwd/root -e " . join(' ', @names));
+    check_nothing_installed();
+}
+
+sub check_installed_and_urpme {
+    my (@names) = @_;
+    check_installed_names(@names);
+    urpme(join(' ', @names));
+    check_nothing_installed();
+}
+
 
 END { 
     $using_root and system('rm -rf root');

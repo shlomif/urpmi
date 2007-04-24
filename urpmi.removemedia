@@ -43,6 +43,7 @@ where <name> is a medium name to remove.
 ") . N("  -y             - fuzzy match on media names.
 ") . N("  -q             - quiet mode.
 ") . N("  -v             - verbose mode.
+") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . $msg;
     exit 0;
 }
@@ -71,8 +72,14 @@ my @entries = map { $_->{name} } @{$urpm->{media}};
 
 my @toremove;
 if ($options{all}) {
-    !@cmdline or usage('');
-    @toremove = @entries or die N("nothing to remove (use urpmi.addmedia to add a media)\n");
+    if (@cmdline) {
+	usage('');
+    } elsif (!@entries) {
+	print STDERR N("nothing to remove (use urpmi.addmedia to add a media)\n");
+	exit 0;
+    } else {
+	@toremove = @entries;
+    }
 } else {
     @toremove = @cmdline or usage(N("the entry to remove is missing\n(one of %s)\n", join(", ", @entries)));
 }

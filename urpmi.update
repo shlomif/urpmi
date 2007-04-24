@@ -43,9 +43,11 @@ where <name> is a medium name to update.
 ") . N("  --force-key    - force update of gpg key.
 ") . N("  --ignore       - don't update, mark the media as ignored.
 ") . N("  --no-ignore    - don't update, mark the media as enabled.
+") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
+") . N("  --probe-rpms   - do not use synthesis/hdlist, use rpm files directly
 ") . N("  -a             - select all non-removable media.
 ") . N("  -c             - clean headers cache directory.
-") . N("  -f             - force generation of hdlist files.
+") . N("  -f             - force updating synthesis/hdlist
 ") . N("  -q             - quiet mode.
 ") . N("  -v             - verbose mode.
 ");
@@ -100,7 +102,9 @@ if (defined $options{ignore}) {
     $urpm->{log}($options{ignore} ? N("ignoring media %s", $str) : N("enabling media %s", $str));
     urpm::media::write_config($urpm);
 } else {
-    urpm::media::update_media($urpm, %options, callback => \&urpm::download::sync_logger);
+    urpm::media::update_media($urpm, %options, 
+			      quiet => $options{verbose} < 0,
+			      callback => \&urpm::download::sync_logger);
     #- try to umount removable device which may have been mounted.
     urpm::removable::try_umounting_removables($urpm);
 }

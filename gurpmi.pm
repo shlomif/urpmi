@@ -21,6 +21,7 @@ use urpm;
 use strict;
 use Gtk2;
 use urpm::util;
+use urpm::msg;
 
 use Exporter;
 our @ISA = qw(Exporter);
@@ -115,16 +116,6 @@ sub new_label {
 	return $label;
     }
 }
-
-sub N {
-    my ($format, @params) = @_;
-    my $r = sprintf(
-	eval { Locale::gettext::gettext($format || '') } || $format,
-	@params,
-    );
-    Locale::gettext::iconv($r, undef, "UTF-8");
-}
-
 
 # copied from ugtk2:
 sub create_scrolled_window {

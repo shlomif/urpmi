@@ -216,7 +216,7 @@ sub do_install_2 () {
 		N("To satisfy dependencies, the following package is going to be installed:")
 		: N("To satisfy dependencies, the following packages are going to be installed:") )
        	. join("\n", '', @to_install, '') 
-	. P("(%d package, %d MB)", "(%d packages, %d MB)", scalar(@to_install), toMb($sum)),
+	. P("(%d package, %d MB)", "(%d packages, %d MB)", scalar(@to_install), scalar(@to_install), toMb($sum)),
                     , \&do_install_3)
 	: goto \&do_install_3;
 }
@@ -231,7 +231,7 @@ sub do_install_3 () {
     my $progress_label = Gtk2::Label->new('-');
     $vbox->pack_start($progress_label, 1, 1, 0);
     my $progressbar = Gtk2::ProgressBar->new;
-    $progressbar->set_size_request(300, -1);
+    $progressbar->set_size_request(450, -1);
     $vbox->pack_start($progressbar, 0, 0, 0);
     change_mainw($vbox);
     urpm::removable::copy_packages_of_removable_media($urpm, $list, \%sources, sub {

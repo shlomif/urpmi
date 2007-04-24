@@ -98,7 +98,7 @@ my $commonusername = "../common/";
 # Additional targets
 sub postamble {
     <<"**MM**";
-.PHONY: installconfigfiles installstatedir ChangeLog
+.PHONY: installconfigfiles installstatedir ChangeLog TAGS
 
 installpo:
 	\$(MAKE) -C po install
@@ -121,6 +121,14 @@ installgurpmi2: pure_install
 ChangeLog:
 	svn2cl --accum --strip-prefix=soft/rpm/urpmi/trunk --authors ${commonusername}username.xml
 	rm -f *.bak
+
+TAGS:
+	etags *.pm */*.pm
+
+testall:
+	make test
+	sudo make test TEST_FILES='t/superuser--*.t'
+
 **MM**
 }
 

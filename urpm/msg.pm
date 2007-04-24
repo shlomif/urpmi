@@ -5,44 +5,58 @@ package urpm::msg;
 use strict;
 no warnings;
 use Exporter;
+use URPM;
+
+BEGIN {
+    eval { require encoding };
+    eval "use open ':locale'" if eval { encoding::_get_locale_encoding() ne 'ANSI_X3.4-1968' };
+}
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 our @ISA = 'Exporter';
-our @EXPORT = qw(N bug_log to_utf8 message_input toMb from_utf8 sys_log);
+our @EXPORT = qw(N P translate bug_log message_input toMb sys_log);
 
 #- I18N.
 use Locale::gettext;
-use POSIX qw(LC_ALL);
-POSIX::setlocale(LC_ALL, "");
-Locale::gettext::textdomain("urpmi");
+use POSIX();
+POSIX::setlocale(POSIX::LC_ALL(), "");
+my @textdomains = qw(urpmi rpm-summary-main rpm-summary-contrib rpm-summary-devel);
+foreach my $domain (@textdomains) {
+	Locale::gettext::bind_textdomain_codeset($domain, 'UTF-8');
+}
+URPM::bind_rpm_textdomain_codeset();
 
-my $codeset; #- encoding of the current locale
-eval {
-    require I18N::Langinfo;
-    I18N::Langinfo->import(qw(langinfo CODESET));
-    $codeset = langinfo(CODESET()); # note the ()
-};
-defined $codeset or eval {
-    (undef, $codeset) = `/usr/bin/locale -c charmap`;
-    chomp $codeset;
-};
+our $no_translation;
 
-sub from_utf8_full { Locale::gettext::iconv($_[0], "UTF-8", $codeset) }
-sub from_utf8_dummy { $_[0] }
+sub translate {
+    my ($s, $o_plural, $o_nb) = @_;
+    my $res;
+    if ($no_translation) {
+	$s;
+    } elsif ($o_nb) {
+        foreach my $domain (@textdomains) {
+            eval { $res = Locale::gettext::dngettext($domain, $s || '', $o_plural, $o_nb) || $s };
+            return $res if $s ne $res;
+        }
+        return $s;
+    } else {
+        foreach my $domain (@textdomains) {
+            eval { $res = Locale::gettext::dgettext($domain, $s || '') || $s };
+            return $res if $s ne $res;
+        }
+        return $s;
+    }
+}
 
-our $use_utf8_full = defined $codeset && $codeset eq 'UTF-8';
-
-sub from_utf8 { $use_utf8_full ? &from_utf8_full : &from_utf8_dummy }
+sub P {
+    my ($s_singular, $s_plural, $nb, @para) = @_; 
+    sprintf(translate($s_singular, $s_plural, $nb), @para);
+}
 
 sub N {
     my ($format, @params) = @_;
-    my $s = sprintf(
-	eval { Locale::gettext::gettext($format || '') } || $format,
-	@params,
-    );
-    utf8::decode($s) unless $use_utf8_full;
-    $s;
+    sprintf(translate($format), @params);
 }
 
 my $noexpr = N("Nn");
@@ -50,13 +64,19 @@ my $yesexpr = N("Yy");
 
 eval {
     require Sys::Syslog;
-    Sys::Syslog->import();
+    Sys::Syslog->import;
     (my $tool = $0) =~ s!.*/!!;
+
+    #- what we really want is "unix" (?)
+    #- we really don't want "console" which forks/exit and thus
+    #  run callbacks registered through atexit() : x11, gtk+, rpm, ...
+    Sys::Syslog::setlogsock([ 'tcp', 'unix', 'stream' ]);
+
     openlog($tool, '', 'user');
     END { defined &closelog and closelog() }
 };
 
-sub sys_log { defined &syslog and syslog("info", @_) }
+sub sys_log { defined &syslog and eval { syslog("info", @_) } }
 
 #- writes only to logfile, not to screen
 sub bug_log {
@@ -67,8 +87,6 @@ sub bug_log {
 	close $fh;
     }
 }
-
-sub to_utf8 { Locale::gettext::iconv($_[0], undef, "UTF-8") }
 
 sub message_input {
     my ($msg, $o_default_input, %o_opts) = @_;

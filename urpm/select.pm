@@ -16,10 +16,10 @@ sub _findindeps {
 	/$qv/ || !$caseinsensitive && /$qv/i or next;
 
 	my @list = grep { defined $_ } map {
-	    my $pkg = $urpm->{depslist}[$_];
+	    my $pkg = $_;
 	    $pkg && ($src ? $pkg->arch eq 'src' : $pkg->arch ne 'src')
 	      ? $pkg->id : undef;
-	} keys %{$urpm->{provides}{$_} || {}};
+	} $urpm->packages_providing($_);
 	@list > 0 and push @{$found->{$v}}, join '|', @list;
     }
 }
@@ -49,9 +49,7 @@ sub search_packages {
 			    $urpm->{searchmedia}{start} <= $_->id
 		    	    && $urpm->{searchmedia}{end} >= $_->id)
 		    ? $_ : @{[]};
-		} map {
-		    $urpm->{depslist}[$_];
-		} keys %{$urpm->{provides}{$v} || {}})
+		} $urpm->packages_providing($v))
 	    {
 		#- we assume that if there is at least one package providing
 		#- the resource exactly, this should be the best one; but we
@@ -194,33 +192,44 @@ sub resolve_dependencies {
     		start => $urpm->{searchmedia}{start}, end => $urpm->{searchmedia}{end});
 	}
 
-	#- resolve dependencies which will be examined for packages that need to
-	#- have urpmi restarted when they're updated.
-	$urpm->resolve_requested($db, $state, $requested, %options);
+	my @priority_upgrade;
+	my $resolve_priority_upgrades = sub {
+	    my ($selected, $priority_requested) = @_;
+ 
+	    my %priority_state;
+
+	    $urpm->resolve_requested($db, \%priority_state, $priority_requested, %options);
+	    if (grep { ! exists $priority_state{selected}{$_} } keys %$priority_requested) {
+		#- some packages which were selected previously have not been selected, strange!
+	    } elsif (grep { ! exists $priority_state{selected}{$_} } keys %$selected) {
+		#- there are other packages to install after this priority transaction.
+		%$state = %priority_state;
+		$need_restart = 1;
+	    }
+	};
 
 	if ($options{priority_upgrade} && !$options{rpmdb}) {
-	    my (%priority_upgrade, %priority_requested);
-	    @priority_upgrade{split /,/, $options{priority_upgrade}} = ();
+	    @priority_upgrade = map {
+		$urpm->packages_by_name($_);
+	    } split(/,/, $options{priority_upgrade});
 
-	    #- check if a priority upgrade should be tried
-	    foreach (keys %{$state->{selected}}) {
-		my $pkg = $urpm->{depslist}[$_] or next;
-		exists $priority_upgrade{$pkg->name} or next;
-		$priority_requested{$pkg->id} = undef;
+	    #- first check if a priority_upgrade package is requested
+	    #- (it should catch all occurences in --auto-select mode)
+	    #- (nb: a package "foo" may appear twice, and only one will be set flag_upgrade)
+	    if (my @l = grep { $_->flag_upgrade } @priority_upgrade) {
+		my %priority_requested = map { $_->id => undef } @l;
+		$resolve_priority_upgrades->($requested, \%priority_requested);
 	    }
+	}
 
-	    if (%priority_requested) {
-		my %priority_state;
+	if (!$need_restart) {
+	    $urpm->resolve_requested($db, $state, $requested, %options);
 
-		$urpm->resolve_requested($db, \%priority_state, \%priority_requested, %options);
-		if (grep { ! exists $priority_state{selected}{$_} } keys %priority_requested) {
-		    #- some packages which were selected previously have not been selected, strange!
-		    $need_restart = 0;
-		} elsif (grep { ! exists $priority_state{selected}{$_} } keys %{$state->{selected}}) {
-		    #- there are other packages to install after this priority transaction.
-		    %$state = %priority_state;
-		    $need_restart = 1;
-		}
+	    #- now check if a priority_upgrade package has been required
+	    #- by a requested package
+	    if (my @l = grep { $state->{selected}{$_->id} } @priority_upgrade) {
+		my %priority_requested = map { $_->id => undef } @l;
+		$resolve_priority_upgrades->($state->{selected}, \%priority_requested);
 	    }
 	}
     }
@@ -409,7 +418,9 @@ sub translate_why_removed {
 sub translate_why_removed_one {
     my ($urpm, $state, $fullname) = @_;
 
-    my $closure = $state->{rejected}{$fullname}{closure};
+    my $closure = $state->{rejected} && $state->{rejected}{$fullname} && $state->{rejected}{$fullname}{closure}
+      or return $fullname;
+
     my ($from) = keys %$closure;
     my ($whyk) = keys %{$closure->{$from}};
     my $whyv = $closure->{$from}{$whyk};

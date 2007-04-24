@@ -74,7 +74,7 @@ What would you like to do?", $srpms->[0])
 
 %s
 
-Proceed?", @gurpmi::names)
+Proceed?", join("\n", map { "- $_" } @gurpmi::names))
 	: @all_rpms == 1
 	? N("You are about to install the following software package on your computer:
 

@@ -7,6 +7,7 @@ use urpm::msg;
 use urpm::util;
 use urpm::removable;
 use urpm::lock;
+use MDV::Distribconf;
 
 
 our @PER_MEDIA_OPT = qw(
@@ -56,18 +57,12 @@ sub read_private_netrc {
     @l;
 }
 
-sub parse_url_with_login {
-    my ($url) = @_;
-    $url =~ m!([^:]*)://([^/:\@]*)(:([^/:\@]*))?\@([^/]*)(.*)! &&
-      { proto => $1, login => $2, password => $4, machine => $5, dir => $6 };
-}
-
 sub read_config_add_passwords {
     my ($urpm, $config) = @_;
 
     my @netrc = read_private_netrc($urpm) or return;
     foreach (@{$config->{media}}) {
-	my $u = parse_url_with_login($_->{url}) or next;
+	my $u = urpm::download::parse_url_with_login($_->{url}) or next;
 	if (my ($e) = grep { ($_->{default} || $_->{machine} eq $u->{machine}) && $_->{login} eq $u->{login} } @netrc) {
 	    $_->{url} = sprintf('%s://%s:%s@%s%s', $u->{proto}, $u->{login}, $e->{password}, $u->{machine}, $u->{dir});
 	} else {
@@ -81,7 +76,7 @@ sub remove_passwords_and_write_private_netrc {
 
     my @l;
     foreach (@{$config->{media}}) {
-	my $u = parse_url_with_login($_->{url}) or next;
+	my $u = urpm::download::parse_url_with_login($_->{url}) or next;
 	#- check whether a password is visible
 	$u->{password} or next;
 
@@ -541,14 +536,14 @@ sub configure {
 	if ($options{media}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	    select_media($urpm, split /,/, $options{media});
-	    foreach (grep { !$_->{modified} } @{$urpm->{media} || []}) {
-		_tempignore($_, 1);
+	    foreach (@{$urpm->{media} || []}) {
+		_tempignore($_, !$_->{modified});
 	    }
 	}
 	if ($options{searchmedia}) {
 	   select_media($urpm, $options{searchmedia}); #- Ensure this media has been selected
 	   if (my $medium = name2medium($urpm, $options{searchmedia})) {
-	       $medium->{ignore} and $urpm->{fatal}("searchmedia is ignored");
+	       _tempignore($medium, 0);
 	       $medium->{searchmedia} = 1;
 	   }
 	}
@@ -589,7 +584,7 @@ sub _parse_media {
 	    $need_second_pass = 1 if !$is_second_pass && !$options->{no_second_pass};
 	} else {
 	    $options->{need_hdlist}
-	      and $urpm->{error}(N("Note: no hdlist for medium \"%s\", urpmf is unable to return any result for it", $_->{name}));
+	      and $urpm->{error}(N("Note: no hdlist for medium \"%s\", unable to return any result for it", $_->{name}));
 
 	    _parse_synthesis($urpm, $_, any_synthesis($urpm, $_), $options->{callback});
 	}
@@ -877,7 +872,7 @@ sub _probe_with_try_list {
 	my $url = reduce_pathname("$base/$media_info_dir") . '/' . ($synthesis ? 'synthesis.hdlist.cz' : 'hdlist.cz');
 	$f->($url) or return;
 
-	$urpm->{debug}("found hdlist/synthesis: $url");
+	$urpm->{debug} and $urpm->{debug}("found hdlist/synthesis: $url");
 
 	$medium->{media_info_dir} = $media_info_dir;
 	if ($probe_with) {
@@ -1684,7 +1679,7 @@ sub _update_medium_first_pass {
 	my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 	if (@unresolved_before != @unresolved_after) {
 	    $medium->{need_second_pass} = 1;
-	    $urpm->{debug}(sprintf qq(medium "%s" has unresolved dependencies: %s), 
+	    $urpm->{debug} and $urpm->{debug}(sprintf qq(medium "%s" has unresolved dependencies: %s), 
 			   $medium->{name}, 
 			   join(' ', difference2(\@unresolved_after, \@unresolved_before)));
 	}

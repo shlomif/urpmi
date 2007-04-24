@@ -617,6 +617,21 @@ sub requested_ftp_http_downloader {
       } || $urpm->{global_config}{downloader};
 }
 
+sub parse_url_with_login {
+    my ($url) = @_;
+    $url =~ m!([^:]*)://([^/:\@]*)(:([^/:\@]*))?\@([^/]*)(.*)! &&
+      { proto => $1, login => $2, password => $4, machine => $5, dir => $6 };
+}
+sub url_obscuring_password {
+    my ($url) = @_;
+    my $u = parse_url_with_login($url);
+    if ($u && $u->{password}) {
+	sprintf('%s://xxx:xxx@%s%s', $u->{proto}, $u->{machine}, $u->{dir});
+    } else {
+	$url;
+    }
+}
+
 #- $medium can be undef
 #- known options: quiet, resume, callback
 sub sync {
@@ -632,11 +647,12 @@ sub sync {
 	$all_options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
 
-    $urpm->{debug}(N("retrieving %s", join(' ', @$files)));
+    my $files_text = join(' ', map { url_obscuring_password($_) } @$files);
+    $urpm->{debug} and $urpm->{debug}(N("retrieving %s", $files_text));
 
     eval { 
 	_sync_webfetch_raw($urpm, $files, \%all_options); 
-	$urpm->{log}(N("retrieved %s", join(' ', @$files)));
+	$urpm->{log}(N("retrieved %s", $files_text));
 	1;
     };
 }

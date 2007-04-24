@@ -24,12 +24,14 @@ urpm::cfg - routines to handle the urpmi configuration files
 Reads an urpmi configuration file and returns its contents in a hash ref :
 
     {
-	'medium name 1' => {
+	media => [
+         'medium name 1' => {
 	    url => 'http://...',
 	    option => 'value',
 	    ...
-	}
-	'' => {
+	 },
+        ],
+	global => {
 	    # global options go here
 	},
     }
@@ -51,9 +53,7 @@ Returns 1 on success, 0 on failure.
 my ($arch, $release);
 sub _init_arch_release () {
     if (!$arch && !$release) {
-	open my $f, '/etc/release' or return undef;
-	my $l = <$f>;
-	close $f;
+	my $l = cat_('/etc/release') or return undef;
 	($release, $arch) = $l =~ /release (\d+\.\d+).*for (\w+)/;
 	$release = 'cooker' if $l =~ /cooker/i;
     }
@@ -103,49 +103,46 @@ sub expand_line {
     return $line;
 }
 
-sub load_config ($;$) {
+sub load_config_raw {
     my ($file, $b_norewrite) = @_;
-    my %config;
-    my $priority = 1;
-    my $medium;
+    my @blocks;
+    my $block;
     $err = '';
-    my @conf_lines = cat_($file) or do { $err = N("unable to read config file [%s]", $file); return };
-    foreach (@conf_lines) {
+    -r $file or do { 
+	$err = N("unable to read config file [%s]", $file); 
+	return;
+    };
+    foreach (cat_($file)) {
 	chomp;
 	next if /^\s*#/; #- comments
 	s/^\s+//; s/\s+$//;
 	$_ = expand_line($_) unless $b_norewrite;
 	if ($_ eq '}') { #-{
-	    if (!defined $medium) {
+	    if (!defined $block) {
 		_syntax_error();
 		return;
 	    }
-	    $config{$medium}{priority} = $priority++ if $medium ne ''; #- to preserve order
-	    undef $medium;
-	    next;
-	}
-	if (defined $medium && /{$/) { #-}
+	    push @blocks, $block;
+	    undef $block;
+	} elsif (defined $block && /{$/) { #-}
 	    _syntax_error();
 	    return;
-	}
-	if ($_ eq '{') { #-} Entering a global block
-	    $medium = '';
-	    next;
-	}
-	if (/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/) { #- medium definition
-	    $medium = unquotespace $1;
-	    if ($config{$medium}) {
+	} elsif ($_ eq '{') { 
+	    #-} Entering a global block
+	    $block = { name => '' };
+	} elsif (/^(.*?[^\\])\s+(?:(.*?[^\\])\s+)?{$/) { 
+	    #- medium definition
+	    my ($name, $url) = (unquotespace($1), unquotespace($2));
+	    if (grep { $_->{name} eq $name } @blocks) {
 		#- hmm, somebody fudged urpmi.cfg by hand.
-		$err = N("medium `%s' is defined twice, aborting", $medium);
+		$err = N("medium `%s' is defined twice, aborting", $name);
 		return;
 	    }
-	    $config{$medium}{url} = unquotespace $2;
-	    next;
-	}
-	#- config values
-	/^(hdlist
+	    $block = { name => $name, url => $url };
+	} elsif (/^(hdlist
 	  |list
 	  |with_hdlist
+	  |media_info_dir
 	  |removable
 	  |md5sum
 	  |limit-rate
@@ -157,16 +154,16 @@ sub load_config ($;$) {
 	  |retry
 	  |default-media
 	  |(?:curl|rsync|wget|prozilla)-options
-	 )\s*:\s*['"]?(.*?)['"]?$/x
-	    and $config{$medium}{$1} = $2, next;
-	/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/
-	    and $config{$medium}{'key-ids'} = $1, next;
-	#- positive flags
-	/^(update|ignore|synthesis|noreconfigure|static|virtual)$/
-	    and $config{$medium}{$1} = 1, next;
-	my ($no, $k, $v);
-	#- boolean options
-	if (($no, $k, $v) = /^(no-)?(
+	  )\s*:\s*['"]?(.*?)['"]?$/x) {
+	    #- config values
+	    $block->{$1} = $2;
+	} elsif (/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/) {
+	    $block->{'key-ids'} = $1;
+	} elsif (/^(update|ignore|hdlist|synthesis|noreconfigure|static|virtual)$/) {
+	    #- positive flags
+	    $block->{$1} = 1;
+	} elsif (my ($no, $k, $v) =
+          /^(no-)?(
 	    verify-rpm
 	    |norebuild
 	    |fuzzy
@@ -182,49 +179,71 @@ sub load_config ($;$) {
 	    |nopubkey
 	    |resume)(?:\s*:\s*(.*))?$/x
 	) {
+	    #- boolean options
 	    my $yes = $no ? 0 : 1;
 	    $no = $yes ? 0 : 1;
 	    $v = '' unless defined $v;
-	    $config{$medium}{$k} = $v =~ /^(yes|on|1|)$/i ? $yes : $no;
-	    next;
+	    $block->{$k} = $v =~ /^(yes|on|1|)$/i ? $yes : $no;
+	} elsif ($_ eq 'modified') {
+	    #- obsolete
+	} else {
+	    warn "unknown line '$_'\n" if $_;
 	}
-	#- obsolete
-	$_ eq 'modified' and next;
     }
-    return \%config;
+    \@blocks;
 }
 
-sub dump_config ($$) {
+sub load_config {
+    my ($file) = @_;
+
+    my $blocks = load_config_raw($file);
+    my ($media, $global) = partition { $_->{name} } @$blocks;
+    ($global) = @$global;
+    delete $global->{name};
+
+    { global => $global || {}, media => $media };
+}
+
+sub dump_config {
     my ($file, $config) = @_;
-    my $config_old = load_config($file, 1);
-    my @media = sort {
-	return  0 if $a eq $b;
-	return -1 if $a eq ''; #- global options come first
-	return  1 if $b eq '';
-	return $config->{$a}{priority} <=> $config->{$b}{priority} || $a cmp $b;
-    } keys %$config;
+
+    my %global = (name => '', %{$config->{global}});
+
+    dump_config_raw($file, [ %global ? \%global : (), @{$config->{media}} ]);
+}
+
+sub dump_config_raw {
+    my ($file, $blocks) = @_;
+
+    my $old_blocks = load_config_raw($file, 1);
+    my $substitute_back = sub {
+	my ($m, $field) = @_;
+	my ($prev_block) = grep { $_->{name} eq $m->{name} } @$old_blocks;
+	substitute_back($m->{$field}, $prev_block && $prev_block->{$field});
+    };
+
     open my $f, '>', $file or do {
 	$err = N("unable to write config file [%s]", $file);
 	return 0;
     };
-    foreach my $m (@media) {
-	if ($m) {
-	    print $f quotespace($m), ' ', quotespace(substitute_back($config->{$m}{url}, $config_old->{$m}{url})), " {\n";
-	} else {
-	    next if !keys %{$config->{''}};
-	    print $f "{\n";
-	}
-	foreach (sort grep { $_ && $_ ne 'url' } keys %{$config->{$m}}) {
+			
+    foreach my $m (@$blocks) {
+	my @l = map {
 	    if (/^(update|ignore|synthesis|noreconfigure|static|virtual)$/) {
-		print $f "  $_\n";
+		$_;
+	    } elsif ($_ eq 'hdlist' && $m->{$_} eq '1') {
+		$_;
 	    } elsif ($_ ne 'priority') {
-		print $f "  $_: " . substitute_back($config->{$m}{$_}, $config_old->{$m}{$_}) . "\n";
+		"$_: " . $substitute_back->($m, $_);
 	    }
-	}
-	print $f "}\n\n";
+	} sort grep { $_ && $_ ne 'url' && $_ ne 'name' } keys %$m;
+
+        my $name_url = $m->{name} ? 
+	  join(' ', map { quotespace($_) } $m->{name}, $substitute_back->($m, 'url')) . ' ' : '';
+
+        print $f $name_url . "{\n", (map { "  $_\n" } @l), "}\n\n";
     }
-    close $f;
-    return 1;
+    1;
 }
 
 #- routines to handle mirror list location

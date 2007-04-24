@@ -8,10 +8,11 @@ our @ISA = 'Exporter';
 our @EXPORT = qw(quotespace unquotespace
     remove_internal_name
     reduce_pathname offset_pathname
-    md5sum untaint
+    untaint
     copy_and_own
     same_size_and_mtime
-    difference2 member file_size cat_ dirname basename
+    partition uniq
+    difference2 member file_size cat_ cat_utf8 dirname basename
 );
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -87,21 +88,6 @@ sub untaint {
     @r == 1 ? $r[0] : @r;
 }
 
-sub md5sum {
-    my ($file) = @_;
-    eval { require Digest::MD5 };
-    if ($@) {
-	#- Use an external command to avoid depending on perl
-	return (split ' ', `/usr/bin/md5sum '$file'`)[0];
-    } else {
-	my $ctx = Digest::MD5->new;
-	open my $fh, $file or return '';
-	$ctx->addfile($fh);
-	close $fh;
-	return $ctx->hexdigest;
-    }
-}
-
 sub copy {
     my ($file, $dest) = @_;
     !system("/bin/cp", "-p", "-L", "-R", $file, $dest);
@@ -130,9 +116,20 @@ sub same_size_and_mtime {
     $sstat[7] == $lstat[7] && $sstat[9] == $lstat[9];
 }
 
+sub partition(&@) {
+    my $f = shift;
+    my (@a, @b);
+    foreach (@_) {
+	$f->($_) ? push(@a, $_) : push(@b, $_);
+    }
+    \@a, \@b;
+}
+
+sub uniq { my %l; $l{$_} = 1 foreach @_; grep { delete $l{$_} } @_ }
 sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
 sub member { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
 sub cat_ { my @l = map { my $F; open($F, '<', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
+sub cat_utf8 { my @l = map { my $F; open($F, '<:utf8', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
 
 1;
 

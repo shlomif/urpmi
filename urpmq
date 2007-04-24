@@ -288,7 +288,7 @@ if ($urpm::args::options{list_aliases}) {
 				#- If more than one thing provides this requirement 
 				#- then don't bother finding stuff
 				#- that needs it as it will be invalid
-				my @l = grep { $_ ne $pkg->name } map { $urpm->{depslist}[$_]->name } keys %{$urpm->{provides}{$n}};
+				my @l = grep { $_ ne $pkg->name } map { $_->name } $urpm->packages_providing($n);
 				$urpm->{log}(sprintf "skipping package(s) requiring %s via %s, since %s is also provided by %s", $pkg->name, $n, $n, join(' ', @l));
 				next;
 			    }
@@ -413,8 +413,6 @@ if ($urpm::args::options{list_aliases}) {
 		    if ($urpm::args::options{list_files}) {
 			if ($pkg->files) {
 			    print join("\n", $pkg->files) . "\n";
-			} else {
-			    print STDERR N("No filelist found\n");
 			}
 		    }
 		    if ($urpm::args::options{changelog}) {
