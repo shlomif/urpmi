@@ -117,11 +117,7 @@ sub install {
     my @produced_deltas;
 
     foreach (@$remove) {
-	if ($trans->remove($_)) {
-	    $urpm->{log}(N("removing package %s", $_));
-	} else {
-	    $urpm->{error}(N("unable to remove package %s", $_));
-	}
+	$trans->remove($_) or $urpm->{error}("unable to remove package " . $_);
     }
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
@@ -150,11 +146,13 @@ sub install {
     } elsif (!$options{noorder} && (@l = $trans->order)) {
     } else {
 	my %readmes;
+	my $index;
 	my $fh;
 	#- assume default value for some parameter.
 	$options{delta} ||= 1000;
 	$options{callback_open} ||= sub {
 	    my ($_data, $_type, $id) = @_;
+	    $index++;
 	    $fh = urpm::sys::open_safe($urpm, '<', $install->{$id} || $upgrade->{$id});
 	    $fh ? fileno $fh : undef;
 	};
@@ -166,6 +164,13 @@ sub install {
 	    my $trtype = $pkg->flag_installed ? '(upgrade|update)' : 'install';
 	    foreach ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $readmes{$_} = $fullname }
 	    close $fh if defined $fh;
+	};
+	$options{callback_uninst} = sub { 	    
+	    my ($_urpm, undef, undef, $subtype) = @_;
+	    if ($subtype eq 'start') {
+		print N("removing package %s", $trans->Element_name($index)), "\n" if $::verbose >= 0;
+		$index++;
+	    }
 	};
 	if ($::verbose >= 0 && (scalar keys %$install || scalar keys %$upgrade)) {
 	    $options{callback_inst}  ||= \&install_logger;
