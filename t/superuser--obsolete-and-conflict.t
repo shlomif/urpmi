@@ -21,7 +21,11 @@ urpmi_addmedia("$name $::pwd/media/$name");
 urpmi('a');
 check_installed_names('a');
 
-urpmi('b c');
+test_urpmi("b c", <<'EOF');
+      1/2: c
+      2/2: b
+removing package a
+EOF
 check_installed_names('b', 'c');
 
 urpme('b c');
@@ -38,3 +42,15 @@ check_installed_names('a', 'd');
 urpmi('--split-level 1 b c');
 # argh, d is removed :-(
 #check_installed_names('b', 'c', 'd');
+
+
+sub test_urpmi {
+    my ($para, $wanted) = @_;
+    my $urpmi = urpmi_cmd();
+    my $s = `$urpmi $para`;
+
+    $s =~ s/\s*#{40}#*//g;
+    $s =~ s/.*\nPreparing\.\.\.\n//s;
+
+    ok($s eq $wanted, "$wanted in $s");
+}
