@@ -428,7 +428,7 @@ if (@src_names) {
 }
 
 sub ask_choice {
-    my ($urpm, $_db, $_state, $choices) = @_;
+    my ($urpm, $_db, $_state, $choices, $virtual_pkg_name) = @_;
     my $n = 1; #- default value.
     my (@l) = map {
 	my ($name, $summary) = (scalar($_->fullname), translate($_->summary));
@@ -444,7 +444,7 @@ sub ask_choice {
     } @$choices;
 
     if (@l > 1 && !$urpm->{options}{auto}) {
-	print N("One of the following packages is needed:"), "\n";
+	print N("In order to satisfy the '%s' dependency, one of the following packages is needed:", $virtual_pkg_name), "\n";
 	my $i = 0;
 	foreach (@l) { print " " . ++$i . "- $_\n" }
 	$n = message_input(N("What is your choice? (1-%d) ", $i), undef, range_min => 0, range => $i);
