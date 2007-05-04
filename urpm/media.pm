@@ -1166,6 +1166,7 @@ sub _get_list_or_pubkey__local {
     my $path = _hdlist_dir($medium) . "/$name" . _hdlist_suffix($medium);
     -e $path or $path = file_from_local_url($medium->{url}) . "/$name";
     if (-e $path) {
+	$urpm->{log}(N("copying [%s] for medium \"%s\"...", $path, $medium->{name}));
 	copy_and_own($path, "$urpm->{cachedir}/partial/$name")
 	  or $urpm->{error}(N("...copying failed")), return;
     }
