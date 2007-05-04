@@ -1552,6 +1552,8 @@ sub _read_cachedir_pubkey {
     if (keys(%key_ids)) {
 	$medium->{'key-ids'} = join(',', keys %key_ids);
     }
+
+    unlink "$urpm->{cachedir}/partial/pubkey";
 }
 
 sub _write_rpm_list {
