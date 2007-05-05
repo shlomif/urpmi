@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-vi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-27 16:38+0200\n"
+"POT-Creation-Date: 2007-05-05 17:12+0200\n"
 "PO-Revision-Date: 2005-06-08 15:13+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -159,7 +159,7 @@ msgstr "(để cài đặt)"
 msgid "Package choice"
 msgstr ""
 
-#: ../gurpmi2:154 ../urpmi:447
+#: ../gurpmi2:154
 #, c-format
 msgid "One of the following packages is needed:"
 msgstr "Cần một gói trong các gói tin sau đây:"
@@ -242,7 +242,7 @@ msgstr ""
 "%s\n"
 "Có thể bạn nên cập nhật cơ sở dữ liệu của urpmi."
 
-#: ../gurpmi2:292 ../urpme:141 ../urpmi:731
+#: ../gurpmi2:292 ../urpme:142 ../urpmi:731
 #, c-format
 msgid "removing %s"
 msgstr "gỡ bỏ %s"
@@ -347,7 +347,7 @@ msgid "...retrieving done"
 msgstr "...hoàn thành việc thu thập"
 
 #: ../urpm.pm:137 ../urpm/download.pm:603 ../urpm/get_pkgs.pm:185
-#: ../urpm/media.pm:747 ../urpm/media.pm:1260 ../urpm/media.pm:1482
+#: ../urpm/media.pm:747 ../urpm/media.pm:1261 ../urpm/media.pm:1483
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...không thu thập được: %s"
@@ -629,37 +629,32 @@ msgstr ""
 msgid "unable to create transaction"
 msgstr "không thể tạo phiên giao dịch"
 
-#: ../urpm/install.pm:121
-#, c-format
-msgid "removing package %s"
-msgstr "gỡ bỏ gói %s"
-
-#: ../urpm/install.pm:123
-#, c-format
-msgid "unable to remove package %s"
-msgstr "không thể gỡ bỏ gói %s"
-
-#: ../urpm/install.pm:135
+#: ../urpm/install.pm:131
 #, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
 msgstr "không thể lấy rpm ra từ gói tin delta-rpm %s"
 
-#: ../urpm/install.pm:141
+#: ../urpm/install.pm:137
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
 msgstr "thêm gói %s (id=%d, eid=%d, cập nhật=%d, tập tin=%s)"
 
-#: ../urpm/install.pm:144
+#: ../urpm/install.pm:140
 #, c-format
 msgid "unable to install package %s"
 msgstr "không thể cài đặt gói %s"
 
-#: ../urpm/install.pm:180
+#: ../urpm/install.pm:171
+#, c-format
+msgid "removing package %s"
+msgstr "gỡ bỏ gói %s"
+
+#: ../urpm/install.pm:185
 #, fuzzy, c-format
 msgid "removing installed rpms (%s) from %s"
 msgstr "cài đặt %s từ %s"
 
-#: ../urpm/install.pm:186
+#: ../urpm/install.pm:191
 #, c-format
 msgid "More information on package %s"
 msgstr "Thêm thông tin cho gói %s"
@@ -743,7 +738,7 @@ msgstr "đang thử chọn phương tiện không tồn tại \"%s\""
 msgid "\"synthesis\" should be set (medium \"%s\")"
 msgstr "build tập tin tổng hợp hdlist cho phương tiện \"%s\""
 
-#: ../urpm/media.pm:210 ../urpm/media.pm:1420 ../urpm/media.pm:1508
+#: ../urpm/media.pm:210 ../urpm/media.pm:1421 ../urpm/media.pm:1509
 #, c-format
 msgid "unable to access hdlist file of \"%s\", medium ignored"
 msgstr "không thể truy cập tập tin hdlist của \"%s\", phương tiện bị bỏ qua"
@@ -836,7 +831,7 @@ msgstr ""
 msgid "Search start: %s end: %s"
 msgstr "Tìm kiếm bắt đầu: %s kết thúc: %s "
 
-#: ../urpm/media.pm:606 ../urpm/media.pm:1803
+#: ../urpm/media.pm:606 ../urpm/media.pm:1806
 #, c-format
 msgid "performing second pass to compute dependencies\n"
 msgstr "thực hiện pass thứ hai để tính toán các phụ thuộc\n"
@@ -976,72 +971,72 @@ msgstr ""
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
 msgstr "trục trặc khi đọc tập tin synthesis hay hdlist của phương tiện \"%s\""
 
-#: ../urpm/media.pm:1170 ../urpm/media.pm:1208 ../urpm/media.pm:1495
-#, c-format
-msgid "...copying failed"
-msgstr "...sao chép không được"
-
-#: ../urpm/media.pm:1204
-#, c-format
-msgid "copying description file of \"%s\"..."
-msgstr "đang sao chép tập tin mô tả của \"%s\"..."
-
-#: ../urpm/media.pm:1206 ../urpm/media.pm:1237
-#, c-format
-msgid "...copying done"
-msgstr "...sao chép hoàn thành"
-
-#: ../urpm/media.pm:1233
+#: ../urpm/media.pm:1169 ../urpm/media.pm:1234
 #, fuzzy, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "đang ghi tập tin danh sách cho phương tiện \"%s\""
 
-#: ../urpm/media.pm:1239
+#: ../urpm/media.pm:1171 ../urpm/media.pm:1209 ../urpm/media.pm:1496
+#, c-format
+msgid "...copying failed"
+msgstr "...sao chép không được"
+
+#: ../urpm/media.pm:1205
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "đang sao chép tập tin mô tả của \"%s\"..."
+
+#: ../urpm/media.pm:1207 ../urpm/media.pm:1238
+#, c-format
+msgid "...copying done"
+msgstr "...sao chép hoàn thành"
+
+#: ../urpm/media.pm:1240
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "lỗi sao chép [%s] (có lẽ tập tin nhỏ)"
 
-#: ../urpm/media.pm:1272
+#: ../urpm/media.pm:1273
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "tính toán md5sum của hdlist (hoặc synthesis) nguồn được sao chép"
 
-#: ../urpm/media.pm:1274
+#: ../urpm/media.pm:1275
 #, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
 msgstr "Lỗi bản sao của [%s] (md5sum không so khớp)"
 
-#: ../urpm/media.pm:1286
+#: ../urpm/media.pm:1287
 #, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
 msgstr "tính toán md5sum của hdlist (hoặc synthesis) nguồn thu thập được"
 
-#: ../urpm/media.pm:1288
+#: ../urpm/media.pm:1289
 #, c-format
 msgid "...retrieving failed: md5sum mismatch"
 msgstr "...không thu thập được: md5sum không khớp"
 
-#: ../urpm/media.pm:1303
+#: ../urpm/media.pm:1304
 #, c-format
 msgid "no rpm files found from [%s]"
 msgstr "không tìm thấy các tập tin rpm từ [%s]"
 
-#: ../urpm/media.pm:1310
+#: ../urpm/media.pm:1311
 #, c-format
 msgid "reading rpm files from [%s]"
 msgstr "đang đọc các tập tin rpm từ [%s]"
 
-#: ../urpm/media.pm:1325
+#: ../urpm/media.pm:1326
 #, c-format
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "không thể đọc các tập tin rpm từ [%s]: %s"
 
-#: ../urpm/media.pm:1335
+#: ../urpm/media.pm:1336
 #, c-format
 msgid "no rpms read"
 msgstr "không có đọc rpms"
 
-#: ../urpm/media.pm:1365
+#: ../urpm/media.pm:1366
 #, c-format
 msgid ""
 "unable to access medium \"%s\",\n"
@@ -1051,62 +1046,62 @@ msgstr ""
 "không thể truy cập phương tiện \"%s\",\n"
 "Truy cập được nếu bạn tự gắn kết thư mục khi tạo phương tiện."
 
-#: ../urpm/media.pm:1378
+#: ../urpm/media.pm:1379
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "không tìm thấy tập tin hdlist cho phương tiện \"%s\""
 
-#: ../urpm/media.pm:1458
+#: ../urpm/media.pm:1459
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "đang thu thập hdlist (hoặc synthesis) nguồn của \"%s\"..."
 
-#: ../urpm/media.pm:1474
+#: ../urpm/media.pm:1475
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "đã tìm thấy hdlist (hoặc synthesis) nguồn được dò là %s"
 
-#: ../urpm/media.pm:1481 ../urpm/media.pm:1613
+#: ../urpm/media.pm:1482 ../urpm/media.pm:1616
 #, c-format
 msgid "no hdlist file found for medium \"%s\""
 msgstr "không tìm thấy tập tin hdlist cho phương tiện \"%s\""
 
-#: ../urpm/media.pm:1533
+#: ../urpm/media.pm:1534
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "đang kiểm tra tập tin pubkey của \"%s\"..."
 
-#: ../urpm/media.pm:1545
+#: ../urpm/media.pm:1546
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "...đã nhập key %s từ tập tin pubkey của \"%s\""
 
-#: ../urpm/media.pm:1548
+#: ../urpm/media.pm:1549
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "không thể nhập tập tin pubkey của \"%s\""
 
-#: ../urpm/media.pm:1564
+#: ../urpm/media.pm:1567
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "đang ghi tập tin danh sách cho phương tiện \"%s\""
 
-#: ../urpm/media.pm:1622 ../urpm/media.pm:1652
+#: ../urpm/media.pm:1625 ../urpm/media.pm:1655
 #, fuzzy, c-format
 msgid "updated medium \"%s\""
 msgstr "đã thêm phương tiện %s"
 
-#: ../urpm/media.pm:1639
+#: ../urpm/media.pm:1642
 #, c-format
 msgid "unable to parse hdlist file of \"%s\""
 msgstr "không thể phân tích tập tin hdlist của \"%s\""
 
-#: ../urpm/media.pm:1645
+#: ../urpm/media.pm:1648
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "trục trặc khi đọc tập tin tổng hợp của phương tiện \"%s\""
 
-#: ../urpm/media.pm:1710
+#: ../urpm/media.pm:1713
 #, c-format
 msgid "reading headers from medium \"%s\""
 msgstr "đang đọc các header từ phương tiện \"%s\""
@@ -1121,8 +1116,8 @@ msgstr "NnKk"
 #  can hit those keys in their keyboard to reply.
 #  please keep the 'Yy' for compatibility reasons
 #. -PO: Add here the keys which might be pressed in the "Yes"-case.
-#: ../urpm/msg.pm:63 ../urpme:37 ../urpmi:549 ../urpmi:600 ../urpmi:677
-#: ../urpmi:755 ../urpmi.addmedia:130
+#: ../urpm/msg.pm:63 ../urpme:37 ../urpmi:489 ../urpmi:509 ../urpmi:552
+#: ../urpmi:603 ../urpmi:680 ../urpmi:758 ../urpmi.addmedia:130
 #, c-format
 msgid "Yy"
 msgstr "YyVvDdCc"
@@ -1189,17 +1184,17 @@ msgstr "không thể truy cập phương tiện \"%s\""
 msgid "No package named %s"
 msgstr "Không có gói tin với tên %s"
 
-#: ../urpm/select.pm:115 ../urpme:112
+#: ../urpm/select.pm:115 ../urpme:113
 #, c-format
 msgid "The following packages contain %s: %s"
 msgstr "Các gói tin sau đây chứa %s: %s"
 
-#: ../urpm/select.pm:394 ../urpm/select.pm:434
+#: ../urpm/select.pm:394 ../urpm/select.pm:436
 #, c-format
 msgid "due to missing %s"
 msgstr "do thiếu %s"
 
-#: ../urpm/select.pm:395 ../urpm/select.pm:432
+#: ../urpm/select.pm:395 ../urpm/select.pm:434
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "vì không thỏa mãn %s"
@@ -1214,17 +1209,17 @@ msgstr "thử xúc tiến %s"
 msgid "in order to keep %s"
 msgstr "để giữ %s"
 
-#: ../urpm/select.pm:428
+#: ../urpm/select.pm:430
 #, c-format
 msgid "in order to install %s"
 msgstr "để cài đặt %s"
 
-#: ../urpm/select.pm:438
+#: ../urpm/select.pm:440
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "vì xung đột với %s"
 
-#: ../urpm/select.pm:440
+#: ../urpm/select.pm:442
 #, c-format
 msgid "unrequested"
 msgstr "thôi yêu cầu"
@@ -1244,7 +1239,7 @@ msgstr "Key ID không hợp lệ (%s)"
 msgid "Missing signature (%s)"
 msgstr "Thiếu chữ ký (%s)"
 
-#: ../urpme:39
+#: ../urpme:40
 #, c-format
 msgid ""
 "urpme version %s\n"
@@ -1261,24 +1256,24 @@ msgstr ""
 "\n"
 "Cách dùng:\n"
 
-#: ../urpme:44 ../urpmf:35 ../urpmi:84 ../urpmi.addmedia:45
+#: ../urpme:45 ../urpmf:35 ../urpmi:84 ../urpmi.addmedia:44
 #: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:48
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - in thông tin trợ giúp này.\n"
 
-#: ../urpme:45
+#: ../urpme:46
 #, c-format
 msgid "  --auto         - automatically select a package in choices.\n"
 msgstr "  --auto         - tự động chọn một gói tin trong các gói.\n"
 
-#: ../urpme:46
+#: ../urpme:47
 #, c-format
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr ""
 "  --test         - xác minh nếu việc gỡ bỏ có thể được lưu trữ chính xác.\n"
 
-#: ../urpme:47 ../urpmi:109 ../urpmq:67
+#: ../urpme:48 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
@@ -1286,33 +1281,33 @@ msgstr ""
 "  --force        - ép buộc cầu viện ngay cả khi một số gói tin không tồn "
 "tại.\n"
 
-#: ../urpme:48 ../urpmi:114 ../urpmq:69
+#: ../urpme:49 ../urpmi:114 ../urpmq:69
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - phân phối urpmi qua các máy của alias.\n"
 
-#: ../urpme:49 ../urpmi:146
+#: ../urpme:50 ../urpmi:146
 #, fuzzy, c-format
 msgid "  --repackage    - Re-package the files before erasing\n"
 msgstr "  --packager     - in ra tag packager: packager.\n"
 
-#: ../urpme:50
+#: ../urpme:51
 #, c-format
 msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - dùng root khác để thực hiện gỡ bỏ rpm.\n"
 
-#: ../urpme:51 ../urpmf:40 ../urpmi:116 ../urpmi.addmedia:60
+#: ../urpme:52 ../urpmf:40 ../urpmi:116 ../urpmi.addmedia:58
 #: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:71
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - dùng root khác để thực hiện cài đặt rpm.\n"
 
-#: ../urpme:52
+#: ../urpme:53
 #, fuzzy, c-format
 msgid "  --noscripts    - do not execute package scriptlet(s).\n"
 msgstr "  --description   - in ra mô tả tag: mô tả.\n"
 
-#: ../urpme:53
+#: ../urpme:54
 #, fuzzy, c-format
 msgid ""
 "  --use-distrib  - configure urpme on the fly from a distrib tree, useful\n"
@@ -1321,80 +1316,80 @@ msgstr ""
 "  --use-distrib  - cấu hình nhanh chóng urpmi từ một distrib tree, giúp\n"
 "                   cài đặt/bỏ cài đặt một chroot bằng tùy chọn --root.\n"
 
-#: ../urpme:55 ../urpmi:119 ../urpmq:74
+#: ../urpme:56 ../urpmi:119 ../urpmq:74
 #, fuzzy, c-format
 msgid "    --probe-synthesis - use synthesis file.\n"
 msgstr "  --probe-synthesis - thử tìm và sử dụng tập tin synthesis.\n"
 
-#: ../urpme:56 ../urpmi:120 ../urpmq:75
+#: ../urpme:57 ../urpmi:120 ../urpmq:75
 #, fuzzy, c-format
 msgid "    --probe-hdlist - use hdlist file.\n"
 msgstr "  --probe-hdlist - thử tìm và sử dụng tập tin hdlist.\n"
 
-#: ../urpme:57 ../urpmi:156 ../urpmq:86
+#: ../urpme:58 ../urpmi:156 ../urpmq:86
 #, fuzzy, c-format
 msgid "  --verbose, -v  - verbose mode.\n"
 msgstr "  --verbose      - phương thức verbose.\n"
 
-#: ../urpme:58
+#: ../urpme:59
 #, c-format
 msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - chọn toàn bộ các gói tin khớp với sự diễn đạt.\n"
 
-#: ../urpme:75
+#: ../urpme:76
 #, c-format
 msgid "Only superuser is allowed to remove packages"
 msgstr "Chỉ có superuser mới được phép gỡ bỏ các gói"
 
-#: ../urpme:106
+#: ../urpme:107
 #, c-format
 msgid "unknown packages"
 msgstr "các gói tin không xác định "
 
-#: ../urpme:106
+#: ../urpme:107
 #, c-format
 msgid "unknown package"
 msgstr "gói tin không xác định"
 
-#: ../urpme:118 ../urpmi:526
+#: ../urpme:119 ../urpmi:526
 #, c-format
 msgid "removing package %s will break your system"
 msgstr "việc gỡ bỏ gói tin %s sẽ phá vỡ hệ thống"
 
-#: ../urpme:120
+#: ../urpme:121
 #, c-format
 msgid "Nothing to remove"
 msgstr "Không có gì để gỡ bỏ"
 
-#: ../urpme:125
+#: ../urpme:126
 #, c-format
 msgid "Checking to remove the following packages"
 msgstr "Đang kiểm tra để gỡ bỏ các gói tin sau đây"
 
-#: ../urpme:133
+#: ../urpme:134
 #, fuzzy, c-format
 msgid "To satisfy dependencies, the following package will be removed"
 msgid_plural ""
 "To satisfy dependencies, the following %d packages will be removed"
 msgstr[0] "Để thỏa mãn các phụ thuộc, %d gói sau đây sẽ được gỡ bỏ (%d MB)"
 
-#: ../urpme:135 ../urpmi:600
+#: ../urpme:136 ../urpmi:600
 #, c-format
 msgid " (%d MB)"
 msgstr ""
 
-#: ../urpme:137
+#: ../urpme:138
 #, fuzzy, c-format
 msgid "Remove %d package?"
 msgid_plural "Remove %d packages?"
 msgstr[0] "gỡ bỏ gói %s"
 
-#: ../urpme:137 ../urpmi:553 ../urpmi:681 ../urpmi.addmedia:137
+#: ../urpme:138 ../urpmi:553 ../urpmi:681 ../urpmi.addmedia:133
 #, c-format
 msgid " (y/N) "
 msgstr " (Có/Không) "
 
-#: ../urpme:159
+#: ../urpme:160
 #, c-format
 msgid "Removal failed"
 msgstr "Gỡ bỏ không được"
@@ -1831,17 +1826,17 @@ msgstr ""
 "  --use-distrib  - cấu hình nhanh chóng urpmi từ một distrib tree, giúp\n"
 "                   cài đặt chroot bằng tùy chọn --root.\n"
 
-#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:76
+#: ../urpmi:121 ../urpmi.addmedia:45 ../urpmi.update:33 ../urpmq:76
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - dùng wget để thu thập các tập tin ở xa.\n"
 
-#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:77
+#: ../urpmi:122 ../urpmi.addmedia:46 ../urpmi.update:34 ../urpmq:77
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - dùng curl để thu thập các tập tin ở xa.\n"
 
-#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:78
+#: ../urpmi:123 ../urpmi.addmedia:47 ../urpmi.update:35 ../urpmq:78
 #, fuzzy, c-format
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --curl         - dùng curl để thu thập các tập tin ở xa.\n"
@@ -1866,7 +1861,7 @@ msgstr ""
 msgid "  --prozilla-options - additional options to pass to prozilla\n"
 msgstr ""
 
-#: ../urpmi:128 ../urpmi.addmedia:49 ../urpmi.update:36
+#: ../urpmi:128 ../urpmi.addmedia:48 ../urpmi.update:36
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - giới hạn tốc độ tải xuống.\n"
@@ -1880,7 +1875,7 @@ msgstr ""
 "  --resume       - tiếp tục truyền tải lại các tập tin đang tải về dở dang\n"
 "                   (--no-resume lài không tiếp tục lại, mặc định là không).\n"
 
-#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:79
+#: ../urpmi:131 ../urpmi.addmedia:49 ../urpmi.update:37 ../urpmq:79
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -1890,7 +1885,7 @@ msgstr ""
 "                    là 1080 theo mặc định (định dạng là <proxyhost[:port]"
 ">).\n"
 
-#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:81
+#: ../urpmi:133 ../urpmi.addmedia:51 ../urpmi.update:39 ../urpmq:81
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -2073,6 +2068,13 @@ msgstr "(để cài đặt)"
 msgid "%s (to install)"
 msgstr "(để cài đặt)"
 
+#: ../urpmi:447
+#, fuzzy, c-format
+msgid ""
+"In order to satisfy the '%s' dependency, one of the following packages is "
+"needed:"
+msgstr "Để thỏa mãn các phụ thuộc, %d gói sau đây sẽ được gỡ bỏ (%d MB)"
+
 #: ../urpmi:450
 #, c-format
 msgid "What is your choice? (1-%d) "
@@ -2107,7 +2109,7 @@ msgid ""
 "Continue installation anyway?"
 msgstr "Vẫn tiếp tục bằng bất cứ giá nào?"
 
-#: ../urpmi:491 ../urpmi:511 ../urpmi:604 ../urpmi.addmedia:137
+#: ../urpmi:491 ../urpmi:511 ../urpmi:604 ../urpmi.addmedia:133
 #, c-format
 msgid " (Y/n) "
 msgstr " (Có/Không) "
@@ -2318,34 +2320,34 @@ msgstr ""
 "\n"
 "và [tùy chọn] là từ\n"
 
-#: ../urpmi.addmedia:54
+#: ../urpmi.addmedia:53
 #, c-format
 msgid "  --update       - create an update medium.\n"
 msgstr "  --update       - tạo phương tiện cập nhật.\n"
 
-#: ../urpmi.addmedia:55
+#: ../urpmi.addmedia:54
 #, fuzzy, c-format
 msgid "  --probe-synthesis - use synthesis file.\n"
 msgstr "  --probe-synthesis - thử tìm và sử dụng tập tin synthesis.\n"
 
-#: ../urpmi.addmedia:56 ../urpmi.addmedia:58
+#: ../urpmi.addmedia:55
 #, fuzzy, c-format
 msgid "  --probe-hdlist - use hdlist file.\n"
 msgstr "  --probe-hdlist - thử tìm và sử dụng tập tin hdlist.\n"
 
-#: ../urpmi.addmedia:57
+#: ../urpmi.addmedia:56
 #, c-format
 msgid "  --probe-rpms   - use rpm files (instead of synthesis/hdlist).\n"
 msgstr ""
 
-#: ../urpmi.addmedia:59
+#: ../urpmi.addmedia:57
 #, fuzzy, c-format
 msgid "  --no-probe     - do not try to find any synthesis or hdlist file.\n"
 msgstr ""
 "  --no-probe      - không thử tìm bất kỳ tập tin hdlist hoặc\n"
 "                   synthesis.\n"
 
-#: ../urpmi.addmedia:61
+#: ../urpmi.addmedia:59
 #, c-format
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
@@ -2354,17 +2356,17 @@ msgstr ""
 "  --distrib      - tự động tạo mọi phương tiện từ một phương tiện cài\n"
 "                     đặt.\n"
 
-#: ../urpmi.addmedia:63
+#: ../urpmi.addmedia:61
 #, c-format
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
 msgstr ""
 
-#: ../urpmi.addmedia:64
+#: ../urpmi.addmedia:62
 #, fuzzy, c-format
 msgid "  --all-media    - with --distrib, add every listed media\n"
 msgstr "  --list-media   - liệt kê phương tiện hiệc có.\n"
 
-#: ../urpmi.addmedia:65
+#: ../urpmi.addmedia:63
 #, c-format
 msgid ""
 "  --from         - use specified url for list of mirrors, the default is\n"
@@ -2373,7 +2375,7 @@ msgstr ""
 "  --from         - dùng url chỉ định cho danh sách các mirror, mặc định là\n"
 "                   %s\n"
 
-#: ../urpmi.addmedia:67
+#: ../urpmi.addmedia:65
 #, c-format
 msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
@@ -2382,80 +2384,80 @@ msgstr ""
 "  --virtual      - tạo phương tiện ảo luôn được cập nhật,\n"
 "                   chỉ cho phép tập file:// protocol.\n"
 
-#: ../urpmi.addmedia:69 ../urpmi.update:42
+#: ../urpmi.addmedia:67 ../urpmi.update:42
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
 msgstr "  --no-md5sum    - không thực hiện kiểm tra tập tin MD5SUM.\n"
 
-#: ../urpmi.addmedia:70
+#: ../urpmi.addmedia:68
 #, c-format
 msgid "  --nopubkey     - don't import pubkey of added media\n"
 msgstr "  --nopubkey     - không nhập pubkey của phương tiện được thêm\n"
 
-#: ../urpmi.addmedia:71
+#: ../urpmi.addmedia:69
 #, c-format
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 "  --raw          - thêm phương tiện vào cấu hình, nhưng không cập nhật nó.\n"
 
-#: ../urpmi.addmedia:72 ../urpmi.removemedia:42 ../urpmi.update:49
+#: ../urpmi.addmedia:70 ../urpmi.removemedia:42 ../urpmi.update:49
 #, c-format
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - xoá thư mục cache headers.\n"
 
-#: ../urpmi.addmedia:73 ../urpmi.removemedia:44 ../urpmi.update:51
+#: ../urpmi.addmedia:71 ../urpmi.removemedia:44 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - chế độ yên lặng.\n"
 
-#: ../urpmi.addmedia:74 ../urpmi.removemedia:45 ../urpmi.update:52
+#: ../urpmi.addmedia:72 ../urpmi.removemedia:45 ../urpmi.update:52
 #, c-format
 msgid "  -v             - verbose mode.\n"
 msgstr "  -v             - chế độ verbose.\n"
 
-#: ../urpmi.addmedia:86
+#: ../urpmi.addmedia:82
 #, c-format
 msgid "unable to update medium \"%s\"\n"
 msgstr "không thể cập nhật phương tiện \"%s\"\n"
 
-#: ../urpmi.addmedia:115
+#: ../urpmi.addmedia:111
 #, c-format
 msgid "bad <url> (for local directory, the path must be absolute)\n"
 msgstr ""
 
-#: ../urpmi.addmedia:118
+#: ../urpmi.addmedia:114
 #, c-format
 msgid "Only superuser is allowed to add media"
 msgstr "Chỉ có người dùng cao cấp được phép thêm phương tiện"
 
-#: ../urpmi.addmedia:121
+#: ../urpmi.addmedia:117
 #, fuzzy, c-format
 msgid "creating config file [%s]"
 msgstr "Sẽ tạo tập tin cấu hình [%s]"
 
-#: ../urpmi.addmedia:122
+#: ../urpmi.addmedia:118
 #, c-format
 msgid "Can't create config file [%s]"
 msgstr "Không thể tạo tập tin cấu hình [%s]"
 
-#: ../urpmi.addmedia:129
+#: ../urpmi.addmedia:125
 #, c-format
 msgid "no need to give <relative path of hdlist> with --distrib"
 msgstr "không cần cho <đường dẫn liên quan của hdlist> với --distrib"
 
-#: ../urpmi.addmedia:137
+#: ../urpmi.addmedia:133
 #, c-format
 msgid ""
 "\n"
 "Do you want to add media '%s'"
 msgstr ""
 
-#: ../urpmi.addmedia:166
+#: ../urpmi.addmedia:164
 #, c-format
 msgid "<relative path of hdlist> missing\n"
 msgstr "thiếu <đường dẫn liên quan của hdlist> \n"
 
-#: ../urpmi.addmedia:169
+#: ../urpmi.addmedia:167
 #, c-format
 msgid "Can't use %s with remote medium"
 msgstr ""
@@ -2943,6 +2945,9 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Không thấy changelog\n"
+
+#~ msgid "unable to remove package %s"
+#~ msgstr "không thể gỡ bỏ gói %s"
 
 #~ msgid "No filelist found\n"
 #~ msgstr "Không thấy filelist\n"

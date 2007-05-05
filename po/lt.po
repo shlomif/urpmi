@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-27 16:38+0200\n"
+"POT-Creation-Date: 2007-05-05 17:12+0200\n"
 "PO-Revision-Date: 2005-08-18 23:34+0200\n"
 "Last-Translator: Arvydas Svirka <arvydas@arvis.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -162,7 +162,7 @@ msgstr " (įdiegti)"
 msgid "Package choice"
 msgstr "Paketų pasirinkimas"
 
-#: ../gurpmi2:154 ../urpmi:447
+#: ../gurpmi2:154
 #, c-format
 msgid "One of the following packages is needed:"
 msgstr "Vienas iš šių paketų yra reikalingas."
@@ -247,7 +247,7 @@ msgstr ""
 "%s\n"
 "Jūs galite norėti atnaujinti urpmi duomenų bazę"
 
-#: ../gurpmi2:292 ../urpme:141 ../urpmi:731
+#: ../gurpmi2:292 ../urpme:142 ../urpmi:731
 #, c-format
 msgid "removing %s"
 msgstr "pašalinama %s"
@@ -352,7 +352,7 @@ msgid "...retrieving done"
 msgstr "...atkūrimas baigtas"
 
 #: ../urpm.pm:137 ../urpm/download.pm:603 ../urpm/get_pkgs.pm:185
-#: ../urpm/media.pm:747 ../urpm/media.pm:1260 ../urpm/media.pm:1482
+#: ../urpm/media.pm:747 ../urpm/media.pm:1261 ../urpm/media.pm:1483
 #, c-format
 msgid "...retrieving failed: %s"
 msgstr "...atkūrimas nepavyko: %s"
@@ -633,37 +633,32 @@ msgstr ""
 msgid "unable to create transaction"
 msgstr "negaliu sukurti operacijos"
 
-#: ../urpm/install.pm:121
-#, c-format
-msgid "removing package %s"
-msgstr "pašalinamas paketas %s"
-
-#: ../urpm/install.pm:123
-#, c-format
-msgid "unable to remove package %s"
-msgstr "negaliu pašalinti paketo %s"
-
-#: ../urpm/install.pm:135
+#: ../urpm/install.pm:131
 #, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
 msgstr "iš delta-rpm paketo %s negaliu išarchyvuoti rpm"
 
-#: ../urpm/install.pm:141
+#: ../urpm/install.pm:137
 #, c-format
 msgid "adding package %s (id=%d, eid=%d, update=%d, file=%s)"
 msgstr "įtraukiamas paketas %s (id=%d, eid=%d, atnaujinti=%d, byla=%s)"
 
-#: ../urpm/install.pm:144
+#: ../urpm/install.pm:140
 #, c-format
 msgid "unable to install package %s"
 msgstr "negaliu įdiegti paketo %s"
 
-#: ../urpm/install.pm:180
+#: ../urpm/install.pm:171
+#, c-format
+msgid "removing package %s"
+msgstr "pašalinamas paketas %s"
+
+#: ../urpm/install.pm:185
 #, fuzzy, c-format
 msgid "removing installed rpms (%s) from %s"
 msgstr "iš %2$s įdiegiamas %1$s"
 
-#: ../urpm/install.pm:186
+#: ../urpm/install.pm:191
 #, c-format
 msgid "More information on package %s"
 msgstr "Daugiau informacijos apie paketą %s"
@@ -748,7 +743,7 @@ msgstr "bandoma išrinkti nesančią laikmeną \"%s\""
 msgid "\"synthesis\" should be set (medium \"%s\")"
 msgstr "\"%s\" laikmenai sudaryta hdlist sintezės byla"
 
-#: ../urpm/media.pm:210 ../urpm/media.pm:1420 ../urpm/media.pm:1508
+#: ../urpm/media.pm:210 ../urpm/media.pm:1421 ../urpm/media.pm:1509
 #, c-format
 msgid "unable to access hdlist file of \"%s\", medium ignored"
 msgstr "negaliu prieiti prie \"%s\" hdlist bylos, laikmena ignoruojama"
@@ -841,7 +836,7 @@ msgstr ""
 msgid "Search start: %s end: %s"
 msgstr "Paieškos pradžia: %s pabaiga: %s"
 
-#: ../urpm/media.pm:606 ../urpm/media.pm:1803
+#: ../urpm/media.pm:606 ../urpm/media.pm:1806
 #, c-format
 msgid "performing second pass to compute dependencies\n"
 msgstr "atliekamas antrasis priklausomybių skaičiavimo bandymas\n"
@@ -980,72 +975,72 @@ msgstr ""
 msgid "problem reading hdlist or synthesis file of medium \"%s\""
 msgstr "hdlist skaitymo arba \"%s\" laikmenos bylos sintezės problema"
 
-#: ../urpm/media.pm:1170 ../urpm/media.pm:1208 ../urpm/media.pm:1495
-#, c-format
-msgid "...copying failed"
-msgstr "...kopijavimas nepavyko"
-
-#: ../urpm/media.pm:1204
-#, c-format
-msgid "copying description file of \"%s\"..."
-msgstr "kopijuojama \"%s\" aprašo byla..."
-
-#: ../urpm/media.pm:1206 ../urpm/media.pm:1237
-#, c-format
-msgid "...copying done"
-msgstr "...kopijavimas baigtas"
-
-#: ../urpm/media.pm:1233
+#: ../urpm/media.pm:1169 ../urpm/media.pm:1234
 #, fuzzy, c-format
 msgid "copying [%s] for medium \"%s\"..."
 msgstr "įrašoma laikmenos \"%s\" sąrašo byla"
 
-#: ../urpm/media.pm:1239
+#: ../urpm/media.pm:1171 ../urpm/media.pm:1209 ../urpm/media.pm:1496
+#, c-format
+msgid "...copying failed"
+msgstr "...kopijavimas nepavyko"
+
+#: ../urpm/media.pm:1205
+#, c-format
+msgid "copying description file of \"%s\"..."
+msgstr "kopijuojama \"%s\" aprašo byla..."
+
+#: ../urpm/media.pm:1207 ../urpm/media.pm:1238
+#, c-format
+msgid "...copying done"
+msgstr "...kopijavimas baigtas"
+
+#: ../urpm/media.pm:1240
 #, c-format
 msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "[%s] kopijavimas nepavyko (byla per daug maža)"
 
-#: ../urpm/media.pm:1272
+#: ../urpm/media.pm:1273
 #, c-format
 msgid "computing md5sum of copied source hdlist (or synthesis)"
 msgstr "nukopijuotam hdlist (arba sintezei) skaičiuojama md5sum"
 
-#: ../urpm/media.pm:1274
+#: ../urpm/media.pm:1275
 #, c-format
 msgid "copy of [%s] failed (md5sum mismatch)"
 msgstr "[%s] kopijavimas nepavyko (md5sum neatitikimas)"
 
-#: ../urpm/media.pm:1286
+#: ../urpm/media.pm:1287
 #, c-format
 msgid "computing md5sum of retrieved source hdlist (or synthesis)"
 msgstr "atkurtam hdlist (arba sintezei) skaičiuojama md5sum"
 
-#: ../urpm/media.pm:1288
+#: ../urpm/media.pm:1289
 #, c-format
 msgid "...retrieving failed: md5sum mismatch"
 msgstr "...atkūrimas nepavyko: md5sum neatitikimas"
 
-#: ../urpm/media.pm:1303
+#: ../urpm/media.pm:1304
 #, c-format
 msgid "no rpm files found from [%s]"
 msgstr "nerasta jokių rpm bylų iš [%s]"
 
-#: ../urpm/media.pm:1310
+#: ../urpm/media.pm:1311
 #, c-format
 msgid "reading rpm files from [%s]"
 msgstr "iš [%s] skaitomos rpm bylos"
 
-#: ../urpm/media.pm:1325
+#: ../urpm/media.pm:1326
 #, c-format
 msgid "unable to read rpm files from [%s]: %s"
 msgstr "negaliu skaityti rpm bylų iš [%s]: %s"
 
-#: ../urpm/media.pm:1335
+#: ../urpm/media.pm:1336
 #, c-format
 msgid "no rpms read"
 msgstr "neperskaityta jokių rpms"
 
-#: ../urpm/media.pm:1365
+#: ../urpm/media.pm:1366
 #, c-format
 msgid ""
 "unable to access medium \"%s\",\n"
@@ -1056,62 +1051,62 @@ msgstr ""
 "tai galėjo atsitikti, jei, kurdami laikmeną, rankiniu būdu prijungėte "
 "katalogą."
 
-#: ../urpm/media.pm:1378
+#: ../urpm/media.pm:1379
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "laikmenai \"%s\" nerasta hdlist byla"
 
-#: ../urpm/media.pm:1458
+#: ../urpm/media.pm:1459
 #, c-format
 msgid "retrieving source hdlist (or synthesis) of \"%s\"..."
 msgstr "atkuriamas \"%s\" pirminis hdlist (arba zintezė)..."
 
-#: ../urpm/media.pm:1474
+#: ../urpm/media.pm:1475
 #, c-format
 msgid "found probed hdlist (or synthesis) as %s"
 msgstr "rastas ištirtas hdlist (arba sintezė) kaip %s"
 
-#: ../urpm/media.pm:1481 ../urpm/media.pm:1613
+#: ../urpm/media.pm:1482 ../urpm/media.pm:1616
 #, c-format
 msgid "no hdlist file found for medium \"%s\""
 msgstr "laikmenai \"%s\" nerasta hdlist byla"
 
-#: ../urpm/media.pm:1533
+#: ../urpm/media.pm:1534
 #, c-format
 msgid "examining pubkey file of \"%s\"..."
 msgstr "tikrinama \"%s\" pubkey byla..."
 
-#: ../urpm/media.pm:1545
+#: ../urpm/media.pm:1546
 #, c-format
 msgid "...imported key %s from pubkey file of \"%s\""
 msgstr "...iš \"%2$s\" pubkey bylos importuotas raktas %1$s"
 
-#: ../urpm/media.pm:1548
+#: ../urpm/media.pm:1549
 #, c-format
 msgid "unable to import pubkey file of \"%s\""
 msgstr "negaliu importuoti \"%s\" pubkey bylos"
 
-#: ../urpm/media.pm:1564
+#: ../urpm/media.pm:1567
 #, c-format
 msgid "writing list file for medium \"%s\""
 msgstr "įrašoma laikmenos \"%s\" sąrašo byla"
 
-#: ../urpm/media.pm:1622 ../urpm/media.pm:1652
+#: ../urpm/media.pm:1625 ../urpm/media.pm:1655
 #, fuzzy, c-format
 msgid "updated medium \"%s\""
 msgstr "įtraukta laikmena %s"
 
-#: ../urpm/media.pm:1639
+#: ../urpm/media.pm:1642
 #, c-format
 msgid "unable to parse hdlist file of \"%s\""
 msgstr "negaliu išnagrinėti \"%s\" hdlist bylos"
 
-#: ../urpm/media.pm:1645
+#: ../urpm/media.pm:1648
 #, c-format
 msgid "problem reading synthesis file of medium \"%s\""
 msgstr "laikmenos \"%s\" sintezės bylos skaitymo problema"
 
-#: ../urpm/media.pm:1710
+#: ../urpm/media.pm:1713
 #, c-format
 msgid "reading headers from medium \"%s\""
 msgstr "iš laikmenos \"%s\" skaitomos antraštės"
@@ -1122,8 +1117,8 @@ msgid "Nn"
 msgstr "Nn"
 
 #. -PO: Add here the keys which might be pressed in the "Yes"-case.
-#: ../urpm/msg.pm:63 ../urpme:37 ../urpmi:549 ../urpmi:600 ../urpmi:677
-#: ../urpmi:755 ../urpmi.addmedia:130
+#: ../urpm/msg.pm:63 ../urpme:37 ../urpmi:489 ../urpmi:509 ../urpmi:552
+#: ../urpmi:603 ../urpmi:680 ../urpmi:758 ../urpmi.addmedia:130
 #, c-format
 msgid "Yy"
 msgstr "TtYy"
@@ -1188,17 +1183,17 @@ msgstr "negaliu prieiti prie laikmenos \"%s\""
 msgid "No package named %s"
 msgstr "Nėra paketo, pavadinto %s"
 
-#: ../urpm/select.pm:115 ../urpme:112
+#: ../urpm/select.pm:115 ../urpme:113
 #, c-format
 msgid "The following packages contain %s: %s"
 msgstr "Šie paketai turi %s: %s"
 
-#: ../urpm/select.pm:394 ../urpm/select.pm:434
+#: ../urpm/select.pm:394 ../urpm/select.pm:436
 #, c-format
 msgid "due to missing %s"
 msgstr "dėl trūkstamo %s"
 
-#: ../urpm/select.pm:395 ../urpm/select.pm:432
+#: ../urpm/select.pm:395 ../urpm/select.pm:434
 #, c-format
 msgid "due to unsatisfied %s"
 msgstr "dėl nepatenkinto %s"
@@ -1213,17 +1208,17 @@ msgstr "bandau paaukštinti %s"
 msgid "in order to keep %s"
 msgstr "%s išlaikymui"
 
-#: ../urpm/select.pm:428
+#: ../urpm/select.pm:430
 #, c-format
 msgid "in order to install %s"
 msgstr "%s įdiegimui"
 
-#: ../urpm/select.pm:438
+#: ../urpm/select.pm:440
 #, c-format
 msgid "due to conflicts with %s"
 msgstr "dėl konfliktų su %s"
 
-#: ../urpm/select.pm:440
+#: ../urpm/select.pm:442
 #, c-format
 msgid "unrequested"
 msgstr "nepareikalautas"
@@ -1243,7 +1238,7 @@ msgstr "Netinkamas rakto ID (%s)"
 msgid "Missing signature (%s)"
 msgstr "Nėra ženklo (%s)"
 
-#: ../urpme:39
+#: ../urpme:40
 #, fuzzy, c-format
 msgid ""
 "urpme version %s\n"
@@ -1260,57 +1255,57 @@ msgstr ""
 "\n"
 "naudojimas:\n"
 
-#: ../urpme:44 ../urpmf:35 ../urpmi:84 ../urpmi.addmedia:45
+#: ../urpme:45 ../urpmf:35 ../urpmi:84 ../urpmi.addmedia:44
 #: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:48
 #, c-format
 msgid "  --help         - print this help message.\n"
 msgstr "  --help         - spausdinti šį pagalbos pranešimą.\n"
 
-#: ../urpme:45
+#: ../urpme:46
 #, c-format
 msgid "  --auto         - automatically select a package in choices.\n"
 msgstr "  --auto         - automatiškai parinkti paketą pasirinkimų sąraše.\n"
 
-#: ../urpme:46
+#: ../urpme:47
 #, c-format
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr ""
 "  --test         - tikrinti, jei pašalinimas negali būti tinkamai "
 "įvykdytas.\n"
 
-#: ../urpme:47 ../urpmi:109 ../urpmq:67
+#: ../urpme:48 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid ""
 "  --force        - force invocation even if some packages do not exist.\n"
 msgstr "  --force        - vykdyti kreipimąsi, net jei nėra keleto paketų.\n"
 
-#: ../urpme:48 ../urpmi:114 ../urpmq:69
+#: ../urpme:49 ../urpmi:114 ../urpmq:69
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - urpmi paskirstomas po kompiuterius.\n"
 
-#: ../urpme:49 ../urpmi:146
+#: ../urpme:50 ../urpmi:146
 #, fuzzy, c-format
 msgid "  --repackage    - Re-package the files before erasing\n"
 msgstr "  --packager     - spausdinti žymens archyvatorių: archyvatorius.\n"
 
-#: ../urpme:50
+#: ../urpme:51
 #, c-format
 msgid "  --root         - use another root for rpm removal.\n"
 msgstr "  --root         - naudokite kitą pradinį (root) rpm pašalinimui.\n"
 
-#: ../urpme:51 ../urpmf:40 ../urpmi:116 ../urpmi.addmedia:60
+#: ../urpme:52 ../urpmf:40 ../urpmi:116 ../urpmi.addmedia:58
 #: ../urpmi.recover:36 ../urpmi.removemedia:46 ../urpmi.update:46 ../urpmq:71
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - rpm įdiegimui naudokite kitą pradinį.\n"
 
-#: ../urpme:52
+#: ../urpme:53
 #, fuzzy, c-format
 msgid "  --noscripts    - do not execute package scriptlet(s).\n"
 msgstr "  --description  - spausdinti žymens aprašymą: aprašymas.\n"
 
-#: ../urpme:53
+#: ../urpme:54
 #, fuzzy, c-format
 msgid ""
 "  --use-distrib  - configure urpme on the fly from a distrib tree, useful\n"
@@ -1320,57 +1315,57 @@ msgstr ""
 "metodu, naudinga\n"
 "                   įdiegti (pašalinti) chroot su --root parinktimi.\n"
 
-#: ../urpme:55 ../urpmi:119 ../urpmq:74
+#: ../urpme:56 ../urpmi:119 ../urpmq:74
 #, fuzzy, c-format
 msgid "    --probe-synthesis - use synthesis file.\n"
 msgstr "  --probe-synthesis - bandyti surasti ir panaudoti sintezės bylą.\n"
 
-#: ../urpme:56 ../urpmi:120 ../urpmq:75
+#: ../urpme:57 ../urpmi:120 ../urpmq:75
 #, fuzzy, c-format
 msgid "    --probe-hdlist - use hdlist file.\n"
 msgstr "  --probe-hdlist - bandyti surasti ir panaudoti hdlist bylą.\n"
 
-#: ../urpme:57 ../urpmi:156 ../urpmq:86
+#: ../urpme:58 ../urpmi:156 ../urpmq:86
 #, fuzzy, c-format
 msgid "  --verbose, -v  - verbose mode.\n"
 msgstr "  --verbose      - verbose veiksena.\n"
 
-#: ../urpme:58
+#: ../urpme:59
 #, c-format
 msgid "  -a             - select all packages matching expression.\n"
 msgstr "  -a             - išrinkti visus paketus, atitinkančius išraišką.\n"
 
-#: ../urpme:75
+#: ../urpme:76
 #, c-format
 msgid "Only superuser is allowed to remove packages"
 msgstr "Paketus pašalinti gali tik supervartotojas"
 
-#: ../urpme:106
+#: ../urpme:107
 #, c-format
 msgid "unknown packages"
 msgstr "nežinomi paketai"
 
-#: ../urpme:106
+#: ../urpme:107
 #, c-format
 msgid "unknown package"
 msgstr "nežinomas paketas"
 
-#: ../urpme:118 ../urpmi:526
+#: ../urpme:119 ../urpmi:526
 #, c-format
 msgid "removing package %s will break your system"
 msgstr "paketo %s pašalinimas sugadins jūsų sistemą"
 
-#: ../urpme:120
+#: ../urpme:121
 #, c-format
 msgid "Nothing to remove"
 msgstr "Nėra ką pašalinti"
 
-#: ../urpme:125
+#: ../urpme:126
 #, c-format
 msgid "Checking to remove the following packages"
 msgstr "Tikrinami pašalintini sekantys paketai"
 
-#: ../urpme:133
+#: ../urpme:134
 #, fuzzy, c-format
 msgid "To satisfy dependencies, the following package will be removed"
 msgid_plural ""
@@ -1379,12 +1374,12 @@ msgstr[0] "Priklausomybių patenkinimui, šie paketai %d bus pašalinti (%d MB)"
 msgstr[1] "Priklausomybių patenkinimui, šie paketai %d bus pašalinti (%d MB)"
 msgstr[2] "Priklausomybių patenkinimui, šie paketai %d bus pašalinti (%d MB)"
 
-#: ../urpme:135 ../urpmi:600
+#: ../urpme:136 ../urpmi:600
 #, c-format
 msgid " (%d MB)"
 msgstr ""
 
-#: ../urpme:137
+#: ../urpme:138
 #, fuzzy, c-format
 msgid "Remove %d package?"
 msgid_plural "Remove %d packages?"
@@ -1392,12 +1387,12 @@ msgstr[0] "pašalinamas paketas %s"
 msgstr[1] "pašalinamas paketas %s"
 msgstr[2] "pašalinamas paketas %s"
 
-#: ../urpme:137 ../urpmi:553 ../urpmi:681 ../urpmi.addmedia:137
+#: ../urpme:138 ../urpmi:553 ../urpmi:681 ../urpmi.addmedia:133
 #, c-format
 msgid " (y/N) "
 msgstr " (t/N) "
 
-#: ../urpme:159
+#: ../urpme:160
 #, c-format
 msgid "Removal failed"
 msgstr "Pašalinimas nepavyko"
@@ -1841,17 +1836,17 @@ msgstr ""
 "medžio, naudinga \n"
 "                  įdiegti chroot su --root parinktimi.\n"
 
-#: ../urpmi:121 ../urpmi.addmedia:46 ../urpmi.update:33 ../urpmq:76
+#: ../urpmi:121 ../urpmi.addmedia:45 ../urpmi.update:33 ../urpmq:76
 #, c-format
 msgid "  --wget         - use wget to retrieve distant files.\n"
 msgstr "  --wget         - tolimų bylų atkūrimui naudokite wget.\n"
 
-#: ../urpmi:122 ../urpmi.addmedia:47 ../urpmi.update:34 ../urpmq:77
+#: ../urpmi:122 ../urpmi.addmedia:46 ../urpmi.update:34 ../urpmq:77
 #, c-format
 msgid "  --curl         - use curl to retrieve distant files.\n"
 msgstr "  --curl         - tolimų bylų atkūrimui naudokite curl.\n"
 
-#: ../urpmi:123 ../urpmi.addmedia:48 ../urpmi.update:35 ../urpmq:78
+#: ../urpmi:123 ../urpmi.addmedia:47 ../urpmi.update:35 ../urpmq:78
 #, fuzzy, c-format
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --curl         - tolimų bylų atkūrimui naudokite curl.\n"
@@ -1876,7 +1871,7 @@ msgstr ""
 msgid "  --prozilla-options - additional options to pass to prozilla\n"
 msgstr ""
 
-#: ../urpmi:128 ../urpmi.addmedia:49 ../urpmi.update:36
+#: ../urpmi:128 ../urpmi.addmedia:48 ../urpmi.update:36
 #, c-format
 msgid "  --limit-rate   - limit the download speed.\n"
 msgstr "  --limit-rate   - apriboti parsiuntimo greitį.\n"
@@ -1891,7 +1886,7 @@ msgstr ""
 "                   (--no-resume išjungia funkciją, standartiškai ji yra "
 "išjungta).\n"
 
-#: ../urpmi:131 ../urpmi.addmedia:50 ../urpmi.update:37 ../urpmq:79
+#: ../urpmi:131 ../urpmi.addmedia:49 ../urpmi.update:37 ../urpmq:79
 #, c-format
 msgid ""
 "  --proxy        - use specified HTTP proxy, the port number is assumed\n"
@@ -1901,7 +1896,7 @@ msgstr ""
 "prievado numeris\n"
 "                   bus 1080 (formatas yra toks <proxyhost[:port]>).\n"
 
-#: ../urpmi:133 ../urpmi.addmedia:52 ../urpmi.update:39 ../urpmq:81
+#: ../urpmi:133 ../urpmi.addmedia:51 ../urpmi.update:39 ../urpmq:81
 #, c-format
 msgid ""
 "  --proxy-user   - specify user and password to use for proxy\n"
@@ -2088,6 +2083,13 @@ msgstr " (įdiegti)"
 msgid "%s (to install)"
 msgstr " (įdiegti)"
 
+#: ../urpmi:447
+#, fuzzy, c-format
+msgid ""
+"In order to satisfy the '%s' dependency, one of the following packages is "
+"needed:"
+msgstr "Priklausomybių patenkinimui, šie paketai %d bus pašalinti (%d MB)"
+
 #: ../urpmi:450
 #, c-format
 msgid "What is your choice? (1-%d) "
@@ -2122,7 +2124,7 @@ msgid ""
 "Continue installation anyway?"
 msgstr "Ar vis tiek tęsti?"
 
-#: ../urpmi:491 ../urpmi:511 ../urpmi:604 ../urpmi.addmedia:137
+#: ../urpmi:491 ../urpmi:511 ../urpmi:604 ../urpmi.addmedia:133
 #, c-format
 msgid " (Y/n) "
 msgstr " (T/n) "
@@ -2337,34 +2339,34 @@ msgstr ""
 "\n"
 "ir [parinktys] yra iš\n"
 
-#: ../urpmi.addmedia:54
+#: ../urpmi.addmedia:53
 #, c-format
 msgid "  --update       - create an update medium.\n"
 msgstr "  --update       - sukurti atnaujinimo laikmeną.\n"
 
-#: ../urpmi.addmedia:55
+#: ../urpmi.addmedia:54
 #, fuzzy, c-format
 msgid "  --probe-synthesis - use synthesis file.\n"
 msgstr "  --probe-synthesis - bandyti surasti ir panaudoti sintezės bylą.\n"
 
-#: ../urpmi.addmedia:56 ../urpmi.addmedia:58
+#: ../urpmi.addmedia:55
 #, fuzzy, c-format
 msgid "  --probe-hdlist - use hdlist file.\n"
 msgstr "  --probe-hdlist - bandyti surasti ir panaudoti hdlist bylą.\n"
 
-#: ../urpmi.addmedia:57
+#: ../urpmi.addmedia:56
 #, c-format
 msgid "  --probe-rpms   - use rpm files (instead of synthesis/hdlist).\n"
 msgstr ""
 
-#: ../urpmi.addmedia:59
+#: ../urpmi.addmedia:57
 #, fuzzy, c-format
 msgid "  --no-probe     - do not try to find any synthesis or hdlist file.\n"
 msgstr ""
 "  --no-probe     - nebandyti surasti nei sintezes, nei\n"
 "                   hdlist bylų.\n"
 
-#: ../urpmi.addmedia:61
+#: ../urpmi.addmedia:59
 #, c-format
 msgid ""
 "  --distrib      - automatically create all media from an installation\n"
@@ -2373,17 +2375,17 @@ msgstr ""
 "  --distrib      - automatiškai sukurti visas laikmenas iš įdiegimo\n"
 "                   laikmenos.\n"
 
-#: ../urpmi.addmedia:63
+#: ../urpmi.addmedia:61
 #, c-format
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
 msgstr ""
 
-#: ../urpmi.addmedia:64
+#: ../urpmi.addmedia:62
 #, fuzzy, c-format
 msgid "  --all-media    - with --distrib, add every listed media\n"
 msgstr "  --list-media   - pateikti galimų laikmenų sąrašą.\n"
 
-#: ../urpmi.addmedia:65
+#: ../urpmi.addmedia:63
 #, c-format
 msgid ""
 "  --from         - use specified url for list of mirrors, the default is\n"
@@ -2393,7 +2395,7 @@ msgstr ""
 "yra\n"
 "                   %s\n"
 
-#: ../urpmi.addmedia:67
+#: ../urpmi.addmedia:65
 #, c-format
 msgid ""
 "  --virtual      - create virtual media wich are always up-to-date,\n"
@@ -2402,80 +2404,80 @@ msgstr ""
 "  --virtual      - sukurti nuolat atnaujinamą laikmeną,\n"
 "                   leidžiamas tiks toks protokolas file:// .\n"
 
-#: ../urpmi.addmedia:69 ../urpmi.update:42
+#: ../urpmi.addmedia:67 ../urpmi.update:42
 #, c-format
 msgid "  --no-md5sum    - disable MD5SUM file checking.\n"
 msgstr "  --no-md5sum    - išjungti MD5SUM bylos tikrinimą.\n"
 
-#: ../urpmi.addmedia:70
+#: ../urpmi.addmedia:68
 #, c-format
 msgid "  --nopubkey     - don't import pubkey of added media\n"
 msgstr "  --nopubkey     - įtrauktai laikmenai neimportuoti pubkey\n"
 
-#: ../urpmi.addmedia:71
+#: ../urpmi.addmedia:69
 #, c-format
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 "  --raw          - įtraukti laikmenos konfigūraciją, bet jos neatnaujinti.\n"
 
-#: ../urpmi.addmedia:72 ../urpmi.removemedia:42 ../urpmi.update:49
+#: ../urpmi.addmedia:70 ../urpmi.removemedia:42 ../urpmi.update:49
 #, c-format
 msgid "  -c             - clean headers cache directory.\n"
 msgstr "  -c             - išvalyti antraščių cache katalogą.\n"
 
-#: ../urpmi.addmedia:73 ../urpmi.removemedia:44 ../urpmi.update:51
+#: ../urpmi.addmedia:71 ../urpmi.removemedia:44 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - paslėptoji veiksena.\n"
 
-#: ../urpmi.addmedia:74 ../urpmi.removemedia:45 ../urpmi.update:52
+#: ../urpmi.addmedia:72 ../urpmi.removemedia:45 ../urpmi.update:52
 #, c-format
 msgid "  -v             - verbose mode.\n"
 msgstr "  -v             - verbose veiksena.\n"
 
-#: ../urpmi.addmedia:86
+#: ../urpmi.addmedia:82
 #, c-format
 msgid "unable to update medium \"%s\"\n"
 msgstr "negaliu atnaujinti laikmenos \"%s\"\n"
 
-#: ../urpmi.addmedia:115
+#: ../urpmi.addmedia:111
 #, c-format
 msgid "bad <url> (for local directory, the path must be absolute)\n"
 msgstr ""
 
-#: ../urpmi.addmedia:118
+#: ../urpmi.addmedia:114
 #, c-format
 msgid "Only superuser is allowed to add media"
 msgstr "Įtraukti laikmeną gali tik supervartotojas"
 
-#: ../urpmi.addmedia:121
+#: ../urpmi.addmedia:117
 #, fuzzy, c-format
 msgid "creating config file [%s]"
 msgstr "Bus sukurta konfigūracijos byla [%s]"
 
-#: ../urpmi.addmedia:122
+#: ../urpmi.addmedia:118
 #, c-format
 msgid "Can't create config file [%s]"
 msgstr "Negaliu sukurti konfigūracijos bylos [%s]"
 
-#: ../urpmi.addmedia:129
+#: ../urpmi.addmedia:125
 #, c-format
 msgid "no need to give <relative path of hdlist> with --distrib"
 msgstr "nebūtina duoti <atitinkamas hdlist kelias> su --distrib"
 
-#: ../urpmi.addmedia:137
+#: ../urpmi.addmedia:133
 #, c-format
 msgid ""
 "\n"
 "Do you want to add media '%s'"
 msgstr ""
 
-#: ../urpmi.addmedia:166
+#: ../urpmi.addmedia:164
 #, c-format
 msgid "<relative path of hdlist> missing\n"
 msgstr "<atitinkamas hdlist kelias> nėra\n"
 
-#: ../urpmi.addmedia:169
+#: ../urpmi.addmedia:167
 #, c-format
 msgid "Can't use %s with remote medium"
 msgstr ""
@@ -2971,6 +2973,9 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nerastas changelog\n"
+
+#~ msgid "unable to remove package %s"
+#~ msgstr "negaliu pašalinti paketo %s"
 
 #~ msgid "No filelist found\n"
 #~ msgstr "Nerastas bylų sąrašas\n"
