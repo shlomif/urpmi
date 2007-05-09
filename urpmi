@@ -728,7 +728,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 		}
 	    }
 	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
-	    @$to_remove and print N("removing %s", "@$to_remove"), "\n";
 	    bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my %install_options_common = (

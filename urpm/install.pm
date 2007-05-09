@@ -168,7 +168,15 @@ sub install {
 	$options{callback_uninst} = sub { 	    
 	    my ($_urpm, undef, undef, $subtype) = @_;
 	    if ($subtype eq 'start') {
-		print N("removing package %s", $trans->Element_name($index)), "\n" if $::verbose >= 0;
+		my ($name, $fullname) = ($trans->Element_name($index), $trans->Element_fullname($index));
+		my @previous = map { $trans->Element_name($_) } 0 .. ($index - 1);
+		# looking at previous packages in transaction
+		# we should be looking only at installed packages, but it should not give a different result
+		if (member($name, @previous)) {
+		    $urpm->{log}("removing upgraded package $fullname");
+		} else {
+		    print N("removing package %s", $fullname), "\n" if $::verbose >= 0;
+		}
 		$index++;
 	    }
 	};

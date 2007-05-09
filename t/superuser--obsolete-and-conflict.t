@@ -11,6 +11,7 @@ use lib '.', 't';
 use helper;
 use Expect;
 use urpm::util;
+use urpm::cfg;
 use Test::More 'no_plan';
 
 need_root_and_prepare();
@@ -21,10 +22,10 @@ urpmi_addmedia("$name $::pwd/media/$name");
 urpmi('a');
 check_installed_names('a');
 
-test_urpmi("b c", <<'EOF');
+test_urpmi("b c", sprintf(<<'EOF', urpm::cfg::get_arch()));
       1/2: c
       2/2: b
-removing package a
+removing package a-1-1.%s
 EOF
 check_installed_names('b', 'c');
 
