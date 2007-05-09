@@ -296,7 +296,7 @@ sub _url_with_hdlist_basename {
 }
 sub _hdlist_dir {
     my ($medium) = @_;
-    my $base = file_from_file_url($medium->{url}) || $medium->{url};
+    my $base = file_from_local_url($medium->{url}) || $medium->{url};
     $medium->{with_hdlist}
       ? reduce_pathname("$base/$medium->{with_hdlist}/..")
       : $medium->{media_info_dir} && reduce_pathname("$base/$medium->{media_info_dir}");
@@ -868,7 +868,7 @@ sub _probe_with_try_list {
     my $probe = sub {
 	my ($synthesis, $media_info_dir) = @_;
 
-	my $base = file_from_file_url($medium->{url}) || $medium->{url};
+	my $base = file_from_local_url($medium->{url}) || $medium->{url};
 	my $url = reduce_pathname("$base/$media_info_dir") . '/' . ($synthesis ? 'synthesis.hdlist.cz' : 'hdlist.cz');
 	$f->($url) or return;
 
@@ -912,7 +912,7 @@ sub may_reconfig_urpmi {
     my ($urpm, $medium) = @_;
 
     my $f;
-    if (my $dir = file_from_file_url($medium->{url})) {
+    if (my $dir = file_from_local_url($medium->{url})) {
 	$f = reduce_pathname("$dir/reconfig.urpmi");
     } else {
 	unlink($f = "$urpm->{cachedir}/partial/reconfig.urpmi");
@@ -921,7 +921,7 @@ sub may_reconfig_urpmi {
     if (-s $f) {
 	reconfig_urpmi($urpm, $f, $medium->{name});
     }
-    unlink $f if !file_from_file_url($medium->{url});
+    unlink $f if !file_from_local_url($medium->{url});
 }
 
 #- read a reconfiguration file for urpmi, and reconfigure media accordingly
