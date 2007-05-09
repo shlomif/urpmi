@@ -304,7 +304,7 @@ sub _hdlist_dir {
 sub _url_with_hdlist {
     my ($medium, $prefer_synthesis) = @_;
 
-    my $base = file_from_file_url($medium->{url}) || $medium->{url};
+    my $base = file_from_local_url($medium->{url}) || $medium->{url};
     $medium->{with_hdlist}
       ? reduce_pathname("$base/$medium->{with_hdlist}")
       : _hdlist_dir($medium) . "/" . _url_with_hdlist_basename($medium, $prefer_synthesis);
@@ -358,7 +358,7 @@ sub any_hdlist {
     my ($urpm, $medium) = @_;
     my $f = statedir_hdlist($urpm, $medium);
     if ($medium->{virtual} && !$medium->{synthesis}
-	  || !-e $f && file_from_file_url($medium->{url}) && !$medium->{synthesis} && !$medium->{hdlist}) {
+	  || !-e $f && file_from_local_url($medium->{url}) && !$medium->{synthesis} && !$medium->{hdlist}) {
 	$f = _url_with_hdlist($medium, '');
     }
     -e $f && $f;
