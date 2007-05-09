@@ -108,7 +108,7 @@ $options{verbose} > 0 or $urpm->{log} = sub {};
 $options{quiet} = 1 if $options{verbose} < 0;
 
 $url or ($url, $name) = ($name, '');
-$url =~ m,^(([^:]*):/)?/, or die N("bad <url> (for local directory, the path must be absolute)\n");
+$url =~ m,^(([^:]*):/)?/, or die N("bad <url> (for local directory, the path must be absolute)") . "\n";
 
 if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to add media"));
