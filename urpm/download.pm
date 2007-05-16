@@ -305,9 +305,10 @@ sub sync_curl {
 	    $_ = "$proto://$nick:$rest";
 	}
 	if (m|^ftp://.*/([^/]*)$| && file_size($1) > 8192) { #- manage time stamp for large file only
-	    push @ftp_files, $_; next;
+	    push @ftp_files, $_;
+	} else {
+	    push @other_files, $_;
 	}
-	push @other_files, $_;
     }
     if (@ftp_files) {
 	my ($cur_ftp_file, %ftp_files_info);
