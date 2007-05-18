@@ -690,7 +690,14 @@ sub _sync_webfetch_raw {
 	    }
 	}
 	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
-	$sync->($options, @{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
+	my @l = (@{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
+	while (@l) {
+	    my $half_MAX_ARG = 131072 / 2;
+	    # restrict the number of elements so that it fits on cmdline of curl/wget/proz
+	    my $n = 0;
+	    for (my $len = 0; $n < @l && $len < $half_MAX_ARG; $len += length($l[$n++])) {}	    
+	    $sync->($options, splice(@l, 0, $n));
+	}
 
 	delete @files{qw(ftp http https)};
     }
