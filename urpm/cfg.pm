@@ -222,11 +222,7 @@ sub dump_config_raw {
 	substitute_back($m->{$field}, $prev_block && $prev_block->{$field});
     };
 
-    open my $f, '>', $file or do {
-	$err = N("unable to write config file [%s]", $file);
-	return 0;
-    };
-			
+    my @lines;
     foreach my $m (@$blocks) {
 	my @l = map {
 	    if (/^(update|ignore|synthesis|noreconfigure|static|virtual)$/) {
@@ -241,8 +237,14 @@ sub dump_config_raw {
         my $name_url = $m->{name} ? 
 	  join(' ', map { quotespace($_) } $m->{name}, $substitute_back->($m, 'url')) . ' ' : '';
 
-        print $f $name_url . "{\n", (map { "  $_\n" } @l), "}\n\n";
+	push @lines, join("\n", $name_url . '{', (map { "  $_" } @l), "}\n");
     }
+
+    output_safe($file, join("\n", @lines)) or do {
+	$err = N("unable to write config file [%s]", $file);
+	return 0;
+    };
+
     1;
 }
 

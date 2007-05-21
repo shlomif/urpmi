@@ -12,7 +12,7 @@ our @EXPORT = qw(quotespace unquotespace
     copy_and_own
     same_size_and_mtime
     partition uniq
-    difference2 member file_size cat_ cat_utf8 dirname basename
+    difference2 member file_size cat_ cat_utf8 output_safe dirname basename
 );
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -130,6 +130,18 @@ sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
 sub member { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
 sub cat_ { my @l = map { my $F; open($F, '<', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
 sub cat_utf8 { my @l = map { my $F; open($F, '<:utf8', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
+
+sub output_safe {
+    my ($file, $content) = @_;
+    
+    open(my $f, '>', "$file.new") or return;
+    print $f $content or return;
+    close $f or return;
+
+    warn "$file\n";
+    rename("$file.new", $file) or return;
+    1;
+}
 
 1;
 
