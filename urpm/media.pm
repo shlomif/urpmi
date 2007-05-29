@@ -682,7 +682,7 @@ sub add_medium {
     }
 
     if ($with_hdlist) {
-	_set_synthesis_or_hdlist($medium, $with_hdlist =~ m!(^|/)synthesis\.!);
+	_set_synthesis_or_hdlist($medium, $with_hdlist =~ m!(?:^|/)synthesis\.!);
 	$medium->{with_hdlist} = $with_hdlist;
 	_migrate__with_hdlist($medium);
     }
