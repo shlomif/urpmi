@@ -1105,12 +1105,12 @@ sub _parse_synthesis {
       $urpm->parse_synthesis($synthesis_file, $o_callback ? (callback => $o_callback) : @{[]});
 }
 sub _parse_hdlist_or_synthesis {
-    my ($urpm, $medium, $hdlist_or, $prefer_synthesis, $o_callback) = @_;
+    my ($urpm, $medium, $hdlist_or, $prefer_synthesis) = @_;
 
     if (_synthesis_or_not($medium, $prefer_synthesis)) {
-	_parse_synthesis($urpm, $medium, $hdlist_or, $o_callback);
+	_parse_synthesis($urpm, $medium, $hdlist_or);
     } else {
-	_parse_hdlist($urpm, $medium, $hdlist_or, $o_callback);
+	_parse_hdlist($urpm, $medium, $hdlist_or);
     }
 }
 
