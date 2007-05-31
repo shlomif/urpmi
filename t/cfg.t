@@ -34,7 +34,6 @@ update_2 ftp://foo/bar/ {
   synthesis
   with_hdlist: hdlist.update2.cz
 }
-
 URPMICFG
 close $f;
 
@@ -73,13 +72,13 @@ is( $cfgtext, $cfgtext2, 'config is the same' )
 my $cfgtext2 = read_file("$file.bad");
 $cfgtext2 =~ s/# generated.*\n//;
 isnt( $cfgtext, $cfgtext2, 'config should differ' )
-    or system qw( diff -u ), $file, "$file.bad";
+    or system qw( diff -u ), "$file.verbatim", "$file.bad";
 }
 {
 my $cfgtext2 = read_file("$file.state");
 $cfgtext2 =~ s/# generated.*\n//;
 is( $cfgtext, $cfgtext2, 'config is the same' )
-    or system qw( diff -u ), $file, "$file.state";
+    or system qw( diff -u ), "$file.verbatim", "$file.state";
 }
 
 
