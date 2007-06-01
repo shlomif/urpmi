@@ -46,6 +46,7 @@ END { $::debug_exit and print STDERR "EXITING (pid=$$)\n" }
 my %options_spec_all = (
 	'debug' => sub { 
 	    $::debug_exit = 1; 
+	    $::verbose++; $options{verbose}++;
 	    $urpm->{debug} = $urpm->{debug_URPM} = sub { print STDERR "$_[0]\n" };
 	},
 	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
