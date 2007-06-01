@@ -712,6 +712,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    #- no remove are handle here, automatically done by each distant node.
 	    $urpm->{log}("starting distributed install");
 	    $urpm->{parallel_handler}->parallel_install(
+		$urpm,
 		[ keys %{$state->{rejected} || {}} ], \%transaction_sources_install, \%transaction_sources,
 		test => $test,
 		excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
