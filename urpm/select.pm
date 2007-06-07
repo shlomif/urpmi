@@ -51,6 +51,16 @@ sub search_packages {
 		    ? $_ : @{[]};
 		} $urpm->packages_providing($v))
 	    {
+		#- find the lowest value of is_arch_compat
+		my %compats;
+		push @{$compats{$_->is_arch_compat}}, $_ foreach @l;
+
+		delete $compats{0}; #- means not compatible
+		#- if there are pkgs matching arch, prefer them
+		if (%compats) {
+		    @l = @{$compats{min(keys %compats)}};
+		}
+
 		#- we assume that if there is at least one package providing
 		#- the resource exactly, this should be the best one; but we
 		#- first check if one of the packages has the same name as searched.
