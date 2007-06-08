@@ -477,7 +477,7 @@ my $restart_itself = urpm::select::resolve_dependencies($urpm,
 my @unselected_uninstalled = @{$state->{unselected_uninstalled} || []};
 if (@unselected_uninstalled) {
     my $list = join "\n", map { $_->name . '-' . $_->version . '-' . $_->release  } @unselected_uninstalled;
-    my $msg = ($#unselected_uninstalled == 1) ?
+    my $msg = @unselected_uninstalled == 1 ?
     	N("The following package cannot be installed because it depends on packages
 that are older than the installed ones:\n%s",$list)
 	: N("The following packages can't be installed because they depend on packages
@@ -499,7 +499,7 @@ that are older than the installed ones:\n%s", $list);
 my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
 if (@ask_unselect) {
     my $list = urpm::select::translate_why_unselected($urpm, $state, @ask_unselect);
-    my $msg = ($#ask_unselect == 1) ?
+    my $msg = @ask_unselect == 1 ?
     	N("A requested package cannot be installed:\n%s",$list)
 	: N("Some requested packages cannot be installed:\n%s", $list);
     if ($urpm->{options}{auto}) {
@@ -531,16 +531,16 @@ if (@ask_remove) {
     my $list = urpm::select::translate_why_removed($urpm, $state, @ask_remove);
 
     if ($no_remove && !$force) {
-	my $msg = ($#ask_remove == 1) ?
+	my $msg = @ask_remove == 1 ?
 	N("The installation cannot continue because the following package
 has to be removed for others to be upgraded:\n%s\n", $list)
 	: N("The installation cannot continue because the following packages
 have to be removed for others to be upgraded:\n%s\n", $list);
-	print $msg . "\n";
+	print "$msg\n";
 	exit 0;
     }
 
-    my $msg = ($#ask_remove == 1) ? 
+    my $msg = @ask_remove == 1 ? 
         N("The following package has to be removed for others to be upgraded:\n%s", $list)
 	: N("The following packages have to be removed for others to be upgraded:\n%s", $list);
     if ($test) {
@@ -578,9 +578,9 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
 }
 $urpm->{nb_install} = @to_install;
 if ($env) {
-    my $msg = ($#to_install == 1) ? N("To satisfy dependencies, the following package is going to be installed:") 
+    my $msg = @to_install == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
 		: N("To satisfy dependencies, the following packages are going to be installed:");
-    my $msg2 = P("(%d package, %d MB)", "(%d packages, %d MB)", $urpm->{nb_install}, toMb($sum));
+    my $msg2 = P("(%d package, %d MB)", "(%d packages, %d MB)", $urpm->{nb_install}, $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
     print "$msg\n$p\n$msg2\n";
     exit 0; #- exit now for specific environment.
@@ -589,7 +589,7 @@ if (@root_only) {
     print N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
 } elsif (!$urpm->{options}{auto} && $ask_user && @to_install) {
-    my $msg = ($#to_install == 1) ? N("To satisfy dependencies, the following package is going to be installed:") 
+    my $msg = @to_install == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
 		: N("To satisfy dependencies, the following packages are going to be installed:");
     if ($test) {
 	$msg = "$msg\n" . N("(test only, installation will not be actually done)");
@@ -667,7 +667,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	my @bad_signatures = urpm::signature::check($urpm, \%transaction_sources_install, \%transaction_sources);
 
 	if (@bad_signatures) {
-	    my $msg = ($#bad_signatures == 1) ?
+	    my $msg = @bad_signatures == 1 ?
 	    	N("The following package has bad signature")
 		: N("The following packages have bad signatures");
 	    my $msg2 = N("Do you want to continue installation ?");
@@ -834,13 +834,13 @@ if ($nok) {
 		    my @installed = map { scalar $_->fullname } @$installed;
 		    my @error = map { scalar $_->fullname } @$error;
 		    my @msg1 = @installed == 0 ? () :
-		    	(@installed == 1) ?
-			N("Package %s is already installed",join(', ', @installed))
-		       	: N("Packages %s are already installed", join(', ', @installed));
+		    	@installed == 1 ?
+			  N("Package %s is already installed", join(', ', @installed)) :
+			  N("Packages %s are already installed", join(', ', @installed));
 		    my @msg2 = @error == 0 ? () :
-		    	(@errors == 1) ?
-			N("Package %s can not be installed", join(', ', @error))
-	       		: N("Packages %s can not be installed", join(', ', @error));
+		    	@error == 1 ?
+			  N("Package %s can not be installed", join(', ', @error)) :
+			  N("Packages %s can not be installed", join(', ', @error));
 		    print join("\n", @msg1, @msg2, '');
 		}
 	    }
