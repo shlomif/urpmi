@@ -52,13 +52,14 @@ sub search_packages {
 		} $urpm->packages_providing($v))
 	    {
 		#- find the lowest value of is_arch_compat
+		my ($noarch, $arch) = partition { $_->arch eq 'noarch' } @l;
 		my %compats;
-		push @{$compats{$_->is_arch_compat}}, $_ foreach @l;
+		push @{$compats{$_->is_arch_compat}}, $_ foreach @$arch;
 
 		delete $compats{0}; #- means not compatible
 		#- if there are pkgs matching arch, prefer them
 		if (%compats) {
-		    @l = @{$compats{min(keys %compats)}};
+		    @l = (@$noarch, @{$compats{min(keys %compats)}});
 		}
 
 		#- we assume that if there is at least one package providing
