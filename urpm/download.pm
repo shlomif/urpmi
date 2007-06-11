@@ -262,7 +262,8 @@ sub sync_wget {
 		    $total = '';
 		} elsif (defined $total && $total eq '' && $buf =~ /^[^:]*:\s+(\d\S*)/) {
 		    $total = $1;
-		} elsif (my ($percent, $speed, $eta) = $buf =~ /^\s*(\d+)%.*\s+(\S+)\s+ETA\s+(\S+)\s*[\r\n]$/ms) {
+		} elsif (defined $total && $buf =~ /^\s*(\d+)%.*\s+(\S+)\s+ETA\s+(\S+)\s*[\r\n]$/ms) {
+		    my ($percent, $speed, $eta) = ($1, $2, $3);
 		    if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
 			kill 15, $wget_pid;
 			close $wget;
