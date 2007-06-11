@@ -241,7 +241,6 @@ sub sync_wget {
 	"--retr-symlinks",
 	"--no-check-certificate",
 	"--timeout=$CONNECT_TIMEOUT",
-	"-N",
 	(defined $options->{'wget-options'} ? split /\s+/, $options->{'wget-options'} : ()),
 	'-P', $options->{dir},
 	@_
