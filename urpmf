@@ -40,6 +40,7 @@ usage: urpmf [options] pattern-expression
 ") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . N("  --media        - use only the given media, separated by comma.
 ") . N("  --sortmedia    - sort media according to substrings separated by comma.
+") . N("  --use-distrib  - use the given path to access media
 ") . N("  --synthesis    - use the given synthesis instead of urpmi db.
 ") . N("  --uniq         - do not print identical lines twice.
 ") . N("  --update       - use only update media.
@@ -212,6 +213,7 @@ urpm::media::configure($urpm,
     excludemedia => $excludemedia,
     sortmedia => $sortmedia,
     synthesis => $synthesis,
+    usedistrib => $urpm::args::options{usedistrib},
     update => $update,
     callback => $callback,
     need_hdlist => $need_hdlist,

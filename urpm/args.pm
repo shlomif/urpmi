@@ -367,7 +367,7 @@ foreach my $k ("root=s", "nolock", "use-distrib=s")
 }
 
 foreach my $k ("help|h", "version", "no-locales", "update", "media|mediums=s",
-    "excludemedia|exclude-media=s", "sortmedia|sort-media=s",
+    "excludemedia|exclude-media=s", "sortmedia|sort-media=s", "use-distrib=s",
     "synthesis=s", "env=s")
 {
     $options_spec{urpmf}{$k} = $options_spec{urpmi}{$k};
