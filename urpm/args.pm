@@ -238,13 +238,6 @@ my %options_spec = (
 	sources => \$options{sources},
 	force => \$options{force},
 	'skip=s' => \$options{skip},
-	'use-distrib=s' => sub {
-	    if ($< != 0) {
-		print STDERR N("You need to be root to use --use-distrib"), "\n";
-		exit 1;
-	    }
-	    $options{usedistrib} = $_[1];
-	},
 	'parallel=s' => \$options{parallel},
 	'env=s' => \$options{env},
 	d => \$options{deps},
@@ -368,7 +361,7 @@ foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "u
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
 }
-foreach my $k ("root=s", "nolock")
+foreach my $k ("root=s", "nolock", "use-distrib=s")
 {
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
