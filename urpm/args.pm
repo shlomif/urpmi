@@ -50,6 +50,7 @@ my %options_spec_all = (
 	    $urpm->{debug} = $urpm->{debug_URPM} = sub { print STDERR "$_[0]\n" };
 	},
 	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
+	'use-copied-hdlist' => sub { $urpm->{options}{use_copied_hdlist} = 1 },
 );
 
 my %options_spec = (

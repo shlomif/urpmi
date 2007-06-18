@@ -42,17 +42,22 @@ try_medium({ synthesis => 1,
 	   "with ../media_info/synthesis.hdlist_$name.cz",
 	   "with ../media_info/synthesis.hdlist_$name2.cz");
 
-try_distrib({ hdlist => 1,
+try_distrib({ media_info_dir => 'media_info' }, '');
+try_distrib({ hdlist => 1, media_info_dir => 'media_info' }, 
+	    '--probe-hdlist');
+try_distrib({ synthesis => 1, media_info_dir => 'media_info' },
+	    '--probe-synthesis');
+try_distrib_removable({ hdlist => 1,
 	      with_hdlist => "../..//media/media_info/hdlist_$name.cz",
 	      with_hdlist2 => "../..//media/media_info/hdlist_$name2.cz",
 	      with_hdlist3 => "../..//media/media_info/hdlist_$name3.cz" }, 
 	    '');
-try_distrib({ hdlist => 1,
+try_distrib_removable({ hdlist => 1,
 	      with_hdlist => "../..//media/media_info/hdlist_$name.cz",
 	      with_hdlist2 => "../..//media/media_info/hdlist_$name2.cz",
 	      with_hdlist3 => "../..//media/media_info/hdlist_$name3.cz" }, 
 	    '--probe-hdlist');
-try_distrib({ synthesis => 1,
+try_distrib_removable({ synthesis => 1,
 	      with_hdlist => "../..//media/media_info/synthesis.hdlist_$name.cz",
 	      with_hdlist2 => "../..//media/media_info/synthesis.hdlist_$name2.cz",
 	      with_hdlist3 => "../..//media/media_info/synthesis.hdlist_$name3.cz" }, 
@@ -71,13 +76,23 @@ sub try_medium {
 
 sub try_distrib {
     my ($want, $options) = @_;
+    my $want3 = { %$want, ignore => 1 };
+
+    try_distrib_($want, $want3, $options);
+
+    $want3->{virtual} = $want->{virtual} = 1;
+    try_distrib_($want, $want3, '--virtual ' . $options);
+}
+
+sub try_distrib_removable {
+    my ($want, $options) = @_;
     my $want2 = { %$want, with_hdlist => $want->{with_hdlist2} || $want->{with_hdlist} };
     my $want3 = { %$want, with_hdlist => $want->{with_hdlist3} || $want->{with_hdlist}, ignore => 1 };
 
-    try_distrib_($want, $want2, $want3, $options);
+    try_distrib_removable_($want, $want2, $want3, $options);
 
     $want3->{virtual} = $want2->{virtual} = $want->{virtual} = 1;
-    try_distrib_($want, $want2, $want3, '--virtual ' . $options);
+    try_distrib_removable_($want, $want2, $want3, '--virtual ' . $options);
 }
 
 sub try_medium_ {
@@ -96,9 +111,18 @@ sub try_medium_ {
 }
 
 sub try_distrib_ {
-    my ($want, $want2, $want3, $options) = @_;
+    my ($want, $want3, $options) = @_;
 
     urpmi_addmedia("--distrib $name $::pwd $options");
+    check_conf($want, $want, $want3);
+    check_urpmi($name, $name2);
+    urpmi_removemedia('-a');
+}
+
+sub try_distrib_removable_ {
+    my ($want, $want2, $want3, $options) = @_;
+
+    urpmi_addmedia("--distrib $name $::pwd $options --use-copied-hdlist");
     check_conf($want, $want2, $want3);
     check_urpmi($name, $name2);
     urpmi_removemedia('-a');

@@ -644,7 +644,7 @@ sub _compute_flags_for_instlist {
 #- add a new medium, sync the config file accordingly.
 #- returns the new medium's name. (might be different from the requested
 #- name if index_name was specified)
-#- options: ignore, index_name, nolock, synthesis, update, virtual
+#- options: ignore, index_name, nolock, hdlist, synthesis, update, virtual, media_info_dir
 sub add_medium {
     my ($urpm, $name, $url, $with_hdlist, %options) = @_;
 
@@ -669,11 +669,11 @@ sub add_medium {
     my $medium = { name => $name, 
 		url => $url, 
 		modified => !$options{ignore}, 
-		downloader => $options{downloader}, 
-		update => $options{update}, 
-		ignore => $options{ignore},
-		synthesis => $options{synthesis},
 	    };
+    foreach (qw(downloader update ignore hdlist synthesis media_info_dir)) {
+	$medium->{$_} = $options{$_} if exists $options{$_};
+    }
+
     if ($options{virtual}) {
 	file_from_file_url($url) or $urpm->{fatal}(1, N("virtual medium needs to be local"));
 	$medium->{virtual} = 1;
@@ -772,13 +772,18 @@ sub add_distrib_media {
 
 	my $is_update_media = $distribconf->getvalue($media, 'updates_for');
 
+	my $use_copied_hdlist = $urpm->{options}{use_copied_hdlist} || $distribconf->getvalue($media, 'use_copied_hdlist');
+	my $with_hdlist = $use_copied_hdlist && offset_pathname(
+		$url,
+		$distribconf->getpath($media, 'path'),
+	    ) . '/' . $distribconf->getpath($media, $options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist');
+
 	push @newnames, add_medium($urpm,
 	    $name ? "$media_name ($name$medium_index)" : $media_name,
 	    reduce_pathname($distribconf->getfullpath($media, 'path')),
-	    offset_pathname(
-		$url,
-		$distribconf->getpath($media, 'path'),
-	    ) . '/' . $distribconf->getpath($media, $options{probe_with} eq 'synthesis' ? 'synthesis' : 'hdlist'),
+	    $with_hdlist, 
+	    !$use_copied_hdlist ? (media_info_dir => 'media_info') : (),
+	    !$use_copied_hdlist && $options{probe_with} ? ($options{probe_with} => 1) : (),
 	    index_name => $name ? undef : 0,
 	    $add_by_default ? () : (ignore => 1),
 	    %options,
