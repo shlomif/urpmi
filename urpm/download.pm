@@ -245,6 +245,7 @@ sub sync_wget {
 	'-P', $options->{dir},
 	@_
     ) . " |";
+    $options->{debug} and $options->{debug}($wget_command);
     my $wget_pid = open(my $wget, $wget_command);
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
     local $_;
@@ -329,6 +330,7 @@ sub sync_curl {
 	    "--anyauth",
 	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : ()),
 	    @ftp_files);
+	$options->{debug} and $options->{debug}($cmd);
 	open my $curl, "$cmd |";
 	while (<$curl>) {
 	    if (/Content-Length:\s*(\d+)/) {
@@ -393,6 +395,7 @@ sub sync_curl {
 	    (defined $options->{'curl-options'} ? split /\s+/, $options->{'curl-options'} : ()),
 	    "--stderr", "-", # redirect everything to stdout
 	    @all_files);
+	$options->{debug} and $options->{debug}($cmd);
 	my $curl_pid = open(my $curl, "$cmd |");
 	local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	local $_;
