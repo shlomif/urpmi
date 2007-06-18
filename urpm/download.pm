@@ -468,9 +468,9 @@ sub sync_rsync {
 		($options->{quiet} ? qw(-q) : qw(--progress -v)),
 		($options->{compress} ? qw(-z) : @{[]}),
 		($options->{ssh} ? qq(-e $options->{ssh}) : @{[]}),
-		qw(--partial --no-whole-file),
+		qw(--partial --no-whole-file --no-motd),
 		(defined $options->{'rsync-options'} ? split /\s+/, $options->{'rsync-options'} : ()),
-		"'$file' '$options->{dir}' |");
+		"'$file' '$options->{dir}' 2>&1 |");
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    local $_;
 	    while (<$rsync>) {
@@ -479,9 +479,12 @@ sub sync_rsync {
 		    if ($options->{callback}) {
 			if (my ($percent, $speed) = $buf =~ /^\s*\d+\s+(\d+)%\s+(\S+)\s+/) {
 			    propagate_sync_callback($options, 'progress', $file, $percent, undef, undef, $speed);
+			} else {
+			    $options->{debug} and $options->{debug}($buf);
 			}
 		    } else {
 			$options->{quiet} or print STDERR $buf;
+			$options->{debug} and $options->{debug}($buf);
 		    }
 		    $buf = '';
 		}
@@ -642,6 +645,7 @@ sub sync {
 	dir => "$urpm->{cachedir}/partial",
 	proxy => get_proxy($medium),
 	$medium ? (media => $medium->{name}) : (),
+	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
 	%options,
     );
     foreach my $cpt (qw(compress limit_rate retry wget-options curl-options rsync-options prozilla-options)) {
