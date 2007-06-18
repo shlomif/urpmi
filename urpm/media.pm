@@ -1489,9 +1489,10 @@ sub _update_medium__parse_if_unmodified__remote {
 	} else {
 	    #- try to sync (copy if needed) local copy after restored the previous one.
 	    #- this is useful for rsync (?)
-	    if (-e statedir_hdlist_or_synthesis($urpm, $medium, 's')) {
+	    my $previous_hdlist = statedir_hdlist_or_synthesis($urpm, $medium, 's');
+	    if (-e $previous_hdlist) {
 		copy_and_own(
-		    statedir_hdlist_or_synthesis($urpm, $medium, 's'),
+		    $previous_hdlist,
 		    cachedir_with_hdlist($urpm, $medium, 's'),
 		) or $error->(N("...copying failed")), return;
 	    }
