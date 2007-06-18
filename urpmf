@@ -129,7 +129,7 @@ my %usedtags;
 my $sprintfargs = join(', ', map {
     $usedtags{$_} = 1;
     if ($_ eq 'media') {
-	'$urpm::currentmedia->{name}';
+	'$urpm::media::currentmedia->{name}';
     } elsif ($_ eq 'fullname') {
 	'scalar($pkg->fullname)';
     } elsif ($_ eq 'description') {
