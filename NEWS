@@ -1,6 +1,9 @@
 - urpmi
   o for long package names, ensure progression of installation (####...) is
     still properly indented (#28639)
+- urpmi.update
+  o only copy previous hdlist in cache dir for rsync, don't do it for wget/curl
+    (it's useless and potentially dangerous when used with "resume")
 - urpmf
   o bug fix -m (#31452)
 

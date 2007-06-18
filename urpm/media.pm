@@ -1487,10 +1487,9 @@ sub _update_medium__parse_if_unmodified__remote {
 	if ($options->{force}) {
 	    unlink cachedir_with_hdlist($urpm, $medium, 's');
 	} else {
-	    #- try to sync (copy if needed) local copy after restored the previous one.
-	    #- this is useful for rsync (?)
+	    #- for rsync, try to sync (copy if needed) local copy after restored the previous one.
 	    my $previous_hdlist = statedir_hdlist_or_synthesis($urpm, $medium, 's');
-	    if (-e $previous_hdlist) {
+	    if (-e $previous_hdlist && urpm::protocol_from_url($medium->{url}) eq 'rsync') {
 		copy_and_own(
 		    $previous_hdlist,
 		    cachedir_with_hdlist($urpm, $medium, 's'),
