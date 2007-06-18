@@ -75,7 +75,9 @@ sub install_logger {
 	    ++$urpm->{logger_count} if $pname;
 	    my $cnt = $pname ? $urpm->{logger_count} : '-';
 	    $pname ||= N("[repackaging]");
-	    printf "%9s: %-22s", $cnt . "/" . $total_pkg, $pname;
+	    my $s = sprintf("%9s: %-22s", $cnt . "/" . $total_pkg, $pname);
+	    print $s;
+	    $s =~ / $/ or printf "\n%9s  %-22s", '', '';
 	}
     } elsif ($subtype eq 'stop') {
 	if ($urpm->{logger_progress} < $progress_size) {
