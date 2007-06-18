@@ -919,7 +919,7 @@ sub may_reconfig_urpmi {
 	urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ], quiet => 1);
     }
     if (-s $f) {
-	reconfig_urpmi($urpm, $f, $medium->{name});
+	reconfig_urpmi($urpm, $f, $medium);
     }
     unlink $f if !file_from_local_url($medium->{url});
 }
@@ -935,10 +935,10 @@ sub may_reconfig_urpmi {
 #-    # this is an urpmi reconfiguration file
 #-    /cooker /cooker/$ARCH
 sub reconfig_urpmi {
-    my ($urpm, $rfile, $name) = @_;
+    my ($urpm, $rfile, $medium) = @_;
     -r $rfile or return;
 
-    $urpm->{log}(N("reconfiguring urpmi for media \"%s\"", $name));
+    $urpm->{log}(N("reconfiguring urpmi for media \"%s\"", $medium->{name}));
 
     my ($magic, @lines) = cat_($rfile);
     #- the first line of reconfig.urpmi must be magic, to be sure it's not an error file
@@ -956,7 +956,6 @@ sub reconfig_urpmi {
     my $reconfigured = 0;
     my @reconfigurable = qw(url with_hdlist media_info_dir);
 
-    my $medium = name2medium($urpm, $name) or return;
     my %orig = %$medium;
 
   URLS:
@@ -984,7 +983,7 @@ sub reconfig_urpmi {
 
     if ($reconfigured) {
 	$urpm->{log}(N("reconfiguration done"));
-	write_config($urpm);
+	$urpm->{modified} = 1;
     }
     $reconfigured;
 }
