@@ -233,7 +233,7 @@ sub sync_wget {
 	#- construction of the wget command-line
 	"/usr/bin/wget",
 	($options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
-	($options->{resume} ? "--continue" : ()),
+	($options->{resume} ? "--continue" : "--force-clobber"),
 	($options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : ()),
 	($options->{retry} ? ('-t', $options->{retry}) : ()),
 	($options->{callback} ? ("--progress=bar:force", "-o", "-") :
