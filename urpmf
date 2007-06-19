@@ -119,7 +119,9 @@ if ($qf eq '%default') {
 #- replace first %name by %fullname if -f was specified
 if ($full) { $qf =~ s/%name\b/%fullname/ }
 
-$verbose or $urpm->{log} = sub {};
+#- we really don't want logs on stdout, and remove verbose if not asked.
+$urpm->{info} = sub { print STDERR "$_[0]\n" };
+$urpm->{log} = $verbose ? sub { print STDERR "$_[0]\n" } : sub {};
 
 my $multitag = '';
 my %multitags = map { $_ => 1 } qw(conffiles conflicts files obsoletes provides requires);

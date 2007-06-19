@@ -122,8 +122,9 @@ sub escape_shell ($) {
 my $urpm = new urpm;
 urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 
-#- remove verbose if not asked.
-$urpm::args::options{verbose} or $urpm->{log} = sub {};
+#- we really don't want logs on stdout, and remove verbose if not asked.
+$urpm->{info} = sub { print STDERR "$_[0]\n" };
+$urpm->{log} = $urpm::args::options{verbose} ? sub { print STDERR "$_[0]\n" } : sub {};
 
 #- improve speed if using any list_... options.
 $urpm::args::options{nodepslist} = $urpm::args::options{list_aliases}
