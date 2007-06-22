@@ -1,5 +1,13 @@
 #!/usr/bin/perl
 
+# a somewhat weird in urpmi that can somehow be workarounded
+#
+#   package "a-1" provides "c-1"
+#   package "a-2" provides "c-2"
+#   package "b-3" provides "c-3"
+# urpmi should still be able to upgrade "a-1" into "a-2" even in presence of "b-3"
+# (which do not obsolete "a" so can't be installed)
+
 use strict;
 use lib '.', 't';
 use helper;
