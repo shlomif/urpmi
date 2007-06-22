@@ -13,7 +13,7 @@ use lib '.', 't';
 use helper;
 use Test::More 'no_plan';
 
-my $medium_name = 'obsolete-and-provide';
+my $medium_name = 'provide-and-no-obsolete';
 
 need_root_and_prepare();
 
