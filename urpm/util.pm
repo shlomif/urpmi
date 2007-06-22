@@ -140,7 +140,6 @@ sub output_safe {
     print $f $content or return;
     close $f or return;
 
-    warn "$file\n";
     rename("$file.new", $file) or return;
     1;
 }
