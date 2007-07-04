@@ -433,12 +433,15 @@ sub ask_choice {
     my (@l) = map {
 	my ($name, $summary) = (scalar($_->fullname), translate($_->summary));
 	$_->flag_installed ?
-          #-PO: here format is "<package_name>: <summary> (to upgrade)"
-          ($_->summary ? N("%s: %s (to upgrade)", $name, $summary) :
+          ($_->summary ?
+             #-PO: here format is "<package_name>: <summary> (to upgrade)"
+             N("%s: %s (to upgrade)", $name, $summary) :
            #-PO: here format is "<package_name> (to upgrade)"
            N("%s (to upgrade)", $name)) :
-             #-PO: here format is "<package_name>: <summary> (to install)"
-             $_->flag_upgrade ? ($_->summary ? N("%s: %s (to install)", $name, $summary) :
+
+             $_->flag_upgrade ? ($_->summary ?
+                                   #-PO: here format is "<package_name>: <summary> (to install)"
+                                   N("%s: %s (to install)", $name, $summary) :
                                  #-PO: here format is "<package_name> (to install)"
                                  N("%s (to install)", $name)) : $name;
     } @$choices;
