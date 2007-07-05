@@ -761,6 +761,13 @@ sub add_distrib_media {
     foreach my $media ($distribconf->listmedia) {
         my $media_name = $distribconf->getvalue($media, 'name') || '';
 
+        if (my $media_arch = $distribconf->getvalue($media, 'arch')) {
+            if (!URPM::archscore($media_arch)) {
+                $urpm->{log}(N("skiping non compatible media `%s' (for %s)\n"),
+                    $media, $media_arch);
+                next;
+            }
+        }
         my $add_by_default = !$distribconf->getvalue($media, 'noauto');
         if ($options{ask_media}) {
             $options{ask_media}->($media_name, $add_by_default) or next;
