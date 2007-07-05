@@ -763,8 +763,8 @@ sub add_distrib_media {
 
         if (my $media_arch = $distribconf->getvalue($media, 'arch')) {
             if (!URPM::archscore($media_arch)) {
-                $urpm->{log}(N("skiping non compatible media `%s' (for %s)\n"),
-                    $media, $media_arch);
+                $urpm->{log}(N("skipping non compatible media `%s' (for %s)\n",
+			       $media, $media_arch));
                 next;
             }
         }
