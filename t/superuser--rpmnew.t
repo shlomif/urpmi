@@ -11,17 +11,30 @@ my @names = ('config-noreplace', 'config', 'normal');
 
 need_root_and_prepare();
 
-urpmi_addmedia("$medium_name $::pwd/media/$medium_name");
-
 test(['orig', 'orig', 'orig'],
      ['orig', 'orig', 'orig'],
      ['changed', 'changed', 'changed']);
 
+if (my @l = glob("$::pwd/root/etc/*")) {
+    fail(join(' ', @l) . " files should not be there");
+}
+
 system("echo foo > $::pwd/root/etc/$_") foreach @names;
 
-test(['foo', 'foo', 'orig'],
-     ['foo', 'foo', 'orig'],
-     ['foo', 'foo', 'changed']);
+test(['foo', 'orig', 'orig'],
+     ['foo', 'orig', 'orig'],
+     ['foo', 'changed', 'changed']);
+
+check_one_content('<removed>', 'config.rpmorig', 'foo');
+check_one_content('<removed>', 'config-noreplace.rpmsave', 'foo');
+check_one_content('<removed>', 'config-noreplace.rpmnew', 'changed');
+unlink "$::pwd/root/etc/config.rpmorig";
+unlink "$::pwd/root/etc/config-noreplace.rpmsave";
+unlink "$::pwd/root/etc/config-noreplace.rpmnew";
+
+if (my @l = glob("$::pwd/root/etc/*")) {
+    fail(join(' ', @l) . " files should not be there");
+}
 
 sub check_content {
     my ($rpm, $config_noreplace, $config, $normal) = @_;
