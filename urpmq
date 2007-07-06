@@ -285,11 +285,9 @@ if ($urpm::args::options{list_aliases}) {
 		    #- for all provides of package, look up what is requiring them.
 		    foreach ($pkg->provides) {
 			if (my ($n, $s) = /^([^\s\[]*)(?:\[\*\])?\[?([^\s\]]*\s*[^\s\]]*)/) {
-                            if (keys %{$urpm->{provides}{$n}} > 1) {
-				#- If more than one thing provides this requirement 
-				#- then don't bother finding stuff
-				#- that needs it as it will be invalid
-				my @l = grep { $_ ne $pkg->name } map { $_->name } $urpm->packages_providing($n);
+                            if (my @l = grep { $_ ne $pkg->name } map { $_->name } $urpm->packages_providing($n)) {
+				#- If another package provides this requirement,
+				#- then don't bother finding stuff that needs it as it will be invalid
 				$urpm->{log}(sprintf "skipping package(s) requiring %s via %s, since %s is also provided by %s", $pkg->name, $n, $n, join(' ', @l));
 				next;
 			    }
