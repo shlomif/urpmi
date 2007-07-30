@@ -1,3 +1,1417 @@
+2007-07-26 00:35  mmodem
+
+	* po/pt.po: update
+
+2007-07-20 18:32  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2007-07-18 18:24  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2007-07-15 13:17  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2007-07-08 12:17  berthy
+
+	* po/fr.po: Update fr translation
+
+2007-07-06 11:02  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: remove duplicated \n
+
+2007-07-06 10:56  Pixel <pixel at mandriva.com>
+
+	* t/superuser--rpmnew.t: fix & enhance test
+
+2007-07-06 10:31  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmq: - urpmq
+	  o --whatrequires: fix skipping packages through provides provided
+	  by other
+	  packages, when the other package is the same pkg name (#31773)
+
+2007-07-05 15:10  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/rpmnew, t/data/SPECS/rpmnew/a-1.spec,
+	  t/data/SPECS/rpmnew/a-2.spec, t/data/SPECS/rpmnew/a-3.spec,
+	  t/superuser--rpmnew.t: add test on rpmnew creation for %config
+	  files
+
+2007-07-05 14:12  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: fix typos
+
+2007-07-05 13:55  nanardon
+
+	* urpm/media.pm: - when adding media with --distrib, ignore
+	  incompatible media according arch
+
+2007-07-04 23:01  nanardon
+
+	* MANIFEST: - remove t/data/ from MANIFEST causing useless warning
+
+2007-07-04 16:52  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: make sure comments appear in po catalogs
+
+2007-07-02 08:06  Pixel <pixel at mandriva.com>
+
+	* po/fr.po: s/mÃ©dium/mÃ©dia/ to be coherent
+
+2007-07-01 06:25  Funda Wang <fundawang at linux.net.cn>
+
+	* po/zh_CN.po: Updated zh_CN translation
+
+2007-07-01 06:18  Funda Wang <fundawang at linux.net.cn>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: Updated POT file
+
+2007-06-22 11:27  Pixel <pixel at mandriva.com>
+
+	* t/superuser--provide-and-no-obsolete.t: do rename medium name too
+
+2007-06-22 08:01  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/obsolete-and-provide,
+	  t/data/SPECS/provide-and-no-obsolete,
+	  t/superuser--obsolete-and-provide.t,
+	  t/superuser--provide-and-no-obsolete.t: obsolete-and-provide test
+	  into provide-and-no-obsolete (much better name since there really
+	  is no obsolete used)
+
+2007-06-22 06:53  Pixel <pixel at mandriva.com>
+
+	* urpm/util.pm: remove debug code
+
+2007-06-19 16:43  Pixel <pixel at mandriva.com>
+
+	* urpmf, urpmq: we really don't want logs on stdout for urpmq/urpmf
+	  (esp. for "adding medium ..." when using --use-distrib)
+
+2007-06-18 16:56  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.9.27
+
+2007-06-18 16:54  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: - all tools
+	  o 4.9.26 is broken when downloading with wget since it creates
+	  hdlist.cz.1
+	  files. fixing using --force-clobber option (! need a patched wget
+	  !)
+	  
+	  (need wget 1.10.2-6mdv2008.0)
+
+2007-06-18 15:55  Pixel <pixel at mandriva.com>
+
+	* urpm/download.pm: help debugging curl/wget commands
+
+2007-06-18 15:47  Pixel <pixel at mandriva.com>
+
+	* NEWS, t/superuser--addmedia.t, urpm/args.pm, urpm/media.pm: -
+	  urpmi.addmedia --distrib, urpmi/urpme/urpmf/urpmq --use-distrib
+	  o media.cfg per media field hdlist=hdlist_xxx.cz is not used
+	  anymore,
+	  xxx/media_info/hdlist.cz is used instead. To get previous
+	  behaviour, use
+	  option --use-copied-hdlist or use_copied_hdlist=1 in media.cfg
+	  
+	  beware: this modifies the behaviour of urpmi, especially for
+	  multi CDs media
+	  which were the only one really using the
+	  hdlist-copied-in-media/media_info
+	  feature
+
+2007-06-18 14:45  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmi.addmedia
+	  o fix reconfig.urpmi use
+
+2007-06-18 14:11  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: - all tools
+	  o hide rsync errors by default to hide false positives,
+	  but allow getting them with --debug
+
+2007-06-18 13:56  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmi.update
+	  o only copy previous hdlist in cache dir for rsync, don't do it
+	  for wget/curl
+	  (it's useless and potentially dangerous when used with "resume")
+
+2007-06-18 13:44  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmf: - urpmf
+	  o bug fix -m (#31452)
+	  
+	  (bug introduced when moving code to urpm::media)
+
+2007-06-18 11:33  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: cleanup
+
+2007-06-18 07:03  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/install.pm: - urpmi
+	  o for long package names, ensure progression of installation
+	  (####...) is
+	  still properly indented (#28639)
+
+2007-06-17 14:37  Pavel Maryanov <acid_jack at ukr.net>
+
+	* po/ru.po: updated translation
+
+2007-06-14 16:57  Pixel <pixel at mandriva.com>
+
+	* pod/urpmi.cfg.5.pod: fix documentation regarding password in urls
+	  
+	  cf 4.9.0 change:
+	  
+	  o do not use list.<media_name> to store passwords, use
+	  /etc/urpmi/netrc
+	  instead. Also do have the url in urpmi.cfg, only the password is
+	  removed
+
+2007-06-14 16:27  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.9.26
+
+2007-06-14 16:07  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmf.8.pod, urpm/args.pm, urpmf,
+	  urpmi.bash-completion: - urpmf
+	  o add option --use-distrib
+
+2007-06-14 16:06  Pixel <pixel at mandriva.com>
+
+	* NEWS: - urpmq
+	  o allow using --use-distrib as non-root
+	  
+	  nb: reverting commit r15208 2005-10-12 "Forbid urpmq
+	  --use-distrib when non
+	  root" since i can't see any valid reason for this
+
+2007-06-14 16:04  Pixel <pixel at mandriva.com>
+
+	* pod/urpmq.8.pod, urpm/args.pm: - urpmq
+	  o allow using --use-distrib as non-root
+	  
+	  nb: reverting commit r15208 2005-10-12 "Forbid urpmq
+	  --use-distrib when non
+	  root" since i can't see any valid reason for this
+
+2007-06-14 09:29  ybando
+
+	* po/ja.po: Japanese translation updated.
+
+2007-06-14 07:01  Tomasz Bednarski <tbednarski at mandrivalinux.pl>
+
+	* po/pl.po: update
+
+2007-06-11 16:25  Pixel <pixel at mandriva.com>
+
+	* urpm/download.pm: wait for total to be given before displaying
+	  progress (#31302)
+
+2007-06-11 15:42  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: - all tools
+	  o don't use time-stamping when downloading with wget
+	  (useless and slow since it forces to download the whole directory
+	  listing)
+	  (as suggested by Andrey Borzenkov on cooker)
+
+2007-06-08 07:23  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.9.25
+
+2007-06-08 07:23  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: fix previous "prefer best architecture over exact
+	  name" commit:
+	  noarch pkgs need to be taken into account differently
+	  
+	  (nb: is it a pb that the list order is not kept?)
+
+2007-06-08 06:56  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi: - [bugfix] fix plural handling in "Packages foo can
+	  not be installed" (#31229)
+	  - fix quite a few more plurals using perl_checker
+
+2007-06-08 06:54  Pixel <pixel at mandriva.com>
+
+	* urpm/signature.pm: one more debug message
+
+2007-06-07 18:22  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/select.pm, urpm/util.pm: - urpmi
+	  o prefer best architecture over exact name
+	  (eg: urpmi libfoo-devel prefers lib64foo-devel over libfoo-devel)
+	  - add function min()
+
+2007-06-01 12:12  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm: - all tools
+	  o --debug now implies --verbose
+
+2007-06-01 08:35  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi: - urpmi
+	  o [bugfix] fix urpmi --parallel (#30996)
+
+2007-05-31 16:24  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmf: - urpmf
+	  o fix an *old* bug (since december 2002) making urpmf keeps
+	  parsed hdlist
+	  files in memory
+
+2007-05-31 15:49  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: simplify (callback is never passed as parameter)
+
+2007-05-31 14:07  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/obsolete-and-provide,
+	  t/data/SPECS/obsolete-and-provide/a-1.spec,
+	  t/data/SPECS/obsolete-and-provide/a-2.spec,
+	  t/data/SPECS/obsolete-and-provide/b-3.spec, t/helper.pm,
+	  t/superuser--obsolete-and-provide.t: add a test case for bug
+	  #31130 (--auto-select not upgrading pkg "a" providing
+	  "c" because pkg "b" provides a new version of "c")
+
+2007-05-31 09:43  Pixel <pixel at mandriva.com>
+
+	* t/cfg.t: - adapt test to change in urpm/cfg.pm
+	  - when something goes wrong, display the diff using
+	  $file.verbatim, which may
+	  be more useful since things are "tidied up"
+
+2007-05-29 07:00  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmi.addmedia
+	  o [bugfix] fix using "with synthesis.hdlist.cz" (#31081)
+	  
+	  (regexp m!(^|/)synthesis\.! is tricky in list context :-/)
+
+2007-05-21 16:55  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/cfg.pm, urpm/util.pm: - urpmi.addmedia
+	  o don't overwrite existing urpmi.cfg with an empty file
+	  when disk is full (#30945)
+
+2007-05-18 12:39  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: - urpmi
+	  o fix "Argument list too long" when calling curl/wget/proz
+	  (things should work even in case of one big transaction) (#30848)
+
+2007-05-17 17:33  berthy
+
+	* po/fr.po: Update fr translation
+
+2007-05-17 13:48  berthy
+
+	* po/fr.po: Update fr translation
+
+2007-05-16 14:42  Pixel <pixel at mandriva.com>
+
+	* urpm/download.pm: nicer code
+
+2007-05-09 16:55  Pixel <pixel at mandriva.com>
+
+	* urpmi.addmedia: remove "\n" from error message for re-use in
+	  gurpmi.addmedia
+
+2007-05-09 16:28  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.9.24
+
+2007-05-09 16:24  Pixel <pixel at mandriva.com>
+
+	* NEWS, t/superuser--obsolete-and-conflict.t, urpm/install.pm,
+	  urpmi: - urpmi
+	  o display "removing package ..." when removing an obsolete or
+	  conflicting
+	  package (need perl-URPM 1.63), and not before
+	  o in verbose mode, display "removing upgraded package ..."
+	  (should make it more understandable by users)
+
+2007-05-09 15:04  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: urpmf: allow using hdlist on mounted cdrom
+	  (a better fix would be to ask to mount cdrom)
+
+2007-05-09 15:00  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: fix urpmi.addmedia foo removable://...
+	  (#30257)
+
+2007-05-07 23:15  mmodem
+
+	* po/pt.po: up
+
+2007-05-07 23:03  mmodem
+
+	* po/pt.po: up
+
+2007-05-05 15:21  Funda Wang <fundawang at linux.net.cn>
+
+	* po/zh_CN.po: Updated Simplified Chinese translation.
+
+2007-05-05 15:17  Funda Wang <fundawang at linux.net.cn>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: Updated POT file.
+
+2007-05-04 13:51  Pixel <pixel at mandriva.com>
+
+	* NEWS: make it clear that it's a bugfix
+
+2007-05-04 13:51  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmi.addmedia
+	  o [bugfix] look for media/$media_dir/media_info/pubkey instead of
+	  media/$media_dir/pubkey
+
+2007-05-04 13:18  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmi.addmedia
+	  o with --distrib, don't use previous media's pubkey if a pubkey
+	  is missing
+	  (eg: use pubkey_main for media "Main Updates" when
+	  pubkey_main_updates is missing)
+
+2007-05-04 12:43  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: log the copying of pubkey
+
+2007-05-03 15:06  Pixel <pixel at mandriva.com>
+
+	* NEWS: make it explicit that perl-URPM 1.62 is needed
+
+2007-05-03 15:01  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.9.23
+
+2007-05-03 14:56  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi: display "In order to satisfy the '%s' dependency,
+	  one of the following
+	  packages is needed:" so that user can understand what dependency
+	  is used
+	  (as suggested by Guillaume Rousse on cooker)
+
+2007-05-03 14:55  Pixel <pixel at mandriva.com>
+
+	* NEWS: 4.9.22 has not been released, will release directly 4.9.23
+
+2007-04-30 13:37  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions,
+	  t/data/SPECS/split-transactions/a.spec,
+	  t/data/SPECS/split-transactions/b.spec,
+	  t/data/SPECS/split-transactions/c.spec,
+	  t/data/SPECS/split-transactions/d.spec,
+	  t/superuser--split-transactions.t: add a simple test case on
+	  split transactions
+
+2007-04-30 10:24  Pixel <pixel at mandriva.com>
+
+	* t/superuser--obsolete-and-conflict.t: check the output displays
+	  "removing package a"
+
+2007-04-30 10:01  Pixel <pixel at mandriva.com>
+
+	* ., t: ignore some temp files
+
+2007-04-30 10:01  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/obsolete-and-conflict/d.spec,
+	  t/superuser--obsolete-and-conflict.t: add test checking the bad
+	  upgrade of mandriva-release in 2007.1: basesystem is removed!
+
+2007-04-27 12:40  Pixel <pixel at mandriva.com>
+
+	* NEWS: 4.9.22
+
+2007-04-27 12:40  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm, urpm/install.pm: - display "removing package ..."
+	  when removing, not before.
+	  - display "removing package ..." when upgrading package
+	  (may be too verbose though)
+
+2007-04-24 19:34  Pixel <pixel at mandriva.com>
+
+	* Makefile.PL, NEWS, gurpmi, gurpmi.pm, gurpmi2, po/af.po,
+	  po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po, po/bs.po,
+	  po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po, po/el.po,
+	  po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po, po/fi.po,
+	  po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po, po/hi.po,
+	  po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po, po/ja.po,
+	  po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po, po/mk.po,
+	  po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po, po/nn.po,
+	  po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po, po/ru.po,
+	  po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po, po/sr@Latn.po,
+	  po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po, po/uk.po,
+	  po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po, po/wa.po,
+	  po/zh_CN.po, po/zh_TW.po, pod/urpmi.files.5.pod, skip.list,
+	  t/01compile.t, t/02create_pkgs.t, t/README, t/SPECS, t/cfg.t,
+	  t/data, t/data/SPECS, t/data/SPECS/README-urpmi,
+	  t/data/SPECS/README-urpmi/a.spec,
+	  t/data/SPECS/README-urpmi/b.spec,
+	  t/data/SPECS/README-urpmi/b_2.spec,
+	  t/data/SPECS/README-urpmi/c.spec,
+	  t/data/SPECS/README-urpmi/d.spec,
+	  t/data/SPECS/README-urpmi/d_.spec,
+	  t/data/SPECS/handle-conflict-deps,
+	  t/data/SPECS/handle-conflict-deps/a-sup.spec,
+	  t/data/SPECS/handle-conflict-deps/a.spec,
+	  t/data/SPECS/handle-conflict-deps/b-sub.spec,
+	  t/data/SPECS/handle-conflict-deps/b.spec,
+	  t/data/SPECS/obsolete-and-conflict,
+	  t/data/SPECS/obsolete-and-conflict/a.spec,
+	  t/data/SPECS/obsolete-and-conflict/b.spec,
+	  t/data/SPECS/obsolete-and-conflict/c.spec,
+	  t/data/SPECS/ordering-scriptlets,
+	  t/data/SPECS/ordering-scriptlets/ash_1.spec,
+	  t/data/SPECS/ordering-scriptlets/ash_2.spec,
+	  t/data/SPECS/ordering-scriptlets/requires_post_1.spec,
+	  t/data/SPECS/ordering-scriptlets/requires_post_2.spec,
+	  t/data/SPECS/ordering-scriptlets/requires_postun_1.spec,
+	  t/data/SPECS/ordering-scriptlets/requires_postun_2.spec,
+	  t/data/SPECS/ordering-scriptlets/requires_pre_1.spec,
+	  t/data/SPECS/ordering-scriptlets/requires_pre_2.spec,
+	  t/data/SPECS/ordering-scriptlets/requires_preun_1.spec,
+	  t/data/SPECS/ordering-scriptlets/requires_preun_2.spec,
+	  t/data/SPECS/priority-upgrade-1,
+	  t/data/SPECS/priority-upgrade-1/a-strict_1.spec,
+	  t/data/SPECS/priority-upgrade-1/a_1.spec,
+	  t/data/SPECS/priority-upgrade-1/b_1.spec,
+	  t/data/SPECS/priority-upgrade-2,
+	  t/data/SPECS/priority-upgrade-2/a-strict_2.spec,
+	  t/data/SPECS/priority-upgrade-2/a_2.spec,
+	  t/data/SPECS/priority-upgrade-2/b_2.spec,
+	  t/data/SPECS/priority-upgrade-2/bb1_2.spec,
+	  t/data/SPECS/priority-upgrade-2/bb2_2.spec,
+	  t/data/SPECS/srpm-bootstrapping.spec, t/data/SPECS/various2.spec,
+	  t/data/SPECS/various3.spec, t/data/media.cfg, t/data/rpm-buggy,
+	  t/data/rpm-buggy/invalid-signature.rpm,
+	  t/data/rpm-buggy/not-a-rpm.rpm,
+	  t/data/rpm-buggy/weird-header.rpm, t/data/rpm-v3, t/helper.pm,
+	  t/rpm-v3, t/superuser--README-urpmi.t, t/superuser--addmedia.t,
+	  t/superuser--buggy-rpms.t, t/superuser--handle-conflict-deps.t,
+	  t/superuser--media_info_dir.t,
+	  t/superuser--obsolete-and-conflict.t,
+	  t/superuser--ordering-scriptlets.t,
+	  t/superuser--priority-upgrade.t,
+	  t/superuser--srpm-bootstrapping.t, urpm.pm, urpm/args.pm,
+	  urpm/bug_report.pm, urpm/cfg.pm, urpm/download.pm,
+	  urpm/install.pm, urpm/lock.pm, urpm/md5sum.pm, urpm/media.pm,
+	  urpm/msg.pm, urpm/select.pm, urpm/util.pm, urpmi.bash-completion,
+	  urpmi.removemedia, urpmi.update, urpmq: re-sync after the big svn
+	  loss
+
+2007-04-06 22:32  mmodem
+
+	* po/pt.po: up
+
+2007-03-27 14:40  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpme, urpmi.addmedia: ensure comments end in po
+
+2007-03-27 14:33  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi.addmedia: (usage) don't advertize twice --probe-hdlist
+
+2007-03-26 13:25  Michal Bukovjan <bukovjan at mbox.dkm.cz>
+
+	* po/cs.po: Updated Czech translators.
+
+2007-03-26 11:27  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* man/C/proxy.cfg.5, man/C/rurpmi.8, man/C/urpme.8, man/C/urpmf.8,
+	  man/C/urpmi.8, man/C/urpmi.addmedia.8, man/C/urpmi.cfg.5,
+	  man/C/urpmi.removemedia.8, man/C/urpmi.update.8, man/C/urpmq.8,
+	  man/cs/urpmf.8, man/cs/urpmi.8, man/cs/urpmi.addmedia.8,
+	  man/cs/urpmi.removemedia.8, man/cs/urpmi.update.8,
+	  man/cs/urpmq.8, man/et/urpmf.8, man/et/urpmi.8,
+	  man/et/urpmi.addmedia.8, man/et/urpmi.removemedia.8,
+	  man/et/urpmi.update.8, man/et/urpmq.8, man/eu/urpmf.8,
+	  man/eu/urpmi.8, man/eu/urpmi.addmedia.8,
+	  man/eu/urpmi.removemedia.8, man/eu/urpmi.update.8,
+	  man/eu/urpmq.8, man/fi/urpmf.8, man/fi/urpmi.8,
+	  man/fi/urpmi.addmedia.8, man/fi/urpmi.removemedia.8,
+	  man/fi/urpmi.update.8, man/fi/urpmq.8, man/fr/urpmf.8,
+	  man/fr/urpmi.8, man/fr/urpmi.addmedia.8,
+	  man/fr/urpmi.removemedia.8, man/fr/urpmi.update.8,
+	  man/nl/urpmi.addmedia.8, man/nl/urpmi.removemedia.8,
+	  man/nl/urpmi.update.8, man/nl/urpmq.8, man/ru/urpmf.8,
+	  man/ru/urpmi.8, man/ru/urpmi.addmedia.8,
+	  man/ru/urpmi.removemedia.8, man/ru/urpmi.update.8,
+	  man/ru/urpmq.8, man/uk/urpmf.8, man/uk/urpmi.8,
+	  man/uk/urpmi.addmedia.8, man/uk/urpmi.removemedia.8,
+	  man/uk/urpmi.update.8, man/uk/urpmq.8, pod/fr/urpmi.fr.8.pod,
+	  pod/proxy.cfg.5.pod, pod/rurpme.8.pod, pod/rurpmi.8.pod,
+	  pod/urpme.8.pod, pod/urpmf.8.pod, pod/urpmi.8.pod,
+	  pod/urpmi.addmedia.8.pod, pod/urpmi.cfg.5.pod,
+	  pod/urpmi.recover.8.pod, pod/urpmi.removemedia.8.pod,
+	  pod/urpmi.update.8.pod, pod/urpmq.8.pod: kill dead emails of
+	  previous maintainers
+
+2007-03-23 10:55  Pixel <pixel at mandriva.com>
+
+	* t/helper.pm: catch "module Net::Server::Simple is missing" case
+
+2007-03-23 10:51  Pixel <pixel at mandriva.com>
+
+	* t/simple-httpd: group nobody is not standard (?)
+
+2007-03-22 19:55  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: update
+
+2007-03-22 08:24  Pixel <pixel at mandriva.com>
+
+	* po: ignore *.mo files
+
+2007-03-20 21:09  Reinout van Schouwen <reinout at cs.vu.nl>
+
+	* po/nl.po: - nl.po: Updated Dutch translation
+
+2007-03-20 12:03  ybando
+
+	* po/ja.po: Japanese translation updated
+
+2007-03-20 07:43  Tomasz Bednarski <tbednarski at mandrivalinux.pl>
+
+	* po/pl.po: update
+
+2007-03-19 19:43  Arpad Biro <biro_arpad at yahoo.com>
+
+	* po/hu.po: update
+
+2007-03-19 13:50  Funda Wang <fundawang at linux.net.cn>
+
+	* po/zh_CN.po: Updated zh_CN translation.
+
+2007-03-18 21:56  acelli
+
+	* po/it.po: update translation for Italian
+
+2007-03-18 20:03  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-03-18 10:51  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Updated Estonian translation.
+
+2007-03-17 17:52  acelli
+
+	* po/it.po: update translation for Italian
+
+2007-03-16 21:40  Michal Bukovjan <bukovjan at mbox.dkm.cz>
+
+	* po/cs.po: Updated Czech translation.
+
+2007-03-15 23:11  Olivier Blin <oblin at mandriva.com>
+
+	* urpm.pm, urpm/util.pm: move RFC/API/protocol doc in a dhcp-doc
+	  sub-package
+
+2005-05-24 14:40  Sawyer
+
+	* urpm.pm: LOST
+
+2005-05-24 14:40  Sawyer
+
+	* urpm.pm: LOST
+
+2007-03-15 13:36  Pixel <pixel at mandriva.com>
+
+	* urpm/parallel_ka_run.pm: fix bug introduced together with
+	  _parse_rshp_output()
+
+2007-03-15 13:11  Pixel <pixel at mandriva.com>
+
+	* urpm/parallel_ka_run.pm: fix typo in regexp
+
+2007-03-14 08:34  Tomasz Bednarski <tbednarski at mandrivalinux.pl>
+
+	* po/pl.po: update
+
+2007-03-12 00:09  Reinout van Schouwen <reinout at cs.vu.nl>
+
+	* po/nl.po: * 2007-03-12 Reinout van Schouwen <reinout@gmail.com>
+	  
+	  - nl.po: Updated Dutch translation by Rob Teng
+
+2007-03-10 22:34  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Fixed syntax error in Norwegian Nynorsk translation.
+
+2007-03-10 22:33  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2007-03-08 22:45  mmodem
+
+	* po/pt.po: up
+
+2007-03-08 14:55  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/th.po, po/tr.po, po/vi.po: ngettext fix
+
+2007-03-08 14:48  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/ko.po: ngettext fix
+
+2007-03-08 06:01  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-03-08 00:04  Reinout van Schouwen <reinout at cs.vu.nl>
+
+	* po/nl.po: * 2007-03-08 Reinout van Schouwen <reinout@gmail.com>
+	  
+	  - nl.po: Updated Dutch translation
+
+2007-03-07 09:32  Pixel <pixel at mandriva.com>
+
+	* urpmq: cleanup
+
+2007-03-06 17:35  Pixel <pixel at mandriva.com>
+
+	* po/pt_BR.po: revert last commit which has no change *except*
+	  having everything in iso-8859-1 instead of utf8
+
+2007-03-06 16:55  felipe
+
+	* po/pt_BR.po: fixing some bad translations
+
+2007-03-06 11:43  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: kill dead code
+
+2007-03-05 18:16  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: (ask_choice) display translated summary
+
+2007-03-05 16:46  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2, urpmi: merge some strings (thus giving more control to
+	  translators for the
+	  second occurence)
+
+2007-03-05 14:52  Pixel <pixel at mandriva.com>
+
+	* MANIFEST, MANIFEST.SKIP: update MANIFEST using "make manifest"
+	  and MANIFEST.SKIP
+
+2007-03-05 13:33  Pixel <pixel at mandriva.com>
+
+	* po/.cvsignore: obsolete
+
+2007-03-05 13:22  Pixel <pixel at mandriva.com>
+
+	* MANIFEST: add missing test files
+
+2007-03-05 09:53  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/cy.po: updated Welsh file
+
+2007-03-01 10:34  ybando
+
+	* po/ja.po: Japanese translation revised
+
+2007-02-28 22:16  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-02-27 22:14  Arpad Biro <biro_arpad at yahoo.com>
+
+	* po/hu.po: update
+
+2007-02-27 20:46  felipe
+
+	* po/pt_BR.po: translating and fixing entries
+
+2007-02-27 16:16  Pixel <pixel at mandriva.com>
+
+	* po/de.po: fix (#28961)
+
+2007-02-26 22:15  ybando
+
+	* po/ja.po: Japanese translation updated.
+
+2007-02-26 15:29  Pixel <pixel at mandriva.com>
+
+	* urpmf: perl_checker compliance
+
+2007-02-26 15:29  Pixel <pixel at mandriva.com>
+
+	* .perl_checker: help perl_checker
+
+2007-02-25 12:17  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-02-25 10:07  Funda Wang <fundawang at linux.net.cn>
+
+	* po/zh_CN.po: urpmi translation.
+
+2007-02-25 06:21  Willy Sudiarto Raharjo <willysr at gmail.com>
+
+	* po/id.po: Updated
+
+2007-02-24 09:19  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Updated Estonian translation.
+
+2007-02-23 19:56  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/urpmi.pot, urpme, urpmi, urpmi.recover: more ngettext
+
+2007-02-23 14:36  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/br.po, po/ru.po, po/zh_CN.po, po/zh_TW.po: small fixes
+
+2007-02-23 13:29  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: update
+
+2007-02-23 11:24  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/pl.po: updated Polish file
+
+2007-02-22 18:03  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi, gurpmi2, urpmi: bump copyright header
+
+2007-02-22 17:30  Pjetur G. Hjaltason <pjetur at pjetur.net>
+
+	* po/is.po: few revised strings
+
+2007-02-22 11:38  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/zh_TW.po: updated po files
+
+2007-02-22 11:38  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/ro.po, po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po,
+	  po/sr.po, po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po,
+	  po/tr.po, po/uk.po, po/vi.po, po/wa.po, po/zh_CN.po, po/zh_TW.po:
+	  updated po files
+
+2007-02-21 13:22  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/urpmi.pot, urpme: fixed some ngettext use
+
+2007-02-21 11:18  Pablo Saratxaga <pablo at mandriva.com>
+
+	* urpmi: fixed ngettext use
+
+2007-02-21 11:15  Pablo Saratxaga <pablo at mandriva.com>
+
+	* urpmq: fixed ngettext use
+
+2007-02-21 11:12  Pablo Saratxaga <pablo at mandriva.com>
+
+	* gurpmi2, urpm/ldap.pm, urpmi: fixed some ngettext use
+
+2007-02-19 23:47  Pjetur G. Hjaltason <pjetur at pjetur.net>
+
+	* po/is.po: latest translations
+
+2007-02-19 20:04  acelli
+
+	* po/it.po: update translation for Italian
+
+2007-02-14 13:10  Pixel <pixel at mandriva.com>
+
+	* urpmi.bash-completion, urpmq: add option "-m" in usage (was
+	  already documented in manpage)
+
+2007-02-14 13:08  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: displaying "medium xxx is not selected" when
+	  doing "urpmi --auto" on a CDROM is no good
+	  (maybe we should fix --auto to still prompt for CDs?)
+
+2007-02-08 07:48  Funda Wang <fundawang at linux.net.cn>
+
+	* po/zh_CN.po: Updated Simplified Chinese translations.
+
+2007-02-07 09:43  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/uz.po, po/uz@Latn.po: updated Uzbek files
+
+2007-02-06 21:28  berthy
+
+	* po/fr.po: Update fr translation
+
+2007-02-06 20:11  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-02-06 12:51  Pixel <pixel at mandriva.com>
+
+	* po/de.po: replace the remaining non-latin1 chars
+
+2007-02-06 11:44  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-02-06 10:31  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-02-05 14:17  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-02-05 12:03  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-31 17:41  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-29 10:56  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/cy.po: updated Welsh file
+
+2005-05-24 14:40  Sawyer
+
+	* po/et.po: LOST
+
+2007-01-28 01:43  ybando
+
+	* po/ja.po: Japanese translation updated.
+
+2007-01-26 13:36  Pixel <pixel at mandriva.com>
+
+	* urpmq: explain --whatrequires-recursive when {debug}
+
+2007-01-25 09:00  Pixel <pixel at mandriva.com>
+
+	* urpmi: cleanup
+
+2007-01-24 13:31  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/fur.po, po/sc.po: adapted to plural-forms
+
+2007-01-22 20:41  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-22 20:39  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-21 23:25  Pavel Maryanov <acid_jack at ukr.net>
+
+	* po/ru.po: updated translation
+
+2007-01-21 17:01  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-21 12:38  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-21 04:08  Willy Sudiarto Raharjo <willysr at gmail.com>
+
+	* po/id.po: Updated
+
+2007-01-20 12:31  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-20 12:24  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-19 11:33  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/bs.po,
+	  po/ca.po, po/cs.po, po/cy.po, po/da.po, po/el.po, po/eo.po,
+	  po/et.po, po/eu.po, po/fa.po, po/fi.po, po/he.po, po/hi.po,
+	  po/hr.po, po/id.po, po/ka.po, po/ko.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/nb.po, po/pa_IN.po, po/pl.po, po/ro.po,
+	  po/sk.po, po/sl.po, po/sq.po, po/sr.po, po/sr@Latn.po, po/sv.po,
+	  po/th.po, po/tr.po, po/uk.po, po/vi.po, po/wa.po, po/zh_CN.po,
+	  po/zh_TW.po: adapted and checked to plural-form
+
+2007-01-19 09:22  Pixel <pixel at mandriva.com>
+
+	* urpmq: from_utf8 no more needed with: new perl-URPM + new
+	  perl-Locale-gettext + "use open ':locale'"
+
+2007-01-19 09:09  Pixel <pixel at mandriva.com>
+
+	* .perl_checker: skip "use open ':locale'"
+
+2007-01-18 18:12  Pjetur G. Hjaltason <pjetur at pjetur.net>
+
+	* po/is.po: Update to latest
+
+2007-01-18 15:10  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/Makefile: revert
+
+2007-01-18 15:10  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po, po/fr.po: update
+
+2007-01-18 15:05  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/Makefile, po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po,
+	  po/br.po, po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po,
+	  po/de.po, po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po,
+	  po/fa.po, po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po,
+	  po/he.po, po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po,
+	  po/it.po, po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po,
+	  po/lv.po, po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po,
+	  po/nl.po, po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po,
+	  po/ro.po, po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po,
+	  po/sr.po, po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po,
+	  po/tr.po, po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po,
+	  po/vi.po, po/wa.po, po/zh_CN.po, po/zh_TW.po: sync with code
+
+2007-01-18 14:53  Pavel Maryanov <acid_jack at ukr.net>
+
+	* po/ru.po: updated translation
+
+2007-01-18 14:43  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: (do_install_2) display the same info as the text version
+	  (number and size of packages)
+
+2007-01-18 14:39  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: use urpm::msg for P()
+
+2007-01-18 14:33  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: (do_install_2) really factorize string
+
+2007-01-18 14:31  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: give better control on string to translators (appending
+	  ":" isn't nice
+	  for quite some languages) and factorize a string
+
+2007-01-18 14:29  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: sync with code
+
+2007-01-18 14:27  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: (do_install_2) factorize string with urpmi
+
+2007-01-18 14:26  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: give better control on string to translators (appending
+	  ":" isn't nice
+	  for quite some languages)
+
+2007-01-18 14:22  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/Makefile: kill useless command
+
+2007-01-18 14:14  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: (do_install_2) handle sing/plural forms
+
+2007-01-18 08:51  Pixel <pixel at mandriva.com>
+
+	* urpmi: plural and singular were inverted (thanks to Frank Griffin
+	  for reporting)
+
+2007-01-17 10:37  ybando
+
+	* po/ja.po: Japanese translation updated.
+
+2007-01-17 09:18  Willy Sudiarto Raharjo <willysr at gmail.com>
+
+	* po/id.po: Updated
+
+2007-01-15 17:07  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: update
+
+2007-01-15 17:07  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: update
+
+2007-01-15 15:43  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: add a dummy plural definition
+
+2007-01-15 14:45  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po, po/fr.po: update
+
+2007-01-15 13:58  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: update
+
+2007-01-15 13:51  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/cy.po, po/de.po, po/fr.po, po/ja.po, po/pl.po, po/pt.po: readd
+	  translations lost in r85293
+
+2007-01-15 13:49  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: update catalogs with strings
+	  lost in r88462 on 2006-11-29
+
+2007-01-15 12:50  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/cy.po: update (Rhoslyn Prys)
+
+2007-01-11 19:31  Pixel <pixel at mandriva.com>
+
+	* po/Makefile: do take all urpm/*.pm files
+
+2007-01-11 16:57  Pixel <pixel at mandriva.com>
+
+	* urpmq: use uniq() and factorize
+
+2007-01-11 16:54  Pixel <pixel at mandriva.com>
+
+	* urpmq: cleanup: @headers is independent of the "foreach my
+	  $medium", moving it out of the loop
+
+2007-01-11 09:37  Guillaume Rousse <guillomovitch at mandriva.org>
+
+	* urpmi.bash-completion: fix urpmi context-dependent options
+
+2007-01-11 08:36  Pixel <pixel at mandriva.com>
+
+	* urpmi.bash-completion: - add --nokeep for urpmi
+	  - add --probe-rpms for urpmi.addmedia
+
+2007-01-11 07:33  Pixel <pixel at mandriva.com>
+
+	* po/fr.po: fix missing \n
+
+2007-01-10 19:02  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/cy.po: update
+
+2007-01-10 17:28  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: create _tempignore() and use it
+
+2007-01-10 16:38  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: restore cleaning /var/cache/urpmi/rpms
+
+2007-01-10 16:36  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: simplify
+
+2007-01-10 16:33  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: fix using N()
+
+2007-01-10 16:32  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: simplify
+
+2007-01-10 16:02  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: log the cleaning of /var/cache/urpmi/partial
+
+2007-01-10 11:19  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: simplify
+
+2007-01-10 11:17  Pixel <pixel at mandriva.com>
+
+	* .perl_checker: skip File::Glob
+
+2007-01-09 18:39  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-09 18:35  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2007-01-09 17:51  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm: display URPM debug messages when using --debug
+
+2007-01-09 14:20  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/Makefile: do not hardcode a non standard width
+
+2007-01-09 14:10  Olivier Blin <oblin at mandriva.com>
+
+	* po/fr.po: fix typo
+
+2007-01-09 14:01  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/sl.po: copy plural form definition from
+	  perl-install/share/po/sl.po
+
+2007-01-09 13:29  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: further update
+
+2007-01-09 13:23  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: sync with code
+
+2007-01-09 13:22  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: really add this singular variant for an existing plural
+	  string
+
+2007-01-09 13:22  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: update
+
+2007-01-09 13:17  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: sync with code
+
+2007-01-09 13:16  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/Makefile: use perl_checker instead of xgettext in order to
+	  extract plural forms (which is
+	  simpler than adding even more options to xgettext)
+
+2007-01-09 12:44  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: typo fix (rafael)
+
+2007-01-09 12:36  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: add singular variant for existing plural strings
+
+2007-01-09 12:35  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: use plural for existing translations
+
+2007-01-06 23:30  mandrake
+
+	* po/fr.po: Copying release 1.39-4mdv2007.1 to pristine/ directory.
+
+2005-05-24 14:40  Sawyer
+
+	* po/fr.po: LOST
+
+2007-01-04 17:46  mandrake
+
+	* urpm/cfg.pm: %repsys markrelease
+	  version: 0.10
+	  release: 1mdv2007.1
+	  revision: 104210
+	  
+	  Copying 0.10-1mdv2007.1 to releases/ directory.
+
+2006-12-22 11:37  ybando
+
+	* po/ja.po: adding Plural-Forms definition to ja.po
+
+2006-12-18 10:27  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2006-12-18 01:56  mmodem
+
+	* po/pt.po: update
+
+2006-12-14 15:40  Pixel <pixel at mandriva.com>
+
+	* urpmi.addmedia: oops, restore the check (it's only the variable
+	  we don't want)
+
+2006-12-14 15:29  Pixel <pixel at mandriva.com>
+
+	* urpmi.addmedia: simplify
+
+2006-12-14 15:28  Pixel <pixel at mandriva.com>
+
+	* urpmi.addmedia: remove broken deprecated check
+	  ($type was "http:/", and so the elsif was always failing...)
+
+2006-12-14 01:34  Pavel Maryanov <acid_jack at ukr.net>
+
+	* po/ru.po: updated translation
+
+2006-12-13 20:32  Pablo Saratxaga <pablo at mandriva.com>
+
+	* po/cy.po: updated po file
+
+2006-12-13 12:33  Pixel <pixel at mandriva.com>
+
+	* pod/urpmi.addmedia.8.pod, urpmi.addmedia: don't document "-f"
+	  which does nothing, directly document "-f -f"
+
+2006-12-13 12:12  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/cy.po: update (Rhoslyn Prys)
+
+2006-12-12 18:01  Pixel <pixel at mandriva.com>
+
+	* t/superuser--specify-media.t: check things like --media,
+	  --excludemedia...
+
+2006-12-12 17:57  Pixel <pixel at mandriva.com>
+
+	* t/helper.pm: create urpm_cmd()
+
+2006-12-09 03:31  Pablo Saratxaga <pablo at mandriva.com>
+
+	* ChangeLog: converted to utf-8
+
+2006-12-08 18:15  mandrake
+
+	* gurpmi2, urpm.pm, urpme, urpmi: Copying release 1.5-2mdv2007.1 to
+	  pristine/ directory.
+
+2006-12-08 16:19  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: log fetching pubkeys, and cleanup
+
+2006-12-08 12:17  Pixel <pixel at mandriva.com>
+
+	* t/helper.pm: add urpmi_update()
+
+2006-12-08 10:29  Pixel <pixel at mandriva.com>
+
+	* t/superuser--exclude.t: remove function now in helper
+
+2006-12-08 09:33  Pixel <pixel at mandriva.com>
+
+	* t/helper.pm: add set_urpmi_cfg_global_options()
+
+2006-12-08 08:40  Pixel <pixel at mandriva.com>
+
+	* t/.perl_checker: help perl_checker
+
+2006-12-07 08:44  Pixel <pixel at mandriva.com>
+
+	* t/superuser--addmedia.t: try with one, then try with two media
+
+2006-12-07 08:14  Pixel <pixel at mandriva.com>
+
+	* t/superuser--addmedia.t: prepare next commit
+
+2006-12-06 16:54  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm: add code to help debugging bugs like #26256
+
+2006-12-06 11:00  Pixel <pixel at mandriva.com>
+
+	* t/superuser--addmedia.t: also test urpmi works with that
+	  configuration
+
+2006-12-05 19:48  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: (configure_urpm) fix crash in do_install_3() and really
+	  lock the urpm db
+
+2006-12-05 19:41  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: don't ignore exceptions in callbacks
+
+2006-12-04 23:12  mmodem
+
+	* po/pt.po: update
+
+2006-12-04 18:25  nbauer
+
+	* po/de.po: Update German translation (Nicolas Bauer)
+
+2006-12-04 16:34  Pixel <pixel at mandriva.com>
+
+	* po/fr.po: fix typo
+
+2006-12-04 15:38  Pixel <pixel at mandriva.com>
+
+	* urpmi: display all found packages (when there is a choice, only
+	  the first was displayed)
+
 2006-12-04 14:50  Pixel <pixel at mandriva.com>
 
 	* t/superuser--buggy-rpms.t: silent the errors (which are normal
