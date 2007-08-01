@@ -46,7 +46,7 @@ END { $::debug_exit and print STDERR "EXITING (pid=$$)\n" }
 my %options_spec_all = (
 	'debug' => sub { 
 	    $::debug_exit = 1; 
-	    $::verbose++; $options{verbose}++;
+	    $options{verbose}++;
 	    $urpm->{debug} = $urpm->{debug_URPM} = sub { print STDERR "$_[0]\n" };
 	},
 	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
@@ -152,8 +152,8 @@ my %options_spec = (
 	'no-md5sum' => \$::nomd5sum,
 	'force-key' => \$::forcekey,
 	a => \$::all,
-	'q|quiet' => sub { --$::verbose; $::rpm_opt = '' },
-	'v|verbose' => sub { ++$::verbose; $::rpm_opt = 'vh' },
+	'q|quiet' => sub { --$options{verbose} },
+	'v|verbose' => sub { ++$options{verbose} },
 	p => sub { $::use_provides = 1 },
 	P => sub { $::use_provides = 0 },
 	y => sub { $urpm->{options}{fuzzy} = 1 },
@@ -162,7 +162,7 @@ my %options_spec = (
 
     urpme => {
 	auto => \$::auto,
-	'v|verbose' => \$::verbose,
+	'v|verbose' => \$options{verbose},
 	a => \$::matches,
 	noscripts => \$::noscripts,
 	repackage => \$::repackage,
@@ -182,7 +182,7 @@ my %options_spec = (
 	},
 	'qf=s' => \$::qf,
 	'uniq|u' => \$::uniq,
-	'verbose|v' => \$::verbose,
+	'verbose|v' => \$options{verbose},
 	m => add_param_closure('media'),
 	i => sub { $::pattern = 'i' },
 	I => sub { $::pattern = '' },

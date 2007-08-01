@@ -98,7 +98,6 @@ our $sortmedia = '';
 our $synthesis = '';
 our $uniq = '';		# --uniq
 our $update = 0;	# --update
-our $verbose = 0;	# --verbose
 
 #- globals used in callback
 our $expr;		# regexp to match against
@@ -121,7 +120,7 @@ if ($full) { $qf =~ s/%name\b/%fullname/ }
 
 #- we really don't want logs on stdout, and remove verbose if not asked.
 $urpm->{info} = sub { print STDERR "$_[0]\n" };
-$urpm->{log} = $verbose ? sub { print STDERR "$_[0]\n" } : sub {};
+$urpm->{log} = $options{verbose} ? sub { print STDERR "$_[0]\n" } : sub {};
 
 my $multitag = '';
 my %multitags = map { $_ => 1 } qw(conffiles conflicts files obsoletes provides requires);

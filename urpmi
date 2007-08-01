@@ -57,9 +57,7 @@ our $parallel = '';
 our $env = '';
 our $test = 0;
 our $all = 0;
-our $rpm_opt = "vh";
 our $use_provides = 1;
-our $verbose = 0;
 our $logfile = '';
 our $restricted = 0;
 our $nomd5sum = 0;
@@ -320,7 +318,7 @@ select STDERR; $| = 1;
 select STDOUT; $| = 1;
 
 #- log is only for verbose runs.
-$verbose > 0 or $urpm->{log} = sub {};
+$options{verbose} > 0 or $urpm->{log} = sub {};
 
 if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-upgrade'} eq '') {
     # we were run with --no-priority-upgrade (we were just restarted.)
@@ -368,7 +366,7 @@ if ($auto_update && !$bug && !$env) {
 	all => 1,
 	callback => \&urpm::download::sync_logger,
 	noclean => $noclean,
-	quiet => $verbose < 0,
+	quiet => $options{verbose} < 0,
 	nomd5sum => $nomd5sum,
 	forcekey => $forcekey,
     );
@@ -648,7 +646,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
 
     #- put a blank line to separate with previous transaction or user question.
-    print "\n" if $verbose >= 0;
+    print "\n" if $options{verbose} >= 0;
 
     #- prepare transaction...
     urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
@@ -658,7 +656,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	\@transaction_list,
 	\%transaction_sources,
 	\%error_sources,
-	quiet => $verbose < 0,
+	quiet => $options{verbose} < 0,
 	callback => sub {
 #	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
 	    goto &urpm::download::sync_logger;
@@ -689,6 +687,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     #- install source package only (whatever the user is root or not, but use rpm for that).
     if ($install_src) {
 	if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %transaction_sources) {
+	    my $rpm_opt = $options{verbose} >= 0 ? 'vh' : '';
 	    system("rpm", "-i$rpm_opt", @l, ($urpm->{root} ? ("--root", $urpm->{root}) : @{[]}));
 	    #- Warning : the following message is parsed in urpm::parallel_*
 	    if ($?) {
@@ -721,7 +720,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
 	    );
 	} else {
-	    if ($verbose >= 0) {
+	    if ($options{verbose} >= 0) {
 		my @packnames = (values %transaction_sources_install, values %transaction_sources);
 		(my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
 		if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
@@ -828,7 +827,7 @@ if ($nok) {
 	print N("Installation is possible"), "\n";
     } elsif (@names || @src_names || @files || @src_files || $auto_select) {
 	if (@{$state->{transaction} || []} == 0 && @ask_unselect == 0) {
-	    if ($verbose >= 0) {
+	    if ($options{verbose} >= 0) {
 		if ($auto_select) {
 		    print N("Packages are up to date"), "\n";
 		} else {
