@@ -121,51 +121,51 @@ urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 
 #- we really don't want logs on stdout, and remove verbose if not asked.
 $urpm->{info} = sub { print STDERR "$_[0]\n" };
-$urpm->{log} = $urpm::args::options{verbose} ? sub { print STDERR "$_[0]\n" } : sub {};
+$urpm->{log} = $options{verbose} ? sub { print STDERR "$_[0]\n" } : sub {};
 
 #- improve speed if using any list_... options.
-$urpm::args::options{nodepslist} = $urpm::args::options{list_aliases}
-				|| $urpm::args::options{list_nodes}
-				|| $urpm::args::options{list_media}
-				|| $urpm::args::options{dump_config}
-				|| $urpm::args::options{list_url};
-$urpm::args::options{nolock} = 1 if $urpm::args::options{nodepslist};
+$options{nodepslist} = $options{list_aliases}
+				|| $options{list_nodes}
+				|| $options{list_media}
+				|| $options{dump_config}
+				|| $options{list_url};
+$options{nolock} = 1 if $options{nodepslist};
 
-if ($urpm::args::options{env}) {
-    print N("using specific environment on %s\n", $urpm::args::options{env});
+if ($options{env}) {
+    print N("using specific environment on %s\n", $options{env});
     #- setting new environment.
-    $urpm->{config} = "$urpm::args::options{env}/urpmi.cfg";
-    $urpm->{skiplist} = "$urpm::args::options{env}/skip.list";
-    $urpm->{instlist} = "$urpm::args::options{env}/inst.list";
-    $urpm->{statedir} = $urpm::args::options{env};
+    $urpm->{config} = "$options{env}/urpmi.cfg";
+    $urpm->{skiplist} = "$options{env}/skip.list";
+    $urpm->{instlist} = "$options{env}/inst.list";
+    $urpm->{statedir} = $options{env};
 }
 
 #- should we ignore arch compatibility
-if ($urpm::args::options{ignorearch}) { urpm::shunt_ignorearch() }
+if ($options{ignorearch}) { urpm::shunt_ignorearch() }
 
 my $rpm_lock = 
-  $urpm::args::options{upgrade} && !$urpm::args::options{env} && !$urpm::args::options{nolock}
+  $options{upgrade} && !$options{env} && !$options{nolock}
   && urpm::lock::rpm_db($urpm);
-my $urpmi_lock = !$urpm::args::options{nolock} && urpm::lock::urpmi_db($urpm);
+my $urpmi_lock = !$options{nolock} && urpm::lock::urpmi_db($urpm);
 urpm::media::configure($urpm,
     nocheck_access => 1,
-    nodepslist => $urpm::args::options{nodepslist},
-    media => $urpm::args::options{media},
-    searchmedia => $urpm::args::options{searchmedia},
-    excludemedia => $urpm::args::options{excludemedia},
-    sortmedia => $urpm::args::options{sortmedia},
-    synthesis => $urpm::args::options{synthesis},
-    update => $urpm::args::options{update},
-    parallel => $urpm::args::options{parallel},
-    probe_with => $urpm::args::options{probe_with},
-    usedistrib => $urpm::args::options{usedistrib},
-    cmdline_skiplist => $urpm::args::options{skip},
+    nodepslist => $options{nodepslist},
+    media => $options{media},
+    searchmedia => $options{searchmedia},
+    excludemedia => $options{excludemedia},
+    sortmedia => $options{sortmedia},
+    synthesis => $options{synthesis},
+    update => $options{update},
+    parallel => $options{parallel},
+    probe_with => $options{probe_with},
+    usedistrib => $options{usedistrib},
+    cmdline_skiplist => $options{skip},
 );
 
 my $state = {};
 my %requested;
 
-if ($urpm::args::options{list_aliases}) {
+if ($options{list_aliases}) {
     local $_;
     open my $parallelfh, "/etc/urpmi/parallel.cfg";
     while (<$parallelfh>) {
@@ -174,20 +174,20 @@ if ($urpm::args::options{list_aliases}) {
 	    and print "$1\n";
     }
     close $parallelfh;
-} elsif ($urpm::args::options{list_nodes}) {
-    $urpm::args::options{parallel} or $urpm->{fatal}(1, N("--list-nodes can only be used with --parallel"));
+} elsif ($options{list_nodes}) {
+    $options{parallel} or $urpm->{fatal}(1, N("--list-nodes can only be used with --parallel"));
     foreach (keys %{$urpm->{parallel_handler}{nodes} || {}}) {
 	print "$_\n";
     }
     exit 0;
-} elsif ($urpm::args::options{list_media} || $urpm::args::options{list_url}) {
+} elsif ($options{list_media} || $options{list_url}) {
     foreach (@{$urpm->{media}}) {
-	next if $urpm::args::options{list_media} eq 'update' && !$_->{update};
-	next if $urpm::args::options{list_media} eq 'active' && $_->{ignore};
-	print $_->{name} . ($urpm::args::options{list_url} ? " $_->{url}" : "") . "\n";
+	next if $options{list_media} eq 'update' && !$_->{update};
+	next if $options{list_media} eq 'active' && $_->{ignore};
+	print $_->{name} . ($options{list_url} ? " $_->{url}" : "") . "\n";
     }
     exit 0;
-} elsif ($urpm::args::options{dump_config}) {
+} elsif ($options{dump_config}) {
     foreach (@{$urpm->{media}}) {
 	$_->{update} and print "--update ";
 	$_->{virtual} and print "--virtual ";
@@ -196,7 +196,7 @@ if ($urpm::args::options{list_aliases}) {
 	print "\n";
     }
     exit 0;
-} elsif ($urpm::args::options{list}) {
+} elsif ($options{list}) {
     # --list lists all available packages: select them all
     @{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
 } else {
@@ -207,22 +207,22 @@ if ($urpm::args::options{list_aliases}) {
 	urpm::select::search_packages($urpm,
 	    \%requested,
 	    [ @names ],
-	    use_provides => $urpm::args::options{use_provides},
+	    use_provides => $options{use_provides},
 	    fuzzy => $urpm->{options}{fuzzy},
-	    caseinsensitive => $urpm::args::options{caseinsensitive},
-	    all => $urpm::args::options{all},
-	) or $urpm::args::options{force}
+	    caseinsensitive => $options{caseinsensitive},
+	    all => $options{all},
+	) or $options{force}
 	    or exit 1;
     }
     if (@src_names) {
 	urpm::select::search_packages($urpm,
 	    \%requested,
 	    [ @src_names ],
-	    use_provides => $urpm::args::options{use_provides},
+	    use_provides => $options{use_provides},
 	    fuzzy => $urpm->{options}{fuzzy},
-	    caseinsensitive => $urpm::args::options{caseinsensitive},
+	    caseinsensitive => $options{caseinsensitive},
 	    src => 1,
-	) or $urpm::args::options{force}
+	) or $options{force}
 	    or exit 1;
     }
 
@@ -233,7 +233,7 @@ if ($urpm::args::options{list_aliases}) {
     };
     #- open/close of database should be moved here, in order to allow testing
     #- some bogus case and check for integrity. (note auto_select implies upgrade).
-    if ($urpm::args::options{what_requires}) {
+    if ($options{what_requires}) {
 	#- search for packages that require one of the proposed packages.
 	my (@properties, %requires, %properties, $dep);
 
@@ -277,7 +277,7 @@ if ($urpm::args::options{list_aliases}) {
 		    exists $state->{selected}{$pkg->id} and next;
 		    $state->{selected}{$pkg->id} = undef;
 
-		    next if !$requested{$dep} && !$urpm::args::options{what_requires_recursive};
+		    next if !$requested{$dep} && !$options{what_requires_recursive};
 
 		    #- for all provides of package, look up what is requiring them.
 		    foreach ($pkg->provides) {
@@ -303,15 +303,15 @@ if ($urpm::args::options{list_aliases}) {
 		}
 	    }
 	}
-    } elsif ($urpm::args::options{auto_select} || $urpm::args::options{upgrade}) {
+    } elsif ($options{auto_select} || $options{upgrade}) {
 	urpm::select::resolve_dependencies($urpm, $state, \%requested,
-				    keep => $urpm::args::options{keep},
-				    rpmdb => $urpm::args::options{env} && "$urpm::args::options{env}/rpmdb.cz",
-				    auto_select => $urpm::args::options{auto_select},
+				    keep => $options{keep},
+				    rpmdb => $options{env} && "$options{env}/rpmdb.cz",
+				    auto_select => $options{auto_select},
 				    callback_choices => $stop_on_choices);
-	$urpm::args::options{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
+	$options{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
 								  ! defined $state->{selected}{$_} } keys %{$state->{selected}}};
-    } elsif ($urpm::args::options{deps}) {
+    } elsif ($options{deps}) {
 	#- only deps required.
 	my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
 	$urpm->resolve_requested($empty_db, $state, \%requested, callback_choices => $stop_on_choices, nodeps => 1);
@@ -319,14 +319,14 @@ if ($urpm::args::options{list_aliases}) {
 	$state->{selected} = \%requested;
     }
 
-    if ($urpm::args::options{sources}
-     || $urpm::args::options{info}
-     || $urpm::args::options{list_files}
-     || $urpm::args::options{changelog})
+    if ($options{sources}
+     || $options{info}
+     || $options{list_files}
+     || $options{changelog})
     {
 	my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
 
-	if ($urpm::args::options{info} || $urpm::args::options{list_files} || $urpm::args::options{changelog}) {
+	if ($options{info} || $options{list_files} || $options{changelog}) {
 	    # get descriptions of update sources
 	    my $updates_descr = urpm::get_updates_description($urpm);
 	    # if not root, use a temporary directory to store headers
@@ -352,7 +352,7 @@ if ($urpm::args::options{list_aliases}) {
 		    $local_sources->{$_->id} = "$dir/" . $_->filename foreach @pkgs;
 		} else {
 		    my $pkgs_text = join(' ', map { $_->name } @pkgs);
-		    if ($urpm::args::options{info}) {
+		    if ($options{info}) {
 			$urpm->{info}((int(@pkgs) == 1) ?
 				N("no hdlist for medium \"%s\", only partial result for package %s", $medium->{name}, $pkgs_text)
 				: N("no hdlist for medium \"%s\", only partial result for packages %s", $medium->{name}, $pkgs_text));
@@ -374,7 +374,7 @@ if ($urpm::args::options{list_aliases}) {
 			$pkg->update_header($file, keep_all_tags => 1);
 			$file eq $file2 and unlink $file;
 		    }
-		    if ($urpm::args::options{info})  {
+		    if ($options{info})  {
 			printf "%-12s: %s\n", "Name", $pkg->name;
 			printf "%-12s: %s\n", "Version", $pkg->version;
 			printf "%-12s: %s\n", "Release", $pkg->release;
@@ -406,12 +406,12 @@ if ($urpm::args::options{list_aliases}) {
 				and printf "%-20s:\n%s\n", "Reason for update", $updesc->{pre};
 			}
 		    }
-		    if ($urpm::args::options{list_files}) {
+		    if ($options{list_files}) {
 			if ($pkg->files) {
 			    print join("\n", $pkg->files) . "\n";
 			}
 		    }
-		    if ($urpm::args::options{changelog}) {
+		    if ($options{changelog}) {
 			if ($pkg->changelog_time && $pkg->changelog_name && $pkg->changelog_text) {
 			    my @ti = $pkg->changelog_time;
 			    my @na = $pkg->changelog_name;
@@ -426,14 +426,14 @@ if ($urpm::args::options{list_aliases}) {
 		}
 	    }
 	    -d $tmp_header_dir && $< != 0 and rmdir $tmp_header_dir;
-	} elsif ($urpm::args::options{sources}) {
+	} elsif ($options{sources}) {
 	    print join "\n", values %$local_sources; values %$local_sources and print "\n";
 	    foreach (0..$#{$urpm->{media} || []}) {
 		print join "\n", values %{$list->[$_]}; values %{$list->[$_]} and print "\n";
 	    }
 	}
 	exit 0;
-    } elsif ($urpm::args::options{summary}) {
+    } elsif ($options{summary}) {
 	foreach (keys %{$state->{selected}}) {
 	    foreach (split /\|/, $_) {
 		my $pkg = $urpm->{depslist}[$_] or next;
@@ -451,16 +451,16 @@ my $query_sub = sub {
     my ($id) = @_;
     my $pkg = $urpm->{depslist}[$id];
     my $str = '';
-    $urpm::args::options{group} and $str .= $pkg->group . '/';
+    $options{group} and $str .= $pkg->group . '/';
     $str .= $pkg->name;
-    $urpm::args::options{version} and $str .= '-' . $pkg->version;
-    $urpm::args::options{release} and $str .= '-' . $pkg->release;
-    $urpm::args::options{arch} and $str .= '.' . $pkg->arch;
+    $options{version} and $str .= '-' . $pkg->version;
+    $options{release} and $str .= '-' . $pkg->release;
+    $options{arch} and $str .= '.' . $pkg->arch;
     $str;
 };
 
 my %hack_only_one;
-if ($urpm::args::options{complete}) {
+if ($options{complete}) {
     foreach my $removal (grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} }
 			 keys %{$state->{rejected} || {}}) {
 	print '@removing@' . $removal . "\n";
