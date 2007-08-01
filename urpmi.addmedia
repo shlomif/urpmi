@@ -103,8 +103,6 @@ my $urpm = new urpm;
 urpm::args::parse_cmdline(urpm => $urpm) or usage();
 our ($name, $url, $with, $relative_hdlist) = our @cmdline;
 
-#- remove verbose if not asked.
-$options{verbose} > 0 or $urpm->{log} = sub {};
 $options{quiet} = 1 if $options{verbose} < 0;
 
 $url or ($url, $name) = ($name, '');

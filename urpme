@@ -69,9 +69,6 @@ urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 
 my $state = {};
 
-#- remove verbose if not asked.
-$options{verbose} or $urpm->{log} = sub {};
-
 if ($< && !$test) {
     $urpm->{fatal}(1, N("Only superuser is allowed to remove packages"));
 }

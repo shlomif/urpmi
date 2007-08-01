@@ -317,9 +317,6 @@ if ($logfile && !$INC{"Devel/Trace.pm"}) {
 select STDERR; $| = 1;
 select STDOUT; $| = 1;
 
-#- log is only for verbose runs.
-$options{verbose} > 0 or $urpm->{log} = sub {};
-
 if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-upgrade'} eq '') {
     # we were run with --no-priority-upgrade (we were just restarted.)
     # so, no need to update the media again

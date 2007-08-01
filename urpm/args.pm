@@ -49,6 +49,8 @@ my %options_spec_all = (
 	    $options{verbose}++;
 	    $urpm->{debug} = $urpm->{debug_URPM} = sub { print STDERR "$_[0]\n" };
 	},
+	'q|quiet' => sub { --$options{verbose} },
+	'v|verbose' => sub { ++$options{verbose} },
 	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
 	'use-copied-hdlist' => sub { $urpm->{options}{use_copied_hdlist} = 1 },
 );
@@ -152,8 +154,6 @@ my %options_spec = (
 	'no-md5sum' => \$::nomd5sum,
 	'force-key' => \$::forcekey,
 	a => \$::all,
-	'q|quiet' => sub { --$options{verbose} },
-	'v|verbose' => sub { ++$options{verbose} },
 	p => sub { $::use_provides = 1 },
 	P => sub { $::use_provides = 0 },
 	y => sub { $urpm->{options}{fuzzy} = 1 },
@@ -162,7 +162,6 @@ my %options_spec = (
 
     urpme => {
 	auto => \$::auto,
-	'v|verbose' => \$options{verbose},
 	a => \$::matches,
 	noscripts => \$::noscripts,
 	repackage => \$::repackage,
@@ -182,7 +181,6 @@ my %options_spec = (
 	},
 	'qf=s' => \$::qf,
 	'uniq|u' => \$::uniq,
-	'verbose|v' => \$options{verbose},
 	m => add_param_closure('media'),
 	i => sub { $::pattern = 'i' },
 	I => sub { $::pattern = '' },
@@ -254,7 +252,6 @@ my %options_spec = (
 	'whatrequires-recursive' => sub { $options{what_requires_recursive} = $options{what_requires} = 1 },
 	y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
 	Y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = $options{caseinsensitive} = 1 },
-	'verbose|v' => \$options{verbose},
 	i => \$options{info},
 	l => \$options{list_files},
 	r => sub {
@@ -291,8 +288,6 @@ my %options_spec = (
 	'force-key' => \$options{forcekey},
 	'no-md5sum' => \$options{nomd5sum},
 	'noa|d' => \my $_dummy, #- default, kept for compatibility
-	'q|quiet'   => sub { --$options{verbose} },
-	'v|verbose' => sub { ++$options{verbose} },
 	'norebuild!' => sub { $urpm->{options}{'build-hdlist-on-error'} = !$_[1]; $options{force} = 0 },
 	'probe-rpms' => sub { $options{probe_with} = 'rpms' },
 	'<>' => sub {
@@ -312,8 +307,6 @@ my %options_spec = (
 	'from=s' => \$options{mirrors_url},
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
-	'q|quiet'   => sub { --$options{verbose} },
-	'v|verbose' => sub { ++$options{verbose} },
 	raw => \$options{raw},
     },
 
@@ -389,7 +382,7 @@ foreach my $k ("help|h", "wget", "curl", "prozilla", "proxy=s", "proxy-user=s", 
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
 
-foreach my $k ("a", "c", 'v|verbose', 'q|quiet', '<>') {
+foreach my $k ("a", "c", '<>') {
     $options_spec{'urpmi.removemedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
 foreach my $k ("y") {
@@ -415,6 +408,9 @@ sub parse_cmdline {
 	$options{$k} = $args{defaults}{$k};
     }
     my $ret = GetOptions(%{$options_spec{$tool}}, %options_spec_all);
+
+    $options{verbose} >= 0 or $urpm->{info} = sub {};
+    $options{verbose} > 0 or $urpm->{log} = sub {};
 
     if ($tool ne 'urpmi.addmedia' && $tool ne 'urpmi.update' &&
 	  $options{probe_with} && !$options{usedistrib}) {

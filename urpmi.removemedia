@@ -59,8 +59,6 @@ our @cmdline; #- set by urpm::args
 urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 
 
-$options{verbose} > 0 or $urpm->{log} = sub {};
-
 if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to remove media"));
 }
