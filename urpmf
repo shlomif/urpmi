@@ -69,6 +69,7 @@ usage: urpmf [options] pattern-expression
 ") . N("  --filename     - filename of the package
 ") . N("  --files        - list of files contained in the package
 ") . N("  --group        - group
+") . N("  --license      - license
 ") . N("  --name         - package name
 ") . N("  --obsoletes    - obsoletes tags
 ") . N("  --packager     - packager
@@ -200,6 +201,7 @@ my $need_hdlist = grep { $usedtags{$_} } qw(
     description
     distribution
     files
+    license
     packager
     sourcerpm
     url

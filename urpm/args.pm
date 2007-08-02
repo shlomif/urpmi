@@ -335,6 +335,7 @@ foreach my $k (qw(
     filename
     files
     group
+    license
     obsoletes
     packager
     provides
