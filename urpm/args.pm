@@ -29,7 +29,7 @@ Getopt::Long::Configure(@configuration);
 my $urpm;
 
 # stores the values of the command-line options
-our %options;
+our %options = (verbose => 0);
 
 # used by urpmf
 sub add_param_closure {
