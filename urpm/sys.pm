@@ -198,7 +198,7 @@ sub syserror {
 sub open_safe {
     my ($urpm, $sense, $filename) = @_;
     open my $f, $sense, $filename
-	or syserror($urpm, $sense eq '>' ? "Can't write file" : "Can't open file", $filename), return undef;
+	or syserror($urpm, $sense eq '>' ? N("Can't write file") : N("Can't open file"), $filename), return undef;
     return $f;
 }
 
