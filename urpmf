@@ -176,11 +176,10 @@ my $callback = join("\n",
        '0;'),
     "}");
 
-our $debug;
-$urpm->{error}("qf:[$qf]\ncallback:\n$callback") if $debug;
+$urpm->{debug}("qf:[$qf]\ncallback:\n$callback") if $urpm->{debug};
 $callback = eval $callback;
 if ($@) {
-    $debug and warn "Internal error: $@\n";
+    warn "Internal error: $@\n";
     exit(1);
 }
 
