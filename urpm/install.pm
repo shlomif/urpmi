@@ -147,7 +147,7 @@ sub install {
     if (!$options{nodeps} && (@l = $trans->check(%options))) {
     } elsif (!$options{noorder} && (@l = $trans->order)) {
     } else {
-	my %readmes;
+	$urpm->{readmes} = {};
 	my $index;
 	my $fh;
 	#- assume default value for some parameter.
@@ -164,7 +164,7 @@ sub install {
 	    my $pkg = $urpm->{depslist}[$pkgid];
 	    my $fullname = $pkg->fullname;
 	    my $trtype = $pkg->flag_installed ? '(upgrade|update)' : 'install';
-	    foreach ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $readmes{$_} = $fullname }
+	    foreach ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $urpm->{readmes}{$_} = $fullname }
 	    close $fh if defined $fh;
 	};
 	$options{callback_uninst} = sub { 	    
@@ -197,7 +197,7 @@ sub install {
 	}
 
 	if ($::verbose >= 0) {
-	    foreach (keys %readmes) {
+	    foreach (keys %{$urpm->{readmes}}) {
 		print "-" x 70, "\n", N("More information on package %s", $readmes{$_}), "\n";
 		print cat_(($urpm->{root} || '') . $_);
 		print "-" x 70, "\n";
