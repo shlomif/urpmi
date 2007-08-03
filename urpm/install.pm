@@ -94,6 +94,13 @@ sub install_logger {
     }
 }
 
+sub get_README_files {
+    my ($urpm, $pkg) = @_;
+    my $fullname = $pkg->fullname;
+    my $trtype = $pkg->flag_installed ? '(upgrade|update)' : 'install';
+    foreach ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $urpm->{readmes}{$_} = $fullname }
+}
+
 #- install packages according to each hash (remove, install or upgrade).
 #- options: 
 #-      test, excludepath, nodeps, noorder (unused), delta, 
@@ -161,10 +168,7 @@ sub install {
 	$options{callback_close} ||= sub {
 	    my ($urpm, undef, $pkgid) = @_;
 	    return unless defined $pkgid;
-	    my $pkg = $urpm->{depslist}[$pkgid];
-	    my $fullname = $pkg->fullname;
-	    my $trtype = $pkg->flag_installed ? '(upgrade|update)' : 'install';
-	    foreach ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $urpm->{readmes}{$_} = $fullname }
+	    get_README_files($urpm, $urpm->{depslist}[$pkgid]);
 	    close $fh if defined $fh;
 	};
 	$options{callback_uninst} = sub { 	    
@@ -198,7 +202,7 @@ sub install {
 
 	if ($::verbose >= 0) {
 	    foreach (keys %{$urpm->{readmes}}) {
-		print "-" x 70, "\n", N("More information on package %s", $readmes{$_}), "\n";
+		print "-" x 70, "\n", N("More information on package %s", $urpm->{readmes}{$_}), "\n";
 		print cat_(($urpm->{root} || '') . $_);
 		print "-" x 70, "\n";
 	    }
