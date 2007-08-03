@@ -95,10 +95,33 @@ sub install_logger {
 }
 
 sub get_README_files {
-    my ($urpm, $pkg) = @_;
-    my $fullname = $pkg->fullname;
-    my $trtype = $pkg->flag_installed ? '(upgrade|update)' : 'install';
-    foreach ($pkg->files) { /\bREADME(\.$trtype)?\.urpmi$/ and $urpm->{readmes}{$_} = $fullname }
+    my ($urpm, $trans, $pkg) = @_;
+
+    foreach my $file ($pkg->files) { 
+	my ($kind) = $file =~ m!/README([^/]*)\.urpmi$! or next;
+	my $valid;
+	if ($kind eq '') {
+	    $valid = 1;
+	} elsif ($kind eq '.install' && !$pkg->flag_installed) {
+	    $valid = 1;
+	} elsif ($kind =~ /(.*)\.(upgrade|update)$/ && $pkg->flag_installed) {
+	    if (!$1) {
+		$valid = 1;
+	    } else {
+		my $version = $1;
+		foreach my $i (0 .. $trans->NElements - 1) {
+		    $trans->Element_name($i) eq $pkg->name or next;
+
+		    my $vr = $trans->Element_version($i) . '-' . $trans->Element_release($i);
+		    if (URPM::ranges_overlap("== $vr", "< $version")) {
+			$valid = 1;
+			last;
+		    }
+		}
+	    }
+	}
+	$valid and $urpm->{readmes}{$file} = $pkg->fullname;
+    }
 }
 
 #- install packages according to each hash (remove, install or upgrade).
@@ -168,7 +191,7 @@ sub install {
 	$options{callback_close} = sub {
 	    my ($urpm, undef, $pkgid) = @_;
 	    return unless defined $pkgid;
-	    get_README_files($urpm, $urpm->{depslist}[$pkgid]);
+	    get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]);
 	    close $fh if defined $fh;
 	};
 	$options{callback_uninst} = sub { 	    

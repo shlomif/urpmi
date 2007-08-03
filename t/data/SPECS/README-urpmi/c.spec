@@ -11,8 +11,8 @@ Conflicts: a
 %description
 x
 
-%build
-rm -rf $RPM_BUILD_ROOT
+%prep
+rm -rf *
 echo "installing %name" > README.install.urpmi
 echo "upgrading %name" > README.upgrade.urpmi
 

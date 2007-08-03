@@ -1,6 +1,6 @@
 Summary: b
 Name: b
-Version: 1
+Version: 3
 Release: 1
 License: x
 Group: x
@@ -10,10 +10,11 @@ BuildRoot: %{_tmppath}/%{name}
 %description
 x
 
-%prep
-rm -rf *
+%build
+rm -rf $RPM_BUILD_ROOT
 echo "installing %name" > README.install.urpmi
 echo "upgrading %name" > README.upgrade.urpmi
+echo "upgrading %name 2" > README.2.upgrade.urpmi
 
 %clean
 rm -rf $RPM_BUILD_ROOT

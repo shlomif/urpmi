@@ -25,6 +25,7 @@ sub test_a {
 
 sub test_b {
     system_("rpm --root $::pwd/root -i media/$medium_name/b-1-*.rpm");
+    test_urpmi('b-2', 'upgrading b', 'upgrading b 2');
     test_urpmi('b', 'upgrading b');
     check_installed_and_remove('b');
 }
@@ -41,12 +42,14 @@ sub test_d {
 }
 
 sub test_urpmi {
-    my ($para, $wanted) = @_;
+    my ($para, @wanted) = @_;
     my $urpmi = urpmi_cmd();
     print "# $urpmi $para\n";
     my $s = `$urpmi $para`;
     print $s;
-    my ($msg) = $s =~ /\nMore information on package[^\n]*\n(.*?)\n-{70}/ms;
+    my @msgs = $s =~ /\nMore information on package[^\n]*\n(.*?)\n-{70}/msg;
 
+    my $msg = join(" -- ", sort @msgs);
+    my $wanted = join(" -- ", sort @wanted);
     ok($msg eq $wanted, "wanted:$wanted, got:$msg");
 }

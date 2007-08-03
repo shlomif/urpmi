@@ -10,8 +10,8 @@ BuildRoot: %{_tmppath}/%{name}
 %description
 x
 
-%build
-rm -rf $RPM_BUILD_ROOT
+%prep
+rm -rf *
 echo "installing/upgrading %name" > README.urpmi
 
 %clean
