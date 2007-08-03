@@ -104,7 +104,7 @@ sub get_README_files {
 #- install packages according to each hash (remove, install or upgrade).
 #- options: 
 #-      test, excludepath, nodeps, noorder (unused), delta, 
-#-      callback_open, callback_close, callback_inst, callback_trans, post_clean_cache
+#-      callback_inst, callback_trans, post_clean_cache
 #-   (more options for trans->run)
 #-      excludedocs, nosize, noscripts, oldpackage, repackage, ignorearch
 sub install {
@@ -159,13 +159,13 @@ sub install {
 	my $fh;
 	#- assume default value for some parameter.
 	$options{delta} ||= 1000;
-	$options{callback_open} ||= sub {
+	$options{callback_open} = sub {
 	    my ($_data, $_type, $id) = @_;
 	    $index++;
 	    $fh = urpm::sys::open_safe($urpm, '<', $install->{$id} || $upgrade->{$id});
 	    $fh ? fileno $fh : undef;
 	};
-	$options{callback_close} ||= sub {
+	$options{callback_close} = sub {
 	    my ($urpm, undef, $pkgid) = @_;
 	    return unless defined $pkgid;
 	    get_README_files($urpm, $urpm->{depslist}[$pkgid]);
