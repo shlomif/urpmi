@@ -175,6 +175,11 @@ sub download_packages_of_distant_media {
 	    }
 	}
 
+	if (%distant_sources && ! -w "$urpm->{cachedir}/partial") {
+	    $urpm->{error}(N("sorry you can't --install-src remove .src.rpm files"));
+	    exit 1;
+	}
+
 	#- download files from the current medium.
 	if (%distant_sources) {
 	    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
