@@ -12,7 +12,7 @@ use urpm::sys;
 use urpm::cfg;
 use urpm::md5sum;
 
-our $VERSION = '4.9.28';
+our $VERSION = '4.9.29';
 our @ISA = qw(URPM Exporter);
 our @EXPORT_OK = 'file_from_local_url';
 
