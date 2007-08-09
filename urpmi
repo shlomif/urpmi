@@ -580,7 +580,7 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
 }
 $urpm->{nb_install} = @to_install;
 if ($env) {
-    my $msg = @to_install == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
+    my $msg = $urpm->{nb_install} == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
 		: N("To satisfy dependencies, the following packages are going to be installed:");
     my $msg2 = P("(%d package, %d MB)", "(%d packages, %d MB)", $urpm->{nb_install}, $urpm->{nb_install}, toMb($sum));
     my $p = join "\n", @to_install;
@@ -590,8 +590,8 @@ if ($env) {
 if (@root_only) {
     print N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
-} elsif (!$urpm->{options}{auto} && $ask_user && @to_install) {
-    my $msg = @to_install == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
+} elsif (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install}) {
+    my $msg = $urpm->{nb_install} == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
 		: N("To satisfy dependencies, the following packages are going to be installed:");
     if ($test) {
 	$msg = "$msg\n" . N("(test only, installation will not be actually done)");
