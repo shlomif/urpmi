@@ -10,6 +10,7 @@ use Test::More 'no_plan';
 need_root_and_prepare();
 
 $ENV{TESTING_priority_upgrade} = 1;
+$ENV{PERL5LIB} = ".."; #- for restart with local urpmi
 my $name = 'priority-upgrade';
 
 test('a b', 'a', 'a', 'b');
