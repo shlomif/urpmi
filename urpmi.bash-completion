@@ -106,7 +106,7 @@ _urpmi()
 		# add dangereous option for everything else as rurpmi
 		if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
 			options="$options --root --use-distrib --env \
-				--allow-nodeps --allow-force --force \
+				--allow-nodeps --allow-force --no-suggests --force \
 				--noscripts --auto-update --keep --nokeep \
 				--verify-rpm"
 			for (( i=1; i < COMP_CWORD; i++ )); do
@@ -243,7 +243,7 @@ _urpmf()
 			--media --excludemedia --sortmedia --synthesis --use-distrib \
 			--verbose --quiet --uniq --name --group --license --size \
 			--epoch --summary --description --sourcerpm --packager\
-			--buildhost --url --provides --requires --files \
+			--buildhost --url --provides --requires --suggests --files \
 			--conflicts --obsoletes --env ' -- $cur ) )
 	else
 		# return available files

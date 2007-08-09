@@ -77,6 +77,7 @@ usage: urpmf [options] pattern-expression
 ") . N("  --requires     - requires tags
 ") . N("  --size         - installed size
 ") . N("  --sourcerpm    - source rpm name
+") . N("  --suggests     - suggests tags
 ") . N("  --summary      - summary
 ") . N("  --url          - url
 ") . N("  --vendor       - vendor
@@ -124,7 +125,7 @@ $urpm->{info} = sub { print STDERR "$_[0]\n" };
 $urpm->{log} = sub { print STDERR "$_[0]\n" } if $options{verbose} > 0;
 
 my $multitag = '';
-my %multitags = map { $_ => 1 } qw(conffiles conflicts files obsoletes provides requires);
+my %multitags = map { $_ => 1 } qw(conffiles conflicts files obsoletes provides requires suggests);
 my %usedtags;
 
 (my $proto = $qf) =~ s/%([-\d]*)(\w+)/%${1}s/g;

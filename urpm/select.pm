@@ -165,6 +165,7 @@ sub search_packages {
 #-	callback_choices
 #-	keep
 #-	nodeps
+#-	no_suggests
 sub resolve_dependencies {
     #- $state->{selected} will contain the selection of packages to be
     #- installed or upgraded

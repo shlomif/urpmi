@@ -469,6 +469,7 @@ my $restart_itself = urpm::select::resolve_dependencies($urpm,
     install_src => $install_src,
     keep => $urpm->{options}{keep},
     nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
+    no_suggests => $urpm->{options}{'no-suggests'},
     priority_upgrade => $test || $env ? '' : $urpm->{options}{'priority-upgrade'},
 );
 
@@ -571,6 +572,9 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
 	push @root_only, $fullname;
     } elsif ($install_src || $pkg->arch ne 'src') {
 	$sum += $pkg->size;
+	if ($state->{selected}{$pkg->id}{suggested}) {
+	    $fullname = N("%s (suggested)", $fullname);
+	}
 	push @to_install, $fullname;
     }
 }
