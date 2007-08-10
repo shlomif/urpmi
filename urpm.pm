@@ -246,7 +246,7 @@ sub get_updates_description {
 	    $section = 'pkg';
 	    next;
 	};
-	/^Updated: (.+)/ && $section eq 'pkg' and $cur->{updated} = $1;
+	/^Updated?: (.+)/ && $section eq 'pkg' and $cur->{updated} = $1;
 	/^Importance: (.+)/ && $section eq 'pkg' and $cur->{importance} = $1;
 	/^(ID|URL): +(.+)/ && $section eq 'pkg' and do { $cur->{$1} = $2; next };
 	/^%(pre|description)/ and do { $section = $1; next };
