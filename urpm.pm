@@ -236,7 +236,7 @@ sub get_updates_description {
     foreach my $medium (@update_medias) {
     foreach (cat_utf8(urpm::media::statedir_descriptions($urpm, $medium)), '%package dummy') {
 	/^%package (.+)/ and do {
-	    if (exists $cur->{importance} && $cur->{importance} ne "security" && $cur->{importance} ne "bugfix") {
+	    if (exists $cur->{importance} && !member($cur->{importance}, qw(security bugfix))) {
 		$cur->{importance} = 'normal';
 	    }
 	    $update_descr{$_} = $cur foreach @{$cur->{pkgs}};
