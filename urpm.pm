@@ -233,7 +233,8 @@ sub get_updates_description {
 
     @update_medias or @update_medias = grep { !$_->{ignore} && $_->{update} } @{$urpm->{media}};
 
-    foreach (map { cat_utf8(urpm::media::statedir_descriptions($urpm, $_)), '%package dummy' } @update_medias) {
+    foreach my $medium (@update_medias) {
+    foreach (cat_utf8(urpm::media::statedir_descriptions($urpm, $medium)), '%package dummy') {
 	/^%package (.+)/ and do {
 	    if (exists $cur->{importance} && $cur->{importance} ne "security" && $cur->{importance} ne "bugfix") {
 		$cur->{importance} = 'normal';
@@ -241,6 +242,7 @@ sub get_updates_description {
 	    $update_descr{$_} = $cur foreach @{$cur->{pkgs}};
 	    $cur = {};
 	    $cur->{pkgs} = [ split /\s/, $1 ];
+         $cur->{medium} = $medium->{name};
 	    $section = 'pkg';
 	    next;
 	};
@@ -250,6 +252,7 @@ sub get_updates_description {
 	/^%description/ and do { $section = 'description'; next };
 	$section eq 'pre' and $cur->{pre} .= $_;
 	$section eq 'description' and $cur->{description} .= $_;
+    }
     }
     \%update_descr;
 }
