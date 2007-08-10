@@ -249,8 +249,7 @@ sub get_updates_description {
 	/^Updated: (.+)/ && $section eq 'pkg' and $cur->{updated} = $1;
 	/^Importance: (.+)/ && $section eq 'pkg' and $cur->{importance} = $1;
 	/^%(pre|description)/ and do { $section = $1; next };
-	$section eq 'pre' and $cur->{pre} .= $_;
-	$section eq 'description' and $cur->{description} .= $_;
+	$section  =~ /^(pre|description)\z/ and $cur->{$1} .= $_;
     }
     }
     \%update_descr;
