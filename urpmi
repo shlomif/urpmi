@@ -605,7 +605,7 @@ if (@root_only) {
 }
 
 my $exit_code = urpm::main_loop::run($urpm, $state, 
-				     @names || @src_names || @files || @src_files, 
+				     int(@names || @src_names || @files || @src_files), 
 				     \@ask_unselect, \%requested, {
     (!$urpm->{options}{auto} || $allow_medium_change ? (copy_removable =>  sub {
 	my $msg = N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1]);
