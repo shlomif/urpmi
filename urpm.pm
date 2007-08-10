@@ -235,19 +235,19 @@ sub get_updates_description {
 
     foreach my $medium (@update_medias) {
     foreach (cat_utf8(urpm::media::statedir_descriptions($urpm, $medium)), '%package dummy') {
-	/^%package (.+)/ and do {
+	/^%package +(.+)/ and do {
 	    if (exists $cur->{importance} && !member($cur->{importance}, qw(security bugfix))) {
 		$cur->{importance} = 'normal';
 	    }
-	    $update_descr{$_} = $cur foreach @{$cur->{pkgs}};
+	    $update_descr{$_} = $cur foreach @{$cur->{pkgs} || []};
 	    $cur = {};
 	    $cur->{pkgs} = [ split /\s/, $1 ];
          $cur->{medium} = $medium->{name};
 	    $section = 'pkg';
 	    next;
 	};
-	/^Updated?: (.+)/ && $section eq 'pkg' and $cur->{updated} = $1;
-	/^Importance: (.+)/ && $section eq 'pkg' and $cur->{importance} = $1;
+	/^Updated?: +(.+)/ && $section eq 'pkg' and $cur->{updated} = $1;
+	/^Importance: +(.+)/ && $section eq 'pkg' and $cur->{importance} = $1;
 	/^(ID|URL): +(.+)/ && $section eq 'pkg' and do { $cur->{$1} = $2; next };
 	/^%(pre|description)/ and do { $section = $1; next };
 	$section  =~ /^(pre|description)\z/ and $cur->{$1} .= $_;
