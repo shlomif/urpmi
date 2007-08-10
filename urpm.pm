@@ -235,23 +235,23 @@ sub get_updates_description {
 
     foreach my $medium (@update_medias) {
         # fix not taking into account the last %package token of each descrptions file: '%package dummy'
-    foreach (cat_utf8(urpm::media::statedir_descriptions($urpm, $medium)), '%package dummy') {
-	/^%package +(.+)/ and do {
-         # fixes not parsing descriptions file when MU adds itself the security source:
-	    if (exists $cur->{importance} && !member($cur->{importance}, qw(security bugfix))) {
-		$cur->{importance} = 'normal';
-	    }
-	    $update_descr{$_} = $cur foreach @{$cur->{pkgs} || []};
-	    $cur = { pkgs => [ split /\s/, $1 ], medium => $medium->{name} };
-	    $section = 'pkg';
-	    next;
-	};
-	/^Updated?: +(.+)/ && $section eq 'pkg' and do { $cur->{updated} = $1; next };
-	/^Importance: +(.+)/ && $section eq 'pkg' and do { $cur->{importance} = $1; next };
-	/^(ID|URL): +(.+)/ && $section eq 'pkg' and do { $cur->{$1} = $2; next };
-	/^%(pre|description)/ and do { $section = $1; next };
-	$section  =~ /^(pre|description)\z/ and $cur->{$1} .= $_;
-    }
+	foreach (cat_utf8(urpm::media::statedir_descriptions($urpm, $medium)), '%package dummy') {
+	    /^%package +(.+)/ and do {
+		# fixes not parsing descriptions file when MU adds itself the security source:
+		if (exists $cur->{importance} && !member($cur->{importance}, qw(security bugfix))) {
+		    $cur->{importance} = 'normal';
+		}
+		$update_descr{$_} = $cur foreach @{$cur->{pkgs} || []};
+		$cur = { pkgs => [ split /\s/, $1 ], medium => $medium->{name} };
+		$section = 'pkg';
+		next;
+	    };
+	    /^Updated?: +(.+)/ && $section eq 'pkg' and do { $cur->{updated} = $1; next };
+	    /^Importance: +(.+)/ && $section eq 'pkg' and do { $cur->{importance} = $1; next };
+	    /^(ID|URL): +(.+)/ && $section eq 'pkg' and do { $cur->{$1} = $2; next };
+	    /^%(pre|description)/ and do { $section = $1; next };
+	    $section  =~ /^(pre|description)\z/ and $cur->{$1} .= $_;
+	}
     }
     \%update_descr;
 }
