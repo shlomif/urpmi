@@ -239,7 +239,6 @@ my %options_spec = (
 	'src|s' => \$options{src},
 	sources => \$options{sources},
 	force => \$options{force},
-	'skip=s' => \$options{skip},
 	'parallel=s' => \$options{parallel},
 	'env=s' => \$options{env},
 	d => \$options{deps},
@@ -360,7 +359,7 @@ foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "u
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
 }
-foreach my $k ("root=s", "nolock", "use-distrib=s")
+foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s")
 {
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
