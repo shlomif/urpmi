@@ -10,6 +10,21 @@ use POSIX ();
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
+
+#- get the list of packages that should not be upgraded or installed,
+#- typically from the inst.list or skip.list files.
+sub get_packages_list {
+    my ($file, $o_extra) = @_;
+    my $val = [];
+    open(my $f, '<', $file);
+    foreach (<$f>, split /,/, $o_extra || '') {
+	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	next if $_ eq '';
+	push @$val, $_;
+    }
+    $val;
+}
+
 #- find used mount point from a pathname, use a optional mode to allow
 #- filtering according the next operation (mount or umount).
 sub find_mntpoints {

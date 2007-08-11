@@ -613,7 +613,7 @@ sub _compute_flags_for_skiplist {
     my ($urpm, $cmdline_skiplist) = @_;
     my %uniq;
     $urpm->compute_flags(
-	get_packages_list($urpm->{skiplist}, $cmdline_skiplist),
+	urpm::sys::get_packages_list($urpm->{skiplist}, $cmdline_skiplist),
 	skip => 1,
 	callback => sub {
 	    my ($urpm, $pkg) = @_;
@@ -629,7 +629,7 @@ sub _compute_flags_for_instlist {
 
     my %uniq;
     $urpm->compute_flags(
-	get_packages_list($urpm->{instlist}),
+	urpm::sys::get_packages_list($urpm->{instlist}),
 	disable_obsolete => 1,
 	callback => sub {
 	    my ($urpm, $pkg) = @_;
@@ -1859,21 +1859,6 @@ sub clean {
 	delete $_->{start};
 	delete $_->{end};
     }
-}
-
-
-#- get the list of packages that should not be upgraded or installed,
-#- typically from the inst.list or skip.list files.
-sub get_packages_list {
-    my ($file, $o_extra) = @_;
-    my $val = [];
-    open(my $f, '<', $file);
-    foreach (<$f>, split /,/, $o_extra || '') {
-	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	next if $_ eq '';
-	push @$val, $_;
-    }
-    $val;
 }
 
 1;
