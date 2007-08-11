@@ -6,7 +6,6 @@
 use strict;
 use lib '.', 't';
 use helper;
-use Expect;
 use urpm::util;
 use Test::More 'no_plan';
 
