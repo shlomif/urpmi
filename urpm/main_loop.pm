@@ -155,6 +155,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    $urpm->{log}("starting installing packages");
 	    my %install_options_common = (
 		test => $test,
+		verbose => $options{verbose},
 		excludepath => $urpm->{options}{excludepath},
 		excludedocs => $urpm->{options}{excludedocs},
 		repackage   => $urpm->{options}{repackage},

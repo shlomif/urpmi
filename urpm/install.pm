@@ -127,9 +127,9 @@ sub get_README_files {
 #- install packages according to each hash (remove, install or upgrade).
 #- options: 
 #-      test, excludepath, nodeps, noorder (unused), delta, 
-#-      callback_inst, callback_trans, post_clean_cache
+#-      callback_inst, callback_trans, post_clean_cache, verbose
 #-   (more options for trans->run)
-#-      excludedocs, nosize, noscripts, oldpackage, repackage, ignorearch
+#-      excludedocs, nosize, noscripts, oldpackage, repackage, replacepkgs, ignorearch
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     $options{translate_message} = 1;
@@ -204,12 +204,12 @@ sub install {
 		if (member($name, @previous)) {
 		    $urpm->{log}("removing upgraded package $fullname");
 		} else {
-		    print N("removing package %s", $fullname), "\n" if $::verbose >= 0;
+		    print N("removing package %s", $fullname), "\n" if $options{verbose} >= 0;
 		}
 		$index++;
 	    }
 	};
-	if ($::verbose >= 0 && (scalar keys %$install || scalar keys %$upgrade)) {
+	if ($options{verbose} >= 0 && (scalar keys %$install || scalar keys %$upgrade)) {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
 	}
@@ -223,7 +223,7 @@ sub install {
 	    unlink "$urpm->{cachedir}/rpms/$_" foreach @pkgs;
 	}
 
-	if ($::verbose >= 0) {
+	if ($options{verbose} >= 0) {
 	    foreach (keys %{$urpm->{readmes}}) {
 		print "-" x 70, "\n", N("More information on package %s", $urpm->{readmes}{$_}), "\n";
 		print cat_(($urpm->{root} || '') . $_);
