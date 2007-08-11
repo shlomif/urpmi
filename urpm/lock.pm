@@ -15,22 +15,25 @@ my ($LOCK_SH, $LOCK_EX, $LOCK_NB, $LOCK_UN) = (1, 2, 4, 8);
 #- lock policy concerning chroot :
 #  - lock rpm db in chroot
 #  - lock urpmi db in /
+# (options: nofatal, wait)
 sub rpm_db {
-    my ($urpm, $b_exclusive) = @_;
+    my ($urpm, $b_exclusive, %options) = @_;
     my $f = ($urpm->{root} && !$urpm->{urpmi_root} ? "$urpm->{root}/" : '') . "$urpm->{statedir}/.RPMLOCK";
-    urpm::lock->new($urpm, $f, 'rpm', $b_exclusive);
+    urpm::lock->new($urpm, $f, 'rpm', $b_exclusive, %options);
 }
+# (options: nofatal, wait)
 sub urpmi_db {
-    my ($urpm, $b_exclusive, $b_nofatal) = @_;
-    urpm::lock->new($urpm, "$urpm->{statedir}/.LOCK", 'urpmi', $b_exclusive, $b_nofatal);
+    my ($urpm, $b_exclusive, %options) = @_;
+    urpm::lock->new($urpm, "$urpm->{statedir}/.LOCK", 'urpmi', $b_exclusive, %options);
 }
 
 
 ################################################################################
 #- methods
 
+# (options: nofatal, wait)
 sub new {
-    my ($_class, $urpm, $file, $db_name, $b_exclusive, $b_nofatal) = @_;
+    my ($_class, $urpm, $file, $db_name, $b_exclusive, %options) = @_;
     
     my $fh;
     #- we don't care what the mode is. ">" allow creating the file, but can't be done as user
@@ -38,38 +41,32 @@ sub new {
 
     my $lock = bless { 
 	fh => $fh, db_name => $db_name, 
-	fatal => $b_nofatal ? $urpm->{error} : sub { $urpm->{fatal}(7, $_[0]) }, 
+	fatal => $options{nofatal} ? $urpm->{error} : sub { $urpm->{fatal}(7, $_[0]) }, 
+	info => $urpm->{info},
 	log => $urpm->{log},
     };
-    _lock($lock, $b_exclusive);
+    _lock($lock, $b_exclusive, $options{wait});
     $lock;
 }
 
-sub _flock_failed {
-    my ($lock) = @_;
-    $lock->{fatal}(N("%s database locked", $lock->{db_name}));
-}
-
 sub _lock {
-    my ($lock, $b_exclusive) = @_;
+    my ($lock, $b_exclusive, $b_wait) = @_;
     $b_exclusive ||= '';
     if ($lock->{log}) {
 	my $action = $lock->{exclusive} && !$b_exclusive ? 'releasing exclusive' : $b_exclusive ? 'getting exclusive' : 'getting';
 	$lock->{log}("$action lock on $lock->{db_name}");
     }
     my $mode = $b_exclusive ? $LOCK_EX : $LOCK_SH;
-    flock $lock->{fh}, $mode|$LOCK_NB or _flock_failed($lock);
+    if (!flock($lock->{fh}, $mode | $LOCK_NB)) {
+	if ($b_wait) {
+	    $lock->{info}(N("%s database locked. waiting...", $lock->{db_name}));
+	    flock($lock->{fh}, $mode) or $lock->{fatal}(N("aborting"));
+	} else {
+	    $lock->{fatal}(N("%s database locked", $lock->{db_name}));
+	}
+    }
     $lock->{locked} = 1;
     $lock->{exclusive} = $b_exclusive;
-}
-
-sub get_exclusive {
-    my ($lock) = @_;
-    _lock($lock, 'exclusive');
-}
-sub release_exclusive {
-    my ($lock) = @_;
-    _lock($lock);
 }
 
 sub unlock {

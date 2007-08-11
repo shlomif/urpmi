@@ -63,7 +63,7 @@ if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to remove media"));
 }
 
-my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive');
+my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive', wait => $options{wait_lock});
 urpm::media::read_config($urpm);
 urpm::download::set_cmdline_proxy();
 my @entries = map { $_->{name} } @{$urpm->{media}};

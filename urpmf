@@ -194,7 +194,7 @@ if ($env) {
     $urpm->{statedir} = $env;
 }
 
-my $_lock = urpm::lock::urpmi_db($urpm, '', 'nofatal');
+my $_lock = urpm::lock::urpmi_db($urpm, '', nofatal => 1, wait => $options{wait_lock});
 my $need_hdlist = grep { $usedtags{$_} } qw(
     buildhost
     buildtime

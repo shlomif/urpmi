@@ -328,7 +328,7 @@ if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-up
     unlink glob('/var/lib/rpm/__db.*') unless $urpm->{root};
 }
 
-my $urpmi_lock = !$env && !$options{nolock} && urpm::lock::urpmi_db($urpm);
+my $urpmi_lock = !$env && !$options{nolock} && urpm::lock::urpmi_db($urpm, '', wait => $options{wait_lock});
 
 #- should we ignore arch compatibility
 if ($urpm->{options}{ignorearch}) { urpm::shunt_ignorearch() }
@@ -394,7 +394,7 @@ if ($bug) {
     urpm::bug_report::copy_requested($urpm, $bug, \%requested);
 }
 
-my $rpm_lock = !$env && !$options{nolock} && urpm::lock::rpm_db($urpm, 'exclusive');
+my $rpm_lock = !$env && !$options{nolock} && urpm::lock::rpm_db($urpm, 'exclusive', wait => $options{wait_lock});
 
 #- search the packages according to the selection given by the user.
 my $search_result = '';

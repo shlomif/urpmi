@@ -83,7 +83,7 @@ unless ($test) {
 }
 
 #- just configure parallel mode if available.
-my $_urpmi_lock = urpm::lock::urpmi_db($urpm);
+my $_urpmi_lock = urpm::lock::urpmi_db($urpm, '', wait => $options{wait_lock});
 urpm::media::configure($urpm,
     synthesis => ($parallel ? 'none' : ''),
     parallel => $parallel,

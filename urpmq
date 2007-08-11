@@ -145,8 +145,8 @@ if ($options{ignorearch}) { urpm::shunt_ignorearch() }
 
 my $rpm_lock = 
   $options{upgrade} && !$options{env} && !$options{nolock}
-  && urpm::lock::rpm_db($urpm);
-my $urpmi_lock = !$options{nolock} && urpm::lock::urpmi_db($urpm);
+  && urpm::lock::rpm_db($urpm, '', wait => $options{wait_lock});
+my $urpmi_lock = !$options{nolock} && urpm::lock::urpmi_db($urpm, '', wait => $options{wait_lock});
 urpm::media::configure($urpm,
     nocheck_access => 1,
     nodepslist => $options{nodepslist},

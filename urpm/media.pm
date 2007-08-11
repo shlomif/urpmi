@@ -1539,12 +1539,12 @@ sub _get_pubkey_and_descriptions {
 }
 
 sub _read_cachedir_pubkey {
-    my ($urpm, $medium) = @_;
+    my ($urpm, $medium, $b_wait_lock) = @_;
     -s "$urpm->{cachedir}/partial/pubkey" or return;
 
     $urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
 
-    my $_rpm_lock = urpm::lock::rpm_db($urpm, 'exclusive');
+    my $_rpm_lock = urpm::lock::rpm_db($urpm, 'exclusive', wait => $b_wait_lock);
 
     my %key_ids;
     $urpm->import_needed_pubkeys(
@@ -1779,6 +1779,7 @@ sub _update_media__handle_some_flags {
 #-   nopubkey    : don't use rpm pubkeys
 #-   probe_with  : probe synthesis or hdlist (or none)
 #-   quiet       : download hdlists quietly
+#-   wait_lock   : block until lock can be acquired
 sub update_media {
     my ($urpm, %options) = @_;
 
@@ -1787,7 +1788,7 @@ sub update_media {
     $options{nopubkey} ||= $urpm->{options}{nopubkey};
     if (!$options{nopubkey} && !$urpm->{keys}) {
 	#- get gpg-pubkey signature.
-	my $_rpm_lock = urpm::lock::rpm_db($urpm);
+	my $_rpm_lock = urpm::lock::rpm_db($urpm, '', wait => $options{wait_lock});
 	$urpm->{log}(qq(getting "gpg-pubkey"s from rpmdb));
 	$urpm->parse_pubkeys(root => $urpm->{root});
     }
@@ -1827,7 +1828,7 @@ sub update_media {
 
 	if ($medium->{really_modified}) {
 	    _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
-	    _read_cachedir_pubkey($urpm, $medium);
+	    _read_cachedir_pubkey($urpm, $medium, $options{wait_lock});
 	    generate_medium_names($urpm, $medium);
 	}
     }

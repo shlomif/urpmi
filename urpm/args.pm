@@ -52,6 +52,7 @@ my %options_spec_all = (
 	'q|quiet' => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
 	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
+	'wait-lock' => \$options{wait_lock},
 	'use-copied-hdlist' => sub { $urpm->{options}{use_copied_hdlist} = 1 },
 );
 
@@ -421,6 +422,9 @@ sub parse_cmdline {
     }
     if ($options{probe_with} && $options{probe_with} eq 'rpms' && $options{virtual}) {
 	die N("Can't use %s with %s", "--probe-rpms", "--virtual");
+    }
+    if ($options{nolock} && $options{wait_lock}) {
+	warn N("Can't use %s with %s", "--wait-lock", "--nolock") . "\n";
     }
     if ($tool eq 'urpmf' && @ARGV && $ARGV[0] eq '--') {
 	if (@ARGV == 2) {
