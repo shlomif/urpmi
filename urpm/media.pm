@@ -1867,7 +1867,7 @@ sub clean {
 sub get_packages_list {
     my ($file, $o_extra) = @_;
     my $val = [];
-    open(my $f, '<', $file) or return [];
+    open(my $f, '<', $file);
     foreach (<$f>, split /,/, $o_extra || '') {
 	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
 	next if $_ eq '';
