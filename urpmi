@@ -142,6 +142,7 @@ usage:
 ") . N("  --noscripts    - do not execute package scriptlet(s)
 ") . N("  --repackage    - Re-package the files before erasing
 ") . N("  --skip         - packages which installation should be skipped
+") . N("  --prefer       - packages which should be preferred
 ") . N("  --more-choices - when several packages are found, propose more choices
                    than the default.
 ") . N("  --nolock       - don't lock rpm db.
@@ -240,7 +241,9 @@ if ($bug) {
 	    ? N("Directory [%s] already exists, please use another directory for bug report or delete it", $bug)
 	    : N("Unable to create directory [%s] for bug report", $bug)));
     #- copy all synthesis file used, along with configuration of urpmi
-    system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, $urpm->{config}, $bug)
+    system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, 
+	   $urpm->{prefer_list}, $urpm->{prefer_vendor_list}, 
+	   $urpm->{config}, $bug)
 	and die N("Copying failed");
     #- log everything for bug report.
     $logfile = "$bug/urpmi.log";
@@ -255,6 +258,8 @@ if ($env) {
     $urpm->{config} = "$env/urpmi.cfg";
     $urpm->{skiplist} = "$env/skip.list";
     $urpm->{instlist} = "$env/inst.list";
+    $urpm->{prefer_list} = "$env/prefer.list";
+    $urpm->{prefer_vendor_list} = "$env/prefer.vendor.list";
     $urpm->{statedir} = $env;
 } else {
     if ($< != 0) {
@@ -423,7 +428,9 @@ if (@src_names) {
 
 sub ask_choice {
     my ($urpm, $_db, $_state, $choices, $virtual_pkg_name) = @_;
-    my $n = 1; #- default value.
+
+    my @choices = urpm::select::sort_choices($urpm, $choices, $options{prefer});
+
     my (@l) = map {
 	my ($name, $summary) = (scalar($_->fullname), translate($_->summary));
 	$_->flag_installed ?
@@ -438,7 +445,9 @@ sub ask_choice {
                                    N("%s: %s (to install)", $name, $summary) :
                                  #-PO: here format is "<package_name> (to install)"
                                  N("%s (to install)", $name)) : $name;
-    } @$choices;
+    } @choices;
+
+    my $n = 1; #- default value.
 
     if (@l > 1 && !$urpm->{options}{auto}) {
 	print N("In order to satisfy the '%s' dependency, one of the following packages is needed:", $virtual_pkg_name), "\n";
@@ -447,12 +456,12 @@ sub ask_choice {
 	$n = message_input(N("What is your choice? (1-%d) ", $i), undef, range_min => 0, range => $i);
 	defined($n) && $n ne "0" or exit 1; # abort.
 	if ($n =~ /\D/) {
-	    my @nn = map { $choices->[$_ - 1] } grep { !/\D/ } split /[, \t]+/, $n;
+	    my @nn = map { $choices[$_ - 1] } grep { !/\D/ } split /[, \t]+/, $n;
 	    @nn or exit 1;
 	    return @nn;
 	}
     }
-    $choices->[$n - 1];
+    $choices[$n - 1];
 }
 
 #- do the resolution of dependencies between requested package (and auto selection if any).

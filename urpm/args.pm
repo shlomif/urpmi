@@ -133,6 +133,7 @@ my %options_spec = (
 	'norebuild!' => sub { $urpm->{options}{'build-hdlist-on-error'} = !$_[1] },
 	'test!' => \$::test,
 	'skip=s' => \$options{skip},
+	'prefer=s' => \$options{prefer},
 	'root=s' => sub {
 	    require File::Spec;
 	    $urpm->{root} = File::Spec->rel2abs($_[1]);
@@ -359,7 +360,7 @@ foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "u
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
 }
-foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s")
+foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s")
 {
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }

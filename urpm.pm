@@ -57,6 +57,9 @@ sub set_files {
 	config        => "$urpmi_root/etc/urpmi/urpmi.cfg",
 	skiplist      => "$urpmi_root/etc/urpmi/skip.list",
 	instlist      => "$urpmi_root/etc/urpmi/inst.list",
+	prefer_list   => "$urpmi_root/etc/urpmi/prefer.list",
+	prefer_vendor_list => 
+	                 "$urpmi_root/etc/urpmi/prefer.vendor.list",
 	private_netrc => "$urpmi_root/etc/urpmi/netrc",
 	statedir      => "$urpmi_root/var/lib/urpmi",
 	cachedir      => "$urpmi_root/var/cache/urpmi",

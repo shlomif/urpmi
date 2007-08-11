@@ -186,6 +186,19 @@ Use hdlist file (to use with --use-distrib).
 Use a different environment directly from a bug report to replay a bug.
 The argument is the same argument given to B<--bug> option.
 
+=item B<--skip> I<pattern,...>
+
+You can specify a list of packages which installation should be skipped.
+You can also include patterns between //, just like in
+F</etc/urpmi/skip.list> (see urpmi.files(5)).
+
+=item B<--prefer> I<pattern,...>
+
+You can specify a list of packages which installation should be preferred
+(especially useful with B<--auto>).
+You can also include patterns between //, just like in
+F</etc/urpmi/prefer.list> (see urpmi.files(5)).
+
 =item B<--wait-lock>
 
 If the urpmi or rpm db is busy, wait until it is available

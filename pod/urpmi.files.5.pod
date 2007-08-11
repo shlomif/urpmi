@@ -69,6 +69,17 @@ the full name of the package, which has the form B<name-version-release.arch>.)
 The list of packages that should be installed instead of updated. It has
 the same format as the skip.list.
 
+=item I</etc/urpmi/prefer.list>
+
+The list of packages that should be preferred (useful for choices with
+B<--auto>). It contains one package expression per line; either a package
+name, or a regular expression (if enclosed in slashes B</>) to match the name
+of packages against.
+
+=item I</etc/urpmi/prefer.vendor.list>
+
+Vendor specific version of similar to prefer.list.
+
 =item I</etc/urpmi/mirror.config>
 
 This file is optional. If present, it should contain a single line:

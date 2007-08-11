@@ -104,7 +104,7 @@ _urpmi()
 			--excludedocs --searchmedia --ignoresize --ignorearch \
 			--strict-arch --wget-options --curl-options \
 			--prozilla-options --rsync-options --resume --retry \
-			--skip --nolock --more-choices"
+			--skip --prefer --nolock --more-choices"
 		# add dangereous option for everything else as rurpmi
 		if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
 			options="$options --root --use-distrib --env \
@@ -184,6 +184,7 @@ _urpmq()
 			--src --sources --force --parallel --wget --curl --prozilla \
 			--changelog --proxy --proxy-user --env --dump-config \
 			--whatprovides --whatrequires --whatrequires-recursive \
+			--skip --prefer \
 			--use-distrib --searchmedia --ignorearch" -- $cur))
 	else
 		# return available packages (unless it is clearly a file) and rpm files

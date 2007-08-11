@@ -4,6 +4,7 @@ package urpm::select;
 
 use urpm::msg;
 use urpm::util;
+use urpm::sys;
 use URPM;
 
 sub _findindeps {
@@ -246,6 +247,38 @@ sub resolve_dependencies {
 	}
     }
     $need_restart;
+}
+
+sub cooked_prefer {
+    my ($urpm, $cmdline_prefer) = @_;
+
+    $urpm->{prefer_regexps} ||= [
+	map {
+	    m!^/(.*)/$! ? "($1)" : '^' . quotemeta($_) . '$';
+	} map { @$_ }
+	  urpm::sys::get_packages_list($urpm->{prefer_list}, $cmdline_prefer),
+	  urpm::sys::get_packages_list($urpm->{prefer_vendor_list})
+    ];
+    @{$urpm->{prefer_regexps}};
+}
+
+sub sort_choices {
+    my ($urpm, $choices, $cmdline_prefer) = @_;
+
+    my @prefer;
+    my @l = @$choices;
+    foreach my $re (cooked_prefer($urpm, $cmdline_prefer)) {
+	my ($prefer, $other) = partition { $_->name =~ $re } @l;
+	push @prefer, @$prefer;
+	@l = @$other;
+
+	if (@$prefer) {
+	    my $prefer_s = join(',', map { $_->name } @$prefer);
+	    my $other_s     = join(',', map { $_->name } @l);
+	    $urpm->{log}("preferring $prefer_s over $other_s");
+	}
+    }
+    (@prefer, @l);
 }
 
 #- find packages to remove.
