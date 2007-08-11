@@ -102,6 +102,7 @@ usage:
 ") . N("  --install-src  - install only source package (no binaries).
 ") . N("  --clean        - remove rpm from cache before anything else.
 ") . N("  --noclean      - don't clean rpms from cache.
+") . N("  --replacepkgs  - force installing packages which are already installed.
 ") . N("  --force        - force invocation even if some packages do not exist.
 ") . N("  --allow-nodeps - allow asking user to install packages without
                    dependencies checking.
@@ -458,7 +459,15 @@ sub ask_choice {
 #- handle parallel option if any.
 #- return value is true if program should be restarted (in order to take care of important
 #- packages being upgraded (problably urpmi and perl-URPM, but maybe rpm too, and glibc also ?).
-my $restart_itself = urpm::select::resolve_dependencies($urpm,
+my $restart_itself;
+if ($options{replacepkgs}) {
+    foreach (keys %requested) {
+	my $pkg = $urpm->{depslist}[$_] or next;
+	$pkg->set_flag_requested;
+	$state->{selected}{$_} = undef;
+    }
+} else {
+    $restart_itself = urpm::select::resolve_dependencies($urpm,
     $state,
     \%requested,
     rpmdb => $env && "$env/rpmdb.cz",
@@ -469,7 +478,8 @@ my $restart_itself = urpm::select::resolve_dependencies($urpm,
     nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
     no_suggests => $urpm->{options}{'no-suggests'},
     priority_upgrade => $test || $env ? '' : $urpm->{options}{'priority-upgrade'},
-);
+    );
+}
 
 my @unselected_uninstalled = @{$state->{unselected_uninstalled} || []};
 if (@unselected_uninstalled) {

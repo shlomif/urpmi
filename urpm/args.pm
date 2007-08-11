@@ -95,6 +95,7 @@ my %options_spec = (
 	    $urpm->{options}{'priority-upgrade'} = '';
 	},
 	force => \$::force,
+	replacepkgs => \$options{replacepkgs},
 	'no-suggests' => sub { $urpm->{options}{'no-suggests'} = 1 },
 	'allow-nodeps' => sub { $urpm->{options}{'allow-nodeps'} = 1 },
 	'allow-force' => sub { $urpm->{options}{'allow-force'} = 1 },

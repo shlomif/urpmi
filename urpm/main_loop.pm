@@ -161,6 +161,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		repackage   => $urpm->{options}{repackage},
 		post_clean_cache => $urpm->{options}{'post-clean'},
 		oldpackage => $state->{oldpackage},
+		replacepkgs => $options{replacepkgs},
 		nosize => $urpm->{options}{ignoresize},
 		ignorearch => $urpm->{options}{ignorearch},
 		noscripts => $urpm->{options}{noscripts},
