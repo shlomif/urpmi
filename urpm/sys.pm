@@ -15,14 +15,14 @@ use POSIX ();
 #- typically from the inst.list or skip.list files.
 sub get_packages_list {
     my ($file, $o_extra) = @_;
-    my $val = [];
-    open(my $f, '<', $file);
-    foreach (<$f>, split /,/, $o_extra || '') {
-	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	next if $_ eq '';
-	push @$val, $_;
+    my @l = split(/,/, $o_extra || '');
+    if (open(my $f, '<', $file)) {
+	push @l, <$f>;
     }
-    $val;
+    [ grep { $_ } map {
+	chomp; s/#.*$//; s/^\s*//; s/\s*$//;
+	$_;
+    } @l ];
 }
 
 #- find used mount point from a pathname, use a optional mode to allow
