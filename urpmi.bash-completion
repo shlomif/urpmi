@@ -2,6 +2,8 @@
 # Copyright (c) 2002-2006 Guillaume Rousse <guillomovitch@mandriva.com>
 # $Id$
 
+common_options="-q --quiet -v --verbose --debug -h --help --urpmi-root"
+
 # utility functions
 _urpmi_get_medias()
 {
@@ -84,7 +86,7 @@ _urpmi()
 			_urpmi_aliases
 			return 0
 			;;
-		--root)
+		--root|--urpmi-root)
 			_filedir -d
 			return 0
 			;;
@@ -92,7 +94,7 @@ _urpmi()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		options='-a -p -P -y -s -q -v -h --help --update --media \
+		options="$common_options -a -p -P -y -s --update --media \
 			--excludemedia --sortmedia --synthesis --auto \
 			--auto-select --no-uninstall --split-level \
 			--split-length --fuzzy --src --install-src --clean \
@@ -102,7 +104,7 @@ _urpmi()
 			--excludedocs --searchmedia --ignoresize --ignorearch \
 			--strict-arch --wget-options --curl-options \
 			--prozilla-options --rsync-options --resume --retry \
-			--skip --nolock --more-choices'
+			--skip --nolock --more-choices"
 		# add dangereous option for everything else as rurpmi
 		if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
 			options="$options --root --use-distrib --env \
@@ -174,14 +176,14 @@ _urpmq()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W '-v -d -u -m -a -c -y -s -i -g -p \
-			-r -f -h -l --help --update --media --excludemedia \
+		COMPREPLY=( $( compgen -W "$common_options -d -u -m -a -c -y -s -i -g -p \
+			-r -f -l --update --media --excludemedia \
 			--sortmedia --synthesis --auto-select --fuzzy --keep --nokeep \
 			--list --list-url --list-media --list-nodes --list-aliases \
 			--src --sources --force --parallel --wget --curl --prozilla \
 			--changelog --proxy --proxy-user --env --dump-config \
 			--whatprovides --whatrequires --whatrequires-recursive \
-			--use-distrib --searchmedia --ignorearch' -- $cur))
+			--use-distrib --searchmedia --ignorearch" -- $cur))
 	else
 		# return available packages (unless it is clearly a file) and rpm files
 		if [[ "$cur" != */* ]]; then
@@ -203,8 +205,8 @@ _urpme()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W '-v -a -h --help --auto --test \
-			--parallel --noscripts' -- $cur ) )
+		COMPREPLY=( $( compgen -W "$common_options -a --auto --test \
+			--parallel --noscripts" -- $cur ) )
 	else
 		# return list of available packages
 		_rpm_installed_packages
@@ -239,12 +241,12 @@ _urpmf()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W '-i -f -e -a -o -m --help --update \
+		COMPREPLY=( $( compgen -W "$common_options -i -f -e -a -o -m --update \
 			--media --excludemedia --sortmedia --synthesis --use-distrib \
-			--verbose --quiet --uniq --name --group --license --size \
+			--uniq --name --group --license --size \
 			--epoch --summary --description --sourcerpm --packager\
 			--buildhost --url --provides --requires --suggests --files \
-			--conflicts --obsoletes --env ' -- $cur ) )
+			--conflicts --obsoletes --env " -- $cur ) )
 	else
 		# return available files
 		_filedir
@@ -263,10 +265,10 @@ _urpmi_update()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W '-a -c -f -q -v --help --wget --prozilla \
+		COMPREPLY=( $( compgen -W "$common_options -a -c -f --wget --prozilla \
 			--curl --limit-rate --proxy --proxy-user --update \
 			--ignore --no-ignore \
-			--no-md5sum --force-key --norebuild' \
+			--no-md5sum --force-key --norebuild" \
 			-- $cur))
 	else
 		# return list of available media
@@ -286,10 +288,10 @@ _urpmi_addmedia()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W '-c -f -h -v -q --help --wget --curl --prozilla \
+		COMPREPLY=( $( compgen -W "$common_options -c -f --wget --curl --prozilla \
 			--limit-rate --proxy --proxy-user --update --raw \
 			--probe-synthesis --probe-hdlist --probe-rpms --no-probe --distrib \
-			--env --version --arch --virtual --norebuild --nopubkey' -- $cur ) )
+			--env --version --arch --virtual --norebuild --nopubkey" -- $cur ) )
 	else
 		# count number of mandatory args given sofar
 		args=$COMP_CWORD
@@ -329,7 +331,7 @@ _urpmi_removemedia()
 
 	if [[ "$cur" == -* ]]; then
 		# if word begins with a dash, return list of available options
-		COMPREPLY=( $( compgen -W '-a -c -y -v -q --help' -- $cur ) )
+		COMPREPLY=( $( compgen -W "$common_options -a -c -y" -- $cur ) )
 	else
 		# elsewhere, return list of available media
 		_urpmi_medias
