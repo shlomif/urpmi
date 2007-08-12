@@ -74,6 +74,11 @@ sub set_files {
 			 dirname($h{config}),
 			 "$urpmi_root/var/lib/rpm",
 		     ]);
+
+    if ($urpmi_root && -e "$urpmi_root/etc/rpm/macros") {
+	URPM::loadmacrosfile("$urpmi_root/etc/rpm/macros");
+    }
+    
 }
 
 sub protocol_from_url {

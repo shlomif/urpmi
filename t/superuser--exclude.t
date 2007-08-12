@@ -16,20 +16,39 @@ my @want = `rpm -qpl media/$name/$name-1-1.*.rpm`;
 
 urpmi_addmedia("$name $::pwd/media/$name");
 
+set_install_langs_macro('fr');
+
 foreach ([ '', \@want ],
 	 [ '--excludedocs', [ grep { !m!^/usr/share/doc! } @want ] ],
 	 [ '--excludepath /usr', [ grep { !m!^/usr! } @want ] ],
      ) {
     my ($option, $want) = @$_;
 
-    test_rpm_cmdline($option, $want);
+    test_rpm_cmdline($option, 'fr', $want);
     test_urpmi_cmdline($option, $want);
     test_urpmi_through_urpmi_cfg($option, $want);
 }
 
-sub test_rpm_cmdline {
-    my ($option, $want) = @_;
+{
+    set_install_langs_macro('en');
+    my $want = [ grep { !m!^/usr/share/locale/! } @want ];
+    test_rpm_cmdline('', 'en', $want);
 
+    test_urpmi_cmdline('', $want);
+}
+
+sub set_install_langs_macro {
+    my ($langs) = @_;
+    mkdir "$::pwd/root/etc/rpm";
+    my $macros_file = "$::pwd/root/etc/rpm/macros";
+    system("echo \%_install_langs $langs > $macros_file");
+    ok(-e $macros_file);
+}
+
+sub test_rpm_cmdline {
+    my ($option, $lang, $want) = @_;
+
+    $option = "$option --define='_install_langs $lang'";
     system_("rpm --root $::pwd/root -i $option media/$name/$name-1-1.*.rpm");
     check("rpm -i $option", $want);
     system_("rpm --root $::pwd/root -e $name");
