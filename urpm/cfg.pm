@@ -159,7 +159,7 @@ sub load_config_raw {
 	    $block->{$1} = $2;
 	} elsif (/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/) {
 	    $block->{'key-ids'} = $1;
-	} elsif (/^(update|ignore|hdlist|synthesis|noreconfigure|static|virtual)$/) {
+	} elsif (/^(update|ignore|hdlist|synthesis|noreconfigure|no-suggests|static|virtual)$/) {
 	    #- positive flags
 	    $block->{$1} = 1;
 	} elsif (my ($no, $k, $v) =
