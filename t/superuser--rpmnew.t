@@ -11,29 +11,49 @@ my @names = ('config-noreplace', 'config', 'normal');
 
 need_root_and_prepare();
 
-test(['orig', 'orig', 'orig'],
-     ['orig', 'orig', 'orig'],
-     ['changed', 'changed', 'changed']);
+my $rpm_cmd = "rpm --root $::pwd/root -U";
+my $urpmi_cmd = urpmi_cmd();
 
-if (my @l = glob("$::pwd/root/etc/*")) {
-    fail(join(' ', @l) . " files should not be there");
+test1($rpm_cmd);
+test2($rpm_cmd);
+test1($urpmi_cmd);
+test2($urpmi_cmd);
+
+sub test1 {
+    my ($cmd) = @_;
+
+    test($cmd,
+	 ['orig', 'orig', 'orig'],
+	 ['orig', 'orig', 'orig'],
+	 ['changed', 'changed', 'changed']);
+
+    check_no_etc_files();
 }
 
-system("echo foo > $::pwd/root/etc/$_") foreach @names;
+sub test2 {
+    my ($cmd) = @_;
 
-test(['foo', 'orig', 'orig'],
-     ['foo', 'orig', 'orig'],
-     ['foo', 'changed', 'changed']);
+    system("echo foo > $::pwd/root/etc/$_") foreach @names;
 
-check_one_content('<removed>', 'config.rpmorig', 'foo');
-check_one_content('<removed>', 'config-noreplace.rpmsave', 'foo');
-check_one_content('<removed>', 'config-noreplace.rpmnew', 'changed');
-unlink "$::pwd/root/etc/config.rpmorig";
-unlink "$::pwd/root/etc/config-noreplace.rpmsave";
-unlink "$::pwd/root/etc/config-noreplace.rpmnew";
+    test($cmd, 
+	 ['foo', 'orig', 'orig'],
+	 ['foo', 'orig', 'orig'],
+	 ['foo', 'changed', 'changed']);
 
-if (my @l = glob("$::pwd/root/etc/*")) {
-    fail(join(' ', @l) . " files should not be there");
+    check_one_content('<removed>', 'config.rpmorig', 'foo');
+    check_one_content('<removed>', 'config-noreplace.rpmsave', 'foo');
+    check_one_content('<removed>', 'config-noreplace.rpmnew', 'changed');
+    unlink "$::pwd/root/etc/config.rpmorig";
+    unlink "$::pwd/root/etc/config-noreplace.rpmsave";
+    unlink "$::pwd/root/etc/config-noreplace.rpmnew";
+
+    check_no_etc_files();
+}
+
+sub check_no_etc_files() {
+    if (my @l = grep { !m!/urpmi$! } glob("$::pwd/root/etc/*")) {
+	fail(join(' ', @l) . " files should not be there");
+    }
 }
 
 sub check_content {
@@ -52,11 +72,6 @@ sub check_one_content {
 }
 
 sub test {
-    my ($v1, $v2, $v3) = @_;
-    test_raw("rpm --root $::pwd/root -U", $v1, $v2, $v3);
-}
-
-sub test_raw {
     my ($cmd, $v1, $v2, $v3) = @_;
 
     system_("$cmd media/$medium_name/a-1-*.rpm");
