@@ -16,8 +16,10 @@ my $urpmi_cmd = urpmi_cmd();
 
 test1($rpm_cmd);
 test2($rpm_cmd);
+test3($rpm_cmd);
 test1($urpmi_cmd);
 test2($urpmi_cmd);
+test3($urpmi_cmd);
 
 sub test1 {
     my ($cmd) = @_;
@@ -33,6 +35,24 @@ sub test1 {
 sub test2 {
     my ($cmd) = @_;
 
+    mkdir "$::pwd/root/etc";
+    system("echo orig > $::pwd/root/etc/$_") foreach @names;
+
+    test($cmd,
+	 ['orig', 'orig', 'orig'],
+	 ['orig', 'orig', 'orig'],
+	 ['changed', 'changed', 'changed']);
+
+    ok(unlink "$::pwd/root/etc/config.rpmorig");
+    ok(unlink "$::pwd/root/etc/config-noreplace.rpmnew");
+
+    check_no_etc_files();
+}
+
+sub test3 {
+    my ($cmd) = @_;
+
+    mkdir "$::pwd/root/etc";
     system("echo foo > $::pwd/root/etc/$_") foreach @names;
 
     test($cmd, 
@@ -43,9 +63,9 @@ sub test2 {
     check_one_content('<removed>', 'config.rpmorig', 'foo');
     check_one_content('<removed>', 'config-noreplace.rpmsave', 'foo');
     check_one_content('<removed>', 'config-noreplace.rpmnew', 'changed');
-    unlink "$::pwd/root/etc/config.rpmorig";
-    unlink "$::pwd/root/etc/config-noreplace.rpmsave";
-    unlink "$::pwd/root/etc/config-noreplace.rpmnew";
+    ok(unlink "$::pwd/root/etc/config.rpmorig");
+    ok(unlink "$::pwd/root/etc/config-noreplace.rpmsave");
+    ok(unlink "$::pwd/root/etc/config-noreplace.rpmnew");
 
     check_no_etc_files();
 }
