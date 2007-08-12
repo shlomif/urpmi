@@ -53,16 +53,21 @@ sub check_one_content {
 
 sub test {
     my ($v1, $v2, $v3) = @_;
+    test_raw("rpm --root $::pwd/root -U", $v1, $v2, $v3);
+}
 
-    system_("rpm --root $::pwd/root -i media/$medium_name/a-1-*.rpm");
+sub test_raw {
+    my ($cmd, $v1, $v2, $v3) = @_;
+
+    system_("$cmd media/$medium_name/a-1-*.rpm");
     is(`rpm -qa --root $::pwd/root`, "a-1-1\n");
     check_content('a-1', @$v1);
 
-    system_("rpm --root $::pwd/root -U media/$medium_name/a-2-*.rpm");
+    system_("$cmd media/$medium_name/a-2-*.rpm");
     is(`rpm -qa --root $::pwd/root`, "a-2-1\n");
     check_content('a-2', @$v2);
 
-    system_("rpm --root $::pwd/root -U media/$medium_name/a-3-*.rpm");
+    system_("$cmd media/$medium_name/a-3-*.rpm");
     is(`rpm -qa --root $::pwd/root`, "a-3-1\n");
     check_content('a-3', @$v3);
 
