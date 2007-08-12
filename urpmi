@@ -429,7 +429,8 @@ if (@src_names) {
 sub ask_choice {
     my ($urpm, $_db, $_state, $choices, $virtual_pkg_name) = @_;
 
-    my @choices = urpm::select::sort_choices($urpm, $choices, $options{prefer});
+    my ($prefer, $other) = urpm::select::get_preferred($urpm, $choices, $options{prefer});
+    my @choices = (@$prefer, @$other);
 
     my (@l) = map {
 	my ($name, $summary) = (scalar($_->fullname), translate($_->summary));

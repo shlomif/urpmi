@@ -262,7 +262,7 @@ sub cooked_prefer {
     @{$urpm->{prefer_regexps}};
 }
 
-sub sort_choices {
+sub get_preferred {
     my ($urpm, $choices, $cmdline_prefer) = @_;
 
     my @prefer;
@@ -278,7 +278,7 @@ sub sort_choices {
 	    $urpm->{log}("preferring $prefer_s over $other_s");
 	}
     }
-    (@prefer, @l);
+    (\@prefer, \@l);
 }
 
 #- find packages to remove.

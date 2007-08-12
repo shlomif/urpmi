@@ -16,7 +16,7 @@ use POSIX ();
 sub get_packages_list {
     my ($file, $o_extra) = @_;
     my @l = split(/,/, $o_extra || '');
-    if (open(my $f, '<', $file)) {
+    if ($file && open(my $f, '<', $file)) {
 	push @l, <$f>;
     }
     [ grep { $_ } map {
