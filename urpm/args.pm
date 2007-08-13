@@ -407,7 +407,7 @@ sub set_root {
 		$urpm->{fatal}->(9, N("chroot directory doesn't exist"));
 	    }
 	    $options{nolock} = 1;
-	}
+}
 
 sub parse_cmdline {
     my %args = @_;
