@@ -127,7 +127,8 @@ sub get_README_files {
 #- install packages according to each hash (remove, install or upgrade).
 #- options: 
 #-      test, excludepath, nodeps, noorder (unused), delta, 
-#-      callback_inst, callback_trans, post_clean_cache, verbose
+#-      callback_inst, callback_trans, callback_report_uninst,
+#-      post_clean_cache, verbose
 #-   (more options for trans->run)
 #-      excludedocs, nosize, noscripts, oldpackage, repackage, replacepkgs, ignorearch
 sub install {
