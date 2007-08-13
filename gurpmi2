@@ -18,6 +18,7 @@ use urpm::signature;
 use urpm::get_pkgs;
 use urpm::msg;
 use urpm::select;
+use urpm::main_loop;
 use Gtk2;
 
 #- GUI globals
@@ -225,8 +226,6 @@ sub do_install_3 () {
     wait_label(N("Package installation..."));
     my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
     $local_sources || $list or $urpm->{fatal}(3, N("unable to get source packages, aborting"));
-    my %sources = %$local_sources;
-    my %error_sources;
     my $vbox = Gtk2::VBox->new(0, 5);
     my $progress_label = Gtk2::Label->new('-');
     $vbox->pack_start($progress_label, 1, 1, 0);
@@ -234,62 +233,7 @@ sub do_install_3 () {
     $progressbar->set_size_request(450, -1);
     $vbox->pack_start($progressbar, 0, 0, 0);
     change_mainw($vbox);
-    urpm::removable::copy_packages_of_removable_media($urpm, $list, \%sources, sub {
-	    my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok-cancel',
-		N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1])
-	    );
-	    my $response = $w->run;
-	    $w->destroy;
-	    exit 0 if $response eq 'cancel';
-	    1;
-	});
-    urpm::install::create_transaction($urpm,
-	$state,
-	split_level => $urpm->{options}{'split-level'},
-	split_length => $urpm->{options}{'split-length'},
-    );
-    my (@errors);
     my $progress_nb;
-    foreach my $set (@{$state->{transaction} || []}) {
-	my (@transaction_list, %transaction_sources);
-	urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
-	urpm::get_pkgs::download_packages_of_distant_media($urpm,
-	    \@transaction_list,
-	    \%transaction_sources,
-	    \%error_sources,
-	    callback => sub {
-		my ($mode, $file, $percent) = @_;
-		if ($mode eq 'start') {
-		    $file =~ s|/*\s*$||; $file =~ s|.*/||;
-		    $progress_label->set_label(N("Downloading package `%s'...", $file));
-		    select(undef, undef, undef, 0.1);  #- hackish
-		} elsif ($mode eq 'progress') {
-		    $progressbar->set_fraction($percent / 100);
-		} elsif ($mode eq 'end') {
-		    $progressbar->set_fraction(1);
-		}
-		sync();
-	    },
-	);
-	my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources, $state) || {}};
-	if ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}}) {
-	    my @bad_signatures = urpm::signature::check($urpm, \%transaction_sources_install, \%transaction_sources);
-	    if (@bad_signatures) {
-		ask_continue_blocking(N(
-		    "The following packages have bad signatures:\n%s\n\nDo you want to continue installation ?",
-		    (join "\n", @bad_signatures)
-		));
-	    }
-	}
-	#- check for local files.
-	if (my @missing = grep { m|^/| && ! -e $_ } values %transaction_sources_install, values %transaction_sources) {
-	    $urpm->{error}(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
-		    join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } @missing));
-	    next;
-	}
-	if (keys(%transaction_sources_install) || keys(%transaction_sources)) {
-	    @{$set->{remove} || []} and
-		$progress_label->set_label(N("removing %s", join(' ', @{$set->{remove} || []})));
 	    my $callback_inst = sub {
 		my ($urpm, $type, $id, $subtype, $amount, $total) = @_;
 		my $pkg = defined $id ? $urpm->{depslist}[$id] : undef;
@@ -307,44 +251,66 @@ sub do_install_3 () {
 		}
 		sync();
 	    };
-	    my @l = urpm::install::install($urpm,
-		$set->{remove} || [],
-		\%transaction_sources_install,
-		\%transaction_sources,
-		oldpackage => $state->{oldpackage},
-		callback_inst => $callback_inst,
-		callback_trans => $callback_inst,
-		#- global options that might have been read from urpmi.cfg
-		excludepath => $urpm->{options}{excludepath},
-		excludedocs => $urpm->{options}{excludedocs},
-		repackage   => $urpm->{options}{repackage},
-		nosize => $urpm->{options}{ignoresize},
-		ignorearch => $urpm->{options}{ignorearch},
-		noscripts => $urpm->{options}{noscripts},
-		post_clean_cache => $urpm->{options}{'post-clean'},
-	    );
-	    push @errors, @l;
-	}
+
+    urpm::main_loop::run($urpm, $state, scalar(@gurpmi::names),  \@ask_unselect, \%requested, {
+        bad_signature => sub {
+            my ($msg, $msg2) = @_;
+            ask_continue_blocking("$msg\n$msg2");
+        },
+        copy_removable => sub {
+            my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok-cancel',
+                                             N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1])
+                                         );
+            my $response = $w->run;
+            $w->destroy;
+            exit 0 if $response eq 'cancel';
+            1;
+        },
+        trans_log => sub {
+            my ($mode, $file, $percent) = @_;
+            if ($mode eq 'start') {
+                $file =~ s|/*\s*$||; $file =~ s|.*/||;
+                $progress_label->set_label(N("Downloading package `%s'...", $file));
+                select(undef, undef, undef, 0.1); #- hackish
+            } elsif ($mode eq 'progress') {
+                $progressbar->set_fraction($percent / 100);
+            } elsif ($mode eq 'end') {
+                $progressbar->set_fraction(1);
+            }
+            sync();
+        },
+        completed => sub {
+            $vbox = Gtk2::VBox->new(0, 5);
+            $progress_label = Gtk2::Label->new('-');
+            my $sw = create_scrolled_window($progress_label);
+            $sw->set_size_request(500, 200);
+            $vbox->pack_start($sw, 1, 1, 0);
+            my $quit_button = Gtk2::Button->new(but(N("_Done")));
+            $quit_button->signal_connect(clicked => \&quit);
+            add_button_box($vbox, $quit_button);
+            change_mainw($vbox);
+        },
+        missing_files_summary => sub {
+            my ($error_sources) = @_;
+            $progress_label->set_label(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+                                         join("\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" }
+                                                values %$error_sources)));
+        },
+        trans_error_summary => sub {
+            my ($_nok, $errors) = @_;
+            $progress_label->set_label(N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @$errors));
+        },
+        # TODO: use urpmi strings:
+        already_installed_or_not_installable => sub {
+            my ($_msg1, $_msg2) = @_;
+            $progress_label->set_label(N("The package(s) are already installed"));
+        },
+        success_summary => sub { $progress_label->set_label(N("Installation finished")) },
+        callback_report_uninst => sub { $progress_label->set_label(N("removing %s", $_[0])) },
+        inst => $callback_inst,
+        trans => $callback_inst,
     }
-    $vbox = Gtk2::VBox->new(0, 5);
-    $progress_label = Gtk2::Label->new('-');
-    my $sw = create_scrolled_window($progress_label);
-    $sw->set_size_request(500, 200);
-    $vbox->pack_start($sw, 1, 1, 0);
-    my $quit_button = Gtk2::Button->new(but(N("_Done")));
-    $quit_button->signal_connect(clicked => \&quit);
-    add_button_box($vbox, $quit_button);
-    change_mainw($vbox);
-    if (@errors) {
-	$progress_label->set_label(N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @errors));
-    } elsif (values %error_sources) {
-	$progress_label->set_label(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
-		join "\n", map { s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; "    $_" } values %error_sources));
-    } elsif (@{$state->{transaction} || []} == 0 && @ask_unselect == 0) {
-	$progress_label->set_label(N("The package(s) are already installed"));
-    } else {
-	$progress_label->set_label(N("Installation finished"));
-    }
+                     );
     $urpmi_lock->unlock;
     $rpm_lock->unlock;
     urpm::removable::try_umounting_removables($urpm);
