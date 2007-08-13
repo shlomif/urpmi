@@ -7,7 +7,7 @@ our @EXPORT = qw(need_root_and_prepare
 		 urpmi_addmedia urpmi_removemedia urpmi_update
 		 urpm_cmd urpmi_cmd urpmi urpme
 		 urpmi_cfg set_urpmi_cfg_global_options
-		 system_
+		 system_ system_should_fail
 		 check_installed_fullnames check_installed_names check_nothing_installed
 		 check_installed_and_remove check_installed_and_urpme
 	    );
@@ -89,6 +89,11 @@ sub system_ {
     my ($cmd) = @_;
     system($cmd);
     ok($? == 0, $cmd);
+}
+sub system_should_fail {
+    my ($cmd) = @_;
+    system($cmd);
+    ok($? != 0, "should fail: $cmd");
 }
 
 
