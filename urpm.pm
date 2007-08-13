@@ -51,15 +51,20 @@ sub new {
     $self;
 }
 
+sub prefer_rooted {
+    my ($root, $file) = @_;
+    -e "$root$file" ? "$root$file" : $file;
+}
+
 sub set_files {
     my ($urpm, $urpmi_root) = @_;
     my %h = (
 	config        => "$urpmi_root/etc/urpmi/urpmi.cfg",
-	skiplist      => "$urpmi_root/etc/urpmi/skip.list",
-	instlist      => "$urpmi_root/etc/urpmi/inst.list",
-	prefer_list   => "$urpmi_root/etc/urpmi/prefer.list",
+	skiplist      => prefer_rooted($urpmi_root, '/etc/urpmi/skip.list'),
+	instlist      => prefer_rooted($urpmi_root, '/etc/urpmi/inst.list'),
+	prefer_list   => prefer_rooted($urpmi_root, '/etc/urpmi/prefer.list'),
 	prefer_vendor_list => 
-	                 "$urpmi_root/etc/urpmi/prefer.vendor.list",
+	                 prefer_rooted($urpmi_root, '/etc/urpmi/prefer.vendor.list'),
 	private_netrc => "$urpmi_root/etc/urpmi/netrc",
 	statedir      => "$urpmi_root/var/lib/urpmi",
 	cachedir      => "$urpmi_root/var/cache/urpmi",
