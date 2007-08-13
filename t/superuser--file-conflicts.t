@@ -1,5 +1,10 @@
 #!/usr/bin/perl
 
+# a and b contains the same file name, with different content => should fail
+# a and c contents the same file name, with same content => should work
+# a and d contents the same directory name => should work
+# a and e contents the same path for a directory vs a symlink => should fail
+
 use strict;
 use lib '.', 't';
 use helper;
@@ -30,11 +35,18 @@ sub test_rpm_same_transaction {
 
     test_rpm_i_succeeds('a', 'd');
     check_installed_and_remove('a', 'd');
+
+    # disabled, fail (#32528)
+    #test_rpm_i_fail('a', 'e');
+    #check_nothing_installed();
 }
 
 sub test_rpm_different_transactions {
     test_rpm_i_succeeds('a');
     test_rpm_i_fail('b');
+    check_installed_names('a');
+
+    test_rpm_i_fail('e');
     check_installed_names('a');
 
     test_rpm_i_succeeds('c');
@@ -55,11 +67,18 @@ sub test_urpmi_same_transaction {
 
     urpmi('a d');
     check_installed_and_remove('a', 'd');
+
+    # disabled, fail (#32528)
+    #urpmi('a e');
+    #check_installed_and_remove('a', 'e');
 }
 
 sub test_urpmi_different_transactions {
     urpmi('a');
     test_urpmi_fail('b');
+    check_installed_names('a');
+
+    test_urpmi_fail('e');
     check_installed_names('a');
 
     # disabled, fail when dropping RPMTAG_FILEDIGESTS
