@@ -15,13 +15,14 @@ urpmi_addmedia("$medium_name $::pwd/media/$medium_name");
 
 
 test_rpm_same_transaction();
+exit ;
 test_rpm_different_transactions();
 
 test_urpmi_same_transaction();
 test_urpmi_different_transactions();
 
 sub test_rpm_same_transaction {
-    # disabled, fail
+    # disabled, fail (#32528)
     #test_rpm_i_fail('a', 'b');
     #check_nothing_installed();
 
@@ -30,6 +31,9 @@ sub test_rpm_same_transaction {
 
     test_rpm_i_succeeds('a', 'd');
     check_installed_and_remove('a', 'd');
+
+    test_rpm_i_fail('a', 'e');
+    check_nothing_installed();
 }
 
 sub test_rpm_different_transactions {
@@ -46,7 +50,7 @@ sub test_rpm_different_transactions {
 }
 
 sub test_urpmi_same_transaction {
-    # disabled, fail
+    # disabled, fail (#32528)
     #test_urpmi_fail('a', 'b');
     #check_nothing_installed();
 
