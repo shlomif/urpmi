@@ -282,6 +282,7 @@ sub do_install_3 () {
         completed => sub {
             $urpmi_lock->unlock;
             $rpm_lock->unlock;
+            urpm::removable::try_umounting_removables($urpm);
             $vbox = Gtk2::VBox->new(0, 5);
             $progress_label = Gtk2::Label->new('-');
             my $sw = create_scrolled_window($progress_label);
@@ -313,5 +314,4 @@ sub do_install_3 () {
         trans => $callback_inst,
     }
                      );
-    urpm::removable::try_umounting_removables($urpm);
 }
