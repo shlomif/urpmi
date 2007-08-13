@@ -1,3 +1,412 @@
+2007-08-13 09:09  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, gurpmi2: (completed callback) umount removable media as
+	  soon as possible
+
+2007-08-13 09:09  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, gurpmi2: (completed callback) unlock RPM & URPMI dbs locks
+	  as soon as possible like rpmdrake
+
+2007-08-13 09:09  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, gurpmi2: (do_install_3) reuse urpm::main_loop
+
+2007-08-13 09:08  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/main_loop.pm: (run) introduce
+	  "already_installed_or_not_installable" callback for GUIes
+
+2007-08-13 09:08  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/main_loop.pm: (run) forward callback_report_uninst callback
+
+2007-08-13 09:07  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/install.pm: (install) add support for
+	  "callback_report_uninst" callback for rpmdrake
+
+2007-08-13 09:07  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/args.pm: (set_root) split it out in order to be reused by
+	  rpmdrake
+
+2007-08-12 19:53  Pixel <pixel at mandriva.com>
+
+	* NEWS, t/superuser--exclude.t, urpm.pm: - urpmi
+	  o when using --urpmi-root, load <root>/etc/rpm/macros
+	  this allow using _install_langs in the rooted directory
+	  
+	  - fix test exclude.t: the build computer macro _install_langs
+	  don't interfere
+	  anymore
+	  - add one test to exclude.t: test wether urpmi correctly honor
+	  _install_langs
+
+2007-08-12 18:37  Pixel <pixel at mandriva.com>
+
+	* t/superuser--rpmnew.t: one more test
+
+2007-08-12 18:21  Pixel <pixel at mandriva.com>
+
+	* t/superuser--rpmnew.t: also test through urpmi
+
+2007-08-12 18:14  Pixel <pixel at mandriva.com>
+
+	* t/superuser--rpmnew.t: prepare next commit
+
+2007-08-12 12:48  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/cfg.pm: - urpmi.cfg
+	  o really add global option no-suggests
+	  
+	  (thanks to Frederik Himpe)
+
+2007-08-12 12:20  Pixel <pixel at mandriva.com>
+
+	* urpm/main_loop.pm: drop unneeded svn:executable
+
+2007-08-12 12:15  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.1
+
+2007-08-12 12:15  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/select.pm, urpm/sys.pm, urpmi: - library
+	  o urpm::select: new function get_preferred() replacing
+	  sort_choices()
+	  (for drakx)
+	  o get rid of "use of unitialized" when file is unset (for drakx)
+
+2007-08-11 16:30  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.0
+
+2007-08-11 16:27  Pixel <pixel at mandriva.com>
+
+	* NEWS: need perl-URPM 1.73
+
+2007-08-11 16:25  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.9.31
+
+2007-08-11 16:25  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmi.8.pod, pod/urpmi.files.5.pod, pod/urpmq.8.pod,
+	  t/data/SPECS/prefer, t/data/SPECS/prefer/a.spec,
+	  t/data/SPECS/prefer/b.spec, t/data/SPECS/prefer/b_foo.spec,
+	  t/data/SPECS/prefer/c.spec, t/data/SPECS/prefer/c_foo.spec,
+	  t/superuser--prefer.t, urpm.pm, urpm/args.pm, urpm/select.pm,
+	  urpmi, urpmi.bash-completion, urpmq: - urpmi
+	  o handle preferred choices (through --prefer,
+	  /etc/urpmi/prefer.list
+	  and /etc/urpmi/prefer.vendor.list)
+
+2007-08-11 15:37  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: - get rid of a warning reading empty file
+	  - have extra first in the list (useful for --preferred being
+	  taken into
+	  account before /etc/urpmi/preferred.list)
+	  - cleanup
+
+2007-08-11 15:32  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm, urpm/sys.pm: move get_packages_list() (for next
+	  commit)
+
+2007-08-11 14:04  Pixel <pixel at mandriva.com>
+
+	* t/superuser--README-urpmi.t, t/superuser--handle-conflict-deps.t,
+	  t/superuser--obsolete-and-conflict.t,
+	  t/superuser--split-transactions.t, t/superuser--suggests.t:
+	  remove useless "use Expect"
+
+2007-08-11 13:54  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: allow using --skip even if skip.list file is
+	  missing
+
+2007-08-11 13:17  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm: factorize
+
+2007-08-11 12:46  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmi.8.pod, urpm/args.pm, urpm/main_loop.pm, urpmi,
+	  urpmi.bash-completion: - urpmi
+	  o new option --replacepkgs (same as rpm --replacepkgs) (#16112)
+
+2007-08-11 12:14  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/install.pm, urpm/main_loop.pm: - urpmi
+	  o fix --quiet (regression introduced in 4.9.28)
+
+2007-08-11 11:40  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpme.8.pod, pod/urpmf.8.pod, pod/urpmi.8.pod,
+	  pod/urpmi.addmedia.8.pod, pod/urpmi.removemedia.8.pod,
+	  pod/urpmi.update.8.pod, pod/urpmq.8.pod, urpm/args.pm,
+	  urpm/lock.pm, urpm/media.pm, urpme, urpmf, urpmi, urpmi.addmedia,
+	  urpmi.bash-completion, urpmi.removemedia, urpmi.update, urpmq: -
+	  all tools
+	  o new option --wait-lock (#13025)
+
+2007-08-11 11:39  Pixel <pixel at mandriva.com>
+
+	* urpmi.bash-completion: factorize common options
+
+2007-08-11 11:08  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: document
+
+2007-08-10 22:39  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) reindent
+
+2007-08-10 22:37  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) add some comments from old
+	  commits
+
+2007-08-10 22:33  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) simplify construction of "cur"
+
+2007-08-10 22:31  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) backport part of rafael commit
+	  in CVS r1.301:1.302:
+	  Make the parsing of "descriptions" file a bit better
+	  
+	  skip other tests once matched (no gain)
+
+2007-08-10 22:30  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) backport part of rafael commit
+	  in CVS r1.301:1.302:
+	  Make the parsing of "descriptions" file a bit better
+	  
+	  be more tolerant regarding spacing (not a issue with current
+	  description files)
+
+2007-08-10 22:28  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) use member()
+
+2007-08-10 22:05  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) descriptions files really come
+	  with
+	  "Update:" field today; let's be more open
+
+2007-08-10 21:46  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) parse the MDKSA ids and the
+	  URL when reading the "descriptions" file
+
+2007-08-10 21:44  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) further factorize
+
+2007-08-10 21:41  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) merge 'pre' & 'description'
+	  management
+
+2007-08-10 21:38  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (get_updates_description) rpmdrake wants the medium name
+
+2007-08-10 15:08  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.9.30
+
+2007-08-10 10:16  Pixel <pixel at mandriva.com>
+
+	* NEWS: add thanks
+
+2007-08-10 09:38  Pixel <pixel at mandriva.com>
+
+	* urpmi: fix typo in previous commit
+
+2007-08-09 20:53  Pixel <pixel at mandriva.com>
+
+	* NEWS: fix typo
+
+2007-08-09 20:53  Pixel <pixel at mandriva.com>
+
+	* MANIFEST, NEWS, t/01compile.t, urpm/main_loop.pm, urpmi: - urpmi
+	  o move some code to new module urpm::main_loop to share it with
+	  rpmdrake
+
+2007-08-09 20:49  Pixel <pixel at mandriva.com>
+
+	* t/superuser--priority-upgrade.t: fix testing with local urpmi
+	  after urpmi restart
+
+2007-08-09 16:20  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: fix a wrongly translated message
+
+2007-08-09 14:59  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: we already computed the number of package (cosmetic)
+
+2007-08-09 14:07  Pixel <pixel at mandriva.com>
+
+	* NEWS: make it explicit that perl-URPM 1.69 is "needed"
+	  (well, not really needed, without it suggests are still requires)
+
+2007-08-09 14:04  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.9.29
+
+2007-08-09 14:04  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmf.8.pod, pod/urpmi.8.pod, pod/urpmi.cfg.5.pod,
+	  t/data/SPECS/suggests, t/data/SPECS/suggests/a-1.spec,
+	  t/data/SPECS/suggests/a-2.spec, t/data/SPECS/suggests/a-3.spec,
+	  t/data/SPECS/suggests/b.spec, t/data/SPECS/suggests/bb.spec,
+	  t/data/SPECS/suggests/c.spec, t/data/SPECS/suggests/cc.spec,
+	  t/data/SPECS/suggests/suggested_b.spec,
+	  t/data/SPECS/suggests/suggested_c.spec,
+	  t/data/SPECS/suggests/with-invalid.spec, t/superuser--suggests.t,
+	  urpm/args.pm, urpm/select.pm, urpmf, urpmi,
+	  urpmi.bash-completion: - urpmi
+	  o explicit error when using "urpmi ---install-src" as user with
+	  remote media
+	  o add support for "suggests": a newly suggested package is
+	  installed as if
+	  required, but one can remove it afterwards, or use --no-suggests
+	  - urpmf
+	  o handle --suggests
+	  
+	  all the work is done in perl-URPM 1.69
+
+2007-08-08 15:59  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: fix typo
+
+2007-08-08 15:58  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/get_pkgs.pm: - urpmi
+	  o explicit error when using "urpmi ---install-src" as user with
+	  remote media
+
+2007-08-07 14:07  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Updated Estonian translation.
+
+2007-08-07 08:28  ybando
+
+	* po/ja.po: Japanese translation updated.
+
+2007-08-03 14:48  Pixel <pixel at mandriva.com>
+
+	* po/pt.po: fix typo
+
+2007-08-03 14:46  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.9.28
+
+2007-08-03 14:45  Pixel <pixel at mandriva.com>
+
+	* NEWS: need perl-URPM 1.68
+
+2007-08-03 14:14  Pixel <pixel at mandriva.com>
+
+	* NEWS, t/data/SPECS/README-urpmi/a.spec,
+	  t/data/SPECS/README-urpmi/b.spec,
+	  t/data/SPECS/README-urpmi/b_2.spec,
+	  t/data/SPECS/README-urpmi/b_3.spec,
+	  t/data/SPECS/README-urpmi/c.spec,
+	  t/data/SPECS/README-urpmi/d.spec, t/superuser--README-urpmi.t,
+	  urpm/install.pm: - urpmi
+	  o handle README.<version>.upgrade.urpmi and
+	  README.<version>-<release>.upgrade.urpmi: the content is
+	  displayed
+	  when upgrading from rpm older than <version> (#30187)
+	  - fix build of some test rpms
+
+2007-08-03 13:27  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/install.pm: (install) callback_open & callback_close are no
+	  more supported since
+	  they are no more used
+
+2007-08-03 13:10  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: - fix typo in previous commit
+	  - export code in its own function: get_README_files()
+
+2007-08-03 13:07  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/install.pm: - library
+	  o urpm::install: export %readmes so that rpmdrake can access it
+
+2007-08-02 20:46  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: typo fixes
+
+2007-08-02 19:48  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/sys.pm: (open_safe) since these errors messages are
+	  displayed by
+	  urpmi/rpmdrake, let's display translated messages
+
+2007-08-02 18:34  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmf.8.pod, urpm/args.pm, urpmf,
+	  urpmi.bash-completion: handle urpmf --license
+
+2007-08-02 18:29  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm: get rid of some "Use of uninitialized value"
+
+2007-08-02 18:29  Pixel <pixel at mandriva.com>
+
+	* urpmf: fix debugging urpmf callback
+
+2007-08-01 15:44  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm, urpme, urpmf, urpmi, urpmi.addmedia,
+	  urpmi.removemedia, urpmi.update, urpmq: factorize handling of
+	  -q|--quiet and -v|--verbose for all tools
+	  
+	  this fixes -q option not handled by urpmi.update (#31890)
+
+2007-08-01 15:39  Pixel <pixel at mandriva.com>
+
+	* urpmq: simplify code by using directly $options{...} (exported
+	  from urpm::args)
+	  instead of using $urpm::args::options{...}
+
+2007-08-01 15:38  Pixel <pixel at mandriva.com>
+
+	* urpmq: remove dead code:
+	  
+	  urpmq is not using use_provides by default since 13 May 2004 when
+	  rgs
+	  refactorization somewhat failed. since then the documentation has
+	  been adapted
+	  to show -p is not the default anymore, so not reverting to
+	  previous behaviour.
+
+2007-08-01 15:14  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm, urpme, urpmf, urpmi: - normalize verbose option
+	  handling over $options{verbose}
+	  - handle $rpm_opt where it is used
+
+2007-08-01 00:14  kamberd
+
+	* po/he.po: update translation for Hebrew
+
+2007-07-30 15:41  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* ChangeLog: update
+
 2007-07-26 00:35  mmodem
 
 	* po/pt.po: update
