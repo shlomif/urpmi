@@ -406,7 +406,6 @@ sub set_root {
 	    if (!-d $urpm->{root}) {
 		$urpm->{fatal}->(9, N("chroot directory doesn't exist"));
 	    }
-	    $options{nolock} = 1;
 }
 
 sub parse_cmdline {
