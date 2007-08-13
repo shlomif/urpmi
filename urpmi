@@ -664,7 +664,9 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 unless ($env || $options{nolock}) {
     $urpmi_lock->unlock;
     $rpm_lock->unlock;
+}
 
+unless ($env) {
     #- try to umount removable device which may have been mounted.
     urpm::removable::try_umounting_removables($urpm);
 }
