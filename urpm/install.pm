@@ -195,6 +195,8 @@ sub install {
 	    get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]);
 	    close $fh if defined $fh;
 	};
+	#- ensure perl does not create a circular reference below, otherwise all this won't be collected, and rpmdb won't be closed
+	my ($verbose, $callback_report_uninst) = ($options{verbose}, $options{callback_report_uninst});
 	$options{callback_uninst} = sub { 	    
 	    my ($_urpm, undef, undef, $subtype) = @_;
 	    if ($subtype eq 'start') {
@@ -205,8 +207,8 @@ sub install {
 		if (member($name, @previous)) {
 		    $urpm->{log}("removing upgraded package $fullname");
 		} else {
-		    $options{callback_report_uninst} and $options{callback_report_uninst}->(N("Removing package %s", $fullname));
-		    print N("removing package %s", $fullname), "\n" if $options{verbose} >= 0;
+		    $callback_report_uninst and $callback_report_uninst->(N("Removing package %s", $fullname));
+		    print N("removing package %s", $fullname), "\n" if $verbose >= 0;
 		}
 		$index++;
 	    }
