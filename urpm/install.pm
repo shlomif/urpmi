@@ -204,6 +204,7 @@ sub install {
 		if (member($name, @previous)) {
 		    $urpm->{log}("removing upgraded package $fullname");
 		} else {
+		    $options{callback_report_uninst} and $options{callback_report_uninst}->(N("Removing package %s", $fullname));
 		    print N("removing package %s", $fullname), "\n" if $options{verbose} >= 0;
 		}
 		$index++;
