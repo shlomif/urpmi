@@ -27,16 +27,22 @@ sub test_rpm_same_transaction {
 
     test_rpm_i_succeeds('a', 'c');
     check_installed_and_remove('a', 'c');
+
+    test_rpm_i_succeeds('a', 'd');
+    check_installed_and_remove('a', 'd');
 }
 
 sub test_rpm_different_transactions {
     test_rpm_i_succeeds('a');
-
     test_rpm_i_fail('b');
     check_installed_names('a');
 
     test_rpm_i_succeeds('c');
     check_installed_and_remove('a', 'c');
+
+    test_rpm_i_succeeds('a');
+    test_rpm_i_succeeds('d');
+    check_installed_and_remove('a', 'd');
 }
 
 sub test_urpmi_same_transaction {
@@ -46,17 +52,23 @@ sub test_urpmi_same_transaction {
 
     urpmi('a c');
     check_installed_and_remove('a', 'c');
+
+    urpmi('a d');
+    check_installed_and_remove('a', 'd');
 }
 
 sub test_urpmi_different_transactions {
     urpmi('a');
-
     test_urpmi_fail('b');
     check_installed_names('a');
 
     # disabled, fail when dropping RPMTAG_FILEDIGESTS
     #urpmi('c');
     #check_installed_and_remove('a', 'c');
+
+    #urpmi('a');
+    urpmi('d');
+    check_installed_and_remove('a', 'd');
 }
 
 sub test_rpm_i_succeeds {

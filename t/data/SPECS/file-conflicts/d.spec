@@ -1,5 +1,5 @@
 Summary: x
-Name: a
+Name: d
 Version: 1
 Release: 1
 License: x
@@ -13,9 +13,7 @@ x
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc/dir
-echo a > $RPM_BUILD_ROOT/etc/foo
-echo bar > $RPM_BUILD_ROOT/etc/bar
-echo a > $RPM_BUILD_ROOT/etc/dir/a
+echo d > $RPM_BUILD_ROOT/etc/dir/d
 
 %clean
 rm -rf $RPM_BUILD_ROOT
