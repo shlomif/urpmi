@@ -167,6 +167,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		noscripts => $urpm->{options}{noscripts},
 		callback_inst => $callbacks->{inst},
 		callback_trans => $callbacks->{trans},
+		callback_report_uninst => $callbacks->{callback_report_uninst},
 	    );
 	    my @l = urpm::install::install($urpm,
 		$to_remove,
