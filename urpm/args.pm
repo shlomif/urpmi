@@ -134,14 +134,7 @@ my %options_spec = (
 	'test!' => \$::test,
 	'skip=s' => \$options{skip},
 	'prefer=s' => \$options{prefer},
-	'root=s' => sub {
-	    require File::Spec;
-	    $urpm->{root} = File::Spec->rel2abs($_[1]);
-	    if (!-d $urpm->{root}) {
-		$urpm->{fatal}->(9, N("chroot directory doesn't exist"));
-	    }
-	    $options{nolock} = 1;
-	},
+ 	'root=s' => sub { set_root($urpm, $_[1]) },
 	'use-distrib=s' => \$options{usedistrib},
 	'probe-synthesis' => sub { $options{probe_with} = 'synthesis' },
 	'probe-hdlist' => sub { $options{probe_with} = 'hdlist' },
@@ -405,6 +398,16 @@ foreach my $k ("help|h", "version") {
     $options_spec{'urpmi.removemedia'}{$k} = 
       $options_spec{'urpmi.recover'}{$k} = $options_spec{urpmi}{$k};
 }
+
+sub set_root {
+    my ($urpm, $root) = @_;
+	    require File::Spec;
+	    $urpm->{root} = File::Spec->rel2abs($root);
+	    if (!-d $urpm->{root}) {
+		$urpm->{fatal}->(9, N("chroot directory doesn't exist"));
+	    }
+	    $options{nolock} = 1;
+	}
 
 sub parse_cmdline {
     my %args = @_;
