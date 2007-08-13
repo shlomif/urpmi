@@ -488,6 +488,8 @@ sub translate_why_removed_one {
 	    N("due to conflicts with %s", $whyv);
 	} elsif ($whyk =~ /unrequested/) {
 	    N("unrequested");
+	} elsif ($whyk) {
+	    $whyk;
 	} else {
 	    undef;
 	}
