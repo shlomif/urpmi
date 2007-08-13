@@ -274,6 +274,7 @@ if ($nok) {
 		    	@error == 1 ?
 			  N("Package %s can not be installed", join(', ', @error)) :
 			  N("Packages %s can not be installed", join(', ', @error));
+		    $callbacks->{already_installed_or_not_installable} and $callbacks->{already_installed_or_not_installable}->(\@msg1, \@msg2);
 		    print join("\n", @msg1, @msg2, '');
 		}
 	    }
