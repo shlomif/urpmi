@@ -155,7 +155,7 @@ sub install {
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
 	    my $pkg = $urpm->{depslist}[$_];
-	    $pkg->update_header($mode->{$_});
+	    $pkg->update_header($mode->{$_}, keep_all_tags => 1);
 	    if ($pkg->payload_format eq 'drpm') { #- handle deltarpms
 		my $true_rpm = urpm::sys::apply_delta_rpm($mode->{$_}, "$urpm->{cachedir}/rpms", $pkg);
 		if ($true_rpm) {
