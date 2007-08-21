@@ -108,6 +108,7 @@ our %uniq;
 #- parse arguments list.
 my $urpm = new urpm;
 urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
+defined $expr or usage();
 
 if ($qf eq '%default') {
     #- nothing on the command-line : default is to search on file names
