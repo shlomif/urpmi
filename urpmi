@@ -241,9 +241,9 @@ if ($bug) {
 	    ? N("Directory [%s] already exists, please use another directory for bug report or delete it", $bug)
 	    : N("Unable to create directory [%s] for bug report", $bug)));
     #- copy all synthesis file used, along with configuration of urpmi
-    system("cp", "-af", $urpm->{skiplist}, $urpm->{instlist}, 
-	   $urpm->{prefer_list}, $urpm->{prefer_vendor_list}, 
-	   $urpm->{config}, $bug)
+    my @list_files = grep { -e $_ } $urpm->{skiplist}, $urpm->{instlist}, 
+                                    $urpm->{prefer_list}, $urpm->{prefer_vendor_list};
+    system("cp", "-af", @list_files, $urpm->{config}, $bug)
 	and die N("Copying failed");
     #- log everything for bug report.
     $logfile = "$bug/urpmi.log";
