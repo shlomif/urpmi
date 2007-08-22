@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-22 09:55+0200\n"
-"PO-Revision-Date: 2007-07-01 14:24+0800\n"
+"PO-Revision-Date: 2007-08-22 16:02+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: Mandriva Linux Simplified Chinese <cooker-i18n@mandrivalinux."
 "org>\n"
@@ -598,7 +598,7 @@ msgstr "URL 格式错误: [%s]"
 #: ../urpm/get_pkgs.pm:179
 #, c-format
 msgid "sorry you can't --install-src remote .src.rpm files"
-msgstr ""
+msgstr "抱歉，您无法用 --install-src 安装远程 .src.rpm 文件"
 
 #: ../urpm/get_pkgs.pm:185
 #, c-format
@@ -637,7 +637,7 @@ msgid "unable to install package %s"
 msgstr "无法安装软件包 %s"
 
 #: ../urpm/install.pm:210
-#, fuzzy, c-format
+#, c-format
 msgid "Removing package %s"
 msgstr "删除软件包 %s"
 
@@ -682,14 +682,14 @@ msgid "Cannot connect to ldap uri:"
 msgstr "无法连接到 ldap uri:"
 
 #: ../urpm/lock.pm:62
-#, fuzzy, c-format
+#, c-format
 msgid "%s database locked. waiting..."
-msgstr "%s 数据库已锁定"
+msgstr "%s 数据库已锁定。等候中..."
 
 #: ../urpm/lock.pm:63
-#, fuzzy, c-format
+#, c-format
 msgid "aborting"
-msgstr "警告"
+msgstr "中止"
 
 #: ../urpm/lock.pm:65
 #, c-format
@@ -981,7 +981,7 @@ msgstr "无法访问发行版介质(未发现 media.cfg 文件)"
 #: ../urpm/media.pm:766
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
-msgstr ""
+msgstr "跳过不兼容的介质“%s”(原因是 %s)"
 
 #: ../urpm/media.pm:839
 #, c-format
@@ -1273,9 +1273,9 @@ msgid "due to missing %s"
 msgstr "原因是丢失 %s"
 
 #: ../urpm/select.pm:442
-#, fuzzy, c-format
+#, c-format
 msgid "due to already installed %s"
-msgstr "软件包 %s 已经安装"
+msgstr "原因是已经安装 %s"
 
 #: ../urpm/select.pm:443 ../urpm/select.pm:482
 #, c-format
@@ -1323,14 +1323,14 @@ msgid "Missing signature (%s)"
 msgstr "缺少签名(%s)"
 
 #: ../urpm/sys.pm:216
-#, fuzzy, c-format
+#, c-format
 msgid "Can't write file"
-msgstr "无法创建配置文件[%s]"
+msgstr "无法写入文件"
 
 #: ../urpm/sys.pm:216
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open file"
-msgstr "复制失败"
+msgstr "无法打开文件"
 
 #: ../urpme:40
 #, c-format
@@ -1677,9 +1677,9 @@ msgid "  --group        - group\n"
 msgstr "  --group        - 分组\n"
 
 #: ../urpmf:72
-#, fuzzy, c-format
+#, c-format
 msgid "  --license      - license\n"
-msgstr "  --name         - 软件包名称\n"
+msgstr "  --license      - 许可协议\n"
 
 #: ../urpmf:73
 #, c-format
@@ -1717,9 +1717,9 @@ msgid "  --sourcerpm    - source rpm name\n"
 msgstr "  --sourcerpm    - 源 rpm 名称\n"
 
 #: ../urpmf:80
-#, fuzzy, c-format
+#, c-format
 msgid "  --suggests     - suggests tags\n"
-msgstr "  --obsoletes    - obsolets 标签\n"
+msgstr "  --suggests     - suggests 标签\n"
 
 #: ../urpmf:81
 #, c-format
@@ -1883,6 +1883,7 @@ msgstr "  --noclean      - 不从缓存中清除 rpm。\n"
 msgid ""
 "  --replacepkgs  - force installing packages which are already installed.\n"
 msgstr ""
+"  --replacepkgs  - 强制安装已经安装过的软件包。\n"
 
 #: ../urpmi:107
 #, c-format
@@ -2035,9 +2036,9 @@ msgid "  --skip         - packages which installation should be skipped\n"
 msgstr "  --skip         - 安装要跳过的软件包。\n"
 
 #: ../urpmi:145
-#, fuzzy, c-format
+#, c-format
 msgid "  --prefer       - packages which should be preferred\n"
-msgstr "  --skip         - 安装要跳过的软件包。\n"
+msgstr "  --prefer       - 首选的软件包\n"
 
 #: ../urpmi:146
 #, c-format
@@ -2264,7 +2265,7 @@ msgstr "(只是测试，删除将不会实际发生)"
 #: ../urpmi:594
 #, c-format
 msgid "%s (suggested)"
-msgstr ""
+msgstr "%s (建议安装)"
 
 #: ../urpmi:609
 #, c-format
@@ -2926,20 +2927,3 @@ msgstr "由于介质“%s”没有 hdlists，软件包 %s 无法返回任何结�
 msgid "No changelog found\n"
 msgstr "没有找到更新日志\n"
 
-#~ msgid ""
-#~ "The following packages have bad signatures:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you want to continue installation ?"
-#~ msgstr ""
-#~ "下列软件包的签名出现问题:\n"
-#~ "\n"
-#~ "%s\n"
-#~ "\n"
-#~ "您想要继续安装吗?"
-
-#~ msgid "You need to be root to use --use-distrib"
-#~ msgstr "你必须是 root 才能使用 --use-distrib 命令"
-
-#~ msgid "unable to remove package %s"
-#~ msgstr "无法删除软件包 %s"
