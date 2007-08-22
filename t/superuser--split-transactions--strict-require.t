@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# a requires b : bb-1 or b-2
+# a requires b : bb or b
 # bb requires c-1
 # b requires c-2
 # b obsoletes bb
