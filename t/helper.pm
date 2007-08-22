@@ -9,7 +9,7 @@ our @EXPORT = qw(need_root_and_prepare
 		 urpmi_cfg set_urpmi_cfg_global_options
 		 system_ system_should_fail
 		 check_installed_fullnames check_installed_names check_nothing_installed
-		 check_installed_and_remove check_installed_and_urpme
+		 check_installed_and_remove check_installed_fullnames_and_remove check_installed_and_urpme
 	    );
 
 my $using_root;
@@ -114,6 +114,13 @@ sub check_nothing_installed() {
 sub check_installed_and_remove {
     my (@names) = @_;
     check_installed_names(@names);
+    system_("rpm --root $::pwd/root -e " . join(' ', @names));
+    check_nothing_installed();
+}
+
+sub check_installed_fullnames_and_remove {
+    my (@names) = @_;
+    check_installed_fullnames(@names);
     system_("rpm --root $::pwd/root -e " . join(' ', @names));
     check_nothing_installed();
 }
