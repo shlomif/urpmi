@@ -150,7 +150,11 @@ sub install {
     my @produced_deltas;
 
     foreach (@$remove) {
-	$trans->remove($_) or $urpm->{error}("unable to remove package " . $_);
+	if ($trans->remove($_)) {
+	    $urpm->{debug} and $urpm->{debug}('trans: scheduling removal of ' . $urpm->{depslist}[$_]->fullname);
+	} else {
+	    $urpm->{error}("unable to remove package " . $_);
+	}
     }
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
@@ -168,7 +172,7 @@ sub install {
 		    $options{excludepath} ? (excludepath => [ split /,/, $options{excludepath} ]) : ()
 	    )) {
 		$urpm->{debug} and $urpm->{debug}(
-		    N("trans: scheduling package %s %s (id=%d, file=%s)", 
+		    sprintf('trans: scheduling %s of %s (id=%d, file=%s)', 
 		      $update ? 'update' : 'install', 
 		      scalar($pkg->fullname), $_, $mode->{$_}));
 	    } else {
