@@ -167,8 +167,9 @@ sub install {
 	    if ($trans->add($pkg, update => $update,
 		    $options{excludepath} ? (excludepath => [ split /,/, $options{excludepath} ]) : ()
 	    )) {
-		$urpm->{log}(N("adding package %s (id=%d, eid=%d, update=%d, file=%s)", scalar($pkg->fullname),
-			       $_, $pkg->id, $update, $mode->{$_}));
+		$urpm->{debug} and $urpm->{debug}(
+		    N("adding package %s (id=%d, eid=%d, update=%d, file=%s)", scalar($pkg->fullname),
+		      $_, $pkg->id, $update, $mode->{$_}));
 	    } else {
 		$urpm->{error}(N("unable to install package %s", $mode->{$_}));
 	    }
