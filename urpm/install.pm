@@ -29,7 +29,7 @@ sub prepare_transaction {
     }
 }
 
-sub create_transaction {
+sub build_transaction_set_ {
     my ($urpm, $state, %options) = @_;
 
     if ($urpm->{parallel_handler} || !$options{split_length} ||

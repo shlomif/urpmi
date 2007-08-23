@@ -58,7 +58,7 @@ $callbacks->{post_removable} and $callbacks->{post_removable}->();
 
 #- now create transaction just before installation, this will save user impression of slowness.
 #- split of transaction should be disabled if --test is used.
-urpm::install::create_transaction($urpm, $state,
+urpm::install::build_transaction_set_($urpm, $state,
 			  nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 			  split_level => $urpm->{options}{'split-level'},
 			  split_length => !$test && $urpm->{options}{'split-length'});
