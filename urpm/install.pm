@@ -168,8 +168,9 @@ sub install {
 		    $options{excludepath} ? (excludepath => [ split /,/, $options{excludepath} ]) : ()
 	    )) {
 		$urpm->{debug} and $urpm->{debug}(
-		    N("adding package %s (id=%d, eid=%d, update=%d, file=%s)", scalar($pkg->fullname),
-		      $_, $pkg->id, $update, $mode->{$_}));
+		    N("trans: scheduling package %s %s (id=%d, file=%s)", 
+		      $update ? 'update' : 'install', 
+		      scalar($pkg->fullname), $_, $mode->{$_}));
 	    } else {
 		$urpm->{error}(N("unable to install package %s", $mode->{$_}));
 	    }
