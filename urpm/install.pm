@@ -165,7 +165,7 @@ sub install {
 
     foreach (@$remove) {
 	if ($trans->remove($_)) {
-	    $urpm->{debug} and $urpm->{debug}('trans: scheduling removal of ' . $urpm->{depslist}[$_]->fullname);
+	    $urpm->{debug} and $urpm->{debug}("trans: scheduling removal of $_");
 	} else {
 	    $urpm->{error}("unable to remove package " . $_);
 	}
