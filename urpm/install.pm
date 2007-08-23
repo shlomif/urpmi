@@ -53,6 +53,20 @@ sub build_transaction_set_ {
 	#- build transaction set...
 	$urpm->build_transaction_set($db, $state, split_length => $options{split_length});
     }
+
+    $urpm->{debug} and $urpm->{debug}(join("\n", "scheduled sets of transactions:", 
+					   transaction_set_to_string($urpm, $state->{transaction} || [])));
+}
+
+sub transaction_set_to_string {
+    my ($urpm, $set) = @_;
+
+    map {
+	sprintf('remove=%s install=%s update=%s',
+		join(',', @{$_->{remove} || []}),
+		join(',', map { $urpm->{depslist}[$_]->name } @{$_->{install} || []}),
+		join(',', map { $urpm->{depslist}[$_]->name } @{$_->{upgrade} || []}));
+    } @$set;
 }
 
 # install logger callback
