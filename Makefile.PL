@@ -119,7 +119,7 @@ installgurpmi2: pure_install
 	ln -s -f consolehelper \$(DESTINSTALLSCRIPT)/gurpmi2
 
 ChangeLog:
-	svn2cl --accum --strip-prefix=soft/rpm/urpmi/trunk --authors ${commonusername}username.xml
+	svn2cl --accum --authors ${commonusername}username.xml
 	rm -f *.bak
 
 TAGS:
