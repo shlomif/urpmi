@@ -1,3 +1,230 @@
+2007-08-24 15:39  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* Makefile.PL: --strip-prefix is uneeded with latest svn2cl
+
+2007-08-23 14:15  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: fix typo in debug message
+
+2007-08-23 14:11  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: display computed transaction set in debug mode
+
+2007-08-23 13:43  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: - debug message when scheduling a pkg removal
+	  - don't translate debug message
+
+2007-08-23 13:33  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: nicer debug message,
+	  esp. remove eid= which is the same as id=
+
+2007-08-23 13:30  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: this is debug stuff, hide it from -v
+
+2007-08-23 13:24  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmi.8.pod, urpm/args.pm, urpm/install.pm,
+	  urpm/main_loop.pm, urpmi, urpmi.bash-completion: - urpmi
+	  o new option --justdb (new perl-URPM 1.76)
+
+2007-08-23 13:14  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm, urpm/main_loop.pm: rename
+	  urpm::install::create_transaction() into build_transaction_set_()
+	  (to avoid confusion with $db->create_transaction from URPM.xs)
+
+2007-08-22 16:25  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--strict-require.t: better comment
+
+2007-08-22 16:24  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--strict-require-1,
+	  t/data/SPECS/split-transactions--strict-require-1/a.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/bb.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/c-1.spec,
+	  t/data/SPECS/split-transactions--strict-require-2,
+	  t/data/SPECS/split-transactions--strict-require-2/a.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/b.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/c-2.spec,
+	  t/helper.pm, t/superuser--split-transactions--strict-require.t:
+	  add a test case for #31969, need to fix urpmi now...
+
+2007-08-22 09:28  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Updated Estonian translation.
+
+2007-08-22 08:02  Funda Wang <fundawang at linux.net.cn>
+
+	* po/zh_CN.po: Updated urpmi translation
+
+2007-08-22 07:57  Funda Wang <fundawang at linux.net.cn>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: Updated POT file
+
+2007-08-22 00:03  kamberd
+
+	* po/he.po: update translation for Hebrew
+
+2007-08-21 12:30  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi: - urpmi
+	  o fix --bug when there is no /etc/urpmi/prefer.list file
+
+2007-08-21 09:25  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmf: - urpmf
+	  o display "usage" when no <pattern-expression> is given (#32658)
+
+2007-08-19 21:24  berthy
+
+	* po/fr.po: Update fr translation
+
+2007-08-18 11:57  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm, urpm/install.pm: 4.10.5
+
+2007-08-14 21:51  Reinout van Schouwen <reinout at cs.vu.nl>
+
+	* po/nl.po: * 2007-08-14 Reinout van Schouwen <reinout@gmail.com>
+	  
+	  - nl.po: updated Dutch translation
+
+2007-08-14 08:51  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS: log last commit
+
+2007-08-14 08:51  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: add 'meta-task' to 'priority-upgrade' because of
+	  /etc/urpmi/prefer.vendor.list
+
+2007-08-13 20:44  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.4
+
+2007-08-13 17:29  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/file-conflicts/e.spec,
+	  t/superuser--file-conflicts.t: add a test for dir vs symlink
+	  conflict
+
+2007-08-13 17:06  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/install.pm: - urpmi
+	  o bugfix 4.10.0: a circular reference was causing rpmdb to be
+	  opened many times
+	  
+	  hence "Too many open files" error
+
+2007-08-13 16:58  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: - urpmi
+	  o --urpmi-root: if <root>/etc/urpmi/*.list are available, use
+	  them.
+	  otherwise defaults to /etc/urpmi/*.list
+
+2007-08-13 16:54  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: document the new callback passed
+
+2007-08-13 15:55  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS: typo fix
+
+2007-08-13 14:35  Pixel <pixel at mandriva.com>
+
+	* t/superuser--file-conflicts.t: revert things wrongly committed in
+	  previous commit (thanks titi)
+
+2007-08-13 14:30  Pixel <pixel at mandriva.com>
+
+	* t/superuser--file-conflicts.t: add the bug number of the rpm
+	  issue
+
+2007-08-13 14:21  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/file-conflicts/a.spec,
+	  t/data/SPECS/file-conflicts/d.spec,
+	  t/superuser--file-conflicts.t: add one "directory owned by 2
+	  rpms" test
+
+2007-08-13 13:52  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.3
+
+2007-08-13 13:37  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/select.pm: (translate_why_removed_one) if we got back
+	  an explanation unknown of
+	  use, just report it back
+
+2007-08-13 13:35  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: do try to umount removable media when using --debug
+	  (fixing commit rafel's
+	  commit r15048 on 2005-06-09)
+
+2007-08-13 13:34  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/select.pm: (translate_why_unselected_one) try harder
+	  to explain why we cannot
+	  select a package (eg: because i586 package is already installed
+	  on x86_64)
+
+2007-08-13 13:07  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS: typo fix
+
+2007-08-13 13:06  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS: kill log of rafael commit
+
+2007-08-13 13:04  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS: do try to umount removable media when using --debug (fixing
+	  commit rafel's
+	  commit r15048 on 2005-06-09)
+
+2007-08-13 13:02  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/args.pm: (set_root) do not default to --nolock when
+	  using --root (reverting rafael
+	  commit on 2006-01-11 13:17)
+
+2007-08-13 12:52  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm: re-indent
+
+2007-08-13 11:26  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/file-conflicts, t/data/SPECS/file-conflicts/a.spec,
+	  t/data/SPECS/file-conflicts/b.spec,
+	  t/data/SPECS/file-conflicts/c.spec, t/helper.pm,
+	  t/superuser--file-conflicts.t: new test for file conflicts
+
+2007-08-13 09:51  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.2
+
+2007-08-13 09:51  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* ChangeLog: update
+
 2007-08-13 09:09  Thierry Vignaud <tvignaud at mandriva.com>
 
 	* NEWS, gurpmi2: (completed callback) umount removable media as
