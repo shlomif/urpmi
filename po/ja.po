@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi-ja\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-08-22 09:55+0200\n"
-"PO-Revision-Date: 2007-08-07 17+0900\n"
+"PO-Revision-Date: 2007-08-25 15+0900\n"
 "Last-Translator: BANDO Yukiko <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <cooker-i18n@mandrivalinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -597,7 +597,7 @@ msgstr "不正な形式の URL: [%s]"
 #: ../urpm/get_pkgs.pm:179
 #, c-format
 msgid "sorry you can't --install-src remote .src.rpm files"
-msgstr ""
+msgstr "リモートの .src.rpm ファイルには --install-src は使えません"
 
 #: ../urpm/get_pkgs.pm:185
 #, c-format
@@ -638,7 +638,7 @@ msgid "unable to install package %s"
 msgstr "%s をインストールできません"
 
 #: ../urpm/install.pm:210
-#, fuzzy, c-format
+#, c-format
 msgid "Removing package %s"
 msgstr "%s を削除"
 
@@ -683,14 +683,14 @@ msgid "Cannot connect to ldap uri:"
 msgstr "LDAP の URI に接続できません:"
 
 #: ../urpm/lock.pm:62
-#, fuzzy, c-format
+#, c-format
 msgid "%s database locked. waiting..."
-msgstr "%s データベースがロックされています"
+msgstr "%s データベースがロックされています。待機します..."
 
 #: ../urpm/lock.pm:63
-#, fuzzy, c-format
+#, c-format
 msgid "aborting"
-msgstr "警告"
+msgstr "中止します"
 
 #: ../urpm/lock.pm:65
 #, c-format
@@ -991,7 +991,7 @@ msgstr ""
 #: ../urpm/media.pm:766
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
-msgstr ""
+msgstr "互換性のないメディア %s をスキップします (%s)"
 
 #: ../urpm/media.pm:839
 #, c-format
@@ -1287,9 +1287,9 @@ msgid "due to missing %s"
 msgstr "%s がないために"
 
 #: ../urpm/select.pm:442
-#, fuzzy, c-format
+#, c-format
 msgid "due to already installed %s"
-msgstr "パッケージ %s は既にインストールされています"
+msgstr "インストール済みの %s のために"
 
 #: ../urpm/select.pm:443 ../urpm/select.pm:482
 #, c-format
@@ -1337,14 +1337,14 @@ msgid "Missing signature (%s)"
 msgstr "署名がありません (%s)"
 
 #: ../urpm/sys.pm:216
-#, fuzzy, c-format
+#, c-format
 msgid "Can't write file"
-msgstr "設定ファイル [%s] を作成できません"
+msgstr "ファイルを書き込めません"
 
 #: ../urpm/sys.pm:216
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open file"
-msgstr "コピーに失敗"
+msgstr "ファイルを開けません"
 
 #: ../urpme:40
 #, c-format
@@ -1694,9 +1694,9 @@ msgid "  --group        - group\n"
 msgstr "  --group        - グループ\n"
 
 #: ../urpmf:72
-#, fuzzy, c-format
+#, c-format
 msgid "  --license      - license\n"
-msgstr "  --name         - パッケージ名\n"
+msgstr "  --license      - ライセンス\n"
 
 #: ../urpmf:73
 #, c-format
@@ -1734,9 +1734,9 @@ msgid "  --sourcerpm    - source rpm name\n"
 msgstr "  --sourcerpm    - ソース RPM の名前\n"
 
 #: ../urpmf:80
-#, fuzzy, c-format
+#, c-format
 msgid "  --suggests     - suggests tags\n"
-msgstr "  --obsoletes    - obsolete (廃止) タグ\n"
+msgstr "  --suggests     - suggest (提案) タグ\n"
 
 #: ../urpmf:81
 #, c-format
@@ -1904,6 +1904,7 @@ msgstr "  --noclean      - RPM をキャッシュに残す\n"
 msgid ""
 "  --replacepkgs  - force installing packages which are already installed.\n"
 msgstr ""
+"  --replacepkgs  - インストール済みのパッケージを強制的にインストール\n"
 
 #: ../urpmi:107
 #, c-format
@@ -2059,9 +2060,9 @@ msgid "  --skip         - packages which installation should be skipped\n"
 msgstr "  --skip         - インストールをスキップするパッケージ\n"
 
 #: ../urpmi:145
-#, fuzzy, c-format
+#, c-format
 msgid "  --prefer       - packages which should be preferred\n"
-msgstr "  --skip         - インストールをスキップするパッケージ\n"
+msgstr "  --prefer       - 優先すべきパッケージ\n"
 
 #: ../urpmi:146
 #, c-format
@@ -2299,7 +2300,7 @@ msgstr "(テストのみ、実際には削除されません)"
 #: ../urpmi:594
 #, c-format
 msgid "%s (suggested)"
-msgstr ""
+msgstr "%s (提案)"
 
 #: ../urpmi:609
 #, c-format
@@ -2981,20 +2982,3 @@ msgstr "メディア %s に hdlist がないため、パッケージ %s の検�
 #, c-format
 msgid "No changelog found\n"
 msgstr "変更ログはありません\n"
-
-#~ msgid ""
-#~ "The following packages have bad signatures:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "Do you want to continue installation ?"
-#~ msgstr ""
-#~ "以下のパッケージの署名は間違っています:\n"
-#~ "%s\n"
-#~ "\n"
-#~ "インストールを続けますか？"
-
-#~ msgid "You need to be root to use --use-distrib"
-#~ msgstr "--use-distrib を使用するには root 権限が必要です。"
-
-#~ msgid "unable to remove package %s"
-#~ msgstr "%s を削除できません"
