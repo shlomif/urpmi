@@ -19,6 +19,8 @@ sub _check {
 
     foreach my $id (keys %$sources) {
 	my $filepath = $sources->{$id};
+	$filepath !~ /\.spec$/ or next;
+
 	$urpm->{debug} and $urpm->{debug}("verifying signature of $filepath");
 	my $verif = URPM::verify_signature($filepath);
 
