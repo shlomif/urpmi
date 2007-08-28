@@ -63,9 +63,8 @@ sub transaction_set_to_string {
 
     my $format_list = sub { int(@_) . '=' . join(',', @_) };
     map {
-	sprintf('remove=%s install=%s update=%s',
+	sprintf('remove=%s update=%s',
 		$format_list->(@{$_->{remove} || []}),
-		$format_list->(map { $urpm->{depslist}[$_]->name } @{$_->{install} || []}),
 		$format_list->(map { $urpm->{depslist}[$_]->name } @{$_->{upgrade} || []}));
     } @$set;
 }
