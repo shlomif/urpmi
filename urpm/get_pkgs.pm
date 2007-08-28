@@ -176,7 +176,7 @@ sub download_packages_of_distant_media {
 	}
 
 	if (%distant_sources && ! -w "$urpm->{cachedir}/partial") {
-	    $urpm->{error}(N("sorry you can't --install-src remote .src.rpm files"));
+	    $urpm->{error}(N("sorry you can't use --install-src to install remote .src.rpm files"));
 	    exit 1;
 	}
 
