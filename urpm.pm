@@ -160,9 +160,7 @@ sub register_rpms {
 		or $error = 1, $urpm->{error}(N("unable to parse spec file %s [%s]", $_, $!)), next;
 	    $id = @{$urpm->{depslist}};
 	    $urpm->{depslist}[$id] = $pkg;
-	    #- It happens that URPM sets an internal id to the depslist id.
-	    #- We need to set it by hand here.
-	    $pkg->set_id($id);
+	    $pkg->set_id($id); #- sets internal id to the depslist id.
 	    $urpm->{source}{$id} = $_;
 	} else {
 	    ($id) = $urpm->parse_rpm($_);
