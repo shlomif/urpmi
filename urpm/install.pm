@@ -61,11 +61,12 @@ sub build_transaction_set_ {
 sub transaction_set_to_string {
     my ($urpm, $set) = @_;
 
+    my $format_list = sub { int(@_) . '=' . join(',', @_) };
     map {
 	sprintf('remove=%s install=%s update=%s',
-		join(',', @{$_->{remove} || []}),
-		join(',', map { $urpm->{depslist}[$_]->name } @{$_->{install} || []}),
-		join(',', map { $urpm->{depslist}[$_]->name } @{$_->{upgrade} || []}));
+		$format_list->(@{$_->{remove} || []}),
+		$format_list->(map { $urpm->{depslist}[$_]->name } @{$_->{install} || []}),
+		$format_list->(map { $urpm->{depslist}[$_]->name } @{$_->{upgrade} || []}));
     } @$set;
 }
 
