@@ -322,8 +322,8 @@ if ($logfile && !$INC{"Devel/Trace.pm"}) {
 select STDERR; $| = 1;
 select STDOUT; $| = 1;
 
-if (exists $urpm->{options}{'priority-upgrade'} && $urpm->{options}{'priority-upgrade'} eq '') {
-    # we were run with --no-priority-upgrade (we were just restarted.)
+if ($options{previous_priority_upgrade}) {
+    # we were just restarted
     # so, no need to update the media again
     $auto_update = 0;
     # temporary hack : if we were using an old version of URPM (eg: when
@@ -387,10 +387,7 @@ if ($bug) {
 #- get back activated default values of boolean options.
 exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
 exists $urpm->{options}{'split-length'} or $urpm->{options}{'split-length'} = $split_length;
-# comma-separated list of packages that should be installed first,
-# and that trigger an urpmi restart
-exists $urpm->{options}{'priority-upgrade'}
-    or $urpm->{options}{'priority-upgrade'} = 'rpm,perl-URPM,perl-MDV-Distribconf,urpmi,meta-task,glibc';
+urpm::select::set_priority_upgrade_option($urpm, $options{previous_priority_upgrade});
 
 my $state = {};
 my %requested = $urpm->register_rpms(@files, @src_files);
@@ -677,14 +674,17 @@ if ($restart_itself && !$exit_code) {
     print N("restarting urpmi"), "\n";
     #- it seems to work correctly with exec instead of system, provided
     #- STDOUT or STDERR are not closed before (else no output at all).
-    #- added --no-priority-upgrade to make sure no restart will be done after this one.
+    #- added --previous-priority-upgrade to allow checking if yet if
+    #-   priority-upgrade list has changed. and make sure we don't uselessly restart
     #- renamed bug report dir as /restarted to avoid exit because it already exists
     #- This permits to have in a same dir bug reports before and after the restart
     @ARGV = @ARGVcopy;
     my @arg = ($ARGV[0], map {
 	    $ARGV[$_] . ($ARGV[$_ - 1] eq '--bug' ? "/restarted" : "");
 	} (1 .. $#ARGV));
-    exec $0, '--no-priority-upgrade', @arg;
+    @arg = ('--previous-priority-upgrade=' . $urpm->{options}{'priority-upgrade'}, 
+	    grep { !/^--no-priority-upgrade$|--previous-priority-upgrade=/ } @arg);
+    exec $0, @arg;
 }
 
 #- this help flushing correctly by closing this file before (piped on tee).

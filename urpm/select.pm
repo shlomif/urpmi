@@ -7,6 +7,25 @@ use urpm::util;
 use urpm::sys;
 use URPM;
 
+sub set_priority_upgrade_option {
+    my ($urpm, $previous) = @_;
+
+    exists $urpm->{options}{'priority-upgrade'} and return;
+
+    # comma-separated list of packages that should be installed first,
+    # and that trigger an urpmi restart
+    my $list = 'rpm,perl-URPM,perl-MDV-Distribconf,urpmi,meta-task,glibc';
+    if ($previous) {
+	if ($previous eq $list) {
+	    $list = '';
+	    $urpm->{log}(N("urpmi was restarted, and the list of priority packages did not change"));
+	} else {
+	    $urpm->{log}(N("urpmi was restarted, and the list of priority packages did change: %s vs %s", $previous, $list));
+	}
+    }
+    $urpm->{options}{'priority-upgrade'} = $list;
+}
+
 sub _findindeps {
     my ($urpm, $found, $qv, $v, $caseinsensitive, $src) = @_;
 

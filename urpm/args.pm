@@ -92,8 +92,12 @@ my %options_spec = (
 	'pre-clean!' => sub { $urpm->{options}{'pre-clean'} = $_[1] },
 	'post-clean!' => sub { $urpm->{options}{'post-clean'} = $_[1] },
 	'no-priority-upgrade' => sub {
-	    $urpm->{options}{'priority-upgrade'} = '';
+	    #- keep this option which is passed by older urpmi.
+	    #- since we can't know what the previous_priority_upgrade list was, 
+	    #- just use a rubbish value which will mean list has changed
+	    $options{previous_priority_upgrade} = 'list_has_changed';
 	},
+	'previous-priority-upgrade=s' => \$options{previous_priority_upgrade},
 	force => \$::force,
 	justdb => \$options{justdb},
 	replacepkgs => \$options{replacepkgs},
