@@ -73,18 +73,22 @@ sub set_files {
     );
     $urpm->{$_} = $h{$_} foreach keys %h;
 
+    create_var_lib_rpm($urpm, $urpmi_root, %h);
+
+   # policy is too use chroot environment only for --urpmi-root, not for --root:
+    if ($urpmi_root && -e "$urpmi_root/etc/rpm/macros") {
+	URPM::loadmacrosfile("$urpmi_root/etc/rpm/macros");
+    }
+}
+
+sub create_var_lib_rpm {
+    my ($urpm, $urpmi_root, %h) = @_;
     require File::Path;
     File::Path::mkpath([ $h{statedir}, 
 			 (map { "$h{cachedir}/$_" } qw(headers partial rpms)),
 			 dirname($h{config}),
 			 "$urpmi_root/var/lib/rpm",
 		     ]);
-
-    # policy is too use chroot environment only for --urpmi-root, not for --root:
-    if ($urpmi_root && -e "$urpmi_root/etc/rpm/macros") {
-	URPM::loadmacrosfile("$urpmi_root/etc/rpm/macros");
-    }
-    
 }
 
 sub protocol_from_url {
