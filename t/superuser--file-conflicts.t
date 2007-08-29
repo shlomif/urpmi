@@ -4,6 +4,10 @@
 # a and c contents the same file name, with same content => should work
 # a and d contents the same directory name => should work
 # a and e contents the same path for a directory vs a symlink => should fail
+#
+# a and gc/gc_/gd contains different file => should work
+# ga and a and gc/gc_ contains the same resulting file, through symlink in ga, with same content => should work
+# ga and a and gd contains the same resulting file, through symlink in ga, with different content => should fail
 
 use strict;
 use lib '.', 't';
@@ -55,6 +59,24 @@ sub test_rpm_different_transactions {
     test_rpm_i_succeeds('a');
     test_rpm_i_succeeds('d');
     check_installed_and_remove('a', 'd');
+
+    # the following need to be done in different transactions otherwise rpm is lost
+    test_rpm_i_succeeds('a');
+    test_rpm_i_succeeds('gd');
+    check_installed_and_remove('a', 'gd');
+    rmdir 'root/etc/dir_symlink'; # remove unowned directory
+    check_no_etc_files();
+    
+    test_rpm_i_succeeds('a', 'ga');
+    test_rpm_i_fail('gd');
+    check_installed_names('a', 'ga');
+
+    test_rpm_i_succeeds('gc');
+    test_rpm_i_succeeds('gc_');
+    check_installed_names('a', 'ga', 'gc', 'gc_');
+    urpme('gc gc_'); # if you remove gc and a/ga at the same time, hell can happen...
+    check_installed_and_remove('a', 'ga');
+    check_no_etc_files();
 }
 
 sub test_urpmi_same_transaction {
@@ -81,13 +103,32 @@ sub test_urpmi_different_transactions {
     test_urpmi_fail('e');
     check_installed_names('a');
 
-    # disabled, fail when dropping RPMTAG_FILEDIGESTS
-    #urpmi('c');
-    #check_installed_and_remove('a', 'c');
+    # fail when dropping RPMTAG_FILEDIGESTS
+    urpmi('c');
+    check_installed_and_remove('a', 'c');
 
-    #urpmi('a');
+    urpmi('a');
     urpmi('d');
     check_installed_and_remove('a', 'd');
+
+    # the following need to be done in different transactions otherwise rpm is lost
+    urpmi('a');
+    urpmi('gd');
+    check_installed_and_remove('a', 'gd');
+    rmdir 'root/etc/dir_symlink'; # remove unowned directory
+    check_no_etc_files();
+    
+    urpmi('a ga');
+    test_urpmi_fail('gd');
+    check_installed_names('a', 'ga');
+
+    urpmi('gc');
+    urpmi('gc_');
+    check_installed_names('a', 'ga', 'gc', 'gc_');
+    urpme('gc gc_'); # if you remove gc and a/ga at the same time, hell can happen...
+    check_installed_and_remove('a', 'ga');
+    check_no_etc_files();
+
 }
 
 sub test_rpm_i_succeeds {
@@ -103,4 +144,10 @@ sub test_rpm_i_fail {
 sub test_urpmi_fail {
     my ($rpms) = @_;
     system_should_fail(urpmi_cmd() . " $rpms");
+}
+
+sub check_no_etc_files() {
+    if (my @l = grep { !m!/urpmi$! } glob("$::pwd/root/etc/*")) {
+	fail(join(' ', @l) . " files should not be there");
+    }
 }
