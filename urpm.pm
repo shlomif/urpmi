@@ -80,6 +80,7 @@ sub set_files {
 			 "$urpmi_root/var/lib/rpm",
 		     ]);
 
+    # policy is too use chroot environment only for --urpmi-root, not for --root:
     if ($urpmi_root && -e "$urpmi_root/etc/rpm/macros") {
 	URPM::loadmacrosfile("$urpmi_root/etc/rpm/macros");
     }
