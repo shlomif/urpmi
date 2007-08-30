@@ -66,7 +66,7 @@ sub read_config_add_passwords {
 	if (my ($e) = grep { ($_->{default} || $_->{machine} eq $u->{machine}) && $_->{login} eq $u->{login} } @netrc) {
 	    $_->{url} = sprintf('%s://%s:%s@%s%s', $u->{proto}, $u->{login}, $e->{password}, $u->{machine}, $u->{dir});
 	} else {
-	    $urpm->{log}("no password found for $u->{login}@$u->{machine}");
+	    $urpm->{log}(sprintf('no password found for %s@%s', $u->{login}, $u->{machine}));
 	}
     }
 }
