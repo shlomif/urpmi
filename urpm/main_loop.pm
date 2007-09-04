@@ -63,6 +63,8 @@ urpm::install::build_transaction_set_($urpm, $state,
 			  split_level => $urpm->{options}{'split-level'},
 			  split_length => !$test && $urpm->{options}{'split-length'});
 
+$options{debug__do_not_install} and exit 0;
+
 my ($ok, $nok) = (0, 0);
 my @errors;
 

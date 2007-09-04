@@ -263,7 +263,7 @@ if ($env) {
     $urpm->{prefer_vendor_list} = "$env/prefer.vendor.list";
     $urpm->{statedir} = $env;
 } else {
-    if ($< != 0) {
+    if ($< != 0 && !$options{debug__do_not_install}) {
 	#- need to be root if binary rpms are to be installed
 	$auto_select || @names || @files and $urpm->{fatal}(1, N("Only superuser is allowed to install packages"));
     }
@@ -595,7 +595,7 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
     }
 }
 $urpm->{nb_install} = @to_install;
-if ($env) {
+if ($env && !$options{debug__do_not_install}) {
     my $msg = $urpm->{nb_install} == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
 		: N("To satisfy dependencies, the following packages are going to be installed:");
     my $msg2 = P("(%d package, %d MB)", "(%d packages, %d MB)", $urpm->{nb_install}, $urpm->{nb_install}, toMb($sum));

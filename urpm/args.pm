@@ -137,6 +137,7 @@ my %options_spec = (
 	'strict-arch!' => sub { $urpm->{options}{'strict-arch'} = $_[1] },
 	'norebuild!' => sub { $urpm->{options}{'build-hdlist-on-error'} = !$_[1] },
 	'test!' => \$::test,
+	'debug__do_not_install' => \$options{debug__do_not_install},
 	'skip=s' => \$options{skip},
 	'prefer=s' => \$options{prefer},
  	'root=s' => sub { set_root($urpm, $_[1]) },
