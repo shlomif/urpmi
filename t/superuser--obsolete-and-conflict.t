@@ -42,6 +42,12 @@ check_installed_names('a', 'd');
 urpmi('--split-level 1 b c');
 check_installed_names('b', 'c', 'd'); # perl-URPM fix for #31969 fixes this too ("d" used to be removed without asking)
 
+urpme('b c d');
+
+urpmi('a d');
+check_installed_names('a', 'd');
+urpmi('--auto c');
+check_installed_names('c'); # urpmi should promote new version of "b" instead of removing conflicting older packages
 
 sub test_urpmi {
     my ($para, $wanted) = @_;
