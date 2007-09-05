@@ -40,7 +40,7 @@ urpme('b c d');
 urpmi('a d');
 check_installed_names('a', 'd');
 urpmi('--split-level 1 b c');
-check_installed_names('b', 'c', 'd');
+check_installed_names('b', 'c', 'd'); # perl-URPM fix for #31969 fixes this too ("d" used to be removed without asking)
 
 
 sub test_urpmi {
