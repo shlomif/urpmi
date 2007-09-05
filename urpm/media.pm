@@ -541,7 +541,7 @@ sub configure {
 	    }
 	}
 	if ($options{searchmedia}) {
-	   foreach (select_media_by_name($urpm, [ $options{searchmedia} ])) {
+	   foreach (select_media_by_name($urpm, [ split /,/, $options{searchmedia} ])) {
 	       #- Ensure this media is selected
 	       $_->{modified} = 1;
 	       _tempignore($_, 0);
