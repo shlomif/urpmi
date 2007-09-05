@@ -35,8 +35,8 @@ sub run {
     my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $requested, $callbacks) = @_;
 
     #- global boolean options
-    my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test) =
-      ($::auto_select, $::no_install, $::install_src, $::clean, $::noclean, $::force, $::parallel, $::test);
+    my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test, $env) =
+      ($::auto_select, $::no_install, $::install_src, $::clean, $::noclean, $::force, $::parallel, $::test, $::env);
 
 my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm,
     $state->{selected},
@@ -59,6 +59,7 @@ $callbacks->{post_removable} and $callbacks->{post_removable}->();
 #- now create transaction just before installation, this will save user impression of slowness.
 #- split of transaction should be disabled if --test is used.
 urpm::install::build_transaction_set_($urpm, $state,
+			  rpmdb => $env && "$env/rpmdb.cz",
 			  nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
 			  split_level => $urpm->{options}{'split-level'},
 			  split_length => !$test && $urpm->{options}{'split-length'});
