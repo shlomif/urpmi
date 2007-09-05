@@ -40,8 +40,7 @@ urpme('b c d');
 urpmi('a d');
 check_installed_names('a', 'd');
 urpmi('--split-level 1 b c');
-# argh, d is removed :-(
-#check_installed_names('b', 'c', 'd');
+check_installed_names('b', 'c', 'd');
 
 
 sub test_urpmi {
