@@ -541,10 +541,11 @@ sub configure {
 	    }
 	}
 	if ($options{searchmedia}) {
-	   select_media($urpm, $options{searchmedia}); #- Ensure this media has been selected
-	   if (my $medium = name2medium($urpm, $options{searchmedia})) {
-	       _tempignore($medium, 0);
-	       $medium->{searchmedia} = 1;
+	   foreach (select_media_by_name($urpm, [ $options{searchmedia} ])) {
+	       #- Ensure this media is selected
+	       $_->{modified} = 1;
+	       _tempignore($_, 0);
+	       $_->{searchmedia} = 1;
 	   }
 	}
 	if ($options{excludemedia}) {
