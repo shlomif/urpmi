@@ -44,6 +44,21 @@ sub _findindeps {
     }
 }
 
+sub pkg_in_searchmedia {
+    my ($urpm, $pkg) = @_;
+
+    $urpm->{searchmedia}{start} <= $pkg->id
+      && $urpm->{searchmedia}{end} >= $pkg->id;
+}
+sub searchmedia_idlist {
+    my ($urpm) = @_;
+    $urpm->{searchmedia} && [ $urpm->{searchmedia}{start} .. $urpm->{searchmedia}{end} ];
+}
+sub build_listid_ {
+    my ($urpm) = @_;
+    $urpm->build_listid(undef, undef, searchmedia_idlist($urpm));
+}
+
 #- search packages registered by their names by storing their ids into the $packages hash.
 #- Recognized options:
 #-	all
@@ -65,9 +80,7 @@ sub search_packages {
 		    && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat)
 		    && ($options{use_provides} || $_->name eq $v)
 		    && defined($_->id)
-		    && (!defined $urpm->{searchmedia} ||
-			    $urpm->{searchmedia}{start} <= $_->id
-		    	    && $urpm->{searchmedia}{end} >= $_->id)
+		    && ($urpm->{searchmedia} || pkg_in_searchmedia($urpm, $_))
 		    ? $_ : @{[]};
 		} $urpm->packages_providing($v))
 	    {
@@ -97,10 +110,7 @@ sub search_packages {
 	    _findindeps($urpm, \%found, $qv, $v, $options{caseinsensitive}, $options{src});
 	}
 
-	foreach my $id (defined $urpm->{searchmedia} ?
-	    ($urpm->{searchmedia}{start} .. $urpm->{searchmedia}{end}) :
-	    (0 .. $#{$urpm->{depslist}})
-	) {
+	foreach my $id (build_listid_($urpm)) {
 	    my $pkg = $urpm->{depslist}[$id];
 	    ($options{src} ? $pkg->arch eq 'src' : $pkg->is_arch_compat) or next;
 	    my $pack_name = $pkg->name;
@@ -221,7 +231,8 @@ sub resolve_dependencies {
 	#- auto select package for upgrading the distribution.
 	if ($options{auto_select}) {
 	    $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef,
-    		start => $urpm->{searchmedia}{start}, end => $urpm->{searchmedia}{end});
+					       $urpm->{searchmedia} ? (idlist => searchmedia_idlist($urpm)) : (),
+					   );
 	}
 
 	my @priority_upgrade;
