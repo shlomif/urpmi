@@ -25,7 +25,7 @@ use urpm::args;
 use urpm::msg;
 use urpm::media;
 use urpm::select;
-use urpm::util qw(untaint difference2 member partition);
+use urpm::util qw(max untaint difference2 member partition);
 use urpm::main_loop;
 
 #- contains informations to parse installed system.
@@ -582,14 +582,15 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
     #- but required is always set (so a required but not requested is a pure dependency).
     $ask_user ||= !$pkg->flag_requested || $auto_select || $parallel;
 
-    my $fullname = $pkg->fullname;
     if (!$env && $install_src && $pkg->arch ne 'src') {
-	push @root_only, $fullname;
+	push @root_only, $pkg->fullname;
     } elsif ($install_src || $pkg->arch ne 'src') {
+	my @name_and_evr = ($pkg->fullname, URPM::pkg2media($urpm->{media}, $pkg)->{name});
+	$name_and_evr[2] =~ s/mdv(.*)/mdv/ if length($name_and_evr[2]) > 15;
 	if ($state->{selected}{$pkg->id}{suggested}) {
-	    $fullname = N("%s (suggested)", $fullname);
+	    push @name_and_evr, N("(suggested)");
 	}
-	push @to_install, $fullname;
+	push @to_install, \@name_and_evr;
     }
 }
 $urpm->{nb_install} = @to_install;
@@ -602,11 +603,19 @@ if (@root_only && !$env) {
     if ($test) {
 	$msg = "$msg\n" . N("(test only, installation will not be actually done)");
     }
-    my $msg2 = P("Proceed with the installation of one package?",
+    my $size = $urpm->selected_size($state);   
+    my @field_sizes = map { my $i = $_; max(map { length($_->[$i]) } @to_install) } 0 .. 5;
+    my @field_nice_sizes = (40, 10, 14, 6, 15, 15);
+    { my $i; foreach (@field_sizes) { $_++ if $_ <= $field_nice_sizes[$i++] } }
+    my $format = join(' ', map { '%-' . $_ . 's' } @field_sizes);
+    my @to_install_formatted = map { sprintf("  $format", @$_) } @to_install;
+    my $msg2 = $size >= 0 ? 
+      N("%s of additional disk space will be used.", formatXiB($size)) :
+      N("%s of disk space will be freed.", formatXiB(-$size));
+    my $msg3 = P("Proceed with the installation of one package?",
     		"Proceed with the installation of the %d packages?",
-		$urpm->{nb_install}, $urpm->{nb_install})
-	        . sprintf(" (%s)", formatXiB($urpm->selected_size($state)));
-    my $p = join("\n", $msg, @to_install, $msg2);
+		$urpm->{nb_install}, $urpm->{nb_install});
+    my $p = join("\n", $msg, @to_install_formatted, $msg2, $msg3);
     if ($env && !$options{debug__do_not_install}) {
 	print "$p\n";
 	exit 0; #- exit now for specific environment.
