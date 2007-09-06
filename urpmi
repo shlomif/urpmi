@@ -595,18 +595,10 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
     }
 }
 $urpm->{nb_install} = @to_install;
-if ($env && !$options{debug__do_not_install}) {
-    my $msg = $urpm->{nb_install} == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
-		: N("To satisfy dependencies, the following packages are going to be installed:");
-    my $msg2 = P("(%d package, %d MB)", "(%d packages, %d MB)", $urpm->{nb_install}, $urpm->{nb_install}, toMb($sum));
-    my $p = join "\n", @to_install;
-    print "$msg\n$p\n$msg2\n";
-    exit 0; #- exit now for specific environment.
-}
-if (@root_only) {
+if (@root_only && !$env) {
     print N("You need to be root to install the following dependencies:\n%s\n", join ' ', @root_only);
     exit 1;
-} elsif (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install}) {
+} elsif (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env) {
     my $msg = $urpm->{nb_install} == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
 		: N("To satisfy dependencies, the following packages are going to be installed:");
     if ($test) {
@@ -617,6 +609,10 @@ if (@root_only) {
 		$urpm->{nb_install}, $urpm->{nb_install})
 	        . N(" (%d MB)", toMb($sum));
     my $p = join "\n", @to_install;
+    if ($env && !$options{debug__do_not_install}) {
+	print "$msg\n$p\n$msg2\n";
+	exit 0; #- exit now for specific environment.
+    }
     my $noexpr = N("Nn");
     my $yesexpr = N("Yy");
     message_input("$msg\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
