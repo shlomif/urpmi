@@ -15,7 +15,7 @@ BEGIN {
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 our @ISA = 'Exporter';
-our @EXPORT = qw(N P translate bug_log message_input toMb sys_log);
+our @EXPORT = qw(N P translate bug_log message_input toMb formatXiB sys_log);
 
 #- I18N.
 use Locale::gettext;
@@ -117,6 +117,29 @@ sub message_input {
 sub toMb {
     my $nb = $_[0] / 1024 / 1024;
     int $nb + 0.5;
+}
+
+# duplicated from svn+ssh://svn.mandriva.com/svn/soft/drakx/trunk/perl-install/common.pm
+sub formatXiB {
+    my ($newnb, $o_newbase) = @_;
+    warn "$newnb x\n";
+    my $newbase = $o_newbase || 1;
+    my ($nb, $base);
+    my $decr = sub { 
+	($nb, $base) = ($newnb, $newbase);
+	$base >= 1024 ? ($newbase = $base / 1024) : ($newnb = $nb / 1024);
+    };
+    my $suffix;
+    foreach (N("B"), N("KB"), N("MB"), N("GB"), N("TB")) {
+	$decr->(); 
+	if ($newnb < 1 && $newnb * $newbase < 1) {
+	    $suffix = $_;
+	    last;
+	}
+    }
+    my $v = $nb * $base;
+    my $s = $v < 10 && int(10 * $v - 10 * int($v));
+    int($v) . ($s ? ".$s" : '') . ($suffix || N("TB"));
 }
 
 sub localtime2changelog { scalar(localtime($_[0])) =~ /(.*) \S+ (\d{4})$/ && "$1 $2" }

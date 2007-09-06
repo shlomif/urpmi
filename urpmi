@@ -575,7 +575,6 @@ my @to_install;
 #- check if there is at least one package to install that
 #- has not been given by the user.
 my $ask_user = $env || $search_result eq 'substring';
-my $sum = 0;
 my @root_only;
 
 foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$state->{selected}}]) {
@@ -587,7 +586,6 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
     if (!$env && $install_src && $pkg->arch ne 'src') {
 	push @root_only, $fullname;
     } elsif ($install_src || $pkg->arch ne 'src') {
-	$sum += $pkg->size;
 	if ($state->{selected}{$pkg->id}{suggested}) {
 	    $fullname = N("%s (suggested)", $fullname);
 	}
@@ -607,7 +605,7 @@ if (@root_only && !$env) {
     my $msg2 = P("Proceed with the installation of one package?",
     		"Proceed with the installation of the %d packages?",
 		$urpm->{nb_install}, $urpm->{nb_install})
-	        . N(" (%d MB)", toMb($sum));
+	        . sprintf(" (%s)", formatXiB($urpm->selected_size($state)));
     my $p = join "\n", @to_install;
     if ($env && !$options{debug__do_not_install}) {
 	print "$msg\n$p\n$msg2\n";
