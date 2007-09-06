@@ -86,7 +86,7 @@ sub search_packages {
 		    && ($options{src} ? $_->arch eq 'src' : $_->is_arch_compat)
 		    && ($options{use_provides} || $_->name eq $v)
 		    && defined($_->id)
-		    && ($urpm->{searchmedia} || pkg_in_searchmedia($urpm, $_))
+		    && (!$urpm->{searchmedia} || pkg_in_searchmedia($urpm, $_))
 		    ? $_ : @{[]};
 		} $urpm->packages_providing($v))
 	    {
