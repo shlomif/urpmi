@@ -122,7 +122,6 @@ sub toMb {
 # duplicated from svn+ssh://svn.mandriva.com/svn/soft/drakx/trunk/perl-install/common.pm
 sub formatXiB {
     my ($newnb, $o_newbase) = @_;
-    warn "$newnb x\n";
     my $newbase = $o_newbase || 1;
     my ($nb, $base);
     my $decr = sub { 
