@@ -47,12 +47,18 @@ sub _findindeps {
 sub pkg_in_searchmedia {
     my ($urpm, $pkg) = @_;
 
-    $urpm->{searchmedia}{start} <= $pkg->id
-      && $urpm->{searchmedia}{end} >= $pkg->id;
+    foreach my $medium (grep { $_->{searchmedia} } @{$urpm->{media}}) {
+	$medium->{start} <= $pkg->id
+	  && $medium->{end} >= $pkg->id and return 1;
+    }
+    0;
 }
 sub searchmedia_idlist {
     my ($urpm) = @_;
-    $urpm->{searchmedia} && [ $urpm->{searchmedia}{start} .. $urpm->{searchmedia}{end} ];
+    $urpm->{searchmedia} && [ 
+	map { $_->{start} .. $_->{end} } 
+	  grep { $_->{searchmedia} } @{$urpm->{media}}
+    ];
 }
 sub build_listid_ {
     my ($urpm) = @_;

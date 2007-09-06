@@ -592,13 +592,9 @@ sub _parse_media {
 	unless ($_->{ignore}) {
 	    _check_after_reading_hdlist_or_synthesis($urpm, $_);
 	}
-	unless ($_->{ignore}) {
-	    if ($_->{searchmedia}) {
-		($urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}) = ($_->{start}, $_->{end});
-		$urpm->{log}(N("Search start: %s end: %s",
-			       $urpm->{searchmedia}{start}, $urpm->{searchmedia}{end}));
-		delete $_->{searchmedia};
-	    }
+	if ($_->{searchmedia}) {
+	    $urpm->{searchmedia} = 1;
+	    $urpm->{log}(N("Search start: %s end: %s", $_->{start}, $_->{end}));
 	}
     }
 
