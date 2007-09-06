@@ -5,7 +5,7 @@ package urpm::util;
 use strict;
 use Exporter;
 our @ISA = 'Exporter';
-our @EXPORT = qw(min quotespace unquotespace
+our @EXPORT = qw(min max quotespace unquotespace
     remove_internal_name
     reduce_pathname offset_pathname
     untaint
@@ -18,6 +18,7 @@ our @EXPORT = qw(min quotespace unquotespace
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 sub min  { my $n = shift; $_ < $n and $n = $_ foreach @_; $n }
+sub max  { my $n = shift; $_ > $n and $n = $_ foreach @_; $n }
 
 #- quoting/unquoting a string that may be containing space chars.
 sub quotespace		 { my $x = $_[0] || ''; $x =~ s/(\s)/\\$1/g; $x }
