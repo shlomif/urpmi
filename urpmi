@@ -606,14 +606,14 @@ if (@root_only && !$env) {
     		"Proceed with the installation of the %d packages?",
 		$urpm->{nb_install}, $urpm->{nb_install})
 	        . sprintf(" (%s)", formatXiB($urpm->selected_size($state)));
-    my $p = join "\n", @to_install;
+    my $p = join("\n", $msg, @to_install, $msg2);
     if ($env && !$options{debug__do_not_install}) {
-	print "$msg\n$p\n$msg2\n";
+	print "$p\n";
 	exit 0; #- exit now for specific environment.
     }
     my $noexpr = N("Nn");
     my $yesexpr = N("Yy");
-    message_input("$msg\n$p\n$msg2" . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
+    message_input($p . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
 }
 
 my $exit_code = urpm::main_loop::run($urpm, $state, 
