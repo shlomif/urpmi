@@ -29,6 +29,9 @@ test_d('--split-level 1');
 test_e('--split-length 0');
 test_e('--split-level 1');
 
+test_ae('--split-length 0');
+test_ae('--split-level 1');
+
 sub test {
     my ($option) = @_;
 
@@ -59,4 +62,14 @@ sub test_e {
     #- below would need the promotion of "e-2" (upgraded from "e-1")
     urpmi("--media $name-2 --auto $option c");
     check_installed_fullnames_and_remove('c-1-1');
+}
+
+sub test_ae {
+    my ($option) = @_;
+
+    urpmi("--auto a");
+    check_installed_fullnames_and_remove('a-1-1', 'b-2-1', 'd-1-1');
+
+    urpmi("--media $name-2 --auto $option e");
+    check_installed_fullnames_and_remove('c-1-1', 'e-2-1'); # no other solution
 }
