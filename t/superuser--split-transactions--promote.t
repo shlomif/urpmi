@@ -18,14 +18,14 @@ my $name = 'split-transactions--strict-require';
 urpmi_addmedia("$name-1 $::pwd/media/$name-1");    
 urpmi_addmedia("$name-2 $::pwd/media/$name-2");
 
-#- below need the promotion of "a-2" (upgraded from "a-1") to work
+#- below need the promotion of "a-2" (upgraded from "a-1")
 test_ab('--split-length 0 b');
 test_ab('--split-level 1 b');
 
 test_ab('--split-length 0 --auto-select');
 test_ab('--split-level 1 --auto-select');
 
-#- below need the promotion of "d2" (new installed package) to work
+#- below need the promotion of "d2" (new package to install)
 test_cd('--split-length 0 d1');
 test_cd('--split-level 1 d1');
 
