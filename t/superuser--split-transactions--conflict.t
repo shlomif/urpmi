@@ -48,7 +48,7 @@ sub test_d {
     urpmi("--media $name-1 --auto a b c");
     check_installed_fullnames('a-1-1', 'b-1-1', 'c-1-1');
 
-    #- below would need the promotion of "b-2" (upgraded from "b-1")
+    #- WARNING: below would need the promotion of "b-2" (upgraded from "b-1")
     urpmi("--media $name-2 --auto $option d");
     check_installed_fullnames_and_remove('d-1-1');
 }
@@ -59,7 +59,7 @@ sub test_e {
     urpmi("--media $name-1 --auto e");
     check_installed_fullnames('d-1-1', 'e-1-1');
 
-    #- below would need the promotion of "e-2" (upgraded from "e-1")
+    #- WARNING: below would need the promotion of "e-2" (upgraded from "e-1")
     urpmi("--media $name-2 --auto $option c");
     check_installed_fullnames_and_remove('c-1-1');
 }

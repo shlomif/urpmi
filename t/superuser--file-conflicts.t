@@ -30,7 +30,7 @@ test_urpmi_same_transaction();
 test_urpmi_different_transactions();
 
 sub test_rpm_same_transaction {
-    # disabled, fail (#32528)
+    # ERROR: disabled, fail (#32528)
     #test_rpm_i_fail('a', 'b');
     #check_nothing_installed();
 
@@ -40,7 +40,7 @@ sub test_rpm_same_transaction {
     test_rpm_i_succeeds('a', 'd');
     check_installed_and_remove('a', 'd');
 
-    # disabled, fail (#32528)
+    # ERROR: disabled, fail (#32528)
     #test_rpm_i_fail('a', 'e');
     #check_nothing_installed();
 }
@@ -68,7 +68,7 @@ sub test_rpm_different_transactions {
     check_no_etc_files();
     
     test_rpm_i_succeeds('a', 'ga');
-    #test_rpm_i_fail('gd'); # broken by rpm patch rpm-4.4.8-speedup-by-not-checking-same-files-with-different-paths-through-symlink.patch
+    #test_rpm_i_fail('gd'); # WARNING: broken by rpm patch rpm-4.4.8-speedup-by-not-checking-same-files-with-different-paths-through-symlink.patch
     check_installed_names('a', 'ga');
 
     test_rpm_i_succeeds('gc');
@@ -80,7 +80,7 @@ sub test_rpm_different_transactions {
 }
 
 sub test_urpmi_same_transaction {
-    # disabled, fail (#32528)
+    # ERROR: disabled, fail (#32528)
     #test_urpmi_fail('a', 'b');
     #check_nothing_installed();
 
@@ -90,7 +90,7 @@ sub test_urpmi_same_transaction {
     urpmi('a d');
     check_installed_and_remove('a', 'd');
 
-    # disabled, fail (#32528)
+    # ERROR: disabled, fail (#32528)
     #urpmi('a e');
     #check_installed_and_remove('a', 'e');
 }
@@ -119,7 +119,7 @@ sub test_urpmi_different_transactions {
     check_no_etc_files();
     
     urpmi('a ga');
-    #test_urpmi_fail('gd'); # broken by rpm patch rpm-4.4.8-speedup-by-not-checking-same-files-with-different-paths-through-symlink.patch
+    #test_urpmi_fail('gd'); # WARNING: broken by rpm patch rpm-4.4.8-speedup-by-not-checking-same-files-with-different-paths-through-symlink.patch
     check_installed_names('a', 'ga');
 
     urpmi('gc');

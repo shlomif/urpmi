@@ -41,7 +41,7 @@ sub test_c {
     urpmi("--media $name-1 --auto a");
     check_installed_fullnames('a-1-1', 'bb-1-1', 'c-1-1');
 
-    #- below would need the promotion of "b" (obsoleting bb) to work
+    #- WARNING: below would need the promotion of "b" (obsoleting bb) to work
     urpmi("--media $name-2 $option --auto c");
     check_installed_fullnames_and_remove('c-2-1'); # a and bb are removed
 }
