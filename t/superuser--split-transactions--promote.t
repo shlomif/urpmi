@@ -9,6 +9,8 @@
 #
 # e-2 conflicts with f-1
 #
+# g-2 conflicts with h-1
+#
 use strict;
 use lib '.', 't';
 use helper;
@@ -37,6 +39,9 @@ sub test {
 
     #- below need the promotion of "f-2" (upgraded from "f-1") to work
     test_ef("$split e");
+
+    #- WARNING: below would need the promotion of "h-2" (upgraded from "e-1")
+    test_gh("$split g");
 }
 
 sub test_ab {
@@ -67,4 +72,14 @@ sub test_ef {
 
     urpmi("--media $name-2 --auto $para");
     check_installed_fullnames_and_remove('e-2-1', 'f-2-1');
+}
+
+sub test_gh {
+    my ($para) = @_;
+
+    urpmi("--media $name-1 --auto g h");
+    check_installed_names('g', 'h');
+
+    urpmi("--media $name-2 --auto $para");
+    check_installed_fullnames_and_remove('g-2-1'); # WARNING
 }
