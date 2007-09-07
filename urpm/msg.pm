@@ -119,6 +119,55 @@ sub toMb {
     int $nb + 0.5;
 }
 
+my @format_line_field_sizes = (30, 12, 13, 7, 0);
+my $format_line_format = '  ' . join(' ', map { '%-' . $_ . 's' } @format_line_field_sizes);
+
+sub format_line_selected_packages {
+    my ($urpm, $state, $pkgs) = @_;
+
+    my (@pkgs, @lines, $prev_medium);
+    my $flush = sub {
+	push @lines, _format_line_selected_packages($state, $prev_medium, \@pkgs);
+	@pkgs = ();
+    };
+    foreach my $pkg (@$pkgs) {
+	my $medium = URPM::pkg2media($urpm->{media}, $pkg);
+	if ($prev_medium && $prev_medium ne $medium) {
+	    $flush->();
+	}
+	push @pkgs, $pkg;
+	$prev_medium = $medium;
+    }
+    $flush->();
+
+    (sprintf($format_line_format, map { " $_" } N("Package"), N("Version"), N("Release"), N("Arch")),
+     @lines);
+}
+sub _format_line_selected_packages {
+    my ($state, $medium, $pkgs) = @_;
+
+    my @l = map {
+	my @name_and_evr = $_->fullname;
+	if ($state->{selected}{$_->id}{suggested}) {
+	    push @name_and_evr, N("(suggested)");
+	}
+	\@name_and_evr;
+    } sort { $a->name cmp $b->name } @$pkgs;
+
+    my $i;
+    foreach my $max (@format_line_field_sizes) { 
+	foreach (@l) {
+	    if ($max && length($_->[$i]) > $max) {
+		$_->[$i] = substr($_->[$i], 0, $max-1) . '*';
+	    }
+	}
+	$i++;
+    }
+
+    ('(' . ($medium ? N("medium \"%s\"", $medium->{name}) : N("command line")) . ')',
+     map { sprintf($format_line_format, @$_) } @l);
+}
+
 # duplicated from svn+ssh://svn.mandriva.com/svn/soft/drakx/trunk/perl-install/common.pm
 sub formatXiB {
     my ($newnb, $o_newbase) = @_;
