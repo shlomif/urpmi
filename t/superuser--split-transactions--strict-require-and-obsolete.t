@@ -22,6 +22,9 @@ urpmi_addmedia("$name-2 $::pwd/media/$name-2");
 test('--split-length 0');
 test('--split-level 1'); # was broken (#31969)
 
+test_c('--split-length 0');
+test_c('--split-level 1');
+
 sub test {
     my ($option) = @_;
 
@@ -30,4 +33,15 @@ sub test {
 
     urpmi("--media $name-2 $option --auto --auto-select");
     check_installed_fullnames_and_remove('a-1-1', 'b-2-1', 'c-2-1');
+}
+
+sub test_c {
+    my ($option) = @_;
+
+    urpmi("--media $name-1 --auto a");
+    check_installed_fullnames('a-1-1', 'bb-1-1', 'c-1-1');
+
+    #- below would need the promotion of "b" (obsoleting bb) to work
+    urpmi("--media $name-2 $option --auto c");
+    check_installed_fullnames_and_remove('c-2-1'); # a and bb are removed
 }
