@@ -122,7 +122,7 @@ if ($test && $auto) {
     #- Warning : the following message is parsed in urpm::parallel_*
     my $msg = N("Checking to remove the following packages");
     print STDOUT "$msg:\n$list\n";
-} elsif (($parallel || @toremove > @l) && !$auto || 1) {
+} elsif (($parallel || @toremove > @l) && !$auto) {
     my $msg = 
     P("To satisfy dependencies, the following package will be removed",
     "To satisfy dependencies, the following %d packages will be removed",
