@@ -585,7 +585,8 @@ foreach my $pkg (sort { $a->name cmp $b->name } @{$urpm->{depslist}}[keys %{$sta
     if (!$env && $install_src && $pkg->arch ne 'src') {
 	push @root_only, $pkg->fullname;
     } elsif ($install_src || $pkg->arch ne 'src') {
-	my @name_and_evr = ($pkg->fullname, URPM::pkg2media($urpm->{media}, $pkg)->{name});
+	my $medium = URPM::pkg2media($urpm->{media}, $pkg);
+	my @name_and_evr = ($pkg->fullname, $medium && $medium->{name});
 	$name_and_evr[2] =~ s/mdv(.*)/mdv/ if length($name_and_evr[2]) > 15;
 	if ($state->{selected}{$pkg->id}{suggested}) {
 	    push @name_and_evr, N("(suggested)");
