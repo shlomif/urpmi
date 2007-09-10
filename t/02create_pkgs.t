@@ -46,7 +46,7 @@ foreach my $spec (glob("data/SPECS/srpm*.spec")) {
 
 mkdir 'media/media_info';
 system_("cp -r data/media.cfg media/media_info");
-system_('gendistrib .');
+system_('gendistrib -s .');
 
 sub genhdlist_std {
     my ($medium_name) = @_;
