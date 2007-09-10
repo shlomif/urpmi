@@ -314,7 +314,11 @@ sub get_preferred {
 	    $urpm->{log}("preferring $prefer_s over $other_s");
 	}
     }
-    (\@prefer, \@l);
+    
+    #- only keep the best prefered
+    #- then put the other prefered packages first 
+    my $best = shift @prefer; 
+    [$best], [@prefer, @l];
 }
 
 #- find packages to remove.
