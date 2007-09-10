@@ -318,7 +318,7 @@ sub get_preferred {
     #- only keep the best prefered
     #- then put the other prefered packages first 
     my $best = shift @prefer; 
-    [$best], [@prefer, @l];
+    $best ? [$best] : [], [@prefer, @l];
 }
 
 #- find packages to remove.
