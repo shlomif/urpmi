@@ -106,13 +106,13 @@ sub _message_input {
 	    return $o_default_input;
 	}
 	$input = <STDIN>;
-	defined $input or return $o_opts{default};
+	defined $input or return undef;
 	chomp $input;
 	$urpm::args::options{bug} and bug_log($input);
 	if ($o_opts{boolean}) {
 	    $input =~ /^[$noexpr$yesexpr]?$/ and last;
 	} elsif ($o_opts{range}) {
-	    $input eq "" and $input = 1; #- defaults to first choice
+	    $input eq "" and $input = $o_opts{default}; #- defaults to first choice
 	    (defined $o_opts{range_min} ? $o_opts{range_min} : 1) <= $input && $input <= $o_opts{range} and last;
 	} else {
 	    last;
