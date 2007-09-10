@@ -1,3 +1,493 @@
+2007-09-10 17:08  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: fix error in previous commit
+
+2007-09-10 16:46  Pixel <pixel at mandriva.com>
+
+	* t/02create_pkgs.t: silence gendistrib
+
+2007-09-10 16:34  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi: - urpmi, urpme
+	  o default to selecting all the prefered packages according to
+	  installed
+	  locales (need perl-URPM 1.81 to work)
+
+2007-09-10 16:33  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: if there is a prefered package, it's the first
+	  one
+
+2007-09-10 16:21  Pixel <pixel at mandriva.com>
+
+	* urpm/msg.pm: implement default choice for range
+	  
+	  (previous tentative was not very good.
+	  i don't know in which case $input is undef)
+
+2007-09-10 16:19  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/msg.pm, urpme, urpmi, urpmi.addmedia: - urpmi, urpme
+	  o do not prompt questions if not waiting for user answer
+	  (for urpmi --force or urpme --force)
+	  
+	  create message_input_() which deprecated message_input(),
+	  $o_default_input is
+	  dumb IMO
+
+2007-09-10 12:17  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.8
+
+2007-09-10 12:15  Pixel <pixel at mandriva.com>
+
+	* urpm/msg.pm: use ">" instead of "*" to mean ellipsis
+	  (as suggested by Olivier Faurax on cooker@)
+
+2007-09-10 08:26  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: do not use netrc for protocol ssh
+
+2007-09-10 08:15  Pixel <pixel at mandriva.com>
+
+	* urpm/download.pm: more debug info (rsync cmd)
+
+2007-09-09 22:42  kamberd
+
+	* po/he.po: update translation for Hebrew
+
+2007-09-09 14:52  ybando
+
+	* po/ja.po: Japanese translation updated.
+
+2007-09-09 13:56  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2007-09-09 13:04  jure
+
+	* po/sl.po: Updated Slovenian translation
+
+2007-09-08 22:35  Michal Bukovjan <bukovjan at mbox.dkm.cz>
+
+	* po/cs.po: Updated Czech translation.
+
+2007-09-08 20:18  kmashrab
+
+	* po/uz.po, po/uz@Latn.po: New translations.
+
+2007-09-08 15:31  kmashrab
+
+	* po/uz.po, po/uz@Latn.po: New translations.
+
+2007-09-08 03:30  mmodem
+
+	* po/pt.po: up
+
+2007-09-07 15:03  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--promote-1/g.spec,
+	  t/data/SPECS/split-transactions--promote-1/h.spec,
+	  t/data/SPECS/split-transactions--promote-2/g.spec,
+	  t/data/SPECS/split-transactions--promote-2/h.spec,
+	  t/superuser--split-transactions--promote.t: add a reverse
+	  conflict test case, not nicely handled at the moment
+
+2007-09-07 14:08  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/msg.pm, urpmi: - urpmi
+	  o enhance "columns" display of packages to install (esp. fit on
+	  80 columns)
+
+2007-09-07 14:07  Pixel <pixel at mandriva.com>
+
+	* MANIFEST: update
+
+2007-09-07 12:45  Funda Wang <fundawang at linux.net.cn>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: Updated POT file
+
+2007-09-07 12:38  Pixel <pixel at mandriva.com>
+
+	* t/superuser--file-conflicts.t,
+	  t/superuser--provide-and-no-obsolete.t,
+	  t/superuser--split-transactions--conflict.t,
+	  t/superuser--split-transactions--strict-require-and-obsolete.t:
+	  mark clearly what are errors (ERROR) and what could be better
+	  (WARNING)
+
+2007-09-07 12:18  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--conflict.t: add another test
+
+2007-09-07 12:11  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--conflict-1/d.spec,
+	  t/data/SPECS/split-transactions--conflict-1/e.spec,
+	  t/data/SPECS/split-transactions--conflict-2/c.spec,
+	  t/data/SPECS/split-transactions--conflict-2/e.spec,
+	  t/superuser--split-transactions--conflict.t: add more tests
+	  showing the need for promotion
+
+2007-09-07 11:45  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--strict-require-and-obsolete.t:
+	  add a test showing the lack of promotion
+
+2007-09-07 11:29  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--promote-1/e.spec,
+	  t/data/SPECS/split-transactions--promote-1/f.spec,
+	  t/data/SPECS/split-transactions--promote-2/e.spec,
+	  t/data/SPECS/split-transactions--promote-2/f.spec,
+	  t/superuser--split-transactions--promote.t: add a simple test
+	  case for promotion on conflict
+
+2007-09-07 11:06  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--promote.t: nicer comment
+
+2007-09-07 11:01  Pixel <pixel at mandriva.com>
+
+	* MANIFEST, t/data/SPECS/split-transactions--promote-1,
+	  t/data/SPECS/split-transactions--promote-2,
+	  t/data/SPECS/split-transactions--strict-require-1,
+	  t/data/SPECS/split-transactions--strict-require-2,
+	  t/superuser--split-transactions--promote.t,
+	  t/superuser--split-transactions--strict-require.t: rename test
+	  into split-transactions--promote
+
+2007-09-07 10:57  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--strict-require-1/c.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/d1.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/d2.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/d1.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/d2.spec,
+	  t/superuser--split-transactions--strict-require.t: add a test
+	  showing promotion of a new package on missing require
+
+2007-09-07 09:34  Pixel <pixel at mandriva.com>
+
+	* MANIFEST.SKIP: add more things to skip
+
+2007-09-07 09:27  Pixel <pixel at mandriva.com>
+
+	* MANIFEST.SKIP: add more things to skip
+
+2007-09-07 09:20  Pixel <pixel at mandriva.com>
+
+	* MANIFEST, NEWS, urpm.pm: 4.10.7
+
+2007-09-07 08:51  Pixel <pixel at mandriva.com>
+
+	* urpmi: small fix: there may be no medium name for a package (from
+	  command line)
+
+2007-09-07 06:31  Pixel <pixel at mandriva.com>
+
+	* urpme: revert debug code
+
+2007-09-06 17:00  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi: - urpmi
+	  o display size that will be installed - removed with a nice
+	  message (#32022)
+	  o display packages which are going to installed with
+	  name-version-release
+	  info in columns
+	  
+	  (need enhancing a little more the "info in columns")
+
+2007-09-06 16:58  Pixel <pixel at mandriva.com>
+
+	* urpm/util.pm: add max()
+
+2007-09-06 16:28  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: fix typo in previous previous commit
+
+2007-09-06 16:22  Pixel <pixel at mandriva.com>
+
+	* urpmi: simplify
+
+2007-09-06 14:04  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm, urpm/select.pm: handle --searchmedia
+	  <media1>,...,<mediaN>
+	  (ie more than one searchmedia)
+
+2007-09-06 10:38  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: new functions:
+	  - use URPM::build_listid
+	  - prepare for next commit which will handle more than one
+	  searchmedia
+
+2007-09-06 10:13  Pixel <pixel at mandriva.com>
+
+	* urpm/msg.pm: remove debug code
+
+2007-09-06 09:30  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/msg.pm, urpme, urpmi: - urpmi
+	  o display size that will be installed - removed
+	  - urpmi, urpme
+	  o use best unit (KB, MB...) to display size will be installed -
+	  removed
+	  
+	  for this, use ->selected_size from perl-URPM
+	  and import formatXiB from drakx common.pm
+
+2007-09-06 09:06  Pixel <pixel at mandriva.com>
+
+	* urpmi: remove duplicated $env code
+
+2007-09-05 15:49  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--strict-require-1/a.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/b.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/bb.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/c-1.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/a.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/b.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/c-2.spec,
+	  t/data/SPECS/split-transactions--strict-require-and-obsolete-1,
+	  t/data/SPECS/split-transactions--strict-require-and-obsolete-2,
+	  t/superuser--split-transactions--strict-require-and-obsolete.t,
+	  t/superuser--split-transactions--strict-require.t: add a simple
+	  test that shows urpmi promotes pkgs when a strict require fails
+
+2007-09-05 15:41  Pixel <pixel at mandriva.com>
+
+	* t/superuser--obsolete-and-conflict.t: add a test (that is not
+	  fully well handled)
+
+2007-09-05 15:28  Pixel <pixel at mandriva.com>
+
+	* t/superuser--obsolete-and-conflict.t: add a comment
+
+2007-09-05 15:27  Pixel <pixel at mandriva.com>
+
+	* t/superuser--obsolete-and-conflict.t: test case is fixed since
+	  perl-URPM defaults to "one big transaction" instead
+	  of doing nonsense
+
+2007-09-05 15:07  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--conflict-1,
+	  t/data/SPECS/split-transactions--conflict-1/a.spec,
+	  t/data/SPECS/split-transactions--conflict-1/b.spec,
+	  t/data/SPECS/split-transactions--conflict-1/c.spec,
+	  t/data/SPECS/split-transactions--conflict-2,
+	  t/data/SPECS/split-transactions--conflict-2/b.spec,
+	  t/data/SPECS/split-transactions--conflict-2/d.spec,
+	  t/superuser--split-transactions--conflict.t: add a test case
+	  which triggers "transaction is too small" error
+	  (nb: it's not a fatal error since "one big transaction" fallback
+	  is used)
+
+2007-09-05 10:15  Pixel <pixel at mandriva.com>
+
+	* urpm/main_loop.pm: fix using --debug__do_not_install with --env
+
+2007-09-05 09:59  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmi.8.pod, urpm/media.pm: - urpmi
+	  o handle --searchmedia <media1>,...,<mediaN>
+	  
+	  (asked by tvignaud for rpmdrake)
+
+2007-09-05 09:54  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: inline function select_media() (for next commit)
+
+2007-09-04 15:55  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm, urpm/main_loop.pm, urpmi: add new urpmi option,
+	  only for debugging purpose: --debug__do_not_install
+
+2007-09-03 12:03  Pixel <pixel at mandriva.com>
+
+	* pod/urpmi.cfg.5.pod: fix scrict-arch description
+
+2007-09-02 12:36  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2007-09-01 16:15  berthy
+
+	* po/fr.po: Update fr translation
+
+2007-09-01 13:20  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Updated Estonian translation.
+
+2007-08-31 16:00  Pixel <pixel at mandriva.com>
+
+	* NEWS, skip.list: - urpmi
+	  o do auto upgrade mandriva kernels (ie remove kernel*-latest to
+	  skip.list)
+
+2007-08-30 16:40  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: make it more robust when no password is found in
+	  urpmi's netrc
+
+2007-08-29 21:34  mmodem
+
+	* po/pt.po: up
+
+2007-08-29 14:30  Pixel <pixel at mandriva.com>
+
+	* t/superuser--file-conflicts.t: rpm patch
+	  rpm-4.4.8-speedup-by-not-checking-same-files-with-different-paths-through-symlink.patch
+	  breaks a+ga+gd test (it is meant to be that way)
+
+2007-08-29 14:28  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/lock.pm: (rpm_db) lock rpmdb in /var/lib/rpm rather
+	  than in /var/lib/urpmi thus fixing locking with --root
+
+2007-08-29 14:27  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (create_var_lib_rpm) enable to lock chrooted rpmdb with
+	  --root too
+
+2007-08-29 14:27  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (create_var_lib_rpm) split it out of set_files()
+
+2007-08-29 13:43  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm.pm: (set_files) document policy regarding chroot env
+
+2007-08-29 12:02  ybando
+
+	* po/ja.po: Japanese translation updated.
+
+2007-08-29 10:40  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/file-conflicts/ga.spec,
+	  t/data/SPECS/file-conflicts/gc.spec,
+	  t/data/SPECS/file-conflicts/gc_.spec,
+	  t/data/SPECS/file-conflicts/gd.spec,
+	  t/superuser--file-conflicts.t: - add a test case for same files
+	  but different paths through symlink
+	  - perl-URPM do not drop tags anymore, so re-enable the test which
+	  fails without tag RPMTAG_FILEDIGESTS
+
+2007-08-28 23:16  Funda Wang <fundawang at linux.net.cn>
+
+	* po/zh_CN.po: Updated zh_CN translation
+
+2007-08-28 23:13  Funda Wang <fundawang at linux.net.cn>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@Latn.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: Updated POT file
+
+2007-08-28 22:20  mmodem
+
+	* po/pt.po: up
+
+2007-08-28 14:37  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: simplify debug message: {install} is never set
+	  (cf build_transaction_set() in perl-URPM)
+
+2007-08-28 14:27  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.6
+
+2007-08-28 14:24  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--strict-require.t: update comment
+
+2007-08-28 14:23  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--strict-require.t: test fixed by
+	  new perl-URPM 1.76
+
+2007-08-28 13:47  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: better debug message
+
+2007-08-28 11:51  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm, urpm/select.pm, urpmi: - urpmi
+	  o handle changes in priority-upgrade list between old and new
+	  urpmi (#32925)
+	  
+	  nb: keep --no-priority-upgrade since it is passed by older urpmi
+	  when restarting
+
+2007-08-28 11:00  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/signature.pm: urpmi: do not verify signature of .spec
+	  files (#32824)
+	  
+	  (see also a fix in perl-URPM so that
+	  URPM::spec2srcheader($_)->arch returns
+	  "src" and so urpmi doesn't say it's going to install it (even if
+	  it skips it))
+
+2007-08-28 10:30  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: simplify comment
+
+2007-08-28 09:27  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: better error message as suggested on
+	  cooker-i18n
+
+2007-08-28 09:09  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: better error message as suggested on
+	  cooker-i18n
+
+2007-08-28 03:11  mmodem
+
+	* po/pt.po: update
+
+2007-08-27 22:51  Reinout van Schouwen <reinout at cs.vu.nl>
+
+	* po/nl.po: * 2007-08-28 Reinout van Schouwen <reinouts@gnome.org>
+	  
+	  - nl.po: Updated Dutch translation
+
+2007-08-25 09:50  berthy
+
+	* po/fr.po: Update fr translation
+
+2007-08-25 06:55  ybando
+
+	* po/ja.po: Japanese translation updated.
+
+2007-08-24 15:40  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* ChangeLog: update
+
 2007-08-24 15:39  Thierry Vignaud <tvignaud at mandriva.com>
 
 	* Makefile.PL: --strip-prefix is uneeded with latest svn2cl
