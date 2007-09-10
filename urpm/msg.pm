@@ -158,7 +158,7 @@ sub _format_line_selected_packages {
     foreach my $max (@format_line_field_sizes) { 
 	foreach (@l) {
 	    if ($max && length($_->[$i]) > $max) {
-		$_->[$i] = substr($_->[$i], 0, $max-1) . '*';
+		$_->[$i] = substr($_->[$i], 0, $max-1) . '>';
 	    }
 	}
 	$i++;
