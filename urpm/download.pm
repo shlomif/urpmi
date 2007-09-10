@@ -466,14 +466,16 @@ sub sync_rsync {
 	do {
 	    local $_;
 	    my $buf = '';
-	    open my $rsync, join(" ", "/usr/bin/rsync",
+	    my $cmd = join(" ", "/usr/bin/rsync",
 		($limit_rate ? "--bwlimit=$limit_rate" : @{[]}),
 		($options->{quiet} ? qw(-q) : qw(--progress -v)),
 		($options->{compress} ? qw(-z) : @{[]}),
 		($options->{ssh} ? qq(-e $options->{ssh}) : @{[]}),
 		qw(--partial --no-whole-file --no-motd),
 		(defined $options->{'rsync-options'} ? split /\s+/, $options->{'rsync-options'} : ()),
-		"'$file' '$options->{dir}' 2>&1 |");
+		"'$file' '$options->{dir}' 2>&1");
+	    $options->{debug} and $options->{debug}($cmd);
+	    open(my $rsync, "$cmd |");
 	    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
 	    local $_;
 	    while (<$rsync>) {
