@@ -425,10 +425,16 @@ if (@src_names) {
 }
 
 sub ask_choice {
-    my ($urpm, $_db, $_state, $choices, $virtual_pkg_name) = @_;
+    my ($urpm, $_db, $_state, $choices, $virtual_pkg_name, $prefered) = @_;
 
-    my ($prefer, $other) = urpm::select::get_preferred($urpm, $choices, $options{prefer});
-    my @choices = (@$prefer, @$other);
+    my @choices;
+    if ($prefered && @$prefered) {
+	@choices = @$choices;
+    } else {
+	($prefered, my $other) = urpm::select::get_preferred($urpm, $choices, $options{prefer});
+	@choices = (@$prefered, @$other);
+    }
+    my $prefer = @$prefered && join(',', grep { member($choices[$_-1], @$prefered) } 1 .. @choices);
 
     my (@l) = map {
 	my ($name, $summary) = (scalar($_->fullname), translate($_->summary));
@@ -452,7 +458,7 @@ sub ask_choice {
 	print N("In order to satisfy the '%s' dependency, one of the following packages is needed:", $virtual_pkg_name), "\n";
 	my $i = 0;
 	foreach (@l) { print " " . ++$i . "- $_\n" }
-	$n = message_input_(N("What is your choice? (1-%d) ", $i), range_min => 0, range => $i);
+	$n = message_input_(N("What is your choice? (1-%d) ", $i), default => $prefer, range_min => 0, range => $i);
 	defined($n) && $n ne "0" or exit 1; # abort.
 	if ($n =~ /\D/) {
 	    my @nn = map { $choices[$_ - 1] } grep { !/\D/ } split /[, \t]+/, $n;
