@@ -128,7 +128,7 @@ if ($test && $auto) {
     "To satisfy dependencies, the following %d packages will be removed",
     scalar(@toremove), scalar(@toremove)) . sprintf(" (%s)", formatXiB(-$urpm->selected_size($state)));
     print STDOUT "$msg:\n$list\n";
-    message_input(P("Remove %d package?", "Remove %d packages?", scalar(@toremove), scalar(@toremove)) . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
+    $force || message_input_(P("Remove %d package?", "Remove %d packages?", scalar(@toremove), scalar(@toremove)) . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/ or exit 0;
 }
 
 #- Warning : the following message is parsed in urpm::parallel_*

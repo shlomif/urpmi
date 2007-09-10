@@ -452,7 +452,7 @@ sub ask_choice {
 	print N("In order to satisfy the '%s' dependency, one of the following packages is needed:", $virtual_pkg_name), "\n";
 	my $i = 0;
 	foreach (@l) { print " " . ++$i . "- $_\n" }
-	$n = message_input(N("What is your choice? (1-%d) ", $i), undef, range_min => 0, range => $i);
+	$n = message_input_(N("What is your choice? (1-%d) ", $i), range_min => 0, range => $i);
 	defined($n) && $n ne "0" or exit 1; # abort.
 	if ($n =~ /\D/) {
 	    my @nn = map { $choices[$_ - 1] } grep { !/\D/ } split /[, \t]+/, $n;
@@ -502,12 +502,8 @@ that are older than the installed ones:\n%s", $list);
     } else {
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
-	message_input(
-	    $msg . N("\nContinue installation anyway?") . N(" (Y/n) "),
-	    $force && $yesexpr,
-	    boolean => 1,
-	) =~ /[$noexpr]/
-	    and exit 0;
+	$msg .= N("\nContinue installation anyway?");
+	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 0;
     }
 }
 
@@ -522,12 +518,8 @@ if (@ask_unselect) {
     } else {
 	my $noexpr = N("Nn");
 	my $yesexpr = N("Yy");
-	message_input(
-	    $msg . N("\nContinue installation anyway?") . N(" (Y/n) "),
-	    $force && $yesexpr,
-	    boolean => 1,
-	) =~ /[$noexpr]/
-	    and exit 0;
+	$msg .= N("\nContinue installation anyway?");
+	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 0;
     }
 }
 
@@ -565,7 +557,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 	print "$msg\n";
     } else {
 	my $yesexpr = N("Yy");
-	message_input($msg . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 0;
+	$force || message_input_($msg . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/ or exit 0;
     }
 }
 
@@ -611,7 +603,7 @@ if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env) {
     }
     my $noexpr = N("Nn");
     my $yesexpr = N("Yy");
-    message_input($p . N(" (Y/n) "), $force && $yesexpr, boolean => 1) =~ /[$noexpr]/ and exit 0;
+    $force || message_input_($p . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 0;
 }
 
 my $exit_code = urpm::main_loop::run($urpm, $state, 
@@ -627,7 +619,7 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', "\n$msg\n");
 	    }
 	}
-	return defined message_input("$msg\n$msg2 ");
+	return defined message_input_("$msg\n$msg2 ");
     }) : ()),
     trans_log => sub {
 #	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
@@ -641,13 +633,13 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 		exit 1;
 	    } else {
 		my $yesexpr = N("Yy");
-		message_input("$msg$msg2" . N(" (y/N) "), $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/ or exit 1;
+		$force || message_input_("$msg$msg2" . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/ or exit 1;
 	    }
     },                           
     ask_yes_or_no => sub {
 	my ($_title, $msg) = @_; # graphical title
 	my $yesexpr = N("Yy");
-	message_input($msg, $force && $yesexpr, boolean => 1) =~ /[$yesexpr]/;
+	$force || message_input_($msg, boolean => 1) =~ /[$yesexpr]/;
     },
 });
 

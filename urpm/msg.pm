@@ -15,7 +15,7 @@ BEGIN {
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 our @ISA = 'Exporter';
-our @EXPORT = qw(N P translate bug_log message_input toMb formatXiB sys_log);
+our @EXPORT = qw(N P translate bug_log message_input message_input_ toMb formatXiB sys_log);
 
 #- I18N.
 use Locale::gettext;
@@ -88,17 +88,25 @@ sub bug_log {
     }
 }
 
-sub message_input {
+#- deprecated, use message_input_() instead
+sub message_input { &_message_input }
+
+sub message_input_ {
+    my ($msg, %o_opts) = @_;
+    _message_input($msg, undef, %o_opts);
+}
+sub _message_input {
     my ($msg, $o_default_input, %o_opts) = @_;
     my $input;
     while (1) {
 	print $msg;
 	if ($o_default_input) {
+	    #- deprecated argument. don't you want to use $o_opts{default} instead?
 	    $urpm::args::options{bug} and bug_log($o_default_input);
 	    return $o_default_input;
 	}
 	$input = <STDIN>;
-	defined $input or return undef;
+	defined $input or return $o_opts{default};
 	chomp $input;
 	$urpm::args::options{bug} and bug_log($input);
 	if ($o_opts{boolean}) {
