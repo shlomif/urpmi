@@ -526,10 +526,8 @@ sub translate_why_removed_one {
 	    } @$whyv);
 	} elsif ($whyk =~ /conflicts/) {
 	    N("due to conflicts with %s", $whyv);
-	} elsif ($whyk) {
-	    $whyk;
 	} else {
-	    undef;
+	    $whyk;
 	}
     };
     #- now insert the reason if available.
