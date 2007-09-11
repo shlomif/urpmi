@@ -9,6 +9,14 @@ use urpm::media;
 use urpm 'file_from_local_url';
 
 
+sub clean_all_cache {
+    my ($urpm) = @_;
+    #- clean download directory, do it here even if this is not the best moment.
+    $urpm->{log}(N("cleaning %s and %s", "$urpm->{cachedir}/partial", "$urpm->{cachedir}/rpms"));
+    urpm::sys::clean_dir("$urpm->{cachedir}/partial");
+    urpm::sys::clean_dir("$urpm->{cachedir}/rpms");
+}
+
 #- select sources for selected packages,
 #- according to keys of the packages hash.
 #- returns a list of lists containing the source description for each rpm,
@@ -34,13 +42,6 @@ sub selected2list {
     my %file2fullnames;
     foreach my $pkg (@{$urpm->{depslist} || []}) {
 	$file2fullnames{$pkg->filename}{$pkg->fullname} = undef;
-    }
-
-    if ($options{clean_all}) {
-	#- clean download directory, do it here even if this is not the best moment.
-	$urpm->{log}(N("cleaning %s and %s", "$urpm->{cachedir}/partial", "$urpm->{cachedir}/rpms"));
-	urpm::sys::clean_dir("$urpm->{cachedir}/partial");
-	urpm::sys::clean_dir("$urpm->{cachedir}/rpms");
     }
 
     #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).

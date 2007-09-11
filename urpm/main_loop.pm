@@ -38,9 +38,10 @@ sub run {
     my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test, $env) =
       ($::auto_select, $::no_install, $::install_src, $::clean, $::noclean, $::force, $::parallel, $::test, $::env);
 
+    urpm::get_pkgs::clean_all_cache($urpm) if $clean;
+
 my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm,
     $state->{selected},
-    clean_all => $clean,
     clean_other => !$noclean && $urpm->{options}{'pre-clean'},
 );
 unless ($local_sources || $list) {
