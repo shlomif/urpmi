@@ -28,20 +28,14 @@ sub selected2list {
 
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
-	foreach (split /\|/, $_) {
+	foreach my $id (split /\|/, $_) {
 	    if ($urpm->{source}{$_}) {
-		$protected_files{$local_sources{$_} = $urpm->{source}{$_}} = undef;
+		my $file = $local_sources{$id} = $urpm->{source}{$id};
+		$protected_files{$file} = undef;
 	    } else {
-		$fullname2id{$urpm->{depslist}[$_]->fullname} = $_ . '';
+		$fullname2id{$urpm->{depslist}[$id]->fullname} = $id;
 	    }
 	}
-    }
-
-    #- examine each medium to search for packages.
-    #- now get rpm file name in hdlist to match list file.
-    my %file2fullnames;
-    foreach my $pkg (@{$urpm->{depslist} || []}) {
-	$file2fullnames{$pkg->filename}{$pkg->fullname} = undef;
     }
 
     #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
@@ -52,11 +46,8 @@ sub selected2list {
 	    unlink $filepath; #- this file should be removed or is already empty.
 	} else {
 	    my $filename = basename($filepath);
-	    my @fullnames = keys(%{$file2fullnames{$filename} || {}});
-	    if (@fullnames > 1) {
-		$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
-	    } elsif (@fullnames == 1 &&
-		       defined(my $id = delete $fullname2id{$fullnames[0]})) {
+	    my ($fullname) = $filename =~ /(.*)\.rpm$/ or next;
+	    if (my $id = delete $fullname2id{$fullname}) {
 		$local_sources{$id} = $filepath;
 	    } else {
 		$options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
@@ -64,74 +55,32 @@ sub selected2list {
 	}
     }
 
-    my (@list, %examined);
+    my @remaining_ids = sort { $a <=> $b } values %fullname2id;
 
-    foreach my $medium (@{$urpm->{media} || []}) {
-	my (%sources, %list_examined, $list_warning);
-
+    my @list = map {
+	my $medium = $_;
+	my %sources;
 	if (urpm::media::is_valid_medium($medium) && !$medium->{ignore}) {
-	    #- always prefer a list file if available.
-	    if ($medium->{list}) {
-		if (-r urpm::media::statedir_list($urpm, $medium)) {
-		    foreach (cat_(urpm::media::statedir_list($urpm, $medium))) {
-			chomp;
-			if (my ($filename) = m!([^/]*\.rpm)$!) {
-			    if (keys(%{$file2fullnames{$filename} || {}}) > 1) {
-				$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $filename));
-				next;
-			    } elsif (keys(%{$file2fullnames{$filename} || {}}) == 1) {
-				my ($fullname) = keys(%{$file2fullnames{$filename} || {}});
-				if (defined(my $id = $fullname2id{$fullname})) {
-				    if (!/\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $urpm->{root})) {
-					$sources{$id} = "$medium->{url}/$filename";
-				    }
-				}
-				$list_examined{$fullname} = $examined{$fullname} = undef;
-			    }
-			} else {
-			    chomp;
-			    $urpm->{error}(N("unable to correctly parse [%s] on value \"%s\"", urpm::media::statedir_list($urpm, $medium), $_));
-			    last;
-			}
-		    }
+	    while (@remaining_ids) {
+		my $id = $remaining_ids[0];
+		$medium->{start} <= $id && $id <= $medium->{end} or last;
+		shift @remaining_ids;
+
+		my $pkg = $urpm->{depslist}[$id];
+		if ($pkg->filename !~ /\.delta\.rpm$/ || $urpm->is_delta_installable($pkg, $urpm->{root})) {
+		    $sources{$id} = "$medium->{url}/" . $pkg->filename;
 		}
-	    }
-	    if (defined $medium->{url}) {
-		foreach ($medium->{start} .. $medium->{end}) {
-		    my $pkg = $urpm->{depslist}[$_];
-		    my $fi = $pkg->filename;
-		    if (keys(%{$file2fullnames{$fi} || {}}) > 1) {
-			$urpm->{error}(N("there are multiple packages with the same rpm filename \"%s\"", $fi));
-			next;
-		    } elsif (keys(%{$file2fullnames{$fi} || {}}) == 1) {
-			my ($fullname) = keys(%{$file2fullnames{$fi} || {}});
-			unless (exists($list_examined{$fullname})) {
-			    ++$list_warning;
-			    if (defined(my $id = $fullname2id{$fullname})) {
-				if ($fi !~ /\.delta\.rpm$/ || $urpm->is_delta_installable($urpm->{depslist}[$id], $urpm->{root})) {
-				    $sources{$id} = "$medium->{url}/" . $fi;
-				}
-			    }
-			    $examined{$fullname} = undef;
-			}
-		    }
-		}
-		$list_warning && $medium->{list} && -r urpm::media::statedir_list($urpm, $medium) && -f _
-		    and $urpm->{error}(N("medium \"%s\" uses an invalid list file:
-  mirror is probably not up-to-date, trying to use alternate method", $medium->{name}));
 	    }
 	}
-	push @list, \%sources;
+	\%sources;
+    } (@{$urpm->{media} || []});
+
+    if (@remaining_ids) {
+	$urpm->{error}(N("package %s is not found.", $urpm->{depslist}[$_]->fullname)) foreach @remaining_ids;
+	return;
     }
 
-    my $error;
-    #- examine package list to see if a package has not been found.
-    foreach (grep { ! exists($examined{$_}) } keys %fullname2id) {
-	$error = 1;
-	$urpm->{error}(N("package %s is not found.", $_));
-    }
-
-    $error ? @{[]} : (\%local_sources, \@list);
+    (\%local_sources, \@list);
 }
 
 # TODO verify that files are downloaded from the right corresponding media
