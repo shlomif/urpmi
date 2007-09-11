@@ -292,6 +292,23 @@ urpm - Mandriva perl tools to handle the urpmi database
 C<urpm> is used by urpmi executables to manipulate packages and media
 on a Mandriva Linux distribution.
 
+=head2 The urpm class
+
+=over 4
+
+=item urpm->new()
+
+The constructor creates a new urpm object. It's a blessed hash that
+contains fields from C<URPM>, and also the following fields:
+
+B<source>: { id => src_rpm_file|spec_file }
+
+B<media>: [ { start => int, end => int, name => string, url => string,
+              virtual => bool, media_info_dir => string, with_hdlist => string,
+              hdlist => bool|string, synthesis => bool,
+              removable => string, downloader => string,
+              ignore => bool, update => bool, modified => bool, really_modified => bool } ],
+
 =head1 SEE ALSO
 
 The C<URPM> package is used to manipulate at a lower level hdlist and rpm
