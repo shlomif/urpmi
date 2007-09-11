@@ -38,7 +38,6 @@ our $media = '';
 our $searchmedia;
 our $excludemedia = '';
 our $sortmedia = '';
-our $synthesis = '';
 our $allow_medium_change = 0;
 our $auto_select = 0;
 our $auto_update = 0;
@@ -229,7 +228,7 @@ if ($restricted) {
     #- force some options
     foreach (qw(keep verify-rpm)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
-    urpm::error_restricted($urpm) if $urpm->{root} || $options{usedistrib} || $force || $env || $parallel || $synthesis || $auto_update;
+    urpm::error_restricted($urpm) if $urpm->{root} || $options{usedistrib} || $force || $env || $parallel || $options{synthesis} || $auto_update;
     foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options prozilla-options noscripts)) {
 	urpm::error_restricted($urpm) if $urpm->{options}{$_};
     }
@@ -348,7 +347,7 @@ my %config_hash = (
     searchmedia => $searchmedia,
     cmdline_skiplist => $options{skip},
     sortmedia => $sortmedia,
-    synthesis => $synthesis,
+    synthesis => $options{synthesis},
     update => $update,
     usedistrib => $options{usedistrib},
     probe_with => $options{probe_with},

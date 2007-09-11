@@ -69,7 +69,7 @@ my %options_spec = (
 	'excludemedia|exclude-media=s' => \$::excludemedia,
 	'sortmedia|sort-media=s' => \$::sortmedia,
 	'searchmedia|search-media=s' => \$::searchmedia,
-	'synthesis=s' => \$::synthesis,
+	'synthesis=s' => \$options{synthesis},
 	auto => sub { $urpm->{options}{auto} =  1 },
 	'allow-medium-change' => \$::allow_medium_change,
 	'gui' => \$::gui,
@@ -221,7 +221,6 @@ my %options_spec = (
 	'excludemedia|exclude-media=s' => \$options{excludemedia},
 	'sortmedia|sort-media=s' => \$options{sortmedia},
 	'searchmedia|search-media=s' => \$options{searchmedia},
-	'synthesis=s' => \$options{synthesis},
 	'auto-select' => sub {
 	    $options{deps} = $options{upgrade} = $options{auto_select} = 1;
 	},
@@ -359,7 +358,7 @@ foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "u
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
 }
-foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s")
+foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synthesis=s")
 {
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
