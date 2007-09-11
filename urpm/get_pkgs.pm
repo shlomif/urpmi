@@ -63,7 +63,7 @@ sub selected2list {
 	}
     }
 
-    my ($error, @list_error, @list, %examined);
+    my (@list, %examined);
 
     foreach my $medium (@{$urpm->{media} || []}) {
 	my (%sources, %list_examined, $list_warning);
@@ -89,17 +89,10 @@ sub selected2list {
 			    }
 			} else {
 			    chomp;
-			    $error = 1;
 			    $urpm->{error}(N("unable to correctly parse [%s] on value \"%s\"", urpm::media::statedir_list($urpm, $medium), $_));
 			    last;
 			}
 		    }
-		} else {
-		    # list file exists but isn't readable
-		    # report error only if no result found, list files are only readable by root
-		    push @list_error, N("unable to access list file of \"%s\", medium ignored", $medium->{name});
-		    $< and push @list_error, "    " . N("(retry as root?)");
-		    next;
 		}
 	    }
 	    if (defined $medium->{url}) {
@@ -125,19 +118,14 @@ sub selected2list {
 		$list_warning && $medium->{list} && -r urpm::media::statedir_list($urpm, $medium) && -f _
 		    and $urpm->{error}(N("medium \"%s\" uses an invalid list file:
   mirror is probably not up-to-date, trying to use alternate method", $medium->{name}));
-	    } elsif (!%list_examined) {
-		$error = 1;
-		$urpm->{error}(N("medium \"%s\" does not define any location for rpm files", $medium->{name}));
 	    }
 	}
 	push @list, \%sources;
     }
 
+    my $error;
     #- examine package list to see if a package has not been found.
     foreach (grep { ! exists($examined{$_}) } keys %fullname2id) {
-	# print list errors only once if any
-	$urpm->{error}($_) foreach @list_error;
-	@list_error = ();
 	$error = 1;
 	$urpm->{error}(N("package %s is not found.", $_));
     }
