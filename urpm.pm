@@ -311,6 +311,8 @@ B<media>: [ {
    ignore => bool, update => bool, modified => bool, really_modified => bool,
  } ],
 
+=back
+
 =head1 SEE ALSO
 
 The C<URPM> package is used to manipulate at a lower level hdlist and rpm
