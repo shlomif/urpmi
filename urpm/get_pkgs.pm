@@ -24,7 +24,7 @@ sub clean_all_cache {
 #- associated to a null list.
 sub selected2list {
     my ($urpm, $packages, %options) = @_;
-    my (%protected_files, %local_sources, %fullname2id);
+    my (%protected_files, %local_sources, %fullname2id, %id_map);
 
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
@@ -33,7 +33,16 @@ sub selected2list {
 		my $file = $local_sources{$id} = $urpm->{source}{$id};
 		$protected_files{$file} = undef;
 	    } else {
-		$fullname2id{$urpm->{depslist}[$id]->fullname} = $id;
+		my $pkg = $urpm->{depslist}[$id];
+		my $fullname = $pkg->fullname;
+		my @pkgs = map { $_->id } grep { $fullname eq $_->fullname } $urpm->packages_by_name($pkg->name);
+
+		# id_map is a remapping of id.
+		# it is needed because @list must be [ { id => pkg } ] where id is one the selected id,
+		# not really the real package id
+		$id_map{$_} = $id foreach @pkgs;
+
+		push @{$fullname2id{$fullname2id}}, @pkgs;
 	    }
 	}
     }
@@ -55,7 +64,7 @@ sub selected2list {
 	}
     }
 
-    my @remaining_ids = sort { $a <=> $b } values %fullname2id;
+    my @remaining_ids = sort { $a <=> $b } map { @$_ } values %fullname2id;
 
     my @list = map {
 	my $medium = $_;
@@ -68,7 +77,7 @@ sub selected2list {
 
 		my $pkg = $urpm->{depslist}[$id];
 		if ($pkg->filename !~ /\.delta\.rpm$/ || $urpm->is_delta_installable($pkg, $urpm->{root})) {
-		    $sources{$id} = "$medium->{url}/" . $pkg->filename;
+		    $sources{$id_map{$id}} = "$medium->{url}/" . $pkg->filename;
 		}
 	    }
 	}
