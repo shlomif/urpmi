@@ -40,7 +40,7 @@ sub test {
     #- below need the promotion of "f-2" (upgraded from "f-1") to work
     test_ef("$split e");
 
-    #- WARNING: below would need the promotion of "h-2" (upgraded from "e-1")
+    #- below need the promotion of "h-2" (upgraded from "h-1") to work
     test_gh("$split g");
 }
 
@@ -81,5 +81,5 @@ sub test_gh {
     check_installed_names('g', 'h');
 
     urpmi("--media $name-2 --auto $para");
-    check_installed_fullnames_and_remove('g-2-1'); # WARNING
+    check_installed_fullnames_and_remove('g-2-1', 'h-2-1');
 }
