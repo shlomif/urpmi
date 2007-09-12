@@ -53,9 +53,6 @@ sub build_transaction_set_ {
 	#- build transaction set...
 	$urpm->build_transaction_set($db, $state, split_length => $options{split_length});
     }
-
-    $urpm->{debug} and $urpm->{debug}(join("\n", "scheduled sets of transactions:", 
-					   transaction_set_to_string($urpm, $state->{transaction} || [])));
 }
 
 sub transaction_set_to_string {

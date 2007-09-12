@@ -65,6 +65,13 @@ urpm::install::build_transaction_set_($urpm, $state,
 			  split_level => $urpm->{options}{'split-level'},
 			  split_length => !$test && $urpm->{options}{'split-length'});
 
+    if ($options{debug__do_not_install}) {
+	$urpm->{debug} = sub { print STDERR "$_[0]\n" };
+    }
+
+$urpm->{debug} and $urpm->{debug}(join("\n", "scheduled sets of transactions:", 
+				       urpm::install::transaction_set_to_string($urpm, $state->{transaction} || [])));
+
 $options{debug__do_not_install} and exit 0;
 
 my ($ok, $nok) = (0, 0);
