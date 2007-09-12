@@ -1,7 +1,10 @@
 #!/usr/bin/perl
 
 # test from bugs #12696, #11885
-
+#
+# b requires b-sub
+# a-sup requires a
+# a conflicts with b, b conflicts with a
 use strict;
 use lib '.', 't';
 use helper;
