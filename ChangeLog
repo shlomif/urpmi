@@ -1,3 +1,87 @@
+2007-09-12 15:45  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm, urpm/main_loop.pm: do display computed
+	  transaction with --debug__do_not_install even if --debug
+	  is not used
+
+2007-09-12 15:14  Pixel <pixel at mandriva.com>
+
+	* t/superuser--handle-conflict-deps.t: explain
+
+2007-09-12 13:49  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: previous commit was making some wrong
+	  assumptions when simplifying
+	  selected2list(). it needs to be a little more complex...
+
+2007-09-12 09:51  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--promote.t: promote fixed in
+	  perl-URPM > 1.80
+
+2007-09-11 22:25  acelli
+
+	* po/it.po: update translation for Italian
+
+2007-09-11 21:19  Wanderlei Antonio Cavassin <cavassin at mandriva.com>
+
+	* po/pt_BR.po: Updated pt_BR translation
+
+2007-09-11 13:52  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: simplify
+
+2007-09-11 13:51  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: unrequested doesn't exist, removing it
+
+2007-09-11 12:21  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm, urpmi: - urpmf
+	  o fix --synthesis
+	  
+	  (by handling synthesis argument the same way in urpmq, urpmi and
+	  urpmf)
+
+2007-09-11 10:28  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: fix pod
+
+2007-09-11 10:12  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/pl.po: fuzzying two strings in order to kill fatal errors
+
+2007-09-11 09:18  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: simplify selected2list() mess
+	  => make it instantaneous instead of taking 20% of the time of a
+	  small urpmi command
+
+2007-09-11 08:56  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm, urpm/main_loop.pm: move cleaning of cachedir
+	  out of selected2list()
+
+2007-09-11 08:53  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: simplify error handling
+
+2007-09-11 08:41  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: better layout in doc
+
+2007-09-11 08:36  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: add some doc
+
+2007-09-10 17:12  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* ChangeLog: update
+
+2007-09-10 17:11  Pixel <pixel at mandriva.com>
+
+	* urpm/msg.pm: fix error in previous commit
+
 2007-09-10 17:08  Pixel <pixel at mandriva.com>
 
 	* urpm/select.pm: fix error in previous commit
