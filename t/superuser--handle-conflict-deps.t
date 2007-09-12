@@ -1,7 +1,5 @@
 #!/usr/bin/perl
 
-# test from bugs #12696, #11885
-#
 # b requires b-sub
 # a-sup requires a
 # a conflicts with b, b conflicts with a
@@ -16,8 +14,18 @@ need_root_and_prepare();
 my $name = 'handle-conflict-deps';
 urpmi_addmedia("$name $::pwd/media/$name");    
 
-urpmi('--auto a-sup');
-check_installed_names('a', 'a-sup');
+test_conflict_on_install();
+test_conflict_on_upgrade(); #test from bugs #12696, #11885
 
-urpmi('--auto b');
-check_installed_names('b', 'b-sub');
+sub test_conflict_on_upgrade {
+    urpmi('--auto a-sup');
+    check_installed_names('a', 'a-sup');
+
+    urpmi('--auto b');
+    check_installed_and_remove('b', 'b-sub');
+}
+
+sub test_conflict_on_install {
+    urpmi('--auto a b');
+    check_installed_and_remove('a'); # WARNING: why does it choose one or the other?
+}
