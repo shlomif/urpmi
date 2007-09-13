@@ -18,36 +18,30 @@ need_root_and_prepare();
 my $name = 'obsolete-and-conflict';
 urpmi_addmedia("$name $::pwd/media/$name");    
 
-urpmi('a');
-check_installed_names('a');
+test1();
+test_with_ad('b c', 'b c d');
+test_with_ad('--split-level 1 b c', 'b c d'); # perl-URPM fix for #31969 fixes this too ("d" used to be removed without asking)
+test_with_ad('--auto c', 'c'); # WARNING: urpmi should promote new version of "b" instead of removing conflicting older packages
 
-test_urpmi("b c", sprintf(<<'EOF', urpm::cfg::get_arch()));
+sub test1 {
+    urpmi('a');
+    check_installed_names('a');
+
+    test_urpmi("b c", sprintf(<<'EOF', urpm::cfg::get_arch()));
       1/2: c
       2/2: b
 removing package a-1-1.%s
 EOF
-check_installed_names('b', 'c');
+    check_installed_and_remove('b', 'c');
+}
 
-urpme('b c');
-
-urpmi('a d');
-check_installed_names('a', 'd');
-urpmi('b c');
-check_installed_names('b', 'c', 'd');
-
-urpme('b c d');
-
-urpmi('a d');
-check_installed_names('a', 'd');
-urpmi('--split-level 1 b c');
-check_installed_names('b', 'c', 'd'); # perl-URPM fix for #31969 fixes this too ("d" used to be removed without asking)
-
-urpme('b c d');
-
-urpmi('a d');
-check_installed_names('a', 'd');
-urpmi('--auto c');
-check_installed_names('c'); # urpmi should promote new version of "b" instead of removing conflicting older packages
+sub test_with_ad {
+    my ($para, $wanted) = @_;
+    urpmi('a d');
+    check_installed_names('a', 'd');
+    urpmi($para);
+    check_installed_and_remove(split ' ', $wanted);
+}
 
 sub test_urpmi {
     my ($para, $wanted) = @_;
