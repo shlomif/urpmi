@@ -9,7 +9,7 @@
 #
 # e-2 conflicts with f-1
 #
-# g-2 conflicts with h-1
+# h-1 conflicts with g-2
 #
 use strict;
 use lib '.', 't';
@@ -25,6 +25,7 @@ urpmi_addmedia("$name-2 $::pwd/media/$name-2");
 
 test('--split-length 0');
 test('--split-level 1');
+test_conflict();
 
 sub test {
     my ($split) = @_;
@@ -42,6 +43,10 @@ sub test {
 
     #- below need the promotion of "h-2" (upgraded from "h-1") to work
     test_gh("$split g");
+}
+sub test_conflict {
+    test_conflict_ef();
+    test_conflict_gh();
 }
 
 sub test_ab {
@@ -82,4 +87,36 @@ sub test_gh {
 
     urpmi("--media $name-2 --auto $para");
     check_installed_fullnames_and_remove('g-2-1', 'h-2-1');
+}
+
+sub test_conflict_ef {
+    my ($para) = @_;
+
+    urpmi("--media $name-1 f");
+    check_installed_names('f');
+
+    my @reasons = run_urpmi_and_get_conflicts("--media $name-1 --auto media/$name-2/e-2-*.rpm");
+    $reasons[0] =~ s/\.\w+$//; # get rid of arch
+    my $wanted = 'e-2-1';
+    ok($reasons[0] eq $wanted, "$wanted in @reasons");
+    check_installed_fullnames_and_remove('e-2-1');
+}
+
+sub test_conflict_gh {
+    my ($para) = @_;
+
+    urpmi("--media $name-1 h");
+    check_installed_names('h');
+
+    my @reasons = run_urpmi_and_get_conflicts("--media $name-1 --auto media/$name-2/g-2-*.rpm");
+    my $wanted = 'g[> 1]';
+    ok($reasons[0] eq $wanted, "$wanted in @reasons");
+    check_installed_fullnames_and_remove('g-2-1');
+}
+
+sub run_urpmi_and_get_conflicts {
+    my ($para) = @_;
+    my $cmd = urpmi_cmd() . " $para";
+    my $output = `$cmd`;
+    $output =~ /\(due to conflicts with (.*)\)/g;
 }
