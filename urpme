@@ -31,7 +31,7 @@ use urpm::select;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our ($test, $parallel, $auto, $matches, $force, $noscripts, $repackage, @l, $bundle, $restricted);
+our ($test, $parallel, $auto, $matches, $force, $noscripts, $repackage, @l, $restricted);
 my $yesexpr =
   #-PO: Add here the keys which might be pressed in the "Yes"-case.
   N("Yy");
@@ -97,7 +97,6 @@ my @toremove = urpm::select::find_packages_to_remove($urpm,
     \@l,
     matches => $matches,
     force => $force,
-    bundle => $bundle,
     callback_notfound => sub {
 	my $urpm = shift @_;
 	#- Warning : the following message is parsed in urpm::parallel_*
