@@ -258,7 +258,7 @@ sub get_updates_description {
 		    $cur->{importance} = 'normal';
 		}
 		$update_descr{$medium->{name}}{$_} = $cur foreach @{$cur->{pkgs} || []};
-		$cur = { pkgs => [ split /\s/, $1 ], medium => $medium->{name} };
+		$cur = { pkgs => [ split /\s/, $1 ] };
 		$section = 'pkg';
 		next;
 	    };
