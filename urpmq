@@ -394,7 +394,7 @@ if ($options{list_aliases}) {
 			$pkg->packager and printf "%-12s: %s\n", "Packager", $pkg->packager;
 			$pkg->url and printf "%-12s: %s\n", "URL", $pkg->url;
 			$pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
-			my $updesc = $updates_descr->{$pkg->name};
+			my $updesc = $updates_descr->{URPM::pkg2media($urpm->{media}, $pkg)->{name}}{$pkg->name};
 			$pkg->description && !$updesc->{description}
 			    and printf "%-12s:\n%s\n", "Description", $pkg->description;
 			if ($updesc) {

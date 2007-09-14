@@ -257,7 +257,7 @@ sub get_updates_description {
 		if (exists $cur->{importance} && !member($cur->{importance}, qw(security bugfix))) {
 		    $cur->{importance} = 'normal';
 		}
-		$update_descr{$_} = $cur foreach @{$cur->{pkgs} || []};
+		$update_descr{$medium->{name}}{$_} = $cur foreach @{$cur->{pkgs} || []};
 		$cur = { pkgs => [ split /\s/, $1 ], medium => $medium->{name} };
 		$section = 'pkg';
 		next;
