@@ -24,7 +24,7 @@ sub clean_all_cache {
 #- associated to a null list.
 sub selected2list {
     my ($urpm, $packages, %options) = @_;
-    my (%protected_files, %local_sources, %fullname2id, %id_map);
+    my (%protected_files, %local_sources, %fullname2id);
 
     #- build association hash to retrieve id and examine all list files.
     foreach (keys %$packages) {
@@ -33,16 +33,7 @@ sub selected2list {
 		my $file = $local_sources{$id} = $urpm->{source}{$id};
 		$protected_files{$file} = undef;
 	    } else {
-		my $pkg = $urpm->{depslist}[$id];
-		my $fullname = $pkg->fullname;
-		my @pkgs = map { $_->id } grep { $fullname eq $_->fullname } $urpm->packages_by_name($pkg->name);
-
-		# id_map is a remapping of id.
-		# it is needed because @list must be [ { id => pkg } ] where id is one the selected id,
-		# not really the real package id
-		$id_map{$_} = $id foreach @pkgs;
-
-		push @{$fullname2id{$fullname2id}}, @pkgs;
+		$fullname2id{$urpm->{depslist}[$id]->fullname} = $id;
 	    }
 	}
     }
@@ -64,7 +55,21 @@ sub selected2list {
 	}
     }
 
-    my @remaining_ids = sort { $a <=> $b } map { @$_ } values %fullname2id;
+    my (%id_map, @remaining_ids);
+    foreach my $id (values %fullname2id) {
+	my $pkg = $urpm->{depslist}[$id];
+	my $fullname = $pkg->fullname;
+	my @pkgs = map { $_->id } grep { $fullname eq $_->fullname } $urpm->packages_by_name($pkg->name);
+
+	# id_map is a remapping of id.
+	# it is needed because @list must be [ { id => pkg } ] where id is one the selected id,
+	# not really the real package id
+	$id_map{$_} = $id foreach @pkgs;
+
+	push @remaining_ids, @pkgs;
+    }
+
+    @remaining_ids = sort { $a <=> $b } @remaining_ids;
 
     my @list = map {
 	my $medium = $_;
