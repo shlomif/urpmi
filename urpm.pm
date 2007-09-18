@@ -88,6 +88,7 @@ sub create_var_lib_rpm {
 			 (map { "$h{cachedir}/$_" } qw(headers partial rpms)),
 			 dirname($h{config}),
 			 "$urpm->{root}/var/lib/rpm",
+			 "$urpm->{root}/var/tmp",
 		     ]);
 }
 
