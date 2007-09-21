@@ -24,7 +24,7 @@ sub various {
 sub rpm_v3 {
     my @names = qw(libtermcap nls p2c);
 
-    system_("rpm --root $::pwd/root -i --noscripts media/rpm-v3/*.rpm");
+    system_("rpm --root $::pwd/root -i --noscripts media/rpm-v3/*.i386.rpm");
     check_installed_names(@names);
     system_("rpm --root $::pwd/root -e --noscripts " . join(' ', @names));
     is(`rpm -qa --root $::pwd/root`, '');    
