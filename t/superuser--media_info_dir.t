@@ -37,4 +37,16 @@ sub rpm_v3 {
 	is(`rpm -qa --root $::pwd/root`, '');    
 	urpmi_removemedia($medium_name);
     }
+
+    foreach my $src_rpm (glob('media/rpm-v3/*.rpm')) {
+	my ($wanted_arch) = $src_rpm =~ /(\w+)\.rpm$/;
+	my $cmd = urpm_cmd('urpmq') . " -f $src_rpm";
+	warn "# $cmd\n";
+	chomp(my $fullname = `$cmd`);
+	my ($arch) = $fullname =~ /(\w+)$/;
+
+	$wanted_arch = 'i386' if $src_rpm =~ /KBackup/; # ERROR: package has a Sourcerpm empty tag (#29809)
+
+	is($arch, $wanted_arch, "$fullname should have arch $wanted_arch (found $arch)");
+    }
 }
