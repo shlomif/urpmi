@@ -32,6 +32,7 @@ sub new {
 	# from URPM
 	depslist   => [],
 	provides   => {},
+	obsoletes  => {},
 
 	media      => undef,
 	options    => {},
