@@ -26,6 +26,9 @@ sub rpm_v3 {
 
     system_("rpm --root $::pwd/root -i --noscripts media/rpm-v3/*.i386.rpm");
     check_installed_names(@names);
+    rebuilddb(); # why here? well, why not
+    check_installed_names(@names);   
+
     system_("rpm --root $::pwd/root -e --noscripts " . join(' ', @names));
     is(`rpm -qa --root $::pwd/root`, '');    
 
@@ -49,4 +52,11 @@ sub rpm_v3 {
 
 	is($arch, $wanted_arch, "$fullname should have arch $wanted_arch (found $arch)");
     }
+}
+
+sub rebuilddb {
+    # testing rebuilddb (could be done elsewhere, but here is 
+    system_("rpm --root $::pwd/root --rebuilddb");
+    my ($dir) = glob("$::pwd/root/var/lib/rpmrebuilddb*");
+    is($dir, undef, "$dir should not be there");
 }
