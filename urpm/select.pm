@@ -432,7 +432,7 @@ sub find_packages_to_remove {
 	find_removed_from_basesystem($urpm, $db, $state, $options{callback_base})
 	    or return ();
     }
-    grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected}};
+    removed_packages($urpm, $state);
 }
 
 sub find_removed_from_basesystem {
@@ -445,7 +445,7 @@ sub find_removed_from_basesystem {
 	    my ($p) = @_;
 	    $basepackages{$p->fullname} = 0;
 	});
-	foreach (grep { $state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted} } keys %{$state->{rejected}}) {
+	foreach (removed_packages($urpm, $state)) {
 	    exists $basepackages{$_} or next;
 	    ++$basepackages{$_};
 	}
