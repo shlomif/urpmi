@@ -586,7 +586,7 @@ if (@root_only && !$env) {
     exit 1;
 }
 $urpm->{nb_install} = @to_install;
-if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env) {
+if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$options{debug__do_not_install}) {
     my $msg = $urpm->{nb_install} == 1 ? N("To satisfy dependencies, the following package is going to be installed:") 
 		: N("To satisfy dependencies, the following packages are going to be installed:");
     if ($test) {
@@ -602,7 +602,7 @@ if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env) {
     		"Proceed with the installation of the %d packages?",
 		$urpm->{nb_install}, $urpm->{nb_install});
     my $p = join("\n", $msg, @to_install_formatted, $msg2, $msg3);
-    if ($env && !$options{debug__do_not_install}) {
+    if ($env) {
 	print "$p\n";
 	exit 0; #- exit now for specific environment.
     }
