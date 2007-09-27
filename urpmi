@@ -252,8 +252,6 @@ if ($bug) {
 if ($env) {
     -d $env or $urpm->{fatal}(8, N("Environment directory %s does not exist", $env));
     print N("using specific environment on %s\n", $env);
-    $logfile = "$env/urpmi_env.log";
-    unlink $logfile;
     #- setting new environment.
     $urpm->{config} = "$env/urpmi.cfg";
     $urpm->{skiplist} = "$env/skip.list";
