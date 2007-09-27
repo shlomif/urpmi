@@ -600,7 +600,7 @@ if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$opt
     		"Proceed with the installation of the %d packages?",
 		$urpm->{nb_install}, $urpm->{nb_install});
     my $p = join("\n", $msg, @to_install_formatted, $msg2, $msg3);
-    if ($env) {
+    if ($env && !$options{debug__do_not_install}) {
 	print "$p\n";
 	exit 0; #- exit now for specific environment.
     }
