@@ -1587,12 +1587,15 @@ sub _update_medium_first_pass {
     file_size(statedir_synthesis($urpm, $medium)) >= 20
       or $medium->{must_build_synthesis} = 1;
 
+    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+
     unless ($medium->{modified}) {
 	#- the medium is not modified, but to compute dependencies,
 	#- we still need to read it and all synthesis will be written if
 	#- an unresolved provides is found.
 	#- to speed up the process, we only read the synthesis at the beginning.
 	_parse_hdlist_or_synthesis__when_not_modified($urpm, $medium);
+	compute_need_second_pass($urpm, $medium, \@unresolved_before);
 	return 1;
     }
 
@@ -1605,8 +1608,6 @@ sub _update_medium_first_pass {
     if (!$medium->{noreconfigure}) {
 	may_reconfig_urpmi($urpm, $medium);
     }
-
-    my @unresolved_before = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
 
     {
 	my $rc = 
@@ -1686,17 +1687,20 @@ sub _update_medium_first_pass {
 	$medium->{must_build_synthesis} = !_synthesis_or_not($medium, 's');
     }
 
-    {
-	my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
-	if (@unresolved_before != @unresolved_after) {
+    compute_need_second_pass($urpm, $medium, \@unresolved_before);
+    1;
+}
+
+sub compute_need_second_pass {
+    my ($urpm, $medium, $unresolved_before) = @_;
+
+    my @unresolved_after = grep { ! defined $urpm->{provides}{$_} } keys %{$urpm->{provides} || {}};
+    if (@$unresolved_before != @unresolved_after) {
 	    $medium->{need_second_pass} = 1;
 	    $urpm->{debug} and $urpm->{debug}(sprintf qq(medium "%s" has unresolved dependencies: %s), 
 			   $medium->{name}, 
-			   join(' ', difference2(\@unresolved_after, \@unresolved_before)));
-	}
+			   join(' ', difference2(\@unresolved_after, $unresolved_before)));
     }
-
-    1;
 }
 
 sub _update_medium_first_pass_failed {
