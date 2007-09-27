@@ -155,6 +155,7 @@ if ($multitag) {
 
 my $next_st = $multitag ? 'next' : 'return 1';
 my @inner = (
+    'local $_;',
     "\$_ = sprintf(qq{$proto}, $sprintfargs);",
     "$expr or $next_st;",
     $uniq ? ('$uniq{$_} and ' . $next_st . ';', '$uniq{$_} = 1;') : (),
