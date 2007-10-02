@@ -1,5 +1,14 @@
 #!/usr/bin/perl
 
+# a-1 suggests suggested_b
+# a-2 suggests suggested_b suggested_c
+# a-3 suggests suggested_b suggested_c
+# b requires bb
+# b suggests suggested_b
+# c suggests cc
+# cc requires b
+# with-invalid suggests invalid
+#
 use strict;
 use lib '.', 't';
 use helper;
