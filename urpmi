@@ -648,7 +648,7 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 
 unless ($env || $options{nolock}) {
     $urpmi_lock->unlock;
-    $rpm_lock->unlock;
+    $rpm_lock->unlock if $rpm_lock;
 }
 
 unless ($env) {
