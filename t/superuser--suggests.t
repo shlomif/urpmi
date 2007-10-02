@@ -8,6 +8,7 @@
 # b suggests suggested_b
 # c suggests cc
 # cc requires b
+# c2 requires cc
 #
 # with-invalid suggests invalid
 #
@@ -23,6 +24,8 @@ my $medium_name = 'suggests';
 
 urpmi_addmedia("$medium_name $::pwd/media/$medium_name");
 
+test_d();
+exit;
 test_b();
 test_c();
 test_invalid();
@@ -83,3 +86,21 @@ sub test_upgrade {
     urpmi(" --auto a-3");
     check_installed_and_remove('a', 'suggested_c');
 }
+
+sub test_d {
+    my @common = ('b', 'bb', 'suggested_b');
+
+    urpmi("--auto c");
+    check_installed_names('c', 'cc', @common);
+    system_("rpm --root $::pwd/root -e cc");
+    check_installed_and_remove('c', @common);
+
+    foreach my $names ('c2', 'c2 c') { # ERROR: 'c c2' should work (#34342)
+	my @names = split(' ', $names);
+	urpmi("--auto $_") foreach @names;
+	check_installed_names(@names, 'cc', @common);
+	system_should_fail("rpm --root $::pwd/root -e cc");
+	check_installed_and_remove(@names, 'cc', @common);
+    }
+}
+
