@@ -95,7 +95,7 @@ sub test_d {
     system_("rpm --root $::pwd/root -e cc");
     check_installed_and_remove('c', @common);
 
-    foreach my $names ('c2', 'c2 c') { # ERROR: 'c c2' should work (#34342)
+    foreach my $names ('c2', 'c c2', 'c2 c') { # 'c c2' was broken (#34342)
 	my @names = split(' ', $names);
 	urpmi("--auto $_") foreach @names;
 	check_installed_names(@names, 'cc', @common);
