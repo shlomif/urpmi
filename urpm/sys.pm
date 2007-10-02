@@ -108,6 +108,11 @@ sub find_mntpoints {
     @mntpoints;
 }
 
+sub clean_rpmdb_shared_regions {
+    my ($prefix) = @_;
+    unlink glob("$prefix/var/lib/rpm/__db.*");
+}
+
 sub proc_mounts() {
     my @l = cat_('/proc/mounts') or warn "Can't read /proc/mounts: $!\n";
     @l;
