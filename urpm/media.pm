@@ -713,6 +713,7 @@ sub add_medium {
 #- - initial_number : when adding several numbered media, start with this number
 #- - probe_with : force use of synthesis/hdlist/rpms instead of using both synthesis&hdlist
 #- - ask_media : callback to know whether each media should be added
+#- - only_updates : only add "update" media (used by rpmdrake)
 #- other options are passed to add_medium(): ignore, nolock, virtual
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
@@ -775,6 +776,9 @@ sub add_distrib_media {
 	}
 
 	my $is_update_media = $distribconf->getvalue($media, 'updates_for');
+	if ($options{only_updates}) {
+	    $is_update_media or next;
+	}
 
 	my $use_copied_hdlist = $urpm->{options}{use_copied_hdlist} || $distribconf->getvalue($media, 'use_copied_hdlist');
 	my $with_hdlist = $use_copied_hdlist && offset_pathname(
