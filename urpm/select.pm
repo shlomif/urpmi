@@ -141,30 +141,32 @@ sub search_packages {
     }
 
     my $result = 1;
-    foreach (@$names) {
-	if (defined $exact{$_}) {
-	    $packages->{$exact{$_}} = 1;
-	    foreach (split /\|/, $exact{$_}) {
+    foreach my $v (@$names) {
+	if (defined $exact{$v}) {
+	  
+	    $packages->{$exact{$v}} = 1;
+	    foreach (split /\|/, $exact{$v}) {
 		my $pkg = $urpm->{depslist}[$_] or next;
+		$urpm->{debug} and $urpm->{debug}("search_packages: found " . $pkg->fullname . " matching $v");
 		$pkg->set_flag_skip(0); #- reset skip flag as manually selected.
 	    }
 	} else {
 	    #- at this level, we need to search the best package given for a given name,
 	    #- always prefer already found package.
 	    my %l;
-	    foreach (@{$exact_a{$_} || $exact_ra{$_} || $found{$_} || $foundi{$_} || []}) {
+	    foreach (@{$exact_a{$v} || $exact_ra{$v} || $found{$v} || $foundi{$v} || []}) {
 		my $pkg = $urpm->{depslist}[$_];
 		push @{$l{$pkg->name}}, $pkg;
 	    }
 	    if (values(%l) == 0 || values(%l) > 1 && !$options{all}) {
-		$urpm->{error}(N("No package named %s", $_));
+		$urpm->{error}(N("No package named %s", $v));
 		values(%l) != 0 and $urpm->{error}(
 		    N("The following packages contain %s: %s",
-			$_, "\n" . join("\n", sort { $a cmp $b } keys %l))
+			$v, "\n" . join("\n", sort { $a cmp $b } keys %l))
 		);
 		$result = 0;
 	    } else {
-		if (!@{$exact_a{$_} || $exact_ra{$_} || []}) {
+		if (!@{$exact_a{$v} || $exact_ra{$v} || []}) {
 		    #- we found a non-exact match
 		    $result = 'substring';
 		}
@@ -178,6 +180,7 @@ sub search_packages {
 			}
 		    }
 		    $packages->{$best->id} = 1;
+		    $urpm->{debug} and $urpm->{debug}("search_packages: found " . $best->fullname . " matching $v");
 		    $best->set_flag_skip(0); #- reset skip flag as manually selected.
 		}
 	    }
