@@ -1,7 +1,8 @@
 #!/usr/bin/perl
 
 use strict;
-use warnings;
+use lib '.', 't';
+use helper;
 use Test::More 'no_plan';
 
 chdir 't' if -d 't';
@@ -79,10 +80,4 @@ sub rpmbuild_srpm {
     system_("mv tmp/SRPMS/*.rpm media/$medium_name");
 
     $medium_name;
-}
-
-sub system_ {
-    my ($cmd) = @_;
-    system($cmd);
-    ok($? == 0, $cmd);
 }
