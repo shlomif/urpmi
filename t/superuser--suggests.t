@@ -24,11 +24,11 @@ my $medium_name = 'suggests';
 
 urpmi_addmedia("$medium_name $::pwd/media/$medium_name");
 
-test_d();
 test_b();
 test_c();
 test_invalid();
 test_upgrade();
+test_d();
 
 sub test_b {
     test('b', ['bb'], ['suggested_b']);
