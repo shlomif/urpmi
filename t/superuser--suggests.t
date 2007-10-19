@@ -25,7 +25,6 @@ my $medium_name = 'suggests';
 urpmi_addmedia("$medium_name $::pwd/media/$medium_name");
 
 test_d();
-exit;
 test_b();
 test_c();
 test_invalid();
