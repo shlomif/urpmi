@@ -8,6 +8,7 @@ our @EXPORT = qw(need_root_and_prepare
 		 urpm_cmd urpmi_cmd urpmi urpme
 		 urpmi_cfg set_urpmi_cfg_global_options
 		 system_ system_should_fail
+		 rpm_is_jbj_version
 		 check_installed_fullnames check_installed_names check_nothing_installed
 		 check_installed_and_remove check_installed_fullnames_and_remove check_installed_and_urpme
 	    );
@@ -96,6 +97,10 @@ sub system_should_fail {
     ok($? != 0, "should fail: $cmd");
 }
 
+sub rpm_is_jbj_version {
+    # checking for --yaml support
+    `rpm --help` =~ /yaml/;
+}
 
 sub check_installed_fullnames {
     my (@names) = @_;

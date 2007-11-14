@@ -43,8 +43,13 @@ sub test2 {
 	 ['orig', 'orig', 'orig'],
 	 ['changed', 'changed', 'changed']);
 
-    ok(unlink "$::pwd/root/etc/config.rpmorig");
-    ok(unlink "$::pwd/root/etc/config-noreplace.rpmnew");
+    if (rpm_is_jbj_version()) {
+	#- WARNING: those files have no added value
+	#- (since the file was created with same content)
+	#- and should not be there
+	ok(unlink "$::pwd/root/etc/config.rpmorig");
+	ok(unlink "$::pwd/root/etc/config-noreplace.rpmnew");
+    }
 
     check_no_etc_files();
 }

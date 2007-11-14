@@ -46,7 +46,10 @@ sub rpm_v3 {
 	chomp(my $fullname = `$cmd`);
 	my ($arch) = $fullname =~ /(\w+)$/;
 
-	$wanted_arch = 'i386' if $src_rpm =~ /KBackup/; # WARNING: package has a Sourcerpm empty tag (#29809), but this package is broken anyway
+	if (rpm_is_jbj_version()) {
+	    # WARNING: package has a Sourcerpm empty tag (#29809), but this package is broken anyway
+	    $wanted_arch = 'i386' if $src_rpm =~ /KBackup/;
+	}
 
 	is($arch, $wanted_arch, "$fullname should have arch $wanted_arch (found $arch)");
     }
