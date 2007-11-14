@@ -54,6 +54,7 @@ my %options_spec_all = (
 	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
 	'wait-lock' => \$options{wait_lock},
 	'use-copied-hdlist' => sub { $urpm->{options}{use_copied_hdlist} = 1 },
+	'tune-rpm=s' => sub { urpm::set_tune_rpm($urpm, $_[1]) },
 );
 
 my %options_spec = (
@@ -422,6 +423,8 @@ sub parse_cmdline {
 
     $options{verbose} >= 0 or $urpm->{info} = sub {};
     $options{verbose} > 0 or $urpm->{log} = sub {};
+
+    $urpm->{tune_rpm} and urpm::tune_rpm($urpm);
 
     if ($tool ne 'urpmi.addmedia' && $tool ne 'urpmi.update' &&
 	  $options{probe_with} && !$options{usedistrib}) {

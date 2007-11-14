@@ -93,6 +93,40 @@ sub create_var_lib_rpm {
 		     ]);
 }
 
+sub modify_rpm_macro {
+    my ($name, $to_remove, $to_add) = @_;
+
+    my $val = URPM::expand('%' . $name);
+    $val =~ s/$to_remove/$to_add/ or $val = join(' ', grep {$_} $val, $to_add);
+    URPM::add_macro("$name $val");
+}
+
+sub set_tune_rpm {
+    my ($urpm, $para) = @_;
+
+    my %h = map { $_ => 1 } map { 
+	if ($_ eq 'all') {
+	    ('nofsync', 'private');
+	} else {
+	    $_;
+	}
+    } split(',', $para);
+
+    $urpm->{tune_rpm} = \%h;
+}
+
+sub tune_rpm {
+    my ($urpm) = @_;
+
+    if ($urpm->{tune_rpm}{nofsync}) {
+	modify_rpm_macro('__dbi_other', 'fsync', 'nofsync');
+    }
+    if ($urpm->{tune_rpm}{private}) {
+	urpm::sys::clean_rpmdb_shared_regions($urpm->{root});
+	modify_rpm_macro('__dbi_other', 'usedbenv', 'private');
+    }
+}
+
 sub protocol_from_url {
     my ($url) = @_;
     $url =~ m!^(\w+)(_[^:]*)?:! && $1;
