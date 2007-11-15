@@ -580,7 +580,7 @@ foreach my $pkg (@to_install) {
     }
 }
 if (@root_only && !$env) {
-    print N("You need to be root to install the following dependencies:\n%s\n", join(' ', sort @root_only));
+    print N("You must first call urpmi without --install-src to install the following dependencies:\n%s\n", join(' ', sort @root_only));
     exit 1;
 }
 $urpm->{nb_install} = @to_install;
