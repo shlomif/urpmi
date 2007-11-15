@@ -72,8 +72,27 @@ sub build_listid_ {
 #-	fuzzy
 #-	src
 #-	use_provides
+#-
+#- side-effects: $packages, flag_skip
 sub search_packages {
     my ($urpm, $packages, $names, %options) = @_;
+
+    my ($name2ids, $result) = _search_packages($urpm, $names, %options) or return;
+
+    foreach my $v (@$names) {
+	$packages->{$name2ids->{$v}} = 1;
+	foreach (split /\|/, $name2ids->{$v}) {
+	    my $pkg = $urpm->{depslist}[$_] or next;
+	    $urpm->{debug} and $urpm->{debug}("search_packages: found " . $pkg->fullname . " matching $v");
+	    $pkg->set_flag_skip(0); #- reset skip flag as manually selected.
+	}
+    }
+    $result;
+}
+
+#- side-effects: none
+sub _search_packages {
+    my ($urpm, $names, %options) = @_;
     my (%exact, %exact_a, %exact_ra, %found, %foundi);
     foreach my $v (@$names) {
 	my $qv = quotemeta $v;
@@ -141,15 +160,10 @@ sub search_packages {
     }
 
     my $result = 1;
+    my %name2ids;
     foreach my $v (@$names) {
-	if (defined $exact{$v}) {
-	  
-	    $packages->{$exact{$v}} = 1;
-	    foreach (split /\|/, $exact{$v}) {
-		my $pkg = $urpm->{depslist}[$_] or next;
-		$urpm->{debug} and $urpm->{debug}("search_packages: found " . $pkg->fullname . " matching $v");
-		$pkg->set_flag_skip(0); #- reset skip flag as manually selected.
-	    }
+	if (defined $exact{$v}) {  
+	    $name2ids{$v} = $exact{$v};
 	} else {
 	    #- at this level, we need to search the best package given for a given name,
 	    #- always prefer already found package.
@@ -164,7 +178,7 @@ sub search_packages {
 		    N("The following packages contain %s: %s",
 			$v, "\n" . join("\n", sort { $a cmp $b } keys %l))
 		);
-		$result = 0;
+		return;
 	    } else {
 		if (!@{$exact_a{$v} || $exact_ra{$v} || []}) {
 		    #- we found a non-exact match
@@ -180,18 +194,14 @@ sub search_packages {
 			}
 		    }
 		    my @l = grep { $_->fullname eq $best->fullname } @$_;
-		    $packages->{join('|', map { $_->id } @l)} = 1;
-		    foreach my $pkg (@l) {
-			$urpm->{debug} and $urpm->{debug}("search_packages: found " . $pkg->fullname . " matching $v");
-			$pkg->set_flag_skip(0); #- reset skip flag as manually selected.
-		    }
+		    $name2ids{$v} = join('|', map { $_->id } @l);
 		}
 	    }
 	}
     }
 
-    #- return true if no error has been encountered, else false.
-    $result;
+    #- return 0 if error, 'substring' if fuzzy match, 1 if ok
+    \%name2ids, $result;
 }
 
 #- Resolves dependencies between requested packages (and auto selection if any).
