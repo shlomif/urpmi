@@ -576,7 +576,7 @@ foreach my $pkg (@to_install) {
     $ask_user ||= !$pkg->flag_requested || $auto_select || $parallel;
 
     if (!$env && $install_src && $pkg->arch ne 'src') {
-	push @root_only, $pkg->fullname;
+	push @root_only, scalar $pkg->fullname;
     }
 }
 if (@root_only && !$env) {
