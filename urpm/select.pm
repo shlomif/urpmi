@@ -179,9 +179,12 @@ sub search_packages {
 			    $best = $_;
 			}
 		    }
-		    $packages->{$best->id} = 1;
-		    $urpm->{debug} and $urpm->{debug}("search_packages: found " . $best->fullname . " matching $v");
-		    $best->set_flag_skip(0); #- reset skip flag as manually selected.
+		    my @l = grep { $_->fullname eq $best->fullname } @$_;
+		    $packages->{join('|', map { $_->id } @l)} = 1;
+		    foreach my $pkg (@l) {
+			$urpm->{debug} and $urpm->{debug}("search_packages: found " . $pkg->fullname . " matching $v");
+			$pkg->set_flag_skip(0); #- reset skip flag as manually selected.
+		    }
 		}
 	    }
 	}
