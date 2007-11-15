@@ -224,15 +224,6 @@ sub resolve_dependencies {
     my ($urpm, $state, $requested, %options) = @_;
     my $need_restart;
 
-    if ($options{install_src}) {
-	#- only src will be installed, so only update $state->{selected} according
-	#- to src status of files.
-	foreach (map { split /\|/ } keys %$requested) {
-	    my $pkg = $urpm->{depslist}[$_] or next;
-	    $pkg->arch eq 'src' or next;
-	    $state->{selected}{$_} = undef;
-	}
-    }
     if ($urpm->{parallel_handler}) {
 	require urpm::parallel; #- help perl_checker;
 	urpm::parallel::resolve_dependencies($urpm, $state, $requested, %options);
