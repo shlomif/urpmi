@@ -59,7 +59,15 @@ sub selected2list {
     foreach my $id (values %fullname2id) {
 	my $pkg = $urpm->{depslist}[$id];
 	my $fullname = $pkg->fullname;
-	my @pkgs = map { $_->id } grep { $fullname eq $_->fullname } $urpm->packages_by_name($pkg->name);
+	my @pkgs = $pkg->arch eq 'src' ? do {
+	    # packages_by_name can't be used here since $urpm->{provides} doesn't have src.rpm
+	    # so a full search is needed
+	    my %requested;
+	    urpm::select::search_packages($urpm, \%requested, [$pkg->name], src => 1);
+	    map { split /\|/ } keys %requested;
+	} : do {
+	    map { $_->id } grep { $fullname eq $_->fullname } $urpm->packages_by_name($pkg->name);
+	};
 
 	# id_map is a remapping of id.
 	# it is needed because @list must be [ { id => pkg } ] where id is one the selected id,
