@@ -232,7 +232,7 @@ sub sync_wget {
     my $wget_command = join(" ", map { "'$_'" }
 	#- construction of the wget command-line
 	"/usr/bin/wget",
-	($options->{limit_rate} ? "--limit-rate=$options->{limit_rate}" : ()),
+	($options->{'limit-rate'} ? "--limit-rate=$options->{'limit-rate'}" : ()),
 	($options->{resume} ? "--continue" : "--force-clobber"),
 	($options->{proxy} ? set_proxy({ type => "wget", proxy => $options->{proxy} }) : ()),
 	($options->{retry} ? ('-t', $options->{retry}) : ()),
@@ -290,9 +290,9 @@ sub sync_curl {
     -x "/usr/bin/curl" or die N("curl is missing\n");
     my $options = shift;
     $options = { dir => $options } if !ref $options;
-    if (defined $options->{limit_rate} && $options->{limit_rate} =~ /\d$/) {
+    if (defined $options->{'limit-rate'} && $options->{'limit-rate'} =~ /\d$/) {
 	#- use bytes by default
-	$options->{limit_rate} .= 'B';
+	$options->{'limit-rate'} .= 'B';
     }
     #- force download to be done in cachedir to avoid polluting cwd,
     #- however for curl, this is mandatory.
@@ -320,7 +320,7 @@ sub sync_curl {
 	#- prepare to get back size and time stamp of each file.
 	my $cmd = join(" ", map { "'$_'" } "/usr/bin/curl",
 	    "-q", # don't read .curlrc; some toggle options might interfer
-	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
+	    ($options->{'limit-rate'} ? ("--limit-rate", $options->{'limit-rate'}) : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
 	    "--stderr", "-", # redirect everything to stdout
@@ -380,7 +380,7 @@ sub sync_curl {
 	my ($buf, $file); $buf = '';
 	my $cmd = join(" ", map { "'$_'" } "/usr/bin/curl",
 	    "-q", # don't read .curlrc; some toggle options might interfer
-	    ($options->{limit_rate} ? ("--limit-rate", $options->{limit_rate}) : ()),
+	    ($options->{'limit-rate'} ? ("--limit-rate", $options->{'limit-rate'}) : ()),
 	    ($options->{resume} ? ("--continue-at", "-") : ()),
 	    ($options->{proxy} ? set_proxy({ type => "curl", proxy => $options->{proxy} }) : ()),
 	    ($options->{retry} ? ('--retry', $options->{retry}) : ()),
@@ -457,7 +457,7 @@ sub sync_rsync {
     #- force download to be done in cachedir to avoid polluting cwd.
     (my $cwd) = getcwd() =~ /(.*)/;
     chdir($options->{dir});
-    my $limit_rate = _calc_limit_rate $options->{limit_rate};
+    my $limit_rate = _calc_limit_rate($options->{'limit-rate'});
     foreach (@_) {
 	my $count = 10; #- retry count on error (if file exists).
 	my $basename = basename($_);
@@ -653,7 +653,7 @@ sub sync {
 	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
 	%options,
     );
-    foreach my $cpt (qw(compress limit_rate retry wget-options curl-options rsync-options prozilla-options)) {
+    foreach my $cpt (qw(compress limit-rate retry wget-options curl-options rsync-options prozilla-options)) {
 	$all_options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
 
