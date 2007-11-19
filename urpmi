@@ -369,9 +369,10 @@ if ($auto_update && !$bug && !$env) {
 	nomd5sum => $nomd5sum,
 	forcekey => $forcekey,
     );
-    foreach (@{$urpm->{media} || []}) {
-	$_->{tempignore} and delete $_->{ignore};
-    }
+    delete $urpm->{media};
+    $urpm->{depslist} = [];
+    $urpm->{provides} = {};
+    $urpm->{obsoletes} = {};
 }
 
 urpm::media::configure($urpm, %config_hash);

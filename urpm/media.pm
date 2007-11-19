@@ -464,7 +464,7 @@ sub write_config {
 
 sub _tempignore {
     my ($medium, $ignore) = @_;
-    $medium->{tempignore} = $medium->{ignore} = $ignore;
+    $medium->{ignore} = $ignore;
 }
 
 #- read urpmi.cfg file as well as necessary synthesis files
