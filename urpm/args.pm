@@ -240,7 +240,7 @@ my %options_spec = (
 	force => \$options{force},
 	'parallel=s' => \$options{parallel},
 	'env=s' => \$options{env},
-	d => \$options{deps},
+	'requires-recursive|d' => \$options{deps},
 	u => \$options{upgrade},
 	a => \$options{all},
 	'm|M' => sub { $options{deps} = $options{upgrade} = 1 },
