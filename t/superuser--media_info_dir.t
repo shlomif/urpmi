@@ -8,6 +8,7 @@ use Test::More 'no_plan';
 
 need_root_and_prepare();
 various();
+urpmq_various();
 rpm_v3();
 
 sub various {
@@ -19,6 +20,17 @@ sub various {
 	urpme($name);
 	urpmi_removemedia("'$medium_name'");
     }
+}
+
+sub urpmq_various {
+    foreach my $medium_name ('various', 'various2', 'various3') {
+	urpmi_addmedia("'$medium_name' '$::pwd/media/$medium_name'");
+    }
+    my $cmd = urpm_cmd('urpmq') . " --fuzzy v";
+    warn "# $cmd\n";
+    my $out = `$cmd`;
+    is($out, "various\nvarious2\nvarious3\n");
+    urpmi_removemedia('-a');    
 }
 
 sub rpm_v3 {
