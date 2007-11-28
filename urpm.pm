@@ -24,6 +24,15 @@ sub shunt_ignorearch {
     eval q( sub URPM::Package::is_arch_compat { 1 } );
 }
 
+sub default_options {
+    { 
+	'split-level' => 1,
+	'split-length' => 8,
+	'verify-rpm' => 1,
+	'post-clean' => 1,
+    };
+}
+
 #- create a new urpm object.
 sub new {
     my ($class) = @_;
@@ -35,7 +44,7 @@ sub new {
 	obsoletes  => {},
 
 	media      => undef,
-	options    => {},
+	options    => default_options(),
 
 	fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	error      => sub { printf STDERR "%s\n", $_[0] },

@@ -47,8 +47,6 @@ our $src = 0;
 our $install_src = 0;
 our $clean = 0;
 our $noclean = 0;
-my $split_level = 1;
-my $split_length = 8;
 our $force = 0;
 our $parallel = '';
 our $env = '';
@@ -95,8 +93,10 @@ usage:
 ") . N("  --split-level  - split in small transaction if more than given packages
                    are going to be installed or upgraded,
                    default is %d.
-", $split_level) . N("  --split-length - small transaction length, default is %d.
-", $split_length) . N("  --fuzzy, -y    - impose fuzzy search.
+", urpm::default_options()->{'split-level'})
+   . N("  --split-length - small transaction length, default is %d.
+", urpm::default_options()->{'split-length'})
+  . N("  --fuzzy, -y    - impose fuzzy search.
 ") . N("  --src, -s      - next package is a source package.
 ") . N("  --install-src  - install only source package (no binaries).
 ") . N("  --clean        - remove rpm from cache before anything else.
@@ -382,9 +382,6 @@ if ($bug) {
     urpm::bug_report::rpmdb_to_synthesis($urpm, "$bug/rpmdb.cz", $urpm->{root});
 }
 
-#- get back activated default values of boolean options.
-exists $urpm->{options}{'split-level'} or $urpm->{options}{'split-level'} = $split_level;
-exists $urpm->{options}{'split-length'} or $urpm->{options}{'split-length'} = $split_length;
 urpm::select::set_priority_upgrade_option($urpm, $options{previous_priority_upgrade});
 
 my $state = {};

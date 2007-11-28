@@ -145,11 +145,6 @@ sub read_config {
 
     eval { require urpm::ldap; urpm::ldap::load_ldap_media($urpm) };
 
-    #- load default values
-    foreach (qw(post-clean verify-rpm)) {
-	exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1;
-    }
-
     #- read MD5 sums (not in urpmi.cfg but in a separate file)
     foreach (@{$urpm->{media}}) {
 	if (my $md5sum = urpm::md5sum::from_MD5SUM("$urpm->{statedir}/MD5SUM", statedir_hdlist_or_synthesis($urpm, $_, 's'))) {
