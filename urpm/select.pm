@@ -80,8 +80,12 @@ sub search_packages {
     my ($name2ids, $result) = _search_packages($urpm, $names, %options) or return;
 
     foreach my $v (@$names) {
-	$packages->{$name2ids->{$v}} = 1;
-	foreach (split /\|/, $name2ids->{$v}) {
+	my @ids = split /\|/, $name2ids->{$v};
+
+	#- in case we have a substring match, we want individual selection (for urpmq --fuzzy)
+	$packages->{$_} = 1 foreach $result eq 'substring' ? @ids : $name2ids->{$v};
+
+	foreach (@ids) {
 	    my $pkg = $urpm->{depslist}[$_] or next;
 	    $urpm->{debug} and $urpm->{debug}("search_packages: found " . $pkg->fullname . " matching $v");
 	    $pkg->set_flag_skip(0); #- reset skip flag as manually selected.
