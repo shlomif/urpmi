@@ -184,7 +184,7 @@ sub _search_packages {
 		    #- we found a non-exact match
 		    $result = 'substring';
 		}
-		foreach (values %l) {
+		$name2ids{$v} = join('|', map {
 		    my $best;
 		    foreach (@$_) {
 			if ($best && $best != $_) {
@@ -193,9 +193,8 @@ sub _search_packages {
 			    $best = $_;
 			}
 		    }
-		    my @l = grep { $_->fullname eq $best->fullname } @$_;
-		    $name2ids{$v} = join('|', map { $_->id } @l);
-		}
+		    map { $_->id } grep { $_->fullname eq $best->fullname } @$_;
+		} values %l);
 	    }
 	}
     }
