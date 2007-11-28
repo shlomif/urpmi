@@ -205,28 +205,24 @@ if ($options{list_aliases}) {
 } else {
     %requested = $urpm->register_rpms(@files);
 
+    my $search_packages = sub {
+	my ($names, %more_options) = @_;
+
+	urpm::select::search_packages($urpm,
+	    \%requested, $names,
+	    use_provides => $options{use_provides},
+	    fuzzy => $urpm->{options}{fuzzy},
+	    caseinsensitive => $options{caseinsensitive},
+            %more_options,
+       );
+    };
+
     #- search the packages according to the selection given by the user.
     if (@names) {
-	urpm::select::search_packages($urpm,
-	    \%requested,
-	    [ @names ],
-	    use_provides => $options{use_provides},
-	    fuzzy => $urpm->{options}{fuzzy},
-	    caseinsensitive => $options{caseinsensitive},
-	    all => $options{all},
-	) or $options{force}
-	    or exit 1;
+	$search_packages->(\@names, all => $options{all}) or $options{force} or exit 1;
     }
     if (@src_names) {
-	urpm::select::search_packages($urpm,
-	    \%requested,
-	    [ @src_names ],
-	    use_provides => $options{use_provides},
-	    fuzzy => $urpm->{options}{fuzzy},
-	    caseinsensitive => $options{caseinsensitive},
-	    src => 1,
-	) or $options{force}
-	    or exit 1;
+	$search_packages->(\@src_names, src => 1) or $options{force} or exit 1;
     }
 
     #- keep track of choices, don't propagate but mark them selected.
