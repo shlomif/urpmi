@@ -14,7 +14,7 @@ need_root_and_prepare();
 my $name = 'split-transactions';
 urpmi_addmedia("$name $::pwd/media/$name");    
 
-test_urpmi("--auto --split-level 1 c d", <<'EOF');
+test_urpmi("--auto --split-length 1 c d", <<'EOF');
 Preparing...
       1/4: a
       2/4: b
