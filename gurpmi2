@@ -134,7 +134,7 @@ sub configure_urpm() {
     $urpm->{options}{'verify-rpm'} = 0 if $gurpmi::options{'no-verify-rpm'};
     #- default options values
     exists $urpm->{options}{$_} or $urpm->{options}{$_} = 1 foreach qw(post-clean verify-rpm split-length);
-    $urpm->{options}{'split-level'} = 20 unless exists $urpm->{options}{'split-level'};
+    $urpm->{options}{'split-level'} = 1 unless exists $urpm->{options}{'split-level'};
     $urpm;
 }
 

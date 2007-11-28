@@ -1,3 +1,8 @@
+- urpmi:
+  o small transactions should have at least 8 packages 
+    (ie --split-length is now 8 by default)
+  o do not do a big transaction if installing less than 20 packages
+    (ie --split-level is now 1 by default)
 - urpmq:
   o new option --requires-recursive (alias of option -d)
   o bugfix previous release: "urpmq --fuzzy foo" should display all "*foo*" matches
