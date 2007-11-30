@@ -182,7 +182,7 @@ sub _search_packages {
 		    N("The following packages contain %s: %s",
 			$v, "\n" . join("\n", sort { $a cmp $b } keys %l))
 		);
-		return;
+		$result = 0;
 	    } else {
 		if (!@{$exact_a{$v} || $exact_ra{$v} || []}) {
 		    #- we found a non-exact match

@@ -9,6 +9,7 @@ use Test::More 'no_plan';
 need_root_and_prepare();
 various();
 urpmq_various();
+urpmi_force_skip_unknown();
 rpm_v3();
 
 sub various {
@@ -31,6 +32,21 @@ sub urpmq_various {
     my $out = `$cmd`;
     is($out, "various\nvarious2\nvarious3\n");
     urpmi_removemedia('-a');    
+}
+
+sub urpmi_force_skip_unknown {
+    my $name = 'various';
+    urpmi_addmedia("$name $::pwd/media/$name");
+
+    urpmi($name);
+    check_installed_and_remove($name);
+
+    test_urpmi_fail("$name unknown-pkg");
+
+    urpmi("--force $name unknown-pkg");
+    check_installed_and_remove($name);
+
+    urpmi_removemedia($name);    
 }
 
 sub rpm_v3 {

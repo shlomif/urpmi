@@ -153,11 +153,6 @@ sub test_rpm_i_fail {
     my $rpms = join(' ', map { "media/$medium_name/$_-*.rpm" } @rpms);
     system_should_fail("rpm --root $::pwd/root -i $rpms");
 }
-sub test_urpmi_fail {
-    my ($rpms) = @_;
-    system_should_fail(urpmi_cmd() . " $rpms");
-}
-
 sub check_no_etc_files() {
     if (my @l = grep { !m!/urpmi$! } glob("$::pwd/root/etc/*")) {
 	fail(join(' ', @l) . " files should not be there");

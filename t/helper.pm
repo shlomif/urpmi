@@ -5,7 +5,7 @@ use base 'Exporter';
 our @EXPORT = qw(need_root_and_prepare 
 		 start_httpd httpd_port
 		 urpmi_addmedia urpmi_removemedia urpmi_update
-		 urpm_cmd urpmi_cmd urpmi urpme
+		 urpm_cmd urpmi_cmd urpmi test_urpmi_fail urpme
 		 urpmi_cfg set_urpmi_cfg_global_options
 		 system_ system_should_fail
 		 rpm_is_jbj_version
@@ -70,6 +70,10 @@ sub urpmi_update {
 sub urpmi {
     my ($para) = @_;
     system_(urpmi_cmd() . " --ignoresize $urpmi_debug_opt $para");
+}
+sub test_urpmi_fail {
+    my ($para) = @_;
+    system_should_fail(urpmi_cmd() . " $para");
 }
 sub urpme {
     my ($para) = @_;
