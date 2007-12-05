@@ -1808,8 +1808,11 @@ sub update_media {
 	$rc or _update_medium_first_pass_failed($urpm, $medium);
     }
 
+    $urpm->{debug} and $urpm->{debug}('update_medium: ' . join(' ', map { "$_=$updates_result{$_}" } keys %updates_result));
+
     if ($updates_result{1} == 0) {
 	#- only errors/unmodified, leave now
+	#- (this ensures buggy added medium is not added to urpmi.cfg)
 	return $updates_result{error} == 0;
     }
 

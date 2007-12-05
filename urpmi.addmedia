@@ -75,18 +75,6 @@ and [options] are from
     exit 1;
 }
 
-#- remove quietly the failing media.
-sub remove_failed {
-    my ($urpm, @media) = @_;
-    if (@media) {
-	print STDERR join("\n", map { N("unable to update medium \"%s\"\n", $_->{name}) } @media);
-	local $urpm->{log} = sub {};
-	urpm::media::remove_selected_media($urpm);
-	urpm::media::update_media($urpm, %options, quiet => 1);
-	exit(1);
-    }
-}
-
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
@@ -118,6 +106,7 @@ if (!-e $urpm->{config}) {
 my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive', wait => $options{wait_lock});
 urpm::media::read_config($urpm);
 
+my $ok = 1;
 if ($options{distrib}) {
     $with || $relative_hdlist
 	and usage N("no need to give <relative path of hdlist> with --distrib");
@@ -145,15 +134,9 @@ if ($options{distrib}) {
 	nolock => $options{nolock},
 	ask_media => $add_media_callback,
     );
-    local $SIG{INT} = sub {
-	remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
-	exit(1);
-    };
-    urpm::media::update_media($urpm, %options, 
+    $ok = urpm::media::update_media($urpm, %options, 
 			      quiet => $options{verbose} < 0,		      
 			      callback => \&urpm::download::sync_logger);
-    remove_failed($urpm, grep { $_->{modified} } @{$urpm->{media}});
-
 } else {
     $name or usage();
 
@@ -180,16 +163,15 @@ if ($options{distrib}) {
 	    remove_failed($urpm, $medium) if $medium && $medium->{modified};
 	    exit(1);
 	};
-	urpm::media::update_media($urpm, %options, 
+	$ok = urpm::media::update_media($urpm, %options, 
 				  quiet => $options{verbose} < 0,
 				  callback => \&urpm::download::sync_logger);
-	#- check creation of media
-	my $medium = urpm::media::name2medium($urpm, $name) or die N("unable to create medium \"%s\"\n", $name);
-	remove_failed($urpm, $medium) if $medium->{modified};
     }
 }
 
 #- try to umount removable devices which may have been mounted.
 urpm::removable::try_umounting_removables($urpm);
+
+exit($ok ? 0 : 1);
 
 # vim:ts=8:sts=4:sw=4
