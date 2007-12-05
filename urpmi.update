@@ -101,9 +101,10 @@ if (defined $options{ignore}) {
     $urpm->{log}($options{ignore} ? N("ignoring media %s", $str) : N("enabling media %s", $str));
     urpm::media::write_config($urpm);
 } else {
-    urpm::media::update_media($urpm, %options, 
+    my $ok = urpm::media::update_media($urpm, %options, 
 			      quiet => $options{verbose} < 0,
 			      callback => \&urpm::download::sync_logger);
     #- try to umount removable device which may have been mounted.
     urpm::removable::try_umounting_removables($urpm);
+    exit $ok ? 0 : 1;
 }

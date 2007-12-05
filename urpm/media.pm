@@ -1595,7 +1595,7 @@ sub _update_medium_first_pass {
 	#- to speed up the process, we only read the synthesis at the beginning.
 	_parse_hdlist_or_synthesis__when_not_modified($urpm, $medium);
 	compute_need_second_pass($urpm, $medium, \@unresolved_before);
-	return 1;
+	return 'unmodified';
     }
 
     #- always delete a remaining list file or pubkey file in cache.
@@ -1801,9 +1801,16 @@ sub update_media {
     _update_media__handle_some_flags($urpm, $options{forcekey}, $options{all});
 
     my $clean_cache = !$options{noclean};
+    my %updates_result;
     foreach my $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
-	_update_medium_first_pass($urpm, $medium, \$clean_cache, %options)
-	  or _update_medium_first_pass_failed($urpm, $medium);
+	my $rc = _update_medium_first_pass($urpm, $medium, \$clean_cache, %options);
+	$updates_result{$rc || 'error'}++;
+	$rc or _update_medium_first_pass_failed($urpm, $medium);
+    }
+
+    if ($updates_result{1} == 0) {
+	#- only errors/unmodified, leave now
+	return $updates_result{error} == 0;
     }
 
     #- some unresolved provides may force to rebuild all synthesis,
@@ -1846,6 +1853,8 @@ sub update_media {
 	#- NB: in case of $urpm->{modified}, write_MD5SUM is called in write_config above
 	write_MD5SUM($urpm);
     }
+
+    $updates_result{error} == 0;
 }
 
 #- clean params and depslist computation zone.
