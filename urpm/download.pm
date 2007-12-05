@@ -628,7 +628,7 @@ sub requested_ftp_http_downloader {
 
 sub parse_url_with_login {
     my ($url) = @_;
-    $url =~ m!([^:]*)://([^/:\@]*)(:([^/:\@]*))?\@([^/]*)(.*)! && $1 ne 'ssh' &&
+    $url =~ m!([^:]*)://([^/:]*)(:([^/:\@]*))?\@([^/]*)(.*)! && $1 ne 'ssh' &&
       { proto => $1, login => $2, password => $4, machine => $5, dir => $6 };
 }
 sub url_obscuring_password {
