@@ -106,5 +106,5 @@ if (defined $options{ignore}) {
 			      callback => \&urpm::download::sync_logger);
     #- try to umount removable device which may have been mounted.
     urpm::removable::try_umounting_removables($urpm);
-    exit $ok ? 0 : 1;
+    exit($ok ? 0 : 1);
 }
