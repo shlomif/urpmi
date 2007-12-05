@@ -1371,7 +1371,7 @@ sub _update_medium__parse_if_unmodified__local {
 	    #- in case of an iso image, pass its name
 	    urpm::removable::is_iso($medium->{removable}) && $medium->{removable},
 	) or $urpm->{error}(N("unable to access medium \"%s\",
-this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return 'unmodified';
+this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return;
     }
 
     #- try to probe for possible with_hdlist parameter, unless
