@@ -1541,17 +1541,18 @@ sub _read_cachedir_pubkey {
     $urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
 
     my $_rpm_lock = urpm::lock::rpm_db($urpm, 'exclusive', wait => $b_wait_lock);
+    my $db = urpm::db_open_or_die($urpm, $urpm->{root}, 'rw');
 
     my %key_ids;
-    $urpm->import_needed_pubkeys(
-	[ $urpm->parse_armored_file("$urpm->{cachedir}/partial/pubkey") ],
-	root => $urpm->{root}, 
-	callback => sub {
-	    my (undef, undef, $_k, $id, $imported) = @_;
+    URPM::import_pubkeys($db,
+	"$urpm->{cachedir}/partial/pubkey",
+	sub {
+	    my ($id, $imported) = @_;
 	    if ($id) {
 		$key_ids{$id} = undef;
 		$imported and $urpm->{log}(N("...imported key %s from pubkey file of \"%s\"",
 					     $id, $medium->{name}));
+		$imported or $urpm->{debug}("pubkey $id already imported") if $urpm->{debug};
 	    } else {
 		$urpm->{error}(N("unable to import pubkey file of \"%s\"", $medium->{name}));
 	    }
@@ -1786,12 +1787,6 @@ sub update_media {
     $urpm->{media} or return; # verify that configuration has been read
 
     $options{nopubkey} ||= $urpm->{options}{nopubkey};
-    if (!$options{nopubkey} && !$urpm->{keys}) {
-	#- get gpg-pubkey signature.
-	my $_rpm_lock = urpm::lock::rpm_db($urpm, '', wait => $options{wait_lock});
-	$urpm->{log}(qq(getting "gpg-pubkey"s from rpmdb));
-	$urpm->parse_pubkeys(root => $urpm->{root});
-    }
 
     #- examine each medium to see if one of them needs to be updated.
     #- if this is the case and if not forced, try to use a pre-calculated
