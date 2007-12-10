@@ -1544,7 +1544,7 @@ sub _read_cachedir_pubkey {
     my $db = urpm::db_open_or_die($urpm, $urpm->{root}, 'rw');
 
     my %key_ids;
-    URPM::import_pubkeys($db,
+    URPM::import_needed_pubkeys_from_file($db,
 	"$urpm->{cachedir}/partial/pubkey",
 	sub {
 	    my ($id, $imported) = @_;
