@@ -102,7 +102,7 @@ my %options_spec = (
 	force => \$::force,
 	justdb => \$options{justdb},
 	replacepkgs => \$options{replacepkgs},
-	'no-suggests' => sub { $urpm->{options}{'no-suggests'} = 1 },
+	'suggests!' => sub { $urpm->{options}{'no-suggests'} = !$_[1] },
 	'allow-nodeps' => sub { $urpm->{options}{'allow-nodeps'} = 1 },
 	'allow-force' => sub { $urpm->{options}{'allow-force'} = 1 },
 	'parallel=s' => \$::parallel,

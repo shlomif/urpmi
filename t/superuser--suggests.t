@@ -29,6 +29,7 @@ test_c();
 test_invalid();
 test_upgrade();
 test_d();
+test_force_suggests();
 
 sub test_b {
     test('b', ['bb'], ['suggested_b']);
@@ -103,3 +104,13 @@ sub test_d {
     }
 }
 
+sub test_force_suggests {
+    set_urpmi_cfg_global_options({ 'no-suggests' => '' });
+
+    urpmi("--auto b");
+    check_installed_and_remove('b', 'bb');
+    urpmi("--auto --suggests b");
+    check_installed_and_remove('b', 'bb', 'suggested_b');
+
+    set_urpmi_cfg_global_options({});
+}
