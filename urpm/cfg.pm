@@ -103,6 +103,8 @@ sub expand_line {
     return $line;
 }
 
+my $no_para_option_regexp = 'update|ignore|hdlist|synthesis|noreconfigure|no-suggests|static|virtual';
+
 sub load_config_raw {
     my ($file, $b_norewrite) = @_;
     my @blocks;
@@ -159,7 +161,7 @@ sub load_config_raw {
 	    $block->{$1} = $2;
 	} elsif (/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/) {
 	    $block->{'key-ids'} = $1;
-	} elsif (/^(update|ignore|hdlist|synthesis|noreconfigure|no-suggests|static|virtual)$/) {
+	} elsif (/^(hdlist|$no_para_option_regexp)$/) {
 	    #- positive flags
 	    $block->{$1} = 1;
 	} elsif (my ($no, $k, $v) =
@@ -225,7 +227,7 @@ sub dump_config_raw {
     my @lines;
     foreach my $m (@$blocks) {
 	my @l = map {
-	    if (/^(update|ignore|synthesis|noreconfigure|static|virtual)$/) {
+	    if (/^($no_para_option_regexp)$/) {
 		$_;
 	    } elsif ($_ eq 'hdlist' && $m->{$_} eq '1') {
 		$_;
