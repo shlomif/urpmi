@@ -103,7 +103,7 @@ sub expand_line {
     return $line;
 }
 
-my $no_para_option_regexp = 'update|ignore|hdlist|synthesis|noreconfigure|no-suggests|static|virtual';
+my $no_para_option_regexp = 'update|ignore|synthesis|noreconfigure|no-suggests|static|virtual';
 
 sub load_config_raw {
     my ($file, $b_norewrite) = @_;
