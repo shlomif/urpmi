@@ -21,6 +21,6 @@ sub test_rpm_query_in_scriptlet {
 sub rebuilddb {
     # testing rebuilddb (could be done elsewhere, but here is 
     system_("rpm --root $::pwd/root --rebuilddb");
-    my ($dir) = glob("$::pwd/root/var/lib/rpmrebuilddb*");
-    is($dir, undef, "$dir should not be there");
+    my @dirs = glob("$::pwd/root/var/lib/rpmrebuilddb*");
+    is($dirs[0], undef, "@dirs should not be there");
 }
