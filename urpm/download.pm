@@ -26,17 +26,17 @@ our $CONNECT_TIMEOUT = 60; #-  (in seconds)
 
 
 
-sub ftp_http_downloaders() { qw(curl wget prozilla) }
+sub ftp_http_downloaders() { qw(curl wget prozilla aria2) }
 
 sub available_ftp_http_downloaders() {
     my %binaries = (
 	curl => 'curl', 
 	wget => 'wget', 
 	prozilla => 'proz',
+	aria2 => 'aria2c',
     );
     grep { -x "/usr/bin/$binaries{$_}" || -x "/bin/$binaries{$_}" } ftp_http_downloaders();
 }
-
 
 #- parses proxy.cfg (private)
 sub load_proxy_config () {
@@ -182,6 +182,16 @@ sub set_proxy {
 		}
 		last;
 	    };
+	    /\baria2\b/ and do {
+		for ($proxy->{proxy}) {
+		    push @res, ('--http-proxy', $_->{http_proxy}) if defined $_->{http_proxy};
+		    push @res, ('--http-proxy', $_->{ftp_proxy}) if defined $_->{ftp_proxy};
+		    push @res, ("--http-proxy-user=$_->{user}", "--http-proxy-passwd=$_->{pwd}")
+			if defined $_->{user} && defined $_->{pwd};
+		}
+		last;
+	    };
+
 	    die N("Unknown webfetch `%s' !!!\n", $proxy->{type});
 	}
     }
@@ -559,6 +569,69 @@ sub sync_prozilla {
     }
 }
 
+sub sync_aria2 {
+    -x "/usr/bin/aria2c" or die N("aria2 is missing\n");
+    my $options = shift;
+    $options = { dir => $options } if !ref $options;
+    #- force download to be done in cachedir to avoid polluting cwd.
+    (my $cwd) = getcwd() =~ /(.*)/;
+    chdir $options->{dir};
+    my ($buf, $total, $file) = ('', undef, undef);
+    my $aria2c_command = join(" ", map { "'$_'" }
+	"/usr/bin/aria2c",
+	"--timeout", $CONNECT_TIMEOUT,
+	"--auto-file-renaming=false",
+	"--follow-metalink=mem",
+	"-Z", "-j1",
+	($options->{limit_rate} ? "--max-download-limit=$options->{limit_rate}" : ()),
+	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
+	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : ()),
+	($options->{retry} ? "--max-tries=$options->{retry}" : "--max-tries=3"),
+	(defined $options->{'aria2-options'} ? split /\s+/, $options->{'aria2-options'} : ()),
+	@_);
+
+    $options->{debug} and $options->{debug}($aria2c_command);
+
+    my $aria2_pid = open (my $aria2, "$aria2c_command |");
+
+    local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
+    local $_;    
+
+    while(<$aria2>) {
+	    $buf .= "$_";
+	if ($_ eq "\r" || $_ eq "\n") {
+		if ($options->{callback}) {
+			if (! defined $file and @_) {
+				$file = shift @_;
+				propagate_sync_callback($options, 'start', $file);
+			}
+    		    if ($buf =~ /^\[\#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*\/\w)\s\w*:([\d]+\w*)\][\r\n]$/) {
+			    my ($total, $percent, $speed, $eta) = ($2, $3, $5, $6);
+			    #- $1 = current downloaded size, $4 = connections
+		    if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
+			kill 15, $aria2_pid;
+			close $aria2;
+			return;
+			}
+		    }
+		    if ($buf =~ /Download\scomplete:\s\.\//) {
+			propagate_sync_callback($options, 'end', $file);
+			$file = undef;
+		    } elsif ($buf =~ /ERR\|/) {
+			local $/ = "\n";
+			chomp $buf;
+			propagate_sync_callback($options, 'error', $file, $buf);
+		    }
+	    } else {
+		$options->{quiet} or print STDERR $buf;
+	    }
+	    $buf = '';
+	}
+    }
+    chdir $cwd;
+    close $aria2 or _error('aria2');
+}
+
 sub start_ssh_master {
     my ($server, $user) = @_;
     $server or return 0;
@@ -653,7 +726,7 @@ sub sync {
 	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
 	%options,
     );
-    foreach my $cpt (qw(compress limit-rate retry wget-options curl-options rsync-options prozilla-options)) {
+    foreach my $cpt (qw(compress limit-rate retry wget-options curl-options rsync-options prozilla-options aria2-options)) {
 	$all_options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
 
@@ -685,6 +758,7 @@ sub _sync_webfetch_raw {
 	delete @files{qw(removable file)};
     }
     if ($files{ftp} || $files{http} || $files{https}) {
+	
 	my @available = urpm::download::available_ftp_http_downloaders();
 
 	#- use user default downloader if provided and available
@@ -702,7 +776,7 @@ sub _sync_webfetch_raw {
 	my @l = (@{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 	while (@l) {
 	    my $half_MAX_ARG = 131072 / 2;
-	    # restrict the number of elements so that it fits on cmdline of curl/wget/proz
+	    # restrict the number of elements so that it fits on cmdline of curl/wget/proz/aria2c
 	    my $n = 0;
 	    for (my $len = 0; $n < @l && $len < $half_MAX_ARG; $len += length($l[$n++])) {}	    
 	    $sync->($options, splice(@l, 0, $n));

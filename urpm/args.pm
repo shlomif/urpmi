@@ -109,10 +109,12 @@ my %options_spec = (
 	wget => sub { $urpm->{options}{downloader} = 'wget' },
 	curl => sub { $urpm->{options}{downloader} = 'curl' },
 	prozilla => sub { $urpm->{options}{downloader} = 'prozilla' },
+	aria2 => sub { $urpm->{options}{downloader} = 'aria2' },
 	'curl-options=s' => sub { $urpm->{options}{'curl-options'} = $_[1] },
 	'rsync-options=s' => sub { $urpm->{options}{'rsync-options'} = $_[1] },
 	'wget-options=s' => sub { $urpm->{options}{'wget-options'} = $_[1] },
 	'prozilla-options=s' => sub { $urpm->{options}{'prozilla-options'} = $_[1] },
+	'aria2-options=s' => sub { $urpm->{options}{'aria2-options'} = $_[1] },
 	'limit-rate=s' => sub { $urpm->{options}{'limit-rate'} = $_[1] },
 	'resume!' => sub { $urpm->{options}{resume} = $_[1] },
 	'retry=s' => sub { $urpm->{options}{retry} = $_[1] },
@@ -370,17 +372,17 @@ foreach my $k ("help|h", "version", "no-locales", "update", "media|mediums=s",
     $options_spec{urpmf}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "proxy=s", "proxy-user=s",
+foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "aria2", "proxy=s", "proxy-user=s",
     'limit-rate=s',
-    "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s")
+    "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s")
 {
     $options_spec{'urpmi.update'}{$k} =
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "wget", "curl", "prozilla", "proxy=s", "proxy-user=s", "c", "f", "z",
+foreach my $k ("help|h", "wget", "curl", "prozilla", "aria2", "proxy=s", "proxy-user=s", "c", "f", "z",
     "limit-rate=s", "no-md5sum", "update", "norebuild!", "probe-rpms",
-    "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", '<>')
+    "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s", '<>')
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
