@@ -117,17 +117,7 @@ sub read_config {
     my $config = urpm::cfg::load_config($urpm->{config})
 	or $urpm->{fatal}(6, $urpm::cfg::err);
 
-    #- global options
-    if (my $global = $config->{global}) {
-	foreach my $opt (keys %$global) {
-	    if (defined $global->{$opt} && !exists $urpm->{options}{$opt}) {
-		$urpm->{options}{$opt} = $global->{$opt};
-	    }
-	}
-    }
-
     #- per-media options
-
     read_config_add_passwords($urpm, $config);
 
     foreach my $m (@{$config->{media}}) {
@@ -151,9 +141,6 @@ sub read_config {
 	    $_->{md5sum} = $md5sum;
 	}
     }
-
-    #- remember global options for write_config
-    $urpm->{global_config} = $config->{global};
 }
 
 #- if invalid, set {ignore}

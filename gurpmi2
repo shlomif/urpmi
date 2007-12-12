@@ -98,7 +98,8 @@ my ($rpm_lock, $urpmi_lock);
 
 #- Creates and configure an urpm object for this application to use.
 sub configure_urpm() {
-    my $urpm = new urpm;
+    my $urpm = urpm->new;
+    $urpm->get_global_options;
     $urpm->{fatal} = sub {
 	Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'error', 'ok', Locale::gettext::iconv($_[1], undef, 'UTF-8'))->run;
 	quit();

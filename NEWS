@@ -1,3 +1,10 @@
+- urpmi:
+  o fix handling "post-clean: 0" in urpmi.cfg 
+    (#36082, regression introduced 2007-11-28)
+- library:
+  o urpm::media::read_config() doesn't read urpmi.cfg global options anymore,
+    use urpm->get_global_options or urpm->new_parse_cmdline
+
 Version 4.10.18 - 11 December 2007, by Pascal "Pixel" Rigaux
 
 - urpmi:

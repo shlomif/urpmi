@@ -44,7 +44,7 @@ sub new {
 	obsoletes  => {},
 
 	media      => undef,
-	options    => default_options(),
+	options    => {},
 
 	fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	error      => sub { printf STDERR "%s\n", $_[0] },
@@ -65,7 +65,25 @@ sub new_parse_cmdline {
     my ($class) = @_;
     my $urpm = $class->new;
     urpm::args::parse_cmdline(urpm => $urpm);
+    get_global_options($urpm);
     $urpm;
+}
+
+sub _add2hash { my ($a, $b) = @_; while (my ($k, $v) = each %{$b || {}}) { defined $a->{$k} or $a->{$k} = $v } $a }
+
+sub get_global_options {
+    my ($urpm) = @_;
+
+    my $config = urpm::cfg::load_config($urpm->{config})
+      or $urpm->{fatal}(6, $urpm::cfg::err);
+
+    if (my $global = $config->{global}) {
+	_add2hash($urpm->{options}, $global);
+    }
+    #- remember global options for write_config
+    $urpm->{global_config} = $config->{global};
+
+    _add2hash($urpm->{options}, default_options());
 }
 
 sub prefer_rooted {
