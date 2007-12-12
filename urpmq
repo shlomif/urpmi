@@ -117,8 +117,7 @@ sub escape_shell ($) {
 
 #- parse arguments list.
 @ARGV or usage();
-my $urpm = new urpm;
-urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
+my $urpm = urpm->new_parse_cmdline or exit(1);
 
 #- we really don't want logs on stdout, and remove verbose if not asked.
 $urpm->{info} = sub { print STDERR "$_[0]\n" };

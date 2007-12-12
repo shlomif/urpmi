@@ -53,11 +53,9 @@ where <name> is a medium name to remove.
 $options{noclean} = 1;
 $options{strict_match} = 1;
 
-my $urpm = new urpm;
-
 our @cmdline; #- set by urpm::args
-urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
 
+my $urpm = urpm->new_parse_cmdline or exit(1);
 
 if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to remove media"));

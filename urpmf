@@ -106,8 +106,7 @@ our $expr;		# regexp to match against
 our %uniq;
 
 #- parse arguments list.
-my $urpm = new urpm;
-urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
+my $urpm = urpm->new_parse_cmdline or exit(1);
 defined $expr or usage();
 
 if ($qf eq '%default') {

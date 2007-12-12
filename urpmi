@@ -28,8 +28,6 @@ use urpm::select;
 use urpm::util qw(untaint difference2 member partition);
 use urpm::main_loop;
 
-#- contains informations to parse installed system.
-my $urpm = new urpm;
 #URPM::setVerbosity(7);
 
 #- default options.
@@ -177,8 +175,7 @@ if (member('--restricted', @ARGV)) {
     @ARGV = @ARGVcopy;
 }
 
-# Parse command line options
-urpm::args::parse_cmdline(urpm => $urpm);
+my $urpm = urpm->new_parse_cmdline or exit(1);
 
 if (@ARGV && $auto_select) {
     print STDERR N("Error: can't use --auto-select along with package list.\n");

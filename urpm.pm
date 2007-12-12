@@ -61,6 +61,13 @@ sub new {
     $self;
 }
 
+sub new_parse_cmdline {
+    my ($class) = @_;
+    my $urpm = $class->new;
+    urpm::args::parse_cmdline(urpm => $urpm);
+    $urpm;
+}
+
 sub prefer_rooted {
     my ($root, $file) = @_;
     -e "$root$file" ? "$root$file" : $file;

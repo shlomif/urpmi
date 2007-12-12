@@ -87,8 +87,7 @@ if ($options{mirrors_url}) {
 }
 $options{force} = 0;
 $options{noclean} = 1;
-my $urpm = new urpm;
-urpm::args::parse_cmdline(urpm => $urpm) or usage();
+my $urpm = urpm->new_parse_cmdline or usage();
 our ($name, $url, $with, $relative_hdlist) = our @cmdline;
 
 $options{quiet} = 1 if $options{verbose} < 0;

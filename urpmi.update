@@ -59,12 +59,11 @@ $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
 our @cmdline; #- set by urpm::args
-my $urpm = new urpm;
 
 $options{force} = 0;
 $options{noclean} = 1;
 
-urpm::args::parse_cmdline(urpm => $urpm) or exit(1);
+my $urpm = urpm->new_parse_cmdline or exit(1);
 
 if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to update media"));
