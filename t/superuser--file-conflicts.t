@@ -4,6 +4,8 @@
 # a and c contents the same file name, with same content => should work
 # a and d contents the same directory name => should work
 # a and e contents the same path for a directory vs a symlink => should fail
+# 
+# fa and fb contains the same file name, with different content but %ghost => should work
 #
 # a and gc/gc_/gd contains different file => should work
 # ga and a and gc/gc_ contains the same resulting file, through symlink in ga, with same content => should work
@@ -49,6 +51,13 @@ sub test_rpm_same_transaction {
 	test_rpm_i_fail('a', 'e');
 	check_nothing_installed();
     }
+
+    # WARNING: should it really fail?
+    test_rpm_i_fail('a', 'fa');
+    check_nothing_installed();
+
+    test_rpm_i_succeeds('fa', 'fb');
+    check_installed_and_remove('fa', 'fb');
 }
 
 sub test_rpm_different_transactions {
@@ -65,6 +74,15 @@ sub test_rpm_different_transactions {
     test_rpm_i_succeeds('a');
     test_rpm_i_succeeds('d');
     check_installed_and_remove('a', 'd');
+
+    # WARNING: should it really fail?
+    test_rpm_i_succeeds('a');
+    test_rpm_i_fail('fa');
+    check_installed_and_remove('a');
+
+    test_rpm_i_succeeds('fa');
+    test_rpm_i_succeeds('fb');
+    check_installed_and_remove('fa', 'fb');
 
     # the following need to be done in different transactions otherwise rpm is lost
     test_rpm_i_succeeds('a');
@@ -105,6 +123,13 @@ sub test_urpmi_same_transaction {
 	test_urpmi_fail('a e');
 	check_nothing_installed();
     }
+
+    # WARNING: should it really fail?
+    test_urpmi_fail('a fa');
+    check_nothing_installed();
+
+    urpmi('fa fb');
+    check_installed_and_remove('fa', 'fb');
 }
 
 sub test_urpmi_different_transactions {
@@ -122,6 +147,14 @@ sub test_urpmi_different_transactions {
     urpmi('a');
     urpmi('d');
     check_installed_and_remove('a', 'd');
+
+    urpmi('a');
+    test_urpmi_fail('fa');
+    check_installed_and_remove('a');
+
+    urpmi('fa');
+    urpmi('fb');
+    check_installed_and_remove('fa', 'fb');
 
     # the following need to be done in different transactions otherwise rpm is lost
     urpmi('a');
