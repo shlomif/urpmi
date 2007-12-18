@@ -326,7 +326,7 @@ if ($options{previous_priority_upgrade}) {
     require urpm::sys;
     urpm::sys::fix_fd_leak();
     # also, clean up rpm db log files, because rpm might have been upgraded
-    urpm::sys::clean_rpmdb_shared_regions('') if $urpm->{root};
+    urpm::sys::clean_rpmdb_shared_regions('') if !$urpm->{root};
 }
 
 my $urpmi_lock = !$env && !$options{nolock} && urpm::lock::urpmi_db($urpm, '', wait => $options{wait_lock});
