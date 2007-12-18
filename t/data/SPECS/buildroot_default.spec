@@ -22,11 +22,13 @@ Release: 2
 x
 
 %install
-wanted=%defaultbuildroot
+wanted=$(echo %{_tmppath}/buildroot-1-1-buildroot | sed 's!//!/!')
 [ "%buildroot" = $wanted ] || { echo "buildroot should be $wanted instead of %buildroot"; exit 1; }
 [ "$RPM_BUILD_ROOT" = $wanted ] || { echo "RPM_BUILD_ROOT should be $wanted instead of $RPM_BUILD_ROOT"; exit 1; }
 [ "%macro_using_buildroot" = $wanted ] || { echo "macro_using_buildroot should be $wanted instead of %buildroot"; exit 1; }
 
-install -d $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc
+echo foo > $RPM_BUILD_ROOT/etc/foo
 
 %files
+/etc/foo
