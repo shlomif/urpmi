@@ -139,13 +139,6 @@ sub read_config {
     }
 
     eval { require urpm::ldap; urpm::ldap::load_ldap_media($urpm) };
-
-    #- read MD5 sums (not in urpmi.cfg but in a separate file)
-    foreach (@{$urpm->{media}}) {
-	if (my $md5sum = urpm::md5sum::from_MD5SUM("$urpm->{statedir}/MD5SUM", statedir_synthesis($urpm, $_))) {
-	    $_->{md5sum} = $md5sum;
-	}
-    }
 }
 
 #- if invalid, set {ignore}
@@ -256,6 +249,10 @@ sub statedir_names {
     my ($urpm, $medium) = @_;
     $medium->{name} && "$urpm->{statedir}/names.$medium->{name}";
 }
+sub statedir_MD5SUM {
+    my ($urpm, $medium) = @_;
+    $medium->{name} && "$urpm->{statedir}/MD5SUM.$medium->{name}";
+}
 sub cachedir_with_synthesis {
     my ($urpm, $medium) = @_;
     _url_with_synthesis($medium) && "$urpm->{cachedir}/partial/" . _url_with_synthesis_basename($medium);
@@ -312,21 +309,6 @@ sub probe_removable_device {
 }
 
 
-sub write_MD5SUM {
-    my ($urpm) = @_;
-
-    #- write MD5SUM file
-    my $fh = urpm::sys::open_safe($urpm, '>', "$urpm->{statedir}/MD5SUM") or return 0;
-    foreach my $medium (grep { $_->{md5sum} } @{$urpm->{media}}) {
-	my $s = basename(statedir_synthesis($urpm, $medium));
-	print $fh "$medium->{md5sum}  $s\n";
-    }
-
-    $urpm->{log}(N("wrote %s", "$urpm->{statedir}/MD5SUM"));
-
-    delete $urpm->{md5sum_modified};
-}
-
 #- Writes the urpmi.cfg file.
 sub write_urpmi_cfg {
     my ($urpm) = @_;
@@ -355,7 +337,6 @@ sub write_config {
     my ($urpm) = @_;
 
     write_urpmi_cfg($urpm);
-    write_MD5SUM($urpm);
 }
 
 sub _tempignore {
@@ -865,7 +846,6 @@ sub _parse_synthesis__virtual {
 
     delete $medium->{modified};
     $medium->{really_modified} = 1;
-    $urpm->{md5sum_modified} = 1;
 
     _parse_synthesis_or_ignore($urpm, $medium);
 }
@@ -889,20 +869,6 @@ sub generate_medium_names {
     }
 }
 
-
-sub _read_existing_synthesis_if_same_md5sum {
-    my ($urpm, $medium, $retrieved_md5sum) = @_;
-
-    #- if an existing synthesis file has the same md5sum, we assume the
-    #- files are the same.
-    #- if local md5sum is the same as distant md5sum, this means there is no need to
-    #- download synthesis file again.
-    $retrieved_md5sum && $medium->{md5sum} eq $retrieved_md5sum or return;
-
-    _read_existing_synthesis($urpm, $medium);
-
-    1;
-}
 
 sub _read_existing_synthesis {
     my ($urpm, $medium) = @_;
@@ -1053,30 +1019,15 @@ sub get_synthesis__remote {
     }
 }
 
-sub get_synthesis_and_check_md5sum__local {
-    my ($urpm, $medium, $retrieved_md5sum, $callback) = @_;
+#- check copied/downloaded file has right signature.
+sub check_synthesis_md5sum {
+    my ($urpm, $medium) = @_;
 
-    get_synthesis__local($urpm, $medium, $callback) or return;
-
-    #- keep checking md5sum of file just copied ! (especially on nfs or removable device).
-    if ($retrieved_md5sum) {
-	$urpm->{log}(N("computing md5sum of copied source synthesis"));
-	urpm::md5sum::compute(cachedir_with_synthesis($urpm, $medium)) eq $retrieved_md5sum or
-	  $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", _url_with_synthesis($medium))), return;
-    }
-
-    1;
-}
-sub get_synthesis_and_check_md5sum__remote {
-    my ($urpm, $medium, $retrieved_md5sum, $callback, $quiet) = @_;
-
-    get_synthesis__remote($urpm, $medium, $callback, $quiet) or return;
-
-    #- check downloaded file has right signature.
-    if ($retrieved_md5sum) {
+    my $wanted_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, "$urpm->{cachedir}/partial/MD5SUM", 'synthesis.hdlist.cz');
+    if ($wanted_md5sum) {
 	$urpm->{log}(N("computing md5sum of retrieved source synthesis"));
-	urpm::md5sum::compute(cachedir_with_synthesis($urpm, $medium)) eq $retrieved_md5sum or
-	    $urpm->{error}(N("...retrieving failed: md5sum mismatch")), return;
+	urpm::md5sum::compute(cachedir_with_synthesis($urpm, $medium)) eq $wanted_md5sum or
+	    $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", _url_with_synthesis($medium))), return;
     }
     1;
 }
@@ -1094,6 +1045,16 @@ sub _call_genhdlist2 {
       or $urpm->{error}(N("genhdlist2 failed on %s", $dir)), return;
 
     1;
+}
+
+sub _is_statedir_MD5SUM_uptodate {
+    my ($urpm, $medium, $new_MD5SUM) = @_;
+
+    my $current_MD5SUM = statedir_MD5SUM($urpm, $medium);
+
+    $urpm->{log}(N("comparing %s and %s", $new_MD5SUM, $current_MD5SUM));
+
+    cat_($new_MD5SUM) eq cat_($current_MD5SUM);
 }
 
 #- options: callback, force, nomd5sum, nopubkey, probe_with
@@ -1139,45 +1100,38 @@ this could happen if you mounted manually the directory when creating the medium
 	_call_genhdlist2($urpm, $medium) or return '';
 	1;
     } elsif (_synthesis_dir($medium)) {
-	    my ($retrieved_md5sum);
+	my $new_MD5SUM = _synthesis_dir($medium) . '/MD5SUM';
+	unlink "$urpm->{cachedir}/partial/MD5SUM";
 
-	    if (!$options->{nomd5sum} && file_size(_synthesis_dir($medium) . '/MD5SUM') > 32) {
-		$retrieved_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, _synthesis_dir($medium) . '/MD5SUM', 
-								       _url_with_synthesis_basename($medium));
-		if (urpm::md5sum::on_local_medium($urpm, $medium, $options->{force})) {
-		    _read_existing_synthesis_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
-		      and return 'unmodified';
-		}
+	if (!$options->{nomd5sum} && file_size($new_MD5SUM) > 32) {	
+	    if (!$options->{force} && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
+		_read_existing_synthesis($urpm, $medium)
+		  and return 'unmodified';
 	    }
 
-	    if (get_synthesis_and_check_md5sum__local($urpm, $medium, $retrieved_md5sum, $options->{callback})) {
+	    $urpm->{log}(N("copying MD5SUM file of \"%s\"...", $medium->{name}));
+	    copy_and_own($new_MD5SUM, "$urpm->{cachedir}/partial/MD5SUM");
+	}
 
-		    $medium->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
-
-		    if (!$options->{force}) {
-			_read_existing_synthesis($urpm, $medium)
-			  and return 'unmodified';
-		    }
-		    1;
-	    } else {
-		    #- if copying synthesis has failed, try to build it directly.
-		    if ($urpm->{options}{'build-hdlist-on-error'}) {
-			#- no available synthesis, try to build it from rpms
-			_call_genhdlist2($urpm, $medium) or return '';
-			1;
-		    } else {
-			$urpm->{error}(N("unable to access synthesis file of \"%s\", medium ignored", $medium->{name}));
-			$medium->{ignore} = 1;
-			'';
-		    }
-	    }
+	my $ok = get_synthesis__local($urpm, $medium, $options->{callback});
+	$ok &&= !$options->{force} || check_synthesis_md5sum($urpm, $medium);
+	
+	if ($ok) {
+	    1;
+	} elsif ($urpm->{options}{'build-hdlist-on-error'}) {
+	    #- if copying synthesis has failed, try to build it directly.
+	    _call_genhdlist2($urpm, $medium) or return '';
+	    1;
+	} else {
+	    _ignore_medium_on_parse_error($urpm, $medium);
+	    '';
+	}
     }
 }
 
 #- options: callback, force, nomd5sum, nopubkey, probe_with, quiet
 sub _update_medium__parse_if_unmodified__remote {
     my ($urpm, $medium, $options) = @_;
-    my ($retrieved_md5sum);
 
     #- examine if a distant MD5SUM file is available.
     #- this will only be done if $with_synthesis is not empty in order to use
@@ -1188,15 +1142,14 @@ sub _update_medium__parse_if_unmodified__remote {
 	#- to be checked for being valid, nothing can be deduced if no MD5SUM
 	#- file is present.
 
-	unlink "$urpm->{cachedir}/partial/MD5SUM";
+	my $new_MD5SUM = "$urpm->{cachedir}/partial/MD5SUM";
+	unlink $new_MD5SUM;
 	if (!$options->{nomd5sum} && 
 	      urpm::download::sync($urpm, $medium, 
 				   [ reduce_pathname(_synthesis_dir($medium) . '/MD5SUM') ],
-				   quiet => 1) && file_size("$urpm->{cachedir}/partial/MD5SUM") > 32) {
-	    if (urpm::md5sum::on_local_medium($urpm, $medium, $options->{force} >= 2)) {
-		$retrieved_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, "$urpm->{cachedir}/partial/MD5SUM", 
-								       _url_with_synthesis_basename($medium));
-		_read_existing_synthesis_if_same_md5sum($urpm, $medium, $retrieved_md5sum)
+				   quiet => 1) && file_size($new_MD5SUM) > 32) {
+	    if ($options->{force} < 2 && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
+		_read_existing_synthesis($urpm, $medium)
 		  and return 'unmodified';
 	    }
 	}
@@ -1244,18 +1197,13 @@ sub _update_medium__parse_if_unmodified__remote {
 		) or $error->(N("...copying failed")), return;
 	    }
 	}
-	if (get_synthesis_and_check_md5sum__remote($urpm, $medium, $retrieved_md5sum, $options->{callback}, $options->{quiet})) {
-	    $options->{callback} and $options->{callback}('done', $medium->{name});
+	my $ok = get_synthesis__remote($urpm, $medium, $options->{callback}, $options->{quiet});
+	$ok &&= !$options->{force} || check_synthesis_md5sum($urpm, $medium);
 
-	    $medium->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
+	$options->{callback} and $options->{callback}('done', $medium->{name});
 
-	    if (!$options->{force}) {
-		_read_existing_synthesis($urpm, $medium)
-		  and return 'unmodified';
-	    }
-	} else {
-	    $error->(N("unable to access synthesis file of \"%s\", medium ignored", $medium->{name}));
-	    $medium->{ignore} = 1;
+	if (!$ok) {
+	    _ignore_medium_on_parse_error($urpm, $medium);
 	    return;
 	}
     }
@@ -1349,7 +1297,6 @@ sub _update_medium_first_pass {
 	    } else {
 		$urpm->{error}(N("unable to parse synthesis file of \"%s\"", $medium->{name}));
 		$options{callback} and $options{callback}('failed', $medium->{name});
-		delete $medium->{md5sum};
 
 		#- we have to read back the current synthesis file unmodified.
 		_parse_synthesis_or_ignore($urpm, $medium);
@@ -1362,15 +1309,21 @@ sub _update_medium_first_pass {
 	    }
 
 
+	    #- use new files
+
 	    unlink statedir_synthesis($urpm, $medium);
-	    #- use newly created file.
 	    urpm::util::move(cachedir_with_synthesis($urpm, $medium),
 			     statedir_synthesis($urpm, $medium));
+
+	    unlink statedir_MD5SUM($urpm, $medium);
+	    if (!$medium->{with_synthesis}) { # no MD5SUM when using with_synthesis, urpmi.update will update everytime!
+		urpm::util::move("$urpm->{cachedir}/partial/MD5SUM",
+				 statedir_MD5SUM($urpm, $medium)) if -e "$urpm->{cachedir}/partial/MD5SUM";
+	    }
 
 	#- make sure to rebuild base files and clear medium modified state.
 	$medium->{modified} = 0;
 	$medium->{really_modified} = 1;
-	$urpm->{md5sum_modified} = 1;	
     }
 
     1;
@@ -1461,9 +1414,6 @@ sub update_media {
 	#- write config files in any case
 	write_config($urpm);
 	urpm::download::dump_proxy_config();
-    } elsif ($urpm->{md5sum_modified}) {
-	#- NB: in case of $urpm->{modified}, write_MD5SUM is called in write_config above
-	write_MD5SUM($urpm);
     }
 
     $updates_result{error} == 0;

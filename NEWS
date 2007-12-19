@@ -1,5 +1,8 @@
 - all tools:
   o drop hdlist support (will be replaced with xml media_info)
+  o replace /var/lib/urpmi/MD5SUM with /var/lib/urpmi/MD5SUM.<medium_name>
+    (this will allow checking xml media_info is up-to-date even if we don't
+    update it at the same time as synthesis is updated)
 - urpmi:
   o do remove __db* on priority-upgrade
     (fix regression introduced in 4.10.15)
