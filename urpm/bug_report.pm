@@ -27,13 +27,10 @@ sub rpmdb_to_synthesis {
 sub write_urpmdb {
     my ($urpm, $bug_report_dir) = @_;
 
-    require URPM::Build;
     foreach (@{$urpm->{media}}) {
-	#- take care of virtual medium this way.
-	#- now build directly synthesis file, this is by far the simplest method.
 	if (urpm::media::is_valid_medium($_)) {
-	    $urpm->build_synthesis(start => $_->{start}, end => $_->{end}, synthesis => "$bug_report_dir/synthesis." . urpm::media::_hdlist($_));
-	    $urpm->{log}(N("built hdlist synthesis file for medium \"%s\"", $_->{name}));
+	    system('cp', urpm::media::any_synthesis($urpm, $_), 
+		   "$bug_report_dir/" . urpm::media::_synthesis($_)) == 0 or $urpm->{fatal}(1, "failed to copy $_->{name} synthesis");
 	}
     }
     #- fake configuration written to convert virtual media on the fly.

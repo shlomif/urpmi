@@ -27,12 +27,10 @@ update\ 1 http://foo/bar/$RELEASE {
 }
 
 update_2 ftp://foo/bar/ {
-  hdlist: hdlist.update2.cz
   ignore
   key_ids: 456 789
   priority-upgrade: 'kernel'
-  synthesis
-  with_hdlist: hdlist.update2.cz
+  with_synthesis: synthesis.hdlist.update2.cz
 }
 URPMICFG
 close $f;

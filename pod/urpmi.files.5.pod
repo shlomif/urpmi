@@ -19,18 +19,9 @@ file is used when a password is used to access a distant location (using
 a network protocol) or when various directories are used to store the
 packages. That's why it's not world-readable.
 
-=item I<< /var/lib/urpmi/hdlist.<media_name>.cz >>
-
-Contains information about all known packages; it's a summary of rpm
-headers. If an hdlist file is used for a medium, C<urpmf> can operate
-completely without accessing this medium (this is almost always the case).
-
 =item I<< /var/lib/urpmi/synthesis.hdlist.<media_name>.cz >>
 
-Contains synthesis information about all known packages built from hdlist
-files that can be used by minimal closure algorithm. If these files are
-not present, hdlist files will be used instead to resolve dependencies
-(but this is much slower).
+Contains information about all known packages.
 
 =item I<< /var/lib/urpmi/names.<media_name> >>
 

@@ -146,7 +146,7 @@ my %options_spec = (
  	'root=s' => sub { set_root($urpm, $_[1]) },
 	'use-distrib=s' => \$options{usedistrib},
 	'probe-synthesis' => sub { $options{probe_with} = 'synthesis' },
-	'probe-hdlist' => sub { $options{probe_with} = 'hdlist' },
+	'probe-hdlist' => sub { $options{probe_with} = 'synthesis' }, #- ignored, kept for compatibility
 	'excludepath|exclude-path=s' => sub { $urpm->{options}{excludepath} = $_[1] },
 	'excludedocs|exclude-docs' => sub { $urpm->{options}{excludedocs} = 1 },
 	'ignoresize' => sub { $urpm->{options}{ignoresize} = 1 },
@@ -394,7 +394,7 @@ foreach my $k ("y") {
     $options_spec{'urpmi.removemedia'}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("probe-synthesis", "probe-hdlist")
+foreach my $k ("probe-synthesis", "probe-hdlist") # probe-hdlist is obsolete
 {
     $options_spec{'urpmi.addmedia'}{$k} = 
       $options_spec{urpme}{$k} = 

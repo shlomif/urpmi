@@ -144,6 +144,7 @@ sub load_config_raw {
 	} elsif (/^(hdlist
 	  |list
 	  |with_hdlist
+	  |with_synthesis
 	  |media_info_dir
 	  |removable
 	  |md5sum
@@ -161,7 +162,9 @@ sub load_config_raw {
 	    $block->{$1} = $2;
 	} elsif (/^key[-_]ids\s*:\s*['"]?(.*?)['"]?$/) {
 	    $block->{'key-ids'} = $1;
-	} elsif (/^(hdlist|$no_para_option_regexp)$/) {
+	} elsif (/^(hdlist|synthesis)$/) {
+	    # ignored, kept for compatibility
+	} elsif (/^($no_para_option_regexp)$/) {
 	    #- positive flags
 	    $block->{$1} = 1;
 	} elsif (my ($no, $k, $v) =
@@ -228,8 +231,6 @@ sub dump_config_raw {
     foreach my $m (@$blocks) {
 	my @l = map {
 	    if (/^($no_para_option_regexp)$/) {
-		$_;
-	    } elsif ($_ eq 'hdlist' && $m->{$_} eq '1') {
 		$_;
 	    } elsif ($_ ne 'priority') {
 		"$_: " . $substitute_back->($m, $_);

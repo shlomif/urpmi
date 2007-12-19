@@ -196,7 +196,7 @@ if ($env) {
 }
 
 my $_lock = urpm::lock::urpmi_db($urpm, '', nofatal => 1, wait => $options{wait_lock});
-my $need_hdlist = grep { $usedtags{$_} } qw(
+my $need_xml = grep { $usedtags{$_} } qw(
     buildhost
     buildtime
     conf_files
@@ -220,13 +220,9 @@ urpm::media::configure($urpm,
     usedistrib => $urpm::args::options{usedistrib},
     update => $update,
     callback => $callback,
-    need_hdlist => $need_hdlist,
+    need_xml => $need_xml,
 );
 
-if ($need_hdlist) {
-    my @hdlist_media = grep { !$_->{ignore} && -e urpm::media::any_hdlist($urpm, $_) } @{$urpm->{media}};
-    if (!@hdlist_media) {
-	print N("Note: since no media searched uses hdlists, urpmf was unable to return any result\n");
-	print N("You may want to use --name to search for package names.\n") if !$usedtags{name};
-    }
+if ($need_xml) {
+    # TODO
 }

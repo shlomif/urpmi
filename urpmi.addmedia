@@ -52,9 +52,8 @@ and [options] are from
                    authentication (format is <user:password>).
 ") . N("  --update       - create an update medium.
 ") . N("  --probe-synthesis - use synthesis file.
-") . N("  --probe-hdlist - use hdlist file.
-") . N("  --probe-rpms   - use rpm files (instead of synthesis/hdlist).
-") . N("  --no-probe     - do not try to find any synthesis or hdlist file.
+") . N("  --probe-rpms   - use rpm files (instead of synthesis).
+") . N("  --no-probe     - do not try to find any synthesis file.
 ") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . N("  --distrib      - automatically create all media from an installation
                    medium.
@@ -88,7 +87,7 @@ if ($options{mirrors_url}) {
 $options{force} = 0;
 $options{noclean} = 1;
 my $urpm = urpm->new_parse_cmdline or usage();
-our ($name, $url, $with, $relative_hdlist) = our @cmdline;
+our ($name, $url, $with, $relative_synthesis) = our @cmdline;
 
 $options{quiet} = 1 if $options{verbose} < 0;
 
@@ -107,8 +106,8 @@ urpm::media::read_config($urpm);
 
 my $ok = 1;
 if ($options{distrib}) {
-    $with || $relative_hdlist
-	and usage N("no need to give <relative path of hdlist> with --distrib");
+    $with || $relative_synthesis
+	and usage N("no need to give <relative path of synthesis> with --distrib");
 
     my $add_media_callback = $options{interactive} ?
 	sub {
@@ -140,14 +139,14 @@ if ($options{distrib}) {
     $name or usage();
 
     if ($with eq "with") {
-	$relative_hdlist or usage N("<relative path of hdlist> missing\n");
+	$relative_synthesis or usage N("<relative path of synthesis> missing\n");
     }
     if ($options{probe_with} && $options{probe_with} eq 'rpms' && !urpm::file_from_local_url($url)) {
 	die N("Can't use %s with remote medium", "--probe-rpms");
     }
 
     urpm::media::add_medium($urpm,
-	$name, $url, $relative_hdlist,
+	$name, $url, $relative_synthesis,
 	virtual => $options{virtual},
 	update => $options{update},
 	ignore => $options{raw},

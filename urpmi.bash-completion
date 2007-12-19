@@ -114,11 +114,6 @@ _urpmi()
 				--verify-rpm"
 			for (( i=1; i < COMP_CWORD; i++ )); do
 				case ${COMP_WORDS[i]} in
-					--use-distrib)
-						options="$options \
-						--probe-synthesis \
-						--probe-hdlist"
-						;;
 					----auto-update)
 						options="$options --no-md5sum \
 						--force-key"

@@ -12,61 +12,61 @@ my $name = 'various';
 my $name2 = 'various2';
 my $name3 = 'various3';
 
-my @fields = qw(hdlist synthesis with_hdlist media_info_dir list virtual ignore);
+my @fields = qw(hdlist synthesis with_synthesis media_info_dir list virtual ignore);
 
 try_medium({ media_info_dir => 'media_info' }, '');
 
 
-try_medium_({ list => 'list.various' }, { list => 'list.various2' }, 
+try_medium_({}, {}, 
 	    '--probe-rpms', '--probe-rpms');
 
 
-try_medium({ hdlist => 1, media_info_dir => 'media_info' },
+try_medium({ media_info_dir => 'media_info' },
 	   '--probe-hdlist');
-try_medium({ hdlist => 1, media_info_dir => 'media_info' },
+try_medium({ media_info_dir => 'media_info' },
 	   'with media_info/hdlist.cz');
-try_medium({ hdlist => 1, 
-	     with_hdlist => "../media_info/hdlist_$name.cz",
-	     with_hdlist2 => "../media_info/hdlist_$name2.cz" },
+try_medium({ 
+	     with_synthesis => "../media_info/synthesis.hdlist_$name.cz",
+	     with_synthesis2 => "../media_info/synthesis.hdlist_$name2.cz" },
 	   "with ../media_info/hdlist_$name.cz",
 	   "with ../media_info/hdlist_$name2.cz",
        );
 
-try_medium({ synthesis => 1, media_info_dir => 'media_info' },
+try_medium({ media_info_dir => 'media_info' },
 	   '--probe-synthesis');
-try_medium({ synthesis => 1, media_info_dir => 'media_info' },
+try_medium({ media_info_dir => 'media_info' },
 	   'with media_info/synthesis.hdlist.cz');
-try_medium({ synthesis => 1, 
-	     with_hdlist => "../media_info/synthesis.hdlist_$name.cz",
-	     with_hdlist2 => "../media_info/synthesis.hdlist_$name2.cz" },
+try_medium({ 
+	     with_synthesis => "../media_info/synthesis.hdlist_$name.cz",
+	     with_synthesis2 => "../media_info/synthesis.hdlist_$name2.cz" },
 	   "with ../media_info/synthesis.hdlist_$name.cz",
 	   "with ../media_info/synthesis.hdlist_$name2.cz");
 
 try_distrib({ media_info_dir => 'media_info' }, '');
-try_distrib({ hdlist => 1, media_info_dir => 'media_info' }, 
+try_distrib({ media_info_dir => 'media_info' }, 
 	    '--probe-hdlist');
-try_distrib({ synthesis => 1, media_info_dir => 'media_info' },
+try_distrib({ media_info_dir => 'media_info' },
 	    '--probe-synthesis');
-try_distrib_removable({ hdlist => 1,
-	      with_hdlist => "../..//media/media_info/hdlist_$name.cz",
-	      with_hdlist2 => "../..//media/media_info/hdlist_$name2.cz",
-	      with_hdlist3 => "../..//media/media_info/hdlist_$name3.cz" }, 
+try_distrib_removable({
+	      with_synthesis => "../..//media/media_info/synthesis.hdlist_$name.cz",
+	      with_synthesis2 => "../..//media/media_info/synthesis.hdlist_$name2.cz",
+	      with_synthesis3 => "../..//media/media_info/synthesis.hdlist_$name3.cz" }, 
 	    '');
-try_distrib_removable({ hdlist => 1,
-	      with_hdlist => "../..//media/media_info/hdlist_$name.cz",
-	      with_hdlist2 => "../..//media/media_info/hdlist_$name2.cz",
-	      with_hdlist3 => "../..//media/media_info/hdlist_$name3.cz" }, 
+try_distrib_removable({
+	      with_synthesis => "../..//media/media_info/synthesis.hdlist_$name.cz",
+	      with_synthesis2 => "../..//media/media_info/synthesis.hdlist_$name2.cz",
+	      with_synthesis3 => "../..//media/media_info/synthesis.hdlist_$name3.cz" }, 
 	    '--probe-hdlist');
-try_distrib_removable({ synthesis => 1,
-	      with_hdlist => "../..//media/media_info/synthesis.hdlist_$name.cz",
-	      with_hdlist2 => "../..//media/media_info/synthesis.hdlist_$name2.cz",
-	      with_hdlist3 => "../..//media/media_info/synthesis.hdlist_$name3.cz" }, 
+try_distrib_removable({
+	      with_synthesis => "../..//media/media_info/synthesis.hdlist_$name.cz",
+	      with_synthesis2 => "../..//media/media_info/synthesis.hdlist_$name2.cz",
+	      with_synthesis3 => "../..//media/media_info/synthesis.hdlist_$name3.cz" }, 
 	    '--probe-synthesis');
 
 
 sub try_medium {
     my ($want, $options, $o_options2) = @_;
-    my $want2 = { %$want, with_hdlist => $want->{with_hdlist2} || $want->{with_hdlist} };
+    my $want2 = { %$want, with_synthesis => $want->{with_synthesis2} || $want->{with_synthesis} };
 
     try_medium_($want, $want2, $options, ($o_options2 || $options));
 
@@ -86,8 +86,8 @@ sub try_distrib {
 
 sub try_distrib_removable {
     my ($want, $options) = @_;
-    my $want2 = { %$want, with_hdlist => $want->{with_hdlist2} || $want->{with_hdlist} };
-    my $want3 = { %$want, with_hdlist => $want->{with_hdlist3} || $want->{with_hdlist}, ignore => 1 };
+    my $want2 = { %$want, with_synthesis => $want->{with_synthesis2} || $want->{with_synthesis} };
+    my $want3 = { %$want, with_synthesis => $want->{with_synthesis3} || $want->{with_synthesis}, ignore => 1 };
 
     try_distrib_removable_($want, $want2, $want3, $options);
 

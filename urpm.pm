@@ -375,8 +375,7 @@ B<source>: { id => src_rpm_file|spec_file }
 
 B<media>: [ { 
    start => int, end => int, name => string, url => string,
-   virtual => bool, media_info_dir => string, with_hdlist => string,
-   hdlist => bool|string, synthesis => bool,
+   virtual => bool, media_info_dir => string, with_synthesis => string,
    removable => string, downloader => string,
    ignore => bool, update => bool, modified => bool, really_modified => bool,
  } ],
@@ -385,7 +384,7 @@ B<media>: [ {
 
 =head1 SEE ALSO
 
-The C<URPM> package is used to manipulate at a lower level hdlist and rpm
+The C<URPM> package is used to manipulate at a lower level synthesis and rpm
 files.
 
 =head1 COPYRIGHT
