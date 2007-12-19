@@ -724,7 +724,7 @@ sub remove_media {
 	$urpm->{modified} = 1;
 
 	#- remove files associated with this medium.
-	unlink grep { $_ } map { $_->($urpm, $medium) } \&statedir_synthesis, \&statedir_descriptions, \&statedir_names;
+	unlink grep { $_ } map { $_->($urpm, $medium) } \&statedir_synthesis, \&statedir_descriptions, \&statedir_names, \&statedir_MD5SUM;
 
 	#- remove proxy settings for this media
 	urpm::download::remove_proxy_media($medium->{name});
