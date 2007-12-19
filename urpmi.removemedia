@@ -50,7 +50,6 @@ where <name> is a medium name to remove.
 
 
 #- default option values
-$options{noclean} = 1;
 $options{strict_match} = 1;
 
 our @cmdline; #- set by urpm::args
@@ -84,11 +83,6 @@ my @selected = urpm::media::select_media_by_name($urpm, \@toremove, !$urpm->{opt
   or exit 1;
 
 urpm::media::remove_media($urpm, \@selected);
-
-if ($options{noclean}) {
-    #- FIXME: AFAIK it is broken because function below use {depslist} which we don't clean here
-    urpm::remove_obsolete_headers_in_cache($urpm);
-}
 urpm::media::write_urpmi_cfg($urpm);
 
 exit(0);

@@ -1357,7 +1357,6 @@ sub _update_media__handle_some_flags {
 #-   callback    : UI callback
 #-   forcekey    : force retrieval of pubkey
 #-   force       : try to force rebuilding base files
-#-   noclean     : keep old files in the header cache directory
 #-   nomd5sum    : don't verify MD5SUM of retrieved files
 #-   nopubkey    : don't use rpm pubkeys
 #-   probe_with  : probe synthesis or rpms
@@ -1392,11 +1391,6 @@ sub update_media {
     }
 
     if ($urpm->{modified}) {
-	if ($options{noclean}) {
-	    #- clean headers cache directory to remove everything that is no longer
-	    #- useful according to the depslist.
-	    urpm::remove_obsolete_headers_in_cache($urpm);
-	}
 	#- write config files in any case
 	write_config($urpm);
 	urpm::download::dump_proxy_config();

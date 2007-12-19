@@ -359,7 +359,6 @@ if ($auto_update && !$bug && !$env) {
     urpm::media::update_media($urpm, 
 	all => 1,
 	callback => \&urpm::download::sync_logger,
-	noclean => $noclean,
 	quiet => $options{verbose} < 0,
 	nomd5sum => $nomd5sum,
 	forcekey => $forcekey,

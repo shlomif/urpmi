@@ -181,27 +181,6 @@ sub db_open_or_die {
     $db;
 }
 
-sub remove_obsolete_headers_in_cache {
-    my ($urpm) = @_;
-    my %headers;
-    if (my $dh = urpm::sys::opendir_safe($urpm, "$urpm->{cachedir}/headers")) {
-	local $_;
-	while (defined($_ = readdir $dh)) {
-	    m|^([^/]*-[^-]*-[^-]*\.[^\.]*)(?::\S*)?$| and $headers{$1} = $_;
-	}
-    }
-    if (%headers) {
-	my $previous_total = scalar(keys %headers);
-	foreach (@{$urpm->{depslist}}) {
-	    delete $headers{$_->fullname};
-	}
-	$urpm->{log}(N("found %d rpm headers in cache, removing %d obsolete headers", $previous_total, scalar(keys %headers)));
-	foreach (values %headers) {
-	    unlink "$urpm->{cachedir}/headers/$_";
-	}
-    }
-}
-
 #- register local packages for being installed, keep track of source.
 sub register_rpms {
     my ($urpm, @files) = @_;

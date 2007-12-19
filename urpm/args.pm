@@ -283,7 +283,7 @@ my %options_spec = (
 
     'urpmi.update' => {
 	a => \$options{all},
-	c => sub { $options{noclean} = 0 },
+	c => sub {}, # obsolete
 	f => sub { ++$options{force}; $options{probe_with} = 'rpms' if $options{force} == 2 },
 	z => sub { ++$options{compress} },
 	update => \$options{update},
@@ -380,14 +380,14 @@ foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "aria2", "proxy=
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "wget", "curl", "prozilla", "aria2", "proxy=s", "proxy-user=s", "c", "f", "z",
+foreach my $k ("help|h", "wget", "curl", "prozilla", "aria2", "proxy=s", "proxy-user=s", "f", "z",
     "limit-rate=s", "no-md5sum", "update", "norebuild!", "probe-rpms",
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s", '<>')
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
 
-foreach my $k ("a", "c", '<>') {
+foreach my $k ("a", '<>') {
     $options_spec{'urpmi.removemedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
 foreach my $k ("y") {
