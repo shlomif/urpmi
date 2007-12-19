@@ -1246,7 +1246,7 @@ sub _read_cachedir_pubkey {
 
 #- options: callback, force, nomd5sum, probe_with, quiet, nopubkey, wait_lock
 #- (from _update_medium__parse_if_unmodified__local and _update_medium__parse_if_unmodified__remote)
-sub _update_medium_first_pass {
+sub _update_medium_first_pass_ {
     my ($urpm, $medium, %options) = @_;
 
     unless ($medium->{modified}) {
@@ -1322,13 +1322,16 @@ sub _update_medium_first_pass {
     1;
 }
 
-sub _update_medium_first_pass_failed {
-    my ($urpm, $medium) = @_;
+sub _update_medium_first_pass {
+    my ($urpm, $medium, %options) = @_;
 
-    !$medium->{virtual} or return;
+    my $rc = _update_medium_first_pass_($urpm, $medium, %options);
 
-    #- an error has occured for updating the medium, we have to remove temporary files.
-    unlink(glob("$urpm->{cachedir}/partial/*"));
+    if (!$rc && !$medium->{virtual}) {
+	#- an error has occured for updating the medium, we have to remove temporary files.
+	unlink(glob("$urpm->{cachedir}/partial/*"));
+    }
+    $rc;
 }
 
 sub _update_media__handle_some_flags {
@@ -1379,7 +1382,6 @@ sub update_media {
     foreach my $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
 	my $rc = _update_medium_first_pass($urpm, $medium, %options);
 	$updates_result{$rc || 'error'}++;
-	$rc or _update_medium_first_pass_failed($urpm, $medium);
     }
 
     $urpm->{debug} and $urpm->{debug}('update_medium: ' . join(' ', map { "$_=$updates_result{$_}" } keys %updates_result));
