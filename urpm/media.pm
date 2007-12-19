@@ -1237,11 +1237,10 @@ sub _read_cachedir_pubkey {
 		$urpm->{error}(N("unable to import pubkey file of \"%s\"", $medium->{name}));
 	    }
 	});
-    if (keys(%key_ids)) {
-	$medium->{'key-ids'} = join(',', keys %key_ids);
-    }
 
     unlink "$urpm->{cachedir}/partial/pubkey";
+    
+    join(',', keys %key_ids);
 }
 
 #- options: callback, force, nomd5sum, probe_with, quiet, nopubkey, wait_lock
@@ -1316,7 +1315,7 @@ sub _update_medium_first_pass_ {
     $medium->{modified} = 0;
 
     _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
-    _read_cachedir_pubkey($urpm, $medium, $options{wait_lock});
+    $medium->{'key-ids'} ||= _read_cachedir_pubkey($urpm, $medium, $options{wait_lock});
     generate_medium_names($urpm, $medium);
 
     1;
