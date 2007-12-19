@@ -890,17 +890,6 @@ sub generate_medium_names {
 }
 
 
-sub _read_existing_synthesis_if_same_time_and_msize {
-    my ($urpm, $medium) = @_;
-
-    same_size_and_mtime(cachedir_with_synthesis($urpm, $medium),
-			statedir_synthesis($urpm, $medium)) or return;
-
-    _read_existing_synthesis($urpm, $medium);
-
-    1;
-}
-
 sub _read_existing_synthesis_if_same_md5sum {
     my ($urpm, $medium, $retrieved_md5sum) = @_;
 
@@ -1165,9 +1154,8 @@ this could happen if you mounted manually the directory when creating the medium
 
 		    $medium->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
 
-		    #- check if the files are equal... and no force copy...
 		    if (!$options->{force}) {
-			_read_existing_synthesis_if_same_time_and_msize($urpm, $medium)
+			_read_existing_synthesis($urpm, $medium)
 			  and return 'unmodified';
 		    }
 		    1;
@@ -1262,7 +1250,7 @@ sub _update_medium__parse_if_unmodified__remote {
 	    $medium->{md5sum} = $retrieved_md5sum if $retrieved_md5sum;
 
 	    if (!$options->{force}) {
-		_read_existing_synthesis_if_same_time_and_msize($urpm, $medium)
+		_read_existing_synthesis($urpm, $medium)
 		  and return 'unmodified';
 	    }
 	} else {
