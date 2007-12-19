@@ -1048,7 +1048,7 @@ sub _is_statedir_MD5SUM_uptodate {
     cat_($new_MD5SUM) eq cat_($current_MD5SUM);
 }
 
-#- options: callback, force, nomd5sum, nopubkey, probe_with
+#- options: callback, force, nomd5sum, probe_with
 sub _update_medium__parse_if_unmodified__local {
     my ($urpm, $medium, $options) = @_;
 
@@ -1120,7 +1120,7 @@ this could happen if you mounted manually the directory when creating the medium
     }
 }
 
-#- options: callback, force, nomd5sum, nopubkey, probe_with, quiet
+#- options: callback, force, nomd5sum, probe_with, quiet
 sub _update_medium__parse_if_unmodified__remote {
     my ($urpm, $medium, $options) = @_;
 
