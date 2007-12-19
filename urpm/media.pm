@@ -1284,12 +1284,12 @@ sub _update_medium_first_pass {
 	}
     }
 
-    if (!$medium->{virtual} && file_size(cachedir_with_synthesis($urpm, $medium)) < 20) {
-	$urpm->{error}(N("no synthesis file found for medium \"%s\"", $medium->{name}));
-	return;
-    }
-
     if (!$medium->{virtual}) {
+	if (file_size(cachedir_with_synthesis($urpm, $medium)) < 20) {
+	    $urpm->{error}(N("no synthesis file found for medium \"%s\"", $medium->{name}));
+	    return;
+	}
+
 	    $options{callback} and $options{callback}('parse', $medium->{name});
 
 	    if (_parse_synthesis($urpm, $medium, cachedir_with_synthesis($urpm, $medium))) {
