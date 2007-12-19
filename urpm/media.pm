@@ -841,15 +841,6 @@ sub _synthesis_suffix {
     $medium->{with_synthesis} =~ /synthesis\.hdlist(.*?)(?:\.src)?\.cz$/ ? $1 : '';
 }
 
-sub _parse_synthesis__virtual {
-    my ($urpm, $medium) = @_;
-
-    delete $medium->{modified};
-    $medium->{really_modified} = 1;
-
-    _parse_synthesis_or_ignore($urpm, $medium);
-}
-
 #- names.<media_name> is used by external progs (namely for bash-completion)
 sub generate_medium_names {
     my ($urpm, $medium) = @_;
@@ -1094,7 +1085,7 @@ this could happen if you mounted manually the directory when creating the medium
     if ($medium->{virtual}) {
 	#- syncing a virtual medium is very simple, just try to read the file in order to
 	#- determine its type, once a with_synthesis has been found (but is mandatory).
-	_parse_synthesis__virtual($urpm, $medium);
+	_parse_synthesis_or_ignore($urpm, $medium);
 	1;
     } elsif ($options->{probe_with} eq 'rpms' || !_synthesis_dir($medium)) {
 	_call_genhdlist2($urpm, $medium) or return '';
@@ -1321,10 +1312,10 @@ sub _update_medium_first_pass {
 				 statedir_MD5SUM($urpm, $medium)) if -e "$urpm->{cachedir}/partial/MD5SUM";
 	    }
 
-	#- make sure to rebuild base files and clear medium modified state.
-	$medium->{modified} = 0;
-	$medium->{really_modified} = 1;
     }
+    #- make sure to rebuild base files and clear medium modified state.
+    $medium->{modified} = 0;
+    $medium->{really_modified} = 1;
 
     1;
 }
