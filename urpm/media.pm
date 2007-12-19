@@ -1377,7 +1377,7 @@ sub update_media {
     _update_media__handle_some_flags($urpm, $options{forcekey}, $options{all});
 
     my %updates_result;
-    foreach my $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
+    foreach my $medium (grep { !$_->{ignore} && $_->{modified} } @{$urpm->{media}}) {
 	my $rc = _update_medium($urpm, $medium, %options);
 	$updates_result{$rc || 'error'}++;
     }
