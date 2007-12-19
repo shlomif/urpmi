@@ -1244,7 +1244,7 @@ sub _read_cachedir_pubkey {
     unlink "$urpm->{cachedir}/partial/pubkey";
 }
 
-#- options: callback, force, nomd5sum, probe_with, quiet
+#- options: callback, force, nomd5sum, probe_with, quiet, nopubkey, wait_lock
 #- (from _update_medium__parse_if_unmodified__local and _update_medium__parse_if_unmodified__remote)
 sub _update_medium_first_pass {
     my ($urpm, $medium, %options) = @_;
@@ -1313,9 +1313,11 @@ sub _update_medium_first_pass {
 	    }
 
     }
-    #- make sure to rebuild base files and clear medium modified state.
     $medium->{modified} = 0;
-    $medium->{really_modified} = 1;
+
+    _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
+    _read_cachedir_pubkey($urpm, $medium, $options{wait_lock});
+    generate_medium_names($urpm, $medium);
 
     1;
 }
@@ -1386,14 +1388,6 @@ sub update_media {
 	#- only errors/unmodified, leave now
 	#- (this ensures buggy added medium is not added to urpmi.cfg)
 	return $updates_result{error} == 0;
-    }
-
-    foreach my $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
-	if ($medium->{really_modified}) {
-	    _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
-	    _read_cachedir_pubkey($urpm, $medium, $options{wait_lock});
-	    generate_medium_names($urpm, $medium);
-	}
     }
 
     if ($urpm->{modified}) {
