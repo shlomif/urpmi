@@ -17,7 +17,7 @@ sub parse {
 
 sub from_MD5SUM__or_warn {
     my ($urpm, $md5sum_file, $basename) = @_;
-    $urpm->{log}(N("examining %s file", $md5sum_file));
+    $urpm->{debug}(N("examining %s file", $md5sum_file)) if $urpm->{debug};
     my $retrieved_md5sum = parse($md5sum_file)->{$basename} 
       or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
     return $retrieved_md5sum;
