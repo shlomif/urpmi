@@ -1287,6 +1287,8 @@ sub _update_medium_ {
 	}
     }
 
+    my $is_updating = -e statedir_synthesis($urpm, $medium);
+
     if (!$medium->{virtual}) {
 	if (file_size(cachedir_with_synthesis($urpm, $medium)) < 20) {
 	    $urpm->{error}(N("no synthesis file found for medium \"%s\"", $medium->{name}));
@@ -1307,11 +1309,6 @@ sub _update_medium_ {
 		return;
 	    }
 
-	    if (-e statedir_synthesis($urpm, $medium)) {
-		$urpm->{info}(N("updated medium \"%s\"", $medium->{name}));
-	    }
-
-
 	    #- use new files
 
 	    unlink statedir_synthesis($urpm, $medium);
@@ -1330,6 +1327,8 @@ sub _update_medium_ {
     _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
     $medium->{'key-ids'} ||= _read_cachedir_pubkey($urpm, $medium, $options{wait_lock});
     generate_medium_names($urpm, $medium);
+
+    $is_updating and $urpm->{info}(N("updated medium \"%s\"", $medium->{name}));
 
     1;
 }
