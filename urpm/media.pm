@@ -233,10 +233,6 @@ sub _url_with_synthesis {
       : _synthesis_dir($medium) . "/" . _url_with_synthesis_basename($medium);
 
 }
-sub synthesis_for_virtual_medium {
-    my ($medium) = @_;
-    file_from_file_url($medium->{url}) && _url_with_synthesis($medium);
-}
 
 sub _synthesis {
     my ($medium) = @_;
