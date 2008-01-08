@@ -1133,6 +1133,16 @@ this could happen if you mounted manually the directory when creating the medium
     }
 }
 
+sub _download_MD5SUM {
+    my ($urpm, $medium) = @_;
+
+    my $cachedir_MD5SUM = "$urpm->{cachedir}/partial/MD5SUM";
+    unlink $cachedir_MD5SUM;
+    urpm::download::sync($urpm, $medium, 
+			       [ reduce_pathname(_synthesis_dir($medium) . '/MD5SUM') ],
+			       quiet => 1) && file_size($cachedir_MD5SUM) > 32;
+}
+
 #- options: callback, force, nomd5sum, probe_with, quiet
 sub _update_medium__parse_if_unmodified__remote {
     my ($urpm, $medium, $options) = @_;
@@ -1146,12 +1156,8 @@ sub _update_medium__parse_if_unmodified__remote {
 	#- to be checked for being valid, nothing can be deduced if no MD5SUM
 	#- file is present.
 
-	my $new_MD5SUM = "$urpm->{cachedir}/partial/MD5SUM";
-	unlink $new_MD5SUM;
-	if (!$options->{nomd5sum} && 
-	      urpm::download::sync($urpm, $medium, 
-				   [ reduce_pathname(_synthesis_dir($medium) . '/MD5SUM') ],
-				   quiet => 1) && file_size($new_MD5SUM) > 32) {
+	if (!$options->{nomd5sum} && _download_MD5SUM($urpm, $medium)) {
+	    my $new_MD5SUM = "$urpm->{cachedir}/partial/MD5SUM";
 	    if ($options->{force} < 2 && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
 		_read_existing_synthesis($urpm, $medium)
 		  and return 'unmodified';
