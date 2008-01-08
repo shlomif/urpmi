@@ -1171,6 +1171,7 @@ sub _update_medium__parse_if_unmodified__remote {
 	unlink cachedir_with_synthesis($urpm, $medium);
 	$options->{callback} and $options->{callback}('failed', $medium->{name});
     };
+    my $ok = 1;
     if (!_synthesis_dir($medium)) {
 	my $err;
 	_probe_with_try_list($urpm, $medium, sub {
@@ -1190,6 +1191,9 @@ sub _update_medium__parse_if_unmodified__remote {
 	    $urpm->{error}(N("...retrieving failed: %s", $err));
 	    return;
 	};
+
+	$options->{nomd5sum} || _download_MD5SUM($urpm, $medium);
+
     } else {
 	if ($options->{force}) {
 	    unlink cachedir_with_synthesis($urpm, $medium);
@@ -1203,15 +1207,16 @@ sub _update_medium__parse_if_unmodified__remote {
 		) or $error->(N("...copying failed")), return;
 	    }
 	}
-	my $ok = get_synthesis__remote($urpm, $medium, $options->{callback}, $options->{quiet});
-	$ok &&= !$options->{force} || check_synthesis_md5sum($urpm, $medium);
+	$ok = get_synthesis__remote($urpm, $medium, $options->{callback}, $options->{quiet});
+    }
 
-	$options->{callback} and $options->{callback}('done', $medium->{name});
+    $ok &&= !$options->{force} || check_synthesis_md5sum($urpm, $medium);
 
-	if (!$ok) {
-	    _ignore_medium_on_parse_error($urpm, $medium);
-	    return;
-	}
+    $options->{callback} and $options->{callback}('done', $medium->{name});
+
+    if (!$ok) {
+	_ignore_medium_on_parse_error($urpm, $medium);
+	return;
     }
     1;
 }

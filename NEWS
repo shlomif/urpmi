@@ -6,6 +6,9 @@
 - urpmi.update, urpmi.addmedia, urpmi.removemedia:
   o drop option "-c" which used to clean /var/cache/urpmi/headers
   o enhancement: only parse updated synthesis
+- urpmi.addmedia
+  o do check md5sum of downloaded synthesis
+    (the check was only done on urpmi.update)
 - urpmi:
   o do remove __db* on priority-upgrade
     (fix regression introduced in 4.10.15)
