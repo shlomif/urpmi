@@ -1027,7 +1027,7 @@ sub check_synthesis_md5sum {
     if ($wanted_md5sum) {
 	$urpm->{log}(N("computing md5sum of retrieved source synthesis"));
 	urpm::md5sum::compute(cachedir_with_synthesis($urpm, $medium)) eq $wanted_md5sum or
-	    $urpm->{error}(N("copy of [%s] failed (md5sum mismatch)", _url_with_synthesis($medium))), return;
+	    $urpm->{error}(N("retrieval of [%s] failed (md5sum mismatch)", _url_with_synthesis($medium))), return;
     }
     1;
 }
