@@ -926,15 +926,22 @@ sub _get_list_or_pubkey__local {
     1;
 }
 
-sub _get_list_or_pubkey__remote {
+sub _download_list_or_pubkey {
     my ($urpm, $medium, $name) = @_;
 
+    _download_media_info_file($urpm, $medium, $name, '', 1);
+}
+
+sub _download_media_info_file {
+    my ($urpm, $medium, $prefix, $suffix, $quiet) = @_;
+
+    my $name = "$prefix$suffix";
     my $found;
     if (_synthesis_suffix($medium)) {
-	my $local_name = $name . _synthesis_suffix($medium);
+	my $local_name = $prefix . _synthesis_suffix($medium) . $suffix;
 
 	if (urpm::download::sync($urpm, $medium, [_synthesis_dir($medium) . "/$local_name"], 
-				 quiet => 1)) {
+				 quiet => $quiet)) {
 	    rename("$urpm->{cachedir}/partial/$local_name", "$urpm->{cachedir}/partial/$name");
 	    $found = 1;
 	}
@@ -1216,7 +1223,7 @@ sub _get_pubkey_and_descriptions {
 
     #- examine if a pubkey file is available.
     if (!$nopubkey && !$medium->{'key-ids'}) {
-	($local ? \&_get_list_or_pubkey__local : \&_get_list_or_pubkey__remote)->($urpm, $medium, 'pubkey');
+	($local ? \&_get_list_or_pubkey__local : \&_download_list_or_pubkey)->($urpm, $medium, 'pubkey');
     }
 }
 
