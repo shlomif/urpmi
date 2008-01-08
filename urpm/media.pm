@@ -31,6 +31,12 @@ our @PER_MEDIA_OPT = qw(
     with_synthesis
 );
 
+sub get_medium_option {
+    my ($urpm, $medium, $option_name) = @_;
+
+    defined $medium->{$option_name} ? $medium->{$option_name} : $urpm->{options}{$option_name};
+}
+
 sub only_media_opts {
     my ($m) = @_;
     my %m = map { $_ => $m->{$_} } grep { defined $m->{$_} } @PER_MEDIA_OPT;
