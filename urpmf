@@ -87,6 +87,39 @@ usage: urpmf [options] pattern-expression
     exit(1);
 }
 
+my %tags_per_media_info = (
+
+   synthesis => [ qw(
+    arch
+    conflicts
+    epoch
+    filename
+    group
+    obsoletes
+    provides
+    requires
+    size
+    suggests
+    summary
+   ) ],
+
+   hdlist => [ qw(
+    buildhost
+    buildtime
+    conf_files
+    description
+    distribution
+    files
+    license
+    packager
+    sourcerpm
+    url
+    vendor
+   ) ],
+);
+
+urpm::args::add_urpmf_cmdline_tags(map { @$_ } values %tags_per_media_info);
+
 #- default options.
 our $env;		# bug report directory
 our $excludemedia = '';
@@ -196,19 +229,7 @@ if ($env) {
 }
 
 my $_lock = urpm::lock::urpmi_db($urpm, '', nofatal => 1, wait => $options{wait_lock});
-my $need_xml = grep { $usedtags{$_} } qw(
-    buildhost
-    buildtime
-    conf_files
-    description
-    distribution
-    files
-    license
-    packager
-    sourcerpm
-    url
-    vendor
-);
+my $need_xml = grep { $usedtags{$_} } @{$tags_per_media_info{hdlist}};
 urpm::media::configure($urpm,
     nocheck_access => 1,
     no_skiplist => 1,

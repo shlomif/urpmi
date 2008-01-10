@@ -326,31 +326,10 @@ my %options_spec = (
 );
 
 # generate urpmf options callbacks
-
-foreach my $k (qw(
-    arch
-    buildhost
-    buildtime
-    conflicts
-    description
-    distribution
-    epoch
-    filename
-    files
-    group
-    license
-    obsoletes
-    packager
-    provides
-    requires
-    size
-    sourcerpm
-    suggests
-    summary
-    url
-    vendor
-)) {
-    $options_spec{urpmf}{$k} = add_param_closure($k);
+sub add_urpmf_cmdline_tags {
+    foreach my $k (@_) {
+	$options_spec{urpmf}{$k} ||= add_param_closure($k);
+    }
 }
 
 # common options setup
