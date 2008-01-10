@@ -152,7 +152,7 @@ if ($multitag) {
     ($proto, $sprintfargs) = ('$proto_cooked', '$mt');    
 }
 
-my $next_st = $multitag ? 'next' : 'return 1';
+my $next_st = $multitag ? 'next' : 'return 0';
 my @inner = (
     'local $_;',
     "\$_ = sprintf(qq{$proto}, $sprintfargs);",
