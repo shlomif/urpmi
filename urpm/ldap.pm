@@ -119,9 +119,7 @@ sub get_ldap_config() {
 
 sub get_ldap_config_file {
     my ($file) = @_;
-    my %config = (
-	ssl => 'off',
-    );
+    my %config;
     foreach (cat_($file)) {
 	s/#.*//;
 	s/^\s*//;
@@ -151,6 +149,8 @@ sub load_ldap_media {
     my ($urpm) = @_;
 
     my $config = get_ldap_config() or return;
+
+    $config->{ssl} = 'off';
 
     # try first urpmi_foo and then foo
     foreach my $opt (qw(base uri filter host ssl port binddn passwd scope)) {
