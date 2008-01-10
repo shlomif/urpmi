@@ -356,7 +356,6 @@ sub _tempignore {
 #-	need_xml (for urpmf: to be able to have info not available in synthesis)
 #-	nodepslist (for urpmq: we don't need the synthesis)
 #-	no_skiplist (urpmf)
-#-      no_second_pass (urpmf)
 #-
 #-	synthesis (use this synthesis file, and only this synthesis file)
 #-
