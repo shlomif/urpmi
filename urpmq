@@ -314,12 +314,12 @@ if ($options{list_aliases}) {
 
     if ($options{sources}
      || $options{info}
-     || $options{list_files}
+     || $options{files}
      || $options{changelog})
     {
 	my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
 
-	if ($options{info} || $options{list_files} || $options{changelog}) {
+	if ($options{info} || $options{files} || $options{changelog}) {
 	    # get descriptions of update sources
 	    my $updates_descr = urpm::get_updates_description($urpm);
 	    # if not root, use a temporary directory to store headers
@@ -400,7 +400,7 @@ if ($options{list_aliases}) {
 				and printf "%-20s:\n%s\n", "Reason for update", $updesc->{pre};
 			}
 		    }
-		    if ($options{list_files}) {
+		    if ($options{files}) {
 			if ($pkg->files) {
 			    print join("\n", $pkg->files) . "\n";
 			}

@@ -256,7 +256,7 @@ my %options_spec = (
 	y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
 	Y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = $options{caseinsensitive} = 1 },
 	i => \$options{info},
-	l => \$options{list_files},
+	l => \$options{files},
 	r => sub {
 	    $options{version} = $options{release} = 1;
 	},
