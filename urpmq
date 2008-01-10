@@ -358,11 +358,11 @@ if ($options{list_aliases}) {
 		}
 	    }
 	    foreach (keys %{$state->{selected}}) {
-		foreach (split /\|/, $_) {
-		    my $pkg = $urpm->{depslist}[$_] or next;
+		foreach my $id (split /\|/, $_) {
+		    my $pkg = $urpm->{depslist}[$id] or next;
 
 		    #- even if non-root, search for a header in the global cachedir
-		    my $file1 = $local_sources->{$_} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
+		    my $file1 = $local_sources->{$id} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
 		    my $file2 = "$tmp_header_dir/" . $pkg->header_filename;
 		    if (my ($file) = grep { -s $_ } $file1, $file2) {
 			$pkg->update_header($file, keep_all_tags => 1);
