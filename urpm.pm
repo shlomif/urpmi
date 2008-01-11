@@ -48,8 +48,8 @@ sub new {
 
 	fatal      => sub { printf STDERR "%s\n", $_[1]; exit($_[0]) },
 	error      => sub { printf STDERR "%s\n", $_[0] },
-	info       => sub { printf "%s\n", $_[0] }, #- display unless --quiet
-	log        => sub { printf "%s\n", $_[0] }, #- displayed is --verbose
+	info       => sub { printf "%s\n", $_[0] }, #- displayed unless --quiet
+	log        => sub { printf "%s\n", $_[0] }, #- displayed if --verbose
 	ui_msg     => sub {
 	    $self->{log}($_[0]);
 	    ref $self->{ui} && ref $self->{ui}{msg} and $self->{ui}{msg}->($_[1]);
