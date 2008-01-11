@@ -406,12 +406,9 @@ if ($options{list_aliases}) {
 			}
 		    }
 		    if ($options{changelog}) {
-			if ($pkg->changelog_time && $pkg->changelog_name && $pkg->changelog_text) {
-			    my @ti = $pkg->changelog_time;
-			    my @na = $pkg->changelog_name;
-			    my @tx = $pkg->changelog_text;
-			    foreach my $i (0 .. $#ti) {
-				print "* " . urpm::msg::localtime2changelog($ti[$i]) . " $na[$i]\n$tx[$i]\n\n";
+			if (my @changelogs = $pkg->changelogs) {
+			    foreach (@changelogs) {
+				print "* " . urpm::msg::localtime2changelog($_->{time}) . " $_->{name}\n$_->{text}\n\n";
 			    }
 			} else {
 			    print STDERR N("No changelog found\n");
