@@ -257,7 +257,7 @@ sub resolve_dependencies {
  
 	    my %priority_state;
 
-	    $urpm->resolve_requested($db, \%priority_state, $priority_requested, %options);
+	    $urpm->resolve_requested__no_suggests_($db, \%priority_state, $priority_requested, %options);
 	    if (grep { ! exists $priority_state{selected}{$_} } keys %$priority_requested) {
 		#- some packages which were selected previously have not been selected, strange!
 	    } elsif (grep { ! exists $priority_state{selected}{$_} } keys %$selected) {

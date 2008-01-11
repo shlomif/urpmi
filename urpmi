@@ -558,7 +558,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 
 #- check if there is at least one package to install that
 #- has not been given by the user.
-my $ask_user = $env || $search_result eq 'substring' || $restart_itself;
+my $ask_user = $env || $search_result eq 'substring';
 my @root_only;
 
 my @to_install = @{$urpm->{depslist}}[sort { $a <=> $b } keys %{$state->{selected}}]; # sorted by medium for format_selected_packages
