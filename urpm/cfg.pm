@@ -149,6 +149,7 @@ sub load_config_raw {
 	  |removable
 	  |md5sum
 	  |limit-rate
+	  |xml-info
 	  |excludepath
 	  |split-(?:level|length)
 	  |priority-upgrade

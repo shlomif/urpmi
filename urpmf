@@ -88,12 +88,17 @@ usage: urpmf [options] pattern-expression
 }
 
 my %tags_per_media_info = (
-
-   synthesis => [ qw(
+  everywhere => [ qw(
     arch
-    conflicts
     epoch
     filename
+    name
+    release
+    version
+   ) ],
+
+   synthesis => [ qw(
+    conflicts
     group
     obsoletes
     provides
@@ -103,17 +108,23 @@ my %tags_per_media_info = (
     summary
    ) ],
 
+   xml_info__info => [ qw(
+    description
+    license
+    sourcerpm
+    url
+   ) ],
+
+   xml_info__files => [ qw(
+    files
+   ) ],
+
    hdlist => [ qw(
     buildhost
     buildtime
     conf_files
-    description
     distribution
-    files
-    license
     packager
-    sourcerpm
-    url
     vendor
    ) ],
 );
@@ -165,7 +176,7 @@ my %usedtags;
 my $sprintfargs = join(', ', map {
     $usedtags{$_} = 1;
     if ($_ eq 'media') {
-	'$urpm::media::currentmedia->{name}';
+	'$medium->{name}';
     } elsif ($_ eq 'fullname') {
 	'scalar($pkg->fullname)';
     } elsif ($_ eq 'description') {
@@ -213,6 +224,7 @@ my $callback = join("\n",
     "}");
 
 $urpm->{debug}("qf:[$qf]\ncallback:\n$callback") if $urpm->{debug};
+our $medium;
 $callback = eval $callback;
 if ($@) {
     warn "Internal error: $@\n";
@@ -229,7 +241,19 @@ if ($env) {
 }
 
 my $_lock = urpm::lock::urpmi_db($urpm, '', nofatal => 1, wait => $options{wait_lock});
-my $need_xml = grep { $usedtags{$_} } @{$tags_per_media_info{hdlist}};
+
+my %needed_media_info = map { $_ => 1 } grep {
+    my $l = $tags_per_media_info{$_};
+    int(grep { $usedtags{$_} } @$l);
+} keys %tags_per_media_info;
+
+my @needed_xml_info = map { s/xml_info__// ? $_ : () } keys %needed_media_info;
+if (@needed_xml_info > 1) {
+    # we don't handle parallel parsing of xml files, default to hdlist
+    $needed_media_info{hdlist} = 1;
+}
+
+my %fullname2pkg;
 urpm::media::configure($urpm,
     nocheck_access => 1,
     no_skiplist => 1,
@@ -239,10 +263,51 @@ urpm::media::configure($urpm,
     synthesis => $synthesis,
     usedistrib => $urpm::args::options{usedistrib},
     update => $update,
-    callback => $callback,
-    need_xml => $need_xml,
+    @needed_xml_info && $needed_media_info{synthesis} && !$needed_media_info{hdlist} ?
+      # in that case, we need to have both synthesis and xml_info
+      (callback => sub {
+	   my ($_urpm, $pkg) = @_;
+	   $fullname2pkg{$pkg->fullname} = $pkg;
+	   1;
+       }) : (nodepslist => 1)
 );
 
-if ($need_xml) {
-    # TODO
+# nb: we don't "my" $medium since it is used for $callback
+if ($needed_media_info{hdlist}) {
+    foreach $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
+	my $hdlist = urpm::media::any_hdlist($urpm, $medium, $options{verbose} < 0) or 
+	  $urpm->{error}(N("no hdlist available for medium \"%s\"", $medium->{name})), next;
+	$urpm->{log}("getting information from $hdlist");
+	$urpm->parse_hdlist($hdlist, callback => $callback);
+    }
+} elsif (!@needed_xml_info) {
+    foreach $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
+	my $synthesis = urpm::media::any_synthesis($urpm, $medium) or 
+	  $urpm->{error}(N("no synthesis available for medium \"%s\"", $medium->{name})), next;
+	$urpm->{log}("getting information from $synthesis");
+	$urpm->parse_synthesis($synthesis, callback => $callback);
+    }
+} elsif (my ($xml_info) = @needed_xml_info) {
+    foreach $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
+	my $xml_info_file = urpm::media::any_xml_info($urpm, $medium, $xml_info, $options{verbose} < 0) or
+	  $urpm->{error}(N("no xml-info available for medium \"%s\"", $medium->{name})), next;
+	require urpm::xml_info;
+	require urpm::xml_info_pkg;
+
+	my $cooked_callback = $needed_media_info{synthesis} ? 
+	  sub {
+	      my ($node) = @_;
+	      my $pkg = $fullname2pkg{$node->{fn}} or warn "can't find $node->{fn} in synthesis\n";
+	      $pkg and $callback->($urpm, urpm::xml_info_pkg->new($node, $pkg));
+	  } : sub {
+	      my ($node) = @_;
+	      $callback->($urpm, urpm::xml_info_pkg->new($node, undef));
+	  };
+	$urpm->{log}("getting information from $xml_info_file");
+	urpm::xml_info::do_something_with_nodes(
+	    $xml_info,
+	    $xml_info_file,
+	    $cooked_callback,
+	);
+    }
 }

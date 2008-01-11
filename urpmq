@@ -318,12 +318,11 @@ if ($options{list_aliases}) {
      || $options{changelog})
     {
 	my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
+	my %xml_info_pkgs;
 
 	if ($options{info} || $options{files} || $options{changelog}) {
 	    # get descriptions of update sources
 	    my $updates_descr = urpm::get_updates_description($urpm);
-	    # if not root, use a temporary directory to store headers
-	    my $tmp_header_dir = $< != 0 ? urpm::sys::mktempdir() : "$urpm->{cachedir}/headers";
 
 	    my @selected = uniq(map { keys %$_ } @$list);
 
@@ -331,29 +330,29 @@ if ($options{list_aliases}) {
 		my @l = grep { $medium->{start} <= $_ && $_ <= $medium->{end} } @selected or next;
 		my @pkgs = map { $urpm->{depslist}[$_] } @l or next;
 
-		# TODO
-		my $hdlist_path = urpm::media::any_hdlist($urpm, $medium);
-		if (-s $hdlist_path) {
-		    require MDV::Packdrakeng;
-		    my $packer = MDV::Packdrakeng->open(archive => $hdlist_path, quiet => 1);
-		    defined $packer or do {
-			warn "Can't open archive: $MDV::Packdrakeng::error";
-			exit 1;
-		    };
-		    my @headers = map { $_->header_filename } @pkgs or next;
-		    $packer->extract($tmp_header_dir, @headers);
-		} elsif (my $dir = file_from_local_url($medium->{url})) {
+		if (my $dir = file_from_local_url($medium->{url})) {
+		    $urpm->{log}("getting information from rpms from $dir");
 		    $local_sources->{$_->id} = "$dir/" . $_->filename foreach @pkgs;
 		} else {
-		    my $pkgs_text = join(' ', map { $_->name } @pkgs);
-		    if ($options{info}) {
-			$urpm->{info}((int(@pkgs) == 1) ?
-				N("no hdlist for medium \"%s\", only partial result for package %s", $medium->{name}, $pkgs_text)
-				: N("no hdlist for medium \"%s\", only partial result for packages %s", $medium->{name}, $pkgs_text));
-		    } else {
-			$urpm->{error}((int(@pkgs) == 1) ?
-				N("no hdlist for medium \"%s\", unable to return any result for package %s",$medium->{name}, $pkgs_text)
-				: N("no hdlist for medium \"%s\", unable to return any result for packages %s", $medium->{name}, $pkgs_text));
+		    foreach my $xml_info (grep { $options{$_} } 'info', 'files', 'changelog') {
+			if (my $xml_info_file = urpm::media::any_xml_info($urpm, $medium, $xml_info, $options{verbose} < 0)) {
+			    require urpm::xml_info;
+			    require urpm::xml_info_pkg;
+			    $urpm->{log}("getting information from $xml_info_file");
+			    my %nodes = urpm::xml_info::get_nodes($xml_info, $xml_info_file, [ map { scalar $_->fullname } @pkgs ]);
+			    put_in_hash($xml_info_pkgs{$_->id} ||= {}, $nodes{$_->fullname}) foreach @pkgs;
+			} else {
+			    my $pkgs_text = join(' ', map { $_->name } @pkgs);
+			    if ($xml_info eq 'info') {
+				$urpm->{info}((int(@pkgs) == 1) ?
+						N("no xml info for medium \"%s\", only partial result for package %s", $medium->{name}, $pkgs_text)
+						  : N("no xml info for medium \"%s\", only partial result for packages %s", $medium->{name}, $pkgs_text));
+			    } else {
+				$urpm->{error}((int(@pkgs) == 1) ?
+						 N("no xml info for medium \"%s\", unable to return any result for package %s",$medium->{name}, $pkgs_text)
+						   : N("no xml info for medium \"%s\", unable to return any result for packages %s", $medium->{name}, $pkgs_text));
+			    }
+			}
 		    }
 		}
 	    }
@@ -362,11 +361,12 @@ if ($options{list_aliases}) {
 		    my $pkg = $urpm->{depslist}[$id] or next;
 
 		    #- even if non-root, search for a header in the global cachedir
-		    my $file1 = $local_sources->{$id} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
-		    my $file2 = "$tmp_header_dir/" . $pkg->header_filename;
-		    if (my ($file) = grep { -s $_ } $file1, $file2) {
+		    my $file = $local_sources->{$id} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
+		    if (-s $file) {
 			$pkg->update_header($file, keep_all_tags => 1);
-			$file eq $file2 and unlink $file;
+		    } elsif ($xml_info_pkgs{$id}) {
+			# using the proxy urpm::xml_info_pkg object
+			$pkg = urpm::xml_info_pkg->new($xml_info_pkgs{$id}, $pkg);
 		    }
 		    if ($options{info})  {
 			printf "%-12s: %s\n", "Name", $pkg->name;
@@ -416,7 +416,6 @@ if ($options{list_aliases}) {
 		    }
 		}
 	    }
-	    -d $tmp_header_dir && $< != 0 and rmdir $tmp_header_dir;
 	} elsif ($options{sources}) {
 	    print join "\n", values %$local_sources; values %$local_sources and print "\n";
 	    foreach (0..$#{$urpm->{media} || []}) {

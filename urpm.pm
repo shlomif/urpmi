@@ -12,7 +12,7 @@ use urpm::sys;
 use urpm::cfg;
 use urpm::md5sum;
 
-our $VERSION = '4.10.19';
+our $VERSION = '5.0';
 our @ISA = qw(URPM Exporter);
 our @EXPORT_OK = 'file_from_local_url';
 
@@ -24,12 +24,15 @@ sub shunt_ignorearch {
     eval q( sub URPM::Package::is_arch_compat { 1 } );
 }
 
+sub xml_info_policies() { qw(never on-demand update-only always) }
+
 sub default_options {
     { 
 	'split-level' => 1,
 	'split-length' => 8,
 	'verify-rpm' => 1,
 	'post-clean' => 1,
+	'xml-info' => 'on-demand',
     };
 }
 
@@ -89,6 +92,23 @@ sub get_global_options {
 sub prefer_rooted {
     my ($root, $file) = @_;
     -e "$root$file" ? "$root$file" : $file;
+}
+
+sub userdir_prefix {
+    my ($_urpm) = @_;
+    '/tmp/.urpmi-';
+}
+sub userdir {
+    my ($urpm) = @_;
+    $< or return;
+
+    my $dir = ($urpm->{urpmi_root} || '') . userdir_prefix($urpm) . $<;
+    mkdir $dir, 0755; # try to create it
+
+    -d $dir && ! -l $dir or $urpm->{fatal}(N("fail to create directory %s", $dir));
+    -o $dir && -w $dir or $urpm->{fatal}(N("invalid owner for directory %s", $dir));
+
+    $dir;
 }
 
 sub set_files {

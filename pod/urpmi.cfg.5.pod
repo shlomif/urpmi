@@ -29,6 +29,31 @@ Same as specifying B<--allow-force> for urpmi. Disabled by default.
 
 Same as specifying B<--allow-nodeps> for urpmi. Disabled by default.
 
+=item B<xml-info>
+
+For remote media, specify when files.xml.lzma, changelog.xml.lzma and info.xml.lzma are downloaded:
+
+=item B<never>
+
+=item B<on-demand>
+
+(This is the default).
+
+The specific xml info file is downloaded when urpmq/urpmf/rpmdrake ask for it.
+urpmi.update will remove outdated xml info file.
+
+nb: if urpmq/urpmf/rpmdrake is not run by root, the xml info file is downloaded into /tmp/.urpmi-<uid>/
+
+=item B<update-only>
+
+urpmi.update will update xml info files already required at least once by urpmq/urpmf/rpmdrake.
+
+nb: with B<update-only>, urpmi.update will not update /tmp/.urpmi-<uid>/ xml info files
+
+=item B<always>
+
+all xml info files are downloaded when doing urpmi.addmedia and urpmi.update
+
 =item B<no-suggests>
 
 Same as specifying B<--no-suggests> for urpmi. Disabled by default.

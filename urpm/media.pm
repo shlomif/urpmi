@@ -12,7 +12,6 @@ use MDV::Distribconf;
 
 our @PER_MEDIA_OPT = qw(
     downloader
-    hdlist
     ignore
     key-ids
     list
@@ -29,7 +28,10 @@ our @PER_MEDIA_OPT = qw(
     virtual
     with_hdlist
     with_synthesis
+    xml-info
 );
+
+my @xml_media_info = ('info', 'files', 'changelog');
 
 sub get_medium_option {
     my ($urpm, $medium, $option_name) = @_;
@@ -259,6 +261,14 @@ sub statedir_MD5SUM {
     my ($urpm, $medium) = @_;
     statedir_media_info_file($urpm, $medium, 'MD5SUM', '');
 }
+sub statedir_hdlist {
+    my ($urpm, $medium) = @_;
+    statedir_media_info_file($urpm, $medium, 'hdlist', '.cz');
+}
+sub statedir_xml_info {
+    my ($urpm, $medium, $xml_info) = @_;
+    statedir_media_info_file($urpm, $medium, $xml_info, '.xml.lzma');
+}
 sub cachedir_with_synthesis {
     my ($urpm, $medium) = @_;
     _url_with_synthesis($medium) && "$urpm->{cachedir}/partial/" . _url_with_synthesis_basename($medium);
@@ -269,11 +279,53 @@ sub any_synthesis {
       : statedir_synthesis($urpm, $medium);
     -e $f && $f;
 }
+sub any_media_info_file {
+    my ($urpm, $medium, $prefix, $suffix, $quiet) = @_;
+
+    if (my $base = file_from_file_url($medium->{url})) {
+	my $f = $medium->{with_synthesis}
+	  ? reduce_pathname("$base/$prefix." . _synthesis_suffix($medium) . $suffix)
+	  : _synthesis_dir($medium) . "/$prefix$suffix";
+
+	-e $f && $f;
+    } else {
+	_any_media_info__or_download($urpm, $medium, $prefix, $suffix, $quiet);
+    }
+}
+sub any_hdlist {
+    my ($urpm, $medium, $quiet) = @_;
+    any_media_info_file($urpm, $medium, 'hdlist', '.cz', $quiet);
+}
+sub any_xml_info {
+    my ($urpm, $medium, $xml_info, $quiet) = @_;
+    any_media_info_file($urpm, $medium, $xml_info, '.xml.lzma', $quiet);
+}
 
 sub name2medium {
     my ($urpm, $name) = @_;
     my ($medium) = grep { $_->{name} eq $name } @{$urpm->{media}};
     $medium;
+}
+
+sub userdirs {
+    my ($urpm) = @_;
+    my $prefix = urpm::userdir_prefix($urpm);
+    grep { m!^\Q$prefix\E\d+$! && -d $_ && ! -l $_ } glob("$prefix*");
+}
+
+sub remove_user_media_info_files {
+    my ($urpm, $medium) = @_;
+
+    foreach my $dir (userdirs($urpm)) {
+	require File::Glob;
+	# we can't use perl's glob() because $medium->{name} can contain spaces
+	my @files = map { File::Glob::bsd_glob("$dir/*.$medium->{name}.$_") } 'cz', 'xml.lzma' or next;
+
+	$urpm->{log}("cleaning $dir");
+	foreach (@files) {
+	    unlink $_ or $urpm->{error}("removing $_ failed");
+	}
+    }
 }
 
 #- probe device associated with a removable device.
@@ -357,8 +409,7 @@ sub _tempignore {
 #-      nocheck_access (used by read_config)
 #-
 #-	callback (urpmf)
-#-	need_xml (for urpmf: to be able to have info not available in synthesis)
-#-	nodepslist (for urpmq: we don't need the synthesis)
+#-	nodepslist (for urpmq, urpmf: when we don't need the synthesis)
 #-	no_skiplist (urpmf)
 #-
 #-	synthesis (use this synthesis file, and only this synthesis file)
@@ -456,14 +507,9 @@ sub _parse_media {
     my ($urpm, $options) = @_;
 
     foreach (grep { !$_->{ignore} && (!$options->{update} || $_->{update}) } @{$urpm->{media} || []}) {
-	our $currentmedia = $_; #- hack for urpmf
 	delete @$_{qw(start end)};
 	_parse_synthesis_or_ignore($urpm, $_, $options->{callback});
 
-	if ($options->{need_xml}) {
-	    # TODO
-	    # _parse_xml_($urpm, $_, any_xml($urpm, $_), $options->{callback});
-	}
 	if ($_->{searchmedia}) {
 	    $urpm->{searchmedia} = 1;
 	    $urpm->{log}(N("Search start: %s end: %s", $_->{start}, $_->{end}));
@@ -506,7 +552,7 @@ sub _compute_flags_for_instlist {
 #- add a new medium, sync the config file accordingly.
 #- returns the new medium's name. (might be different from the requested
 #- name if index_name was specified)
-#- options: ignore, index_name, nolock, update, virtual, media_info_dir
+#- options: ignore, index_name, nolock, update, virtual, media_info_dir, xml-info
 sub add_medium {
     my ($urpm, $name, $url, $with_synthesis, %options) = @_;
 
@@ -532,7 +578,7 @@ sub add_medium {
 		url => $url, 
 		modified => !$options{ignore}, 
 	    };
-    foreach (qw(downloader update ignore media_info_dir)) {
+    foreach (qw(downloader update ignore media_info_dir xml-info)) {
 	$medium->{$_} = $options{$_} if exists $options{$_};
     }
 
@@ -729,7 +775,9 @@ sub remove_media {
 	$urpm->{modified} = 1;
 
 	#- remove files associated with this medium.
-	unlink grep { $_ } map { $_->($urpm, $medium) } \&statedir_synthesis, \&statedir_descriptions, \&statedir_names, \&statedir_MD5SUM;
+	unlink grep { $_ } map { $_->($urpm, $medium) } \&statedir_synthesis, \&statedir_descriptions, \&statedir_names, \&statedir_MD5SUM, \&statedir_hdlist;
+	unlink statedir_xml_info($urpm, $medium, $_) foreach @xml_media_info;
+	remove_user_media_info_files($urpm, $medium);
 
 	#- remove proxy settings for this media
 	urpm::download::remove_proxy_media($medium->{name});
@@ -941,23 +989,26 @@ sub _download_list_or_pubkey {
 }
 
 sub _download_media_info_file {
-    my ($urpm, $medium, $prefix, $suffix, $quiet) = @_;
+    my ($urpm, $medium, $prefix, $suffix, $quiet, $o_download_dir) = @_;
 
+    my $download_dir = $o_download_dir || "$urpm->{cachedir}/partial";
     my $name = "$prefix$suffix";
+    my $result_file = "$download_dir/$name";
     my $found;
     if (_synthesis_suffix($medium)) {
 	my $local_name = $prefix . _synthesis_suffix($medium) . $suffix;
 
 	if (urpm::download::sync($urpm, $medium, [_synthesis_dir($medium) . "/$local_name"], 
-				 quiet => $quiet)) {
-	    rename("$urpm->{cachedir}/partial/$local_name", "$urpm->{cachedir}/partial/$name");
+				 dir => $download_dir, quiet => $quiet)) {
+	    rename("$download_dir/$local_name", $result_file);
 	    $found = 1;
 	}
     }
     if (!$found) {
-	urpm::download::sync($urpm, $medium, [_synthesis_dir($medium) .  "/$name"], quiet => 1)
-	    or unlink "$urpm->{cachedir}/partial/$name";
+	urpm::download::sync($urpm, $medium, [_synthesis_dir($medium) .  "/$name"], dir => $download_dir, quiet => 1)
+	    or unlink $result_file;
     }
+    -s $result_file && $result_file;
 }
 
 sub get_descriptions_local {
@@ -1340,6 +1391,14 @@ sub _update_medium_ {
 				 statedir_MD5SUM($urpm, $medium)) if -e "$urpm->{cachedir}/partial/MD5SUM";
 	    }
 
+	# we never download hdlist by default. urpmf will download it via any_hdlist() if really needed
+	unlink statedir_hdlist($urpm, $medium);
+
+	remove_user_media_info_files($urpm, $medium);
+
+	if (!file_from_file_url($medium->{url})) {
+	    _retrieve_xml_media_info_or_remove($urpm, $medium, $options{quiet}) or return;
+	}
     }
     $medium->{modified} = 0;
 
@@ -1428,6 +1487,73 @@ sub update_media {
     }
 
     $updates_result{error} == 0;
+}
+
+sub _retrieve_xml_media_info_or_remove {
+    my ($urpm, $medium, $quiet) = @_;
+
+    my $ok = 1;
+
+    foreach my $xml_info (@xml_media_info) {
+	my $f = statedir_xml_info($urpm, $medium, $xml_info);
+
+	if ($medium->{removable} ||
+		 get_medium_option($urpm, $medium, 'xml-info') eq 'always' ||
+		 get_medium_option($urpm, $medium, 'xml-info') eq 'update-only' && -e $f) {
+	    $ok &&= _retrieve_media_info_file_and_check_MD5SUM($urpm, $medium, $xml_info, '.xml.lzma', $quiet);
+	} else {
+	    #- "on-demand"
+	    unlink $f;
+	}
+    }
+    $ok;
+}
+
+sub _retrieve_media_info_file_and_check_MD5SUM {
+    my ($urpm, $medium, $prefix, $suffix, $quiet) = @_;
+
+    my $name = "$prefix$suffix";
+    my $cachedir_file = 
+      file_from_local_url($medium->{url}) ?
+	_copy_media_info_file($urpm, $medium, $prefix, $suffix) :
+	_download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet) or
+	  $urpm->{error}(N("retrieval of [%s] failed", _synthesis_dir($medium) .  "/$name")), return;
+
+    my $wanted_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, statedir_MD5SUM($urpm, $medium), $name);
+    if ($wanted_md5sum) {
+	$urpm->{debug}("computing md5sum of retrieved $name") if $urpm->{debug};
+	urpm::md5sum::compute($cachedir_file) eq $wanted_md5sum or
+	    $urpm->{error}(N("retrieval of [%s] failed (md5sum mismatch)", _synthesis_dir($medium) .  "/$name")), return;
+
+	urpm::util::move($cachedir_file, statedir_media_info_file($urpm, $medium, $prefix, $suffix)) or return;
+    }
+    1;
+}
+
+sub _any_media_info__or_download {
+    my ($urpm, $medium, $prefix, $suffix, $quiet) = @_;
+
+    my $name = "$prefix.$medium->{name}$suffix";
+    my $f = "$urpm->{statedir}/$name";
+    -s $f and return $f;
+
+    my $download_dir;
+    if (my $userdir = urpm::userdir($urpm)) {
+	$f = "$userdir/$name";
+	-s $f and return $f;
+
+	$download_dir = "$userdir/partial";
+	mkdir $download_dir;
+    }
+
+    get_medium_option($urpm, $medium, 'xml-info') ne 'never' or return;
+
+    my $file_in_partial = 
+      _download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet, $download_dir) or return;
+
+    urpm::util::move($file_in_partial, $f) or return;
+
+    $f;
 }
 
 #- clean params and depslist computation zone.

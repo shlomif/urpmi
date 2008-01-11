@@ -26,6 +26,7 @@ use urpm::msg;
 use urpm::download ();
 use urpm::cfg;
 use urpm::media;
+use urpm::util 'member';
 
 sub usage {
     my $m = shift;
@@ -51,6 +52,8 @@ and [options] are from
 ") . N("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
 ") . N("  --update       - create an update medium.
+") . N("  --xml-info     - use the specific policy for downloading xml info files
+                   one of: never, on-demand, update-only, always. cf urpmi.cfg(5)
 ") . N("  --probe-synthesis - use synthesis file.
 ") . N("  --probe-rpms   - use rpm files (instead of synthesis).
 ") . N("  --no-probe     - do not try to find any synthesis file.
@@ -86,6 +89,11 @@ if ($options{mirrors_url}) {
 }
 $options{force} = 0;
 my $urpm = urpm->new_parse_cmdline or usage();
+
+if ($options{'xml-info'}) {
+    member($options{'xml-info'}, urpm::xml_info_policies()) or die N("known xml-info policies are %s", join(', ', urpm::xml_info_policies())) . "\n";
+}
+
 our ($name, $url, $with, $relative_synthesis) = our @cmdline;
 
 $options{quiet} = 1 if $options{verbose} < 0;
@@ -130,6 +138,7 @@ if ($options{distrib}) {
 	probe_with => $options{probe_with},
 	nolock => $options{nolock},
 	ask_media => $add_media_callback,
+	'xml-info' => $options{'xml-info'},
     );
     $ok = urpm::media::update_media($urpm, %options, 
 			      quiet => $options{verbose} < 0,		      
@@ -150,6 +159,7 @@ if ($options{distrib}) {
 	update => $options{update},
 	ignore => $options{raw},
 	nolock => $options{nolock},
+	'xml-info' => $options{'xml-info'},
     );
     urpm::download::copy_cmd_line_proxy($name);
     if ($options{raw}) {

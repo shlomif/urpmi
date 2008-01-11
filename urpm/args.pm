@@ -303,6 +303,7 @@ my %options_spec = (
     },
 
     'urpmi.addmedia' => {
+	'xml-info=s' => \$options{'xml-info'},
 	'no-probe' => sub { $options{probe_with} = undef },
 	distrib => sub { $options{distrib} = 1 },
         interactive => sub { $options{interactive} = 1 },
