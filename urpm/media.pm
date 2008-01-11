@@ -243,17 +243,21 @@ sub statedir_synthesis {
     my ($urpm, $medium) = @_;
     "$urpm->{statedir}/" . _synthesis($medium);
 }
+sub statedir_media_info_file {
+    my ($urpm, $medium, $prefix, $suffix) = @_;
+    $medium->{name} && "$urpm->{statedir}/$prefix.$medium->{name}$suffix";
+}
 sub statedir_descriptions {
     my ($urpm, $medium) = @_;
-    $medium->{name} && "$urpm->{statedir}/descriptions.$medium->{name}";
+    statedir_media_info_file($urpm, $medium, 'descriptions', '');
 }
 sub statedir_names {
     my ($urpm, $medium) = @_;
-    $medium->{name} && "$urpm->{statedir}/names.$medium->{name}";
+    statedir_media_info_file($urpm, $medium, 'names', '');
 }
 sub statedir_MD5SUM {
     my ($urpm, $medium) = @_;
-    $medium->{name} && "$urpm->{statedir}/MD5SUM.$medium->{name}";
+    statedir_media_info_file($urpm, $medium, 'MD5SUM', '');
 }
 sub cachedir_with_synthesis {
     my ($urpm, $medium) = @_;
