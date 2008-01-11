@@ -908,17 +908,26 @@ sub _ignore_medium_on_parse_error {
     $medium->{ignore} = 1;
 }
 
+sub _copy_media_info_file {
+    my ($urpm, $medium, $prefix, $suffix) = @_;
+
+    my $name = "$prefix$suffix";
+    my $path = _synthesis_dir($medium) . "/$prefix" . _synthesis_suffix($medium) . $suffix;
+    -e $path or $path = file_from_local_url($medium->{url}) . "/media_info/$name";
+
+    my $result_file = "$urpm->{cachedir}/partial/$name";
+    if (-e $path) {
+	$urpm->{log}(N("copying [%s] for medium \"%s\"...", $path, $medium->{name}));
+	copy_and_own($path, $result_file)
+	  or $urpm->{error}(N("...copying failed")), return;
+    }
+    -s $result_file && $result_file;
+}
+
 sub _get_list_or_pubkey__local {
     my ($urpm, $medium, $name) = @_;
 
-    my $path = _synthesis_dir($medium) . "/$name" . _synthesis_suffix($medium);
-    -e $path or $path = file_from_local_url($medium->{url}) . "/media_info/$name";
-    if (-e $path) {
-	$urpm->{log}(N("copying [%s] for medium \"%s\"...", $path, $medium->{name}));
-	copy_and_own($path, "$urpm->{cachedir}/partial/$name")
-	  or $urpm->{error}(N("...copying failed")), return;
-    }
-    1;
+    _copy_media_info_file($urpm, $medium, $name, '');
 }
 
 sub _download_list_or_pubkey {
