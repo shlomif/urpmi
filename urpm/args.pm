@@ -243,6 +243,10 @@ my %options_spec = (
 	force => \$options{force},
 	'parallel=s' => \$options{parallel},
 	'env=s' => \$options{env},
+	requires => sub {
+	    $urpm->{error}("option --requires is deprecated, use --requires-recursive instead");
+	    $options{deps} = 1;
+	},
 	'requires-recursive|d' => \$options{deps},
 	u => \$options{upgrade},
 	a => \$options{all},
