@@ -251,8 +251,12 @@ my %options_spec = (
 	g => \$options{group},
 	'whatprovides|p' => \$options{use_provides},
 	P => sub { $options{use_provides} = 0 },
-	'whatrequires|R' => sub { $options{what_requires} and $options{what_requires_recursive} = 1; 
-				   $options{what_requires} = 1 },
+	R => sub { $urpm->{error}($options{what_requires} ?
+				    "option -RR is deprecated, use --whatrequires-recursive instead" : 
+				    "option -R is deprecated, use --whatrequires instead");
+	           $options{what_requires} and $options{what_requires_recursive} = 1; 
+		   $options{what_requires} = 1 },
+	whatrequires => sub { $options{what_requires} = 1 },
 	'whatrequires-recursive' => sub { $options{what_requires_recursive} = $options{what_requires} = 1 },
 	y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
 	Y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = $options{caseinsensitive} = 1 },
