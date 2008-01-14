@@ -23,7 +23,7 @@ sub summary   { $_[0]{pkg}->summary }
 
 # can be directly available in xml_info
 sub url         { exists $_[0]{url}         ? $_[0]{url}         : $_[0]{pkg}->url }
-sub licence     { exists $_[0]{licence}     ? $_[0]{licence}     : $_[0]{pkg}->licence }
+sub license     { exists $_[0]{license}     ? $_[0]{license}     : $_[0]{pkg}->license }
 sub sourcerpm   { exists $_[0]{sourcerpm}   ? $_[0]{sourcerpm}   : $_[0]{pkg}->sourcerpm }
 sub description { exists $_[0]{description} ? $_[0]{description} : $_[0]{pkg}->description }
 
