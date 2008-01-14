@@ -77,6 +77,7 @@ usage:
                    authentication (format is <user:password>).
 ") . N("  --env          - use specific environment (typically a bug report).
 ") . N("  --changelog    - print changelog.
+") . N("  --sourcerpm    - print sourcerpm.
 ") . N("  --summary, -S  - print summary.
 ") . N("  --verbose, -v  - verbose mode.
 ") . N("  --requires-recursive, -d
@@ -312,15 +313,17 @@ if ($options{list_aliases}) {
 	$state->{selected} = \%requested;
     }
 
-    if ($options{sources}
-     || $options{info}
-     || $options{files}
-     || $options{changelog})
+    my %need_xml_info;
+    $need_xml_info{info}      = 1 if $options{info} || $options{sourcerpm};
+    $need_xml_info{files}     = 1 if $options{files};
+    $need_xml_info{changelog} = 1 if $options{changelog};
+
+    if ($options{sources} || %need_xml_info)
     {
 	my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
 	my %xml_info_pkgs;
 
-	if ($options{info} || $options{files} || $options{changelog}) {
+	if (%need_xml_info) {
 	    # get descriptions of update sources
 	    my $updates_descr = urpm::get_updates_description($urpm);
 
@@ -404,6 +407,9 @@ if ($options{list_aliases}) {
 			if ($pkg->files) {
 			    print join("\n", $pkg->files) . "\n";
 			}
+		    }
+		    if (my @tags = grep { $options{$_} } 'sourcerpm') {
+			print $pkg->name, ': ', $pkg->$_, "\n" foreach @tags;
 		    }
 		    if ($options{changelog}) {
 			if (my @changelogs = $pkg->changelogs) {

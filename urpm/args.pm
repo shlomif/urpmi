@@ -230,6 +230,7 @@ my %options_spec = (
 	keep => \$options{keep},
 	list => \$options{list},
 	changelog => \$options{changelog},
+	sourcerpm => \$options{sourcerpm},
 	'summary|S' => \$options{summary},
 	'list-media:s' => sub { $options{list_media} = $_[1] || 'all' },
 	'list-url' => \$options{list_url},
