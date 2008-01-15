@@ -105,8 +105,8 @@ sub userdir {
     my $dir = ($urpm->{urpmi_root} || '') . userdir_prefix($urpm) . $<;
     mkdir $dir, 0755; # try to create it
 
-    -d $dir && ! -l $dir or $urpm->{fatal}(N("fail to create directory %s", $dir));
-    -o $dir && -w $dir or $urpm->{fatal}(N("invalid owner for directory %s", $dir));
+    -d $dir && ! -l $dir or $urpm->{fatal}(1, N("fail to create directory %s", $dir));
+    -o $dir && -w $dir or $urpm->{fatal}(1, N("invalid owner for directory %s", $dir));
 
     $dir;
 }
