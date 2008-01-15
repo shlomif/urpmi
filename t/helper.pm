@@ -5,7 +5,7 @@ use base 'Exporter';
 our @EXPORT = qw(need_root_and_prepare 
 		 start_httpd httpd_port
 		 urpmi_addmedia urpmi_removemedia urpmi_update
-		 urpm_cmd urpmi_cmd urpmi test_urpmi_fail urpme
+		 urpm_cmd run_urpm_cmd urpmi_cmd urpmi test_urpmi_fail urpme
 		 urpmi_cfg set_urpmi_cfg_global_options
 		 system_ system_should_fail
 		 rpm_is_jbj_version
@@ -52,6 +52,12 @@ sub urpm_cmd {
     my ($prog, $o_perl_para) = @_;
     $o_perl_para ||= '';
     "perl $o_perl_para -I.. ../$prog --urpmi-root $::pwd/root";
+}
+sub run_urpm_cmd {
+    my ($prog, $o_perl_para) = @_;
+    my $cmd = urpm_cmd($prog, $o_perl_para);
+    warn "# $cmd\n";
+    `$cmd`;
 }
 sub urpmi_cmd() { urpm_cmd('urpmi') }
 
