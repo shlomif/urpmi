@@ -197,6 +197,9 @@ if ($options{list_aliases}) {
 	print "\n";
     }
     exit 0;
+} elsif ($options{list}) {
+    # --list lists all available packages: select them all
+    @{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
 } else {
     %requested = $urpm->register_rpms(@files);
 
