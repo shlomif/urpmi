@@ -25,4 +25,3 @@ x
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT/etc
 %foobar
-# if %foobar is the last line it fails (#27417)

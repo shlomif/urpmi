@@ -25,4 +25,3 @@ x
 %files
 %defattr(-,root,root)
 %foobar
-# if %foobar is the last line it fails (#27417)
