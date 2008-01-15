@@ -23,7 +23,8 @@ sub do_something_with_nodes {
 sub _open_xml_reader {
     my ($xml_info_file) = @_;
 
-    open(my $F, "lzma -dc $xml_info_file |");
+    $xml_info_file =~ s/'/\'/g;
+    open(my $F, "lzma -dc '$xml_info_file' |");
     my $reader = new XML::LibXML::Reader(IO => $F) or die "cannot read $xml_info_file\n";
 
     $reader->read;
