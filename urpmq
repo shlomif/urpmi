@@ -340,7 +340,7 @@ if ($options{list_aliases}) {
 		    $urpm->{log}("getting information from rpms from $dir");
 		    $local_sources->{$_->id} = "$dir/" . $_->filename foreach @pkgs;
 		} else {
-		    foreach my $xml_info (grep { $options{$_} } 'info', 'files', 'changelog') {
+		    foreach my $xml_info (grep { $need_xml_info{$_} } 'info', 'files', 'changelog') {
 			if (my $xml_info_file = urpm::media::any_xml_info($urpm, $medium, $xml_info, $options{verbose} < 0)) {
 			    require urpm::xml_info;
 			    require urpm::xml_info_pkg;
