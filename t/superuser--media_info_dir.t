@@ -31,6 +31,12 @@ sub urpmq_various {
     warn "# $cmd\n";
     my $out = `$cmd`;
     is($out, "various\nvarious2\nvarious3\n");
+
+    $cmd = urpm_cmd('urpmq') . " --list";
+    warn "# $cmd\n";
+    $out = `$cmd`;
+    is($out, "various\nvarious2\nvarious3\n");
+
     urpmi_removemedia('-a');    
 }
 
