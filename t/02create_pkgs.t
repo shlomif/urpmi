@@ -10,6 +10,7 @@ system('rm -rf tmp media');
 foreach (qw(media tmp tmp/BUILD tmp/RPMS tmp/RPMS/noarch tmp/SRPMS)) {
     mkdir $_;
 }
+my $genhdlist2 = 'genhdlist2 --xml-info';
 
 mkdir "media/suggests";
 system_("cp data/old-suggests-1-1.noarch.rpm media/suggests");
@@ -28,7 +29,7 @@ foreach my $spec (glob("data/SPECS/*.spec")) {
     if ($name eq 'various') {
 	system_("cp -r media/$name media/${name}_nohdlist");
 	system_("cp -r media/$name media/${name}_no_subdir");
-	system_("genhdlist --dest media/${name}_no_subdir");
+	system_("$genhdlist2 media/${name}_no_subdir");
 	symlink "${name}_nohdlist", "media/${name} nohdlist";
 	symlink "${name}", "media/${name}_bis";
     }
@@ -44,7 +45,7 @@ foreach my $spec (glob("data/SPECS/srpm*.spec")) {
     system_("cp -r data/$name media");
     system_("cp -r media/$name media/${name}_nohdlist");
     system_("cp -r media/$name media/${name}_no_subdir");
-    system_("genhdlist --dest media/${name}_no_subdir");
+    system_("$genhdlist2 media/${name}_no_subdir");
     genhdlist_std($name);
 }
 
@@ -54,7 +55,7 @@ system_('gendistrib -s .');
 
 sub genhdlist_std {
     my ($medium_name) = @_;
-    system_("genhdlist --subdir media/$medium_name/media_info media/$medium_name");
+    system_("$genhdlist2 media/$medium_name");
 }
 
 sub rpmbuild {
