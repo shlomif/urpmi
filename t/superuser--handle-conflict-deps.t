@@ -27,5 +27,5 @@ sub test_conflict_on_upgrade {
 
 sub test_conflict_on_install {
     urpmi('--auto a b');
-    check_installed_and_remove('a'); # WARNING: why does it choose one or the other?
+    check_installed_and_remove('b', 'b-sub'); # WARNING: why does it choose one or the other?
 }
