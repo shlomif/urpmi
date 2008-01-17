@@ -25,7 +25,7 @@ use urpm::args;
 use urpm::msg;
 use urpm::media;
 use urpm::select;
-use urpm::util qw(untaint difference2 member partition);
+use urpm::util qw(untaint difference2 member partition cat_);
 use urpm::main_loop;
 
 #URPM::setVerbosity(7);
@@ -249,6 +249,10 @@ if ($env) {
     print N("using specific environment on %s\n", $env);
     #- setting new environment.
     $urpm->{config} = "$env/urpmi.cfg";
+    if (cat_($urpm->{config}) =~ /^\s*virtual\s*$/m) {
+	print "dropping virtual from $urpm->{config}\n";
+	system(q(perl -pi -e 's/^\s*virtual\s*$//' ) . $urpm->{config});
+    }
     $urpm->{skiplist} = "$env/skip.list";
     $urpm->{instlist} = "$env/inst.list";
     $urpm->{prefer_list} = "$env/prefer.list";
