@@ -106,10 +106,14 @@ my %options_spec = (
 	'allow-nodeps' => sub { $urpm->{options}{'allow-nodeps'} = 1 },
 	'allow-force' => sub { $urpm->{options}{'allow-force'} = 1 },
 	'parallel=s' => \$::parallel,
+	
+	# deprecated in favor of --downloader xxx
 	wget => sub { $urpm->{options}{downloader} = 'wget' },
 	curl => sub { $urpm->{options}{downloader} = 'curl' },
 	prozilla => sub { $urpm->{options}{downloader} = 'prozilla' },
 	aria2 => sub { $urpm->{options}{downloader} = 'aria2' },
+	'downloader=s' => sub { $urpm->{options}{downloader} = $_[1] },
+
 	'curl-options=s' => sub { $urpm->{options}{'curl-options'} = $_[1] },
 	'rsync-options=s' => sub { $urpm->{options}{'rsync-options'} = $_[1] },
 	'wget-options=s' => sub { $urpm->{options}{'wget-options'} = $_[1] },
@@ -361,7 +365,7 @@ foreach my $k ("help|h", "version", "no-locales", "update", "media|mediums=s",
     $options_spec{urpmf}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "aria2", "proxy=s", "proxy-user=s",
+foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s",
     'limit-rate=s',
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s")
 {
@@ -369,7 +373,7 @@ foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "aria2", "proxy=
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "wget", "curl", "prozilla", "aria2", "proxy=s", "proxy-user=s", "f", "z",
+foreach my $k ("help|h", "wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s", "f", "z",
     "limit-rate=s", "no-md5sum", "update", "norebuild!", "probe-rpms",
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s", '<>')
 {

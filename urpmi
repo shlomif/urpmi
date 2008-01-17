@@ -111,11 +111,10 @@ usage:
 ") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
 ") . N("  --use-distrib  - configure urpmi on the fly from a distrib tree, useful
                    to install a chroot with --root option.
-") . N("  --wget         - use wget to retrieve distant files.
-") . N("  --curl         - use curl to retrieve distant files.
-") . N("  --aria2        - use aria2 to retrieve distant files.
-") . N("  --prozilla     - use prozilla to retrieve distant files.
-") . N("  --curl-options - additional options to pass to curl
+") . N("  --downloader   - program to use to retrieve distant files. 
+                   known programs: %s
+", join(', ', urpm::download::ftp_http_downloaders()))
+   . N("  --curl-options - additional options to pass to curl
 ") . N("  --rsync-options- additional options to pass to rsync
 ") . N("  --wget-options - additional options to pass to wget
 ") . N("  --prozilla-options - additional options to pass to prozilla
