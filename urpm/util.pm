@@ -11,7 +11,7 @@ our @EXPORT = qw(min max quotespace unquotespace
     untaint
     copy_and_own
     same_size_and_mtime
-    partition put_in_hash uniq
+    partition put_in_hash uniq uniq_
     difference2 member file_size cat_ cat_utf8 output_safe dirname basename
 );
 
@@ -134,6 +134,13 @@ sub difference2 { my %l; @l{@{$_[1]}} = (); grep { !exists $l{$_} } @{$_[0]} }
 sub member { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
 sub cat_ { my @l = map { my $F; open($F, '<', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
 sub cat_utf8 { my @l = map { my $F; open($F, '<:utf8', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
+
+sub uniq_(&@) {
+    my $f = shift;
+    my %l;
+    $l{$f->($_)} = 1 foreach @_;
+    grep { delete $l{$f->($_)} } @_;
+}
 
 sub output_safe {
     my ($file, $content) = @_;

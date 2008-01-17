@@ -77,6 +77,7 @@ usage:
                    authentication (format is <user:password>).
 ") . N("  --env          - use specific environment (typically a bug report).
 ") . N("  --changelog    - print changelog.
+") . N("  --provides     - print provides.
 ") . N("  --sourcerpm    - print sourcerpm.
 ") . N("  --summary, -S  - print summary.
 ") . N("  --verbose, -v  - verbose mode.
@@ -437,6 +438,16 @@ if ($options{list_aliases}) {
 	    foreach (split /\|/, $_) {
 		my $pkg = $urpm->{depslist}[$_] or next;
 		printf "%s : %s ( %s%s-%s )\n", $pkg->name, $pkg->summary, ($pkg->epoch ? $pkg->epoch . ':' : ''), $pkg->version, $pkg->release;
+	    }
+	}
+	exit 0;
+    } elsif ($options{provides}) {
+	my @l = uniq_ { scalar $_->fullname } map { $urpm->{depslist}[$_] } map { split /\|/, $_ } keys %{$state->{selected}};
+	foreach my $pkg (@l) {
+	    if (@l > 1) {
+		printf "%s: %s\n", $pkg->name, $_ foreach $pkg->provides;
+	    } else {
+		print "$_\n" foreach $pkg->provides;
 	    }
 	}
 	exit 0;
