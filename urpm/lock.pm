@@ -60,9 +60,9 @@ sub _lock {
     if (!flock($lock->{fh}, $mode | $LOCK_NB)) {
 	if ($b_wait) {
 	    $lock->{info}(N("%s database locked. waiting...", $lock->{db_name}));
-	    flock($lock->{fh}, $mode) or $lock->{fatal}(1, N("aborting"));
+	    flock($lock->{fh}, $mode) or $lock->{fatal}(N("aborting"));
 	} else {
-	    $lock->{fatal}(1, N("%s database locked", $lock->{db_name}));
+	    $lock->{fatal}(N("%s database locked", $lock->{db_name}));
 	}
     }
     $lock->{locked} = 1;
