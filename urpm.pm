@@ -113,6 +113,12 @@ sub userdir {
     $dir;
 }
 
+sub is_temporary_file {
+    my ($urpm, $f) = @_;
+
+    begins_with($f, $urpm->{cachedir});
+}
+
 sub set_files {
     my ($urpm, $urpmi_root) = @_;
     my %h = (

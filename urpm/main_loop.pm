@@ -124,6 +124,11 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    if ($?) {
 		print N("Installation failed"), "\n";
 		++$nok;
+	    } elsif ($urpm->{options}{'post-clean'}) {
+		if (my @tmp_srpm = grep { urpm::is_temporary_file($urpm, $_) } @l) {
+		    $urpm->{log}(N("removing installed rpms (%s)", join(' ', @tmp_srpm)));
+		    unlink @tmp_srpm;
+		}
 	    }
 	}
 	next;
