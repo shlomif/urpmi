@@ -12,6 +12,7 @@ our @EXPORT = qw(min max quotespace unquotespace
     copy_and_own
     same_size_and_mtime
     partition put_in_hash uniq uniq_
+    begins_with
     difference2 member file_size cat_ cat_utf8 output_safe dirname basename
 );
 
@@ -126,6 +127,11 @@ sub partition(&@) {
 	$f->($_) ? push(@a, $_) : push(@b, $_);
     }
     \@a, \@b;
+}
+
+sub begins_with {
+    my ($s, $prefix) = @_;
+    index($s, $prefix) == 0;
 }
 
 sub put_in_hash { my ($a, $b) = @_; while (my ($k, $v) = each %{$b || {}}) { $a->{$k} = $v } $a }
