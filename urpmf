@@ -168,6 +168,19 @@ if ($full) { $qf =~ s/%name\b/%fullname/ }
 $urpm->{info} = sub { print STDERR "$_[0]\n" };
 $urpm->{log} = sub { print STDERR "$_[0]\n" } if $options{verbose} > 0;
 
+my $only_simple_files_search;
+if ($qf eq '%name:%files') {
+    if ($::literal) {
+	$only_simple_files_search = $expr !~ /:/;	
+    } elsif (@::raw_non_literals == 1) {
+	my $s = $::raw_non_literals[0];
+	$s =~ s!/.*!!; # things after "/" won't match pkg name for sure	 
+	$only_simple_files_search = $s !~ m![:.*?\[\]]!;
+    }
+    $only_simple_files_search and $urpm->{log}("using fast algorithm");    
+}
+
+
 my $multitag = '';
 my %multitags = map { $_ => 1 } qw(conffiles conflicts files obsoletes provides requires suggests);
 my %usedtags;
@@ -223,7 +236,7 @@ my $callback = join("\n",
        '0;'),
     "}");
 
-$urpm->{debug}("qf:[$qf]\ncallback:\n$callback") if $urpm->{debug};
+$urpm->{debug}("qf:[$qf]\ncallback:\n$callback") if $urpm->{debug} && !$only_simple_files_search;
 our $medium;
 $callback = eval $callback;
 if ($@) {
@@ -304,10 +317,31 @@ if ($needed_media_info{hdlist}) {
 	      $callback->($urpm, urpm::xml_info_pkg->new($node, undef));
 	  };
 	$urpm->{log}("getting information from $xml_info_file");
-	urpm::xml_info::do_something_with_nodes(
-	    $xml_info,
-	    $xml_info_file,
-	    $cooked_callback,
-	);
+	if ($only_simple_files_search) {
+	    # special version for speed (3x faster), hopefully fully compatible
+	    my $code = sprintf(<<'EOF', $expr);
+	    my $F = urpm::xml_info::open_lzma($xml_info_file);
+	    my $fn;    
+	    local $_;
+	    while (<$F>) {
+		if (m!^<!) { 
+		    ($fn) = /fn="(.*)"/;
+		} elsif (%s) {
+                    $fn or $urpm->{fatal}("fast algorithm is broken, please report a bug");
+                    my $pkg = urpm::xml_info_pkg->new({ fn => $fn });
+		    print $pkg->name, ':', $_;		    
+		}
+	    }
+EOF
+	    $urpm->{debug} and $urpm->{debug}($code);
+	    eval $code;
+	    $@ and $urpm->{fatal}(1, "$@");
+	} else {
+	    urpm::xml_info::do_something_with_nodes(
+		$xml_info,
+		$xml_info_file,
+		$cooked_callback,
+	    );
+	}	
     }
 }

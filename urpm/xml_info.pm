@@ -19,13 +19,19 @@ sub do_something_with_nodes {
 }
 
 
-################################################################################
-sub _open_xml_reader {
+sub open_lzma {
     my ($xml_info_file) = @_;
 
     $xml_info_file =~ s/'/\'/g;
     open(my $F, "lzma -dc '$xml_info_file' |");
-    my $reader = new XML::LibXML::Reader(IO => $F) or die "cannot read $xml_info_file\n";
+    $F;    
+}
+
+################################################################################
+sub _open_xml_reader {
+    my ($xml_info_file) = @_;
+
+    my $reader = new XML::LibXML::Reader(IO => open_lzma($xml_info_file)) or die "cannot read $xml_info_file\n";
 
     $reader->read;
     $reader->name eq 'media_info' or die "global <media_info> tag not found\n";

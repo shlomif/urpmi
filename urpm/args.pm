@@ -213,6 +213,7 @@ my %options_spec = (
 		if ($::literal) {
 		    $p = quotemeta $p;
 		} else {
+		    push @::raw_non_literals, $p;
 		    # quote "+" chars for packages with + in their names
 		    $p =~ s/\+/\\+/g;
 		}
