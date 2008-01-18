@@ -34,8 +34,7 @@ test_urpmi("--sortmedia $media[1],$media[0]", $media_dirs[1], $media[0]);
 
 sub test_urpmq {
     my ($para, @wanted) = @_;
-    my $urpmq = urpm_cmd('urpmq');
-    my @l = `$urpmq $para --sources $name`;
+    my @l = run_urpm_cmd("urpmq $para --sources $name");
     foreach my $dir (@wanted) {
 	my $found = shift @l;
 	is(dirname($found), $dir);
@@ -44,8 +43,7 @@ sub test_urpmq {
 
 sub test_urpmi {
     my ($para, $wanted, $bad) = @_;
-    my $urpmi = urpmi_cmd();
-    my $s = `$urpmi $para $name`;
+    my $s = run_urpm_cmd("urpmi $para $name");
     $s =~ s/^Preparing.*//sm;
 
     ok($s =~ m!^installing $name\S* from $wanted$!m, "$wanted in $s");

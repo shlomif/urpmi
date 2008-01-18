@@ -47,8 +47,7 @@ sub test_with_ad {
 
 sub test_urpmi {
     my ($para, $wanted) = @_;
-    my $urpmi = urpmi_cmd();
-    my $s = `$urpmi $para`;
+    my $s = run_urpm_cmd("urpmi $para");
 
     $s =~ s/\s*#{40}#*//g;
     $s =~ s/.*\nPreparing\.\.\.\n//s;

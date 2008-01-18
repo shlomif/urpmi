@@ -27,8 +27,7 @@ check_installed_names('a', 'b', 'c', 'd');
 
 sub test_urpmi {
     my ($para, $wanted) = @_;
-    my $urpmi = urpmi_cmd();
-    my $s = `$urpmi $para`;
+    my $s = run_urpm_cmd("urpmi $para");
     print $s;
 
     $s =~ s/\s*#{40}#*//g;
