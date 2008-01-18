@@ -347,6 +347,7 @@ sub add_urpmf_parameter {
     if ($::literal) {
 	$p = quotemeta $p;
     } else {
+	$p =~ /\([^?|]*\)$/ and $urpm->{error}(N("by default urpmf awaits a regexp. you should use option \"--literal\"")); 
 	push @::raw_non_literals, $p;
 	# quote "+" chars for packages with + in their names
 	$p =~ s/\+/\\+/g;

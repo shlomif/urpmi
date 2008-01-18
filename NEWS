@@ -5,6 +5,8 @@
 - urpmf:
   o add special code for --files simple case, it makes urpmf 3x faster for
     this often used case
+  o display a warning when searching "xxx(yyy)" since it is handled as a
+    regexp and so the parentheses are useless. suggest using --literal
 - urpmq:
   o add --provides
   o fix option -a : display packages of all compatible archs (#36942)
