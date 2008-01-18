@@ -27,15 +27,9 @@ sub urpmq_various {
     foreach my $medium_name ('various', 'various2', 'various3') {
 	urpmi_addmedia("'$medium_name' '$::pwd/media/$medium_name'");
     }
-    my $cmd = urpm_cmd('urpmq') . " --fuzzy v";
-    warn "# $cmd\n";
-    my $out = `$cmd`;
-    is($out, "various\nvarious2\nvarious3\n");
+    is(run_urpm_cmd('urpmq --fuzzy v'), "various\nvarious2\nvarious3\n");
 
-    $cmd = urpm_cmd('urpmq') . " --list";
-    warn "# $cmd\n";
-    $out = `$cmd`;
-    is($out, "various\nvarious2\nvarious3\n");
+    is(run_urpm_cmd('urpmq --list'), "various\nvarious2\nvarious3\n");
 
     urpmi_removemedia('-a');    
 }
