@@ -83,7 +83,9 @@ my %options_spec = (
 	'split-level=s' => sub { $urpm->{options}{'split-level'} = $_[1] },
 	'split-length=s' => sub { $urpm->{options}{'split-length'} = $_[1] },
 	'fuzzy!' => sub { $urpm->{options}{fuzzy} = $_[1] },
-	'src|s' => \$::src,
+	'src|s' => sub { $urpm->{error}("option --src is deprecated, use --buildrequires instead (nb: it doesn't download src.rpm anymore)");
+			 $options{buildrequires} = 1 },
+	'buildrequires' => \$options{buildrequires},
 	'install-src' => \$::install_src,
 	clean => sub { $::clean = 1; $::noclean = 0 },
 	noclean => sub {

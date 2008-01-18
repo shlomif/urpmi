@@ -41,7 +41,6 @@ our $auto_select = 0;
 our $auto_update = 0;
 our $no_install = 0;
 our $no_remove = 0;
-our $src = 0;
 our $install_src = 0;
 our $clean = 0;
 our $noclean = 0;
@@ -95,7 +94,7 @@ usage:
    . N("  --split-length - small transaction length, default is %d.
 ", urpm::default_options()->{'split-length'})
   . N("  --fuzzy, -y    - impose fuzzy search.
-") . N("  --src, -s      - next package is a source package.
+") . N("  --buildrequires - install the buildrequires of the packages
 ") . N("  --install-src  - install only source package (no binaries).
 ") . N("  --clean        - remove rpm from cache before anything else.
 ") . N("  --noclean      - don't clean rpms from cache.
@@ -200,12 +199,12 @@ foreach (@ARGV) {
 	}
 	next;
     }
-    if ($src) {
-	push @src_names, $_;
-    } else {
-	push @names, $_;
-    }
-    $src = 0; #- reset switch for next package.
+    push @names, $_;
+}
+
+if ($options{buildrequires}) {
+    push @src_names, @names;
+    @names = ();
 }
 
 #- use install_src to promote all names as src package.
@@ -215,6 +214,9 @@ if ($install_src) {
     @names = ();
     #- allow to use --install-src as a non-root user
     $options{nolock} = 1;
+} elsif (@src_files && !$options{buildrequires}) {
+    $urpm->{error}(N("please use --buildrequires or --install-src, defaulting to --buildrequires"));
+    $options{buildrequires} = 1;
 }
 
 #- rurpmi checks
@@ -566,18 +568,22 @@ my $ask_user = $env || $search_result eq 'substring';
 my @root_only;
 
 my @to_install = @{$urpm->{depslist}}[sort { $a <=> $b } keys %{$state->{selected}}]; # sorted by medium for format_selected_packages
+{
+    my ($src, $binary) = partition { $_->arch eq 'src' } @to_install;
+    if ($install_src) {
+	if (@$binary && $install_src && !$env) {
+	    my $list = join(' ', sort map { $_->name } @$binary);
+	    $urpm->{fatal}(1, N("You must first call urpmi with --buildrequires to install the following dependencies:\n%s\n", $list));
+	}
+    } else {
+	@to_install = @$binary;
+    }
+}
+
 foreach my $pkg (@to_install) {
     #- reflect change in flag usage, now requested is set whatever a package is selected or not,
     #- but required is always set (so a required but not requested is a pure dependency).
     $ask_user ||= !$pkg->flag_requested || $auto_select || $parallel;
-
-    if (!$env && $install_src && $pkg->arch ne 'src') {
-	push @root_only, scalar $pkg->fullname;
-    }
-}
-if (@root_only && !$env) {
-    print N("You must first call urpmi without --install-src to install the following dependencies:\n%s\n", join(' ', sort @root_only));
-    exit 1;
 }
 $urpm->{nb_install} = @to_install;
 if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$options{debug__do_not_install}) {

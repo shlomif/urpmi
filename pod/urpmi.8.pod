@@ -150,13 +150,10 @@ Disable fast search on exact package name; that means that urpmi will
 propose all packages matching part of the name, even if one of them
 matches exactly the specified name (this is the same as B<-y>).
 
-=item B<--src> I<name>
+=item B<--buildrequires>
 
-Search a source package matching I<name> and select all its dependencies
-(that is, its C<BuildRequires>) by default, unless the B<--install-src>
-switch is used in order to install the source package itself. (You can
-also install the build dependencies read directly from an rpm spec
-file.)
+Select all the C<BuildRequires> of the wanted source packages. 
+(You can also install the build dependencies read directly from an rpm spec file.)
 
 =item B<--install-src>
 
@@ -391,10 +388,6 @@ Do not search in provides to find package (this is the opposite of B<-p>).
 =item B<-y>
 
 This is the same as B<--fuzzy>.
-
-=item B<-s> I<name>
-
-This is the same as B<--src>.
 
 =item B<-q>
 
