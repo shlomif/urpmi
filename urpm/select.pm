@@ -83,7 +83,7 @@ sub search_packages {
 	my @ids = split /\|/, $name2ids->{$v};
 
 	#- in case we have a substring match, we want individual selection (for urpmq --fuzzy)
-	$packages->{$_} = 1 foreach $result eq 'substring' ? @ids : $name2ids->{$v};
+	$packages->{$_} = 1 foreach $result eq 'substring' || $options{all} ? @ids : $name2ids->{$v};
 
 	foreach (@ids) {
 	    my $pkg = $urpm->{depslist}[$_] or next;
@@ -120,8 +120,12 @@ sub _search_packages {
 
 		delete $compats{0}; #- means not compatible
 		#- if there are pkgs matching arch, prefer them
+		if (%compats && !$options{all}) {
+		    my $best_arch = min(keys %compats);
+		    %compats = ($best_arch => $compats{$best_arch});
+		}
 		if (%compats) {
-		    @l = (@$noarch, @{$compats{min(keys %compats)}});
+		    @l = (@$noarch, map { @$_ } values %compats);
 		}
 
 		#- we assume that if there is at least one package providing
