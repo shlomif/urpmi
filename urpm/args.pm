@@ -210,14 +210,7 @@ my %options_spec = (
 	    }
 	    else {
 		# This is for non-option arguments.
-		if ($::literal) {
-		    $p = quotemeta $p;
-		} else {
-		    push @::raw_non_literals, $p;
-		    # quote "+" chars for packages with + in their names
-		    $p =~ s/\+/\\+/g;
-		}
-		$::expr .= "m{$p}" . $::pattern;
+		add_urpmf_parameter($p);
 	    }
 	},
     },
@@ -348,6 +341,19 @@ sub add_urpmf_cmdline_tags {
     }
 }
 
+sub add_urpmf_parameter {
+    my ($p) = @_;
+
+    if ($::literal) {
+	$p = quotemeta $p;
+    } else {
+	push @::raw_non_literals, $p;
+	# quote "+" chars for packages with + in their names
+	$p =~ s/\+/\\+/g;
+    }
+    $::expr .= "m{$p}" . $::pattern;
+}
+
 # common options setup
 
 foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "use-distrib=s",
@@ -435,13 +441,7 @@ sub parse_cmdline {
     }
     if ($tool eq 'urpmf' && @ARGV && $ARGV[0] eq '--') {
 	if (@ARGV == 2) {
-	    my $p = $ARGV[1];
-	    if ($::literal) {
-		$p = quotemeta $p;
-	    } else {
-		$p =~ s/\+/\\+/g;
-	    }
-	    $::expr .= "m{$p}" . $::pattern;
+	    add_urpmf_parameter($ARGV[1]);
             $ret = 1;
 	}
 	else {
