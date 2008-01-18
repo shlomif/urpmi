@@ -3,6 +3,12 @@
 # b requires b-sub
 # a-sup requires a
 # a conflicts with b, b conflicts with a
+#
+# c conflicts with d
+#
+# e conflicts with ff
+# f provides ff
+#
 use strict;
 use lib '.', 't';
 use helper;
@@ -13,6 +19,11 @@ need_root_and_prepare();
 
 my $name = 'handle-conflict-deps';
 urpmi_addmedia("$name $::pwd/media/$name");    
+
+test_simple('c', 'd');
+test_simple('d', 'c');
+#test_simple('e', 'f'); # ERROR
+test_simple('f', 'e');
 
 test_conflict_on_install();
 test_conflict_on_upgrade(); #test from bugs #12696, #11885
@@ -28,4 +39,13 @@ sub test_conflict_on_upgrade {
 sub test_conflict_on_install {
     urpmi('--auto a b');
     check_installed_and_remove('b', 'b-sub'); # WARNING: why does it choose one or the other?
+}
+
+sub test_simple {
+    my ($pkg1, $pkg2) = @_;
+    urpmi($pkg1);
+    check_installed_names($pkg1);
+
+    urpmi("--auto $pkg2");
+    check_installed_and_remove($pkg2);
 }
