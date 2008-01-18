@@ -74,9 +74,7 @@ sub rpm_v3 {
 
     foreach my $src_rpm (glob('media/rpm-v3/*.rpm')) {
 	my ($wanted_arch) = $src_rpm =~ /(\w+)\.rpm$/;
-	my $cmd = urpm_cmd('urpmq') . " -f $src_rpm";
-	warn "# $cmd\n";
-	chomp(my $fullname = `$cmd`);
+	chomp(my $fullname = run_urpm_cmd("urpmq -f $src_rpm"));
 	my ($arch) = $fullname =~ /(\w+)$/;
 
 	if (rpm_is_jbj_version()) {

@@ -42,9 +42,7 @@ sub test_d {
 
 sub test_urpmi {
     my ($para, @wanted) = @_;
-    my $urpmi = urpmi_cmd();
-    print "# $urpmi $para\n";
-    my $s = `$urpmi $para`;
+    my $s = run_urpm_cmd("urpmi $para");
     print $s;
     my @msgs = $s =~ /\nMore information on package[^\n]*\n(.*?)\n-{70}/msg;
 

@@ -116,7 +116,6 @@ sub test_conflict_gh {
 
 sub run_urpmi_and_get_conflicts {
     my ($para) = @_;
-    my $cmd = urpmi_cmd() . " $para";
-    my $output = `$cmd`;
+    my $output = run_urpm_cmd("urpmi $para");
     $output =~ /\(due to conflicts with (.*)\)/g;
 }
