@@ -108,6 +108,8 @@ sub userdir {
     -d $dir && ! -l $dir or $urpm->{fatal}(1, N("fail to create directory %s", $dir));
     -o $dir && -w $dir or $urpm->{fatal}(1, N("invalid owner for directory %s", $dir));
 
+    $urpm->{cachedir} = $dir;
+
     $dir;
 }
 
