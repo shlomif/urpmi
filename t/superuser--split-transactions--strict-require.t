@@ -4,6 +4,9 @@
 # b-1 requires c-1
 # a-2 requires c-2, no b-2
 #
+# d-1 requires dd-1
+# d-2 requires dd-2
+#
 use strict;
 use lib '.', 't';
 use helper;
@@ -20,6 +23,10 @@ test('--split-length 0');
 test('--split-level 1'); # ERROR: should not use a big transaction
 
 test_c('--split-level 1');
+
+# test_d(); 
+# ERROR: urpmi goes crazy, saying: 
+# The following package has to be removed for others to be upgraded: d-2-1 (in order to install d-2-1)
 
 sub test {
     my ($option) = @_;
@@ -39,4 +46,16 @@ sub test_c {
 
     urpmi("--media $name-2 --auto $option c");
     check_installed_fullnames_and_remove('c-2-1'); # WARNING: a-2 could be promoted
+}
+
+sub test_d {
+    urpmi("--media $name-1 --auto d");
+
+    # here d-2 is installed without its requirement dd-2
+    system_("rpm --root $::pwd/root -i media/$name-2/d-2-*.rpm --nodeps");
+    # we now have both d-1 and d-2 installed, which urpmi doesn't like much
+    check_installed_fullnames('d-1-1', 'dd-1-1', 'd-2-1');
+
+    urpmi("--media $name-2 --auto-select --auto");
+    check_installed_fullnames_and_remove('d-2-1', 'dd-2-1');
 }
