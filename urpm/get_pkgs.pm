@@ -135,7 +135,9 @@ sub download_packages_of_distant_media {
 	    }
 	}
 
-	if (%distant_sources && ! -w "$urpm->{cachedir}/partial") {
+	my $partial_dir = "$urpm->{cachedir}/partial";
+	my $rpms_dir = "$urpm->{cachedir}/rpms";
+	if (%distant_sources && ! -w $partial_dir) {
 	    $urpm->{error}(N("sorry, you can't use --install-src to install remote .src.rpm files"));
 	    exit 1;
 	}
@@ -155,13 +157,13 @@ sub download_packages_of_distant_media {
 	    #- present the error to the user.
 	    foreach my $i (keys %distant_sources) {
 		my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
-		if ($filename && -s "$urpm->{cachedir}/partial/$filename" &&
-		    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1))
+		if ($filename && -s "$partial_dir/$filename" &&
+		    URPM::verify_rpm("$partial_dir/$filename", nosignatures => 1))
 		{
 		    #- it seems the the file has been downloaded correctly and has been checked to be valid.
-		    unlink "$urpm->{cachedir}/rpms/$filename";
-		    urpm::util::move("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
-		    -r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
+		    unlink "$rpms_dir/$filename";
+		    urpm::util::move("$partial_dir/$filename", "$rpms_dir/$filename");
+		    -r "$rpms_dir/$filename" and $sources->{$i} = "$rpms_dir/$filename";
 		}
 		unless ($sources->{$i}) {
 		    $error_sources->{$i} = $distant_sources{$i};
