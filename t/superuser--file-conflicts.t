@@ -52,9 +52,8 @@ sub test_rpm_same_transaction {
 	check_nothing_installed();
     }
 
-    # WARNING: should it really fail?
-    test_rpm_i_fail('a', 'fa');
-    check_nothing_installed();
+    test_rpm_i_succeeds('a', 'fa');
+    check_installed_and_remove('a', 'fa');
 
     test_rpm_i_succeeds('fa', 'fb');
     check_installed_and_remove('fa', 'fb');
@@ -75,10 +74,9 @@ sub test_rpm_different_transactions {
     test_rpm_i_succeeds('d');
     check_installed_and_remove('a', 'd');
 
-    # WARNING: should it really fail?
     test_rpm_i_succeeds('a');
-    test_rpm_i_fail('fa');
-    check_installed_and_remove('a');
+    test_rpm_i_succeeds('fa');
+    check_installed_and_remove('a', 'fa');
 
     test_rpm_i_succeeds('fa');
     test_rpm_i_succeeds('fb');
@@ -124,9 +122,8 @@ sub test_urpmi_same_transaction {
 	check_nothing_installed();
     }
 
-    # WARNING: should it really fail?
-    test_urpmi_fail('a fa');
-    check_nothing_installed();
+    urpmi('a fa');
+    check_installed_and_remove('a', 'fa');
 
     urpmi('fa fb');
     check_installed_and_remove('fa', 'fb');
@@ -149,8 +146,8 @@ sub test_urpmi_different_transactions {
     check_installed_and_remove('a', 'd');
 
     urpmi('a');
-    test_urpmi_fail('fa');
-    check_installed_and_remove('a');
+    urpmi('fa');
+    check_installed_and_remove('a', 'fa');
 
     urpmi('fa');
     urpmi('fb');
