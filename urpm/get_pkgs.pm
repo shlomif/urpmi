@@ -138,15 +138,23 @@ sub download_packages_of_distant_media {
 	my $partial_dir = "$urpm->{cachedir}/partial";
 	my $rpms_dir = "$urpm->{cachedir}/rpms";
 	if (%distant_sources && ! -w $partial_dir) {
-	    $urpm->{error}(N("sorry, you can't use --install-src to install remote .src.rpm files"));
-	    exit 1;
+	    if (my $userdir = urpm::userdir($urpm)) {
+		$partial_dir = "$userdir/partial";
+		$rpms_dir = "$userdir/rpms";
+		mkdir $download_dir;
+		mkdir $rpms_dir;
+	    } else {
+		$urpm->{error}(N("sorry, you can't use --install-src to install remote .src.rpm files"));
+		exit 1;
+	    }
 	}
 
 	#- download files from the current medium.
 	if (%distant_sources) {
 	    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
 	    if (urpm::download::sync($urpm, $urpm->{media}[$n], [ values %distant_sources ],
-				     quiet => $options{quiet}, resume => $urpm->{options}{resume}, callback => $options{callback})) {
+				     dir => $partial_dir, quiet => $options{quiet}, 
+				     resume => $urpm->{options}{resume}, callback => $options{callback})) {
 		$urpm->{log}(N("...retrieving done"));
 	    } else {
 		$urpm->{error}(N("...retrieving failed: %s", $@));
