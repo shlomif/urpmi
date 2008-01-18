@@ -56,7 +56,7 @@ sub urpm_cmd {
 sub run_urpm_cmd {
     my ($prog, $o_perl_para) = @_;
     my $cmd = urpm_cmd($prog, $o_perl_para);
-    warn "# $cmd\n";
+    print "# $cmd\n";
     `$cmd`;
 }
 sub urpmi_cmd() { urpm_cmd('urpmi') }
