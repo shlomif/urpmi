@@ -25,7 +25,7 @@ test('--split-level 1');
 test_c('--split-level 1');
 
 # test_d(); 
-# ERROR: urpmi goes crazy, saying: 
+# ERROR #34224: urpmi goes crazy, saying: 
 # The following package has to be removed for others to be upgraded: d-2-1 (in order to install d-2-1)
 
 sub test {
