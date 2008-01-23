@@ -102,9 +102,10 @@ my @toremove = urpm::select::find_packages_to_remove($urpm,
     callback_fuzzy => sub {
 	my $urpm = shift @_;
 	my $match = shift @_;
+	my $pkgs = $urpm::msg::no_translation ? join(' ', @_) : join('', map { "\n$_" } sort @_);
 	#- Warning : the following message is parsed in urpm::parallel_*
-	$urpm->{fatal}(1, N("The following packages contain %s: %s",
-		$match, join(' ', @_))); 0 },
+	$urpm->{fatal}(1, N("The following packages contain %s: %s", $match, $pkgs)); 
+	0 },
     callback_base => sub {
 	my $urpm = shift @_;
 	foreach (@_) {
