@@ -10,6 +10,8 @@
 # a and gc/gc_/gd contains different file => should work
 # ga and a and gc/gc_ contains the same resulting file, through symlink in ga, with same content => should work
 # ga and a and gd contains the same resulting file, through symlink in ga, with different content => should fail
+#
+# h and i file conflicts, but on a manpage
 
 use strict;
 use lib '.', 't';
@@ -57,6 +59,9 @@ sub test_rpm_same_transaction {
 
     test_rpm_i_succeeds('fa', 'fb');
     check_installed_and_remove('fa', 'fb');
+
+    test_rpm_i_succeeds('h', 'i');
+    check_installed_and_remove('h', 'i');
 }
 
 sub test_rpm_different_transactions {
@@ -99,6 +104,10 @@ sub test_rpm_different_transactions {
     urpme('gc gc_'); # if you remove gc and a/ga at the same time, hell can happen...
     check_installed_and_remove('a', 'ga');
     check_no_etc_files();
+
+    test_rpm_i_succeeds('h');
+    test_rpm_i_succeeds('i');
+    check_installed_and_remove('h', 'i');
 }
 
 sub test_urpmi_same_transaction {
@@ -127,6 +136,9 @@ sub test_urpmi_same_transaction {
 
     urpmi('fa fb');
     check_installed_and_remove('fa', 'fb');
+
+    urpmi('h i');
+    check_installed_and_remove('h', 'i');
 }
 
 sub test_urpmi_different_transactions {
@@ -171,6 +183,9 @@ sub test_urpmi_different_transactions {
     check_installed_and_remove('a', 'ga');
     check_no_etc_files();
 
+    urpmi('h');
+    urpmi('i');
+    check_installed_and_remove('h', 'i');
 }
 
 sub test_rpm_i_succeeds {
