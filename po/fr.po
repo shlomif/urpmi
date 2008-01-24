@@ -17,7 +17,7 @@
 # Didier Hérisson <didier.herisson@angstrom.uu.se>, 2004.
 # Lecureuil Nicolas <n1c0l4s.l3@wanadoo.fr>, 2004, 2005.
 # Teletchéa <steletch@free.fr>, 2005.
-# Christophe Berthelé <cpjc@free.fr>, 2005, 2006, 2007.
+# Christophe Berthelé <cpjc@free.fr>, 2005, 2006, 2007, 2008.
 # Nicolas Lécureuil <neoclust@mandriva.org>, 2005, 2006.
 # Nicolas RICHARD <kournikolas@yahoo.fr>, 2006.
 msgid ""
@@ -25,9 +25,9 @@ msgstr ""
 "Project-Id-Version: urpmi-fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-23 18:41+0100\n"
-"PO-Revision-Date: 2007-10-12 20:43+0200\n"
+"PO-Revision-Date: 2008-01-24 22:59+0100\n"
 "Last-Translator: Christophe Berthelé <cpjc@free.fr>\n"
-"Language-Team: Français <cooker-i18n@mandrivalinux.org>\n"
+"Language-Team: French <cooker-i18n@mandrivalinux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -336,14 +336,14 @@ msgid "Running urpmi in restricted mode..."
 msgstr "Exécution d'urpmi en mode restreint..."
 
 #: ../urpm.pm:108
-#, fuzzy, c-format
+#, c-format
 msgid "fail to create directory %s"
-msgstr "Ecriture impossible dans le répertoire cache des paquetages [%s]\n"
+msgstr "échec de création du répertoire %s"
 
 #: ../urpm.pm:109
-#, fuzzy, c-format
+#, c-format
 msgid "invalid owner for directory %s"
-msgstr "Date ou durée invalide [%s]\n"
+msgstr "propriétaire invalide pour le répertoire %s"
 
 #: ../urpm.pm:207
 #, c-format
@@ -414,7 +414,7 @@ msgstr "urpmq : impossible de lire le fichier rpm « %s »\n"
 #: ../urpm/args.pm:352
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
-msgstr ""
+msgstr "par défaut urpmf s'attend à une regexp, utilisez l'option « --literal »"
 
 #: ../urpm/args.pm:418
 #, c-format
@@ -532,9 +532,9 @@ msgid "Couldn't execute prozilla\n"
 msgstr "Exécution de prozilla impossible\n"
 
 #: ../urpm/download.pm:573
-#, fuzzy, c-format
+#, c-format
 msgid "aria2 is missing\n"
-msgstr "prozilla est manquant\n"
+msgstr "aria2 est manquant\n"
 
 #: ../urpm/download.pm:675
 #, c-format
@@ -712,9 +712,9 @@ msgid "Installation failed"
 msgstr "L'installation a échoué"
 
 #: ../urpm/main_loop.pm:129
-#, fuzzy, c-format
+#, c-format
 msgid "removing installed rpms (%s)"
-msgstr "suppression des paquetages installés (%s) de %s"
+msgstr "suppression des paquetages installés (%s)"
 
 #: ../urpm/main_loop.pm:149
 #, c-format
@@ -799,9 +799,9 @@ msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "impossible d'accéder au fichier de liste de « %s », média ignoré"
 
 #: ../urpm/media.pm:164
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
-msgstr "impossible d'accéder au fichier hdlist de « %s », média ignoré"
+msgstr "impossible d'accéder au fichier synthesis de « %s », média ignoré"
 
 #: ../urpm/media.pm:190
 #, c-format
@@ -1012,26 +1012,24 @@ msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "La copie de [%s] a échoué (le fichier est étrangement petit)"
 
 #: ../urpm/media.pm:1091
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of retrieved source synthesis"
-msgstr ""
-"calcul de la somme de contrôle MD5 du fichier hdlist (ou de synthèse) "
-"téléchargé"
+msgstr "calcul de la somme de contrôle MD5 du fichier synthesis"
 
 #: ../urpm/media.pm:1093 ../urpm/media.pm:1526
-#, fuzzy, c-format
+#, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
-msgstr "la copie de [%s] a échoué (sommes de contrôle MD5 différentes)"
+msgstr "échec de la récupération de [%s] (inégalité md5sum)"
 
 #: ../urpm/media.pm:1108
-#, fuzzy, c-format
+#, c-format
 msgid "genhdlist2 failed on %s"
-msgstr "examen du fichier hdlist [%s]"
+msgstr "échec de genhdlist2 sur [%s]"
 
 #: ../urpm/media.pm:1118
-#, fuzzy, c-format
+#, c-format
 msgid "comparing %s and %s"
-msgstr "Vidage du répertoire %s et de %s"
+msgstr "comparaison de %s et de %s"
 
 #: ../urpm/media.pm:1138
 #, c-format
@@ -1050,24 +1048,24 @@ msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "fichier hdlist %s invalide pour le média « %s »"
 
 #: ../urpm/media.pm:1175
-#, fuzzy, c-format
+#, c-format
 msgid "copying MD5SUM file of \"%s\"..."
-msgstr "copie du fichier description de « %s »..."
+msgstr "copie du fichier MD5SUM de « %s »..."
 
 #: ../urpm/media.pm:1229
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving source synthesis of \"%s\"..."
-msgstr "récupération du hdlist source (ou de synthèse) de « %s »..."
+msgstr "récupération du fichier synthesis de « %s »..."
 
 #: ../urpm/media.pm:1246
-#, fuzzy, c-format
+#, c-format
 msgid "found probed synthesis as %s"
-msgstr "hdlist source (ou de synthèse) potentiel trouvé en tant que %s"
+msgstr "fichier synthesis localisé en tant que %s"
 
 #: ../urpm/media.pm:1253 ../urpm/media.pm:1364
-#, fuzzy, c-format
+#, c-format
 msgid "no synthesis file found for medium \"%s\""
-msgstr "pas de fichier hdlist trouvé pour le média « %s »"
+msgstr "pas de fichier synthesis trouvé pour le média « %s »"
 
 #: ../urpm/media.pm:1304
 #, c-format
@@ -1085,9 +1083,9 @@ msgid "unable to import pubkey file of \"%s\""
 msgstr "impossible d'importer le fichier de la clé publique de « %s »"
 
 #: ../urpm/media.pm:1373
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse synthesis file of \"%s\""
-msgstr "impossible d'analyser le fichier hdlist de « %s »"
+msgstr "impossible d'analyser le fichier synthesis de « %s »"
 
 #: ../urpm/media.pm:1409
 #, c-format
@@ -1097,7 +1095,7 @@ msgstr "média « %s » mis à jour"
 #: ../urpm/media.pm:1520
 #, c-format
 msgid "retrieval of [%s] failed"
-msgstr ""
+msgstr "échec de la récupération de [%s]"
 
 #: ../urpm/msg.pm:62 ../urpmi:505 ../urpmi:521 ../urpmi:610
 #, c-format
@@ -1764,19 +1762,19 @@ msgid "using specific environment on %s\n"
 msgstr "avec environnement spécifique sur %s\n"
 
 #: ../urpmf:292
-#, fuzzy, c-format
+#, c-format
 msgid "no hdlist available for medium \"%s\""
-msgstr "pas de fichier hdlist trouvé pour le média « %s »"
+msgstr "pas de fichier hdlist disponible pour le média « %s »"
 
 #: ../urpmf:299
-#, fuzzy, c-format
+#, c-format
 msgid "no synthesis available for medium \"%s\""
-msgstr "fichier de synthèse créé pour le média « %s »"
+msgstr "pas de fichier synthesis disponible pour le média « %s »"
 
 #: ../urpmf:306
-#, fuzzy, c-format
+#, c-format
 msgid "no xml-info available for medium \"%s\""
-msgstr "écriture de la liste des fichiers pour le média « %s »"
+msgstr "pas de fichier xml-info disponible pour le média « %s »"
 
 #: ../urpmi:69
 #, c-format
@@ -1886,9 +1884,9 @@ msgid "  --fuzzy, -y    - impose fuzzy search.\n"
 msgstr "  --fuzzy, -y    - imposer la recherche floue.\n"
 
 #: ../urpmi:97
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildrequires - install the buildrequires of the packages\n"
-msgstr "  --requires     - chercher dans la liste des dépendances\n"
+msgstr "  --buildrequires - installer les buildrequires des paquetages\n"
 
 #: ../urpmi:98
 #, c-format
@@ -1963,6 +1961,8 @@ msgid ""
 "  --downloader   - program to use to retrieve distant files. \n"
 "                   known programs: %s\n"
 msgstr ""
+"  --downloader   - programme à utiliser pour le téléchargement.\n"
+"                   programmes connus : %s\n"
 
 #: ../urpmi:116
 #, c-format
@@ -1985,9 +1985,9 @@ msgid "  --prozilla-options - additional options to pass to prozilla\n"
 msgstr "  --prozilla-options - options supplémentaires à passer à prozilla\n"
 
 #: ../urpmi:120
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2-options - additional options to pass to aria2\n"
-msgstr "  --prozilla-options - options supplémentaires à passer à prozilla\n"
+msgstr "  --aria2-options - options supplémentaires à passer à aria2\n"
 
 #: ../urpmi:121 ../urpmi.addmedia:49 ../urpmi.update:36
 #, c-format
@@ -2170,6 +2170,7 @@ msgstr ""
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
 msgstr ""
+"merci d'utiliser --buildrequires ou --install-src, par défaut --buildrequires"
 
 #: ../urpmi:239
 #, c-format
@@ -2445,6 +2446,10 @@ msgid ""
 "                   one of: never, on-demand, update-only, always. cf urpmi."
 "cfg(5)\n"
 msgstr ""
+"  --xml-info     - télécharger les fichiers xml-info avec la politique "
+"donnée\n"
+"                   parmi : never, on-demand, update-only, always. cf urpmi."
+"cfg(5)\n"
 
 #: ../urpmi.addmedia:57
 #, c-format
@@ -2541,7 +2546,7 @@ msgstr "  -v             - mode verbeux.\n"
 #: ../urpmi.addmedia:94
 #, c-format
 msgid "known xml-info policies are %s"
-msgstr ""
+msgstr "les politiques xml-info connues sont %s"
 
 #: ../urpmi.addmedia:102
 #, c-format
@@ -3118,120 +3123,3 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Aucun Changelog trouvé\n"
-
-#~ msgid "found %d rpm headers in cache, removing %d obsolete headers"
-#~ msgstr ""
-#~ "il y a %d entêtes de paquetages dans le cache, suppression de %d entêtes "
-#~ "obsolètes"
-
-#~ msgid "computing md5sum of existing source hdlist (or synthesis) [%s]"
-#~ msgstr "calcul de la somme MD5 de la source hdlist (ou synthesis) [%s]"
-
-#~ msgid ""
-#~ "virtual medium \"%s\" should not have defined hdlist or list file, medium "
-#~ "ignored"
-#~ msgstr ""
-#~ "le média virtuel « %s » ne devrait pas avoir de liste de fichier ou de "
-#~ "hdlist, média ignoré"
-
-#~ msgid "invalid hdlist name"
-#~ msgstr "nom de fichier hdlist invalide"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "impossible de trouver le fichier liste de « %s », média ignoré"
-
-#~ msgid "\"synthesis\" should not be set (medium \"%s\")"
-#~ msgstr "\"synthesis\" ne devrait pas être défini (média « %s »)"
-
-#~ msgid "\"synthesis\" should be set (medium \"%s\")"
-#~ msgstr "\"synthesis\" devrait être défini (média « %s »)"
-
-#~ msgid "unable to access list file of \"%s\""
-#~ msgstr "impossible d'accéder au fichier liste de « %s »"
-
-#~ msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-#~ msgstr ""
-#~ "le média « %s » essaye d'utiliser un hdlist déjà utilisé, média ignoré"
-
-#~ msgid "medium \"%s\" trying to use an already used list, medium ignored"
-#~ msgstr ""
-#~ "le média « %s » essaye d'utiliser une liste déjà utilisée, média ignoré"
-
-#~ msgid "wrote %s"
-#~ msgstr "écrit %s"
-
-#~ msgid ""
-#~ "Note: no hdlist for medium \"%s\", unable to return any result for it"
-#~ msgstr ""
-#~ "Note : aucun hdlist pour le média « %s » : impossible de retourner un "
-#~ "résultat"
-
-#~ msgid "performing second pass to compute dependencies\n"
-#~ msgstr "seconde exécution pour calculer les dépendances\n"
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "création du fichier hdlist [%s]"
-
-#~ msgid ""
-#~ "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
-#~ "corrupted."
-#~ msgstr ""
-#~ "Impossible de créer le fichier de synthèse pour le média « %s ». Votre "
-#~ "fichier hdlist est peut-être corrompu."
-
-#~ msgid "problem reading hdlist or synthesis file of medium \"%s\""
-#~ msgstr "problème de lecture du fichier hdlist ou de synthèse du média « %s »"
-
-#~ msgid "computing md5sum of copied source hdlist (or synthesis)"
-#~ msgstr ""
-#~ "calcul de la somme de contrôle MD5 du fichier hdlist copié (ou de "
-#~ "synthèse)"
-
-#~ msgid "...retrieving failed: md5sum mismatch"
-#~ msgstr ""
-#~ "... échec de la récupération : la somme de contrôle MD5 ne correspond pas"
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "pas de fichier rpm trouvé pour [%s]"
-
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "lecture des fichiers rpm à partir de [%s]"
-
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "impossible de lire les fichiers rpm à partir de [%s] : %s"
-
-#~ msgid "no rpms read"
-#~ msgstr "aucun rpms lu"
-
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "lecture des en-têtes du média « %s »"
-
-#~ msgid "    --probe-synthesis - use synthesis file.\n"
-#~ msgstr "  --probe-synthesis - utiliser un fichier de synthèse.\n"
-
-#~ msgid "    --probe-hdlist - use hdlist file.\n"
-#~ msgstr "  --probe-hdlist - utiliser un fichier hdlist.\n"
-
-#~ msgid ""
-#~ "Note: since no media searched uses hdlists, urpmf was unable to return "
-#~ "any result\n"
-#~ msgstr ""
-#~ "Note : comme aucun des médias spécifiés n'utilise de hdlist, urpmf n'a pu "
-#~ "retourner de résultat\n"
-
-#~ msgid "You may want to use --name to search for package names.\n"
-#~ msgstr ""
-#~ "Vous pouvez utiliser --name pour rechercher le nom d'un paquetage.\n"
-
-#~ msgid "  --src, -s      - next package is a source package.\n"
-#~ msgstr ""
-#~ "  --src, -s      - le prochain paquetage est un paquetage de sources\n"
-
-#~ msgid "  --probe-hdlist - use hdlist file.\n"
-#~ msgstr "  --probe-hdlist - utiliser un fichier hdlist.\n"
-
-#~ msgid "unable to update medium \"%s\"\n"
-#~ msgstr "impossible de mettre à jour le média « %s »\n"
-
-#~ msgid "unable to create medium \"%s\"\n"
-#~ msgstr "impossible de créer le média « %s »\n"
