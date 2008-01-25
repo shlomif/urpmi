@@ -50,6 +50,7 @@ usage:
 ") . N("  --sortmedia    - sort media according to substrings separated by comma.
 ") . N("  --synthesis    - use the given synthesis instead of urpmi db.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
+") . N("  --no-suggests  - do not auto select \"suggested\" packages.
 ") . N("  --fuzzy        - impose fuzzy search (same as -y).
 ") . N("  --keep         - keep existing packages if possible, reject requested
                    packages that lead to removals.
@@ -306,13 +307,16 @@ if ($options{list_aliases}) {
 				    keep => $options{keep},
 				    rpmdb => $options{env} && "$options{env}/rpmdb.cz",
 				    auto_select => $options{auto_select},
+				    no_suggests => $urpm->{options}{'no-suggests'},
 				    callback_choices => $stop_on_choices);
 	$options{deps} or delete @{$state->{selected}}{grep { exists $state->{selected}{$_} &&
 								  ! defined $state->{selected}{$_} } keys %{$state->{selected}}};
     } elsif ($options{deps}) {
 	#- only deps required.
 	my $empty_db = new URPM; #- URPM has same methods as URPM::DB and empty URPM will be seen as empty URPM::DB.
-	$urpm->resolve_requested($empty_db, $state, \%requested, callback_choices => $stop_on_choices, nodeps => 1);
+	$urpm->resolve_requested($empty_db, $state, \%requested, 
+				 no_suggests => $urpm->{options}{'no-suggests'},
+				 callback_choices => $stop_on_choices, nodeps => 1);
     } else {
 	$state->{selected} = \%requested;
     }

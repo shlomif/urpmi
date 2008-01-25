@@ -364,7 +364,7 @@ foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "u
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
 }
-foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synthesis=s")
+foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synthesis=s", 'suggests!')
 {
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
