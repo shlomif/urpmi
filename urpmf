@@ -141,7 +141,6 @@ our $pattern = '';	# regexp match flags ("i" or "")
 our $qf = '%default';	# format string
 our $separator = ':';	# default field separator
 our $sortmedia = '';
-our $synthesis = '';
 our $uniq = '';		# --uniq
 our $update = 0;	# --update
 
@@ -273,7 +272,7 @@ urpm::media::configure($urpm,
     media => $media,
     excludemedia => $excludemedia,
     sortmedia => $sortmedia,
-    synthesis => $synthesis,
+    synthesis => $options{synthesis},
     usedistrib => $urpm::args::options{usedistrib},
     update => $update,
     @needed_xml_info && $needed_media_info{synthesis} && !$needed_media_info{hdlist} ?
