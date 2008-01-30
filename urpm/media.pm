@@ -452,12 +452,19 @@ sub configure {
 	    #- synthesis take precedence over media, update options.
 	    $options{media} || $options{excludemedia} || $options{sortmedia} || $options{update} || $options{usedistrib} || $options{parallel} and
 	      $urpm->{fatal}(1, N("--synthesis cannot be used with --media, --excludemedia, --sortmedia, --update, --use-distrib or --parallel"));
-	    $urpm->parse_synthesis($options{synthesis});
-	    #- synthesis disables the split of transaction (too risky and not useful).
-	    $urpm->{options}{'split-length'} = 0;
+
+	    my $synthesis = $options{synthesis};
+	    if ($synthesis !~ m!^/!) {
+		require Cwd;
+		$synthesis = Cwd::getcwd() . '/' . $synthesis;
+	    }
+	    my ($url, $with) = $synthesis =~ m!(.*)/+(media_info/+synthesis\.hdlist\.cz)$! ? ($1, $2) : 
+	      (dirname($synthesis), basename($synthesis));
+
+            $urpm->{media} = [];
+	    add_medium($urpm, 'Virtual', $url, $with, %options, virtual => 1);
 	}
-    } else {
-        if ($options{usedistrib}) {
+    } elsif ($options{usedistrib}) {
             $urpm->{media} = [];
             add_distrib_media($urpm, "Virtual", $options{usedistrib}, %options, 'virtual' => 1);
         } else {
@@ -495,7 +502,7 @@ sub configure {
 	    $urpm->{media} = [ @sorted_media, @remaining ];
 	}
 	_parse_media($urpm, \%options) if !$options{nodepslist};
-    }
+
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
     if (!$options{nodepslist}) {
 	_compute_flags_for_skiplist($urpm, $options{cmdline_skiplist}) if !$options{no_skiplist};
