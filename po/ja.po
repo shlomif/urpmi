@@ -6,7 +6,7 @@
 # Copyright (c) 1999 Mandriva
 # Taisuke Yamada <tai@imasy.or.jp>, 1999.
 # UTUMI Hirosi <utuhiro@mx12.freecom.ne.jp>, 2003
-# BANDO Yukiko <ybando@k6.dion.ne.jp>, 2004, 2005, 2006, 2007.
+# BANDO Yukiko <ybando@k6.dion.ne.jp>, 2004-2008.
 #
 # ｙ
 msgid ""
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi-ja\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-23 18:41+0100\n"
-"PO-Revision-Date: 2007-09-14 23+0900\n"
+"PO-Revision-Date: 2008-01-31 23+0900\n"
 "Last-Translator: BANDO Yukiko <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <cooker-i18n@mandrivalinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -315,14 +315,14 @@ msgid "Running urpmi in restricted mode..."
 msgstr "urpmi を制限モードで実行中..."
 
 #: ../urpm.pm:108
-#, fuzzy, c-format
+#, c-format
 msgid "fail to create directory %s"
-msgstr "repackage ディレクトリに書き込めません [%s]\n"
+msgstr "ディレクトリ %s を作成できません"
 
 #: ../urpm.pm:109
-#, fuzzy, c-format
+#, c-format
 msgid "invalid owner for directory %s"
-msgstr "無効な日付または期間 [%s]\n"
+msgstr "ディレクトリ %s の所有者が無効です"
 
 #: ../urpm.pm:207
 #, c-format
@@ -394,6 +394,7 @@ msgstr "urpmq: RPM ファイル %s を読み込めません\n"
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
 msgstr ""
+"urpmf はデフォルトで正規表現を期待します。\"--literal\" を使ってください。"
 
 #: ../urpm/args.pm:418
 #, c-format
@@ -511,9 +512,9 @@ msgid "Couldn't execute prozilla\n"
 msgstr "prozilla を実行できませんでした\n"
 
 #: ../urpm/download.pm:573
-#, fuzzy, c-format
+#, c-format
 msgid "aria2 is missing\n"
-msgstr "prozilla がありません\n"
+msgstr "aria2 がありません\n"
 
 #: ../urpm/download.pm:675
 #, c-format
@@ -689,9 +690,9 @@ msgid "Installation failed"
 msgstr "インストールに失敗"
 
 #: ../urpm/main_loop.pm:129
-#, fuzzy, c-format
+#, c-format
 msgid "removing installed rpms (%s)"
-msgstr "インストールされている rpm (%s) を %s から削除"
+msgstr "インストールされている rpm (%s) を削除"
 
 #: ../urpm/main_loop.pm:149
 #, c-format
@@ -776,9 +777,9 @@ msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "%s のリストファイルにアクセスできません。メディアを無視します。"
 
 #: ../urpm/media.pm:164
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
-msgstr "%s の hdlist ファイルにアクセスできません。メディアを無視します。"
+msgstr "%s の synthesis ファイルにアクセスできません。メディアを無視します。"
 
 #: ../urpm/media.pm:190
 #, c-format
@@ -987,24 +988,24 @@ msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "[%s] のコピーに失敗 (ファイルが異常に小さすぎます)"
 
 #: ../urpm/media.pm:1091
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of retrieved source synthesis"
-msgstr "取得した source hdlist (または synthesis) の md5sum を計算"
+msgstr "取得した source synthesis の md5sum を計算"
 
 #: ../urpm/media.pm:1093 ../urpm/media.pm:1526
-#, fuzzy, c-format
+#, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
-msgstr "[%s] のコピーに失敗 (md5sum 不一致)"
+msgstr "[%s] の取得に失敗 (md5sum 不一致)"
 
 #: ../urpm/media.pm:1108
-#, fuzzy, c-format
+#, c-format
 msgid "genhdlist2 failed on %s"
-msgstr "hdlist ファイル [%s] を検査"
+msgstr "genhdlist2 が %s で失敗しました"
 
 #: ../urpm/media.pm:1118
-#, fuzzy, c-format
+#, c-format
 msgid "comparing %s and %s"
-msgstr "%s と %s をキャッシュから削除"
+msgstr "%s と %s を比較"
 
 #: ../urpm/media.pm:1138
 #, c-format
@@ -1023,24 +1024,24 @@ msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "メディア %2$s の hdlist ファイル %1$s が無効"
 
 #: ../urpm/media.pm:1175
-#, fuzzy, c-format
+#, c-format
 msgid "copying MD5SUM file of \"%s\"..."
-msgstr "%s の説明ファイルをコピー..."
+msgstr "%s の MD5SUM ファイルをコピー..."
 
 #: ../urpm/media.pm:1229
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving source synthesis of \"%s\"..."
-msgstr "%s の source hdlist (または synthesis) を取得..."
+msgstr "%s の source synthesis を取得..."
 
 #: ../urpm/media.pm:1246
-#, fuzzy, c-format
+#, c-format
 msgid "found probed synthesis as %s"
-msgstr "検出した hdlist (または synthesis) を %s と認識しました"
+msgstr "検出した synthesis を %s と認識しました"
 
 #: ../urpm/media.pm:1253 ../urpm/media.pm:1364
-#, fuzzy, c-format
+#, c-format
 msgid "no synthesis file found for medium \"%s\""
-msgstr "メディア %s には hdlist ファイルがありません"
+msgstr "メディア %s に synthesis ファイルが見つかりません"
 
 #: ../urpm/media.pm:1304
 #, c-format
@@ -1058,9 +1059,9 @@ msgid "unable to import pubkey file of \"%s\""
 msgstr "%s の公開鍵ファイルを取り込めません"
 
 #: ../urpm/media.pm:1373
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse synthesis file of \"%s\""
-msgstr "%s の hdlist を分析できません"
+msgstr "%s の synthesis ファイルを分析できません"
 
 #: ../urpm/media.pm:1409
 #, c-format
@@ -1070,7 +1071,7 @@ msgstr "メディア %s を更新しました"
 #: ../urpm/media.pm:1520
 #, c-format
 msgid "retrieval of [%s] failed"
-msgstr ""
+msgstr "[%s] の取得に失敗しました"
 
 #: ../urpm/msg.pm:62 ../urpmi:505 ../urpmi:521 ../urpmi:610
 #, c-format
@@ -1693,19 +1694,19 @@ msgid "using specific environment on %s\n"
 msgstr "%s に特定の環境を使用\n"
 
 #: ../urpmf:292
-#, fuzzy, c-format
+#, c-format
 msgid "no hdlist available for medium \"%s\""
-msgstr "メディア %s には hdlist ファイルがありません"
+msgstr "メディア %s には hdlist がありません"
 
 #: ../urpmf:299
-#, fuzzy, c-format
+#, c-format
 msgid "no synthesis available for medium \"%s\""
-msgstr "メディア %s の hdlist synthesis ファイルを作成しました"
+msgstr "メディア %s には synthesis がありません"
 
 #: ../urpmf:306
-#, fuzzy, c-format
+#, c-format
 msgid "no xml-info available for medium \"%s\""
-msgstr "メディア %s のリストファイルを作成"
+msgstr "メディア %s には XML 情報がありません"
 
 #: ../urpmi:69
 #, c-format
@@ -1800,9 +1801,9 @@ msgid "  --fuzzy, -y    - impose fuzzy search.\n"
 msgstr "  --fuzzy, -y    - ファジー検索\n"
 
 #: ../urpmi:97
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildrequires - install the buildrequires of the packages\n"
-msgstr "  --requires     - require (要求) タグ\n"
+msgstr "  --buildrequires - パッケージの buildrequires をインストール\n"
 
 #: ../urpmi:98
 #, c-format
@@ -1871,6 +1872,8 @@ msgid ""
 "  --downloader   - program to use to retrieve distant files. \n"
 "                   known programs: %s\n"
 msgstr ""
+"  --downloader   - リモートからファイルを取得するプログラム\n"
+"                   認識されたプログラム: %s\n"
 
 #: ../urpmi:116
 #, c-format
@@ -1893,9 +1896,9 @@ msgid "  --prozilla-options - additional options to pass to prozilla\n"
 msgstr "  --prozilla-options - prozilla に渡す追加オプション\n"
 
 #: ../urpmi:120
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2-options - additional options to pass to aria2\n"
-msgstr "  --prozilla-options - prozilla に渡す追加オプション\n"
+msgstr "  --aria2-options - aria2 に渡す追加オプション\n"
 
 #: ../urpmi:121 ../urpmi.addmedia:49 ../urpmi.update:36
 #, c-format
@@ -2057,6 +2060,8 @@ msgstr ""
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
 msgstr ""
+"--buildrequires または --install-src を使ってください。デフォルトは --"
+"buildrequires"
 
 #: ../urpmi:239
 #, c-format
@@ -2227,13 +2232,14 @@ msgid "(test only, removal will not be actually done)"
 msgstr "(テストのみ、実際には削除されません)"
 
 #: ../urpmi:577
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You must first call urpmi with --buildrequires to install the following "
 "dependencies:\n"
 "%s\n"
 msgstr ""
-"以下の依存パッケージをインストールするには root 権限が必要です:\n"
+"以下の依存パッケージをインストールするには、まず --buildrequires で urpmi を"
+"呼び出さなければなりません:\n"
 "%s\n"
 
 #: ../urpmi:594
@@ -2324,6 +2330,10 @@ msgid ""
 "                   one of: never, on-demand, update-only, always. cf urpmi."
 "cfg(5)\n"
 msgstr ""
+"  --xml-info     - XML 情報ファイルのダウンロードに次のいずれかのポリシーを使"
+"う:\n"
+"                   never, on-demand, update-only, always\n"
+"                   cf urpmi.cfg(5)\n"
 
 #: ../urpmi.addmedia:57
 #, c-format
@@ -2331,14 +2341,14 @@ msgid "  --probe-synthesis - use synthesis file.\n"
 msgstr "  --probe-synthesis - synthesis ファイルを使う\n"
 
 #: ../urpmi.addmedia:58
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-rpms   - use rpm files (instead of synthesis).\n"
-msgstr "  --probe-rpms   - rpm ファイルを使う (synthesis/hdlist の代わりに)\n"
+msgstr "  --probe-rpms   - rpm ファイルを使う (synthesis の代わりに)\n"
 
 #: ../urpmi.addmedia:59
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-probe     - do not try to find any synthesis file.\n"
-msgstr "  --no-probe     - synthesis/hdlist ファイルの検出を試みない\n"
+msgstr "  --no-probe     - synthesis ファイルの検出を試みない\n"
 
 #: ../urpmi.addmedia:61
 #, c-format
@@ -2412,7 +2422,7 @@ msgstr "  -v             - 詳細モード。\n"
 #: ../urpmi.addmedia:94
 #, c-format
 msgid "known xml-info policies are %s"
-msgstr ""
+msgstr "xml-info の既知のポリシーは %s"
 
 #: ../urpmi.addmedia:102
 #, c-format
@@ -2435,9 +2445,9 @@ msgid "Can't create config file [%s]"
 msgstr "設定ファイル [%s] を作成できません"
 
 #: ../urpmi.addmedia:117
-#, fuzzy, c-format
+#, c-format
 msgid "no need to give <relative path of synthesis> with --distrib"
-msgstr "--distrib に <hdlistの相対パス> は必要ありません"
+msgstr "--distrib には <synthesis の相対パス> は必要ありません"
 
 #: ../urpmi.addmedia:125
 #, c-format
@@ -2449,9 +2459,9 @@ msgstr ""
 "メディア '%s' を追加しますか？"
 
 #: ../urpmi.addmedia:150
-#, fuzzy, c-format
+#, c-format
 msgid "<relative path of synthesis> missing\n"
-msgstr "<hdlistの相対パス> の指定がありません\n"
+msgstr "<synthesis の相対パス> の指定がありません\n"
 
 #: ../urpmi.addmedia:153
 #, c-format
@@ -2665,10 +2675,9 @@ msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
 msgstr "  --no-ignore    - 更新せずにメディアを有効とする\n"
 
 #: ../urpmi.update:47
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-rpms   - do not use synthesis, use rpm files directly\n"
-msgstr ""
-"  --probe-rpms     - synthesis/hdlist を使わずに直接 RPM ファイルを使う\n"
+msgstr "  --probe-rpms     - synthesis を使わずに直接 RPM ファイルを使う\n"
 
 #: ../urpmi.update:48
 #, c-format
@@ -2676,14 +2685,14 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - リムーバブルメディア以外のすべてを選択\n"
 
 #: ../urpmi.update:50
-#, fuzzy, c-format
+#, c-format
 msgid "  -f             - force updating synthesis\n"
-msgstr "  -f             - synthesis/hdlist を強制的に更新\n"
+msgstr "  -f             - synthesis を強制的に更新\n"
 
 #: ../urpmi.update:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -ff            - really force updating synthesis\n"
-msgstr "  -f             - synthesis/hdlist を強制的に更新\n"
+msgstr "  -ff             - synthesis を更に強制的に更新\n"
 
 #: ../urpmi.update:68
 #, c-format
@@ -2814,14 +2823,14 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - 変更ログを表示\n"
 
 #: ../urpmq:80
-#, fuzzy, c-format
+#, c-format
 msgid "  --provides     - print provides.\n"
-msgstr "  --provides     - provide (提供) タグ\n"
+msgstr "  --provides     - provide (提供) を表示\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
-msgstr "  --sourcerpm    - ソース RPM の名前\n"
+msgstr "  --sourcerpm    - ソース RPM を表示\n"
 
 #: ../urpmq:82
 #, c-format
@@ -2829,11 +2838,13 @@ msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - 要約を表示\n"
 
 #: ../urpmq:84
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --requires-recursive, -d\n"
 "                   - query package dependencies.\n"
-msgstr "  -d             - 依存するパッケージも検索して表示\n"
+msgstr ""
+"  --requires-recursive, -d\n"
+"                   - パッケージの依存関係を問い合わせ\n"
 
 #: ../urpmq:86
 #, c-format
@@ -2922,26 +2933,30 @@ msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes は --parallel と一緒にしか使えません"
 
 #: ../urpmq:355
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
-msgstr "メディア %s に hdlist がないため、パッケージ %s の検索結果は不完全です"
+msgstr ""
+"メディア %s に XML 情報がないため、パッケージ %s の検索結果は不完全です"
 
 #: ../urpmq:356
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
-msgstr "メディア %s に hdlist がないため、パッケージ %s の検索結果は不完全です"
+msgstr ""
+"メディア %s に XML 情報がないため、パッケージ %s の検索結果は不完全です"
 
 #: ../urpmq:359
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
-msgstr "メディア %s に hdlist がないため、パッケージ %s の検索結果を返せません"
+msgstr ""
+"メディア %s に XML 情報がないため、パッケージ %s の検索結果を返せません"
 
 #: ../urpmq:360
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
-msgstr "メディア %s に hdlist がないため、パッケージ %s の検索結果を返せません"
+msgstr ""
+"メディア %s に XML 情報がないため、パッケージ %s の検索結果を返せません"
 
 #: ../urpmq:424
 #, c-format
