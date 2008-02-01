@@ -1338,11 +1338,6 @@ sub _read_cachedir_pubkey {
 sub _update_medium_ {
     my ($urpm, $medium, %options) = @_;
 
-    unless ($medium->{modified}) {
-	_parse_synthesis_or_ignore($urpm, $medium);
-	return 'unmodified';
-    }
-
     #- always delete a remaining list file or pubkey file in cache.
     foreach (qw(list pubkey)) {
 	unlink "$urpm->{cachedir}/partial/$_";
