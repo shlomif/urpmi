@@ -305,7 +305,7 @@ sub any_synthesis {
     -e $f && $f;
 }
 sub any_media_info_file {
-    my ($urpm, $medium, $prefix, $suffix, $quiet) = @_;
+    my ($urpm, $medium, $prefix, $suffix, $quiet, $o_callback) = @_;
 
     if (my $base = file_from_file_url($medium->{url})) {
 	my $f = $medium->{with_synthesis}
@@ -314,7 +314,7 @@ sub any_media_info_file {
 
 	-e $f && $f;
     } else {
-	_any_media_info__or_download($urpm, $medium, $prefix, $suffix, $quiet);
+	_any_media_info__or_download($urpm, $medium, $prefix, $suffix, $quiet, $o_callback);
     }
 }
 sub any_hdlist {
@@ -322,8 +322,8 @@ sub any_hdlist {
     any_media_info_file($urpm, $medium, 'hdlist', '.cz', $quiet);
 }
 sub any_xml_info {
-    my ($urpm, $medium, $xml_info, $quiet) = @_;
-    any_media_info_file($urpm, $medium, $xml_info, '.xml.lzma', $quiet);
+    my ($urpm, $medium, $xml_info, $quiet, $o_callback) = @_;
+    any_media_info_file($urpm, $medium, $xml_info, '.xml.lzma', $quiet, $o_callback);
 }
 
 sub name2medium {
@@ -1024,7 +1024,7 @@ sub _download_list_or_pubkey {
 }
 
 sub _download_media_info_file {
-    my ($urpm, $medium, $prefix, $suffix, $quiet, $o_download_dir) = @_;
+    my ($urpm, $medium, $prefix, $suffix, $quiet, $o_download_dir, $o_callback) = @_;
 
     my $download_dir = $o_download_dir || "$urpm->{cachedir}/partial";
     my $name = "$prefix$suffix";
@@ -1034,13 +1034,14 @@ sub _download_media_info_file {
 	my $local_name = $prefix . _synthesis_suffix($medium) . $suffix;
 
 	if (urpm::download::sync($urpm, $medium, [_synthesis_dir($medium) . "/$local_name"], 
-				 dir => $download_dir, quiet => $quiet)) {
+				 dir => $download_dir, quiet => $quiet, callback => $o_callback)) {
 	    rename("$download_dir/$local_name", $result_file);
 	    $found = 1;
 	}
     }
     if (!$found) {
-	urpm::download::sync($urpm, $medium, [_synthesis_dir($medium) .  "/$name"], dir => $download_dir, quiet => 1)
+	urpm::download::sync($urpm, $medium, [_synthesis_dir($medium) .  "/$name"], 
+			     dir => $download_dir, quiet => $quiet, callback => $o_callback)
 	    or unlink $result_file;
     }
     -s $result_file && $result_file;
@@ -1565,7 +1566,7 @@ sub _retrieve_media_info_file_and_check_MD5SUM {
 }
 
 sub _any_media_info__or_download {
-    my ($urpm, $medium, $prefix, $suffix, $quiet) = @_;
+    my ($urpm, $medium, $prefix, $suffix, $quiet, $o_callback) = @_;
 
     my $name = "$prefix.$medium->{name}$suffix";
     my $f = "$urpm->{statedir}/$name";
@@ -1583,7 +1584,7 @@ sub _any_media_info__or_download {
     get_medium_option($urpm, $medium, 'xml-info') ne 'never' or return;
 
     my $file_in_partial = 
-      _download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet, $download_dir) or return;
+      _download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet, $download_dir, $o_callback) or return;
 
     urpm::util::move($file_in_partial, $f) or return;
 
