@@ -383,8 +383,10 @@ B<source>: { id => src_rpm_file|spec_file }
 B<media>: [ { 
    start => int, end => int, name => string, url => string,
    virtual => bool, media_info_dir => string, with_synthesis => string,
+   no-media-info => bool,
    removable => string, downloader => string,
    ignore => bool, update => bool, modified => bool, really_modified => bool,
+   unknown_media_info => bool, 
  } ],
 
 =back

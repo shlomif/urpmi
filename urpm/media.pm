@@ -17,6 +17,7 @@ our @PER_MEDIA_OPT = qw(
     list
     media_info_dir
     name
+    no-media-info
     noreconfigure
     priority-upgrade
     removable
@@ -43,6 +44,18 @@ sub only_media_opts {
     my ($m) = @_;
     my %m = map { $_ => $m->{$_} } grep { defined $m->{$_} } @PER_MEDIA_OPT;
     \%m;
+}
+sub _only_media_opts_read {
+    my ($m) = @_;
+    my $c = only_media_opts($m);
+    $c->{media_info_dir} ||= 'media_info';
+    $c;
+}
+sub _only_media_opts_write {
+    my ($m) = @_;
+    my $c = only_media_opts($m);
+    delete $c->{media_info_dir} if $c->{media_info_dir} eq 'media_info';
+    $c;
 }
 
 sub read_private_netrc {
@@ -134,7 +147,7 @@ sub read_config {
     read_config_add_passwords($urpm, $config);
 
     foreach my $m (@{$config->{media}}) {
-	my $medium = only_media_opts($m);
+	my $medium = _only_media_opts_read($m);
 
 	if (!$medium->{url}) {
 	    #- recover the url the old deprecated way...
@@ -221,11 +234,23 @@ sub _url_with_synthesis_basename {
 }
 sub _synthesis_dir {
     my ($medium) = @_;
+    $medium->{'no-media-info'} || $medium->{unknown_media_info} and return;
+
     my $base = file_from_local_url($medium->{url}) || $medium->{url};
     $medium->{with_synthesis}
       ? reduce_pathname("$base/$medium->{with_synthesis}/..")
       : $medium->{media_info_dir} && reduce_pathname("$base/$medium->{media_info_dir}");
 }
+
+# the difference between _valid_synthesis_dir and _synthesis_dir
+# is only to handle upgrades from older urpmi.cfg where no {media_info_dir}
+# meant no-media-info
+sub _valid_synthesis_dir {
+    my ($medium) = @_;
+    my $dir = _synthesis_dir($medium);
+    $dir && -d $dir;
+}
+
 sub _url_with_synthesis {
     my ($medium) = @_;
 
@@ -378,7 +403,7 @@ sub write_urpmi_cfg {
 	#- global config options found in the config file, without the ones
 	#- set from the command-line
 	global => $urpm->{global_config},
-	media => [ map { only_media_opts($_) } grep { !$_->{external} } @{$urpm->{media}} ],
+	media => [ map { _only_media_opts_write($_) } grep { !$_->{external} } @{$urpm->{media}} ],
     };
     remove_passwords_and_write_private_netrc($urpm, $config);
 
@@ -598,6 +623,8 @@ sub add_medium {
 
     if ($with_synthesis) {
 	_migrate__with_synthesis($medium, $with_synthesis);
+    } else {
+	$medium->{unknown_media_info} = 1;
     }
 
     #- local media have priority, other are added at the end.
@@ -805,6 +832,7 @@ sub _probe_with_try_list {
 	if ($f->($url)) {
 	    $urpm->{debug} and $urpm->{debug}("found synthesis: $url");
 	    $medium->{media_info_dir} = $media_info_dir;
+	    delete $medium->{unknown_media_info};
 	    return 1;
 	}
     }
@@ -1138,7 +1166,7 @@ sub _update_medium__parse_if_unmodified__local {
 	#- by mounting some other directory. Try to figure it out and mount
 	#- everything that might be necessary.
 	urpm::removable::try_mounting($urpm,
-	    $options->{probe_with} ne 'rpms' && _synthesis_dir($medium)
+	    $options->{probe_with} ne 'rpms' && _valid_synthesis_dir($medium)
 	      ? _synthesis_dir($medium) : $dir,
 	    #- in case of an iso image, pass its name
 	    urpm::removable::is_iso($medium->{removable}) && $medium->{removable},
@@ -1148,7 +1176,7 @@ this could happen if you mounted manually the directory when creating the medium
 
     #- try to probe for possible with_synthesis parameter, unless
     #- it is already defined (and valid).
-    if (!_synthesis_dir($medium) && $options->{probe_with} ne 'rpms') {
+    if (!_valid_synthesis_dir($medium) && $options->{probe_with} ne 'rpms') {
 	_probe_with_try_list($urpm, $medium, sub {
 	    my ($url) = @_;
 	    -e $url or return;
@@ -1166,10 +1194,14 @@ this could happen if you mounted manually the directory when creating the medium
 	#- determine its type, once a with_synthesis has been found (but is mandatory).
 	_parse_synthesis_or_ignore($urpm, $medium);
 	1;
-    } elsif ($options->{probe_with} eq 'rpms' || !_synthesis_dir($medium)) {
+    } elsif ($options->{probe_with} eq 'rpms' || !_valid_synthesis_dir($medium)) {
 	_call_genhdlist2($urpm, $medium) or return '';
+	if (!$medium->{'no-media-info'}) {
+	    $medium->{'no-media-info'} = 1;
+	    $urpm->{modified} = 1;
+	}
 	1;
-    } elsif (_synthesis_dir($medium)) {
+    } elsif (_valid_synthesis_dir($medium)) {
 	my $new_MD5SUM = _synthesis_dir($medium) . '/MD5SUM';
 	unlink "$urpm->{cachedir}/partial/MD5SUM";
 
