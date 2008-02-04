@@ -4,6 +4,7 @@ use strict;
 use lib '.', 't';
 use helper;
 use Test::More 'no_plan';
+use Cwd;
 
 chdir 't' if -d 't';
 system('rm -rf tmp media');
@@ -61,7 +62,8 @@ sub genhdlist_std {
 sub rpmbuild {
     my ($spec, $o_medium_name) = @_;
 
-    system_("rpmbuild --quiet --define '_topdir tmp' -bb --clean --nodeps $spec");
+    my $dir = getcwd();
+    system_("rpmbuild --quiet --define '_topdir $dir/tmp' --define '_tmppath $dir/tmp' -bb --clean --nodeps $spec");
 
     my ($name) = $spec =~ m!([^/]*)\.spec$!;
 
