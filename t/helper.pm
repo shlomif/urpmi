@@ -51,11 +51,16 @@ my $urpmi_debug_opt = '-q';
 sub urpm_cmd {
     my ($prog, $o_perl_para) = @_;
     $o_perl_para ||= '';
+    "perl $o_perl_para -I.. ../$prog --urpmi-root $::pwd/root $urpmi_debug_opt";
+}
+sub urpm_cmd_no_quiet {
+    my ($prog, $o_perl_para) = @_;
+    $o_perl_para ||= '';
     "perl $o_perl_para -I.. ../$prog --urpmi-root $::pwd/root";
 }
 sub run_urpm_cmd {
     my ($prog, $o_perl_para) = @_;
-    my $cmd = urpm_cmd($prog, $o_perl_para);
+    my $cmd = urpm_cmd_no_quiet($prog, $o_perl_para);
     print "# $cmd\n";
     `$cmd`;
 }
@@ -63,19 +68,19 @@ sub urpmi_cmd() { urpm_cmd('urpmi') }
 
 sub urpmi_addmedia {
     my ($para) = @_;
-    system_(urpm_cmd('urpmi.addmedia') . " $urpmi_debug_opt $para");
+    system_(urpm_cmd('urpmi.addmedia') . " $para");
 }
 sub urpmi_removemedia {
     my ($para) = @_;
-    system_(urpm_cmd('urpmi.removemedia') . " $urpmi_debug_opt $para");
+    system_(urpm_cmd('urpmi.removemedia') . " $para");
 }
 sub urpmi_update {
     my ($para) = @_;
-    system_(urpm_cmd('urpmi.update') . " $urpmi_debug_opt $para");
+    system_(urpm_cmd('urpmi.update') . " $para");
 }
 sub urpmi {
     my ($para) = @_;
-    system_(urpmi_cmd() . " --ignoresize $urpmi_debug_opt $para");
+    system_(urpmi_cmd() . " --ignoresize $para");
 }
 sub test_urpmi_fail {
     my ($para) = @_;
