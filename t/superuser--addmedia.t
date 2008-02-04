@@ -12,18 +12,18 @@ my $name = 'various';
 my $name2 = 'various2';
 my $name3 = 'various3';
 
-my @fields = qw(hdlist synthesis with_synthesis media_info_dir list virtual ignore);
+my @fields = qw(hdlist synthesis with_synthesis media_info_dir no-media-info list virtual ignore);
 
-try_medium({ media_info_dir => 'media_info' }, '');
+try_medium({}, '');
 
 
-try_medium_({}, {}, 
+try_medium_({ 'no-media-info' => 1 }, { 'no-media-info' => 1 }, 
 	    '--probe-rpms', '--probe-rpms');
 
 
-try_medium({ media_info_dir => 'media_info' },
+try_medium({},
 	   '--probe-hdlist');
-try_medium({ media_info_dir => 'media_info' },
+try_medium({},
 	   'with media_info/hdlist.cz');
 try_medium({ 
 	     with_synthesis => "../media_info/synthesis.hdlist_$name.cz",
@@ -32,9 +32,9 @@ try_medium({
 	   "with ../media_info/hdlist_$name2.cz",
        );
 
-try_medium({ media_info_dir => 'media_info' },
+try_medium({},
 	   '--probe-synthesis');
-try_medium({ media_info_dir => 'media_info' },
+try_medium({},
 	   'with media_info/synthesis.hdlist.cz');
 try_medium({ 
 	     with_synthesis => "../media_info/synthesis.hdlist_$name.cz",
@@ -42,10 +42,10 @@ try_medium({
 	   "with ../media_info/synthesis.hdlist_$name.cz",
 	   "with ../media_info/synthesis.hdlist_$name2.cz");
 
-try_distrib({ media_info_dir => 'media_info' }, '');
-try_distrib({ media_info_dir => 'media_info' }, 
+try_distrib({}, '');
+try_distrib({}, 
 	    '--probe-hdlist');
-try_distrib({ media_info_dir => 'media_info' },
+try_distrib({},
 	    '--probe-synthesis');
 try_distrib_removable({
 	      with_synthesis => "../..//media/media_info/synthesis.hdlist_$name.cz",
