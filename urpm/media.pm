@@ -929,27 +929,7 @@ sub _synthesis_suffix {
     $medium->{with_synthesis} =~ /synthesis\.hdlist(.*?)(?:\.src)?\.cz$/ ? $1 : '';
 }
 
-#- names.<media_name> is used by external progs (namely for bash-completion)
-sub generate_medium_names {
-    my ($urpm, $medium) = @_;
-
-    unlink statedir_names($urpm, $medium);
-
-    if (my $fh = urpm::sys::open_safe($urpm, ">", statedir_names($urpm, $medium))) {
-	foreach ($medium->{start} .. $medium->{end}) {
-	    if (defined $urpm->{depslist}[$_]) {
-		print $fh $urpm->{depslist}[$_]->name . "\n";
-	    } else {
-		$urpm->{error}(N("Error generating names file: dependency %d not found", $_));
-	    }
-	}
-    } else {
-	$urpm->{error}(N("Error generating names file: Can't write to file (%s)", $!));
-    }
-}
-
-
-sub _read_existing_synthesis {
+sub _medium_is_up_to_date {
     my ($urpm, $medium) = @_;
 
     unlink cachedir_with_synthesis($urpm, $medium);
@@ -958,12 +938,6 @@ sub _read_existing_synthesis {
 
     #- the medium is now considered not modified.
     $medium->{modified} = 0;
-    #- XXX we could link the new synthesis to the old one.
-    #- (However links need to be managed. see bug #12391.)
-    #- as previously done, just read synthesis file here, this is enough.
-    _parse_synthesis_or_ignore($urpm, $medium);
-
-    1;
 }
 
 sub _parse_synthesis {
@@ -1191,9 +1165,7 @@ this could happen if you mounted manually the directory when creating the medium
     }
 
     if ($medium->{virtual}) {
-	#- syncing a virtual medium is very simple, just try to read the file in order to
-	#- determine its type, once a with_synthesis has been found (but is mandatory).
-	_parse_synthesis_or_ignore($urpm, $medium);
+	#- syncing a virtual medium is very simple :)
 	1;
     } elsif ($options->{probe_with} eq 'rpms' || !_valid_synthesis_dir($medium)) {
 	_call_genhdlist2($urpm, $medium) or return '';
@@ -1208,8 +1180,8 @@ this could happen if you mounted manually the directory when creating the medium
 
 	if (!$options->{nomd5sum} && file_size($new_MD5SUM) > 32) {	
 	    if (!$options->{force} && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
-		_read_existing_synthesis($urpm, $medium)
-		  and return 'unmodified';
+	        _medium_is_up_to_date($urpm, $medium);
+		return 'unmodified';
 	    }
 
 	    $urpm->{log}(N("copying MD5SUM file of \"%s\"...", $medium->{name}));
@@ -1258,8 +1230,8 @@ sub _update_medium__parse_if_unmodified__remote {
 	if (!$options->{nomd5sum} && _download_MD5SUM($urpm, $medium)) {
 	    my $new_MD5SUM = "$urpm->{cachedir}/partial/MD5SUM";
 	    if ($options->{force} < 2 && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
-		_read_existing_synthesis($urpm, $medium)
-		  and return 'unmodified';
+		_medium_is_up_to_date($urpm, $medium);
+		return 'unmodified';
 	    }
 	}
     }
@@ -1400,20 +1372,6 @@ sub _update_medium_ {
 	    return;
 	}
 
-	    $options{callback} and $options{callback}('parse', $medium->{name});
-
-	    if (_parse_synthesis($urpm, $medium, cachedir_with_synthesis($urpm, $medium))) {
-		$options{callback} && $options{callback}('done', $medium->{name});
-	    } else {
-		$urpm->{error}(N("unable to parse synthesis file of \"%s\"", $medium->{name}));
-		$options{callback} and $options{callback}('failed', $medium->{name});
-
-		#- we have to read back the current synthesis file unmodified.
-		_parse_synthesis_or_ignore($urpm, $medium);
-
-		return;
-	    }
-
 	    #- use new files
 
 	    unlink statedir_synthesis($urpm, $medium);
@@ -1439,7 +1397,6 @@ sub _update_medium_ {
 
     _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
     $medium->{'key-ids'} ||= _read_cachedir_pubkey($urpm, $medium, $options{wait_lock});
-    generate_medium_names($urpm, $medium);
 
     $is_updating and $urpm->{info}(N("updated medium \"%s\"", $medium->{name}));
 
