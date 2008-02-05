@@ -134,10 +134,8 @@ sub recover_url_from_list {
 
 #- Loads /etc/urpmi/urpmi.cfg and performs basic checks.
 #- Does not handle old format: <name> <url> [with <path_hdlist>]
-#- options :
-#-    - nocheck_access : don't check presence of synthesis and other files
 sub read_config {
-    my ($urpm, $b_nocheck_access) = @_;
+    my ($urpm) = @_;
     return if $urpm->{media}; #- media already loaded
     $urpm->{media} = [];
     my $config = urpm::cfg::load_config($urpm->{config})
@@ -156,7 +154,7 @@ sub read_config {
 	    $medium->{url} or $urpm->{error}("unable to find url in list file $medium->{name}, medium ignored");
 	}
 
-	add_existing_medium($urpm, $medium, $b_nocheck_access);
+	add_existing_medium($urpm, $medium);
     }
 
     eval { require urpm::ldap; urpm::ldap::load_ldap_media($urpm) };
@@ -164,7 +162,7 @@ sub read_config {
 
 #- if invalid, set {ignore}
 sub check_existing_medium {
-    my ($urpm, $medium, $b_nocheck_access) = @_;
+    my ($urpm, $medium) = @_;
 
     my $err;
     if (!$medium->{url}) { 
@@ -172,7 +170,7 @@ sub check_existing_medium {
 	  N("virtual medium \"%s\" should have a clear url, medium ignored",
 			   $medium->{name}) :
 	  N("unable to access list file of \"%s\", medium ignored", $medium->{name});
-    } elsif (!$b_nocheck_access && !$medium->{ignore} 
+    } elsif (!$medium->{ignore} 
 	     && !-r any_synthesis($urpm, $medium)) {
 	$err = N("unable to access synthesis file of \"%s\", medium ignored", $medium->{name});
     }
@@ -197,7 +195,7 @@ sub _migrate__with_synthesis {
 
 #- probe medium to be used, take old medium into account too.
 sub add_existing_medium {
-    my ($urpm, $medium, $b_nocheck_access) = @_;
+    my ($urpm, $medium) = @_;
 
     if (name2medium($urpm, $medium->{name})) {
 	$urpm->{error}(N("trying to override existing medium \"%s\", skipping", $medium->{name}));
@@ -209,7 +207,7 @@ sub add_existing_medium {
 	$urpm->{modified} = 1;
     }
 
-    check_existing_medium($urpm, $medium, $b_nocheck_access);
+    check_existing_medium($urpm, $medium);
 
     #- probe removable device.
     probe_removable_device($urpm, $medium);
@@ -431,7 +429,6 @@ sub _tempignore {
 #- options :
 #-	root (deprecated, set directly $urpm->{root})
 #-	cmdline_skiplist
-#-      nocheck_access (used by read_config)
 #-
 #-	callback (urpmf)
 #-	nodepslist (for urpmq, urpmf: when we don't need the synthesis)
@@ -493,7 +490,7 @@ sub configure {
             $urpm->{media} = [];
             add_distrib_media($urpm, "Virtual", $options{usedistrib}, %options, 'virtual' => 1);
         } else {
-	    read_config($urpm, $options{nocheck_access});
+	    read_config($urpm);
 	    if (!$options{media} && $urpm->{options}{'default-media'}) {
 		$options{media} = $urpm->{options}{'default-media'};
 	    }

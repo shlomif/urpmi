@@ -151,7 +151,6 @@ my $rpm_lock =
   && urpm::lock::rpm_db($urpm, '', wait => $options{wait_lock});
 my $urpmi_lock = !$options{nolock} && urpm::lock::urpmi_db($urpm, '', wait => $options{wait_lock});
 urpm::media::configure($urpm,
-    nocheck_access => 1,
     nodepslist => $options{nodepslist},
     media => $options{media},
     searchmedia => $options{searchmedia},
