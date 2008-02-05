@@ -63,6 +63,7 @@ try_distrib_removable({
 	      with_synthesis3 => "../..//media/media_info/synthesis.hdlist_$name3.cz" }, 
 	    '--probe-synthesis');
 
+try_use_distrib();
 
 sub try_medium {
     my ($want, $options, $o_options2) = @_;
@@ -117,6 +118,11 @@ sub try_distrib_ {
     check_conf($want, $want, $want3);
     check_urpmi($name, $name2);
     urpmi_removemedia('-a');
+}
+
+sub try_use_distrib {
+    urpmi("--use-distrib $::pwd $name $name2");
+    check_installed_and_remove($name, $name2);
 }
 
 sub try_distrib_removable_ {

@@ -623,7 +623,7 @@ sub add_medium {
 
     if ($with_synthesis) {
 	_migrate__with_synthesis($medium, $with_synthesis);
-    } else {
+    } elsif (!$medium->{media_info_dir}) {
 	$medium->{unknown_media_info} = 1;
     }
 
