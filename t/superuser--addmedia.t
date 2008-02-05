@@ -142,6 +142,5 @@ sub check_conf {
 sub check_urpmi {
     my (@names) = @_;
     urpmi(join(' ', @names));
-    is(`rpm -qa --root $::pwd/root | sort`, join('', map { "$_-1-1\n" } @names));
-    urpme(join(' ', @names));
+    check_installed_and_remove(@names);
 }
