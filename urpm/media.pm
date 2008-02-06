@@ -223,6 +223,15 @@ sub file_from_file_url {
     $url =~ m!^(?:file:/)?(/.*)! && $1;
 }
 
+sub _is_local_virtual {
+    my ($medium) = @_;
+    $medium->{virtual} && file_from_file_url($medium);
+}
+sub _is_remote_virtual {
+    my ($medium) = @_;
+    $medium->{virtual} && !file_from_file_url($medium);
+}
+
 sub _url_with_synthesis_basename {
     my ($medium) = @_;
 
@@ -298,7 +307,7 @@ sub cachedir_with_synthesis {
 }
 sub any_synthesis {
     my ($urpm, $medium) = @_;
-    my $f = $medium->{virtual} ? _url_with_synthesis($medium)
+    my $f = _is_local_virtual($medium->{virtual}) ? _url_with_synthesis($medium)
       : statedir_synthesis($urpm, $medium);
     -e $f && $f;
 }
@@ -429,6 +438,7 @@ sub _tempignore {
 #- options :
 #-	root (deprecated, set directly $urpm->{root})
 #-	cmdline_skiplist
+#-      download_callback (used by add_existing_medium)
 #-
 #-	callback (urpmf)
 #-	nodepslist (for urpmq, urpmf: when we don't need the synthesis)
@@ -523,6 +533,7 @@ sub configure {
 	    my @remaining = difference2($urpm->{media}, \@sorted_media);
 	    $urpm->{media} = [ @sorted_media, @remaining ];
 	}
+	_auto_update_media($urpm, %options) or return;
 	_parse_media($urpm, \%options) if !$options{nodepslist};
 
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
@@ -530,6 +541,21 @@ sub configure {
 	_compute_flags_for_skiplist($urpm, $options{cmdline_skiplist}) if !$options{no_skiplist};
 	_compute_flags_for_instlist($urpm);
     }
+}
+
+#- for remote "virtual" media
+#- options: download_callback, nomd5sum, quiet, nopubkey
+sub _auto_update_media {
+    my ($urpm, %options) = @_;
+
+    $options{callback} = delete $options{download_callback};
+
+    my $errors;
+    foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) && 
+		      _is_remote_virtual($_) } @{$urpm->{media} || []}) {
+	_update_medium($urpm, $_, %options) or $errors++;
+    }
+    !$errors;
 }
 
 sub _parse_media {
@@ -612,7 +638,6 @@ sub add_medium {
     }
 
     if ($options{virtual}) {
-	file_from_file_url($url) or $urpm->{fatal}(1, N("virtual medium needs to be local"));
 	$medium->{virtual} = 1;
     } else {
 	probe_removable_device($urpm, $medium);
@@ -1161,8 +1186,8 @@ this could happen if you mounted manually the directory when creating the medium
 	});
     }
 
-    if ($medium->{virtual}) {
-	#- syncing a virtual medium is very simple :)
+    if (_is_local_virtual($medium)) {
+	#- syncing a local virtual medium is very simple :)
 	1;
     } elsif ($options->{probe_with} eq 'rpms' || !_valid_synthesis_dir($medium)) {
 	_call_genhdlist2($urpm, $medium) or return '';
@@ -1363,7 +1388,7 @@ sub _update_medium_ {
 
     my $is_updating = -e statedir_synthesis($urpm, $medium);
 
-    if (!$medium->{virtual}) {
+    if (!_is_local_virtual($medium)) {
 	if (file_size(cachedir_with_synthesis($urpm, $medium)) < 20) {
 	    $urpm->{error}(N("no synthesis file found for medium \"%s\"", $medium->{name}));
 	    return;
@@ -1405,7 +1430,7 @@ sub _update_medium {
 
     my $rc = _update_medium_($urpm, $medium, %options);
 
-    if (!$rc && !$medium->{virtual}) {
+    if (!$rc && !_is_local_virtual($medium)) {
 	#- an error has occured for updating the medium, we have to remove temporary files.
 	unlink(glob("$urpm->{cachedir}/partial/*"));
     }
