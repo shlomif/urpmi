@@ -316,14 +316,14 @@ msgid "Running urpmi in restricted mode..."
 msgstr "正在以限制模式运行 urpmi..."
 
 #: ../urpm.pm:108
-#, fuzzy, c-format
+#, c-format
 msgid "fail to create directory %s"
-msgstr "无法写入重新打包目录 [%s]\n"
+msgstr "创建目录 %s 失败"
 
 #: ../urpm.pm:109
-#, fuzzy, c-format
+#, c-format
 msgid "invalid owner for directory %s"
-msgstr "无效的日期或时长 [%s]\n"
+msgstr "目录 %s 的所有者无效"
 
 #: ../urpm.pm:207
 #, c-format
@@ -394,7 +394,7 @@ msgstr "urpmq: 无法读取 rpm 文件“%s”\n"
 #: ../urpm/args.pm:352
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
-msgstr ""
+msgstr "默认情况下，urpmf 使用正则表达式。您应该使用选项“--literal”"
 
 #: ../urpm/args.pm:418
 #, c-format
@@ -512,9 +512,9 @@ msgid "Couldn't execute prozilla\n"
 msgstr "无法执行 prozilla\n"
 
 #: ../urpm/download.pm:573
-#, fuzzy, c-format
+#, c-format
 msgid "aria2 is missing\n"
-msgstr "缺少 prozilla\n"
+msgstr "缺少 aria2\n"
 
 #: ../urpm/download.pm:675
 #, c-format
@@ -688,9 +688,9 @@ msgid "Installation failed"
 msgstr "安装失败"
 
 #: ../urpm/main_loop.pm:129
-#, fuzzy, c-format
+#, c-format
 msgid "removing installed rpms (%s)"
-msgstr "正在从 %2$s 删除已安装的 rpm(%1$s)"
+msgstr "删除已安装的 rpm(%s)"
 
 #: ../urpm/main_loop.pm:149
 #, c-format
@@ -774,9 +774,9 @@ msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "无法访问“%s”的列表文件，介质被忽略"
 
 #: ../urpm/media.pm:164
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
-msgstr "无法访问“%s”的 hdlist 文件，介质被忽略"
+msgstr "无法访问“%s”的综合文件，介质被忽略"
 
 #: ../urpm/media.pm:190
 #, c-format
@@ -998,9 +998,9 @@ msgid "genhdlist2 failed on %s"
 msgstr "正在检查 hdlist 文件 [%s]"
 
 #: ../urpm/media.pm:1118
-#, fuzzy, c-format
+#, c-format
 msgid "comparing %s and %s"
-msgstr "清除 %s 和 %s"
+msgstr "比较 %s 和 %s"
 
 #: ../urpm/media.pm:1138
 #, c-format
@@ -1685,19 +1685,19 @@ msgid "using specific environment on %s\n"
 msgstr "在 %s 使用指定环境\n"
 
 #: ../urpmf:292
-#, fuzzy, c-format
+#, c-format
 msgid "no hdlist available for medium \"%s\""
-msgstr "介质“%s”未发现 hdlist 文件"
+msgstr "介质“%s”的 hdlist 不可用"
 
 #: ../urpmf:299
-#, fuzzy, c-format
+#, c-format
 msgid "no synthesis available for medium \"%s\""
-msgstr "创建介质“%s”的 hdlist 综合文件"
+msgstr "介质“%s”的综合文件不可用"
 
 #: ../urpmf:306
-#, fuzzy, c-format
+#, c-format
 msgid "no xml-info available for medium \"%s\""
-msgstr "正在写入介质“%s”的列表文件"
+msgstr "介质“%s”没有可用的 xml-info"
 
 #: ../urpmi:69
 #, c-format
@@ -1790,9 +1790,9 @@ msgid "  --fuzzy, -y    - impose fuzzy search.\n"
 msgstr "  --fuzzy, -y    - 利用模糊查询。\n"
 
 #: ../urpmi:97
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildrequires - install the buildrequires of the packages\n"
-msgstr "  --requires     - requires 标签\n"
+msgstr "  --buildrequires - 安装软件包构建需求\n"
 
 #: ../urpmi:98
 #, c-format
@@ -1876,9 +1876,9 @@ msgid "  --prozilla-options - additional options to pass to prozilla\n"
 msgstr "  --prozilla-options - 给 prozilla 传递额外的选项\n"
 
 #: ../urpmi:120
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2-options - additional options to pass to aria2\n"
-msgstr "  --prozilla-options - 给 prozilla 传递额外的选项\n"
+msgstr "  --aria2-options - 给 aria2 传递额外的选项\n"
 
 #: ../urpmi:121 ../urpmi.addmedia:49 ../urpmi.update:36
 #, c-format
@@ -2201,14 +2201,12 @@ msgid "(test only, removal will not be actually done)"
 msgstr "(只是测试，删除将不会实际发生)"
 
 #: ../urpmi:577
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You must first call urpmi with --buildrequires to install the following "
 "dependencies:\n"
 "%s\n"
 msgstr ""
-"您必须以 root 身份安装下列满足依赖性需要的软件包:\n"
-"%s\n"
 
 #: ../urpmi:594
 #, c-format
@@ -2305,14 +2303,14 @@ msgid "  --probe-synthesis - use synthesis file.\n"
 msgstr "  --probe-synthesis - 使用综合文件。\n"
 
 #: ../urpmi.addmedia:58
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-rpms   - use rpm files (instead of synthesis).\n"
-msgstr "  --probe-rpms   - 使用 rpm 文件(而不是综合文件/hdlist。\n"
+msgstr "  --probe-rpms   - 使用 rpm 文件(而不是综合文件)。\n"
 
 #: ../urpmi.addmedia:59
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-probe     - do not try to find any synthesis file.\n"
-msgstr "  --no-probe     - 不试图查找任何综合文件或 hdlist 文件。\n"
+msgstr "  --no-probe     - 不试图查找任何综合文件文件。\n"
 
 #: ../urpmi.addmedia:61
 #, c-format
@@ -2401,9 +2399,9 @@ msgid "Can't create config file [%s]"
 msgstr "无法创建配置文件[%s]"
 
 #: ../urpmi.addmedia:117
-#, fuzzy, c-format
+#, c-format
 msgid "no need to give <relative path of synthesis> with --distrib"
-msgstr "使用 --distrib 不需要提供 <hdlist 的相对路径>"
+msgstr "使用 --distrib 不需要提供 <综合文件的相对路径>"
 
 #: ../urpmi.addmedia:125
 #, c-format
@@ -2415,9 +2413,9 @@ msgstr ""
 "您是否想要添加介质“%s”"
 
 #: ../urpmi.addmedia:150
-#, fuzzy, c-format
+#, c-format
 msgid "<relative path of synthesis> missing\n"
-msgstr "<hdlist 相对路径>找不到\n"
+msgstr "<综合文件的相对路径>找不到\n"
 
 #: ../urpmi.addmedia:153
 #, c-format
@@ -2627,9 +2625,9 @@ msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
 msgstr "  --no-ignore    - 不更新，将介质标为启用。\n"
 
 #: ../urpmi.update:47
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-rpms   - do not use synthesis, use rpm files directly\n"
-msgstr "  --probe-rpms   - 不使用综合文件或 hdlist 文件，直接使用 rpm 文件\n"
+msgstr "  --probe-rpms   - 不使用综合文件，直接使用 rpm 文件\n"
 
 #: ../urpmi.update:48
 #, c-format
@@ -2637,14 +2635,14 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - 选择所有不可移动的介质。\n"
 
 #: ../urpmi.update:50
-#, fuzzy, c-format
+#, c-format
 msgid "  -f             - force updating synthesis\n"
-msgstr "  -f             - 强迫更新综合文件/hdlist 文件。\n"
+msgstr "  -f             - 强迫更新综合文件。\n"
 
 #: ../urpmi.update:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -ff            - really force updating synthesis\n"
-msgstr "  -f             - 强迫更新综合文件/hdlist 文件。\n"
+msgstr "  -ff            - 强迫更新综合文件。\n"
 
 #: ../urpmi.update:68
 #, c-format
@@ -2768,14 +2766,14 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - 打印更新日志。\n"
 
 #: ../urpmq:80
-#, fuzzy, c-format
+#, c-format
 msgid "  --provides     - print provides.\n"
-msgstr "  --provides     - provides 标签\n"
+msgstr "  --provides     - 打印 provides。\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
-msgstr "  --sourcerpm    - 源 rpm 名称\n"
+msgstr "  --sourcerpm    - 打印源 rpm 名称。\n"
 
 #: ../urpmq:82
 #, c-format
@@ -2783,11 +2781,13 @@ msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - 打印摘要。\n"
 
 #: ../urpmq:84
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --requires-recursive, -d\n"
 "                   - query package dependencies.\n"
-msgstr "  -d             - 扩展软件包依赖性查询。\n"
+msgstr ""
+"  --requires-recursive, -d\n"
+"                   - 查询软件包依赖关系。\n"
 
 #: ../urpmq:86
 #, c-format
@@ -2901,124 +2901,3 @@ msgstr "由于介质“%s”没有 hdlists，软件包 %s 无法返回任何结�
 msgid "No changelog found\n"
 msgstr "没有找到更新日志\n"
 
-#~ msgid "found %d rpm headers in cache, removing %d obsolete headers"
-#~ msgstr "在缓存中找到了 %d 个 rpm 头，删除了 %d 个过期头"
-
-#~ msgid "computing md5sum of existing source hdlist (or synthesis) [%s]"
-#~ msgstr "正在计算已有源 hdlist(或综合文件)[%s]的 md5sum"
-
-#~ msgid ""
-#~ "virtual medium \"%s\" should not have defined hdlist or list file, medium "
-#~ "ignored"
-#~ msgstr "虚拟介质“%s”不应在 hdlist 或列表文件中定义，介质被忽略"
-
-#~ msgid "invalid hdlist name"
-#~ msgstr "无效的 hdlist 名称"
-
-#~ msgid "unable to find list file for \"%s\", medium ignored"
-#~ msgstr "找不到“%s”的列表文件，介质被忽略"
-
-#~ msgid "\"synthesis\" should not be set (medium \"%s\")"
-#~ msgstr "不应设置“synthesis”(介质“%s”)"
-
-#~ msgid "\"synthesis\" should be set (medium \"%s\")"
-#~ msgstr "应该设置“synthesis”(介质“%s”)"
-
-#~ msgid "unable to access list file of \"%s\""
-#~ msgstr "无法访问“%s”的列表文件"
-
-#~ msgid "medium \"%s\" trying to use an already used hdlist, medium ignored"
-#~ msgstr "介质“%s”试图使用已经用过的 hdlist，介质被忽略"
-
-#~ msgid "medium \"%s\" trying to use an already used list, medium ignored"
-#~ msgstr "介质“%s”试图打开已经用过的列表，介质被忽略"
-
-#~ msgid "wrote %s"
-#~ msgstr "写入 %s"
-
-#~ msgid ""
-#~ "Note: no hdlist for medium \"%s\", unable to return any result for it"
-#~ msgstr "注意: 介质“%s”没有 hdlist，无法返回任何结果"
-
-#~ msgid "performing second pass to compute dependencies\n"
-#~ msgstr "正在执行第二遍依赖关系的计算\n"
-
-#~ msgid "building hdlist [%s]"
-#~ msgstr "正在创建 hdlist [%s]"
-
-#~ msgid ""
-#~ "Unable to build synthesis file for medium \"%s\". Your hdlist file may be "
-#~ "corrupted."
-#~ msgstr "无法创建介质“%s”的综合文件。您的 hdlist 文件可能已经损坏。"
-
-#~ msgid "problem reading hdlist or synthesis file of medium \"%s\""
-#~ msgstr "读取介质“%s”的 hdlist 或综合文件出现问题"
-
-#~ msgid "computing md5sum of copied source hdlist (or synthesis)"
-#~ msgstr "正在计算已复制源 hdlist(或综合文件)的 md5sum..."
-
-#~ msgid "...retrieving failed: md5sum mismatch"
-#~ msgstr "...获取失败: md5sum 不匹配"
-
-#~ msgid "no rpm files found from [%s]"
-#~ msgstr "[%s] 中未发现 rpm 文件"
-
-#~ msgid "reading rpm files from [%s]"
-#~ msgstr "正在从[%s]读取 rpm 文件"
-
-#~ msgid "unable to read rpm files from [%s]: %s"
-#~ msgstr "无法从[%s]读取 rpm 文件: %s"
-
-#~ msgid "no rpms read"
-#~ msgstr "没有读到 rpm"
-
-#~ msgid "reading headers from medium \"%s\""
-#~ msgstr "正在从介质“%s”读取头"
-
-#~ msgid "    --probe-synthesis - use synthesis file.\n"
-#~ msgstr "    --probe-synthesis - 使用综合文件。\n"
-
-#~ msgid "    --probe-hdlist - use hdlist file.\n"
-#~ msgstr "    --probe-hdlist - 使用 hdlist 文件。\n"
-
-#~ msgid ""
-#~ "Note: since no media searched uses hdlists, urpmf was unable to return "
-#~ "any result\n"
-#~ msgstr "注意: 由于没有介质使用 hdlists 搜索，urpmf 无法返回任何结果\n"
-
-#~ msgid "You may want to use --name to search for package names.\n"
-#~ msgstr "您可能想要使用 --name 来搜索软件包名称。\n"
-
-#~ msgid "  --src, -s      - next package is a source package.\n"
-#~ msgstr "  --src, -s       - 下一个软件包是源程序包。\n"
-
-#~ msgid "  --probe-hdlist - use hdlist file.\n"
-#~ msgstr "  --probe-hdlist - 使用 hdlist 文件。\n"
-
-#~ msgid "unable to update medium \"%s\"\n"
-#~ msgstr "无法更新介质“%s”\n"
-
-#~ msgid "unable to create medium \"%s\"\n"
-#~ msgstr "无法创建介质“%s”\n"
-
-#~ msgid "there are multiple packages with the same rpm filename \"%s\""
-#~ msgstr "有多个文件名都为“%s”的 rpm 软件包"
-
-#~ msgid "unable to correctly parse [%s] on value \"%s\""
-#~ msgstr "无法正确处理[%s]为值“%s”"
-
-#~ msgid "(retry as root?)"
-#~ msgstr "(以 root 身份重试?)"
-
-#~ msgid ""
-#~ "medium \"%s\" uses an invalid list file:\n"
-#~ "  mirror is probably not up-to-date, trying to use alternate method"
-#~ msgstr ""
-#~ "介质“%s”使用了无效的列表文件:\n"
-#~ "  介质可能不是最新，正在尝试使用其它方式"
-
-#~ msgid "medium \"%s\" does not define any location for rpm files"
-#~ msgstr "介质“%s”没有定义任何 rpm 文件的位置"
-
-#~ msgid "unrequested"
-#~ msgstr "未请求"
