@@ -582,6 +582,7 @@ sub sync_aria2 {
 	"--timeout", $CONNECT_TIMEOUT,
 	"--auto-file-renaming=false",
 	"--follow-metalink=mem",
+	'--metalink-enable-unique-protocol=true',
 	"-Z", "-j1",
 	($options->{limit_rate} ? "--max-download-limit=$options->{limit_rate}" : ()),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
