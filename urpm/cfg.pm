@@ -252,6 +252,69 @@ sub dump_config_raw {
     1;
 }
 
+sub load_ini_config_file_raw {
+    my ($file, $b_norewrite) = @_;
+
+    require Config::IniFiles;
+    my $cfg = Config::IniFiles->new('-file' => $file);
+    [ map {
+	my $section = $_;
+	my %h = map { 
+	    my $v = $cfg->val($section, $_);
+	    $v = expand_line($v) if !$b_norewrite;
+	    $_ => $v;
+	} $cfg->Parameters($section);
+	{ conf_file__rel_media => $section, %h };
+    } $cfg->Sections ];
+}
+
+sub write_ini_config {
+    my ($file, $blocks) = @_;
+
+    if (@$blocks == 0) {
+	unlink $file;
+	return;
+    }
+    my $modified;
+
+    require Config::IniFiles;
+    my $cfg = Config::IniFiles->new('-file' => $file);
+    if ($cfg) {
+	# remove dropped blocks
+	foreach (difference2([ $cfg->Sections ], [ map { $_->{name} } @$blocks ])) {
+	    $cfg->DeleteSection($_);
+	    $modified = 1;
+	}       
+    } else {
+	$cfg = Config::IniFiles->new;
+    }
+
+    my %uniq;
+
+    foreach (@$blocks) {
+	my %h = %$_;
+	my $section = delete $h{conf_file__rel_media} || '_';
+	$uniq{$section}++ or die "conflicting conf_file__rel_media value\n";
+
+	foreach (difference2([ $cfg->Parameters($section) ], [ keys %h ])) {
+	    # remove those options which are no more wanted
+	    $cfg->delval($section, $_);
+	    $modified = 1;
+	}
+	foreach (keys %h) {
+	    my $old_v = $cfg->getval($section, $_);
+	    my $v = substitute_back($h{$_}, $old_v);
+	    if ($old_v ne $v) {
+		$cfg->setval($section, $_, $v);
+		$modified = 1;
+	    }
+	}
+    }
+    if ($modified) {
+	$cfg->RewriteConfig;
+    }    
+}
+
 #- routines to handle mirror list location
 
 #- Default mirror list
