@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-14 13:05+0100\n"
-"PO-Revision-Date: 2008-02-17 12:27+0100\n"
+"PO-Revision-Date: 2008-02-17 17:41+0100\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@euskalnet.net>\n"
 "Language-Team: Euskara <eu@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1756,9 +1756,9 @@ msgid "    --force-key    - force update of gpg key.\n"
 msgstr "    --force-key    - gpg gakoa eguneratzera behartzen du.\n"
 
 #: ../urpmi:86 ../urpmq:53
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-suggests  - do not auto select \"suggested\" packages.\n"
-msgstr "  --obsoletes    - \"zaharkituak\" etiketak\n"
+msgstr "  --no-suggests  - ez aukeratu automatikoki \"suggested\" paketeak.\n"
 
 #: ../urpmi:87
 #, c-format
@@ -1806,9 +1806,9 @@ msgid "  --fuzzy, -y    - impose fuzzy search.\n"
 msgstr "  --fuzzy, -y    - hurbilketazko bilaketa inposatzen du.\n"
 
 #: ../urpmi:98
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildrequires - install the buildrequires of the packages\n"
-msgstr "  --requires     - \"beharrezko\" etiketak\n"
+msgstr "  --buildrequires - instalatu paketeen «buildrequires»\n"
 
 #: ../urpmi:99
 #, c-format
@@ -1826,14 +1826,14 @@ msgid "  --noclean      - don't clean rpms from cache.\n"
 msgstr "  --noclean      - ez garbitu rpm-ak katxetik.\n"
 
 #: ../urpmi:102
-#, fuzzy, c-format
+#, c-format
 msgid "  --justdb       - update only the rpm db, not the filesystem.\n"
-msgstr "  --update       - eguneratze-euskarria bakarrik eguneratzen du.\n"
+msgstr "  --justdb       - eguneratu soilik rpm db, ez fitxategi-sistema.\n"
 
 #: ../urpmi:103
 #, c-format
 msgid "  --replacepkgs  - force installing packages which are already installed.\n"
-msgstr ""
+msgstr "  --replacepkgs  - behartu dagoeneko instalatuta dauden paketeen instalaketa.\n"
 
 #: ../urpmi:105
 #, c-format
@@ -1873,6 +1873,8 @@ msgid ""
 "  --downloader   - program to use to retrieve distant files. \n"
 "                   known programs: %s\n"
 msgstr ""
+"  --downloader   - urruneko fitxategiak berreskuratzeko erabili beharreko programa. \n"
+"                   programa ezagunak: %s\n"
 
 #: ../urpmi:117
 #, c-format
@@ -1895,9 +1897,9 @@ msgid "  --prozilla-options - additional options to pass to prozilla\n"
 msgstr "  --prozilla-options - prozilla-i aukera gehiago pasatzeko\n"
 
 #: ../urpmi:121
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2-options - additional options to pass to aria2\n"
-msgstr "  --prozilla-options - prozilla-i aukera gehiago pasatzeko\n"
+msgstr "  --aria2-options - aria2-ri pasatzeko aukera osagarriak\n"
 
 #: ../urpmi:122 ../urpmi.addmedia:49 ../urpmi.update:36
 #, c-format
@@ -1991,9 +1993,9 @@ msgid "  --skip         - packages which installation should be skipped\n"
 msgstr "  --skip         - instalatu behar ez liratekeen paketeak\n"
 
 #: ../urpmi:142
-#, fuzzy, c-format
+#, c-format
 msgid "  --prefer       - packages which should be preferred\n"
-msgstr "  --skip         - instalatu behar ez liratekeen paketeak\n"
+msgstr "  --prefer       - hobetsi beharko liratekeen paketeak\n"
 
 #: ../urpmi:143
 #, c-format
@@ -2042,7 +2044,7 @@ msgstr "  komando-lerroan idatzitako izenak edo rpm fitxategiak instalatuko dira
 #: ../urpmi:180
 #, c-format
 msgid "Error: can't use --auto-select along with package list.\n"
-msgstr ""
+msgstr "Akatsa: ezin da erabili -auto-select pakete zerrendarekin.\n"
 
 #: ../urpmi:187
 #, c-format
@@ -2050,6 +2052,9 @@ msgid ""
 "Error: To generate a bug report, specify the usual command-line arguments\n"
 "along with --bug.\n"
 msgstr ""
+"Akatsa: akats txosten bat sortzeko, zehaztu komando-lerroko "
+"ohiko argumentuak\n"
+"--bug argumentuarekin batera.\n"
 
 #: ../urpmi:214
 #, c-format
@@ -2059,7 +2064,7 @@ msgstr "Ezin dituzu rpm fitxategi bitarrak instalatu --install-src erabilita"
 #: ../urpmi:220
 #, c-format
 msgid "please use --buildrequires or --install-src, defaulting to --buildrequires"
-msgstr ""
+msgstr "mesedez erabili --buildrequires edo --install-src, lehenetsia --buildrequires"
 
 #: ../urpmi:240
 #, c-format
@@ -2119,11 +2124,11 @@ msgid "%s (to install)"
 msgstr "%s (instalatu)"
 
 #: ../urpmi:454
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "In order to satisfy the '%s' dependency, one of the following packages is "
 "needed:"
-msgstr "Mendekotasunak asetzeko, ondoko %d paketeak ezabatu egingo dira (%d MB)"
+msgstr "%s mendekotasuna asetzeko, ondoko paketeetako bat behar da:"
 
 #: ../urpmi:457
 #, c-format
@@ -2167,7 +2172,7 @@ msgid " (Y/n) "
 msgstr " (B/e) "
 
 #: ../urpmi:516
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "A requested package cannot be installed:\n"
 "%s"
@@ -2207,12 +2212,12 @@ msgstr ""
 "%s\n"
 
 #: ../urpmi:553
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
 "%s"
 msgstr ""
-"Pakete hauek kendu egin behar dira besteak berritzeko:\n"
+"Ondoko paketea ezabatu behar da besteak berritu ahal daitezen:\n"
 "%s"
 
 #: ../urpmi:554
@@ -2230,13 +2235,13 @@ msgid "(test only, removal will not be actually done)"
 msgstr "(froga soilik, ezabaketa ez da egingo)"
 
 #: ../urpmi:577
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You must first call urpmi with --buildrequires to install the following "
 "dependencies:\n"
 "%s\n"
 msgstr ""
-"Root-a izan behar duzu ondoko mendekotasunak instalatzeko:\n"
+"Lehenengo urpmi deitu behar duzu --buildrequires aukerarekin ondoko mendekotasunak instalatzeko:\n"
 "%s\n"
 
 #: ../urpmi:594
@@ -2247,19 +2252,19 @@ msgstr "(froga soilik, instalazioa ez da egingo)"
 #: ../urpmi:600
 #, c-format
 msgid "%s of additional disk space will be used."
-msgstr ""
+msgstr "diskoan %s leku gehiago erabiliko da."
 
 #: ../urpmi:601
 #, c-format
 msgid "%s of disk space will be freed."
-msgstr ""
+msgstr "diskoan %s lekua askatuko da."
 
 #: ../urpmi:602
-#, fuzzy, c-format
+#, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
-msgstr[0] "%d paketeen instalazioarekin jarraitu? (%d MB)"
-msgstr[1] "%d paketeen instalazioarekin jarraitu? (%d MB)"
+msgstr[0] "Pakete baten instalaketarekin arrera jarraitu nahi duzu?"
+msgstr[1] "%d paketeen instalaketarekin jarraitu nahi duzu?"
 
 #: ../urpmi:620
 #, c-format
@@ -2328,23 +2333,24 @@ msgid ""
 "                   one of: never, on-demand, update-only, always. cf urpmi."
 "cfg(5)\n"
 msgstr ""
+"  --xml-info     - erabili xml info fitxategiak jaisteko politika zehatza\n"
+"                   hauetako bat: never, on-demand, update-only, always. cf urpmi."
+"cfg(5)\n"
 
 #: ../urpmi.addmedia:57
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-synthesis - use synthesis file.\n"
-msgstr ""
-"  --probe-synthesis - laburpen-fitxategia bilatzen eta erabiltzen saiatzen "
-"da.\n"
+msgstr "  --probe-synthesis - synthesis fitxategia erabili.\n"
 
 #: ../urpmi.addmedia:58
 #, c-format
 msgid "  --probe-rpms   - use rpm files (instead of synthesis).\n"
-msgstr ""
+msgstr "  --probe-rpms   - erabili rpm fitxategiak (synthesis ordez).\n"
 
 #: ../urpmi.addmedia:59
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-probe     - do not try to find any synthesis file.\n"
-msgstr "  --no-probe     - ez saiatu laburpenik edo hdlist fitxategirik bilatzen\n"
+msgstr "  --no-probe     - ez saiatu synthesis fitxategiak aurkitzen.\n"
 
 #: ../urpmi.addmedia:61
 #, c-format
@@ -2358,12 +2364,12 @@ msgstr ""
 #: ../urpmi.addmedia:63
 #, c-format
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
-msgstr ""
+msgstr "  --interactive  - , --distrib aukerarekin, eskatu berrespena euskarri bakoitzarentzako\n"
 
 #: ../urpmi.addmedia:64
-#, fuzzy, c-format
+#, c-format
 msgid "  --all-media    - with --distrib, add every listed media\n"
-msgstr "  --list-media   - euskarri erabilgarrien zerrenda.\n"
+msgstr "  --all-media    - , --distrib aukerarekin, erantsi zerrendatutako euskarri bakoitza\n"
 
 #: ../urpmi.addmedia:65
 #, c-format
@@ -2416,12 +2422,12 @@ msgstr "  -v             - modu berritsua.\n"
 #: ../urpmi.addmedia:94
 #, c-format
 msgid "known xml-info policies are %s"
-msgstr ""
+msgstr "xml-info politika ezagunak dira %s"
 
 #: ../urpmi.addmedia:102
 #, c-format
 msgid "bad <url> (for local directory, the path must be absolute)"
-msgstr ""
+msgstr "<url> okerra (bertako direktorioentzako, bide absolutua behar da)"
 
 #: ../urpmi.addmedia:105
 #, c-format
@@ -2429,9 +2435,9 @@ msgid "Only superuser is allowed to add media"
 msgstr "Supererabiltzaileak soilik dauka euskarriak eransteko baimena"
 
 #: ../urpmi.addmedia:108
-#, fuzzy, c-format
+#, c-format
 msgid "creating config file [%s]"
-msgstr "Konfig fitxategia sortuko du [%s]"
+msgstr "Konfig fitxategia sortzen [%s]"
 
 #: ../urpmi.addmedia:109
 #, c-format
@@ -2439,9 +2445,9 @@ msgid "Can't create config file [%s]"
 msgstr "Ezin da konfig fitxategia sortu [%s]"
 
 #: ../urpmi.addmedia:117
-#, fuzzy, c-format
+#, c-format
 msgid "no need to give <relative path of synthesis> with --distrib"
-msgstr "ez dago <hdlist-en bide-izen erlatiboa> --distrib erabiliz eman beharrik"
+msgstr "ez dago <synthesis-en bide erlatiboa> eman beharrik --distrib aukerarekin"
 
 #: ../urpmi.addmedia:125
 #, c-format
@@ -2449,16 +2455,18 @@ msgid ""
 "\n"
 "Do you want to add media '%s'"
 msgstr ""
+"\n"
+"'%s' euskarria erantsi nahi duzu"
 
 #: ../urpmi.addmedia:150
-#, fuzzy, c-format
+#, c-format
 msgid "<relative path of synthesis> missing\n"
-msgstr "<hdlist bide-izen erlatiboa> falta da\n"
+msgstr "<synthesis-en bide erlatiboa> falta da\n"
 
 #: ../urpmi.addmedia:153
 #, c-format
 msgid "Can't use %s with remote medium"
-msgstr ""
+msgstr "Urruneko euskarriekin ezin da %s erabili"
 
 #: ../urpmi.recover:28
 #, c-format
@@ -2480,31 +2488,27 @@ msgstr ""
 #: ../urpmi.recover:34
 #, c-format
 msgid "  --checkpoint   - set repackaging start now\n"
-msgstr ""
+msgstr "  --checkpoint   - ezarri birpaketatze bat orain hasi dadin\n"
 
 #: ../urpmi.recover:35
-#, fuzzy, c-format
+#, c-format
 msgid "  --noclean      - don't clean repackage directory on checkpoint\n"
-msgstr "  --noclean      - ez garbitu rpm-ak katxetik.\n"
+msgstr "  --noclean      - ez garbitu birpaketatzeko direktorioa kontrol-puntua jartzean\n"
 
 #: ../urpmi.recover:37
 #, c-format
 msgid "  --list         - list transactions since provided date/duration argument\n"
-msgstr ""
+msgstr "  --list         - zerrendatu ematen den data/iraupen argumentutik egin diren eragiketak\n"
 
 #: ../urpmi.recover:38
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-all     - list all transactions in rpmdb (long)\n"
-msgstr ""
-"  --list-url  - erabilgarri dauden euskarriak eta haien url-a zerrendatzen "
-"ditu.\n"
+msgstr "  --list-url  - zerrendatu rpmdb-en dauden eragiketa guztiak (luzea)\n"
 
 #: ../urpmi.recover:39
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-safe    - list transactions since checkpoint\n"
-msgstr ""
-"  --list-url  - erabilgarri dauden euskarriak eta haien url-a zerrendatzen "
-"ditu.\n"
+msgstr "  --list-safe    - zerrendatu kontrol-puntutik egindako eragiketak\n"
 
 #: ../urpmi.recover:40
 #, c-format
@@ -2512,93 +2516,95 @@ msgid ""
 "  --rollback     - rollback until specified date,\n"
 "                   or rollback the specified number of transactions\n"
 msgstr ""
+"  --rollback     - zehaztutako data arte atzera egin,\n"
+"                   edo zehaztutako eragiketa kopurua desegin\n"
 
 #: ../urpmi.recover:42
-#, fuzzy, c-format
+#, c-format
 msgid "  --disable      - turn off repackaging\n"
-msgstr "  --filename     - paketearen fitxategi izena\n"
+msgstr "  --disable     - berpaketatzea ezgaitu\n"
 
 #: ../urpmi.recover:57
 #, c-format
 msgid "Invalid date or duration [%s]\n"
-msgstr ""
+msgstr "Data edo iraupen baliogabea [%s]\n"
 
 #: ../urpmi.recover:65
-#, fuzzy, c-format
+#, c-format
 msgid "Repackage directory not defined\n"
-msgstr "ez da %s paketea aurkitu."
+msgstr "Birpaketatzeko direktorioa ez da definitu\n"
 
 #: ../urpmi.recover:68
 #, c-format
 msgid "Can't write to repackage directory [%s]\n"
-msgstr ""
+msgstr "Ezin da [%s] birpaketatzeko direktoriora idatzi\n"
 
 #: ../urpmi.recover:70
 #, c-format
 msgid "Cleaning up repackage directory [%s]...\n"
-msgstr ""
+msgstr "[%s] birpaketatzeko direktorioa garbitzen...\n"
 
 #: ../urpmi.recover:72
-#, fuzzy, c-format
+#, c-format
 msgid "%d file removed\n"
 msgid_plural "%d files removed\n"
-msgstr[0] "- %s ezabatuta dago\n"
-msgstr[1] "- %s ezabatuta dago\n"
+msgstr[0] "fitxategi %d ezabatuta\n"
+msgstr[1] "%s fitxategi ezabatuta\n"
 
 #: ../urpmi.recover:82
 #, c-format
 msgid "Spurious command-line arguments [%s]\n"
-msgstr ""
+msgstr "Komando-lerro argumentu okerrak [%s]\n"
 
 #: ../urpmi.recover:84
 #, c-format
 msgid "You can't specify --checkpoint and --rollback at the same time\n"
-msgstr ""
+msgstr "Ezin dituzu --checkpoint eta --rollback aukerak batera deitu\n"
 
 #: ../urpmi.recover:86
 #, c-format
 msgid "You can't specify --checkpoint and --list at the same time\n"
-msgstr ""
+msgstr "Ezin dituzu --checkpoint eta --list aukerak batera zehaztu\n"
 
 #: ../urpmi.recover:88
 #, c-format
 msgid "You can't specify --rollback and --list at the same time\n"
-msgstr ""
+msgstr "Ezin dituzu --rollback eta --list aukerak batera zehaztu\n"
 
 #: ../urpmi.recover:90
 #, c-format
 msgid "You can't specify --disable along with another option"
-msgstr ""
+msgstr "Ezin duzu --disable beste aukera batekin zehaztu"
 
 #: ../urpmi.recover:115
 #, c-format
 msgid "No transaction found since %s\n"
-msgstr ""
+msgstr "%s-tik ez da eragiketarik aurkitu\n"
 
 #: ../urpmi.recover:130
 #, c-format
 msgid "You must be superuser to do this"
-msgstr ""
+msgstr "Superrerabiltzailea izan behar zara hau egiteko"
 
 #: ../urpmi.recover:143 ../urpmi.recover:209
-#, fuzzy, c-format
+#, c-format
 msgid "Writing rpm macros file [%s]...\n"
-msgstr "[%s] rpm fitxategia berreskuratzen..."
+msgstr "[%s] rpm macro fitxategia idazten...\n"
 
 #: ../urpmi.recover:185
-#, fuzzy, c-format
+#, c-format
 msgid "No rollback date found\n"
-msgstr "Ez da fitxategi-zerrenda aurkitu\n"
+msgstr "Ez da aurkitu atzera bueltatzeko datarik\n"
 
 #: ../urpmi.recover:188
 #, c-format
 msgid "Rollback until %s...\n"
-msgstr ""
+msgstr "Atzera bueltatu %s arte...\n"
 
 #: ../urpmi.recover:195
 #, c-format
 msgid "Disabling repackaging\n"
-msgstr ""
+msgstr "Birpaketatzea ezgaitzen\n"
 
 #: ../urpmi.removemedia:38
 #, c-format
@@ -2668,11 +2674,9 @@ msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
 msgstr "  --no-ignore    - ez eguneratu, markatu euskarria gaitu gisa.\n"
 
 #: ../urpmi.update:47
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-rpms   - do not use synthesis, use rpm files directly\n"
-msgstr ""
-"  --no-probe     - ez saiatu laburpenik edo hdlist "
-"fitxategirik                   bilatzen\n"
+msgstr "  --probe-rpms   - ez erabili synthesis, zuzenean rpm fitxategiak erabili\n"
 
 #: ../urpmi.update:48
 #, c-format
@@ -2680,14 +2684,14 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - euskarri ez-aldagarri guztiak hautatzen ditu.\n"
 
 #: ../urpmi.update:50
-#, fuzzy, c-format
+#, c-format
 msgid "  -f             - force updating synthesis\n"
-msgstr "  -f             - hdlist fitxategiak sortzera behartzen du.\n"
+msgstr "  -f             - synthesis eguneraketa behartu\n"
 
 #: ../urpmi.update:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -ff            - really force updating synthesis\n"
-msgstr "  -f             - hdlist fitxategiak sortzera behartzen du.\n"
+msgstr "  -f             - benetan behartu synthesis eguneraketa.\n"
 
 #: ../urpmi.update:68
 #, c-format
@@ -2801,9 +2805,9 @@ msgstr ""
 " (root-ek bakarrik).\n"
 
 #: ../urpmq:66
-#, fuzzy, c-format
+#, c-format
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
-msgstr "  --arch         - arkitektura\n"
+msgstr "  --ignorearch   - rpm-ak bat ez datozen arkitektura bila galdekatzeko aukera eskaintzen du.\n"
 
 #: ../urpmq:70
 #, c-format
@@ -2825,9 +2829,9 @@ msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - inprimatu 'provides' eremua.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
-msgstr "  --sourcerpm    - rpm iturburu izena.\n"
+msgstr "  --sourcerpm    - sourcerpm erakutsi.\n"
 
 #: ../urpmq:83
 #, c-format
@@ -2835,11 +2839,13 @@ msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - laburpena inprimatu.\n"
 
 #: ../urpmq:85
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --requires-recursive, -d\n"
 "                   - query package dependencies.\n"
-msgstr "  -d             - kontsulta paketeen mendekoetara zabaltzen du.\n"
+msgstr ""
+"  --requires-recursive, -d\n"
+"                   - galdekatu paketearen mendekotasunak.\n"
 
 #: ../urpmq:87
 #, c-format
@@ -2857,11 +2863,13 @@ msgstr ""
 "barne).\n"
 
 #: ../urpmq:90
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --whatprovides, -p\n"
 "                   - search in provides to find package.\n"
-msgstr "  -p             - bilatu 'provides'-en paketeak aurkitzeko.\n"
+msgstr ""
+"  --whatprovides, -p\n"
+"                   - bilatu hornitutakoetan paketea aurkitzeko.\n"
 
 #: ../urpmq:93
 #, c-format
@@ -2932,32 +2940,24 @@ msgid "--list-nodes can only be used with --parallel"
 msgstr "--nodo-zerrendak honekin bakarrik erabil daitezke: --parallel"
 
 #: ../urpmq:358
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
-msgstr ""
-"Oharra: bilatutako euskarriek ez dutenez hdlists erabiltzen, urpmf-ek ezin "
-"izan du emaitzarik itzuli\n"
+msgstr "ez dago \"%s\" euskarriarentzako xml info, %s paketearentzako emaitza partzialak soilik"
 
 #: ../urpmq:359
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
-msgstr ""
-"Oharra: bilatutako euskarriek ez dutenez hdlists erabiltzen, urpmf-ek ezin "
-"izan du emaitzarik itzuli\n"
+msgstr "ez dago \"%s\" euskarriarentzako xml info, %s paketeentzako emaitza partzialak soilik"
 
 #: ../urpmq:362
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", unable to return any result for package %s"
-msgstr ""
-"Oharra: bilatutako euskarriek ez dutenez hdlists erabiltzen, urpmf-ek ezin "
-"izan du emaitzarik itzuli\n"
+msgstr "ez dago \"%s\" euskarriarentzako xml info, ezin da %s paketearentzako inolako emaitzarik itzuli"
 
 #: ../urpmq:363
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", unable to return any result for packages %s"
-msgstr ""
-"Oharra: bilatutako euskarriek ez dutenez hdlists erabiltzen, urpmf-ek ezin "
-"izan du emaitzarik itzuli\n"
+msgstr "ez dago \"%s\" euskarriarentzako xml info, ezin da %s paketeentzako inolako emaitzarik itzuli"
 
 #: ../urpmq:427
 #, c-format
