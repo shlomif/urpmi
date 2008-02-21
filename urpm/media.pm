@@ -734,13 +734,9 @@ sub add_distrib_media {
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
 
-	$distribconf = MDV::Distribconf->new($url, undef);
-	$distribconf->settree('mandriva');
+	$distribconf = _new_distribconf_and_download($urpm, $url);
 
-	$urpm->{log}(N("retrieving media.cfg file..."));
-	if (urpm::download::sync($urpm, undef,
-				 [ reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg') ],
-				 quiet => 1)) {
+	if ($distribconf) {
 	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
 		or $urpm->{error}(N("unable to parse media.cfg")), return();
 	} else {
@@ -803,6 +799,19 @@ sub add_distrib_media {
 	++$medium_index;
     }
     return @newnames;
+}
+
+sub _new_distribconf_and_download {
+    my ($urpm, $url) = @_;
+
+    my $distribconf = MDV::Distribconf->new($url, undef);
+    $distribconf->settree('mandriva');
+
+    $urpm->{log}(N("retrieving media.cfg file..."));
+    urpm::download::sync($urpm, undef,
+			 [ reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg') ],
+			 quiet => 1) or return;
+    $distribconf;
 }
 
 #- deprecated, use select_media_by_name instead
