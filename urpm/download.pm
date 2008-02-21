@@ -762,13 +762,13 @@ sub _sync_webfetch_raw {
 	
 	my @available = urpm::download::available_ftp_http_downloaders();
 
-	#- use user default downloader if provided and available
-	my $requested_downloader = requested_ftp_http_downloader($urpm, $options->{media});
-	my ($preferred) = grep { $_ eq $requested_downloader } @available;
-	if (!$preferred) {
-	    #- else first downloader of @available is the default one
-	    $preferred = $available[0];
-	    if ($requested_downloader && !our $webfetch_not_available) {
+	#- first downloader of @available is the default one
+	my $preferred = $available[0];
+	if (my $requested_downloader = requested_ftp_http_downloader($urpm, $options->{media})) {
+	    if (grep { $_ eq $requested_downloader } @available) {
+		#- use user default downloader if provided and available
+		$preferred = $requested_downloader;
+	    } elsif (!our $webfetch_not_available) {
 		$urpm->{log}(N("%s is not available, falling back on %s", $requested_downloader, $preferred));
 		$webfetch_not_available = 1;
 	    }
