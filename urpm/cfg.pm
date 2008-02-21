@@ -264,7 +264,7 @@ sub load_ini_config_file_raw {
 	    $v = expand_line($v) if !$b_norewrite;
 	    $_ => $v;
 	} $cfg->Parameters($section);
-	{ conf_file__rel_media => $section, %h };
+	{ 'with-dir' => $section, %h };
     } $cfg->Sections ];
 }
 
@@ -293,8 +293,8 @@ sub write_ini_config {
 
     foreach (@$blocks) {
 	my %h = %$_;
-	my $section = delete $h{conf_file__rel_media} || '_';
-	$uniq{$section}++ or die "conflicting conf_file__rel_media value\n";
+	my $section = delete $h{'with-dir'} || '_';
+	$uniq{$section}++ or die "conflicting with-dir value\n";
 
 	foreach (difference2([ $cfg->Parameters($section) ], [ keys %h ])) {
 	    # remove those options which are no more wanted

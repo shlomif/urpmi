@@ -120,7 +120,7 @@ sub create_media_d_cfg {
     my $cnt = 1;
     foreach my $h (@l) {
 	my %h = %$h;
-	my $section = delete $h{conf_file__rel_media} || $cnt++;
+	my $section = delete $h{'with-dir'} || $cnt++;
 	print $F "[$section]\n";
 	print $F "$_ = $h->{$_}\n" foreach keys %$h;
     }

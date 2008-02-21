@@ -11,7 +11,6 @@ use MDV::Distribconf;
 
 
 our @PER_MEDIA_OPT = qw(
-    conf_file__rel_media
     downloader
     ignore
     key-ids
@@ -28,6 +27,7 @@ our @PER_MEDIA_OPT = qw(
     url
     verify-rpm
     virtual
+    with-dir
     with_hdlist
     with_synthesis
     xml-info
