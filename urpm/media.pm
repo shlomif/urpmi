@@ -243,13 +243,18 @@ sub file_from_file_url {
     $url =~ m!^(?:file:/)?(/.*)! && $1;
 }
 
+sub _local_file {
+    my ($medium) = @_;
+    $medium->{url} && file_from_file_url($medium->{url});
+}
+
 sub _is_local_virtual {
     my ($medium) = @_;
-    $medium->{virtual} && file_from_file_url($medium);
+    $medium->{virtual} && _local_file($medium);
 }
 sub _is_remote_virtual {
     my ($medium) = @_;
-    $medium->{virtual} && !file_from_file_url($medium);
+    $medium->{virtual} && !_local_file($medium);
 }
 
 sub _url_with_synthesis_basename {
@@ -334,7 +339,7 @@ sub any_synthesis {
 sub any_media_info_file {
     my ($urpm, $medium, $prefix, $suffix, $quiet, $o_callback) = @_;
 
-    if (my $base = file_from_file_url($medium->{url})) {
+    if (my $base = _local_file($medium)) {
 	my $f = $medium->{with_synthesis}
 	  ? reduce_pathname("$base/$prefix." . _synthesis_suffix($medium) . $suffix)
 	  : _synthesis_dir($medium) . "/$prefix$suffix";
@@ -684,10 +689,10 @@ sub add_medium {
     #- local media have priority, other are added at the end.
     my $inserted;
     my $ignore_text = $medium->{ignore} ? ' ' . N("(ignored by default)") : '';
-    if (file_from_file_url($url)) {
+    if (_local_file($medium)) {
 	#- insert before first remote medium
 	@{$urpm->{media}} = map {  
-	    if (!file_from_file_url($_->{url}) && !$inserted) {
+	    if (!_local_file($_) && !$inserted) {
 		$inserted = 1;
 		$urpm->{info}(N("adding medium \"%s\" before remote medium \"%s\"", $name, $_->{name}) . $ignore_text);
 		$medium, $_;
@@ -1443,7 +1448,7 @@ sub _update_medium_ {
 
 	remove_user_media_info_files($urpm, $medium);
 
-	if (!file_from_file_url($medium->{url})) {
+	if (!_local_file($medium)) {
 	    _retrieve_xml_media_info_or_remove($urpm, $medium, $options{quiet}) or return;
 	}
     }
