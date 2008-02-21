@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-14 13:05+0100\n"
-"PO-Revision-Date: 2008-02-18 16:59+0100\n"
+"PO-Revision-Date: 2008-02-21 12:22+0100\n"
 "Last-Translator: Tomasz Bednarski - Amazis.net <tomasz.bednarski@mandriva.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1887,6 +1887,8 @@ msgid ""
 "  --downloader   - program to use to retrieve distant files. \n"
 "                   known programs: %s\n"
 msgstr ""
+"  --downloader   - program wykorzystywany do pobierania zdalnych plików. \n"
+"                   programy do wyboru: %s\n"
 
 #: ../urpmi:117
 #, c-format
@@ -1909,9 +1911,9 @@ msgid "  --prozilla-options - additional options to pass to prozilla\n"
 msgstr "  --prozilla-options - dodatkowe opcje prozilli\n"
 
 #: ../urpmi:121
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2-options - additional options to pass to aria2\n"
-msgstr "  --prozilla-options - dodatkowe opcje prozilli\n"
+msgstr "  --aria2-options - dodatkowe opcje aby przejść do aria2\n"
 
 #: ../urpmi:122 ../urpmi.addmedia:49 ../urpmi.update:36
 #, c-format
@@ -2077,7 +2079,7 @@ msgstr "Nie można instalować pakietów binarnych przy włączonej opcji --inst
 #: ../urpmi:220
 #, c-format
 msgid "please use --buildrequires or --install-src, defaulting to --buildrequires"
-msgstr ""
+msgstr "użyj opcji --buildrequires lub --install-src, domyślna opcja to --buildrequires"
 
 #: ../urpmi:240
 #, c-format
@@ -2249,14 +2251,12 @@ msgid "(test only, removal will not be actually done)"
 msgstr "(to tylko test, usunięcie nie zostanie przeprowadzone)"
 
 #: ../urpmi:577
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You must first call urpmi with --buildrequires to install the following "
 "dependencies:\n"
 "%s\n"
 msgstr ""
-"Aby zainstalować następujące zależności należy zrobić to z konta roota:\n"
-"%s\n"
 
 #: ../urpmi:594
 #, c-format
@@ -2358,14 +2358,14 @@ msgid "  --probe-synthesis - use synthesis file.\n"
 msgstr "  --probe-synthesis - użycie pliku syntezy.\n"
 
 #: ../urpmi.addmedia:58
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-rpms   - use rpm files (instead of synthesis).\n"
-msgstr "  --probe-rpms   - wykorzystuje pliki rpm (zamiast synthesis/hdlist).\n"
+msgstr "  --probe-rpms   - wykorzystuje pliki rpm (zamiast syntezy).\n"
 
 #: ../urpmi.addmedia:59
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-probe     - do not try to find any synthesis file.\n"
-msgstr "  --no-probe     - bez próby odnalezienia żadnego pliku syntezy lub hdlist.\n"
+msgstr "  --no-probe     - bez próby odnalezienia żadnego pliku syntezy.\n"
 
 #: ../urpmi.addmedia:61
 #, c-format
@@ -2437,7 +2437,7 @@ msgstr "  -v             - tryb komunikatywny.\n"
 #: ../urpmi.addmedia:94
 #, c-format
 msgid "known xml-info policies are %s"
-msgstr ""
+msgstr "zasady korzystania z informacji o programach w formacie XML: %s"
 
 #: ../urpmi.addmedia:102
 #, c-format
@@ -2462,9 +2462,9 @@ msgid "Can't create config file [%s]"
 msgstr "Utworzenie pliku konfiguracyjnego było niemożliwe [%s]"
 
 #: ../urpmi.addmedia:117
-#, fuzzy, c-format
+#, c-format
 msgid "no need to give <relative path of synthesis> with --distrib"
-msgstr "nie ma potrzeby podawania <ścieżki_względnej lub hdlist> z opcją --distrib"
+msgstr "nie ma potrzeby podawania <ścieżki względnej do syntezy> z opcją --distrib"
 
 #: ../urpmi.addmedia:125
 #, c-format
@@ -2476,9 +2476,9 @@ msgstr ""
 "Czy chcesz dodać nośnik '%s'"
 
 #: ../urpmi.addmedia:150
-#, fuzzy, c-format
+#, c-format
 msgid "<relative path of synthesis> missing\n"
-msgstr "brak <ścieżki względnej do pliku hdlist>\n"
+msgstr "brak <ścieżki względnej do pliku syntezy>\n"
 
 #: ../urpmi.addmedia:153
 #, c-format
@@ -2698,10 +2698,10 @@ msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
 msgstr "  --no-ignore    - nie aktualizuj, oznacz nośnik jako włączony.\n"
 
 #: ../urpmi.update:47
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-rpms   - do not use synthesis, use rpm files directly\n"
 msgstr ""
-"  --probe-rpms    - nie korzysta z pliku syntezy/hdlist, wykorzystuje "
+"  --probe-rpms    - nie korzysta z pliku syntezy, wykorzystuje "
 "bezpośrednio pliki rpm\n"
 
 #: ../urpmi.update:48
@@ -2710,14 +2710,14 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - wybiera wszystkie niewymienne nośniki.\n"
 
 #: ../urpmi.update:50
-#, fuzzy, c-format
+#, c-format
 msgid "  -f             - force updating synthesis\n"
-msgstr "  -f             - wymusza aktualizację plików syntezy/hdlist.\n"
+msgstr "  -f             - wymusza aktualizację plików syntezy.\n"
 
 #: ../urpmi.update:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -ff            - really force updating synthesis\n"
-msgstr "  -f             - wymusza aktualizację plików syntezy/hdlist.\n"
+msgstr "  -ff             - wymusza aktualizację plików syntezy.\n"
 
 #: ../urpmi.update:68
 #, c-format
@@ -2850,12 +2850,12 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - wyświetla dziennik zmian.\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  --provides     - print provides.\n"
-msgstr "  --provides     - znacznik provides: wszystkie. pakiety.\n"
+msgstr "  --provides     - wyświetla listę dostarczanych pakietów.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - nazwa pakietu rpm ze źródłami\n"
 
