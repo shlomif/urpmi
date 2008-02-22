@@ -741,6 +741,21 @@ sub sync {
     };
 }
 
+sub get_content {
+    my ($urpm, $url) = @_;
+
+    my $file = "$urpm->{cachedir}/partial/" . basename($url);
+
+    unlink $file; # prevent "partial file" errors
+    urpm::download::sync($urpm, undef, [ $url ]) or return;
+
+    my @l = cat_($file);
+    unlink $file;
+
+    wantarray ? @l : join('', @l);
+}
+    
+
 #- syncing algorithms.
 sub _sync_webfetch_raw {    
     my ($urpm, $files, $options) = @_;
