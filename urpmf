@@ -300,8 +300,13 @@ if ($needed_media_info{hdlist}) {
     }
 } elsif (my ($xml_info) = @needed_xml_info) {
     foreach $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
-	my $xml_info_file = urpm::media::any_xml_info($urpm, $medium, $xml_info, $options{verbose} < 0) or
-	  $urpm->{error}(N("no xml-info available for medium \"%s\"", $medium->{name})), next;
+	my $xml_info_file = urpm::media::any_xml_info($urpm, $medium, $xml_info, $options{verbose} < 0);
+	if (!$xml_info_file) {
+	    my $hdlist = urpm::media::any_hdlist($urpm, $medium, $options{verbose} < 0) or 
+	      $urpm->{error}(N("no xml-info available for medium \"%s\"", $medium->{name})), next;
+	    $urpm->{log}("getting information from $hdlist");
+	    $urpm->parse_hdlist($hdlist, callback => $callback);
+	}
 	require urpm::xml_info;
 	require urpm::xml_info_pkg;
 
