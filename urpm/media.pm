@@ -332,7 +332,7 @@ sub cachedir_with_synthesis {
 }
 sub any_synthesis {
     my ($urpm, $medium) = @_;
-    my $f = _is_local_virtual($medium->{virtual}) ? _url_with_synthesis($medium)
+    my $f = _is_local_virtual($medium) ? _url_with_synthesis($medium)
       : statedir_synthesis($urpm, $medium);
     -e $f && $f;
 }
