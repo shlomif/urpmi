@@ -185,11 +185,6 @@ if ($options{distrib}) {
     if ($options{raw}) {
 	urpm::media::write_config($urpm);
     } else {
-	local $SIG{INT} = sub {
-	    my $medium = urpm::media::name2medium($urpm, $name);
-	    remove_failed($urpm, $medium) if $medium && $medium->{modified};
-	    exit(1);
-	};
 	$ok = urpm::media::update_media($urpm, %options, 
 				  quiet => $options{verbose} < 0,
 				  callback => \&urpm::download::sync_logger);
