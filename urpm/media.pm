@@ -1053,16 +1053,16 @@ sub _copy_media_info_file {
     -s $result_file && $result_file;
 }
 
-sub _get_list_or_pubkey__local {
-    my ($urpm, $medium, $name) = @_;
+sub _get_pubkey__local {
+    my ($urpm, $medium) = @_;
 
-    _copy_media_info_file($urpm, $medium, $name, '');
+    _copy_media_info_file($urpm, $medium, 'pubkey', '');
 }
 
-sub _download_list_or_pubkey {
-    my ($urpm, $medium, $name) = @_;
+sub _download_pubkey {
+    my ($urpm, $medium) = @_;
 
-    _download_media_info_file($urpm, $medium, $name, '', 1);
+    _download_media_info_file($urpm, $medium, 'pubkey', '', 1);
 }
 
 sub _download_media_info_file {
@@ -1373,7 +1373,7 @@ sub _get_pubkey_and_descriptions {
 
     #- examine if a pubkey file is available.
     if (!$nopubkey && !$medium->{'key-ids'}) {
-	($local ? \&_get_list_or_pubkey__local : \&_download_list_or_pubkey)->($urpm, $medium, 'pubkey');
+	($local ? \&_get_pubkey__local : \&_download_pubkey)->($urpm, $medium);
     }
 }
 
