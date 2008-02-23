@@ -674,6 +674,9 @@ sub add_medium {
 	$medium->{$_} = $options{$_} if exists $options{$_};
     }
 
+    #- those files must not be there (cf mdvbz#36267)
+    _clean_statedir_medium_files($urpm, $medium);
+
     if ($options{virtual}) {
 	$medium->{virtual} = 1;
     } else {
@@ -876,16 +879,22 @@ sub remove_media {
 	#- mark to re-write configuration.
 	$urpm->{modified} = 1;
 
-	#- remove files associated with this medium.
-	unlink grep { $_ } map { $_->($urpm, $medium) } \&statedir_synthesis, \&statedir_descriptions, \&statedir_names, \&statedir_MD5SUM, \&statedir_hdlist;
-	unlink statedir_xml_info($urpm, $medium, $_) foreach @xml_media_info;
-	remove_user_media_info_files($urpm, $medium);
+	_clean_statedir_medium_files($urpm, $medium);
 
 	#- remove proxy settings for this media
 	urpm::download::remove_proxy_media($medium->{name});
     }
 
     $urpm->{media} = [ difference2($urpm->{media}, $to_remove) ];
+}
+
+sub _clean_statedir_medium_files {
+    my ($urpm, $medium) = @_;
+
+    #- remove files associated with this medium.
+    unlink grep { $_ } map { $_->($urpm, $medium) } \&statedir_synthesis, \&statedir_descriptions, \&statedir_names, \&statedir_MD5SUM, \&statedir_hdlist;
+    unlink statedir_xml_info($urpm, $medium, $_) foreach @xml_media_info;
+    remove_user_media_info_files($urpm, $medium);
 }
 
 sub _probe_with_try_list {
