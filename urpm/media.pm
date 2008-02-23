@@ -573,6 +573,9 @@ sub configure {
 	    $urpm->{media} = [ @sorted_media, @remaining ];
 	}
 	_auto_update_media($urpm, %options) or return;
+
+	_pick_mirror_if_needed($urpm, $_, '') foreach grep { !$_->{ignore} } @{$urpm->{media}};
+
 	_parse_media($urpm, \%options) if !$options{nodepslist};
 
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
@@ -603,8 +606,6 @@ sub _parse_media {
     foreach (grep { !$_->{ignore} && (!$options->{update} || $_->{update}) } @{$urpm->{media} || []}) {
 	delete @$_{qw(start end)};
 	_parse_synthesis_or_ignore($urpm, $_, $options->{callback});
-
-	_pick_mirror_if_needed($urpm, $_, '');
 
 	if ($_->{searchmedia}) {
 	    $urpm->{searchmedia} = 1;
