@@ -180,7 +180,8 @@ if ($options{distrib}) {
 	ignore => $options{raw},
 	nolock => $options{nolock},
 	'xml-info' => $options{'xml-info'},
-    );
+    ) or $urpm->{fatal}(10, N("unable to add medium"));
+
     urpm::download::copy_cmd_line_proxy($name);
     if ($options{raw}) {
 	urpm::media::write_config($urpm);
