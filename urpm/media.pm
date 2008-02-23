@@ -16,6 +16,7 @@ our @PER_MEDIA_OPT = qw(
     key-ids
     list
     media_info_dir
+    mirrorlist
     name
     no-media-info
     noreconfigure
@@ -56,6 +57,7 @@ sub _only_media_opts_write {
     my ($m) = @_;
     my $c = only_media_opts($m);
     delete $c->{media_info_dir} if $c->{media_info_dir} eq 'media_info';
+    delete $c->{url} if $c->{mirrorlist};
     $c;
 }
 
@@ -84,7 +86,7 @@ sub read_config_add_passwords {
     my ($urpm, $config) = @_;
 
     my @netrc = read_private_netrc($urpm) or return;
-    foreach (@{$config->{media}}) {
+    foreach (grep { $_->{url} } @{$config->{media}}) {
 	my $u = urpm::download::parse_url_with_login($_->{url}) or next;
 	if (my ($e) = grep { ($_->{default} || $_->{machine} eq $u->{machine}) && $_->{login} eq $u->{login} } @netrc) {
 	    $_->{url} = sprintf('%s://%s:%s@%s%s', $u->{proto}, $u->{login}, $e->{password}, $u->{machine}, $u->{dir});
@@ -98,7 +100,7 @@ sub remove_passwords_and_write_private_netrc {
     my ($urpm, $config) = @_;
 
     my @l;
-    foreach (@{$config->{media}}) {
+    foreach (grep { $_->{url} } @{$config->{media}}) {
 	my $u = urpm::download::parse_url_with_login($_->{url}) or next;
 	#- check whether a password is visible
 	$u->{password} or next;
@@ -149,7 +151,7 @@ sub read_config {
     foreach my $m (@{$config->{media}}) {
 	my $medium = _only_media_opts_read($m);
 
-	if (!$medium->{url}) {
+	if (!$medium->{url} && !$medium->{mirrorlist}) {
 	    #- recover the url the old deprecated way...
 	    #- only useful for migration, new urpmi.cfg will use netrc
 	    recover_url_from_list($urpm, $medium);
@@ -180,7 +182,7 @@ sub check_existing_medium {
     my ($urpm, $medium) = @_;
 
     my $err;
-    if (!$medium->{url}) { 
+    if (!$medium->{url} && !$medium->{mirrorlist}) { 
 	$err = $medium->{virtual} ?
 	  N("virtual medium \"%s\" should have a clear url, medium ignored",
 			   $medium->{name}) :
@@ -602,6 +604,8 @@ sub _parse_media {
 	delete @$_{qw(start end)};
 	_parse_synthesis_or_ignore($urpm, $_, $options->{callback});
 
+	_pick_mirror_if_needed($urpm, $_, '');
+
 	if ($_->{searchmedia}) {
 	    $urpm->{searchmedia} = 1;
 	    $urpm->{log}(N("Search start: %s end: %s", $_->{start}, $_->{end}));
@@ -644,7 +648,7 @@ sub _compute_flags_for_instlist {
 #- add a new medium, sync the config file accordingly.
 #- returns the new medium's name. (might be different from the requested
 #- name if index_name was specified)
-#- options: ignore, index_name, nolock, update, virtual, media_info_dir, xml-info
+#- options: ignore, index_name, nolock, update, virtual, media_info_dir, mirrorlist, with-dir, xml-info
 sub add_medium {
     my ($urpm, $name, $url, $with_synthesis, %options) = @_;
 
@@ -670,7 +674,7 @@ sub add_medium {
 		url => $url, 
 		modified => !$options{ignore}, 
 	    };
-    foreach (qw(downloader update ignore media_info_dir xml-info)) {
+    foreach (qw(downloader update ignore media_info_dir mirrorlist with-dir xml-info)) {
 	$medium->{$_} = $options{$_} if exists $options{$_};
     }
 
@@ -681,6 +685,17 @@ sub add_medium {
 	$medium->{virtual} = 1;
     } else {
 	probe_removable_device($urpm, $medium);
+    }
+
+    if (!$medium->{url} && $options{mirrorlist}) {	
+	# forcing the standard media_info_dir if undefined
+	$medium->{media_info_dir} ||= 'media_info';
+
+	require urpm::mirrors;
+	urpm::mirrors::try($urpm, $medium, sub {
+	    # this is a little ugly since MD5SUM will be downloaded again later, but it's small enough...
+	    _download_MD5SUM($urpm, $medium);
+	}) or return;
     }
 
     if ($with_synthesis) {
@@ -719,6 +734,7 @@ sub add_medium {
 #- - probe_with : force use of rpms instead of using synthesis
 #- - ask_media : callback to know whether each media should be added
 #- - only_updates : only add "update" media (used by rpmdrake)
+#- - mirrorlist
 #- other options are passed to add_medium(): ignore, nolock, virtual
 sub add_distrib_media {
     my ($urpm, $name, $url, %options) = @_;
@@ -728,7 +744,7 @@ sub add_distrib_media {
 
     my $distribconf;
 
-    if (my $dir = file_from_local_url($url)) {
+    if (my $dir = $url && file_from_local_url($url)) {
 	urpm::removable::try_mounting($urpm, $dir)
 	    or $urpm->{error}(N("unable to mount the distribution medium")), return ();
 	$distribconf = MDV::Distribconf->new($dir, undef);
@@ -737,7 +753,15 @@ sub add_distrib_media {
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
 
-	$distribconf = _new_distribconf_and_download($urpm, $url);
+	if ($options{mirrorlist}) {
+	    $url and die "unexpected url $url together with mirrorlist $options{mirrorlist}\n";
+	}
+
+	my $m = { mirrorlist => $options{mirrorlist}, url => $url };
+	try__maybe_mirrorlist($urpm, $m, sub {
+	    $distribconf = _new_distribconf_and_download($urpm, $m->{url});
+	});
+	$url = $m->{url};
 
 	if ($distribconf) {
 	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
@@ -795,6 +819,7 @@ sub add_distrib_media {
 	    !$use_copied_synthesis && $options{probe_with} ? ($options{probe_with} => 1) : (),
 	    index_name => $name ? undef : 0,
 	    $add_by_default ? () : (ignore => 1),
+	    $options{mirrorlist} ? ('with-dir' => $distribconf->getpath($media, 'path')) : (),
 	    %options,
 	    # the following override %options
 	    update => $is_update_media ? 1 : undef,
@@ -900,6 +925,8 @@ sub _clean_statedir_medium_files {
 sub _probe_with_try_list {
     my ($urpm, $medium, $f) = @_;
 
+    $medium->{mirrorlist} and die "_probe_with_try_list does not handle mirrorlist\n";
+
     my @media_info_dirs = ('media_info', '.');
 
     my $base = file_from_local_url($medium->{url}) || $medium->{url};
@@ -918,6 +945,8 @@ sub _probe_with_try_list {
 
 sub may_reconfig_urpmi {
     my ($urpm, $medium) = @_;
+
+    $medium->{url} or return; # we should handle mirrorlist?
 
     my $f;
     if (my $dir = file_from_local_url($medium->{url})) {
@@ -1116,6 +1145,7 @@ sub get_descriptions_local {
 	$medium->{ignore} = 1;
     }
 }
+#- not handling different mirrors since the file is not always available
 sub get_descriptions_remote {
     my ($urpm, $medium) = @_;
 
@@ -1158,15 +1188,16 @@ sub get_synthesis__local {
 sub get_synthesis__remote {
     my ($urpm, $medium, $callback, $quiet) = @_;
 
-    if (urpm::download::sync($urpm, $medium, [ _url_with_synthesis($medium) ],
+    my $ok = try__maybe_mirrorlist($urpm, $medium, sub {
+	urpm::download::sync($urpm, $medium, [ _url_with_synthesis($medium) ],
 			     quiet => $quiet, callback => $callback) &&
-			       file_size(cachedir_with_synthesis($urpm, $medium)) >= 20) {
-	1;
-    } else {
+			       file_size(cachedir_with_synthesis($urpm, $medium)) >= 20;
+    });
+    if (!$ok) {
 	chomp(my $err = $@);
 	$urpm->{error}(N("...retrieving failed: %s", $err));
-	0;
     }
+    $ok;
 }
 
 #- check copied/downloaded file has right signature.
@@ -1425,6 +1456,8 @@ sub _update_medium_ {
 	unlink "$urpm->{cachedir}/partial/$_";
     }
 
+    _pick_mirror_if_needed($urpm, $medium, 'allow-cache-update');
+
     #- check for a reconfig.urpmi file (if not already reconfigured)
     if (!$medium->{noreconfigure}) {
 	may_reconfig_urpmi($urpm, $medium);
@@ -1503,7 +1536,7 @@ sub _update_media__handle_some_flags {
 	    $medium->{modified} = 0;
 	} elsif ($all) {
 	    #- if we're rebuilding all media, mark them as modified (except removable ones)
-	    $medium->{modified} ||= $medium->{url} !~ m!^removable!;
+	    $medium->{modified} ||= !($medium->{url} && $medium->{url} =~ m!^removable!);
 	}
     }
 }
@@ -1623,6 +1656,30 @@ sub _any_media_info__or_download {
     urpm::util::move($file_in_partial, $f) or return;
 
     $f;
+}
+
+#- side-effects:
+#-   + those of urpm::mirrors::pick_one ($urpm->{mirrors_cache}, $medium->{url})
+sub _pick_mirror_if_needed {
+    my ($urpm, $medium, $allow_cache_update) = @_;
+
+    $medium->{mirrorlist} && !$medium->{url} or return;
+
+    require urpm::mirrors;
+    urpm::mirrors::pick_one($urpm, $medium, $allow_cache_update);
+}
+
+#- side-effects:
+#-   + those of urpm::mirrors::try ($urpm->{mirrors_cache}, $medium->{url})
+sub try__maybe_mirrorlist {
+    my ($urpm, $medium, $try) = @_;
+
+    if ($medium->{mirrorlist}) {
+	require urpm::mirrors;
+	urpm::mirrors::try($urpm, $medium, $try);
+    } else {
+	$try->();
+    }
 }
 
 #- clean params and depslist computation zone.

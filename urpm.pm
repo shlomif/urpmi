@@ -12,7 +12,7 @@ use urpm::sys;
 use urpm::cfg;
 use urpm::md5sum;
 
-our $VERSION = '5.4';
+our $VERSION = '5.5';
 our @ISA = qw(URPM Exporter);
 our @EXPORT_OK = 'file_from_local_url';
 
@@ -33,6 +33,8 @@ sub default_options {
 	'verify-rpm' => 1,
 	'post-clean' => 1,
 	'xml-info' => 'on-demand',
+	'max-round-robin-tries' => 5,
+	'days-between-mirrorlist-update' => 5,
     };
 }
 

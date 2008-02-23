@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 23;
+use Test::More tests => 24;
 
 for my $module (glob("urpm/*.pm")) {
     $module =~ s,/,::,g;

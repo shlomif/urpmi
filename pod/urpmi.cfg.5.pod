@@ -123,6 +123,16 @@ Same as B<--limit-rate> for all tools. This option allows to control
 download speed; there is no limitation by default. The number is given in
 bytes per second, unless a suffix C<K> or C<M> is added.
 
+=item B<max-round-robin-tries>
+
+For mirrorlist, the maximum number of mirrors to try before giving up. (since
+sometimes all mirrors have the same problem and it is useless to try more).
+
+=item B<days-between-mirrorlist-update>
+
+After a number of days, urpmi.update will update the list of mirrors (to get
+potential new mirrors).
+
 =item B<nopubkey>
 
 Don't import pubkeys when updating media.

@@ -140,11 +140,13 @@ sub load_config_raw {
 		$err = N("medium `%s' is defined twice, aborting", $name);
 		return;
 	    }
-	    $block = { name => $name, url => $url };
+	    $block = { name => $name, $url ? (url => $url) : () };
 	} elsif (/^(hdlist
 	  |list
 	  |with_hdlist
 	  |with_synthesis
+	  |with-dir
+          |mirrorlist
 	  |media_info_dir
 	  |removable
 	  |md5sum
@@ -294,7 +296,7 @@ sub write_ini_config {
     foreach (@$blocks) {
 	my %h = %$_;
 	my $section = delete $h{'with-dir'} || '_';
-	$uniq{$section}++ or die "conflicting with-dir value\n";
+	$uniq{$section}++ or die "conflicting with-dir value $section\n";
 
 	foreach (difference2([ $cfg->Parameters($section) ], [ keys %h ])) {
 	    # remove those options which are no more wanted

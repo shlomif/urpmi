@@ -41,6 +41,15 @@ where <url> is one of
        http://<host>/<path>
        removable://<path>
 
+usage: urpmi.addmedia [options] --distrib --mirrorlist <url>
+usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>
+
+examples:
+
+  urpmi.addmedia --distrib --mirrorlist '\$MIRRORLIST'
+  urpmi.addmedia --mirrorlist '\$MIRRORLIST' backports media/main/backports
+
+
 and [options] are from
 ") . N("  --help         - print this help message.
 ") . N("  --wget         - use wget to retrieve distant files.
@@ -94,11 +103,20 @@ if ($options{'xml-info'}) {
 }
 
 our ($name, $url, $with, $relative_synthesis) = our @cmdline;
+my $with_dir;
 
 $options{quiet} = 1 if $options{verbose} < 0;
 
 $url or ($url, $name) = ($name, '');
-$url =~ m,^(([^:]*):/)?/, or die N("bad <url> (for local directory, the path must be absolute)") . "\n";
+if ($options{mirrorlist}) {
+    if ($options{distrib}) {
+	$url and die N("no argument needed for --distrib --mirrorlist <url>") . "\n";
+    } else {
+	($with_dir, $url) = ($url, undef);
+    }
+} else {
+    $url =~ m,^(([^:]*):/)?/, or die N("bad <url> (for local directory, the path must be absolute)") . "\n";
+}
 
 if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to add media"));
@@ -132,6 +150,7 @@ if ($options{distrib}) {
     urpm::media::add_distrib_media($urpm,
 	$name,
 	$url,
+        mirrorlist => $options{mirrorlist},
 	virtual => $options{virtual},
 	update => $options{update},
 	probe_with => $options{probe_with},
@@ -154,6 +173,8 @@ if ($options{distrib}) {
 
     urpm::media::add_medium($urpm,
 	$name, $url, $relative_synthesis,
+        mirrorlist => $options{mirrorlist},
+	'with-dir' => $with_dir,
 	virtual => $options{virtual},
 	update => $options{update},
 	ignore => $options{raw},
