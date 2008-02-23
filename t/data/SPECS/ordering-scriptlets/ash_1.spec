@@ -6,12 +6,12 @@ License: x
 Group: x
 Url: x
 Provides: /bin/ash
-BuildRequires: ash
+BuildRequires: dash-static
 BuildRoot: %{_tmppath}/%{name}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -D /bin/ash $RPM_BUILD_ROOT/bin/ash
+install -D /bin/dash.static $RPM_BUILD_ROOT/bin/ash
 
 %clean
 rm -rf $RPM_BUILD_ROOT
