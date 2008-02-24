@@ -206,14 +206,19 @@ sub _error {
     die "$msg\n";
 }
 
+sub hide_password {
+    my ($url) = @_;
+    $url =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
+    $url;
+}
+
 sub propagate_sync_callback {
     my $options = shift;
     if (ref($options) && $options->{callback}) {
 	my $mode = shift;
 	if ($mode =~ /^(?:start|progress|end)$/) {
 	    my $file = shift;
-	    $file =~ s|([^:]*://[^/:\@]*:)[^/:\@]*(\@.*)|$1xxxx$2|; #- if needed...
-	    return $options->{callback}($mode, $file, @_);
+	    return $options->{callback}($mode, hide_password($file), @_);
 	} else {
 	    return $options->{callback}($mode, @_);
 	}
