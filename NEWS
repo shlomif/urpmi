@@ -3,6 +3,9 @@
 - urpmi, urpmi.addmedia, urpmi.update:
   o have fatal errors on some errors that must not happen (eg: moving rpm from
     download dir to cachedir)
+- urpmi:
+  o do not say "files are missing" when the downloaded rpm is corrupted
+    (rpmdrake must add a "bad_rpms" callback to display the new message)
 
 Version 5.5 - 23 February 2008, by Pascal "Pixel" Rigaux
 

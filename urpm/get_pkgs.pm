@@ -110,6 +110,8 @@ sub selected2list {
 sub download_packages_of_distant_media {
     my ($urpm, $list, $sources, $error_sources, %options) = @_;
 
+    my %errors;
+
     #- get back all ftp and http accessible rpm files into the local cache
     foreach my $n (0..$#$list) {
 	my %distant_sources;
@@ -126,7 +128,7 @@ sub download_packages_of_distant_media {
 		if (-r $local_file) {
 		    $sources->{$i} = $local_file;
 		} else {
-		    $error_sources->{$i} = $local_file;
+		    $errors{$i} = [ $local_file, 'missing' ];
 		}
 	    } elsif ($url =~ m!^([^:]*):/(.*/([^/]*\.rpm))\Z!) {
 		$distant_sources{$i} = "$1:/$2"; #- will download now
@@ -165,22 +167,27 @@ sub download_packages_of_distant_media {
 	    #- present the error to the user.
 	    foreach my $i (keys %distant_sources) {
 		my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
-		if ($filename && -s "$partial_dir/$filename" &&
-		    URPM::verify_rpm("$partial_dir/$filename", nosignatures => 1))
-		{
-		    #- it seems the the file has been downloaded correctly and has been checked to be valid.
-		    unlink "$rpms_dir/$filename";
-		    urpm::sys::move_or_die($urpm, "$partial_dir/$filename", "$rpms_dir/$filename");
-		    $sources->{$i} = "$rpms_dir/$filename";
+		if ($filename && -s "$partial_dir/$filename") {
+		    if (URPM::verify_rpm("$partial_dir/$filename", nosignatures => 1)) {
+			#- it seems the the file has been downloaded correctly and has been checked to be valid.
+			unlink "$rpms_dir/$filename";
+			urpm::sys::move_or_die($urpm, "$partial_dir/$filename", "$rpms_dir/$filename");
+			$sources->{$i} = "$rpms_dir/$filename";
+		    } else {
+			unlink "$partial_dir/$filename";
+			$errors{$i} = [ $distant_sources{$i}, 'bad' ];
+		    }
 		} else {
-		    $error_sources->{$i} = $distant_sources{$i};
+		    $errors{$i} = [ $distant_sources{$i}, 'missing' ];
 		}
 	    }
 	}
     }
 
     #- clean failed download which have succeeded.
-    delete @$error_sources{keys %$sources};
+    delete @$errors{keys %$sources};
+
+    %$error_sources = map { @$_ } values %errors;
 
     1;
 }
