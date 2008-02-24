@@ -167,6 +167,7 @@ sub install {
 	    $urpm->{error}("unable to remove package " . $_);
 	}
     }
+    my @trans_pkgs;
     foreach my $mode ($install, $upgrade) {
 	foreach (keys %$mode) {
 	    my $pkg = $urpm->{depslist}[$_];
@@ -186,8 +187,15 @@ sub install {
 		    sprintf('trans: scheduling %s of %s (id=%d, file=%s)', 
 		      $update ? 'update' : 'install', 
 		      scalar($pkg->fullname), $_, $mode->{$_}));
+		push @trans_pkgs, $pkg;
+
 	    } else {
 		$urpm->{error}(N("unable to install package %s", $mode->{$_}));
+		my $cachefile = "$urpm->{cachedir}/rpms/" . $pkg->filename;
+		if (-e $cachefile) {
+		    $urpm->{error}(N("removing bad rpm (%s) from %s", $pkg->name, "$urpm->{cachedir}/rpms"));
+		    unlink $cachefile;
+		}
 	    }
 	}
 	++$update;
@@ -230,7 +238,7 @@ sub install {
 		$index++;
 	    }
 	};
-	if ($options{verbose} >= 0 && (scalar keys %$install || scalar keys %$upgrade)) {
+	if ($options{verbose} >= 0 && @trans_pkgs) {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
 	}
@@ -239,9 +247,10 @@ sub install {
 	#- don't clear cache if transaction failed. We might want to retry.
 	if (@l == 0 && !$options{test} && $options{post_clean_cache}) {
 	    #- examine the local cache to delete packages which were part of this transaction
-	    my @pkgs = map { $urpm->{depslist}[$_]->filename } keys %$install, keys %$upgrade;
-	    $urpm->{log}(N("removing installed rpms (%s) from %s", join(' ', @pkgs), "$urpm->{cachedir}/rpms"));
-	    unlink "$urpm->{cachedir}/rpms/$_" foreach @pkgs;
+	    my $cachedir = "$urpm->{cachedir}/rpms";
+	    my @pkgs = grep { -e "$cachedir/$_" } map { $_->filename } @trans_pkgs;
+	    $urpm->{log}(N("removing installed rpms (%s) from %s", join(' ', @pkgs), $cachedir));
+	    unlink "$cachedir/$_" foreach @pkgs;
 	}
 
 	if ($options{verbose} >= 0) {
