@@ -229,6 +229,11 @@ sub opendir_safe {
     return $d;
 }
 
+sub move_or_die {
+    my ($urpm, $file, $dest) = @_;
+    urpm::util::move($file, $dest) or $urpm->{fatal}(1, N("Can't move file %s to %s", $file, $dest));
+}
+
 1;
 __END__
 

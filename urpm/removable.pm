@@ -134,8 +134,8 @@ sub copy_packages_of_removable_media {
 			{
 			    #- now we can consider the file to be fine.
 			    unlink "$urpm->{cachedir}/rpms/$filename";
-			    urpm::util::move("$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
-			    -r "$urpm->{cachedir}/rpms/$filename" and $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
+			    urpm::sys::move_or_die($urpm, "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
+			    $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 			}
 		    }
 		    unless ($sources->{$i}) {

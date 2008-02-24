@@ -170,8 +170,8 @@ sub download_packages_of_distant_media {
 		{
 		    #- it seems the the file has been downloaded correctly and has been checked to be valid.
 		    unlink "$rpms_dir/$filename";
-		    urpm::util::move("$partial_dir/$filename", "$rpms_dir/$filename");
-		    -r "$rpms_dir/$filename" and $sources->{$i} = "$rpms_dir/$filename";
+		    urpm::sys::move_or_die($urpm, "$partial_dir/$filename", "$rpms_dir/$filename");
+		    $sources->{$i} = "$rpms_dir/$filename";
 		}
 		unless ($sources->{$i}) {
 		    $error_sources->{$i} = $distant_sources{$i};

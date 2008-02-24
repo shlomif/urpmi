@@ -1153,14 +1153,14 @@ sub get_descriptions_remote {
     unlink "$urpm->{cachedir}/partial/descriptions";
 
     if (-e statedir_descriptions($urpm, $medium)) {
-	urpm::util::move(statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
+	urpm::sys::move_or_die($urpm, statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
     }
     urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ], quiet => 1) 
 	or #- try older location
 	  urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], quiet => 1);
 
     if (-e "$urpm->{cachedir}/partial/descriptions") {
-	urpm::util::move("$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
+	urpm::sys::move_or_die($urpm, "$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
     }
 }
 sub get_synthesis__local {
@@ -1486,12 +1486,12 @@ sub _update_medium_ {
 	    #- use new files
 
 	    unlink statedir_synthesis($urpm, $medium);
-	    urpm::util::move(cachedir_with_synthesis($urpm, $medium),
-			     statedir_synthesis($urpm, $medium));
+	    urpm::sys::move_or_die($urpm, cachedir_with_synthesis($urpm, $medium),
+				    statedir_synthesis($urpm, $medium));
 
 	    unlink statedir_MD5SUM($urpm, $medium);
 	    if (!$medium->{with_synthesis}) { # no MD5SUM when using with_synthesis, urpmi.update will update everytime!
-		urpm::util::move("$urpm->{cachedir}/partial/MD5SUM",
+		urpm::sys::move_or_die($urpm, "$urpm->{cachedir}/partial/MD5SUM",
 				 statedir_MD5SUM($urpm, $medium)) if -e "$urpm->{cachedir}/partial/MD5SUM";
 	    }
 
