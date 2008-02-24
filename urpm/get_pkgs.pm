@@ -172,8 +172,7 @@ sub download_packages_of_distant_media {
 		    unlink "$rpms_dir/$filename";
 		    urpm::sys::move_or_die($urpm, "$partial_dir/$filename", "$rpms_dir/$filename");
 		    $sources->{$i} = "$rpms_dir/$filename";
-		}
-		unless ($sources->{$i}) {
+		} else {
 		    $error_sources->{$i} = $distant_sources{$i};
 		}
 	    }
