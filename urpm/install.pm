@@ -251,7 +251,7 @@ sub install {
 	    my @pkgs = grep { -e "$cachedir/$_" } map { $_->filename } @trans_pkgs;
 	    $urpm->{log}(N("removing installed rpms (%s) from %s", join(' ', @pkgs), $cachedir));
 	    foreach (@pkgs) {
-		unlink "$cachedir/$_ " or $urpm->{fatal}(1, N("removing %s failed: %s", $_, $!));
+		unlink "$cachedir/$_" or $urpm->{fatal}(1, N("removing %s failed: %s", $_, $!));
 	    }
 	}
 
