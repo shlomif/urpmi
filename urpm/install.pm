@@ -194,7 +194,7 @@ sub install {
 		my $cachefile = "$urpm->{cachedir}/rpms/" . $pkg->filename;
 		if (-e $cachefile) {
 		    $urpm->{error}(N("removing bad rpm (%s) from %s", $pkg->name, "$urpm->{cachedir}/rpms"));
-		    unlink $cachefile;
+		    unlink $cachefile or $urpm->{fatal}(1, N("removing %s failed: %s", $cachefile, $!));
 		}
 	    }
 	}
@@ -250,7 +250,9 @@ sub install {
 	    my $cachedir = "$urpm->{cachedir}/rpms";
 	    my @pkgs = grep { -e "$cachedir/$_" } map { $_->filename } @trans_pkgs;
 	    $urpm->{log}(N("removing installed rpms (%s) from %s", join(' ', @pkgs), $cachedir));
-	    unlink "$cachedir/$_" foreach @pkgs;
+	    foreach (@pkgs) {
+		unlink "$cachedir/$_ " or $urpm->{fatal}(1, N("removing %s failed: %s", $_, $!));
+	    }
 	}
 
 	if ($options{verbose} >= 0) {
