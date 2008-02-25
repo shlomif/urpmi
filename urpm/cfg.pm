@@ -258,7 +258,8 @@ sub load_ini_config_file_raw {
     my ($file, $b_norewrite) = @_;
 
     require Config::IniFiles;
-    my $cfg = Config::IniFiles->new('-file' => $file);
+    my $cfg = Config::IniFiles->new('-file' => $file) or return [];
+
     [ map {
 	my $section = $_;
 	my %h = map { 
