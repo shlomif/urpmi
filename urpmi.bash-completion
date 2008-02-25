@@ -91,7 +91,9 @@ _urpmi()
 		COMPREPLY=( $( compgen -W "$options" -- $cur ) )
 	else
 		if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
-			# return rpm files (can't list available packages anymore)
+			if [ -n "${COMP_URPMI_HDLISTS:-}" ]; then
+				COMPREPLY=( $( compgen -W "$(urpmq --list)" -- $cur ) )
+			fi
 			_filedir rpm
 		fi
 	fi
