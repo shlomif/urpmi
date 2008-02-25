@@ -446,13 +446,14 @@ if ($options{list_aliases}) {
 	    }
 	}
 	exit 0;
-    } elsif ($options{provides}) {
+    } elsif ($options{provides} || $options{requires}) {
+	my $get = $options{provides} ? 'provides' : 'requires';
 	my @l = uniq_ { scalar $_->fullname } map { $urpm->{depslist}[$_] } map { split /\|/, $_ } keys %{$state->{selected}};
 	foreach my $pkg (@l) {
 	    if (@l > 1) {
-		printf "%s: %s\n", $pkg->name, $_ foreach $pkg->provides;
+		printf "%s: %s\n", $pkg->name, $_ foreach $pkg->$get;
 	    } else {
-		print "$_\n" foreach $pkg->provides;
+		print "$_\n" foreach $pkg->$get;
 	    }
 	}
 	exit 0;
