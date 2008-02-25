@@ -595,16 +595,17 @@ if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$opt
     if ($test) {
 	$msg = "$msg\n" . N("(test only, installation will not be actually done)");
     }
-    my $size = $urpm->selected_size($state);
+    my ($size, $filesize) = $urpm->selected_size_filesize($state);
 
     my @to_install_formatted = urpm::msg::format_line_selected_packages($urpm, $state, \@to_install);
     my $msg2 = $size >= 0 ? 
       N("%s of additional disk space will be used.", formatXiB($size)) :
       N("%s of disk space will be freed.", formatXiB(-$size));
+    my $msg2_ = $filesize ? N("%s of packages will be retrieved.", formatXiB($filesize)) . "\n" : '';
     my $msg3 = P("Proceed with the installation of one package?",
     		"Proceed with the installation of the %d packages?",
 		$urpm->{nb_install}, $urpm->{nb_install});
-    my $p = join("\n", $msg, @to_install_formatted, $msg2, $msg3);
+    my $p = join("\n", $msg, @to_install_formatted, $msg2, $msg2_ . $msg3);
     if ($env && !$options{debug__do_not_install}) {
 	print "$p\n";
 	exit 0; #- exit now for specific environment.
