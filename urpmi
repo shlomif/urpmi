@@ -258,6 +258,7 @@ if ($env) {
 	print "dropping virtual from $urpm->{config}\n";
 	system(q(perl -pi -e 's/^\s*virtual\s*$//' ) . $urpm->{config});
     }
+    $urpm->{configs_dir} = "$env/media.d";
     $urpm->{skiplist} = "$env/skip.list";
     $urpm->{instlist} = "$env/inst.list";
     $urpm->{prefer_list} = "$env/prefer.list";
