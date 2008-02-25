@@ -626,14 +626,14 @@ msgid "unable to install package %s"
 msgstr "incapaz de instalar o pacote %s"
 
 #: ../urpm/install.pm:196
-#, fuzzy, c-format
+#, c-format
 msgid "removing bad rpm (%s) from %s"
-msgstr "removendo rpms instalados (%s) de %s"
+msgstr "removendo rpm ruim (%s) de %s"
 
 #: ../urpm/install.pm:197 ../urpm/install.pm:254
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s failed: %s"
-msgstr "...a busca falhou: %s"
+msgstr "removendo %s com falha: %s"
 
 #: ../urpm/install.pm:235
 #, c-format
@@ -746,11 +746,13 @@ msgid "Try harder to install (--force)? (y/N) "
 msgstr "Forçar instalação (--force)? (s/N) "
 
 #: ../urpm/main_loop.pm:264
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
-msgstr "A Instalação falhou no nó %s"
+msgstr ""
+"A instalação falhou, rpms ruins:\n"
+"%s"
 
 #: ../urpm/main_loop.pm:270
 #, c-format
@@ -1088,22 +1090,22 @@ msgstr "busca de [%s] falhou"
 #: ../urpm/mirrors.pm:19
 #, c-format
 msgid "trying again with mirror %s"
-msgstr ""
+msgstr "tentando novamente com o espelho %s"
 
 #: ../urpm/mirrors.pm:60
 #, c-format
 msgid "Could not find a mirror from mirrorlist %s"
-msgstr ""
+msgstr "Não foi possível encontar um espelho da lista %s"
 
 #: ../urpm/mirrors.pm:133
 #, c-format
 msgid "found geolocalisation %s %.2f %.2f from timezone %s"
-msgstr ""
+msgstr "encontrada geolocalização %s %.2f %.2f do fuso horário %s"
 
 #: ../urpm/mirrors.pm:178
-#, fuzzy, c-format
+#, c-format
 msgid "getting mirror list from %s"
-msgstr "lendo arquivos rpms de [%s]"
+msgstr "obtendo a lista de espelhos de %s"
 
 #: ../urpm/msg.pm:62 ../urpmi:506 ../urpmi:522 ../urpmi:611
 #, c-format
@@ -1634,9 +1636,9 @@ msgid "Can't open file"
 msgstr "Não foi possível abrir arquivo"
 
 #: ../urpm/sys.pm:234
-#, fuzzy, c-format
+#, c-format
 msgid "Can't move file %s to %s"
-msgstr "Não é possível usar %s com %s"
+msgstr "Não é possível mover arquivo %s para %s"
 
 #: ../urpme:40
 #, c-format
@@ -2112,9 +2114,9 @@ msgid "  --quiet, -q    - quiet mode.\n"
 msgstr "  --quiet, -q    - modo silencioso.\n"
 
 #: ../urpmi:152
-#, fuzzy, c-format
+#, c-format
 msgid "  --debug        - very verbose mode.\n"
-msgstr "  --verbose      - modo detalhado.\n"
+msgstr "  --debug        - modo muito detalhado.\n"
 
 #: ../urpmi:153
 #, c-format
@@ -2369,7 +2371,7 @@ msgstr "reiniciando urpmi"
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2397,6 +2399,15 @@ msgstr ""
 "       ftp://<máquina>/<caminho>\n"
 "       http://<máquina>/<caminho>\n"
 "       removable://<caminho>\n"
+"\n"
+"uso: urpmi.addmedia [opções] --distrib --mirrorlist <url>\n"
+"uso: urpmi.addmedia [opções] --mirrorlist <url> <nome> <caminho relativo>\n"
+"\n"
+"exemplos:\n"
+"\n"
+"  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
+"  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"\n"
 "\n"
 "e [opções] vêm de\n"
 
@@ -2477,11 +2488,9 @@ msgstr ""
 "                   o padrão é %s\n"
 
 #: ../urpmi.addmedia:76
-#, fuzzy, c-format
+#, c-format
 msgid "  --virtual      - create virtual media wich are always up-to-date.\n"
-msgstr ""
-"  --virtual      - cria uma mídia virtual que será sempre atualizada,\n"
-"                   apenas o protocolo 'file://' é permitido.\n"
+msgstr "  --virtual      - cria mídias virtuais que estão sempre atualizadas.\n"
 
 #: ../urpmi.addmedia:77 ../urpmi.update:42
 #, c-format
@@ -2521,7 +2530,7 @@ msgstr "políticas xml-info conhecidas são %s"
 #: ../urpmi.addmedia:113
 #, c-format
 msgid "no argument needed for --distrib --mirrorlist <url>"
-msgstr ""
+msgstr "nenhum argumento necessário para --distrib --mirrorlist <url>"
 
 #: ../urpmi.addmedia:118
 #, c-format
@@ -2568,9 +2577,9 @@ msgid "Can't use %s with remote medium"
 msgstr "Não se pode usar %s com mídia remota"
 
 #: ../urpmi.addmedia:183
-#, fuzzy, c-format
+#, c-format
 msgid "unable to add medium"
-msgstr "incapaz de acessar a mídia \"%s\""
+msgstr "incapaz de adicionar mídia"
 
 #: ../urpmi.recover:28
 #, c-format
