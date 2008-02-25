@@ -203,6 +203,7 @@ if ($options{list_aliases}) {
     }
     exit 0;
 } elsif ($options{list}) {
+    !@names && !@src_names or $urpm->{fatal}(1, N("use -l to list files"));
     # --list lists all available packages: select them all
     @{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
 } else {
