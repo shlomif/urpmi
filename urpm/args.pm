@@ -230,6 +230,7 @@ my %options_spec = (
 	keep => \$options{keep},
 	list => \$options{list},
 	changelog => \$options{changelog},
+	conflicts => \$options{conflicts},
 	provides => \$options{provides},
 	sourcerpm => \$options{sourcerpm},
 	'summary|S' => \$options{summary},

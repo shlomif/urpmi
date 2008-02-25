@@ -78,6 +78,7 @@ usage:
                    authentication (format is <user:password>).
 ") . N("  --env          - use specific environment (typically a bug report).
 ") . N("  --changelog    - print changelog.
+") . N("  --conflicts    - print conflicts.
 ") . N("  --provides     - print provides.
 ") . N("  --requires     - print requires.
 ") . N("  --sourcerpm    - print sourcerpm.
@@ -447,8 +448,8 @@ if ($options{list_aliases}) {
 	    }
 	}
 	exit 0;
-    } elsif ($options{provides} || $options{requires}) {
-	my $get = $options{provides} ? 'provides' : 'requires';
+    } elsif ($options{provides} || $options{requires} || $options{conflicts}) {
+	my $get = $options{provides} ? 'provides' : $options{requires} ? 'requires' : 'conflicts';
 	my @l = uniq_ { scalar $_->fullname } map { $urpm->{depslist}[$_] } map { split /\|/, $_ } keys %{$state->{selected}};
 	foreach my $pkg (@l) {
 	    if (@l > 1) {
