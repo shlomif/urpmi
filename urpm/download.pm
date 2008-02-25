@@ -752,7 +752,7 @@ sub get_content {
     my $file = "$urpm->{cachedir}/partial/" . basename($url);
 
     unlink $file; # prevent "partial file" errors
-    urpm::download::sync($urpm, undef, [ $url ]) or return;
+    urpm::download::sync($urpm, undef, [ $url ], quiet => 1) or return;
 
     my @l = cat_($file);
     unlink $file;
