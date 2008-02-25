@@ -276,10 +276,7 @@ if ($nok) {
     }
 } else {
     $callbacks->{success_summary} and $callbacks->{success_summary}->();
-    if ($test) {
-	#- Warning : the following message is parsed in urpm::parallel_*
-	print N("Installation is possible"), "\n";
-    } elsif ($something_was_to_be_done || $auto_select) {
+    if ($something_was_to_be_done || $auto_select) {
 	if (@{$state->{transaction} || []} == 0 && @$ask_unselect == 0) {
 	    if ($options{verbose} >= 0) {
 		if ($auto_select) {
@@ -302,6 +299,9 @@ if ($nok) {
 		}
 	    }
 	    $exit_code = 15 if our $expect_install;
+	} elsif ($test && $exit_code == 0) {
+	    #- Warning : the following message is parsed in urpm::parallel_*
+	    print N("Installation is possible"), "\n";
 	}
     }
 }
