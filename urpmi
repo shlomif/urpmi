@@ -648,6 +648,10 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 	my $yesexpr = N("Yy");
 	$force || message_input_($msg, boolean => 1) =~ /[$yesexpr]/;
     },
+    message => sub {
+	my ($_title, $msg) = @_; # graphical title
+        print $msg;
+    }
 });
 
 unless ($env || $options{nolock}) {
