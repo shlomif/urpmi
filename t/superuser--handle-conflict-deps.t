@@ -22,7 +22,7 @@ urpmi_addmedia("$name $::pwd/media/$name");
 
 test_simple('c', 'd');
 test_simple('d', 'c');
-#test_simple('e', 'f'); # ERROR #17106
+test_simple('e', 'f'); # test for mdvbz #17106
 test_simple('f', 'e');
 
 test_conflict_on_install();
