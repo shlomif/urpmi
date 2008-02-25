@@ -376,7 +376,7 @@ if ($options{list_aliases}) {
 		    my $pkg = $urpm->{depslist}[$id] or next;
 
 		    #- even if non-root, search for a header in the global cachedir
-		    my $file = $local_sources->{$id} || "$urpm->{cachedir}/headers/" . $pkg->header_filename;
+		    my $file = $local_sources->{$id};
 		    if (-s $file) {
 			$pkg->update_header($file, keep_all_tags => 1);
 		    } elsif ($xml_info_pkgs{$id}) {

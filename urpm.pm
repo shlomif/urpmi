@@ -151,7 +151,7 @@ sub create_var_lib_rpm {
     my ($urpm, %h) = @_;
     require File::Path;
     File::Path::mkpath([ $h{statedir}, 
-			 (map { "$h{cachedir}/$_" } qw(headers partial rpms)),
+			 (map { "$h{cachedir}/$_" } qw(partial rpms)),
 			 dirname($h{config}),
 			 "$urpm->{root}/var/lib/rpm",
 			 "$urpm->{root}/var/tmp",

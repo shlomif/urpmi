@@ -222,7 +222,7 @@ _urpmi_update()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W "$common_options -a -c -f --wget --prozilla \
+		COMPREPLY=( $( compgen -W "$common_options -a -f --wget --prozilla \
 			--curl --limit-rate --proxy --proxy-user --update \
 			--ignore --no-ignore \
 			--no-md5sum --force-key --norebuild" \
@@ -245,7 +245,7 @@ _urpmi_addmedia()
 
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
-		COMPREPLY=( $( compgen -W "$common_options -c -f --wget --curl --prozilla \
+		COMPREPLY=( $( compgen -W "$common_options -f --wget --curl --prozilla \
 			--limit-rate --proxy --proxy-user --update --raw \
 			--probe-synthesis --probe-hdlist --probe-rpms --no-probe --distrib \
 			--env --version --arch --virtual --norebuild --nopubkey" -- $cur ) )
@@ -288,7 +288,7 @@ _urpmi_removemedia()
 
 	if [[ "$cur" == -* ]]; then
 		# if word begins with a dash, return list of available options
-		COMPREPLY=( $( compgen -W "$common_options -a -c -y" -- $cur ) )
+		COMPREPLY=( $( compgen -W "$common_options -a -y" -- $cur ) )
 	else
 		# elsewhere, return list of available media
 		_urpmi_medias
