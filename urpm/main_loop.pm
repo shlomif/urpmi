@@ -62,6 +62,7 @@ $callbacks->{post_removable} and $callbacks->{post_removable}->();
 urpm::install::build_transaction_set_($urpm, $state,
 			  rpmdb => $env && "$env/rpmdb.cz",
 			  nodeps => $urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'},
+			  keep => $urpm->{options}{keep},
 			  split_level => $urpm->{options}{'split-level'},
 			  split_length => !$test && $urpm->{options}{'split-length'});
 

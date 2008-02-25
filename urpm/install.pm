@@ -51,7 +51,7 @@ sub build_transaction_set_ {
 	local $SIG{QUIT} = $sig_handler;
 
 	#- build transaction set...
-	$urpm->build_transaction_set($db, $state, split_length => $options{split_length});
+	$urpm->build_transaction_set($db, $state, split_length => $options{split_length}, keep => $options{keep});
     }
 }
 

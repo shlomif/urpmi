@@ -13,6 +13,8 @@
 - urpmi:
   o do not say "files are missing" when the downloaded rpm is corrupted
   o --test: only display "Installation is possible" when it is the case (#29837)
+  o fix "using one big transaction" that occurs when using --keep 
+    (#30198) (part of the fix is in perl-URPM 3.09)
 - bash-completion:
   o restore available-pkgs completion using "urpmq --list" (guillomovitch)
     (but only if COMP_URPMI_HDLISTS is set since it's slow)
