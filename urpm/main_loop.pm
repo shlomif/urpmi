@@ -253,16 +253,16 @@ $callbacks->{completed} and $callbacks->{completed}->();
 #- keep a track of error code.
 my $exit_code = 0;
 if (my @missing = grep { $error_sources{$_} eq 'missing' } keys %error_sources) {
-    $callbacks->{missing_files_summary} and $callbacks->{missing_files_summary}->({ map { $_ => $_ } @missing });
-    #- Warning : the following message is parsed in urpm::parallel_*
-    print N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
-	join "\n", map { "    " . urpm::download::hide_password($_) } @missing), "\n";
+    $callbacks->{message}->(N("Error"), 
+        #- Warning : the following message is parsed in urpm::parallel_*
+        N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
+          join "\n", map { "    " . urpm::download::hide_password($_) } @missing) . "\n"
+    );
     $exit_code = 10;
 }
 if (my @bad = grep { $error_sources{$_} eq 'bad' } keys %error_sources) {
-    $callbacks->{bad_rpms} and $callbacks->{bad_rpms}->(@bad);
-    print N("Installation failed, bad rpms:\n%s",
-	join "\n", map { "    " . urpm::download::hide_password($_) } @bad), "\n";
+    $callbacks->{message}->(N("Error"), N("Installation failed, bad rpms:\n%s",
+                              join "\n", map { "    " . urpm::download::hide_password($_) } @bad), "\n");
     $exit_code = 11;
 }
 if ($nok) {
