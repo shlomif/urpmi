@@ -306,6 +306,7 @@ if ($needed_media_info{hdlist}) {
 	      $urpm->{error}(N("no xml-info available for medium \"%s\"", $medium->{name})), next;
 	    $urpm->{log}("getting information from $hdlist");
 	    $urpm->parse_hdlist($hdlist, callback => $callback);
+	    next;
 	}
 	require urpm::xml_info;
 	require urpm::xml_info_pkg;
