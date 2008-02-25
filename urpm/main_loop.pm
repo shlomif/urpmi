@@ -262,7 +262,7 @@ if (my @missing = grep { $error_sources{$_} eq 'missing' } keys %error_sources) 
 }
 if (my @bad = grep { $error_sources{$_} eq 'bad' } keys %error_sources) {
     $callbacks->{message}->(N("Error"), N("Installation failed, bad rpms:\n%s",
-                              join "\n", map { "    " . urpm::download::hide_password($_) } @bad), "\n");
+                              join "\n", map { "    " . urpm::download::hide_password($_) } @bad) . "\n");
     $exit_code = 11;
 }
 if ($nok) {
