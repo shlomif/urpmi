@@ -111,8 +111,13 @@ sub _save_cache {
 sub _list {
     my ($urpm, $mirrorlist) = @_;
 
-    # expand the variable
-    $mirrorlist = _MIRRORLIST() if $mirrorlist eq '$MIRRORLIST';
+    # expand the variables
+    if ($mirrorlist eq '$MIRRORLIST') {
+	$mirrorlist = _MIRRORLIST();
+    } else {
+	require urpm::cfg;
+	$mirrorlist = urpm::cfg::expand_line($mirrorlist);
+    }
 
     my @mirrors = _mirrors_filtered($urpm, $mirrorlist);
     add_proximity_and_sort($urpm, \@mirrors);
