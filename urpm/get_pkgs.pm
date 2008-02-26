@@ -137,14 +137,12 @@ sub download_packages_of_distant_media {
 	    }
 	}
 
-	my $partial_dir = "$urpm->{cachedir}/partial";
-	my $rpms_dir = "$urpm->{cachedir}/rpms";
-	if (%distant_sources && ! -w $partial_dir) {
+	my $cachedir = $urpm->{cachedir};
+	if (%distant_sources && ! -w "$cachedir/partial") {
 	    if (my $userdir = urpm::userdir($urpm)) {
-		$partial_dir = "$userdir/partial";
-		$rpms_dir = "$userdir/rpms";
-		mkdir $download_dir;
-		mkdir $rpms_dir;
+		$cachedir = $userdir;
+		mkdir "$cachedir/partial";
+		mkdir "$cachedir/rpms";
 	    } else {
 		$urpm->{error}(N("sorry, you can't use --install-src to install remote .src.rpm files"));
 		exit 1;
@@ -155,7 +153,7 @@ sub download_packages_of_distant_media {
 	if (%distant_sources) {
 	    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
 	    if (urpm::download::sync($urpm, $urpm->{media}[$n], [ values %distant_sources ],
-				     dir => $partial_dir, quiet => $options{quiet}, 
+				     dir => "$cachedir/partial", quiet => $options{quiet}, 
 				     resume => $urpm->{options}{resume}, callback => $options{callback})) {
 		$urpm->{log}(N("...retrieving done"));
 	    } else {
@@ -167,14 +165,14 @@ sub download_packages_of_distant_media {
 	    #- present the error to the user.
 	    foreach my $i (keys %distant_sources) {
 		my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
-		if ($filename && -s "$partial_dir/$filename") {
-		    if (URPM::verify_rpm("$partial_dir/$filename", nosignatures => 1)) {
+		if ($filename && -s "$cachedir/partial/$filename") {
+		    if (URPM::verify_rpm("$cachedir/partial/$filename", nosignatures => 1)) {
 			#- it seems the the file has been downloaded correctly and has been checked to be valid.
-			unlink "$rpms_dir/$filename";
-			urpm::sys::move_or_die($urpm, "$partial_dir/$filename", "$rpms_dir/$filename");
-			$sources->{$i} = "$rpms_dir/$filename";
+			unlink "$cachedir/rpms/$filename";
+			urpm::sys::move_or_die($urpm, "$cachedir/partial/$filename", "$cachedir/rpms/$filename");
+			$sources->{$i} = "$cachedir/rpms/$filename";
 		    } else {
-			unlink "$partial_dir/$filename";
+			unlink "$cachedir/partial/$filename";
 			$errors{$i} = [ $distant_sources{$i}, 'bad' ];
 		    }
 		} else {
