@@ -38,18 +38,14 @@ sub find_mntpoints {
 	    or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	$fstab{$mntpoint} =  0;
-	if (ref($infos)) {
-	    $infos->{$mntpoint} = { mounted => 0, device => $device, fs => $fstype };
-	}
+	$infos->{$mntpoint} = { mounted => 0, device => $device, fs => $fstype };
     }
     foreach (cat_("/etc/mtab")) {
 	my ($device, $mntpoint, $fstype, $options) = m!^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)!
 	    or next;
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	$fstab{$mntpoint} = 1;
-	if (ref($infos)) {
-	    $infos->{$mntpoint} = { mounted => 1, device => $device, fs => $fstype };
-	}
+	$infos->{$mntpoint} = { mounted => 1, device => $device, fs => $fstype };
     }
 
     #- try to follow symlink, too complex symlink graph may not be seen.
@@ -62,9 +58,7 @@ sub find_mntpoints {
 	$pdir .= "/$_";
 	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
 	if (exists($fstab{$pdir})) {
-	    ref($infos) and push @mntpoints, $pdir;
-	    $infos eq 'mount' && ! $fstab{$pdir} and push @mntpoints, $pdir;
-	    $infos eq 'umount' && $fstab{$pdir} and unshift @mntpoints, $pdir;
+	    push @mntpoints, $pdir;
 	    #- following symlinks may be useless or dangerous for supermounted devices.
 	    #- this means it is assumed no symlink inside a removable device
 	    #- will go outside the device itself (or at least will go into
