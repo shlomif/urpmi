@@ -25,6 +25,20 @@ sub get_packages_list {
     } @l ];
 }
 
+sub _read_fstab_or_mtab {
+    my ($file) = @_;
+
+    my @l;
+    foreach (cat_($file)) {
+	next if /^\s*#/;
+	my ($device, $mntpoint, $fstype, $_options) = m!^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)!
+	    or next;
+	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
+	push @l, { mntpoint => $mntpoint, device => $device, fs => $fstype };
+    }
+    @l;
+}
+
 #- find used mount point from a pathname, use a optional mode to allow
 #- filtering according the next operation (mount or umount).
 sub find_mntpoints {
@@ -32,20 +46,13 @@ sub find_mntpoints {
     my (%fstab, @mntpoints);
 
     #- read /etc/fstab and check for existing mount point.
-    foreach (cat_("/etc/fstab")) {
-	next if /^\s*#/;
-	my ($device, $mntpoint, $fstype, $options) = m!^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)!
-	    or next;
-	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
-	$fstab{$mntpoint} =  0;
-	$infos->{$mntpoint} = { mounted => 0, device => $device, fs => $fstype };
+    foreach (_read_fstab_or_mtab("/etc/fstab")) {
+	$fstab{$_->{mntpoint}} =  0;
+	$infos->{$_->{mntpoint}} = { mounted => 0, %$_ };
     }
-    foreach (cat_("/etc/mtab")) {
-	my ($device, $mntpoint, $fstype, $options) = m!^\s*(\S+)\s+(/\S+)\s+(\S+)\s+(\S+)!
-	    or next;
-	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
-	$fstab{$mntpoint} = 1;
-	$infos->{$mntpoint} = { mounted => 1, device => $device, fs => $fstype };
+    foreach (_read_fstab_or_mtab("/etc/mtab")) {
+	$fstab{$_->{mntpoint}} =  1;
+	$infos->{$_->{mntpoint}} = { mounted => 1, %$_ };
     }
 
     #- try to follow symlink, too complex symlink graph may not be seen.
