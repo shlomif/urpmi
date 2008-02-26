@@ -207,6 +207,20 @@ sub _create_blists {
 	map { { medium => $_, list => $list->[$i++] } } @$media ];
 }
 
+sub _sort_media {
+    my ($urpm, @l) = @_;
+
+    if (@l > 1) {
+	@l = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @l;
+
+	#- check if a removable device is already mounted (and files present).
+	if (my ($already_mounted) = grep { !_check_notfound($urpm, $_->{list}) } @l) {
+	    @l = ($already_mounted, grep { $_ != $already_mounted } @l);
+	}
+    }
+    @l;
+}
+
 #- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
 #- where there is one hash for each medium in {media}
 sub copy_packages_of_removable_media {
@@ -214,23 +228,12 @@ sub copy_packages_of_removable_media {
 
     my $blists = _create_blists($urpm->{media}, $list);
 
-    my @removables = _get_removables_or_check_mounted($urpm, $blists);
+    foreach my $l (_get_removables_or_check_mounted($urpm, $blists)) {
 
-    foreach my $l (@removables) {
 	#- Here we have only removable devices.
 	#- If more than one media uses this device, we have to sort
 	#- needed packages to copy the needed rpm files.
-	my @l = @$l;
-
-	if (@l > 1) {
-	    @l = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @l;
-
-	    #- check if a removable device is already mounted (and files present).
-	    if (my ($already_mounted) = grep { !_check_notfound($urpm, $_->{list}) } @l) {
-		@l = ($already_mounted, grep { $_ != $already_mounted } @l);
-	    }
-	}
-	foreach my $blist (@l) {
+	foreach my $blist (_sort_media($urpm, @$l)) {
 	    _examine_removable_medium($urpm, $blist, $sources, $o_ask_for_medium);
 	}
     }
