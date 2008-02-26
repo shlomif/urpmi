@@ -120,12 +120,12 @@ sub _examine_removable_medium {
 		    chomp $url;
 		    my $filepath = file_from_local_url($url) or next;
 		    $filepath =~ m!/.*/! or next; #- is this really needed??
-		    my $filename = basename($filepath);
 
 		    if (-r $filepath) {
 			#- we should assume a possibly buggy removable device...
 			#- First, copy in partial cache, and if the package is still good,
 			#- transfer it to the rpms cache.
+			my $filename = basename($filepath);
 			unlink "$urpm->{cachedir}/partial/$filename";
 			$urpm->{log}("copying $filepath");
 			if (copy_and_own($filepath, "$urpm->{cachedir}/partial/$filename") &&
