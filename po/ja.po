@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: urpmi-ja\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-25 11:14+0100\n"
-"PO-Revision-Date: 2008-01-31 23+0900\n"
+"PO-Revision-Date: 2008-02-26 19+0900\n"
 "Last-Translator: BANDO Yukiko <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <cooker-i18n@mandrivalinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -602,7 +602,7 @@ msgstr "トランザクションを作成できません"
 #: ../urpm/install.pm:180
 #, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
-msgstr "delta-rpm パッケージ %s から rpm を抽出できません"
+msgstr "delta-rpm パッケージ %s から RPM を抽出できません"
 
 #: ../urpm/install.pm:193
 #, c-format
@@ -610,14 +610,14 @@ msgid "unable to install package %s"
 msgstr "%s をインストールできません"
 
 #: ../urpm/install.pm:196
-#, fuzzy, c-format
+#, c-format
 msgid "removing bad rpm (%s) from %s"
-msgstr "インストールされている rpm (%s) を %s から削除"
+msgstr "不正な RPM (%s) を %s から削除"
 
 #: ../urpm/install.pm:197 ../urpm/install.pm:254
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s failed: %s"
-msgstr "...取得に失敗: %s"
+msgstr "%s の削除に失敗: %s"
 
 #: ../urpm/install.pm:235
 #, c-format
@@ -632,7 +632,7 @@ msgstr "%s を削除"
 #: ../urpm/install.pm:252
 #, c-format
 msgid "removing installed rpms (%s) from %s"
-msgstr "インストールされている rpm (%s) を %s から削除"
+msgstr "インストールされている RPM (%s) を %s から削除"
 
 #: ../urpm/install.pm:260
 #, c-format
@@ -702,7 +702,7 @@ msgstr "インストールに失敗"
 #: ../urpm/main_loop.pm:129
 #, c-format
 msgid "removing installed rpms (%s)"
-msgstr "インストールされている rpm (%s) を削除"
+msgstr "インストールされている RPM (%s) を削除"
 
 #: ../urpm/main_loop.pm:149
 #, c-format
@@ -730,11 +730,13 @@ msgid "Try harder to install (--force)? (y/N) "
 msgstr "インストールを強行 (--force) してみますか？(y/N)[デフォルトはN]"
 
 #: ../urpm/main_loop.pm:264
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
-msgstr "インストール失敗:"
+msgstr ""
+"インストール失敗。不正な RPM です:\n"
+"%s"
 
 #: ../urpm/main_loop.pm:270
 #, c-format
@@ -1073,12 +1075,12 @@ msgstr "[%s] の取得に失敗しました"
 #: ../urpm/mirrors.pm:19
 #, c-format
 msgid "trying again with mirror %s"
-msgstr ""
+msgstr "ミラー %s で再試行"
 
 #: ../urpm/mirrors.pm:60
 #, c-format
 msgid "Could not find a mirror from mirrorlist %s"
-msgstr ""
+msgstr "ミラーリスト %s にミラーが見つかりませんでした"
 
 #: ../urpm/mirrors.pm:133
 #, c-format
@@ -1086,9 +1088,9 @@ msgid "found geolocalisation %s %.2f %.2f from timezone %s"
 msgstr ""
 
 #: ../urpm/mirrors.pm:178
-#, fuzzy, c-format
+#, c-format
 msgid "getting mirror list from %s"
-msgstr "[%s] からRPMファイルを読み込み"
+msgstr "%s からミラーリストを取得"
 
 #: ../urpm/msg.pm:62 ../urpmi:506 ../urpmi:522 ../urpmi:611
 #, c-format
@@ -1603,9 +1605,9 @@ msgid "Can't open file"
 msgstr "ファイルを開けません"
 
 #: ../urpm/sys.pm:234
-#, fuzzy, c-format
+#, c-format
 msgid "Can't move file %s to %s"
-msgstr "%s は %s と一緒には使えません"
+msgstr "ファイル %s を %s に移動できません"
 
 #: ../urpme:40
 #, c-format
@@ -1784,9 +1786,9 @@ msgid "    --force-key    - force update of gpg key.\n"
 msgstr "    --force-key    - gpg 鍵の更新を強制する\n"
 
 #: ../urpmi:86 ../urpmq:53
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-suggests  - do not auto select \"suggested\" packages.\n"
-msgstr "  --suggests     - suggest (提案) タグ\n"
+msgstr "  --no-suggests  - 提案されたパッケージを自動的に選択しない\n"
 
 #: ../urpmi:87
 #, c-format
@@ -2059,9 +2061,9 @@ msgid "  --quiet, -q    - quiet mode.\n"
 msgstr "  --quiet, -q   - 詳細を表示しない\n"
 
 #: ../urpmi:152
-#, fuzzy, c-format
+#, c-format
 msgid "  --debug        - very verbose mode.\n"
-msgstr "  --verbose      - 詳細モード\n"
+msgstr "  --debug      - 非常に詳細なモード\n"
 
 #: ../urpmi:153
 #, c-format
@@ -2315,7 +2317,7 @@ msgstr "urpmi を再スタートします"
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2343,6 +2345,16 @@ msgstr ""
 "       ftp://<ホスト>/<パス>\n"
 "       http://<ホスト>/<パス>\n"
 "       removable://<パス>\n"
+"\n"
+"使い方: urpmi.addmedia [オプション] --distrib --mirrorlist <url>\n"
+"使い方: urpmi.addmedia [オプション] --mirrorlist <url> <メディア名> <相対パス"
+">\n"
+"\n"
+"例:\n"
+"\n"
+"  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
+"  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"\n"
 "\n"
 "[オプション] は以下を選択\n"
 
@@ -2386,7 +2398,7 @@ msgstr "  --probe-synthesis - synthesis ファイルを使う\n"
 #: ../urpmi.addmedia:67
 #, c-format
 msgid "  --probe-rpms   - use rpm files (instead of synthesis).\n"
-msgstr "  --probe-rpms   - rpm ファイルを使う (synthesis の代わりに)\n"
+msgstr "  --probe-rpms   - RPM ファイルを使う (synthesis の代わりに)\n"
 
 #: ../urpmi.addmedia:68
 #, c-format
@@ -2424,11 +2436,9 @@ msgstr ""
 "                   %s\n"
 
 #: ../urpmi.addmedia:76
-#, fuzzy, c-format
+#, c-format
 msgid "  --virtual      - create virtual media wich are always up-to-date.\n"
-msgstr ""
-"  --virtual      - 常に最新状態に更新されている仮想メディアを作成\n"
-"                   'file://' プロトコルのみ使用可\n"
+msgstr "  --virtual      - 常に最新状態に更新されている仮想メディアを作成\n"
 
 #: ../urpmi.addmedia:77 ../urpmi.update:42
 #, c-format
@@ -2468,7 +2478,7 @@ msgstr "xml-info の既知のポリシーは %s"
 #: ../urpmi.addmedia:113
 #, c-format
 msgid "no argument needed for --distrib --mirrorlist <url>"
-msgstr ""
+msgstr "--distrib --mirrorlist <url> には引数は必要ありません"
 
 #: ../urpmi.addmedia:118
 #, c-format
@@ -2515,9 +2525,9 @@ msgid "Can't use %s with remote medium"
 msgstr "%s はリモートメディアには使えません"
 
 #: ../urpmi.addmedia:183
-#, fuzzy, c-format
+#, c-format
 msgid "unable to add medium"
-msgstr "メディア %s にアクセスできません"
+msgstr "メディアを追加できません"
 
 #: ../urpmi.recover:28
 #, c-format
