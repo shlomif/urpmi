@@ -108,8 +108,10 @@ sub selected2list {
 sub verify_partial_rpm_and_move {
     my ($urpm, $cachedir, $filename) = @_;
 
-    URPM::verify_rpm("$cachedir/partial/$filename", nosignatures => 1) or return;
-
+    URPM::verify_rpm("$cachedir/partial/$filename", nosignatures => 1) or do {
+	unlink "$cachedir/partial/$filename";
+	return;
+    };
     #- it seems the the file has been downloaded correctly and has been checked to be valid.
     unlink "$cachedir/rpms/$filename";
     urpm::sys::move_or_die($urpm, "$cachedir/partial/$filename", "$cachedir/rpms/$filename");
@@ -180,7 +182,6 @@ sub download_packages_of_distant_media {
 		    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
 			$sources->{$i} = $rpm;
 		    } else {
-			unlink "$cachedir/partial/$filename";
 			$errors{$i} = [ $distant_sources{$i}, 'bad' ];
 		    }
 		} else {
