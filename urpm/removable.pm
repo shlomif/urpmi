@@ -148,6 +148,8 @@ sub _mount_it {
 	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 	}
     }
+
+    $dir;
 }
 
 #- side-effects: none
@@ -183,9 +185,7 @@ sub _do_the_copy {
 sub _examine_removable_medium_ {
     my ($urpm, $medium, $medium_list, $sources, $o_ask_for_medium) = @_;
 
-    _mount_it($urpm, $medium, $medium_list, $o_ask_for_medium);
-
-    my $dir = file_from_local_url($medium->{url});
+    my $dir = _mount_it($urpm, $medium, $medium_list, $o_ask_for_medium);
 
 	while (my ($i, $url) = each %$medium_list) {
 	    my $filepath = _filepath($url) or next;
