@@ -81,12 +81,12 @@ sub try_umounting_removables {
 #- side-effects:
 #-   + those of try_mounting ($urpm->{removable_mounted}, mount)
 sub _check_notfound {
-    my ($urpm, $list, $id, $dir, $removable) = @_;
+    my ($urpm, $medium_list, $dir, $removable) = @_;
 	if ($dir) {
 	    try_mounting($urpm, $dir, $removable);
 	    -e $dir or return 2;
 	}
-	foreach (values %{$list->[$id]}) {
+	foreach (values %$medium_list) {
 	    chomp;
 	    my $dir_ = file_from_local_url($_) or next;
 	    $dir_ =~ m!/.*/! or next; #- is this really needed??
@@ -109,7 +109,7 @@ sub _examine_removable_medium {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- everything that might be necessary.
-	    while (_check_notfound($urpm, $list, $id, $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
+	    while (_check_notfound($urpm, $list->[$id], $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
 		is_iso($medium->{removable}) || $o_ask_for_medium
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 		try_umounting($urpm, $dir);
@@ -193,7 +193,7 @@ sub copy_packages_of_removable_media {
 	    my @sorted_media = sort { values(%{$list->[$a]}) <=> values(%{$list->[$b]}) } @{$removables{$device}};
 
 	    #- check if a removable device is already mounted (and files present).
-	    if (my ($already_mounted_medium) = grep { !_check_notfound($urpm, $list, $_) } @sorted_media) {
+	    if (my ($already_mounted_medium) = grep { !_check_notfound($urpm, $list->[$_]) } @sorted_media) {
 		@sorted_media = ($already_mounted_medium, 
 				 grep { $_ ne $already_mounted_medium } @sorted_media);
 	    }
