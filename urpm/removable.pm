@@ -50,14 +50,19 @@ sub try_umounting {
     my ($urpm, $dir) = @_;
 
     $dir = reduce_pathname($dir);
-    my @l = grep { $infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, {});
-    foreach (reverse @l) {
+    foreach (reverse _mounted_mntpoints($dir)) {
 	$urpm->{log}(N("unmounting %s", $_));
 	sys_log("umount $_");
 	system("umount '$_' 2>/dev/null");
 	delete $urpm->{removable_mounted}{$_};
     }
     ! -e $dir;
+}
+
+sub _mounted_mntpoints {
+    my ($dir) = @_;
+    my %info;
+    grep { $infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, \%info);
 }
 
 sub try_umounting_removables {
