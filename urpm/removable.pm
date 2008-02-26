@@ -91,12 +91,12 @@ sub _mount_and_check_notfound {
     try_mounting($urpm, $dir, $removable);
     -e $dir or return 2;
 
-    _check_notfound($urpm, $medium_list);
+    _check_notfound($medium_list);
 }
 
 #- side-effects: none
 sub _check_notfound {
-    my ($urpm, $medium_list) = @_;
+    my ($medium_list) = @_;
 
     foreach (values %$medium_list) {
 	my $dir_ = _filepath($_) or next;
@@ -254,7 +254,7 @@ sub _sort_media {
 	@l = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @l;
 
 	#- check if a removable device is already mounted (and files present).
-	if (my ($already_mounted) = grep { !_check_notfound($urpm, $_->{list}) } @l) {
+	if (my ($already_mounted) = grep { !_check_notfound($_->{list}) } @l) {
 	    @l = ($already_mounted, grep { $_ != $already_mounted } @l);
 	}
     }
