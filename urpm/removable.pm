@@ -217,7 +217,7 @@ sub copy_packages_of_removable_media {
 
 	    #- check if a removable device is already mounted (and files present).
 	    if (my ($already_mounted) = grep { !_check_notfound($urpm, $list->[$_]) } @l) {
-		@l = ($already_mounted, grep { $_ ne $already_mounted_medium } @l);
+		@l = ($already_mounted, grep { $_ ne $already_mounted } @l);
 	    }
 	}
 	foreach (@l) {
