@@ -27,7 +27,7 @@ sub try_mounting {
 	#- note: for isos, we don't parse the fstab because it might not be declared in it.
 	#- so we try to remove suffixes from the dir name until the dir exists
 	? ($dir = urpm::sys::trim_until_d($dir))
-	: _non_mounted_mntpoints($dir = reduce_pathname($dir));
+	: _non_mounted_mntpoints($dir);
 
     foreach (@mntpoints) {
 	$urpm->{log}(N("mounting %s", $_));
@@ -49,7 +49,6 @@ sub try_mounting {
 sub try_umounting {
     my ($urpm, $dir) = @_;
 
-    $dir = reduce_pathname($dir);
     foreach (reverse _mounted_mntpoints($dir)) {
 	$urpm->{log}(N("unmounting %s", $_));
 	sys_log("umount $_");
@@ -63,12 +62,14 @@ sub try_umounting {
 sub _mounted_mntpoints {
     my ($dir) = @_;
     my %infos;
+    $dir = reduce_pathname($dir);
     grep { $infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, \%infos);
 }
 #- side-effects: none
 sub _non_mounted_mntpoints {
     my ($dir) = @_;
     my %infos;
+    $dir = reduce_pathname($dir);
     grep { !$infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, \%infos);
 }
 
