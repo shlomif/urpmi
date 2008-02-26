@@ -36,11 +36,11 @@ sub try_mounting {
 	    my $loopdev = urpm::sys::first_free_loopdev();
 	    sys_log("mount iso $_ on $o_removable");
 	    $loopdev and system('mount', $o_removable, $_, '-t', 'iso9660', '-o', "loop=$loopdev");
+	    $o_removable and $urpm->{removable_mounted}{$_} = undef;
 	} else {
 	    sys_log("mount $_");
 	    system("mount '$_' 2>/dev/null");
 	}
-	$o_removable and $urpm->{removable_mounted}{$_} = undef;
     }
     -e $dir;
 }
