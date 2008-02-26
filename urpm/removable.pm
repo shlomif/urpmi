@@ -125,18 +125,23 @@ sub _mount_it {
     my $device = $medium->{removable};
     my $dir = file_from_local_url($medium->{url});
 
-	    #- the directory given does not exist and may be accessible
-	    #- by mounting some other directory. Try to figure it out and mount
-	    #- everything that might be necessary.
-	    while (_check_notfound($urpm, $medium_list, $dir, $medium->{removable})) {
-		is_iso($medium->{removable}) || $o_ask_for_medium
-		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
-		try_umounting($urpm, $dir);
-		system("/usr/bin/eject '$device' 2>/dev/null");
-		is_iso($medium->{removable})
-		    || $o_ask_for_medium->(remove_internal_name($medium->{name}), $medium->{removable})
-		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
-	    }
+    #- the directory given does not exist and may be accessible
+    #- by mounting some other directory. Try to figure it out and mount
+    #- everything that might be necessary.
+    while (_check_notfound($urpm, $medium_list, $dir, $medium->{removable})) {
+	if (is_iso($medium->{removable})) {
+	    try_umounting($urpm, $dir);
+	} else {
+	    $o_ask_for_medium 
+	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
+
+	    try_umounting($urpm, $dir);
+	    system("/usr/bin/eject '$device' 2>/dev/null");
+
+	    $o_ask_for_medium->(remove_internal_name($medium->{name}), $medium->{removable})
+	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
+	}
+    }
 }
 
 sub _filepath {
