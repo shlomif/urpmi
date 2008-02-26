@@ -21,16 +21,15 @@ sub is_iso {
 #- side-effects: $urpm->{removable_mounted}, mount
 sub try_mounting {
     my ($urpm, $dir, $o_removable) = @_;
-    my %infos;
 
     my $is_iso = is_iso($o_removable);
     my @mntpoints = $is_iso
 	#- note: for isos, we don't parse the fstab because it might not be declared in it.
 	#- so we try to remove suffixes from the dir name until the dir exists
 	? ($dir = urpm::sys::trim_until_d($dir))
-	: urpm::sys::find_mntpoints($dir = reduce_pathname($dir), \%infos);
+	: _non_mounted_mntpoints($dir = reduce_pathname($dir));
 
-    foreach (grep { ! $infos{$_}{mounted} } @mntpoints) {
+    foreach (@mntpoints) {
 	$urpm->{log}(N("mounting %s", $_));
 	if ($is_iso) {
 	    #- to mount an iso image, grab the first loop device
@@ -65,6 +64,12 @@ sub _mounted_mntpoints {
     my ($dir) = @_;
     my %infos;
     grep { $infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, \%infos);
+}
+#- side-effects: none
+sub _non_mounted_mntpoints {
+    my ($dir) = @_;
+    my %infos;
+    grep { !$infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, \%infos);
 }
 
 #- side-effects: $urpm->{removable_mounted}
