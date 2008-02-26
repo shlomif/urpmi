@@ -105,6 +105,17 @@ sub selected2list {
     (\%local_sources, \@list);
 }
 
+sub verify_partial_rpm_and_move {
+    my ($urpm, $cachedir, $filename) = @_;
+
+    URPM::verify_rpm("$cachedir/partial/$filename", nosignatures => 1) or return;
+
+    #- it seems the the file has been downloaded correctly and has been checked to be valid.
+    unlink "$cachedir/rpms/$filename";
+    urpm::sys::move_or_die($urpm, "$cachedir/partial/$filename", "$cachedir/rpms/$filename");
+    1;
+}
+
 # TODO verify that files are downloaded from the right corresponding media
 #- options: quiet, callback, 
 sub download_packages_of_distant_media {
@@ -166,10 +177,7 @@ sub download_packages_of_distant_media {
 	    foreach my $i (keys %distant_sources) {
 		my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
 		if ($filename && -s "$cachedir/partial/$filename") {
-		    if (URPM::verify_rpm("$cachedir/partial/$filename", nosignatures => 1)) {
-			#- it seems the the file has been downloaded correctly and has been checked to be valid.
-			unlink "$cachedir/rpms/$filename";
-			urpm::sys::move_or_die($urpm, "$cachedir/partial/$filename", "$cachedir/rpms/$filename");
+		    if (verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
 			$sources->{$i} = "$cachedir/rpms/$filename";
 		    } else {
 			unlink "$cachedir/partial/$filename";
