@@ -205,8 +205,20 @@ sub _examine_removable_medium_ {
 
 #- side-effects:
 #-   + those of try_mounting ($urpm->{removable_mounted}, "mount")
-sub _get_removables_or_check_mounted {
-    my ($urpm, $blists) = @_;
+sub _try_mounting_non_removable {
+    my ($urpm, $media) = @_;
+
+    foreach my $medium (grep { !$_->{removable} } @$media) {
+	my $dir = file_from_local_url($medium->{url}) or next;
+
+	-e $dir || try_mounting($urpm, $dir) or
+	  $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
+    }
+}
+
+#- side-effects: none
+sub _get_removables {
+    my ($blists) = @_;
 
     my %removables;
 
@@ -216,9 +228,6 @@ sub _get_removables_or_check_mounted {
 	if (my $device = $medium->{removable}) {
 	    next if $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
 	    push @{$removables{$device} ||= []}, $_;
-	} elsif (my $dir = file_from_local_url($medium->{url})) {
-	    -e $dir || try_mounting($urpm, $dir) or
-	      $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
 	}
     }
     values %removables;
@@ -256,14 +265,15 @@ sub _sort_media {
 #- where there is one hash for each medium in {media}
 #-
 #- side-effects:
-#-   + those of _get_removables_or_check_mounted ($urpm->{removable_mounted}, "mount")
 #-   + those of _examine_removable_medium ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
 sub copy_packages_of_removable_media {
     my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
 
     my $blists = _create_blists($urpm->{media}, $list);
 
-    foreach my $l (_get_removables_or_check_mounted($urpm, $blists)) {
+    _try_mounting_non_removable($urpm, $urpm->{media});
+
+    foreach my $l (_get_removables($blists)) {
 
 	#- Here we have only removable devices.
 	#- If more than one media uses this device, we have to sort
