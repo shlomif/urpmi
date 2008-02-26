@@ -88,8 +88,7 @@ sub _check_notfound {
 	}
 	foreach (values %$medium_list) {
 	    chomp;
-	    my $dir_ = file_from_local_url($_) or next;
-	    $dir_ =~ m!/.*/! or next; #- is this really needed??
+	    my $dir_ = _filepath($_) or next;
 	    if (!$dir) {
 		$dir = $dir_;
 		try_mounting($urpm, $dir, $removable);
@@ -133,6 +132,14 @@ sub _mount_it {
 	    }
 }
 
+sub _filepath {
+    my ($url) = @_;
+
+    my $filepath = file_from_local_url($url) or return;
+    $filepath =~ m!/.*/! or return; #- is this really needed??
+    $filepath;
+}
+
 sub _examine_removable_medium_ {
     my ($urpm, $medium, $medium_list, $sources, $device, $o_ask_for_medium) = @_;
 
@@ -143,8 +150,7 @@ sub _examine_removable_medium_ {
 	    if (-e $dir) {
 		while (my ($i, $url) = each %$medium_list) {
 		    chomp $url;
-		    my $filepath = file_from_local_url($url) or next;
-		    $filepath =~ m!/.*/! or next; #- is this really needed??
+		    my $filepath = _filepath($url) or next;
 
 		    if (-r $filepath) {
 			#- we should assume a possibly buggy removable device...
