@@ -219,16 +219,12 @@ sub copy_packages_of_removable_media {
 				 grep { $_ ne $already_mounted_medium } @sorted_media);
 	    }
 
-	    #- mount all except the biggest one.
-	    my $biggest = pop @sorted_media;
 	    foreach (@sorted_media) {
 		_examine_removable_medium($urpm, $list, $sources, $_, $device, $o_ask_for_medium);
 	    }
-	    #- now mount the last one...
-	    $removables{$device} = [ $biggest ];
+	} else {
+	    _examine_removable_medium($urpm, $list, $sources, $removables{$device}[0], $device, $o_ask_for_medium);
 	}
-
-	_examine_removable_medium($urpm, $list, $sources, $removables{$device}[0], $device, $o_ask_for_medium);
     }
 
     1;
