@@ -57,10 +57,10 @@ sub find_mntpoints {
     #- check the possible mount point.
     my @paths = split '/', $dir;
     my $pdir = '';
-    local $_;
-    while (defined ($_ = shift @paths)) {
-	length($_) or next;
-	$pdir .= "/$_";
+    while (@paths) {
+	my $path = shift @paths;
+	length($path) or next;
+	$pdir .= "/$path";
 	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
 	if (exists($infos->{$pdir})) {
 	    push @mntpoints, $pdir;
