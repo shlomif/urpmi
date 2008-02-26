@@ -87,7 +87,7 @@ sub _check_notfound {
 	    chomp;
 	    my $dir_ = file_from_local_url($_) or next;
 	    $dir_ =~ m!/.*/! or next; #- is this really needed??
-	    unless ($dir) {
+	    if (!$dir) {
 		$dir = $dir_;
 		try_mounting($urpm, $dir, $removable);
 	    }
@@ -137,7 +137,7 @@ sub _examine_removable_medium {
 			    $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 			}
 		    }
-		    unless ($sources->{$i}) {
+		    if (!$sources->{$i}) {
 			#- fallback to use other method for retrieving the file later.
 			$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $medium->{name}));
 		    }
