@@ -43,18 +43,16 @@ sub _read_fstab_or_mtab {
 #- filtering according the next operation (mount or umount).
 sub find_mntpoints {
     my ($dir, $infos) = @_;
-    my (%fstab, @mntpoints);
 
     #- read /etc/fstab and check for existing mount point.
     foreach (_read_fstab_or_mtab("/etc/fstab")) {
-	$fstab{$_->{mntpoint}} =  0;
 	$infos->{$_->{mntpoint}} = { mounted => 0, %$_ };
     }
     foreach (_read_fstab_or_mtab("/etc/mtab")) {
-	$fstab{$_->{mntpoint}} =  1;
 	$infos->{$_->{mntpoint}} = { mounted => 1, %$_ };
     }
 
+    my (@mntpoints);
     #- try to follow symlink, too complex symlink graph may not be seen.
     #- check the possible mount point.
     my @paths = split '/', $dir;
@@ -64,7 +62,7 @@ sub find_mntpoints {
 	length($_) or next;
 	$pdir .= "/$_";
 	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
-	if (exists($fstab{$pdir})) {
+	if (exists($infos->{$pdir})) {
 	    push @mntpoints, $pdir;
 	    #- following symlinks may be useless or dangerous for supermounted devices.
 	    #- this means it is assumed no symlink inside a removable device
