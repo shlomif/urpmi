@@ -265,6 +265,7 @@ sub _sort_media {
 #- where there is one hash for each medium in {media}
 #-
 #- side-effects:
+#-   + those of _try_mounting_non_removable ($urpm->{removable_mounted}, "mount")
 #-   + those of _examine_removable_medium ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
 sub copy_packages_of_removable_media {
     my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
