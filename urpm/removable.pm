@@ -237,6 +237,7 @@ sub _create_blists {
 	map { { medium => $_, list => $list->[$i++] } } @$media ];
 }
 
+#- side-effects: none
 sub _sort_media {
     my ($urpm, @l) = @_;
 
@@ -253,6 +254,10 @@ sub _sort_media {
 
 #- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
 #- where there is one hash for each medium in {media}
+#-
+#- side-effects:
+#-   + those of _get_removables_or_check_mounted ($urpm->{removable_mounted}, "mount")
+#-   + those of _examine_removable_medium ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
 sub copy_packages_of_removable_media {
     my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
 
