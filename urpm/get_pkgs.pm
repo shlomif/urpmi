@@ -177,8 +177,8 @@ sub download_packages_of_distant_media {
 	    foreach my $i (keys %distant_sources) {
 		my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
 		if ($filename && -s "$cachedir/partial/$filename") {
-		    if (verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
-			$sources->{$i} = "$cachedir/rpms/$filename";
+		    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
+			$sources->{$i} = $rpm;
 		    } else {
 			unlink "$cachedir/partial/$filename";
 			$errors{$i} = [ $distant_sources{$i}, 'bad' ];
