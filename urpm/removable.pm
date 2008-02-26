@@ -10,11 +10,14 @@ use urpm 'file_from_local_url';
 
 
 #- returns the removable device name if it corresponds to an iso image, '' otherwise
+#-
+#- side-effects: none
 sub is_iso {
     my ($removable_dev) = @_;
     $removable_dev && $removable_dev =~ /\.iso$/i;
 }
 
+#- side-effects: $urpm->{removable_mounted}, mount
 sub try_mounting {
     my ($urpm, $dir, $o_removable) = @_;
     my %infos;
@@ -42,6 +45,7 @@ sub try_mounting {
     -e $dir;
 }
 
+#- side-effects: $urpm->{removable_mounted}, umount
 sub try_umounting {
     my ($urpm, $dir) = @_;
 
