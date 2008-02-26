@@ -87,7 +87,6 @@ sub _check_notfound {
 	    -e $dir or return 2;
 	}
 	foreach (values %$medium_list) {
-	    chomp;
 	    my $dir_ = _filepath($_) or next;
 	    if (!$dir) {
 		$dir = $dir_;
@@ -135,6 +134,7 @@ sub _mount_it {
 sub _filepath {
     my ($url) = @_;
 
+    chomp $url;
     my $filepath = file_from_local_url($url) or return;
     $filepath =~ m!/.*/! or return; #- is this really needed??
     $filepath;
@@ -149,7 +149,6 @@ sub _examine_removable_medium_ {
 
 	    if (-e $dir) {
 		while (my ($i, $url) = each %$medium_list) {
-		    chomp $url;
 		    my $filepath = _filepath($url) or next;
 
 		    if (-r $filepath) {
