@@ -39,16 +39,7 @@ sub find_mntpoints {
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	$fstab{$mntpoint} =  0;
 	if (ref($infos)) {
-	    if ($fstype eq 'supermount') {
-		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = {
-		    mounted => 0,
-		    device => $1,
-		    fs => $fstype,
-		    supermount => 1,
-		};
-	    } else {
-		$infos->{$mntpoint} = { mounted => 0, device => $device, fs => $fstype };
-	    }
+	    $infos->{$mntpoint} = { mounted => 0, device => $device, fs => $fstype };
 	}
     }
     foreach (cat_("/etc/mtab")) {
@@ -57,16 +48,7 @@ sub find_mntpoints {
 	$mntpoint =~ s,/+,/,g; $mntpoint =~ s,/$,,;
 	$fstab{$mntpoint} = 1;
 	if (ref($infos)) {
-	    if ($fstype eq 'supermount') {
-		$options =~ /^(?:.*[\s,])?dev=([^\s,]+)/ and $infos->{$mntpoint} = {
-		    mounted => 1,
-		    device => $1,
-		    fs => $fstype,
-		    supermount => 1,
-		};
-	    } else {
-		$infos->{$mntpoint} = { mounted => 1, device => $device, fs => $fstype };
-	    }
+	    $infos->{$mntpoint} = { mounted => 1, device => $device, fs => $fstype };
 	}
     }
 
