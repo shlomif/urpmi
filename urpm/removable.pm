@@ -247,7 +247,7 @@ sub _create_blists {
 
 #- side-effects: none
 sub _sort_media {
-    my ($urpm, @l) = @_;
+    my (@l) = @_;
 
     if (@l > 1) {
 	@l = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @l;
@@ -278,7 +278,7 @@ sub copy_packages_of_removable_media {
 	#- Here we have only removable devices.
 	#- If more than one media uses this device, we have to sort
 	#- needed packages to copy the needed rpm files.
-	foreach my $blist (_sort_media($urpm, @$l)) {
+	foreach my $blist (_sort_media(@$l)) {
 	    _examine_removable_medium($urpm, $blist, $sources, $o_ask_for_medium);
 	}
     }
