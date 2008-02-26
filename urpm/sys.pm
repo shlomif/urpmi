@@ -71,21 +71,27 @@ sub find_mntpoints {
 	    #- for simplification we refuse also any other device and stop here.
 	    last;
 	} elsif (-l $pdir) {
-	    while (my $v = readlink $pdir) {
-		if ($pdir =~ m|^/|) {
-		    $pdir = $v;
-		} else {
-		    while ($v =~ s!^\.\./!!) {
-			$pdir =~ s!/[^/]+/*$!!;
-		    }
-		    $pdir .= "/$v";
-		}
-	    }
-	    unshift @paths, split '/', $pdir;
+	    unshift @paths, split '/', _expand_symlink($pdir);
 	    $pdir = '';
 	}
     }
     @mntpoints;
+}
+
+sub _expand_symlink {
+    my ($pdir) = @_;
+
+    while (my $v = readlink $pdir) {
+	if ($pdir =~ m|^/|) {
+	    $pdir = $v;
+	} else {
+	    while ($v =~ s!^\.\./!!) {
+		$pdir =~ s!/[^/]+/*$!!;
+	    }
+	    $pdir .= "/$v";
+	}
+    }
+    $pdir;
 }
 
 sub clean_rpmdb_shared_regions {
