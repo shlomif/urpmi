@@ -26,7 +26,7 @@ sub try_mounting {
 	? ($dir = urpm::sys::trim_until_d($dir))
 	: urpm::sys::find_mntpoints($dir = reduce_pathname($dir), \%infos);
     foreach (grep {
-	    ! $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount';
+	    ! $infos{$_}{mounted};
 	} @mntpoints)
     {
 	$urpm->{log}(N("mounting %s", $_));
@@ -39,7 +39,7 @@ sub try_mounting {
 	    sys_log("mount $_");
 	    system("mount '$_' 2>/dev/null");
 	}
-	$o_removable && $infos{$_}{fs} ne 'supermount' and $urpm->{removable_mounted}{$_} = undef;
+	$o_removable and $urpm->{removable_mounted}{$_} = undef;
     }
     -e $dir;
 }
@@ -50,7 +50,7 @@ sub try_umounting {
 
     $dir = reduce_pathname($dir);
     foreach (reverse grep {
-	    $infos{$_}{mounted} && $infos{$_}{fs} ne 'supermount';
+	    $infos{$_}{mounted};
 	} urpm::sys::find_mntpoints($dir, \%infos))
     {
 	$urpm->{log}(N("unmounting %s", $_));
