@@ -101,12 +101,12 @@ sub _check_notfound {
 #- removable media have to be examined to keep mounted the one that has
 #- more packages than others.
 sub _examine_removable_medium {
-    my ($urpm, $list, $sources, $id, $device, $o_ask_for_medium) = @_;
+    my ($urpm, $blist, $sources, $device, $o_ask_for_medium) = @_;
 
-    my $medium = $urpm->{media}[$id];
+    my $medium = $blist->{medium};
 
     if (file_from_local_url($medium->{url})) {
-	_examine_removable_medium_($urpm, $medium, $list->[$id], $sources, $device, $o_ask_for_medium);
+	_examine_removable_medium_($urpm, $medium, $blist->{list}, $sources, $device, $o_ask_for_medium);
     } else {
 	#- we have a removable device that is not removable, well...
 	$urpm->{error}(N("inconsistent medium \"%s\" marked removable but not really", $medium->{name}));
@@ -176,13 +176,12 @@ sub _examine_removable_medium_ {
 }
 
 sub _get_removables_or_check_mounted {
-    my ($urpm, $list) = @_;
+    my ($urpm, $blists) = @_;
 
     my %removables;
 
-    foreach (0..$#$list) {
-	values %{$list->[$_]} or next;
-	my $medium = $urpm->{media}[$_];
+    foreach (@$blists) {
+	my $medium = $_->{medium};
 	#- examine non removable device but that may be mounted.
 	if ($medium->{removable}) {
 	    push @{$removables{$medium->{removable}} ||= []}, $_;
@@ -194,16 +193,26 @@ sub _get_removables_or_check_mounted {
     %removables;
 }
 
+sub _create_blists {
+    my ($media, $list) = @_;
+
+    #- make sure everything is correct on input...
+    $media or return;
+    @$media == @$list or return;
+
+    my $i;
+    [ grep { %{$_->{list}} } 
+	map { { medium => $_, list => $list->[$i++] } } @$media ];
+}
+
 #- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
 #- where there is one hash for each medium in {media}
 sub copy_packages_of_removable_media {
     my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
 
-    #- make sure everything is correct on input...
-    $urpm->{media} or return;
-    @{$urpm->{media}} == @$list or return;
+    my $blists = _create_blists($urpm->{media}, $list);
 
-    my %removables = _get_removables_or_check_mounted($urpm, $list);
+    my %removables = _get_removables_or_check_mounted($urpm, $blists);
 
     foreach my $device (keys %removables) {
 	next if $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
@@ -213,15 +222,15 @@ sub copy_packages_of_removable_media {
 	my @l = @{$removables{$device}};
 
 	if (@l > 1) {
-	    @l = sort { values(%{$list->[$a]}) <=> values(%{$list->[$b]}) } @l;
+	    @l = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @l;
 
 	    #- check if a removable device is already mounted (and files present).
-	    if (my ($already_mounted) = grep { !_check_notfound($urpm, $list->[$_]) } @l) {
-		@l = ($already_mounted, grep { $_ ne $already_mounted } @l);
+	    if (my ($already_mounted) = grep { !_check_notfound($urpm, $_->{list}) } @l) {
+		@l = ($already_mounted, grep { $_ != $already_mounted } @l);
 	    }
 	}
-	foreach (@l) {
-	    _examine_removable_medium($urpm, $list, $sources, $_, $device, $o_ask_for_medium);
+	foreach my $blist (@l) {
+	    _examine_removable_medium($urpm, $blist, $sources, $device, $o_ask_for_medium);
 	}
     }
 
