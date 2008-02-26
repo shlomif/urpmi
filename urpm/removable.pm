@@ -205,10 +205,10 @@ sub _examine_removable_medium_ {
 
 #- side-effects:
 #-   + those of try_mounting ($urpm->{removable_mounted}, "mount")
-sub _try_mounting_non_removable {
-    my ($urpm, $media) = @_;
+sub try_mounting_non_removable {
+    my ($urpm) = @_;
 
-    foreach my $medium (grep { !$_->{removable} } @$media) {
+    foreach my $medium (grep { !$_->{removable} } @{$urpm->{media}}) {
 	my $dir = file_from_local_url($medium->{url}) or next;
 
 	-e $dir || try_mounting($urpm, $dir) or
@@ -264,14 +264,11 @@ sub _sort_media {
 #- where there is one hash for each medium in {media}
 #-
 #- side-effects:
-#-   + those of _try_mounting_non_removable ($urpm->{removable_mounted}, "mount")
 #-   + those of _examine_removable_medium ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
 sub copy_packages_of_removable_media {
     my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
 
     my $blists = _create_blists($urpm->{media}, $list);
-
-    _try_mounting_non_removable($urpm, $urpm->{media});
 
     foreach my $l (_get_removables($blists)) {
 
