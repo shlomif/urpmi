@@ -104,12 +104,25 @@ sub _check_notfound {
 sub _examine_removable_medium {
     my ($urpm, $list, $sources, $id, $device, $o_ask_for_medium) = @_;
 
-	my $medium = $urpm->{media}[$id];
-	if (my $dir = file_from_local_url($medium->{url})) {
+    my $medium = $urpm->{media}[$id];
+
+    if (file_from_local_url($medium->{url})) {
+	_examine_removable_medium_($urpm, $medium, $list->[$id], $sources, $device, $o_ask_for_medium);
+    } else {
+	#- we have a removable device that is not removable, well...
+	$urpm->{error}(N("inconsistent medium \"%s\" marked removable but not really", $medium->{name}));
+    }
+}
+
+sub _examine_removable_medium_ {
+    my ($urpm, $medium, $medium_list, $sources, $device, $o_ask_for_medium) = @_;
+
+    my $dir = file_from_local_url($medium->{url});
+
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- everything that might be necessary.
-	    while (_check_notfound($urpm, $list->[$id], $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
+	    while (_check_notfound($urpm, $medium_list, $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
 		is_iso($medium->{removable}) || $o_ask_for_medium
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 		try_umounting($urpm, $dir);
@@ -119,7 +132,7 @@ sub _examine_removable_medium {
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 	    }
 	    if (-e $dir) {
-		while (my ($i, $url) = each %{$list->[$id]}) {
+		while (my ($i, $url) = each %$medium_list) {
 		    chomp $url;
 		    my $filepath = file_from_local_url($url) or next;
 		    $filepath =~ m!/.*/! or next; #- is this really needed??
@@ -148,10 +161,6 @@ sub _examine_removable_medium {
 	    } else {
 		$urpm->{error}(N("medium \"%s\" is not available", $medium->{name}));
 	    }
-	} else {
-	    #- we have a removable device that is not removable, well...
-	    $urpm->{error}(N("inconsistent medium \"%s\" marked removable but not really", $medium->{name}));
-	}
 }
 
 sub _get_removables_or_check_mounted {
