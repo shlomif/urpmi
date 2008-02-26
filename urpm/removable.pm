@@ -59,12 +59,15 @@ sub try_umounting {
     ! -e $dir;
 }
 
+#- side-effects: none
 sub _mounted_mntpoints {
     my ($dir) = @_;
     my %info;
     grep { $infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, \%info);
 }
 
+#- side-effects: $urpm->{removable_mounted}
+#-   + those of try_umounting ($urpm->{removable_mounted}, umount)
 sub try_umounting_removables {
     my ($urpm) = @_;
     foreach (keys %{$urpm->{removable_mounted}}) {
