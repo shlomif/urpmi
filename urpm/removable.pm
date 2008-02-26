@@ -18,7 +18,7 @@ sub is_iso {
     $removable_dev && $removable_dev =~ /\.iso$/i;
 }
 
-#- side-effects: $urpm->{removable_mounted}, mount
+#- side-effects: $urpm->{removable_mounted}, "mount"
 sub try_mounting {
     my ($urpm, $dir, $o_removable) = @_;
 
@@ -45,7 +45,7 @@ sub try_mounting {
     -e $dir;
 }
 
-#- side-effects: $urpm->{removable_mounted}, umount
+#- side-effects: $urpm->{removable_mounted}, "umount"
 sub try_umounting {
     my ($urpm, $dir) = @_;
 
@@ -86,7 +86,7 @@ sub try_umounting_removables {
 #- examine if given medium is already inside a removable device.
 #-
 #- side-effects:
-#-   + those of try_mounting ($urpm->{removable_mounted}, mount)
+#-   + those of try_mounting ($urpm->{removable_mounted}, "mount")
 sub _check_notfound {
     my ($urpm, $medium_list, $dir, $removable) = @_;
 	if ($dir) {
@@ -106,6 +106,9 @@ sub _check_notfound {
 
 #- removable media have to be examined to keep mounted the one that has
 #- more packages than others.
+#-
+#- side-effects:
+#-   + those of _examine_removable_medium_ ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
 sub _examine_removable_medium {
     my ($urpm, $blist, $sources, $o_ask_for_medium) = @_;
 
@@ -119,6 +122,9 @@ sub _examine_removable_medium {
     }
 }
 
+#- side-effects: "eject"
+#-   + those of _check_notfound ($urpm->{removable_mounted}, "mount")
+#-   + those of try_umounting ($urpm->{removable_mounted}, "umount")
 sub _mount_it {
     my ($urpm, $medium, $medium_list, $o_ask_for_medium) = @_;
 
@@ -143,6 +149,7 @@ sub _mount_it {
     }
 }
 
+#- side-effects: none
 sub _filepath {
     my ($url) = @_;
 
@@ -152,6 +159,7 @@ sub _filepath {
     $filepath;
 }
 
+#- side-effects: "copy-move-files"
 sub _do_the_copy {
     my ($urpm, $filepath) = @_;
 
@@ -168,6 +176,9 @@ sub _do_the_copy {
     $f;
 }
 
+#- side-effects: $sources
+#-   + those of _mount_it ($urpm->{removable_mounted}, "mount", "umount", "eject")
+#-   + those of _do_the_copy: "copy-move-files"
 sub _examine_removable_medium_ {
     my ($urpm, $medium, $medium_list, $sources, $o_ask_for_medium) = @_;
 
@@ -191,6 +202,8 @@ sub _examine_removable_medium_ {
     }
 }
 
+#- side-effects:
+#-   + those of try_mounting ($urpm->{removable_mounted}, "mount")
 sub _get_removables_or_check_mounted {
     my ($urpm, $blists) = @_;
 
@@ -210,6 +223,7 @@ sub _get_removables_or_check_mounted {
     values %removables;
 }
 
+#- side-effects: none
 sub _create_blists {
     my ($media, $list) = @_;
 
