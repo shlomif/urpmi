@@ -91,8 +91,7 @@ sub _check_notfound {
 	    my $dir_ = file_from_local_url($_) or next;
 	    $dir_ =~ m!/.*/! or next; #- is this really needed??
 	    if (!$dir) {
-		$dir = $dir_;
-		try_mounting($urpm, $dir, $removable);
+		try_mounting($urpm, $dir_, $removable);
 	    }
 	    -r $dir_ or return 1;
 	}
