@@ -187,7 +187,6 @@ sub _examine_removable_medium_ {
 
     my $dir = file_from_local_url($medium->{url});
 
-    if (-e $dir) {
 	while (my ($i, $url) = each %$medium_list) {
 	    my $filepath = _filepath($url) or next;
 
@@ -198,9 +197,6 @@ sub _examine_removable_medium_ {
 		$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $medium->{name}));
 	    }
 	}
-    } else {
-	$urpm->{error}(N("medium \"%s\" is not available", $medium->{name}));
-    }
 }
 
 #- side-effects:
