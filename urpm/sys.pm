@@ -39,8 +39,7 @@ sub _read_fstab_or_mtab {
     @l;
 }
 
-#- find used mount point from a pathname, use a optional mode to allow
-#- filtering according the next operation (mount or umount).
+#- find used mount point from a pathname
 sub find_mntpoints {
     my ($dir, $infos) = @_;
 
@@ -52,7 +51,6 @@ sub find_mntpoints {
 	$infos->{$_->{mntpoint}} = { mounted => 1, %$_ };
     }
 
-    my (@mntpoints);
     #- try to follow symlink, too complex symlink graph may not be seen.
     #- check the possible mount point.
     my @paths = split '/', $dir;
@@ -63,19 +61,18 @@ sub find_mntpoints {
 	$pdir .= "/$path";
 	$pdir =~ s,/+,/,g; $pdir =~ s,/$,,;
 	if (exists($infos->{$pdir})) {
-	    push @mntpoints, $pdir;
 	    #- following symlinks may be useless or dangerous for supermounted devices.
 	    #- this means it is assumed no symlink inside a removable device
 	    #- will go outside the device itself (or at least will go into
 	    #- regular already mounted device like /).
 	    #- for simplification we refuse also any other device and stop here.
-	    last;
+	    return $pdir;
 	} elsif (-l $pdir) {
 	    unshift @paths, split '/', _expand_symlink($pdir);
 	    $pdir = '';
 	}
     }
-    @mntpoints;
+    ();
 }
 
 sub _expand_symlink {
