@@ -223,9 +223,8 @@ sub _get_removables {
     my %removables;
 
     foreach (@$blists) {
-	my $medium = $_->{medium};
 	#- examine non removable device but that may be mounted.
-	if (my $device = $medium->{removable}) {
+	if (my $device = $_->{medium}{removable}) {
 	    next if $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
 	    push @{$removables{$device} ||= []}, $_;
 	}
