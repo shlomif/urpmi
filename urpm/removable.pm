@@ -25,10 +25,8 @@ sub try_mounting {
 	#- so we try to remove suffixes from the dir name until the dir exists
 	? ($dir = urpm::sys::trim_until_d($dir))
 	: urpm::sys::find_mntpoints($dir = reduce_pathname($dir), \%infos);
-    foreach (grep {
-	    ! $infos{$_}{mounted};
-	} @mntpoints)
-    {
+
+    foreach (grep { ! $infos{$_}{mounted} } @mntpoints) {
 	$urpm->{log}(N("mounting %s", $_));
 	if ($is_iso) {
 	    #- to mount an iso image, grab the first loop device
@@ -46,13 +44,10 @@ sub try_mounting {
 
 sub try_umounting {
     my ($urpm, $dir) = @_;
-    my %infos;
 
     $dir = reduce_pathname($dir);
-    foreach (reverse grep {
-	    $infos{$_}{mounted};
-	} urpm::sys::find_mntpoints($dir, \%infos))
-    {
+    my @l = grep { $infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, {});
+    foreach (reverse @l) {
 	$urpm->{log}(N("unmounting %s", $_));
 	sys_log("umount $_");
 	system("umount '$_' 2>/dev/null");
@@ -173,8 +168,8 @@ sub copy_packages_of_removable_media {
 
 	    #- check if a removable device is already mounted (and files present).
 	    if (my ($already_mounted_medium) = grep { !$check_notfound->($_) } @sorted_media) {
-		@sorted_media = grep { $_ ne $already_mounted_medium } @sorted_media;
-		unshift @sorted_media, $already_mounted_medium;
+		@sorted_media = ($already_mounted_medium, 
+				 grep { $_ ne $already_mounted_medium } @sorted_media);
 	    }
 
 	    #- mount all except the biggest one.
