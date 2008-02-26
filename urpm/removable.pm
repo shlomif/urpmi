@@ -210,20 +210,18 @@ sub copy_packages_of_removable_media {
 	#- Here we have only removable devices.
 	#- If more than one media uses this device, we have to sort
 	#- needed packages to copy the needed rpm files.
-	if (@{$removables{$device}} > 1) {
-	    my @sorted_media = sort { values(%{$list->[$a]}) <=> values(%{$list->[$b]}) } @{$removables{$device}};
+	my @l = @{$removables{$device}};
+
+	if (@l > 1) {
+	    @l = sort { values(%{$list->[$a]}) <=> values(%{$list->[$b]}) } @l;
 
 	    #- check if a removable device is already mounted (and files present).
-	    if (my ($already_mounted_medium) = grep { !_check_notfound($urpm, $list->[$_]) } @sorted_media) {
-		@sorted_media = ($already_mounted_medium, 
-				 grep { $_ ne $already_mounted_medium } @sorted_media);
+	    if (my ($already_mounted) = grep { !_check_notfound($urpm, $list->[$_]) } @l) {
+		@l = ($already_mounted, grep { $_ ne $already_mounted_medium } @l);
 	    }
-
-	    foreach (@sorted_media) {
-		_examine_removable_medium($urpm, $list, $sources, $_, $device, $o_ask_for_medium);
-	    }
-	} else {
-	    _examine_removable_medium($urpm, $list, $sources, $removables{$device}[0], $device, $o_ask_for_medium);
+	}
+	foreach (@l) {
+	    _examine_removable_medium($urpm, $list, $sources, $_, $device, $o_ask_for_medium);
 	}
     }
 
