@@ -62,8 +62,8 @@ sub try_umounting {
 #- side-effects: none
 sub _mounted_mntpoints {
     my ($dir) = @_;
-    my %info;
-    grep { $infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, \%info);
+    my %infos;
+    grep { $infos{$_}{mounted} } urpm::sys::find_mntpoints($dir, \%infos);
 }
 
 #- side-effects: $urpm->{removable_mounted}
@@ -76,19 +76,9 @@ sub try_umounting_removables {
     delete $urpm->{removable_mounted};
 }
 
-#- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
-#- where there is one hash for each medium in {media}
-sub copy_packages_of_removable_media {
-    my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
-    my %removables;
-
-    #- make sure everything is correct on input...
-    $urpm->{media} or return;
-    @{$urpm->{media}} == @$list or return;
-
-    #- examine if given medium is already inside a removable device.
-    my $check_notfound = sub {
-	my ($id, $dir, $removable) = @_;
+#- examine if given medium is already inside a removable device.
+sub _check_notfound {
+    my ($urpm, $list, $id, $dir, $removable) = @_;
 	if ($dir) {
 	    try_mounting($urpm, $dir, $removable);
 	    -e $dir or return 2;
@@ -104,7 +94,18 @@ sub copy_packages_of_removable_media {
 	    -r $dir_ or return 1;
 	}
 	0;
-    };
+}
+
+#- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
+#- where there is one hash for each medium in {media}
+sub copy_packages_of_removable_media {
+    my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
+    my %removables;
+
+    #- make sure everything is correct on input...
+    $urpm->{media} or return;
+    @{$urpm->{media}} == @$list or return;
+
     #- removable media have to be examined to keep mounted the one that has
     #- more packages than others.
     my $examine_removable_medium = sub {
@@ -114,7 +115,7 @@ sub copy_packages_of_removable_media {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- everything that might be necessary.
-	    while ($check_notfound->($id, $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
+	    while (_check_notfound($urpm, $list, $id, $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
 		is_iso($medium->{removable}) || $o_ask_for_medium
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 		try_umounting($urpm, $dir);
@@ -179,7 +180,7 @@ sub copy_packages_of_removable_media {
 	    my @sorted_media = sort { values(%{$list->[$a]}) <=> values(%{$list->[$b]}) } @{$removables{$device}};
 
 	    #- check if a removable device is already mounted (and files present).
-	    if (my ($already_mounted_medium) = grep { !$check_notfound->($_) } @sorted_media) {
+	    if (my ($already_mounted_medium) = grep { !_check_notfound($urpm, $list, $_) } @sorted_media) {
 		@sorted_media = ($already_mounted_medium, 
 				 grep { $_ ne $already_mounted_medium } @sorted_media);
 	    }
