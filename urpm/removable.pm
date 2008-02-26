@@ -101,12 +101,12 @@ sub _check_notfound {
 #- removable media have to be examined to keep mounted the one that has
 #- more packages than others.
 sub _examine_removable_medium {
-    my ($urpm, $blist, $sources, $device, $o_ask_for_medium) = @_;
+    my ($urpm, $blist, $sources, $o_ask_for_medium) = @_;
 
     my $medium = $blist->{medium};
 
     if (file_from_local_url($medium->{url})) {
-	_examine_removable_medium_($urpm, $medium, $blist->{list}, $sources, $device, $o_ask_for_medium);
+	_examine_removable_medium_($urpm, $medium, $blist->{list}, $sources, $o_ask_for_medium);
     } else {
 	#- we have a removable device that is not removable, well...
 	$urpm->{error}(N("inconsistent medium \"%s\" marked removable but not really", $medium->{name}));
@@ -114,8 +114,9 @@ sub _examine_removable_medium {
 }
 
 sub _mount_it {
-    my ($urpm, $medium, $medium_list, $device, $o_ask_for_medium) = @_;
+    my ($urpm, $medium, $medium_list, $o_ask_for_medium) = @_;
 
+    my $device = $medium->{removable};
     my $dir = file_from_local_url($medium->{url});
 
 	    #- the directory given does not exist and may be accessible
@@ -142,9 +143,9 @@ sub _filepath {
 }
 
 sub _examine_removable_medium_ {
-    my ($urpm, $medium, $medium_list, $sources, $device, $o_ask_for_medium) = @_;
+    my ($urpm, $medium, $medium_list, $sources, $o_ask_for_medium) = @_;
 
-    _mount_it($urpm, $medium, $medium_list, $device, $o_ask_for_medium);
+    _mount_it($urpm, $medium, $medium_list, $o_ask_for_medium);
 
     my $dir = file_from_local_url($medium->{url});
 
@@ -230,7 +231,7 @@ sub copy_packages_of_removable_media {
 	    }
 	}
 	foreach my $blist (@l) {
-	    _examine_removable_medium($urpm, $blist, $sources, $device, $o_ask_for_medium);
+	    _examine_removable_medium($urpm, $blist, $sources, $o_ask_for_medium);
 	}
     }
 
