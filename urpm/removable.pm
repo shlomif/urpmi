@@ -29,17 +29,17 @@ sub try_mounting {
 	? ($dir = urpm::sys::trim_until_d($dir))
 	: _non_mounted_mntpoints($dir);
 
-    foreach (@mntpoints) {
-	$urpm->{log}(N("mounting %s", $_));
+    foreach my $mntpoint (@mntpoints) {
+	$urpm->{log}(N("mounting %s", $mntpoint));
 	if ($is_iso) {
 	    #- to mount an iso image, grab the first loop device
 	    my $loopdev = urpm::sys::first_free_loopdev();
-	    sys_log("mount iso $_ on $o_removable");
-	    $loopdev and system('mount', $o_removable, $_, '-t', 'iso9660', '-o', "loop=$loopdev");
-	    $o_removable and $urpm->{removable_mounted}{$_} = undef;
+	    sys_log("mount iso $mntpoint on $o_removable");
+	    $loopdev and system('mount', $o_removable, $mntpoint, '-t', 'iso9660', '-o', "loop=$loopdev");
+	    $o_removable and $urpm->{removable_mounted}{$mntpoint} = undef;
 	} else {
-	    sys_log("mount $_");
-	    system("mount '$_' 2>/dev/null");
+	    sys_log("mount $mntpoint");
+	    system("mount '$mntpoint' 2>/dev/null");
 	}
     }
     -e $dir;
@@ -49,11 +49,11 @@ sub try_mounting {
 sub try_umounting {
     my ($urpm, $dir) = @_;
 
-    foreach (reverse _mounted_mntpoints($dir)) {
-	$urpm->{log}(N("unmounting %s", $_));
-	sys_log("umount $_");
-	system("umount '$_' 2>/dev/null");
-	delete $urpm->{removable_mounted}{$_};
+    foreach my $mntpoint (reverse _mounted_mntpoints($dir)) {
+	$urpm->{log}(N("unmounting %s", $mntpoint));
+	sys_log("umount $mntpoint");
+	system("umount '$mntpoint' 2>/dev/null");
+	delete $urpm->{removable_mounted}{$mntpoint};
     }
     ! -e $dir;
 }
