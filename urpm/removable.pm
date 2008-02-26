@@ -142,6 +142,22 @@ sub _filepath {
     $filepath;
 }
 
+sub _do_the_copy {
+    my ($urpm, $filepath) = @_;
+
+    -r $filepath or return;
+
+    #- we should assume a possibly buggy removable device...
+    #- First, copy in partial cache, and if the package is still good,
+    #- transfer it to the rpms cache.
+    my $filename = basename($filepath);
+    unlink "$urpm->{cachedir}/partial/$filename";
+    $urpm->{log}("copying $filepath");
+    copy_and_own($filepath, "$urpm->{cachedir}/partial/$filename") or return;
+    urpm::get_pkgs::verify_partial_rpm_and_move($urpm, $urpm->{cachedir}, $filename) or return;
+    "$urpm->{cachedir}/rpms/$filename";
+}
+
 sub _examine_removable_medium_ {
     my ($urpm, $medium, $medium_list, $sources, $o_ask_for_medium) = @_;
 
@@ -149,31 +165,20 @@ sub _examine_removable_medium_ {
 
     my $dir = file_from_local_url($medium->{url});
 
-	    if (-e $dir) {
-		while (my ($i, $url) = each %$medium_list) {
-		    my $filepath = _filepath($url) or next;
+    if (-e $dir) {
+	while (my ($i, $url) = each %$medium_list) {
+	    my $filepath = _filepath($url) or next;
 
-		    if (-r $filepath) {
-			#- we should assume a possibly buggy removable device...
-			#- First, copy in partial cache, and if the package is still good,
-			#- transfer it to the rpms cache.
-			my $filename = basename($filepath);
-			unlink "$urpm->{cachedir}/partial/$filename";
-			$urpm->{log}("copying $filepath");
-			if (copy_and_own($filepath, "$urpm->{cachedir}/partial/$filename") &&
-			    urpm::get_pkgs::verify_partial_rpm_and_move($urpm, $urpm->{cachedir}, $filename))
-			{
-			    $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
-			}
-		    }
-		    if (!$sources->{$i}) {
-			#- fallback to use other method for retrieving the file later.
-			$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $medium->{name}));
-		    }
-		}
+	    if (my $rpm = _do_the_copy($urpm, $filepath)) {
+		$sources->{$i} = $rpm;
 	    } else {
-		$urpm->{error}(N("medium \"%s\" is not available", $medium->{name}));
+		#- fallback to use other method for retrieving the file later.
+		$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $medium->{name}));
 	    }
+	}
+    } else {
+	$urpm->{error}(N("medium \"%s\" is not available", $medium->{name}));
+    }
 }
 
 sub _get_removables_or_check_mounted {
