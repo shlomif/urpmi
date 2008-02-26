@@ -151,15 +151,10 @@ sub _examine_removable_medium {
 	}
 }
 
-#- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
-#- where there is one hash for each medium in {media}
-sub copy_packages_of_removable_media {
-    my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
-    my %removables;
+sub _get_removables_or_check_mounted {
+    my ($urpm, $list) = @_;
 
-    #- make sure everything is correct on input...
-    $urpm->{media} or return;
-    @{$urpm->{media}} == @$list or return;
+    my %removables;
 
     foreach (0..$#$list) {
 	values %{$list->[$_]} or next;
@@ -172,6 +167,20 @@ sub copy_packages_of_removable_media {
 	      $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
 	}
     }
+    %removables;
+}
+
+#- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
+#- where there is one hash for each medium in {media}
+sub copy_packages_of_removable_media {
+    my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
+
+    #- make sure everything is correct on input...
+    $urpm->{media} or return;
+    @{$urpm->{media}} == @$list or return;
+
+    my %removables = _get_removables_or_check_mounted($urpm, $list);
+
     foreach my $device (keys %removables) {
 	next if $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
 	#- Here we have only removable devices.
