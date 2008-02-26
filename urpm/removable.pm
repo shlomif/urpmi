@@ -122,7 +122,6 @@ sub _examine_removable_medium {
 sub _mount_it {
     my ($urpm, $medium, $medium_list, $o_ask_for_medium) = @_;
 
-    my $device = $medium->{removable};
     my $dir = file_from_local_url($medium->{url});
 
     #- the directory given does not exist and may be accessible
@@ -136,7 +135,7 @@ sub _mount_it {
 	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 
 	    try_umounting($urpm, $dir);
-	    system("/usr/bin/eject '$device' 2>/dev/null");
+	    system("/usr/bin/eject '$medium->{removable}' 2>/dev/null");
 
 	    $o_ask_for_medium->(remove_internal_name($medium->{name}), $medium->{removable})
 	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
