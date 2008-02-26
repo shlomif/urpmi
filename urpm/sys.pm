@@ -75,9 +75,8 @@ sub find_mntpoints {
 		if ($pdir =~ m|^/|) {
 		    $pdir = $v;
 		} else {
-		    while ($v =~ m|^\.\./(.*)|) {
-			$v = $1;
-			$pdir =~ s|^(.*)/[^/]+/*|$1|;
+		    while ($v =~ s!^\.\./!!) {
+			$pdir =~ s!/[^/]+/*$!!;
 		    }
 		    $pdir .= "/$v";
 		}
