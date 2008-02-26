@@ -96,20 +96,11 @@ sub _check_notfound {
 	0;
 }
 
-#- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
-#- where there is one hash for each medium in {media}
-sub copy_packages_of_removable_media {
-    my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
-    my %removables;
+#- removable media have to be examined to keep mounted the one that has
+#- more packages than others.
+sub _examine_removable_medium {
+    my ($urpm, $list, $sources, $id, $device, $o_ask_for_medium) = @_;
 
-    #- make sure everything is correct on input...
-    $urpm->{media} or return;
-    @{$urpm->{media}} == @$list or return;
-
-    #- removable media have to be examined to keep mounted the one that has
-    #- more packages than others.
-    my $examine_removable_medium = sub {
-	my ($id, $device) = @_;
 	my $medium = $urpm->{media}[$id];
 	if (my $dir = file_from_local_url($medium->{url})) {
 	    #- the directory given does not exist and may be accessible
@@ -158,7 +149,17 @@ sub copy_packages_of_removable_media {
 	    #- we have a removable device that is not removable, well...
 	    $urpm->{error}(N("inconsistent medium \"%s\" marked removable but not really", $medium->{name}));
 	}
-    };
+}
+
+#- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
+#- where there is one hash for each medium in {media}
+sub copy_packages_of_removable_media {
+    my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
+    my %removables;
+
+    #- make sure everything is correct on input...
+    $urpm->{media} or return;
+    @{$urpm->{media}} == @$list or return;
 
     foreach (0..$#$list) {
 	values %{$list->[$_]} or next;
@@ -188,13 +189,13 @@ sub copy_packages_of_removable_media {
 	    #- mount all except the biggest one.
 	    my $biggest = pop @sorted_media;
 	    foreach (@sorted_media) {
-		$examine_removable_medium->($_, $device);
+		_examine_removable_medium($urpm, $list, $sources, $_, $device, $o_ask_for_medium);
 	    }
 	    #- now mount the last one...
 	    $removables{$device} = [ $biggest ];
 	}
 
-	$examine_removable_medium->($removables{$device}[0], $device);
+	_examine_removable_medium($urpm, $list, $sources, $removables{$device}[0], $device, $o_ask_for_medium);
     }
 
     1;
