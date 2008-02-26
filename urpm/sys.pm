@@ -39,8 +39,23 @@ sub _read_fstab_or_mtab {
     @l;
 }
 
-#- find used mount point from a pathname
+sub find_a_mntpoint {
+    my ($dir) = @_;
+    _find_a_mntpoint($dir, {});
+}
+
+# deprecated
 sub find_mntpoints {
+    my ($dir, $infos) = @_;
+    if (my $entry = _find_a_mntpoint($dir, $infos)) {
+	$entry->{mntpoint};
+    } else {
+	();
+    }
+}
+
+#- find used mount point from a pathname
+sub _find_a_mntpoint {
     my ($dir, $infos) = @_;
 
     #- read /etc/fstab and check for existing mount point.
@@ -66,13 +81,13 @@ sub find_mntpoints {
 	    #- will go outside the device itself (or at least will go into
 	    #- regular already mounted device like /).
 	    #- for simplification we refuse also any other device and stop here.
-	    return $pdir;
+	    return $infos->{$pdir};
 	} elsif (-l $pdir) {
 	    unshift @paths, split '/', _expand_symlink($pdir);
 	    $pdir = '';
 	}
     }
-    ();
+    undef;
 }
 
 sub _expand_symlink {

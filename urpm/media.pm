@@ -403,20 +403,14 @@ sub probe_removable_device {
 
     #- try to find device to open/close for removable medium.
     if (my $dir = file_from_local_url($medium->{url})) {
-	my %infos;
-	my @mntpoints = urpm::sys::find_mntpoints($dir, \%infos);
-	if (@mntpoints > 1) {	#- return value is suitable for an hash.
-	    $urpm->{log}(N("too many mount points for removable medium \"%s\"", $medium->{name}));
-	    $urpm->{log}(N("taking removable device as \"%s\"", join ',', map { $infos{$_}{device} } @mntpoints));
-	}
 	if (urpm::removable::is_iso($medium->{removable})) {
 	    $urpm->{log}(N("Medium \"%s\" is an ISO image, will be mounted on-the-fly", $medium->{name}));
-	} elsif (@mntpoints) {
-	    if ($medium->{removable} && $medium->{removable} ne $infos{$mntpoints[-1]}{device}) {
+	} elsif (my $entry = urpm::sys::find_a_mntpoint($dir)) {
+	    if ($medium->{removable} && $medium->{removable} ne $entry->{device}) {
 		$urpm->{log}(N("using different removable device [%s] for \"%s\"",
-			       $infos{$mntpoints[-1]}{device}, $medium->{name}));
+			       $entry->{device}, $medium->{name}));
 	    }
-	    $medium->{removable} = $infos{$mntpoints[-1]}{device};
+	    $medium->{removable} = $entry->{device};
 	} else {
 	    $urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
 	}
