@@ -113,7 +113,7 @@ sub verify_partial_rpm_and_move {
     #- it seems the the file has been downloaded correctly and has been checked to be valid.
     unlink "$cachedir/rpms/$filename";
     urpm::sys::move_or_die($urpm, "$cachedir/partial/$filename", "$cachedir/rpms/$filename");
-    1;
+    "$cachedir/rpms/$filename";
 }
 
 # TODO verify that files are downloaded from the right corresponding media

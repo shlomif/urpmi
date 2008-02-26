@@ -154,8 +154,8 @@ sub _do_the_copy {
     unlink "$urpm->{cachedir}/partial/$filename";
     $urpm->{log}("copying $filepath");
     copy_and_own($filepath, "$urpm->{cachedir}/partial/$filename") or return;
-    urpm::get_pkgs::verify_partial_rpm_and_move($urpm, $urpm->{cachedir}, $filename) or return;
-    "$urpm->{cachedir}/rpms/$filename";
+    my $f = urpm::get_pkgs::verify_partial_rpm_and_move($urpm, $urpm->{cachedir}, $filename) or return;
+    $f;
 }
 
 sub _examine_removable_medium_ {
