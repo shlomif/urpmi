@@ -179,6 +179,7 @@ sub set_proxy {
 		    push @res, ('-x', $_->{ftp_proxy}) if defined $_->{ftp_proxy};
 		    push @res, ('-U', "$_->{user}:$_->{pwd}")
 			if defined $_->{user} && defined $_->{pwd};
+		    push @res, '-H', 'Pragma:' if @res;
 		}
 		last;
 	    };
