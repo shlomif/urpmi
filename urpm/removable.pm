@@ -77,6 +77,9 @@ sub try_umounting_removables {
 }
 
 #- examine if given medium is already inside a removable device.
+#-
+#- side-effects:
+#-   + those of try_mounting ($urpm->{removable_mounted}, mount)
 sub _check_notfound {
     my ($urpm, $list, $id, $dir, $removable) = @_;
 	if ($dir) {
