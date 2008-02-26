@@ -184,14 +184,15 @@ sub _get_removables_or_check_mounted {
     foreach (@$blists) {
 	my $medium = $_->{medium};
 	#- examine non removable device but that may be mounted.
-	if ($medium->{removable}) {
-	    push @{$removables{$medium->{removable}} ||= []}, $_;
+	if (my $device = $medium->{removable}) {
+	    next if $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
+	    push @{$removables{$device} ||= []}, $_;
 	} elsif (my $dir = file_from_local_url($medium->{url})) {
 	    -e $dir || try_mounting($urpm, $dir) or
 	      $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
 	}
     }
-    %removables;
+    values %removables;
 }
 
 sub _create_blists {
@@ -213,14 +214,13 @@ sub copy_packages_of_removable_media {
 
     my $blists = _create_blists($urpm->{media}, $list);
 
-    my %removables = _get_removables_or_check_mounted($urpm, $blists);
+    my @removables = _get_removables_or_check_mounted($urpm, $blists);
 
-    foreach my $device (keys %removables) {
-	next if $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
+    foreach my $l (@removables) {
 	#- Here we have only removable devices.
 	#- If more than one media uses this device, we have to sort
 	#- needed packages to copy the needed rpm files.
-	my @l = @{$removables{$device}};
+	my @l = @$l;
 
 	if (@l > 1) {
 	    @l = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @l;
