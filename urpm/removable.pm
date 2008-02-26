@@ -114,8 +114,8 @@ sub _examine_removable_medium {
     }
 }
 
-sub _examine_removable_medium_ {
-    my ($urpm, $medium, $medium_list, $sources, $device, $o_ask_for_medium) = @_;
+sub _mount_it {
+    my ($urpm, $medium, $medium_list, $device, $o_ask_for_medium) = @_;
 
     my $dir = file_from_local_url($medium->{url});
 
@@ -131,6 +131,15 @@ sub _examine_removable_medium_ {
 		    || $o_ask_for_medium->(remove_internal_name($medium->{name}), $medium->{removable})
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 	    }
+}
+
+sub _examine_removable_medium_ {
+    my ($urpm, $medium, $medium_list, $sources, $device, $o_ask_for_medium) = @_;
+
+    _mount_it($urpm, $medium, $medium_list, $device, $o_ask_for_medium);
+
+    my $dir = file_from_local_url($medium->{url});
+
 	    if (-e $dir) {
 		while (my ($i, $url) = each %$medium_list) {
 		    chomp $url;
