@@ -83,25 +83,26 @@ sub try_umounting_removables {
     delete $urpm->{removable_mounted};
 }
 
-#- examine if given medium is already inside a removable device.
-#-
 #- side-effects:
 #-   + those of try_mounting ($urpm->{removable_mounted}, "mount")
-sub _check_notfound {
+sub _mount_and_check_notfound {
     my ($urpm, $medium_list, $dir, $removable) = @_;
-	if ($dir) {
-	    try_mounting($urpm, $dir, $removable);
-	    -e $dir or return 2;
-	}
-	foreach (values %$medium_list) {
-	    my $dir_ = _filepath($_) or next;
-	    if (!$dir) {
-		$dir = $dir_;
-		try_mounting($urpm, $dir, $removable);
-	    }
-	    -r $dir_ or return 1;
-	}
-	0;
+
+    try_mounting($urpm, $dir, $removable);
+    -e $dir or return 2;
+
+    _check_notfound($urpm, $medium_list);
+}
+
+#- side-effects: none
+sub _check_notfound {
+    my ($urpm, $medium_list) = @_;
+
+    foreach (values %$medium_list) {
+	my $dir_ = _filepath($_) or next;
+	-r $dir_ or return 1;
+    }
+    0;
 }
 
 #- removable media have to be examined to keep mounted the one that has
@@ -123,7 +124,7 @@ sub _examine_removable_medium {
 }
 
 #- side-effects: "eject"
-#-   + those of _check_notfound ($urpm->{removable_mounted}, "mount")
+#-   + those of _mount_and_check_notfound ($urpm->{removable_mounted}, "mount")
 #-   + those of try_umounting ($urpm->{removable_mounted}, "umount")
 sub _mount_it {
     my ($urpm, $medium, $medium_list, $o_ask_for_medium) = @_;
@@ -133,7 +134,7 @@ sub _mount_it {
     #- the directory given does not exist and may be accessible
     #- by mounting some other directory. Try to figure it out and mount
     #- everything that might be necessary.
-    while (_check_notfound($urpm, $medium_list, $dir, $medium->{removable})) {
+    while (_mount_and_check_notfound($urpm, $medium_list, $dir, $medium->{removable})) {
 	if (is_iso($medium->{removable})) {
 	    try_umounting($urpm, $dir);
 	} else {
