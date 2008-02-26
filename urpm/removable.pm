@@ -122,7 +122,7 @@ sub _mount_it {
 	    #- the directory given does not exist and may be accessible
 	    #- by mounting some other directory. Try to figure it out and mount
 	    #- everything that might be necessary.
-	    while (_check_notfound($urpm, $medium_list, $dir, is_iso($medium->{removable}) ? $medium->{removable} : 'removable')) {
+	    while (_check_notfound($urpm, $medium_list, $dir, $medium->{removable})) {
 		is_iso($medium->{removable}) || $o_ask_for_medium
 		    or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 		try_umounting($urpm, $dir);
