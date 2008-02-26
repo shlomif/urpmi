@@ -5,6 +5,7 @@ package urpm::removable;
 use urpm::msg;
 use urpm::sys;
 use urpm::util;
+use urpm::get_pkgs;
 use urpm 'file_from_local_url';
 
 
@@ -159,11 +160,8 @@ sub _examine_removable_medium_ {
 			unlink "$urpm->{cachedir}/partial/$filename";
 			$urpm->{log}("copying $filepath");
 			if (copy_and_own($filepath, "$urpm->{cachedir}/partial/$filename") &&
-			    URPM::verify_rpm("$urpm->{cachedir}/partial/$filename", nosignatures => 1))
+			    urpm::get_pkgs::verify_partial_rpm_and_move($urpm, $urpm->{cachedir}, $filename))
 			{
-			    #- now we can consider the file to be fine.
-			    unlink "$urpm->{cachedir}/rpms/$filename";
-			    urpm::sys::move_or_die($urpm, "$urpm->{cachedir}/partial/$filename", "$urpm->{cachedir}/rpms/$filename");
 			    $sources->{$i} = "$urpm->{cachedir}/rpms/$filename";
 			}
 		    }
