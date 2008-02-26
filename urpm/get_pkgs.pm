@@ -183,7 +183,7 @@ sub download_packages_of_distant_media {
     }
 
     #- clean failed download which have succeeded.
-    delete @$errors{keys %$sources};
+    delete @errors{keys %$sources};
 
     %$error_sources = map { @$_ } values %errors;
 
