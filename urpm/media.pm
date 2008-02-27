@@ -396,16 +396,26 @@ sub _migrate_removable_device {
     # (nb: for iso files, {removable} has already been renamed into {iso} internally)
     delete $medium->{removable};
 
-    if ($medium->{url} && $medium->{url} =~ /^removable/) {
-	$medium->{url} =~ s!^removable(.*?)://!/!;
-	    #- handle device name in url scheme, this is deprecated
-	if ($medium->{url} =~ s!/(mnt|media)/cd\w+/?!cdrom://!i) {
+    if (my $url = _migrate_removable_url($medium->{url})) {
+	$medium->{url} = $url;
+    } else {
+	$urpm->{error}(N("failed to migrate removable device, ignoring media"));
+	$medium->{ignore} = 1;
+    }
+}
+
+sub _migrate_removable_url {
+    my ($url) = @_;
+
+    if ($url && $url =~ /^removable/) {
+	$url =~ s!^removable(.*?)://!/!;
+	if ($url =~ s!/(mnt|media)/cd\w+/?!cdrom://!i) {
 	    # success!
 	} else {
-	    $urpm->{error}(N("failed to migrate removable device, ignoring media"));
-	    $medium->{ignore} = 1;
+	    return;
 	}
     }
+    $url;
 }
 
 
@@ -729,12 +739,16 @@ sub add_distrib_media {
     my $distribconf;
 
     if ($url && urpm::is_local_url($url)) {
+	$url = _migrate_removable_url($url) or return();
 	my $m = { url => $url };
 	urpm::removable::try_mounting_medium($urpm, $m) or return ();
-	my $dir = file_from_local_medium($m);
 
-	$distribconf = MDV::Distribconf->new($dir, undef);
-	$distribconf->load
+	$distribconf = MDV::Distribconf->new(file_from_file_url($url) || $url, undef);
+	$distribconf->settree('mandriva');
+
+	my $dir = file_from_local_medium($m);
+	my $media_cfg = reduce_pathname("$dir/" . $distribconf->getpath(undef, 'infodir') . '/media.cfg');
+	$distribconf->parse_mediacfg($media_cfg)
 	    or $urpm->{error}(N("this location doesn't seem to contain any distribution")), return ();
     } else {
 	unlink "$urpm->{cachedir}/partial/media.cfg";
