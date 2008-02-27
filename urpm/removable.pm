@@ -168,24 +168,6 @@ sub _check_notfound {
     0;
 }
 
-#- removable media have to be examined to keep mounted the one that has
-#- more packages than others.
-#-
-#- side-effects:
-#-   + those of _copy_from_cdrom_ ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
-sub _copy_from_cdrom {
-    my ($urpm, $blist, $sources, $o_ask_for_medium) = @_;
-
-    my $medium = $blist->{medium};
-
-    if (is_local_medium($medium)) {
-	_copy_from_cdrom_($urpm, $blist, $sources, $o_ask_for_medium);
-    } else {
-	#- we have a removable device that is not removable, well...
-	$urpm->{error}(N("inconsistent medium \"%s\" marked removable but not really", $medium->{name}));
-    }
-}
-
 #- side-effects: "eject"
 #-   + those of _mount_and_check_notfound ($urpm->{removable_mounted}, "mount")
 #-   + those of try_umounting ($urpm->{removable_mounted}, "umount")
@@ -239,7 +221,7 @@ sub _do_the_copy {
 #- side-effects: $sources
 #-   + those of _mount_it ($urpm->{removable_mounted}, "mount", "umount", "eject")
 #-   + those of _do_the_copy: "copy-move-files"
-sub _copy_from_cdrom_ {
+sub _copy_from_cdrom {
     my ($urpm, $blist, $sources, $o_ask_for_medium) = @_;
 
     _mount_it($urpm, $blist, $o_ask_for_medium);
