@@ -54,6 +54,8 @@ sub find_mntpoints {
     }
 }
 
+sub read_mtab() { _read_fstab_or_mtab('/etc/mtab') }
+
 #- find used mount point from a pathname
 sub _find_a_mntpoint {
     my ($dir, $infos) = @_;
@@ -62,7 +64,7 @@ sub _find_a_mntpoint {
     foreach (_read_fstab_or_mtab("/etc/fstab")) {
 	$infos->{$_->{mntpoint}} = { mounted => 0, %$_ };
     }
-    foreach (_read_fstab_or_mtab("/etc/mtab")) {
+    foreach (read_mtab()) {
 	$infos->{$_->{mntpoint}} = { mounted => 1, %$_ };
     }
 
