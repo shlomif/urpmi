@@ -1237,15 +1237,15 @@ sub _is_statedir_MD5SUM_uptodate {
 sub _update_medium__parse_if_unmodified__local {
     my ($urpm, $medium, $options) = @_;
 
-    my $dir = file_from_local_url($medium->{url});
+    my $dir = $options->{probe_with} ne 'rpms' && _valid_synthesis_dir($medium)
+	      ? _synthesis_dir($medium) : file_from_local_url($medium->{url});
 
     if (!-d $dir) {
 	#- the directory given does not exist and may be accessible
 	#- by mounting some other directory. Try to figure it out and mount
 	#- everything that might be necessary.
 	urpm::removable::try_mounting($urpm,
-	    $options->{probe_with} ne 'rpms' && _valid_synthesis_dir($medium)
-	      ? _synthesis_dir($medium) : $dir,
+	    $dir,
 	    #- in case of an iso image, pass its name
 	    urpm::removable::is_iso($medium->{removable}) && $medium->{removable},
 	) or $urpm->{error}(N("unable to access medium \"%s\",
