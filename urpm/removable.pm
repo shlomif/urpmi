@@ -18,29 +18,45 @@ sub is_iso {
     $removable_dev && $removable_dev =~ /\.iso$/i;
 }
 
-#- side-effects: $urpm->{removable_mounted}, "mount"
+#- side-effects:
+#-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
+#-   + those of try_mounting_iso ($urpm->{removable_mounted}, "mount")
 sub try_mounting {
     my ($urpm, $dir, $o_removable) = @_;
 
-    my $is_iso = is_iso($o_removable);
-    my $mntpoint = $is_iso
-	#- note: for isos, we don't parse the fstab because it might not be declared in it.
-	#- so we try to remove suffixes from the dir name until the dir exists
-	? ($dir = urpm::sys::trim_until_d($dir))
-	: _non_mounted_mntpoint($dir);
+    is_iso($o_removable) ? try_mounting_iso($urpm, $dir, $o_removable) : try_mounting_($urpm, $dir);
+}
+
+#- side-effects: $urpm->{removable_mounted}, "mount"
+sub try_mounting_iso {
+    my ($urpm, $dir, $iso) = @_;
+
+    #- note: for isos, we don't parse the fstab because it might not be declared in it.
+    #- so we try to remove suffixes from the dir name until the dir exists
+    my $mntpoint = urpm::sys::trim_until_d($dir);
 
     if ($mntpoint) {
 	$urpm->{log}(N("mounting %s", $mntpoint));
-	if ($is_iso) {
-	    #- to mount an iso image, grab the first loop device
-	    my $loopdev = urpm::sys::first_free_loopdev();
-	    sys_log("mount iso $mntpoint on $o_removable");
-	    $loopdev and system('mount', $o_removable, $mntpoint, '-t', 'iso9660', '-o', "loop=$loopdev");
-	    $o_removable and $urpm->{removable_mounted}{$mntpoint} = undef;
-	} else {
-	    sys_log("mount $mntpoint");
-	    system("mount '$mntpoint' 2>/dev/null");
-	}
+
+	#- to mount an iso image, grab the first loop device
+	my $loopdev = urpm::sys::first_free_loopdev();
+	sys_log("mount iso $mntpoint on $iso");
+	$loopdev and system('mount', $iso, $mntpoint, '-t', 'iso9660', '-o', "loop=$loopdev");
+	$iso and $urpm->{removable_mounted}{$mntpoint} = undef;
+    }
+    -e $mntpoint;
+}
+
+#- side-effects: $urpm->{removable_mounted}, "mount"
+sub try_mounting_ {
+    my ($urpm, $dir) = @_;
+
+    my $mntpoint = _non_mounted_mntpoint($dir);
+
+    if ($mntpoint) {
+	$urpm->{log}(N("mounting %s", $mntpoint));
+	sys_log("mount $mntpoint");
+	system("mount '$mntpoint' 2>/dev/null");
     }
     -e $dir;
 }
@@ -84,11 +100,11 @@ sub try_umounting_removables {
 }
 
 #- side-effects:
-#-   + those of try_mounting ($urpm->{removable_mounted}, "mount")
+#-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
 sub _mount_and_check_notfound {
     my ($urpm, $medium_list, $dir, $removable) = @_;
 
-    try_mounting($urpm, $dir, $removable);
+    try_mounting_($urpm, $dir, $removable);
     -e $dir or return 2;
 
     _check_notfound($medium_list);
@@ -200,14 +216,14 @@ sub _examine_removable_medium_ {
 }
 
 #- side-effects:
-#-   + those of try_mounting ($urpm->{removable_mounted}, "mount")
+#-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
 sub try_mounting_non_removable {
     my ($urpm) = @_;
 
     foreach my $medium (grep { !$_->{removable} } @{$urpm->{media}}) {
 	my $dir = file_from_local_url($medium->{url}) or next;
 
-	-e $dir || try_mounting($urpm, $dir) or
+	-e $dir || try_mounting_($urpm, $dir) or
 	  $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
     }
 }

@@ -740,7 +740,7 @@ sub add_distrib_media {
     my $distribconf;
 
     if (my $dir = $url && file_from_local_url($url)) {
-	urpm::removable::try_mounting($urpm, $dir)
+	urpm::removable::try_mounting_($urpm, $dir)
 	    or $urpm->{error}(N("unable to mount the distribution medium")), return ();
 	$distribconf = MDV::Distribconf->new($dir, undef);
 	$distribconf->load
