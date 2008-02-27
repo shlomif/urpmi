@@ -6,7 +6,7 @@ use urpm::msg;
 use urpm::sys;
 use urpm::util;
 use urpm::get_pkgs;
-use urpm 'file_from_local_url';
+use urpm 'file_from_local_url', 'is_local_medium';
 
 
 
@@ -131,7 +131,7 @@ sub _examine_removable_medium {
 
     my $medium = $blist->{medium};
 
-    if (file_from_local_url($medium->{url})) {
+    if (is_local_medium($medium)) {
 	_examine_removable_medium_($urpm, $medium, $blist->{list}, $sources, $o_ask_for_medium);
     } else {
 	#- we have a removable device that is not removable, well...

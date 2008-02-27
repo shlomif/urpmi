@@ -166,7 +166,7 @@ if ($options{distrib}) {
     if ($with eq "with") {
 	$relative_synthesis or usage N("<relative path of synthesis> missing\n");
     }
-    if ($options{probe_with} && $options{probe_with} eq 'rpms' && !urpm::file_from_local_url($url)) {
+    if ($options{probe_with} && $options{probe_with} eq 'rpms' && !urpm::is_local_url($url)) {
 	die N("Can't use %s with remote medium", "--probe-rpms");
     }
 

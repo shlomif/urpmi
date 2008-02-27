@@ -2,7 +2,7 @@ package urpm::media;
 
 # $Id$
 
-use urpm 'file_from_local_url';
+use urpm 'file_from_local_url', 'is_local_medium';
 use urpm::msg;
 use urpm::util;
 use urpm::removable;
@@ -953,7 +953,7 @@ sub may_reconfig_urpmi {
     if (-s $f) {
 	reconfig_urpmi($urpm, $f, $medium);
     }
-    unlink $f if !file_from_local_url($medium->{url});
+    unlink $f if !is_local_medium($medium);
 }
 
 #- read a reconfiguration file for urpmi, and reconfigure media accordingly
@@ -1459,7 +1459,7 @@ sub _update_medium_ {
 
     {
 	my $rc = 
-	  file_from_local_url($medium->{url})
+	  is_local_medium($medium)
 	    ? _update_medium__parse_if_unmodified__local($urpm, $medium, \%options)
 	    : _update_medium__parse_if_unmodified__remote($urpm, $medium, \%options);
 
@@ -1610,7 +1610,7 @@ sub _retrieve_media_info_file_and_check_MD5SUM {
 
     my $name = "$prefix$suffix";
     my $cachedir_file = 
-      file_from_local_url($medium->{url}) ?
+      is_local_medium($medium) ?
 	_copy_media_info_file($urpm, $medium, $prefix, $suffix) :
 	_download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet) or
 	  $urpm->{error}(N("retrieval of [%s] failed", _synthesis_dir($medium) .  "/$name")), return;
