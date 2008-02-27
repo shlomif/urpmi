@@ -202,15 +202,26 @@ sub file_from_local_url {
 }
 sub file_from_local_medium {
     my ($medium, $o_url) = @_;
-    file_from_local_url($o_url || $medium->{url});
+    my $url = $o_url || $medium->{url};
+    if ($url =~ m!^cdrom://(.*)!) {
+	my $rel = $1;	
+	$medium->{mntpoint} or do { require Carp; Carp::croak("cdrom is not mounted yet!\n") };
+	"$medium->{mntpoint}/$rel";
+    } else {
+	file_from_local_url($url);
+    }
 }
 sub is_local_url {
     my ($url) = @_;
-    file_from_local_url($url);
+    file_from_local_url($url) || is_cdrom_url($url);
 }
 sub is_local_medium {
     my ($medium) = @_;
     is_local_url($medium->{url});
+}
+sub is_cdrom_url {
+    my ($url) = @_;
+    protocol_from_url($url) eq 'cdrom';
 }
 
 sub db_open_or_die {
@@ -399,7 +410,7 @@ B<media>: [ {
    start => int, end => int, name => string, url => string,
    virtual => bool, media_info_dir => string, with_synthesis => string,
    no-media-info => bool,
-   removable => string, downloader => string,
+   iso => string, downloader => string,
    ignore => bool, update => bool, modified => bool, really_modified => bool,
    unknown_media_info => bool, 
  } ],

@@ -233,8 +233,7 @@ sub add_existing_medium {
 
     check_existing_medium($urpm, $medium);
 
-    #- probe removable device.
-    probe_removable_device($urpm, $medium);
+    _migrate_removable_device($urpm, $medium);
 
     #- clear URLs for trailing /es.
     $medium->{url} and $medium->{url} =~ s|(.*?)/*$|$1|;
@@ -390,32 +389,22 @@ sub remove_user_media_info_files {
 }
 
 #- probe device associated with a removable device.
-sub probe_removable_device {
+sub _migrate_removable_device {
     my ($urpm, $medium) = @_;
 
-    if ($medium->{url} && $medium->{url} =~ /^removable/) {
-	#- try to find device name in url scheme, this is deprecated, use medium option "removable" instead
-	if ($medium->{url} =~ /^removable_?([^_:]*)/) {
-	    $medium->{removable} ||= $1 && "/dev/$1";
-	}
-    } else {
-	delete $medium->{removable};
-	return;
-    }
+    # always drop {removable}, it is obsolete
+    # (nb: for iso files, {removable} has already been renamed into {iso} internally)
+    delete $medium->{removable};
 
-    #- try to find device to open/close for removable medium.
-    if (my $dir = file_from_local_medium($medium)) {
-	if (my $entry = urpm::sys::find_a_mntpoint($dir)) {
-	    if ($medium->{removable} && $medium->{removable} ne $entry->{device}) {
-		$urpm->{log}(N("using different removable device [%s] for \"%s\"",
-			       $entry->{device}, $medium->{name}));
-	    }
-	    $medium->{removable} = $entry->{device};
+    if ($medium->{url} && $medium->{url} =~ /^removable/) {
+	$medium->{url} =~ s!^removable(.*?)://!/!;
+	    #- handle device name in url scheme, this is deprecated
+	if ($medium->{url} =~ s!/(mnt|media)/cd\w+/?!cdrom://!i) {
+	    # success!
 	} else {
-	    $urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
+	    $urpm->{error}(N("failed to migrate removable device, ignoring media"));
+	    $medium->{ignore} = 1;
 	}
-    } else {
-	$urpm->{error}(N("unable to retrieve pathname for removable medium \"%s\"", $medium->{name}));
     }
 }
 
@@ -679,7 +668,7 @@ sub add_medium {
     if ($options{virtual}) {
 	$medium->{virtual} = 1;
     } else {
-	probe_removable_device($urpm, $medium);
+	_migrate_removable_device($urpm, $medium);
     }
 
     if (!$medium->{url} && $options{mirrorlist}) {	
@@ -739,9 +728,11 @@ sub add_distrib_media {
 
     my $distribconf;
 
-    if (my $dir = $url && urpm::file_from_local_url($url)) {
-	urpm::removable::try_mounting_($urpm, $dir)
-	    or $urpm->{error}(N("unable to mount the distribution medium")), return ();
+    if ($url && urpm::is_local_url($url)) {
+	my $m = { url => $url };
+	urpm::removable::try_mounting_medium($urpm, $m) or return ();
+	my $dir = file_from_local_medium($m);
+
 	$distribconf = MDV::Distribconf->new($dir, undef);
 	$distribconf->load
 	    or $urpm->{error}(N("this location doesn't seem to contain any distribution")), return ();
@@ -800,7 +791,7 @@ sub add_distrib_media {
 	    $is_update_media or next;
 	}
 
-	my $use_copied_synthesis = $urpm->{options}{use_copied_hdlist} || $distribconf->getvalue($media, 'use_copied_hdlist');
+	my $use_copied_synthesis = urpm::is_cdrom_url($url) || $urpm->{options}{use_copied_hdlist} || $distribconf->getvalue($media, 'use_copied_hdlist');
 	my $with_synthesis = $use_copied_synthesis && offset_pathname(
 		$url,
 		$distribconf->getpath($media, 'path'),
@@ -941,10 +932,10 @@ sub _probe_with_try_list {
 sub may_reconfig_urpmi {
     my ($urpm, $medium) = @_;
 
-    $medium->{url} or return; # we should handle mirrorlist?
+    $medium->{url} && !urpm::is_cdrom_url($medium->{url}) or return; # we should handle mirrorlist?
 
     my $f;
-    if (my $dir = file_from_local_medium($medium)) {
+    if (my $dir = file_from_file_url($medium->{url})) {
 	$f = reduce_pathname("$dir/reconfig.urpmi");
     } else {
 	unlink($f = "$urpm->{cachedir}/partial/reconfig.urpmi");
@@ -1237,18 +1228,11 @@ sub _is_statedir_MD5SUM_uptodate {
 sub _update_medium__parse_if_unmodified__local {
     my ($urpm, $medium, $options) = @_;
 
-    my $dir = $options->{probe_with} ne 'rpms' && _valid_synthesis_dir($medium)
-	      ? _synthesis_dir($medium) : file_from_local_medium($medium);
-
-    if (!-d $dir) {
+    if ($options->{probe_with} ne 'rpms') {
 	#- the directory given does not exist and may be accessible
 	#- by mounting some other directory. Try to figure it out and mount
 	#- everything that might be necessary.
-	urpm::removable::try_mounting($urpm,
-	    $dir,
-            $medium->{iso},
-	) or $urpm->{error}(N("unable to access medium \"%s\",
-this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return;
+	urpm::removable::try_mounting_medium($urpm, $medium) or return;
     }
 
     #- try to probe for possible with_synthesis parameter, unless
