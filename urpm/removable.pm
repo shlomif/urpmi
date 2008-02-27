@@ -172,14 +172,14 @@ sub _check_notfound {
 #- more packages than others.
 #-
 #- side-effects:
-#-   + those of _examine_removable_medium_ ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
-sub _examine_removable_medium {
+#-   + those of _copy_from_cdrom_ ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
+sub _copy_from_cdrom {
     my ($urpm, $blist, $sources, $o_ask_for_medium) = @_;
 
     my $medium = $blist->{medium};
 
     if (is_local_medium($medium)) {
-	_examine_removable_medium_($urpm, $blist, $sources, $o_ask_for_medium);
+	_copy_from_cdrom_($urpm, $blist, $sources, $o_ask_for_medium);
     } else {
 	#- we have a removable device that is not removable, well...
 	$urpm->{error}(N("inconsistent medium \"%s\" marked removable but not really", $medium->{name}));
@@ -239,7 +239,7 @@ sub _do_the_copy {
 #- side-effects: $sources
 #-   + those of _mount_it ($urpm->{removable_mounted}, "mount", "umount", "eject")
 #-   + those of _do_the_copy: "copy-move-files"
-sub _examine_removable_medium_ {
+sub _copy_from_cdrom_ {
     my ($urpm, $blist, $sources, $o_ask_for_medium) = @_;
 
     _mount_it($urpm, $blist, $o_ask_for_medium);
@@ -314,7 +314,7 @@ sub _sort_media {
 #- where there is one hash for each medium in {media}
 #-
 #- side-effects:
-#-   + those of _examine_removable_medium ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
+#-   + those of _copy_from_cdrom ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
 sub copy_packages_of_removable_media {
     my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
 
@@ -324,7 +324,7 @@ sub copy_packages_of_removable_media {
     my @l = _sort_media(grep { urpm::is_cdrom_url($_->{medium}{url}) } @$blists);
 
     foreach my $blist (@l) {
-	_examine_removable_medium($urpm, $blist, $sources, $o_ask_for_medium);
+	_copy_from_cdrom($urpm, $blist, $sources, $o_ask_for_medium);
     }
 
     1;
