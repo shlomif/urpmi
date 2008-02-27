@@ -773,8 +773,8 @@ sub _sync_webfetch_raw {
 	my $proto = urpm::protocol_from_url($_) or die N("unknown protocol defined for %s", $_);
 	push @{$files{$proto}}, $_;
     }
-    if ($files{removable} || $files{file}) {
-	my @l = map { urpm::file_from_local_url($_) } @{$files{removable} || []}, @{$files{file} || []};
+    if ($files{file}) {
+	my @l = map { urpm::file_from_local_url($_) } @{$files{file} || []};
 	eval { sync_file($options, @l) };
 	$urpm->{fatal}(10, $@) if $@;
 	delete @files{qw(removable file)};
