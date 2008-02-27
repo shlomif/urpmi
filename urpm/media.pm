@@ -1009,7 +1009,7 @@ sub reconfig_urpmi {
 	    }
 	}
 	#- check that the new url exists before committing changes (local mirrors)
-	my $file = file_from_local_url($medium->{$k});
+	my $file = urpm::file_from_local_url($medium->{$k});
 	if ($file && !-e $file) {
 	    %$medium = %orig;
 	    $reconfigured = 0;
@@ -1528,7 +1528,7 @@ sub _update_media__handle_some_flags {
 	    $medium->{modified} = 0;
 	} elsif ($all) {
 	    #- if we're rebuilding all media, mark them as modified (except removable ones)
-	    $medium->{modified} ||= !($medium->{url} && $medium->{url} =~ m!^removable!);
+	    $medium->{modified} ||= !urpm::is_cdrom_url($medium->{url}) && !$medium->{iso};
 	}
     }
 }
