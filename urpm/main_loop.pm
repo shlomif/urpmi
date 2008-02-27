@@ -51,7 +51,7 @@ unless ($local_sources || $list) {
 my %sources = %$local_sources;
 my %error_sources;
 
-urpm::removable::try_mounting_non_removable($urpm);
+urpm::removable::try_mounting_non_removable($urpm, $list);
 
 $callbacks->{pre_removable} and $callbacks->{pre_removable}->();
 urpm::removable::copy_packages_of_removable_media($urpm,

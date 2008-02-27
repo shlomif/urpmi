@@ -218,9 +218,11 @@ sub _examine_removable_medium_ {
 #- side-effects:
 #-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
 sub try_mounting_non_removable {
-    my ($urpm) = @_;
+    my ($urpm, $list) = @_;
 
-    foreach my $medium (grep { !$_->{removable} } @{$urpm->{media}}) {
+    my @used_media = map { $_->{medium} } _create_blists($urpm->{media}, $list);
+
+    foreach my $medium (grep { !$_->{removable} } @used_media) {
 	my $dir = file_from_local_url($medium->{url}) or next;
 
 	-e $dir || try_mounting_($urpm, $dir) or
