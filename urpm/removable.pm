@@ -18,18 +18,13 @@ sub is_iso {
     $removable_dev && $removable_dev =~ /\.iso$/i;
 }
 
-sub is_cdrom {
-    my ($removable_dev) = @_;
-    $removable_dev && !is_iso($removable_dev);
-}
-
 #- side-effects:
 #-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
 #-   + those of try_mounting_iso ($urpm->{removable_mounted}, "mount")
 sub try_mounting {
-    my ($urpm, $dir, $o_removable) = @_;
+    my ($urpm, $dir, $o_iso) = @_;
 
-    is_iso($o_removable) ? try_mounting_iso($urpm, $dir, $o_removable) : try_mounting_($urpm, $dir);
+    $o_iso ? try_mounting_iso($urpm, $dir, $o_iso) : try_mounting_($urpm, $dir);
 }
 
 #- side-effects: $urpm->{removable_mounted}, "mount"
@@ -223,7 +218,7 @@ sub try_mounting_non_cdroms {
 
     my @used_media = map { $_->{medium} } _create_blists($urpm->{media}, $list);
 
-    foreach my $medium (grep { !is_cdrom($_->{removable}) } @used_media) {
+    foreach my $medium (grep { !$_->{removable} } @used_media) {
 	try_mounting_non_cdrom($urpm, $medium);
     }
 }
@@ -235,7 +230,7 @@ sub try_mounting_non_cdrom {
 
     my $dir = file_from_local_url($medium->{url}) or return;
 
-    -e $dir || try_mounting($urpm, $dir, $medium->{removable}) or
+    -e $dir || try_mounting($urpm, $dir, $medium->{iso}) or
       $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), return;
 
     1;
@@ -250,7 +245,7 @@ sub _get_cdroms {
     foreach (@$blists) {
 	#- examine non removable device but that may be mounted.
 	if (my $device = $_->{medium}{removable}) {
-	    next if is_iso($device) || $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
+	    next if $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
 	    push @{$removables{$device} ||= []}, $_;
 	}
     }

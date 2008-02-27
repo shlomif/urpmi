@@ -51,6 +51,7 @@ sub _only_media_opts_read {
     my ($m) = @_;
     my $c = only_media_opts($m);
     $c->{media_info_dir} ||= 'media_info';
+    $c->{iso} = delete $c->{removable} if $c->{removable} && urpm::removable::is_iso($c->{removable});
     $c;
 }
 sub _only_media_opts_write {
@@ -58,6 +59,7 @@ sub _only_media_opts_write {
     my $c = only_media_opts($m);
     delete $c->{media_info_dir} if $c->{media_info_dir} eq 'media_info';
     delete $c->{url} if $c->{mirrorlist};
+    $c->{removable} = delete $c->{iso} if $c->{iso};
     $c;
 }
 
@@ -403,9 +405,7 @@ sub probe_removable_device {
 
     #- try to find device to open/close for removable medium.
     if (my $dir = file_from_local_url($medium->{url})) {
-	if (urpm::removable::is_iso($medium->{removable})) {
-	    $urpm->{log}(N("Medium \"%s\" is an ISO image, will be mounted on-the-fly", $medium->{name}));
-	} elsif (my $entry = urpm::sys::find_a_mntpoint($dir)) {
+	if (my $entry = urpm::sys::find_a_mntpoint($dir)) {
 	    if ($medium->{removable} && $medium->{removable} ne $entry->{device}) {
 		$urpm->{log}(N("using different removable device [%s] for \"%s\"",
 			       $entry->{device}, $medium->{name}));
@@ -1246,7 +1246,7 @@ sub _update_medium__parse_if_unmodified__local {
 	#- everything that might be necessary.
 	urpm::removable::try_mounting($urpm,
 	    $dir,
-            $medium->{removable},
+            $medium->{iso},
 	) or $urpm->{error}(N("unable to access medium \"%s\",
 this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return;
     }
