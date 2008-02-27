@@ -216,18 +216,26 @@ sub _examine_removable_medium_ {
 }
 
 #- side-effects:
-#-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
-sub try_mounting_non_removable {
+#-   + those of try_mounting_non_removable ($urpm->{removable_mounted}, "mount")
+sub try_mounting_non_removables {
     my ($urpm, $list) = @_;
 
     my @used_media = map { $_->{medium} } _create_blists($urpm->{media}, $list);
 
     foreach my $medium (grep { !$_->{removable} } @used_media) {
+	try_mounting_non_removable($urpm, $medium);
+    }
+}
+
+#- side-effects:
+#-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
+sub try_mounting_non_removable {
+    my ($urpm, $medium) = @_;
+
 	my $dir = file_from_local_url($medium->{url}) or next;
 
 	-e $dir || try_mounting_($urpm, $dir) or
 	  $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
-    }
 }
 
 #- side-effects: none
