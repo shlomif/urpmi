@@ -18,6 +18,11 @@ sub is_iso {
     $removable_dev && $removable_dev =~ /\.iso$/i;
 }
 
+sub is_cdrom {
+    my ($removable_dev) = @_;
+    $removable_dev && !is_iso($removable_dev);
+}
+
 #- side-effects:
 #-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
 #-   + those of try_mounting_iso ($urpm->{removable_mounted}, "mount")
@@ -216,26 +221,28 @@ sub _examine_removable_medium_ {
 }
 
 #- side-effects:
-#-   + those of try_mounting_non_removable ($urpm->{removable_mounted}, "mount")
-sub try_mounting_non_removables {
+#-   + those of try_mounting_non_cdrom ($urpm->{removable_mounted}, "mount")
+sub try_mounting_non_cdroms {
     my ($urpm, $list) = @_;
 
     my @used_media = map { $_->{medium} } _create_blists($urpm->{media}, $list);
 
-    foreach my $medium (grep { !$_->{removable} } @used_media) {
-	try_mounting_non_removable($urpm, $medium);
+    foreach my $medium (grep { !is_cdrom($_->{removable}) } @used_media) {
+	try_mounting_non_cdrom($urpm, $medium);
     }
 }
 
 #- side-effects:
 #-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
-sub try_mounting_non_removable {
+sub try_mounting_non_cdrom {
     my ($urpm, $medium) = @_;
 
-	my $dir = file_from_local_url($medium->{url}) or next;
+    my $dir = file_from_local_url($medium->{url}) or return;
 
-	-e $dir || try_mounting_($urpm, $dir) or
-	  $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), next;
+    -e $dir || try_mounting_($urpm, $dir, $medium->{removable}) or
+      $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), return;
+
+    1;
 }
 
 #- side-effects: none
