@@ -205,8 +205,6 @@ sub _filepath {
 sub _do_the_copy {
     my ($urpm, $filepath) = @_;
 
-    -r $filepath or return;
-
     #- we should assume a possibly buggy removable device...
     #- First, copy in partial cache, and if the package is still good,
     #- transfer it to the rpms cache.
@@ -221,16 +219,16 @@ sub _do_the_copy {
 #- side-effects: $sources
 #-   + those of _mount_it ($urpm->{removable_mounted}, "mount", "umount", "eject")
 #-   + those of _do_the_copy: "copy-move-files"
-sub _copy_from_cdrom {
-    my ($urpm, $blist, $sources, $ask_for_medium) = @_;
+sub _copy_from_cdrom__if_needed {
+    my ($urpm, $blist, $sources, $ask_for_medium, $want_copy) = @_;
 
     _mount_it($urpm, $blist, $ask_for_medium);
 
 	while (my ($i, $url) = each %{$blist->{list}}) {
 	    my $filepath = _filepath($blist->{medium}, $url) or next;
 
-	    if (my $rpm = _do_the_copy($urpm, $filepath)) {
-		$sources->{$i} = $rpm;
+	    if (-r $filepath) {
+		$sources->{$i} = $want_copy ? _do_the_copy($urpm, $filepath) : $filepath;
 	    } else {
 		#- fallback to use other method for retrieving the file later.
 		$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $blist->{medium}{name}));
@@ -296,7 +294,7 @@ sub _sort_media {
 #- where there is one hash for each medium in {media}
 #-
 #- side-effects:
-#-   + those of _copy_from_cdrom ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
+#-   + those of _copy_from_cdrom__if_needed ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
 sub copy_packages_of_removable_media {
     my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
 
@@ -306,7 +304,7 @@ sub copy_packages_of_removable_media {
     my @l = _sort_media(grep { urpm::is_cdrom_url($_->{medium}{url}) } @$blists);
 
     foreach my $blist (@l) {
-	_copy_from_cdrom($urpm, $blist, $sources, $o_ask_for_medium);
+	_copy_from_cdrom__if_needed($urpm, $blist, $sources, $o_ask_for_medium, @l > 1);
     }
 
     1;
