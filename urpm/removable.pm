@@ -107,9 +107,9 @@ sub try_umounting_removables {
 #- side-effects:
 #-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
 sub _mount_and_check_notfound {
-    my ($urpm, $medium_list, $dir, $removable) = @_;
+    my ($urpm, $medium_list, $dir) = @_;
 
-    try_mounting_($urpm, $dir, $removable);
+    try_mounting_($urpm, $dir);
     -e $dir or return 2;
 
     _check_notfound($medium_list);
@@ -155,10 +155,7 @@ sub _mount_it {
     #- the directory given does not exist and may be accessible
     #- by mounting some other directory. Try to figure it out and mount
     #- everything that might be necessary.
-    while (_mount_and_check_notfound($urpm, $medium_list, $dir, $medium->{removable})) {
-	if (is_iso($medium->{removable})) {
-	    try_umounting($urpm, $dir);
-	} else {
+    while (_mount_and_check_notfound($urpm, $medium_list, $dir)) {
 	    $o_ask_for_medium 
 	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 
@@ -167,7 +164,6 @@ sub _mount_it {
 
 	    $o_ask_for_medium->(remove_internal_name($medium->{name}), $medium->{removable})
 	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
-	}
     }
 
     $dir;
@@ -239,14 +235,14 @@ sub try_mounting_non_cdrom {
 
     my $dir = file_from_local_url($medium->{url}) or return;
 
-    -e $dir || try_mounting_($urpm, $dir, $medium->{removable}) or
+    -e $dir || try_mounting($urpm, $dir, $medium->{removable}) or
       $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), return;
 
     1;
 }
 
 #- side-effects: none
-sub _get_removables {
+sub _get_cdroms {
     my ($blists) = @_;
 
     my %removables;
@@ -254,7 +250,7 @@ sub _get_removables {
     foreach (@$blists) {
 	#- examine non removable device but that may be mounted.
 	if (my $device = $_->{medium}{removable}) {
-	    next if $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
+	    next if is_iso($device) || $device =~ m![^a-zA-Z0-9_./-]!; #- bad path
 	    push @{$removables{$device} ||= []}, $_;
 	}
     }
@@ -299,7 +295,7 @@ sub copy_packages_of_removable_media {
 
     my $blists = _create_blists($urpm->{media}, $list);
 
-    foreach my $l (_get_removables($blists)) {
+    foreach my $l (_get_cdroms($blists)) {
 
 	#- Here we have only removable devices.
 	#- If more than one media uses this device, we have to sort
