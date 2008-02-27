@@ -6,7 +6,7 @@ use urpm::msg;
 use urpm::sys;
 use urpm::util;
 use urpm::get_pkgs;
-use urpm 'file_from_local_url', 'is_local_medium';
+use urpm 'file_from_local_medium', 'is_local_medium';
 
 
 
@@ -102,20 +102,20 @@ sub try_umounting_removables {
 #- side-effects:
 #-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
 sub _mount_and_check_notfound {
-    my ($urpm, $medium_list, $dir) = @_;
+    my ($urpm, $blist, $dir) = @_;
 
     try_mounting_($urpm, $dir);
     -e $dir or return 2;
 
-    _check_notfound($medium_list);
+    _check_notfound($blist);
 }
 
 #- side-effects: none
 sub _check_notfound {
-    my ($medium_list) = @_;
+    my ($blist) = @_;
 
-    foreach (values %$medium_list) {
-	my $dir_ = _filepath($_) or next;
+    foreach (values %{$blist->{list}}) {
+	my $dir_ = _filepath($blist->{medium}, $_) or next;
 	-r $dir_ or return 1;
     }
     0;
@@ -132,7 +132,7 @@ sub _examine_removable_medium {
     my $medium = $blist->{medium};
 
     if (is_local_medium($medium)) {
-	_examine_removable_medium_($urpm, $medium, $blist->{list}, $sources, $o_ask_for_medium);
+	_examine_removable_medium_($urpm, $blist, $sources, $o_ask_for_medium);
     } else {
 	#- we have a removable device that is not removable, well...
 	$urpm->{error}(N("inconsistent medium \"%s\" marked removable but not really", $medium->{name}));
@@ -143,14 +143,15 @@ sub _examine_removable_medium {
 #-   + those of _mount_and_check_notfound ($urpm->{removable_mounted}, "mount")
 #-   + those of try_umounting ($urpm->{removable_mounted}, "umount")
 sub _mount_it {
-    my ($urpm, $medium, $medium_list, $o_ask_for_medium) = @_;
+    my ($urpm, $blist, $o_ask_for_medium) = @_;
+    my $medium = $blist->{medium};
 
-    my $dir = file_from_local_url($medium->{url});
+    my $dir = file_from_local_medium($medium);
 
     #- the directory given does not exist and may be accessible
     #- by mounting some other directory. Try to figure it out and mount
     #- everything that might be necessary.
-    while (_mount_and_check_notfound($urpm, $medium_list, $dir)) {
+    while (_mount_and_check_notfound($urpm, $blist, $dir)) {
 	    $o_ask_for_medium 
 	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 
@@ -166,10 +167,10 @@ sub _mount_it {
 
 #- side-effects: none
 sub _filepath {
-    my ($url) = @_;
+    my ($medium, $url) = @_;
 
     chomp $url;
-    my $filepath = file_from_local_url($url) or return;
+    my $filepath = file_from_local_medium($medium, $url) or return;
     $filepath =~ m!/.*/! or return; #- is this really needed??
     $filepath;
 }
@@ -195,18 +196,18 @@ sub _do_the_copy {
 #-   + those of _mount_it ($urpm->{removable_mounted}, "mount", "umount", "eject")
 #-   + those of _do_the_copy: "copy-move-files"
 sub _examine_removable_medium_ {
-    my ($urpm, $medium, $medium_list, $sources, $o_ask_for_medium) = @_;
+    my ($urpm, $blist, $sources, $o_ask_for_medium) = @_;
 
-    my $dir = _mount_it($urpm, $medium, $medium_list, $o_ask_for_medium);
+    my $dir = _mount_it($urpm, $blist, $o_ask_for_medium);
 
-	while (my ($i, $url) = each %$medium_list) {
-	    my $filepath = _filepath($url) or next;
+	while (my ($i, $url) = each %{$blist->{list}}) {
+	    my $filepath = _filepath($blist->{medium}, $url) or next;
 
 	    if (my $rpm = _do_the_copy($urpm, $filepath)) {
 		$sources->{$i} = $rpm;
 	    } else {
 		#- fallback to use other method for retrieving the file later.
-		$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $medium->{name}));
+		$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $blist->{medium}{name}));
 	    }
 	}
 }
@@ -228,7 +229,7 @@ sub try_mounting_non_cdroms {
 sub try_mounting_non_cdrom {
     my ($urpm, $medium) = @_;
 
-    my $dir = file_from_local_url($medium->{url}) or return;
+    my $dir = file_from_local_medium($medium) or return;
 
     -e $dir || try_mounting($urpm, $dir, $medium->{iso}) or
       $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), return;
@@ -273,7 +274,7 @@ sub _sort_media {
 	@l = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @l;
 
 	#- check if a removable device is already mounted (and files present).
-	if (my ($already_mounted) = grep { !_check_notfound($_->{list}) } @l) {
+	if (my ($already_mounted) = grep { !_check_notfound($_) } @l) {
 	    @l = ($already_mounted, grep { $_ != $already_mounted } @l);
 	}
     }

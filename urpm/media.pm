@@ -2,7 +2,7 @@ package urpm::media;
 
 # $Id$
 
-use urpm 'file_from_local_url', 'is_local_medium';
+use urpm 'file_from_local_medium', 'is_local_medium';
 use urpm::msg;
 use urpm::util;
 use urpm::removable;
@@ -272,7 +272,7 @@ sub _synthesis_dir {
     my ($medium) = @_;
     $medium->{'no-media-info'} || $medium->{unknown_media_info} and return;
 
-    my $base = file_from_local_url($medium->{url}) || $medium->{url};
+    my $base = file_from_local_medium($medium) || $medium->{url};
     $medium->{with_synthesis}
       ? reduce_pathname("$base/$medium->{with_synthesis}/..")
       : $medium->{media_info_dir} && reduce_pathname("$base/$medium->{media_info_dir}");
@@ -290,7 +290,7 @@ sub _valid_synthesis_dir {
 sub _url_with_synthesis {
     my ($medium) = @_;
 
-    my $base = file_from_local_url($medium->{url}) || $medium->{url};
+    my $base = file_from_local_medium($medium) || $medium->{url};
     $medium->{with_synthesis}
       ? reduce_pathname("$base/$medium->{with_synthesis}")
       : _synthesis_dir($medium) . "/" . _url_with_synthesis_basename($medium);
@@ -404,7 +404,7 @@ sub probe_removable_device {
     }
 
     #- try to find device to open/close for removable medium.
-    if (my $dir = file_from_local_url($medium->{url})) {
+    if (my $dir = file_from_local_medium($medium)) {
 	if (my $entry = urpm::sys::find_a_mntpoint($dir)) {
 	    if ($medium->{removable} && $medium->{removable} ne $entry->{device}) {
 		$urpm->{log}(N("using different removable device [%s] for \"%s\"",
@@ -739,7 +739,7 @@ sub add_distrib_media {
 
     my $distribconf;
 
-    if (my $dir = $url && file_from_local_url($url)) {
+    if (my $dir = $url && urpm::file_from_local_url($url)) {
 	urpm::removable::try_mounting_($urpm, $dir)
 	    or $urpm->{error}(N("unable to mount the distribution medium")), return ();
 	$distribconf = MDV::Distribconf->new($dir, undef);
@@ -924,7 +924,7 @@ sub _probe_with_try_list {
 
     my @media_info_dirs = ('media_info', '.');
 
-    my $base = file_from_local_url($medium->{url}) || $medium->{url};
+    my $base = file_from_local_medium($medium) || $medium->{url};
 
     foreach my $media_info_dir (@media_info_dirs) {
 	my $url = reduce_pathname("$base/$media_info_dir") . '/synthesis.hdlist.cz';
@@ -944,7 +944,7 @@ sub may_reconfig_urpmi {
     $medium->{url} or return; # we should handle mirrorlist?
 
     my $f;
-    if (my $dir = file_from_local_url($medium->{url})) {
+    if (my $dir = file_from_local_medium($medium)) {
 	$f = reduce_pathname("$dir/reconfig.urpmi");
     } else {
 	unlink($f = "$urpm->{cachedir}/partial/reconfig.urpmi");
@@ -1075,7 +1075,7 @@ sub _copy_media_info_file {
 
     my $name = "$prefix$suffix";
     my $path = _synthesis_dir($medium) . "/$prefix" . _synthesis_suffix($medium) . $suffix;
-    -e $path or $path = file_from_local_url($medium->{url}) . "/media_info/$name";
+    -e $path or $path = file_from_local_medium($medium) . "/media_info/$name";
 
     my $result_file = "$urpm->{cachedir}/partial/$name";
     if (-e $path) {
@@ -1127,7 +1127,7 @@ sub get_descriptions_local {
 
     unlink statedir_descriptions($urpm, $medium);
 
-    my $dir = file_from_local_url($medium->{url});
+    my $dir = file_from_local_medium($medium);
     my $description_file = "$dir/media_info/descriptions"; #- new default location
     -e $description_file or $description_file = "$dir/../descriptions";
     -e $description_file or return;
@@ -1213,7 +1213,7 @@ sub _call_genhdlist2 {
 
     !$medium->{with_synthesis} or $urpm->{fatal}(1, 'with_synthesis not handled with --probe-rpms');
 
-    my $dir = file_from_local_url($medium->{url});
+    my $dir = file_from_local_medium($medium);
 
     system('genhdlist2', 
 	   $urpm->{debug} ? '--verbose' : (), '--no-hdlist',
@@ -1238,7 +1238,7 @@ sub _update_medium__parse_if_unmodified__local {
     my ($urpm, $medium, $options) = @_;
 
     my $dir = $options->{probe_with} ne 'rpms' && _valid_synthesis_dir($medium)
-	      ? _synthesis_dir($medium) : file_from_local_url($medium->{url});
+	      ? _synthesis_dir($medium) : file_from_local_medium($medium);
 
     if (!-d $dir) {
 	#- the directory given does not exist and may be accessible
@@ -1401,7 +1401,7 @@ sub _update_medium__parse_if_unmodified__remote {
 sub _get_pubkey_and_descriptions {
     my ($urpm, $medium, $nopubkey) = @_;
 
-    my $local = file_from_local_url($medium->{url});
+    my $local = file_from_local_medium($medium);
 
     ($local ? \&get_descriptions_local : \&get_descriptions_remote)->($urpm, $medium);
 

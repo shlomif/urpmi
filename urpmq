@@ -23,7 +23,7 @@
 
 use strict;
 
-use urpm 'file_from_local_url';
+use urpm 'file_from_local_medium';
 use urpm::args;
 use urpm::msg;
 use urpm::sys;
@@ -345,7 +345,7 @@ if ($options{list_aliases}) {
 		my @l = grep { $medium->{start} <= $_ && $_ <= $medium->{end} } @selected or next;
 		my @pkgs = map { $urpm->{depslist}[$_] } @l or next;
 
-		if (my $dir = file_from_local_url($medium->{url})) {
+		if (my $dir = file_from_local_medium($medium)) {
 		    $urpm->{log}("getting information from rpms from $dir");
 		    $local_sources->{$_->id} = "$dir/" . $_->filename foreach @pkgs;
 		} else {

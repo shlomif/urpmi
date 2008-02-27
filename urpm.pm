@@ -14,7 +14,7 @@ use urpm::md5sum;
 
 our $VERSION = '5.6';
 our @ISA = qw(URPM Exporter);
-our @EXPORT_OK = ('file_from_local_url', 'is_local_medium');
+our @EXPORT_OK = ('file_from_local_url', 'file_from_local_medium', 'is_local_medium');
 
 use URPM;
 use URPM::Resolve;
@@ -199,6 +199,10 @@ sub protocol_from_url {
 sub file_from_local_url {
     my ($url) = @_;
     $url =~ m!^(?:removable[^:]*:/|file:/)?(/.*)! && $1;
+}
+sub file_from_local_medium {
+    my ($medium, $o_url) = @_;
+    file_from_local_url($o_url || $medium->{url});
 }
 sub is_local_url {
     my ($url) = @_;
