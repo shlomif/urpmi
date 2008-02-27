@@ -1246,8 +1246,7 @@ sub _update_medium__parse_if_unmodified__local {
 	#- everything that might be necessary.
 	urpm::removable::try_mounting($urpm,
 	    $dir,
-	    #- in case of an iso image, pass its name
-	    urpm::removable::is_iso($medium->{removable}) && $medium->{removable},
+            $medium->{removable},
 	) or $urpm->{error}(N("unable to access medium \"%s\",
 this could happen if you mounted manually the directory when creating the medium.", $medium->{name})), return;
     }
