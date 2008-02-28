@@ -205,7 +205,7 @@ sub file_from_local_medium {
     my $url = $o_url || $medium->{url};
     if ($url =~ m!^cdrom://(.*)!) {
 	my $rel = $1;	
-	$medium->{mntpoint} or do { require Carp; Carp::croak("cdrom is not mounted yet!\n") };
+	$medium->{mntpoint} or do { require Carp; Carp::confess("cdrom is not mounted yet!\n") };
 	"$medium->{mntpoint}/$rel";
     } else {
 	file_from_local_url($url);
