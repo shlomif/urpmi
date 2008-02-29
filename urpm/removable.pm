@@ -147,12 +147,12 @@ sub try_umounting_removables {
 }
 
 #- side-effects:
-#-   + those of try_mounting_medium ($medium->{mntpoint})
-sub _mount_and_check_notfound {
+#-   + those of _try_mounting_medium ($medium->{mntpoint})
+sub _mount_cdrom_and_check_notfound {
     my ($urpm, $blist, $medium) = @_;
 
     my ($first_url) = values %{$blist->{list}};
-    try_mounting_medium($urpm, $medium, $first_url) or return 1;
+    _try_mounting_medium($urpm, $medium, $first_url) or return 1;
 
     _check_notfound($blist);
 }
@@ -169,16 +169,16 @@ sub _check_notfound {
 }
 
 #- side-effects: "eject"
-#-   + those of _mount_and_check_notfound ($urpm->{removable_mounted}, "mount")
+#-   + those of _mount_cdrom_and_check_notfound ($urpm->{removable_mounted}, "mount")
 #-   + those of try_umounting ($urpm->{removable_mounted}, "umount")
-sub _mount_it {
+sub _mount_cdrom {
     my ($urpm, $blist, $ask_for_medium) = @_;
     my $medium = $blist->{medium};
 
     #- the directory given does not exist and may be accessible
     #- by mounting some other directory. Try to figure it out and mount
     #- everything that might be necessary.
-    while (_mount_and_check_notfound($urpm, $blist, $medium)) {
+    while (_mount_cdrom_and_check_notfound($urpm, $blist, $medium)) {
 	    $ask_for_medium 
 	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
 
@@ -217,12 +217,12 @@ sub _do_the_copy {
 }
 
 #- side-effects: $sources
-#-   + those of _mount_it ($urpm->{removable_mounted}, "mount", "umount", "eject")
+#-   + those of _mount_cdrom ($urpm->{removable_mounted}, "mount", "umount", "eject")
 #-   + those of _do_the_copy: "copy-move-files"
 sub _copy_from_cdrom__if_needed {
     my ($urpm, $blist, $sources, $ask_for_medium, $want_copy) = @_;
 
-    _mount_it($urpm, $blist, $ask_for_medium);
+    _mount_cdrom($urpm, $blist, $ask_for_medium);
 
 	while (my ($i, $url) = each %{$blist->{list}}) {
 	    my $filepath = _filepath($blist->{medium}, $url) or next;
