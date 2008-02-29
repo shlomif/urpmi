@@ -27,7 +27,7 @@ sub _file_or_synthesis_dir {
 }
 
 #- side-effects: $medium->{mntpoint}
-sub look_for_mounted_cdrom {
+sub _look_for_mounted_cdrom_in_mtab {
     my ($urpm, $medium, $o_url) = @_;
 
     my @mntpoints = map { $_->{mntpoint} } 
@@ -54,12 +54,12 @@ sub try_mounting_medium {
 }
 
 #- side-effects:
-#-   + those of look_for_mounted_cdrom ($medium->{mntpoint})
+#-   + those of _look_for_mounted_cdrom_in_mtab ($medium->{mntpoint})
 sub _try_mounting_medium {
     my ($urpm, $medium, $o_url) = @_;
 
     if (urpm::is_cdrom_url($medium->{url})) {
-	look_for_mounted_cdrom($urpm, $medium, $o_url);
+	_look_for_mounted_cdrom_in_mtab($urpm, $medium, $o_url);
     } else {
 	-r _file_or_synthesis_dir($medium, $o_url);
     }
