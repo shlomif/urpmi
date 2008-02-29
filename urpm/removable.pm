@@ -17,33 +17,6 @@ sub _file_or_synthesis_dir {
 	file_from_local_medium($medium, $o_url);
 }
 
-#- side-effects: $blists_url->[_]{medium}{mntpoint}
-sub _find_blist_url_matching {
-    my ($urpm, $blists_url, $mntpoint) = @_;
-
-    my @l;
-    foreach my $blist (@$blists_url) {
-	$blist->{medium}{mntpoint} and next;
-
-	# set it, then verify
-	$blist->{medium}{mntpoint} = $mntpoint;
-	if (-r _file_or_synthesis_dir($blist->{medium}, $blist->{url})) {
-	    $urpm->{log}("found cdrom $blist->{medium}{name} mounted in $mntpoint");
-	    push @l, $blist;
-	} else {
-	    delete $blist->{medium}{mntpoint};
-	}
-    }
-    @l;
-}
-
-#- side-effects: none
-sub _look_for_mounted_cdrom_in_mtab() {
-
-    map { $_->{mntpoint} } 
-      grep { $_->{fs} eq 'iso9660' || $_->{fs} eq 'udf' } urpm::sys::read_mtab();
-}
-
 #- side-effects:
 #-   + those of _try_mounting_medium ($medium->{mntpoint})
 sub try_mounting_medium {
