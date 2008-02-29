@@ -620,7 +620,6 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 				     \@ask_unselect, \%requested, {
     (!$urpm->{options}{auto} || $allow_medium_change ? (copy_removable =>  sub {
 	my $msg = N("Please insert the medium named \"%s\"", $_[0]);
-	my $msg2 = N("Press Enter when ready...");
 	if ($ENV{DISPLAY} && $::gui) {
 	    #- probably run from a drak tool
 	    (my $gmessage) = grep { -x $_ } '/usr/X11R6/bin/gmessage', '/usr/bin/gmessage';
@@ -628,7 +627,11 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 		return system($gmessage, '-buttons', N("Ok") . ':1,' . N("Cancel") . ':0', "\n$msg\n");
 	    }
 	}
-	return defined message_input_("$msg\n$msg2 ");
+	print "$msg\n";
+
+	require Hal::Cdroms;
+	Hal::Cdroms->new->wait_for_insert;
+	1;
     }) : ()),
     trans_log => sub {
 #	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;

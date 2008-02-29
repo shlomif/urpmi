@@ -5,8 +5,7 @@ package urpm::removable;
 use urpm::msg;
 use urpm::sys;
 use urpm::util;
-use urpm::get_pkgs;
-use urpm 'file_from_local_medium', 'is_local_medium';
+use urpm 'file_from_local_medium';
 
 
 
@@ -26,22 +25,32 @@ sub _file_or_synthesis_dir {
 	file_from_local_medium($medium, $o_url);
 }
 
-#- side-effects: $medium->{mntpoint}
-sub _look_for_mounted_cdrom_in_mtab {
-    my ($urpm, $medium, $o_url) = @_;
+#- side-effects: $blists_url->[_]{medium}{mntpoint}
+sub _find_blist_url_matching {
+    my ($urpm, $blists_url, $mntpoint) = @_;
 
-    my @mntpoints = map { $_->{mntpoint} } 
-                    grep { $_->{fs} eq 'iso9660' || $_->{fs} eq 'udf' } urpm::sys::read_mtab();
-    foreach (@mntpoints) {
+    my @l;
+    foreach my $blist (@$blists_url) {
+	$blist->{medium}{mntpoint} and next;
+
 	# set it, then verify
-	$medium->{mntpoint} = $_;
-	if (-r _file_or_synthesis_dir($medium, $o_url)) {
-	    $urpm->{log}("using cdrom mounted in $_");
-	    return 1;
+	$blist->{medium}{mntpoint} = $mntpoint;
+	if (-r _file_or_synthesis_dir($blist->{medium}, $blist->{url})) {
+	    $urpm->{log}("found cdrom $blist->{medium}{name} mounted in $mntpoint");
+	    push @l, $blist;
+	} else {
+	    delete $blist->{medium}{mntpoint};
 	}
     }
-    0;
-}    
+    @l;
+}
+
+#- side-effects: none
+sub _look_for_mounted_cdrom_in_mtab() {
+
+    map { $_->{mntpoint} } 
+      grep { $_->{fs} eq 'iso9660' || $_->{fs} eq 'udf' } urpm::sys::read_mtab();
+}
 
 #- side-effects:
 #-   + those of _try_mounting_medium ($medium->{mntpoint})
@@ -54,28 +63,33 @@ sub try_mounting_medium {
 }
 
 #- side-effects:
-#-   + those of _look_for_mounted_cdrom_in_mtab ($medium->{mntpoint})
+#-   + those of urpm::cdrom::try_mounting_cdrom ($urpm->{cdrom_mounted}, $medium->{mntpoint}, "hal_mount")
+#-   + those of _try_mounting_local ($urpm->{removable_mounted}, "mount")
 sub _try_mounting_medium {
     my ($urpm, $medium, $o_url) = @_;
 
     if (urpm::is_cdrom_url($medium->{url})) {
-	_look_for_mounted_cdrom_in_mtab($urpm, $medium, $o_url);
+	urpm::cdrom::try_mounting_cdrom($urpm, [ { medium => $medium, url => $o_url } ]);
     } else {
-	-r _file_or_synthesis_dir($medium, $o_url);
+	_try_mounting_local($urpm, $medium, $o_url);
     }
 }
 
 #- side-effects:
-#-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
-#-   + those of try_mounting_iso ($urpm->{removable_mounted}, "mount")
-sub try_mounting {
-    my ($urpm, $dir, $o_iso) = @_;
+#-   + those of _try_mounting_using_fstab ($urpm->{removable_mounted}, "mount")
+#-   + those of _try_mounting_iso ($urpm->{removable_mounted}, "mount")
+sub _try_mounting_local {
+    my ($urpm, $medium, $o_url) = @_;
 
-    $o_iso ? try_mounting_iso($urpm, $dir, $o_iso) : try_mounting_($urpm, $dir);
+    my $dir = _file_or_synthesis_dir($medium, $o_url);
+    -e $dir and return 1;
+
+    $medium->{iso} ? _try_mounting_iso($urpm, $dir, $medium->{iso}) : _try_mounting_using_fstab($urpm, $dir);
+    -e $dir;
 }
 
 #- side-effects: $urpm->{removable_mounted}, "mount"
-sub try_mounting_iso {
+sub _try_mounting_iso {
     my ($urpm, $dir, $iso) = @_;
 
     #- note: for isos, we don't parse the fstab because it might not be declared in it.
@@ -89,13 +103,13 @@ sub try_mounting_iso {
 	my $loopdev = urpm::sys::first_free_loopdev();
 	sys_log("mount iso $mntpoint on $iso");
 	$loopdev and system('mount', $iso, $mntpoint, '-t', 'iso9660', '-o', "loop=$loopdev");
-	$iso and $urpm->{removable_mounted}{$mntpoint} = undef;
+	$urpm->{removable_mounted}{$mntpoint} = undef;
     }
     -e $mntpoint;
 }
 
 #- side-effects: $urpm->{removable_mounted}, "mount"
-sub try_mounting_ {
+sub _try_mounting_using_fstab {
     my ($urpm, $dir) = @_;
 
     my $mntpoint = _non_mounted_mntpoint($dir);
@@ -104,6 +118,7 @@ sub try_mounting_ {
 	$urpm->{log}(N("mounting %s", $mntpoint));
 	sys_log("mount $mntpoint");
 	system("mount '$mntpoint' 2>/dev/null");
+	$urpm->{removable_mounted}{$mntpoint} = undef;
     }
     -e $dir;
 }
@@ -147,125 +162,19 @@ sub try_umounting_removables {
 }
 
 #- side-effects:
-#-   + those of _try_mounting_medium ($medium->{mntpoint})
-sub _mount_cdrom_and_check_notfound {
-    my ($urpm, $blist, $medium) = @_;
-
-    my ($first_url) = values %{$blist->{list}};
-    _try_mounting_medium($urpm, $medium, $first_url) or return 1;
-
-    _check_notfound($blist);
-}
-
-#- side-effects: none
-sub _check_notfound {
-    my ($blist) = @_;
-
-    $blist->{medium}{mntpoint} or return;
-
-    foreach (values %{$blist->{list}}) {
-	my $dir_ = _filepath($blist->{medium}, $_) or next;
-	-r $dir_ or return 1;
-    }
-    0;
-}
-
-#- side-effects: "eject"
-#-   + those of _mount_cdrom_and_check_notfound ($urpm->{removable_mounted}, "mount")
-#-   + those of try_umounting ($urpm->{removable_mounted}, "umount")
-sub _mount_cdrom {
-    my ($urpm, $blist, $ask_for_medium) = @_;
-    my $medium = $blist->{medium};
-
-    #- the directory given does not exist and may be accessible
-    #- by mounting some other directory. Try to figure it out and mount
-    #- everything that might be necessary.
-    while (_mount_cdrom_and_check_notfound($urpm, $blist, $medium)) {
-	    $ask_for_medium 
-	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
-
-	    my $dir; # TODO
-	    try_umounting($urpm, $dir);
-	    system("/usr/bin/eject '$medium->{removable}' 2>/dev/null");
-
-	    $ask_for_medium->(remove_internal_name($medium->{name}))
-	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
-    }
-}
-
-#- side-effects: none
-sub _filepath {
-    my ($medium, $url) = @_;
-
-    chomp $url;
-    my $filepath = file_from_local_medium($medium, $url) or return;
-    $filepath =~ m!/.*/! or return; #- is this really needed??
-    $filepath;
-}
-
-#- side-effects: "copy-move-files"
-sub _do_the_copy {
-    my ($urpm, $filepath) = @_;
-
-    #- we should assume a possibly buggy removable device...
-    #- First, copy in partial cache, and if the package is still good,
-    #- transfer it to the rpms cache.
-    my $filename = basename($filepath);
-    unlink "$urpm->{cachedir}/partial/$filename";
-    $urpm->{log}("copying $filepath");
-    copy_and_own($filepath, "$urpm->{cachedir}/partial/$filename") or return;
-    my $f = urpm::get_pkgs::verify_partial_rpm_and_move($urpm, $urpm->{cachedir}, $filename) or return;
-    $f;
-}
-
-#- side-effects: $sources
-#-   + those of _mount_cdrom ($urpm->{removable_mounted}, "mount", "umount", "eject")
-#-   + those of _do_the_copy: "copy-move-files"
-sub _copy_from_cdrom__if_needed {
-    my ($urpm, $blist, $sources, $ask_for_medium, $want_copy) = @_;
-
-    _mount_cdrom($urpm, $blist, $ask_for_medium);
-
-	while (my ($i, $url) = each %{$blist->{list}}) {
-	    my $filepath = _filepath($blist->{medium}, $url) or next;
-
-	    if (-r $filepath) {
-		$sources->{$i} = $want_copy ? _do_the_copy($urpm, $filepath) : $filepath;
-	    } else {
-		#- fallback to use other method for retrieving the file later.
-		$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $blist->{medium}{name}));
-	    }
-	}
-}
-
-#- side-effects:
 #-   + those of try_mounting_non_cdrom ($urpm->{removable_mounted}, "mount")
 sub try_mounting_non_cdroms {
     my ($urpm, $list) = @_;
 
-    my $blist = _create_blists($urpm->{media}, $list);
-    my @used_media = map { $_->{medium} } @$blist;
+    my $blists = create_blists($urpm->{media}, $list);
 
-    foreach my $medium (grep { !urpm::is_cdrom_url($_->{url}) } @used_media) {
-	try_mounting_non_cdrom($urpm, $medium);
+    foreach my $blist (grep { urpm::file_from_local_url($_->{medium}{url}) } @$blists) {
+	try_mounting_medium($urpm, $blist->{medium}, $blist->{url});
     }
 }
 
-#- side-effects:
-#-   + those of try_mounting_ ($urpm->{removable_mounted}, "mount")
-sub try_mounting_non_cdrom {
-    my ($urpm, $medium) = @_;
-
-    my $dir = file_from_local_medium($medium) or return;
-
-    -e $dir || try_mounting($urpm, $dir, $medium->{iso}) or
-      $urpm->{error}(N("unable to access medium \"%s\"", $medium->{name})), return;
-
-    1;
-}
-
 #- side-effects: none
-sub _create_blists {
+sub create_blists {
     my ($media, $list) = @_;
 
     #- make sure everything is correct on input...
@@ -273,43 +182,16 @@ sub _create_blists {
     @$media == @$list or return;
 
     my $i;
-    [ grep { %{$_->{list}} } 
-	map { { medium => $_, list => $list->[$i++] } } @$media ];
+    [ map { 
+	my $list = $list->[$i++];
+	my ($url) = values %$list; # first url
+	$url ? { medium => $_, list => $list, url => $url } : ();
+    } @$media ];
 }
 
-#- side-effects: none
-sub _sort_media {
-    my (@l) = @_;
-
-    if (@l > 1) {
-	@l = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @l;
-
-	#- check if a removable device is already mounted (and files present).
-	if (my ($already_mounted) = grep { !_check_notfound($_) } @l) {
-	    @l = ($already_mounted, grep { $_ != $already_mounted } @l);
-	}
-    }
-    @l;
-}
-
-#- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
-#- where there is one hash for each medium in {media}
-#-
-#- side-effects:
-#-   + those of _copy_from_cdrom__if_needed ($urpm->{removable_mounted}, $sources, "mount", "umount", "eject", "copy-move-files")
-sub copy_packages_of_removable_media {
-    my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
-
-    my $blists = _create_blists($urpm->{media}, $list);
-    #- If more than one media uses this device, we have to sort
-    #- needed packages to copy the needed rpm files.
-    my @l = _sort_media(grep { urpm::is_cdrom_url($_->{medium}{url}) } @$blists);
-
-    foreach my $blist (@l) {
-	_copy_from_cdrom__if_needed($urpm, $blist, $sources, $o_ask_for_medium, @l > 1);
-    }
-
-    1;
+sub copy_packages_of_removable_media { 
+    require urpm::cdrom;
+    &urpm::cdrom::copy_packages_of_removable_media;
 }
 
 1;
