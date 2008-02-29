@@ -392,6 +392,8 @@ sub remove_user_media_info_files {
 sub _migrate_removable_device {
     my ($urpm, $medium) = @_;
 
+    $medium->{url} or return;
+
     # always drop {removable}, it is obsolete
     # (nb: for iso files, {removable} has already been renamed into {iso} internally)
     delete $medium->{removable};
@@ -407,7 +409,7 @@ sub _migrate_removable_device {
 sub _migrate_removable_url {
     my ($url) = @_;
 
-    if ($url && $url =~ /^removable/) {
+    if ($url =~ /^removable/) {
 	$url =~ s!^removable(.*?)://!/!;
 	if ($url =~ s!/(mnt|media)/cd\w+/?!cdrom://!i) {
 	    # success!
