@@ -188,7 +188,7 @@ sub _mount_cdrom {
 	    try_umounting($urpm, $dir);
 	    system("/usr/bin/eject '$medium->{removable}' 2>/dev/null");
 
-	    $ask_for_medium->(remove_internal_name($medium->{name}), $medium->{removable})
+	    $ask_for_medium->(remove_internal_name($medium->{name}))
 	      or $urpm->{fatal}(4, N("medium \"%s\" is not available", $medium->{name}));
     }
 }
