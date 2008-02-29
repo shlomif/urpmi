@@ -124,7 +124,12 @@ sub _eject_cdrom {
 
     require Hal::Cdroms;
     my $hal_cdroms = Hal::Cdroms->new;
-    $hal_cdroms->unmount($hal_path);
+    $hal_cdroms->unmount($hal_path) or do {
+	my $mntpoint = $hal_cdroms->get_mount_point($hal_path);
+	#- trying harder. needed when the cdrom was not mounted by hal
+	$mntpoint && system("umount '$mntpoint' 2>/dev/null") == 0
+	  or $urpm->{error}("failed to umount $hal_path: $hal_cdroms->{error}");
+    };
     $hal_cdroms->eject($hal_path);
     1;
 }
