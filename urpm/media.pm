@@ -42,6 +42,11 @@ sub get_medium_option {
     defined $medium->{$option_name} ? $medium->{$option_name} : $urpm->{options}{$option_name};
 }
 
+sub _is_iso {
+    my ($removable_dev) = @_;
+    $removable_dev && $removable_dev =~ /\.iso$/i;
+}
+
 sub only_media_opts {
     my ($m) = @_;
     my %m = map { $_ => $m->{$_} } grep { defined $m->{$_} } @PER_MEDIA_OPT;
@@ -51,7 +56,7 @@ sub _only_media_opts_read {
     my ($m) = @_;
     my $c = only_media_opts($m);
     $c->{media_info_dir} ||= 'media_info';
-    $c->{iso} = delete $c->{removable} if $c->{removable} && urpm::removable::is_iso($c->{removable});
+    $c->{iso} = delete $c->{removable} if $c->{removable} && _is_iso($c->{removable});
     $c;
 }
 sub _only_media_opts_write {

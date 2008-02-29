@@ -9,14 +9,6 @@ use urpm 'file_from_local_medium';
 
 
 
-#- returns the removable device name if it corresponds to an iso image, '' otherwise
-#-
-#- side-effects: none
-sub is_iso {
-    my ($removable_dev) = @_;
-    $removable_dev && $removable_dev =~ /\.iso$/i;
-}
-
 sub _file_or_synthesis_dir {
     my ($medium, $o_url) = @_;
     
