@@ -1646,9 +1646,8 @@ sub _any_media_info__or_download {
     get_medium_option($urpm, $medium, 'xml-info') ne 'never' or return;
    
     my $md5sum_file = statedir_MD5SUM($urpm, $medium);
-    if (-e $md5sum_file) {
-	urpm::md5sum::parse($md5sum_file)->{"$prefix$suffix"} or return;
-    }
+    -e $md5sum_file &&
+      urpm::md5sum::parse($md5sum_file)->{"$prefix$suffix"} or return;
 
     my $file_in_partial = 
       _download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet, $download_dir, $o_callback) or return;
