@@ -161,6 +161,8 @@ sub _mount_cdrom_and_check_notfound {
 sub _check_notfound {
     my ($blist) = @_;
 
+    $blist->{medium}{mntpoint} or return;
+
     foreach (values %{$blist->{list}}) {
 	my $dir_ = _filepath($blist->{medium}, $_) or next;
 	-r $dir_ or return 1;
