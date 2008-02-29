@@ -307,19 +307,6 @@ sub is_delta_installable {
     $v_match eq $v_installed;
 }
 
-#- Obsolescent method.
-sub download_source_packages {
-    my ($urpm, $local_sources, $list, %options) = @_;
-    my %sources = %$local_sources;
-    my %error_sources;
-
-    require urpm::get_pkgs;
-    urpm::removable::copy_packages_of_removable_media($urpm, $list, \%sources, $options{ask_for_medium}) or return;
-    urpm::get_pkgs::download_packages_of_distant_media($urpm, $list, \%sources, \%error_sources, %options);
-
-    %sources, %error_sources;
-}
-
 #- extract package that should be installed instead of upgraded,
 #- installing instead of upgrading is useful
 #- - for inst.list (cf flag disable_obsolete)
