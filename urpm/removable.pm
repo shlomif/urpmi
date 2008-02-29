@@ -34,6 +34,7 @@ sub _try_mounting_medium {
     my ($urpm, $medium, $o_url) = @_;
 
     if (urpm::is_cdrom_url($medium->{url})) {
+	require urpm::cdrom;
 	urpm::cdrom::try_mounting_cdrom($urpm, [ { medium => $medium, url => $o_url } ]);
     } else {
 	_try_mounting_local($urpm, $medium, $o_url);
