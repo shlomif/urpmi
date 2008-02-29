@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-25 11:14+0100\n"
-"PO-Revision-Date: 2008-02-28 15:55+0100\n"
+"PO-Revision-Date: 2008-02-29 13:14+0100\n"
 "Last-Translator: Tomasz Bednarski - Amazis.net <tomasz.bednarski@mandriva.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1010,9 +1010,9 @@ msgid "retrieval of [%s] failed (md5sum mismatch)"
 msgstr "pobieranie [%s] zakończone niepowodzeniem (niezgodna suma md5)"
 
 #: ../urpm/media.pm:1227
-#, fuzzy, c-format
+#, c-format
 msgid "genhdlist2 failed on %s"
-msgstr "badanie pliku hdlist [%s]"
+msgstr "polecenie genhdlist2 spowodowało błąd w %s"
 
 #: ../urpm/media.pm:1237
 #, c-format
@@ -1083,22 +1083,22 @@ msgstr "pobieranie [%s] nie powiodło się"
 #: ../urpm/mirrors.pm:19
 #, c-format
 msgid "trying again with mirror %s"
-msgstr ""
+msgstr "ponowna próba połączenia z serwerem %s"
 
 #: ../urpm/mirrors.pm:60
 #, c-format
 msgid "Could not find a mirror from mirrorlist %s"
-msgstr ""
+msgstr "Odnalezienie serwera na liście serwerów %s nie było możliwe"
 
 #: ../urpm/mirrors.pm:133
 #, c-format
 msgid "found geolocalisation %s %.2f %.2f from timezone %s"
-msgstr ""
+msgstr "odnaleziono lokalizację geograficzną %s %.2f %.2f na podstawie strefy czasowej %s"
 
 #: ../urpm/mirrors.pm:178
 #, c-format
 msgid "getting mirror list from %s"
-msgstr ""
+msgstr "pobieranie listy serwerów z %s"
 
 #: ../urpm/msg.pm:62 ../urpmi:506 ../urpmi:522 ../urpmi:611
 #, c-format
@@ -1625,9 +1625,9 @@ msgid "Can't open file"
 msgstr "Otworzenie pliku było niemożliwe "
 
 #: ../urpm/sys.pm:234
-#, fuzzy, c-format
+#, c-format
 msgid "Can't move file %s to %s"
-msgstr "Nie można użyć %s z %s"
+msgstr "Nie można przenieść pliku %s na %s"
 
 #: ../urpme:40
 #, c-format
@@ -1865,9 +1865,9 @@ msgid "  --fuzzy, -y    - impose fuzzy search.\n"
 msgstr "  --fuzzy, -y        - wymusza wyszukiwanie niespójności\n"
 
 #: ../urpmi:98
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildrequires - install the buildrequires of the packages\n"
-msgstr "  --requires     - wszystkie zależności.\n"
+msgstr "  --buildrequires - instaluje pakiety zależne wymagane do budowania \n"
 
 #: ../urpmi:99
 #, c-format
@@ -2101,9 +2101,9 @@ msgid "  --quiet, -q    - quiet mode.\n"
 msgstr "  --quiet, -q    - tryb cichy.\n"
 
 #: ../urpmi:152
-#, fuzzy, c-format
+#, c-format
 msgid "  --debug        - very verbose mode.\n"
-msgstr "  --verbose      - tryb komunikatywny.\n"
+msgstr "  --debug        - tryb bardzo komunikatywny..\n"
 
 #: ../urpmi:153
 #, c-format
@@ -2312,6 +2312,8 @@ msgid ""
 "dependencies:\n"
 "%s\n"
 msgstr ""
+"Aby zainstalować poniższe pakiety zależne uruchom polecenie urpmi z opcją --buildrequires.\n"
+"%s\n"
 
 #: ../urpmi:595
 #, c-format
@@ -2354,7 +2356,7 @@ msgstr "ponownie uruchamianie urpmi"
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2380,9 +2382,18 @@ msgstr ""
 "       [file:/]/<ścieżka>  <wzlględna nazwa pliku hdlist>\n"
 "       ftp://<login>:<hasło>@<komputer>/<ścieżka> <względna nazwa pliku "
 "hdlist>\n"
-"       ftp://<komputer>/<ścieżka> <wzlględna nazwa pliku hdlist>\n"
+"       ftp://<komputer>/<ścieżka> <względna nazwa pliku hdlist>\n"
 "       http://<komputer>/<ścieżka> <względna nazwa pliku hdlist>\n"
 "       removable://<ścieżka> <względna nazwa pliku hdlist>\n"
+"\n"
+"użycie: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
+"użycie: urpmi.addmedia [options] --mirrorlist <url> <name> <względna ścieżka>\n"
+"\n"
+"przykłady:\n"
+"\n"
+"  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
+"  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"\n"
 "\n"
 "zaś [opcje] mogą przyjmować wartości\n"
 
@@ -2415,6 +2426,9 @@ msgid ""
 "                   one of: never, on-demand, update-only, always. cf urpmi."
 "cfg(5)\n"
 msgstr ""
+"  --xml-info     - użyj jedną z zasad pobierania plików informacyjnych xml.\n"
+"                   Do wyboru są opcje: never, on-demand, update-only, always. cf urpmi."
+"cfg(5)\n"
 
 #: ../urpmi.addmedia:66
 #, c-format
@@ -2460,11 +2474,9 @@ msgstr ""
 "                   %s\n"
 
 #: ../urpmi.addmedia:76
-#, fuzzy, c-format
+#, c-format
 msgid "  --virtual      - create virtual media wich are always up-to-date.\n"
-msgstr ""
-"  --virtual      - tworzy nośniki, które są zawsze aktualne,\n"
-"                   dozwolony jest tylko protokół file://.\n"
+msgstr "  --virtual      - tworzy nośniki, które są zawsze aktualne,\n"
 
 #: ../urpmi.addmedia:77 ../urpmi.update:42
 #, c-format
@@ -2504,7 +2516,7 @@ msgstr "zasady korzystania z informacji o programach w formacie XML: %s"
 #: ../urpmi.addmedia:113
 #, c-format
 msgid "no argument needed for --distrib --mirrorlist <url>"
-msgstr ""
+msgstr "argument nie jest potrzebny dla opcji --distrib --mirrorlist <url>"
 
 #: ../urpmi.addmedia:118
 #, c-format
@@ -2553,9 +2565,9 @@ msgid "Can't use %s with remote medium"
 msgstr "Nie można użyć %s ze zdalnym nośnikiem"
 
 #: ../urpmi.addmedia:183
-#, fuzzy, c-format
+#, c-format
 msgid "unable to add medium"
-msgstr "nie można uzyskać dostępu do nośnika \"%s\""
+msgstr "dodanie nośnika nie było możliwe"
 
 #: ../urpmi.recover:28
 #, c-format
@@ -2937,11 +2949,13 @@ msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S   - wyświetla podsumowanie.\n"
 
 #: ../urpmq:85
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --requires-recursive, -d\n"
 "                   - query package dependencies.\n"
-msgstr "  -d             - rozszerza zapytania o zależności między pakietowe.\n"
+msgstr ""
+"  --requires-recursive, -d\n"
+"                   - rozszerza zapytania o zależności między pakietowe.\n"
 
 #: ../urpmq:87
 #, c-format
@@ -3032,27 +3046,27 @@ msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes może być użyta tylko z opcją --parallel"
 
 #: ../urpmq:360
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
-msgstr "brak pliku hdlist dla nośnika %s, uzyskano częściowe wyniki dla pakietu %s"
+msgstr "brak informacji xml dla nośnika \"%s\", uzyskano częściowe wyniki dla pakietu %s"
 
 #: ../urpmq:361
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
-msgstr "brak pliku hdlist dla nośnika %s, uzyskano częściowe wyniki dla pakietów %s"
+msgstr "brak  informacji xml  dla nośnika %s, uzyskano częściowe wyniki dla pakietów %s"
 
 #: ../urpmq:364
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr ""
-"brak pliku hdlist dla nośnika %s, uzyskanie wyników dla pakietu %s było "
+"brak  informacji xml  dla nośnika %s, uzyskanie wyników dla pakietu %s było "
 "niemożliwe"
 
 #: ../urpmq:365
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr ""
-"brak pliku hdlist dla nośnika %s, uzyskanie wyników dla pakietów %s było "
+"brak  informacji xml dla nośnika %s, uzyskanie wyników dla pakietów %s było "
 "niemożliwe"
 
 #: ../urpmq:429
