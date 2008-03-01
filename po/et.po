@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-25 11:14+0100\n"
-"PO-Revision-Date: 2008-02-22 23:31+0300\n"
+"PO-Revision-Date: 2008-03-01 17:11+0300\n"
 "Last-Translator: Marek Laane <bald@starman.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -608,14 +608,14 @@ msgid "unable to install package %s"
 msgstr "paketi %s paigaldamine ebaõnnestus"
 
 #: ../urpm/install.pm:196
-#, fuzzy, c-format
+#, c-format
 msgid "removing bad rpm (%s) from %s"
-msgstr "paigaldatud RPM-failide (%s) eemaldamine %s-st"
+msgstr "vigase RPM-faili (%s) eemaldamine %s-st"
 
 #: ../urpm/install.pm:197 ../urpm/install.pm:254
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s failed: %s"
-msgstr "...tõmbamine ebaõnnestus: %s"
+msgstr "%s eemaldamine ebaõnnestus: %s"
 
 #: ../urpm/install.pm:235
 #, c-format
@@ -728,11 +728,13 @@ msgid "Try harder to install (--force)? (y/N) "
 msgstr "Kas proovida paigaldust veel jõulisemalt (--force)? (j/E) "
 
 #: ../urpm/main_loop.pm:264
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
-msgstr "Paigaldamine ebaõnnestus:"
+msgstr ""
+"Paigaldamine ebaõnnestus, vigased RPM-failid:\n"
+"%s"
 
 #: ../urpm/main_loop.pm:270
 #, c-format
@@ -1071,22 +1073,22 @@ msgstr "[%] tõmbamine ebaõnnestus"
 #: ../urpm/mirrors.pm:19
 #, c-format
 msgid "trying again with mirror %s"
-msgstr ""
+msgstr "püütakse uuesti peegliga %s"
 
 #: ../urpm/mirrors.pm:60
 #, c-format
 msgid "Could not find a mirror from mirrorlist %s"
-msgstr ""
+msgstr "Peeglite nimekirjas %s ei leitud peeglit"
 
 #: ../urpm/mirrors.pm:133
 #, c-format
 msgid "found geolocalisation %s %.2f %.2f from timezone %s"
-msgstr ""
+msgstr "leiti geolokatsioon %s %.2f %.2f ajavööndist %s"
 
 #: ../urpm/mirrors.pm:178
-#, fuzzy, c-format
+#, c-format
 msgid "getting mirror list from %s"
-msgstr "[%s] RPM-failide lugemine"
+msgstr "%s peeglite nimekirja lugemine"
 
 #: ../urpm/msg.pm:62 ../urpmi:506 ../urpmi:522 ../urpmi:611
 #, c-format
@@ -1123,7 +1125,7 @@ msgstr "Väljalase"
 #: ../urpm/msg.pm:151
 #, c-format
 msgid "Arch"
-msgstr "Arhitektuur"
+msgstr "Arhit."
 
 #: ../urpm/msg.pm:160
 #, c-format
@@ -1620,9 +1622,9 @@ msgid "Can't open file"
 msgstr "Faili avamine nurjus"
 
 #: ../urpm/sys.pm:234
-#, fuzzy, c-format
+#, c-format
 msgid "Can't move file %s to %s"
-msgstr "%s kasutamine ei ole võimalik %s-ga"
+msgstr "Faili %s liigutamine asukohta %s ei ole võimalik"
 
 #: ../urpme:40
 #, c-format
@@ -2099,9 +2101,9 @@ msgid "  --quiet, -q    - quiet mode.\n"
 msgstr "  --quiet, -q    - vaikne režiim.\n"
 
 #: ../urpmi:152
-#, fuzzy, c-format
+#, c-format
 msgid "  --debug        - very verbose mode.\n"
-msgstr "  --verbose      - selgitav režiim.\n"
+msgstr "  --debug        - väga jutukas režiim.\n"
 
 #: ../urpmi:153
 #, c-format
@@ -2354,7 +2356,7 @@ msgstr "urpmi taaskäivitamine"
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2382,6 +2384,15 @@ msgstr ""
 "       ftp://<masin>/<asukoht>\n"
 "       http://<masin>/<asukoht>\n"
 "       removable://<asukoht>\n"
+"\n"
+"kasutamine: urpmi.addmedia [võtmed] --distrib --mirrorlist <url>\n"
+"kasutamine: urpmi.addmedia [võtmed] --mirrorlist <url> <nimi> <suhteline asukoht>\n"
+"\n"
+"näited:\n"
+"\n"
+"  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
+"  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"\n"
 "\n"
 "ja [võti] on üks järgmistest\n"
 
@@ -2464,11 +2475,9 @@ msgstr ""
 "                   on see %s\n"
 
 #: ../urpmi.addmedia:76
-#, fuzzy, c-format
+#, c-format
 msgid "  --virtual      - create virtual media wich are always up-to-date.\n"
-msgstr ""
-"  --virtual      - loob virtuaalse andmekandja, mis on alati värske,\n"
-"                   lubatud on ainult protokoll file://.\n"
+msgstr "  --virtual      - loob virtuaalse andmekandja, mis on alati värske.\n"
 
 #: ../urpmi.addmedia:77 ../urpmi.update:42
 #, c-format
@@ -2510,7 +2519,7 @@ msgstr "saadaolevad XML-info reeglid on %s"
 #: ../urpmi.addmedia:113
 #, c-format
 msgid "no argument needed for --distrib --mirrorlist <url>"
-msgstr ""
+msgstr "--distrib --mirrorlist <url> ei vaja mingeid argumente"
 
 #: ../urpmi.addmedia:118
 #, c-format
@@ -2559,9 +2568,9 @@ msgid "Can't use %s with remote medium"
 msgstr "%s kasutamine ei ole võimalik võrguandmekandjaga"
 
 #: ../urpmi.addmedia:183
-#, fuzzy, c-format
+#, c-format
 msgid "unable to add medium"
-msgstr "ligipääs andmekandjale \"%s\" ebaõnnestus"
+msgstr "andmekandja lisamine ebaõnnestus"
 
 #: ../urpmi.recover:28
 #, c-format
