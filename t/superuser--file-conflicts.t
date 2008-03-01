@@ -34,12 +34,9 @@ test_urpmi_same_transaction();
 test_urpmi_different_transactions();
 
 sub test_rpm_same_transaction {
-    if (rpm_is_jbj_version()) {
-	# ERROR: disabled, fail (#32528)
-    } else {
-	test_rpm_i_fail('a', 'b');
-	check_nothing_installed();
-    }
+
+    test_rpm_i_fail('a', 'b');
+    check_nothing_installed();
 
     test_rpm_i_succeeds('a', 'c');
     check_installed_and_remove('a', 'c');
@@ -47,12 +44,8 @@ sub test_rpm_same_transaction {
     test_rpm_i_succeeds('a', 'd');
     check_installed_and_remove('a', 'd');
 
-    if (rpm_is_jbj_version()) {
-	# ERROR: disabled, fail (#32528)
-    } else {
-	test_rpm_i_fail('a', 'e');
-	check_nothing_installed();
-    }
+    test_rpm_i_fail('a', 'e');
+    check_nothing_installed();
 
     test_rpm_i_succeeds('a', 'fa');
     check_installed_and_remove('a', 'fa');
@@ -111,12 +104,8 @@ sub test_rpm_different_transactions {
 }
 
 sub test_urpmi_same_transaction {
-    if (rpm_is_jbj_version()) {
-	# ERROR: disabled, fail (#32528)
-    } else {
-	test_urpmi_fail('a b');
-	check_nothing_installed();
-    }
+    test_urpmi_fail('a b');
+    check_nothing_installed();
 
     urpmi('a c');
     check_installed_and_remove('a', 'c');
@@ -124,12 +113,8 @@ sub test_urpmi_same_transaction {
     urpmi('a d');
     check_installed_and_remove('a', 'd');
 
-    if (rpm_is_jbj_version()) {
-	# ERROR: disabled, fail (#32528)
-    } else {
-	test_urpmi_fail('a e');
-	check_nothing_installed();
-    }
+    test_urpmi_fail('a e');
+    check_nothing_installed();
 
     urpmi('a fa');
     check_installed_and_remove('a', 'fa');
