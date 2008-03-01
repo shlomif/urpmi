@@ -63,7 +63,7 @@ sub rpmbuild {
     my ($spec, $o_medium_name) = @_;
 
     my $dir = getcwd();
-    system_("rpmbuild --quiet --define '_topdir $dir/tmp' --define '_tmppath $dir/tmp' -bb --clean --nodeps $spec");
+    system_("rpmbuild --quiet --define 'rpm_version %(rpm -q --queryformat \"%{VERSION}\" rpm|sed -e \"s/\\\\.//g\")' --define '_topdir $dir/tmp' --define '_tmppath $dir/tmp' -bb --clean --nodeps $spec");
 
     my ($name) = $spec =~ m!([^/]*)\.spec$!;
 
