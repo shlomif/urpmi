@@ -356,7 +356,7 @@ sub add_urpmf_parameter {
 	# quote "+" chars for packages with + in their names
 	$p =~ s/\+/\\+/g;
     }
-    $::expr .= "m{$p}" . $::pattern;
+    $::expr .= ($::expr ? ' || ' : '') . "m{$p}" . $::pattern;
 }
 
 # common options setup
