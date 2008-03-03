@@ -170,7 +170,7 @@ my %options_spec = (
 	noscripts => sub { $urpm->{options}{noscripts} = 1 },
 	repackage => sub { $urpm->{options}{repackage} = 1 },
 	'more-choices' => sub { $urpm->{options}{morechoices} = 1 },
-	'expect-install!' => \$::expect_install,
+	'expect-install!' => \$::urpm::main_loop::expect_install,
 	'nolock' => \$options{nolock},
 	restricted => \$::restricted,
 	'no-md5sum' => \$::nomd5sum,
