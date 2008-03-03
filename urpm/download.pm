@@ -262,6 +262,7 @@ sub sync_wget {
 	@_
     ) . " |";
     $options->{debug} and $options->{debug}($wget_command);
+    local $ENV{LC_ALL} = 'C';
     my $wget_pid = open(my $wget, $wget_command);
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
     local $_;
@@ -269,18 +270,19 @@ sub sync_wget {
 	$buf .= $_;
 	if ($_ eq "\r" || $_ eq "\n") {
 	    if ($options->{callback}) {
-		if ($buf =~ /^--\d\d:\d\d:\d\d--\s+(\S.*)\n/ms) {
-		    if ($file && $file ne $1) {
+		if ($buf =~ /^--(\d\d\d\d-\d\d-\d\d )?\d\d:\d\d:\d\d--\s+(\S.*)\n/ms) {
+		    my $file_ = $2;
+		    if ($file && $file ne $file_) {
 			propagate_sync_callback($options, 'end', $file);
 			undef $file;
 		    }
-		    ! defined $file and propagate_sync_callback($options, 'start', $file = $1);
-		} elsif (defined $file && ! defined $total && $buf =~ /==>\s+RETR/) {
+		    ! defined $file and propagate_sync_callback($options, 'start', $file = $file_);
+		} elsif (defined $file && ! defined $total && ($buf =~ /==>\s+RETR/ || $buf =~ /200 OK$/)) {
 		    $total = '';
-		} elsif (defined $total && $total eq '' && $buf =~ /^[^:]*:\s+(\d\S*)/) {
+		} elsif ($buf =~ /^Length:\s*(\d\S*)/) {
 		    $total = $1;
-		} elsif (defined $total && $buf =~ /^\s*(\d+)%.*\s+(\S+)\s+ETA\s+(\S+)\s*[\r\n]$/ms) {
-		    my ($percent, $speed, $eta) = ($1, $2, $3);
+		} elsif (defined $total && $buf =~ m!^\s*(\d+)%.*\s+(\S+/s)\s+((ETA|eta)\s+(.*?)\s*)?[\r\n]$!ms) {
+		    my ($percent, $speed, $eta) = ($1, $2, $5);
 		    if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
 			kill 15, $wget_pid;
 			close $wget;
