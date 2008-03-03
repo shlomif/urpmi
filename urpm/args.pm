@@ -69,6 +69,7 @@ my %options_spec = (
 	"help|h" => sub { gurpmi::usage() },
  	'root=s' => sub { set_root($urpm, $_[1]) },
 	'searchmedia|search-media=s' => sub { $urpm->{options}{searchmedia} = 1 },
+	'test!' => \$::test,
 	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
     },
 
