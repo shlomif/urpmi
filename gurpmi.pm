@@ -81,7 +81,7 @@ sub parse_command_line() {
 	}
 	
     }
-    $options{'auto-select'} || @all_rpms + @names
+    $::auto_select || @all_rpms + @names
 	or fatal(N("No packages specified"));
     return @all_rpms;
 }
