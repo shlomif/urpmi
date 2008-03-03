@@ -126,11 +126,14 @@ my $urpm = urpm->new_parse_cmdline or exit(1);
 $urpm->{info} = sub { print STDERR "$_[0]\n" };
 $urpm->{log} = sub { print STDERR "$_[0]\n" } if $options{verbose} > 0;
 
+my $only_list_name = $options{list} && !($options{version} && $options{release} && $options{arch});
+
 #- improve speed if using any list_... options.
 $options{nodepslist} = $options{list_aliases}
 				|| $options{list_nodes}
 				|| $options{list_media}
 				|| $options{dump_config}
+				|| $only_list_name # urpmq will parse synthesis only if names.* are not already there
 				|| $options{list_url};
 $options{nolock} = 1 if $options{nodepslist};
 
@@ -204,8 +207,24 @@ if ($options{list_aliases}) {
     exit 0;
 } elsif ($options{list}) {
     !@names && !@src_names or $urpm->{fatal}(1, N("use -l to list files"));
-    # --list lists all available packages: select them all
-    @{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
+
+    if ($only_list_name) {
+	# special code, much faster
+	my @media = urpm::media::non_ignored_media($urpm, $options{update});
+	my @names_files = grep { -e $_ } map { urpm::media::statedir_names($urpm, $_) } @media;
+
+	if (@media == @names_files) {
+	    $urpm->{log}("using " . join(' ', @names_files));
+	    print sort map { cat_($_) } @names_files;
+	} else {
+	    urpm::media::parse_media($urpm, \%options);
+	    print sort map { $_->name . "\n" } @{$urpm->{depslist}};
+	}
+	# we're done now, but we don't exit here so locks are correctly released if needed
+    } else {
+	# use the generic code
+	@{$state->{selected}}{0 .. $#{$urpm->{depslist}}} = ();
+    }
 } else {
     %requested = $urpm->register_rpms(@files);
 

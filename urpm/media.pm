@@ -617,6 +617,8 @@ sub parse_media {
 	    $urpm->{searchmedia} = 1;
 	    $urpm->{log}(N("Search start: %s end: %s", $_->{start}, $_->{end}));
 	}
+
+        $< == 0 and _generate_medium_names($urpm, $_);
     }
 }
 
@@ -1036,6 +1038,22 @@ sub reconfig_urpmi {
 	$urpm->{modified} = 1;
     }
     $reconfigured;
+}
+
+#- names.<media_name> is used by external progs (namely for bash-completion)
+sub _generate_medium_names {
+    my ($urpm, $medium) = @_;
+
+    -e statedir_names($urpm, $medium) and return;
+
+    my $fh = urpm::sys::open_safe($urpm, ">", statedir_names($urpm, $medium)) or return;
+
+    foreach ($medium->{start} .. $medium->{end}) {
+	my $pkg = $urpm->{depslist}[$_] or 
+	  $urpm->{error}(N("Error generating names file: dependency %d not found", $_)), return;
+
+	print $fh $urpm->{depslist}[$_]->name . "\n";
+    }
 }
 
 sub _guess_synthesis_suffix {
@@ -1509,6 +1527,9 @@ sub _update_medium_ {
 	}
     }
     $medium->{modified} = 0;
+
+    # generated on first _parse_media()
+    unlink statedir_names($urpm, $medium);
 
     _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
     $medium->{'key-ids'} ||= _read_cachedir_pubkey($urpm, $medium, $options{wait_lock});

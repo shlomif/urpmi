@@ -3,6 +3,8 @@
   o use hal to wait-for/mount cdroms: 
     you can now use more than one cdrom drive
   o fix download progression using wget
+  o restore generation of /var/lib/urpmi/names.<medium>, but it is now done in
+    urpmq/urpmi/urpmf (and so only if used as root)
 - gurpmi:
   o exit immediately on success in automatic mode
   o fix --auto-select option
@@ -23,6 +25,8 @@
   o do not copy rpms from cdrom if only one cdrom is used (#28083)
 - urpmf:
   o fix searching for more than one pattern (#38286)
+- urpmq:
+  o --list: speed it up (2.5x faster, and 6x faster with names.<medium>)
 
 Version 5.6 - 26 February 2008, by Pascal "Pixel" Rigaux
 
