@@ -14,7 +14,7 @@ need_root_and_prepare();
 my $name = 'split-transactions';
 urpmi_addmedia("$name $::pwd/media/$name");    
 
-test_urpmi("--auto --split-length 1 c d", <<'EOF');
+test_urpmi("--auto --split-length 1 c d", <<'EOF', <<'EOF');
 Preparing...
       1/4: a
       2/4: b
@@ -23,10 +23,18 @@ Preparing...
 Preparing...
       4/4: d
 EOF
+Preparing...
+      1/4: b
+      2/4: a
+Preparing...
+      3/4: c
+Preparing...
+      4/4: d
+EOF
 check_installed_names('a', 'b', 'c', 'd');
 
 sub test_urpmi {
-    my ($para, $wanted) = @_;
+    my ($para, $wanted_a, $wanted_b) = @_;
     my $s = run_urpm_cmd("urpmi $para");
     print $s;
 
@@ -34,5 +42,5 @@ sub test_urpmi {
     $s =~ s/^installing .*//gm;
     $s =~ s/^\n//gm;
 
-    ok($s eq $wanted, "$wanted in $s");
+    ok($s eq $wanted_a || $s eq $wanted_b, "$wanted_a in $s");
 }
