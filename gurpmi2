@@ -261,7 +261,7 @@ sub do_install_3 () {
         },
         copy_removable => sub {
             my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok-cancel',
-                                             N("Please insert the medium named \"%s\" on device [%s]", $_[0], $_[1])
+                                             N("Please insert the medium named \"%s\"", $_[0])
                                          );
             my $response = $w->run;
             $w->destroy;
