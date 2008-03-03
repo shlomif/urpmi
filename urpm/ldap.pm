@@ -7,7 +7,7 @@ use warnings;
 use urpm;
 use urpm::util;
 use urpm::msg 'N';
-use Net::LDAP;
+require Net::LDAP;
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
