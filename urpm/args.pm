@@ -62,6 +62,8 @@ my %options_spec = (
     gurpmi => {
 	auto => sub { $urpm->{options}{auto} =  1 },
 	'auto-select' => \$::auto_select,
+        # actually ignored (only for compat with do_pkgs), copy_removable() callback is always given:
+	'allow-medium-change' => \$::allow_medium_change,
 	'expect-install!' => \$::urpm::main_loop::expect_install,
 	'media|mediums=s' => sub { $urpm->{options}{media} = 1 },
 	"help|h" => sub { gurpmi::usage() },
