@@ -22,6 +22,7 @@ use strict;
 use Gtk2;
 use urpm::util;
 use urpm::msg;
+use urpm::args;
 
 use Exporter;
 our @ISA = qw(Exporter);
@@ -53,6 +54,13 @@ sub parse_command_line() {
     my @all_rpms;
     our %options;
     our @names;
+
+    # keep a copy for gurpmi2
+    {
+        local @ARGV = @ARGV;
+        urpm::args::parse_cmdline(urpm => { options => \%options});
+    }
+
     # Expand *.urpmi arguments
     my @ARGV_expanded;
     foreach my $a (@ARGV) {
@@ -64,21 +72,8 @@ sub parse_command_line() {
 	    push @ARGV_expanded, $a;
 	}
     }
-    my $nextopt;
     foreach (@ARGV_expanded) {
-	if ($nextopt) { $options{$nextopt} = $_; undef $nextopt; next }
-	if (/^-/) {
-	    if (/^--(no-verify-rpm|auto-select|auto)$/) {
-		$options{$1} = 1;
-		next;
-	    }
-	    if (/^--(media|searchmedia|root)$/) {
-		$nextopt = $1;
-		next;
-	    }
-	    /^--?[hv?]/ and usage();
-	    fatal(N("Unknown option %s", $_));
-	}
+	next if /^-/;
 	if (-f $_) {
 	    push @all_rpms, $_;
 	} else {

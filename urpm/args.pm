@@ -59,6 +59,16 @@ my %options_spec_all = (
 
 my %options_spec = (
 
+    gurpmi => {
+	auto => sub { $urpm->{options}{auto} =  1 },
+	'auto-select' => sub { $urpm->{options}{auto_select} = 1 },
+	'media|mediums=s' => sub { $urpm->{options}{media} = 1 },
+	"help|h" => sub { gurpmi::usage() },
+ 	'root=s' => sub { set_root($urpm, $_[1]) },
+	'searchmedia|search-media=s' => sub { $urpm->{options}{searchmedia} = 1 },
+	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
+    },
+
     urpmi => {
 	"version" => sub { require urpm; print "$tool $urpm::VERSION\n"; exit(0) },
 	"help|h" => sub {
@@ -337,6 +347,9 @@ my %options_spec = (
     },
 
 );
+
+$options_spec{gurpmi2} = $options_spec{gurpmi};
+
 
 # generate urpmf options callbacks
 sub add_urpmf_cmdline_tags {
