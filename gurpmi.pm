@@ -39,6 +39,7 @@ Options :
     --no-verify-rpm
     --media media1,...
     --root root
+    --test
     --searchmedia media1,...
 USAGE
     exit 0;
