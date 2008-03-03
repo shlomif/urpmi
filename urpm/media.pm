@@ -359,11 +359,11 @@ sub any_media_info_file {
 }
 sub any_hdlist {
     my ($urpm, $medium, $quiet) = @_;
-    any_media_info_file($urpm, $medium, 'hdlist', '.cz', $quiet);
+    any_media_info_file($urpm, $medium, 'hdlist', '.cz', $quiet, \&urpm::download::sync_logger);
 }
 sub any_xml_info {
     my ($urpm, $medium, $xml_info, $quiet, $o_callback) = @_;
-    any_media_info_file($urpm, $medium, $xml_info, '.xml.lzma', $quiet, $o_callback);
+    any_media_info_file($urpm, $medium, $xml_info, '.xml.lzma', $quiet, $o_callback || \&urpm::download::sync_logger);
 }
 
 sub name2medium {
