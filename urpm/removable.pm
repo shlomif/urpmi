@@ -9,7 +9,7 @@ use urpm 'file_from_local_medium';
 
 
 
-sub _file_or_synthesis_dir {
+sub file_or_synthesis_dir {
     my ($medium, $o_url) = @_;
     
     urpm::media::_valid_synthesis_dir($medium) && !$o_url ? 
@@ -47,7 +47,7 @@ sub _try_mounting_medium {
 sub _try_mounting_local {
     my ($urpm, $medium, $o_url) = @_;
 
-    my $dir = _file_or_synthesis_dir($medium, $o_url);
+    my $dir = file_or_synthesis_dir($medium, $o_url);
     -e $dir and return 1;
 
     $medium->{iso} ? _try_mounting_iso($urpm, $dir, $medium->{iso}) : _try_mounting_using_fstab($urpm, $dir);
