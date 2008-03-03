@@ -119,6 +119,7 @@ sub configure_urpm() {
 	    $text->get_buffer->set_text($message);
 	    $_->show foreach $f, $sw, $text;
 	    $w->set_size_request(400, 400);
+	    $w->set_default_response('ok');
 	} else {
 	    $w  = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok', $message);
 	}
@@ -163,6 +164,7 @@ sub ask_choice {
 	exit 0 if $_[1] == 0; #- "cancel"
     });
     $radios[0]->set_active(1);
+    $d->set_default_response(1); # defaults to ok
     $d->show_all;
     $d->run;
     $choices->[$n];
@@ -178,6 +180,8 @@ sub ask_continue {
     $continue_button->signal_connect(clicked => sub { goto &$nextclosure });
     add_button_box($vbox, $quit_button, $continue_button);
     change_mainw($vbox);
+    # default is to continue, but according to some HIG, warning should reverse the choise and defaults to abort
+    $mainw->set_focus($continue_button); # also set_default should be called but it gives a warning!
 }
 
 sub ask_continue_blocking {
@@ -291,6 +295,7 @@ sub do_install_3 () {
             $quit_button->signal_connect(clicked => \&quit);
             add_button_box($vbox, $quit_button);
             change_mainw($vbox);
+            $mainw->set_focus($quit_button);
         },
         missing_files_summary => sub {
             my ($error_sources) = @_;
