@@ -574,9 +574,9 @@ sub configure {
 	}
 	_auto_update_media($urpm, %options) or return;
 
-	_pick_mirror_if_needed($urpm, $_, '') foreach grep { !$_->{ignore} } @{$urpm->{media}};
+	_pick_mirror_if_needed($urpm, $_, '') foreach non_ignored_media($urpm, $options{update});
 
-	_parse_media($urpm, \%options) if !$options{nodepslist};
+	parse_media($urpm, \%options) if !$options{nodepslist};
 
     #- determine package to withdraw (from skip.list file) only if something should be withdrawn.
     if (!$options{nodepslist}) {
@@ -593,17 +593,23 @@ sub _auto_update_media {
     $options{callback} = delete $options{download_callback};
 
     my $errors;
-    foreach (grep { !$_->{ignore} && (!$options{update} || $_->{update}) && 
-		      ($_->{force_auto_update} || _is_remote_virtual($_)) } @{$urpm->{media} || []}) {
+    foreach (grep { $_->{force_auto_update} || _is_remote_virtual($_) } 
+	       non_ignored_media($urpm, $options{update})) {
 	_update_medium($urpm, $_, %options) or $errors++;
     }
     !$errors;
 }
 
-sub _parse_media {
+sub non_ignored_media {
+    my ($urpm, $b_only_marked_update) = @_;
+
+    grep { !$_->{ignore} && (!$b_only_marked_update || $_->{update}) } @{$urpm->{media} || []};
+}
+
+sub parse_media {
     my ($urpm, $options) = @_;
 
-    foreach (grep { !$_->{ignore} && (!$options->{update} || $_->{update}) } @{$urpm->{media} || []}) {
+    foreach (non_ignored_media($urpm, $options->{update})) {
 	delete @$_{qw(start end)};
 	_parse_synthesis_or_ignore($urpm, $_, $options->{callback});
 
@@ -1527,7 +1533,7 @@ sub _update_medium {
 sub _update_media__handle_some_flags {
     my ($urpm, $forcekey, $all) = @_;
 
-    foreach my $medium (grep { !$_->{ignore} } @{$urpm->{media}}) {
+    foreach my $medium (non_ignored_media($urpm)) {
 	$forcekey and delete $medium->{'key-ids'};
 
 	if ($medium->{static}) {
@@ -1568,7 +1574,7 @@ sub update_media {
     _update_media__handle_some_flags($urpm, $options{forcekey}, $options{all});
 
     my %updates_result;
-    foreach my $medium (grep { !$_->{ignore} && $_->{modified} } @{$urpm->{media}}) {
+    foreach my $medium (grep { $_->{modified} } non_ignored_media($urpm)) {
 	my $rc = _update_medium($urpm, $medium, %options);
 	$updates_result{$rc || 'error'}++;
     }

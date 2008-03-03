@@ -337,7 +337,7 @@ sub get_updates_description {
     my %update_descr;
     my ($cur, $section);
 
-    @update_medias or @update_medias = grep { !$_->{ignore} && $_->{update} } @{$urpm->{media}};
+    @update_medias or @update_medias = urpm::media::non_ignored_media($urpm, 'update');
 
     foreach my $medium (@update_medias) {
         # fix not taking into account the last %package token of each descrptions file: '%package dummy'
