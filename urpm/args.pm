@@ -59,6 +59,7 @@ my %options_spec_all = (
 
 my %options_spec = (
 
+    # warning: for gurpm, urpm is _not_ a real urpmi object, only options should be altered:
     gurpmi => {
 	auto => sub { $urpm->{options}{auto} =  1 },
 	'auto-select' => \$::auto_select,
