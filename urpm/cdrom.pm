@@ -80,7 +80,6 @@ sub _try_mounting_cdrom_using_hal {
 
 #- side-effects:
 #-   + those of try_mounting_cdrom ($urpm->{cdrom_mounted}, $blists_url->[_]{medium}{mntpoint}, "hal_mount")
-#-   + those of _try_mounting_medium ($urpm->{cdrom_mounted}, $blists_url->[_]{medium}{mntpoint})
 sub _mount_cdrom_and_check {
     my ($urpm, $blists) = @_;
 
