@@ -1052,7 +1052,7 @@ sub _generate_medium_names {
 	my $pkg = $urpm->{depslist}[$_] or 
 	  $urpm->{error}(N("Error generating names file: dependency %d not found", $_)), return;
 
-	print $fh $urpm->{depslist}[$_]->name . "\n";
+	print $fh $pkg->name . "\n";
     }
 }
 
