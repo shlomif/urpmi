@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2007-09-26 20:03+0200\n"
 "Last-Translator: Jaegeum Choe <baedaron@hananet.net>\n"
 "Language-Team: Korean <baedaron@hananet.net>\n"
@@ -103,12 +103,7 @@ msgstr "취소 (_C)"
 msgid "Choose location to save file"
 msgstr "파일 선택"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr "알 수 없는 연결 유형"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "선택된 패키지 목록 저장"
@@ -217,12 +212,12 @@ msgstr "부트 로더 준비중"
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "패키지 설치 중: [%s] (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "장치 [%2$s]에 「%1$s」미디어를 넣으세요."
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, fuzzy, c-format
 msgid "Downloading package `%s'..."
 msgstr "패키지 내려받는 중: [%s] (%s/%s)..."
@@ -415,6 +410,16 @@ msgstr "너무 많은 인수.\n"
 #, fuzzy, c-format
 msgid "Copying failed"
 msgstr "로그인에 실패했습니다"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "매체 [%s]는 사용할 수 없습니다.."
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -726,7 +731,12 @@ msgstr "의존성 검사없이 설치합니까? (y/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "설치를 강제 추진합니까? (y/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -738,11 +748,6 @@ msgstr "설치 실패."
 msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "설치 실패."
-
-#: ../urpm/main_loop.pm:281
-#, fuzzy, c-format
-msgid "Installation is possible"
-msgstr "설치 문제"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -768,6 +773,11 @@ msgstr "[%s] 팩키지를 설치할 수 없습니다."
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "[%s] 팩키지를 설치할 수 없습니다."
+
+#: ../urpm/main_loop.pm:307
+#, fuzzy, c-format
+msgid "Installation is possible"
+msgstr "설치 문제"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -800,29 +810,9 @@ msgid "trying to override existing medium \"%s\", skipping"
 msgstr "존재하지 않는 매체「%s」 선택 시도"
 
 #: ../urpm/media.pm:409
-#, fuzzy, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "「%s」매체를 생성할 수 없습니다.\n"
-
-#: ../urpm/media.pm:410
-#, fuzzy, c-format
-msgid "taking removable device as \"%s\""
-msgstr "탈착식 장치"
-
-#: ../urpm/media.pm:413
 #, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "「%s」매체는 ISO 이미지 입니다. on-the-fly 마운트 되어질 것입니다. "
-
-#: ../urpm/media.pm:416
-#, fuzzy, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "\"%s\"에 대해 다른 탈착식 장치 [%s]를 사용"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, fuzzy, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "이동식 「%s」매체를 생성할 수 없습니다.\n"
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -881,12 +871,7 @@ msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
 msgid "adding medium \"%s\""
 msgstr "%s 제거 중"
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "이 위치는 어느 제품에서 포함되어있지 않는 듯 합니다."
@@ -1001,17 +986,7 @@ msgstr "hdlist 파일 [%s] 생성 중"
 msgid "comparing %s and %s"
 msgstr "%s 삭제 중...\n"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"매체 \"%s\",에 접속할 수 없습니다, 매체를 생성할때 디렉토리가 \n"
-"수동으로 마운트 되었을 수도 있습니다."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "매체「%s」에 대한 목록 파일을 찾을 수 없습니다."
@@ -1178,35 +1153,20 @@ msgstr "nodes의 패러럴 핸들러 발견: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr " 패러럴 옵션 \"%s\"를 사용할 수 없습니다.\n"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "매체「%s」에 접근할 수 없습니다."
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "%s 마운트 중"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "%s 마운트 해제 중"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "매체 [%s]는 사용할 수 없습니다.."
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "매체「%2$s」에서 RPM 파일「%1$s」를 읽을 수 없습니다."
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "일치되지 않는 매체 \"%s\" 는 제거할 수 있지만 아닐 수도 있습니다."
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "매체「%s」에 접근할 수 없습니다."
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2233,18 +2193,18 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 
-#: ../urpmi:621
-#, fuzzy, c-format
-msgid "Press Enter when ready..."
-msgstr "다 되었으면 ENTER키를 누르세요..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "취소"
@@ -2265,7 +2225,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2376,12 +2336,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, fuzzy, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -v             - 상세 정보 모드.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, fuzzy, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -v             - 상세 정보 모드.\n"
@@ -2799,20 +2754,30 @@ msgstr "  --help         - 이 도움말 출력.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
-msgid "  --provides     - print provides.\n"
+msgid "  --conflicts    - print conflicts.\n"
 msgstr "  -v             - 상세 정보 모드.\n"
 
 #: ../urpmq:82
 #, fuzzy, c-format
+msgid "  --provides     - print provides.\n"
+msgstr "  -v             - 상세 정보 모드.\n"
+
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  -v             - 상세 정보 모드.\n"
+
+#: ../urpmq:84
+#, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --help         - 이 도움말 출력.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr ""
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2900,7 +2865,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr ""
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "「%s」의 목록 파일을 기록할 수 없습니다."
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -2934,6 +2904,52 @@ msgstr ""
 #, fuzzy, c-format
 msgid "No changelog found\n"
 msgstr "하드 디스크를 찾을 수 없습니다."
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr "알 수 없는 연결 유형"
+
+#, fuzzy
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "「%s」매체를 생성할 수 없습니다.\n"
+
+#, fuzzy
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "탈착식 장치"
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "「%s」매체는 ISO 이미지 입니다. on-the-fly 마운트 되어질 것입니다. "
+
+#, fuzzy
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "\"%s\"에 대해 다른 탈착식 장치 [%s]를 사용"
+
+#, fuzzy
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "이동식 「%s」매체를 생성할 수 없습니다.\n"
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "「%s」의 목록 파일에 접근할 수 없습니다. 매체 무시됨."
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "매체 \"%s\",에 접속할 수 없습니다, 매체를 생성할때 디렉토리가 \n"
+#~ "수동으로 마운트 되었을 수도 있습니다."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "일치되지 않는 매체 \"%s\" 는 제거할 수 있지만 아닐 수도 있습니다."
+
+#, fuzzy
+#~ msgid "Press Enter when ready..."
+#~ msgstr "다 되었으면 ENTER키를 누르세요..."
+
+#, fuzzy
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -v             - 상세 정보 모드.\n"
 
 #, fuzzy
 #~ msgid "virtual medium needs to be local"
@@ -3149,9 +3165,6 @@ msgstr "하드 디스크를 찾을 수 없습니다."
 #, fuzzy
 #~ msgid "copying source hdlist (or synthesis) of \"%s\"..."
 #~ msgstr "목록 파일에「%s」에 대한 기록이 없습니다."
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "「%s」의 목록 파일을 기록할 수 없습니다."
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "목록 파일에「%s」에 대한 기록이 없습니다."

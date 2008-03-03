@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2002-11-25 13:52-0500\n"
 "Last-Translator: Wachara Chinsettawong <wachara@yahoo.com>\n"
 "Language-Team: Thai <th@li.org>\n"
@@ -89,14 +89,7 @@ msgstr "_ยกเลิก"
 msgid "Choose location to save file"
 msgstr ""
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr ""
-"\n"
-"ทางเลือกไม่รู้จัก '%s'\n"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "ไม่มีการกำหนดคำสั่ง"
@@ -202,12 +195,12 @@ msgstr ""
 "กำลังติดตั้งแพ็คเก็จ %s\n"
 "%d%%"
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "กรุณาใส่อุปกรณ์ที่มีชื่อ \"%s\" ใน [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, fuzzy, c-format
 msgid "Downloading package `%s'..."
 msgstr "กำลังติดตั้งแพ็คเก็จ %s"
@@ -395,6 +388,16 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Copying failed"
 msgstr "ล็อกอินล้มเหลว"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "อุปกรณ์ \"%s\" ไม่ได้ถูกเลือก"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "ไม่สามารถอ่าน rpm file [%s] จาก \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -702,7 +705,12 @@ msgstr "ต้องการทดลองติดตั้งโดยที
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "ต้องการทดลองบังคับติดตั้ง (--force)? (y/N)"
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -714,11 +722,6 @@ msgstr "การติดตั้งไม่สำเร็จ"
 msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "การติดตั้งไม่สำเร็จ"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "การติดตั้งสามารถทำได้"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -744,6 +747,11 @@ msgstr "ทุกอย่างได้ถูกติดตั้งเรี
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "ทุกอย่างได้ถูกติดตั้งเรียบร้อยแล้ว"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "การติดตั้งสามารถทำได้"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -777,28 +785,8 @@ msgstr "กำลังเลี่ยงการทำงานของอุ
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "จำนวนเม้าท์พ้อยท์มากเกินไปสำหรับอุปกรณ์แบบเคลื่อนย้ายได้\"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "กำลังนำอุปกรณ์ที่เคลื่อนย้ายได้จาก \"%s\" ออกมา"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgid "failed to migrate removable device, ignoring media"
 msgstr ""
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "ใช้อุปกรณ์แบบย้ายเข้าออกได้ที่แตกต่าง [%s] สำหรับ \"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "ไม่สามาถจะดึงส่วนของ pathname สำหรับอุปกรณ์แบบเคลื่อนย้ายได้\"%s\""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -857,12 +845,7 @@ msgstr "กำลังทำการอ่าน headers จากอุปก
 msgid "adding medium \"%s\""
 msgstr "กำลังทำการย้ายออกอุปกรณ์\"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "ไม่สามารถเข้าถึงอุปกรณ์เพื่อใช้ในการติดตั้งอันแรก"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -977,15 +960,7 @@ msgstr "กำลังตรวจสอบไฟล์ hdlist [%s]"
 msgid "comparing %s and %s"
 msgstr "กำลังติดตั้ง %s\n"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "ไม่พบ hdlist file สำหรับอุปกรณ์\"%s\""
@@ -1152,35 +1127,20 @@ msgstr "พบ parallel handler สำหรับ %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "ไม่สามารถใช้ parallel option \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "ไม่สามารถใช้อุปกรณ์\"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "กำลังติดตั้ง %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "กำลังถอดถอน %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "อุปกรณ์ \"%s\" ไม่ได้ถูกเลือก"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "ไม่สามารถอ่าน rpm file [%s] จาก \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "อุปกรณ์ที่ไม่เชื่อมกัน \"%s\" ถูกระบุว่าถอดเปลี่ยนได้แต่มันไม่ใช่"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "ไม่สามารถใช้อุปกรณ์\"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2212,18 +2172,18 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "กรุณากด enter เมื่อพร้อม"
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "ยกเลิก"
@@ -2244,7 +2204,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2347,12 +2307,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - ทำความสะอาดส่วน headers ของไดเร็คตอรี่ cache \n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - โหมดเงียบ\n"
@@ -2762,20 +2717,30 @@ msgstr "  --help         - พิมพ์ข้อความช่วย\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    -พิมพ์ tag ที่เข้ากันไม่ได้:เข้ากันไม่ได้ทั้งหมด(หลายบรรทัด)."
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     -พิมพ์  tag provides: all provides (หลายบรรทัด). "
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - พิมพ์  tag ที่ต้องการ:ที่ต้องการทั้งหมด(หลายบรรทัด)."
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --group        - พิมพ์ tag group: group."
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, fuzzy, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary      - พิมพ์ tag summary: summary"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2864,7 +2829,12 @@ msgstr "ชื่อของไฟล์หรือของ rpm ที่ใ�
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes can only be used with --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "ไม่สามารถเขียน list file ของ\"%s\""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -2890,6 +2860,37 @@ msgstr ""
 #, fuzzy, c-format
 msgid "No changelog found\n"
 msgstr "ไม่พบรุปภาพ"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr ""
+#~ "\n"
+#~ "ทางเลือกไม่รู้จัก '%s'\n"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "จำนวนเม้าท์พ้อยท์มากเกินไปสำหรับอุปกรณ์แบบเคลื่อนย้ายได้\"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "กำลังนำอุปกรณ์ที่เคลื่อนย้ายได้จาก \"%s\" ออกมา"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "ใช้อุปกรณ์แบบย้ายเข้าออกได้ที่แตกต่าง [%s] สำหรับ \"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "ไม่สามาถจะดึงส่วนของ pathname สำหรับอุปกรณ์แบบเคลื่อนย้ายได้\"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "ไม่สามารถเข้าถึงอุปกรณ์เพื่อใช้ในการติดตั้งอันแรก"
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "อุปกรณ์ที่ไม่เชื่อมกัน \"%s\" ถูกระบุว่าถอดเปลี่ยนได้แต่มันไม่ใช่"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "กรุณากด enter เมื่อพร้อม"
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - ทำความสะอาดส่วน headers ของไดเร็คตอรี่ cache \n"
 
 #, fuzzy
 #~ msgid "virtual medium needs to be local"
@@ -3108,9 +3109,6 @@ msgstr "ไม่พบรุปภาพ"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "ไฟล์ [%s] มีใช้งานอยู่ในที่เดียวกันอยู่แล้ว\"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "ไม่สามารถเขียน list file ของ\"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "ไม่มีการเขียนใน list file สำหรับ\"%s\""

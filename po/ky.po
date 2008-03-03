@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ky\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2005-07-13 13:23+0000\n"
 "Last-Translator: Timur Jamakeev <ztimur@mail..ru>\n"
 "Language-Team: Kyrgyz\n"
@@ -103,14 +103,7 @@ msgstr "_Калтыруу"
 msgid "Choose location to save file"
 msgstr "Сактоо үчүн орун тандаңыз"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr ""
-"\n"
-"белгисиз опциялар: '%s'\n"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "%s аттуу пакет жок"
@@ -224,12 +217,12 @@ msgstr "Даярдоо ..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Пакет орнотулууда: `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "\"%s\" аттуу булагын [%s] түзүлүшүнө орнотуңуз"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "`%s' пакети жүктөлүүдө..."
@@ -420,6 +413,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "Көчүрүү ишке ашпады"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "\"%s\" булагы тандалган эмес"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "[%s] rpm файлын \"%s\" булагынан окуу мүмкүн эмес"
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -729,7 +732,12 @@ msgstr "Көз карадылыктарды эске албай орнотуп �
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Мажбурлап орнотуп көрөйүнбү (--force)? (y/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -742,11 +750,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d орнотуу транзакциялары ишке ашпады"
 msgstr[1] "%d орнотуу транзакциялары ишке ашпады"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Орнотууга мүмкүн"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -772,6 +775,11 @@ msgstr "Бардыгы алдагачан орнотулган"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "Бардыгы алдагачан орнотулган"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Орнотууга мүмкүн"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -806,31 +814,8 @@ msgstr "\"%s\" бар булагынан аттап өтүү аракети, к�
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
+msgid "failed to migrate removable device, ignoring media"
 msgstr ""
-" \"%s\" чыгарылып алынуучу булагы үчүн бириктирүү чекиттери өтө эле көп "
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "чыгарылып алынуучу түзүлүш \"%s\" катары каралууда"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr ""
-"\"%s\" булагы ISO сүрөттөлүшү болуп эсептелет жана ал автоматтык түрдө "
-"туташылат"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "[%s] башка чыгарып алынуучу түзүлүш колдонулууда; \"%s\" үчүн"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "\"%s\" чыгарып алынуучу булагынын жолун алуу мүмкүн эмес"
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -891,12 +876,7 @@ msgstr "\"%s\" булагынын башсаптары окулууда"
 msgid "adding medium \"%s\""
 msgstr "\"%s\" булагы алынып салынууда"
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "инсталляциянын биринчи булагына жетүү мүмкүн эмес"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1011,18 +991,7 @@ msgstr "[%s] hdlist файлы текшерилүүдө"
 msgid "comparing %s and %s"
 msgstr "%2s булагынан %1s орнотулууда"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"\"%s\" булагына жетүүгө болбойт,\n"
-"бул ката сиз булакты түзүүдө аны өз алдыңызча бириктиргенде пайда болушу "
-"мүмкүн."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "\"%s\" булагы үчүн hdlist файлы табылбады"
@@ -1189,37 +1158,20 @@ msgstr "%s бутактары үчүн параллелдик аткаруучу
 msgid "unable to use parallel option \"%s\""
 msgstr "\"%s\" параллелдик опциясын колдонуу мүмкүн эмес"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "\"%s\" булагына жетүүгө мүмкүн эмес"
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "%s бириктирилүүдө"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "%s ажыратылууда"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "\"%s\" булагы тандалган эмес"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "[%s] rpm файлын \"%s\" булагынан окуу мүмкүн эмес"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-"түшүнүлбөгөн \"%s\" булагы чыкма түзүлүш катары көрсөтүлгөн, бирок ал андай "
-"эмес"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "\"%s\" булагына жетүүгө мүмкүн эмес"
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2318,19 +2270,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Даяр болгон соң, Enter басыңыз..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Калтыруу"
@@ -2351,7 +2303,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2471,12 +2423,7 @@ msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 "  --raw          - конфигурацияга булакты кошуу, бирок аны жаңылабоо.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - башсаптар (headers) кэшинин каталогун тазалоо.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - кыскартылган режим (quiet).\n"
@@ -2910,20 +2857,30 @@ msgstr "  --changelog    - changelog чыгаруу.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - conflicts: бардык конфликтер тэгин чыгаруу.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - provides: бардык берилчү файлдар тэгин чыгаруу.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - requires: бардык көз карандылыктар тэгин чыгаруу.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - sourcerpm: баштапкы rpm тэгин чыгаруу.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - жалпы маалымат тэгин чыгаруу.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3023,7 +2980,12 @@ msgstr "  командалык сапта көрсөтүлгөн наамдар 
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes опциясы --parallel менен чогуу гана колдонулат"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "\"%s\" үчүн тизме файлын жазууга болбоду"
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3057,6 +3019,54 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "changelog табылбады\n"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr ""
+#~ "\n"
+#~ "белгисиз опциялар: '%s'\n"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr ""
+#~ " \"%s\" чыгарылып алынуучу булагы үчүн бириктирүү чекиттери өтө эле көп "
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "чыгарылып алынуучу түзүлүш \"%s\" катары каралууда"
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr ""
+#~ "\"%s\" булагы ISO сүрөттөлүшү болуп эсептелет жана ал автоматтык түрдө "
+#~ "туташылат"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "[%s] башка чыгарып алынуучу түзүлүш колдонулууда; \"%s\" үчүн"
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "\"%s\" чыгарып алынуучу булагынын жолун алуу мүмкүн эмес"
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "инсталляциянын биринчи булагына жетүү мүмкүн эмес"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "\"%s\" булагына жетүүгө болбойт,\n"
+#~ "бул ката сиз булакты түзүүдө аны өз алдыңызча бириктиргенде пайда болушу "
+#~ "мүмкүн."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr ""
+#~ "түшүнүлбөгөн \"%s\" булагы чыкма түзүлүш катары көрсөтүлгөн, бирок ал "
+#~ "андай эмес"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Даяр болгон соң, Enter басыңыз..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - башсаптар (headers) кэшинин каталогун тазалоо.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "виртуалдык булак локалдык болушу керек"
@@ -3300,9 +3310,6 @@ msgstr "changelog табылбады\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "[%s] файлы окшош \"%s\" булагында алдагачан колдонулууда"
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "\"%s\" үчүн тизме файлын жазууга болбоду"
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "\"%s\" үчүн тизме файлына эч нерсе жазылган жок"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-vi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2005-06-08 15:13+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -101,14 +101,7 @@ msgstr "Bỏ _qua"
 msgid "Choose location to save file"
 msgstr "Chọn nơi lưu tập tin"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr ""
-"\n"
-"tùy chọn không xác định '%s'\n"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "không có gói tin với tên %s"
@@ -218,12 +211,12 @@ msgstr "Đang chuẩn bị..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Đang cài đặt gói `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Hãy nạp phương tiện có tên \"%s\" trên thiết bị [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Đang tải về gói `%s'..."
@@ -414,6 +407,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "Sao chép không được"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "phương tiện \"%s\" không được chọn"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "không thể đọc tập tin rpm [%s] từ phương tiện \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -723,7 +726,12 @@ msgstr "Thử cài đặt mà không cần kiểm tra các phụ thuộc? (Có/K
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Thử cố gắng cài đặt (--force)? (Có/[Không])"
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -735,11 +743,6 @@ msgstr "Cài đặt không được"
 msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d phiên giao dịch cài đặt lỗi"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Có khả năng cài đặt"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -765,6 +768,11 @@ msgstr "Mọi thứ đã được cài đặt rồi"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "Mọi thứ đã được cài đặt rồi"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Có khả năng cài đặt"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -798,28 +806,8 @@ msgstr "đang cố bỏ qua phương tiện đang tồn tại \"%s\", tránh"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "có quá nhiều điểm gắn kết cho phương tiện tháo lắp \"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "coi phương tiện tháo lắp là \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "Phương tiện \"%s\" là ISO image, sẽ được mount nhanh (on-the-fly)"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "sử dụng thiết bị tháo lắp khác [%s] cho \"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "không thể thu thập tên đường dẫn cho phương tiện tháo lắp \"%s\""
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -880,12 +868,7 @@ msgstr "đang đọc các header từ phương tiện \"%s\""
 msgid "adding medium \"%s\""
 msgstr "gỡ bỏ phương tiện \"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "không thể truy cập phương tiện cài đặt đầu tiên"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1001,17 +984,7 @@ msgstr "đang kiểm tra tập tin hdlist [%s]"
 msgid "comparing %s and %s"
 msgstr "cài đặt %s từ %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"không thể truy cập phương tiện \"%s\",\n"
-"Truy cập được nếu bạn tự gắn kết thư mục khi tạo phương tiện."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "không tìm thấy tập tin hdlist cho phương tiện \"%s\""
@@ -1182,37 +1155,20 @@ msgstr "tìm thấy trình quản lý song song (parallel) cho các node: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "không thể sử dụng tùy chọn song song (parallel) \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "không thể truy cập phương tiện \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "gắn kết %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "thôi gắn kết %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "phương tiện \"%s\" không được chọn"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "không thể đọc tập tin rpm [%s] từ phương tiện \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-"phương tiện không rõ ràng \"%s\" được đánh dấu là tháo lắp nhưng không phải "
-"vậy"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "không thể truy cập phương tiện \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2297,18 +2253,18 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Nhấn Enter khi sẵn sàng ..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Bỏ qua"
@@ -2329,7 +2285,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2450,12 +2406,7 @@ msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 "  --raw          - thêm phương tiện vào cấu hình, nhưng không cập nhật nó.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - xoá thư mục cache headers.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - chế độ yên lặng.\n"
@@ -2882,20 +2833,30 @@ msgstr "  --changelog    - in ra changelog.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts     - in ra xung đột tag: toàn bộ các xung đột.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides      - in ra cung cấp tag: toàn bộ các cung cấp.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires      - in ra yêu cầu tag: toàn bộ các yêu cầu.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - in ra tag sourcerpm: source rpm.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, fuzzy, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary       - in ra tóm tắt tag: tóm tắt.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2987,7 +2948,12 @@ msgstr "  tên hay tập tin rpm có trong dòng lệnh được yêu cầu.\n"
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes chỉ được dùng với --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "không thể ghi tập danh sách của \"%s\""
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3021,6 +2987,50 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Không thấy changelog\n"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr ""
+#~ "\n"
+#~ "tùy chọn không xác định '%s'\n"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "có quá nhiều điểm gắn kết cho phương tiện tháo lắp \"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "coi phương tiện tháo lắp là \"%s\""
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "Phương tiện \"%s\" là ISO image, sẽ được mount nhanh (on-the-fly)"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "sử dụng thiết bị tháo lắp khác [%s] cho \"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "không thể thu thập tên đường dẫn cho phương tiện tháo lắp \"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "không thể truy cập phương tiện cài đặt đầu tiên"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "không thể truy cập phương tiện \"%s\",\n"
+#~ "Truy cập được nếu bạn tự gắn kết thư mục khi tạo phương tiện."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr ""
+#~ "phương tiện không rõ ràng \"%s\" được đánh dấu là tháo lắp nhưng không "
+#~ "phải vậy"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Nhấn Enter khi sẵn sàng ..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - xoá thư mục cache headers.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "phương tiện ảo phải là cục bộ"
@@ -3291,9 +3301,6 @@ msgstr "Không thấy changelog\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "tập tin [%s] đang được dùng trong cùng phương tiện \"%s\" rồi"
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "không thể ghi tập danh sách của \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "không có gì được ghi trong tập tin danh sách cho \"%s\""

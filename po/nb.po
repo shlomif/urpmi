@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2007-09-17 14:07+0200\n"
 "Last-Translator: Per Øyvind Karlsen <peroyvind@mandriva.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-no@lister.ping.uio.no>\n"
@@ -112,12 +112,7 @@ msgstr "_Avbryt"
 msgid "Choose location to save file"
 msgstr "Velg sted hvor fil skal lagres."
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "Ukjent valg «%s»."
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "Ingen pakker spesifisert"
@@ -228,12 +223,12 @@ msgstr "Forbereder ..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Installerer pakke «%s» (%s/%s) ..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Sett inn mediumet kalt «%s» på enhet [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Laster ned pakke «%s» ..."
@@ -424,6 +419,16 @@ msgstr "For mange argumenter\n"
 #, c-format
 msgid "Copying failed"
 msgstr "Mislykket kopiering."
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, c-format
+msgid "medium \"%s\" is not available"
+msgstr "Medium «%s» er ikke tilgjengelig."
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "Klarte ikke lese rpm-fil [%s] fra medium «%s»."
 
 #: ../urpm/cfg.pm:81
 #, c-format
@@ -736,7 +741,12 @@ msgstr "Prøv å installere uten å sjekke avhengigheter? (j/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Prøv enda hardere å installere («--force»)? (j/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -749,11 +759,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d mislykket installasjonstransaksjon."
 msgstr[1] "%d mislykkede installasjonstransaksjoner."
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Installasjon er mulig"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -779,6 +784,11 @@ msgstr "Pakken «%s» kan ikke installeres."
 #, c-format
 msgid "Packages %s can not be installed"
 msgstr "Pakkene «%s» kan ikke installeres."
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Installasjon er mulig"
 
 #: ../urpm/md5sum.pm:20
 #, c-format
@@ -812,28 +822,8 @@ msgstr "Prøver å overstyre eksisterende medium «%s». Hopper over."
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "For mange monteringspunkter for det flyttbare medium «%s»."
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "Bruker flyttbar enhet som «%s»."
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "Mediu, «%s» er et ISO-avtrykk og vil bli montert direkte."
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "Bruker forskjellig flyttbare enheter [%s] for «%s»."
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "Kunne ikke motta sti for flyttbart medium «%s»"
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -894,12 +884,7 @@ msgstr "Legg til medium «%s» før det eksterne medium «%s»."
 msgid "adding medium \"%s\""
 msgstr "Legger til medium «%s»."
 
-#: ../urpm/media.pm:750
-#, c-format
-msgid "unable to mount the distribution medium"
-msgstr "Klarte ikke montere distribusjonsmedium."
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "Denne adressa ser ikke ut til å inneholde en distribusjon."
@@ -1014,17 +999,7 @@ msgstr "Sjekker hdlistefil [%s]."
 msgid "comparing %s and %s"
 msgstr "Rydder opp %s og %s."
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"Fikk ikke tilgang til medium «%s».\n"
-"Dette kan være fordi du manuelt monterte mappa når du oppretta mediumet."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "Ugyldig «hdlist»-fil [%s] for medium «%s»."
@@ -1191,35 +1166,20 @@ msgstr "Fant parallellhåndtering for noder: %s."
 msgid "unable to use parallel option \"%s\""
 msgstr "Klarte ikke bruke parallellvalget «%s»."
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "Klarte ikke nå medium «%s»."
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "Monterer «%s»."
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "Avmonterer «%s»"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, c-format
-msgid "medium \"%s\" is not available"
-msgstr "Medium «%s» er ikke tilgjengelig."
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "Klarte ikke lese rpm-fil [%s] fra medium «%s»."
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "Usammenhengende medium «%s» merket flyttbart, men er det ikke."
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "Klarte ikke nå medium «%s»."
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2315,19 +2275,19 @@ msgstr "Det vil bli brukt %s mer diskplass."
 msgid "%s of disk space will be freed."
 msgstr "Det ble frigjort %s diskplass."
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, fuzzy, c-format
+msgid "%s of packages will be retrieved."
+msgstr "Det ble frigjort %s diskplass."
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Vil du fortsette med installering av pakken?"
 msgstr[1] "Vil du fortsette med installering av de %d pakkene?"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Trykk Enter når det er klart..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Avbryt"
@@ -2348,7 +2308,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2466,12 +2426,7 @@ msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 "  --raw          – Legg til medie i oppsettet, men ikke oppdater det.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             – Tøm hodelinemellomlagerer.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             – Stillemodus.\n"
@@ -2900,20 +2855,30 @@ msgstr "  --changelog    – Vis endringslogg.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    – Konfliktetiketter.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     – Tilbudsetiketter.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     – Avhengighetsetiketter.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    – navn på kilde-rpm.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  – Vis sammendrag.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3007,7 +2972,12 @@ msgstr "  navn eller rpm-filer gitt på kommandolinjem er forespurt.\n"
 msgid "--list-nodes can only be used with --parallel"
 msgstr "Kan bare bruke «--list-nodes» med «--parallel»."
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, c-format
+msgid "use -l to list files"
+msgstr ""
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr "Ingen «hdlist» for medium «%s». Bare delvis resultat for pakken «%s»."
@@ -3033,6 +3003,44 @@ msgstr "Inga «hdlist» for medium «%s». Kan ikke vise resultat for pakkene «
 #, c-format
 msgid "No changelog found\n"
 msgstr "Fant ingen endringslogg\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "Ukjent valg «%s»."
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "For mange monteringspunkter for det flyttbare medium «%s»."
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "Bruker flyttbar enhet som «%s»."
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "Mediu, «%s» er et ISO-avtrykk og vil bli montert direkte."
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "Bruker forskjellig flyttbare enheter [%s] for «%s»."
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "Kunne ikke motta sti for flyttbart medium «%s»"
+
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "Klarte ikke montere distribusjonsmedium."
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "Fikk ikke tilgang til medium «%s».\n"
+#~ "Dette kan være fordi du manuelt monterte mappa når du oppretta mediumet."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "Usammenhengende medium «%s» merket flyttbart, men er det ikke."
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Trykk Enter når det er klart..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             – Tøm hodelinemellomlagerer.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "Virtuelle medium trenger å være lokalt."

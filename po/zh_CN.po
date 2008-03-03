@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2007-08-22 16:02+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: Mandriva Linux Simplified Chinese <cooker-i18n@mandrivalinux."
@@ -109,12 +109,7 @@ msgstr "取消(_C)"
 msgid "Choose location to save file"
 msgstr "选择保存文件的位置"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "未知的选项 %s"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "未指定软件包"
@@ -224,12 +219,12 @@ msgstr "正在准备..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "正在安装软件包“%s”(%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "请将标签为“%s”的介质插入到设备 [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "正在下载软件包“%s”..."
@@ -420,6 +415,16 @@ msgstr "参数太多\n"
 #, c-format
 msgid "Copying failed"
 msgstr "复制失败"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, c-format
+msgid "medium \"%s\" is not available"
+msgstr "介质“%s”不可用"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "无法从介质“%2$s”读取 rpm 文件[%1$s]"
 
 #: ../urpm/cfg.pm:81
 #, c-format
@@ -727,7 +732,12 @@ msgstr "尝试忽略相关性检查而安装吗?(是(y)/否(N))[否]"
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "尝试强制安装吗(使用 --force)(是(y)/否(N))[否]?"
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -739,11 +749,6 @@ msgstr "安装失败: "
 msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d 安装交易失败"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "可以安装"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -769,6 +774,11 @@ msgstr "软件包 %s 无法安装"
 #, c-format
 msgid "Packages %s can not be installed"
 msgstr "软件包 %s 无法安装"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "可以安装"
 
 #: ../urpm/md5sum.pm:20
 #, c-format
@@ -802,28 +812,8 @@ msgstr "试图覆盖已有介质“%s”，正跳过"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "可移动介质“%s”的挂载点太多"
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "将可移动设备认作“%s”"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "介质“%s”是一个 ISO 映像，将会被实时挂载"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "为“%2$s”使用不同的可移动设备[%1$s]"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "无法获取可移动介质“%s”的路径名称"
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -884,12 +874,7 @@ msgstr "在远程介质“%2$s”之前添加介质“%1$s”"
 msgid "adding medium \"%s\""
 msgstr "添加介质“%s”"
 
-#: ../urpm/media.pm:750
-#, c-format
-msgid "unable to mount the distribution medium"
-msgstr "无法挂载发行版介质"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "此位置似乎不包含任何发行版"
@@ -1004,17 +989,7 @@ msgstr "正在检查 hdlist 文件 [%s]"
 msgid "comparing %s and %s"
 msgstr "比较 %s 和 %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"无法访问介质“%s”，\n"
-"这可能是因为您在创建介质时是手动装载的目录。"
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "介质“%2$s”的 hdlist 文件 %1$s 无效"
@@ -1181,35 +1156,20 @@ msgstr "找到结点的并行处理: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "无法使用并行选项“%s”"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "无法访问介质“%s”"
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "正在装载 %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "正在拆卸 %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, c-format
-msgid "medium \"%s\" is not available"
-msgstr "介质“%s”不可用"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "无法从介质“%2$s”读取 rpm 文件[%1$s]"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "非连贯介质“%s”标为可移动但实际不是"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "无法访问介质“%s”"
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2257,18 +2217,18 @@ msgstr "将会使用 %s 的额外磁盘空间。"
 msgid "%s of disk space will be freed."
 msgstr "将会释放 %s 的磁盘空间。"
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, fuzzy, c-format
+msgid "%s of packages will be retrieved."
+msgstr "将会释放 %s 的磁盘空间。"
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "继续安装 %d 个软件包吗？"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "准备好后按 Enter 键..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "取消"
@@ -2289,7 +2249,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2399,12 +2359,7 @@ msgstr "  --nopubkey     - 不导入所添加介质的密钥\n"
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr "  --raw          - 在配置中添加介质，但不进行更新。\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - 直接清除软件包头缓存。\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - 安静模式。\n"
@@ -2817,21 +2772,31 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - 打印更新日志。\n"
 
 #: ../urpmq:81
+#, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - conflict 标签\n"
+
+#: ../urpmq:82
 #, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - 打印 provides。\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - requires 标签\n"
+
+#: ../urpmq:84
 #, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - 打印源 rpm 名称。\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - 打印摘要。\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2925,7 +2890,12 @@ msgstr "  需要在命令行给出名称或 rpm 文件。\n"
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes 仅能和 --parallel 一起使用"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, c-format
+msgid "use -l to list files"
+msgstr ""
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr "由于介质“%s”没有 hdlist，软件包 %s 只返回部分结果"
@@ -2951,6 +2921,44 @@ msgstr "由于介质“%s”没有 hdlists，软件包 %s 无法返回任何结�
 #, c-format
 msgid "No changelog found\n"
 msgstr "没有找到更新日志\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "未知的选项 %s"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "可移动介质“%s”的挂载点太多"
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "将可移动设备认作“%s”"
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "介质“%s”是一个 ISO 映像，将会被实时挂载"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "为“%2$s”使用不同的可移动设备[%1$s]"
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "无法获取可移动介质“%s”的路径名称"
+
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "无法挂载发行版介质"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "无法访问介质“%s”，\n"
+#~ "这可能是因为您在创建介质时是手动装载的目录。"
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "非连贯介质“%s”标为可移动但实际不是"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "准备好后按 Enter 键..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - 直接清除软件包头缓存。\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "虚拟介质必须是本地的"

@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,12 +82,7 @@ msgstr ""
 msgid "Choose location to save file"
 msgstr ""
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr ""
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr ""
@@ -192,12 +187,12 @@ msgstr ""
 msgid "Installing package `%s' (%s/%s)..."
 msgstr ""
 
-#: ../gurpmi2:260 ../urpmi:620
+#: ../gurpmi2:264 ../urpmi:622
 #, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+msgid "Please insert the medium named \"%s\""
 msgstr ""
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr ""
@@ -382,6 +377,16 @@ msgstr ""
 #: ../urpm/bug_report.pm:48 ../urpmi:247
 #, c-format
 msgid "Copying failed"
+msgstr ""
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, c-format
+msgid "medium \"%s\" is not available"
+msgstr ""
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr ""
 
 #: ../urpm/cfg.pm:81
@@ -690,7 +695,12 @@ msgstr ""
 msgid "Try harder to install (--force)? (y/N) "
 msgstr ""
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -703,11 +713,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] ""
 msgstr[1] ""
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr ""
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -732,6 +737,11 @@ msgstr ""
 #: ../urpm/main_loop.pm:299
 #, c-format
 msgid "Packages %s can not be installed"
+msgstr ""
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
 msgstr ""
 
 #: ../urpm/md5sum.pm:20
@@ -766,27 +776,7 @@ msgstr ""
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr ""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr ""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr ""
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr ""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
+msgid "failed to migrate removable device, ignoring media"
 msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
@@ -846,12 +836,7 @@ msgstr ""
 msgid "adding medium \"%s\""
 msgstr ""
 
-#: ../urpm/media.pm:750
-#, c-format
-msgid "unable to mount the distribution medium"
-msgstr ""
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -966,15 +951,7 @@ msgstr ""
 msgid "comparing %s and %s"
 msgstr ""
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr ""
@@ -1141,34 +1118,19 @@ msgstr ""
 msgid "unable to use parallel option \"%s\""
 msgstr ""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, c-format
+msgid "unable to access medium \"%s\"."
+msgstr ""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr ""
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
-msgstr ""
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, c-format
-msgid "medium \"%s\" is not available"
-msgstr ""
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr ""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
 msgstr ""
 
 #: ../urpm/search.pm:29 ../urpmf:29
@@ -2166,19 +2128,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr ""
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr ""
@@ -2199,7 +2161,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2300,12 +2262,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr ""
@@ -2700,20 +2657,30 @@ msgstr ""
 
 #: ../urpmq:81
 #, c-format
-msgid "  --provides     - print provides.\n"
+msgid "  --conflicts    - print conflicts.\n"
 msgstr ""
 
 #: ../urpmq:82
 #, c-format
-msgid "  --sourcerpm    - print sourcerpm.\n"
+msgid "  --provides     - print provides.\n"
 msgstr ""
 
 #: ../urpmq:83
 #, c-format
-msgid "  --summary, -S  - print summary.\n"
+msgid "  --requires     - print requires.\n"
+msgstr ""
+
+#: ../urpmq:84
+#, c-format
+msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr ""
 
 #: ../urpmq:85
+#, c-format
+msgid "  --summary, -S  - print summary.\n"
+msgstr ""
+
+#: ../urpmq:87
 #, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2801,7 +2768,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr ""
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, c-format
+msgid "use -l to list files"
+msgstr ""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""

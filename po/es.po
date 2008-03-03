@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2005-04-29 13:26+0200\n"
 "Last-Translator: José Manuel Pérez <jmprodu@hotmail.com>\n"
 "Language-Team: Español <es@li.org>\n"
@@ -116,12 +116,7 @@ msgstr "_Cancelar"
 msgid "Choose location to save file"
 msgstr "Elija ubicación para guardar archivo"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "Opción desconocida «%s»"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "Ningún paquete especificado"
@@ -233,12 +228,12 @@ msgstr "Preparando..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Instalando paquete `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Por favor, inserte el soporte denominado «%s» en el dispositivo [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Descargando paquete `%s'..."
@@ -429,6 +424,16 @@ msgstr "Demasiados argumentos\n"
 #, c-format
 msgid "Copying failed"
 msgstr "Falló la copia"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "el soporte «%s» no está seleccionado"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "no se puede leer el archivo rpm [%s] del soporte «%s»"
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -738,7 +743,12 @@ msgstr "¿Intentar de instalar sin verificar las dependencias? (s/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "¿Intentar con más fuerza la instalación (--force)? (s/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -751,11 +761,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "falló una transacción de instalación"
 msgstr[1] "fallaron %d transacciones de instalación"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Es posible la instalación"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -781,6 +786,11 @@ msgstr "El paquete %s no se puede instalar"
 #, c-format
 msgid "Packages %s can not be installed"
 msgstr "Los paquetes %s no se pueden instalar"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Es posible la instalación"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -814,28 +824,8 @@ msgstr "intentando pasar al soporte existente «%s», evitando"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "demasiados puntos de montaje para soportes extraíbles «%s»"
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "tomar dispositivo extraíble como «%s»"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "El soporte «%s» es una imagen ISO, será montada al vuelo"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "usar dispositivo extraíble diferente [%s] para «%s»"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "no se puede recuperar el nombre de ruta para el soporte extraíble «%s»"
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -896,12 +886,7 @@ msgstr "leyendo encabezados del soporte «%s»"
 msgid "adding medium \"%s\""
 msgstr "quitando el soporte «%s»"
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "no se puede acceder al primer soporte de la instalación"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1018,17 +1003,7 @@ msgstr "examinando el archivo hdlist [%s]"
 msgid "comparing %s and %s"
 msgstr "instalando %s desde %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"no se puede acceder soporte \"%s\",\n"
-"esto puede ocurrir si montó manualmente el directorio cuando creó el soporte."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "no se encuentra el archivo hdlist para el soporte «%s»"
@@ -1195,35 +1170,20 @@ msgstr "se encontró manejador paralelo para los nodos: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "no se puede utilizar la opción paralelo «%s»"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "no se puede acceder al soporte «%s»"
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "montando %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "desmontando %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "el soporte «%s» no está seleccionado"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "no se puede leer el archivo rpm [%s] del soporte «%s»"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "soporte no coherente «%s» marcado como borrable, pero no borrado"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "no se puede acceder al soporte «%s»"
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2335,19 +2295,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "¿Efectuar la instalación del paquete?"
 msgstr[1] "¿Efectuar la instalación de los %d paquetes?"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Presione «Intro» cuando esté listo..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Cancelar"
@@ -2368,7 +2328,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2485,12 +2445,7 @@ msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 "  --raw          - añadir el soporte en config, pero no actualizarlo.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - limpia dir. encabezados de cache.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - modo silencioso.\n"
@@ -2918,20 +2873,30 @@ msgstr "  --changelog    - imprimir el registro de cambios.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts     - imprime etiq. conflicts: todos los conflictos.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides      - imprime etiq. provides: todo que proporciona.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires      - imprime etiq. requires: todo que precisa.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - imprime etiq. sourcerpm: rpm fuente.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - imprimir el descriptivo corto (summary).\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3029,7 +2994,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes sólo se puede utilizar con --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "no se puede escribir el archivo de lista de «%s»"
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3063,6 +3033,47 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "No se encontró changelog\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "Opción desconocida «%s»"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "demasiados puntos de montaje para soportes extraíbles «%s»"
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "tomar dispositivo extraíble como «%s»"
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "El soporte «%s» es una imagen ISO, será montada al vuelo"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "usar dispositivo extraíble diferente [%s] para «%s»"
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr ""
+#~ "no se puede recuperar el nombre de ruta para el soporte extraíble «%s»"
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "no se puede acceder al primer soporte de la instalación"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "no se puede acceder soporte \"%s\",\n"
+#~ "esto puede ocurrir si montó manualmente el directorio cuando creó el "
+#~ "soporte."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "soporte no coherente «%s» marcado como borrable, pero no borrado"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Presione «Intro» cuando esté listo..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - limpia dir. encabezados de cache.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "el soporte virtual debe ser local"
@@ -3299,9 +3310,6 @@ msgstr "No se encontró changelog\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "archivo [%s] ya utilizado en el mismo soporte «%s»"
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "no se puede escribir el archivo de lista de «%s»"
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "nada escrito en el archivo de lista para «%s»"

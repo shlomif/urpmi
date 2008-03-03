@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2008-02-27 08:45+0100\n"
 "Last-Translator: Christophe Berthelé <cpjc@free.fr>\n"
 "Language-Team: French <cooker-i18n@mandrivalinux.org>\n"
@@ -123,12 +123,7 @@ msgstr "_Annuler"
 msgid "Choose location to save file"
 msgstr "Choisissez un emplacement pour enregistrer le fichier."
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "Option « %s » inconnue"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "Pas de paquetage spécifié"
@@ -242,12 +237,12 @@ msgstr "Préparation ..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Installation du paquetage « %s » (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Veuillez insérer le média nommé « %s » dans le périphérique [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Téléchargement du paquetage %s ..."
@@ -440,6 +435,16 @@ msgstr "Trop d'arguments\n"
 #, c-format
 msgid "Copying failed"
 msgstr "La copie a échoué"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, c-format
+msgid "medium \"%s\" is not available"
+msgstr "le média « %s » n'est pas disponible"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "impossible de lire le fichier rpm [%s] depuis le média « %s »"
 
 #: ../urpm/cfg.pm:81
 #, c-format
@@ -751,7 +756,12 @@ msgstr "Essayer d'installer sans vérifier les dépendances ? (o/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Essayer de forcer l'installation (--force) ? (o/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -766,11 +776,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d transaction d'installation a échoué"
 msgstr[1] "%d transactions d'installation ont échoué"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "L'installation est possible"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -796,6 +801,11 @@ msgstr "Le paquetage %s ne peut être installé"
 #, c-format
 msgid "Packages %s can not be installed"
 msgstr "Les paquetages %s ne peuvent être installés"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "L'installation est possible"
 
 #: ../urpm/md5sum.pm:20
 #, c-format
@@ -829,28 +839,8 @@ msgstr "tentative d'outrepasser un média existant « %s », non pris en compt
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "trop de points de montage pour le média amovible « %s »"
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "périphérique amovible pris en tant que « %s »"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "Le média « %s » est une image ISO, elle va être montée à la volée"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "utilisation de différents périphériques amovibles [%s] pour « %s »"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "impossible d'accéder au chemin du média amovible « %s »"
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -911,12 +901,7 @@ msgstr "ajout du média « %s » avant le média distant « %s »"
 msgid "adding medium \"%s\""
 msgstr "ajout du média « %s »"
 
-#: ../urpm/media.pm:750
-#, c-format
-msgid "unable to mount the distribution medium"
-msgstr "impossible de monter le média de distribution"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "cet emplacement ne semble pas contenir de distribution"
@@ -1033,18 +1018,7 @@ msgstr "échec de genhdlist2 sur [%s]"
 msgid "comparing %s and %s"
 msgstr "comparaison de %s et de %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"Impossible d'accéder au média « %s »,\n"
-"cela peut arriver si vous avez effectué un montage manuel lors de la "
-"création du média."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "fichier hdlist %s invalide pour le média « %s »"
@@ -1211,35 +1185,20 @@ msgstr "support distribué trouvé pour les noeuds : %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "impossible d'utiliser l'option distribuée « %s »"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "impossible d'accéder au média « %s »"
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "montage de %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "démontage de %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, c-format
-msgid "medium \"%s\" is not available"
-msgstr "le média « %s » n'est pas disponible"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "impossible de lire le fichier rpm [%s] depuis le média « %s »"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "média incohérent « %s », marqué amovible mais sans l'être réellement"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "impossible d'accéder au média « %s »"
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2404,19 +2363,19 @@ msgstr "un espace additionnel de %s sera utilisé."
 msgid "%s of disk space will be freed."
 msgstr "un espace de %s sera libéré."
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, fuzzy, c-format
+msgid "%s of packages will be retrieved."
+msgstr "un espace de %s sera libéré."
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Procéder à l'installation d'un paquetage ?"
 msgstr[1] "Procéder à l'installation des %d paquetages ?"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Appuyez sur la touche Entrée quand vous êtes prêt..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Annuler"
@@ -2429,7 +2388,7 @@ msgstr "Redémarrage de urpmi"
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2437,7 +2396,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2575,12 +2534,7 @@ msgstr ""
 "  --raw          - ajoute le média dans la configuration, mais sans le "
 "mettre à jour.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - purger le répertoire cache des en-têtes.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - mode silencieux.\n"
@@ -3024,21 +2978,31 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - afficher le changelog.\n"
 
 #: ../urpmq:81
+#, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - chercher dans le champ « conflicts »\n"
+
+#: ../urpmq:82
 #, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - afficher le champ « provides »\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - chercher dans la liste des dépendances\n"
+
+#: ../urpmq:84
 #, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - afficher le nom du paquetage source.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - afficher le résumé.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3145,7 +3109,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes peut seulement être utilisé avec --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, c-format
+msgid "use -l to list files"
+msgstr ""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3179,3 +3148,42 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Aucun Changelog trouvé\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "Option « %s » inconnue"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "trop de points de montage pour le média amovible « %s »"
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "périphérique amovible pris en tant que « %s »"
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "Le média « %s » est une image ISO, elle va être montée à la volée"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "utilisation de différents périphériques amovibles [%s] pour « %s »"
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "impossible d'accéder au chemin du média amovible « %s »"
+
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "impossible de monter le média de distribution"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "Impossible d'accéder au média « %s »,\n"
+#~ "cela peut arriver si vous avez effectué un montage manuel lors de la "
+#~ "création du média."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "média incohérent « %s », marqué amovible mais sans l'être réellement"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Appuyez sur la touche Entrée quand vous êtes prêt..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - purger le répertoire cache des en-têtes.\n"

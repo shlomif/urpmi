@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2006-09-01 21:32+0800\n"
 "Last-Translator: Shiva Huang <shivahuang@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -118,12 +118,7 @@ msgstr "取消 (_C)"
 msgid "Choose location to save file"
 msgstr "選擇存檔的位置"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "未知的選項 %s"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "未指定套件"
@@ -233,12 +228,12 @@ msgstr "準備中..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "正在安裝套件 `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "請將名為 \"%s\" 的媒體置入裝置 [%s] 內"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "正在下載套件 `%s'..."
@@ -429,6 +424,16 @@ msgstr "參數太多\n"
 #, c-format
 msgid "Copying failed"
 msgstr "複製失敗"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "媒體 \"%s\" 沒有被選取"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "無法由媒體 \"%2$s\" 讀取 [%1$s] rpm 檔"
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -736,7 +741,12 @@ msgstr "嘗試不檢查相依性直接安裝？ (y/N)(是/否)"
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "嘗試採用強制安裝的方式 (--force)？ (y/N)(是/否)"
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -748,11 +758,6 @@ msgstr "節點 %s 安裝失敗"
 msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d 個安裝程序失敗"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "可以安裝"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -778,6 +783,11 @@ msgstr "每個套件都已經安裝了"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "每個套件都已經安裝了"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "可以安裝"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -811,28 +821,8 @@ msgstr "正在嘗試跳過已存在媒體  \"%s\"，正在跳過"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "可移除式媒體 \"%s\" 的掛載點過多"
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "將可移除式裝置當成 \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "媒體 \"%s\" 是一個光碟映像檔，將立即掛載起來"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "使用不同的可移除式裝置 [%s] 於 \"%s\" "
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "無法擷取可移除式媒體 \"%s\" 的路徑名稱"
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -893,12 +883,7 @@ msgstr "正在讀取媒體 \"%s\" 的標頭"
 msgid "adding medium \"%s\""
 msgstr "移除媒體 \"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "無法存取第一個安裝媒體"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, fuzzy, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "這個 url 看起來並沒有包含任何散佈套件"
@@ -1013,17 +998,7 @@ msgstr "檢驗 hdlist 檔案 [%s]"
 msgid "comparing %s and %s"
 msgstr "正在 %2$s 上安装 %1$s..."
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"無法存取媒體 \"%s\"，\n"
-"這可能是因為您建立媒體時是手動將這個目錄掛載到系統裡的。"
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "沒有找到媒體 \"%s\" 的 hdlist 檔案"
@@ -1190,35 +1165,20 @@ msgstr "找到屬於節點 %s 的同步管理處理器"
 msgid "unable to use parallel option \"%s\""
 msgstr "無法使用同步管理選項 \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "無法存取媒體 \"%s\" "
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "正在掛載 %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "正在卸載 %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "媒體 \"%s\" 沒有被選取"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "無法由媒體 \"%2$s\" 讀取 [%1$s] rpm 檔"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "自相矛盾的媒體 \"%s\" 標示為可移除但是事實上卻不是這麼一回事"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "無法存取媒體 \"%s\" "
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2276,18 +2236,18 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "繼續安裝這 %d 個套件？"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "準備好時請按 Enter..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "取消"
@@ -2308,7 +2268,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2423,12 +2383,7 @@ msgstr "  --nopubkey     - 不匯入新增的媒體的公鑰\n"
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr "  --raw          - 加入這個媒介到設定檔中，但不更新它。\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - 清除標頭快取目錄。\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - 安靜模式。\n"
@@ -2844,20 +2799,30 @@ msgstr "  --changelog    - 顯示更新紀錄。\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - 衝突標籤\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - 提供標籤\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - 需要標籤\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - 原始碼套件名稱\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - 顯示摘要。\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2947,7 +2912,12 @@ msgstr "  查詢命令列給予的套件名稱或 RPM 檔案。\n"
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes 參數只能夠配合 --parallel 參數一起使用"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "無法寫入 \"%s\" 的列表檔"
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -2977,6 +2947,45 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "沒有找到更新紀錄\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "未知的選項 %s"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "可移除式媒體 \"%s\" 的掛載點過多"
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "將可移除式裝置當成 \"%s\""
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "媒體 \"%s\" 是一個光碟映像檔，將立即掛載起來"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "使用不同的可移除式裝置 [%s] 於 \"%s\" "
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "無法擷取可移除式媒體 \"%s\" 的路徑名稱"
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "無法存取第一個安裝媒體"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "無法存取媒體 \"%s\"，\n"
+#~ "這可能是因為您建立媒體時是手動將這個目錄掛載到系統裡的。"
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "自相矛盾的媒體 \"%s\" 標示為可移除但是事實上卻不是這麼一回事"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "準備好時請按 Enter..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - 清除標頭快取目錄。\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "虛擬媒體必須在本地端"
@@ -3268,9 +3277,6 @@ msgstr "沒有找到更新紀錄\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "檔案 [%s] 已經在相同的媒體 \"%s\" 中使用了"
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "無法寫入 \"%s\" 的列表檔"
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "沒有寫入資料到 \"%s\" 的列表檔"

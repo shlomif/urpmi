@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2004-02-01 19:27+0100\n"
 "Last-Translator: Toma Jankovic <webmaster@mandrake.co.yu>\n"
 "Language-Team: serbian <mdk@linux.rs.sr>\n"
@@ -95,14 +95,7 @@ msgstr "_Poništi"
 msgid "Choose location to save file"
 msgstr "Izaberite fajl"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr ""
-"\n"
-"nepoznate opcije '%s'\n"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Nije određena komanda"
@@ -212,12 +205,12 @@ msgstr "Pripremam..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Instaliram paket `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Ubacite medij sa imenom %s u uređaj [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Skidam paket `%s'..."
@@ -407,6 +400,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "Kopiranje nije uspelo"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "medij \"%s\" nije izabran"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "ne mogu da pročitam rpm datoteku [%s] sa medija \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -716,7 +719,12 @@ msgstr "Instaliacija bez provere zavisnosti (da/Ne)? "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Prisilna instalacija (--force)? (da/Ne) ?"
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -730,11 +738,6 @@ msgid_plural "%d installation transactions failed"
 msgstr[0] "%d instlaciona transakcija nije uspela"
 msgstr[1] "%d instlaciona transakcija nije uspela"
 msgstr[2] "%d instlaciona transakcija nije uspela"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Instalacija je moguća"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -760,6 +763,11 @@ msgstr "sve je već instalirano"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "sve je već instalirano"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Instalacija je moguća"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -793,28 +801,8 @@ msgstr "pokušavam da premostim postojeći medij \"%s\", izbegavam"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "previše tačaka montiranja za prenosni medij \"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "uzimam prenosni uređaj kao \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgid "failed to migrate removable device, ignoring media"
 msgstr ""
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "koristeći različit prenosni uređaj ili [%s] za \"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "ne mogu da dobavim putanju za prenosni medij \"%s\""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -875,12 +863,7 @@ msgstr "čitam hedere sa medija \"%s\""
 msgid "adding medium \"%s\""
 msgstr "uklanjam medij \"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "ne mogu da pristupim prvom instalacionom mediju"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -996,18 +979,7 @@ msgstr "ispitujem  hdlist fajl [%s]"
 msgid "comparing %s and %s"
 msgstr "Instaliram %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"ne mogu da pristupim mediju \"%s\",\n"
-"ovo se može desiti ukoliko ste ručno montirali direktorijum prilikom "
-"kreiranja medija."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "nije pronađena hdlist datoteka za medij \"%s\""
@@ -1174,36 +1146,20 @@ msgstr "pronađen paralelni držač dza nodove: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "ne mogu da koristim paralelnu opciju \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "ne mogu da pristupim mediju \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "montiram %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "demontiram %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "medij \"%s\" nije izabran"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "ne mogu da pročitam rpm datoteku [%s] sa medija \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-"nekoherentan medij \"%s\" je označen kao prenosni ali to nije u stvarnosti"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "ne mogu da pristupim mediju \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2290,7 +2246,12 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
@@ -2298,12 +2259,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Pritisnite enter kada budete spremni..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Odustani"
@@ -2324,7 +2280,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2442,12 +2398,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - čisti direktorijum sa kešom nadglavlja.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - tihi režim (malo poruka).\n"
@@ -2870,20 +2821,30 @@ msgstr "  --changelog    - prikazuje log sa izmenama.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts     - prikazuje tag konflikata: svi konflikti.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides      - prikazuje tag obezbeđuje: sve obezbeđuje.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires      - prikazuje tag zahteva: svi zahtevi\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - prikazuje tag sourcerpm: source rpm.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, fuzzy, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary       - prikazuje tag sažetka: sažetak.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2979,7 +2940,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr "  --list-nodes se može koristiti samo sa opcijom --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "ne mogu da upišem datoteku liste za \"%s\""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3005,6 +2971,47 @@ msgstr ""
 #, fuzzy, c-format
 msgid "No changelog found\n"
 msgstr "NIje pronađen image"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr ""
+#~ "\n"
+#~ "nepoznate opcije '%s'\n"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "previše tačaka montiranja za prenosni medij \"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "uzimam prenosni uređaj kao \"%s\""
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "koristeći različit prenosni uređaj ili [%s] za \"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "ne mogu da dobavim putanju za prenosni medij \"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "ne mogu da pristupim prvom instalacionom mediju"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "ne mogu da pristupim mediju \"%s\",\n"
+#~ "ovo se može desiti ukoliko ste ručno montirali direktorijum prilikom "
+#~ "kreiranja medija."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr ""
+#~ "nekoherentan medij \"%s\" je označen kao prenosni ali to nije u stvarnosti"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Pritisnite enter kada budete spremni..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - čisti direktorijum sa kešom nadglavlja.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "virtualni medij mora da bude lokalni"
@@ -3245,9 +3252,6 @@ msgstr "NIje pronađen image"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "fajl [%s] je već korisšten za isti medij \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "ne mogu da upišem datoteku liste za \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "nema šta da se upiše u datoteku liste za \"%s\""

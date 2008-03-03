@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2005-09-19 23:29+0200\n"
 "Last-Translator: Albert Astals Cid <astals11@terra.es>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -108,12 +108,7 @@ msgstr "_Cancel·la"
 msgid "Choose location to save file"
 msgstr "Escolliu la ubicació un desar el fitxer"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "Opcions desconegudes %s"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "No s'ha especificat cap paquet"
@@ -224,12 +219,12 @@ msgstr "S'està preparant..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "S'està instal·lant el paquet `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Si us plau, inseriu la font anomenada \"%s\" al dispositiu [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "S'està descarregant el paquet `%s'..."
@@ -421,6 +416,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "La còpia ha fallat"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "la font \"%s\" no ha estat seleccionada"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "no s'ha pogut llegir el fitxer rpm [%s] des de la font \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -734,7 +739,12 @@ msgstr ""
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Voleu intentar la insta·lació encara amb més força (--force)? (s/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -747,11 +757,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "ha fallat %d transacció d'instal·lació"
 msgstr[1] "han fallat %d transaccions d'instal·lació"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "La instal·lació és possible"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -777,6 +782,11 @@ msgstr "Ja està tot instal·lat"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "Ja està tot instal·lat"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "La instal·lació és possible"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -810,28 +820,8 @@ msgstr "provant de passar per alt la font existent \"%s\", evitant"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "massa punts de muntatge per la font extraïble \"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "agafant dispositiu extraïble com a \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "La font \"%s\" és una imatge ISO, es muntarà al vol"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "utilitzant un dispositiu extraïble diferent [%s] per \"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "no s'ha pogut determinar el camí i el nom de la font extraïble \"%s\""
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -892,12 +882,7 @@ msgstr "s'estan llegint les capçaleres de la font \"%s\""
 msgid "adding medium \"%s\""
 msgstr "s'està esborrant la font \"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "no s'ha pogut accedir a la primera font d'instal·lació"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1014,17 +999,7 @@ msgstr "s'està examinant el fitxer hdlist [%s]"
 msgid "comparing %s and %s"
 msgstr "s'està instal·lant %s des de %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"no s'ha pogut accedir a la font \"%s\",\n"
-"pot passar si havies muntat manualment el directori al crear la font."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "no s'ha trobat el fitxer hdlist per a la font \"%s\""
@@ -1191,36 +1166,20 @@ msgstr "s'ha trobat un manegador paral·lel per als nodes: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "no s'ha pogut usar l'opció de paral·lel \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "no s'ha pogut accedir a al font \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "s'està muntant %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "s'està desmuntant %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "la font \"%s\" no ha estat seleccionada"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "no s'ha pogut llegir el fitxer rpm [%s] des de la font \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-"font incoherent \"%s\", marcada com a extraïble però no és així realment"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "no s'ha pogut accedir a al font \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2322,19 +2281,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, fuzzy, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "No s'han pogut instal·lar els paquets (%s)!"
 msgstr[1] "No s'han pogut instal·lar els paquets (%s)!"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Premeu Intro quan estigui fet..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Cancel·la"
@@ -2355,7 +2314,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2469,12 +2428,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - buida el directori de memòria cau de capçaleres.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - mode silenciós.\n"
@@ -2902,21 +2856,33 @@ msgstr "  --changelog    - mostra els canvis.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr ""
+"  --conflicts     - mostra l'etiqueta conflicts: tots els conflictes.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr ""
 "  --provides      - mostra l'etiqueta provides: tots allò que proporciona.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr ""
+"  --requires      - mostra l'etiqueta requires: tots allò que necessita.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - mostra l'etiqueta sourcerpm: rpm de codi font.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - imprimeix el resum.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3012,7 +2978,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes només es pot usar amb --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "no es pot escriure el fitxer list de \"%s\""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3038,6 +3009,48 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "No s'ha trobat la llista de canvis\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "Opcions desconegudes %s"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "massa punts de muntatge per la font extraïble \"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "agafant dispositiu extraïble com a \"%s\""
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "La font \"%s\" és una imatge ISO, es muntarà al vol"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "utilitzant un dispositiu extraïble diferent [%s] per \"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr ""
+#~ "no s'ha pogut determinar el camí i el nom de la font extraïble \"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "no s'ha pogut accedir a la primera font d'instal·lació"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "no s'ha pogut accedir a la font \"%s\",\n"
+#~ "pot passar si havies muntat manualment el directori al crear la font."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr ""
+#~ "font incoherent \"%s\", marcada com a extraïble però no és així realment"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Premeu Intro quan estigui fet..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr ""
+#~ "  -c             - buida el directori de memòria cau de capçaleres.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "La font virtual ha de ser local"
@@ -3253,9 +3266,6 @@ msgstr "No s'ha trobat la llista de canvis\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "el fitxer [%s] ja s'està utilitzant en la mateixa font \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "no es pot escriure el fitxer list de \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "no s'ha escrit res al fitxer list per a \"%s\""

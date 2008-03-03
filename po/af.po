@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: Fri May 19 2000 13:02:12+0200\n"
 "Last-Translator: Schalk W. Cronjé <schalkc@ntaba.co.za>\n"
 "Language-Team: Afrikaans <mandrake@af.org.za>\n"
@@ -87,12 +87,7 @@ msgstr "Kanselleer"
 msgid "Choose location to save file"
 msgstr "Kies 'n lêer"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr "Onbekende konneksie tipe"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Geen opdrag gespesifiseer nie"
@@ -206,12 +201,12 @@ msgstr "Herlaaistelsel word voorberei..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Installeer tans pakket %s (%s/%s)...."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Plaas asseblief die media bekend as \"%s\" in aandrywer [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, fuzzy, c-format
 msgid "Downloading package `%s'..."
 msgstr "Laai tans pakket '%s' (%s/%s) af ..."
@@ -402,6 +397,16 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Copying failed"
 msgstr "Aanteken gevaal"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "Rekening bestaan reeds\n"
+
+#: ../urpm/cdrom.pm:206
+#, fuzzy, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "Ondersoek die afgeleë medialêer '%s'..."
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -709,7 +714,12 @@ msgstr "Moet ons 'n installasie sonder afhanklikheidstoetsing probeer? (j/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Moet ons die installasie afdwing (--force) ? (j/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -722,11 +732,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "installasie instruksies"
 msgstr[1] "installasie instruksies"
-
-#: ../urpm/main_loop.pm:281
-#, fuzzy, c-format
-msgid "Installation is possible"
-msgstr "Installasie probleem"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -752,6 +757,11 @@ msgstr "Alles is alreeds installeer"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "Alles is alreeds installeer"
+
+#: ../urpm/main_loop.pm:307
+#, fuzzy, c-format
+msgid "Installation is possible"
+msgstr "Installasie probleem"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -785,28 +795,8 @@ msgstr ""
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
+msgid "failed to migrate removable device, ignoring media"
 msgstr ""
-
-#: ../urpm/media.pm:410
-#, fuzzy, c-format
-msgid "taking removable device as \"%s\""
-msgstr "Verwyderbare media"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr ""
-
-#: ../urpm/media.pm:416
-#, fuzzy, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "Verwyderbare media"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, fuzzy, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "Probleme met skep van media."
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, fuzzy, c-format
@@ -865,12 +855,7 @@ msgstr "%s from media %s"
 msgid "adding medium \"%s\""
 msgstr "Redigeer media \"%s\":"
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "Probleme met skep van media."
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -985,15 +970,7 @@ msgstr "Kan nie lêer: %s skep nie"
 msgid "comparing %s and %s"
 msgstr "%s word installeer\n"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "Kopieer die lêer vir media '%s'..."
@@ -1160,35 +1137,20 @@ msgstr ""
 msgid "unable to use parallel option \"%s\""
 msgstr " op pallelle poort #%s"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "Probleme met skep van media."
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, fuzzy, c-format
 msgid "mounting %s"
 msgstr "Verwyder %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, fuzzy, c-format
 msgid "unmounting %s"
 msgstr "fout met onthegting van %s: %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "Rekening bestaan reeds\n"
-
-#: ../urpm/removable.pm:143
-#, fuzzy, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "Ondersoek die afgeleë medialêer '%s'..."
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-
-#: ../urpm/removable.pm:163
-#, fuzzy, c-format
-msgid "unable to access medium \"%s\""
-msgstr "Probleme met skep van media."
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2238,19 +2200,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../urpmi:621
-#, fuzzy, c-format
-msgid "Press Enter when ready..."
-msgstr "Druk ENTER wanneer u reg is..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Kanselleer"
@@ -2271,7 +2233,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2372,12 +2334,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, fuzzy, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -v             - woordryke modus.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, fuzzy, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -v             - woordryke modus.\n"
@@ -2784,20 +2741,30 @@ msgstr "  --help         - druk hierdie help boodskap.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
-msgid "  --provides     - print provides.\n"
+msgid "  --conflicts    - print conflicts.\n"
 msgstr "  -v             - woordryke modus.\n"
 
 #: ../urpmq:82
 #, fuzzy, c-format
+msgid "  --provides     - print provides.\n"
+msgstr "  -v             - woordryke modus.\n"
+
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  -v             - woordryke modus.\n"
+
+#: ../urpmq:84
+#, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --help         - druk hierdie help boodskap.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr ""
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2885,7 +2852,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr ""
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, c-format
+msgid "use -l to list files"
+msgstr ""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -2911,6 +2883,34 @@ msgstr ""
 #, fuzzy, c-format
 msgid "No changelog found\n"
 msgstr "Geen beeld gevind nie"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr "Onbekende konneksie tipe"
+
+#, fuzzy
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "Verwyderbare media"
+
+#, fuzzy
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "Verwyderbare media"
+
+#, fuzzy
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "Probleme met skep van media."
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "Probleme met skep van media."
+
+#, fuzzy
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Druk ENTER wanneer u reg is..."
+
+#, fuzzy
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -v             - woordryke modus.\n"
 
 #, fuzzy
 #~ msgid "unable to parse synthesis file of \"%s\""

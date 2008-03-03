@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2005-02-13 13:39+0600\n"
 "Last-Translator: Jamil Ahmed <jamil@bengalinux.org>\n"
 "Language-Team: Bangla <mdk-translation@bengalinux.org>\n"
@@ -120,14 +120,7 @@ msgstr "বাতিল (_ত)"
 msgid "Choose location to save file"
 msgstr "ফাইল সংরক্ষণ করার অবস্থান বেছে নিন"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr ""
-"\n"
-"অপরিচিত অপশনসমূহ '%s'\n"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "কোন নির্দেশ পাওয়া যায় নি"
@@ -241,12 +234,12 @@ msgstr "প্রস্তুত করা হচ্ছে..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "`%s' প্যাকেজ ইনস্টল করা হচ্ছে (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "অনুগ্রহ করে \"%s\" নামের মাধ্যম [%s] নামের ডিভাইসে প্রবেশ করান"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "`%s' প্যাকেজ ডাউনলোড করা হচ্ছে..."
@@ -437,6 +430,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "কপি করতে ব্যর্থ"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "মাধ্যম \"%s\" নির্বাচিত হয়নি"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "\"%s\" মাধ্যমের জন্য [%s] rpm ফাইল পড়া যায়নি"
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -745,7 +748,12 @@ msgstr "ডিপেন্ডেন্সিসমুহ পরীক্ষা �
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "আরও জোরালোভাবে ইনস্টলের চেষ্টার করবো (--force)? (y/N)"
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -758,11 +766,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d ইনস্টলেশনের লেনদেন ব্যর্থ হয়েছে"
 msgstr[1] "%d ইনস্টলেশনের লেনদেন ব্যর্থ হয়েছে"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "ইনস্টলেশন সম্ভব"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -788,6 +791,11 @@ msgstr "সবকিছু আগে থেকেই ইনস্টল কর�
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "সবকিছু আগে থেকেই ইনস্টল করা আছে"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "ইনস্টলেশন সম্ভব"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -822,28 +830,8 @@ msgstr "বিদ্যমান মাধ্যম \"%s\" এড়াবার �
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "স্থানান্তরযোগ্য মাধ্যম \"%s\"-এর জন্য প্রচুর মাউন্ট পয়েন্ট"
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "স্থানান্তরযোগ্য ডিভাইসকে \"%s\" হিসেবে নেয়া হলো"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "\"%s\" মাধ্যম একটি ISO ইমেজ, এটি চালানোর সময় মাউন্ট করা হবে"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "অন্যান্য স্থানান্তরযোগ্য ডিভাইস [%s]-কে \"%s\"-এর জন্য ব্যবহার করা হচ্ছে"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "স্থানান্তরযোগ্য মাধ্যম \"%s\"-এর পাথনেম উদ্ধার করা সম্ভব হয়নি"
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -904,12 +892,7 @@ msgstr "\"%s\" মাধ্যম থেকে হেডার পড়া হচ�
 msgid "adding medium \"%s\""
 msgstr "\"%s\" মাধ্যম সরানো হচ্ছে"
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "প্রথম ইনস্টলেশন মাধ্যম ব্যবহার করা যাচ্ছেনা"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1025,17 +1008,7 @@ msgstr "hdlist ফাইল [%s] পরীক্ষা করা হচ্ছে
 msgid "comparing %s and %s"
 msgstr "%s ইনস্টল করা হচ্ছে %s থেকে"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"\"%s\" মাধ্যম ব্যবহার করা যায়নি,\n"
-"মাধ্যম তৈরীর সময় আপনি নিজ হাতে ডিরেক্টরী তৈরী করার কারনে এরকম হতে পারে।"
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "\"%s\" মাধ্যমের জন্য কোন hdlist ফাইল পাওয়া যায়নি"
@@ -1202,36 +1175,20 @@ msgstr "সমান্তরাল পরিচলাক পাওয়া গি
 msgid "unable to use parallel option \"%s\""
 msgstr "সমান্তরাল অপশন \"%s\" ব্যবহারে অক্ষম"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "\"%s\" মাধ্যম ব্যবহার করা যায়নি"
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "%s মাউন্ট করা হচ্ছে"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "%s আনমাউন্ট করা হচ্ছে"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "মাধ্যম \"%s\" নির্বাচিত হয়নি"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "\"%s\" মাধ্যমের জন্য [%s] rpm ফাইল পড়া যায়নি"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-"\"%s\" incoherent মাধ্যম স্থানান্তরযোগ্য হিসেবে চিহ্নিত হয়েছে কিন্তু আসলে তা নয়"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "\"%s\" মাধ্যম ব্যবহার করা যায়নি"
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2307,19 +2264,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "প্রস্তুত হলে Enter চাপুন..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "বাতিল"
@@ -2340,7 +2297,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2458,12 +2415,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - হেডার ক্যাশ ডিরেক্টরি পরিষ্কার করো।\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - নির্বিকার ভাবে।\n"
@@ -2884,20 +2836,30 @@ msgstr "  --changelog    - প্রিন্টের changelog.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - all conflicts: conflicts ট্যাগ ছাপাও।\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - all provides: provides ট্যাগ ছাপাও।\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - all requires: requires ট্যাগ ছাপাও।\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - source rpm: sourcerpm ট্যাগ ছাপাও।\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, fuzzy, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --epoch        - summary: summary ট্যাগ ছাপাও।\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2987,7 +2949,12 @@ msgstr "  কমান্ডলাইনে প্রদত্ত নাম ব�
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes শুধুমাত্র --parallel এর সাথে ব্যবহৃত হতে পারে"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "\"%s\"-এর তালিকা ফাইল লেখা যায়নি"
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3021,6 +2988,49 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "changelog পাওয়া যায়নি\n"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr ""
+#~ "\n"
+#~ "অপরিচিত অপশনসমূহ '%s'\n"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "স্থানান্তরযোগ্য মাধ্যম \"%s\"-এর জন্য প্রচুর মাউন্ট পয়েন্ট"
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "স্থানান্তরযোগ্য ডিভাইসকে \"%s\" হিসেবে নেয়া হলো"
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "\"%s\" মাধ্যম একটি ISO ইমেজ, এটি চালানোর সময় মাউন্ট করা হবে"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "অন্যান্য স্থানান্তরযোগ্য ডিভাইস [%s]-কে \"%s\"-এর জন্য ব্যবহার করা হচ্ছে"
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "স্থানান্তরযোগ্য মাধ্যম \"%s\"-এর পাথনেম উদ্ধার করা সম্ভব হয়নি"
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "প্রথম ইনস্টলেশন মাধ্যম ব্যবহার করা যাচ্ছেনা"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "\"%s\" মাধ্যম ব্যবহার করা যায়নি,\n"
+#~ "মাধ্যম তৈরীর সময় আপনি নিজ হাতে ডিরেক্টরী তৈরী করার কারনে এরকম হতে পারে।"
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr ""
+#~ "\"%s\" incoherent মাধ্যম স্থানান্তরযোগ্য হিসেবে চিহ্নিত হয়েছে কিন্তু আসলে তা নয়"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "প্রস্তুত হলে Enter চাপুন..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - হেডার ক্যাশ ডিরেক্টরি পরিষ্কার করো।\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "ভার্চুয়াল মাধ্যম স্থানীয় হতে হবে"
@@ -3274,9 +3284,6 @@ msgstr "changelog পাওয়া যায়নি\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "ফাইল [%s] আগে থেকেই একই মাধ্যম \"%s\" এর ব্যবহারে রয়েছে"
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "\"%s\"-এর তালিকা ফাইল লেখা যায়নি"
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "\"%s\"-এর তালিকা ফাইলে কিছুই লেখা হয়নি"

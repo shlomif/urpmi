@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2008-02-26 19+0900\n"
 "Last-Translator: BANDO Yukiko <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <cooker-i18n@mandrivalinux.org>\n"
@@ -108,12 +108,7 @@ msgstr "キャンセル(_C)"
 msgid "Choose location to save file"
 msgstr "ファイルを保存する場所を選んでください"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "不明なオプション %s"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "パッケージが指定されていません"
@@ -223,12 +218,12 @@ msgstr "準備中..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "パッケージ %s (%s/%s) をインストール..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "メディア %s を デバイス [%s] に挿入してください"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "パッケージ %s をダウンロード..."
@@ -420,6 +415,16 @@ msgstr "引数が多すぎます\n"
 #, c-format
 msgid "Copying failed"
 msgstr "コピーに失敗"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, c-format
+msgid "medium \"%s\" is not available"
+msgstr "メディア %s は利用できません"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "RPM ファイル [%s] をメディア %s から読み込めません"
 
 #: ../urpm/cfg.pm:81
 #, c-format
@@ -729,7 +734,12 @@ msgstr "依存を確認せずにインストールしますか？ (y/N)[デフ�
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "インストールを強行 (--force) してみますか？(y/N)[デフォルトはN]"
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -743,11 +753,6 @@ msgstr ""
 msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d 件のインストールトランザクションが失敗しました"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "インストール可能です"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -773,6 +778,11 @@ msgstr "パッケージ %s はインストールできません"
 #, c-format
 msgid "Packages %s can not be installed"
 msgstr "パッケージ %s はインストールできません"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "インストール可能です"
 
 #: ../urpm/md5sum.pm:20
 #, c-format
@@ -807,28 +817,8 @@ msgstr "既存のメディア %s を上書きしようとしています。ス�
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "リムーバブルメディア %s にはマウントポイントが多すぎます"
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "リムーバブルデバイスを %s と認識します"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "メディア %s は ISO イメージです。オンザフライでマウントされます。"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "%2$s に他のリムーバブルデバイス [%1$s] を使います"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "リムーバブルメディア %s のパスを読み出せません"
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -889,12 +879,7 @@ msgstr "メディア %s をリモートメディア %s の前に追加"
 msgid "adding medium \"%s\""
 msgstr "メディア %s を追加"
 
-#: ../urpm/media.pm:750
-#, c-format
-msgid "unable to mount the distribution medium"
-msgstr "ディストリビューションのメディアをマウントできません"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "この場所にはディストリビューションが含まれていないようです"
@@ -1011,18 +996,7 @@ msgstr "genhdlist2 が %s で失敗しました"
 msgid "comparing %s and %s"
 msgstr "%s と %s を比較"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"メディア %s にアクセスできません。\n"
-"この現象は、メディアを追加するときに手動でディレクトリをマウントすると起こる"
-"ことがあります。"
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "メディア %2$s の hdlist ファイル %1$s が無効"
@@ -1189,35 +1163,20 @@ msgstr "ノードのパラレルハンドラを検出しました: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "パラレルオプション %s は使えません"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "メディア %s にアクセスできません"
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "%s をマウント"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "%s をアンマウント"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, c-format
-msgid "medium \"%s\" is not available"
-msgstr "メディア %s は利用できません"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "RPM ファイル [%s] をメディア %s から読み込めません"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "メディア %s はリムーバブルだと判断しましたが、不確実です"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "メディア %s にアクセスできません"
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2293,18 +2252,18 @@ msgstr "ディスク容量を %s 使います。"
 msgid "%s of disk space will be freed."
 msgstr "ディスク容量が %s 空きます。"
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, fuzzy, c-format
+msgid "%s of packages will be retrieved."
+msgstr "ディスク容量が %s 空きます。"
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "%d 個のパッケージのインストールを開始しますか？"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "準備ができたら Enter を押してください"
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "キャンセル"
@@ -2317,7 +2276,7 @@ msgstr "urpmi を再スタートします"
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2325,7 +2284,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2455,12 +2414,7 @@ msgstr "  --nopubkey     - 追加したメディアの公開鍵をインポー�
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr "  --raw          - 設定ファイルにメディアを追加、更新はしない\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - キャッシュディレクトリのヘッダを削除\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - 詳細を表示しない\n"
@@ -2884,21 +2838,31 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - 変更ログを表示\n"
 
 #: ../urpmq:81
+#, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - conflict (衝突) タグ\n"
+
+#: ../urpmq:82
 #, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - provide (提供) を表示\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - require (要求) タグ\n"
+
+#: ../urpmq:84
 #, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - ソース RPM を表示\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - 要約を表示\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2993,7 +2957,12 @@ msgstr "  指定したパッケージ名/RPM ファイルがあるか調べる\n
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes は --parallel と一緒にしか使えません"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, c-format
+msgid "use -l to list files"
+msgstr ""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3023,6 +2992,45 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "変更ログはありません\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "不明なオプション %s"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "リムーバブルメディア %s にはマウントポイントが多すぎます"
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "リムーバブルデバイスを %s と認識します"
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "メディア %s は ISO イメージです。オンザフライでマウントされます。"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "%2$s に他のリムーバブルデバイス [%1$s] を使います"
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "リムーバブルメディア %s のパスを読み出せません"
+
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "ディストリビューションのメディアをマウントできません"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "メディア %s にアクセスできません。\n"
+#~ "この現象は、メディアを追加するときに手動でディレクトリをマウントすると起こ"
+#~ "ることがあります。"
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "メディア %s はリムーバブルだと判断しましたが、不確実です"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "準備ができたら Enter を押してください"
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - キャッシュディレクトリのヘッダを削除\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "仮想メディアはローカルでなければいけません"

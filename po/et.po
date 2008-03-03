@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2008-03-01 17:11+0300\n"
 "Last-Translator: Marek Laane <bald@starman.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -103,12 +103,7 @@ msgstr "_Loobu"
 msgid "Choose location to save file"
 msgstr "Valige faili salvestamise koht"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "Tundmatu võti %s"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "Pakette pole valitud"
@@ -219,12 +214,12 @@ msgstr "Valmistumine..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Paketi '%s' paigaldamine (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Palun asetage andmekandja nimega \"%s\" seadmesse [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Paketi '%s' allalaadimine..."
@@ -417,6 +412,16 @@ msgstr "Liiga palju argumente\n"
 #, c-format
 msgid "Copying failed"
 msgstr "Kopeerimine ebaõnnestus"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, c-format
+msgid "medium \"%s\" is not available"
+msgstr "andmekandja \"%s\" ei ole kättesaadav"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "RPM-faili [%s] lugemine andmekandjalt \"%s\" ebaõnnestus"
 
 #: ../urpm/cfg.pm:81
 #, c-format
@@ -727,7 +732,12 @@ msgstr "Kas proovida paigaldust ilma sõltuvusi kontrollimata? (j/E)"
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Kas proovida paigaldust veel jõulisemalt (--force)? (j/E) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -742,11 +752,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d paigaldamistehing ebaõnnestus"
 msgstr[1] "%d paigaldamistehingut ebaõnnestus"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Paigaldamine on võimalik"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -772,6 +777,11 @@ msgstr "Paketti %s ei saa paigaldada"
 #, c-format
 msgid "Packages %s can not be installed"
 msgstr "Pakette %s ei saa paigaldada"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Paigaldamine on võimalik"
 
 #: ../urpm/md5sum.pm:20
 #, c-format
@@ -805,30 +815,8 @@ msgstr "püütakse vältida olemasolevat andmekandjat \"%s\""
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "eemaldataval andmekandjal \"%s\" on liiga palju haakepunkte"
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "eemaldatavat andmekandjat käsitletakse kui \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgid "failed to migrate removable device, ignoring media"
 msgstr ""
-"Andmekandja \"%s\" on ISO-tõmmis, mis haagitakse vastavalt vajadusele "
-"automaatselt"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "kasutatakse teist eemaldatavat seadet [%s] \"%s\" jaoks"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "eemaldatava andmekandja \"%s\" asukoha hankimine ebaõnnestus"
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -889,12 +877,7 @@ msgstr "andmekandja \"%s\" lisamine enne võrguandmekandjat \"%s\""
 msgid "adding medium \"%s\""
 msgstr "andmekandja \"%s\" lisamine"
 
-#: ../urpm/media.pm:750
-#, c-format
-msgid "unable to mount the distribution medium"
-msgstr "distributsiooniandmekandja ühendamine nurjus"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "see asukoht ei paista sisaldavat ühtegi distributsiooni"
@@ -1010,17 +993,7 @@ msgstr "genhdlist2 ebaõnnestus %s puhul"
 msgid "comparing %s and %s"
 msgstr "%s ja %s võrdlemine"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"andmekandjat \"%s\" ei õnnestunud leida,\n"
-"mis võib juhtuda siis, kui andmekandjat luues ühendati kataloog käsitsi."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "vigane hdlist-fail %s andmekandjale \"%s\""
@@ -1187,35 +1160,20 @@ msgstr "leiti paralleelkäitleja sõlmedele: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "paralleelvõtme \"%s\" kasutamine ebaõnnestus"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "ligipääs andmekandjale \"%s\" ebaõnnestus"
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "%s haakimine"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "%s lahutamine"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, c-format
-msgid "medium \"%s\" is not available"
-msgstr "andmekandja \"%s\" ei ole kättesaadav"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "RPM-faili [%s] lugemine andmekandjalt \"%s\" ebaõnnestus"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "andmekandja \"%s\" on kirjas eemaldatavana, aga ei ole seda mitte"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "ligipääs andmekandjale \"%s\" ebaõnnestus"
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2331,19 +2289,19 @@ msgstr "Kasutusele võetakse veel %s kettaruumi."
 msgid "%s of disk space will be freed."
 msgstr "Vabaneb %s kettaruumi."
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, fuzzy, c-format
+msgid "%s of packages will be retrieved."
+msgstr "Vabaneb %s kettaruumi."
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Kas paigaldada 1 pakett?"
 msgstr[1] "Kas paigaldada %d paketti?"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Vajutage Enter, kui see on tehtud..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Loobu"
@@ -2356,7 +2314,7 @@ msgstr "urpmi taaskäivitamine"
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2364,7 +2322,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2386,7 +2344,8 @@ msgstr ""
 "       removable://<asukoht>\n"
 "\n"
 "kasutamine: urpmi.addmedia [võtmed] --distrib --mirrorlist <url>\n"
-"kasutamine: urpmi.addmedia [võtmed] --mirrorlist <url> <nimi> <suhteline asukoht>\n"
+"kasutamine: urpmi.addmedia [võtmed] --mirrorlist <url> <nimi> <suhteline "
+"asukoht>\n"
 "\n"
 "näited:\n"
 "\n"
@@ -2496,12 +2455,7 @@ msgstr ""
 "  --raw          - andmekandja lisatakse seadistustefaili, aga seda ei "
 "uuendata.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - puhastab päistepuhvri kataloogi.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - vaikne režiim.\n"
@@ -2938,21 +2892,31 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - näitab muutuste logi.\n"
 
 #: ../urpmq:81
+#, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - konfliktide sildid\n"
+
+#: ../urpmq:82
 #, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - näitab pakutavaid.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - nõutavate sildid\n"
+
+#: ../urpmq:84
 #, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - näitab lähtekoodi RPM-i nime.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - näitab kokkuvõtet.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3051,7 +3015,12 @@ msgstr "  päringu esitamine käsureal antud nimede või RPM-failide kohta.\n"
 msgid "--list-nodes can only be used with --parallel"
 msgstr "võtit --list-nodes saab kasutada ainult koos võtmega --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, c-format
+msgid "use -l to list files"
+msgstr ""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3081,6 +3050,46 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Muutuste logi ei leitud\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "Tundmatu võti %s"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "eemaldataval andmekandjal \"%s\" on liiga palju haakepunkte"
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "eemaldatavat andmekandjat käsitletakse kui \"%s\""
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr ""
+#~ "Andmekandja \"%s\" on ISO-tõmmis, mis haagitakse vastavalt vajadusele "
+#~ "automaatselt"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "kasutatakse teist eemaldatavat seadet [%s] \"%s\" jaoks"
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "eemaldatava andmekandja \"%s\" asukoha hankimine ebaõnnestus"
+
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "distributsiooniandmekandja ühendamine nurjus"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "andmekandjat \"%s\" ei õnnestunud leida,\n"
+#~ "mis võib juhtuda siis, kui andmekandjat luues ühendati kataloog käsitsi."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "andmekandja \"%s\" on kirjas eemaldatavana, aga ei ole seda mitte"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Vajutage Enter, kui see on tehtud..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - puhastab päistepuhvri kataloogi.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "virtuaalne andmekandja peab olema kohalik"

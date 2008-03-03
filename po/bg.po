@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-bg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2003-08-18 15:59+0300\n"
 "Last-Translator: Boyan Ivanov <boyan17@bulgaria.com>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
@@ -107,12 +107,7 @@ msgstr " Отказ"
 msgid "Choose location to save file"
 msgstr "Изберете място за запис на файл"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr "Неизвестен хост %1"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Не е въведена команда"
@@ -228,12 +223,12 @@ msgstr "Подготовка..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Инсталиране на пакет `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Моля, поставете източник с име \"%s\" в устройство [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Сваляне на пакет `%s'..."
@@ -425,6 +420,16 @@ msgstr ""
 #, fuzzy, c-format
 msgid "Copying failed"
 msgstr "Неуспешно влизане"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "източникът \"%s\" не е избран"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "невъзможно четене на rpm файл [%s] от източник \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -734,7 +739,12 @@ msgstr "Опит за инсталиране без проверка на зав
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Опит за инсталиране даже по-силно (--force)? (д/Н) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -747,11 +757,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d инсталационните транзакции не можаха да се осъществят"
 msgstr[1] "%d инсталационните транзакции не можаха да се осъществят"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Инсталацията е възможна"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -777,6 +782,11 @@ msgstr "Пакета(тите) вече са инсталирани"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "Пакета(тите) вече са инсталирани"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Инсталацията е възможна"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -811,34 +821,10 @@ msgstr "невъзможен достъп до hdlist файла за \"%s\", и
 msgid "trying to override existing medium \"%s\", skipping"
 msgstr "опит за игнориране на съществуващ източник \"%s\", избягване"
 
-# Another meaning of the word is in the sense "The iron is good medium for the eletricity"
-# in this case must be "проводник"
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "твърде много точки на монтиране за сменяем източник \"%s\""
-
-#: ../urpm/media.pm:410
-#, fuzzy, c-format
-msgid "taking removable device as \"%s\""
-msgstr "Преместваемо устройство е \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "Източника \"%s\" е ISO образ, ще бъде монтиран автоматично"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "използване на различно сменяемо устройство [%s] за \"%s\""
-
-# Another meaning of the word is in the sense "The iron is good medium for the eletricity"
-# in this case must be "проводник"
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, fuzzy, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "невъзможно възстановяване на пътя до сменяем източник \"%s\""
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -899,12 +885,7 @@ msgstr "четене на headers от източник \"%s\""
 msgid "adding medium \"%s\""
 msgstr "премахване на източник \"%s\":"
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "невъзможен достъп до източника за първоначална инсталация"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1025,18 +1006,7 @@ msgstr "проверка на hdlists файла [%s]"
 msgid "comparing %s and %s"
 msgstr "инсталиране %s\n"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"няма достъп до източник \"%s\",\n"
-"това може да стане ако ръчно сте монтирали директорията когато есъздаден "
-"източника."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "не е намерен hdlist файл за източник  \"%s\""
@@ -1203,36 +1173,20 @@ msgstr "намерен паралелен handler за възли: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "невъзможно е да се ползва паралелен режим \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "невъзможен достъп до източник \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "монтиране на %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "демонтиране на %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "източникът \"%s\" не е избран"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "невъзможно четене на rpm файл [%s] от източник \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-"некоректен източник \"%s\" е маркиран като сменяем, но в действителност не е"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "невъзможен достъп до източник \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2297,19 +2251,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Натиснете Enter,когато сте готови..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Отказ"
@@ -2330,7 +2284,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2438,12 +2392,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - почистване на хедър кеш директорията.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, fuzzy, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr " -v             - показва всички съобщения\n"
@@ -2869,20 +2818,32 @@ msgstr "  --changelog    - отпечатва списък с промените
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr ""
+"  --conflicts     - отпечатва конфликтите на тага: всички конфликти "
+"(множество редове)."
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --url          - отпечатва url тага: url.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --url          - отпечатва url тага: url.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --summary       - отпечатва резюме за тага: summary.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, fuzzy, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary       - отпечатва резюме за тага: summary.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2971,7 +2932,12 @@ msgstr "имена или rpm файлове от командния ред се
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes може да се използва само с --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "невъзможен запис на лист файл за \"%s\""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -2997,6 +2963,55 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Не е намерен changelog\n"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr "Неизвестен хост %1"
+
+# Another meaning of the word is in the sense "The iron is good medium for the eletricity"
+# in this case must be "проводник"
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "твърде много точки на монтиране за сменяем източник \"%s\""
+
+#, fuzzy
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "Преместваемо устройство е \"%s\""
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "Източника \"%s\" е ISO образ, ще бъде монтиран автоматично"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "използване на различно сменяемо устройство [%s] за \"%s\""
+
+# Another meaning of the word is in the sense "The iron is good medium for the eletricity"
+# in this case must be "проводник"
+#, fuzzy
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "невъзможно възстановяване на пътя до сменяем източник \"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "невъзможен достъп до източника за първоначална инсталация"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "няма достъп до източник \"%s\",\n"
+#~ "това може да стане ако ръчно сте монтирали директорията когато есъздаден "
+#~ "източника."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr ""
+#~ "некоректен източник \"%s\" е маркиран като сменяем, но в действителност "
+#~ "не е"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Натиснете Enter,когато сте готови..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - почистване на хедър кеш директорията.\n"
 
 # Another meaning of the word is in the sense "The iron is good medium for the eletricity"
 # in this case must be "проводник"
@@ -3260,9 +3275,6 @@ msgstr "Не е намерен changelog\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "файла [%s] вече е използван от същият източник \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "невъзможен запис на лист файл за \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "нищо не е записано в лист файла за \"%s\""

@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2008-02-14 14:13-0300\n"
 "Last-Translator: \n"
 "Language-Team: Brazilian Portuguese <pt@li.org>\n"
@@ -122,12 +122,7 @@ msgstr "_Cancelar"
 msgid "Choose location to save file"
 msgstr "Escolha o local para salvar o arquivo"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "Opção desconhecida %s"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "Nenhum pacote especificado"
@@ -239,12 +234,12 @@ msgstr "Preparando..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Instalando pacote `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Insira a mídia chamada \"%s\" no dispositivo [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Baixando o pacote `%s'..."
@@ -436,6 +431,16 @@ msgstr "Muitos parâmetros\n"
 #, c-format
 msgid "Copying failed"
 msgstr "Falha na cópia"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, c-format
+msgid "medium \"%s\" is not available"
+msgstr "mídia \"%s\" não está disponível"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "incapaz de ler o arquivo rpm [%s] para a mídia \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, c-format
@@ -745,7 +750,12 @@ msgstr "Tentar instalar sem checar as dependências? (s/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Forçar instalação (--force)? (s/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -760,11 +770,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d transação de instalação falhou"
 msgstr[1] "%d transações de instalação falharam"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Instalação é possível"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -790,6 +795,11 @@ msgstr "Pacotes %s já estão instalados"
 #, c-format
 msgid "Packages %s can not be installed"
 msgstr "Pacotes %s não podem ser instalados"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Instalação é possível"
 
 #: ../urpm/md5sum.pm:20
 #, c-format
@@ -823,28 +833,8 @@ msgstr "tentando contornar mídia existente \"%s\", evitando"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "muitos pontos de montagem para a mídia removível \"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "considerando dispositivos removíveis como \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "A mídia \"%s\" é uma imagem ISO e poderá ser montada automaticamente"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "usando diferentes dispositivos removíveis [%s] para \"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "incapaz de buscar caminhos para mídia removível \"%s\""
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -905,12 +895,7 @@ msgstr "adicionando mídia \"%s\" antes da mídia remota \"%s\""
 msgid "adding medium \"%s\""
 msgstr "adicionando a mídia \"%s\""
 
-#: ../urpm/media.pm:750
-#, c-format
-msgid "unable to mount the distribution medium"
-msgstr "incapaz de montar a mídia da distribuição"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "não foi encontrada uma distribuinão nesta localização"
@@ -1026,18 +1011,7 @@ msgstr "genhdlist2 falhou em %s"
 msgid "comparing %s and %s"
 msgstr "comparando %s e %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"incapaz de acessar a mídia \"%s\",\n"
-"verifique se não é necessário montar manualmente o diretório no qual ela foi "
-"criada."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "hdlist inválido %s para a mídia \"%s\""
@@ -1204,35 +1178,20 @@ msgstr "encontrado manipulador paralelo para os nós: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "incapaz de usar a opção paralela \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "incapaz de acessar a mídia \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "montando %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "desmontando %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, c-format
-msgid "medium \"%s\" is not available"
-msgstr "mídia \"%s\" não está disponível"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "incapaz de ler o arquivo rpm [%s] para a mídia \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "mídia inconsistente \"%s\" marcada como removível, porém não é"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "incapaz de acessar a mídia \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2346,19 +2305,19 @@ msgstr "%s de espaço adicional em disco serão usados."
 msgid "%s of disk space will be freed."
 msgstr "%s de espaço em disco serão liberados."
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, fuzzy, c-format
+msgid "%s of packages will be retrieved."
+msgstr "%s de espaço em disco serão liberados."
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Proceder a instalação de um pacote?"
 msgstr[1] "Proceder a instalação de %d pacotes?"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Tecle Enter quando estiver pronto..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Cancelar"
@@ -2371,7 +2330,7 @@ msgstr "reiniciando urpmi"
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2379,7 +2338,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2490,7 +2449,8 @@ msgstr ""
 #: ../urpmi.addmedia:76
 #, c-format
 msgid "  --virtual      - create virtual media wich are always up-to-date.\n"
-msgstr "  --virtual      - cria mídias virtuais que estão sempre atualizadas.\n"
+msgstr ""
+"  --virtual      - cria mídias virtuais que estão sempre atualizadas.\n"
 
 #: ../urpmi.addmedia:77 ../urpmi.update:42
 #, c-format
@@ -2507,12 +2467,7 @@ msgstr "  --nopubkey     - não importa chave pública da mídia adicionada\n"
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr "  --raw          - adiciona a mídia à configuração, sem atualizá-la.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - limpa o diretório dos cabeçalhos de cache.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - modo silencioso (não informativo).\n"
@@ -2943,21 +2898,31 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - imprime 'changelog'.\n"
 
 #: ../urpmq:81
+#, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - lista conflitos\n"
+
+#: ../urpmq:82
 #, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - lista provides.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - lista dos que requerem o pacote\n"
+
+#: ../urpmq:84
 #, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - lista o pacote fonte do rpm\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - imprime sumário.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3056,7 +3021,12 @@ msgstr " nomes ou arquivos rpm dados na linha de comando são consultados \n"
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes só pode ser usado com --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "incapaz de gravar lista de arquivos de \"%s\""
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr "sem xml info para a mídia \"%s\", resultado parcial para o pacote %s"
@@ -3086,6 +3056,46 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Arquivo com as alterações não foi encontrado \n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "Opção desconhecida %s"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "muitos pontos de montagem para a mídia removível \"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "considerando dispositivos removíveis como \"%s\""
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr ""
+#~ "A mídia \"%s\" é uma imagem ISO e poderá ser montada automaticamente"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "usando diferentes dispositivos removíveis [%s] para \"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "incapaz de buscar caminhos para mídia removível \"%s\""
+
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "incapaz de montar a mídia da distribuição"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "incapaz de acessar a mídia \"%s\",\n"
+#~ "verifique se não é necessário montar manualmente o diretório no qual ela "
+#~ "foi criada."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "mídia inconsistente \"%s\" marcada como removível, porém não é"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Tecle Enter quando estiver pronto..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - limpa o diretório dos cabeçalhos de cache.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "mídia virtual precisar ser local"
@@ -3414,9 +3424,6 @@ msgstr "Arquivo com as alterações não foi encontrado \n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "arquivo [%s] já está em uso na mesma mídia \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "incapaz de gravar lista de arquivos de \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "Nada escrito na lista para \"%s\""

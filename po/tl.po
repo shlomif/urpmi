@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-tl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2005-03-08 20:24+0800\n"
 "Last-Translator: Eric Pareja <xenos@upm.edu.ph>\n"
 "Language-Team: Filipino <salinpinoy@comitus.net>\n"
@@ -106,14 +106,7 @@ msgstr "_Cancel"
 msgid "Choose location to save file"
 msgstr "Piliin ang lugar kung saan ise-save ang file"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr ""
-"\n"
-"mga hindi kilalang option '%s'\n"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Walang command na nabanggit"
@@ -227,12 +220,12 @@ msgstr "Naghahanda..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Ini-install ang package na `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Pakisuksok ang medium na may pangalang \"%s\" sa device na [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Dina-download ang package na `%s'..."
@@ -425,6 +418,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "Pagkokopya nabigo"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "medium na \"%s\" ay hindi nakapili"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "hindi mabasa ang rpm file na [%s] mula sa medium na \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -734,7 +737,12 @@ msgstr "Subukan ang pag-i-install na hindi sinusuri ang mga dependency? (o/H) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Subukan ang pag-i-install nang mas malakas (--force)? (o/H) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -747,11 +755,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d transaksyong pag-i-install ay nabigo"
 msgstr[1] "%d transaksyong pag-i-install ay nabigo"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Pag-i-install ay maaari"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -777,6 +780,11 @@ msgstr "Lahat ay naka-install na"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "Lahat ay naka-install na"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Pag-i-install ay maaari"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -811,28 +819,8 @@ msgstr "sinusubukang i-bypass ang mayroon nang medium na \"%s\", iniiwasan"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "sobrang daming mount point para sa naaalis na medium na \"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "kinukuha ang naaalis na device bilang \"%s\""
-
-#: ../urpm/media.pm:413
-#, fuzzy, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "Ang \"%s\" ay ISO image at isasalang ng kusa"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "gumagamit ng iba't-ibang naaalis na device [%s] para sa \"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "hindi makuha muli ang pathname para sa naaalis na medium \"%s\""
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -893,12 +881,7 @@ msgstr "binabasa ang mga header mula sa medium na \"%s\""
 msgid "adding medium \"%s\""
 msgstr "inaalis ang medium na \"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "hindi ma-access ang unang installation medium"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1013,18 +996,7 @@ msgstr "sinusuri ang hdlist file [%s]"
 msgid "comparing %s and %s"
 msgstr "ini-install ang %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"hindi ma-access ang medium na \"%s\",\n"
-"ito ay mangyayari kung mano-mano mong in-mount ang directory noong ginagawa "
-"ang medium."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "walang nahanap na hdlist file para sa medium na \"%s\""
@@ -1191,35 +1163,20 @@ msgstr "nakahanap ng parallel handler para sa mga node: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "hindi magamit ang parallel option na \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "hindi ma-access ang medium na \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "mina-mount ang %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "ina-unmount ang %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "medium na \"%s\" ay hindi nakapili"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "hindi mabasa ang rpm file na [%s] mula sa medium na \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "incoherent na medium na \"%s\" may markang naaalis pero hindi naman"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "hindi ma-access ang medium na \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2350,19 +2307,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Pindutin ang Enter kung handa na..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "I-cancel"
@@ -2383,7 +2340,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2508,12 +2465,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - linisin ang headers cache directory.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - tahimik na paraan.\n"
@@ -2946,20 +2898,31 @@ msgstr "  --changelog    - i-print ang changelog.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr ""
+"  --conflicts    - i-print ang tag conflicts: lahat ng pagkakasalungat.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - i-print ang tag provides: lahat ng binibigay.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - i-print ang tag requires: lahat ng kinakailangan.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - i-print ang tag sourcerpm: source rpm.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, fuzzy, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary      - i-print ang tag summary: kabuuan.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3063,7 +3026,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes ay magagamit lang kasama ang --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "hindi maisulat ang list file ng \"%s\""
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3097,6 +3065,50 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Walang nahanap na changelog\n"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr ""
+#~ "\n"
+#~ "mga hindi kilalang option '%s'\n"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "sobrang daming mount point para sa naaalis na medium na \"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "kinukuha ang naaalis na device bilang \"%s\""
+
+#, fuzzy
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "Ang \"%s\" ay ISO image at isasalang ng kusa"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "gumagamit ng iba't-ibang naaalis na device [%s] para sa \"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "hindi makuha muli ang pathname para sa naaalis na medium \"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "hindi ma-access ang unang installation medium"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "hindi ma-access ang medium na \"%s\",\n"
+#~ "ito ay mangyayari kung mano-mano mong in-mount ang directory noong "
+#~ "ginagawa ang medium."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "incoherent na medium na \"%s\" may markang naaalis pero hindi naman"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Pindutin ang Enter kung handa na..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - linisin ang headers cache directory.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "virtual medium ay kailangang local"
@@ -3405,9 +3417,6 @@ msgstr "Walang nahanap na changelog\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "file na [%s] ay ginagamit na sa parehong medium na \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "hindi maisulat ang list file ng \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "walang naisulat sa list file para sa \"%s\""

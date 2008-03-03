@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2008-02-25 11:28+0100\n"
 "Last-Translator: Thierry Vignaud <tvignaud@mandriva.com>\n"
 "Language-Team: Breton <LL@li.org>\n"
@@ -93,12 +93,7 @@ msgstr "_Nullañ"
 msgid "Choose location to save file"
 msgstr "Dibabit lec'hiadur da enrollañ ar restr"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "Dianav eo an dibarzh %s"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "N'eus pakad dibabet ebet"
@@ -210,12 +205,12 @@ msgstr "O prientiñ ..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "O staliañ ar pakad `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Enlakait ar medium a vez graet « %s » anezhañ war trobarzhell [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "O tigas ar pakad « %s » ..."
@@ -401,6 +396,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "Fazi en ur eilañ"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, c-format
+msgid "medium \"%s\" is not available"
+msgstr "n'eo ket dibret ar medium « %s »"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "n'hellan ket lenn ar restr rpm [%s] eus ar medium « %s »"
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -708,7 +713,12 @@ msgstr "Klask staliañ hep sell ouzh an ezhommoù ? (y/N)"
 msgid "Try harder to install (--force)? (y/N) "
 msgstr ""
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -722,11 +732,6 @@ msgstr ""
 msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d gourc'hemenn staliañ zo bet sac'het"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Possubl eo an staliadur"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -752,6 +757,11 @@ msgstr "N'hell ket bet staliet ar pakad %s"
 #, c-format
 msgid "Packages %s can not be installed"
 msgstr "N'hell ket bet staliet ar pakadoù %s"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Possubl eo an staliadur"
 
 #: ../urpm/md5sum.pm:20
 #, c-format
@@ -785,28 +795,8 @@ msgstr ""
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "bez eus re poentoù marc'hañ evit ar medium lem/laka « %s »"
-
-#: ../urpm/media.pm:410
-#, fuzzy, c-format
-msgid "taking removable device as \"%s\""
-msgstr "Trobarzhell lem-laka"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgid "failed to migrate removable device, ignoring media"
 msgstr ""
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "oc'h implij un trobarzhell lem-laka all [%s] evit « %s »"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, fuzzy, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "bez eus re poentoù marc'hañ evit ar medium lem/laka « %s »"
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -865,12 +855,7 @@ msgstr "oc'h ouzhpennañ ar vedium « %s » a-raok ar vedium « %s »"
 msgid "adding medium \"%s\""
 msgstr "oc'h ouzhpennañ ar vedium « %s »"
 
-#: ../urpm/media.pm:750
-#, c-format
-msgid "unable to mount the distribution medium"
-msgstr ""
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -985,15 +970,7 @@ msgstr "sac'het eo bet genhdlist2 gant %s"
 msgid "comparing %s and %s"
 msgstr "o naetaat %s ha %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "siek eo restr hdlist %s evit ar vedium « %s »"
@@ -1160,35 +1137,20 @@ msgstr ""
 msgid "unable to use parallel option \"%s\""
 msgstr "n'hell ket bet bremañaet ar medium « %s »\n"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "n'eo ket possubl da voned ar vedia « %s »"
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "o marc'hañ %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "o divarc'hañ %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, c-format
-msgid "medium \"%s\" is not available"
-msgstr "n'eo ket dibret ar medium « %s »"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "n'hellan ket lenn ar restr rpm [%s] eus ar medium « %s »"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "n'eo ket possubl da voned ar vedia « %s »"
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2216,18 +2178,18 @@ msgstr "%s egor pladenn ouzphenn a vo bet implijet."
 msgid "%s of disk space will be freed."
 msgstr "%s egor pladenn a vo bet dieubet."
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, fuzzy, c-format
+msgid "%s of packages will be retrieved."
+msgstr "%s egor pladenn a vo bet dieubet."
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "War-nes bezañ staliañ eo %d pakad. Mont war-raok ?"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Gwaskit « Mont » pa oc'h prest ..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Nullañ"
@@ -2248,7 +2210,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2349,12 +2311,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr ""
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr ""
@@ -2433,7 +2390,8 @@ msgid ""
 msgstr ""
 "urpmi.recover stumm %s\n"
 "Copyright (C) 1999-2006 Mandriva.\n"
-"Ur meziant frank eo an hini-mañ ha moien zo da zal'ch anezhañ hervez GNU GPL.\n"
+"Ur meziant frank eo an hini-mañ ha moien zo da zal'ch anezhañ hervez GNU "
+"GPL.\n"
 "\n"
 "arveriadur :\n"
 
@@ -2765,20 +2723,30 @@ msgstr ""
 
 #: ../urpmq:81
 #, fuzzy, c-format
-msgid "  --provides     - print provides.\n"
+msgid "  --conflicts    - print conflicts.\n"
 msgstr "  --buildtime    - amzer ar sevel\n"
 
 #: ../urpmq:82
 #, fuzzy, c-format
+msgid "  --provides     - print provides.\n"
+msgstr "  --buildtime    - amzer ar sevel\n"
+
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --buildtime    - amzer ar sevel\n"
+
+#: ../urpmq:84
+#, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - anv ar rpm tizh\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - diskouez an diverrañ.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2866,7 +2834,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr ""
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "n'hell ket skrivañ restr hdlist « %s »"
+
+#: ../urpmq:363
 #, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -2892,6 +2865,26 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Changelog kavet ebet\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "Dianav eo an dibarzh %s"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "bez eus re poentoù marc'hañ evit ar medium lem/laka « %s »"
+
+#, fuzzy
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "Trobarzhell lem-laka"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "oc'h implij un trobarzhell lem-laka all [%s] evit « %s »"
+
+#, fuzzy
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "bez eus re poentoù marc'hañ evit ar medium lem/laka « %s »"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Gwaskit « Mont » pa oc'h prest ..."
 
 #~ msgid "Error generating names file: dependency %d not found"
 #~ msgstr "Fazi en ur sevel anvioù restr : n'hell ket bet kavet an ezhomm %d"
@@ -3025,9 +3018,6 @@ msgstr "Changelog kavet ebet\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "bez eo implijet c'hoazh ar restr [%s] er memes medium « %s »"
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "n'hell ket skrivañ restr hdlist « %s »"
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "bez eus netra skriver e restr roll evit « %s »"

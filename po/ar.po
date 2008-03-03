@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2005-09-05 17:40+0300\n"
 "Last-Translator: Ossama M. Khayat <okhayat@yahoo.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
@@ -108,14 +108,7 @@ msgstr "ال_غاء"
 msgid "Choose location to save file"
 msgstr "اختر مكان حفظ الملف"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr ""
-"\n"
-"خيارات غير معروفة '%s'\n"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "لا توجد حزمة بالإسم %s"
@@ -228,12 +221,12 @@ msgstr "جاري التحضير..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "جاري تثبيت الحزمة `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "يرجى ادخال الوسيط \"%s\" في الجهاز [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "جاري تنزيل الحزمة `%s'..."
@@ -424,6 +417,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "فشل النّسخ"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "الوسيط \"%s\" غير مختار"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "لم يمكن قراءة ملف rpm [%s] من الوسيط \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -731,7 +734,12 @@ msgstr "محاولة التثبيت دون التأكد من الاعتمادا�
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "حاول التثبيت بشكل أقوى (--force)؟ (y[نعم]/N[لا])."
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -746,11 +754,6 @@ msgstr[0] "فشل معاملات تثبيت %d"
 msgstr[1] "فشل معاملات تثبيت %d"
 msgstr[2] "فشل معاملات تثبيت %d"
 msgstr[3] "فشل معاملات تثبيت %d"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "التثبيت ممكن"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -776,6 +779,11 @@ msgstr "كل شئ مثبت مسبقا"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "كل شئ مثبت مسبقا"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "التثبيت ممكن"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -809,28 +817,8 @@ msgstr "جاري محاولة تخطّي الوسيط الموجود \"%s\"، ج
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "نقاط تجهيز كثيرة جدا للوسيط القابل للإزالة \"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "جاري أخذ الأجهزة القابلة للإزالة كـ\"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "الوسيط \"%s\" هو صورة ISO، سيتم تثبيتها خلال العمل"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "جاري استخدام الجهاز الآخر القابل للإزالة [%s] لـ\"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "لم يمكن استرجاع اسم المسار للوسيط القابل للإزالة \"%s\""
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -891,12 +879,7 @@ msgstr "جاري قراءة الترويسة من الوسيط \"%s\""
 msgid "adding medium \"%s\""
 msgstr "جاري ازالة الوسيط \"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "لم يمكن الوصول الى أول وسيط تخزين"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1011,17 +994,7 @@ msgstr "جاري اختبار ملف hdlist [%s]"
 msgid "comparing %s and %s"
 msgstr "جاري تثبيت %s من %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"لم يمكن الوصول للوسيط \"%s\"،\n"
-"قد يحدث هذا إن قيام بتجهيز الدليل يدويّاً عند إنشاء الوسيط."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "لم يمكن ايجاد ملف hdlist للوسيط \"%s\""
@@ -1188,35 +1161,20 @@ msgstr "تم ايجاد المتعامل المتوازي للعقد: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "تعذر استخدام الخيار المتوازي \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "لم يمكن الوصول الى الوسيط \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "جاري تجهيز %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "جاري ازالة تجهيز %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "الوسيط \"%s\" غير مختار"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "لم يمكن قراءة ملف rpm [%s] من الوسيط \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "تم تحديد الوسيط المفكّك \"%s\" على أنه قابل للإزالة إلا أنه ليس كذلك"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "لم يمكن الوصول الى الوسيط \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2287,7 +2245,12 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
@@ -2296,12 +2259,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "اضغط Enter عند الاستعداد..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "إلغاء"
@@ -2322,7 +2280,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2440,12 +2398,7 @@ msgstr "  --nopubkey     - عدم استيراد pubkey للوسط المضاف\
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr "  --raw          - إضافة الوسط في التهيئة، ولكن دون تحديثه.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - نظّف دليل ذاكرة الترويسات المخبّئة.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - وضع هادئ.\n"
@@ -2867,20 +2820,30 @@ msgstr "  --changelog    - اطبع سجلّ التغيير.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - اطبع الصّفة يعارض : كل التعارضات.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - اطبع الصّفة يُوفّر : كل ما يُوفّره.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - اطبع الصّفة يتطلّب : كل ما يتطلّب.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - اطبع الصّفة sourcerpm: الحزمة المصدريّة.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - عرض التلخيص.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2971,7 +2934,12 @@ msgstr "  الأسماء أو ملفات rpm المعطاة على سطر الأ
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes يمكن استخدامه فقط مع --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "غير قادر على كتابة ملف القوائم لـ \"%s\""
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3005,6 +2973,48 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "لم يُعثر على سجلّ تغييرات\n"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr ""
+#~ "\n"
+#~ "خيارات غير معروفة '%s'\n"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "نقاط تجهيز كثيرة جدا للوسيط القابل للإزالة \"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "جاري أخذ الأجهزة القابلة للإزالة كـ\"%s\""
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "الوسيط \"%s\" هو صورة ISO، سيتم تثبيتها خلال العمل"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "جاري استخدام الجهاز الآخر القابل للإزالة [%s] لـ\"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "لم يمكن استرجاع اسم المسار للوسيط القابل للإزالة \"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "لم يمكن الوصول الى أول وسيط تخزين"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "لم يمكن الوصول للوسيط \"%s\"،\n"
+#~ "قد يحدث هذا إن قيام بتجهيز الدليل يدويّاً عند إنشاء الوسيط."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "تم تحديد الوسيط المفكّك \"%s\" على أنه قابل للإزالة إلا أنه ليس كذلك"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "اضغط Enter عند الاستعداد..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - نظّف دليل ذاكرة الترويسات المخبّئة.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "الوسيط الوهمي يجب أن يكون محلياً"
@@ -3254,9 +3264,6 @@ msgstr "لم يُعثر على سجلّ تغييرات\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "الملف [%s] مستخدم مسبقا في الوسيط نفسه \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "غير قادر على كتابة ملف القوائم لـ \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "لا شئ تمت كتايته في ملف القوائم لـ \"%s\""

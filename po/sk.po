@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2005-09-07 16:34+0100\n"
 "Last-Translator: Tibor Pittich <Tibor.Pittich@mandriva.org>\n"
 "Language-Team: Slovak <i18n@mandrake.sk>\n"
@@ -103,14 +103,7 @@ msgstr "_Zrušiť"
 msgid "Choose location to save file"
 msgstr "Vyberte umiestnenie pre uloženie súboru"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr ""
-"\n"
-"neznáma voľba '%s'\n"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "žiaden balík s menom %s"
@@ -226,12 +219,12 @@ msgstr "Príprava..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Inštalácia balíka `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Prosím vložte médium \"%s\" do zariadenia [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Získavanie balíka `%s'..."
@@ -423,6 +416,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "Kopírovanie zlyhalo"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "zdroj \"%s\" nebol zvolený"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "nie je možné prečítať rpm súbor [%s] zo zdroja \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -733,7 +736,12 @@ msgstr "Skúsiť inštaláciu bez kontroly závislostí? (á/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Skúsiť \"tvrdšiu\" inštaláciu (--force)? (á/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -747,11 +755,6 @@ msgid_plural "%d installation transactions failed"
 msgstr[0] "%d inštalačná transakcia zlyhala"
 msgstr[1] "%d inštalačná transakcia zlyhala"
 msgstr[2] "%d inštalačná transakcia zlyhala"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Inštalácia je možná"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -777,6 +780,11 @@ msgstr "Všetko je už nainštalované"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "Všetko je už nainštalované"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Inštalácia je možná"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -813,28 +821,8 @@ msgstr "pokus o vynechanie existujúceho zdroja \"%s\", zrušené"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "príliš veľa bodov pripojenia pre vymeniteľný zdroj \"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "výber vymeniteľného zariadenia ako \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "Zdroj \"%s\" je ISO obraz, je možné ho pripojiť za behu"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "použitie rôznych vymeniteľných zariadení [%s] pre \"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "nie je možné zistiť cestu pre vymeniteľný zdroj \"%s\""
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -895,12 +883,7 @@ msgstr "načitávanie hlavičiek pre zdroj \"%s\""
 msgid "adding medium \"%s\""
 msgstr "odstránenie zdroja \"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "nie je možné pristúpiť k prvému inštalačnému zdroju"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1017,17 +1000,7 @@ msgstr "preverovanie hdlist súboru [%s]"
 msgid "comparing %s and %s"
 msgstr "inštalácia %s z %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"nie je možné pristúpiť k zdroju \"%s\",\n"
-"čo sa môže stať ak bol adresár pripojený počas vytvárania zdroja."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "nebol nájdený hdlist súbor pre zdroj \"%s\""
@@ -1194,36 +1167,20 @@ msgstr "nájdený paralélny ovládač pre uzly: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "nie je možné použiť voľbu parallel \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "nie je možné pristúpiť k zdroju \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "pripájanie %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "odpája sa %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "zdroj \"%s\" nebol zvolený"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "nie je možné prečítať rpm súbor [%s] zo zdroja \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr ""
-"nekoherentný zdroj \"%s\" označený ako vymeniteľné, ale nie je tomu tak"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "nie je možné pristúpiť k zdroju \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2332,7 +2289,12 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
@@ -2340,12 +2302,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Stlačte Enter ak je možné pokračovať..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Zrušiť"
@@ -2366,7 +2323,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2484,12 +2441,7 @@ msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 "  --raw          - pridať médium do konfigurácie, ale neaktualizovať.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - zmazať hlavičky v adresári dočasnej pamäte.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - zobrazovať minimum informácií.\n"
@@ -2914,20 +2866,30 @@ msgstr "  --changelog    - zobraziť históriu zmien.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - zobraziť značku konflikty: conflicts.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - zobraziť značku poskytované: provides.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - zobraziť značku vyžadované: requires.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - zobraziť značku zdrojové rpm: sourcerpm.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - zobraziť značku sumár: summary.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3023,7 +2985,12 @@ msgstr "  mená alebo rpm súbory zadané na príkazovom riadku budú dotazovan�
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes nemôže byť použité len s --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "nie je možné zapísať súbor s zoznamom pre \"%s\""
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3057,6 +3024,49 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nebol nájdený zoznam zmien\n"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr ""
+#~ "\n"
+#~ "neznáma voľba '%s'\n"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "príliš veľa bodov pripojenia pre vymeniteľný zdroj \"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "výber vymeniteľného zariadenia ako \"%s\""
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "Zdroj \"%s\" je ISO obraz, je možné ho pripojiť za behu"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "použitie rôznych vymeniteľných zariadení [%s] pre \"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "nie je možné zistiť cestu pre vymeniteľný zdroj \"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "nie je možné pristúpiť k prvému inštalačnému zdroju"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "nie je možné pristúpiť k zdroju \"%s\",\n"
+#~ "čo sa môže stať ak bol adresár pripojený počas vytvárania zdroja."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr ""
+#~ "nekoherentný zdroj \"%s\" označený ako vymeniteľné, ale nie je tomu tak"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Stlačte Enter ak je možné pokračovať..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - zmazať hlavičky v adresári dočasnej pamäte.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "virtuálne médium musí byť lokálne"
@@ -3323,9 +3333,6 @@ msgstr "Nebol nájdený zoznam zmien\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "súbor [%s] už je použitý pre ten istý zdroj \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "nie je možné zapísať súbor s zoznamom pre \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "nič nebolo zapísané do zoznamového súboru pre \"%s\""

@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2004-08-08 20:26+0200\n"
 "Last-Translator: Pablo Saratxaga <pablo@walon.org>\n"
 "Language-Team: Walloon <linux-wa@walon.org>\n"
@@ -108,12 +108,7 @@ msgstr "_Rinoncî"
 msgid "Choose location to save file"
 msgstr "Tchoezixhoz l' plaece wice schaper l' fitchî"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "Tchuze nén cnoxhowe %s"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "Nou pacaedje di scpecifyî"
@@ -225,12 +220,12 @@ msgstr "Dj' aprestêye..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Dj' astale li pacaedje «%s» (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "S' i vs plait metoz li sopoirt lomé «%s» el éndjin [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Dj' aberwetêye li pacaedje «%s»..."
@@ -422,6 +417,16 @@ msgstr "Pår trop d' årgumints\n"
 #, c-format
 msgid "Copying failed"
 msgstr "Li copiaedje a fwait berwete"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, c-format
+msgid "medium \"%s\" is not available"
+msgstr "li sopoirt «%s» n' est nén disponibe"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "dji n' sai lére li fitchî rpm [%s] foû do sopoirt «%s»"
 
 #: ../urpm/cfg.pm:81
 #, c-format
@@ -731,7 +736,12 @@ msgstr "Sayî d' astaler sin verifyî les aloyaedjes? (o/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Sayî d' astaler co pus foirt (--force)? (o/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -744,11 +754,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "I gn a-st avou %d transaccions d' astalaedje k' ont fwait berwete"
 msgstr[1] "I gn a-st avou %d transaccions d' astalaedje k' ont fwait berwete"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "L' astalaedje est possibe"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -774,6 +779,11 @@ msgstr "Li pacaedje %s èn pout nén esse astalé"
 #, c-format
 msgid "Packages %s can not be installed"
 msgstr "Les pacaedjes %s èn polèt nén esse astalés"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "L' astalaedje est possibe"
 
 #: ../urpm/md5sum.pm:20
 #, c-format
@@ -811,28 +821,8 @@ msgstr "dji saye di passer houte do sopoirt «%s», dji passe houte"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "trop di ponts di montaedje pol sopoirt bodjåve «%s»"
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "dji prind li bodjåve sopoirt come «%s»"
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-msgstr "Li sopoirt «%s» est ene imådje ISO, i serè monté al volêye"
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "eployant èn éndjin bodjåve diferin [%s] po «%s»"
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "dji n' sai aveur li tchmin pol sopoirt bodjåve «%s»"
+msgid "failed to migrate removable device, ignoring media"
+msgstr ""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -893,12 +883,7 @@ msgstr "radjoutant l' sopoirt «%s» divant l' sopoirt då lon «%s»"
 msgid "adding medium \"%s\""
 msgstr "radjoutaedje do sopoirt «%s»"
 
-#: ../urpm/media.pm:750
-#, c-format
-msgid "unable to mount the distribution medium"
-msgstr "dji n' a savou monter l' sopoirt d' astalaedje del distribucion"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "i shonne ki cist eplaeçmint la n' a nole distribucion"
@@ -1019,18 +1004,7 @@ msgstr "corwaitaedje do fitchî hdlist [%s]"
 msgid "comparing %s and %s"
 msgstr "netiaedje di %s et %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"dji n' sai acceder å sopoirt «%s»,\n"
-"çoula pout ariver metans si vos avoz monté al mwin li ridant divant di "
-"radjouter l' sopoirt d' astalaedje."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "fitchî hdlist %s nén valide pol sopoirt «%s»"
@@ -1197,35 +1171,20 @@ msgstr "pougneye po môde paralele trovêye po les nuks: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "dji n' sai eployî l' tchuze «%s» do môde paralele"
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "dji n' sai aveur accès å sopoirt «%s»"
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "dji monte %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "dji dismonte %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, c-format
-msgid "medium \"%s\" is not available"
-msgstr "li sopoirt «%s» n' est nén disponibe"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "dji n' sai lére li fitchî rpm [%s] foû do sopoirt «%s»"
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "sopoirt «%s» nén cowerant, metou come bodjåve mins nel est nén vormint"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "dji n' sai aveur accès å sopoirt «%s»"
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, c-format
@@ -2356,19 +2315,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, fuzzy, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] "Continouwer avou l' astalaedje d' on pacaedje? (%d Mo)"
 msgstr[1] "Continouwer avou l' astalaedje d' on pacaedje? (%d Mo)"
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Tapez so «enter» cwand c' est fwait..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Rinoncî"
@@ -2389,7 +2348,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2506,12 +2465,7 @@ msgstr "  --nopubkey     - n' aberwete nén li clé publike pol sopoirt\n"
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr "  --raw          - radjouter l' sopoirt, mins nén l' mete a djoû.\n"
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - netyî l' ridant muchete des tiestires.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - môde taijheu.\n"
@@ -2950,20 +2904,30 @@ msgstr "  --changelog    - håyner li djournå des candjmints.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts    - les conflits avou ds ôtes pacaedjes ou modêyes.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - tot çou k' est ahessî på pacaedje.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - tot çou k' i gn a mezåjhe po l' pacaedje.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - no do fitchî src.rpm sourdant.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary, -S  - håyner l' rascourti.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3067,7 +3031,12 @@ msgstr "  les nos ou fitchîs rpm dinés sol roye di comande sont rcwerous.\n"
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes pout esse eployî seulmint avou --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, c-format
+msgid "use -l to list files"
+msgstr ""
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3100,6 +3069,46 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nou djournå des candjmints di trové\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "Tchuze nén cnoxhowe %s"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "trop di ponts di montaedje pol sopoirt bodjåve «%s»"
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "dji prind li bodjåve sopoirt come «%s»"
+
+#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+#~ msgstr "Li sopoirt «%s» est ene imådje ISO, i serè monté al volêye"
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "eployant èn éndjin bodjåve diferin [%s] po «%s»"
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "dji n' sai aveur li tchmin pol sopoirt bodjåve «%s»"
+
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "dji n' a savou monter l' sopoirt d' astalaedje del distribucion"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "dji n' sai acceder å sopoirt «%s»,\n"
+#~ "çoula pout ariver metans si vos avoz monté al mwin li ridant divant di "
+#~ "radjouter l' sopoirt d' astalaedje."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr ""
+#~ "sopoirt «%s» nén cowerant, metou come bodjåve mins nel est nén vormint"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Tapez so «enter» cwand c' est fwait..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - netyî l' ridant muchete des tiestires.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "les forveyous sopoirts divént esse locås"

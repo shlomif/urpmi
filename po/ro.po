@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2004-10-17 14:38+0300\n"
 "Last-Translator: Ovidiu Constantin <ovidiusoft@gmail.com>\n"
 "Language-Team: Romanian <rtfs-project@lists.sourceforge.net>\n"
@@ -114,14 +114,7 @@ msgstr "_Renunţă"
 msgid "Choose location to save file"
 msgstr "Alegeţi locul unde salvez fişierul"
 
-#: ../gurpmi.pm:80
-#, fuzzy, c-format
-msgid "Unknown option %s"
-msgstr ""
-"\n"
-"opţiuni necunoscute '%s'\n"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Nu a fost specificată nici o comandă"
@@ -233,12 +226,12 @@ msgstr "Pregătire..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Instalarea pachetului `%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Vă rog să introduceţi mediul numit \"%s\" în dispozitivul [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Descarc pachetul `%s'..."
@@ -429,6 +422,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "Copierea a eşuat"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "mediul \"%s\" nu este selectat"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "nu pot citi fişierul rpm [%s] de pe mediul \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -738,7 +741,12 @@ msgstr "Să încerc instalarea fără verificarea dependenţelor? (d/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Încearcă instalarea încă şi mai dur (--force)? (d/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -752,11 +760,6 @@ msgid_plural "%d installation transactions failed"
 msgstr[0] "%d tranzacţii de instalarea eşuate"
 msgstr[1] "%d tranzacţii de instalarea eşuate"
 msgstr[2] "%d tranzacţii de instalarea eşuate"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Instalarea este posibilă"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -782,6 +785,11 @@ msgstr "totul este deja instalat"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "totul este deja instalat"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Instalarea este posibilă"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -816,28 +824,8 @@ msgstr "încerc să sar pentru mediul existent \"%s\", evitare"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "prea multe puncte de montare pentru mediul \"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "consider dispozitivul mobil ca \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgid "failed to migrate removable device, ignoring media"
 msgstr ""
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "folosesc dispozitive mobile diferite [%s] pentru \"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "nu pot obţine calea pentru mediul \"%s\""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -898,12 +886,7 @@ msgstr "citest antetele de pe mediul \"%s\""
 msgid "adding medium \"%s\""
 msgstr "elimin mediul \"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "nu pot accesa primul mediu de instalare"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1018,18 +1001,7 @@ msgstr "examinez fişierul hdlist [%s]"
 msgid "comparing %s and %s"
 msgstr "instalez %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"nu pot accesa mediul \"%s\",\n"
-"asta se poate întampla dacă aţi montat manual directorul când aţi creat "
-"mediul."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "nu a fost găsit nici un fişier hdlist pentru mediul \"%s\""
@@ -1196,35 +1168,20 @@ msgstr "am găsit descriptorul paralel pentru nodurile: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "nu pot folosi opţiunea parallel \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "nu pot accesa mediul \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "montez %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "demontare %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "mediul \"%s\" nu este selectat"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "nu pot citi fişierul rpm [%s] de pe mediul \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "mediu incoerent \"%s\" marcat ca mobil dar nu este aşa"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "nu pot accesa mediul \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2330,7 +2287,12 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
@@ -2338,12 +2300,7 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Apăsaţi Enter când e gata..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Renunţă"
@@ -2364,7 +2321,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2491,12 +2448,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - curăţă directorul cache antete.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - mod silenţios.\n"
@@ -2925,21 +2877,33 @@ msgstr "  --changelog          - afişează jurnalul modificărilor\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr ""
+"  --conflicts     - afişează eticheta Conflicte: toate conflictele (linii "
+"multiple).\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr ""
 "  --provides     - afişează eticheta Oferă: tot ce oferă (linii multiple).\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires     - afişează eticheta Necesită: toate necesităţile.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - afişare etichetă sourcepm: sursa rpm.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, fuzzy, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --summary      - afişare etichetă Sumar: sumar.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -3036,7 +3000,12 @@ msgstr "  numele sau fişierele rpm date în linia de comandă sunt interogate.\
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes poate fi folosit numai cu --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "nu pot scrie fişierul listă pentru \"%s\""
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3070,6 +3039,46 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nu s-a gasit changelog\n"
+
+#, fuzzy
+#~ msgid "Unknown option %s"
+#~ msgstr ""
+#~ "\n"
+#~ "opţiuni necunoscute '%s'\n"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "prea multe puncte de montare pentru mediul \"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "consider dispozitivul mobil ca \"%s\""
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "folosesc dispozitive mobile diferite [%s] pentru \"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "nu pot obţine calea pentru mediul \"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "nu pot accesa primul mediu de instalare"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "nu pot accesa mediul \"%s\",\n"
+#~ "asta se poate întampla dacă aţi montat manual directorul când aţi creat "
+#~ "mediul."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "mediu incoerent \"%s\" marcat ca mobil dar nu este aşa"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Apăsaţi Enter când e gata..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - curăţă directorul cache antete.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "mediul virtual trebuie să fir local"
@@ -3350,9 +3359,6 @@ msgstr "Nu s-a gasit changelog\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "fişierul [%s] este deja folosit în acelaşi mediu \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "nu pot scrie fişierul listă pentru \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "nu s-a scris nimic în fişierul listă pentru \"%s\""

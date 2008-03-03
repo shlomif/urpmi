@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-eo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-25 11:14+0100\n"
+"POT-Creation-Date: 2008-03-03 18:01+0100\n"
 "PO-Revision-Date: 2005-01-13 10:05+0100\n"
 "Last-Translator: Grégoire COLBERT <gcolbert2004@noos.fr>\n"
 "Language-Team: Esperanto <mandrak-eo@yahoogroups.com>\n"
@@ -109,12 +109,7 @@ msgstr "_Nuligu"
 msgid "Choose location to save file"
 msgstr "Elektu dosieraron por konservi tiun dosieron"
 
-#: ../gurpmi.pm:80
-#, c-format
-msgid "Unknown option %s"
-msgstr "Nekonataj opcio %s"
-
-#: ../gurpmi.pm:90
+#: ../gurpmi.pm:86
 #, c-format
 msgid "No packages specified"
 msgstr "Neniu pakaĵo indikita"
@@ -229,12 +224,12 @@ msgstr "Mi preparas..."
 msgid "Installing package `%s' (%s/%s)..."
 msgstr "Mi instalas pakaĵon '%s' (%s/%s)..."
 
-#: ../gurpmi2:260 ../urpmi:620
-#, c-format
-msgid "Please insert the medium named \"%s\" on device [%s]"
+#: ../gurpmi2:264 ../urpmi:622
+#, fuzzy, c-format
+msgid "Please insert the medium named \"%s\""
 msgstr "Bonvole enŝovu la medion nomata \"%s\" en aparaton [%s]"
 
-#: ../gurpmi2:271
+#: ../gurpmi2:275
 #, c-format
 msgid "Downloading package `%s'..."
 msgstr "Mi elŝutas pakaĵon '%s'..."
@@ -425,6 +420,16 @@ msgstr ""
 #, c-format
 msgid "Copying failed"
 msgstr "Kopiado malsukcesis"
+
+#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#, fuzzy, c-format
+msgid "medium \"%s\" is not available"
+msgstr "medio \"%s\" ne estas elektata"
+
+#: ../urpm/cdrom.pm:206
+#, c-format
+msgid "unable to read rpm file [%s] from medium \"%s\""
+msgstr "ne povis legi rpm-an dosieron [%s] de medio \"%s\""
 
 #: ../urpm/cfg.pm:81
 #, fuzzy, c-format
@@ -733,7 +738,12 @@ msgstr "Provu instaladon sen kontroli dependaĵojn? (j/N) "
 msgid "Try harder to install (--force)? (y/N) "
 msgstr "Provu instaladon eĉ pli forte (--force)? (j/N) "
 
-#: ../urpm/main_loop.pm:264
+#: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
+#, c-format
+msgid "Error"
+msgstr ""
+
+#: ../urpm/main_loop.pm:267
 #, fuzzy, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
@@ -746,11 +756,6 @@ msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
 msgstr[0] "%d instal-transakcio malsukcesis"
 msgstr[1] "%d instal-transakcioj malsukcesis"
-
-#: ../urpm/main_loop.pm:281
-#, c-format
-msgid "Installation is possible"
-msgstr "Instalado eblas"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
@@ -776,6 +781,11 @@ msgstr "La pakaĵo estas jam instalita"
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
 msgstr "La pakaĵoj estas jam instalitaj"
+
+#: ../urpm/main_loop.pm:307
+#, c-format
+msgid "Installation is possible"
+msgstr "Instalado eblas"
 
 #: ../urpm/md5sum.pm:20
 #, fuzzy, c-format
@@ -809,28 +819,8 @@ msgstr "provas ĉirkaŭiri ekzistantan medion \"%s:, evitas"
 
 #: ../urpm/media.pm:409
 #, c-format
-msgid "too many mount points for removable medium \"%s\""
-msgstr "tro da surmetingoj por movebla datenportilo \"%s\""
-
-#: ../urpm/media.pm:410
-#, c-format
-msgid "taking removable device as \"%s\""
-msgstr "prenante moveblan aparaton kiel \"%s\""
-
-#: ../urpm/media.pm:413
-#, c-format
-msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
+msgid "failed to migrate removable device, ignoring media"
 msgstr ""
-
-#: ../urpm/media.pm:416
-#, c-format
-msgid "using different removable device [%s] for \"%s\""
-msgstr "uzante alian moveblan aparaton [%s] por \"%s\""
-
-#: ../urpm/media.pm:421 ../urpm/media.pm:424
-#, c-format
-msgid "unable to retrieve pathname for removable medium \"%s\""
-msgstr "ne povis ektrakti padonomon por movebla datenportilo \"%s\""
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -891,12 +881,7 @@ msgstr "mi legas la ĉapojn de la datenportilo \"%s\""
 msgid "adding medium \"%s\""
 msgstr "foriganta datenportilon \"%s\""
 
-#: ../urpm/media.pm:750
-#, fuzzy, c-format
-msgid "unable to mount the distribution medium"
-msgstr "ne povis aliri la unuan instal-datenportilon"
-
-#: ../urpm/media.pm:753
+#: ../urpm/media.pm:759
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -1012,17 +997,7 @@ msgstr "kontrolanta hdlist-dosieron [%s]"
 msgid "comparing %s and %s"
 msgstr "instalas %s el %s"
 
-#: ../urpm/media.pm:1257
-#, c-format
-msgid ""
-"unable to access medium \"%s\",\n"
-"this could happen if you mounted manually the directory when creating the "
-"medium."
-msgstr ""
-"ne povas aliri datenportilon \"%s\",\n"
-"tio povas okazi se vi mane surmetis la dosierujon kreante la datenportilon."
-
-#: ../urpm/media.pm:1270
+#: ../urpm/media.pm:1268
 #, fuzzy, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "neniu \"hdlist\" dosiero trovita por medio \"%s\""
@@ -1189,35 +1164,20 @@ msgstr "trovis paralelan traktilon por nodoj: %s"
 msgid "unable to use parallel option \"%s\""
 msgstr "ne povis uzi paralelan opcion \"%s\""
 
-#: ../urpm/removable.pm:32
+#: ../urpm/removable.pm:26
+#, fuzzy, c-format
+msgid "unable to access medium \"%s\"."
+msgstr "ne povis atingi medion \"%s\""
+
+#: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
 msgstr "muntas %s"
 
-#: ../urpm/removable.pm:56
+#: ../urpm/removable.pm:97
 #, c-format
 msgid "unmounting %s"
 msgstr "malmuntas %s"
-
-#: ../urpm/removable.pm:112 ../urpm/removable.pm:117 ../urpm/removable.pm:147
-#, fuzzy, c-format
-msgid "medium \"%s\" is not available"
-msgstr "medio \"%s\" ne estas elektata"
-
-#: ../urpm/removable.pm:143
-#, c-format
-msgid "unable to read rpm file [%s] from medium \"%s\""
-msgstr "ne povis legi rpm-an dosieron [%s] de medio \"%s\""
-
-#: ../urpm/removable.pm:151
-#, c-format
-msgid "inconsistent medium \"%s\" marked removable but not really"
-msgstr "malkohera medio \"%s\" indikita forigebla sed ne vere"
-
-#: ../urpm/removable.pm:163
-#, c-format
-msgid "unable to access medium \"%s\""
-msgstr "ne povis atingi medion \"%s\""
 
 #: ../urpm/search.pm:29 ../urpmf:29
 #, fuzzy, c-format
@@ -2303,19 +2263,19 @@ msgstr ""
 msgid "%s of disk space will be freed."
 msgstr ""
 
-#: ../urpmi:603
+#: ../urpmi:604
+#, c-format
+msgid "%s of packages will be retrieved."
+msgstr ""
+
+#: ../urpmi:605
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../urpmi:621
-#, c-format
-msgid "Press Enter when ready..."
-msgstr "Premu la enigklavon kiam vi pretas..."
-
-#: ../urpmi:626
+#: ../urpmi:627
 #, c-format
 msgid "Cancel"
 msgstr "Nuligu"
@@ -2336,7 +2296,7 @@ msgid ""
 "       ftp://<login>:<password>@<host>/<path>\n"
 "       ftp://<host>/<path>\n"
 "       http://<host>/<path>\n"
-"       removable://<path>\n"
+"       cdrom://<path>\n"
 "\n"
 "usage: urpmi.addmedia [options] --distrib --mirrorlist <url>\n"
 "usage: urpmi.addmedia [options] --mirrorlist <url> <name> <relative path>\n"
@@ -2452,12 +2412,7 @@ msgstr ""
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
 
-#: ../urpmi.addmedia:80 ../urpmi.removemedia:42 ../urpmi.update:49
-#, c-format
-msgid "  -c             - clean headers cache directory.\n"
-msgstr "  -c             - purigu la dosieron de kap-kaŝejo.\n"
-
-#: ../urpmi.addmedia:81 ../urpmi.removemedia:44 ../urpmi.update:52
+#: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
 msgid "  -q             - quiet mode.\n"
 msgstr "  -q             - silenta modo.\n"
@@ -2878,20 +2833,30 @@ msgstr "  --changelog    - printu la ĵurnalon de la ŝanĝoj.\n"
 
 #: ../urpmq:81
 #, fuzzy, c-format
+msgid "  --conflicts    - print conflicts.\n"
+msgstr "  --conflicts     - printu etikedajn konfliktojn: ĉiuj konfliktoj.\n"
+
+#: ../urpmq:82
+#, fuzzy, c-format
 msgid "  --provides     - print provides.\n"
 msgstr "  --provides      - presu etikedan provizon: ĉiuj provizoj.\n"
 
-#: ../urpmq:82
+#: ../urpmq:83
+#, fuzzy, c-format
+msgid "  --requires     - print requires.\n"
+msgstr "  --requires      - printu etikedan postulojn: ĉiujn postulojn.\n"
+
+#: ../urpmq:84
 #, fuzzy, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
 msgstr "  --sourcerpm    - printu etikedon sourcerpm: source rpm.\n"
 
-#: ../urpmq:83
+#: ../urpmq:85
 #, fuzzy, c-format
 msgid "  --summary, -S  - print summary.\n"
 msgstr "  --group         - printu etikedan resumon: summary.\n"
 
-#: ../urpmq:85
+#: ../urpmq:87
 #, fuzzy, c-format
 msgid ""
 "  --requires-recursive, -d\n"
@@ -2984,7 +2949,12 @@ msgstr ""
 msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes uzeblas nur kun --parallel"
 
-#: ../urpmq:360
+#: ../urpmq:206
+#, fuzzy, c-format
+msgid "use -l to list files"
+msgstr "ne povis skribi listdosieron de \"%s\""
+
+#: ../urpmq:363
 #, fuzzy, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
@@ -3018,6 +2988,43 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Neniu \"changelog\" trovita\n"
+
+#~ msgid "Unknown option %s"
+#~ msgstr "Nekonataj opcio %s"
+
+#~ msgid "too many mount points for removable medium \"%s\""
+#~ msgstr "tro da surmetingoj por movebla datenportilo \"%s\""
+
+#~ msgid "taking removable device as \"%s\""
+#~ msgstr "prenante moveblan aparaton kiel \"%s\""
+
+#~ msgid "using different removable device [%s] for \"%s\""
+#~ msgstr "uzante alian moveblan aparaton [%s] por \"%s\""
+
+#~ msgid "unable to retrieve pathname for removable medium \"%s\""
+#~ msgstr "ne povis ektrakti padonomon por movebla datenportilo \"%s\""
+
+#, fuzzy
+#~ msgid "unable to mount the distribution medium"
+#~ msgstr "ne povis aliri la unuan instal-datenportilon"
+
+#~ msgid ""
+#~ "unable to access medium \"%s\",\n"
+#~ "this could happen if you mounted manually the directory when creating the "
+#~ "medium."
+#~ msgstr ""
+#~ "ne povas aliri datenportilon \"%s\",\n"
+#~ "tio povas okazi se vi mane surmetis la dosierujon kreante la "
+#~ "datenportilon."
+
+#~ msgid "inconsistent medium \"%s\" marked removable but not really"
+#~ msgstr "malkohera medio \"%s\" indikita forigebla sed ne vere"
+
+#~ msgid "Press Enter when ready..."
+#~ msgstr "Premu la enigklavon kiam vi pretas..."
+
+#~ msgid "  -c             - clean headers cache directory.\n"
+#~ msgstr "  -c             - purigu la dosieron de kap-kaŝejo.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "virtuala datenportilo devas esti loka"
@@ -3253,9 +3260,6 @@ msgstr "Neniu \"changelog\" trovita\n"
 
 #~ msgid "file [%s] already used in the same medium \"%s\""
 #~ msgstr "dosiero [%s] jam uzata en la sama datenportilo \"%s\""
-
-#~ msgid "unable to write list file of \"%s\""
-#~ msgstr "ne povis skribi listdosieron de \"%s\""
 
 #~ msgid "nothing written in list file for \"%s\""
 #~ msgstr "skribis nenion en listdosiero por \"%s\""
