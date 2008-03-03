@@ -61,7 +61,7 @@ my %options_spec = (
 
     gurpmi => {
 	auto => sub { $urpm->{options}{auto} =  1 },
-	'auto-select' => sub { $urpm->{options}{auto_select} = 1 },
+	'auto-select' => \$::auto_select,
 	'media|mediums=s' => sub { $urpm->{options}{media} = 1 },
 	"help|h" => sub { gurpmi::usage() },
  	'root=s' => sub { set_root($urpm, $_[1]) },
