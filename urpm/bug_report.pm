@@ -30,7 +30,7 @@ sub write_urpmdb {
     foreach (@{$urpm->{media}}) {
 	if (urpm::media::is_valid_medium($_)) {
 	    system('cp', urpm::media::any_synthesis($urpm, $_), 
-		   "$bug_report_dir/" . urpm::media::_synthesis($_)) == 0 or $urpm->{fatal}(1, "failed to copy $_->{name} synthesis");
+		   "$bug_report_dir/" . urpm::media::synthesis($_)) == 0 or $urpm->{fatal}(1, "failed to copy $_->{name} synthesis");
 	}
     }
     #- fake configuration written to convert virtual media on the fly.

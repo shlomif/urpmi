@@ -301,14 +301,14 @@ sub _url_with_synthesis {
 
 }
 
-sub _synthesis {
+sub synthesis {
     my ($medium) = @_;
     $medium->{name} && "synthesis.hdlist.$medium->{name}.cz";
 }
 
 sub statedir_synthesis {
     my ($urpm, $medium) = @_;
-    "$urpm->{statedir}/" . _synthesis($medium);
+    "$urpm->{statedir}/" . synthesis($medium);
 }
 sub statedir_media_info_file {
     my ($urpm, $medium, $prefix, $suffix) = @_;
