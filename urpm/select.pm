@@ -11,6 +11,7 @@ my $default_list = 'rpm,perl-URPM,perl-MDV-Distribconf,urpmi,meta-task,glibc';
 
 sub add_packages_to_priority_upgrade_list {
     my (@packages) = @_;
+    @packages = grep { $default_list !~ /,$_\b/ } @packages;
     return if !@packages;
     $default_list .= join(',', '', @packages);
 }
