@@ -249,7 +249,7 @@ sub install {
 	    #- examine the local cache to delete packages which were part of this transaction
 	    my $cachedir = "$urpm->{cachedir}/rpms";
 	    my @pkgs = grep { -e "$cachedir/$_" } map { $_->filename } @trans_pkgs;
-	    $urpm->{log}(N("removing installed rpms (%s) from %s", join(' ', @pkgs), $cachedir));
+	    $urpm->{log}(N("removing installed rpms (%s) from %s", join(' ', @pkgs), $cachedir)) if @pkgs;
 	    foreach (@pkgs) {
 		unlink "$cachedir/$_" or $urpm->{fatal}(1, N("removing %s failed: %s", $_, $!));
 	    }
