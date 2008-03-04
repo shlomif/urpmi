@@ -9,6 +9,12 @@ use URPM;
 
 my $default_list = 'rpm,perl-URPM,perl-MDV-Distribconf,urpmi,meta-task,glibc';
 
+sub add_packages_to_priority_upgrade_list {
+    my (@packages) = @_;
+    return if !@packages;
+    $default_list .= join(',', '', @packages);
+}
+
 sub set_priority_upgrade_option {
     my ($urpm, $previous) = @_;
 
