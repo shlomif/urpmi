@@ -228,6 +228,8 @@ sub _search_packages {
 #-	auto_select
 #-	install_src
 #-	priority_upgrade
+#-	upgrade_callback
+#-	resolve_req_callback
 #- %options passed to ->resolve_requested:
 #-	callback_choices
 #-	keep
@@ -261,6 +263,7 @@ sub resolve_dependencies {
 	    $urpm->request_packages_to_upgrade($db, $state, $requested, requested => undef,
 					       $urpm->{searchmedia} ? (idlist => searchmedia_idlist($urpm)) : (),
 					   );
+            $options{upgrade_callback} and $options{upgrade_callback}->();
 	}
 
 	my @priority_upgrade;
@@ -294,7 +297,8 @@ sub resolve_dependencies {
 	}
 
 	if (!$need_restart) {
-	    $urpm->resolve_requested($db, $state, $requested, %options);
+	    my @requested = $urpm->resolve_requested($db, $state, $requested, %options);
+	    $options{resolve_req_callback} and $options{resolve_req_callback}->(@requested);
 
 	    #- now check if a priority_upgrade package has been required
 	    #- by a requested package
