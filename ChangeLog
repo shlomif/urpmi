@@ -1,3 +1,2585 @@
+2008-03-04 19:35  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/select.pm: (add_packages_to_priority_upgrade_list) prevent
+	  adding twice the same package
+
+2008-03-04 19:32  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/select.pm: (resolve_dependencies) add
+	  'upgrade_callback' and
+	  'resolve_req_callback' callbacks so that rpmdrake can reuse more
+	  urpmi
+	  code
+
+2008-03-04 13:44  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/install.pm: (install) do not pretent removing packages
+	  from cache when there's
+	  nothing to remove
+
+2008-03-04 13:44  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, gurpmi.pm, gurpmi2, urpm/args.pm: handle priority upgrade
+	  list
+
+2008-03-04 13:44  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/select.pm: (add_packages_to_priority_upgrade_list)
+	  introduce it so that gurpmi &
+	  rpmdrake can handle priority upgrade list
+
+2008-03-04 13:43  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/select.pm: (set_priority_upgrade_option) split default
+	  priority upgrade list
+	  needed for next commit
+
+2008-03-04 13:43  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/args.pm: factorize common options between urpmi & gurpmi
+
+2008-03-04 12:40  Yukiko Bando <ybando at k6.dion.ne.jp>
+
+	* po/ja.po: Japanese translation updated.
+
+2008-03-04 09:56  Pixel <pixel at mandriva.com>
+
+	* NEWS: add bug number
+
+2008-03-03 23:32  Zé <ze at mandriva.org>
+
+	* po/pt.po: update
+
+2008-03-03 22:57  Pavel Maryanov <acid_jack at ukr.net>
+
+	* po/ru.po: updated translation
+
+2008-03-03 22:45  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: simplify
+
+2008-03-03 22:45  Pixel <pixel at mandriva.com>
+
+	* urpm/bug_report.pm, urpm/media.pm: correctly name function since
+	  it's outside of its module
+
+2008-03-03 22:43  Pixel <pixel at mandriva.com>
+
+	* urpm/cdrom.pm, urpm/removable.pm: correctly name function since
+	  it's outside of its module
+
+2008-03-03 22:41  Pixel <pixel at mandriva.com>
+
+	* urpm/cdrom.pm: fix comment
+
+2008-03-03 22:02  aleph
+
+	* po/hu.po: update translation for hungarian language
+
+2008-03-03 19:49  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2008-03-03 19:27  Christophe Berthelé <cpjc at free.fr>
+
+	* po/fr.po: Update French translation
+
+2008-03-03 19:23  Keld Jørn Simonsen <keld at dkuug.dk>
+
+	* po/da.po: updates
+
+2008-03-03 19:01  Inigo Salvador Azurmendi <xalba at euskalnet.net>
+
+	* po/eu.po: Osatuta.
+
+2008-03-03 18:59  Wanderlei Antonio Cavassin <cavassin at mandriva.com>
+
+	* po/pt_BR.po: more translations
+
+2008-03-03 18:35  Pixel <pixel at mandriva.com>
+
+	* MANIFEST: add urpm/cdrom.pm
+
+2008-03-03 18:33  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 5.7
+
+2008-03-03 17:22  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm, urpmq: - urpmq:
+	  o --list: speed it up (2.5x faster, and 6x faster with
+	  names.<medium>)
+	  - all tools:
+	  o restore generation of /var/lib/urpmi/names.<medium>, but it is
+	  now done in
+	  urpmq/urpmi/urpmf (and so only if used as root)
+
+2008-03-03 17:15  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpm/media.pm, urpmf: - create non_modified_media() and
+	  use it
+	  - rename _parse_media() into parse_media() for next commit
+
+2008-03-03 17:06  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: update
+
+2008-03-03 17:05  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: update
+
+2008-03-03 17:03  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@cyrillic.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: sync with code
+
+2008-03-03 16:51  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: (copy_removable) do not pass the device around (we don't
+	  want to force a device anymore)
+
+2008-03-03 16:19  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi.pm: (usage) document --test like urpmi does
+
+2008-03-03 16:18  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi.pm: (parse_command_line) fix --auto-select option that got
+	  broken in
+	  r238215 ("fix --auto-select option" (was for main_loop))
+
+2008-03-03 15:49  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: better style
+
+2008-03-03 15:38  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/args.pm: add a warning for gurpmi
+
+2008-03-03 15:37  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS: sort & explain
+
+2008-03-03 15:36  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/args.pm: handle --test
+
+2008-03-03 15:35  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, gurpmi2: give the focus to buttons (Emmanuel Blindauer,
+	  #38047)
+
+2008-03-03 15:11  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/args.pm: handle --allow-medium-change (needed for
+	  do_pkgs)
+
+2008-03-03 15:10  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/args.pm: handle --expect-install (needed for do_pkgs)
+
+2008-03-03 15:10  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/args.pm: fix --expect-install (broken since 4.9.30!)
+
+2008-03-03 15:09  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/ldap.pm: lazy load Net::LDAP
+
+2008-03-03 15:09  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, gurpmi2, urpm/args.pm: fix --auto-select option
+
+2008-03-03 15:08  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, gurpmi.pm, urpm/args.pm: (gurpmi::parse_command_line) reuse
+	  common shared code of urpm::args,
+	  thus fixing --root option
+
+2008-03-03 15:08  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, gurpmi2: (do_install_3) make completed() callback return
+	  instead of waiting
+	  while displaying a success message in automatic mode
+
+2008-03-03 13:14  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmf, urpmq:
+	  o never display raw downloader output, otherwise output is very
+	  messy (#38125)
+
+2008-03-03 12:46  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: fix download progression using wget:
+	  
+	  - the first line displays the date, not simply the time
+	  - the "==> RETR" is only for ftp, also parse "200 OK"
+	  - detecting size using /^Length/ is much simpler when wget output
+	  is not
+	  translated, so use LC_ALL=C
+	  - "ETA" is now "eta" in my tests
+	  - "eta" is not displayed at the beginning, do call
+	  propagate_sync_callback
+	  with precent and speed
+
+2008-03-03 11:51  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions.t: "a" and "b" can be installed
+	  in any order, so sometimes "a" is first,
+	  sometimes "b" is first
+
+2008-03-03 10:14  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm: - urpmf:
+	  o fix searching for more than one pattern (#38286)
+
+2008-03-02 20:32  aleph
+
+	* po/hu.po: update translation for hungarian language
+
+2008-03-01 23:19  Dotan Kamber <kamberd at yahoo.com>
+
+	* po/he.po: update translation for Hebrew
+
+2008-03-01 15:20  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Updated Estonian translation.
+
+2008-03-01 12:29  Pixel <pixel at mandriva.com>
+
+	* t/01compile.t: urpm/cdrom.pm has been added
+
+2008-03-01 01:24  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* t/superuser--file-conflicts.t: don't disable tests for jbj rpm
+
+2008-03-01 01:05  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* t/02create_pkgs.t, t/data/SPECS/buildroot_BuildRoot.spec,
+	  t/data/SPECS/buildroot_default.spec: skip buildroot checks for
+	  rpm5.org
+
+2008-02-29 19:43  Zé <ze at mandriva.org>
+
+	* po/pt.po: update
+
+2008-02-29 17:10  Jure Repinc
+
+	* po/sl.po: Updated Slovenian translation
+
+2008-02-29 17:04  Pixel <pixel at mandriva.com>
+
+	* urpm/cdrom.pm: HAL can fail to umount the cdrom if it was not
+	  mounted by HAL.
+	  in that case, use "umount" command directly.
+
+2008-02-29 16:48  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: require urpm::cdrom where needed
+
+2008-02-29 16:47  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: remove some functions that were moved to
+	  urpm::cdrom
+
+2008-02-29 16:45  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm, urpm/removable.pm: move is_iso to urpm::media and
+	  rename it
+
+2008-02-29 16:41  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/cdrom.pm, urpm/removable.pm, urpmi: o use hal to
+	  wait-for/mount cdroms:
+	  you can now use more than one cdrom drive
+	  
+	  big commit, no time to split it... some details:
+	  - split urpm::removable into urpm::removable and urpm::cdrom
+	  - fix setting $urpm->{removable_mounted}
+	  - in try_mounting_non_cdroms(), check for local url, simpler than
+	  checking
+	  is_cdrom_url and then checking file_from_local_medium
+	  - fix _try_mounting_medium() not mounting non-cdrom anymore
+	  (regression introduced during devel)
+	  - even if urpmi says it wants cdroms in a given order, if you
+	  make a mistake,
+	  it will use the one you give (as a side-effect, it simplifies the
+	  sort on
+	  "already mounted" cdrom (cf _sort_media disappearing))
+
+2008-02-29 16:16  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: kill deprecated download_source_packages
+
+2008-02-29 15:47  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: do not download on the fly xml-info unless we know
+	  if it is available
+	  (useful for the cdrom case where there is no MD5SUM, but we take
+	  care of
+	  xml-info during urpmi.addmedia, never afterwards)
+
+2008-02-29 15:44  Pixel <pixel at mandriva.com>
+
+	* .perl_checker: blacklist Net::DBus (used by Hal::Cdroms)
+
+2008-02-29 12:16  Tomasz Bednarski <tbednarski at mandrivalinux.pl>
+
+	* po/pl.po: update translation for Polish
+
+2008-02-29 11:13  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm, urpmi: do not pass the device around (we don't
+	  want to force a device anymore)
+
+2008-02-29 11:07  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: if cdrom is not mounted, _check_notfound
+	  should fail, but nicely
+
+2008-02-29 10:24  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: - rename _mount_it() into _mount_cdrom()
+	  - rename _mount_and_check_notfound() into
+	  _mount_cdrom_and_check_notfound()
+	  - in _mount_cdrom_and_check_notfound, use _try_mounting_medium
+	  since failure
+	  to mount is not fatal
+
+2008-02-29 10:22  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: rename look_for_mounted_cdrom() into
+	  _look_for_mounted_cdrom_in_mtab()
+
+2008-02-29 10:20  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: fix --mirrorlist broken by
+	  _migrate_removable_device
+
+2008-02-28 22:17  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: use confess to get stacktrace (instead of croak)
+
+2008-02-28 14:56  Tomasz Bednarski <tbednarski at mandrivalinux.pl>
+
+	* po/pl.po: update translation for Polish
+
+2008-02-28 14:45  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmf, urpmq:
+	  o do not try to download xml-info if it's not available (#38125)
+
+2008-02-27 19:01  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/removable.pm: - urpmi
+	  o do not copy rpms from cdrom if only one cdrom is used (#28083)
+
+2008-02-27 18:54  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: strictify prototype
+
+2008-02-27 18:52  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: drop useless check
+
+2008-02-27 18:51  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: _copy_from_cdrom() is a much better name than
+	  _examine_removable_medium()
+
+2008-02-27 18:50  thomas
+
+	* po/sv.po: update Swedish translation
+
+2008-02-27 18:40  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: fix typo
+
+2008-02-27 18:40  Pixel <pixel at mandriva.com>
+
+	* urpm/download.pm: {removable} is no more
+
+2008-02-27 18:33  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - create _migrate_removable_url out of
+	  _migrate_removable_device
+	  - do keep our url scheme for cdroms (#30613)
+
+2008-02-27 17:53  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: - adapt "we want to copy lzma from cds" to new
+	  cdrom:// scheme
+	  - missing lzma on cds is not a failure
+
+2008-02-27 17:37  Pixel <pixel at mandriva.com>
+
+	* .perl_checker, NEWS, pod/urpmi.addmedia.8.pod,
+	  pod/urpmi.update.8.pod, pod/urpmihowto.8.pod, urpm.pm,
+	  urpm/media.pm, urpm/removable.pm, urpmi.addmedia: - all tools:
+	  o cdrom:// replaces removable://
+
+2008-02-27 14:22  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: create read_mtab()
+
+2008-02-27 13:57  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpm/media.pm, urpm/removable.pm, urpmq: - create
+	  file_from_local_medium(), and use it where possible instead of
+	  file_from_local_url()
+	  - in urpm::removable, this implies passing $blist around
+	  
+	  nb: for now file_from_local_medium() doesn't use the first
+	  parameter if url is
+	  given, but future commit will use both (needed for {url}
+	  cdrom://)
+
+2008-02-27 13:44  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpm/media.pm, urpm/removable.pm, urpmi.addmedia: create
+	  is_local_medium() and is_local_url()
+
+2008-02-27 11:43  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm, urpm/removable.pm: internally use {iso} instead of
+	  {removable} for iso files
+	  (to make things more clear)
+
+2008-02-27 11:32  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: - fix typo in try_mounting_non_cdrom() (from
+	  previous commit)
+	  - copy_packages_of_removable_media() now only handles cdroms (no
+	  more iso)
+
+2008-02-27 11:27  Pixel <pixel at mandriva.com>
+
+	* urpm/main_loop.pm, urpm/removable.pm: treat iso as non-removable
+
+2008-02-27 11:19  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: there is no reason not to use {removable} only for
+	  iso
+
+2008-02-27 11:18  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: what we really want here is the place where the
+	  synthesis is, so in the case
+	  of {with_synthesis}, we want to check/mount there
+
+2008-02-27 10:53  Pixel <pixel at mandriva.com>
+
+	* urpm/main_loop.pm, urpm/removable.pm: rename
+	  try_mounting_non_removable() into try_mounting_non_removables()
+	  and create try_mounting_non_removable()
+
+2008-02-27 10:46  Pixel <pixel at mandriva.com>
+
+	* urpm/main_loop.pm, urpm/removable.pm: use blists to ensure we
+	  only mount media which will be used
+
+2008-02-27 09:45  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm, urpm/removable.pm: create separate function to
+	  mount iso
+
+2008-02-27 07:46  Christophe Berthelé <cpjc at free.fr>
+
+	* po/fr.po: Update fr translation on behalf of fr team
+
+2008-02-26 23:02  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: modify for the future
+
+2008-02-26 23:02  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: _mount_it() can't fail!
+
+2008-02-26 22:46  Pixel <pixel at mandriva.com>
+
+	* urpm/main_loop.pm, urpm/removable.pm: there is no reason
+	  copy_packages_of_removable_media should mount non removable
+	  media
+
+2008-02-26 22:44  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify
+
+2008-02-26 22:44  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify
+
+2008-02-26 22:43  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: fix comment
+
+2008-02-26 22:42  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify
+
+2008-02-26 22:42  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: split _get_removables_or_check_mounted into
+	  _try_mounting_non_removable and _get_removables
+
+2008-02-26 22:38  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: add comment
+
+2008-02-26 22:37  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: _check_notfound should be pure, there is no
+	  reason for _sort_media should
+	  mount any removable media. so introducing
+	  _mount_and_check_notfound()
+
+2008-02-26 22:26  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: add some comments
+
+2008-02-26 22:15  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm, urpm/removable.pm, urpm/sys.pm: - since
+	  find_mntpoints doesn't really return a list, make it clear
+	  - return a struct instead of using %info + returned value
+
+2008-02-26 22:11  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: rename $_ into $mntpoint
+
+2008-02-26 22:00  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: simplify
+
+2008-02-26 21:56  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: create _expand_symlink() out of find_mntpoints()
+
+2008-02-26 21:55  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: simplify
+
+2008-02-26 21:45  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: make it more clear
+
+2008-02-26 21:42  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: remove not useful %fstab
+
+2008-02-26 21:40  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: create _read_fstab_or_mtab() to factorise
+
+2008-02-26 21:34  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: every callers give a hash ref, so remove unneeded
+	  code
+
+2008-02-26 21:28  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify
+
+2008-02-26 21:19  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify
+
+2008-02-26 21:17  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: - re-indent
+	  - do not call eject on isos
+
+2008-02-26 21:10  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify: reduce_pathname is only
+	  useful/needed for find_mntpoints
+
+2008-02-26 21:02  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: create _non_mounted_mntpoints() to make things
+	  more clear
+
+2008-02-26 20:58  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: move removing bad file inside
+	  verify_partial_rpm_and_move()
+	  (it won't hurt urpm::removable::_do_the_copy())
+
+2008-02-26 20:57  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: simplify
+
+2008-02-26 20:56  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm, urpm/removable.pm:
+	  urpm::get_pkgs::verify_partial_rpm_and_move() return the final
+	  rpm
+
+2008-02-26 20:55  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: create _do_the_copy() out of
+	  _examine_removable_medium_()
+
+2008-02-26 20:48  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: i don't see any reason for this...
+
+2008-02-26 20:32  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: create _sort_media() out of
+	  copy_packages_of_removable_media()
+
+2008-02-26 20:30  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify
+
+2008-02-26 20:28  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: do not pass $device around, it's the same as
+	  $medium->{removable}
+
+2008-02-26 20:26  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: create a "blist" which is both $list and
+	  $urpm->{media}
+
+2008-02-26 20:15  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: fix typo in previous commit
+
+2008-02-26 20:15  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify
+
+2008-02-26 20:13  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify
+
+2008-02-26 20:08  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: use
+	  urpm::get_pkgs::verify_partial_rpm_and_move()
+
+2008-02-26 20:06  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: create verify_partial_rpm_and_move() out of
+	  download_packages_of_distant_media()
+
+2008-02-26 20:03  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: fix typo (introduced on 2008-02-24 r237346)
+
+2008-02-26 20:02  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: rename some vars
+
+2008-02-26 19:54  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: factorise
+
+2008-02-26 19:53  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: create _filepath() to remove duplicated code
+
+2008-02-26 19:51  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: create _mount_it() out of
+	  _examine_removable_medium_()
+
+2008-02-26 19:49  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: create _examine_removable_medium_ out of
+	  _examine_removable_medium
+
+2008-02-26 19:43  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: change _check_notfound() parameter
+
+2008-02-26 19:41  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: oops, revert previous commit
+
+2008-02-26 19:40  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: simplify
+
+2008-02-26 19:36  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: add comment
+
+2008-02-26 19:30  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: cleanup
+
+2008-02-26 19:30  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: s/unless/if (!/
+
+2008-02-26 19:28  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: create _get_removables_or_check_mounted() out
+	  of copy_packages_of_removable_media()
+
+2008-02-26 19:26  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: move $examine_removable_medium sub out of
+	  copy_packages_of_removable_media
+
+2008-02-26 19:24  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: - move $check_notfound sub out of
+	  copy_packages_of_removable_media
+	  - really fix _mounted_mntpoints()
+
+2008-02-26 19:21  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: add some comments
+
+2008-02-26 19:20  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: oops, fix previous "cleaning" commit,
+	  introduce _mounted_mntpoints()
+
+2008-02-26 19:18  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: add some comments
+
+2008-02-26 19:17  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: cleanup
+
+2008-02-26 19:11  Pixel <pixel at mandriva.com>
+
+	* urpm/removable.pm: supermount is dead!
+
+2008-02-26 19:10  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm: supermount is dead!
+
+2008-02-26 15:40  Keld Jørn Simonsen <keld at dkuug.dk>
+
+	* po/da.po: updates
+
+2008-02-26 14:04  Inigo Salvador Azurmendi <xalba at euskalnet.net>
+
+	* po/eu.po: Osatuta.
+
+2008-02-26 13:55  Pavel Maryanov <acid_jack at ukr.net>
+
+	* po/ru.po: updated translation
+
+2008-02-26 11:10  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: - urpmi:
+	  o fix using proxy with curl (#38143)
+
+2008-02-26 10:30  Sharuzzaman Ahmat Raslan <sharuzzaman at myrealbox.com>
+
+	* po/ms.po: Updated Malay translation
+
+2008-02-26 10:24  Yukiko Bando <ybando at k6.dion.ne.jp>
+
+	* po/ja.po: Japanese translation updated.
+
+2008-02-26 03:56  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: update
+
+2008-02-25 23:39  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 5.6
+
+2008-02-25 23:33  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi: - urpmi:
+	  o display "%s of packages will be retrieved."
+	  (need perl-URPM 3.10 and synthesis built with @filesize@)
+
+2008-02-25 20:06  Pixel <pixel at mandriva.com>
+
+	* urpm/cfg.pm: do not die on bad ini file
+
+2008-02-25 19:02  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpmi.addmedia, urpmi.bash-completion,
+	  urpmi.removemedia, urpmi.update, urpmq: - -c option is no more
+	  (only kept for compatibility in urpmi.update)
+	  - {cachedir}/headers is not used anymore
+
+2008-02-25 18:07  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2008-02-25 16:54  Pixel <pixel at mandriva.com>
+
+	* urpm/download.pm: download mirrorlist silently
+
+2008-02-25 16:19  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/install.pm, urpm/main_loop.pm: - urpmi
+	  o fix "using one big transaction" that occurs when using --keep
+	  (#30198) (part of the fix is in perl-URPM 3.09)
+
+2008-02-25 15:47  Pixel <pixel at mandriva.com>
+
+	* urpmi: don't use global configs_dir when using --env
+
+2008-02-25 15:24  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi.bash-completion: - bash-completion:
+	  o restore available-pkgs completion using "urpmq --list"
+	  (guillomovitch)
+	  (but only if COMP_URPMI_HDLISTS is set since it's slow)
+
+2008-02-25 15:03  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/main_loop.pm: - urpmi
+	  o --test: only display "Installation is possible" when it is the
+	  case (#29837)
+
+2008-02-25 14:34  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmq: make "urpmq --list xxx" display "use -l to list
+	  files" and exit on error
+
+2008-02-25 14:25  Wanderlei Antonio Cavassin <cavassin at mandriva.com>
+
+	* po/pt_BR.po: more translations
+
+2008-02-25 14:19  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmq.8.pod, urpm/args.pm, urpmi.bash-completion,
+	  urpmq: - urpmq:
+	  o add --conflicts
+
+2008-02-25 14:16  Pixel <pixel at mandriva.com>
+
+	* pod/urpmq.8.pod, urpmi.bash-completion, urpmq: need for previous
+	  commit: document "urpmq --requires"
+
+2008-02-25 14:10  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm, urpmq: - urpmq:
+	  o --requires now display the raw requires, use
+	  --requires-recursive to get
+	  the old behaviour (#29176)
+
+2008-02-25 13:48  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/mirrors.pm: - urpmi, urpmi.addmedia, urpmi.update:
+	  o handle variables $ARCH/$RELEASE in mirrorlist
+
+2008-02-25 13:40  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/main_loop.pm: typo fix
+
+2008-02-25 13:20  Pixel <pixel at mandriva.com>
+
+	* t/superuser--handle-conflict-deps.t: fixed in perl-URPM 3.09
+
+2008-02-25 12:43  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmf: - urpmf
+	  o fix fallback on hdlist when xml-info not found
+
+2008-02-25 12:21  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpmi: deffine 'message' callback
+
+2008-02-25 12:20  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/main_loop.pm: (run) kill 'bad_rpms' &
+	  'missing_files_summary' callbacks, reusing
+	  existing unused 'message' callback
+
+2008-02-25 10:29  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: update
+
+2008-02-25 10:17  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/fr.po: update
+
+2008-02-25 10:15  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@cyrillic.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: sync with code
+
+2008-02-25 10:06  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* .perl_checker: blacklist Time::ZoneInfo
+
+2008-02-25 09:30  Pixel <pixel at mandriva.com>
+
+	* t/superuser--mirrorlist.t: add a simple test case for mirrorlist
+
+2008-02-25 09:30  Pixel <pixel at mandriva.com>
+
+	* MANIFEST, t/data/SPECS/best-versioned-provide,
+	  t/data/SPECS/best-versioned-provide/a1.spec,
+	  t/data/SPECS/best-versioned-provide/a_cc.spec,
+	  t/data/SPECS/best-versioned-provide/a_dd.spec,
+	  t/data/SPECS/best-versioned-provide/a_ee.spec,
+	  t/data/SPECS/best-versioned-provide/b1.spec,
+	  t/data/SPECS/best-versioned-provide/b2.spec,
+	  t/data/SPECS/best-versioned-provide/b3.spec,
+	  t/superuser--best-versioned-provide.t: add a test case for "sort
+	  choices on virtual package by provided version (#12645)"
+
+2008-02-25 09:30  Pixel <pixel at mandriva.com>
+
+	* MANIFEST.SKIP: why is ExtUtils::Manifest now including default
+	  rules in users's MANIFEST.SKIP?
+
+2008-02-24 10:58  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/get_pkgs.pm, urpm/main_loop.pm: display a "bad rpms"
+	  message instead of "files are missing" when the downloaded rpm is
+	  bad.
+	  
+	  this adds a new callback for rpmdrake: "bad_rpms"
+	  
+	  this modifies the API of
+	  urpm::get_pkgs::download_packages_of_distant_media
+	  ($error_sources is now { url => reason } instead of { id => url
+	  })
+
+2008-02-24 10:49  Pixel <pixel at mandriva.com>
+
+	* urpm/download.pm: create hide_password() (to be used in
+	  urpm::main_loop to remove duplication)
+
+2008-02-24 10:26  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: further simplify (allowed by making "moving
+	  file" fatal)
+
+2008-02-24 10:22  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: fix typo in previous commit
+
+2008-02-24 10:20  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/get_pkgs.pm, urpm/media.pm, urpm/removable.pm,
+	  urpm/sys.pm: - urpmi, urpmi.addmedia, urpmi.update:
+	  o have fatal errors on some errors that must not happen (eg:
+	  moving rpm from
+	  download dir to cachedir)
+
+2008-02-24 10:06  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: make it fatal to fail to remove cachedir rpms
+
+2008-02-24 10:00  Pixel <pixel at mandriva.com>
+
+	* urpm/install.pm: - do not say "removing installed rpms" for rpms
+	  which are not in cachedir
+	  - do not say "removing installed rpms" for rpms which were not
+	  scheduled to be
+	  installed, instead remove those rpms from cachedir with a special
+	  error
+	  message
+
+2008-02-23 22:37  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: urpmf: fix mirrolist handling
+
+2008-02-23 22:36  Pixel <pixel at mandriva.com>
+
+	* urpmi.addmedia: at least display an error message on error
+
+2008-02-23 22:35  Pixel <pixel at mandriva.com>
+
+	* urpmi.addmedia: drop obsolete code (remove_failed function
+	  already removed, and error handling
+	  is now much better in urpmi: it won't write urpmi.cfg until
+	  everything is ok)
+
+2008-02-23 21:31  Pixel <pixel at mandriva.com>
+
+	* NEWS: 5.5
+
+2008-02-23 21:31  Pixel <pixel at mandriva.com>
+
+	* MANIFEST, NEWS, pod/urpmi.addmedia.8.pod, pod/urpmi.cfg.5.pod,
+	  t/01compile.t, urpm.pm, urpm/args.pm, urpm/cfg.pm, urpm/media.pm,
+	  urpm/mirrors.pm, urpmi.addmedia, urpmq: - all tools:
+	  o handle mirrorlist
+	  (need perl-Zone-TimeInfo patched for geolocalisation)
+
+2008-02-23 19:40  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmi.addmedia
+	  o don't fail on remaining statedir files (#36267)
+	  (especially useful when using media.d/*.cfg)
+
+2008-02-23 19:21  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: simplify ("list" is not used anymore)
+
+2008-02-23 18:59  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/ordering-scriptlets/ash_1.spec: ash is no more
+	  static in mandriva, use dash.static instead (for our test
+	  purpose)
+
+2008-02-23 18:54  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: fix typo calling _is_local_virtual
+
+2008-02-22 21:36  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Fining some messages.
+
+2008-02-22 20:28  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Updated Estonian translation.
+
+2008-02-22 15:18  Pixel <pixel at mandriva.com>
+
+	* urpm/download.pm: get_content() as a wrapper around sync() to get
+	  file content
+
+2008-02-22 10:30  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmf: - urpmf
+	  o fallback on hdlist when xml-info not found (useful for old
+	  distribs)
+
+2008-02-21 14:19  Pixel <pixel at mandriva.com>
+
+	* t/helper.pm, urpm/cfg.pm, urpm/media.pm: rename
+	  conf_file__rel_media into with-dir
+	  (since it will be used in urpmi.cfg too, it needs a less verbose
+	  name)
+
+2008-02-21 14:14  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: create _new_distribconf_and_download() and use it
+	  (for future commit)
+
+2008-02-21 14:12  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: - fix typo _is_local_virtual() and
+	  _is_remote_virtual()
+	  - introduce _local_file()
+
+2008-02-21 11:22  Tomasz Bednarski <tbednarski at mandrivalinux.pl>
+
+	* po/pl.po: update translation for Polish
+
+2008-02-21 10:50  Pixel <pixel at mandriva.com>
+
+	* urpmi.addmedia: adapt --virtual usage description to its new
+	  features
+
+2008-02-21 10:32  Pixel <pixel at mandriva.com>
+
+	* pod/urpmi.addmedia.8.pod: adapt --virtual description: it can now
+	  handle remove distro
+	  (and in that case /var/lib/urpmi is used)
+
+2008-02-21 10:24  Pixel <pixel at mandriva.com>
+
+	* urpm/download.pm: do not use an undefined value
+
+2008-02-20 22:35  Michal Bukovjan <bukovjan at mbox.dkm.cz>
+
+	* po/cs.po: Update Czech translation.
+
+2008-02-20 17:07  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/cy.po: update (Rhoslyn Prys)
+
+2008-02-18 16:00  Tomasz Bednarski <tbednarski at mandrivalinux.pl>
+
+	* po/pl.po: update translation for Polish
+
+2008-02-17 16:42  Inigo Salvador Azurmendi <xalba at euskalnet.net>
+
+	* po/eu.po: Osatu gabe (1 falta da).
+
+2008-02-17 11:28  Inigo Salvador Azurmendi <xalba at euskalnet.net>
+
+	* po/eu.po: Osatu gabe (asko falta dira).
+
+2008-02-16 13:49  Christophe Berthelé <cpjc at free.fr>
+
+	* po/hu.po: Update hu translation on behalf of hu team
+
+2008-02-16 00:53  Keld Jørn Simonsen <keld at dkuug.dk>
+
+	* po/da.po: updates
+
+2008-02-15 22:42  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2008-02-15 17:27  Pixel <pixel at mandriva.com>
+
+	* pod/urpmi.8.pod, urpmi: add --debug in usage and man page
+
+2008-02-15 08:18  Christophe Berthelé <cpjc at free.fr>
+
+	* po/fr.po: Update fr translation
+
+2008-02-14 22:50  Pavel Maryanov <acid_jack at ukr.net>
+
+	* po/ru.po: updated translation
+
+2008-02-14 16:25  Wanderlei Antonio Cavassin <cavassin at mandriva.com>
+
+	* po/pt_BR.po: updated brazilian portuguese
+
+2008-02-14 12:05  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@cyrillic.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: sync with code
+
+2008-02-14 10:50  Pixel <pixel at mandriva.com>
+
+	* NEWS: enhance misfeature description
+
+2008-02-14 10:49  Pixel <pixel at mandriva.com>
+
+	* NEWS: enhance feature description
+
+2008-02-14 10:48  Pixel <pixel at mandriva.com>
+
+	* NEWS: enhance feature description
+
+2008-02-14 10:47  Pixel <pixel at mandriva.com>
+
+	* .perl_checker, NEWS, t/helper.pm, t/superuser--addmedia.t,
+	  urpm.pm, urpm/cfg.pm, urpm/media.pm: - urpmi handles
+	  /etc/urpmi/media.d/*.cfg
+	  as an alternative to using urpmi.addmedia
+	  
+	  nb: need documentation
+
+2008-02-14 00:48  Inigo Salvador Azurmendi <xalba at euskalnet.net>
+
+	* po/eu.po: Osatu gabe (asko falta dira).
+
+2008-02-13 02:25  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* urpm/download.pm: ensure that aria2 doesn't connect multiple
+	  times to same host with different protocols
+
+2008-02-07 07:47  Funda Wang <fundawang at gmail.com>
+
+	* po/zh_CN.po: Updated zh_CN translation
+
+2008-02-07 00:42  Inigo Salvador Azurmendi <xalba at euskalnet.net>
+
+	* po/eu.po: Osatu gabe (asko falta dira).
+
+2008-02-06 15:18  Pixel <pixel at mandriva.com>
+
+	* NEWS: fix typo
+
+2008-02-06 13:51  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmi.update, urpmi.addmedia:
+	  o handle --virtual for remove media
+	  (a better name would be "auto-update", a la yum)
+
+2008-02-06 09:13  Inigo Salvador Azurmendi <xalba at euskalnet.net>
+
+	* po/eu.po: Osatu gabe (asko falta dira).
+
+2008-02-05 17:47  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm, urpmf, urpmi, urpmq: nocheck_access is quite wrong
+	  nowadays afaik
+
+2008-02-05 17:08  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmi.files.5.pod, urpm/media.pm,
+	  urpmi.bash-completion: - urpmi.update, urpmi.addmedia:
+	  o do not parse synthesis
+	  o drop /var/lib/urpmi/names.<medium>
+
+2008-02-05 17:05  Pixel <pixel at mandriva.com>
+
+	* pod/urpmi.files.5.pod: update doc: list.<media_name> is dead for
+	  some time now
+
+2008-02-05 10:07  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 5.4
+
+2008-02-05 10:06  Pixel <pixel at mandriva.com>
+
+	* NEWS, t/superuser--addmedia.t, urpm/media.pm: - urpmi, urpme,
+	  urpmq, urpmf:
+	  o fix --use-distrib
+	  
+	  (and add test to ensure it never breaks again)
+
+2008-02-05 09:31  Pixel <pixel at mandriva.com>
+
+	* t/superuser--addmedia.t: simplify
+
+2008-02-04 16:04  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 5.3
+
+2008-02-04 16:03  Pixel <pixel at mandriva.com>
+
+	* t/superuser--addmedia.t: adapt to "media_info_dir: media_info"
+	  being the default
+
+2008-02-04 16:03  Pixel <pixel at mandriva.com>
+
+	* t/helper.pm: have urpmi quiet option "-q" for urpm_cmd()
+
+2008-02-04 16:02  Pixel <pixel at mandriva.com>
+
+	* t/02create_pkgs.t: do set _tmppath
+
+2008-02-04 14:04  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - library:
+	  o since any_xml_info can be slow, add a "callback" option
+	  (#37264)
+
+2008-02-04 13:57  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm, urpm/cfg.pm, urpm/media.pm: - urpmi.cfg:
+	  o "media_info_dir: media_info" is the default
+	  o "no-media-info" is used for media for which media_info must be
+	  built from
+	  rpms
+	  
+	  the goal of this change is to allow upcoming
+	  /etc/urpmi/media.d/*.cfg (or
+	  whatever they will be called) to skip mentionning media_info_dir,
+	  but also to cleanup urpmi.cfg
+
+2008-02-02 20:22  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2008-02-01 16:03  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: simplify: _update_medium() and _update_medium_()
+	  are always called with
+	  $medium->{modified} set
+
+2008-01-31 14:54  Yukiko Bando <ybando at k6.dion.ne.jp>
+
+	* po/ja.po: Japanese translation updated.
+
+2008-01-30 16:34  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: changing the way --synthesis is done in
+	  urpm::media::configure.
+	  This is used by urpmi/urpmq/urpmf.
+	  
+	  --synthesis will now be more similar to using a virtual medium (a
+	  la
+	  --use-distrib), compared to really only using the given
+	  synthesis.
+
+2008-01-30 16:31  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmf: - urpmf:
+	  o fix --synthesis
+
+2008-01-28 19:51  Pavel Maryanov <acid_jack at ukr.net>
+
+	* po/ru.po: updated translation
+
+2008-01-27 20:45  Christophe Berthelé <cpjc at free.fr>
+
+	* po/fr.po: Update fr translation
+
+2008-01-25 07:48  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmq.8.pod, urpm/args.pm, urpmi.bash-completion,
+	  urpmq: - urpmq:
+	  o add --no-suggests
+
+2008-01-25 07:41  Pixel <pixel at mandriva.com>
+
+	* urpmi: add --no-suggests to urpmi usage
+
+2008-01-24 23:30  Zé <ze at mandriva.org>
+
+	* po/pt.po: update
+
+2008-01-24 22:01  Christophe Berthelé <cpjc at free.fr>
+
+	* po/fr.po: Update fr translation
+
+2008-01-23 17:42  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/af.po, po/ar.po, po/az.po, po/bg.po, po/bn.po, po/br.po,
+	  po/bs.po, po/ca.po, po/cs.po, po/cy.po, po/da.po, po/de.po,
+	  po/el.po, po/eo.po, po/es.po, po/et.po, po/eu.po, po/fa.po,
+	  po/fi.po, po/fr.po, po/fur.po, po/ga.po, po/gl.po, po/he.po,
+	  po/hi.po, po/hr.po, po/hu.po, po/id.po, po/is.po, po/it.po,
+	  po/ja.po, po/ka.po, po/ko.po, po/ky.po, po/lt.po, po/lv.po,
+	  po/mk.po, po/mn.po, po/ms.po, po/mt.po, po/nb.po, po/nl.po,
+	  po/nn.po, po/pa_IN.po, po/pl.po, po/pt.po, po/pt_BR.po, po/ro.po,
+	  po/ru.po, po/sc.po, po/sk.po, po/sl.po, po/sq.po, po/sr.po,
+	  po/sr@Latn.po, po/sv.po, po/tg.po, po/th.po, po/tl.po, po/tr.po,
+	  po/uk.po, po/urpmi.pot, po/uz.po, po/uz@cyrillic.po, po/vi.po,
+	  po/wa.po, po/zh_CN.po, po/zh_TW.po: sync with code
+
+2008-01-23 16:45  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/file-conflicts/h.spec,
+	  t/data/SPECS/file-conflicts/i.spec,
+	  t/superuser--file-conflicts.t: add a test case: conflicting
+	  manpages
+
+2008-01-23 16:45  Pixel <pixel at mandriva.com>
+
+	* t/superuser--handle-conflict-deps.t: add bug number
+
+2008-01-23 16:45  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--strict-require.t: add bug number
+
+2008-01-23 16:44  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpme: - urpme:
+	  o enhance pkg list formatting for "The following packages contain
+	  %s: %s"
+	  error message (#29178)
+
+2008-01-22 11:46  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/select.pm: - urpme, urpmi:
+	  o add basesystem-minimal to prohibit-remove
+
+2008-01-22 01:22  Pavel Maryanov <acid_jack at ukr.net>
+
+	* po/ru.po: updated translation
+
+2008-01-21 15:09  Pixel <pixel at mandriva.com>
+
+	* pod/urpmi.cfg.5.pod: fix indentation of xml-info options
+
+2008-01-19 12:41  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* urpmi: add --aria2-options to --help output
+
+2008-01-18 17:30  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 5.2
+
+2008-01-18 17:30  Pixel <pixel at mandriva.com>
+
+	* NEWS: sort
+
+2008-01-18 17:29  Pixel <pixel at mandriva.com>
+
+	* t/superuser--file-conflicts.t: adapt to rpm patch change:
+	  
+	  - allow conflicting ghost file types as sometimes the same ghost
+	  file
+	  is a file in one package and a symlink in another package
+	  (modifies
+	  rpm-4.4.2.2-allow-conflicting-ghost-files.patch)
+
+2008-01-18 17:13  Pixel <pixel at mandriva.com>
+
+	* NEWS: fix typo
+
+2008-01-18 17:12  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmi.8.pod, urpm/args.pm, urpmi,
+	  urpmi.bash-completion: - urpmi:
+	  o --buildrequires deprecate --src, --src is kept for
+	  compatibility but its
+	  behaviour is changed a little (it doesn't download src.rpm
+	  anymore)
+	  
+	  ie implement what i suggested on cooker mailing list:
+	  
+	  
+	  Date: Thu, 15 Nov 2007 18:21:32 +0100
+	  Subject: urpmi --src issues, suggesting replacing --src with
+	  --buildrequires
+	  
+	  current situation:
+	  
+	  % urpmi /xxx/foo.src.rpm
+	  #=> installs foo.src.rpm buildrequires
+	  
+	  % urpmi --install-src foo bar
+	  #=> downloads foo.src.rpm bar.src.rpm and "rpm -i"
+	  
+	  % urpmi --help | grep -- --src
+	  --src, -s - next package is a source package.
+	  
+	  % urpmi --src foo
+	  #=> urpmi says it will install foo buildrequires + foo.src.rpm
+	  #=> in fact, it only installs foo buildrequires
+	  
+	  weird cases in current urpmi:
+	  
+	  % urpmi --src foo bar
+	  #=> equiv to "urpmi --src foo ; urpmi bar"
+	  
+	  % urpmi foo --src bar
+	  #=> equiv to "urpmi --src foo bar" above :-(
+	  
+	  % urpmi --src foo --src bar
+	  #=> equiv to "urpmi --src foo bar" :-(
+	  
+	  
+	  suggestions:
+	  
+	  1) we could make --src a global option:
+	  
+	  % urpmi --src foo bar
+	  #=> would install buildrequires of foo.src.rpm and bar.src.rpm
+	  
+	  cons: it breaks compatibility (though i'm quite sure noone uses
+	  the
+	  previous behaviour)
+	  
+	  2) deprecate --src, introduce with --buildrequires:
+	  
+	  % urpmi --buildrequires foo bar
+	  #=> would install buildrequires of foo.src.rpm and bar.src.rpm
+	  
+	  3) when doing "urpmi /xxx/foo.src.rpm", warn the user that it
+	  should
+	  use either "--install-src" or "--buildrequires", and that urpmi
+	  is
+	  defaulting to "--buildrequires"
+	  
+	  2) and 3) are implemented now
+
+2008-01-18 16:46  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm, urpm/main_loop.pm: - urpmi
+	  o --install-src will succesfully installed src.rpm from
+	  /var/cache/urpmi/rpms/* (unless post-clean is 0)
+	  
+	  we could not do that by default because "urpmi --install-src" as
+	  user could
+	  not download the file
+
+2008-01-18 16:42  Pixel <pixel at mandriva.com>
+
+	* urpm/util.pm: add begins_with()
+
+2008-01-18 16:39  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: even if we don't want $urpm->{cachedir} to be userdir()
+	  by default
+	  (so that it doesn't always get created but only when needed),
+	  when we create
+	  it, we can really set $urpm->{cachedir}
+
+2008-01-18 16:33  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/get_pkgs.pm: - urpmi:
+	  o --install-src as user now works for remote medium
+
+2008-01-18 16:11  Pixel <pixel at mandriva.com>
+
+	* urpm/get_pkgs.pm: use var (for future commit)
+
+2008-01-18 14:38  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm: - urpmf:
+	  o display a warning when searching "xxx(yyy)" since it is handled
+	  as a
+	  regexp and so the parentheses are useless. suggest using
+	  --literal
+
+2008-01-18 14:34  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm: factorize duplicated code
+
+2008-01-18 13:43  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/handle-conflict-deps/c.spec,
+	  t/data/SPECS/handle-conflict-deps/d.spec,
+	  t/data/SPECS/handle-conflict-deps/e.spec,
+	  t/data/SPECS/handle-conflict-deps/f.spec,
+	  t/superuser--handle-conflict-deps.t: add some tests (including a
+	  failing one)
+
+2008-01-18 13:00  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/select.pm: - urpmq:
+	  o fix option -a : display packages of all compatible archs
+	  (#36942)
+	  
+	  this fixes another issue introduced in commit r231535 (urpmi
+	  4.10.15,
+	  2007-11-15), partially fixed in r231782 (2007-11-28)
+	  
+	  the commit has 2 parts:
+	  - ensure all compatible archs are kept when {all} option is used
+	  - display one pkg per line in urpmq
+
+2008-01-18 10:49  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--strict-require.t: it's not an
+	  ERROR, urpmi really must do +a-2,+c-2,-b-1 in the same
+	  transaction
+
+2008-01-18 10:16  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--strict-require-1/d.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/dd.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/d.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/dd.spec,
+	  t/superuser--split-transactions--strict-require.t: add a failing
+	  test case
+
+2008-01-18 10:10  Pixel <pixel at mandriva.com>
+
+	* t/superuser--obsolete-and-conflict.t,
+	  t/superuser--specify-media.t, t/superuser--split-transactions.t:
+	  cleanup using run_urpm_cmd
+
+2008-01-18 10:07  Pixel <pixel at mandriva.com>
+
+	* t/superuser--README-urpmi.t, t/superuser--media_info_dir.t,
+	  t/superuser--split-transactions--promote.t: cleanup using
+	  run_urpm_cmd
+
+2008-01-18 10:03  Pixel <pixel at mandriva.com>
+
+	* t/superuser--media_info_dir.t: cleanup using run_urpm_cmd
+
+2008-01-18 10:02  Pixel <pixel at mandriva.com>
+
+	* t/helper.pm: only display the cmd when debugging
+
+2008-01-18 10:00  Pixel <pixel at mandriva.com>
+
+	* t/superuser--media_info_dir.t: check rpmv3 pkg files are
+	  installed
+
+2008-01-18 09:46  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm, urpm/xml_info.pm, urpmf: - urpmf:
+	  o add special code for --files simple case, it makes urpmf 3x
+	  faster for
+	  this often used case
+
+2008-01-17 15:26  Pixel <pixel at mandriva.com>
+
+	* urpmi: fix using urpmi --env where the media are virtual (by
+	  removing "virtual" from urpmi.cfg)
+
+2008-01-17 13:55  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/lock.pm: o fix displaying error message when failing
+	  to lock (regression in 5.1)
+	  (thanks to blino)
+
+2008-01-17 11:57  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmq.8.pod, urpm/args.pm, urpm/util.pm,
+	  urpmi.bash-completion, urpmq: - urpmq:
+	  o add --provides
+
+2008-01-17 11:39  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmi.8.pod, urpm/args.pm, urpmi: - all tools:
+	  o deprecate --curl and --wget in favor of --downloader curl
+	  and --downloader --wget
+
+2008-01-17 10:54  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* urpmi: add missing --aria2 to --help
+
+2008-01-16 14:49  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 5.1
+
+2008-01-16 14:48  Pixel <pixel at mandriva.com>
+
+	* t/superuser--http.t: test urpmq/urpmf correctly use info.xml.lzma
+	  with exotic medium name
+
+2008-01-16 14:47  Pixel <pixel at mandriva.com>
+
+	* t/superuser--handle-conflict-deps.t: need real fix... urpmi one
+	  or the other...
+
+2008-01-15 16:24  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/xml_info.pm: - urpmf, urpmq:
+	  o fix using xml info files with spaces in medium name
+	  
+	  (as reported in a comment of bug #36742)
+
+2008-01-15 16:22  Pixel <pixel at mandriva.com>
+
+	* t/helper.pm: add run_urpm_cmd()
+
+2008-01-15 16:21  Pixel <pixel at mandriva.com>
+
+	* t/02create_pkgs.t: use genhdlist2 and create xml info files
+
+2008-01-15 16:19  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpm/lock.pm: fix calls to {fatal}
+
+2008-01-15 16:01  Pixel <pixel at mandriva.com>
+
+	* urpmq: fix commit adding --sourcerpm
+
+2008-01-15 15:13  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/multi-line-macro.spec,
+	  t/data/SPECS/multi-line-macro2.spec: rpm bug #27417 is fixed
+
+2008-01-15 14:39  Pixel <pixel at mandriva.com>
+
+	* t/superuser--media_info_dir.t: test "urpmq --list"
+
+2008-01-15 14:35  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmq: - urpmq
+	  o fix --list (regression introduced in 5.0)
+	  
+	  (those lines were wrongly dropped in r232614 2007-12-19)
+
+2008-01-14 13:57  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm: deprecate "urpmq --requires"
+
+2008-01-14 13:18  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/args.pm: o deprecate "urpmq -R" and "urpmq -RR"
+
+2008-01-14 13:13  Pixel <pixel at mandriva.com>
+
+	* pod/urpmq.8.pod: fix documentation for "urpmq -d"
+
+2008-01-14 12:51  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmq.8.pod, urpm/args.pm, urpmi.bash-completion,
+	  urpmq: - urpmq:
+	  o add --sourcerpm
+
+2008-01-14 07:44  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/xml_info_pkg.pm: - urpmf:
+	  o fix --license
+
+2008-01-11 17:26  Pixel <pixel at mandriva.com>
+
+	* .perl_checker, MANIFEST, NEWS, pod/urpmi.addmedia.8.pod,
+	  pod/urpmi.cfg.5.pod, t/01compile.t, urpm.pm, urpm/args.pm,
+	  urpm/cfg.pm, urpm/media.pm, urpm/xml_info.pm,
+	  urpm/xml_info_pkg.pm, urpmf, urpmi.addmedia, urpmq: - 5.0
+	  - urpmf, urpmq:
+	  o use xml info instead of hdlist when possible
+	  o "urpmq -l" is faster (3x)
+	  o "urpmf -l" is slower (1.5x)
+	  o "urpmf --sourcerpm" is much faster
+	  o see "xml-info" option in urpmi.cfg(5) to see when those files
+	  are downloaded
+	  o new require: perl module XML::LibXML
+	  - urpmq:
+	  o use rpm file instead of hdlist/xml-info when file is local
+	  o use URPM::Package->changelogs (need perl-URPM 3.06)
+	  - urpmi.update, urpmi.addmedia, urpmi.removemedia:
+	  o drop hdlist support replaced with xml media_info
+	  (this imply file-deps are correctly handled, see genhdlist2(1))
+	  - urpmi.addmedia
+	  o new --xml-info option
+
+2008-01-11 16:49  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: factorize code with statedir_media_info_file()
+
+2008-01-11 16:47  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: create _copy_media_info_file() out of
+	  _get_list_or_pubkey__local()
+
+2008-01-11 11:09  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm, urpmi: better fix for "always prompt before doing
+	  a priority-upgrade transaction,
+	  even if there is only one priority upgrade package (since there
+	  will be
+	  more packages to install after restarting urpmi)"
+	  since we don't want to prompt if all pkgs have been especially
+	  prompted on
+	  command-line
+	  
+	  also not using suggests when selecting pkgs in priority-upgrade
+	  (nb: this may by-pass some suggests in priority-upgrade pkgs,
+	  need more
+	  checking)
+
+2008-01-11 09:48  Pixel <pixel at mandriva.com>
+
+	* urpm.pm: enhance comment
+
+2008-01-11 07:53  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmq: - urpmq:
+	  o use URPM::Package->changelogs (need perl-URPM 3.06)
+
+2008-01-10 17:41  Pixel <pixel at mandriva.com>
+
+	* urpmq: use a var name $id instead of $_
+
+2008-01-10 17:35  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm, urpmf: move the list of known tags out of
+	  urpm/args.pm into urpmf,
+	  and remove duplicated list (nb: conf_files has been added to
+	  command-line, but
+	  this won't hurt afaik)
+
+2008-01-10 17:25  Pixel <pixel at mandriva.com>
+
+	* urpm/args.pm, urpmq: normalize to fit xml_info names
+
+2008-01-10 17:16  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm, urpmf: no_second_pass option is no more (since
+	  "drop hdlist support")
+
+2008-01-10 17:13  Pixel <pixel at mandriva.com>
+
+	* urpm/util.pm: add put_in_hash() for future use
+
+2008-01-10 15:29  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmf: - urpmf
+	  o fix an *old* bug (since december 2002) making urpmf keeps
+	  parsed
+	  hdlist files in memory (was fixed for multitags, but not for
+	  simple tags)
+
+2008-01-10 15:00  Pixel <pixel at mandriva.com>
+
+	* urpm/ldap.pm: fix regression (introduced long ago: 2006-11-15):
+	  correctly detect ldap is not configured
+	  (otherwise it introduces weird issues...)
+
+2008-01-08 14:29  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: when doing urpmi.addmedia on a remote
+	  medium, we first look for
+	  synthesis.hdlist.cz, but we should also download MD5SUM and check
+	  synthesis.hdlist.cz (the checking was only done on urpmi.update)
+
+2008-01-08 14:26  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: better error message: "copying" is not adapted for
+	  something we downloaded, "retrieval" works better for both
+	  copied/retrieved cases
+
+2008-01-08 14:24  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: drop synthesis_for_virtual_medium() since it is
+	  unused
+
+2008-01-08 14:23  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: create _download_MD5SUM() out of
+	  _update_medium__parse_if_unmodified__remote() for future use
+
+2008-01-08 14:20  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: cosmetic: display "updated medium xxx" when we're
+	  done with it
+
+2008-01-08 14:18  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: - rename _get_list_or_pubkey__remote() into
+	  _download_list_or_pubkey()
+	  - create _download_media_info_file() out of
+	  _download_list_or_pubkey() for future use
+
+2008-01-08 14:15  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: create get_medium_option() for future use
+
+2008-01-08 11:32  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi: - urpmi
+	  o always prompt before doing a priority-upgrade transaction, even
+	  if there
+	  is only one priority upgrade package (since there will be more
+	  packages to
+	  install after restarting urpmi)
+	  
+	  see bug #36483 which mention this
+
+2008-01-04 17:05  Zé <ze at mandriva.org>
+
+	* po/pt.po: update
+
+2008-01-01 11:36  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2007-12-26 16:27  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2007-12-25 11:29  Karl Ove Hufthammer <karl at huftis.org>
+
+	* po/nn.po: Updated Norwegian Nynorsk translation.
+
+2007-12-21 11:01  Pixel <pixel at mandriva.com>
+
+	* NEWS: oops, fix previous commit
+
+2007-12-21 11:00  Pixel <pixel at mandriva.com>
+
+	* NEWS: add bug number
+
+2007-12-20 18:49  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/multi-line-macro.spec,
+	  t/data/SPECS/multi-line-macro2.spec: add a test case for #27417
+	  (no fix yet)
+
+2007-12-20 16:12  Pixel <pixel at mandriva.com>
+
+	* urpm/md5sum.pm: reduce verbosity
+
+2007-12-19 17:26  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmi.update, urpmi.addmedia,
+	  urpmi.removemedia:
+	  o enhancement: only parse updated synthesis
+
+2007-12-19 16:29  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: statedir_MD5SUM must be removed
+
+2007-12-19 16:22  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmi.addmedia.8.pod, pod/urpmi.removemedia.8.pod,
+	  pod/urpmi.update.8.pod, urpm.pm, urpm/args.pm, urpm/media.pm,
+	  urpmi, urpmi.addmedia, urpmi.removemedia, urpmi.update: -
+	  urpmi.update, urpmi.addmedia, urpmi.removemedia:
+	  o drop option "-c" which used to clean /var/cache/urpmi/headers
+	  
+	  since we don't use that dir anymore :)
+
+2007-12-19 16:00  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: rename functions (there is only one pass now)
+
+2007-12-19 15:20  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: don't allow getting a different pubkey unless
+	  using forcekey
+	  (ie revert to behaviour prior to 2007-12-10)
+
+2007-12-19 15:06  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: fix comment
+
+2007-12-19 15:02  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: simplify
+
+2007-12-19 14:57  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: move things where it should be done
+
+2007-12-19 14:53  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: simplify
+
+2007-12-19 14:50  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: small cleanup
+
+2007-12-19 14:42  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/md5sum.pm, urpm/media.pm: o replace
+	  /var/lib/urpmi/MD5SUM with /var/lib/urpmi/MD5SUM.<medium_name>
+	  (this will allow checking xml media_info is up-to-date even if we
+	  don't
+	  update it at the same time as synthesis is updated)
+	  
+	  and further cleanup urpm::media code
+	  (esp. modify {force} behaviour, may need some adjustments)
+
+2007-12-19 12:32  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: since we check md5sum, don't also check size &
+	  mtime
+
+2007-12-19 12:16  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpme.8.pod, pod/urpmf.8.pod, pod/urpmi.8.pod,
+	  pod/urpmi.addmedia.8.pod, pod/urpmi.cfg.5.pod,
+	  pod/urpmi.files.5.pod, pod/urpmi.update.8.pod, pod/urpmq.8.pod,
+	  t/cfg.t, t/superuser--addmedia.t, urpm.pm, urpm/args.pm,
+	  urpm/bug_report.pm, urpm/cfg.pm, urpm/md5sum.pm, urpm/media.pm,
+	  urpme, urpmf, urpmi, urpmi.addmedia, urpmi.bash-completion,
+	  urpmi.update, urpmq: - all tools:
+	  o drop hdlist support (will be replaced with xml media_info)
+
+2007-12-18 16:57  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/buildroot_BuildRoot.spec,
+	  t/data/SPECS/buildroot_default.spec,
+	  t/data/SPECS/buildroot_define.spec: also check the pkg correctly
+	  builds with files
+
+2007-12-18 14:06  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/file-conflicts/fa.spec,
+	  t/data/SPECS/file-conflicts/fb.spec,
+	  t/superuser--file-conflicts.t: add tests for %ghost conflicts
+	  (which should be allowed)
+
+2007-12-18 09:25  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmi: - urpmi:
+	  o do remove __db* on priority-upgrade
+	  (fix regression introduced in 4.10.15)
+	  
+	  (may fix #36190)
+
+2007-12-17 17:21  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/buildroot_BuildRoot.spec,
+	  t/data/SPECS/buildroot_default.spec,
+	  t/data/SPECS/buildroot_define.spec: add some tests for
+	  %buildroot, %defaultbuildroot, BuildRoot
+
+2007-12-16 05:37  Keld Jørn Simonsen <keld at dkuug.dk>
+
+	* po/da.po: updates
+
+2007-12-15 03:56  Keld Jørn Simonsen <keld at dkuug.dk>
+
+	* po/da.po: updates
+
+2007-12-14 14:54  Pixel <pixel at mandriva.com>
+
+	* t/02create_pkgs.t, t/data/old-suggests-1-1.noarch.rpm,
+	  t/superuser--suggests.t: - check "old suggests" are still
+	  handled.
+	  ie RPMTAG_REQUIRENAME + RPMSENSE_MISSINGOK,
+	  instead of RPMTAG_SUGGESTSNAME (as done in SuSE and in Mandriva >
+	  2008.0)
+
+2007-12-12 12:28  Pixel <pixel at mandriva.com>
+
+	* NEWS: enhance
+
+2007-12-12 11:34  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.19
+
+2007-12-12 11:33  Pixel <pixel at mandriva.com>
+
+	* NEWS, gurpmi2, urpm.pm, urpm/media.pm: - urpmi:
+	  o fix handling "post-clean: 0" in urpmi.cfg
+	  (#36082, regression introduced 2007-11-28)
+	  - library:
+	  o urpm::media::read_config() doesn't read urpmi.cfg global
+	  options anymore,
+	  use urpm->get_global_options or urpm->new_parse_cmdline
+
+2007-12-12 11:17  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpme, urpmf, urpmi, urpmi.addmedia, urpmi.removemedia,
+	  urpmi.update, urpmq: create urpm->new_parse_cmdline and use it
+	  (it may be a little stricter for urpmi since we exit(1) on
+	  parse_cmdline error)
+
+2007-12-11 15:47  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* urpm/args.pm, urpm/download.pm: add support for aria2 (and thus
+	  support for metalink handling as well:)
+
+2007-12-11 10:32  Pixel <pixel at mandriva.com>
+
+	* NEWS: perl-URPM 2.11 is in fact 3.00
+
+2007-12-11 10:31  Pixel <pixel at mandriva.com>
+
+	* MANIFEST: adapt to uz*.po renaming
+
+2007-12-11 10:29  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.18
+
+2007-12-11 09:35  Pixel <pixel at mandriva.com>
+
+	* t/superuser--rpm.t: get rid of a "Use of uninitialized value"
+
+2007-12-10 15:16  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: fix typo in previous commit
+
+2007-12-10 15:11  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpmi.addmedia:
+	  o adapt to perl-URPM 2.11 API to parse pubkey files
+	  (nb: $urpm->{keys} is not used anymore)
+
+2007-12-10 09:57  Pixel <pixel at mandriva.com>
+
+	* urpm/cfg.pm: fix previous commit
+
+2007-12-10 08:59  Pixel <pixel at mandriva.com>
+
+	* NEWS, t/superuser--suggests.t, urpm/args.pm: - urpmi:
+	  o handle --suggests (to override urpmi.cfg global option
+	  "no-suggests") (#36007)
+
+2007-12-10 08:57  Pixel <pixel at mandriva.com>
+
+	* urpm/cfg.pm: fix writing no-suggests global option
+
+2007-12-09 23:12  kmashrab
+
+	* po/uz.po, po/uz@Latn.po, po/uz@cyrillic.po: Renamed Uzbek
+	  translations to follow the libc standard. Aproved by Pixel. For
+	  details, see bug #35090.
+
+2007-12-06 13:04  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* urpm/select.pm: (find_packages_to_remove) fix comment
+
+2007-12-06 13:04  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: make a message clearer
+
+2007-12-05 16:31  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm: not being able to access the medium directory (for
+	  a local medium) is an error!
+
+2007-12-05 16:30  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm, urpmi.addmedia: - urpmi.addmedia:
+	  o exit code 1 when a medium can't be added
+	  
+	  and simplifies a mess in urpmi.addmedia: this mess is not needed
+	  anymore since
+	  update_media() will exit on error
+
+2007-12-05 16:27  Pixel <pixel at mandriva.com>
+
+	* urpmi.update: fix typo in previous commit
+
+2007-12-05 16:16  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm, urpmi.update: - urpmi.update:
+	  o exit code 1 when a (selected) medium can't be updated (#35952)
+	  o leave early with error if no medium were successfull updated
+	  
+	  nb: also fix returning "unmodified" instead of "1" when a medium
+	  is not updated
+
+2007-12-05 15:31  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: - urpmi.addmedia:
+	  o enhance parsing of urls with login:password for logins with "@"
+	  so that password doesn't end up in urpmi.cfg
+
+2007-12-05 00:10  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typos
+
+2007-12-04 13:51  Pixel <pixel at mandriva.com>
+
+	* MANIFEST, Makefile.PL, NEWS, man, pod/fr: - drop translated man
+	  pages (they are too old)
+
+2007-11-30 11:28  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.17
+
+2007-11-30 10:14  Pixel <pixel at mandriva.com>
+
+	* NEWS, t/helper.pm, t/superuser--file-conflicts.t,
+	  t/superuser--media_info_dir.t, urpm/select.pm: - urpmi:
+	  o fix regression introduced in 4.10.15:
+	  "urpmi --force valid invalid" should warn about "invalid" but
+	  still
+	  install "valid"
+
+2007-11-29 14:15  Pjetur G. Hjaltason <pjetur at pjetur.net>
+
+	* po/is.po: 2008 updates
+
+2007-11-28 17:31  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.16
+
+2007-11-28 17:30  Pixel <pixel at mandriva.com>
+
+	* gurpmi2, urpm.pm, urpm/media.pm, urpmi: factorize default
+	  options, and have them by default in $urpm->{options}
+
+2007-11-28 17:29  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions.t: adapt to "--split-length 8"
+	  being the default
+
+2007-11-28 16:36  Pixel <pixel at mandriva.com>
+
+	* NEWS, gurpmi2, urpmi: - urpmi:
+	  o small transactions should have at least 8 packages
+	  (ie --split-length is now 8 by default)
+	  o do not do a big transaction if installing less than 20 packages
+	  (ie --split-level is now 1 by default)
+
+2007-11-28 16:29  Pixel <pixel at mandriva.com>
+
+	* t/superuser--media_info_dir.t: add a test for "urpmq --fuzzy"
+
+2007-11-28 16:26  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: ensure "urpmq --fuzzy" displays each packages
+	  alone on its line.
+	  
+	  this regression was introduced in commit r231535:
+	  
+	  there is no reason search_packages should return multiple
+	  pkgs with same fullname when using {provides}, and should
+	  not otherwise
+	  
+	  a "better" fix could be done in urpmq.
+	  
+	  nb: "urpmq -d basesystem" still use "|" for choices, but
+	  "urpmq --sources -d basesystem" doesn't, so it's quite broken...
+
+2007-11-28 16:21  Pixel <pixel at mandriva.com>
+
+	* urpmq: factorize code
+
+2007-11-28 16:21  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/select.pm: - urpmq:
+	  o bugfix previous release: "urpmq --fuzzy foo" should display all
+	  "*foo*" matches
+
+2007-11-28 15:34  Pixel <pixel at mandriva.com>
+
+	* NEWS: oops, fix previous commit
+
+2007-11-28 15:34  Pixel <pixel at mandriva.com>
+
+	* NEWS, pod/urpmq.8.pod, urpm/args.pm, urpmq: - urpmq:
+	  o new option --requires-recursive (alias of option -d)
+
+2007-11-26 14:06  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.15
+
+2007-11-22 15:49  Pixel <pixel at mandriva.com>
+
+	* NEWS, rpm-find-leaves, urpme, urpmf, urpmi, urpmi.addmedia,
+	  urpmi.recover, urpmi.removemedia, urpmi.update, urpmq: - all
+	  tools:
+	  o exit with code 1 after displaying usage (instead of exit code
+	  0)
+	  
+	  (urpmi exit code "1" is correctly documented in urpmi's manpage)
+
+2007-11-21 03:54  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typo
+
+2007-11-20 22:49  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: grf, typo fixed again
+
+2007-11-20 22:48  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix yet another typo
+
+2007-11-20 22:47  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix another typo
+
+2007-11-20 22:45  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typo
+
+2007-11-19 13:34  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm, urpmi: - urpmi
+	  o --auto-update is quite unsafe, but at least now it should be
+	  cleaner
+	  (ensure $urpm doesn't have media twice)
+	  
+	  bug triggered by --auto-update --update. still --auto-update
+	  --update should
+	  not update non-update media...
+
+2007-11-16 16:45  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: - urpmi
+	  o fix --limit-rate (regression introduced in 4.9.12)
+
+2007-11-16 15:40  Pixel <pixel at mandriva.com>
+
+	* pod/urpmi.cfg.5.pod: fix manpage for limit-rate option: the
+	  default is bytes/second, not kb/sec
+
+2007-11-15 15:36  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: remove unneeded code
+	  (this fixes pubkey checks when a src.rpm is available in more
+	  than one media)
+
+2007-11-15 15:35  Pixel <pixel at mandriva.com>
+
+	* t/superuser--srpm-bootstrapping.t: test "urpmi --src" and "urpmi
+	  --install-src"
+
+2007-11-15 14:57  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: fix resolve_dependencies for install_src
+	  (broken since search_packages can return more than one src.rpm)
+	  
+	  anyway, this code is not needed and will be dropped
+
+2007-11-15 14:55  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: factorize some code by creating search_packages
+
+2007-11-15 13:12  Pixel <pixel at mandriva.com>
+
+	* NEWS: add bug number
+
+2007-11-15 13:06  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/get_pkgs.pm: - urpmi:
+	  o fix "urpmi --install-src" (regression introduced in 4.10.9)
+	  
+	  nb: packages_by_name can't be used here since $urpm->{provides}
+	  doesn't have src.rpm
+	  so a full search is needed
+
+2007-11-15 10:45  Pixel <pixel at mandriva.com>
+
+	* urpmi: a somewhat better error message
+	  (occurs when using --install-src and a buildrequire is missing)
+
+2007-11-15 09:26  Pixel <pixel at mandriva.com>
+
+	* urpmi: nicer error message
+
+2007-11-15 08:56  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: there is no reason search_packages should return
+	  multiple pkgs with same
+	  fullname when using {provides}, and should not otherwise
+	  
+	  (will cleanup duplication in next commit)
+
+2007-11-14 11:29  Pixel <pixel at mandriva.com>
+
+	* urpm.pm, urpm/args.pm, urpm/install.pm: add undocumented &
+	  unstable --tune-rpm option
+	  (allow to test nofsync and private db)
+
+2007-11-14 11:28  Pixel <pixel at mandriva.com>
+
+	* t/helper.pm, t/superuser--file-conflicts.t,
+	  t/superuser--media_info_dir.t, t/superuser--rpm.t,
+	  t/superuser--rpmnew.t: allow to run tests on 4.4.2.2 which gives
+	  a few different results
+
+2007-11-14 11:14  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/download.pm: - urpmi:
+	  o with rsync, use --copy-links (to have the same behaviour as
+	  http/ftp, and
+	  so allow symlinks on the server)
+
+2007-11-02 22:07  Keld Jørn Simonsen <keld at dkuug.dk>
+
+	* po/da.po: updates
+
+2007-10-27 01:39  anssi
+
+	* po/fi.po: update Finnish translation
+
+2007-10-19 10:45  Pixel <pixel at mandriva.com>
+
+	* t/superuser--suggests.t: run complex test later
+
+2007-10-19 10:44  Pixel <pixel at mandriva.com>
+
+	* t/superuser--suggests.t: remove debug code
+
+2007-10-16 12:05  Pixel <pixel at mandriva.com>
+
+	* t/02create_pkgs.t: use system_() from helper.pm
+
+2007-10-15 10:51  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: - rename $_ into $v
+	  - add some debug (it may help dvalin)
+
+2007-10-12 18:43  Christophe Berthelé <cpjc at free.fr>
+
+	* po/fr.po: Update fr translation
+
+2007-10-09 13:11  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typo
+
+2007-10-08 18:53  Wanderlei Antonio Cavassin <cavassin at mandriva.com>
+
+	* po/pt_BR.po: pt_BR translations
+
+2007-10-06 14:32  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/br.po: typo fix
+
+2007-10-04 14:06  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix another typo
+
+2007-10-04 14:05  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typo
+
+2007-10-04 14:02  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typo
+
+2007-10-04 12:11  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.14
+
+2007-10-04 11:59  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - library:
+	  o urpm::media::add_distrib_media: add option "only_updates" for
+	  rpmdrake
+
+2007-10-03 14:07  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.13
+
+2007-10-02 12:09  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/install.pm: - urpmi
+	  o remove prefix/var/lib/rpm/__db* after installing pkgs rooted
+
+2007-10-02 12:01  Pixel <pixel at mandriva.com>
+
+	* urpm/sys.pm, urpmi: create
+	  urpm::sys::clean_rpmdb_shared_regions() and use it
+
+2007-10-02 12:01  Pixel <pixel at mandriva.com>
+
+	* t/superuser--suggests.t: fixed in rpm-4.4.8-22mdv2008 :)
+
+2007-10-02 11:43  Pixel <pixel at mandriva.com>
+
+	* urpmi: $rpm_lock is undefined when we create the rpmdb from
+	  scratch
+
+2007-10-02 09:47  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/suggests/c2.spec, t/superuser--suggests.t: add a
+	  test showing rpm failure (for #34342)
+
+2007-10-02 09:34  Pixel <pixel at mandriva.com>
+
+	* t/superuser--suggests.t: better doc
+
+2007-10-02 09:34  Pixel <pixel at mandriva.com>
+
+	* t/superuser--suggests.t: add doc
+
+2007-09-30 18:01  Olivier Blin <oblin at mandriva.com>
+
+	* po/fr.po: add missing space
+
+2007-09-28 16:02  anssi
+
+	* po/fi.po: update Finnish translation
+
+2007-09-28 15:58  anssi
+
+	* po/fi.po: update Finnish translation
+
+2007-09-28 15:58  anssi
+
+	* po/fi.po: update Finnish translation
+
+2007-09-28 10:56  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--strict-require-1,
+	  t/data/SPECS/split-transactions--strict-require-1/a.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/b.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/c.spec,
+	  t/data/SPECS/split-transactions--strict-require-2,
+	  t/data/SPECS/split-transactions--strict-require-2/a.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/c.spec,
+	  t/superuser--split-transactions--strict-require.t: add a test
+	  which currently triggers a big transaction
+
+2007-09-28 08:57  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typo
+
+2007-09-27 19:05  Pascal Terjan <pterjan at mandriva.com>
+
+	* rpm-find-leaves: Really fix rpm-find-leaves --help instead of
+	  breaking it another way
+
+2007-09-27 16:25  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.12
+
+2007-09-27 16:23  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--strict-require-and-obsolete.t,
+	  urpm.pm: with perl-URPM 2.04, promote on obsoletes are properly
+	  handled
+
+2007-09-27 16:23  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/media.pm: - urpm::media::update_media:
+	  o ensure a second pass is done even if media has not been
+	  modified
+	  (useful for the %trigger trick done in urpmi to rebuild synthesis
+	  with
+	  suggests)
+	  
+	  without it, file provides are not computed properly
+
+2007-09-27 15:39  Pixel <pixel at mandriva.com>
+
+	* urpmi: debug__do_not_install: better do it everywhere
+
+2007-09-27 15:31  anssi
+
+	* po/fi.po: update Finnish translation
+
+2007-09-27 13:24  Pixel <pixel at mandriva.com>
+
+	* urpmi: --env is used for debugging, so don't clobber urpmi.log
+	  from bug report
+	  (it also fixes fork mess when debugging)
+
+2007-09-27 13:11  Pixel <pixel at mandriva.com>
+
+	* urpmi: fix using debug__do_not_install
+
+2007-09-27 12:35  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: use existing function (thanks titi)
+
+2007-09-27 12:14  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/rpm-query-in-scriptlet.spec,
+	  t/superuser--media_info_dir.t, t/superuser--rpm.t: - move some
+	  test from superuser--media_info_dir.t into superuser--rpm.t
+	  - add a test
+
+2007-09-27 08:51  Pixel <pixel at mandriva.com>
+
+	* t/superuser--media_info_dir.t: add a rebuilddb check (to detect
+	  bugs like #34181)
+
+2007-09-27 07:48  Pixel <pixel at mandriva.com>
+
+	* urpmf: fix previous commit
+
+2007-09-27 07:11  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpmf: - urpmf
+	  o fix -a and -o
+
+2007-09-27 02:08  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typo
+
+2007-09-26 21:57  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typo
+
+2007-09-26 21:34  kmashrab
+
+	* po/uz.po, po/uz@Latn.po: This is better.
+
+2007-09-26 18:07  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* po/ko.po: update (metq.com)
+
+2007-09-26 12:02  Zé <ze at mandriva.org>
+
+	* po/pt.po: up
+
+2007-09-25 10:44  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typo
+
+2007-09-24 21:20  guclu
+
+	* po/tr.po: update translation for Turkish
+
+2007-09-24 19:54  guclu
+
+	* po/tr.po: update translation for Turkish
+
+2007-09-24 16:25  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm.pm: 4.10.11
+
+2007-09-24 13:52  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: minor fixes for s/-/–/..
+
+2007-09-24 13:40  Per Øyvind Karlsen <peroyvind at mandriva.org>
+
+	* po/nb.po: fix typos
+
 2007-09-12 15:45  Pixel <pixel at mandriva.com>
 
 	* urpm/install.pm, urpm/main_loop.pm: do display computed
