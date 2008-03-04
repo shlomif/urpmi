@@ -370,7 +370,7 @@ sub add_urpmf_parameter {
 
 # common options setup
 
-foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'expect-install!', 'root=s', 'test!', 'verify-rpm!')
+foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'expect-install!', 'no-priority-upgrade', 'previous-priority-upgrade=s', 'root=s', 'test!', 'verify-rpm!')
 {
     $options_spec{gurpmi}{$k} = $options_spec{urpmi}{$k};
 }

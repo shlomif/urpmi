@@ -77,11 +77,15 @@ my %requested = $urpm->register_rpms(@all_rpms);
 if (@gurpmi::names) {
     urpm::select::search_packages($urpm, \%requested, [ @gurpmi::names ]);
 }
-urpm::select::resolve_dependencies($urpm,
+
+#- return value is true if program should be restarted (in order to take care of important
+#- packages being upgraded (problably urpmi and perl-URPM, but maybe rpm too, and glibc also ?).
+my $restart_itself = urpm::select::resolve_dependencies($urpm,
     $state,
     \%requested,
     callback_choices => \&ask_choice,
     auto_select => $::auto_select,
+    priority_upgrade => $urpm->{options}{'priority-upgrade'},
 );
 my @ask_unselect = urpm::select::unselected_packages($urpm, $state);
 @ask_unselect
@@ -126,6 +130,7 @@ sub configure_urpm() {
 	$w->run;
 	$w->destroy;
     };
+    urpm::select::set_priority_upgrade_option($urpm, $gurpmi::options{previous_priority_upgrade})
     $rpm_lock = urpm::lock::rpm_db($urpm, 'exclusive');
     $urpmi_lock = urpm::lock::urpmi_db($urpm);
     urpm::media::configure($urpm,
@@ -254,7 +259,7 @@ sub do_install_3 () {
 		sync();
 	    };
 
-    urpm::main_loop::run($urpm, $state, scalar(@gurpmi::names),  \@ask_unselect, \%requested, {
+    my $exit_code = urpm::main_loop::run($urpm, $state, scalar(@gurpmi::names),  \@ask_unselect, \%requested, {
         bad_signature => sub {
             my ($msg, $msg2) = @_;
             ask_continue_blocking("$msg\n$msg2");
@@ -318,4 +323,16 @@ sub do_install_3 () {
         trans => $callback_inst,
     }
                      );
+
+    #- restart gurpmi if needed, keep command line for that.
+    if ($restart_itself && !$exit_code) {
+        print N("restarting urpmi"), "\n";
+        #- it seems to work correctly with exec instead of system, provided
+        #- added --previous-priority-upgrade to allow checking if yet if
+        #-   priority-upgrade list has changed. and make sure we don't uselessly restart
+        @ARGV = ('--previous-priority-upgrade=' . $urpm->{options}{'priority-upgrade'}, 
+                grep { !/^--no-priority-upgrade$|--previous-priority-upgrade=/ } @ARGV);
+        exec $0, @ARGV;
+    }
+
 }

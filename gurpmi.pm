@@ -23,10 +23,13 @@ use Gtk2;
 use urpm::util;
 use urpm::msg;
 use urpm::args;
+use urpm::select;
 
 use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw(create_scrolled_window fatal but quit add_button_box new_label N);
+
+urpm::select::add_packages_to_priority_upgrade_list('gurpmi');
 
 sub usage () {
     print <<USAGE;
