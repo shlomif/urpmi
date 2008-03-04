@@ -7,13 +7,11 @@ use urpm::util;
 use urpm::sys;
 use URPM;
 
-my $default_list = 'rpm,perl-URPM,perl-MDV-Distribconf,urpmi,meta-task,glibc';
+my $default_priority_list = 'rpm,perl-URPM,perl-MDV-Distribconf,urpmi,meta-task,glibc';
+my @priority_list = split(',', $default_priority_list);
 
 sub add_packages_to_priority_upgrade_list {
-    my (@packages) = @_;
-    @packages = grep { $default_list !~ /,$_\b/ } @packages;
-    return if !@packages;
-    $default_list .= join(',', '', @packages);
+    @priority_list = uniq(@priority_list, @_);
 }
 
 sub set_priority_upgrade_option {
@@ -23,7 +21,7 @@ sub set_priority_upgrade_option {
 
     # comma-separated list of packages that should be installed first,
     # and that trigger an urpmi restart
-    my $list = $default_list;
+    my $list = join(',', @priority_list);
     if ($previous) {
 	if ($previous eq $list) {
 	    $list = '';
