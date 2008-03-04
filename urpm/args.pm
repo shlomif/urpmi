@@ -61,17 +61,9 @@ my %options_spec = (
 
     # warning: for gurpm, urpm is _not_ a real urpmi object, only options should be altered:
     gurpmi => {
-	auto => sub { $urpm->{options}{auto} =  1 },
-	'auto-select' => \$::auto_select,
-        # actually ignored (only for compat with do_pkgs), copy_removable() callback is always given:
-	'allow-medium-change' => \$::allow_medium_change,
-	'expect-install!' => \$::urpm::main_loop::expect_install,
 	'media|mediums=s' => sub { $urpm->{options}{media} = 1 },
 	"help|h" => sub { gurpmi::usage() },
- 	'root=s' => sub { set_root($urpm, $_[1]) },
 	'searchmedia|search-media=s' => sub { $urpm->{options}{searchmedia} = 1 },
-	'test!' => \$::test,
-	'verify-rpm!' => sub { $urpm->{options}{'verify-rpm'} = $_[1] },
     },
 
     urpmi => {
@@ -353,7 +345,6 @@ my %options_spec = (
 
 );
 
-$options_spec{gurpmi2} = $options_spec{gurpmi};
 
 
 # generate urpmf options callbacks
@@ -378,6 +369,12 @@ sub add_urpmf_parameter {
 }
 
 # common options setup
+
+foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'expect-install!', 'root=s', 'test!', 'verify-rpm!')
+{
+    $options_spec{gurpmi}{$k} = $options_spec{urpmi}{$k};
+}
+$options_spec{gurpmi2} = $options_spec{gurpmi};
 
 foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "use-distrib=s",
     "parallel=s")
