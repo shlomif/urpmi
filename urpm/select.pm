@@ -226,6 +226,7 @@ sub _search_packages {
 #-	rpmdb
 #-	auto_select
 #-	install_src
+#-	only_request_packages_to_upgrade (rpmdrake doesn't want to actually select them)
 #-	priority_upgrade
 #-	upgrade_callback
 #-	resolve_req_callback
@@ -295,7 +296,7 @@ sub resolve_dependencies {
 	    }
 	}
 
-	if (!$need_restart) {
+	if (!$need_restart && !$options{only_request_packages_to_upgrade}) {
 	    my @requested = $urpm->resolve_requested($db, $state, $requested, %options);
 	    $options{resolve_req_callback} and $options{resolve_req_callback}->(@requested);
 
