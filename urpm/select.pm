@@ -266,9 +266,7 @@ sub resolve_dependencies {
 	    #- first check if a priority_upgrade package is requested
 	    #- (it should catch all occurences in --auto-select mode)
 	    #- (nb: a package "foo" may appear twice, and only one will be set flag_upgrade)
-	    if (my @l = grep { $_->flag_upgrade } _priority_upgrade_pkgs($urpm, $options{priority_upgrade})) {
-		$need_restart = _resolve_priority_upgrades($urpm, $db, $state, $requested, \@l, %options);
-	    }
+	    $need_restart = resolve_priority_upgrades_after_auto_select($urpm, $db, $state, $requested, %options);
 	}
 
 	if (!$need_restart) {
@@ -290,6 +288,18 @@ sub _priority_upgrade_pkgs {
     map {
 	$urpm->packages_by_name($_);
     } split(/,/, $priority_upgrade_string);
+}
+
+
+sub resolve_priority_upgrades_after_auto_select {
+    my ($urpm, $db, $state, $selected, %options) = @_;
+
+    my $need_restart;
+
+    if (my @l = grep { $_->flag_upgrade } _priority_upgrade_pkgs($urpm, $options{priority_upgrade})) {
+	$need_restart = _resolve_priority_upgrades($urpm, $db, $state, $selected, \@l, %options);
+    }
+    $need_restart;
 }
 
 sub _resolve_priority_upgrades {
