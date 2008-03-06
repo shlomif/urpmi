@@ -18,11 +18,11 @@ sub file_or_synthesis_dir {
 }
 
 #- side-effects:
-#-   + those of _try_mounting_medium ($medium->{mntpoint})
+#-   + those of try_mounting_medium_ ($medium->{mntpoint})
 sub try_mounting_medium {
     my ($urpm, $medium, $o_url) = @_;
 
-    my $rc = _try_mounting_medium($urpm, $medium, $o_url);
+    my $rc = try_mounting_medium_($urpm, $medium, $o_url);
     $rc or $urpm->{error}(N("unable to access medium \"%s\".", $medium->{name}));
     $rc;
 }
@@ -30,7 +30,7 @@ sub try_mounting_medium {
 #- side-effects:
 #-   + those of urpm::cdrom::try_mounting_cdrom ($urpm->{cdrom_mounted}, $medium->{mntpoint}, "hal_mount")
 #-   + those of _try_mounting_local ($urpm->{removable_mounted}, "mount")
-sub _try_mounting_medium {
+sub try_mounting_medium_ {
     my ($urpm, $medium, $o_url) = @_;
 
     if (urpm::is_cdrom_url($medium->{url})) {

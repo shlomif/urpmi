@@ -756,7 +756,7 @@ sub add_distrib_media {
     if ($url && urpm::is_local_url($url)) {
 	$url = _migrate_removable_url($url) or return();
 	my $m = { url => $url };
-	urpm::removable::try_mounting_medium($urpm, $m) or return ();
+	urpm::removable::try_mounting_medium_($urpm, $m) or $urpm->{error}(N("directory %s does not exist", $url));
 
 	$distribconf = MDV::Distribconf->new(file_from_file_url($url) || $url, undef);
 	$distribconf->settree('mandriva');
