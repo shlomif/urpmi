@@ -273,7 +273,7 @@ sub resolve_dependencies {
 	    #- (it should catch all occurences in --auto-select mode)
 	    #- (nb: a package "foo" may appear twice, and only one will be set flag_upgrade)
 	    if (my @l = grep { $_->flag_upgrade } @priority_upgrade) {
-		_resolve_priority_upgrades($urpm, $db, $state, $requested, \@l, %options);
+		$need_restart = _resolve_priority_upgrades($urpm, $db, $state, $requested, \@l, %options);
 	    }
 	}
 
@@ -283,7 +283,7 @@ sub resolve_dependencies {
 	    #- now check if a priority_upgrade package has been required
 	    #- by a requested package
 	    if (my @l = grep { $state->{selected}{$_->id} } @priority_upgrade) {
-		_resolve_priority_upgrades($urpm, $db, $state, $state->{selected}, \@l, %options);
+		$need_restart = _resolve_priority_upgrades($urpm, $db, $state, $state->{selected}, \@l, %options);
 	    }
 	}
     }
