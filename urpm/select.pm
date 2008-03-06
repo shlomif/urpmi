@@ -263,20 +263,6 @@ sub resolve_dependencies {
 	}
 
 	my @priority_upgrade;
-	my $resolve_priority_upgrades = sub {
-	    my ($selected, $priority_requested) = @_;
- 
-	    my %priority_state;
-
-	    $urpm->resolve_requested__no_suggests_($db, \%priority_state, $priority_requested, %options);
-	    if (grep { ! exists $priority_state{selected}{$_} } keys %$priority_requested) {
-		#- some packages which were selected previously have not been selected, strange!
-	    } elsif (grep { ! exists $priority_state{selected}{$_} } keys %$selected) {
-		#- there are other packages to install after this priority transaction.
-		%$state = %priority_state;
-		$need_restart = 1;
-	    }
-	};
 
 	if ($options{priority_upgrade} && !$options{rpmdb}) {
 	    @priority_upgrade = map {
@@ -287,8 +273,7 @@ sub resolve_dependencies {
 	    #- (it should catch all occurences in --auto-select mode)
 	    #- (nb: a package "foo" may appear twice, and only one will be set flag_upgrade)
 	    if (my @l = grep { $_->flag_upgrade } @priority_upgrade) {
-		my %priority_requested = map { $_->id => undef } @l;
-		$resolve_priority_upgrades->($requested, \%priority_requested);
+		_resolve_priority_upgrades($urpm, $db, $state, $requested, \@l, %options);
 	    }
 	}
 
@@ -298,10 +283,27 @@ sub resolve_dependencies {
 	    #- now check if a priority_upgrade package has been required
 	    #- by a requested package
 	    if (my @l = grep { $state->{selected}{$_->id} } @priority_upgrade) {
-		my %priority_requested = map { $_->id => undef } @l;
-		$resolve_priority_upgrades->($state->{selected}, \%priority_requested);
+		_resolve_priority_upgrades($urpm, $db, $state, $state->{selected}, \@l, %options);
 	    }
 	}
+    }
+    $need_restart;
+}
+
+sub _resolve_priority_upgrades {
+    my ($urpm, $db, $state, $selected, $priority_pkgs, %options) = @_;
+
+    my ($need_restart, %priority_state);
+ 
+    my %priority_requested = map { $_->id => undef } @$priority_pkgs;
+
+    $urpm->resolve_requested__no_suggests_($db, \%priority_state, \%priority_requested, %options);
+    if (grep { ! exists $priority_state{selected}{$_} } keys %priority_requested) {
+	#- some packages which were selected previously have not been selected, strange!
+    } elsif (grep { ! exists $priority_state{selected}{$_} } keys %$selected) {
+	#- there are other packages to install after this priority transaction.
+	%$state = %priority_state;
+	$need_restart = 1;
     }
     $need_restart;
 }
