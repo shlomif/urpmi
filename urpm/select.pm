@@ -262,17 +262,11 @@ sub resolve_dependencies {
 					   );
 	}
 
-	my @priority_upgrade;
-
 	if ($options{priority_upgrade} && !$options{rpmdb}) {
-	    @priority_upgrade = map {
-		$urpm->packages_by_name($_);
-	    } split(/,/, $options{priority_upgrade});
-
 	    #- first check if a priority_upgrade package is requested
 	    #- (it should catch all occurences in --auto-select mode)
 	    #- (nb: a package "foo" may appear twice, and only one will be set flag_upgrade)
-	    if (my @l = grep { $_->flag_upgrade } @priority_upgrade) {
+	    if (my @l = grep { $_->flag_upgrade } _priority_upgrade_pkgs($urpm, $options{priority_upgrade})) {
 		$need_restart = _resolve_priority_upgrades($urpm, $db, $state, $requested, \@l, %options);
 	    }
 	}
@@ -282,12 +276,20 @@ sub resolve_dependencies {
 
 	    #- now check if a priority_upgrade package has been required
 	    #- by a requested package
-	    if (my @l = grep { $state->{selected}{$_->id} } @priority_upgrade) {
+	    if (my @l = grep { $state->{selected}{$_->id} } _priority_upgrade_pkgs($urpm, $options{priority_upgrade})) {
 		$need_restart = _resolve_priority_upgrades($urpm, $db, $state, $state->{selected}, \@l, %options);
 	    }
 	}
     }
     $need_restart;
+}
+
+sub _priority_upgrade_pkgs {
+    my ($urpm, $priority_upgrade_string) = @_;
+
+    map {
+	$urpm->packages_by_name($_);
+    } split(/,/, $priority_upgrade_string);
 }
 
 sub _resolve_priority_upgrades {
