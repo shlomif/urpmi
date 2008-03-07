@@ -27,6 +27,7 @@ test_c('--split-level 1');
 # test_d(); 
 # ERROR #34224: urpmi goes crazy, saying: 
 # The following package has to be removed for others to be upgraded: d-2-1 (in order to install d-2-1)
+# This is because both d-1 and d-2 are installed
 
 sub test {
     my ($option) = @_;
