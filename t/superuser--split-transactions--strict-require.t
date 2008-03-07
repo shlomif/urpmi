@@ -7,6 +7,11 @@
 # d-1 requires dd-1
 # d-2 requires dd-2
 #
+# e-1 requires f-1
+# e-2 requires f-2
+# f-1 requires gh = 1 provided by g-1
+# f-2 requires gh = 2 provided by h-2
+#
 use strict;
 use lib '.', 't';
 use helper;
@@ -28,6 +33,9 @@ test_c('--split-level 1');
 # ERROR #34224: urpmi goes crazy, saying: 
 # The following package has to be removed for others to be upgraded: d-2-1 (in order to install d-2-1)
 # This is because both d-1 and d-2 are installed
+
+test_efgh('--auto-select');
+test_efgh('--debug g'); # didn't work because of perl-URPM "not promoting pkg because of currently unsatisfied require". it also broke small transactions
 
 sub test {
     my ($option) = @_;
@@ -59,4 +67,14 @@ sub test_d {
 
     urpmi("--media $name-2 --auto-select --auto");
     check_installed_fullnames_and_remove('d-2-1', 'dd-2-1');
+}
+
+sub test_efgh {
+    my ($para) = @_;
+
+    urpmi("--media $name-1 --auto e");
+    check_installed_fullnames('e-1-1', 'f-1-1', 'g-1-1');
+
+    urpmi("--media $name-2 --auto $para");
+    check_installed_fullnames_and_remove('e-2-1', 'f-2-1', 'g-2-1', 'h-2-1');
 }
