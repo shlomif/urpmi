@@ -22,8 +22,8 @@ urpmi_addmedia("$medium_name $::pwd/media/$medium_name");
 test(sub { urpmi('a'); check_installed_fullnames("a-2-1"); urpme('a') });
 test(sub { urpmi('b'); check_installed_fullnames("a-1-1", "b-3-1"); urpme('a b') });
 
-#- ERROR: the following test fail. "urpmi --auto-select" should do the same as "urpmi a"
-#test(sub { urpmi('--auto-select'); check_installed_fullnames("a-2-1"); urpme('a') });
+#- "urpmi --auto-select --auto" should do the same as "urpmi a", #31130
+test(sub { urpmi('--auto-select --auto'); check_installed_fullnames("a-2-1"); urpme('a') });
 
 sub test {
     my ($f) = @_;
