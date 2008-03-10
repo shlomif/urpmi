@@ -220,9 +220,9 @@ sub do_install_2 () {
     $urpm->{nb_install} = @to_install;
     @to_install > 1 && !$gurpmi::options{auto}
 	? ask_continue(
-		( (scalar(@to_install) == 1) ?
+		(scalar(@to_install) == 1 ?
 		N("To satisfy dependencies, the following package is going to be installed:")
-		: N("To satisfy dependencies, the following packages are going to be installed:") )
+		: N("To satisfy dependencies, the following packages are going to be installed:"))
        	. join("\n", '', @to_install, '') 
 	. P("(%d package, %d MB)", "(%d packages, %d MB)", scalar(@to_install), scalar(@to_install), toMb($sum)),
                     , \&do_install_3)
