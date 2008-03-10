@@ -220,9 +220,9 @@ msgid "Installing package `%s' (%s/%s)..."
 msgstr "正在安装软件包“%s”(%s/%s)..."
 
 #: ../gurpmi2:264 ../urpmi:622
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\""
-msgstr "请将标签为“%s”的介质插入到设备 [%s]"
+msgstr "请插入介质“%s”"
 
 #: ../gurpmi2:275
 #, c-format
@@ -613,14 +613,14 @@ msgid "unable to install package %s"
 msgstr "无法安装软件包 %s"
 
 #: ../urpm/install.pm:196
-#, fuzzy, c-format
+#, c-format
 msgid "removing bad rpm (%s) from %s"
-msgstr "正在从 %2$s 删除已安装的 rpm(%1$s)"
+msgstr "正在从 %2$s 删除错误的 rpm(%1$s)"
 
 #: ../urpm/install.pm:197 ../urpm/install.pm:254
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s failed: %s"
-msgstr "...获取失败: %s"
+msgstr "删除 %s 失败: %s"
 
 #: ../urpm/install.pm:235
 #, c-format
@@ -735,14 +735,14 @@ msgstr "尝试强制安装吗(使用 --force)(是(y)/否(N))[否]?"
 #: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
 #, c-format
 msgid "Error"
-msgstr ""
+msgstr "出错"
 
 #: ../urpm/main_loop.pm:267
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
-msgstr "安装失败: "
+msgstr "安装失败，rpm 有问题:\n%s"
 
 #: ../urpm/main_loop.pm:270
 #, c-format
@@ -813,7 +813,7 @@ msgstr "试图覆盖已有介质“%s”，正跳过"
 #: ../urpm/media.pm:409
 #, c-format
 msgid "failed to migrate removable device, ignoring media"
-msgstr ""
+msgstr "迁移可移动设备失败，忽略介质"
 
 #: ../urpm/media.pm:452 ../urpm/media.pm:458
 #, c-format
@@ -970,19 +970,19 @@ msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "复制 [%s] 失败(文件太小了)"
 
 #: ../urpm/media.pm:1210
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of retrieved source synthesis"
-msgstr "正在计算所获取的源 hdlist(或综合文件)的 md5sum"
+msgstr "正在计算所获取的源综合文件的 md5sum"
 
 #: ../urpm/media.pm:1212 ../urpm/media.pm:1629
-#, fuzzy, c-format
+#, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
-msgstr "复制[%s]失败(md5sum 不匹配)"
+msgstr "获取[%s]失败(md5sum 不匹配)"
 
 #: ../urpm/media.pm:1227
-#, fuzzy, c-format
+#, c-format
 msgid "genhdlist2 failed on %s"
-msgstr "正在检查 hdlist 文件 [%s]"
+msgstr "在 %s 上 genhdlist2 失败"
 
 #: ../urpm/media.pm:1237
 #, c-format
@@ -995,24 +995,24 @@ msgid "invalid hdlist file %s for medium \"%s\""
 msgstr "介质“%2$s”的 hdlist 文件 %1$s 无效"
 
 #: ../urpm/media.pm:1296
-#, fuzzy, c-format
+#, c-format
 msgid "copying MD5SUM file of \"%s\"..."
-msgstr "正在复制“%s”的描述文件..."
+msgstr "正在复制“%s”的 MD5SUM..."
 
 #: ../urpm/media.pm:1350
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving source synthesis of \"%s\"..."
-msgstr "正在获取“%s”的源 hdlist(或综合文件)..."
+msgstr "正在获取“%s”的源综合文件..."
 
 #: ../urpm/media.pm:1367
-#, fuzzy, c-format
+#, c-format
 msgid "found probed synthesis as %s"
-msgstr "发现探测的 hdlist(或综合文件) 为 %s"
+msgstr "发现探测的综合文件 为 %s"
 
 #: ../urpm/media.pm:1374 ../urpm/media.pm:1482
-#, fuzzy, c-format
+#, c-format
 msgid "no synthesis file found for medium \"%s\""
-msgstr "介质“%s”未发现 hdlist 文件"
+msgstr "介质“%s”未发现综合文件"
 
 #: ../urpm/media.pm:1425
 #, c-format
@@ -1037,12 +1037,12 @@ msgstr "已更新介质“%s”"
 #: ../urpm/media.pm:1623
 #, c-format
 msgid "retrieval of [%s] failed"
-msgstr ""
+msgstr "获取[%s]失败"
 
 #: ../urpm/mirrors.pm:19
 #, c-format
 msgid "trying again with mirror %s"
-msgstr ""
+msgstr "正在重试连接镜像 %s"
 
 #: ../urpm/mirrors.pm:60
 #, c-format
@@ -1057,7 +1057,7 @@ msgstr ""
 #: ../urpm/mirrors.pm:178
 #, c-format
 msgid "getting mirror list from %s"
-msgstr ""
+msgstr "从 %s 中获得镜像列表"
 
 #: ../urpm/msg.pm:62 ../urpmi:506 ../urpmi:522 ../urpmi:611
 #, c-format
@@ -1157,9 +1157,9 @@ msgid "unable to use parallel option \"%s\""
 msgstr "无法使用并行选项“%s”"
 
 #: ../urpm/removable.pm:26
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access medium \"%s\"."
-msgstr "无法访问介质“%s”"
+msgstr "无法访问介质“%s”。"
 
 #: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
@@ -1555,9 +1555,9 @@ msgid "Can't open file"
 msgstr "无法打开文件"
 
 #: ../urpm/sys.pm:234
-#, fuzzy, c-format
+#, c-format
 msgid "Can't move file %s to %s"
-msgstr "无法和 %2$s 一起使用 %1$s"
+msgstr "无法将文件 %s 移动到 %s"
 
 #: ../urpme:40
 #, c-format
@@ -1734,9 +1734,9 @@ msgid "    --force-key    - force update of gpg key.\n"
 msgstr "    --force-key    - 强制更新 gpg 密钥。\n"
 
 #: ../urpmi:86 ../urpmq:53
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-suggests  - do not auto select \"suggested\" packages.\n"
-msgstr "  --suggests     - suggests 标签\n"
+msgstr "  --no-suggests  - 不自动选择“推荐的”软件包。\n"
 
 #: ../urpmi:87
 #, c-format
@@ -2000,9 +2000,9 @@ msgid "  --quiet, -q    - quiet mode.\n"
 msgstr "  --quiet, -q    - 安静模式。\n"
 
 #: ../urpmi:152
-#, fuzzy, c-format
+#, c-format
 msgid "  --debug        - very verbose mode.\n"
-msgstr "  --verbose      - 详细提示。\n"
+msgstr "  --debug        - 非常详细模式。\n"
 
 #: ../urpmi:153
 #, c-format
@@ -2031,6 +2031,7 @@ msgstr "您无法使用 --install-src 安装二进制 RPM 文件"
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
 msgstr ""
+"请使用 --buildrequires 或 --install-src，默认为 --buildrequires"
 
 #: ../urpmi:241
 #, c-format
@@ -2201,6 +2202,8 @@ msgid ""
 "dependencies:\n"
 "%s\n"
 msgstr ""
+"您必须首先用 --buildrequires 调用 urpmi，以便安装下列依赖关系：\n"
+"%s\n"
 
 #: ../urpmi:595
 #, c-format
@@ -2218,9 +2221,9 @@ msgid "%s of disk space will be freed."
 msgstr "将会释放 %s 的磁盘空间。"
 
 #: ../urpmi:604
-#, fuzzy, c-format
+#, c-format
 msgid "%s of packages will be retrieved."
-msgstr "将会释放 %s 的磁盘空间。"
+msgstr "将会获取 %s 的软件包。"
 
 #: ../urpmi:605
 #, c-format
@@ -2241,7 +2244,7 @@ msgstr "重新启动 urpmi"
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2270,7 +2273,16 @@ msgstr ""
 "       http://<主机>/<路径>\n"
 "       removable://<路径>\n"
 "\n"
-"而 [options] 可以来自\n"
+"用法：urpmi.addmedia [选项] --distrib --mirrorlist <url>\n"
+"用法：urpmi.addmedia [选项] --mirrorlist <url> <名称> <相对路径>\n"
+"\n"
+"例：\n"
+"\n"
+"  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
+"  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"\n"
+"\n"
+"而 [选项] 可以来自\n"
 
 #: ../urpmi.addmedia:55 ../urpmi.update:33 ../urpmq:72
 #, c-format
@@ -2340,9 +2352,9 @@ msgid ""
 msgstr "  --from         - 使用指定的 URL 列出镜像，默认为 %s。\n"
 
 #: ../urpmi.addmedia:76
-#, fuzzy, c-format
+#, c-format
 msgid "  --virtual      - create virtual media wich are always up-to-date.\n"
-msgstr "  --virtual      - 创建常为最新的虚拟介质，只允许 file:// 协议。\n"
+msgstr "  --virtual      - 创建常为最新的虚拟介质。\n"
 
 #: ../urpmi.addmedia:77 ../urpmi.update:42
 #, c-format
@@ -2424,9 +2436,9 @@ msgid "Can't use %s with remote medium"
 msgstr "远程介质无法使用 %s"
 
 #: ../urpmi.addmedia:183
-#, fuzzy, c-format
+#, c-format
 msgid "unable to add medium"
-msgstr "无法访问介质“%s”"
+msgstr "无法添加介质"
 
 #: ../urpmi.recover:28
 #, c-format
@@ -2772,9 +2784,9 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - 打印更新日志。\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  --conflicts    - print conflicts.\n"
-msgstr "  --conflicts    - conflict 标签\n"
+msgstr "  --conflicts    - 打印 conflict 标签。\n"
 
 #: ../urpmq:82
 #, c-format
@@ -2782,9 +2794,9 @@ msgid "  --provides     - print provides.\n"
 msgstr "  --provides     - 打印 provides。\n"
 
 #: ../urpmq:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --requires     - print requires.\n"
-msgstr "  --requires     - requires 标签\n"
+msgstr "  --requires     - 打印 requires 标签。\n"
 
 #: ../urpmq:84
 #, c-format
@@ -2893,82 +2905,31 @@ msgstr "--list-nodes 仅能和 --parallel 一起使用"
 #: ../urpmq:206
 #, c-format
 msgid "use -l to list files"
-msgstr ""
+msgstr "使用 -l 可列出文件"
 
 #: ../urpmq:363
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
-msgstr "由于介质“%s”没有 hdlist，软件包 %s 只返回部分结果"
+msgstr "由于介质“%s”没有 xml 信息，软件包 %s 只返回部分结果"
 
 #: ../urpmq:361
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
-msgstr "由于介质“%s”没有 hdlists，软件包 %s 只返回部分结果"
+msgstr "由于介质“%s”没有 xml 信息，软件包 %s 只返回部分结果"
 
 #: ../urpmq:364
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
-msgstr "由于介质“%s”没有 hdlists，软件包 %s 无法返回任何结果"
+msgstr "由于介质“%s”没有 xml 信息，软件包 %s 无法返回任何结果"
 
 #: ../urpmq:365
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
-msgstr "由于介质“%s”没有 hdlists，软件包 %s 无法返回任何结果"
+msgstr "由于介质“%s”没有 xml 信息，软件包 %s 无法返回任何结果"
 
 #: ../urpmq:429
 #, c-format
 msgid "No changelog found\n"
 msgstr "没有找到更新日志\n"
-
-#~ msgid "Unknown option %s"
-#~ msgstr "未知的选项 %s"
-
-#~ msgid "too many mount points for removable medium \"%s\""
-#~ msgstr "可移动介质“%s”的挂载点太多"
-
-#~ msgid "taking removable device as \"%s\""
-#~ msgstr "将可移动设备认作“%s”"
-
-#~ msgid "Medium \"%s\" is an ISO image, will be mounted on-the-fly"
-#~ msgstr "介质“%s”是一个 ISO 映像，将会被实时挂载"
-
-#~ msgid "using different removable device [%s] for \"%s\""
-#~ msgstr "为“%2$s”使用不同的可移动设备[%1$s]"
-
-#~ msgid "unable to retrieve pathname for removable medium \"%s\""
-#~ msgstr "无法获取可移动介质“%s”的路径名称"
-
-#~ msgid "unable to mount the distribution medium"
-#~ msgstr "无法挂载发行版介质"
-
-#~ msgid ""
-#~ "unable to access medium \"%s\",\n"
-#~ "this could happen if you mounted manually the directory when creating the "
-#~ "medium."
-#~ msgstr ""
-#~ "无法访问介质“%s”，\n"
-#~ "这可能是因为您在创建介质时是手动装载的目录。"
-
-#~ msgid "inconsistent medium \"%s\" marked removable but not really"
-#~ msgstr "非连贯介质“%s”标为可移动但实际不是"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "准备好后按 Enter 键..."
-
-#~ msgid "  -c             - clean headers cache directory.\n"
-#~ msgstr "  -c             - 直接清除软件包头缓存。\n"
-
-#~ msgid "virtual medium needs to be local"
-#~ msgstr "虚拟介质必须是本地的"
-
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "生成名称文件出错: 依赖关系 %d 未找到"
-
-#~ msgid "Error generating names file: Can't write to file (%s)"
-#~ msgstr "生成名称文件失败: 无法写入文件(%s)"
-
-#, fuzzy
-#~ msgid "unable to parse synthesis file of \"%s\""
-#~ msgstr "无法处理“%s”的 hdlist 文件"
