@@ -1,3 +1,138 @@
+2008-03-10 15:41  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* gurpmi2: (do_install_2) perl_checker cleanups
+
+2008-03-10 15:40  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, gurpmi2: (configure_urpm) fix breakage introduced with
+	  priority upgrades support (#38738)
+
+2008-03-10 05:43  Funda Wang <fundawang at gmail.com>
+
+	* po/zh_CN.po: Updated zh_CN translation
+
+2008-03-10 01:04  Dotan Kamber <kamberd at yahoo.com>
+
+	* po/he.po: update for Hebrew translation
+
+2008-03-07 22:01  Andrea Celli <andrea.celli at libero.it>
+
+	* po/it.po: update translation for Italian
+
+2008-03-07 18:11  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS: fix date
+
+2008-03-07 18:10  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm.pm: 5.9
+
+2008-03-07 17:05  Pixel <pixel at mandriva.com>
+
+	* t/data/SPECS/split-transactions--strict-require-1/e.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/f.spec,
+	  t/data/SPECS/split-transactions--strict-require-1/g.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/e.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/f.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/g.spec,
+	  t/data/SPECS/split-transactions--strict-require-2/h.spec,
+	  t/superuser--split-transactions--strict-require.t: add a test
+	  that is fixed in perl-URPM 3.12
+
+2008-03-07 15:06  Pixel <pixel at mandriva.com>
+
+	* t/superuser--split-transactions--strict-require.t: add a comment
+
+2008-03-07 15:02  Pixel <pixel at mandriva.com>
+
+	* t/superuser--provide-and-no-obsolete.t: - this bug is fixed
+	  - add bug number (it was only in the commit log)
+
+2008-03-07 13:43  Pixel <pixel at mandriva.com>
+
+	* pod/urpmi.8.pod: adapt doc
+
+2008-03-06 19:25  Pixel <pixel at mandriva.com>
+
+	* NEWS, urpm/select.pm: - modify infrastructure so that rpmdrake
+	  doesn't select all updates by
+	  default (#38611)
+	  
+	  ie create resolve_priority_upgrades_after_auto_select() for use
+	  in rpmdrake
+
+2008-03-06 19:20  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: create _priority_upgrade_pkgs()
+	  
+	  (this may be a little bit slower, but it is needed for next
+	  commit)
+
+2008-03-06 19:15  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: fix previous commit
+
+2008-03-06 19:14  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: move $resolve_priority_upgrades out of
+	  resolve_dependencies() into its own
+	  function _resolve_priority_upgrades()
+
+2008-03-06 19:09  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: revert what tv added, will give rpmdrake a
+	  special function for its needs
+
+2008-03-06 16:49  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm.pm: 5.8.1
+
+2008-03-06 16:45  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm/select.pm: (resolve_dependencies) add infrastructure
+	  so that rpmdrake doesn't
+	  select all updates by default (#38611)
+
+2008-03-06 12:18  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Fixed non-sensical translation.
+
+2008-03-06 11:57  Marek Laane <bald at starman.ee>
+
+	* po/et.po: Updated Estonian translation.
+
+2008-03-06 10:41  Pixel <pixel at mandriva.com>
+
+	* urpm/media.pm, urpm/removable.pm: nicer error message
+
+2008-03-05 09:01  Tomasz Bednarski <tbednarski at mandrivalinux.pl>
+
+	* po/pl.po: update translation for Polish
+
+2008-03-05 01:27  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS: one more typo fix
+
+2008-03-05 01:26  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS: typo fix
+
+2008-03-04 23:47  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* NEWS, urpm.pm: 5.8
+
+2008-03-04 23:34  Michal Bukovjan <bukovjan at mbox.dkm.cz>
+
+	* po/cs.po: Update Czech translation.
+
+2008-03-04 21:48  Pixel <pixel at mandriva.com>
+
+	* urpm/select.pm: cleanup
+
+2008-03-04 21:03  Thierry Vignaud <tvignaud at mandriva.com>
+
+	* ChangeLog: update
+
 2008-03-04 19:35  Thierry Vignaud <tvignaud at mandriva.com>
 
 	* urpm/select.pm: (add_packages_to_priority_upgrade_list) prevent
