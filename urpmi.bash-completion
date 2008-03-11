@@ -91,9 +91,7 @@ _urpmi()
 		COMPREPLY=( $( compgen -W "$options" -- $cur ) )
 	else
 		if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
-			if [ -n "${COMP_URPMI_HDLISTS:-}" ]; then
-				COMPREPLY=( $( compgen -W "$(urpmq --list)" -- $cur ) )
-			fi
+			COMPREPLY=( $( compgen -W "$(urpmq --list)" -- $cur ) )
 			_filedir rpm
 		fi
 	fi
