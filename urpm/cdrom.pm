@@ -63,7 +63,8 @@ sub _try_mounting_cdrom_using_hal {
 
     $urpm->{cdrom_mounted} = {}; # reset
 
-    require Hal::Cdroms;
+    eval { require Hal::Cdroms; 1 } or $urpm->{error}(N("you must mount cdrom or install perl-Hal-Cdroms to have it done automatically")), return();
+
     my $hal_cdroms = Hal::Cdroms->new;
     foreach my $hal_path ($hal_cdroms->list) {
 	my $mntpoint;
@@ -121,7 +122,8 @@ sub _eject_cdrom {
     my $mntpoint = delete $urpm->{cdrom_mounted}{$hal_path};
     $urpm->{debug} and $urpm->{debug}("umounting and ejecting $mntpoint (cdrom $hal_path)");
 
-    require Hal::Cdroms;
+    eval { require Hal::Cdroms; 1 } or return;
+
     my $hal_cdroms = Hal::Cdroms->new;
     $hal_cdroms->unmount($hal_path) or do {
 	my $mntpoint = $hal_cdroms->get_mount_point($hal_path);
