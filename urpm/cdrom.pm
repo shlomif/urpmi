@@ -63,7 +63,7 @@ sub _try_mounting_cdrom_using_hal {
 
     $urpm->{cdrom_mounted} = {}; # reset
 
-    eval { require Hal::Cdroms; 1 } or $urpm->{error}(N("you must mount cdrom or install perl-Hal-Cdroms to have it done automatically")), return();
+    eval { require Hal::Cdroms; 1 } or $urpm->{error}(N("You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done automatically)")), return();
 
     my $hal_cdroms = Hal::Cdroms->new;
     foreach my $hal_path ($hal_cdroms->list) {
