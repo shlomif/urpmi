@@ -42,7 +42,7 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
 ", $urpm::VERSION) . "    gurpmi <rpm> [ <rpm>... ]
-" . N("Options :") . "\n"
+" . N("Options:") . "\n"
  . N("  --help         - print this help message.
 ") . N("  --auto         - non-interactive mode, assume default answers to questions.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
