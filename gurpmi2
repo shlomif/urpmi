@@ -81,7 +81,7 @@ my $urpm = configure_urpm();
 my $state = {};
 my %requested = $urpm->register_rpms(@all_rpms);
 if (@gurpmi::names) {
-    urpm::select::search_packages($urpm, \%requested, [ @gurpmi::names ]);
+    urpm::select::search_packages($urpm, \%requested, [ @gurpmi::names ]) || $force or exit 1;
 }
 
 #- return value is true if program should be restarted (in order to take care of important
