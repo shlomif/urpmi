@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: uz\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2007-09-13 16:43+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -96,7 +96,91 @@ msgstr "_Bekor qilish"
 msgid "Choose location to save file"
 msgstr "Faylni qaerga saqlash joyini tanlang"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi, versiya %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"Bu erkin dastur va GNU GPL shartlari asosida tarqatilishi mumkin.\n"
+"\n"
+"Foydalanish:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - shu yordam xabarini ko'rsatish.\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - tizimni yangilash uchun paketlarni avto-tanlash.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - o'rnatishdan avval paketning elektron imzosini "
+"tekshirish\n"
+"                   (--no-verify-rpm ushbu amalning teskarisi, andoza "
+"bo'yicha paketning elektron imzosi tekshiriladi).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - faqat ko'rsatilgan, vergul bilan ajratilgan, "
+"to'plamlardan foydalanish.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr ""
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr ""
+"  --test         - o'rnatishni to'g'ri bajarish imkoniyatini tekshirish.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "Hech qanday paket ko'rsatilmagan"
@@ -253,6 +337,11 @@ msgstr "O'rnatish tugadi"
 msgid "removing %s"
 msgstr "%s o'chirilmoqda"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "urpmi qaytadan ishga tushmoqda"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -405,7 +494,14 @@ msgstr ""
 msgid "Copying failed"
 msgstr "Nusxa ko'chirish muvaffaqiyatsiz tugadi"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr ""
@@ -868,6 +964,11 @@ msgid "adding medium \"%s\""
 msgstr "to'plam qo'shilmoqda: %s"
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "chroot direktoriyasi mavjud emas"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -922,7 +1023,12 @@ msgstr "...qaytadan moslash muvaffaqiyatsiz tugadi"
 msgid "reconfiguration done"
 msgstr "...qaytadan moslash tugadi"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "to'plamni yangilash hojati yo'q: \"%s\""
@@ -1183,13 +1289,6 @@ msgstr ""
 "\n"
 "Foydalanish: urpmf [parametrlar] qidirish uchun ifoda\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - shu yordam xabarini ko'rsatish.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1219,13 +1318,6 @@ msgstr ""
 #, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - faqat ko'rsatilgan, vergul bilan ajratilgan, "
-"to'plamlardan foydalanish.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1587,12 +1679,6 @@ msgstr ""
 "  --test         - olib tashlashni to'g'ri bajarish imkoniyatini "
 "tekshirish.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1684,40 +1770,12 @@ msgstr " (h/Y) "
 msgid "Removal failed"
 msgstr "O'chirish muvaffaqiyatsiz tugadi"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi, versiya %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"Bu erkin dastur va GNU GPL shartlari asosida tarqatilishi mumkin.\n"
-"\n"
-"Foydalanish:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - tizimni yangilash uchun paketlarni avto-tanlash.\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1821,11 +1879,6 @@ msgid ""
 "                   dependencies checking and integrity.\n"
 msgstr ""
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr ""
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1897,25 +1950,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr ""
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - o'rnatishdan avval paketning elektron imzosini "
-"tekshirish\n"
-"                   (--no-verify-rpm ushbu amalning teskarisi, andoza "
-"bo'yicha paketning elektron imzosi tekshiriladi).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr ""
-"  --test         - o'rnatishni to'g'ri bajarish imkoniyatini tekshirish.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2231,12 +2265,12 @@ msgstr[0] "%d-ta paketni o'rnatish bilan davom etishni istaysizmi?"
 msgid "Cancel"
 msgstr "Bekor qilish"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "urpmi qaytadan ishga tushmoqda"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Tayyor bo'lganda ENTER tugmasini bosing..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -2927,9 +2961,6 @@ msgstr "Changelog fayli topilmadi\n"
 
 #~ msgid "Unknown option %s"
 #~ msgstr "Noma'lum parametr \"%s\""
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Tayyor bo'lganda ENTER tugmasini bosing..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - sarlavhalarning kesh direktoriyasini tozalash.\n"

@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2007-09-25 00:20+0300\n"
 "Last-Translator: Taha Özket <taha.ozket@obss.net>\n"
 "Language-Team: Turkce <tr@li.org>\n"
@@ -110,7 +110,93 @@ msgstr "İp_tal"
 msgid "Choose location to save file"
 msgstr "Bir dosya seçin"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi sürüm %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"Bu bir serbest yazılımdır ve GNU GPL lisansı altında tekrar "
+"dağıtılabilinir.\n"
+"\n"
+"kullanımı:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - bu yardım mesajını görüntüler.\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+"  --auto         - interaktif modu   kapalı, sorulara varsayılan cevapları "
+"ver.\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - Sistemi güncellemek için paketleri otomatik seç.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - bazı paketlerin bulunamama durumda bile işlemin\n"
+"                   devamına zorla.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, fuzzy, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - kurulumdan önce rpm imzasını doğrula\n"
+"                   (--no-verify-rpm bunu iptal eder, öntanımlı etkindir).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media       - sadece belirtilen ortamları kullan (virgülle ayırın).\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, fuzzy, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --wget         - uzaktaki dosyaları almak için wget kullan.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, fuzzy, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - kurulumun başarılı olup olmayacağını doğrula.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, fuzzy, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --media       - sadece belirtilen ortamları kullan (virgülle ayırın).\n"
+
+#: ../gurpmi.pm:98
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Komut belirtmemişsiniz"
@@ -268,6 +354,11 @@ msgstr "Kurulum tamamlandı"
 msgid "removing %s"
 msgstr "%s kaldırılıyor"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, fuzzy, c-format
+msgid "restarting urpmi"
+msgstr "slurpd başlatılıyor: "
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -421,7 +512,14 @@ msgstr "Çok fazla parametre\n"
 msgid "Copying failed"
 msgstr "Kopyalama başarısız"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "\"%s\" seçilmedi"
@@ -882,6 +980,11 @@ msgid "adding medium \"%s\""
 msgstr "aygıt kaldırılıyor \"%s\""
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "Ortam değişkenleri dizini %s mevcut değilt"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "bu konum herhangi bir dağıtım içermiyor"
@@ -936,7 +1039,12 @@ msgstr "Yapılandırma dosyası"
 msgid "reconfiguration done"
 msgstr "Sunucu Ayarları"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "\"%s\" seçilmedi"
@@ -1195,13 +1303,6 @@ msgstr ""
 "\n"
 "kullanımı:\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - bu yardım mesajını görüntüler.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, fuzzy, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1231,12 +1332,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --wget         - uzaktaki dosyaları almak için wget kullan.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media       - sadece belirtilen ortamları kullan (virgülle ayırın).\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, fuzzy, c-format
@@ -1607,14 +1702,6 @@ msgstr "  --auto         - Otomatik seçenekler arasından paketleri seç.\n"
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - kurulumun başarılı olup olmayacağını doğrula.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - bazı paketlerin bulunamama durumda bile işlemin\n"
-"                   devamına zorla.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1707,30 +1794,6 @@ msgstr " ( y, e / H , N ) "
 msgid "Removal failed"
 msgstr "Kaldırma başarısız"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi sürüm %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"Bu bir serbest yazılımdır ve GNU GPL lisansı altında tekrar "
-"dağıtılabilinir.\n"
-"\n"
-"kullanımı:\n"
-
-#: ../urpmi:78
-#, fuzzy, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --media       - sadece belirtilen ortamları kullan (virgülle ayırın).\n"
-
 #: ../urpmi:81
 #, fuzzy, c-format
 msgid ""
@@ -1739,12 +1802,6 @@ msgid ""
 msgstr ""
 "  --auto         - interaktif modu   kapalı, sorulara varsayılan cevapları "
 "ver.\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - Sistemi güncellemek için paketleri otomatik seç.\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1854,11 +1911,6 @@ msgstr ""
 "  --allow-force  - kullanıcıya bağımlılıkları ve diğer olumsuzlukları\n"
 "                   sormadan kuruluma izin verir.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, fuzzy, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --wget         - uzaktaki dosyaları almak için wget kullan.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1939,22 +1991,6 @@ msgid ""
 msgstr ""
 "  --bug          - sonraki argüman tarafından belirtilen dizini bir\n"
 "                   hata raporu oluştur.\n"
-
-#: ../urpmi:132
-#, fuzzy, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - kurulumdan önce rpm imzasını doğrula\n"
-"                   (--no-verify-rpm bunu iptal eder, öntanımlı etkindir).\n"
-
-#: ../urpmi:134
-#, fuzzy, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - kurulumun başarılı olup olmayacağını doğrula.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2266,12 +2302,12 @@ msgstr[0] ""
 msgid "Cancel"
 msgstr "İptal"
 
-#: ../urpmi:665
+#: ../urpmi:635
 #, fuzzy, c-format
-msgid "restarting urpmi"
-msgstr "slurpd başlatılıyor: "
+msgid "Press Enter when mounted..."
+msgstr "Hazır olduğunuzda Enter'a basın..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3010,9 +3046,6 @@ msgstr "Görüntü (imaj) bulunamadı!\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr ""
 #~ "tutarsız ortam \"%s\" kaldırılabilir olarak imlenmiş ama bu doğru değil"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Hazır olduğunuzda Enter'a basın..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr ""

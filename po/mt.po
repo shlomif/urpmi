@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mt\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2004-09-07 05:59+0200\n"
 "Last-Translator: Ramon Casha <ramon.casha@linux.org.mt>\n"
 "Language-Team: Maltese <mt@li.org>\n"
@@ -107,7 +107,89 @@ msgstr "I_kkanċella"
 msgid "Choose location to save file"
 msgstr "Agħżel fejn tikteb il-fajl"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, fuzzy, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi verżjoni %s\n"
+"Copyright (C) 1999-2005 Mandriva.\n"
+"Dan huwa softwer ħieles u jista' jiġi distribwit taħt it-termini tal-GNU "
+"GPL.\n"
+"\n"
+"użu:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - uri dan il-messaġġ ta' għajnuna.\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - agħżel pakketti awtomatikament biex taġġorna s-sistema.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - imponi l-invokazzjoni anke jekk xi pakketti ma jeżistux.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, fuzzy, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - ivverifika l-firma tal-pakkett qabel tinstalla.\n"
+"                   (--no-verify-rpm itfih, impliċitament mixgħul).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - uża biss is-sorsi llistjati b'virgoli.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - uża root ieħor għall-installazzjoni rpm.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, fuzzy, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - ivverifika li l-installazzjoni tista' ssir sew.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, fuzzy, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr "  --media        - uża biss is-sorsi llistjati b'virgoli.\n"
+
+#: ../gurpmi.pm:98
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Ebda kmand speċifikat"
@@ -267,6 +349,11 @@ msgstr "Installazzjoni lesta"
 msgid "removing %s"
 msgstr "qed jitneħħa %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "qed jiġi ristartjat urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -417,7 +504,14 @@ msgstr ""
 msgid "Copying failed"
 msgstr "Ikkupjar falla"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "sors \"%s\" mhuwiex magħżul"
@@ -878,6 +972,11 @@ msgstr "qed jitneħħa s-sors \"%s\""
 
 #: ../urpm/media.pm:759
 #, c-format
+msgid "directory %s does not exist"
+msgstr ""
+
+#: ../urpm/media.pm:767
+#, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
@@ -933,7 +1032,12 @@ msgstr "...rikonfigurazzjoni falliet"
 msgid "reconfiguration done"
 msgstr "rikonfigurazzjoni lesta"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "sors \"%s\" mhuwiex magħżul"
@@ -1192,13 +1296,6 @@ msgstr ""
 "\n"
 "użu:\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - uri dan il-messaġġ ta' għajnuna.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, fuzzy, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1227,11 +1324,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - uża root ieħor għall-installazzjoni rpm.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - uża biss is-sorsi llistjati b'virgoli.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1598,13 +1690,6 @@ msgstr "  --auto         - agħżel pakkett awtomatikament fl-għażla.\n"
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - ivverifika li l-installazzjoni tista' ssir sew.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - imponi l-invokazzjoni anke jekk xi pakketti ma jeżistux.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1701,42 +1786,12 @@ msgstr " (i/L) "
 msgid "Removal failed"
 msgstr "Tneħħija falliet"
 
-#: ../urpmi:69
-#, fuzzy, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi verżjoni %s\n"
-"Copyright (C) 1999-2005 Mandriva.\n"
-"Dan huwa softwer ħieles u jista' jiġi distribwit taħt it-termini tal-GNU "
-"GPL.\n"
-"\n"
-"użu:\n"
-
-#: ../urpmi:78
-#, fuzzy, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr "  --media        - uża biss is-sorsi llistjati b'virgoli.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - agħżel pakketti awtomatikament biex taġġorna s-sistema.\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1856,11 +1911,6 @@ msgstr ""
 "                   pakketti mingħajr ma jiġu ċċekkjati d-dipendenzi \n"
 "                   u integrità.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - uża root ieħor għall-installazzjoni rpm.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1946,22 +1996,6 @@ msgid ""
 msgstr ""
 "  --bug          - ipproduċi rapport ta' bug fid-direttorju indikat "
 "fl-                   argument li jmiss.\n"
-
-#: ../urpmi:132
-#, fuzzy, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - ivverifika l-firma tal-pakkett qabel tinstalla.\n"
-"                   (--no-verify-rpm itfih, impliċitament mixgħul).\n"
-
-#: ../urpmi:134
-#, fuzzy, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - ivverifika li l-installazzjoni tista' ssir sew.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2277,12 +2311,12 @@ msgstr[1] ""
 msgid "Cancel"
 msgstr "Ikkanċella"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "qed jiġi ristartjat urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Agħfas Enter meta tlesti..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3030,9 +3064,6 @@ msgstr "Ma nstabx changelog\n"
 
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr "sors \"%s\" immarkat li jista' jitneħħa, imma m'hux"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Agħfas Enter meta tlesti..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - naddaf id-direttorju tal-cache tal-headers.\n"

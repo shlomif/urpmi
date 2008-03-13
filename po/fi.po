@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2007-10-27 04:38+0300\n"
 "Last-Translator: Anssi Hannula <anssi@mandriva.org>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -110,7 +110,92 @@ msgstr "_Peruuta"
 msgid "Choose location to save file"
 msgstr "Valitse hakemisto johon tiedosto tallennetaan"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"Tämä on vapaa ohjelmisto, jota saa levittää GNU GPL -lisenssin mukaisesti.\n"
+"\n"
+"käyttö:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - tulosta tämä viesti\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+"  --auto         - ei-interaktiivinen tila, kaikkiin kysymyksiin vastataan\n"
+"                   oletusarvon mukaisesti.\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - valitse automaattisesti päivitettävät paketit\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - pakottaa asennuksen vaikka joitakin paketteja puuttuu\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - varmista rpm-allekirjoitus ennen asennusta\n"
+"                   (--no-verify-rpm poistaa käytöstä, vakiona käytössä).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - käytä ainoastaan seuraavia pilkuilla eroteltuja medioita\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - käytä määriteltyä juurta rpm-asennukselle\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - suorita vain asennuksen onnistumisen tarkistus\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - käytä ainoastaan annettuja medioita pyydetyn paketin\n"
+"                   hakemiseen.\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "Paketteja ei annettu"
@@ -268,6 +353,11 @@ msgstr "Asennus on valmis"
 msgid "removing %s"
 msgstr "poistetaan %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "uudelleenkäynnistetään urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -418,7 +508,14 @@ msgstr "Liian monta argumenttia\n"
 msgid "Copying failed"
 msgstr "Kopiointi epäonnistui"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr "media \"%s\" ei ole saatavilla"
@@ -879,6 +976,11 @@ msgid "adding medium \"%s\""
 msgstr "lisätään media \"%s\""
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "Ympäristökansio %s ei ole olemassa"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "tämä sijainti ei vaikuta sisältävän jakelua"
@@ -933,7 +1035,12 @@ msgstr "...uudelleenasetus epäonnistui"
 msgid "reconfiguration done"
 msgstr "uudelleenasetus tehty"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr "Virhe luodessa names-tiedostoa: riippuvuutta %d ei löytynyt"
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "media \"%s\" on ajan tasalla"
@@ -1191,13 +1298,6 @@ msgstr ""
 "\n"
 "käyttö: urpmf [valitsimet] hakulauseke\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - tulosta tämä viesti\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1230,12 +1330,6 @@ msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
 "  --urpmi-root   - käytä määriteltyä juurta urpmin tietokannalle ja\n"
 "                   rpm-pakettien asentamiseen.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - käytä ainoastaan seuraavia pilkuilla eroteltuja medioita\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1609,13 +1703,6 @@ msgstr "  --auto         - valitse automaattisesti paketit tarvittaessa\n"
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - varmista että poisto voidaan hoitaa oikein\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - pakottaa asennuksen vaikka joitakin paketteja puuttuu\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1710,30 +1797,6 @@ msgstr " (k/E) "
 msgid "Removal failed"
 msgstr "Poisto epäonnistui"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"Tämä on vapaa ohjelmisto, jota saa levittää GNU GPL -lisenssin mukaisesti.\n"
-"\n"
-"käyttö:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - käytä ainoastaan annettuja medioita pyydetyn paketin\n"
-"                   hakemiseen.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
@@ -1742,12 +1805,6 @@ msgid ""
 msgstr ""
 "  --auto         - ei-interaktiivinen tila, kaikkiin kysymyksiin vastataan\n"
 "                   oletusarvon mukaisesti.\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - valitse automaattisesti päivitettävät paketit\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1866,11 +1923,6 @@ msgstr ""
 "  --allow-force  - salli pakettien asennus ilman riippuvuuksien ja\n"
 "                   eheyden tarkistusta\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - käytä määriteltyä juurta rpm-asennukselle\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1952,22 +2004,6 @@ msgid ""
 msgstr ""
 "  --bug          - kirjoittaa virheraportin hakemistoon joka määritellään\n"
 "                   seuraavassa argumentissa\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - varmista rpm-allekirjoitus ennen asennusta\n"
-"                   (--no-verify-rpm poistaa käytöstä, vakiona käytössä).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - suorita vain asennuksen onnistumisen tarkistus\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2295,12 +2331,12 @@ msgstr[1] "Asennetaanko nämä %d pakettia?"
 msgid "Cancel"
 msgstr "Peruuta"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "uudelleenkäynnistetään urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Paina Enter kun olet valmis..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3055,17 +3091,11 @@ msgstr "Muutoslokia ei löytynyt\n"
 #~ msgstr ""
 #~ "hajanainen media \"%s\" merkitty siirrettäväksi, vaikkei oikeastaan ole"
 
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Paina Enter kun olet valmis..."
-
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - puhdista otsikkotietojen välimuistihakemisto\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "virtuaalisen median on oltava paikallinen"
-
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "Virhe luodessa names-tiedostoa: riippuvuutta %d ei löytynyt"
 
 #~ msgid "Error generating names file: Can't write to file (%s)"
 #~ msgstr "Virhe luodessa names-tiedostoa: Tiedostoon ei voida kirjoittaa (%s)"

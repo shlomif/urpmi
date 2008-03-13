@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2008-03-04 21+0900\n"
 "Last-Translator: Yukiko Bando<ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <cooker-i18n@mandrivalinux.org>\n"
@@ -108,7 +108,87 @@ msgstr "キャンセル(_C)"
 msgid "Choose location to save file"
 msgstr "ファイルを保存する場所を選んでください"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008  Mandriva.\n"
+"これはフリーソフトウェアであり、GNU GPL の条件のもとで再配布できます。\n"
+"\n"
+"使い方:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - このヘルプを表示\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr "  --auto\t  - 非対話モード、質問に対する答えはデフォルトとみなす\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - 自動的にパッケージを選択してシステムを更新\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - 足りないパッケージがあっても強制的に実行する\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - インストールする前に RPM の署名を確認する\n"
+"                   (デフォルトで有効。--no-verify-rpm で無効)\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - 指定したメディアのみを使う (コンマで区切る)\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - RPM のインストールに他のルートを使う\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - 正しくインストールされるかどうかテストする\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia   - 指定したメディアのみを要求したパッケージの検索に使う\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "パッケージが指定されていません"
@@ -265,6 +345,11 @@ msgstr "インストールが完了しました"
 msgid "removing %s"
 msgstr "%s を削除"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "urpmi を再スタートします"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -416,7 +501,14 @@ msgstr "引数が多すぎます\n"
 msgid "Copying failed"
 msgstr "コピーに失敗"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr "メディア %s は利用できません"
@@ -880,6 +972,11 @@ msgid "adding medium \"%s\""
 msgstr "メディア %s を追加"
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "環境ディレクトリ %s が存在しません"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "この場所にはディストリビューションが含まれていないようです"
@@ -936,7 +1033,12 @@ msgstr "...再設定に失敗"
 msgid "reconfiguration done"
 msgstr "再設定完了"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr "名前ファイルの生成エラー: 依存 %d が見つかりません"
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "メディア %s は最新です"
@@ -1194,13 +1296,6 @@ msgstr ""
 "\n"
 "使い方: urpmf [オプション] パターン表現\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - このヘルプを表示\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1228,11 +1323,6 @@ msgstr "  --literal, -l  - パターンで検索せずに引数を普通の文�
 #, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --urpmi-root   - urpmi db と RPM のインストールに他のルートを使う\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - 指定したメディアのみを使う (コンマで区切る)\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1594,12 +1684,6 @@ msgstr "  --auto         - 複数の選択肢から自動的にパッケージ�
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - 問題なく削除できるかどうかテストする\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - 足りないパッケージがあっても強制的に実行する\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1693,41 +1777,12 @@ msgstr " (y/N)[デフォルトはN] "
 msgid "Removal failed"
 msgstr "削除に失敗"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008  Mandriva.\n"
-"これはフリーソフトウェアであり、GNU GPL の条件のもとで再配布できます。\n"
-"\n"
-"使い方:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia   - 指定したメディアのみを要求したパッケージの検索に使う\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr "  --auto\t  - 非対話モード、質問に対する答えはデフォルトとみなす\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - 自動的にパッケージを選択してシステムを更新\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1841,11 +1896,6 @@ msgstr ""
 "  --allow-force  - 依存関係に問題が発生したときに、自動的に終了せずに\n"
 "                   --force でインストールするかどうか質問する\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - RPM のインストールに他のルートを使う\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1928,22 +1978,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr "  --bug          - 指定したディレクトリにバグレポートを出力\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - インストールする前に RPM の署名を確認する\n"
-"                   (デフォルトで有効。--no-verify-rpm で無効)\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - 正しくインストールされるかどうかテストする\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2268,12 +2302,12 @@ msgstr[0] "%d 個のパッケージのインストールを開始しますか？
 msgid "Cancel"
 msgstr "キャンセル"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "urpmi を再スタートします"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "準備ができたら Enter を押してください"
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, c-format
@@ -3026,17 +3060,11 @@ msgstr "変更ログはありません\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr "メディア %s はリムーバブルだと判断しましたが、不確実です"
 
-#~ msgid "Press Enter when ready..."
-#~ msgstr "準備ができたら Enter を押してください"
-
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - キャッシュディレクトリのヘッダを削除\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "仮想メディアはローカルでなければいけません"
-
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "名前ファイルの生成エラー: 依存 %d が見つかりません"
 
 #~ msgid "Error generating names file: Can't write to file (%s)"
 #~ msgstr "名前ファイルの生成エラー: ファイルに書き込めません (%s)"

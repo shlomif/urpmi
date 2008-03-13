@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-vi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2005-06-08 15:13+0700\n"
 "Last-Translator: Trinh Minh Thanh <tmthanh@yahoo.com>\n"
 "Language-Team: Vietnamese <gnomevi-list@lists.sourceforge.net>\n"
@@ -101,7 +101,92 @@ msgstr "Bỏ _qua"
 msgid "Choose location to save file"
 msgstr "Chọn nơi lưu tập tin"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"Phiên bản urpmi %s\n"
+"Bản quyền (C) 1999-2008 Mandriva.\n"
+"Đây là phần mềm miễn phí và có thể phân phối lại theo các điều khoản của GNU "
+"GPL.\n"
+"\n"
+"Cách dùng:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - in thông tin trợ giúp này.\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - tự động chọn các gói tin để nâng cấp hệ thống.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - ép buộc cầu viện ngay cả khi một số gói tin không tồn "
+"tại.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, fuzzy, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - xác minh chữ ký rpm trước khi cài đặt.\n"
+"                   (--no-verify-rpm để tắt nó, mặc định là bật).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media         - chỉ dùng phương tiện được trao, ngăn cách bởi dấu phẩy.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - dùng root khác để thực hiện cài đặt rpm.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, fuzzy, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - xác minh nếu việc cài đặt đạt kết quả tốt.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, fuzzy, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - chỉ dùng phương tiện được cho để tìm kiếm hay nâng cấp "
+"các gói.\n"
+
+#: ../gurpmi.pm:98
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "không có gói tin với tên %s"
@@ -258,6 +343,11 @@ msgstr "Kết thúc cài đặt"
 msgid "removing %s"
 msgstr "gỡ bỏ %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "khởi chạy lại urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -408,7 +498,14 @@ msgstr ""
 msgid "Copying failed"
 msgstr "Sao chép không được"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "phương tiện \"%s\" không được chọn"
@@ -870,6 +967,11 @@ msgstr "gỡ bỏ phương tiện \"%s\""
 
 #: ../urpm/media.pm:759
 #, c-format
+msgid "directory %s does not exist"
+msgstr ""
+
+#: ../urpm/media.pm:767
+#, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
@@ -924,7 +1026,12 @@ msgstr "...không cấu hình lại được"
 msgid "reconfiguration done"
 msgstr "hoàn thành việc cấu hình lại"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "phương tiện \"%s\" không được chọn"
@@ -1187,13 +1294,6 @@ msgstr ""
 "\n"
 "Cách dùng:\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - in thông tin trợ giúp này.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, fuzzy, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1223,12 +1323,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - dùng root khác để thực hiện cài đặt rpm.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media         - chỉ dùng phương tiện được trao, ngăn cách bởi dấu phẩy.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1596,14 +1690,6 @@ msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr ""
 "  --test         - xác minh nếu việc gỡ bỏ có thể được lưu trữ chính xác.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - ép buộc cầu viện ngay cả khi một số gói tin không tồn "
-"tại.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1696,43 +1782,12 @@ msgstr " (Có/Không) "
 msgid "Removal failed"
 msgstr "Gỡ bỏ không được"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"Phiên bản urpmi %s\n"
-"Bản quyền (C) 1999-2008 Mandriva.\n"
-"Đây là phần mềm miễn phí và có thể phân phối lại theo các điều khoản của GNU "
-"GPL.\n"
-"\n"
-"Cách dùng:\n"
-
-#: ../urpmi:78
-#, fuzzy, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - chỉ dùng phương tiện được cho để tìm kiếm hay nâng cấp "
-"các gói.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - tự động chọn các gói tin để nâng cấp hệ thống.\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1848,11 +1903,6 @@ msgstr ""
 "  --allow-force  - cho phép hỏi người dùng cài đặt các gói tin mà\n"
 "                   không kiểm tra các phụ thuộc và tính toàn vẹn.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - dùng root khác để thực hiện cài đặt rpm.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1935,22 +1985,6 @@ msgid ""
 msgstr ""
 "  --bug          - xuất ra báo cáo lỗi trong thư mục được chỉ định\n"
 "                    bởi đối số (arg) tiếp theo.\n"
-
-#: ../urpmi:132
-#, fuzzy, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - xác minh chữ ký rpm trước khi cài đặt.\n"
-"                   (--no-verify-rpm để tắt nó, mặc định là bật).\n"
-
-#: ../urpmi:134
-#, fuzzy, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - xác minh nếu việc cài đặt đạt kết quả tốt.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2269,12 +2303,12 @@ msgstr[0] ""
 msgid "Cancel"
 msgstr "Bỏ qua"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "khởi chạy lại urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Nhấn Enter khi sẵn sàng ..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3025,9 +3059,6 @@ msgstr "Không thấy changelog\n"
 #~ msgstr ""
 #~ "phương tiện không rõ ràng \"%s\" được đánh dấu là tháo lắp nhưng không "
 #~ "phải vậy"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Nhấn Enter khi sẵn sàng ..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - xoá thư mục cache headers.\n"

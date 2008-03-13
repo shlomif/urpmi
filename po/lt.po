@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2005-08-18 23:34+0200\n"
 "Last-Translator: Arvydas Svirka <arvydas@arvis.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -106,7 +106,93 @@ msgstr "_Atšaukti"
 msgid "Choose location to save file"
 msgstr "Pasirinkite vietą bylos išsaugojimui"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, fuzzy, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi versija %s\n"
+"Autorinės teisės (C) 1999-2005 Mandriva.\n"
+"Tai yra nemokama programa, kuri gali būti platinama pagal GNU GPL "
+"licenciją.\n"
+"\n"
+"naudojimas:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - spausdinti šį pagalbos pranešimą.\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - automatiškai parinkti paketus sistemos atnaujinimui.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - vykdyti kreipimąsi, net jei nėra keleto paketų.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, fuzzy, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - prieš įdiegimą patikrinti rpm ženklą\n"
+"                   (--no-verify-rpm funkciją išjungia, standartiškai ji yra "
+"įjungta).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - naudoti tik duotąsias laikmenas, atskirtas kableliu.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - rpm įdiegimui naudokite kitą pradinį.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, fuzzy, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr ""
+"  --test         - patikrinti, ar įdiegimas gali būti įvykdytas teisingai.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, fuzzy, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - pareikalautų (arba atnaujintų) paketų paieškai naudokite "
+"tik duotąją laikmeną.\n"
+
+#: ../gurpmi.pm:98
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Išsaugoti paketų pasirinkimą"
@@ -265,6 +351,11 @@ msgstr "Įdiegimas baigtas"
 msgid "removing %s"
 msgstr "pašalinama %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "iš naujo paleidžiama urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -415,7 +506,14 @@ msgstr ""
 msgid "Copying failed"
 msgstr "Kopijavimas nepavyko"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "laikmena \"%s\" neišrinkta"
@@ -879,6 +977,11 @@ msgstr "pašalinama laikmena \"%s\""
 
 #: ../urpm/media.pm:759
 #, c-format
+msgid "directory %s does not exist"
+msgstr ""
+
+#: ../urpm/media.pm:767
+#, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
@@ -932,7 +1035,12 @@ msgstr "...naujas konfigūravimas nepavyko"
 msgid "reconfiguration done"
 msgstr "naujas konfigūravimas atliktas"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "laikmena \"%s\" neišrinkta"
@@ -1191,13 +1299,6 @@ msgstr ""
 "\n"
 "naudojimas:\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - spausdinti šį pagalbos pranešimą.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, fuzzy, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1227,12 +1328,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - rpm įdiegimui naudokite kitą pradinį.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - naudoti tik duotąsias laikmenas, atskirtas kableliu.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1605,12 +1700,6 @@ msgstr ""
 "  --test         - tikrinti, jei pašalinimas negali būti tinkamai "
 "įvykdytas.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - vykdyti kreipimąsi, net jei nėra keleto paketų.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1708,44 +1797,12 @@ msgstr " (t/N) "
 msgid "Removal failed"
 msgstr "Pašalinimas nepavyko"
 
-#: ../urpmi:69
-#, fuzzy, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi versija %s\n"
-"Autorinės teisės (C) 1999-2005 Mandriva.\n"
-"Tai yra nemokama programa, kuri gali būti platinama pagal GNU GPL "
-"licenciją.\n"
-"\n"
-"naudojimas:\n"
-
-#: ../urpmi:78
-#, fuzzy, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - pareikalautų (arba atnaujintų) paketų paieškai naudokite "
-"tik duotąją laikmeną.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - automatiškai parinkti paketus sistemos atnaujinimui.\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1864,11 +1921,6 @@ msgstr ""
 "  --allow-force  - allow asking user to install packages without\n"
 "                   dependencies checking and integrity.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - rpm įdiegimui naudokite kitą pradinį.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1955,24 +2007,6 @@ msgid ""
 msgstr ""
 "  --bug          - išvesti klaidų ataskaitą kataloge, kuris nurodytas\n"
 "                   sekančiu argumentu.\n"
-
-#: ../urpmi:132
-#, fuzzy, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - prieš įdiegimą patikrinti rpm ženklą\n"
-"                   (--no-verify-rpm funkciją išjungia, standartiškai ji yra "
-"įjungta).\n"
-
-#: ../urpmi:134
-#, fuzzy, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr ""
-"  --test         - patikrinti, ar įdiegimas gali būti įvykdytas teisingai.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2293,12 +2327,12 @@ msgstr[2] ""
 msgid "Cancel"
 msgstr "Atšaukti"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "iš naujo paleidžiama urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Kai būsite pasiruošę, paspauskite Enter..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3056,9 +3090,6 @@ msgstr "Nerastas changelog\n"
 
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr "nesuderinama laikmena \"%s\" pažymėta kaip išimama, bet tokia nėra"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Kai būsite pasiruošę, paspauskite Enter..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - išvalyti antraščių cache katalogą.\n"

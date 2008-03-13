@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2007-11-29 14:14+0000\n"
 "Last-Translator: Pjetur G. Hjaltason <pjetur@pjetur.net>\n"
 "Language-Team: Icelandic <kde-isl@molar.is>\n"
@@ -105,7 +105,91 @@ msgstr "Hætta _við"
 msgid "Choose location to save file"
 msgstr "Veldu stað til að vista skrá"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi útgáfa %s\n"
+"Höfundaréttur © 1999-2008 Mandriva.\n"
+"Þetta er frjáls hugbúnaður og má dreifa samkvæmt skilmálum GNU GPL.\n"
+"\n"
+"notkun:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - prenta þetta.\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+"  --auto         - ekki gagnvirkur hamur, gera ráðfyrir sjálfgefnum svörum "
+"við spurningum.\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - velja sjálfkrafa pakka til að uppfæra kerfið.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - þvinga uppsetningu þó sumir pakkar séu ekki til.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - staðfesta rpm undirskriftir áður en pakkar eru uppsettir\n"
+"                   (--no-verify-rpm aftengir, sjálfgefið er að athuga "
+"pakka).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - nota aðeins uppgefna miðla, aðskildir með kommum.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - Nota aðra rót fyrir rpm uppsetningu.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - aðeins athuga hvort uppsetning muni takast.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - nota aðeins uppgefin miðil til að leita að umbeðnum "
+"pökkum.\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "Engir pakkar tilgreindir"
@@ -263,6 +347,11 @@ msgstr "Innsetningu lokið"
 msgid "removing %s"
 msgstr "fjarlægi %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "endurræsi urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -413,7 +502,14 @@ msgstr "Of mörg viðföng\n"
 msgid "Copying failed"
 msgstr "Afritun brást"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr "miðill \"%s\" er ekki tiltækur"
@@ -876,6 +972,11 @@ msgid "adding medium \"%s\""
 msgstr "bæti við  miðli \"%s\""
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "Umhverfismappa %s er ekki til"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "þessi staðsetning virðist ekki innihalda neina dreifingu"
@@ -930,7 +1031,12 @@ msgstr "...endurstilling mistókst"
 msgid "reconfiguration done"
 msgstr "endurstillingu lokið"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr "Villa við myndun nafnaskrár: er háð %d sem finnst ekki"
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "miðill \"%s\" er uppfærð"
@@ -1188,13 +1294,6 @@ msgstr ""
 "\n"
 "notkun: urpmf [valkostir] mynstur\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - prenta þetta.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1227,11 +1326,6 @@ msgstr ""
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
 "  --urpmi-root   - nota aðra rót fyrir urpmi gagnagrunn og rpm uppsetningu.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - nota aðeins uppgefna miðla, aðskildir með kommum.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1598,12 +1692,6 @@ msgstr "  --auto         - velja sjálfvirkt pakka í vali.\n"
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - staðfesta að hægt sé að fjarlægja umbeðna pakka.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - þvinga uppsetningu þó sumir pakkar séu ekki til.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1700,30 +1788,6 @@ msgstr " (J/n) "
 msgid "Removal failed"
 msgstr "Mistókst að fjarlægja"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi útgáfa %s\n"
-"Höfundaréttur © 1999-2008 Mandriva.\n"
-"Þetta er frjáls hugbúnaður og má dreifa samkvæmt skilmálum GNU GPL.\n"
-"\n"
-"notkun:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - nota aðeins uppgefin miðil til að leita að umbeðnum "
-"pökkum.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
@@ -1732,12 +1796,6 @@ msgid ""
 msgstr ""
 "  --auto         - ekki gagnvirkur hamur, gera ráðfyrir sjálfgefnum svörum "
 "við spurningum.\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - velja sjálfkrafa pakka til að uppfæra kerfið.\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1854,11 +1912,6 @@ msgstr ""
 "  --allow-force  - leyfa notanda að setja upp pakka án þess að athuga\n"
 "                   tengda pakka eða staðfesta uppruna.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - Nota aðra rót fyrir rpm uppsetningu.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1941,23 +1994,6 @@ msgid ""
 msgstr ""
 "  --bug          - skrifa út villutilkynningu í möppuna sem tilgreind er\n"
 "                   í næsta viðfangi.\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - staðfesta rpm undirskriftir áður en pakkar eru uppsettir\n"
-"                   (--no-verify-rpm aftengir, sjálfgefið er að athuga "
-"pakka).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - aðeins athuga hvort uppsetning muni takast.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2286,12 +2322,12 @@ msgstr[1] "Halda áfram með uppsetningu á %d pökkum?"
 msgid "Cancel"
 msgstr "Hætta við"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "endurræsi urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Sláðu á ENTER þegar tilbúinn..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3039,17 +3075,11 @@ msgstr "Enginn breytilisti fannst\n"
 #~ msgstr ""
 #~ "ósamræmi í miðli \"%s\" merktur útskiptanlegur en er það ekki í raun"
 
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Sláðu á ENTER þegar tilbúinn..."
-
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - hreinsa hausa í biðminnis-möppu.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "sýndarmiðlar verða að vera staðbundnir"
-
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "Villa við myndun nafnaskrár: er háð %d sem finnst ekki"
 
 #~ msgid "Error generating names file: Can't write to file (%s)"
 #~ msgstr "Villa við myndun nafnaskrár: get ekki skrifað í skrá (%s)"

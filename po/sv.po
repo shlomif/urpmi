@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-sv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2008-02-27 20:46+0200\n"
 "Last-Translator: Thomas Backlund <tmb@mandriva.org>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -114,7 +114,91 @@ msgstr "Av_bryt"
 msgid "Choose location to save file"
 msgstr "Välj var filen ska sparas"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008, Mandriva.\n"
+"Det här är fri programvara och får distribueras enligt villkoren i GNU GPL.\n"
+"\n"
+"användning:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - visar det här hjälpmeddelandet.\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+"  --auto         - ej interaktivt läge. väljer standardsvar på alla frågor.\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - välj automatiskt paket för att uppdatera systemet.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - tvinga användning även om vissa paket inte finns.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - verifiera rpm-signatur före installation (standard)\n"
+"                   (--no-verify-rpm inaktiverar det).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - använd endast givet media, separerat med komma.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - använd en annan root för rpm installation.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr ""
+"  --test         - verifiera endast om installationen kan utföras korrekt.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - använd endast givet media för att söka efter valda "
+"paket.\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "Inga paket specifierade"
@@ -274,6 +358,11 @@ msgstr "Installation slutförd"
 msgid "removing %s"
 msgstr "tar bort %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "startar om urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -426,7 +515,14 @@ msgstr "För många argument\n"
 msgid "Copying failed"
 msgstr "Kopiering misslyckades"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr "mediat \"%s\" är inte tillgängligt"
@@ -892,6 +988,11 @@ msgid "adding medium \"%s\""
 msgstr "lägger till media \"%s\""
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "Omgivning sökväg %s existerar inte"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "denna sökväg verkar inte innehålla någon distribution"
@@ -946,7 +1047,12 @@ msgstr "...omkonfigurering misslyckades"
 msgid "reconfiguration done"
 msgstr "omkonfigurering utförd"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "mediat \"%s\" är uppdaterat"
@@ -1204,13 +1310,6 @@ msgstr ""
 "\n"
 "användning:\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - visar det här hjälpmeddelandet.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1238,11 +1337,6 @@ msgstr "  --literal, -l  - sök inte mönster, använd argument som söksträng.
 #, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --urpmi-root   - använd en annan rot för db & rpm installation.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - använd endast givet media, separerat med komma.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1610,12 +1704,6 @@ msgstr "  --auto         - välj automatiskt ett paket från valen.\n"
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - verifiera om borttagningen kan utföras korrekt.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - tvinga användning även om vissa paket inte finns.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1713,30 +1801,6 @@ msgstr " (j/N) "
 msgid "Removal failed"
 msgstr "Borttagning misslyckades"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008, Mandriva.\n"
-"Det här är fri programvara och får distribueras enligt villkoren i GNU GPL.\n"
-"\n"
-"användning:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - använd endast givet media för att söka efter valda "
-"paket.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
@@ -1744,13 +1808,6 @@ msgid ""
 "questions.\n"
 msgstr ""
 "  --auto         - ej interaktivt läge. väljer standardsvar på alla frågor.\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - välj automatiskt paket för att uppdatera systemet.\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1867,11 +1924,6 @@ msgstr ""
 "  --allow-force  - tillåter användaren att installera paket utan\n"
 "                   kontroll av beroenden och integritet.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - använd en annan root för rpm installation.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1958,23 +2010,6 @@ msgid ""
 msgstr ""
 "  --bug          - mata ut en felrapport i katalogen som indikeras av\n"
 "                   nästa arg.\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - verifiera rpm-signatur före installation (standard)\n"
-"                   (--no-verify-rpm inaktiverar det).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr ""
-"  --test         - verifiera endast om installationen kan utföras korrekt.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2300,12 +2335,12 @@ msgstr[1] "Fortsätt installationen av %d paket?"
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "startar om urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Tryck \"Enter\" vid klart..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3067,9 +3102,6 @@ msgstr "Ingen ändringslogg hittades\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr ""
 #~ "Felkonfigurerat media \"%s\" är markerat som flyttbart men är inte det"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Tryck \"Enter\" vid klart..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - rensa huvudcachekatalogen.\n"

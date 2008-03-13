@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2008-03-08 23:26+0200\n"
 "Last-Translator: Dotan Kamber <kamberd@yahoo.com>\n"
 "Language-Team: Hebrew\n"
@@ -110,7 +110,88 @@ msgstr "_ביטול"
 msgid "Choose location to save file"
 msgstr "עליך לבחור מקום לשמירת הקובץ"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"גרסת urpmi %s\n"
+"כל הזכויות שמורות (C) 1999-2008 Mandriva.\n"
+"זוהי תוכנה חופשית וניתן להפיצה בהתאם לתנאי הרישיון GNU GPL.\n"
+"\n"
+"\n"
+"שימוש:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - הצגת הודעת עזרה זו.\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - אלץ הפעלה גם אם חלק מהחבילות חסרות.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - בדוק את חתימת החבילה לפני ההתקנה\n"
+"                   (--no-verify-rpm מבטל זאת, ברירת המחדל היא להפעיל\").\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - שימוש רק במקורות המסופקים, מופרדים ע\"י פסיק\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - השתמש בשורש מערכת קבצים אחר להתקנת חבילות.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - רק וידוא שהתקנת החבילה יכולה להסתיים בהצלחה.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr "  --searchmedia  - השתמש רק במקור הנתון לחיפוש החבילות המבוקשות.\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "לא צוינו חבילות"
@@ -184,12 +265,14 @@ msgstr ""
 
 #: ../gurpmi2:215 ../urpmi:592
 #, c-format
-msgid "To satisfy dependencies, the following package is going to be installed:"
+msgid ""
+"To satisfy dependencies, the following package is going to be installed:"
 msgstr "כדי לספק את התלויות, החבילה הבאה הותקן:"
 
 #: ../gurpmi2:216 ../urpmi:593
 #, c-format
-msgid "To satisfy dependencies, the following packages are going to be installed:"
+msgid ""
+"To satisfy dependencies, the following packages are going to be installed:"
 msgstr "כדי לספק את התלויות החבילות הבאות יותקנו:"
 
 #: ../gurpmi2:218
@@ -265,6 +348,11 @@ msgstr "ההתקנה הסתיימה"
 #, c-format
 msgid "removing %s"
 msgstr "מסיר %s"
+
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "מפעיל מחדש את urpmi"
 
 #: ../rpm-find-leaves:14
 #, c-format
@@ -416,7 +504,14 @@ msgstr "יותר מדי משתנים\n"
 msgid "Copying failed"
 msgstr "ההעתקה נכשלה"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr "המקור \"%s\" אינו זמין"
@@ -593,7 +688,8 @@ msgstr "[אורז מחדש]"
 
 #: ../urpm/install.pm:154
 #, c-format
-msgid "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
+msgid ""
+"created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr "יצר עסקה עבור התקנה על %s (הסרה=%d, התקנה=%d, עדכון=%d)"
 
 #: ../urpm/install.pm:157
@@ -877,6 +973,11 @@ msgid "adding medium \"%s\""
 msgstr "מוסיף את המקור \"%s\""
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "ספרית ה-chroot אינה קיימת"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
@@ -931,7 +1032,12 @@ msgstr "...ההגדרה מחדש נכשלה"
 msgid "reconfiguration done"
 msgstr "ההגדרה מחדש הושלמה"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "המקור \"%s\" עדכני"
@@ -1190,13 +1296,6 @@ msgstr ""
 "\n"
 "שימוש: urpmf [אפשרויות] ביטוי לדפוס\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - הצגת הודעת עזרה זו.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1214,7 +1313,8 @@ msgstr "  --excludemedia - do not use the given media, separated by comma.\n"
 
 #: ../urpm/search.pm:39 ../urpmf:39
 #, c-format
-msgid "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
+msgid ""
+"  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
 
 #: ../urpm/search.pm:40 ../urpme:52 ../urpmf:40 ../urpmi:111
@@ -1222,16 +1322,13 @@ msgstr ""
 #: ../urpmi.update:46 ../urpmq:69
 #, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
-msgstr "  --urpmi-root         - השתמש בשורש מערכת קבצים אחר ל-urpmi db והתקנת rpm\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - שימוש רק במקורות המסופקים, מופרדים ע\"י פסיק\n"
+msgstr ""
+"  --urpmi-root         - השתמש בשורש מערכת קבצים אחר ל-urpmi db והתקנת rpm\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
-msgid "  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
 msgstr "  --sortmedia    - מיון מדיה בהתאם לכותרות משנה המופרדים ע\"י פסיק.\n"
 
 #: ../urpm/search.pm:43 ../urpmf:43
@@ -1483,7 +1580,8 @@ msgstr "urpmi אותחל ורשימת החבילות הדחופות לא השת�
 
 #: ../urpm/select.pm:23
 #, c-format
-msgid "urpmi was restarted, and the list of priority packages did change: %s vs %s"
+msgid ""
+"urpmi was restarted, and the list of priority packages did change: %s vs %s"
 msgstr "urpmi אותחל ורשימת החבילות הדחופות השתנתה: %s לעומת %s"
 
 #: ../urpm/select.pm:184
@@ -1588,11 +1686,6 @@ msgstr "  --auto         - בחירה אוטומטית של חבילה מהאפ�
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - בדיקה האם הסרת החבילה יכולה להסתיים בהצלחה.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid "  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - אלץ הפעלה גם אם חלק מהחבילות חסרות.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1665,7 +1758,8 @@ msgstr "בדיקה להסרת החבילות הבאות"
 #: ../urpme:124
 #, c-format
 msgid "To satisfy dependencies, the following package will be removed"
-msgid_plural "To satisfy dependencies, the following %d packages will be removed"
+msgid_plural ""
+"To satisfy dependencies, the following %d packages will be removed"
 msgstr[0] "בכדי לענות על התלויות החבילה הבאה תוסר"
 msgstr[1] "כדי לענות על התלויות, %d החבילות הבאות ייוסרו"
 
@@ -1686,39 +1780,12 @@ msgstr " (כן/*לא) "
 msgid "Removal failed"
 msgstr "ההסרה נכשלה"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"גרסת urpmi %s\n"
-"כל הזכויות שמורות (C) 1999-2008 Mandriva.\n"
-"זוהי תוכנה חופשית וניתן להפיצה בהתאם לתנאי הרישיון GNU GPL.\n"
-"\n"
-"\n"
-"שימוש:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid "  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr "  --searchmedia  - השתמש רק במקור הנתון לחיפוש החבילות המבוקשות.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid "  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - automatically select packages to upgrade the system.\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1745,7 +1812,8 @@ msgstr "  --noscripts    - אל תפעיל תסריטונים של החבילה.
 msgid ""
 "  --no-uninstall - never ask to uninstall a package, abort the "
 "installation.\n"
-msgstr "  --no-uninstall - לעולם אל תבקש להסיר התקנה של חבילה, בטל את ההתקנה.\n"
+msgstr ""
+"  --no-uninstall - לעולם אל תבקש להסיר התקנה של חבילה, בטל את ההתקנה.\n"
 
 #: ../urpmi:88
 #, c-format
@@ -1785,7 +1853,8 @@ msgstr "  --fuzzy, -y    - מפעיל חיפוש מקורב.\n"
 #: ../urpmi:98
 #, fuzzy, c-format
 msgid "  --buildrequires - install the buildrequires of the packages\n"
-msgstr "  --whaterquires - בצע חיפוש הפוך אחר חבילות הדורשות את החבילה המוגדרת.\n"
+msgstr ""
+"  --whaterquires - בצע חיפוש הפוך אחר חבילות הדורשות את החבילה המוגדרת.\n"
 
 #: ../urpmi:99
 #, c-format
@@ -1809,7 +1878,8 @@ msgstr ""
 
 #: ../urpmi:103
 #, c-format
-msgid "  --replacepkgs  - force installing packages which are already installed.\n"
+msgid ""
+"  --replacepkgs  - force installing packages which are already installed.\n"
 msgstr ""
 
 #: ../urpmi:105
@@ -1829,11 +1899,6 @@ msgid ""
 msgstr ""
 "  --allow-force  - מאפשר לתשאל את המשתמש אודות התקנת חבילות\n"
 "                   בלי בדיקת תלויות.\n"
-
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - השתמש בשורש מערכת קבצים אחר להתקנת חבילות.\n"
 
 #: ../urpmi:112
 #, c-format
@@ -1916,22 +1981,6 @@ msgid ""
 msgstr ""
 "  --bug          - ייצר קובץ שגיאות בספריה הנתונה על ידי\n"
 "                   המשתנה הבא.\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - בדוק את חתימת החבילה לפני ההתקנה\n"
-"                   (--no-verify-rpm מבטל זאת, ברירת המחדל היא להפעיל\").\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - רק וידוא שהתקנת החבילה יכולה להסתיים בהצלחה.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2036,7 +2085,8 @@ msgstr ""
 
 #: ../urpmi:221
 #, c-format
-msgid "please use --buildrequires or --install-src, defaulting to --buildrequires"
+msgid ""
+"please use --buildrequires or --install-src, defaulting to --buildrequires"
 msgstr ""
 
 #: ../urpmi:241
@@ -2044,7 +2094,8 @@ msgstr ""
 msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
-msgstr "הספרייה [%s] כבר קיימת, עליך לבחור ספרייה אחרת לדיווח על תקלה או למחוק אותה"
+msgstr ""
+"הספרייה [%s] כבר קיימת, עליך לבחור ספרייה אחרת לדיווח על תקלה או למחוק אותה"
 
 #: ../urpmi:242
 #, c-format
@@ -2247,12 +2298,12 @@ msgstr[1] "להמשיך בהתקנת %d החבילות?"
 msgid "Cancel"
 msgstr "ביטול"
 
-#: ../urpmi:665
+#: ../urpmi:635
 #, c-format
-msgid "restarting urpmi"
-msgstr "מפעיל מחדש את urpmi"
+msgid "Press Enter when mounted..."
+msgstr ""
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -2375,7 +2426,8 @@ msgstr "  --nopubkey     - אל תייבא את מפתח האימות של המ�
 #: ../urpmi.addmedia:79
 #, c-format
 msgid "  --raw          - add the media in config, but don't update it.\n"
-msgstr "  --raw          - הוסף את המקור לרשימה, אבל אל תעדכן את רשימת הקבצים.\n"
+msgstr ""
+"  --raw          - הוסף את המקור לרשימה, אבל אל תעדכן את רשימת הקבצים.\n"
 
 #: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
@@ -2475,7 +2527,8 @@ msgstr ""
 
 #: ../urpmi.recover:37
 #, c-format
-msgid "  --list         - list transactions since provided date/duration argument\n"
+msgid ""
+"  --list         - list transactions since provided date/duration argument\n"
 msgstr ""
 
 #: ../urpmi.recover:38
@@ -2760,7 +2813,8 @@ msgstr "  --list-aliases - list available parallel aliases.\n"
 
 #: ../urpmq:62
 #, c-format
-msgid "  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
+msgid ""
+"  --dump-config  - dump the config in form of urpmi.addmedia argument.\n"
 msgstr "  --dump-config  - ייצא את ההגדרות במבנה של משתני urpmi.addmedia.\n"
 
 #: ../urpmq:63
@@ -2770,7 +2824,8 @@ msgstr "  --src          - החבילה הבאה היא חבילת מקור (א�
 
 #: ../urpmq:64
 #, c-format
-msgid "  --sources      - give all source packages before downloading (root only).\n"
+msgid ""
+"  --sources      - give all source packages before downloading (root only).\n"
 msgstr "  --sources      -נותן כל חבילות המקור לפני הורדה (רק מנהל מערכת).\n"
 
 #: ../urpmq:66
@@ -2827,7 +2882,8 @@ msgstr "  -d             - הרחב את השאילתה לתלויות החבי�
 #: ../urpmq:87
 #, c-format
 msgid "  --whatrequires - reverse search to what requires package.\n"
-msgstr "  --whaterquires - בצע חיפוש הפוך אחר חבילות הדורשות את החבילה המוגדרת.\n"
+msgstr ""
+"  --whaterquires - בצע חיפוש הפוך אחר חבילות הדורשות את החבילה המוגדרת.\n"
 
 #: ../urpmq:88
 #, c-format
@@ -2924,16 +2980,17 @@ msgstr "לתשומת לבך: למקור \"%s\" אין hdlist, ל אניתן לס
 
 #: ../urpmq:364
 #, fuzzy, c-format
-msgid "no xml info for medium \"%s\", unable to return any result for package %s"
+msgid ""
+"no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr "לתשומת לבך: למקור \"%s\" אין hdlist, ל אניתן לספק תוצאות עבורו"
 
 #: ../urpmq:365
 #, fuzzy, c-format
-msgid "no xml info for medium \"%s\", unable to return any result for packages %s"
+msgid ""
+"no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr "לתשומת לבך: למקור \"%s\" אין hdlist, ל אניתן לספק תוצאות עבורו"
 
 #: ../urpmq:429
 #, c-format
 msgid "No changelog found\n"
 msgstr "לא נמצאה רשימת שינויים\n"
-

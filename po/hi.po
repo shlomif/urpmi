@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-hi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2005-08-23 20:11+0530\n"
 "Last-Translator: धनञ्जय शर्मा (Dhananjaya Sharma)\n"
 "Language-Team: Hindi, India\n"
@@ -104,7 +104,93 @@ msgstr "खत्म करें (_C)"
 msgid "Choose location to save file"
 msgstr "संचिका को सुरक्षित करने के स्थान का चयन करें"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, fuzzy, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"यू०आर०पी०एम०आई० संस्मरण %s\n"
+"सर्वाधिकार (C) १९९९-२००४ मैनड्रिव सॉफ़्ट ।\n"
+"यह एक मुक्त सॉफ़्टवेयर है और जी०एन०यू० सामान्य जन अधिकार-पत्र के अन्तर्गत पुनः वितरित "
+"किया जा सकता है।\n"
+"\n"
+"उपयोग विधि:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - यह सहायता संदेश मुद्रित करें\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - प्रणाली को उन्नयन बनाने के लिए, स्वतः पैकेजों का चयन करें\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - यद्यपि कुछ पैकेज ना विद्यमान हो, तो भी इनवोकेशन को बल-पूर्वक लागू "
+"करें \n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, fuzzy, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - संसाधन के पहिले, आर०पी०एम० हस्ताक्षर की जाँच करें\n"
+"                   (--no-verify-rpm इसे अयोग्य करता है, डिफ़ॉल्ट जाँच के साथ है).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - सिर्फ़ दिए गए माध्यम का उपयोग करें, छोटे विराम चिह्न के द्वारा अलग "
+"किये हुए\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - आरपीएम संसाधन के लिए अन्य रूट का उपयोग\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, fuzzy, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - जाँच करें कि संसाधन सफ़लता-पूर्वक किया जा सकता है\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, fuzzy, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia    - निवेदित (या अपडेट किये हुए) पैकेजों की खोज के लिए,  सिर्फ़ दिए गए "
+"माध्यम का उपयोग करें ।\n"
+
+#: ../gurpmi.pm:98
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "%s नाम का कोई पैकेज नहीं है"
@@ -263,6 +349,11 @@ msgstr "संसाधन समाप्त"
 msgid "removing %s"
 msgstr "%s को हटाया जा रहा है"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "यू०आर०पी०एम०आई० को पुनः आरम्भ किया जा रहा है"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -413,7 +504,14 @@ msgstr ""
 msgid "Copying failed"
 msgstr "प्रतिलिपि बनना असफ़ल"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "माध्यम \"%s\" का चयन नहीं किया गया है"
@@ -877,6 +975,11 @@ msgstr "\"%s\" माध्यम को हटाया जा रहा है
 
 #: ../urpm/media.pm:759
 #, c-format
+msgid "directory %s does not exist"
+msgstr ""
+
+#: ../urpm/media.pm:767
+#, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
@@ -930,7 +1033,12 @@ msgstr "...पुनःसंरचना प्रक्रिया असफ़�
 msgid "reconfiguration done"
 msgstr "पुनःसंरचना प्रक्रिया सम्पन्न हुई"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "माध्यम \"%s\" का चयन नहीं किया गया है"
@@ -1191,13 +1299,6 @@ msgstr ""
 "\n"
 "उपयोग विधि:\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - यह सहायता संदेश मुद्रित करें\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, fuzzy, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1227,13 +1328,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - आरपीएम संसाधन के लिए अन्य रूट का उपयोग\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - सिर्फ़ दिए गए माध्यम का उपयोग करें, छोटे विराम चिह्न के द्वारा अलग "
-"किये हुए\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1600,14 +1694,6 @@ msgstr "  --auto         - इच्छित पैकेजों में �
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - जाँच करें कि सही-सही तरीके से हटाया जा सकता है\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - यद्यपि कुछ पैकेज ना विद्यमान हो, तो भी इनवोकेशन को बल-पूर्वक लागू "
-"करें \n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1706,43 +1792,12 @@ msgstr "(हाँ/ना:y/N)"
 msgid "Removal failed"
 msgstr "हटाना असफ़ल"
 
-#: ../urpmi:69
-#, fuzzy, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"यू०आर०पी०एम०आई० संस्मरण %s\n"
-"सर्वाधिकार (C) १९९९-२००४ मैनड्रिव सॉफ़्ट ।\n"
-"यह एक मुक्त सॉफ़्टवेयर है और जी०एन०यू० सामान्य जन अधिकार-पत्र के अन्तर्गत पुनः वितरित "
-"किया जा सकता है।\n"
-"\n"
-"उपयोग विधि:\n"
-
-#: ../urpmi:78
-#, fuzzy, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia    - निवेदित (या अपडेट किये हुए) पैकेजों की खोज के लिए,  सिर्फ़ दिए गए "
-"माध्यम का उपयोग करें ।\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - प्रणाली को उन्नयन बनाने के लिए, स्वतः पैकेजों का चयन करें\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1857,11 +1912,6 @@ msgstr ""
 "  --allow-force  - उपयोगकर्ता को, पैकेजों को बिना अधिनताओं और अखंडता की जाँच करें,\n"
 "                   संसाधित करने के लिए प्रश्न पूछने की अनुमति प्रदान करें\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - आरपीएम संसाधन के लिए अन्य रूट का उपयोग\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1945,22 +1995,6 @@ msgid ""
 msgstr ""
 "  --bug          - एक दोष रिपोर्ट को अगले मान के द्वारा बताई गयी निर्देशिका में\n"
 "                   निर्गम करें\n"
-
-#: ../urpmi:132
-#, fuzzy, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - संसाधन के पहिले, आर०पी०एम० हस्ताक्षर की जाँच करें\n"
-"                   (--no-verify-rpm इसे अयोग्य करता है, डिफ़ॉल्ट जाँच के साथ है).\n"
-
-#: ../urpmi:134
-#, fuzzy, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - जाँच करें कि संसाधन सफ़लता-पूर्वक किया जा सकता है\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2281,12 +2315,12 @@ msgstr[1] ""
 msgid "Cancel"
 msgstr "निरस्त"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "यू०आर०पी०एम०आई० को पुनः आरम्भ किया जा रहा है"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "तैयार होने पर इन्टर (Enter) कुंजी को दबायें..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3040,9 +3074,6 @@ msgstr "कोई परिवर्तनलॉग नहीं मिला\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr ""
 #~ "बेमेल माध्यम \"%s\" को हटानेयोग्य चिह्नित किया गया है परन्तु वास्तव में ऐसा नहीं है"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "तैयार होने पर इन्टर (Enter) कुंजी को दबायें..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - शीर्ष कैश निर्देशिका को स्वच्छ करें\n"

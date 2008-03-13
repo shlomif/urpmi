@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2005-02-13 13:39+0600\n"
 "Last-Translator: Jamil Ahmed <jamil@bengalinux.org>\n"
 "Language-Team: Bangla <mdk-translation@bengalinux.org>\n"
@@ -120,7 +120,89 @@ msgstr "বাতিল (_ত)"
 msgid "Choose location to save file"
 msgstr "ফাইল সংরক্ষণ করার অবস্থান বেছে নিন"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi সংস্করণ %s\n"
+"কপিরাইট (C) ১৯৯৯-২০০৬ ম্যান্ড্রিব।\n"
+"এটি মুক্ত সফ্টওয়্যার এবং GNU GPL এর নিয়মানুযায়ী হয়তো এটা পুনঃবিতরণ করা যাবে।\n"
+"\n"
+"ব্যবহার:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - এই সাহায্যকারী বার্তাটি ছাপাও।\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - সিস্টেমটি আপগ্রেড করার জন্য সয়ংক্রিয়ভাবে প্যাকেজ নির্বাচন করো।\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - প্যাকেজ না থাকলেও জোড় করে আমন্ত্রন করো।\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, fuzzy, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - ইনস্টলের আগে rpm স্বাক্ষর যাচাই করো\n"
+"                   (--no-verify-rpm অকার্যকর করবে, স্বাভাবিকভাবে কার্যকর).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - শুধুমাত্র প্রদত্ত মাধ্যম ব্যবহার করো, কমা দিয়ে ভাগ করা।\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - rpm ইনস্টলেশনের জন্য অন্য রুট ব্যবহার করো।\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, fuzzy, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - ইনস্টলেশনটি সঠিকভাবে হবে কি-না যাচাই করো।\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, fuzzy, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - অনুরোধকৃত (অথবা আপডেটকৃত) প্যাকেজসমুহ খোঁজার জন্য শুধুমাত্র প্রদত্ত "
+"মাধ্যম ব্যবহার করো।\n"
+
+#: ../gurpmi.pm:98
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "কোন নির্দেশ পাওয়া যায় নি"
@@ -281,6 +363,11 @@ msgstr "ইনস্টলেশন প্রক্রিয়া সম্পূ�
 msgid "removing %s"
 msgstr "%s সরানো হচ্ছে"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "urpmi আবার শুরু করা হচ্ছে"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -431,7 +518,14 @@ msgstr ""
 msgid "Copying failed"
 msgstr "কপি করতে ব্যর্থ"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "মাধ্যম \"%s\" নির্বাচিত হয়নি"
@@ -894,6 +988,11 @@ msgstr "\"%s\" মাধ্যম সরানো হচ্ছে"
 
 #: ../urpm/media.pm:759
 #, c-format
+msgid "directory %s does not exist"
+msgstr ""
+
+#: ../urpm/media.pm:767
+#, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
@@ -948,7 +1047,12 @@ msgstr "...পুনরায় কনফিগারেশন করতে ব্
 msgid "reconfiguration done"
 msgstr "পুনরায় কনফিগারেশন সমপন্ন"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "মাধ্যম \"%s\" নির্বাচিত হয়নি"
@@ -1206,13 +1310,6 @@ msgstr ""
 "\n"
 "ব্যবহার: urpmf [options] pattern-expression\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - এই সাহায্যকারী বার্তাটি ছাপাও।\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, fuzzy, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1241,11 +1338,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - rpm ইনস্টলেশনের জন্য অন্য রুট ব্যবহার করো।\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - শুধুমাত্র প্রদত্ত মাধ্যম ব্যবহার করো, কমা দিয়ে ভাগ করা।\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1607,12 +1699,6 @@ msgstr "  --auto         - পছন্দসমূহ থেকে সয়ংক
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - সরানোটি সঠিকভাবে সম্পন্ন করা যাবে কি-না যাচাই করো।\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - প্যাকেজ না থাকলেও জোড় করে আমন্ত্রন করো।\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1707,43 +1793,12 @@ msgstr "(y/N) "
 msgid "Removal failed"
 msgstr "সরাতে ব্যর্থ"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi সংস্করণ %s\n"
-"কপিরাইট (C) ১৯৯৯-২০০৬ ম্যান্ড্রিব।\n"
-"এটি মুক্ত সফ্টওয়্যার এবং GNU GPL এর নিয়মানুযায়ী হয়তো এটা পুনঃবিতরণ করা যাবে।\n"
-"\n"
-"ব্যবহার:\n"
-
-#: ../urpmi:78
-#, fuzzy, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - অনুরোধকৃত (অথবা আপডেটকৃত) প্যাকেজসমুহ খোঁজার জন্য শুধুমাত্র প্রদত্ত "
-"মাধ্যম ব্যবহার করো।\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - সিস্টেমটি আপগ্রেড করার জন্য সয়ংক্রিয়ভাবে প্যাকেজ নির্বাচন করো।\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1861,11 +1916,6 @@ msgstr ""
 "  --allow-force  - ডিপেন্ডন্সি এবং অখন্ডতা পরীক্ষা ছাড়া প্যাকেজ ইনস্টল করতে\n"
 "                   ব্যবহারকারী কে জিজ্ঞাসার জন্য অনুমতি দাও।\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - rpm ইনস্টলেশনের জন্য অন্য রুট ব্যবহার করো।\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1947,22 +1997,6 @@ msgid ""
 msgstr ""
 "  --bug          - পরের আরগুমেন্টে উল্লেখিত ডিরেক্টরিতে একটি বাগ রিপোর্ট\n"
 "                    তৈরী করো।\n"
-
-#: ../urpmi:132
-#, fuzzy, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - ইনস্টলের আগে rpm স্বাক্ষর যাচাই করো\n"
-"                   (--no-verify-rpm অকার্যকর করবে, স্বাভাবিকভাবে কার্যকর).\n"
-
-#: ../urpmi:134
-#, fuzzy, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - ইনস্টলেশনটি সঠিকভাবে হবে কি-না যাচাই করো।\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2281,12 +2315,12 @@ msgstr[1] ""
 msgid "Cancel"
 msgstr "বাতিল"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "urpmi আবার শুরু করা হচ্ছে"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "প্রস্তুত হলে Enter চাপুন..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3025,9 +3059,6 @@ msgstr "changelog পাওয়া যায়নি\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr ""
 #~ "\"%s\" incoherent মাধ্যম স্থানান্তরযোগ্য হিসেবে চিহ্নিত হয়েছে কিন্তু আসলে তা নয়"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "প্রস্তুত হলে Enter চাপুন..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - হেডার ক্যাশ ডিরেক্টরি পরিষ্কার করো।\n"

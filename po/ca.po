@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2005-09-19 23:29+0200\n"
 "Last-Translator: Albert Astals Cid <astals11@terra.es>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -108,7 +108,96 @@ msgstr "_Cancel·la"
 msgid "Choose location to save file"
 msgstr "Escolliu la ubicació un desar el fitxer"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi versió %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"Aquest programa és lliure i es pot redistribuir sota els termes de la GPL de "
+"GNU.\n"
+"\n"
+"sintaxi:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - mostra aquest missatge d'ajuda.\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - selecciona automàticament els paquets per actualitzar el "
+"sistema.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - força l'execució tot i que hi hagi paquets que no "
+"existeixen.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - verifica la signatura rpm abans de la instal·lació\n"
+"                   (--no-verify-rpm la deshabilita, per defecte està "
+"habilitat)\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - utilitza només les fonts donades, s'han de separar amb "
+"comes.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - usa una altre arrel per la instal·lació de rpm.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, fuzzy, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - verifica si la instal·lació pot ser duta a terme.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia        - utilitza només les fonts donades per cercar "
+"paquets.\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "No s'ha especificat cap paquet"
@@ -267,6 +356,11 @@ msgstr "Instal·lació finalitzada"
 msgid "removing %s"
 msgstr "s'està eliminant %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "s'esta reiniciant urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -417,7 +511,14 @@ msgstr ""
 msgid "Copying failed"
 msgstr "La còpia ha fallat"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "la font \"%s\" no ha estat seleccionada"
@@ -884,6 +985,11 @@ msgstr "s'està esborrant la font \"%s\""
 
 #: ../urpm/media.pm:759
 #, c-format
+msgid "directory %s does not exist"
+msgstr ""
+
+#: ../urpm/media.pm:767
+#, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
@@ -939,7 +1045,12 @@ msgstr "..la reconfiguració ha fallat"
 msgid "reconfiguration done"
 msgstr "reconfiguració acabada"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "la font \"%s\" no ha estat seleccionada"
@@ -1198,13 +1309,6 @@ msgstr ""
 "\n"
 "sintaxi: urpmf [opcions] patró-expressió\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - mostra aquest missatge d'ajuda.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1234,13 +1338,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - usa una altre arrel per la instal·lació de rpm.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - utilitza només les fonts donades, s'han de separar amb "
-"comes.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1617,14 +1714,6 @@ msgstr ""
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - verifica si l'eliminació pot ser duta a terme.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - força l'execució tot i que hi hagi paquets que no "
-"existeixen.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1720,45 +1809,12 @@ msgstr " (s/N) "
 msgid "Removal failed"
 msgstr "L'eliminació ha fallat"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi versió %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"Aquest programa és lliure i es pot redistribuir sota els termes de la GPL de "
-"GNU.\n"
-"\n"
-"sintaxi:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia        - utilitza només les fonts donades per cercar "
-"paquets.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - selecciona automàticament els paquets per actualitzar el "
-"sistema.\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1882,11 +1938,6 @@ msgstr ""
 "sense\n"
 "                   comprovar les dependències i la integritat.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - usa una altre arrel per la instal·lació de rpm.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1967,23 +2018,6 @@ msgid ""
 msgstr ""
 "  --bug          - crea un informe d'errors en el directori\n"
 "                   que s'indica en l'argument següent.\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - verifica la signatura rpm abans de la instal·lació\n"
-"                   (--no-verify-rpm la deshabilita, per defecte està "
-"habilitat)\n"
-
-#: ../urpmi:134
-#, fuzzy, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - verifica si la instal·lació pot ser duta a terme.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2298,12 +2332,12 @@ msgstr[1] "No s'han pogut instal·lar els paquets (%s)!"
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "s'esta reiniciant urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Premeu Intro quan estigui fet..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3044,9 +3078,6 @@ msgstr "No s'ha trobat la llista de canvis\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr ""
 #~ "font incoherent \"%s\", marcada com a extraïble però no és així realment"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Premeu Intro quan estigui fet..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr ""

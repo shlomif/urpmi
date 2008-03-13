@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2006-09-01 21:32+0800\n"
 "Last-Translator: Shiva Huang <shivahuang@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -118,7 +118,86 @@ msgstr "取消 (_C)"
 msgid "Choose location to save file"
 msgstr "選擇存檔的位置"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi 版本號 %s\n"
+"Copyright (C) 1999-2008 Mandriva。\n"
+"這是自由軟體並可於 GNU GPL 條款下重新散佈。\n"
+"\n"
+"用法：\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - 顯示此說明訊息。\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr "  --auto         - 非互動式模式，對問題使用預設的回答。\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - 自動選擇要用來升級系統的套件。\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - 即使某些套件不存在仍然強制執行。\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - 安裝前檢驗 RPM 檔案的簽章。\n"
+"                   (--no-verify-rpm 會停用它，預設值為啟用)。\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - 只使用給定的媒體，不同媒體間請以逗號分隔。\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - 使用另一個根目錄進行 RPM 套件的安裝。\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - 僅確認安裝是否能夠正確完成。\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr "  --searchmedia  - 只使用指定的媒體來搜尋需要的套件。\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "未指定套件"
@@ -275,6 +354,11 @@ msgstr "安裝完畢"
 msgid "removing %s"
 msgstr "正在移除 %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "正在重新啟動 urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -425,7 +509,14 @@ msgstr "參數太多\n"
 msgid "Copying failed"
 msgstr "複製失敗"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "媒體 \"%s\" 沒有被選取"
@@ -885,6 +976,11 @@ msgstr "移除媒體 \"%s\""
 
 #: ../urpm/media.pm:759
 #, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "環境目錄 %s 不存在"
+
+#: ../urpm/media.pm:767
+#, fuzzy, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "這個 url 看起來並沒有包含任何散佈套件"
 
@@ -938,7 +1034,12 @@ msgstr "重新設定失敗"
 msgid "reconfiguration done"
 msgstr "重新設定完成"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr "生成名稱檔案時發生錯誤：相依性 %d 沒有找到"
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "媒體 \"%s\" 沒有被選取"
@@ -1196,13 +1297,6 @@ msgstr ""
 "\n"
 "用法：urpmf [選項] pattern-expression\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - 顯示此說明訊息。\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1230,11 +1324,6 @@ msgstr "  --literal, -l  - 不比對樣版，把參數當作一般字串。\n"
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - 使用另一個根目錄進行 RPM 套件的安裝。\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - 只使用給定的媒體，不同媒體間請以逗號分隔。\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1598,12 +1687,6 @@ msgstr "  --auto         - 自動選擇套件。\n"
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - 確認刪除是否能夠正確進行。\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - 即使某些套件不存在仍然強制執行。\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1696,40 +1779,12 @@ msgstr " (y/N) (是/否) "
 msgid "Removal failed"
 msgstr "移除失敗"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi 版本號 %s\n"
-"Copyright (C) 1999-2008 Mandriva。\n"
-"這是自由軟體並可於 GNU GPL 條款下重新散佈。\n"
-"\n"
-"用法：\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr "  --searchmedia  - 只使用指定的媒體來搜尋需要的套件。\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr "  --auto         - 非互動式模式，對問題使用預設的回答。\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - 自動選擇要用來升級系統的套件。\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1842,11 +1897,6 @@ msgstr ""
 "  --allow-force  - 允許要求使用者安裝套件而不檢查相依性與完整\n"
 "                   性。\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - 使用另一個根目錄進行 RPM 套件的安裝。\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1926,22 +1976,6 @@ msgid ""
 "  --bug          - output a bug report in directory indicated by\n"
 "                   next arg.\n"
 msgstr "  --bug          - 輸出臭蟲回報到下一個參數所指定的目錄。\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - 安裝前檢驗 RPM 檔案的簽章。\n"
-"                   (--no-verify-rpm 會停用它，預設值為啟用)。\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - 僅確認安裝是否能夠正確完成。\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2252,12 +2286,12 @@ msgstr[0] "繼續安裝這 %d 個套件？"
 msgid "Cancel"
 msgstr "取消"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "正在重新啟動 urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "準備好時請按 Enter..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -2981,17 +3015,11 @@ msgstr "沒有找到更新紀錄\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr "自相矛盾的媒體 \"%s\" 標示為可移除但是事實上卻不是這麼一回事"
 
-#~ msgid "Press Enter when ready..."
-#~ msgstr "準備好時請按 Enter..."
-
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - 清除標頭快取目錄。\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "虛擬媒體必須在本地端"
-
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "生成名稱檔案時發生錯誤：相依性 %d 沒有找到"
 
 #~ msgid "Error generating names file: Can't write to file (%s)"
 #~ msgstr "生成名稱檔案時發生錯誤：無法寫入檔案 (%s)"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2006-09-13 21:02+0200\n"
 "Last-Translator: Vedran Ljubovic <vljubovic@smartnet.ba>\n"
 "Language-Team: Bosnian <lokal@linux.org.ba>\n"
@@ -108,7 +108,91 @@ msgstr "_Odustani"
 msgid "Choose location to save file"
 msgstr "Izaberi lokaciju za snimanje"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi verzija %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"Ovo je slobodan software i može biti distribuiran pod uslovima GNU GPL-a.\n"
+"\n"
+"upotreba:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - ispiši ovu poruku.\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+"  --auto         - ne-interaktivni režim, koristi ponuđene odgovore na sva "
+"pitanja.\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - automatski izaberi pakete za unaprijeđenje sistema.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - prisili pozivanje čak i ako neki paketi ne postoje.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - provjeri potpis rpm-a prije instalacije\n"
+"                   (--no-verify-rpm isključuje, normalno je uključeno).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - koristi samo navedene medije, razdvojene zarezom.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - koristi drugi dir. za rpm instalaciju.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr ""
+"  --test         - provjeri da li se instalacija može ispravno izvršiti.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr "  --searchmedia  - koristi samo navedene medije za pretragu paketa.\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "Nije naveden paket"
@@ -267,6 +351,11 @@ msgstr "Instalacija završena"
 msgid "removing %s"
 msgstr "uklanjam %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "restartujem urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -417,7 +506,14 @@ msgstr "Previše argumenata\n"
 msgid "Copying failed"
 msgstr "Kopiranje nije uspjelo"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "medij \"%s\" nije izabran"
@@ -881,6 +977,11 @@ msgstr "uklanjam medij \"%s\""
 
 #: ../urpm/media.pm:759
 #, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "Direktorij okruženja %s ne postoji"
+
+#: ../urpm/media.pm:767
+#, fuzzy, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "izgleda da ovaj URL ne sadrži distrib"
 
@@ -936,7 +1037,12 @@ msgstr "...rekonfiguracija nije uspjela"
 msgid "reconfiguration done"
 msgstr "rekonfiguracija završena"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr "Greška pri pravljenju names datoteke: zavisnost %d nedostaje"
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "medij \"%s\" nije izabran"
@@ -1194,13 +1300,6 @@ msgstr ""
 "\n"
 "upotreba: urpmf [opcije] izraz\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - ispiši ovu poruku.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1231,11 +1330,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - koristi drugi dir. za rpm instalaciju.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - koristi samo navedene medije, razdvojene zarezom.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1600,13 +1694,6 @@ msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr ""
 "  --test         - provjeri da li se uklanjanje može ispravno izvršiti.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - prisili pozivanje čak i ako neki paketi ne postoje.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1703,28 +1790,6 @@ msgstr " (d/N) "
 msgid "Removal failed"
 msgstr "Uklanjanje nije uspjelo"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi verzija %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"Ovo je slobodan software i može biti distribuiran pod uslovima GNU GPL-a.\n"
-"\n"
-"upotreba:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr "  --searchmedia  - koristi samo navedene medije za pretragu paketa.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
@@ -1733,13 +1798,6 @@ msgid ""
 msgstr ""
 "  --auto         - ne-interaktivni režim, koristi ponuđene odgovore na sva "
 "pitanja.\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - automatski izaberi pakete za unaprijeđenje sistema.\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1855,11 +1913,6 @@ msgstr ""
 "  --allow-force  - dozvoli pitanje korisniku da instalira pakete bez\n"
 "                   provjere ovisnosti i integriteta.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - koristi drugi dir. za rpm instalaciju.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1941,23 +1994,6 @@ msgid ""
 msgstr ""
 "  --bug          - ispiši izvještaj o bugu u direktorij naveden u\n"
 "                   idućem argumentu.\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - provjeri potpis rpm-a prije instalacije\n"
-"                   (--no-verify-rpm isključuje, normalno je uključeno).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr ""
-"  --test         - provjeri da li se instalacija može ispravno izvršiti.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2281,12 +2317,12 @@ msgstr[2] "Da nastavim sa instalacijom %d paketa? (%d MB)"
 msgid "Cancel"
 msgstr "Odustani"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "restartujem urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Pritisnite Enter kada budete spremni..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3037,17 +3073,11 @@ msgstr "Nije pronađen changelog\n"
 #~ msgstr ""
 #~ "nekoherentan medij \"%s\" je označen kao izmjenljiv, mada nije ustvari"
 
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Pritisnite Enter kada budete spremni..."
-
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - očisti direktorij sa spremnikom zaglavlja.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "virtuelni medij mora biti lokalan"
-
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "Greška pri pravljenju names datoteke: zavisnost %d nedostaje"
 
 #~ msgid "Error generating names file: Can't write to file (%s)"
 #~ msgstr ""

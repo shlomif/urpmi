@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2008-03-06 14:15+0300\n"
 "Last-Translator: Marek Laane <bald@starman.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -103,7 +103,96 @@ msgstr "_Loobu"
 msgid "Choose location to save file"
 msgstr "Valige faili salvestamise koht"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi versioon %s\n"
+"Autoriõigus © 1999-2008 Mandriva.\n"
+"See on vaba tarkvara, mida võib levitada vastavalt GNU Üldise Avaliku "
+"Litsentsi tingimustele.\n"
+"\n"
+"kasutamine:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - näitab seda abiteadet.\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+"  --auto         - mitteinteraktiivne režiim, eeldatakse kõigile küsimustele "
+"vaikimisi pakutavaid vastuseid.\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - valib automaatselt paketid süsteemi uuendamiseks.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - käivitatakse ka siis, kui mõnda nõutud paketti ei ole "
+"olemas.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - kontrollib RPM-i signatuuri enne paigaldust\n"
+"                   (--no-verify-rpm tühistab selle, vaikimisi on sees).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - kasutatakse ainult määratud andmekandjaid (eraldajaks "
+"koma).\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - muu baasi kasutamine RPM-ide paigaldamisel.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr ""
+"  --test         - kontrollitakse, kas paigaldus on korrektselt võimalik.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - soovitud pakettide otsinguks kasutatakse ainult määratud "
+"andmekandjaid.\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "Pakette pole valitud"
@@ -261,6 +350,11 @@ msgstr "Paigaldus lõpetatud"
 msgid "removing %s"
 msgstr "%s eemaldamine"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "urpmi taaskäivitamine"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -413,7 +507,14 @@ msgstr "Liiga palju argumente\n"
 msgid "Copying failed"
 msgstr "Kopeerimine nurjus"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr "andmekandja \"%s\" ei ole kättesaadav"
@@ -878,6 +979,11 @@ msgid "adding medium \"%s\""
 msgstr "andmekandja \"%s\" lisamine"
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "Keskkonna kataloogi %s ei ole olemas"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "see asukoht ei paista sisaldavat ühtegi distributsiooni"
@@ -890,7 +996,8 @@ msgstr "faili media.cfg parsimine nurjus"
 #: ../urpm/media.pm:772
 #, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
-msgstr "ligipääs distributsiooniandmekandjale nurjus (ei leitud faili media.cfg)"
+msgstr ""
+"ligipääs distributsiooniandmekandjale nurjus (ei leitud faili media.cfg)"
 
 #: ../urpm/media.pm:790
 #, c-format
@@ -932,7 +1039,12 @@ msgstr "...ümberseadistamine nurjus"
 msgid "reconfiguration done"
 msgstr "ümberseadistamine tehtud"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr "Viga nimedefaili loomisel: sõltuvust %d ei leitud"
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "andmekandja \"%s\" on täiesti värske"
@@ -1191,13 +1303,6 @@ msgstr ""
 "\n"
 "kasutamine: urpmf [võtmed] pattern-expression\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - näitab seda abiteadet.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1233,13 +1338,6 @@ msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
 "  --urpmi-root   - muu baasi kasutamine urpmi andmebaasi jaoks ja RPM-ide "
 "paigaldamisel.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - kasutatakse ainult määratud andmekandjaid (eraldajaks "
-"koma).\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1612,14 +1710,6 @@ msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr ""
 "  --test         - kontrollitakse, kas eemaldamine on korrektselt võimalik.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - käivitatakse ka siis, kui mõnda nõutud paketti ei ole "
-"olemas.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1717,31 +1807,6 @@ msgstr " (j/E) "
 msgid "Removal failed"
 msgstr "Eemaldamine nurjus"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi versioon %s\n"
-"Autoriõigus © 1999-2008 Mandriva.\n"
-"See on vaba tarkvara, mida võib levitada vastavalt GNU Üldise Avaliku "
-"Litsentsi tingimustele.\n"
-"\n"
-"kasutamine:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - soovitud pakettide otsinguks kasutatakse ainult määratud "
-"andmekandjaid.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
@@ -1750,12 +1815,6 @@ msgid ""
 msgstr ""
 "  --auto         - mitteinteraktiivne režiim, eeldatakse kõigile küsimustele "
 "vaikimisi pakutavaid vastuseid.\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - valib automaatselt paketid süsteemi uuendamiseks.\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1874,11 +1933,6 @@ msgstr ""
 "  --allow-force  - lubab kasutajal paigaldada pakette ilma\n"
 "                   sõltuvusi ja sobivust kontrollimata.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - muu baasi kasutamine RPM-ide paigaldamisel.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1963,23 +2017,6 @@ msgid ""
 msgstr ""
 "  --bug          - väljastab vearaporti kataloogi, mis on ära näidatud\n"
 "                   järgnevas argumendis.\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - kontrollib RPM-i signatuuri enne paigaldust\n"
-"                   (--no-verify-rpm tühistab selle, vaikimisi on sees).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr ""
-"  --test         - kontrollitakse, kas paigaldus on korrektselt võimalik.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2305,12 +2342,12 @@ msgstr[1] "Kas paigaldada %d paketti?"
 msgid "Cancel"
 msgstr "Loobu"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "urpmi taaskäivitamine"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Vajutage Enter, kui see on tehtud..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, c-format
@@ -3084,17 +3121,11 @@ msgstr "Muutuste logi ei leitud\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr "andmekandja \"%s\" on kirjas eemaldatavana, aga ei ole seda mitte"
 
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Vajutage Enter, kui see on tehtud..."
-
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - puhastab päistepuhvri kataloogi.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "virtuaalne andmekandja peab olema kohalik"
-
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr "Viga nimedefaili loomisel: sõltuvust %d ei leitud"
 
 #~ msgid "Error generating names file: Can't write to file (%s)"
 #~ msgstr "Viga nimedefaili loomisel: faili kirjutamine ebaõnnestus (%s)"

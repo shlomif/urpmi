@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ar\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2005-09-05 17:40+0300\n"
 "Last-Translator: Ossama M. Khayat <okhayat@yahoo.com>\n"
 "Language-Team: Arabic <support@arabeyes.org>\n"
@@ -108,7 +108,89 @@ msgstr "ال_غاء"
 msgid "Choose location to save file"
 msgstr "اختر مكان حفظ الملف"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi إصدارة %s\n"
+"حقّ النّسخ 1999-2008 ماندريبا.\n"
+"هذا برنامج حرّ و يمكن إعادة توزيعه تحت بنود ترخيص GNU GPL.\n"
+"\n"
+"الاستعمال:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - تطبع رسالة المساعدة هذه.\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - اختر الحزم آليا لترقية النظام.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - أجبر التنفيذ حتى إن لم تكن بعض الحزم موجودة.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, fuzzy, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - تأكّد من توقيع rpm قبل التّثبيت\n"
+"                   (--no-verify-rpm يعطّل هذا الخيار، وهو ممكّن بشكل "
+"افتراضي.)\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr "  --media        - استخدم فقط الوسيط المحدّد، مفصولة بفواصل.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - استخدم جذر آخر لتثبيت حزم rpm.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, fuzzy, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr "  --test         - تحقّق إن كان بالإمكان التثبيت بشكل صحيح.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, fuzzy, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - استخدم فقط الوسط المُعطى للبحث عن الحزم المطلوبة (أو "
+"المُحدّثة).\n"
+
+#: ../gurpmi.pm:98
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "لا توجد حزمة بالإسم %s"
@@ -268,6 +350,11 @@ msgstr "انتهى التثبيت"
 msgid "removing %s"
 msgstr "جاري إزالة %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "إعادة تشغيل urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -418,7 +505,14 @@ msgstr ""
 msgid "Copying failed"
 msgstr "فشل النّسخ"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "الوسيط \"%s\" غير مختار"
@@ -881,6 +975,11 @@ msgstr "جاري ازالة الوسيط \"%s\""
 
 #: ../urpm/media.pm:759
 #, c-format
+msgid "directory %s does not exist"
+msgstr ""
+
+#: ../urpm/media.pm:767
+#, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
@@ -934,7 +1033,12 @@ msgstr "...فشلت إعادة التّهيئة"
 msgid "reconfiguration done"
 msgstr "تمّت إعادة التّهيئة"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "الوسيط \"%s\" غير مختار"
@@ -1192,13 +1296,6 @@ msgstr ""
 "\n"
 "الاستعمال:\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - تطبع رسالة المساعدة هذه.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1226,11 +1323,6 @@ msgstr ""
 #, fuzzy, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --root         - استخدم جذر آخر لتثبيت حزم rpm.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr "  --media        - استخدم فقط الوسيط المحدّد، مفصولة بفواصل.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1592,12 +1684,6 @@ msgstr "  --auto         - قم باختيار حزمة آلياَ في الاخ
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - تحقق إن كان بالإمكان الإزالة بشكل صحيح.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - أجبر التنفيذ حتى إن لم تكن بعض الحزم موجودة.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1696,42 +1782,12 @@ msgstr " (ن/ل)"
 msgid "Removal failed"
 msgstr "فشلت عملية الإزالة"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi إصدارة %s\n"
-"حقّ النّسخ 1999-2008 ماندريبا.\n"
-"هذا برنامج حرّ و يمكن إعادة توزيعه تحت بنود ترخيص GNU GPL.\n"
-"\n"
-"الاستعمال:\n"
-
-#: ../urpmi:78
-#, fuzzy, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - استخدم فقط الوسط المُعطى للبحث عن الحزم المطلوبة (أو "
-"المُحدّثة).\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - اختر الحزم آليا لترقية النظام.\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1843,11 +1899,6 @@ msgstr ""
 "  --allow-force  - اسمح بسؤال المستخدم عن تثبيت الحزم دون\n"
 "                   التّحقّق من المعتمدات والتّكامل.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - استخدم جذر آخر لتثبيت حزم rpm.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1931,23 +1982,6 @@ msgid ""
 msgstr ""
 "  --bug          - أخرج تقرير خطأ في الدّليل المحدّد.                    "
 "بالكلمة التالية.\n"
-
-#: ../urpmi:132
-#, fuzzy, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - تأكّد من توقيع rpm قبل التّثبيت\n"
-"                   (--no-verify-rpm يعطّل هذا الخيار، وهو ممكّن بشكل "
-"افتراضي.)\n"
-
-#: ../urpmi:134
-#, fuzzy, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr "  --test         - تحقّق إن كان بالإمكان التثبيت بشكل صحيح.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2264,12 +2298,12 @@ msgstr[3] ""
 msgid "Cancel"
 msgstr "إلغاء"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "إعادة تشغيل urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "اضغط Enter عند الاستعداد..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3009,9 +3043,6 @@ msgstr "لم يُعثر على سجلّ تغييرات\n"
 
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr "تم تحديد الوسيط المفكّك \"%s\" على أنه قابل للإزالة إلا أنه ليس كذلك"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "اضغط Enter عند الاستعداد..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - نظّف دليل ذاكرة الترويسات المخبّئة.\n"

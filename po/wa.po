@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2004-08-08 20:26+0200\n"
 "Last-Translator: Pablo Saratxaga <pablo@walon.org>\n"
 "Language-Team: Walloon <linux-wa@walon.org>\n"
@@ -108,7 +108,97 @@ msgstr "_Rinoncî"
 msgid "Choose location to save file"
 msgstr "Tchoezixhoz l' plaece wice schaper l' fitchî"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi modêye %s\n"
+"Copyright © 1999-2008 Mandriva.\n"
+"Çouci est on libe programe et pout esse cossemé so les termes del licince "
+"GPL.\n"
+"\n"
+"Po s' è siervi:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - mostere ci messaedje d' aidance chal.\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+"  --auto         - môde nén eteractif, supôze li prémetowe valixhance po "
+"totes les kesses.\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - tchoezi otomaticmint les pacaedjes pol metaedje a djoû\n"
+"                   do sistinme.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - foirci, minme si des pacaedjes k' i gn a n' egzistèt "
+"nén.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - verifyî li sinateure rpm divant d' astaler.\n"
+"                   (--no-verify-rpm po n' nén l' fé, prémetou=verifyî).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - eployî rén k' les sopoirts dinés, separés pa des comas.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - eployî ene ôte raecene po l' astalaedje des rpm.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr ""
+"  --test         - verifyî si l' astalaedje si pout fé comifåt disk' al "
+"fén.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - eployî rén k' les sopoirts dinés po cweri les pacaedjes.\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "Nou pacaedje di scpecifyî"
@@ -267,6 +357,11 @@ msgstr "L' astalåcion a fini"
 msgid "removing %s"
 msgstr "dji oistêye li pacaedje %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "renondant urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -418,7 +513,14 @@ msgstr "Pår trop d' årgumints\n"
 msgid "Copying failed"
 msgstr "Li copiaedje a fwait berwete"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr "li sopoirt «%s» n' est nén disponibe"
@@ -884,6 +986,11 @@ msgid "adding medium \"%s\""
 msgstr "radjoutaedje do sopoirt «%s»"
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "li ridant po candjî d' raecene (chroot) n' egzistêye nén"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "i shonne ki cist eplaeçmint la n' a nole distribucion"
@@ -940,7 +1047,12 @@ msgstr "...li rapontiaedje a fwait berwete"
 msgid "reconfiguration done"
 msgstr "li rapontiaedje a stî fwait"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "li sopoirt «%s» est a djoû"
@@ -1203,13 +1315,6 @@ msgstr ""
 "\n"
 "Po s' è siervi: urpmf [tchuzes] erîlêye-ratourneure\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - mostere ci messaedje d' aidance chal.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1241,12 +1346,6 @@ msgstr ""
 #, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr "  --urpmi-root   - eployî ene ôte raecene po l' astalaedje des rpm.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - eployî rén k' les sopoirts dinés, separés pa des comas.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1625,14 +1724,6 @@ msgstr ""
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr "  --test         - verifyî si l' oistaedje si pout fé comifåt.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - foirci, minme si des pacaedjes k' i gn a n' egzistèt "
-"nén.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1735,30 +1826,6 @@ msgstr " (o/N) "
 msgid "Removal failed"
 msgstr "Li oistaedje a fwait berwete"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi modêye %s\n"
-"Copyright © 1999-2008 Mandriva.\n"
-"Çouci est on libe programe et pout esse cossemé so les termes del licince "
-"GPL.\n"
-"\n"
-"Po s' è siervi:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - eployî rén k' les sopoirts dinés po cweri les pacaedjes.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
@@ -1767,14 +1834,6 @@ msgid ""
 msgstr ""
 "  --auto         - môde nén eteractif, supôze li prémetowe valixhance po "
 "totes les kesses.\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - tchoezi otomaticmint les pacaedjes pol metaedje a djoû\n"
-"                   do sistinme.\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1894,11 +1953,6 @@ msgstr ""
 "                   les pacaedjes sins verifyî les aloyances nerén\n"
 "                   l' etegrité.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - eployî ene ôte raecene po l' astalaedje des rpm.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1984,24 +2038,6 @@ msgid ""
 msgstr ""
 "  --bug          - sicrire on rapoirt di bug dins l' ridant dné come\n"
 "                   årgumint djusse après.\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - verifyî li sinateure rpm divant d' astaler.\n"
-"                   (--no-verify-rpm po n' nén l' fé, prémetou=verifyî).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr ""
-"  --test         - verifyî si l' astalaedje si pout fé comifåt disk' al "
-"fén.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2332,12 +2368,12 @@ msgstr[1] "Continouwer avou l' astalaedje d' on pacaedje? (%d Mo)"
 msgid "Cancel"
 msgstr "Rinoncî"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "renondant urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Tapez so «enter» cwand c' est fwait..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3103,9 +3139,6 @@ msgstr "Nou djournå des candjmints di trové\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr ""
 #~ "sopoirt «%s» nén cowerant, metou come bodjåve mins nel est nén vormint"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Tapez so «enter» cwand c' est fwait..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - netyî l' ridant muchete des tiestires.\n"

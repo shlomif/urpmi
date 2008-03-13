@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ro\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2004-10-17 14:38+0300\n"
 "Last-Translator: Ovidiu Constantin <ovidiusoft@gmail.com>\n"
 "Language-Team: Romanian <rtfs-project@lists.sourceforge.net>\n"
@@ -114,7 +114,94 @@ msgstr "_Renunţă"
 msgid "Choose location to save file"
 msgstr "Alegeţi locul unde salvez fişierul"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi versiunea %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"Acest program este soft liber şi poate fi redistribuit sub termenii GNU "
+"GPL.\n"
+"\n"
+"Utilizare:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - afişează acest mesaj de ajutor.\n"
+
+#: ../gurpmi.pm:47
+#, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - selectare automată pachete pentru actualizare sistem.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - forţează invocarea chiar dacă unele pachete nu există.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, fuzzy, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - verifică semnătura rpm înainte de instalare.\n"
+"                   (--no-verify-rpm o dezactivează, implicit este "
+"activată).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - foloseşte numai mediile date, separate prin virgulă.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr ""
+"  --root         - foloseşte altă rădăcină pentru instalarea rpm-urilor.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, fuzzy, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr ""
+"  --test         - verifică dacă instalarea poate fi îndeplinită corect.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, fuzzy, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --media        - foloseşte numai mediile date, separate prin virgulă.\n"
+
+#: ../gurpmi.pm:98
 #, fuzzy, c-format
 msgid "No packages specified"
 msgstr "Nu a fost specificată nici o comandă"
@@ -273,6 +360,11 @@ msgstr "Instalare terminată"
 msgid "removing %s"
 msgstr "elimin %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "repornesc urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -423,7 +515,14 @@ msgstr ""
 msgid "Copying failed"
 msgstr "Copierea a eşuat"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, fuzzy, c-format
 msgid "medium \"%s\" is not available"
 msgstr "mediul \"%s\" nu este selectat"
@@ -888,6 +987,11 @@ msgstr "elimin mediul \"%s\""
 
 #: ../urpm/media.pm:759
 #, c-format
+msgid "directory %s does not exist"
+msgstr ""
+
+#: ../urpm/media.pm:767
+#, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr ""
 
@@ -941,7 +1045,12 @@ msgstr "...reconfigurarea a eşuat"
 msgid "reconfiguration done"
 msgstr "reconfigurarea s-a încheiat"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, fuzzy, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "mediul \"%s\" nu este selectat"
@@ -1199,13 +1308,6 @@ msgstr ""
 "\n"
 "Utilizare:\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - afişează acest mesaj de ajutor.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, fuzzy, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1236,12 +1338,6 @@ msgstr ""
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
 "  --root         - foloseşte altă rădăcină pentru instalarea rpm-urilor.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - foloseşte numai mediile date, separate prin virgulă.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1615,13 +1711,6 @@ msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr ""
 "  --test         - verifică dacă instalarea poate fi îndeplinită corect.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - forţează invocarea chiar dacă unele pachete nu există.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1724,43 +1813,12 @@ msgstr " (D/n) "
 msgid "Removal failed"
 msgstr "Ştergere nereuşită"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi versiunea %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"Acest program este soft liber şi poate fi redistribuit sub termenii GNU "
-"GPL.\n"
-"\n"
-"Utilizare:\n"
-
-#: ../urpmi:78
-#, fuzzy, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --media        - foloseşte numai mediile date, separate prin virgulă.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - selectare automată pachete pentru actualizare sistem.\n"
 
 #: ../urpmi:83
 #, fuzzy, c-format
@@ -1880,12 +1938,6 @@ msgstr ""
 "                   pachetelor fără verificarea dependenţelor şi a "
 "integrităţii.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr ""
-"  --root         - foloseşte altă rădăcină pentru instalarea rpm-urilor.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1971,24 +2023,6 @@ msgid ""
 msgstr ""
 "  --bug          - produce un raport de erori în directorul indicat de \n"
 "                   argumentul următor.\n"
-
-#: ../urpmi:132
-#, fuzzy, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - verifică semnătura rpm înainte de instalare.\n"
-"                   (--no-verify-rpm o dezactivează, implicit este "
-"activată).\n"
-
-#: ../urpmi:134
-#, fuzzy, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr ""
-"  --test         - verifică dacă instalarea poate fi îndeplinită corect.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2305,12 +2339,12 @@ msgstr[2] ""
 msgid "Cancel"
 msgstr "Renunţă"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "repornesc urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Apăsaţi Enter când e gata..."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3073,9 +3107,6 @@ msgstr "Nu s-a gasit changelog\n"
 
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr "mediu incoerent \"%s\" marcat ca mobil dar nu este aşa"
-
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Apăsaţi Enter când e gata..."
 
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - curăţă directorul cache antete.\n"

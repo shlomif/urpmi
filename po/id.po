@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2007-03-22 08:14+0700\n"
 "Last-Translator: Willy Sudiarto Raharjo <willysr@gmail.com>\n"
 "Language-Team: Indonesia <mdk-id@yahoogroups.com>\n"
@@ -109,7 +109,94 @@ msgstr "_Batal"
 msgid "Choose location to save file"
 msgstr "Pilih lokasi penyimpanan file"
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi versi %s\n"
+"Hak cipta (C) 1999-2008 Mandriva.\n"
+"Ini adalah software bebas dan boleh didistribusikan ulang di bawah syarat "
+"GPL GNU.\n"
+"\n"
+"pemakaian:\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - cetak pesan bantuan ini.\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+"  --auto         - mode non-interaktif, mengasumsikan jawaban default pada "
+"semua pertanyaan.\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr "  --auto-select  - otomatis menyeleksi paket untuk upgrade sistem.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr "  --force        - paksa instal meski beberapa paket tidak ada.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - verifikasi tandatangan rpm sebelum installasi\n"
+"                   (--no-verify-rpm menonaktifkannya, defaultnya aktif).\n"
+
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - hanya pakai hanya media yang diberikan, dipisahkan koma.\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr "  --root         - gunakan root lain untuk installasi rpm.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr ""
+"  --test         - hanya verifikasi apakah installasi dapat dilaksanakan "
+"dengan benar.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - hanya gunakan media yang diberikan untuk mencari paket "
+"yang dicari.\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "Tidak ada paket yang ditentukan"
@@ -267,6 +354,11 @@ msgstr "Instalasi selesai"
 msgid "removing %s"
 msgstr "menghapus %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "jalankan ulang urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -417,7 +509,14 @@ msgstr "Terlalu banyak argumen\n"
 msgid "Copying failed"
 msgstr "Penyalinan gagal"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr "media \"%s\" tidak tersedia"
@@ -878,6 +977,11 @@ msgid "adding medium \"%s\""
 msgstr "menambahkan media \"%s\""
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "Direktori lingkungan %s tidak ada"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "lokasi ini tampaknya tidak mengandung sembarang distribusi"
@@ -934,7 +1038,13 @@ msgstr "...konfigurasi ulang gagal"
 msgid "reconfiguration done"
 msgstr "konfigurasi ulang selesai"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+"Kesalahan dalam menghasilkan nama file : ketergantungan  %d tidak ditemukan"
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "media \"%s\" sudah terbaru"
@@ -1193,13 +1303,6 @@ msgstr ""
 "\n"
 "pemakaian:\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - cetak pesan bantuan ini.\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1233,12 +1336,6 @@ msgstr ""
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
 "  --urpmi-root   - gunakan root lain untuk installasi db urpmi & rpm.\n"
-
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - hanya pakai hanya media yang diberikan, dipisahkan koma.\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1611,12 +1708,6 @@ msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr ""
 "  --test         - pastikan apakah penghapusan bisa dilakukan dengan benar.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr "  --force        - paksa instal meski beberapa paket tidak ada.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1712,31 +1803,6 @@ msgstr " (y/T) "
 msgid "Removal failed"
 msgstr "Penghapusan gagal"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi versi %s\n"
-"Hak cipta (C) 1999-2008 Mandriva.\n"
-"Ini adalah software bebas dan boleh didistribusikan ulang di bawah syarat "
-"GPL GNU.\n"
-"\n"
-"pemakaian:\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - hanya gunakan media yang diberikan untuk mencari paket "
-"yang dicari.\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
@@ -1745,12 +1811,6 @@ msgid ""
 msgstr ""
 "  --auto         - mode non-interaktif, mengasumsikan jawaban default pada "
 "semua pertanyaan.\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr "  --auto-select  - otomatis menyeleksi paket untuk upgrade sistem.\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1866,11 +1926,6 @@ msgstr ""
 "  --allow-force  - izinkan meminta user menginstal paket tanpa\n"
 "                   menguji ketergantungan dan integritas.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr "  --root         - gunakan root lain untuk installasi rpm.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -1953,24 +2008,6 @@ msgid ""
 msgstr ""
 "  --bug          - keluarkan laporan bug ke direktori yang ditentukan oleh\n"
 "                   arg. berikut.\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - verifikasi tandatangan rpm sebelum installasi\n"
-"                   (--no-verify-rpm menonaktifkannya, defaultnya aktif).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr ""
-"  --test         - hanya verifikasi apakah installasi dapat dilaksanakan "
-"dengan benar.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2298,12 +2335,12 @@ msgstr[1] "Lanjutkan dengan installasi paket-paket %d?"
 msgid "Cancel"
 msgstr "Batal"
 
-#: ../urpmi:665
-#, c-format
-msgid "restarting urpmi"
-msgstr "jalankan ulang urpmi"
+#: ../urpmi:635
+#, fuzzy, c-format
+msgid "Press Enter when mounted..."
+msgstr "Tekan [Enter] jika siap.."
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, fuzzy, c-format
@@ -3063,19 +3100,11 @@ msgstr "Changelog tidak ditemukan\n"
 #~ msgid "inconsistent medium \"%s\" marked removable but not really"
 #~ msgstr "media \"%s\" tidak konsisten bertanda removable, seharusnya tidak"
 
-#~ msgid "Press Enter when ready..."
-#~ msgstr "Tekan [Enter] jika siap.."
-
 #~ msgid "  -c             - clean headers cache directory.\n"
 #~ msgstr "  -c             - bersihkan direktori cache header.\n"
 
 #~ msgid "virtual medium needs to be local"
 #~ msgstr "media maya (virtual) harus lokal"
-
-#~ msgid "Error generating names file: dependency %d not found"
-#~ msgstr ""
-#~ "Kesalahan dalam menghasilkan nama file : ketergantungan  %d tidak "
-#~ "ditemukan"
 
 #~ msgid "Error generating names file: Can't write to file (%s)"
 #~ msgstr ""

@@ -24,7 +24,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-03 18:01+0100\n"
+"POT-Creation-Date: 2008-03-13 15:02+0100\n"
 "PO-Revision-Date: 2008-03-03 20:25+0100\n"
 "Last-Translator: Christophe Berthelé <cpjc@free.fr>\n"
 "Language-Team: French <cooker-i18n@mandrivalinux.org>\n"
@@ -123,7 +123,102 @@ msgstr "_Annuler"
 msgid "Choose location to save file"
 msgstr "Choisissez un emplacement pour enregistrer le fichier."
 
-#: ../gurpmi.pm:86
+#: ../gurpmi.pm:39 ../urpmi:69
+#, c-format
+msgid ""
+"urpmi version %s\n"
+"Copyright (C) 1999-2008 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage:\n"
+msgstr ""
+"urpmi version %s\n"
+"Copyright © 1999-2008 Mandriva.\n"
+"Ceci est un logiciel libre pouvant être redistribué selon les termes de la "
+"licence GNU GPL.\n"
+"\n"
+"usage :\n"
+
+#: ../gurpmi.pm:45
+#, c-format
+msgid "Options :"
+msgstr ""
+
+#: ../gurpmi.pm:46 ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
+#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
+#: ../urpmi.update:32 ../urpmq:45
+#, c-format
+msgid "  --help         - print this help message.\n"
+msgstr "  --help         - afficher ce message d'aide\n"
+
+#: ../gurpmi.pm:47
+#, fuzzy, c-format
+msgid ""
+"  --auto         - non-interactive mode, assume default answers to "
+"questions.    --auto\n"
+msgstr ""
+"  --auto         - mode non intéractif, utilisation des paramètres par "
+"défaut.\n"
+
+#: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
+#, c-format
+msgid ""
+"  --auto-select  - automatically select packages to upgrade the system.\n"
+msgstr ""
+"  --auto-select  - sélection automatique des paquetages à mettre à jour.\n"
+
+#: ../gurpmi.pm:49 ../urpme:48 ../urpmi:104 ../urpmq:65
+#, c-format
+msgid ""
+"  --force        - force invocation even if some packages do not exist.\n"
+msgstr ""
+"  --force        - forcer l'invocation même si certains paquetages "
+"n'existent\n"
+"                   pas.\n"
+
+#: ../gurpmi.pm:50 ../urpmi:132
+#, c-format
+msgid ""
+"  --verify-rpm   - verify rpm signature before installation\n"
+"                   (--no-verify-rpm disables it, default is enabled).\n"
+msgstr ""
+"  --verify-rpm   - vérifier la signature du rpm avant l'installation.\n"
+"                   (--no-verify-rpm le désactive, activé par défaut).\n"
+
+# Les espaces supplémentaires sur la seconde ligne
+# sont volontaires
+#: ../gurpmi.pm:52 ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
+#, c-format
+msgid "  --media        - use only the given media, separated by comma.\n"
+msgstr ""
+"  --media        - utiliser seulement les médias listés (séparés par des\n"
+"                   virgules).\n"
+
+#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#, c-format
+msgid "  --root         - use another root for rpm installation.\n"
+msgstr ""
+"  --root         - utiliser un autre répertoire racine pour l'installation.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:134
+#, c-format
+msgid ""
+"  --test         - only verify if the installation can be achieved "
+"correctly.\n"
+msgstr ""
+"  --test         - vérifier si l'installation peut se dérouler "
+"correctement.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:78
+#, c-format
+msgid ""
+"  --searchmedia  - use only the given media to search requested packages.\n"
+msgstr ""
+"  --searchmedia  - utiliser seulement le média spécifié pour rechercher\n"
+"                   (ou mettre à jour) les paquetages\n"
+
+#: ../gurpmi.pm:98
 #, c-format
 msgid "No packages specified"
 msgstr "Pas de paquetage spécifié"
@@ -284,6 +379,11 @@ msgstr "L'installation est terminée"
 msgid "removing %s"
 msgstr "désinstallation de %s"
 
+#: ../gurpmi2:334 ../urpmi:677
+#, c-format
+msgid "restarting urpmi"
+msgstr "Redémarrage de urpmi"
+
 #: ../rpm-find-leaves:14
 #, c-format
 msgid ""
@@ -436,7 +536,14 @@ msgstr "Trop d'arguments\n"
 msgid "Copying failed"
 msgstr "La copie a échoué"
 
-#: ../urpm/cdrom.pm:160 ../urpm/cdrom.pm:165
+#: ../urpm/cdrom.pm:66
+#, c-format
+msgid ""
+"You must mount cdrom yourself (or install perl-Hal-Cdroms to have it done "
+"automatically)"
+msgstr ""
+
+#: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
 msgid "medium \"%s\" is not available"
 msgstr "le média « %s » n'est pas disponible"
@@ -902,6 +1009,11 @@ msgid "adding medium \"%s\""
 msgstr "ajout du média « %s »"
 
 #: ../urpm/media.pm:759
+#, fuzzy, c-format
+msgid "directory %s does not exist"
+msgstr "Le répertoire d'environnement %s n'existe pas"
+
+#: ../urpm/media.pm:767
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
 msgstr "cet emplacement ne semble pas contenir de distribution"
@@ -958,7 +1070,12 @@ msgstr "... la reconfiguration a échoué"
 msgid "reconfiguration done"
 msgstr "reconfiguration effectuée"
 
-#: ../urpm/media.pm:1044
+#: ../urpm/media.pm:1053
+#, c-format
+msgid "Error generating names file: dependency %d not found"
+msgstr ""
+
+#: ../urpm/media.pm:1074
 #, c-format
 msgid "medium \"%s\" is up-to-date"
 msgstr "le média « %s » est à jour"
@@ -1217,13 +1334,6 @@ msgstr ""
 "\n"
 "usage : urpmf [options] expression\n"
 
-#: ../urpm/search.pm:35 ../urpme:45 ../urpmf:35 ../urpmi:74
-#: ../urpmi.addmedia:54 ../urpmi.recover:33 ../urpmi.removemedia:40
-#: ../urpmi.update:32 ../urpmq:45
-#, c-format
-msgid "  --help         - print this help message.\n"
-msgstr "  --help         - afficher ce message d'aide\n"
-
 #: ../urpm/search.pm:36 ../urpmf:36
 #, c-format
 msgid "  --version      - print this tool's version number.\n"
@@ -1259,15 +1369,6 @@ msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
 "  --urpmi-root   - utiliser un autre répertoire racine pour l'installation "
 "et la base de donnée urpmi.\n"
-
-# Les espaces supplémentaires sur la seconde ligne
-# sont volontaires
-#: ../urpm/search.pm:41 ../urpmf:41 ../urpmi:75 ../urpmq:47
-#, c-format
-msgid "  --media        - use only the given media, separated by comma.\n"
-msgstr ""
-"  --media        - utiliser seulement les médias listés (séparés par des\n"
-"                   virgules).\n"
 
 #: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1647,15 +1748,6 @@ msgstr ""
 "  --test         - vérifier si la désinstallation peut être achevée "
 "correctement.\n"
 
-#: ../urpme:48 ../urpmi:104 ../urpmq:65
-#, c-format
-msgid ""
-"  --force        - force invocation even if some packages do not exist.\n"
-msgstr ""
-"  --force        - forcer l'invocation même si certains paquetages "
-"n'existent\n"
-"                   pas.\n"
-
 #: ../urpme:49 ../urpmi:109 ../urpmq:67
 #, c-format
 msgid "  --parallel     - distributed urpmi across machines of alias.\n"
@@ -1759,31 +1851,6 @@ msgstr " (o/N) "
 msgid "Removal failed"
 msgstr "Échec de la désinstallation"
 
-#: ../urpmi:69
-#, c-format
-msgid ""
-"urpmi version %s\n"
-"Copyright (C) 1999-2008 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage:\n"
-msgstr ""
-"urpmi version %s\n"
-"Copyright © 1999-2008 Mandriva.\n"
-"Ceci est un logiciel libre pouvant être redistribué selon les termes de la "
-"licence GNU GPL.\n"
-"\n"
-"usage :\n"
-
-#: ../urpmi:78
-#, c-format
-msgid ""
-"  --searchmedia  - use only the given media to search requested packages.\n"
-msgstr ""
-"  --searchmedia  - utiliser seulement le média spécifié pour rechercher\n"
-"                   (ou mettre à jour) les paquetages\n"
-
 #: ../urpmi:81
 #, c-format
 msgid ""
@@ -1792,13 +1859,6 @@ msgid ""
 msgstr ""
 "  --auto         - mode non intéractif, utilisation des paramètres par "
 "défaut.\n"
-
-#: ../urpmi:82 ../urpmq:52
-#, c-format
-msgid ""
-"  --auto-select  - automatically select packages to upgrade the system.\n"
-msgstr ""
-"  --auto-select  - sélection automatique des paquetages à mettre à jour.\n"
 
 #: ../urpmi:83
 #, c-format
@@ -1927,12 +1987,6 @@ msgstr ""
 "  --allow-force  - autoriser l'installation des paquetages sans vérifier\n"
 "                   ni les dépendances ni l'intégrité.\n"
 
-#: ../urpmi:110 ../urpmq:68
-#, c-format
-msgid "  --root         - use another root for rpm installation.\n"
-msgstr ""
-"  --root         - utiliser un autre répertoire racine pour l'installation.\n"
-
 #: ../urpmi:112
 #, c-format
 msgid ""
@@ -2019,24 +2073,6 @@ msgid ""
 msgstr ""
 "  --bug          - générer un rapport d'anomalie dans le répertoire\n"
 "                   indiqué en second argument.\n"
-
-#: ../urpmi:132
-#, c-format
-msgid ""
-"  --verify-rpm   - verify rpm signature before installation\n"
-"                   (--no-verify-rpm disables it, default is enabled).\n"
-msgstr ""
-"  --verify-rpm   - vérifier la signature du rpm avant l'installation.\n"
-"                   (--no-verify-rpm le désactive, activé par défaut).\n"
-
-#: ../urpmi:134
-#, c-format
-msgid ""
-"  --test         - only verify if the installation can be achieved "
-"correctly.\n"
-msgstr ""
-"  --test         - vérifier si l'installation peut se dérouler "
-"correctement.\n"
 
 #: ../urpmi:135
 #, c-format
@@ -2380,12 +2416,12 @@ msgstr[1] "Procéder à l'installation des %d paquetages ?"
 msgid "Cancel"
 msgstr "Annuler"
 
-#: ../urpmi:665
+#: ../urpmi:635
 #, c-format
-msgid "restarting urpmi"
-msgstr "Redémarrage de urpmi"
+msgid "Press Enter when mounted..."
+msgstr ""
 
-#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'removable:' must not be translated!
+#. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
 #, c-format
