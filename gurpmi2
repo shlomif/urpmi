@@ -112,7 +112,6 @@ sub configure_urpm() {
     $urpm->{error} = sub {
 	my ($message) = @_;
 	my $nb_lines = $message =~ tr/\n/\n/;
-	$message = Locale::gettext::iconv($message, undef, 'UTF-8');
 	my $w;
 	if ($nb_lines > 30) {
 	    $w  = Gtk2::Dialog->new(N("Warning"), $mainw, [qw(modal destroy-with-parent)], N("Ok"), 'ok');
