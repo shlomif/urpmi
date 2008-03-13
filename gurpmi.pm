@@ -43,6 +43,7 @@ Usage :
 Options :
     --auto
     --auto-select
+    --force
     --no-verify-rpm
     --media media1,...
     --root root
