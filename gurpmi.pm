@@ -41,19 +41,19 @@ Copyright (C) 1999-2006 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
-", $urpm::VERSION);
-    print <<USAGE;
-    gurpmi <rpm> [ <rpm>... ]
-Options :
-    --auto
-    --auto-select
-    --force
-    --no-verify-rpm
-    --media media1,...
-    --root root
-    --test
-    --searchmedia media1,...
-USAGE
+", $urpm::VERSION) . "    gurpmi <rpm> [ <rpm>... ]
+" . N("Options :") . "\n"
+ . N("  --help         - print this help message.
+") . N("  --auto         - non-interactive mode, assume default answers to questions.    --auto
+") . N("  --auto-select  - automatically select packages to upgrade the system.
+") . N("  --force        - force invocation even if some packages do not exist.
+") . N("  --verify-rpm   - verify rpm signature before installation
+                   (--no-verify-rpm disables it, default is enabled).
+") . N("  --media        - use only the given media, separated by comma.
+") . N("  --root         - use another root for rpm installation.
+") . N("  --test         - only verify if the installation can be achieved correctly.
+") . N("  --searchmedia  - use only the given media to search requested packages.
+");
     exit 0;
 }
 
