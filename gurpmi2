@@ -333,5 +333,5 @@ sub do_install_3 () {
                 grep { !/^--no-priority-upgrade$|--previous-priority-upgrade=/ } @ARGV);
         exec $0, @ARGV;
     }
-
+    exit $exit_code;
 }
