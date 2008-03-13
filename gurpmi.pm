@@ -37,7 +37,7 @@ urpm::select::add_packages_to_priority_upgrade_list('gurpmi');
 
 sub usage () {
     print N("urpmi version %s
-Copyright (C) 1999-2006 Mandriva.
+Copyright (C) 1999-2008 Mandriva.
 This is free software and may be redistributed under the terms of the GNU GPL.
 
 usage:
