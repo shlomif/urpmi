@@ -24,6 +24,9 @@ use urpm::util;
 use urpm::msg;
 use urpm::args;
 use urpm::select;
+use Locale::gettext;
+
+Locale::gettext::bind_textdomain_codeset('urpmi', 'UTF8');
 
 use Exporter;
 our @ISA = qw(Exporter);
