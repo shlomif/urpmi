@@ -192,11 +192,14 @@ along with --bug.\n");
     usage();
 }
 
+my @spec_files;
 # Process the rest of the arguments
 foreach (@ARGV) {
     if (/\.(?:rpm|spec)$/) {
-	if (/\.(?:src\.rpm|spec)$/) {
+	if (/\.src\.rpm$/) {
 	    push @src_files, $_;
+	} elsif (/\.spec$/) {
+	    push @spec_files, $_;
 	} else {
 	    push @files, untaint($_);
 	}
@@ -213,10 +216,17 @@ if ($options{buildrequires}) {
 #- use install_src to promote all names as src package.
 if ($install_src) {
     @files and $urpm->{fatal}(1, N("You can't install binary rpm files when using --install-src"));
+    @spec_files and $urpm->{fatal}(1, N("You can't install spec files"));
     push @src_names, @names;
     @names = ();
     #- allow to use --install-src as a non-root user
     $options{nolock} = 1;
+} elsif (@spec_files) {
+    if (!$options{buildrequires}) {
+	$urpm->{error}(N("defaulting to --buildrequires"));
+	$options{buildrequires} = 1;
+    }
+    push @src_files, @spec_files;
 } elsif (@src_files && !$options{buildrequires}) {
     $urpm->{error}(N("please use --buildrequires or --install-src, defaulting to --buildrequires"));
     $options{buildrequires} = 1;
