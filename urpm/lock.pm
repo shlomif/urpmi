@@ -59,10 +59,10 @@ sub _lock {
     my $mode = $b_exclusive ? $LOCK_EX : $LOCK_SH;
     if (!flock($lock->{fh}, $mode | $LOCK_NB)) {
 	if ($b_wait) {
-	    $lock->{info}(N("%s database locked. waiting...", $lock->{db_name}));
+	    $lock->{info}(N("%s database is locked. waiting...", $lock->{db_name}));
 	    flock($lock->{fh}, $mode) or $lock->{fatal}(N("aborting"));
 	} else {
-	    $lock->{fatal}(N("%s database locked", $lock->{db_name}));
+	    $lock->{fatal}(N("%s database is locked (another program is already using it)", $lock->{db_name}));
 	}
     }
     $lock->{locked} = 1;
