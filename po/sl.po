@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2008-02-29 18:03+0100\n"
 "Last-Translator: Jure Repinc <jlp@holodeck1.com>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -179,7 +179,17 @@ msgstr ""
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - uporabi samo podane vire, ločene z vejico.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - dovoli iskanje v polju provides za najdbo paketa.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - ne išči v polju provides da za najdbo paketa.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr ""
@@ -779,8 +789,8 @@ msgid "Cannot connect to ldap uri:"
 msgstr "Ni se moč povezati z LDAP URI-jem:"
 
 #: ../urpm/lock.pm:62
-#, c-format
-msgid "%s database locked. waiting..."
+#, fuzzy, c-format
+msgid "%s database is locked. waiting..."
 msgstr "podatkovna zbirka %s je zaklenjena, čakam ..."
 
 #: ../urpm/lock.pm:63
@@ -790,10 +800,10 @@ msgstr "prekinjam"
 
 #: ../urpm/lock.pm:65
 #, c-format
-msgid "%s database locked"
-msgstr "podatkovna zbirka %s je zaklenjena"
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Sledeči paket ima slab podpis"
@@ -2084,16 +2094,6 @@ msgstr "  --strict-arch  - nadgradi samo pakete iste arhitekture.\n"
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - izberi vsa ujemanja v ukazni vrstici.\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - dovoli iskanje v polju provides za najdbo paketa.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - ne išči v polju provides da za najdbo paketa.\n"
-
 #: ../urpmi:150
 #, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2128,7 +2128,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr "Ob uporabi --install-src ne morete nameščati binarnih rpm paketov."
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3101,6 +3111,9 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Dnevnik sprememb ni bil najden\n"
+
+#~ msgid "%s database locked"
+#~ msgstr "podatkovna zbirka %s je zaklenjena"
 
 #, fuzzy
 #~ msgid ""

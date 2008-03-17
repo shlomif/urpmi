@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-gl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2006-09-10 00:34+0100\n"
 "Last-Translator: Leandro Regueiro <leandro.regueiro@gmail.com>\n"
 "Language-Team: Galician <<gpul-traduccion@ceu.fi.udc.es>>\n"
@@ -175,7 +175,18 @@ msgstr ""
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - usar só os soportes dados, separados por comas.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr ""
+"  -p             - permite buscar en proporciona para atopar o paquete.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - non buscar en proporciona para atopar o paquete.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - usar outra raíz para a instalación de rpms.\n"
@@ -772,7 +783,7 @@ msgstr "Non se poden asignar as entradas do mapa de cores"
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "a base de datos de urpmi está bloqueada"
 
 #: ../urpm/lock.pm:63
@@ -781,11 +792,11 @@ msgid "aborting"
 msgstr "Advertencia"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "a base de datos de urpmi está bloqueada"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "Os seguintes paquetes teñen sinaturas incorrectas"
@@ -2060,17 +2071,6 @@ msgstr "  --strict-arch  - actualizar só paquetes ca mesma arquitectura.\n"
 msgid "  -a             - select all matches on command line.\n"
 msgstr ""
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr ""
-"  -p             - permite buscar en proporciona para atopar o paquete.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - non buscar en proporciona para atopar o paquete.\n"
-
 #: ../urpmi:150
 #, fuzzy, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2103,7 +2103,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr "Non pode instalar ficheiros rpm de binarios cando usa --install-src"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3029,6 +3039,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Non se atopou o changelog\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "a base de datos de urpmi está bloqueada"
 
 #, fuzzy
 #~ msgid ""

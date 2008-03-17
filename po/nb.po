@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2007-09-17 14:07+0200\n"
 "Last-Translator: Per Øyvind Karlsen <peroyvind@mandriva.org>\n"
 "Language-Team: Norwegian Bokmål <i18n-no@lister.ping.uio.no>\n"
@@ -179,7 +179,17 @@ msgstr ""
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        – Bruk bare gitt medie (kommadelt liste).\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             – Tillat søk i tilbud for å finne pakke.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             – Ikke søk i tilbud for å finne pakke.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         – Bruk annen rot for rpm-installering.\n"
@@ -774,8 +784,8 @@ msgid "Cannot connect to ldap uri:"
 msgstr "Kan ikke koble til LDAP-adresse:"
 
 #: ../urpm/lock.pm:62
-#, c-format
-msgid "%s database locked. waiting..."
+#, fuzzy, c-format
+msgid "%s database is locked. waiting..."
 msgstr "%s-databasen er låst. Venter ..."
 
 #: ../urpm/lock.pm:63
@@ -785,10 +795,10 @@ msgstr "avbryter"
 
 #: ../urpm/lock.pm:65
 #, c-format
-msgid "%s database locked"
-msgstr "%s-databasen er låst."
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Denne pakken har ugyldig signatur"
@@ -2059,16 +2069,6 @@ msgstr "  --strict-arch  – Bare oppgrader pakker med samme arkitektur.\n"
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             – Velg alle treff på kommandolinjen.\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             – Tillat søk i tilbud for å finne pakke.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             – Ikke søk i tilbud for å finne pakke.\n"
-
 #: ../urpmi:150
 #, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2103,7 +2103,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr "Du kan ikke installere binære rpm-filer når --install-src brukes"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3030,6 +3040,9 @@ msgstr "Inga «hdlist» for medium «%s». Kan ikke vise resultat for pakkene «
 #, c-format
 msgid "No changelog found\n"
 msgstr "Fant ingen endringslogg\n"
+
+#~ msgid "%s database locked"
+#~ msgstr "%s-databasen er låst."
 
 #, fuzzy
 #~ msgid ""

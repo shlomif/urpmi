@@ -25,7 +25,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2005-02-13 13:39+0600\n"
 "Last-Translator: Jamil Ahmed <jamil@bengalinux.org>\n"
 "Language-Team: Bangla <mdk-translation@bengalinux.org>\n"
@@ -182,7 +182,17 @@ msgstr ""
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - শুধুমাত্র প্রদত্ত মাধ্যম ব্যবহার করো, কমা দিয়ে ভাগ করা।\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - প্যাকেজ খোঁজ করতে অনুমতি দাও।\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - প্যাকেজ খোঁজার জন্য প্রদত্তের মধ্যে খোঁজ করবে না।\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - rpm ইনস্টলেশনের জন্য অন্য রুট ব্যবহার করো।\n"
@@ -779,7 +789,7 @@ msgstr "colormap এন্ট্রি বরাদ্দ করতে ব্য
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "urpmi ডাটাবেস লক করা আছে"
 
 #: ../urpm/lock.pm:63
@@ -788,11 +798,11 @@ msgid "aborting"
 msgstr "নোটিশ"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "urpmi ডাটাবেস লক করা আছে"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "নিম্নের প্যাকেজগুলিতে বাজে স্বাক্ষর রয়েছে"
@@ -2052,16 +2062,6 @@ msgstr "  --strict-arch  - শুধুমাত্র একই আরকিট
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - কমান্ড লাইনের সমস্ত মিল নির্বাচন করো।\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - প্যাকেজ খোঁজ করতে অনুমতি দাও।\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - প্যাকেজ খোঁজার জন্য প্রদত্তের মধ্যে খোঁজ করবে না।\n"
-
 #: ../urpmi:150
 #, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2094,7 +2094,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr "--install-src ব্যবহারের সময় বায়নারি rpm ফাইলগুলির সাথে কি করা যেতে পারে"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3015,6 +3025,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "changelog পাওয়া যায়নি\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "urpmi ডাটাবেস লক করা আছে"
 
 #, fuzzy
 #~ msgid "Unknown option %s"

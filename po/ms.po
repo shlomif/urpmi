@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2008-02-26 18:30+0800\n"
 "Last-Translator: Sharuzzaman Ahmat Raslan <sharuzzaman@myrealbox.com>\n"
 "Language-Team: Malay <translation-team-ms@lists.sourceforge.net>\n"
@@ -150,7 +150,17 @@ msgstr ""
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --update       - guna hanya kemaskini media.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - izinkan carian dlm sediaada utk mencari pakej.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - jangan cari dalam tersedia utk mencari pakej.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, fuzzy, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - guna root lain untuk membuang rpm.\n"
@@ -736,7 +746,7 @@ msgstr ""
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "Pentadbiran Pangkalan Data Mergeant"
 
 #: ../urpm/lock.pm:63
@@ -745,11 +755,11 @@ msgid "aborting"
 msgstr "Amaran"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "Folder Terkunci"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr ""
@@ -1982,16 +1992,6 @@ msgstr ""
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - pilih semua yg sama dgn baris perintah.\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - izinkan carian dlm sediaada utk mencari pakej.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - jangan cari dalam tersedia utk mencari pakej.\n"
-
 #: ../urpmi:150
 #, fuzzy, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2024,7 +2024,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr ""
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -2917,6 +2927,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Tiada log perubahan dijumpai\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "Folder Terkunci"
 
 #~ msgid "Unknown option %s"
 #~ msgstr "Pilihan tidak diketahui %s"

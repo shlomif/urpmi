@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-hi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2005-08-23 20:11+0530\n"
 "Last-Translator: धनञ्जय शर्मा (Dhananjaya Sharma)\n"
 "Language-Team: Hindi, India\n"
@@ -170,7 +170,18 @@ msgstr ""
 "  --media        - सिर्फ़ दिए गए माध्यम का उपयोग करें, छोटे विराम चिह्न के द्वारा अलग "
 "किये हुए\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr ""
+"  -p             - पूर्वनिर्दिष्टों में पैकेज को पाने के लिए खोज की अनुमति प्रदान करें\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - पूर्वनिर्दिष्टों में पैकेज को पाने के लिए ना खोजे\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - आरपीएम संसाधन के लिए अन्य रूट का उपयोग\n"
@@ -766,7 +777,7 @@ msgstr "रंगमैप प्रविष्टियां आवंटि�
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "यू०आर०पी०एम०आई० डाटाबेस बंद है"
 
 #: ../urpm/lock.pm:63
@@ -775,11 +786,11 @@ msgid "aborting"
 msgstr "चेतावनी"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "यू०आर०पी०एम०आई० डाटाबेस बंद है"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "निम्नलिखित पैकेजों पर खराब हस्ताक्षार है"
@@ -2049,17 +2060,6 @@ msgstr "  --strict-arch  - समान संरचना वाले पै�
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - निर्देश वाक्य पर सभी मिलानों को चयन करें\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr ""
-"  -p             - पूर्वनिर्दिष्टों में पैकेज को पाने के लिए खोज की अनुमति प्रदान करें\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - पूर्वनिर्दिष्टों में पैकेज को पाने के लिए ना खोजे\n"
-
 #: ../urpmi:150
 #, fuzzy, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2094,7 +2094,17 @@ msgstr ""
 "द्विआधारी आर०पी०एम० संचिकाओं के साथ क्या किया जा सकता है, जब  --install-src निर्देश "
 "का उपयोग किया जा रहा हो"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3029,6 +3039,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "कोई परिवर्तनलॉग नहीं मिला\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "यू०आर०पी०एम०आई० डाटाबेस बंद है"
 
 #, fuzzy
 #~ msgid "Unknown option %s"

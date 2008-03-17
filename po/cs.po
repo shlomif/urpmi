@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2008-03-05 00:34+0100\n"
 "Last-Translator: Michal Bukovjan <bukm@centrum.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -177,7 +177,17 @@ msgstr ""
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media         - použít pouze uvedené zdroje, oddělené čárkou.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - pokusí se najít balíček v položkách provides.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - nehledá balíček v položkách provides.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr ""
@@ -776,8 +786,8 @@ msgid "Cannot connect to ldap uri:"
 msgstr "Nelze se připojit k URI LDAP:"
 
 #: ../urpm/lock.pm:62
-#, c-format
-msgid "%s database locked. waiting..."
+#, fuzzy, c-format
+msgid "%s database is locked. waiting..."
 msgstr "Databáze %s je zamknutá, čekám..."
 
 #: ../urpm/lock.pm:63
@@ -787,10 +797,10 @@ msgstr "přerušuji"
 
 #: ../urpm/lock.pm:65
 #, c-format
-msgid "%s database locked"
-msgstr "Databáze %s je zamknutá"
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Následující balíček má špatnou signaturu"
@@ -2075,16 +2085,6 @@ msgstr ""
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - vybere všechny vyhovující z příkazové řádky.\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - pokusí se najít balíček v položkách provides.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - nehledá balíček v položkách provides.\n"
-
 #: ../urpmi:150
 #, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2120,7 +2120,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr "Při použití --install-src nelze instalovat binární balíčky RPM"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3076,6 +3086,9 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nebyl nalezen záznam změn\n"
+
+#~ msgid "%s database locked"
+#~ msgstr "Databáze %s je zamknutá"
 
 #, fuzzy
 #~ msgid ""

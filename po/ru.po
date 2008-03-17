@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2008-03-04 00:56+0200\n"
 "Last-Translator: Pavel Maryanov <acid_jack@ukr.net>\n"
 "Language-Team: Russian <gnu@mx.ru>\n"
@@ -174,7 +174,17 @@ msgstr ""
 "  --media        - использовать только указанные источники,\n"
 "                   перечисленные через запятую.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - разрешить искать пакеты в provides\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - не искать пакеты в provides\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - использовать другой корень для установки rpm.\n"
@@ -770,8 +780,8 @@ msgid "Cannot connect to ldap uri:"
 msgstr "невозможно подключиться к ldap по URI:"
 
 #: ../urpm/lock.pm:62
-#, c-format
-msgid "%s database locked. waiting..."
+#, fuzzy, c-format
+msgid "%s database is locked. waiting..."
 msgstr "база данных %s заблокирована, подождите..."
 
 #: ../urpm/lock.pm:63
@@ -781,10 +791,10 @@ msgstr "прерывается"
 
 #: ../urpm/lock.pm:65
 #, c-format
-msgid "%s database locked"
-msgstr "база данных %s заблокирована"
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, c-format
 msgid "The following package has bad signature"
 msgstr "Следующий пакет имеет неверную подпись"
@@ -2069,16 +2079,6 @@ msgstr "  --strict-arch  - обновить пакеты только с так�
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - выбрать все совпадения из командной строки\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - разрешить искать пакеты в provides\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - не искать пакеты в provides\n"
-
 #: ../urpmi:150
 #, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2116,7 +2116,17 @@ msgid "You can't install binary rpm files when using --install-src"
 msgstr ""
 "При использовании опции --install-src нельзя устанавливать бинарные rpm-файлы"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3087,6 +3097,9 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Не найден журнал изменений\n"
+
+#~ msgid "%s database locked"
+#~ msgstr "база данных %s заблокирована"
 
 #, fuzzy
 #~ msgid ""

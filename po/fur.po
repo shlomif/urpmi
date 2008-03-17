@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-fur\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2004-05-21 14:55+0200\n"
 "Last-Translator: Andrea Gracco <graccoandrea@tin.it>\n"
 "Language-Team: Furlan <gft@freelists.org>\n"
@@ -171,7 +171,17 @@ msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
 "  --media        - dopre dome les fonts te liste, disseparadis di virgulis.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - consint le ricercje tra i provides dal pachet.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - no sta a cirî tai provides par cjatâ il pachet.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr ""
@@ -768,7 +778,7 @@ msgstr ""
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "database urpmi blocât"
 
 #: ../urpm/lock.pm:63
@@ -777,11 +787,11 @@ msgid "aborting"
 msgstr "Avertence"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "database urpmi blocât"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "Chiscj pachets e an firmis no valevulis"
@@ -2075,16 +2085,6 @@ msgid "  -a             - select all matches on command line.\n"
 msgstr ""
 "  -a             - selezione dutis les corispondencis te rie di comant.\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - consint le ricercje tra i provides dal pachet.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - no sta a cirî tai provides par cjatâ il pachet.\n"
-
 #: ../urpmi:150
 #, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2119,7 +2119,17 @@ msgstr ""
 "Ce puedial sedi fat cun i file binaris rpm cuant che al ven doprât --install-"
 "src"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3044,6 +3054,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nissun changelog cjatât\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "database urpmi blocât"
 
 #, fuzzy
 #~ msgid "Unknown option %s"

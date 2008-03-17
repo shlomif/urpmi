@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-bg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2003-08-18 15:59+0300\n"
 "Last-Translator: Boyan Ivanov <boyan17@bulgaria.com>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
@@ -168,7 +168,17 @@ msgstr ""
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --update       - обновява само източници на обновяване.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, fuzzy, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -a             - избиране на всички съвпадения на командния ред.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, fuzzy, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -r             - отпечатай версия и също така реализация с име.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, fuzzy, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --size          - отпечатва размера на тага: size."
@@ -770,7 +780,7 @@ msgstr "Грешка при свързване със сървъра"
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "базата данни на urpmi е заключена"
 
 #: ../urpm/lock.pm:63
@@ -779,11 +789,11 @@ msgid "aborting"
 msgstr "Предупреждение"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "базата данни на urpmi е заключена"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "Следните пакети ще трябва да се инсталират:\n"
@@ -2046,16 +2056,6 @@ msgstr ""
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - избиране на всички съвпадения на командния ред.\n"
 
-#: ../urpmi:148
-#, fuzzy, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -a             - избиране на всички съвпадения на командния ред.\n"
-
-#: ../urpmi:149
-#, fuzzy, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -r             - отпечатай версия и също така реализация с име.\n"
-
 #: ../urpmi:150
 #, fuzzy, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2088,7 +2088,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr ""
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -2990,6 +3000,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Не е намерен changelog\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "базата данни на urpmi е заключена"
 
 #, fuzzy
 #~ msgid "Unknown option %s"

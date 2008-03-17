@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2005-09-19 23:29+0200\n"
 "Last-Translator: Albert Astals Cid <astals11@terra.es>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -177,7 +177,19 @@ msgstr ""
 "  --media        - utilitza només les fonts donades, s'han de separar amb "
 "comes.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr ""
+"  -p             - permet la cerca en allò que proporcionen els paquets per "
+"a trobar-los.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - no busquis en 'provides' per a trobar paquets.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - usa una altre arrel per la instal·lació de rpm.\n"
@@ -776,7 +788,7 @@ msgstr "No s'ha pogut connectar al servidor"
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "la base de dades de l'urpmi està bloquejada"
 
 #: ../urpm/lock.pm:63
@@ -785,11 +797,11 @@ msgid "aborting"
 msgstr "Advertència"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "la base de dades de l'urpmi està bloquejada"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "Els paquets següents tenen signatures incorrectes"
@@ -2073,18 +2085,6 @@ msgid "  -a             - select all matches on command line.\n"
 msgstr ""
 "  -a             - selecciona totes les coincidències en la línia d'ordres.\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr ""
-"  -p             - permet la cerca en allò que proporcionen els paquets per "
-"a trobar-los.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - no busquis en 'provides' per a trobar paquets.\n"
-
 #: ../urpmi:150
 #, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2119,7 +2119,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr ""
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3036,6 +3046,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "No s'ha trobat la llista de canvis\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "la base de dades de l'urpmi està bloquejada"
 
 #~ msgid "Unknown option %s"
 #~ msgstr "Opcions desconegudes %s"

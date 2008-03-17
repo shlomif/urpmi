@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2007-09-25 00:20+0300\n"
 "Last-Translator: Taha Özket <taha.ozket@obss.net>\n"
 "Language-Team: Turkce <tr@li.org>\n"
@@ -177,7 +177,19 @@ msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
 "  --media       - sadece belirtilen ortamları kullan (virgülle ayırın).\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - paketi bulmak için aramaya izin ver.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr ""
+"  -P           - sağlanan paketlerin arasında paketi bulmak için arama "
+"yapma.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, fuzzy, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --wget         - uzaktaki dosyaları almak için wget kullan.\n"
@@ -774,7 +786,7 @@ msgstr "ldap uri bağlanılamıyor:"
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "urpmi veri tabanı kilitlendi"
 
 #: ../urpm/lock.pm:63
@@ -783,11 +795,11 @@ msgid "aborting"
 msgstr "Uyarı"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "urpmi veri tabanı kilitlendi"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "Sonraki paketler hatalı imza içeriyor"
@@ -2040,18 +2052,6 @@ msgstr "  --strict-arch  - aynı mimaride olan paketleri güncelle.\n"
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - komut satırındakilere uyanların tümünü seçer. \n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - paketi bulmak için aramaya izin ver.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr ""
-"  -P           - sağlanan paketlerin arasında paketi bulmak için arama "
-"yapma.\n"
-
 #: ../urpmi:150
 #, fuzzy, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2088,7 +2088,17 @@ msgid "You can't install binary rpm files when using --install-src"
 msgstr ""
 "--install-src özelliği binary rpm dosyaları kullanılırken neyi halleder"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -2998,6 +3008,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Görüntü (imaj) bulunamadı!\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "urpmi veri tabanı kilitlendi"
 
 #, fuzzy
 #~ msgid ""

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi 3.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2007-09-26 20:03+0200\n"
 "Last-Translator: Jaegeum Choe <baedaron@hananet.net>\n"
 "Language-Team: Korean <baedaron@hananet.net>\n"
@@ -162,7 +162,17 @@ msgstr ""
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr ""
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr ""
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr ""
@@ -757,7 +767,7 @@ msgstr "ldap uri에 접속할 수 없습니다."
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "%s 데이터베이스는 잠겼습니다."
 
 #: ../urpm/lock.pm:63
@@ -767,10 +777,10 @@ msgstr "경고"
 
 #: ../urpm/lock.pm:65
 #, c-format
-msgid "%s database locked"
-msgstr "%s 데이터베이스는 잠겼습니다."
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "다음 팩키지들이 설치될 것입니다."
@@ -1996,16 +2006,6 @@ msgstr ""
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -v             - 상세 정보 모드.\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr ""
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr ""
-
 #: ../urpmi:150
 #, fuzzy, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2038,7 +2038,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr ""
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -2931,6 +2941,9 @@ msgstr ""
 #, fuzzy, c-format
 msgid "No changelog found\n"
 msgstr "하드 디스크를 찾을 수 없습니다."
+
+#~ msgid "%s database locked"
+#~ msgstr "%s 데이터베이스는 잠겼습니다."
 
 #, fuzzy
 #~ msgid "Unknown option %s"

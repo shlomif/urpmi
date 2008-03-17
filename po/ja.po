@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2008-03-15 22+0900\n"
 "Last-Translator: Yukiko Bando<ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <cooker-i18n@mandrivalinux.org>\n"
@@ -168,7 +168,17 @@ msgstr ""
 msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr "  --media        - 指定したメディアのみを使う (コンマで区切る)\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - provide (提供) タグも検索対象に含める\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - provide (提供) タグは検索の対象にしない\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - RPM のインストールに他のルートを使う\n"
@@ -763,8 +773,8 @@ msgid "Cannot connect to ldap uri:"
 msgstr "LDAP の URI に接続できません:"
 
 #: ../urpm/lock.pm:62
-#, c-format
-msgid "%s database locked. waiting..."
+#, fuzzy, c-format
+msgid "%s database is locked. waiting..."
 msgstr "%s データベースがロックされています。待機します..."
 
 #: ../urpm/lock.pm:63
@@ -774,10 +784,10 @@ msgstr "中止します"
 
 #: ../urpm/lock.pm:65
 #, c-format
-msgid "%s database locked"
-msgstr "%s データベースがロックされています"
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, c-format
 msgid "The following package has bad signature"
 msgstr "以下のパッケージは署名が間違っています"
@@ -2032,16 +2042,6 @@ msgstr "  --strict-arch  - 同じアーキテクチャのパッケージのみ�
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - 指定した表現を含むすべてのパッケージを選択する\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - provide (提供) タグも検索対象に含める\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - provide (提供) タグは検索の対象にしない\n"
-
 #: ../urpmi:150
 #, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2078,7 +2078,17 @@ msgid "You can't install binary rpm files when using --install-src"
 msgstr ""
 "バイナリ RPM は --install-src オプション使用時にはインストールできません"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3020,6 +3030,9 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "変更ログはありません\n"
+
+#~ msgid "%s database locked"
+#~ msgstr "%s データベースがロックされています"
 
 #, fuzzy
 #~ msgid ""

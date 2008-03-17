@@ -23,7 +23,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2008-02-14 14:13-0300\n"
 "Last-Translator: \n"
 "Language-Team: Brazilian Portuguese <pt@li.org>\n"
@@ -189,7 +189,19 @@ msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
 "  --media        - use somente as mídias listadas (separadas por vírgula).\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr ""
+"  -p             - permite a busca em 'provides' para achar o pacote.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr ""
+"  -P             - não procure em 'provides' para encontrar o pacote.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr "  --root         - use outro root para instalação rpm.\n"
@@ -530,7 +542,7 @@ msgid ""
 "You must mount CD-ROM yourself (or install perl-Hal-Cdroms to have it done "
 "automatically)"
 msgstr ""
-"Você deve montar o CD manualmente (ou instalar o perl-Hal-Cdroms para que " 
+"Você deve montar o CD manualmente (ou instalar o perl-Hal-Cdroms para que "
 "seja montado automaticamente)"
 
 #: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
@@ -787,8 +799,8 @@ msgid "Cannot connect to ldap uri:"
 msgstr "Não foi possível conectar-se à uri ldap:"
 
 #: ../urpm/lock.pm:62
-#, c-format
-msgid "%s database locked. waiting..."
+#, fuzzy, c-format
+msgid "%s database is locked. waiting..."
 msgstr "base de dados bloqueada %s. esperando..."
 
 #: ../urpm/lock.pm:63
@@ -798,10 +810,10 @@ msgstr "cancelando"
 
 #: ../urpm/lock.pm:65
 #, c-format
-msgid "%s database locked"
-msgstr "base de dados bloqueada %s"
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, c-format
 msgid "The following package has bad signature"
 msgstr "O seguinte pacote contém assinaturas erradas"
@@ -2084,18 +2096,6 @@ msgstr "  --strict-arch  - só atualiza os pacotes com a mesma arquitectura.\n"
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - seleciona todos os listados na linha de comando.\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr ""
-"  -p             - permite a busca em 'provides' para achar o pacote.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr ""
-"  -P             - não procure em 'provides' para encontrar o pacote.\n"
-
 #: ../urpmi:150
 #, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2131,7 +2131,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr "Você não pode instalar arquivos rpm binários ao usar --install-src"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3085,6 +3095,9 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Arquivo com as alterações não foi encontrado \n"
+
+#~ msgid "%s database locked"
+#~ msgstr "base de dados bloqueada %s"
 
 #, fuzzy
 #~ msgid ""

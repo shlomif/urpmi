@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2005-09-07 16:34+0100\n"
 "Last-Translator: Tibor Pittich <Tibor.Pittich@mandriva.org>\n"
 "Language-Team: Slovak <i18n@mandrake.sk>\n"
@@ -170,7 +170,17 @@ msgstr ""
 "  --media        - použiť len zadané zdroje; viaceré je možné oddeliť "
 "čiarkou.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -p             - pre nájdenie balíka hľadať aj v poskytovaných.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -P             - pre nájdenie balíka nehľadať v poskytovaných.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr ""
@@ -773,7 +783,7 @@ msgstr ""
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "urpmi databáza je uzamknutá"
 
 #: ../urpm/lock.pm:63
@@ -782,11 +792,11 @@ msgid "aborting"
 msgstr "Varovanie"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "urpmi databáza je uzamknutá"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "Nasledujúce balíky obsahujú zle signatúry"
@@ -2073,16 +2083,6 @@ msgstr "  --strict-arch  - aktualizovať iba balíky s rovnakou architektúrou.\
 msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - vybrať všetky zhody na príkazovom riadku.\n"
 
-#: ../urpmi:148
-#, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -p             - pre nájdenie balíka hľadať aj v poskytovaných.\n"
-
-#: ../urpmi:149
-#, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - pre nájdenie balíka nehľadať v poskytovaných.\n"
-
 #: ../urpmi:150
 #, fuzzy, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2116,7 +2116,17 @@ msgstr ""
 msgid "You can't install binary rpm files when using --install-src"
 msgstr "Čo môže byť vykonané s binárnymi rpm súbormy pri použití --install-src"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3051,6 +3061,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nebol nájdený zoznam zmien\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "urpmi databáza je uzamknutá"
 
 #, fuzzy
 #~ msgid "Unknown option %s"

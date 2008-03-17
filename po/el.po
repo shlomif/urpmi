@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-el\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-13 15:12+0100\n"
+"POT-Creation-Date: 2008-03-17 17:46+0100\n"
 "PO-Revision-Date: 2006-03-04 12:15+0200\n"
 "Last-Translator: Theophanis Mastakas <mastakas@otenet.gr>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -180,7 +180,17 @@ msgid "  --media        - use only the given media, separated by comma.\n"
 msgstr ""
 "  --media        - χρήση των μέσων που δόθηκαν, διαχωρισμένα με το κόμμα.\n"
 
-#: ../gurpmi.pm:53 ../urpmi:110 ../urpmq:68
+#: ../gurpmi.pm:53 ../urpmi:148
+#, fuzzy, c-format
+msgid "  -p             - allow search in provides to find package.\n"
+msgstr "  -f             - αναγκαστική δημιουργία αρχείων hdlist.\n"
+
+#: ../gurpmi.pm:54 ../urpmi:149
+#, fuzzy, c-format
+msgid "  -P             - do not search in provides to find package.\n"
+msgstr "  -f             - αναγκαστική δημιουργία αρχείων hdlist.\n"
+
+#: ../gurpmi.pm:55 ../urpmi:110 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr ""
@@ -784,7 +794,7 @@ msgstr "Αδυναμία διάθεσης εγγραφών colormap"
 
 #: ../urpm/lock.pm:62
 #, fuzzy, c-format
-msgid "%s database locked. waiting..."
+msgid "%s database is locked. waiting..."
 msgstr "Η βάση δεδομένων urpmi είναι κλειδωμένη"
 
 #: ../urpm/lock.pm:63
@@ -793,11 +803,11 @@ msgid "aborting"
 msgstr "Προσοχή"
 
 #: ../urpm/lock.pm:65
-#, fuzzy, c-format
-msgid "%s database locked"
-msgstr "Η βάση δεδομένων urpmi είναι κλειδωμένη"
+#, c-format
+msgid "%s database is locked (another program is already using it)"
+msgstr ""
 
-#: ../urpm/main_loop.pm:110
+#: ../urpm/main_loop.pm:113
 #, fuzzy, c-format
 msgid "The following package has bad signature"
 msgstr "Τα παρακάτω πακέτα περιέχουν κακές υπογραφές"
@@ -2084,16 +2094,6 @@ msgstr ""
 "  -a             - επιλογή όλων των μέσων που ταιριάζουν στην γραμμή "
 "εντολών.\n"
 
-#: ../urpmi:148
-#, fuzzy, c-format
-msgid "  -p             - allow search in provides to find package.\n"
-msgstr "  -f             - αναγκαστική δημιουργία αρχείων hdlist.\n"
-
-#: ../urpmi:149
-#, fuzzy, c-format
-msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -f             - αναγκαστική δημιουργία αρχείων hdlist.\n"
-
 #: ../urpmi:150
 #, fuzzy, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
@@ -2129,7 +2129,17 @@ msgstr ""
 "Δεν μπορείτε να εγκαταστήσετε δυαδικά αρχεία rpm  όταν χρησιμοποιείτε --"
 "install-src"
 
-#: ../urpmi:221
+#: ../urpmi:219
+#, c-format
+msgid "You can't install spec files"
+msgstr ""
+
+#: ../urpmi:226
+#, c-format
+msgid "defaulting to --buildrequires"
+msgstr ""
+
+#: ../urpmi:231
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
@@ -3058,6 +3068,10 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Δεν βρέθηκε αρχείο αλλαγών (changelog)\n"
+
+#, fuzzy
+#~ msgid "%s database locked"
+#~ msgstr "Η βάση δεδομένων urpmi είναι κλειδωμένη"
 
 #~ msgid "Unknown option %s"
 #~ msgstr "Άγνωστη επιλογή %s"
