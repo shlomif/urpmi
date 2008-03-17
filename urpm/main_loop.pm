@@ -28,7 +28,7 @@ use urpm::media;
 use urpm::select;
 use urpm::get_pkgs;
 use urpm::signature;
-use urpm::util qw(untaint difference2 member partition);
+use urpm::util qw(untaint difference2 intersection member partition);
 
 # locking is left to callers
 sub run {
@@ -305,6 +305,11 @@ if ($nok) {
 	} elsif ($test && $exit_code == 0) {
 	    #- Warning : the following message is parsed in urpm::parallel_*
 	    print N("Installation is possible"), "\n";
+	} elsif (intersection([ keys %{$state->{selected}} ],
+			      [ keys %{$urpm->{provides}{'should-restart'}} ])) {
+	    if (my $need_restart_formatted = urpm::sys::need_restart_formatted()) {
+		$callbacks->{need_restart}($need_restart_formatted) if $callbacks->{need_restart};
+	    }
 	}
     }
 }

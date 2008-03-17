@@ -150,6 +150,53 @@ sub check_fs_writable () {
     1;
 }
 
+sub _launched_time {
+    my ($component) = @_;
+
+    if ($component eq N_("system")) {
+	my ($uptime) = cat_('/proc/uptime') =~ /(\S+)/;
+	time() - $uptime;
+    } else {
+	1; # TODO
+    }
+}
+
+sub need_restart() {
+    my $rpm_qf = '%{name} %{installtime} [%{provides}:%{Provideversion} ]\n';
+    open(my $F, "rpm -q --whatprovides should-restart --qf '$rpm_qf' | uniq |");
+
+    my (%need_restart, %launched_time);
+    while (my $line = <$F>) {
+	my ($name, $installtime, $s) = $line =~ /(\S+)\s+(\S+)\s+(.*)/;
+	
+	my @should_restart = $s =~ /should-restart:(\S+)/g;
+	foreach my $component (@should_restart) {
+	    $launched_time{$component} ||= _launched_time($component);
+
+	    if ($launched_time{$component} < $installtime) {
+		push @{$need_restart{$component}}, $name;
+	    }
+	}
+    }
+    %need_restart && \%need_restart;
+}
+
+sub need_restart_formatted() {
+    my $need_restart = need_restart() or return;
+
+    foreach (keys %$need_restart) {
+	$need_restart->{$_} = N("You should restart %s for %s", translate($_), join(', ', sort @{$need_restart->{$_}}));
+    }
+    $need_restart;
+}
+
+# useful on command-line: perl -Murpm::sys -e 'urpm::sys::print_need_restart'
+sub print_need_restart() {
+    my $h = need_restart_formatted();
+    print "$_\n" foreach values %$h;
+}
+
+
 #- create a plain rpm from an installed rpm and a delta rpm (in the current directory)
 #- returns the new rpm filename in case of success
 #- params :

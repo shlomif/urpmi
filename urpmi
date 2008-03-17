@@ -666,6 +666,10 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 	my $yesexpr = N("Yy");
 	$force || message_input_($msg, boolean => 1) =~ /[$yesexpr]/;
     },
+    need_restart => sub {
+	my ($need_restart_formatted) = @_;
+	print "$_\n" foreach values %$need_restart_formatted;
+    },
     message => sub {
 	my ($_title, $msg) = @_; # graphical title
         print $msg;
