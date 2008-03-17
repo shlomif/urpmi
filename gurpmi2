@@ -26,6 +26,7 @@ our $allow_medium_change = 0;
 our $auto_select = 0;
 our $force = 0;
 our $test = 0;
+our $use_provides = 1;
 
 #- GUI globals
 my ($mainw, $mainbox);
@@ -81,7 +82,9 @@ my $urpm = configure_urpm();
 my $state = {};
 my %requested = $urpm->register_rpms(@all_rpms);
 if (@gurpmi::names) {
-    urpm::select::search_packages($urpm, \%requested, [ @gurpmi::names ]) || $force or exit 1;
+    urpm::select::search_packages($urpm, \%requested, [ @gurpmi::names ],
+                                  use_provides => $use_provides,
+                              ) || $force or exit 1;
 }
 
 #- return value is true if program should be restarted (in order to take care of important
