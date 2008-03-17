@@ -15,7 +15,7 @@ BEGIN {
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 our @ISA = 'Exporter';
-our @EXPORT = qw(N P translate bug_log message_input message_input_ toMb formatXiB sys_log);
+our @EXPORT = qw(N N_ P translate bug_log message_input message_input_ toMb formatXiB sys_log);
 
 #- I18N.
 use Locale::gettext;
@@ -58,6 +58,7 @@ sub N {
     my ($format, @params) = @_;
     sprintf(translate($format), @params);
 }
+sub N_ { $_[0] }
 
 my $noexpr = N("Nn");
 my $yesexpr = N("Yy");
