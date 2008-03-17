@@ -50,6 +50,8 @@ usage:
 ") . N("  --verify-rpm   - verify rpm signature before installation
                    (--no-verify-rpm disables it, default is enabled).
 ") . N("  --media        - use only the given media, separated by comma.
+") . N("  -p             - allow search in provides to find package.
+") . N("  -P             - do not search in provides to find package.
 ") . N("  --root         - use another root for rpm installation.
 ") . N("  --test         - only verify if the installation can be achieved correctly.
 ") . N("  --searchmedia  - use only the given media to search requested packages.
