@@ -133,17 +133,22 @@ sub _save_cache {
 sub _list {
     my ($urpm, $mirrorlist) = @_;
 
-    # expand the variables
-    if ($mirrorlist eq '$MIRRORLIST') {
-	$mirrorlist = _MIRRORLIST();
-    } else {
-	require urpm::cfg;
-	$mirrorlist = urpm::cfg::expand_line($mirrorlist);
-    }
-
-    my @mirrors = _mirrors_filtered($urpm, $mirrorlist);
+    my @mirrors = _mirrors_filtered($urpm, _expand($mirrorlist));
     add_proximity_and_sort($urpm, \@mirrors);
     @mirrors;
+}
+
+sub _expand {
+    my ($mirrorlist) = @_;
+
+    # expand the variables
+    
+    if ($mirrorlist eq '$MIRRORLIST') {
+	_MIRRORLIST();
+    } else {
+	require urpm::cfg;
+	urpm::cfg::expand_line($mirrorlist);
+    }
 }
 
 #- side-effects: $mirrors
