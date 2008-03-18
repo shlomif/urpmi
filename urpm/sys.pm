@@ -161,9 +161,11 @@ sub _launched_time {
     }
 }
 
-sub need_restart() {
+sub need_restart {
+    my ($root) = @_;
     my $rpm_qf = '%{name} %{installtime} [%{provides}:%{Provideversion} ]\n';
-    open(my $F, "rpm -q --whatprovides should-restart --qf '$rpm_qf' | uniq |");
+    my $options = ($root ? "--root $root " : '') . "-q --whatprovides should-restart --qf '$rpm_qf'";
+    open(my $F, "rpm $options | uniq |");
 
     my (%need_restart, %launched_time);
     while (my $line = <$F>) {
@@ -181,8 +183,9 @@ sub need_restart() {
     %need_restart && \%need_restart;
 }
 
-sub need_restart_formatted() {
-    my $need_restart = need_restart() or return;
+sub need_restart_formatted {
+    my ($root) = @_;
+    my $need_restart = need_restart($root) or return;
 
     foreach (keys %$need_restart) {
 	$need_restart->{$_} = N("You should restart %s for %s", translate($_), join(', ', sort @{$need_restart->{$_}}));

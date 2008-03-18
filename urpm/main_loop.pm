@@ -307,7 +307,7 @@ if ($nok) {
 	    print N("Installation is possible"), "\n";
 	} elsif (intersection([ keys %{$state->{selected}} ],
 			      [ keys %{$urpm->{provides}{'should-restart'}} ])) {
-	    if (my $need_restart_formatted = urpm::sys::need_restart_formatted()) {
+	    if (my $need_restart_formatted = urpm::sys::need_restart_formatted($urpm->{root})) {
 		$callbacks->{need_restart}($need_restart_formatted) if $callbacks->{need_restart};
 	    }
 	}
