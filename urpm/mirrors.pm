@@ -43,6 +43,18 @@ sub pick_one {
 sub _pick_one {
     my ($urpm, $mirrorlist, $must_succeed, $allow_cache_update) = @_;   
 
+    my $url;
+    if (my $cache = _pick_one_($urpm, $mirrorlist, $allow_cache_update)) {
+	$url = $cache->{chosen};
+    }
+    !$url && $must_succeed and $urpm->{fatal}(10, N("Could not find a mirror from mirrorlist %s", $mirrorlist));
+    $url;
+}
+
+#- side-effects: $urpm->{mirrors_cache}
+sub _pick_one_ {
+    my ($urpm, $mirrorlist, $allow_cache_update) = @_;   
+
     my $cache = _cache__may_clean_if_outdated($urpm, $mirrorlist, $allow_cache_update);
 
     if (!$cache->{chosen}) {
@@ -51,10 +63,7 @@ sub _pick_one {
 	    $cache->{time} = time();
 	}
 
-	$cache->{chosen} = $cache->{list}[0]{url} or do {
-	    $must_succeed and $urpm->{fatal}(10, N("Could not find a mirror from mirrorlist %s", $mirrorlist));
-	    return;
-	};
+	$cache->{chosen} = $cache->{list}[0]{url} or return;
 	_save_cache($urpm);
     }
     if ($cache->{nb_uses}++) {
@@ -63,7 +72,7 @@ sub _pick_one {
 	$urpm->{log}("using mirror $cache->{chosen}");
     }
 
-    $cache->{chosen};
+    $cache;
 }
 #- side-effects: $urpm->{mirrors_cache}
 sub black_list {
