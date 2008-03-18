@@ -198,7 +198,7 @@ if ($options{list_aliases}) {
     foreach (@{$urpm->{media}}) {
 	$_->{update} and print "--update ";
 	$_->{virtual} and print "--virtual ";
-	$_->{mirrorlist} and print "--mirrorlist $_->{mirrorlist} ";
+	$_->{mirrorlist} and print "--mirrorlist '$_->{mirrorlist}' ";
 	print escape_shell($_->{name}), " ";
 	print escape_shell($_->{mirrorlist} ? $_->{'with-dir'} : $_->{url}), " " if !$_->{mirrorlist} || $_->{'with-dir'};
 	$_->{with_synthesis} and print "with " . escape_shell($_->{with_synthesis});

@@ -41,13 +41,18 @@ sub pick_one {
 
 #- side-effects: $urpm->{mirrors_cache}
 sub _pick_one {
-    my ($urpm, $mirrorlist, $must_succeed, $allow_cache_update) = @_;   
+    my ($urpm, $mirrorlists, $must_succeed, $allow_cache_update) = @_;   
 
     my $url;
-    if (my $cache = _pick_one_($urpm, $mirrorlist, $allow_cache_update)) {
-	$url = $cache->{chosen};
+    my @l = split(' ', $mirrorlists);
+    foreach my $mirrorlist (@l) {
+	if (my $cache = _pick_one_($urpm, $mirrorlist, $allow_cache_update)) {
+	    $mirrorlist ne $l[-1] and $cache->{network_mtime} = _network_mtime();
+	    $url = $cache->{chosen};
+	    last;
+	}
     }
-    !$url && $must_succeed and $urpm->{fatal}(10, N("Could not find a mirror from mirrorlist %s", $mirrorlist));
+    !$url && $must_succeed and $urpm->{fatal}(10, N("Could not find a mirror from mirrorlist %s", $mirrorlists));
     $url;
 }
 
@@ -59,7 +64,11 @@ sub _pick_one_ {
 
     if (!$cache->{chosen}) {
 	if (!$cache->{list}) {
-	    $cache->{list} = [ _list($urpm, $mirrorlist) ];
+	    if (_is_only_one_mirror($mirrorlist)) {
+		$cache->{list} = [ { url => $mirrorlist } ];
+	    } else {
+		$cache->{list} = [ _list($urpm, $mirrorlist) ];
+	    }
 	    $cache->{time} = time();
 	}
 
@@ -76,11 +85,15 @@ sub _pick_one_ {
 }
 #- side-effects: $urpm->{mirrors_cache}
 sub black_list {
-    my ($urpm, $mirrorlist, $url) = @_;
-    my $cache = _cache($urpm, $mirrorlist);
+    my ($urpm, $mirrorlists, $url) = @_;
+    foreach my $mirrorlist (split ' ', $mirrorlists) {
+	my $cache = _cache($urpm, $mirrorlist);
 
-    @{$cache->{list}} = grep { $_->{url} ne $url } @{$cache->{list}};
-    delete $cache->{chosen};
+	if ($cache->{list}) {
+	    @{$cache->{list}} = grep { $_->{url} ne $url } @{$cache->{list}};
+	}
+	delete $cache->{chosen};
+    }
 }
 
 #- side-effects:
@@ -91,8 +104,11 @@ sub _cache__may_clean_if_outdated {
     my $cache = _cache($urpm, $mirrorlist);
 
     if ($allow_cache_update) {
-	if ($cache->{time} &&
-	    time() > $cache->{time} + 24*60*60 * $urpm->{options}{'days-between-mirrorlist-update'}) {
+	if ($cache->{network_mtime} && _network_mtime() > $cache->{network_mtime}) {
+	    $urpm->{log}("not using cached mirror list $mirrorlist since network configuration changed");
+	    %$cache = ();
+	} elsif ($cache->{time} &&
+		   time() > $cache->{time} + 24*60*60 * $urpm->{options}{'days-between-mirrorlist-update'}) {
 	    $urpm->{log}("not using outdated cached mirror list $mirrorlist");
 	    %$cache = ();
 	}
@@ -208,7 +224,7 @@ sub _mirrors_raw {
     my ($urpm, $url) = @_;
 
     $urpm->{log}(N("getting mirror list from %s", $url));
-    my @l = urpm::download::get_content($urpm, $url) or die "mirror list not found";
+    my @l = urpm::download::get_content($urpm, $url) or $urpm->{error}("mirror list not found");
     @l;
 }
 
@@ -234,6 +250,14 @@ sub _mandriva_mirrorlist {
 
     "http://api.mandriva.com/mirrors/$product_type.$product_id->{version}.$arch.list";
 }
+
+#- heuristic to detect wether it is really a mirrorlist or a simple mirror url:
+sub _is_only_one_mirror {
+    my ($mirrorlist) = @_;
+    _expand($mirrorlist) !~ /\.list$/;
+}
+
+sub _network_mtime() { (stat('/etc/resolv.conf'))[9] }
 
 sub parse_LDAP_namespace_structure {
     my ($s) = @_;
