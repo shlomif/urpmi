@@ -42,13 +42,8 @@ sub pick_one {
 #- side-effects: $urpm->{mirrors_cache}
 sub _pick_one {
     my ($urpm, $mirrorlist, $must_succeed, $allow_cache_update) = @_;   
-    my $cache = _cache($urpm, $mirrorlist);
 
-    if ($allow_cache_update && $cache->{time} &&
-	  time() > $cache->{time} + 24*60*60 * $urpm->{options}{'days-between-mirrorlist-update'}) {
-	$urpm->{log}("not using outdated cached mirror list");
-	%$cache = ();
-    }
+    my $cache = _cache__may_clean_if_outdated($urpm, $mirrorlist, $allow_cache_update);
 
     if (!$cache->{chosen}) {
 	if (!$cache->{list}) {
@@ -78,6 +73,24 @@ sub black_list {
     @{$cache->{list}} = grep { $_->{url} ne $url } @{$cache->{list}};
     delete $cache->{chosen};
 }
+
+#- side-effects:
+#-   + those of _cache ($urpm->{mirrors_cache})
+sub _cache__may_clean_if_outdated {
+    my ($urpm, $mirrorlist, $allow_cache_update) = @_;
+
+    my $cache = _cache($urpm, $mirrorlist);
+
+    if ($allow_cache_update) {
+	if ($cache->{time} &&
+	    time() > $cache->{time} + 24*60*60 * $urpm->{options}{'days-between-mirrorlist-update'}) {
+	    $urpm->{log}("not using outdated cached mirror list $mirrorlist");
+	    %$cache = ();
+	}
+    }
+    $cache;
+}
+
 #- side-effects: $urpm->{mirrors_cache}
 sub _cache {
     my ($urpm, $mirrorlist) = @_;
