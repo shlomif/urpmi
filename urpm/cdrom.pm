@@ -85,8 +85,7 @@ sub _mount_cdrom_and_check {
     my ($urpm, $blists) = @_;
 
     my @matching_blists = try_mounting_cdrom($urpm, $blists) or return;
-    my @checked = grep { !_check_notfound($_) } @matching_blists;
-    $checked[0];
+    grep { !_check_notfound($_) } @matching_blists;
 }
 
 #- side-effects: none
@@ -148,8 +147,8 @@ sub _mount_cdrom {
     #- everything that might be necessary.
     while (1) {
 
-	if (my $blist = _mount_cdrom_and_check($urpm, $blists)) {
-	    return $blist;
+	if (my @blists = _mount_cdrom_and_check($urpm, $blists)) {
+	    return @blists;
 	}
 
 	# ask for the first one, it's ok if the user insert another wanted cdrom
@@ -230,11 +229,12 @@ sub copy_packages_of_removable_media {
 	$prev_medium and delete $prev_medium->{mntpoint};
 	_may_eject_cdrom($urpm);
 
-	my $blist = _mount_cdrom($urpm, $blists, $o_ask_for_medium);
-	@$blists = grep { $_ != $blist } @$blists;
-
-	_copy_from_cdrom__if_needed($urpm, $blist, $sources, @$blists > 0);
-	$prev_medium = $blist->{medium};
+	my @blists_mounted = _mount_cdrom($urpm, $blists, $o_ask_for_medium);
+	@$blists = difference2($blists, \@blists_mounted);
+	foreach my $blist (@blists_mounted) {
+	    _copy_from_cdrom__if_needed($urpm, $blist, $sources, @$blists > 0);
+	    $prev_medium = $blist->{medium};
+        }
     }
 
     1;
