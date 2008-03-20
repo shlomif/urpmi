@@ -5,6 +5,7 @@ package urpm::download;
 use strict;
 use urpm::msg;
 use urpm::util;
+use bytes();
 use Cwd;
 use Exporter;
 
@@ -686,7 +687,13 @@ sub sync_logger {
 	    $text = N("        %s%% completed, speed = %s", $percent, $speed);
 	}
 	if (length($text) > $wchar) { $text = substr($text, 0, $wchar) }
-	print STDERR $text, " " x ($wchar - length($text)), "\r";
+	if (bytes::length($text) < $wchar) {
+	    # clearing more than needed in case the terminal is not handling utf8 and we have a utf8 string
+	    print STDERR $text, " " x ($wchar - bytes::length($text)), "\r";
+	} else {
+	    # clearing all the line first since we can't really know the "length" of the string
+	    print STDERR " " x $wchar, "\r", $text, "\r";
+	}
     } elsif ($mode eq 'end') {
 	print STDERR " " x $wchar, "\r";
     } elsif ($mode eq 'error') {
