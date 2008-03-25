@@ -65,7 +65,8 @@ sub _try_mounting_cdrom_using_hal {
 
     eval { require Hal::Cdroms; 1 } or $urpm->{error}(N("You must mount CD-ROM yourself (or install perl-Hal-Cdroms to have it done automatically)")), return();
 
-    my $hal_cdroms = Hal::Cdroms->new;
+    my $hal_cdroms = eval { Hal::Cdroms->new } or $urpm->{fatal}(N("HAL daemon (hald) is not running or not ready"));
+
     foreach my $hal_path ($hal_cdroms->list) {
 	my $mntpoint;
 	if ($mntpoint = $hal_cdroms->get_mount_point($hal_path)) {
