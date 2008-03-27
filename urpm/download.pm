@@ -65,22 +65,27 @@ sub load_proxy_config () {
 sub dump_proxy_config () {
     $proxy_config or return 0; #- hasn't been read yet
 
+    my $has_password;
+
     open my $f, '>', $PROXY_CFG or return 0;
     foreach ('', sort grep { !/^(|cmd_line)$/ } keys %$proxy_config) {
 	my $m = $_ eq '' ? '' : "$_:";
 	my $p = $proxy_config->{$_};
 	foreach (qw(http_proxy ftp_proxy)) {
-	    defined $p->{$_} && $p->{$_} ne ''
-		and print $f "$m$_=$p->{$_}\n";
+	    if (defined $p->{$_} && $p->{$_} ne '') {
+		print $f "$m$_=$p->{$_}\n";
+		$has_password ||= hide_password($p->{$_}) ne $p->{$_};
+	    }
 	}
 	if ($p->{ask}) {
 	    print $f "${m}proxy_user_ask\n";
 	} elsif (defined $p->{user} && $p->{user} ne '') {
 	    print $f "${m}proxy_user=$p->{user}:$p->{pwd}\n";
+	    $has_password ||= $p->{pwd};
 	}
     }
     close $f;
-    chmod 0600, $PROXY_CFG; #- may contain passwords
+    chmod 0600, $PROXY_CFG if $has_password;
     return 1;
 }
 
