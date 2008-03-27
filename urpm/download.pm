@@ -89,6 +89,14 @@ sub remove_proxy_media {
     defined $proxy_config and delete $proxy_config->{$_[0] || ''};
 }
 
+sub get_proxy_ {
+    my ($urpm, $medium) = @_;
+
+    -e $PROXY_CFG && !-r $PROXY_CFG and $urpm->{error}(N("can not read proxy settings (not enough rights to read %s)", $PROXY_CFG));
+
+    get_proxy($urpm);
+}
+
 #- reads and loads the proxy.cfg file ;
 #- returns the global proxy settings (without arguments) or the
 #- proxy settings for the specified media (with a media name as argument)
@@ -737,7 +745,7 @@ sub sync {
 
     my %all_options = ( 
 	dir => "$urpm->{cachedir}/partial",
-	proxy => get_proxy($medium),
+	proxy => get_proxy_($urpm, $medium),
 	$medium ? (media => $medium->{name}) : (),
 	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
 	%options,
