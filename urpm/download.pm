@@ -63,7 +63,8 @@ sub load_proxy_config () {
 
 #- writes proxy.cfg
 sub dump_proxy_config () {
-    return 0 unless defined $proxy_config; #- hasn't been read yet
+    $proxy_config or return 0; #- hasn't been read yet
+
     open my $f, '>', $PROXY_CFG or return 0;
     foreach ('', sort grep { !/^(|cmd_line)$/ } keys %$proxy_config) {
 	my $m = $_ eq '' ? '' : "$_:";
@@ -74,10 +75,9 @@ sub dump_proxy_config () {
 	}
 	if ($p->{ask}) {
 	    print $f "${m}proxy_user_ask\n";
-	    next;
+	} elsif (defined $p->{user} && $p->{user} ne '') {
+	    print $f "${m}proxy_user=$p->{user}:$p->{pwd}\n";
 	}
-	defined $p->{user} && $p->{user} ne ''
-	    and print $f "${m}proxy_user=$p->{user}:$p->{pwd}\n";
     }
     close $f;
     chmod 0600, $PROXY_CFG; #- may contain passwords
