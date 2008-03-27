@@ -4,6 +4,14 @@ proxy.cfg - urpmi proxy configuration file format.
 
 =head1 DESCRIPTION
 
+You can override default proxy using proxy.cfg (see the syntax below). You can
+also set proxy on urpmi commands command-line using C<--proxy>.
+
+Note that urpmi will use system global proxy settings (cf environment variable
+C<http_proxy> or C<ftp_proxy>). If you don't want urpmi to use any proxy, you
+can use C<http_proxy=> or C<ftp_proxy=>.
+
+=head1 SYNTAX
 The proxy.cfg file contains lines of the form
 
     [media:]http_proxy=[value]
