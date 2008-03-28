@@ -834,9 +834,9 @@ sub add_distrib_media {
 	    !$use_copied_synthesis && $options{probe_with} ? ($options{probe_with} => 1) : (),
 	    index_name => $name ? undef : 0,
 	    $add_by_default ? () : (ignore => 1),
-	    $options{mirrorlist} ? ('with-dir' => $distribconf->getpath($media, 'path')) : (),
 	    %options,
 	    # the following override %options
+	    $options{mirrorlist} ? ('with-dir' => $distribconf->getpath($media, 'path')) : (),
 	    update => $is_update_media ? 1 : undef,
 	);
 	++$medium_index;
