@@ -1632,9 +1632,10 @@ sub _retrieve_xml_media_info_or_remove {
     foreach my $xml_info (@xml_media_info) {
 	my $f = statedir_xml_info($urpm, $medium, $xml_info);
 
-	if (urpm::is_cdrom_url($medium->{url}) ||
+	my $get_it = urpm::is_cdrom_url($medium->{url}) ||
 		 get_medium_option($urpm, $medium, 'xml-info') eq 'always' ||
-		 get_medium_option($urpm, $medium, 'xml-info') eq 'update-only' && -e $f) {
+		 get_medium_option($urpm, $medium, 'xml-info') eq 'update-only' && -e $f;
+	if ($get_it && _maybe_in_statedir_MD5SUM($urpm, $medium, "$xml_info.xml.lzma")) {
 	    $ok &&= _retrieve_media_info_file_and_check_MD5SUM($urpm, $medium, $xml_info, '.xml.lzma', $quiet);
 	    $ok = 1 if urpm::is_cdrom_url($medium->{url});
 	} else {
