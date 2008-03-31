@@ -205,13 +205,13 @@ my %options_spec = (
 	f => sub { $::full = 1 },
 	'F=s' => sub { $::separator = $_[1] },
 	'e=s' => sub { $::expr .= "($_[1])" },
-	a => sub { $::expr .= ' && ' },
-	o => sub { $::expr .= ' || ' },
+	a => sub { add_urpmf_binary_op('&&') },
+	o => sub { add_urpmf_binary_op('||') },
 	'<>' => sub {
 	    my $p = shift;
 	    if ($p =~ /^-?([!()])$/) {
 		# This is for -! -( -)
-		$::expr .= $1;
+		add_urpmf_unary_op($1);
 	    }
 	    elsif ($p =~ /^--?(.+)/) {
 		# unrecognized option
@@ -354,6 +354,16 @@ sub add_urpmf_cmdline_tags {
     }
 }
 
+sub add_urpmf_binary_op {
+    my ($op) = @_;
+
+    $::expr .= " $op ";
+}
+sub add_urpmf_unary_op {
+    my ($op) = @_;
+
+    $::expr .= $op;
+}
 sub add_urpmf_parameter {
     my ($p) = @_;
 
