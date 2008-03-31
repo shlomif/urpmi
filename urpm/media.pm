@@ -1617,6 +1617,13 @@ sub update_media {
     $updates_result{error} == 0;
 }
 
+sub _maybe_in_statedir_MD5SUM {
+    my ($urpm, $medium, $file) = @_;
+   
+    my $md5sum_file = statedir_MD5SUM($urpm, $medium);
+    -e $md5sum_file && urpm::md5sum::parse($md5sum_file)->{$file};
+}
+
 sub _retrieve_xml_media_info_or_remove {
     my ($urpm, $medium, $quiet) = @_;
 
@@ -1677,9 +1684,7 @@ sub _any_media_info__or_download {
 
     get_medium_option($urpm, $medium, 'xml-info') ne 'never' or return;
    
-    my $md5sum_file = statedir_MD5SUM($urpm, $medium);
-    -e $md5sum_file &&
-      urpm::md5sum::parse($md5sum_file)->{"$prefix$suffix"} or return;
+    _maybe_in_statedir_MD5SUM($urpm, $medium, "$prefix$suffix") or return;
 
     my $file_in_partial = 
       _download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet, $download_dir, $o_callback) or return;
