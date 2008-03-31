@@ -773,15 +773,17 @@ sub add_distrib_media {
 	}
 
 	my $m = { mirrorlist => $options{mirrorlist}, url => $url };
+	my $parse_ok;
 	try__maybe_mirrorlist($urpm, $m, sub {
 	    $distribconf = _new_distribconf_and_download($urpm, $m->{url});
+	    $parse_ok = $distribconf && $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg");
+	    $parse_ok;
 	});
 	$url = $m->{url};
 
 	if ($distribconf) {
-	    $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg")
-		or $urpm->{error}(N("unable to parse media.cfg")), return();
-	} else {
+	    $parse_ok or $urpm->{error}(N("unable to parse media.cfg")), return();
+	} else {   
 	    $urpm->{error}(N("...retrieving failed: %s", $@));
 	    $urpm->{error}(N("unable to access the distribution medium (no media.cfg file found)"));
 	    return ();
