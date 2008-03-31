@@ -145,11 +145,12 @@ our $uniq = '';		# --uniq
 our $update = 0;	# --update
 
 #- globals used in callback
-our $expr;		# regexp to match against
+our ($expr, $left_expr); # regexp to match against
 our %uniq;
 
 #- parse arguments list.
 my $urpm = urpm->new_parse_cmdline or exit(1);
+defined $left_expr and $urpm->{fatal}(1, N("unterminated expression (%s)", $left_expr));
 defined $expr or usage();
 
 if ($qf eq '%default') {

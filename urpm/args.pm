@@ -205,13 +205,14 @@ my %options_spec = (
 	f => sub { $::full = 1 },
 	'F=s' => sub { $::separator = $_[1] },
 	'e=s' => sub { $::expr .= "($_[1])" },
-	a => sub { add_urpmf_binary_op('&&') },
-	o => sub { add_urpmf_binary_op('||') },
+	a => sub { add_urpmf_binary_op('&&', '-a') },
+	o => sub { add_urpmf_binary_op('||', '-o') },
 	'<>' => sub {
 	    my $p = shift;
 	    if ($p =~ /^-?([!()])$/) {
 		# This is for -! -( -)
-		add_urpmf_unary_op($1);
+		my $op = $1;
+		$op eq ')' ? add_urpmf_close_paren() : add_urpmf_unary_op($op);
 	    }
 	    elsif ($p =~ /^--?(.+)/) {
 		# unrecognized option
@@ -354,15 +355,27 @@ sub add_urpmf_cmdline_tags {
     }
 }
 
-sub add_urpmf_binary_op {
-    my ($op) = @_;
+sub _current_urpmf_left_expr() {
+    my $left = $::left_expr || $::expr && "$::expr || "  || '';
+    $::left_expr = $::expr = undef;
+    $left;
+}
 
-    $::expr .= " $op ";
+sub add_urpmf_binary_op {
+    my ($op, $cmdline) = @_;
+    $::left_expr and $urpm->{fatal}(1, N("unexpected expression %s", $::left_expr));
+    $::expr or $urpm->{fatal}(1, N("missing expression before %s", $cmdline));
+
+    ($::expr, $::left_expr) = (undef, $::expr . " $op ");
 }
 sub add_urpmf_unary_op {
     my ($op) = @_;
-
-    $::expr .= $op;
+    $::expr and $urpm->{fatal}(1, N("unexpected expression %s (suggestion: use -a or -o ?)", $::expr));
+    ($::expr, $::left_expr) = (undef, $::left_expr . $op);
+}
+sub add_urpmf_close_paren() {
+    $::expr or $urpm->{fatal}(1, N("no expression to close"));
+    $::expr .= ')';
 }
 sub add_urpmf_parameter {
     my ($p) = @_;
@@ -375,7 +388,7 @@ sub add_urpmf_parameter {
 	# quote "+" chars for packages with + in their names
 	$p =~ s/\+/\\+/g;
     }
-    $::expr .= ($::expr ? ' || ' : '') . "m{$p}" . $::pattern;
+    $::expr = _current_urpmf_left_expr() . "m{$p}" . $::pattern;
 }
 
 # common options setup
