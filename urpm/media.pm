@@ -352,6 +352,12 @@ sub any_media_info_file {
 	  ? reduce_pathname("$base/$prefix." . _synthesis_suffix($medium) . $suffix)
 	  : _synthesis_dir($medium) . "/$prefix$suffix";
 
+	if (! -e $f) {
+	    # in some weird cases (iso on disk), the hdlist is not available where it should be,
+	    # but we can use the statedir copy
+	    $f = "$urpm->{statedir}/$prefix.$medium->{name}$suffix";
+	}
+
 	-e $f && $f;
     } else {
 	_any_media_info__or_download($urpm, $medium, $prefix, $suffix, $quiet, $o_callback);
