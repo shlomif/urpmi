@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: urpmi-gl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-03-17 17:46+0100\n"
-"PO-Revision-Date: 2008-03-31 18:27+0100\n"
+"PO-Revision-Date: 2008-04-02 18:16+0100\n"
 "Last-Translator: Leandro Regueiro <leandro DOT regueiro AT gmail DOT com>\n"
 "Language-Team: Galician <proxecto@trasno.net>\n"
 "MIME-Version: 1.0\n"
@@ -885,6 +885,8 @@ msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
 msgstr ""
+"Fallou a instalación, rpms incorrectos:\n"
+"%s"
 
 #: ../urpm/main_loop.pm:270
 #, c-format
@@ -1130,9 +1132,9 @@ msgstr "calculando o md5sum do hdlist (ou synthesis) fonte recuperado"
 
 #: ../urpm/media.pm:1212
 #: ../urpm/media.pm:1629
-#, fuzzy, c-format
+#, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
-msgstr "fallo ó copiar [%s] (os md5sum non coinciden)"
+msgstr "fallo ó obter [%s] (os md5sum non coinciden)"
 
 #: ../urpm/media.pm:1227
 #, c-format
@@ -1203,12 +1205,12 @@ msgstr "intentando de novo co sitio espello %s"
 #: ../urpm/mirrors.pm:60
 #, c-format
 msgid "Could not find a mirror from mirrorlist %s"
-msgstr ""
+msgstr "Non se puido atopar un sitio espello da lista de sitios espello %s"
 
 #: ../urpm/mirrors.pm:133
 #, c-format
 msgid "found geolocalisation %s %.2f %.2f from timezone %s"
-msgstr ""
+msgstr "atopouse a xeolocalización %s %.2f %.2f para a zona horaria %s"
 
 #: ../urpm/mirrors.pm:178
 #, c-format
@@ -1392,9 +1394,11 @@ msgstr ""
 #: ../urpmi.removemedia:46
 #: ../urpmi.update:46
 #: ../urpmq:69
-#, fuzzy, c-format
+#, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
-msgstr "  --root         - usar outra raíz para a instalación de rpms.\n"
+msgstr ""
+"  --urpmi-root   - usar outra raíz para a base de datos de urpmi\n"
+"                   e a instalación de rpms.\n"
 
 #: ../urpm/search.pm:42
 #: ../urpmf:42
@@ -1546,7 +1550,7 @@ msgstr "  --conffiles    - ficheiros de configuración\n"
 #: ../urpmf:65
 #, c-format
 msgid "  --conflicts    - conflict tags\n"
-msgstr ""
+msgstr "  --conflicts    - etiquetas conflictos\n"
 
 #: ../urpm/search.pm:66
 #: ../urpmf:66
@@ -1612,13 +1616,13 @@ msgstr "  --packager     - empaquetador\n"
 #: ../urpmf:76
 #, c-format
 msgid "  --provides     - provides tags\n"
-msgstr ""
+msgstr "  --provides     - etiquetas proporciona\n"
 
 #: ../urpm/search.pm:77
 #: ../urpmf:77
 #, c-format
 msgid "  --requires     - requires tags\n"
-msgstr ""
+msgstr "  --requires     - etiquetas require\n"
 
 #: ../urpm/search.pm:78
 #: ../urpmf:78
@@ -1636,7 +1640,7 @@ msgstr "  --sourcerpm    - nome do rpm fonte\n"
 #: ../urpmf:80
 #, c-format
 msgid "  --suggests     - suggests tags\n"
-msgstr ""
+msgstr "  --suggests     - etiquetas suxire\n"
 
 #: ../urpm/search.pm:81
 #: ../urpmf:81
@@ -1667,7 +1671,7 @@ msgstr "  -m             - o soporte no que se atopou o paquete\n"
 #: ../urpmq:94
 #, c-format
 msgid "  -f             - print version, release and arch with name.\n"
-msgstr ""
+msgstr "  -f             - imprime a versión, a edición e o nome da arquitectura.\n"
 
 #: ../urpm/search.pm:197
 #: ../urpmf:197
@@ -1987,9 +1991,9 @@ msgid "  --install-src  - install only source package (no binaries).\n"
 msgstr "  --install-src  - instalar só o paquete de fontes (non os binarios).\n"
 
 #: ../urpmi:100
-#, fuzzy, c-format
+#, c-format
 msgid "  --clean        - remove rpm from cache before anything else.\n"
-msgstr "  --clean        - eliminar os rpms da caché antes de facer nada.\n"
+msgstr "  --clean        - eliminar os rpms da caché antes de nada.\n"
 
 #: ../urpmi:101
 #, c-format
@@ -2004,7 +2008,7 @@ msgstr "  --justdb       - actualizar só a base de datos de rpm, non o sistema 
 #: ../urpmi:103
 #, c-format
 msgid "  --replacepkgs  - force installing packages which are already installed.\n"
-msgstr ""
+msgstr "  --replacepkgs  - forzar a instalación de paquetes que xa están instalados.\n"
 
 #: ../urpmi:105
 #, c-format
@@ -2021,6 +2025,8 @@ msgid ""
 "  --allow-force  - allow asking user to install packages without\n"
 "                   dependencies checking and integrity.\n"
 msgstr ""
+"  --allow-force  - permitirille ó usuario que o solicite instalar\n"
+"                   paquetes sen verificar as dependencias e a integridade.\n"
 
 #: ../urpmi:112
 #, c-format
@@ -2214,7 +2220,7 @@ msgstr "Non pode instalar ficheiros rpm de binarios cando usa --install-src"
 #: ../urpmi:219
 #, c-format
 msgid "You can't install spec files"
-msgstr ""
+msgstr "Non pode instalar ficheiros spec"
 
 #: ../urpmi:226
 #, c-format
@@ -2462,6 +2468,24 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
+"uso: urpmi.addmedia [opcións] <nome> <url>\n"
+"onde <url> é un dos seguintes\n"
+"       [file:/]/<ruta>\n"
+"       ftp://<login>:<contrasinal>@<máquina>/<ruta>\n"
+"       ftp://<máquina>/<ruta>\n"
+"       http://<máquina>/<ruta>\n"
+"       cdrom://<ruta>\n"
+"\n"
+"uso: urpmi.addmedia [opcións] --distrib --mirrorlist <url>\n"
+"uso: urpmi.addmedia [opcións] --mirrorlist <url> <nome> <ruta relativa>\n"
+"\n"
+"exemplos:\n"
+"\n"
+"  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
+"  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"\n"
+"\n"
+"e [opcións] son\n"
 
 #: ../urpmi.addmedia:55
 #: ../urpmi.update:33
@@ -2523,12 +2547,12 @@ msgstr ""
 #: ../urpmi.addmedia:72
 #, c-format
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
-msgstr ""
+msgstr "  --interactive  - con --distrib, solicita confirmación para cada soporte\n"
 
 #: ../urpmi.addmedia:73
 #, c-format
 msgid "  --all-media    - with --distrib, add every listed media\n"
-msgstr ""
+msgstr "  --all-media    - con --distrib, engade tódolos soportes listados\n"
 
 #: ../urpmi.addmedia:74
 #, c-format
@@ -2541,11 +2565,9 @@ msgstr ""
 "                   %s\n"
 
 #: ../urpmi.addmedia:76
-#, fuzzy, c-format
+#, c-format
 msgid "  --virtual      - create virtual media wich are always up-to-date.\n"
-msgstr ""
-"  --virtual      - crear un soporte virtual que sempre está actualizado,\n"
-"                   só se permite o protocolo file://.\n"
+msgstr "  --virtual      - crear un soporte virtual que sempre está actualizado.\n"
 
 #: ../urpmi.addmedia:77
 #: ../urpmi.update:42
@@ -2590,7 +2612,7 @@ msgstr "non fai falta un argumento para --distrib --mirrorlist <url>"
 #: ../urpmi.addmedia:118
 #, c-format
 msgid "bad <url> (for local directory, the path must be absolute)"
-msgstr ""
+msgstr "<url> incorrecto (para un directorio local, a ruta debe ser absoluta)"
 
 #: ../urpmi.addmedia:122
 #, c-format
@@ -3005,11 +3027,13 @@ msgid ""
 "  --requires-recursive, -d\n"
 "                   - query package dependencies.\n"
 msgstr ""
+"  --requires-recursive, -d\n"
+"                   - consultar as dependencias do paquete.\n"
 
 #: ../urpmq:87
 #, c-format
 msgid "  --whatrequires - reverse search to what requires package.\n"
-msgstr ""
+msgstr "  --whatrequires - busca inversa do que require o paquete.\n"
 
 #: ../urpmq:88
 #, c-format
@@ -3017,6 +3041,8 @@ msgid ""
 "  --whatrequires-recursive\n"
 "                   - extended reverse search (includes virtual packages).\n"
 msgstr ""
+"  --whatrequires-recursive\n"
+"                   - busca inversa extendida (inclúe os paquetes virtuais).\n"
 
 #: ../urpmq:90
 #, c-format
@@ -3035,7 +3061,7 @@ msgstr "  -c             - saída completa co paquete que se vai eliminar.\n"
 #: ../urpmq:95
 #, c-format
 msgid "  -g             - print groups with name also.\n"
-msgstr ""
+msgstr "  -g             - mostra os grupos co seu nome.\n"
 
 #: ../urpmq:96
 #, c-format
@@ -3055,7 +3081,7 @@ msgstr "  -m             - equivalente a -du\n"
 #: ../urpmq:99
 #, c-format
 msgid "  -r             - print version and release with name also.\n"
-msgstr ""
+msgstr "  -r             - mostra a versión e a edición co seu nome.\n"
 
 #: ../urpmq:100
 #, c-format
@@ -3075,12 +3101,12 @@ msgstr ""
 #: ../urpmq:103
 #, c-format
 msgid "  -Y             - like -y, but forces to match case-insensitively.\n"
-msgstr ""
+msgstr "  -Y             - coma -y, pero forza que non teña en conta maiúsculas-minúsculas.\n"
 
 #: ../urpmq:104
 #, c-format
 msgid "  names or rpm files given on command line are queried.\n"
-msgstr ""
+msgstr "  consúltanse os nomes ou ficheiros rpm dados na liña de comandos.\n"
 
 #: ../urpmq:180
 #, c-format
