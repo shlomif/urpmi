@@ -111,7 +111,12 @@ my %options_spec = (
 	force => \$::force,
 	justdb => \$options{justdb},
 	replacepkgs => \$options{replacepkgs},
-	'suggests!' => sub { $urpm->{options}{'no-suggests'} = !$_[1] },
+	suggests => sub { 
+	    $urpm->{error}("option --suggests currently means --allow-suggests, but it may change");
+	    $urpm->{options}{'no-suggests'} = 0;
+	},
+	'allow-suggests' => sub { $urpm->{options}{'no-suggests'} = 0 },
+	'no-suggests' => sub { $urpm->{options}{'no-suggests'} = 1 },
 	'allow-nodeps' => sub { $urpm->{options}{'allow-nodeps'} = 1 },
 	'allow-force' => sub { $urpm->{options}{'allow-force'} = 1 },
 	'parallel=s' => \$::parallel,
@@ -242,6 +247,12 @@ my %options_spec = (
 	provides => \$options{provides},
 	sourcerpm => \$options{sourcerpm},
 	'summary|S' => \$options{summary},
+	suggests => sub { 
+	    $urpm->{error}("--suggests currently means --allow-suggests");
+	    $urpm->{options}{'no-suggests'} = 0;
+	},
+	'allow-suggests' => sub { $urpm->{options}{'no-suggests'} = 1 },
+	'no-suggests' => sub { $urpm->{options}{'no-suggests'} = 1 },
 	'list-media:s' => sub { $options{list_media} = $_[1] || 'all' },
 	'list-url' => \$options{list_url},
 	'list-nodes' => \$options{list_nodes},
@@ -404,7 +415,7 @@ foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "u
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
 }
-foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synthesis=s", 'suggests!')
+foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synthesis=s", 'suggests', 'no-suggests', 'allow-suggests')
 {
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
