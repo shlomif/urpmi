@@ -30,7 +30,7 @@ merge:
 	    mv -f "$$n"t "$$n"; \
 	done
 
-$(PGOAL).pot:
+$(PGOAL).pot: $(PL_FILES)
 	perl_checker -q --generate-pot $(PGOAL)_tmp.pot $(PL_FILES)
 	[ ! -e $(PGOAL)_tmp.pot ] || msgcat --use-first $(PGOAL)_tmp.pot > $@
 	rm -f $(PGOAL)_tmp.pot
