@@ -706,11 +706,8 @@ sub add_medium {
 	# forcing the standard media_info_dir if undefined
 	$medium->{media_info_dir} ||= 'media_info';
 
-	require urpm::mirrors;
-	urpm::mirrors::try($urpm, $medium, sub {
-	    # this is a little ugly since MD5SUM will be downloaded again later, but it's small enough...
-	    _download_MD5SUM($urpm, $medium);
-	}) or return;
+	# this is a little ugly since MD5SUM will be downloaded again later, but it's small enough...
+	_download_MD5SUM_and_check($urpm, $medium) or return;
     }
 
     if ($with_synthesis) {
@@ -1362,7 +1359,26 @@ sub _download_MD5SUM {
     unlink $cachedir_MD5SUM;
     urpm::download::sync($urpm, $medium, 
 			       [ reduce_pathname(_synthesis_dir($medium) . '/MD5SUM') ],
-			       quiet => 1) && file_size($cachedir_MD5SUM) > 32;
+			       quiet => 1) or return;
+    $cachedir_MD5SUM;
+}
+
+sub _download_MD5SUM_and_check {
+    my ($urpm, $medium) = @_;
+
+    my ($err, $cachedir_MD5SUM);
+    require urpm::mirrors;
+    try__maybe_mirrorlist($urpm, $medium, sub {
+	$cachedir_MD5SUM = _download_MD5SUM($urpm, $medium) or $err = $@;
+	$cachedir_MD5SUM && urpm::md5sum::check_file($cachedir_MD5SUM);
+    }) and return $cachedir_MD5SUM;
+
+    if ($cachedir_MD5SUM) {
+	$urpm->{error}(N("invalid MD5SUM file (downloaded from %s)", _synthesis_dir($medium)));
+    } else {
+	$urpm->{error}(N("...retrieving failed: %s", $err));
+    }
+    undef;
 }
 
 #- options: callback, force, nomd5sum, probe_with, quiet
@@ -1378,8 +1394,8 @@ sub _update_medium__parse_if_unmodified__remote {
 	#- to be checked for being valid, nothing can be deduced if no MD5SUM
 	#- file is present.
 
-	if (!$options->{nomd5sum} && _download_MD5SUM($urpm, $medium)) {
-	    my $new_MD5SUM = "$urpm->{cachedir}/partial/MD5SUM";
+	if (!$options->{nomd5sum}) {
+	    my $new_MD5SUM = _download_MD5SUM_and_check($urpm, $medium) or return;
 	    if ($options->{force} < 2 && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
 		_medium_is_up_to_date($urpm, $medium);
 		return 'unmodified';

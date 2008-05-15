@@ -8,19 +8,25 @@ sub parse {
     my ($md5sum_file) = @_;
 
     my %h = map {
-	my ($md5sum, $file) = m|(\S+)\s+(?:\./)?(\S+)|;
+	my ($md5sum, $file) = m|^([0-9-a-f]+)\s+(?:\./)?(\S+)$|i or return;
 	$file => $md5sum;
-    } cat_($md5sum_file);
+    } cat_($md5sum_file) or return;
 
     \%h;
+}
+
+sub check_file {
+    my ($md5sum_file) = @_;
+
+    file_size($md5sum_file) > 32 && parse($md5sum_file);
 }
 
 sub from_MD5SUM__or_warn {
     my ($urpm, $md5sum_file, $basename) = @_;
     $urpm->{debug}(N("examining %s file", $md5sum_file)) if $urpm->{debug};
-    my $retrieved_md5sum = parse($md5sum_file)->{$basename} 
-      or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
-    return $retrieved_md5sum;
+    my $md5sums = parse($md5sum_file) or $urpm->{log}(N("invalid MD5SUM file")), return;
+    $md5sums->{$basename} or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
+    $md5sums->{$basename};
 }
 
 sub compute {
