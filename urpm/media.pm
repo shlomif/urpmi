@@ -998,11 +998,11 @@ sub reconfig_urpmi {
     my ($urpm, $rfile, $medium) = @_;
     -r $rfile or return;
 
-    $urpm->{log}(N("reconfiguring urpmi for media \"%s\"", $medium->{name}));
-
     my ($magic, @lines) = cat_($rfile);
     #- the first line of reconfig.urpmi must be magic, to be sure it's not an error file
     $magic =~ /^# this is an urpmi reconfiguration file/ or return undef;
+
+    $urpm->{log}(N("reconfiguring urpmi for media \"%s\"", $medium->{name}));
 
     my @replacements;
     foreach (@lines) {
