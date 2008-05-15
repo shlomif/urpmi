@@ -1230,13 +1230,25 @@ sub get_synthesis__remote {
     my $ok = try__maybe_mirrorlist($urpm, $medium, sub {
 	urpm::download::sync($urpm, $medium, [ _url_with_synthesis($medium) ],
 			     quiet => $quiet, callback => $callback) &&
-			       file_size(cachedir_with_synthesis($urpm, $medium)) >= 20;
+			       _check_synthesis(cachedir_with_synthesis($urpm, $medium));
     });
     if (!$ok) {
 	chomp(my $err = $@);
 	$urpm->{error}(N("...retrieving failed: %s", $err));
     }
     $ok;
+}
+
+sub _check_synthesis {
+    my ($synthesis_file) = @_;
+
+    file_size($synthesis_file) >= 20 or return;
+
+    # check first 2 lines do not contain typical html code
+    # this is useful for servers not returning a valid HTTP error (#39918)
+    open(my $F, '<', $synthesis_file) or return;
+    my $s = <$F>; $s .= <$F>; 
+    $s !~ /<html>|<!DOCTYPE\s/i;
 }
 
 #- check copied/downloaded file has right signature.
@@ -1393,7 +1405,7 @@ sub _update_medium__parse_if_unmodified__remote {
 	    my $f = "$urpm->{cachedir}/partial/" . basename($url);
 	    $options->{force} and unlink $f;
 	    if (urpm::download::sync($urpm, $medium, [ $url ],
-				     quiet => $options->{quiet}, callback => $options->{callback}) && file_size($f) >= 20) {
+				     quiet => $options->{quiet}, callback => $options->{callback}) && _check_synthesis($f)) {
 		$urpm->{log}(N("found probed synthesis as %s", $url));
 		1;
 	    } else {
