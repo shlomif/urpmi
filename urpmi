@@ -353,29 +353,13 @@ my $urpmi_lock = !$env && !$options{nolock} && urpm::lock::urpmi_db($urpm, '', w
 #- should we ignore arch compatibility
 if ($urpm->{options}{ignorearch}) { urpm::shunt_ignorearch() }
 
-my %config_hash = (
-    excludemedia => $excludemedia,
-    media => $media,
-    parallel => $parallel,
-    searchmedia => $searchmedia,
-    cmdline_skiplist => $options{skip},
-    sortmedia => $sortmedia,
-    synthesis => $options{synthesis},
-    update => $update,
-    usedistrib => $options{usedistrib},
-    probe_with => $options{probe_with},
-);
-
 if ($urpm->{root}) {
     $urpm->{options}{'priority-upgrade'} = '' if !$ENV{TESTING_priority_upgrade};
 }
 if ($auto_update && !$bug && !$env) {
     #- For translators : there are several media here
     $urpm->{log}(N("Updating media...\n"));
-    #- FIXME we need to configure it twice; otherwise
-    #- some settings are lost (like the skiplist) for
-    #- some reason.
-    urpm::media::configure($urpm, %config_hash);
+    urpm::media::read_config($urpm);
     urpm::media::update_media($urpm, 
 	all => 1,
 	callback => \&urpm::download::sync_logger,
@@ -389,7 +373,18 @@ if ($auto_update && !$bug && !$env) {
     $urpm->{obsoletes} = {};
 }
 
-urpm::media::configure($urpm, %config_hash);
+urpm::media::configure($urpm,
+    excludemedia => $excludemedia,
+    media => $media,
+    parallel => $parallel,
+    searchmedia => $searchmedia,
+    cmdline_skiplist => $options{skip},
+    sortmedia => $sortmedia,
+    synthesis => $options{synthesis},
+    update => $update,
+    usedistrib => $options{usedistrib},
+    probe_with => $options{probe_with},
+);
 
 if ($bug) {
     require urpm::bug_report;
