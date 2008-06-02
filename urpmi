@@ -479,11 +479,7 @@ sub ask_choice {
 #- packages being upgraded (problably urpmi and perl-URPM, but maybe rpm too, and glibc also ?).
 my $restart_itself;
 if ($options{replacepkgs}) {
-    foreach (keys %requested) {
-	my $pkg = $urpm->{depslist}[$_] or next;
-	$pkg->set_flag_requested;
-	$state->{selected}{$_} = undef;
-    }
+    urpm::select::select_replacepkgs($urpm, $state, \%requested);
 } else {
     $restart_itself = urpm::select::resolve_dependencies($urpm,
     $state,
