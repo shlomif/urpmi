@@ -1337,7 +1337,7 @@ sub _update_medium__parse_if_unmodified__local {
 	}
 
 	my $ok = get_synthesis__local($urpm, $medium, $options->{callback});
-	$ok &&= check_synthesis_md5sum($urpm, $medium) if !$options->{force};
+	$ok &&= check_synthesis_md5sum($urpm, $medium) if !$options->{force} && !$options->{nomd5sum};
 	
 	if ($ok) {
 	    1;
@@ -1452,7 +1452,7 @@ sub _update_medium__parse_if_unmodified__remote {
 	$ok = get_synthesis__remote($urpm, $medium, $options->{callback}, $options->{quiet});
     }
 
-    $ok &&= check_synthesis_md5sum($urpm, $medium) if !$options->{force};
+    $ok &&= check_synthesis_md5sum($urpm, $medium) if !$options->{force} && !$options->{nomd5sum};
 
     $options->{callback} and $options->{callback}('done', $medium->{name});
 
