@@ -21,6 +21,5 @@ urpmi_addmedia("$name $::pwd/media/$name");
 urpmi('a-1');
 check_installed_fullnames('a-1-1');
 
-# urpmi('--auto b');
-# check_installed_and_remove('a', 'b');
-# ERROR: urpmi considers the conflict to match a-2 as well and just removes a
+urpmi('--auto b');
+check_installed_and_remove('a', 'b');
