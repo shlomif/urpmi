@@ -288,12 +288,10 @@ sub select_replacepkgs {
     my $db = urpm::db_open_or_die($urpm, $urpm->{root});
     foreach my $id (keys %$requested) {
 	my @pkgs = $urpm->find_candidate_packages_($id);
-	if (my @installed = grep { URPM::is_package_installed($db, $_) } @pkgs) {
-	    foreach my $pkg (@installed) {
+	if (my ($pkg) = grep { URPM::is_package_installed($db, $_) } @pkgs) {
 		$urpm->{debug_URPM}("selecting replacepkg " . $pkg->fullname) if $urpm->{debug_URPM};
 		$pkg->set_flag_requested;
 		$state->{selected}{$pkg->id} = undef;
-	    }
 	} else {
 	    $urpm->{fatal}(1, N("found package(s) %s in urpmi db, but none are installed", join(', ', map { scalar($_->fullname) } @pkgs)));
 	}
