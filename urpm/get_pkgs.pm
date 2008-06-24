@@ -13,8 +13,8 @@ sub clean_all_cache {
     my ($urpm) = @_;
     #- clean download directory, do it here even if this is not the best moment.
     $urpm->{log}(N("cleaning %s and %s", "$urpm->{cachedir}/partial", "$urpm->{cachedir}/rpms"));
-    urpm::sys::clean_dir("$urpm->{cachedir}/partial");
-    urpm::sys::clean_dir("$urpm->{cachedir}/rpms");
+    urpm::sys::empty_dir("$urpm->{cachedir}/partial");
+    urpm::sys::empty_dir("$urpm->{cachedir}/rpms");
 }
 
 #- select sources for selected packages,

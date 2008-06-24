@@ -257,6 +257,11 @@ sub clean_dir {
 
     require File::Path;
     File::Path::rmtree([$dir]);
+}
+
+sub empty_dir {
+    my ($dir) = @_;
+    clean_dir($dir);
     mkdir $dir, 0755;
 }
 
