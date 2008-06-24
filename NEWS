@@ -1,3 +1,8 @@
+- all tools:
+  o statedir files are now in /var/lib/urpmi/<medium-name>/
+      for eg: /var/lib/urpmi/synthesis.hdlist.<medium-name> is now
+      /var/lib/urpmi/<medium-name>/synthesis.hdlist.cz
+    it allows easier medium update without using urpmi.update (#31893)
 - urpmi:
   o set connection timeout for rsync as well (Anssi)
   o fix --replacepkgs when a same package appears more than once in urpmi db

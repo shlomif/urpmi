@@ -321,9 +321,24 @@ sub statedir_media_info_basename {
     $medium->{name} && "$prefix.$medium->{name}$suffix";
 }
 
-sub statedir_media_info_file {
+sub statedir_media_info_dir {
+    my ($urpm, $medium) = @_;
+    $medium->{name} && "$urpm->{statedir}/$medium->{name}";
+}
+
+sub old_statedir_media_info_file {
     my ($urpm, $medium, $prefix, $suffix) = @_;
     $medium->{name} && "$urpm->{statedir}/" . statedir_media_info_basename($medium, $prefix, $suffix);
+}
+sub new_statedir_media_info_file {
+    my ($urpm, $medium, $prefix, $suffix) = @_;
+    my $dir = statedir_media_info_dir($urpm, $medium);
+    $dir && "$dir/$prefix$suffix";
+}
+sub statedir_media_info_file {
+    my ($urpm, $medium, $prefix, $suffix) = @_;
+    my $dir = statedir_media_info_dir($urpm, $medium);
+    -d $dir ? "$dir/$prefix$suffix" : old_statedir_media_info_file($urpm, $medium, $prefix, $suffix);
 }
 sub statedir_synthesis {
     my ($urpm, $medium) = @_;
@@ -335,7 +350,7 @@ sub statedir_descriptions {
 }
 sub statedir_names {
     my ($urpm, $medium) = @_;
-    statedir_media_info_file($urpm, $medium, 'names', '');
+    old_statedir_media_info_file($urpm, $medium, 'names', '');
 }
 sub statedir_MD5SUM {
     my ($urpm, $medium) = @_;
@@ -710,6 +725,7 @@ sub add_medium {
 
     #- those files must not be there (cf mdvbz#36267)
     _clean_statedir_medium_files($urpm, $medium);
+    mkdir statedir_media_info_dir($urpm, $medium), 0755 if !$options{virtual} || !_local_file($medium);
 
     if ($options{virtual}) {
 	$medium->{virtual} = 1;
@@ -952,7 +968,11 @@ sub _clean_statedir_medium_files {
     my ($urpm, $medium) = @_;
 
     #- remove files associated with this medium.
-    unlink grep { $_ } map { statedir_media_info_file($urpm, $medium, $_->[0], $_->[1]) } @media_info_prefix_suffix;
+    unlink grep { $_ } map { old_statedir_media_info_file($urpm, $medium, $_->[0], $_->[1]) } @media_info_prefix_suffix;
+
+    my $dir = statedir_media_info_dir($urpm, $medium);
+    -d $dir and urpm::sys::clean_dir($dir);
+
     remove_user_media_info_files($urpm, $medium);
 }
 
