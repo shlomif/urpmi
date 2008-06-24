@@ -36,6 +36,16 @@ our @PER_MEDIA_OPT = qw(
 
 my @xml_media_info = ('info', 'files', 'changelog');
 
+my @media_info_prefix_suffix = (
+    [ 'synthesis.hdlist', '.cz' ],
+    [ 'hdlist', '.cz' ],
+    [ 'descriptions', '' ],
+    [ 'names', '' ],
+    [ 'MD5SUM', '' ],
+    (map { [ $_, '.xml.lzma' ] } @xml_media_info),
+);
+
+
 sub get_medium_option {
     my ($urpm, $medium, $option_name) = @_;
 
@@ -942,8 +952,7 @@ sub _clean_statedir_medium_files {
     my ($urpm, $medium) = @_;
 
     #- remove files associated with this medium.
-    unlink grep { $_ } map { $_->($urpm, $medium) } \&statedir_synthesis, \&statedir_descriptions, \&statedir_names, \&statedir_MD5SUM, \&statedir_hdlist;
-    unlink statedir_xml_info($urpm, $medium, $_) foreach @xml_media_info;
+    unlink grep { $_ } map { statedir_media_info_file($urpm, $medium, $_->[0], $_->[1]) } @media_info_prefix_suffix;
     remove_user_media_info_files($urpm, $medium);
 }
 
