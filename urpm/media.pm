@@ -303,12 +303,17 @@ sub _url_with_synthesis {
 
 sub synthesis {
     my ($medium) = @_;
-    $medium->{name} && "synthesis.hdlist.$medium->{name}.cz";
+    statedir_media_info_basename($medium, 'synthesis.hdlist', '.cz');
+}
+
+sub statedir_media_info_basename {
+    my ($medium, $prefix, $suffix) = @_;
+    $medium->{name} && "$prefix.$medium->{name}$suffix";
 }
 
 sub statedir_media_info_file {
     my ($urpm, $medium, $prefix, $suffix) = @_;
-    $medium->{name} && "$urpm->{statedir}/$prefix.$medium->{name}$suffix";
+    $medium->{name} && "$urpm->{statedir}/" . statedir_media_info_basename($medium, $prefix, $suffix);
 }
 sub statedir_synthesis {
     my ($urpm, $medium) = @_;
@@ -1711,7 +1716,7 @@ sub _any_media_info__or_download {
 
     my $download_dir;
     if (my $userdir = urpm::userdir($urpm)) {
-	$f = "$userdir/$prefix.$medium->{name}$suffix";
+	$f = "$userdir/" . statedir_media_info_basename($medium, $prefix, $suffix);
 	-s $f and return $f;
 
 	$download_dir = "$userdir/partial";
