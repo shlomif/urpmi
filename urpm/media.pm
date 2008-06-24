@@ -306,13 +306,13 @@ sub synthesis {
     $medium->{name} && "synthesis.hdlist.$medium->{name}.cz";
 }
 
-sub statedir_synthesis {
-    my ($urpm, $medium) = @_;
-    "$urpm->{statedir}/" . synthesis($medium);
-}
 sub statedir_media_info_file {
     my ($urpm, $medium, $prefix, $suffix) = @_;
     $medium->{name} && "$urpm->{statedir}/$prefix.$medium->{name}$suffix";
+}
+sub statedir_synthesis {
+    my ($urpm, $medium) = @_;
+    statedir_media_info_file($urpm, $medium, 'synthesis.hdlist', '.cz');
 }
 sub statedir_descriptions {
     my ($urpm, $medium) = @_;
@@ -355,7 +355,7 @@ sub any_media_info_file {
 	if (! -e $f) {
 	    # in some weird cases (iso on disk), the hdlist is not available where it should be,
 	    # but we can use the statedir copy
-	    $f = "$urpm->{statedir}/$prefix.$medium->{name}$suffix";
+	    $f = statedir_media_info_file($urpm, $medium, $prefix, $suffix);
 	}
 
 	-e $f && $f;
@@ -1706,13 +1706,12 @@ sub _retrieve_media_info_file_and_check_MD5SUM {
 sub _any_media_info__or_download {
     my ($urpm, $medium, $prefix, $suffix, $quiet, $o_callback) = @_;
 
-    my $name = "$prefix.$medium->{name}$suffix";
-    my $f = "$urpm->{statedir}/$name";
+    my $f = statedir_media_info_file($urpm, $medium, $prefix, $suffix);
     -s $f and return $f;
 
     my $download_dir;
     if (my $userdir = urpm::userdir($urpm)) {
-	$f = "$userdir/$name";
+	$f = "$userdir/$prefix.$medium->{name}$suffix";
 	-s $f and return $f;
 
 	$download_dir = "$userdir/partial";
