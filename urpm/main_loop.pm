@@ -49,7 +49,6 @@ unless ($local_sources || $list) {
 }
 
 my %sources = %$local_sources;
-my @error_sources;
 
 urpm::removable::try_mounting_non_cdroms($urpm, $list);
 
@@ -79,6 +78,7 @@ $options{debug__do_not_install} and exit 0;
 
 my ($ok, $nok) = (0, 0);
 my @errors;
+my $exit_code = 0;
 
 foreach my $set (@{$state->{transaction} || []}) {
     my (@transaction_list, %transaction_sources);
@@ -90,6 +90,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
 
     #- first, filter out what is really needed to download for this small transaction.
+    my @error_sources;
     urpm::get_pkgs::download_packages_of_distant_media($urpm,
 	\@transaction_list,
 	\%transaction_sources,
@@ -97,6 +98,30 @@ foreach my $set (@{$state->{transaction} || []}) {
 	quiet => $options{verbose} < 0,
 	callback => $callbacks->{trans_log},
     );
+    if (@error_sources) {
+	$_->[0] = urpm::download::hide_password($_->[0]) foreach @error_sources;
+	if (my @missing = grep { $_->[1] eq 'missing' } @error_sources) {
+	    $exit_code = 10;
+	    push @errors, map { "missing $_->[0]" } @missing;
+
+	    my $msg = join("\n", map { "    $_->[0]" } @missing);
+	    !$urpm->{options}{auto} && $callbacks->{ask_yes_or_no}->(
+		N("Installation failed"), 
+		N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database", $msg)
+		  . "\n\n" . N("Try to go on anyway? (y/N) ")) or last;
+	}
+	if (my @bad = grep { $_->[1] eq 'bad' } @error_sources) {
+	    $exit_code = 11;
+	    push @errors, map { "bad $_->[0]" } @bad;
+
+	    my $msg = join("\n", map { "    $_->[0]" } @bad);
+	    !$urpm->{options}{auto} && $callbacks->{ask_yes_or_no}->(
+		N("Installation failed"), 
+		N("Installation failed, bad rpms:\n%s", $msg)
+		  . "\n\n" . N("Try to go on anyway? (y/N) ")) or last;
+	}
+    }
+
     $callbacks->{post_download} and $callbacks->{post_download}->();
     my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources, $state) || {}};
     $callbacks->{post_extract} and $callbacks->{post_extract}->($set, \%transaction_sources, \%transaction_sources_install);
@@ -253,25 +278,9 @@ foreach my $set (@{$state->{transaction} || []}) {
 
 $callbacks->{completed} and $callbacks->{completed}->();
 
-#- keep a track of error code.
-my $exit_code = 0;
-if (my @missing = grep { $_->[1] eq 'missing' } @error_sources) {
-    $callbacks->{message}->(N("Error"), 
-        #- Warning : the following message is parsed in urpm::parallel_*
-        N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
-          join "\n", map { "    " . urpm::download::hide_password($_->[0]) } @missing) . "\n"
-    );
-    $exit_code = 10;
-}
-if (my @bad = grep { $_->[1] eq 'bad' } @error_sources) {
-    $callbacks->{message}->(N("Error"), N("Installation failed, bad rpms:\n%s",
-                              join "\n", map { "    " . urpm::download::hide_password($_->[0]) } @bad) . "\n");
-    $exit_code = 11;
-}
 if ($nok) {
     $callbacks->{trans_error_summary} and $callbacks->{trans_error_summary}->($nok, \@errors);
-    $nok > 1 and print P("%d installation transaction failed",
-	    "%d installation transactions failed", $nok, $nok) . (@errors && ":\n" . join("\n", map { "\t$_" } @errors)), "\n";
+    print N("Installation failed:"), "\n", map { "\t$_\n" } @errors;
     if ($exit_code) {
 	$exit_code = $ok ? 13 : 14;
     } else {

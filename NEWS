@@ -4,6 +4,8 @@
       /var/lib/urpmi/<medium-name>/synthesis.hdlist.cz
     it allows easier medium update without using urpmi.update (#31893)
 - urpmi:
+  o "missing file" and "bad rpms" errors are reported asap
+    and are fatal errors unless the user wants to go on anyway (or --force)
   o set connection timeout for rsync as well (Anssi)
   o fix --replacepkgs when a same package appears more than once in urpmi db
   o fix displaying "files are missing" (regression introduced in 5.6)
