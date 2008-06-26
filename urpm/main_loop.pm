@@ -32,7 +32,7 @@ use urpm::util qw(untaint difference2 intersection member partition);
 
 # locking is left to callers
 sub run {
-    my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $requested, $callbacks) = @_;
+    my ($urpm, $state, $something_was_to_be_done, $ask_unselect, $_requested, $callbacks) = @_;
 
     #- global boolean options
     my ($auto_select, $no_install, $install_src, $clean, $noclean, $force, $parallel, $test, $env) =
@@ -290,13 +290,14 @@ if ($nok) {
     $callbacks->{success_summary} and $callbacks->{success_summary}->();
     if ($something_was_to_be_done || $auto_select) {
 	if (@{$state->{transaction} || []} == 0 && @$ask_unselect == 0) {
-	    if ($options{verbose} >= 0) {
-		if ($auto_select) {
+	    if ($auto_select) {
+		if ($options{verbose} >= 0) {
 		    print N("Packages are up to date"), "\n";
-		} else {
+		}
+	    } else {
+		if ($callbacks->{already_installed_or_not_installable}) {
 		    my $msg = urpm::select::translate_already_installed($state);
-		    $callbacks->{already_installed_or_not_installable} and 
-		      $callbacks->{already_installed_or_not_installable}->([$msg], []);
+		    $callbacks->{already_installed_or_not_installable}->([$msg], []);
 		}
 	    }
 	    $exit_code = 15 if our $expect_install;
