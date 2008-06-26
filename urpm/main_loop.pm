@@ -294,20 +294,9 @@ if ($nok) {
 		if ($auto_select) {
 		    print N("Packages are up to date"), "\n";
 		} else {
-		    my @pkgs = map { $urpm->{depslist}[$_] } map { split /\|/ } keys %$requested;
-		    my ($installed, $error) = partition { $_->flag_installed } @pkgs;
-		    my @installed = map { scalar $_->fullname } @$installed;
-		    my @error = map { scalar $_->fullname } @$error;
-		    my @msg1 = @installed == 0 ? () :
-		    	@installed == 1 ?
-			  N("Package %s is already installed", join(', ', @installed)) :
-			  N("Packages %s are already installed", join(', ', @installed));
-		    my @msg2 = @error == 0 ? () :
-		    	@error == 1 ?
-			  N("Package %s can not be installed", join(', ', @error)) :
-			  N("Packages %s can not be installed", join(', ', @error));
-		    $callbacks->{already_installed_or_not_installable} and $callbacks->{already_installed_or_not_installable}->(\@msg1, \@msg2);
-		    print join("\n", @msg1, @msg2, '');
+		    my $msg = urpm::select::translate_already_installed($state);
+		    $callbacks->{already_installed_or_not_installable} and 
+		      $callbacks->{already_installed_or_not_installable}->([$msg], []);
 		}
 	    }
 	    $exit_code = 15 if our $expect_install;

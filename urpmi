@@ -495,6 +495,11 @@ if ($options{replacepkgs}) {
     );
 }
 
+{
+    my $msg = urpm::select::translate_already_installed($state);
+    $msg and print "$msg\n";
+}
+
 my @unselected_uninstalled = @{$state->{unselected_uninstalled} || []};
 if (@unselected_uninstalled) {
     my $list = join "\n", map { $_->name . '-' . $_->version . '-' . $_->release  } @unselected_uninstalled;

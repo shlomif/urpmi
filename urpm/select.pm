@@ -514,6 +514,22 @@ sub unselected_packages {
     grep { $state->{rejected}{$_}{backtrack} } keys %{$state->{rejected} || {}};
 }
 
+#- misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
+sub already_installed {
+    my ($state) = @_;
+    grep { $state->{rejected}{$_}{installed} } keys %{$state->{rejected} || {}};
+}
+
+sub translate_already_installed {
+    my ($state) = @_;
+
+    my @l = already_installed($state) or return;
+
+    @l == 1 ?
+      N("Package %s is already installed", join(', ', @l)) :
+      N("Packages %s are already installed", join(', ', @l));
+}
+
 sub translate_why_unselected {
     my ($urpm, $state, @fullnames) = @_;
 
@@ -539,6 +555,7 @@ sub translate_why_unselected_one {
 	} @unsatisfied)),
 	$rb->{promote} && !$rb->{keep} ? N("trying to promote %s", join(", ", @{$rb->{promote}})) : (),
 	$rb->{keep} ? N("in order to keep %s", join(", ", @{$rb->{keep}})) : (),
+	$rb->{installed} ? "already installed" : (),
     );
     $fullname . ($s ? " ($s)" : '');
 }
