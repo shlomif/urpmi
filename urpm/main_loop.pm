@@ -49,7 +49,7 @@ unless ($local_sources || $list) {
 }
 
 my %sources = %$local_sources;
-my %error_sources;
+my @error_sources;
 
 urpm::removable::try_mounting_non_cdroms($urpm, $list);
 
@@ -93,7 +93,7 @@ foreach my $set (@{$state->{transaction} || []}) {
     urpm::get_pkgs::download_packages_of_distant_media($urpm,
 	\@transaction_list,
 	\%transaction_sources,
-	\%error_sources,
+	\@error_sources,
 	quiet => $options{verbose} < 0,
 	callback => $callbacks->{trans_log},
     );
@@ -255,17 +255,17 @@ $callbacks->{completed} and $callbacks->{completed}->();
 
 #- keep a track of error code.
 my $exit_code = 0;
-if (my @missing = grep { $error_sources{$_} eq 'missing' } keys %error_sources) {
+if (my @missing = grep { $_->[1] eq 'missing' } @error_sources) {
     $callbacks->{message}->(N("Error"), 
         #- Warning : the following message is parsed in urpm::parallel_*
         N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
-          join "\n", map { "    " . urpm::download::hide_password($_) } @missing) . "\n"
+          join "\n", map { "    " . urpm::download::hide_password($_->[0]) } @missing) . "\n"
     );
     $exit_code = 10;
 }
-if (my @bad = grep { $error_sources{$_} eq 'bad' } keys %error_sources) {
+if (my @bad = grep { $_->[1] eq 'bad' } @error_sources) {
     $callbacks->{message}->(N("Error"), N("Installation failed, bad rpms:\n%s",
-                              join "\n", map { "    " . urpm::download::hide_password($_) } @bad) . "\n");
+                              join "\n", map { "    " . urpm::download::hide_password($_->[0]) } @bad) . "\n");
     $exit_code = 11;
 }
 if ($nok) {
