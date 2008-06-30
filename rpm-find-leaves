@@ -53,11 +53,17 @@ my %provides;
 foreach my $pkg (@packages) {
     next if $options{restrict_group} && $pkg->group !~ /\Q$options{group}/oi;
     $l{$pkg->name} = $pkg;
-    push @{$provides{$_}}, $pkg->name foreach $pkg->provides_nosense;
+    push @{$provides{$_}}, $pkg foreach $pkg->provides_nosense;
 }
 
 foreach my $pkg (@packages) {
-    delete @l{grep { $_ ne $pkg->name } @{$provides{$_} || []}} foreach $pkg->requires_nosense;
+    foreach my $prop ($pkg->requires) {
+	my ($n, $s) = URPM::property2name_range($prop);
+	foreach my $p (@{$provides{$n} || []}) {
+	    $p != $pkg && $p->provides_overlap($prop) and 
+	      delete $l{$p->name};
+	}
+    }
 }
 
 if ($options{fullname}) {
