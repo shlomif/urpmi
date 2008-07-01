@@ -5,9 +5,9 @@ use urpm::msg;
 
 
 sub rpmdb_to_synthesis {
-    my ($urpm, $synthesis, $root) = @_;
+    my ($urpm, $synthesis) = @_;
 
-    my $db = urpm::db_open_or_die($urpm, $root);
+    my $db = urpm::db_open_or_die($urpm, $urpm->{root});
     my $sig_handler = sub { undef $db; exit 3 };
     local $SIG{INT} = $sig_handler;
     local $SIG{QUIT} = $sig_handler;

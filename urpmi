@@ -388,7 +388,7 @@ urpm::media::configure($urpm,
 
 if ($bug) {
     require urpm::bug_report;
-    urpm::bug_report::rpmdb_to_synthesis($urpm, "$bug/rpmdb.cz", $urpm->{root});
+    urpm::bug_report::rpmdb_to_synthesis($urpm, "$bug/rpmdb.cz");
 }
 
 urpm::select::set_priority_upgrade_option($urpm, $options{previous_priority_upgrade});
