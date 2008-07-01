@@ -14,7 +14,7 @@ our @EXPORT = qw(min max quotespace unquotespace
     partition put_in_hash uniq uniq_
     begins_with
     difference2 intersection member 
-    file_size cat_ cat_utf8 output_safe dirname basename
+    file_size cat_ cat_utf8 output_safe append_to_file dirname basename
 );
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -158,6 +158,13 @@ sub output_safe {
     close $f or return;
 
     rename("$file.new", $file) or return;
+    1;
+}
+
+sub append_to_file { 
+    my $f = shift; 
+    open(my $F, '>>', $f) or die "writing to file $f failed: $!\n";
+    print $F $_ foreach @_;
     1;
 }
 
