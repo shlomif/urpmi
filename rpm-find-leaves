@@ -4,6 +4,7 @@ use strict;
 
 use urpm;
 use urpm::msg;
+use urpm::select;
 
 my %options = (
     restrict_group => 0,
@@ -40,39 +41,14 @@ while ($_ = shift) {
     print $usage; exit 1;
 }
 
-my @packages;
-{
-    my $db = urpm::db_open_or_die_($urpm) or die "Can't open RPM db\n";
-    $db->traverse(sub {
-	my ($p) = @_;
-	$p->pack_header;
-	push @packages, $p;
-    });
-}
-
-my %l;
-my %provides;
-foreach my $pkg (@packages) {
-    next if $options{restrict_group} && $pkg->group !~ /\Q$options{group}/oi;
-    $l{$pkg->name} = $pkg;
-    push @{$provides{$_}}, $pkg foreach $pkg->provides_nosense;
-}
-
-foreach my $pkg (@packages) {
-    foreach my $prop ($pkg->requires) {
-	my ($n, $s) = URPM::property2name_range($prop);
-	foreach my $p (@{$provides{$n} || []}) {
-	    $p != $pkg && $p->provides_overlap($prop) and 
-	      delete $l{$p->name};
-	}
-    }
-}
+my $discard = $options{restrict_group} && sub { $_[0]->group !~ /\Q$options{group}/oi };
+my $leaves = urpm::select::installed_leaves($urpm, $discard);
 
 if ($options{fullname}) {
-    foreach my $k (sort keys %l) {
-	my $l = $l{$k};
+    foreach my $k (sort keys %$leaves) {
+	my $l = $leaves->{$k};
 	print $l->name, '-', $l->version, '-', $l->release, '.', $l->arch, "\n";
     }
 } else {
-    print "$_\n" foreach sort keys %l;
+    print "$_\n" foreach sort keys %$leaves;
 }

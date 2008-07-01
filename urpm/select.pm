@@ -602,5 +602,42 @@ sub translate_why_removed_one {
     $fullname . ($s ? "\n ($s)" : '');
 }
 
+sub installed_packages_packed {
+    my ($urpm) = @_;
+
+    my $db = urpm::db_open_or_die_($urpm) or die "Can't open RPM db\n";
+    my @l;
+    $db->traverse(sub {
+        my ($pkg) = @_;
+	$pkg->pack_header;
+	push @l, $pkg;
+    });
+    \@l;
+}
+
+sub installed_leaves {
+    my ($urpm, $o_discard) = @_;
+
+    my $packages = installed_packages_packed($urpm);
+
+    my (%l, %provides);
+    foreach my $pkg (@$packages) {
+	next if $o_discard && $o_discard->($pkg);
+	$l{$pkg->name} = $pkg;
+	push @{$provides{$_}}, $pkg foreach $pkg->provides_nosense;
+    }
+
+    foreach my $pkg (@$packages) {
+	foreach my $prop ($pkg->requires) {
+	    my ($n, $s) = URPM::property2name_range($prop);
+	    foreach my $p (@{$provides{$n} || []}) {
+		$p != $pkg && $p->provides_overlap($prop) and 
+		  delete $l{$p->name};
+	    }
+	}
+    }
+
+    \%l;
+}
 
 1;
