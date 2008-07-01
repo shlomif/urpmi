@@ -224,6 +224,12 @@ sub is_cdrom_url {
     protocol_from_url($url) eq 'cdrom';
 }
 
+sub db_open_or_die_ {
+    my ($urpm, $b_write_perm) = @_;
+    db_open_or_die($urpm, $urpm->{root}, $b_write_perm);
+}
+
+# please use higher level function db_open_or_die_()
 sub db_open_or_die {
     my ($urpm, $root, $b_write_perm) = @_;
 

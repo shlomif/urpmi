@@ -537,7 +537,7 @@ if (@ask_unselect) {
 my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : urpm::select::removed_packages($urpm, $state);
 if (@ask_remove) {
     {
-	my $db = urpm::db_open_or_die($urpm, $urpm->{root});
+	my $db = urpm::db_open_or_die_($urpm);
 	urpm::select::find_removed_from_basesystem($urpm, $db, $state, sub {
 	    my $urpm = shift @_;
 	    foreach (@_) {

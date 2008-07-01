@@ -248,7 +248,7 @@ sub resolve_dependencies {
 	    $db = new URPM;
 	    $db->parse_synthesis($options{rpmdb});
 	} else {
-	    $db = urpm::db_open_or_die($urpm, $urpm->{root});
+	    $db = urpm::db_open_or_die_($urpm);
 	}
 
 	my $sig_handler = sub { undef $db; exit 3 };
@@ -285,7 +285,7 @@ sub resolve_dependencies {
 sub select_replacepkgs {
     my ($urpm, $state, $requested) = @_;
 
-    my $db = urpm::db_open_or_die($urpm, $urpm->{root});
+    my $db = urpm::db_open_or_die_($urpm);
     foreach my $id (keys %$requested) {
 	my @pkgs = $urpm->find_candidate_packages_($id);
 	if (my ($pkg) = grep { URPM::is_package_installed($db, $_) } @pkgs) {
@@ -387,7 +387,7 @@ sub find_packages_to_remove {
 	#- invoke parallel finder.
 	$urpm->{parallel_handler}->parallel_find_remove($urpm, $state, $l, %options, find_packages_to_remove => 1);
     } else {
-	my $db = urpm::db_open_or_die($urpm, $urpm->{root});
+	my $db = urpm::db_open_or_die_($urpm);
 	my (@m, @notfound);
 
 	if (!$options{matches}) {

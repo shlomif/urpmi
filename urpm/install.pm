@@ -43,7 +43,7 @@ sub build_transaction_set_ {
 	    $db = new URPM;
 	    $db->parse_synthesis($options{rpmdb});
 	} else {
-	    $db = urpm::db_open_or_die($urpm, $urpm->{root});
+	    $db = urpm::db_open_or_die_($urpm);
 	}
 
 	my $sig_handler = sub { undef $db; exit 3 };
@@ -146,7 +146,7 @@ sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     $options{translate_message} = 1;
 
-    my $db = urpm::db_open_or_die($urpm, $urpm->{root}, !$options{test}); #- open in read/write mode unless testing installation.
+    my $db = urpm::db_open_or_die_($urpm, !$options{test}); #- open in read/write mode unless testing installation.
 
     my $trans = $db->create_transaction($urpm->{root});
     if ($trans) {
