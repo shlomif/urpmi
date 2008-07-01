@@ -1517,7 +1517,7 @@ sub _read_cachedir_pubkey {
     $urpm->{log}(N("examining pubkey file of \"%s\"...", $medium->{name}));
 
     my $_rpm_lock = urpm::lock::rpm_db($urpm, 'exclusive', wait => $b_wait_lock);
-    my $db = urpm::db_open_or_die($urpm, $urpm->{root}, 'rw');
+    my $db = urpm::db_open_or_die_($urpm, 'rw');
 
     my %key_ids;
     URPM::import_needed_pubkeys_from_file($db,
