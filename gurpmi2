@@ -202,7 +202,7 @@ sub ask_continue_blocking {
     my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'question', 'yes-no', $msg);
     my $answer = $w->run;
     $w->destroy;
-    quit() if $answer eq 'no';
+    exit(1) if $answer eq 'no';
 }
 
 sub do_install {
