@@ -629,7 +629,7 @@ sub installed_leaves {
 
     foreach my $pkg (@$packages) {
 	foreach my $prop ($pkg->requires) {
-	    my ($n, $s) = URPM::property2name_range($prop);
+	    my $n = URPM::property2name($prop);
 	    foreach my $p (@{$provides{$n} || []}) {
 		$p != $pkg && $p->provides_overlap($prop) and 
 		  delete $l{$p->name};
