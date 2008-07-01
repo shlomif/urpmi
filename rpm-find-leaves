@@ -20,10 +20,12 @@ where [options] are from
 ", $options{group}) . N("   -f             - output rpm full name (NVRA)
 ");
 
+my $urpm = urpm->new;
+
 while ($_ = shift) {
     $_ eq '--root' and do {
 	my $root = shift;
-	$root and $options{root} = $root;
+	$root and urpm::set_files($urpm, $root);
 	next;
 
     };
@@ -40,7 +42,7 @@ while ($_ = shift) {
 
 my @packages;
 {
-    my $db = URPM::DB::open($options{root}) or die "Can't open RPM db\n";
+    my $db = urpm::db_open_or_die_($urpm) or die "Can't open RPM db\n";
     $db->traverse(sub {
 	my ($p) = @_;
 	$p->pack_header;
