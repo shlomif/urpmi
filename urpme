@@ -120,17 +120,17 @@ my @toremove = urpm::select::find_packages_to_remove(
 	},
     ) or $urpm->{fatal}(0, N("Nothing to remove"));
 
-my $list = urpm::select::translate_why_removed($urpm, $state, @toremove);
-if ($test && $options{auto}) {
-    #- Warning : the following message is parsed in urpm::parallel_*
-    my $msg = N("Checking to remove the following packages");
-    print STDOUT "$msg:\n$list\n";
-} elsif (($parallel || @toremove > @cmdline_pkgs_to_remove) && !$options{auto}) {
-    my $msg = 
-    P("To satisfy dependencies, the following package will be removed",
+my $msg = 
+  P("To satisfy dependencies, the following package will be removed",
     "To satisfy dependencies, the following %d packages will be removed",
-    scalar(@toremove), scalar(@toremove)) . sprintf(" (%s)", formatXiB(-$urpm->selected_size($state)));
-    print STDOUT "$msg:\n$list\n";
+    scalar(@toremove), scalar(@toremove))
+  . sprintf(" (%s)", formatXiB(-$urpm->selected_size($state))) . ":\n"
+  . urpm::select::translate_why_removed($urpm, $state, @toremove) . "\n";
+
+if ($options{auto}) {
+    $test and print STDOUT $msg;
+} elsif ($parallel || @toremove > @cmdline_pkgs_to_remove) {
+    print STDOUT $msg;
     $force || message_input_(P("Remove %d package?", "Remove %d packages?", scalar(@toremove), scalar(@toremove)) . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/ or exit 0;
 }
 
