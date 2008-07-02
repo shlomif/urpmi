@@ -125,7 +125,7 @@ my $msg =
     "To satisfy dependencies, the following %d packages will be removed",
     scalar(@toremove), scalar(@toremove))
   . sprintf(" (%s)", formatXiB(-$urpm->selected_size($state))) . ":\n"
-  . urpm::select::translate_why_removed($urpm, $state, @toremove) . "\n";
+  . add_leading_spaces(urpm::select::translate_why_removed($urpm, $state, @toremove)) . "\n";
 
 if ($options{auto}) {
     $test and print STDOUT $msg;
@@ -155,4 +155,10 @@ my @errors = $parallel
 if (@errors) {
     #- Warning : the following message is parsed in urpm::parallel_*
     $urpm->{fatal}(2, N("Removal failed") . ":\n" . join("\n",  map { "\t$_" } @errors));
+}
+
+sub add_leading_spaces {
+    my ($s) = @_;
+    $s =~ s/^/  /gm;
+    $s;
 }
