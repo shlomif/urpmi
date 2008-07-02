@@ -245,7 +245,7 @@ sub install {
 	@errors = $trans->run($urpm, %options);
 
 	#- don't clear cache if transaction failed. We might want to retry.
-	if (@errors == 0 && !$options{test} && $options{post_clean_cache}) {
+	if (!@errors && !$options{test} && $options{post_clean_cache}) {
 	    #- examine the local cache to delete packages which were part of this transaction
 	    my $cachedir = "$urpm->{cachedir}/rpms";
 	    my @pkgs = grep { -e "$cachedir/$_" } map { $_->filename } @trans_pkgs;
