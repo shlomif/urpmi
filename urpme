@@ -31,7 +31,7 @@ use urpm::select;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our ($test, $parallel, $auto, $matches, $force, $noscripts, $repackage, @l, $restricted);
+our ($test, $parallel, $auto, $matches, $force, $noscripts, $repackage, $restricted);
 my $yesexpr =
   #-PO: Add here the keys which might be pressed in the "Yes"-case.
   N("Yy");
@@ -62,7 +62,7 @@ usage:
 @ARGV or usage();
 my @origARGV = @ARGV;
 my $urpm = urpm->new_parse_cmdline or exit(1);
-@l = @ARGV;
+my @cmdline_pkgs_to_remove = @ARGV;
 
 my $state = {};
 
@@ -91,7 +91,7 @@ urpm::media::configure($urpm,
 #- examine packages...
 my @toremove = urpm::select::find_packages_to_remove($urpm,
     $state,
-    \@l,
+    \@cmdline_pkgs_to_remove,
     matches => $matches,
     force => $force,
     callback_notfound => sub {
@@ -119,7 +119,7 @@ if ($test && $auto) {
     #- Warning : the following message is parsed in urpm::parallel_*
     my $msg = N("Checking to remove the following packages");
     print STDOUT "$msg:\n$list\n";
-} elsif (($parallel || @toremove > @l) && !$auto) {
+} elsif (($parallel || @toremove > @cmdline_pkgs_to_remove) && !$auto) {
     my $msg = 
     P("To satisfy dependencies, the following package will be removed",
     "To satisfy dependencies, the following %d packages will be removed",
@@ -130,7 +130,7 @@ if ($test && $auto) {
 
 #- Warning : the following message is parsed in urpm::parallel_*
 print N("removing %s", join(' ', sort @toremove)) . "\n";
-@l = $parallel
+my @errors = $parallel
     ? urpm::parallel::remove($urpm,
 	\@toremove,
 	test => $test,
@@ -146,5 +146,7 @@ print N("removing %s", join(' ', sort @toremove)) . "\n";
 	repackage => $repackage || $urpm->{options}{repackage},
     );
 
-#- Warning : the following message is parsed in urpm::parallel_*
-@l and $urpm->{fatal}(2, N("Removal failed") . ":\n" . join("\n",  map { "\t$_" } @l));
+if (@errors) {
+    #- Warning : the following message is parsed in urpm::parallel_*
+    $urpm->{fatal}(2, N("Removal failed") . ":\n" . join("\n",  map { "\t$_" } @errors));
+}
