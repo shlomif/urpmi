@@ -157,7 +157,7 @@ sub install {
 	return N("unable to create transaction");
     }
 
-    my ($update, @l) = 0;
+    my ($update, @errors) = 0;
     my @produced_deltas;
 
     foreach (@$remove) {
@@ -200,8 +200,8 @@ sub install {
 	}
 	++$update;
     }
-    if (!$options{nodeps} && (@l = $trans->check(%options))) {
-    } elsif (!$options{noorder} && (@l = $trans->order)) {
+    if (!$options{nodeps} && (@errors = $trans->check(%options))) {
+    } elsif (!$options{noorder} && (@errors = $trans->order)) {
     } else {
 	$urpm->{readmes} = {};
 	my $index;
@@ -242,10 +242,10 @@ sub install {
 	    $options{callback_inst}  ||= \&install_logger;
 	    $options{callback_trans} ||= \&install_logger;
 	}
-	@l = $trans->run($urpm, %options);
+	@errors = $trans->run($urpm, %options);
 
 	#- don't clear cache if transaction failed. We might want to retry.
-	if (@l == 0 && !$options{test} && $options{post_clean_cache}) {
+	if (@errors == 0 && !$options{test} && $options{post_clean_cache}) {
 	    #- examine the local cache to delete packages which were part of this transaction
 	    my $cachedir = "$urpm->{cachedir}/rpms";
 	    my @pkgs = grep { -e "$cachedir/$_" } map { $_->filename } @trans_pkgs;
@@ -270,7 +270,7 @@ sub install {
 	urpm::sys::clean_rpmdb_shared_regions($urpm->{root});	
     }
 
-    @l;
+    @errors;
 }
 
 1;
