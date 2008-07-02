@@ -89,35 +89,36 @@ urpm::media::configure($urpm,
 );
 
 #- examine packages...
-my @toremove = urpm::select::find_packages_to_remove($urpm,
-    $state,
-    \@cmdline_pkgs_to_remove,
-    matches => $options{matches},
-    force => $force,
-    callback_notfound => sub {
-	my $urpm = shift @_;
-	#- Warning : the following message is parsed in urpm::parallel_*
-	$urpm->{fatal}(1, (@_ > 1 ? N("unknown packages") : N("unknown package")) .
-	    ': ' . join(', ', @_)); 
-	0;
-    },
-    callback_fuzzy => sub {
-	my $urpm = shift @_;
-	my $match = shift @_;
-	my $pkgs = $urpm::msg::no_translation ? join(' ', @_) : join('', map { "\n$_" } sort @_);
-	#- Warning : the following message is parsed in urpm::parallel_*
-	$urpm->{fatal}(1, N("The following packages contain %s: %s", $match, $pkgs)); 
-	0;
-    },
-    callback_base => sub {
-	my $urpm = shift @_;
-	foreach (@_) {
+my @toremove = urpm::select::find_packages_to_remove(
+	$urpm,
+	$state,
+	\@cmdline_pkgs_to_remove,
+	matches => $options{matches},
+	force => $force,
+	callback_notfound => sub {
+	    my $urpm = shift @_;
 	    #- Warning : the following message is parsed in urpm::parallel_*
-	    $urpm->{error}(N("removing package %s will break your system", $_));
-	}
-	0;
-    },
-) or $urpm->{fatal}(0, N("Nothing to remove"));
+	    $urpm->{fatal}(1, (@_ > 1 ? N("unknown packages") : N("unknown package")) .
+			     ': ' . join(', ', @_)); 
+	    0;
+	},
+	callback_fuzzy => sub {
+	    my $urpm = shift @_;
+	    my $match = shift @_;
+	    my $pkgs = $urpm::msg::no_translation ? join(' ', @_) : join('', map { "\n$_" } sort @_);
+	    #- Warning : the following message is parsed in urpm::parallel_*
+	    $urpm->{fatal}(1, N("The following packages contain %s: %s", $match, $pkgs)); 
+	    0;
+	},
+	callback_base => sub {
+	    my $urpm = shift @_;
+	    foreach (@_) {
+		#- Warning : the following message is parsed in urpm::parallel_*
+		$urpm->{error}(N("removing package %s will break your system", $_));
+	    } 
+	    0;
+	},
+    ) or $urpm->{fatal}(0, N("Nothing to remove"));
 
 my $list = urpm::select::translate_why_removed($urpm, $state, @toremove);
 if ($test && $options{auto}) {
