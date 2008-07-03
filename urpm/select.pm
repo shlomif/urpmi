@@ -488,26 +488,32 @@ sub find_packages_to_remove {
 
 sub find_removed_from_basesystem {
     my ($urpm, $db, $state, $callback_base) = @_;
-    
-    $callback_base && %{$state->{rejected} || {}} or return 1;
+    $callback_base or return 1;
 
-    my %basepackages;
+    if (my @l = _prohibit_packages_that_would_be_removed($urpm, $db, $state)) {
+	$callback_base->($urpm, @l);
+    } else {
+	1;
+    }
+
+}
+sub _prohibit_packages_that_would_be_removed {
+    my ($urpm, $db, $state) = @_;
+
+    my @to_remove = removed_packages($urpm, $state) or return 1;
+
     my @dont_remove = ('basesystem', 'basesystem-minimal', 
 		       split /,\s*/, $urpm->{global_config}{'prohibit-remove'});
-    #- check if a package to be removed is a part of basesystem requires.
+    my (@base_fn, %base);
     $db->traverse_tag('whatprovides', \@dont_remove, sub {
 	my ($p) = @_;
-	$basepackages{$p->fullname} = 0;
+	$base{$p->name} = 1;
+	push @base_fn, scalar $p->fullname;
     });
-    foreach (removed_packages($urpm, $state)) {
-	exists $basepackages{$_} or next;
-	++$basepackages{$_};
-    }
-    if (grep { $_ } values %basepackages) {
-	return $callback_base->($urpm, grep { $basepackages{$_} } keys %basepackages);
-    }
 
-    1;
+    grep {
+	! grep { $base{$_} } rejected_unsatisfied($state, $_);
+    } intersection(\@to_remove, \@base_fn);
 }
 
 #- misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
@@ -568,6 +574,15 @@ sub removed_packages {
 	$state->{rejected}{$_}{removed} && !$state->{rejected}{$_}{obsoleted};
     } keys %{$state->{rejected} || {}};
 }
+sub rejected_closure {
+    my ($state, $fullname) = @_;
+    $state->{rejected} && $state->{rejected}{$fullname} && $state->{rejected}{$fullname}{closure};
+}
+sub rejected_unsatisfied {
+    my ($state, $fullname) = @_;
+    my $closure = rejected_closure($state, $fullname) or return;
+    map { $_ ? @$_ : () } map { $_->{unsatisfied} } values %$closure;
+}
 
 sub translate_why_removed {
     my ($urpm, $state, @fullnames) = @_;
@@ -576,8 +591,7 @@ sub translate_why_removed {
 sub translate_why_removed_one {
     my ($urpm, $state, $fullname) = @_;
 
-    my $closure = $state->{rejected} && $state->{rejected}{$fullname} && $state->{rejected}{$fullname}{closure}
-      or return $fullname;
+    my $closure = rejected_closure($state, $fullname) or return $fullname;
 
     my ($from) = keys %$closure;
     my ($whyk) = keys %{$closure->{$from}};
