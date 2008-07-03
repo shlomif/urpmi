@@ -45,9 +45,7 @@ my $discard = $options{restrict_group} && sub { $_[0]->group !~ /\Q$options{grou
 my $leaves = urpm::select::installed_leaves($urpm, $discard);
 
 if ($options{fullname}) {
-    foreach my $k (sort keys %$leaves) {
-	print scalar($leaves->{$k}->fullname), "\n";
-    }
+    print "$_\n" foreach sort map { scalar $_->fullname } values %$leaves;
 } else {
     print "$_\n" foreach sort keys %$leaves;
 }
