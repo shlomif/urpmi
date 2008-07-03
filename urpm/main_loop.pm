@@ -172,7 +172,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	}
     }
 
-    if (keys(%transaction_sources_install) || keys(%transaction_sources)) {
+    if (keys(%transaction_sources_install) || keys(%transaction_sources) || $set->{remove}) {
 	if ($parallel) {
 	    print N("distributing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), "\n";
 	    #- no remove are handle here, automatically done by each distant node.
@@ -185,7 +185,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    );
 	} else {
 	    if ($options{verbose} >= 0) {
-		my @packnames = (values %transaction_sources_install, values %transaction_sources);
+	      if (my @packnames = (values %transaction_sources_install, values %transaction_sources)) {
 		(my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
 		if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
 		    #- there's a common prefix, simplify message
@@ -193,6 +193,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		} else {
 		    print N("installing %s", join "\n", @packnames), "\n";
 		}
+	      }
 	    }
 	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
 	    bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
