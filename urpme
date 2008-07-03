@@ -136,21 +136,16 @@ if ($options{auto}) {
 
 #- Warning : the following message is parsed in urpm::parallel_*
 print N("removing %s", join(' ', sort @toremove)) . "\n";
+
+my %remove_options = (
+    test => $test,
+    force => $force,
+    noscripts => $urpm->{options}{noscripts},
+    repackage => $urpm->{options}{repackage},
+);
 my @errors = $parallel
-    ? urpm::parallel::remove($urpm,
-	\@toremove,
-	test => $test,
-	force => $force,
-	noscripts => $urpm->{options}{noscripts},
-	repackage => $urpm->{options}{repackage},
-    )
-    : urpm::install::install($urpm,
-	\@toremove, {}, {},
-	test => $test,
-	force => $force,
-	noscripts => $urpm->{options}{noscripts},
-	repackage => $urpm->{options}{repackage},
-    );
+    ? urpm::parallel::remove($urpm, \@toremove, %remove_options)
+    : urpm::install::install($urpm, \@toremove, {}, {}, %remove_options);
 
 if (@errors) {
     #- Warning : the following message is parsed in urpm::parallel_*
