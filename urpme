@@ -111,11 +111,10 @@ my @toremove = urpm::select::find_packages_to_remove(
 	    0;
 	},
 	callback_base => sub {
-	    my $urpm = shift @_;
-	    foreach (@_) {
-		#- Warning : the following message is parsed in urpm::parallel_*
-		$urpm->{error}(N("removing package %s will break your system", $_));
-	    } 
+	    my ($urpm, @l) = @_;
+	    $urpm->{fatal}(1, P("Removing the following package will break your system:",
+				"Removing the following packages will break your system:", int(@l))
+			     . "\n" . add_leading_spaces(urpm::select::translate_why_removed($urpm, $state, @l)));
 	    0;
 	},
     ) or $urpm->{fatal}(0, N("Nothing to remove"));
