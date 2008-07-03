@@ -539,11 +539,11 @@ if (@ask_remove) {
     {
 	my $db = urpm::db_open_or_die_($urpm);
 	urpm::select::find_removed_from_basesystem($urpm, $db, $state, sub {
-	    my $urpm = shift @_;
-	    foreach (@_) {
+	    my ($urpm, @pkgs) = @_;
+	    foreach (@pkgs) {
 		$urpm->{error}(N("removing package %s will break your system", $_));
 	    }
-	    @_ and $no_remove = 1;
+	    @pkgs and $no_remove = 1;
 	});
     }
     my $list = urpm::select::translate_why_removed($urpm, $state, @ask_remove);
