@@ -46,8 +46,7 @@ my $leaves = urpm::select::installed_leaves($urpm, $discard);
 
 if ($options{fullname}) {
     foreach my $k (sort keys %$leaves) {
-	my $l = $leaves->{$k};
-	print $l->name, '-', $l->version, '-', $l->release, '.', $l->arch, "\n";
+	print scalar($leaves->{$k}->fullname), "\n";
     }
 } else {
     print "$_\n" foreach sort keys %$leaves;
