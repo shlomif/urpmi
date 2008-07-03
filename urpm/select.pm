@@ -372,6 +372,8 @@ sub get_preferred {
     $best ? [$best] : [], [@prefer, @l];
 }
 
+my $fullname2name_re = qr/^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/;
+
 #- find packages to remove.
 #- options:
 #-	callback_base
@@ -395,7 +397,7 @@ sub find_packages_to_remove {
 		my ($n, $found);
 
 		#- check if name-version-release.architecture was given.
-		if (($n) = /^(.*)-[^\-]*-[^\-]*\.[^\.\-]*$/) {
+		if (($n) = $_ =~ $fullname2name_re) {
 		    $db->traverse_tag('name', [ $n ], sub {
 			    my ($p) = @_;
 			    $p->fullname eq $_ or return;
