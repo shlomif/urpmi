@@ -140,8 +140,7 @@ print N("removing %s", join(' ', sort @toremove)) . "\n";
 my %remove_options = (
     test => $test,
     force => $force,
-    noscripts => $urpm->{options}{noscripts},
-    repackage => $urpm->{options}{repackage},
+    urpm::install::options($urpm),
 );
 my @errors = $parallel
     ? urpm::parallel::remove($urpm, \@toremove, %remove_options)

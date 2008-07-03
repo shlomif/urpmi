@@ -198,18 +198,12 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my %install_options_common = (
+		urpm::install::options($urpm),
 		test => $test,
 		verbose => $options{verbose},
-		excludepath => $urpm->{options}{excludepath},
-		excludedocs => $urpm->{options}{excludedocs},
-		repackage   => $urpm->{options}{repackage},
-		post_clean_cache => $urpm->{options}{'post-clean'},
 		oldpackage => $state->{oldpackage},
 		justdb => $options{justdb},
 		replacepkgs => $options{replacepkgs},
-		nosize => $urpm->{options}{ignoresize},
-		ignorearch => $urpm->{options}{ignorearch},
-		noscripts => $urpm->{options}{noscripts},
 		callback_inst => $callbacks->{inst},
 		callback_trans => $callbacks->{trans},
 		callback_report_uninst => $callbacks->{callback_report_uninst},

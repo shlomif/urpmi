@@ -135,6 +135,20 @@ sub get_README_files {
     }
 }
 
+sub options {
+    my ($urpm) = @_;
+
+    (
+	excludepath => $urpm->{options}{excludepath},
+	excludedocs => $urpm->{options}{excludedocs},
+	repackage   => $urpm->{options}{repackage},
+	post_clean_cache => $urpm->{options}{'post-clean'},
+	nosize => $urpm->{options}{ignoresize},
+	ignorearch => $urpm->{options}{ignorearch},
+	noscripts => $urpm->{options}{noscripts},
+    );
+}
+
 #- install packages according to each hash (remove, install or upgrade).
 #- options: 
 #-      test, excludepath, nodeps, noorder (unused), delta, 
