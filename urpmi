@@ -512,7 +512,6 @@ that are older than the installed ones:\n%s", $list);
 	print "$msg\n";
     } else {
 	my $noexpr = N("Nn");
-	my $yesexpr = N("Yy");
 	$msg .= N("\nContinue installation anyway?");
 	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 0;
     }
@@ -528,7 +527,6 @@ if (@ask_unselect) {
 	print "$msg\n";
     } else {
 	my $noexpr = N("Nn");
-	my $yesexpr = N("Yy");
 	$msg .= N("\nContinue installation anyway?");
 	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 0;
     }
@@ -575,18 +573,17 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 #- check if there is at least one package to install that
 #- has not been given by the user.
 my $ask_user = $env || $search_result eq 'substring';
-my @root_only;
 
 my @to_install = @{$urpm->{depslist}}[sort { $a <=> $b } keys %{$state->{selected}}]; # sorted by medium for format_selected_packages
 {
-    my ($src, $binary) = partition { $_->arch eq 'src' } @to_install;
+    my @binary = grep { $_->arch ne 'src' } @to_install;
     if ($install_src) {
-	if (@$binary && $install_src && !$env) {
-	    my $list = join(' ', sort map { $_->name } @$binary);
+	if (@binary && $install_src && !$env) {
+	    my $list = join(' ', sort map { $_->name } @binary);
 	    $urpm->{fatal}(1, N("You must first call urpmi with --buildrequires to install the following dependencies:\n%s\n", $list));
 	}
     } else {
-	@to_install = @$binary;
+	@to_install = @binary;
     }
 }
 
@@ -618,7 +615,6 @@ if (!$urpm->{options}{auto} && $ask_user && $urpm->{nb_install} || $env && !$opt
 	exit 0; #- exit now for specific environment.
     }
     my $noexpr = N("Nn");
-    my $yesexpr = N("Yy");
     $force || message_input_($p . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 0;
 }
 
