@@ -14,7 +14,8 @@ our @EXPORT = qw(min max quotespace unquotespace
     partition put_in_hash uniq uniq_
     begins_with
     difference2 intersection member 
-    file_size cat_ cat_utf8 output_safe append_to_file dirname basename
+    file_size cat_ cat_utf8 wc_l
+    output_safe append_to_file dirname basename
 );
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -142,6 +143,7 @@ sub intersection { my (%l, @m); @l{@{shift @_}} = (); foreach (@_) { @m = grep {
 sub member { my $e = shift; foreach (@_) { $e eq $_ and return 1 } 0 }
 sub cat_ { my @l = map { my $F; open($F, '<', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
 sub cat_utf8 { my @l = map { my $F; open($F, '<:utf8', $_) ? <$F> : () } @_; wantarray() ? @l : join '', @l }
+sub wc_l { my $F; open($F, '<', $_[0]) or return; my $count = 0; while (<$F>) { $count++ } $count }
 
 sub uniq_(&@) {
     my $f = shift;
@@ -151,12 +153,13 @@ sub uniq_(&@) {
 }
 
 sub output_safe {
-    my ($file, $content) = @_;
+    my ($file, $content, $o_backup_ext) = @_;
     
     open(my $f, '>', "$file.new") or return;
     print $f $content or return;
     close $f or return;
 
+    rename($file, "$file$o_backup_ext") or return if $o_backup_ext;
     rename("$file.new", $file) or return;
     1;
 }
