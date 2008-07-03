@@ -488,24 +488,26 @@ sub find_packages_to_remove {
 
 sub find_removed_from_basesystem {
     my ($urpm, $db, $state, $callback_base) = @_;
-    if ($callback_base && %{$state->{rejected} || {}}) {
-	my %basepackages;
-	my @dont_remove = ('basesystem', 'basesystem-minimal', 
-			   split /,\s*/, $urpm->{global_config}{'prohibit-remove'});
-	#- check if a package to be removed is a part of basesystem requires.
-	$db->traverse_tag('whatprovides', \@dont_remove, sub {
-	    my ($p) = @_;
-	    $basepackages{$p->fullname} = 0;
-	});
-	foreach (removed_packages($urpm, $state)) {
-	    exists $basepackages{$_} or next;
-	    ++$basepackages{$_};
-	}
-	if (grep { $_ } values %basepackages) {
-	    return $callback_base->($urpm, grep { $basepackages{$_} } keys %basepackages);
-	}
+    
+    $callback_base && %{$state->{rejected} || {}} or return 1;
+
+    my %basepackages;
+    my @dont_remove = ('basesystem', 'basesystem-minimal', 
+		       split /,\s*/, $urpm->{global_config}{'prohibit-remove'});
+    #- check if a package to be removed is a part of basesystem requires.
+    $db->traverse_tag('whatprovides', \@dont_remove, sub {
+	my ($p) = @_;
+	$basepackages{$p->fullname} = 0;
+    });
+    foreach (removed_packages($urpm, $state)) {
+	exists $basepackages{$_} or next;
+	++$basepackages{$_};
     }
-    return 1;
+    if (grep { $_ } values %basepackages) {
+	return $callback_base->($urpm, grep { $basepackages{$_} } keys %basepackages);
+    }
+
+    1;
 }
 
 #- misc functions to help finding ask_unselect and ask_remove elements with their reasons translated.
