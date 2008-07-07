@@ -4,7 +4,7 @@ use strict;
 
 use urpm;
 use urpm::msg;
-use urpm::select;
+use urpm::orphans;
 
 my %options = (
     restrict_group => 0,
@@ -42,9 +42,7 @@ while ($_ = shift) {
 }
 
 my $discard = $options{restrict_group} && sub { $_[0]->group !~ /\Q$options{group}/oi };
-my $leaves = urpm::select::installed_leaves($urpm, $discard);
+my $leaves = urpm::orphans::installed_leaves($urpm, $discard);
 
-my @l = $options{fullname} ? 
-           map { scalar $_->fullname } values %$leaves : 
-           keys %$leaves;
+my @l = map { $options{fullname} ? scalar $_->fullname : $_->name } @$leaves;
 print "$_\n" foreach sort @l;
