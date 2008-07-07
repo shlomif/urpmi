@@ -725,7 +725,10 @@ sub add_medium {
 
     #- those files must not be there (cf mdvbz#36267)
     _clean_statedir_medium_files($urpm, $medium);
-    mkdir statedir_media_info_dir($urpm, $medium), 0755 if !$options{virtual} || !_local_file($medium);
+    if (!($options{virtual} && _local_file($medium))
+	  && !$urpm->{urpmi_root}) { # with --urpmi-root, we do not use statedir_media_info_file to allow compatibility with older urpmi
+	mkdir statedir_media_info_dir($urpm, $medium), 0755;
+    }
 
     if ($options{virtual}) {
 	$medium->{virtual} = 1;
