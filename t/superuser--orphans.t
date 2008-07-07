@@ -37,21 +37,21 @@ urpmi_addmedia("$name-2 $::pwd/media/$name-2");
 set_urpmi_cfg_global_options({ 'nb-of-new-unrequested-pkgs-between-auto-select-orphans-check' => 0 });
 
 
-test_auto_select_both('a', 'a',     'a-2');
-test_auto_select_both('b', 'b',     'bb-2');
-test_auto_select_both('c', 'c cc',  'c-2 cc-1');
-test_auto_select_both('d', 'd dd',  'd-2', 'dd-1');
-test_auto_select_both('e', 'e ee1', 'e-2 ee2-2', 'ee1-1');
-test_auto_select_both('f', 'f ff1', 'f-2 ff2-2');
-test_auto_select_both('g', 'g gg',  'g-2 gg-2');
-test_auto_select_both('h', 'h hh',  'h-2', 'hh-1');
-test_auto_select_both('l', 'l ll',  'l-2 ll-1');
-test_auto_select_both('m', 'm mm',  'm-2 mm-2');
-test_auto_select_both('n', 'n nn',  'n-2 nn-2');
-test_auto_select_both('o', 'o oo1', 'o-2 oo2-2');
-test_auto_select_both('r', 'r rr2', 'r-2', 'rr2-1');
-test_auto_select_both('s', 's ss1 ss2', 's-2 ss1-1 ss2-1');
-test_auto_select_both('t', 't tt1', 't-2 tt2-2', 'tt1-1');
+test_auto_select_both('a', '',    'a-2');
+test_auto_select_both('b', '',    'bb-2');
+test_auto_select_both('c', 'cc',  'c-2 cc-1');
+test_auto_select_both('d', 'dd',  'd-2', 'dd-1');
+test_auto_select_both('e', 'ee1', 'e-2 ee2-2', 'ee1-1');
+test_auto_select_both('f', 'ff1', 'f-2 ff2-2');
+test_auto_select_both('g', 'gg',  'g-2 gg-2');
+test_auto_select_both('h', 'hh',  'h-2', 'hh-1');
+test_auto_select_both('l', 'll',  'l-2 ll-1');
+test_auto_select_both('m', 'mm',  'm-2 mm-2');
+test_auto_select_both('n', 'nn',  'n-2 nn-2');
+test_auto_select_both('o', 'oo1', 'o-2 oo2-2');
+test_auto_select_both('r', 'rr2', 'r-2', 'rr2-1');
+test_auto_select_both('s', 'ss1 ss2', 's-2 ss1-1 ss2-1');
+test_auto_select_both('t', 'tt1', 't-2 tt2-2', 'tt1-1');
 
 test_auto_select(['r', 'rr1'], 'r rr1 rr2', 'r-2 rr1-1', 'rr2-1');
 #test_auto_select(['s ss1'],    's ss1 ss2', 's-2 ss1-1', 'ss2-1'); # this fails, but that's ok
@@ -66,9 +66,31 @@ sub add_release_s  { join(' ', add_release(@_)) }
 sub test_auto_select_both {
     my ($pkg, $wanted_v1, $wanted_v2, $orphans_v2) = @_;
 
+    test_urpme1($pkg, $wanted_v1);
+
+    if ($pkg !~ /[mlno]/) { # skip when $wanted_v1 requires $pkg
+	test_urpme2($pkg, $wanted_v1);
+    }
+
     $orphans_v2 ||= '';
-    test_auto_select([$pkg], $wanted_v1, $wanted_v2, $orphans_v2);
-    test_auto_select(["req-$pkg"], "req-$pkg $wanted_v1", "req-$pkg-2", "$wanted_v2 $orphans_v2");
+    test_auto_select([$pkg], "$pkg $wanted_v1", $wanted_v2, $orphans_v2);
+    test_auto_select(["req-$pkg"], "req-$pkg $pkg $wanted_v1", "req-$pkg-2", "$wanted_v2 $orphans_v2");
+}
+
+sub test_urpme1 {
+    my ($pkg, $wanted) = @_;
+    print "# test_urpme($pkg, $wanted)\n";
+    urpmi("--media $name-1 --auto $pkg");
+    urpme("--auto --auto-orphans $pkg");    
+    check_nothing_installed();
+}
+sub test_urpme2 {
+    my ($pkg, $wanted) = @_;
+    print "# test_urpme($pkg, $wanted)\n";
+    urpmi("--media $name-1 --auto $pkg");
+    run_and_get_suggested_orphans("urpme $pkg", add_version1($wanted));
+    urpme("--auto --auto-orphans");    
+    check_nothing_installed();
 }
 
 sub test_auto_select {
@@ -82,7 +104,7 @@ sub test_auto_select_raw_urpmq_urpme {
     print "# test_auto_select_raw_urpmq_urpme(@$req_v1, $wanted_v1, $wanted_v2)\n";
     urpmi("--media $name-1 --auto $_") foreach @$req_v1;
     check_installed_fullnames(split ' ', $wanted_v1);
-    urpmi("--media $name-2 --auto --auto-select");
+    run_and_get_suggested_orphans("urpmi --media $name-2 --auto --auto-select", split(' ', $orphans_v2));
     check_installed_fullnames(split ' ', "$wanted_v2 $orphans_v2");
     is(run_urpm_cmd('urpmq -r --auto-orphans'), join('', sort map { "$_\n" } split ' ', $orphans_v2));
     urpme("--auto --auto-orphans");
@@ -96,4 +118,17 @@ sub test_auto_select_raw_auto_orphans {
     check_installed_fullnames(split ' ', $wanted_v1);
     urpmi("--media $name-2 --auto --auto-select --auto-orphans");
     check_installed_fullnames_and_remove(split ' ', $wanted_v2);
+}
+
+sub run_and_get_suggested_orphans {
+    my ($cmd, @wanted) = @_;
+    my $s = run_urpm_cmd($cmd);
+    print $s;
+
+    my ($lines) = $s =~ /^The following packages? (?:is|are) now orphans?, use "urpme --auto-orphans" to remove (?:it|them)\.\n(.*)/ms;
+    my @msgs = $lines ? $lines =~ /^  (\S+)\.\S+$/mg : (); # we don't want the arch
+
+    my $msg = join(" -- ", sort @msgs);
+    my $wanted = join(" -- ", sort @wanted);
+    ok($msg eq $wanted, "wanted:$wanted, got:$msg");
 }
