@@ -157,7 +157,7 @@ sub _unrequested_orphans_after_remove_once {
 	$db->traverse_tag('name', [ $n ], sub {
 	    my ($p) = @_;
 	    $p->fullname eq $fn or return;
-	    push @requires, $p->requires;
+	    push @requires, $p->requires, $p->suggests;
 	});
     }
 
