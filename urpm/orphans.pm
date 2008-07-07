@@ -162,7 +162,7 @@ sub _unrequested_orphans_after_remove_once {
     }
 
     foreach my $req (uniq(@requires)) {
-	$db->traverse_tag_find('whatprovides', $req, sub {
+	$db->traverse_tag_find('whatprovides', URPM::property2name($req), sub {
             my ($p) = @_;
 	    $toremove->{$p->fullname} and return; # already done
 	    $unrequested->{$p->name} or return;
