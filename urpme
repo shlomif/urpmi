@@ -26,6 +26,7 @@ use urpm::msg;
 use urpm::install;
 use urpm::media;
 use urpm::select;
+use urpm::orphans;
 
 
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
@@ -44,6 +45,7 @@ This is free software and may be redistributed under the terms of the GNU GPL.
 usage:
 ", $urpm::VERSION) . N("  --help         - print this help message.
 ") . N("  --auto         - automatically select a package in choices.
+") . N("  --auto-orphans - remove orphans
 ") . N("  --test         - verify if the removal can be achieved correctly.
 ") . N("  --force        - force invocation even if some packages do not exist.
 ") . N("  --parallel     - distributed urpmi across machines of alias.
@@ -62,7 +64,7 @@ usage:
 my @origARGV = @ARGV;
 my $urpm = urpm->new_parse_cmdline or exit(1);
 my @cmdline_pkgs_to_remove = @ARGV;
-@cmdline_pkgs_to_remove || $options{matches} or usage();
+@cmdline_pkgs_to_remove || $options{matches} || $options{auto_orphans} or usage();
 
 my $state = {};
 
@@ -89,7 +91,9 @@ urpm::media::configure($urpm,
 );
 
 #- examine packages...
-my @toremove = urpm::select::find_packages_to_remove(
+my @toremove;
+if (@cmdline_pkgs_to_remove || $options{matches}) {
+    @toremove = urpm::select::find_packages_to_remove(
 	$urpm,
 	$state,
 	\@cmdline_pkgs_to_remove,
@@ -118,13 +122,35 @@ my @toremove = urpm::select::find_packages_to_remove(
 	    0;
 	},
     ) or $urpm->{fatal}(0, N("Nothing to remove"));
+}
+
+my $may_be_orphans = 1;
+if (@toremove && !$urpm->{options}{auto}) {
+    urpm::orphans::unrequested_orphans_after_remove($urpm, \@toremove)
+	or $may_be_orphans = 0;
+}
+
+my @toremove_no_orphans = @toremove;
+my @orphans;
+if ($options{auto_orphans} && $may_be_orphans) {
+    urpm::orphans::compute_future_unrequested_orphans($urpm, $state);
+    @orphans = map { scalar $_->fullname } @{$state->{orphans_to_remove}};
+
+    push @toremove, @orphans;
+    if (!@toremove) {
+	print N("No orphans to remove"), "\n";
+	exit 0;
+    }
+}
 
 my $msg = 
   P("To satisfy dependencies, the following package will be removed",
     "To satisfy dependencies, the following %d packages will be removed",
     scalar(@toremove), scalar(@toremove))
   . sprintf(" (%s)", formatXiB(-$urpm->selected_size($state))) . ":\n"
-  . add_leading_spaces(urpm::select::translate_why_removed($urpm, $state, @toremove)) . "\n";
+  . add_leading_spaces(urpm::select::translate_why_removed($urpm, $state, @toremove_no_orphans)) . "\n"
+  . (@orphans ? P("(orphan package)", "(orphan packages)", scalar(@orphans)) . "\n" .
+                add_leading_spaces(join("\n", @orphans) . "\n") : ());
 
 if ($urpm->{options}{auto}) {
     $test and print STDOUT $msg;
@@ -148,6 +174,10 @@ my @errors = $parallel
 if (@errors) {
     #- Warning : the following message is parsed in urpm::parallel_*
     $urpm->{fatal}(2, N("Removal failed") . ":\n" . join("\n",  map { "\t$_" } @errors));
+} elsif ($may_be_orphans && !$options{auto_orphans} && !$test) {
+    if (my $msg = urpm::orphans::get_now_orphans_msg($urpm)) {
+	print "\n", $msg;
+    }
 }
 
 sub add_leading_spaces {

@@ -151,6 +151,7 @@ sub load_config_raw {
 	  |removable
 	  |md5sum
 	  |limit-rate
+	  |nb-of-new-unrequested-pkgs-between-auto-select-orphans-check
 	  |xml-info
 	  |excludepath
 	  |split-(?:level|length)

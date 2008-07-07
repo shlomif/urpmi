@@ -83,6 +83,7 @@ usage:
 ") . N("  --auto-update  - update media then upgrade the system.
 ") . N("    --no-md5sum    - disable MD5SUM file checking.
 ") . N("    --force-key    - force update of gpg key.
+") . N("  --auto-orphans - remove orphans without asking
 ") . N("  --no-suggests  - do not auto select \"suggested\" packages.
 ") . N("  --no-uninstall - never ask to uninstall a package, abort the installation.
 ") . N("  --no-install   - don't install packages (only download)
@@ -239,7 +240,7 @@ if ($restricted) {
     #- force some options
     foreach (qw(keep verify-rpm)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
-    urpm::error_restricted($urpm) if $urpm->{root} || $options{usedistrib} || $force || $env || $parallel || $options{synthesis} || $auto_update;
+    urpm::error_restricted($urpm) if $urpm->{root} || $options{usedistrib} || $force || $env || $parallel || $options{synthesis} || $auto_update || $options{auto_orphans};
     foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options prozilla-options noscripts)) {
 	urpm::error_restricted($urpm) if $urpm->{options}{$_};
     }
@@ -587,6 +588,16 @@ my @to_install = @{$urpm->{depslist}}[sort { $a <=> $b } keys %{$state->{selecte
     }
 }
 
+
+if (@to_install && $options{auto_orphans}) {
+    urpm::orphans::compute_future_unrequested_orphans($urpm, $state);
+    if (my @orphans = map { scalar $_->fullname } @{$state->{orphans_to_remove}}) {
+	print P("The following orphan package will be removed.",
+		"The following orphan packages will be removed.", scalar(@orphans))
+	  . "\n" . urpm::orphans::add_leading_spaces(join("\n", @orphans) . "\n");
+    }
+}
+
 foreach my $pkg (@to_install) {
     #- reflect change in flag usage, now requested is set whatever a package is selected or not,
     #- but required is always set (so a required but not requested is a pure dependency).
@@ -668,6 +679,14 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
         print $msg;
     }
 });
+
+if ($exit_code == 0 && $auto_select && !$options{auto_orphans}) {
+    if (urpm::orphans::check_unrequested_orphans_after_auto_select($urpm)) {
+	if (my $msg = urpm::orphans::get_now_orphans_msg($urpm)) {
+	    print "\n", $msg;
+	}
+    }
+}
 
 unless ($env || $options{nolock}) {
     $urpmi_lock->unlock;

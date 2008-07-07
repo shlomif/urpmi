@@ -26,6 +26,7 @@ use urpm::msg;
 use urpm::install;
 use urpm::media;
 use urpm::select;
+use urpm::orphans;
 use urpm::get_pkgs;
 use urpm::signature;
 use urpm::util qw(untaint difference2 intersection member partition);
@@ -209,6 +210,9 @@ foreach my $set (@{$state->{transaction} || []}) {
 		callback_trans => $callbacks->{trans},
 		callback_report_uninst => $callbacks->{callback_report_uninst},
 	    );
+	    
+	    urpm::orphans::add_unrequested($urpm, $state);
+
 	    my @l = urpm::install::install($urpm,
 		$to_remove,
 		\%transaction_sources_install, \%transaction_sources,

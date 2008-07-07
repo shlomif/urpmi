@@ -95,7 +95,7 @@ _urpmi()
 		# add dangereous option for everything else as rurpmi
 		if [[ ${COMP_WORDS[0]} != *rurpmi ]]; then
 			options="$options --root --use-distrib --env \
-			        --replacepkgs --justdb \
+			        --auto-orphans --replacepkgs --justdb \
 				--allow-nodeps --allow-force --no-suggests --force \
 				--noscripts --auto-update --keep --nokeep \
 				--verify-rpm"
@@ -162,7 +162,8 @@ _urpmq()
 		# return list of available options
 		COMPREPLY=( $( compgen -W "$common_options -d -u -m -a -c -y -s -i -g -p \
 			-r -f -l --update --media --excludemedia \
-			--sortmedia --synthesis --auto-select --no-suggests --fuzzy --keep --nokeep \
+			--sortmedia --synthesis --auto-select --auto-orphans \
+			--no-suggests --fuzzy --keep --nokeep \
 			--list --list-url --list-media --list-nodes --list-aliases \
 			--src --sources --provides --requires --summary --sourcerpm --force --parallel --wget --curl --prozilla \
 			--changelog --conflicts --proxy --proxy-user --env --dump-config \
@@ -188,7 +189,7 @@ _urpme()
 	if [[ "$cur" == -* ]]; then
 		# return list of available options
 		COMPREPLY=( $( compgen -W "$common_options -a --auto --test \
-			--parallel --noscripts" -- $cur ) )
+			--auto-orphans --parallel --noscripts" -- $cur ) )
 	else
 		# return list of available packages
 		_rpm_installed_packages

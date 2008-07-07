@@ -84,6 +84,7 @@ my %options_spec = (
 	'gui' => \$::gui,
 	'auto-select' => \$::auto_select,
 	'auto-update' => sub { $::auto_update = $::auto_select = 1 },
+	'auto-orphans' => \$options{auto_orphans},
 	'no-remove|no-uninstall' => \$::no_remove,
 	'no-install|noinstall' => \$::no_install,
 	'keep!' => sub { $urpm->{options}{keep} = $_[1] },
@@ -409,12 +410,12 @@ foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'force', 'expect-in
 $options_spec{gurpmi2} = $options_spec{gurpmi};
 
 foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "use-distrib=s",
-    'repackage', 'noscripts', 'auto',
+    'repackage', 'noscripts', 'auto', 'auto-orphans',
     "parallel=s")
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
 }
-foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synthesis=s", 'suggests', 'no-suggests', 'allow-suggests')
+foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synthesis=s", 'suggests', 'no-suggests', 'allow-suggests', 'auto-orphans')
 {
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }

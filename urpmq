@@ -50,6 +50,7 @@ usage:
 ") . N("  --sortmedia    - sort media according to substrings separated by comma.
 ") . N("  --synthesis    - use the given synthesis instead of urpmi db.
 ") . N("  --auto-select  - automatically select packages to upgrade the system.
+") . N("  --auto-orphans - list orphans
 ") . N("  --no-suggests  - do not auto select \"suggested\" packages.
 ") . N("  --fuzzy        - impose fuzzy search (same as -y).
 ") . N("  --keep         - keep existing packages if possible, reject requested
@@ -136,6 +137,27 @@ $options{nodepslist} = $options{list_aliases}
 				|| $only_list_name # urpmq will parse synthesis only if names.* are not already there
 				|| $options{list_url};
 $options{nolock} = 1 if $options{nodepslist};
+
+#- print sub for query.
+my $pkg_to_string = sub {
+    my ($pkg) = @_;
+    my $str = '';
+    $options{group} and $str .= $pkg->group . '/';
+    $str .= $pkg->name;
+    $options{version} and $str .= '-' . $pkg->version;
+    $options{release} and $str .= '-' . $pkg->release;
+    $options{arch} and $str .= '.' . $pkg->arch;
+    $str;
+};
+
+if ($options{auto_orphans}) {
+    !@names && !@src_names or $urpm->{fatal}(1, N("usage: \"urpmq --auto-orphans\" with no argument"));
+    $options{env} and $urpm->{fatal}(1, N("Can't use %s with %s", '--env', '--auto-orphans'));
+    require urpm::orphans;
+    my $orphans = urpm::orphans::get_orphans($urpm);
+    print "$_\n" foreach sort map { $pkg_to_string->($_) } @$orphans;
+    exit 0;
+}
 
 if ($options{env}) {
     print N("using specific environment on %s\n", $options{env});
@@ -487,14 +509,7 @@ $rpm_lock and $rpm_lock->unlock;
 #- print sub for query.
 my $query_sub = sub {
     my ($id) = @_;
-    my $pkg = $urpm->{depslist}[$id];
-    my $str = '';
-    $options{group} and $str .= $pkg->group . '/';
-    $str .= $pkg->name;
-    $options{version} and $str .= '-' . $pkg->version;
-    $options{release} and $str .= '-' . $pkg->release;
-    $options{arch} and $str .= '.' . $pkg->arch;
-    $str;
+    $pkg_to_string->($urpm->{depslist}[$id]);
 };
 
 my %hack_only_one;

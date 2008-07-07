@@ -35,6 +35,7 @@ sub default_options {
 	'xml-info' => 'on-demand',
 	'max-round-robin-tries' => 5,
 	'days-between-mirrorlist-update' => 5,
+	'nb-of-new-unrequested-pkgs-between-auto-select-orphans-check' => 10,
     };
 }
 
