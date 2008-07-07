@@ -16,6 +16,7 @@ our @EXPORT = qw(min max quotespace unquotespace
     difference2 intersection member 
     file_size cat_ cat_utf8 wc_l
     output_safe append_to_file dirname basename
+    file2absolute_file
 );
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -30,6 +31,16 @@ sub remove_internal_name { my $x = $_[0] || ''; $x =~ s/\(\S+\)$/$1/g; $x }
 
 sub dirname { local $_ = shift; s|[^/]*/*\s*$||; s|(.)/*$|$1|; $_ || '.' }
 sub basename { local $_ = shift; s|/*\s*$||; s|.*/||; $_ }
+
+sub file2absolute_file {
+    my ($f) = @_;
+
+    if ($f !~ m!^/!) {
+	require File::Spec;
+	$f = File::Spec->rel2abs($f);
+    }
+    $f;
+}
 
 #- reduce pathname by removing <something>/.. each time it appears (or . too).
 sub reduce_pathname {

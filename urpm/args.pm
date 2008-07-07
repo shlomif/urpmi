@@ -8,6 +8,7 @@ no warnings 'once';
 use Getopt::Long;# 2.33;
 use urpm::download;
 use urpm::msg;
+use urpm::util 'file2absolute_file';
 use Exporter;
 
 our @ISA = 'Exporter';
@@ -461,8 +462,9 @@ foreach my $k ("help|h", "version") {
 
 sub set_root {
     my ($urpm, $root) = @_;
-	    require File::Spec;
-	    $urpm->{root} = File::Spec->rel2abs($root);
+
+    $urpm->{root} = file2absolute_file($root);
+
 	    if (!-d $urpm->{root}) {
 		$urpm->{fatal}->(9, N("chroot directory doesn't exist"));
 	    }
