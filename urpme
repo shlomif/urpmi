@@ -62,7 +62,7 @@ usage:
 my @origARGV = @ARGV;
 my $urpm = urpm->new_parse_cmdline or exit(1);
 my @cmdline_pkgs_to_remove = @ARGV;
-@cmdline_pkgs_to_remove or usage();
+@cmdline_pkgs_to_remove || $options{matches} or usage();
 
 my $state = {};
 
