@@ -123,6 +123,9 @@ sub is_temporary_file {
 
 sub set_files {
     my ($urpm, $urpmi_root) = @_;
+
+    $urpmi_root = file2absolute_file($urpmi_root);
+
     my %h = (
 	config        => "$urpmi_root/etc/urpmi/urpmi.cfg",
 	configs_dir   => "$urpmi_root/etc/urpmi/media.d",
