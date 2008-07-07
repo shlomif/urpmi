@@ -157,8 +157,7 @@ sub download_packages_of_distant_media {
 		mkdir "$cachedir/partial";
 		mkdir "$cachedir/rpms";
 	    } else {
-		$urpm->{error}(N("sorry, you can't use --install-src to install remote .src.rpm files"));
-		exit 1;
+		$urpm->{fatal}(1, N("Can not download packages into %s", "$cachedir/partial"));
 	    }
 	}
 
