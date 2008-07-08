@@ -195,8 +195,27 @@ sub download_packages_of_distant_media {
 	    }
 	}
 
-	my $cachedir = $urpm->{cachedir};
-	if (%distant_sources && ! -w "$cachedir/partial") {
+	if (%distant_sources) {
+	    _download_packages_of_distant_media($urpm, $sources, \%errors, $blist, \%distant_sources, %options);
+	}
+    }
+
+    #- clean failed download which have succeeded.
+    delete @errors{keys %$sources};
+
+    push @$error_sources, values %errors;
+
+    1;
+}
+
+
+sub _download_packages_of_distant_media {
+    my ($urpm, $sources, $errors, $blist, $distant_sources, %options) = @_;
+
+    my %distant_sources = %$distant_sources;
+
+    my $cachedir = $urpm->{cachedir};
+    if (! -w "$cachedir/partial") {
 	    if (my $userdir = urpm::userdir($urpm)) {
 		$cachedir = $userdir;
 		mkdir "$cachedir/partial";
@@ -206,8 +225,6 @@ sub download_packages_of_distant_media {
 	    }
 	}
 
-	#- download files from the current medium.
-	if (%distant_sources) {
 	    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{media}{name}));
 	    if (urpm::download::sync($urpm, $blist->{media}, [ values %distant_sources ],
 				     dir => "$cachedir/partial", quiet => $options{quiet}, 
@@ -226,21 +243,12 @@ sub download_packages_of_distant_media {
 		    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
 			$sources->{$i} = $rpm;
 		    } else {
-			$errors{$i} = [ $distant_sources{$i}, 'bad' ];
+			$errors->{$i} = [ $distant_sources{$i}, 'bad' ];
 		    }
 		} else {
-		    $errors{$i} = [ $distant_sources{$i}, 'missing' ];
+		    $errors->{$i} = [ $distant_sources{$i}, 'missing' ];
 		}
 	    }
-	}
-    }
-
-    #- clean failed download which have succeeded.
-    delete @errors{keys %$sources};
-
-    push @$error_sources, values %errors;
-
-    1;
 }
 
 1;
