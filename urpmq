@@ -480,7 +480,7 @@ if ($options{list_aliases}) {
 	} elsif ($options{sources}) {
 	    print join "\n", values %$local_sources; values %$local_sources and print "\n";
 	    foreach (0..$#{$urpm->{media} || []}) {
-		print join "\n", values %{$list->[$_]}; values %{$list->[$_]} and print "\n";
+		print "$_\n" foreach values %{$list->[$_]};
 	    }
 	}
 	exit 0;
