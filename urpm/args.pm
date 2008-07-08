@@ -114,8 +114,7 @@ my %options_spec = (
 	justdb => \$options{justdb},
 	replacepkgs => \$options{replacepkgs},
 	suggests => sub { 
-	    $urpm->{error}("option --suggests currently means --allow-suggests, but it may change");
-	    $urpm->{options}{'no-suggests'} = 0;
+	    $urpm->{fatal}(1, "Use --allow-suggests instead of --suggests");
 	},
 	'allow-suggests' => sub { $urpm->{options}{'no-suggests'} = 0 },
 	'no-suggests' => sub { $urpm->{options}{'no-suggests'} = 1 },
@@ -247,11 +246,9 @@ my %options_spec = (
 	sourcerpm => \$options{sourcerpm},
 	'summary|S' => \$options{summary},
 	suggests => sub { 
-	    $urpm->{error}("--suggests currently means --allow-suggests");
-	    $urpm->{options}{'no-suggests'} = 0;
+	    $urpm->{error}("--suggests now displays the suggested packages, see --allow-suggests for previous behaviour");
+	    $options{suggests} = 1;
 	},
-	'allow-suggests' => sub { $urpm->{options}{'no-suggests'} = 1 },
-	'no-suggests' => sub { $urpm->{options}{'no-suggests'} = 1 },
 	'list-media:s' => sub { $options{list_media} = $_[1] || 'all' },
 	'list-url' => \$options{list_url},
 	'list-nodes' => \$options{list_nodes},
@@ -415,7 +412,7 @@ foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "u
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
 }
-foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synthesis=s", 'suggests', 'no-suggests', 'allow-suggests', 'auto-orphans')
+foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synthesis=s", 'no-suggests', 'allow-suggests', 'auto-orphans')
 {
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
