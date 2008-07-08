@@ -196,9 +196,19 @@ sub tune_rpm {
     }
 }
 
+sub _blist_pkg_to_urls {
+    my ($blist, @pkgs) = @_;
+    my $base_url = $blist->{medium}->{url} . '/';
+    map { $base_url . $_->filename } @pkgs;
+}
 sub blist_pkg_to_url {
     my ($blist, $pkg) = @_;
-    $blist->{medium}->{url} . '/' . $pkg->filename;
+    my ($url) = _blist_pkg_to_urls($blist, $pkg);
+    $url;
+}
+sub blist_to_urls {
+    my ($blist) = @_;
+    _blist_pkg_to_urls($blist, values %{$blist->{pkgs}});
 }
 
 sub protocol_from_url {
