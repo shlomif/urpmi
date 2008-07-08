@@ -43,17 +43,15 @@ sub pick_one {
 sub _pick_one {
     my ($urpm, $mirrorlists, $must_succeed, $allow_cache_update) = @_;   
 
-    my $url;
     my @l = split(' ', $mirrorlists);
     foreach my $mirrorlist (@l) {
 	if (my $cache = _pick_one_($urpm, $mirrorlist, $allow_cache_update)) {
 	    $mirrorlist ne $l[-1] and $cache->{network_mtime} = _network_mtime();
-	    $url = $cache->{chosen};
-	    last;
+	    return $cache->{chosen};
 	}
     }
-    !$url && $must_succeed and $urpm->{fatal}(10, N("Could not find a mirror from mirrorlist %s", $mirrorlists));
-    $url;
+    $must_succeed and $urpm->{fatal}(10, N("Could not find a mirror from mirrorlist %s", $mirrorlists));
+    undef;
 }
 
 #- side-effects: $urpm->{mirrors_cache}
@@ -124,7 +122,7 @@ sub _cache {
 }
 sub cache_file {
     my ($urpm) = @_;
-    my $cache_file = "$urpm->{cachedir}/mirrors.cache";
+    "$urpm->{cachedir}/mirrors.cache";
 }
 sub _load_cache {
     my ($urpm) = @_;
