@@ -59,7 +59,7 @@ sub selected2list {
     foreach my $id (values %fullname2id) {
 	my $pkg = $urpm->{depslist}[$id];
 	my $fullname = $pkg->fullname;
-	my @pkgs = $pkg->arch eq 'src' ? do {
+	my @pkg_ids = $pkg->arch eq 'src' ? do {
 	    # packages_by_name can't be used here since $urpm->{provides} doesn't have src.rpm
 	    # so a full search is needed
 	    my %requested;
@@ -72,9 +72,9 @@ sub selected2list {
 	# id_map is a remapping of id.
 	# it is needed because @list must be [ { id => pkg } ] where id is one the selected id,
 	# not really the real package id
-	$id_map{$_} = $id foreach @pkgs;
+	$id_map{$_} = $id foreach @pkg_ids;
 
-	push @remaining_ids, @pkgs;
+	push @remaining_ids, @pkg_ids;
     }
 
     @remaining_ids = sort { $a <=> $b } @remaining_ids;
