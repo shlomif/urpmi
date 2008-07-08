@@ -236,16 +236,17 @@ sub _download_packages_of_distant_media {
     #- there have been problems downloading them at least once, this
     #- is necessary to keep track of failing downloads in order to
     #- present the error to the user.
-    foreach my $i (keys %{$blist->{list}}) {
-	my ($filename) = $blist->{list}{$i} =~ m|/([^/]*\.rpm)$|;
+    foreach my $id (keys %{$blist->{list}}) {
+	my $url = $blist->{list}{$i};
+	my ($filename) = $url =~ m|/([^/]*\.rpm)$|;
 	if ($filename && -s "$cachedir/partial/$filename") {
 	    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
-		$sources->{$i} = $rpm;
+		$sources->{$id} = $rpm;
 	    } else {
-		$errors->{$i} = [ $blist->{list}{$i}, 'bad' ];
+		$errors->{$id} = [ $url, 'bad' ];
 	    }
 	} else {
-	    $errors->{$i} = [ $blist->{list}{$i}, 'missing' ];
+	    $errors->{$id} = [ $url, 'missing' ];
 	}
     }
 }
