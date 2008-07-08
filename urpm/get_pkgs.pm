@@ -179,20 +179,18 @@ sub download_packages_of_distant_media {
 	my %blist_distant = (%$blist, pkgs => {});
 
 	#- examine all files to know what can be indexed on multiple media.
-	while (my ($id, $url) = each %{$blist->{list}}) {
+	while (my ($id, $pkg) = each %{$blist->{pkgs}}) {
 	    #- the given URL is trusted, so the file can safely be ignored.
 	    defined $sources->{$id} and next;
-	    my $local_file = file_from_local_url($url);
-	    if ($local_file && $local_file =~ /\.rpm$/) {
+	    if (urpm::is_local_medium($blist->{medium})) {
+		my $local_file = file_from_local_url(urpm::blist_pkg_to_url($blist, $pkg));
 		if (-r $local_file) {
 		    $sources->{$id} = $local_file;
 		} else {
 		    $errors{$id} = [ $local_file, 'missing' ];
 		}
-	    } elsif ($url =~ m!^([^:]*):/(.*/([^/]*\.rpm))\Z!) {
-		$blist_distant{pkgs}{$id} = $blist->{pkgs}{$id};
 	    } else {
-		$urpm->{error}(N("malformed URL: [%s]", $url));
+		$blist_distant{pkgs}{$id} = $pkg;
 	    }
 	}
 
