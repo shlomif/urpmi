@@ -80,6 +80,7 @@ usage:
 ") . N("  --env          - use specific environment (typically a bug report).
 ") . N("  --changelog    - print changelog.
 ") . N("  --conflicts    - print conflicts.
+") . N("  --obsoletes    - print obsoletes.
 ") . N("  --provides     - print provides.
 ") . N("  --requires     - print requires.
 ") . N("  --suggests     - print suggests.
@@ -491,7 +492,7 @@ if ($options{list_aliases}) {
 	    }
 	}
 	exit 0;
-    } elsif (my ($get) = grep { $options{$_} } 'provides', 'requires', 'conflicts', 'suggests') {
+    } elsif (my ($get) = grep { $options{$_} } 'provides', 'requires', 'conflicts', 'obsoletes', 'suggests') {
 	my @l = uniq_ { scalar $_->fullname } map { $urpm->{depslist}[$_] } map { split /\|/, $_ } keys %{$state->{selected}};
 	foreach my $pkg (@l) {
 	    if (@l > 1) {

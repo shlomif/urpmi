@@ -242,6 +242,7 @@ my %options_spec = (
 	list => \$options{list},
 	changelog => \$options{changelog},
 	conflicts => \$options{conflicts},
+	obsoletes => \$options{obsoletes},
 	provides => \$options{provides},
 	sourcerpm => \$options{sourcerpm},
 	'summary|S' => \$options{summary},
