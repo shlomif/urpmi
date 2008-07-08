@@ -11,12 +11,12 @@ use urpm 'file_from_local_medium';
 
 
 
-#- side-effects: $blists_url->[_]{medium}{mntpoint}
-sub _find_blist_url_matching {
-    my ($urpm, $blists_url, $mntpoint) = @_;
+#- side-effects: $blists->[_]{medium}{mntpoint}
+sub _find_blist_matching {
+    my ($urpm, $blists, $mntpoint) = @_;
 
     my @l;
-    foreach my $blist (@$blists_url) {
+    foreach my $blist (@$blists) {
 	$blist->{medium}{mntpoint} and next;
 
 	# set it, then verify
@@ -40,21 +40,21 @@ sub _look_for_mounted_cdrom_in_mtab() {
 
 #- side-effects:
 #-   + those of _try_mounting_cdrom_using_hal ($urpm->{cdrom_mounted}, "hal_mount")
-#-   + those of _find_blist_url_matching ($blists_url->[_]{medium}{mntpoint})
+#-   + those of _find_blist_matching ($blists->[_]{medium}{mntpoint})
 sub try_mounting_cdrom {
-    my ($urpm, $blists_url) = @_;
+    my ($urpm, $blists) = @_;
 
-    my @blists_url;
+    my @blists;
 
     # first try without hal, it allows users where hal fails to work (with one CD only)
     my @mntpoints = _look_for_mounted_cdrom_in_mtab();
-    @blists_url = map { _find_blist_url_matching($urpm, $blists_url, $_) } @mntpoints;
+    @blists = map { _find_blist_matching($urpm, $blists, $_) } @mntpoints;
 
-    if (!@blists_url) {
+    if (!@blists) {
 	@mntpoints = _try_mounting_cdrom_using_hal($urpm);
-	@blists_url = map { _find_blist_url_matching($urpm, $blists_url, $_) } @mntpoints;
+	@blists = map { _find_blist_matching($urpm, $blists, $_) } @mntpoints;
     }
-    @blists_url;
+    @blists;
 }
 
 #- side-effects: $urpm->{cdrom_mounted}, "hal_mount"
@@ -81,7 +81,7 @@ sub _try_mounting_cdrom_using_hal {
 }
 
 #- side-effects:
-#-   + those of try_mounting_cdrom ($urpm->{cdrom_mounted}, $blists_url->[_]{medium}{mntpoint}, "hal_mount")
+#-   + those of try_mounting_cdrom ($urpm->{cdrom_mounted}, $blists->[_]{medium}{mntpoint}, "hal_mount")
 sub _mount_cdrom_and_check {
     my ($urpm, $blists) = @_;
 
@@ -136,7 +136,7 @@ sub _eject_cdrom {
 }
 
 #- side-effects: "eject"
-#-   + those of _mount_cdrom_and_check ($urpm->{cdrom_mounted}, $blists_url->[_]{medium}{mntpoint}, "hal_mount")
+#-   + those of _mount_cdrom_and_check ($urpm->{cdrom_mounted}, $blists->[_]{medium}{mntpoint}, "hal_mount")
 #-   + those of _may_eject_cdrom ($urpm->{cdrom_mounted}, "hal_umount", "hal_eject")
 sub _mount_cdrom {
     my ($urpm, $blists, $ask_for_medium) = @_;
@@ -171,10 +171,8 @@ sub _mount_cdrom {
 sub _filepath {
     my ($blist, $pkg) = @_;
 
-    my $url = urpm::blist_pkg_to_url($blist, $pkg);
-    my $filepath = file_from_local_medium($blist->{medium}, $url) or return;
-    $filepath =~ m!/.*/! or return; #- is this really needed??
-    $filepath;
+    my $filepath = file_from_local_medium($blist->{medium}) or return;
+    $filepath . '/' . $pkg->filename;
 }
 
 #- side-effects: "copy-move-files"
@@ -211,7 +209,7 @@ sub _copy_from_cdrom__if_needed {
 
 #- side-effects:
 #-   + those of _may_eject_cdrom ($urpm->{cdrom_mounted}, "hal_umount", "hal_eject")
-#-   + those of _mount_cdrom ($urpm->{cdrom_mounted}, $blists_url->[_]{medium}{mntpoint}, "hal_mount", "hal_eject")
+#-   + those of _mount_cdrom ($urpm->{cdrom_mounted}, $blists->[_]{medium}{mntpoint}, "hal_mount", "hal_eject")
 #-   + those of _copy_from_cdrom__if_needed ("copy-move-files")
 sub copy_packages_of_removable_media {
     my ($urpm, $blists, $sources, $o_ask_for_medium) = @_;

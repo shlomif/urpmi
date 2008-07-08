@@ -26,9 +26,9 @@ sub file_or_synthesis_dir_from_blist {
 #- side-effects:
 #-   + those of try_mounting_medium_ ($medium->{mntpoint})
 sub try_mounting_medium {
-    my ($urpm, $medium, $o_url) = @_;
+    my ($urpm, $medium, $o_blist) = @_;
 
-    my $rc = try_mounting_medium_($urpm, $medium, $o_url);
+    my $rc = try_mounting_medium_($urpm, $medium, $o_blist);
     $rc or $urpm->{error}(N("unable to access medium \"%s\".", $medium->{name}));
     $rc;
 }
@@ -37,13 +37,13 @@ sub try_mounting_medium {
 #-   + those of urpm::cdrom::try_mounting_cdrom ($urpm->{cdrom_mounted}, $medium->{mntpoint}, "hal_mount")
 #-   + those of _try_mounting_local ($urpm->{removable_mounted}, "mount")
 sub try_mounting_medium_ {
-    my ($urpm, $medium, $o_url) = @_;
+    my ($urpm, $medium, $o_blist) = @_;
 
     if (urpm::is_cdrom_url($medium->{url})) {
 	require urpm::cdrom;
-	urpm::cdrom::try_mounting_cdrom($urpm, [ { medium => $medium, url => $o_url } ]);
+	urpm::cdrom::try_mounting_cdrom($urpm, [ { medium => $medium, pkgs => $o_blist && $o_blist->{pkgs} } ]);
     } else {
-	_try_mounting_local($urpm, $medium, $o_url);
+	_try_mounting_local($urpm, $medium, $o_blist);
     }
 }
 
@@ -51,9 +51,9 @@ sub try_mounting_medium_ {
 #-   + those of _try_mounting_using_fstab ($urpm->{removable_mounted}, "mount")
 #-   + those of _try_mounting_iso ($urpm->{removable_mounted}, "mount")
 sub _try_mounting_local {
-    my ($urpm, $medium, $o_url) = @_;
+    my ($urpm, $medium, $o_blist) = @_;
 
-    my $dir = file_or_synthesis_dir($medium, $o_url);
+    my $dir = file_or_synthesis_dir($medium, $o_blist && _blist_first_url($o_blist));
     -e $dir and return 1;
 
     $medium->{iso} ? _try_mounting_iso($urpm, $dir, $medium->{iso}) : _try_mounting_using_fstab($urpm, $dir);
@@ -139,7 +139,7 @@ sub try_mounting_non_cdroms {
     my ($urpm, $blists) = @_;
 
     foreach my $blist (grep { urpm::file_from_local_url($_->{medium}{url}) } @$blists) {
-	try_mounting_medium($urpm, $blist->{medium}, _blist_first_url($blist));
+	try_mounting_medium($urpm, $blist->{medium}, $blist);
     }
 }
 
@@ -147,7 +147,7 @@ sub try_mounting_non_cdroms {
 sub _blist_first_url {
     my ($blist) = @_;
 
-    my ($pkg) = values %{$blist->{pkgs}};
+    my ($pkg) = values %{$blist->{pkgs}} or return;
     urpm::blist_pkg_to_url($blist, $pkg);
 }
 
