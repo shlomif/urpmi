@@ -222,8 +222,8 @@ sub _download_packages_of_distant_media {
 	}
     }
 
-    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{media}{name}));
-    if (urpm::download::sync($urpm, $blist->{media}, [ urpm::blist_to_urls($blist) ],
+    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{medium}{name}));
+    if (urpm::download::sync($urpm, $blist->{medium}, [ urpm::blist_to_urls($blist) ],
 			     dir => "$cachedir/partial", quiet => $options{quiet}, 
 			     resume => $urpm->{options}{resume}, callback => $options{callback})) {
 	$urpm->{log}(N("...retrieving done"));
