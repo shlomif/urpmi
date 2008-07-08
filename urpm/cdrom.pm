@@ -95,8 +95,8 @@ sub _check_notfound {
 
     $blist->{medium}{mntpoint} or return;
 
-    foreach (values %{$blist->{list}}) {
-	my $dir_ = _filepath($blist->{medium}, $_) or next;
+    foreach (values %{$blist->{pkgs}}) {
+	my $dir_ = _filepath($blist, $_) or next;
 	-r $dir_ or return 1;
     }
     0;
@@ -169,10 +169,10 @@ sub _mount_cdrom {
 
 #- side-effects: none
 sub _filepath {
-    my ($medium, $url) = @_;
+    my ($blist, $pkg) = @_;
 
-    chomp $url;
-    my $filepath = file_from_local_medium($medium, $url) or return;
+    my $url = urpm::blist_pkg_to_url($blist, $pkg);
+    my $filepath = file_from_local_medium($blist->{medium}, $url) or return;
     $filepath =~ m!/.*/! or return; #- is this really needed??
     $filepath;
 }
@@ -197,8 +197,8 @@ sub _do_the_copy {
 sub _copy_from_cdrom__if_needed {
     my ($urpm, $blist, $sources, $want_copy) = @_;
 
-	while (my ($i, $url) = each %{$blist->{list}}) {
-	    my $filepath = _filepath($blist->{medium}, $url) or next;
+	while (my ($i, $pkg) = each %{$blist->{pkgs}}) {
+	    my $filepath = _filepath($blist, $pkg) or next;
 
 	    if (-r $filepath) {
 		$sources->{$i} = $want_copy ? _do_the_copy($urpm, $filepath) : $filepath;

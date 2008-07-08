@@ -147,8 +147,8 @@ sub try_mounting_non_cdroms {
 sub _blist_first_url {
     my ($blist) = @_;
 
-    my ($url) = values %{$blist->{list}};
-    $url;
+    my ($pkg) = values %{$blist->{pkgs}};
+    urpm::blist_pkg_to_url($blist, $pkg);
 }
 
 1;
