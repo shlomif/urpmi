@@ -197,11 +197,11 @@ sub _do_the_copy {
 sub _copy_from_cdrom__if_needed {
     my ($urpm, $blist, $sources, $want_copy) = @_;
 
-	while (my ($i, $pkg) = each %{$blist->{pkgs}}) {
+	while (my ($id, $pkg) = each %{$blist->{pkgs}}) {
 	    my $filepath = _filepath($blist, $pkg) or next;
 
 	    if (-r $filepath) {
-		$sources->{$i} = $want_copy ? _do_the_copy($urpm, $filepath) : $filepath;
+		$sources->{$id} = $want_copy ? _do_the_copy($urpm, $filepath) : $filepath;
 	    } else {
 		#- fallback to use other method for retrieving the file later.
 		$urpm->{error}(N("unable to read rpm file [%s] from medium \"%s\"", $filepath, $blist->{medium}{name}));
