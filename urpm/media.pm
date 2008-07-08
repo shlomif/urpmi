@@ -845,6 +845,12 @@ sub add_distrib_media {
                 next;
             }
         }
+
+	my $is_update_media = $distribconf->getvalue($media, 'updates_for');
+	if ($options{only_updates}) {
+	    $is_update_media or next;
+	}
+
         my $add_by_default = !$distribconf->getvalue($media, 'noauto');
         if ($options{ask_media}) {
             $options{ask_media}->($media_name, $add_by_default) or next;
@@ -852,11 +858,6 @@ sub add_distrib_media {
 	    my $simple_rpms = !$distribconf->getvalue($media, 'debug_for') && 
 	                      !$distribconf->getvalue($media, 'rpms');
 	    $add_by_default || $simple_rpms or next;
-	}
-
-	my $is_update_media = $distribconf->getvalue($media, 'updates_for');
-	if ($options{only_updates}) {
-	    $is_update_media or next;
 	}
 
 	my $use_copied_synthesis = urpm::is_cdrom_url($url) || $urpm->{options}{use_copied_hdlist} || $distribconf->getvalue($media, 'use_copied_hdlist');
