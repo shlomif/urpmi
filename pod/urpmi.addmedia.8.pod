@@ -16,12 +16,12 @@ must be chosen:
 
 =over
 
-=item B<urpmi.addmedia> [I<options>] --distrib --mirrorlist <I<url>>
+=item B<urpmi.addmedia> [I<options>] --distrib --mirrorlist [<I<url>>]
 
 A mirror list is a special API to describe mirrors available. urpmi will pick
 the nearest mirror, and will dynamically handle new mirrors. Example:
 
-  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'
+  urpmi.addmedia --distrib --mirrorlist
 
 =item B<urpmi.addmedia> [I<options>] --mirrorlist <I<url>> <I<name>> <I<relative path>>
 
@@ -152,7 +152,7 @@ available.
 
 
 nb: $MIRRORLIST is a special variable which gives the default URL for the
-current distribution/arch
+current distribution/arch. $MIRRORLIST is the default mirrorlist.
 
 =item B<--distrib>
 

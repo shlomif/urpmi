@@ -333,7 +333,7 @@ my %options_spec = (
 	'xml-info=s' => \$options{'xml-info'},
 	'no-probe' => sub { $options{probe_with} = undef },
 	distrib => sub { $options{distrib} = 1 },
-	'mirrorlist=s' => \$options{mirrorlist},
+	'mirrorlist:s' => sub { $options{mirrorlist} = $_[1] || '$MIRRORLIST' },
         interactive => sub { $options{interactive} = 1 },
         'all-media' => sub { $options{allmedia} = 1 },
 	'from=s' => \$options{mirrors_url},
