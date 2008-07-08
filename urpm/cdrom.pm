@@ -21,7 +21,7 @@ sub _find_blist_url_matching {
 
 	# set it, then verify
 	$blist->{medium}{mntpoint} = $mntpoint;
-	if (-r urpm::removable::file_or_synthesis_dir($blist->{medium}, $blist->{url})) {
+	if (-r urpm::removable::file_or_synthesis_dir_from_blist($blist)) {
 	    $urpm->{log}("found cdrom $blist->{medium}{name} mounted in $mntpoint");
 	    push @l, $blist;
 	} else {

@@ -17,6 +17,12 @@ sub file_or_synthesis_dir {
 	file_from_local_medium($medium, $o_url);
 }
 
+sub file_or_synthesis_dir_from_blist {
+    my ($blist) = @_;
+
+    file_or_synthesis_dir($blist->{medium}, _blist_first_url($blist));
+}
+
 #- side-effects:
 #-   + those of try_mounting_medium_ ($medium->{mntpoint})
 sub try_mounting_medium {
@@ -135,7 +141,7 @@ sub try_mounting_non_cdroms {
     my $blists = create_blists($urpm->{media}, $list);
 
     foreach my $blist (grep { urpm::file_from_local_url($_->{medium}{url}) } @$blists) {
-	try_mounting_medium($urpm, $blist->{medium}, $blist->{url});
+	try_mounting_medium($urpm, $blist->{medium}, _blist_first_url($blist));
     }
 }
 
@@ -150,9 +156,16 @@ sub create_blists {
     my $i;
     [ map { 
 	my $list = $list->[$i++];
-	my ($url) = values %$list; # first url
-	$url ? { medium => $_, list => $list, url => $url } : ();
+	%$list ? { medium => $_, list => $list } : ();
     } @$media ];
+}
+
+#- side-effects: none
+sub _blist_first_url {
+    my ($blist) = @_;
+
+    my ($url) = values %{$blist->{list}};
+    $url;
 }
 
 1;
