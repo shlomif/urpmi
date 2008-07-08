@@ -375,17 +375,16 @@ if ($options{list_aliases}) {
 
     if ($options{sources} || %need_xml_info)
     {
-	my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
+	my ($local_sources, $blists) = urpm::get_pkgs::selected2local_and_blists($urpm, $state->{selected});
 	my %xml_info_pkgs;
 
 	if (%need_xml_info) {
 	    # get descriptions of update sources
 	    my $updates_descr = urpm::get_updates_description($urpm);
 
-	    my @selected = uniq(map { keys %$_ } @$list);
-
-	    foreach my $medium (@{$urpm->{media} || []}) {
-		my @l = grep { $medium->{start} <= $_ && $_ <= $medium->{end} } @selected or next;
+	    foreach my $blist (@$blists) {
+		my $medium = $blist->{medium};
+		my @l = keys %{$blist->{list}};
 		my @pkgs = map { $urpm->{depslist}[$_] } @l or next;
 
 		if (my $dir = urpm::file_from_local_url($medium->{url})) {
@@ -479,7 +478,7 @@ if ($options{list_aliases}) {
 	    }
 	} elsif ($options{sources}) {
 	    print "$_\n" foreach values %$local_sources;
-	    print "$_\n" foreach map { values %$_ } @$list;
+	    print "$_\n" foreach map { values %{$_->{list}} } @$blists;
 	}
 	exit 0;
     } elsif ($options{summary}) {
