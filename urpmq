@@ -384,8 +384,7 @@ if ($options{list_aliases}) {
 
 	    foreach my $blist (@$blists) {
 		my $medium = $blist->{medium};
-		my @l = keys %{$blist->{list}};
-		my @pkgs = map { $urpm->{depslist}[$_] } @l or next;
+		my @pkgs = values %{$blist->{pkgs}} or next;
 
 		if (my $dir = urpm::file_from_local_url($medium->{url})) {
 		    $urpm->{log}("getting information from rpms from $dir");
@@ -478,7 +477,9 @@ if ($options{list_aliases}) {
 	    }
 	} elsif ($options{sources}) {
 	    print "$_\n" foreach values %$local_sources;
-	    print "$_\n" foreach map { values %{$_->{list}} } @$blists;
+	    foreach my $blist (@$blists) {
+		print urpm::blist_pkg_to_url($blist, $_), "\n" foreach values %{$blist->{pkgs}};
+	    }
 	}
 	exit 0;
     } elsif ($options{summary}) {
