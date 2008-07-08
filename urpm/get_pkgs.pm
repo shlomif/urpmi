@@ -178,18 +178,18 @@ sub download_packages_of_distant_media {
 	my %blist_distant = (%$blist, list => {});
 
 	#- examine all files to know what can be indexed on multiple media.
-	while (my ($i, $url) = each %{$blist->{list}}) {
+	while (my ($id, $url) = each %{$blist->{list}}) {
 	    #- the given URL is trusted, so the file can safely be ignored.
-	    defined $sources->{$i} and next;
+	    defined $sources->{$id} and next;
 	    my $local_file = file_from_local_url($url);
 	    if ($local_file && $local_file =~ /\.rpm$/) {
 		if (-r $local_file) {
-		    $sources->{$i} = $local_file;
+		    $sources->{$id} = $local_file;
 		} else {
-		    $errors{$i} = [ $local_file, 'missing' ];
+		    $errors{$id} = [ $local_file, 'missing' ];
 		}
 	    } elsif ($url =~ m!^([^:]*):/(.*/([^/]*\.rpm))\Z!) {
-		$blist_distant{list}{$i} = "$1:/$2"; #- will download now
+		$blist_distant{list}{$id} = "$1:/$2"; #- will download now
 	    } else {
 		$urpm->{error}(N("malformed URL: [%s]", $url));
 	    }
@@ -237,7 +237,7 @@ sub _download_packages_of_distant_media {
     #- is necessary to keep track of failing downloads in order to
     #- present the error to the user.
     foreach my $id (keys %{$blist->{list}}) {
-	my $url = $blist->{list}{$i};
+	my $url = $blist->{list}{$id};
 	my ($filename) = $url =~ m|/([^/]*\.rpm)$|;
 	if ($filename && -s "$cachedir/partial/$filename") {
 	    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
