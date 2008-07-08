@@ -54,7 +54,8 @@ my %sources = %$local_sources;
 urpm::removable::try_mounting_non_cdroms($urpm, $list);
 
 $callbacks->{pre_removable} and $callbacks->{pre_removable}->();
-urpm::removable::copy_packages_of_removable_media($urpm,
+require urpm::cdrom;
+urpm::cdrom::copy_packages_of_removable_media($urpm,
     $list, \%sources,
     $callbacks->{copy_removable});
 $callbacks->{post_removable} and $callbacks->{post_removable}->();

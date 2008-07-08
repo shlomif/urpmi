@@ -155,9 +155,4 @@ sub create_blists {
     } @$media ];
 }
 
-sub copy_packages_of_removable_media { 
-    require urpm::cdrom;
-    &urpm::cdrom::copy_packages_of_removable_media;
-}
-
 1;
