@@ -160,7 +160,9 @@ if ($urpm->{options}{auto}) {
 }
 
 #- Warning : the following message is parsed in urpm::parallel_*
-print N("removing %s", join(' ', sort @toremove)) . "\n";
+print $test ? 
+  N("testing removal of %s", join(' ', sort @toremove)) :
+  N("removing %s", join(' ', sort @toremove)), "\n";
 
 my %remove_options = (
     test => $test,
