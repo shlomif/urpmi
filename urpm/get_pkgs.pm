@@ -22,7 +22,7 @@ sub clean_all_cache {
 #- returns a list of lists containing the source description for each rpm,
 #- matching the exact number of registered media; ignored media being
 #- associated to a null list.
-sub selected2list {
+sub _selected2local_and_ids {
     my ($urpm, $packages, %options) = @_;
     my (%protected_files, %local_sources, %fullname2id);
 
@@ -55,7 +55,7 @@ sub selected2list {
 	}
     }
 
-    my (%id_map, @remaining_ids);
+    my %id2ids;
     foreach my $id (values %fullname2id) {
 	my $pkg = $urpm->{depslist}[$id];
 	my $fullname = $pkg->fullname;
@@ -71,15 +71,26 @@ sub selected2list {
 	    } grep { $fullname eq $_->fullname } $urpm->packages_by_name($pkg->name);
 	};
 
-	# id_map is a remapping of id.
-	# it is needed because @list must be [ { id => pkg } ] where id is one the selected id,
-	# not really the real package id
-	$id_map{$_} = $id foreach @pkg_ids;
-
-	push @remaining_ids, @pkg_ids;
+	$id2ids{$id} = \@pkg_ids;
     }
 
-    @remaining_ids = sort { $a <=> $b } @remaining_ids;
+    (\%local_sources, \%id2ids);
+}
+
+sub selected2list {
+    my ($urpm, $selected, %options) = @_;
+
+    my ($local_sources, $id2ids) = _selected2local_and_ids($urpm, $selected, %options);
+
+    # id_map is a remapping of id.
+    # it is needed because @list must be [ { id => pkg } ] where id is one the selected id,
+    # not really the real package id
+    my %id_map;
+    foreach my $id (keys %$id2ids) {
+	$id_map{$_} = $id foreach @{$id2ids->{$id}};
+    }
+
+    my @remaining_ids = sort { $a <=> $b } keys %id_map;
 
     my @list = map {
 	my $medium = $_;
@@ -102,7 +113,7 @@ sub selected2list {
 	return;
     }
 
-    (\%local_sources, \@list);
+    ($local_sources, \@list);
 }
 
 sub verify_partial_rpm_and_move {
