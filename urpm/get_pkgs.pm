@@ -120,11 +120,7 @@ sub selected2local_and_blists {
 		$pkgs{$id_map{$id}} = $pkg;
 	    }
 	}
-	if (%pkgs) {
-	    my $blist = { medium => $medium, pkgs => \%pkgs };
-	    $blist->{list} = { map { $_ => urpm::blist_pkg_to_url($blist, $pkgs{$_}) } keys %pkgs };
-	    $blist;
-	} else { () }
+	%pkgs ? { medium => $medium, pkgs => \%pkgs } : ();
     } (@{$urpm->{media} || []});
 
     if (@remaining_ids) {
@@ -142,7 +138,8 @@ sub _create_old_list_from_blists {
     [ map {
 	my $medium = $_;
 	my ($blist) = grep { $_->{medium} == $medium } @$blists;
-	$blist->{list};
+
+	{ map { $_ => urpm::blist_pkg_to_url($blist, $blist->{pkgs}{$_}) } keys %{$blist->{pkgs}} };
     } @$media ];
 }
 
