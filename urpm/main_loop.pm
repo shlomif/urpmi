@@ -45,7 +45,7 @@ my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm,
     $state->{selected},
     clean_other => !$noclean && $urpm->{options}{'pre-clean'},
 );
-unless ($local_sources || $list) {
+if (!$local_sources && !$list) {
     $urpm->{fatal}(3, N("unable to get source packages, aborting"));
 }
 
