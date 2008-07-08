@@ -477,9 +477,7 @@ if ($options{list_aliases}) {
 	    }
 	} elsif ($options{sources}) {
 	    print "$_\n" foreach values %$local_sources;
-	    foreach my $blist (@$blists) {
-		print urpm::blist_pkg_to_url($blist, $_), "\n" foreach values %{$blist->{pkgs}};
-	    }
+	    print "$_\n" foreach map { urpm::blist_to_urls($_) } @$blists;
 	}
 	exit 0;
     } elsif ($options{summary}) {
