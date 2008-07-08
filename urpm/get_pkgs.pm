@@ -216,39 +216,40 @@ sub _download_packages_of_distant_media {
 
     my $cachedir = $urpm->{cachedir};
     if (! -w "$cachedir/partial") {
-	    if (my $userdir = urpm::userdir($urpm)) {
-		$cachedir = $userdir;
-		mkdir "$cachedir/partial";
-		mkdir "$cachedir/rpms";
-	    } else {
-		$urpm->{fatal}(1, N("Can not download packages into %s", "$cachedir/partial"));
-	    }
+	if (my $userdir = urpm::userdir($urpm)) {
+	    $cachedir = $userdir;
+	    mkdir "$cachedir/partial";
+	    mkdir "$cachedir/rpms";
+	} else {
+	    $urpm->{fatal}(1, N("Can not download packages into %s", "$cachedir/partial"));
 	}
+    }
 
-	    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{media}{name}));
-	    if (urpm::download::sync($urpm, $blist->{media}, [ values %distant_sources ],
-				     dir => "$cachedir/partial", quiet => $options{quiet}, 
-				     resume => $urpm->{options}{resume}, callback => $options{callback})) {
-		$urpm->{log}(N("...retrieving done"));
+    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{media}{name}));
+    if (urpm::download::sync($urpm, $blist->{media}, [ values %distant_sources ],
+			     dir => "$cachedir/partial", quiet => $options{quiet}, 
+			     resume => $urpm->{options}{resume}, callback => $options{callback})) {
+	$urpm->{log}(N("...retrieving done"));
+    } else {
+	$urpm->{error}(N("...retrieving failed: %s", $@));
+    }
+
+    #- clean files that have not been downloaded, but keep in mind
+    #- there have been problems downloading them at least once, this
+    #- is necessary to keep track of failing downloads in order to
+    #- present the error to the user.
+    foreach my $i (keys %distant_sources) {
+	my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
+	if ($filename && -s "$cachedir/partial/$filename") {
+	    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
+		$sources->{$i} = $rpm;
 	    } else {
-		$urpm->{error}(N("...retrieving failed: %s", $@));
+		$errors->{$i} = [ $distant_sources{$i}, 'bad' ];
 	    }
-	    #- clean files that have not been downloaded, but keep in mind
-	    #- there have been problems downloading them at least once, this
-	    #- is necessary to keep track of failing downloads in order to
-	    #- present the error to the user.
-	    foreach my $i (keys %distant_sources) {
-		my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
-		if ($filename && -s "$cachedir/partial/$filename") {
-		    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
-			$sources->{$i} = $rpm;
-		    } else {
-			$errors->{$i} = [ $distant_sources{$i}, 'bad' ];
-		    }
-		} else {
-		    $errors->{$i} = [ $distant_sources{$i}, 'missing' ];
-		}
-	    }
+	} else {
+	    $errors->{$i} = [ $distant_sources{$i}, 'missing' ];
+	}
+    }
 }
 
 1;
