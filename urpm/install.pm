@@ -21,10 +21,12 @@ eval {
 sub prepare_transaction {
     my ($_urpm, $set, $list, $sources, $transaction_list, $transaction_sources) = @_;
 
-    foreach my $id (@{$set->{upgrade}}) {
-	foreach (0..$#$list) {
+    foreach (0..$#$list) {
+	foreach my $id (@{$set->{upgrade}}) {
 	    exists $list->[$_]{$id} and $transaction_list->[$_]{$id} = $list->[$_]{$id};
 	}
+    }
+    foreach my $id (@{$set->{upgrade}}) {
 	exists $sources->{$id} and $transaction_sources->{$id} = $sources->{$id};
     }
 }
