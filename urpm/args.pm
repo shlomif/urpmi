@@ -50,6 +50,7 @@ my %options_spec_all = (
 	    $options{verbose}++;
 	    $urpm->{debug} = $urpm->{debug_URPM} = sub { print STDERR "$_[0]\n" };
 	},
+	'debug-librpm' => sub { URPM::setVerbosity(7) }, # 7 == RPMLOG_DEBUG
 	'q|quiet' => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
 	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
