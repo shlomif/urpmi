@@ -217,7 +217,7 @@ sub copy_packages_of_removable_media {
     my @blists = grep { urpm::is_cdrom_url($_->{medium}{url}) } @$blists;
 
     # we prompt for CDs used less first, since the last CD will be used directly
-    @blists = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @blists;
+    @blists = sort { values(%{$a->{pkgs}}) <=> values(%{$b->{pkgs}}) } @blists;
 
     my $prev_medium;
     while (@blists) {
