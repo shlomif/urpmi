@@ -176,7 +176,9 @@ my @errors = $parallel
 if (@errors) {
     #- Warning : the following message is parsed in urpm::parallel_*
     $urpm->{fatal}(2, N("Removal failed") . ":\n" . join("\n",  map { "\t$_" } @errors));
-} elsif ($may_be_orphans && !$options{auto_orphans} && !$test) {
+} elsif ($test) {
+    print N("Removal is possible"), "\n";
+} elsif ($may_be_orphans && !$options{auto_orphans}) {
     if (my $msg = urpm::orphans::get_now_orphans_msg($urpm)) {
 	print "\n", $msg;
     }
