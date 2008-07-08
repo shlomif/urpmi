@@ -17,6 +17,25 @@ sub clean_all_cache {
     urpm::sys::empty_dir("$urpm->{cachedir}/rpms");
 }
 
+sub cachedir_rpms {
+    my ($urpm) = @_;
+
+    #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
+    my %fn2file;
+    foreach my $filepath (glob("$urpm->{cachedir}/rpms/*")) {
+	next if -d $filepath;
+
+	if (! -s $filepath) {
+	    unlink $filepath; #- this file should be removed or is already empty.
+	} else {
+	    my $filename = basename($filepath);
+	    my ($fullname) = $filename =~ /(.*)\.rpm$/ or next;
+	    $fn2file{$fullname} = $filepath;
+	}
+    }
+    \%fn2file;
+}
+
 #- select sources for selected packages,
 #- according to keys of the packages hash.
 #- returns a list of lists containing the source description for each rpm,
@@ -39,20 +58,16 @@ sub _selected2local_and_ids {
     }
 
     #- examine the local repository, which is trusted (no gpg or pgp signature check but md5 is now done).
-    foreach my $filepath (glob("$urpm->{cachedir}/rpms/*")) {
-	next if -d $filepath;
+    my $cachedir_rpms = cachedir_rpms($urpm);
 
-	if (! -s $filepath) {
-	    unlink $filepath; #- this file should be removed or is already empty.
-	} else {
-	    my $filename = basename($filepath);
-	    my ($fullname) = $filename =~ /(.*)\.rpm$/ or next;
+    foreach my $fullname (keys %$cachedir_rpms) {
+	    my $filepath = $cachedir_rpms->{$fullname};
+
 	    if (my $id = delete $fullname2id{$fullname}) {
 		$local_sources{$id} = $filepath;
 	    } else {
 		$options{clean_other} && ! exists $protected_files{$filepath} and unlink $filepath;
 	    }
-	}
     }
 
     my %id2ids;
