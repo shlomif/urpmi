@@ -852,12 +852,14 @@ sub add_distrib_media {
 	}
 
         my $add_by_default = !$distribconf->getvalue($media, 'noauto');
+	my $ignore;
         if ($options{ask_media}) {
             $options{ask_media}->($media_name, $add_by_default) or next;
         } else {
 	    my $simple_rpms = !$distribconf->getvalue($media, 'debug_for') && 
 	                      !$distribconf->getvalue($media, 'rpms');
 	    $add_by_default || $simple_rpms or next;
+	    $ignore = !$add_by_default;
 	}
 
 	my $use_copied_synthesis = urpm::is_cdrom_url($url) || $urpm->{options}{use_copied_hdlist} || $distribconf->getvalue($media, 'use_copied_hdlist');
@@ -873,7 +875,7 @@ sub add_distrib_media {
 	    !$use_copied_synthesis ? (media_info_dir => 'media_info') : (),
 	    !$use_copied_synthesis && $options{probe_with} ? ($options{probe_with} => 1) : (),
 	    index_name => $name ? undef : 0,
-	    $add_by_default ? () : (ignore => 1),
+	    $ignore ? (ignore => 1) : (),
 	    %options,
 	    # the following override %options
 	    $options{mirrorlist} ? ('with-dir' => $distribconf->getpath($media, 'path')) : (),
