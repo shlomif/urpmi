@@ -83,19 +83,17 @@ my @errors;
 my $exit_code = 0;
 
 foreach my $set (@{$state->{transaction} || []}) {
-    my $transaction_sources = {};
-    my @transaction_list;
 
     #- put a blank line to separate with previous transaction or user question.
     print "\n" if $options{verbose} >= 0;
 
-    #- prepare transaction...
-    urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, $transaction_sources);
+    my ($transaction_list, $transaction_sources) =
+      urpm::install::prepare_transaction($urpm, $set, $list, \%sources);
 
     #- first, filter out what is really needed to download for this small transaction.
     my @error_sources;
     urpm::get_pkgs::download_packages_of_distant_media($urpm,
-	\@transaction_list,
+	$transaction_list,
 	$transaction_sources,
 	\@error_sources,
 	quiet => $options{verbose} < 0,

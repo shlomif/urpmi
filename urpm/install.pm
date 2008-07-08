@@ -26,16 +26,14 @@ sub _hash_intersect_list {
     \%h;
 }
 
-#- prepare transaction.
 sub prepare_transaction {
-    my ($_urpm, $set, $list, $sources, $transaction_list, $transaction_sources) = @_;
+    my ($_urpm, $set, $list, $sources) = @_;
 
-    foreach (0..$#$list) {
-	$transaction_list->[$_] = _hash_intersect_list($list->[$_], $set->{upgrade});
-    }
-    foreach my $id (@{$set->{upgrade}}) {
-	exists $sources->{$id} and $transaction_sources->{$id} = $sources->{$id};
-    }
+    my @transaction_list = map {
+	_hash_intersect_list($_, $set->{upgrade});
+    } @$list;
+
+    \@transaction_list, _hash_intersect_list($sources, $set->{upgrade});
 }
 
 sub build_transaction_set_ {
