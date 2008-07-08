@@ -239,8 +239,8 @@ sub do_install_2 () {
 
 sub do_install_3 () {
     wait_label(N("Package installation..."));
-    my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm, $state->{selected});
-    $local_sources || $list or $urpm->{fatal}(3, N("unable to get source packages, aborting"));
+    my ($local_sources, $blists) = urpm::get_pkgs::selected2local_and_blists($urpm, $state->{selected});
+    $local_sources || $blists or $urpm->{fatal}(3, N("unable to get source packages, aborting"));
     my $vbox = Gtk2::VBox->new(0, 5);
     my $progress_label = Gtk2::Label->new('-');
     $vbox->pack_start($progress_label, 1, 1, 0);
