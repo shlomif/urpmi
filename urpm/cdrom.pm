@@ -216,20 +216,20 @@ sub _copy_from_cdrom__if_needed {
 sub copy_packages_of_removable_media {
     my ($urpm, $blists, $sources, $o_ask_for_medium) = @_;
 
-    @$blists = grep { urpm::is_cdrom_url($_->{medium}{url}) } @$blists;
+    my @blists = grep { urpm::is_cdrom_url($_->{medium}{url}) } @$blists;
 
     # we prompt for CDs used less first, since the last CD will be used directly
-    @$blists = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @$blists;
+    @blists = sort { values(%{$a->{list}}) <=> values(%{$b->{list}}) } @blists;
 
     my $prev_medium;
-    while (@$blists) {
+    while (@blists) {
 	$prev_medium and delete $prev_medium->{mntpoint};
 	_may_eject_cdrom($urpm);
 
-	my @blists_mounted = _mount_cdrom($urpm, $blists, $o_ask_for_medium);
-	@$blists = difference2($blists, \@blists_mounted);
+	my @blists_mounted = _mount_cdrom($urpm, \@blists, $o_ask_for_medium);
+	@blists = difference2(\@blists, \@blists_mounted);
 	foreach my $blist (@blists_mounted) {
-	    _copy_from_cdrom__if_needed($urpm, $blist, $sources, @$blists > 0);
+	    _copy_from_cdrom__if_needed($urpm, $blist, $sources, @blists > 0);
 	    $prev_medium = $blist->{medium};
         }
     }
