@@ -272,7 +272,7 @@ sub install {
 	if ($options{verbose} >= 0) {
 	    foreach (keys %{$urpm->{readmes}}) {
 		print "-" x 70, "\n", N("More information on package %s", $urpm->{readmes}{$_}), "\n";
-		print cat_(($urpm->{root} || '') . $_);
+		print cat_utf8(($urpm->{root} || '') . $_);
 		print "-" x 70, "\n";
 	    }
 	}
