@@ -83,19 +83,20 @@ my @errors;
 my $exit_code = 0;
 
 foreach my $set (@{$state->{transaction} || []}) {
-    my (@transaction_list, %transaction_sources);
+    my $transaction_sources = {};
+    my @transaction_list;
 
     #- put a blank line to separate with previous transaction or user question.
     print "\n" if $options{verbose} >= 0;
 
     #- prepare transaction...
-    urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, \%transaction_sources);
+    urpm::install::prepare_transaction($urpm, $set, $list, \%sources, \@transaction_list, $transaction_sources);
 
     #- first, filter out what is really needed to download for this small transaction.
     my @error_sources;
     urpm::get_pkgs::download_packages_of_distant_media($urpm,
 	\@transaction_list,
-	\%transaction_sources,
+	$transaction_sources,
 	\@error_sources,
 	quiet => $options{verbose} < 0,
 	callback => $callbacks->{trans_log},
@@ -125,13 +126,13 @@ foreach my $set (@{$state->{transaction} || []}) {
     }
 
     $callbacks->{post_download} and $callbacks->{post_download}->();
-    my %transaction_sources_install = %{$urpm->extract_packages_to_install(\%transaction_sources, $state) || {}};
-    $callbacks->{post_extract} and $callbacks->{post_extract}->($set, \%transaction_sources, \%transaction_sources_install);
+    my %transaction_sources_install = %{$urpm->extract_packages_to_install($transaction_sources, $state) || {}};
+    $callbacks->{post_extract} and $callbacks->{post_extract}->($set, $transaction_sources, \%transaction_sources_install);
 
     if (!$force && ($urpm->{options}{'verify-rpm'} || grep { $_->{'verify-rpm'} } @{$urpm->{media}})) {
         $callbacks->{pre_check_sig} and $callbacks->{pre_check_sig}->();
         # CHECK ME: rpmdrake passed "basename => 1" option:
-	my @bad_signatures = urpm::signature::check($urpm, \%transaction_sources_install, \%transaction_sources,
+	my @bad_signatures = urpm::signature::check($urpm, \%transaction_sources_install, $transaction_sources,
                                                  callback => $callbacks->{check_sig}
                                              );
 
@@ -147,7 +148,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 
     #- install source package only (whatever the user is root or not, but use rpm for that).
     if ($install_src) {
-	if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %transaction_sources) {
+	if (my @l = grep { /\.src\.rpm$/ } values %transaction_sources_install, values %$transaction_sources) {
 	    my $rpm_opt = $options{verbose} >= 0 ? 'vh' : '';
 	    system("rpm", "-i$rpm_opt", @l, ($urpm->{root} ? ("--root", $urpm->{root}) : @{[]}));
 	    #- Warning : the following message is parsed in urpm::parallel_*
@@ -167,27 +168,27 @@ foreach my $set (@{$state->{transaction} || []}) {
     next if $no_install;
 
     #- clean to remove any src package now.
-    foreach (\%transaction_sources_install, \%transaction_sources) {
+    foreach (\%transaction_sources_install, $transaction_sources) {
 	foreach my $id (keys %$_) {
 	    my $pkg = $urpm->{depslist}[$id] or next;
 	    $pkg->arch eq 'src' and delete $_->{$id};
 	}
     }
 
-    if (keys(%transaction_sources_install) || keys(%transaction_sources) || $set->{remove}) {
+    if (keys(%transaction_sources_install) || keys(%$transaction_sources) || $set->{remove}) {
 	if ($parallel) {
-	    print N("distributing %s", join(' ', values %transaction_sources_install, values %transaction_sources)), "\n";
+	    print N("distributing %s", join(' ', values %transaction_sources_install, values %$transaction_sources)), "\n";
 	    #- no remove are handle here, automatically done by each distant node.
 	    $urpm->{log}("starting distributed install");
 	    $urpm->{parallel_handler}->parallel_install(
 		$urpm,
-		[ keys %{$state->{rejected} || {}} ], \%transaction_sources_install, \%transaction_sources,
+		[ keys %{$state->{rejected} || {}} ], \%transaction_sources_install, $transaction_sources,
 		test => $test,
 		excludepath => $urpm->{options}{excludepath}, excludedocs => $urpm->{options}{excludedocs},
 	    );
 	} else {
 	    if ($options{verbose} >= 0) {
-	      if (my @packnames = (values %transaction_sources_install, values %transaction_sources)) {
+	      if (my @packnames = (values %transaction_sources_install, values %$transaction_sources)) {
 		(my $common_prefix) = $packnames[0] =~ m!^(.*)/!;
 		if (length($common_prefix) && @packnames == grep { m!^\Q$common_prefix/! } @packnames) {
 		    #- there's a common prefix, simplify message
@@ -198,7 +199,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	      }
 	    }
 	    my $to_remove = $urpm->{options}{'allow-force'} ? [] : $set->{remove} || [];
-	    bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %transaction_sources), "\n");
+	    bug_log(scalar localtime(), " ", join(' ', values %transaction_sources_install, values %$transaction_sources), "\n");
 	    $urpm->{log}("starting installing packages");
 	    my %install_options_common = (
 		urpm::install::options($urpm),
@@ -216,7 +217,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 
 	    my @l = urpm::install::install($urpm,
 		$to_remove,
-		\%transaction_sources_install, \%transaction_sources,
+		\%transaction_sources_install, $transaction_sources,
 		%install_options_common,
 	    );
 	    if (@l) {
@@ -233,7 +234,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    $urpm->{log}("starting installing packages without deps");
 		    @l = urpm::install::install($urpm,
 			$to_remove,
-			\%transaction_sources_install, \%transaction_sources,
+			\%transaction_sources_install, $transaction_sources,
 			nodeps => 1,
 			%install_options_common,
 		    );
@@ -251,7 +252,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 			    $urpm->{log}("starting force installing packages without deps");
 			    @l = urpm::install::install($urpm,
 				$to_remove,
-				\%transaction_sources_install, \%transaction_sources,
+				\%transaction_sources_install, $transaction_sources,
 				nodeps => 1, force => 1,
 				%install_options_common,
 			    );
