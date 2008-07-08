@@ -92,7 +92,7 @@ sub _selected2local_and_ids {
     (\%local_sources, \%id2ids);
 }
 
-sub selected2list {
+sub selected2local_and_blists {
     my ($urpm, $selected, %options) = @_;
 
     my ($local_sources, $id2ids) = _selected2local_and_ids($urpm, $selected, %options);
@@ -107,7 +107,7 @@ sub selected2list {
 
     my @remaining_ids = sort { $a <=> $b } keys %id_map;
 
-    my @list = map {
+    my @blists = map {
 	my $medium = $_;
 	my %sources;
 	if (urpm::media::is_valid_medium($medium) && !$medium->{ignore}) {
@@ -120,7 +120,7 @@ sub selected2list {
 		$sources{$id_map{$id}} = "$medium->{url}/" . $pkg->filename;
 	    }
 	}
-	\%sources;
+	%sources ? { medium => $medium, list => \%sources } : ();
     } (@{$urpm->{media} || []});
 
     if (@remaining_ids) {
@@ -128,29 +128,26 @@ sub selected2list {
 	return;
     }
 
-    ($local_sources, \@list);
+    ($local_sources, \@blists);
 }
 
 #- side-effects: none
-sub _create_blists {
-    my ($media, $list) = @_;
+sub _create_old_list_from_blists {
+    my ($media, $blists) = @_;
 
-    #- make sure everything is correct on input...
-    $media or return;
-    @$media == @$list or return;
-
-    my $i;
-    [ map { 
-	my $list = $list->[$i++];
-	%$list ? { medium => $_, list => $list } : ();
+    [ map {
+	my $medium = $_;
+	my ($blist) = grep { $_->{medium} == $medium } @$blists;
+	$blist->{list};
     } @$media ];
 }
 
-sub selected2local_and_blists {
+# deprecated, use selected2local_and_blists() instead
+sub selected2list {
     my ($urpm, $selected, %options) = @_;
 
-    my ($local_sources, $list) = selected2local_and_blists($urpm, $selected, %options);
-    ($local_sources, _create_blists($urpm->{media}, $list));
+    my ($local_sources, $blists) = selected2local_and_blists($urpm, $selected, %options);
+    ($local_sources, _create_old_list_from_blists($urpm->{media}, $blists));
 }
 
 sub verify_partial_rpm_and_move {
