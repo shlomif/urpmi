@@ -131,6 +131,28 @@ sub selected2list {
     ($local_sources, \@list);
 }
 
+#- side-effects: none
+sub _create_blists {
+    my ($media, $list) = @_;
+
+    #- make sure everything is correct on input...
+    $media or return;
+    @$media == @$list or return;
+
+    my $i;
+    [ map { 
+	my $list = $list->[$i++];
+	%$list ? { medium => $_, list => $list } : ();
+    } @$media ];
+}
+
+sub selected2local_and_blists {
+    my ($urpm, $selected, %options) = @_;
+
+    my ($local_sources, $list) = selected2local_and_blists($urpm, $selected, %options);
+    ($local_sources, _create_blists($urpm->{media}, $list));
+}
+
 sub verify_partial_rpm_and_move {
     my ($urpm, $cachedir, $filename) = @_;
 
@@ -147,19 +169,16 @@ sub verify_partial_rpm_and_move {
 # TODO verify that files are downloaded from the right corresponding media
 #- options: quiet, callback, 
 sub download_packages_of_distant_media {
-    my ($urpm, $list, $sources, $error_sources, %options) = @_;
+    my ($urpm, $blists, $sources, $error_sources, %options) = @_;
 
     my %errors;
 
     #- get back all ftp and http accessible rpm files into the local cache
-    foreach my $n (0..$#$list) {
+    foreach my $blist (@$blists) {
 	my %distant_sources;
 
-	#- ignore media that contain nothing for the current set of files
-	values %{$list->[$n]} or next;
-
 	#- examine all files to know what can be indexed on multiple media.
-	while (my ($i, $url) = each %{$list->[$n]}) {
+	while (my ($i, $url) = each %{$blist->{list}}) {
 	    #- the given URL is trusted, so the file can safely be ignored.
 	    defined $sources->{$i} and next;
 	    my $local_file = file_from_local_url($url);
@@ -189,8 +208,8 @@ sub download_packages_of_distant_media {
 
 	#- download files from the current medium.
 	if (%distant_sources) {
-	    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $urpm->{media}[$n]{name}));
-	    if (urpm::download::sync($urpm, $urpm->{media}[$n], [ values %distant_sources ],
+	    $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{media}{name}));
+	    if (urpm::download::sync($urpm, $blist->{media}, [ values %distant_sources ],
 				     dir => "$cachedir/partial", quiet => $options{quiet}, 
 				     resume => $urpm->{options}{resume}, callback => $options{callback})) {
 		$urpm->{log}(N("...retrieving done"));

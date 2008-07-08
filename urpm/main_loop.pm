@@ -41,22 +41,22 @@ sub run {
 
     urpm::get_pkgs::clean_all_cache($urpm) if $clean;
 
-my ($local_sources, $list) = urpm::get_pkgs::selected2list($urpm,
+my ($local_sources, $blists) = urpm::get_pkgs::selected2local_and_blists($urpm,
     $state->{selected},
     clean_other => !$noclean && $urpm->{options}{'pre-clean'},
 );
-if (!$local_sources && !$list) {
+if (!$local_sources && !$blists) {
     $urpm->{fatal}(3, N("unable to get source packages, aborting"));
 }
 
 my %sources = %$local_sources;
 
-urpm::removable::try_mounting_non_cdroms($urpm, $list);
+urpm::removable::try_mounting_non_cdroms($urpm, $blists);
 
 $callbacks->{pre_removable} and $callbacks->{pre_removable}->();
 require urpm::cdrom;
 urpm::cdrom::copy_packages_of_removable_media($urpm,
-    $list, \%sources,
+    $blists, \%sources,
     $callbacks->{copy_removable});
 $callbacks->{post_removable} and $callbacks->{post_removable}->();
 
@@ -87,13 +87,13 @@ foreach my $set (@{$state->{transaction} || []}) {
     #- put a blank line to separate with previous transaction or user question.
     print "\n" if $options{verbose} >= 0;
 
-    my ($transaction_list, $transaction_sources) =
-      urpm::install::prepare_transaction($urpm, $set, $list, \%sources);
+    my ($transaction_blists, $transaction_sources) = 
+      urpm::install::prepare_transaction($urpm, $set, $blists, \%sources);
 
     #- first, filter out what is really needed to download for this small transaction.
     my @error_sources;
     urpm::get_pkgs::download_packages_of_distant_media($urpm,
-	$transaction_list,
+	$transaction_blists,
 	$transaction_sources,
 	\@error_sources,
 	quiet => $options{verbose} < 0,

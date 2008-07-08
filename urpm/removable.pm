@@ -136,28 +136,11 @@ sub try_umounting_removables {
 #- side-effects:
 #-   + those of try_mounting_non_cdrom ($urpm->{removable_mounted}, "mount")
 sub try_mounting_non_cdroms {
-    my ($urpm, $list) = @_;
-
-    my $blists = create_blists($urpm->{media}, $list);
+    my ($urpm, $blists) = @_;
 
     foreach my $blist (grep { urpm::file_from_local_url($_->{medium}{url}) } @$blists) {
 	try_mounting_medium($urpm, $blist->{medium}, _blist_first_url($blist));
     }
-}
-
-#- side-effects: none
-sub create_blists {
-    my ($media, $list) = @_;
-
-    #- make sure everything is correct on input...
-    $media or return;
-    @$media == @$list or return;
-
-    my $i;
-    [ map { 
-	my $list = $list->[$i++];
-	%$list ? { medium => $_, list => $list } : ();
-    } @$media ];
 }
 
 #- side-effects: none

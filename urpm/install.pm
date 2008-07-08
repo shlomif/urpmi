@@ -27,13 +27,13 @@ sub _hash_intersect_list {
 }
 
 sub prepare_transaction {
-    my ($_urpm, $set, $list, $sources) = @_;
+    my ($_urpm, $set, $blists, $sources) = @_;
 
-    my @transaction_list = map {
-	_hash_intersect_list($_, $set->{upgrade});
-    } @$list;
+    my @blists_subset = map {
+	+{ %$_, list => _hash_intersect_list($_->{list}, $set->{upgrade}) };
+    } @$blists;
 
-    \@transaction_list, _hash_intersect_list($sources, $set->{upgrade});
+    \@blists_subset, _hash_intersect_list($sources, $set->{upgrade});
 }
 
 sub build_transaction_set_ {

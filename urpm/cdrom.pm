@@ -209,17 +209,13 @@ sub _copy_from_cdrom__if_needed {
 	}
 }
 
-#- $list is a [ { pkg_id1 => url1, ... }, { ... }, ... ]
-#- where there is one hash for each medium in {media}
-#-
 #- side-effects:
 #-   + those of _may_eject_cdrom ($urpm->{cdrom_mounted}, "hal_umount", "hal_eject")
 #-   + those of _mount_cdrom ($urpm->{cdrom_mounted}, $blists_url->[_]{medium}{mntpoint}, "hal_mount", "hal_eject")
 #-   + those of _copy_from_cdrom__if_needed ("copy-move-files")
 sub copy_packages_of_removable_media {
-    my ($urpm, $list, $sources, $o_ask_for_medium) = @_;
+    my ($urpm, $blists, $sources, $o_ask_for_medium) = @_;
 
-    my $blists = urpm::removable::create_blists($urpm->{media}, $list);
     @$blists = grep { urpm::is_cdrom_url($_->{medium}{url}) } @$blists;
 
     # we prompt for CDs used less first, since the last CD will be used directly
