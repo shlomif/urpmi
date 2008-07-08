@@ -175,7 +175,7 @@ sub download_packages_of_distant_media {
 
     #- get back all ftp and http accessible rpm files into the local cache
     foreach my $blist (@$blists) {
-	my %distant_sources;
+	my %blist_distant = (%$blist, list => {});
 
 	#- examine all files to know what can be indexed on multiple media.
 	while (my ($i, $url) = each %{$blist->{list}}) {
@@ -189,14 +189,14 @@ sub download_packages_of_distant_media {
 		    $errors{$i} = [ $local_file, 'missing' ];
 		}
 	    } elsif ($url =~ m!^([^:]*):/(.*/([^/]*\.rpm))\Z!) {
-		$distant_sources{$i} = "$1:/$2"; #- will download now
+		$blist_distant{list}{$i} = "$1:/$2"; #- will download now
 	    } else {
 		$urpm->{error}(N("malformed URL: [%s]", $url));
 	    }
 	}
 
-	if (%distant_sources) {
-	    _download_packages_of_distant_media($urpm, $sources, \%errors, $blist, \%distant_sources, %options);
+	if (%{$blist_distant{list}}) {
+	    _download_packages_of_distant_media($urpm, $sources, \%errors, \%blist_distant, %options);
 	}
     }
 
@@ -210,9 +210,7 @@ sub download_packages_of_distant_media {
 
 
 sub _download_packages_of_distant_media {
-    my ($urpm, $sources, $errors, $blist, $distant_sources, %options) = @_;
-
-    my %distant_sources = %$distant_sources;
+    my ($urpm, $sources, $errors, $blist, %options) = @_;
 
     my $cachedir = $urpm->{cachedir};
     if (! -w "$cachedir/partial") {
@@ -226,7 +224,7 @@ sub _download_packages_of_distant_media {
     }
 
     $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{media}{name}));
-    if (urpm::download::sync($urpm, $blist->{media}, [ values %distant_sources ],
+    if (urpm::download::sync($urpm, $blist->{media}, [ values %{$blist->{list}} ],
 			     dir => "$cachedir/partial", quiet => $options{quiet}, 
 			     resume => $urpm->{options}{resume}, callback => $options{callback})) {
 	$urpm->{log}(N("...retrieving done"));
@@ -238,16 +236,16 @@ sub _download_packages_of_distant_media {
     #- there have been problems downloading them at least once, this
     #- is necessary to keep track of failing downloads in order to
     #- present the error to the user.
-    foreach my $i (keys %distant_sources) {
-	my ($filename) = $distant_sources{$i} =~ m|/([^/]*\.rpm)$|;
+    foreach my $i (keys %{$blist->{list}}) {
+	my ($filename) = $blist->{list}{$i} =~ m|/([^/]*\.rpm)$|;
 	if ($filename && -s "$cachedir/partial/$filename") {
 	    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
 		$sources->{$i} = $rpm;
 	    } else {
-		$errors->{$i} = [ $distant_sources{$i}, 'bad' ];
+		$errors->{$i} = [ $blist->{list}{$i}, 'bad' ];
 	    }
 	} else {
-	    $errors->{$i} = [ $distant_sources{$i}, 'missing' ];
+	    $errors->{$i} = [ $blist->{list}{$i}, 'missing' ];
 	}
     }
 }
