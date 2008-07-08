@@ -66,7 +66,9 @@ sub selected2list {
 	    urpm::select::search_packages($urpm, \%requested, [$pkg->name], src => 1);
 	    map { split /\|/ } keys %requested;
 	} : do {
-	    map { $_->id } grep { $fullname eq $_->fullname } $urpm->packages_by_name($pkg->name);
+	    map { $_->id } grep {
+		$_->filename !~ /\.delta\.rpm$/ || $urpm->is_delta_installable($_, $urpm->{root});
+	    } grep { $fullname eq $_->fullname } $urpm->packages_by_name($pkg->name);
 	};
 
 	# id_map is a remapping of id.
@@ -89,9 +91,7 @@ sub selected2list {
 		shift @remaining_ids;
 
 		my $pkg = $urpm->{depslist}[$id];
-		if ($pkg->filename !~ /\.delta\.rpm$/ || $urpm->is_delta_installable($pkg, $urpm->{root})) {
-		    $sources{$id_map{$id}} = "$medium->{url}/" . $pkg->filename;
-		}
+		$sources{$id_map{$id}} = "$medium->{url}/" . $pkg->filename;
 	    }
 	}
 	\%sources;
