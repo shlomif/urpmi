@@ -109,7 +109,7 @@ sub selected2local_and_blists {
 
     my @blists = map {
 	my $medium = $_;
-	my %sources;
+	my %pkgs;
 	if (urpm::media::is_valid_medium($medium) && !$medium->{ignore}) {
 	    while (@remaining_ids) {
 		my $id = $remaining_ids[0];
@@ -117,10 +117,14 @@ sub selected2local_and_blists {
 		shift @remaining_ids;
 
 		my $pkg = $urpm->{depslist}[$id];
-		$sources{$id_map{$id}} = "$medium->{url}/" . $pkg->filename;
+		$pkgs{$id_map{$id}} = $pkg;
 	    }
 	}
-	%sources ? { medium => $medium, list => \%sources } : ();
+	if (%pkgs) {
+	    my $blist = { medium => $medium, pkgs => \%pkgs };
+	    $blist->{list} = { map { $_ => urpm::blist_pkg_to_url($blist, $pkgs{$_}) } keys %pkgs };
+	    $blist;
+	} else { () }
     } (@{$urpm->{media} || []});
 
     if (@remaining_ids) {
