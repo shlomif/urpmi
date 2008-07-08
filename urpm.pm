@@ -196,6 +196,11 @@ sub tune_rpm {
     }
 }
 
+sub blist_pkg_to_url {
+    my ($blist, $pkg) = @_;
+    $blist->{medium}->{url} . '/' . $pkg->filename;
+}
+
 sub protocol_from_url {
     my ($url) = @_;
     $url =~ m!^(\w+)(_[^:]*)?:! && $1;
