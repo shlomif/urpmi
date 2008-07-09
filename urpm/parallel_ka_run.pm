@@ -46,8 +46,9 @@ sub parallel_find_remove {
     my (%bad_nodes, %base_to_remove, %notfound);
 
     #- now try an iteration of urpme.
-    $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l));
-    open my $fh, "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l) . " 2>&1 |";
+    my $command = "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l);
+    $urpm->{log}("parallel_ka_run: $command");
+    open my $fh, "$command 2>&1 |";
 
     while (my $s = <$fh>) {
 	my ($node, $s_) = _parse_rshp_output($_) or next;
