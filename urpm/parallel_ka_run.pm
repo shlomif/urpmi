@@ -103,42 +103,7 @@ sub parallel_resolve_dependencies {
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
     $parallel->{synthesis} = $synthesis;
 
-    #- compute command line of urpm? tools.
-    my $line = $parallel->{line} . ($options{auto_select} ? ' --auto-select' : '') . ($options{keep} ? ' --keep' : '');
-    foreach (keys %$requested) {
-	if (/\|/) {
-	    #- taken from URPM::Resolve to filter out choices, not complete though.
-	    my $packages = $urpm->find_candidate_packages($_);
-	    foreach (values %$packages) {
-		my ($best_requested, $best);
-		foreach (@$_) {
-		    exists $state->{selected}{$_->id} and $best_requested = $_, last;
-		    if ($best_requested) {
-			if ($best_requested && $best_requested != $_) {
-			    $_->compare_pkg($best_requested) > 0 and $best_requested = $_;
-			} else {
-			    $best_requested = $_;
-			}
-		    } elsif ($best && $best != $_) {
-			$_->compare_pkg($best) > 0 and $best = $_;
-		    } else {
-			$best = $_;
-		    }
-		}
-		$_ = $best_requested || $best;
-	    }
-	    #- simplified choice resolution.
-	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ values %$packages ]);
-	    if ($choice) {
-		$urpm->{source}{$choice->id} and next; #- local packages have already been added.
-		$line .= ' ' . $choice->fullname;
-	    }
-	} else {
-	    my $pkg = $urpm->{depslist}[$_] or next;
-	    $urpm->{source}{$pkg->id} and next; #- local packages have already been added.
-	    $line .= ' ' . $pkg->fullname;
-	}
-    }
+    my $line = urpm::parallel::simple_resolve_dependencies($parallel, $urpm, $state, $requested, %options);
 
     #- execute urpmq to determine packages to install.
     my ($cont, %chosen);
