@@ -146,13 +146,12 @@ sub parallel_install {
 
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
-	local $_;
 	my $fh = _ssh_urpm($urpm, $node, 'urpmi', "--pre-clean --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}");
 
-	while ($_ = <$fh>) {
-	    $bad_nodes{$node} .= $_;
-	    /Installation failed/ and $bad_nodes{$node} = '';
-	    /Installation is possible/ and delete $bad_nodes{$node}, last;
+	while (my $s = <$fh>) {
+	    $bad_nodes{$node} .= $s;
+	    $s =~ /Installation failed/ and $bad_nodes{$node} = '';
+	    $s =~ /Installation is possible/ and delete $bad_nodes{$node}, last;
 	}
 	close $fh;
     }
@@ -172,9 +171,8 @@ sub parallel_install {
 	    my $fh = _ssh_urpm($urpm, $node, 'urpmi', "--no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line");
 
             local $/ = \1;
-	    local $_;
-            while (<$fh>) {
-                print;
+            while (my $s = <$fh>) {
+                print $s;
             }
             close $fh;
 	}
