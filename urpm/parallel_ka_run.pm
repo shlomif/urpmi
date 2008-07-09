@@ -25,6 +25,13 @@ if (!$rshp_command) {
 }
 $rshp_command ||= 'rshp';
 
+sub rshp_command {
+    my ($urpm, $para) = @_;
+
+    $urpm->{log}("parallel_ka_run: $rshp_command $para");
+    "$rshp_command $para";
+}
+
 #- parallel copy
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
@@ -46,8 +53,7 @@ sub parallel_find_remove {
     my (%bad_nodes, %base_to_remove, %notfound);
 
     #- now try an iteration of urpme.
-    my $command = "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l);
-    $urpm->{log}("parallel_ka_run: $command");
+    my $command = rshp_command($urpm, "-v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l));
     open my $fh, "$command 2>&1 |";
 
     while (my $s = <$fh>) {
@@ -137,8 +143,7 @@ sub parallel_resolve_dependencies {
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
-	$urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen));
-	open my $fh, "$rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen) . " |";
+	open my $fh, rshp_command($urpm, "-v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen)) . " |";
 	while (<$fh>) {
 	    chomp;
 	    ($node, $_) = _parse_rshp_output($_) or next;
@@ -186,8 +191,7 @@ sub parallel_install {
 
     local $_;
     my ($node, %bad_nodes);
-    $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-    open my $fh, "$rshp_command -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
+    open my $fh, rshp_command($urpm, "-v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}") . ' |';
     while (<$fh>) {
 	chomp;
 	($node, $_) = _parse_rshp_output($_) or next;
@@ -210,8 +214,7 @@ sub parallel_install {
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation.
-        $urpm->{log}("parallel_ka_run: $rshp_command $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
-	system("$rshp_command $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line") == 0;
+	system(rshp_command($urpm, "$parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line")) == 0;
     }
 }
 
