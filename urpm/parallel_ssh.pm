@@ -48,7 +48,12 @@ sub _ssh_urpm {
     my ($urpm, $node, $cmd, $para) = @_;
     my $command = _ssh($node) . " $cmd --no-locales $para";
     $urpm->{log}("parallel_ssh: $command");
+    $command;
+}
+sub _ssh_urpm_popen {
+    my ($urpm, $node, $cmd, $para) = @_;
 
+    my $command = _ssh_urpm($urpm, $node, $cmd, $para);
     open(my $fh, "$command |") or $urpm->{fatal}(1, "Can't fork ssh: $!");
     $fh;
 }
@@ -72,7 +77,7 @@ sub parallel_find_remove {
 
     #- now try an iteration of urpme.
     foreach my $node (keys %{$parallel->{nodes}}) {
-	my $fh = _ssh_urpm($urpm, $node, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1');
+	my $fh = _ssh_urpm_popen($urpm, $node, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1');
 
 	while (my $s = <$fh>) {
 	    urpm::parallel::parse_urpme_output($urpm, $state, $node, $s, 
@@ -123,7 +128,7 @@ sub parallel_resolve_dependencies {
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $fh = _ssh_urpm($urpm, $node, "urpmq", _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen));
+	    my $fh = _ssh_urpm_popen($urpm, $node, "urpmq", _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen));
 
 	    while (my $s = <$fh>) {
 		urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
@@ -146,7 +151,7 @@ sub parallel_install {
 
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
-	my $fh = _ssh_urpm($urpm, $node, 'urpmi', "--pre-clean --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}");
+	my $fh = _ssh_urpm_popen($urpm, $node, 'urpmi', "--pre-clean --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}");
 
 	while (my $s = <$fh>) {
 	    $bad_nodes{$node} .= $s;
@@ -168,12 +173,8 @@ sub parallel_install {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath $options{excludepath}" : "");
 	#- continue installation on each node
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $fh = _ssh_urpm($urpm, $node, 'urpmi', "--no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line");
-
-            while (my $s = <$fh>) {
-                print $s;
-            }
-            close $fh;
+	    my $command = _ssh_urpm($urpm, $node, 'urpmi', "--no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line");
+	    system($command);
 	}
     }
 }
