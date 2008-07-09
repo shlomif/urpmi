@@ -39,7 +39,6 @@ sub parallel_register_rpms {
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
     my ($test, $node, %bad_nodes, %base_to_remove, %notfound);
-    local $_;
 
     #- keep in mind if the previous selection is still active, it avoid
     #- to re-start urpme --test on each node.
@@ -57,6 +56,7 @@ sub parallel_find_remove {
     #- now try an iteration of urpmq.
     $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l));
     open my $fh, "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l) . " 2>&1 |";
+    local $_;
     while (<$fh>) {
 	chomp;
 	($node, $_) = _parse_rshp_output($_) or next;
