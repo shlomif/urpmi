@@ -127,7 +127,6 @@ sub parallel_resolve_dependencies {
 	    open my $fh, "$command |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!");
 	    while (my $s = <$fh>) {
-		chomp $s;
 		urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
 	    }
 	    close $fh or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
