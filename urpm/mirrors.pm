@@ -45,8 +45,7 @@ sub _pick_one {
 
     my @l = split(' ', $mirrorlists);
     foreach my $mirrorlist (@l) {
-	if (my $cache = _pick_one_($urpm, $mirrorlist, $allow_cache_update)) {
-	    $mirrorlist ne $l[-1] and $cache->{network_mtime} = _network_mtime();
+	if (my $cache = _pick_one_($urpm, $mirrorlist, $allow_cache_update, $mirrorlist ne $l[-1])) {
 	    return $cache->{chosen};
 	}
     }
@@ -56,7 +55,7 @@ sub _pick_one {
 
 #- side-effects: $urpm->{mirrors_cache}
 sub _pick_one_ {
-    my ($urpm, $mirrorlist, $allow_cache_update) = @_;   
+    my ($urpm, $mirrorlist, $allow_cache_update, $set_network_mtime) = @_;
 
     my $cache = _cache__may_clean_if_outdated($urpm, $mirrorlist, $allow_cache_update);
 
@@ -68,6 +67,9 @@ sub _pick_one_ {
 		$cache->{list} = [ _list($urpm, $mirrorlist) ];
 	    }
 	    $cache->{time} = time();
+
+	    # the cache will be deemed outdated if network_mtime is more recent than the cache's
+	    $cache->{network_mtime} = _network_mtime() if $set_network_mtime;
 	}
 
 	$cache->{chosen} = $cache->{list}[0]{url} or return;
