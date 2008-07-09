@@ -32,6 +32,14 @@ sub _rshp_urpm {
     $urpm->{log}("parallel_ka_run: $command");
     $command;
 }
+sub _rshp_urpm_popen {
+    my ($urpm, $parallel, $cmd, $para) = @_;
+
+    my $command = _rshp_urpm($urpm, $parallel, '-v', $cmd, $para);
+    open(my $fh, "$command |") or $urpm->{fatal}(1, "Can't fork $rshp_command: $!");
+    $fh;
+}
+
 
 sub _run_mput {
     my ($urpm, $parallel, @para) = @_;
@@ -61,8 +69,7 @@ sub parallel_find_remove {
     my (%bad_nodes, %base_to_remove, %notfound);
 
     #- now try an iteration of urpme.
-    my $command = _rshp_urpm($urpm, $parallel, "-v", 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l));
-    open my $fh, "$command 2>&1 |";
+    my $fh = _rshp_urpm_popen($urpm, $parallel, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l));
 
     while (my $s = <$fh>) {
 	my ($node, $s_) = _parse_rshp_output($s) or next;
@@ -112,7 +119,7 @@ sub parallel_resolve_dependencies {
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
-	open my $fh, _rshp_urpm($urpm, $parallel, "-v", 'urpmq', "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen)) . " |";
+	my $fh = _rshp_urpm_popen($urpm, $parallel, 'urpmq', "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen)) . " |";
 	while (my $s = <$fh>) {
 	    my ($node, $s_) = _parse_rshp_output($s) or next;
 	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s_, \$cont, \%chosen, %options);
@@ -134,7 +141,7 @@ sub parallel_install {
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 
     my (%bad_nodes);
-    open my $fh, _rshp_urpm($urpm, $parallel, "-v", 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}") . ' |';
+    my $fh = _rshp_urpm_popen($urpm, $parallel, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}") . ' |';
     while (my $s_ = <$fh>) {
 	chomp $s_;
 	my ($node, $s) = _parse_rshp_output($s_) or next;
