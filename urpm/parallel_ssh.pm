@@ -35,6 +35,13 @@ sub scp_rpms {
     }
 }
 
+sub _ssh_urpm {
+    my ($urpm, $node, $cmd, $para) = @_;
+    my $command = _ssh($node) . " $cmd --no-locales $para";
+    $urpm->{log}("parallel_ssh: $command");
+    $command;
+}
+
 #- parallel copy
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
@@ -54,8 +61,7 @@ sub parallel_find_remove {
 
     #- now try an iteration of urpme.
     foreach my $node (keys %{$parallel->{nodes}}) {
-	my $command = _ssh($node) . "urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l);
-        $urpm->{log}("parallel_ssh: $command");
+	my $command = _ssh_urpm($urpm, $node, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l));
 	open my $fh, "$command 2>&1 |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
 
@@ -146,8 +152,7 @@ sub parallel_resolve_dependencies {
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $command = _ssh($node) . "urpmq " . _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen);
-	    $urpm->{log}("parallel_ssh: $command");
+	    my $command = _ssh_urpm($urpm, $node, "urpmq", _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen));
 	    open my $fh, "$command |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!");
 	    while (defined ($_ = <$fh>)) {
@@ -196,8 +201,7 @@ sub parallel_install {
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
 	local $_;
-	my $command = _ssh($node) . "urpmi --pre-clean --no-locales --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}";
-	$urpm->{log}("parallel_ssh: $command");
+	my $command = _ssh_urpm($urpm, $node, 'urpmi', "--pre-clean --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}");
 	open my $fh, "$command |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
 	while ($_ = <$fh>) {
@@ -220,8 +224,7 @@ sub parallel_install {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath $options{excludepath}" : "");
 	#- continue installation on each node
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $command = _ssh($node) . "urpmi --no-locales --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line";
-	    $urpm->{log}("parallel_ssh: $command");
+	    my $command = _ssh_urpm($urpm, $node, 'urpmi', "--no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line");
 	    open my $fh, "$command |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!");
             local $/ = \1;
