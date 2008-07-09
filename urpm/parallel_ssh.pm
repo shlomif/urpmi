@@ -8,6 +8,7 @@ package urpm::parallel_ssh;
 use strict;
 use urpm::util;
 use urpm::msg;
+use urpm::parallel;
 use Time::HiRes qw(gettimeofday);
 
 our @ISA = (); #- help perl_checker

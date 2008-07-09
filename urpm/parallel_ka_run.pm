@@ -8,6 +8,7 @@ package urpm::parallel_ka_run;
 use strict;
 use urpm::util;
 use urpm::msg;
+use urpm::parallel;
 
 our @ISA = (); #- help perl_checker
 
