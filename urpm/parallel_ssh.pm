@@ -70,8 +70,8 @@ sub parallel_find_remove {
 
     #- now try an iteration of urpme.
     foreach my $node (keys %{$parallel->{nodes}}) {
-	my $command = _ssh_urpm($urpm, $node, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l));
-	open my $fh, "$command 2>&1 |"
+	my $command = _ssh_urpm($urpm, $node, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1');
+	open my $fh, "$command |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
 
 	while (my $s = <$fh>) {
