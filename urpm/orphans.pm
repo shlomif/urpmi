@@ -246,7 +246,7 @@ sub _all_unrequested_orphans {
     }
 
     while (my $pkg = shift @$req) {
-	foreach my $prop ($pkg->requires) {
+	foreach my $prop ($pkg->requires, $pkg->suggests) {
 	    my $n = URPM::property2name($prop);
 	    foreach my $p (@{$provides{$n} || []}) {
 		if ($p != $pkg && $l{$p->name} && $p->provides_overlap($prop)) {
