@@ -35,10 +35,10 @@ sub parallel_register_rpms {
     }
 
     #- keep trace of direct files.
-    foreach (@files) {
-	my $basename = basename($_);
-	$parallel->{line} .= "'$urpm->{cachedir}/rpms/$basename' ";
-    }
+    $parallel->{line} .= 
+      join(' ',
+	   map { "'$_'" }
+	   map { "$urpm->{cachedir}/rpms/" . basename($_) } @files);
 }
 
 #- parallel find_packages_to_remove
