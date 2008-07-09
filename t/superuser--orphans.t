@@ -88,6 +88,9 @@ sub test_urpme2 {
     my ($pkg, $wanted) = @_;
     print "# test_urpme($pkg, $wanted)\n";
     urpmi("--media $name-1 --auto $pkg");
+    check_installed_names($pkg, split(' ', $wanted));
+    urpme("--auto --auto-orphans"); # this must not do anything
+    check_installed_names($pkg, split(' ', $wanted));
     run_and_get_suggested_orphans("urpme $pkg", add_version1($wanted));
     urpme("--auto --auto-orphans");    
     check_nothing_installed();
