@@ -19,8 +19,7 @@ sub _nolock    { &_localhost ? '--nolock ' : '' }
 sub _ssh       { &_localhost ? '' : "ssh $_[0] " }
 sub _host      { &_localhost ? '' : "$_[0]:" }
 
-#- parallel copy
-sub parallel_register_rpms {
+sub scp_rpms {
     my ($parallel, $urpm, @files) = @_;
 
     foreach my $host (keys %{$parallel->{nodes}}) {
@@ -33,7 +32,13 @@ sub parallel_register_rpms {
 	}
 	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $host, $? >> 8));
     }
+}
 
+#- parallel copy
+sub parallel_register_rpms {
+    my ($parallel, $urpm, @files) = @_;
+
+    scp_rpms($parallel, $urpm, @files);
     urpm::parallel::post_register_rpms($parallel, $urpm, @files);
 }
 
@@ -185,17 +190,7 @@ sub parallel_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    my @sources = (values %$install, values %$upgrade);
-    foreach my $host (keys %{$parallel->{nodes}}) {
-	$urpm->{log}("parallel_ssh: scp @sources $host:$urpm->{cachedir}/rpms");
-	if (_localhost($host)) {
-	    my @f = grep { ! m!^$urpm->{cachedir}/rpms! } @sources;
-	    @f and system('cp', @f, "$urpm->{cachedir}/rpms");
-	} else {
-	    system('scp', @sources, "$host:$urpm->{cachedir}/rpms");
-	}
-	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $host, $? >> 8));
-    }
+    scp_rpms($parallel, $urpm, values %$install, values %$upgrade);
 
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
