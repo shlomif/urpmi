@@ -39,10 +39,12 @@ sub parallel_register_rpms {
 #- parallel find_packages_to_remove
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
-    my ($node, %bad_nodes, %base_to_remove, %notfound);
 
     my ($test, $pkgs) = urpm::parallel::find_remove_pre($urpm, $state, %options);
     $pkgs and return @$pkgs;
+
+    my (%bad_nodes, %base_to_remove, %notfound);
+    my $node;
 
     #- now try an iteration of urpme.
     $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l));
