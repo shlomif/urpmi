@@ -49,7 +49,7 @@ sub parallel_find_remove {
 
     #- now try an iteration of urpme.
     foreach my $node (keys %{$parallel->{nodes}}) {
-	my $command = _ssh($node) . "urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l);
+	my $command = _ssh($node) . "urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l);
         $urpm->{log}("parallel_ssh: $command");
 	open my $fh, "$command 2>&1 |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
