@@ -502,9 +502,9 @@ sub sync_rsync {
 		($limit_rate ? "--bwlimit=$limit_rate" : @{[]}),
 		($options->{quiet} ? qw(-q) : qw(--progress -v)),
 		($options->{compress} ? qw(-z) : @{[]}),
-		($options->{ssh} ? qq(-e $options->{ssh}) : @{[]}),
-		"--timeout=$CONNECT_TIMEOUT",
-		"--contimeout=$CONNECT_TIMEOUT",
+		($options->{ssh} ? qq(-e $options->{ssh}) : 
+		   ("--timeout=$CONNECT_TIMEOUT",
+		    "--contimeout=$CONNECT_TIMEOUT")),
 		qw(--partial --no-whole-file --no-motd --copy-links),
 		(defined $options->{'rsync-options'} ? split /\s+/, $options->{'rsync-options'} : ()),
 		"'$file' '$options->{dir}' 2>&1");
