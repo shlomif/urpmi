@@ -169,7 +169,7 @@ sub simple_resolve_dependencies {
     #- local packages have already been added.
     @pkgs = grep { !$urpm->{source}{$_->id} } @pkgs;
 
-      $parallel->{line} . 
+    $parallel->{line} . 
 	($options{auto_select} ? ' --auto-select' : '') . 
 	($options{keep} ? ' --keep' : '') .
 	join(' ', map { scalar $_->fullname } @pkgs);
