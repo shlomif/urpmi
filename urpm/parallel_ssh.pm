@@ -170,7 +170,6 @@ sub parallel_install {
 	foreach my $node (keys %{$parallel->{nodes}}) {
 	    my $fh = _ssh_urpm($urpm, $node, 'urpmi', "--no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line");
 
-            local $/ = \1;
             while (my $s = <$fh>) {
                 print $s;
             }
