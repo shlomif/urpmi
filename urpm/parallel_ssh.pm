@@ -41,10 +41,11 @@ sub parallel_register_rpms {
 #- parallel find_packages_to_remove
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
-    my (%bad_nodes, %base_to_remove, %notfound);
 
     my ($test, $pkgs) = urpm::parallel::find_remove_pre($urpm, $state, %options);
     $pkgs and return @$pkgs;
+
+    my (%bad_nodes, %base_to_remove, %notfound);
 
     #- now try an iteration of urpme.
     foreach my $node (keys %{$parallel->{nodes}}) {
