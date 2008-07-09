@@ -190,9 +190,9 @@ sub parallel_install {
 	$urpm->{log}("parallel_ssh: scp @sources $_:$urpm->{cachedir}/rpms");
 	if (_localhost($_)) {
 	    my @f = grep { ! m!^$urpm->{cachedir}/rpms! } @sources;
-	    @f and system 'cp' => @f, "$urpm->{cachedir}/rpms";
+	    @f and system('cp', @f, "$urpm->{cachedir}/rpms");
 	} else {
-	    system 'scp' => @sources, "$_:$urpm->{cachedir}/rpms";
+	    system('scp', @sources, "$_:$urpm->{cachedir}/rpms");
 	}
 	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $_, $? >> 8));
     }
