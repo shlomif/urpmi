@@ -28,7 +28,7 @@ sub _scp {
       or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $host, $? >> 8));
 }
 
-sub scp_rpms {
+sub _scp_rpms {
     my ($parallel, $urpm, @files) = @_;
 
     foreach my $host (keys %{$parallel->{nodes}}) {
@@ -55,7 +55,7 @@ sub _ssh_urpm {
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
 
-    scp_rpms($parallel, $urpm, @files);
+    _scp_rpms($parallel, $urpm, @files);
     urpm::parallel::post_register_rpms($parallel, $urpm, @files);
 }
 
@@ -203,7 +203,7 @@ sub parallel_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    scp_rpms($parallel, $urpm, values %$install, values %$upgrade);
+    _scp_rpms($parallel, $urpm, values %$install, values %$upgrade);
 
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
