@@ -47,7 +47,7 @@ sub resolve_dependencies {
     unlink $file;
     foreach (@{$urpm->{media}}) {
 	urpm::media::is_valid_medium($_) or next;
-	my $f = urpm::media::statedir_synthesis($urpm, $_);
+	my $f = urpm::media::any_synthesis($urpm, $_);
 	system "cat '$f' >> '$file'";
     }
     #- let each node determine what is requested, according to handler given.
