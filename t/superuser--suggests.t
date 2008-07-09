@@ -114,7 +114,7 @@ sub test_force_suggests {
 
     urpmi("--auto b");
     check_installed_and_remove('b', 'bb');
-    urpmi("--auto --suggests b");
+    urpmi("--auto --allow-suggests b");
     check_installed_and_remove('b', 'bb', 'suggested_b');
 
     set_urpmi_cfg_global_options({});
