@@ -97,7 +97,6 @@ sub parallel_find_remove {
 #- parallel resolve_dependencies
 sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
-    my (%avoided, %requested);
 
     #- first propagate the synthesis file to all machines
     run_mput($urpm, $parallel, $synthesis, $synthesis);
@@ -114,8 +113,7 @@ sub parallel_resolve_dependencies {
 		my ($best_requested, $best);
 		foreach (@$_) {
 		    exists $state->{selected}{$_->id} and $best_requested = $_, last;
-		    exists $avoided{$_->name} and next;
-		    if ($best_requested || exists $requested{$_->id}) {
+		    if ($best_requested) {
 			if ($best_requested && $best_requested != $_) {
 			    $_->compare_pkg($best_requested) > 0 and $best_requested = $_;
 			} else {
