@@ -53,9 +53,9 @@ sub parallel_find_remove {
         $urpm->{log}("parallel_ssh: $command");
 	open my $fh, "$command 2>&1 |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
-	local $_;
-	while (defined ($_ = <$fh>)) {
-	    urpm::parallel::parse_urpme_output($urpm, $state, $node, $_, 
+
+	while (my $s = <$fh>) {
+	    urpm::parallel::parse_urpme_output($urpm, $state, $node, $s, 
 					       \%notfound, \%base_to_remove, \%bad_nodes, %options)
 		or last;
 	}
