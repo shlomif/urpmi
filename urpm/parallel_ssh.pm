@@ -104,13 +104,10 @@ sub parallel_find_remove {
     }
 
     #- build error list contains all the error returned by each node.
-    $urpm->{error_remove} = [];
-    foreach (keys %bad_nodes) {
+    $urpm->{error_remove} = [ map {
 	my $msg = N("on node %s", $_);
-	foreach (@{$bad_nodes{$_}}) {
-	    push @{$urpm->{error_remove}}, "$msg, $_";
-	}
-    }
+	map { "$msg, $_" } @{$bad_nodes{$_}};
+    } keys %bad_nodes ];
 
     #- if at least one node has the package, it should be seen as unknown...
     delete @notfound{map { /^(.*)-[^-]*-[^-]*$/ } keys %{$state->{rejected}}};
