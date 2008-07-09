@@ -129,30 +129,7 @@ sub parallel_resolve_dependencies {
 		or $urpm->{fatal}(1, "Can't fork ssh: $!");
 	    while (defined ($_ = <$fh>)) {
 		chomp;
-		if (my ($action, $what) = /^\@([^\@]*)\@(.*)/) {
-		    if ($action eq 'removing') {
-			$state->{rejected}{$what}{removed} = 1;
-			$state->{rejected}{$what}{nodes}{$node} = undef;
-		    }
-		} elsif (/\|/) {
-		    #- distant urpmq returned a choices, check if it has already been chosen
-		    #- or continue iteration to make sure no more choices are left.
-		    $cont ||= 1; #- invalid transitory state (still choices is strange here if next sentence is not executed).
-		    unless (grep { exists $chosen{$_} } split /\|/, $_) {
-			my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { $urpm->search($_) } split /\|/, $_ ]);
-			if ($choice) {
-			    $chosen{scalar $choice->fullname} = $choice;
-			    #- it has not yet been chosen so need to ask user.
-			    $cont = 2;
-			} else {
-			    #- no choices resolved, so forget it (no choices means no choices at all).
-			    $cont = 0;
-			}
-		    }
-		} else {
-		    my $pkg = $urpm->search($_) or next; #TODO
-		    $state->{selected}{$pkg->id}{$node} = $_;
-		}
+		urpm::parallel::parse_urpmq_output($urpm, $state, $node, $_, \$cont, \%chosen, %options);
 	    }
 	    close $fh or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
 	}

@@ -129,6 +129,35 @@ sub parse_urpme_output {
     return;
 }
 
+sub parse_urpmq_output {
+    my ($urpm, $state, $node, $s, $cont, $chosen, %options) = @_;
+
+    if (my ($action, $what) = $s =~ /^\@([^\@]*)\@(.*)/) {
+	if ($action eq 'removing') {
+	    $state->{rejected}{$what}{removed} = 1;
+	    $state->{rejected}{$what}{nodes}{$node} = undef;
+	}
+    } elsif ($s =~ /\|/) {
+	#- distant urpmq returned a choices, check if it has already been chosen
+	#- or continue iteration to make sure no more choices are left.
+	$$cont ||= 1; #- invalid transitory state (still choices is strange here if next sentence is not executed).
+	unless (grep { exists $chosen->{$_} } split /\|/, $s) {
+	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { $urpm->search($_) } split /\|/, $s ]);
+	    if ($choice) {
+		$chosen->{scalar $choice->fullname} = $choice;
+		#- it has not yet been chosen so need to ask user.
+		$$cont = 2;
+	    } else {
+		#- no choices resolved, so forget it (no choices means no choices at all).
+		$$cont = 0;
+	    }
+	}
+    } else {
+	my $pkg = $urpm->search($s) or return; #TODO
+	$state->{selected}{$pkg->id}{$node} = $s;
+    }
+}
+
 #- compute command line of urpm? tools.
 sub simple_resolve_dependencies {
     my ($parallel, $urpm, $state, $requested, %options) = @_;
