@@ -48,11 +48,11 @@ sub parallel_find_remove {
     #- now try an iteration of urpme.
     $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l));
     open my $fh, "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l) . " 2>&1 |";
-    local $_;
-    while (<$fh>) {
-	my ($node, $s) = _parse_rshp_output($_) or next;
 
-	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s, 
+    while (my $s = <$fh>) {
+	my ($node, $s_) = _parse_rshp_output($_) or next;
+
+	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s_, 
 					   \%notfound, \%base_to_remove, \%bad_nodes, %options)
 	    or last;
     }
