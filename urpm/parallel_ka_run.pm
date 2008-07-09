@@ -33,10 +33,10 @@ sub parallel_register_rpms {
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 
     #- keep trace of direct files.
-    foreach (@files) {
-	my $basename = basename($_);
-	$parallel->{line} .= "'$urpm->{cachedir}/rpms/$basename' ";
-    }
+    $parallel->{line} .= 
+      join(' ',
+	   map { "'$_'" }
+	   map { "$urpm->{cachedir}/rpms/" . basename($_) } @files);
 }
 
 #- parallel find_packages_to_remove
@@ -99,13 +99,10 @@ sub parallel_find_remove {
     }
 
     #- build error list contains all the error returned by each node.
-    $urpm->{error_remove} = [];
-    foreach (keys %bad_nodes) {
+    $urpm->{error_remove} = [ map {
 	my $msg = N("on node %s", $_);
-	foreach (@{$bad_nodes{$_}}) {
-	    push @{$urpm->{error_remove}}, "$msg, $_";
-	}
-    }
+	map { "$msg, $_" } @{$bad_nodes{$_}};
+    } keys %bad_nodes ];
 
     #- if at least one node has the package, it should be seen as unknown...
     delete @notfound{map { /^(.*)-[^-]*-[^-]*$/ } keys %{$state->{rejected}}};
