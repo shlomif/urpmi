@@ -133,16 +133,15 @@ sub parallel_install {
     run_mput($urpm, $parallel, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/");
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 
-    local $_;
-    my ($node, %bad_nodes);
+    my (%bad_nodes);
     open my $fh, rshp_command($urpm, $parallel, "-v", "urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}") . ' |';
-    while (<$fh>) {
-	chomp;
-	($node, $_) = _parse_rshp_output($_) or next;
-	/^\s*$/ and next;
-	$bad_nodes{$node} .= $_;
-	/Installation failed/ and $bad_nodes{$node} = '';
-	/Installation is possible/ and delete $bad_nodes{$node};
+    while (my $s_ = <$fh>) {
+	chomp $s_;
+	my ($node, $s) = _parse_rshp_output($s_) or next;
+	$s =~ /^\s*$/ and next;
+	$bad_nodes{$node} .= $s;
+	$s =~ /Installation failed/ and $bad_nodes{$node} = '';
+	$s =~ /Installation is possible/ and delete $bad_nodes{$node};
     }
     close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
 
