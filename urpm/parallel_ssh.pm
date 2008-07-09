@@ -185,16 +185,16 @@ sub parallel_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    foreach (keys %{$parallel->{nodes}}) {
+    foreach my $host (keys %{$parallel->{nodes}}) {
 	my @sources = (values %$install, values %$upgrade);
-	$urpm->{log}("parallel_ssh: scp @sources $_:$urpm->{cachedir}/rpms");
-	if (_localhost($_)) {
+	$urpm->{log}("parallel_ssh: scp @sources $host:$urpm->{cachedir}/rpms");
+	if (_localhost($host)) {
 	    my @f = grep { ! m!^$urpm->{cachedir}/rpms! } @sources;
 	    @f and system('cp', @f, "$urpm->{cachedir}/rpms");
 	} else {
-	    system('scp', @sources, "$_:$urpm->{cachedir}/rpms");
+	    system('scp', @sources, "$host:$urpm->{cachedir}/rpms");
 	}
-	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $_, $? >> 8));
+	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $host, $? >> 8));
     }
 
     my %bad_nodes;
