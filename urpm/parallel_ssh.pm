@@ -25,8 +25,9 @@ sub scp_rpms {
     foreach my $host (keys %{$parallel->{nodes}}) {
 	$urpm->{log}("parallel_ssh: scp @files $host:$urpm->{cachedir}/rpms");
 	if (_localhost($host)) {
-	    my @f = grep { ! m!^$urpm->{cachedir}/rpms! } @files;
-	    @f and system('cp', @f, "$urpm->{cachedir}/rpms");
+	    if (my @f = grep { dirname($_) ne "$urpm->{cachedir}/rpms" } @files) {
+		system('cp', @f, "$urpm->{cachedir}/rpms");
+	    }
 	} else {
 	    system('scp', @files, "$host:$urpm->{cachedir}/rpms");
 	}
