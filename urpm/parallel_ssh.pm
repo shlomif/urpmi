@@ -19,19 +19,28 @@ sub _nolock    { &_localhost ? '--nolock ' : '' }
 sub _ssh       { &_localhost ? '' : "ssh $_[0] " }
 sub _host      { &_localhost ? '' : "$_[0]:" }
 
+sub _scp {
+    my ($urpm, $host, @para) = @_;
+    my $dest = pop @para;
+
+    $urpm->{log}("parallel_ssh: scp " . join(' ', @para) . " $host:$dest");
+    system('scp', @para, _host($host) . $dest) == 0
+      or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $host, $? >> 8));
+}
+
 sub scp_rpms {
     my ($parallel, $urpm, @files) = @_;
 
     foreach my $host (keys %{$parallel->{nodes}}) {
-	$urpm->{log}("parallel_ssh: scp @files $host:$urpm->{cachedir}/rpms");
 	if (_localhost($host)) {
 	    if (my @f = grep { dirname($_) ne "$urpm->{cachedir}/rpms" } @files) {
-		system('cp', @f, "$urpm->{cachedir}/rpms");
+		$urpm->{log}("parallel_ssh: cp @f $urpm->{cachedir}/rpms");
+		system('cp', @f, "$urpm->{cachedir}/rpms") == 0
+		  or $urpm->{fatal}(1, N("cp failed on host %s (%d)", $host, $? >> 8));
 	    }
 	} else {
-	    system('scp', @files, "$host:$urpm->{cachedir}/rpms");
+	    _scp($urpm, $host, @files, "$urpm->{cachedir}/rpms");
 	}
-	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $host, $? >> 8));
     }
 }
 
@@ -100,9 +109,7 @@ sub parallel_resolve_dependencies {
 
     #- first propagate the synthesis file to all machines
     foreach (grep { !_localhost($_) } keys %{$parallel->{nodes}}) {
-	$urpm->{log}("parallel_ssh: scp -q $synthesis $_:$synthesis");
-	system "scp", "-q", $synthesis, _host($_) . $synthesis;
-	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $_, $? >> 8));
+	_scp($urpm, $_, '-q', $synthesis, $synthesis);
     }
     $parallel->{synthesis} = $synthesis;
 
