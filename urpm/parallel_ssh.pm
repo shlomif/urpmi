@@ -15,7 +15,6 @@ our @ISA = (); #- help perl_checker
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
 sub _localhost { $_[0] eq 'localhost' }
-sub _nolock    { &_localhost ? '--nolock ' : '' }
 sub _ssh       { &_localhost ? '' : "ssh $_[0] " }
 sub _host      { &_localhost ? '' : "$_[0]:" }
 
@@ -46,6 +45,9 @@ sub _scp_rpms {
 
 sub _ssh_urpm {
     my ($urpm, $node, $cmd, $para) = @_;
+
+    $cmd ne 'urpme' && _localhost($node) and $para = "--nolock $para";
+
     my $command = _ssh($node) . " $cmd --no-locales $para";
     $urpm->{log}("parallel_ssh: $command");
     $command;
@@ -128,7 +130,7 @@ sub parallel_resolve_dependencies {
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $fh = _ssh_urpm_popen($urpm, $node, "urpmq", _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen));
+	    my $fh = _ssh_urpm_popen($urpm, $node, "urpmq", "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen));
 
 	    while (my $s = <$fh>) {
 		urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
@@ -151,7 +153,7 @@ sub parallel_install {
 
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
-	my $fh = _ssh_urpm_popen($urpm, $node, 'urpmi', "--pre-clean --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}");
+	my $fh = _ssh_urpm_popen($urpm, $node, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
 
 	while (my $s = <$fh>) {
 	    $bad_nodes{$node} .= $s;
@@ -170,10 +172,10 @@ sub parallel_install {
 	$urpm->{error}(N("Installation is possible"));
 	1;
     } else {
-	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath $options{excludepath}" : "");
+	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation on each node
 	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $command = _ssh_urpm($urpm, $node, 'urpmi', "--no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line");
+	    my $command = _ssh_urpm($urpm, $node, 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
 	    system($command);
 	}
     }
