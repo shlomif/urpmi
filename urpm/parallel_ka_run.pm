@@ -59,10 +59,10 @@ sub parallel_find_remove {
 	    and $urpm->{fatal}(1, N("node %s has an old version of urpme, please upgrade", $node));
 	if (/unknown packages?:? (.*)/) {
 	    #- remember unknown packages from the node, because it should not be a fatal error
-	    #- if other node have it.
+	    #- if other nodes have it.
 	    @notfound{split ", ", $1} = ();
 	} elsif (/The following packages contain ([^:]*): (.*)/) {
-	    $options{callback_fuzzy} && $options{callback_fuzzy}->($urpm, $1, split " ", $2)
+	    $options{callback_fuzzy} && $options{callback_fuzzy}->($urpm, $1, split(" ", $2))
 	      or delete $state->{rejected}, last;
 	} elsif (/removing package (.*) will break your system/) {
 	    $base_to_remove{$1} = undef;
