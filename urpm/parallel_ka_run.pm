@@ -32,11 +32,7 @@ sub parallel_register_rpms {
     system $mput_command, split(' ', $parallel->{options}), '--', @files, "$urpm->{cachedir}/rpms/";
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 
-    #- keep trace of direct files.
-    $parallel->{line} .= 
-      join(' ',
-	   map { "'$_'" }
-	   map { "$urpm->{cachedir}/rpms/" . basename($_) } @files);
+    urpm::parallel::post_register_rpms($parallel, $urpm, @files);
 }
 
 #- parallel find_packages_to_remove

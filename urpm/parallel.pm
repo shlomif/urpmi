@@ -66,4 +66,14 @@ sub remove {
 						   );
 }
 
+sub post_register_rpms {
+    my ($parallel, $urpm, @files) = @_;
+
+    #- keep trace of direct files.
+    $parallel->{line} .= 
+      join(' ',
+	   map { "'$_'" }
+	   map { "$urpm->{cachedir}/rpms/" . basename($_) } @files);
+}
+
 1;

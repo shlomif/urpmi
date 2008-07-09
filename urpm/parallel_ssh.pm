@@ -34,11 +34,7 @@ sub parallel_register_rpms {
 	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $host, $? >> 8));
     }
 
-    #- keep trace of direct files.
-    $parallel->{line} .= 
-      join(' ',
-	   map { "'$_'" }
-	   map { "$urpm->{cachedir}/rpms/" . basename($_) } @files);
+    urpm::parallel::post_register_rpms($parallel, $urpm, @files);
 }
 
 #- parallel find_packages_to_remove
