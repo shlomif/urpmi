@@ -51,7 +51,7 @@ sub parallel_find_remove {
     open my $fh, "$command 2>&1 |";
 
     while (my $s = <$fh>) {
-	my ($node, $s_) = _parse_rshp_output($_) or next;
+	my ($node, $s_) = _parse_rshp_output($s) or next;
 
 	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s_, 
 					   \%notfound, \%base_to_remove, \%bad_nodes, %options)
