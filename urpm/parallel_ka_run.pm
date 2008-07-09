@@ -44,41 +44,17 @@ sub parallel_find_remove {
     $pkgs and return @$pkgs;
 
     my (%bad_nodes, %base_to_remove, %notfound);
-    my $node;
 
     #- now try an iteration of urpme.
     $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l));
     open my $fh, "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l) . " 2>&1 |";
     local $_;
     while (<$fh>) {
-	chomp;
-	($node, $_) = _parse_rshp_output($_) or next;
-	/^\s*$/ and next;
-	/Checking to remove the following packages/ and next;
-	/To satisfy dependencies, the following packages are going to be removed/
-	    and $urpm->{fatal}(1, N("node %s has an old version of urpme, please upgrade", $node));
-	if (/unknown packages?:? (.*)/) {
-	    #- remember unknown packages from the node, because it should not be a fatal error
-	    #- if other nodes have it.
-	    @notfound{split ", ", $1} = ();
-	} elsif (/The following packages contain ([^:]*): (.*)/) {
-	    $options{callback_fuzzy} && $options{callback_fuzzy}->($urpm, $1, split(" ", $2))
-	      or delete $state->{rejected}, last;
-	} elsif (/removing package (.*) will break your system/) {
-	    $base_to_remove{$1} = undef;
-	} elsif (/removing \S/) {
-	    #- this is log for newer urpme, so do not try to remove removing...
-	} elsif (/Remov(?:al|ing) failed/) {
-	    $bad_nodes{$node} = [];
-	} else {
-	    if (exists $bad_nodes{$node}) {
-		/^\s+(.+)/ and push @{$bad_nodes{$node}}, $1;
-	    } else {
-		s/\s*\(.*//; #- remove reason (too complex to handle, needs to be removed)
-		$state->{rejected}{$_}{removed} = 1;
-		$state->{rejected}{$_}{nodes}{$node} = undef;
-	    }
-	}
+	my ($node, $s) = _parse_rshp_output($_) or next;
+
+	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s, 
+					   \%notfound, \%base_to_remove, \%bad_nodes, %options)
+	    or last;
     }
     close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
 

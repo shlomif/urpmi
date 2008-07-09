@@ -95,4 +95,38 @@ sub find_remove_pre {
     }
 }
 
+sub parse_urpme_output {
+    my ($urpm, $state, $node, $s, $notfound, $base_to_remove, $bad_nodes, %options) = @_;
+
+    $s =~ /^\s*$/ and return;
+    $s =~ /Checking to remove the following packages/ and return;
+
+    $s =~ /To satisfy dependencies, the following packages are going to be removed/
+      and $urpm->{fatal}(1, N("node %s has an old version of urpme, please upgrade", $node));
+
+    if ($s =~ /unknown packages?:? (.*)/) {
+	#- remember unknown packages from the node, because it should not be a fatal error
+	#- if other nodes have it.
+	$notfound->{$_} = undef foreach split ", ", $1;
+    } elsif ($s =~ /The following packages contain ([^:]*): (.*)/) {
+	$options{callback_fuzzy} && $options{callback_fuzzy}->($urpm, $1, split(" ", $2))
+	  or delete($state->{rejected}), return 'stop_parse';
+    } elsif ($s =~ /removing package (.*) will break your system/) {
+	$base_to_remove->{$1} = undef;
+    } elsif ($s =~ /removing \S/) {
+	#- this is log for newer urpme, so do not try to remove removing...
+    } elsif ($s =~ /Remov(?:al|ing) failed/) {
+	$bad_nodes->{$node} = [];
+    } else {
+	if (exists $bad_nodes->{$node}) {
+	    $s =~ /^\s+(.+)/ and push @{$bad_nodes->{$node}}, $1;
+	} else {
+	    $s =~ s/\s*\(.*//; #- remove reason (too complex to handle, needs to be removed)
+	    $state->{rejected}{$s}{removed} = 1;
+	    $state->{rejected}{$s}{nodes}{$node} = undef;
+	}
+    }
+    return;
+}
+
 1;
