@@ -141,7 +141,7 @@ sub parallel_resolve_dependencies {
     }
 
     #- execute urpmq to determine packages to install.
-    my ($node, $cont, %chosen);
+    my ($cont, %chosen);
     local $_;
     do {
 	$cont = 0; #- prepare to stop iteration.
@@ -151,7 +151,7 @@ sub parallel_resolve_dependencies {
 	open my $fh, rshp_command($urpm, $parallel, "-v", "urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen)) . " |";
 	while (<$fh>) {
 	    chomp;
-	    ($node, $_) = _parse_rshp_output($_) or next;
+	    (my $node, $_) = _parse_rshp_output($_) or next;
 	    if (my ($action, $what) = /^\@([^\@]*)\@(.*)/) {
 		if ($action eq 'removing') {
 		    $state->{rejected}{$what}{removed} = 1;
