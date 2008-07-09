@@ -57,8 +57,8 @@ sub new {
 	info       => sub { printf "%s\n", $_[0] }, #- displayed unless --quiet
 	log        => sub { printf "%s\n", $_[0] }, #- displayed if --verbose
 	ui_msg     => sub {
+	    # deprecated
 	    $self->{log}($_[0]);
-	    ref $self->{ui} && ref $self->{ui}{msg} and $self->{ui}{msg}->($_[1]);
 	},
     }, $class;
 

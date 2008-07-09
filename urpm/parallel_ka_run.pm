@@ -86,7 +86,7 @@ sub parallel_resolve_dependencies {
     my (%avoided, %requested);
 
     #- first propagate the synthesis file to all machines
-    $urpm->{ui_msg}("parallel_ka_run: $mput_command $parallel->{options} -- '$synthesis' '$synthesis'", N("Propagating synthesis to nodes..."));
+    $urpm->{log}("parallel_ka_run: $mput_command $parallel->{options} -- '$synthesis' '$synthesis'");
     system($mput_command, $parallel->{options}, '--', $synthesis, $synthesis);
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
     $parallel->{synthesis} = $synthesis;
@@ -137,7 +137,7 @@ sub parallel_resolve_dependencies {
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
-	$urpm->{ui_msg}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen), N("Resolving dependencies on nodes..."));
+	$urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen));
 	open my $fh, "$rshp_command -v $parallel->{options} -- urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen) . " |";
 	while (<$fh>) {
 	    chomp;
@@ -180,14 +180,13 @@ sub parallel_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    $urpm->{ui_msg}("parallel_ka_run: $mput_command $parallel->{options} -- " . join(' ', values %$install, values %$upgrade) . " $urpm->{cachedir}/rpms/", N("Distributing files to nodes..."));
+    $urpm->{log}("parallel_ka_run: $mput_command $parallel->{options} -- " . join(' ', values %$install, values %$upgrade) . " $urpm->{cachedir}/rpms/");
     system $mput_command, split(' ', $parallel->{options}), '--', values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/";
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 
     local $_;
     my ($node, %bad_nodes);
-    $urpm->{ui_msg}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}",
-	N("Verifying if install is possible on nodes..."));
+    $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
     open my $fh, "$rshp_command -v $parallel->{options} -- urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line} |";
     while (<$fh>) {
 	chomp;
@@ -211,7 +210,7 @@ sub parallel_install {
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation.
-        $urpm->{ui_msg}("parallel_ka_run: $rshp_command $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line", N("Installing packages on nodes..."));
+        $urpm->{log}("parallel_ka_run: $rshp_command $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
 	system("$rshp_command $parallel->{options} -- urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line") == 0;
     }
 }
