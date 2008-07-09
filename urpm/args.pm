@@ -330,6 +330,7 @@ my %options_spec = (
 	    }
 	    push @::cmdline, $p;
 	},
+        metalink => sub { $urpm->{options}{metalink} = 1 },
     },
 
     'urpmi.addmedia' => {
@@ -343,6 +344,7 @@ my %options_spec = (
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
 	raw => \$options{raw},
+        metalink => sub { $urpm->{options}{metalink} = 1 },
     },
 
     'urpmi.recover' => {
