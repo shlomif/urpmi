@@ -25,7 +25,7 @@ if (!$rshp_command) {
 }
 $rshp_command ||= 'rshp';
 
-sub rshp_command {
+sub _rshp_command {
     my ($urpm, $parallel, $rshp_option, $para) = @_;
 
     my $cmd = "$rshp_command $rshp_option $parallel->{options} -- $para";
@@ -61,7 +61,7 @@ sub parallel_find_remove {
     my (%bad_nodes, %base_to_remove, %notfound);
 
     #- now try an iteration of urpme.
-    my $command = rshp_command($urpm, $parallel, "-v", "urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l));
+    my $command = _rshp_command($urpm, $parallel, "-v", "urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l));
     open my $fh, "$command 2>&1 |";
 
     while (my $s = <$fh>) {
@@ -112,7 +112,7 @@ sub parallel_resolve_dependencies {
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
-	open my $fh, rshp_command($urpm, $parallel, "-v", "urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen)) . " |";
+	open my $fh, _rshp_command($urpm, $parallel, "-v", "urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen)) . " |";
 	while (my $s = <$fh>) {
 	    my ($node, $s_) = _parse_rshp_output($s) or next;
 	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s_, \$cont, \%chosen, %options);
@@ -134,7 +134,7 @@ sub parallel_install {
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 
     my (%bad_nodes);
-    open my $fh, rshp_command($urpm, $parallel, "-v", "urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}") . ' |';
+    open my $fh, _rshp_command($urpm, $parallel, "-v", "urpmi --pre-clean --no-locales --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}") . ' |';
     while (my $s_ = <$fh>) {
 	chomp $s_;
 	my ($node, $s) = _parse_rshp_output($s_) or next;
@@ -157,7 +157,7 @@ sub parallel_install {
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation.
-	system(rshp_command($urpm, $parallel, '', "urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line")) == 0;
+	system(_rshp_command($urpm, $parallel, '', "urpmi --no-locales --no-verify-rpm --auto --synthesis $parallel->{synthesis} $line")) == 0;
     }
 }
 
