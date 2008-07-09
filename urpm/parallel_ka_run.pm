@@ -127,7 +127,7 @@ sub parallel_resolve_dependencies {
 		#- or continue iteration to make sure no more choices are left.
 		$cont ||= 1; #- invalid transitory state (still choices is strange here if next sentence is not executed).
 		unless (grep { exists $chosen{$_} } split /\|/, $_) {
-		    my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { $urpm->search($_) } split '\|', $_ ]);
+		    my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { $urpm->search($_) } split /\|/, $_ ]);
 		    if ($choice) {
 			$chosen{scalar $choice->fullname} = $choice;
 			#- it has not yet been chosen so need to ask user.
@@ -138,7 +138,7 @@ sub parallel_resolve_dependencies {
 		    }
 		}
 	    } else {
-		my $pkg = $urpm->search($_) or next;
+		my $pkg = $urpm->search($_) or next; #TODO
 		$state->{selected}{$pkg->id}{$node} = $_;
 	    }
 	}
