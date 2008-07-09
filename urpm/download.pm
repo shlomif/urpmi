@@ -872,52 +872,49 @@ sub _create_metalink_ {
     if(! $options->{media}){
         return;
     }
-    my $mirror;
+    my $mirrors;
     foreach my $medium (@{$urpm->{media} || []}){
         if($medium->{name} eq $options->{media}){
             my $mirrorlist = $medium->{mirrorlist};
-            $mirror = $urpm->{mirrors_cache}->{$mirrorlist};
+            $mirrors = $urpm->{mirrors_cache}->{$mirrorlist};
         }
     }
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
-    my $metalink = '<?xml version="1.0" encoding="utf-8"?>'."\n";
-    $metalink = $metalink.'<metalink version="3.0" generator="URPMI"'."\n";
-    $metalink = $metalink.'xmlns="http://www.metalinker.org/">'."\n";
-    $metalink = $metalink.'<files>'."\n";
+    my $metalink = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+    $metalink .= "<metalink version=\"3.0\" generator=\"URPMI\"\n";
+    $metalink .= "xmlns=\"http://www.metalinker.org/\">\n";
+    $metalink .= "<files>\n";
 
-    for(my $i = 0; $i < @$files; $i++){
-        my $append = @$files[$i];
-        $append =~ s/$mirror->{chosen}//;
-        $metalink = $metalink."\t<file name=\"".basename($append)."\">\n";
-        $metalink = $metalink."\t\t<resources>\n";
+    foreach my $append (@$files) {
+        $append =~ s/$mirrors->{chosen}//;
+        $metalink .= "\t<file name=\"".basename($append)."\">\n";
+        $metalink .= "\t\t<resources>\n";
 
-        for(my $i = 0; $i < @{$mirror->{list}}; $i++){
-            my $type = $mirror->{list}[$i]->{url};
+        my $i = 0; foreach my $mirror (@{$mirrors->{list}}) { $i++;
+            my $type = $mirror->{url};
             $type =~ s/:\/\/.*//;
             my $preference = 100-$i;
             # If more than 100 mirrors, give all the remaining mirrors a priority of 0
-            if($preference < 0){
-                $preference = 0;
-            }
-            $metalink = $metalink."\t\t\t<url type=\"$type\" preference=\"$preference\"";
+            my $preference = max(0, 100 - $i);
+            $metalink .= "\t\t\t<url type=\"$type\" preference=\"$preference\"";
             # Not supported in metalinks
             #if(@$list[$i]->{bw}){
-            #    $metalink = $metalink." bandwidth=\"".@$list[$i]->{bw}."\" ";
+            #    $metalink .= " bandwidth=\"".@$list[$i]->{bw}."\" ";
             #       }
             # Supported in metalinks, but no longer used in mirror list..?
-            if($mirror->{list}[$i]->{connections}){
-                $metalink = $metalink." maxconnections=\"".$mirror->{list}[$i]->{connections}."\"";
+            if($mirror->{connections}){
+                $metalink .= " maxconnections=\"".$mirror->{connections}."\"";
             }
-            $metalink = $metalink." location=\"".lc($mirror->{list}[$i]->{zone})."\">".$mirror->{list}[$i]->{url}.$append."</url>\n";
+            $metalink .= " location=\"".lc($mirror->{zone})."\">".$mirror->{url}.$append."</url>\n";
         }
-        $metalink = $metalink."\t\t</resources>\n";
-        $metalink = $metalink."\t</file>\n";
-        @$files[$i] = "$metalinkfile:$append";
+        $metalink .= "\t\t</resources>\n";
+        $metalink .= "\t</file>\n";
+        $append = "$metalinkfile:$append";
     }
-    $metalink = $metalink."</files>\n</metalink>\n";
+    $metalink .= "</files>\n</metalink>\n";
     
-    output_safe("$metalinkfile", $metalink);
+    output_safe($metalinkfile, $metalink);
 }
 
 1;
