@@ -166,7 +166,7 @@ sub modify_rpm_macro {
     my ($name, $to_remove, $to_add) = @_;
 
     my $val = URPM::expand('%' . $name);
-    $val =~ s/$to_remove/$to_add/ or $val = join(' ', grep {$_} $val, $to_add);
+    $val =~ s/$to_remove/$to_add/ or $val = join(' ', grep { $_ } $val, $to_add);
     URPM::add_macro("$name $val");
 }
 
@@ -198,7 +198,7 @@ sub tune_rpm {
 
 sub _blist_pkg_to_urls {
     my ($blist, @pkgs) = @_;
-    my $base_url = $blist->{medium}->{url} . '/';
+    my $base_url = $blist->{medium}{url} . '/';
     map { $base_url . $_->filename } @pkgs;
 }
 sub blist_pkg_to_url {
@@ -337,7 +337,7 @@ sub is_delta_installable {
 #- - for inst.list (cf flag disable_obsolete)
 #- sources is a hash of id -> source rpm filename.
 sub extract_packages_to_install {
-    my ($urpm, $sources, $state) = @_;
+    my ($urpm, $sources, $_state) = @_;
     my %inst;
 
     foreach (keys %$sources) {
