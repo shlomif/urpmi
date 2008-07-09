@@ -129,11 +129,11 @@ sub parse_urpme_output {
     return;
 }
 
+#- compute command line of urpm? tools.
 sub simple_resolve_dependencies {
     my ($parallel, $urpm, $state, $requested, %options) = @_;
 
-    #- compute command line of urpm? tools.
-    my $line = $parallel->{line} . ($options{auto_select} ? ' --auto-select' : '') . ($options{keep} ? ' --keep' : '');
+    my @pkgs;
     foreach (keys %$requested) {
 	if (/\|/) {
 	    #- taken from URPM::Resolve to filter out choices, not complete though.
@@ -159,16 +159,20 @@ sub simple_resolve_dependencies {
 	    #- simplified choice resolution.
 	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ values %$packages ]);
 	    if ($choice) {
-		$urpm->{source}{$choice->id} and next; #- local packages have already been added.
-		$line .= ' ' . $choice->fullname;
+		push @pkgs, $choice;
 	    }
 	} else {
 	    my $pkg = $urpm->{depslist}[$_] or next;
-	    $urpm->{source}{$pkg->id} and next; #- local packages have already been added.
-	    $line .= ' ' . $pkg->fullname;
+	    push @pkgs, $pkg;
 	}
     }
-    $line;
+    #- local packages have already been added.
+    @pkgs = grep { !$urpm->{source}{$_->id} } @pkgs;
+
+      $parallel->{line} . 
+	($options{auto_select} ? ' --auto-select' : '') . 
+	($options{keep} ? ' --keep' : '') .
+	join(' ', map { scalar $_->fullname } @pkgs);
 }
 
 1;
