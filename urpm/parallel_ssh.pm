@@ -68,11 +68,11 @@ sub parallel_find_remove {
 	    /^\s*$/ and next;
 	    /Checking to remove the following packages/ and next;
 	    /To satisfy dependencies, the following packages are going to be removed/
-	      and $urpm->{fatal}(1, ("node %s has bad version of urpme, please upgrade", $node));
+	      and $urpm->{fatal}(1, N("node %s has an old version of urpme, please upgrade", $node));
 	    if (/unknown packages?:? (.*)/) {
 		#- remember unknown packages from the node, because it should not be a fatal error
 		#- if other nodes have it.
-		@notfound{split /, /, $1} = ();
+		@notfound{split ", ", $1} = ();
 	    } elsif (/The following packages contain ([^:]*): (.*)/) {
 		$options{callback_fuzzy} && $options{callback_fuzzy}->($urpm, $1, split(" ", $2))
 		  or delete $state->{rejected}, last;
@@ -96,7 +96,7 @@ sub parallel_find_remove {
     }
 
     #- check base, which has been delayed until there.
-    if ($options{callback_base} && keys %base_to_remove) {
+    if ($options{callback_base} && %base_to_remove) {
 	$options{callback_base}->($urpm, keys %base_to_remove) or return ();
     }
 
@@ -108,7 +108,7 @@ sub parallel_find_remove {
 
     #- if at least one node has the package, it should be seen as unknown...
     delete @notfound{map { /^(.*)-[^-]*-[^-]*$/ } keys %{$state->{rejected}}};
-    if (keys %notfound) {
+    if (%notfound) {
 	$options{callback_notfound} && $options{callback_notfound}->($urpm, keys %notfound)
 	  or delete $state->{rejected};
     }
@@ -212,7 +212,7 @@ sub parallel_resolve_dependencies {
     } while $cont;
 
     #- keep trace of what has been chosen finally (if any).
-    $parallel->{line} = "$line " . join(' ', keys %chosen);
+    $parallel->{line} = join(' ', $line, keys %chosen);
 }
 
 #- parallel install.
@@ -249,7 +249,7 @@ sub parallel_install {
 	exists $bad_nodes{$_} or next;
 	$urpm->{error}(N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
     }
-    keys %bad_nodes and return;
+    %bad_nodes and return;
 
     if ($options{test}) {
 	$urpm->{error}(N("Installation is possible"));
@@ -302,7 +302,6 @@ sub handle_parallel_options {
 	    nodes   => \%nodes,
 	}, "urpm::parallel_ssh";
     }
-
     return undef;
 }
 

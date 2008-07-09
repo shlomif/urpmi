@@ -41,7 +41,7 @@ sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
     my ($test, $node, %bad_nodes, %base_to_remove, %notfound);
 
-    #- keep in mind if the previous selection is still active, it avoid
+    #- keep in mind if the previous selection is still active, it avoids
     #- to re-start urpme --test on each node.
     if ($options{find_packages_to_remove}) {
 	delete $state->{rejected};
@@ -54,7 +54,7 @@ sub parallel_find_remove {
 	$test = '--force ';
     }
 
-    #- now try an iteration of urpmq.
+    #- now try an iteration of urpme.
     $urpm->{log}("parallel_ka_run: $rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . (join ' ', map { "'$_'" } @$l));
     open my $fh, "$rshp_command -v $parallel->{options} -- urpme --no-locales --auto $test" . join(' ', map { "'$_'" } @$l) . " 2>&1 |";
     local $_;
@@ -66,7 +66,7 @@ sub parallel_find_remove {
 	/To satisfy dependencies, the following packages are going to be removed/
 	    and $urpm->{fatal}(1, N("node %s has an old version of urpme, please upgrade", $node));
 	if (/unknown packages?:? (.*)/) {
-	    #- keep in mind unknown package from the node, because it should not be a fatal error
+	    #- remember unknown packages from the node, because it should not be a fatal error
 	    #- if other node have it.
 	    @notfound{split ", ", $1} = ();
 	} elsif (/The following packages contain ([^:]*): (.*)/) {
@@ -82,7 +82,7 @@ sub parallel_find_remove {
 	    if (exists $bad_nodes{$node}) {
 		/^\s+(.+)/ and push @{$bad_nodes{$node}}, $1;
 	    } else {
-		s/\s*\(.*//; #- remove reason (too complex to handle and needed to be removed).
+		s/\s*\(.*//; #- remove reason (too complex to handle, needs to be removed)
 		$state->{rejected}{$_}{removed} = 1;
 		$state->{rejected}{$_}{nodes}{$node} = undef;
 	    }
@@ -116,7 +116,7 @@ sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
     my (%avoided, %requested);
 
-    #- first propagate the synthesis file to all machine.
+    #- first propagate the synthesis file to all machines
     $urpm->{ui_msg}("parallel_ka_run: $mput_command $parallel->{options} -- '$synthesis' '$synthesis'", N("Propagating synthesis to nodes..."));
     system($mput_command, $parallel->{options}, '--', $synthesis, $synthesis);
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
@@ -147,7 +147,7 @@ sub parallel_resolve_dependencies {
 		}
 		$_ = $best_requested || $best;
 	    }
-	    #- simplified choices resolution.
+	    #- simplified choice resolution.
 	    my $choice = $options{callback_choices}->($urpm, undef, $state, [ values %$packages ]);
 	    if ($choice) {
 		$urpm->{source}{$choice->id} and next; #- local packages have already been added.
@@ -182,7 +182,7 @@ sub parallel_resolve_dependencies {
 		#- distant urpmq returned a choices, check if it has already been chosen
 		#- or continue iteration to make sure no more choices are left.
 		$cont ||= 1; #- invalid transitory state (still choices is strange here if next sentence is not executed).
-		unless (grep { exists $chosen{$_} } split '\|', $_) {
+		unless (grep { exists $chosen{$_} } split /\|/, $_) {
 		    my $choice = $options{callback_choices}->($urpm, undef, $state, [ map { $urpm->search($_) } split '\|', $_ ]);
 		    if ($choice) {
 			$chosen{scalar $choice->fullname} = $choice;
