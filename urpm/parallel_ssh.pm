@@ -117,7 +117,6 @@ sub parallel_resolve_dependencies {
 
     #- execute urpmq to determine packages to install.
     my ($cont, %chosen);
-    local $_;
     do {
 	$cont = 0; #- prepare to stop iteration.
 	#- the following state should be cleaned for each iteration.
@@ -127,9 +126,9 @@ sub parallel_resolve_dependencies {
 	    my $command = _ssh_urpm($urpm, $node, "urpmq", _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen));
 	    open my $fh, "$command |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!");
-	    while (defined ($_ = <$fh>)) {
-		chomp;
-		urpm::parallel::parse_urpmq_output($urpm, $state, $node, $_, \$cont, \%chosen, %options);
+	    while (my $s = <$fh>) {
+		chomp $s;
+		urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
 	    }
 	    close $fh or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
 	}
