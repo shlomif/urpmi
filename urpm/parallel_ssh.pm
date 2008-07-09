@@ -45,7 +45,6 @@ sub parallel_register_rpms {
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
     my ($test, %bad_nodes, %base_to_remove, %notfound);
-    local $_;
 
     #- keep in mind if the previous selection is still active, it avoids
     #- to re-start urpme --test on each node.
@@ -66,6 +65,7 @@ sub parallel_find_remove {
         $urpm->{log}("parallel_ssh: $command");
 	open my $fh, "$command 2>&1 |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
+	local $_;
 	while (defined ($_ = <$fh>)) {
 	    chomp;
 	    /^\s*$/ and next;
