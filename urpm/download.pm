@@ -39,6 +39,15 @@ sub available_ftp_http_downloaders() {
     grep { -x "/usr/bin/$binaries{$_}" || -x "/bin/$binaries{$_}" } ftp_http_downloaders();
 }
 
+sub metalink_downloaders() { qw(aria2) }
+
+sub available_metalink_downloaders() {
+    my %binaries = (
+	aria2 => 'aria2c',
+    );
+    grep { -x "/usr/bin/$binaries{$_}" || -x "/bin/$binaries{$_}" } metalink_downloaders();
+}
+
 #- parses proxy.cfg (private)
 sub load_proxy_config () {
     return if defined $proxy_config;
@@ -601,6 +610,15 @@ sub sync_aria2 {
     (my $cwd) = getcwd() =~ /(.*)/;
     chdir $options->{dir};
     my ($buf, $total, $file) = ('', undef, undef);
+    my @files;
+    for(my $i = 0; $i < @_; $i++){
+        my $metalinkfile = @_[$i];
+        $metalinkfile =~ s/metalink:.*/metalink/;
+        if ( not grep { $_ eq $metalinkfile } @files){
+            push(@files, $metalinkfile);
+        }
+    }
+
     my $aria2c_command = join(" ", map { "'$_'" }
 	"/usr/bin/aria2c",
 	"--timeout", $CONNECT_TIMEOUT,
@@ -613,7 +631,7 @@ sub sync_aria2 {
 	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : ()),
 	($options->{retry} ? "--max-tries=$options->{retry}" : "--max-tries=3"),
 	(defined $options->{'aria2-options'} ? split /\s+/, $options->{'aria2-options'} : ()),
-	@_);
+	@files);
 
     $options->{debug} and $options->{debug}($aria2c_command);
 
@@ -757,7 +775,7 @@ sub sync {
 	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
 	%options,
     );
-    foreach my $cpt (qw(compress limit-rate retry wget-options curl-options rsync-options prozilla-options aria2-options)) {
+    foreach my $cpt (qw(compress limit-rate retry wget-options curl-options rsync-options prozilla-options aria2-options metalink)) {
 	$all_options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
     }
 
@@ -804,8 +822,9 @@ sub _sync_webfetch_raw {
 	delete @files{qw(removable file)};
     }
     if ($files{ftp} || $files{http} || $files{https}) {
-	
-	my @available = urpm::download::available_ftp_http_downloaders();
+
+    #- If metalink is used, only aria2 is available as other downloaders doesn't support metalink
+	my @available = ($options->{metalink} ? urpm::download::available_metalink_downloaders() : urpm::download::available_ftp_http_downloaders());
 
 	#- first downloader of @available is the default one
 	my $preferred = $available[0];
@@ -820,6 +839,11 @@ sub _sync_webfetch_raw {
 	}
 	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
 	my @l = (@{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
+
+    # FIXME: This is rather crude and should probably be done some better place.
+    if($options->{metalink}){
+        _create_metalink_($urpm, \@l, $options);
+    }
 	while (@l) {
 	    my $half_MAX_ARG = 131072 / 2;
 	    # restrict the number of elements so that it fits on cmdline of curl/wget/proz/aria2c
@@ -840,6 +864,60 @@ sub _sync_webfetch_raw {
 	delete $files{ssh};
     }
     %files and die N("unable to handle protocol: %s", join ', ', keys %files);
+}
+
+sub _create_metalink_ {
+    my ($urpm, $files, $options) = @_;
+    # Don't create a metalink when downloading mirror list
+    if(! $options->{media}){
+        return;
+    }
+    my $mirror;
+    foreach my $medium (@{$urpm->{media} || []}){
+        if($medium->{name} eq $options->{media}){
+            my $mirrorlist = $medium->{mirrorlist};
+            $mirror = $urpm->{mirrors_cache}->{$mirrorlist};
+        }
+    }
+    
+    my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
+    my $metalink = '<?xml version="1.0" encoding="utf-8"?>'."\n";
+    $metalink = $metalink.'<metalink version="3.0" generator="URPMI"'."\n";
+    $metalink = $metalink.'xmlns="http://www.metalinker.org/">'."\n";
+    $metalink = $metalink.'<files>'."\n";
+
+    for(my $i = 0; $i < @$files; $i++){
+        my $append = @$files[$i];
+        $append =~ s/$mirror->{chosen}//;
+        $metalink = $metalink."\t<file name=\"".basename($append)."\">\n";
+        $metalink = $metalink."\t\t<resources>\n";
+
+        for(my $i = 0; $i < @{$mirror->{list}}; $i++){
+            my $type = $mirror->{list}[$i]->{url};
+            $type =~ s/:\/\/.*//;
+            my $preference = 100-$i;
+            # If more than 100 mirrors, give all the remaining mirrors a priority of 0
+            if($preference < 0){
+                $preference = 0;
+            }
+            $metalink = $metalink."\t\t\t<url type=\"$type\" preference=\"$preference\"";
+            # Not supported in metalinks
+            #if(@$list[$i]->{bw}){
+            #    $metalink = $metalink." bandwidth=\"".@$list[$i]->{bw}."\" ";
+            #       }
+            # Supported in metalinks, but no longer used in mirror list..?
+            if($mirror->{list}[$i]->{connections}){
+                $metalink = $metalink." maxconnections=\"".$mirror->{list}[$i]->{connections}."\"";
+            }
+            $metalink = $metalink." location=\"".lc($mirror->{list}[$i]->{zone})."\">".$mirror->{list}[$i]->{url}.$append."</url>\n";
+        }
+        $metalink = $metalink."\t\t</resources>\n";
+        $metalink = $metalink."\t</file>\n";
+        @$files[$i] = "$metalinkfile:$append";
+    }
+    $metalink = $metalink."</files>\n</metalink>\n";
+    
+    output_safe("$metalinkfile", $metalink);
 }
 
 1;
