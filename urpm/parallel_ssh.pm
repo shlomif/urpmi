@@ -10,7 +10,7 @@ use urpm::util;
 use urpm::msg;
 use urpm::parallel;
 
-our @ISA = (); #- help perl_checker
+our @ISA = 'urpm::parallel';
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
