@@ -57,6 +57,7 @@ my %options_spec_all = (
 	'wait-lock' => \$options{wait_lock},
 	'use-copied-hdlist' => sub { $urpm->{options}{use_copied_hdlist} = 1 },
 	'tune-rpm=s' => sub { urpm::set_tune_rpm($urpm, $_[1]) },
+	"no-locales" => sub { $urpm::msg::no_translation = 1 },
 );
 
 my %options_spec = (
@@ -73,7 +74,6 @@ my %options_spec = (
 	"help|h" => sub {
 	    if (defined &::usage) { ::usage() } else { die "No help defined\n" }
 	},
-	"no-locales" => sub { $urpm::msg::no_translation = 1 },
 	update => \$::update,
 	'media|mediums=s' => \$::media,
 	'excludemedia|exclude-media=s' => \$::excludemedia,
@@ -408,7 +408,7 @@ foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'force', 'expect-in
 }
 $options_spec{gurpmi2} = $options_spec{gurpmi};
 
-foreach my $k ("help|h", "version", "no-locales", "test!", "force", "root=s", "use-distrib=s",
+foreach my $k ("help|h", "version", "test!", "force", "root=s", "use-distrib=s",
     'repackage', 'noscripts', 'auto', 'auto-orphans',
     "parallel=s")
 {
@@ -419,7 +419,7 @@ foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synth
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "version", "no-locales", "update", "media|mediums=s",
+foreach my $k ("help|h", "version", "update", "media|mediums=s",
     "excludemedia|exclude-media=s", "sortmedia|sort-media=s", "use-distrib=s",
     "synthesis=s", "env=s")
 {
