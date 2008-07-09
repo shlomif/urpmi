@@ -185,8 +185,8 @@ sub parallel_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
+    my @sources = (values %$install, values %$upgrade);
     foreach my $host (keys %{$parallel->{nodes}}) {
-	my @sources = (values %$install, values %$upgrade);
 	$urpm->{log}("parallel_ssh: scp @sources $host:$urpm->{cachedir}/rpms");
 	if (_localhost($host)) {
 	    my @f = grep { ! m!^$urpm->{cachedir}/rpms! } @sources;
