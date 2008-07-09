@@ -132,6 +132,8 @@ sub parse_urpme_output {
 sub parse_urpmq_output {
     my ($urpm, $state, $node, $s, $cont, $chosen, %options) = @_;
 
+    chomp $s;
+
     if (my ($action, $what) = $s =~ /^\@([^\@]*)\@(.*)/) {
 	if ($action eq 'removing') {
 	    $state->{rejected}{$what}{removed} = 1;

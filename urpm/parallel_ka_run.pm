@@ -114,7 +114,6 @@ sub parallel_resolve_dependencies {
 	#- now try an iteration of urpmq.
 	open my $fh, rshp_command($urpm, $parallel, "-v", "urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen)) . " |";
 	while (my $s = <$fh>) {
-	    chomp $s;
 	    my ($node, $s_) = _parse_rshp_output($s) or next;
 	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s_, \$cont, \%chosen, %options);
 	}
