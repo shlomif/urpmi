@@ -76,4 +76,23 @@ sub post_register_rpms {
 	   map { "$urpm->{cachedir}/rpms/" . basename($_) } @files);
 }
 
+sub find_remove_pre {
+    my ($urpm, $state, %options) = @_;
+
+    #- keep in mind if the previous selection is still active, it avoids
+    #- to re-start urpme --test on each node.
+    if ($options{find_packages_to_remove}) {
+	delete $state->{rejected};
+	delete $urpm->{error_remove};
+	'--test ';
+    } elsif (@{$urpm->{error_remove} || []}) {
+	undef, $urpm->{error_remove};
+    } elsif ($options{test}) {
+	#- no need to restart what has been started before.
+	undef, [ keys %{$state->{rejected}} ];
+    } else {
+	'--force ';
+    }
+}
+
 1;

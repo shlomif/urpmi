@@ -41,20 +41,10 @@ sub parallel_register_rpms {
 #- parallel find_packages_to_remove
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
-    my ($test, %bad_nodes, %base_to_remove, %notfound);
+    my (%bad_nodes, %base_to_remove, %notfound);
 
-    #- keep in mind if the previous selection is still active, it avoids
-    #- to re-start urpme --test on each node.
-    if ($options{find_packages_to_remove}) {
-	delete $state->{rejected};
-	delete $urpm->{error_remove};
-	$test = '--test ';
-    } else {
-	@{$urpm->{error_remove} || []} and return @{$urpm->{error_remove}};
-	#- no need to restart what has been started before.
-	$options{test} and return keys %{$state->{rejected}};
-	$test = '--force ';
-    }
+    my ($test, $pkgs) = urpm::parallel::find_remove_pre($urpm, $state, %options);
+    $pkgs and return @$pkgs;
 
     #- now try an iteration of urpme.
     foreach my $node (keys %{$parallel->{nodes}}) {
