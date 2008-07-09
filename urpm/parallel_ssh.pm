@@ -7,6 +7,7 @@ package urpm::parallel_ssh;
 
 use strict;
 use urpm::util;
+use urpm::msg;
 use Time::HiRes qw(gettimeofday);
 
 our @ISA = (); #- help perl_checker
@@ -30,7 +31,7 @@ sub parallel_register_rpms {
 	} else {
 	    system 'scp' => @files, "$_:$urpm->{cachedir}/rpms";
 	}
-	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
+	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
     #- keep trace of direct files.
@@ -105,7 +106,7 @@ sub parallel_find_remove {
     #- build error list contains all the error returned by each node.
     $urpm->{error_remove} = [];
     foreach (keys %bad_nodes) {
-	my $msg = urpm::N("on node %s", $_);
+	my $msg = N("on node %s", $_);
 	foreach (@{$bad_nodes{$_}}) {
 	    push @{$urpm->{error_remove}}, "$msg, $_";
 	}
@@ -127,9 +128,9 @@ sub parallel_resolve_dependencies {
 
     #- first propagate the synthesis file to all machines
     foreach (grep { !_localhost($_) } keys %{$parallel->{nodes}}) {
-	$urpm->{ui_msg}("parallel_ssh: scp -q $synthesis $_:$synthesis", urpm::N("Propagating synthesis to %s...", $_));
+	$urpm->{ui_msg}("parallel_ssh: scp -q $synthesis $_:$synthesis", N("Propagating synthesis to %s...", $_));
 	system "scp", "-q", $synthesis, _host($_) . $synthesis;
-	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
+	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $_, $? >> 8));
     }
     $parallel->{synthesis} = $synthesis;
 
@@ -180,7 +181,7 @@ sub parallel_resolve_dependencies {
 	#- now try an iteration of urpmq.
 	foreach my $node (keys %{$parallel->{nodes}}) {
 	    my $command = _ssh($node) . "urpmq " . _nolock($node) . "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen);
-	    $urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Resolving dependencies on %s...", $node));
+	    $urpm->{ui_msg}("parallel_ssh: $command", N("Resolving dependencies on %s...", $node));
 	    open my $fh, "$command |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!");
 	    while (defined ($_ = <$fh>)) {
@@ -210,7 +211,7 @@ sub parallel_resolve_dependencies {
 		    $state->{selected}{$pkg->id}{$node} = $_;
 		}
 	    }
-	    close $fh or $urpm->{fatal}(1, urpm::N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
+	    close $fh or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
 	}
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
@@ -226,21 +227,21 @@ sub parallel_install {
 
     foreach (keys %{$parallel->{nodes}}) {
 	my @sources = (values %$install, values %$upgrade);
-	$urpm->{ui_msg}("parallel_ssh: scp @sources $_:$urpm->{cachedir}/rpms", urpm::N("Distributing files to %s...", $_));
+	$urpm->{ui_msg}("parallel_ssh: scp @sources $_:$urpm->{cachedir}/rpms", N("Distributing files to %s...", $_));
 	if (_localhost($_)) {
 	    my @f = grep { ! m!^$urpm->{cachedir}/rpms! } @sources;
 	    @f and system 'cp' => @f, "$urpm->{cachedir}/rpms";
 	} else {
 	    system 'scp' => @sources, "$_:$urpm->{cachedir}/rpms";
 	}
-	$? == 0 or $urpm->{fatal}(1, urpm::N("scp failed on host %s (%d)", $_, $? >> 8));
+	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $_, $? >> 8));
     }
 
     my %bad_nodes;
     foreach my $node (keys %{$parallel->{nodes}}) {
 	local $_;
 	my $command = _ssh($node) . "urpmi --pre-clean --no-locales --test --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $parallel->{line}";
-	$urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Verifying if install is possible on %s...", $node));
+	$urpm->{ui_msg}("parallel_ssh: $command", N("Verifying if install is possible on %s...", $node));
 	open my $fh, "$command |"
 	    or $urpm->{fatal}(1, "Can't fork ssh: $!");
 	while ($_ = <$fh>) {
@@ -252,19 +253,19 @@ sub parallel_install {
     }
     foreach (keys %{$parallel->{nodes}}) {
 	exists $bad_nodes{$_} or next;
-	$urpm->{error}(urpm::N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
+	$urpm->{error}(N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
     }
     keys %bad_nodes and return;
 
     if ($options{test}) {
-	$urpm->{error}(urpm::N("Installation is possible"));
+	$urpm->{error}(N("Installation is possible"));
 	1;
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath $options{excludepath}" : "");
 	#- continue installation on each node
 	foreach my $node (keys %{$parallel->{nodes}}) {
 	    my $command = _ssh($node) . "urpmi --no-locales --no-verify-rpm --auto " . _nolock($node) . "--synthesis $parallel->{synthesis} $line";
-	    $urpm->{ui_msg}("parallel_ssh: $command", urpm::N("Performing install on %s...", $node));
+	    $urpm->{ui_msg}("parallel_ssh: $command", N("Performing install on %s...", $node));
 	    $urpm->{ui}{progress}->(0) if ref $urpm->{ui}{progress};
 	    open my $fh, "$command |"
 		or $urpm->{fatal}(1, "Can't fork ssh: $!");
@@ -278,8 +279,8 @@ sub parallel_install {
                 /\n/ and $log = '';
                 if (my ($msg, $progress) = $log =~ /^\s*(\S+)\s+(#+)/) {
                     if ($urpm->{ui} && (gettimeofday() - $last_time > 0.15 || length($progress) == 45)) {
-                        $urpm->{ui_msg}->($msg =~ /\d+:(\S+)/ ? urpm::N("Installing %s on %s...", $1, $node)
-                                                               : urpm::N("Preparing install on %s...", $node));
+                        $urpm->{ui_msg}->($msg =~ /\d+:(\S+)/ ? N("Installing %s on %s...", $1, $node)
+                                                               : N("Preparing install on %s...", $node));
                         $urpm->{ui}{progress}->(length($progress)/45) if ref $urpm->{ui}{progress};
                         $last_time = gettimeofday();
                     }
