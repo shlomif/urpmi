@@ -85,10 +85,8 @@ ones that are part of the base system.)
 
 See the urpme(8) manpage for the reference of all options urpme supports.
 
-urpme isn't able to detect packages that are no longer used: for example,
-libraries that no application requires. To clean them up, a handy tool is
-B<rpm-find-leaves>. It will list all RPMs on your system that no other
-package requires.
+urpme will detect packages that are no longer used: for example, libraries
+that no application requires. To remove them, use B<urpme --auto-orphans>
 
 =head1 Media management
 
@@ -238,18 +236,18 @@ will list the information for that package (like C<rpm -qi> would do for
 installed packages.) The C<--summary> option is similar, but gives only
 one-line concise information.
 
-    urpmq --source package
+    urpmq --sources package
 
 will give the URL from which the package can be retrieved.
 
-    urpmq -d package
+    urpmq --requires-recursive package
 
 will give the list of all RPMs that are required by the specified package
 (recursively).
 
 Inversely, the command
 
-    urpmq -R package
+    urpmq --whatrequires package
 
 will give the list of all RPMs that require the specified package.
 
