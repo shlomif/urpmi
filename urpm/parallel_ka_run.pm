@@ -107,17 +107,16 @@ sub parallel_resolve_dependencies {
 
     #- execute urpmq to determine packages to install.
     my ($cont, %chosen);
-    local $_;
     do {
 	$cont = 0; #- prepare to stop iteration.
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
 	open my $fh, rshp_command($urpm, $parallel, "-v", "urpmq --synthesis $synthesis -fduc $line " . join(' ', keys %chosen)) . " |";
-	while (<$fh>) {
-	    chomp;
-	    (my $node, $_) = _parse_rshp_output($_) or next;
-	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $_, \$cont, \%chosen, %options);
+	while (my $s = <$fh>) {
+	    chomp $s;
+	    my ($node, $s_) = _parse_rshp_output($s) or next;
+	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s_, \$cont, \%chosen, %options);
 	}
 	close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
 	#- check for internal error of resolution.
