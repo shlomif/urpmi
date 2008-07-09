@@ -23,15 +23,15 @@ sub _host      { &_localhost ? '' : "$_[0]:" }
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
 
-    foreach (keys %{$parallel->{nodes}}) {
-	$urpm->{log}("parallel_ssh: scp @files $_:$urpm->{cachedir}/rpms");
-	if (_localhost($_)) {
+    foreach my $host (keys %{$parallel->{nodes}}) {
+	$urpm->{log}("parallel_ssh: scp @files $host:$urpm->{cachedir}/rpms");
+	if (_localhost($host)) {
 	    my @f = grep { ! m!^$urpm->{cachedir}/rpms! } @files;
-	    @f and system 'cp' => @f, "$urpm->{cachedir}/rpms";
+	    @f and system('cp', @f, "$urpm->{cachedir}/rpms");
 	} else {
-	    system 'scp' => @files, "$_:$urpm->{cachedir}/rpms";
+	    system('scp', @files, "$host:$urpm->{cachedir}/rpms");
 	}
-	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $_, $? >> 8));
+	$? == 0 or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $host, $? >> 8));
     }
 
     #- keep trace of direct files.
