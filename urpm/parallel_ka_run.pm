@@ -54,6 +54,11 @@ sub urpm_popen {
     close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
 }
 
+sub run_urpm_command {
+    my ($parallel, $urpm, $cmd, $para) = @_;
+    system(_rshp_urpm($parallel, $urpm, '', $cmd, $para)) == 0;
+}
+
 sub copy_to_dir { &_run_mput }
 
 sub propagate_file {
@@ -99,7 +104,7 @@ sub parallel_install {
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation.
-	system(_rshp_urpm($parallel, $urpm, '', 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line")) == 0;
+	run_urpm_command($parallel, $urpm, 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
     }
 }
 

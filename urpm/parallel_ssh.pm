@@ -81,6 +81,14 @@ sub urpm_popen {
     }
 }
 
+sub run_urpm_command {
+    my ($parallel, $urpm, $cmd, $para) = @_;
+
+    foreach my $node (keys %{$parallel->{nodes}}) {
+	system(_ssh_urpm($urpm, $node, $cmd, $para));
+    }
+}
+
 #- parallel install.
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
@@ -110,10 +118,7 @@ sub parallel_install {
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation on each node
-	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $command = _ssh_urpm($urpm, $node, 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
-	    system($command);
-	}
+	run_urpm_command($parallel, $urpm, 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
     }
 }
 
