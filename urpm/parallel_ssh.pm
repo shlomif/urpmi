@@ -87,15 +87,17 @@ sub parallel_install {
 
     copy_to_dir($parallel, $urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms");
 
-    my %bad_nodes;
+    my (%bad_nodes, @good_nodes);
     $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
 	my ($node, $s) = @_;
 	$s =~ /^\s*$/ and return;
 	$bad_nodes{$node} .= $s;
 	$s =~ /Installation failed/ and $bad_nodes{$node} = '';
-	$s =~ /Installation is possible/ and delete $bad_nodes{$node}, return 1;
+	$s =~ /Installation is possible/ and push @good_nodes, $node;
 	undef;
     });
+    delete $bad_nodes{$_} foreach @good_nodes;
+
     foreach (keys %{$parallel->{nodes}}) {
 	exists $bad_nodes{$_} or next;
 	$urpm->{error}(N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
