@@ -330,7 +330,6 @@ my %options_spec = (
 	    }
 	    push @::cmdline, $p;
 	},
-	metalink => sub { $urpm->{options}{metalink} = 1 },
     },
 
     'urpmi.addmedia' => {
@@ -344,7 +343,6 @@ my %options_spec = (
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
 	raw => \$options{raw},
-	metalink => sub { $urpm->{options}{metalink} = 1 },
     },
 
     'urpmi.recover' => {
@@ -431,7 +429,7 @@ foreach my $k ("help|h", "version", "update", "media|mediums=s",
 }
 
 foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s",
-    'limit-rate=s',
+    'limit-rate=s', 'metalink',
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s")
 {
     $options_spec{'urpmi.update'}{$k} =
@@ -439,7 +437,7 @@ foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "aria2", 'downlo
 }
 
 foreach my $k ("help|h", "wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s", "f", "z",
-    "limit-rate=s", "no-md5sum", "update", "norebuild!", "probe-rpms",
+    "limit-rate=s", "no-md5sum", "update", "norebuild!", "probe-rpms", 'metalink',
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s", '<>')
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
