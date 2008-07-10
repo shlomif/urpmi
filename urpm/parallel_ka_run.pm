@@ -40,6 +40,19 @@ sub _rshp_urpm_popen {
     $fh;
 }
 
+sub urpm_popen {
+    my ($parallel, $urpm, $cmd, $para, $do) = @_;
+
+    my $fh = _rshp_urpm_popen($urpm, $parallel, $cmd, $para);
+
+    while (my $s = <$fh>) {
+	chomp $s;
+	my ($node, $s_) = _parse_rshp_output($s) or next;
+
+	$do->($node, $s_) or last;
+    }
+    close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
+}
 
 sub _run_mput {
     my ($urpm, $parallel, @para) = @_;
@@ -69,16 +82,12 @@ sub parallel_find_remove {
     my (%bad_nodes, %base_to_remove, %notfound);
 
     #- now try an iteration of urpme.
-    my $fh = _rshp_urpm_popen($urpm, $parallel, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1');
-
-    while (my $s = <$fh>) {
-	my ($node, $s_) = _parse_rshp_output($s) or next;
+    $parallel->urpm_popen($urpm, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1', sub {
+	my ($node, $s_) = @_;
 
 	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s_, 
-					   \%notfound, \%base_to_remove, \%bad_nodes, %options)
-	    or last;
-    }
-    close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
+					   \%notfound, \%base_to_remove, \%bad_nodes, %options);
+    });
 
     #- check base, which has been delayed until there.
     if ($options{callback_base} && %base_to_remove) {
@@ -119,12 +128,10 @@ sub parallel_resolve_dependencies {
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
-	my $fh = _rshp_urpm_popen($urpm, $parallel, 'urpmq', "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen)) . " |";
-	while (my $s = <$fh>) {
-	    my ($node, $s_) = _parse_rshp_output($s) or next;
+	$parallel->urpm_popen($urpm, 'urpmq', "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen), sub {
+	    my ($node, $s_) = @_;
 	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s_, \$cont, \%chosen, %options);
-	}
-	close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
+	});
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
     } while $cont;
@@ -141,16 +148,13 @@ sub parallel_install {
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 
     my (%bad_nodes);
-    my $fh = _rshp_urpm_popen($urpm, $parallel, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}") . ' |';
-    while (my $s_ = <$fh>) {
-	chomp $s_;
-	my ($node, $s) = _parse_rshp_output($s_) or next;
-	$s =~ /^\s*$/ and next;
+    $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
+	my ($node, $s) = @_;
+	$s =~ /^\s*$/ and return;
 	$bad_nodes{$node} .= $s;
 	$s =~ /Installation failed/ and $bad_nodes{$node} = '';
 	$s =~ /Installation is possible/ and delete $bad_nodes{$node};
-    }
-    close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
+    });
 
     foreach (keys %{$parallel->{nodes}}) {
 	exists $bad_nodes{$_} or next;
