@@ -428,17 +428,22 @@ foreach my $k ("help|h", "version", "update", "media|mediums=s",
     $options_spec{urpmf}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "version", "wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s",
+foreach my $k ("help|h", "wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s",
     'limit-rate=s', 'metalink',
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s")
+{
+    $options_spec{'urpmi.addmedia'}{$k} = 
+    $options_spec{'urpmi.update'}{$k} =
+    $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
+}
+
+foreach my $k ("version")
 {
     $options_spec{'urpmi.update'}{$k} =
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s", "f", "z",
-    "limit-rate=s", "no-md5sum", "update", "norebuild!", "probe-rpms", 'metalink',
-    "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s", '<>')
+foreach my $k ("f", "z", "no-md5sum", "update", "norebuild!", "probe-rpms", '<>')
 {
     $options_spec{'urpmi.addmedia'}{$k} = $options_spec{'urpmi.update'}{$k};
 }
