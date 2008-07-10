@@ -612,11 +612,11 @@ sub sync_aria2 {
     my ($buf, $total, $file) = ('', undef, undef);
     my @files;
     for(my $i = 0; $i < @_; $i++){
-        my $metalinkfile = @_[$i];
-        $metalinkfile =~ s/metalink:.*/metalink/;
-        if ( not grep { $_ eq $metalinkfile } @files){
-            push(@files, $metalinkfile);
-        }
+	my $metalinkfile = @_[$i];
+	$metalinkfile =~ s/metalink:.*/metalink/;
+	if ( not grep { $_ eq $metalinkfile } @files){
+    	    push(@files, $metalinkfile);
+	}
     }
 
     my $aria2c_command = join(" ", map { "'$_'" }
@@ -823,7 +823,7 @@ sub _sync_webfetch_raw {
     }
     if ($files{ftp} || $files{http} || $files{https}) {
 
-    #- If metalink is used, only aria2 is available as other downloaders doesn't support metalink
+	#- If metalink is used, only aria2 is available as other downloaders doesn't support metalink
 	my @available = ($options->{metalink} ? urpm::download::available_metalink_downloaders() : urpm::download::available_ftp_http_downloaders());
 
 	#- first downloader of @available is the default one
@@ -840,10 +840,10 @@ sub _sync_webfetch_raw {
 	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
 	my @l = (@{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 
-    # FIXME: This is rather crude and should probably be done some better place.
-    if($options->{metalink}){
-        _create_metalink_($urpm, \@l, $options);
-    }
+	# FIXME: This is rather crude and should probably be done some better place.
+	if($options->{metalink}){
+	    _create_metalink_($urpm, \@l, $options);
+	}
 	while (@l) {
 	    my $half_MAX_ARG = 131072 / 2;
 	    # restrict the number of elements so that it fits on cmdline of curl/wget/proz/aria2c
@@ -870,14 +870,14 @@ sub _create_metalink_ {
     my ($urpm, $files, $options) = @_;
     # Don't create a metalink when downloading mirror list
     if(! $options->{media}){
-        return;
+    	return;
     }
     my $mirrors;
     foreach my $medium (@{$urpm->{media} || []}){
-        if($medium->{name} eq $options->{media}){
-            my $mirrorlist = $medium->{mirrorlist};
-            $mirrors = $urpm->{mirrors_cache}->{$mirrorlist};
-        }
+	if($medium->{name} eq $options->{media}){
+    	    my $mirrorlist = $medium->{mirrorlist};
+	    $mirrors = $urpm->{mirrors_cache}->{$mirrorlist};
+	}
     }
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
@@ -887,30 +887,30 @@ sub _create_metalink_ {
     $metalink .= "<files>\n";
 
     foreach my $append (@$files) {
-        $append =~ s/$mirrors->{chosen}//;
-        $metalink .= "\t<file name=\"".basename($append)."\">\n";
-        $metalink .= "\t\t<resources>\n";
+	$append =~ s/$mirrors->{chosen}//;
+	$metalink .= "\t<file name=\"".basename($append)."\">\n";
+	$metalink .= "\t\t<resources>\n";
 
-        my $i = 0; foreach my $mirror (@{$mirrors->{list}}) { $i++;
-            my $type = $mirror->{url};
-            $type =~ s/:\/\/.*//;
-            my $preference = 100-$i;
-            # If more than 100 mirrors, give all the remaining mirrors a priority of 0
-            my $preference = max(0, 100 - $i);
-            $metalink .= "\t\t\t<url type=\"$type\" preference=\"$preference\"";
-            # Not supported in metalinks
-            #if(@$list[$i]->{bw}){
-            #    $metalink .= " bandwidth=\"".@$list[$i]->{bw}."\" ";
-            #       }
-            # Supported in metalinks, but no longer used in mirror list..?
-            if($mirror->{connections}){
-                $metalink .= " maxconnections=\"".$mirror->{connections}."\"";
-            }
-            $metalink .= " location=\"".lc($mirror->{zone})."\">".$mirror->{url}.$append."</url>\n";
-        }
-        $metalink .= "\t\t</resources>\n";
-        $metalink .= "\t</file>\n";
-        $append = "$metalinkfile:$append";
+	my $i = 0; foreach my $mirror (@{$mirrors->{list}}) { $i++;
+	    my $type = $mirror->{url};
+	    $type =~ s/:\/\/.*//;
+	    my $preference = 100-$i;
+	    # If more than 100 mirrors, give all the remaining mirrors a priority of 0
+	    my $preference = max(0, 100 - $i);
+	    $metalink .= "\t\t\t<url type=\"$type\" preference=\"$preference\"";
+	    # Not supported in metalinks
+ 	    #if(@$list[$i]->{bw}){
+	    #    $metalink .= " bandwidth=\"".@$list[$i]->{bw}."\" ";
+	    #       }
+	    # Supported in metalinks, but no longer used in mirror list..?
+	    if($mirror->{connections}){
+    		    $metalink .= " maxconnections=\"".$mirror->{connections}."\"";
+	    }
+	    $metalink .= " location=\"".lc($mirror->{zone})."\">".$mirror->{url}.$append."</url>\n";
+	}
+    $metalink .= "\t\t</resources>\n";
+    $metalink .= "\t</file>\n";
+    $append = "$metalinkfile:$append";
     }
     $metalink .= "</files>\n</metalink>\n";
     

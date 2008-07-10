@@ -122,8 +122,8 @@ my %options_spec = (
 	'allow-nodeps' => sub { $urpm->{options}{'allow-nodeps'} = 1 },
 	'allow-force' => sub { $urpm->{options}{'allow-force'} = 1 },
 	'parallel=s' => \$::parallel,
-	
-        metalink => sub { $urpm->{options}{metalink} = 1 },
+
+	metalink => sub { $urpm->{options}{metalink} = 1 },
 
 	# deprecated in favor of --downloader xxx
 	wget => sub { $urpm->{options}{downloader} = 'wget' },
@@ -330,7 +330,7 @@ my %options_spec = (
 	    }
 	    push @::cmdline, $p;
 	},
-        metalink => sub { $urpm->{options}{metalink} = 1 },
+	metalink => sub { $urpm->{options}{metalink} = 1 },
     },
 
     'urpmi.addmedia' => {
@@ -344,7 +344,7 @@ my %options_spec = (
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
 	raw => \$options{raw},
-        metalink => sub { $urpm->{options}{metalink} = 1 },
+	metalink => sub { $urpm->{options}{metalink} = 1 },
     },
 
     'urpmi.recover' => {
