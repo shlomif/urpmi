@@ -18,7 +18,7 @@ sub configure {
     my $parallel_handler;
     if (@parallel_options) {
 	foreach my $dir (grep { -d $_ } map { "$_/urpm" } @INC) {
-	    foreach my $pm (grep { -f $_ } glob("$dir/parallel*.pm")) {
+	    foreach my $pm (grep { -f $_ } glob("$dir/parallel_*.pm")) {
 		#- load parallel modules
 		$urpm->{log}->(N("examining parallel handler in file [%s]", $pm));
 		# perl_checker: require urpm::parallel_ka_run
