@@ -26,16 +26,16 @@ if (!$rshp_command) {
 $rshp_command ||= 'rshp';
 
 sub _rshp_urpm {
-    my ($urpm, $parallel, $rshp_option, $cmd, $para) = @_;
+    my ($parallel, $urpm, $rshp_option, $cmd, $para) = @_;
 
     my $command = "$rshp_command $rshp_option $parallel->{options} -- $cmd --no-locales $para";
     $urpm->{log}("parallel_ka_run: $command");
     $command;
 }
 sub _rshp_urpm_popen {
-    my ($urpm, $parallel, $cmd, $para) = @_;
+    my ($parallel, $urpm, $cmd, $para) = @_;
 
-    my $command = _rshp_urpm($urpm, $parallel, '-v', $cmd, $para);
+    my $command = _rshp_urpm($parallel, $urpm, '-v', $cmd, $para);
     open(my $fh, "$command |") or $urpm->{fatal}(1, "Can't fork $rshp_command: $!");
     $fh;
 }
@@ -43,7 +43,7 @@ sub _rshp_urpm_popen {
 sub urpm_popen {
     my ($parallel, $urpm, $cmd, $para, $do) = @_;
 
-    my $fh = _rshp_urpm_popen($urpm, $parallel, $cmd, $para);
+    my $fh = _rshp_urpm_popen($parallel, $urpm, $cmd, $para);
 
     while (my $s = <$fh>) {
 	chomp $s;
@@ -55,7 +55,7 @@ sub urpm_popen {
 }
 
 sub _run_mput {
-    my ($urpm, $parallel, @para) = @_;
+    my ($parallel, $urpm, @para) = @_;
 
     my @l = (split(' ', $parallel->{options}), '--', @para);
     $urpm->{log}("parallel_ka_run: $mput_command " . join(' ', @l));
@@ -67,7 +67,7 @@ sub _run_mput {
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
 
-    _run_mput($urpm, $parallel, @files, "$urpm->{cachedir}/rpms/");
+    _run_mput($parallel, $urpm, @files, "$urpm->{cachedir}/rpms/");
 
     urpm::parallel::post_register_rpms($parallel, $urpm, @files);
 }
@@ -77,7 +77,7 @@ sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
 
     #- first propagate the synthesis file to all machines
-    _run_mput($urpm, $parallel, $synthesis, $synthesis);
+    _run_mput($parallel, $urpm, $synthesis, $synthesis);
 
     $parallel->{synthesis} = $synthesis;
 
@@ -106,7 +106,7 @@ sub parallel_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    _run_mput($urpm, $parallel, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/");
+    _run_mput($parallel, $urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/");
 
     my (%bad_nodes);
     $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
@@ -129,7 +129,7 @@ sub parallel_install {
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation.
-	system(_rshp_urpm($urpm, $parallel, '', 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line")) == 0;
+	system(_rshp_urpm($parallel, $urpm, '', 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line")) == 0;
     }
 }
 
