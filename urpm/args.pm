@@ -58,6 +58,10 @@ my %options_spec_all = (
 	'use-copied-hdlist' => sub { $urpm->{options}{use_copied_hdlist} = 1 },
 	'tune-rpm=s' => sub { urpm::set_tune_rpm($urpm, $_[1]) },
 	"no-locales" => sub { $urpm::msg::no_translation = 1 },
+	"version" => sub { require urpm; print "$tool $urpm::VERSION\n"; exit(0) },
+	"help|h" => sub {
+	    if (defined &::usage) { ::usage() } else { die "No help defined\n" }
+	},
 );
 
 my %options_spec = (
@@ -65,15 +69,10 @@ my %options_spec = (
     # warning: for gurpm, urpm is _not_ a real urpmi object, only options should be altered:
     gurpmi => {
 	'media|mediums=s' => sub { $urpm->{options}{media} = 1 },
-	"help|h" => sub { gurpmi::usage() },
 	'searchmedia|search-media=s' => sub { $urpm->{options}{searchmedia} = 1 },
     },
 
     urpmi => {
-	"version" => sub { require urpm; print "$tool $urpm::VERSION\n"; exit(0) },
-	"help|h" => sub {
-	    if (defined &::usage) { ::usage() } else { die "No help defined\n" }
-	},
 	update => \$::update,
 	'media|mediums=s' => \$::media,
 	'excludemedia|exclude-media=s' => \$::excludemedia,
@@ -410,7 +409,7 @@ foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'force', 'expect-in
 }
 $options_spec{gurpmi2} = $options_spec{gurpmi};
 
-foreach my $k ("help|h", "version", "test!", "force", "root=s", "use-distrib=s",
+foreach my $k ("test!", "force", "root=s", "use-distrib=s",
     'repackage', 'noscripts', 'auto', 'auto-orphans',
     "parallel=s")
 {
@@ -421,24 +420,18 @@ foreach my $k ("root=s", "nolock", "use-distrib=s", "skip=s", "prefer=s", "synth
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "version", "update", "media|mediums=s",
+foreach my $k ("update", "media|mediums=s",
     "excludemedia|exclude-media=s", "sortmedia|sort-media=s", "use-distrib=s",
     "synthesis=s", "env=s")
 {
     $options_spec{urpmf}{$k} = $options_spec{urpmi}{$k};
 }
 
-foreach my $k ("help|h", "wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s",
+foreach my $k ("wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s",
     'limit-rate=s', 'metalink',
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s")
 {
     $options_spec{'urpmi.addmedia'}{$k} = 
-    $options_spec{'urpmi.update'}{$k} =
-    $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
-}
-
-foreach my $k ("version")
-{
     $options_spec{'urpmi.update'}{$k} =
     $options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
 }
@@ -460,11 +453,6 @@ foreach my $k ("probe-synthesis", "probe-hdlist") # probe-hdlist is obsolete
     $options_spec{'urpmi.addmedia'}{$k} = 
       $options_spec{urpme}{$k} = 
 	$options_spec{urpmq}{$k} = $options_spec{urpmi}{$k};
-}
-
-foreach my $k ("help|h", "version") {
-    $options_spec{'urpmi.removemedia'}{$k} = 
-      $options_spec{'urpmi.recover'}{$k} = $options_spec{urpmi}{$k};
 }
 
 sub set_root {
