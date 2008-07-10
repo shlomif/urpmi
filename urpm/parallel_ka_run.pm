@@ -75,39 +75,6 @@ sub _run_mput {
     $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 }    
 
-#- parallel install.
-sub parallel_install {
-    my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
-
-    copy_to_dir($parallel, $urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms");
-
-    my (%bad_nodes, @good_nodes);
-    $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
-	my ($node, $s) = @_;
-	$s =~ /^\s*$/ and return;
-	$bad_nodes{$node} .= $s;
-	$s =~ /Installation failed/ and $bad_nodes{$node} = '';
-	$s =~ /Installation is possible/ and push @good_nodes, $node;
-	undef;
-    });
-    delete $bad_nodes{$_} foreach @good_nodes;
-
-    foreach (keys %{$parallel->{nodes}}) {
-	exists $bad_nodes{$_} or next;
-	$urpm->{error}(N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
-    }
-    %bad_nodes and return;
-
-    if ($options{test}) {
-	$urpm->{error}(N("Installation is possible"));
-	1;
-    } else {
-	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
-	#- continue installation.
-	run_urpm_command($parallel, $urpm, 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
-    }
-}
-
 sub _parse_rshp_output {
     my ($s) = @_;
     #- eg of output of rshp2: <tata2.mandriva.com> [rank:2]:@removing@mpich-1.2.5.2-10mlcs4.x86_64
