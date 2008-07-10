@@ -60,6 +60,19 @@ sub _ssh_urpm_popen {
     $fh;
 }
 
+sub urpm_popen {
+    my ($parallel, $urpm, $cmd, $para, $do) = @_;
+
+    foreach my $node (keys %{$parallel->{nodes}}) {
+	my $fh = _ssh_urpm_popen($urpm, $node, $cmd, $para);
+
+	while (my $s = <$fh>) {
+	    $do->($node, $s) or last;
+	}
+	close $fh or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
+    }
+}
+
 #- parallel copy
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
@@ -78,16 +91,12 @@ sub parallel_find_remove {
     my (%bad_nodes, %base_to_remove, %notfound);
 
     #- now try an iteration of urpme.
-    foreach my $node (keys %{$parallel->{nodes}}) {
-	my $fh = _ssh_urpm_popen($urpm, $node, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1');
+    $parallel->urpm_popen($urpm, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1', sub {
+	my ($node, $s) = @_;
 
-	while (my $s = <$fh>) {
-	    urpm::parallel::parse_urpme_output($urpm, $state, $node, $s, 
-					       \%notfound, \%base_to_remove, \%bad_nodes, %options)
-		or last;
-	}
-	close $fh;
-    }
+	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s, 
+					   \%notfound, \%base_to_remove, \%bad_nodes, %options);
+    });
 
     #- check base, which has been delayed until there.
     if ($options{callback_base} && %base_to_remove) {
@@ -129,14 +138,10 @@ sub parallel_resolve_dependencies {
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
-	foreach my $node (keys %{$parallel->{nodes}}) {
-	    my $fh = _ssh_urpm_popen($urpm, $node, "urpmq", "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen));
-
-	    while (my $s = <$fh>) {
-		urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
-	    }
-	    close $fh or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
-	}
+	$parallel->urpm_popen($urpm, "urpmq", "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen), sub {
+	    my ($node, $s) = @_;
+	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
+	});
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
     } while $cont;
@@ -152,16 +157,13 @@ sub parallel_install {
     _scp_rpms($parallel, $urpm, values %$install, values %$upgrade);
 
     my %bad_nodes;
-    foreach my $node (keys %{$parallel->{nodes}}) {
-	my $fh = _ssh_urpm_popen($urpm, $node, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}");
-
-	while (my $s = <$fh>) {
-	    $bad_nodes{$node} .= $s;
-	    $s =~ /Installation failed/ and $bad_nodes{$node} = '';
-	    $s =~ /Installation is possible/ and delete $bad_nodes{$node}, last;
-	}
-	close $fh;
-    }
+    $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
+	my ($node, $s) = @_;
+	$bad_nodes{$node} .= $s;
+	$s =~ /Installation failed/ and $bad_nodes{$node} = '';
+	$s =~ /Installation is possible/ and delete $bad_nodes{$node}, return 1;
+	undef;
+    });
     foreach (keys %{$parallel->{nodes}}) {
 	exists $bad_nodes{$_} or next;
 	$urpm->{error}(N("Installation failed on node %s", $_) . ":\n" . $bad_nodes{$_});
