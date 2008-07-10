@@ -60,6 +60,7 @@ sub _run_mput {
     my @l = (split(' ', $parallel->{options}), '--', @para);
     $urpm->{log}("parallel_ka_run: $mput_command " . join(' ', @l));
     system $mput_command, @l;
+    $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 }    
 
 #- parallel copy
@@ -67,7 +68,6 @@ sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
 
     _run_mput($urpm, $parallel, @files, "$urpm->{cachedir}/rpms/");
-    $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 
     urpm::parallel::post_register_rpms($parallel, $urpm, @files);
 }
@@ -78,7 +78,7 @@ sub parallel_resolve_dependencies {
 
     #- first propagate the synthesis file to all machines
     _run_mput($urpm, $parallel, $synthesis, $synthesis);
-    $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
+
     $parallel->{synthesis} = $synthesis;
 
     my $line = urpm::parallel::simple_resolve_dependencies($parallel, $urpm, $state, $requested, %options);
@@ -107,7 +107,6 @@ sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
     _run_mput($urpm, $parallel, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/");
-    $? == 0 || $? == 256 or $urpm->{fatal}(1, N("mput failed, maybe a node is unreacheable"));
 
     my (%bad_nodes);
     $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
