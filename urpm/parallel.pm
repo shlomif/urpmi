@@ -288,7 +288,7 @@ sub parallel_install {
     $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
 	my ($node, $s) = @_;
 	$s =~ /^\s*$/ and return;
-	$bad_nodes{$node} .= $s;
+	$bad_nodes{$node} .= "$s\n";
 	$s =~ /Installation failed/ and $bad_nodes{$node} = '';
 	$s =~ /Installation is possible/ and push @good_nodes, $node;
 	undef;
