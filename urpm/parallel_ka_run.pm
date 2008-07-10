@@ -56,6 +56,7 @@ sub urpm_popen {
 	$do->($node, $s_) and last;
     }
     close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
+    ();
 }
 
 sub run_urpm_command {

@@ -212,11 +212,12 @@ sub parallel_resolve_dependencies {
 	#- the following state should be cleaned for each iteration.
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
-	$parallel->urpm_popen($urpm, 'urpmq', "--synthesis $synthesis -fmc $line " . join(' ', keys %chosen), sub {
+	my @errors = $parallel->urpm_popen($urpm, 'urpmq', "--synthesis $synthesis -fmc $line " . join(' ', keys %chosen), sub {
 	    my ($node, $s) = @_;
 	    _parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
 	    undef;
 	});
+	@errors and $urpm->{fatal}(1, join("\n", @errors));
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
     } while $cont;

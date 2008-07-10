@@ -73,6 +73,8 @@ sub _ssh_urpm_popen {
 sub urpm_popen {
     my ($parallel, $urpm, $cmd, $para, $do) = @_;
 
+    my @errors;
+
     foreach my $node (keys %{$parallel->{nodes}}) {
 	my $fh = _ssh_urpm_popen($urpm, $node, $cmd, $para);
 
@@ -81,9 +83,11 @@ sub urpm_popen {
 	    $urpm->{debug}("parallel_ssh: $node: received: $s") if $urpm->{debug};
 	    $do->($node, $s) and last;
 	}
-	close $fh or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
+	close $fh or push @errors, N("%s failed on host %s (maybe it does not have a good version of urpmi?) (exit code: %d)", $cmd, $node, $? >> 8);
 	$urpm->{debug}("parallel_ssh: $node: $cmd finished") if $urpm->{debug};
     }
+
+    @errors;
 }
 
 sub run_urpm_command {
