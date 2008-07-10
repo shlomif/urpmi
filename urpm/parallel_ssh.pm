@@ -90,6 +90,7 @@ sub parallel_install {
     my %bad_nodes;
     $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
 	my ($node, $s) = @_;
+	$s =~ /^\s*$/ and return;
 	$bad_nodes{$node} .= $s;
 	$s =~ /Installation failed/ and $bad_nodes{$node} = '';
 	$s =~ /Installation is possible/ and delete $bad_nodes{$node}, return 1;
