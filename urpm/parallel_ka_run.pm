@@ -56,6 +56,11 @@ sub urpm_popen {
 
 sub copy_to_dir { &_run_mput }
 
+sub propagate_file {
+    my ($parallel, $urpm, $file) = @_;
+    _run_mput($parallel, $urpm, $file, $file);
+}
+
 sub _run_mput {
     my ($parallel, $urpm, @para) = @_;
 
@@ -70,7 +75,7 @@ sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
 
     #- first propagate the synthesis file to all machines
-    _run_mput($parallel, $urpm, $synthesis, $synthesis);
+    propagate_file($parallel, $urpm, $synthesis);
 
     $parallel->{synthesis} = $synthesis;
 
