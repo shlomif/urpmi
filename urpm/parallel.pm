@@ -202,6 +202,36 @@ sub parse_urpmq_output {
     }
 }
 
+#- parallel resolve_dependencies
+sub parallel_resolve_dependencies {
+    my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
+
+    #- first propagate the synthesis file to all machines
+    propagate_file($parallel, $urpm, $synthesis);
+
+    $parallel->{synthesis} = $synthesis;
+
+    my $line = urpm::parallel::simple_resolve_dependencies($parallel, $urpm, $state, $requested, %options);
+
+    #- execute urpmq to determine packages to install.
+    my ($cont, %chosen);
+    do {
+	$cont = 0; #- prepare to stop iteration.
+	#- the following state should be cleaned for each iteration.
+	delete $state->{selected};
+	#- now try an iteration of urpmq.
+	$parallel->urpm_popen($urpm, 'urpmq', "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen), sub {
+	    my ($node, $s) = @_;
+	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
+	});
+	#- check for internal error of resolution.
+	$cont == 1 and die "internal distant urpmq error on choice not taken";
+    } while $cont;
+
+    #- keep trace of what has been chosen finally (if any).
+    $parallel->{line} = join(' ', $line, keys %chosen);
+}
+
 #- compute command line of urpm? tools.
 sub simple_resolve_dependencies {
     my ($parallel, $urpm, $state, $requested, %options) = @_;
