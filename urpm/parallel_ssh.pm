@@ -117,7 +117,7 @@ sub parallel_install {
 	1;
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
-	#- continue installation on each node
+	#- continue installation.
 	run_urpm_command($parallel, $urpm, 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
     }
 }
