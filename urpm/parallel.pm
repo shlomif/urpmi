@@ -70,7 +70,7 @@ sub remove {
 sub parallel_find_remove {
     my ($parallel, $urpm, $state, $l, %options) = @_;
 
-    my ($test, $pkgs) = urpm::parallel::find_remove_pre($urpm, $state, %options);
+    my ($test, $pkgs) = _find_remove_pre($urpm, $state, %options);
     $pkgs and return @$pkgs;
 
     my (%bad_nodes, %base_to_remove, %notfound);
@@ -79,7 +79,7 @@ sub parallel_find_remove {
     $parallel->urpm_popen($urpm, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1', sub {
 	my ($node, $s) = @_;
 
-	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s, 
+	_parse_urpme_output($urpm, $state, $node, $s, 
 					   \%notfound, \%base_to_remove, \%bad_nodes, %options);
     });
 
@@ -109,7 +109,7 @@ sub parallel_find_remove {
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
 
-    copy_to_dir($parallel, $urpm, @files, "$urpm->{cachedir}/rpms");
+    $parallel->copy_to_dir($urpm, @files, "$urpm->{cachedir}/rpms");
 
     #- keep trace of direct files.
     $parallel->{line} .= 
@@ -118,7 +118,7 @@ sub parallel_register_rpms {
 	   map { "$urpm->{cachedir}/rpms/" . basename($_) } @files);
 }
 
-sub find_remove_pre {
+sub _find_remove_pre {
     my ($urpm, $state, %options) = @_;
 
     #- keep in mind if the previous selection is still active, it avoids
@@ -137,7 +137,7 @@ sub find_remove_pre {
     }
 }
 
-sub parse_urpme_output {
+sub _parse_urpme_output {
     my ($urpm, $state, $node, $s, $notfound, $base_to_remove, $bad_nodes, %options) = @_;
 
     $s =~ /^\s*$/ and return;
@@ -171,7 +171,7 @@ sub parse_urpme_output {
     return;
 }
 
-sub parse_urpmq_output {
+sub _parse_urpmq_output {
     my ($urpm, $state, $node, $s, $cont, $chosen, %options) = @_;
 
     chomp $s;
@@ -207,11 +207,11 @@ sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
 
     #- first propagate the synthesis file to all machines
-    propagate_file($parallel, $urpm, $synthesis);
+    $parallel->propagate_file($urpm, $synthesis);
 
     $parallel->{synthesis} = $synthesis;
 
-    my $line = urpm::parallel::simple_resolve_dependencies($parallel, $urpm, $state, $requested, %options);
+    my $line = _simple_resolve_dependencies($parallel, $urpm, $state, $requested, %options);
 
     #- execute urpmq to determine packages to install.
     my ($cont, %chosen);
@@ -222,7 +222,7 @@ sub parallel_resolve_dependencies {
 	#- now try an iteration of urpmq.
 	$parallel->urpm_popen($urpm, 'urpmq', "--synthesis $synthesis -fmc $line " . join(' ', keys %chosen), sub {
 	    my ($node, $s) = @_;
-	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
+	    _parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
 	});
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
@@ -233,7 +233,7 @@ sub parallel_resolve_dependencies {
 }
 
 #- compute command line of urpm? tools.
-sub simple_resolve_dependencies {
+sub _simple_resolve_dependencies {
     my ($parallel, $urpm, $state, $requested, %options) = @_;
 
     my @pkgs;
@@ -281,7 +281,7 @@ sub simple_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    copy_to_dir($parallel, $urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms");
+    $parallel->copy_to_dir($urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms");
 
     my (%bad_nodes, @good_nodes);
     $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
@@ -306,7 +306,7 @@ sub parallel_install {
     } else {
 	my $line = $parallel->{line} . ($options{excludepath} ? " --excludepath '$options{excludepath}'" : "");
 	#- continue installation.
-	run_urpm_command($parallel, $urpm, 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
+	$parallel->run_urpm_command($urpm, 'urpmi', "--no-verify-rpm --auto --synthesis $parallel->{synthesis} $line");
     }
 }
 
