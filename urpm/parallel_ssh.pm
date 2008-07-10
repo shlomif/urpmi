@@ -27,18 +27,19 @@ sub _scp {
       or $urpm->{fatal}(1, N("scp failed on host %s (%d)", $host, $? >> 8));
 }
 
-sub _scp_rpms {
-    my ($parallel, $urpm, @files) = @_;
+sub copy_to_dir {
+    my ($parallel, $urpm, @para) = @_;
+    my $dir = pop @para;
 
     foreach my $host (keys %{$parallel->{nodes}}) {
 	if (_localhost($host)) {
-	    if (my @f = grep { dirname($_) ne "$urpm->{cachedir}/rpms" } @files) {
+	    if (my @f = grep { dirname($_) ne $dir } @para) {
 		$urpm->{log}("parallel_ssh: cp @f $urpm->{cachedir}/rpms");
-		system('cp', @f, "$urpm->{cachedir}/rpms") == 0
+		system('cp', @f, $dir) == 0
 		  or $urpm->{fatal}(1, N("cp failed on host %s (%d)", $host, $? >> 8));
 	    }
 	} else {
-	    _scp($urpm, $host, @files, "$urpm->{cachedir}/rpms");
+	    _scp($urpm, $host, @para, $dir);
 	}
     }
 }
@@ -77,7 +78,7 @@ sub urpm_popen {
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
 
-    _scp_rpms($parallel, $urpm, @files);
+    copy_to_dir($parallel, $urpm, @files, "$urpm->{cachedir}/rpms");
     urpm::parallel::post_register_rpms($parallel, $urpm, @files);
 }
 
@@ -116,7 +117,7 @@ sub parallel_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    _scp_rpms($parallel, $urpm, values %$install, values %$upgrade);
+    copy_to_dir($parallel, $urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms");
 
     my %bad_nodes;
     $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
