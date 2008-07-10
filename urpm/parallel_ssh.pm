@@ -74,14 +74,6 @@ sub urpm_popen {
     }
 }
 
-#- parallel copy
-sub parallel_register_rpms {
-    my ($parallel, $urpm, @files) = @_;
-
-    copy_to_dir($parallel, $urpm, @files, "$urpm->{cachedir}/rpms");
-    urpm::parallel::post_register_rpms($parallel, $urpm, @files);
-}
-
 #- parallel resolve_dependencies
 sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
