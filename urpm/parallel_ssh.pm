@@ -44,6 +44,13 @@ sub copy_to_dir {
     }
 }
 
+sub propagate_file {
+    my ($parallel, $urpm, $file) = @_;
+    foreach (grep { !_localhost($_) } keys %{$parallel->{nodes}}) {
+	_scp($urpm, $_, '-q', $file, $file);
+    }
+}
+
 sub _ssh_urpm {
     my ($urpm, $node, $cmd, $para) = @_;
 
@@ -79,9 +86,8 @@ sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
 
     #- first propagate the synthesis file to all machines
-    foreach (grep { !_localhost($_) } keys %{$parallel->{nodes}}) {
-	_scp($urpm, $_, '-q', $synthesis, $synthesis);
-    }
+    propagate_file($parallel, $urpm, $synthesis);
+
     $parallel->{synthesis} = $synthesis;
 
     my $line = urpm::parallel::simple_resolve_dependencies($parallel, $urpm, $state, $requested, %options);
