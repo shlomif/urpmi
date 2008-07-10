@@ -80,7 +80,7 @@ sub urpm_popen {
 	while (my $s = <$fh>) {
 	    chomp $s;
 	    $urpm->{debug}("parallel_ssh: $node: received: $s") if $urpm->{debug};
-	    $do->($node, $s) or last;
+	    $do->($node, $s) and last;
 	}
 	close $fh or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
     }
