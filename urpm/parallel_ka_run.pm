@@ -74,15 +74,16 @@ sub _run_mput {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    copy_to_dir($parallel, $urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/");
+    copy_to_dir($parallel, $urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms");
 
-    my (%bad_nodes);
+    my %bad_nodes;
     $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
 	my ($node, $s) = @_;
 	$s =~ /^\s*$/ and return;
 	$bad_nodes{$node} .= $s;
 	$s =~ /Installation failed/ and $bad_nodes{$node} = '';
 	$s =~ /Installation is possible/ and delete $bad_nodes{$node};
+	undef;
     });
 
     foreach (keys %{$parallel->{nodes}}) {
