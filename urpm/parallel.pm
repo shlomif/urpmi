@@ -283,7 +283,7 @@ sub parallel_install {
 	$s =~ /^\s*$/ and return;
 	$bad_nodes{$node} .= "$s\n";
 	$s =~ /Installation failed/ and $bad_nodes{$node} = '';
-	$s =~ /Installation is possible/ and push @good_nodes, $node;
+	$s =~ /Installation is possible|Packages are up to date/ and push @good_nodes, $node;
 	undef;
     });
     delete $bad_nodes{$_} foreach @good_nodes;
