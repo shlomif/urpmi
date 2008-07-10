@@ -50,9 +50,9 @@ sub urpm_popen {
 
     while (my $s = <$fh>) {
 	chomp $s;
-	$urpm->{debug}("parallel_ka_run: $node: received: $s") if $urpm->{debug};
 	my ($node, $s_) = _parse_rshp_output($s) or next;
 
+	$urpm->{debug}("parallel_ka_run: $node: received: $s_") if $urpm->{debug};
 	$do->($node, $s_) or last;
     }
     close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
