@@ -81,44 +81,6 @@ sub parallel_register_rpms {
     urpm::parallel::post_register_rpms($parallel, $urpm, @files);
 }
 
-#- parallel find_packages_to_remove
-sub parallel_find_remove {
-    my ($parallel, $urpm, $state, $l, %options) = @_;
-
-    my ($test, $pkgs) = urpm::parallel::find_remove_pre($urpm, $state, %options);
-    $pkgs and return @$pkgs;
-
-    my (%bad_nodes, %base_to_remove, %notfound);
-
-    #- now try an iteration of urpme.
-    $parallel->urpm_popen($urpm, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1', sub {
-	my ($node, $s) = @_;
-
-	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s, 
-					   \%notfound, \%base_to_remove, \%bad_nodes, %options);
-    });
-
-    #- check base, which has been delayed until there.
-    if ($options{callback_base} && %base_to_remove) {
-	$options{callback_base}->($urpm, keys %base_to_remove) or return ();
-    }
-
-    #- build error list contains all the error returned by each node.
-    $urpm->{error_remove} = [ map {
-	my $msg = N("on node %s", $_);
-	map { "$msg, $_" } @{$bad_nodes{$_}};
-    } keys %bad_nodes ];
-
-    #- if at least one node has the package, it should be seen as unknown...
-    delete @notfound{map { /^(.*)-[^-]*-[^-]*$/ } keys %{$state->{rejected}}};
-    if (%notfound) {
-	$options{callback_notfound} && $options{callback_notfound}->($urpm, keys %notfound)
-	  or delete $state->{rejected};
-    }
-
-    keys %{$state->{rejected}};
-}
-
 #- parallel resolve_dependencies
 sub parallel_resolve_dependencies {
     my ($parallel, $synthesis, $urpm, $state, $requested, %options) = @_;
