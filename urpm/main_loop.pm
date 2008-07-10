@@ -291,6 +291,7 @@ if ($nok) {
 	if (@{$state->{transaction} || []} == 0 && @$ask_unselect == 0) {
 	    if ($auto_select) {
 		if ($options{verbose} >= 0) {
+		    #- Warning : the following message is parsed in urpm::parallel_*
 		    print N("Packages are up to date"), "\n";
 		}
 	    } else {
