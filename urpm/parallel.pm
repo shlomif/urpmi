@@ -223,6 +223,7 @@ sub parallel_resolve_dependencies {
 	$parallel->urpm_popen($urpm, 'urpmq', "--synthesis $synthesis -fmc $line " . join(' ', keys %chosen), sub {
 	    my ($node, $s) = @_;
 	    _parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
+	    undef;
 	});
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
