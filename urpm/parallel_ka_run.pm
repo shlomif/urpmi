@@ -69,7 +69,7 @@ sub parallel_find_remove {
     my (%bad_nodes, %base_to_remove, %notfound);
 
     #- now try an iteration of urpme.
-    my $fh = _rshp_urpm_popen($urpm, $parallel, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l));
+    my $fh = _rshp_urpm_popen($urpm, $parallel, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1');
 
     while (my $s = <$fh>) {
 	my ($node, $s_) = _parse_rshp_output($s) or next;
