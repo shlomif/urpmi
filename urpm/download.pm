@@ -881,6 +881,8 @@ sub _create_metalink_ {
     }
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
+    # Even if not required by metalink spec, this line is needed at top of
+    # metalink file, otherwise aria2 won't be able to autodetect it..
     my $metalink = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
     $metalink .= "<metalink version=\"3.0\" generator=\"URPMI\"\n";
     $metalink .= "xmlns=\"http://www.metalinker.org/\">\n";
