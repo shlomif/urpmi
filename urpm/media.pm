@@ -569,11 +569,11 @@ sub configure {
 	      (dirname($synthesis), basename($synthesis));
 
             $urpm->{media} = [];
-	    add_medium($urpm, 'Virtual', $url, $with, %options, virtual => 1);
+	    add_medium($urpm, 'Virtual', $url, $with, %options, virtual => 1, on_the_fly => 1);
 	}
     } elsif ($options{usedistrib}) {
             $urpm->{media} = [];
-            add_distrib_media($urpm, "Virtual", $options{usedistrib}, %options, 'virtual' => 1);
+            add_distrib_media($urpm, "Virtual", $options{usedistrib}, %options, virtual => 1, on_the_fly => 1);
         } else {
 	    read_config($urpm);
 	    if (!$options{media} && $urpm->{options}{'default-media'}) {
@@ -693,7 +693,7 @@ sub _compute_flags_for_instlist {
 #- add a new medium, sync the config file accordingly.
 #- returns the new medium's name. (might be different from the requested
 #- name if index_name was specified)
-#- options: ignore, index_name, nolock, update, virtual, media_info_dir, mirrorlist, with-dir, xml-info
+#- options: ignore, index_name, nolock, update, virtual, media_info_dir, mirrorlist, with-dir, xml-info, on_the_fly
 sub add_medium {
     my ($urpm, $name, $url, $with_synthesis, %options) = @_;
 
@@ -758,13 +758,13 @@ sub add_medium {
 	@{$urpm->{media}} = map {  
 	    if (!_local_file($_) && !$inserted) {
 		$inserted = 1;
-		$urpm->{info}(N("adding medium \"%s\" before remote medium \"%s\"", $name, $_->{name}) . $ignore_text);
+		$urpm->{$options{on_the_fly} ? 'log': 'info'}(N("adding medium \"%s\" before remote medium \"%s\"", $name, $_->{name}) . $ignore_text);
 		$medium, $_;
 	    } else { $_ }
 	} @{$urpm->{media}};
     }
     if (!$inserted) {
-	$urpm->{info}(N("adding medium \"%s\"", $name) . $ignore_text);
+	$urpm->{$options{on_the_fly} ? 'log': 'info'}(N("adding medium \"%s\"", $name) . $ignore_text);
 	push @{$urpm->{media}}, $medium;
     }
 
