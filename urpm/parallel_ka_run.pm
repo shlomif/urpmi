@@ -47,6 +47,7 @@ sub urpm_popen {
 
     while (my $s = <$fh>) {
 	chomp $s;
+	$urpm->{debug}("parallel_ka_run: $node: received: $s") if $urpm->{debug};
 	my ($node, $s_) = _parse_rshp_output($s) or next;
 
 	$do->($node, $s_) or last;
