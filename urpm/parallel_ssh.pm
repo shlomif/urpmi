@@ -82,6 +82,7 @@ sub urpm_popen {
 	    $do->($node, $s) and last;
 	}
 	close $fh or $urpm->{fatal}(1, N("host %s does not have a good version of urpmi (%d)", $node, $? >> 8));
+	$urpm->{debug}("parallel_ssh: $node: $cmd finished") if $urpm->{debug};
     }
 }
 
