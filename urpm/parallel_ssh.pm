@@ -59,9 +59,8 @@ sub _ssh_urpm {
     # it doesn't matter for urpmq, and previous version of urpmq didn't handle it:
     $cmd ne 'urpmq' and $para = "--no-locales $para";
 
-    my $command = _ssh($node) . " $cmd $para";
-    $urpm->{log}("parallel_ssh: $command");
-    $command;
+    $urpm->{log}("parallel_ssh: $node: $cmd $para");
+    _ssh($node) . " $cmd $para";
 }
 sub _ssh_urpm_popen {
     my ($urpm, $node, $cmd, $para) = @_;
