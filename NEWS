@@ -7,6 +7,8 @@
   o handle --debug-librpm
   o fix --parallel on local media (ie when synthesis.cz is not copied to /var/lib/urpmi)
   o fix --parallel --auto-select when one box is up-to-date but not the others (#41924)
+  o fix creation of chroot with --root by using /var/lib/rpm/installed-through-deps.list 
+    (instead of having it in /var/lib/urpmi)
 - urpmi.addmedia:
   o make --mirrorlist with no url equivalent to --mirrorlist '$MIRRORLIST' (#40283)
   o --interactive: fix selecting "noauto" media (#39522)

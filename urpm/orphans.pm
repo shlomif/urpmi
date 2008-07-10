@@ -25,7 +25,7 @@ sub installed_packages_packed {
 #- side-effects: none
 sub unrequested_list__file {
     my ($urpm) = @_;
-    "$urpm->{root}/var/lib/urpmi/installed-through-deps.list";
+    "$urpm->{root}/var/lib/rpm/installed-through-deps.list";
 }
 #- side-effects: none
 sub unrequested_list {
@@ -38,21 +38,21 @@ sub unrequested_list {
 }
 
 #- side-effects:
-#-   + those of _installed_req_and_unreq_and_update_unrequested_list (<root>/var/lib/urpmi/installed-through-deps.list)
+#-   + those of _installed_req_and_unreq_and_update_unrequested_list (<root>/var/lib/rpm/installed-through-deps.list)
 sub _installed_req_and_unreq {
     my ($urpm) = @_;
     my ($req, $unreq, $_unrequested) = _installed_req_and_unreq_and_update_unrequested_list($urpm);
     ($req, $unreq);
 }
 #- side-effects:
-#-   + those of _installed_req_and_unreq_and_update_unrequested_list (<root>/var/lib/urpmi/installed-through-deps.list)
+#-   + those of _installed_req_and_unreq_and_update_unrequested_list (<root>/var/lib/rpm/installed-through-deps.list)
 sub _installed_and_unrequested_lists {
     my ($urpm) = @_;
     my ($pkgs, $pkgs2, $unrequested) = _installed_req_and_unreq_and_update_unrequested_list($urpm);
     push @$pkgs, @$pkgs2;
     ($pkgs, $unrequested);
 }
-#- side-effects: <root>/var/lib/urpmi/installed-through-deps.list
+#- side-effects: <root>/var/lib/rpm/installed-through-deps.list
 sub _installed_req_and_unreq_and_update_unrequested_list {
     my ($urpm) = @_;
 
@@ -112,7 +112,7 @@ sub _new_unrequested {
 	_renamed_unrequested($urpm, $state->{rejected}),
     );
 }
-#- side-effects: <root>/var/lib/urpmi/installed-through-deps.list
+#- side-effects: <root>/var/lib/rpm/installed-through-deps.list
 sub add_unrequested {
     my ($urpm, $state) = @_;
 
@@ -262,7 +262,7 @@ sub _all_unrequested_orphans {
 
 
 #- side-effects: $state->{orphans_to_remove}
-#-   + those of _installed_and_unrequested_lists (<root>/var/lib/urpmi/installed-through-deps.list)
+#-   + those of _installed_and_unrequested_lists (<root>/var/lib/rpm/installed-through-deps.list)
 sub compute_future_unrequested_orphans {
     my ($urpm, $state) = @_;
 
@@ -287,7 +287,7 @@ sub compute_future_unrequested_orphans {
 #- (using installed_packages_packed())
 #
 #- side-effects:
-#-   + those of _installed_req_and_unreq (<root>/var/lib/urpmi/installed-through-deps.list)
+#-   + those of _installed_req_and_unreq (<root>/var/lib/rpm/installed-through-deps.list)
 sub get_orphans {
     my ($urpm) = @_;
 
