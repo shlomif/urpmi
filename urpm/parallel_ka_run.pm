@@ -28,7 +28,10 @@ $rshp_command ||= 'rshp';
 sub _rshp_urpm {
     my ($parallel, $urpm, $rshp_option, $cmd, $para) = @_;
 
-    my $command = "$rshp_command $rshp_option $parallel->{options} -- $cmd --no-locales $para";
+    # it doesn't matter for urpmq, and previous version of urpmq didn't handle it:
+    $cmd ne 'urpmq' and $para = "--no-locales $para";
+
+    my $command = "$rshp_command $rshp_option $parallel->{options} -- $cmd $para";
     $urpm->{log}("parallel_ka_run: $command");
     $command;
 }

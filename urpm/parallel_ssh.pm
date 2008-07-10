@@ -56,7 +56,10 @@ sub _ssh_urpm {
 
     $cmd ne 'urpme' && _localhost($node) and $para = "--nolock $para";
 
-    my $command = _ssh($node) . " $cmd --no-locales $para";
+    # it doesn't matter for urpmq, and previous version of urpmq didn't handle it:
+    $cmd ne 'urpmq' and $para = "--no-locales $para";
+
+    my $command = _ssh($node) . " $cmd $para";
     $urpm->{log}("parallel_ssh: $command");
     $command;
 }
