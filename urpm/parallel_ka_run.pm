@@ -83,9 +83,9 @@ sub parallel_find_remove {
 
     #- now try an iteration of urpme.
     $parallel->urpm_popen($urpm, 'urpme', "--auto $test" . join(' ', map { "'$_'" } @$l) . ' 2>&1', sub {
-	my ($node, $s_) = @_;
+	my ($node, $s) = @_;
 
-	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s_, 
+	urpm::parallel::parse_urpme_output($urpm, $state, $node, $s, 
 					   \%notfound, \%base_to_remove, \%bad_nodes, %options);
     });
 
@@ -129,8 +129,8 @@ sub parallel_resolve_dependencies {
 	delete $state->{selected};
 	#- now try an iteration of urpmq.
 	$parallel->urpm_popen($urpm, 'urpmq', "--synthesis $synthesis -fduc $line " . join(' ', keys %chosen), sub {
-	    my ($node, $s_) = @_;
-	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s_, \$cont, \%chosen, %options);
+	    my ($node, $s) = @_;
+	    urpm::parallel::parse_urpmq_output($urpm, $state, $node, $s, \$cont, \%chosen, %options);
 	});
 	#- check for internal error of resolution.
 	$cont == 1 and die "internal distant urpmq error on choice not taken";
