@@ -54,6 +54,8 @@ sub urpm_popen {
     close $fh or $urpm->{fatal}(1, N("rshp failed, maybe a node is unreacheable"));
 }
 
+sub copy_to_dir { &_run_mput }
+
 sub _run_mput {
     my ($parallel, $urpm, @para) = @_;
 
@@ -67,7 +69,7 @@ sub _run_mput {
 sub parallel_register_rpms {
     my ($parallel, $urpm, @files) = @_;
 
-    _run_mput($parallel, $urpm, @files, "$urpm->{cachedir}/rpms/");
+    copy_to_dir($parallel, $urpm, @files, "$urpm->{cachedir}/rpms/");
 
     urpm::parallel::post_register_rpms($parallel, $urpm, @files);
 }
@@ -106,7 +108,7 @@ sub parallel_resolve_dependencies {
 sub parallel_install {
     my ($parallel, $urpm, undef, $install, $upgrade, %options) = @_;
 
-    _run_mput($parallel, $urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/");
+    copy_to_dir($parallel, $urpm, values %$install, values %$upgrade, "$urpm->{cachedir}/rpms/");
 
     my (%bad_nodes);
     $parallel->urpm_popen($urpm, 'urpmi', "--pre-clean --test --no-verify-rpm --auto --synthesis $parallel->{synthesis} $parallel->{line}", sub {
