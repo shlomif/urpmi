@@ -304,7 +304,7 @@ sub get_now_orphans_msg {
 
     P("The following package is now orphan, use \"urpme --auto-orphans\" to remove it.",
       "The following packages are now orphans, use \"urpme --auto-orphans\" to remove them.", scalar(@orphans))
-      . "\n" . add_leading_spaces(join("\n", @orphans) . "\n");
+      . "\n" . add_leading_spaces(join("\n", sort @orphans) . "\n");
 }
 
 #- side-effects: none

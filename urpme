@@ -151,7 +151,7 @@ my $msg =
   . sprintf(" (%s)", formatXiB(-$urpm->selected_size($state))) . ":\n"
   . add_leading_spaces(urpm::select::translate_why_removed($urpm, $state, @toremove_no_orphans)) . "\n"
   . (@orphans ? P("(orphan package)", "(orphan packages)", scalar(@orphans)) . "\n" .
-                add_leading_spaces(join("\n", @orphans) . "\n") : ());
+                add_leading_spaces(join("\n", sort @orphans) . "\n") : ());
 
 if ($urpm->{options}{auto}) {
     $test and print STDOUT $msg;
