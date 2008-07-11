@@ -52,6 +52,7 @@ usage:
 ") . N("  --repackage    - Re-package the files before erasing
 ") . N("  --root         - use another root for rpm removal.
 ") . N("  --urpmi-root   - use another root for urpmi db & rpm installation.
+") . N("  --justdb       - update only the rpm db, not the filesystem.
 ") . N("  --noscripts    - do not execute package scriptlet(s).
 ") . N("  --use-distrib  - configure urpme on the fly from a distrib tree, useful
                    to (un)install a chroot with --root option.
@@ -167,6 +168,7 @@ print $test ?
 my %remove_options = (
     test => $test,
     force => $force,
+    justdb => $options{justdb},
     urpm::install::options($urpm),
 );
 my @errors = $parallel

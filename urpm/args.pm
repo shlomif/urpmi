@@ -410,7 +410,7 @@ foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'force', 'expect-in
 $options_spec{gurpmi2} = $options_spec{gurpmi};
 
 foreach my $k ("test!", "force", "root=s", "use-distrib=s",
-    'repackage', 'noscripts', 'auto', 'auto-orphans',
+    'repackage', 'noscripts', 'auto', 'auto-orphans', 'justdb',
     "parallel=s")
 {
     $options_spec{urpme}{$k} = $options_spec{urpmi}{$k};
