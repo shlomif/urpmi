@@ -15,26 +15,27 @@ msgstr ""
 "Project-Id-Version: urpmi-ro\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-04-22 20:19+0200\n"
-"PO-Revision-Date: 2004-10-17 14:38+0300\n"
-"Last-Translator: Ovidiu Constantin <ovidiusoft@gmail.com>\n"
+"PO-Revision-Date: 2008-07-11 12:50+0200\n"
+"Last-Translator: Pîrîu Cristian Ionuţ <piriu.cristian@rdslink.ro>\n"
 "Language-Team: Romanian <rtfs-project@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"sourceforge.net>\n"
 "X-Generator: KBabel 1.3.1\n"
 "Plural-Forms: nplurals=3;plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?"
 "2:1))\n"
+"X-Poedit-Language: Romanian\n"
+"X-Poedit-Country: ROMANIA\n"
 
 #: ../gurpmi:30 ../gurpmi2:72
-#, fuzzy, c-format
+#, c-format
 msgid "RPM installation"
-msgstr "Instalare sistem"
+msgstr "Instalare RPM"
 
 #: ../gurpmi:44
 #, c-format
 msgid "Error: unable to find file %s, will cancel operation"
-msgstr ""
+msgstr "Eroare: nu s-a găsit fişierul %s, se anulează operaţiunea"
 
 #: ../gurpmi:45 ../gurpmi2:166 ../gurpmi2:190
 #, c-format
@@ -42,7 +43,7 @@ msgid "_Ok"
 msgstr "_OK"
 
 #: ../gurpmi:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have selected a source package:\n"
 "\n"
@@ -57,13 +58,13 @@ msgstr ""
 "\n"
 "%s\n"
 "\n"
-"Probabil nu aţi dorit instalarea lui pe calculatorul dvs (instalarea\n"
-"v-ar fi permis modificarea codului sursă, apoi compilarea sa).\n"
+"Probabil nu aţi dorit instalarea lui pe calculatorul dvs (instalarea v-ar fi "
+"permis modificarea codului sursă, apoi compilarea sa).\n"
 "\n"
 "Ce doriţi să faceţi?"
 
 #: ../gurpmi:73 ../gurpmi:84
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You are about to install the following software packages on your computer:\n"
 "\n"
@@ -71,12 +72,12 @@ msgid ""
 "\n"
 "Proceed?"
 msgstr ""
-"Sunteţi pe cale să intalaţi următorul pachet cu programe pe clculatorul "
+"Sunteţi pe cale să instalaţi următoarele pachete cu programe pe calculatorul "
 "dvs:\n"
 "\n"
 "%s\n"
 "\n"
-"În schimb, îl puteţi salva doar. Ce alegeţi?"
+"Continuaţi?"
 
 #: ../gurpmi:79
 #, c-format
@@ -87,7 +88,7 @@ msgid ""
 "\n"
 "You may prefer to just save it. What is your choice?"
 msgstr ""
-"Sunteţi pe cale să intalaţi următorul pachet cu programe pe clculatorul "
+"Sunteţi pe cale să intalaţi următorul pachet cu programe pe calculatorul "
 "dvs:\n"
 "\n"
 "%s\n"
@@ -97,12 +98,12 @@ msgstr ""
 #: ../gurpmi:97
 #, c-format
 msgid "_Install"
-msgstr "_Importă"
+msgstr "_Instalare"
 
 #: ../gurpmi:98
 #, c-format
 msgid "_Save"
-msgstr "_Salvează"
+msgstr "_Salvare"
 
 #: ../gurpmi:99 ../gurpmi2:166
 #, c-format
@@ -129,12 +130,12 @@ msgstr ""
 "Acest program este soft liber şi poate fi redistribuit sub termenii GNU "
 "GPL.\n"
 "\n"
-"Utilizare:\n"
+"utilizare:\n"
 
 #: ../gurpmi.pm:45
 #, c-format
 msgid "Options:"
-msgstr ""
+msgstr "Opţiuni:"
 
 #: ../gurpmi.pm:46 ../urpme:45 ../urpmf:35 ../urpmi:74 ../urpmi.addmedia:54
 #: ../urpmi.recover:33 ../urpmi.removemedia:40 ../urpmi.update:32 ../urpmq:45
@@ -148,6 +149,8 @@ msgid ""
 "  --auto         - non-interactive mode, assume default answers to "
 "questions.\n"
 msgstr ""
+"  --auto         - mod neinteractiv, se atribuie întrebărilor răspunsurile "
+"implicite.\n"
 
 #: ../gurpmi.pm:48 ../urpmi:82 ../urpmq:52
 #, c-format
@@ -164,12 +167,12 @@ msgstr ""
 "  --force        - forţează invocarea chiar dacă unele pachete nu există.\n"
 
 #: ../gurpmi.pm:50 ../urpmi:133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --verify-rpm   - verify rpm signature before installation\n"
 "                   (--no-verify-rpm disables it, default is enabled).\n"
 msgstr ""
-"  --verify-rpm   - verifică semnătura rpm înainte de instalare.\n"
+"  --verify-rpm   - verificare semnătură rpm înainte de instalare\n"
 "                   (--no-verify-rpm o dezactivează, implicit este "
 "activată).\n"
 
@@ -183,38 +186,40 @@ msgstr ""
 #, c-format
 msgid "  -p             - allow search in provides to find package.\n"
 msgstr ""
-"  -p             - permite căutarea în Provides pentru găsirea pachetelor.\n"
+"  -p             - permite căutarea în provides pentru găsirea pachetelor.\n"
 
 #: ../gurpmi.pm:54 ../urpmi:150
 #, c-format
 msgid "  -P             - do not search in provides to find package.\n"
-msgstr "  -P             - nu căuta în Provides pentru găsirea pachetelor.\n"
+msgstr "  -P             - nu căuta în provides pentru găsirea pachetelor.\n"
 
 #: ../gurpmi.pm:55 ../urpmi:111 ../urpmq:68
 #, c-format
 msgid "  --root         - use another root for rpm installation.\n"
 msgstr ""
-"  --root         - foloseşte altă rădăcină pentru instalarea rpm-urilor.\n"
+"  --root         - foloseşte alt administrator pentru instalarea rpm-"
+"urilor.\n"
 
 #: ../gurpmi.pm:56 ../urpmi:135
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --test         - only verify if the installation can be achieved "
 "correctly.\n"
 msgstr ""
-"  --test         - verifică dacă instalarea poate fi îndeplinită corect.\n"
+"  --test         - verificare dacă instalarea poate fi îndeplinită corect.\n"
 
 #: ../gurpmi.pm:57 ../urpmi:78
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested packages.\n"
 msgstr ""
-"  --media        - foloseşte numai mediile date, separate prin virgulă.\n"
+"  --searchmedia  - folosirea exclusivă a mediile indicate pentru căutarea "
+"pachetelor cerute.\n"
 
 #: ../gurpmi.pm:100
-#, fuzzy, c-format
+#, c-format
 msgid "No packages specified"
-msgstr "Nu a fost specificată nici o comandă"
+msgstr "Nu a fost specificat nici un pachet"
 
 #: ../gurpmi2:52
 #, c-format
@@ -222,19 +227,20 @@ msgid "Please wait..."
 msgstr "Vă rog să aşteptaţi..."
 
 #: ../gurpmi2:61
-#, fuzzy, c-format
+#, c-format
 msgid "Must be root"
-msgstr "Port Mouse"
+msgstr "Trebuie să fiţi administrator"
 
 #: ../gurpmi2:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
 "%s\n"
 "Continue installation anyway?"
 msgstr ""
-"Unele pachete cerute nu pot fi instalate:\n"
-"%s"
+"Unele dintre pachete cerute nu pot fi instalate:\n"
+"%s\n"
+"Continuaţi instalarea?"
 
 #: ../gurpmi2:126
 #, c-format
@@ -247,19 +253,19 @@ msgid "Ok"
 msgstr "OK"
 
 #: ../gurpmi2:162
-#, fuzzy, c-format
+#, c-format
 msgid " (to upgrade)"
-msgstr "Actualizare"
+msgstr " (pentru actualizare)"
 
 #: ../gurpmi2:163
-#, fuzzy, c-format
+#, c-format
 msgid " (to install)"
-msgstr "Ieşire din instalare"
+msgstr " (pentru instalare)"
 
 #: ../gurpmi2:166
 #, c-format
 msgid "Package choice"
-msgstr ""
+msgstr "Alegerea pachetului"
 
 #: ../gurpmi2:167
 #, c-format
@@ -267,41 +273,41 @@ msgid "One of the following packages is needed:"
 msgstr "Unul din următoarele pachete e necesar:"
 
 #: ../gurpmi2:191
-#, fuzzy, c-format
+#, c-format
 msgid "_Abort"
-msgstr "Abandonează"
+msgstr "_Abandonaţi"
 
 #: ../gurpmi2:213
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following packages have to be removed for others to be upgraded:\n"
 "%s\n"
 "Continue installation anyway?"
 msgstr ""
-"Unrmătoarele pachete trebuie şterse pentru ca altele să fie actualizate:\n"
-"%s"
+"Următoarele pachete trebuie şterse pentru ca altele să fie actualizate:\n"
+"%s\n"
+"Continuaţi instalarea?"
 
 #: ../gurpmi2:232 ../urpmi:604
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following package is going to be installed:"
-msgstr ""
-"Pentru a satisface dependenţele, următorul pachet va fi instalat: (%d MB)"
+msgstr "Pentru satisfacerea dependenţelor, următorul pachet va fi instalat:"
 
 #: ../gurpmi2:233 ../urpmi:605
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "To satisfy dependencies, the following packages are going to be installed:"
 msgstr ""
-"Pentru a satisface dependenţele, următorul pachet va fi instalat: (%d MB)"
+"Pentru satisfacerea dependenţelor, următoarele pachete vor fi instalate:"
 
 #: ../gurpmi2:235
 #, c-format
 msgid "(%d package, %d MB)"
 msgid_plural "(%d packages, %d MB)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "(%d pachet, %d MB)"
+msgstr[1] "(%d pachete, %d MB)"
+msgstr[2] "(%d pachete, %d MB)"
 
 #: ../gurpmi2:241
 #, c-format
@@ -311,7 +317,7 @@ msgstr "Instalare pachete..."
 #: ../gurpmi2:243 ../urpm/main_loop.pm:48
 #, c-format
 msgid "unable to get source packages, aborting"
-msgstr "Nu pot prelua pachetele sursă, întrerup"
+msgstr "nu se pot prelua pachetele sursă, se întrerupe"
 
 #: ../gurpmi2:257 ../urpm/install.pm:81
 #, c-format
@@ -324,19 +330,19 @@ msgid "Installing package `%s' (%s/%s)..."
 msgstr "Instalarea pachetului `%s' (%s/%s)..."
 
 #: ../gurpmi2:278 ../urpmi:633
-#, fuzzy, c-format
+#, c-format
 msgid "Please insert the medium named \"%s\""
-msgstr "Vă rog să introduceţi mediul numit \"%s\" în dispozitivul [%s]"
+msgstr "Vă rog să introduceţi mediul numit \"%s\""
 
 #: ../gurpmi2:289
 #, c-format
 msgid "Downloading package `%s'..."
-msgstr "Descarc pachetul `%s'..."
+msgstr "Se descarcă pachetul `%s'..."
 
 #: ../gurpmi2:308
-#, fuzzy, c-format
+#, c-format
 msgid "_Done"
-msgstr "Gata"
+msgstr "_Gata"
 
 #: ../gurpmi2:316 ../urpm/main_loop.pm:261
 #, c-format
@@ -347,13 +353,13 @@ msgid ""
 msgstr ""
 "Instalare nereuşită, unele fişiere lipsesc.\n"
 "%s\n"
-"Probabil ar trebui să actualizaţi baza de date urpmi."
+"Probabil ar trebui să actualizaţi baza de date urpmi"
 
 #: ../gurpmi2:322 ../urpm/main_loop.pm:199 ../urpm/main_loop.pm:217
 #: ../urpm/main_loop.pm:235
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed:"
-msgstr "Instalarea a eşuat"
+msgstr "Instalarea a eşuat:"
 
 #: ../gurpmi2:327
 #, c-format
@@ -392,7 +398,7 @@ msgstr "   -h|--help      - afişează acest mesaj de ajutor.\n"
 #: ../rpm-find-leaves:17
 #, c-format
 msgid "   --root <path>  - use the given root instead of /\n"
-msgstr "   --root <path>  - foloseşte rădăcina dată în loc de /\n"
+msgstr "   --root <path>  - foloseşte administratorul dat în loc de /\n"
 
 #: ../rpm-find-leaves:18
 #, c-format
@@ -405,29 +411,29 @@ msgid "                    defaults to %s.\n"
 msgstr "                  implicit este %s \n"
 
 #: ../rpm-find-leaves:20
-#, fuzzy, c-format
+#, c-format
 msgid "   -f             - output rpm full name (NVRA)\n"
-msgstr "  -g             - arată grupurile şi cu nume.\n"
+msgstr "   -f             - afişează numele complet al rpm-ului (NVRA)\n"
 
 #: ../rurpmi:11 ../urpmi:281
 #, c-format
 msgid "Only superuser is allowed to install packages"
-msgstr "Doar superutilizatorul poate instala pachete"
+msgstr "Doar administratorul poate instala pachete"
 
 #: ../rurpmi:18
 #, c-format
 msgid "Running urpmi in restricted mode..."
-msgstr ""
+msgstr "Se rulează urpmi în mod restricţionat..."
 
 #: ../urpm.pm:110
-#, fuzzy, c-format
+#, c-format
 msgid "fail to create directory %s"
-msgstr "Nu pot creea directorul [%s] pentru raportul de erori"
+msgstr "nu se poate crea directorul %s"
 
 #: ../urpm.pm:111
 #, c-format
 msgid "invalid owner for directory %s"
-msgstr ""
+msgstr "proprietar nevalid pentru directorul %s"
 
 #: ../urpm.pm:233
 #, c-format
@@ -437,12 +443,12 @@ msgstr "nu pot deschide rpmdb"
 #: ../urpm.pm:247
 #, c-format
 msgid "invalid rpm file name [%s]"
-msgstr "nume de fişier rpm invalid [%s]"
+msgstr "nume de fişier rpm nevalid [%s]"
 
 #: ../urpm.pm:253
 #, c-format
 msgid "retrieving rpm file [%s] ..."
-msgstr "copiere fişier rpm [%s] ..."
+msgstr "primire fişier rpm [%s] ..."
 
 #: ../urpm.pm:255 ../urpm/get_pkgs.pm:171
 #, c-format
@@ -461,9 +467,9 @@ msgid "unable to access rpm file [%s]"
 msgstr "nu pot accesa fişierul rpm [%s]"
 
 #: ../urpm.pm:268
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse spec file %s [%s]"
-msgstr "nu pot parcurge \"%s\" în fişierul [%s]"
+msgstr "nu se poate parcurge fişierul %s [%s]"
 
 #: ../urpm.pm:276
 #, c-format
@@ -473,7 +479,7 @@ msgstr "nu pot înregistra fişierul rpm"
 #: ../urpm.pm:278
 #, c-format
 msgid "Incompatible architecture for rpm [%s]"
-msgstr ""
+msgstr "Arhitectură incompatibilă pentru rpm [%s]"
 
 #: ../urpm.pm:282
 #, c-format
@@ -483,7 +489,7 @@ msgstr "eroare la înregistrarea pachetelor locale"
 #: ../urpm.pm:367
 #, c-format
 msgid "This operation is forbidden while running in restricted mode"
-msgstr ""
+msgstr "Operaţiune interzisă în timpul rulării în mod restricţionat"
 
 #: ../urpm/args.pm:142 ../urpm/args.pm:151
 #, c-format
@@ -498,47 +504,47 @@ msgstr "urpmq: nu pot citi fişierul rpm \"%s\"\n"
 #: ../urpm/args.pm:377
 #, c-format
 msgid "unexpected expression %s"
-msgstr ""
+msgstr "expresie neprevăzută %s"
 
 #: ../urpm/args.pm:378
-#, fuzzy, c-format
+#, c-format
 msgid "missing expression before %s"
-msgstr "Semnătură lipsă (%s)"
+msgstr "lipsă expresie înaintea %s"
 
 #: ../urpm/args.pm:384
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
-msgstr ""
+msgstr "expresie neprevăzută %s (sugestie: utilizaţi -a sau -o ?)"
 
 #: ../urpm/args.pm:388
 #, c-format
 msgid "no expression to close"
-msgstr ""
+msgstr "nici o expresie de închis"
 
 #: ../urpm/args.pm:397
 #, c-format
 msgid "by default urpmf awaits a regexp. you should use option \"--literal\""
-msgstr ""
+msgstr "urpmf aşteaptă implicit un regexp. utilizaţi opţiunea \"--literal\""
 
 #: ../urpm/args.pm:469
 #, c-format
 msgid "chroot directory doesn't exist"
-msgstr ""
+msgstr "directorul chroot nu există"
 
 #: ../urpm/args.pm:488
 #, c-format
 msgid "Can't use %s without %s"
-msgstr ""
+msgstr "Nu se poate utiliza %s fără %s"
 
 #: ../urpm/args.pm:491 ../urpm/args.pm:494
 #, c-format
 msgid "Can't use %s with %s"
-msgstr ""
+msgstr "Nu se poate utiliza %s cu %s"
 
 #: ../urpm/args.pm:502
 #, c-format
 msgid "Too many arguments\n"
-msgstr ""
+msgstr "Prea multe argumente\n"
 
 #: ../urpm/bug_report.pm:48 ../urpmi:258
 #, c-format
@@ -551,16 +557,18 @@ msgid ""
 "You must mount CD-ROM yourself (or install perl-Hal-Cdroms to have it done "
 "automatically)"
 msgstr ""
+"Trebuie să montaţi singur CD-ROM-ul (sau să instalaţi perl-Hal-Cdroms pentru "
+"automatizare)"
 
 #: ../urpm/cdrom.pm:68
 #, c-format
 msgid "HAL daemon (hald) is not running or not ready"
-msgstr ""
+msgstr "serviciul HAL (hald) nu rulează sau nu este pregătit"
 
 #: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
-#, fuzzy, c-format
+#, c-format
 msgid "medium \"%s\" is not available"
-msgstr "mediul \"%s\" nu este selectat"
+msgstr "mediul \"%s\" nu este disponibil"
 
 #: ../urpm/cdrom.pm:207
 #, c-format
@@ -568,19 +576,19 @@ msgid "unable to read rpm file [%s] from medium \"%s\""
 msgstr "nu pot citi fişierul rpm [%s] de pe mediul \"%s\""
 
 #: ../urpm/cfg.pm:81
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in config file at line %s"
-msgstr "nu pot scrie în fişierul de configurare [%s]"
+msgstr "eroare de sintaxă în fişierul de configurare la linia %s"
 
 #: ../urpm/cfg.pm:114
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read config file [%s]"
-msgstr "nu pot scrie în fişierul de configurare [%s]"
+msgstr "nu se poate citi fişierul de configurare [%s]"
 
 #: ../urpm/cfg.pm:140
 #, c-format
 msgid "medium `%s' is defined twice, aborting"
-msgstr ""
+msgstr "mediul `%s' este definit de două ori, se renunţă"
 
 #: ../urpm/cfg.pm:250 ../urpm/media.pm:456 ../urpm/media.pm:462
 #, c-format
@@ -591,16 +599,18 @@ msgstr "nu pot scrie în fişierul de configurare [%s]"
 #, c-format
 msgid "can not read proxy settings (not enough rights to read %s)"
 msgstr ""
+"citirea setărilor proxy este imposibilă (drepturi insuficiente pentru "
+"citirea %s) "
 
 #: ../urpm/download.pm:125
 #, c-format
 msgid "Please enter your credentials for accessing proxy\n"
-msgstr ""
+msgstr "Introduceţi acreditările pentru accesarea proxy-ului\n"
 
 #: ../urpm/download.pm:126
 #, c-format
 msgid "User name:"
-msgstr ""
+msgstr "Nume utilizator:"
 
 #: ../urpm/download.pm:126
 #, c-format
@@ -610,62 +620,62 @@ msgstr "Parola:"
 #: ../urpm/download.pm:210
 #, c-format
 msgid "Unknown webfetch `%s' !!!\n"
-msgstr ""
+msgstr "Descărcare necunoscută `%s' !!!\n"
 
 #: ../urpm/download.pm:219
 #, c-format
 msgid "%s failed: exited with signal %d"
-msgstr ""
+msgstr "%s a eşuat: terminare cu mesajul %d"
 
 #: ../urpm/download.pm:220
 #, c-format
 msgid "%s failed: exited with %d"
-msgstr ""
+msgstr "%s a eşuat: terminare cu %d"
 
 #: ../urpm/download.pm:249
-#, fuzzy, c-format
+#, c-format
 msgid "copy failed"
-msgstr "Copierea a eşuat"
+msgstr "copierea a eşuat"
 
 #: ../urpm/download.pm:255
-#, fuzzy, c-format
+#, c-format
 msgid "wget is missing\n"
-msgstr "datorită %s lipsă"
+msgstr "datorită lipsei wget\n"
 
 #: ../urpm/download.pm:322
-#, fuzzy, c-format
+#, c-format
 msgid "curl is missing\n"
-msgstr "datorită %s lipsă"
+msgstr "datorită lipsei curl\n"
 
 #: ../urpm/download.pm:447
 #, c-format
 msgid "curl failed: download canceled\n"
-msgstr ""
+msgstr "curl a eşuat: descărcare anulată\n"
 
 #: ../urpm/download.pm:486
 #, c-format
 msgid "rsync is missing\n"
-msgstr ""
+msgstr "lipseşte rsync\n"
 
 #: ../urpm/download.pm:552
 #, c-format
 msgid "ssh is missing\n"
-msgstr ""
+msgstr "lipseşte ssh\n"
 
 #: ../urpm/download.pm:571
 #, c-format
 msgid "prozilla is missing\n"
-msgstr ""
+msgstr "lipseşte prozilla\n"
 
 #: ../urpm/download.pm:587
 #, c-format
 msgid "Couldn't execute prozilla\n"
-msgstr ""
+msgstr "Nu s-a putut rula prozilla\n"
 
 #: ../urpm/download.pm:595
-#, fuzzy, c-format
+#, c-format
 msgid "aria2 is missing\n"
-msgstr "datorită %s lipsă"
+msgstr "datorită lipsei aria2\n"
 
 #: ../urpm/download.pm:698
 #, c-format
@@ -678,14 +688,14 @@ msgid "        %s%% completed, speed = %s"
 msgstr "        %s%% terminat, viteza = %s"
 
 #: ../urpm/download.pm:763
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving %s"
-msgstr "elimin %s"
+msgstr "primire %s"
 
 #: ../urpm/download.pm:767
-#, fuzzy, c-format
+#, c-format
 msgid "retrieved %s"
-msgstr "...copierea eşuată: %s"
+msgstr "s-a primit %s"
 
 #: ../urpm/download.pm:795
 #, c-format
@@ -695,7 +705,7 @@ msgstr "protocol necunoscut definit pentru %s"
 #: ../urpm/download.pm:815
 #, c-format
 msgid "%s is not available, falling back on %s"
-msgstr ""
+msgstr "%s indisponibil, revenire la %s"
 
 #: ../urpm/download.pm:819
 #, c-format
@@ -708,9 +718,9 @@ msgid "unable to handle protocol: %s"
 msgstr "nu pot folosi protocolul: %s"
 
 #: ../urpm/get_pkgs.pm:15
-#, fuzzy, c-format
+#, c-format
 msgid "cleaning %s and %s"
-msgstr "instalez %s"
+msgstr "curăţare %s şi %s"
 
 #: ../urpm/get_pkgs.pm:101
 #, c-format
@@ -718,14 +728,16 @@ msgid "package %s is not found."
 msgstr "pachetul %s nu a fost găsit."
 
 #: ../urpm/get_pkgs.pm:149
-#, fuzzy, c-format
+#, c-format
 msgid "malformed URL: [%s]"
-msgstr "intrare incorectă: [%s]"
+msgstr "URL incorect: [%s]"
 
 #: ../urpm/get_pkgs.pm:160
 #, c-format
 msgid "sorry, you can't use --install-src to install remote .src.rpm files"
 msgstr ""
+"nu puteţi utiliza --install-src pentru instalarea la distanţă a fişierelor ."
+"src.rpm"
 
 #: ../urpm/get_pkgs.pm:167
 #, c-format
@@ -735,25 +747,25 @@ msgstr "copiere fişiere rpm de pe mediul \"%s\"..."
 #: ../urpm/install.pm:88
 #, c-format
 msgid "[repackaging]"
-msgstr ""
+msgstr "[reîmpachetare]"
 
 #: ../urpm/install.pm:154
 #, c-format
 msgid ""
 "created transaction for installing on %s (remove=%d, install=%d, upgrade=%d)"
 msgstr ""
-"Tranzacţie creeată pt. instalarea pe %s (ştergere=%d, instalare=%d, "
+"tranzacţie creeată pentru instalarea pe %s (ştergere=%d, instalare=%d, "
 "actualizare=%d)"
 
 #: ../urpm/install.pm:157
 #, c-format
 msgid "unable to create transaction"
-msgstr "nNu pot crea tranzacţia"
+msgstr "nu se poate crea tranzacţia"
 
 #: ../urpm/install.pm:180
-#, fuzzy, c-format
+#, c-format
 msgid "unable to extract rpm from delta-rpm package %s"
-msgstr "nu pot şterge pachetul %s"
+msgstr "nu se poate extrage rpm-ul din pachetul delta-rpm %s"
 
 #: ../urpm/install.pm:193
 #, c-format
@@ -761,19 +773,19 @@ msgid "unable to install package %s"
 msgstr "nu pot instala pachetul %s"
 
 #: ../urpm/install.pm:196
-#, fuzzy, c-format
+#, c-format
 msgid "removing bad rpm (%s) from %s"
-msgstr "instalez %s"
+msgstr "ştergere rpm deteriorat (%s) din %s"
 
 #: ../urpm/install.pm:197 ../urpm/install.pm:254
-#, fuzzy, c-format
+#, c-format
 msgid "removing %s failed: %s"
-msgstr "...copierea eşuată: %s"
+msgstr "ştergerea %s eşuată: %s"
 
 #: ../urpm/install.pm:235
-#, fuzzy, c-format
+#, c-format
 msgid "Removing package %s"
-msgstr "şterg pachetul %s"
+msgstr "Se şterge pachetul %s"
 
 #: ../urpm/install.pm:236
 #, c-format
@@ -781,9 +793,9 @@ msgid "removing package %s"
 msgstr "şterg pachetul %s"
 
 #: ../urpm/install.pm:252
-#, fuzzy, c-format
+#, c-format
 msgid "removing installed rpms (%s) from %s"
-msgstr "instalez %s"
+msgstr "ştergere rpm-uri instalate (%s) din %s"
 
 #: ../urpm/install.pm:260
 #, c-format
@@ -793,45 +805,45 @@ msgstr "Mai multe informaţii despre pachetul %s"
 #: ../urpm/ldap.pm:71
 #, c-format
 msgid "Cannot create ldap cache directory"
-msgstr ""
+msgstr "Nu se poate crea directorul cache ldap"
 
 #: ../urpm/ldap.pm:73
 #, c-format
 msgid "Cannot write cache file for ldap\n"
-msgstr ""
+msgstr "Nu se poate scrie fişierul cache al ldap\n"
 
 #: ../urpm/ldap.pm:162
 #, c-format
 msgid "No server defined, missing uri or host"
-msgstr ""
+msgstr "Server nedefinit, uri lipsă sau gazda"
 
 #: ../urpm/ldap.pm:163
-#, fuzzy, c-format
+#, c-format
 msgid "No base defined"
-msgstr "Nu a fost specificată nici o comandă"
+msgstr "Nu a fost specificată o bază"
 
 #: ../urpm/ldap.pm:172 ../urpm/ldap.pm:175
 #, c-format
 msgid "Cannot connect to ldap uri:"
-msgstr ""
+msgstr "Conectare imposibilă la uri-ul ldap:"
 
 #: ../urpm/lock.pm:62
-#, fuzzy, c-format
+#, c-format
 msgid "%s database is locked. Waiting..."
-msgstr "baza de date urpmi este blocată"
+msgstr "baza de date %s este blocată. Se aşteaptă..."
 
 #: ../urpm/lock.pm:63
-#, fuzzy, c-format
+#, c-format
 msgid "aborting"
-msgstr "Avertisment"
+msgstr "întrerupere"
 
 #: ../urpm/lock.pm:65
 #, c-format
 msgid "%s database is locked (another program is already using it)"
-msgstr ""
+msgstr "baza de date %s este blocată (utilizată deja de alt program)"
 
 #: ../urpm/main_loop.pm:113
-#, fuzzy, c-format
+#, c-format
 msgid "The following package has bad signature"
 msgstr "Următoarele pachete au semnături greşite"
 
@@ -851,9 +863,9 @@ msgid "Installation failed"
 msgstr "Instalarea a eşuat"
 
 #: ../urpm/main_loop.pm:132
-#, fuzzy, c-format
+#, c-format
 msgid "removing installed rpms (%s)"
-msgstr "instalez %s"
+msgstr "ştergere rpm-uri instalate (%s)"
 
 #: ../urpm/main_loop.pm:152
 #, c-format
@@ -861,9 +873,9 @@ msgid "distributing %s"
 msgstr "distribui %s"
 
 #: ../urpm/main_loop.pm:167
-#, fuzzy, c-format
+#, c-format
 msgid "installing %s from %s"
-msgstr "instalez %s"
+msgstr "instalare %s din %s"
 
 #: ../urpm/main_loop.pm:169
 #, c-format
@@ -876,54 +888,56 @@ msgid "Try installation without checking dependencies? (y/N) "
 msgstr "Să încerc instalarea fără verificarea dependenţelor? (d/N) "
 
 #: ../urpm/main_loop.pm:225
-#, fuzzy, c-format
+#, c-format
 msgid "Try harder to install (--force)? (y/N) "
-msgstr "Încearcă instalarea încă şi mai dur (--force)? (d/N) "
+msgstr "Încercare instalare forţată (--force)? (d/N) "
 
 #: ../urpm/main_loop.pm:259 ../urpm/main_loop.pm:267
 #, c-format
 msgid "Error"
-msgstr ""
+msgstr "Eroare"
 
 #: ../urpm/main_loop.pm:267
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Installation failed, bad rpms:\n"
 "%s"
-msgstr "Instalarea a eşuat"
+msgstr ""
+"Instalarea a eşuat, rpm-uri eronate:\n"
+"%s"
 
 #: ../urpm/main_loop.pm:273
-#, fuzzy, c-format
+#, c-format
 msgid "%d installation transaction failed"
 msgid_plural "%d installation transactions failed"
-msgstr[0] "%d tranzacţii de instalarea eşuate"
-msgstr[1] "%d tranzacţii de instalarea eşuate"
-msgstr[2] "%d tranzacţii de instalarea eşuate"
+msgstr[0] "%d tranzacţie instalare eşuată"
+msgstr[1] "%d tranzacţii instalare eşuate"
+msgstr[2] "%d tranzacţii instalare eşuate"
 
 #: ../urpm/main_loop.pm:286
 #, c-format
 msgid "Packages are up to date"
-msgstr ""
+msgstr "Pachetele sunt actualizate"
 
 #: ../urpm/main_loop.pm:294
-#, fuzzy, c-format
+#, c-format
 msgid "Package %s is already installed"
-msgstr "totul este deja instalat"
+msgstr "Pachetul %s este instalat deja"
 
 #: ../urpm/main_loop.pm:295
-#, fuzzy, c-format
+#, c-format
 msgid "Packages %s are already installed"
-msgstr "totul este deja instalat"
+msgstr "Pachetele %s sunt instalate deja"
 
 #: ../urpm/main_loop.pm:298
-#, fuzzy, c-format
+#, c-format
 msgid "Package %s can not be installed"
-msgstr "totul este deja instalat"
+msgstr "Pachetul %s nu poate fi instalat"
 
 #: ../urpm/main_loop.pm:299
 #, fuzzy, c-format
 msgid "Packages %s can not be installed"
-msgstr "totul este deja instalat"
+msgstr "Pachetul %s nu poate fi instalat"
 
 #: ../urpm/main_loop.pm:307
 #, c-format
@@ -931,14 +945,14 @@ msgid "Installation is possible"
 msgstr "Instalarea este posibilă"
 
 #: ../urpm/md5sum.pm:20
-#, fuzzy, c-format
+#, c-format
 msgid "examining %s file"
-msgstr "examinare fişier MD5SUM"
+msgstr "examinare fişier %s"
 
 #: ../urpm/md5sum.pm:22
 #, c-format
 msgid "warning: md5sum for %s unavailable in MD5SUM file"
-msgstr ""
+msgstr "atenţie: md5sum pentru %s este indisponibil din fişierul MD5SUM"
 
 #: ../urpm/media.pm:194
 #, c-format
@@ -952,19 +966,19 @@ msgid "unable to access list file of \"%s\", medium ignored"
 msgstr "nu pot accesa fişierul listă pentru \"%s\", ignor mediul"
 
 #: ../urpm/media.pm:203
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access synthesis file of \"%s\", medium ignored"
-msgstr "nu pot accesa fişierul hdlist pentru \"%s\", ignor mediul"
+msgstr "nu se poate accesa fişierul synthesis pentru \"%s\",se ignoră mediul"
 
 #: ../urpm/media.pm:230
-#, fuzzy, c-format
+#, c-format
 msgid "trying to override existing medium \"%s\", skipping"
-msgstr "încerc să sar pentru mediul existent \"%s\", evitare"
+msgstr "se încearcă ignorarea mediul existent \"%s\", evitare"
 
 #: ../urpm/media.pm:415
 #, c-format
 msgid "failed to migrate removable device, ignoring media"
-msgstr ""
+msgstr "transferul dispozitivului amovibil a eşuat, se ignoră mediul"
 
 #: ../urpm/media.pm:458 ../urpm/media.pm:464
 #, c-format
@@ -982,28 +996,28 @@ msgid "using associated media for parallel mode: %s"
 msgstr "utilizez mediile asociate pentru modul paralel: %s"
 
 #: ../urpm/media.pm:531
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "--synthesis cannot be used with --media, --excludemedia, --sortmedia, --"
 "update, --use-distrib or --parallel"
 msgstr ""
-"--synthesis nu poate fi folosit cu --media, --excludemedia, sortmedia, --"
-"update sau --parallel"
+"--synthesis nu poate fi folosit cu --media, --excludemedia, --sortmedia, --"
+"update, --use-distrib sau --parallel"
 
 #: ../urpm/media.pm:624
-#, fuzzy, c-format
+#, c-format
 msgid "Search start: %s end: %s"
-msgstr "Caută fonturi instalate"
+msgstr "Pornire căutare: %s terminare: %s"
 
 #: ../urpm/media.pm:641
 #, c-format
 msgid "skipping package %s"
-msgstr "salt peste pachetul %s"
+msgstr "se ignoră pachetul %s"
 
 #: ../urpm/media.pm:657
 #, c-format
 msgid "would install instead of upgrade package %s"
-msgstr "ar fi instalat în loc de actualizare pt. pachetul %s"
+msgstr "instalare în locul actualizării pachetului %s"
 
 #: ../urpm/media.pm:682
 #, c-format
@@ -1013,47 +1027,48 @@ msgstr "mediul \"%s\" deja există"
 #: ../urpm/media.pm:724
 #, c-format
 msgid "(ignored by default)"
-msgstr ""
+msgstr "(se ignoră implicit)"
 
 #: ../urpm/media.pm:730
-#, fuzzy, c-format
+#, c-format
 msgid "adding medium \"%s\" before remote medium \"%s\""
-msgstr "citest antetele de pe mediul \"%s\""
+msgstr "adăugare mediu \"%s\" înaintea mediului extern \"%s\""
 
 #: ../urpm/media.pm:736
-#, fuzzy, c-format
+#, c-format
 msgid "adding medium \"%s\""
-msgstr "elimin mediul \"%s\""
+msgstr "se adaugă mediul \"%s\""
 
 #: ../urpm/media.pm:765
 #, c-format
 msgid "directory %s does not exist"
-msgstr ""
+msgstr "directorul %s nu există"
 
 #: ../urpm/media.pm:773
 #, c-format
 msgid "this location doesn't seem to contain any distribution"
-msgstr ""
+msgstr "această locaţie nu pare să conţină nici o distribuţie"
 
 #: ../urpm/media.pm:791
-#, fuzzy, c-format
+#, c-format
 msgid "unable to parse media.cfg"
-msgstr "nu pot deschide rpmdb"
+msgstr "nu se poate parcurge media.cfg"
 
 #: ../urpm/media.pm:794
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access the distribution medium (no media.cfg file found)"
-msgstr "nu pot accesa primul mediu de instalare (nu am găsit fişierul hdlists)"
+msgstr ""
+"nu se poate accesa mediul de instalare (nu s-a găsit fişierul media.cfg)"
 
 #: ../urpm/media.pm:812
 #, c-format
 msgid "skipping non compatible media `%s' (for %s)"
-msgstr ""
+msgstr "se ignoră mediul incompatibil `%s' (pentru %s)"
 
 #: ../urpm/media.pm:861
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving media.cfg file..."
-msgstr "obţin fişierul hdlist..."
+msgstr "se obţine fişierul media.cfg..."
 
 #: ../urpm/media.pm:902
 #, c-format
@@ -1068,7 +1083,7 @@ msgstr "selectez medii multiple: %s"
 #: ../urpm/media.pm:925
 #, c-format
 msgid "removing medium \"%s\""
-msgstr "elimin mediul \"%s\""
+msgstr "se elimină mediul \"%s\""
 
 #: ../urpm/media.pm:1001
 #, c-format
@@ -1088,12 +1103,12 @@ msgstr "reconfigurarea s-a încheiat"
 #: ../urpm/media.pm:1061
 #, c-format
 msgid "Error generating names file: dependency %d not found"
-msgstr ""
+msgstr "Eroare la generarea fişierelor denumirilor: dependenţa %d lipseşte"
 
 #: ../urpm/media.pm:1082
-#, fuzzy, c-format
+#, c-format
 msgid "medium \"%s\" is up-to-date"
-msgstr "mediul \"%s\" nu este selectat"
+msgstr "mediul \"%s\" este actualizat"
 
 #: ../urpm/media.pm:1093
 #, c-format
@@ -1106,9 +1121,9 @@ msgid "problem reading synthesis file of medium \"%s\""
 msgstr "problemă la citirea fişierului synthesis al mediului \"%s\""
 
 #: ../urpm/media.pm:1126 ../urpm/media.pm:1209
-#, fuzzy, c-format
+#, c-format
 msgid "copying [%s] for medium \"%s\"..."
-msgstr "scriu fişierul listă pentru mediul \"%s\""
+msgstr "copiere [%s] pentru mediul \"%s\"..."
 
 #: ../urpm/media.pm:1128 ../urpm/media.pm:1183 ../urpm/media.pm:1421
 #, c-format
@@ -1131,49 +1146,49 @@ msgid "copy of [%s] failed (file is suspiciously small)"
 msgstr "copierea fişierului [%s] a eşuat (fişier suspect de mic)"
 
 #: ../urpm/media.pm:1248
-#, fuzzy, c-format
+#, c-format
 msgid "computing md5sum of retrieved source synthesis"
-msgstr "calculez md5sum a fişierului sursă hdlist/synthesis descărcat"
+msgstr "se calculează md5sum pentru fişierului synthesis descărcat"
 
 #: ../urpm/media.pm:1250 ../urpm/media.pm:1671
-#, fuzzy, c-format
+#, c-format
 msgid "retrieval of [%s] failed (md5sum mismatch)"
-msgstr "copierea [%s] a eşuat (eroare md5sum)"
+msgstr "descărcarea [%s] a eşuat (eroare md5sum)"
 
 #: ../urpm/media.pm:1265
-#, fuzzy, c-format
+#, c-format
 msgid "genhdlist2 failed on %s"
-msgstr "examinez fişierul hdlist [%s]"
+msgstr "genhdlist2 a eşuat pentru %s"
 
 #: ../urpm/media.pm:1275
-#, fuzzy, c-format
+#, c-format
 msgid "comparing %s and %s"
-msgstr "instalez %s"
+msgstr "comparare %s şi %s"
 
 #: ../urpm/media.pm:1300
-#, fuzzy, c-format
+#, c-format
 msgid "invalid hdlist file %s for medium \"%s\""
-msgstr "nu a fost găsit nici un fişier hdlist pentru mediul \"%s\""
+msgstr "fişierul hdlist %s pentru mediul \"%s\" nu este valid"
 
 #: ../urpm/media.pm:1326
-#, fuzzy, c-format
+#, c-format
 msgid "copying MD5SUM file of \"%s\"..."
-msgstr "copiez fişierul cu descrieri pentru \"%s\"..."
+msgstr "copiere fişier MD5SUM al \"%s\"..."
 
 #: ../urpm/media.pm:1380
-#, fuzzy, c-format
+#, c-format
 msgid "retrieving source synthesis of \"%s\"..."
-msgstr "copiez hdlist (sau synthesis) sursă pentru \"%s\"..."
+msgstr "se primeşte sursa synthesis pentru \"%s\"..."
 
 #: ../urpm/media.pm:1397
-#, fuzzy, c-format
+#, c-format
 msgid "found probed synthesis as %s"
-msgstr "am găsit hdlist (sau synthesis) verificat ca %s"
+msgstr "s-a găsit synthesis verificat ca %s"
 
 #: ../urpm/media.pm:1404 ../urpm/media.pm:1512
-#, fuzzy, c-format
+#, c-format
 msgid "no synthesis file found for medium \"%s\""
-msgstr "nu a fost găsit nici un fişier hdlist pentru mediul \"%s\""
+msgstr "nu s-a găsit fişierul synthesis pentru mediul \"%s\""
 
 #: ../urpm/media.pm:1455
 #, c-format
@@ -1191,34 +1206,34 @@ msgid "unable to import pubkey file of \"%s\""
 msgstr "nu pot importa fişierul cheie publică pentru \"%s\""
 
 #: ../urpm/media.pm:1545
-#, fuzzy, c-format
+#, c-format
 msgid "updated medium \"%s\""
-msgstr "am adăugat mediul %s"
+msgstr "mediul \"%s\" actualizat"
 
 #: ../urpm/media.pm:1665
 #, c-format
 msgid "retrieval of [%s] failed"
-msgstr ""
+msgstr "primirea [%s] a eşuat"
 
 #: ../urpm/mirrors.pm:19
 #, c-format
 msgid "trying again with mirror %s"
-msgstr ""
+msgstr "se reîncearcă cu serverul %s"
 
 #: ../urpm/mirrors.pm:55
 #, c-format
 msgid "Could not find a mirror from mirrorlist %s"
-msgstr ""
+msgstr "Nu s-a găsit un server din lista de servere %s"
 
 #: ../urpm/mirrors.pm:181
 #, c-format
 msgid "found geolocalisation %s %.2f %.2f from timezone %s"
-msgstr ""
+msgstr "localizarea geografică %s %.2f % găsită.2f din fusul orar %s"
 
 #: ../urpm/mirrors.pm:226
-#, fuzzy, c-format
+#, c-format
 msgid "getting mirror list from %s"
-msgstr "citesc fişierele rpm de la [%s]"
+msgstr "primire listă servere de la %s"
 
 #: ../urpm/msg.pm:63 ../urpmi:518 ../urpmi:534 ../urpmi:624
 #, c-format
@@ -1240,62 +1255,62 @@ msgstr "Aţi ales greşit, încercaţi din nou\n"
 #: ../urpm/msg.pm:152
 #, c-format
 msgid "Package"
-msgstr ""
+msgstr "Pachet"
 
 #: ../urpm/msg.pm:152
 #, c-format
 msgid "Version"
-msgstr ""
+msgstr "Versiune"
 
 #: ../urpm/msg.pm:152
 #, c-format
 msgid "Release"
-msgstr ""
+msgstr "Ediţie"
 
 #: ../urpm/msg.pm:152
-#, fuzzy, c-format
+#, c-format
 msgid "Arch"
-msgstr "Căutare"
+msgstr "Arh"
 
 #: ../urpm/msg.pm:161
 #, c-format
 msgid "(suggested)"
-msgstr ""
+msgstr "(sugerat)"
 
 #: ../urpm/msg.pm:176
-#, fuzzy, c-format
+#, c-format
 msgid "medium \"%s\""
-msgstr "elimin mediul \"%s\""
+msgstr "mediul \"%s\""
 
 #: ../urpm/msg.pm:176
 #, c-format
 msgid "command line"
-msgstr ""
+msgstr "linie de comandă"
 
 #: ../urpm/msg.pm:190
 #, c-format
 msgid "B"
-msgstr ""
+msgstr "B"
 
 #: ../urpm/msg.pm:190
 #, c-format
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 #: ../urpm/msg.pm:190
 #, c-format
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 #: ../urpm/msg.pm:190
 #, c-format
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 #: ../urpm/msg.pm:190 ../urpm/msg.pm:199
 #, c-format
 msgid "TB"
-msgstr ""
+msgstr "TB"
 
 #: ../urpm/parallel.pm:14
 #, c-format
@@ -1318,14 +1333,14 @@ msgid "unable to use parallel option \"%s\""
 msgstr "nu pot folosi opţiunea parallel \"%s\""
 
 #: ../urpm/removable.pm:26
-#, fuzzy, c-format
+#, c-format
 msgid "unable to access medium \"%s\"."
 msgstr "nu pot accesa mediul \"%s\""
 
 #: ../urpm/removable.pm:66 ../urpm/removable.pm:84
 #, c-format
 msgid "mounting %s"
-msgstr "montez %s"
+msgstr "montare %s"
 
 #: ../urpm/removable.pm:97
 #, c-format
@@ -1335,13 +1350,14 @@ msgstr "demontare %s"
 #: ../urpm/select.pm:28
 #, c-format
 msgid "urpmi was restarted, and the list of priority packages did not change"
-msgstr ""
+msgstr "urpmi s-a repornit, lista pachetelor prioritare este neschimbată"
 
 #: ../urpm/select.pm:30
 #, c-format
 msgid ""
 "urpmi was restarted, and the list of priority packages did change: %s vs %s"
 msgstr ""
+"urpmi s-a repornit, lista pachetelor prioritare s-a modificat: %s contra %s"
 
 #: ../urpm/select.pm:191
 #, c-format
@@ -1356,12 +1372,12 @@ msgstr "Următoarele pachete conţin %s: %s"
 #: ../urpm/select.pm:516 ../urpm/select.pm:559
 #, c-format
 msgid "due to missing %s"
-msgstr "datorită %s lipsă"
+msgstr "datorită lipsei %s"
 
 #: ../urpm/select.pm:517
-#, fuzzy, c-format
+#, c-format
 msgid "due to already installed %s"
-msgstr "totul este deja instalat"
+msgstr "%s este deja instalat"
 
 #: ../urpm/select.pm:518 ../urpm/select.pm:557
 #, c-format
@@ -1406,27 +1422,27 @@ msgstr "Semnătură lipsă (%s)"
 #: ../urpm/sys.pm:156
 #, c-format
 msgid "system"
-msgstr ""
+msgstr "sistem"
 
 #: ../urpm/sys.pm:191
 #, c-format
 msgid "You should restart %s for %s"
-msgstr ""
+msgstr "Trebuie să reporniţi %s pentru %s"
 
 #: ../urpm/sys.pm:271
-#, fuzzy, c-format
+#, c-format
 msgid "Can't write file"
-msgstr "nu pot scrie fişierul [%s]"
+msgstr "Nu se poate scrie fişierul"
 
 #: ../urpm/sys.pm:271
-#, fuzzy, c-format
+#, c-format
 msgid "Can't open file"
-msgstr "Copierea a eşuat"
+msgstr "Nu se poate deschide fişierul"
 
 #: ../urpm/sys.pm:284
-#, fuzzy, c-format
+#, c-format
 msgid "Can't move file %s to %s"
-msgstr "Copierea a eşuat"
+msgstr "Nu se poate muta fişierul %s la %s"
 
 #: ../urpme:40
 #, c-format
@@ -1443,7 +1459,7 @@ msgstr ""
 "Acest program este soft liber şi poate fi redistribuit sub termenii GNU "
 "GPL.\n"
 "\n"
-"Utilizare:\n"
+"utilizare:\n"
 
 #: ../urpme:46
 #, c-format
@@ -1451,10 +1467,10 @@ msgid "  --auto         - automatically select a package in choices.\n"
 msgstr "  --auto         - selectare automată pachet în opţiuni.\n"
 
 #: ../urpme:47
-#, fuzzy, c-format
+#, c-format
 msgid "  --test         - verify if the removal can be achieved correctly.\n"
 msgstr ""
-"  --test         - verifică dacă instalarea poate fi îndeplinită corect.\n"
+"  --test         - verificaţi dacă ştergerea poate fi îndeplinită corect.\n"
 
 #: ../urpme:49 ../urpmi:110 ../urpmq:67
 #, c-format
@@ -1462,42 +1478,44 @@ msgid "  --parallel     - distributed urpmi across machines of alias.\n"
 msgstr "  --parallel     - urpmi distribuit între maşinile cu alias.\n"
 
 #: ../urpme:50 ../urpmi:141
-#, fuzzy, c-format
+#, c-format
 msgid "  --repackage    - Re-package the files before erasing\n"
-msgstr "  --packager     - afişare etichetă Împachetat de: packager.\n"
+msgstr "  --repackage    - Reîmpachetarea fişierelor înaintea ştergerii\n"
 
 #: ../urpme:51
-#, fuzzy, c-format
+#, c-format
 msgid "  --root         - use another root for rpm removal.\n"
 msgstr ""
-"  --root         - foloseşte altă rădăcină pentru instalarea rpm-urilor.\n"
+"  --root         - folosiţi alt administrator pentru ştergerea rpm-urilor.\n"
 
 #: ../urpme:52 ../urpmf:40 ../urpmi:112 ../urpmi.addmedia:69
 #: ../urpmi.recover:36 ../urpmi.removemedia:45 ../urpmi.update:46 ../urpmq:69
-#, fuzzy, c-format
+#, c-format
 msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
-"  --root         - foloseşte altă rădăcină pentru instalarea rpm-urilor.\n"
+"  --urpmi-root   - folosirea altui administrator pentru urpmi db & "
+"instalarea rpm.\n"
 
 #: ../urpme:53
-#, fuzzy, c-format
+#, c-format
 msgid "  --noscripts    - do not execute package scriptlet(s).\n"
-msgstr "  --description  - afişare etichetă Descriere: descriere.\n"
+msgstr ""
+"  --noscripts    - nu se execută algoritmul(ii) suplimentar al pachetului.\n"
 
 #: ../urpme:54
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --use-distrib  - configure urpme on the fly from a distrib tree, useful\n"
 "                   to (un)install a chroot with --root option.\n"
 msgstr ""
-"  --use-distrib  - configurare instantanee pt. urpmi dintr-un arbore de "
+"  --use-distrib  - configurare urpme instantanee dintr-un arbore de "
 "distribuţie, utilă\n"
-"                   pt. (dez)instalarea unui  chroot cu opţiunea --root .\n"
+"                   pentru (dez)instalarea chroot cu opţiunea --root .\n"
 
 #: ../urpme:56 ../urpmi:152 ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  --verbose, -v  - verbose mode.\n"
-msgstr "   --verbose      - mod detaliat.\n"
+msgstr "   --verbose , -v  - mod detaliat.\n"
 
 #: ../urpme:57
 #, c-format
@@ -1506,9 +1524,9 @@ msgstr ""
 "  -a             - selectează toate pachetele ce se potrivesc cu expresia.\n"
 
 #: ../urpme:70
-#, fuzzy, c-format
+#, c-format
 msgid "Only superuser is allowed to remove packages"
-msgstr "Doar superutilizatorul poate elimina medii"
+msgstr "Doar administratorul poate şterge pachete"
 
 #: ../urpme:100
 #, c-format
@@ -1523,7 +1541,7 @@ msgstr "pachet necunoscut "
 #: ../urpme:113 ../urpmi:548
 #, c-format
 msgid "removing package %s will break your system"
-msgstr "ştergerea pachetului %s va strica sistemul dvs"
+msgstr "ştergerea pachetului %s va deteriora sistemul dvs"
 
 #: ../urpme:115
 #, c-format
@@ -1533,32 +1551,31 @@ msgstr "Nimic de şters"
 #: ../urpme:120
 #, c-format
 msgid "Checking to remove the following packages"
-msgstr "Verific pt. ştergerea următoarelor pachete"
+msgstr "Verific pentru ştergere următoarelor pachete"
 
 #: ../urpme:124
-#, fuzzy, c-format
+#, c-format
 msgid "To satisfy dependencies, the following package will be removed"
 msgid_plural ""
 "To satisfy dependencies, the following %d packages will be removed"
-msgstr[0] ""
-"Pentru a satisface dependenţele, următoarele pachete vor fi şterse (%d MB)"
+msgstr[0] "Pentru satisfacerea dependenţelor, următorul pachet va fi şters"
 msgstr[1] ""
-"Pentru a satisface dependenţele, următoarele pachete vor fi şterse (%d MB)"
+"Pentru satisfacerea dependenţelor, următoarele %d pachete vor fi şterse"
 msgstr[2] ""
-"Pentru a satisface dependenţele, următoarele pachete vor fi şterse (%d MB)"
+"Pentru satisfacerea dependenţelor, următoarele %d pachete vor fi şterse"
 
 #: ../urpme:128
-#, fuzzy, c-format
+#, c-format
 msgid "Remove %d package?"
 msgid_plural "Remove %d packages?"
-msgstr[0] "şterg pachetul %s"
-msgstr[1] "şterg pachetul %s"
-msgstr[2] "şterg pachetul %s"
+msgstr[0] "Se şterge %d pachet?"
+msgstr[1] "Se şterg %d pachete?"
+msgstr[2] "Se şterg %d pachete?"
 
 #: ../urpme:128 ../urpmi:575 ../urpmi:662 ../urpmi.addmedia:141
 #, c-format
 msgid " (y/N) "
-msgstr " (D/n) "
+msgstr " (d/N) "
 
 #: ../urpme:150
 #, c-format
@@ -1566,7 +1583,7 @@ msgid "Removal failed"
 msgstr "Ştergere nereuşită"
 
 #: ../urpmf:29
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "urpmf version %s\n"
 "Copyright (C) 2002-2006 Mandriva.\n"
@@ -1576,15 +1593,15 @@ msgid ""
 "usage: urpmf [options] pattern-expression\n"
 msgstr ""
 "urpmf versiunea %s\n"
-"Copyright © 2002-2006 Mandriva.\n"
+"Copyright (C) 2002-2006 Mandriva.\n"
 "Acest program este soft liber şi poate fi redistribuit în termenii GNU GPL.\n"
 "\n"
-"Utilizare:\n"
+"utilizare: urpmf [opţiuni] tipar-expresie\n"
 
 #: ../urpmf:36
-#, fuzzy, c-format
+#, c-format
 msgid "  --version      - print this tool's version number.\n"
-msgstr "  --help         - afişează acest mesaj de ajutor.\n"
+msgstr "  --version      - afişarea versiunii utilitarului.\n"
 
 #: ../urpmf:37 ../urpmi:132 ../urpmq:79
 #, c-format
@@ -1596,13 +1613,14 @@ msgstr ""
 #: ../urpmf:38 ../urpmi:76 ../urpmq:49
 #, c-format
 msgid "  --excludemedia - do not use the given media, separated by comma.\n"
-msgstr "  --excludemedia - nu folosi mediile date, separate prin virgulă.\n"
+msgstr "  --excludemedia - nu folosiţi mediile date, separate prin virgulă.\n"
 
 #: ../urpmf:39
 #, c-format
 msgid ""
 "  --literal, -l  - don't match patterns, use argument as a literal string.\n"
 msgstr ""
+"  --literal, -l  - nu potriviţi modelele, utlizaţi argumentul ca literal.\n"
 
 #: ../urpmf:42 ../urpmi:79 ../urpmq:50
 #, c-format
@@ -1613,10 +1631,9 @@ msgstr ""
 "virgulă.\n"
 
 #: ../urpmf:43
-#, fuzzy, c-format
+#, c-format
 msgid "  --use-distrib  - use the given path to access media\n"
-msgstr ""
-"  --synthesis    - foloseşte fişierul synthesis dat în loc de urpmi db.\n"
+msgstr "  --use-distrib  - se utilizează calea indicată către mediu \n"
 
 #: ../urpmf:44 ../urpmi:80 ../urpmq:51
 #, c-format
@@ -1646,25 +1663,27 @@ msgstr ""
 "  -i             - ignoră diferenţierea majusculelor în toate modelele.\n"
 
 #: ../urpmf:49
-#, fuzzy, c-format
+#, c-format
 msgid "  -I             - honor case distinctions in patterns (default).\n"
 msgstr ""
-"  -i             - ignoră diferenţierea majusculelor în toate modelele.\n"
+"  -I             - utilizarea diferitelor majuscule în modele (implicit).\n"
 
 #: ../urpmf:50
 #, c-format
 msgid "  -F<str>        - change field separator (defaults to ':').\n"
-msgstr ""
+msgstr "  -F<str>        - schimbaţi câmpul separator (implicit ':').\n"
 
 #: ../urpmf:51
 #, c-format
 msgid "Pattern expressions:\n"
-msgstr ""
+msgstr "Expresii regulate:\n"
 
 #: ../urpmf:52
 #, c-format
 msgid "  text           - any text is parsed as a regexp, unless -l is used.\n"
 msgstr ""
+"  text         - orice text este parcurs ca regexp, exceptând utilizarea -"
+"l.\n"
 
 #: ../urpmf:53
 #, c-format
@@ -1684,153 +1703,147 @@ msgstr "  -o             - operator binar SAU.\n"
 #: ../urpmf:56
 #, c-format
 msgid "  !              - unary NOT.\n"
-msgstr "  -!             - Negare unară.\n"
+msgstr "  !             - Negare unară.\n"
 
 #: ../urpmf:57
-#, fuzzy, c-format
+#, c-format
 msgid "  ( )            - left and right parentheses.\n"
-msgstr ""
-"  )              - paranteză dreapta pentru închidere expresii de grup.\n"
+msgstr "  ( )            - paranteze stânga şi dreapta.\n"
 
 #: ../urpmf:58
-#, fuzzy, c-format
+#, c-format
 msgid "List of tags:\n"
-msgstr ""
-"Listă de date corupte:\n"
-"\n"
+msgstr "Listă de etichete:\n"
 
 #: ../urpmf:59
-#, fuzzy, c-format
+#, c-format
 msgid "  --qf           - specify a printf-like output format\n"
-msgstr "  --X            - foloseşte interfaţa X.\n"
+msgstr "  --qf           - se specifică un format de ieşire tip printf\n"
 
 #: ../urpmf:60
-#, fuzzy, c-format
+#, c-format
 msgid "                   example: '%%name:%%files'\n"
-msgstr "                  implicit este %s \n"
+msgstr "                   exemplu: '%%nume:%%fişiere'\n"
 
 #: ../urpmf:61
-#, fuzzy, c-format
+#, c-format
 msgid "  --arch         - architecture\n"
-msgstr "  --url          -  afişare etichetă url: url\n"
+msgstr "  --arch         - architectură\n"
 
 #: ../urpmf:62
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildhost    - build host\n"
-msgstr "  --buildhost    - afişează eticheta (buildhost): build host.\n"
+msgstr "  --buildhost    - compilare host\n"
 
 #: ../urpmf:63
 #, c-format
 msgid "  --buildtime    - build time\n"
-msgstr ""
+msgstr "  --buildtime    - la compilare\n"
 
 #: ../urpmf:64
-#, fuzzy, c-format
+#, c-format
 msgid "  --conffiles    - configuration files\n"
-msgstr "Modul de configurare Konsole"
+msgstr "  --conffiles    - fişiere de configurare\n"
 
 #: ../urpmf:65
-#, fuzzy, c-format
+#, c-format
 msgid "  --conflicts    - conflict tags\n"
-msgstr ""
-"  --conflicts     - afişează eticheta Conflicte: toate conflictele (linii "
-"multiple).\n"
+msgstr "  --conflicts     - marcaj conflicte\n"
 
 #: ../urpmf:66
-#, fuzzy, c-format
+#, c-format
 msgid "  --description  - package description\n"
-msgstr "  --description  - afişare etichetă Descriere: descriere.\n"
+msgstr "  --description  - descrierea pachetului\n"
 
 #: ../urpmf:67
 #, c-format
 msgid "  --distribution - distribution\n"
-msgstr ""
+msgstr "  --distribution - distribuţie\n"
 
 #: ../urpmf:68
-#, fuzzy, c-format
+#, c-format
 msgid "  --epoch        - epoch\n"
-msgstr "  --epoch        - afişare etichetă epoch: epoch.\n"
+msgstr "  --epoch        - epocă\n"
 
 #: ../urpmf:69
-#, fuzzy, c-format
+#, c-format
 msgid "  --filename     - filename of the package\n"
-msgstr "  --name         - afişează doar numele pachetelor.\n"
+msgstr "  --filename     - numele fişierelor pachetelor\n"
 
 #: ../urpmf:70
-#, fuzzy, c-format
+#, c-format
 msgid "  --files        - list of files contained in the package\n"
-msgstr "  -l         - listează fişierele din pachet.\n"
+msgstr "  --files        - afişarea fişierelor conţinute în pachet\n"
 
 #: ../urpmf:71
-#, fuzzy, c-format
+#, c-format
 msgid "  --group        - group\n"
-msgstr "  --group        - afişare etichetă grup: grup.\n"
+msgstr "  --group        - grup\n"
 
 #: ../urpmf:72
-#, fuzzy, c-format
+#, c-format
 msgid "  --license      - license\n"
-msgstr "  --name         - afişează doar numele pachetelor.\n"
+msgstr "  --license      - licenţă\n"
 
 #: ../urpmf:73
-#, fuzzy, c-format
+#, c-format
 msgid "  --name         - package name\n"
-msgstr "  --name         - afişează doar numele pachetelor.\n"
+msgstr "  --name         - numele pachetului\n"
 
 #: ../urpmf:74
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - obsoletes tags\n"
-msgstr "  --obsoletes    - afişează eticheta Perimat: toate perimatele.\n"
+msgstr "  --obsoletes    - marcaj ca perimat\n"
 
 #: ../urpmf:75
-#, fuzzy, c-format
+#, c-format
 msgid "  --packager     - packager\n"
-msgstr "  --packager     - afişare etichetă Împachetat de: packager.\n"
+msgstr "  --packager     - creator\n"
 
 #: ../urpmf:76
-#, fuzzy, c-format
+#, c-format
 msgid "  --provides     - provides tags\n"
-msgstr ""
-"  --provides     - afişează eticheta Oferă: tot ce oferă (linii multiple).\n"
+msgstr "  --provides     - marcaj ofertă\n"
 
 #: ../urpmf:77
-#, fuzzy, c-format
+#, c-format
 msgid "  --requires     - requires tags\n"
-msgstr "  --requires     - afişează eticheta Necesită: toate necesităţile.\n"
+msgstr "  --requires     - marcaj necesar\n"
 
 #: ../urpmf:78
-#, fuzzy, c-format
+#, c-format
 msgid "  --size         - installed size\n"
-msgstr "  --size          - afişare etichetă Mărime: mărime.\n"
+msgstr "  --size         - spaţiu instalat\n"
 
 #: ../urpmf:79
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - source rpm name\n"
-msgstr "  --sourcerpm    - afişare etichetă sourcepm: sursa rpm.\n"
+msgstr "  --sourcerpm    - nume rpm sursă\n"
 
 #: ../urpmf:80
-#, fuzzy, c-format
+#, c-format
 msgid "  --suggests     - suggests tags\n"
-msgstr "  --obsoletes    - afişează eticheta Perimat: toate perimatele.\n"
+msgstr "  --suggests     - marcaj recomandat\n"
 
 #: ../urpmf:81
-#, fuzzy, c-format
+#, c-format
 msgid "  --summary      - summary\n"
-msgstr "  --summary      - afişare etichetă Sumar: sumar.\n"
+msgstr "  --summary      - sumar\n"
 
 #: ../urpmf:82
-#, fuzzy, c-format
+#, c-format
 msgid "  --url          - url\n"
-msgstr "  --url          -  afişare etichetă url: url\n"
+msgstr "  --url          - url\n"
 
 #: ../urpmf:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --vendor       - vendor\n"
-msgstr "   --verbose      - mod detaliat.\n"
+msgstr "  --vendor       - vânzător\n"
 
 #: ../urpmf:84
-#, fuzzy, c-format
+#, c-format
 msgid "  -m             - the media in which the package was found\n"
-msgstr "  -l         - listează fişierele din pachet.\n"
+msgstr "  -m             - mediul în care s-a găsit pachetul\n"
 
 #: ../urpmf:85 ../urpmq:96
 #, c-format
@@ -1840,12 +1853,13 @@ msgstr "  -f             - afişează versiune, ediţie şi arhitectură cu nume
 #: ../urpmf:153
 #, c-format
 msgid "unterminated expression (%s)"
-msgstr ""
+msgstr "expresie nedeterminată (%s)"
 
 #: ../urpmf:198
 #, c-format
 msgid "Incorrect format: you may use only one multi-valued tag"
 msgstr ""
+"Format incorect: puteţi utiliza numai o singură etichetă cu valori multiple"
 
 #: ../urpmf:248 ../urpmi:265 ../urpmq:141
 #, c-format
@@ -1853,41 +1867,41 @@ msgid "using specific environment on %s\n"
 msgstr "folosind mediul specific pe %s\n"
 
 #: ../urpmf:291
-#, fuzzy, c-format
+#, c-format
 msgid "no hdlist available for medium \"%s\""
-msgstr "nu a fost găsit nici un fişier hdlist pentru mediul \"%s\""
+msgstr "nu este disponibil un hdlist  pentru mediul \"%s\""
 
 #: ../urpmf:298
-#, fuzzy, c-format
+#, c-format
 msgid "no synthesis available for medium \"%s\""
-msgstr "am construit fişierul synthesis pentru mediul \"%s\""
+msgstr "nu este disponibil un synthesis pentru mediul \"%s\""
 
 #: ../urpmf:307
-#, fuzzy, c-format
+#, c-format
 msgid "no xml-info available for medium \"%s\""
-msgstr "scriu fişierul listă pentru mediul \"%s\""
+msgstr "nu sunt disponibile informaţii xml  pentru mediul \"%s\""
 
 #: ../urpmi:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --auto-update  - update media then upgrade the system.\n"
 msgstr ""
-"  --auto-select  - selectare automată pachete pentru actualizare sistem.\n"
+"  --auto-update  - actualizare medii urmată de actualizarea sistemului.\n"
 
 #: ../urpmi:84
-#, fuzzy, c-format
+#, c-format
 msgid "    --no-md5sum    - disable MD5SUM file checking.\n"
-msgstr ""
-"  --no-md5sum    - dezactivează verificarea fişierelor folosind MD5SUM.\n"
+msgstr "  --no-md5sum    - se dezactivează verificarea fişierelor cu MD5SUM.\n"
 
 #: ../urpmi:85
-#, fuzzy, c-format
+#, c-format
 msgid "    --force-key    - force update of gpg key.\n"
-msgstr "  --force-key    - forţează actualizarea cheii gpg.\n"
+msgstr "  --force-key    - se forţează actualizarea cheii gpg.\n"
 
 #: ../urpmi:86 ../urpmq:53
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-suggests  - do not auto select \"suggested\" packages.\n"
-msgstr "  --obsoletes    - afişează eticheta Perimat: toate perimatele.\n"
+msgstr ""
+"  --no-suggests  - nu se selectează automat pachetele \"recomandate\".\n"
 
 #: ../urpmi:87
 #, c-format
@@ -1899,9 +1913,9 @@ msgstr ""
 "instalare.\n"
 
 #: ../urpmi:88
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-install   - don't install packages (only download)\n"
-msgstr "  --install-src  - instalează numai pachetele sursă (fără binare).\n"
+msgstr "  --no-install   - nu se instalează pachetele (doar descărcare)\n"
 
 #: ../urpmi:89 ../urpmq:55
 #, c-format
@@ -1929,14 +1943,15 @@ msgid "  --split-length - small transaction length, default is %d.\n"
 msgstr "  --split-length - lungime tranzacţii mici, implicit este %d.\n"
 
 #: ../urpmi:97
-#, fuzzy, c-format
+#, c-format
 msgid "  --fuzzy, -y    - impose fuzzy search.\n"
-msgstr "  --fuzzy             - impune căutarea fuzzy (identic cu -y).\n"
+msgstr "  --fuzzy, -y    - se impune căutarea vagă.\n"
 
 #: ../urpmi:98
-#, fuzzy, c-format
+#, c-format
 msgid "  --buildrequires - install the buildrequires of the packages\n"
-msgstr "  --requires     - afişează eticheta Necesită: toate necesităţile.\n"
+msgstr ""
+"  --buildrequires - se instalează cerinţele de compilare ale pachetelor\n"
 
 #: ../urpmi:99
 #, c-format
@@ -1950,20 +1965,22 @@ msgstr ""
 "  --clean        - şterge rpm-urile din cache înainte de orice altceva.\n"
 
 #: ../urpmi:101
-#, fuzzy, c-format
+#, c-format
 msgid "  --noclean      - don't clean rpms from cache.\n"
-msgstr "  --noclean      - păstreză rpm-urile nefolosite în cache.\n"
+msgstr "  --noclean      - nu se şterg rpm-urile din cache.\n"
 
 #: ../urpmi:102
-#, fuzzy, c-format
+#, c-format
 msgid "  --justdb       - update only the rpm db, not the filesystem.\n"
-msgstr "  --update       - foloseşte numai mediile de actualizare.\n"
+msgstr ""
+"  --justdb       - se actualizează doar rpm db, nu şi sistemului de "
+"fişiere.\n"
 
 #: ../urpmi:103
 #, c-format
 msgid ""
 "  --replacepkgs  - force installing packages which are already installed.\n"
-msgstr ""
+msgstr "  --replacepkgs  - forţaţi reinstalarea pachetelor deja instalate.\n"
 
 #: ../urpmi:105
 #, c-format
@@ -1971,7 +1988,7 @@ msgid ""
 "  --allow-nodeps - allow asking user to install packages without\n"
 "                   dependencies checking.\n"
 msgstr ""
-"  --allow-nodeps - permite interogarea utilizatorului pt. instalarea "
+"  --allow-nodeps - permite interogarea utilizatorului la instalarea "
 "pachetelor fără\n"
 "                   verificarea dependenţelor\n"
 
@@ -1986,9 +2003,10 @@ msgstr ""
 "integrităţii.\n"
 
 #: ../urpmi:109
-#, fuzzy, c-format
+#, c-format
 msgid "  --allow-suggests - auto select \"suggested\" packages.\n"
-msgstr "  --obsoletes    - afişează eticheta Perimat: toate perimatele.\n"
+msgstr ""
+"  --allow-suggests - selectare automată a pachetelor \"recomandate\".\n"
 
 #: ../urpmi:113
 #, c-format
@@ -2006,31 +2024,33 @@ msgid ""
 "  --downloader   - program to use to retrieve distant files. \n"
 "                   known programs: %s\n"
 msgstr ""
+"  --downloader   - alegerea programului de descărcare. \n"
+"                   programe: %s\n"
 
 #: ../urpmi:118
 #, c-format
 msgid "  --curl-options - additional options to pass to curl\n"
-msgstr ""
+msgstr "  --curl-options - opţiuni pentru curl\n"
 
 #: ../urpmi:119
 #, c-format
 msgid "  --rsync-options- additional options to pass to rsync\n"
-msgstr ""
+msgstr "  --rsync-options- opţiuni pentru rsync\n"
 
 #: ../urpmi:120
 #, c-format
 msgid "  --wget-options - additional options to pass to wget\n"
-msgstr ""
+msgstr "  --wget-options - opţiuni pentru wget\n"
 
 #: ../urpmi:121
 #, c-format
 msgid "  --prozilla-options - additional options to pass to prozilla\n"
-msgstr ""
+msgstr "  --prozilla-options - opţiuni pentru prozilla\n"
 
 #: ../urpmi:122
 #, c-format
 msgid "  --aria2-options - additional options to pass to aria2\n"
-msgstr ""
+msgstr "  --aria2-options - opţiuni pentru aria2\n"
 
 #: ../urpmi:123 ../urpmi.addmedia:58 ../urpmi.update:36
 #, c-format
@@ -2087,21 +2107,23 @@ msgid "  --excludedocs  - exclude doc files.\n"
 msgstr "  --excludedocs  - exclude fişierele documentaţie.\n"
 
 #: ../urpmi:138
-#, fuzzy, c-format
+#, c-format
 msgid "  --ignoresize   - don't verify disk space before installation.\n"
 msgstr ""
-"  --no-uninstall -nu se dezinstalează pachete niciodată, renunţă la "
-"instalare.\n"
+"  --ignoresize   - nu se verifică spaţiul pe disc înainte de instalare.\n"
 
 #: ../urpmi:139
-#, fuzzy, c-format
+#, c-format
 msgid "  --ignorearch   - allow to install rpms for unmatched architectures.\n"
-msgstr "  --url          -  afişare etichetă url: url\n"
+msgstr ""
+"  --ignorearch   - se permite instalarea pachetelor pentru o altă "
+"arhitectură.\n"
 
 #: ../urpmi:140
-#, fuzzy, c-format
+#, c-format
 msgid "  --noscripts    - do not execute package scriptlet(s)\n"
-msgstr "  --description  - afişare etichetă Descriere: descriere.\n"
+msgstr ""
+"  --noscripts    - nu se execută algoritmul(ii) suplimentar al pachetului\n"
 
 #: ../urpmi:142
 #, c-format
@@ -2109,9 +2131,9 @@ msgid "  --skip         - packages which installation should be skipped\n"
 msgstr "  --skip         - packetele a căror instalare poate fi sărită\n"
 
 #: ../urpmi:143
-#, fuzzy, c-format
+#, c-format
 msgid "  --prefer       - packages which should be preferred\n"
-msgstr "  --skip         - packetele a căror instalare poate fi sărită\n"
+msgstr "  --prefer       - pachete preferate\n"
 
 #: ../urpmi:144
 #, c-format
@@ -2124,14 +2146,15 @@ msgstr ""
 "                   decât implicit.\n"
 
 #: ../urpmi:146
-#, fuzzy, c-format
+#, c-format
 msgid "  --nolock       - don't lock rpm db.\n"
-msgstr "  --noclean      - păstreză rpm-urile nefolosite în cache.\n"
+msgstr "  --nolock       - nu se blochează rpm db.\n"
 
 #: ../urpmi:147
 #, c-format
 msgid "  --strict-arch  - upgrade only packages with the same architecture.\n"
 msgstr ""
+"  --strict-arch  - actualizaţi numai pachetele pentru aceeaşi arhitectură.\n"
 
 #: ../urpmi:148 ../urpmq:94
 #, c-format
@@ -2139,14 +2162,14 @@ msgid "  -a             - select all matches on command line.\n"
 msgstr "  -a             - selectează toate potrivirile în linia de comandă.\n"
 
 #: ../urpmi:151
-#, fuzzy, c-format
+#, c-format
 msgid "  --quiet, -q    - quiet mode.\n"
-msgstr "  -q             - mod silenţios.\n"
+msgstr "  --quiet, -q    - mod silenţios.\n"
 
 #: ../urpmi:153
-#, fuzzy, c-format
+#, c-format
 msgid "  --debug        - very verbose mode.\n"
-msgstr "   --verbose      - mod detaliat.\n"
+msgstr "  --debug        - mod detaliat.\n"
 
 #: ../urpmi:154
 #, c-format
@@ -2158,6 +2181,7 @@ msgstr ""
 #, c-format
 msgid "Error: can't use --auto-select along with package list.\n"
 msgstr ""
+"Eroare: nu se poate utiliza --auto-select împreună cu lista de pachete.\n"
 
 #: ../urpmi:189
 #, c-format
@@ -2165,28 +2189,32 @@ msgid ""
 "Error: To generate a bug report, specify the usual command-line arguments\n"
 "along with --bug.\n"
 msgstr ""
+"Eroare: Pentru raportarea unei erori, specificaţi argumentele uzuale din "
+"consolă\n"
+"împreună cu --bug.\n"
 
 #: ../urpmi:219
-#, fuzzy, c-format
+#, c-format
 msgid "You can't install binary rpm files when using --install-src"
-msgstr ""
-"Ce se poate face cu fişierele rpm binare când se foloseşte --install-src"
+msgstr "Nu se pot instala fişierele rpm binare când se foloseşte --install-src"
 
 #: ../urpmi:220
 #, c-format
 msgid "You can't install spec files"
-msgstr ""
+msgstr "Nu puteţi instala fişierele spec"
 
 #: ../urpmi:227
 #, c-format
 msgid "defaulting to --buildrequires"
-msgstr ""
+msgstr "implicit revenire la --buildrequires"
 
 #: ../urpmi:232
 #, c-format
 msgid ""
 "please use --buildrequires or --install-src, defaulting to --buildrequires"
 msgstr ""
+"utilizaţi --buildrequires sau --install-src, implicit revenire la --"
+"buildrequires"
 
 #: ../urpmi:252
 #, c-format
@@ -2194,7 +2222,7 @@ msgid ""
 "Directory [%s] already exists, please use another directory for bug report "
 "or delete it"
 msgstr ""
-"Directorul [%s] există deja, folosiţi un alt director pt. raportarea "
+"Directorul [%s] există deja, folosiţi un alt director pentru raportarea "
 "erorilor sau ştergeţi-l"
 
 #: ../urpmi:253
@@ -2205,7 +2233,7 @@ msgstr "Nu pot creea directorul [%s] pentru raportul de erori"
 #: ../urpmi:264
 #, c-format
 msgid "Environment directory %s does not exist"
-msgstr ""
+msgstr "Directorul %s din sistem nu există"
 
 #: ../urpmi:287
 #, c-format
@@ -2213,43 +2241,46 @@ msgid ""
 "Error: %s appears to be mounted read-only.\n"
 "Use --allow-force to force operation."
 msgstr ""
+"Eroare: %s pare să nu permită scrierea.\n"
+"Utilizaţi --allow-force pentru forţarea operaţiei."
 
 #: ../urpmi:374
 #, c-format
 msgid "Updating media...\n"
-msgstr ""
+msgstr "Actualizare mediu...\n"
 
 #. -PO: here format is "<package_name>: <summary> (to upgrade)"
 #: ../urpmi:453
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (to upgrade)"
-msgstr "Actualizare"
+msgstr "%s: %s (pentru actualizare)"
 
 #. -PO: here format is "<package_name> (to upgrade)"
 #: ../urpmi:455
-#, fuzzy, c-format
+#, c-format
 msgid "%s (to upgrade)"
-msgstr "Actualizare"
+msgstr "%s (pentru actualizare)"
 
 #. -PO: here format is "<package_name>: <summary> (to install)"
 #: ../urpmi:459
-#, fuzzy, c-format
+#, c-format
 msgid "%s: %s (to install)"
-msgstr "Ieşire din instalare"
+msgstr "%s: %s (pentru instalare)"
 
 #. -PO: here format is "<package_name> (to install)"
 #: ../urpmi:461
-#, fuzzy, c-format
+#, c-format
 msgid "%s (to install)"
-msgstr "Ieşire din instalare"
+msgstr "%s (pentru instalare)"
 
 #: ../urpmi:467
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "In order to satisfy the '%s' dependency, one of the following packages is "
 "needed:"
 msgstr ""
-"Pentru a satisface dependenţele, următoarele pachete vor fi şterse (%d MB)"
+"Pentru satisfacerea dependenţelor lui '%s', unul dintre următoarele pachete "
+"este necesar: "
 
 #: ../urpmi:470
 #, c-format
@@ -2263,6 +2294,9 @@ msgid ""
 "that are older than the installed ones:\n"
 "%s"
 msgstr ""
+"Acest pachet nu s-a putut instala deoarece depinde de pachete\n"
+"mai vechi decât cele instalate:\n"
+"%s"
 
 #: ../urpmi:513
 #, c-format
@@ -2271,13 +2305,18 @@ msgid ""
 "that are older than the installed ones:\n"
 "%s"
 msgstr ""
+"Aceste pachete nu s-au putut instala deoarece depind de pachete\n"
+"mai vechi decât cele instalate:\n"
+"%s"
 
 #: ../urpmi:520 ../urpmi:536
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Continue installation anyway?"
-msgstr "Continuaţi totuşi?"
+msgstr ""
+"\n"
+"Continuaţi totuşi instalarea?"
 
 #: ../urpmi:521 ../urpmi:537 ../urpmi:626 ../urpmi.addmedia:141
 #, c-format
@@ -2285,12 +2324,12 @@ msgid " (Y/n) "
 msgstr " (D/n) "
 
 #: ../urpmi:529
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "A requested package cannot be installed:\n"
 "%s"
 msgstr ""
-"Unele pachete cerute nu pot fi instalate:\n"
+"Pachetul cerut nu poate fi instalat:\n"
 "%s"
 
 #: ../urpmi:530
@@ -2303,13 +2342,13 @@ msgstr ""
 "%s"
 
 #: ../urpmi:557
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The installation cannot continue because the following package\n"
 "has to be removed for others to be upgraded:\n"
 "%s\n"
 msgstr ""
-"Instalarea nu poate continua pt. că următoarele pachete \n"
+"Instalarea nu poate continua deoarece următoarele pachete\n"
 "trebuie şterse pentru ca altele să fie actualizate:\n"
 "%s\n"
 
@@ -2325,12 +2364,12 @@ msgstr ""
 "%s\n"
 
 #: ../urpmi:566
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The following package has to be removed for others to be upgraded:\n"
 "%s"
 msgstr ""
-"Unrmătoarele pachete trebuie şterse pentru ca altele să fie actualizate:\n"
+"Următoarele pachete trebuie şterse pentru ca altele să fie actualizate:\n"
 "%s"
 
 #: ../urpmi:567
@@ -2345,45 +2384,46 @@ msgstr ""
 #: ../urpmi:569
 #, c-format
 msgid "(test only, removal will not be actually done)"
-msgstr ""
+msgstr "(numai test, nu se va efectua ştergerea)"
 
 #: ../urpmi:590
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You must first call urpmi with --buildrequires to install the following "
 "dependencies:\n"
 "%s\n"
 msgstr ""
-"Trebuie să fiţi root pentru a instala următoarele pachete dependente:\n"
+"Trebuie să rulaţi urpmi cu --buildrequires pentru instalarea următoarelor "
+"dependenţe:\n"
 "%s\n"
 
 #: ../urpmi:607
 #, c-format
 msgid "(test only, installation will not be actually done)"
-msgstr ""
+msgstr "(numai test, nu se va efectua instalare)"
 
 #: ../urpmi:613
 #, c-format
 msgid "%s of additional disk space will be used."
-msgstr ""
+msgstr "vor fi utilizaţi adiţional %s din spaţiul de pe disc."
 
 #: ../urpmi:614
 #, c-format
 msgid "%s of disk space will be freed."
-msgstr ""
+msgstr "vor fi eliberaţi %s din spaţiul de pe disc."
 
 #: ../urpmi:615
 #, c-format
 msgid "%s of packages will be retrieved."
-msgstr ""
+msgstr "%s de pachete vor fi primiţi."
 
 #: ../urpmi:616
 #, c-format
 msgid "Proceed with the installation of one package?"
 msgid_plural "Proceed with the installation of the %d packages?"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Continuaţi cu instalarea unui pachet?"
+msgstr[1] "Continuaţi cu instalarea a %d pachete?"
+msgstr[2] "Continuaţi cu instalarea a %d pachete?"
 
 #: ../urpmi:638
 #, c-format
@@ -2391,14 +2431,14 @@ msgid "Cancel"
 msgstr "Renunţă"
 
 #: ../urpmi:646
-#, fuzzy, c-format
+#, c-format
 msgid "Press Enter when mounted..."
-msgstr "Apăsaţi Enter când e gata..."
+msgstr "Apăsaţi Enter după montare..."
 
 #. -PO: The URI types strings 'file:', 'ftp:', 'http:', and 'cdrom:' must not be translated!
 #. -PO: neither the ``with''.  Only what is between <brackets> can be translated.
 #: ../urpmi.addmedia:36
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "usage: urpmi.addmedia [options] <name> <url>\n"
 "where <url> is one of\n"
@@ -2419,15 +2459,24 @@ msgid ""
 "\n"
 "and [options] are from\n"
 msgstr ""
-"utilizare: urpmi.addmedia [opţiuni] <nume> <url> [with <cale_relativă>]\n"
+"utilizare: urpmi.addmedia [opţiuni] <nume> <url>\n"
 "unde <url> este una din\n"
-"      [file:/]/<cale> with <nume relativ pentru hdlist>\n"
-"      ftp://<login>:<parola>@<gazdă>/<cale> with <nume relativ pt. hdlist>\n"
-"      ftp://<gazdă>/<cale> with <nume relativ petntru hdlist>\n"
-"      http://<gazdă>/<cale> with <nume relativ pentru hdlist>\n"
-"      removable://<cale> with <nume relativ pentru hdlist>\n"
+"      [file:/]/<path>\n"
+"      ftp://<login>:<password>@<host>/<path>\n"
+"      ftp://<host>/<path>\n"
+"      http://<host>/<path>\n"
+"      cdrom://<path>\n"
 "\n"
-"şi [opţiuni] sunt dintre\n"
+"utilizare: urpmi.addmedia [opţiuni] --distrib --mirrorlist <url>\n"
+"usage: urpmi.addmedia [options] --mirrorlist <url> <nume> <cale>\n"
+"\n"
+"exemple:\n"
+"\n"
+"  urpmi.addmedia --distrib --mirrorlist '$MIRRORLIST'\n"
+"  urpmi.addmedia --mirrorlist '$MIRRORLIST' backports media/main/backports\n"
+"\n"
+"\n"
+"şi [opţiunile] sunt din \n"
 
 #: ../urpmi.addmedia:55 ../urpmi.update:33 ../urpmq:72
 #, c-format
@@ -2444,11 +2493,9 @@ msgstr ""
 "distanţă.\n"
 
 #: ../urpmi.addmedia:57 ../urpmi.update:35 ../urpmq:74
-#, fuzzy, c-format
+#, c-format
 msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
-msgstr ""
-"  --curl         - foloseşte curl pentru obţinerea fişierelor de la "
-"distanţă.\n"
+msgstr "  --prozilla     - utilizaţi prozilla pentru descărcarea fişierelor.\n"
 
 #: ../urpmi.addmedia:63
 #, c-format
@@ -2462,24 +2509,24 @@ msgid ""
 "                   one of: never, on-demand, update-only, always. cf urpmi."
 "cfg(5)\n"
 msgstr ""
+"  --xml-info     - alegeţi metoda pentru descărcarea fişierelor xml\n"
+"                   una din: niciodată, la cerere, numai la actualizări, "
+"întotdeauna. cf urpmi.cfg(5)\n"
 
 #: ../urpmi.addmedia:66
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-synthesis - use synthesis file.\n"
-msgstr ""
-"  --probe-synthesis - încearcă găsirea şi folosirea fişierelor synthesis.\n"
+msgstr "  --probe-synthesis - se foloseşte fişierul synthesis.\n"
 
 #: ../urpmi.addmedia:67
 #, c-format
 msgid "  --probe-rpms   - use rpm files (instead of synthesis).\n"
-msgstr ""
+msgstr "  --probe-rpms   - utilizaţi fişiere rpm (în loc de synthesis).\n"
 
 #: ../urpmi.addmedia:68
-#, fuzzy, c-format
+#, c-format
 msgid "  --no-probe     - do not try to find any synthesis file.\n"
-msgstr ""
-"  -no-probe     - nu încerca găsirea şi folosirea fişierelor\n"
-"                   synthesis sau hdlist.\n"
+msgstr "  -no-probe     - nu se încearcă găsirea fişierului synthesis.\n"
 
 #: ../urpmi.addmedia:70
 #, c-format
@@ -2494,11 +2541,12 @@ msgstr ""
 #, c-format
 msgid "  --interactive  - with --distrib, ask confirmation for each media\n"
 msgstr ""
+"  --interactive  - cu --distrib, se cere confirmarea pentru fiecare mediu\n"
 
 #: ../urpmi.addmedia:73
-#, fuzzy, c-format
+#, c-format
 msgid "  --all-media    - with --distrib, add every listed media\n"
-msgstr "  --list-media   - listează mediile disponibile.\n"
+msgstr "  --all-media    - with --distrib, se adaugă toate mediile afişate\n"
 
 #: ../urpmi.addmedia:74
 #, c-format
@@ -2511,11 +2559,10 @@ msgstr ""
 "                   %s\n"
 
 #: ../urpmi.addmedia:76
-#, fuzzy, c-format
+#, c-format
 msgid "  --virtual      - create virtual media wich are always up-to-date.\n"
 msgstr ""
-"  --virtual      - creează mediu virtual ce sunt actualizate continuu,\n"
-"                   este permis numai protocolul file://.\n"
+"  --virtual      - se creează mediu virtual ce este actualizat permanent.\n"
 
 #: ../urpmi.addmedia:77 ../urpmi.update:42
 #, c-format
@@ -2526,12 +2573,13 @@ msgstr ""
 #: ../urpmi.addmedia:78
 #, c-format
 msgid "  --nopubkey     - don't import pubkey of added media\n"
-msgstr ""
+msgstr "  --nopubkey     - nu se importă cheia publică a mediului adăugat\n"
 
 #: ../urpmi.addmedia:79
 #, c-format
 msgid "  --raw          - add the media in config, but don't update it.\n"
 msgstr ""
+"  --raw          - adăugaţi mediul în configurare, dar nu-l actualizaţi.\n"
 
 #: ../urpmi.addmedia:80 ../urpmi.removemedia:43 ../urpmi.update:51
 #, c-format
@@ -2546,27 +2594,28 @@ msgstr "  -v             - mod detaliat.\n"
 #: ../urpmi.addmedia:101
 #, c-format
 msgid "known xml-info policies are %s"
-msgstr ""
+msgstr "regulile cunoscute xml-info sunt %s "
 
 #: ../urpmi.addmedia:112
 #, c-format
 msgid "no argument needed for --distrib --mirrorlist <url>"
-msgstr ""
+msgstr "nu sunt necesare argumente pentru --distrib --mirrorlist <url>"
 
 #: ../urpmi.addmedia:117
 #, c-format
 msgid "bad <url> (for local directory, the path must be absolute)"
 msgstr ""
+"<url>greşit (pentru directoarele locale, adresa trebuie să fie absolută)"
 
 #: ../urpmi.addmedia:121
 #, c-format
 msgid "Only superuser is allowed to add media"
-msgstr "Doar superutilizatorul poate adăuga un mediu"
+msgstr "Doar administratorul poate adăuga un mediu"
 
 #: ../urpmi.addmedia:124
-#, fuzzy, c-format
+#, c-format
 msgid "creating config file [%s]"
-msgstr "Voi scrie fişierul de configurare [%s]"
+msgstr "se creează fişierul de configurare [%s]"
 
 #: ../urpmi.addmedia:125
 #, c-format
@@ -2574,9 +2623,9 @@ msgid "Can't create config file [%s]"
 msgstr "Nu pot crea fişierul de configurare [%s]"
 
 #: ../urpmi.addmedia:133
-#, fuzzy, c-format
+#, c-format
 msgid "no need to give <relative path of synthesis> with --distrib"
-msgstr "nu e nevoie să daţi <calea relativă pt. hdlist> cu --distrib"
+msgstr "nu e nevoie să daţi <calea relativă a synthesis> cu --distrib"
 
 #: ../urpmi.addmedia:141
 #, c-format
@@ -2584,21 +2633,23 @@ msgid ""
 "\n"
 "Do you want to add media '%s'?"
 msgstr ""
+"\n"
+"Doriţi adăugarea mediului '%s'?"
 
 #: ../urpmi.addmedia:167
-#, fuzzy, c-format
+#, c-format
 msgid "<relative path of synthesis> missing\n"
-msgstr "lipseşte <calea relativă a hdlist>\n"
+msgstr "lipseşte <calea relativă a synthesis>\n"
 
 #: ../urpmi.addmedia:170
 #, c-format
 msgid "Can't use %s with remote medium"
-msgstr ""
+msgstr "Nu se poate utiliza %s cu mediul extern"
 
 #: ../urpmi.addmedia:182
-#, fuzzy, c-format
+#, c-format
 msgid "unable to add medium"
-msgstr "nu pot accesa mediul \"%s\""
+msgstr "nu se poate adăuga mediul"
 
 #: ../urpmi.recover:28
 #, c-format
@@ -2615,33 +2666,37 @@ msgstr ""
 "Acest program este soft liber şi poate fi redistribuit sub termenii GNU "
 "GPL.\n"
 "\n"
-"Utilizare:\n"
+"utilizare:\n"
 
 #: ../urpmi.recover:34
 #, c-format
 msgid "  --checkpoint   - set repackaging start now\n"
 msgstr ""
+"  --checkpoint   - stabilirea punctului începerii reîmpachetării acum\n"
 
 #: ../urpmi.recover:35
-#, fuzzy, c-format
+#, c-format
 msgid "  --noclean      - don't clean repackage directory on checkpoint\n"
-msgstr "  --noclean      - păstreză rpm-urile nefolosite în cache.\n"
+msgstr ""
+"  --noclean      - nu se curăţă directorul de reîmpachetare la marcaj\n"
 
 #: ../urpmi.recover:37
 #, c-format
 msgid ""
 "  --list         - list transactions since provided date/duration argument\n"
 msgstr ""
+"  --list         - afişaţi tranzacţiile corespunzătoare parametrului dată/"
+"durată\n"
 
 #: ../urpmi.recover:38
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-all     - list all transactions in rpmdb (long)\n"
-msgstr "  --list-url   - listează mediile disponibile şi URL-ul lor.\n"
+msgstr "  --list-all     - afişarea tuturor tranzacţiilor din rpmdb (lungă)\n"
 
 #: ../urpmi.recover:39
-#, fuzzy, c-format
+#, c-format
 msgid "  --list-safe    - list transactions since checkpoint\n"
-msgstr "  --list-url   - listează mediile disponibile şi URL-ul lor.\n"
+msgstr "  --list-safe    - afişarea tranzacţiilor de la marcaj\n"
 
 #: ../urpmi.recover:40
 #, c-format
@@ -2649,94 +2704,96 @@ msgid ""
 "  --rollback     - rollback until specified date,\n"
 "                   or rollback the specified number of transactions\n"
 msgstr ""
+"  --rollback     - revenire până la data specificată,\n"
+"                   sau revenire cu un număr specificat de tranzacţii\n"
 
 #: ../urpmi.recover:42
-#, fuzzy, c-format
+#, c-format
 msgid "  --disable      - turn off repackaging\n"
-msgstr "  --name         - afişează doar numele pachetelor.\n"
+msgstr "  --disable      - dezactivare reîmpachetare\n"
 
 #: ../urpmi.recover:57
 #, c-format
 msgid "Invalid date or duration [%s]\n"
-msgstr ""
+msgstr "Dată sau durată nevalide [%s]\n"
 
 #: ../urpmi.recover:65
-#, fuzzy, c-format
+#, c-format
 msgid "Repackage directory not defined\n"
-msgstr "pachetul %s nu a fost găsit."
+msgstr "Directorul de reîmpachetare nu este definit\n"
 
 #: ../urpmi.recover:68
 #, c-format
 msgid "Can't write to repackage directory [%s]\n"
-msgstr ""
+msgstr "Nu se poate scrie în directorul de reîmpachetare [%s]\n"
 
 #: ../urpmi.recover:70
 #, c-format
 msgid "Cleaning up repackage directory [%s]...\n"
-msgstr ""
+msgstr "Curăţare director reîmpachetare [%s]...\n"
 
 #: ../urpmi.recover:72
 #, c-format
 msgid "%d file removed\n"
 msgid_plural "%d files removed\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "fişierul %d este şters\n"
+msgstr[1] "fişierele %d sunt şterse\n"
+msgstr[2] "fişierele %d sunt şterse\n"
 
 #: ../urpmi.recover:82
 #, c-format
 msgid "Spurious command-line arguments [%s]\n"
-msgstr ""
+msgstr "Argumente linie comandă incorecte [%s]\n"
 
 #: ../urpmi.recover:84
 #, c-format
 msgid "You can't specify --checkpoint and --rollback at the same time\n"
-msgstr ""
+msgstr "Nu puteţi specifica --checkpoint şi --rollback simultan\n"
 
 #: ../urpmi.recover:86
 #, c-format
 msgid "You can't specify --checkpoint and --list at the same time\n"
-msgstr ""
+msgstr "Nu puteţi specifica --checkpoint şi --list simultan\n"
 
 #: ../urpmi.recover:88
 #, c-format
 msgid "You can't specify --rollback and --list at the same time\n"
-msgstr ""
+msgstr "Nu puteţi specifica --rollback şi --list simultan\n"
 
 #: ../urpmi.recover:90
 #, c-format
 msgid "You can't specify --disable along with another option"
-msgstr ""
+msgstr "Nu puteţi specifica --disable cu o altă opţiune"
 
 #: ../urpmi.recover:115
 #, c-format
 msgid "No transaction found since %s\n"
-msgstr ""
+msgstr "Nu sunt tranzacţii începând cu %s\n"
 
 #: ../urpmi.recover:130
 #, c-format
 msgid "You must be superuser to do this"
-msgstr ""
+msgstr "Trebuie să fiţi admistrator pentru această operaţie"
 
 #: ../urpmi.recover:143 ../urpmi.recover:209
-#, fuzzy, c-format
+#, c-format
 msgid "Writing rpm macros file [%s]...\n"
-msgstr "copiere fişier rpm [%s] ..."
+msgstr "Scriere fişier algoritm suplimentar rpm [%s]...\n"
 
 #: ../urpmi.recover:185
-#, fuzzy, c-format
+#, c-format
 msgid "No rollback date found\n"
-msgstr "Nu s-a găsit lista de fisiere (filelist)\n"
+msgstr "Nu s-a găsit data restaurării\n"
 
 #: ../urpmi.recover:188
 #, c-format
 msgid "Rollback until %s...\n"
-msgstr ""
+msgstr "Restaurare până la %s...\n"
 
 #: ../urpmi.recover:195
 #, c-format
 msgid "Disabling repackaging\n"
-msgstr ""
+msgstr "Reîmpachetare dezactivată\n"
 
 #: ../urpmi.removemedia:38
 #, c-format
@@ -2760,7 +2817,7 @@ msgstr "  -y             - căutare aproximativă în numele mediilor.\n"
 #: ../urpmi.removemedia:59
 #, c-format
 msgid "Only superuser is allowed to remove media"
-msgstr "Doar superutilizatorul poate elimina medii"
+msgstr "Doar administratorul poate elimina medii"
 
 #: ../urpmi.removemedia:72
 #, c-format
@@ -2782,7 +2839,7 @@ msgid ""
 "usage: urpmi.update [options] <name> ...\n"
 "where <name> is a medium name to update.\n"
 msgstr ""
-"Utilizare: urpmi.update [opţiuni] <nume>...\n"
+"utilizare: urpmi.update [opţiuni] <nume>...\n"
 "unde <nume> este numele mediului de actualizat.\n"
 
 #: ../urpmi.update:41
@@ -2796,21 +2853,23 @@ msgid "  --force-key    - force update of gpg key.\n"
 msgstr "  --force-key    - forţează actualizarea cheii gpg.\n"
 
 #: ../urpmi.update:44
-#, fuzzy, c-format
+#, c-format
 msgid "  --ignore       - don't update, mark the media as ignored.\n"
-msgstr "  --update       - foloseşte numai mediile de actualizare.\n"
+msgstr ""
+"  --ignore       - nu se actualizează, se marchează mediul ca fiind "
+"ignorat.\n"
 
 #: ../urpmi.update:45
 #, c-format
 msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
-msgstr ""
+msgstr "  --no-ignore    - fără actualizare, marcaţi mediul ca activat.\n"
 
 #: ../urpmi.update:47
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-rpms   - do not use synthesis, use rpm files directly\n"
 msgstr ""
-"  -no-probe     - nu încerca găsirea şi folosirea fişierelor\n"
-"                   synthesis sau hdlist.\n"
+"  --probe-rpms   - nu se utilizează synthesis, se utilizeză direct fişierele "
+"rpm\n"
 
 #: ../urpmi.update:48
 #, c-format
@@ -2818,19 +2877,19 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - selectează toate mediile nedemontabile.\n"
 
 #: ../urpmi.update:49
-#, fuzzy, c-format
+#, c-format
 msgid "  -f             - force updating synthesis\n"
-msgstr "  -f             - forţează generarea fişierelor hdlist.\n"
+msgstr "  -f             - se forţează actualizarea synthesis\n"
 
 #: ../urpmi.update:50
-#, fuzzy, c-format
+#, c-format
 msgid "  -ff            - really force updating synthesis\n"
-msgstr "  -f             - forţează generarea fişierelor hdlist.\n"
+msgstr "  -ff            - se forţează suplimentar actualizarea synthesis\n"
 
 #: ../urpmi.update:67
 #, c-format
 msgid "Only superuser is allowed to update media"
-msgstr "Doar superutilizatorul poate actualiza medii"
+msgstr "Doar administratorul poate actualiza mediile"
 
 #: ../urpmi.update:75
 #, c-format
@@ -2853,14 +2912,14 @@ msgid "\"%s\""
 msgstr "\"%s\""
 
 #: ../urpmi.update:98
-#, fuzzy, c-format
+#, c-format
 msgid "ignoring media %s"
-msgstr "Editez mediul \"%s\":"
+msgstr "mediul %s ignorat"
 
 #: ../urpmi.update:98
-#, fuzzy, c-format
+#, c-format
 msgid "enabling media %s"
-msgstr "elimin mediul \"%s\""
+msgstr "mediul %s activat"
 
 #: ../urpmq:40
 #, c-format
@@ -2876,15 +2935,16 @@ msgstr ""
 "Copyright © 2002-2006 Mandriva.\n"
 "Acest program este soft liber şi poate fi redistribuit în termenii GNU GPL.\n"
 "\n"
-"Utilizare:\n"
+"utilizare:\n"
 
 #: ../urpmq:48
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --searchmedia  - use only the given media to search requested (or updated) "
 "packages.\n"
 msgstr ""
-"  --media        - foloseşte numai mediile date, separate prin virgulă.\n"
+"  --searchmedia  - se utilizează numai mediul indicat pentru căutarea "
+"pachetelor cerute.\n"
 
 #: ../urpmq:54
 #, c-format
@@ -2941,9 +3001,10 @@ msgstr ""
 "root).\n"
 
 #: ../urpmq:66
-#, fuzzy, c-format
+#, c-format
 msgid "  --ignorearch   - allow to query rpms for unmatched architectures.\n"
-msgstr "  --url          -  afişare etichetă url: url\n"
+msgstr ""
+"  --ignorearch   - se caută rpm-urile pentru arhitectura necorespunzătoare.\n"
 
 #: ../urpmq:70
 #, c-format
@@ -2961,39 +3022,38 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog          - afişează jurnalul modificărilor\n"
 
 #: ../urpmq:81
-#, fuzzy, c-format
+#, c-format
 msgid "  --conflicts    - print conflicts.\n"
-msgstr ""
-"  --conflicts     - afişează eticheta Conflicte: toate conflictele (linii "
-"multiple).\n"
+msgstr "  --conflicts    - afişare conflicte.\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  --provides     - print provides.\n"
-msgstr ""
-"  --provides     - afişează eticheta Oferă: tot ce oferă (linii multiple).\n"
+msgstr "  --provides     - afişare ofertă.\n"
 
 #: ../urpmq:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --requires     - print requires.\n"
-msgstr "  --requires     - afişează eticheta Necesită: toate necesităţile.\n"
+msgstr "  --requires     - afişare necesar.\n"
 
 #: ../urpmq:84
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
-msgstr "  --sourcerpm    - afişare etichetă sourcepm: sursa rpm.\n"
+msgstr "  --sourcerpm    - afişare sursa rpm.\n"
 
 #: ../urpmq:85
-#, fuzzy, c-format
+#, c-format
 msgid "  --summary, -S  - print summary.\n"
-msgstr "  --summary      - afişare etichetă Sumar: sumar.\n"
+msgstr "  --summary, -S  - afişare sumar.\n"
 
 #: ../urpmq:87
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --requires-recursive, -d\n"
 "                   - query package dependencies.\n"
-msgstr "  -d             - extinde interogarea la dependenţele pachetelor.\n"
+msgstr ""
+"  --requires-recursive, -d\n"
+"                   - interogare dependenţe pachete.\n"
 
 #: ../urpmq:89
 #, c-format
@@ -3002,20 +3062,22 @@ msgstr ""
 "  --whatrequires - căutare inversă în lista de dependenţe a pachetului.\n"
 
 #: ../urpmq:90
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --whatrequires-recursive\n"
 "                   - extended reverse search (includes virtual packages).\n"
 msgstr ""
-"  -R             - căutare inversă în lista de dependenţe a pachetului.\n"
+"  --whatrequires-recursive\n"
+"                   - căutare inversă extinsă (include pachetele virtuale).\n"
 
 #: ../urpmq:92
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "  --whatprovides, -p\n"
 "                   - search in provides to find package.\n"
 msgstr ""
-"  -p             - permite căutarea în Provides pentru a găsi pachetul.\n"
+"  --whatprovides, -p\n"
+"                   - căutare în ofertă pentru pachete.\n"
 
 #: ../urpmq:95
 #, c-format
@@ -3039,9 +3101,9 @@ msgid "  -l             - list files in package.\n"
 msgstr "  -l         - listează fişierele din pachet.\n"
 
 #: ../urpmq:100
-#, fuzzy, c-format
+#, c-format
 msgid "  -m             - equivalent to -du\n"
-msgstr "  -q             - mod silenţios.\n"
+msgstr "  -m             - echivalent cu -du\n"
 
 #: ../urpmq:101
 #, c-format
@@ -3086,44 +3148,109 @@ msgid "--list-nodes can only be used with --parallel"
 msgstr "--list-nodes poate fi folosit numai cu --parallel"
 
 #: ../urpmq:209
-#, fuzzy, c-format
+#, c-format
 msgid "use -l to list files"
-msgstr "nu pot scrie fişierul listă pentru \"%s\""
+msgstr "utilizaţi -l pentru afişarea fişierelor"
 
 #: ../urpmq:382
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for package %s"
 msgstr ""
-"Notă: din moment ce nici un mediu căutat foloseşte hdlist, urpmf nu a putut "
-"întoarce nici un rezultat\n"
+"nu sunt informaţii xml pentru mediul \"%s\", rezultate parţiale pentru "
+"pachetul %s"
 
 #: ../urpmq:383
-#, fuzzy, c-format
+#, c-format
 msgid "no xml info for medium \"%s\", only partial result for packages %s"
 msgstr ""
-"Notă: din moment ce nici un mediu căutat foloseşte hdlist, urpmf nu a putut "
-"întoarce nici un rezultat\n"
+"nu sunt informaţii xml pentru mediul \"%s\", rezultate parţiale pentru "
+"pachetele %s"
 
 #: ../urpmq:386
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for package %s"
 msgstr ""
-"Notă: din moment ce nici un mediu căutat foloseşte hdlist, urpmf nu a putut "
-"întoarce nici un rezultat\n"
+"nu sunt informaţii xml pentru mediul \"%s\", lipsă rezultate pentru pachetul "
+"%s"
 
 #: ../urpmq:387
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "no xml info for medium \"%s\", unable to return any result for packages %s"
 msgstr ""
-"Notă: din moment ce nici un mediu căutat foloseşte hdlist, urpmf nu a putut "
-"întoarce nici un rezultat\n"
+"nu sunt informaţii xml pentru mediul \"%s\", lipsă rezultate pentru "
+"pachetele %s"
 
 #: ../urpmq:451
 #, c-format
 msgid "No changelog found\n"
 msgstr "Nu s-a gasit changelog\n"
+
+#, fuzzy
+#~ msgid "Can not download packages into %s"
+#~ msgstr "Nu se poate scrie în directorul de reîmpachetare [%s]\n"
+
+#, fuzzy
+#~ msgid "invalid MD5SUM file (downloaded from %s)"
+#~ msgstr "nume de fişier rpm nevalid [%s]"
+
+#, fuzzy
+#~ msgid "Installation failed on node %s"
+#~ msgstr "Instalarea a eşuat"
+
+#, fuzzy
+#~ msgid "found package(s) %s in urpmi db, but none are installed"
+#~ msgstr "Pachetele %s nu pot fi instalate"
+
+#, fuzzy
+#~ msgid "Removing the following package will break your system:"
+#~ msgid_plural "Removing the following packages will break your system:"
+#~ msgstr[0] "ştergerea pachetului %s va deteriora sistemul dvs"
+#~ msgstr[1] "ştergerea pachetului %s va deteriora sistemul dvs"
+#~ msgstr[2] "ştergerea pachetului %s va deteriora sistemul dvs"
+
+#, fuzzy
+#~ msgid "No orphans to remove"
+#~ msgstr "Nimic de şters"
+
+#, fuzzy
+#~ msgid "(orphan package)"
+#~ msgid_plural "(orphan packages)"
+#~ msgstr[0] "pachet necunoscut "
+#~ msgstr[1] "pachet necunoscut "
+#~ msgstr[2] "pachet necunoscut "
+
+#, fuzzy
+#~ msgid "testing removal of %s"
+#~ msgstr "consider dispozitivul mobil ca \"%s\""
+
+#, fuzzy
+#~ msgid "Removal is possible"
+#~ msgstr "Ştergere nereuşită"
+
+#, fuzzy
+#~ msgid "The following orphan package will be removed."
+#~ msgid_plural "The following orphan packages will be removed."
+#~ msgstr[0] "Pentru satisfacerea dependenţelor, următorul pachet va fi şters"
+#~ msgstr[1] ""
+#~ "Pentru satisfacerea dependenţelor, următoarele %d pachete vor fi şterse"
+#~ msgstr[2] ""
+#~ "Pentru satisfacerea dependenţelor, următoarele %d pachete vor fi şterse"
+
+#, fuzzy
+#~ msgid "  --aria2        - use aria2 to retrieve distant files.\n"
+#~ msgstr ""
+#~ "  --curl         - foloseşte curl pentru obţinerea fişierelor de la "
+#~ "distanţă.\n"
+
+#, fuzzy
+#~ msgid "  --obsoletes    - print obsoletes.\n"
+#~ msgstr "  --obsoletes    - marcaj ca perimat\n"
+
+#, fuzzy
+#~ msgid "  --suggests     - print suggests.\n"
+#~ msgstr "  --suggests     - marcaj recomandat\n"
 
 #, fuzzy
 #~ msgid "%s database locked"
@@ -3137,9 +3264,6 @@ msgstr "Nu s-a gasit changelog\n"
 
 #~ msgid "too many mount points for removable medium \"%s\""
 #~ msgstr "prea multe puncte de montare pentru mediul \"%s\""
-
-#~ msgid "taking removable device as \"%s\""
-#~ msgstr "consider dispozitivul mobil ca \"%s\""
 
 #~ msgid "using different removable device [%s] for \"%s\""
 #~ msgstr "folosesc dispozitive mobile diferite [%s] pentru \"%s\""
