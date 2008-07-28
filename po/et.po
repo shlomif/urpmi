@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: urpmi\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-07-10 21:25+0200\n"
-"PO-Revision-Date: 2008-04-23 13:59+0300\n"
+"PO-Revision-Date: 2008-07-28 12:45+0300\n"
 "Last-Translator: Marek Laane <bald@starman.ee>\n"
 "Language-Team: Estonian <linux-ee@lists.eenet.ee>\n"
 "MIME-Version: 1.0\n"
@@ -712,9 +712,9 @@ msgid "package %s is not found."
 msgstr "paketti %s ei leitud."
 
 #: ../urpm/get_pkgs.pm:218
-#, fuzzy, c-format
+#, c-format
 msgid "Can not download packages into %s"
-msgstr "Kirjutamine taaspakendamiskataloogi nurjus [%s]\n"
+msgstr "%s pakettide allalaadimine nurjus"
 
 #: ../urpm/get_pkgs.pm:222
 #, c-format
@@ -827,7 +827,7 @@ msgstr "Paigaldamine nurjus"
 #: ../urpm/main_loop.pm:112 ../urpm/main_loop.pm:122
 #, c-format
 msgid "Try to go on anyway? (y/N) "
-msgstr ""
+msgstr "Kas proovida siiski jätkata? (j/E)"
 
 #: ../urpm/main_loop.pm:121
 #, c-format
@@ -901,7 +901,7 @@ msgstr "%s faili uurimine"
 #: ../urpm/md5sum.pm:27
 #, c-format
 msgid "invalid MD5SUM file"
-msgstr ""
+msgstr "vigane MD5SUM-fail"
 
 #: ../urpm/md5sum.pm:28
 #, c-format
@@ -1129,9 +1129,9 @@ msgid "copying MD5SUM file of \"%s\"..."
 msgstr "\"%s\" MD5SUM-faili kopeerimine..."
 
 #: ../urpm/media.pm:1417
-#, fuzzy, c-format
+#, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
-msgstr "vigane RPM-faili nimi [%s]"
+msgstr "vigane MD5SUM-fail (alla laaditud asukohast %s)"
 
 #: ../urpm/media.pm:1448
 #, c-format
@@ -1278,8 +1278,8 @@ msgid ""
 msgid_plural ""
 "The following packages are now orphans, use \"urpme --auto-orphans\" to "
 "remove them."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Järgmine pakett on nüüd orb, kasutage eemaldamiseks  \"urpme --auto-orphans\"."
+msgstr[1] "Järgmised paketid on nüüd orvud, kasutage eemaldamiseks  \"urpme --auto-orphans\"."
 
 #: ../urpm/parallel.pm:14
 #, c-format
@@ -1304,32 +1304,32 @@ msgstr "paralleelvõtme \"%s\" kasutamine nurjus"
 #: ../urpm/parallel.pm:93
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "sõlmes %s"
 
 #: ../urpm/parallel.pm:293
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "Paigaldamine nurjus"
+msgstr "Paigaldamine nurjus sõlmes %s"
 
 #: ../urpm/parallel_ka_run.pm:58
 #, c-format
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp nurjus, võib-olla ei ole sõlm kättesaadav"
 
 #: ../urpm/parallel_ka_run.pm:80
 #, c-format
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput nurjus, võib-olla ei ole sõlm kättesaadav"
 
 #: ../urpm/parallel_ssh.pm:27
 #, c-format
 msgid "scp failed on host %s (%d)"
-msgstr ""
+msgstr "scp nurjus masinas %s (%d)"
 
 #: ../urpm/parallel_ssh.pm:39
 #, c-format
 msgid "cp failed on host %s (%d)"
-msgstr ""
+msgstr "cp nurjus masinas %s (%d)"
 
 #: ../urpm/parallel_ssh.pm:86
 #, c-format
@@ -1337,6 +1337,8 @@ msgid ""
 "%s failed on host %s (maybe it does not have a good version of urpmi?) (exit "
 "code: %d)"
 msgstr ""
+"%s nurjus masinas %s (võib-olla ei ole urpmi korraliku versiooniga?) (väljumiskood: "
+"%d)"
 
 #: ../urpm/removable.pm:32
 #, c-format
@@ -1378,9 +1380,9 @@ msgid "The following packages contain %s: %s"
 msgstr "%s sisaldub järgmistes pakettides: %s"
 
 #: ../urpm/select.pm:296
-#, fuzzy, c-format
+#, c-format
 msgid "found package(s) %s in urpmi db, but none are installed"
-msgstr "Pakette %s ei saa paigaldada"
+msgstr "Urpmi andmebaasis leiti paketid %s, aga need ei ole paigaldatud"
 
 #: ../urpm/select.pm:539
 #, c-format
@@ -1493,7 +1495,7 @@ msgstr ""
 #: ../urpme:48
 #, c-format
 msgid "  --auto-orphans - remove orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - orbude eemaldamine\n"
 
 #: ../urpme:49
 #, c-format
@@ -1567,11 +1569,11 @@ msgid "unknown package"
 msgstr "tundmatu pakett"
 
 #: ../urpme:119
-#, fuzzy, c-format
+#, c-format
 msgid "Removing the following package will break your system:"
 msgid_plural "Removing the following packages will break your system:"
-msgstr[0] "paketi %s eemaldamine halvab Teie süsteemi"
-msgstr[1] "paketi %s eemaldamine halvab Teie süsteemi"
+msgstr[0] "Järgmise paketi eemaldamine halvab Teie süsteemi:"
+msgstr[1] "Järgmiste pakettide eemaldamine halvab Teie süsteemi:"
 
 #: ../urpme:124
 #, c-format
@@ -1579,9 +1581,9 @@ msgid "Nothing to remove"
 msgstr "Pole midagi eemaldada"
 
 #: ../urpme:141
-#, fuzzy, c-format
+#, c-format
 msgid "No orphans to remove"
-msgstr "Pole midagi eemaldada"
+msgstr "Pole ühtegi orbu eemaldada"
 
 #: ../urpme:147
 #, c-format
@@ -1592,11 +1594,11 @@ msgstr[0] "Sõltuvuste lahendamiseks tuleb eemaldada järgmine pakett"
 msgstr[1] "Sõltuvuste lahendamiseks tuleb eemaldada järgmised %d paketti"
 
 #: ../urpme:152
-#, fuzzy, c-format
+#, c-format
 msgid "(orphan package)"
 msgid_plural "(orphan packages)"
-msgstr[0] "tundmatu pakett"
-msgstr[1] "tundmatu pakett"
+msgstr[0] "(orvust pakett)"
+msgstr[1] "(orvust paketid)"
 
 #: ../urpme:159
 #, c-format
@@ -1613,7 +1615,7 @@ msgstr " (j/E) "
 #: ../urpme:164
 #, c-format
 msgid "testing removal of %s"
-msgstr ""
+msgstr "%s eemaldamise test"
 
 #: ../urpme:178
 #, c-format
@@ -1621,9 +1623,9 @@ msgid "Removal failed"
 msgstr "Eemaldamine nurjus"
 
 #: ../urpme:180
-#, fuzzy, c-format
+#, c-format
 msgid "Removal is possible"
-msgstr "Eemaldamine nurjus"
+msgstr "Eemaldamine on võimalik"
 
 #: ../urpmf:29
 #, c-format
@@ -1945,7 +1947,7 @@ msgstr "    --force-key    - sunnib uuendama gpg võtit.\n"
 #: ../urpmi:84
 #, c-format
 msgid "  --auto-orphans - remove orphans without asking\n"
-msgstr ""
+msgstr "  --auto-orphans - orbude eemaldamine ilma küsimusi esitamata\n"
 
 #: ../urpmi:85 ../urpmq:54
 #, c-format
@@ -2066,7 +2068,7 @@ msgstr ""
 #: ../urpmi:114 ../urpmi.addmedia:59 ../urpmi.update:37
 #, c-format
 msgid "  --metalink     - generate and use a local metalink.\n"
-msgstr ""
+msgstr "  --metalink     - kohaliku metalingi loomine ja kasutamine.\n"
 
 #: ../urpmi:115
 #, c-format
@@ -2442,11 +2444,11 @@ msgstr ""
 "%s\n"
 
 #: ../urpmi:594
-#, fuzzy, c-format
+#, c-format
 msgid "The following orphan package will be removed."
 msgid_plural "The following orphan packages will be removed."
-msgstr[0] "Sõltuvuste lahendamiseks tuleb eemaldada järgmine pakett"
-msgstr[1] "Sõltuvuste lahendamiseks tuleb eemaldada järgmised %d paketti"
+msgstr[0] "Eemaldatakse järgmine orvust pakett."
+msgstr[1] "Eemaldatakse järgmised orvust paketid."
 
 #: ../urpmi:610
 #, c-format
@@ -2545,9 +2547,9 @@ msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --prozilla     - prozilla kasutamine kaugfailide tõmbamiseks.\n"
 
 #: ../urpmi.addmedia:58 ../urpmi.update:36
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2        - use aria2 to retrieve distant files.\n"
-msgstr "  --curl         - curl'i kasutamine kaugfailide tõmbamiseks.\n"
+msgstr "  --aria2        - aria2 kasutamine kaugfailide tõmbamiseks.\n"
 
 #: ../urpmi.addmedia:65
 #, c-format
@@ -3001,7 +3003,7 @@ msgstr ""
 #: ../urpmq:53
 #, c-format
 msgid "  --auto-orphans - list orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - näitab orbe\n"
 
 #: ../urpmq:55
 #, c-format
@@ -3081,9 +3083,9 @@ msgid "  --conflicts    - print conflicts.\n"
 msgstr "  --conflicts    - näitab konflikte.\n"
 
 #: ../urpmq:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print obsoletes.\n"
-msgstr "  --obsoletes    - iganenute sildid\n"
+msgstr "  --obsoletes    - näitab iganenuid.\n"
 
 #: ../urpmq:84
 #, c-format
@@ -3096,9 +3098,9 @@ msgid "  --requires     - print requires.\n"
 msgstr "  --requires     - näitab nõutavaid.\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  --suggests     - print suggests.\n"
-msgstr "  --suggests     - pakkumiste sildid\n"
+msgstr "  --suggests     - näitab pakkumisi.\n"
 
 #: ../urpmq:87
 #, c-format
@@ -3207,7 +3209,7 @@ msgstr "  päringu esitamine käsureal antud nimede või RPM-failide kohta.\n"
 #: ../urpmq:156
 #, c-format
 msgid "usage: \"urpmq --auto-orphans\" with no argument"
-msgstr ""
+msgstr "kasutamine: \"urpmq --auto-orphans\" ilma argumentideta"
 
 #: ../urpmq:209
 #, c-format
