@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: urpmi-fr\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-07-10 21:25+0200\n"
-"PO-Revision-Date: 2008-07-12 14:28+0200\n"
+"PO-Revision-Date: 2008-07-31 10:05+0200\n"
 "Last-Translator: Christophe Berthelé <cpjc@free.fr>\n"
 "Language-Team: French <cooker-i18n@mandrivalinux.org>\n"
 "MIME-Version: 1.0\n"
@@ -744,9 +744,9 @@ msgid "package %s is not found."
 msgstr "paquetage %s non trouvé."
 
 #: ../urpm/get_pkgs.pm:218
-#, fuzzy, c-format
+#, c-format
 msgid "Can not download packages into %s"
-msgstr "Ecriture impossible dans le répertoire cache des paquetages [%s]\n"
+msgstr "Impossible de télécharger dans %s"
 
 #: ../urpm/get_pkgs.pm:222
 #, c-format
@@ -860,7 +860,7 @@ msgstr "L'installation a échoué"
 #: ../urpm/main_loop.pm:112 ../urpm/main_loop.pm:122
 #, c-format
 msgid "Try to go on anyway? (y/N) "
-msgstr ""
+msgstr "Essayer de continuer néanmoins ? (o/N) "
 
 #: ../urpm/main_loop.pm:121
 #, c-format
@@ -934,7 +934,7 @@ msgstr "examen du fichier [%s]"
 #: ../urpm/md5sum.pm:27
 #, c-format
 msgid "invalid MD5SUM file"
-msgstr ""
+msgstr "fichier MD5SUM invalide"
 
 #: ../urpm/md5sum.pm:28
 #, c-format
@@ -1163,9 +1163,9 @@ msgid "copying MD5SUM file of \"%s\"..."
 msgstr "copie du fichier MD5SUM de « %s »..."
 
 #: ../urpm/media.pm:1417
-#, fuzzy, c-format
+#, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
-msgstr "le nom du fichier rpm est invalide [%s]"
+msgstr "fichier MD5SUM invalide (téléchargé sur %s)"
 
 #: ../urpm/media.pm:1448
 #, c-format
@@ -1313,7 +1313,11 @@ msgid_plural ""
 "The following packages are now orphans, use \"urpme --auto-orphans\" to "
 "remove them."
 msgstr[0] ""
+"Le paquetage suivant est désormais orphelin, utilisez « urpme --auto-"
+"orphans » pour le supprimer."
 msgstr[1] ""
+"Les paquetages suivants sont désormais orphelins, utilisez « urpme --auto-"
+"orphans » pour les supprimer."
 
 #: ../urpm/parallel.pm:14
 #, c-format
@@ -1338,32 +1342,32 @@ msgstr "impossible d'utiliser l'option distribuée « %s »"
 #: ../urpm/parallel.pm:93
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "sur le noeud %s"
 
 #: ../urpm/parallel.pm:293
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "L'installation a échoué"
+msgstr "L'installation a échoué sur le noeud %s"
 
 #: ../urpm/parallel_ka_run.pm:58
 #, c-format
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp a échoué, un noeud est peut-être injoignable"
 
 #: ../urpm/parallel_ka_run.pm:80
 #, c-format
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput a échoué, un noeud est peut-être injoignable"
 
 #: ../urpm/parallel_ssh.pm:27
 #, c-format
 msgid "scp failed on host %s (%d)"
-msgstr ""
+msgstr "scp a échoué sur l'hôte %s (%d)"
 
 #: ../urpm/parallel_ssh.pm:39
 #, c-format
 msgid "cp failed on host %s (%d)"
-msgstr ""
+msgstr "cp a échoué sur l'hôte %s (%d)"
 
 #: ../urpm/parallel_ssh.pm:86
 #, c-format
@@ -1371,6 +1375,8 @@ msgid ""
 "%s failed on host %s (maybe it does not have a good version of urpmi?) (exit "
 "code: %d)"
 msgstr ""
+"%s a échoué sur l'hôte %s (peut-être n'a-t-il pas la bonne version "
+"d'urpmi ?) (code de sortie : %d)"
 
 #: ../urpm/removable.pm:32
 #, c-format
@@ -1412,9 +1418,9 @@ msgid "The following packages contain %s: %s"
 msgstr "Les paquetages suivants contiennent %s : %s"
 
 #: ../urpm/select.pm:296
-#, fuzzy, c-format
+#, c-format
 msgid "found package(s) %s in urpmi db, but none are installed"
-msgstr "Les paquetages %s ne peuvent être installés"
+msgstr "paquetage(s) %s dans la base urpmi mais aucun n'est installé"
 
 #: ../urpm/select.pm:539
 #, c-format
@@ -1528,7 +1534,7 @@ msgstr ""
 #: ../urpme:48
 #, c-format
 msgid "  --auto-orphans - remove orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - supprimer les orphelins\n"
 
 #: ../urpme:49
 #, c-format
@@ -1606,11 +1612,13 @@ msgid "unknown package"
 msgstr "paquetage inconnu"
 
 #: ../urpme:119
-#, fuzzy, c-format
+#, c-format
 msgid "Removing the following package will break your system:"
 msgid_plural "Removing the following packages will break your system:"
-msgstr[0] "La désinstallation du paquetage %s rendra votre système instable"
-msgstr[1] "La désinstallation du paquetage %s rendra votre système instable"
+msgstr[0] ""
+"La désinstallation du paquetage suivant rendra votre système instable"
+msgstr[1] ""
+"La désinstallation des paquetages suivants rendra votre système instable"
 
 #: ../urpme:124
 #, c-format
@@ -1618,9 +1626,9 @@ msgid "Nothing to remove"
 msgstr "Rien à désinstaller"
 
 #: ../urpme:141
-#, fuzzy, c-format
+#, c-format
 msgid "No orphans to remove"
-msgstr "Rien à désinstaller"
+msgstr "Aucun orphelin à supprimer"
 
 #: ../urpme:147
 #, c-format
@@ -1634,11 +1642,11 @@ msgstr[1] ""
 "désinstallés"
 
 #: ../urpme:152
-#, fuzzy, c-format
+#, c-format
 msgid "(orphan package)"
 msgid_plural "(orphan packages)"
-msgstr[0] "paquetage inconnu"
-msgstr[1] "paquetage inconnu"
+msgstr[0] "(paquetage orphelin)"
+msgstr[1] "(paquetages orphelins)"
 
 #: ../urpme:159
 #, c-format
@@ -1655,7 +1663,7 @@ msgstr " (o/N) "
 #: ../urpme:164
 #, c-format
 msgid "testing removal of %s"
-msgstr ""
+msgstr "test de suppression de %s"
 
 #: ../urpme:178
 #, c-format
@@ -1663,9 +1671,9 @@ msgid "Removal failed"
 msgstr "Échec de la désinstallation"
 
 #: ../urpme:180
-#, fuzzy, c-format
+#, c-format
 msgid "Removal is possible"
-msgstr "Échec de la désinstallation"
+msgstr "La suppression est possible"
 
 #: ../urpmf:29
 #, c-format
@@ -1994,7 +2002,7 @@ msgstr "    --force-key    - force la mise à jour de la clef gpg.\n"
 #: ../urpmi:84
 #, c-format
 msgid "  --auto-orphans - remove orphans without asking\n"
-msgstr ""
+msgstr "  --auto-orphans - supprimer les orphelins sans confirmation\n"
 
 #: ../urpmi:85 ../urpmq:54
 #, c-format
@@ -2124,7 +2132,7 @@ msgstr ""
 #: ../urpmi:114 ../urpmi.addmedia:59 ../urpmi.update:37
 #, c-format
 msgid "  --metalink     - generate and use a local metalink.\n"
-msgstr ""
+msgstr "  --metalink     - générer et utiliser un metalink local.\n"
 
 #: ../urpmi:115
 #, c-format
@@ -2516,14 +2524,11 @@ msgstr ""
 "%s\n"
 
 #: ../urpmi:594
-#, fuzzy, c-format
+#, c-format
 msgid "The following orphan package will be removed."
 msgid_plural "The following orphan packages will be removed."
-msgstr[0] ""
-"Pour satisfaire les dépendances, le paquetages suivant va être désinstallé"
-msgstr[1] ""
-"Pour satisfaire les dépendances, les %d paquetages suivants vont être "
-"désinstallés"
+msgstr[0] "Le paquetage orphelin suivant va être désinstallé"
+msgstr[1] "Les paquetages orphelins suivants vont être désinstallés"
 
 #: ../urpmi:610
 #, c-format
@@ -2625,10 +2630,10 @@ msgstr ""
 "  --prozilla     - utiliser prozilla pour récupérer les fichiers distants.\n"
 
 #: ../urpmi.addmedia:58 ../urpmi.update:36
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2        - use aria2 to retrieve distant files.\n"
 msgstr ""
-"  --curl         - utiliser curl pour récupérer les fichiers distants.\n"
+"  --aria2        - utiliser aria2 pour récupérer les fichiers distants.\n"
 
 #: ../urpmi.addmedia:65
 #, c-format
@@ -3087,7 +3092,7 @@ msgstr ""
 #: ../urpmq:53
 #, c-format
 msgid "  --auto-orphans - list orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - lister les orphelins\n"
 
 #: ../urpmq:55
 #, c-format
@@ -3171,9 +3176,9 @@ msgid "  --conflicts    - print conflicts.\n"
 msgstr "  --conflicts    - afficher les conflits.\n"
 
 #: ../urpmq:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print obsoletes.\n"
-msgstr "  --obsoletes    - chercher dans le champ « obsoletes »\n"
+msgstr "  --obsoletes    - afficher le champ « obsoletes »\n"
 
 #: ../urpmq:84
 #, c-format
@@ -3186,9 +3191,9 @@ msgid "  --requires     - print requires.\n"
 msgstr "  --requires     - afficher les dépendances.\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  --suggests     - print suggests.\n"
-msgstr "  --suggests     - chercher dans le champ «suggests»\n"
+msgstr "  --suggests     - afficher le champ «suggests»\n"
 
 #: ../urpmq:87
 #, c-format
@@ -3305,7 +3310,7 @@ msgstr ""
 #: ../urpmq:156
 #, c-format
 msgid "usage: \"urpmq --auto-orphans\" with no argument"
-msgstr ""
+msgstr "utilisation : \"urpmq --auto-orphans\" sans argument"
 
 #: ../urpmq:209
 #, c-format
@@ -3351,25 +3356,3 @@ msgstr ""
 #, c-format
 msgid "No changelog found\n"
 msgstr "Aucun Changelog trouvé\n"
-
-#~ msgid "malformed URL: [%s]"
-#~ msgstr "URL incorrecte : [%s]"
-
-#~ msgid "sorry, you can't use --install-src to install remote .src.rpm files"
-#~ msgstr ""
-#~ "désolé vous ne pouvez pas utiliser --install-src pour installer des "
-#~ "fichiers .src.rpm distants"
-
-#~ msgid "Error"
-#~ msgstr "Erreur"
-
-#~ msgid "%d installation transaction failed"
-#~ msgid_plural "%d installation transactions failed"
-#~ msgstr[0] "%d transaction d'installation a échoué"
-#~ msgstr[1] "%d transactions d'installation ont échoué"
-
-#~ msgid "Package %s can not be installed"
-#~ msgstr "Le paquetage %s ne peut être installé"
-
-#~ msgid "Checking to remove the following packages"
-#~ msgstr "Vérification pour la désinstallation des paquetages suivants"
