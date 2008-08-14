@@ -68,6 +68,7 @@ Gtk2->croak_execeptions;
 #- Create main window
 
 $mainw = Gtk2::Window->new('toplevel');
+$::main_window = $mainw;
 $mainw->set_border_width(3);
 $mainw->set_title(N("RPM installation"));
 $mainw->signal_connect(destroy => \&quit);
