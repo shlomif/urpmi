@@ -103,7 +103,14 @@ sub parse_command_line() {
 
 sub but ($) { "    $_[0]    " }
 
-sub quit () { Gtk2->main_quit }
+sub quit () {
+    if (Gtk2->main_level) {
+        Gtk2->main_quit;
+    } else {
+        # just exit if not in main loop (eg: while starting the GUI)
+        exit 1;
+    }
+}
 
 sub add_button_box {
     my ($vbox, @buttons) = @_;
