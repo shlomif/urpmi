@@ -284,7 +284,7 @@ sub do_install_3 () {
                                          );
             my $response = $w->run;
             $w->destroy;
-            exit 0 if $response eq 'cancel';
+            exit 1 if $response eq 'cancel';
             1;
         },
         trans_log => sub {
