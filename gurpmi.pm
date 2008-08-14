@@ -31,7 +31,7 @@ URPM::bind_rpm_textdomain_codeset();
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT = qw(create_scrolled_window fatal but quit add_button_box new_label N);
+our @EXPORT = qw(create_scrolled_window fatal but cancel_n_quit quit add_button_box new_label N);
 
 urpm::select::add_packages_to_priority_upgrade_list('gurpmi');
 
@@ -110,6 +110,11 @@ sub quit () {
         # just exit if not in main loop (eg: while starting the GUI)
         exit 1;
     }
+}
+
+sub cancel_n_quit () {
+    Gtk2->main_quit;
+    exit(1);
 }
 
 sub add_button_box {

@@ -30,7 +30,7 @@ Gtk2->init;
 $mainw = Gtk2::Window->new('toplevel');
 $mainw->set_border_width(3);
 $mainw->set_title(N("RPM installation"));
-$mainw->signal_connect(destroy => \&quit);
+$mainw->signal_connect(destroy => \&cancel_n_quit);
 $mainw->set_position('center');
 $mainw->set_modal(0);
 $mainbox = Gtk2::VBox->new(0, 5);
@@ -45,7 +45,7 @@ foreach (@all_rpms) {
     unless (-e $_) {
 	$mainbox->pack_start(new_label(N("Error: unable to find file %s, will cancel operation", $_)), 1, 1, 0);
 	my $abort_button = Gtk2::Button->new(but(N("_Ok")));
-	$abort_button->signal_connect(clicked => sub { quit(); exit 1 });
+	$abort_button->signal_connect(clicked => sub { cancel_n_quit(); exit 1 });
 	add_button_box($mainbox, $abort_button);
 	$mainw->show_all;
 	Gtk2->main;
@@ -120,7 +120,7 @@ Proceed?", all_descriptions(@all_rpms))
 	$file_dialog->cancel_button->signal_connect(clicked => \&quit);
 	$file_dialog->show;
     });
-    $ccel_button->signal_connect(clicked => \&quit);
+    $ccel_button->signal_connect(clicked => \&cancel_n_quit);
     add_button_box($mainbox, grep { defined $_ } $inst_button, $save_button, $ccel_button);
 }
 
