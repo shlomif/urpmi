@@ -179,7 +179,7 @@ sub ask_choice {
 	    foreach (@radios) { last if $_->get_active; ++$n }
 	}
 	$d->destroy;
-	exit(0) if $_[1] == 0; #- "cancel"
+	exit(1) if $_[1] == 0; #- "cancel"
     });
     $radios[0]->set_active(1);
     $d->set_default_response(1); # defaults to ok
