@@ -117,6 +117,7 @@ if (@cmdline_pkgs_to_remove || $options{matches}) {
 	},
 	callback_base => sub {
 	    my ($urpm, @l) = @_;
+	    #- Warning : the following message is parsed in urpm::parallel_*
 	    $urpm->{fatal}(1, P("Removing the following package will break your system:",
 				"Removing the following packages will break your system:", int(@l))
 			     . "\n" . add_leading_spaces(urpm::select::translate_why_removed($urpm, $state, @l)));
