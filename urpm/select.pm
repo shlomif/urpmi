@@ -144,9 +144,7 @@ sub _search_packages {
 		$exact{$v} = join('|', map { $_->id } @l);
 		next;
 	    }
-	}
-
-	if ($options{use_provides} && $options{fuzzy}) {
+	} elsif ($options{use_provides}) {
 	    _findindeps($urpm, \%found, $qv, $v, $options{caseinsensitive}, $options{src});
 	}
 
