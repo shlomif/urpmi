@@ -239,7 +239,7 @@ my %options_spec = (
 	'auto-select' => sub {
 	    $options{deps} = $options{upgrade} = $options{auto_select} = 1;
 	},
-	fuzzy => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
+	'fuzzy|y' => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
 	keep => \$options{keep},
 	list => \$options{list},
 	changelog => \$options{changelog},
@@ -282,7 +282,6 @@ my %options_spec = (
 		   $options{what_requires} = 1 },
 	whatrequires => sub { $options{what_requires} = 1 },
 	'whatrequires-recursive' => sub { $options{what_requires_recursive} = $options{what_requires} = 1 },
-	y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = 1 },
 	Y => sub { $urpm->{options}{fuzzy} = 1; $options{all} = $options{caseinsensitive} = 1 },
 	i => \$options{info},
 	l => \$options{files},
