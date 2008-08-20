@@ -134,7 +134,7 @@ sub _search_packages {
 	    my $pack_ra = $pack_name . '-' . $pkg->version;
 	    my $pack_a = "$pack_ra-" . $pkg->release;
 	    my $pack = "$pack_a." . $pkg->arch;
-	    unless ($options{fuzzy}) {
+	    if (!$options{fuzzy}) {
 		if ($pack eq $v) {
 		    $exact{$v} = $id;
 		    next;
@@ -147,7 +147,7 @@ sub _search_packages {
 		}
 	    }
 	    $pack =~ /$qv/ and push @{$found{$v}}, $id;
-	    $pack =~ /$qv/i and push @{$foundi{$v}}, $id unless $options{caseinsensitive};
+	    $pack =~ /$qv/i and push @{$foundi{$v}}, $id if !$options{caseinsensitive};
 	}
     }
 
