@@ -168,7 +168,8 @@ sub _search_packages {
 		$urpm->{error}(N("No package named %s", $v));
 		values(%l) != 0 and $urpm->{error}(
 		    N("The following packages contain %s: %s",
-			$v, "\n" . join("\n", sort { $a cmp $b } keys %l))
+			$v, urpm::util::formatList(4, sort { $a cmp $b } keys %l)) . "\n" . 
+		    N("You should use \"-a\" to use all of them")
 		);
 		$result = 0;
 	    } else {
