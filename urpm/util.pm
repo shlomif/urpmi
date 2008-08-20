@@ -146,6 +146,10 @@ sub begins_with {
     my ($s, $prefix) = @_;
     index($s, $prefix) == 0;
 }
+sub formatList {
+    my $nb = shift;
+    join(", ", @_ <= $nb ? @_ : (@_[0..$nb-1], '...'));
+}
 
 sub put_in_hash { my ($a, $b) = @_; while (my ($k, $v) = each %{$b || {}}) { $a->{$k} = $v } $a }
 sub uniq { my %l; $l{$_} = 1 foreach @_; grep { delete $l{$_} } @_ }
