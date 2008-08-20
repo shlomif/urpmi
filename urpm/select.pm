@@ -109,7 +109,7 @@ sub _search_packages {
 	my $qv = quotemeta $v;
 	$qv = '(?i)' . $qv if $options{caseinsensitive};
 
-	unless ($options{fuzzy}) {
+	if (!$options{fuzzy}) {
 	    #- try to search through provides.
 	    if (my @l = map {
 		    $_
