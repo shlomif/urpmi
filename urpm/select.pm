@@ -120,28 +120,7 @@ sub _search_packages {
 		    ? $_ : @{[]};
 		} $urpm->packages_providing($v))
 	    {
-		#- find the lowest value of is_arch_compat
-		my ($noarch, $arch) = partition { $_->arch eq 'noarch' } @l;
-		my %compats;
-		push @{$compats{$_->is_arch_compat}}, $_ foreach @$arch;
-
-		delete $compats{0}; #- means not compatible
-		#- if there are pkgs matching arch, prefer them
-		if (%compats && !$options{all}) {
-		    my $best_arch = min(keys %compats);
-		    %compats = ($best_arch => $compats{$best_arch});
-		}
-		if (%compats) {
-		    @l = (@$noarch, map { @$_ } values %compats);
-		}
-
-		#- we assume that if there is at least one package providing
-		#- the resource exactly, this should be the best one; but we
-		#- first check if one of the packages has the same name as searched.
-		if (my @l2 = grep { $_->name eq $v } @l) {
-		    @l = @l2;
-		}
-		$exact{$v} = join('|', map { $_->id } @l);
+		$exact{$v} = _search_packages_keep_best($v, \@l, $options{all});
 		next;
 	    }
 	} elsif ($options{use_provides}) {
@@ -214,6 +193,32 @@ sub _search_packages {
 
     #- return 0 if error, 'substring' if fuzzy match, 1 if ok
     \%name2ids, $result;
+}
+
+#- side-effects: none
+sub _search_packages_keep_best {
+    my ($name, $pkgs, $all) = @_;
+
+    #- find the lowest value of is_arch_compat
+    my ($noarch, $arch) = partition { $_->arch eq 'noarch' } @$pkgs;
+    my %compats;
+    push @{$compats{$_->is_arch_compat}}, $_ foreach @$arch;
+    
+    delete $compats{0};		#- means not compatible
+    #- if there are pkgs matching arch, prefer them
+    if (%compats && !$all) {
+	my $best_arch = min(keys %compats);
+	%compats = ($best_arch => $compats{$best_arch});
+    }
+    my @l = %compats ? (@$noarch, map { @$_ } values %compats) : @$pkgs;
+
+    #- we assume that if there is at least one package providing
+    #- the resource exactly, this should be the best one; but we
+    #- first check if one of the packages has the same name as searched.
+    if (my @l2 = grep { $_->name eq $name } @l) {
+	@l = @l2;
+    }
+    join('|', map { $_->id } @l);
 }
 
 #- Resolves dependencies between requested packages (and auto selection if any).
