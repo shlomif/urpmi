@@ -101,7 +101,9 @@ sub _renamed_unrequested {
 
 	my ($new_fn) = keys %{$rejected->{$fn}{closure}};
 	my ($new_n) = $new_fn =~ $fullname2name_re;
-	$l{$new_n} = "(obsoletes $fn)";
+	if ($new_n ne $n) {
+	    $l{$new_n} = "(obsoletes $fn)";
+	}
     }
     %l;
 }
