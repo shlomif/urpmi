@@ -574,12 +574,13 @@ sub configure {
     } elsif ($options{usedistrib}) {
             $urpm->{media} = [];
             add_distrib_media($urpm, "Virtual", $options{usedistrib}, %options, virtual => 1, on_the_fly => 1);
-        } else {
+    } else {
 	    read_config($urpm);
 	    if (!$options{media} && $urpm->{options}{'default-media'}) {
 		$options{media} = $urpm->{options}{'default-media'};
 	    }
-        }
+    }
+
 	if ($options{media}) {
 	    delete $_->{modified} foreach @{$urpm->{media} || []};
 	    select_media($urpm, split /,/, $options{media});
