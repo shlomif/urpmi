@@ -71,32 +71,32 @@ if ($< != 0) {
 my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive', wait => $options{wait_lock});
 urpm::media::read_config($urpm);
 
-my @entries = map { $_->{name} } @{$urpm->{media}};
+my @chosen_media;
 
 if ($options{all} && !defined $options{ignore}) {
-    @entries == 0 and die N("nothing to update (use urpmi.addmedia to add a media)\n");
+    @chosen_media = @{$urpm->{media}}
+      or die N("nothing to update (use urpmi.addmedia to add a media)\n");
 } else {
     if ($options{all}) { @cmdline = '' } #- select all
     urpm::media::select_media($urpm, @cmdline);
-    my $something_todo = 0;
     foreach (@{$urpm->{media}}) {
 	$options{update} && $_->{update} and $_->{modified} = 1;
-	if ($_->{modified}) {
+    }
+    @chosen_media = grep { $_->{modified} } @{$urpm->{media}} 
+      or die N("the entry to update is missing\n(one of %s)\n", join(", ", map { $_->{name} } @{$urpm->{media}}));
+
+    foreach (@chosen_media) {
 	    if ($options{ignore}) {
 		$_->{ignore} = 1;
 	    } else {
 		#- force ignored media to be returned alive.
 		delete $_->{ignore};
 	    }
-	    ++$something_todo;
-	}
     }
-
-    $something_todo or die N("the entry to update is missing\n(one of %s)\n", join(", ", @entries));
 }
 
 if (defined $options{ignore}) {
-    my $str = join(", ", map { N("\"%s\"", $_->{name}) } grep { $_->{modified} } @{$urpm->{media}});
+    my $str = join(", ", map { N("\"%s\"", $_->{name}) } @chosen_media);
     $urpm->{log}($options{ignore} ? N("ignoring media %s", $str) : N("enabling media %s", $str));
     urpm::media::write_config($urpm);
 } else {
