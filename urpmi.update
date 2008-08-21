@@ -78,16 +78,17 @@ if ($options{all} && !defined $options{ignore}) {
       or die N("nothing to update (use urpmi.addmedia to add a media)\n");
 } else {
     if ($options{all}) { 
-	$_->{modified} = 1 foreach @{$urpm->{media}};
+	@chosen_media = @{$urpm->{media}};
     } elsif ($options{update}) {
-	$_->{modified} = 1 foreach grep { $_->{update} } @{$urpm->{media}};
+	@chosen_media = grep { $_->{update} } @{$urpm->{media}};
     }
-    urpm::media::select_media($urpm, @cmdline);
+    push @chosen_media, urpm::media::select_media_by_name($urpm, \@cmdline);
 
-    @chosen_media = grep { $_->{modified} } @{$urpm->{media}} 
-      or die N("the entry to update is missing\n(one of %s)\n", join(", ", map { $_->{name} } @{$urpm->{media}}));
-
+    @chosen_media or die N("the entry to update is missing\n(one of %s)\n", join(", ", map { $_->{name} } @{$urpm->{media}}));
+      
     foreach (@chosen_media) {
+	    $_->{modified} = 1;
+
 	    if ($options{ignore}) {
 		$_->{ignore} = 1;
 	    } else {
