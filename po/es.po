@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: urpmi-es\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-07-10 21:25+0200\n"
-"PO-Revision-Date: 2008-07-08 10:38+0200\n"
+"PO-Revision-Date: 2008-08-25 17:30-0300\n"
 "Last-Translator: José Manuel Pérez <jmprodu@hotmail.com>\n"
 "Language-Team: Español <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -500,24 +500,24 @@ msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: no se puede leer el archivo rpm «%s»\n"
 
 #: ../urpm/args.pm:376
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected expression %s"
-msgstr "Expresiones de patrón:\n"
+msgstr "expresión %s no esperada"
 
 #: ../urpm/args.pm:377
-#, fuzzy, c-format
+#, c-format
 msgid "missing expression before %s"
-msgstr "Falta firma (%s)"
+msgstr "falta expresíon antes de %s"
 
 #: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
-msgstr ""
+msgstr "expresión no esperada %s (sugerencia: usar -a o -o)"
 
 #: ../urpm/args.pm:387
-#, fuzzy, c-format
+#, c-format
 msgid "no expression to close"
-msgstr "Expresiones de patrón:\n"
+msgstr "no hay expresión a cerrar"
 
 #: ../urpm/args.pm:396
 #, c-format
@@ -563,7 +563,7 @@ msgstr ""
 #: ../urpm/cdrom.pm:68
 #, c-format
 msgid "HAL daemon (hald) is not running or not ready"
-msgstr ""
+msgstr "El demonio HAL (hald) no está activo o no está listo"
 
 #: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
@@ -598,7 +598,7 @@ msgstr "no se puede escribir el archivo de configuración [%s]"
 #: ../urpm/download.pm:109
 #, c-format
 msgid "can not read proxy settings (not enough rights to read %s)"
-msgstr ""
+msgstr "no se pueden leer los ajustes del proxy (sin permiso suficiente para leer %s)"
 
 #: ../urpm/download.pm:134
 #, c-format
@@ -726,9 +726,9 @@ msgid "package %s is not found."
 msgstr "no se encontró el paquete %s."
 
 #: ../urpm/get_pkgs.pm:218
-#, fuzzy, c-format
+#, c-format
 msgid "Can not download packages into %s"
-msgstr "No se puede escribir al directorio caché de paquetes [%s]\n"
+msgstr "No se pueden descargar los paquetes en %s"
 
 #: ../urpm/get_pkgs.pm:222
 #, c-format
@@ -843,7 +843,7 @@ msgstr "Falló la instalación"
 #: ../urpm/main_loop.pm:112 ../urpm/main_loop.pm:122
 #, c-format
 msgid "Try to go on anyway? (y/N) "
-msgstr ""
+msgstr "¿Intenta continuar de todas formas? (s/N) "
 
 #: ../urpm/main_loop.pm:121
 #, c-format
@@ -917,7 +917,7 @@ msgstr "examinando archivo %s"
 #: ../urpm/md5sum.pm:27
 #, c-format
 msgid "invalid MD5SUM file"
-msgstr ""
+msgstr "archivo MD5SUM no válido"
 
 #: ../urpm/md5sum.pm:28
 #, c-format
@@ -1147,9 +1147,9 @@ msgid "copying MD5SUM file of \"%s\"..."
 msgstr "copiando archivo MD5SUM de «%s»..."
 
 #: ../urpm/media.pm:1417
-#, fuzzy, c-format
+#, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
-msgstr "nombre de archivo rpm no válido [%s]"
+msgstr "archivo MD5SUM no válido (descargado desde %s)"
 
 #: ../urpm/media.pm:1448
 #, c-format
@@ -1296,8 +1296,8 @@ msgid ""
 msgid_plural ""
 "The following packages are now orphans, use \"urpme --auto-orphans\" to "
 "remove them."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "El paquete siguiente ahora quedó huérfano, utilice \"urpme --auto-orphans\" para quitarlo."
+msgstr[1] "Los paquetes siguientes ahora quedaron huérfanos, utilice \"urpmi --auto-orphans\" para quitarlos."
 
 #: ../urpm/parallel.pm:14
 #, c-format
@@ -1322,39 +1322,39 @@ msgstr "no se puede utilizar la opción paralelo «%s»"
 #: ../urpm/parallel.pm:93
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "en el nodo %s"
 
 #: ../urpm/parallel.pm:293
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "Falló la instalación"
+msgstr "Falló la instalación en el nodo %s"
 
 #: ../urpm/parallel_ka_run.pm:58
 #, c-format
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "falló rshp, tal vez no se puede alcanzar un nodo"
 
 #: ../urpm/parallel_ka_run.pm:80
 #, c-format
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "falló mput, tal vez no se puede alcanzar un nodo"
 
 #: ../urpm/parallel_ssh.pm:27
 #, c-format
 msgid "scp failed on host %s (%d)"
-msgstr ""
+msgstr "falló scp en el equipo %s (%d)"
 
 #: ../urpm/parallel_ssh.pm:39
 #, c-format
 msgid "cp failed on host %s (%d)"
-msgstr ""
+msgstr "falló cp en el equipo %s (%d)"
 
 #: ../urpm/parallel_ssh.pm:86
 #, c-format
 msgid ""
 "%s failed on host %s (maybe it does not have a good version of urpmi?) (exit "
 "code: %d)"
-msgstr ""
+msgstr "falló %s en el equipo %s (¿tal vez no tiene la versión correcta de urpmi?) (código de salida: %d)"
 
 #: ../urpm/removable.pm:32
 #, c-format
@@ -1394,9 +1394,9 @@ msgid "The following packages contain %s: %s"
 msgstr "Los siguientes paquetes contienen %s: %s"
 
 #: ../urpm/select.pm:296
-#, fuzzy, c-format
+#, c-format
 msgid "found package(s) %s in urpmi db, but none are installed"
-msgstr "Los paquetes %s no se pueden instalar"
+msgstr "se encontraron los paquetes %s en la base de datos de urpmi, pero ninguno está instalado"
 
 #: ../urpm/select.pm:539
 #, c-format
@@ -1461,12 +1461,12 @@ msgstr "Falta firma (%s)"
 #: ../urpm/sys.pm:156
 #, c-format
 msgid "system"
-msgstr ""
+msgstr "sistema"
 
 #: ../urpm/sys.pm:191
 #, c-format
 msgid "You should restart %s for %s"
-msgstr ""
+msgstr "Debería reiniciar %s para %s"
 
 #: ../urpm/sys.pm:276
 #, c-format
@@ -1510,7 +1510,7 @@ msgstr ""
 #: ../urpme:48
 #, c-format
 msgid "  --auto-orphans - remove orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - quitar los huérfanos\n"
 
 #: ../urpme:49
 #, c-format
@@ -1585,11 +1585,11 @@ msgid "unknown package"
 msgstr "paquete desconocido "
 
 #: ../urpme:119
-#, fuzzy, c-format
+#, c-format
 msgid "Removing the following package will break your system:"
 msgid_plural "Removing the following packages will break your system:"
-msgstr[0] "quitar el paquete %s dañará su sistema"
-msgstr[1] "quitar el paquete %s dañará su sistema"
+msgstr[0] "Quitar el paquete siguiente dañará su sistema:"
+msgstr[1] "Quitar los paquetes siguientes dañará su sistema:"
 
 #: ../urpme:124
 #, c-format
@@ -1597,9 +1597,9 @@ msgid "Nothing to remove"
 msgstr "Nada que quitar"
 
 #: ../urpme:141
-#, fuzzy, c-format
+#, c-format
 msgid "No orphans to remove"
-msgstr "Nada que quitar"
+msgstr "No hay huérfanos para quitar"
 
 #: ../urpme:147
 #, c-format
@@ -1611,11 +1611,11 @@ msgstr[1] ""
 "Para satisfacer las dependencias, se quitarán los %d paquetes siguientes"
 
 #: ../urpme:152
-#, fuzzy, c-format
+#, c-format
 msgid "(orphan package)"
 msgid_plural "(orphan packages)"
-msgstr[0] "paquete desconocido "
-msgstr[1] "paquete desconocido "
+msgstr[0] "(paquete huérfano)"
+msgstr[1] "(paquetes huérfanos)"
 
 #: ../urpme:159
 #, c-format
@@ -1630,9 +1630,9 @@ msgid " (y/N) "
 msgstr " (s/N) "
 
 #: ../urpme:164
-#, fuzzy, c-format
+#, c-format
 msgid "testing removal of %s"
-msgstr "tomar dispositivo extraíble como «%s»"
+msgstr "probando la remoción de %s"
 
 #: ../urpme:178
 #, c-format
@@ -1640,9 +1640,9 @@ msgid "Removal failed"
 msgstr "Falló la desinstalación"
 
 #: ../urpme:180
-#, fuzzy, c-format
+#, c-format
 msgid "Removal is possible"
-msgstr "Falló la desinstalación"
+msgstr "Se puede quitar"
 
 #: ../urpmf:29
 #, c-format
@@ -1926,9 +1926,9 @@ msgstr ""
 "  -f             - imprime versión, release y arquitectura con nombre.\n"
 
 #: ../urpmf:153
-#, fuzzy, c-format
+#, c-format
 msgid "unterminated expression (%s)"
-msgstr "Expresiones de patrón:\n"
+msgstr "expresión no terminada (%s)"
 
 #: ../urpmf:198
 #, c-format
@@ -1974,7 +1974,7 @@ msgstr "    --force-key    - forzar actualización de clave gpg.\n"
 #: ../urpmi:84
 #, c-format
 msgid "  --auto-orphans - remove orphans without asking\n"
-msgstr ""
+msgstr "  --auto-orphans - quitar los huérfanos sin preguntar\n"
 
 #: ../urpmi:85 ../urpmq:54
 #, c-format
@@ -2081,11 +2081,9 @@ msgstr ""
 "                   verificar las dependencias ni la integridad.\n"
 
 #: ../urpmi:108
-#, fuzzy, c-format
+#, c-format
 msgid "  --allow-suggests - auto select \"suggested\" packages.\n"
-msgstr ""
-"  --no-suggests  - no seleccionar automáticamente paquetes «sugeridos».\n"
-"\n"
+msgstr "  --allow-suggests - seleccionar automáticamente los paquetes «sugeridos».\n"
 
 #: ../urpmi:112
 #, c-format
@@ -2100,7 +2098,7 @@ msgstr ""
 #: ../urpmi:114 ../urpmi.addmedia:59 ../urpmi.update:37
 #, c-format
 msgid "  --metalink     - generate and use a local metalink.\n"
-msgstr ""
+msgstr "  --metalink     - generar y usar un metavínculo local.\n"
 
 #: ../urpmi:115
 #, c-format
@@ -2482,12 +2480,11 @@ msgstr ""
 "%s\n"
 
 #: ../urpmi:594
-#, fuzzy, c-format
+#, c-format
 msgid "The following orphan package will be removed."
 msgid_plural "The following orphan packages will be removed."
-msgstr[0] "Para satisfacer las dependencias, se quitará el paquete siguiente"
-msgstr[1] ""
-"Para satisfacer las dependencias, se quitarán los %d paquetes siguientes"
+msgstr[0] "Se quitará el paquete huérfano siguiente."
+msgstr[1] "Se quitarán los paquetes huérfanos siguientes."
 
 #: ../urpmi:610
 #, c-format
@@ -2585,9 +2582,9 @@ msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --prozilla     - usa curl para recuperar archivos remotos.\n"
 
 #: ../urpmi.addmedia:58 ../urpmi.update:36
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2        - use aria2 to retrieve distant files.\n"
-msgstr "  --curl         - usa curl para recuperar archivos remotos.\n"
+msgstr "  --aria2         - usa aria2 para recuperar archivos remotos.\n"
 
 #: ../urpmi.addmedia:65
 #, c-format
@@ -2718,13 +2715,11 @@ msgid "no need to give <relative path of synthesis> with --distrib"
 msgstr "no es necesario dar <ruta relativa de synthesis> con --distrib"
 
 #: ../urpmi.addmedia:143
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Do you want to add media '%s'?"
-msgstr ""
-"\n"
-"Dese añadir el soporte «%s»"
+msgstr "\nDesea añadir el soporte «%s»"
 
 #: ../urpmi.addmedia:169
 #, c-format
@@ -3037,7 +3032,7 @@ msgstr ""
 #: ../urpmq:53
 #, c-format
 msgid "  --auto-orphans - list orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - listar los huérfanos\n"
 
 #: ../urpmq:55
 #, c-format
@@ -3119,9 +3114,9 @@ msgid "  --conflicts    - print conflicts.\n"
 msgstr "  --conflicts     - imprime conflictos.\n"
 
 #: ../urpmq:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print obsoletes.\n"
-msgstr "  --obsoletes     - todo lo obsoleto\n"
+msgstr "  --obsoletes     - muestra los obsoletos.\n"
 
 #: ../urpmq:84
 #, c-format
@@ -3134,9 +3129,9 @@ msgid "  --requires     - print requires.\n"
 msgstr "  --requires      - imprime lo que necesita.\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  --suggests     - print suggests.\n"
-msgstr "  --suggests     - lo que sugiere\n"
+msgstr "  --suggests     - muestra los sugeridos.\n"
 
 #: ../urpmq:87
 #, c-format
@@ -3248,7 +3243,7 @@ msgstr ""
 #: ../urpmq:156
 #, c-format
 msgid "usage: \"urpmq --auto-orphans\" with no argument"
-msgstr ""
+msgstr "uso: \"urpmq --auto-orphans\" sin argumentos"
 
 #: ../urpmq:209
 #, c-format
