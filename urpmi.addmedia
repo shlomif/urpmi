@@ -62,7 +62,8 @@ and [options] are from
                    to be 1080 by default (format is <proxyhost[:port]>).
 ") . N("  --proxy-user   - specify user and password to use for proxy
                    authentication (format is <user:password>).
-") . N("  --update       - create an update medium.
+") . N("  --update       - create an update medium, 
+                   or discard non-update media (when used with --distrib)
 ") . N("  --xml-info     - use the specific policy for downloading xml info files
                    one of: never, on-demand, update-only, always. cf urpmi.cfg(5)
 ") . N("  --probe-synthesis - use synthesis file.
@@ -153,7 +154,7 @@ if ($options{distrib}) {
 	$url,
         mirrorlist => $options{mirrorlist},
 	virtual => $options{virtual},
-	update => $options{update},
+	only_updates => $options{update},
 	probe_with => $options{probe_with},
 	nolock => $options{nolock},
 	ask_media => $add_media_callback,
