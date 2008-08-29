@@ -6,15 +6,14 @@
 # Copyright (c) 1999 Mandriva
 # Taisuke Yamada <tai@imasy.or.jp>, 1999.
 # UTUMI Hirosi <utuhiro@mx12.freecom.ne.jp>, 2003
-# BANDO Yukiko <ybando@k6.dion.ne.jp>, 2004-2008.
-#
+# Yukiko Bando <ybando@k6.dion.ne.jp>, 2004-2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: urpmi-ja\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-07-10 21:25+0200\n"
-"PO-Revision-Date: 2008-03-15 22+0900\n"
-"Last-Translator: Yukiko Bando<ybando@k6.dion.ne.jp>\n"
+"PO-Revision-Date: 2008-08-30 00:39+0900\n"
+"Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <cooker-i18n@mandrivalinux.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -480,24 +479,24 @@ msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: RPM ファイル %s を読み込めません\n"
 
 #: ../urpm/args.pm:376
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected expression %s"
-msgstr "パターン表現:\n"
+msgstr "予期しない表現: %s"
 
 #: ../urpm/args.pm:377
-#, fuzzy, c-format
+#, c-format
 msgid "missing expression before %s"
-msgstr "署名がありません (%s)"
+msgstr "%s の前に表現がありません"
 
 #: ../urpm/args.pm:383
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
-msgstr ""
+msgstr "予期しない表現 %s (提案: -a または -o を使用)"
 
 #: ../urpm/args.pm:387
-#, fuzzy, c-format
+#, c-format
 msgid "no expression to close"
-msgstr "パターン表現:\n"
+msgstr "閉じる表現がありません"
 
 #: ../urpm/args.pm:396
 #, c-format
@@ -542,7 +541,7 @@ msgstr ""
 #: ../urpm/cdrom.pm:68
 #, c-format
 msgid "HAL daemon (hald) is not running or not ready"
-msgstr ""
+msgstr "HAL デーモン (hald) が起動していないか準備ができていません"
 
 #: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
@@ -577,7 +576,7 @@ msgstr "設定ファイル [%s] を書き込めません"
 #: ../urpm/download.pm:109
 #, c-format
 msgid "can not read proxy settings (not enough rights to read %s)"
-msgstr ""
+msgstr "プロキシ設定を読めません (%s を読む権限がありません)"
 
 #: ../urpm/download.pm:134
 #, c-format
@@ -705,9 +704,9 @@ msgid "package %s is not found."
 msgstr "パッケージ %s は見つかりません"
 
 #: ../urpm/get_pkgs.pm:218
-#, fuzzy, c-format
+#, c-format
 msgid "Can not download packages into %s"
-msgstr "repackage ディレクトリに書き込めません [%s]\n"
+msgstr "パッケージを %s にダウンロードできません"
 
 #: ../urpm/get_pkgs.pm:222
 #, c-format
@@ -821,7 +820,7 @@ msgstr "インストールに失敗"
 #: ../urpm/main_loop.pm:112 ../urpm/main_loop.pm:122
 #, c-format
 msgid "Try to go on anyway? (y/N) "
-msgstr ""
+msgstr "このまま続けますか？ (y/N) "
 
 #: ../urpm/main_loop.pm:121
 #, c-format
@@ -895,7 +894,7 @@ msgstr "%s ファイルを検査"
 #: ../urpm/md5sum.pm:27
 #, c-format
 msgid "invalid MD5SUM file"
-msgstr ""
+msgstr "無効な MD5SUM ファイル"
 
 #: ../urpm/md5sum.pm:28
 #, c-format
@@ -1125,9 +1124,9 @@ msgid "copying MD5SUM file of \"%s\"..."
 msgstr "%s の MD5SUM ファイルをコピー..."
 
 #: ../urpm/media.pm:1417
-#, fuzzy, c-format
+#, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
-msgstr "RPM ファイル名 [%s] が無効です"
+msgstr "無効な MD5SUM ファイル (ダウンロード元: %s)"
 
 #: ../urpm/media.pm:1448
 #, c-format
@@ -1275,6 +1274,8 @@ msgid_plural ""
 "The following packages are now orphans, use \"urpme --auto-orphans\" to "
 "remove them."
 msgstr[0] ""
+"以下のパッケージがオーファンになりました。削除するには \"urpme --auto-orphans"
+"\" を使ってください。"
 
 #: ../urpm/parallel.pm:14
 #, c-format
@@ -1299,32 +1300,32 @@ msgstr "パラレルオプション %s は使えません"
 #: ../urpm/parallel.pm:93
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "ノード %s で"
 
 #: ../urpm/parallel.pm:293
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "インストールに失敗"
+msgstr "ノード %s でインストールに失敗"
 
 #: ../urpm/parallel_ka_run.pm:58
 #, c-format
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp に失敗、おそらくノードが到達不可"
 
 #: ../urpm/parallel_ka_run.pm:80
 #, c-format
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput に失敗、おそらくノードが到達不可"
 
 #: ../urpm/parallel_ssh.pm:27
 #, c-format
 msgid "scp failed on host %s (%d)"
-msgstr ""
+msgstr "ホスト %s (%d) で scp に失敗"
 
 #: ../urpm/parallel_ssh.pm:39
 #, c-format
 msgid "cp failed on host %s (%d)"
-msgstr ""
+msgstr "ホスト %s (%d) で cp に失敗"
 
 #: ../urpm/parallel_ssh.pm:86
 #, c-format
@@ -1332,6 +1333,8 @@ msgid ""
 "%s failed on host %s (maybe it does not have a good version of urpmi?) (exit "
 "code: %d)"
 msgstr ""
+"ホスト %2$s で %1$s に失敗 (おそらく適切なバージョンの urpmi がないため) (終"
+"了コード: %3$d)"
 
 #: ../urpm/removable.pm:32
 #, c-format
@@ -1351,13 +1354,13 @@ msgstr "%s をアンマウント"
 #: ../urpm/select.pm:28
 #, c-format
 msgid "urpmi was restarted, and the list of priority packages did not change"
-msgstr ""
+msgstr "urpmi を再スタート、優先パッケージのリストに変更はありません"
 
 #: ../urpm/select.pm:30
 #, c-format
 msgid ""
 "urpmi was restarted, and the list of priority packages did change: %s vs %s"
-msgstr ""
+msgstr "urpmi を再スタート、優先パッケージのリストに変更がありました: %s vs %s"
 
 #: ../urpm/select.pm:191
 #, c-format
@@ -1370,9 +1373,11 @@ msgid "The following packages contain %s: %s"
 msgstr "以下のパッケージが %s を含んでいます: %s"
 
 #: ../urpm/select.pm:296
-#, fuzzy, c-format
+#, c-format
 msgid "found package(s) %s in urpmi db, but none are installed"
-msgstr "パッケージ %s はインストールできません"
+msgstr ""
+"パッケージ %s が urpmi データベースに見つかりましたが、どれもインストールされ"
+"ていません"
 
 #: ../urpm/select.pm:539
 #, c-format
@@ -1437,12 +1442,12 @@ msgstr "署名がありません (%s)"
 #: ../urpm/sys.pm:156
 #, c-format
 msgid "system"
-msgstr ""
+msgstr "システム"
 
 #: ../urpm/sys.pm:191
 #, c-format
 msgid "You should restart %s for %s"
-msgstr ""
+msgstr "%2$s のために %1$s を再スタートしてください"
 
 #: ../urpm/sys.pm:276
 #, c-format
@@ -1483,7 +1488,7 @@ msgstr "  --auto         - 複数の選択肢から自動的にパッケージ�
 #: ../urpme:48
 #, c-format
 msgid "  --auto-orphans - remove orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - オーファンを削除\n"
 
 #: ../urpme:49
 #, c-format
@@ -1552,10 +1557,10 @@ msgid "unknown package"
 msgstr "不明なパッケージ"
 
 #: ../urpme:119
-#, fuzzy, c-format
+#, c-format
 msgid "Removing the following package will break your system:"
 msgid_plural "Removing the following packages will break your system:"
-msgstr[0] "%s を削除するとシステムが壊れます"
+msgstr[0] "以下のパッケージを削除するとシステムが壊れます:"
 
 #: ../urpme:124
 #, c-format
@@ -1563,9 +1568,9 @@ msgid "Nothing to remove"
 msgstr "削除するものはありません"
 
 #: ../urpme:141
-#, fuzzy, c-format
+#, c-format
 msgid "No orphans to remove"
-msgstr "削除するものはありません"
+msgstr "削除するオーファンはありません"
 
 #: ../urpme:147
 #, c-format
@@ -1575,10 +1580,10 @@ msgid_plural ""
 msgstr[0] "依存を満たすために以下の %d 個のパッケージを削除します"
 
 #: ../urpme:152
-#, fuzzy, c-format
+#, c-format
 msgid "(orphan package)"
 msgid_plural "(orphan packages)"
-msgstr[0] "不明なパッケージ"
+msgstr[0] "(オーファン)"
 
 #: ../urpme:159
 #, c-format
@@ -1592,9 +1597,9 @@ msgid " (y/N) "
 msgstr " (y/N)[デフォルトはN] "
 
 #: ../urpme:164
-#, fuzzy, c-format
+#, c-format
 msgid "testing removal of %s"
-msgstr "リムーバブルデバイスを %s と認識します"
+msgstr "%s の削除をテスト"
 
 #: ../urpme:178
 #, c-format
@@ -1602,9 +1607,9 @@ msgid "Removal failed"
 msgstr "削除に失敗"
 
 #: ../urpme:180
-#, fuzzy, c-format
+#, c-format
 msgid "Removal is possible"
-msgstr "削除に失敗"
+msgstr "削除できます"
 
 #: ../urpmf:29
 #, c-format
@@ -1867,9 +1872,9 @@ msgid "  -f             - print version, release and arch with name.\n"
 msgstr "  -f             - バージョン, リリース番号, アーキテクチャを表示\n"
 
 #: ../urpmf:153
-#, fuzzy, c-format
+#, c-format
 msgid "unterminated expression (%s)"
-msgstr "パターン表現:\n"
+msgstr "終端のない表現 (%s)"
 
 #: ../urpmf:198
 #, c-format
@@ -1914,7 +1919,7 @@ msgstr "    --force-key    - gpg 鍵の更新を強制する\n"
 #: ../urpmi:84
 #, c-format
 msgid "  --auto-orphans - remove orphans without asking\n"
-msgstr ""
+msgstr "  --auto-orphans - 確認せずにオーファンを削除\n"
 
 #: ../urpmi:85 ../urpmq:54
 #, c-format
@@ -2014,9 +2019,9 @@ msgstr ""
 "                   --force でインストールするかどうか質問する\n"
 
 #: ../urpmi:108
-#, fuzzy, c-format
+#, c-format
 msgid "  --allow-suggests - auto select \"suggested\" packages.\n"
-msgstr "  --no-suggests  - 提案されたパッケージを自動的に選択しない\n"
+msgstr "  --allow-suggests  - 提案されたパッケージを自動的に選択\n"
 
 #: ../urpmi:112
 #, c-format
@@ -2031,7 +2036,7 @@ msgstr ""
 #: ../urpmi:114 ../urpmi.addmedia:59 ../urpmi.update:37
 #, c-format
 msgid "  --metalink     - generate and use a local metalink.\n"
-msgstr ""
+msgstr "  --metalink     - ローカルのメタルリンクを生成して使用\n"
 
 #: ../urpmi:115
 #, c-format
@@ -2204,12 +2209,12 @@ msgstr ""
 #: ../urpmi:220
 #, c-format
 msgid "You can't install spec files"
-msgstr ""
+msgstr "スペックファイルはインストールできません"
 
 #: ../urpmi:227
 #, c-format
 msgid "defaulting to --buildrequires"
-msgstr ""
+msgstr "デフォルトの --buildrequires を使用"
 
 #: ../urpmi:232
 #, c-format
@@ -2404,10 +2409,10 @@ msgstr ""
 "%s\n"
 
 #: ../urpmi:594
-#, fuzzy, c-format
+#, c-format
 msgid "The following orphan package will be removed."
 msgid_plural "The following orphan packages will be removed."
-msgstr[0] "依存を満たすために以下の %d 個のパッケージを削除します"
+msgstr[0] "以下のオーファンを削除します"
 
 #: ../urpmi:610
 #, c-format
@@ -2505,9 +2510,9 @@ msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --prozilla     - リモートファイルの取得に prozilla を使う\n"
 
 #: ../urpmi.addmedia:58 ../urpmi.update:36
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2        - use aria2 to retrieve distant files.\n"
-msgstr "  --curl         - リモートファイルの取得に curl を使う\n"
+msgstr "  --aria2         - リモートファイルの取得に aria2 を使う\n"
 
 #: ../urpmi.addmedia:65
 #, c-format
@@ -2637,7 +2642,7 @@ msgid "no need to give <relative path of synthesis> with --distrib"
 msgstr "--distrib には <synthesis の相対パス> は必要ありません"
 
 #: ../urpmi.addmedia:143
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Do you want to add media '%s'?"
@@ -2948,7 +2953,7 @@ msgstr ""
 #: ../urpmq:53
 #, c-format
 msgid "  --auto-orphans - list orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - オーファンを一覧表示\n"
 
 #: ../urpmq:55
 #, c-format
@@ -3025,9 +3030,9 @@ msgid "  --conflicts    - print conflicts.\n"
 msgstr "  --conflicts    - conflict (衝突) を表示\n"
 
 #: ../urpmq:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print obsoletes.\n"
-msgstr "  --obsoletes    - obsolete (廃止) タグ\n"
+msgstr "  --obsoletes    - obsolete (廃止) タグを表示\n"
 
 #: ../urpmq:84
 #, c-format
@@ -3040,9 +3045,9 @@ msgid "  --requires     - print requires.\n"
 msgstr "  --requires     - require (要求) を表示\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  --suggests     - print suggests.\n"
-msgstr "  --suggests     - suggest (提案) タグ\n"
+msgstr "  --suggests     - suggest (提案) タグを表示\n"
 
 #: ../urpmq:87
 #, c-format
@@ -3147,7 +3152,7 @@ msgstr "  指定したパッケージ名/RPM ファイルがあるか調べる\n
 #: ../urpmq:156
 #, c-format
 msgid "usage: \"urpmq --auto-orphans\" with no argument"
-msgstr ""
+msgstr "使い方: 引数なしで \"urpmq --auto-orphans\""
 
 #: ../urpmq:209
 #, c-format
