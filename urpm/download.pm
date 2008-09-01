@@ -766,6 +766,7 @@ sub sync {
     my %all_options = ( 
 	dir => "$urpm->{cachedir}/partial",
 	proxy => get_proxy_($urpm, $medium),
+	metalink => $medium->{mirrorlist},
 	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
 	%options,
     );
@@ -818,8 +819,18 @@ sub _sync_webfetch_raw {
     }
     if ($files{ftp} || $files{http} || $files{https}) {
 
-	#- If metalink is used, only aria2 is available as other downloaders doesn't support metalink
-	my @available = ($options->{metalink} ? urpm::download::available_metalink_downloaders() : urpm::download::available_ftp_http_downloaders());
+	my @available = urpm::download::available_ftp_http_downloaders();
+
+	if ($options->{metalink}) {
+	    #- If metalink is used, only aria2 is available as other downloaders doesn't support metalink
+	    if (my @l = urpm::download::available_metalink_downloaders()) {
+		@available = @l;
+	    } else {
+		$urpm->{log}("not using metalink since no downloaders handling metalink are available");
+		delete $options->{metalink};
+	    }
+	}
+	    
 
 	#- first downloader of @available is the default one
 	my $preferred = $available[0];
