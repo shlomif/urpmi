@@ -869,9 +869,8 @@ sub _sync_webfetch_raw {
 sub _create_metalink_ {
     my ($urpm, $files, $options) = @_;
     # Don't create a metalink when downloading mirror list
-    if (! $options->{media}) {
-    	return;
-    }
+    $options->{media} or return;
+
     my $mirrors;
     foreach my $medium (@{$urpm->{media} || []}) {
 	if ($medium->{name} eq $options->{media}) {
@@ -883,39 +882,44 @@ sub _create_metalink_ {
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
     # Even if not required by metalink spec, this line is needed at top of
     # metalink file, otherwise aria2 won't be able to autodetect it..
-    my $metalink = qq(<?xml version="1.0" encoding="utf-8"?>\n);
-    $metalink .= qq(<metalink version="3.0" generator="URPMI"\n);
-    $metalink .= qq(xmlns="http://www.metalinker.org/">\n);
-    $metalink .= qq(<files>\n);
+    my @metalink = (
+      qq(<?xml version="1.0" encoding="utf-8"?>),
+      qq(<metalink version="3.0" generator="URPMI"),
+      qq(xmlns="http://www.metalinker.org/">),
+      qq(<files>),
+    );
 
     foreach my $append (@$files) {
 	$append =~ s/$mirrors->{chosen}//;
-	$metalink .= qq(\t<file name=") . basename($append) . qq(">\n);
-	$metalink .= qq(\t\t<resources>\n);
+	push @metalink, qq(\t<file name=") . basename($append) . qq(">);
+	push @metalink, qq(\t\t<resources>);
 
 	my $i = 0; foreach my $mirror (@{$mirrors->{list}}) { $i++;
 	    my $type = $mirror->{url};
 	    $type =~ s!://.*!!;
 	    # If more than 100 mirrors, give all the remaining mirrors a priority of 0
 	    my $preference = max(0, 100 - $i);
-	    $metalink .= qq(\t\t\t<url type="$type" preference="$preference");
+
+	    my @options = (qq(type="$type"), qq(preference="$preference"));
 	    # Not supported in metalinks
  	    #if (@$list[$i]->{bw}) {
-	    #    $metalink .= " bandwidth=\"".@$list[$i]->{bw}."\" ";
+	    #    push @options, 'bandwidth="' . @$list[$i]->{bw} . '"';
 	    #       }
 	    # Supported in metalinks, but no longer used in mirror list..?
 	    if ($mirror->{connections}) {
-    		    $metalink .= qq( maxconnections=") . $mirror->{connections} . qq(");
+		push @options, qq(maxconnections=") . $mirror->{connections} . qq(");
 	    }
-	    $metalink .= sprintf(qq( location="%s">%s%s</url>\n), lc($mirror->{zone}), $mirror->{url}, $append);
+	    push @options, 'location="' . lc($mirror->{zone}) . '"';
+	    push @metalink, 
+	      sprintf(qq(\t\t\t<url %s>%s%s</url>), join(' ', @options), $mirror->{url}, $append);
 	}
-    $metalink .= "\t\t</resources>\n";
-    $metalink .= "\t</file>\n";
-    $append = "$metalinkfile:$append";
+	push @metalink, "\t\t</resources>";
+	push @metalink, "\t</file>";
+	$append = "$metalinkfile:$append";
     }
-    $metalink .= "</files>\n</metalink>\n";
+    push @metalink, "</files>", "</metalink>";
     
-    output_safe($metalinkfile, $metalink);
+    output_safe($metalinkfile, join('', map { "$_\n" } @metalink));
 }
 
 1;
