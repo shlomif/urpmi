@@ -154,6 +154,7 @@ sub configure_urpm() {
 	root	    => $gurpmi::options{root},
 	media	    => $gurpmi::options{media},
 	searchmedia => $gurpmi::options{searchmedia},
+        update      => $::update,
     );
     $urpm->{options}{'verify-rpm'} = 0 if $gurpmi::options{'no-verify-rpm'};
     $urpm;
