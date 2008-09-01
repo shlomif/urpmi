@@ -907,7 +907,7 @@ sub _create_metalink_ {
 	    if ($mirror->{connections}) {
     		    $metalink .= qq( maxconnections=") . $mirror->{connections} . qq(");
 	    }
-	    $metalink .= qq( location=") . lc($mirror->{zone}) . qq(">) . $mirror->{url} . $append . "</url>\n";
+	    $metalink .= sprintf(qq( location="%s">%s%s</url>\n), lc($mirror->{zone}), $mirror->{url}, $append);
 	}
     $metalink .= "\t\t</resources>\n";
     $metalink .= "\t</file>\n";
