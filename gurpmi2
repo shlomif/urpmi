@@ -76,7 +76,8 @@ $mainw->set_title(N("RPM installation"));
 $mainw->signal_connect(destroy => \&quit);
 $mainw->set_position('center');
 $mainw->set_default_size($progressbar_size, 60);
-$mainw->set_modal(0);
+$mainw->set_type_hint('dialog'); # for matchbox window manager during install
+$mainw->set_modal(1);		 # for matchbox window manager during install
 $mainbox = Gtk2::VBox->new(0, 5);
 $mainw->add($mainbox);
 
