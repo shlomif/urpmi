@@ -28,6 +28,8 @@ our $force = 0;
 our $test = 0;
 our $use_provides = 1;
 
+my $progressbar_size = 450;
+
 #- GUI globals
 my ($mainw, $mainbox);
 
@@ -73,6 +75,7 @@ $mainw->set_border_width(3);
 $mainw->set_title(N("RPM installation"));
 $mainw->signal_connect(destroy => \&quit);
 $mainw->set_position('center');
+$mainw->set_default_size($progressbar_size, 60);
 $mainw->set_modal(0);
 $mainbox = Gtk2::VBox->new(0, 5);
 $mainw->add($mainbox);
@@ -250,7 +253,7 @@ sub do_install_3 () {
     my $progress_label = Gtk2::Label->new('-');
     $vbox->pack_start($progress_label, 1, 1, 0);
     my $progressbar = Gtk2::ProgressBar->new;
-    $progressbar->set_size_request(450, -1);
+    $progressbar->set_size_request($progressbar_size, -1);
     $vbox->pack_start($progressbar, 0, 0, 0);
     change_mainw($vbox);
     my $progress_nb;
