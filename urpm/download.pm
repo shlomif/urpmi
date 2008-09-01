@@ -609,7 +609,6 @@ sub sync_aria2 {
     #- force download to be done in cachedir to avoid polluting cwd.
     (my $cwd) = getcwd() =~ /(.*)/;
     chdir $options->{dir};
-    my ($buf, $_total, $file) = ('', undef, undef);
 
     my @files = uniq(map {
 	my $metalinkfile = $_;
@@ -634,6 +633,8 @@ sub sync_aria2 {
     $options->{debug} and $options->{debug}($aria2c_command);
 
     my $aria2_pid = open(my $aria2, "$aria2c_command |");
+
+    my ($buf, $_total, $file) = ('', undef, undef);
 
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
     local $_;    
