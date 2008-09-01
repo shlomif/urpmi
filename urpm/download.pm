@@ -736,15 +736,11 @@ sub sync_logger {
 
 
 sub requested_ftp_http_downloader {
-    my ($urpm, $media_name) = @_;
+    my ($urpm, $medium) = @_;
 
     $urpm->{options}{downloader} || #- cmd-line switch
-      $media_name && do {
-	  #- per-media config
-	  require urpm::media; #- help perl_checker
-	  my $m = urpm::media::name2medium($urpm, $media_name);
-	  $m && $m->{downloader};
-      } || $urpm->{global_config}{downloader};
+      $medium && $medium->{downloader} || 
+	$urpm->{global_config}{downloader};
 }
 
 sub parse_url_with_login {
@@ -770,7 +766,6 @@ sub sync {
     my %all_options = ( 
 	dir => "$urpm->{cachedir}/partial",
 	proxy => get_proxy_($urpm, $medium),
-	$medium ? (media => $medium->{name}) : (),
 	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
 	%options,
     );
@@ -782,7 +777,7 @@ sub sync {
     $urpm->{debug} and $urpm->{debug}(N("retrieving %s", $files_text));
 
     eval { 
-	_sync_webfetch_raw($urpm, $files, \%all_options); 
+	_sync_webfetch_raw($urpm, $medium, $files, \%all_options); 
 	$urpm->{log}(N("retrieved %s", $files_text));
 	1;
     };
@@ -805,7 +800,7 @@ sub get_content {
 
 #- syncing algorithms.
 sub _sync_webfetch_raw {    
-    my ($urpm, $files, $options) = @_;
+    my ($urpm, $medium, $files, $options) = @_;
 
     my %files;
     #- currently ftp and http protocols are managed by curl or wget,
@@ -827,7 +822,7 @@ sub _sync_webfetch_raw {
 
 	#- first downloader of @available is the default one
 	my $preferred = $available[0];
-	if (my $requested_downloader = requested_ftp_http_downloader($urpm, $options->{media})) {
+	if (my $requested_downloader = requested_ftp_http_downloader($urpm, $medium)) {
 	    if (grep { $_ eq $requested_downloader } @available) {
 		#- use user default downloader if provided and available
 		$preferred = $requested_downloader;
@@ -841,7 +836,7 @@ sub _sync_webfetch_raw {
 
 	# FIXME: This is rather crude and should probably be done some better place.
 	if ($options->{metalink}) {
-	    _create_metalink_($urpm, \@l, $options);
+	    _create_metalink_($urpm, $medium, \@l, $options);
 	}
 	while (@l) {
 	    my $half_MAX_ARG = 131072 / 2;
@@ -866,11 +861,10 @@ sub _sync_webfetch_raw {
 }
 
 sub _create_metalink_ {
-    my ($urpm, $files, $options) = @_;
+    my ($urpm, $medium, $files, $options) = @_;
     # Don't create a metalink when downloading mirror list
-    $options->{media} or return;
+    $medium or return;
 
-    my ($medium) = grep { $_->{name} eq $options->{media} } @{$urpm->{media} || []};
     my $mirrors = $urpm->{mirrors_cache}{$medium->{mirrorlist}};
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
