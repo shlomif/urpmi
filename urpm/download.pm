@@ -610,9 +610,9 @@ sub sync_aria2 {
     (my $cwd) = getcwd() =~ /(.*)/;
     chdir $options->{dir};
     my ($buf, $_total, $file) = ('', undef, undef);
+
     my @files;
-    for (my $i = 0; $i < @_; $i++) {
-	my $metalinkfile = $_[$i];
+    foreach my $metalinkfile (@_) {
 	$metalinkfile =~ s/metalink:.*/metalink/;
 	if (! grep { $_ eq $metalinkfile } @files) {
     	    push(@files, $metalinkfile);
