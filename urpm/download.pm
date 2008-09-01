@@ -623,7 +623,7 @@ sub sync_aria2 {
 	"--follow-metalink=mem",
 	'--metalink-enable-unique-protocol=true',
 	"-Z", "-j1",
-	($options->{limit_rate} ? "--max-download-limit=$options->{limit_rate}" : ()),
+	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : ()),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
 	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : ()),
 	($options->{retry} ? "--max-tries=$options->{retry}" : "--max-tries=3"),
