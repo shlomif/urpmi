@@ -871,13 +871,8 @@ sub _create_metalink_ {
     # Don't create a metalink when downloading mirror list
     $options->{media} or return;
 
-    my $mirrors;
-    foreach my $medium (@{$urpm->{media} || []}) {
-	if ($medium->{name} eq $options->{media}) {
-    	    my $mirrorlist = $medium->{mirrorlist};
-	    $mirrors = $urpm->{mirrors_cache}{$mirrorlist};
-	}
-    }
+    my ($medium) = grep { $_->{name} eq $options->{media} } @{$urpm->{media} || []};
+    my $mirrors = $urpm->{mirrors_cache}{$medium->{mirrorlist}};
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
     # Even if not required by metalink spec, this line is needed at top of
@@ -894,7 +889,9 @@ sub _create_metalink_ {
 	push @metalink, qq(\t<file name=") . basename($append) . qq(">);
 	push @metalink, qq(\t\t<resources>);
 
-	my $i = 0; foreach my $mirror (@{$mirrors->{list}}) { $i++;
+	my $i = 0; 
+	foreach my $mirror (@{$mirrors->{list}}) { 
+	    $i++;
 	    my $type = $mirror->{url};
 	    $type =~ s!://.*!!;
 	    # If more than 100 mirrors, give all the remaining mirrors a priority of 0
