@@ -611,13 +611,11 @@ sub sync_aria2 {
     chdir $options->{dir};
     my ($buf, $_total, $file) = ('', undef, undef);
 
-    my @files;
-    foreach my $metalinkfile (@_) {
+    my @files = uniq(map {
+	my $metalinkfile = $_;
 	$metalinkfile =~ s/metalink:.*/metalink/;
-	if (! grep { $_ eq $metalinkfile } @files) {
-    	    push(@files, $metalinkfile);
-	}
-    }
+	$metalinkfile;
+    } @_);
 
     my $aria2c_command = join(" ", map { "'$_'" }
 	"/usr/bin/aria2c",
