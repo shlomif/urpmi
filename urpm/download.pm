@@ -104,7 +104,7 @@ sub remove_proxy_media {
 }
 
 sub get_proxy_ {
-    my ($urpm, $medium) = @_;
+    my ($urpm, $_medium) = @_;
 
     -e $PROXY_CFG && !-r $PROXY_CFG and $urpm->{error}(N("can not read proxy settings (not enough rights to read %s)", $PROXY_CFG));
 
@@ -609,12 +609,12 @@ sub sync_aria2 {
     #- force download to be done in cachedir to avoid polluting cwd.
     (my $cwd) = getcwd() =~ /(.*)/;
     chdir $options->{dir};
-    my ($buf, $total, $file) = ('', undef, undef);
+    my ($buf, $_total, $file) = ('', undef, undef);
     my @files;
-    for(my $i = 0; $i < @_; $i++){
-	my $metalinkfile = @_[$i];
+    for (my $i = 0; $i < @_; $i++) {
+	my $metalinkfile = $_[$i];
 	$metalinkfile =~ s/metalink:.*/metalink/;
-	if ( not grep { $_ eq $metalinkfile } @files){
+	if (! grep { $_ eq $metalinkfile } @files) {
     	    push(@files, $metalinkfile);
 	}
     }
@@ -635,20 +635,20 @@ sub sync_aria2 {
 
     $options->{debug} and $options->{debug}($aria2c_command);
 
-    my $aria2_pid = open (my $aria2, "$aria2c_command |");
+    my $aria2_pid = open(my $aria2, "$aria2c_command |");
 
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
     local $_;    
 
-    while(<$aria2>) {
-	    $buf .= "$_";
+    while (<$aria2>) {
+	    $buf .= $_;
 	if ($_ eq "\r" || $_ eq "\n") {
 		if ($options->{callback}) {
-			if (! defined $file and @_) {
+			if (!defined($file) && @_) {
 				$file = shift @_;
 				propagate_sync_callback($options, 'start', $file);
 			}
-    		    if ($buf =~ /^\[\#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*\/\w)\s\w*:([\d]+\w*)\][\r\n]$/) {
+    		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*/\w)\s\w*:(\d+\w*)\][\r\n]$!) {
 			    my ($total, $percent, $speed, $eta) = ($2, $3, $5, $6);
 			    #- $1 = current downloaded size, $4 = connections
 		    if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
@@ -657,7 +657,7 @@ sub sync_aria2 {
 			return;
 			}
 		    }
-		    if ($buf =~ /Download\scomplete:\s\.\//) {
+		    if ($buf =~ m!Download\scomplete:\s\./!) {
 			propagate_sync_callback($options, 'end', $file);
 			$file = undef;
 		    } elsif ($buf =~ /ERR\|/) {
@@ -800,7 +800,7 @@ sub get_content {
     my @l = cat_($file);
     unlink $file;
 
-    wantarray ? @l : join('', @l);
+    wantarray() ? @l : join('', @l);
 }
     
 
@@ -841,7 +841,7 @@ sub _sync_webfetch_raw {
 	my @l = (@{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
 
 	# FIXME: This is rather crude and should probably be done some better place.
-	if($options->{metalink}){
+	if ($options->{metalink}) {
 	    _create_metalink_($urpm, \@l, $options);
 	}
 	while (@l) {
@@ -869,46 +869,45 @@ sub _sync_webfetch_raw {
 sub _create_metalink_ {
     my ($urpm, $files, $options) = @_;
     # Don't create a metalink when downloading mirror list
-    if(! $options->{media}){
+    if (! $options->{media}) {
     	return;
     }
     my $mirrors;
-    foreach my $medium (@{$urpm->{media} || []}){
-	if($medium->{name} eq $options->{media}){
+    foreach my $medium (@{$urpm->{media} || []}) {
+	if ($medium->{name} eq $options->{media}) {
     	    my $mirrorlist = $medium->{mirrorlist};
-	    $mirrors = $urpm->{mirrors_cache}->{$mirrorlist};
+	    $mirrors = $urpm->{mirrors_cache}{$mirrorlist};
 	}
     }
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
     # Even if not required by metalink spec, this line is needed at top of
     # metalink file, otherwise aria2 won't be able to autodetect it..
-    my $metalink = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-    $metalink .= "<metalink version=\"3.0\" generator=\"URPMI\"\n";
-    $metalink .= "xmlns=\"http://www.metalinker.org/\">\n";
-    $metalink .= "<files>\n";
+    my $metalink = qq(<?xml version="1.0" encoding="utf-8"?>\n);
+    $metalink .= qq(<metalink version="3.0" generator="URPMI"\n);
+    $metalink .= qq(xmlns="http://www.metalinker.org/">\n);
+    $metalink .= qq(<files>\n);
 
     foreach my $append (@$files) {
 	$append =~ s/$mirrors->{chosen}//;
-	$metalink .= "\t<file name=\"".basename($append)."\">\n";
-	$metalink .= "\t\t<resources>\n";
+	$metalink .= qq(\t<file name=") . basename($append) . qq(">\n);
+	$metalink .= qq(\t\t<resources>\n);
 
 	my $i = 0; foreach my $mirror (@{$mirrors->{list}}) { $i++;
 	    my $type = $mirror->{url};
-	    $type =~ s/:\/\/.*//;
-	    my $preference = 100-$i;
+	    $type =~ s!://.*!!;
 	    # If more than 100 mirrors, give all the remaining mirrors a priority of 0
 	    my $preference = max(0, 100 - $i);
-	    $metalink .= "\t\t\t<url type=\"$type\" preference=\"$preference\"";
+	    $metalink .= qq(\t\t\t<url type="$type" preference="$preference");
 	    # Not supported in metalinks
- 	    #if(@$list[$i]->{bw}){
+ 	    #if (@$list[$i]->{bw}) {
 	    #    $metalink .= " bandwidth=\"".@$list[$i]->{bw}."\" ";
 	    #       }
 	    # Supported in metalinks, but no longer used in mirror list..?
-	    if($mirror->{connections}){
-    		    $metalink .= " maxconnections=\"".$mirror->{connections}."\"";
+	    if ($mirror->{connections}) {
+    		    $metalink .= qq( maxconnections=") . $mirror->{connections} . qq(");
 	    }
-	    $metalink .= " location=\"".lc($mirror->{zone})."\">".$mirror->{url}.$append."</url>\n";
+	    $metalink .= qq( location=") . lc($mirror->{zone}) . qq(">) . $mirror->{url} . $append . "</url>\n";
 	}
     $metalink .= "\t\t</resources>\n";
     $metalink .= "\t</file>\n";
