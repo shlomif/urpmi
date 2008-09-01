@@ -806,6 +806,7 @@ sub _sync_webfetch_raw {
     #- currently ftp and http protocols are managed by curl or wget,
     #- ssh and rsync protocols are managed by rsync *AND* ssh.
     foreach (@$files) {
+	require urpm;
 	my $proto = urpm::protocol_from_url($_) or die N("unknown protocol defined for %s", $_);
 	push @{$files{$proto}}, $_;
     }
