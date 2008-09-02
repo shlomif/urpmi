@@ -610,7 +610,7 @@ sub sync_aria2 {
     (my $cwd) = getcwd() =~ /(.*)/;
     chdir $options->{dir};
 
-    my $stat_file = ($ENV{HOME} || '/root') . '/.aria2-adaptive-stats';
+    my $stat_file = ($< ? $ENV{HOME} : '/root') . '/.aria2-adaptive-stats';
 
     my @files = uniq(map {
 	my $metalinkfile = $_;
