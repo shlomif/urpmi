@@ -610,6 +610,8 @@ sub sync_aria2 {
     (my $cwd) = getcwd() =~ /(.*)/;
     chdir $options->{dir};
 
+    my $stat_file = ($ENV{HOME} || '/root') . '/.aria2-adaptive-stats';
+
     my @files = uniq(map {
 	my $metalinkfile = $_;
 	$metalinkfile =~ s/metalink:.*/metalink/;
@@ -618,10 +620,13 @@ sub sync_aria2 {
 
     my $aria2c_command = join(" ", map { "'$_'" }
 	"/usr/bin/aria2c",
-	"--timeout", $CONNECT_TIMEOUT,
 	"--auto-file-renaming=false",
 	"--follow-metalink=mem",
-	'--metalink-enable-unique-protocol=true',
+	'--metalink-enable-unique-protocol=false', # so that it can try both ftp and http access on the same server. aria2 will only do this on first calls
+	'--max-tries=1',
+	'--lowest-speed-limit=20K', "--timeout", 3, # $CONNECT_TIMEOUT,
+        '-C3', # maximum number of servers to use for one download
+        '--uri-selector=adaptive', "--server-stat-if=$stat_file", "--server-stat-of=$stat_file",
 	"-Z", "-j1",
 	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : ()),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
