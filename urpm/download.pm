@@ -877,6 +877,11 @@ sub _sync_webfetch_raw {
     %files and die N("unable to handle protocol: %s", join ', ', keys %files);
 }
 
+sub _take_n_elem {
+    my ($n, @l) = @_;
+    @l < $n ? @l : @l[0 .. $n-1];
+}
+
 sub _create_metalink_ {
     my ($urpm, $medium, $files, $options) = @_;
     # Don't create a metalink when downloading mirror list
@@ -894,13 +899,16 @@ sub _create_metalink_ {
       qq(<files>),
     );
 
+    # only use the 8 best mirrors, then we let aria2 choose
+    my @mirrors = _take_n_elem(8, @{$mirrors->{list}});
+
     foreach my $append (@$files) {
 	$append =~ s/$mirrors->{chosen}//;
 	push @metalink, qq(\t<file name=") . basename($append) . qq(">);
 	push @metalink, qq(\t\t<resources>);
 
 	my $i = 0; 
-	foreach my $mirror (@{$mirrors->{list}}) { 
+	foreach my $mirror (@mirrors) { 
 	    $i++;
 	    my $type = $mirror->{url};
 	    $type =~ s!://.*!!;
