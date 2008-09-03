@@ -623,7 +623,7 @@ sub sync_aria2 {
 	"--auto-file-renaming=false",
 	"--follow-metalink=mem",
 	'--metalink-enable-unique-protocol=false', # so that it can try both ftp and http access on the same server. aria2 will only do this on first calls
-	'--max-tries=1',
+	'--max-tries=1', # nb: not using $options->{retry}
 	'--lowest-speed-limit=20K', "--timeout", 3, # $CONNECT_TIMEOUT,
         '-C3', # maximum number of servers to use for one download
         '--uri-selector=adaptive', "--server-stat-if=$stat_file", "--server-stat-of=$stat_file",
@@ -631,7 +631,6 @@ sub sync_aria2 {
 	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : ()),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
 	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : ()),
-	($options->{retry} ? "--max-tries=$options->{retry}" : "--max-tries=3"),
 	(defined $options->{'aria2-options'} ? split /\s+/, $options->{'aria2-options'} : ()),
 	@files);
 
