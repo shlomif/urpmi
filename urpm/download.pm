@@ -789,7 +789,7 @@ sub sync_rel {
 sub sync_url {
     my ($urpm, $url, %options) = @_;
 
-    _sync_raw($urpm, undef, [$url], %options);
+    sync_rel($urpm, { url => dirname($url) }, [basename($url)], %options);
 }
 
 #- deprecated, use sync_url() or sync_rel() instead
@@ -798,7 +798,13 @@ sub sync_url {
 #- known options: quiet, resume, callback
 sub sync {
     my ($urpm, $medium, $files, %options) = @_;
-    _sync_raw($urpm, $medium, $files, %options);
+
+    if ($medium) {
+	_sync_raw($urpm, $medium, $files, %options);
+    } else {
+	@$files == 1 or die "urpm::download::sync() can only download one url when medium is undef\n";
+	sync_url($urpm, $files->[0], %options);
+    }
 }
 
 sub _sync_raw {
