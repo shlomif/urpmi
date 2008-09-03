@@ -292,7 +292,7 @@ sub _synthesis_dir_rel {
 }
 sub _synthesis_dir {
     my ($medium) = @_;
-    my $rel = _synthesis_dir_rel($medium);
+    my $rel = _synthesis_dir_rel($medium) or return;
 
     my $base = file_from_local_medium($medium) || $medium->{url};
     reduce_pathname("$base/$rel");
@@ -307,14 +307,20 @@ sub _valid_synthesis_dir {
     $dir && -d $dir;
 }
 
-sub _url_with_synthesis {
+sub _url_with_synthesis_rel {
     my ($medium) = @_;
 
-    my $base = file_from_local_medium($medium) || $medium->{url};
     $medium->{with_synthesis}
-      ? reduce_pathname("$base/$medium->{with_synthesis}")
-      : _synthesis_dir($medium) . "/" . _url_with_synthesis_basename($medium);
+      ? $medium->{with_synthesis}
+      : "$medium->{media_info_dir}/synthesis.hdlist.cz";
 
+}
+sub _url_with_synthesis {
+    my ($medium) = @_;
+    my $rel = _url_with_synthesis_rel($medium) or return;
+
+    my $base = file_from_local_medium($medium) || $medium->{url};
+    reduce_pathname("$base/$rel");
 }
 
 sub synthesis {
@@ -1196,14 +1202,14 @@ sub _download_media_info_file {
     if (_synthesis_suffix($medium)) {
 	my $local_name = $prefix . _synthesis_suffix($medium) . $suffix;
 
-	if (urpm::download::sync($urpm, $medium, [_synthesis_dir($medium) . "/$local_name"], 
+	if (urpm::download::sync_rel($urpm, $medium, [_synthesis_dir_rel($medium) . "/$local_name"], 
 				 dir => $download_dir, quiet => $quiet, callback => $o_callback)) {
 	    rename("$download_dir/$local_name", $result_file);
 	    $found = 1;
 	}
     }
     if (!$found) {
-	urpm::download::sync($urpm, $medium, [_synthesis_dir($medium) .  "/$name"], 
+	urpm::download::sync_rel($urpm, $medium, [_synthesis_dir_rel($medium) .  "/$name"], 
 			     dir => $download_dir, quiet => $quiet, callback => $o_callback)
 	    or unlink $result_file;
     }
@@ -1272,7 +1278,7 @@ sub get_synthesis__remote {
     my ($urpm, $medium, $callback, $quiet) = @_;
 
     my $ok = try__maybe_mirrorlist($urpm, $medium, sub {
-	urpm::download::sync($urpm, $medium, [ _url_with_synthesis($medium) ],
+	urpm::download::sync_rel($urpm, $medium, [ _url_with_synthesis_rel($medium) ],
 			     quiet => $quiet, callback => $callback) &&
 			       _check_synthesis(cachedir_with_synthesis($urpm, $medium));
     });
