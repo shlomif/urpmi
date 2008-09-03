@@ -839,21 +839,15 @@ sub get_content {
 sub _sync_webfetch_raw {    
     my ($urpm, $medium, $files, $options) = @_;
 
-    my %files;
     #- currently ftp and http protocols are managed by curl or wget,
     #- ssh and rsync protocols are managed by rsync *AND* ssh.
-    foreach (@$files) {
-	require urpm;
-	my $proto = urpm::protocol_from_url($_) or die N("unknown protocol defined for %s", $_);
-	push @{$files{$proto}}, $_;
-    }
-    if ($files{file}) {
-	my @l = map { urpm::file_from_local_url($_) } @{$files{file} || []};
+    my $proto = urpm::protocol_from_url($medium->{url}) or die N("unknown protocol defined for %s", $medium->{url});
+
+    if ($proto eq 'file') {
+	my @l = map { urpm::file_from_local_url($_) } @$files;
 	eval { sync_file($options, @l) };
 	$urpm->{fatal}(10, $@) if $@;
-	delete @files{qw(removable file)};
-    }
-    if ($files{ftp} || $files{http} || $files{https}) {
+    } elsif (member($proto, 'ftp', 'http', 'https')) {
 
 	my @available = urpm::download::available_ftp_http_downloaders();
 
@@ -880,7 +874,7 @@ sub _sync_webfetch_raw {
 	    }
 	}
 	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
-	my @l = (@{$files{ftp} || []}, @{$files{http} || []}, @{$files{https} || []});
+	my @l = @$files;
 
 	# FIXME: This is rather crude and should probably be done some better place.
 	if ($options->{metalink}) {
@@ -893,19 +887,14 @@ sub _sync_webfetch_raw {
 	    for (my $len = 0; $n < @l && $len < $half_MAX_ARG; $len += length($l[$n++])) {}	    
 	    $sync->($options, splice(@l, 0, $n));
 	}
-
-	delete @files{qw(ftp http https)};
-    }
-    if ($files{rsync}) {
-	sync_rsync($options, @{$files{rsync}});
-	delete $files{rsync};
-    }
-    if ($files{ssh}) {
-	my @ssh_files = map { m!^ssh://([^/]*)(.*)! ? "$1:$2" : () } @{$files{ssh}};
+    } elsif ($proto eq 'rsync') {
+	sync_rsync($options, @$files);
+    } elsif ($proto eq 'ssh') {
+	my @ssh_files = map { m!^ssh://([^/]*)(.*)! ? "$1:$2" : () } @$files;
 	sync_ssh($options, @ssh_files);
-	delete $files{ssh};
+    } else {
+	die N("unable to handle protocol: %s", $proto);
     }
-    %files and die N("unable to handle protocol: %s", join ', ', keys %files);
 }
 
 sub _take_n_elem {
