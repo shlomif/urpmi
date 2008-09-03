@@ -762,6 +762,23 @@ sub url_obscuring_password {
     }
 }
 
+#- $medium can be undef
+sub _all_options {
+    my ($urpm, $medium, $options) = @_;
+
+    my %all_options = ( 
+	dir => "$urpm->{cachedir}/partial",
+	proxy => get_proxy_($urpm, $medium),
+	metalink => $medium->{mirrorlist},
+	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
+	%$options,
+    );
+    foreach my $cpt (qw(compress limit-rate retry wget-options curl-options rsync-options prozilla-options aria2-options metalink)) {
+	$all_options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
+    }
+    \%all_options;
+}
+
 sub sync_rel {
     my ($urpm, $medium, $rel_files, %options) = @_;
 
@@ -780,22 +797,11 @@ sub sync_url {
 sub sync {
     my ($urpm, $medium, $files, %options) = @_;
 
-    my %all_options = ( 
-	dir => "$urpm->{cachedir}/partial",
-	proxy => get_proxy_($urpm, $medium),
-	metalink => $medium->{mirrorlist},
-	$urpm->{debug} ? (debug => $urpm->{debug}) : (),
-	%options,
-    );
-    foreach my $cpt (qw(compress limit-rate retry wget-options curl-options rsync-options prozilla-options aria2-options metalink)) {
-	$all_options{$cpt} = $urpm->{options}{$cpt} if defined $urpm->{options}{$cpt};
-    }
-
     my $files_text = join(' ', map { url_obscuring_password($_) } @$files);
     $urpm->{debug} and $urpm->{debug}(N("retrieving %s", $files_text));
 
     eval { 
-	_sync_webfetch_raw($urpm, $medium, $files, \%all_options); 
+	_sync_webfetch_raw($urpm, $medium, $files, _all_options($urpm, $medium, \%options)); 
 	$urpm->{log}(N("retrieved %s", $files_text));
 	1;
     };
