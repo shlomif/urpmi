@@ -792,9 +792,16 @@ sub sync_url {
     sync($urpm, undef, [$url], %options);
 }
 
+#- deprecated, use sync_url() or sync_rel() instead
+#-
 #- $medium can be undef
 #- known options: quiet, resume, callback
 sub sync {
+    my ($urpm, $medium, $files, %options) = @_;
+    _sync_raw($urpm, $medium, $files, %options);
+}
+
+sub _sync_raw {
     my ($urpm, $medium, $files, %options) = @_;
 
     my $files_text = join(' ', map { url_obscuring_password($_) } @$files);
