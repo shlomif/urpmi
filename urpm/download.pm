@@ -788,7 +788,7 @@ sub sync_rel {
     $urpm->{debug} and $urpm->{debug}(N("retrieving %s", $files_text));
 
     eval { 
-	_sync_webfetch_raw($urpm, $medium, \@files, _all_options($urpm, $medium, \%options)); 
+	_sync_webfetch_raw($urpm, $medium, $rel_files, \@files, _all_options($urpm, $medium, \%options)); 
 	$urpm->{log}(N("retrieved %s", $files_text));
 	1;
     };
@@ -829,8 +829,10 @@ sub get_content {
     
 
 #- syncing algorithms.
+#-
+#- nb: $files is constructed from $rel_files using $medium
 sub _sync_webfetch_raw {    
-    my ($urpm, $medium, $files, $options) = @_;
+    my ($urpm, $medium, $rel_files, $files, $options) = @_;
 
     #- currently ftp and http protocols are managed by curl or wget,
     #- ssh and rsync protocols are managed by rsync *AND* ssh.
@@ -871,7 +873,7 @@ sub _sync_webfetch_raw {
 
 	# FIXME: This is rather crude and should probably be done some better place.
 	if ($options->{metalink}) {
-	    _create_metalink_($urpm, $medium, \@l, $options);
+	    @l = _create_metalink_($urpm, $medium, $rel_files, $options);
 	}
 	while (@l) {
 	    my $half_MAX_ARG = 131072 / 2;
@@ -896,7 +898,7 @@ sub _take_n_elem {
 }
 
 sub _create_metalink_ {
-    my ($urpm, $medium, $files, $options) = @_;
+    my ($urpm, $medium, $rel_files, $options) = @_;
     # Don't create a metalink when downloading mirror list
     $medium or return;
 
@@ -915,9 +917,8 @@ sub _create_metalink_ {
     # only use the 8 best mirrors, then we let aria2 choose
     my @mirrors = _take_n_elem(8, @{$mirrors->{list}});
 
-    foreach my $append (@$files) {
-	$append =~ s/$mirrors->{chosen}//;
-	push @metalink, qq(\t<file name=") . basename($append) . qq(">);
+    foreach my $rel_file (@$rel_files) {
+	push @metalink, qq(\t<file name=") . basename($rel_file) . qq(">);
 	push @metalink, qq(\t\t<resources>);
 
 	my $i = 0; 
@@ -938,16 +939,17 @@ sub _create_metalink_ {
 		push @options, qq(maxconnections=") . $mirror->{connections} . qq(");
 	    }
 	    push @options, 'location="' . lc($mirror->{zone}) . '"';
+	    my $base = urpm::mirrors::_add__with_dir($mirror->{url}, $medium->{'with-dir'});
 	    push @metalink, 
-	      sprintf(qq(\t\t\t<url %s>%s%s</url>), join(' ', @options), $mirror->{url}, $append);
+	      sprintf(qq(\t\t\t<url %s>%s/%s</url>), join(' ', @options), $base, $rel_file);
 	}
 	push @metalink, "\t\t</resources>";
 	push @metalink, "\t</file>";
-	$append = "$metalinkfile:$append";
     }
     push @metalink, "</files>", "</metalink>";
     
     output_safe($metalinkfile, join('', map { "$_\n" } @metalink));
+    $metalinkfile;
 }
 
 1;
