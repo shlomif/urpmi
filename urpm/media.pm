@@ -1014,7 +1014,7 @@ sub may_reconfig_urpmi {
 	$f = reduce_pathname("$dir/reconfig.urpmi");
     } else {
 	unlink($f = "$urpm->{cachedir}/partial/reconfig.urpmi");
-	urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/reconfig.urpmi") ], quiet => 1);
+	urpm::download::sync_rel($urpm, $medium, 'reconfig.urpmi') ], quiet => 1);
     }
     if (-s $f) {
 	reconfig_urpmi($urpm, $f, $medium);
@@ -1231,9 +1231,9 @@ sub get_descriptions_remote {
     if (-e statedir_descriptions($urpm, $medium)) {
 	urpm::sys::move_or_die($urpm, statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
     }
-    urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/media_info/descriptions") ], quiet => 1) 
+    urpm::download::sync_rel($urpm, $medium, [ 'media_info/descriptions' ], quiet => 1) 
 	or #- try older location
-	  urpm::download::sync($urpm, $medium, [ reduce_pathname("$medium->{url}/../descriptions") ], quiet => 1);
+	  urpm::download::sync_rel($urpm, $medium, [ '../descriptions' ], quiet => 1);
 
     if (-e "$urpm->{cachedir}/partial/descriptions") {
 	urpm::sys::move_or_die($urpm, "$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));

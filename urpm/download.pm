@@ -762,6 +762,13 @@ sub url_obscuring_password {
     }
 }
 
+sub sync_rel {
+    my ($urpm, $medium, $rel_files, %options) = @_;
+
+    my @files = map { reduce_pathname("$medium->{url}/$_") } @$rel_files;
+    sync($urpm, $medium, \@files, %options);
+}
+
 #- $medium can be undef
 #- known options: quiet, resume, callback
 sub sync {
