@@ -1004,8 +1004,9 @@ sub _probe_with_try_list {
     my $base = file_from_local_medium($medium) || $medium->{url};
 
     foreach my $media_info_dir (@media_info_dirs) {
-	my $url = reduce_pathname("$base/$media_info_dir") . '/synthesis.hdlist.cz';
-	if ($f->($url)) {
+	my $file = "$media_info_dir/synthesis.hdlist.cz";
+	my $url = reduce_pathname("$base/$file");
+	if ($f->($url, $file)) {
 	    $urpm->{debug} and $urpm->{debug}("found synthesis: $url");
 	    $medium->{media_info_dir} = $media_info_dir;
 	    delete $medium->{unknown_media_info};
@@ -1469,10 +1470,10 @@ sub _update_medium__parse_if_unmodified__remote {
     if (!_synthesis_dir($medium)) {
 	my $err;
 	_probe_with_try_list($urpm, $medium, sub {
-	    my ($url) = @_;
-	    my $f = "$urpm->{cachedir}/partial/" . basename($url);
+	    my ($url, $rel_url) = @_;
+	    my $f = "$urpm->{cachedir}/partial/" . basename($rel_url);
 	    $options->{force} and unlink $f;
-	    if (urpm::download::sync($urpm, $medium, [ $url ],
+	    if (urpm::download::sync_rel($urpm, $medium, [ $rel_url ],
 				     quiet => $options->{quiet}, callback => $options->{callback}) && _check_synthesis($f)) {
 		$urpm->{log}(N("found probed synthesis as %s", $url));
 		1;
