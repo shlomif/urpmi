@@ -783,13 +783,13 @@ sub sync_rel {
     my ($urpm, $medium, $rel_files, %options) = @_;
 
     my @files = map { reduce_pathname("$medium->{url}/$_") } @$rel_files;
-    sync($urpm, $medium, \@files, %options);
+    _sync_raw($urpm, $medium, \@files, %options);
 }
 
 sub sync_url {
     my ($urpm, $url, %options) = @_;
 
-    sync($urpm, undef, [$url], %options);
+    _sync_raw($urpm, undef, [$url], %options);
 }
 
 #- deprecated, use sync_url() or sync_rel() instead
