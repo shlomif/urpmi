@@ -310,9 +310,8 @@ sub _valid_synthesis_dir {
 sub _url_with_synthesis_rel {
     my ($medium) = @_;
 
-    $medium->{with_synthesis}
-      ? $medium->{with_synthesis}
-      : "$medium->{media_info_dir}/synthesis.hdlist.cz";
+    $medium->{with_synthesis} ||
+      "$medium->{media_info_dir}/synthesis.hdlist.cz";
 
 }
 sub _url_with_synthesis {
