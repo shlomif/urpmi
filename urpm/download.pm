@@ -802,8 +802,7 @@ sub sync {
     if ($medium) {
 	_sync_raw($urpm, $medium, $files, %options);
     } else {
-	@$files == 1 or die "urpm::download::sync() can only download one url when medium is undef\n";
-	sync_url($urpm, $files->[0], %options);
+	sync_url($urpm, $_, %options) foreach @$files;
     }
 }
 
