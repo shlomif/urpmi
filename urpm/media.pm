@@ -1410,8 +1410,8 @@ sub _download_MD5SUM {
 
     my $cachedir_MD5SUM = "$urpm->{cachedir}/partial/MD5SUM";
     unlink $cachedir_MD5SUM;
-    urpm::download::sync($urpm, $medium, 
-			       [ reduce_pathname(_synthesis_dir($medium) . '/MD5SUM') ],
+    urpm::download::sync_rel($urpm, $medium, 
+			     [_synthesis_dir_rel($medium) . '/MD5SUM'],
 			       quiet => 1) or return;
     $cachedir_MD5SUM;
 }
