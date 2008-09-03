@@ -783,7 +783,15 @@ sub sync_rel {
     my ($urpm, $medium, $rel_files, %options) = @_;
 
     my @files = map { reduce_pathname("$medium->{url}/$_") } @$rel_files;
-    _sync_raw($urpm, $medium, \@files, %options);
+
+    my $files_text = join(' ', map { url_obscuring_password($_) } @files);
+    $urpm->{debug} and $urpm->{debug}(N("retrieving %s", $files_text));
+
+    eval { 
+	_sync_webfetch_raw($urpm, $medium, \@files, _all_options($urpm, $medium, \%options)); 
+	$urpm->{log}(N("retrieved %s", $files_text));
+	1;
+    };
 }
 
 sub sync_url {
@@ -803,19 +811,6 @@ sub sync {
 	$urpm->{error}("deprecated urpm::download::sync() called with a medium, this is not handled anymore, not using the medium and only taking the protocol into account");
     }
     sync_url($urpm, $_, %options) foreach @$files;
-}
-
-sub _sync_raw {
-    my ($urpm, $medium, $files, %options) = @_;
-
-    my $files_text = join(' ', map { url_obscuring_password($_) } @$files);
-    $urpm->{debug} and $urpm->{debug}(N("retrieving %s", $files_text));
-
-    eval { 
-	_sync_webfetch_raw($urpm, $medium, $files, _all_options($urpm, $medium, \%options)); 
-	$urpm->{log}(N("retrieved %s", $files_text));
-	1;
-    };
 }
 
 sub get_content {
