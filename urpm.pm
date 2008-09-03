@@ -210,6 +210,10 @@ sub blist_to_urls {
     my ($blist) = @_;
     _blist_pkg_to_urls($blist, values %{$blist->{pkgs}});
 }
+sub blist_to_filenames {
+    my ($blist) = @_;
+    map { $_->filename } values %{$blist->{pkgs}};
+}
 
 sub protocol_from_url {
     my ($url) = @_;
