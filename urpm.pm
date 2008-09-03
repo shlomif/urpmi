@@ -280,7 +280,7 @@ sub register_rpms {
 	    my $basename = basename($_);
 	    unlink "$urpm->{cachedir}/partial/$basename";
 	    $urpm->{log}(N("retrieving rpm file [%s] ...", $_));
-	    if (urpm::download::sync($urpm, undef, [$_], quiet => 1)) {
+	    if (urpm::download::sync_url($urpm, $_, quiet => 1)) {
 		$urpm->{log}(N("...retrieving done"));
 		$_ = "$urpm->{cachedir}/partial/$basename";
 	    } else {

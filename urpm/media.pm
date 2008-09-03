@@ -906,8 +906,8 @@ sub _new_distribconf_and_download {
     $distribconf->settree('mandriva');
 
     $urpm->{log}(N("retrieving media.cfg file..."));
-    urpm::download::sync($urpm, undef,
-			 [ reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg') ],
+    urpm::download::sync_url($urpm,
+			 reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg'),
 			 quiet => 1) or return;
     $distribconf;
 }

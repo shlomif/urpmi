@@ -769,6 +769,12 @@ sub sync_rel {
     sync($urpm, $medium, \@files, %options);
 }
 
+sub sync_url {
+    my ($urpm, $url, %options) = @_;
+
+    sync($urpm, undef, [$url], %options);
+}
+
 #- $medium can be undef
 #- known options: quiet, resume, callback
 sub sync {
@@ -801,7 +807,7 @@ sub get_content {
     my $file = "$urpm->{cachedir}/partial/" . basename($url);
 
     unlink $file; # prevent "partial file" errors
-    urpm::download::sync($urpm, undef, [ $url ], quiet => 1) or return;
+    sync_url($urpm, $url, quiet => 1) or return;
 
     my @l = cat_($file);
     unlink $file;
