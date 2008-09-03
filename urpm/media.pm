@@ -282,14 +282,20 @@ sub _url_with_synthesis_basename {
       ? basename($medium->{with_synthesis})
       : 'synthesis.hdlist.cz';
 }
-sub _synthesis_dir {
+sub _synthesis_dir_rel {
     my ($medium) = @_;
     $medium->{'no-media-info'} || $medium->{unknown_media_info} and return;
 
-    my $base = file_from_local_medium($medium) || $medium->{url};
     $medium->{with_synthesis}
-      ? reduce_pathname("$base/$medium->{with_synthesis}/..")
-      : $medium->{media_info_dir} && reduce_pathname("$base/$medium->{media_info_dir}");
+      ? "$medium->{with_synthesis}/.."
+      : $medium->{media_info_dir};
+}
+sub _synthesis_dir {
+    my ($medium) = @_;
+    my $rel = _synthesis_dir_rel($medium);
+
+    my $base = file_from_local_medium($medium) || $medium->{url};
+    reduce_pathname("$base/$rel");
 }
 
 # the difference between _valid_synthesis_dir and _synthesis_dir
@@ -1014,7 +1020,7 @@ sub may_reconfig_urpmi {
 	$f = reduce_pathname("$dir/reconfig.urpmi");
     } else {
 	unlink($f = "$urpm->{cachedir}/partial/reconfig.urpmi");
-	urpm::download::sync_rel($urpm, $medium, 'reconfig.urpmi') ], quiet => 1);
+	urpm::download::sync_rel($urpm, $medium, [ 'reconfig.urpmi' ], quiet => 1);
     }
     if (-s $f) {
 	reconfig_urpmi($urpm, $f, $medium);
