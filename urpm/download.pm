@@ -800,10 +800,9 @@ sub sync {
     my ($urpm, $medium, $files, %options) = @_;
 
     if ($medium) {
-	_sync_raw($urpm, $medium, $files, %options);
-    } else {
-	sync_url($urpm, $_, %options) foreach @$files;
+	$urpm->{error}("deprecated urpm::download::sync() called with a medium, this is not handled anymore, not using the medium and only taking the protocol into account");
     }
+    sync_url($urpm, $_, %options) foreach @$files;
 }
 
 sub _sync_raw {
