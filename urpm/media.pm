@@ -1800,8 +1800,16 @@ sub try__maybe_mirrorlist {
     my ($urpm, $medium, $try) = @_;
 
     if ($medium->{mirrorlist}) {
-	require urpm::mirrors;
-	urpm::mirrors::try($urpm, $medium, $try);
+	$urpm->{allow_metalink} //= urpm::download::available_metalink_downloaders();
+	if ($urpm->{allow_metalink}) {
+	    #- help things...
+	    _pick_mirror_if_needed($urpm, $medium, 'allow-cache-update');
+
+	    $try->();
+	} else {
+	    require urpm::mirrors;
+	    urpm::mirrors::try($urpm, $medium, $try);
+	}
     } else {
 	$try->();
     }
