@@ -824,7 +824,7 @@ sub add_distrib_media {
 	my $m = { mirrorlist => $options{mirrorlist}, url => $url };
 	my $parse_ok;
 	try__maybe_mirrorlist($urpm, $m, sub {
-	    $distribconf = _new_distribconf_and_download($urpm, $m->{url});
+	    $distribconf = _new_distribconf_and_download($urpm, $m);
 	    $parse_ok = $distribconf && $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg");
 	    $parse_ok;
 	});
@@ -899,14 +899,14 @@ sub add_distrib_media {
 }
 
 sub _new_distribconf_and_download {
-    my ($urpm, $url) = @_;
+    my ($urpm, $medium) = @_;
 
-    my $distribconf = MDV::Distribconf->new($url, undef);
+    my $distribconf = MDV::Distribconf->new($medium->{url}, undef);
     $distribconf->settree('mandriva');
 
     $urpm->{log}(N("retrieving media.cfg file..."));
-    urpm::download::sync_url($urpm,
-			 reduce_pathname($distribconf->getfullpath(undef, 'infodir') . '/media.cfg'),
+    urpm::download::sync_rel($urpm, $medium,
+			     [ $distribconf->getpath(undef, 'infodir') . '/media.cfg' ],
 			 quiet => 1) or return;
     $distribconf;
 }
