@@ -180,9 +180,12 @@ sub set_proxy_config {
 #- returns an array of command-line arguments for wget or curl.
 sub set_proxy {
     my ($proxy) = @_;
-    my @res;
+
     my $p = $proxy->{proxy};
-    if (defined $p->{http_proxy} || defined $p->{ftp_proxy}) {
+    defined $p->{http_proxy} || defined $p->{ftp_proxy} or return;
+
+    my @res;
+
 	for ($proxy->{type}) {
 	    if (/\bwget\b/) {
 		    if (defined $p->{http_proxy}) {
@@ -209,8 +212,8 @@ sub set_proxy {
 		die N("Unknown webfetch `%s' !!!\n", $proxy->{type});
 	    }
 	}
-    }
-    return @res;
+
+    @res;
 }
 
 sub _error {
