@@ -914,7 +914,11 @@ sub _create_metalink_ {
 
     # only use the 8 best mirrors, then we let aria2 choose
     require urpm::mirrors;
-    my @mirrors = map { _take_n_elem(8, @$_) } urpm::mirrors::list_urls($urpm, $medium, '');
+    my @mirrors = map {
+	# aria2 doesn't handle rsync
+	my @l = grep { urpm::protocol_from_url($_->{url}) ne 'rsync' } @$_;
+	_take_n_elem(16, @l);
+    } urpm::mirrors::list_urls($urpm, $medium, '');
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
     # Even if not required by metalink spec, this line is needed at top of
