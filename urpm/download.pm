@@ -185,31 +185,28 @@ sub set_proxy {
     defined $p->{http_proxy} || defined $p->{ftp_proxy} or return;
 
     my @res;
-
     if ($proxy->{type} =~ /\bwget\b/) {
-		    if (defined $p->{http_proxy}) {
-			$ENV{http_proxy} = $p->{http_proxy} =~ /^http:/
-			    ? $p->{http_proxy}
-			    : "http://$p->{http_proxy}";
-		    }
-		    $ENV{ftp_proxy} = $p->{ftp_proxy} if defined $p->{ftp_proxy};
-		    @res = ("--proxy-user=$p->{user}", "--proxy-passwd=$p->{pwd}")
-			if defined $p->{user} && defined $p->{pwd};
+	if (defined $p->{http_proxy}) {
+	    $ENV{http_proxy} = $p->{http_proxy} =~ /^http:/
+	      ? $p->{http_proxy} : "http://$p->{http_proxy}";
+	}
+	$ENV{ftp_proxy} = $p->{ftp_proxy} if defined $p->{ftp_proxy};
+	@res = ("--proxy-user=$p->{user}", "--proxy-passwd=$p->{pwd}")
+	  if defined $p->{user} && defined $p->{pwd};
     } elsif ($proxy->{type} =~ /\bcurl\b/) {
-		    push @res, ('-x', $p->{http_proxy}) if defined $p->{http_proxy};
-		    push @res, ('-x', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
-		    push @res, ('-U', "$p->{user}:$p->{pwd}")
-			if defined $p->{user} && defined $p->{pwd};
-		    push @res, '-H', 'Pragma:' if @res;
+	push @res, ('-x', $p->{http_proxy}) if defined $p->{http_proxy};
+	push @res, ('-x', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
+	push @res, ('-U', "$p->{user}:$p->{pwd}")
+	  if defined $p->{user} && defined $p->{pwd};
+	push @res, '-H', 'Pragma:' if @res;
     } elsif ($proxy->{type} =~ /\baria2\b/) {
-		    push @res, ('--http-proxy', $p->{http_proxy}) if defined $p->{http_proxy};
-		    push @res, ('--http-proxy', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
-		    push @res, ("--http-proxy-user=$p->{user}", "--http-proxy-passwd=$p->{pwd}")
-			if defined $p->{user} && defined $p->{pwd};
+	push @res, ('--http-proxy', $p->{http_proxy}) if defined $p->{http_proxy};
+	push @res, ('--http-proxy', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
+	push @res, ("--http-proxy-user=$p->{user}", "--http-proxy-passwd=$p->{pwd}")
+	  if defined $p->{user} && defined $p->{pwd};
     } else { 
-		die N("Unknown webfetch `%s' !!!\n", $proxy->{type});
+	die N("Unknown webfetch `%s' !!!\n", $proxy->{type});
     }
-
     @res;
 }
 
