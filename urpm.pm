@@ -111,12 +111,21 @@ sub userdir {
     -d $dir && ! -l $dir or $urpm->{fatal}(1, N("fail to create directory %s", $dir));
     -o $dir && -w $dir or $urpm->{fatal}(1, N("invalid owner for directory %s", $dir));
 
-    $urpm->{cachedir} = $dir;
-
     mkdir "$dir/partial";
     mkdir "$dir/rpms";
 
     $dir;
+}
+sub ensure_valid_cachedir {
+    my ($urpm) = @_;
+    if (my $dir = userdir($urpm)) {
+	$urpm->{cachedir} = $dir;
+    }
+    -w "$urpm->{cachedir}/partial" or $urpm->{fatal}(1, N("Can not download packages into %s", "$urpm->{cachedir}/partial"));
+}
+sub valid_cachedir {
+    my ($urpm) = @_;
+    userdir($urpm) || $urpm->{cachedir};
 }
 
 sub is_temporary_file {

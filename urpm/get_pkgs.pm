@@ -208,11 +208,7 @@ sub download_packages_of_distant_media {
 sub _download_packages_of_distant_media {
     my ($urpm, $sources, $errors, $blist, %options) = @_;
 
-    my $cachedir = $urpm->{cachedir};
-    if (! -w "$cachedir/partial") {
-	$cachedir = urpm::userdir($urpm)
-	  or $urpm->{fatal}(1, N("Can not download packages into %s", "$cachedir/partial"));
-    }
+    my $cachedir = urpm::valid_cachedir($urpm);
 
     $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{medium}{name}));
     if (urpm::download::sync_rel($urpm, $blist->{medium}, [ urpm::blist_to_filenames($blist) ],

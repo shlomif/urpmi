@@ -1763,12 +1763,10 @@ sub _any_media_info__or_download {
     -s $f and return $f;
 
     my $download_dir;
-    if (my $userdir = urpm::userdir($urpm)) {
-	$f = "$userdir/" . statedir_media_info_basename($medium, $prefix, $suffix);
+    if ($<) {
+	urpm::ensure_valid_cachedir($urpm);
+	$f = "$urpm->{cachedir}/" . statedir_media_info_basename($medium, $prefix, $suffix);
 	-s $f and return $f;
-
-	$download_dir = "$userdir/partial";
-	mkdir $download_dir;
     }
 
     get_medium_option($urpm, $medium, 'xml-info') ne 'never' or return;
