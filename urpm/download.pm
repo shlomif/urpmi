@@ -941,17 +941,18 @@ sub _create_metalink_ {
     my @mirrors = _take_n_elem(8, @{$mirrors->{list}});
 
     foreach my $rel_file (@$rel_files) {
-	push @metalink, qq(\t<file name=") . basename($rel_file) . qq(">);
-	push @metalink, qq(\t\t<resources>);
-
 	my $i = 0; 
-	push @metalink, map {
+	my @lines = map {
 	    $i++;
-	    "\t\t\t" . _create_one_metalink_line($medium, $_, $rel_file, $i);
+	    _create_one_metalink_line($medium, $_, $rel_file, $i);
 	} @mirrors;
 
-	push @metalink, "\t\t</resources>";
-	push @metalink, "\t</file>";
+	push @metalink, 
+	  qq(\t<file name=") . basename($rel_file) . qq(">),
+	  qq(\t\t<resources>),
+	  (map { "\t\t\t$_" } @lines),
+	  "\t\t</resources>",
+	  "\t</file>";
     }
     push @metalink, "</files>", "</metalink>";
     
