@@ -932,8 +932,7 @@ sub _create_metalink_ {
     # metalink file, otherwise aria2 won't be able to autodetect it..
     my @metalink = (
       '<?xml version="1.0" encoding="utf-8"?>',
-      '<metalink version="3.0" generator="URPMI"',
-      'xmlns="http://www.metalinker.org/">',
+      '<metalink version="3.0" generator="URPMI" xmlns="http://www.metalinker.org/">',
       '<files>',
     );
 
