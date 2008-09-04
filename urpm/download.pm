@@ -913,11 +913,11 @@ sub _create_one_metalink_line {
     #       }
     # Supported in metalinks, but no longer used in mirror list..?
     if ($mirror->{connections}) {
-	push @options, qq(maxconnections=") . $mirror->{connections} . qq(");
+	push @options, qq(maxconnections="$mirror->{connections}");
     }
     push @options, 'location="' . lc($mirror->{zone}) . '"';
     my $base = urpm::mirrors::_add__with_dir($mirror->{url}, $medium->{'with-dir'});
-    sprintf(qq(<url %s>%s/%s</url>), join(' ', @options), $base, $rel_file);
+    sprintf('<url %s>%s/%s</url>', join(' ', @options), $base, $rel_file);
 }
 
 sub _create_metalink_ {
