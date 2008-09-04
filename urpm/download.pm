@@ -897,6 +897,29 @@ sub _take_n_elem {
     @l < $n ? @l : @l[0 .. $n-1];
 }
 
+sub _create_one_metalink_line {
+    my ($medium, $mirror, $rel_file, $counter) = @_;
+
+    my $type = $mirror->{url};
+    $type =~ s!://.*!!;
+
+    # If more than 100 mirrors, give all the remaining mirrors a priority of 0
+    my $preference = max(0, 100 - $counter);
+
+    my @options = (qq(type="$type"), qq(preference="$preference"));
+    # Not supported in metalinks
+    #if (@$list[$i]->{bw}) {
+    #    push @options, 'bandwidth="' . @$list[$i]->{bw} . '"';
+    #       }
+    # Supported in metalinks, but no longer used in mirror list..?
+    if ($mirror->{connections}) {
+	push @options, qq(maxconnections=") . $mirror->{connections} . qq(");
+    }
+    push @options, 'location="' . lc($mirror->{zone}) . '"';
+    my $base = urpm::mirrors::_add__with_dir($mirror->{url}, $medium->{'with-dir'});
+    sprintf(qq(<url %s>%s/%s</url>), join(' ', @options), $base, $rel_file);
+}
+
 sub _create_metalink_ {
     my ($urpm, $medium, $rel_files, $options) = @_;
     # Don't create a metalink when downloading mirror list
@@ -924,24 +947,7 @@ sub _create_metalink_ {
 	my $i = 0; 
 	foreach my $mirror (@mirrors) { 
 	    $i++;
-	    my $type = $mirror->{url};
-	    $type =~ s!://.*!!;
-	    # If more than 100 mirrors, give all the remaining mirrors a priority of 0
-	    my $preference = max(0, 100 - $i);
-
-	    my @options = (qq(type="$type"), qq(preference="$preference"));
-	    # Not supported in metalinks
- 	    #if (@$list[$i]->{bw}) {
-	    #    push @options, 'bandwidth="' . @$list[$i]->{bw} . '"';
-	    #       }
-	    # Supported in metalinks, but no longer used in mirror list..?
-	    if ($mirror->{connections}) {
-		push @options, qq(maxconnections=") . $mirror->{connections} . qq(");
-	    }
-	    push @options, 'location="' . lc($mirror->{zone}) . '"';
-	    my $base = urpm::mirrors::_add__with_dir($mirror->{url}, $medium->{'with-dir'});
-	    push @metalink, 
-	      sprintf(qq(\t\t\t<url %s>%s/%s</url>), join(' ', @options), $base, $rel_file);
+	    push @metalink, "\t\t\t" . _create_one_metalink_line($medium, $mirror, $rel_file, $i);
 	}
 	push @metalink, "\t\t</resources>";
 	push @metalink, "\t</file>";
