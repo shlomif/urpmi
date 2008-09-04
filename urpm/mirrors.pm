@@ -39,6 +39,18 @@ sub pick_one {
     $medium->{url} = _add__with_dir($url, $medium->{'with-dir'});
 }
 
+#- side-effects:
+#-   + those of _pick_one_ ($urpm->{mirrors_cache})
+sub list_urls {
+    my ($urpm, $medium, $allow_cache_update) = @_;
+
+    my @l = split(' ', $medium->{mirrorlist});
+    map { 
+	my $cache = _pick_one_($urpm, $_, $allow_cache_update, $_ ne $l[-1]);
+	$cache ? $cache->{list} : [];
+    } @l;
+}
+
 #- side-effects: $urpm->{mirrors_cache}
 sub _pick_one {
     my ($urpm, $mirrorlists, $must_succeed, $allow_cache_update) = @_;   
@@ -46,6 +58,13 @@ sub _pick_one {
     my @l = split(' ', $mirrorlists);
     foreach my $mirrorlist (@l) {
 	if (my $cache = _pick_one_($urpm, $mirrorlist, $allow_cache_update, $mirrorlist ne $l[-1])) {
+
+	    if ($cache->{nb_uses}++) {
+		$urpm->{debug} and $urpm->{debug}("using mirror $cache->{chosen}");
+	    } else {
+		$urpm->{log}("using mirror $cache->{chosen}");
+	    }
+
 	    return $cache->{chosen};
 	}
     }
@@ -75,12 +94,6 @@ sub _pick_one_ {
 	$cache->{chosen} = $cache->{list}[0]{url} or return;
 	_save_cache($urpm);
     }
-    if ($cache->{nb_uses}++) {
-	$urpm->{debug} and $urpm->{debug}("using mirror $cache->{chosen}");
-    } else {
-	$urpm->{log}("using mirror $cache->{chosen}");
-    }
-
     $cache;
 }
 #- side-effects: $urpm->{mirrors_cache}

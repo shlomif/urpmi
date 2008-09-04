@@ -925,7 +925,9 @@ sub _create_metalink_ {
     # Don't create a metalink when downloading mirror list
     $medium or return;
 
-    my $mirrors = $urpm->{mirrors_cache}{$medium->{mirrorlist}};
+    # only use the 8 best mirrors, then we let aria2 choose
+    require urpm::mirrors;
+    my @mirrors = map { _take_n_elem(8, @$_) } urpm::mirrors::list_urls($urpm, $medium, '');
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
     # Even if not required by metalink spec, this line is needed at top of
@@ -935,9 +937,6 @@ sub _create_metalink_ {
       '<metalink version="3.0" generator="URPMI" xmlns="http://www.metalinker.org/">',
       '<files>',
     );
-
-    # only use the 8 best mirrors, then we let aria2 choose
-    my @mirrors = _take_n_elem(8, @{$mirrors->{list}});
 
     foreach my $rel_file (@$rel_files) {
 	my $i = 0; 
