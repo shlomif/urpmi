@@ -947,12 +947,10 @@ sub _create_metalink_ {
 	    _create_one_metalink_line($medium, $_, $rel_file, $i);
 	} @mirrors;
 
-	push @metalink, 
-	  qq(\t<file name=") . basename($rel_file) . '">',
-	  qq(\t\t<resources>),
-	  (map { "\t\t\t$_" } @lines),
-	  "\t\t</resources>",
-	  "\t</file>";
+	push @metalink, map { "\t$_" }
+	  sprintf('<file name="%s"><resources>', basename($rel_file)),
+	  (map { "\t$_" } @lines),
+	  '</resources></file>';
     }
     push @metalink, '</files>', '</metalink>';
     
