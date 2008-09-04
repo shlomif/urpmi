@@ -184,7 +184,7 @@ sub set_proxy {
     my $p = $proxy->{proxy};
     if (defined $p->{http_proxy} || defined $p->{ftp_proxy}) {
 	for ($proxy->{type}) {
-	    /\bwget\b/ and do {
+	    if (/\bwget\b/) {
 		    if (defined $p->{http_proxy}) {
 			$ENV{http_proxy} = $p->{http_proxy} =~ /^http:/
 			    ? $p->{http_proxy}
@@ -194,27 +194,20 @@ sub set_proxy {
 		    @res = ("--proxy-user=$p->{user}", "--proxy-passwd=$p->{pwd}")
 			if defined $p->{user} && defined $p->{pwd};
 
-		last;
-	    };
-	    /\bcurl\b/ and do {
+	    } elsif (/\bcurl\b/) {
 		    push @res, ('-x', $p->{http_proxy}) if defined $p->{http_proxy};
 		    push @res, ('-x', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
 		    push @res, ('-U', "$p->{user}:$p->{pwd}")
 			if defined $p->{user} && defined $p->{pwd};
 		    push @res, '-H', 'Pragma:' if @res;
-
-		last;
-	    };
-	    /\baria2\b/ and do {
+	    } elsif (/\baria2\b/) {
 		    push @res, ('--http-proxy', $p->{http_proxy}) if defined $p->{http_proxy};
 		    push @res, ('--http-proxy', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
 		    push @res, ("--http-proxy-user=$p->{user}", "--http-proxy-passwd=$p->{pwd}")
 			if defined $p->{user} && defined $p->{pwd};
-
-		last;
-	    };
-
-	    die N("Unknown webfetch `%s' !!!\n", $proxy->{type});
+	    } else {
+		die N("Unknown webfetch `%s' !!!\n", $proxy->{type});
+	    }
 	}
     }
     return @res;
