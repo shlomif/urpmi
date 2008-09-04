@@ -141,7 +141,7 @@ my %options_spec = (
 	'retry=s' => sub { $urpm->{options}{retry} = $_[1] },
 	'proxy=s' => sub {
 	    my (undef, $value) = @_;
-	    my ($proxy, $port) = $value =~ m,^(?:http://)?([^:/]+(:\d+)?)/*$,
+	    my ($proxy, $port) = urpm::download::parse_http_proxy($value)
 		or die N("bad proxy declaration on command line\n");
 	    $proxy .= ":1080" unless $port;
 	    urpm::download::set_cmdline_proxy(http_proxy => "http://$proxy/");

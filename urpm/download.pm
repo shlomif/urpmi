@@ -48,6 +48,10 @@ sub available_metalink_downloaders() {
     grep { -x "/usr/bin/$binaries{$_}" || -x "/bin/$binaries{$_}" } metalink_downloaders();
 }
 
+sub parse_http_proxy {
+    $_[0] =~ m!^(?:http://)?([^:/]+(:\d+)?)/*$!;
+}
+
 #- parses proxy.cfg (private)
 sub load_proxy_config () {
     return if defined $proxy_config;
@@ -200,7 +204,9 @@ sub set_proxy {
 	  if defined $p->{user} && defined $p->{pwd};
 	push @res, '-H', 'Pragma:' if @res;
     } elsif ($proxy->{type} =~ /\baria2\b/) {
-	push @res, ('--http-proxy', $p->{http_proxy}) if defined $p->{http_proxy};
+	if (my ($http_proxy) = $p->{http_proxy} && parse_http_proxy($p->{http_proxy})) {
+	    push @res, ('--http-proxy', $http_proxy);
+	}
 	push @res, ('--http-proxy', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
 	push @res, ("--http-proxy-user=$p->{user}", "--http-proxy-passwd=$p->{pwd}")
 	  if defined $p->{user} && defined $p->{pwd};
