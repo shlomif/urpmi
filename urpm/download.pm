@@ -900,8 +900,7 @@ sub _take_n_elem {
 sub _create_one_metalink_line {
     my ($medium, $mirror, $rel_file, $counter) = @_;
 
-    my $type = $mirror->{url};
-    $type =~ s!://.*!!;
+    my $type = urpm::protocol_from_url($mirror->{url});
 
     # If more than 100 mirrors, give all the remaining mirrors a priority of 0
     my $preference = max(0, 100 - $counter);
