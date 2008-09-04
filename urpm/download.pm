@@ -810,10 +810,11 @@ sub sync {
 sub get_content {
     my ($urpm, $url) = @_;
 
-    my $file = urpm::valid_cachedir($urpm) . '/partial/' . basename($url);
+    my $download_dir = urpm::valid_cachedir($urpm) . '/partial/';
+    my $file = $download_dir . basename($url);
 
     unlink $file; # prevent "partial file" errors
-    sync_url($urpm, $url, quiet => 1) or return;
+    sync_url($urpm, $url, dir => $download_dir, quiet => 1) or return;
 
     my @l = cat_($file);
     unlink $file;
