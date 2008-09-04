@@ -945,10 +945,11 @@ sub _create_metalink_ {
 	push @metalink, qq(\t\t<resources>);
 
 	my $i = 0; 
-	foreach my $mirror (@mirrors) { 
+	push @metalink, map {
 	    $i++;
-	    push @metalink, "\t\t\t" . _create_one_metalink_line($medium, $mirror, $rel_file, $i);
-	}
+	    "\t\t\t" . _create_one_metalink_line($medium, $_, $rel_file, $i);
+	} @mirrors;
+
 	push @metalink, "\t\t</resources>";
 	push @metalink, "\t</file>";
     }
