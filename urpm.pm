@@ -113,6 +113,9 @@ sub userdir {
 
     $urpm->{cachedir} = $dir;
 
+    mkdir "$dir/partial";
+    mkdir "$dir/rpms";
+
     $dir;
 }
 
