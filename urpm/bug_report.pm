@@ -36,6 +36,9 @@ sub write_urpmdb {
     #- fake configuration written to convert virtual media on the fly.
     local $urpm->{config} = "$bug_report_dir/urpmi.cfg";
     urpm::media::write_config($urpm);
+
+    require urpm::orphans;
+    system('cp', urpm::orphans::unrequested_list__file($urpm), $bug_report_dir);
 }
 
 sub copy_requested {
