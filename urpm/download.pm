@@ -181,38 +181,36 @@ sub set_proxy_config {
 sub set_proxy {
     my ($proxy) = @_;
     my @res;
-    if (defined $proxy->{proxy}{http_proxy} || defined $proxy->{proxy}{ftp_proxy}) {
+    my $p = $proxy->{proxy};
+    if (defined $p->{http_proxy} || defined $p->{ftp_proxy}) {
 	for ($proxy->{type}) {
 	    /\bwget\b/ and do {
-		for ($proxy->{proxy}) {
-		    if (defined $_->{http_proxy}) {
-			$ENV{http_proxy} = $_->{http_proxy} =~ /^http:/
-			    ? $_->{http_proxy}
-			    : "http://$_->{http_proxy}";
+		    if (defined $p->{http_proxy}) {
+			$ENV{http_proxy} = $p->{http_proxy} =~ /^http:/
+			    ? $p->{http_proxy}
+			    : "http://$p->{http_proxy}";
 		    }
-		    $ENV{ftp_proxy} = $_->{ftp_proxy} if defined $_->{ftp_proxy};
-		    @res = ("--proxy-user=$_->{user}", "--proxy-passwd=$_->{pwd}")
-			if defined $_->{user} && defined $_->{pwd};
-		}
+		    $ENV{ftp_proxy} = $p->{ftp_proxy} if defined $p->{ftp_proxy};
+		    @res = ("--proxy-user=$p->{user}", "--proxy-passwd=$p->{pwd}")
+			if defined $p->{user} && defined $p->{pwd};
+
 		last;
 	    };
 	    /\bcurl\b/ and do {
-		for ($proxy->{proxy}) {
-		    push @res, ('-x', $_->{http_proxy}) if defined $_->{http_proxy};
-		    push @res, ('-x', $_->{ftp_proxy}) if defined $_->{ftp_proxy};
-		    push @res, ('-U', "$_->{user}:$_->{pwd}")
-			if defined $_->{user} && defined $_->{pwd};
+		    push @res, ('-x', $p->{http_proxy}) if defined $p->{http_proxy};
+		    push @res, ('-x', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
+		    push @res, ('-U', "$p->{user}:$p->{pwd}")
+			if defined $p->{user} && defined $p->{pwd};
 		    push @res, '-H', 'Pragma:' if @res;
-		}
+
 		last;
 	    };
 	    /\baria2\b/ and do {
-		for ($proxy->{proxy}) {
-		    push @res, ('--http-proxy', $_->{http_proxy}) if defined $_->{http_proxy};
-		    push @res, ('--http-proxy', $_->{ftp_proxy}) if defined $_->{ftp_proxy};
-		    push @res, ("--http-proxy-user=$_->{user}", "--http-proxy-passwd=$_->{pwd}")
-			if defined $_->{user} && defined $_->{pwd};
-		}
+		    push @res, ('--http-proxy', $p->{http_proxy}) if defined $p->{http_proxy};
+		    push @res, ('--http-proxy', $p->{ftp_proxy}) if defined $p->{ftp_proxy};
+		    push @res, ("--http-proxy-user=$p->{user}", "--http-proxy-passwd=$p->{pwd}")
+			if defined $p->{user} && defined $p->{pwd};
+
 		last;
 	    };
 
