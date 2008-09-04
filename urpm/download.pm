@@ -931,10 +931,10 @@ sub _create_metalink_ {
     # Even if not required by metalink spec, this line is needed at top of
     # metalink file, otherwise aria2 won't be able to autodetect it..
     my @metalink = (
-      qq(<?xml version="1.0" encoding="utf-8"?>),
-      qq(<metalink version="3.0" generator="URPMI"),
-      qq(xmlns="http://www.metalinker.org/">),
-      qq(<files>),
+      '<?xml version="1.0" encoding="utf-8"?>',
+      '<metalink version="3.0" generator="URPMI"',
+      'xmlns="http://www.metalinker.org/">',
+      '<files>',
     );
 
     # only use the 8 best mirrors, then we let aria2 choose
@@ -948,13 +948,13 @@ sub _create_metalink_ {
 	} @mirrors;
 
 	push @metalink, 
-	  qq(\t<file name=") . basename($rel_file) . qq(">),
+	  qq(\t<file name=") . basename($rel_file) . '">',
 	  qq(\t\t<resources>),
 	  (map { "\t\t\t$_" } @lines),
 	  "\t\t</resources>",
 	  "\t</file>";
     }
-    push @metalink, "</files>", "</metalink>";
+    push @metalink, '</files>', '</metalink>';
     
     output_safe($metalinkfile, join('', map { "$_\n" } @metalink));
     $metalinkfile;
