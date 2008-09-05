@@ -122,7 +122,7 @@ my %options_spec = (
 	'allow-force' => sub { $urpm->{options}{'allow-force'} = 1 },
 	'parallel=s' => \$::parallel,
 
-	metalink => sub { $urpm->{options}{metalink} = 1 },
+	'metalink!' => sub { $urpm->{options}{metalink} = $_[1] },
 
 	# deprecated in favor of --downloader xxx
 	wget => sub { $urpm->{options}{downloader} = 'wget' },
