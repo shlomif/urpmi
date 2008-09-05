@@ -859,7 +859,7 @@ sub _sync_webfetch_raw {
 		$webfetch_not_available = 1;
 	    }
 	}
-	if (!member($preferred, @metalink_downloaders)) {
+	if ($options->{metalink} && !member($preferred, @metalink_downloaders)) {
 	    $urpm->{log}($requested_downloader eq $preferred ? 
 			   "not using metalink since requested downloader does not handle it" :
 			   "not using metalink since no downloaders handling metalink are available");
