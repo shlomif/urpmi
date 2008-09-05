@@ -427,7 +427,7 @@ foreach my $k ("update", "media|mediums=s",
 }
 
 foreach my $k ("wget", "curl", "prozilla", "aria2", 'downloader=s', "proxy=s", "proxy-user=s",
-    'limit-rate=s', 'metalink',
+    'limit-rate=s', 'metalink!',
     "wget-options=s", "curl-options=s", "rsync-options=s", "prozilla-options=s", "aria2-options=s")
 {
     $options_spec{'urpmi.addmedia'}{$k} = 
