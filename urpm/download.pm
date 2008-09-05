@@ -597,20 +597,16 @@ sub sync_prozilla {
 }
 
 sub sync_aria2 {
+    my ($options, @urls) = @_;
+
     -x "/usr/bin/aria2c" or die N("aria2 is missing\n");
-    my $options = shift;
+
     $options = { dir => $options } if !ref $options;
     #- force download to be done in cachedir to avoid polluting cwd.
     (my $cwd) = getcwd() =~ /(.*)/;
     chdir $options->{dir};
 
     my $stat_file = ($< ? $ENV{HOME} : '/root') . '/.aria2-adaptive-stats';
-
-    my @files = uniq(map {
-	my $metalinkfile = $_;
-	$metalinkfile =~ s/metalink:.*/metalink/;
-	$metalinkfile;
-    } @_);
 
     my $aria2c_command = join(" ", map { "'$_'" }
 	"/usr/bin/aria2c",
@@ -626,7 +622,9 @@ sub sync_aria2 {
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
 	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : ()),
 	(defined $options->{'aria2-options'} ? split /\s+/, $options->{'aria2-options'} : ()),
-	@files);
+	@urls);
+
+    my @urls_text = $options->{metalink} ? @{$options->{urls_text}} : @urls;
 
     $options->{debug} and $options->{debug}($aria2c_command);
 
@@ -641,8 +639,8 @@ sub sync_aria2 {
 	    $buf .= $_;
 	if ($_ eq "\r" || $_ eq "\n") {
 		if ($options->{callback}) {
-			if (!defined($file) && @_) {
-				$file = shift @_;
+			if (!defined($file) && @urls_text) {
+				$file = shift @urls_text;
 				propagate_sync_callback($options, 'start', $file);
 			}
     		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*/\w)\s\w*:(\d+\w*)\][\r\n]$!) {
@@ -864,18 +862,20 @@ sub _sync_webfetch_raw {
 	    }
 	}
 	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
-	my @l = @$files;
 
-	# FIXME: This is rather crude and should probably be done some better place.
 	if ($options->{metalink}) {
-	    @l = _create_metalink_($urpm, $medium, $rel_files, $options);
-	}
-	while (@l) {
+	    my $metalink = _create_metalink_($urpm, $medium, $rel_files, $options);
+	    $options->{urls_text} = [ map { $medium->{mirrorlist} . ': ' . $medium->{'with-dir'} . "/$_" } @$rel_files ];
+	    $sync->($options, $metalink);
+	} else {
+	  my @l = @$files;
+	  while (@l) {
 	    my $half_MAX_ARG = 131072 / 2;
 	    # restrict the number of elements so that it fits on cmdline of curl/wget/proz/aria2c
 	    my $n = 0;
 	    for (my $len = 0; $n < @l && $len < $half_MAX_ARG; $len += length($l[$n++])) {}	    
 	    $sync->($options, splice(@l, 0, $n));
+	  }
 	}
     } elsif ($proto eq 'rsync') {
 	sync_rsync($options, @$files);
