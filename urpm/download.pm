@@ -869,9 +869,8 @@ sub _sync_webfetch_raw {
 	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
 
 	if ($options->{metalink}) {
-	    my $metalink = _create_metalink_($urpm, $medium, $rel_files, $options);
 	    $options->{urls_text} = [ map { $medium->{mirrorlist} . ': ' . $medium->{'with-dir'} . "/$_" } @$rel_files ];
-	    $sync->($options, $metalink);
+	    $sync->($options, _create_metalink_($urpm, $medium, $rel_files, $options));
 	} else {
 	  my @l = @$files;
 	  while (@l) {
