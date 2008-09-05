@@ -851,7 +851,7 @@ sub _sync_webfetch_raw {
 	my $preferred = $available[0];
 	my $requested_downloader = requested_ftp_http_downloader($urpm, $medium);
 	if ($requested_downloader) {
-	    if (grep { $_ eq $requested_downloader } @available) {
+	    if (member($requested_downloader, @available)) {
 		#- use user default downloader if provided and available
 		$preferred = $requested_downloader;
 	    } elsif (!our $webfetch_not_available) {
