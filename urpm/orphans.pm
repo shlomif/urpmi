@@ -85,19 +85,16 @@ sub _selected_unrequested {
 	}
     } keys %$selected;
 }
-#- side-effects: $o_unrequested_list
+#- side-effects: none
 sub _renamed_unrequested {
-    my ($urpm, $rejected, $o_unrequested_list) = @_;
+    my ($urpm, $rejected, $current_unrequested) = @_;
     
     my @obsoleted = grep { $rejected->{$_}{obsoleted} } keys %$rejected or return;
-
-    # we have to read the list to know if the old package was marked "unrequested"
-    my $current = $o_unrequested_list || unrequested_list($urpm);
 
     my %l;
     foreach my $fn (@obsoleted) {
 	my ($n) = $fn =~ $fullname2name_re;
-	$current->{$n} or next;
+	$current_unrequested->{$n} or next;
 
 	my ($new_fn) = keys %{$rejected->{$fn}{closure}};
 	my ($new_n) = $new_fn =~ $fullname2name_re;
@@ -109,9 +106,12 @@ sub _renamed_unrequested {
 }
 sub _new_unrequested {
     my ($urpm, $state) = @_;
+
+    my $current_unrequested = unrequested_list($urpm);
+
     (
 	_selected_unrequested($urpm, $state->{selected}),
-	_renamed_unrequested($urpm, $state->{rejected}),
+	_renamed_unrequested($urpm, $state->{rejected}, $current_unrequested),
     );
 }
 #- side-effects: <root>/var/lib/rpm/installed-through-deps.list
