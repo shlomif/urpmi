@@ -415,9 +415,9 @@ msgid "invalid owner for directory %s"
 msgstr "目录 %s 的所有者无效"
 
 #: ../urpm.pm:124
-#, fuzzy, c-format
+#, c-format
 msgid "Can not download packages into %s"
-msgstr "无法写入重新打包目录 [%s]\n"
+msgstr "无法将软件包下载到 %s"
 
 #: ../urpm.pm:274
 #, c-format
@@ -487,24 +487,24 @@ msgid "urpmq: cannot read rpm file \"%s\"\n"
 msgstr "urpmq: 无法读取 rpm 文件“%s”\n"
 
 #: ../urpm/args.pm:375
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected expression %s"
-msgstr "模式表达式: \n"
+msgstr "意外表达式 %s"
 
 #: ../urpm/args.pm:376
-#, fuzzy, c-format
+#, c-format
 msgid "missing expression before %s"
-msgstr "缺少签名(%s)"
+msgstr "%s 前缺少表达式"
 
 #: ../urpm/args.pm:382
 #, c-format
 msgid "unexpected expression %s (suggestion: use -a or -o ?)"
-msgstr ""
+msgstr "意外表达式 %s(建议：使用 -a 或 -o?)"
 
 #: ../urpm/args.pm:386
-#, fuzzy, c-format
+#, c-format
 msgid "no expression to close"
-msgstr "模式表达式: \n"
+msgstr "没有要关闭的表达式"
 
 #: ../urpm/args.pm:395
 #, c-format
@@ -546,7 +546,7 @@ msgstr "您必须自行挂载 CD-ROM(或者安装 perl-Hal-Cdroms 以便让其�
 #: ../urpm/cdrom.pm:68
 #, c-format
 msgid "HAL daemon (hald) is not running or not ready"
-msgstr ""
+msgstr "HAL 守护程序(hald)未运行或未就绪"
 
 #: ../urpm/cdrom.pm:161 ../urpm/cdrom.pm:166
 #, c-format
@@ -581,7 +581,7 @@ msgstr "无法写入配置文件[%s]"
 #: ../urpm/download.pm:113
 #, c-format
 msgid "can not read proxy settings (not enough rights to read %s)"
-msgstr ""
+msgstr "无法读取代理服务器设置(没有足够的权限读取 %s)"
 
 #: ../urpm/download.pm:138
 #, c-format
@@ -818,7 +818,7 @@ msgstr "安装失败"
 #: ../urpm/main_loop.pm:112 ../urpm/main_loop.pm:122
 #, c-format
 msgid "Try to go on anyway? (y/N) "
-msgstr ""
+msgstr "仍然继续吗? (y/N)"
 
 #: ../urpm/main_loop.pm:121
 #, c-format
@@ -892,7 +892,7 @@ msgstr "正在检查 %s 文件"
 #: ../urpm/md5sum.pm:27
 #, c-format
 msgid "invalid MD5SUM file"
-msgstr ""
+msgstr "无效的 MD5SUM 文件"
 
 #: ../urpm/md5sum.pm:28
 #, c-format
@@ -1119,9 +1119,9 @@ msgid "copying MD5SUM file of \"%s\"..."
 msgstr "正在复制“%s”的 MD5SUM..."
 
 #: ../urpm/media.pm:1430
-#, fuzzy, c-format
+#, c-format
 msgid "invalid MD5SUM file (downloaded from %s)"
-msgstr "无效的 rpm 文件名[%s]"
+msgstr "无效的 MD5SUM 文件(从 %s 下载)"
 
 #: ../urpm/media.pm:1461
 #, c-format
@@ -1269,6 +1269,7 @@ msgid_plural ""
 "The following packages are now orphans, use \"urpme --auto-orphans\" to "
 "remove them."
 msgstr[0] ""
+"下列软件包现在是孤立的了，请使用“urpme --auto-orphans”删除它们。"
 
 #: ../urpm/parallel.pm:14
 #, c-format
@@ -1293,39 +1294,39 @@ msgstr "无法使用并行选项“%s”"
 #: ../urpm/parallel.pm:93
 #, c-format
 msgid "on node %s"
-msgstr ""
+msgstr "于节点 %s"
 
 #: ../urpm/parallel.pm:293
-#, fuzzy, c-format
+#, c-format
 msgid "Installation failed on node %s"
-msgstr "安装失败"
+msgstr "节点 %s 安装失败"
 
 #: ../urpm/parallel_ka_run.pm:58
 #, c-format
 msgid "rshp failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "rshp 失败，可能节点无法连接"
 
 #: ../urpm/parallel_ka_run.pm:80
 #, c-format
 msgid "mput failed, maybe a node is unreacheable"
-msgstr ""
+msgstr "mput 失败，可能节点无法连接"
 
 #: ../urpm/parallel_ssh.pm:27
 #, c-format
 msgid "scp failed on host %s (%d)"
-msgstr ""
+msgstr "主机 %s scp 失败 (%d)"
 
 #: ../urpm/parallel_ssh.pm:39
 #, c-format
 msgid "cp failed on host %s (%d)"
-msgstr ""
+msgstr "主机 %s cp 失败 (%d)"
 
 #: ../urpm/parallel_ssh.pm:86
 #, c-format
 msgid ""
 "%s failed on host %s (maybe it does not have a good version of urpmi?) (exit "
 "code: %d)"
-msgstr ""
+msgstr "主机 %2$s %1$s 失败(可能 urpmi 版本不对?)(退出码: %d)"
 
 #: ../urpm/removable.pm:32
 #, c-format
@@ -1656,12 +1657,12 @@ msgstr "下列软件包里有 %s: %s"
 #: ../urpm/select.pm:172
 #, c-format
 msgid "You should use \"-a\" to use all of them"
-msgstr ""
+msgstr "您应该使用“-a”来全部使用"
 
 #: ../urpm/select.pm:300
-#, fuzzy, c-format
+#, c-format
 msgid "found package(s) %s in urpmi db, but none are installed"
-msgstr "软件包 %s 无法安装"
+msgstr "在 urpmi 数据库中找到软件包 %s，但全部都未安装"
 
 #: ../urpm/select.pm:543
 #, c-format
@@ -1726,12 +1727,12 @@ msgstr "缺少签名(%s)"
 #: ../urpm/sys.pm:156
 #, c-format
 msgid "system"
-msgstr ""
+msgstr "系统"
 
 #: ../urpm/sys.pm:191
 #, c-format
 msgid "You should restart %s for %s"
-msgstr ""
+msgstr "为了 %2$s，您应该重新启动 %1$s"
 
 #: ../urpm/sys.pm:276
 #, c-format
@@ -1772,7 +1773,7 @@ msgstr "  --auto         - 自动选中软件包。\n"
 #: ../urpme:48
 #, c-format
 msgid "  --auto-orphans - remove orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - 删除孤立软件包\n"
 
 #: ../urpme:49
 #, c-format
@@ -1839,10 +1840,10 @@ msgid "unknown package"
 msgstr "未知的软件包"
 
 #: ../urpme:121
-#, fuzzy, c-format
+#, c-format
 msgid "Removing the following package will break your system:"
 msgid_plural "Removing the following packages will break your system:"
-msgstr[0] "如果删除软件包 %s 会破坏您的系统"
+msgstr[0] "删除下列软件包将会破坏您的系统:"
 
 #: ../urpme:126
 #, c-format
@@ -1850,9 +1851,9 @@ msgid "Nothing to remove"
 msgstr "不需要删除任何东西。"
 
 #: ../urpme:143
-#, fuzzy, c-format
+#, c-format
 msgid "No orphans to remove"
-msgstr "不需要删除任何东西。"
+msgstr "没有可删除的孤立软件包"
 
 #: ../urpme:149
 #, c-format
@@ -1862,10 +1863,10 @@ msgid_plural ""
 msgstr[0] "为满足相关性要求，需要删除下列%d个软件包"
 
 #: ../urpme:154
-#, fuzzy, c-format
+#, c-format
 msgid "(orphan package)"
 msgid_plural "(orphan packages)"
-msgstr[0] "未知的软件包"
+msgstr[0] "(孤立的软件包)"
 
 #: ../urpme:161
 #, c-format
@@ -1881,7 +1882,7 @@ msgstr "(是(y)/否(N))[否]"
 #: ../urpme:166
 #, c-format
 msgid "testing removal of %s"
-msgstr ""
+msgstr "测试删除 %s"
 
 #: ../urpme:181
 #, c-format
@@ -1889,14 +1890,14 @@ msgid "Removal failed"
 msgstr "删除失败"
 
 #: ../urpme:183
-#, fuzzy, c-format
+#, c-format
 msgid "Removal is possible"
-msgstr "删除失败"
+msgstr "可以删除"
 
 #: ../urpmf:153
-#, fuzzy, c-format
+#, c-format
 msgid "unterminated expression (%s)"
-msgstr "模式表达式: \n"
+msgstr "未终止的表达式(%s)"
 
 #: ../urpmi:81
 #, c-format
@@ -1916,7 +1917,7 @@ msgstr "    --force-key    - 强制更新 gpg 密钥。\n"
 #: ../urpmi:84
 #, c-format
 msgid "  --auto-orphans - remove orphans without asking\n"
-msgstr ""
+msgstr "  --auto-orphans - 不询问直接删除孤立软件包\n"
 
 #: ../urpmi:85 ../urpmq:54
 #, c-format
@@ -2004,9 +2005,9 @@ msgid ""
 msgstr "  --allow-force  - 允许提示用户安装软件包而不检查依赖性和完整性。\n"
 
 #: ../urpmi:108
-#, fuzzy, c-format
+#, c-format
 msgid "  --allow-suggests - auto select \"suggested\" packages.\n"
-msgstr "  --no-suggests  - 不自动选择“推荐的”软件包。\n"
+msgstr "  --allow-suggests - 自动选择“推荐的”软件包。\n"
 
 #: ../urpmi:112
 #, c-format
@@ -2020,7 +2021,7 @@ msgstr ""
 #: ../urpmi:114 ../urpmi.addmedia:59 ../urpmi.update:37
 #, c-format
 msgid "  --metalink     - generate and use a local metalink.\n"
-msgstr ""
+msgstr "  --metalink     - 生成并使用本地 metallink。\n"
 
 #: ../urpmi:115
 #, c-format
@@ -2381,10 +2382,10 @@ msgstr ""
 "%s\n"
 
 #: ../urpmi:594
-#, fuzzy, c-format
+#, c-format
 msgid "The following orphan package will be removed."
 msgid_plural "The following orphan packages will be removed."
-msgstr[0] "为满足相关性要求，需要删除下列%d个软件包"
+msgstr[0] "下列孤立软件包将被删除。"
 
 #: ../urpmi:610
 #, c-format
@@ -2481,9 +2482,9 @@ msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --prizlla      - 用 prozilla 取远程文件。\n"
 
 #: ../urpmi.addmedia:58 ../urpmi.update:36
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2        - use aria2 to retrieve distant files.\n"
-msgstr "  --curl         - 用 crul 取远程文件。\n"
+msgstr "  --aria2         - 用 aria2 取远程文件。\n"
 
 #: ../urpmi.addmedia:65
 #, c-format
@@ -2491,6 +2492,8 @@ msgid ""
 "  --update       - create an update medium, \n"
 "                   or discard non-update media (when used with --distrib)\n"
 msgstr ""
+"  --update       - 创建更新介质，\n"
+"                   或忽略非更新介质(如果和 --distrib 一起使用)\n"
 
 #: ../urpmi.addmedia:67
 #, c-format
@@ -2608,13 +2611,13 @@ msgid "no need to give <relative path of synthesis> with --distrib"
 msgstr "使用 --distrib 不需要提供 <综合文件的相对路径>"
 
 #: ../urpmi.addmedia:144
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Do you want to add media '%s'?"
 msgstr ""
 "\n"
-"您是否想要添加介质“%s”"
+"您是否想要添加介质“%s”?"
 
 #: ../urpmi.addmedia:170
 #, c-format
@@ -2913,7 +2916,7 @@ msgstr "  --searchmedia  - 只使用给定介质来搜索请求(或更新的)的
 #: ../urpmq:53
 #, c-format
 msgid "  --auto-orphans - list orphans\n"
-msgstr ""
+msgstr "  --auto-orphans - 列出孤立软件包\n"
 
 #: ../urpmq:55
 #, c-format
@@ -2985,9 +2988,9 @@ msgid "  --conflicts    - print conflicts.\n"
 msgstr "  --conflicts    - 打印 conflict 标签。\n"
 
 #: ../urpmq:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print obsoletes.\n"
-msgstr "  --obsoletes    - obsolets 标签\n"
+msgstr "  --obsoletes    - 打印 obsolets 标签。\n"
 
 #: ../urpmq:84
 #, c-format
@@ -3000,9 +3003,9 @@ msgid "  --requires     - print requires.\n"
 msgstr "  --requires     - 打印 requires 标签。\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  --suggests     - print suggests.\n"
-msgstr "  --suggests     - suggests 标签\n"
+msgstr "  --suggests     - 打印 suggests 标签。\n"
 
 #: ../urpmq:87
 #, c-format
@@ -3106,7 +3109,7 @@ msgstr "  需要在命令行给出名称或 rpm 文件。\n"
 #: ../urpmq:156
 #, c-format
 msgid "usage: \"urpmq --auto-orphans\" with no argument"
-msgstr ""
+msgstr "用法:“urpmq --auto-orphans”不带参数"
 
 #: ../urpmq:209
 #, c-format
@@ -3144,25 +3147,3 @@ msgstr "由于介质“%s”没有 xml 信息，软件包 %s 无法返回任何�
 #, c-format
 msgid "No changelog found\n"
 msgstr "没有找到更新日志\n"
-
-#~ msgid "  --update       - create an update medium.\n"
-#~ msgstr "  --update       - 创建一个更新介质。\n"
-
-#~ msgid "malformed URL: [%s]"
-#~ msgstr "URL 格式错误: [%s]"
-
-#~ msgid "sorry, you can't use --install-src to install remote .src.rpm files"
-#~ msgstr "抱歉，您无法用 --install-src 安装远程 .src.rpm 文件"
-
-#~ msgid "Error"
-#~ msgstr "出错"
-
-#~ msgid "%d installation transaction failed"
-#~ msgid_plural "%d installation transactions failed"
-#~ msgstr[0] "%d 安装交易失败"
-
-#~ msgid "Package %s can not be installed"
-#~ msgstr "软件包 %s 无法安装"
-
-#~ msgid "Checking to remove the following packages"
-#~ msgstr "检查删除下列软件包"
