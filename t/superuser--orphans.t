@@ -24,6 +24,7 @@ use strict;
 use lib '.', 't';
 use helper;
 use urpm::util;
+use urpm::orphans;
 use Test::More 'no_plan';
 
 need_root_and_prepare();
@@ -36,6 +37,8 @@ urpmi_addmedia("$name-2 $::pwd/media/$name-2");
 # we want urpmi --auto-select to always check orphans (when not using --auto-orphans)
 set_urpmi_cfg_global_options({ 'nb-of-new-unrequested-pkgs-between-auto-select-orphans-check' => 0 });
 
+test_urpme(['h'], 'h', '');
+test_urpme(['hh', 'h'], 'h', 'hh');
 
 test_auto_select_both('a', '',    'a-2');
 test_auto_select_both('b', '',    'bb-2');
@@ -86,6 +89,7 @@ sub test_urpme1 {
     urpmi("--media $name-1 --auto $pkg");
     urpme("--auto --auto-orphans $pkg");    
     check_nothing_installed();
+    reset_unrequested_list();
 }
 sub test_urpme2 {
     my ($pkg, $wanted) = @_;
@@ -97,6 +101,7 @@ sub test_urpme2 {
     run_and_get_suggested_orphans("urpme $pkg", add_version1($wanted));
     urpme("--auto --auto-orphans");    
     check_nothing_installed();
+    reset_unrequested_list();
 }
 
 sub test_auto_select {
@@ -115,6 +120,7 @@ sub test_auto_select_raw_urpmq_urpme {
     is(run_urpm_cmd('urpmq -r --auto-orphans'), join('', sort map { "$_\n" } split ' ', $orphans_v2));
     urpme("--auto --auto-orphans");
     check_installed_fullnames_and_remove(split ' ', $wanted_v2);
+    reset_unrequested_list();
 }
 
 sub test_auto_select_raw_auto_orphans {
@@ -124,6 +130,7 @@ sub test_auto_select_raw_auto_orphans {
     check_installed_fullnames(split ' ', $wanted_v1);
     urpmi("--media $name-2 --auto --auto-select --auto-orphans");
     check_installed_fullnames_and_remove(split ' ', $wanted_v2);
+    reset_unrequested_list();
 }
 
 sub test_auto_select_urpme {
@@ -133,6 +140,16 @@ sub test_auto_select_urpme {
     urpmi("--media $name-2 --auto --auto-select");
     urpme("--auto --auto-orphans $remove_v2");
     check_installed_fullnames_and_remove(split ' ', $remaining_v2);
+    reset_unrequested_list();
+}
+
+sub test_urpme {
+    my ($req_v1, $remove_v1, $remaining_v1) = @_;
+    print "# test_auto_select_urpme(@$req_v1, $remaining_v1)\n";
+    urpmi("--media $name-1 --auto $_") foreach @$req_v1;
+    urpme("--auto --auto-orphans $remove_v1");
+    check_installed_and_remove(split ' ', $remaining_v1);
+    reset_unrequested_list();
 }
 
 sub run_and_get_suggested_orphans {
@@ -146,4 +163,8 @@ sub run_and_get_suggested_orphans {
     my $msg = join(" -- ", sort @msgs);
     my $wanted = join(" -- ", sort @wanted);
     ok($msg eq $wanted, "wanted:$wanted, got:$msg");
+}
+
+sub reset_unrequested_list() {
+    output_safe(urpm::orphans::unrequested_list__file({ root => 'root' }), '');
 }
