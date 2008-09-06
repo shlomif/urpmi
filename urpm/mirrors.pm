@@ -264,7 +264,7 @@ sub _mandriva_mirrorlist {
     my @para = grep { $_ } $ENV{URPMI_ADDMEDIA_REASON};
 
     "http://api.mandriva.com/mirrors/$product_type.$product_id->{version}.$arch.list"
-      . (@para ? '?' . join(',', @para) : '');
+      . (@para ? '?' . join('&', @para) : '');
 }
 
 #- heuristic to detect wether it is really a mirrorlist or a simple mirror url:
