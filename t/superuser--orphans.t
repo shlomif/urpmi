@@ -56,6 +56,9 @@ test_auto_select_both('t', 'tt1', 't-2 tt2-2', 'tt1-1');
 test_auto_select(['r', 'rr1'], 'r rr1 rr2', 'r-2 rr1-1', 'rr2-1');
 #test_auto_select(['s ss1'],    's ss1 ss2', 's-2 ss1-1', 'ss2-1'); # this fails, but that's ok
 
+test_auto_select_urpme(['g'], 'g', '');
+test_auto_select_urpme(['g', 'gg'], 'g', 'gg');
+
 sub add_version1 { map { "$_-1-1" } split(' ', $_[0] || '') }
 sub add_version2 { map { "$_-2-1" } split(' ', $_[0] || '') }
 sub add_release  { map { "$_-1"   } split(' ', $_[0] || '') }
@@ -121,6 +124,15 @@ sub test_auto_select_raw_auto_orphans {
     check_installed_fullnames(split ' ', $wanted_v1);
     urpmi("--media $name-2 --auto --auto-select --auto-orphans");
     check_installed_fullnames_and_remove(split ' ', $wanted_v2);
+}
+
+sub test_auto_select_urpme {
+    my ($req_v1, $remove_v2, $remaining_v2) = @_;
+    print "# test_auto_select_urpme(@$req_v1, $remove_v2, $remaining_v2)\n";
+    urpmi("--media $name-1 --auto $_") foreach @$req_v1;
+    urpmi("--media $name-2 --auto --auto-select");
+    urpme("--auto --auto-orphans $remove_v2");
+    check_installed_fullnames_and_remove(split ' ', $remaining_v2);
 }
 
 sub run_and_get_suggested_orphans {
