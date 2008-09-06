@@ -160,14 +160,14 @@ sub check_nothing_installed() {
 sub check_installed_and_remove {
     my (@names) = @_;
     check_installed_names(@names);
-    system_("rpm --root $::pwd/root -e " . join(' ', @names));
+    system_("rpm --root $::pwd/root -e " . join(' ', @names)) if @names;
     check_nothing_installed();
 }
 
 sub check_installed_fullnames_and_remove {
     my (@names) = @_;
     check_installed_fullnames(@names);
-    system_("rpm --root $::pwd/root -e " . join(' ', @names));
+    system_("rpm --root $::pwd/root -e " . join(' ', @names)) if @names;
     check_nothing_installed();
 }
 
@@ -180,7 +180,7 @@ sub check_installed_and_urpme {
 
 
 END { 
-    $using_root and system('rm -rf root');
+#    $using_root and system('rm -rf root');
     $server_pid and kill(9, $server_pid);
     system('rm -rf tmp');
 }
