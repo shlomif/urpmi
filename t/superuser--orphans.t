@@ -37,8 +37,8 @@ urpmi_addmedia("$name-2 $::pwd/media/$name-2");
 # we want urpmi --auto-select to always check orphans (when not using --auto-orphans)
 set_urpmi_cfg_global_options({ 'nb-of-new-unrequested-pkgs-between-auto-select-orphans-check' => 0 });
 
-test_urpme(['h'], 'h', '');
-test_urpme(['hh', 'h'], 'h', 'hh');
+test_urpme_v1(['h'], 'h', '');
+test_urpme_v1(['hh', 'h'], 'h', 'hh');
 
 test_auto_select_both('a', '',    'a-2');
 test_auto_select_both('b', '',    'bb-2');
@@ -59,8 +59,8 @@ test_auto_select_both('t', 'tt1', 't-2 tt2-2', 'tt1-1');
 test_auto_select(['r', 'rr1'], 'r rr1 rr2', 'r-2 rr1-1', 'rr2-1');
 #test_auto_select(['s ss1'],    's ss1 ss2', 's-2 ss1-1', 'ss2-1'); # this fails, but that's ok
 
-test_auto_select_urpme(['g'], 'g', '');
-test_auto_select_urpme(['g', 'gg'], 'g', 'gg');
+test_urpme(['g'], 'g', 'g', '');
+test_urpme(['gg', 'g'], 'g', 'g', 'gg-2');
 
 sub add_version1 { map { "$_-1-1" } split(' ', $_[0] || '') }
 sub add_version2 { map { "$_-2-1" } split(' ', $_[0] || '') }
@@ -133,19 +133,19 @@ sub test_auto_select_raw_auto_orphans {
     reset_unrequested_list();
 }
 
-sub test_auto_select_urpme {
-    my ($req_v1, $remove_v2, $remaining_v2) = @_;
-    print "# test_auto_select_urpme(@$req_v1, $remove_v2, $remaining_v2)\n";
+sub test_urpme {
+    my ($req_v1, $wanted_v2, $remove_v2, $remaining_v2) = @_;
+    print "# test_urpme(@$req_v1, $wanted_v2, $remove_v2, $remaining_v2)\n";
     urpmi("--media $name-1 --auto $_") foreach @$req_v1;
-    urpmi("--media $name-2 --auto --auto-select");
+    urpmi("--media $name-2 --auto $wanted_v2");
     urpme("--auto --auto-orphans $remove_v2");
-    check_installed_fullnames_and_remove(split ' ', $remaining_v2);
+    check_installed_fullnames_and_remove(add_release($remaining_v2));
     reset_unrequested_list();
 }
 
-sub test_urpme {
+sub test_urpme_v1 {
     my ($req_v1, $remove_v1, $remaining_v1) = @_;
-    print "# test_auto_select_urpme(@$req_v1, $remaining_v1)\n";
+    print "# test_urpme_v1(@$req_v1, $remaining_v1)\n";
     urpmi("--media $name-1 --auto $_") foreach @$req_v1;
     urpme("--auto --auto-orphans $remove_v1");
     check_installed_and_remove(split ' ', $remaining_v1);
