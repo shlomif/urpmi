@@ -42,14 +42,17 @@ sub add_param_closure {
 # to ensure f*cking code (eg: Sys::Syslog) won't exit and break graphical interfaces
 END { $::debug_exit and print STDERR "EXITING (pid=$$)\n" }
 
+sub set_debug { 
+    my ($urpm) = @_;
+    $::debug_exit = 1;
+    $options{verbose}++;
+    $urpm->{debug} = $urpm->{debug_URPM} = sub { print STDERR "$_[0]\n" };
+}
+
 # options specifications for Getopt::Long
 
 my %options_spec_all = (
-	'debug' => sub { 
-	    $::debug_exit = 1; 
-	    $options{verbose}++;
-	    $urpm->{debug} = $urpm->{debug_URPM} = sub { print STDERR "$_[0]\n" };
-	},
+	'debug' => sub { set_debug($urpm) },
 	'debug-librpm' => sub { URPM::setVerbosity(7) }, # 7 == RPMLOG_DEBUG
 	'q|quiet' => sub { --$options{verbose} },
 	'v|verbose' => sub { ++$options{verbose} },
