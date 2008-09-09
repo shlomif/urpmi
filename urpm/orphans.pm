@@ -73,11 +73,14 @@ sub _installed_req_and_unreq_and_update_unrequested_list {
 
 #- side-effects: none
 sub _selected_unrequested {
-    my ($urpm, $selected) = @_;
+    my ($urpm, $selected, $rejected) = @_;
 
+    require urpm::select;
     map {
 	if (my $from = $selected->{$_}{from}) {
-	    ($urpm->{depslist}[$_]->name => "(required by " . $from->fullname . ")");
+	    my $name = $urpm->{depslist}[$_]->name;
+	    urpm::select::was_pkg_name_installed($rejected, $name) ? () : 
+		($name => "(required by " . $from->fullname . ")");
 	} elsif ($selected->{$_}{suggested}) {
 	    ($urpm->{depslist}[$_]->name => "(suggested)");
 	} else {
@@ -110,7 +113,7 @@ sub _renamed_unrequested {
 sub _new_unrequested {
     my ($urpm, $state) = @_;
     (
-	_selected_unrequested($urpm, $state->{selected}),
+	_selected_unrequested($urpm, $state->{selected}, $state->{rejected}),
 	_renamed_unrequested($urpm, $state->{rejected}),
     );
 }

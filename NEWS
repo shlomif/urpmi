@@ -1,6 +1,8 @@
 - urpmi
   o after installing in chroot, migrate back rpmdb db version to one
     compatible with the rpm in the chroot
+  o fix orphans handling: an already installed pkg must not become
+    "unrequested" because a new version of it is required
 - fix display of downloaded urls with aria2 and metalinks
 - fix handling --downloader when using mirrorlist (it was forcing aria2)
 
