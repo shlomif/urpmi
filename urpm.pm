@@ -282,6 +282,16 @@ sub db_open_or_die_ {
     db_open_or_die($urpm, $urpm->{root}, $b_write_perm);
 }
 
+sub db_open_or_die__ {
+    if ($options{rpmdb}) {
+        $db = new URPM;
+        $db->parse_synthesis($options{rpmdb});
+    } else {
+        $db = urpm::db_open_or_die_($urpm);
+    }
+    $db;
+}
+
 # please use higher level function db_open_or_die_()
 sub db_open_or_die {
     my ($urpm, $root, $b_write_perm) = @_;

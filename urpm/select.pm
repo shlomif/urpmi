@@ -248,14 +248,7 @@ sub resolve_dependencies {
 	require urpm::parallel; #- help perl_checker;
 	urpm::parallel::resolve_dependencies($urpm, $state, $requested, %options);
     } else {
-	my $db;
-
-	if ($options{rpmdb}) {
-	    $db = new URPM;
-	    $db->parse_synthesis($options{rpmdb});
-	} else {
-	    $db = urpm::db_open_or_die_($urpm);
-	}
+	my $db = db_open_or_die__();
 
 	my $sig_handler = sub { undef $db; exit 3 };
 	local $SIG{INT} = $sig_handler;
