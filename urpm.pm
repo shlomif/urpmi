@@ -134,6 +134,24 @@ sub is_temporary_file {
     begins_with($f, $urpm->{cachedir});
 }
 
+sub set_env {
+    my ($urpm, $env) = @_;
+    -d $env or $urpm->{fatal}(8, N("Environment directory %s does not exist", $env));
+    print N("using specific environment on %s\n", $env);
+    #- setting new environment.
+    $urpm->{config} = "$env/urpmi.cfg";
+    if (cat_($urpm->{config}) =~ /^\s*virtual\s*$/m) {
+	print "dropping virtual from $urpm->{config}\n";
+	system(q(perl -pi -e 's/^\s*virtual\s*$//' ) . $urpm->{config});
+    }
+    $urpm->{configs_dir} = "$env/media.d";
+    $urpm->{skiplist} = "$env/skip.list";
+    $urpm->{instlist} = "$env/inst.list";
+    $urpm->{prefer_list} = "$env/prefer.list";
+    $urpm->{prefer_vendor_list} = "$env/prefer.vendor.list";
+    $urpm->{statedir} = $env;
+}
+
 sub set_files {
     my ($urpm, $urpmi_root) = @_;
 
