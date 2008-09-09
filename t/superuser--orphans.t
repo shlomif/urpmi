@@ -166,5 +166,7 @@ sub run_and_get_suggested_orphans {
 }
 
 sub reset_unrequested_list() {
-    output_safe(urpm::orphans::unrequested_list__file({ root => 'root' }), '');
+    my $f = urpm::orphans::unrequested_list__file({ root => 'root' });
+    output_safe($f, '');
+    output_safe("$f.old", ''); # needed to ensure check_unrequested_orphans_after_auto_select() works
 }
