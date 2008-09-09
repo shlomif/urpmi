@@ -283,9 +283,11 @@ sub db_open_or_die_ {
 }
 
 sub db_open_or_die__ {
-    if ($options{rpmdb}) {
+    my ($urpm, $o_rpmdb) = @_;
+    my $db;
+    if ($o_rpmdb) {
         $db = new URPM;
-        $db->parse_synthesis($options{rpmdb});
+        $db->parse_synthesis($p_rpmdb);
     } else {
         $db = urpm::db_open_or_die_($urpm);
     }
