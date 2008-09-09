@@ -180,7 +180,7 @@ sub check_installed_and_urpme {
 
 
 END { 
-#    $using_root and system('rm -rf root');
+    $using_root and system('rm -rf root');
     $server_pid and kill(9, $server_pid);
     system('rm -rf tmp');
 }
