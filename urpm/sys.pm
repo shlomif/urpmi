@@ -108,6 +108,15 @@ sub _expand_symlink {
     $pdir;
 }
 
+sub may_clean_rpmdb_shared_regions {
+    my ($urpm, $test) = @_;
+
+    if ($urpm->{root} && !$test || $urpm->{tune_rpm}{private}) {
+	$urpm->{root} && $urpm->{debug} and $urpm->{debug}("workaround bug in rpmlib by removing /var/lib/rpm/__db*");
+	clean_rpmdb_shared_regions($urpm->{root});	
+    }
+}
+
 sub clean_rpmdb_shared_regions {
     my ($prefix) = @_;
     unlink glob("$prefix/var/lib/rpm/__db.*");

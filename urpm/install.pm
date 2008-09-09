@@ -286,10 +286,7 @@ sub install {
     }
     unlink @produced_deltas;
 
-    if ($urpm->{root} && !$options{test} || $urpm->{tune_rpm}{private}) {
-	$urpm->{root} && $urpm->{debug} and $urpm->{debug}("workaround bug in rpmlib by removing /var/lib/rpm/__db*");
-	urpm::sys::clean_rpmdb_shared_regions($urpm->{root});	
-    }
+    urpm::sys::may_clean_rpmdb_shared_regions($urpm, $options{test});
 
     @errors;
 }
