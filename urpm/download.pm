@@ -802,7 +802,8 @@ sub sync {
     if ($medium) {
 	$urpm->{error}("deprecated urpm::download::sync() called with a medium, this is not handled anymore, not using the medium and only taking the protocol into account");
     }
-    sync_url($urpm, $_, %options) foreach @$files;
+    sync_url($urpm, $_, %options) or return foreach @$files;
+    1;
 }
 
 sub get_content {
