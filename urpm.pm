@@ -287,7 +287,7 @@ sub db_open_or_die__ {
     my $db;
     if ($o_rpmdb) {
         $db = new URPM;
-        $db->parse_synthesis($p_rpmdb);
+        $db->parse_synthesis($o_rpmdb);
     } else {
         $db = urpm::db_open_or_die_($urpm);
     }
