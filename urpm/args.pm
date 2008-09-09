@@ -49,13 +49,17 @@ sub set_debug {
     $urpm->{debug} = $urpm->{debug_URPM} = sub { print STDERR "$_[0]\n" };
 }
 
+sub set_verbose {
+    $options{verbose} += $_[0];
+}
+
 # options specifications for Getopt::Long
 
 my %options_spec_all = (
 	'debug' => sub { set_debug($urpm) },
 	'debug-librpm' => sub { URPM::setVerbosity(7) }, # 7 == RPMLOG_DEBUG
-	'q|quiet' => sub { --$options{verbose} },
-	'v|verbose' => sub { ++$options{verbose} },
+	'q|quiet' => sub { set_verbose(-1) },
+	'v|verbose' => sub { set_verbose(1) },
 	'urpmi-root=s' => sub { urpm::set_files($urpm, $_[1]) },
 	'wait-lock' => \$options{wait_lock},
 	'use-copied-hdlist' => sub { $urpm->{options}{use_copied_hdlist} = 1 },
@@ -467,6 +471,11 @@ sub set_root {
 	    }
 }
 
+sub set_verbosity {
+    $options{verbose} >= 0 or $urpm->{info} = sub {};
+    $options{verbose} > 0 or $urpm->{log} = sub {};
+}
+
 sub parse_cmdline {
     my %args = @_;
     $urpm = $args{urpm};
@@ -475,8 +484,7 @@ sub parse_cmdline {
     }
     my $ret = GetOptions(%{$options_spec{$tool}}, %options_spec_all);
 
-    $options{verbose} >= 0 or $urpm->{info} = sub {};
-    $options{verbose} > 0 or $urpm->{log} = sub {};
+    set_verbosity();
 
     $urpm->{tune_rpm} and urpm::tune_rpm($urpm);
 
