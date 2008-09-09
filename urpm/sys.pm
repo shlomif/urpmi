@@ -221,6 +221,24 @@ sub print_need_restart() {
     print "$_\n" foreach values %$h;
 }
 
+sub migrate_back_rpmdb_db_version {
+    my ($urpm, $root) = @_;
+
+    $urpm->{info}("migrating back the created rpm db from Hash version 9 to Hash version 8");
+
+    foreach my $db_file (glob("$root/var/lib/rpm/[A-Z]*")) {
+	rename $db_file, "$db_file.";
+	system("db_dump $db_file. | db42_load $db_file");
+	if (-e $db_file) {
+	    unlink "$db_file.";
+	} else {
+	    rename "$db_file.", $db_file;
+	    $urpm->{error}("rpm db migration failed on $db_file. You will not be able to run rpm chrooted");
+	    return;
+	}
+    }
+    clean_rpmdb_shared_regions($root);
+}
 
 #- create a plain rpm from an installed rpm and a delta rpm (in the current directory)
 #- returns the new rpm filename in case of success

@@ -10,6 +10,8 @@ use URPM;
 my $default_priority_list = 'rpm,perl-URPM,perl-MDV-Distribconf,urpmi,meta-task,glibc';
 my @priority_list = split(',', $default_priority_list);
 
+my $evr_re = qr/[^\-]*-[^\-]*\.[^\.\-]*$/;
+
 sub add_packages_to_priority_upgrade_list {
     @priority_list = uniq(@priority_list, @_);
 }
@@ -573,6 +575,21 @@ sub translate_why_unselected_one {
     $fullname . ($s ? " ($s)" : '');
 }
 
+sub selected_packages_providing {
+    my ($urpm, $state, $name) = @_;
+    map { $urpm->{depslist}[$_] } grep { $state->{selected}{$_} } keys %{$urpm->{provides}{$name} || {}};
+}
+
+sub was_pkg_name_installed {
+    my ($rejected, $name) = @_;
+
+    foreach (keys %$rejected) {
+	/^\Q$name\E-$evr_re/ or next;
+	$rejected->{$_}{obsoleted} and return 1;
+    }
+    0;
+}
+
 sub removed_packages {
     my (undef, $state) = @_;
     grep {
@@ -621,6 +638,32 @@ sub translate_why_removed_one {
     };
     #- now insert the reason if available.
     $fullname . ($s ? "\n ($s)" : '');
+}
+
+sub _libdb_version { $_[0] =~ /libdb-(\S+)\.so/ ? eval "v$1" : () }
+
+sub should_we_migrate_back_rpmdb_db_version {
+    my ($urpm, $state) = @_;
+
+    my ($pkg) = urpm::select::selected_packages_providing($urpm, $state, 'rpm') or return;
+    urpm::select::was_pkg_name_installed($state->{rejected}, 'rpm') and return;
+    my ($rooted_librpm_version) = map { _libdb_version($_) } $pkg->requires;
+
+    my $urpmi_librpm_version = _libdb_version(scalar `ldd /bin/rpm`);
+
+    if ($urpmi_librpm_version ge v4.6) {
+	if ($rooted_librpm_version && $rooted_librpm_version ge v4.6) {
+	    $urpm->{debug} and $urpm->{debug}("chrooted db version used by librpm is at least as good as non-rooted one");
+	} else {
+	    foreach my $bin ('db_dump', 'db42_load') {
+		urpm::sys::whereis_binary($bin) 
+		  or $urpm->{error}("can not migrate rpm db from Hash version 9 to Hash version 8 without $bin"), 
+		    return;
+	    }
+	    return 1;
+	}
+    }
+    0;
 }
 
 1;

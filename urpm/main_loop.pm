@@ -82,6 +82,9 @@ my ($ok, $nok) = (0, 0);
 my @errors;
 my $exit_code = 0;
 
+my $migrate_back_rpmdb_db_version = 
+  $urpm->{root} && urpm::select::should_we_migrate_back_rpmdb_db_version($urpm, $state);
+
 foreach my $set (@{$state->{transaction} || []}) {
 
     #- put a blank line to separate with previous transaction or user question.
@@ -273,6 +276,10 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    }
 	}
     }
+}
+
+if ($migrate_back_rpmdb_db_version) {
+    urpm::sys::migrate_back_rpmdb_db_version($urpm, $urpm->{root});
 }
 
 $callbacks->{completed} and $callbacks->{completed}->();
