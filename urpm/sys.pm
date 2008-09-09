@@ -204,7 +204,7 @@ sub need_restart_formatted {
 
 # useful on command-line: perl -Murpm::sys -e 'urpm::sys::print_need_restart'
 sub print_need_restart() {
-    my $h = need_restart_formatted();
+    my $h = need_restart_formatted('');
     print "$_\n" foreach values %$h;
 }
 
