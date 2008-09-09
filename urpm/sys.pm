@@ -108,6 +108,19 @@ sub _expand_symlink {
     $pdir;
 }
 
+sub whereis_binary {
+    my ($prog, $o_prefix) = @_;
+    if ($prog =~ m!/!) {
+	warn qq(don't call whereis_binary with a name containing a "/" (the culprit is: $prog)\n);
+	return;
+    }
+    my $prefix = $o_prefix || '';
+    foreach (split(':', $ENV{PATH})) {
+	my $f = "$_/$prog";
+	-x "$prefix$f" and return $f; 
+    }
+}
+
 sub may_clean_rpmdb_shared_regions {
     my ($urpm, $test) = @_;
 
