@@ -628,6 +628,7 @@ sub sync_aria2 {
 
     $options->{debug} and $options->{debug}($aria2c_command);
 
+    local $ENV{LC_ALL} = 'C';
     my $aria2_pid = open(my $aria2, "$aria2c_command |");
 
     my ($buf, $_total, $file) = ('', undef, undef);
