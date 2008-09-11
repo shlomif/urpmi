@@ -599,6 +599,24 @@ sub rejected_unsatisfied {
     map { $_ ? @$_ : () } map { $_->{unsatisfied} } values %$closure;
 }
 
+sub conflicting_packages_msg_ {
+    my ($urpm, $state, $removed_packages_msgs) = @_;
+
+    my $list = join("\n", @$removed_packages_msgs) or return;
+    @$removed_packages_msgs == 1 ? 
+        N("The following package has to be removed for others to be upgraded:\n%s", $list)
+	: N("The following packages have to be removed for others to be upgraded:\n%s", $list);
+}
+sub conflicting_packages_msg {
+    my ($urpm, $state) = @_;
+    conflicting_packages_msg_($urpm, $state, [ removed_packages_msgs($urpm, $state) ]);
+}
+
+sub removed_packages_msgs {
+    my ($urpm, $state) = @_;
+    map { translate_why_removed_one($urpm, $state, $_) } sort(removed_packages($urpm, $state));
+}
+
 sub translate_why_removed {
     my ($urpm, $state, @fullnames) = @_;
     join("\n", map { translate_why_removed_one($urpm, $state, $_) } sort @fullnames);

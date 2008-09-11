@@ -519,8 +519,8 @@ if (@ask_unselect) {
     }
 }
 
-my @ask_remove = $urpm->{options}{'allow-force'} ? @{[]} : urpm::select::removed_packages($urpm, $state);
-if (@ask_remove) {
+if (my @conflicting_pkgs_msgs = 
+      $urpm->{options}{'allow-force'} ? () : urpm::select::removed_packages_msgs($urpm, $state)) {
     {
 	my $db = urpm::db_open_or_die_($urpm);
 	urpm::select::find_removed_from_basesystem($urpm, $db, $state, sub {
@@ -531,10 +531,9 @@ if (@ask_remove) {
 	    @pkgs and $no_remove = 1;
 	});
     }
-    my $list = urpm::select::translate_why_removed($urpm, $state, @ask_remove);
-
     if ($no_remove && !$force) {
-	my $msg = @ask_remove == 1 ?
+	my $list = join("\n", @conflicting_pkgs_msgs);
+	my $msg = @conflicting_pkgs_msgs == 1 ?
 	N("The installation cannot continue because the following package
 has to be removed for others to be upgraded:\n%s\n", $list)
 	: N("The installation cannot continue because the following packages
@@ -543,9 +542,7 @@ have to be removed for others to be upgraded:\n%s\n", $list);
 	exit 0;
     }
 
-    my $msg = @ask_remove == 1 ? 
-        N("The following package has to be removed for others to be upgraded:\n%s", $list)
-	: N("The following packages have to be removed for others to be upgraded:\n%s", $list);
+    my $msg = urpm::select::conflicting_packages_msg_($urpm, $state, \@conflicting_pkgs_msgs);
     if ($test) {
 	$msg = "$msg\n" . N("(test only, removal will not be actually done)");
     }
