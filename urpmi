@@ -253,7 +253,7 @@ if ($bug) {
 	    : N("Unable to create directory [%s] for bug report", $bug)));
     #- copy all synthesis file used, along with configuration of urpmi
     my @list_files = grep { -e $_ } $urpm->{skiplist}, $urpm->{instlist}, 
-                                    $urpm->{prefer_list}, $urpm->{prefer_vendor_list};
+                                    $urpm->{prefer_list}, $urpm->{prefer_vendor_list}, '/root/.rpmdrake';
     system("cp", "-af", @list_files, $urpm->{config}, $bug)
 	and die N("Copying failed");
     #- log everything for bug report.
