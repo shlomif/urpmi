@@ -615,8 +615,10 @@ sub sync_aria2 {
 	'--metalink-enable-unique-protocol=false', # so that it can try both ftp and http access on the same server. aria2 will only do this on first calls
 	'--max-tries=1', # nb: not using $options->{retry}
 	'--lowest-speed-limit=20K', "--timeout", 3, # $CONNECT_TIMEOUT,
-        '-C3', # maximum number of servers to use for one download
+        '--metalink-servers=3', # maximum number of servers to use for one download
         '--uri-selector=adaptive', "--server-stat-if=$stat_file", "--server-stat-of=$stat_file",
+        '--max-file-not-found=3', # number of not found errors on different servers before aborting file download
+        '--connect-timeout=3',
 	"-Z", "-j1",
 	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : ()),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
@@ -930,7 +932,7 @@ sub _create_metalink_ {
     my @mirrors = map {
 	# aria2 doesn't handle rsync
 	my @l = grep { urpm::protocol_from_url($_->{url}) ne 'rsync' } @$_;
-	_take_n_elem(16, @l);
+	_take_n_elem(8, @l);
     } urpm::mirrors::list_urls($urpm, $medium, '');
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
