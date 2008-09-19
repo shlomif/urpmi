@@ -868,8 +868,7 @@ sub add_distrib_media {
         if ($options{ask_media}) {
             $options{ask_media}->($media_name, $add_by_default) or next;
         } else {
-	    my $simple_rpms = !$distribconf->getvalue($media, 'debug_for') && 
-	                      !$distribconf->getvalue($media, 'rpms');
+	    my $simple_rpms = !$distribconf->getvalue($media, 'rpms');
 	    $add_by_default || $simple_rpms or next;
 	    $ignore = !$add_by_default;
 	}
