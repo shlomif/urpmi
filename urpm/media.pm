@@ -753,7 +753,7 @@ sub add_medium {
 	$medium->{media_info_dir} ||= 'media_info';
 
 	# this is a little ugly since MD5SUM will be downloaded again later, but it's small enough...
-	_download_MD5SUM_and_check($urpm, $medium) or return;
+	_download_MD5SUM_and_check($urpm, $medium, 'probe') or return;
     }
 
     if ($with_synthesis) {
@@ -823,7 +823,7 @@ sub add_distrib_media {
 
 	my $m = { mirrorlist => $options{mirrorlist}, url => $url };
 	my $parse_ok;
-	try__maybe_mirrorlist($urpm, $m, sub {
+	try__maybe_mirrorlist($urpm, $m, 'probe', sub {
 	    $distribconf = _new_distribconf_and_download($urpm, $m);
 	    $parse_ok = $distribconf && $distribconf->parse_mediacfg("$urpm->{cachedir}/partial/media.cfg");
 	    $parse_ok;
@@ -1274,9 +1274,9 @@ sub get_synthesis__local {
     }
 }
 sub get_synthesis__remote {
-    my ($urpm, $medium, $callback, $quiet) = @_;
+    my ($urpm, $medium, $callback, $quiet, $is_a_probe) = @_;
 
-    my $ok = try__maybe_mirrorlist($urpm, $medium, sub {
+    my $ok = try__maybe_mirrorlist($urpm, $medium, $is_a_probe, sub {
 	urpm::download::sync_rel($urpm, $medium, [ _url_with_synthesis_rel($medium) ],
 			     quiet => $quiet, callback => $callback) &&
 			       _check_synthesis(cachedir_with_synthesis($urpm, $medium));
@@ -1416,11 +1416,11 @@ sub _download_MD5SUM {
 }
 
 sub _download_MD5SUM_and_check {
-    my ($urpm, $medium) = @_;
+    my ($urpm, $medium, $is_a_probe) = @_;
 
     my ($err, $cachedir_MD5SUM);
     require urpm::mirrors;
-    try__maybe_mirrorlist($urpm, $medium, sub {
+    try__maybe_mirrorlist($urpm, $medium, $is_a_probe, sub {
 	$cachedir_MD5SUM = _download_MD5SUM($urpm, $medium) or $err = $@;
 	$cachedir_MD5SUM && urpm::md5sum::check_file($cachedir_MD5SUM);
     }) and return $cachedir_MD5SUM;
@@ -1429,6 +1429,7 @@ sub _download_MD5SUM_and_check {
 	$urpm->{error}(N("invalid MD5SUM file (downloaded from %s)", _synthesis_dir($medium)));
     } else {
 	$urpm->{error}(N("...retrieving failed: %s", $err));
+	$is_a_probe and $urpm->{error}(N("no metadata found for medium \"%s\"", $medium->{name}));
     }
     undef;
 }
@@ -1447,7 +1448,7 @@ sub _update_medium__parse_if_unmodified__remote {
 	#- file is present.
 
 	if (!$options->{nomd5sum}) {
-	    my $new_MD5SUM = _download_MD5SUM_and_check($urpm, $medium) or return;
+	    my $new_MD5SUM = _download_MD5SUM_and_check($urpm, $medium, '') or return;
 	    if ($options->{force} < 2 && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
 		_medium_is_up_to_date($urpm, $medium);
 		return 'unmodified';
@@ -1501,7 +1502,7 @@ sub _update_medium__parse_if_unmodified__remote {
 		) or $error->(N("...copying failed")), return;
 	    }
 	}
-	$ok = get_synthesis__remote($urpm, $medium, $options->{callback}, $options->{quiet});
+	$ok = get_synthesis__remote($urpm, $medium, $options->{callback}, $options->{quiet}, '');
     }
 
     $ok &&= check_synthesis_md5sum($urpm, $medium) if !$options->{force} && !$options->{nomd5sum};
@@ -1794,7 +1795,7 @@ sub _pick_mirror_if_needed {
 #- side-effects:
 #-   + those of urpm::mirrors::try ($urpm->{mirrors_cache}, $medium->{url})
 sub try__maybe_mirrorlist {
-    my ($urpm, $medium, $try) = @_;
+    my ($urpm, $medium, $is_a_probe, $try) = @_;
 
     if ($medium->{mirrorlist}) {
 	$medium->{allow_metalink} //= urpm::download::use_metalink($urpm, $medium);
@@ -1805,7 +1806,9 @@ sub try__maybe_mirrorlist {
 	    $try->();
 	} else {
 	    require urpm::mirrors;
-	    urpm::mirrors::try($urpm, $medium, $try);
+	    $is_a_probe
+	      ? urpm::mirrors::try_probe($urpm, $medium, $try)
+	      : urpm::mirrors::try($urpm, $medium, $try);
 	}
     } else {
 	$try->();

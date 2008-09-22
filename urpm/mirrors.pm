@@ -24,6 +24,27 @@ sub try {
     0;
 }
 
+#- similar to try() above, but failure is "normal"
+#- (useful when we lookup a file)
+#-
+#- $medium fields used: mirrorlist, with-dir
+#- side-effects: $medium->{url}
+#-   + those of list_urls ($urpm->{mirrors_cache})
+sub try_probe {
+    my ($urpm, $medium, $try) = @_;
+
+    my $nb = 0;
+    foreach my $mirror (map { @$_ } list_urls($urpm, $medium, '')) {
+	$nb++ < $urpm->{options}{'max-round-robin-probes'} or last;
+	my $url = $mirror->{url};
+	$nb > 1 ? $urpm->{info}(N("trying again with mirror %s", $url)) 
+	        : $urpm->{log}("using mirror $url");
+	$medium->{url} = _add__with_dir($url, $medium->{'with-dir'});
+	$try->() and return 1;
+    }
+    0;
+}
+
 #- side-effects: none
 sub _add__with_dir {
     my ($url, $with_dir) = @_;
