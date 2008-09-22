@@ -48,6 +48,40 @@ sub available_metalink_downloaders() {
     grep { -x "/usr/bin/$binaries{$_}" || -x "/bin/$binaries{$_}" } metalink_downloaders();
 }
 
+
+sub preferred_downloader {
+    my ($urpm, $medium, $use_metalink) = @_;
+
+    my @available = urpm::download::available_ftp_http_downloaders();
+    my @metalink_downloaders;
+
+    if ($$use_metalink) {
+	#- If metalink is used, only aria2 is available as other downloaders doesn't support metalink
+	@metalink_downloaders = urpm::download::available_metalink_downloaders();
+	unshift @available, @metalink_downloaders;
+    }
+	    
+    #- first downloader of @available is the default one
+    my $preferred = $available[0];
+    my $requested_downloader = requested_ftp_http_downloader($urpm, $medium);
+    if ($requested_downloader) {
+	if (member($requested_downloader, @available)) {
+	    #- use user default downloader if provided and available
+	    $preferred = $requested_downloader;
+	} elsif (!our $webfetch_not_available) {
+	    $urpm->{log}(N("%s is not available, falling back on %s", $requested_downloader, $preferred));
+	    $webfetch_not_available = 1;
+	}
+    }
+    if ($$use_metalink && !member($preferred, @metalink_downloaders)) {
+	$urpm->{log}($requested_downloader eq $preferred ? 
+		       "not using metalink since requested downloader does not handle it" :
+		       "not using metalink since no downloaders handling metalink are available");
+	$$use_metalink = 0;
+    }
+    $preferred;
+}
+
 sub parse_http_proxy {
     $_[0] =~ m!^(?:http://)?([^:/]+(:\d+)?)/*$!;
 }
@@ -841,34 +875,7 @@ sub _sync_webfetch_raw {
 	$urpm->{fatal}(10, $@) if $@;
     } elsif (member($proto, 'ftp', 'http', 'https')) {
 
-	my @available = urpm::download::available_ftp_http_downloaders();
-	my @metalink_downloaders;
-
-	if ($options->{metalink}) {
-	    #- If metalink is used, only aria2 is available as other downloaders doesn't support metalink
-	    @metalink_downloaders = urpm::download::available_metalink_downloaders();
-	    unshift @available, @metalink_downloaders;
-	}
-	    
-
-	#- first downloader of @available is the default one
-	my $preferred = $available[0];
-	my $requested_downloader = requested_ftp_http_downloader($urpm, $medium);
-	if ($requested_downloader) {
-	    if (member($requested_downloader, @available)) {
-		#- use user default downloader if provided and available
-		$preferred = $requested_downloader;
-	    } elsif (!our $webfetch_not_available) {
-		$urpm->{log}(N("%s is not available, falling back on %s", $requested_downloader, $preferred));
-		$webfetch_not_available = 1;
-	    }
-	}
-	if ($options->{metalink} && !member($preferred, @metalink_downloaders)) {
-	    $urpm->{log}($requested_downloader eq $preferred ? 
-			   "not using metalink since requested downloader does not handle it" :
-			   "not using metalink since no downloaders handling metalink are available");
-	    delete $options->{metalink};
-	}
+	my $preferred = preferred_downloader($urpm, $medium, \$options->{metalink});
 
 	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
 
