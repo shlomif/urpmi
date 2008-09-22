@@ -748,18 +748,14 @@ sub add_medium {
 	_migrate_removable_device($urpm, $medium);
     }
 
-    if (!$medium->{url} && $options{mirrorlist}) {	
-	# forcing the standard media_info_dir if undefined
-	$medium->{media_info_dir} ||= 'media_info';
-
-	# this is a little ugly since MD5SUM will be downloaded again later, but it's small enough...
-	_download_MD5SUM_and_check($urpm, $medium, 'probe') or return;
-    }
-
     if ($with_synthesis) {
 	_migrate__with_synthesis($medium, $with_synthesis);
     } elsif (!$medium->{media_info_dir}) {
-	$medium->{unknown_media_info} = 1;
+	if (!is_local_medium($medium)) {
+	    $medium->{media_info_dir} = 'media_info';
+	} else {
+	    $medium->{unknown_media_info} = 1;
+	}
     }
 
     #- local media have priority, other are added at the end.
@@ -1438,23 +1434,16 @@ sub _download_MD5SUM_and_check {
 sub _update_medium__parse_if_unmodified__remote {
     my ($urpm, $medium, $options) = @_;
 
-    #- examine if a distant MD5SUM file is available.
-    #- this will only be done if $with_synthesis is not empty in order to use
-    #- an existing synthesis file, and to check if download was good.
-    #- if no MD5SUM is available, do it as before...
-    if (_synthesis_dir($medium)) {
-	#- we can assume at this point a basename is existing, but it needs
-	#- to be checked for being valid, nothing can be deduced if no MD5SUM
-	#- file is present.
+    my $updating = -e statedir_synthesis($urpm, $medium);
 
+    #- examine if a distant MD5SUM file is available.
 	if (!$options->{nomd5sum}) {
-	    my $new_MD5SUM = _download_MD5SUM_and_check($urpm, $medium, '') or return;
+	    my $new_MD5SUM = _download_MD5SUM_and_check($urpm, $medium, !$updating) or return;
 	    if ($options->{force} < 2 && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
 		_medium_is_up_to_date($urpm, $medium);
 		return 'unmodified';
 	    }
 	}
-    }
 
     #- try to probe for possible with_synthesis parameter, unless
     #- it is already defined (and valid).
@@ -1466,30 +1455,7 @@ sub _update_medium__parse_if_unmodified__remote {
 	unlink cachedir_with_synthesis($urpm, $medium);
 	$options->{callback} and $options->{callback}('failed', $medium->{name});
     };
-    my $ok = 1;
-    if (!_synthesis_dir($medium)) {
-	my $err;
-	_probe_with_try_list($urpm, $medium, sub {
-	    my ($url, $rel_url) = @_;
-	    my $f = "$urpm->{cachedir}/partial/" . basename($rel_url);
-	    $options->{force} and unlink $f;
-	    if (urpm::download::sync_rel($urpm, $medium, [ $rel_url ],
-				     quiet => $options->{quiet}, callback => $options->{callback}) && _check_synthesis($f)) {
-		$urpm->{log}(N("found probed synthesis as %s", $url));
-		1;
-	    } else {
-		chomp($err = $@);
-		0;
-	    }
-	}) or do {
-	    $error->(N("no synthesis file found for medium \"%s\"", $medium->{name}));
-	    $urpm->{error}(N("...retrieving failed: %s", $err));
-	    return;
-	};
 
-	$options->{nomd5sum} || _download_MD5SUM($urpm, $medium);
-
-    } else {
 	if ($options->{force}) {
 	    unlink cachedir_with_synthesis($urpm, $medium);
 	} else {
@@ -1502,8 +1468,7 @@ sub _update_medium__parse_if_unmodified__remote {
 		) or $error->(N("...copying failed")), return;
 	    }
 	}
-	$ok = get_synthesis__remote($urpm, $medium, $options->{callback}, $options->{quiet}, '');
-    }
+	my $ok = get_synthesis__remote($urpm, $medium, $options->{callback}, $options->{quiet}, !$updating);
 
     $ok &&= check_synthesis_md5sum($urpm, $medium) if !$options->{force} && !$options->{nomd5sum};
 
