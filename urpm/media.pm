@@ -1281,6 +1281,9 @@ sub get_synthesis__remote {
 	chomp(my $err = $@);
 	$urpm->{error}(N("...retrieving failed: %s", $err));
     }
+
+    $ok &&= check_synthesis_md5sum($urpm, $medium) if !$options->{force} && !$options->{nomd5sum};
+
     $ok;
 }
 
@@ -1469,8 +1472,6 @@ sub _update_medium__parse_if_unmodified__remote {
 	    }
 	}
 	my $ok = get_synthesis__remote($urpm, $medium, !$updating, $options);
-
-    $ok &&= check_synthesis_md5sum($urpm, $medium) if !$options->{force} && !$options->{nomd5sum};
 
     $options->{callback} and $options->{callback}('done', $medium->{name});
 
