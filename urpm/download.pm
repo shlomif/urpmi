@@ -48,7 +48,7 @@ sub available_metalink_downloaders() {
     grep { -x "/usr/bin/$binaries{$_}" || -x "/bin/$binaries{$_}" } metalink_downloaders();
 }
 
-
+my %warned;
 sub preferred_downloader {
     my ($urpm, $medium, $use_metalink) = @_;
 
@@ -68,13 +68,13 @@ sub preferred_downloader {
 	if (member($requested_downloader, @available)) {
 	    #- use user default downloader if provided and available
 	    $preferred = $requested_downloader;
-	} elsif (!our $webfetch_not_available) {
+	} elsif ($warned{webfetch_not_available}++ == 0) {
 	    $urpm->{log}(N("%s is not available, falling back on %s", $requested_downloader, $preferred));
-	    $webfetch_not_available = 1;
 	}
     }
     if ($$use_metalink && !member($preferred, @metalink_downloaders)) {
-	$urpm->{log}($requested_downloader eq $preferred ? 
+	$warned{not_using_metalink}++ or 
+	  $urpm->{log}($requested_downloader eq $preferred ? 
 		       "not using metalink since requested downloader does not handle it" :
 		       "not using metalink since no downloaders handling metalink are available");
 	$$use_metalink = 0;
