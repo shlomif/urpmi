@@ -48,6 +48,13 @@ sub available_metalink_downloaders() {
     grep { -x "/usr/bin/$binaries{$_}" || -x "/bin/$binaries{$_}" } metalink_downloaders();
 }
 
+sub use_metalink {
+    my ($urpm, $medium) = @_;
+    my $use_metalink = 1;
+    preferred_downloader($urpm, $medium, \$use_metalink);
+    $use_metalink;
+}
+
 my %warned;
 sub preferred_downloader {
     my ($urpm, $medium, $use_metalink) = @_;
@@ -813,7 +820,7 @@ sub sync_rel {
 
     my @files = map { reduce_pathname("$medium->{url}/$_") } @$rel_files;
 
-    my $files_text = join(' ', ($medium->{mirrorlist} && $urpm->{allow_metalink} ? ($medium->{mirrorlist}, $medium->{'with-dir'}) : url_obscuring_password($medium->{url})), @$rel_files);
+    my $files_text = join(' ', ($medium->{allow_metalink} ? ($medium->{mirrorlist}, $medium->{'with-dir'}) : url_obscuring_password($medium->{url})), @$rel_files);
     $urpm->{debug} and $urpm->{debug}(N("retrieving %s", $files_text));
 
     eval { 
