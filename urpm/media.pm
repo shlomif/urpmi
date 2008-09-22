@@ -1270,11 +1270,11 @@ sub get_synthesis__local {
     }
 }
 sub get_synthesis__remote {
-    my ($urpm, $medium, $callback, $quiet, $is_a_probe) = @_;
+    my ($urpm, $medium, $is_a_probe, $options) = @_;
 
     my $ok = try__maybe_mirrorlist($urpm, $medium, $is_a_probe, sub {
 	urpm::download::sync_rel($urpm, $medium, [ _url_with_synthesis_rel($medium) ],
-			     quiet => $quiet, callback => $callback) &&
+			     quiet => $options->{quiet}, callback => $options->{callback}) &&
 			       _check_synthesis(cachedir_with_synthesis($urpm, $medium));
     });
     if (!$ok) {
@@ -1468,7 +1468,7 @@ sub _update_medium__parse_if_unmodified__remote {
 		) or $error->(N("...copying failed")), return;
 	    }
 	}
-	my $ok = get_synthesis__remote($urpm, $medium, $options->{callback}, $options->{quiet}, !$updating);
+	my $ok = get_synthesis__remote($urpm, $medium, !$updating, $options);
 
     $ok &&= check_synthesis_md5sum($urpm, $medium) if !$options->{force} && !$options->{nomd5sum};
 
