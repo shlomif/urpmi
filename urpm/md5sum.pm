@@ -22,9 +22,7 @@ sub check_file {
 }
 
 sub from_MD5SUM__or_warn {
-    my ($urpm, $md5sum_file, $basename) = @_;
-    $urpm->{debug}(N("examining %s file", $md5sum_file)) if $urpm->{debug};
-    my $md5sums = parse($md5sum_file) or $urpm->{log}(N("invalid MD5SUM file")), return;
+    my ($urpm, $md5sums, $basename) = @_;
     $md5sums->{$basename} or $urpm->{log}(N("warning: md5sum for %s unavailable in MD5SUM file", $basename));
     $md5sums->{$basename};
 }

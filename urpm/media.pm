@@ -1303,7 +1303,7 @@ sub _check_synthesis {
 sub check_synthesis_md5sum {
     my ($urpm, $medium) = @_;
 
-    my $wanted_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, "$urpm->{cachedir}/partial/MD5SUM", 'synthesis.hdlist.cz');
+    my $wanted_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, $medium->{parsed_md5sum}, 'synthesis.hdlist.cz');
     if ($wanted_md5sum) {
 	$urpm->{log}(N("computing md5sum of retrieved source synthesis"));
 	urpm::md5sum::compute(cachedir_with_synthesis($urpm, $medium)) eq $wanted_md5sum or
@@ -1385,6 +1385,7 @@ sub _update_medium__parse_if_unmodified__local {
 
 	    $urpm->{log}(N("copying MD5SUM file of \"%s\"...", $medium->{name}));
 	    copy_and_own($new_MD5SUM, "$urpm->{cachedir}/partial/MD5SUM");
+	    $medium->{parsed_md5sum} = urpm::md5sum::parse($new_MD5SUM);
 	}
 
 	my $ok = get_synthesis__local($urpm, $medium, $options->{callback});
@@ -1446,6 +1447,7 @@ sub _update_medium__parse_if_unmodified__remote {
 		_medium_is_up_to_date($urpm, $medium);
 		return 'unmodified';
 	    }
+	    $medium->{parsed_md5sum} = urpm::md5sum::parse($new_MD5SUM);
 	}
 
     #- try to probe for possible with_synthesis parameter, unless
@@ -1704,6 +1706,8 @@ sub _retrieve_xml_media_info_or_remove {
 sub _retrieve_media_info_file_and_check_MD5SUM {
     my ($urpm, $medium, $prefix, $suffix, $quiet) = @_;
 
+    $medium->{parsed_md5sum} = urpm::md5sum::parse(statedir_MD5SUM($urpm, $medium));
+
     my $name = "$prefix$suffix";
     my $cachedir_file = 
       is_local_medium($medium) ?
@@ -1711,7 +1715,7 @@ sub _retrieve_media_info_file_and_check_MD5SUM {
 	_download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet) or
 	  $urpm->{error}(N("retrieval of [%s] failed", _synthesis_dir($medium) .  "/$name")), return;
 
-    my $wanted_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, statedir_MD5SUM($urpm, $medium), $name);
+    my $wanted_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, $medium->{parsed_md5sum}, $name);
     if ($wanted_md5sum) {
 	$urpm->{debug}("computing md5sum of retrieved $name") if $urpm->{debug};
 	urpm::md5sum::compute($cachedir_file) eq $wanted_md5sum or
