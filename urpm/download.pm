@@ -823,32 +823,34 @@ sub sync_rel {
     my $files_text = join(' ', ($medium->{allow_metalink} ? ($medium->{mirrorlist}, $medium->{'with-dir'}) : url_obscuring_password($medium->{url})), @$rel_files);
     $urpm->{debug} and $urpm->{debug}(N("retrieving %s", $files_text));
 
-    eval { 
-	_sync_webfetch_raw($urpm, $medium, $rel_files, \@files, _all_options($urpm, $medium, \%options)); 
+    my $all_options = _all_options($urpm, $medium, \%options);
+    my @result_files = map { $all_options->{dir} . '/' . basename($_) } @$rel_files;
+    unlink @result_files if $all_options->{preclean};
+
+    if (eval { _sync_webfetch_raw($urpm, $medium, $rel_files, \@files, $all_options); 1 }) {
 	$urpm->{log}(N("retrieved %s", $files_text));
-	1;
-    };
+	\@result_files;
+    } else {
+	# don't leave partial download
+	unlink @result_files;
+	undef;
+    }
 }
 
 sub sync_url {
     my ($urpm, $url, %options) = @_;
 
-    sync_rel($urpm, { url => dirname($url) }, [basename($url)], %options);
+    my $files = sync_rel($urpm, { url => dirname($url) }, [basename($url)], %options) or return;
+    @$files;
 }
 
 sub sync_rel_to {
     my ($urpm, $medium, $rel_file, $dest_file, %options) = @_;
 
-    my $download_dir = $options{dir} || "$urpm->{cachedir}/partial";
-    my $result_file = "$download_dir/" . basename($rel_file);
-
-    if (sync_rel($urpm, $medium, [$rel_file], %options)) {
-	$result_file ne $dest_file or rename($result_file, $dest_file) or return;
-	1;
-    } else {
-	unlink $result_file;
-	undef;
-    }
+    my $files = sync_rel($urpm, $medium, [$rel_file], %options) or return undef;
+    my $result_file = $files->[0];
+    $result_file ne $dest_file or rename($result_file, $dest_file) or return;
+    $result_file;
 }
 
 #- deprecated, use sync_url() or sync_rel() instead
@@ -868,11 +870,7 @@ sub sync {
 sub get_content {
     my ($urpm, $url) = @_;
 
-    my $download_dir = urpm::valid_cachedir($urpm) . '/partial/';
-    my $file = $download_dir . basename($url);
-
-    unlink $file; # prevent "partial file" errors
-    sync_url($urpm, $url, dir => $download_dir, quiet => 1) or return;
+    my $file = sync_url($urpm, $url, quiet => 1, preclean => 1) or return;
 
     my @l = cat_($file);
     unlink $file;
