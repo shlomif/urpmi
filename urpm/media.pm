@@ -1021,10 +1021,9 @@ sub may_reconfig_urpmi {
 	$f = urpm::download::sync_rel_one($urpm, $medium, 'reconfig.urpmi', 
 					  quiet => 1, preclean => 1) or return;
     }
-    if (-s $f) {
-	reconfig_urpmi($urpm, $f, $medium);
-    }
+    my $reconfigured = -s $f && reconfig_urpmi($urpm, $f, $medium);
     unlink $f if !is_local_medium($medium);
+    $reconfigured;
 }
 
 #- read a reconfiguration file for urpmi, and reconfigure media accordingly
@@ -1045,7 +1044,7 @@ sub reconfig_urpmi {
     #- the first line of reconfig.urpmi must be magic, to be sure it's not an error file
     $magic =~ /^# this is an urpmi reconfiguration file/ or return undef;
 
-    $urpm->{log}(N("reconfiguring urpmi for media \"%s\"", $medium->{name}));
+    $urpm->{info}(N("reconfiguring urpmi for media \"%s\"", $medium->{name}));
 
     my @replacements;
     foreach (@lines) {
@@ -1358,6 +1357,11 @@ sub _update_medium__parse_if_unmodified__local {
 	urpm::removable::try_mounting_medium($urpm, $medium) or return;
     }
 
+    #- check for a reconfig.urpmi file (if not already reconfigured)
+    if (!$medium->{noreconfigure}) {
+	may_reconfig_urpmi($urpm, $medium);
+    }
+
     #- try to probe for possible with_synthesis parameter, unless
     #- it is already defined (and valid).
     if (!_valid_synthesis_dir($medium) && $options->{probe_with} ne 'rpms') {
@@ -1449,7 +1453,16 @@ sub _update_medium__parse_if_unmodified__remote {
 
     #- examine if a distant MD5SUM file is available.
 	if (!$options->{nomd5sum}) {
-	    my $new_MD5SUM = _download_MD5SUM_and_check($urpm, $medium, !$updating) or return;
+	    my $new_MD5SUM = _download_MD5SUM_and_check($urpm, $medium, !$updating);
+
+	    if (!$new_MD5SUM) {
+		#- check for a reconfig.urpmi file (if not already reconfigured)
+		if (!$medium->{noreconfigure}) {
+		    may_reconfig_urpmi($urpm, $medium)
+		      and goto &_update_medium__parse_if_unmodified__remote;
+		}
+		return;
+	    }
 	    if ($options->{force} < 2 && _is_statedir_MD5SUM_uptodate($urpm, $medium, $new_MD5SUM)) {
 		_medium_is_up_to_date($urpm, $medium);
 		return 'unmodified';
@@ -1547,11 +1560,6 @@ sub _update_medium_ {
     }
 
     _pick_mirror_if_needed($urpm, $medium, 'allow-cache-update');
-
-    #- check for a reconfig.urpmi file (if not already reconfigured)
-    if (!$medium->{noreconfigure}) {
-	may_reconfig_urpmi($urpm, $medium);
-    }
 
     {
 	my $rc = 

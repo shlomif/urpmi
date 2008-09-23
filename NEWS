@@ -1,6 +1,8 @@
 - use "versioned" media_info files
   (needed for aria2 to handle mirrors not having some media_info/*)
 - urpmi.addmedia, urpmi.update:
+  o for remote media, instead of first checking reconfig.urpmi, try MD5SUM. 
+    If it fails try reconfig.urpmi
   o only look for "descriptions" in media_info/
   o do not get "descriptions" on non update media since it's useless and
     potentially slow
