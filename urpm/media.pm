@@ -811,8 +811,6 @@ sub add_distrib_media {
 	$distribconf->parse_mediacfg($media_cfg)
 	    or $urpm->{error}(N("this location doesn't seem to contain any distribution")), return ();
     } else {
-	unlink "$urpm->{cachedir}/partial/media.cfg";
-
 	if ($options{mirrorlist}) {
 	    $url and die "unexpected url $url together with mirrorlist $options{mirrorlist}\n";
 	}
@@ -900,9 +898,9 @@ sub _new_distribconf_and_download {
     $distribconf->settree('mandriva');
 
     $urpm->{log}(N("retrieving media.cfg file..."));
-    urpm::download::sync_rel($urpm, $medium,
-			     [ $distribconf->getpath(undef, 'infodir') . '/media.cfg' ],
-			 quiet => 1) or return;
+    urpm::download::sync_rel_one($urpm, $medium,
+				 $distribconf->getpath(undef, 'infodir') . '/media.cfg',
+				 quiet => 1, preclean => 1) or return;
     $distribconf;
 }
 
@@ -1020,8 +1018,8 @@ sub may_reconfig_urpmi {
     if (my $dir = file_from_file_url($medium->{url})) {
 	$f = reduce_pathname("$dir/reconfig.urpmi");
     } else {
-	unlink($f = "$urpm->{cachedir}/partial/reconfig.urpmi");
-	urpm::download::sync_rel($urpm, $medium, [ 'reconfig.urpmi' ], quiet => 1);
+	$f = urpm::download::sync_rel_one($urpm, $medium, 'reconfig.urpmi', 
+					  quiet => 1, preclean => 1) or return;
     }
     if (-s $f) {
 	reconfig_urpmi($urpm, $f, $medium);
@@ -1204,9 +1202,8 @@ sub _download_media_info_file {
 	}
     }
     if (!$found) {
-	urpm::download::sync_rel($urpm, $medium, [_synthesis_dir_rel($medium) .  "/$name"], 
-				 %$options)
-	    or unlink $result_file;
+	urpm::download::sync_rel_one($urpm, $medium, _synthesis_dir_rel($medium) . "/$name", 
+				     %$options);
     }
     -s $result_file && $result_file;
 }
@@ -1233,17 +1230,16 @@ sub get_descriptions_local {
 sub get_descriptions_remote {
     my ($urpm, $medium) = @_;
 
-    unlink "$urpm->{cachedir}/partial/descriptions";
-
     if (-e statedir_descriptions($urpm, $medium)) {
+	unlink "$urpm->{cachedir}/partial/descriptions";
 	urpm::sys::move_or_die($urpm, statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
     }
-    urpm::download::sync_rel($urpm, $medium, [ 'media_info/descriptions' ], quiet => 1) 
-	or #- try older location
-	  urpm::download::sync_rel($urpm, $medium, [ '../descriptions' ], quiet => 1);
+    my $result = urpm::download::sync_rel_one($urpm, $medium, 'media_info/descriptions', quiet => 1, preclean => 1) 
+                 || #- try older location
+		 urpm::download::sync_rel_one($urpm, $medium, '../descriptions', quiet => 1, preclean => 1);
 
-    if (-e "$urpm->{cachedir}/partial/descriptions") {
-	urpm::sys::move_or_die($urpm, "$urpm->{cachedir}/partial/descriptions", statedir_descriptions($urpm, $medium));
+    if ($result) {
+	urpm::sys::move_or_die($urpm, $result, statedir_descriptions($urpm, $medium));
     }
 }
 sub get_synthesis__local {
@@ -1407,12 +1403,9 @@ sub _update_medium__parse_if_unmodified__local {
 sub _download_MD5SUM {
     my ($urpm, $medium) = @_;
 
-    my $cachedir_MD5SUM = "$urpm->{cachedir}/partial/MD5SUM";
-    unlink $cachedir_MD5SUM;
-    urpm::download::sync_rel($urpm, $medium, 
-			     [_synthesis_dir_rel($medium) . '/MD5SUM'],
-			       quiet => 1) or return;
-    $cachedir_MD5SUM;
+    urpm::download::sync_rel_one($urpm, $medium, 
+				 _synthesis_dir_rel($medium) . '/MD5SUM',
+				 quiet => 1, preclean => 1);
 }
 
 sub _download_MD5SUM_and_check {
