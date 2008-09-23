@@ -1759,8 +1759,7 @@ sub try__maybe_mirrorlist {
     my ($urpm, $medium, $is_a_probe, $try) = @_;
 
     if ($medium->{mirrorlist}) {
-	$medium->{allow_metalink} //= urpm::download::use_metalink($urpm, $medium);
-	if ($medium->{allow_metalink}) {
+	if (urpm::download::use_metalink($urpm, $medium)) {
 	    #- help things...
 	    _pick_mirror_if_needed($urpm, $medium, 'allow-cache-update');
 
