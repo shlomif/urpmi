@@ -1273,10 +1273,9 @@ sub get_synthesis__remote {
     my ($urpm, $medium, $is_a_probe, $options) = @_;
 
     my $ok = try__maybe_mirrorlist($urpm, $medium, $is_a_probe, sub {
-	urpm::download::sync_rel_to($urpm, $medium, _url_with_synthesis_rel($medium),
-				    cachedir_with_synthesis($urpm, $medium),
-				    quiet => $options->{quiet}, callback => $options->{callback}) &&
-			       _check_synthesis(cachedir_with_synthesis($urpm, $medium));
+	_download_media_info_file($urpm, $medium, 'synthesis.hdlist', '.cz', 
+				  $options->{quiet}, undef, $options->{callback})
+	    && _check_synthesis(cachedir_with_synthesis($urpm, $medium));
     });
     if (!$ok) {
 	chomp(my $err = $@);
