@@ -661,7 +661,7 @@ sub sync_aria2 {
 	'--lowest-speed-limit=20K', "--timeout", 3, # $CONNECT_TIMEOUT,
         '--metalink-servers=3', # maximum number of servers to use for one download
         '--uri-selector=adaptive', "--server-stat-if=$stat_file", "--server-stat-of=$stat_file",
-        '--max-file-not-found=3', # number of not found errors on different servers before aborting file download
+        $options->{is_versioned} ? () : '--max-file-not-found=3', # number of not found errors on different servers before aborting file download
         '--connect-timeout=3',
 	"-Z", "-j1",
 	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : ()),

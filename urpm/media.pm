@@ -1189,6 +1189,22 @@ sub _download_pubkey {
 sub _download_media_info_file {
     my ($urpm, $medium, $prefix, $suffix, $options) = @_;
 
+    my $versioned_prefix = do {
+	my $version = urpm::md5sum::versioned_media_info_file($urpm, $medium, "$prefix$suffix");
+	$version and $options->{is_versioned} = 1;
+	$version ? "$version-$prefix" : $prefix;
+    };
+
+    my $tmp = _download_media_info_file_raw($urpm, $medium, 
+					    $versioned_prefix, $suffix, $options) or return;
+    my $result = dirname($tmp) . "/$prefix$suffix";
+    $tmp eq $result or rename($tmp, $result) or return;
+    $result;
+}
+
+sub _download_media_info_file_raw {
+    my ($urpm, $medium, $prefix, $suffix, $options) = @_;
+
     my $name = "$prefix$suffix";
     my $result_file = "$urpm->{cachedir}/partial/$name";
     my $found;
@@ -1717,6 +1733,14 @@ sub _retrieve_media_info_file_and_check_MD5SUM {
     1;
 }
 
+sub _download_temp_md5sum_and_parse {
+    my ($urpm, $medium) = @_;
+
+    $urpm->{debug}("downloading MD5SUM to know updated versioned metadata filename") if $urpm->{debug};
+    my $md5sum_file = _download_MD5SUM($urpm, $medium);
+    urpm::md5sum::parse($md5sum_file);
+}
+
 sub _any_media_info__or_download {
     my ($urpm, $medium, $prefix, $suffix, $quiet, $o_callback) = @_;
 
@@ -1732,6 +1756,8 @@ sub _any_media_info__or_download {
     get_medium_option($urpm, $medium, 'xml-info') ne 'never' or return;
    
     _maybe_in_statedir_MD5SUM($urpm, $medium, "$prefix$suffix") or return;
+
+    $medium->{parsed_md5sum} ||= _download_temp_md5sum_and_parse($urpm, $medium);
 
     my $file_in_partial = 
       _download_media_info_file($urpm, $medium, $prefix, $suffix, 

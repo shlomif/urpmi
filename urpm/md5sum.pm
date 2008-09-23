@@ -27,6 +27,20 @@ sub from_MD5SUM__or_warn {
     $md5sums->{$basename};
 }
 
+sub versioned_media_info_file {
+    my ($urpm, $medium, $basename) = @_;
+    my $md5sums = $medium->{parsed_md5sum} or $urpm->{log}("$medium->{name} has no md5sum"), return;
+
+    my @l = map { $md5sums->{$_} eq $md5sums->{$basename} && /^(\d{8}-\d{6})-\Q$basename\E$/ ? $1 : () } keys %$md5sums;
+
+    if (@l == 0) {
+	$urpm->{debug}("no versioned $basename for medium $medium->{name}") if $urpm->{debug};
+    } else {
+	@l > 1 and $urpm->{debug}("multiple versions for $basename for medium $medium->{name}: @l") if $urpm->{debug};
+    }
+    $l[0];
+}
+
 sub compute {
     my ($file) = @_;
     eval { require Digest::MD5 };
