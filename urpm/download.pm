@@ -655,6 +655,7 @@ sub sync_aria2 {
     my $aria2c_command = join(" ", map { "'$_'" }
 	"/usr/bin/aria2c", $options->{debug} ? ('--log', "$options->{dir}/.aria2.log") : (),
 	"--auto-file-renaming=false",
+	'--ftp-pasv',
 	"--follow-metalink=mem",
 	'--metalink-enable-unique-protocol=false', # so that it can try both ftp and http access on the same server. aria2 will only do this on first calls
 	'--max-tries=1', # nb: not using $options->{retry}
