@@ -837,11 +837,16 @@ sub sync_rel {
     }
 }
 
+sub sync_rel_one {
+    my ($urpm, $medium, $rel_file, %options) = @_;
+
+    my $files = sync_rel($urpm, $medium, [$rel_file], %options) or return;
+    $files->[0];
+}
+
 sub sync_url {
     my ($urpm, $url, %options) = @_;
-
-    my $files = sync_rel($urpm, { url => dirname($url) }, [basename($url)], %options) or return;
-    @$files;
+    sync_rel_one($urpm, { url => dirname($url) }, basename($url), %options);
 }
 
 sub sync_rel_to {
