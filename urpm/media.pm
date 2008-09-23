@@ -1496,7 +1496,10 @@ sub _get_pubkey_and_descriptions {
 
     my $local = file_from_local_medium($medium);
 
-    ($local ? \&get_descriptions_local : \&get_descriptions_remote)->($urpm, $medium);
+    # do not get "descriptions" on non "update" media since it's useless and potentially slow
+    if ($medium->{update}) {
+	($local ? \&get_descriptions_local : \&get_descriptions_remote)->($urpm, $medium);
+    }
 
     #- examine if a pubkey file is available.
     if (!$nopubkey && !$medium->{'key-ids'}) {
