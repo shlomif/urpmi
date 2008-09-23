@@ -836,6 +836,21 @@ sub sync_url {
     sync_rel($urpm, { url => dirname($url) }, [basename($url)], %options);
 }
 
+sub sync_rel_to {
+    my ($urpm, $medium, $rel_file, $dest_file, %options) = @_;
+
+    my $download_dir = $options{dir} || "$urpm->{cachedir}/partial";
+    my $result_file = "$download_dir/" . basename($rel_file);
+
+    if (sync_rel($urpm, $medium, [$rel_file], %options)) {
+	$result_file ne $dest_file or rename($result_file, $dest_file) or return;
+	1;
+    } else {
+	unlink $result_file;
+	undef;
+    }
+}
+
 #- deprecated, use sync_url() or sync_rel() instead
 #-
 #- $medium can be undef

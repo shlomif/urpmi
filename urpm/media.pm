@@ -377,7 +377,7 @@ sub statedir_xml_info {
 }
 sub cachedir_with_synthesis {
     my ($urpm, $medium) = @_;
-    _url_with_synthesis($medium) && "$urpm->{cachedir}/partial/" . _url_with_synthesis_basename($medium);
+    _url_with_synthesis($medium) && "$urpm->{cachedir}/partial/synthesis.hdlist.cz";
 }
 sub any_synthesis {
     my ($urpm, $medium) = @_;
@@ -1197,9 +1197,9 @@ sub _download_media_info_file {
     if (_synthesis_suffix($medium)) {
 	my $local_name = $prefix . _synthesis_suffix($medium) . $suffix;
 
-	if (urpm::download::sync_rel($urpm, $medium, [_synthesis_dir_rel($medium) . "/$local_name"], 
-				 dir => $download_dir, quiet => $quiet, callback => $o_callback)) {
-	    rename("$download_dir/$local_name", $result_file);
+	if (urpm::download::sync_rel_to($urpm, $medium, 
+					_synthesis_dir_rel($medium) . "/$local_name", $result_file,
+					dir => $download_dir, quiet => $quiet, callback => $o_callback)) {
 	    $found = 1;
 	}
     }
@@ -1273,8 +1273,9 @@ sub get_synthesis__remote {
     my ($urpm, $medium, $is_a_probe, $options) = @_;
 
     my $ok = try__maybe_mirrorlist($urpm, $medium, $is_a_probe, sub {
-	urpm::download::sync_rel($urpm, $medium, [ _url_with_synthesis_rel($medium) ],
-			     quiet => $options->{quiet}, callback => $options->{callback}) &&
+	urpm::download::sync_rel_to($urpm, $medium, _url_with_synthesis_rel($medium),
+				    cachedir_with_synthesis($urpm, $medium),
+				    quiet => $options->{quiet}, callback => $options->{callback}) &&
 			       _check_synthesis(cachedir_with_synthesis($urpm, $medium));
     });
     if (!$ok) {
