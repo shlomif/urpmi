@@ -50,6 +50,9 @@ foreach my $spec (glob("data/SPECS/srpm*.spec")) {
     genhdlist_std($name);
 }
 
+mkdir 'media/reconfig';
+system_("cp -r data/reconfig.urpmi media/reconfig");
+
 mkdir 'media/media_info';
 system_("cp -r data/media.cfg media/media_info");
 system_('gendistrib -s .');

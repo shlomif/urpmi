@@ -15,6 +15,8 @@ my @names = ($name, $name2, $name3, 'bis');
 
 my @fields = qw(hdlist synthesis with_synthesis media_info_dir no-media-info list virtual ignore);
 
+test_reconfig();
+
 try_media_d_1();
 try_media_d_2();
 
@@ -164,4 +166,11 @@ sub try_media_d_2 {
     check_urpmi($name, $name2);
 
     ok(unlink media_d_cfg($name));
+}
+
+sub test_reconfig {
+    urpmi_addmedia("reconfig $::pwd/media/reconfig");
+    check_conf({ name => 'reconfig', url => "$::pwd/media/$name" });
+    check_urpmi($name);
+    urpmi_removemedia('-a');   
 }
