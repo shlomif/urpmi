@@ -1250,9 +1250,7 @@ sub get_descriptions_remote {
 	unlink "$urpm->{cachedir}/partial/descriptions";
 	urpm::sys::move_or_die($urpm, statedir_descriptions($urpm, $medium), "$urpm->{cachedir}/partial/descriptions");
     }
-    my $result = urpm::download::sync_rel_one($urpm, $medium, 'media_info/descriptions', quiet => 1, preclean => 1) 
-                 || #- try older location
-		 urpm::download::sync_rel_one($urpm, $medium, '../descriptions', quiet => 1, preclean => 1);
+    my $result = urpm::download::sync_rel_one($urpm, $medium, 'media_info/descriptions', quiet => 1, preclean => 1);
 
     if ($result) {
 	urpm::sys::move_or_die($urpm, $result, statedir_descriptions($urpm, $medium));
