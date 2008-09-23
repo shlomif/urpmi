@@ -653,7 +653,7 @@ sub sync_aria2 {
     my $stat_file = ($< ? $ENV{HOME} : '/root') . '/.aria2-adaptive-stats';
 
     my $aria2c_command = join(" ", map { "'$_'" }
-	"/usr/bin/aria2c",
+	"/usr/bin/aria2c", $options->{debug} ? ('--log', "$options->{dir}/.aria2.log") : (),
 	"--auto-file-renaming=false",
 	"--follow-metalink=mem",
 	'--metalink-enable-unique-protocol=false', # so that it can try both ftp and http access on the same server. aria2 will only do this on first calls
@@ -683,14 +683,14 @@ sub sync_aria2 {
     local $_;    
 
     while (<$aria2>) {
-	    $buf .= $_;
 	if ($_ eq "\r" || $_ eq "\n") {
+	    $options->{debug}("aria2c: $buf") if $options->{debug};
 		if ($options->{callback}) {
 			if (!defined($file) && @urls_text) {
 				$file = shift @urls_text;
 				propagate_sync_callback($options, 'start', $file);
 			}
-    		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*/\w)\s\w*:(\d+\w*)\][\r\n]$!) {
+    		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*/\w)\s\w*:(\d+\w*)\]$!) {
 			    my ($total, $percent, $speed, $eta) = ($2, $3, $5, $6);
 			    #- $1 = current downloaded size, $4 = connections
 		    if (propagate_sync_callback($options, 'progress', $file, $percent, $total, $eta, $speed) eq 'canceled') {
@@ -703,14 +703,14 @@ sub sync_aria2 {
 			propagate_sync_callback($options, 'end', $file);
 			$file = undef;
 		    } elsif ($buf =~ /ERR\|/) {
-			local $/ = "\n";
-			chomp $buf;
 			propagate_sync_callback($options, 'error', $file, $buf);
 		    }
 	    } else {
-		$options->{quiet} or print STDERR $buf;
+		$options->{quiet} or print STDERR "$buf\n";
 	    }
 	    $buf = '';
+	} else {
+	    $buf .= $_;
 	}
     }
     chdir $cwd;
