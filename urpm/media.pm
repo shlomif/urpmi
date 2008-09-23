@@ -1191,22 +1191,21 @@ sub _download_pubkey {
 sub _download_media_info_file {
     my ($urpm, $medium, $prefix, $suffix, $options) = @_;
 
-    my $download_dir = "$urpm->{cachedir}/partial";
     my $name = "$prefix$suffix";
-    my $result_file = "$download_dir/$name";
+    my $result_file = "$urpm->{cachedir}/partial/$name";
     my $found;
     if (_synthesis_suffix($medium)) {
 	my $local_name = $prefix . _synthesis_suffix($medium) . $suffix;
 
 	if (urpm::download::sync_rel_to($urpm, $medium, 
 					_synthesis_dir_rel($medium) . "/$local_name", $result_file,
-					dir => $download_dir, %$options)) {
+					%$options)) {
 	    $found = 1;
 	}
     }
     if (!$found) {
 	urpm::download::sync_rel($urpm, $medium, [_synthesis_dir_rel($medium) .  "/$name"], 
-			     dir => $download_dir, %$options)
+				 %$options)
 	    or unlink $result_file;
     }
     -s $result_file && $result_file;
