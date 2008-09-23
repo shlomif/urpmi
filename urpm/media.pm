@@ -1184,13 +1184,14 @@ sub _get_pubkey__local {
 sub _download_pubkey {
     my ($urpm, $medium) = @_;
 
-    _download_media_info_file($urpm, $medium, 'pubkey', '', 1);
+    _download_media_info_file($urpm, $medium, 'pubkey', '', { quiet => 1 });
 }
 
+# known options: quiet, callback
 sub _download_media_info_file {
-    my ($urpm, $medium, $prefix, $suffix, $quiet, $o_download_dir, $o_callback) = @_;
+    my ($urpm, $medium, $prefix, $suffix, $options) = @_;
 
-    my $download_dir = $o_download_dir || "$urpm->{cachedir}/partial";
+    my $download_dir = "$urpm->{cachedir}/partial";
     my $name = "$prefix$suffix";
     my $result_file = "$download_dir/$name";
     my $found;
@@ -1199,13 +1200,13 @@ sub _download_media_info_file {
 
 	if (urpm::download::sync_rel_to($urpm, $medium, 
 					_synthesis_dir_rel($medium) . "/$local_name", $result_file,
-					dir => $download_dir, quiet => $quiet, callback => $o_callback)) {
+					dir => $download_dir, %$options)) {
 	    $found = 1;
 	}
     }
     if (!$found) {
 	urpm::download::sync_rel($urpm, $medium, [_synthesis_dir_rel($medium) .  "/$name"], 
-			     dir => $download_dir, quiet => $quiet, callback => $o_callback)
+			     dir => $download_dir, %$options)
 	    or unlink $result_file;
     }
     -s $result_file && $result_file;
@@ -1273,8 +1274,8 @@ sub get_synthesis__remote {
     my ($urpm, $medium, $is_a_probe, $options) = @_;
 
     my $ok = try__maybe_mirrorlist($urpm, $medium, $is_a_probe, sub {
-	_download_media_info_file($urpm, $medium, 'synthesis.hdlist', '.cz', 
-				  $options->{quiet}, undef, $options->{callback})
+	_download_media_info_file($urpm, $medium, 'synthesis.hdlist', '.cz',
+				  $options)
 	    && _check_synthesis(cachedir_with_synthesis($urpm, $medium));
     });
     if (!$ok) {
@@ -1710,7 +1711,7 @@ sub _retrieve_media_info_file_and_check_MD5SUM {
     my $cachedir_file = 
       is_local_medium($medium) ?
 	_copy_media_info_file($urpm, $medium, $prefix, $suffix) :
-	_download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet) or
+	_download_media_info_file($urpm, $medium, $prefix, $suffix, { quiet => $quiet }) or
 	  $urpm->{error}(N("retrieval of [%s] failed", _synthesis_dir($medium) .  "/$name")), return;
 
     my $wanted_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, $medium->{parsed_md5sum}, $name);
@@ -1730,7 +1731,6 @@ sub _any_media_info__or_download {
     my $f = statedir_media_info_file($urpm, $medium, $prefix, $suffix);
     -s $f and return $f;
 
-    my $download_dir;
     if ($<) {
 	urpm::ensure_valid_cachedir($urpm);
 	$f = "$urpm->{cachedir}/" . statedir_media_info_basename($medium, $prefix, $suffix);
@@ -1742,7 +1742,8 @@ sub _any_media_info__or_download {
     _maybe_in_statedir_MD5SUM($urpm, $medium, "$prefix$suffix") or return;
 
     my $file_in_partial = 
-      _download_media_info_file($urpm, $medium, $prefix, $suffix, $quiet, $download_dir, $o_callback) or return;
+      _download_media_info_file($urpm, $medium, $prefix, $suffix, 
+				{ quiet => $quiet, callback => $o_callback }) or return;
 
     urpm::util::move($file_in_partial, $f) or return;
 
