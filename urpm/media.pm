@@ -1706,8 +1706,6 @@ sub _retrieve_xml_media_info_or_remove {
 sub _retrieve_media_info_file_and_check_MD5SUM {
     my ($urpm, $medium, $prefix, $suffix, $quiet) = @_;
 
-    $medium->{parsed_md5sum} = urpm::md5sum::parse(statedir_MD5SUM($urpm, $medium));
-
     my $name = "$prefix$suffix";
     my $cachedir_file = 
       is_local_medium($medium) ?
