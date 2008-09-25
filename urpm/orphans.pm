@@ -110,7 +110,7 @@ sub _renamed_unrequested {
     }
     %l;
 }
-sub _new_unrequested {
+sub new_unrequested {
     my ($urpm, $state) = @_;
     (
 	_selected_unrequested($urpm, $state->{selected}, $state->{rejected}),
@@ -121,7 +121,7 @@ sub _new_unrequested {
 sub add_unrequested {
     my ($urpm, $state) = @_;
 
-    my %l = _new_unrequested($urpm, $state);
+    my %l = new_unrequested($urpm, $state);
     append_to_file(unrequested_list__file($urpm), join('', map { "$_\t\t$l{$_}\n" } keys %l));
 }
 
@@ -275,7 +275,7 @@ sub compute_future_unrequested_orphans {
 
     my ($current_pkgs, $unrequested) = _installed_and_unrequested_lists($urpm);
 
-    put_in_hash($unrequested, { _new_unrequested($urpm, $state) });
+    put_in_hash($unrequested, { new_unrequested($urpm, $state) });
 
     my %toremove = map { $_ => 1 } URPM::removed_or_obsoleted_packages($state);
     my @pkgs = grep { !$toremove{$_->fullname} } @$current_pkgs;
