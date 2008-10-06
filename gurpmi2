@@ -216,7 +216,7 @@ sub ask_continue_blocking {
 sub do_install {
     wait_label();
     my @ask_remove = urpm::select::removed_packages($urpm, $state);
-    @ask_remove && !$gurpmi::options{auto};
+    @ask_remove && !$gurpmi::options{auto}
 	? ask_continue(N(
 	    "The following packages have to be removed for others to be upgraded:\n%s\nContinue installation anyway?",
 	    urpm::select::translate_why_removed($urpm, $state, @ask_remove)
