@@ -317,7 +317,7 @@ sub do_install_3 () {
             urpm::removable::try_umounting_removables($urpm);
             $vbox = Gtk2::VBox->new(0, 5);
             $progress_label = Gtk2::Label->new('-');
-            exit 0 if $gurpmi::options{auto};
+            return 0 if $gurpmi::options{auto};
             my $sw = create_scrolled_window($progress_label);
             $sw->set_size_request(500, 200);
             $vbox->pack_start($sw, 1, 1, 0);
