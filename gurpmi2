@@ -150,7 +150,6 @@ sub configure_urpm() {
     $rpm_lock = urpm::lock::rpm_db($urpm, 'exclusive');
     $urpmi_lock = urpm::lock::urpmi_db($urpm);
     urpm::media::configure($urpm,
-	root	    => $gurpmi::options{root},
 	media	    => $gurpmi::options{media},
 	searchmedia => $gurpmi::options{searchmedia},
         update      => $::update,
