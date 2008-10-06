@@ -642,10 +642,10 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
 	    #- rurpmi always abort here
 	    if ($urpm->{options}{auto} || $restricted) {
 		print "$msg\n";
-		exit 1;
+		0;
 	    } else {
 		my $yesexpr = N("Yy");
-		$force || message_input_("$msg$msg2" . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/ or exit 1;
+		$force || message_input_("$msg$msg2" . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/;
 	    }
     },                           
     ask_yes_or_no => sub {
