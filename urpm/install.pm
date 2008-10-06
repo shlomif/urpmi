@@ -146,6 +146,7 @@ sub options {
 	nosize => $urpm->{options}{ignoresize},
 	ignorearch => $urpm->{options}{ignorearch},
 	noscripts => $urpm->{options}{noscripts},
+	replacefiles => $urpm->{options}{replacefiles},
     );
 }
 
