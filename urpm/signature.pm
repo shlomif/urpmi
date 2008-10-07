@@ -22,7 +22,10 @@ sub _check {
 	$filepath !~ /\.spec$/ or next;
 
 	$urpm->{debug} and $urpm->{debug}("verifying signature of $filepath");
-	my $verif = URPM::verify_signature($filepath);
+	#- rpmlib is doing strftime %c, and so the string comes from the current encoding
+	#- (URPM::bind_rpm_textdomain_codeset() doesn't help here)
+	#- so we have to transform...
+	my $verif = urpm::msg::from_locale_encoding(URPM::verify_signature($filepath));
 
 	if ($verif =~ /NOT OK/) {
 	    $verif =~ s/\n//g;

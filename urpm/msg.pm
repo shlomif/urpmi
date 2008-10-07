@@ -7,9 +7,10 @@ no warnings;
 use Exporter;
 use URPM;
 
+my $encoding;
 BEGIN {
-    eval { require encoding };
-    eval "use open ':locale'" if eval { encoding::_get_locale_encoding() ne 'ANSI_X3.4-1968' };
+    eval { require encoding; $encoding = encoding::_get_locale_encoding() };
+    eval "use open ':locale'" if $encoding && $encoding ne 'ANSI_X3.4-1968';
 }
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
@@ -28,6 +29,18 @@ foreach my $domain (@textdomains) {
 URPM::bind_rpm_textdomain_codeset();
 
 our $no_translation;
+
+sub from_locale_encoding {
+    my ($s) = @_;
+    $encoding && eval {
+	require Encode;
+	Encode::decode($encoding, $s);
+    } || do { 
+	require utf8;
+	utf8::decode($s);
+	$s;
+    } || $s;
+}
 
 sub translate {
     my ($s, $o_plural, $o_nb) = @_;
