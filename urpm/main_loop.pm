@@ -143,7 +143,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		: N("The following packages have bad signatures");
 	    my $msg2 = N("Do you want to continue installation ?");
 	    my $p = join "\n", @bad_signatures;
-	    $callbacks->{bad_signature}->("$msg:\n$p\n", $msg2) or return 15;
+	    $callbacks->{bad_signature}->("$msg:\n$p\n", $msg2) or return 16;
 	}
     }
 
