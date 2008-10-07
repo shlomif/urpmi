@@ -211,6 +211,7 @@ sub ask_continue_blocking {
     my $answer = $w->run;
     $w->destroy;
     exit(1) if $answer eq 'no';
+    1;
 }
 
 sub do_install {
