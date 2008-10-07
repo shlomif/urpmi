@@ -750,18 +750,21 @@ eval {
     --$wchar;
 };
 
+sub progress_text {
+    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+    $mode eq 'progress' ?
+      (defined $total && defined $eta ?
+	 N("        %s%% of %s completed, ETA = %s, speed = %s", $percent, $total, $eta, $speed) :
+	 N("        %s%% completed, speed = %s", $percent, $speed)) : '';
+}
+
 #- default logger suitable for sync operation on STDERR only.
 sub sync_logger {
     my ($mode, $file, $percent, $total, $eta, $speed) = @_;
     if ($mode eq 'start') {
 	print STDERR "    $file\n";
     } elsif ($mode eq 'progress') {
-	my $text;
-	if (defined $total && defined $eta) {
-	    $text = N("        %s%% of %s completed, ETA = %s, speed = %s", $percent, $total, $eta, $speed);
-	} else {
-	    $text = N("        %s%% completed, speed = %s", $percent, $speed);
-	}
+	my $text = &progress_text;
 	if (length($text) > $wchar) { $text = substr($text, 0, $wchar) }
 	if (bytes::length($text) < $wchar) {
 	    # clearing more than needed in case the terminal is not handling utf8 and we have a utf8 string
