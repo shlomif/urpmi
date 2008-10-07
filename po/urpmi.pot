@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2008-10-07 13:39+0200\n"
+"POT-Creation-Date: 2008-10-07 19:04+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -179,7 +179,22 @@ msgstr ""
 msgid "Must be root"
 msgstr ""
 
-#: ../gurpmi2:106
+#: ../gurpmi2:70
+#, c-format
+msgid "Distribution Upgrade"
+msgstr ""
+
+#: ../gurpmi2:70
+#, c-format
+msgid "Packages installation"
+msgstr ""
+
+#: ../gurpmi2:97
+#, c-format
+msgid "Preparing packages installation..."
+msgstr ""
+
+#: ../gurpmi2:111
 #, c-format
 msgid ""
 "Some requested packages cannot be installed:\n"
@@ -249,12 +264,7 @@ msgid_plural "(%d packages, %d MB)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../gurpmi2:249
-#, c-format
-msgid "Package installation..."
-msgstr ""
-
-#: ../gurpmi2:251 ../urpm/main_loop.pm:49
+#: ../gurpmi2:257 ../urpm/main_loop.pm:49
 #, c-format
 msgid "unable to get source packages, aborting"
 msgstr ""
@@ -1294,6 +1304,286 @@ msgstr ""
 msgid "unmounting %s"
 msgstr ""
 
+#: ../urpm/search.pm:29 ../urpmf:29
+#, c-format
+msgid ""
+"urpmf version %s\n"
+"Copyright (C) 2002-2006 Mandriva.\n"
+"This is free software and may be redistributed under the terms of the GNU "
+"GPL.\n"
+"\n"
+"usage: urpmf [options] pattern-expression\n"
+msgstr ""
+
+#: ../urpm/search.pm:36 ../urpmf:36
+#, c-format
+msgid "  --version      - print this tool's version number.\n"
+msgstr ""
+
+#: ../urpm/search.pm:37 ../urpmf:37 ../urpmi:132 ../urpmq:80
+#, c-format
+msgid "  --env          - use specific environment (typically a bug report).\n"
+msgstr ""
+
+#: ../urpm/search.pm:38 ../urpmf:38 ../urpmi:74 ../urpmq:49
+#, c-format
+msgid "  --excludemedia - do not use the given media, separated by comma.\n"
+msgstr ""
+
+#: ../urpm/search.pm:39 ../urpmf:39
+#, c-format
+msgid ""
+"  --literal, -l  - don't match patterns, use argument as a literal string.\n"
+msgstr ""
+
+#: ../urpm/search.pm:40 ../urpme:54 ../urpmf:40 ../urpmi:111
+#: ../urpmi.addmedia:72 ../urpmi.recover:36 ../urpmi.removemedia:45
+#: ../urpmi.update:48 ../urpmq:70
+#, c-format
+msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
+msgstr ""
+
+#: ../urpm/search.pm:42 ../urpmf:42 ../urpmi:77 ../urpmq:50
+#, c-format
+msgid ""
+"  --sortmedia    - sort media according to substrings separated by comma.\n"
+msgstr ""
+
+#: ../urpm/search.pm:43 ../urpmf:43
+#, c-format
+msgid "  --use-distrib  - use the given path to access media\n"
+msgstr ""
+
+#: ../urpm/search.pm:44 ../urpmf:44 ../urpmi:78 ../urpmq:51
+#, c-format
+msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
+msgstr ""
+
+#: ../urpm/search.pm:45 ../urpmf:45
+#, c-format
+msgid "  --uniq         - do not print identical lines twice.\n"
+msgstr ""
+
+#: ../urpm/search.pm:46 ../urpmf:46 ../urpmi:75 ../urpmq:46
+#, c-format
+msgid "  --update       - use only update media.\n"
+msgstr ""
+
+#: ../urpm/search.pm:47 ../urpmf:47
+#, c-format
+msgid "  --verbose      - verbose mode.\n"
+msgstr ""
+
+#: ../urpm/search.pm:48 ../urpmf:48
+#, c-format
+msgid "  -i             - ignore case distinctions in patterns.\n"
+msgstr ""
+
+#: ../urpm/search.pm:49 ../urpmf:49
+#, c-format
+msgid "  -I             - honor case distinctions in patterns (default).\n"
+msgstr ""
+
+#: ../urpm/search.pm:50 ../urpmf:50
+#, c-format
+msgid "  -F<str>        - change field separator (defaults to ':').\n"
+msgstr ""
+
+#: ../urpm/search.pm:51 ../urpmf:51
+#, c-format
+msgid "Pattern expressions:\n"
+msgstr ""
+
+#: ../urpm/search.pm:52 ../urpmf:52
+#, c-format
+msgid "  text           - any text is parsed as a regexp, unless -l is used.\n"
+msgstr ""
+
+#: ../urpm/search.pm:53 ../urpmf:53
+#, c-format
+msgid "  -e             - include perl code directly as perl -e.\n"
+msgstr ""
+
+#: ../urpm/search.pm:54 ../urpmf:54
+#, c-format
+msgid "  -a             - binary AND operator.\n"
+msgstr ""
+
+#: ../urpm/search.pm:55 ../urpmf:55
+#, c-format
+msgid "  -o             - binary OR operator.\n"
+msgstr ""
+
+#: ../urpm/search.pm:56 ../urpmf:56
+#, c-format
+msgid "  !              - unary NOT.\n"
+msgstr ""
+
+#: ../urpm/search.pm:57 ../urpmf:57
+#, c-format
+msgid "  ( )            - left and right parentheses.\n"
+msgstr ""
+
+#: ../urpm/search.pm:58 ../urpmf:58
+#, c-format
+msgid "List of tags:\n"
+msgstr ""
+
+#: ../urpm/search.pm:59 ../urpmf:59
+#, c-format
+msgid "  --qf           - specify a printf-like output format\n"
+msgstr ""
+
+#: ../urpm/search.pm:60 ../urpmf:60
+#, c-format
+msgid "                   example: '%%name:%%files'\n"
+msgstr ""
+
+#: ../urpm/search.pm:61 ../urpmf:61
+#, c-format
+msgid "  --arch         - architecture\n"
+msgstr ""
+
+#: ../urpm/search.pm:62 ../urpmf:62
+#, c-format
+msgid "  --buildhost    - build host\n"
+msgstr ""
+
+#: ../urpm/search.pm:63 ../urpmf:63
+#, c-format
+msgid "  --buildtime    - build time\n"
+msgstr ""
+
+#: ../urpm/search.pm:64 ../urpmf:64
+#, c-format
+msgid "  --conffiles    - configuration files\n"
+msgstr ""
+
+#: ../urpm/search.pm:65 ../urpmf:65
+#, c-format
+msgid "  --conflicts    - conflict tags\n"
+msgstr ""
+
+#: ../urpm/search.pm:66 ../urpmf:66
+#, c-format
+msgid "  --description  - package description\n"
+msgstr ""
+
+#: ../urpm/search.pm:67 ../urpmf:67
+#, c-format
+msgid "  --distribution - distribution\n"
+msgstr ""
+
+#: ../urpm/search.pm:68 ../urpmf:68
+#, c-format
+msgid "  --epoch        - epoch\n"
+msgstr ""
+
+#: ../urpm/search.pm:69 ../urpmf:69
+#, c-format
+msgid "  --filename     - filename of the package\n"
+msgstr ""
+
+#: ../urpm/search.pm:70 ../urpmf:70
+#, c-format
+msgid "  --files        - list of files contained in the package\n"
+msgstr ""
+
+#: ../urpm/search.pm:71 ../urpmf:71
+#, c-format
+msgid "  --group        - group\n"
+msgstr ""
+
+#: ../urpm/search.pm:72 ../urpmf:72
+#, c-format
+msgid "  --license      - license\n"
+msgstr ""
+
+#: ../urpm/search.pm:73 ../urpmf:73
+#, c-format
+msgid "  --name         - package name\n"
+msgstr ""
+
+#: ../urpm/search.pm:74 ../urpmf:74
+#, c-format
+msgid "  --obsoletes    - obsoletes tags\n"
+msgstr ""
+
+#: ../urpm/search.pm:75 ../urpmf:75
+#, c-format
+msgid "  --packager     - packager\n"
+msgstr ""
+
+#: ../urpm/search.pm:76 ../urpmf:76
+#, c-format
+msgid "  --provides     - provides tags\n"
+msgstr ""
+
+#: ../urpm/search.pm:77 ../urpmf:77
+#, c-format
+msgid "  --requires     - requires tags\n"
+msgstr ""
+
+#: ../urpm/search.pm:78 ../urpmf:78
+#, c-format
+msgid "  --size         - installed size\n"
+msgstr ""
+
+#: ../urpm/search.pm:79 ../urpmf:79
+#, c-format
+msgid "  --sourcerpm    - source rpm name\n"
+msgstr ""
+
+#: ../urpm/search.pm:80 ../urpmf:80
+#, c-format
+msgid "  --suggests     - suggests tags\n"
+msgstr ""
+
+#: ../urpm/search.pm:81 ../urpmf:81
+#, c-format
+msgid "  --summary      - summary\n"
+msgstr ""
+
+#: ../urpm/search.pm:82 ../urpmf:82
+#, c-format
+msgid "  --url          - url\n"
+msgstr ""
+
+#: ../urpm/search.pm:83 ../urpmf:83
+#, c-format
+msgid "  --vendor       - vendor\n"
+msgstr ""
+
+#: ../urpm/search.pm:84 ../urpmf:84
+#, c-format
+msgid "  -m             - the media in which the package was found\n"
+msgstr ""
+
+#: ../urpm/search.pm:85 ../urpmf:85 ../urpmq:99
+#, c-format
+msgid "  -f             - print version, release and arch with name.\n"
+msgstr ""
+
+#: ../urpm/search.pm:197 ../urpmf:198
+#, c-format
+msgid "Incorrect format: you may use only one multi-valued tag"
+msgstr ""
+
+#: ../urpm/search.pm:290 ../urpmf:291
+#, c-format
+msgid "no hdlist available for medium \"%s\""
+msgstr ""
+
+#: ../urpm/search.pm:297 ../urpmf:298
+#, c-format
+msgid "no synthesis available for medium \"%s\""
+msgstr ""
+
+#: ../urpm/search.pm:304 ../urpmf:307
+#, c-format
+msgid "no xml-info available for medium \"%s\""
+msgstr ""
+
 #: ../urpm/select.pm:30
 #, c-format
 msgid "urpmi was restarted, and the list of priority packages did not change"
@@ -1384,17 +1674,17 @@ msgstr ""
 msgid "due to conflicts with %s"
 msgstr ""
 
-#: ../urpm/signature.pm:49
+#: ../urpm/signature.pm:32
 #, c-format
 msgid "Invalid signature (%s)"
 msgstr ""
 
-#: ../urpm/signature.pm:80
+#: ../urpm/signature.pm:63
 #, c-format
 msgid "Invalid Key ID (%s)"
 msgstr ""
 
-#: ../urpm/signature.pm:82
+#: ../urpm/signature.pm:65
 #, c-format
 msgid "Missing signature (%s)"
 msgstr ""
@@ -1463,12 +1753,6 @@ msgstr ""
 #: ../urpme:53
 #, c-format
 msgid "  --root         - use another root for rpm removal.\n"
-msgstr ""
-
-#: ../urpme:54 ../urpmf:40 ../urpmi:111 ../urpmi.addmedia:72
-#: ../urpmi.recover:36 ../urpmi.removemedia:45 ../urpmi.update:48 ../urpmq:70
-#, c-format
-msgid "  --urpmi-root   - use another root for urpmi db & rpm installation.\n"
 msgstr ""
 
 #: ../urpme:55 ../urpmi:101
@@ -1572,282 +1856,9 @@ msgstr ""
 msgid "Removal is possible"
 msgstr ""
 
-#: ../urpmf:29
-#, c-format
-msgid ""
-"urpmf version %s\n"
-"Copyright (C) 2002-2006 Mandriva.\n"
-"This is free software and may be redistributed under the terms of the GNU "
-"GPL.\n"
-"\n"
-"usage: urpmf [options] pattern-expression\n"
-msgstr ""
-
-#: ../urpmf:36
-#, c-format
-msgid "  --version      - print this tool's version number.\n"
-msgstr ""
-
-#: ../urpmf:37 ../urpmi:132 ../urpmq:80
-#, c-format
-msgid "  --env          - use specific environment (typically a bug report).\n"
-msgstr ""
-
-#: ../urpmf:38 ../urpmi:74 ../urpmq:49
-#, c-format
-msgid "  --excludemedia - do not use the given media, separated by comma.\n"
-msgstr ""
-
-#: ../urpmf:39
-#, c-format
-msgid ""
-"  --literal, -l  - don't match patterns, use argument as a literal string.\n"
-msgstr ""
-
-#: ../urpmf:42 ../urpmi:77 ../urpmq:50
-#, c-format
-msgid ""
-"  --sortmedia    - sort media according to substrings separated by comma.\n"
-msgstr ""
-
-#: ../urpmf:43
-#, c-format
-msgid "  --use-distrib  - use the given path to access media\n"
-msgstr ""
-
-#: ../urpmf:44 ../urpmi:78 ../urpmq:51
-#, c-format
-msgid "  --synthesis    - use the given synthesis instead of urpmi db.\n"
-msgstr ""
-
-#: ../urpmf:45
-#, c-format
-msgid "  --uniq         - do not print identical lines twice.\n"
-msgstr ""
-
-#: ../urpmf:46 ../urpmi:75 ../urpmq:46
-#, c-format
-msgid "  --update       - use only update media.\n"
-msgstr ""
-
-#: ../urpmf:47
-#, c-format
-msgid "  --verbose      - verbose mode.\n"
-msgstr ""
-
-#: ../urpmf:48
-#, c-format
-msgid "  -i             - ignore case distinctions in patterns.\n"
-msgstr ""
-
-#: ../urpmf:49
-#, c-format
-msgid "  -I             - honor case distinctions in patterns (default).\n"
-msgstr ""
-
-#: ../urpmf:50
-#, c-format
-msgid "  -F<str>        - change field separator (defaults to ':').\n"
-msgstr ""
-
-#: ../urpmf:51
-#, c-format
-msgid "Pattern expressions:\n"
-msgstr ""
-
-#: ../urpmf:52
-#, c-format
-msgid "  text           - any text is parsed as a regexp, unless -l is used.\n"
-msgstr ""
-
-#: ../urpmf:53
-#, c-format
-msgid "  -e             - include perl code directly as perl -e.\n"
-msgstr ""
-
-#: ../urpmf:54
-#, c-format
-msgid "  -a             - binary AND operator.\n"
-msgstr ""
-
-#: ../urpmf:55
-#, c-format
-msgid "  -o             - binary OR operator.\n"
-msgstr ""
-
-#: ../urpmf:56
-#, c-format
-msgid "  !              - unary NOT.\n"
-msgstr ""
-
-#: ../urpmf:57
-#, c-format
-msgid "  ( )            - left and right parentheses.\n"
-msgstr ""
-
-#: ../urpmf:58
-#, c-format
-msgid "List of tags:\n"
-msgstr ""
-
-#: ../urpmf:59
-#, c-format
-msgid "  --qf           - specify a printf-like output format\n"
-msgstr ""
-
-#: ../urpmf:60
-#, c-format
-msgid "                   example: '%%name:%%files'\n"
-msgstr ""
-
-#: ../urpmf:61
-#, c-format
-msgid "  --arch         - architecture\n"
-msgstr ""
-
-#: ../urpmf:62
-#, c-format
-msgid "  --buildhost    - build host\n"
-msgstr ""
-
-#: ../urpmf:63
-#, c-format
-msgid "  --buildtime    - build time\n"
-msgstr ""
-
-#: ../urpmf:64
-#, c-format
-msgid "  --conffiles    - configuration files\n"
-msgstr ""
-
-#: ../urpmf:65
-#, c-format
-msgid "  --conflicts    - conflict tags\n"
-msgstr ""
-
-#: ../urpmf:66
-#, c-format
-msgid "  --description  - package description\n"
-msgstr ""
-
-#: ../urpmf:67
-#, c-format
-msgid "  --distribution - distribution\n"
-msgstr ""
-
-#: ../urpmf:68
-#, c-format
-msgid "  --epoch        - epoch\n"
-msgstr ""
-
-#: ../urpmf:69
-#, c-format
-msgid "  --filename     - filename of the package\n"
-msgstr ""
-
-#: ../urpmf:70
-#, c-format
-msgid "  --files        - list of files contained in the package\n"
-msgstr ""
-
-#: ../urpmf:71
-#, c-format
-msgid "  --group        - group\n"
-msgstr ""
-
-#: ../urpmf:72
-#, c-format
-msgid "  --license      - license\n"
-msgstr ""
-
-#: ../urpmf:73
-#, c-format
-msgid "  --name         - package name\n"
-msgstr ""
-
-#: ../urpmf:74
-#, c-format
-msgid "  --obsoletes    - obsoletes tags\n"
-msgstr ""
-
-#: ../urpmf:75
-#, c-format
-msgid "  --packager     - packager\n"
-msgstr ""
-
-#: ../urpmf:76
-#, c-format
-msgid "  --provides     - provides tags\n"
-msgstr ""
-
-#: ../urpmf:77
-#, c-format
-msgid "  --requires     - requires tags\n"
-msgstr ""
-
-#: ../urpmf:78
-#, c-format
-msgid "  --size         - installed size\n"
-msgstr ""
-
-#: ../urpmf:79
-#, c-format
-msgid "  --sourcerpm    - source rpm name\n"
-msgstr ""
-
-#: ../urpmf:80
-#, c-format
-msgid "  --suggests     - suggests tags\n"
-msgstr ""
-
-#: ../urpmf:81
-#, c-format
-msgid "  --summary      - summary\n"
-msgstr ""
-
-#: ../urpmf:82
-#, c-format
-msgid "  --url          - url\n"
-msgstr ""
-
-#: ../urpmf:83
-#, c-format
-msgid "  --vendor       - vendor\n"
-msgstr ""
-
-#: ../urpmf:84
-#, c-format
-msgid "  -m             - the media in which the package was found\n"
-msgstr ""
-
-#: ../urpmf:85 ../urpmq:99
-#, c-format
-msgid "  -f             - print version, release and arch with name.\n"
-msgstr ""
-
 #: ../urpmf:153
 #, c-format
 msgid "unterminated expression (%s)"
-msgstr ""
-
-#: ../urpmf:198
-#, c-format
-msgid "Incorrect format: you may use only one multi-valued tag"
-msgstr ""
-
-#: ../urpmf:291
-#, c-format
-msgid "no hdlist available for medium \"%s\""
-msgstr ""
-
-#: ../urpmf:298
-#, c-format
-msgid "no synthesis available for medium \"%s\""
-msgstr ""
-
-#: ../urpmf:307
-#, c-format
-msgid "no xml-info available for medium \"%s\""
 msgstr ""
 
 #: ../urpmi:81
