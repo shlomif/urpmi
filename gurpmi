@@ -12,6 +12,7 @@ BEGIN { #- set up a safe path and environment
 
 use Gtk2;
 use gurpmi;
+use urpm::util;
 
 sub usage() { gurpmi::usage() }
 
@@ -69,7 +70,7 @@ if (!$gurpmi::options{auto} && @all_rpms + @gurpmi::names) {
 
 You probably didn't want to install it on your computer (installing it would allow you to make modifications to its sourcecode then compile it).
 
-What would you like to do?", $srpms->[0])
+What would you like to do?", basename($srpms->[0]))
 	: @all_rpms == 0
 	? N("You are about to install the following software packages on your computer:
 
