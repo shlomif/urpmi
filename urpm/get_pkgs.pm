@@ -213,6 +213,7 @@ sub _download_packages_of_distant_media {
     $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{medium}{name}));
     if (urpm::download::sync_rel($urpm, $blist->{medium}, [ urpm::blist_to_filenames($blist) ],
 			     dir => "$cachedir/partial", quiet => $options{quiet}, 
+			     is_versioned => 1,
 			     resume => $urpm->{options}{resume}, callback => $options{callback})) {
 	$urpm->{log}(N("...retrieving done"));
     } else {
