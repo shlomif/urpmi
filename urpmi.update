@@ -69,7 +69,7 @@ if ($< != 0) {
     $urpm->{fatal}(1, N("Only superuser is allowed to update media"));
 }
 my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive', wait => $options{wait_lock});
-urpm::media::read_config($urpm);
+urpm::media::read_config($urpm, 'nocheck');
 
 my @chosen_media;
 

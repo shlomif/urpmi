@@ -155,7 +155,7 @@ sub recover_url_from_list {
 #- Loads /etc/urpmi/urpmi.cfg and performs basic checks.
 #- Does not handle old format: <name> <url> [with <path_hdlist>]
 sub read_config {
-    my ($urpm) = @_;
+    my ($urpm, $nocheck) = @_;
     return if $urpm->{media}; #- media already loaded
     $urpm->{media} = [];
     my $config = urpm::cfg::load_config($urpm->{config})
@@ -189,7 +189,7 @@ sub read_config {
 	}
     }
 
-    add_existing_medium($urpm, $_) foreach @media;
+    add_existing_medium($urpm, $_, $nocheck) foreach @media;
 
     eval { require urpm::ldap; urpm::ldap::load_ldap_media($urpm) };
 }
@@ -234,7 +234,7 @@ sub _migrate__with_synthesis {
 
 #- probe medium to be used, take old medium into account too.
 sub add_existing_medium {
-    my ($urpm, $medium) = @_;
+    my ($urpm, $medium, $nocheck) = @_;
 
     if (name2medium($urpm, $medium->{name})) {
 	$urpm->{error}(N("trying to override existing medium \"%s\", skipping", $medium->{name}));
@@ -246,7 +246,7 @@ sub add_existing_medium {
 	$urpm->{modified} = 1;
     }
 
-    check_existing_medium($urpm, $medium);
+    check_existing_medium($urpm, $medium) if !$nocheck;
 
     _migrate_removable_device($urpm, $medium);
 
@@ -586,7 +586,7 @@ sub configure {
             $urpm->{media} = [];
             add_distrib_media($urpm, "Virtual", $options{usedistrib}, %options, virtual => 1, on_the_fly => 1);
     } else {
-	    read_config($urpm);
+	    read_config($urpm, '');
 	    if (!$options{media} && $urpm->{options}{'default-media'}) {
 		$options{media} = $urpm->{options}{'default-media'};
 	    }

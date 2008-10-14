@@ -347,7 +347,7 @@ if ($urpm->{root}) {
 if ($auto_update && !$bug && !$env) {
     #- For translators : there are several media here
     $urpm->{log}(N("Updating media...\n"));
-    urpm::media::read_config($urpm);
+    urpm::media::read_config($urpm, '');
     urpm::media::update_media($urpm, 
 	all => 1,
 	callback => \&urpm::download::sync_logger,

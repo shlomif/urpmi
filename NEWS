@@ -1,3 +1,7 @@
+- urpmi.update, urpmi.addmedia, urpmi.removemedia:
+  o do not check wether the media are valid, 
+    it allows "mv /etc/urpmi/urpmi.cfg.{backup,} ; urpmi.update -a" to work
+    (nb: not equivalent with urpmi.addmedia, since pubkey will not be imported)
 - aria2:
   o do not use --max-file-not-found=3 when downloading rpms 
     (since rpms are "versioned")

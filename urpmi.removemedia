@@ -60,7 +60,7 @@ if ($< != 0) {
 }
 
 my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive', wait => $options{wait_lock});
-urpm::media::read_config($urpm);
+urpm::media::read_config($urpm, 'nocheck');
 urpm::download::set_cmdline_proxy();
 my @entries = map { $_->{name} } @{$urpm->{media}};
 

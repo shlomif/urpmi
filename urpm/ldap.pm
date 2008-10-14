@@ -103,7 +103,7 @@ sub read_ldap_cache {
 	! -f $_ and next;
 	my %medium = get_vars_from_sh($_);
 	next if !check_ldap_medium(\%medium);
-	urpm::media::add_existing_medium($urpm, \%medium);
+	urpm::media::add_existing_medium($urpm, \%medium, 'nocheck');
     }
 }
 
@@ -204,7 +204,7 @@ sub load_ldap_media {
             $medium->{name} = "ldap_" . $medium->{name};
             $medium->{ldap} = 1;
             next if !check_ldap_medium($medium);
-            urpm::media::add_existing_medium($urpm, $medium);
+            urpm::media::add_existing_medium($urpm, $medium, 'nocheck');
             write_ldap_cache($urpm,$medium); 
         }
     };

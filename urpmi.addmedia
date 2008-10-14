@@ -128,7 +128,7 @@ if (!-e $urpm->{config}) {
     open my $_f, '>', $urpm->{config} or $urpm->{fatal}(6, N("Can't create config file [%s]", $urpm->{config}));
 }
 my $_urpmi_lock = urpm::lock::urpmi_db($urpm, 'exclusive', wait => $options{wait_lock});
-urpm::media::read_config($urpm);
+urpm::media::read_config($urpm, 'nocheck');
 
 my $ok = 1;
 if ($options{distrib}) {
