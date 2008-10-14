@@ -222,13 +222,18 @@ foreach my $set (@{$state->{transaction} || []}) {
 		%install_options_common,
 	    );
 	    if (@l) {
+		my ($raw_error, $translated) = partition { /^(badarch|bados|installed|badrelocate|conflicts|installed|diskspace|disknodes|requires|conflicts|unknown)\@/ } @l;
+		@l = @$translated;
+		my $fatal = grep { /^disk/ } @$raw_error;
+
 		#- Warning : the following message is parsed in urpm::parallel_*
 		my $msg = N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @l) . "\n";
-		if ($urpm->{options}{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
-		    print $msg;
+		if ($fatal || $urpm->{options}{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
 		    ++$nok;
 		    ++$urpm->{logger_id};
 		    push @errors, @l;
+		    $fatal and last;
+		    print $msg;
 		} else {
 		    $callbacks->{ask_yes_or_no}->(N("Installation failed"), 
 						  $msg . N("Try installation without checking dependencies? (y/N) ")) or ++$nok, next;
