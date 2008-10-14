@@ -169,6 +169,9 @@ sub _load_cache {
 	$@ and $urpm->{error}("failed to read " . cache_file($urpm) . ": $@");
 	$_->{nb_uses} = 0 foreach values %$cache;
     }
+    if ($ENV{URPMI_ADDMEDIA_PRODUCT_VERSION} && delete $cache->{'$MIRRORLIST'}) {
+	$urpm->{log}('not using cached mirror list $MIRRORLIST since URPMI_ADDMEDIA_PRODUCT_VERSION is set');
+    }
     $cache || {};
 }
 sub _save_cache {
@@ -283,8 +286,9 @@ sub _mandriva_mirrorlist {
     my $arch = $o_arch || $product_id->{arch};
 
     my @para = grep { $_ } $ENV{URPMI_ADDMEDIA_REASON};
+    my $product_version = $ENV{URPMI_ADDMEDIA_PRODUCT_VERSION} || $product_id->{version};
 
-    "http://api.mandriva.com/mirrors/$product_type.$product_id->{version}.$arch.list"
+    "http://api.mandriva.com/mirrors/$product_type.$product_version.$arch.list"
       . (@para ? '?' . join('&', @para) : '');
 }
 
