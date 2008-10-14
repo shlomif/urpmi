@@ -905,7 +905,7 @@ sub _sync_webfetch_raw {
 	my @l = map { urpm::file_from_local_url($_) } @$files;
 	eval { sync_file($options, @l) };
 	$urpm->{fatal}(10, $@) if $@;
-    } elsif (member($proto, 'ftp', 'http', 'https')) {
+    } elsif (member($proto, 'ftp', 'http', 'https') || $options->{metalink}) {
 
 	my $preferred = preferred_downloader($urpm, $medium, \$options->{metalink});
 
