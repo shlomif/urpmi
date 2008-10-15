@@ -127,12 +127,15 @@ sub configure_urpm() {
     }
 
     $urpm->{fatal} = sub {
+	printf STDERR "%s\n", $_[1];
 	Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'error', 'ok', Locale::gettext::iconv($_[1], undef, 'UTF-8'))->run;
 	quit();
 	exit $_[0];
     };
+    $urpm->{log}   = sub { printf "%s\n", $_[0] };
     $urpm->{error} = sub {
 	my ($message) = @_;
+	printf STDERR "%s\n", $message;
 	my $nb_lines = $message =~ tr/\n/\n/;
 	my $w;
 	if ($nb_lines > 30) {
@@ -318,6 +321,8 @@ sub do_install_3 () {
         },
         trans_log => sub {
 	    my ($mode, $file, $percent, $total, $eta, $speed) = @_;
+
+            urpm::download::sync_logger(@_);
 
             if (member($mode, 'start', 'progress')) {
 		$file =~ s|/*\s*$||; $file =~ s|.*/||;
