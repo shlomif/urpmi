@@ -164,7 +164,7 @@ if ($options{distrib}) {
 			      quiet => $options{verbose} < 0,		      
 			      callback => \&urpm::download::sync_logger);
 } else {
-    $name or usage();
+    $name && $name !~ m!/! or usage();
 
     if ($with eq "with") {
 	$relative_synthesis or usage N("<relative path of synthesis> missing\n");
