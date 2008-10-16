@@ -703,8 +703,8 @@ sub sync_aria2 {
 		    if ($buf =~ m!Download\scomplete:\s\./!) {
 			propagate_sync_callback($options, 'end', $file);
 			$file = undef;
-		    } elsif ($buf =~ /ERR\|/) {
-			propagate_sync_callback($options, 'error', $file, $buf);
+		    } elsif ($buf =~ /ERR\|(.*)/) {
+			propagate_sync_callback($options, 'error', $file, $1);
 		    }
 	    } else {
 		$options->{quiet} or print STDERR "$buf\n";
