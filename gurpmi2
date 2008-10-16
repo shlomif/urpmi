@@ -136,6 +136,10 @@ sub configure_urpm() {
     $urpm->{error} = sub {
 	my ($message) = @_;
 	printf STDERR "%s\n", $message;
+
+	if (my $download_errors = delete $urpm->{download_errors}) {
+	    $message = join("\n", @$download_errors, $message);
+	}
 	my $nb_lines = $message =~ tr/\n/\n/;
 	my $w;
 	if ($nb_lines > 30) {
@@ -336,6 +340,9 @@ sub do_install_3 () {
 		$set_progressbar->($percent / 100);
             } elsif ($mode eq 'end') {
 		$set_progressbar->(1);
+            } elsif ($mode eq 'error') {
+		#- error is 3rd argument, saved in $percent
+		push @{$urpm->{download_errors}}, N("...retrieving failed: %s", $percent);
             }
             sync();
         },
