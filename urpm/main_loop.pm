@@ -226,11 +226,12 @@ foreach my $set (@{$state->{transaction} || []}) {
 		my ($raw_error, $translated) = partition { /^(badarch|bados|installed|badrelocate|conflicts|installed|diskspace|disknodes|requires|conflicts|unknown)\@/ } @l;
 		@l = @$translated;
 		my $fatal = grep { /^disk/ } @$raw_error;
+		my $no_question = $fatal || $urpm->{options}{auto};
 
 		#- Warning : the following message is parsed in urpm::parallel_*
 		my $msg = N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @l) . "\n";
 		my $retry;
-		if ($fatal || $urpm->{options}{auto} || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
+		if ($no_question || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
 		    print $msg;
 		    ++$urpm->{logger_id};
 		} else {
