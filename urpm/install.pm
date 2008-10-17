@@ -76,12 +76,10 @@ sub install_logger {
     if ($subtype eq 'start') {
 	$urpm->{logger_progress} = 0;
 	if ($type eq 'trans') {
-	    $urpm->{logger_id} ||= 0;
 	    $urpm->{logger_count} ||= 0;
 	    my $p = N("Preparing...");
 	    print $p, " " x (33 - length $p);
 	} else {
-	    ++$urpm->{logger_id};
 	    my $pname = $pkg ? $pkg->name : '';
 	    ++$urpm->{logger_count} if $pname;
 	    my $cnt = $pname ? $urpm->{logger_count} : '-';

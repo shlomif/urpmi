@@ -247,7 +247,6 @@ foreach my $set (@{$state->{transaction} || []}) {
 		    }
 		}
 		print $msg;
-		++$urpm->{logger_id};
 
 		++$nok;
 		push @errors, @l;
