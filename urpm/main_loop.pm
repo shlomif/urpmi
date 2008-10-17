@@ -217,6 +217,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    
 	    urpm::orphans::add_unrequested($urpm, $state);
 
+	  install:
 	    my @l = urpm::install::install($urpm,
 		$to_remove,
 		\%transaction_sources_install, $transaction_sources,
@@ -230,62 +231,27 @@ foreach my $set (@{$state->{transaction} || []}) {
 
 		#- Warning : the following message is parsed in urpm::parallel_*
 		my $msg = N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @l) . "\n";
-		my $retry;
-		if ($no_question || !$urpm->{options}{'allow-nodeps'} && !$urpm->{options}{'allow-force'}) {
-		    print $msg;
-		    ++$urpm->{logger_id};
-		} else {
-		    $retry = $callbacks->{ask_yes_or_no}->(N("Installation failed"), 
-							   $msg . N("Try installation without checking dependencies? (y/N) "));
-		}
-		if (!$retry) {
-		    ++$nok;
-		    push @errors, @l;
-		    $fatal and last;
-		} else {
-		    $urpm->{log}("starting installing packages without deps");
-		    @l = urpm::install::install($urpm,
-			$to_remove,
-			\%transaction_sources_install, $transaction_sources,
-			nodeps => 1,
-			%install_options_common,
-		    );
-		    if (@l) {
-			#- Warning : the following message is parsed in urpm::parallel_*
-			my $msg = N("Installation failed:") . "\n" . join("\n", map { "\t$_" } @l) . "\n";
-			my $retry;
-			if (!$urpm->{options}{'allow-force'}) {
-			    print $msg;
-			    ++$urpm->{logger_id};
-			} else {
-			    $retry = $callbacks->{ask_yes_or_no}->(N("Installation failed"),
-								   $msg . N("Try harder to install (--force)? (y/N) "));
-			}
-			if (!$retry) {
-			    ++$nok;
-			    push @errors, @l;
-			} else {
-			    $urpm->{log}("starting force installing packages without deps");
-			    @l = urpm::install::install($urpm,
-				$to_remove,
-				\%transaction_sources_install, $transaction_sources,
-				nodeps => 1, force => 1,
-				%install_options_common,
-			    );
-			    if (@l) {
-				#- Warning : the following message is parsed in urpm::parallel_*
-				print N("Installation failed:") . "\n" . join("\n", map { "\t$_" } @l), "\n";
-				++$nok;
-				++$urpm->{logger_id};
-				push @errors, @l;
-			    } else {
-				++$ok;
-			    }
-			}
-		    } else {
-			++$ok;
+		if (!$no_question && !$install_options_common{nodeps} && ($urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'})) {
+		    if ($callbacks->{ask_yes_or_no}->(N("Installation failed"), 
+						      $msg . N("Try installation without checking dependencies? (y/N) "))) {
+			$urpm->{log}("starting installing packages without deps");
+			$install_options_common{nodeps} = 1;
+			goto install;
+		    }
+		} elsif (!$no_question && !$install_options_common{force} && $urpm->{options}{'allow-force'}) {
+		    if ($callbacks->{ask_yes_or_no}->(N("Installation failed"),
+						      $msg . N("Try harder to install (--force)? (y/N) "))) {
+			$urpm->{log}("starting force installing packages without deps");
+			$install_options_common{force} = 1;
+			goto install;
 		    }
 		}
+		print $msg;
+		++$urpm->{logger_id};
+
+		++$nok;
+		push @errors, @l;
+		$fatal and last;
 	    } else {
 		++$ok;
 	    }
