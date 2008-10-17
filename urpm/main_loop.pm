@@ -212,6 +212,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 		callback_inst => $callbacks->{inst},
 		callback_trans => $callbacks->{trans},
 		callback_report_uninst => $callbacks->{callback_report_uninst},
+		raw_message => 1,
 	    );
 	    
 	    urpm::orphans::add_unrequested($urpm, $state);

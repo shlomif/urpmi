@@ -160,7 +160,6 @@ sub options {
 sub install {
     my ($urpm, $remove, $install, $upgrade, %options) = @_;
     $options{translate_message} = 1;
-    $options{raw_message} = 1;
 
     my $db = urpm::db_open_or_die_($urpm, !$options{test}); #- open in read/write mode unless testing installation.
 
