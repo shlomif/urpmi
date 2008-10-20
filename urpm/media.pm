@@ -1578,7 +1578,7 @@ sub _update_medium_ {
 	    : _update_medium__parse_if_unmodified__remote($urpm, $medium, \%options);
 
 	if ($options{forcekey} && $rc eq 'unmodified') {
-	    _get_pubkey($urpm, $medium); # we must do it now, quite hackish...
+	    _get_pubkey($urpm, $medium, $options{wait_lock}); # we must do it now, quite hackish...
 	    return 1;
 	}
 
