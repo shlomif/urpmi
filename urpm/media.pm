@@ -1516,9 +1516,8 @@ sub _get_pubkey {
     $urpm->{modified} = 1;
 }
 
-# options: wait_lock, nopubkey, forcekey
-sub _get_pubkey_and_descriptions {
-    my ($urpm, $medium, %options) = @_;
+sub _get_descriptions {
+    my ($urpm, $medium) = @_;
 
     my $local = file_from_local_medium($medium);
 
@@ -1526,7 +1525,12 @@ sub _get_pubkey_and_descriptions {
     if ($medium->{update}) {
 	($local ? \&get_descriptions_local : \&get_descriptions_remote)->($urpm, $medium);
     }
+}
 
+# options: wait_lock, nopubkey, forcekey
+sub _may_get_pubkey {
+    my ($urpm, $medium, %options) = @_;
+    
     _get_pubkey($urpm, $medium, $options{wait_lock}) if !$options{nopubkey} && (!$medium->{'key-ids'} || $options{forcekey});
 }
 
@@ -1621,7 +1625,8 @@ sub _update_medium_ {
     # generated on first _parse_media()
     unlink statedir_names($urpm, $medium);
 
-    _get_pubkey_and_descriptions($urpm, $medium, %options);
+    _get_descriptions($urpm, $medium);
+    _may_get_pubkey($urpm, $medium, %options);
 
     $is_updating and $urpm->{info}(N("updated medium \"%s\"", $medium->{name}));
 
