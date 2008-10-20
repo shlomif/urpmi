@@ -1504,8 +1504,19 @@ sub _update_medium__parse_if_unmodified__remote {
     1;
 }
 
+sub _get_pubkey {
+    my ($urpm, $medium, $b_wait_lock) = @_;
+  
+    my $local = file_from_local_medium($medium);
+
+    #- examine if a pubkey file is available.
+    ($local ? \&_get_pubkey__local : \&_download_pubkey)->($urpm, $medium);
+
+    $medium->{'key-ids'} =_read_cachedir_pubkey($urpm, $medium, $b_wait_lock);
+}
+
 sub _get_pubkey_and_descriptions {
-    my ($urpm, $medium, $nopubkey) = @_;
+    my ($urpm, $medium, $nopubkey, $b_wait_lock) = @_;
 
     my $local = file_from_local_medium($medium);
 
@@ -1514,10 +1525,7 @@ sub _get_pubkey_and_descriptions {
 	($local ? \&get_descriptions_local : \&get_descriptions_remote)->($urpm, $medium);
     }
 
-    #- examine if a pubkey file is available.
-    if (!$nopubkey && !$medium->{'key-ids'}) {
-	($local ? \&_get_pubkey__local : \&_download_pubkey)->($urpm, $medium);
-    }
+    _get_pubkey($urpm, $medium, $b_wait_lock) if !$nopubkey && !$medium->{'key-ids'};
 }
 
 sub _read_cachedir_pubkey {
@@ -1606,8 +1614,7 @@ sub _update_medium_ {
     # generated on first _parse_media()
     unlink statedir_names($urpm, $medium);
 
-    _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey});
-    $medium->{'key-ids'} ||= _read_cachedir_pubkey($urpm, $medium, $options{wait_lock});
+    _get_pubkey_and_descriptions($urpm, $medium, $options{nopubkey}, $options{wait_lock});
 
     $is_updating and $urpm->{info}(N("updated medium \"%s\"", $medium->{name}));
 
