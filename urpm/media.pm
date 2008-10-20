@@ -1513,6 +1513,7 @@ sub _get_pubkey {
     ($local ? \&_get_pubkey__local : \&_download_pubkey)->($urpm, $medium);
 
     $medium->{'key-ids'} =_read_cachedir_pubkey($urpm, $medium, $b_wait_lock);
+    $urpm->{modified} = 1;
 }
 
 sub _get_pubkey_and_descriptions {
@@ -1577,6 +1578,10 @@ sub _update_medium_ {
 
 	if ($options{forcekey}) {
 	    delete $medium->{'key-ids'};
+	    if ($rc eq 'unmodified') {
+		_get_pubkey($urpm, $medium); # we must do it now, quite hackish...
+		return 1;
+	    }
 	}
 
 	if (!$rc || $rc eq 'unmodified') {
