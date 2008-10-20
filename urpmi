@@ -345,20 +345,7 @@ if ($urpm->{root}) {
     $urpm->{options}{'priority-upgrade'} = '' if !$ENV{TESTING_priority_upgrade};
 }
 if ($auto_update && !$bug && !$env) {
-    #- For translators : there are several media here
-    $urpm->{log}(N("Updating media...\n"));
-    urpm::media::read_config($urpm, '');
-    urpm::media::update_media($urpm, 
-	all => 1,
-	callback => \&urpm::download::sync_logger,
-	quiet => $options{verbose} < 0,
-	nomd5sum => $nomd5sum,
-	forcekey => $forcekey,
-    );
-    delete $urpm->{media};
-    $urpm->{depslist} = [];
-    $urpm->{provides} = {};
-    $urpm->{obsoletes} = {};
+    $urpm->{options}{'auto-update'} = 1;
 }
 
 urpm::media::configure($urpm,

@@ -641,7 +641,7 @@ sub _auto_update_media {
     $options{callback} = delete $options{download_callback};
 
     my $errors;
-    foreach (grep { $_->{force_auto_update} || _is_remote_virtual($_) } 
+    foreach (grep { $_->{force_auto_update} || _is_remote_virtual($_) || $urpm->{options}{'auto-update'} } 
 	       non_ignored_media($urpm, $options{update})) {
 	_update_medium($urpm, $_, %options) or $errors++;
     }
