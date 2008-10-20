@@ -1557,7 +1557,7 @@ sub _read_cachedir_pubkey {
     join(',', keys %key_ids);
 }
 
-#- options: callback, force, nomd5sum, probe_with, quiet, nopubkey, wait_lock
+#- options: callback, force, nomd5sum, probe_with, quiet, forcekey, nopubkey, wait_lock
 #- (from _update_medium__parse_if_unmodified__local and _update_medium__parse_if_unmodified__remote)
 sub _update_medium_ {
     my ($urpm, $medium, %options) = @_;
@@ -1574,6 +1574,10 @@ sub _update_medium_ {
 	  is_local_medium($medium)
 	    ? _update_medium__parse_if_unmodified__local($urpm, $medium, \%options)
 	    : _update_medium__parse_if_unmodified__remote($urpm, $medium, \%options);
+
+	if ($options{forcekey}) {
+	    delete $medium->{'key-ids'};
+	}
 
 	if (!$rc || $rc eq 'unmodified') {
 	    return $rc;
@@ -1634,11 +1638,9 @@ sub _update_medium {
 }
 
 sub _update_media__handle_some_flags {
-    my ($urpm, $forcekey, $all) = @_;
+    my ($urpm, $all) = @_;
 
     foreach my $medium (non_ignored_media($urpm)) {
-	$forcekey and delete $medium->{'key-ids'};
-
 	if ($medium->{static}) {
 	    #- don't ever update static media
 	    $medium->{modified} = 0;
@@ -1674,7 +1676,7 @@ sub update_media {
     #- synthesis file, else build it from rpm files.
     clean($urpm);
 
-    _update_media__handle_some_flags($urpm, $options{forcekey}, $options{all});
+    _update_media__handle_some_flags($urpm, $options{all});
 
     my %updates_result;
     foreach my $medium (grep { $_->{modified} } non_ignored_media($urpm)) {
