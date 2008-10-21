@@ -1664,6 +1664,7 @@ sub _update_media__handle_some_flags {
 #- the recomputation of base files.
 #- Recognized options :
 #-   all         : all medias are being rebuilt
+#- allow_failures: whereas failing to update a medium is non fatal
 #-   callback    : UI callback
 #-   forcekey    : force retrieval of pubkey
 #-   force       : try to force rebuilding base files
@@ -1689,6 +1690,7 @@ sub update_media {
     my %updates_result;
     foreach my $medium (grep { $_->{modified} } non_ignored_media($urpm)) {
 	my $rc = _update_medium($urpm, $medium, %options);
+	$rc or return if !$options{allow_failures};
 	$updates_result{$rc || 'error'}++;
     }
 

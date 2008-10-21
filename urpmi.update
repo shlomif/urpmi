@@ -73,6 +73,10 @@ urpm::media::read_config($urpm, 'nocheck');
 
 my @chosen_media;
 
+if ($options{all} || $options{update}) {
+    $options{allow_failures} = 1;
+}
+
 if ($options{all} && !defined $options{ignore}) {
     @chosen_media = @{$urpm->{media}}
       or die N("nothing to update (use urpmi.addmedia to add a media)\n");
