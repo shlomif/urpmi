@@ -700,7 +700,7 @@ sub _parse_aria2_output {
 	if ($_ eq "\r" || $_ eq "\n") {
 	    $options->{debug}("aria2c: $buf") if $options->{debug};
 		if ($options->{callback}) {
-			if (!defined($file)) {
+			if (!defined($file) && @$rel_files) {
 				$file = $medium->{mirrorlist} ? 
 				  $medium->{mirrorlist} . ': ' . $medium->{'with-dir'} . "/$rel_files->[0]" :
 				  "$medium->{url}/$rel_files->[0]";
