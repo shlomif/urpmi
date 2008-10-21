@@ -404,7 +404,7 @@ sub ask_yes_or_no {
     my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'yes-no', $msg);
     my $response = $w->run;
     $w->destroy;
-    $response eq 'ok';
+    $response eq 'yes';
 }
 
 sub gtk_new_Label_Left {
