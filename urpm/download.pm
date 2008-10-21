@@ -260,12 +260,17 @@ sub set_proxy {
     @res;
 }
 
-sub _error {
+sub _error_msg {
     my ($name) = @_;
 
     my $msg = $? & 127 ? N("%s failed: exited with signal %d", $name, $? & 127) :
                          N("%s failed: exited with %d", $name, $? >> 8);
-    die "$msg\n";
+    "$msg\n";
+}
+
+sub _error {
+    my ($name) = @_;
+    die _error_msg($name);
 }
 
 sub hide_password {
