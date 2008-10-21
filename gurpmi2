@@ -346,13 +346,8 @@ sub do_install_3 () {
             }
             sync();
         },
-        ask_yes_or_no => sub {
-            my ($title, $msg) = @_;
-            my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'yes-no', $msg);
-            my $response = $w->run;
-            $w->destroy;
-            return $response eq 'ok';
-        },
+        ask_yes_or_no => \&ask_yes_or_no,
+
         completed => sub {
             $urpmi_lock->unlock;
             $rpm_lock->unlock;
@@ -402,6 +397,14 @@ sub do_install_3 () {
         exec $0, @ARGV;
     }
     exit $exit_code;
+}
+
+sub ask_yes_or_no {
+    my ($title, $msg) = @_;
+    my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'yes-no', $msg);
+    my $response = $w->run;
+    $w->destroy;
+    $response eq 'ok';
 }
 
 sub gtk_new_Label_Left {
