@@ -639,7 +639,7 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
     ask_yes_or_no => sub {
 	my ($_title, $msg) = @_; # graphical title
 	my $yesexpr = N("Yy");
-	$force || message_input_($msg, boolean => 1) =~ /[$yesexpr]/;
+	$force || message_input_($msg . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/;
     },
     need_restart => sub {
 	my ($need_restart_formatted) = @_;

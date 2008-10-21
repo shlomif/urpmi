@@ -112,7 +112,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    !$urpm->{options}{auto} && $callbacks->{ask_yes_or_no}->(
 		N("Installation failed"), 
 		N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database", $msg)
-		  . "\n\n" . N("Try to go on anyway? (y/N) ")) or last;
+		  . "\n\n" . N("Try to go on anyway?")) or last;
 	}
 	if (my @bad = grep { $_->[1] eq 'bad' } @error_sources) {
 	    $exit_code = 11;
@@ -122,7 +122,7 @@ foreach my $set (@{$state->{transaction} || []}) {
 	    !$urpm->{options}{auto} && $callbacks->{ask_yes_or_no}->(
 		N("Installation failed"), 
 		N("Installation failed, bad rpms:\n%s", $msg)
-		  . "\n\n" . N("Try to go on anyway? (y/N) ")) or last;
+		  . "\n\n" . N("Try to go on anyway?")) or last;
 	}
     }
 
@@ -233,14 +233,14 @@ foreach my $set (@{$state->{transaction} || []}) {
 		my $msg = N("Installation failed:") . "\n" . join("\n",  map { "\t$_" } @l) . "\n";
 		if (!$no_question && !$install_options_common{nodeps} && ($urpm->{options}{'allow-nodeps'} || $urpm->{options}{'allow-force'})) {
 		    if ($callbacks->{ask_yes_or_no}->(N("Installation failed"), 
-						      $msg . N("Try installation without checking dependencies? (y/N) "))) {
+						      $msg . N("Try installation without checking dependencies?"))) {
 			$urpm->{log}("starting installing packages without deps");
 			$install_options_common{nodeps} = 1;
 			goto install;
 		    }
 		} elsif (!$no_question && !$install_options_common{force} && $urpm->{options}{'allow-force'}) {
 		    if ($callbacks->{ask_yes_or_no}->(N("Installation failed"),
-						      $msg . N("Try harder to install (--force)? (y/N) "))) {
+						      $msg . N("Try harder to install (--force)?"))) {
 			$urpm->{log}("starting force installing packages without deps");
 			$install_options_common{force} = 1;
 			goto install;
