@@ -214,7 +214,9 @@ sub _download_packages_of_distant_media {
     if (urpm::download::sync_rel($urpm, $blist->{medium}, [ urpm::blist_to_filenames($blist) ],
 			     dir => "$cachedir/partial", quiet => $options{quiet}, 
 			     is_versioned => 1,
-			     resume => $urpm->{options}{resume}, callback => $options{callback})) {
+			     resume => $urpm->{options}{resume}, 
+			     ask_retry => $options{ask_retry},
+			     callback => $options{callback})) {
 	$urpm->{log}(N("...retrieving done"));
     } else {
 	$urpm->{error}(N("...retrieving failed: %s", $@));

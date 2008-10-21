@@ -685,7 +685,15 @@ sub sync_aria2 {
     _parse_aria2_output($options, $aria2, $aria2_pid, $medium, $rel_files);
 
     chdir $cwd;
-    close $aria2 or _error('aria2');
+    if (!close $aria2) {
+	my $raw_msg = _error_msg('aria2');
+	my $msg = N("Failed to download %s", $rel_files->[0]);
+	if ($options->{ask_retry} && $options->{ask_retry}($raw_msg, $msg)) {
+	    $options->{is_retry} = 1;
+	    goto &sync_aria2;
+	}
+	die $raw_msg;
+    }
 }
 
 sub _parse_aria2_output {
@@ -704,7 +712,8 @@ sub _parse_aria2_output {
 				$file = $medium->{mirrorlist} ? 
 				  $medium->{mirrorlist} . ': ' . $medium->{'with-dir'} . "/$rel_files->[0]" :
 				  "$medium->{url}/$rel_files->[0]";
-				propagate_sync_callback($options, 'start', $file);
+				propagate_sync_callback($options, 'start', $file)
+				  if !delete $options->{is_retry};
 			}
     		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*/\w)\s\w*:(\d+\w*)\]$!) {
 			    my ($total, $percent, $speed, $eta) = ($2, $3, $5, $6);
@@ -882,7 +891,7 @@ sub sync_rel_to {
 #- deprecated, use sync_url() or sync_rel() instead
 #-
 #- $medium can be undef
-#- known options: quiet, resume, callback
+#- known options: quiet, resume, callback, ask_retry
 sub sync {
     my ($urpm, $medium, $files, %options) = @_;
 

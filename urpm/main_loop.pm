@@ -101,6 +101,13 @@ foreach my $set (@{$state->{transaction} || []}) {
 	\@error_sources,
 	quiet => $options{verbose} < 0,
 	callback => $callbacks->{trans_log},
+        ask_retry => $callbacks->{ask_retry} || sub {
+	    my ($raw_msg, $msg) = @_;
+	    if (my $download_errors = delete $urpm->{download_errors}) {
+		$raw_msg = join("\n", @$download_errors, '');
+	    }
+	    $callbacks->{ask_yes_or_no}('', $raw_msg . "\n" . $msg . "\n" . N("Retry?"));
+	},
     );
     if (@error_sources) {
 	$_->[0] = urpm::download::hide_password($_->[0]) foreach @error_sources;

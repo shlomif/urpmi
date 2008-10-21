@@ -1445,7 +1445,7 @@ sub _download_MD5SUM_and_check {
     undef;
 }
 
-#- options: callback, force, nomd5sum, probe_with, quiet
+#- options: callback, ask_retry, force, nomd5sum, probe_with, quiet
 sub _update_medium__parse_if_unmodified__remote {
     my ($urpm, $medium, $options) = @_;
 
@@ -1563,7 +1563,7 @@ sub _read_cachedir_pubkey {
     join(',', keys %key_ids);
 }
 
-#- options: callback, force, nomd5sum, probe_with, quiet, forcekey, nopubkey, wait_lock
+#- options: callback, ask_retry, force, nomd5sum, probe_with, quiet, forcekey, nopubkey, wait_lock
 #- (from _update_medium__parse_if_unmodified__local and _update_medium__parse_if_unmodified__remote)
 sub _update_medium_ {
     my ($urpm, $medium, %options) = @_;
@@ -1665,6 +1665,7 @@ sub _update_media__handle_some_flags {
 #- Recognized options :
 #-   all         : all medias are being rebuilt
 #- allow_failures: whereas failing to update a medium is non fatal
+#-   ask_retry   : function called when a download fails. if it returns true, the download is retried
 #-   callback    : UI callback
 #-   forcekey    : force retrieval of pubkey
 #-   force       : try to force rebuilding base files
