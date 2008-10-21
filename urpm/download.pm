@@ -646,11 +646,10 @@ sub sync_prozilla {
 }
 
 sub sync_aria2 {
-    my ($options, @urls) = @_;
+    my ($urpm, $medium, $rel_files, $options) = @_;
 
     -x "/usr/bin/aria2c" or die N("aria2 is missing\n");
 
-    $options = { dir => $options } if !ref $options;
     #- force download to be done in cachedir to avoid polluting cwd.
     (my $cwd) = getcwd() =~ /(.*)/;
     chdir $options->{dir};
@@ -662,6 +661,7 @@ sub sync_aria2 {
 	"--auto-file-renaming=false",
 	'--ftp-pasv',
 	"--follow-metalink=mem",
+      $medium->{mirrorlist} ? (
 	'--metalink-enable-unique-protocol=false', # so that it can try both ftp and http access on the same server. aria2 will only do this on first calls
 	'--max-tries=1', # nb: not using $options->{retry}
 	'--lowest-speed-limit=20K', "--timeout", 3,
@@ -669,28 +669,27 @@ sub sync_aria2 {
         '--uri-selector=adaptive', "--server-stat-if=$stat_file", "--server-stat-of=$stat_file",
         $options->{is_versioned} ? () : '--max-file-not-found=3', # number of not found errors on different servers before aborting file download
         '--connect-timeout=6', # $CONNECT_TIMEOUT,
+      ) : (),
 	"-Z", "-j1",
 	($options->{'limit-rate'} ? "--max-download-limit=" . $options->{'limit-rate'} : ()),
 	($options->{resume} ? "--continue" : "--allow-overwrite=true"),
 	($options->{proxy} ? set_proxy({ type => "aria2", proxy => $options->{proxy} }) : ()),
 	(defined $options->{'aria2-options'} ? split /\s+/, $options->{'aria2-options'} : ()),
-	@urls);
-
-    my @urls_text = $options->{metalink} ? @{$options->{urls_text}} : @urls;
+        _create_metalink_($urpm, $medium, $rel_files, $options));
 
     $options->{debug} and $options->{debug}($aria2c_command);
 
     local $ENV{LC_ALL} = 'C';
     my $aria2_pid = open(my $aria2, "$aria2c_command |");
 
-    _parse_aria2_output($options, $aria2, $aria2_pid, [ @urls_text ]);
+    _parse_aria2_output($options, $aria2, $aria2_pid, $medium, $rel_files);
 
     chdir $cwd;
     close $aria2 or _error('aria2');
 }
 
 sub _parse_aria2_output {
-    my ($options, $aria2, $aria2_pid, $urls_text) = @_;
+    my ($options, $aria2, $aria2_pid, $medium, $rel_files) = @_;
 
     my ($buf, $_total, $file) = ('', undef, undef);
 
@@ -701,8 +700,10 @@ sub _parse_aria2_output {
 	if ($_ eq "\r" || $_ eq "\n") {
 	    $options->{debug}("aria2c: $buf") if $options->{debug};
 		if ($options->{callback}) {
-			if (!defined($file) && @$urls_text) {
-				$file = shift @$urls_text;
+			if (!defined($file)) {
+				$file = $medium->{mirrorlist} ? 
+				  $medium->{mirrorlist} . ': ' . $medium->{'with-dir'} . "/$rel_files->[0]" :
+				  "$medium->{url}/$rel_files->[0]";
 				propagate_sync_callback($options, 'start', $file);
 			}
     		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*/\w)\s\w*:(\d+\w*)\]$!) {
@@ -716,7 +717,8 @@ sub _parse_aria2_output {
 		    }
 		    if ($buf =~ m!Download\scomplete:\s\./!) {
 			propagate_sync_callback($options, 'end', $file);
-			$file = undef;
+			shift @$rel_files;
+			$file = undef;			
 		    } elsif ($buf =~ /ERR\|(.*)/) {
 			propagate_sync_callback($options, 'error', $file, $1);
 		    }
@@ -920,13 +922,11 @@ sub _sync_webfetch_raw {
     } elsif (member($proto, 'ftp', 'http', 'https') || $options->{metalink}) {
 
 	my $preferred = preferred_downloader($urpm, $medium, \$options->{metalink});
-
-	my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
-
-	if ($options->{metalink}) {
-	    $options->{urls_text} = [ map { $medium->{mirrorlist} . ': ' . $medium->{'with-dir'} . "/$_" } @$rel_files ];
-	    $sync->($options, _create_metalink_($urpm, $medium, $rel_files, $options));
+	if ($preferred eq 'aria2') {
+	    sync_aria2($urpm, $medium, $rel_files, $options);
 	} else {
+	  my $sync = $urpm::download::{"sync_$preferred"} or die N("no webfetch found, supported webfetch are: %s\n", join(", ", urpm::download::ftp_http_downloaders()));
+
 	  my @l = @$files;
 	  while (@l) {
 	    my $half_MAX_ARG = 131072 / 2;
@@ -980,11 +980,11 @@ sub _create_metalink_ {
 
     # only use the 8 best mirrors, then we let aria2 choose
     require urpm::mirrors;
-    my @mirrors = map {
+    my @mirrors = $medium->{mirrorlist} ? (map {
 	# aria2 doesn't handle rsync
 	my @l = grep { urpm::protocol_from_url($_->{url}) ne 'rsync' } @$_;
 	_take_n_elem(8, @l);
-    } urpm::mirrors::list_urls($urpm, $medium, '');
+    } urpm::mirrors::list_urls($urpm, $medium, '')) : { url => $medium->{url} };
     
     my $metalinkfile = "$urpm->{cachedir}/$options->{media}.metalink";
     # Even if not required by metalink spec, this line is needed at top of
