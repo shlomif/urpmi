@@ -102,6 +102,11 @@ sub bug_log {
     }
 }
 
+sub ask_yes_or_no {
+    my ($msg) = @_;
+    message_input_($msg . N(" (y/N) "), boolean => 1) =~ /[$yesexpr]/;
+}
+
 #- deprecated, use message_input_() instead
 sub message_input { &_message_input }
 
