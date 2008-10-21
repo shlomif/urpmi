@@ -683,6 +683,15 @@ sub sync_aria2 {
     local $ENV{LC_ALL} = 'C';
     my $aria2_pid = open(my $aria2, "$aria2c_command |");
 
+    _parse_aria2_output($options, $aria2, $aria2_pid, [ @urls_text ]);
+
+    chdir $cwd;
+    close $aria2 or _error('aria2');
+}
+
+sub _parse_aria2_output {
+    my ($options, $aria2, $aria2_pid, $urls_text) = @_;
+
     my ($buf, $_total, $file) = ('', undef, undef);
 
     local $/ = \1; #- read input by only one char, this is slow but very nice (and it works!).
@@ -692,8 +701,8 @@ sub sync_aria2 {
 	if ($_ eq "\r" || $_ eq "\n") {
 	    $options->{debug}("aria2c: $buf") if $options->{debug};
 		if ($options->{callback}) {
-			if (!defined($file) && @urls_text) {
-				$file = shift @urls_text;
+			if (!defined($file) && @$urls_text) {
+				$file = shift @$urls_text;
 				propagate_sync_callback($options, 'start', $file);
 			}
     		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*/\w)\s\w*:(\d+\w*)\]$!) {
@@ -719,8 +728,6 @@ sub sync_aria2 {
 	    $buf .= $_;
 	}
     }
-    chdir $cwd;
-    close $aria2 or _error('aria2');
 }
 
 sub start_ssh_master {
