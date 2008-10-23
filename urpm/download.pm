@@ -687,9 +687,16 @@ sub sync_aria2 {
     chdir $cwd;
     if (!close $aria2) {
 	my $raw_msg = _error_msg('aria2');
-	my $msg = N("Failed to download %s", $rel_files->[0]);
-	if ($options->{ask_retry} && $options->{ask_retry}($raw_msg, $msg)) {
-	    $options->{is_retry} = 1;
+	my $want_retry;
+	if (!$options->{is_retry} & $options->{is_versioned}) {
+	    $want_retry = 1;
+	} else {
+	    my $msg = N("Failed to download %s", $rel_files->[0]);
+	    $want_retry = $options->{ask_retry} && $options->{ask_retry}($raw_msg, $msg);
+	}
+	if ($want_retry) {
+	    $options->{is_retry}++;
+	    $options->{debug} and $options->{debug}("retrying ($options->{is_retry})");
 	    goto &sync_aria2;
 	}
 	die $raw_msg;
@@ -713,7 +720,7 @@ sub _parse_aria2_output {
 				  $medium->{mirrorlist} . ': ' . $medium->{'with-dir'} . "/$rel_files->[0]" :
 				  "$medium->{url}/$rel_files->[0]";
 				propagate_sync_callback($options, 'start', $file)
-				  if !delete $options->{is_retry};
+				  if !$options->{is_retry};
 			}
     		    if ($buf =~ m!^\[#\d*\s+\S+:([\d\.]+\w*).([\d\.]+\w*)\S([\d]+)\S+\s+\S+\s*([\d\.]+)\s\w*:([\d\.]+\w*/\w)\s\w*:(\d+\w*)\]$!) {
 			    my ($total, $percent, $speed, $eta) = ($2, $3, $5, $6);
@@ -727,6 +734,7 @@ sub _parse_aria2_output {
 		    if ($buf =~ m!Download\scomplete:\s\./!) {
 			propagate_sync_callback($options, 'end', $file);
 			shift @$rel_files;
+			delete $options->{is_retry};
 			$file = undef;			
 		    } elsif ($buf =~ /ERR\|(.*)/) {
 			propagate_sync_callback($options, 'error', $file, $1);
