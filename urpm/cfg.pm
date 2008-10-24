@@ -160,7 +160,7 @@ sub load_config_raw {
 	  |downloader
 	  |retry
 	  |default-media
-	  |(?:curl|rsync|wget|prozilla)-options
+	  |(?:curl|rsync|wget|prozilla|aria2)-options
 	  )\s*:\s*['"]?(.*?)['"]?$/x) {
 	    #- config values
 	    $block->{$1} = $2;
