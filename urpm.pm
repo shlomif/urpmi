@@ -151,6 +151,7 @@ sub set_env {
     $urpm->{prefer_list} = "$env/prefer.list";
     $urpm->{prefer_vendor_list} = "$env/prefer.vendor.list";
     $urpm->{statedir} = $env;
+    $urpm->{env_rpmdb} = "$env/rpmdb.cz";
 }
 
 sub set_files {
@@ -280,17 +281,12 @@ sub is_cdrom_url {
 
 sub db_open_or_die_ {
     my ($urpm, $b_write_perm) = @_;
-    db_open_or_die($urpm, $urpm->{root}, $b_write_perm);
-}
-
-sub db_open_or_die__ {
-    my ($urpm, $o_rpmdb) = @_;
     my $db;
-    if ($o_rpmdb) {
+    if ($urpm->{env_rpmdb}) {
         $db = new URPM;
-        $db->parse_synthesis($o_rpmdb);
+        $db->parse_synthesis($urpm->{env_rpmdb});
     } else {
-        $db = urpm::db_open_or_die_($urpm);
+	$db = db_open_or_die($urpm, $urpm->{root}, $b_write_perm);
     }
     $db;
 }

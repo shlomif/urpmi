@@ -229,7 +229,6 @@ sub _search_packages_keep_best {
 #- The return value is true if program should be restarted (in order to take
 #- care of important packages being upgraded (priority upgrades)
 #- %options :
-#-	rpmdb
 #-	auto_select
 #-	install_src
 #-	priority_upgrade
@@ -248,7 +247,7 @@ sub resolve_dependencies {
 	require urpm::parallel; #- help perl_checker;
 	urpm::parallel::resolve_dependencies($urpm, $state, $requested, %options);
     } else {
-	my $db = urpm::db_open_or_die__($urpm, $options{rpmdb});
+	my $db = urpm::db_open_or_die_($urpm);
 
 	my $sig_handler = sub { undef $db; exit 3 };
 	local $SIG{INT} = $sig_handler;
@@ -261,7 +260,7 @@ sub resolve_dependencies {
 					   );
 	}
 
-	if ($options{priority_upgrade} && !$options{rpmdb}) {
+	if ($options{priority_upgrade} && !$urpm->{env_rpmdb}) {
 	    #- first check if a priority_upgrade package is requested
 	    #- (it should catch all occurences in --auto-select mode)
 	    #- (nb: a package "foo" may appear twice, and only one will be set flag_upgrade)

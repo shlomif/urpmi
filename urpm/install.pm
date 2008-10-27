@@ -44,7 +44,7 @@ sub build_transaction_set_ {
 	#- build simplest transaction (no split).
 	$urpm->build_transaction_set(undef, $state, split_length => 0);
     } else {
-	my $db = urpm::db_open_or_die__($urpm, $options{rpmdb});
+	my $db = urpm::db_open_or_die_($urpm);
 
 	my $sig_handler = sub { undef $db; exit 3 };
 	local $SIG{INT} = $sig_handler;
