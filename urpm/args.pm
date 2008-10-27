@@ -417,7 +417,7 @@ foreach my $k ('allow-medium-change', 'auto', 'auto-select', 'clean', 'force', '
 }
 $options_spec{gurpmi2} = $options_spec{gurpmi};
 
-foreach my $k ("test!", "force", "root=s", "use-distrib=s",
+foreach my $k ("test!", "force", "root=s", "use-distrib=s", 'env=s',
     'repackage', 'noscripts', 'auto', 'auto-orphans', 'justdb',
     "parallel=s")
 {

@@ -32,7 +32,7 @@ use urpm::orphans;
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-our ($test, $parallel, $force);
+our ($test, $parallel, $force, $env);
 my $yesexpr =
   #-PO: Add here the keys which might be pressed in the "Yes"-case.
   N("Yy");
@@ -69,7 +69,9 @@ my @cmdline_pkgs_to_remove = @ARGV;
 
 my $state = {};
 
-if ($< && !$test) {
+if ($env) {
+    urpm::set_env($urpm, $env);
+} elsif ($< && !$test) {
     $urpm->{fatal}(1, N("Only superuser is allowed to remove packages"));
 }
 
@@ -83,7 +85,7 @@ unless ($test) {
 }
 
 #- just configure parallel mode if available.
-my $_urpmi_lock = urpm::lock::urpmi_db($urpm, '', wait => $options{wait_lock});
+my $_urpmi_lock = !$env && urpm::lock::urpmi_db($urpm, '', wait => $options{wait_lock});
 urpm::media::configure($urpm,
     synthesis => ($parallel ? 'none' : ''),
     parallel => $parallel,
@@ -154,7 +156,7 @@ my $msg =
   . (@orphans ? P("(orphan package)", "(orphan packages)", scalar(@orphans)) . "\n" .
                 add_leading_spaces(join("\n", sort @orphans) . "\n") : ());
 
-if ($urpm->{options}{auto}) {
+if ($urpm->{options}{auto} || $env) {
     $test and print STDOUT $msg;
 } elsif ($parallel || @toremove > @cmdline_pkgs_to_remove) {
     print STDOUT $msg;
@@ -165,6 +167,8 @@ print $test ?
   #- Warning : the following message is parsed in urpm::parallel_*
   N("testing removal of %s", join(' ', sort @toremove)) :
   N("removing %s", join(' ', sort @toremove)), "\n";
+
+exit 0 if $env;
 
 my %remove_options = (
     test => $test,

@@ -152,6 +152,7 @@ sub set_env {
     $urpm->{prefer_vendor_list} = "$env/prefer.vendor.list";
     $urpm->{statedir} = $env;
     $urpm->{env_rpmdb} = "$env/rpmdb.cz";
+    $urpm->{env_dir} = $env;
 }
 
 sub set_files {

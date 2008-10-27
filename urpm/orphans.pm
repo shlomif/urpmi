@@ -25,7 +25,7 @@ sub installed_packages_packed {
 #- side-effects: none
 sub unrequested_list__file {
     my ($urpm) = @_;
-    "$urpm->{root}/var/lib/rpm/installed-through-deps.list";
+    ($urpm->{env_dir} || "$urpm->{root}/var/lib/rpm") . '/installed-through-deps.list';
 }
 #- side-effects: none
 sub unrequested_list {
@@ -65,7 +65,7 @@ sub _installed_req_and_unreq_and_update_unrequested_list {
     # update the list (to filter dups and now-removed-pkgs)
     output_safe(unrequested_list__file($urpm), 
 		join('', sort map { $_->name . "\n" } @$unreq),
-		".old");
+		".old") if !$urpm->{env_dir};
 
     ($req, $unreq, $unrequested);
 }
