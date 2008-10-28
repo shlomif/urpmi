@@ -3,6 +3,10 @@
   o retry once on aria2 versioned-file download failure
   o allow setting aria2-options in urpmi.cfg
 - urpmi
+  o fix "urpmi firefox mozilla-firefox-ext-google-toolbar ; 
+    urpme --auto-orphans mozilla-firefox-ext-google-toolbar" which must not
+    remove firefox (cf #45054)
+    (this is especially bad for DrakX/rpmsrate)
   o fix --auto-update ignoring --media and default-media (#45097)
 - gurpmi
   o display the download errors

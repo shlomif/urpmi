@@ -20,6 +20,8 @@
 #
 # req-a requires a, req-b requires b...
 #
+# u1 requires u2, u4 requires u3
+#
 use strict;
 use lib '.', 't';
 use helper;
@@ -39,6 +41,9 @@ set_urpmi_cfg_global_options({ 'nb-of-new-unrequested-pkgs-between-auto-select-o
 
 test_urpme_v1(['h'], 'h', '');
 test_urpme_v1(['hh', 'h'], 'h', 'hh');
+
+test_urpme_v1(['u1 u2'], 'u1', 'u2');
+test_urpme_v1(['u3 u4'], 'u4', 'u3');
 
 test_auto_select_both('a', '',    'a-2');
 test_auto_select_both('b', '',    'bb-2');

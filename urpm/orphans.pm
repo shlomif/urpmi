@@ -78,8 +78,9 @@ sub _selected_unrequested {
     require urpm::select;
     map {
 	if (my $from = $selected->{$_}{from}) {
-	    my $name = $urpm->{depslist}[$_]->name;
-	    urpm::select::was_pkg_name_installed($rejected, $name) ? () : 
+	    my $pkg = $urpm->{depslist}[$_];
+	    my $name = $pkg->name;
+	    $pkg->flag_requested || urpm::select::was_pkg_name_installed($rejected, $name) ? () : 
 		($name => "(required by " . $from->fullname . ")");
 	} elsif ($selected->{$_}{suggested}) {
 	    ($urpm->{depslist}[$_]->name => "(suggested)");
