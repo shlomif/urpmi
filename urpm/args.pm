@@ -345,7 +345,6 @@ my %options_spec = (
 	'mirrorlist:s' => sub { $options{mirrorlist} = $_[1] || '$MIRRORLIST' },
         interactive => sub { $options{interactive} = 1 },
         'all-media' => sub { $options{allmedia} = 1 },
-	'from=s' => \$options{mirrors_url},
 	virtual => \$options{virtual},
 	nopubkey => \$options{nopubkey},
 	raw => \$options{raw},

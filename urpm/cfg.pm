@@ -319,19 +319,6 @@ sub write_ini_config {
     }    
 }
 
-#- routines to handle mirror list location
-
-#- Default mirror list
-our $mirrors = 'http://www.mandrivalinux.com/mirrorsfull.list';
-
-sub mirrors_cfg () {
-    foreach (cat_("/etc/urpmi/mirror.config")) {
-	    chomp; s/#.*$//; s/^\s*//; s/\s*$//;
-	    /^url\s*=\s*(.*)/ and $mirrors = $1;
-    }
-    return 1;
-}
-
 1;
 
 __END__

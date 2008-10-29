@@ -74,9 +74,7 @@ and [options] are from
                    medium.
 ") . N("  --interactive  - with --distrib, ask confirmation for each media
 ") . N("  --all-media    - with --distrib, add every listed media
-") . N("  --from         - use specified url for list of mirrors, the default is
-                   %s
-", $urpm::cfg::mirrors) . N("  --virtual      - create virtual media wich are always up-to-date.
+") . N("  --virtual      - create virtual media wich are always up-to-date.
 ") . N("  --no-md5sum    - disable MD5SUM file checking.
 ") . N("  --nopubkey     - don't import pubkey of added media
 ") . N("  --raw          - add the media in config, but don't update it.
@@ -90,13 +88,6 @@ and [options] are from
 $ENV{PATH} = "/sbin:/usr/sbin:/bin:/usr/bin:/usr/X11R6/bin";
 delete @ENV{qw(ENV BASH_ENV IFS CDPATH)};
 
-#- parse /etc/urpmi/mirror.config if present, or use default mdk mirror.
-#- the --from option overrides this setting.
-if ($options{mirrors_url}) {
-    $urpm::cfg::mirrors = $options{mirrors_url};
-} else {
-    urpm::cfg::mirrors_cfg();
-}
 $options{force} = 0;
 my $urpm = urpm->new_parse_cmdline or usage();
 
