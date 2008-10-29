@@ -78,7 +78,7 @@ $urpm->{debug} and $urpm->{debug}(join("\n", "scheduled sets of transactions:",
 $options{debug__do_not_install} and exit 0;
 
 my ($ok, $nok) = (0, 0);
-my @errors;
+my (@errors, @formatted_errors);
 my $exit_code = 0;
 
 my $migrate_back_rpmdb_db_version = 
@@ -110,25 +110,33 @@ foreach my $set (@{$state->{transaction} || []}) {
     );
     if (@error_sources) {
 	$_->[0] = urpm::download::hide_password($_->[0]) foreach @error_sources;
-	if (my @missing = grep { $_->[1] eq 'missing' } @error_sources) {
-	    $exit_code = 10;
-	    push @errors, map { "missing $_->[0]" } @missing;
+	$nok++;
+	my @bad = grep { $_->[1] eq 'bad' } @error_sources;
+	my @missing = grep { $_->[1] eq 'missing' } @error_sources;
 
-	    my $msg = join("\n", map { "    $_->[0]" } @missing);
-	    !$urpm->{options}{auto} && $callbacks->{ask_yes_or_no}->(
-		N("Installation failed"), 
-		N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database", $msg)
-		  . "\n\n" . N("Try to go on anyway?")) or last;
+	my @msgs;
+	if (@missing) {
+	    push @msgs, N("Installation failed, some files are missing:\n%s", 
+			  join("\n", map { "    $_->[0]" } @missing))
+	      . "\n" . N("You may want to update your urpmi database.");
 	}
-	if (my @bad = grep { $_->[1] eq 'bad' } @error_sources) {
-	    $exit_code = 11;
-	    push @errors, map { "bad $_->[0]" } @bad;
-
-	    my $msg = join("\n", map { "    $_->[0]" } @bad);
-	    !$urpm->{options}{auto} && $callbacks->{ask_yes_or_no}->(
+	if (@bad) {
+	    push @msgs, N("Installation failed, bad rpms:\n%s",
+			  join("\n", map { "    $_->[0]" } @bad));
+	}
+	my $go_on;
+	if ($urpm->{options}{auto}) {
+	    push @formatted_errors, @msgs;
+	} else {
+	    $go_on = $callbacks->{ask_yes_or_no}->(
 		N("Installation failed"), 
-		N("Installation failed, bad rpms:\n%s", $msg)
-		  . "\n\n" . N("Try to go on anyway?")) or last;
+		join("\n\n", @msgs, N("Try to go on anyway?")));
+	}
+	if (!$go_on) {
+	    if (@missing) {
+		$exit_code = $ok ? 13 : 14;
+	    }
+	    last;
 	}
     }
 
@@ -272,12 +280,13 @@ $callbacks->{completed} and $callbacks->{completed}->();
 
 if ($nok) {
     $callbacks->{trans_error_summary} and $callbacks->{trans_error_summary}->($nok, \@errors);
-    print N("Installation failed:"), "\n", map { "\t$_\n" } @errors;
-    if ($exit_code) {
-	$exit_code = $ok ? 13 : 14;
-    } else {
-	$exit_code = $ok ? 11 : 12;
+    if (@formatted_errors) {
+	print join("\n", @formatted_errors), "\n";
     }
+    if (@errors) {
+	print N("Installation failed:"), "\n", map { "\t$_\n" } @errors;
+    }
+    $exit_code ||= $ok ? 11 : 12;
 } else {
     $callbacks->{success_summary} and $callbacks->{success_summary}->();
     if ($something_was_to_be_done || $auto_select) {
