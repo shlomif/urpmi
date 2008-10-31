@@ -620,7 +620,7 @@ sub configure {
 	    my @remaining = difference2($urpm->{media}, \@sorted_media);
 	    $urpm->{media} = [ @sorted_media, @remaining ];
 	}
-	_auto_update_media($urpm, %options) or return;
+	_auto_update_media($urpm, %options);
 
 	_pick_mirror_if_needed($urpm, $_, '') foreach non_ignored_media($urpm, $options{update});
 
@@ -640,12 +640,10 @@ sub _auto_update_media {
 
     $options{callback} = delete $options{download_callback};
 
-    my $errors;
     foreach (grep { $_->{force_auto_update} || _is_remote_virtual($_) || $urpm->{options}{'auto-update'} } 
 	       non_ignored_media($urpm, $options{update})) {
-	_update_medium($urpm, $_, %options) or $errors++;
+	_update_medium($urpm, $_, %options);
     }
-    !$errors;
 }
 
 sub non_ignored_media {
