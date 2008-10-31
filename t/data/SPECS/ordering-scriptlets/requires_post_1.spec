@@ -10,7 +10,7 @@ BuildRoot: %{_tmppath}/%{name}
 %description
 x
 
-%post -p /bin/ash
-echo "%post is running ok"
+%post -p /bin/a
+post is running ok
 
 %files

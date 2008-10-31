@@ -10,7 +10,7 @@ BuildRoot: %{_tmppath}/%{name}
 %description
 x
 
-%pre -p /bin/ash
-echo "%pre is running ok"
+%pre -p /bin/a
+pre is running ok
 
 %files

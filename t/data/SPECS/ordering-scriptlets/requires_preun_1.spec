@@ -10,7 +10,7 @@ BuildRoot: %{_tmppath}/%{name}
 %description
 x
 
-%preun -p /bin/ash
-echo "%preun is running ok"
+%preun -p /bin/a
+preun is running ok
 
 %files

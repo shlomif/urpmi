@@ -10,7 +10,7 @@ BuildRoot: %{_tmppath}/%{name}
 %description
 x
 
-%postun -p /bin/ash
-echo "%postun is running ok"
+%postun -p /bin/a
+postun is running ok
 
 %files
