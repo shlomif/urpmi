@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: zh_TW\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-07 19:04+0200\n"
-"PO-Revision-Date: 2008-03-22 15:16+0800\n"
+"PO-Revision-Date: 2008-11-01 10:40+0800\n"
 "Last-Translator: Shiva Huang <shivahuang@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
@@ -227,9 +227,9 @@ msgid "Distribution Upgrade"
 msgstr "升級發行版本"
 
 #: ../gurpmi2:70
-#, fuzzy, c-format
+#, c-format
 msgid "Packages installation"
-msgstr "套件安裝..."
+msgstr "套件安裝"
 
 #: ../gurpmi2:97
 #, c-format
@@ -2157,9 +2157,9 @@ msgid "  --noscripts    - do not execute package scriptlet(s)\n"
 msgstr "  --noscripts    - 不執行套件中的命令稿\n"
 
 #: ../urpmi:141
-#, fuzzy, c-format
+#, c-format
 msgid "  --replacefiles - ignore file conflicts\n"
-msgstr "  --conflicts    - 衝突標籤\n"
+msgstr "  --replacefiles - 忽略檔案衝突\n"
 
 #: ../urpmi:143
 #, c-format
@@ -2497,9 +2497,9 @@ msgid "  --prozilla     - use prozilla to retrieve distant files.\n"
 msgstr "  --prozilla     - 使用 prozilla 擷取遠端檔案。\n"
 
 #: ../urpmi.addmedia:58 ../urpmi.update:36
-#, fuzzy, c-format
+#, c-format
 msgid "  --aria2        - use aria2 to retrieve distant files.\n"
-msgstr "  --curl         - 使用 curl 擷取遠端檔案。\n"
+msgstr "  --aria2        - 使用 aria2 擷取遠端檔案。\n"
 
 #: ../urpmi.addmedia:65
 #, c-format
@@ -2507,6 +2507,8 @@ msgid ""
 "  --update       - create an update medium, \n"
 "                   or discard non-update media (when used with --distrib)\n"
 msgstr ""
+"  --update       - 建立一個更新媒介，\n"
+"                   或者捨棄非更新媒介 (當與 --distrib 一同使用時)\n"
 
 #: ../urpmi.addmedia:67
 #, c-format
@@ -2515,6 +2517,8 @@ msgid ""
 "                   one of: never, on-demand, update-only, always. cf urpmi."
 "cfg(5)\n"
 msgstr ""
+"  --xml-info     - 使用指定的策略下載 xml 資訊檔\n"
+"                   包含：never、on-demand、update-only、always。參閱 urpmi.cfg(5)\n"
 
 #: ../urpmi.addmedia:69
 #, c-format
@@ -2623,13 +2627,13 @@ msgid "no need to give <relative path of synthesis> with --distrib"
 msgstr "--distrib 不需給予 <synthesis 檔案的相對路徑>"
 
 #: ../urpmi.addmedia:144
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Do you want to add media '%s'?"
 msgstr ""
 "\n"
-"您要加入媒體 '%s'"
+"您要加入媒體 '%s'？"
 
 #: ../urpmi.addmedia:170
 #, c-format
@@ -2849,9 +2853,9 @@ msgid "  --no-ignore    - don't update, mark the media as enabled.\n"
 msgstr "  --no-ignore    - 不更新，並將此媒體標示為啟用。\n"
 
 #: ../urpmi.update:49
-#, fuzzy, c-format
+#, c-format
 msgid "  --probe-rpms   - do not use synthesis, use rpm files directly\n"
-msgstr "  --no-probe     - 不尋找任何 synthesis 或 hdlist 檔案。\n"
+msgstr "  --probe-rpms   - 不使用 synthesis，直接使用 rpm 檔案\n"
 
 #: ../urpmi.update:50
 #, c-format
@@ -2859,14 +2863,14 @@ msgid "  -a             - select all non-removable media.\n"
 msgstr "  -a             - 選擇所有不可移除式媒體。\n"
 
 #: ../urpmi.update:51
-#, fuzzy, c-format
+#, c-format
 msgid "  -f             - force updating synthesis\n"
-msgstr "  -f             - 強制產生 hdlist 檔案。\n"
+msgstr "  -f             - 強制更新 synthesis\n"
 
 #: ../urpmi.update:52
-#, fuzzy, c-format
+#, c-format
 msgid "  -ff            - really force updating synthesis\n"
-msgstr "  -f             - 強制產生 hdlist 檔案。\n"
+msgstr "  -ff            - 確實的強制更新 synthesis\n"
 
 #: ../urpmi.update:69
 #, c-format
@@ -2997,34 +3001,34 @@ msgid "  --changelog    - print changelog.\n"
 msgstr "  --changelog    - 顯示更新紀錄。\n"
 
 #: ../urpmq:82
-#, fuzzy, c-format
+#, c-format
 msgid "  --conflicts    - print conflicts.\n"
-msgstr "  --conflicts    - 衝突標籤\n"
+msgstr "  --conflicts    - 顯示衝突。\n"
 
 #: ../urpmq:83
-#, fuzzy, c-format
+#, c-format
 msgid "  --obsoletes    - print obsoletes.\n"
-msgstr "  --obsoletes    - 淘汰標籤\n"
+msgstr "  --obsoletes    - 顯示淘汰。\n"
 
 #: ../urpmq:84
-#, fuzzy, c-format
+#, c-format
 msgid "  --provides     - print provides.\n"
-msgstr "  --provides     - 提供標籤\n"
+msgstr "  --provides     - 顯示提供。\n"
 
 #: ../urpmq:85
-#, fuzzy, c-format
+#, c-format
 msgid "  --requires     - print requires.\n"
-msgstr "  --requires     - 需要標籤\n"
+msgstr "  --requires     - 顯示需求。\n"
 
 #: ../urpmq:86
-#, fuzzy, c-format
+#, c-format
 msgid "  --suggests     - print suggests.\n"
-msgstr "  --suggests     - 建議標籤\n"
+msgstr "  --suggests     - 顯示建議。\n"
 
 #: ../urpmq:87
-#, fuzzy, c-format
+#, c-format
 msgid "  --sourcerpm    - print sourcerpm.\n"
-msgstr "  --sourcerpm    - 原始碼套件名稱\n"
+msgstr "  --sourcerpm    - 顯示原始碼套件。\n"
 
 #: ../urpmq:88
 #, c-format
