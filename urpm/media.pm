@@ -524,7 +524,7 @@ sub _tempignore {
 #- options :
 #-	root (deprecated, set directly $urpm->{root})
 #-	cmdline_skiplist
-#-      download_callback (used by add_existing_medium)
+#-      download_callback (used by _auto_update_media)
 #-
 #-	callback (urpmf)
 #-	nodepslist (for urpmq, urpmf: when we don't need the synthesis)
