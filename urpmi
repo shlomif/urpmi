@@ -359,6 +359,7 @@ urpm::media::configure($urpm,
     update => $update,
     usedistrib => $options{usedistrib},
     probe_with => $options{probe_with},
+    download_callback => \&urpm::download::sync_logger,
 );
 
 if ($bug) {
