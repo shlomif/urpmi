@@ -1746,7 +1746,7 @@ sub _retrieve_media_info_file_and_check_MD5SUM {
     my $cachedir_file = 
       is_local_medium($medium) ?
 	_copy_media_info_file($urpm, $medium, $prefix, $suffix) :
-	_download_media_info_file($urpm, $medium, $prefix, $suffix, { quiet => $quiet }) or
+	_download_media_info_file($urpm, $medium, $prefix, $suffix, { quiet => $quiet, callback => \&urpm::download::sync_logger }) or
 	  $urpm->{error}(N("retrieval of [%s] failed", _synthesis_dir($medium) .  "/$name")), return;
 
     my $wanted_md5sum = urpm::md5sum::from_MD5SUM__or_warn($urpm, $medium->{parsed_md5sum}, $name);
