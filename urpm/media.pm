@@ -652,6 +652,15 @@ sub non_ignored_media {
     grep { !$_->{ignore} && (!$b_only_marked_update || $_->{update}) } @{$urpm->{media} || []};
 }
 
+sub all_media_to_update {
+    my ($urpm, $b_only_marked_update) = @_;
+
+    grep { !$_->{ignore}
+	     && !$_->{static} && !urpm::is_cdrom_url($_->{url}) && !$_->{iso}
+	     && (!$b_only_marked_update || $_->{update})
+	} @{$urpm->{media} || []};
+}
+
 sub parse_media {
     my ($urpm, $options) = @_;
 
@@ -1643,20 +1652,6 @@ sub _update_medium {
     $rc;
 }
 
-sub _update_media__handle_some_flags {
-    my ($urpm, $all) = @_;
-
-    foreach my $medium (non_ignored_media($urpm)) {
-	if ($medium->{static}) {
-	    #- don't ever update static media
-	    $medium->{modified} = 0;
-	} elsif ($all) {
-	    #- if we're rebuilding all media, mark them as modified (except removable ones)
-	    $medium->{modified} ||= !urpm::is_cdrom_url($medium->{url}) && !$medium->{iso};
-	}
-    }
-}
-
 #- Update the urpmi database w.r.t. the current configuration.
 #- Takes care of modifications, and tries some tricks to bypass
 #- the recomputation of base files.
@@ -1684,10 +1679,16 @@ sub update_media {
     #- synthesis file, else build it from rpm files.
     clean($urpm);
 
-    _update_media__handle_some_flags($urpm, $options{all});
+    if ($options{all}) {
+	$_->{modified} ||= 1 foreach all_media_to_update($urpm);
+    }
 
     my %updates_result;
     foreach my $medium (grep { $_->{modified} } non_ignored_media($urpm)) {
+
+	#- don't ever update static media
+	$medium->{static} and next;
+
 	my $rc = _update_medium($urpm, $medium, %options);
 	$rc or return if !$options{allow_failures};
 	$updates_result{$rc || 'error'}++;
