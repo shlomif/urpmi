@@ -79,6 +79,7 @@ sub build_listid_ {
 #-	all
 #-	caseinsensitive
 #-	fuzzy
+#-      no_substring
 #-	src
 #-	use_provides
 #-
@@ -166,7 +167,11 @@ sub _search_packages {
 		my $pkg = $urpm->{depslist}[$_];
 		push @{$l{$pkg->name}}, $pkg;
 	    }
-	    if (values(%l) == 0 || values(%l) > 1 && !$options{all}) {
+	    #- non-exact match?
+	    my $is_substring_match = !@{$exact_a{$v} || $exact_ra{$v} || []};
+
+	    if (values(%l) == 0
+		  || !$options{all} && (values(%l) > 1 || $is_substring_match && $options{no_substring})) {
 		$urpm->{error}(N("No package named %s", $v));
 		values(%l) != 0 and $urpm->{error}(
 		    N("The following packages contain %s: %s",
@@ -175,10 +180,8 @@ sub _search_packages {
 		);
 		$result = 0;
 	    } else {
-		if (!@{$exact_a{$v} || $exact_ra{$v} || []}) {
-		    #- we found a non-exact match
-		    $result = 'substring';
-		}
+		$is_substring_match and $result = 'substring';
+
 		$name2ids{$v} = join('|', map {
 		    my $best;
 		    foreach (@$_) {

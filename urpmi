@@ -388,6 +388,7 @@ if (@names) {
 	all => $all,
 	use_provides => $use_provides,
 	fuzzy => $urpm->{options}{fuzzy},
+	no_substring => $urpm->{options}{auto}, # do not allow substring match if we can't prompt the user
     ) || $force or exit 1;
 
     if (%requested) {
