@@ -1672,6 +1672,16 @@ sub update_media {
 
     $urpm->{media} or return; # verify that configuration has been read
 
+    if ($options{all}) {
+	$_->{modified} ||= 1 foreach all_media_to_update($urpm);
+    }
+
+    update_those_media($urpm, [ grep { $_->{modified} } non_ignored_media($urpm) ], %options);
+}
+
+sub update_those_media {
+    my ($urpm, $media, %options) = @_;
+
     $options{nopubkey} ||= $urpm->{options}{nopubkey};
 
     #- examine each medium to see if one of them needs to be updated.
@@ -1679,12 +1689,8 @@ sub update_media {
     #- synthesis file, else build it from rpm files.
     clean($urpm);
 
-    if ($options{all}) {
-	$_->{modified} ||= 1 foreach all_media_to_update($urpm);
-    }
-
     my %updates_result;
-    foreach my $medium (grep { $_->{modified} } non_ignored_media($urpm)) {
+    foreach my $medium (@$media) {
 
 	#- don't ever update static media
 	$medium->{static} and next;
