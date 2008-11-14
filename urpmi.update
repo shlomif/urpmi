@@ -77,37 +77,32 @@ if ($options{all} || $options{update}) {
     $options{allow_failures} = 1;
 }
 
-if ($options{all} && !defined $options{ignore}) {
-    @chosen_media = @{$urpm->{media}}
-      or die N("nothing to update (use urpmi.addmedia to add a media)\n");
-} else {
-    if ($options{all}) { 
-	@chosen_media = @{$urpm->{media}};
-    } elsif ($options{update}) {
-	@chosen_media = grep { $_->{update} } @{$urpm->{media}};
-    }
-    push @chosen_media, urpm::media::select_media_by_name($urpm, \@cmdline);
-
-    @chosen_media or die N("the entry to update is missing\n(one of %s)\n", join(", ", map { $_->{name} } @{$urpm->{media}}));
-      
-    foreach (@chosen_media) {
-	    $_->{modified} = 1;
-
-	    if ($options{ignore}) {
-		$_->{ignore} = 1;
-	    } else {
-		#- force ignored media to be returned alive.
-		delete $_->{ignore};
-	    }
-    }
+if ($options{all} || $options{update}) { 
+    @chosen_media = urpm::media::all_media_to_update($urpm, $options{update});
 }
+push @chosen_media, urpm::media::select_media_by_name($urpm, \@cmdline);
 
-if (defined $options{ignore}) {
+@chosen_media or die $options{all} ? 
+    N("nothing to update (use urpmi.addmedia to add a media)\n") 
+  : N("the entry to update is missing\n(one of %s)\n", join(", ", map { $_->{name} } @{$urpm->{media}}));
+
+if (defined $options{ignore}) {     
+    foreach (@chosen_media) {
+	if ($options{ignore}) {
+	    $_->{ignore} = 1;
+	} else {
+	    #- force ignored media to be returned alive.
+	    delete $_->{ignore};
+	}
+    }
     my $str = join(", ", map { N("\"%s\"", $_->{name}) } @chosen_media);
     $urpm->{log}($options{ignore} ? N("ignoring media %s", $str) : N("enabling media %s", $str));
     urpm::media::write_config($urpm);
 } else {
-    my $ok = urpm::media::update_media($urpm, %options, 
+    # this is unneeded afaik, keeping just in case it helps
+    $_->{modified} = 1 foreach @chosen_media;
+
+    my $ok = urpm::media::update_those_media($urpm, \@chosen_media, %options, 
 			      quiet => $options{verbose} < 0,
 			      callback => \&urpm::download::sync_logger);
     #- try to umount removable device which may have been mounted.
