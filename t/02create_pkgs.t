@@ -32,7 +32,6 @@ foreach my $spec (glob("data/SPECS/*.spec")) {
 	system_("cp -r media/$name media/${name}_no_subdir");
 	system_("$genhdlist2 media/${name}_no_subdir");
 	symlink "${name}_nohdlist", "media/${name} nohdlist";
-	symlink "${name}", "media/${name}_bis";
     }
     genhdlist_std($name);
 }

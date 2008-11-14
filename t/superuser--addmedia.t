@@ -11,7 +11,7 @@ need_root_and_prepare();
 my $name = 'various';
 my $name2 = 'various2';
 my $name3 = 'various3';
-my @names = ($name, $name2, $name3, 'bis');
+my @names = ($name, $name2, $name3, 'debug');
 
 my @fields = qw(hdlist synthesis with_synthesis media_info_dir no-media-info list virtual ignore);
 
