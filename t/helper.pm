@@ -135,7 +135,8 @@ sub system_ {
 sub system_should_fail {
     my ($cmd) = @_;
     system($cmd);
-    ok($? != 0, "should fail: $cmd");
+    $? & 127 ? is($? & 127, 0, "should fail nicely but not get killed: $cmd")
+             : ok($? != 0, "should fail: $cmd");
 }
 
 sub rpm_is_jbj_version {
