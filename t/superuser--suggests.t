@@ -30,7 +30,6 @@ test_invalid();
 test_upgrade();
 test_d();
 test_force_suggests();
-test_old_suggests();
 
 sub test_b {
     test('b', ['bb'], ['suggested_b']);
@@ -46,10 +45,6 @@ sub test_c {
 sub test_invalid {
     urpmi("--auto with-invalid");
     check_installed_and_remove('with-invalid');
-}
-
-sub test_old_suggests {
-    test('old-suggests', [], ['suggested_b']);
 }
 
 sub test {

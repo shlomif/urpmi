@@ -28,11 +28,11 @@ sub test {
 sub install_src_rpm {
     my ($para) = @_;
     
-    system_('mkdir -p root/usr/src/rpm/SOURCES');
+    system_('mkdir -p root/root/rpmbuild/SOURCES');
 
-    $ENV{HOME} = '/';
+    $ENV{HOME} = '/root';
     urpmi("--install-src $para");
 
-    system_("cmp root/usr/src/rpm/SPECS/$name.spec data/SPECS/$name.spec");
+    system_("cmp root/root/rpmbuild/SPECS/$name.spec data/SPECS/$name.spec");
     system_('rm -rf root/usr/src/rpm');
 }

@@ -13,9 +13,6 @@ foreach (qw(media tmp tmp/BUILD tmp/RPMS tmp/RPMS/noarch tmp/SRPMS)) {
 }
 my $genhdlist2 = 'genhdlist2 --xml-info';
 
-mkdir "media/suggests";
-system_("cp data/old-suggests-1-1.noarch.rpm media/suggests");
-
 # locally build test rpms
 
 foreach my $dir (grep { -d $_ } glob("data/SPECS/*")) {
