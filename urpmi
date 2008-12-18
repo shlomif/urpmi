@@ -405,6 +405,9 @@ if (@src_names) {
     ) || $force or exit 1;
 }
 
+# callback called to ask user to choose between virtual packages
+# - $choices is the sorted list of choices
+# - $prefered is a subset of @$choices (it can be empty)
 sub ask_choice {
     my ($urpm, $_db, $_state, $choices, $virtual_pkg_name, $prefered) = @_;
 
