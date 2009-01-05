@@ -442,12 +442,15 @@ if ($options{list_aliases}) {
 			$pkg->packager and printf "%-12s: %s\n", "Packager", $pkg->packager;
 			$pkg->url and printf "%-12s: %s\n", "URL", $pkg->url;
 			$pkg->summary and printf "%-12s: %s\n", "Summary", $pkg->summary;
-			my $updesc = $updates_descr->{URPM::pkg2media($urpm->{media}, $pkg)->{name}}{$pkg->name};
-			$pkg->description && !$updesc->{description}
-			    and printf "%-12s:\n%s\n", "Description", $pkg->description;
+
+			my $updesc = do {
+			    my $media = URPM::pkg2media($urpm->{media}, $pkg);
+			    $media && $updates_descr->{$media->{name}}{$pkg->name};
+			};
+			if (my $description = ($updesc && $updesc->{description}) || $pkg->description) {
+			    printf "%-12s:\n%s\n", "Description", $description;
+			}
 			if ($updesc) {
-			    $updesc->{description}
-				and printf "%-12s:\n%s\n", "Description", $updesc->{description};
 			    $updesc->{updated}
 				and printf "%-20s: %s\n", "Last updated", $updesc->{updated};
 			    $updesc->{importance}
