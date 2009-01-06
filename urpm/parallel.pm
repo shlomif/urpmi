@@ -1,5 +1,6 @@
 package urpm::parallel; # $Id$
 
+use strict;
 use urpm;
 use urpm::util;
 use urpm::msg;

@@ -1,5 +1,7 @@
 package urpm::xml_info_pkg;
 
+use strict;
+
 # proxy object: returns the xml info if available, otherwise redirects to URPM::Package
 
 sub new {

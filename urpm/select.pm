@@ -2,6 +2,7 @@ package urpm::select;
 
 # $Id$
 
+use strict;
 use urpm::msg;
 use urpm::util;
 use urpm::sys;

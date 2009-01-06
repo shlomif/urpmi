@@ -1,5 +1,6 @@
 package urpm::xml_info;
 
+use strict;
 use XML::LibXML::Reader;
 
 # throw an exception on error

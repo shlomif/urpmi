@@ -2,6 +2,7 @@ package urpm::media;
 
 # $Id$
 
+use strict;
 use urpm 'file_from_local_medium', 'is_local_medium';
 use urpm::msg;
 use urpm::util;

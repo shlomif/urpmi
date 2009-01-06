@@ -1,5 +1,6 @@
 package urpm::orphans;
 
+use strict;
 use urpm::util;
 use urpm::msg;
 use urpm;

@@ -1,5 +1,6 @@
 package urpm::bug_report; # $Id$
 
+use strict;
 use urpm;
 use urpm::msg;
 

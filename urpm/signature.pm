@@ -2,6 +2,7 @@ package urpm::signature;
 
 # $Id$
 
+use strict;
 use urpm::msg;
 use urpm::media;
 use urpm::util;

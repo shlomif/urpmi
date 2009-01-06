@@ -2,6 +2,7 @@ package urpm::cdrom;
 
 # $Id$
 
+use strict;
 use urpm::msg;
 use urpm::sys;
 use urpm::util;

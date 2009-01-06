@@ -2,6 +2,7 @@ package urpm::install;
 
 # $Id$
 
+use strict;
 use urpm;
 use urpm::msg;
 use urpm::util;

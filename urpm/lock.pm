@@ -2,6 +2,7 @@ package urpm::lock;
 
 # $Id$
 
+use strict;
 use urpm::msg;
 
 
