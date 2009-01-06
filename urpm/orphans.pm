@@ -89,6 +89,9 @@ sub _selected_unrequested {
 	}
     } keys %$selected;
 }
+
+#- returns the packages obsoleting packages marked "unrequested"
+#- 
 #- side-effects: none
 sub _renamed_unrequested {
     my ($urpm, $rejected) = @_;
