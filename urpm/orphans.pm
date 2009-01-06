@@ -70,7 +70,9 @@ sub _installed_req_and_unreq_and_update_unrequested_list {
     ($req, $unreq, $unrequested);
 }
 
-
+#- returns the new "unrequested" packages
+#- the reason can be "required by xxx" or "suggested"
+#-
 #- side-effects: none
 sub _selected_unrequested {
     my ($urpm, $selected, $rejected) = @_;
