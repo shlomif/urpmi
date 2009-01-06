@@ -161,6 +161,7 @@ sub unrequested_orphans_after_remove {
 sub _unrequested_orphans_after_remove_once {
     my ($urpm, $db, $unrequested, $toremove) = @_;
 
+    # first we get the list of requires/suggests that may be unneeded after removing $toremove
     my @requires;
     foreach my $fn (keys %$toremove) {
 	my ($n) = $fn =~ $fullname2name_re;
@@ -179,7 +180,7 @@ sub _unrequested_orphans_after_remove_once {
 	    $unrequested->{$p->name} or return;
 	    $p->provides_overlap($req) or return;
 
-	    # cool we have a "unrequested" package that will potentially be unneeded
+	    # cool, $p is "unrequested" and will potentially be newly unneeded
 	    if (_check_potential_unrequested_package_newly_unneeded($urpm, $db, $toremove, $p)) {
 		$urpm->{debug}("installed " . $p->fullname . " can now be removed") if $urpm->{debug};
 		return 1;
