@@ -179,7 +179,7 @@ sub _unrequested_orphans_after_remove_once {
 	    $unrequested->{$p->name} or return;
 	    $p->provides_overlap($req) or return;
 
-	    # cool we have a potential "unrequested" package newly unneeded
+	    # cool we have a "unrequested" package that will potentially be unneeded
 	    if (_check_potential_unrequested_package_newly_unneeded($urpm, $db, $toremove, $p)) {
 		$urpm->{debug}("installed " . $p->fullname . " can now be removed") if $urpm->{debug};
 		return 1;
