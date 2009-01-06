@@ -181,7 +181,7 @@ sub _unrequested_orphans_after_remove_once {
 	    $p->provides_overlap($req) or return;
 
 	    # cool, $p is "unrequested" and will potentially be newly unneeded
-	    if (_check_potential_unrequested_package_newly_unneeded($urpm, $db, $toremove, $p)) {
+	    if (_will_package_be_unneeded($urpm, $db, $toremove, $p)) {
 		$urpm->{debug}("installed " . $p->fullname . " can now be removed") if $urpm->{debug};
 		return 1;
 	    } else {
@@ -193,14 +193,14 @@ sub _unrequested_orphans_after_remove_once {
     0;
 }
 #- side-effects: none
-sub _check_potential_unrequested_package_newly_unneeded {
+sub _will_package_be_unneeded {
     my ($urpm, $db, $toremove, $pkg) = @_;
 
     my $required_maybe_loop;
 
     foreach my $prop ($pkg->provides) {
-	_check_potential_unrequested_provide_newly_unneeded($urpm, $db, $toremove, 
-							    scalar($pkg->fullname), $prop, \$required_maybe_loop)
+	_will_prop_still_be_needed($urpm, $db, $toremove, 
+				   scalar($pkg->fullname), $prop, \$required_maybe_loop)
 	  and return;	
     }
 
@@ -213,15 +213,15 @@ sub _check_potential_unrequested_package_newly_unneeded {
 	$ignore{$pkg->fullname} = 1;
 
 	foreach my $prop (@provides) {
-	    _check_potential_unrequested_provide_newly_unneeded($urpm, $db, \%ignore, 
-								$fullname, $prop, \$required_maybe_loop)
+	    _will_prop_still_be_needed($urpm, $db, \%ignore, 
+				       $fullname, $prop, \$required_maybe_loop)
 	      and return;
 	}
     }
     1;
 }
 #- side-effects: none
-sub _check_potential_unrequested_provide_newly_unneeded {
+sub _will_prop_still_be_needed {
     my ($urpm, $db, $toremove, $fullname, $prop, $required_maybe_loop) = @_;
 
     my ($prov, $range) = URPM::property2name_range($prop) or return;
