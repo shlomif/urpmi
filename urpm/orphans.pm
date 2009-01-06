@@ -193,6 +193,11 @@ sub _unrequested_orphans_after_remove_once {
     }
     0;
 }
+#- return true if $pkg will no more be required after removing $toremove
+#-
+#- nb: it may wrongly return false for complex loops,
+#-     but will never wrongly return true
+#-
 #- side-effects: none
 sub _will_package_be_unneeded {
     my ($urpm, $db, $toremove, $pkg) = @_;
@@ -214,6 +219,7 @@ sub _will_package_be_unneeded {
 	$ignore{$pkg->fullname} = 1;
 
 	foreach my $prop (@provides) {
+	    #- nb: here we won't loop.
 	    _will_prop_still_be_needed($urpm, $db, \%ignore, 
 				       $fullname, $prop, \$required_maybe_loop)
 	      and return;
@@ -221,6 +227,9 @@ sub _will_package_be_unneeded {
     }
     1;
 }
+
+#- return true if $prop will still be required after removing $toremove
+#-
 #- side-effects: none
 sub _will_prop_still_be_needed {
     my ($urpm, $db, $toremove, $fullname, $prop, $required_maybe_loop) = @_;
@@ -234,6 +243,8 @@ sub _will_prop_still_be_needed {
 	foreach ($p2->requires) {
 	    my ($pn, $ps) = URPM::property2name_range($_) or next;
 	    if ($pn eq $prov && URPM::ranges_overlap($ps, $range)) {
+		#- we found $p2 which requires $prop
+
 		if ($$required_maybe_loop) {
 		    $urpm->{debug}("  installed " . $p2->fullname . " still requires " . $fullname) if $urpm->{debug};
 		    return 1;
