@@ -4,7 +4,11 @@
 # b-1 upgrades to b-2 which requires a2
 # a2 conflicts with a1
 #
-# d & a is the same as a & b
+# d1-1 upgrades to d1-2
+# c-1 upgrades to c-2 which requires d2
+# d2 conflicts with d1
+#
+# nb: d & c is similar to a & b
 # (needed to ensure both ordering works)
 #
 use strict;
