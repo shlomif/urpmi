@@ -33,7 +33,7 @@ sub need_root_and_prepare() {
 my $server_pid;
 sub httpd_port { 6969 }
 sub start_httpd() {
-    system('perl -MNet::Server::Single -e 1') == 0 or die "module Net::Server::Simple is missing (package perl-Net-Server)\n";
+    system('perl -MNet::Server::Single -e 1') == 0 or die "module Net::Server::Single is missing (package perl-Net-Server)\n";
     $server_pid = fork();
     if ($server_pid == 0) {
 	exec './simple-httpd', $::pwd, "$::pwd/tmp", httpd_port();
