@@ -165,7 +165,9 @@ sub verify_partial_rpm_and_move {
     "$cachedir/rpms/$filename";
 }
 
-# TODO verify that files are downloaded from the right corresponding media
+# download packages listed in $blists,
+# and put the result in $sources or $error_sources
+#
 #- options: quiet, callback, 
 sub download_packages_of_distant_media {
     my ($urpm, $blists, $sources, $error_sources, %options) = @_;
