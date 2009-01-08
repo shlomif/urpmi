@@ -205,7 +205,8 @@ sub download_packages_of_distant_media {
     1;
 }
 
-
+# download packages listed in $blist,
+# and put the result in $sources or $errors
 sub _download_packages_of_distant_media {
     my ($urpm, $sources, $errors, $blist, %options) = @_;
 
