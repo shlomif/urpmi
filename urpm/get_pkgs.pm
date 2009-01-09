@@ -173,6 +173,7 @@ sub download_packages_of_distant_media {
     my ($urpm, $blists, $sources, $error_sources, %options) = @_;
 
     my %errors;
+    my %new_sources;
 
     #- get back all ftp and http accessible rpm files into the local cache
     foreach my $blist (@$blists) {
@@ -182,10 +183,11 @@ sub download_packages_of_distant_media {
 	while (my ($id, $pkg) = each %{$blist->{pkgs}}) {
 	    #- the given URL is trusted, so the file can safely be ignored.
 	    defined $sources->{$id} and next;
+	    exists $new_sources{$id} and next;
 	    if (urpm::is_local_medium($blist->{medium})) {
 		my $local_file = file_from_local_url(urpm::blist_pkg_to_url($blist, $pkg));
 		if (-r $local_file) {
-		    $sources->{$id} = $local_file;
+		    $new_sources{$id} = [ $pkg->id, $local_file ];
 		} else {
 		    $errors{$id} = [ $local_file, 'missing' ];
 		}
@@ -196,13 +198,18 @@ sub download_packages_of_distant_media {
 
 	if (%{$blist_distant{pkgs}}) {
 	    my ($remote_sources, $remote_errors) = _download_packages_of_distant_media($urpm, \%blist_distant, %options);
-	    put_in_hash ($sources, $remote_sources);
+	    put_in_hash (\%new_sources, $remote_sources);
 	    put_in_hash (\%errors, $remote_errors);
 	}
     }
 
     #- clean failed download which have succeeded.
-    delete @errors{keys %$sources};
+    delete @errors{keys %$sources, keys %new_sources};
+
+    foreach (values %new_sources) {
+	my ($id, $local_file) = @$_;
+	$sources->{$id} = $local_file;
+    }
 
     push @$error_sources, values %errors;
 
@@ -239,7 +246,7 @@ sub _download_packages_of_distant_media {
 	my $url = urpm::blist_pkg_to_url($blist, $pkg);
 	if ($filename && -s "$cachedir/partial/$filename") {
 	    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
-		$sources{$id} = $rpm;
+		$sources{$id} = [ $pkg->id, $rpm ];
 	    } else {
 		$errors{$id} = [ $url, 'bad' ];
 	    }
