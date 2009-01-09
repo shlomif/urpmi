@@ -195,7 +195,9 @@ sub download_packages_of_distant_media {
 	}
 
 	if (%{$blist_distant{pkgs}}) {
-	    _download_packages_of_distant_media($urpm, $sources, \%errors, \%blist_distant, %options);
+	    my ($remote_sources, $remote_errors) = _download_packages_of_distant_media($urpm, \%blist_distant, %options);
+	    put_in_hash ($sources, $remote_sources);
+	    put_in_hash (\%errors, $remote_errors);
 	}
     }
 
@@ -210,9 +212,10 @@ sub download_packages_of_distant_media {
 # download packages listed in $blist,
 # and put the result in $sources or $errors
 sub _download_packages_of_distant_media {
-    my ($urpm, $sources, $errors, $blist, %options) = @_;
+    my ($urpm, $blist, %options) = @_;
 
     my $cachedir = urpm::valid_cachedir($urpm);
+    my (%sources, %errors);
 
     $urpm->{log}(N("retrieving rpm files from medium \"%s\"...", $blist->{medium}{name}));
     if (urpm::download::sync_rel($urpm, $blist->{medium}, [ urpm::blist_to_filenames($blist) ],
@@ -236,14 +239,15 @@ sub _download_packages_of_distant_media {
 	my $url = urpm::blist_pkg_to_url($blist, $pkg);
 	if ($filename && -s "$cachedir/partial/$filename") {
 	    if (my $rpm = verify_partial_rpm_and_move($urpm, $cachedir, $filename)) {
-		$sources->{$id} = $rpm;
+		$sources{$id} = $rpm;
 	    } else {
-		$errors->{$id} = [ $url, 'bad' ];
+		$errors{$id} = [ $url, 'bad' ];
 	    }
 	} else {
-	    $errors->{$id} = [ $url, 'missing' ];
+	    $errors{$id} = [ $url, 'missing' ];
 	}
     }
+    (\%sources, \%errors)
 }
 
 1;
