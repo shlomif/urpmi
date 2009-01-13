@@ -43,22 +43,22 @@ sub unrequested_list {
 sub mark_as_requested {
     my ($urpm, $state, $test) = @_;
     my $unrequested = unrequested_list($urpm);
-    my @requested; 
+    my $dirty;
 
-    push @requested, map { ($urpm->{depslist}[$_])->name } keys %{$state->{rejected_already_installed} || {}};
-
-    foreach (@requested) {
-	my $name = $_;
-	if ($unrequested->{$_}) {
-	    $urpm->{info}(N("Marking $_ as manually installed, it won't be auto-orphaned"));
+    foreach (keys %{$state->{rejected_already_installed}}, 
+	     grep { $state->{selected}{$_}{requested} } keys %{$state->{selected}}) {
+	my $name = $urpm->{depslist}[$_]->name;
+	if ($unrequested->{$name} && exists(${$state->{rejected_already_installed}}{$_})) {
+	    $urpm->{info}(N("Marking $name as manually installed, it won't be auto-orphaned"));
 	} else {
-	    $urpm->{debug}("$_ is not in potential orphans") if $urpm->{debug};
-	    print("$_ is not in potential orphans\n");
+	    $urpm->{debug}("$name is not in potential orphans") if $urpm->{debug};
 	}
-	delete $unrequested->{$_};
+	$dirty = $dirty || (defined (delete $unrequested->{$name}));
     }
-    if (!$test) {
-	_write_unrequested_list__file($urpm, $unrequested);
+    if ($dirty && !$test) {
+	my $pkgs = installed_packages_packed($urpm);
+	my $unreq = partition { $unrequested->{$_->name} } @$pkgs;
+	_write_unrequested_list__file($urpm, $unreq);
     }
 }
 
