@@ -4,7 +4,6 @@ use strict;
 use urpm::util;
 use urpm::msg;
 use urpm;
-use strict;
 
 # $Id: select.pm 243120 2008-07-01 12:24:34Z pixel $
 
@@ -48,17 +47,17 @@ sub mark_as_requested {
     foreach (keys %{$state->{rejected_already_installed}}, 
 	     grep { $state->{selected}{$_}{requested} } keys %{$state->{selected}}) {
 	my $name = $urpm->{depslist}[$_]->name;
-	if ($unrequested->{$name} && exists(${$state->{rejected_already_installed}}{$_})) {
+	if (defined($unrequested->{$name})) {
 	    $urpm->{info}(N("Marking $name as manually installed, it won't be auto-orphaned"));
+	    $dirty = 1;
 	} else {
 	    $urpm->{debug}("$name is not in potential orphans") if $urpm->{debug};
 	}
-	$dirty = $dirty || (defined (delete $unrequested->{$name}));
+	delete $unrequested->{$name};
     }
+
     if ($dirty && !$test) {
-	my $pkgs = installed_packages_packed($urpm);
-	my $unreq = partition { $unrequested->{$_->name} } @$pkgs;
-	_write_unrequested_list__file($urpm, $unreq);
+	_write_unrequested_list__file($urpm, [keys %{$unrequested}]);
     }
 }
 
@@ -82,8 +81,10 @@ sub _installed_and_unrequested_lists {
 sub _write_unrequested_list__file {
     my ($urpm, $unreq) = @_;
 
+    $urpm->{info}("writing " . unrequested_list__file($urpm));
+    
     output_safe(unrequested_list__file($urpm), 
-		join('', sort map { $_->name . "\n" } @$unreq),
+		join('', sort map { $_ . "\n" } @$unreq),
 		".old") if !$urpm->{env_dir};
 }
 
@@ -98,7 +99,7 @@ sub _installed_req_and_unreq_and_update_unrequested_list {
     my ($unreq, $req) = partition { $unrequested->{$_->name} } @$pkgs;
     
     # update the list (to filter dups and now-removed-pkgs)
-    _write_unrequested_list__file($urpm, $unreq);
+    _write_unrequested_list__file($urpm, [map { $_->name } @$unreq]);
 
     ($req, $unreq, $unrequested);
 }
