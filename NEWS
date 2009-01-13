@@ -1,16 +1,18 @@
+Version 6.20 - 13 January 2009
+
 - urpmi
   o --auto: do not prompt for "retry" on aria2 download failure
     (regression introduced in 6.18)
   o add aria2 to the priority list of packages that need to be updated
     before restarting urpmi
-- urpmi_rpm-find-leaves
-  o do not list suggested packages as unrequested packages (#46326)
-- urpmq
-  o fix urpmq -i on local RPMs
   o fix issue with urpmi sometimes using the wrong key when checking 
     signatures when the same package is available from different media
   o remove packages from installed-through-deps.list when they are explicitly
     requested using urpmi (even if they were already installed) (#45054)
+- urpmi_rpm-find-leaves
+  o do not list suggested packages as unrequested packages (#46326)
+- urpmq
+  o fix urpmq -i on local RPMs
 
 Version 6.19 - 24 November 2008
 
