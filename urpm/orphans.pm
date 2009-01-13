@@ -48,7 +48,7 @@ sub mark_as_requested {
 	     grep { $state->{selected}{$_}{requested} } keys %{$state->{selected}}) {
 	my $name = $urpm->{depslist}[$_]->name;
 	if (defined($unrequested->{$name})) {
-	    $urpm->{info}(N("Marking $name as manually installed, it won't be auto-orphaned"));
+	    $urpm->{info}(N("Marking %s as manually installed, it won't be auto-orphaned", $name));
 	    $dirty = 1;
 	} else {
 	    $urpm->{debug}("$name is not in potential orphans") if $urpm->{debug};
