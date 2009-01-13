@@ -31,13 +31,13 @@ use Test::More 'no_plan';
 
 need_root_and_prepare();
 
-
 my $name = 'orphans';
 urpmi_addmedia("$name-1 $::pwd/media/$name-1");    
 urpmi_addmedia("$name-2 $::pwd/media/$name-2");
 
 # we want urpmi --auto-select to always check orphans (when not using --auto-orphans)
 set_urpmi_cfg_global_options({ 'nb-of-new-unrequested-pkgs-between-auto-select-orphans-check' => 0 });
+
 
 test_urpme_v1(['h'], 'h', '');
 test_urpme_v1(['hh', 'h'], 'h', 'hh');
@@ -66,6 +66,11 @@ test_auto_select(['r', 'rr1'], 'r rr1 rr2', 'r-2 rr1-1', 'rr2-1');
 
 test_urpme(['g'], 'g', 'g', '');
 test_urpme(['gg', 'g'], 'g', 'g', 'gg-2');
+
+test_unorphan_v1('u1', 'u2');
+test_unorphan_v2('u1', 'u2');
+test_unorphan_v3('u1', 'u2');
+
 
 sub add_version1 { map { "$_-1-1" } split(' ', $_[0] || '') }
 sub add_version2 { map { "$_-2-1" } split(' ', $_[0] || '') }
@@ -155,6 +160,35 @@ sub test_urpme_v1 {
     urpme("--auto --auto-orphans $remove_v1");
     check_installed_and_remove(split ' ', $remaining_v1);
     reset_unrequested_list();
+}
+
+sub test_unorphan_v1 {
+    my ($pkg1, $pkg2) = @_;
+    print "# test_unorphan_v1($pkg1, $pkg2)\n";
+    urpmi("--media $name-1 --auto $pkg1");
+    urpmi("--media $name-1 --auto $pkg2");
+    urpme("--auto --auto-orphans $pkg1");    
+    check_installed_and_remove($pkg2);
+}
+
+sub test_unorphan_v2 {
+    my ($pkg1, $pkg2) = @_;
+    print "# test_unorphan_v2($pkg1, $pkg2)\n";
+    urpmi("--media $name-1 --auto $pkg1");
+    urpme("--auto $pkg1");    
+    urpmi("--media $name-1 --auto $pkg2");
+    urpme("--auto --auto-orphans");    
+    check_installed_and_remove($pkg2);
+}
+
+sub test_unorphan_v3 {
+    my ($pkg1, $pkg2) = @_;
+    print "# test_unorphan_v3($pkg1, $pkg2)\n";
+    urpmi("--media $name-1 --auto $pkg1");
+    check_installed_and_remove($pkg2, $pkg1);
+    urpmi("--media $name-1 --auto $pkg2");
+    urpme("--auto --auto-orphans");    
+    check_installed_and_remove($pkg2);
 }
 
 sub run_and_get_suggested_orphans {
