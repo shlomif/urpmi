@@ -574,6 +574,15 @@ if (@to_install && $options{auto_orphans}) {
     }
 }
 
+#- this cleans up the list of potential orphan packages:
+#-     - if a package is explicitly requested on the command line, then
+#-       we assume the user doesn't want this package to be auto orphaned
+#-       so we remove it from installed-through-deps
+#-     - this also takes care of removing packages from 
+#-       installed-through-deps if the package was first installed as a 
+#-       dep of another package, then removed and then explicitly installed
+urpm::orphans::mark_as_requested($urpm, $state, $test);
+
 foreach my $pkg (@to_install) {
     #- reflect change in flag usage, now requested is set whatever a package is selected or not,
     #- but required is always set (so a required but not requested is a pure dependency).

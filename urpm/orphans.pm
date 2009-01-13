@@ -4,6 +4,7 @@ use strict;
 use urpm::util;
 use urpm::msg;
 use urpm;
+use strict;
 
 # $Id: select.pm 243120 2008-07-01 12:24:34Z pixel $
 
@@ -38,6 +39,29 @@ sub unrequested_list {
     } cat_(unrequested_list__file($urpm)) };
 }
 
+#- side-effects: those of _write_unrequested_list__file
+sub mark_as_requested {
+    my ($urpm, $state, $test) = @_;
+    my $unrequested = unrequested_list($urpm);
+    my @requested; 
+
+    push @requested, map { ($urpm->{depslist}[$_])->name } keys %{$state->{rejected_already_installed} || {}};
+
+    foreach (@requested) {
+	my $name = $_;
+	if ($unrequested->{$_}) {
+	    $urpm->{info}(N("Marking $_ as manually installed, it won't be auto-orphaned"));
+	} else {
+	    $urpm->{debug}("$_ is not in potential orphans") if $urpm->{debug};
+	    print("$_ is not in potential orphans\n");
+	}
+	delete $unrequested->{$_};
+    }
+    if (!$test) {
+	_write_unrequested_list__file($urpm, $unrequested);
+    }
+}
+
 #- side-effects:
 #-   + those of _installed_req_and_unreq_and_update_unrequested_list (<root>/var/lib/rpm/installed-through-deps.list)
 sub _installed_req_and_unreq {
@@ -53,7 +77,17 @@ sub _installed_and_unrequested_lists {
     push @$pkgs, @$pkgs2;
     ($pkgs, $unrequested);
 }
+
 #- side-effects: <root>/var/lib/rpm/installed-through-deps.list
+sub _write_unrequested_list__file {
+    my ($urpm, $unreq) = @_;
+
+    output_safe(unrequested_list__file($urpm), 
+		join('', sort map { $_->name . "\n" } @$unreq),
+		".old") if !$urpm->{env_dir};
+}
+
+#- side-effects: those of _write_unrequested_list__file
 sub _installed_req_and_unreq_and_update_unrequested_list {
     my ($urpm) = @_;
 
@@ -64,9 +98,7 @@ sub _installed_req_and_unreq_and_update_unrequested_list {
     my ($unreq, $req) = partition { $unrequested->{$_->name} } @$pkgs;
     
     # update the list (to filter dups and now-removed-pkgs)
-    output_safe(unrequested_list__file($urpm), 
-		join('', sort map { $_->name . "\n" } @$unreq),
-		".old") if !$urpm->{env_dir};
+    _write_unrequested_list__file($urpm, $unreq);
 
     ($req, $unreq, $unrequested);
 }
