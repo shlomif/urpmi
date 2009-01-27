@@ -7,7 +7,6 @@ use warnings;
 use urpm;
 use urpm::util;
 use urpm::msg 'N';
-require Net::LDAP;
 
 (our $VERSION) = q($Revision$) =~ /(\d+)/;
 
@@ -168,6 +167,7 @@ sub load_ldap_media {
     }
 
     eval {
+        require Net::LDAP;
         my $ldap = Net::LDAP->new($config->{uri})
             or die N("Cannot connect to ldap uri:"), $config->{uri};
 
