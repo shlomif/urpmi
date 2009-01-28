@@ -162,7 +162,6 @@ sub set_files {
 
     my %h = (
 	config        => "$urpmi_root/etc/urpmi/urpmi.cfg",
-	configs_dir   => "$urpmi_root/etc/urpmi/media.d",
 	skiplist      => prefer_rooted($urpmi_root, '/etc/urpmi/skip.list'),
 	instlist      => prefer_rooted($urpmi_root, '/etc/urpmi/inst.list'),
 	prefer_list   => prefer_rooted($urpmi_root, '/etc/urpmi/prefer.list'),

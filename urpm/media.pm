@@ -165,7 +165,6 @@ sub read_config {
     #- per-media options
     read_config_add_passwords($urpm, $config);
 
-    my @media;
     foreach my $m (@{$config->{media}}) {
 	my $medium = _only_media_opts_read($m);
 
@@ -177,17 +176,6 @@ sub read_config {
 	}
 
 	push @media, $medium;
-    }
-
-    require File::Glob;
-    # we can't use perl's glob() because we allow spaces in filename
-    foreach my $conf_file (File::Glob::bsd_glob("$urpm->{configs_dir}/*.cfg")) {
-	$urpm->{debug} and $urpm->{debug}("parsing: $conf_file");
-	my $conf = urpm::cfg::load_ini_config_file_raw($conf_file);
-	foreach my $medium (map { _only_media_opts_read($_) } @$conf) {
-	    $medium->{conf_file} = $conf_file;
-	    push @media, $medium;
-	}
     }
 
     add_existing_medium($urpm, $_, $nocheck) foreach @media;
@@ -207,12 +195,7 @@ sub check_existing_medium {
 	  N("unable to access list file of \"%s\", medium ignored", $medium->{name});
     } elsif (!$medium->{ignore} 
 	     && !-r any_synthesis($urpm, $medium)) {
-	if ($medium->{conf_file} && $< == 0) {
-	    # no pb, we create on the fly
-	    $medium->{force_auto_update} = 1;
-	} else {
-	    $err = N("unable to access synthesis file of \"%s\", medium ignored", $medium->{name});
-	}
+	$err = N("unable to access synthesis file of \"%s\", medium ignored", $medium->{name});
     }
     if ($err) {
 	$medium->{ignore} = 1;
@@ -481,16 +464,11 @@ sub write_urpmi_cfg {
     #- avoid trashing exiting configuration if it wasn't loaded
     $urpm->{media} or return;
 
-    my %media_per_cfg;
-    foreach (grep { !$_->{external} } @{$urpm->{media}}) {
-	push @{$media_per_cfg{$_->{conf_file} || ''}}, _only_media_opts_write($_);
-    }
-
     my $config = {
 	#- global config options found in the config file, without the ones
 	#- set from the command-line
 	global => $urpm->{global_config},
-	media => delete $media_per_cfg{''},
+	media => [ map { _only_media_opts_write($_) } grep { !$_->{external} } @{$urpm->{media}} ],
     };
     remove_passwords_and_write_private_netrc($urpm, $config);
 
@@ -498,13 +476,6 @@ sub write_urpmi_cfg {
 	or $urpm->{fatal}(6, N("unable to write config file [%s]", $urpm->{config}));
 
     $urpm->{log}(N("wrote config file [%s]", $urpm->{config}));
-
-    foreach my $conf_file (sort keys %media_per_cfg) {
-	urpm::cfg::write_ini_config($conf_file, $media_per_cfg{$conf_file})
-	    or $urpm->{fatal}(6, N("unable to write config file [%s]", $conf_file));
-
-	$urpm->{log}(N("wrote config file [%s]", $conf_file));
-    }
 
     #- everything should be synced now.
     delete $urpm->{modified};
@@ -641,7 +612,7 @@ sub _auto_update_media {
 
     $options{callback} = delete $options{download_callback};
 
-    foreach (grep { $_->{force_auto_update} || _is_remote_virtual($_) || $urpm->{options}{'auto-update'} } 
+    foreach (grep { _is_remote_virtual($_) || $urpm->{options}{'auto-update'} } 
 	       non_ignored_media($urpm, $options{update})) {
 	_update_medium($urpm, $_, %options);
     }

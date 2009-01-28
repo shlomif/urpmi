@@ -7,7 +7,6 @@ our @EXPORT = qw(need_root_and_prepare
 		 urpmi_addmedia urpmi_removemedia urpmi_update
 		 urpm_cmd run_urpm_cmd urpmi_cmd urpmi test_urpmi_fail urpme
 		 urpmi_cfg set_urpmi_cfg_global_options
-		 create_media_d_cfg media_d_cfg
 		 system_ system_should_fail
 		 rpm_is_jbj_version
 		 check_installed_fullnames check_installed_names check_nothing_installed
@@ -101,31 +100,6 @@ sub set_urpmi_cfg_global_options {
     $config->{global} = $options;
     ok(urpm::cfg::dump_config(urpmi_cfg(), $config), 'set_urpmi_cfg_global_options');
 }
-
-sub media_d_dir {
-    "$::pwd/root/etc/urpmi/media.d";
-}
-sub media_d_cfg {
-    my ($name) = @_;
-    media_d_dir() . "/$name.cfg";
-}
-sub create_media_d_cfg {
-    my ($name, @l) = @_;
-
-    system("install -d " . media_d_dir());
-    my $cfg = media_d_cfg($name);
-    -e $cfg and die "$cfg already exists\n";
-    open(my $F, '>', $cfg);
-
-    my $cnt = 1;
-    foreach my $h (@l) {
-	my %h = %$h;
-	my $section = delete $h{'with-dir'} || $cnt++;
-	print $F "[$section]\n";
-	print $F "$_ = $h->{$_}\n" foreach keys %$h;
-    }
-}
-
 
 sub system_ {
     my ($cmd) = @_;

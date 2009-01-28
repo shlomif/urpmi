@@ -17,9 +17,6 @@ my @fields = qw(hdlist synthesis with_synthesis media_info_dir no-media-info lis
 
 test_reconfig();
 
-try_media_d_1();
-try_media_d_2();
-
 try_medium({}, '');
 
 
@@ -147,25 +144,6 @@ sub check_urpmi {
     my (@names) = @_;
     urpmi(join(' ', @names));
     check_installed_and_remove(@names);
-}
-
-sub try_media_d_1 {
-    create_media_d_cfg($name, { name => $name, url => "$::pwd/media/$name" });
-    check_urpmi($name);    
-
-    create_media_d_cfg($name2, { name => $name2, url => "$::pwd/media/$name2" });
-    check_urpmi($name2);
-
-    ok(unlink media_d_cfg($name));
-    ok(unlink media_d_cfg($name2));
-}
-sub try_media_d_2 {
-    create_media_d_cfg($name, 
-		       { name => $name, url => "$::pwd/media/$name" }, 
-		       { name => $name2, url => "$::pwd/media/$name2" });
-    check_urpmi($name, $name2);
-
-    ok(unlink media_d_cfg($name));
 }
 
 sub test_reconfig {
