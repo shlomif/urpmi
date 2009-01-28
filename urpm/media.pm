@@ -165,6 +165,7 @@ sub read_config {
     #- per-media options
     read_config_add_passwords($urpm, $config);
 
+    my @media;
     foreach my $m (@{$config->{media}}) {
 	my $medium = _only_media_opts_read($m);
 
