@@ -306,10 +306,10 @@ if ($nok) {
 	} elsif ($test && $exit_code == 0) {
 	    #- Warning : the following message is parsed in urpm::parallel_*
 	    print N("Installation is possible"), "\n";
-	} elsif (intersection([ keys %{$state->{selected}} ],
-			      [ keys %{$urpm->{provides}{'should-restart'}} ])) {
+	} elsif ($callbacks->{need_restart} && intersection([ keys %{$state->{selected}} ],
+                                                            [ keys %{$urpm->{provides}{'should-restart'}} ])) {
 	    if (my $need_restart_formatted = urpm::sys::need_restart_formatted($urpm->{root})) {
-		$callbacks->{need_restart}($need_restart_formatted) if $callbacks->{need_restart};
+		$callbacks->{need_restart}($need_restart_formatted);
 
 		# need_restart() accesses rpm db, so we need to ensure things are clean:
 		urpm::sys::may_clean_rpmdb_shared_regions($urpm, $options{test});
