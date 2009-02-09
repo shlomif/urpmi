@@ -412,7 +412,8 @@ sub get_updates_description {
 
     foreach my $medium (@update_medias) {
         # fix not taking into account the last %package token of each descrptions file: '%package dummy'
-	foreach (cat_utf8(urpm::media::statedir_descriptions($urpm, $medium)), '%package dummy') {
+	foreach (cat_utf8(urpm::media::statedir_descriptions($urpm, $medium)),
+                 ($::env ? cat_utf8("$::env/descriptions") : ()), '%package dummy') {
 	    /^%package +(.+)/ and do {
 		# fixes not parsing descriptions file when MU adds itself the security source:
 		if (exists $cur->{importance} && !member($cur->{importance}, qw(security bugfix))) {
