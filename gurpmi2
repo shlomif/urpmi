@@ -364,6 +364,14 @@ sub do_install_3 () {
             change_mainw($vbox);
             $mainw->set_focus($quit_button);
         },
+        need_restart => sub {
+            my ($need_restart_formatted) = @_;
+            my $w = Gtk2::MessageDialog->new($mainw, [qw(modal destroy-with-parent)], 'warning', 'ok',
+                                             join("\n", values %$need_restart_formatted)
+                                         );
+            my $response = $w->run;
+            $w->destroy;
+        },
         missing_files_summary => sub {
             my ($error_sources) = @_;
             $progress_label->set_label(N("Installation failed, some files are missing:\n%s\nYou may want to update your urpmi database",
