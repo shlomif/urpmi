@@ -227,12 +227,14 @@ sub install {
 	$options{callback_open} = sub {
 	    my ($_data, $_type, $id) = @_;
 	    $index++;
+	    $options{callback_open_helper} and $options{callback_open_helper}->(@_);
 	    $fh = urpm::sys::open_safe($urpm, '<', $install->{$id} || $upgrade->{$id});
 	    $fh ? fileno $fh : undef;
 	};
 	$options{callback_close} = sub {
 	    my ($urpm, undef, $pkgid) = @_;
 	    return unless defined $pkgid;
+	    $options{callback_close_helper} and $options{callback_close_helper}->(@_);
 	    get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]);
 	    close $fh if defined $fh;
 	};
