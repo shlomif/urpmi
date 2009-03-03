@@ -171,6 +171,8 @@ sub install {
 	return N("unable to create transaction");
     }
 
+    $trans->set_script_fd($options{script_fd}) if $options{script_fd};
+
     my ($update, @errors) = 0;
     my @produced_deltas;
 
