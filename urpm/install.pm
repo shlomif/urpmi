@@ -287,6 +287,7 @@ sub install {
 
     # explicitely close the RPM DB (needed for drakx -- looks like refcount has hard work):
     undef $db;
+    undef $trans;
 
     @errors;
 }
