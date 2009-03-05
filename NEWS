@@ -1,3 +1,8 @@
+- urpmi
+  o fix verifying packages signatures in chrooted environments (especially
+    important for installer where there's no rpmdb in / (really /var/lib/rpm)
+    and thus no keys to check against)
+
 Version 6.22.2 - 4 March 2009
 
 - close another fd leak (needed for drakx)

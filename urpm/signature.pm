@@ -26,7 +26,7 @@ sub _check {
 	#- rpmlib is doing strftime %c, and so the string comes from the current encoding
 	#- (URPM::bind_rpm_textdomain_codeset() doesn't help here)
 	#- so we have to transform...
-	my $verif = urpm::msg::from_locale_encoding(URPM::verify_signature($filepath));
+	my $verif = urpm::msg::from_locale_encoding(URPM::verify_signature($filepath, $urpm->{urpmi_root}));
 
 	if ($verif =~ /NOT OK/) {
 	    $verif =~ s/\n//g;
