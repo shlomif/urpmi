@@ -234,7 +234,7 @@ sub install {
 	$options{callback_close} = sub {
 	    my ($urpm, undef, $pkgid) = @_;
 	    return unless defined $pkgid;
-	    $options{callback_close_helper} and $options{callback_close_helper}->(@_);
+	    $options{callback_close_helper} and $options{callback_close_helper}->($db, @_);
 	    get_README_files($urpm, $trans, $urpm->{depslist}[$pkgid]);
 	    close $fh if defined $fh;
 	};
