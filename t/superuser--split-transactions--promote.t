@@ -11,6 +11,11 @@
 #
 # h-1 conflicts with g-2
 #
+# i requires j
+# j1 provides j and requires k
+# j2 provides j
+# k1-1 provides k, but not k1-2
+#
 use strict;
 use lib '.', 't';
 use helper;
@@ -43,6 +48,9 @@ sub test {
 
     #- below need the promotion of "h-2" (upgraded from "h-1") to work
     test_gh("$split g");
+
+    #- below need the promotion of "j2" (replacing removed j1) to work
+    test_ijk("$split k1");
 }
 sub test_conflict {
     test_conflict_ef();
@@ -87,6 +95,16 @@ sub test_gh {
 
     urpmi("--media $name-2 --auto $para");
     check_installed_fullnames_and_remove('g-2-1', 'h-2-1');
+}
+
+sub test_ijk {
+    my ($para) = @_;
+
+    urpmi("--media $name-1 --auto i");
+    check_installed_names('i', 'j1', 'k1');
+
+    urpmi("--media $name-2 --auto $para");
+    check_installed_fullnames_and_remove('i-1-1', 'j2-1-1', 'k1-2-1');
 }
 
 sub test_conflict_ef {

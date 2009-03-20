@@ -54,7 +54,7 @@ sub test_c {
     check_installed_fullnames('a-1-1', 'b-1-1', 'c-1-1');
 
     urpmi("--media $name-2 --auto $option c");
-    check_installed_fullnames_and_remove('c-2-1'); # WARNING: a-2 could be promoted
+    check_installed_fullnames_and_remove('a-2-1', 'c-2-1');
 }
 
 sub test_d {
