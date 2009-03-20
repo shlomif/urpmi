@@ -239,7 +239,7 @@ if ($restricted) {
     #- force some options
     foreach (qw(keep verify-rpm)) { $urpm->{options}{$_} = 1 }
     #- forbid some other options
-    urpm::error_restricted($urpm) if $urpm->{root} || $options{usedistrib} || $force || $env || $parallel || $options{synthesis} || $auto_update || $options{auto_orphans};
+    urpm::error_restricted($urpm) if $urpm->{root} || $options{usedistrib} || $force || $env || $parallel || $options{synthesis} || $auto_update;
     foreach (qw(allow-nodeps allow-force curl-options rsync-options wget-options prozilla-options noscripts)) {
 	urpm::error_restricted($urpm) if $urpm->{options}{$_};
     }
@@ -563,16 +563,6 @@ my @to_install = @{$urpm->{depslist}}[sort { $a <=> $b } keys %{$state->{selecte
     }
 }
 
-
-if (@to_install && $options{auto_orphans}) {
-    urpm::orphans::compute_future_unrequested_orphans($urpm, $state);
-    if (my @orphans = map { scalar $_->fullname } @{$state->{orphans_to_remove}}) {
-	print P("The following orphan package will be removed.",
-		"The following orphan packages will be removed.", scalar(@orphans))
-	  . "\n" . urpm::orphans::add_leading_spaces(join("\n", @orphans) . "\n");
-    }
-}
-
 #- this cleans up the list of potential orphan packages:
 #-     - if a package is explicitly requested on the command line, then
 #-       we assume the user doesn't want this package to be auto orphaned
@@ -664,7 +654,7 @@ my $exit_code = urpm::main_loop::run($urpm, $state,
     }
 });
 
-if ($exit_code == 0 && $auto_select && !$options{auto_orphans}) {
+if ($exit_code == 0 && $auto_select) {
     if (urpm::orphans::check_unrequested_orphans_after_auto_select($urpm)) {
 	if (my $msg = urpm::orphans::get_now_orphans_msg($urpm)) {
 	    print "\n", $msg;
