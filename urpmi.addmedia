@@ -150,7 +150,7 @@ if ($options{distrib}) {
 	nolock => $options{nolock},
 	ask_media => $add_media_callback,
 	'xml-info' => $options{'xml-info'},
-    );
+    ) or $urpm->{fatal}(10, N("unable to add medium"));
     $ok = urpm::media::update_media($urpm, %options, 
 			      quiet => $options{verbose} < 0,		      
 			      callback => \&urpm::download::sync_logger);
