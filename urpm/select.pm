@@ -481,6 +481,10 @@ sub find_packages_to_remove {
 		      or return ();
 		}
 	    }
+	    if (!@m) {
+		$options{callback_notfound} && $options{callback_notfound}->($urpm, @$l)
+		  or return ();
+	    }
 	}
 
 	#- check if something needs to be removed.
