@@ -493,7 +493,7 @@ that are older than the installed ones:\n%s", $list);
     } else {
 	my $noexpr = N("Nn");
 	$msg .= N("\nContinue installation anyway?");
-	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 0;
+	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 1;
     }
 }
 
@@ -508,7 +508,7 @@ if (@ask_unselect) {
     } else {
 	my $noexpr = N("Nn");
 	$msg .= N("\nContinue installation anyway?");
-	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 0;
+	$force || message_input_($msg . N(" (Y/n) "), boolean => 1) !~ /[$noexpr]/ or exit 1;
     }
 }
 
